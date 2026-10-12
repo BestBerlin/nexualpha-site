@@ -3,10 +3,13 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { samVoiceInstruct } from './narration-plan.mjs';
 import { applyNarrationTiming, loadTiming } from './align-narration.mjs';
+import { ALL_EPISODES } from './season.mjs';
+import { EPISODE_CONFIG, VENUES, defaultPoses, registryCode } from './episode-config.mjs';
+import { assertNoFinePrint } from './fine-print.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_SOURCE_ROOT = join(here,'episodes/source');
-const DEFAULT_EPISODES = ['E05', 'E09', 'E21'];
+const DEFAULT_EPISODES = ALL_EPISODES;
 
 const NARRATION = {
   mode: 'CLONE',
@@ -14,45 +17,6 @@ const NARRATION = {
   english_voice_instruct: 'a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host',
   sam_voice_design_instruct: samVoiceInstruct,
   sam_voice_note: 'Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used.',
-};
-
-const EPISODE_STYLE = {
-  5: {
-    set: 'study-desk',
-    ids: ['problem', 'official-flow', 'kyc-steps', 'fix-rejection', 'review-status', 'official-only'],
-    poses: [
-      ['shield', 'warning', 'rest', 'worried'],
-      ['shield', 'happy', 'rest', 'confused'],
-      ['hold-phone', 'thinking', 'hold-phone', 'neutral'],
-      ['point', 'thinking', 'rest', 'confused'],
-      ['hold-phone', 'thinking', 'point', 'neutral'],
-      ['thumbs-up', 'happy', 'point', 'happy'],
-    ],
-  },
-  9: {
-    set: 'transfer-station',
-    ids: ['problem', 'match-ends', 'route-analogy', 'transfer-checklist', 'test-transfer', 'dont-send'],
-    poses: [
-      ['shield', 'warning', 'point', 'surprised'],
-      ['point', 'thinking', 'rest', 'neutral'],
-      ['hold-phone', 'thinking', 'rest', 'confused'],
-      ['point', 'thinking', 'hold-phone', 'neutral'],
-      ['thumbs-up', 'happy', 'hold-phone', 'happy'],
-      ['thumbs-up', 'happy', 'point', 'happy'],
-    ],
-  },
-  21: {
-    set: 'trading-desk',
-    ids: ['problem', 'own-margin', 'box-risk', 'auto-add-on', 'settings-check', 'auto-add-answer'],
-    poses: [
-      ['point', 'thinking', 'point', 'confused'],
-      ['point', 'happy', 'rest', 'neutral'],
-      ['shield', 'thinking', 'rest', 'worried'],
-      ['shield', 'warning', 'point', 'surprised'],
-      ['hold-phone', 'thinking', 'hold-phone', 'neutral'],
-      ['thumbs-up', 'happy', 'point', 'happy'],
-    ],
-  },
 };
 
 const KIND_MATCHERS = [
@@ -146,47 +110,35 @@ function sourceNote(sourceShot) {
   };
 }
 
+function shotConfig(ep, outputIndex) {
+  const config = EPISODE_CONFIG[ep];
+  if (!config) throw new Error(`No episode-config entry for episode ${ep}`);
+  const shot = config.shots[outputIndex];
+  if (!shot) throw new Error(`episode-config E${ep} has no shot ${outputIndex}`);
+  return { set: config.set, ...shot };
+}
+
+// Every content shot gets one configured teaching widget; t(i) reads the source on-screen text verbatim.
 function shotWidget(ep, outputIndex, sourceShot) {
   const en = sourceShot.onscreen_text_en ?? [];
   const zh = sourceShot.onscreen_text_zh ?? [];
-  if (ep === 5) {
-    const widgets = [
-      { type: 'warning', message: localized(en[0] ?? 'Private-message KYC offer', zh[0] ?? '私信代办认证') },
-      { type: 'checklist', items: [item('Official domain', '官方域名'), item('Official verification entry', '官方认证入口'), item('No chat agents', '不找私信代办')] },
-      { type: 'checklist', items: [item('Real details', '真实信息'), item('Valid ID', '有效证件'), item('Photo / face check', '照片／本人验证'), item('SAMPLE ID · fictional', '样张 · 虚构')] },
-      { type: 'id-samples', labels: [localized('Glare', '反光'), localized('Cropped', '裁切'), localized('Expired', '过期')], note: localized('SAMPLE ID · rejection → clean state', '样张 · 拒绝状态 → 清晰状态') },
-      { type: 'checklist', items: [item('Under review', '审核中'), item('Official help', '官方帮助'), item('No countdown promise', '不承诺审核时限')] },
-      { type: 'checklist', items: [item('Official verification page', '官网认证入口'), item("Private 'agent'", '私信代办', false), item('Course chat upload', '课程聊天区上传', false)] },
-    ];
-    return widgets[outputIndex] ?? { type: 'checklist', items: en.map((label, i) => item(label, zh[i] ?? label)) };
-  }
-  if (ep === 9) {
-    const widgets = [
-      { type: 'warning', message: localized(en[0] ?? 'Network must match', zh[0] ?? '网络必须匹配') },
-      { type: 'transfer-match', sender: localized('Sender', '发送方'), receiver: localized('Receiver', '接收方'), coin: localized('USDT', 'USDT'), network: localized('Supported network', '支持的网络'), note: localized('Check receiving platform support', '核对接收平台支持情况') },
-      { type: 'checklist', items: [item('Network = route', '网络＝路线'), item('Address = destination', '地址＝目的地'), item('Analogy only', '仅帮助理解')] },
-      { type: 'checklist', title: localized('Pre-transfer checklist', '转账前检查清单'), items: [item('Coin', '币种'), item('Network', '网络'), item('Full address', '完整地址'), item('Memo / Tag if required', 'Memo / Tag（如需）'), item('Minimum deposit', '最低充值'), item('Withdrawal fee', '提币费用'), item('Estimated arrival', '预计到账')] },
-      { type: 'checklist', items: [item('Small test credited', '小额测试已入账'), item('Re-check before the next one', '下一笔前重新核对')] },
-      { type: 'warning', message: localized(en[0] ?? "DON'T SEND", zh[0] ?? '不能转') },
-    ];
-    return widgets[outputIndex] ?? { type: 'checklist', items: en.map((label, i) => item(label, zh[i] ?? label)) };
-  }
-  if (ep === 21) {
-    const widgets = [
-      { type: 'margin-flow', balance: 900, margin: 100, autoAdd: false, label: localized('Box 100 · Balance 900', '小盒子 100 · 余额 900'), note: localized('Teaching model', '教学模型') },
-      { type: 'margin-flow', balance: 900, margin: 100, autoAdd: false, label: localized('Isolated = own margin', '逐仓 = 单独保证金'), note: localized('"Forever" removed', '去掉“永远”') },
-      { type: 'margin-flow', balance: 900, margin: 100, autoAdd: false, label: localized('100 can still be lost', '这100仍可能亏损'), note: localized('Isolated is not a stop-loss', '逐仓不是止损') },
-      { type: 'margin-flow', balance: 900, margin: 100, autoAdd: true, label: localized('Auto-add margin: ON · 100 → more', '自动追加：开 · 100 → 更多'), note: localized('Teaching model · not exchange rules', '教学模型 · 非交易所规则') },
-      { type: 'checklist', items: [item('Mode', '模式'), item('Auto-add', '自动追加'), item('Fee deduction', '费用扣取'), item('Total committed', '可投入总额')] },
-      { type: 'margin-flow', balance: 900, margin: 100, autoAdd: true, label: localized('Isolated + auto-add = only 100?', '逐仓 + 自动追加 = 只用100？'), note: localized('No', '不能') },
-    ];
-    return widgets[outputIndex] ?? { type: 'margin-flow', balance: 900, margin: 100, autoAdd: false, label: textArray(en, zh), note: localized('Teaching model', '教学模型') };
-  }
-  return { type: 'checklist', items: en.map((label, i) => item(label, zh[i] ?? label)) };
+  const t = (i) => {
+    if (en[i] === undefined) throw new Error(`E${ep} shot ${outputIndex}: no source on-screen text ${i}`);
+    return localized(en[i], zh[i] ?? en[i]);
+  };
+  const spec = shotConfig(ep, outputIndex).widget(t);
+  assertNoFinePrintDeep(spec, `E${ep} shot ${outputIndex} widget`);
+  return spec;
+}
+
+function assertNoFinePrintDeep(value, where) {
+  if (typeof value === 'string') return assertNoFinePrint(value, where);
+  if (Array.isArray(value)) return value.forEach((v) => assertNoFinePrintDeep(v, where));
+  if (value && typeof value === 'object') Object.values(value).forEach((v) => assertNoFinePrintDeep(v, where));
 }
 
 function characters(ep, index, antenna) {
-  const [nexuboPose, nexuboExpression, samPose, samExpression] = EPISODE_STYLE[ep]?.poses[index] ?? ['point', 'happy', 'rest', 'neutral'];
+  const [nexuboPose, nexuboExpression, samPose, samExpression] = shotConfig(ep, index).poses ?? defaultPoses(index, antenna);
   const expression = antenna === 'red' ? 'warning' : nexuboExpression;
   return {
     nexubo: { pose: nexuboPose, expression },
@@ -194,8 +146,8 @@ function characters(ep, index, antenna) {
   };
 }
 
-function framing(index, sourceShot) {
-  if(/sender card|auto-add margin.*toggle|Isolated with auto-add on/i.test(sourceShot.visual_en)) return {framing:'detail',focus:'nexubo'};
+function framing(index, sourceShot, config = {}) {
+  if (config.framing) return { framing: config.framing, focus: config.focus ?? (config.framing === 'close-up' ? 'sam' : 'nexubo') };
   if (index === 0) return { framing: 'close-up', focus: 'sam' };
   if ((sourceShot.onscreen_text_en ?? []).length >= 4) return { framing: 'detail', focus: 'nexubo' };
   return { framing: 'wide', focus: sourceShot.antenna === 'amber' ? 'sam' : 'nexubo' };
@@ -203,20 +155,24 @@ function framing(index, sourceShot) {
 
 function convertShot(sourceShot, ep, outputIndex) {
   const timing = parseTc(sourceShot.tc);
-  const ids = EPISODE_STYLE[ep]?.ids ?? [];
-  const id = ids[outputIndex] ?? `shot-${String(outputIndex + 1).padStart(2, '0')}`;
+  const config = shotConfig(ep, outputIndex);
+  const heading = config.heading ?? localized(compactHeading(sourceShot.onscreen_text_en), compactHeading(sourceShot.onscreen_text_zh));
+  for (const value of Object.values(heading)) {
+    if (!value?.trim()) throw new Error(`E${ep} shot ${outputIndex}: empty heading; add one to episode-config`);
+    assertNoFinePrint(value, `E${ep} shot ${outputIndex} heading`);
+  }
   return {
-    id,
+    id: config.id,
     duration: timing.duration,
-    set: EPISODE_STYLE[ep]?.set ?? 'study-desk',
+    set: config.set,
     visual_en: sourceShot.visual_en,
     visual_zh: sourceShot.visual_zh,
-    onscreen_text_en: compactHeading(sourceShot.onscreen_text_en),
-    'onscreen_text_zh-Hans': compactHeading(sourceShot.onscreen_text_zh),
+    onscreen_text_en: heading.en,
+    'onscreen_text_zh-Hans': heading['zh-Hans'],
     antenna: sourceShot.antenna,
     ding: sourceShot.antenna === 'red',
     ...characters(ep, outputIndex, sourceShot.antenna),
-    ...framing(outputIndex, sourceShot),
+    ...framing(outputIndex, sourceShot, config),
     lines: timedLines(sourceShot.lines, timing.duration),
     widgets: [shotWidget(ep, outputIndex, sourceShot)],
     ...sourceNote(sourceShot),
@@ -227,27 +183,40 @@ function findScene(scenes, kind) {
   return scenes.find((scene) => scene.kind === kind);
 }
 
+// Owner rule: the card shows exchange name, code, QR, nexualpha.com/go/<venue> and one CTA sentence — nothing else.
+// The source disclosure/availability strings stay in JSON as metadata (contract field) and are never rendered.
 function convertConversion(sourceEpisode, conversionScene) {
   const card = sourceEpisode.conversion_card;
   if (!card) return null;
+  const ep = Number(sourceEpisode.ep);
+  const config = EPISODE_CONFIG[ep] ?? {};
+  if (!config.cta) throw new Error(`E${ep}: conversion card needs a configured CTA sentence`);
   const timing = conversionScene ? parseTc(conversionScene.tc) : { duration: 6 };
   const partners = card.partners?.length ? card.partners : card.partner ? [card.partner] : [];
-  const partnerName = partners.length === 1 ? partners[0].toUpperCase() : partners.map((p) => p.toUpperCase()).join(' / ');
-  const codes = Object.values(card.codes ?? {}).filter(Boolean);
-  const codeText = codes.length ? codes.map((code) => `Code ${code}`).join(' · ') : undefined;
-  const codeZh = codes.length ? codes.map((code) => `邀请码 ${code}`).join(' · ') : undefined;
+  const venues = partners.map((key) => {
+    const venue = VENUES[key];
+    if (!venue) throw new Error(`E${ep}: unknown conversion venue ${key}`);
+    // Codes come from the site's partner registry (source of truth); the script's code must agree with it.
+    const code = registryCode(key);
+    if (card.codes?.[key] && card.codes[key] !== code) throw new Error(`E${ep}: script code ${card.codes[key]} for ${key} differs from partner registry ${code}`);
+    return { key, name: venue.name, code: localized(`Code ${code}`, `邀请码 ${code}`), url: venue.url };
+  });
+  const names = venues.map((venue) => venue.name.en).join(' / ');
+  for (const value of [...Object.values(config.cta), ...venues.flatMap((v) => [...Object.values(v.name), v.url])]) assertNoFinePrint(value, `E${ep} conversion card`);
   return {
     duration: timing.duration,
-    partner_name: partnerName ? localized(partnerName, partnerName) : undefined,
-    code: codeText ? localized(codeText, codeZh) : undefined,
-    rebate_line: localized(card.line_en, card.line_zh),
+    partner_name: localized(names, names),
+    venues,
+    cta: config.cta,
     disclosure: localized(card.disclosure_en, card.disclosure_zh),
-    availability: localized(card.availability_en, card.availability_zh),
-    url: card.url,
+    disclosure_rendered: false,
     lines: timedLines(conversionScene?.lines ?? [], timing.duration),
     visual_en: conversionScene?.visual_en,
     visual_zh: conversionScene?.visual_zh,
     source_tc: conversionScene?.tc,
+    source_url: card.url,
+    source_line: localized(card.line_en, card.line_zh),
+    source_availability: localized(card.availability_en, card.availability_zh),
     source_partner: card.partner,
     source_partners: card.partners,
     source_codes: card.codes,
@@ -330,11 +299,7 @@ export function convertEpisode(sourceEpisode, options = {}) {
       red_lines: sourceEpisode.red_lines,
       sources: sourceEpisode.sources,
       explicit_scene_kinds: scenes.map((shot) => ({ tc: shot.tc, kind: shot.kind })),
-      required_contract_extensions: [
-        ...(ep === 5 ? ['widget type id-samples {labels, note}'] : []),
-        ...(ep === 9 ? ['widget type transfer-match {coin, network, note}'] : []),
-        ...(ep === 21 ? ['widget type margin-flow {balance, margin, autoAdd, label, note}'] : []),
-      ],
+      widget_types: [...new Set(contentShots.map((shot, index) => shotWidget(ep, index, shot).type))],
     },
   };
   return output;

@@ -1,0 +1,2493 @@
+{
+  "version": 1,
+  "production_id": "E23",
+  "episode": 23,
+  "season": 2,
+  "slug": "liquidation-mark-price",
+  "title": {
+    "en": "Liquidation: who pressed the forced-close button?",
+    "zh-Hans": "爆仓：谁按下了强制平仓按钮？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E23' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第23集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "alarm",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "Sam watches the last traded price while the system flashes a liquidation warning beside it.",
+      "visual_zh": "小白盯着最新成交价，旁边系统发出强平警告。",
+      "onscreen_text_en": "Price hasn't got there. Why the alarm?",
+      "onscreen_text_zh-Hans": "价格没到，为什么报警？",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "surprised"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "The price I'm watching hasn't got there. Why is the alarm going off?",
+            "zh-Hans": "我看的价格还没到，为什么已经报警了？"
+          },
+          "start": 0.25,
+          "end": 5.004,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e23-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 4.754
+          },
+          "words": {
+            "en": [
+              {
+                "text": "The ",
+                "start": 0.25,
+                "end": 0.505
+              },
+              {
+                "text": "price ",
+                "start": 0.505,
+                "end": 0.929
+              },
+              {
+                "text": "I'm ",
+                "start": 0.929,
+                "end": 1.184
+              },
+              {
+                "text": "watching ",
+                "start": 1.184,
+                "end": 1.863
+              },
+              {
+                "text": "hasn't ",
+                "start": 1.863,
+                "end": 2.372
+              },
+              {
+                "text": "got ",
+                "start": 2.372,
+                "end": 2.627
+              },
+              {
+                "text": "there. ",
+                "start": 2.627,
+                "end": 3.136
+              },
+              {
+                "text": "Why ",
+                "start": 3.136,
+                "end": 3.391
+              },
+              {
+                "text": "is ",
+                "start": 3.391,
+                "end": 3.561
+              },
+              {
+                "text": "the ",
+                "start": 3.561,
+                "end": 3.815
+              },
+              {
+                "text": "alarm ",
+                "start": 3.815,
+                "end": 4.24
+              },
+              {
+                "text": "going ",
+                "start": 4.24,
+                "end": 4.664
+              },
+              {
+                "text": "off?",
+                "start": 4.664,
+                "end": 5.004
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "我看",
+                "start": 0.25,
+                "end": 0.778
+              },
+              {
+                "text": "的",
+                "start": 0.778,
+                "end": 1.042
+              },
+              {
+                "text": "价格",
+                "start": 1.042,
+                "end": 1.571
+              },
+              {
+                "text": "还",
+                "start": 1.571,
+                "end": 1.835
+              },
+              {
+                "text": "没",
+                "start": 1.835,
+                "end": 2.099
+              },
+              {
+                "text": "到，",
+                "start": 2.099,
+                "end": 2.627
+              },
+              {
+                "text": "为什么",
+                "start": 2.627,
+                "end": 3.419
+              },
+              {
+                "text": "已经",
+                "start": 3.419,
+                "end": 3.948
+              },
+              {
+                "text": "报警",
+                "start": 3.948,
+                "end": 4.476
+              },
+              {
+                "text": "了？",
+                "start": 4.476,
+                "end": 5.004
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "Liquidation warning",
+            "zh-Hans": "强平警告"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白盯着最新成交价，旁边系统发出强平警告。",
+      "source_onscreen_text": {
+        "en": [
+          "Liquidation warning"
+        ],
+        "zh-Hans": [
+          "强平警告"
+        ]
+      }
+    },
+    {
+      "id": "three-lines",
+      "duration": 26,
+      "set": "trading-desk",
+      "visual_en": "Three separate lines: last traded price, mark price, teaching risk line. Clearly labelled, not to be mixed.",
+      "visual_zh": "三条线分开：最新成交价、标记价格、教学风险线；明确不要混用。",
+      "onscreen_text_en": "Three lines. Don't mix them",
+      "onscreen_text_zh-Hans": "三条线，别混用",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "The last traded price isn't always the price used to judge liquidation. Many perpetuals assess risk using a mark price and margin rules. Check which rules your platform actually uses.",
+            "zh-Hans": "最新成交价不一定是强平判断采用的价格。许多永续产品会依据标记价格及保证金规则评估风险；你要看平台真正采用哪套规则。"
+          },
+          "start": 0.25,
+          "end": 10.571,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e23-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.321
+          },
+          "words": {
+            "en": [
+              {
+                "text": "The ",
+                "start": 0.25,
+                "end": 0.451
+              },
+              {
+                "text": "last ",
+                "start": 0.451,
+                "end": 0.719
+              },
+              {
+                "text": "traded ",
+                "start": 0.719,
+                "end": 1.121
+              },
+              {
+                "text": "price ",
+                "start": 1.121,
+                "end": 1.456
+              },
+              {
+                "text": "isn't ",
+                "start": 1.456,
+                "end": 1.791
+              },
+              {
+                "text": "always ",
+                "start": 1.791,
+                "end": 2.194
+              },
+              {
+                "text": "the ",
+                "start": 2.194,
+                "end": 2.395
+              },
+              {
+                "text": "price ",
+                "start": 2.395,
+                "end": 2.73
+              },
+              {
+                "text": "used ",
+                "start": 2.73,
+                "end": 2.998
+              },
+              {
+                "text": "to ",
+                "start": 2.998,
+                "end": 3.132
+              },
+              {
+                "text": "judge ",
+                "start": 3.132,
+                "end": 3.467
+              },
+              {
+                "text": "liquidation. ",
+                "start": 3.467,
+                "end": 4.271
+              },
+              {
+                "text": "Many ",
+                "start": 4.271,
+                "end": 4.539
+              },
+              {
+                "text": "perpetuals ",
+                "start": 4.539,
+                "end": 5.209
+              },
+              {
+                "text": "assess ",
+                "start": 5.209,
+                "end": 5.612
+              },
+              {
+                "text": "risk ",
+                "start": 5.612,
+                "end": 5.88
+              },
+              {
+                "text": "using ",
+                "start": 5.88,
+                "end": 6.215
+              },
+              {
+                "text": "a ",
+                "start": 6.215,
+                "end": 6.282
+              },
+              {
+                "text": "mark ",
+                "start": 6.282,
+                "end": 6.55
+              },
+              {
+                "text": "price ",
+                "start": 6.55,
+                "end": 6.885
+              },
+              {
+                "text": "and ",
+                "start": 6.885,
+                "end": 7.086
+              },
+              {
+                "text": "margin ",
+                "start": 7.086,
+                "end": 7.488
+              },
+              {
+                "text": "rules. ",
+                "start": 7.488,
+                "end": 7.89
+              },
+              {
+                "text": "Check ",
+                "start": 7.89,
+                "end": 8.225
+              },
+              {
+                "text": "which ",
+                "start": 8.225,
+                "end": 8.56
+              },
+              {
+                "text": "rules ",
+                "start": 8.56,
+                "end": 8.896
+              },
+              {
+                "text": "your ",
+                "start": 8.896,
+                "end": 9.164
+              },
+              {
+                "text": "platform ",
+                "start": 9.164,
+                "end": 9.7
+              },
+              {
+                "text": "actually ",
+                "start": 9.7,
+                "end": 10.236
+              },
+              {
+                "text": "uses.",
+                "start": 10.236,
+                "end": 10.571
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "最新",
+                "start": 0.25,
+                "end": 0.612
+              },
+              {
+                "text": "成交",
+                "start": 0.612,
+                "end": 0.974
+              },
+              {
+                "text": "价",
+                "start": 0.974,
+                "end": 1.155
+              },
+              {
+                "text": "不一定",
+                "start": 1.155,
+                "end": 1.699
+              },
+              {
+                "text": "是",
+                "start": 1.699,
+                "end": 1.88
+              },
+              {
+                "text": "强",
+                "start": 1.88,
+                "end": 2.061
+              },
+              {
+                "text": "平",
+                "start": 2.061,
+                "end": 2.242
+              },
+              {
+                "text": "判断",
+                "start": 2.242,
+                "end": 2.604
+              },
+              {
+                "text": "采用",
+                "start": 2.604,
+                "end": 2.966
+              },
+              {
+                "text": "的",
+                "start": 2.966,
+                "end": 3.147
+              },
+              {
+                "text": "价格。",
+                "start": 3.147,
+                "end": 3.69
+              },
+              {
+                "text": "许多",
+                "start": 3.69,
+                "end": 4.052
+              },
+              {
+                "text": "永",
+                "start": 4.052,
+                "end": 4.234
+              },
+              {
+                "text": "续",
+                "start": 4.234,
+                "end": 4.415
+              },
+              {
+                "text": "产品",
+                "start": 4.415,
+                "end": 4.777
+              },
+              {
+                "text": "会",
+                "start": 4.777,
+                "end": 4.958
+              },
+              {
+                "text": "依据",
+                "start": 4.958,
+                "end": 5.32
+              },
+              {
+                "text": "标记",
+                "start": 5.32,
+                "end": 5.682
+              },
+              {
+                "text": "价格",
+                "start": 5.682,
+                "end": 6.044
+              },
+              {
+                "text": "及",
+                "start": 6.044,
+                "end": 6.225
+              },
+              {
+                "text": "保证",
+                "start": 6.225,
+                "end": 6.587
+              },
+              {
+                "text": "金",
+                "start": 6.587,
+                "end": 6.769
+              },
+              {
+                "text": "规则",
+                "start": 6.769,
+                "end": 7.131
+              },
+              {
+                "text": "评估",
+                "start": 7.131,
+                "end": 7.493
+              },
+              {
+                "text": "风险；",
+                "start": 7.493,
+                "end": 8.036
+              },
+              {
+                "text": "你要",
+                "start": 8.036,
+                "end": 8.398
+              },
+              {
+                "text": "看",
+                "start": 8.398,
+                "end": 8.579
+              },
+              {
+                "text": "平台",
+                "start": 8.579,
+                "end": 8.941
+              },
+              {
+                "text": "真正",
+                "start": 8.941,
+                "end": 9.304
+              },
+              {
+                "text": "采用",
+                "start": 9.304,
+                "end": 9.666
+              },
+              {
+                "text": "哪",
+                "start": 9.666,
+                "end": 9.847
+              },
+              {
+                "text": "套",
+                "start": 9.847,
+                "end": 10.028
+              },
+              {
+                "text": "规则。",
+                "start": 10.028,
+                "end": 10.571
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Last price",
+                "zh-Hans": "最新成交价"
+              }
+            },
+            {
+              "label": {
+                "en": "Mark price",
+                "zh-Hans": "标记价格"
+              }
+            },
+            {
+              "label": {
+                "en": "Risk line",
+                "zh-Hans": "风险线"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:35",
+      "source_visual_zh": "三条线分开：最新成交价、标记价格、教学风险线；明确不要混用。",
+      "source_onscreen_text": {
+        "en": [
+          "Last price",
+          "Mark price",
+          "Teaching risk line"
+        ],
+        "zh-Hans": [
+          "最新成交价",
+          "标记价格",
+          "教学风险线"
+        ]
+      }
+    },
+    {
+      "id": "equity-shrinks",
+      "duration": 32,
+      "set": "trading-desk",
+      "visual_en": "Linear isolated teaching model: notional 1,000, margin 100; as price moves against the position, equity shrinks.",
+      "visual_zh": "线性逐仓教学模型：名义仓位1000、保证金100；价格不利，权益减少。",
+      "onscreen_text_en": "Losses eat into equity",
+      "onscreen_text_zh-Hans": "亏损侵蚀权益",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "When the price moves against the position, losses eat into equity. Near the maintenance requirement, the system may cancel orders, reduce the position or force-close it. It won't necessarily wait for your OK.",
+            "zh-Hans": "价格对仓位不利时，损失侵蚀权益。接近维持要求后，系统可能先撤销挂单、减仓或进行强制平仓，不会等你同意才一定行动。"
+          },
+          "start": 0.25,
+          "end": 12.311,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e23-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 12.061
+          },
+          "words": {
+            "en": [
+              {
+                "text": "When ",
+                "start": 0.25,
+                "end": 0.524
+              },
+              {
+                "text": "the ",
+                "start": 0.524,
+                "end": 0.73
+              },
+              {
+                "text": "price ",
+                "start": 0.73,
+                "end": 1.072
+              },
+              {
+                "text": "moves ",
+                "start": 1.072,
+                "end": 1.415
+              },
+              {
+                "text": "against ",
+                "start": 1.415,
+                "end": 1.895
+              },
+              {
+                "text": "the ",
+                "start": 1.895,
+                "end": 2.1
+              },
+              {
+                "text": "position, ",
+                "start": 2.1,
+                "end": 2.717
+              },
+              {
+                "text": "losses ",
+                "start": 2.717,
+                "end": 3.128
+              },
+              {
+                "text": "eat ",
+                "start": 3.128,
+                "end": 3.334
+              },
+              {
+                "text": "into ",
+                "start": 3.334,
+                "end": 3.608
+              },
+              {
+                "text": "equity. ",
+                "start": 3.608,
+                "end": 4.088
+              },
+              {
+                "text": "Near ",
+                "start": 4.088,
+                "end": 4.362
+              },
+              {
+                "text": "the ",
+                "start": 4.362,
+                "end": 4.567
+              },
+              {
+                "text": "maintenance ",
+                "start": 4.567,
+                "end": 5.321
+              },
+              {
+                "text": "requirement, ",
+                "start": 5.321,
+                "end": 6.143
+              },
+              {
+                "text": "the ",
+                "start": 6.143,
+                "end": 6.349
+              },
+              {
+                "text": "system ",
+                "start": 6.349,
+                "end": 6.76
+              },
+              {
+                "text": "may ",
+                "start": 6.76,
+                "end": 6.966
+              },
+              {
+                "text": "cancel ",
+                "start": 6.966,
+                "end": 7.377
+              },
+              {
+                "text": "orders, ",
+                "start": 7.377,
+                "end": 7.857
+              },
+              {
+                "text": "reduce ",
+                "start": 7.857,
+                "end": 8.268
+              },
+              {
+                "text": "the ",
+                "start": 8.268,
+                "end": 8.473
+              },
+              {
+                "text": "position ",
+                "start": 8.473,
+                "end": 9.022
+              },
+              {
+                "text": "or ",
+                "start": 9.022,
+                "end": 9.159
+              },
+              {
+                "text": "force-",
+                "start": 9.159,
+                "end": 9.57
+              },
+              {
+                "text": "close ",
+                "start": 9.57,
+                "end": 9.913
+              },
+              {
+                "text": "it. ",
+                "start": 9.913,
+                "end": 10.118
+              },
+              {
+                "text": "It ",
+                "start": 10.118,
+                "end": 10.255
+              },
+              {
+                "text": "won't ",
+                "start": 10.255,
+                "end": 10.598
+              },
+              {
+                "text": "necessarily ",
+                "start": 10.598,
+                "end": 11.352
+              },
+              {
+                "text": "wait ",
+                "start": 11.352,
+                "end": 11.626
+              },
+              {
+                "text": "for ",
+                "start": 11.626,
+                "end": 11.831
+              },
+              {
+                "text": "your ",
+                "start": 11.831,
+                "end": 12.105
+              },
+              {
+                "text": "OK.",
+                "start": 12.105,
+                "end": 12.311
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "价格",
+                "start": 0.25,
+                "end": 0.681
+              },
+              {
+                "text": "对",
+                "start": 0.681,
+                "end": 0.896
+              },
+              {
+                "text": "仓",
+                "start": 0.896,
+                "end": 1.112
+              },
+              {
+                "text": "位",
+                "start": 1.112,
+                "end": 1.327
+              },
+              {
+                "text": "不利",
+                "start": 1.327,
+                "end": 1.758
+              },
+              {
+                "text": "时，",
+                "start": 1.758,
+                "end": 2.188
+              },
+              {
+                "text": "损失",
+                "start": 2.188,
+                "end": 2.619
+              },
+              {
+                "text": "侵蚀",
+                "start": 2.619,
+                "end": 3.05
+              },
+              {
+                "text": "权益。",
+                "start": 3.05,
+                "end": 3.696
+              },
+              {
+                "text": "接近",
+                "start": 3.696,
+                "end": 4.127
+              },
+              {
+                "text": "维持",
+                "start": 4.127,
+                "end": 4.558
+              },
+              {
+                "text": "要求",
+                "start": 4.558,
+                "end": 4.988
+              },
+              {
+                "text": "后，",
+                "start": 4.988,
+                "end": 5.419
+              },
+              {
+                "text": "系统",
+                "start": 5.419,
+                "end": 5.85
+              },
+              {
+                "text": "可能",
+                "start": 5.85,
+                "end": 6.28
+              },
+              {
+                "text": "先",
+                "start": 6.28,
+                "end": 6.496
+              },
+              {
+                "text": "撤销",
+                "start": 6.496,
+                "end": 6.927
+              },
+              {
+                "text": "挂单、",
+                "start": 6.927,
+                "end": 7.573
+              },
+              {
+                "text": "减",
+                "start": 7.573,
+                "end": 7.788
+              },
+              {
+                "text": "仓",
+                "start": 7.788,
+                "end": 8.004
+              },
+              {
+                "text": "或",
+                "start": 8.004,
+                "end": 8.219
+              },
+              {
+                "text": "进行",
+                "start": 8.219,
+                "end": 8.65
+              },
+              {
+                "text": "强制",
+                "start": 8.65,
+                "end": 9.08
+              },
+              {
+                "text": "平",
+                "start": 9.08,
+                "end": 9.296
+              },
+              {
+                "text": "仓，",
+                "start": 9.296,
+                "end": 9.727
+              },
+              {
+                "text": "不会",
+                "start": 9.727,
+                "end": 10.157
+              },
+              {
+                "text": "等",
+                "start": 10.157,
+                "end": 10.373
+              },
+              {
+                "text": "你",
+                "start": 10.373,
+                "end": 10.588
+              },
+              {
+                "text": "同意",
+                "start": 10.588,
+                "end": 11.019
+              },
+              {
+                "text": "才",
+                "start": 11.019,
+                "end": 11.234
+              },
+              {
+                "text": "一定",
+                "start": 11.234,
+                "end": 11.665
+              },
+              {
+                "text": "行动。",
+                "start": 11.665,
+                "end": 12.311
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "buffer-gauge",
+          "title": {
+            "en": "Notional 1,000 · margin 100",
+            "zh-Hans": "名义仓位 1,000 · 保证金 100"
+          },
+          "from": 100,
+          "to": 30,
+          "line": 20,
+          "fillLabel": {
+            "en": "Equity",
+            "zh-Hans": "权益"
+          },
+          "lineLabel": {
+            "en": "Maintenance requirement",
+            "zh-Hans": "维持保证金要求"
+          }
+        }
+      ],
+      "source_tc": "00:35-01:07",
+      "source_visual_zh": "线性逐仓教学模型：名义仓位1000、保证金100；价格不利，权益减少。",
+      "source_onscreen_text": {
+        "en": [
+          "Notional 1,000 · margin 100",
+          "Teaching model · not any exchange's real rules"
+        ],
+        "zh-Hans": [
+          "名义仓位 1,000 · 保证金 100",
+          "教学模型 · 非任何交易所真实规则"
+        ]
+      }
+    },
+    {
+      "id": "can-still-trigger",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "Camera holds on 'Equity still above zero, can still trigger'. The exact formula is moved to an expandable section below the video on the course page.",
+      "visual_zh": "镜头突出“权益尚大于零，仍可能触发”，具体公式移到课程下方展开。",
+      "onscreen_text_en": "A forced-close risk event",
+      "onscreen_text_zh-Hans": "强制平仓风险事件",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Liquidation usually means this forced-close risk event, not your phone's button breaking. The real trigger depends on fees, maintenance margin, margin mode and more. 10x doesn't mean exactly a 10% drop.",
+            "zh-Hans": "爆仓通常指这种强制平仓风险事件，不是简单的手机按钮失灵。实际触发还受到费用、维持保证金、仓位模式等影响，不是十倍一定正好跌百分之十。"
+          },
+          "start": 0.25,
+          "end": 13.345,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e23-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 13.095
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Liquidation ",
+                "start": 0.25,
+                "end": 1.087
+              },
+              {
+                "text": "usually ",
+                "start": 1.087,
+                "end": 1.62
+              },
+              {
+                "text": "means ",
+                "start": 1.62,
+                "end": 2.001
+              },
+              {
+                "text": "this ",
+                "start": 2.001,
+                "end": 2.306
+              },
+              {
+                "text": "forced-",
+                "start": 2.306,
+                "end": 2.839
+              },
+              {
+                "text": "close ",
+                "start": 2.839,
+                "end": 3.219
+              },
+              {
+                "text": "risk ",
+                "start": 3.219,
+                "end": 3.524
+              },
+              {
+                "text": "event, ",
+                "start": 3.524,
+                "end": 3.981
+              },
+              {
+                "text": "not ",
+                "start": 3.981,
+                "end": 4.209
+              },
+              {
+                "text": "your ",
+                "start": 4.209,
+                "end": 4.513
+              },
+              {
+                "text": "phone's ",
+                "start": 4.513,
+                "end": 5.046
+              },
+              {
+                "text": "button ",
+                "start": 5.046,
+                "end": 5.503
+              },
+              {
+                "text": "breaking. ",
+                "start": 5.503,
+                "end": 6.188
+              },
+              {
+                "text": "The ",
+                "start": 6.188,
+                "end": 6.417
+              },
+              {
+                "text": "real ",
+                "start": 6.417,
+                "end": 6.721
+              },
+              {
+                "text": "trigger ",
+                "start": 6.721,
+                "end": 7.254
+              },
+              {
+                "text": "depends ",
+                "start": 7.254,
+                "end": 7.787
+              },
+              {
+                "text": "on ",
+                "start": 7.787,
+                "end": 7.94
+              },
+              {
+                "text": "fees, ",
+                "start": 7.94,
+                "end": 8.32
+              },
+              {
+                "text": "maintenance ",
+                "start": 8.32,
+                "end": 9.158
+              },
+              {
+                "text": "margin, ",
+                "start": 9.158,
+                "end": 9.691
+              },
+              {
+                "text": "margin ",
+                "start": 9.691,
+                "end": 10.147
+              },
+              {
+                "text": "mode ",
+                "start": 10.147,
+                "end": 10.452
+              },
+              {
+                "text": "and ",
+                "start": 10.452,
+                "end": 10.68
+              },
+              {
+                "text": "more. ",
+                "start": 10.68,
+                "end": 11.061
+              },
+              {
+                "text": "10x ",
+                "start": 11.061,
+                "end": 11.289
+              },
+              {
+                "text": "doesn't ",
+                "start": 11.289,
+                "end": 11.822
+              },
+              {
+                "text": "mean ",
+                "start": 11.822,
+                "end": 12.127
+              },
+              {
+                "text": "exactly ",
+                "start": 12.127,
+                "end": 12.66
+              },
+              {
+                "text": "a ",
+                "start": 12.66,
+                "end": 12.736
+              },
+              {
+                "text": "10% ",
+                "start": 12.736,
+                "end": 12.964
+              },
+              {
+                "text": "drop.",
+                "start": 12.964,
+                "end": 13.345
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "爆",
+                "start": 0.25,
+                "end": 0.448
+              },
+              {
+                "text": "仓",
+                "start": 0.448,
+                "end": 0.647
+              },
+              {
+                "text": "通常",
+                "start": 0.647,
+                "end": 1.044
+              },
+              {
+                "text": "指",
+                "start": 1.044,
+                "end": 1.242
+              },
+              {
+                "text": "这种",
+                "start": 1.242,
+                "end": 1.639
+              },
+              {
+                "text": "强制",
+                "start": 1.639,
+                "end": 2.036
+              },
+              {
+                "text": "平",
+                "start": 2.036,
+                "end": 2.234
+              },
+              {
+                "text": "仓",
+                "start": 2.234,
+                "end": 2.433
+              },
+              {
+                "text": "风险",
+                "start": 2.433,
+                "end": 2.829
+              },
+              {
+                "text": "事件，",
+                "start": 2.829,
+                "end": 3.425
+              },
+              {
+                "text": "不是",
+                "start": 3.425,
+                "end": 3.821
+              },
+              {
+                "text": "简单",
+                "start": 3.821,
+                "end": 4.218
+              },
+              {
+                "text": "的",
+                "start": 4.218,
+                "end": 4.417
+              },
+              {
+                "text": "手机",
+                "start": 4.417,
+                "end": 4.813
+              },
+              {
+                "text": "按钮",
+                "start": 4.813,
+                "end": 5.21
+              },
+              {
+                "text": "失灵。",
+                "start": 5.21,
+                "end": 5.805
+              },
+              {
+                "text": "实际",
+                "start": 5.805,
+                "end": 6.202
+              },
+              {
+                "text": "触发",
+                "start": 6.202,
+                "end": 6.599
+              },
+              {
+                "text": "还",
+                "start": 6.599,
+                "end": 6.798
+              },
+              {
+                "text": "受到",
+                "start": 6.798,
+                "end": 7.194
+              },
+              {
+                "text": "费用、",
+                "start": 7.194,
+                "end": 7.79
+              },
+              {
+                "text": "维持",
+                "start": 7.79,
+                "end": 8.186
+              },
+              {
+                "text": "保证",
+                "start": 8.186,
+                "end": 8.583
+              },
+              {
+                "text": "金、",
+                "start": 8.583,
+                "end": 8.98
+              },
+              {
+                "text": "仓",
+                "start": 8.98,
+                "end": 9.178
+              },
+              {
+                "text": "位",
+                "start": 9.178,
+                "end": 9.377
+              },
+              {
+                "text": "模式",
+                "start": 9.377,
+                "end": 9.774
+              },
+              {
+                "text": "等",
+                "start": 9.774,
+                "end": 9.972
+              },
+              {
+                "text": "影响，",
+                "start": 9.972,
+                "end": 10.567
+              },
+              {
+                "text": "不是",
+                "start": 10.567,
+                "end": 10.964
+              },
+              {
+                "text": "十倍",
+                "start": 10.964,
+                "end": 11.361
+              },
+              {
+                "text": "一定",
+                "start": 11.361,
+                "end": 11.758
+              },
+              {
+                "text": "正好",
+                "start": 11.758,
+                "end": 12.155
+              },
+              {
+                "text": "跌",
+                "start": 12.155,
+                "end": 12.353
+              },
+              {
+                "text": "百分",
+                "start": 12.353,
+                "end": 12.75
+              },
+              {
+                "text": "之十。",
+                "start": 12.75,
+                "end": 13.345
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Equity > 0, can still trigger",
+                "zh-Hans": "权益 > 0，仍可能触发"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "10x ≠ exactly −10%",
+                "zh-Hans": "十倍 ≠ 正好 −10%"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Formula: on the course page",
+                "zh-Hans": "公式：见课程页"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:07-01:35",
+      "source_visual_zh": "镜头突出“权益尚大于零，仍可能触发”，具体公式移到课程下方展开。",
+      "source_onscreen_text": {
+        "en": [
+          "Equity > 0, can still trigger",
+          "10x ≠ exactly −10%",
+          "Formula: on the course page"
+        ],
+        "zh-Hans": [
+          "权益 > 0，仍可能触发",
+          "十倍 ≠ 正好 −10%",
+          "公式：见课程页"
+        ]
+      }
+    },
+    {
+      "id": "no-comeback",
+      "duration": 21,
+      "set": "trading-desk",
+      "visual_en": "Simulated path: price falls and triggers risk handling, then rises; the original position is already closed and doesn't come back.",
+      "visual_zh": "模拟轨迹先下跌触发风险处置，再上涨；原仓位已经被关闭，不自动复活。",
+      "onscreen_text_en": "A closed position doesn't come back",
+      "onscreen_text_zh-Hans": "平掉的仓位不会回来",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "It went back up later. Can I just wait for it to come back?",
+            "zh-Hans": "后来涨回来了，我还能等回来吗？"
+          },
+          "start": 0.25,
+          "end": 4.164,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e23-05-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 3.914
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It ",
+                "start": 0.25,
+                "end": 0.42
+              },
+              {
+                "text": "went ",
+                "start": 0.42,
+                "end": 0.761
+              },
+              {
+                "text": "back ",
+                "start": 0.761,
+                "end": 1.101
+              },
+              {
+                "text": "up ",
+                "start": 1.101,
+                "end": 1.271
+              },
+              {
+                "text": "later. ",
+                "start": 1.271,
+                "end": 1.782
+              },
+              {
+                "text": "Can ",
+                "start": 1.782,
+                "end": 2.037
+              },
+              {
+                "text": "I ",
+                "start": 2.037,
+                "end": 2.122
+              },
+              {
+                "text": "just ",
+                "start": 2.122,
+                "end": 2.462
+              },
+              {
+                "text": "wait ",
+                "start": 2.462,
+                "end": 2.803
+              },
+              {
+                "text": "for ",
+                "start": 2.803,
+                "end": 3.058
+              },
+              {
+                "text": "it ",
+                "start": 3.058,
+                "end": 3.228
+              },
+              {
+                "text": "to ",
+                "start": 3.228,
+                "end": 3.398
+              },
+              {
+                "text": "come ",
+                "start": 3.398,
+                "end": 3.739
+              },
+              {
+                "text": "back?",
+                "start": 3.739,
+                "end": 4.164
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "后来",
+                "start": 0.25,
+                "end": 0.772
+              },
+              {
+                "text": "涨",
+                "start": 0.772,
+                "end": 1.033
+              },
+              {
+                "text": "回来",
+                "start": 1.033,
+                "end": 1.555
+              },
+              {
+                "text": "了，",
+                "start": 1.555,
+                "end": 2.077
+              },
+              {
+                "text": "我还",
+                "start": 2.077,
+                "end": 2.598
+              },
+              {
+                "text": "能",
+                "start": 2.598,
+                "end": 2.859
+              },
+              {
+                "text": "等",
+                "start": 2.859,
+                "end": 3.12
+              },
+              {
+                "text": "回来",
+                "start": 3.12,
+                "end": 3.642
+              },
+              {
+                "text": "吗？",
+                "start": 3.642,
+                "end": 4.164
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "A closed position doesn't come back on its own. A drop and then a rise can end very differently for a leveraged position and for plain spot you just held.",
+            "zh-Hans": "已经关闭的仓位不会自动恢复。先下跌再上涨，对杠杆仓位和一直持有普通现货，可能是不同结果。"
+          },
+          "start": 4.464,
+          "end": 12.452,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e23-05-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 7.988
+          },
+          "words": {
+            "en": [
+              {
+                "text": "A ",
+                "start": 4.464,
+                "end": 4.528
+              },
+              {
+                "text": "closed ",
+                "start": 4.528,
+                "end": 4.911
+              },
+              {
+                "text": "position ",
+                "start": 4.911,
+                "end": 5.423
+              },
+              {
+                "text": "doesn't ",
+                "start": 5.423,
+                "end": 5.87
+              },
+              {
+                "text": "come ",
+                "start": 5.87,
+                "end": 6.126
+              },
+              {
+                "text": "back ",
+                "start": 6.126,
+                "end": 6.381
+              },
+              {
+                "text": "on ",
+                "start": 6.381,
+                "end": 6.509
+              },
+              {
+                "text": "its ",
+                "start": 6.509,
+                "end": 6.701
+              },
+              {
+                "text": "own. ",
+                "start": 6.701,
+                "end": 6.956
+              },
+              {
+                "text": "A ",
+                "start": 6.956,
+                "end": 7.02
+              },
+              {
+                "text": "drop ",
+                "start": 7.02,
+                "end": 7.276
+              },
+              {
+                "text": "and ",
+                "start": 7.276,
+                "end": 7.467
+              },
+              {
+                "text": "then ",
+                "start": 7.467,
+                "end": 7.723
+              },
+              {
+                "text": "a ",
+                "start": 7.723,
+                "end": 7.787
+              },
+              {
+                "text": "rise ",
+                "start": 7.787,
+                "end": 8.043
+              },
+              {
+                "text": "can ",
+                "start": 8.043,
+                "end": 8.234
+              },
+              {
+                "text": "end ",
+                "start": 8.234,
+                "end": 8.426
+              },
+              {
+                "text": "very ",
+                "start": 8.426,
+                "end": 8.682
+              },
+              {
+                "text": "differently ",
+                "start": 8.682,
+                "end": 9.385
+              },
+              {
+                "text": "for ",
+                "start": 9.385,
+                "end": 9.576
+              },
+              {
+                "text": "a ",
+                "start": 9.576,
+                "end": 9.64
+              },
+              {
+                "text": "leveraged ",
+                "start": 9.64,
+                "end": 10.215
+              },
+              {
+                "text": "position ",
+                "start": 10.215,
+                "end": 10.727
+              },
+              {
+                "text": "and ",
+                "start": 10.727,
+                "end": 10.918
+              },
+              {
+                "text": "for ",
+                "start": 10.918,
+                "end": 11.11
+              },
+              {
+                "text": "plain ",
+                "start": 11.11,
+                "end": 11.43
+              },
+              {
+                "text": "spot ",
+                "start": 11.43,
+                "end": 11.685
+              },
+              {
+                "text": "you ",
+                "start": 11.685,
+                "end": 11.877
+              },
+              {
+                "text": "just ",
+                "start": 11.877,
+                "end": 12.132
+              },
+              {
+                "text": "held.",
+                "start": 12.132,
+                "end": 12.452
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "已经",
+                "start": 4.464,
+                "end": 4.827
+              },
+              {
+                "text": "关闭",
+                "start": 4.827,
+                "end": 5.19
+              },
+              {
+                "text": "的",
+                "start": 5.19,
+                "end": 5.372
+              },
+              {
+                "text": "仓",
+                "start": 5.372,
+                "end": 5.553
+              },
+              {
+                "text": "位",
+                "start": 5.553,
+                "end": 5.735
+              },
+              {
+                "text": "不会",
+                "start": 5.735,
+                "end": 6.098
+              },
+              {
+                "text": "自动",
+                "start": 6.098,
+                "end": 6.461
+              },
+              {
+                "text": "恢复。",
+                "start": 6.461,
+                "end": 7.006
+              },
+              {
+                "text": "先",
+                "start": 7.006,
+                "end": 7.187
+              },
+              {
+                "text": "下跌",
+                "start": 7.187,
+                "end": 7.55
+              },
+              {
+                "text": "再",
+                "start": 7.55,
+                "end": 7.732
+              },
+              {
+                "text": "上涨，",
+                "start": 7.732,
+                "end": 8.276
+              },
+              {
+                "text": "对",
+                "start": 8.276,
+                "end": 8.458
+              },
+              {
+                "text": "杠杆",
+                "start": 8.458,
+                "end": 8.821
+              },
+              {
+                "text": "仓",
+                "start": 8.821,
+                "end": 9.003
+              },
+              {
+                "text": "位",
+                "start": 9.003,
+                "end": 9.184
+              },
+              {
+                "text": "和",
+                "start": 9.184,
+                "end": 9.366
+              },
+              {
+                "text": "一直",
+                "start": 9.366,
+                "end": 9.729
+              },
+              {
+                "text": "持有",
+                "start": 9.729,
+                "end": 10.092
+              },
+              {
+                "text": "普通",
+                "start": 10.092,
+                "end": 10.455
+              },
+              {
+                "text": "现货，",
+                "start": 10.455,
+                "end": 11
+              },
+              {
+                "text": "可能是",
+                "start": 11,
+                "end": 11.544
+              },
+              {
+                "text": "不同",
+                "start": 11.544,
+                "end": 11.907
+              },
+              {
+                "text": "结果。",
+                "start": 11.907,
+                "end": 12.452
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "label": {
+                "en": "Price falls",
+                "zh-Hans": "价格下跌"
+              }
+            },
+            {
+              "label": {
+                "en": "Position closed",
+                "zh-Hans": "仓位已关闭"
+              },
+              "state": "no"
+            },
+            {
+              "label": {
+                "en": "Price rebounds",
+                "zh-Hans": "价格反弹"
+              }
+            }
+          ],
+          "note": {
+            "en": "Rebound ≠ position restored",
+            "zh-Hans": "反弹 ≠ 仓位恢复"
+          }
+        }
+      ],
+      "source_tc": "01:35-01:56",
+      "source_visual_zh": "模拟轨迹先下跌触发风险处置，再上涨；原仓位已经被关闭，不自动复活。",
+      "source_onscreen_text": {
+        "en": [
+          "Position closed",
+          "Rebound ≠ position restored"
+        ],
+        "zh-Hans": [
+          "仓位已关闭",
+          "反弹 ≠ 仓位恢复"
+        ]
+      }
+    },
+    {
+      "id": "path-quiz",
+      "duration": 15,
+      "set": "trading-desk",
+      "visual_en": "Question card: 'If the price ends back where it started, are you guaranteed not to be liquidated along the way?'",
+      "visual_zh": "题目：价格最终回到原点，是否保证中途不会被强平？",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Not guaranteed.",
+            "zh-Hans": "不保证。"
+          },
+          "start": 0.25,
+          "end": 1.43,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e23-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 1.18
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Not ",
+                "start": 0.25,
+                "end": 0.503
+              },
+              {
+                "text": "guaranteed.",
+                "start": 0.503,
+                "end": 1.43
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不",
+                "start": 0.25,
+                "end": 0.545
+              },
+              {
+                "text": "保证。",
+                "start": 0.545,
+                "end": 1.43
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "It's not just the destination. It's whether you can survive the path.",
+            "zh-Hans": "不仅看终点，还要看沿途能不能承受。"
+          },
+          "start": 1.73,
+          "end": 5.365,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e23-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 3.635
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It's ",
+                "start": 1.73,
+                "end": 1.981
+              },
+              {
+                "text": "not ",
+                "start": 1.981,
+                "end": 2.169
+              },
+              {
+                "text": "just ",
+                "start": 2.169,
+                "end": 2.419
+              },
+              {
+                "text": "the ",
+                "start": 2.419,
+                "end": 2.607
+              },
+              {
+                "text": "destination. ",
+                "start": 2.607,
+                "end": 3.359
+              },
+              {
+                "text": "It's ",
+                "start": 3.359,
+                "end": 3.61
+              },
+              {
+                "text": "whether ",
+                "start": 3.61,
+                "end": 4.049
+              },
+              {
+                "text": "you ",
+                "start": 4.049,
+                "end": 4.237
+              },
+              {
+                "text": "can ",
+                "start": 4.237,
+                "end": 4.425
+              },
+              {
+                "text": "survive ",
+                "start": 4.425,
+                "end": 4.864
+              },
+              {
+                "text": "the ",
+                "start": 4.864,
+                "end": 5.052
+              },
+              {
+                "text": "path.",
+                "start": 5.052,
+                "end": 5.365
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不仅",
+                "start": 1.73,
+                "end": 2.158
+              },
+              {
+                "text": "看",
+                "start": 2.158,
+                "end": 2.371
+              },
+              {
+                "text": "终点，",
+                "start": 2.371,
+                "end": 3.013
+              },
+              {
+                "text": "还",
+                "start": 3.013,
+                "end": 3.227
+              },
+              {
+                "text": "要",
+                "start": 3.227,
+                "end": 3.441
+              },
+              {
+                "text": "看",
+                "start": 3.441,
+                "end": 3.654
+              },
+              {
+                "text": "沿途",
+                "start": 3.654,
+                "end": 4.082
+              },
+              {
+                "text": "能不能",
+                "start": 4.082,
+                "end": 4.724
+              },
+              {
+                "text": "承受。",
+                "start": 4.724,
+                "end": 5.365
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "If the price ends back where it started, are you guaranteed not to be liquidated along the way?",
+            "zh-Hans": "价格最后回到起点，途中就一定不会被强平吗？"
+          },
+          "verdict": {
+            "en": "NOT GUARANTEED",
+            "zh-Hans": "不保证"
+          }
+        }
+      ],
+      "source_tc": "01:56-02:11",
+      "source_visual_zh": "题目：价格最终回到原点，是否保证中途不会被强平？",
+      "source_onscreen_text": {
+        "en": [
+          "Back to start = no liquidation?  NOT GUARANTEED"
+        ],
+        "zh-Hans": [
+          "回到原点 = 不会强平？ 不保证"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.1,
+    "pose": "point",
+    "text": {
+      "en": "Price barely moved, and you didn't close, but your balance dropped. The final episode is next.",
+      "zh-Hans": "价格没怎么动、也没平仓，余额却少了。下一集：最后一关。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Price barely moved, and you didn't close, but your balance dropped. The final episode is next.",
+          "zh-Hans": "价格没怎么动、也没平仓，余额却少了。下一集：最后一关。"
+        },
+        "start": 0.25,
+        "end": 5.752,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e23-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.502
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Price ",
+              "start": 0.25,
+              "end": 0.598
+            },
+            {
+              "text": "barely ",
+              "start": 0.598,
+              "end": 1.016
+            },
+            {
+              "text": "moved, ",
+              "start": 1.016,
+              "end": 1.434
+            },
+            {
+              "text": "and ",
+              "start": 1.434,
+              "end": 1.643
+            },
+            {
+              "text": "you ",
+              "start": 1.643,
+              "end": 1.852
+            },
+            {
+              "text": "didn't ",
+              "start": 1.852,
+              "end": 2.27
+            },
+            {
+              "text": "close, ",
+              "start": 2.27,
+              "end": 2.688
+            },
+            {
+              "text": "but ",
+              "start": 2.688,
+              "end": 2.897
+            },
+            {
+              "text": "your ",
+              "start": 2.897,
+              "end": 3.175
+            },
+            {
+              "text": "balance ",
+              "start": 3.175,
+              "end": 3.663
+            },
+            {
+              "text": "dropped. ",
+              "start": 3.663,
+              "end": 4.22
+            },
+            {
+              "text": "The ",
+              "start": 4.22,
+              "end": 4.429
+            },
+            {
+              "text": "final ",
+              "start": 4.429,
+              "end": 4.777
+            },
+            {
+              "text": "episode ",
+              "start": 4.777,
+              "end": 5.264
+            },
+            {
+              "text": "is ",
+              "start": 5.264,
+              "end": 5.404
+            },
+            {
+              "text": "next.",
+              "start": 5.404,
+              "end": 5.752
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "价格",
+              "start": 0.25,
+              "end": 0.658
+            },
+            {
+              "text": "没",
+              "start": 0.658,
+              "end": 0.861
+            },
+            {
+              "text": "怎么",
+              "start": 0.861,
+              "end": 1.269
+            },
+            {
+              "text": "动、",
+              "start": 1.269,
+              "end": 1.676
+            },
+            {
+              "text": "也没",
+              "start": 1.676,
+              "end": 2.084
+            },
+            {
+              "text": "平",
+              "start": 2.084,
+              "end": 2.288
+            },
+            {
+              "text": "仓，",
+              "start": 2.288,
+              "end": 2.695
+            },
+            {
+              "text": "余",
+              "start": 2.695,
+              "end": 2.899
+            },
+            {
+              "text": "额",
+              "start": 2.899,
+              "end": 3.103
+            },
+            {
+              "text": "却",
+              "start": 3.103,
+              "end": 3.307
+            },
+            {
+              "text": "少了。",
+              "start": 3.307,
+              "end": 3.918
+            },
+            {
+              "text": "下",
+              "start": 3.918,
+              "end": 4.122
+            },
+            {
+              "text": "一",
+              "start": 4.122,
+              "end": 4.326
+            },
+            {
+              "text": "集：",
+              "start": 4.326,
+              "end": 4.733
+            },
+            {
+              "text": "最后",
+              "start": 4.733,
+              "end": 5.141
+            },
+            {
+              "text": "一",
+              "start": 5.141,
+              "end": 5.344
+            },
+            {
+              "text": "关。",
+              "start": 5.344,
+              "end": 5.752
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "02:11-02:15"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.295,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e23-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.045
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.102
+          },
+          {
+            "text": "first, ",
+            "start": 1.102,
+            "end": 1.613
+          },
+          {
+            "text": "then ",
+            "start": 1.613,
+            "end": 1.954
+          },
+          {
+            "text": "act.",
+            "start": 1.954,
+            "end": 2.295
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.506
+          },
+          {
+            "text": "看懂，",
+            "start": 0.506,
+            "end": 1.273
+          },
+          {
+            "text": "再",
+            "start": 1.273,
+            "end": 1.528
+          },
+          {
+            "text": "动手。",
+            "start": 1.528,
+            "end": 2.295
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E23.json",
+    "original_slug": "liquidation-mark-price",
+    "goal": {
+      "en": "Understand liquidation triggers, the mark price and maintenance requirements, without using inverse leverage as an exact formula.",
+      "zh-Hans": "理解强平触发、标记价格与维持要求，不使用倒数杠杆当准确公式。"
+    },
+    "duration_target_s": 139,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Play the same fall-then-rise path for spot and for a simplified isolated contract in the simulator below.",
+      "line_zh": "在下方模拟器里，用同一段先跌后涨行情对比普通现货和简化逐仓合约。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Play the same virtual drop-then-rise market, and watch plain spot and a simplified isolated contract separately.",
+      "task_zh": "播放同一段先跌后涨的虚拟行情，分别观察普通现货和简化逐仓合约。",
+      "answer_en": "The path matters. A contract liquidated midway isn't restored by a later rebound.",
+      "answer_zh": "路径风险重要；合约中途强平后不会因后续反弹自动恢复仓位。"
+    },
+    "red_lines": [
+      "Interface and formulas are labelled as a teaching model ｜ 界面和公式都标教学模型",
+      "Never claim to exactly replicate any exchange's live liquidation ｜ 不得宣称精确复制某交易所实时强平",
+      "The §06 formula (≈45,226.13) lives only in the expandable web note, not on screen ｜ §06 公式（约45,226.13）只放网页展开说明，不上画面",
+      "Futures examples are USDT-margined linear perpetuals only; never mix in coin-margined, options or delivery formulas ｜ 合约示例限USDT计价线性永续，不混入币本位、期权和交割合约公式",
+      "Futures episode: no conversion card, no partner name, no invite code, no 'open position' button; page CTA = none ｜ 合约集：不放转化卡、不出现合作平台名和邀请码、不画“开仓”按钮；网页CTA为none",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S23",
+      "S27"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:35-01:07",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:07-01:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:35-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:11",
+        "kind": "shot"
+      },
+      {
+        "tc": "02:11-02:15",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:15-02:19",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "warning",
+      "cards",
+      "buffer-gauge",
+      "flow",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

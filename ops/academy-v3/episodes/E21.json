@@ -199,10 +199,6 @@
           "label": {
             "en": "Box 100 · Balance 900",
             "zh-Hans": "小盒子 100 · 余额 900"
-          },
-          "note": {
-            "en": "Teaching model",
-            "zh-Hans": "教学模型"
           }
         }
       ],
@@ -1390,10 +1386,6 @@
           "label": {
             "en": "Auto-add margin: ON · 100 → more",
             "zh-Hans": "自动追加：开 · 100 → 更多"
-          },
-          "note": {
-            "en": "Teaching model · not exchange rules",
-            "zh-Hans": "教学模型 · 非交易所规则"
           }
         }
       ],
@@ -1418,8 +1410,8 @@
       "set": "trading-desk",
       "visual_en": "Sam checks four items: margin mode, auto-add switch, how fees are deducted, total amount committed. Not judging by button colour.",
       "visual_zh": "小白核对模式、追加开关、费用扣取、可投入总额四项，不按按钮颜色判断。",
-      "onscreen_text_en": "Mode",
-      "onscreen_text_zh-Hans": "模式",
+      "onscreen_text_en": "Check the settings",
+      "onscreen_text_zh-Hans": "检查设置",
       "antenna": "amber",
       "ding": false,
       "nexubo": {
@@ -2256,7 +2248,7 @@
   "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
   "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
   "source_metadata": {
-    "source_path": "/Volumes/致态2TB/nx-wt-codex-academy-v3-samples/ops/academy-v3/episodes/source/E21.json",
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E21.json",
     "original_slug": "isolated-margin",
     "goal": {
       "en": "Understand per-position margin isolation, and how adding margin can increase the money at risk.",
@@ -2326,8 +2318,9 @@
         "kind": "close"
       }
     ],
-    "required_contract_extensions": [
-      "widget type margin-flow {balance, margin, autoAdd, label, note}"
+    "widget_types": [
+      "margin-flow",
+      "checklist"
     ]
   },
   "narration_alignment": {
@@ -2336,7 +2329,7 @@
     "tail": 0.25,
     "tightened_padding": 0.15,
     "atempo_normal_max": 1.08,
-    "atempo_compromise_max": 1.12,
+    "atempo_compromise_max": 1.08,
     "compromises": []
   }
 }

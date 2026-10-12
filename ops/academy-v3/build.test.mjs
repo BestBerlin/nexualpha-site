@@ -37,6 +37,17 @@ for(const locale of ['en','zh-Hans']) test(`${locale}: build both compositions; 
     dom.window.close();
   }
 });
+test('fine-print guard fails the build when a caveat reaches a frame',async()=>{
+  const {mkdirSync,writeFileSync,rmSync}=await import('node:fs');
+  mkdirSync(root+'.runtime',{recursive:true});
+  const e=JSON.parse(readFileSync(root+'sample-e05.json'));
+  e.shots[1].widgets=[{type:'warning',message:'Teaching assumption · not a live price or real platform rate'}];
+  const path=root+'.runtime/fine-print-test.json';writeFileSync(path,JSON.stringify(e));
+  try{
+    const r=spawnSync(process.execPath,['build.mjs',path,'en'],{cwd:root,encoding:'utf8'});
+    assert.notEqual(r.status,0);assert.match(r.stderr,/Fine print is not allowed/);
+  }finally{rmSync(path);spawnSync(process.execPath,['build.mjs','sample-e05.json','en'],{cwd:root,encoding:'utf8'});}
+});
 test('conversion QR encodes only starter URL, supplied fields are escaped and sample restores',async()=>{
   const {mkdirSync,writeFileSync,rmSync}=await import('node:fs');
   const {default:QRCode}=await import('qrcode');
@@ -48,10 +59,10 @@ test('conversion QR encodes only starter URL, supplied fields are escaped and sa
     const r=spawnSync(process.execPath,['build.mjs',path,'en'],{cwd:root,encoding:'utf8'});assert.equal(r.status,0,r.stderr);
     for(const format of ['landscape','portrait']){
       const html=readFileSync(root+`build/en-${format}/index.html`,'utf8');
-      assert.match(html,/TEST &lt;partner&gt;/);assert.match(html,/TEST disclosure &lt;visible&gt;/);
+      assert.match(html,/TEST &lt;partner&gt;/);assert.doesNotMatch(html,/TEST disclosure/,'disclosure is metadata only (owner rule: no fine print)');assert.doesNotMatch(html,/TEST supplied line/);
       const qr=readFileSync(root+`build/en-${format}/assets/qr.svg`,'utf8');
       assert.equal(qr,await QRCode.toString('https://nexualpha.com/starter/kyc-official-channel?src=academy-video',{type:'svg',errorCorrectionLevel:'M',margin:4}));
-      const dom=new JSDOM(html);assert.equal(dom.window.document.querySelectorAll('.conversion-card .disclosure').length,1);dom.window.close();
+      const dom=new JSDOM(html);assert.equal(dom.window.document.querySelectorAll('.conversion-card .disclosure').length,0);dom.window.close();
     }
   }finally{
     rmSync(path);const restored=spawnSync(process.execPath,['build.mjs','sample-e05.json','en'],{cwd:root,encoding:'utf8'});assert.equal(restored.status,0,restored.stderr);

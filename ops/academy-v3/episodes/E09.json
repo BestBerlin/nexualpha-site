@@ -1011,13 +1011,6 @@
                 "zh-Hans": "地址＝目的地"
               },
               "done": true
-            },
-            {
-              "label": {
-                "en": "Analogy only",
-                "zh-Hans": "仅帮助理解"
-              },
-              "done": true
             }
           ]
         }
@@ -1043,8 +1036,8 @@
       "set": "transfer-station",
       "visual_en": "Full checklist lights up item by item: coin, network, full address, Memo/Tag if required, minimum deposit, estimated arrival.",
       "visual_zh": "完整核对表：币种、网络、完整地址、如需的Memo/Tag、最低充值、预计到账；依次点亮。",
-      "onscreen_text_en": "Coin",
-      "onscreen_text_zh-Hans": "币种",
+      "onscreen_text_en": "Don't guess any of these",
+      "onscreen_text_zh-Hans": "这些都别靠猜",
       "antenna": "amber",
       "ding": false,
       "nexubo": {
@@ -2250,7 +2243,7 @@
   ],
   "conversion_card": null,
   "end_hook": {
-    "duration": 5,
+    "duration": 5.4,
     "pose": "point",
     "text": {
       "en": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
@@ -2263,162 +2256,162 @@
           "en": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
           "zh-Hans": "显示成功却没到账？先别再转。下一集：该查哪里。"
         },
-        "start": 0.15,
-        "end": 4.849,
+        "start": 0.25,
+        "end": 5.104,
         "source_who": "Narrator",
         "narration": {
           "id": "e09-07-hook-l01-narrator",
-          "atempo": 1.033,
-          "seconds": 4.699
+          "atempo": 1,
+          "seconds": 4.854
         },
         "words": {
           "en": [
             {
               "text": "It ",
-              "start": 0.15,
-              "end": 0.288
+              "start": 0.25,
+              "end": 0.393
             },
             {
               "text": "says '",
-              "start": 0.288,
-              "end": 0.634
+              "start": 0.393,
+              "end": 0.75
             },
             {
               "text": "success', ",
-              "start": 0.634,
-              "end": 1.256
+              "start": 0.75,
+              "end": 1.392
             },
             {
               "text": "but ",
-              "start": 1.256,
-              "end": 1.463
+              "start": 1.392,
+              "end": 1.606
             },
             {
               "text": "nothing ",
-              "start": 1.463,
-              "end": 1.947
+              "start": 1.606,
+              "end": 2.106
             },
             {
               "text": "arrived. ",
-              "start": 1.947,
-              "end": 2.5
+              "start": 2.106,
+              "end": 2.677
             },
             {
               "text": "Don't ",
-              "start": 2.5,
-              "end": 2.845
+              "start": 2.677,
+              "end": 3.034
             },
             {
               "text": "send ",
-              "start": 2.845,
-              "end": 3.121
+              "start": 3.034,
+              "end": 3.319
             },
             {
               "text": "it ",
-              "start": 3.121,
-              "end": 3.26
+              "start": 3.319,
+              "end": 3.462
             },
             {
               "text": "again. ",
-              "start": 3.26,
-              "end": 3.674
+              "start": 3.462,
+              "end": 3.891
             },
             {
               "text": "Next: ",
-              "start": 3.674,
-              "end": 4.02
+              "start": 3.891,
+              "end": 4.247
             },
             {
               "text": "where ",
-              "start": 4.02,
-              "end": 4.365
+              "start": 4.247,
+              "end": 4.604
             },
             {
               "text": "to ",
-              "start": 4.365,
-              "end": 4.503
+              "start": 4.604,
+              "end": 4.747
             },
             {
               "text": "look.",
-              "start": 4.503,
-              "end": 4.849
+              "start": 4.747,
+              "end": 5.104
             }
           ],
           "zh-Hans": [
             {
               "text": "显示",
-              "start": 0.15,
-              "end": 0.559
+              "start": 0.25,
+              "end": 0.672
             },
             {
               "text": "成功",
-              "start": 0.559,
-              "end": 0.967
+              "start": 0.672,
+              "end": 1.094
             },
             {
               "text": "却",
-              "start": 0.967,
-              "end": 1.172
+              "start": 1.094,
+              "end": 1.305
             },
             {
               "text": "没",
-              "start": 1.172,
-              "end": 1.376
+              "start": 1.305,
+              "end": 1.516
             },
             {
               "text": "到",
-              "start": 1.376,
-              "end": 1.58
+              "start": 1.516,
+              "end": 1.727
             },
             {
               "text": "账？",
-              "start": 1.58,
-              "end": 1.989
+              "start": 1.727,
+              "end": 2.149
             },
             {
               "text": "先",
-              "start": 1.989,
-              "end": 2.193
+              "start": 2.149,
+              "end": 2.36
             },
             {
               "text": "别再",
-              "start": 2.193,
-              "end": 2.602
+              "start": 2.36,
+              "end": 2.783
             },
             {
               "text": "转。",
-              "start": 2.602,
-              "end": 3.01
+              "start": 2.783,
+              "end": 3.205
             },
             {
               "text": "下",
-              "start": 3.01,
-              "end": 3.215
+              "start": 3.205,
+              "end": 3.416
             },
             {
               "text": "一",
-              "start": 3.215,
-              "end": 3.419
+              "start": 3.416,
+              "end": 3.627
             },
             {
               "text": "集：",
-              "start": 3.419,
-              "end": 3.827
+              "start": 3.627,
+              "end": 4.049
             },
             {
               "text": "该",
-              "start": 3.827,
-              "end": 4.032
+              "start": 4.049,
+              "end": 4.26
             },
             {
               "text": "查",
-              "start": 4.032,
-              "end": 4.236
+              "start": 4.26,
+              "end": 4.471
             },
             {
               "text": "哪里。",
-              "start": 4.236,
-              "end": 4.849
+              "start": 4.471,
+              "end": 5.104
             }
           ]
         }
@@ -2495,7 +2488,7 @@
   "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
   "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
   "source_metadata": {
-    "source_path": "/Volumes/致态2TB/nx-wt-codex-academy-v3-samples/ops/academy-v3/episodes/source/E09.json",
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E09.json",
     "original_slug": "pre-transfer-checklist",
     "goal": {
       "en": "Check the coin, network, address, memo and arrival conditions, and send a small test first.",
@@ -2563,8 +2556,10 @@
         "kind": "close"
       }
     ],
-    "required_contract_extensions": [
-      "widget type transfer-match {coin, network, note}"
+    "widget_types": [
+      "warning",
+      "transfer-match",
+      "checklist"
     ]
   },
   "narration_alignment": {
@@ -2573,7 +2568,7 @@
     "tail": 0.25,
     "tightened_padding": 0.15,
     "atempo_normal_max": 1.08,
-    "atempo_compromise_max": 1.12,
+    "atempo_compromise_max": 1.08,
     "compromises": []
   }
 }

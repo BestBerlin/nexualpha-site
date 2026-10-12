@@ -33,6 +33,24 @@ SCENES.forEach((s,i)=>{
     timeline.set(card.querySelector('.correction'),{visibility:'hidden'},at+s.duration);
     timeline.from(card.querySelector('.correction'),{scale:1.4,duration:.3,immediateRender:false},at+3+j*2.5);
   });
+  // Season 1 widgets: staged reveal across the narration, quiz answer reveal, shrinking equity gauge.
+  const reveals=[...document.querySelectorAll(p+' .reveal')];
+  const stagger=reveals.length ? Math.min(2.2,Math.max(.35,(s.duration*.55)/reveals.length)) : 0;
+  reveals.forEach((el,j)=>timeline.from(el,{y:16,opacity:0,duration:.35,ease:'power2.out',immediateRender:false},at+.5+j*stagger));
+  const quiz=document.querySelector(p+' .quiz');
+  if(quiz){
+    const answer=at+Math.min(Math.max(2.5,s.duration*.45),s.duration-1.5);
+    quiz.querySelectorAll('.quiz-option').forEach(opt=>{
+      const ok=opt.dataset.correct==='true';
+      timeline.set(opt.querySelector('.quiz-mark'),{visibility:'hidden'},at);
+      timeline.set(opt.querySelector('.quiz-mark'),{visibility:'inherit'},answer);
+      timeline.to(opt,{backgroundColor:ok?'#e8f8f0':'#ffeef0',borderColor:ok?'#16a86a':'#ff5c5c',opacity:ok?1:.75,duration:.3},answer);
+    });
+    const verdict=quiz.querySelector('.quiz-verdict');
+    if(verdict){timeline.set(verdict,{visibility:'hidden'},at);timeline.set(verdict,{visibility:'inherit'},answer);timeline.from(verdict,{scale:1.6,opacity:0,duration:.35,ease:'back.out(2)',immediateRender:false},answer);}
+  }
+  const gauge=document.querySelector(p+' .buffer-gauge');
+  if(gauge) timeline.fromTo(gauge.querySelector('.gauge-fill'),{width:gauge.dataset.from+'%'},{width:gauge.dataset.to+'%',duration:Math.max(1,s.duration-3),ease:'power1.inOut',immediateRender:false},at+1);
   const connector=document.querySelector(p+' .match-connector');
   if(connector) timeline.from(connector,{scaleX:0,opacity:0,duration:.4,immediateRender:false},at+2);
   const pipe=document.querySelector(p+' .pipe i');

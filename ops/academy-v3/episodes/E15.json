@@ -1,0 +1,2343 @@
+{
+  "version": 1,
+  "production_id": "E15",
+  "episode": 15,
+  "season": 2,
+  "slug": "read-a-candlestick",
+  "title": {
+    "en": "One candle: what four things does it tell you?",
+    "zh-Hans": "一根K线，到底告诉你哪四件事？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E15' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第15集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "green-candle",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "Sam sees a green candle and goes to tap Buy; Nexubo covers the button.",
+      "visual_zh": "小白看到绿色蜡烛就按买入，小纳把按钮盖住。",
+      "onscreen_text_en": "Green = keeps going up?",
+      "onscreen_text_zh-Hans": "绿了就会继续涨？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Green means it keeps going up next, right?",
+            "zh-Hans": "绿色，是不是表示下一秒还会涨？"
+          },
+          "start": 0.25,
+          "end": 2.372,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e15-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 2.122
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Green ",
+                "start": 0.25,
+                "end": 0.553
+              },
+              {
+                "text": "means ",
+                "start": 0.553,
+                "end": 0.856
+              },
+              {
+                "text": "it ",
+                "start": 0.856,
+                "end": 0.978
+              },
+              {
+                "text": "keeps ",
+                "start": 0.978,
+                "end": 1.281
+              },
+              {
+                "text": "going ",
+                "start": 1.281,
+                "end": 1.584
+              },
+              {
+                "text": "up ",
+                "start": 1.584,
+                "end": 1.705
+              },
+              {
+                "text": "next, ",
+                "start": 1.705,
+                "end": 2.008
+              },
+              {
+                "text": "right?",
+                "start": 2.008,
+                "end": 2.372
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "绿色，",
+                "start": 0.25,
+                "end": 0.674
+              },
+              {
+                "text": "是不是",
+                "start": 0.674,
+                "end": 1.099
+              },
+              {
+                "text": "表示",
+                "start": 1.099,
+                "end": 1.382
+              },
+              {
+                "text": "下",
+                "start": 1.382,
+                "end": 1.523
+              },
+              {
+                "text": "一秒",
+                "start": 1.523,
+                "end": 1.806
+              },
+              {
+                "text": "还",
+                "start": 1.806,
+                "end": 1.948
+              },
+              {
+                "text": "会",
+                "start": 1.948,
+                "end": 2.089
+              },
+              {
+                "text": "涨？",
+                "start": 2.089,
+                "end": 2.372
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "candlestick-chart",
+          "ohlc": [
+            {
+              "open": 49800,
+              "high": 50100,
+              "low": 49600,
+              "close": 49700
+            },
+            {
+              "open": 49700,
+              "high": 50000,
+              "low": 49500,
+              "close": 49900
+            },
+            {
+              "open": 50000,
+              "high": 51000,
+              "low": 49000,
+              "close": 50500
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白看到绿色蜡烛就按买入，小纳把按钮盖住。",
+      "source_onscreen_text": {
+        "en": [],
+        "zh-Hans": []
+      }
+    },
+    {
+      "id": "four-prices",
+      "duration": 23,
+      "set": "trading-desk",
+      "visual_en": "A five-minute timeline unfolds: open 50,000, high 51,000, low 49,000, close 50,500 appear one by one.",
+      "visual_zh": "五分钟时间轴展开，开50,000、高51,000、低49,000、收50,500依次出现。",
+      "onscreen_text_en": "One candle, four prices",
+      "onscreen_text_zh-Hans": "一根K线，四个价格",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "One candle records four prices for one period: open, high, low and close. This is made-up five-minute data. It's not a promise about the next five minutes.",
+            "zh-Hans": "一根K线记录一个时间段的四个价格：开盘、最高、最低、收盘。这里是虚构的五分钟行情，不是未来五分钟的保证。"
+          },
+          "start": 0.25,
+          "end": 9.856,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e15-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.606
+          },
+          "words": {
+            "en": [
+              {
+                "text": "One ",
+                "start": 0.25,
+                "end": 0.473
+              },
+              {
+                "text": "candle ",
+                "start": 0.473,
+                "end": 0.92
+              },
+              {
+                "text": "records ",
+                "start": 0.92,
+                "end": 1.441
+              },
+              {
+                "text": "four ",
+                "start": 1.441,
+                "end": 1.739
+              },
+              {
+                "text": "prices ",
+                "start": 1.739,
+                "end": 2.186
+              },
+              {
+                "text": "for ",
+                "start": 2.186,
+                "end": 2.409
+              },
+              {
+                "text": "one ",
+                "start": 2.409,
+                "end": 2.633
+              },
+              {
+                "text": "period: ",
+                "start": 2.633,
+                "end": 3.154
+              },
+              {
+                "text": "open, ",
+                "start": 3.154,
+                "end": 3.526
+              },
+              {
+                "text": "high, ",
+                "start": 3.526,
+                "end": 3.899
+              },
+              {
+                "text": "low ",
+                "start": 3.899,
+                "end": 4.122
+              },
+              {
+                "text": "and ",
+                "start": 4.122,
+                "end": 4.346
+              },
+              {
+                "text": "close. ",
+                "start": 4.346,
+                "end": 4.792
+              },
+              {
+                "text": "This ",
+                "start": 4.792,
+                "end": 5.09
+              },
+              {
+                "text": "is ",
+                "start": 5.09,
+                "end": 5.239
+              },
+              {
+                "text": "made-",
+                "start": 5.239,
+                "end": 5.611
+              },
+              {
+                "text": "up ",
+                "start": 5.611,
+                "end": 5.76
+              },
+              {
+                "text": "five-",
+                "start": 5.76,
+                "end": 6.133
+              },
+              {
+                "text": "minute ",
+                "start": 6.133,
+                "end": 6.58
+              },
+              {
+                "text": "data. ",
+                "start": 6.58,
+                "end": 6.952
+              },
+              {
+                "text": "It's ",
+                "start": 6.952,
+                "end": 7.25
+              },
+              {
+                "text": "not ",
+                "start": 7.25,
+                "end": 7.473
+              },
+              {
+                "text": "a ",
+                "start": 7.473,
+                "end": 7.548
+              },
+              {
+                "text": "promise ",
+                "start": 7.548,
+                "end": 8.069
+              },
+              {
+                "text": "about ",
+                "start": 8.069,
+                "end": 8.441
+              },
+              {
+                "text": "the ",
+                "start": 8.441,
+                "end": 8.665
+              },
+              {
+                "text": "next ",
+                "start": 8.665,
+                "end": 8.962
+              },
+              {
+                "text": "five ",
+                "start": 8.962,
+                "end": 9.26
+              },
+              {
+                "text": "minutes.",
+                "start": 9.26,
+                "end": 9.856
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "一根",
+                "start": 0.25,
+                "end": 0.619
+              },
+              {
+                "text": "K",
+                "start": 0.619,
+                "end": 0.804
+              },
+              {
+                "text": "线",
+                "start": 0.804,
+                "end": 0.989
+              },
+              {
+                "text": "记录",
+                "start": 0.989,
+                "end": 1.358
+              },
+              {
+                "text": "一个",
+                "start": 1.358,
+                "end": 1.728
+              },
+              {
+                "text": "时间",
+                "start": 1.728,
+                "end": 2.097
+              },
+              {
+                "text": "段",
+                "start": 2.097,
+                "end": 2.282
+              },
+              {
+                "text": "的",
+                "start": 2.282,
+                "end": 2.467
+              },
+              {
+                "text": "四",
+                "start": 2.467,
+                "end": 2.652
+              },
+              {
+                "text": "个",
+                "start": 2.652,
+                "end": 2.836
+              },
+              {
+                "text": "价格：",
+                "start": 2.836,
+                "end": 3.39
+              },
+              {
+                "text": "开",
+                "start": 3.39,
+                "end": 3.575
+              },
+              {
+                "text": "盘、",
+                "start": 3.575,
+                "end": 3.945
+              },
+              {
+                "text": "最高、",
+                "start": 3.945,
+                "end": 4.499
+              },
+              {
+                "text": "最低、",
+                "start": 4.499,
+                "end": 5.053
+              },
+              {
+                "text": "收盘。",
+                "start": 5.053,
+                "end": 5.607
+              },
+              {
+                "text": "这里",
+                "start": 5.607,
+                "end": 5.977
+              },
+              {
+                "text": "是",
+                "start": 5.977,
+                "end": 6.161
+              },
+              {
+                "text": "虚构",
+                "start": 6.161,
+                "end": 6.531
+              },
+              {
+                "text": "的",
+                "start": 6.531,
+                "end": 6.716
+              },
+              {
+                "text": "五分钟",
+                "start": 6.716,
+                "end": 7.27
+              },
+              {
+                "text": "行情，",
+                "start": 7.27,
+                "end": 7.824
+              },
+              {
+                "text": "不是",
+                "start": 7.824,
+                "end": 8.193
+              },
+              {
+                "text": "未来",
+                "start": 8.193,
+                "end": 8.563
+              },
+              {
+                "text": "五分钟",
+                "start": 8.563,
+                "end": 9.117
+              },
+              {
+                "text": "的",
+                "start": 9.117,
+                "end": 9.302
+              },
+              {
+                "text": "保证。",
+                "start": 9.302,
+                "end": 9.856
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "candlestick-chart",
+          "annotate": true,
+          "title": {
+            "en": "5-minute candle",
+            "zh-Hans": "5分钟K线"
+          },
+          "ohlc": [
+            {
+              "open": 50000,
+              "high": 51000,
+              "low": 49000,
+              "close": 50500
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "五分钟时间轴展开，开50,000、高51,000、低49,000、收50,500依次出现。",
+      "source_onscreen_text": {
+        "en": [
+          "Open 50,000",
+          "High 51,000",
+          "Low 49,000",
+          "Close 50,500",
+          "5-minute · fictional"
+        ],
+        "zh-Hans": [
+          "开 50,000",
+          "高 51,000",
+          "低 49,000",
+          "收 50,500",
+          "5分钟 · 虚构"
+        ]
+      }
+    },
+    {
+      "id": "body-wicks",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "The body connects open and close; wicks reach the high and low. All four labels stay on screen.",
+      "visual_zh": "实体连接开收，影线伸向最高与最低；四个标签一直保留。",
+      "onscreen_text_en": "Body and wicks",
+      "onscreen_text_zh-Hans": "实体和影线",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "The body shows the gap between open and close. The wicks mark the highest and lowest prices in that period. A candle that hasn't finished yet keeps changing with new trades.",
+            "zh-Hans": "实体帮助你看开盘与收盘的差，影线标出期间到过的高低点。还没结束的这根线，会随着新成交继续改变。"
+          },
+          "start": 0.25,
+          "end": 9.102,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e15-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 8.852
+          },
+          "words": {
+            "en": [
+              {
+                "text": "The ",
+                "start": 0.25,
+                "end": 0.436
+              },
+              {
+                "text": "body ",
+                "start": 0.436,
+                "end": 0.683
+              },
+              {
+                "text": "shows ",
+                "start": 0.683,
+                "end": 0.993
+              },
+              {
+                "text": "the ",
+                "start": 0.993,
+                "end": 1.179
+              },
+              {
+                "text": "gap ",
+                "start": 1.179,
+                "end": 1.364
+              },
+              {
+                "text": "between ",
+                "start": 1.364,
+                "end": 1.798
+              },
+              {
+                "text": "open ",
+                "start": 1.798,
+                "end": 2.045
+              },
+              {
+                "text": "and ",
+                "start": 2.045,
+                "end": 2.231
+              },
+              {
+                "text": "close. ",
+                "start": 2.231,
+                "end": 2.602
+              },
+              {
+                "text": "The ",
+                "start": 2.602,
+                "end": 2.788
+              },
+              {
+                "text": "wicks ",
+                "start": 2.788,
+                "end": 3.097
+              },
+              {
+                "text": "mark ",
+                "start": 3.097,
+                "end": 3.345
+              },
+              {
+                "text": "the ",
+                "start": 3.345,
+                "end": 3.531
+              },
+              {
+                "text": "highest ",
+                "start": 3.531,
+                "end": 3.964
+              },
+              {
+                "text": "and ",
+                "start": 3.964,
+                "end": 4.15
+              },
+              {
+                "text": "lowest ",
+                "start": 4.15,
+                "end": 4.521
+              },
+              {
+                "text": "prices ",
+                "start": 4.521,
+                "end": 4.893
+              },
+              {
+                "text": "in ",
+                "start": 4.893,
+                "end": 5.016
+              },
+              {
+                "text": "that ",
+                "start": 5.016,
+                "end": 5.264
+              },
+              {
+                "text": "period. ",
+                "start": 5.264,
+                "end": 5.697
+              },
+              {
+                "text": "A ",
+                "start": 5.697,
+                "end": 5.759
+              },
+              {
+                "text": "candle ",
+                "start": 5.759,
+                "end": 6.131
+              },
+              {
+                "text": "that ",
+                "start": 6.131,
+                "end": 6.378
+              },
+              {
+                "text": "hasn't ",
+                "start": 6.378,
+                "end": 6.75
+              },
+              {
+                "text": "finished ",
+                "start": 6.75,
+                "end": 7.245
+              },
+              {
+                "text": "yet ",
+                "start": 7.245,
+                "end": 7.431
+              },
+              {
+                "text": "keeps ",
+                "start": 7.431,
+                "end": 7.74
+              },
+              {
+                "text": "changing ",
+                "start": 7.74,
+                "end": 8.235
+              },
+              {
+                "text": "with ",
+                "start": 8.235,
+                "end": 8.483
+              },
+              {
+                "text": "new ",
+                "start": 8.483,
+                "end": 8.669
+              },
+              {
+                "text": "trades.",
+                "start": 8.669,
+                "end": 9.102
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "实体",
+                "start": 0.25,
+                "end": 0.627
+              },
+              {
+                "text": "帮助",
+                "start": 0.627,
+                "end": 1.003
+              },
+              {
+                "text": "你",
+                "start": 1.003,
+                "end": 1.192
+              },
+              {
+                "text": "看",
+                "start": 1.192,
+                "end": 1.38
+              },
+              {
+                "text": "开",
+                "start": 1.38,
+                "end": 1.568
+              },
+              {
+                "text": "盘",
+                "start": 1.568,
+                "end": 1.757
+              },
+              {
+                "text": "与",
+                "start": 1.757,
+                "end": 1.945
+              },
+              {
+                "text": "收盘",
+                "start": 1.945,
+                "end": 2.322
+              },
+              {
+                "text": "的",
+                "start": 2.322,
+                "end": 2.51
+              },
+              {
+                "text": "差，",
+                "start": 2.51,
+                "end": 2.887
+              },
+              {
+                "text": "影",
+                "start": 2.887,
+                "end": 3.075
+              },
+              {
+                "text": "线",
+                "start": 3.075,
+                "end": 3.263
+              },
+              {
+                "text": "标",
+                "start": 3.263,
+                "end": 3.452
+              },
+              {
+                "text": "出",
+                "start": 3.452,
+                "end": 3.64
+              },
+              {
+                "text": "期间",
+                "start": 3.64,
+                "end": 4.017
+              },
+              {
+                "text": "到",
+                "start": 4.017,
+                "end": 4.205
+              },
+              {
+                "text": "过的",
+                "start": 4.205,
+                "end": 4.582
+              },
+              {
+                "text": "高低",
+                "start": 4.582,
+                "end": 4.959
+              },
+              {
+                "text": "点。",
+                "start": 4.959,
+                "end": 5.335
+              },
+              {
+                "text": "还",
+                "start": 5.335,
+                "end": 5.524
+              },
+              {
+                "text": "没",
+                "start": 5.524,
+                "end": 5.712
+              },
+              {
+                "text": "结束",
+                "start": 5.712,
+                "end": 6.089
+              },
+              {
+                "text": "的",
+                "start": 6.089,
+                "end": 6.277
+              },
+              {
+                "text": "这",
+                "start": 6.277,
+                "end": 6.465
+              },
+              {
+                "text": "根",
+                "start": 6.465,
+                "end": 6.654
+              },
+              {
+                "text": "线，",
+                "start": 6.654,
+                "end": 7.03
+              },
+              {
+                "text": "会",
+                "start": 7.03,
+                "end": 7.219
+              },
+              {
+                "text": "随着",
+                "start": 7.219,
+                "end": 7.595
+              },
+              {
+                "text": "新",
+                "start": 7.595,
+                "end": 7.784
+              },
+              {
+                "text": "成交",
+                "start": 7.784,
+                "end": 8.16
+              },
+              {
+                "text": "继续",
+                "start": 8.16,
+                "end": 8.537
+              },
+              {
+                "text": "改变。",
+                "start": 8.537,
+                "end": 9.102
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "divider": "+",
+          "left": {
+            "title": {
+              "en": "Body",
+              "zh-Hans": "实体"
+            },
+            "rows": [
+              {
+                "en": "open ↔ close",
+                "zh-Hans": "开盘 ↔ 收盘"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Wicks",
+              "zh-Hans": "影线"
+            },
+            "rows": [
+              {
+                "en": "high / low",
+                "zh-Hans": "最高 / 最低"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "实体连接开收，影线伸向最高与最低；四个标签一直保留。",
+      "source_onscreen_text": {
+        "en": [
+          "Body: open ↔ close",
+          "Wicks: high / low"
+        ],
+        "zh-Hans": [
+          "实体：开 ↔ 收",
+          "影线：高 / 低"
+        ]
+      }
+    },
+    {
+      "id": "time-frame",
+      "duration": 24,
+      "set": "trading-desk",
+      "visual_en": "The same market switches between a 5-minute and a 1-hour view; the characters don't change market.",
+      "visual_zh": "同一行情在五分钟和一小时视图切换，角色没有换市场。",
+      "onscreen_text_en": "Read the time frame first",
+      "onscreen_text_zh-Hans": "先看周期",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Why does the chart look different when I switch the time frame?",
+            "zh-Hans": "为什么切换周期，图看起来就不一样？"
+          },
+          "start": 0.25,
+          "end": 3.453,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e15-04-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 3.203
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Why ",
+                "start": 0.25,
+                "end": 0.435
+              },
+              {
+                "text": "does ",
+                "start": 0.435,
+                "end": 0.681
+              },
+              {
+                "text": "the ",
+                "start": 0.681,
+                "end": 0.866
+              },
+              {
+                "text": "chart ",
+                "start": 0.866,
+                "end": 1.174
+              },
+              {
+                "text": "look ",
+                "start": 1.174,
+                "end": 1.42
+              },
+              {
+                "text": "different ",
+                "start": 1.42,
+                "end": 1.975
+              },
+              {
+                "text": "when ",
+                "start": 1.975,
+                "end": 2.221
+              },
+              {
+                "text": "I ",
+                "start": 2.221,
+                "end": 2.283
+              },
+              {
+                "text": "switch ",
+                "start": 2.283,
+                "end": 2.652
+              },
+              {
+                "text": "the ",
+                "start": 2.652,
+                "end": 2.837
+              },
+              {
+                "text": "time ",
+                "start": 2.837,
+                "end": 3.083
+              },
+              {
+                "text": "frame?",
+                "start": 3.083,
+                "end": 3.453
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "为什么",
+                "start": 0.25,
+                "end": 0.815
+              },
+              {
+                "text": "切换",
+                "start": 0.815,
+                "end": 1.192
+              },
+              {
+                "text": "周期，",
+                "start": 1.192,
+                "end": 1.757
+              },
+              {
+                "text": "图",
+                "start": 1.757,
+                "end": 1.946
+              },
+              {
+                "text": "看起来",
+                "start": 1.946,
+                "end": 2.511
+              },
+              {
+                "text": "就不",
+                "start": 2.511,
+                "end": 2.888
+              },
+              {
+                "text": "一样？",
+                "start": 2.888,
+                "end": 3.453
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Each candle now covers a different length of time. Read the time frame first, then the shape. Don't mistake five minutes for a day.",
+            "zh-Hans": "每根线代表的时间长度变了。先读周期，再谈形状，不能把五分钟当成一天。"
+          },
+          "start": 3.753,
+          "end": 10.798,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e15-04-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 7.045
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Each ",
+                "start": 3.753,
+                "end": 4.014
+              },
+              {
+                "text": "candle ",
+                "start": 4.014,
+                "end": 4.405
+              },
+              {
+                "text": "now ",
+                "start": 4.405,
+                "end": 4.601
+              },
+              {
+                "text": "covers ",
+                "start": 4.601,
+                "end": 4.992
+              },
+              {
+                "text": "a ",
+                "start": 4.992,
+                "end": 5.058
+              },
+              {
+                "text": "different ",
+                "start": 5.058,
+                "end": 5.645
+              },
+              {
+                "text": "length ",
+                "start": 5.645,
+                "end": 6.036
+              },
+              {
+                "text": "of ",
+                "start": 6.036,
+                "end": 6.167
+              },
+              {
+                "text": "time. ",
+                "start": 6.167,
+                "end": 6.493
+              },
+              {
+                "text": "Read ",
+                "start": 6.493,
+                "end": 6.754
+              },
+              {
+                "text": "the ",
+                "start": 6.754,
+                "end": 6.949
+              },
+              {
+                "text": "time ",
+                "start": 6.949,
+                "end": 7.21
+              },
+              {
+                "text": "frame ",
+                "start": 7.21,
+                "end": 7.536
+              },
+              {
+                "text": "first, ",
+                "start": 7.536,
+                "end": 7.928
+              },
+              {
+                "text": "then ",
+                "start": 7.928,
+                "end": 8.189
+              },
+              {
+                "text": "the ",
+                "start": 8.189,
+                "end": 8.384
+              },
+              {
+                "text": "shape. ",
+                "start": 8.384,
+                "end": 8.776
+              },
+              {
+                "text": "Don't ",
+                "start": 8.776,
+                "end": 9.102
+              },
+              {
+                "text": "mistake ",
+                "start": 9.102,
+                "end": 9.559
+              },
+              {
+                "text": "five ",
+                "start": 9.559,
+                "end": 9.82
+              },
+              {
+                "text": "minutes ",
+                "start": 9.82,
+                "end": 10.276
+              },
+              {
+                "text": "for ",
+                "start": 10.276,
+                "end": 10.472
+              },
+              {
+                "text": "a ",
+                "start": 10.472,
+                "end": 10.537
+              },
+              {
+                "text": "day.",
+                "start": 10.537,
+                "end": 10.798
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "每",
+                "start": 3.753,
+                "end": 3.96
+              },
+              {
+                "text": "根",
+                "start": 3.96,
+                "end": 4.167
+              },
+              {
+                "text": "线",
+                "start": 4.167,
+                "end": 4.375
+              },
+              {
+                "text": "代表",
+                "start": 4.375,
+                "end": 4.789
+              },
+              {
+                "text": "的",
+                "start": 4.789,
+                "end": 4.996
+              },
+              {
+                "text": "时间",
+                "start": 4.996,
+                "end": 5.411
+              },
+              {
+                "text": "长度",
+                "start": 5.411,
+                "end": 5.825
+              },
+              {
+                "text": "变",
+                "start": 5.825,
+                "end": 6.032
+              },
+              {
+                "text": "了。",
+                "start": 6.032,
+                "end": 6.447
+              },
+              {
+                "text": "先读",
+                "start": 6.447,
+                "end": 6.861
+              },
+              {
+                "text": "周期，",
+                "start": 6.861,
+                "end": 7.483
+              },
+              {
+                "text": "再",
+                "start": 7.483,
+                "end": 7.69
+              },
+              {
+                "text": "谈",
+                "start": 7.69,
+                "end": 7.897
+              },
+              {
+                "text": "形状，",
+                "start": 7.897,
+                "end": 8.519
+              },
+              {
+                "text": "不能",
+                "start": 8.519,
+                "end": 8.933
+              },
+              {
+                "text": "把",
+                "start": 8.933,
+                "end": 9.14
+              },
+              {
+                "text": "五分钟",
+                "start": 9.14,
+                "end": 9.762
+              },
+              {
+                "text": "当成",
+                "start": 9.762,
+                "end": 10.176
+              },
+              {
+                "text": "一天。",
+                "start": 10.176,
+                "end": 10.798
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": "5m",
+            "rows": [
+              {
+                "en": "Each candle = 5 minutes",
+                "zh-Hans": "每根 = 5分钟"
+              }
+            ]
+          },
+          "right": {
+            "title": "1h",
+            "rows": [
+              {
+                "en": "Each candle = 1 hour",
+                "zh-Hans": "每根 = 1小时"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "同一行情在五分钟和一小时视图切换，角色没有换市场。",
+      "source_onscreen_text": {
+        "en": [
+          "5m",
+          "1h"
+        ],
+        "zh-Hans": [
+          "5分钟",
+          "1小时"
+        ]
+      }
+    },
+    {
+      "id": "legend",
+      "duration": 19,
+      "set": "trading-desk",
+      "visual_en": "The colour theme flips; the up/down text and +/− signs stay the same. The next candle is still drawn as a question mark.",
+      "visual_zh": "颜色主题切换，涨跌文字与加减号不变；下一根线仍画问号。",
+      "onscreen_text_en": "Read the legend and the numbers",
+      "onscreen_text_zh-Hans": "看图例和数字",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Apps may use different colours for up and down, so read the legend and the numbers. Past moves can be informative, but one candle can't guarantee the next move.",
+            "zh-Hans": "不同应用可能使用不同涨跌颜色，所以要看图例和数字。历史走势可以提供信息，但单根K线不能保证下一步涨跌。"
+          },
+          "start": 0.25,
+          "end": 9.162,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e15-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 8.912
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Apps ",
+                "start": 0.25,
+                "end": 0.52
+              },
+              {
+                "text": "may ",
+                "start": 0.52,
+                "end": 0.723
+              },
+              {
+                "text": "use ",
+                "start": 0.723,
+                "end": 0.925
+              },
+              {
+                "text": "different ",
+                "start": 0.925,
+                "end": 1.533
+              },
+              {
+                "text": "colours ",
+                "start": 1.533,
+                "end": 2.005
+              },
+              {
+                "text": "for ",
+                "start": 2.005,
+                "end": 2.208
+              },
+              {
+                "text": "up ",
+                "start": 2.208,
+                "end": 2.343
+              },
+              {
+                "text": "and ",
+                "start": 2.343,
+                "end": 2.546
+              },
+              {
+                "text": "down, ",
+                "start": 2.546,
+                "end": 2.883
+              },
+              {
+                "text": "so ",
+                "start": 2.883,
+                "end": 3.018
+              },
+              {
+                "text": "read ",
+                "start": 3.018,
+                "end": 3.288
+              },
+              {
+                "text": "the ",
+                "start": 3.288,
+                "end": 3.491
+              },
+              {
+                "text": "legend ",
+                "start": 3.491,
+                "end": 3.896
+              },
+              {
+                "text": "and ",
+                "start": 3.896,
+                "end": 4.098
+              },
+              {
+                "text": "the ",
+                "start": 4.098,
+                "end": 4.301
+              },
+              {
+                "text": "numbers. ",
+                "start": 4.301,
+                "end": 4.841
+              },
+              {
+                "text": "Past ",
+                "start": 4.841,
+                "end": 5.111
+              },
+              {
+                "text": "moves ",
+                "start": 5.111,
+                "end": 5.449
+              },
+              {
+                "text": "can ",
+                "start": 5.449,
+                "end": 5.651
+              },
+              {
+                "text": "be ",
+                "start": 5.651,
+                "end": 5.786
+              },
+              {
+                "text": "informative, ",
+                "start": 5.786,
+                "end": 6.596
+              },
+              {
+                "text": "but ",
+                "start": 6.596,
+                "end": 6.799
+              },
+              {
+                "text": "one ",
+                "start": 6.799,
+                "end": 7.002
+              },
+              {
+                "text": "candle ",
+                "start": 7.002,
+                "end": 7.407
+              },
+              {
+                "text": "can't ",
+                "start": 7.407,
+                "end": 7.744
+              },
+              {
+                "text": "guarantee ",
+                "start": 7.744,
+                "end": 8.352
+              },
+              {
+                "text": "the ",
+                "start": 8.352,
+                "end": 8.554
+              },
+              {
+                "text": "next ",
+                "start": 8.554,
+                "end": 8.824
+              },
+              {
+                "text": "move.",
+                "start": 8.824,
+                "end": 9.162
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不同",
+                "start": 0.25,
+                "end": 0.599
+              },
+              {
+                "text": "应用",
+                "start": 0.599,
+                "end": 0.949
+              },
+              {
+                "text": "可能",
+                "start": 0.949,
+                "end": 1.298
+              },
+              {
+                "text": "使用",
+                "start": 1.298,
+                "end": 1.648
+              },
+              {
+                "text": "不同",
+                "start": 1.648,
+                "end": 1.997
+              },
+              {
+                "text": "涨",
+                "start": 1.997,
+                "end": 2.172
+              },
+              {
+                "text": "跌",
+                "start": 2.172,
+                "end": 2.347
+              },
+              {
+                "text": "颜色，",
+                "start": 2.347,
+                "end": 2.871
+              },
+              {
+                "text": "所以",
+                "start": 2.871,
+                "end": 3.221
+              },
+              {
+                "text": "要",
+                "start": 3.221,
+                "end": 3.395
+              },
+              {
+                "text": "看",
+                "start": 3.395,
+                "end": 3.57
+              },
+              {
+                "text": "图",
+                "start": 3.57,
+                "end": 3.745
+              },
+              {
+                "text": "例",
+                "start": 3.745,
+                "end": 3.92
+              },
+              {
+                "text": "和",
+                "start": 3.92,
+                "end": 4.094
+              },
+              {
+                "text": "数字。",
+                "start": 4.094,
+                "end": 4.619
+              },
+              {
+                "text": "历史",
+                "start": 4.619,
+                "end": 4.968
+              },
+              {
+                "text": "走",
+                "start": 4.968,
+                "end": 5.143
+              },
+              {
+                "text": "势",
+                "start": 5.143,
+                "end": 5.318
+              },
+              {
+                "text": "可以",
+                "start": 5.318,
+                "end": 5.667
+              },
+              {
+                "text": "提供",
+                "start": 5.667,
+                "end": 6.017
+              },
+              {
+                "text": "信息，",
+                "start": 6.017,
+                "end": 6.541
+              },
+              {
+                "text": "但",
+                "start": 6.541,
+                "end": 6.716
+              },
+              {
+                "text": "单",
+                "start": 6.716,
+                "end": 6.89
+              },
+              {
+                "text": "根",
+                "start": 6.89,
+                "end": 7.065
+              },
+              {
+                "text": "K",
+                "start": 7.065,
+                "end": 7.24
+              },
+              {
+                "text": "线",
+                "start": 7.24,
+                "end": 7.415
+              },
+              {
+                "text": "不能",
+                "start": 7.415,
+                "end": 7.764
+              },
+              {
+                "text": "保证",
+                "start": 7.764,
+                "end": 8.114
+              },
+              {
+                "text": "下一步",
+                "start": 8.114,
+                "end": 8.638
+              },
+              {
+                "text": "涨",
+                "start": 8.638,
+                "end": 8.813
+              },
+              {
+                "text": "跌。",
+                "start": 8.813,
+                "end": 9.162
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "+ up / − down",
+                "zh-Hans": "+ 涨 / − 跌"
+              }
+            },
+            {
+              "label": {
+                "en": "Next candle: ?",
+                "zh-Hans": "下一根：？"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "颜色主题切换，涨跌文字与加减号不变；下一根线仍画问号。",
+      "source_onscreen_text": {
+        "en": [
+          "+ up / − down",
+          "Next candle: ?"
+        ],
+        "zh-Hans": [
+          "+ 涨 / − 跌",
+          "下一根：？"
+        ]
+      }
+    },
+    {
+      "id": "candle-quiz",
+      "duration": 13,
+      "set": "trading-desk",
+      "visual_en": "Question card: 'Find this candle's high and close.'",
+      "visual_zh": "题目：找出这根线的最高价与收盘价。",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "High 51,000. Close 50,500.",
+            "zh-Hans": "最高五万一，收盘五万零五百。"
+          },
+          "start": 0.25,
+          "end": 5.609,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e15-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 5.359
+          },
+          "words": {
+            "en": [
+              {
+                "text": "High ",
+                "start": 0.25,
+                "end": 1.182
+              },
+              {
+                "text": "51,000. ",
+                "start": 1.182,
+                "end": 2.813
+              },
+              {
+                "text": "Close ",
+                "start": 2.813,
+                "end": 3.978
+              },
+              {
+                "text": "50,500.",
+                "start": 3.978,
+                "end": 5.609
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "最高",
+                "start": 0.25,
+                "end": 1.016
+              },
+              {
+                "text": "五",
+                "start": 1.016,
+                "end": 1.398
+              },
+              {
+                "text": "万一，",
+                "start": 1.398,
+                "end": 2.547
+              },
+              {
+                "text": "收盘",
+                "start": 2.547,
+                "end": 3.312
+              },
+              {
+                "text": "五万",
+                "start": 3.312,
+                "end": 4.078
+              },
+              {
+                "text": "零",
+                "start": 4.078,
+                "end": 4.461
+              },
+              {
+                "text": "五百。",
+                "start": 4.461,
+                "end": 5.609
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Read the record first. Don't treat a record as a prophecy.",
+            "zh-Hans": "先读记录，别把记录当预言。"
+          },
+          "start": 5.909,
+          "end": 9.263,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e15-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 3.354
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Read ",
+                "start": 5.909,
+                "end": 6.188
+              },
+              {
+                "text": "the ",
+                "start": 6.188,
+                "end": 6.398
+              },
+              {
+                "text": "record ",
+                "start": 6.398,
+                "end": 6.817
+              },
+              {
+                "text": "first. ",
+                "start": 6.817,
+                "end": 7.237
+              },
+              {
+                "text": "Don't ",
+                "start": 7.237,
+                "end": 7.586
+              },
+              {
+                "text": "treat ",
+                "start": 7.586,
+                "end": 7.935
+              },
+              {
+                "text": "a ",
+                "start": 7.935,
+                "end": 8.005
+              },
+              {
+                "text": "record ",
+                "start": 8.005,
+                "end": 8.425
+              },
+              {
+                "text": "as ",
+                "start": 8.425,
+                "end": 8.564
+              },
+              {
+                "text": "a ",
+                "start": 8.564,
+                "end": 8.634
+              },
+              {
+                "text": "prophecy.",
+                "start": 8.634,
+                "end": 9.263
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先读",
+                "start": 5.909,
+                "end": 6.425
+              },
+              {
+                "text": "记录，",
+                "start": 6.425,
+                "end": 7.199
+              },
+              {
+                "text": "别把",
+                "start": 7.199,
+                "end": 7.715
+              },
+              {
+                "text": "记录",
+                "start": 7.715,
+                "end": 8.231
+              },
+              {
+                "text": "当",
+                "start": 8.231,
+                "end": 8.489
+              },
+              {
+                "text": "预言。",
+                "start": 8.489,
+                "end": 9.263
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Find this candle's high and close.",
+            "zh-Hans": "找出这根K线的最高价和收盘价。"
+          },
+          "options": [
+            {
+              "label": {
+                "en": "High 51,000",
+                "zh-Hans": "最高 51,000"
+              },
+              "correct": true
+            },
+            {
+              "label": {
+                "en": "Close 50,500",
+                "zh-Hans": "收盘 50,500"
+              },
+              "correct": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "题目：找出这根线的最高价与收盘价。",
+      "source_onscreen_text": {
+        "en": [
+          "High 51,000 · Close 50,500"
+        ],
+        "zh-Hans": [
+          "最高 51,000 · 收盘 50,500"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.1,
+    "pose": "point",
+    "text": {
+      "en": "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.",
+      "zh-Hans": "“我有一千，只想亏二十，那就全买进去？”下一集：先想能亏多少。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.",
+          "zh-Hans": "“我有一千，只想亏二十，那就全买进去？”下一集：先想能亏多少。"
+        },
+        "start": 0.25,
+        "end": 5.845,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e15-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.595
+        },
+        "words": {
+          "en": [
+            {
+              "text": "'",
+              "start": 0.25,
+              "end": 0.342
+            },
+            {
+              "text": "I ",
+              "start": 0.342,
+              "end": 0.433
+            },
+            {
+              "text": "have ",
+              "start": 0.433,
+              "end": 0.8
+            },
+            {
+              "text": "1,000 ",
+              "start": 0.8,
+              "end": 1.259
+            },
+            {
+              "text": "and ",
+              "start": 1.259,
+              "end": 1.534
+            },
+            {
+              "text": "only ",
+              "start": 1.534,
+              "end": 1.901
+            },
+            {
+              "text": "want ",
+              "start": 1.901,
+              "end": 2.268
+            },
+            {
+              "text": "to ",
+              "start": 2.268,
+              "end": 2.451
+            },
+            {
+              "text": "risk ",
+              "start": 2.451,
+              "end": 2.818
+            },
+            {
+              "text": "20. ",
+              "start": 2.818,
+              "end": 3.093
+            },
+            {
+              "text": "So ",
+              "start": 3.093,
+              "end": 3.277
+            },
+            {
+              "text": "I ",
+              "start": 3.277,
+              "end": 3.369
+            },
+            {
+              "text": "go ",
+              "start": 3.369,
+              "end": 3.552
+            },
+            {
+              "text": "all ",
+              "start": 3.552,
+              "end": 3.827
+            },
+            {
+              "text": "in?' ",
+              "start": 3.827,
+              "end": 4.194
+            },
+            {
+              "text": "Next: ",
+              "start": 4.194,
+              "end": 4.653
+            },
+            {
+              "text": "how ",
+              "start": 4.653,
+              "end": 4.928
+            },
+            {
+              "text": "much ",
+              "start": 4.928,
+              "end": 5.295
+            },
+            {
+              "text": "to ",
+              "start": 5.295,
+              "end": 5.478
+            },
+            {
+              "text": "buy.",
+              "start": 5.478,
+              "end": 5.845
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "“",
+              "start": 0.25,
+              "end": 0.43
+            },
+            {
+              "text": "我有",
+              "start": 0.43,
+              "end": 0.791
+            },
+            {
+              "text": "一千，",
+              "start": 0.791,
+              "end": 1.333
+            },
+            {
+              "text": "只想",
+              "start": 1.333,
+              "end": 1.694
+            },
+            {
+              "text": "亏",
+              "start": 1.694,
+              "end": 1.874
+            },
+            {
+              "text": "二十，",
+              "start": 1.874,
+              "end": 2.416
+            },
+            {
+              "text": "那就",
+              "start": 2.416,
+              "end": 2.777
+            },
+            {
+              "text": "全",
+              "start": 2.777,
+              "end": 2.957
+            },
+            {
+              "text": "买",
+              "start": 2.957,
+              "end": 3.138
+            },
+            {
+              "text": "进去？”",
+              "start": 3.138,
+              "end": 3.86
+            },
+            {
+              "text": "下",
+              "start": 3.86,
+              "end": 4.04
+            },
+            {
+              "text": "一",
+              "start": 4.04,
+              "end": 4.221
+            },
+            {
+              "text": "集：",
+              "start": 4.221,
+              "end": 4.582
+            },
+            {
+              "text": "先",
+              "start": 4.582,
+              "end": 4.762
+            },
+            {
+              "text": "想",
+              "start": 4.762,
+              "end": 4.943
+            },
+            {
+              "text": "能",
+              "start": 4.943,
+              "end": 5.123
+            },
+            {
+              "text": "亏",
+              "start": 5.123,
+              "end": 5.304
+            },
+            {
+              "text": "多少。",
+              "start": 5.304,
+              "end": 5.845
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.338,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e15-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.088
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.12
+          },
+          {
+            "text": "first, ",
+            "start": 1.12,
+            "end": 1.642
+          },
+          {
+            "text": "then ",
+            "start": 1.642,
+            "end": 1.99
+          },
+          {
+            "text": "act.",
+            "start": 1.99,
+            "end": 2.338
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.511
+          },
+          {
+            "text": "看懂，",
+            "start": 0.511,
+            "end": 1.294
+          },
+          {
+            "text": "再",
+            "start": 1.294,
+            "end": 1.555
+          },
+          {
+            "text": "动手。",
+            "start": 1.555,
+            "end": 2.338
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E15.json",
+    "original_slug": "read-a-candlestick",
+    "goal": {
+      "en": "Read open, high, low, close and the time frame; don't treat colour or a single shape as a prediction.",
+      "zh-Hans": "读出开、高、低、收与时间周期，不把颜色或单根形态当预测。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "telegram",
+      "partner": null,
+      "line_en": "Want a new chart-reading drill each week? Join our Telegram channel.",
+      "line_zh": "想每周收到一道看图练习？加入我们的 Telegram 频道。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "t.me/NexuAlphaGlobal (en) · t.me/NexuAlphaClub (zh)"
+    },
+    "exercise": {
+      "task_en": "On a virtual candle, tap open, high, low and close, and confirm the chart time frame.",
+      "task_zh": "在虚拟K线上点击开、高、低、收，并确认图表周期。",
+      "answer_en": "50,000 / 51,000 / 49,000 / 50,500; time frame five minutes.",
+      "answer_zh": "50,000／51,000／49,000／50,500；周期五分钟。"
+    },
+    "red_lines": [
+      "Up/down must be shown with text or symbols, not colour alone ｜ 涨跌除颜色外必须有文字或符号",
+      "Never imply fixed win rates for chart patterns in a beginner animation ｜ 不在入门动画中暗示固定形态胜率",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S18"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "candlestick-chart",
+      "compare",
+      "cards",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

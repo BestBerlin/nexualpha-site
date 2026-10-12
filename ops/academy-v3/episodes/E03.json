@@ -1,0 +1,2523 @@
+{
+  "version": 1,
+  "production_id": "E03",
+  "episode": 3,
+  "season": 1,
+  "slug": "exchange-vs-wallet",
+  "title": {
+    "en": "Where are my coins? Exchange vs wallet",
+    "zh-Hans": "币到底在哪：交易所和钱包有什么不同？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E03' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第03集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "phone-broke",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "Sam's phone hits the floor; Sam grabs it in panic while ghost coins scatter from the screen.",
+      "visual_zh": "手机掉到地上，小白惊慌地捡起：屏幕里的硬币幻影散开。",
+      "onscreen_text_en": "Phone broke = coins gone?",
+      "onscreen_text_zh-Hans": "手机坏了 = 币没了？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "My phone broke. Are my coins smashed too?",
+            "zh-Hans": "手机坏了，币是不是也一起摔没了？"
+          },
+          "start": 0.25,
+          "end": 3.588,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e03-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.338
+          },
+          "words": {
+            "en": [
+              {
+                "text": "My ",
+                "start": 0.25,
+                "end": 0.446
+              },
+              {
+                "text": "phone ",
+                "start": 0.446,
+                "end": 0.937
+              },
+              {
+                "text": "broke. ",
+                "start": 0.937,
+                "end": 1.526
+              },
+              {
+                "text": "Are ",
+                "start": 1.526,
+                "end": 1.821
+              },
+              {
+                "text": "my ",
+                "start": 1.821,
+                "end": 2.017
+              },
+              {
+                "text": "coins ",
+                "start": 2.017,
+                "end": 2.508
+              },
+              {
+                "text": "smashed ",
+                "start": 2.508,
+                "end": 3.195
+              },
+              {
+                "text": "too?",
+                "start": 3.195,
+                "end": 3.588
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "手机",
+                "start": 0.25,
+                "end": 0.667
+              },
+              {
+                "text": "坏",
+                "start": 0.667,
+                "end": 0.876
+              },
+              {
+                "text": "了，",
+                "start": 0.876,
+                "end": 1.293
+              },
+              {
+                "text": "币",
+                "start": 1.293,
+                "end": 1.502
+              },
+              {
+                "text": "是不是",
+                "start": 1.502,
+                "end": 2.128
+              },
+              {
+                "text": "也",
+                "start": 2.128,
+                "end": 2.336
+              },
+              {
+                "text": "一起",
+                "start": 2.336,
+                "end": 2.754
+              },
+              {
+                "text": "摔",
+                "start": 2.754,
+                "end": 2.962
+              },
+              {
+                "text": "没了？",
+                "start": 2.962,
+                "end": 3.588
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Phone",
+                "zh-Hans": "手机"
+              },
+              "value": {
+                "en": "broken",
+                "zh-Hans": "坏了"
+              },
+              "mark": "no"
+            },
+            {
+              "label": {
+                "en": "Coins",
+                "zh-Hans": "币"
+              },
+              "value": "?",
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "手机掉到地上，小白惊慌地捡起：屏幕里的硬币幻影散开。",
+      "source_onscreen_text": {
+        "en": [],
+        "zh-Hans": []
+      }
+    },
+    {
+      "id": "window-key",
+      "duration": 23,
+      "set": "study-desk",
+      "visual_en": "The phone shrinks into a window; behind it, an abstract on-chain ledger. A key controls the permission to act.",
+      "visual_zh": "手机缩成一扇窗口，窗口后是抽象链上账本；钥匙控制操作权限。",
+      "onscreen_text_en": "Your coins are not in your phone",
+      "onscreen_text_zh-Hans": "币不在手机里",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Your coins aren't inside your phone. A wallet lets you see assets on the blockchain and uses keys to approve actions. Whether you can recover depends on the wallet type and the recovery options you kept.",
+            "zh-Hans": "不是把硬币装进手机。钱包帮你查看链上资产，并用密钥授权操作。能否恢复，取决于你用什么钱包、保留了哪些恢复方式。"
+          },
+          "start": 0.25,
+          "end": 10.168,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e03-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.918
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Your ",
+                "start": 0.25,
+                "end": 0.486
+              },
+              {
+                "text": "coins ",
+                "start": 0.486,
+                "end": 0.781
+              },
+              {
+                "text": "aren't ",
+                "start": 0.781,
+                "end": 1.136
+              },
+              {
+                "text": "inside ",
+                "start": 1.136,
+                "end": 1.49
+              },
+              {
+                "text": "your ",
+                "start": 1.49,
+                "end": 1.726
+              },
+              {
+                "text": "phone. ",
+                "start": 1.726,
+                "end": 2.08
+              },
+              {
+                "text": "A ",
+                "start": 2.08,
+                "end": 2.139
+              },
+              {
+                "text": "wallet ",
+                "start": 2.139,
+                "end": 2.493
+              },
+              {
+                "text": "lets ",
+                "start": 2.493,
+                "end": 2.73
+              },
+              {
+                "text": "you ",
+                "start": 2.73,
+                "end": 2.907
+              },
+              {
+                "text": "see ",
+                "start": 2.907,
+                "end": 3.084
+              },
+              {
+                "text": "assets ",
+                "start": 3.084,
+                "end": 3.438
+              },
+              {
+                "text": "on ",
+                "start": 3.438,
+                "end": 3.556
+              },
+              {
+                "text": "the ",
+                "start": 3.556,
+                "end": 3.733
+              },
+              {
+                "text": "blockchain ",
+                "start": 3.733,
+                "end": 4.323
+              },
+              {
+                "text": "and ",
+                "start": 4.323,
+                "end": 4.501
+              },
+              {
+                "text": "uses ",
+                "start": 4.501,
+                "end": 4.737
+              },
+              {
+                "text": "keys ",
+                "start": 4.737,
+                "end": 4.973
+              },
+              {
+                "text": "to ",
+                "start": 4.973,
+                "end": 5.091
+              },
+              {
+                "text": "approve ",
+                "start": 5.091,
+                "end": 5.504
+              },
+              {
+                "text": "actions. ",
+                "start": 5.504,
+                "end": 5.976
+              },
+              {
+                "text": "Whether ",
+                "start": 5.976,
+                "end": 6.39
+              },
+              {
+                "text": "you ",
+                "start": 6.39,
+                "end": 6.567
+              },
+              {
+                "text": "can ",
+                "start": 6.567,
+                "end": 6.744
+              },
+              {
+                "text": "recover ",
+                "start": 6.744,
+                "end": 7.157
+              },
+              {
+                "text": "depends ",
+                "start": 7.157,
+                "end": 7.57
+              },
+              {
+                "text": "on ",
+                "start": 7.57,
+                "end": 7.688
+              },
+              {
+                "text": "the ",
+                "start": 7.688,
+                "end": 7.866
+              },
+              {
+                "text": "wallet ",
+                "start": 7.866,
+                "end": 8.22
+              },
+              {
+                "text": "type ",
+                "start": 8.22,
+                "end": 8.456
+              },
+              {
+                "text": "and ",
+                "start": 8.456,
+                "end": 8.633
+              },
+              {
+                "text": "the ",
+                "start": 8.633,
+                "end": 8.81
+              },
+              {
+                "text": "recovery ",
+                "start": 8.81,
+                "end": 9.282
+              },
+              {
+                "text": "options ",
+                "start": 9.282,
+                "end": 9.696
+              },
+              {
+                "text": "you ",
+                "start": 9.696,
+                "end": 9.873
+              },
+              {
+                "text": "kept.",
+                "start": 9.873,
+                "end": 10.168
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不是",
+                "start": 0.25,
+                "end": 0.611
+              },
+              {
+                "text": "把",
+                "start": 0.611,
+                "end": 0.791
+              },
+              {
+                "text": "硬币",
+                "start": 0.791,
+                "end": 1.152
+              },
+              {
+                "text": "装",
+                "start": 1.152,
+                "end": 1.332
+              },
+              {
+                "text": "进",
+                "start": 1.332,
+                "end": 1.512
+              },
+              {
+                "text": "手机。",
+                "start": 1.512,
+                "end": 2.053
+              },
+              {
+                "text": "钱包",
+                "start": 2.053,
+                "end": 2.414
+              },
+              {
+                "text": "帮",
+                "start": 2.414,
+                "end": 2.594
+              },
+              {
+                "text": "你",
+                "start": 2.594,
+                "end": 2.775
+              },
+              {
+                "text": "查看",
+                "start": 2.775,
+                "end": 3.135
+              },
+              {
+                "text": "链",
+                "start": 3.135,
+                "end": 3.316
+              },
+              {
+                "text": "上",
+                "start": 3.316,
+                "end": 3.496
+              },
+              {
+                "text": "资产，",
+                "start": 3.496,
+                "end": 4.037
+              },
+              {
+                "text": "并",
+                "start": 4.037,
+                "end": 4.217
+              },
+              {
+                "text": "用",
+                "start": 4.217,
+                "end": 4.398
+              },
+              {
+                "text": "密",
+                "start": 4.398,
+                "end": 4.578
+              },
+              {
+                "text": "钥",
+                "start": 4.578,
+                "end": 4.758
+              },
+              {
+                "text": "授权",
+                "start": 4.758,
+                "end": 5.119
+              },
+              {
+                "text": "操作。",
+                "start": 5.119,
+                "end": 5.66
+              },
+              {
+                "text": "能否",
+                "start": 5.66,
+                "end": 6.02
+              },
+              {
+                "text": "恢复，",
+                "start": 6.02,
+                "end": 6.561
+              },
+              {
+                "text": "取决",
+                "start": 6.561,
+                "end": 6.922
+              },
+              {
+                "text": "于",
+                "start": 6.922,
+                "end": 7.102
+              },
+              {
+                "text": "你",
+                "start": 7.102,
+                "end": 7.283
+              },
+              {
+                "text": "用",
+                "start": 7.283,
+                "end": 7.463
+              },
+              {
+                "text": "什么",
+                "start": 7.463,
+                "end": 7.824
+              },
+              {
+                "text": "钱包、",
+                "start": 7.824,
+                "end": 8.365
+              },
+              {
+                "text": "保留",
+                "start": 8.365,
+                "end": 8.725
+              },
+              {
+                "text": "了",
+                "start": 8.725,
+                "end": 8.906
+              },
+              {
+                "text": "哪些",
+                "start": 8.906,
+                "end": 9.266
+              },
+              {
+                "text": "恢复",
+                "start": 9.266,
+                "end": 9.627
+              },
+              {
+                "text": "方式。",
+                "start": 9.627,
+                "end": 10.168
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Phone = window",
+                "zh-Hans": "手机＝窗口"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Key = permission",
+                "zh-Hans": "钥匙＝操作权限"
+              },
+              "mark": "ok"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "手机缩成一扇窗口，窗口后是抽象链上账本；钥匙控制操作权限。",
+      "source_onscreen_text": {
+        "en": [
+          "Phone = window",
+          "Key = permission"
+        ],
+        "zh-Hans": [
+          "手机＝窗口",
+          "钥匙＝操作权限"
+        ]
+      }
+    },
+    {
+      "id": "who-holds-keys",
+      "duration": 28,
+      "set": "study-desk",
+      "visual_en": "Split screen. Left: the platform holds the keys; the user logs in to see a balance. Right: the user holds the recovery credentials.",
+      "visual_zh": "左边为平台保管钥匙、用户登录看余额；右边为用户保管恢复凭证。",
+      "onscreen_text_en": "Who holds the keys?",
+      "onscreen_text_zh-Hans": "谁掌握密钥？",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "With a custodial exchange account, the platform mainly manages the assets and keys, and you act through your account. With a self-custody wallet, you control the credentials. Convenience and responsibility are split differently.",
+            "zh-Hans": "交易所托管账户主要由平台管理底层资产与密钥，你用账户操作。自托管钱包则由你负责控制凭证；使用方便与责任分配不同。"
+          },
+          "start": 0.25,
+          "end": 12.553,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e03-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 12.303
+          },
+          "words": {
+            "en": [
+              {
+                "text": "With ",
+                "start": 0.25,
+                "end": 0.501
+              },
+              {
+                "text": "a ",
+                "start": 0.501,
+                "end": 0.564
+              },
+              {
+                "text": "custodial ",
+                "start": 0.564,
+                "end": 1.129
+              },
+              {
+                "text": "exchange ",
+                "start": 1.129,
+                "end": 1.631
+              },
+              {
+                "text": "account, ",
+                "start": 1.631,
+                "end": 2.133
+              },
+              {
+                "text": "the ",
+                "start": 2.133,
+                "end": 2.321
+              },
+              {
+                "text": "platform ",
+                "start": 2.321,
+                "end": 2.824
+              },
+              {
+                "text": "mainly ",
+                "start": 2.824,
+                "end": 3.2
+              },
+              {
+                "text": "manages ",
+                "start": 3.2,
+                "end": 3.64
+              },
+              {
+                "text": "the ",
+                "start": 3.64,
+                "end": 3.828
+              },
+              {
+                "text": "assets ",
+                "start": 3.828,
+                "end": 4.205
+              },
+              {
+                "text": "and ",
+                "start": 4.205,
+                "end": 4.393
+              },
+              {
+                "text": "keys, ",
+                "start": 4.393,
+                "end": 4.707
+              },
+              {
+                "text": "and ",
+                "start": 4.707,
+                "end": 4.895
+              },
+              {
+                "text": "you ",
+                "start": 4.895,
+                "end": 5.083
+              },
+              {
+                "text": "act ",
+                "start": 5.083,
+                "end": 5.272
+              },
+              {
+                "text": "through ",
+                "start": 5.272,
+                "end": 5.711
+              },
+              {
+                "text": "your ",
+                "start": 5.711,
+                "end": 5.962
+              },
+              {
+                "text": "account. ",
+                "start": 5.962,
+                "end": 6.464
+              },
+              {
+                "text": "With ",
+                "start": 6.464,
+                "end": 6.715
+              },
+              {
+                "text": "a ",
+                "start": 6.715,
+                "end": 6.778
+              },
+              {
+                "text": "self-",
+                "start": 6.778,
+                "end": 7.092
+              },
+              {
+                "text": "custody ",
+                "start": 7.092,
+                "end": 7.531
+              },
+              {
+                "text": "wallet, ",
+                "start": 7.531,
+                "end": 7.971
+              },
+              {
+                "text": "you ",
+                "start": 7.971,
+                "end": 8.159
+              },
+              {
+                "text": "control ",
+                "start": 8.159,
+                "end": 8.598
+              },
+              {
+                "text": "the ",
+                "start": 8.598,
+                "end": 8.787
+              },
+              {
+                "text": "credentials. ",
+                "start": 8.787,
+                "end": 9.54
+              },
+              {
+                "text": "Convenience ",
+                "start": 9.54,
+                "end": 10.23
+              },
+              {
+                "text": "and ",
+                "start": 10.23,
+                "end": 10.419
+              },
+              {
+                "text": "responsibility ",
+                "start": 10.419,
+                "end": 11.298
+              },
+              {
+                "text": "are ",
+                "start": 11.298,
+                "end": 11.486
+              },
+              {
+                "text": "split ",
+                "start": 11.486,
+                "end": 11.8
+              },
+              {
+                "text": "differently.",
+                "start": 11.8,
+                "end": 12.553
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "交易所",
+                "start": 0.25,
+                "end": 0.909
+              },
+              {
+                "text": "托管",
+                "start": 0.909,
+                "end": 1.348
+              },
+              {
+                "text": "账户",
+                "start": 1.348,
+                "end": 1.788
+              },
+              {
+                "text": "主要",
+                "start": 1.788,
+                "end": 2.227
+              },
+              {
+                "text": "由",
+                "start": 2.227,
+                "end": 2.447
+              },
+              {
+                "text": "平台",
+                "start": 2.447,
+                "end": 2.886
+              },
+              {
+                "text": "管理",
+                "start": 2.886,
+                "end": 3.326
+              },
+              {
+                "text": "底层",
+                "start": 3.326,
+                "end": 3.765
+              },
+              {
+                "text": "资产",
+                "start": 3.765,
+                "end": 4.205
+              },
+              {
+                "text": "与",
+                "start": 4.205,
+                "end": 4.424
+              },
+              {
+                "text": "密",
+                "start": 4.424,
+                "end": 4.644
+              },
+              {
+                "text": "钥，",
+                "start": 4.644,
+                "end": 5.083
+              },
+              {
+                "text": "你",
+                "start": 5.083,
+                "end": 5.303
+              },
+              {
+                "text": "用",
+                "start": 5.303,
+                "end": 5.523
+              },
+              {
+                "text": "账户",
+                "start": 5.523,
+                "end": 5.962
+              },
+              {
+                "text": "操作。",
+                "start": 5.962,
+                "end": 6.621
+              },
+              {
+                "text": "自",
+                "start": 6.621,
+                "end": 6.841
+              },
+              {
+                "text": "托管",
+                "start": 6.841,
+                "end": 7.28
+              },
+              {
+                "text": "钱包",
+                "start": 7.28,
+                "end": 7.72
+              },
+              {
+                "text": "则",
+                "start": 7.72,
+                "end": 7.939
+              },
+              {
+                "text": "由你",
+                "start": 7.939,
+                "end": 8.379
+              },
+              {
+                "text": "负责",
+                "start": 8.379,
+                "end": 8.818
+              },
+              {
+                "text": "控制",
+                "start": 8.818,
+                "end": 9.258
+              },
+              {
+                "text": "凭证；",
+                "start": 9.258,
+                "end": 9.917
+              },
+              {
+                "text": "使用",
+                "start": 9.917,
+                "end": 10.356
+              },
+              {
+                "text": "方便",
+                "start": 10.356,
+                "end": 10.795
+              },
+              {
+                "text": "与",
+                "start": 10.795,
+                "end": 11.015
+              },
+              {
+                "text": "责任",
+                "start": 11.015,
+                "end": 11.455
+              },
+              {
+                "text": "分配",
+                "start": 11.455,
+                "end": 11.894
+              },
+              {
+                "text": "不同。",
+                "start": 11.894,
+                "end": 12.553
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": {
+              "en": "Custodial exchange",
+              "zh-Hans": "托管交易所"
+            },
+            "rows": [
+              {
+                "en": "Platform holds keys",
+                "zh-Hans": "平台保管密钥"
+              },
+              {
+                "en": "You act through your account",
+                "zh-Hans": "你通过账户操作"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Self-custody wallet",
+              "zh-Hans": "自托管钱包"
+            },
+            "rows": [
+              {
+                "en": "You hold recovery",
+                "zh-Hans": "你保管恢复凭证"
+              },
+              {
+                "en": "You approve actions",
+                "zh-Hans": "你自己授权操作"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "左边为平台保管钥匙、用户登录看余额；右边为用户保管恢复凭证。",
+      "source_onscreen_text": {
+        "en": [
+          "Exchange: platform holds keys",
+          "Self-custody: you hold recovery"
+        ],
+        "zh-Hans": [
+          "交易所：平台保管钥匙",
+          "自托管：你保管恢复凭证"
+        ]
+      }
+    },
+    {
+      "id": "recovery",
+      "duration": 24,
+      "set": "study-desk",
+      "visual_en": "Exchange side shows an 'Account recovery' support entry; a standard recovery-phrase wallet shows 'Restore from your own backup'.",
+      "visual_zh": "交易所显示“找回账户”客服入口；普通助记词钱包显示“使用自己的备份恢复”。",
+      "onscreen_text_en": "Forgot it? Different rescue",
+      "onscreen_text_zh-Hans": "忘了？救法不一样",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Forget your password on either one, and you just call support?",
+            "zh-Hans": "两边忘记密码都找客服？"
+          },
+          "start": 0.25,
+          "end": 3.564,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e03-04-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 3.314
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Forget ",
+                "start": 0.25,
+                "end": 0.632
+              },
+              {
+                "text": "your ",
+                "start": 0.632,
+                "end": 0.887
+              },
+              {
+                "text": "password ",
+                "start": 0.887,
+                "end": 1.397
+              },
+              {
+                "text": "on ",
+                "start": 1.397,
+                "end": 1.525
+              },
+              {
+                "text": "either ",
+                "start": 1.525,
+                "end": 1.907
+              },
+              {
+                "text": "one, ",
+                "start": 1.907,
+                "end": 2.162
+              },
+              {
+                "text": "and ",
+                "start": 2.162,
+                "end": 2.353
+              },
+              {
+                "text": "you ",
+                "start": 2.353,
+                "end": 2.544
+              },
+              {
+                "text": "just ",
+                "start": 2.544,
+                "end": 2.799
+              },
+              {
+                "text": "call ",
+                "start": 2.799,
+                "end": 3.054
+              },
+              {
+                "text": "support?",
+                "start": 3.054,
+                "end": 3.564
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "两",
+                "start": 0.25,
+                "end": 0.551
+              },
+              {
+                "text": "边",
+                "start": 0.551,
+                "end": 0.853
+              },
+              {
+                "text": "忘记",
+                "start": 0.853,
+                "end": 1.455
+              },
+              {
+                "text": "密码",
+                "start": 1.455,
+                "end": 2.058
+              },
+              {
+                "text": "都",
+                "start": 2.058,
+                "end": 2.359
+              },
+              {
+                "text": "找",
+                "start": 2.359,
+                "end": 2.66
+              },
+              {
+                "text": "客",
+                "start": 2.66,
+                "end": 2.961
+              },
+              {
+                "text": "服？",
+                "start": 2.961,
+                "end": 3.564
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Don't think of it that way. With a standard recovery-phrase wallet, if you lose the phrase and have no other valid recovery method, support can't get it back for you.",
+            "zh-Hans": "不能这样想。普通助记词钱包的恢复凭证丢失，且没有其他有效恢复方式时，客服无法替你找回。"
+          },
+          "start": 3.864,
+          "end": 12.236,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e03-04-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 8.372
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Don't ",
+                "start": 3.864,
+                "end": 4.17
+              },
+              {
+                "text": "think ",
+                "start": 4.17,
+                "end": 4.475
+              },
+              {
+                "text": "of ",
+                "start": 4.475,
+                "end": 4.597
+              },
+              {
+                "text": "it ",
+                "start": 4.597,
+                "end": 4.72
+              },
+              {
+                "text": "that ",
+                "start": 4.72,
+                "end": 4.964
+              },
+              {
+                "text": "way. ",
+                "start": 4.964,
+                "end": 5.208
+              },
+              {
+                "text": "With ",
+                "start": 5.208,
+                "end": 5.453
+              },
+              {
+                "text": "a ",
+                "start": 5.453,
+                "end": 5.514
+              },
+              {
+                "text": "standard ",
+                "start": 5.514,
+                "end": 6.003
+              },
+              {
+                "text": "recovery-",
+                "start": 6.003,
+                "end": 6.553
+              },
+              {
+                "text": "phrase ",
+                "start": 6.553,
+                "end": 6.919
+              },
+              {
+                "text": "wallet, ",
+                "start": 6.919,
+                "end": 7.347
+              },
+              {
+                "text": "if ",
+                "start": 7.347,
+                "end": 7.469
+              },
+              {
+                "text": "you ",
+                "start": 7.469,
+                "end": 7.653
+              },
+              {
+                "text": "lose ",
+                "start": 7.653,
+                "end": 7.897
+              },
+              {
+                "text": "the ",
+                "start": 7.897,
+                "end": 8.081
+              },
+              {
+                "text": "phrase ",
+                "start": 8.081,
+                "end": 8.447
+              },
+              {
+                "text": "and ",
+                "start": 8.447,
+                "end": 8.631
+              },
+              {
+                "text": "have ",
+                "start": 8.631,
+                "end": 8.875
+              },
+              {
+                "text": "no ",
+                "start": 8.875,
+                "end": 8.997
+              },
+              {
+                "text": "other ",
+                "start": 8.997,
+                "end": 9.303
+              },
+              {
+                "text": "valid ",
+                "start": 9.303,
+                "end": 9.608
+              },
+              {
+                "text": "recovery ",
+                "start": 9.608,
+                "end": 10.097
+              },
+              {
+                "text": "method, ",
+                "start": 10.097,
+                "end": 10.525
+              },
+              {
+                "text": "support ",
+                "start": 10.525,
+                "end": 10.953
+              },
+              {
+                "text": "can't ",
+                "start": 10.953,
+                "end": 11.258
+              },
+              {
+                "text": "get ",
+                "start": 11.258,
+                "end": 11.442
+              },
+              {
+                "text": "it ",
+                "start": 11.442,
+                "end": 11.564
+              },
+              {
+                "text": "back ",
+                "start": 11.564,
+                "end": 11.808
+              },
+              {
+                "text": "for ",
+                "start": 11.808,
+                "end": 11.992
+              },
+              {
+                "text": "you.",
+                "start": 11.992,
+                "end": 12.236
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不能",
+                "start": 3.864,
+                "end": 4.253
+              },
+              {
+                "text": "这样",
+                "start": 4.253,
+                "end": 4.643
+              },
+              {
+                "text": "想。",
+                "start": 4.643,
+                "end": 5.032
+              },
+              {
+                "text": "普通",
+                "start": 5.032,
+                "end": 5.422
+              },
+              {
+                "text": "助",
+                "start": 5.422,
+                "end": 5.616
+              },
+              {
+                "text": "记",
+                "start": 5.616,
+                "end": 5.811
+              },
+              {
+                "text": "词",
+                "start": 5.811,
+                "end": 6.006
+              },
+              {
+                "text": "钱包",
+                "start": 6.006,
+                "end": 6.395
+              },
+              {
+                "text": "的",
+                "start": 6.395,
+                "end": 6.59
+              },
+              {
+                "text": "恢复",
+                "start": 6.59,
+                "end": 6.979
+              },
+              {
+                "text": "凭证",
+                "start": 6.979,
+                "end": 7.369
+              },
+              {
+                "text": "丢失，",
+                "start": 7.369,
+                "end": 7.953
+              },
+              {
+                "text": "且",
+                "start": 7.953,
+                "end": 8.147
+              },
+              {
+                "text": "没有",
+                "start": 8.147,
+                "end": 8.537
+              },
+              {
+                "text": "其他",
+                "start": 8.537,
+                "end": 8.926
+              },
+              {
+                "text": "有效",
+                "start": 8.926,
+                "end": 9.316
+              },
+              {
+                "text": "恢复",
+                "start": 9.316,
+                "end": 9.705
+              },
+              {
+                "text": "方式",
+                "start": 9.705,
+                "end": 10.094
+              },
+              {
+                "text": "时，",
+                "start": 10.094,
+                "end": 10.484
+              },
+              {
+                "text": "客",
+                "start": 10.484,
+                "end": 10.678
+              },
+              {
+                "text": "服",
+                "start": 10.678,
+                "end": 10.873
+              },
+              {
+                "text": "无法",
+                "start": 10.873,
+                "end": 11.263
+              },
+              {
+                "text": "替",
+                "start": 11.263,
+                "end": 11.457
+              },
+              {
+                "text": "你",
+                "start": 11.457,
+                "end": 11.652
+              },
+              {
+                "text": "找回。",
+                "start": 11.652,
+                "end": 12.236
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": {
+              "en": "Exchange",
+              "zh-Hans": "交易所"
+            },
+            "rows": [
+              {
+                "en": "Account recovery via support",
+                "zh-Hans": "可通过客服恢复账户"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Recovery-phrase wallet",
+              "zh-Hans": "助记词钱包"
+            },
+            "rows": [
+              {
+                "en": "Restore from your own backup",
+                "zh-Hans": "只能用你自己的备份恢复"
+              },
+              {
+                "en": "Lost phrase: support can't help",
+                "zh-Hans": "丢了助记词，客服帮不了"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "交易所显示“找回账户”客服入口；普通助记词钱包显示“使用自己的备份恢复”。",
+      "source_onscreen_text": {
+        "en": [
+          "Exchange: account recovery via support",
+          "Wallet: restore from your own backup"
+        ],
+        "zh-Hans": [
+          "交易所：客服找回账户",
+          "钱包：用自己的备份恢复"
+        ]
+      }
+    },
+    {
+      "id": "risk-cards",
+      "duration": 19,
+      "set": "study-desk",
+      "visual_en": "Three risk cards: platform risk, leaked credentials, wrong approvals. Not arranged as a safety ranking.",
+      "visual_zh": "三张风险牌分别是平台风险、凭证泄露、错误授权，不排列成绝对安全排名。",
+      "onscreen_text_en": "Different risks, not a ranking",
+      "onscreen_text_zh-Hans": "风险不同，不是排名",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Keeping assets on a platform carries platform risk. Holding them yourself can go wrong through a leaked key or a bad approval. Today, just understand the difference. You don't need to move everything right now.",
+            "zh-Hans": "放在平台有平台风险，自己保管也会因泄露密钥或错误授权损失。今天只理解区别，不要求你立刻搬走所有资产。"
+          },
+          "start": 0.25,
+          "end": 11.243,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e03-05-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.993
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Keeping ",
+                "start": 0.25,
+                "end": 0.687
+              },
+              {
+                "text": "assets ",
+                "start": 0.687,
+                "end": 1.062
+              },
+              {
+                "text": "on ",
+                "start": 1.062,
+                "end": 1.187
+              },
+              {
+                "text": "a ",
+                "start": 1.187,
+                "end": 1.249
+              },
+              {
+                "text": "platform ",
+                "start": 1.249,
+                "end": 1.749
+              },
+              {
+                "text": "carries ",
+                "start": 1.749,
+                "end": 2.186
+              },
+              {
+                "text": "platform ",
+                "start": 2.186,
+                "end": 2.686
+              },
+              {
+                "text": "risk. ",
+                "start": 2.686,
+                "end": 2.998
+              },
+              {
+                "text": "Holding ",
+                "start": 2.998,
+                "end": 3.435
+              },
+              {
+                "text": "them ",
+                "start": 3.435,
+                "end": 3.685
+              },
+              {
+                "text": "yourself ",
+                "start": 3.685,
+                "end": 4.185
+              },
+              {
+                "text": "can ",
+                "start": 4.185,
+                "end": 4.372
+              },
+              {
+                "text": "go ",
+                "start": 4.372,
+                "end": 4.497
+              },
+              {
+                "text": "wrong ",
+                "start": 4.497,
+                "end": 4.81
+              },
+              {
+                "text": "through ",
+                "start": 4.81,
+                "end": 5.247
+              },
+              {
+                "text": "a ",
+                "start": 5.247,
+                "end": 5.309
+              },
+              {
+                "text": "leaked ",
+                "start": 5.309,
+                "end": 5.684
+              },
+              {
+                "text": "key ",
+                "start": 5.684,
+                "end": 5.871
+              },
+              {
+                "text": "or ",
+                "start": 5.871,
+                "end": 5.996
+              },
+              {
+                "text": "a ",
+                "start": 5.996,
+                "end": 6.059
+              },
+              {
+                "text": "bad ",
+                "start": 6.059,
+                "end": 6.246
+              },
+              {
+                "text": "approval. ",
+                "start": 6.246,
+                "end": 6.808
+              },
+              {
+                "text": "Today, ",
+                "start": 6.808,
+                "end": 7.183
+              },
+              {
+                "text": "just ",
+                "start": 7.183,
+                "end": 7.433
+              },
+              {
+                "text": "understand ",
+                "start": 7.433,
+                "end": 8.058
+              },
+              {
+                "text": "the ",
+                "start": 8.058,
+                "end": 8.245
+              },
+              {
+                "text": "difference. ",
+                "start": 8.245,
+                "end": 8.932
+              },
+              {
+                "text": "You ",
+                "start": 8.932,
+                "end": 9.119
+              },
+              {
+                "text": "don't ",
+                "start": 9.119,
+                "end": 9.432
+              },
+              {
+                "text": "need ",
+                "start": 9.432,
+                "end": 9.681
+              },
+              {
+                "text": "to ",
+                "start": 9.681,
+                "end": 9.806
+              },
+              {
+                "text": "move ",
+                "start": 9.806,
+                "end": 10.056
+              },
+              {
+                "text": "everything ",
+                "start": 10.056,
+                "end": 10.681
+              },
+              {
+                "text": "right ",
+                "start": 10.681,
+                "end": 10.993
+              },
+              {
+                "text": "now.",
+                "start": 10.993,
+                "end": 11.243
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "放在",
+                "start": 0.25,
+                "end": 0.69
+              },
+              {
+                "text": "平台",
+                "start": 0.69,
+                "end": 1.129
+              },
+              {
+                "text": "有",
+                "start": 1.129,
+                "end": 1.349
+              },
+              {
+                "text": "平台",
+                "start": 1.349,
+                "end": 1.789
+              },
+              {
+                "text": "风险，",
+                "start": 1.789,
+                "end": 2.449
+              },
+              {
+                "text": "自己",
+                "start": 2.449,
+                "end": 2.888
+              },
+              {
+                "text": "保管",
+                "start": 2.888,
+                "end": 3.328
+              },
+              {
+                "text": "也",
+                "start": 3.328,
+                "end": 3.548
+              },
+              {
+                "text": "会",
+                "start": 3.548,
+                "end": 3.768
+              },
+              {
+                "text": "因",
+                "start": 3.768,
+                "end": 3.988
+              },
+              {
+                "text": "泄露",
+                "start": 3.988,
+                "end": 4.427
+              },
+              {
+                "text": "密",
+                "start": 4.427,
+                "end": 4.647
+              },
+              {
+                "text": "钥",
+                "start": 4.647,
+                "end": 4.867
+              },
+              {
+                "text": "或",
+                "start": 4.867,
+                "end": 5.087
+              },
+              {
+                "text": "错误",
+                "start": 5.087,
+                "end": 5.527
+              },
+              {
+                "text": "授权",
+                "start": 5.527,
+                "end": 5.966
+              },
+              {
+                "text": "损失。",
+                "start": 5.966,
+                "end": 6.626
+              },
+              {
+                "text": "今天",
+                "start": 6.626,
+                "end": 7.066
+              },
+              {
+                "text": "只",
+                "start": 7.066,
+                "end": 7.286
+              },
+              {
+                "text": "理解",
+                "start": 7.286,
+                "end": 7.725
+              },
+              {
+                "text": "区别，",
+                "start": 7.725,
+                "end": 8.385
+              },
+              {
+                "text": "不",
+                "start": 8.385,
+                "end": 8.605
+              },
+              {
+                "text": "要求",
+                "start": 8.605,
+                "end": 9.044
+              },
+              {
+                "text": "你",
+                "start": 9.044,
+                "end": 9.264
+              },
+              {
+                "text": "立刻",
+                "start": 9.264,
+                "end": 9.704
+              },
+              {
+                "text": "搬走",
+                "start": 9.704,
+                "end": 10.144
+              },
+              {
+                "text": "所有",
+                "start": 10.144,
+                "end": 10.583
+              },
+              {
+                "text": "资产。",
+                "start": 10.583,
+                "end": 11.243
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Platform risk",
+                "zh-Hans": "平台风险"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Leaked credentials",
+                "zh-Hans": "凭证泄露"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Wrong approvals",
+                "zh-Hans": "错误授权"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "三张风险牌分别是平台风险、凭证泄露、错误授权，不排列成绝对安全排名。",
+      "source_onscreen_text": {
+        "en": [
+          "Platform risk",
+          "Leaked credentials",
+          "Wrong approvals"
+        ],
+        "zh-Hans": [
+          "平台风险",
+          "凭证泄露",
+          "错误授权"
+        ]
+      }
+    },
+    {
+      "id": "match-quiz",
+      "duration": 13,
+      "set": "study-desk",
+      "visual_en": "Drag-and-drop: 'Platform custody' and 'You keep the recovery credentials' are dropped onto the matching scenes.",
+      "visual_zh": "用户将“平台托管”和“自己保管恢复凭证”拖到对应场景。",
+      "onscreen_text_en": "Who controls the assets?",
+      "onscreen_text_zh-Hans": "谁控制资产？",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Who controls the permission to move the assets? Answer that first. Then decide which account or wallet you need.",
+            "zh-Hans": "谁在控制资产的操作权限？先回答这件事，再决定你需要哪种账户或钱包。"
+          },
+          "start": 0.25,
+          "end": 6.205,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e03-06-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 5.955
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Who ",
+                "start": 0.25,
+                "end": 0.44
+              },
+              {
+                "text": "controls ",
+                "start": 0.44,
+                "end": 0.947
+              },
+              {
+                "text": "the ",
+                "start": 0.947,
+                "end": 1.137
+              },
+              {
+                "text": "permission ",
+                "start": 1.137,
+                "end": 1.77
+              },
+              {
+                "text": "to ",
+                "start": 1.77,
+                "end": 1.897
+              },
+              {
+                "text": "move ",
+                "start": 1.897,
+                "end": 2.151
+              },
+              {
+                "text": "the ",
+                "start": 2.151,
+                "end": 2.341
+              },
+              {
+                "text": "assets? ",
+                "start": 2.341,
+                "end": 2.784
+              },
+              {
+                "text": "Answer ",
+                "start": 2.784,
+                "end": 3.164
+              },
+              {
+                "text": "that ",
+                "start": 3.164,
+                "end": 3.418
+              },
+              {
+                "text": "first. ",
+                "start": 3.418,
+                "end": 3.798
+              },
+              {
+                "text": "Then ",
+                "start": 3.798,
+                "end": 4.051
+              },
+              {
+                "text": "decide ",
+                "start": 4.051,
+                "end": 4.431
+              },
+              {
+                "text": "which ",
+                "start": 4.431,
+                "end": 4.748
+              },
+              {
+                "text": "account ",
+                "start": 4.748,
+                "end": 5.191
+              },
+              {
+                "text": "or ",
+                "start": 5.191,
+                "end": 5.318
+              },
+              {
+                "text": "wallet ",
+                "start": 5.318,
+                "end": 5.698
+              },
+              {
+                "text": "you ",
+                "start": 5.698,
+                "end": 5.888
+              },
+              {
+                "text": "need.",
+                "start": 5.888,
+                "end": 6.205
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "谁在",
+                "start": 0.25,
+                "end": 0.611
+              },
+              {
+                "text": "控制",
+                "start": 0.611,
+                "end": 0.972
+              },
+              {
+                "text": "资产",
+                "start": 0.972,
+                "end": 1.333
+              },
+              {
+                "text": "的",
+                "start": 1.333,
+                "end": 1.513
+              },
+              {
+                "text": "操作",
+                "start": 1.513,
+                "end": 1.874
+              },
+              {
+                "text": "权限？",
+                "start": 1.874,
+                "end": 2.415
+              },
+              {
+                "text": "先",
+                "start": 2.415,
+                "end": 2.596
+              },
+              {
+                "text": "回答",
+                "start": 2.596,
+                "end": 2.957
+              },
+              {
+                "text": "这",
+                "start": 2.957,
+                "end": 3.137
+              },
+              {
+                "text": "件",
+                "start": 3.137,
+                "end": 3.318
+              },
+              {
+                "text": "事，",
+                "start": 3.318,
+                "end": 3.679
+              },
+              {
+                "text": "再",
+                "start": 3.679,
+                "end": 3.859
+              },
+              {
+                "text": "决定",
+                "start": 3.859,
+                "end": 4.22
+              },
+              {
+                "text": "你",
+                "start": 4.22,
+                "end": 4.4
+              },
+              {
+                "text": "需要",
+                "start": 4.4,
+                "end": 4.761
+              },
+              {
+                "text": "哪",
+                "start": 4.761,
+                "end": 4.942
+              },
+              {
+                "text": "种",
+                "start": 4.942,
+                "end": 5.122
+              },
+              {
+                "text": "账户",
+                "start": 5.122,
+                "end": 5.483
+              },
+              {
+                "text": "或",
+                "start": 5.483,
+                "end": 5.664
+              },
+              {
+                "text": "钱包。",
+                "start": 5.664,
+                "end": 6.205
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Match each one to who holds the permission.",
+            "zh-Hans": "把它们和掌握权限的一方连起来。"
+          },
+          "options": [
+            {
+              "label": {
+                "en": "Exchange → platform custody",
+                "zh-Hans": "交易所 → 平台托管"
+              },
+              "correct": true
+            },
+            {
+              "label": {
+                "en": "Self-custody → you keep the recovery credentials",
+                "zh-Hans": "自托管 → 你保管恢复凭证"
+              },
+              "correct": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "用户将“平台托管”和“自己保管恢复凭证”拖到对应场景。",
+      "source_onscreen_text": {
+        "en": [],
+        "zh-Hans": []
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 5.5,
+    "pose": "point",
+    "text": {
+      "en": "Two doors look the same. One is fake. Next episode: how to spot the real one.",
+      "zh-Hans": "两扇门一模一样，其中一扇是假的。下一集：怎么认出真门。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Two doors look the same. One is fake. Next episode: how to spot the real one.",
+          "zh-Hans": "两扇门一模一样，其中一扇是假的。下一集：怎么认出真门。"
+        },
+        "start": 0.25,
+        "end": 5.208,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e03-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 4.958
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Two ",
+              "start": 0.25,
+              "end": 0.49
+            },
+            {
+              "text": "doors ",
+              "start": 0.49,
+              "end": 0.89
+            },
+            {
+              "text": "look ",
+              "start": 0.89,
+              "end": 1.21
+            },
+            {
+              "text": "the ",
+              "start": 1.21,
+              "end": 1.45
+            },
+            {
+              "text": "same. ",
+              "start": 1.45,
+              "end": 1.849
+            },
+            {
+              "text": "One ",
+              "start": 1.849,
+              "end": 2.089
+            },
+            {
+              "text": "is ",
+              "start": 2.089,
+              "end": 2.249
+            },
+            {
+              "text": "fake. ",
+              "start": 2.249,
+              "end": 2.649
+            },
+            {
+              "text": "Next ",
+              "start": 2.649,
+              "end": 2.969
+            },
+            {
+              "text": "episode: ",
+              "start": 2.969,
+              "end": 3.609
+            },
+            {
+              "text": "how ",
+              "start": 3.609,
+              "end": 3.849
+            },
+            {
+              "text": "to ",
+              "start": 3.849,
+              "end": 4.008
+            },
+            {
+              "text": "spot ",
+              "start": 4.008,
+              "end": 4.328
+            },
+            {
+              "text": "the ",
+              "start": 4.328,
+              "end": 4.568
+            },
+            {
+              "text": "real ",
+              "start": 4.568,
+              "end": 4.888
+            },
+            {
+              "text": "one.",
+              "start": 4.888,
+              "end": 5.208
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "两",
+              "start": 0.25,
+              "end": 0.434
+            },
+            {
+              "text": "扇",
+              "start": 0.434,
+              "end": 0.617
+            },
+            {
+              "text": "门",
+              "start": 0.617,
+              "end": 0.801
+            },
+            {
+              "text": "一",
+              "start": 0.801,
+              "end": 0.985
+            },
+            {
+              "text": "模",
+              "start": 0.985,
+              "end": 1.168
+            },
+            {
+              "text": "一样，",
+              "start": 1.168,
+              "end": 1.719
+            },
+            {
+              "text": "其中",
+              "start": 1.719,
+              "end": 2.086
+            },
+            {
+              "text": "一扇",
+              "start": 2.086,
+              "end": 2.454
+            },
+            {
+              "text": "是",
+              "start": 2.454,
+              "end": 2.637
+            },
+            {
+              "text": "假的。",
+              "start": 2.637,
+              "end": 3.188
+            },
+            {
+              "text": "下",
+              "start": 3.188,
+              "end": 3.372
+            },
+            {
+              "text": "一",
+              "start": 3.372,
+              "end": 3.555
+            },
+            {
+              "text": "集：",
+              "start": 3.555,
+              "end": 3.923
+            },
+            {
+              "text": "怎么",
+              "start": 3.923,
+              "end": 4.29
+            },
+            {
+              "text": "认出",
+              "start": 4.29,
+              "end": 4.657
+            },
+            {
+              "text": "真",
+              "start": 4.657,
+              "end": 4.841
+            },
+            {
+              "text": "门。",
+              "start": 4.841,
+              "end": 5.208
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.243,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e03-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.993
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.08
+          },
+          {
+            "text": "first, ",
+            "start": 1.08,
+            "end": 1.579
+          },
+          {
+            "text": "then ",
+            "start": 1.579,
+            "end": 1.911
+          },
+          {
+            "text": "act.",
+            "start": 1.911,
+            "end": 2.243
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.499
+          },
+          {
+            "text": "看懂，",
+            "start": 0.499,
+            "end": 1.247
+          },
+          {
+            "text": "再",
+            "start": 1.247,
+            "end": 1.496
+          },
+          {
+            "text": "动手。",
+            "start": 1.496,
+            "end": 2.243
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E03.json",
+    "original_slug": "exchange-vs-wallet",
+    "goal": {
+      "en": "Tell a custodial exchange account from a self-custody wallet, and understand who controls access and who handles recovery.",
+      "zh-Hans": "能区分托管交易账户与自托管钱包，理解控制权与恢复责任。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Try the matching exercise below. No account needed.",
+      "line_zh": "完成下方的匹配练习，无需注册。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Match two scenarios: an exchange login account, and a standard recovery-phrase self-custody wallet.",
+      "task_zh": "匹配两个场景：交易所登录账户；普通助记词自托管钱包。",
+      "answer_en": "They differ in who has control and how recovery works. Self-custody does not mean automatically safe.",
+      "answer_zh": "两者控制权和恢复机制不同；自托管不等于自动安全。"
+    },
+    "red_lines": [
+      "Recovery-phrase rules apply only to that wallet type ｜ 助记词规则仅用于相应钱包类型",
+      "Don't describe social-recovery or MPC wallets as the same mechanism ｜ 不把所有社交恢复、多方计算钱包说成同一机制",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S08",
+      "S09"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "cards",
+      "compare",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

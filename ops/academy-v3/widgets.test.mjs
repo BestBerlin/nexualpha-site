@@ -77,6 +77,8 @@ test("candlestick chart validates numeric OHLC and preserves the exact supplied 
   assert.match(html, /data-o="10" data-h="14" data-l="8" data-c="12"/);
   assert.match(html, /data-o="12.5" data-h="13" data-l="9" data-c="9.5"/);
   assert.match(html, /Open/);
+  const annotated = widget({ type: "candlestick-chart", annotate: true, ohlc: [{ open: 50000, high: 51000, low: 49000, close: 50500 }] });
+  for (const label of ["High 51,000", "Close 50,500", "Open 50,000", "Low 49,000"]) assert.match(annotated, new RegExp(label));
   assert.match(html, /High/);
   assert.match(html, /Low/);
   assert.match(html, /Close/);
@@ -110,4 +112,42 @@ test("setBackdrop returns reusable set SVGs without id attributes", () => {
     assert.doesNotMatch(html, /\sid=/);
   }
   assert.match(setBackdrop("study-desk", "zh-Hans"), /学习桌/);
+});
+
+test("season 1 widgets render supplied props only, with staged reveal hooks and no form controls", () => {
+  const html = [
+    widget({ type: "formula", rows: [{ expr: "100 ÷ 50,000", result: "0.002 BTC", emphasis: true }, { expr: "Fee" }], note: "Before withdrawal fees" }),
+    widget({ type: "cards", items: [{ label: "Minimum order", mark: "warn" }, { label: "Virtual funds", value: "1,000", mark: "ok" }], separator: "≠" }),
+    widget({ type: "flow", steps: ["Requested", { label: "Processing", note: "official route" }, { label: "Arrived", state: "ok" }] }),
+    widget({ type: "compare", left: { title: "Market", rows: ["Fill first"] }, right: { title: "Limit", rows: ["May not fill"] } }),
+    widget({ type: "order-book", levels: [{ price: "50,000", size: "0.001", fill: true }, { price: "50,100", size: "0.001" }], average: "50,050" }),
+    widget({ type: "buffer-gauge", from: 80, to: 30, line: 25, fillLabel: "Equity", lineLabel: "Maintenance requirement" }),
+    widget({ type: "order-ticket", orderType: "market", side: "Buy", amount: "100 USDT" }),
+  ].join("");
+  for (const value of ["0.002 BTC", "formula-row--em", "Before withdrawal fees", "teach-card--warn", "≠", "Processing", "official route", "flow-step--ok", "compare-side--right", "May not fill", "book-level--fill", "Average", "50,050", 'data-from="80"', 'data-to="30"', "Maintenance requirement", "Amount", "100 USDT"]) {
+    assert.ok(html.includes(value), value);
+  }
+  assert.ok((html.match(/class="[^"]*\breveal\b/g) ?? []).length >= 10);
+  assert.doesNotMatch(html, /<(?:input|button|select|textarea|form)\b/i);
+  assert.throws(() => widget({ type: "cards", items: [] }), /Invalid cards/);
+  assert.throws(() => widget({ type: "flow", steps: ["only one"] }), /Invalid flow/);
+  assert.throws(() => widget({ type: "compare", left: { title: "A" } }), /Invalid compare/);
+  assert.throws(() => widget({ type: "order-book", levels: [] }), /Invalid order book/);
+  assert.throws(() => widget({ type: "buffer-gauge", from: 120, line: 10 }), /Invalid gauge start/);
+  assert.throws(() => widget({ type: "cards", items: [{ label: "x", mark: "maybe" }] }), /Invalid mark/);
+});
+
+test("quiz marks the correct options and stamps the verdict", () => {
+  const html = widget({ type: "quiz", question: "Can you send?", options: [{ label: "Tx hash", correct: true }, { label: "Recovery phrase", correct: false }], verdict: "NO" });
+  assert.match(html, /quiz-question">Can you send\?/);
+  assert.match(html, /data-correct="true"[^]*Tx hash/);
+  assert.match(html, /data-correct="false"[^]*Recovery phrase/);
+  assert.match(html, /quiz-verdict quiz-verdict--no">NO/);
+  assert.match(widget({ type: "quiz", question: "400 × 5%?", verdict: "20", tone: "ok" }), /quiz-verdict--ok/);
+  assert.throws(() => widget({ type: "quiz" }), /question required/);
+});
+
+test("id-samples and margin-flow add no caveat caption when no note is supplied", () => {
+  assert.doesNotMatch(widget({ type: "id-samples", labels: ["Glare"] }), /<small>/);
+  assert.doesNotMatch(widget({ type: "margin-flow", balance: 900, margin: 100, autoAdd: false, label: "Box" }), /<small>/);
 });

@@ -39,3 +39,11 @@ test('speaker routing keeps Sam on the separate VoiceDesign profile and owner cl
   assert.ok(lines.some(line => line.speaker === 'narrator' && line.voice_profile === 'english-master-clone'));
   assert.ok(lines.every(line => line.command.includes('--text') && line.output_path.endsWith(`${line.id}_000.wav`)));
 });
+
+test('alignment never exceeds atempo 1.08 and fits the widened windows', async () => {
+  const { fitLines, ATEMPO_COMPROMISE } = await import('./align-narration.mjs');
+  assert.equal(ATEMPO_COMPROMISE, 1.08);
+  const hook = fitLines([6.5], { duration: 4, min: 3, max: 7, label: 'hook' });
+  assert.ok(hook.duration <= 7 && hook.lines[0].atempo === 1);
+  assert.throws(() => fitLines([8], { duration: 4, min: 3, max: 7, label: 'hook' }), /> 1\.08/);
+});

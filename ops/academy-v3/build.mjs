@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import { validateEpisode, schedule, localized, locales, captionGroups } from './contract.mjs';
 import { nexubo, sam } from './characters.mjs';
 import { esc, widget, setBackdrop } from './widgets.mjs';
+import { assertNoFinePrint } from './fine-print.mjs';
 const root = dirname(fileURLToPath(import.meta.url));
 const input = resolve(process.argv[2] ?? join(root, 'sample-e05.json'));
 const locale = process.argv[3] ?? 'en';
@@ -43,7 +44,7 @@ for (const [format, width, height] of [['landscape',1920,1080],['portrait',1080,
   const scenes = [], sections = [];
   for (const [i,s] of timing.scenes.entries()) {
     const id = `scene-${i}`;
-    const pose = s.kind === 'close' ? 'wave' : s.kind === 'hook' ? episode.end_hook.pose ?? 'point' : s.shot?.nexubo?.pose ?? 'point';
+    const pose = s.kind === 'close' ? 'wave' : s.kind === 'hook' ? episode.end_hook.pose ?? 'point' : s.kind === 'conversion' ? 'thumbs-up' : s.shot?.nexubo?.pose ?? 'point';
     const cast = `<div class="cast"><div class="character nexubo" data-speaker="nexubo">${await nexubo({id:`nexubo-${i}`,pose,expression:s.shot?.nexubo?.expression ?? 'happy',antenna:s.shot?.antenna ?? s.antenna ?? 'blue'})}</div>${s.kind === 'shot' ? `<div class="character sam" data-speaker="sam">${await sam({id:`sam-${i}`,pose:s.shot.sam?.pose ?? 'point',expression:s.shot.sam?.expression ?? 'neutral'})}</div>` : ''}</div>`;
     let content, captions = [], heading, backdrop = '', klass = s.kind;
     const framing = s.shot?.framing ?? (s.kind === 'hook' ? 'close-up' : 'wide');
@@ -67,10 +68,14 @@ for (const [format, width, height] of [['landscape',1920,1080],['portrait',1080,
       heading = localized(episode.end_hook.text,locale);
       content = `<p class="eyebrow">${esc(ui.next)}</p><h1>${esc(heading)}</h1>`;
     } else {
+      // Owner rule: exchange name, code, QR, /go short link and one CTA sentence only — no disclosure/availability lines.
       const c = episode.conversion_card;
-      heading = ui.practice;
-      content = `<h1>${esc(heading)}</h1><div class="widget conversion-card"><img src="assets/qr.svg" alt="${esc(destination)}"><div>${c.partner_name ? `<h2>${esc(localized(c.partner_name,locale))}</h2>` : ''}${c.code ? `<p class="conversion-code">${esc(localized(c.code,locale))}</p>` : ''}${c.rebate_line ? `<p>${esc(localized(c.rebate_line,locale))}</p>` : ''}<p class="site-url">${esc(c.url ?? `nexualpha.com/starter/${episode.slug}`)}</p></div><div class="disclosure">${esc(localized(c.disclosure,locale))}${c.availability ? `<p>${esc(localized(c.availability,locale))}</p>` : ''}</div></div>`;
+      heading = localized(c.cta, locale) ?? ui.practice;
+      const venues = c.venues ?? [{ name: c.partner_name, code: c.code, url: c.url }];
+      content = `<h1>${esc(heading)}</h1><div class="widget conversion-card venues-${venues.length}"><img src="assets/qr.svg" alt=""><div class="venues">${venues.map(v => `<div class="venue">${v.name ? `<h2>${esc(localized(v.name,locale))}</h2>` : ''}${v.code ? `<p class="conversion-code">${esc(localized(v.code,locale))}</p>` : ''}<p class="site-url">${esc(v.url ?? `nexualpha.com/starter/${episode.slug}`)}</p></div>`).join('')}</div></div>`;
     }
+    // Fine-print guard over everything drawn on the frame except spoken captions.
+    assertNoFinePrint(content.replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' '), `${variant}-${format} scene ${i} (${s.kind})`);
     if(s.kind !== 'shot') for(const line of s.lines ?? []) {
       const c=captionGroups(line,locale,format==='portrait'?(locale==='en'?38:18):(locale==='en'?68:30));
       estimates ||= c.estimated; captions.push(...c.groups);

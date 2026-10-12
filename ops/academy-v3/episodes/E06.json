@@ -1,0 +1,2641 @@
+{
+  "version": 1,
+  "production_id": "E06",
+  "episode": 6,
+  "season": 1,
+  "slug": "first-deposit-paths",
+  "title": {
+    "en": "First deposit: where does the money come from, and where does it go?",
+    "zh-Hans": "第一次入金：钱从哪里来，进到哪里去？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E06' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第06集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "three-buttons",
+      "duration": 6,
+      "set": "transfer-station",
+      "visual_en": "One screen shows Deposit, Buy crypto and Transfer; Sam's finger hovers between the three buttons.",
+      "visual_zh": "同一屏幕出现充值、买币、划转，小白的手指在三个按钮间犹豫。",
+      "onscreen_text_en": "Which one do I press?",
+      "onscreen_text_zh-Hans": "我该按哪个？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "These all look like putting money in. Which one do I press?",
+            "zh-Hans": "这些都像把钱转进去，我到底该按哪个？"
+          },
+          "start": 0.25,
+          "end": 3.464,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e06-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.214
+          },
+          "words": {
+            "en": [
+              {
+                "text": "These ",
+                "start": 0.25,
+                "end": 0.585
+              },
+              {
+                "text": "all ",
+                "start": 0.585,
+                "end": 0.786
+              },
+              {
+                "text": "look ",
+                "start": 0.786,
+                "end": 1.054
+              },
+              {
+                "text": "like ",
+                "start": 1.054,
+                "end": 1.321
+              },
+              {
+                "text": "putting ",
+                "start": 1.321,
+                "end": 1.79
+              },
+              {
+                "text": "money ",
+                "start": 1.79,
+                "end": 2.125
+              },
+              {
+                "text": "in. ",
+                "start": 2.125,
+                "end": 2.326
+              },
+              {
+                "text": "Which ",
+                "start": 2.326,
+                "end": 2.661
+              },
+              {
+                "text": "one ",
+                "start": 2.661,
+                "end": 2.861
+              },
+              {
+                "text": "do ",
+                "start": 2.861,
+                "end": 2.995
+              },
+              {
+                "text": "I ",
+                "start": 2.995,
+                "end": 3.062
+              },
+              {
+                "text": "press?",
+                "start": 3.062,
+                "end": 3.464
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "这些",
+                "start": 0.25,
+                "end": 0.607
+              },
+              {
+                "text": "都像",
+                "start": 0.607,
+                "end": 0.964
+              },
+              {
+                "text": "把",
+                "start": 0.964,
+                "end": 1.143
+              },
+              {
+                "text": "钱",
+                "start": 1.143,
+                "end": 1.321
+              },
+              {
+                "text": "转",
+                "start": 1.321,
+                "end": 1.5
+              },
+              {
+                "text": "进去，",
+                "start": 1.5,
+                "end": 2.036
+              },
+              {
+                "text": "我",
+                "start": 2.036,
+                "end": 2.214
+              },
+              {
+                "text": "到底",
+                "start": 2.214,
+                "end": 2.571
+              },
+              {
+                "text": "该",
+                "start": 2.571,
+                "end": 2.75
+              },
+              {
+                "text": "按",
+                "start": 2.75,
+                "end": 2.928
+              },
+              {
+                "text": "哪个？",
+                "start": 2.928,
+                "end": 3.464
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Deposit",
+                "zh-Hans": "充值"
+              }
+            },
+            {
+              "label": {
+                "en": "Buy crypto",
+                "zh-Hans": "买币"
+              }
+            },
+            {
+              "label": {
+                "en": "Transfer",
+                "zh-Hans": "划转"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "同一屏幕出现充值、买币、划转，小白的手指在三个按钮间犹豫。",
+      "source_onscreen_text": {
+        "en": [
+          "Deposit",
+          "Buy crypto",
+          "Transfer"
+        ],
+        "zh-Hans": [
+          "充值",
+          "买币",
+          "划转"
+        ]
+      }
+    },
+    {
+      "id": "three-routes",
+      "duration": 23,
+      "set": "transfer-station",
+      "visual_en": "Three animated channels, each with a start and end: Bank → Platform; Existing coins → Platform; Account → Account on the same platform.",
+      "visual_zh": "三个带起终点的动画通道：银行→平台；已有币→平台；同平台账户→账户。",
+      "onscreen_text_en": "Start with what you hold",
+      "onscreen_text_zh-Hans": "先看你手里有什么",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Start with what you're holding. Money in your bank, coins you already have somewhere else, or a balance in another account on the same platform. Each one takes a different route.",
+            "zh-Hans": "先看你手里是什么。银行里的法币、其他地方已有的币、平台里另一个账户的余额，需要走的路不一样。"
+          },
+          "start": 0.25,
+          "end": 9.321,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e06-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.071
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Start ",
+                "start": 0.25,
+                "end": 0.556
+              },
+              {
+                "text": "with ",
+                "start": 0.556,
+                "end": 0.802
+              },
+              {
+                "text": "what ",
+                "start": 0.802,
+                "end": 1.047
+              },
+              {
+                "text": "you're ",
+                "start": 1.047,
+                "end": 1.415
+              },
+              {
+                "text": "holding. ",
+                "start": 1.415,
+                "end": 1.905
+              },
+              {
+                "text": "Money ",
+                "start": 1.905,
+                "end": 2.211
+              },
+              {
+                "text": "in ",
+                "start": 2.211,
+                "end": 2.334
+              },
+              {
+                "text": "your ",
+                "start": 2.334,
+                "end": 2.579
+              },
+              {
+                "text": "bank, ",
+                "start": 2.579,
+                "end": 2.885
+              },
+              {
+                "text": "coins ",
+                "start": 2.885,
+                "end": 3.192
+              },
+              {
+                "text": "you ",
+                "start": 3.192,
+                "end": 3.376
+              },
+              {
+                "text": "already ",
+                "start": 3.376,
+                "end": 3.805
+              },
+              {
+                "text": "have ",
+                "start": 3.805,
+                "end": 4.05
+              },
+              {
+                "text": "somewhere ",
+                "start": 4.05,
+                "end": 4.602
+              },
+              {
+                "text": "else, ",
+                "start": 4.602,
+                "end": 4.908
+              },
+              {
+                "text": "or ",
+                "start": 4.908,
+                "end": 5.031
+              },
+              {
+                "text": "a ",
+                "start": 5.031,
+                "end": 5.092
+              },
+              {
+                "text": "balance ",
+                "start": 5.092,
+                "end": 5.521
+              },
+              {
+                "text": "in ",
+                "start": 5.521,
+                "end": 5.644
+              },
+              {
+                "text": "another ",
+                "start": 5.644,
+                "end": 6.073
+              },
+              {
+                "text": "account ",
+                "start": 6.073,
+                "end": 6.502
+              },
+              {
+                "text": "on ",
+                "start": 6.502,
+                "end": 6.624
+              },
+              {
+                "text": "the ",
+                "start": 6.624,
+                "end": 6.808
+              },
+              {
+                "text": "same ",
+                "start": 6.808,
+                "end": 7.053
+              },
+              {
+                "text": "platform. ",
+                "start": 7.053,
+                "end": 7.605
+              },
+              {
+                "text": "Each ",
+                "start": 7.605,
+                "end": 7.85
+              },
+              {
+                "text": "one ",
+                "start": 7.85,
+                "end": 8.034
+              },
+              {
+                "text": "takes ",
+                "start": 8.034,
+                "end": 8.34
+              },
+              {
+                "text": "a ",
+                "start": 8.34,
+                "end": 8.402
+              },
+              {
+                "text": "different ",
+                "start": 8.402,
+                "end": 8.953
+              },
+              {
+                "text": "route.",
+                "start": 8.953,
+                "end": 9.321
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先看",
+                "start": 0.25,
+                "end": 0.644
+              },
+              {
+                "text": "你",
+                "start": 0.644,
+                "end": 0.842
+              },
+              {
+                "text": "手里",
+                "start": 0.842,
+                "end": 1.236
+              },
+              {
+                "text": "是",
+                "start": 1.236,
+                "end": 1.433
+              },
+              {
+                "text": "什么。",
+                "start": 1.433,
+                "end": 2.025
+              },
+              {
+                "text": "银行",
+                "start": 2.025,
+                "end": 2.419
+              },
+              {
+                "text": "里",
+                "start": 2.419,
+                "end": 2.616
+              },
+              {
+                "text": "的",
+                "start": 2.616,
+                "end": 2.814
+              },
+              {
+                "text": "法",
+                "start": 2.814,
+                "end": 3.011
+              },
+              {
+                "text": "币、",
+                "start": 3.011,
+                "end": 3.405
+              },
+              {
+                "text": "其他",
+                "start": 3.405,
+                "end": 3.8
+              },
+              {
+                "text": "地方",
+                "start": 3.8,
+                "end": 4.194
+              },
+              {
+                "text": "已有",
+                "start": 4.194,
+                "end": 4.588
+              },
+              {
+                "text": "的",
+                "start": 4.588,
+                "end": 4.786
+              },
+              {
+                "text": "币、",
+                "start": 4.786,
+                "end": 5.18
+              },
+              {
+                "text": "平台",
+                "start": 5.18,
+                "end": 5.574
+              },
+              {
+                "text": "里",
+                "start": 5.574,
+                "end": 5.771
+              },
+              {
+                "text": "另",
+                "start": 5.771,
+                "end": 5.969
+              },
+              {
+                "text": "一个",
+                "start": 5.969,
+                "end": 6.363
+              },
+              {
+                "text": "账户",
+                "start": 6.363,
+                "end": 6.757
+              },
+              {
+                "text": "的",
+                "start": 6.757,
+                "end": 6.955
+              },
+              {
+                "text": "余",
+                "start": 6.955,
+                "end": 7.152
+              },
+              {
+                "text": "额，",
+                "start": 7.152,
+                "end": 7.546
+              },
+              {
+                "text": "需要",
+                "start": 7.546,
+                "end": 7.941
+              },
+              {
+                "text": "走",
+                "start": 7.941,
+                "end": 8.138
+              },
+              {
+                "text": "的",
+                "start": 8.138,
+                "end": 8.335
+              },
+              {
+                "text": "路",
+                "start": 8.335,
+                "end": 8.532
+              },
+              {
+                "text": "不",
+                "start": 8.532,
+                "end": 8.729
+              },
+              {
+                "text": "一样。",
+                "start": 8.729,
+                "end": 9.321
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Bank → Platform",
+                "zh-Hans": "银行 → 平台"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Existing coins → Platform",
+                "zh-Hans": "已有币 → 平台"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Account → Account",
+                "zh-Hans": "账户 → 账户"
+              },
+              "mark": "ok"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "三个带起终点的动画通道：银行→平台；已有币→平台；同平台账户→账户。",
+      "source_onscreen_text": {
+        "en": [
+          "Bank → Platform",
+          "Existing coins → Platform",
+          "Account → Account"
+        ],
+        "zh-Hans": [
+          "银行 → 平台",
+          "已有币 → 平台",
+          "账户 → 账户"
+        ]
+      }
+    },
+    {
+      "id": "fiat-details",
+      "duration": 28,
+      "set": "transfer-station",
+      "visual_en": "Fiat path shows: amount paid, estimated arrival, fee, supported regions. Never shows any channel as 'available worldwide'.",
+      "visual_zh": "法币路径显示支付金额、预计到账、手续费、支持地区；不写某通道全球可用。",
+      "onscreen_text_en": "Fiat deposit: check the details",
+      "onscreen_text_zh-Hans": "法币入金：核对细节",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "A fiat deposit usually adds a cash balance to your account. Buying crypto directly means you pay and receive a crypto asset. Some platforms support bank or card channels, some don't, and fees and limits differ.",
+            "zh-Hans": "法币充值通常是给账户增加法币余额；直接买币则是付款后获得加密资产。有的平台支持银行或银行卡渠道，有的不支持，费用和限制也不同。"
+          },
+          "start": 0.25,
+          "end": 11.859,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e06-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.609
+          },
+          "words": {
+            "en": [
+              {
+                "text": "A ",
+                "start": 0.25,
+                "end": 0.316
+              },
+              {
+                "text": "fiat ",
+                "start": 0.316,
+                "end": 0.582
+              },
+              {
+                "text": "deposit ",
+                "start": 0.582,
+                "end": 1.046
+              },
+              {
+                "text": "usually ",
+                "start": 1.046,
+                "end": 1.51
+              },
+              {
+                "text": "adds ",
+                "start": 1.51,
+                "end": 1.776
+              },
+              {
+                "text": "a ",
+                "start": 1.776,
+                "end": 1.842
+              },
+              {
+                "text": "cash ",
+                "start": 1.842,
+                "end": 2.107
+              },
+              {
+                "text": "balance ",
+                "start": 2.107,
+                "end": 2.572
+              },
+              {
+                "text": "to ",
+                "start": 2.572,
+                "end": 2.704
+              },
+              {
+                "text": "your ",
+                "start": 2.704,
+                "end": 2.97
+              },
+              {
+                "text": "account. ",
+                "start": 2.97,
+                "end": 3.501
+              },
+              {
+                "text": "Buying ",
+                "start": 3.501,
+                "end": 3.899
+              },
+              {
+                "text": "crypto ",
+                "start": 3.899,
+                "end": 4.297
+              },
+              {
+                "text": "directly ",
+                "start": 4.297,
+                "end": 4.827
+              },
+              {
+                "text": "means ",
+                "start": 4.827,
+                "end": 5.159
+              },
+              {
+                "text": "you ",
+                "start": 5.159,
+                "end": 5.358
+              },
+              {
+                "text": "pay ",
+                "start": 5.358,
+                "end": 5.557
+              },
+              {
+                "text": "and ",
+                "start": 5.557,
+                "end": 5.756
+              },
+              {
+                "text": "receive ",
+                "start": 5.756,
+                "end": 6.22
+              },
+              {
+                "text": "a ",
+                "start": 6.22,
+                "end": 6.287
+              },
+              {
+                "text": "crypto ",
+                "start": 6.287,
+                "end": 6.685
+              },
+              {
+                "text": "asset. ",
+                "start": 6.685,
+                "end": 7.083
+              },
+              {
+                "text": "Some ",
+                "start": 7.083,
+                "end": 7.348
+              },
+              {
+                "text": "platforms ",
+                "start": 7.348,
+                "end": 7.945
+              },
+              {
+                "text": "support ",
+                "start": 7.945,
+                "end": 8.409
+              },
+              {
+                "text": "bank ",
+                "start": 8.409,
+                "end": 8.675
+              },
+              {
+                "text": "or ",
+                "start": 8.675,
+                "end": 8.807
+              },
+              {
+                "text": "card ",
+                "start": 8.807,
+                "end": 9.073
+              },
+              {
+                "text": "channels, ",
+                "start": 9.073,
+                "end": 9.67
+              },
+              {
+                "text": "some ",
+                "start": 9.67,
+                "end": 9.935
+              },
+              {
+                "text": "don't, ",
+                "start": 9.935,
+                "end": 10.333
+              },
+              {
+                "text": "and ",
+                "start": 10.333,
+                "end": 10.532
+              },
+              {
+                "text": "fees ",
+                "start": 10.532,
+                "end": 10.798
+              },
+              {
+                "text": "and ",
+                "start": 10.798,
+                "end": 10.997
+              },
+              {
+                "text": "limits ",
+                "start": 10.997,
+                "end": 11.395
+              },
+              {
+                "text": "differ.",
+                "start": 11.395,
+                "end": 11.859
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "法",
+                "start": 0.25,
+                "end": 0.434
+              },
+              {
+                "text": "币",
+                "start": 0.434,
+                "end": 0.619
+              },
+              {
+                "text": "充",
+                "start": 0.619,
+                "end": 0.803
+              },
+              {
+                "text": "值",
+                "start": 0.803,
+                "end": 0.987
+              },
+              {
+                "text": "通常",
+                "start": 0.987,
+                "end": 1.356
+              },
+              {
+                "text": "是",
+                "start": 1.356,
+                "end": 1.54
+              },
+              {
+                "text": "给",
+                "start": 1.54,
+                "end": 1.724
+              },
+              {
+                "text": "账户",
+                "start": 1.724,
+                "end": 2.093
+              },
+              {
+                "text": "增加",
+                "start": 2.093,
+                "end": 2.461
+              },
+              {
+                "text": "法",
+                "start": 2.461,
+                "end": 2.646
+              },
+              {
+                "text": "币",
+                "start": 2.646,
+                "end": 2.83
+              },
+              {
+                "text": "余",
+                "start": 2.83,
+                "end": 3.014
+              },
+              {
+                "text": "额；",
+                "start": 3.014,
+                "end": 3.383
+              },
+              {
+                "text": "直接",
+                "start": 3.383,
+                "end": 3.751
+              },
+              {
+                "text": "买",
+                "start": 3.751,
+                "end": 3.935
+              },
+              {
+                "text": "币",
+                "start": 3.935,
+                "end": 4.12
+              },
+              {
+                "text": "则",
+                "start": 4.12,
+                "end": 4.304
+              },
+              {
+                "text": "是",
+                "start": 4.304,
+                "end": 4.488
+              },
+              {
+                "text": "付款",
+                "start": 4.488,
+                "end": 4.857
+              },
+              {
+                "text": "后",
+                "start": 4.857,
+                "end": 5.041
+              },
+              {
+                "text": "获得",
+                "start": 5.041,
+                "end": 5.41
+              },
+              {
+                "text": "加密",
+                "start": 5.41,
+                "end": 5.778
+              },
+              {
+                "text": "资产。",
+                "start": 5.778,
+                "end": 6.331
+              },
+              {
+                "text": "有",
+                "start": 6.331,
+                "end": 6.515
+              },
+              {
+                "text": "的",
+                "start": 6.515,
+                "end": 6.699
+              },
+              {
+                "text": "平台",
+                "start": 6.699,
+                "end": 7.068
+              },
+              {
+                "text": "支持",
+                "start": 7.068,
+                "end": 7.437
+              },
+              {
+                "text": "银行",
+                "start": 7.437,
+                "end": 7.805
+              },
+              {
+                "text": "或",
+                "start": 7.805,
+                "end": 7.989
+              },
+              {
+                "text": "银行",
+                "start": 7.989,
+                "end": 8.358
+              },
+              {
+                "text": "卡",
+                "start": 8.358,
+                "end": 8.542
+              },
+              {
+                "text": "渠道，",
+                "start": 8.542,
+                "end": 9.095
+              },
+              {
+                "text": "有",
+                "start": 9.095,
+                "end": 9.279
+              },
+              {
+                "text": "的",
+                "start": 9.279,
+                "end": 9.463
+              },
+              {
+                "text": "不",
+                "start": 9.463,
+                "end": 9.648
+              },
+              {
+                "text": "支持，",
+                "start": 9.648,
+                "end": 10.201
+              },
+              {
+                "text": "费用",
+                "start": 10.201,
+                "end": 10.569
+              },
+              {
+                "text": "和",
+                "start": 10.569,
+                "end": 10.753
+              },
+              {
+                "text": "限制",
+                "start": 10.753,
+                "end": 11.122
+              },
+              {
+                "text": "也",
+                "start": 11.122,
+                "end": 11.306
+              },
+              {
+                "text": "不同。",
+                "start": 11.306,
+                "end": 11.859
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Amount",
+                "zh-Hans": "支付金额"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Estimated arrival",
+                "zh-Hans": "预计到账"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Fee",
+                "zh-Hans": "手续费"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Supported regions",
+                "zh-Hans": "支持地区"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "法币路径显示支付金额、预计到账、手续费、支持地区；不写某通道全球可用。",
+      "source_onscreen_text": {
+        "en": [
+          "Amount",
+          "Estimated arrival",
+          "Fee",
+          "Supported regions"
+        ],
+        "zh-Hans": [
+          "支付金额",
+          "预计到账",
+          "手续费",
+          "支持地区"
+        ]
+      }
+    },
+    {
+      "id": "coins-vs-internal",
+      "duration": 24,
+      "set": "transfer-station",
+      "visual_en": "Existing-coins path shows coin and network; the internal transfer only moves an account label, no on-chain hash shown.",
+      "visual_zh": "已有币路径显示币种与网络；内部划转只移动账户标签，不展示链上哈希。",
+      "onscreen_text_en": "Check where the balance lands",
+      "onscreen_text_zh-Hans": "先看余额落在哪",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "If you already hold crypto, you can deposit it using a supported coin and network. An internal transfer just moves balance between your accounts. It's usually not an on-chain transfer. Check where the balance will land first.",
+            "zh-Hans": "已有加密资产，可以按支持的币种和网络充值。平台内部划转是账户间调配余额，通常不是链上转账。先确认余额会到哪里。"
+          },
+          "start": 0.25,
+          "end": 11.759,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e06-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.509
+          },
+          "words": {
+            "en": [
+              {
+                "text": "If ",
+                "start": 0.25,
+                "end": 0.372
+              },
+              {
+                "text": "you ",
+                "start": 0.372,
+                "end": 0.554
+              },
+              {
+                "text": "already ",
+                "start": 0.554,
+                "end": 0.981
+              },
+              {
+                "text": "hold ",
+                "start": 0.981,
+                "end": 1.224
+              },
+              {
+                "text": "crypto, ",
+                "start": 1.224,
+                "end": 1.651
+              },
+              {
+                "text": "you ",
+                "start": 1.651,
+                "end": 1.833
+              },
+              {
+                "text": "can ",
+                "start": 1.833,
+                "end": 2.016
+              },
+              {
+                "text": "deposit ",
+                "start": 2.016,
+                "end": 2.442
+              },
+              {
+                "text": "it ",
+                "start": 2.442,
+                "end": 2.564
+              },
+              {
+                "text": "using ",
+                "start": 2.564,
+                "end": 2.868
+              },
+              {
+                "text": "a ",
+                "start": 2.868,
+                "end": 2.929
+              },
+              {
+                "text": "supported ",
+                "start": 2.929,
+                "end": 3.477
+              },
+              {
+                "text": "coin ",
+                "start": 3.477,
+                "end": 3.721
+              },
+              {
+                "text": "and ",
+                "start": 3.721,
+                "end": 3.904
+              },
+              {
+                "text": "network. ",
+                "start": 3.904,
+                "end": 4.391
+              },
+              {
+                "text": "An ",
+                "start": 4.391,
+                "end": 4.513
+              },
+              {
+                "text": "internal ",
+                "start": 4.513,
+                "end": 5
+              },
+              {
+                "text": "transfer ",
+                "start": 5,
+                "end": 5.487
+              },
+              {
+                "text": "just ",
+                "start": 5.487,
+                "end": 5.73
+              },
+              {
+                "text": "moves ",
+                "start": 5.73,
+                "end": 6.035
+              },
+              {
+                "text": "balance ",
+                "start": 6.035,
+                "end": 6.461
+              },
+              {
+                "text": "between ",
+                "start": 6.461,
+                "end": 6.887
+              },
+              {
+                "text": "your ",
+                "start": 6.887,
+                "end": 7.131
+              },
+              {
+                "text": "accounts. ",
+                "start": 7.131,
+                "end": 7.679
+              },
+              {
+                "text": "It's ",
+                "start": 7.679,
+                "end": 7.923
+              },
+              {
+                "text": "usually ",
+                "start": 7.923,
+                "end": 8.349
+              },
+              {
+                "text": "not ",
+                "start": 8.349,
+                "end": 8.532
+              },
+              {
+                "text": "an ",
+                "start": 8.532,
+                "end": 8.653
+              },
+              {
+                "text": "on-",
+                "start": 8.653,
+                "end": 8.836
+              },
+              {
+                "text": "chain ",
+                "start": 8.836,
+                "end": 9.141
+              },
+              {
+                "text": "transfer. ",
+                "start": 9.141,
+                "end": 9.689
+              },
+              {
+                "text": "Check ",
+                "start": 9.689,
+                "end": 9.993
+              },
+              {
+                "text": "where ",
+                "start": 9.993,
+                "end": 10.298
+              },
+              {
+                "text": "the ",
+                "start": 10.298,
+                "end": 10.48
+              },
+              {
+                "text": "balance ",
+                "start": 10.48,
+                "end": 10.906
+              },
+              {
+                "text": "will ",
+                "start": 10.906,
+                "end": 11.15
+              },
+              {
+                "text": "land ",
+                "start": 11.15,
+                "end": 11.394
+              },
+              {
+                "text": "first.",
+                "start": 11.394,
+                "end": 11.759
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "已有",
+                "start": 0.25,
+                "end": 0.669
+              },
+              {
+                "text": "加密",
+                "start": 0.669,
+                "end": 1.087
+              },
+              {
+                "text": "资产，",
+                "start": 1.087,
+                "end": 1.715
+              },
+              {
+                "text": "可以",
+                "start": 1.715,
+                "end": 2.133
+              },
+              {
+                "text": "按",
+                "start": 2.133,
+                "end": 2.343
+              },
+              {
+                "text": "支持",
+                "start": 2.343,
+                "end": 2.761
+              },
+              {
+                "text": "的",
+                "start": 2.761,
+                "end": 2.97
+              },
+              {
+                "text": "币",
+                "start": 2.97,
+                "end": 3.18
+              },
+              {
+                "text": "种",
+                "start": 3.18,
+                "end": 3.389
+              },
+              {
+                "text": "和",
+                "start": 3.389,
+                "end": 3.598
+              },
+              {
+                "text": "网络",
+                "start": 3.598,
+                "end": 4.017
+              },
+              {
+                "text": "充",
+                "start": 4.017,
+                "end": 4.226
+              },
+              {
+                "text": "值。",
+                "start": 4.226,
+                "end": 4.644
+              },
+              {
+                "text": "平台",
+                "start": 4.644,
+                "end": 5.063
+              },
+              {
+                "text": "内部",
+                "start": 5.063,
+                "end": 5.481
+              },
+              {
+                "text": "划",
+                "start": 5.481,
+                "end": 5.691
+              },
+              {
+                "text": "转",
+                "start": 5.691,
+                "end": 5.9
+              },
+              {
+                "text": "是",
+                "start": 5.9,
+                "end": 6.109
+              },
+              {
+                "text": "账户",
+                "start": 6.109,
+                "end": 6.528
+              },
+              {
+                "text": "间",
+                "start": 6.528,
+                "end": 6.737
+              },
+              {
+                "text": "调配",
+                "start": 6.737,
+                "end": 7.155
+              },
+              {
+                "text": "余",
+                "start": 7.155,
+                "end": 7.365
+              },
+              {
+                "text": "额，",
+                "start": 7.365,
+                "end": 7.783
+              },
+              {
+                "text": "通常",
+                "start": 7.783,
+                "end": 8.202
+              },
+              {
+                "text": "不是",
+                "start": 8.202,
+                "end": 8.62
+              },
+              {
+                "text": "链",
+                "start": 8.62,
+                "end": 8.829
+              },
+              {
+                "text": "上",
+                "start": 8.829,
+                "end": 9.039
+              },
+              {
+                "text": "转账。",
+                "start": 9.039,
+                "end": 9.666
+              },
+              {
+                "text": "先",
+                "start": 9.666,
+                "end": 9.876
+              },
+              {
+                "text": "确认",
+                "start": 9.876,
+                "end": 10.294
+              },
+              {
+                "text": "余",
+                "start": 10.294,
+                "end": 10.503
+              },
+              {
+                "text": "额",
+                "start": 10.503,
+                "end": 10.713
+              },
+              {
+                "text": "会",
+                "start": 10.713,
+                "end": 10.922
+              },
+              {
+                "text": "到",
+                "start": 10.922,
+                "end": 11.131
+              },
+              {
+                "text": "哪里。",
+                "start": 11.131,
+                "end": 11.759
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": {
+              "en": "Deposit coins",
+              "zh-Hans": "充币"
+            },
+            "rows": [
+              {
+                "en": "Coin + network",
+                "zh-Hans": "币种 + 网络"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Internal transfer",
+              "zh-Hans": "内部划转"
+            },
+            "rows": [
+              {
+                "en": "Internal transfer: no blockchain",
+                "zh-Hans": "内部划转：不上链"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "已有币路径显示币种与网络；内部划转只移动账户标签，不展示链上哈希。",
+      "source_onscreen_text": {
+        "en": [
+          "Coin + network",
+          "Internal transfer: no blockchain"
+        ],
+        "zh-Hans": [
+          "币种 + 网络",
+          "内部划转：不上链"
+        ]
+      }
+    },
+    {
+      "id": "p2p",
+      "duration": 19,
+      "set": "transfer-station",
+      "visual_en": "A P2P (user-to-user) branch appears with an eligibility check and a separate safety note. Antenna amber.",
+      "visual_zh": "出现P2P用户间交易分支，旁边提示资格核验与独立安全说明。",
+      "onscreen_text_en": "P2P is not a bank transfer",
+      "onscreen_text_zh-Hans": "P2P 不是银行转账",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Some platforms also offer trading between users. That's not another name for a bank transfer. Never pay off-platform in private, never use funds of unknown origin or third-party payments. If it's unclear, don't do it yet.",
+            "zh-Hans": "有的平台还提供用户间交易，但不是银行转账的同义词。不要私下脱离平台付款，不使用来路不明或第三方代付资金；没看懂就先不操作。"
+          },
+          "start": 0.25,
+          "end": 13.319,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e06-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 13.069
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Some ",
+                "start": 0.25,
+                "end": 0.531
+              },
+              {
+                "text": "platforms ",
+                "start": 0.531,
+                "end": 1.163
+              },
+              {
+                "text": "also ",
+                "start": 1.163,
+                "end": 1.444
+              },
+              {
+                "text": "offer ",
+                "start": 1.444,
+                "end": 1.796
+              },
+              {
+                "text": "trading ",
+                "start": 1.796,
+                "end": 2.288
+              },
+              {
+                "text": "between ",
+                "start": 2.288,
+                "end": 2.779
+              },
+              {
+                "text": "users. ",
+                "start": 2.779,
+                "end": 3.201
+              },
+              {
+                "text": "That's ",
+                "start": 3.201,
+                "end": 3.623
+              },
+              {
+                "text": "not ",
+                "start": 3.623,
+                "end": 3.833
+              },
+              {
+                "text": "another ",
+                "start": 3.833,
+                "end": 4.325
+              },
+              {
+                "text": "name ",
+                "start": 4.325,
+                "end": 4.606
+              },
+              {
+                "text": "for ",
+                "start": 4.606,
+                "end": 4.817
+              },
+              {
+                "text": "a ",
+                "start": 4.817,
+                "end": 4.887
+              },
+              {
+                "text": "bank ",
+                "start": 4.887,
+                "end": 5.168
+              },
+              {
+                "text": "transfer. ",
+                "start": 5.168,
+                "end": 5.801
+              },
+              {
+                "text": "Never ",
+                "start": 5.801,
+                "end": 6.152
+              },
+              {
+                "text": "pay ",
+                "start": 6.152,
+                "end": 6.363
+              },
+              {
+                "text": "off-",
+                "start": 6.363,
+                "end": 6.644
+              },
+              {
+                "text": "platform ",
+                "start": 6.644,
+                "end": 7.206
+              },
+              {
+                "text": "in ",
+                "start": 7.206,
+                "end": 7.347
+              },
+              {
+                "text": "private, ",
+                "start": 7.347,
+                "end": 7.909
+              },
+              {
+                "text": "never ",
+                "start": 7.909,
+                "end": 8.26
+              },
+              {
+                "text": "use ",
+                "start": 8.26,
+                "end": 8.471
+              },
+              {
+                "text": "funds ",
+                "start": 8.471,
+                "end": 8.822
+              },
+              {
+                "text": "of ",
+                "start": 8.822,
+                "end": 8.963
+              },
+              {
+                "text": "unknown ",
+                "start": 8.963,
+                "end": 9.455
+              },
+              {
+                "text": "origin ",
+                "start": 9.455,
+                "end": 9.876
+              },
+              {
+                "text": "or ",
+                "start": 9.876,
+                "end": 10.017
+              },
+              {
+                "text": "third-",
+                "start": 10.017,
+                "end": 10.438
+              },
+              {
+                "text": "party ",
+                "start": 10.438,
+                "end": 10.79
+              },
+              {
+                "text": "payments. ",
+                "start": 10.79,
+                "end": 11.422
+              },
+              {
+                "text": "If ",
+                "start": 11.422,
+                "end": 11.562
+              },
+              {
+                "text": "it's ",
+                "start": 11.562,
+                "end": 11.843
+              },
+              {
+                "text": "unclear, ",
+                "start": 11.843,
+                "end": 12.406
+              },
+              {
+                "text": "don't ",
+                "start": 12.406,
+                "end": 12.757
+              },
+              {
+                "text": "do ",
+                "start": 12.757,
+                "end": 12.897
+              },
+              {
+                "text": "it ",
+                "start": 12.897,
+                "end": 13.038
+              },
+              {
+                "text": "yet.",
+                "start": 13.038,
+                "end": 13.319
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "有",
+                "start": 0.25,
+                "end": 0.464
+              },
+              {
+                "text": "的",
+                "start": 0.464,
+                "end": 0.678
+              },
+              {
+                "text": "平台",
+                "start": 0.678,
+                "end": 1.107
+              },
+              {
+                "text": "还",
+                "start": 1.107,
+                "end": 1.321
+              },
+              {
+                "text": "提供",
+                "start": 1.321,
+                "end": 1.75
+              },
+              {
+                "text": "用户",
+                "start": 1.75,
+                "end": 2.178
+              },
+              {
+                "text": "间",
+                "start": 2.178,
+                "end": 2.392
+              },
+              {
+                "text": "交易，",
+                "start": 2.392,
+                "end": 3.035
+              },
+              {
+                "text": "但",
+                "start": 3.035,
+                "end": 3.249
+              },
+              {
+                "text": "不是",
+                "start": 3.249,
+                "end": 3.678
+              },
+              {
+                "text": "银行",
+                "start": 3.678,
+                "end": 4.106
+              },
+              {
+                "text": "转账",
+                "start": 4.106,
+                "end": 4.535
+              },
+              {
+                "text": "的",
+                "start": 4.535,
+                "end": 4.749
+              },
+              {
+                "text": "同义",
+                "start": 4.749,
+                "end": 5.178
+              },
+              {
+                "text": "词。",
+                "start": 5.178,
+                "end": 5.606
+              },
+              {
+                "text": "不要",
+                "start": 5.606,
+                "end": 6.035
+              },
+              {
+                "text": "私",
+                "start": 6.035,
+                "end": 6.249
+              },
+              {
+                "text": "下",
+                "start": 6.249,
+                "end": 6.463
+              },
+              {
+                "text": "脱离",
+                "start": 6.463,
+                "end": 6.892
+              },
+              {
+                "text": "平台",
+                "start": 6.892,
+                "end": 7.32
+              },
+              {
+                "text": "付款，",
+                "start": 7.32,
+                "end": 7.963
+              },
+              {
+                "text": "不",
+                "start": 7.963,
+                "end": 8.177
+              },
+              {
+                "text": "使用",
+                "start": 8.177,
+                "end": 8.606
+              },
+              {
+                "text": "来",
+                "start": 8.606,
+                "end": 8.82
+              },
+              {
+                "text": "路",
+                "start": 8.82,
+                "end": 9.034
+              },
+              {
+                "text": "不明",
+                "start": 9.034,
+                "end": 9.463
+              },
+              {
+                "text": "或",
+                "start": 9.463,
+                "end": 9.677
+              },
+              {
+                "text": "第三",
+                "start": 9.677,
+                "end": 10.105
+              },
+              {
+                "text": "方",
+                "start": 10.105,
+                "end": 10.32
+              },
+              {
+                "text": "代",
+                "start": 10.32,
+                "end": 10.534
+              },
+              {
+                "text": "付",
+                "start": 10.534,
+                "end": 10.748
+              },
+              {
+                "text": "资金；",
+                "start": 10.748,
+                "end": 11.391
+              },
+              {
+                "text": "没",
+                "start": 11.391,
+                "end": 11.605
+              },
+              {
+                "text": "看懂",
+                "start": 11.605,
+                "end": 12.034
+              },
+              {
+                "text": "就",
+                "start": 12.034,
+                "end": 12.248
+              },
+              {
+                "text": "先",
+                "start": 12.248,
+                "end": 12.462
+              },
+              {
+                "text": "不",
+                "start": 12.462,
+                "end": 12.676
+              },
+              {
+                "text": "操作。",
+                "start": 12.676,
+                "end": 13.319
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "P2P: eligibility check",
+                "zh-Hans": "P2P：资格核验"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "No off-platform payment",
+                "zh-Hans": "不私下付款"
+              },
+              "mark": "no"
+            },
+            {
+              "label": {
+                "en": "No third-party funds",
+                "zh-Hans": "不用第三方代付"
+              },
+              "mark": "no"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "出现P2P用户间交易分支，旁边提示资格核验与独立安全说明。",
+      "source_onscreen_text": {
+        "en": [
+          "P2P: eligibility check",
+          "No off-platform payment",
+          "No third-party funds"
+        ],
+        "zh-Hans": [
+          "P2P：资格核验",
+          "不私下付款",
+          "不用第三方代付"
+        ]
+      }
+    },
+    {
+      "id": "channel-quiz",
+      "duration": 13,
+      "set": "transfer-station",
+      "visual_en": "Question card: 'Can a bank balance be sent straight to a USDT on-chain address?'",
+      "visual_zh": "题目：银行余额能直接发送到USDT链上地址吗？",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "No. They're different channels.",
+            "zh-Hans": "不能，这是不同通道。"
+          },
+          "start": 0.25,
+          "end": 2.291,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e06-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 2.041
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No. ",
+                "start": 0.25,
+                "end": 0.469
+              },
+              {
+                "text": "They're ",
+                "start": 0.469,
+                "end": 0.979
+              },
+              {
+                "text": "different ",
+                "start": 0.979,
+                "end": 1.635
+              },
+              {
+                "text": "channels.",
+                "start": 1.635,
+                "end": 2.291
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不能，",
+                "start": 0.25,
+                "end": 0.862
+              },
+              {
+                "text": "这",
+                "start": 0.862,
+                "end": 1.066
+              },
+              {
+                "text": "是",
+                "start": 1.066,
+                "end": 1.271
+              },
+              {
+                "text": "不同",
+                "start": 1.271,
+                "end": 1.679
+              },
+              {
+                "text": "通道。",
+                "start": 1.679,
+                "end": 2.291
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Right. Look at the asset first, then the route, and finally check what actually arrived.",
+            "zh-Hans": "对，先看资产，再看路径，最后核对实际到账。"
+          },
+          "start": 2.591,
+          "end": 7.634,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e06-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 5.043
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Right. ",
+                "start": 2.591,
+                "end": 3
+              },
+              {
+                "text": "Look ",
+                "start": 3,
+                "end": 3.272
+              },
+              {
+                "text": "at ",
+                "start": 3.272,
+                "end": 3.409
+              },
+              {
+                "text": "the ",
+                "start": 3.409,
+                "end": 3.613
+              },
+              {
+                "text": "asset ",
+                "start": 3.613,
+                "end": 3.954
+              },
+              {
+                "text": "first, ",
+                "start": 3.954,
+                "end": 4.363
+              },
+              {
+                "text": "then ",
+                "start": 4.363,
+                "end": 4.635
+              },
+              {
+                "text": "the ",
+                "start": 4.635,
+                "end": 4.84
+              },
+              {
+                "text": "route, ",
+                "start": 4.84,
+                "end": 5.249
+              },
+              {
+                "text": "and ",
+                "start": 5.249,
+                "end": 5.453
+              },
+              {
+                "text": "finally ",
+                "start": 5.453,
+                "end": 5.93
+              },
+              {
+                "text": "check ",
+                "start": 5.93,
+                "end": 6.271
+              },
+              {
+                "text": "what ",
+                "start": 6.271,
+                "end": 6.544
+              },
+              {
+                "text": "actually ",
+                "start": 6.544,
+                "end": 7.089
+              },
+              {
+                "text": "arrived.",
+                "start": 7.089,
+                "end": 7.634
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "对，",
+                "start": 2.591,
+                "end": 3.071
+              },
+              {
+                "text": "先看",
+                "start": 3.071,
+                "end": 3.552
+              },
+              {
+                "text": "资产，",
+                "start": 3.552,
+                "end": 4.272
+              },
+              {
+                "text": "再看",
+                "start": 4.272,
+                "end": 4.752
+              },
+              {
+                "text": "路径，",
+                "start": 4.752,
+                "end": 5.473
+              },
+              {
+                "text": "最后",
+                "start": 5.473,
+                "end": 5.953
+              },
+              {
+                "text": "核对",
+                "start": 5.953,
+                "end": 6.433
+              },
+              {
+                "text": "实际",
+                "start": 6.433,
+                "end": 6.914
+              },
+              {
+                "text": "到",
+                "start": 6.914,
+                "end": 7.154
+              },
+              {
+                "text": "账。",
+                "start": 7.154,
+                "end": 7.634
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Can a bank balance be sent straight to a USDT on-chain address?",
+            "zh-Hans": "银行余额能直接转到 USDT 链上地址吗？"
+          },
+          "verdict": {
+            "en": "NO",
+            "zh-Hans": "不能"
+          }
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "题目：银行余额能直接发送到USDT链上地址吗？",
+      "source_onscreen_text": {
+        "en": [
+          "Bank balance → USDT address?  NO"
+        ],
+        "zh-Hans": [
+          "银行余额 → USDT地址？ 不能"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.2,
+    "pose": "point",
+    "text": {
+      "en": "BTC/USDT: does that slash mean you buy two coins? Next: your first spot trade.",
+      "zh-Hans": "BTC/USDT中间这道斜杠，是要买两种币吗？下一集：第一笔现货。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "BTC/USDT: does that slash mean you buy two coins? Next: your first spot trade.",
+          "zh-Hans": "BTC/USDT中间这道斜杠，是要买两种币吗？下一集：第一笔现货。"
+        },
+        "start": 0.25,
+        "end": 5.945,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e06-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.695
+        },
+        "words": {
+          "en": [
+            {
+              "text": "BTC/",
+              "start": 0.25,
+              "end": 0.6
+            },
+            {
+              "text": "USDT: ",
+              "start": 0.6,
+              "end": 1.039
+            },
+            {
+              "text": "does ",
+              "start": 1.039,
+              "end": 1.389
+            },
+            {
+              "text": "that ",
+              "start": 1.389,
+              "end": 1.739
+            },
+            {
+              "text": "slash ",
+              "start": 1.739,
+              "end": 2.178
+            },
+            {
+              "text": "mean ",
+              "start": 2.178,
+              "end": 2.528
+            },
+            {
+              "text": "you ",
+              "start": 2.528,
+              "end": 2.791
+            },
+            {
+              "text": "buy ",
+              "start": 2.791,
+              "end": 3.054
+            },
+            {
+              "text": "two ",
+              "start": 3.054,
+              "end": 3.317
+            },
+            {
+              "text": "coins? ",
+              "start": 3.317,
+              "end": 3.842
+            },
+            {
+              "text": "Next: ",
+              "start": 3.842,
+              "end": 4.28
+            },
+            {
+              "text": "your ",
+              "start": 4.28,
+              "end": 4.631
+            },
+            {
+              "text": "first ",
+              "start": 4.631,
+              "end": 5.069
+            },
+            {
+              "text": "spot ",
+              "start": 5.069,
+              "end": 5.419
+            },
+            {
+              "text": "trade.",
+              "start": 5.419,
+              "end": 5.945
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "BTC/",
+              "start": 0.25,
+              "end": 0.94
+            },
+            {
+              "text": "USDT",
+              "start": 0.94,
+              "end": 1.631
+            },
+            {
+              "text": "中间",
+              "start": 1.631,
+              "end": 1.976
+            },
+            {
+              "text": "这",
+              "start": 1.976,
+              "end": 2.148
+            },
+            {
+              "text": "道",
+              "start": 2.148,
+              "end": 2.321
+            },
+            {
+              "text": "斜",
+              "start": 2.321,
+              "end": 2.493
+            },
+            {
+              "text": "杠，",
+              "start": 2.493,
+              "end": 2.839
+            },
+            {
+              "text": "是",
+              "start": 2.839,
+              "end": 3.011
+            },
+            {
+              "text": "要",
+              "start": 3.011,
+              "end": 3.184
+            },
+            {
+              "text": "买",
+              "start": 3.184,
+              "end": 3.356
+            },
+            {
+              "text": "两",
+              "start": 3.356,
+              "end": 3.529
+            },
+            {
+              "text": "种",
+              "start": 3.529,
+              "end": 3.702
+            },
+            {
+              "text": "币",
+              "start": 3.702,
+              "end": 3.874
+            },
+            {
+              "text": "吗？",
+              "start": 3.874,
+              "end": 4.219
+            },
+            {
+              "text": "下",
+              "start": 4.219,
+              "end": 4.392
+            },
+            {
+              "text": "一",
+              "start": 4.392,
+              "end": 4.564
+            },
+            {
+              "text": "集：",
+              "start": 4.564,
+              "end": 4.91
+            },
+            {
+              "text": "第一",
+              "start": 4.91,
+              "end": 5.255
+            },
+            {
+              "text": "笔",
+              "start": 5.255,
+              "end": 5.427
+            },
+            {
+              "text": "现货。",
+              "start": 5.427,
+              "end": 5.945
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.542,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e06-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.292
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.205
+          },
+          {
+            "text": "first, ",
+            "start": 1.205,
+            "end": 1.778
+          },
+          {
+            "text": "then ",
+            "start": 1.778,
+            "end": 2.16
+          },
+          {
+            "text": "act.",
+            "start": 2.16,
+            "end": 2.542
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.537
+          },
+          {
+            "text": "看懂，",
+            "start": 0.537,
+            "end": 1.396
+          },
+          {
+            "text": "再",
+            "start": 1.396,
+            "end": 1.682
+          },
+          {
+            "text": "动手。",
+            "start": 1.682,
+            "end": 2.542
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E06.json",
+    "original_slug": "first-deposit-paths",
+    "goal": {
+      "en": "Tell apart a fiat deposit, buying crypto, an on-chain deposit and an internal transfer.",
+      "zh-Hans": "能区分法币入金、买币、链上充值与账户内部划转。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "deposit",
+      "partner": "okx",
+      "line_en": "Want to see which deposit methods your region supports? Check on the official site through our OKX partner link (code nexu888).",
+      "line_zh": "想知道你所在地区支持哪些入金方式？通过我们的 OKX 合作链接到官网查看（邀请码 nexu888）。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "nexualpha.com/go/okx",
+      "codes": {
+        "okx": "nexu888"
+      },
+      "disclosure_en": "Partner link · the exchange pays our commission",
+      "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+      "restricted_locales": [
+        "ru",
+        "ar",
+        "zh-Hant",
+        "ur",
+        "uk",
+        "vi",
+        "ja",
+        "ko"
+      ],
+      "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+    },
+    "exercise": {
+      "task_en": "Match three sources of funds to: fiat deposit, on-chain deposit and internal transfer.",
+      "task_zh": "将三种资金来源匹配到法币入金、链上充值和内部划转。",
+      "answer_en": "Bank money and on-chain token addresses can't be mixed. Check each channel separately.",
+      "answer_zh": "银行法币与链上代币地址不能混用；每条通道独立核验。"
+    },
+    "red_lines": [
+      "Never imply users must use P2P ｜ 不默认用户必须使用P2P",
+      "No real payee accounts or payment QR codes in the general animation ｜ 真实收款账号和付款码不得出现在通用动画中",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S10",
+      "S13"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "cards",
+      "checklist",
+      "compare",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

@@ -47,6 +47,11 @@ const COPY = {
     pending: "Pending",
     complete: "Complete",
     notProvided: "Not provided",
+    amount_: "Amount",
+    orderBook: "Order book",
+    size: "Size",
+    average: "Average",
+    lastPrice: "Last price",
     studyDesk: "Study desk",
     tradingDesk: "Trading desk",
     transferStation: "Transfer station",
@@ -99,6 +104,11 @@ const COPY = {
     pending: "待处理",
     complete: "完成",
     notProvided: "未提供",
+    amount_: "金额",
+    orderBook: "订单簿",
+    size: "数量",
+    average: "均价",
+    lastPrice: "最新价",
     studyDesk: "学习桌",
     tradingDesk: "模拟交易台",
     transferStation: "转账站",
@@ -119,6 +129,13 @@ const TYPES = {
   checklist: "checklist",
   identity: "identity",
   warning: "warning",
+  formula: "formula",
+  cards: "cards",
+  flow: "flow",
+  quiz: "quiz",
+  compare: "compare",
+  "order-book": "orderBook",
+  "buffer-gauge": "bufferGauge",
 };
 
 export function esc(value) {
@@ -136,7 +153,8 @@ export function widget(spec = {}, locale = "en") {
   const key = TYPES[type];
   if (!key || !RENDER[key]) throw new TypeError(`Unsupported widget type: ${type || "(missing)"}`);
   const title = spec.title ? `<div class="title">${esc(spec.title)}</div>` : "";
-  return `<section class="widget widget-${esc(type)}" data-type="${esc(type)}">${title}${RENDER[key](spec, copy)}</section>`;
+  const long = type === "checklist" && asArray(spec.items).length > 5 ? " widget--long" : "";
+  return `<section class="widget widget-${esc(type)}${long}" data-type="${esc(type)}">${title}${RENDER[key](spec, copy)}</section>`;
 }
 
 export function setBackdrop(name, locale = "en") {
@@ -162,9 +180,9 @@ export function setBackdrop(name, locale = "en") {
 }
 
 const RENDER = {
-  idSamples: (spec, copy) => `<div class="id-samples">${(spec.labels ?? []).map(label=>`<div class="sample-id"><div class="id-portrait"></div><div class="id-lines">SAMPLE ID<br><span>— — —</span></div><div class="rejection">✗ ${esc(label)}</div><div class="correction"><span class="mark mark--ok" aria-hidden="true">✓</span></div></div>`).join('')}</div><small>${esc(spec.note ?? (copy.note+' · SAMPLE'))}</small>`,
-  transferMatch: (spec, copy) => `<div class="transfer-match"><div class="transfer-end"><h2>${esc(spec.sender)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div><div class="match-connector">✓</div><div class="transfer-end"><h2>${esc(spec.receiver)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div></div><small>${esc(spec.note ?? '')}</small>`,
-  marginFlow: (spec, copy) => `<div class="margin-flow"><div class="box">${esc(copy.available)}<b>${esc(spec.balance)}</b></div><div class="pipe"><i></i></div><div class="box">${esc(copy.isolated)}<b>${esc(spec.margin)}</b></div></div><div class="auto-toggle" data-auto-add="${Boolean(spec.autoAdd)}">${esc(copy.autoAdd)} · ${esc(spec.autoAdd ? copy.on : copy.off)}</div>${spec.autoAdd ? `<div class="risk-total">${esc(copy.moneyAtRisk)} · <b data-risk-initial="${esc(spec.margin)}">${esc(spec.margin)} + …</b></div>` : ''}<p>${esc(spec.label ?? '')}</p><small>${esc(spec.note ?? '')}</small>`,
+  idSamples: (spec, copy) => `<div class="id-samples">${(spec.labels ?? []).map(label=>`<div class="sample-id"><div class="id-portrait"></div><div class="id-lines">SAMPLE ID<br><span>— — —</span></div><div class="rejection">✗ ${esc(label)}</div><div class="correction"><span class="mark mark--ok" aria-hidden="true">✓</span></div></div>`).join('')}</div>${spec.note ? `<small>${esc(spec.note)}</small>` : ''}`,
+  transferMatch: (spec, copy) => `<div class="transfer-match"><div class="transfer-end"><h2>${esc(spec.sender)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div><div class="match-connector">✓</div><div class="transfer-end"><h2>${esc(spec.receiver)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div></div>${spec.note ? `<small>${esc(spec.note)}</small>` : ''}`,
+  marginFlow: (spec, copy) => `<div class="margin-flow"><div class="box">${esc(copy.available)}<b>${esc(spec.balance)}</b></div><div class="pipe"><i></i></div><div class="box">${esc(copy.isolated)}<b>${esc(spec.margin)}</b></div></div><div class="auto-toggle" data-auto-add="${Boolean(spec.autoAdd)}">${esc(copy.autoAdd)} · ${esc(spec.autoAdd ? copy.on : copy.off)}</div>${spec.autoAdd ? `<div class="risk-total">${esc(copy.moneyAtRisk)} · <b data-risk-initial="${esc(spec.margin)}">${esc(spec.margin)} + …</b></div>` : ''}<p>${esc(spec.label ?? '')}</p>${spec.note ? `<small>${esc(spec.note)}</small>` : ''}`,
   priceBoard: (spec, copy) => {
     const rows = asArray(spec.rows || spec.items).map((row) => rowBlock([
       cell(copy.symbol, row.symbol),
@@ -176,7 +194,8 @@ const RENDER = {
   orderTicket: (spec, copy) => {
     if (!["market", "limit"].includes(spec.orderType)) throw new TypeError("Invalid order type");
     const mode = spec.orderType === "limit" ? copy.limit : copy.market;
-    const cells = [cell(copy.type, mode), cell(copy.side, spec.side), cell(copy.quantity, spec.quantity)];
+    // `amount` (money to spend) and `quantity` (coins) are different fields; show whichever the lesson supplies.
+    const cells = [cell(copy.type, mode), cell(copy.side, spec.side), spec.amount !== undefined ? cell(copy.amount_, spec.amount) : cell(copy.quantity, spec.quantity)];
     if (spec.orderType === "limit") cells.splice(2, 0, cell(copy.price, spec.price));
     return panel(copy.orderTicket, [rowBlock(cells, "order-row")]);
   },
@@ -194,36 +213,40 @@ const RENDER = {
     const level = finiteInRange(spec.level, 0, 100, "risk level");
     return panel(copy.riskMeter, [`<div class="meter risk-meter-fill" data-level="${esc(level)}"><span class="meter-bar" style="width:${esc(level)}%"></span></div>${rowBlock([cell(copy.level, level)], "risk-row")}`]);
   },
+  // Readable at 1080p: wide candles, one OHLC legend row for the latest candle; `annotate` labels its four prices in-chart.
   candlestickChart: (spec, copy) => {
     const rawCandles = asArray(spec.ohlc);
     if (!rawCandles.length) throw new TypeError("Invalid candles: empty");
     const candles = rawCandles.map(validCandle);
-    const lows = candles.map((x) => x.low);
-    const highs = candles.map((x) => x.high);
-    const min = Math.min(...lows);
-    const max = Math.max(...highs);
+    const min = Math.min(...candles.map((x) => x.low));
+    const max = Math.max(...candles.map((x) => x.high));
     const span = max - min || 1;
-    const width = 240;
-    const step = candles.length ? width / candles.length : width;
+    const annotate = Boolean(spec.annotate);
+    const [W, H, top, bottom] = [640, 260, 24, 236];
+    const plotWidth = annotate ? 180 : W - 40;
+    const step = plotWidth / candles.length;
+    const bodyWidth = Math.min(64, step * 0.5);
+    const y = (v) => bottom - ((v - min) / span) * (bottom - top);
+    const num = (v) => Number(v).toLocaleString("en-US");
     const bars = candles.map((c, i) => {
-      const x = 12 + i * step + step / 2;
-      const yHigh = 90 - ((c.high - min) / span) * 72;
-      const yLow = 90 - ((c.low - min) / span) * 72;
-      const yOpen = 90 - ((c.open - min) / span) * 72;
-      const yClose = 90 - ((c.close - min) / span) * 72;
-      const top = Math.min(yOpen, yClose);
-      const h = Math.max(2, Math.abs(yOpen - yClose));
+      const x = 20 + i * step + step / 2;
+      const yOpen = y(c.open), yClose = y(c.close);
+      const bodyTop = Math.min(yOpen, yClose), h = Math.max(4, Math.abs(yOpen - yClose));
       const direction = c.close >= c.open ? "up" : "down";
-      return `<g class="candle candle-${direction}" data-o="${esc(c.open)}" data-h="${esc(c.high)}" data-l="${esc(c.low)}" data-c="${esc(c.close)}"><path d="M${fmt(x)} ${fmt(yHigh)}V${fmt(yLow)}"/><rect x="${fmt(x - 4)}" y="${fmt(top)}" width="8" height="${fmt(h)}" rx="2"/></g>`;
+      const labels = annotate && i === candles.length - 1
+        ? [[copy.high, c.high, y(c.high)], [direction === "up" ? copy.close : copy.open, direction === "up" ? c.close : c.open, bodyTop], [direction === "up" ? copy.open : copy.close, direction === "up" ? c.open : c.close, bodyTop + h], [copy.low, c.low, y(c.low)]]
+          .map(([label, value, ly]) => `<path class="chart-leader" d="M${fmt(x + bodyWidth / 2 + 6)} ${fmt(ly)}H${fmt(x + bodyWidth / 2 + 40)}"/><text x="${fmt(x + bodyWidth / 2 + 48)}" y="${fmt(ly + 13)}">${esc(label)} ${esc(num(value))}</text>`).join("")
+        : "";
+      return `<g class="candle candle-${direction}" data-o="${esc(c.open)}" data-h="${esc(c.high)}" data-l="${esc(c.low)}" data-c="${esc(c.close)}"><path d="M${fmt(x)} ${fmt(y(c.high))}V${fmt(y(c.low))}"/><rect x="${fmt(x - bodyWidth / 2)}" y="${fmt(bodyTop)}" width="${fmt(bodyWidth)}" height="${fmt(h)}" rx="4"/></g>${labels}`;
     }).join("");
-    const legend = candles.map((c, i) => rowBlock([
-      chip(`#${i + 1}`),
-      cell(copy.open, c.open),
-      cell(copy.high, c.high),
-      cell(copy.low, c.low),
-      cell(copy.close, c.close),
-    ], `ohlc-row candle-${c.close >= c.open ? "up" : "down"}`));
-    return panel(copy.candlestickChart, [`<svg class="chart" viewBox="0 0 264 108" role="img" aria-label="${esc(copy.candlestickChart)}">${bars}</svg>`, ...legend]);
+    const last = candles.at(-1);
+    const legend = annotate ? [] : [rowBlock([
+      cell(copy.open, num(last.open)),
+      cell(copy.high, num(last.high)),
+      cell(copy.low, num(last.low)),
+      cell(copy.close, num(last.close)),
+    ], `ohlc-row candle-${last.close >= last.open ? "up" : "down"}`)];
+    return panel(copy.candlestickChart, [`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(copy.candlestickChart)}">${bars}</svg>`, ...legend]);
   },
   margin: (spec, copy) => {
     if (!["isolated", "cross"].includes(spec.mode)) throw new TypeError("Invalid margin mode");
@@ -248,6 +271,47 @@ const RENDER = {
     ...asArray(spec.steps).map((step) => rowBlock([cell(copy.step, step.label ?? step), cell(copy.status, step.status)])),
     rowBlock([cell(copy.photos, spec.photos ? copy.complete : copy.notProvided), cell(copy.note, spec.fictionalNote)]),
   ]),
+  // Season 1 teaching widgets. Every value is a preformatted, supplied prop; `.reveal` items are staged by motion.js.
+  formula: (spec) => `<div class="formula">${asArray(spec.rows).map((row) => `<div class="formula-row reveal${row.emphasis ? " formula-row--em" : ""}"><span class="formula-expr">${esc(row.expr)}</span>${row.result !== undefined ? `<span class="formula-eq">=</span><b class="formula-result">${esc(row.result)}</b>` : ""}</div>`).join("")}${spec.note ? `<p class="formula-note reveal">${esc(spec.note)}</p>` : ""}</div>`,
+  cards: (spec) => {
+    const items = asArray(spec.items);
+    if (!items.length) throw new TypeError("Invalid cards: empty");
+    const sep = spec.separator ? `<span class="card-sep" aria-hidden="true">${esc(spec.separator)}</span>` : "";
+    return `<div class="cards cards--${Math.min(items.length, 4)}">${items.map((item) => `<div class="teach-card reveal${item.mark ? ` teach-card--${esc(item.mark)}` : ""}">${item.mark ? tone(item.mark) : ""}<b>${esc(item.label)}</b>${item.value !== undefined ? `<span class="teach-card-value">${esc(item.value)}</span>` : ""}</div>`).join(sep)}</div>`;
+  },
+  flow: (spec) => {
+    const steps = asArray(spec.steps);
+    if (steps.length < 2) throw new TypeError("Invalid flow: needs at least two steps");
+    return `<div class="flow">${steps.map((step) => {
+      const item = typeof step === "object" && step !== null ? step : { label: step };
+      return `<div class="flow-step reveal${item.state ? ` flow-step--${esc(item.state)}` : ""}">${item.state ? tone(item.state) : ""}<b>${esc(item.label)}</b>${item.note !== undefined ? `<span>${esc(item.note)}</span>` : ""}</div>`;
+    }).join('<span class="flow-arrow reveal" aria-hidden="true">→</span>')}</div>${spec.note ? `<p class="flow-note reveal">${esc(spec.note)}</p>` : ""}`;
+  },
+  quiz: (spec) => {
+    if (!spec.question) throw new TypeError("Invalid quiz: question required");
+    const options = asArray(spec.options);
+    const verdictTone = spec.tone === "ok" ? "ok" : "no";
+    return `<div class="quiz"><p class="quiz-question">${esc(spec.question)}</p>${options.length ? `<div class="quiz-options">${options.map((option) => `<div class="quiz-option" data-correct="${Boolean(option.correct)}"><span class="quiz-mark">${option.correct ? tone("ok") : tone("no")}</span><b>${esc(option.label)}</b></div>`).join("")}</div>` : ""}${spec.verdict ? `<div class="quiz-verdict quiz-verdict--${verdictTone}">${esc(spec.verdict)}</div>` : ""}</div>`;
+  },
+  compare: (spec) => {
+    const side = (value, key) => `<div class="compare-side compare-side--${key} reveal"><h2>${esc(value?.title)}</h2>${asArray(value?.rows).map((row) => `<p>${esc(row)}</p>`).join("")}</div>`;
+    if (!spec.left?.title || !spec.right?.title) throw new TypeError("Invalid compare: both sides need a title");
+    return `<div class="compare">${side(spec.left, "left")}<span class="compare-vs" aria-hidden="true">${esc(spec.divider ?? "≠")}</span>${side(spec.right, "right")}</div>`;
+  },
+  orderBook: (spec, copy) => {
+    const levels = asArray(spec.levels);
+    if (!levels.length) throw new TypeError("Invalid order book: empty");
+    const rows = levels.map((level) => `<div class="book-level reveal${level.fill ? " book-level--fill" : ""}"><b>${esc(level.price)}</b><span>${esc(level.size)}</span>${level.fill ? tone("ok") : ""}</div>`).join("");
+    const head = `<div class="book-head"><span>${esc(copy.price)}</span><span>${esc(copy.size)}</span></div>`;
+    const foot = spec.average !== undefined ? `<div class="book-foot reveal">${esc(copy.average)} <b>${esc(spec.average)}</b></div>` : spec.last !== undefined ? `<div class="book-foot reveal">${esc(copy.lastPrice)} <b>${esc(spec.last)}</b></div>` : "";
+    return `<div class="order-book"><div class="chip">${esc(copy.orderBook)}</div>${head}${rows}${foot}</div>`;
+  },
+  bufferGauge: (spec) => {
+    const from = finiteInRange(spec.from, 0, 100, "gauge start");
+    const to = finiteInRange(spec.to ?? spec.from, 0, 100, "gauge end");
+    const line = finiteInRange(spec.line, 0, 100, "gauge line");
+    return `<div class="buffer-gauge" data-from="${esc(from)}" data-to="${esc(to)}"><div class="gauge-track"><span class="gauge-fill" style="width:${esc(from)}%"></span><i class="gauge-line" style="inset-inline-start:${esc(line)}%"></i></div><div class="gauge-legend"><span class="gauge-key gauge-key--fill">${esc(spec.fillLabel)}</span><span class="gauge-key gauge-key--line">${esc(spec.lineLabel)}</span></div></div>`;
+  },
   warning: (spec, copy) => panel(copy.warning, [rowBlock([`<span class="mark mark--warn" aria-hidden="true">!</span>`, cell(copy.note, spec.message)])]),
 };
 
@@ -266,6 +330,12 @@ function cell(label, value) {
 // Owner review 2026-10-12: text badges ("Complete"/"Pending") read like a status log — lessons use ✓ / ✗ marks.
 function mark(ok) {
   return `<span class="mark ${ok ? "mark--ok" : "mark--no"}" aria-hidden="true">${ok ? "✓" : "✗"}</span>`;
+}
+
+function tone(kind) {
+  const glyph = { ok: "✓", no: "✗", warn: "!" }[kind];
+  if (!glyph) throw new TypeError(`Invalid mark: ${kind}`);
+  return `<span class="mark mark--${kind}" aria-hidden="true">${glyph}</span>`;
 }
 
 function chip(value) {

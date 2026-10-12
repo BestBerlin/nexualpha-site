@@ -61,3 +61,68 @@ Visual fixes found in the rendered frames:
 - Landscape lesson headings ran over the trading-desk terminal / transfer gates: every landscape lesson now sits on the opaque white lesson card (detail-card rule extended; card made fully opaque so shelves no longer ghost through).
 
 Tests: `sample-production.test.mjs` totals updated to the aligned durations (135/155/124.9); no assertions removed.
+
+## Season 1 English production (2026-10-12)
+
+All 24 episodes of "Sam's First Crypto Lesson" in English, 1920×1080 and 1080×1920, on the sample pipeline
+(narrate → whisper check → measure/align → render workers 2 → mux −16 LUFS → contact sheets). Finished files:
+`renders/final/E01..E24-en-{landscape,portrait}.mp4` plus `contact-*.jpg`, copied to `previews/academy-s1-en/`.
+
+| EP | Duration (s) | Hook (s) | Card (s) | | EP | Duration (s) | Hook (s) | Card (s) |
+|---|---|---|---|---|---|---|---|---|
+| E01 | 96.3 | 6.3 | – | | E13 | 136.2 | 5.7 | 10.5 |
+| E02 | 95.9 | 5.9 | – | | E14 | 124.8 | 4.8 | – |
+| E03 | 125.5 | 5.5 | – | | E15 | 126.1 | 6.1 | – |
+| E04 | 138.2 | 7.0 | 11.2 | | E16 | 141.5 | 6.5 | – |
+| E05 | 136.6 | 5.6 | 11.0 | | E17 | 126.9 | 6.9 | – |
+| E06 | 126.2 | 6.2 | – | | E18 | 125.0 | 5.0 | – |
+| E07 | 150.6 | 5.9 | 9.7 | | E19 | 140.8 | 5.8 | – |
+| E08 | 141.7 | 6.7 | – | | E20 | 141.7 | 6.7 | – |
+| E09 | 155.4 | 5.4 | – | | E21 | 124.9 | 4.9 | – |
+| E10 | 126.2 | 6.2 | – | | E22 | 156.3 | 6.3 | – |
+| E11 | 126.9 | 6.9 | – | | E23 | 141.1 | 6.1 | – |
+| E12 | 166.8 | 5.5 | 11.3 | | E24 | 182.4 | 5.9 | 11.5 |
+
+**Narration.** 230 lines (202 new + 28 approved sample takes reused unchanged), same voices as the samples
+(owner English clone for Nexubo/narrator, Sam VoiceDesign profile), cached models only, nothing downloaded.
+`verify-narration.py` transcribed every line with the cached faster-whisper `small` model and compared it with
+the script (word accuracy, extra words, last-word/tail check, spacing-free similarity for tokens like
+"nexu888"/"Bitget"). 230/230 pass. One line was garbled and re-taken: `e08-04-lesson-l01-sam` ("So I made ten?"
+was heard as "So I'm made 10"; take 1 passed). One British/American spelling variant ("judgement") was a
+checker false positive and was normalised in the checker, not re-taken.
+
+**Contract revision approved by the lead (not a deviation).** Measured hook lines ran 4.9–6.8 s and conversion
+lines up to 10.9 s, which cannot fit the old 5 s hook / 10 s card windows even at atempo 1.12. TTS `--speed` has no
+effect on this model, and tighter pauses or punctuation retakes saved under 5%. The lead approved `end_hook` 3..7 s
+and conversion 4..12 s in `contract.mjs` (tests updated, checks kept). Alignment atempo is now capped at 1.08 with no
+compromise band. Result: one tempo adjustment in the whole season, E04 hook atempo **1.008** (6.75 s of speech
+in the 7 s window). The sample-era E05 conversion compromise (1.081) is gone; E05 is now 136.6 s and E09 155.4 s.
+
+**Owner rules applied.** No fine print on any frame: the corner label stays removed, the E05/E09/E21 caveat notes
+are gone, and `fine-print.mjs` is enforced in `from-v3.mjs` and `build.mjs`. Conversion cards appear only in E04,
+E05, E07, E12, E13 and E24. Each card shows the exchange name, the code (read from
+`pilot-01-prototype/public/intel/partners.json`; build fails if it disagrees with the script),
+`nexualpha.com/go/<venue>`, the QR and one CTA sentence. No disclosure or availability line is shown. Bitget is
+shown as "Bitget.com"; Bitget's registry code is nexu888 (confirmed by the lead). Spoken partner-link sentences come
+from the script dialogue only. E12's CTA carries Telegram @NexuAlphaGlobal (the script mentions joining Telegram).
+
+**Visual review fixes during production** (each found on a contact sheet, fixed in the kit, affected episodes
+re-rendered):
+- Portrait compare stacked too tall and pushed the host into the caption band (E03). Compare is now side by side.
+- A tall teaching card pushed the host into the captions (E11 quiz). Portrait cast now flexes to the space left;
+  the red-antenna mini Nexubo keeps its size.
+- The three-venue card overlapped the thumbs-up host in portrait (E12/E13). The card is now compact (QR beside the
+  venues) and anchored to the top.
+- A four-step portrait flow wrapped with an orphan arrow (E14). Flows now stay on one row.
+- Candlestick chart labels were unreadable and the legend ran into the captions. The chart was redrawn with an
+  annotate mode; 6+ item checklists use two columns in landscape (E24, E09).
+- E22/E23 widgets were simplified ("Shared tank" flow, "Risk line" label without the "teaching" or "(example)" wording).
+
+**Tests.** `npm test --prefix ops/academy-v3`: 69/69 pass. That covers the new widget tests, the contract window
+tests, the atempo-cap test, the registry-code test, the fine-print tests and `season1.test.mjs`, which builds all 24
+episodes in both formats, seeks the real GSAP timeline per scene, checks logo and mascot, checks that no fine print
+or bitget.cafe appears, checks that cards appear only in the six decided episodes, and checks that the quiz verdict
+is hidden before the answer and does not leak into the next scene. `bash ops/academy-v3/lint-samples.sh` (now every
+episode, strict HyperFrames lint): 50/50 pass. Shell `bash -n` checks and `git diff --check` pass. The finished
+mp4s and contact sheets are not committed (`renders/`, `build/` are ignored); timeline and lint evidence JSON is
+committed.

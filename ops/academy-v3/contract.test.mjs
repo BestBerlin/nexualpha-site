@@ -34,3 +34,9 @@ test('captions preserve text, honor gaps and explicitly identify estimated words
 test('provided words must preserve full line',()=>{
   const e=sample();e.shots[0].lines[0].words=[{text:'Missing text',start:1,end:2}];assert.throws(()=>validateEpisode(e),/preserve/);
 });
+test('lead-approved windows (2026-10-12): hook 3..7s, conversion 4..12s, still bounded',()=>{
+  const ok=sample();ok.end_hook.duration=7;validateEpisode(ok);
+  for(const d of [2.9,7.1]){const e=sample();e.end_hook.duration=d;assert.throws(()=>validateEpisode(e),/3\.\.7/);}
+  const card=sample();card.conversion_card={duration:12,disclosure:'Recorded disclosure'};validateEpisode(card);
+  for(const d of [3.9,12.1]){const e=sample();e.conversion_card={duration:d,disclosure:'Recorded disclosure'};assert.throws(()=>validateEpisode(e),/4\.\.12/);}
+});

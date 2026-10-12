@@ -1,4 +1,8 @@
-# Academy v3 sample episodes
+# Academy v3 kit — Season 1 ("Sam's First Crypto Lesson")
+
+Season 1 production (all 24 English episodes, landscape + portrait) runs on the same pipeline as the approved E05/E09/E21 samples; see **Season 1 production** at the end. The sample notes below remain for history.
+
+## Samples (history)
 
 Internal E05 / E09 / E21 samples from the merged v3 scripts. No site changes, publication, registry edits, installs or model downloads. The original `sample-e05.json` remains a legacy 120-second kit fixture; the new `episodes/E05.json` is 135 seconds with the supplied conversion card. E09 is 155 seconds; E21 is 124.9 seconds (source targets 130/154/124 s; cards grew to fit measured narration).
 
@@ -102,3 +106,24 @@ node final-contact-sheets.mjs               # renders/final/contact-*.jpg, one f
 ```
 
 The zh-Hans E05 variant carries the English narration under Simplified Chinese captions; no Mandarin voice was generated.
+
+## Season 1 production (2026-10-12)
+
+Every script defaults to all 24 episodes (`season.mjs`); pass ids to work in batches.
+
+```sh
+bash narrate.sh [--episodes E01,E02]          # skips existing wavs unless --force
+/usr/bin/python3 verify-narration.py          # faster-whisper small (cached): every line vs script
+node retake-narration.mjs <line-id> ...       # re-take failed lines (same voice profile), re-verified
+node align-narration.mjs measure [E01 ...]    # merges into episodes/narration-timing.json
+node from-v3.mjs [E01 ...]                    # converts + aligns
+bash render.sh en episodes/E01.json           # silent masters, workers 2
+node mux-narration.mjs E01                    # -16 LUFS narration track
+node final-contact-sheets.mjs                 # renders/final/contact-*.jpg
+```
+
+- **Visual direction per episode** lives in `episode-config.mjs`: set, shot ids, heading/framing/pose overrides and one primary teaching widget per content shot. `t(i)` pulls the source on-screen text verbatim; numbers are the scripts' own teaching numbers.
+- **Widgets added for Season 1** (`widgets.mjs`, styled in `style.css`, staged in `motion.js`): `formula` (equation rows, emphasis, note), `cards` (tiles with ✓/✗/! marks, optional separator), `flow` (steps with arrows and states), `quiz` (question + options; answer marks and verdict stamp appear at the answer beat), `compare` (two-sided), `order-book` (levels, fills, average/last), `buffer-gauge` (equity shrinking toward the maintenance line). `order-ticket` accepts `amount`; `candlestick-chart` is redrawn at readable size with an `annotate` mode labelling open/high/low/close; checklists with 6+ items run in two columns in landscape.
+- **No fine print (owner rule).** `fine-print.mjs` lists the forbidden caveat patterns (not investment advice, fictional/teaching-model data, commission, availability, partner-link, terms) for every locale. `from-v3.mjs` refuses configured headings/widgets that contain them and `build.mjs` fails the build if any reaches a frame (spoken captions are dialogue and are not filtered).
+- **Conversion card** (E04, E05, E07, E12, E13, E24 only): exchange name, code, QR and `nexualpha.com/go/<venue>` per venue plus one CTA sentence, with Nexubo thumbs-up beside the card. Bitget is shown as "Bitget.com" and linked via `/go/bitget`. The source disclosure/availability strings stay in JSON as metadata (`disclosure_rendered: false`) and are never drawn. The QR still encodes the lesson page `nexualpha.com/starter/<slug>?src=academy-video`.
+- **Contract revision approved by the lead (2026-10-12):** `end_hook` window 3..7 s (was 3..5) and conversion card 4..12 s (was 4..10), so every scripted hook/card line is spoken at natural speed. Alignment atempo is capped at 1.08 with no compromise band (`ATEMPO_COMPROMISE = 1.08`).

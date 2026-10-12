@@ -1,0 +1,2430 @@
+{
+  "version": 1,
+  "production_id": "E11",
+  "episode": 11,
+  "season": 1,
+  "slug": "scam-red-flags",
+  "title": {
+    "en": "Someone says he can make you money. First, see what he wants.",
+    "zh-Hans": "别人说能帮你赚钱，先看他要什么"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E11' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第11集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "fake-support",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "A stranger's chat bubble: 'Support upgrade. Send your recovery phrase.' Sam reaches for the backup paper. Antenna red, ding.",
+      "visual_zh": "陌生聊天气泡写“客服升级，发恢复词”，小白伸手去拿备份纸。天线红灯“叮”。",
+      "onscreen_text_en": "\"Support\" wants your phrase?",
+      "onscreen_text_zh-Hans": "“客服”要你的助记词？",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "surprised"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "He says he's support and he'll upgrade my wallet.",
+            "zh-Hans": "他说自己是客服，要帮我升级钱包。"
+          },
+          "start": 0.25,
+          "end": 2.788,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e11-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 2.538
+          },
+          "words": {
+            "en": [
+              {
+                "text": "He ",
+                "start": 0.25,
+                "end": 0.374
+              },
+              {
+                "text": "says ",
+                "start": 0.374,
+                "end": 0.621
+              },
+              {
+                "text": "he's ",
+                "start": 0.621,
+                "end": 0.869
+              },
+              {
+                "text": "support ",
+                "start": 0.869,
+                "end": 1.302
+              },
+              {
+                "text": "and ",
+                "start": 1.302,
+                "end": 1.488
+              },
+              {
+                "text": "he'll ",
+                "start": 1.488,
+                "end": 1.798
+              },
+              {
+                "text": "upgrade ",
+                "start": 1.798,
+                "end": 2.231
+              },
+              {
+                "text": "my ",
+                "start": 2.231,
+                "end": 2.355
+              },
+              {
+                "text": "wallet.",
+                "start": 2.355,
+                "end": 2.788
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "他",
+                "start": 0.25,
+                "end": 0.409
+              },
+              {
+                "text": "说",
+                "start": 0.409,
+                "end": 0.567
+              },
+              {
+                "text": "自己",
+                "start": 0.567,
+                "end": 0.885
+              },
+              {
+                "text": "是",
+                "start": 0.885,
+                "end": 1.043
+              },
+              {
+                "text": "客",
+                "start": 1.043,
+                "end": 1.202
+              },
+              {
+                "text": "服，",
+                "start": 1.202,
+                "end": 1.519
+              },
+              {
+                "text": "要",
+                "start": 1.519,
+                "end": 1.678
+              },
+              {
+                "text": "帮",
+                "start": 1.678,
+                "end": 1.836
+              },
+              {
+                "text": "我",
+                "start": 1.836,
+                "end": 1.995
+              },
+              {
+                "text": "升级",
+                "start": 1.995,
+                "end": 2.312
+              },
+              {
+                "text": "钱包。",
+                "start": 2.312,
+                "end": 2.788
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "\"Support upgrade: send your recovery phrase\"",
+            "zh-Hans": "“客服升级，发恢复词”"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "陌生聊天气泡写“客服升级，发恢复词”，小白伸手去拿备份纸。天线红灯“叮”。",
+      "source_onscreen_text": {
+        "en": [
+          "\"Support upgrade: send your recovery phrase\""
+        ],
+        "zh-Hans": [
+          "“客服升级，发恢复词”"
+        ]
+      }
+    },
+    {
+      "id": "control-key",
+      "duration": 23,
+      "set": "study-desk",
+      "visual_en": "Nexubo covers the recovery-phrase card with a big key; the lock reads 'Whoever has this controls the wallet'. The phrase on the card is fictional and blurred.",
+      "visual_zh": "小纳用大钥匙盖住助记词卡；锁旁写明“拥有它可控制相应钱包”。",
+      "onscreen_text_en": "Whoever has this controls the wallet",
+      "onscreen_text_zh-Hans": "拥有它可控制相应钱包",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "For a standard recovery-phrase wallet, the phrase is the control key, not a support code. Same for your private key. Never send them to anyone. Even our academy assistant should never ask for them.",
+            "zh-Hans": "普通助记词钱包的恢复词是控制凭证，不是客服验证码。私钥也一样。不要发给任何人，学院问答助手同样不该索取。"
+          },
+          "start": 0.25,
+          "end": 10.919,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e11-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.669
+          },
+          "words": {
+            "en": [
+              {
+                "text": "For ",
+                "start": 0.25,
+                "end": 0.445
+              },
+              {
+                "text": "a ",
+                "start": 0.445,
+                "end": 0.51
+              },
+              {
+                "text": "standard ",
+                "start": 0.51,
+                "end": 1.031
+              },
+              {
+                "text": "recovery-",
+                "start": 1.031,
+                "end": 1.616
+              },
+              {
+                "text": "phrase ",
+                "start": 1.616,
+                "end": 2.006
+              },
+              {
+                "text": "wallet, ",
+                "start": 2.006,
+                "end": 2.462
+              },
+              {
+                "text": "the ",
+                "start": 2.462,
+                "end": 2.657
+              },
+              {
+                "text": "phrase ",
+                "start": 2.657,
+                "end": 3.047
+              },
+              {
+                "text": "is ",
+                "start": 3.047,
+                "end": 3.177
+              },
+              {
+                "text": "the ",
+                "start": 3.177,
+                "end": 3.373
+              },
+              {
+                "text": "control ",
+                "start": 3.373,
+                "end": 3.828
+              },
+              {
+                "text": "key, ",
+                "start": 3.828,
+                "end": 4.088
+              },
+              {
+                "text": "not ",
+                "start": 4.088,
+                "end": 4.283
+              },
+              {
+                "text": "a ",
+                "start": 4.283,
+                "end": 4.348
+              },
+              {
+                "text": "support ",
+                "start": 4.348,
+                "end": 4.804
+              },
+              {
+                "text": "code. ",
+                "start": 4.804,
+                "end": 5.129
+              },
+              {
+                "text": "Same ",
+                "start": 5.129,
+                "end": 5.389
+              },
+              {
+                "text": "for ",
+                "start": 5.389,
+                "end": 5.585
+              },
+              {
+                "text": "your ",
+                "start": 5.585,
+                "end": 5.845
+              },
+              {
+                "text": "private ",
+                "start": 5.845,
+                "end": 6.3
+              },
+              {
+                "text": "key. ",
+                "start": 6.3,
+                "end": 6.56
+              },
+              {
+                "text": "Never ",
+                "start": 6.56,
+                "end": 6.886
+              },
+              {
+                "text": "send ",
+                "start": 6.886,
+                "end": 7.146
+              },
+              {
+                "text": "them ",
+                "start": 7.146,
+                "end": 7.406
+              },
+              {
+                "text": "to ",
+                "start": 7.406,
+                "end": 7.536
+              },
+              {
+                "text": "anyone. ",
+                "start": 7.536,
+                "end": 7.992
+              },
+              {
+                "text": "Even ",
+                "start": 7.992,
+                "end": 8.252
+              },
+              {
+                "text": "our ",
+                "start": 8.252,
+                "end": 8.447
+              },
+              {
+                "text": "academy ",
+                "start": 8.447,
+                "end": 8.902
+              },
+              {
+                "text": "assistant ",
+                "start": 8.902,
+                "end": 9.488
+              },
+              {
+                "text": "should ",
+                "start": 9.488,
+                "end": 9.878
+              },
+              {
+                "text": "never ",
+                "start": 9.878,
+                "end": 10.203
+              },
+              {
+                "text": "ask ",
+                "start": 10.203,
+                "end": 10.399
+              },
+              {
+                "text": "for ",
+                "start": 10.399,
+                "end": 10.594
+              },
+              {
+                "text": "them.",
+                "start": 10.594,
+                "end": 10.919
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "普通",
+                "start": 0.25,
+                "end": 0.66
+              },
+              {
+                "text": "助",
+                "start": 0.66,
+                "end": 0.866
+              },
+              {
+                "text": "记",
+                "start": 0.866,
+                "end": 1.071
+              },
+              {
+                "text": "词",
+                "start": 1.071,
+                "end": 1.276
+              },
+              {
+                "text": "钱包",
+                "start": 1.276,
+                "end": 1.686
+              },
+              {
+                "text": "的",
+                "start": 1.686,
+                "end": 1.891
+              },
+              {
+                "text": "恢复",
+                "start": 1.891,
+                "end": 2.302
+              },
+              {
+                "text": "词",
+                "start": 2.302,
+                "end": 2.507
+              },
+              {
+                "text": "是",
+                "start": 2.507,
+                "end": 2.712
+              },
+              {
+                "text": "控制",
+                "start": 2.712,
+                "end": 3.122
+              },
+              {
+                "text": "凭证，",
+                "start": 3.122,
+                "end": 3.738
+              },
+              {
+                "text": "不是",
+                "start": 3.738,
+                "end": 4.148
+              },
+              {
+                "text": "客",
+                "start": 4.148,
+                "end": 4.353
+              },
+              {
+                "text": "服",
+                "start": 4.353,
+                "end": 4.559
+              },
+              {
+                "text": "验证",
+                "start": 4.559,
+                "end": 4.969
+              },
+              {
+                "text": "码。",
+                "start": 4.969,
+                "end": 5.379
+              },
+              {
+                "text": "私",
+                "start": 5.379,
+                "end": 5.585
+              },
+              {
+                "text": "钥",
+                "start": 5.585,
+                "end": 5.79
+              },
+              {
+                "text": "也",
+                "start": 5.79,
+                "end": 5.995
+              },
+              {
+                "text": "一样。",
+                "start": 5.995,
+                "end": 6.61
+              },
+              {
+                "text": "不要",
+                "start": 6.61,
+                "end": 7.021
+              },
+              {
+                "text": "发",
+                "start": 7.021,
+                "end": 7.226
+              },
+              {
+                "text": "给",
+                "start": 7.226,
+                "end": 7.431
+              },
+              {
+                "text": "任何人，",
+                "start": 7.431,
+                "end": 8.252
+              },
+              {
+                "text": "学院",
+                "start": 8.252,
+                "end": 8.662
+              },
+              {
+                "text": "问答",
+                "start": 8.662,
+                "end": 9.072
+              },
+              {
+                "text": "助手",
+                "start": 9.072,
+                "end": 9.483
+              },
+              {
+                "text": "同样",
+                "start": 9.483,
+                "end": 9.893
+              },
+              {
+                "text": "不该",
+                "start": 9.893,
+                "end": 10.303
+              },
+              {
+                "text": "索取。",
+                "start": 10.303,
+                "end": 10.919
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Recovery phrase",
+                "zh-Hans": "助记词"
+              },
+              "value": {
+                "en": "never send",
+                "zh-Hans": "绝不发送"
+              },
+              "mark": "no"
+            },
+            {
+              "label": {
+                "en": "Private key",
+                "zh-Hans": "私钥"
+              },
+              "value": {
+                "en": "never send",
+                "zh-Hans": "绝不发送"
+              },
+              "mark": "no"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "小纳用大钥匙盖住助记词卡；锁旁写明“拥有它可控制相应钱包”。",
+      "source_onscreen_text": {
+        "en": [
+          "Whoever has this controls the wallet"
+        ],
+        "zh-Hans": [
+          "拥有它可控制相应钱包"
+        ]
+      }
+    },
+    {
+      "id": "more-signs",
+      "duration": 28,
+      "set": "study-desk",
+      "visual_en": "A second scammer sends 'Guaranteed high returns'; a third asks for payment off the platform.",
+      "visual_zh": "第二个骗子发“保本高收益”，第三个要求离开平台付款。",
+      "onscreen_text_en": "Two more danger signs",
+      "onscreen_text_zh-Hans": "另外两个危险信号",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Two more danger signs: guaranteed returns, and pressure to pay. A screenshot of big profits proves nothing, and doesn't mean you could repeat it. If someone rushes you past the normal checks, stop.",
+            "zh-Hans": "还有两类危险信号：保证收益、催促付款。高收益截图不能证明真实，也不说明你能复现。有人催你越过正常核对步骤，就先停下来。"
+          },
+          "start": 0.25,
+          "end": 11.034,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e11-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 10.784
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Two ",
+                "start": 0.25,
+                "end": 0.446
+              },
+              {
+                "text": "more ",
+                "start": 0.446,
+                "end": 0.708
+              },
+              {
+                "text": "danger ",
+                "start": 0.708,
+                "end": 1.1
+              },
+              {
+                "text": "signs: ",
+                "start": 1.1,
+                "end": 1.492
+              },
+              {
+                "text": "guaranteed ",
+                "start": 1.492,
+                "end": 2.145
+              },
+              {
+                "text": "returns, ",
+                "start": 2.145,
+                "end": 2.668
+              },
+              {
+                "text": "and ",
+                "start": 2.668,
+                "end": 2.864
+              },
+              {
+                "text": "pressure ",
+                "start": 2.864,
+                "end": 3.387
+              },
+              {
+                "text": "to ",
+                "start": 3.387,
+                "end": 3.518
+              },
+              {
+                "text": "pay. ",
+                "start": 3.518,
+                "end": 3.779
+              },
+              {
+                "text": "A ",
+                "start": 3.779,
+                "end": 3.845
+              },
+              {
+                "text": "screenshot ",
+                "start": 3.845,
+                "end": 4.498
+              },
+              {
+                "text": "of ",
+                "start": 4.498,
+                "end": 4.629
+              },
+              {
+                "text": "big ",
+                "start": 4.629,
+                "end": 4.825
+              },
+              {
+                "text": "profits ",
+                "start": 4.825,
+                "end": 5.283
+              },
+              {
+                "text": "proves ",
+                "start": 5.283,
+                "end": 5.675
+              },
+              {
+                "text": "nothing, ",
+                "start": 5.675,
+                "end": 6.198
+              },
+              {
+                "text": "and ",
+                "start": 6.198,
+                "end": 6.394
+              },
+              {
+                "text": "doesn't ",
+                "start": 6.394,
+                "end": 6.851
+              },
+              {
+                "text": "mean ",
+                "start": 6.851,
+                "end": 7.113
+              },
+              {
+                "text": "you ",
+                "start": 7.113,
+                "end": 7.309
+              },
+              {
+                "text": "could ",
+                "start": 7.309,
+                "end": 7.635
+              },
+              {
+                "text": "repeat ",
+                "start": 7.635,
+                "end": 8.028
+              },
+              {
+                "text": "it. ",
+                "start": 8.028,
+                "end": 8.224
+              },
+              {
+                "text": "If ",
+                "start": 8.224,
+                "end": 8.354
+              },
+              {
+                "text": "someone ",
+                "start": 8.354,
+                "end": 8.812
+              },
+              {
+                "text": "rushes ",
+                "start": 8.812,
+                "end": 9.204
+              },
+              {
+                "text": "you ",
+                "start": 9.204,
+                "end": 9.4
+              },
+              {
+                "text": "past ",
+                "start": 9.4,
+                "end": 9.661
+              },
+              {
+                "text": "the ",
+                "start": 9.661,
+                "end": 9.858
+              },
+              {
+                "text": "normal ",
+                "start": 9.858,
+                "end": 10.25
+              },
+              {
+                "text": "checks, ",
+                "start": 10.25,
+                "end": 10.707
+              },
+              {
+                "text": "stop.",
+                "start": 10.707,
+                "end": 11.034
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "还有",
+                "start": 0.25,
+                "end": 0.616
+              },
+              {
+                "text": "两",
+                "start": 0.616,
+                "end": 0.798
+              },
+              {
+                "text": "类",
+                "start": 0.798,
+                "end": 0.981
+              },
+              {
+                "text": "危险",
+                "start": 0.981,
+                "end": 1.347
+              },
+              {
+                "text": "信号：",
+                "start": 1.347,
+                "end": 1.895
+              },
+              {
+                "text": "保证",
+                "start": 1.895,
+                "end": 2.261
+              },
+              {
+                "text": "收益、",
+                "start": 2.261,
+                "end": 2.809
+              },
+              {
+                "text": "催促",
+                "start": 2.809,
+                "end": 3.174
+              },
+              {
+                "text": "付款。",
+                "start": 3.174,
+                "end": 3.723
+              },
+              {
+                "text": "高",
+                "start": 3.723,
+                "end": 3.906
+              },
+              {
+                "text": "收益",
+                "start": 3.906,
+                "end": 4.271
+              },
+              {
+                "text": "截",
+                "start": 4.271,
+                "end": 4.454
+              },
+              {
+                "text": "图",
+                "start": 4.454,
+                "end": 4.637
+              },
+              {
+                "text": "不能",
+                "start": 4.637,
+                "end": 5.002
+              },
+              {
+                "text": "证明",
+                "start": 5.002,
+                "end": 5.368
+              },
+              {
+                "text": "真实，",
+                "start": 5.368,
+                "end": 5.916
+              },
+              {
+                "text": "也不",
+                "start": 5.916,
+                "end": 6.282
+              },
+              {
+                "text": "说明",
+                "start": 6.282,
+                "end": 6.647
+              },
+              {
+                "text": "你",
+                "start": 6.647,
+                "end": 6.83
+              },
+              {
+                "text": "能",
+                "start": 6.83,
+                "end": 7.013
+              },
+              {
+                "text": "复现。",
+                "start": 7.013,
+                "end": 7.561
+              },
+              {
+                "text": "有人",
+                "start": 7.561,
+                "end": 7.927
+              },
+              {
+                "text": "催",
+                "start": 7.927,
+                "end": 8.11
+              },
+              {
+                "text": "你",
+                "start": 8.11,
+                "end": 8.292
+              },
+              {
+                "text": "越过",
+                "start": 8.292,
+                "end": 8.658
+              },
+              {
+                "text": "正常",
+                "start": 8.658,
+                "end": 9.023
+              },
+              {
+                "text": "核对",
+                "start": 9.023,
+                "end": 9.389
+              },
+              {
+                "text": "步骤，",
+                "start": 9.389,
+                "end": 9.937
+              },
+              {
+                "text": "就",
+                "start": 9.937,
+                "end": 10.12
+              },
+              {
+                "text": "先",
+                "start": 10.12,
+                "end": 10.303
+              },
+              {
+                "text": "停下",
+                "start": 10.303,
+                "end": 10.668
+              },
+              {
+                "text": "来。",
+                "start": 10.668,
+                "end": 11.034
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Guaranteed returns",
+                "zh-Hans": "保本高收益"
+              },
+              "mark": "no"
+            },
+            {
+              "label": {
+                "en": "Pay off-platform",
+                "zh-Hans": "离开平台付款"
+              },
+              "mark": "no"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "第二个骗子发“保本高收益”，第三个要求离开平台付款。",
+      "source_onscreen_text": {
+        "en": [
+          "Guaranteed returns",
+          "Pay off-platform"
+        ],
+        "zh-Hans": [
+          "保本高收益",
+          "离开平台付款"
+        ]
+      }
+    },
+    {
+      "id": "connect-vs-approve",
+      "duration": 24,
+      "set": "study-desk",
+      "visual_en": "Two doors: 'Connect wallet' and 'Sign / Approve'. The approval screen highlights: what's allowed, the limit, who receives it.",
+      "visual_zh": "连接钱包和签名授权分两扇门；授权页面突出允许操作、额度、接收对象。",
+      "onscreen_text_en": "Don't understand it? Don't confirm",
+      "onscreen_text_zh-Hans": "看不懂就别确认",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Connecting a wallet, signing a message and approving access to your assets are different things. If you don't understand a signature or approval, don't confirm it. No password prompt doesn't mean no risk.",
+            "zh-Hans": "连接钱包、签署消息和授权资产，不是同一件事。看不懂签名或授权，就不确认；不要以为没有输入密码就一定没有风险。"
+          },
+          "start": 0.25,
+          "end": 11.483,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e11-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.233
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Connecting ",
+                "start": 0.25,
+                "end": 0.903
+              },
+              {
+                "text": "a ",
+                "start": 0.903,
+                "end": 0.968
+              },
+              {
+                "text": "wallet, ",
+                "start": 0.968,
+                "end": 1.426
+              },
+              {
+                "text": "signing ",
+                "start": 1.426,
+                "end": 1.883
+              },
+              {
+                "text": "a ",
+                "start": 1.883,
+                "end": 1.948
+              },
+              {
+                "text": "message ",
+                "start": 1.948,
+                "end": 2.405
+              },
+              {
+                "text": "and ",
+                "start": 2.405,
+                "end": 2.601
+              },
+              {
+                "text": "approving ",
+                "start": 2.601,
+                "end": 3.189
+              },
+              {
+                "text": "access ",
+                "start": 3.189,
+                "end": 3.581
+              },
+              {
+                "text": "to ",
+                "start": 3.581,
+                "end": 3.711
+              },
+              {
+                "text": "your ",
+                "start": 3.711,
+                "end": 3.973
+              },
+              {
+                "text": "assets ",
+                "start": 3.973,
+                "end": 4.364
+              },
+              {
+                "text": "are ",
+                "start": 4.364,
+                "end": 4.56
+              },
+              {
+                "text": "different ",
+                "start": 4.56,
+                "end": 5.148
+              },
+              {
+                "text": "things. ",
+                "start": 5.148,
+                "end": 5.605
+              },
+              {
+                "text": "If ",
+                "start": 5.605,
+                "end": 5.736
+              },
+              {
+                "text": "you ",
+                "start": 5.736,
+                "end": 5.932
+              },
+              {
+                "text": "don't ",
+                "start": 5.932,
+                "end": 6.258
+              },
+              {
+                "text": "understand ",
+                "start": 6.258,
+                "end": 6.911
+              },
+              {
+                "text": "a ",
+                "start": 6.911,
+                "end": 6.977
+              },
+              {
+                "text": "signature ",
+                "start": 6.977,
+                "end": 7.565
+              },
+              {
+                "text": "or ",
+                "start": 7.565,
+                "end": 7.695
+              },
+              {
+                "text": "approval, ",
+                "start": 7.695,
+                "end": 8.283
+              },
+              {
+                "text": "don't ",
+                "start": 8.283,
+                "end": 8.609
+              },
+              {
+                "text": "confirm ",
+                "start": 8.609,
+                "end": 9.067
+              },
+              {
+                "text": "it. ",
+                "start": 9.067,
+                "end": 9.263
+              },
+              {
+                "text": "No ",
+                "start": 9.263,
+                "end": 9.393
+              },
+              {
+                "text": "password ",
+                "start": 9.393,
+                "end": 9.916
+              },
+              {
+                "text": "prompt ",
+                "start": 9.916,
+                "end": 10.307
+              },
+              {
+                "text": "doesn't ",
+                "start": 10.307,
+                "end": 10.765
+              },
+              {
+                "text": "mean ",
+                "start": 10.765,
+                "end": 11.026
+              },
+              {
+                "text": "no ",
+                "start": 11.026,
+                "end": 11.156
+              },
+              {
+                "text": "risk.",
+                "start": 11.156,
+                "end": 11.483
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "连接",
+                "start": 0.25,
+                "end": 0.666
+              },
+              {
+                "text": "钱包、",
+                "start": 0.666,
+                "end": 1.29
+              },
+              {
+                "text": "签署",
+                "start": 1.29,
+                "end": 1.706
+              },
+              {
+                "text": "消息",
+                "start": 1.706,
+                "end": 2.122
+              },
+              {
+                "text": "和",
+                "start": 2.122,
+                "end": 2.33
+              },
+              {
+                "text": "授权",
+                "start": 2.33,
+                "end": 2.746
+              },
+              {
+                "text": "资产，",
+                "start": 2.746,
+                "end": 3.37
+              },
+              {
+                "text": "不是",
+                "start": 3.37,
+                "end": 3.786
+              },
+              {
+                "text": "同",
+                "start": 3.786,
+                "end": 3.994
+              },
+              {
+                "text": "一件事。",
+                "start": 3.994,
+                "end": 4.826
+              },
+              {
+                "text": "看",
+                "start": 4.826,
+                "end": 5.034
+              },
+              {
+                "text": "不懂",
+                "start": 5.034,
+                "end": 5.45
+              },
+              {
+                "text": "签名",
+                "start": 5.45,
+                "end": 5.867
+              },
+              {
+                "text": "或",
+                "start": 5.867,
+                "end": 6.075
+              },
+              {
+                "text": "授权，",
+                "start": 6.075,
+                "end": 6.699
+              },
+              {
+                "text": "就不",
+                "start": 6.699,
+                "end": 7.115
+              },
+              {
+                "text": "确认；",
+                "start": 7.115,
+                "end": 7.739
+              },
+              {
+                "text": "不要",
+                "start": 7.739,
+                "end": 8.155
+              },
+              {
+                "text": "以为",
+                "start": 8.155,
+                "end": 8.571
+              },
+              {
+                "text": "没有",
+                "start": 8.571,
+                "end": 8.987
+              },
+              {
+                "text": "输入",
+                "start": 8.987,
+                "end": 9.403
+              },
+              {
+                "text": "密码",
+                "start": 9.403,
+                "end": 9.819
+              },
+              {
+                "text": "就",
+                "start": 9.819,
+                "end": 10.027
+              },
+              {
+                "text": "一定",
+                "start": 10.027,
+                "end": 10.443
+              },
+              {
+                "text": "没有",
+                "start": 10.443,
+                "end": 10.859
+              },
+              {
+                "text": "风险。",
+                "start": 10.859,
+                "end": 11.483
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Connect",
+                "zh-Hans": "连接"
+              }
+            },
+            {
+              "label": {
+                "en": "Sign / Approve",
+                "zh-Hans": "签名／授权"
+              },
+              "value": {
+                "en": "Allowed action · Limit · Recipient",
+                "zh-Hans": "允许操作 · 额度 · 接收对象"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "连接钱包和签名授权分两扇门；授权页面突出允许操作、额度、接收对象。",
+      "source_onscreen_text": {
+        "en": [
+          "Connect",
+          "Sign / Approve",
+          "Allowed action · Limit · Recipient"
+        ],
+        "zh-Hans": [
+          "连接",
+          "签名／授权",
+          "允许操作 · 额度 · 接收对象"
+        ]
+      }
+    },
+    {
+      "id": "official-security",
+      "duration": 19,
+      "set": "study-desk",
+      "visual_en": "Sam closes the link, opens the verified official app, revokes unknown sessions and checks devices.",
+      "visual_zh": "小白关闭链接，主动打开已核验的官方应用，撤回未知会话并查设备。",
+      "onscreen_text_en": "Use the official security channel",
+      "onscreen_text_zh-Hans": "走官方安全渠道",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "If you think something leaked, stop and use the official security channel. Act on what actually leaked. Never install remote-control software because a scammer told you to.",
+            "zh-Hans": "怀疑泄露时，停止继续操作，使用官方安全渠道处理；根据泄露内容采取针对措施，不要在骗子指挥下下载远程控制软件。"
+          },
+          "start": 0.25,
+          "end": 9.678,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e11-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 9.428
+          },
+          "words": {
+            "en": [
+              {
+                "text": "If ",
+                "start": 0.25,
+                "end": 0.379
+              },
+              {
+                "text": "you ",
+                "start": 0.379,
+                "end": 0.573
+              },
+              {
+                "text": "think ",
+                "start": 0.573,
+                "end": 0.896
+              },
+              {
+                "text": "something ",
+                "start": 0.896,
+                "end": 1.477
+              },
+              {
+                "text": "leaked, ",
+                "start": 1.477,
+                "end": 1.929
+              },
+              {
+                "text": "stop ",
+                "start": 1.929,
+                "end": 2.187
+              },
+              {
+                "text": "and ",
+                "start": 2.187,
+                "end": 2.381
+              },
+              {
+                "text": "use ",
+                "start": 2.381,
+                "end": 2.575
+              },
+              {
+                "text": "the ",
+                "start": 2.575,
+                "end": 2.768
+              },
+              {
+                "text": "official ",
+                "start": 2.768,
+                "end": 3.285
+              },
+              {
+                "text": "security ",
+                "start": 3.285,
+                "end": 3.802
+              },
+              {
+                "text": "channel. ",
+                "start": 3.802,
+                "end": 4.318
+              },
+              {
+                "text": "Act ",
+                "start": 4.318,
+                "end": 4.512
+              },
+              {
+                "text": "on ",
+                "start": 4.512,
+                "end": 4.641
+              },
+              {
+                "text": "what ",
+                "start": 4.641,
+                "end": 4.899
+              },
+              {
+                "text": "actually ",
+                "start": 4.899,
+                "end": 5.416
+              },
+              {
+                "text": "leaked. ",
+                "start": 5.416,
+                "end": 5.868
+              },
+              {
+                "text": "Never ",
+                "start": 5.868,
+                "end": 6.191
+              },
+              {
+                "text": "install ",
+                "start": 6.191,
+                "end": 6.643
+              },
+              {
+                "text": "remote-",
+                "start": 6.643,
+                "end": 7.095
+              },
+              {
+                "text": "control ",
+                "start": 7.095,
+                "end": 7.547
+              },
+              {
+                "text": "software ",
+                "start": 7.547,
+                "end": 8.064
+              },
+              {
+                "text": "because ",
+                "start": 8.064,
+                "end": 8.516
+              },
+              {
+                "text": "a ",
+                "start": 8.516,
+                "end": 8.58
+              },
+              {
+                "text": "scammer ",
+                "start": 8.58,
+                "end": 9.032
+              },
+              {
+                "text": "told ",
+                "start": 9.032,
+                "end": 9.291
+              },
+              {
+                "text": "you ",
+                "start": 9.291,
+                "end": 9.484
+              },
+              {
+                "text": "to.",
+                "start": 9.484,
+                "end": 9.678
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "怀疑",
+                "start": 0.25,
+                "end": 0.599
+              },
+              {
+                "text": "泄露",
+                "start": 0.599,
+                "end": 0.948
+              },
+              {
+                "text": "时，",
+                "start": 0.948,
+                "end": 1.298
+              },
+              {
+                "text": "停止",
+                "start": 1.298,
+                "end": 1.647
+              },
+              {
+                "text": "继续",
+                "start": 1.647,
+                "end": 1.996
+              },
+              {
+                "text": "操作，",
+                "start": 1.996,
+                "end": 2.52
+              },
+              {
+                "text": "使用",
+                "start": 2.52,
+                "end": 2.869
+              },
+              {
+                "text": "官方",
+                "start": 2.869,
+                "end": 3.218
+              },
+              {
+                "text": "安全",
+                "start": 3.218,
+                "end": 3.567
+              },
+              {
+                "text": "渠道",
+                "start": 3.567,
+                "end": 3.916
+              },
+              {
+                "text": "处理；",
+                "start": 3.916,
+                "end": 4.44
+              },
+              {
+                "text": "根据",
+                "start": 4.44,
+                "end": 4.789
+              },
+              {
+                "text": "泄露",
+                "start": 4.789,
+                "end": 5.139
+              },
+              {
+                "text": "内容",
+                "start": 5.139,
+                "end": 5.488
+              },
+              {
+                "text": "采取",
+                "start": 5.488,
+                "end": 5.837
+              },
+              {
+                "text": "针对",
+                "start": 5.837,
+                "end": 6.186
+              },
+              {
+                "text": "措施，",
+                "start": 6.186,
+                "end": 6.71
+              },
+              {
+                "text": "不要",
+                "start": 6.71,
+                "end": 7.059
+              },
+              {
+                "text": "在",
+                "start": 7.059,
+                "end": 7.234
+              },
+              {
+                "text": "骗子",
+                "start": 7.234,
+                "end": 7.583
+              },
+              {
+                "text": "指挥",
+                "start": 7.583,
+                "end": 7.932
+              },
+              {
+                "text": "下",
+                "start": 7.932,
+                "end": 8.107
+              },
+              {
+                "text": "下载",
+                "start": 8.107,
+                "end": 8.456
+              },
+              {
+                "text": "远程",
+                "start": 8.456,
+                "end": 8.805
+              },
+              {
+                "text": "控制",
+                "start": 8.805,
+                "end": 9.154
+              },
+              {
+                "text": "软件。",
+                "start": 9.154,
+                "end": 9.678
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Official app",
+                "zh-Hans": "官方应用"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Revoke unknown sessions",
+                "zh-Hans": "撤回未知会话"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Check devices",
+                "zh-Hans": "检查设备"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "小白关闭链接，主动打开已核验的官方应用，撤回未知会话并查设备。",
+      "source_onscreen_text": {
+        "en": [
+          "Official app",
+          "Revoke unknown sessions",
+          "Check devices"
+        ],
+        "zh-Hans": [
+          "官方应用",
+          "撤回未知会话",
+          "检查设备"
+        ]
+      }
+    },
+    {
+      "id": "share-quiz",
+      "duration": 13,
+      "set": "study-desk",
+      "visual_en": "Three request cards: public receiving address / recovery phrase / one-time code. The last two glow red.",
+      "visual_zh": "三张请求卡：公开收款地址／恢复词／一次性验证码，后两项亮红。",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Sharing info to receive money isn't the same as handing over the keys.",
+            "zh-Hans": "能公开接收信息，不等于能交出控制凭证。"
+          },
+          "start": 0.25,
+          "end": 3.417,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e11-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 3.167
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Sharing ",
+                "start": 0.25,
+                "end": 0.632
+              },
+              {
+                "text": "info ",
+                "start": 0.632,
+                "end": 0.851
+              },
+              {
+                "text": "to ",
+                "start": 0.851,
+                "end": 0.96
+              },
+              {
+                "text": "receive ",
+                "start": 0.96,
+                "end": 1.342
+              },
+              {
+                "text": "money ",
+                "start": 1.342,
+                "end": 1.615
+              },
+              {
+                "text": "isn't ",
+                "start": 1.615,
+                "end": 1.888
+              },
+              {
+                "text": "the ",
+                "start": 1.888,
+                "end": 2.052
+              },
+              {
+                "text": "same ",
+                "start": 2.052,
+                "end": 2.27
+              },
+              {
+                "text": "as ",
+                "start": 2.27,
+                "end": 2.38
+              },
+              {
+                "text": "handing ",
+                "start": 2.38,
+                "end": 2.762
+              },
+              {
+                "text": "over ",
+                "start": 2.762,
+                "end": 2.98
+              },
+              {
+                "text": "the ",
+                "start": 2.98,
+                "end": 3.144
+              },
+              {
+                "text": "keys.",
+                "start": 3.144,
+                "end": 3.417
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "能",
+                "start": 0.25,
+                "end": 0.417
+              },
+              {
+                "text": "公开",
+                "start": 0.417,
+                "end": 0.75
+              },
+              {
+                "text": "接收",
+                "start": 0.75,
+                "end": 1.083
+              },
+              {
+                "text": "信息，",
+                "start": 1.083,
+                "end": 1.583
+              },
+              {
+                "text": "不",
+                "start": 1.583,
+                "end": 1.75
+              },
+              {
+                "text": "等于",
+                "start": 1.75,
+                "end": 2.084
+              },
+              {
+                "text": "能",
+                "start": 2.084,
+                "end": 2.25
+              },
+              {
+                "text": "交出",
+                "start": 2.25,
+                "end": 2.584
+              },
+              {
+                "text": "控制",
+                "start": 2.584,
+                "end": 2.917
+              },
+              {
+                "text": "凭证。",
+                "start": 2.917,
+                "end": 3.417
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Share no secrets. Approve nothing you don't understand. Don't be rushed into paying.",
+            "zh-Hans": "不交秘密、不乱授权、不被催着付款。"
+          },
+          "start": 3.717,
+          "end": 8.614,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e11-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 4.897
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Share ",
+                "start": 3.717,
+                "end": 4.057
+              },
+              {
+                "text": "no ",
+                "start": 4.057,
+                "end": 4.193
+              },
+              {
+                "text": "secrets. ",
+                "start": 4.193,
+                "end": 4.737
+              },
+              {
+                "text": "Approve ",
+                "start": 4.737,
+                "end": 5.213
+              },
+              {
+                "text": "nothing ",
+                "start": 5.213,
+                "end": 5.689
+              },
+              {
+                "text": "you ",
+                "start": 5.689,
+                "end": 5.893
+              },
+              {
+                "text": "don't ",
+                "start": 5.893,
+                "end": 6.234
+              },
+              {
+                "text": "understand. ",
+                "start": 6.234,
+                "end": 6.982
+              },
+              {
+                "text": "Don't ",
+                "start": 6.982,
+                "end": 7.322
+              },
+              {
+                "text": "be ",
+                "start": 7.322,
+                "end": 7.458
+              },
+              {
+                "text": "rushed ",
+                "start": 7.458,
+                "end": 7.866
+              },
+              {
+                "text": "into ",
+                "start": 7.866,
+                "end": 8.138
+              },
+              {
+                "text": "paying.",
+                "start": 8.138,
+                "end": 8.614
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不",
+                "start": 3.717,
+                "end": 4.005
+              },
+              {
+                "text": "交",
+                "start": 4.005,
+                "end": 4.293
+              },
+              {
+                "text": "秘密、",
+                "start": 4.293,
+                "end": 5.157
+              },
+              {
+                "text": "不乱",
+                "start": 5.157,
+                "end": 5.733
+              },
+              {
+                "text": "授权、",
+                "start": 5.733,
+                "end": 6.598
+              },
+              {
+                "text": "不被",
+                "start": 6.598,
+                "end": 7.174
+              },
+              {
+                "text": "催",
+                "start": 7.174,
+                "end": 7.462
+              },
+              {
+                "text": "着",
+                "start": 7.462,
+                "end": 7.75
+              },
+              {
+                "text": "付款。",
+                "start": 7.75,
+                "end": 8.614
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which one is safe to share?",
+            "zh-Hans": "哪个可以分享？"
+          },
+          "options": [
+            {
+              "label": {
+                "en": "Public receiving address",
+                "zh-Hans": "公开收款地址"
+              },
+              "correct": true
+            },
+            {
+              "label": {
+                "en": "Recovery phrase",
+                "zh-Hans": "助记词"
+              },
+              "correct": false
+            },
+            {
+              "label": {
+                "en": "One-time code",
+                "zh-Hans": "一次性验证码"
+              },
+              "correct": false
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "三张请求卡：公开收款地址／恢复词／一次性验证码，后两项亮红。",
+      "source_onscreen_text": {
+        "en": [
+          "Public address ✓",
+          "Recovery phrase ✗",
+          "One-time code ✗"
+        ],
+        "zh-Hans": [
+          "公开收款地址 ✓",
+          "恢复词 ✗",
+          "一次性验证码 ✗"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.9,
+    "pose": "point",
+    "text": {
+      "en": "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.",
+      "zh-Hans": "看完十一集，是不是该充值了？第一季结课，答案可能出乎你意料。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.",
+          "zh-Hans": "看完十一集，是不是该充值了？第一季结课，答案可能出乎你意料。"
+        },
+        "start": 0.25,
+        "end": 6.576,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e11-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 6.326
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Eleven ",
+              "start": 0.25,
+              "end": 0.707
+            },
+            {
+              "text": "episodes ",
+              "start": 0.707,
+              "end": 1.317
+            },
+            {
+              "text": "done. ",
+              "start": 1.317,
+              "end": 1.698
+            },
+            {
+              "text": "Is ",
+              "start": 1.698,
+              "end": 1.851
+            },
+            {
+              "text": "it ",
+              "start": 1.851,
+              "end": 2.003
+            },
+            {
+              "text": "time ",
+              "start": 2.003,
+              "end": 2.308
+            },
+            {
+              "text": "to ",
+              "start": 2.308,
+              "end": 2.46
+            },
+            {
+              "text": "deposit ",
+              "start": 2.46,
+              "end": 2.994
+            },
+            {
+              "text": "real ",
+              "start": 2.994,
+              "end": 3.299
+            },
+            {
+              "text": "money? ",
+              "start": 3.299,
+              "end": 3.756
+            },
+            {
+              "text": "The ",
+              "start": 3.756,
+              "end": 3.985
+            },
+            {
+              "text": "Season ",
+              "start": 3.985,
+              "end": 4.442
+            },
+            {
+              "text": "1 ",
+              "start": 4.442,
+              "end": 4.518
+            },
+            {
+              "text": "finale ",
+              "start": 4.518,
+              "end": 4.975
+            },
+            {
+              "text": "has ",
+              "start": 4.975,
+              "end": 5.204
+            },
+            {
+              "text": "a ",
+              "start": 5.204,
+              "end": 5.28
+            },
+            {
+              "text": "surprising ",
+              "start": 5.28,
+              "end": 6.042
+            },
+            {
+              "text": "answer.",
+              "start": 6.042,
+              "end": 6.576
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "看完",
+              "start": 0.25,
+              "end": 0.672
+            },
+            {
+              "text": "十一",
+              "start": 0.672,
+              "end": 1.093
+            },
+            {
+              "text": "集，",
+              "start": 1.093,
+              "end": 1.515
+            },
+            {
+              "text": "是不是",
+              "start": 1.515,
+              "end": 2.148
+            },
+            {
+              "text": "该",
+              "start": 2.148,
+              "end": 2.359
+            },
+            {
+              "text": "充",
+              "start": 2.359,
+              "end": 2.57
+            },
+            {
+              "text": "值",
+              "start": 2.57,
+              "end": 2.78
+            },
+            {
+              "text": "了？",
+              "start": 2.78,
+              "end": 3.202
+            },
+            {
+              "text": "第一",
+              "start": 3.202,
+              "end": 3.624
+            },
+            {
+              "text": "季",
+              "start": 3.624,
+              "end": 3.835
+            },
+            {
+              "text": "结",
+              "start": 3.835,
+              "end": 4.046
+            },
+            {
+              "text": "课，",
+              "start": 4.046,
+              "end": 4.467
+            },
+            {
+              "text": "答案",
+              "start": 4.467,
+              "end": 4.889
+            },
+            {
+              "text": "可能",
+              "start": 4.889,
+              "end": 5.311
+            },
+            {
+              "text": "出乎",
+              "start": 5.311,
+              "end": 5.733
+            },
+            {
+              "text": "你",
+              "start": 5.733,
+              "end": 5.943
+            },
+            {
+              "text": "意料。",
+              "start": 5.943,
+              "end": 6.576
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.317,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e11-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.067
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.111
+          },
+          {
+            "text": "first, ",
+            "start": 1.111,
+            "end": 1.628
+          },
+          {
+            "text": "then ",
+            "start": 1.628,
+            "end": 1.973
+          },
+          {
+            "text": "act.",
+            "start": 1.973,
+            "end": 2.317
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.508
+          },
+          {
+            "text": "看懂，",
+            "start": 0.508,
+            "end": 1.284
+          },
+          {
+            "text": "再",
+            "start": 1.284,
+            "end": 1.542
+          },
+          {
+            "text": "动手。",
+            "start": 1.542,
+            "end": 2.317
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E11.json",
+    "original_slug": "scam-red-flags",
+    "goal": {
+      "en": "Recognise requests for secret credentials, off-platform payments, unusual approvals and guaranteed returns.",
+      "zh-Hans": "识别秘密凭证索取、私下付款、异常授权和保本承诺。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Real NexuAlpha staff will never ask for your recovery phrase, private key or codes.",
+      "line_zh": "NexuAlpha 的工作人员绝不会索取你的恢复词、私钥或验证码。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Spot the dangerous requests in four fictional chats, and choose the 'stop and verify officially' path.",
+      "task_zh": "识别四段虚构聊天的危险请求，选择停止和官方核验路径。",
+      "answer_en": "If anyone asks for your private key, recovery phrase, codes or an unclear approval, don't do it.",
+      "answer_zh": "任何人索取私钥、恢复词、验证码或不明授权，都不应照做。"
+    },
+    "red_lines": [
+      "Use only fictional sample credentials with no control over funds ｜ 只使用虚构、不具备资金控制能力的示意凭证",
+      "Never show a copyable real recovery phrase ｜ 不展示可复制的真实助记词",
+      "No conversion card and no partner name in this episode ｜ 本集不放转化卡、不出现合作平台名",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S09",
+      "S16"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "warning",
+      "cards",
+      "checklist",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

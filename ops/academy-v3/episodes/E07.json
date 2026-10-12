@@ -1,0 +1,2960 @@
+{
+  "version": 1,
+  "production_id": "E07",
+  "episode": 7,
+  "season": 1,
+  "slug": "first-spot-trade",
+  "title": {
+    "en": "Your first spot trade: from 100 to 0.002 BTC",
+    "zh-Hans": "第一笔现货：从100到0.002枚"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E07' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第07集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "the-slash",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "Sam stares at 'BTC/USDT' and imagines the slash means buying two coins at once.",
+      "visual_zh": "小白看到BTC/USDT，以为斜杠代表必须买两种币。",
+      "onscreen_text_en": "BTC/USDT",
+      "onscreen_text_zh-Hans": "BTC/USDT",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "This slash. Do I have to buy both coins?",
+            "zh-Hans": "这个斜杠，是让我同时买两种币吗？"
+          },
+          "start": 0.25,
+          "end": 3.981,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e07-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.731
+          },
+          "words": {
+            "en": [
+              {
+                "text": "This ",
+                "start": 0.25,
+                "end": 0.716
+              },
+              {
+                "text": "slash. ",
+                "start": 0.716,
+                "end": 1.416
+              },
+              {
+                "text": "Do ",
+                "start": 1.416,
+                "end": 1.649
+              },
+              {
+                "text": "I ",
+                "start": 1.649,
+                "end": 1.766
+              },
+              {
+                "text": "have ",
+                "start": 1.766,
+                "end": 2.232
+              },
+              {
+                "text": "to ",
+                "start": 2.232,
+                "end": 2.465
+              },
+              {
+                "text": "buy ",
+                "start": 2.465,
+                "end": 2.815
+              },
+              {
+                "text": "both ",
+                "start": 2.815,
+                "end": 3.281
+              },
+              {
+                "text": "coins?",
+                "start": 3.281,
+                "end": 3.981
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "这个",
+                "start": 0.25,
+                "end": 0.716
+              },
+              {
+                "text": "斜",
+                "start": 0.716,
+                "end": 0.95
+              },
+              {
+                "text": "杠，",
+                "start": 0.95,
+                "end": 1.416
+              },
+              {
+                "text": "是",
+                "start": 1.416,
+                "end": 1.649
+              },
+              {
+                "text": "让",
+                "start": 1.649,
+                "end": 1.882
+              },
+              {
+                "text": "我",
+                "start": 1.882,
+                "end": 2.116
+              },
+              {
+                "text": "同时",
+                "start": 2.116,
+                "end": 2.582
+              },
+              {
+                "text": "买",
+                "start": 2.582,
+                "end": 2.815
+              },
+              {
+                "text": "两",
+                "start": 2.815,
+                "end": 3.048
+              },
+              {
+                "text": "种",
+                "start": 3.048,
+                "end": 3.281
+              },
+              {
+                "text": "币",
+                "start": 3.281,
+                "end": 3.515
+              },
+              {
+                "text": "吗？",
+                "start": 3.515,
+                "end": 3.981
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "Buy two coins at once?",
+            "zh-Hans": "一次买两种币？"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白看到BTC/USDT，以为斜杠代表必须买两种币。",
+      "source_onscreen_text": {
+        "en": [
+          "BTC/USDT"
+        ],
+        "zh-Hans": [
+          "BTC/USDT"
+        ]
+      }
+    },
+    {
+      "id": "base-quote",
+      "duration": 26,
+      "set": "trading-desk",
+      "visual_en": "Left side BTC labelled 'what you trade'; right side USDT labelled 'what it's priced in'; matching wallet balances highlight.",
+      "visual_zh": "左边BTC标“买卖对象”，右边USDT标“报价资产”；钱包两边余额对应高亮。",
+      "onscreen_text_en": "Read the slash",
+      "onscreen_text_zh-Hans": "读懂这个斜杠",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "No. It means bitcoin is priced in USDT. When you buy, you pay USDT and get bitcoin. When you sell, it goes the other way.",
+            "zh-Hans": "不是。这表示用泰达币来给比特币报价。买入时，你付出报价资产，获得比特币；卖出时方向相反。"
+          },
+          "start": 0.25,
+          "end": 8.158,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e07-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 7.908
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No. ",
+                "start": 0.25,
+                "end": 0.495
+              },
+              {
+                "text": "It ",
+                "start": 0.495,
+                "end": 0.658
+              },
+              {
+                "text": "means ",
+                "start": 0.658,
+                "end": 1.065
+              },
+              {
+                "text": "bitcoin ",
+                "start": 1.065,
+                "end": 1.636
+              },
+              {
+                "text": "is ",
+                "start": 1.636,
+                "end": 1.799
+              },
+              {
+                "text": "priced ",
+                "start": 1.799,
+                "end": 2.288
+              },
+              {
+                "text": "in ",
+                "start": 2.288,
+                "end": 2.451
+              },
+              {
+                "text": "USDT. ",
+                "start": 2.451,
+                "end": 2.859
+              },
+              {
+                "text": "When ",
+                "start": 2.859,
+                "end": 3.185
+              },
+              {
+                "text": "you ",
+                "start": 3.185,
+                "end": 3.43
+              },
+              {
+                "text": "buy, ",
+                "start": 3.43,
+                "end": 3.756
+              },
+              {
+                "text": "you ",
+                "start": 3.756,
+                "end": 4
+              },
+              {
+                "text": "pay ",
+                "start": 4,
+                "end": 4.245
+              },
+              {
+                "text": "USDT ",
+                "start": 4.245,
+                "end": 4.571
+              },
+              {
+                "text": "and ",
+                "start": 4.571,
+                "end": 4.815
+              },
+              {
+                "text": "get ",
+                "start": 4.815,
+                "end": 5.06
+              },
+              {
+                "text": "bitcoin. ",
+                "start": 5.06,
+                "end": 5.712
+              },
+              {
+                "text": "When ",
+                "start": 5.712,
+                "end": 6.038
+              },
+              {
+                "text": "you ",
+                "start": 6.038,
+                "end": 6.283
+              },
+              {
+                "text": "sell, ",
+                "start": 6.283,
+                "end": 6.691
+              },
+              {
+                "text": "it ",
+                "start": 6.691,
+                "end": 6.854
+              },
+              {
+                "text": "goes ",
+                "start": 6.854,
+                "end": 7.18
+              },
+              {
+                "text": "the ",
+                "start": 7.18,
+                "end": 7.424
+              },
+              {
+                "text": "other ",
+                "start": 7.424,
+                "end": 7.832
+              },
+              {
+                "text": "way.",
+                "start": 7.832,
+                "end": 8.158
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不是。",
+                "start": 0.25,
+                "end": 0.789
+              },
+              {
+                "text": "这",
+                "start": 0.789,
+                "end": 0.969
+              },
+              {
+                "text": "表示",
+                "start": 0.969,
+                "end": 1.328
+              },
+              {
+                "text": "用",
+                "start": 1.328,
+                "end": 1.508
+              },
+              {
+                "text": "泰",
+                "start": 1.508,
+                "end": 1.688
+              },
+              {
+                "text": "达",
+                "start": 1.688,
+                "end": 1.868
+              },
+              {
+                "text": "币",
+                "start": 1.868,
+                "end": 2.047
+              },
+              {
+                "text": "来给",
+                "start": 2.047,
+                "end": 2.407
+              },
+              {
+                "text": "比",
+                "start": 2.407,
+                "end": 2.586
+              },
+              {
+                "text": "特",
+                "start": 2.586,
+                "end": 2.766
+              },
+              {
+                "text": "币",
+                "start": 2.766,
+                "end": 2.946
+              },
+              {
+                "text": "报价。",
+                "start": 2.946,
+                "end": 3.485
+              },
+              {
+                "text": "买",
+                "start": 3.485,
+                "end": 3.665
+              },
+              {
+                "text": "入",
+                "start": 3.665,
+                "end": 3.845
+              },
+              {
+                "text": "时，",
+                "start": 3.845,
+                "end": 4.204
+              },
+              {
+                "text": "你",
+                "start": 4.204,
+                "end": 4.384
+              },
+              {
+                "text": "付出",
+                "start": 4.384,
+                "end": 4.743
+              },
+              {
+                "text": "报价",
+                "start": 4.743,
+                "end": 5.103
+              },
+              {
+                "text": "资产，",
+                "start": 5.103,
+                "end": 5.642
+              },
+              {
+                "text": "获得",
+                "start": 5.642,
+                "end": 6.001
+              },
+              {
+                "text": "比",
+                "start": 6.001,
+                "end": 6.181
+              },
+              {
+                "text": "特",
+                "start": 6.181,
+                "end": 6.361
+              },
+              {
+                "text": "币；",
+                "start": 6.361,
+                "end": 6.72
+              },
+              {
+                "text": "卖",
+                "start": 6.72,
+                "end": 6.9
+              },
+              {
+                "text": "出",
+                "start": 6.9,
+                "end": 7.08
+              },
+              {
+                "text": "时",
+                "start": 7.08,
+                "end": 7.259
+              },
+              {
+                "text": "方向",
+                "start": 7.259,
+                "end": 7.619
+              },
+              {
+                "text": "相反。",
+                "start": 7.619,
+                "end": 8.158
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "divider": "/",
+          "left": {
+            "title": "BTC",
+            "rows": [
+              {
+                "en": "what you trade",
+                "zh-Hans": "你交易的币"
+              }
+            ]
+          },
+          "right": {
+            "title": "USDT",
+            "rows": [
+              {
+                "en": "what it's priced in",
+                "zh-Hans": "计价单位"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "00:09-00:35",
+      "source_visual_zh": "左边BTC标“买卖对象”，右边USDT标“报价资产”；钱包两边余额对应高亮。",
+      "source_onscreen_text": {
+        "en": [
+          "BTC = what you trade",
+          "USDT = what it's priced in"
+        ],
+        "zh-Hans": [
+          "BTC＝买卖对象",
+          "USDT＝报价资产"
+        ]
+      }
+    },
+    {
+      "id": "practice-ticket",
+      "duration": 32,
+      "set": "trading-desk",
+      "visual_en": "Only a spot interface marked PRACTICE: choose the pair → Market buy → amount 100. Highlight whether the field asks for amount or quantity.",
+      "visual_zh": "仅展示标有“模拟”的现货界面：选择交易对→市价买入→成交金额100。",
+      "onscreen_text_en": "Spot · Market buy",
+      "onscreen_text_zh-Hans": "现货 · 市价买入",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "We practise with a virtual account. Make sure it's spot, not futures. Pick the pair, choose Buy, then enter the amount. Before you submit, check whether the box wants an amount of money or a number of coins.",
+            "zh-Hans": "我们用虚拟账户练习。确认是现货，不是合约；选择交易对、买入方向，再输入成交金额。提交前看清它要求填金额，还是币的数量。"
+          },
+          "start": 0.25,
+          "end": 12.027,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e07-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.777
+          },
+          "words": {
+            "en": [
+              {
+                "text": "We ",
+                "start": 0.25,
+                "end": 0.389
+              },
+              {
+                "text": "practise ",
+                "start": 0.389,
+                "end": 0.943
+              },
+              {
+                "text": "with ",
+                "start": 0.943,
+                "end": 1.22
+              },
+              {
+                "text": "a ",
+                "start": 1.22,
+                "end": 1.289
+              },
+              {
+                "text": "virtual ",
+                "start": 1.289,
+                "end": 1.774
+              },
+              {
+                "text": "account. ",
+                "start": 1.774,
+                "end": 2.328
+              },
+              {
+                "text": "Make ",
+                "start": 2.328,
+                "end": 2.605
+              },
+              {
+                "text": "sure ",
+                "start": 2.605,
+                "end": 2.883
+              },
+              {
+                "text": "it's ",
+                "start": 2.883,
+                "end": 3.16
+              },
+              {
+                "text": "spot, ",
+                "start": 3.16,
+                "end": 3.506
+              },
+              {
+                "text": "not ",
+                "start": 3.506,
+                "end": 3.714
+              },
+              {
+                "text": "futures. ",
+                "start": 3.714,
+                "end": 4.268
+              },
+              {
+                "text": "Pick ",
+                "start": 4.268,
+                "end": 4.545
+              },
+              {
+                "text": "the ",
+                "start": 4.545,
+                "end": 4.753
+              },
+              {
+                "text": "pair, ",
+                "start": 4.753,
+                "end": 5.099
+              },
+              {
+                "text": "choose ",
+                "start": 5.099,
+                "end": 5.515
+              },
+              {
+                "text": "Buy, ",
+                "start": 5.515,
+                "end": 5.792
+              },
+              {
+                "text": "then ",
+                "start": 5.792,
+                "end": 6.069
+              },
+              {
+                "text": "enter ",
+                "start": 6.069,
+                "end": 6.416
+              },
+              {
+                "text": "the ",
+                "start": 6.416,
+                "end": 6.623
+              },
+              {
+                "text": "amount. ",
+                "start": 6.623,
+                "end": 7.108
+              },
+              {
+                "text": "Before ",
+                "start": 7.108,
+                "end": 7.524
+              },
+              {
+                "text": "you ",
+                "start": 7.524,
+                "end": 7.732
+              },
+              {
+                "text": "submit, ",
+                "start": 7.732,
+                "end": 8.217
+              },
+              {
+                "text": "check ",
+                "start": 8.217,
+                "end": 8.563
+              },
+              {
+                "text": "whether ",
+                "start": 8.563,
+                "end": 9.048
+              },
+              {
+                "text": "the ",
+                "start": 9.048,
+                "end": 9.256
+              },
+              {
+                "text": "box ",
+                "start": 9.256,
+                "end": 9.464
+              },
+              {
+                "text": "wants ",
+                "start": 9.464,
+                "end": 9.81
+              },
+              {
+                "text": "an ",
+                "start": 9.81,
+                "end": 9.949
+              },
+              {
+                "text": "amount ",
+                "start": 9.949,
+                "end": 10.364
+              },
+              {
+                "text": "of ",
+                "start": 10.364,
+                "end": 10.503
+              },
+              {
+                "text": "money ",
+                "start": 10.503,
+                "end": 10.849
+              },
+              {
+                "text": "or ",
+                "start": 10.849,
+                "end": 10.988
+              },
+              {
+                "text": "a ",
+                "start": 10.988,
+                "end": 11.057
+              },
+              {
+                "text": "number ",
+                "start": 11.057,
+                "end": 11.473
+              },
+              {
+                "text": "of ",
+                "start": 11.473,
+                "end": 11.611
+              },
+              {
+                "text": "coins.",
+                "start": 11.611,
+                "end": 12.027
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "我们",
+                "start": 0.25,
+                "end": 0.649
+              },
+              {
+                "text": "用",
+                "start": 0.649,
+                "end": 0.849
+              },
+              {
+                "text": "虚拟",
+                "start": 0.849,
+                "end": 1.248
+              },
+              {
+                "text": "账户",
+                "start": 1.248,
+                "end": 1.647
+              },
+              {
+                "text": "练习。",
+                "start": 1.647,
+                "end": 2.246
+              },
+              {
+                "text": "确认",
+                "start": 2.246,
+                "end": 2.645
+              },
+              {
+                "text": "是",
+                "start": 2.645,
+                "end": 2.845
+              },
+              {
+                "text": "现货，",
+                "start": 2.845,
+                "end": 3.444
+              },
+              {
+                "text": "不是",
+                "start": 3.444,
+                "end": 3.843
+              },
+              {
+                "text": "合约；",
+                "start": 3.843,
+                "end": 4.442
+              },
+              {
+                "text": "选择",
+                "start": 4.442,
+                "end": 4.841
+              },
+              {
+                "text": "交易",
+                "start": 4.841,
+                "end": 5.24
+              },
+              {
+                "text": "对、",
+                "start": 5.24,
+                "end": 5.639
+              },
+              {
+                "text": "买",
+                "start": 5.639,
+                "end": 5.839
+              },
+              {
+                "text": "入",
+                "start": 5.839,
+                "end": 6.039
+              },
+              {
+                "text": "方向，",
+                "start": 6.039,
+                "end": 6.638
+              },
+              {
+                "text": "再",
+                "start": 6.638,
+                "end": 6.837
+              },
+              {
+                "text": "输入",
+                "start": 6.837,
+                "end": 7.236
+              },
+              {
+                "text": "成交",
+                "start": 7.236,
+                "end": 7.636
+              },
+              {
+                "text": "金额。",
+                "start": 7.636,
+                "end": 8.234
+              },
+              {
+                "text": "提交",
+                "start": 8.234,
+                "end": 8.634
+              },
+              {
+                "text": "前",
+                "start": 8.634,
+                "end": 8.833
+              },
+              {
+                "text": "看清",
+                "start": 8.833,
+                "end": 9.232
+              },
+              {
+                "text": "它",
+                "start": 9.232,
+                "end": 9.432
+              },
+              {
+                "text": "要求",
+                "start": 9.432,
+                "end": 9.831
+              },
+              {
+                "text": "填",
+                "start": 9.831,
+                "end": 10.031
+              },
+              {
+                "text": "金额，",
+                "start": 10.031,
+                "end": 10.63
+              },
+              {
+                "text": "还是",
+                "start": 10.63,
+                "end": 11.029
+              },
+              {
+                "text": "币",
+                "start": 11.029,
+                "end": 11.229
+              },
+              {
+                "text": "的",
+                "start": 11.229,
+                "end": 11.428
+              },
+              {
+                "text": "数量。",
+                "start": 11.428,
+                "end": 12.027
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "order-ticket",
+          "title": {
+            "en": "PRACTICE",
+            "zh-Hans": "模拟"
+          },
+          "orderType": "market",
+          "side": {
+            "en": "Buy",
+            "zh-Hans": "买入"
+          },
+          "amount": "100 USDT"
+        }
+      ],
+      "source_tc": "00:35-01:07",
+      "source_visual_zh": "仅展示标有“模拟”的现货界面：选择交易对→市价买入→成交金额100。",
+      "source_onscreen_text": {
+        "en": [
+          "PRACTICE",
+          "Spot",
+          "Market buy",
+          "Amount: 100 USDT"
+        ],
+        "zh-Hans": [
+          "模拟",
+          "现货",
+          "市价买入",
+          "成交金额：100 USDT"
+        ]
+      }
+    },
+    {
+      "id": "fill-math",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "Teaching price 50,000, quantity 0.002; assumed fee 0.1% deducted separately = 0.10; total spent 100.10. Each number is an editable layer.",
+      "visual_zh": "教学价格50,000，数量0.002；假设手续费0.1%，费用另扣0.10，总支出100.10。",
+      "onscreen_text_en": "Price 50,000 USDT",
+      "onscreen_text_zh-Hans": "价格 50,000 USDT",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Say the fill price is 50,000 and you spend 100. You get 0.002 bitcoin. Now assume a 0.1% fee taken separately from your USDT. You spend 100.10 in total. Real rules depend on the platform.",
+            "zh-Hans": "假设成交价是五万，成交金额一百，就买到零点零零二枚。再假设手续费千分之一、从报价余额另扣，你总共支出一百点一。真实规则以平台为准。"
+          },
+          "start": 0.25,
+          "end": 15.406,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e07-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 15.156
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Say ",
+                "start": 0.25,
+                "end": 0.547
+              },
+              {
+                "text": "the ",
+                "start": 0.547,
+                "end": 0.844
+              },
+              {
+                "text": "fill ",
+                "start": 0.844,
+                "end": 1.241
+              },
+              {
+                "text": "price ",
+                "start": 1.241,
+                "end": 1.736
+              },
+              {
+                "text": "is ",
+                "start": 1.736,
+                "end": 1.934
+              },
+              {
+                "text": "50,000 ",
+                "start": 1.934,
+                "end": 2.528
+              },
+              {
+                "text": "and ",
+                "start": 2.528,
+                "end": 2.826
+              },
+              {
+                "text": "you ",
+                "start": 2.826,
+                "end": 3.123
+              },
+              {
+                "text": "spend ",
+                "start": 3.123,
+                "end": 3.618
+              },
+              {
+                "text": "100. ",
+                "start": 3.618,
+                "end": 4.014
+              },
+              {
+                "text": "You ",
+                "start": 4.014,
+                "end": 4.311
+              },
+              {
+                "text": "get ",
+                "start": 4.311,
+                "end": 4.609
+              },
+              {
+                "text": "0.002 ",
+                "start": 4.609,
+                "end": 5.104
+              },
+              {
+                "text": "bitcoin. ",
+                "start": 5.104,
+                "end": 5.896
+              },
+              {
+                "text": "Now ",
+                "start": 5.896,
+                "end": 6.194
+              },
+              {
+                "text": "assume ",
+                "start": 6.194,
+                "end": 6.788
+              },
+              {
+                "text": "a ",
+                "start": 6.788,
+                "end": 6.887
+              },
+              {
+                "text": "0.1% ",
+                "start": 6.887,
+                "end": 7.283
+              },
+              {
+                "text": "fee ",
+                "start": 7.283,
+                "end": 7.58
+              },
+              {
+                "text": "taken ",
+                "start": 7.58,
+                "end": 8.076
+              },
+              {
+                "text": "separately ",
+                "start": 8.076,
+                "end": 9.066
+              },
+              {
+                "text": "from ",
+                "start": 9.066,
+                "end": 9.462
+              },
+              {
+                "text": "your ",
+                "start": 9.462,
+                "end": 9.859
+              },
+              {
+                "text": "USDT. ",
+                "start": 9.859,
+                "end": 10.354
+              },
+              {
+                "text": "You ",
+                "start": 10.354,
+                "end": 10.651
+              },
+              {
+                "text": "spend ",
+                "start": 10.651,
+                "end": 11.146
+              },
+              {
+                "text": "100.10 ",
+                "start": 11.146,
+                "end": 11.741
+              },
+              {
+                "text": "in ",
+                "start": 11.741,
+                "end": 11.939
+              },
+              {
+                "text": "total. ",
+                "start": 11.939,
+                "end": 12.533
+              },
+              {
+                "text": "Real ",
+                "start": 12.533,
+                "end": 12.93
+              },
+              {
+                "text": "rules ",
+                "start": 12.93,
+                "end": 13.425
+              },
+              {
+                "text": "depend ",
+                "start": 13.425,
+                "end": 14.019
+              },
+              {
+                "text": "on ",
+                "start": 14.019,
+                "end": 14.217
+              },
+              {
+                "text": "the ",
+                "start": 14.217,
+                "end": 14.514
+              },
+              {
+                "text": "platform.",
+                "start": 14.514,
+                "end": 15.406
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "假设",
+                "start": 0.25,
+                "end": 0.716
+              },
+              {
+                "text": "成交",
+                "start": 0.716,
+                "end": 1.183
+              },
+              {
+                "text": "价",
+                "start": 1.183,
+                "end": 1.416
+              },
+              {
+                "text": "是",
+                "start": 1.416,
+                "end": 1.649
+              },
+              {
+                "text": "五万，",
+                "start": 1.649,
+                "end": 2.349
+              },
+              {
+                "text": "成交",
+                "start": 2.349,
+                "end": 2.815
+              },
+              {
+                "text": "金额",
+                "start": 2.815,
+                "end": 3.281
+              },
+              {
+                "text": "一百，",
+                "start": 3.281,
+                "end": 3.981
+              },
+              {
+                "text": "就",
+                "start": 3.981,
+                "end": 4.214
+              },
+              {
+                "text": "买到",
+                "start": 4.214,
+                "end": 4.68
+              },
+              {
+                "text": "零点",
+                "start": 4.68,
+                "end": 5.147
+              },
+              {
+                "text": "零零",
+                "start": 5.147,
+                "end": 5.613
+              },
+              {
+                "text": "二枚。",
+                "start": 5.613,
+                "end": 6.312
+              },
+              {
+                "text": "再",
+                "start": 6.312,
+                "end": 6.546
+              },
+              {
+                "text": "假设",
+                "start": 6.546,
+                "end": 7.012
+              },
+              {
+                "text": "手续",
+                "start": 7.012,
+                "end": 7.478
+              },
+              {
+                "text": "费",
+                "start": 7.478,
+                "end": 7.711
+              },
+              {
+                "text": "千分之一、",
+                "start": 7.711,
+                "end": 8.877
+              },
+              {
+                "text": "从",
+                "start": 8.877,
+                "end": 9.11
+              },
+              {
+                "text": "报价",
+                "start": 9.11,
+                "end": 9.577
+              },
+              {
+                "text": "余",
+                "start": 9.577,
+                "end": 9.81
+              },
+              {
+                "text": "额",
+                "start": 9.81,
+                "end": 10.043
+              },
+              {
+                "text": "另",
+                "start": 10.043,
+                "end": 10.276
+              },
+              {
+                "text": "扣，",
+                "start": 10.276,
+                "end": 10.743
+              },
+              {
+                "text": "你",
+                "start": 10.743,
+                "end": 10.976
+              },
+              {
+                "text": "总共",
+                "start": 10.976,
+                "end": 11.442
+              },
+              {
+                "text": "支出",
+                "start": 11.442,
+                "end": 11.908
+              },
+              {
+                "text": "一百",
+                "start": 11.908,
+                "end": 12.375
+              },
+              {
+                "text": "点",
+                "start": 12.375,
+                "end": 12.608
+              },
+              {
+                "text": "一。",
+                "start": 12.608,
+                "end": 13.074
+              },
+              {
+                "text": "真实",
+                "start": 13.074,
+                "end": 13.541
+              },
+              {
+                "text": "规则",
+                "start": 13.541,
+                "end": 14.007
+              },
+              {
+                "text": "以",
+                "start": 14.007,
+                "end": 14.24
+              },
+              {
+                "text": "平台",
+                "start": 14.24,
+                "end": 14.706
+              },
+              {
+                "text": "为",
+                "start": 14.706,
+                "end": 14.94
+              },
+              {
+                "text": "准。",
+                "start": 14.94,
+                "end": 15.406
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "formula",
+          "rows": [
+            {
+              "expr": "100 ÷ 50,000",
+              "result": "0.002 BTC"
+            },
+            {
+              "expr": {
+                "en": "Fee 0.1%",
+                "zh-Hans": "手续费 0.1%"
+              },
+              "result": "0.10 USDT"
+            },
+            {
+              "expr": {
+                "en": "Total spent",
+                "zh-Hans": "合计花费"
+              },
+              "result": "100.10 USDT",
+              "emphasis": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:07-01:35",
+      "source_visual_zh": "教学价格50,000，数量0.002；假设手续费0.1%，费用另扣0.10，总支出100.10。",
+      "source_onscreen_text": {
+        "en": [
+          "Price 50,000 USDT",
+          "100 ÷ 50,000 = 0.002 BTC",
+          "Fee 0.1% = 0.10 USDT",
+          "Total spent 100.10 USDT",
+          "Teaching assumption · not a live price or real platform rate"
+        ],
+        "zh-Hans": [
+          "价格 50,000 USDT",
+          "100 ÷ 50,000 = 0.002 BTC",
+          "手续费 0.1% = 0.10 USDT",
+          "总支出 100.10 USDT",
+          "教学假设 · 非实时行情，非平台真实费率"
+        ]
+      }
+    },
+    {
+      "id": "filled",
+      "duration": 21,
+      "set": "trading-desk",
+      "visual_en": "Order goes from Pending to Filled; the assets page shows BTC 0.002 and USDT 899.90, with Available and Frozen balances listed separately.",
+      "visual_zh": "订单从待处理变成已成交；资产页出现0.002，旁边另列可用和冻结余额。",
+      "onscreen_text_en": "Filled? Check the record",
+      "onscreen_text_zh-Hans": "成交了？看记录",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "So once I tap Buy, I definitely have the coins?",
+            "zh-Hans": "按了买入就一定有币了？"
+          },
+          "start": 0.25,
+          "end": 3.77,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e07-05-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 3.52
+          },
+          "words": {
+            "en": [
+              {
+                "text": "So ",
+                "start": 0.25,
+                "end": 0.435
+              },
+              {
+                "text": "once ",
+                "start": 0.435,
+                "end": 0.806
+              },
+              {
+                "text": "I ",
+                "start": 0.806,
+                "end": 0.898
+              },
+              {
+                "text": "tap ",
+                "start": 0.898,
+                "end": 1.176
+              },
+              {
+                "text": "Buy, ",
+                "start": 1.176,
+                "end": 1.547
+              },
+              {
+                "text": "I ",
+                "start": 1.547,
+                "end": 1.639
+              },
+              {
+                "text": "definitely ",
+                "start": 1.639,
+                "end": 2.566
+              },
+              {
+                "text": "have ",
+                "start": 2.566,
+                "end": 2.936
+              },
+              {
+                "text": "the ",
+                "start": 2.936,
+                "end": 3.214
+              },
+              {
+                "text": "coins?",
+                "start": 3.214,
+                "end": 3.77
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "按",
+                "start": 0.25,
+                "end": 0.57
+              },
+              {
+                "text": "了",
+                "start": 0.57,
+                "end": 0.89
+              },
+              {
+                "text": "买",
+                "start": 0.89,
+                "end": 1.21
+              },
+              {
+                "text": "入",
+                "start": 1.21,
+                "end": 1.53
+              },
+              {
+                "text": "就",
+                "start": 1.53,
+                "end": 1.85
+              },
+              {
+                "text": "一定",
+                "start": 1.85,
+                "end": 2.49
+              },
+              {
+                "text": "有",
+                "start": 2.49,
+                "end": 2.81
+              },
+              {
+                "text": "币",
+                "start": 2.81,
+                "end": 3.13
+              },
+              {
+                "text": "了？",
+                "start": 3.13,
+                "end": 3.77
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Check the trade history too. Not filled, partly filled and fully filled are different. Check the real average price and the fee as well.",
+            "zh-Hans": "还要查成交记录。未成交、部分成交和全部成交不同；实际均价和费用也要核对。"
+          },
+          "start": 4.07,
+          "end": 11.828,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e07-05-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 7.758
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Check ",
+                "start": 4.07,
+                "end": 4.413
+              },
+              {
+                "text": "the ",
+                "start": 4.413,
+                "end": 4.619
+              },
+              {
+                "text": "trade ",
+                "start": 4.619,
+                "end": 4.963
+              },
+              {
+                "text": "history ",
+                "start": 4.963,
+                "end": 5.443
+              },
+              {
+                "text": "too. ",
+                "start": 5.443,
+                "end": 5.718
+              },
+              {
+                "text": "Not ",
+                "start": 5.718,
+                "end": 5.924
+              },
+              {
+                "text": "filled, ",
+                "start": 5.924,
+                "end": 6.404
+              },
+              {
+                "text": "partly ",
+                "start": 6.404,
+                "end": 6.816
+              },
+              {
+                "text": "filled ",
+                "start": 6.816,
+                "end": 7.228
+              },
+              {
+                "text": "and ",
+                "start": 7.228,
+                "end": 7.434
+              },
+              {
+                "text": "fully ",
+                "start": 7.434,
+                "end": 7.777
+              },
+              {
+                "text": "filled ",
+                "start": 7.777,
+                "end": 8.189
+              },
+              {
+                "text": "are ",
+                "start": 8.189,
+                "end": 8.395
+              },
+              {
+                "text": "different. ",
+                "start": 8.395,
+                "end": 9.082
+              },
+              {
+                "text": "Check ",
+                "start": 9.082,
+                "end": 9.425
+              },
+              {
+                "text": "the ",
+                "start": 9.425,
+                "end": 9.631
+              },
+              {
+                "text": "real ",
+                "start": 9.631,
+                "end": 9.906
+              },
+              {
+                "text": "average ",
+                "start": 9.906,
+                "end": 10.386
+              },
+              {
+                "text": "price ",
+                "start": 10.386,
+                "end": 10.73
+              },
+              {
+                "text": "and ",
+                "start": 10.73,
+                "end": 10.935
+              },
+              {
+                "text": "the ",
+                "start": 10.935,
+                "end": 11.141
+              },
+              {
+                "text": "fee ",
+                "start": 11.141,
+                "end": 11.347
+              },
+              {
+                "text": "as ",
+                "start": 11.347,
+                "end": 11.485
+              },
+              {
+                "text": "well.",
+                "start": 11.485,
+                "end": 11.828
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "还",
+                "start": 4.07,
+                "end": 4.286
+              },
+              {
+                "text": "要",
+                "start": 4.286,
+                "end": 4.501
+              },
+              {
+                "text": "查",
+                "start": 4.501,
+                "end": 4.717
+              },
+              {
+                "text": "成交",
+                "start": 4.717,
+                "end": 5.148
+              },
+              {
+                "text": "记录。",
+                "start": 5.148,
+                "end": 5.794
+              },
+              {
+                "text": "未",
+                "start": 5.794,
+                "end": 6.01
+              },
+              {
+                "text": "成交、",
+                "start": 6.01,
+                "end": 6.656
+              },
+              {
+                "text": "部分",
+                "start": 6.656,
+                "end": 7.087
+              },
+              {
+                "text": "成交",
+                "start": 7.087,
+                "end": 7.518
+              },
+              {
+                "text": "和",
+                "start": 7.518,
+                "end": 7.734
+              },
+              {
+                "text": "全部",
+                "start": 7.734,
+                "end": 8.165
+              },
+              {
+                "text": "成交",
+                "start": 8.165,
+                "end": 8.596
+              },
+              {
+                "text": "不同；",
+                "start": 8.596,
+                "end": 9.242
+              },
+              {
+                "text": "实际",
+                "start": 9.242,
+                "end": 9.673
+              },
+              {
+                "text": "均",
+                "start": 9.673,
+                "end": 9.889
+              },
+              {
+                "text": "价",
+                "start": 9.889,
+                "end": 10.104
+              },
+              {
+                "text": "和",
+                "start": 10.104,
+                "end": 10.32
+              },
+              {
+                "text": "费用",
+                "start": 10.32,
+                "end": 10.75
+              },
+              {
+                "text": "也要",
+                "start": 10.75,
+                "end": 11.182
+              },
+              {
+                "text": "核对。",
+                "start": 11.182,
+                "end": 11.828
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "balance-ledger",
+          "title": {
+            "en": "Filled",
+            "zh-Hans": "已成交"
+          },
+          "rows": [
+            {
+              "asset": "BTC",
+              "available": "0.002",
+              "locked": "0"
+            },
+            {
+              "asset": "USDT",
+              "available": "899.90",
+              "locked": "0"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:35-01:56",
+      "source_visual_zh": "订单从待处理变成已成交；资产页出现0.002，旁边另列可用和冻结余额。",
+      "source_onscreen_text": {
+        "en": [
+          "Filled",
+          "BTC 0.002",
+          "USDT 899.90",
+          "Available · Frozen"
+        ],
+        "zh-Hans": [
+          "已成交",
+          "BTC 0.002",
+          "USDT 899.90",
+          "可用 · 冻结"
+        ]
+      }
+    },
+    {
+      "id": "five-checks",
+      "duration": 15,
+      "set": "trading-desk",
+      "visual_en": "Closing checklist card: Spot / Direction / Amount & quantity / Fee / Trade record. Each ticks green.",
+      "visual_zh": "片末核对卡：现货／方向／金额与数量／费用／成交记录。",
+      "onscreen_text_en": "Five checks",
+      "onscreen_text_zh-Hans": "五项检查",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Your first practice isn't about guessing up or down. It's about checking these five things. And when you're done, it's fine to not make a real trade yet.",
+            "zh-Hans": "第一笔练习不是猜涨跌，而是把这五项核对清楚。完成后，你也可以选择暂时不做真实交易。"
+          },
+          "start": 0.25,
+          "end": 8.151,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e07-06-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 7.901
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Your ",
+                "start": 0.25,
+                "end": 0.501
+              },
+              {
+                "text": "first ",
+                "start": 0.501,
+                "end": 0.814
+              },
+              {
+                "text": "practice ",
+                "start": 0.814,
+                "end": 1.316
+              },
+              {
+                "text": "isn't ",
+                "start": 1.316,
+                "end": 1.63
+              },
+              {
+                "text": "about ",
+                "start": 1.63,
+                "end": 1.943
+              },
+              {
+                "text": "guessing ",
+                "start": 1.943,
+                "end": 2.445
+              },
+              {
+                "text": "up ",
+                "start": 2.445,
+                "end": 2.57
+              },
+              {
+                "text": "or ",
+                "start": 2.57,
+                "end": 2.696
+              },
+              {
+                "text": "down. ",
+                "start": 2.696,
+                "end": 3.009
+              },
+              {
+                "text": "It's ",
+                "start": 3.009,
+                "end": 3.26
+              },
+              {
+                "text": "about ",
+                "start": 3.26,
+                "end": 3.573
+              },
+              {
+                "text": "checking ",
+                "start": 3.573,
+                "end": 4.075
+              },
+              {
+                "text": "these ",
+                "start": 4.075,
+                "end": 4.389
+              },
+              {
+                "text": "five ",
+                "start": 4.389,
+                "end": 4.639
+              },
+              {
+                "text": "things. ",
+                "start": 4.639,
+                "end": 5.078
+              },
+              {
+                "text": "And ",
+                "start": 5.078,
+                "end": 5.267
+              },
+              {
+                "text": "when ",
+                "start": 5.267,
+                "end": 5.517
+              },
+              {
+                "text": "you're ",
+                "start": 5.517,
+                "end": 5.894
+              },
+              {
+                "text": "done, ",
+                "start": 5.894,
+                "end": 6.207
+              },
+              {
+                "text": "it's ",
+                "start": 6.207,
+                "end": 6.458
+              },
+              {
+                "text": "fine ",
+                "start": 6.458,
+                "end": 6.709
+              },
+              {
+                "text": "to ",
+                "start": 6.709,
+                "end": 6.834
+              },
+              {
+                "text": "not ",
+                "start": 6.834,
+                "end": 7.022
+              },
+              {
+                "text": "make ",
+                "start": 7.022,
+                "end": 7.273
+              },
+              {
+                "text": "a ",
+                "start": 7.273,
+                "end": 7.336
+              },
+              {
+                "text": "real ",
+                "start": 7.336,
+                "end": 7.587
+              },
+              {
+                "text": "trade ",
+                "start": 7.587,
+                "end": 7.9
+              },
+              {
+                "text": "yet.",
+                "start": 7.9,
+                "end": 8.151
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "第一",
+                "start": 0.25,
+                "end": 0.635
+              },
+              {
+                "text": "笔",
+                "start": 0.635,
+                "end": 0.828
+              },
+              {
+                "text": "练习",
+                "start": 0.828,
+                "end": 1.214
+              },
+              {
+                "text": "不是",
+                "start": 1.214,
+                "end": 1.599
+              },
+              {
+                "text": "猜",
+                "start": 1.599,
+                "end": 1.792
+              },
+              {
+                "text": "涨",
+                "start": 1.792,
+                "end": 1.984
+              },
+              {
+                "text": "跌，",
+                "start": 1.984,
+                "end": 2.37
+              },
+              {
+                "text": "而是",
+                "start": 2.37,
+                "end": 2.755
+              },
+              {
+                "text": "把",
+                "start": 2.755,
+                "end": 2.948
+              },
+              {
+                "text": "这",
+                "start": 2.948,
+                "end": 3.141
+              },
+              {
+                "text": "五项",
+                "start": 3.141,
+                "end": 3.526
+              },
+              {
+                "text": "核对",
+                "start": 3.526,
+                "end": 3.911
+              },
+              {
+                "text": "清楚。",
+                "start": 3.911,
+                "end": 4.49
+              },
+              {
+                "text": "完成后，",
+                "start": 4.49,
+                "end": 5.26
+              },
+              {
+                "text": "你",
+                "start": 5.26,
+                "end": 5.453
+              },
+              {
+                "text": "也可以",
+                "start": 5.453,
+                "end": 6.031
+              },
+              {
+                "text": "选择",
+                "start": 6.031,
+                "end": 6.417
+              },
+              {
+                "text": "暂时",
+                "start": 6.417,
+                "end": 6.802
+              },
+              {
+                "text": "不做",
+                "start": 6.802,
+                "end": 7.187
+              },
+              {
+                "text": "真实",
+                "start": 7.187,
+                "end": 7.573
+              },
+              {
+                "text": "交易。",
+                "start": 7.573,
+                "end": 8.151
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Spot",
+                "zh-Hans": "现货"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Direction",
+                "zh-Hans": "方向"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Amount & quantity",
+                "zh-Hans": "金额与数量"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Fee",
+                "zh-Hans": "费用"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Trade record",
+                "zh-Hans": "成交记录"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:56-02:11",
+      "source_visual_zh": "片末核对卡：现货／方向／金额与数量／费用／成交记录。",
+      "source_onscreen_text": {
+        "en": [
+          "Spot",
+          "Direction",
+          "Amount & quantity",
+          "Fee",
+          "Trade record"
+        ],
+        "zh-Hans": [
+          "现货",
+          "方向",
+          "金额与数量",
+          "费用",
+          "成交记录"
+        ]
+      }
+    }
+  ],
+  "conversion_card": {
+    "duration": 9.7,
+    "partner_name": {
+      "en": "Bitget.com",
+      "zh-Hans": "Bitget.com"
+    },
+    "venues": [
+      {
+        "key": "bitget",
+        "name": {
+          "en": "Bitget.com",
+          "zh-Hans": "Bitget.com"
+        },
+        "code": {
+          "en": "Code nexu888",
+          "zh-Hans": "邀请码 nexu888"
+        },
+        "url": "nexualpha.com/go/bitget"
+      }
+    ],
+    "cta": {
+      "en": "Ready for a real first trade? Same five checks.",
+      "zh-Hans": "准备好真实的第一笔？同样五项检查。"
+    },
+    "disclosure": {
+      "en": "Partner link · the exchange pays our commission",
+      "zh-Hans": "合作推广链接 · 佣金由交易所支付"
+    },
+    "disclosure_rendered": false,
+    "lines": [
+      {
+        "speaker": "nexubo",
+        "text": {
+          "en": "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.",
+          "zh-Hans": "等你准备好做真实的第一笔交易，可以通过我们的 Bitget 合作链接注册，邀请码 nexu888 可返还部分交易手续费。每一次都做同样的五项核对。"
+        },
+        "start": 0.25,
+        "end": 9.393,
+        "source_who": "Nexubo",
+        "narration": {
+          "id": "e07-07-conversion-l01-nexubo",
+          "atempo": 1,
+          "seconds": 9.143
+        },
+        "words": {
+          "en": [
+            {
+              "text": "When ",
+              "start": 0.25,
+              "end": 0.527
+            },
+            {
+              "text": "you're ",
+              "start": 0.527,
+              "end": 0.943
+            },
+            {
+              "text": "ready ",
+              "start": 0.943,
+              "end": 1.289
+            },
+            {
+              "text": "for ",
+              "start": 1.289,
+              "end": 1.497
+            },
+            {
+              "text": "a ",
+              "start": 1.497,
+              "end": 1.566
+            },
+            {
+              "text": "real ",
+              "start": 1.566,
+              "end": 1.843
+            },
+            {
+              "text": "first ",
+              "start": 1.843,
+              "end": 2.189
+            },
+            {
+              "text": "trade, ",
+              "start": 2.189,
+              "end": 2.605
+            },
+            {
+              "text": "open ",
+              "start": 2.605,
+              "end": 2.882
+            },
+            {
+              "text": "Bitget ",
+              "start": 2.882,
+              "end": 3.298
+            },
+            {
+              "text": "through ",
+              "start": 3.298,
+              "end": 3.783
+            },
+            {
+              "text": "our ",
+              "start": 3.783,
+              "end": 3.99
+            },
+            {
+              "text": "partner ",
+              "start": 3.99,
+              "end": 4.475
+            },
+            {
+              "text": "link. ",
+              "start": 4.475,
+              "end": 4.822
+            },
+            {
+              "text": "Code ",
+              "start": 4.822,
+              "end": 5.099
+            },
+            {
+              "text": "nexu888 ",
+              "start": 5.099,
+              "end": 5.583
+            },
+            {
+              "text": "gets ",
+              "start": 5.583,
+              "end": 5.86
+            },
+            {
+              "text": "part ",
+              "start": 5.86,
+              "end": 6.138
+            },
+            {
+              "text": "of ",
+              "start": 6.138,
+              "end": 6.276
+            },
+            {
+              "text": "your ",
+              "start": 6.276,
+              "end": 6.553
+            },
+            {
+              "text": "trading ",
+              "start": 6.553,
+              "end": 7.038
+            },
+            {
+              "text": "fees ",
+              "start": 7.038,
+              "end": 7.315
+            },
+            {
+              "text": "back. ",
+              "start": 7.315,
+              "end": 7.661
+            },
+            {
+              "text": "Same ",
+              "start": 7.661,
+              "end": 7.938
+            },
+            {
+              "text": "five ",
+              "start": 7.938,
+              "end": 8.215
+            },
+            {
+              "text": "checks, ",
+              "start": 8.215,
+              "end": 8.7
+            },
+            {
+              "text": "every ",
+              "start": 8.7,
+              "end": 9.047
+            },
+            {
+              "text": "time.",
+              "start": 9.047,
+              "end": 9.393
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "等",
+              "start": 0.25,
+              "end": 0.383
+            },
+            {
+              "text": "你",
+              "start": 0.383,
+              "end": 0.515
+            },
+            {
+              "text": "准备",
+              "start": 0.515,
+              "end": 0.78
+            },
+            {
+              "text": "好",
+              "start": 0.78,
+              "end": 0.913
+            },
+            {
+              "text": "做",
+              "start": 0.913,
+              "end": 1.045
+            },
+            {
+              "text": "真实",
+              "start": 1.045,
+              "end": 1.31
+            },
+            {
+              "text": "的",
+              "start": 1.31,
+              "end": 1.443
+            },
+            {
+              "text": "第一",
+              "start": 1.443,
+              "end": 1.708
+            },
+            {
+              "text": "笔",
+              "start": 1.708,
+              "end": 1.84
+            },
+            {
+              "text": "交易，",
+              "start": 1.84,
+              "end": 2.238
+            },
+            {
+              "text": "可以",
+              "start": 2.238,
+              "end": 2.503
+            },
+            {
+              "text": "通过",
+              "start": 2.503,
+              "end": 2.768
+            },
+            {
+              "text": "我们",
+              "start": 2.768,
+              "end": 3.033
+            },
+            {
+              "text": "的 ",
+              "start": 3.033,
+              "end": 3.165
+            },
+            {
+              "text": "Bitget ",
+              "start": 3.165,
+              "end": 3.96
+            },
+            {
+              "text": "合作",
+              "start": 3.96,
+              "end": 4.225
+            },
+            {
+              "text": "链",
+              "start": 4.225,
+              "end": 4.358
+            },
+            {
+              "text": "接",
+              "start": 4.358,
+              "end": 4.49
+            },
+            {
+              "text": "注册，",
+              "start": 4.49,
+              "end": 4.888
+            },
+            {
+              "text": "邀请",
+              "start": 4.888,
+              "end": 5.153
+            },
+            {
+              "text": "码 ",
+              "start": 5.153,
+              "end": 5.285
+            },
+            {
+              "text": "nexu888 ",
+              "start": 5.285,
+              "end": 6.213
+            },
+            {
+              "text": "可",
+              "start": 6.213,
+              "end": 6.345
+            },
+            {
+              "text": "返",
+              "start": 6.345,
+              "end": 6.478
+            },
+            {
+              "text": "还",
+              "start": 6.478,
+              "end": 6.61
+            },
+            {
+              "text": "部分",
+              "start": 6.61,
+              "end": 6.875
+            },
+            {
+              "text": "交易",
+              "start": 6.875,
+              "end": 7.14
+            },
+            {
+              "text": "手续",
+              "start": 7.14,
+              "end": 7.405
+            },
+            {
+              "text": "费。",
+              "start": 7.405,
+              "end": 7.67
+            },
+            {
+              "text": "每一",
+              "start": 7.67,
+              "end": 7.935
+            },
+            {
+              "text": "次",
+              "start": 7.935,
+              "end": 8.068
+            },
+            {
+              "text": "都做",
+              "start": 8.068,
+              "end": 8.333
+            },
+            {
+              "text": "同样",
+              "start": 8.333,
+              "end": 8.598
+            },
+            {
+              "text": "的",
+              "start": 8.598,
+              "end": 8.73
+            },
+            {
+              "text": "五项",
+              "start": 8.73,
+              "end": 8.995
+            },
+            {
+              "text": "核对。",
+              "start": 8.995,
+              "end": 9.393
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+    "visual_zh": "转化卡（6秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+    "source_tc": "02:11-02:17",
+    "source_url": "nexualpha.com/go/bitget",
+    "source_line": {
+      "en": "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.",
+      "zh-Hans": "等你准备好做真实的第一笔交易，可以通过我们的 Bitget 合作链接注册，邀请码 nexu888 可返还部分交易手续费。每一次都做同样的五项核对。"
+    },
+    "source_availability": {
+      "en": "Availability depends on your country or region",
+      "zh-Hans": "是否可用取决于你所在的国家或地区"
+    },
+    "source_partner": "bitget",
+    "source_partners": [
+      "bitget"
+    ],
+    "source_codes": {
+      "bitget": "nexu888"
+    },
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "When you're ready for a real first trade, find the exchange's official site on NexuAlpha. Same five checks, every time.",
+      "line_zh": "等你准备好做真实的第一笔交易，先在 NexuAlpha 找到交易所官网。每一次都做同样的五项核对。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "end_hook": {
+    "duration": 5.9,
+    "pose": "point",
+    "text": {
+      "en": "Say the price rises and you sell. So why is your bank balance still the same? Next episode.",
+      "zh-Hans": "假如涨了你卖出，为什么银行卡余额还是没动？下一集讲。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Say the price rises and you sell. So why is your bank balance still the same? Next episode.",
+          "zh-Hans": "假如涨了你卖出，为什么银行卡余额还是没动？下一集讲。"
+        },
+        "start": 0.25,
+        "end": 5.603,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e07-08-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.353
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Say ",
+              "start": 0.25,
+              "end": 0.467
+            },
+            {
+              "text": "the ",
+              "start": 0.467,
+              "end": 0.684
+            },
+            {
+              "text": "price ",
+              "start": 0.684,
+              "end": 1.046
+            },
+            {
+              "text": "rises ",
+              "start": 1.046,
+              "end": 1.407
+            },
+            {
+              "text": "and ",
+              "start": 1.407,
+              "end": 1.624
+            },
+            {
+              "text": "you ",
+              "start": 1.624,
+              "end": 1.841
+            },
+            {
+              "text": "sell. ",
+              "start": 1.841,
+              "end": 2.203
+            },
+            {
+              "text": "So ",
+              "start": 2.203,
+              "end": 2.348
+            },
+            {
+              "text": "why ",
+              "start": 2.348,
+              "end": 2.565
+            },
+            {
+              "text": "is ",
+              "start": 2.565,
+              "end": 2.709
+            },
+            {
+              "text": "your ",
+              "start": 2.709,
+              "end": 2.999
+            },
+            {
+              "text": "bank ",
+              "start": 2.999,
+              "end": 3.288
+            },
+            {
+              "text": "balance ",
+              "start": 3.288,
+              "end": 3.795
+            },
+            {
+              "text": "still ",
+              "start": 3.795,
+              "end": 4.156
+            },
+            {
+              "text": "the ",
+              "start": 4.156,
+              "end": 4.373
+            },
+            {
+              "text": "same? ",
+              "start": 4.373,
+              "end": 4.735
+            },
+            {
+              "text": "Next ",
+              "start": 4.735,
+              "end": 5.024
+            },
+            {
+              "text": "episode.",
+              "start": 5.024,
+              "end": 5.603
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "假如",
+              "start": 0.25,
+              "end": 0.662
+            },
+            {
+              "text": "涨了",
+              "start": 0.662,
+              "end": 1.074
+            },
+            {
+              "text": "你",
+              "start": 1.074,
+              "end": 1.279
+            },
+            {
+              "text": "卖",
+              "start": 1.279,
+              "end": 1.485
+            },
+            {
+              "text": "出，",
+              "start": 1.485,
+              "end": 1.897
+            },
+            {
+              "text": "为什么",
+              "start": 1.897,
+              "end": 2.515
+            },
+            {
+              "text": "银行",
+              "start": 2.515,
+              "end": 2.927
+            },
+            {
+              "text": "卡",
+              "start": 2.927,
+              "end": 3.132
+            },
+            {
+              "text": "余",
+              "start": 3.132,
+              "end": 3.338
+            },
+            {
+              "text": "额",
+              "start": 3.338,
+              "end": 3.544
+            },
+            {
+              "text": "还是",
+              "start": 3.544,
+              "end": 3.956
+            },
+            {
+              "text": "没",
+              "start": 3.956,
+              "end": 4.162
+            },
+            {
+              "text": "动？",
+              "start": 4.162,
+              "end": 4.574
+            },
+            {
+              "text": "下",
+              "start": 4.574,
+              "end": 4.779
+            },
+            {
+              "text": "一",
+              "start": 4.779,
+              "end": 4.985
+            },
+            {
+              "text": "集",
+              "start": 4.985,
+              "end": 5.191
+            },
+            {
+              "text": "讲。",
+              "start": 5.191,
+              "end": 5.603
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "02:17-02:21"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.22,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e07-09-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.97
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.071
+          },
+          {
+            "text": "first, ",
+            "start": 1.071,
+            "end": 1.563
+          },
+          {
+            "text": "then ",
+            "start": 1.563,
+            "end": 1.892
+          },
+          {
+            "text": "act.",
+            "start": 1.892,
+            "end": 2.22
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.496
+          },
+          {
+            "text": "看懂，",
+            "start": 0.496,
+            "end": 1.235
+          },
+          {
+            "text": "再",
+            "start": 1.235,
+            "end": 1.481
+          },
+          {
+            "text": "动手。",
+            "start": 1.481,
+            "end": 2.22
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E07.json",
+    "original_slug": "first-spot-trade",
+    "goal": {
+      "en": "Complete a practice spot buy with a clear amount, quantity and fee.",
+      "zh-Hans": "完成一笔明确金额、数量和费用的模拟现货买入。"
+    },
+    "duration_target_s": 145,
+    "page_cta": {
+      "kind": "trade",
+      "partner": "bitget",
+      "line_en": "Practised the five checks? Try a small spot trade on Bitget through our partner link (code nexu888). Or keep practising here.",
+      "line_zh": "练熟五项核对了？可通过我们的 Bitget 合作链接做一笔小额现货（邀请码 nexu888），也可以继续在这里模拟。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "nexualpha.com/go/bitget",
+      "codes": {
+        "bitget": "nexu888"
+      },
+      "disclosure_en": "Partner link · the exchange pays our commission",
+      "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+      "restricted_locales": [
+        "ru",
+        "ar",
+        "zh-Hant",
+        "ur",
+        "uk",
+        "vi",
+        "ja",
+        "ko"
+      ],
+      "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+    },
+    "exercise": {
+      "task_en": "With a virtual balance of 1,000, buy 0.002 BTC. Check the remaining USDT balance of 899.90 and the trade record.",
+      "task_zh": "用虚拟1000余额买入0.002 BTC，核对剩余报价余额899.90及成交记录。",
+      "answer_en": "Amount 100, fee 0.10, total spent 100.10; 899.90 left.",
+      "answer_zh": "成交金额100，费用0.10，总支出100.10；余899.90。"
+    },
+    "red_lines": [
+      "Price, fee rate and fee asset are shared teaching assumptions ｜ 价格、费率、费用扣取资产均为统一教学假设",
+      "Never use these numbers to advertise any platform's real fee rate ｜ 不据此宣传任何平台真实费率",
+      "Card wording: 'part of your trading fees back', never 'earn' ｜ 转化卡只说“返还部分手续费”，不说“赚钱”",
+      "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S08",
+      "S14"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:35-01:07",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:07-01:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:35-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:11",
+        "kind": "shot"
+      },
+      {
+        "tc": "02:11-02:17",
+        "kind": "conversion"
+      },
+      {
+        "tc": "02:17-02:21",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:21-02:25",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "warning",
+      "compare",
+      "order-ticket",
+      "formula",
+      "balance-ledger",
+      "checklist"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}
