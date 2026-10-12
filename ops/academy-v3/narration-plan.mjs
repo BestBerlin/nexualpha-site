@@ -1,11 +1,12 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { ALL_EPISODES, parseEpisodeList } from './season.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const worktreeRoot = resolve(root, '../..');
 const defaultEpisodeDir = resolve(root,'episodes/source');
-const defaultEpisodes = ['E05', 'E09', 'E21'];
+const defaultEpisodes = ALL_EPISODES;
 const defaultOut = resolve(root, 'build/narration/narration-plan.json');
 const ownerRefAudio = '/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav';
 const ownerRefText = "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.";
@@ -204,7 +205,7 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--episode-dir') args.episodeDir = argv[++i];
-    else if (arg === '--episodes') args.episodes = argv[++i].split(',').map(s => s.trim()).filter(Boolean);
+    else if (arg === '--episodes') args.episodes = parseEpisodeList(argv[++i]);
     else if (arg === '--out') args.out = argv[++i];
     else if (arg === '--stdout') args.out = '-';
     else throw new Error(`Unknown argument: ${arg}`);
@@ -236,7 +237,7 @@ async function main() {
   console.log(`Planned ${plan.summary.lines} lines across ${plan.summary.scenes} scenes: ${plan.summary.episodes.join(', ')}`);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   main().catch(error => {
     console.error(error.message);
     process.exit(1);

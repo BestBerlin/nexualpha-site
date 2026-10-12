@@ -1,0 +1,326 @@
+{
+  "ep": 7,
+  "season": 1,
+  "slug": "first-spot-trade",
+  "title_en": "Your first spot trade: from 100 to 0.002 BTC",
+  "title_zh": "第一笔现货：从100到0.002枚",
+  "goal_en": "Complete a practice spot buy with a clear amount, quantity and fee.",
+  "goal_zh": "完成一笔明确金额、数量和费用的模拟现货买入。",
+  "duration_target_s": 145,
+  "shots": [
+    {
+      "tc": "00:00-00:06",
+      "visual_en": "Sam stares at 'BTC/USDT' and imagines the slash means buying two coins at once.",
+      "visual_zh": "小白看到BTC/USDT，以为斜杠代表必须买两种币。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "This slash. Do I have to buy both coins?",
+          "zh": "这个斜杠，是让我同时买两种币吗？"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "BTC/USDT"
+      ],
+      "onscreen_text_zh": [
+        "BTC/USDT"
+      ]
+    },
+    {
+      "tc": "00:06-00:09",
+      "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E07' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+      "visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第07集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+      "lines": [],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "S1 · E07",
+        "Your first spot trade: from 100 to 0.002 BTC"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "S1 · E07",
+        "第一笔现货：从100到0.002枚"
+      ]
+    },
+    {
+      "tc": "00:09-00:35",
+      "visual_en": "Left side BTC labelled 'what you trade'; right side USDT labelled 'what it's priced in'; matching wallet balances highlight.",
+      "visual_zh": "左边BTC标“买卖对象”，右边USDT标“报价资产”；钱包两边余额对应高亮。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "No. It means bitcoin is priced in USDT. When you buy, you pay USDT and get bitcoin. When you sell, it goes the other way.",
+          "zh": "不是。这表示用泰达币来给比特币报价。买入时，你付出报价资产，获得比特币；卖出时方向相反。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "BTC = what you trade",
+        "USDT = what it's priced in"
+      ],
+      "onscreen_text_zh": [
+        "BTC＝买卖对象",
+        "USDT＝报价资产"
+      ]
+    },
+    {
+      "tc": "00:35-01:07",
+      "visual_en": "Only a spot interface marked PRACTICE: choose the pair → Market buy → amount 100. Highlight whether the field asks for amount or quantity.",
+      "visual_zh": "仅展示标有“模拟”的现货界面：选择交易对→市价买入→成交金额100。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "We practise with a virtual account. Make sure it's spot, not futures. Pick the pair, choose Buy, then enter the amount. Before you submit, check whether the box wants an amount of money or a number of coins.",
+          "zh": "我们用虚拟账户练习。确认是现货，不是合约；选择交易对、买入方向，再输入成交金额。提交前看清它要求填金额，还是币的数量。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "PRACTICE",
+        "Spot",
+        "Market buy",
+        "Amount: 100 USDT"
+      ],
+      "onscreen_text_zh": [
+        "模拟",
+        "现货",
+        "市价买入",
+        "成交金额：100 USDT"
+      ]
+    },
+    {
+      "tc": "01:07-01:35",
+      "visual_en": "Teaching price 50,000, quantity 0.002; assumed fee 0.1% deducted separately = 0.10; total spent 100.10. Each number is an editable layer.",
+      "visual_zh": "教学价格50,000，数量0.002；假设手续费0.1%，费用另扣0.10，总支出100.10。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "Say the fill price is 50,000 and you spend 100. You get 0.002 bitcoin. Now assume a 0.1% fee taken separately from your USDT. You spend 100.10 in total. Real rules depend on the platform.",
+          "zh": "假设成交价是五万，成交金额一百，就买到零点零零二枚。再假设手续费千分之一、从报价余额另扣，你总共支出一百点一。真实规则以平台为准。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Price 50,000 USDT",
+        "100 ÷ 50,000 = 0.002 BTC",
+        "Fee 0.1% = 0.10 USDT",
+        "Total spent 100.10 USDT",
+        "Teaching assumption · not a live price or real platform rate"
+      ],
+      "onscreen_text_zh": [
+        "价格 50,000 USDT",
+        "100 ÷ 50,000 = 0.002 BTC",
+        "手续费 0.1% = 0.10 USDT",
+        "总支出 100.10 USDT",
+        "教学假设 · 非实时行情，非平台真实费率"
+      ]
+    },
+    {
+      "tc": "01:35-01:56",
+      "visual_en": "Order goes from Pending to Filled; the assets page shows BTC 0.002 and USDT 899.90, with Available and Frozen balances listed separately.",
+      "visual_zh": "订单从待处理变成已成交；资产页出现0.002，旁边另列可用和冻结余额。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "So once I tap Buy, I definitely have the coins?",
+          "zh": "按了买入就一定有币了？"
+        },
+        {
+          "who": "Nexubo",
+          "en": "Check the trade history too. Not filled, partly filled and fully filled are different. Check the real average price and the fee as well.",
+          "zh": "还要查成交记录。未成交、部分成交和全部成交不同；实际均价和费用也要核对。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Filled",
+        "BTC 0.002",
+        "USDT 899.90",
+        "Available · Frozen"
+      ],
+      "onscreen_text_zh": [
+        "已成交",
+        "BTC 0.002",
+        "USDT 899.90",
+        "可用 · 冻结"
+      ]
+    },
+    {
+      "tc": "01:56-02:11",
+      "visual_en": "Closing checklist card: Spot / Direction / Amount & quantity / Fee / Trade record. Each ticks green.",
+      "visual_zh": "片末核对卡：现货／方向／金额与数量／费用／成交记录。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Your first practice isn't about guessing up or down. It's about checking these five things. And when you're done, it's fine to not make a real trade yet.",
+          "zh": "第一笔练习不是猜涨跌，而是把这五项核对清楚。完成后，你也可以选择暂时不做真实交易。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Spot",
+        "Direction",
+        "Amount & quantity",
+        "Fee",
+        "Trade record"
+      ],
+      "onscreen_text_zh": [
+        "现货",
+        "方向",
+        "金额与数量",
+        "费用",
+        "成交记录"
+      ]
+    },
+    {
+      "tc": "02:11-02:17",
+      "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+      "visual_zh": "转化卡（6秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.",
+          "zh": "等你准备好做真实的第一笔交易，可以通过我们的 Bitget 合作链接注册，邀请码 nexu888 可返还部分交易手续费。每一次都做同样的五项核对。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Bitget · official site via partner link",
+        "nexualpha.com/go/bitget",
+        "Code nexu888",
+        "Partner link · the exchange pays our commission",
+        "Availability depends on your country or region"
+      ],
+      "onscreen_text_zh": [
+        "Bitget · 合作链接直达官网",
+        "nexualpha.com/go/bitget",
+        "邀请码 nexu888",
+        "合作推广链接 · 佣金由交易所支付",
+        "是否可用取决于你所在的国家或地区"
+      ]
+    },
+    {
+      "tc": "02:17-02:21",
+      "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+      "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Say the price rises and you sell. So why is your bank balance still the same? Next episode.",
+          "zh": "假如涨了你卖出，为什么银行卡余额还是没动？下一集讲。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Say the price rises and you sell. So why is your bank balance still the same? Next episode."
+      ],
+      "onscreen_text_zh": [
+        "假如涨了你卖出，为什么银行卡余额还是没动？下一集讲。"
+      ]
+    },
+    {
+      "tc": "02:21-02:25",
+      "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+      "visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Understand first, then act.",
+          "zh": "先看懂，再动手。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "Understand first, then act.",
+        "One verified gateway to the world's exchanges",
+        "nexualpha.com"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "先看懂，再动手。",
+        "全球交易所，一个官方入口",
+        "nexualpha.com"
+      ]
+    }
+  ],
+  "end_hook": {
+    "en": "Say the price rises and you sell. So why is your bank balance still the same? Next episode.",
+    "zh": "假如涨了你卖出，为什么银行卡余额还是没动？下一集讲。"
+  },
+  "conversion_card": {
+    "partner": "bitget",
+    "partners": [
+      "bitget"
+    ],
+    "url": "nexualpha.com/go/bitget",
+    "codes": {
+      "bitget": "nexu888"
+    },
+    "line_en": "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.",
+    "line_zh": "等你准备好做真实的第一笔交易，可以通过我们的 Bitget 合作链接注册，邀请码 nexu888 可返还部分交易手续费。每一次都做同样的五项核对。",
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "availability_en": "Availability depends on your country or region",
+    "availability_zh": "是否可用取决于你所在的国家或地区",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "When you're ready for a real first trade, find the exchange's official site on NexuAlpha. Same five checks, every time.",
+      "line_zh": "等你准备好做真实的第一笔交易，先在 NexuAlpha 找到交易所官网。每一次都做同样的五项核对。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "page_cta": {
+    "kind": "trade",
+    "partner": "bitget",
+    "line_en": "Practised the five checks? Try a small spot trade on Bitget through our partner link (code nexu888). Or keep practising here.",
+    "line_zh": "练熟五项核对了？可通过我们的 Bitget 合作链接做一笔小额现货（邀请码 nexu888），也可以继续在这里模拟。",
+    "placement": "directly beside / under the video player; never gates the lesson",
+    "url": "nexualpha.com/go/bitget",
+    "codes": {
+      "bitget": "nexu888"
+    },
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+  },
+  "exercise": {
+    "task_en": "With a virtual balance of 1,000, buy 0.002 BTC. Check the remaining USDT balance of 899.90 and the trade record.",
+    "task_zh": "用虚拟1000余额买入0.002 BTC，核对剩余报价余额899.90及成交记录。",
+    "answer_en": "Amount 100, fee 0.10, total spent 100.10; 899.90 left.",
+    "answer_zh": "成交金额100，费用0.10，总支出100.10；余899.90。"
+  },
+  "red_lines": [
+    "Price, fee rate and fee asset are shared teaching assumptions ｜ 价格、费率、费用扣取资产均为统一教学假设",
+    "Never use these numbers to advertise any platform's real fee rate ｜ 不据此宣传任何平台真实费率",
+    "Card wording: 'part of your trading fees back', never 'earn' ｜ 转化卡只说“返还部分手续费”，不说“赚钱”",
+    "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+    "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+  ],
+  "sources": [
+    "S08",
+    "S14"
+  ]
+}

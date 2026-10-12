@@ -8,6 +8,8 @@ PLAN_PATH="${PLAN_PATH:-$SCRIPT_DIR/build/narration/narration-plan.json}"
 AUDIO_DIR="${AUDIO_DIR:-$SCRIPT_DIR/build/narration/audio}"
 MANIFEST_PATH="${MANIFEST_PATH:-$SCRIPT_DIR/build/narration/generation-manifest.json}"
 PLAN_ONLY=0
+EPISODES="${EPISODES:-}"
+FORCE=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -22,6 +24,14 @@ while [[ $# -gt 0 ]]; do
     --audio-dir)
       AUDIO_DIR="$2"
       shift 2
+      ;;
+    --episodes)
+      EPISODES="$2"
+      shift 2
+      ;;
+    --force)
+      FORCE=1
+      shift
       ;;
     --manifest)
       MANIFEST_PATH="$2"
@@ -47,7 +57,7 @@ for(const target of targets){
 NODE
 mkdir -p "$(dirname "$PLAN_PATH")" "$AUDIO_DIR" "$(dirname "$MANIFEST_PATH")"
 
-node "$SCRIPT_DIR/narration-plan.mjs" --out "$PLAN_PATH"
+node "$SCRIPT_DIR/narration-plan.mjs" --out "$PLAN_PATH" ${EPISODES:+--episodes "$EPISODES"}
 
 if [[ "$PLAN_ONLY" -eq 1 ]]; then
   node - "$PLAN_PATH" "$MANIFEST_PATH" <<'NODE'
@@ -99,12 +109,12 @@ NODE
   exit 3
 fi
 
-node - "$PLAN_PATH" "$AUDIO_DIR" "$MANIFEST_PATH" "$PYTHON_BIN" <<'NODE'
+node - "$PLAN_PATH" "$AUDIO_DIR" "$MANIFEST_PATH" "$PYTHON_BIN" "$FORCE" <<'NODE'
 const { spawnSync } = require('node:child_process');
 const { existsSync, mkdirSync, statSync, writeFileSync, readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 
-const [planPath, audioDir, manifestPath, pythonBin] = process.argv.slice(2);
+const [planPath, audioDir, manifestPath, pythonBin, force] = process.argv.slice(2);
 const plan = JSON.parse(readFileSync(planPath, 'utf8'));
 mkdirSync(audioDir, { recursive: true });
 
@@ -115,6 +125,12 @@ for (const episode of plan.episodes) {
       const profile = line.voice_profile === 'sam-voice-design'
         ? plan.voice_profiles.samVoiceDesign
         : plan.voice_profiles.englishMasterClone;
+      const existing = resolve(audioDir, `${line.id}_000.wav`);
+      // Batches resume: keep reviewed takes unless --force is given.
+      if (force !== '1' && existsSync(existing) && statSync(existing).size > 0) {
+        generated.push({ id: line.id, episode: episode.id, scene: scene.id, speaker: line.speaker, voice_profile: line.voice_profile, wav: existing, bytes: statSync(existing).size, reused: true });
+        continue;
+      }
       const args = ['-m', 'mlx_audio.tts.generate', '--model', profile.model, '--lang_code', 'en'];
       if (profile.mode === 'clone') {
         args.push('--ref_audio', profile.ref_audio, '--ref_text', profile.ref_text);

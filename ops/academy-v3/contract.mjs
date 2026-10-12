@@ -43,13 +43,13 @@ export function validateEpisode(e, locale = 'en') {
     }
   }
   const hook = e.end_hook;
-  if (!hook || !localized(hook.text, locale)?.trim() || !finite(hook.duration) || hook.duration < 3 || hook.duration > 5) fail('end_hook requires text and 3..5 second duration');
+  if (!hook || !localized(hook.text, locale)?.trim() || !finite(hook.duration) || hook.duration < 3 || hook.duration > 7) fail('end_hook requires text and 3..7 second duration');
   const close = e.close_duration ?? 4;
   if (!finite(close) || close < 4 || close > 6) fail('Close duration must be 4..6 seconds');
   for (const d of [hook.duration, close, e.conversion_card?.duration ?? 5]) if (Math.abs(d * 30 - Math.round(d * 30)) > 1e-6) fail('Card durations must align to 30fps');
   if (e.conversion_card) {
     const c = e.conversion_card;
-    if (!finite(c.duration) || c.duration < 4 || c.duration > 10 || !localized(c.disclosure, locale)?.trim()) fail('Conversion requires 4..10s duration and same-card disclosure');
+    if (!finite(c.duration) || c.duration < 4 || c.duration > 12 || !localized(c.disclosure, locale)?.trim()) fail('Conversion requires 4..12s duration and a disclosure record');
     for (const key of ['partner_name', 'code', 'rebate_line']) if (c[key] !== undefined && !localized(c[key], locale)?.trim()) fail(`Missing localized conversion ${key}`);
     if ((c.code || c.rebate_line) && !c.partner_name) fail('Commercial fields require supplied partner name');
   }

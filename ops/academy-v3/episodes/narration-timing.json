@@ -3,6 +3,228 @@
   "generated_by": "ops/academy-v3/align-narration.mjs measure",
   "trim_filter": "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04,areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse",
   "lines": {
+    "e01-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "One coin costs that much? I can't even afford a ticket in.",
+      "source_seconds": 3.6,
+      "trimmed_seconds": 3.522
+    },
+    "e01-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "That's the price of one whole coin. It's not what you have to pay each time. Bitcoin is a digital asset, and you can hold it in decimal amounts. You usually don't buy a whole one.",
+      "source_seconds": 10,
+      "trimmed_seconds": 9.713
+    },
+    "e01-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "One practice sum. Say one bitcoin is 50,000 USDT and you spend 100. Ignoring fees, that's 0.002 bitcoin. This is not today's market price.",
+      "source_seconds": 11.76,
+      "trimmed_seconds": 11.263
+    },
+    "e01-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "And when the price moves?",
+      "source_seconds": 1.52,
+      "trimmed_seconds": 1.452
+    },
+    "e01-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "The number of coins can stay the same, but their value goes up and down. Buying a little means risking less. It doesn't mean no risk.",
+      "source_seconds": 7.92,
+      "trimmed_seconds": 7.6
+    },
+    "e01-05-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "You can split it, but not every platform accepts any tiny order. Check the minimum amount and the fees. While you learn, use virtual funds. No deposit needed.",
+      "source_seconds": 9.44,
+      "trimmed_seconds": 9.162
+    },
+    "e01-06-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Do you have to buy a whole bitcoin? No. Remember: the price of one coin is not the price of getting started.",
+      "source_seconds": 6.32,
+      "trimmed_seconds": 6.001
+    },
+    "e01-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Most trades are priced in USDT. But is USDT really a dollar? Next episode.",
+      "source_seconds": 6.08,
+      "trimmed_seconds": 5.706
+    },
+    "e01-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 1.968
+    },
+    "e02-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "It's called Tether, so it's basically dollars in the bank, right?",
+      "source_seconds": 4.16,
+      "trimmed_seconds": 4.074
+    },
+    "e02-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "No. USDT, or Tether, is a stablecoin. It's designed to stay close to one dollar. But it isn't the dollars in your bank account, and it isn't risk-free cash.",
+      "source_seconds": 10.08,
+      "trimmed_seconds": 9.756
+    },
+    "e02-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Exchanges often use it to price and swap assets. You might buy bitcoin with USDT, and when you sell, you may get USDT back, not a bank transfer.",
+      "source_seconds": 9.36,
+      "trimmed_seconds": 8.795
+    },
+    "e02-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "'Stable' is a design goal, not a guarantee. The price can drift, and issuing and redeeming come with conditions. If you hold it, learn about the issuer and the platform risks too.",
+      "source_seconds": 10,
+      "trimmed_seconds": 9.673
+    },
+    "e02-05-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So I have to buy USDT before bitcoin?",
+      "source_seconds": 2.8,
+      "trimmed_seconds": 2.68
+    },
+    "e02-05-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Not always. Which currencies and trading pairs you can use depends on your region and your platform.",
+      "source_seconds": 5.84,
+      "trimmed_seconds": 5.671
+    },
+    "e02-06-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "What's wrong with this sentence? A stablecoin is not a promise to protect your money. Know what it's for, and know it can be unstable.",
+      "source_seconds": 7.68,
+      "trimmed_seconds": 7.284
+    },
+    "e02-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "If your phone breaks tonight, are your coins gone too? Next: where your coins actually live.",
+      "source_seconds": 5.6,
+      "trimmed_seconds": 5.345
+    },
+    "e02-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 2.013
+    },
+    "e03-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "My phone broke. Are my coins smashed too?",
+      "source_seconds": 3.44,
+      "trimmed_seconds": 3.338
+    },
+    "e03-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Your coins aren't inside your phone. A wallet lets you see assets on the blockchain and uses keys to approve actions. Whether you can recover depends on the wallet type and the recovery options you kept.",
+      "source_seconds": 10.16,
+      "trimmed_seconds": 9.918
+    },
+    "e03-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "With a custodial exchange account, the platform mainly manages the assets and keys, and you act through your account. With a self-custody wallet, you control the credentials. Convenience and responsibility are split differently.",
+      "source_seconds": 12.64,
+      "trimmed_seconds": 12.303
+    },
+    "e03-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Forget your password on either one, and you just call support?",
+      "source_seconds": 3.44,
+      "trimmed_seconds": 3.314
+    },
+    "e03-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Don't think of it that way. With a standard recovery-phrase wallet, if you lose the phrase and have no other valid recovery method, support can't get it back for you.",
+      "source_seconds": 8.72,
+      "trimmed_seconds": 8.372
+    },
+    "e03-05-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Keeping assets on a platform carries platform risk. Holding them yourself can go wrong through a leaked key or a bad approval. Today, just understand the difference. You don't need to move everything right now.",
+      "source_seconds": 11.36,
+      "trimmed_seconds": 10.993
+    },
+    "e03-06-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Who controls the permission to move the assets? Answer that first. Then decide which account or wallet you need.",
+      "source_seconds": 6.32,
+      "trimmed_seconds": 5.955
+    },
+    "e03-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Two doors look the same. One is fake. Next episode: how to spot the real one.",
+      "source_seconds": 5.28,
+      "trimmed_seconds": 4.958
+    },
+    "e03-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 1.993
+    },
+    "e04-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "This one has a huge reward. I'll just go in here?",
+      "source_seconds": 3.52,
+      "trimmed_seconds": 3.345
+    },
+    "e04-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Don't let a reward decide. First check: is this allowed where you live? Does the platform accept your real country of residence? Which company provides the service? Then look at fees, deposits and withdrawal rules.",
+      "source_seconds": 11.76,
+      "trimmed_seconds": 11.507
+    },
+    "e04-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Once you've confirmed the official entry, sign up with your own email or phone number, set a unique password, and complete the checks the page asks for. Never buy someone else's account, and never fake your identity or region.",
+      "source_seconds": 12,
+      "trimmed_seconds": 11.765
+    },
+    "e04-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Signing up isn't the last step. Turn on the security features the platform supports, check your logged-in devices, and save your recovery options. And never send a one-time code to a so-called support agent.",
+      "source_seconds": 11.28,
+      "trimmed_seconds": 10.989
+    },
+    "e04-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Our site can help you look things up, but a partnership is not a safety guarantee. If the facts aren't confirmed, don't start the sign-up.",
+      "source_seconds": 7.44,
+      "trimmed_seconds": 7.105
+    },
+    "e04-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Stop. Confirm eligibility and the rules first.",
+      "source_seconds": 3.6,
+      "trimmed_seconds": 3.473
+    },
+    "e04-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Right. Find the real door, then open the account.",
+      "source_seconds": 3.04,
+      "trimmed_seconds": 2.785
+    },
+    "e04-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Want a door you can trust? NexuAlpha lists each exchange's verified official link. Our OKX partner link goes straight to the official site, and code nexu888 adds a fee rebate.",
+      "source_seconds": 10.96,
+      "trimmed_seconds": 10.695
+    },
+    "e04-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Do it now: turn on two-factor login. Then come back. Next, someone in a chat offers to 'do your KYC for you'.",
+      "source_seconds": 7.04,
+      "trimmed_seconds": 6.748
+    },
+    "e04-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 2.017
+    },
     "e05-00-problem-l01-sam": {
       "speaker": "sam",
       "text": "It wants my ID. And this guy says he can do it for me?",
@@ -63,6 +285,180 @@
       "source_seconds": 2.32,
       "trimmed_seconds": 2.026
     },
+    "e06-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "These all look like putting money in. Which one do I press?",
+      "source_seconds": 3.44,
+      "trimmed_seconds": 3.214
+    },
+    "e06-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Start with what you're holding. Money in your bank, coins you already have somewhere else, or a balance in another account on the same platform. Each one takes a different route.",
+      "source_seconds": 9.12,
+      "trimmed_seconds": 9.071
+    },
+    "e06-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "A fiat deposit usually adds a cash balance to your account. Buying crypto directly means you pay and receive a crypto asset. Some platforms support bank or card channels, some don't, and fees and limits differ.",
+      "source_seconds": 12,
+      "trimmed_seconds": 11.609
+    },
+    "e06-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "If you already hold crypto, you can deposit it using a supported coin and network. An internal transfer just moves balance between your accounts. It's usually not an on-chain transfer. Check where the balance will land first.",
+      "source_seconds": 11.68,
+      "trimmed_seconds": 11.509
+    },
+    "e06-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Some platforms also offer trading between users. That's not another name for a bank transfer. Never pay off-platform in private, never use funds of unknown origin or third-party payments. If it's unclear, don't do it yet.",
+      "source_seconds": 13.44,
+      "trimmed_seconds": 13.069
+    },
+    "e06-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No. They're different channels.",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 2.041
+    },
+    "e06-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Right. Look at the asset first, then the route, and finally check what actually arrived.",
+      "source_seconds": 5.44,
+      "trimmed_seconds": 5.043
+    },
+    "e06-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "BTC/USDT: does that slash mean you buy two coins? Next: your first spot trade.",
+      "source_seconds": 6.16,
+      "trimmed_seconds": 5.695
+    },
+    "e06-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.56,
+      "trimmed_seconds": 2.292
+    },
+    "e07-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "This slash. Do I have to buy both coins?",
+      "source_seconds": 3.84,
+      "trimmed_seconds": 3.731
+    },
+    "e07-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "No. It means bitcoin is priced in USDT. When you buy, you pay USDT and get bitcoin. When you sell, it goes the other way.",
+      "source_seconds": 8.4,
+      "trimmed_seconds": 7.908
+    },
+    "e07-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "We practise with a virtual account. Make sure it's spot, not futures. Pick the pair, choose Buy, then enter the amount. Before you submit, check whether the box wants an amount of money or a number of coins.",
+      "source_seconds": 12.08,
+      "trimmed_seconds": 11.777
+    },
+    "e07-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Say the fill price is 50,000 and you spend 100. You get 0.002 bitcoin. Now assume a 0.1% fee taken separately from your USDT. You spend 100.10 in total. Real rules depend on the platform.",
+      "source_seconds": 15.36,
+      "trimmed_seconds": 15.156
+    },
+    "e07-05-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So once I tap Buy, I definitely have the coins?",
+      "source_seconds": 3.52,
+      "trimmed_seconds": 3.52
+    },
+    "e07-05-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Check the trade history too. Not filled, partly filled and fully filled are different. Check the real average price and the fee as well.",
+      "source_seconds": 8.08,
+      "trimmed_seconds": 7.758
+    },
+    "e07-06-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Your first practice isn't about guessing up or down. It's about checking these five things. And when you're done, it's fine to not make a real trade yet.",
+      "source_seconds": 8.24,
+      "trimmed_seconds": 7.901
+    },
+    "e07-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.",
+      "source_seconds": 9.52,
+      "trimmed_seconds": 9.143
+    },
+    "e07-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Say the price rises and you sell. So why is your bank balance still the same? Next episode.",
+      "source_seconds": 5.76,
+      "trimmed_seconds": 5.353
+    },
+    "e07-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.4,
+      "trimmed_seconds": 1.97
+    },
+    "e08-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "I definitely sold. So why hasn't my bank got the money?",
+      "source_seconds": 4,
+      "trimmed_seconds": 3.879
+    },
+    "e08-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Check which pair you sold into. If you sold for USDT, you got a USDT balance, not money in the bank. Selling and withdrawing to your bank are two separate steps.",
+      "source_seconds": 10.56,
+      "trimmed_seconds": 10.286
+    },
+    "e08-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Same teaching example. You sell 0.002 bitcoin at 55,000. That's 110. Take off an assumed fee of 0.11, and 109.89 lands in your account.",
+      "source_seconds": 12.24,
+      "trimmed_seconds": 11.95
+    },
+    "e08-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So I made ten?",
+      "source_seconds": 1.28,
+      "trimmed_seconds": 1.207
+    },
+    "e08-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Take off the costs. Here it's 9.79, before any currency conversion or withdrawal fees. A price going up isn't the same as your final net gain.",
+      "source_seconds": 9.2,
+      "trimmed_seconds": 9.013
+    },
+    "e08-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "If you need the money back in your bank, first check that your region supports it. Then convert or withdraw through the official route to an account in your own name. Check the name, the amount received, the fees and the processing conditions.",
+      "source_seconds": 12,
+      "trimmed_seconds": 11.683
+    },
+    "e08-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.48,
+      "trimmed_seconds": 0.432
+    },
+    "e08-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Keep your trade and withdrawal records. If you're not sure what kind of balance it is, don't decide based on one 'success' message.",
+      "source_seconds": 7.28,
+      "trimmed_seconds": 6.733
+    },
+    "e08-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "One cheaper network. One wrong click. Your coins may never arrive. Next: the checks you never guess.",
+      "source_seconds": 6.48,
+      "trimmed_seconds": 6.199
+    },
+    "e08-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 1.941
+    },
     "e09-00-problem-l01-sam": {
       "speaker": "sam",
       "text": "This network is cheaper. Why not just switch?",
@@ -117,6 +513,642 @@
       "source_seconds": 2.24,
       "trimmed_seconds": 1.931
     },
+    "e10-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "It didn't arrive. Should I just send a few more?",
+      "source_seconds": 3.6,
+      "trimmed_seconds": 3.534
+    },
+    "e10-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Don't send again. Submitted, on-chain and credited are not the same thing. Find which station it's stuck at, then decide who to contact.",
+      "source_seconds": 7.36,
+      "trimmed_seconds": 7.093
+    },
+    "e10-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Keep the send record. If there's a transaction hash, check it on a proper block explorer for that network: status, destination address and amount. Don't mix in results from a different chain.",
+      "source_seconds": 11.6,
+      "trimmed_seconds": 11.201
+    },
+    "e10-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "The receiving platform may still need confirmations or an internal review. If the coin, network, address or memo was wrong, stop sending and give the facts to official support.",
+      "source_seconds": 9.36,
+      "trimmed_seconds": 9.082
+    },
+    "e10-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "A completed on-chain transfer usually can't be undone like a normal action. Whether it can be recovered depends on technical and platform conditions. There's no guarantee. Don't believe anyone who says paying a fee will surely get it back.",
+      "source_seconds": 13.6,
+      "trimmed_seconds": 13.204
+    },
+    "e10-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Give the records they need. Never the recovery phrase, private key or codes.",
+      "source_seconds": 4.4,
+      "trimmed_seconds": 4.371
+    },
+    "e10-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Right. Find where it's stuck first. Don't keep sending.",
+      "source_seconds": 3.68,
+      "trimmed_seconds": 3.136
+    },
+    "e10-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "'Hi, I'm support. Send me your recovery phrase.' Next: what scammers really want.",
+      "source_seconds": 5.84,
+      "trimmed_seconds": 5.655
+    },
+    "e10-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 1.917
+    },
+    "e11-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "He says he's support and he'll upgrade my wallet.",
+      "source_seconds": 2.56,
+      "trimmed_seconds": 2.538
+    },
+    "e11-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "For a standard recovery-phrase wallet, the phrase is the control key, not a support code. Same for your private key. Never send them to anyone. Even our academy assistant should never ask for them.",
+      "source_seconds": 11.12,
+      "trimmed_seconds": 10.669
+    },
+    "e11-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Two more danger signs: guaranteed returns, and pressure to pay. A screenshot of big profits proves nothing, and doesn't mean you could repeat it. If someone rushes you past the normal checks, stop.",
+      "source_seconds": 11.36,
+      "trimmed_seconds": 10.784
+    },
+    "e11-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Connecting a wallet, signing a message and approving access to your assets are different things. If you don't understand a signature or approval, don't confirm it. No password prompt doesn't mean no risk.",
+      "source_seconds": 11.84,
+      "trimmed_seconds": 11.233
+    },
+    "e11-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "If you think something leaked, stop and use the official security channel. Act on what actually leaked. Never install remote-control software because a scammer told you to.",
+      "source_seconds": 9.76,
+      "trimmed_seconds": 9.428
+    },
+    "e11-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Sharing info to receive money isn't the same as handing over the keys.",
+      "source_seconds": 3.2,
+      "trimmed_seconds": 3.167
+    },
+    "e11-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Share no secrets. Approve nothing you don't understand. Don't be rushed into paying.",
+      "source_seconds": 5.2,
+      "trimmed_seconds": 4.897
+    },
+    "e11-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.",
+      "source_seconds": 6.72,
+      "trimmed_seconds": 6.326
+    },
+    "e11-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 2.067
+    },
+    "e12-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "I've watched eleven episodes. Should I deposit now?",
+      "source_seconds": 3.68,
+      "trimmed_seconds": 3.582
+    },
+    "e12-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Learning how doesn't mean you have to invest. Today, with practice money only, we'll run one flow: check the entry and eligibility, find spot, confirm the amount and fee, then check the trade record.",
+      "source_seconds": 11.92,
+      "trimmed_seconds": 11.611
+    },
+    "e12-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Even if the price falls in practice, you can still do everything right. We score whether you checked and understood, not whether you happened to pick a rise.",
+      "source_seconds": 7.68,
+      "trimmed_seconds": 7.441
+    },
+    "e12-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Something's wrong with this transfer. I'm not sending it.",
+      "source_seconds": 2.96,
+      "trimmed_seconds": 2.953
+    },
+    "e12-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "That's a correct answer too. When the network, fees or identity aren't clear, stopping matters more than forcing the task through.",
+      "source_seconds": 6.96,
+      "trimmed_seconds": 6.755
+    },
+    "e12-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Finally, say three things back. Where did the asset go? How much was actually taken? Who controls your account? If you can't explain one, go back to that episode and practise again.",
+      "source_seconds": 11.12,
+      "trimmed_seconds": 10.652
+    },
+    "e12-06-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "What you've earned is a learning record, not a licence to invest. Keep learning, or don't trade for now. Both are fine. Understand first, then act.",
+      "source_seconds": 9.36,
+      "trimmed_seconds": 9.101
+    },
+    "e12-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "When you do decide to start, compare exchanges side by side on NexuAlpha. Register through an official partner link with our code, get part of your fees back, and join our Telegram for new lessons.",
+      "source_seconds": 11.04,
+      "trimmed_seconds": 10.8
+    },
+    "e12-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Season 2: the price on your screen isn't always the price you pay. Find out why.",
+      "source_seconds": 5.28,
+      "trimmed_seconds": 4.969
+    },
+    "e12-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 1.783
+    },
+    "e13-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "It was this price a second ago. Why is my bill different?",
+      "source_seconds": 4.64,
+      "trimmed_seconds": 4.586
+    },
+    "e13-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "The last price on screen is a record of the most recent trade. It's not an offer for unlimited size. How much people want to buy and sell right now is in the order book.",
+      "source_seconds": 9.52,
+      "trimmed_seconds": 9.136
+    },
+    "e13-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Say you buy 0.002 bitcoin. The first level only has half. The other half fills at a higher price. Together, the average is 50,050, not 50,000.",
+      "source_seconds": 11.2,
+      "trimmed_seconds": 11.01
+    },
+    "e13-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Slippage is the gap between the price you expected and the price you got. It isn't always against you. The trading fee is a separate cost. Don't lump them together under a 'free' slogan.",
+      "source_seconds": 10.24,
+      "trimmed_seconds": 9.765
+    },
+    "e13-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Bigger orders, thinner depth or fast markets make it more likely the result drifts from what you expected. Check size and depth before you order, and the real average price after.",
+      "source_seconds": 9.92,
+      "trimmed_seconds": 9.528
+    },
+    "e13-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.64,
+      "trimmed_seconds": 0.493
+    },
+    "e13-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "You only know your fill when you see the bill. Don't just watch the biggest number.",
+      "source_seconds": 4.16,
+      "trimmed_seconds": 3.935
+    },
+    "e13-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Fees are one cost you can actually lower. Compare fees on NexuAlpha, and register through an official partner link with our code to get part of your trading fees back. Lower cost, same risk.",
+      "source_seconds": 10.32,
+      "trimmed_seconds": 9.926
+    },
+    "e13-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "You placed a buy order and nothing happens. Is it broken? Next: market, limit and cancel.",
+      "source_seconds": 5.52,
+      "trimmed_seconds": 5.155
+    },
+    "e13-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.56,
+      "trimmed_seconds": 1.977
+    },
+    "e14-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "I hit Buy. Why isn't it filling?",
+      "source_seconds": 2.72,
+      "trimmed_seconds": 2.54
+    },
+    "e14-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "A market order tries to fill quickly at the prices available now, but the final price can move. A limit order says 'buy no higher' or 'sell no lower' than a set price. It isn't guaranteed to fill.",
+      "source_seconds": 11.36,
+      "trimmed_seconds": 11.06
+    },
+    "e14-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "If you want to buy below the current price, you may have to wait. On the other hand, a limit order that already meets the other side's price can fill right away. Not every limit order has to wait in line.",
+      "source_seconds": 11.44,
+      "trimmed_seconds": 11.109
+    },
+    "e14-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So does cancelling undo what I already bought?",
+      "source_seconds": 2.4,
+      "trimmed_seconds": 2.268
+    },
+    "e14-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "No. Cancel only affects the part that hasn't filled. What already filled stays. It doesn't rewind.",
+      "source_seconds": 6.4,
+      "trimmed_seconds": 5.997
+    },
+    "e14-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Read the status before you act. Whether you're the maker or the taker depends on how the trade actually filled. Choosing 'limit' doesn't automatically get you a certain fee.",
+      "source_seconds": 9.12,
+      "trimmed_seconds": 8.836
+    },
+    "e14-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.72,
+      "trimmed_seconds": 0.565
+    },
+    "e14-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Choosing an order type is choosing how it executes. It's not making a wish.",
+      "source_seconds": 4.4,
+      "trimmed_seconds": 4.087
+    },
+    "e14-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "A green candle. Does it mean the next one goes up too? Next episode.",
+      "source_seconds": 4.64,
+      "trimmed_seconds": 4.276
+    },
+    "e14-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 2.062
+    },
+    "e15-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "Green means it keeps going up next, right?",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 2.122
+    },
+    "e15-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "One candle records four prices for one period: open, high, low and close. This is made-up five-minute data. It's not a promise about the next five minutes.",
+      "source_seconds": 9.76,
+      "trimmed_seconds": 9.606
+    },
+    "e15-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "The body shows the gap between open and close. The wicks mark the highest and lowest prices in that period. A candle that hasn't finished yet keeps changing with new trades.",
+      "source_seconds": 9.28,
+      "trimmed_seconds": 8.852
+    },
+    "e15-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Why does the chart look different when I switch the time frame?",
+      "source_seconds": 3.44,
+      "trimmed_seconds": 3.203
+    },
+    "e15-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Each candle now covers a different length of time. Read the time frame first, then the shape. Don't mistake five minutes for a day.",
+      "source_seconds": 7.36,
+      "trimmed_seconds": 7.045
+    },
+    "e15-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Apps may use different colours for up and down, so read the legend and the numbers. Past moves can be informative, but one candle can't guarantee the next move.",
+      "source_seconds": 9.28,
+      "trimmed_seconds": 8.912
+    },
+    "e15-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "High 51,000. Close 50,500.",
+      "source_seconds": 5.52,
+      "trimmed_seconds": 5.359
+    },
+    "e15-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Read the record first. Don't treat a record as a prophecy.",
+      "source_seconds": 3.6,
+      "trimmed_seconds": 3.354
+    },
+    "e15-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.",
+      "source_seconds": 5.92,
+      "trimmed_seconds": 5.595
+    },
+    "e15-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.4,
+      "trimmed_seconds": 2.088
+    },
+    "e16-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "I have 1,000 and only want to lose 20. So I just put it all in?",
+      "source_seconds": 4.56,
+      "trimmed_seconds": 4.477
+    },
+    "e16-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "What's in your account, how much you buy in this trade, and the most you plan to lose are three different things. Decide your exit first. Then you can size the position.",
+      "source_seconds": 9.04,
+      "trimmed_seconds": 8.81
+    },
+    "e16-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "One practice sum. Entry at 50,000, planned exit at 47,500. That's 5% away. If you plan to take a 20 price loss, ignoring costs, the position is about 400.",
+      "source_seconds": 12,
+      "trimmed_seconds": 11.638
+    },
+    "e16-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So 'lose at most 20' doesn't mean 'buy only 20'?",
+      "source_seconds": 3.04,
+      "trimmed_seconds": 2.998
+    },
+    "e16-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Right. Here a 400 position falling 5% is the 20. These are teaching numbers only.",
+      "source_seconds": 6.16,
+      "trimmed_seconds": 5.784
+    },
+    "e16-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Real markets have slippage, gaps, fees and failed orders, so planned risk is not a guaranteed maximum loss. Never borrow money for this course, and never practise with money you need to live on.",
+      "source_seconds": 11.76,
+      "trimmed_seconds": 11.316
+    },
+    "e16-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Twenty.",
+      "source_seconds": 0.48,
+      "trimmed_seconds": 0.426
+    },
+    "e16-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Work out the worst you can accept first. Then ask whether you need this trade at all.",
+      "source_seconds": 4.8,
+      "trimmed_seconds": 4.485
+    },
+    "e16-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "You set a stop-loss. Does that mean you can only lose that amount? Next: the truth about stops.",
+      "source_seconds": 6.16,
+      "trimmed_seconds": 5.923
+    },
+    "e16-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 2.105
+    },
+    "e17-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "My stop-loss is set, so I can only lose the amount I typed, right?",
+      "source_seconds": 4.08,
+      "trimmed_seconds": 4.052
+    },
+    "e17-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "A stop-loss runs your exit plan when a condition is met. It's not insurance. Being triggered doesn't mean you'll fill at that price, and it doesn't guarantee the loss stops exactly there.",
+      "source_seconds": 9.52,
+      "trimmed_seconds": 9.138
+    },
+    "e17-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "After the trigger, a stop-market order exits at market. It prioritises getting out fast, but the price can slip. In fast or thin markets, the gap can be bigger.",
+      "source_seconds": 9.68,
+      "trimmed_seconds": 9.502
+    },
+    "e17-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "A stop-limit posts a limit order after the trigger. It caps the price you'll accept, but if the price races past, it may not sell at all. Neither one is always better. They're different trade-offs.",
+      "source_seconds": 10.8,
+      "trimmed_seconds": 10.614
+    },
+    "e17-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "After setting them, check the direction, quantity and order status. For futures, also check which price triggers it, so your stop isn't placed where liquidation could come first.",
+      "source_seconds": 9.76,
+      "trimmed_seconds": 9.512
+    },
+    "e17-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Not guaranteed.",
+      "source_seconds": 1.28,
+      "trimmed_seconds": 1.172
+    },
+    "e17-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Know its limits, and a stop-loss becomes a real plan, not a lucky charm.",
+      "source_seconds": 4.48,
+      "trimmed_seconds": 4.36
+    },
+    "e17-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Both say BTC. But one may not give you any bitcoin at all. Next: spot vs futures.",
+      "source_seconds": 6.72,
+      "trimmed_seconds": 6.343
+    },
+    "e17-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 1.967
+    },
+    "e18-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "They both say bitcoin. Isn't it the same trade?",
+      "source_seconds": 3.28,
+      "trimmed_seconds": 3.134
+    },
+    "e18-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Plain spot, with no borrowing, swaps one asset for another. The linear perpetual we cover here is a contract position that settles profit and loss as the price moves. It's not buying bitcoin you can withdraw.",
+      "source_seconds": 11.92,
+      "trimmed_seconds": 11.615
+    },
+    "e18-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Going long usually means hoping the price rises. Going short usually means hoping it falls. Get the direction wrong, and either side loses. Being able to short doesn't make it easier to make money.",
+      "source_seconds": 11.2,
+      "trimmed_seconds": 10.838
+    },
+    "e18-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Should I level up from spot to futures?",
+      "source_seconds": 1.84,
+      "trimmed_seconds": 1.829
+    },
+    "e18-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "No need. Futures are a different risk structure, not a level you must reach. You can understand them and still choose not to use them.",
+      "source_seconds": 7.92,
+      "trimmed_seconds": 7.682
+    },
+    "e18-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Plain spot without borrowing has no margin liquidation like futures do. But the asset can still lose a lot of value. No liquidation doesn't mean your money is protected.",
+      "source_seconds": 9.6,
+      "trimmed_seconds": 9.117
+    },
+    "e18-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.48,
+      "trimmed_seconds": 0.351
+    },
+    "e18-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Know what you're trading first. Then study leverage.",
+      "source_seconds": 3.04,
+      "trimmed_seconds": 2.874
+    },
+    "e18-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "10x leverage: does the exchange hand you 900 extra? Next episode.",
+      "source_seconds": 4.88,
+      "trimmed_seconds": 4.488
+    },
+    "e18-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.4,
+      "trimmed_seconds": 2.05
+    },
+    "e19-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "If I use ten times, does the exchange give me 900?",
+      "source_seconds": 3.68,
+      "trimmed_seconds": 3.59
+    },
+    "e19-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "It's not free cash. Simply put, 100 of margin controlling a 1,000 position is 10x leverage. Price moves act on the position, and your margin takes the profit or loss.",
+      "source_seconds": 10.4,
+      "trimmed_seconds": 10.228
+    },
+    "e19-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Ignoring fees, a 1% move against you loses about 10 on a 1,000 position, and about 20 on a 2,000 position. The percentage looks small, but on a small margin it can hurt.",
+      "source_seconds": 11.76,
+      "trimmed_seconds": 11.41
+    },
+    "e19-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Here's an easy mistake. If the position size stays the same and you only change the leverage setting, the P&L in money for the same price move doesn't double. What changes is the margin required and your risk buffer.",
+      "source_seconds": 11.52,
+      "trimmed_seconds": 11.31
+    },
+    "e19-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Real liquidation also involves maintenance margin, the mark price and fees. You can't say 10x always liquidates at exactly a 10% drop. Don't use this shortcut for real trades.",
+      "source_seconds": 11.6,
+      "trimmed_seconds": 11.142
+    },
+    "e19-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.64,
+      "trimmed_seconds": 0.507
+    },
+    "e19-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "It magnifies how the position hits your money, not your judgement.",
+      "source_seconds": 3.68,
+      "trimmed_seconds": 3.375
+    },
+    "e19-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "You still have margin left. So why can you be forced out? Next: the line you can't see.",
+      "source_seconds": 5.52,
+      "trimmed_seconds": 5.22
+    },
+    "e19-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 1.969
+    },
+    "e20-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "There's still money there. Why won't it let me keep waiting?",
+      "source_seconds": 3.76,
+      "trimmed_seconds": 3.656
+    },
+    "e20-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "You need initial margin to open a position. While it's open, you must also meet the maintenance margin requirement. What you put in at the start isn't how much buffer you'll always have.",
+      "source_seconds": 9.92,
+      "trimmed_seconds": 9.495
+    },
+    "e20-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Say the initial margin is 100 and the position is down 20. Ignoring everything else, the equity is now 80. If the price keeps moving against you, the buffer keeps shrinking.",
+      "source_seconds": 10.64,
+      "trimmed_seconds": 10.105
+    },
+    "e20-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "When equity gets close to the platform's maintenance level, the risk system may step in. It doesn't have to wait for zero. It depends on the account type, margin mode and product rules.",
+      "source_seconds": 10.56,
+      "trimmed_seconds": 10.176
+    },
+    "e20-05-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So if I keep adding money, I'm safe?",
+      "source_seconds": 3.68,
+      "trimmed_seconds": 3.512
+    },
+    "e20-05-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Adding money doesn't change the price direction, and it doesn't guarantee you won't be liquidated. It can pull more money into the same risk.",
+      "source_seconds": 6.88,
+      "trimmed_seconds": 6.649
+    },
+    "e20-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No. One is about opening the position. The other is about keeping it open.",
+      "source_seconds": 4.8,
+      "trimmed_seconds": 4.652
+    },
+    "e20-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Check equity first, then how far it is from the warning line.",
+      "source_seconds": 3.52,
+      "trimmed_seconds": 3.254
+    },
+    "e20-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.",
+      "source_seconds": 6.4,
+      "trimmed_seconds": 6.124
+    },
+    "e20-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.48,
+      "trimmed_seconds": 1.948
+    },
     "e21-00-problem-l01-sam": {
       "speaker": "sam",
       "text": "If I put 100 in isolated, the other 900 can never be touched?",
@@ -170,6 +1202,186 @@
       "text": "Understand first, then act.",
       "source_seconds": 2.16,
       "trimmed_seconds": 1.962
+    },
+    "e22-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "The loss is on the left one. Why is the right one in danger too?",
+      "source_seconds": 3.92,
+      "trimmed_seconds": 3.825
+    },
+    "e22-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Cross margin shares margin across positions, within what the rules allow. Here, say one margin pool holds 1,000. Several positions may depend on it, not just on what each was first assigned.",
+      "source_seconds": 12.32,
+      "trimmed_seconds": 12.079
+    },
+    "e22-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "One losing position can eat the buffer other positions rely on. Profits, losses, margin held for open orders, and the value of your collateral can all affect the same account's risk.",
+      "source_seconds": 11.04,
+      "trimmed_seconds": 10.64
+    },
+    "e22-04-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "So cross margin is harder to liquidate, which makes it safer?",
+      "source_seconds": 4.16,
+      "trimmed_seconds": 4.123
+    },
+    "e22-04-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Extra money can delay when one position hits risk handling. But it also puts more of your money on the line for the losses.",
+      "source_seconds": 6.64,
+      "trimmed_seconds": 6.323
+    },
+    "e22-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Cross margin doesn't let a platform automatically use all your bank cards or personal wallets. Which accounts and collateral count depends on the product rules. Complex collateral can also come with haircuts and its own price risk.",
+      "source_seconds": 11.68,
+      "trimmed_seconds": 11.308
+    },
+    "e22-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Not necessarily. It depends on the shared pool and the account rules.",
+      "source_seconds": 4.8,
+      "trimmed_seconds": 4.643
+    },
+    "e22-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Look at the whole pool, not just one position's box.",
+      "source_seconds": 3.36,
+      "trimmed_seconds": 3.131
+    },
+    "e22-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "The price you watch hasn't hit the line, but the alarm is ringing. Next: who presses the liquidation button.",
+      "source_seconds": 6,
+      "trimmed_seconds": 5.759
+    },
+    "e22-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 2.022
+    },
+    "e23-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "The price I'm watching hasn't got there. Why is the alarm going off?",
+      "source_seconds": 4.88,
+      "trimmed_seconds": 4.754
+    },
+    "e23-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "The last traded price isn't always the price used to judge liquidation. Many perpetuals assess risk using a mark price and margin rules. Check which rules your platform actually uses.",
+      "source_seconds": 10.64,
+      "trimmed_seconds": 10.321
+    },
+    "e23-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "When the price moves against the position, losses eat into equity. Near the maintenance requirement, the system may cancel orders, reduce the position or force-close it. It won't necessarily wait for your OK.",
+      "source_seconds": 12.4,
+      "trimmed_seconds": 12.061
+    },
+    "e23-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Liquidation usually means this forced-close risk event, not your phone's button breaking. The real trigger depends on fees, maintenance margin, margin mode and more. 10x doesn't mean exactly a 10% drop.",
+      "source_seconds": 13.68,
+      "trimmed_seconds": 13.095
+    },
+    "e23-05-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "It went back up later. Can I just wait for it to come back?",
+      "source_seconds": 4,
+      "trimmed_seconds": 3.914
+    },
+    "e23-05-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "A closed position doesn't come back on its own. A drop and then a rise can end very differently for a leveraged position and for plain spot you just held.",
+      "source_seconds": 8.32,
+      "trimmed_seconds": 7.988
+    },
+    "e23-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Not guaranteed.",
+      "source_seconds": 1.2,
+      "trimmed_seconds": 1.18
+    },
+    "e23-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "It's not just the destination. It's whether you can survive the path.",
+      "source_seconds": 4,
+      "trimmed_seconds": 3.635
+    },
+    "e23-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Price barely moved, and you didn't close, but your balance dropped. The final episode is next.",
+      "source_seconds": 5.92,
+      "trimmed_seconds": 5.502
+    },
+    "e23-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.48,
+      "trimmed_seconds": 2.045
+    },
+    "e24-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "The price barely moved and I didn't close. Why is my balance lower?",
+      "source_seconds": 4.64,
+      "trimmed_seconds": 4.541
+    },
+    "e24-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Besides trading fees, perpetual contracts usually have a funding mechanism. When the rate is positive, longs usually pay shorts. When it's negative, it flips. It's not a fixed interest everyone pays to the exchange.",
+      "source_seconds": 12.24,
+      "trimmed_seconds": 11.821
+    },
+    "e24-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Say the position value at settlement is 1,000 and the rate is 0.01%. This fee is 0.10. It's based on the position value, not your first 100 of margin.",
+      "source_seconds": 11.84,
+      "trimmed_seconds": 11.44
+    },
+    "e24-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.",
+      "source_seconds": 10.4,
+      "trimmed_seconds": 9.896
+    },
+    "e24-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "The last level is practice only. First explain what you're trading and which direction. Then check the mode, size, margin, auto-add, exit plan and costs. If you don't understand one item, pause. Don't guess your way through the buttons.",
+      "source_seconds": 14.16,
+      "trimmed_seconds": 13.907
+    },
+    "e24-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "I know how to do it, and I know this risk isn't right for me. So I won't.",
+      "source_seconds": 4.72,
+      "trimmed_seconds": 4.541
+    },
+    "e24-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "That's a passing result too. Finishing the course doesn't mean you can make money. Understand first, then act.",
+      "source_seconds": 6.32,
+      "trimmed_seconds": 5.833
+    },
+    "e24-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Whatever you trade, fees are a cost that adds up. Compare fees on NexuAlpha, and register through an official partner link with our code to get part of your fees back. Lower cost, same risk.",
+      "source_seconds": 11.2,
+      "trimmed_seconds": 10.939
+    },
+    "e24-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "You've finished both seasons. Pick the episode that felt hardest, and rewatch it before you ever trade.",
+      "source_seconds": 5.6,
+      "trimmed_seconds": 5.351
+    },
+    "e24-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 2.078
     }
   }
 }

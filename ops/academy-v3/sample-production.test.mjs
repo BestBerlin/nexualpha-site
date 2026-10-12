@@ -6,7 +6,7 @@ import {createRequire} from 'node:module';
 const require=createRequire(new URL('../../pilot-01-prototype/package.json',import.meta.url));
 const {JSDOM}=require('jsdom');
 const gsap=readFileSync(new URL('./node_modules/gsap/dist/gsap.min.js',import.meta.url),'utf8');
-for(const [ep,locale,total] of [['E05','en',135],['E09','en',155],['E21','en',124.9],['E05','zh-Hans',135]]){
+for(const [ep,locale,total] of [['E05','en',136.6],['E09','en',155.4],['E21','en',124.9],['E05','zh-Hans',136.6]]){
  test(`${ep}/${locale}: build isolated outputs and preserve all scene narration`,()=>{
   const r=spawnSync(process.execPath,['build.mjs',`episodes/${ep}.json`,locale],{cwd:new URL('.',import.meta.url),encoding:'utf8'});
   assert.equal(r.status,0,r.stderr);
@@ -36,7 +36,8 @@ for(const [ep,locale,total] of [['E05','en',135],['E09','en',155],['E21','en',12
    }
    const card=w.document.querySelector('.conversion-card');
    assert.equal(Boolean(card),ep==='E05');
-   if(card){assert.match(card.textContent,/nexu888/);assert.match(card.textContent,/commission|佣金/);assert.match(card.textContent,/country|地区/);}
+   if(card){assert.match(card.textContent,/nexu888/);assert.match(card.textContent,/nexualpha\.com\/go\/okx/);assert.doesNotMatch(card.textContent,/commission|佣金|country|地区|Partner link|合作推广/);assert.equal(card.querySelectorAll('.disclosure').length,0);}
+   assert.doesNotMatch(w.document.querySelector('#academy').textContent.replace(/\s+/g,' '),/fictional|Teaching (illustration|model|assumption)|not a live price|虚构|教学模型/,'no fine print on frames');
    const vtt=readFileSync(new URL(`build/${ep}-${locale}-${format}/captions.vtt`,import.meta.url),'utf8');
    assert.match(vtt,/Understand first|先看懂/);
    assert.match(vtt.replace(/\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}/g,'').replace(/\s+/g,' '),ep==='E21'?/cross margin/:ep==='E09'?/where to look/:locale==='en'?/which one to press/:/到底该按哪个/);

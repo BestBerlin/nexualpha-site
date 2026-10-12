@@ -1,0 +1,2405 @@
+{
+  "version": 1,
+  "production_id": "E19",
+  "episode": 19,
+  "season": 2,
+  "slug": "what-leverage-does",
+  "title": {
+    "en": "10x leverage: more money, or more risk?",
+    "zh-Hans": "十倍杠杆，是钱变多，还是风险变大？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E19' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第19集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "ten-x-machine",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "Sam feeds 100 into a '10x' machine, expecting 1,000 in cash to come out the other end.",
+      "visual_zh": "小白把100投入“十倍”机器，期待另一端吐出1000现金。",
+      "onscreen_text_en": "10x = a free 900?",
+      "onscreen_text_zh-Hans": "10倍 = 白送 900？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "If I use ten times, does the exchange give me 900?",
+            "zh-Hans": "开十倍，平台是不是送我九百？"
+          },
+          "start": 0.25,
+          "end": 3.84,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e19-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.59
+          },
+          "words": {
+            "en": [
+              {
+                "text": "If ",
+                "start": 0.25,
+                "end": 0.43
+              },
+              {
+                "text": "I ",
+                "start": 0.43,
+                "end": 0.519
+              },
+              {
+                "text": "use ",
+                "start": 0.519,
+                "end": 0.789
+              },
+              {
+                "text": "ten ",
+                "start": 0.789,
+                "end": 1.058
+              },
+              {
+                "text": "times, ",
+                "start": 1.058,
+                "end": 1.596
+              },
+              {
+                "text": "does ",
+                "start": 1.596,
+                "end": 1.955
+              },
+              {
+                "text": "the ",
+                "start": 1.955,
+                "end": 2.225
+              },
+              {
+                "text": "exchange ",
+                "start": 2.225,
+                "end": 2.943
+              },
+              {
+                "text": "give ",
+                "start": 2.943,
+                "end": 3.302
+              },
+              {
+                "text": "me ",
+                "start": 3.302,
+                "end": 3.481
+              },
+              {
+                "text": "900?",
+                "start": 3.481,
+                "end": 3.84
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "开",
+                "start": 0.25,
+                "end": 0.506
+              },
+              {
+                "text": "十倍，",
+                "start": 0.506,
+                "end": 1.276
+              },
+              {
+                "text": "平台",
+                "start": 1.276,
+                "end": 1.789
+              },
+              {
+                "text": "是不是",
+                "start": 1.789,
+                "end": 2.558
+              },
+              {
+                "text": "送",
+                "start": 2.558,
+                "end": 2.814
+              },
+              {
+                "text": "我",
+                "start": 2.814,
+                "end": 3.071
+              },
+              {
+                "text": "九百？",
+                "start": 3.071,
+                "end": 3.84
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "label": "100"
+            },
+            {
+              "label": "10x"
+            },
+            {
+              "label": {
+                "en": "1,000 cash?",
+                "zh-Hans": "1,000 现金？"
+              },
+              "state": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白把100投入“十倍”机器，期待另一端吐出1000现金。",
+      "source_onscreen_text": {
+        "en": [
+          "100 → 10x → 1,000 cash?"
+        ],
+        "zh-Hans": [
+          "100 → 十倍 → 1,000现金？"
+        ]
+      }
+    },
+    {
+      "id": "margin-notional",
+      "duration": 26,
+      "set": "trading-desk",
+      "visual_en": "The machine produces no cash; it enlarges the notional position it can carry to 1,000; the 100 stays labelled 'margin'.",
+      "visual_zh": "机器不吐现金，而是把可承担的合约名义仓位放大到1000；100仍标保证金。",
+      "onscreen_text_en": "Not free cash",
+      "onscreen_text_zh-Hans": "不是白给的钱",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "It's not free cash. Simply put, 100 of margin controlling a 1,000 position is 10x leverage. Price moves act on the position, and your margin takes the profit or loss.",
+            "zh-Hans": "不是送现金。简化来说，一百保证金控制一千名义仓位，是十倍杠杆。价格变化作用在仓位上，你的保证金承担对应盈亏。"
+          },
+          "start": 0.25,
+          "end": 10.478,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e19-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.228
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It's ",
+                "start": 0.25,
+                "end": 0.549
+              },
+              {
+                "text": "not ",
+                "start": 0.549,
+                "end": 0.773
+              },
+              {
+                "text": "free ",
+                "start": 0.773,
+                "end": 1.071
+              },
+              {
+                "text": "cash. ",
+                "start": 1.071,
+                "end": 1.445
+              },
+              {
+                "text": "Simply ",
+                "start": 1.445,
+                "end": 1.892
+              },
+              {
+                "text": "put, ",
+                "start": 1.892,
+                "end": 2.191
+              },
+              {
+                "text": "100 ",
+                "start": 2.191,
+                "end": 2.415
+              },
+              {
+                "text": "of ",
+                "start": 2.415,
+                "end": 2.564
+              },
+              {
+                "text": "margin ",
+                "start": 2.564,
+                "end": 3.012
+              },
+              {
+                "text": "controlling ",
+                "start": 3.012,
+                "end": 3.834
+              },
+              {
+                "text": "a ",
+                "start": 3.834,
+                "end": 3.908
+              },
+              {
+                "text": "1,000 ",
+                "start": 3.908,
+                "end": 4.281
+              },
+              {
+                "text": "position ",
+                "start": 4.281,
+                "end": 4.879
+              },
+              {
+                "text": "is ",
+                "start": 4.879,
+                "end": 5.028
+              },
+              {
+                "text": "10x ",
+                "start": 5.028,
+                "end": 5.252
+              },
+              {
+                "text": "leverage. ",
+                "start": 5.252,
+                "end": 5.924
+              },
+              {
+                "text": "Price ",
+                "start": 5.924,
+                "end": 6.297
+              },
+              {
+                "text": "moves ",
+                "start": 6.297,
+                "end": 6.67
+              },
+              {
+                "text": "act ",
+                "start": 6.67,
+                "end": 6.894
+              },
+              {
+                "text": "on ",
+                "start": 6.894,
+                "end": 7.044
+              },
+              {
+                "text": "the ",
+                "start": 7.044,
+                "end": 7.268
+              },
+              {
+                "text": "position, ",
+                "start": 7.268,
+                "end": 7.94
+              },
+              {
+                "text": "and ",
+                "start": 7.94,
+                "end": 8.164
+              },
+              {
+                "text": "your ",
+                "start": 8.164,
+                "end": 8.462
+              },
+              {
+                "text": "margin ",
+                "start": 8.462,
+                "end": 8.91
+              },
+              {
+                "text": "takes ",
+                "start": 8.91,
+                "end": 9.283
+              },
+              {
+                "text": "the ",
+                "start": 9.283,
+                "end": 9.507
+              },
+              {
+                "text": "profit ",
+                "start": 9.507,
+                "end": 9.955
+              },
+              {
+                "text": "or ",
+                "start": 9.955,
+                "end": 10.105
+              },
+              {
+                "text": "loss.",
+                "start": 10.105,
+                "end": 10.478
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不是",
+                "start": 0.25,
+                "end": 0.629
+              },
+              {
+                "text": "送",
+                "start": 0.629,
+                "end": 0.818
+              },
+              {
+                "text": "现金。",
+                "start": 0.818,
+                "end": 1.386
+              },
+              {
+                "text": "简化",
+                "start": 1.386,
+                "end": 1.765
+              },
+              {
+                "text": "来说，",
+                "start": 1.765,
+                "end": 2.333
+              },
+              {
+                "text": "一百",
+                "start": 2.333,
+                "end": 2.712
+              },
+              {
+                "text": "保证",
+                "start": 2.712,
+                "end": 3.091
+              },
+              {
+                "text": "金",
+                "start": 3.091,
+                "end": 3.281
+              },
+              {
+                "text": "控制",
+                "start": 3.281,
+                "end": 3.659
+              },
+              {
+                "text": "一千",
+                "start": 3.659,
+                "end": 4.038
+              },
+              {
+                "text": "名义",
+                "start": 4.038,
+                "end": 4.417
+              },
+              {
+                "text": "仓",
+                "start": 4.417,
+                "end": 4.606
+              },
+              {
+                "text": "位，",
+                "start": 4.606,
+                "end": 4.985
+              },
+              {
+                "text": "是",
+                "start": 4.985,
+                "end": 5.175
+              },
+              {
+                "text": "十倍",
+                "start": 5.175,
+                "end": 5.553
+              },
+              {
+                "text": "杠杆。",
+                "start": 5.553,
+                "end": 6.122
+              },
+              {
+                "text": "价格",
+                "start": 6.122,
+                "end": 6.5
+              },
+              {
+                "text": "变化",
+                "start": 6.5,
+                "end": 6.879
+              },
+              {
+                "text": "作用",
+                "start": 6.879,
+                "end": 7.258
+              },
+              {
+                "text": "在",
+                "start": 7.258,
+                "end": 7.447
+              },
+              {
+                "text": "仓",
+                "start": 7.447,
+                "end": 7.637
+              },
+              {
+                "text": "位",
+                "start": 7.637,
+                "end": 7.826
+              },
+              {
+                "text": "上，",
+                "start": 7.826,
+                "end": 8.205
+              },
+              {
+                "text": "你的",
+                "start": 8.205,
+                "end": 8.584
+              },
+              {
+                "text": "保证",
+                "start": 8.584,
+                "end": 8.963
+              },
+              {
+                "text": "金",
+                "start": 8.963,
+                "end": 9.152
+              },
+              {
+                "text": "承担",
+                "start": 9.152,
+                "end": 9.531
+              },
+              {
+                "text": "对应",
+                "start": 9.531,
+                "end": 9.91
+              },
+              {
+                "text": "盈亏。",
+                "start": 9.91,
+                "end": 10.478
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Margin",
+                "zh-Hans": "保证金"
+              },
+              "value": "100"
+            },
+            {
+              "label": {
+                "en": "Notional position",
+                "zh-Hans": "名义仓位"
+              },
+              "value": "1,000"
+            },
+            {
+              "label": {
+                "en": "Leverage",
+                "zh-Hans": "杠杆"
+              },
+              "value": "10x"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:35",
+      "source_visual_zh": "机器不吐现金，而是把可承担的合约名义仓位放大到1000；100仍标保证金。",
+      "source_onscreen_text": {
+        "en": [
+          "Margin 100",
+          "Notional position 1,000",
+          "10x",
+          "Teaching model · not any exchange's real rules"
+        ],
+        "zh-Hans": [
+          "保证金 100",
+          "名义仓位 1,000",
+          "十倍",
+          "教学模型 · 非任何交易所真实规则"
+        ]
+      }
+    },
+    {
+      "id": "one-percent",
+      "duration": 32,
+      "set": "trading-desk",
+      "visual_en": "With 100 margin: 10x = 1,000 position, 20x = 2,000 position; both move 1% against.",
+      "visual_zh": "100保证金下，10倍仓位1000，20倍仓位2000；两边同时反向波动1%。",
+      "onscreen_text_en": "Same 1% move, bigger hit",
+      "onscreen_text_zh-Hans": "同样 1%，伤害更大",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Ignoring fees, a 1% move against you loses about 10 on a 1,000 position, and about 20 on a 2,000 position. The percentage looks small, but on a small margin it can hurt.",
+            "zh-Hans": "暂不计费用，价格反向百分之一，一千仓位大约亏十，两千仓位大约亏二十。百分比看起来很小，对小额保证金却可能很明显。"
+          },
+          "start": 0.25,
+          "end": 11.66,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e19-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.41
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Ignoring ",
+                "start": 0.25,
+                "end": 0.916
+              },
+              {
+                "text": "fees, ",
+                "start": 0.916,
+                "end": 1.333
+              },
+              {
+                "text": "a ",
+                "start": 1.333,
+                "end": 1.416
+              },
+              {
+                "text": "1% ",
+                "start": 1.416,
+                "end": 1.583
+              },
+              {
+                "text": "move ",
+                "start": 1.583,
+                "end": 1.916
+              },
+              {
+                "text": "against ",
+                "start": 1.916,
+                "end": 2.499
+              },
+              {
+                "text": "you ",
+                "start": 2.499,
+                "end": 2.749
+              },
+              {
+                "text": "loses ",
+                "start": 2.749,
+                "end": 3.165
+              },
+              {
+                "text": "about ",
+                "start": 3.165,
+                "end": 3.581
+              },
+              {
+                "text": "10 ",
+                "start": 3.581,
+                "end": 3.748
+              },
+              {
+                "text": "on ",
+                "start": 3.748,
+                "end": 3.915
+              },
+              {
+                "text": "a ",
+                "start": 3.915,
+                "end": 3.998
+              },
+              {
+                "text": "1,000 ",
+                "start": 3.998,
+                "end": 4.414
+              },
+              {
+                "text": "position, ",
+                "start": 4.414,
+                "end": 5.164
+              },
+              {
+                "text": "and ",
+                "start": 5.164,
+                "end": 5.414
+              },
+              {
+                "text": "about ",
+                "start": 5.414,
+                "end": 5.83
+              },
+              {
+                "text": "20 ",
+                "start": 5.83,
+                "end": 5.997
+              },
+              {
+                "text": "on ",
+                "start": 5.997,
+                "end": 6.163
+              },
+              {
+                "text": "a ",
+                "start": 6.163,
+                "end": 6.246
+              },
+              {
+                "text": "2,000 ",
+                "start": 6.246,
+                "end": 6.663
+              },
+              {
+                "text": "position. ",
+                "start": 6.663,
+                "end": 7.412
+              },
+              {
+                "text": "The ",
+                "start": 7.412,
+                "end": 7.662
+              },
+              {
+                "text": "percentage ",
+                "start": 7.662,
+                "end": 8.495
+              },
+              {
+                "text": "looks ",
+                "start": 8.495,
+                "end": 8.912
+              },
+              {
+                "text": "small, ",
+                "start": 8.912,
+                "end": 9.411
+              },
+              {
+                "text": "but ",
+                "start": 9.411,
+                "end": 9.661
+              },
+              {
+                "text": "on ",
+                "start": 9.661,
+                "end": 9.828
+              },
+              {
+                "text": "a ",
+                "start": 9.828,
+                "end": 9.911
+              },
+              {
+                "text": "small ",
+                "start": 9.911,
+                "end": 10.327
+              },
+              {
+                "text": "margin ",
+                "start": 10.327,
+                "end": 10.827
+              },
+              {
+                "text": "it ",
+                "start": 10.827,
+                "end": 10.994
+              },
+              {
+                "text": "can ",
+                "start": 10.994,
+                "end": 11.244
+              },
+              {
+                "text": "hurt.",
+                "start": 11.244,
+                "end": 11.66
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "暂",
+                "start": 0.25,
+                "end": 0.454
+              },
+              {
+                "text": "不计",
+                "start": 0.454,
+                "end": 0.861
+              },
+              {
+                "text": "费用，",
+                "start": 0.861,
+                "end": 1.473
+              },
+              {
+                "text": "价格",
+                "start": 1.473,
+                "end": 1.88
+              },
+              {
+                "text": "反向",
+                "start": 1.88,
+                "end": 2.288
+              },
+              {
+                "text": "百分",
+                "start": 2.288,
+                "end": 2.695
+              },
+              {
+                "text": "之一，",
+                "start": 2.695,
+                "end": 3.306
+              },
+              {
+                "text": "一千",
+                "start": 3.306,
+                "end": 3.714
+              },
+              {
+                "text": "仓",
+                "start": 3.714,
+                "end": 3.918
+              },
+              {
+                "text": "位",
+                "start": 3.918,
+                "end": 4.121
+              },
+              {
+                "text": "大约",
+                "start": 4.121,
+                "end": 4.529
+              },
+              {
+                "text": "亏",
+                "start": 4.529,
+                "end": 4.733
+              },
+              {
+                "text": "十，",
+                "start": 4.733,
+                "end": 5.14
+              },
+              {
+                "text": "两千",
+                "start": 5.14,
+                "end": 5.548
+              },
+              {
+                "text": "仓",
+                "start": 5.548,
+                "end": 5.751
+              },
+              {
+                "text": "位",
+                "start": 5.751,
+                "end": 5.955
+              },
+              {
+                "text": "大约",
+                "start": 5.955,
+                "end": 6.363
+              },
+              {
+                "text": "亏",
+                "start": 6.363,
+                "end": 6.566
+              },
+              {
+                "text": "二十。",
+                "start": 6.566,
+                "end": 7.178
+              },
+              {
+                "text": "百分比",
+                "start": 7.178,
+                "end": 7.789
+              },
+              {
+                "text": "看起来",
+                "start": 7.789,
+                "end": 8.4
+              },
+              {
+                "text": "很小，",
+                "start": 8.4,
+                "end": 9.011
+              },
+              {
+                "text": "对",
+                "start": 9.011,
+                "end": 9.215
+              },
+              {
+                "text": "小",
+                "start": 9.215,
+                "end": 9.419
+              },
+              {
+                "text": "额",
+                "start": 9.419,
+                "end": 9.623
+              },
+              {
+                "text": "保证",
+                "start": 9.623,
+                "end": 10.03
+              },
+              {
+                "text": "金",
+                "start": 10.03,
+                "end": 10.234
+              },
+              {
+                "text": "却",
+                "start": 10.234,
+                "end": 10.438
+              },
+              {
+                "text": "可能",
+                "start": 10.438,
+                "end": 10.845
+              },
+              {
+                "text": "很",
+                "start": 10.845,
+                "end": 11.049
+              },
+              {
+                "text": "明显。",
+                "start": 11.049,
+                "end": 11.66
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "formula",
+          "rows": [
+            {
+              "expr": "10x · 1,000 · −1%",
+              "result": "≈ −10"
+            },
+            {
+              "expr": "20x · 2,000 · −1%",
+              "result": "≈ −20",
+              "emphasis": true
+            }
+          ],
+          "note": {
+            "en": "Fees ignored",
+            "zh-Hans": "暂不计费用"
+          }
+        }
+      ],
+      "source_tc": "00:35-01:07",
+      "source_visual_zh": "100保证金下，10倍仓位1000，20倍仓位2000；两边同时反向波动1%。",
+      "source_onscreen_text": {
+        "en": [
+          "10x · 1,000 · −1% ≈ −10",
+          "20x · 2,000 · −1% ≈ −20",
+          "Fees ignored"
+        ],
+        "zh-Hans": [
+          "十倍 · 1,000 · −1% ≈ −10",
+          "二十倍 · 2,000 · −1% ≈ −20",
+          "暂不计费用"
+        ]
+      }
+    },
+    {
+      "id": "fixed-position",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "Position fixed at 1,000; only the leverage setting changes. The P&L curve stays the same; the initial margin required changes.",
+      "visual_zh": "把仓位固定在1000，只改杠杆设置，盈亏曲线不变、初始保证金需求改变。",
+      "onscreen_text_en": "Position fixed, leverage changes",
+      "onscreen_text_zh-Hans": "仓位不变，只改杠杆",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Here's an easy mistake. If the position size stays the same and you only change the leverage setting, the P&L in money for the same price move doesn't double. What changes is the margin required and your risk buffer.",
+            "zh-Hans": "还有一个容易弄错的地方：如果仓位大小没变，只调整杠杆设置，同样价格变化的金额盈亏不会凭空翻倍；主要变化在保证金需求和风险缓冲。"
+          },
+          "start": 0.25,
+          "end": 11.56,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e19-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.31
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Here's ",
+                "start": 0.25,
+                "end": 0.631
+              },
+              {
+                "text": "an ",
+                "start": 0.631,
+                "end": 0.758
+              },
+              {
+                "text": "easy ",
+                "start": 0.758,
+                "end": 1.012
+              },
+              {
+                "text": "mistake. ",
+                "start": 1.012,
+                "end": 1.521
+              },
+              {
+                "text": "If ",
+                "start": 1.521,
+                "end": 1.648
+              },
+              {
+                "text": "the ",
+                "start": 1.648,
+                "end": 1.838
+              },
+              {
+                "text": "position ",
+                "start": 1.838,
+                "end": 2.347
+              },
+              {
+                "text": "size ",
+                "start": 2.347,
+                "end": 2.601
+              },
+              {
+                "text": "stays ",
+                "start": 2.601,
+                "end": 2.919
+              },
+              {
+                "text": "the ",
+                "start": 2.919,
+                "end": 3.109
+              },
+              {
+                "text": "same ",
+                "start": 3.109,
+                "end": 3.363
+              },
+              {
+                "text": "and ",
+                "start": 3.363,
+                "end": 3.554
+              },
+              {
+                "text": "you ",
+                "start": 3.554,
+                "end": 3.745
+              },
+              {
+                "text": "only ",
+                "start": 3.745,
+                "end": 3.999
+              },
+              {
+                "text": "change ",
+                "start": 3.999,
+                "end": 4.38
+              },
+              {
+                "text": "the ",
+                "start": 4.38,
+                "end": 4.571
+              },
+              {
+                "text": "leverage ",
+                "start": 4.571,
+                "end": 5.079
+              },
+              {
+                "text": "setting, ",
+                "start": 5.079,
+                "end": 5.587
+              },
+              {
+                "text": "the ",
+                "start": 5.587,
+                "end": 5.778
+              },
+              {
+                "text": "P&",
+                "start": 5.778,
+                "end": 5.905
+              },
+              {
+                "text": "L ",
+                "start": 5.905,
+                "end": 5.969
+              },
+              {
+                "text": "in ",
+                "start": 5.969,
+                "end": 6.096
+              },
+              {
+                "text": "money ",
+                "start": 6.096,
+                "end": 6.413
+              },
+              {
+                "text": "for ",
+                "start": 6.413,
+                "end": 6.604
+              },
+              {
+                "text": "the ",
+                "start": 6.604,
+                "end": 6.795
+              },
+              {
+                "text": "same ",
+                "start": 6.795,
+                "end": 7.049
+              },
+              {
+                "text": "price ",
+                "start": 7.049,
+                "end": 7.366
+              },
+              {
+                "text": "move ",
+                "start": 7.366,
+                "end": 7.621
+              },
+              {
+                "text": "doesn't ",
+                "start": 7.621,
+                "end": 8.065
+              },
+              {
+                "text": "double. ",
+                "start": 8.065,
+                "end": 8.51
+              },
+              {
+                "text": "What ",
+                "start": 8.51,
+                "end": 8.764
+              },
+              {
+                "text": "changes ",
+                "start": 8.764,
+                "end": 9.209
+              },
+              {
+                "text": "is ",
+                "start": 9.209,
+                "end": 9.336
+              },
+              {
+                "text": "the ",
+                "start": 9.336,
+                "end": 9.527
+              },
+              {
+                "text": "margin ",
+                "start": 9.527,
+                "end": 9.908
+              },
+              {
+                "text": "required ",
+                "start": 9.908,
+                "end": 10.416
+              },
+              {
+                "text": "and ",
+                "start": 10.416,
+                "end": 10.607
+              },
+              {
+                "text": "your ",
+                "start": 10.607,
+                "end": 10.861
+              },
+              {
+                "text": "risk ",
+                "start": 10.861,
+                "end": 11.115
+              },
+              {
+                "text": "buffer.",
+                "start": 11.115,
+                "end": 11.56
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "还有",
+                "start": 0.25,
+                "end": 0.609
+              },
+              {
+                "text": "一个",
+                "start": 0.609,
+                "end": 0.968
+              },
+              {
+                "text": "容易",
+                "start": 0.968,
+                "end": 1.327
+              },
+              {
+                "text": "弄",
+                "start": 1.327,
+                "end": 1.507
+              },
+              {
+                "text": "错",
+                "start": 1.507,
+                "end": 1.686
+              },
+              {
+                "text": "的",
+                "start": 1.686,
+                "end": 1.866
+              },
+              {
+                "text": "地方：",
+                "start": 1.866,
+                "end": 2.404
+              },
+              {
+                "text": "如果",
+                "start": 2.404,
+                "end": 2.763
+              },
+              {
+                "text": "仓",
+                "start": 2.763,
+                "end": 2.943
+              },
+              {
+                "text": "位",
+                "start": 2.943,
+                "end": 3.122
+              },
+              {
+                "text": "大小",
+                "start": 3.122,
+                "end": 3.481
+              },
+              {
+                "text": "没变，",
+                "start": 3.481,
+                "end": 4.02
+              },
+              {
+                "text": "只",
+                "start": 4.02,
+                "end": 4.2
+              },
+              {
+                "text": "调整",
+                "start": 4.2,
+                "end": 4.559
+              },
+              {
+                "text": "杠杆",
+                "start": 4.559,
+                "end": 4.918
+              },
+              {
+                "text": "设置，",
+                "start": 4.918,
+                "end": 5.456
+              },
+              {
+                "text": "同样",
+                "start": 5.456,
+                "end": 5.815
+              },
+              {
+                "text": "价格",
+                "start": 5.815,
+                "end": 6.174
+              },
+              {
+                "text": "变化",
+                "start": 6.174,
+                "end": 6.533
+              },
+              {
+                "text": "的",
+                "start": 6.533,
+                "end": 6.713
+              },
+              {
+                "text": "金额",
+                "start": 6.713,
+                "end": 7.072
+              },
+              {
+                "text": "盈亏",
+                "start": 7.072,
+                "end": 7.431
+              },
+              {
+                "text": "不会",
+                "start": 7.431,
+                "end": 7.79
+              },
+              {
+                "text": "凭空",
+                "start": 7.79,
+                "end": 8.149
+              },
+              {
+                "text": "翻",
+                "start": 8.149,
+                "end": 8.329
+              },
+              {
+                "text": "倍；",
+                "start": 8.329,
+                "end": 8.688
+              },
+              {
+                "text": "主要",
+                "start": 8.688,
+                "end": 9.047
+              },
+              {
+                "text": "变化",
+                "start": 9.047,
+                "end": 9.406
+              },
+              {
+                "text": "在",
+                "start": 9.406,
+                "end": 9.585
+              },
+              {
+                "text": "保证",
+                "start": 9.585,
+                "end": 9.944
+              },
+              {
+                "text": "金",
+                "start": 9.944,
+                "end": 10.124
+              },
+              {
+                "text": "需求",
+                "start": 10.124,
+                "end": 10.483
+              },
+              {
+                "text": "和",
+                "start": 10.483,
+                "end": 10.662
+              },
+              {
+                "text": "风险",
+                "start": 10.662,
+                "end": 11.021
+              },
+              {
+                "text": "缓冲。",
+                "start": 11.021,
+                "end": 11.56
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Position fixed 1,000",
+                "zh-Hans": "仓位固定 1,000"
+              }
+            },
+            {
+              "label": {
+                "en": "P&L curve unchanged",
+                "zh-Hans": "盈亏曲线不变"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Margin required changes",
+                "zh-Hans": "保证金需求改变"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:07-01:35",
+      "source_visual_zh": "把仓位固定在1000，只改杠杆设置，盈亏曲线不变、初始保证金需求改变。",
+      "source_onscreen_text": {
+        "en": [
+          "Position fixed 1,000",
+          "P&L curve unchanged",
+          "Margin required changes"
+        ],
+        "zh-Hans": [
+          "仓位固定 1,000",
+          "盈亏曲线不变",
+          "保证金需求改变"
+        ]
+      }
+    },
+    {
+      "id": "not-the-formula",
+      "duration": 21,
+      "set": "trading-desk",
+      "visual_en": "The inverse-leverage shortcut 10% = 1/10 gets a stamp 'NOT the real liquidation formula'; maintenance margin and fee cards appear.",
+      "visual_zh": "倒数杠杆公式10%=1/10被标“不是实际强平公式”；费用和维持保证金卡出现。",
+      "onscreen_text_en": "Real liquidation has more parts",
+      "onscreen_text_zh-Hans": "真实强平涉及更多因素",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Real liquidation also involves maintenance margin, the mark price and fees. You can't say 10x always liquidates at exactly a 10% drop. Don't use this shortcut for real trades.",
+            "zh-Hans": "实际强平还涉及维持保证金、标记价格与费用，不能说十倍就一定恰好跌百分之十才爆仓。不要靠这个近似值设置真实交易。"
+          },
+          "start": 0.25,
+          "end": 11.392,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e19-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.142
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Real ",
+                "start": 0.25,
+                "end": 0.553
+              },
+              {
+                "text": "liquidation ",
+                "start": 0.553,
+                "end": 1.387
+              },
+              {
+                "text": "also ",
+                "start": 1.387,
+                "end": 1.69
+              },
+              {
+                "text": "involves ",
+                "start": 1.69,
+                "end": 2.296
+              },
+              {
+                "text": "maintenance ",
+                "start": 2.296,
+                "end": 3.13
+              },
+              {
+                "text": "margin, ",
+                "start": 3.13,
+                "end": 3.661
+              },
+              {
+                "text": "the ",
+                "start": 3.661,
+                "end": 3.888
+              },
+              {
+                "text": "mark ",
+                "start": 3.888,
+                "end": 4.191
+              },
+              {
+                "text": "price ",
+                "start": 4.191,
+                "end": 4.57
+              },
+              {
+                "text": "and ",
+                "start": 4.57,
+                "end": 4.798
+              },
+              {
+                "text": "fees. ",
+                "start": 4.798,
+                "end": 5.177
+              },
+              {
+                "text": "You ",
+                "start": 5.177,
+                "end": 5.404
+              },
+              {
+                "text": "can't ",
+                "start": 5.404,
+                "end": 5.783
+              },
+              {
+                "text": "say ",
+                "start": 5.783,
+                "end": 6.01
+              },
+              {
+                "text": "10x ",
+                "start": 6.01,
+                "end": 6.238
+              },
+              {
+                "text": "always ",
+                "start": 6.238,
+                "end": 6.693
+              },
+              {
+                "text": "liquidates ",
+                "start": 6.693,
+                "end": 7.451
+              },
+              {
+                "text": "at ",
+                "start": 7.451,
+                "end": 7.602
+              },
+              {
+                "text": "exactly ",
+                "start": 7.602,
+                "end": 8.133
+              },
+              {
+                "text": "a ",
+                "start": 8.133,
+                "end": 8.209
+              },
+              {
+                "text": "10% ",
+                "start": 8.209,
+                "end": 8.436
+              },
+              {
+                "text": "drop. ",
+                "start": 8.436,
+                "end": 8.815
+              },
+              {
+                "text": "Don't ",
+                "start": 8.815,
+                "end": 9.194
+              },
+              {
+                "text": "use ",
+                "start": 9.194,
+                "end": 9.421
+              },
+              {
+                "text": "this ",
+                "start": 9.421,
+                "end": 9.724
+              },
+              {
+                "text": "shortcut ",
+                "start": 9.724,
+                "end": 10.331
+              },
+              {
+                "text": "for ",
+                "start": 10.331,
+                "end": 10.558
+              },
+              {
+                "text": "real ",
+                "start": 10.558,
+                "end": 10.861
+              },
+              {
+                "text": "trades.",
+                "start": 10.861,
+                "end": 11.392
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "实际",
+                "start": 0.25,
+                "end": 0.655
+              },
+              {
+                "text": "强",
+                "start": 0.655,
+                "end": 0.858
+              },
+              {
+                "text": "平",
+                "start": 0.858,
+                "end": 1.06
+              },
+              {
+                "text": "还",
+                "start": 1.06,
+                "end": 1.263
+              },
+              {
+                "text": "涉及",
+                "start": 1.263,
+                "end": 1.668
+              },
+              {
+                "text": "维持",
+                "start": 1.668,
+                "end": 2.073
+              },
+              {
+                "text": "保证",
+                "start": 2.073,
+                "end": 2.478
+              },
+              {
+                "text": "金、",
+                "start": 2.478,
+                "end": 2.884
+              },
+              {
+                "text": "标记",
+                "start": 2.884,
+                "end": 3.289
+              },
+              {
+                "text": "价格",
+                "start": 3.289,
+                "end": 3.694
+              },
+              {
+                "text": "与",
+                "start": 3.694,
+                "end": 3.896
+              },
+              {
+                "text": "费用，",
+                "start": 3.896,
+                "end": 4.504
+              },
+              {
+                "text": "不能",
+                "start": 4.504,
+                "end": 4.909
+              },
+              {
+                "text": "说",
+                "start": 4.909,
+                "end": 5.112
+              },
+              {
+                "text": "十倍",
+                "start": 5.112,
+                "end": 5.517
+              },
+              {
+                "text": "就",
+                "start": 5.517,
+                "end": 5.72
+              },
+              {
+                "text": "一定",
+                "start": 5.72,
+                "end": 6.125
+              },
+              {
+                "text": "恰好",
+                "start": 6.125,
+                "end": 6.53
+              },
+              {
+                "text": "跌",
+                "start": 6.53,
+                "end": 6.733
+              },
+              {
+                "text": "百分",
+                "start": 6.733,
+                "end": 7.138
+              },
+              {
+                "text": "之十",
+                "start": 7.138,
+                "end": 7.543
+              },
+              {
+                "text": "才",
+                "start": 7.543,
+                "end": 7.746
+              },
+              {
+                "text": "爆",
+                "start": 7.746,
+                "end": 7.948
+              },
+              {
+                "text": "仓。",
+                "start": 7.948,
+                "end": 8.353
+              },
+              {
+                "text": "不要",
+                "start": 8.353,
+                "end": 8.758
+              },
+              {
+                "text": "靠",
+                "start": 8.758,
+                "end": 8.961
+              },
+              {
+                "text": "这个",
+                "start": 8.961,
+                "end": 9.366
+              },
+              {
+                "text": "近似值",
+                "start": 9.366,
+                "end": 9.974
+              },
+              {
+                "text": "设置",
+                "start": 9.974,
+                "end": 10.379
+              },
+              {
+                "text": "真实",
+                "start": 10.379,
+                "end": 10.784
+              },
+              {
+                "text": "交易。",
+                "start": 10.784,
+                "end": 11.392
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": "10% = 1/10",
+              "value": {
+                "en": "not the real formula",
+                "zh-Hans": "不是真实公式"
+              },
+              "mark": "no"
+            },
+            {
+              "label": {
+                "en": "Maintenance margin",
+                "zh-Hans": "维持保证金"
+              }
+            },
+            {
+              "label": {
+                "en": "Mark price",
+                "zh-Hans": "标记价格"
+              }
+            },
+            {
+              "label": {
+                "en": "Fees",
+                "zh-Hans": "费用"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:35-01:56",
+      "source_visual_zh": "倒数杠杆公式10%=1/10被标“不是实际强平公式”；费用和维持保证金卡出现。",
+      "source_onscreen_text": {
+        "en": [
+          "10% = 1/10 → NOT the real liquidation formula",
+          "Maintenance margin",
+          "Mark price",
+          "Fees"
+        ],
+        "zh-Hans": [
+          "10% = 1/10 → 不是实际强平公式",
+          "维持保证金",
+          "标记价格",
+          "费用"
+        ]
+      }
+    },
+    {
+      "id": "win-rate-quiz",
+      "duration": 15,
+      "set": "trading-desk",
+      "visual_en": "Question card: 'Does 10x leverage make your win rate ten times higher too?'",
+      "visual_zh": "题目：十倍杠杆让胜率也变成十倍吗？",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "No.",
+            "zh-Hans": "不会。"
+          },
+          "start": 0.25,
+          "end": 0.757,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e19-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 0.507
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No.",
+                "start": 0.25,
+                "end": 0.757
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不会。",
+                "start": 0.25,
+                "end": 0.757
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "It magnifies how the position hits your money, not your judgement.",
+            "zh-Hans": "放大的是仓位对本金的影响，不是你的判断能力。"
+          },
+          "start": 1.057,
+          "end": 4.432,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e19-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 3.375
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It ",
+                "start": 1.057,
+                "end": 1.178
+              },
+              {
+                "text": "magnifies ",
+                "start": 1.178,
+                "end": 1.72
+              },
+              {
+                "text": "how ",
+                "start": 1.72,
+                "end": 1.901
+              },
+              {
+                "text": "the ",
+                "start": 1.901,
+                "end": 2.082
+              },
+              {
+                "text": "position ",
+                "start": 2.082,
+                "end": 2.564
+              },
+              {
+                "text": "hits ",
+                "start": 2.564,
+                "end": 2.805
+              },
+              {
+                "text": "your ",
+                "start": 2.805,
+                "end": 3.046
+              },
+              {
+                "text": "money, ",
+                "start": 3.046,
+                "end": 3.407
+              },
+              {
+                "text": "not ",
+                "start": 3.407,
+                "end": 3.588
+              },
+              {
+                "text": "your ",
+                "start": 3.588,
+                "end": 3.829
+              },
+              {
+                "text": "judgement.",
+                "start": 3.829,
+                "end": 4.432
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "放大",
+                "start": 1.057,
+                "end": 1.364
+              },
+              {
+                "text": "的是",
+                "start": 1.364,
+                "end": 1.671
+              },
+              {
+                "text": "仓",
+                "start": 1.671,
+                "end": 1.824
+              },
+              {
+                "text": "位",
+                "start": 1.824,
+                "end": 1.977
+              },
+              {
+                "text": "对",
+                "start": 1.977,
+                "end": 2.131
+              },
+              {
+                "text": "本金",
+                "start": 2.131,
+                "end": 2.438
+              },
+              {
+                "text": "的",
+                "start": 2.438,
+                "end": 2.591
+              },
+              {
+                "text": "影响，",
+                "start": 2.591,
+                "end": 3.051
+              },
+              {
+                "text": "不是",
+                "start": 3.051,
+                "end": 3.358
+              },
+              {
+                "text": "你的",
+                "start": 3.358,
+                "end": 3.665
+              },
+              {
+                "text": "判断",
+                "start": 3.665,
+                "end": 3.972
+              },
+              {
+                "text": "能力。",
+                "start": 3.972,
+                "end": 4.432
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Does 10x leverage make your win rate ten times higher?",
+            "zh-Hans": "10倍杠杆会让胜率也变成10倍吗？"
+          },
+          "verdict": {
+            "en": "NO",
+            "zh-Hans": "不能"
+          }
+        }
+      ],
+      "source_tc": "01:56-02:11",
+      "source_visual_zh": "题目：十倍杠杆让胜率也变成十倍吗？",
+      "source_onscreen_text": {
+        "en": [
+          "10x leverage = 10x win rate?  NO"
+        ],
+        "zh-Hans": [
+          "十倍杠杆 = 十倍胜率？ 不会"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 5.8,
+    "pose": "point",
+    "text": {
+      "en": "You still have margin left. So why can you be forced out? Next: the line you can't see.",
+      "zh-Hans": "保证金还没归零，为什么就可能出局？下一集：那条看不见的线。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "You still have margin left. So why can you be forced out? Next: the line you can't see.",
+          "zh-Hans": "保证金还没归零，为什么就可能出局？下一集：那条看不见的线。"
+        },
+        "start": 0.25,
+        "end": 5.47,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e19-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.22
+        },
+        "words": {
+          "en": [
+            {
+              "text": "You ",
+              "start": 0.25,
+              "end": 0.474
+            },
+            {
+              "text": "still ",
+              "start": 0.474,
+              "end": 0.847
+            },
+            {
+              "text": "have ",
+              "start": 0.847,
+              "end": 1.145
+            },
+            {
+              "text": "margin ",
+              "start": 1.145,
+              "end": 1.592
+            },
+            {
+              "text": "left. ",
+              "start": 1.592,
+              "end": 1.965
+            },
+            {
+              "text": "So ",
+              "start": 1.965,
+              "end": 2.114
+            },
+            {
+              "text": "why ",
+              "start": 2.114,
+              "end": 2.338
+            },
+            {
+              "text": "can ",
+              "start": 2.338,
+              "end": 2.562
+            },
+            {
+              "text": "you ",
+              "start": 2.562,
+              "end": 2.785
+            },
+            {
+              "text": "be ",
+              "start": 2.785,
+              "end": 2.935
+            },
+            {
+              "text": "forced ",
+              "start": 2.935,
+              "end": 3.382
+            },
+            {
+              "text": "out? ",
+              "start": 3.382,
+              "end": 3.68
+            },
+            {
+              "text": "Next: ",
+              "start": 3.68,
+              "end": 4.053
+            },
+            {
+              "text": "the ",
+              "start": 4.053,
+              "end": 4.277
+            },
+            {
+              "text": "line ",
+              "start": 4.277,
+              "end": 4.575
+            },
+            {
+              "text": "you ",
+              "start": 4.575,
+              "end": 4.799
+            },
+            {
+              "text": "can't ",
+              "start": 4.799,
+              "end": 5.172
+            },
+            {
+              "text": "see.",
+              "start": 5.172,
+              "end": 5.47
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "保证",
+              "start": 0.25,
+              "end": 0.61
+            },
+            {
+              "text": "金",
+              "start": 0.61,
+              "end": 0.79
+            },
+            {
+              "text": "还",
+              "start": 0.79,
+              "end": 0.97
+            },
+            {
+              "text": "没",
+              "start": 0.97,
+              "end": 1.15
+            },
+            {
+              "text": "归",
+              "start": 1.15,
+              "end": 1.33
+            },
+            {
+              "text": "零，",
+              "start": 1.33,
+              "end": 1.69
+            },
+            {
+              "text": "为什么",
+              "start": 1.69,
+              "end": 2.23
+            },
+            {
+              "text": "就",
+              "start": 2.23,
+              "end": 2.41
+            },
+            {
+              "text": "可能",
+              "start": 2.41,
+              "end": 2.77
+            },
+            {
+              "text": "出局？",
+              "start": 2.77,
+              "end": 3.31
+            },
+            {
+              "text": "下",
+              "start": 3.31,
+              "end": 3.49
+            },
+            {
+              "text": "一",
+              "start": 3.49,
+              "end": 3.67
+            },
+            {
+              "text": "集：",
+              "start": 3.67,
+              "end": 4.03
+            },
+            {
+              "text": "那",
+              "start": 4.03,
+              "end": 4.21
+            },
+            {
+              "text": "条",
+              "start": 4.21,
+              "end": 4.39
+            },
+            {
+              "text": "看不见",
+              "start": 4.39,
+              "end": 4.93
+            },
+            {
+              "text": "的",
+              "start": 4.93,
+              "end": 5.11
+            },
+            {
+              "text": "线。",
+              "start": 5.11,
+              "end": 5.47
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "02:11-02:15"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.219,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e19-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.969
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.07
+          },
+          {
+            "text": "first, ",
+            "start": 1.07,
+            "end": 1.563
+          },
+          {
+            "text": "then ",
+            "start": 1.563,
+            "end": 1.891
+          },
+          {
+            "text": "act.",
+            "start": 1.891,
+            "end": 2.219
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.496
+          },
+          {
+            "text": "看懂，",
+            "start": 0.496,
+            "end": 1.235
+          },
+          {
+            "text": "再",
+            "start": 1.235,
+            "end": 1.481
+          },
+          {
+            "text": "动手。",
+            "start": 1.481,
+            "end": 2.219
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E19.json",
+    "original_slug": "what-leverage-does",
+    "goal": {
+      "en": "Tell margin, notional position and return on margin apart, and see what changing leverage does when position size is fixed.",
+      "zh-Hans": "分清保证金、名义仓位和收益率，理解固定仓位下杠杆设置的效果。"
+    },
+    "duration_target_s": 139,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Switch between 'fixed margin' and 'fixed position' in the margin risk simulator below.",
+      "line_zh": "在下方保证金风险模拟器里切换“固定保证金”和“固定仓位”。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Choose 'fixed margin' and then 'fixed position' mode, and watch the money P&L after a price move.",
+      "task_zh": "分别选择固定保证金和固定仓位模式，观察价格变动后的金额盈亏。",
+      "answer_en": "With fixed margin, higher leverage enlarges the notional position. With a fixed position, money P&L doesn't grow automatically.",
+      "answer_zh": "固定保证金提高杠杆会扩大名义仓位；固定仓位则不自动扩大金额盈亏。"
+    },
+    "red_lines": [
+      "Simplified linear-contract case; charts must separate money P&L from return on margin ｜ 线性合约简化案例；图上必须区分金额盈亏与保证金收益率",
+      "Leverage numbers on screen always appear with a risk note ｜ 画面出现杠杆数字时同屏有风险提示",
+      "Futures examples are USDT-margined linear perpetuals only; never mix in coin-margined, options or delivery formulas ｜ 合约示例限USDT计价线性永续，不混入币本位、期权和交割合约公式",
+      "Futures episode: no conversion card, no partner name, no invite code, no 'open position' button; page CTA = none ｜ 合约集：不放转化卡、不出现合作平台名和邀请码、不画“开仓”按钮；网页CTA为none",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S21",
+      "S22"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:35-01:07",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:07-01:35",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:35-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:11",
+        "kind": "shot"
+      },
+      {
+        "tc": "02:11-02:15",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:15-02:19",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "flow",
+      "cards",
+      "formula",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "ep": 13,
+  "season": 2,
+  "slug": "price-vs-fill-price",
+  "title_en": "Why isn't the price on screen my fill price?",
+  "title_zh": "屏幕上的价格，为什么不是我的成交价？",
+  "goal_en": "Understand the order book, the bid-ask spread, market depth, fees and slippage.",
+  "goal_zh": "理解订单簿、买卖价差、成交深度、手续费与滑点。",
+  "duration_target_s": 130,
+  "shots": [
+    {
+      "tc": "00:00-00:06",
+      "visual_en": "Sam stares at a big ticker number, places an order, then finds the average fill price is different.",
+      "visual_zh": "小白盯着大号行情数字，下单后发现成交均价不同。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "It was this price a second ago. Why is my bill different?",
+          "zh": "刚才明明是这个价，怎么我的账单变了？"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [],
+      "onscreen_text_zh": []
+    },
+    {
+      "tc": "00:06-00:09",
+      "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E13' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+      "visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第13集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+      "lines": [],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "S2 · E13",
+        "Why isn't the price on screen my fill price?"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "S2 · E13",
+        "屏幕上的价格，为什么不是我的成交价？"
+      ]
+    },
+    {
+      "tc": "00:09-00:32",
+      "visual_en": "The last price becomes a small historical receipt; beside it, buy and sell orders queue at different price levels.",
+      "visual_zh": "最新成交价是一张历史小票；旁边买单和卖单排成不同价位的队列。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "The last price on screen is a record of the most recent trade. It's not an offer for unlimited size. How much people want to buy and sell right now is in the order book.",
+          "zh": "屏幕上的最新价，是最近一笔成交的记录，不是给你无限数量的报价。现在有人愿意买多少、卖多少，要看买卖盘。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Last price = receipt",
+        "Order book"
+      ],
+      "onscreen_text_zh": [
+        "最新价＝成交小票",
+        "买卖盘"
+      ]
+    },
+    {
+      "tc": "00:32-01:00",
+      "visual_en": "Best ask 50,000 has only 0.001 BTC; next level 50,100 also has 0.001. The order fills in two pieces.",
+      "visual_zh": "最优卖价50,000只剩0.001 BTC，下一档50,100也有0.001；订单分成两份成交。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Say you buy 0.002 bitcoin. The first level only has half. The other half fills at a higher price. Together, the average is 50,050, not 50,000.",
+          "zh": "假设你买零点零零二枚，第一档只有一半，另一半只能在更高价位成交。两笔合起来，平均是五万零五十，而不是五万。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "0.001 BTC @ 50,000",
+        "0.001 BTC @ 50,100",
+        "Average 50,050",
+        "Teaching assumption · not a live price or real platform rate"
+      ],
+      "onscreen_text_zh": [
+        "0.001 BTC @ 50,000",
+        "0.001 BTC @ 50,100",
+        "均价 50,050",
+        "教学假设 · 非实时行情，非平台真实费率"
+      ]
+    },
+    {
+      "tc": "01:00-01:24",
+      "visual_en": "The bill unfolds: total 100.10; the fee is listed on its own line. Spread and slippage are not charged twice.",
+      "visual_zh": "账单展开：成交总额100.10；再列手续费，不把价差和滑点重复扣一次。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "Slippage is the gap between the price you expected and the price you got. It isn't always against you. The trading fee is a separate cost. Don't lump them together under a 'free' slogan.",
+          "zh": "滑点是预期价和实际成交价的差异，不一定都是坏方向。交易费则是另一项成本；不要把它们混在一个“免费”口号里。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Total 100.10",
+        "Fee: separate line",
+        "Slippage ≠ fee"
+      ],
+      "onscreen_text_zh": [
+        "成交总额 100.10",
+        "手续费：单独一行",
+        "滑点 ≠ 手续费"
+      ]
+    },
+    {
+      "tc": "01:24-01:43",
+      "visual_en": "A shallow pool and a deep pool show order depth; a big order dropped into the shallow pool moves the price scale more.",
+      "visual_zh": "浅水池与深水池表现订单深度；大订单进入浅池，价格刻度移动更明显。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Bigger orders, thinner depth or fast markets make it more likely the result drifts from what you expected. Check size and depth before you order, and the real average price after.",
+          "zh": "订单更大、可成交深度更少或行情变化更快时，成交结果更可能偏离预期。下单前看金额和深度，成交后看实际均价。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Shallow depth",
+        "Deep depth"
+      ],
+      "onscreen_text_zh": [
+        "浅深度",
+        "深深度"
+      ]
+    },
+    {
+      "tc": "01:43-01:56",
+      "visual_en": "Question card: 'Can the last price guarantee a big order fills entirely at that price?'",
+      "visual_zh": "题目：页面最新价能保证大额订单全部按它成交吗？",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "No.",
+          "zh": "不能。"
+        },
+        {
+          "who": "Nexubo",
+          "en": "You only know your fill when you see the bill. Don't just watch the biggest number.",
+          "zh": "看到账单才算清楚成交，不只盯着最大的那个数字。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Last price = guaranteed fill?  NO"
+      ],
+      "onscreen_text_zh": [
+        "最新价 = 保证成交？ 不能"
+      ]
+    },
+    {
+      "tc": "01:56-02:02",
+      "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+      "visual_zh": "转化卡（6秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "Fees are one cost you can actually lower. Compare fees on NexuAlpha, and register through an official partner link with our code to get part of your trading fees back. Lower cost, same risk.",
+          "zh": "手续费是你真正能降低的一项成本。在 NexuAlpha 对比各家费用，通过官方合作链接注册并填写我们的邀请码，可返还部分交易手续费。成本降低，风险不变。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Compare exchanges on NexuAlpha",
+        "nexualpha.com/compare",
+        "OKX · code nexu888",
+        "Bitget · code nexu888",
+        "Binance · code 11350287",
+        "Partner link · the exchange pays our commission",
+        "Availability depends on your country or region"
+      ],
+      "onscreen_text_zh": [
+        "在 NexuAlpha 对比交易所",
+        "nexualpha.com/compare",
+        "OKX · 邀请码 nexu888",
+        "Bitget · 邀请码 nexu888",
+        "Binance · 邀请码 11350287",
+        "合作推广链接 · 佣金由交易所支付",
+        "是否可用取决于你所在的国家或地区"
+      ]
+    },
+    {
+      "tc": "02:02-02:06",
+      "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+      "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "You placed a buy order and nothing happens. Is it broken? Next: market, limit and cancel.",
+          "zh": "下了买单却迟迟不成交，系统坏了吗？下一集：市价、限价和撤单。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "You placed a buy order and nothing happens. Is it broken? Next: market, limit and cancel."
+      ],
+      "onscreen_text_zh": [
+        "下了买单却迟迟不成交，系统坏了吗？下一集：市价、限价和撤单。"
+      ]
+    },
+    {
+      "tc": "02:06-02:10",
+      "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+      "visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Understand first, then act.",
+          "zh": "先看懂，再动手。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "Understand first, then act.",
+        "One verified gateway to the world's exchanges",
+        "nexualpha.com"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "先看懂，再动手。",
+        "全球交易所，一个官方入口",
+        "nexualpha.com"
+      ]
+    }
+  ],
+  "end_hook": {
+    "en": "You placed a buy order and nothing happens. Is it broken? Next: market, limit and cancel.",
+    "zh": "下了买单却迟迟不成交，系统坏了吗？下一集：市价、限价和撤单。"
+  },
+  "conversion_card": {
+    "partner": "compare",
+    "partners": [
+      "okx",
+      "bitget",
+      "binance"
+    ],
+    "url": "nexualpha.com/compare",
+    "codes": {
+      "okx": "nexu888",
+      "bitget": "nexu888",
+      "binance": "11350287"
+    },
+    "line_en": "Fees are one cost you can actually lower. Compare fees on NexuAlpha, and register through an official partner link with our code to get part of your trading fees back. Lower cost, same risk.",
+    "line_zh": "手续费是你真正能降低的一项成本。在 NexuAlpha 对比各家费用，通过官方合作链接注册并填写我们的邀请码，可返还部分交易手续费。成本降低，风险不变。",
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "availability_en": "Availability depends on your country or region",
+    "availability_zh": "是否可用取决于你所在的国家或地区",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "Fees are one cost you can compare. See each exchange's fees side by side on NexuAlpha, then open only the official site.",
+      "line_zh": "手续费是可以比较的成本。在 NexuAlpha 并排查看各交易所费用，再只打开官方网站。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "page_cta": {
+    "kind": "compare",
+    "partner": "okx,bitget,binance",
+    "line_en": "Compare spot fees side by side, then register through an official partner link to get part of your fees back. It lowers cost, not risk.",
+    "line_zh": "并排对比现货手续费，再通过官方合作链接注册，返还部分手续费。它降低的是成本，不是风险。",
+    "placement": "directly beside / under the video player; never gates the lesson",
+    "url": "nexualpha.com/compare",
+    "codes": {
+      "okx": "nexu888",
+      "bitget": "nexu888",
+      "binance": "11350287"
+    },
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+  },
+  "exercise": {
+    "task_en": "Match 0.002 BTC against two levels of virtual sell orders and work out the weighted average price.",
+    "task_zh": "在两档虚拟卖单中撮合0.002 BTC，计算加权平均价。",
+    "answer_en": "Total 100.10, average 50,050. This is the trade amount before the teaching fee. If a 0.1% fee in USDT is also charged: fee 0.1001, total 100.2001 (don't round before calculating).",
+    "answer_zh": "总额100.10，均价50,050；这是成交金额，尚未另扣教学手续费。若另收0.1%报价资产手续费：费用0.1001，总支出100.2001（不能先四舍五入再计算）。"
+  },
+  "red_lines": [
+    "Standalone case: do not reuse E07's fixed average price ｜ 本集是独立案例，不沿用第7集的固定均价",
+    "Never present spread or slippage as an extra platform charge ｜ 不把买卖价差和滑点当成平台额外收费",
+    "Rebate lowers cost, never 'earn'; no percentage in the video ｜ 返佣只说降低成本，不说赚钱；视频不写百分比",
+    "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+    "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+  ],
+  "sources": [
+    "S17",
+    "S14"
+  ]
+}

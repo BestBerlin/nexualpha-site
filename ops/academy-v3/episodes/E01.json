@@ -1,0 +1,2380 @@
+{
+  "version": 1,
+  "production_id": "E01",
+  "episode": 1,
+  "season": 1,
+  "slug": "can-i-buy-part-of-a-bitcoin",
+  "title": {
+    "en": "One bitcoin costs that much. Can I still buy some?",
+    "zh-Hans": "一枚比特币太贵，我就不能买吗？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E01' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第01集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "price-shock",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "Sam looks up at a giant bitcoin price board; the coin purse in Sam's hand shrinks to a dot. Logo mark + wordmark already top-left.",
+      "visual_zh": "小白抬头看巨大的比特币价格牌，自己的零钱袋缩成一点；画面左上角已有标志。",
+      "onscreen_text_en": "One coin costs that much?",
+      "onscreen_text_zh-Hans": "一枚就这么贵？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "One coin costs that much? I can't even afford a ticket in.",
+            "zh-Hans": "一枚这么贵，我的钱是不是连门票都买不起？"
+          },
+          "start": 0.25,
+          "end": 3.772,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e01-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.522
+          },
+          "words": {
+            "en": [
+              {
+                "text": "One ",
+                "start": 0.25,
+                "end": 0.475
+              },
+              {
+                "text": "coin ",
+                "start": 0.475,
+                "end": 0.775
+              },
+              {
+                "text": "costs ",
+                "start": 0.775,
+                "end": 1.149
+              },
+              {
+                "text": "that ",
+                "start": 1.149,
+                "end": 1.449
+              },
+              {
+                "text": "much? ",
+                "start": 1.449,
+                "end": 1.824
+              },
+              {
+                "text": "I ",
+                "start": 1.824,
+                "end": 1.899
+              },
+              {
+                "text": "can't ",
+                "start": 1.899,
+                "end": 2.273
+              },
+              {
+                "text": "even ",
+                "start": 2.273,
+                "end": 2.573
+              },
+              {
+                "text": "afford ",
+                "start": 2.573,
+                "end": 3.023
+              },
+              {
+                "text": "a ",
+                "start": 3.023,
+                "end": 3.098
+              },
+              {
+                "text": "ticket ",
+                "start": 3.098,
+                "end": 3.547
+              },
+              {
+                "text": "in.",
+                "start": 3.547,
+                "end": 3.772
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "一枚",
+                "start": 0.25,
+                "end": 0.602
+              },
+              {
+                "text": "这么",
+                "start": 0.602,
+                "end": 0.954
+              },
+              {
+                "text": "贵，",
+                "start": 0.954,
+                "end": 1.307
+              },
+              {
+                "text": "我的",
+                "start": 1.307,
+                "end": 1.659
+              },
+              {
+                "text": "钱",
+                "start": 1.659,
+                "end": 1.835
+              },
+              {
+                "text": "是不是",
+                "start": 1.835,
+                "end": 2.363
+              },
+              {
+                "text": "连",
+                "start": 2.363,
+                "end": 2.539
+              },
+              {
+                "text": "门",
+                "start": 2.539,
+                "end": 2.715
+              },
+              {
+                "text": "票",
+                "start": 2.715,
+                "end": 2.891
+              },
+              {
+                "text": "都",
+                "start": 2.891,
+                "end": 3.068
+              },
+              {
+                "text": "买",
+                "start": 3.068,
+                "end": 3.244
+              },
+              {
+                "text": "不起？",
+                "start": 3.244,
+                "end": 3.772
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "1 BTC",
+                "zh-Hans": "1 BTC"
+              },
+              "value": "50,000 USDT"
+            },
+            {
+              "label": {
+                "en": "My budget",
+                "zh-Hans": "我的预算"
+              },
+              "value": "100 USDT",
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白抬头看巨大的比特币价格牌，自己的零钱袋缩成一点；画面左上角已有标志。",
+      "source_onscreen_text": {
+        "en": [],
+        "zh-Hans": []
+      }
+    },
+    {
+      "id": "decimal-ruler",
+      "duration": 16,
+      "set": "study-desk",
+      "visual_en": "Nexubo pulls a quantity ruler out of one whole coin: 1, 0.1, 0.01, 0.001. It is a scale, not a coin being cut into physical pieces.",
+      "visual_zh": "小纳把整枚币的数量刻度拉开，显示1、0.1、0.01、0.001；不是切成实体硬币。",
+      "onscreen_text_en": "1 · 0.1 · 0.01 · 0.001 BTC",
+      "onscreen_text_zh-Hans": "1 · 0.1 · 0.01 · 0.001 BTC",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "That's the price of one whole coin. It's not what you have to pay each time. Bitcoin is a digital asset, and you can hold it in decimal amounts. You usually don't buy a whole one.",
+            "zh-Hans": "你看到的是一整枚的价格，不是每次必须支付的金额。比特币是一种数字资产，可以按小数数量持有，通常不用一次买一整枚。"
+          },
+          "start": 0.25,
+          "end": 9.963,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e01-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.713
+          },
+          "words": {
+            "en": [
+              {
+                "text": "That's ",
+                "start": 0.25,
+                "end": 0.655
+              },
+              {
+                "text": "the ",
+                "start": 0.655,
+                "end": 0.857
+              },
+              {
+                "text": "price ",
+                "start": 0.857,
+                "end": 1.194
+              },
+              {
+                "text": "of ",
+                "start": 1.194,
+                "end": 1.329
+              },
+              {
+                "text": "one ",
+                "start": 1.329,
+                "end": 1.532
+              },
+              {
+                "text": "whole ",
+                "start": 1.532,
+                "end": 1.869
+              },
+              {
+                "text": "coin. ",
+                "start": 1.869,
+                "end": 2.206
+              },
+              {
+                "text": "It's ",
+                "start": 2.206,
+                "end": 2.476
+              },
+              {
+                "text": "not ",
+                "start": 2.476,
+                "end": 2.678
+              },
+              {
+                "text": "what ",
+                "start": 2.678,
+                "end": 2.948
+              },
+              {
+                "text": "you ",
+                "start": 2.948,
+                "end": 3.15
+              },
+              {
+                "text": "have ",
+                "start": 3.15,
+                "end": 3.42
+              },
+              {
+                "text": "to ",
+                "start": 3.42,
+                "end": 3.555
+              },
+              {
+                "text": "pay ",
+                "start": 3.555,
+                "end": 3.757
+              },
+              {
+                "text": "each ",
+                "start": 3.757,
+                "end": 4.027
+              },
+              {
+                "text": "time. ",
+                "start": 4.027,
+                "end": 4.365
+              },
+              {
+                "text": "Bitcoin ",
+                "start": 4.365,
+                "end": 4.837
+              },
+              {
+                "text": "is ",
+                "start": 4.837,
+                "end": 4.972
+              },
+              {
+                "text": "a ",
+                "start": 4.972,
+                "end": 5.039
+              },
+              {
+                "text": "digital ",
+                "start": 5.039,
+                "end": 5.511
+              },
+              {
+                "text": "asset, ",
+                "start": 5.511,
+                "end": 5.916
+              },
+              {
+                "text": "and ",
+                "start": 5.916,
+                "end": 6.118
+              },
+              {
+                "text": "you ",
+                "start": 6.118,
+                "end": 6.321
+              },
+              {
+                "text": "can ",
+                "start": 6.321,
+                "end": 6.523
+              },
+              {
+                "text": "hold ",
+                "start": 6.523,
+                "end": 6.793
+              },
+              {
+                "text": "it ",
+                "start": 6.793,
+                "end": 6.928
+              },
+              {
+                "text": "in ",
+                "start": 6.928,
+                "end": 7.063
+              },
+              {
+                "text": "decimal ",
+                "start": 7.063,
+                "end": 7.535
+              },
+              {
+                "text": "amounts. ",
+                "start": 7.535,
+                "end": 8.074
+              },
+              {
+                "text": "You ",
+                "start": 8.074,
+                "end": 8.277
+              },
+              {
+                "text": "usually ",
+                "start": 8.277,
+                "end": 8.749
+              },
+              {
+                "text": "don't ",
+                "start": 8.749,
+                "end": 9.086
+              },
+              {
+                "text": "buy ",
+                "start": 9.086,
+                "end": 9.288
+              },
+              {
+                "text": "a ",
+                "start": 9.288,
+                "end": 9.356
+              },
+              {
+                "text": "whole ",
+                "start": 9.356,
+                "end": 9.693
+              },
+              {
+                "text": "one.",
+                "start": 9.693,
+                "end": 9.963
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "你",
+                "start": 0.25,
+                "end": 0.423
+              },
+              {
+                "text": "看到",
+                "start": 0.423,
+                "end": 0.77
+              },
+              {
+                "text": "的是",
+                "start": 0.77,
+                "end": 1.117
+              },
+              {
+                "text": "一",
+                "start": 1.117,
+                "end": 1.291
+              },
+              {
+                "text": "整",
+                "start": 1.291,
+                "end": 1.464
+              },
+              {
+                "text": "枚",
+                "start": 1.464,
+                "end": 1.638
+              },
+              {
+                "text": "的",
+                "start": 1.638,
+                "end": 1.811
+              },
+              {
+                "text": "价格，",
+                "start": 1.811,
+                "end": 2.331
+              },
+              {
+                "text": "不是",
+                "start": 2.331,
+                "end": 2.678
+              },
+              {
+                "text": "每次",
+                "start": 2.678,
+                "end": 3.025
+              },
+              {
+                "text": "必须",
+                "start": 3.025,
+                "end": 3.372
+              },
+              {
+                "text": "支付",
+                "start": 3.372,
+                "end": 3.719
+              },
+              {
+                "text": "的",
+                "start": 3.719,
+                "end": 3.892
+              },
+              {
+                "text": "金额。",
+                "start": 3.892,
+                "end": 4.413
+              },
+              {
+                "text": "比",
+                "start": 4.413,
+                "end": 4.586
+              },
+              {
+                "text": "特",
+                "start": 4.586,
+                "end": 4.76
+              },
+              {
+                "text": "币",
+                "start": 4.76,
+                "end": 4.933
+              },
+              {
+                "text": "是",
+                "start": 4.933,
+                "end": 5.107
+              },
+              {
+                "text": "一种",
+                "start": 5.107,
+                "end": 5.453
+              },
+              {
+                "text": "数字",
+                "start": 5.453,
+                "end": 5.8
+              },
+              {
+                "text": "资产，",
+                "start": 5.8,
+                "end": 6.321
+              },
+              {
+                "text": "可以",
+                "start": 6.321,
+                "end": 6.668
+              },
+              {
+                "text": "按",
+                "start": 6.668,
+                "end": 6.841
+              },
+              {
+                "text": "小数",
+                "start": 6.841,
+                "end": 7.188
+              },
+              {
+                "text": "数量",
+                "start": 7.188,
+                "end": 7.535
+              },
+              {
+                "text": "持有，",
+                "start": 7.535,
+                "end": 8.055
+              },
+              {
+                "text": "通常",
+                "start": 8.055,
+                "end": 8.402
+              },
+              {
+                "text": "不用",
+                "start": 8.402,
+                "end": 8.749
+              },
+              {
+                "text": "一次",
+                "start": 8.749,
+                "end": 9.096
+              },
+              {
+                "text": "买一",
+                "start": 9.096,
+                "end": 9.443
+              },
+              {
+                "text": "整",
+                "start": 9.443,
+                "end": 9.616
+              },
+              {
+                "text": "枚。",
+                "start": 9.616,
+                "end": 9.963
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "1",
+                "zh-Hans": "1"
+              }
+            },
+            {
+              "label": {
+                "en": "0.1",
+                "zh-Hans": "0.1"
+              }
+            },
+            {
+              "label": {
+                "en": "0.01",
+                "zh-Hans": "0.01"
+              }
+            },
+            {
+              "label": {
+                "en": "0.001",
+                "zh-Hans": "0.001"
+              }
+            }
+          ],
+          "separator": "›"
+        }
+      ],
+      "source_tc": "00:09-00:25",
+      "source_visual_zh": "小纳把整枚币的数量刻度拉开，显示1、0.1、0.01、0.001；不是切成实体硬币。",
+      "source_onscreen_text": {
+        "en": [
+          "1 · 0.1 · 0.01 · 0.001 BTC"
+        ],
+        "zh-Hans": [
+          "1 · 0.1 · 0.01 · 0.001 BTC"
+        ]
+      }
+    },
+    {
+      "id": "practice-sum",
+      "duration": 20,
+      "set": "study-desk",
+      "visual_en": "Teaching quote locked at 50,000 USDT. 100 ÷ 50,000 animates into 0.002 BTC. Label 'teaching assumption' stays on screen.",
+      "visual_zh": "教学报价固定为50,000 USDT，100除以50,000，变成0.002 BTC。",
+      "onscreen_text_en": "BTC = 50,000 USDT",
+      "onscreen_text_zh-Hans": "BTC = 50,000 USDT",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "One practice sum. Say one bitcoin is 50,000 USDT and you spend 100. Ignoring fees, that's 0.002 bitcoin. This is not today's market price.",
+            "zh-Hans": "只做一道假设题：一枚值五万单位泰达币，成交金额是一百，忽略费用，就对应零点零零二枚比特币。这不是今天的市场报价。"
+          },
+          "start": 0.25,
+          "end": 11.513,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e01-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.263
+          },
+          "words": {
+            "en": [
+              {
+                "text": "One ",
+                "start": 0.25,
+                "end": 0.544
+              },
+              {
+                "text": "practice ",
+                "start": 0.544,
+                "end": 1.327
+              },
+              {
+                "text": "sum. ",
+                "start": 1.327,
+                "end": 1.719
+              },
+              {
+                "text": "Say ",
+                "start": 1.719,
+                "end": 2.013
+              },
+              {
+                "text": "one ",
+                "start": 2.013,
+                "end": 2.307
+              },
+              {
+                "text": "bitcoin ",
+                "start": 2.307,
+                "end": 2.992
+              },
+              {
+                "text": "is ",
+                "start": 2.992,
+                "end": 3.188
+              },
+              {
+                "text": "50,000 ",
+                "start": 3.188,
+                "end": 3.776
+              },
+              {
+                "text": "USDT ",
+                "start": 3.776,
+                "end": 4.168
+              },
+              {
+                "text": "and ",
+                "start": 4.168,
+                "end": 4.461
+              },
+              {
+                "text": "you ",
+                "start": 4.461,
+                "end": 4.755
+              },
+              {
+                "text": "spend ",
+                "start": 4.755,
+                "end": 5.245
+              },
+              {
+                "text": "100. ",
+                "start": 5.245,
+                "end": 5.637
+              },
+              {
+                "text": "Ignoring ",
+                "start": 5.637,
+                "end": 6.42
+              },
+              {
+                "text": "fees, ",
+                "start": 6.42,
+                "end": 6.91
+              },
+              {
+                "text": "that's ",
+                "start": 6.91,
+                "end": 7.497
+              },
+              {
+                "text": "0.002 ",
+                "start": 7.497,
+                "end": 7.987
+              },
+              {
+                "text": "bitcoin. ",
+                "start": 7.987,
+                "end": 8.771
+              },
+              {
+                "text": "This ",
+                "start": 8.771,
+                "end": 9.162
+              },
+              {
+                "text": "is ",
+                "start": 9.162,
+                "end": 9.358
+              },
+              {
+                "text": "not ",
+                "start": 9.358,
+                "end": 9.652
+              },
+              {
+                "text": "today's ",
+                "start": 9.652,
+                "end": 10.338
+              },
+              {
+                "text": "market ",
+                "start": 10.338,
+                "end": 10.925
+              },
+              {
+                "text": "price.",
+                "start": 10.925,
+                "end": 11.513
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "只做",
+                "start": 0.25,
+                "end": 0.652
+              },
+              {
+                "text": "一道",
+                "start": 0.652,
+                "end": 1.055
+              },
+              {
+                "text": "假设",
+                "start": 1.055,
+                "end": 1.457
+              },
+              {
+                "text": "题：",
+                "start": 1.457,
+                "end": 1.859
+              },
+              {
+                "text": "一枚",
+                "start": 1.859,
+                "end": 2.261
+              },
+              {
+                "text": "值",
+                "start": 2.261,
+                "end": 2.462
+              },
+              {
+                "text": "五万",
+                "start": 2.462,
+                "end": 2.865
+              },
+              {
+                "text": "单位",
+                "start": 2.865,
+                "end": 3.267
+              },
+              {
+                "text": "泰",
+                "start": 3.267,
+                "end": 3.468
+              },
+              {
+                "text": "达",
+                "start": 3.468,
+                "end": 3.669
+              },
+              {
+                "text": "币，",
+                "start": 3.669,
+                "end": 4.071
+              },
+              {
+                "text": "成交",
+                "start": 4.071,
+                "end": 4.474
+              },
+              {
+                "text": "金额",
+                "start": 4.474,
+                "end": 4.876
+              },
+              {
+                "text": "是",
+                "start": 4.876,
+                "end": 5.077
+              },
+              {
+                "text": "一百，",
+                "start": 5.077,
+                "end": 5.68
+              },
+              {
+                "text": "忽略",
+                "start": 5.68,
+                "end": 6.083
+              },
+              {
+                "text": "费用，",
+                "start": 6.083,
+                "end": 6.686
+              },
+              {
+                "text": "就",
+                "start": 6.686,
+                "end": 6.887
+              },
+              {
+                "text": "对应",
+                "start": 6.887,
+                "end": 7.289
+              },
+              {
+                "text": "零点",
+                "start": 7.289,
+                "end": 7.692
+              },
+              {
+                "text": "零零",
+                "start": 7.692,
+                "end": 8.094
+              },
+              {
+                "text": "二枚",
+                "start": 8.094,
+                "end": 8.496
+              },
+              {
+                "text": "比",
+                "start": 8.496,
+                "end": 8.697
+              },
+              {
+                "text": "特",
+                "start": 8.697,
+                "end": 8.898
+              },
+              {
+                "text": "币。",
+                "start": 8.898,
+                "end": 9.301
+              },
+              {
+                "text": "这",
+                "start": 9.301,
+                "end": 9.502
+              },
+              {
+                "text": "不是",
+                "start": 9.502,
+                "end": 9.904
+              },
+              {
+                "text": "今天",
+                "start": 9.904,
+                "end": 10.306
+              },
+              {
+                "text": "的",
+                "start": 10.306,
+                "end": 10.507
+              },
+              {
+                "text": "市场",
+                "start": 10.507,
+                "end": 10.91
+              },
+              {
+                "text": "报价。",
+                "start": 10.91,
+                "end": 11.513
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "formula",
+          "rows": [
+            {
+              "expr": {
+                "en": "Spend",
+                "zh-Hans": "花费"
+              },
+              "result": "100 USDT"
+            },
+            {
+              "expr": "100 ÷ 50,000",
+              "result": "0.002 BTC",
+              "emphasis": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:25-00:45",
+      "source_visual_zh": "教学报价固定为50,000 USDT，100除以50,000，变成0.002 BTC。",
+      "source_onscreen_text": {
+        "en": [
+          "BTC = 50,000 USDT",
+          "100 ÷ 50,000 = 0.002 BTC",
+          "Teaching assumption · not a live price or real platform rate"
+        ],
+        "zh-Hans": [
+          "BTC = 50,000 USDT",
+          "100 ÷ 50,000 = 0.002 BTC",
+          "教学假设 · 非实时行情，非平台真实费率"
+        ]
+      }
+    },
+    {
+      "id": "quantity-value",
+      "duration": 17,
+      "set": "study-desk",
+      "visual_en": "Two ledger columns: 'Quantity 0.002' and 'Value changes with price'; the value column moves up and down while quantity stays fixed.",
+      "visual_zh": "两列账本分别写“数量0.002”和“估值随价格变化”，估值上下变动。",
+      "onscreen_text_en": "Buying a little ≠ no risk",
+      "onscreen_text_zh-Hans": "买得少 ≠ 没风险",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "And when the price moves?",
+            "zh-Hans": "那价格涨跌时呢？"
+          },
+          "start": 0.25,
+          "end": 1.702,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e01-04-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 1.452
+          },
+          "words": {
+            "en": [
+              {
+                "text": "And ",
+                "start": 0.25,
+                "end": 0.457
+              },
+              {
+                "text": "when ",
+                "start": 0.457,
+                "end": 0.734
+              },
+              {
+                "text": "the ",
+                "start": 0.734,
+                "end": 0.941
+              },
+              {
+                "text": "price ",
+                "start": 0.941,
+                "end": 1.287
+              },
+              {
+                "text": "moves?",
+                "start": 1.287,
+                "end": 1.702
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "那",
+                "start": 0.25,
+                "end": 0.432
+              },
+              {
+                "text": "价格",
+                "start": 0.432,
+                "end": 0.795
+              },
+              {
+                "text": "涨",
+                "start": 0.795,
+                "end": 0.976
+              },
+              {
+                "text": "跌",
+                "start": 0.976,
+                "end": 1.158
+              },
+              {
+                "text": "时",
+                "start": 1.158,
+                "end": 1.339
+              },
+              {
+                "text": "呢？",
+                "start": 1.339,
+                "end": 1.702
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "The number of coins can stay the same, but their value goes up and down. Buying a little means risking less. It doesn't mean no risk.",
+            "zh-Hans": "你持有的数量可以不变，折合价值却会涨，也会跌。买得少，只是投入少，不等于没有风险。"
+          },
+          "start": 2.002,
+          "end": 9.602,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e01-04-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 7.6
+          },
+          "words": {
+            "en": [
+              {
+                "text": "The ",
+                "start": 2.002,
+                "end": 2.213
+              },
+              {
+                "text": "number ",
+                "start": 2.213,
+                "end": 2.635
+              },
+              {
+                "text": "of ",
+                "start": 2.635,
+                "end": 2.776
+              },
+              {
+                "text": "coins ",
+                "start": 2.776,
+                "end": 3.128
+              },
+              {
+                "text": "can ",
+                "start": 3.128,
+                "end": 3.339
+              },
+              {
+                "text": "stay ",
+                "start": 3.339,
+                "end": 3.621
+              },
+              {
+                "text": "the ",
+                "start": 3.621,
+                "end": 3.832
+              },
+              {
+                "text": "same, ",
+                "start": 3.832,
+                "end": 4.183
+              },
+              {
+                "text": "but ",
+                "start": 4.183,
+                "end": 4.395
+              },
+              {
+                "text": "their ",
+                "start": 4.395,
+                "end": 4.746
+              },
+              {
+                "text": "value ",
+                "start": 4.746,
+                "end": 5.098
+              },
+              {
+                "text": "goes ",
+                "start": 5.098,
+                "end": 5.38
+              },
+              {
+                "text": "up ",
+                "start": 5.38,
+                "end": 5.521
+              },
+              {
+                "text": "and ",
+                "start": 5.521,
+                "end": 5.732
+              },
+              {
+                "text": "down. ",
+                "start": 5.732,
+                "end": 6.083
+              },
+              {
+                "text": "Buying ",
+                "start": 6.083,
+                "end": 6.506
+              },
+              {
+                "text": "a ",
+                "start": 6.506,
+                "end": 6.576
+              },
+              {
+                "text": "little ",
+                "start": 6.576,
+                "end": 6.998
+              },
+              {
+                "text": "means ",
+                "start": 6.998,
+                "end": 7.35
+              },
+              {
+                "text": "risking ",
+                "start": 7.35,
+                "end": 7.843
+              },
+              {
+                "text": "less. ",
+                "start": 7.843,
+                "end": 8.195
+              },
+              {
+                "text": "It ",
+                "start": 8.195,
+                "end": 8.335
+              },
+              {
+                "text": "doesn't ",
+                "start": 8.335,
+                "end": 8.828
+              },
+              {
+                "text": "mean ",
+                "start": 8.828,
+                "end": 9.109
+              },
+              {
+                "text": "no ",
+                "start": 9.109,
+                "end": 9.25
+              },
+              {
+                "text": "risk.",
+                "start": 9.25,
+                "end": 9.602
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "你",
+                "start": 2.002,
+                "end": 2.187
+              },
+              {
+                "text": "持有",
+                "start": 2.187,
+                "end": 2.558
+              },
+              {
+                "text": "的",
+                "start": 2.558,
+                "end": 2.743
+              },
+              {
+                "text": "数量",
+                "start": 2.743,
+                "end": 3.114
+              },
+              {
+                "text": "可以",
+                "start": 3.114,
+                "end": 3.485
+              },
+              {
+                "text": "不变，",
+                "start": 3.485,
+                "end": 4.041
+              },
+              {
+                "text": "折合",
+                "start": 4.041,
+                "end": 4.412
+              },
+              {
+                "text": "价值",
+                "start": 4.412,
+                "end": 4.782
+              },
+              {
+                "text": "却",
+                "start": 4.782,
+                "end": 4.968
+              },
+              {
+                "text": "会",
+                "start": 4.968,
+                "end": 5.153
+              },
+              {
+                "text": "涨，",
+                "start": 5.153,
+                "end": 5.524
+              },
+              {
+                "text": "也",
+                "start": 5.524,
+                "end": 5.709
+              },
+              {
+                "text": "会",
+                "start": 5.709,
+                "end": 5.895
+              },
+              {
+                "text": "跌。",
+                "start": 5.895,
+                "end": 6.265
+              },
+              {
+                "text": "买得",
+                "start": 6.265,
+                "end": 6.636
+              },
+              {
+                "text": "少，",
+                "start": 6.636,
+                "end": 7.007
+              },
+              {
+                "text": "只是",
+                "start": 7.007,
+                "end": 7.378
+              },
+              {
+                "text": "投入",
+                "start": 7.378,
+                "end": 7.748
+              },
+              {
+                "text": "少，",
+                "start": 7.748,
+                "end": 8.119
+              },
+              {
+                "text": "不",
+                "start": 8.119,
+                "end": 8.304
+              },
+              {
+                "text": "等于",
+                "start": 8.304,
+                "end": 8.675
+              },
+              {
+                "text": "没有",
+                "start": 8.675,
+                "end": 9.046
+              },
+              {
+                "text": "风险。",
+                "start": 9.046,
+                "end": 9.602
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Quantity: 0.002 BTC",
+                "zh-Hans": "数量：0.002 BTC"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Value: changes with price",
+                "zh-Hans": "估值：随价格变化"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:45-01:02",
+      "source_visual_zh": "两列账本分别写“数量0.002”和“估值随价格变化”，估值上下变动。",
+      "source_onscreen_text": {
+        "en": [
+          "Quantity: 0.002 BTC",
+          "Value: changes with price"
+        ],
+        "zh-Hans": [
+          "数量：0.002 BTC",
+          "估值：随价格变化"
+        ]
+      }
+    },
+    {
+      "id": "min-and-fees",
+      "duration": 13,
+      "set": "study-desk",
+      "visual_en": "Two sign boards, 'Minimum order' and 'Fees', block the confirm button. A 'Virtual funds' badge on the balance.",
+      "visual_zh": "“最小下单金额”“手续费”两个提示牌挡在确认按钮前。",
+      "onscreen_text_en": "Check before you confirm",
+      "onscreen_text_zh-Hans": "确认前先看",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "You can split it, but not every platform accepts any tiny order. Check the minimum amount and the fees. While you learn, use virtual funds. No deposit needed.",
+            "zh-Hans": "能拆分，不代表所有平台都接受任意小的订单。还要检查最小金额和费用。学习阶段先用虚拟资金，不需要充值。"
+          },
+          "start": 0.25,
+          "end": 9.412,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e01-05-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.162
+          },
+          "words": {
+            "en": [
+              {
+                "text": "You ",
+                "start": 0.25,
+                "end": 0.46
+              },
+              {
+                "text": "can ",
+                "start": 0.46,
+                "end": 0.67
+              },
+              {
+                "text": "split ",
+                "start": 0.67,
+                "end": 1.019
+              },
+              {
+                "text": "it, ",
+                "start": 1.019,
+                "end": 1.229
+              },
+              {
+                "text": "but ",
+                "start": 1.229,
+                "end": 1.439
+              },
+              {
+                "text": "not ",
+                "start": 1.439,
+                "end": 1.649
+              },
+              {
+                "text": "every ",
+                "start": 1.649,
+                "end": 1.998
+              },
+              {
+                "text": "platform ",
+                "start": 1.998,
+                "end": 2.558
+              },
+              {
+                "text": "accepts ",
+                "start": 2.558,
+                "end": 3.048
+              },
+              {
+                "text": "any ",
+                "start": 3.048,
+                "end": 3.257
+              },
+              {
+                "text": "tiny ",
+                "start": 3.257,
+                "end": 3.537
+              },
+              {
+                "text": "order. ",
+                "start": 3.537,
+                "end": 3.957
+              },
+              {
+                "text": "Check ",
+                "start": 3.957,
+                "end": 4.306
+              },
+              {
+                "text": "the ",
+                "start": 4.306,
+                "end": 4.516
+              },
+              {
+                "text": "minimum ",
+                "start": 4.516,
+                "end": 5.006
+              },
+              {
+                "text": "amount ",
+                "start": 5.006,
+                "end": 5.425
+              },
+              {
+                "text": "and ",
+                "start": 5.425,
+                "end": 5.635
+              },
+              {
+                "text": "the ",
+                "start": 5.635,
+                "end": 5.845
+              },
+              {
+                "text": "fees. ",
+                "start": 5.845,
+                "end": 6.195
+              },
+              {
+                "text": "While ",
+                "start": 6.195,
+                "end": 6.545
+              },
+              {
+                "text": "you ",
+                "start": 6.545,
+                "end": 6.754
+              },
+              {
+                "text": "learn, ",
+                "start": 6.754,
+                "end": 7.174
+              },
+              {
+                "text": "use ",
+                "start": 7.174,
+                "end": 7.384
+              },
+              {
+                "text": "virtual ",
+                "start": 7.384,
+                "end": 7.873
+              },
+              {
+                "text": "funds. ",
+                "start": 7.873,
+                "end": 8.293
+              },
+              {
+                "text": "No ",
+                "start": 8.293,
+                "end": 8.433
+              },
+              {
+                "text": "deposit ",
+                "start": 8.433,
+                "end": 8.922
+              },
+              {
+                "text": "needed.",
+                "start": 8.922,
+                "end": 9.412
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "能",
+                "start": 0.25,
+                "end": 0.433
+              },
+              {
+                "text": "拆",
+                "start": 0.433,
+                "end": 0.616
+              },
+              {
+                "text": "分，",
+                "start": 0.616,
+                "end": 0.983
+              },
+              {
+                "text": "不",
+                "start": 0.983,
+                "end": 1.166
+              },
+              {
+                "text": "代表",
+                "start": 1.166,
+                "end": 1.533
+              },
+              {
+                "text": "所有",
+                "start": 1.533,
+                "end": 1.899
+              },
+              {
+                "text": "平台",
+                "start": 1.899,
+                "end": 2.266
+              },
+              {
+                "text": "都",
+                "start": 2.266,
+                "end": 2.449
+              },
+              {
+                "text": "接受",
+                "start": 2.449,
+                "end": 2.815
+              },
+              {
+                "text": "任意",
+                "start": 2.815,
+                "end": 3.182
+              },
+              {
+                "text": "小",
+                "start": 3.182,
+                "end": 3.365
+              },
+              {
+                "text": "的",
+                "start": 3.365,
+                "end": 3.548
+              },
+              {
+                "text": "订单。",
+                "start": 3.548,
+                "end": 4.098
+              },
+              {
+                "text": "还",
+                "start": 4.098,
+                "end": 4.281
+              },
+              {
+                "text": "要",
+                "start": 4.281,
+                "end": 4.465
+              },
+              {
+                "text": "检查",
+                "start": 4.465,
+                "end": 4.831
+              },
+              {
+                "text": "最小",
+                "start": 4.831,
+                "end": 5.197
+              },
+              {
+                "text": "金额",
+                "start": 5.197,
+                "end": 5.564
+              },
+              {
+                "text": "和",
+                "start": 5.564,
+                "end": 5.747
+              },
+              {
+                "text": "费用。",
+                "start": 5.747,
+                "end": 6.297
+              },
+              {
+                "text": "学习",
+                "start": 6.297,
+                "end": 6.663
+              },
+              {
+                "text": "阶段",
+                "start": 6.663,
+                "end": 7.03
+              },
+              {
+                "text": "先用",
+                "start": 7.03,
+                "end": 7.396
+              },
+              {
+                "text": "虚拟",
+                "start": 7.396,
+                "end": 7.763
+              },
+              {
+                "text": "资金，",
+                "start": 7.763,
+                "end": 8.313
+              },
+              {
+                "text": "不需要",
+                "start": 8.313,
+                "end": 8.862
+              },
+              {
+                "text": "充",
+                "start": 8.862,
+                "end": 9.046
+              },
+              {
+                "text": "值。",
+                "start": 9.046,
+                "end": 9.412
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Minimum order",
+                "zh-Hans": "最小下单金额"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Fees",
+                "zh-Hans": "手续费"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Virtual funds",
+                "zh-Hans": "虚拟资金"
+              },
+              "mark": "ok"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:02-01:15",
+      "source_visual_zh": "“最小下单金额”“手续费”两个提示牌挡在确认按钮前。",
+      "source_onscreen_text": {
+        "en": [
+          "Minimum order",
+          "Fees",
+          "Virtual funds"
+        ],
+        "zh-Hans": [
+          "最小下单金额",
+          "手续费",
+          "虚拟资金"
+        ]
+      }
+    },
+    {
+      "id": "whole-coin-quiz",
+      "duration": 11,
+      "set": "study-desk",
+      "visual_en": "Quiz card: 'Must buy 1 whole coin' / 'Can buy an allowed decimal amount'. The correct option flips over to show the course stamp.",
+      "visual_zh": "选择题：必须买1枚／可按允许的小数数量买；正确项翻出课程印章。",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Do you have to buy a whole bitcoin? No. Remember: the price of one coin is not the price of getting started.",
+            "zh-Hans": "购买比特币必须买一整枚吗？不必。记住：整枚的价格，不是入门的门槛。"
+          },
+          "start": 0.25,
+          "end": 6.251,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e01-06-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 6.001
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Do ",
+                "start": 0.25,
+                "end": 0.388
+              },
+              {
+                "text": "you ",
+                "start": 0.388,
+                "end": 0.595
+              },
+              {
+                "text": "have ",
+                "start": 0.595,
+                "end": 0.871
+              },
+              {
+                "text": "to ",
+                "start": 0.871,
+                "end": 1.009
+              },
+              {
+                "text": "buy ",
+                "start": 1.009,
+                "end": 1.216
+              },
+              {
+                "text": "a ",
+                "start": 1.216,
+                "end": 1.285
+              },
+              {
+                "text": "whole ",
+                "start": 1.285,
+                "end": 1.63
+              },
+              {
+                "text": "bitcoin? ",
+                "start": 1.63,
+                "end": 2.181
+              },
+              {
+                "text": "No. ",
+                "start": 2.181,
+                "end": 2.388
+              },
+              {
+                "text": "Remember: ",
+                "start": 2.388,
+                "end": 3.009
+              },
+              {
+                "text": "the ",
+                "start": 3.009,
+                "end": 3.216
+              },
+              {
+                "text": "price ",
+                "start": 3.216,
+                "end": 3.561
+              },
+              {
+                "text": "of ",
+                "start": 3.561,
+                "end": 3.699
+              },
+              {
+                "text": "one ",
+                "start": 3.699,
+                "end": 3.906
+              },
+              {
+                "text": "coin ",
+                "start": 3.906,
+                "end": 4.182
+              },
+              {
+                "text": "is ",
+                "start": 4.182,
+                "end": 4.32
+              },
+              {
+                "text": "not ",
+                "start": 4.32,
+                "end": 4.527
+              },
+              {
+                "text": "the ",
+                "start": 4.527,
+                "end": 4.734
+              },
+              {
+                "text": "price ",
+                "start": 4.734,
+                "end": 5.078
+              },
+              {
+                "text": "of ",
+                "start": 5.078,
+                "end": 5.216
+              },
+              {
+                "text": "getting ",
+                "start": 5.216,
+                "end": 5.699
+              },
+              {
+                "text": "started.",
+                "start": 5.699,
+                "end": 6.251
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "购买",
+                "start": 0.25,
+                "end": 0.614
+              },
+              {
+                "text": "比",
+                "start": 0.614,
+                "end": 0.796
+              },
+              {
+                "text": "特",
+                "start": 0.796,
+                "end": 0.977
+              },
+              {
+                "text": "币",
+                "start": 0.977,
+                "end": 1.159
+              },
+              {
+                "text": "必须",
+                "start": 1.159,
+                "end": 1.523
+              },
+              {
+                "text": "买一",
+                "start": 1.523,
+                "end": 1.887
+              },
+              {
+                "text": "整",
+                "start": 1.887,
+                "end": 2.068
+              },
+              {
+                "text": "枚",
+                "start": 2.068,
+                "end": 2.25
+              },
+              {
+                "text": "吗？",
+                "start": 2.25,
+                "end": 2.614
+              },
+              {
+                "text": "不必。",
+                "start": 2.614,
+                "end": 3.16
+              },
+              {
+                "text": "记住：",
+                "start": 3.16,
+                "end": 3.705
+              },
+              {
+                "text": "整",
+                "start": 3.705,
+                "end": 3.887
+              },
+              {
+                "text": "枚",
+                "start": 3.887,
+                "end": 4.069
+              },
+              {
+                "text": "的",
+                "start": 4.069,
+                "end": 4.251
+              },
+              {
+                "text": "价格，",
+                "start": 4.251,
+                "end": 4.796
+              },
+              {
+                "text": "不是",
+                "start": 4.796,
+                "end": 5.16
+              },
+              {
+                "text": "入门",
+                "start": 5.16,
+                "end": 5.524
+              },
+              {
+                "text": "的",
+                "start": 5.524,
+                "end": 5.705
+              },
+              {
+                "text": "门槛。",
+                "start": 5.705,
+                "end": 6.251
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Do you have to buy a whole bitcoin?",
+            "zh-Hans": "必须买一整枚比特币吗？"
+          },
+          "options": [
+            {
+              "label": {
+                "en": "Must buy 1 whole coin",
+                "zh-Hans": "必须买 1 整枚"
+              },
+              "correct": false
+            },
+            {
+              "label": {
+                "en": "Can buy an allowed decimal amount",
+                "zh-Hans": "可按允许的小数数量买"
+              },
+              "correct": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:15-01:26",
+      "source_visual_zh": "选择题：必须买1枚／可按允许的小数数量买；正确项翻出课程印章。",
+      "source_onscreen_text": {
+        "en": [
+          "Must buy 1 whole coin?",
+          "Can buy an allowed decimal amount"
+        ],
+        "zh-Hans": [
+          "必须买1枚？",
+          "可按允许的小数数量买"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.3,
+    "pose": "point",
+    "text": {
+      "en": "Most trades are priced in USDT. But is USDT really a dollar? Next episode.",
+      "zh-Hans": "大多数交易都用USDT标价。可它真的是美元吗？下一集揭晓。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Most trades are priced in USDT. But is USDT really a dollar? Next episode.",
+          "zh-Hans": "大多数交易都用USDT标价。可它真的是美元吗？下一集揭晓。"
+        },
+        "start": 0.25,
+        "end": 5.956,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e01-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.706
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Most ",
+              "start": 0.25,
+              "end": 0.624
+            },
+            {
+              "text": "trades ",
+              "start": 0.624,
+              "end": 1.185
+            },
+            {
+              "text": "are ",
+              "start": 1.185,
+              "end": 1.466
+            },
+            {
+              "text": "priced ",
+              "start": 1.466,
+              "end": 2.027
+            },
+            {
+              "text": "in ",
+              "start": 2.027,
+              "end": 2.214
+            },
+            {
+              "text": "USDT. ",
+              "start": 2.214,
+              "end": 2.682
+            },
+            {
+              "text": "But ",
+              "start": 2.682,
+              "end": 2.963
+            },
+            {
+              "text": "is ",
+              "start": 2.963,
+              "end": 3.15
+            },
+            {
+              "text": "USDT ",
+              "start": 3.15,
+              "end": 3.524
+            },
+            {
+              "text": "really ",
+              "start": 3.524,
+              "end": 4.085
+            },
+            {
+              "text": "a ",
+              "start": 4.085,
+              "end": 4.179
+            },
+            {
+              "text": "dollar? ",
+              "start": 4.179,
+              "end": 4.834
+            },
+            {
+              "text": "Next ",
+              "start": 4.834,
+              "end": 5.208
+            },
+            {
+              "text": "episode.",
+              "start": 5.208,
+              "end": 5.956
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "大",
+              "start": 0.25,
+              "end": 0.447
+            },
+            {
+              "text": "多数",
+              "start": 0.447,
+              "end": 0.84
+            },
+            {
+              "text": "交易",
+              "start": 0.84,
+              "end": 1.234
+            },
+            {
+              "text": "都",
+              "start": 1.234,
+              "end": 1.431
+            },
+            {
+              "text": "用",
+              "start": 1.431,
+              "end": 1.627
+            },
+            {
+              "text": "USDT",
+              "start": 1.627,
+              "end": 2.414
+            },
+            {
+              "text": "标价。",
+              "start": 2.414,
+              "end": 3.005
+            },
+            {
+              "text": "可",
+              "start": 3.005,
+              "end": 3.201
+            },
+            {
+              "text": "它",
+              "start": 3.201,
+              "end": 3.398
+            },
+            {
+              "text": "真的是",
+              "start": 3.398,
+              "end": 3.988
+            },
+            {
+              "text": "美元",
+              "start": 3.988,
+              "end": 4.382
+            },
+            {
+              "text": "吗？",
+              "start": 4.382,
+              "end": 4.775
+            },
+            {
+              "text": "下",
+              "start": 4.775,
+              "end": 4.972
+            },
+            {
+              "text": "一",
+              "start": 4.972,
+              "end": 5.169
+            },
+            {
+              "text": "集",
+              "start": 5.169,
+              "end": 5.366
+            },
+            {
+              "text": "揭晓。",
+              "start": 5.366,
+              "end": 5.956
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:26-01:30"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.218,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e01-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.968
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.07
+          },
+          {
+            "text": "first, ",
+            "start": 1.07,
+            "end": 1.562
+          },
+          {
+            "text": "then ",
+            "start": 1.562,
+            "end": 1.89
+          },
+          {
+            "text": "act.",
+            "start": 1.89,
+            "end": 2.218
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.496
+          },
+          {
+            "text": "看懂，",
+            "start": 0.496,
+            "end": 1.234
+          },
+          {
+            "text": "再",
+            "start": 1.234,
+            "end": 1.48
+          },
+          {
+            "text": "动手。",
+            "start": 1.48,
+            "end": 2.218
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E01.json",
+    "original_slug": "can-i-buy-part-of-a-bitcoin",
+    "goal": {
+      "en": "Tell the number of coins apart from the amount you spend, and know bitcoin can be bought in fractions.",
+      "zh-Hans": "能区分币的数量与购买金额，知道比特币可拆分购买。"
+    },
+    "duration_target_s": 94,
+    "page_cta": {
+      "kind": "compare",
+      "partner": null,
+      "line_en": "Minimum order sizes and fees differ by exchange. Check them side by side on NexuAlpha.",
+      "line_zh": "各交易所的最小下单金额和费用不同，到 NexuAlpha 对比页并排查看。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "nexualpha.com/compare"
+    },
+    "exercise": {
+      "task_en": "In the practice panel, convert a spend of 100 into a coin amount. No real order is created.",
+      "task_zh": "在模拟页面把成交金额100换算成币数量；不创建真实订单。",
+      "answer_en": "0.002 BTC (fees not deducted).",
+      "answer_zh": "0.002 BTC，计算未扣手续费。"
+    },
+    "red_lines": [
+      "Label the teaching price on screen; never show live prices ｜ 画面注明教学假设价，不展示实时行情",
+      "Never promise that every exchange accepts 100 or 10-dollar orders ｜ 不得承诺所有交易所支持100或10美元起购",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S05"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:25",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:25-00:45",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:45-01:02",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:02-01:15",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:15-01:26",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:26-01:30",
+        "kind": "hook"
+      },
+      {
+        "tc": "01:30-01:34",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "cards",
+      "formula",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

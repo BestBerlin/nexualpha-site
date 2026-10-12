@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { convertEpisode, sceneKind, parseTc } from './from-v3.mjs';
 import { validateEpisode, schedule } from './contract.mjs';
+import { ALL_EPISODES } from './season.mjs';
+import { isFinePrint } from './fine-print.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const sourceRoot = root+'episodes/source';
@@ -44,11 +46,12 @@ test('E05 conversion preserves supplied commercial source data without partner Q
   validateEpisode(converted, 'zh-Hans');
   assert.equal(converted.production_id, 'E05');
   assert.equal(converted.slug, source.slug);
-  assert.equal(converted.conversion_card.url, source.conversion_card.url);
+  assert.equal(converted.conversion_card.source_url, source.conversion_card.url);
   assert.deepEqual(converted.conversion_card.source_codes, source.conversion_card.codes);
-  assert.equal(converted.conversion_card.code.en, 'Code nexu888');
-  assert.equal(converted.conversion_card.disclosure.en, source.conversion_card.disclosure_en);
-  assert.equal(converted.conversion_card.availability['zh-Hans'], source.conversion_card.availability_zh);
+  assert.deepEqual(converted.conversion_card.venues.map((v) => [v.name.en, v.code.en, v.url]), [['OKX', 'Code nexu888', 'nexualpha.com/go/okx']]);
+  assert.equal(converted.conversion_card.disclosure_rendered, false);
+  assert.equal(converted.conversion_card.rebate_line, undefined);
+  assert.equal(converted.conversion_card.availability, undefined);
   assert.equal(schedule(converted).duration, source.duration_target_s);
   assert.equal(converted.source_metadata.explicit_scene_kinds.filter((x) => x.kind === 'conversion').length, 1);
 });
@@ -106,10 +109,67 @@ test('E09 checklist and E21 margin-flow widgets are deterministic and compact', 
   assert.equal(autoAdd.widgets[0].autoAdd, true);
 });
 
-test('CLI copies source JSON and generates reproducible E05/E09/E21 kit inputs', () => {
+test('all 24 episodes convert, validate and keep every source line', () => {
+  for (const id of ALL_EPISODES) {
+    const source = readSource(id);
+    const converted = validateEpisode(convertEpisode(source), 'en');
+    validateEpisode(converted, 'zh-Hans');
+    const lines = [...converted.open_lines, ...converted.shots.flatMap((s) => s.lines), ...(converted.conversion_card?.lines ?? []), ...converted.end_hook.lines, ...converted.close_lines];
+    assert.deepEqual(lines.map((l) => l.text.en), source.shots.flatMap((s) => s.lines ?? []).map((l) => l.en), id);
+    assert.equal(converted.shots.length, 6, id);
+  }
+});
+
+test('conversion cards only in E04/E05/E07/E12/E13/E24; Bitget shown as Bitget.com via /go link', () => {
+  const withCards = ALL_EPISODES.filter((id) => convertEpisode(readSource(id)).conversion_card);
+  assert.deepEqual(withCards, ['E04', 'E05', 'E07', 'E12', 'E13', 'E24']);
+  const e07 = convertEpisode(readSource('E07')).conversion_card;
+  assert.deepEqual(e07.venues.map((v) => [v.name.en, v.url]), [['Bitget.com', 'nexualpha.com/go/bitget']]);
+  const e12 = convertEpisode(readSource('E12')).conversion_card;
+  assert.deepEqual(e12.venues.map((v) => v.url), ['nexualpha.com/go/okx', 'nexualpha.com/go/bitget', 'nexualpha.com/go/binance']);
+  assert.match(e12.cta.en, /@NexuAlphaGlobal/);
+  for (const id of withCards) {
+    const card = convertEpisode(readSource(id)).conversion_card;
+    const shown = JSON.stringify([card.cta, card.venues]);
+    assert.doesNotMatch(shown, /bitget\.cafe|commission|availability|partner link/i, id);
+  }
+});
+
+test('every conversion card code matches its venue in the site partner registry', () => {
+  const registry = JSON.parse(readFileSync(new URL('../../pilot-01-prototype/public/intel/partners.json', import.meta.url), 'utf8'));
+  const list = Array.isArray(registry) ? registry : registry.partners ?? Object.values(registry);
+  const bySlug = Object.fromEntries(list.map((p) => [p.slug, p.inviteCode]));
+  let checked = 0;
+  for (const id of ALL_EPISODES) {
+    const card = convertEpisode(readSource(id)).conversion_card;
+    for (const venue of card?.venues ?? []) {
+      assert.equal(venue.code.en, `Code ${bySlug[venue.key]}`, `${id}/${venue.key}`);
+      assert.equal(venue.url, `nexualpha.com/go/${venue.key}`, `${id}/${venue.key}`);
+      checked++;
+    }
+  }
+  assert.equal(checked, 12);
+});
+
+test('no fine print in any heading or widget prop (owner rule)', () => {
+  for (const id of ALL_EPISODES) {
+    const converted = convertEpisode(readSource(id));
+    for (const shot of converted.shots) {
+      assert.ok(!isFinePrint(shot.onscreen_text_en) && !isFinePrint(shot['onscreen_text_zh-Hans']), `${id}/${shot.id} heading`);
+      const strings = JSON.stringify(shot.widgets).match(/"(?:[^"\\]|\\.)*"/g) ?? [];
+      for (const value of strings) assert.ok(!isFinePrint(value), `${id}/${shot.id}: ${value}`);
+    }
+  }
+  assert.ok(isFinePrint('Teaching assumption · not a live price or real platform rate'));
+  assert.ok(isFinePrint('Partner link · the exchange pays our commission'));
+  assert.ok(isFinePrint('Availability depends on your country or region'));
+  assert.ok(isFinePrint('教学模型 · 非交易所规则'));
+});
+
+test('CLI copies source JSON and generates reproducible kit inputs for every episode', () => {
   const r = spawnSync(process.execPath, ['from-v3.mjs'], { cwd: root, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
-  for (const id of ['E05', 'E09', 'E21']) {
+  for (const id of ALL_EPISODES) {
     const source = JSON.parse(readFileSync(new URL(`./episodes/source/${id}.json`, import.meta.url), 'utf8'));
     const generated = JSON.parse(readFileSync(new URL(`./episodes/${id}.json`, import.meta.url), 'utf8'));
     assert.deepEqual(source, readSource(id));

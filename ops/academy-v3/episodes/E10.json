@@ -1,0 +1,2374 @@
+{
+  "version": 1,
+  "production_id": "E10",
+  "episode": 10,
+  "season": 1,
+  "slug": "transfer-not-arrived",
+  "title": {
+    "en": "It says sent, but it never arrived. Where do you look?",
+    "zh-Hans": "显示成功却没到账，该查哪里？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E10' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第10集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "dont-resend",
+      "duration": 6,
+      "set": "transfer-station",
+      "visual_en": "Sender shows 'Submitted'; the receiver still shows zero. Sam is about to send three more times. Antenna red, ding, chip 'Stop. Don't resend'.",
+      "visual_zh": "发送端显示已提交，接收端仍为零，小白准备连续再转三次。天线红灯“叮”，红色警示条“停，别重复转”。",
+      "onscreen_text_en": "Stop. Don't resend",
+      "onscreen_text_zh-Hans": "停，别重复转",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "surprised"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "It didn't arrive. Should I just send a few more?",
+            "zh-Hans": "没到账，我再转几笔试试？"
+          },
+          "start": 0.25,
+          "end": 3.784,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e10-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.534
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It ",
+                "start": 0.25,
+                "end": 0.431
+              },
+              {
+                "text": "didn't ",
+                "start": 0.431,
+                "end": 0.975
+              },
+              {
+                "text": "arrive. ",
+                "start": 0.975,
+                "end": 1.609
+              },
+              {
+                "text": "Should ",
+                "start": 1.609,
+                "end": 2.153
+              },
+              {
+                "text": "I ",
+                "start": 2.153,
+                "end": 2.244
+              },
+              {
+                "text": "just ",
+                "start": 2.244,
+                "end": 2.606
+              },
+              {
+                "text": "send ",
+                "start": 2.606,
+                "end": 2.968
+              },
+              {
+                "text": "a ",
+                "start": 2.968,
+                "end": 3.059
+              },
+              {
+                "text": "few ",
+                "start": 3.059,
+                "end": 3.331
+              },
+              {
+                "text": "more?",
+                "start": 3.331,
+                "end": 3.784
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "没",
+                "start": 0.25,
+                "end": 0.545
+              },
+              {
+                "text": "到",
+                "start": 0.545,
+                "end": 0.839
+              },
+              {
+                "text": "账，",
+                "start": 0.839,
+                "end": 1.428
+              },
+              {
+                "text": "我再",
+                "start": 1.428,
+                "end": 2.017
+              },
+              {
+                "text": "转",
+                "start": 2.017,
+                "end": 2.312
+              },
+              {
+                "text": "几",
+                "start": 2.312,
+                "end": 2.606
+              },
+              {
+                "text": "笔试",
+                "start": 2.606,
+                "end": 3.195
+              },
+              {
+                "text": "试？",
+                "start": 3.195,
+                "end": 3.784
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "Submitted · receiver still shows 0",
+            "zh-Hans": "已提交 · 接收方仍显示 0"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "发送端显示已提交，接收端仍为零，小白准备连续再转三次。天线红灯“叮”，红色警示条“停，别重复转”。",
+      "source_onscreen_text": {
+        "en": [
+          "Stop. Don't resend"
+        ],
+        "zh-Hans": [
+          "停，别重复转"
+        ]
+      }
+    },
+    {
+      "id": "three-stations",
+      "duration": 23,
+      "set": "transfer-station",
+      "visual_en": "A progress route with three stations: Sender processing → On-chain confirmation → Receiver credits.",
+      "visual_zh": "进度路线分成三站：发送方处理→链上确认→接收方入账。",
+      "onscreen_text_en": "Find the station where it's stuck",
+      "onscreen_text_zh-Hans": "找到卡在哪一站",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Don't send again. Submitted, on-chain and credited are not the same thing. Find which station it's stuck at, then decide who to contact.",
+            "zh-Hans": "先别重复转。已提交、已上链、已入账不是一回事。先确认卡在哪一站，再决定该联系谁。"
+          },
+          "start": 0.25,
+          "end": 7.343,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e10-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 7.093
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Don't ",
+                "start": 0.25,
+                "end": 0.561
+              },
+              {
+                "text": "send ",
+                "start": 0.561,
+                "end": 0.81
+              },
+              {
+                "text": "again. ",
+                "start": 0.81,
+                "end": 1.183
+              },
+              {
+                "text": "Submitted, ",
+                "start": 1.183,
+                "end": 1.805
+              },
+              {
+                "text": "on-",
+                "start": 1.805,
+                "end": 1.992
+              },
+              {
+                "text": "chain ",
+                "start": 1.992,
+                "end": 2.303
+              },
+              {
+                "text": "and ",
+                "start": 2.303,
+                "end": 2.49
+              },
+              {
+                "text": "credited ",
+                "start": 2.49,
+                "end": 2.988
+              },
+              {
+                "text": "are ",
+                "start": 2.988,
+                "end": 3.174
+              },
+              {
+                "text": "not ",
+                "start": 3.174,
+                "end": 3.361
+              },
+              {
+                "text": "the ",
+                "start": 3.361,
+                "end": 3.548
+              },
+              {
+                "text": "same ",
+                "start": 3.548,
+                "end": 3.797
+              },
+              {
+                "text": "thing. ",
+                "start": 3.797,
+                "end": 4.17
+              },
+              {
+                "text": "Find ",
+                "start": 4.17,
+                "end": 4.419
+              },
+              {
+                "text": "which ",
+                "start": 4.419,
+                "end": 4.73
+              },
+              {
+                "text": "station ",
+                "start": 4.73,
+                "end": 5.165
+              },
+              {
+                "text": "it's ",
+                "start": 5.165,
+                "end": 5.414
+              },
+              {
+                "text": "stuck ",
+                "start": 5.414,
+                "end": 5.725
+              },
+              {
+                "text": "at, ",
+                "start": 5.725,
+                "end": 5.912
+              },
+              {
+                "text": "then ",
+                "start": 5.912,
+                "end": 6.161
+              },
+              {
+                "text": "decide ",
+                "start": 6.161,
+                "end": 6.534
+              },
+              {
+                "text": "who ",
+                "start": 6.534,
+                "end": 6.721
+              },
+              {
+                "text": "to ",
+                "start": 6.721,
+                "end": 6.845
+              },
+              {
+                "text": "contact.",
+                "start": 6.845,
+                "end": 7.343
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先",
+                "start": 0.25,
+                "end": 0.427
+              },
+              {
+                "text": "别",
+                "start": 0.427,
+                "end": 0.605
+              },
+              {
+                "text": "重复",
+                "start": 0.605,
+                "end": 0.959
+              },
+              {
+                "text": "转。",
+                "start": 0.959,
+                "end": 1.314
+              },
+              {
+                "text": "已",
+                "start": 1.314,
+                "end": 1.491
+              },
+              {
+                "text": "提交、",
+                "start": 1.491,
+                "end": 2.023
+              },
+              {
+                "text": "已",
+                "start": 2.023,
+                "end": 2.201
+              },
+              {
+                "text": "上",
+                "start": 2.201,
+                "end": 2.378
+              },
+              {
+                "text": "链、",
+                "start": 2.378,
+                "end": 2.733
+              },
+              {
+                "text": "已",
+                "start": 2.733,
+                "end": 2.91
+              },
+              {
+                "text": "入",
+                "start": 2.91,
+                "end": 3.087
+              },
+              {
+                "text": "账",
+                "start": 3.087,
+                "end": 3.265
+              },
+              {
+                "text": "不是",
+                "start": 3.265,
+                "end": 3.619
+              },
+              {
+                "text": "一回事。",
+                "start": 3.619,
+                "end": 4.328
+              },
+              {
+                "text": "先",
+                "start": 4.328,
+                "end": 4.506
+              },
+              {
+                "text": "确认",
+                "start": 4.506,
+                "end": 4.86
+              },
+              {
+                "text": "卡",
+                "start": 4.86,
+                "end": 5.038
+              },
+              {
+                "text": "在",
+                "start": 5.038,
+                "end": 5.215
+              },
+              {
+                "text": "哪一",
+                "start": 5.215,
+                "end": 5.57
+              },
+              {
+                "text": "站，",
+                "start": 5.57,
+                "end": 5.924
+              },
+              {
+                "text": "再",
+                "start": 5.924,
+                "end": 6.102
+              },
+              {
+                "text": "决定",
+                "start": 6.102,
+                "end": 6.456
+              },
+              {
+                "text": "该",
+                "start": 6.456,
+                "end": 6.634
+              },
+              {
+                "text": "联系",
+                "start": 6.634,
+                "end": 6.988
+              },
+              {
+                "text": "谁。",
+                "start": 6.988,
+                "end": 7.343
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "flow",
+          "steps": [
+            {
+              "label": {
+                "en": "1 Sender processing",
+                "zh-Hans": "1 发送方处理"
+              }
+            },
+            {
+              "label": {
+                "en": "2 On-chain confirmation",
+                "zh-Hans": "2 链上确认"
+              }
+            },
+            {
+              "label": {
+                "en": "3 Receiver credits",
+                "zh-Hans": "3 接收方入账"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "进度路线分成三站：发送方处理→链上确认→接收方入账。",
+      "source_onscreen_text": {
+        "en": [
+          "1 Sender processing",
+          "2 On-chain confirmation",
+          "3 Receiver credits"
+        ],
+        "zh-Hans": [
+          "1 发送方处理",
+          "2 链上确认",
+          "3 接收方入账"
+        ]
+      }
+    },
+    {
+      "id": "send-record",
+      "duration": 28,
+      "set": "transfer-station",
+      "visual_en": "Open the send record: network, address, amount, transaction hash; a block explorer shows read-only status.",
+      "visual_zh": "打开发送记录：网络、地址、数量、交易哈希；浏览器查询只读状态。",
+      "onscreen_text_en": "Keep the send record",
+      "onscreen_text_zh-Hans": "保留转账记录",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Keep the send record. If there's a transaction hash, check it on a proper block explorer for that network: status, destination address and amount. Don't mix in results from a different chain.",
+            "zh-Hans": "保存发送记录。若有交易哈希，在对应网络的正规区块浏览器查看状态、目标地址和数量；不要把另一条链的查询结果混进来。"
+          },
+          "start": 0.25,
+          "end": 11.451,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e10-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.201
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Keep ",
+                "start": 0.25,
+                "end": 0.53
+              },
+              {
+                "text": "the ",
+                "start": 0.53,
+                "end": 0.74
+              },
+              {
+                "text": "send ",
+                "start": 0.74,
+                "end": 1.02
+              },
+              {
+                "text": "record. ",
+                "start": 1.02,
+                "end": 1.51
+              },
+              {
+                "text": "If ",
+                "start": 1.51,
+                "end": 1.65
+              },
+              {
+                "text": "there's ",
+                "start": 1.65,
+                "end": 2.14
+              },
+              {
+                "text": "a ",
+                "start": 2.14,
+                "end": 2.21
+              },
+              {
+                "text": "transaction ",
+                "start": 2.21,
+                "end": 2.98
+              },
+              {
+                "text": "hash, ",
+                "start": 2.98,
+                "end": 3.33
+              },
+              {
+                "text": "check ",
+                "start": 3.33,
+                "end": 3.68
+              },
+              {
+                "text": "it ",
+                "start": 3.68,
+                "end": 3.82
+              },
+              {
+                "text": "on ",
+                "start": 3.82,
+                "end": 3.96
+              },
+              {
+                "text": "a ",
+                "start": 3.96,
+                "end": 4.03
+              },
+              {
+                "text": "proper ",
+                "start": 4.03,
+                "end": 4.45
+              },
+              {
+                "text": "block ",
+                "start": 4.45,
+                "end": 4.8
+              },
+              {
+                "text": "explorer ",
+                "start": 4.8,
+                "end": 5.36
+              },
+              {
+                "text": "for ",
+                "start": 5.36,
+                "end": 5.57
+              },
+              {
+                "text": "that ",
+                "start": 5.57,
+                "end": 5.851
+              },
+              {
+                "text": "network: ",
+                "start": 5.851,
+                "end": 6.411
+              },
+              {
+                "text": "status, ",
+                "start": 6.411,
+                "end": 6.901
+              },
+              {
+                "text": "destination ",
+                "start": 6.901,
+                "end": 7.671
+              },
+              {
+                "text": "address ",
+                "start": 7.671,
+                "end": 8.161
+              },
+              {
+                "text": "and ",
+                "start": 8.161,
+                "end": 8.371
+              },
+              {
+                "text": "amount. ",
+                "start": 8.371,
+                "end": 8.861
+              },
+              {
+                "text": "Don't ",
+                "start": 8.861,
+                "end": 9.211
+              },
+              {
+                "text": "mix ",
+                "start": 9.211,
+                "end": 9.421
+              },
+              {
+                "text": "in ",
+                "start": 9.421,
+                "end": 9.561
+              },
+              {
+                "text": "results ",
+                "start": 9.561,
+                "end": 10.051
+              },
+              {
+                "text": "from ",
+                "start": 10.051,
+                "end": 10.331
+              },
+              {
+                "text": "a ",
+                "start": 10.331,
+                "end": 10.401
+              },
+              {
+                "text": "different ",
+                "start": 10.401,
+                "end": 11.031
+              },
+              {
+                "text": "chain.",
+                "start": 11.031,
+                "end": 11.451
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "保存",
+                "start": 0.25,
+                "end": 0.65
+              },
+              {
+                "text": "发送",
+                "start": 0.65,
+                "end": 1.05
+              },
+              {
+                "text": "记录。",
+                "start": 1.05,
+                "end": 1.65
+              },
+              {
+                "text": "若有",
+                "start": 1.65,
+                "end": 2.05
+              },
+              {
+                "text": "交易",
+                "start": 2.05,
+                "end": 2.45
+              },
+              {
+                "text": "哈",
+                "start": 2.45,
+                "end": 2.65
+              },
+              {
+                "text": "希，",
+                "start": 2.65,
+                "end": 3.05
+              },
+              {
+                "text": "在",
+                "start": 3.05,
+                "end": 3.25
+              },
+              {
+                "text": "对应",
+                "start": 3.25,
+                "end": 3.65
+              },
+              {
+                "text": "网络",
+                "start": 3.65,
+                "end": 4.05
+              },
+              {
+                "text": "的",
+                "start": 4.05,
+                "end": 4.25
+              },
+              {
+                "text": "正规",
+                "start": 4.25,
+                "end": 4.65
+              },
+              {
+                "text": "区块",
+                "start": 4.65,
+                "end": 5.05
+              },
+              {
+                "text": "浏览",
+                "start": 5.05,
+                "end": 5.45
+              },
+              {
+                "text": "器",
+                "start": 5.45,
+                "end": 5.65
+              },
+              {
+                "text": "查看",
+                "start": 5.65,
+                "end": 6.051
+              },
+              {
+                "text": "状态、",
+                "start": 6.051,
+                "end": 6.651
+              },
+              {
+                "text": "目标",
+                "start": 6.651,
+                "end": 7.051
+              },
+              {
+                "text": "地址",
+                "start": 7.051,
+                "end": 7.451
+              },
+              {
+                "text": "和",
+                "start": 7.451,
+                "end": 7.651
+              },
+              {
+                "text": "数量；",
+                "start": 7.651,
+                "end": 8.251
+              },
+              {
+                "text": "不要",
+                "start": 8.251,
+                "end": 8.651
+              },
+              {
+                "text": "把",
+                "start": 8.651,
+                "end": 8.851
+              },
+              {
+                "text": "另一",
+                "start": 8.851,
+                "end": 9.251
+              },
+              {
+                "text": "条",
+                "start": 9.251,
+                "end": 9.451
+              },
+              {
+                "text": "链",
+                "start": 9.451,
+                "end": 9.651
+              },
+              {
+                "text": "的",
+                "start": 9.651,
+                "end": 9.851
+              },
+              {
+                "text": "查询",
+                "start": 9.851,
+                "end": 10.251
+              },
+              {
+                "text": "结果",
+                "start": 10.251,
+                "end": 10.651
+              },
+              {
+                "text": "混",
+                "start": 10.651,
+                "end": 10.851
+              },
+              {
+                "text": "进来。",
+                "start": 10.851,
+                "end": 11.451
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Network",
+                "zh-Hans": "网络"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Address",
+                "zh-Hans": "地址"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Amount",
+                "zh-Hans": "数量"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Tx hash",
+                "zh-Hans": "交易哈希"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "打开发送记录：网络、地址、数量、交易哈希；浏览器查询只读状态。",
+      "source_onscreen_text": {
+        "en": [
+          "Network",
+          "Address",
+          "Amount",
+          "Tx hash"
+        ],
+        "zh-Hans": [
+          "网络",
+          "地址",
+          "数量",
+          "交易哈希"
+        ]
+      }
+    },
+    {
+      "id": "who-to-contact",
+      "duration": 24,
+      "set": "transfer-station",
+      "visual_en": "Branch cards: still pending → contact the sender; succeeded on-chain but not credited → contact the receiver; wrong network or tag → pause first.",
+      "visual_zh": "分支卡：待发送找发送方；链上成功未入账找接收方；网络或标签错误先暂停。",
+      "onscreen_text_en": "Who to contact",
+      "onscreen_text_zh-Hans": "该联系谁",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "The receiving platform may still need confirmations or an internal review. If the coin, network, address or memo was wrong, stop sending and give the facts to official support.",
+            "zh-Hans": "接收平台可能还需要确认数或内部审核。若币种、网络、地址或备注填错，先停止继续转账，提交事实资料给官方客服。"
+          },
+          "start": 0.25,
+          "end": 9.332,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e10-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.082
+          },
+          "words": {
+            "en": [
+              {
+                "text": "The ",
+                "start": 0.25,
+                "end": 0.434
+              },
+              {
+                "text": "receiving ",
+                "start": 0.434,
+                "end": 0.986
+              },
+              {
+                "text": "platform ",
+                "start": 0.986,
+                "end": 1.477
+              },
+              {
+                "text": "may ",
+                "start": 1.477,
+                "end": 1.661
+              },
+              {
+                "text": "still ",
+                "start": 1.661,
+                "end": 1.968
+              },
+              {
+                "text": "need ",
+                "start": 1.968,
+                "end": 2.214
+              },
+              {
+                "text": "confirmations ",
+                "start": 2.214,
+                "end": 3.011
+              },
+              {
+                "text": "or ",
+                "start": 3.011,
+                "end": 3.134
+              },
+              {
+                "text": "an ",
+                "start": 3.134,
+                "end": 3.257
+              },
+              {
+                "text": "internal ",
+                "start": 3.257,
+                "end": 3.748
+              },
+              {
+                "text": "review. ",
+                "start": 3.748,
+                "end": 4.177
+              },
+              {
+                "text": "If ",
+                "start": 4.177,
+                "end": 4.3
+              },
+              {
+                "text": "the ",
+                "start": 4.3,
+                "end": 4.484
+              },
+              {
+                "text": "coin, ",
+                "start": 4.484,
+                "end": 4.791
+              },
+              {
+                "text": "network, ",
+                "start": 4.791,
+                "end": 5.282
+              },
+              {
+                "text": "address ",
+                "start": 5.282,
+                "end": 5.711
+              },
+              {
+                "text": "or ",
+                "start": 5.711,
+                "end": 5.834
+              },
+              {
+                "text": "memo ",
+                "start": 5.834,
+                "end": 6.08
+              },
+              {
+                "text": "was ",
+                "start": 6.08,
+                "end": 6.264
+              },
+              {
+                "text": "wrong, ",
+                "start": 6.264,
+                "end": 6.632
+              },
+              {
+                "text": "stop ",
+                "start": 6.632,
+                "end": 6.877
+              },
+              {
+                "text": "sending ",
+                "start": 6.877,
+                "end": 7.307
+              },
+              {
+                "text": "and ",
+                "start": 7.307,
+                "end": 7.491
+              },
+              {
+                "text": "give ",
+                "start": 7.491,
+                "end": 7.737
+              },
+              {
+                "text": "the ",
+                "start": 7.737,
+                "end": 7.921
+              },
+              {
+                "text": "facts ",
+                "start": 7.921,
+                "end": 8.227
+              },
+              {
+                "text": "to ",
+                "start": 8.227,
+                "end": 8.35
+              },
+              {
+                "text": "official ",
+                "start": 8.35,
+                "end": 8.841
+              },
+              {
+                "text": "support.",
+                "start": 8.841,
+                "end": 9.332
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "接收",
+                "start": 0.25,
+                "end": 0.593
+              },
+              {
+                "text": "平台",
+                "start": 0.593,
+                "end": 0.935
+              },
+              {
+                "text": "可能",
+                "start": 0.935,
+                "end": 1.278
+              },
+              {
+                "text": "还",
+                "start": 1.278,
+                "end": 1.45
+              },
+              {
+                "text": "需要",
+                "start": 1.45,
+                "end": 1.792
+              },
+              {
+                "text": "确认",
+                "start": 1.792,
+                "end": 2.135
+              },
+              {
+                "text": "数",
+                "start": 2.135,
+                "end": 2.306
+              },
+              {
+                "text": "或",
+                "start": 2.306,
+                "end": 2.478
+              },
+              {
+                "text": "内部",
+                "start": 2.478,
+                "end": 2.82
+              },
+              {
+                "text": "审核。",
+                "start": 2.82,
+                "end": 3.334
+              },
+              {
+                "text": "若",
+                "start": 3.334,
+                "end": 3.506
+              },
+              {
+                "text": "币",
+                "start": 3.506,
+                "end": 3.677
+              },
+              {
+                "text": "种、",
+                "start": 3.677,
+                "end": 4.02
+              },
+              {
+                "text": "网络、",
+                "start": 4.02,
+                "end": 4.534
+              },
+              {
+                "text": "地址",
+                "start": 4.534,
+                "end": 4.877
+              },
+              {
+                "text": "或",
+                "start": 4.877,
+                "end": 5.048
+              },
+              {
+                "text": "备注",
+                "start": 5.048,
+                "end": 5.391
+              },
+              {
+                "text": "填",
+                "start": 5.391,
+                "end": 5.562
+              },
+              {
+                "text": "错，",
+                "start": 5.562,
+                "end": 5.905
+              },
+              {
+                "text": "先",
+                "start": 5.905,
+                "end": 6.076
+              },
+              {
+                "text": "停止",
+                "start": 6.076,
+                "end": 6.419
+              },
+              {
+                "text": "继续",
+                "start": 6.419,
+                "end": 6.762
+              },
+              {
+                "text": "转账，",
+                "start": 6.762,
+                "end": 7.276
+              },
+              {
+                "text": "提交",
+                "start": 7.276,
+                "end": 7.618
+              },
+              {
+                "text": "事实",
+                "start": 7.618,
+                "end": 7.961
+              },
+              {
+                "text": "资料",
+                "start": 7.961,
+                "end": 8.304
+              },
+              {
+                "text": "给",
+                "start": 8.304,
+                "end": 8.475
+              },
+              {
+                "text": "官方",
+                "start": 8.475,
+                "end": 8.818
+              },
+              {
+                "text": "客",
+                "start": 8.818,
+                "end": 8.989
+              },
+              {
+                "text": "服。",
+                "start": 8.989,
+                "end": 9.332
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Pending → sender",
+                "zh-Hans": "待发送 → 找发送方"
+              }
+            },
+            {
+              "label": {
+                "en": "On-chain OK, not credited → receiver",
+                "zh-Hans": "链上成功未入账 → 找接收方"
+              }
+            },
+            {
+              "label": {
+                "en": "Wrong network / tag → pause",
+                "zh-Hans": "网络或标签错误 → 先暂停"
+              },
+              "mark": "warn"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "分支卡：待发送找发送方；链上成功未入账找接收方；网络或标签错误先暂停。",
+      "source_onscreen_text": {
+        "en": [
+          "Pending → sender",
+          "On-chain OK, not credited → receiver",
+          "Wrong network / tag → pause"
+        ],
+        "zh-Hans": [
+          "待发送 → 找发送方",
+          "链上成功未入账 → 找接收方",
+          "网络或标签错误 → 先暂停"
+        ]
+      }
+    },
+    {
+      "id": "recovery-scam",
+      "duration": 19,
+      "set": "transfer-station",
+      "visual_en": "A stranger pops up: 'Pay an unlock fee, guaranteed recovery.' Sam closes it. A timeline that does not rewind.",
+      "visual_zh": "陌生人弹出“交解冻费保证找回”，被小白关闭；时间线不倒流。",
+      "onscreen_text_en": "On-chain transfers don't rewind",
+      "onscreen_text_zh-Hans": "链上转账不能倒回",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "A completed on-chain transfer usually can't be undone like a normal action. Whether it can be recovered depends on technical and platform conditions. There's no guarantee. Don't believe anyone who says paying a fee will surely get it back.",
+            "zh-Hans": "通常不能像撤销普通操作一样撤回已完成的链上转账。是否能找回，要看技术和平台条件，不能保证；别相信付钱就必定找回。"
+          },
+          "start": 0.25,
+          "end": 13.454,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e10-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 13.204
+          },
+          "words": {
+            "en": [
+              {
+                "text": "A ",
+                "start": 0.25,
+                "end": 0.316
+              },
+              {
+                "text": "completed ",
+                "start": 0.316,
+                "end": 0.907
+              },
+              {
+                "text": "on-",
+                "start": 0.907,
+                "end": 1.104
+              },
+              {
+                "text": "chain ",
+                "start": 1.104,
+                "end": 1.432
+              },
+              {
+                "text": "transfer ",
+                "start": 1.432,
+                "end": 1.958
+              },
+              {
+                "text": "usually ",
+                "start": 1.958,
+                "end": 2.418
+              },
+              {
+                "text": "can't ",
+                "start": 2.418,
+                "end": 2.746
+              },
+              {
+                "text": "be ",
+                "start": 2.746,
+                "end": 2.878
+              },
+              {
+                "text": "undone ",
+                "start": 2.878,
+                "end": 3.272
+              },
+              {
+                "text": "like ",
+                "start": 3.272,
+                "end": 3.535
+              },
+              {
+                "text": "a ",
+                "start": 3.535,
+                "end": 3.6
+              },
+              {
+                "text": "normal ",
+                "start": 3.6,
+                "end": 3.994
+              },
+              {
+                "text": "action. ",
+                "start": 3.994,
+                "end": 4.454
+              },
+              {
+                "text": "Whether ",
+                "start": 4.454,
+                "end": 4.914
+              },
+              {
+                "text": "it ",
+                "start": 4.914,
+                "end": 5.045
+              },
+              {
+                "text": "can ",
+                "start": 5.045,
+                "end": 5.243
+              },
+              {
+                "text": "be ",
+                "start": 5.243,
+                "end": 5.374
+              },
+              {
+                "text": "recovered ",
+                "start": 5.374,
+                "end": 5.965
+              },
+              {
+                "text": "depends ",
+                "start": 5.965,
+                "end": 6.425
+              },
+              {
+                "text": "on ",
+                "start": 6.425,
+                "end": 6.556
+              },
+              {
+                "text": "technical ",
+                "start": 6.556,
+                "end": 7.148
+              },
+              {
+                "text": "and ",
+                "start": 7.148,
+                "end": 7.345
+              },
+              {
+                "text": "platform ",
+                "start": 7.345,
+                "end": 7.87
+              },
+              {
+                "text": "conditions. ",
+                "start": 7.87,
+                "end": 8.593
+              },
+              {
+                "text": "There's ",
+                "start": 8.593,
+                "end": 9.053
+              },
+              {
+                "text": "no ",
+                "start": 9.053,
+                "end": 9.184
+              },
+              {
+                "text": "guarantee. ",
+                "start": 9.184,
+                "end": 9.841
+              },
+              {
+                "text": "Don't ",
+                "start": 9.841,
+                "end": 10.169
+              },
+              {
+                "text": "believe ",
+                "start": 10.169,
+                "end": 10.629
+              },
+              {
+                "text": "anyone ",
+                "start": 10.629,
+                "end": 11.023
+              },
+              {
+                "text": "who ",
+                "start": 11.023,
+                "end": 11.22
+              },
+              {
+                "text": "says ",
+                "start": 11.22,
+                "end": 11.483
+              },
+              {
+                "text": "paying ",
+                "start": 11.483,
+                "end": 11.877
+              },
+              {
+                "text": "a ",
+                "start": 11.877,
+                "end": 11.943
+              },
+              {
+                "text": "fee ",
+                "start": 11.943,
+                "end": 12.14
+              },
+              {
+                "text": "will ",
+                "start": 12.14,
+                "end": 12.403
+              },
+              {
+                "text": "surely ",
+                "start": 12.403,
+                "end": 12.797
+              },
+              {
+                "text": "get ",
+                "start": 12.797,
+                "end": 12.994
+              },
+              {
+                "text": "it ",
+                "start": 12.994,
+                "end": 13.126
+              },
+              {
+                "text": "back.",
+                "start": 13.126,
+                "end": 13.454
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "通常",
+                "start": 0.25,
+                "end": 0.722
+              },
+              {
+                "text": "不能",
+                "start": 0.722,
+                "end": 1.193
+              },
+              {
+                "text": "像",
+                "start": 1.193,
+                "end": 1.429
+              },
+              {
+                "text": "撤销",
+                "start": 1.429,
+                "end": 1.9
+              },
+              {
+                "text": "普通",
+                "start": 1.9,
+                "end": 2.372
+              },
+              {
+                "text": "操作",
+                "start": 2.372,
+                "end": 2.844
+              },
+              {
+                "text": "一样",
+                "start": 2.844,
+                "end": 3.315
+              },
+              {
+                "text": "撤回",
+                "start": 3.315,
+                "end": 3.787
+              },
+              {
+                "text": "已",
+                "start": 3.787,
+                "end": 4.023
+              },
+              {
+                "text": "完成",
+                "start": 4.023,
+                "end": 4.494
+              },
+              {
+                "text": "的",
+                "start": 4.494,
+                "end": 4.73
+              },
+              {
+                "text": "链",
+                "start": 4.73,
+                "end": 4.966
+              },
+              {
+                "text": "上",
+                "start": 4.966,
+                "end": 5.202
+              },
+              {
+                "text": "转账。",
+                "start": 5.202,
+                "end": 5.909
+              },
+              {
+                "text": "是否",
+                "start": 5.909,
+                "end": 6.38
+              },
+              {
+                "text": "能",
+                "start": 6.38,
+                "end": 6.616
+              },
+              {
+                "text": "找回，",
+                "start": 6.616,
+                "end": 7.324
+              },
+              {
+                "text": "要",
+                "start": 7.324,
+                "end": 7.559
+              },
+              {
+                "text": "看",
+                "start": 7.559,
+                "end": 7.795
+              },
+              {
+                "text": "技术",
+                "start": 7.795,
+                "end": 8.267
+              },
+              {
+                "text": "和",
+                "start": 8.267,
+                "end": 8.503
+              },
+              {
+                "text": "平台",
+                "start": 8.503,
+                "end": 8.974
+              },
+              {
+                "text": "条件，",
+                "start": 8.974,
+                "end": 9.681
+              },
+              {
+                "text": "不能",
+                "start": 9.681,
+                "end": 10.153
+              },
+              {
+                "text": "保证；",
+                "start": 10.153,
+                "end": 10.86
+              },
+              {
+                "text": "别",
+                "start": 10.86,
+                "end": 11.096
+              },
+              {
+                "text": "相信",
+                "start": 11.096,
+                "end": 11.568
+              },
+              {
+                "text": "付钱",
+                "start": 11.568,
+                "end": 12.039
+              },
+              {
+                "text": "就",
+                "start": 12.039,
+                "end": 12.275
+              },
+              {
+                "text": "必定",
+                "start": 12.275,
+                "end": 12.747
+              },
+              {
+                "text": "找回。",
+                "start": 12.747,
+                "end": 13.454
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "\"Pay a fee, guaranteed recovery\" = scam",
+            "zh-Hans": "“交费保证找回”＝骗局"
+          }
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "陌生人弹出“交解冻费保证找回”，被小白关闭；时间线不倒流。",
+      "source_onscreen_text": {
+        "en": [
+          "\"Pay a fee, guaranteed recovery\" = scam"
+        ],
+        "zh-Hans": [
+          "“交费保证找回”＝骗局"
+        ]
+      }
+    },
+    {
+      "id": "support-quiz",
+      "duration": 13,
+      "set": "transfer-station",
+      "visual_en": "Question card: 'Does support need your transaction hash, or your recovery phrase?'",
+      "visual_zh": "题目：客服排查需要哈希，还是助记词？",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Give the records they need. Never the recovery phrase, private key or codes.",
+            "zh-Hans": "提供必要交易记录，不提供助记词、私钥和验证码。"
+          },
+          "start": 0.25,
+          "end": 4.621,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e10-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 4.371
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Give ",
+                "start": 0.25,
+                "end": 0.523
+              },
+              {
+                "text": "the ",
+                "start": 0.523,
+                "end": 0.728
+              },
+              {
+                "text": "records ",
+                "start": 0.728,
+                "end": 1.206
+              },
+              {
+                "text": "they ",
+                "start": 1.206,
+                "end": 1.479
+              },
+              {
+                "text": "need. ",
+                "start": 1.479,
+                "end": 1.821
+              },
+              {
+                "text": "Never ",
+                "start": 1.821,
+                "end": 2.162
+              },
+              {
+                "text": "the ",
+                "start": 2.162,
+                "end": 2.367
+              },
+              {
+                "text": "recovery ",
+                "start": 2.367,
+                "end": 2.914
+              },
+              {
+                "text": "phrase, ",
+                "start": 2.914,
+                "end": 3.392
+              },
+              {
+                "text": "private ",
+                "start": 3.392,
+                "end": 3.87
+              },
+              {
+                "text": "key ",
+                "start": 3.87,
+                "end": 4.075
+              },
+              {
+                "text": "or ",
+                "start": 4.075,
+                "end": 4.211
+              },
+              {
+                "text": "codes.",
+                "start": 4.211,
+                "end": 4.621
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "提供",
+                "start": 0.25,
+                "end": 0.63
+              },
+              {
+                "text": "必要",
+                "start": 0.63,
+                "end": 1.01
+              },
+              {
+                "text": "交易",
+                "start": 1.01,
+                "end": 1.39
+              },
+              {
+                "text": "记录，",
+                "start": 1.39,
+                "end": 1.96
+              },
+              {
+                "text": "不",
+                "start": 1.96,
+                "end": 2.15
+              },
+              {
+                "text": "提供",
+                "start": 2.15,
+                "end": 2.531
+              },
+              {
+                "text": "助",
+                "start": 2.531,
+                "end": 2.721
+              },
+              {
+                "text": "记",
+                "start": 2.721,
+                "end": 2.911
+              },
+              {
+                "text": "词、",
+                "start": 2.911,
+                "end": 3.291
+              },
+              {
+                "text": "私",
+                "start": 3.291,
+                "end": 3.481
+              },
+              {
+                "text": "钥",
+                "start": 3.481,
+                "end": 3.671
+              },
+              {
+                "text": "和",
+                "start": 3.671,
+                "end": 3.861
+              },
+              {
+                "text": "验证",
+                "start": 3.861,
+                "end": 4.241
+              },
+              {
+                "text": "码。",
+                "start": 4.241,
+                "end": 4.621
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Right. Find where it's stuck first. Don't keep sending.",
+            "zh-Hans": "对，先定位，不盲目补转。"
+          },
+          "start": 4.921,
+          "end": 8.057,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e10-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 3.136
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Right. ",
+                "start": 4.921,
+                "end": 5.321
+              },
+              {
+                "text": "Find ",
+                "start": 5.321,
+                "end": 5.588
+              },
+              {
+                "text": "where ",
+                "start": 5.588,
+                "end": 5.922
+              },
+              {
+                "text": "it's ",
+                "start": 5.922,
+                "end": 6.189
+              },
+              {
+                "text": "stuck ",
+                "start": 6.189,
+                "end": 6.522
+              },
+              {
+                "text": "first. ",
+                "start": 6.522,
+                "end": 6.923
+              },
+              {
+                "text": "Don't ",
+                "start": 6.923,
+                "end": 7.256
+              },
+              {
+                "text": "keep ",
+                "start": 7.256,
+                "end": 7.523
+              },
+              {
+                "text": "sending.",
+                "start": 7.523,
+                "end": 8.057
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "对，",
+                "start": 4.921,
+                "end": 5.444
+              },
+              {
+                "text": "先",
+                "start": 5.444,
+                "end": 5.705
+              },
+              {
+                "text": "定位，",
+                "start": 5.705,
+                "end": 6.489
+              },
+              {
+                "text": "不",
+                "start": 6.489,
+                "end": 6.75
+              },
+              {
+                "text": "盲目",
+                "start": 6.75,
+                "end": 7.273
+              },
+              {
+                "text": "补",
+                "start": 7.273,
+                "end": 7.534
+              },
+              {
+                "text": "转。",
+                "start": 7.534,
+                "end": 8.057
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Does support need your transaction hash, or your recovery phrase?",
+            "zh-Hans": "客服需要交易哈希，还是助记词？"
+          },
+          "options": [
+            {
+              "label": {
+                "en": "Tx hash",
+                "zh-Hans": "交易哈希"
+              },
+              "correct": true
+            },
+            {
+              "label": {
+                "en": "Recovery phrase",
+                "zh-Hans": "助记词"
+              },
+              "correct": false
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "题目：客服排查需要哈希，还是助记词？",
+      "source_onscreen_text": {
+        "en": [
+          "Tx hash ✓",
+          "Recovery phrase ✗"
+        ],
+        "zh-Hans": [
+          "交易哈希 ✓",
+          "助记词 ✗"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 6.2,
+    "pose": "point",
+    "text": {
+      "en": "'Hi, I'm support. Send me your recovery phrase.' Next: what scammers really want.",
+      "zh-Hans": "“我是客服，把恢复词发给我。”下一集：骗子到底要什么。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "'Hi, I'm support. Send me your recovery phrase.' Next: what scammers really want.",
+          "zh-Hans": "“我是客服，把恢复词发给我。”下一集：骗子到底要什么。"
+        },
+        "start": 0.25,
+        "end": 5.905,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e10-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 5.655
+        },
+        "words": {
+          "en": [
+            {
+              "text": "'",
+              "start": 0.25,
+              "end": 0.332
+            },
+            {
+              "text": "Hi, ",
+              "start": 0.332,
+              "end": 0.578
+            },
+            {
+              "text": "I'm ",
+              "start": 0.578,
+              "end": 0.824
+            },
+            {
+              "text": "support. ",
+              "start": 0.824,
+              "end": 1.479
+            },
+            {
+              "text": "Send ",
+              "start": 1.479,
+              "end": 1.807
+            },
+            {
+              "text": "me ",
+              "start": 1.807,
+              "end": 1.971
+            },
+            {
+              "text": "your ",
+              "start": 1.971,
+              "end": 2.299
+            },
+            {
+              "text": "recovery ",
+              "start": 2.299,
+              "end": 2.955
+            },
+            {
+              "text": "phrase.' ",
+              "start": 2.955,
+              "end": 3.61
+            },
+            {
+              "text": "Next: ",
+              "start": 3.61,
+              "end": 4.02
+            },
+            {
+              "text": "what ",
+              "start": 4.02,
+              "end": 4.348
+            },
+            {
+              "text": "scammers ",
+              "start": 4.348,
+              "end": 5.003
+            },
+            {
+              "text": "really ",
+              "start": 5.003,
+              "end": 5.495
+            },
+            {
+              "text": "want.",
+              "start": 5.495,
+              "end": 5.905
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "“",
+              "start": 0.25,
+              "end": 0.459
+            },
+            {
+              "text": "我是",
+              "start": 0.459,
+              "end": 0.878
+            },
+            {
+              "text": "客",
+              "start": 0.878,
+              "end": 1.088
+            },
+            {
+              "text": "服，",
+              "start": 1.088,
+              "end": 1.507
+            },
+            {
+              "text": "把",
+              "start": 1.507,
+              "end": 1.716
+            },
+            {
+              "text": "恢复",
+              "start": 1.716,
+              "end": 2.135
+            },
+            {
+              "text": "词",
+              "start": 2.135,
+              "end": 2.344
+            },
+            {
+              "text": "发",
+              "start": 2.344,
+              "end": 2.554
+            },
+            {
+              "text": "给",
+              "start": 2.554,
+              "end": 2.763
+            },
+            {
+              "text": "我。”",
+              "start": 2.763,
+              "end": 3.392
+            },
+            {
+              "text": "下",
+              "start": 3.392,
+              "end": 3.601
+            },
+            {
+              "text": "一",
+              "start": 3.601,
+              "end": 3.811
+            },
+            {
+              "text": "集：",
+              "start": 3.811,
+              "end": 4.229
+            },
+            {
+              "text": "骗子",
+              "start": 4.229,
+              "end": 4.648
+            },
+            {
+              "text": "到底",
+              "start": 4.648,
+              "end": 5.067
+            },
+            {
+              "text": "要",
+              "start": 5.067,
+              "end": 5.277
+            },
+            {
+              "text": "什么。",
+              "start": 5.277,
+              "end": 5.905
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.167,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e10-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.917
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.049
+          },
+          {
+            "text": "first, ",
+            "start": 1.049,
+            "end": 1.528
+          },
+          {
+            "text": "then ",
+            "start": 1.528,
+            "end": 1.848
+          },
+          {
+            "text": "act.",
+            "start": 1.848,
+            "end": 2.167
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.49
+          },
+          {
+            "text": "看懂，",
+            "start": 0.49,
+            "end": 1.209
+          },
+          {
+            "text": "再",
+            "start": 1.209,
+            "end": 1.448
+          },
+          {
+            "text": "动手。",
+            "start": 1.448,
+            "end": 2.167
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E10.json",
+    "original_slug": "transfer-not-arrived",
+    "goal": {
+      "en": "Tell apart sender processing, on-chain confirmation and crediting by the receiver, and know the limited ways to fix things.",
+      "zh-Hans": "能区分发送方处理、链上确认和平台入账，知道有限补救路径。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Stuck transfer? Contact only the official support of the sending or receiving platform.",
+      "line_zh": "转账卡住？只联系发送方或接收方平台的官方客服。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Match three problem scenarios to: the sender, the on-chain status and the receiver.",
+      "task_zh": "将三个故障场景匹配到发送方、链上状态和接收方。",
+      "answer_en": "Find the status, then use the matching official channel. If the cause is unknown, don't pay again.",
+      "answer_zh": "定位状态再找相应官方渠道；未知原因不重复付款。"
+    },
+    "red_lines": [
+      "On-chain completion does not mean the exchange has credited it ｜ 链上完成不代表交易所入账",
+      "Never say every wrong-chain transfer can be recovered, or can never be recovered ｜ 不得把所有错链都说成能找回或绝对无法找回",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S13",
+      "S15",
+      "S16"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "warning",
+      "flow",
+      "checklist",
+      "cards",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

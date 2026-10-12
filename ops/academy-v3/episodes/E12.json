@@ -1,0 +1,2862 @@
+{
+  "version": 1,
+  "production_id": "E12",
+  "episode": 12,
+  "season": 1,
+  "slug": "season-1-finale",
+  "title": {
+    "en": "Season 1 finale: you can do it, and you can choose not to",
+    "zh-Hans": "第一季结课：你能完成，也能选择不做"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E12' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第12集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "deposit-now",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "Sam faces two doors, 'Start real trading' and 'Finish practice first', and picks the second.",
+      "visual_zh": "小白面对“开始真实交易”和“先完成练习”两个入口，选择后者。",
+      "onscreen_text_en": "Deposit now?",
+      "onscreen_text_zh-Hans": "现在就入金？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "I've watched eleven episodes. Should I deposit now?",
+            "zh-Hans": "我看了十一集，是不是现在就该充值？"
+          },
+          "start": 0.25,
+          "end": 3.832,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e12-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.582
+          },
+          "words": {
+            "en": [
+              {
+                "text": "I've ",
+                "start": 0.25,
+                "end": 0.576
+              },
+              {
+                "text": "watched ",
+                "start": 0.576,
+                "end": 1.146
+              },
+              {
+                "text": "eleven ",
+                "start": 1.146,
+                "end": 1.634
+              },
+              {
+                "text": "episodes. ",
+                "start": 1.634,
+                "end": 2.367
+              },
+              {
+                "text": "Should ",
+                "start": 2.367,
+                "end": 2.855
+              },
+              {
+                "text": "I ",
+                "start": 2.855,
+                "end": 2.936
+              },
+              {
+                "text": "deposit ",
+                "start": 2.936,
+                "end": 3.506
+              },
+              {
+                "text": "now?",
+                "start": 3.506,
+                "end": 3.832
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "我",
+                "start": 0.25,
+                "end": 0.461
+              },
+              {
+                "text": "看了",
+                "start": 0.461,
+                "end": 0.882
+              },
+              {
+                "text": "十一",
+                "start": 0.882,
+                "end": 1.304
+              },
+              {
+                "text": "集，",
+                "start": 1.304,
+                "end": 1.725
+              },
+              {
+                "text": "是不是",
+                "start": 1.725,
+                "end": 2.357
+              },
+              {
+                "text": "现在",
+                "start": 2.357,
+                "end": 2.778
+              },
+              {
+                "text": "就",
+                "start": 2.778,
+                "end": 2.989
+              },
+              {
+                "text": "该",
+                "start": 2.989,
+                "end": 3.2
+              },
+              {
+                "text": "充",
+                "start": 3.2,
+                "end": 3.411
+              },
+              {
+                "text": "值？",
+                "start": 3.411,
+                "end": 3.832
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Start real trading",
+                "zh-Hans": "开始真实交易"
+              },
+              "mark": "warn"
+            },
+            {
+              "label": {
+                "en": "Finish practice first",
+                "zh-Hans": "先完成练习"
+              },
+              "mark": "ok"
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白面对“开始真实交易”和“先完成练习”两个入口，选择后者。",
+      "source_onscreen_text": {
+        "en": [
+          "Start real trading",
+          "Finish practice first"
+        ],
+        "zh-Hans": [
+          "开始真实交易",
+          "先完成练习"
+        ]
+      }
+    },
+    {
+      "id": "task-sheet",
+      "duration": 30,
+      "set": "study-desk",
+      "visual_en": "Nexubo opens a task sheet: identity and region confirmed; every balance labelled VIRTUAL.",
+      "visual_zh": "小纳打开一张任务单：身份与地区已确认，所有余额均标为虚拟。",
+      "onscreen_text_en": "One practice flow",
+      "onscreen_text_zh-Hans": "一次练习流程",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Learning how doesn't mean you have to invest. Today, with practice money only, we'll run one flow: check the entry and eligibility, find spot, confirm the amount and fee, then check the trade record.",
+            "zh-Hans": "学会操作，不代表必须投资。今天只用模拟资金完成一条流程：核对入口和资格，找到现货，确认金额与费用，再查看成交记录。"
+          },
+          "start": 0.25,
+          "end": 11.861,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e12-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.611
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Learning ",
+                "start": 0.25,
+                "end": 0.81
+              },
+              {
+                "text": "how ",
+                "start": 0.81,
+                "end": 1.019
+              },
+              {
+                "text": "doesn't ",
+                "start": 1.019,
+                "end": 1.509
+              },
+              {
+                "text": "mean ",
+                "start": 1.509,
+                "end": 1.789
+              },
+              {
+                "text": "you ",
+                "start": 1.789,
+                "end": 1.999
+              },
+              {
+                "text": "have ",
+                "start": 1.999,
+                "end": 2.278
+              },
+              {
+                "text": "to ",
+                "start": 2.278,
+                "end": 2.418
+              },
+              {
+                "text": "invest. ",
+                "start": 2.418,
+                "end": 2.908
+              },
+              {
+                "text": "Today, ",
+                "start": 2.908,
+                "end": 3.328
+              },
+              {
+                "text": "with ",
+                "start": 3.328,
+                "end": 3.607
+              },
+              {
+                "text": "practice ",
+                "start": 3.607,
+                "end": 4.167
+              },
+              {
+                "text": "money ",
+                "start": 4.167,
+                "end": 4.517
+              },
+              {
+                "text": "only, ",
+                "start": 4.517,
+                "end": 4.866
+              },
+              {
+                "text": "we'll ",
+                "start": 4.866,
+                "end": 5.216
+              },
+              {
+                "text": "run ",
+                "start": 5.216,
+                "end": 5.426
+              },
+              {
+                "text": "one ",
+                "start": 5.426,
+                "end": 5.636
+              },
+              {
+                "text": "flow: ",
+                "start": 5.636,
+                "end": 5.986
+              },
+              {
+                "text": "check ",
+                "start": 5.986,
+                "end": 6.335
+              },
+              {
+                "text": "the ",
+                "start": 6.335,
+                "end": 6.545
+              },
+              {
+                "text": "entry ",
+                "start": 6.545,
+                "end": 6.895
+              },
+              {
+                "text": "and ",
+                "start": 6.895,
+                "end": 7.105
+              },
+              {
+                "text": "eligibility, ",
+                "start": 7.105,
+                "end": 7.944
+              },
+              {
+                "text": "find ",
+                "start": 7.944,
+                "end": 8.224
+              },
+              {
+                "text": "spot, ",
+                "start": 8.224,
+                "end": 8.574
+              },
+              {
+                "text": "confirm ",
+                "start": 8.574,
+                "end": 9.063
+              },
+              {
+                "text": "the ",
+                "start": 9.063,
+                "end": 9.273
+              },
+              {
+                "text": "amount ",
+                "start": 9.273,
+                "end": 9.693
+              },
+              {
+                "text": "and ",
+                "start": 9.693,
+                "end": 9.903
+              },
+              {
+                "text": "fee, ",
+                "start": 9.903,
+                "end": 10.182
+              },
+              {
+                "text": "then ",
+                "start": 10.182,
+                "end": 10.462
+              },
+              {
+                "text": "check ",
+                "start": 10.462,
+                "end": 10.812
+              },
+              {
+                "text": "the ",
+                "start": 10.812,
+                "end": 11.022
+              },
+              {
+                "text": "trade ",
+                "start": 11.022,
+                "end": 11.371
+              },
+              {
+                "text": "record.",
+                "start": 11.371,
+                "end": 11.861
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "学会",
+                "start": 0.25,
+                "end": 0.657
+              },
+              {
+                "text": "操作，",
+                "start": 0.657,
+                "end": 1.269
+              },
+              {
+                "text": "不",
+                "start": 1.269,
+                "end": 1.472
+              },
+              {
+                "text": "代表",
+                "start": 1.472,
+                "end": 1.88
+              },
+              {
+                "text": "必须",
+                "start": 1.88,
+                "end": 2.287
+              },
+              {
+                "text": "投资。",
+                "start": 2.287,
+                "end": 2.898
+              },
+              {
+                "text": "今天",
+                "start": 2.898,
+                "end": 3.306
+              },
+              {
+                "text": "只用",
+                "start": 3.306,
+                "end": 3.713
+              },
+              {
+                "text": "模拟",
+                "start": 3.713,
+                "end": 4.12
+              },
+              {
+                "text": "资金",
+                "start": 4.12,
+                "end": 4.528
+              },
+              {
+                "text": "完成",
+                "start": 4.528,
+                "end": 4.935
+              },
+              {
+                "text": "一条",
+                "start": 4.935,
+                "end": 5.343
+              },
+              {
+                "text": "流程：",
+                "start": 5.343,
+                "end": 5.954
+              },
+              {
+                "text": "核对",
+                "start": 5.954,
+                "end": 6.361
+              },
+              {
+                "text": "入口",
+                "start": 6.361,
+                "end": 6.768
+              },
+              {
+                "text": "和",
+                "start": 6.768,
+                "end": 6.972
+              },
+              {
+                "text": "资格，",
+                "start": 6.972,
+                "end": 7.583
+              },
+              {
+                "text": "找到",
+                "start": 7.583,
+                "end": 7.991
+              },
+              {
+                "text": "现货，",
+                "start": 7.991,
+                "end": 8.602
+              },
+              {
+                "text": "确认",
+                "start": 8.602,
+                "end": 9.009
+              },
+              {
+                "text": "金额",
+                "start": 9.009,
+                "end": 9.417
+              },
+              {
+                "text": "与",
+                "start": 9.417,
+                "end": 9.62
+              },
+              {
+                "text": "费用，",
+                "start": 9.62,
+                "end": 10.231
+              },
+              {
+                "text": "再",
+                "start": 10.231,
+                "end": 10.435
+              },
+              {
+                "text": "查看",
+                "start": 10.435,
+                "end": 10.842
+              },
+              {
+                "text": "成交",
+                "start": 10.842,
+                "end": 11.25
+              },
+              {
+                "text": "记录。",
+                "start": 11.25,
+                "end": 11.861
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "title": {
+            "en": "VIRTUAL",
+            "zh-Hans": "虚拟"
+          },
+          "items": [
+            {
+              "label": {
+                "en": "Entry & eligibility",
+                "zh-Hans": "入口与资格"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Spot",
+                "zh-Hans": "现货"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Amount & fee",
+                "zh-Hans": "金额与费用"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Trade record",
+                "zh-Hans": "成交记录"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:39",
+      "source_visual_zh": "小纳打开一张任务单：身份与地区已确认，所有余额均标为虚拟。",
+      "source_onscreen_text": {
+        "en": [
+          "VIRTUAL",
+          "Entry & eligibility",
+          "Spot",
+          "Amount & fee",
+          "Trade record"
+        ],
+        "zh-Hans": [
+          "虚拟",
+          "入口与资格",
+          "现货",
+          "金额与费用",
+          "成交记录"
+        ]
+      }
+    },
+    {
+      "id": "checks-not-profit",
+      "duration": 36,
+      "set": "study-desk",
+      "visual_en": "After the practice buy, the price drops; the checklist still gets ticks. No profit medal.",
+      "visual_zh": "模拟买入后价格下跌，系统仍给操作核对项打勾，不发利润奖章。",
+      "onscreen_text_en": "Price fell, checks still pass",
+      "onscreen_text_zh-Hans": "价格跌了，检查照样合格",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Even if the price falls in practice, you can still do everything right. We score whether you checked and understood, not whether you happened to pick a rise.",
+            "zh-Hans": "练习里即使价格下跌，你也可能把操作做对。我们评分看的是是否核对、是否理解，而不是你碰巧选中了上涨。"
+          },
+          "start": 0.25,
+          "end": 7.691,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e12-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 7.441
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Even ",
+                "start": 0.25,
+                "end": 0.479
+              },
+              {
+                "text": "if ",
+                "start": 0.479,
+                "end": 0.593
+              },
+              {
+                "text": "the ",
+                "start": 0.593,
+                "end": 0.765
+              },
+              {
+                "text": "price ",
+                "start": 0.765,
+                "end": 1.051
+              },
+              {
+                "text": "falls ",
+                "start": 1.051,
+                "end": 1.338
+              },
+              {
+                "text": "in ",
+                "start": 1.338,
+                "end": 1.452
+              },
+              {
+                "text": "practice, ",
+                "start": 1.452,
+                "end": 1.967
+              },
+              {
+                "text": "you ",
+                "start": 1.967,
+                "end": 2.139
+              },
+              {
+                "text": "can ",
+                "start": 2.139,
+                "end": 2.311
+              },
+              {
+                "text": "still ",
+                "start": 2.311,
+                "end": 2.597
+              },
+              {
+                "text": "do ",
+                "start": 2.597,
+                "end": 2.711
+              },
+              {
+                "text": "everything ",
+                "start": 2.711,
+                "end": 3.284
+              },
+              {
+                "text": "right. ",
+                "start": 3.284,
+                "end": 3.627
+              },
+              {
+                "text": "We ",
+                "start": 3.627,
+                "end": 3.742
+              },
+              {
+                "text": "score ",
+                "start": 3.742,
+                "end": 4.028
+              },
+              {
+                "text": "whether ",
+                "start": 4.028,
+                "end": 4.428
+              },
+              {
+                "text": "you ",
+                "start": 4.428,
+                "end": 4.6
+              },
+              {
+                "text": "checked ",
+                "start": 4.6,
+                "end": 5.001
+              },
+              {
+                "text": "and ",
+                "start": 5.001,
+                "end": 5.173
+              },
+              {
+                "text": "understood, ",
+                "start": 5.173,
+                "end": 5.802
+              },
+              {
+                "text": "not ",
+                "start": 5.802,
+                "end": 5.974
+              },
+              {
+                "text": "whether ",
+                "start": 5.974,
+                "end": 6.375
+              },
+              {
+                "text": "you ",
+                "start": 6.375,
+                "end": 6.546
+              },
+              {
+                "text": "happened ",
+                "start": 6.546,
+                "end": 7.004
+              },
+              {
+                "text": "to ",
+                "start": 7.004,
+                "end": 7.119
+              },
+              {
+                "text": "pick ",
+                "start": 7.119,
+                "end": 7.348
+              },
+              {
+                "text": "a ",
+                "start": 7.348,
+                "end": 7.405
+              },
+              {
+                "text": "rise.",
+                "start": 7.405,
+                "end": 7.691
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "练习",
+                "start": 0.25,
+                "end": 0.554
+              },
+              {
+                "text": "里",
+                "start": 0.554,
+                "end": 0.706
+              },
+              {
+                "text": "即使",
+                "start": 0.706,
+                "end": 1.009
+              },
+              {
+                "text": "价格",
+                "start": 1.009,
+                "end": 1.313
+              },
+              {
+                "text": "下跌，",
+                "start": 1.313,
+                "end": 1.769
+              },
+              {
+                "text": "你",
+                "start": 1.769,
+                "end": 1.92
+              },
+              {
+                "text": "也",
+                "start": 1.92,
+                "end": 2.072
+              },
+              {
+                "text": "可能",
+                "start": 2.072,
+                "end": 2.376
+              },
+              {
+                "text": "把",
+                "start": 2.376,
+                "end": 2.528
+              },
+              {
+                "text": "操作",
+                "start": 2.528,
+                "end": 2.832
+              },
+              {
+                "text": "做",
+                "start": 2.832,
+                "end": 2.983
+              },
+              {
+                "text": "对。",
+                "start": 2.983,
+                "end": 3.287
+              },
+              {
+                "text": "我们",
+                "start": 3.287,
+                "end": 3.591
+              },
+              {
+                "text": "评",
+                "start": 3.591,
+                "end": 3.743
+              },
+              {
+                "text": "分",
+                "start": 3.743,
+                "end": 3.895
+              },
+              {
+                "text": "看",
+                "start": 3.895,
+                "end": 4.046
+              },
+              {
+                "text": "的是",
+                "start": 4.046,
+                "end": 4.35
+              },
+              {
+                "text": "是否",
+                "start": 4.35,
+                "end": 4.654
+              },
+              {
+                "text": "核对、",
+                "start": 4.654,
+                "end": 5.109
+              },
+              {
+                "text": "是否",
+                "start": 5.109,
+                "end": 5.413
+              },
+              {
+                "text": "理解，",
+                "start": 5.413,
+                "end": 5.869
+              },
+              {
+                "text": "而不是",
+                "start": 5.869,
+                "end": 6.324
+              },
+              {
+                "text": "你",
+                "start": 6.324,
+                "end": 6.476
+              },
+              {
+                "text": "碰巧",
+                "start": 6.476,
+                "end": 6.78
+              },
+              {
+                "text": "选",
+                "start": 6.78,
+                "end": 6.932
+              },
+              {
+                "text": "中",
+                "start": 6.932,
+                "end": 7.084
+              },
+              {
+                "text": "了",
+                "start": 7.084,
+                "end": 7.235
+              },
+              {
+                "text": "上涨。",
+                "start": 7.235,
+                "end": 7.691
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Checks",
+                "zh-Hans": "检查"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Score",
+                "zh-Hans": "得分"
+              },
+              "value": {
+                "en": "≠ profit",
+                "zh-Hans": "≠ 盈利"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:39-01:15",
+      "source_visual_zh": "模拟买入后价格下跌，系统仍给操作核对项打勾，不发利润奖章。",
+      "source_onscreen_text": {
+        "en": [
+          "Checks ✓",
+          "Score ≠ profit"
+        ],
+        "zh-Hans": [
+          "核对 ✓",
+          "评分 ≠ 盈利"
+        ]
+      }
+    },
+    {
+      "id": "refuse-transfer",
+      "duration": 31,
+      "set": "study-desk",
+      "visual_en": "Then a partial sell; a task pops up: 'Send to a friend who only supports a different network.' Sam refuses to send. Antenna red + ding, then green.",
+      "visual_zh": "接着卖出一部分；弹出“转给只支持另一网络的朋友”任务，小白拒绝发送。",
+      "onscreen_text_en": "Stopping is a correct answer",
+      "onscreen_text_zh-Hans": "停下也是正确答案",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Something's wrong with this transfer. I'm not sending it.",
+            "zh-Hans": "这条转账信息有问题，我不转。"
+          },
+          "start": 0.25,
+          "end": 3.203,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e12-04-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 2.953
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Something's ",
+                "start": 0.25,
+                "end": 0.913
+              },
+              {
+                "text": "wrong ",
+                "start": 0.913,
+                "end": 1.214
+              },
+              {
+                "text": "with ",
+                "start": 1.214,
+                "end": 1.455
+              },
+              {
+                "text": "this ",
+                "start": 1.455,
+                "end": 1.696
+              },
+              {
+                "text": "transfer. ",
+                "start": 1.696,
+                "end": 2.239
+              },
+              {
+                "text": "I'm ",
+                "start": 2.239,
+                "end": 2.42
+              },
+              {
+                "text": "not ",
+                "start": 2.42,
+                "end": 2.6
+              },
+              {
+                "text": "sending ",
+                "start": 2.6,
+                "end": 3.022
+              },
+              {
+                "text": "it.",
+                "start": 3.022,
+                "end": 3.203
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "这",
+                "start": 0.25,
+                "end": 0.461
+              },
+              {
+                "text": "条",
+                "start": 0.461,
+                "end": 0.672
+              },
+              {
+                "text": "转账",
+                "start": 0.672,
+                "end": 1.094
+              },
+              {
+                "text": "信息",
+                "start": 1.094,
+                "end": 1.516
+              },
+              {
+                "text": "有",
+                "start": 1.516,
+                "end": 1.727
+              },
+              {
+                "text": "问题，",
+                "start": 1.727,
+                "end": 2.359
+              },
+              {
+                "text": "我不",
+                "start": 2.359,
+                "end": 2.781
+              },
+              {
+                "text": "转。",
+                "start": 2.781,
+                "end": 3.203
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "That's a correct answer too. When the network, fees or identity aren't clear, stopping matters more than forcing the task through.",
+            "zh-Hans": "这也是正确答案。遇到不确定的网络、费用或身份信息，停下比强行完成任务更重要。"
+          },
+          "start": 3.503,
+          "end": 10.258,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e12-04-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 6.755
+          },
+          "words": {
+            "en": [
+              {
+                "text": "That's ",
+                "start": 3.503,
+                "end": 3.871
+              },
+              {
+                "text": "a ",
+                "start": 3.871,
+                "end": 3.933
+              },
+              {
+                "text": "correct ",
+                "start": 3.933,
+                "end": 4.363
+              },
+              {
+                "text": "answer ",
+                "start": 4.363,
+                "end": 4.731
+              },
+              {
+                "text": "too. ",
+                "start": 4.731,
+                "end": 4.977
+              },
+              {
+                "text": "When ",
+                "start": 4.977,
+                "end": 5.222
+              },
+              {
+                "text": "the ",
+                "start": 5.222,
+                "end": 5.407
+              },
+              {
+                "text": "network, ",
+                "start": 5.407,
+                "end": 5.898
+              },
+              {
+                "text": "fees ",
+                "start": 5.898,
+                "end": 6.144
+              },
+              {
+                "text": "or ",
+                "start": 6.144,
+                "end": 6.266
+              },
+              {
+                "text": "identity ",
+                "start": 6.266,
+                "end": 6.758
+              },
+              {
+                "text": "aren't ",
+                "start": 6.758,
+                "end": 7.126
+              },
+              {
+                "text": "clear, ",
+                "start": 7.126,
+                "end": 7.495
+              },
+              {
+                "text": "stopping ",
+                "start": 7.495,
+                "end": 7.986
+              },
+              {
+                "text": "matters ",
+                "start": 7.986,
+                "end": 8.416
+              },
+              {
+                "text": "more ",
+                "start": 8.416,
+                "end": 8.661
+              },
+              {
+                "text": "than ",
+                "start": 8.661,
+                "end": 8.907
+              },
+              {
+                "text": "forcing ",
+                "start": 8.907,
+                "end": 9.337
+              },
+              {
+                "text": "the ",
+                "start": 9.337,
+                "end": 9.521
+              },
+              {
+                "text": "task ",
+                "start": 9.521,
+                "end": 9.767
+              },
+              {
+                "text": "through.",
+                "start": 9.767,
+                "end": 10.258
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "这",
+                "start": 3.503,
+                "end": 3.681
+              },
+              {
+                "text": "也是",
+                "start": 3.681,
+                "end": 4.036
+              },
+              {
+                "text": "正确",
+                "start": 4.036,
+                "end": 4.392
+              },
+              {
+                "text": "答案。",
+                "start": 4.392,
+                "end": 4.925
+              },
+              {
+                "text": "遇到",
+                "start": 4.925,
+                "end": 5.281
+              },
+              {
+                "text": "不",
+                "start": 5.281,
+                "end": 5.458
+              },
+              {
+                "text": "确定",
+                "start": 5.458,
+                "end": 5.814
+              },
+              {
+                "text": "的",
+                "start": 5.814,
+                "end": 5.992
+              },
+              {
+                "text": "网络、",
+                "start": 5.992,
+                "end": 6.525
+              },
+              {
+                "text": "费用",
+                "start": 6.525,
+                "end": 6.881
+              },
+              {
+                "text": "或",
+                "start": 6.881,
+                "end": 7.058
+              },
+              {
+                "text": "身份",
+                "start": 7.058,
+                "end": 7.414
+              },
+              {
+                "text": "信息，",
+                "start": 7.414,
+                "end": 7.947
+              },
+              {
+                "text": "停下",
+                "start": 7.947,
+                "end": 8.303
+              },
+              {
+                "text": "比",
+                "start": 8.303,
+                "end": 8.48
+              },
+              {
+                "text": "强行",
+                "start": 8.48,
+                "end": 8.836
+              },
+              {
+                "text": "完成",
+                "start": 8.836,
+                "end": 9.191
+              },
+              {
+                "text": "任务",
+                "start": 9.191,
+                "end": 9.547
+              },
+              {
+                "text": "更",
+                "start": 9.547,
+                "end": 9.725
+              },
+              {
+                "text": "重要。",
+                "start": 9.725,
+                "end": 10.258
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Network mismatch → refuse ✓",
+                "zh-Hans": "网络不匹配 → 拒绝 ✓"
+              },
+              "mark": "ok"
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:15-01:46",
+      "source_visual_zh": "接着卖出一部分；弹出“转给只支持另一网络的朋友”任务，小白拒绝发送。",
+      "source_onscreen_text": {
+        "en": [
+          "Network mismatch → refuse ✓"
+        ],
+        "zh-Hans": [
+          "网络不匹配 → 拒绝 ✓"
+        ]
+      }
+    },
+    {
+      "id": "say-it-back",
+      "duration": 24,
+      "set": "study-desk",
+      "visual_en": "Learner summary: selling ≠ withdrawing; on-chain confirmation ≠ platform credit; never share credentials.",
+      "visual_zh": "学员总结：卖出不等于提现；链上确认不等于平台入账；凭证不外传。",
+      "onscreen_text_en": "Say three things back",
+      "onscreen_text_zh-Hans": "复述三件事",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Finally, say three things back. Where did the asset go? How much was actually taken? Who controls your account? If you can't explain one, go back to that episode and practise again.",
+            "zh-Hans": "最后复述三个判断：资产去了哪里，钱实际扣了多少，以及谁能控制你的账户。说不清楚的部分，就回到对应课程再练一次。"
+          },
+          "start": 0.25,
+          "end": 10.902,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e12-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 10.652
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Finally, ",
+                "start": 0.25,
+                "end": 0.818
+              },
+              {
+                "text": "say ",
+                "start": 0.818,
+                "end": 1.031
+              },
+              {
+                "text": "three ",
+                "start": 1.031,
+                "end": 1.386
+              },
+              {
+                "text": "things ",
+                "start": 1.386,
+                "end": 1.812
+              },
+              {
+                "text": "back. ",
+                "start": 1.812,
+                "end": 2.167
+              },
+              {
+                "text": "Where ",
+                "start": 2.167,
+                "end": 2.522
+              },
+              {
+                "text": "did ",
+                "start": 2.522,
+                "end": 2.735
+              },
+              {
+                "text": "the ",
+                "start": 2.735,
+                "end": 2.949
+              },
+              {
+                "text": "asset ",
+                "start": 2.949,
+                "end": 3.304
+              },
+              {
+                "text": "go? ",
+                "start": 3.304,
+                "end": 3.517
+              },
+              {
+                "text": "How ",
+                "start": 3.517,
+                "end": 3.73
+              },
+              {
+                "text": "much ",
+                "start": 3.73,
+                "end": 4.014
+              },
+              {
+                "text": "was ",
+                "start": 4.014,
+                "end": 4.227
+              },
+              {
+                "text": "actually ",
+                "start": 4.227,
+                "end": 4.795
+              },
+              {
+                "text": "taken? ",
+                "start": 4.795,
+                "end": 5.221
+              },
+              {
+                "text": "Who ",
+                "start": 5.221,
+                "end": 5.434
+              },
+              {
+                "text": "controls ",
+                "start": 5.434,
+                "end": 6.002
+              },
+              {
+                "text": "your ",
+                "start": 6.002,
+                "end": 6.286
+              },
+              {
+                "text": "account? ",
+                "start": 6.286,
+                "end": 6.854
+              },
+              {
+                "text": "If ",
+                "start": 6.854,
+                "end": 6.996
+              },
+              {
+                "text": "you ",
+                "start": 6.996,
+                "end": 7.209
+              },
+              {
+                "text": "can't ",
+                "start": 7.209,
+                "end": 7.564
+              },
+              {
+                "text": "explain ",
+                "start": 7.564,
+                "end": 8.061
+              },
+              {
+                "text": "one, ",
+                "start": 8.061,
+                "end": 8.346
+              },
+              {
+                "text": "go ",
+                "start": 8.346,
+                "end": 8.488
+              },
+              {
+                "text": "back ",
+                "start": 8.488,
+                "end": 8.772
+              },
+              {
+                "text": "to ",
+                "start": 8.772,
+                "end": 8.914
+              },
+              {
+                "text": "that ",
+                "start": 8.914,
+                "end": 9.198
+              },
+              {
+                "text": "episode ",
+                "start": 9.198,
+                "end": 9.695
+              },
+              {
+                "text": "and ",
+                "start": 9.695,
+                "end": 9.908
+              },
+              {
+                "text": "practise ",
+                "start": 9.908,
+                "end": 10.476
+              },
+              {
+                "text": "again.",
+                "start": 10.476,
+                "end": 10.902
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "最后",
+                "start": 0.25,
+                "end": 0.637
+              },
+              {
+                "text": "复述",
+                "start": 0.637,
+                "end": 1.025
+              },
+              {
+                "text": "三",
+                "start": 1.025,
+                "end": 1.218
+              },
+              {
+                "text": "个",
+                "start": 1.218,
+                "end": 1.412
+              },
+              {
+                "text": "判断：",
+                "start": 1.412,
+                "end": 1.993
+              },
+              {
+                "text": "资产",
+                "start": 1.993,
+                "end": 2.38
+              },
+              {
+                "text": "去了",
+                "start": 2.38,
+                "end": 2.768
+              },
+              {
+                "text": "哪里，",
+                "start": 2.768,
+                "end": 3.349
+              },
+              {
+                "text": "钱",
+                "start": 3.349,
+                "end": 3.542
+              },
+              {
+                "text": "实际",
+                "start": 3.542,
+                "end": 3.93
+              },
+              {
+                "text": "扣了",
+                "start": 3.93,
+                "end": 4.317
+              },
+              {
+                "text": "多少，",
+                "start": 4.317,
+                "end": 4.898
+              },
+              {
+                "text": "以及",
+                "start": 4.898,
+                "end": 5.285
+              },
+              {
+                "text": "谁能",
+                "start": 5.285,
+                "end": 5.673
+              },
+              {
+                "text": "控制",
+                "start": 5.673,
+                "end": 6.06
+              },
+              {
+                "text": "你的",
+                "start": 6.06,
+                "end": 6.448
+              },
+              {
+                "text": "账户。",
+                "start": 6.448,
+                "end": 7.029
+              },
+              {
+                "text": "说不清楚",
+                "start": 7.029,
+                "end": 7.803
+              },
+              {
+                "text": "的",
+                "start": 7.803,
+                "end": 7.997
+              },
+              {
+                "text": "部分，",
+                "start": 7.997,
+                "end": 8.578
+              },
+              {
+                "text": "就",
+                "start": 8.578,
+                "end": 8.772
+              },
+              {
+                "text": "回到",
+                "start": 8.772,
+                "end": 9.159
+              },
+              {
+                "text": "对应",
+                "start": 9.159,
+                "end": 9.546
+              },
+              {
+                "text": "课程",
+                "start": 9.546,
+                "end": 9.934
+              },
+              {
+                "text": "再",
+                "start": 9.934,
+                "end": 10.127
+              },
+              {
+                "text": "练",
+                "start": 10.127,
+                "end": 10.321
+              },
+              {
+                "text": "一次。",
+                "start": 10.321,
+                "end": 10.902
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Selling ≠ withdrawing",
+                "zh-Hans": "卖出 ≠ 提现"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "On-chain ≠ credited",
+                "zh-Hans": "链上确认 ≠ 平台入账"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Never share credentials",
+                "zh-Hans": "凭证不外传"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:46-02:10",
+      "source_visual_zh": "学员总结：卖出不等于提现；链上确认不等于平台入账；凭证不外传。",
+      "source_onscreen_text": {
+        "en": [
+          "Selling ≠ withdrawing",
+          "On-chain ≠ credited",
+          "Never share credentials"
+        ],
+        "zh-Hans": [
+          "卖出 ≠ 提现",
+          "链上确认 ≠ 平台入账",
+          "凭证不外传"
+        ]
+      }
+    },
+    {
+      "id": "season-complete",
+      "duration": 16,
+      "set": "study-desk",
+      "visual_en": "Completion card: 'Basic practice complete', with 'Review safety' and 'Learn trading rules' beside it.",
+      "visual_zh": "结课卡写“完成基础操作练习”，旁边“复习安全”和“了解交易规则”。",
+      "onscreen_text_en": "Basic practice complete",
+      "onscreen_text_zh-Hans": "完成基础操作练习",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "What you've earned is a learning record, not a licence to invest. Keep learning, or don't trade for now. Both are fine. Understand first, then act.",
+            "zh-Hans": "你获得的是学习记录，不是投资资格。继续学习可以，暂时不交易也可以。先看懂，再动手。"
+          },
+          "start": 0.25,
+          "end": 9.351,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e12-06-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.101
+          },
+          "words": {
+            "en": [
+              {
+                "text": "What ",
+                "start": 0.25,
+                "end": 0.548
+              },
+              {
+                "text": "you've ",
+                "start": 0.548,
+                "end": 0.996
+              },
+              {
+                "text": "earned ",
+                "start": 0.996,
+                "end": 1.444
+              },
+              {
+                "text": "is ",
+                "start": 1.444,
+                "end": 1.593
+              },
+              {
+                "text": "a ",
+                "start": 1.593,
+                "end": 1.667
+              },
+              {
+                "text": "learning ",
+                "start": 1.667,
+                "end": 2.264
+              },
+              {
+                "text": "record, ",
+                "start": 2.264,
+                "end": 2.786
+              },
+              {
+                "text": "not ",
+                "start": 2.786,
+                "end": 3.01
+              },
+              {
+                "text": "a ",
+                "start": 3.01,
+                "end": 3.085
+              },
+              {
+                "text": "licence ",
+                "start": 3.085,
+                "end": 3.607
+              },
+              {
+                "text": "to ",
+                "start": 3.607,
+                "end": 3.756
+              },
+              {
+                "text": "invest. ",
+                "start": 3.756,
+                "end": 4.278
+              },
+              {
+                "text": "Keep ",
+                "start": 4.278,
+                "end": 4.577
+              },
+              {
+                "text": "learning, ",
+                "start": 4.577,
+                "end": 5.248
+              },
+              {
+                "text": "or ",
+                "start": 5.248,
+                "end": 5.397
+              },
+              {
+                "text": "don't ",
+                "start": 5.397,
+                "end": 5.77
+              },
+              {
+                "text": "trade ",
+                "start": 5.77,
+                "end": 6.143
+              },
+              {
+                "text": "for ",
+                "start": 6.143,
+                "end": 6.367
+              },
+              {
+                "text": "now. ",
+                "start": 6.367,
+                "end": 6.665
+              },
+              {
+                "text": "Both ",
+                "start": 6.665,
+                "end": 6.964
+              },
+              {
+                "text": "are ",
+                "start": 6.964,
+                "end": 7.188
+              },
+              {
+                "text": "fine. ",
+                "start": 7.188,
+                "end": 7.561
+              },
+              {
+                "text": "Understand ",
+                "start": 7.561,
+                "end": 8.307
+              },
+              {
+                "text": "first, ",
+                "start": 8.307,
+                "end": 8.754
+              },
+              {
+                "text": "then ",
+                "start": 8.754,
+                "end": 9.053
+              },
+              {
+                "text": "act.",
+                "start": 9.053,
+                "end": 9.351
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "你",
+                "start": 0.25,
+                "end": 0.472
+              },
+              {
+                "text": "获得",
+                "start": 0.472,
+                "end": 0.916
+              },
+              {
+                "text": "的是",
+                "start": 0.916,
+                "end": 1.36
+              },
+              {
+                "text": "学习",
+                "start": 1.36,
+                "end": 1.804
+              },
+              {
+                "text": "记录，",
+                "start": 1.804,
+                "end": 2.47
+              },
+              {
+                "text": "不是",
+                "start": 2.47,
+                "end": 2.914
+              },
+              {
+                "text": "投资",
+                "start": 2.914,
+                "end": 3.358
+              },
+              {
+                "text": "资格。",
+                "start": 3.358,
+                "end": 4.024
+              },
+              {
+                "text": "继续",
+                "start": 4.024,
+                "end": 4.468
+              },
+              {
+                "text": "学习",
+                "start": 4.468,
+                "end": 4.911
+              },
+              {
+                "text": "可以，",
+                "start": 4.911,
+                "end": 5.577
+              },
+              {
+                "text": "暂时",
+                "start": 5.577,
+                "end": 6.021
+              },
+              {
+                "text": "不",
+                "start": 6.021,
+                "end": 6.243
+              },
+              {
+                "text": "交易",
+                "start": 6.243,
+                "end": 6.687
+              },
+              {
+                "text": "也可以。",
+                "start": 6.687,
+                "end": 7.575
+              },
+              {
+                "text": "先",
+                "start": 7.575,
+                "end": 7.797
+              },
+              {
+                "text": "看懂，",
+                "start": 7.797,
+                "end": 8.463
+              },
+              {
+                "text": "再",
+                "start": 8.463,
+                "end": 8.685
+              },
+              {
+                "text": "动手。",
+                "start": 8.685,
+                "end": 9.351
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Basic practice complete",
+                "zh-Hans": "完成基础操作练习"
+              },
+              "mark": "ok"
+            },
+            {
+              "label": {
+                "en": "Review safety",
+                "zh-Hans": "复习安全"
+              }
+            },
+            {
+              "label": {
+                "en": "Learn trading rules",
+                "zh-Hans": "了解交易规则"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "02:10-02:26",
+      "source_visual_zh": "结课卡写“完成基础操作练习”，旁边“复习安全”和“了解交易规则”。",
+      "source_onscreen_text": {
+        "en": [
+          "Basic practice complete",
+          "Review safety",
+          "Learn trading rules"
+        ],
+        "zh-Hans": [
+          "完成基础操作练习",
+          "复习安全",
+          "了解交易规则"
+        ]
+      }
+    }
+  ],
+  "conversion_card": {
+    "duration": 11.3,
+    "partner_name": {
+      "en": "OKX / Bitget.com / Binance",
+      "zh-Hans": "OKX / Bitget.com / Binance"
+    },
+    "venues": [
+      {
+        "key": "okx",
+        "name": {
+          "en": "OKX",
+          "zh-Hans": "OKX"
+        },
+        "code": {
+          "en": "Code nexu888",
+          "zh-Hans": "邀请码 nexu888"
+        },
+        "url": "nexualpha.com/go/okx"
+      },
+      {
+        "key": "bitget",
+        "name": {
+          "en": "Bitget.com",
+          "zh-Hans": "Bitget.com"
+        },
+        "code": {
+          "en": "Code nexu888",
+          "zh-Hans": "邀请码 nexu888"
+        },
+        "url": "nexualpha.com/go/bitget"
+      },
+      {
+        "key": "binance",
+        "name": {
+          "en": "Binance",
+          "zh-Hans": "Binance"
+        },
+        "code": {
+          "en": "Code 11350287",
+          "zh-Hans": "邀请码 11350287"
+        },
+        "url": "nexualpha.com/go/binance"
+      }
+    ],
+    "cta": {
+      "en": "Compare exchanges on NexuAlpha · Telegram @NexuAlphaGlobal",
+      "zh-Hans": "在 NexuAlpha 比较交易所 · Telegram @NexuAlphaClub"
+    },
+    "disclosure": {
+      "en": "Partner link · the exchange pays our commission",
+      "zh-Hans": "合作推广链接 · 佣金由交易所支付"
+    },
+    "disclosure_rendered": false,
+    "lines": [
+      {
+        "speaker": "nexubo",
+        "text": {
+          "en": "When you do decide to start, compare exchanges side by side on NexuAlpha. Register through an official partner link with our code, get part of your fees back, and join our Telegram for new lessons.",
+          "zh-Hans": "等你决定开始时，先在 NexuAlpha 并排对比交易所。通过官方合作链接注册并填写我们的邀请码，返还部分手续费；再加入我们的 Telegram 获取新课程。"
+        },
+        "start": 0.25,
+        "end": 11.05,
+        "source_who": "Nexubo",
+        "narration": {
+          "id": "e12-07-conversion-l01-nexubo",
+          "atempo": 1,
+          "seconds": 10.8
+        },
+        "words": {
+          "en": [
+            {
+              "text": "When ",
+              "start": 0.25,
+              "end": 0.515
+            },
+            {
+              "text": "you ",
+              "start": 0.515,
+              "end": 0.714
+            },
+            {
+              "text": "do ",
+              "start": 0.714,
+              "end": 0.846
+            },
+            {
+              "text": "decide ",
+              "start": 0.846,
+              "end": 1.244
+            },
+            {
+              "text": "to ",
+              "start": 1.244,
+              "end": 1.376
+            },
+            {
+              "text": "start, ",
+              "start": 1.376,
+              "end": 1.774
+            },
+            {
+              "text": "compare ",
+              "start": 1.774,
+              "end": 2.238
+            },
+            {
+              "text": "exchanges ",
+              "start": 2.238,
+              "end": 2.834
+            },
+            {
+              "text": "side ",
+              "start": 2.834,
+              "end": 3.099
+            },
+            {
+              "text": "by ",
+              "start": 3.099,
+              "end": 3.232
+            },
+            {
+              "text": "side ",
+              "start": 3.232,
+              "end": 3.497
+            },
+            {
+              "text": "on ",
+              "start": 3.497,
+              "end": 3.629
+            },
+            {
+              "text": "NexuAlpha. ",
+              "start": 3.629,
+              "end": 4.292
+            },
+            {
+              "text": "Register ",
+              "start": 4.292,
+              "end": 4.822
+            },
+            {
+              "text": "through ",
+              "start": 4.822,
+              "end": 5.286
+            },
+            {
+              "text": "an ",
+              "start": 5.286,
+              "end": 5.418
+            },
+            {
+              "text": "official ",
+              "start": 5.418,
+              "end": 5.948
+            },
+            {
+              "text": "partner ",
+              "start": 5.948,
+              "end": 6.412
+            },
+            {
+              "text": "link ",
+              "start": 6.412,
+              "end": 6.677
+            },
+            {
+              "text": "with ",
+              "start": 6.677,
+              "end": 6.942
+            },
+            {
+              "text": "our ",
+              "start": 6.942,
+              "end": 7.141
+            },
+            {
+              "text": "code, ",
+              "start": 7.141,
+              "end": 7.472
+            },
+            {
+              "text": "get ",
+              "start": 7.472,
+              "end": 7.671
+            },
+            {
+              "text": "part ",
+              "start": 7.671,
+              "end": 7.936
+            },
+            {
+              "text": "of ",
+              "start": 7.936,
+              "end": 8.068
+            },
+            {
+              "text": "your ",
+              "start": 8.068,
+              "end": 8.333
+            },
+            {
+              "text": "fees ",
+              "start": 8.333,
+              "end": 8.598
+            },
+            {
+              "text": "back, ",
+              "start": 8.598,
+              "end": 8.93
+            },
+            {
+              "text": "and ",
+              "start": 8.93,
+              "end": 9.129
+            },
+            {
+              "text": "join ",
+              "start": 9.129,
+              "end": 9.394
+            },
+            {
+              "text": "our ",
+              "start": 9.394,
+              "end": 9.592
+            },
+            {
+              "text": "Telegram ",
+              "start": 9.592,
+              "end": 10.122
+            },
+            {
+              "text": "for ",
+              "start": 10.122,
+              "end": 10.321
+            },
+            {
+              "text": "new ",
+              "start": 10.321,
+              "end": 10.52
+            },
+            {
+              "text": "lessons.",
+              "start": 10.52,
+              "end": 11.05
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "等",
+              "start": 0.25,
+              "end": 0.394
+            },
+            {
+              "text": "你",
+              "start": 0.394,
+              "end": 0.538
+            },
+            {
+              "text": "决定",
+              "start": 0.538,
+              "end": 0.826
+            },
+            {
+              "text": "开始",
+              "start": 0.826,
+              "end": 1.114
+            },
+            {
+              "text": "时，",
+              "start": 1.114,
+              "end": 1.402
+            },
+            {
+              "text": "先",
+              "start": 1.402,
+              "end": 1.546
+            },
+            {
+              "text": "在 ",
+              "start": 1.546,
+              "end": 1.69
+            },
+            {
+              "text": "NexuAlpha ",
+              "start": 1.69,
+              "end": 2.986
+            },
+            {
+              "text": "并排",
+              "start": 2.986,
+              "end": 3.274
+            },
+            {
+              "text": "对比",
+              "start": 3.274,
+              "end": 3.562
+            },
+            {
+              "text": "交易所。",
+              "start": 3.562,
+              "end": 4.138
+            },
+            {
+              "text": "通过",
+              "start": 4.138,
+              "end": 4.426
+            },
+            {
+              "text": "官方",
+              "start": 4.426,
+              "end": 4.714
+            },
+            {
+              "text": "合作",
+              "start": 4.714,
+              "end": 5.002
+            },
+            {
+              "text": "链",
+              "start": 5.002,
+              "end": 5.146
+            },
+            {
+              "text": "接",
+              "start": 5.146,
+              "end": 5.29
+            },
+            {
+              "text": "注册",
+              "start": 5.29,
+              "end": 5.578
+            },
+            {
+              "text": "并",
+              "start": 5.578,
+              "end": 5.722
+            },
+            {
+              "text": "填写",
+              "start": 5.722,
+              "end": 6.01
+            },
+            {
+              "text": "我们",
+              "start": 6.01,
+              "end": 6.298
+            },
+            {
+              "text": "的",
+              "start": 6.298,
+              "end": 6.442
+            },
+            {
+              "text": "邀请",
+              "start": 6.442,
+              "end": 6.73
+            },
+            {
+              "text": "码，",
+              "start": 6.73,
+              "end": 7.018
+            },
+            {
+              "text": "返",
+              "start": 7.018,
+              "end": 7.162
+            },
+            {
+              "text": "还",
+              "start": 7.162,
+              "end": 7.306
+            },
+            {
+              "text": "部分",
+              "start": 7.306,
+              "end": 7.594
+            },
+            {
+              "text": "手续",
+              "start": 7.594,
+              "end": 7.882
+            },
+            {
+              "text": "费；",
+              "start": 7.882,
+              "end": 8.17
+            },
+            {
+              "text": "再",
+              "start": 8.17,
+              "end": 8.314
+            },
+            {
+              "text": "加入",
+              "start": 8.314,
+              "end": 8.602
+            },
+            {
+              "text": "我们",
+              "start": 8.602,
+              "end": 8.89
+            },
+            {
+              "text": "的 ",
+              "start": 8.89,
+              "end": 9.034
+            },
+            {
+              "text": "Telegram ",
+              "start": 9.034,
+              "end": 10.186
+            },
+            {
+              "text": "获取",
+              "start": 10.186,
+              "end": 10.474
+            },
+            {
+              "text": "新",
+              "start": 10.474,
+              "end": 10.618
+            },
+            {
+              "text": "课程。",
+              "start": 10.618,
+              "end": 11.05
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "Conversion card (8 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+    "visual_zh": "转化卡（8秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+    "source_tc": "02:26-02:34",
+    "source_url": "nexualpha.com/compare",
+    "source_line": {
+      "en": "When you do decide to start, compare exchanges side by side on NexuAlpha. Register through an official partner link with our code, get part of your fees back, and join our Telegram for new lessons.",
+      "zh-Hans": "等你决定开始时，先在 NexuAlpha 并排对比交易所。通过官方合作链接注册并填写我们的邀请码，返还部分手续费；再加入我们的 Telegram 获取新课程。"
+    },
+    "source_availability": {
+      "en": "Availability depends on your country or region",
+      "zh-Hans": "是否可用取决于你所在的国家或地区"
+    },
+    "source_partner": "compare",
+    "source_partners": [
+      "okx",
+      "bitget",
+      "binance"
+    ],
+    "source_codes": {
+      "okx": "nexu888",
+      "bitget": "nexu888",
+      "binance": "11350287"
+    },
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "When you do decide to start, compare exchanges side by side on NexuAlpha and open only the official site. Join our Telegram for new lessons.",
+      "line_zh": "等你决定开始时，先在 NexuAlpha 并排对比交易所，只打开官方网站。加入我们的 Telegram 获取新课程。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "end_hook": {
+    "duration": 5.5,
+    "pose": "point",
+    "text": {
+      "en": "Season 2: the price on your screen isn't always the price you pay. Find out why.",
+      "zh-Hans": "第二季：你看到的价格，不一定是你付的价格。下一季揭晓。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Season 2: the price on your screen isn't always the price you pay. Find out why.",
+          "zh-Hans": "第二季：你看到的价格，不一定是你付的价格。下一季揭晓。"
+        },
+        "start": 0.25,
+        "end": 5.219,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e12-08-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 4.969
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Season ",
+              "start": 0.25,
+              "end": 0.709
+            },
+            {
+              "text": "2: ",
+              "start": 0.709,
+              "end": 0.862
+            },
+            {
+              "text": "the ",
+              "start": 0.862,
+              "end": 1.091
+            },
+            {
+              "text": "price ",
+              "start": 1.091,
+              "end": 1.473
+            },
+            {
+              "text": "on ",
+              "start": 1.473,
+              "end": 1.626
+            },
+            {
+              "text": "your ",
+              "start": 1.626,
+              "end": 1.932
+            },
+            {
+              "text": "screen ",
+              "start": 1.932,
+              "end": 2.39
+            },
+            {
+              "text": "isn't ",
+              "start": 2.39,
+              "end": 2.773
+            },
+            {
+              "text": "always ",
+              "start": 2.773,
+              "end": 3.231
+            },
+            {
+              "text": "the ",
+              "start": 3.231,
+              "end": 3.461
+            },
+            {
+              "text": "price ",
+              "start": 3.461,
+              "end": 3.843
+            },
+            {
+              "text": "you ",
+              "start": 3.843,
+              "end": 4.072
+            },
+            {
+              "text": "pay. ",
+              "start": 4.072,
+              "end": 4.378
+            },
+            {
+              "text": "Find ",
+              "start": 4.378,
+              "end": 4.684
+            },
+            {
+              "text": "out ",
+              "start": 4.684,
+              "end": 4.913
+            },
+            {
+              "text": "why.",
+              "start": 4.913,
+              "end": 5.219
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "第二",
+              "start": 0.25,
+              "end": 0.618
+            },
+            {
+              "text": "季：",
+              "start": 0.618,
+              "end": 0.986
+            },
+            {
+              "text": "你",
+              "start": 0.986,
+              "end": 1.17
+            },
+            {
+              "text": "看到",
+              "start": 1.17,
+              "end": 1.538
+            },
+            {
+              "text": "的",
+              "start": 1.538,
+              "end": 1.722
+            },
+            {
+              "text": "价格，",
+              "start": 1.722,
+              "end": 2.274
+            },
+            {
+              "text": "不一定",
+              "start": 2.274,
+              "end": 2.827
+            },
+            {
+              "text": "是",
+              "start": 2.827,
+              "end": 3.011
+            },
+            {
+              "text": "你",
+              "start": 3.011,
+              "end": 3.195
+            },
+            {
+              "text": "付",
+              "start": 3.195,
+              "end": 3.379
+            },
+            {
+              "text": "的",
+              "start": 3.379,
+              "end": 3.563
+            },
+            {
+              "text": "价格。",
+              "start": 3.563,
+              "end": 4.115
+            },
+            {
+              "text": "下",
+              "start": 4.115,
+              "end": 4.299
+            },
+            {
+              "text": "一季",
+              "start": 4.299,
+              "end": 4.667
+            },
+            {
+              "text": "揭晓。",
+              "start": 4.667,
+              "end": 5.219
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "02:34-02:38"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.033,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e12-09-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.783
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 0.993
+          },
+          {
+            "text": "first, ",
+            "start": 0.993,
+            "end": 1.439
+          },
+          {
+            "text": "then ",
+            "start": 1.439,
+            "end": 1.736
+          },
+          {
+            "text": "act.",
+            "start": 1.736,
+            "end": 2.033
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.473
+          },
+          {
+            "text": "看懂，",
+            "start": 0.473,
+            "end": 1.142
+          },
+          {
+            "text": "再",
+            "start": 1.142,
+            "end": 1.364
+          },
+          {
+            "text": "动手。",
+            "start": 1.364,
+            "end": 2.033
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E12.json",
+    "original_slug": "season-1-finale",
+    "goal": {
+      "en": "Complete a practice spot trade and transfer checks on your own, and keep 'doing it right' separate from 'making a profit'.",
+      "zh-Hans": "独立完成模拟现货与转账判断，并把操作正确和盈利分开。"
+    },
+    "duration_target_s": 162,
+    "page_cta": {
+      "kind": "signup",
+      "partner": "okx,bitget,binance",
+      "line_en": "Season 1 done. Compare OKX, Bitget and Binance on NexuAlpha, then register through an official partner link. Or keep practising. Join our Telegram for Season 2.",
+      "line_zh": "第一季完成。在 NexuAlpha 对比 OKX、Bitget、Binance，再通过官方合作链接注册；也可以继续练习。加入 Telegram 追第二季。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "nexualpha.com/compare",
+      "codes": {
+        "okx": "nexu888",
+        "bitget": "nexu888",
+        "binance": "11350287"
+      },
+      "disclosure_en": "Partner link · the exchange pays our commission",
+      "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+      "restricted_locales": [
+        "ru",
+        "ar",
+        "zh-Hant",
+        "ur",
+        "uk",
+        "vi",
+        "ja",
+        "ko"
+      ],
+      "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+    },
+    "exercise": {
+      "task_en": "Complete, in order: a practice buy and sell, a fee check, rejecting a wrong-network transfer and spotting a scam. Key questions must all be correct.",
+      "task_zh": "依次完成模拟买卖、费用核对、错误网络拒绝和诈骗识别；关键题必须全对。",
+      "answer_en": "You pass by following the correct flow or by actively stopping an unsuitable action. Profit is not scored.",
+      "answer_zh": "按正确流程完成或主动停止不合适操作均可过关；不按盈利评分。"
+    },
+    "red_lines": [
+      "Never auto-redirect to a futures account opening ｜ 不自动跳转合约开户",
+      "Never call the completion certificate a professional trader certification ｜ 不得把结课证书叫专业交易员认证",
+      "The conversion card comes after 'not trading is fine', and never contradicts it ｜ 转化卡放在“暂时不交易也可以”之后，不得与之矛盾",
+      "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S10",
+      "S13",
+      "S16"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:39",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:39-01:15",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:15-01:46",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:46-02:10",
+        "kind": "shot"
+      },
+      {
+        "tc": "02:10-02:26",
+        "kind": "shot"
+      },
+      {
+        "tc": "02:26-02:34",
+        "kind": "conversion"
+      },
+      {
+        "tc": "02:34-02:38",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:38-02:42",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "cards",
+      "checklist"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

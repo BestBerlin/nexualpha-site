@@ -1,0 +1,2336 @@
+{
+  "version": 1,
+  "production_id": "E18",
+  "episode": 18,
+  "season": 2,
+  "slug": "spot-vs-futures",
+  "title": {
+    "en": "Spot vs futures: you're not buying the same thing",
+    "zh-Hans": "现货和合约，买到的不是同一件事"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E18' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第18集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "same-trade",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "Two identical BTC cards; one goes into a spot basket, the other into a futures ledger.",
+      "visual_zh": "两张同样写BTC的卡片分别进入现货篮子和合约账本。",
+      "onscreen_text_en": "Same trade?",
+      "onscreen_text_zh-Hans": "同一种交易？",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "They both say bitcoin. Isn't it the same trade?",
+            "zh-Hans": "都写着比特币，不就是同一种买卖吗？"
+          },
+          "start": 0.25,
+          "end": 3.384,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e18-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.134
+          },
+          "words": {
+            "en": [
+              {
+                "text": "They ",
+                "start": 0.25,
+                "end": 0.571
+              },
+              {
+                "text": "both ",
+                "start": 0.571,
+                "end": 0.893
+              },
+              {
+                "text": "say ",
+                "start": 0.893,
+                "end": 1.134
+              },
+              {
+                "text": "bitcoin. ",
+                "start": 1.134,
+                "end": 1.777
+              },
+              {
+                "text": "Isn't ",
+                "start": 1.777,
+                "end": 2.179
+              },
+              {
+                "text": "it ",
+                "start": 2.179,
+                "end": 2.339
+              },
+              {
+                "text": "the ",
+                "start": 2.339,
+                "end": 2.58
+              },
+              {
+                "text": "same ",
+                "start": 2.58,
+                "end": 2.902
+              },
+              {
+                "text": "trade?",
+                "start": 2.902,
+                "end": 3.384
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "都",
+                "start": 0.25,
+                "end": 0.434
+              },
+              {
+                "text": "写",
+                "start": 0.434,
+                "end": 0.619
+              },
+              {
+                "text": "着",
+                "start": 0.619,
+                "end": 0.803
+              },
+              {
+                "text": "比",
+                "start": 0.803,
+                "end": 0.987
+              },
+              {
+                "text": "特",
+                "start": 0.987,
+                "end": 1.172
+              },
+              {
+                "text": "币，",
+                "start": 1.172,
+                "end": 1.54
+              },
+              {
+                "text": "不",
+                "start": 1.54,
+                "end": 1.725
+              },
+              {
+                "text": "就是",
+                "start": 1.725,
+                "end": 2.094
+              },
+              {
+                "text": "同",
+                "start": 2.094,
+                "end": 2.278
+              },
+              {
+                "text": "一种",
+                "start": 2.278,
+                "end": 2.647
+              },
+              {
+                "text": "买卖",
+                "start": 2.647,
+                "end": 3.015
+              },
+              {
+                "text": "吗？",
+                "start": 3.015,
+                "end": 3.384
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "BTC · Spot",
+                "zh-Hans": "BTC · 现货"
+              }
+            },
+            {
+              "label": {
+                "en": "BTC · Futures",
+                "zh-Hans": "BTC · 合约"
+              }
+            }
+          ],
+          "separator": "?"
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "两张同样写BTC的卡片分别进入现货篮子和合约账本。",
+      "source_onscreen_text": {
+        "en": [
+          "BTC · Spot",
+          "BTC · Futures"
+        ],
+        "zh-Hans": [
+          "BTC · 现货",
+          "BTC · 合约"
+        ]
+      }
+    },
+    {
+      "id": "spot-vs-perp",
+      "duration": 23,
+      "set": "trading-desk",
+      "visual_en": "Spot demo: pay USDT, receive BTC. Futures demo: a new position and a P&L column appear; no withdrawable BTC is added.",
+      "visual_zh": "现货演示付出USDT获得BTC；合约演示新增仓位与盈亏栏，不新增可提取BTC。",
+      "onscreen_text_en": "You're not buying the same thing",
+      "onscreen_text_zh-Hans": "买的不是同一个东西",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Plain spot, with no borrowing, swaps one asset for another. The linear perpetual we cover here is a contract position that settles profit and loss as the price moves. It's not buying bitcoin you can withdraw.",
+            "zh-Hans": "没有借贷的普通现货，是用一种资产换另一种资产。这里讲的线性永续合约，则是持有按价格变化结算盈亏的合约仓位，不等于买到可提取的比特币。"
+          },
+          "start": 0.25,
+          "end": 11.865,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e18-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.615
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Plain ",
+                "start": 0.25,
+                "end": 0.586
+              },
+              {
+                "text": "spot, ",
+                "start": 0.586,
+                "end": 0.921
+              },
+              {
+                "text": "with ",
+                "start": 0.921,
+                "end": 1.19
+              },
+              {
+                "text": "no ",
+                "start": 1.19,
+                "end": 1.324
+              },
+              {
+                "text": "borrowing, ",
+                "start": 1.324,
+                "end": 1.996
+              },
+              {
+                "text": "swaps ",
+                "start": 1.996,
+                "end": 2.331
+              },
+              {
+                "text": "one ",
+                "start": 2.331,
+                "end": 2.533
+              },
+              {
+                "text": "asset ",
+                "start": 2.533,
+                "end": 2.868
+              },
+              {
+                "text": "for ",
+                "start": 2.868,
+                "end": 3.07
+              },
+              {
+                "text": "another. ",
+                "start": 3.07,
+                "end": 3.607
+              },
+              {
+                "text": "The ",
+                "start": 3.607,
+                "end": 3.808
+              },
+              {
+                "text": "linear ",
+                "start": 3.808,
+                "end": 4.211
+              },
+              {
+                "text": "perpetual ",
+                "start": 4.211,
+                "end": 4.815
+              },
+              {
+                "text": "we ",
+                "start": 4.815,
+                "end": 4.95
+              },
+              {
+                "text": "cover ",
+                "start": 4.95,
+                "end": 5.285
+              },
+              {
+                "text": "here ",
+                "start": 5.285,
+                "end": 5.554
+              },
+              {
+                "text": "is ",
+                "start": 5.554,
+                "end": 5.688
+              },
+              {
+                "text": "a ",
+                "start": 5.688,
+                "end": 5.755
+              },
+              {
+                "text": "contract ",
+                "start": 5.755,
+                "end": 6.292
+              },
+              {
+                "text": "position ",
+                "start": 6.292,
+                "end": 6.83
+              },
+              {
+                "text": "that ",
+                "start": 6.83,
+                "end": 7.098
+              },
+              {
+                "text": "settles ",
+                "start": 7.098,
+                "end": 7.568
+              },
+              {
+                "text": "profit ",
+                "start": 7.568,
+                "end": 7.971
+              },
+              {
+                "text": "and ",
+                "start": 7.971,
+                "end": 8.172
+              },
+              {
+                "text": "loss ",
+                "start": 8.172,
+                "end": 8.441
+              },
+              {
+                "text": "as ",
+                "start": 8.441,
+                "end": 8.575
+              },
+              {
+                "text": "the ",
+                "start": 8.575,
+                "end": 8.777
+              },
+              {
+                "text": "price ",
+                "start": 8.777,
+                "end": 9.112
+              },
+              {
+                "text": "moves. ",
+                "start": 9.112,
+                "end": 9.515
+              },
+              {
+                "text": "It's ",
+                "start": 9.515,
+                "end": 9.784
+              },
+              {
+                "text": "not ",
+                "start": 9.784,
+                "end": 9.985
+              },
+              {
+                "text": "buying ",
+                "start": 9.985,
+                "end": 10.388
+              },
+              {
+                "text": "bitcoin ",
+                "start": 10.388,
+                "end": 10.858
+              },
+              {
+                "text": "you ",
+                "start": 10.858,
+                "end": 11.059
+              },
+              {
+                "text": "can ",
+                "start": 11.059,
+                "end": 11.261
+              },
+              {
+                "text": "withdraw.",
+                "start": 11.261,
+                "end": 11.865
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "没有",
+                "start": 0.25,
+                "end": 0.602
+              },
+              {
+                "text": "借贷",
+                "start": 0.602,
+                "end": 0.954
+              },
+              {
+                "text": "的",
+                "start": 0.954,
+                "end": 1.13
+              },
+              {
+                "text": "普通",
+                "start": 1.13,
+                "end": 1.482
+              },
+              {
+                "text": "现货，",
+                "start": 1.482,
+                "end": 2.01
+              },
+              {
+                "text": "是用",
+                "start": 2.01,
+                "end": 2.362
+              },
+              {
+                "text": "一种",
+                "start": 2.362,
+                "end": 2.714
+              },
+              {
+                "text": "资产",
+                "start": 2.714,
+                "end": 3.066
+              },
+              {
+                "text": "换",
+                "start": 3.066,
+                "end": 3.242
+              },
+              {
+                "text": "另",
+                "start": 3.242,
+                "end": 3.418
+              },
+              {
+                "text": "一种",
+                "start": 3.418,
+                "end": 3.77
+              },
+              {
+                "text": "资产。",
+                "start": 3.77,
+                "end": 4.298
+              },
+              {
+                "text": "这里",
+                "start": 4.298,
+                "end": 4.65
+              },
+              {
+                "text": "讲的",
+                "start": 4.65,
+                "end": 5.002
+              },
+              {
+                "text": "线性",
+                "start": 5.002,
+                "end": 5.354
+              },
+              {
+                "text": "永",
+                "start": 5.354,
+                "end": 5.53
+              },
+              {
+                "text": "续",
+                "start": 5.53,
+                "end": 5.706
+              },
+              {
+                "text": "合约，",
+                "start": 5.706,
+                "end": 6.233
+              },
+              {
+                "text": "则",
+                "start": 6.233,
+                "end": 6.409
+              },
+              {
+                "text": "是",
+                "start": 6.409,
+                "end": 6.585
+              },
+              {
+                "text": "持有",
+                "start": 6.585,
+                "end": 6.937
+              },
+              {
+                "text": "按",
+                "start": 6.937,
+                "end": 7.113
+              },
+              {
+                "text": "价格",
+                "start": 7.113,
+                "end": 7.465
+              },
+              {
+                "text": "变化",
+                "start": 7.465,
+                "end": 7.817
+              },
+              {
+                "text": "结算",
+                "start": 7.817,
+                "end": 8.169
+              },
+              {
+                "text": "盈亏",
+                "start": 8.169,
+                "end": 8.521
+              },
+              {
+                "text": "的",
+                "start": 8.521,
+                "end": 8.697
+              },
+              {
+                "text": "合约",
+                "start": 8.697,
+                "end": 9.049
+              },
+              {
+                "text": "仓",
+                "start": 9.049,
+                "end": 9.225
+              },
+              {
+                "text": "位，",
+                "start": 9.225,
+                "end": 9.577
+              },
+              {
+                "text": "不",
+                "start": 9.577,
+                "end": 9.753
+              },
+              {
+                "text": "等于",
+                "start": 9.753,
+                "end": 10.105
+              },
+              {
+                "text": "买到",
+                "start": 10.105,
+                "end": 10.457
+              },
+              {
+                "text": "可",
+                "start": 10.457,
+                "end": 10.633
+              },
+              {
+                "text": "提取",
+                "start": 10.633,
+                "end": 10.985
+              },
+              {
+                "text": "的",
+                "start": 10.985,
+                "end": 11.161
+              },
+              {
+                "text": "比",
+                "start": 11.161,
+                "end": 11.337
+              },
+              {
+                "text": "特",
+                "start": 11.337,
+                "end": 11.513
+              },
+              {
+                "text": "币。",
+                "start": 11.513,
+                "end": 11.865
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": {
+              "en": "Spot",
+              "zh-Hans": "现货"
+            },
+            "rows": [
+              {
+                "en": "Pay USDT → get BTC",
+                "zh-Hans": "付 USDT → 得 BTC"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Futures",
+              "zh-Hans": "合约"
+            },
+            "rows": [
+              {
+                "en": "Position + P&L",
+                "zh-Hans": "仓位 + 盈亏"
+              },
+              {
+                "en": "No withdrawable BTC",
+                "zh-Hans": "没有可提取的 BTC"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "现货演示付出USDT获得BTC；合约演示新增仓位与盈亏栏，不新增可提取BTC。",
+      "source_onscreen_text": {
+        "en": [
+          "Spot: USDT → BTC",
+          "Futures: position + P&L, no BTC"
+        ],
+        "zh-Hans": [
+          "现货：USDT → BTC",
+          "合约：仓位 + 盈亏，无BTC"
+        ]
+      }
+    },
+    {
+      "id": "long-short",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "The same price rises: long P&L goes positive, short goes negative; then the price falls and it flips.",
+      "visual_zh": "同一价格上升，多头收益方向为正，空头为负；随后价格下降反转。",
+      "onscreen_text_en": "Wrong direction loses either way",
+      "onscreen_text_zh-Hans": "方向错了，哪边都亏",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Going long usually means hoping the price rises. Going short usually means hoping it falls. Get the direction wrong, and either side loses. Being able to short doesn't make it easier to make money.",
+            "zh-Hans": "做多通常希望价格上涨，做空通常希望价格下跌。判断错了方向，两边都会亏。可以做空，不代表更容易赚钱。"
+          },
+          "start": 0.25,
+          "end": 11.088,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e18-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 10.838
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Going ",
+                "start": 0.25,
+                "end": 0.58
+              },
+              {
+                "text": "long ",
+                "start": 0.58,
+                "end": 0.845
+              },
+              {
+                "text": "usually ",
+                "start": 0.845,
+                "end": 1.307
+              },
+              {
+                "text": "means ",
+                "start": 1.307,
+                "end": 1.638
+              },
+              {
+                "text": "hoping ",
+                "start": 1.638,
+                "end": 2.034
+              },
+              {
+                "text": "the ",
+                "start": 2.034,
+                "end": 2.233
+              },
+              {
+                "text": "price ",
+                "start": 2.233,
+                "end": 2.563
+              },
+              {
+                "text": "rises. ",
+                "start": 2.563,
+                "end": 2.96
+              },
+              {
+                "text": "Going ",
+                "start": 2.96,
+                "end": 3.29
+              },
+              {
+                "text": "short ",
+                "start": 3.29,
+                "end": 3.62
+              },
+              {
+                "text": "usually ",
+                "start": 3.62,
+                "end": 4.083
+              },
+              {
+                "text": "means ",
+                "start": 4.083,
+                "end": 4.413
+              },
+              {
+                "text": "hoping ",
+                "start": 4.413,
+                "end": 4.81
+              },
+              {
+                "text": "it ",
+                "start": 4.81,
+                "end": 4.942
+              },
+              {
+                "text": "falls. ",
+                "start": 4.942,
+                "end": 5.339
+              },
+              {
+                "text": "Get ",
+                "start": 5.339,
+                "end": 5.537
+              },
+              {
+                "text": "the ",
+                "start": 5.537,
+                "end": 5.735
+              },
+              {
+                "text": "direction ",
+                "start": 5.735,
+                "end": 6.33
+              },
+              {
+                "text": "wrong, ",
+                "start": 6.33,
+                "end": 6.726
+              },
+              {
+                "text": "and ",
+                "start": 6.726,
+                "end": 6.925
+              },
+              {
+                "text": "either ",
+                "start": 6.925,
+                "end": 7.321
+              },
+              {
+                "text": "side ",
+                "start": 7.321,
+                "end": 7.585
+              },
+              {
+                "text": "loses. ",
+                "start": 7.585,
+                "end": 7.982
+              },
+              {
+                "text": "Being ",
+                "start": 7.982,
+                "end": 8.312
+              },
+              {
+                "text": "able ",
+                "start": 8.312,
+                "end": 8.577
+              },
+              {
+                "text": "to ",
+                "start": 8.577,
+                "end": 8.709
+              },
+              {
+                "text": "short ",
+                "start": 8.709,
+                "end": 9.039
+              },
+              {
+                "text": "doesn't ",
+                "start": 9.039,
+                "end": 9.502
+              },
+              {
+                "text": "make ",
+                "start": 9.502,
+                "end": 9.766
+              },
+              {
+                "text": "it ",
+                "start": 9.766,
+                "end": 9.898
+              },
+              {
+                "text": "easier ",
+                "start": 9.898,
+                "end": 10.295
+              },
+              {
+                "text": "to ",
+                "start": 10.295,
+                "end": 10.427
+              },
+              {
+                "text": "make ",
+                "start": 10.427,
+                "end": 10.691
+              },
+              {
+                "text": "money.",
+                "start": 10.691,
+                "end": 11.088
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "做",
+                "start": 0.25,
+                "end": 0.471
+              },
+              {
+                "text": "多",
+                "start": 0.471,
+                "end": 0.692
+              },
+              {
+                "text": "通常",
+                "start": 0.692,
+                "end": 1.135
+              },
+              {
+                "text": "希望",
+                "start": 1.135,
+                "end": 1.577
+              },
+              {
+                "text": "价格",
+                "start": 1.577,
+                "end": 2.019
+              },
+              {
+                "text": "上涨，",
+                "start": 2.019,
+                "end": 2.683
+              },
+              {
+                "text": "做",
+                "start": 2.683,
+                "end": 2.904
+              },
+              {
+                "text": "空",
+                "start": 2.904,
+                "end": 3.125
+              },
+              {
+                "text": "通常",
+                "start": 3.125,
+                "end": 3.568
+              },
+              {
+                "text": "希望",
+                "start": 3.568,
+                "end": 4.01
+              },
+              {
+                "text": "价格",
+                "start": 4.01,
+                "end": 4.452
+              },
+              {
+                "text": "下跌。",
+                "start": 4.452,
+                "end": 5.116
+              },
+              {
+                "text": "判断",
+                "start": 5.116,
+                "end": 5.558
+              },
+              {
+                "text": "错",
+                "start": 5.558,
+                "end": 5.78
+              },
+              {
+                "text": "了",
+                "start": 5.78,
+                "end": 6.001
+              },
+              {
+                "text": "方向，",
+                "start": 6.001,
+                "end": 6.664
+              },
+              {
+                "text": "两",
+                "start": 6.664,
+                "end": 6.886
+              },
+              {
+                "text": "边",
+                "start": 6.886,
+                "end": 7.107
+              },
+              {
+                "text": "都会",
+                "start": 7.107,
+                "end": 7.549
+              },
+              {
+                "text": "亏。",
+                "start": 7.549,
+                "end": 7.991
+              },
+              {
+                "text": "可以",
+                "start": 7.991,
+                "end": 8.434
+              },
+              {
+                "text": "做",
+                "start": 8.434,
+                "end": 8.655
+              },
+              {
+                "text": "空，",
+                "start": 8.655,
+                "end": 9.097
+              },
+              {
+                "text": "不",
+                "start": 9.097,
+                "end": 9.319
+              },
+              {
+                "text": "代表",
+                "start": 9.319,
+                "end": 9.761
+              },
+              {
+                "text": "更",
+                "start": 9.761,
+                "end": 9.982
+              },
+              {
+                "text": "容易",
+                "start": 9.982,
+                "end": 10.424
+              },
+              {
+                "text": "赚钱。",
+                "start": 10.424,
+                "end": 11.088
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "divider": "|",
+          "left": {
+            "title": {
+              "en": "Long ↑",
+              "zh-Hans": "做多 ↑"
+            },
+            "rows": [
+              {
+                "en": "Price up → gain",
+                "zh-Hans": "涨 → 盈"
+              },
+              {
+                "en": "Price down → loss",
+                "zh-Hans": "跌 → 亏"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Short ↓",
+              "zh-Hans": "做空 ↓"
+            },
+            "rows": [
+              {
+                "en": "Price down → gain",
+                "zh-Hans": "跌 → 盈"
+              },
+              {
+                "en": "Price up → loss",
+                "zh-Hans": "涨 → 亏"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "同一价格上升，多头收益方向为正，空头为负；随后价格下降反转。",
+      "source_onscreen_text": {
+        "en": [
+          "Long ↑",
+          "Short ↓"
+        ],
+        "zh-Hans": [
+          "做多 ↑",
+          "做空 ↓"
+        ]
+      }
+    },
+    {
+      "id": "four-fields",
+      "duration": 24,
+      "set": "trading-desk",
+      "visual_en": "A futures panel with only four fields: direction, size, margin, P&L. Beside it, an entry to the risk lessons.",
+      "visual_zh": "合约面板只保留方向、数量、保证金、盈亏四项；新生看到风险课程入口。",
+      "onscreen_text_en": "A different risk, not a level",
+      "onscreen_text_zh-Hans": "不同的风险，不是升级",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Should I level up from spot to futures?",
+            "zh-Hans": "我应该从现货升级到合约吗？"
+          },
+          "start": 0.25,
+          "end": 2.079,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e18-04-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 1.829
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Should ",
+                "start": 0.25,
+                "end": 0.593
+              },
+              {
+                "text": "I ",
+                "start": 0.593,
+                "end": 0.65
+              },
+              {
+                "text": "level ",
+                "start": 0.65,
+                "end": 0.936
+              },
+              {
+                "text": "up ",
+                "start": 0.936,
+                "end": 1.05
+              },
+              {
+                "text": "from ",
+                "start": 1.05,
+                "end": 1.279
+              },
+              {
+                "text": "spot ",
+                "start": 1.279,
+                "end": 1.507
+              },
+              {
+                "text": "to ",
+                "start": 1.507,
+                "end": 1.622
+              },
+              {
+                "text": "futures?",
+                "start": 1.622,
+                "end": 2.079
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "我",
+                "start": 0.25,
+                "end": 0.391
+              },
+              {
+                "text": "应该",
+                "start": 0.391,
+                "end": 0.672
+              },
+              {
+                "text": "从",
+                "start": 0.672,
+                "end": 0.813
+              },
+              {
+                "text": "现货",
+                "start": 0.813,
+                "end": 1.094
+              },
+              {
+                "text": "升级",
+                "start": 1.094,
+                "end": 1.376
+              },
+              {
+                "text": "到",
+                "start": 1.376,
+                "end": 1.516
+              },
+              {
+                "text": "合约",
+                "start": 1.516,
+                "end": 1.798
+              },
+              {
+                "text": "吗？",
+                "start": 1.798,
+                "end": 2.079
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "No need. Futures are a different risk structure, not a level you must reach. You can understand them and still choose not to use them.",
+            "zh-Hans": "不用。合约是另一种风险结构，不是学习必须达到的等级；知道它是什么，也可以选择不用。"
+          },
+          "start": 2.379,
+          "end": 10.061,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e18-04-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 7.682
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No ",
+                "start": 2.379,
+                "end": 2.519
+              },
+              {
+                "text": "need. ",
+                "start": 2.519,
+                "end": 2.868
+              },
+              {
+                "text": "Futures ",
+                "start": 2.868,
+                "end": 3.357
+              },
+              {
+                "text": "are ",
+                "start": 3.357,
+                "end": 3.566
+              },
+              {
+                "text": "a ",
+                "start": 3.566,
+                "end": 3.636
+              },
+              {
+                "text": "different ",
+                "start": 3.636,
+                "end": 4.265
+              },
+              {
+                "text": "risk ",
+                "start": 4.265,
+                "end": 4.544
+              },
+              {
+                "text": "structure, ",
+                "start": 4.544,
+                "end": 5.242
+              },
+              {
+                "text": "not ",
+                "start": 5.242,
+                "end": 5.452
+              },
+              {
+                "text": "a ",
+                "start": 5.452,
+                "end": 5.522
+              },
+              {
+                "text": "level ",
+                "start": 5.522,
+                "end": 5.871
+              },
+              {
+                "text": "you ",
+                "start": 5.871,
+                "end": 6.08
+              },
+              {
+                "text": "must ",
+                "start": 6.08,
+                "end": 6.36
+              },
+              {
+                "text": "reach. ",
+                "start": 6.36,
+                "end": 6.779
+              },
+              {
+                "text": "You ",
+                "start": 6.779,
+                "end": 6.988
+              },
+              {
+                "text": "can ",
+                "start": 6.988,
+                "end": 7.198
+              },
+              {
+                "text": "understand ",
+                "start": 7.198,
+                "end": 7.896
+              },
+              {
+                "text": "them ",
+                "start": 7.896,
+                "end": 8.175
+              },
+              {
+                "text": "and ",
+                "start": 8.175,
+                "end": 8.385
+              },
+              {
+                "text": "still ",
+                "start": 8.385,
+                "end": 8.734
+              },
+              {
+                "text": "choose ",
+                "start": 8.734,
+                "end": 9.153
+              },
+              {
+                "text": "not ",
+                "start": 9.153,
+                "end": 9.363
+              },
+              {
+                "text": "to ",
+                "start": 9.363,
+                "end": 9.502
+              },
+              {
+                "text": "use ",
+                "start": 9.502,
+                "end": 9.712
+              },
+              {
+                "text": "them.",
+                "start": 9.712,
+                "end": 10.061
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不用。",
+                "start": 2.379,
+                "end": 2.941
+              },
+              {
+                "text": "合约",
+                "start": 2.941,
+                "end": 3.316
+              },
+              {
+                "text": "是",
+                "start": 3.316,
+                "end": 3.503
+              },
+              {
+                "text": "另",
+                "start": 3.503,
+                "end": 3.691
+              },
+              {
+                "text": "一种",
+                "start": 3.691,
+                "end": 4.065
+              },
+              {
+                "text": "风险",
+                "start": 4.065,
+                "end": 4.44
+              },
+              {
+                "text": "结构，",
+                "start": 4.44,
+                "end": 5.002
+              },
+              {
+                "text": "不是",
+                "start": 5.002,
+                "end": 5.377
+              },
+              {
+                "text": "学习",
+                "start": 5.377,
+                "end": 5.752
+              },
+              {
+                "text": "必须",
+                "start": 5.752,
+                "end": 6.126
+              },
+              {
+                "text": "达到",
+                "start": 6.126,
+                "end": 6.501
+              },
+              {
+                "text": "的",
+                "start": 6.501,
+                "end": 6.688
+              },
+              {
+                "text": "等级；",
+                "start": 6.688,
+                "end": 7.251
+              },
+              {
+                "text": "知道",
+                "start": 7.251,
+                "end": 7.625
+              },
+              {
+                "text": "它是",
+                "start": 7.625,
+                "end": 8
+              },
+              {
+                "text": "什么，",
+                "start": 8,
+                "end": 8.562
+              },
+              {
+                "text": "也可以",
+                "start": 8.562,
+                "end": 9.124
+              },
+              {
+                "text": "选择",
+                "start": 9.124,
+                "end": 9.499
+              },
+              {
+                "text": "不用。",
+                "start": 9.499,
+                "end": 10.061
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "label": {
+                "en": "Direction",
+                "zh-Hans": "方向"
+              }
+            },
+            {
+              "label": {
+                "en": "Size",
+                "zh-Hans": "数量"
+              }
+            },
+            {
+              "label": {
+                "en": "Margin",
+                "zh-Hans": "保证金"
+              }
+            },
+            {
+              "label": {
+                "en": "P&L",
+                "zh-Hans": "盈亏"
+              }
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "合约面板只保留方向、数量、保证金、盈亏四项；新生看到风险课程入口。",
+      "source_onscreen_text": {
+        "en": [
+          "Direction",
+          "Size",
+          "Margin",
+          "P&L",
+          "Optional · risk awareness"
+        ],
+        "zh-Hans": [
+          "方向",
+          "数量",
+          "保证金",
+          "盈亏",
+          "选修 · 风险认知"
+        ]
+      }
+    },
+    {
+      "id": "no-liquidation",
+      "duration": 19,
+      "set": "trading-desk",
+      "visual_en": "Plain spot is labelled 'no borrowing, no margin liquidation'; beside it, price-drop risk and platform risk.",
+      "visual_zh": "普通现货标“无借贷不因保证金不足被强平”，另列币价下跌和平台风险。",
+      "onscreen_text_en": "No liquidation ≠ protected",
+      "onscreen_text_zh-Hans": "不强平 ≠ 有保护",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Plain spot without borrowing has no margin liquidation like futures do. But the asset can still lose a lot of value. No liquidation doesn't mean your money is protected.",
+            "zh-Hans": "不借贷的普通现货没有合约那种保证金不足强平，但资产仍可能大幅贬值。不能因为没有强平，就说它保本。"
+          },
+          "start": 0.25,
+          "end": 9.367,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e18-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 9.117
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Plain ",
+                "start": 0.25,
+                "end": 0.573
+              },
+              {
+                "text": "spot ",
+                "start": 0.573,
+                "end": 0.832
+              },
+              {
+                "text": "without ",
+                "start": 0.832,
+                "end": 1.285
+              },
+              {
+                "text": "borrowing ",
+                "start": 1.285,
+                "end": 1.866
+              },
+              {
+                "text": "has ",
+                "start": 1.866,
+                "end": 2.06
+              },
+              {
+                "text": "no ",
+                "start": 2.06,
+                "end": 2.19
+              },
+              {
+                "text": "margin ",
+                "start": 2.19,
+                "end": 2.578
+              },
+              {
+                "text": "liquidation ",
+                "start": 2.578,
+                "end": 3.289
+              },
+              {
+                "text": "like ",
+                "start": 3.289,
+                "end": 3.548
+              },
+              {
+                "text": "futures ",
+                "start": 3.548,
+                "end": 4
+              },
+              {
+                "text": "do. ",
+                "start": 4,
+                "end": 4.194
+              },
+              {
+                "text": "But ",
+                "start": 4.194,
+                "end": 4.388
+              },
+              {
+                "text": "the ",
+                "start": 4.388,
+                "end": 4.582
+              },
+              {
+                "text": "asset ",
+                "start": 4.582,
+                "end": 4.905
+              },
+              {
+                "text": "can ",
+                "start": 4.905,
+                "end": 5.099
+              },
+              {
+                "text": "still ",
+                "start": 5.099,
+                "end": 5.423
+              },
+              {
+                "text": "lose ",
+                "start": 5.423,
+                "end": 5.681
+              },
+              {
+                "text": "a ",
+                "start": 5.681,
+                "end": 5.746
+              },
+              {
+                "text": "lot ",
+                "start": 5.746,
+                "end": 5.94
+              },
+              {
+                "text": "of ",
+                "start": 5.94,
+                "end": 6.069
+              },
+              {
+                "text": "value. ",
+                "start": 6.069,
+                "end": 6.457
+              },
+              {
+                "text": "No ",
+                "start": 6.457,
+                "end": 6.587
+              },
+              {
+                "text": "liquidation ",
+                "start": 6.587,
+                "end": 7.298
+              },
+              {
+                "text": "doesn't ",
+                "start": 7.298,
+                "end": 7.751
+              },
+              {
+                "text": "mean ",
+                "start": 7.751,
+                "end": 8.009
+              },
+              {
+                "text": "your ",
+                "start": 8.009,
+                "end": 8.268
+              },
+              {
+                "text": "money ",
+                "start": 8.268,
+                "end": 8.591
+              },
+              {
+                "text": "is ",
+                "start": 8.591,
+                "end": 8.72
+              },
+              {
+                "text": "protected.",
+                "start": 8.72,
+                "end": 9.367
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不",
+                "start": 0.25,
+                "end": 0.44
+              },
+              {
+                "text": "借贷",
+                "start": 0.44,
+                "end": 0.82
+              },
+              {
+                "text": "的",
+                "start": 0.82,
+                "end": 1.01
+              },
+              {
+                "text": "普通",
+                "start": 1.01,
+                "end": 1.39
+              },
+              {
+                "text": "现货",
+                "start": 1.39,
+                "end": 1.77
+              },
+              {
+                "text": "没有",
+                "start": 1.77,
+                "end": 2.149
+              },
+              {
+                "text": "合约",
+                "start": 2.149,
+                "end": 2.529
+              },
+              {
+                "text": "那种",
+                "start": 2.529,
+                "end": 2.909
+              },
+              {
+                "text": "保证",
+                "start": 2.909,
+                "end": 3.289
+              },
+              {
+                "text": "金",
+                "start": 3.289,
+                "end": 3.479
+              },
+              {
+                "text": "不足",
+                "start": 3.479,
+                "end": 3.859
+              },
+              {
+                "text": "强",
+                "start": 3.859,
+                "end": 4.049
+              },
+              {
+                "text": "平，",
+                "start": 4.049,
+                "end": 4.429
+              },
+              {
+                "text": "但",
+                "start": 4.429,
+                "end": 4.619
+              },
+              {
+                "text": "资产",
+                "start": 4.619,
+                "end": 4.998
+              },
+              {
+                "text": "仍",
+                "start": 4.998,
+                "end": 5.188
+              },
+              {
+                "text": "可能",
+                "start": 5.188,
+                "end": 5.568
+              },
+              {
+                "text": "大幅",
+                "start": 5.568,
+                "end": 5.948
+              },
+              {
+                "text": "贬值。",
+                "start": 5.948,
+                "end": 6.518
+              },
+              {
+                "text": "不能",
+                "start": 6.518,
+                "end": 6.898
+              },
+              {
+                "text": "因为",
+                "start": 6.898,
+                "end": 7.278
+              },
+              {
+                "text": "没有",
+                "start": 7.278,
+                "end": 7.658
+              },
+              {
+                "text": "强",
+                "start": 7.658,
+                "end": 7.848
+              },
+              {
+                "text": "平，",
+                "start": 7.848,
+                "end": 8.227
+              },
+              {
+                "text": "就",
+                "start": 8.227,
+                "end": 8.417
+              },
+              {
+                "text": "说",
+                "start": 8.417,
+                "end": 8.607
+              },
+              {
+                "text": "它",
+                "start": 8.607,
+                "end": 8.797
+              },
+              {
+                "text": "保",
+                "start": 8.797,
+                "end": 8.987
+              },
+              {
+                "text": "本。",
+                "start": 8.987,
+                "end": 9.367
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "compare",
+          "left": {
+            "title": {
+              "en": "Plain spot",
+              "zh-Hans": "普通现货"
+            },
+            "rows": [
+              {
+                "en": "No margin liquidation",
+                "zh-Hans": "没有保证金强平"
+              }
+            ]
+          },
+          "right": {
+            "title": {
+              "en": "Still",
+              "zh-Hans": "仍然有"
+            },
+            "rows": [
+              {
+                "en": "Price risk",
+                "zh-Hans": "价格风险"
+              },
+              {
+                "en": "Platform risk",
+                "zh-Hans": "平台风险"
+              }
+            ]
+          }
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "普通现货标“无借贷不因保证金不足被强平”，另列币价下跌和平台风险。",
+      "source_onscreen_text": {
+        "en": [
+          "Spot: no margin liquidation",
+          "Still: price risk · platform risk"
+        ],
+        "zh-Hans": [
+          "现货：无保证金强平",
+          "仍有：价格风险 · 平台风险"
+        ]
+      }
+    },
+    {
+      "id": "contract-quiz",
+      "duration": 13,
+      "set": "trading-desk",
+      "visual_en": "Question card: 'Does opening a bitcoin contract add the same amount of withdrawable bitcoin to your account?'",
+      "visual_zh": "题目：开一个比特币合约，是否等于账户里多了同数量可提的比特币？",
+      "onscreen_text_en": "Quick check",
+      "onscreen_text_zh-Hans": "小测验",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "No.",
+            "zh-Hans": "不是。"
+          },
+          "start": 0.25,
+          "end": 0.601,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e18-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 0.351
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No.",
+                "start": 0.25,
+                "end": 0.601
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不是。",
+                "start": 0.25,
+                "end": 0.601
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Know what you're trading first. Then study leverage.",
+            "zh-Hans": "先分清交易对象，再研究杠杆。"
+          },
+          "start": 0.901,
+          "end": 3.775,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e18-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 2.874
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Know ",
+                "start": 0.901,
+                "end": 1.156
+              },
+              {
+                "text": "what ",
+                "start": 1.156,
+                "end": 1.412
+              },
+              {
+                "text": "you're ",
+                "start": 1.412,
+                "end": 1.795
+              },
+              {
+                "text": "trading ",
+                "start": 1.795,
+                "end": 2.242
+              },
+              {
+                "text": "first. ",
+                "start": 2.242,
+                "end": 2.625
+              },
+              {
+                "text": "Then ",
+                "start": 2.625,
+                "end": 2.881
+              },
+              {
+                "text": "study ",
+                "start": 2.881,
+                "end": 3.2
+              },
+              {
+                "text": "leverage.",
+                "start": 3.2,
+                "end": 3.775
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先",
+                "start": 0.901,
+                "end": 1.106
+              },
+              {
+                "text": "分清",
+                "start": 1.106,
+                "end": 1.517
+              },
+              {
+                "text": "交易",
+                "start": 1.517,
+                "end": 1.927
+              },
+              {
+                "text": "对象，",
+                "start": 1.927,
+                "end": 2.543
+              },
+              {
+                "text": "再",
+                "start": 2.543,
+                "end": 2.749
+              },
+              {
+                "text": "研究",
+                "start": 2.749,
+                "end": 3.159
+              },
+              {
+                "text": "杠杆。",
+                "start": 3.159,
+                "end": 3.775
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Does opening a bitcoin contract add withdrawable bitcoin to your account?",
+            "zh-Hans": "开比特币合约会给账户增加可提取的比特币吗？"
+          },
+          "verdict": {
+            "en": "NO",
+            "zh-Hans": "不能"
+          }
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "题目：开一个比特币合约，是否等于账户里多了同数量可提的比特币？",
+      "source_onscreen_text": {
+        "en": [
+          "Contract = withdrawable BTC?  NO"
+        ],
+        "zh-Hans": [
+          "合约 = 可提的BTC？ 不是"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 5,
+    "pose": "point",
+    "text": {
+      "en": "10x leverage: does the exchange hand you 900 extra? Next episode.",
+      "zh-Hans": "开十倍，平台会送你九百吗？下一集。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "10x leverage: does the exchange hand you 900 extra? Next episode.",
+          "zh-Hans": "开十倍，平台会送你九百吗？下一集。"
+        },
+        "start": 0.25,
+        "end": 4.738,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e18-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 4.488
+        },
+        "words": {
+          "en": [
+            {
+              "text": "10x ",
+              "start": 0.25,
+              "end": 0.495
+            },
+            {
+              "text": "leverage: ",
+              "start": 0.495,
+              "end": 1.229
+            },
+            {
+              "text": "does ",
+              "start": 1.229,
+              "end": 1.556
+            },
+            {
+              "text": "the ",
+              "start": 1.556,
+              "end": 1.8
+            },
+            {
+              "text": "exchange ",
+              "start": 1.8,
+              "end": 2.453
+            },
+            {
+              "text": "hand ",
+              "start": 2.453,
+              "end": 2.78
+            },
+            {
+              "text": "you ",
+              "start": 2.78,
+              "end": 3.024
+            },
+            {
+              "text": "900 ",
+              "start": 3.024,
+              "end": 3.269
+            },
+            {
+              "text": "extra? ",
+              "start": 3.269,
+              "end": 3.759
+            },
+            {
+              "text": "Next ",
+              "start": 3.759,
+              "end": 4.085
+            },
+            {
+              "text": "episode.",
+              "start": 4.085,
+              "end": 4.738
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "开",
+              "start": 0.25,
+              "end": 0.514
+            },
+            {
+              "text": "十倍，",
+              "start": 0.514,
+              "end": 1.306
+            },
+            {
+              "text": "平台",
+              "start": 1.306,
+              "end": 1.834
+            },
+            {
+              "text": "会",
+              "start": 1.834,
+              "end": 2.098
+            },
+            {
+              "text": "送",
+              "start": 2.098,
+              "end": 2.362
+            },
+            {
+              "text": "你",
+              "start": 2.362,
+              "end": 2.626
+            },
+            {
+              "text": "九百",
+              "start": 2.626,
+              "end": 3.154
+            },
+            {
+              "text": "吗？",
+              "start": 3.154,
+              "end": 3.682
+            },
+            {
+              "text": "下",
+              "start": 3.682,
+              "end": 3.946
+            },
+            {
+              "text": "一",
+              "start": 3.946,
+              "end": 4.21
+            },
+            {
+              "text": "集。",
+              "start": 4.21,
+              "end": 4.738
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.3,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e18-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.05
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.104
+          },
+          {
+            "text": "first, ",
+            "start": 1.104,
+            "end": 1.617
+          },
+          {
+            "text": "then ",
+            "start": 1.617,
+            "end": 1.958
+          },
+          {
+            "text": "act.",
+            "start": 1.958,
+            "end": 2.3
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.506
+          },
+          {
+            "text": "看懂，",
+            "start": 0.506,
+            "end": 1.275
+          },
+          {
+            "text": "再",
+            "start": 1.275,
+            "end": 1.531
+          },
+          {
+            "text": "动手。",
+            "start": 1.531,
+            "end": 2.3
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-academy-s1/ops/academy-v3/episodes/source/E18.json",
+    "original_slug": "spot-vs-futures",
+    "goal": {
+      "en": "Tell holding an asset apart from holding a price contract, and understand long and short.",
+      "zh-Hans": "区分持有资产与持有价格合约，理解做多、做空的方向。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Futures are optional risk lessons. Nothing here asks you to open a futures account.",
+      "line_zh": "合约是选修的风险课，本页不要求你开通合约。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Match spot asset balances and futures position fields to the correct pages.",
+      "task_zh": "将现货资产余额与合约持仓字段分别匹配到正确页面。",
+      "answer_en": "A futures position is not the same as withdrawable base-coin assets. The course doesn't require a real account.",
+      "answer_zh": "合约仓位不等同于可提取的基础币资产；课程不要求真实开户。"
+    },
+    "red_lines": [
+      "Futures examples are USDT-margined linear perpetuals only; never mix in coin-margined, options or delivery formulas ｜ 合约示例限USDT计价线性永续，不混入币本位、期权和交割合约公式",
+      "Futures episode: no conversion card, no partner name, no invite code, no 'open position' button; page CTA = none ｜ 合约集：不放转化卡、不出现合作平台名和邀请码、不画“开仓”按钮；网页CTA为none",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S08",
+      "S21"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "widget_types": [
+      "cards",
+      "compare",
+      "quiz"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.08,
+    "compromises": []
+  }
+}

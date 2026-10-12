@@ -1,0 +1,226 @@
+{
+  "ep": 2,
+  "season": 1,
+  "slug": "is-usdt-a-dollar",
+  "title_en": "Is USDT a dollar? Why is it everywhere when you buy crypto?",
+  "title_zh": "USDT是美元吗？为什么买币常见它？",
+  "goal_en": "Understand what a stablecoin is for, what it aims to track and its risks, and know you don't always need USDT first.",
+  "goal_zh": "理解稳定币的用途、目标锚定及风险，知道买币不必先买USDT。",
+  "duration_target_s": 94,
+  "shots": [
+    {
+      "tc": "00:00-00:06",
+      "visual_en": "Sam slips a card marked USDT into a drawer labelled 'Dollar savings'; Nexubo's arm stops the drawer.",
+      "visual_zh": "小白把一张写着USDT的卡片塞进写着美元存款的抽屉，被小纳拦住。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "It's called Tether, so it's basically dollars in the bank, right?",
+          "zh": "这个叫泰达币，所以它就是美元存款？"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [],
+      "onscreen_text_zh": []
+    },
+    {
+      "tc": "00:06-00:09",
+      "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E02' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+      "visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第02集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+      "lines": [],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "S1 · E02",
+        "Is USDT a dollar? Why is it everywhere when you buy crypto?"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "S1 · E02",
+        "USDT是美元吗？为什么买币常见它？"
+      ]
+    },
+    {
+      "tc": "00:09-00:25",
+      "visual_en": "Three separate cards side by side: dollar banknote, bank deposit, USDT. No equals signs between them.",
+      "visual_zh": "美元纸币、银行存款、USDT三个独立卡片并排；不画等号。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "No. USDT, or Tether, is a stablecoin. It's designed to stay close to one dollar. But it isn't the dollars in your bank account, and it isn't risk-free cash.",
+          "zh": "不是。泰达币是一种稳定币，设计目标是尽量贴近一美元，但它不是你银行账户里的美元，也不是没有风险的现金。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "US dollar",
+        "Bank deposit",
+        "USDT (stablecoin)"
+      ],
+      "onscreen_text_zh": [
+        "美元",
+        "银行存款",
+        "USDT（稳定币）"
+      ]
+    },
+    {
+      "tc": "00:25-00:45",
+      "visual_en": "A 'BTC/USDT' sign turns into a shelf of bitcoin priced in USDT.",
+      "visual_zh": "“BTC/USDT”牌子变成用泰达币标价的比特币货架。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Exchanges often use it to price and swap assets. You might buy bitcoin with USDT, and when you sell, you may get USDT back, not a bank transfer.",
+          "zh": "交易里常用它作为报价和交换的资产。比如你用泰达币买比特币，卖出后也可能收到泰达币，而不是直接收到银行转账。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "BTC/USDT"
+      ],
+      "onscreen_text_zh": [
+        "BTC/USDT"
+      ]
+    },
+    {
+      "tc": "00:45-01:02",
+      "visual_en": "A steady price line briefly drifts away from its reference line; three cards appear: issuer, reserves, trading channels.",
+      "visual_zh": "平稳价格线短暂偏离参考线，旁边出现发行方、储备、交易通道三张卡片。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "'Stable' is a design goal, not a guarantee. The price can drift, and issuing and redeeming come with conditions. If you hold it, learn about the issuer and the platform risks too.",
+          "zh": "所谓稳定，是设计目标，不是绝对保证。价格可能偏离，发行与赎回也有条件；持有时仍要了解发行方和平台风险。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Issuer",
+        "Reserves",
+        "Trading channels"
+      ],
+      "onscreen_text_zh": [
+        "发行方",
+        "储备",
+        "交易通道"
+      ]
+    },
+    {
+      "tc": "01:02-01:15",
+      "visual_en": "Path A: local currency → BTC. Path B: local currency → USDT → BTC. Both paths light up.",
+      "visual_zh": "路径甲：法币→BTC；路径乙：法币→USDT→BTC，两条路都亮起。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "So I have to buy USDT before bitcoin?",
+          "zh": "所以买币必须先买泰达币？"
+        },
+        {
+          "who": "Nexubo",
+          "en": "Not always. Which currencies and trading pairs you can use depends on your region and your platform.",
+          "zh": "也不一定。支持哪些法币和交易对，要看你所在地区与平台提供的服务。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Local currency → BTC",
+        "Local currency → USDT → BTC"
+      ],
+      "onscreen_text_zh": [
+        "法币 → BTC",
+        "法币 → USDT → BTC"
+      ]
+    },
+    {
+      "tc": "01:15-01:26",
+      "visual_en": "True/false card: 'A stablecoin always equals one dollar and has no risk.' Stamp: FALSE.",
+      "visual_zh": "真假判断“稳定币永远等于美元，没有风险”。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "What's wrong with this sentence? A stablecoin is not a promise to protect your money. Know what it's for, and know it can be unstable.",
+          "zh": "这句话错在哪里？稳定币不是保本承诺；理解用途，也要理解它可能不稳定。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "\"A stablecoin always equals $1 and has no risk.\" FALSE"
+      ],
+      "onscreen_text_zh": [
+        "“稳定币永远等于美元，没有风险。” 错"
+      ]
+    },
+    {
+      "tc": "01:26-01:30",
+      "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+      "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "If your phone breaks tonight, are your coins gone too? Next: where your coins actually live.",
+          "zh": "如果今晚手机摔坏，你的币也会没吗？下一集：币到底在哪。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "If your phone breaks tonight, are your coins gone too? Next: where your coins actually live."
+      ],
+      "onscreen_text_zh": [
+        "如果今晚手机摔坏，你的币也会没吗？下一集：币到底在哪。"
+      ]
+    },
+    {
+      "tc": "01:30-01:34",
+      "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+      "visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Understand first, then act.",
+          "zh": "先看懂，再动手。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "Understand first, then act.",
+        "One verified gateway to the world's exchanges",
+        "nexualpha.com"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "先看懂，再动手。",
+        "全球交易所，一个官方入口",
+        "nexualpha.com"
+      ]
+    }
+  ],
+  "end_hook": {
+    "en": "If your phone breaks tonight, are your coins gone too? Next: where your coins actually live.",
+    "zh": "如果今晚手机摔坏，你的币也会没吗？下一集：币到底在哪。"
+  },
+  "conversion_card": null,
+  "page_cta": {
+    "kind": "telegram",
+    "partner": null,
+    "line_en": "Get new lessons and the beginner checklist in our Telegram channel.",
+    "line_zh": "在我们的 Telegram 频道获取新课程和新手检查清单。",
+    "placement": "directly beside / under the video player; never gates the lesson",
+    "url": "t.me/NexuAlphaGlobal (en) · t.me/NexuAlphaClub (zh)"
+  },
+  "exercise": {
+    "task_en": "Sort 'dollar bank deposit', 'USDT' and 'BTC' into the right categories.",
+    "task_zh": "把“美元存款”“USDT”“BTC”放进正确类别。",
+    "answer_en": "USDT is a stablecoin, a type of crypto asset. It is not a dollar bank deposit.",
+    "answer_zh": "USDT属于加密资产中的稳定币，不是银行美元存款。"
+  },
+  "red_lines": [
+    "Never show 'always 1:1' or 'redeem for dollars any time, no conditions' ｜ 不展示“永久1比1”“随时无条件兑回美元”",
+    "Do not hard-code live issuer reserve data in the animation ｜ 动画不硬编码发行方实时储备数据",
+    "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+  ],
+  "sources": [
+    "S06",
+    "S07"
+  ]
+}

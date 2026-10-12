@@ -2,8 +2,8 @@
 //   node align-narration.mjs measure   -> trims generated wavs, writes episodes/narration-timing.json
 //   (from-v3.mjs applies narration-timing.json when it regenerates episodes/*.json)
 // Timings stay shot-local seconds. Scenes only grow (frame-aligned); fixed-length contract windows
-// (problem 6s, hook 3..5s, close 4..6s, conversion 4..10s) are honoured with tightened padding and,
-// only when needed, a recorded atempo (<=1.08 normal, <=1.12 recorded compromise, otherwise fail).
+// (problem 6s, hook 3..7s, close 4..6s, conversion 4..12s) are honoured with tightened padding and,
+// only when needed, an atempo of at most 1.08 (otherwise the build fails).
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join, resolve } from 'node:path';
@@ -11,7 +11,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 export const LEAD = 0.25, GAP = 0.3, TAIL = 0.25, TIGHT = 0.15;
-export const ATEMPO_NORMAL = 1.08, ATEMPO_COMPROMISE = 1.12;
+// Lead decision 2026-10-12: atempo never exceeds 1.08 (no compromise band); windows were widened instead.
+export const ATEMPO_NORMAL = 1.08, ATEMPO_COMPROMISE = 1.08;
 const round = n => Math.round(n * 1000) / 1000;
 // Scene growth uses 0.1s steps (3 frames at 30fps) so durations stay frame-aligned and readable.
 const frameCeil = n => Math.ceil(n * 10 - 1e-6) / 10;
@@ -82,8 +83,8 @@ export function applyNarrationTiming(converted, timing) {
         window: i === 0 ? { duration: 6, min: 6, max: 6 } : { duration: shot.duration } };
     }
     if (kind === 'open') return { kind, i, label: `${ep.production_id}/open`, lines: ep.open_lines ?? [], set: () => {}, window: { duration: 3, min: 3, max: 3 } };
-    if (kind === 'conversion') return { kind, i, label: `${ep.production_id}/conversion`, lines: ep.conversion_card.lines ?? [], set: d => { ep.conversion_card.duration = d; }, window: { duration: ep.conversion_card.duration, min: 4, max: 10 } };
-    if (kind === 'hook') return { kind, i, label: `${ep.production_id}/hook`, lines: ep.end_hook.lines ?? [], set: d => { ep.end_hook.duration = d; }, window: { duration: ep.end_hook.duration, min: 3, max: 5 } };
+    if (kind === 'conversion') return { kind, i, label: `${ep.production_id}/conversion`, lines: ep.conversion_card.lines ?? [], set: d => { ep.conversion_card.duration = d; }, window: { duration: ep.conversion_card.duration, min: 4, max: 12 } };
+    if (kind === 'hook') return { kind, i, label: `${ep.production_id}/hook`, lines: ep.end_hook.lines ?? [], set: d => { ep.end_hook.duration = d; }, window: { duration: ep.end_hook.duration, min: 3, max: 7 } };
     if (kind === 'close') return { kind, i, label: `${ep.production_id}/close`, lines: ep.close_lines ?? [], set: d => { ep.close_duration = d; }, window: { duration: ep.close_duration ?? 4, min: 4, max: 6 } };
     throw new Error(`Unknown scene kind ${kind}`);
   });
@@ -121,12 +122,14 @@ const ffmpegEnv = () => {
 export const probeSeconds = file => Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file], { env: ffmpegEnv() }).toString().trim());
 export const TRIM_FILTER = 'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04,areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse';
 
-function measure() {
+// Batches merge into the existing record; `measure E01 E02` limits work to those episodes.
+function measure(only = []) {
   const plan = JSON.parse(readFileSync(join(root, 'build/narration/narration-plan.json'), 'utf8'));
   const audioDir = join(root, 'build/narration/audio'), trimDir = join(root, 'build/narration/trimmed');
   mkdirSync(trimDir, { recursive: true });
-  const lines = {};
+  const lines = { ...(loadTiming()?.lines ?? {}) };
   for (const e of plan.episodes) for (const s of e.scenes) for (const l of s.lines) {
+    if (only.length && !only.includes(e.id)) continue;
     const src = join(audioDir, `${l.id}_000.wav`), out = join(trimDir, `${l.id}.wav`);
     execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', src, '-af', TRIM_FILTER, '-ar', '48000', '-ac', '1', out], { env: ffmpegEnv() });
     const source_seconds = round(probeSeconds(src)), trimmed_seconds = round(probeSeconds(out));
@@ -134,12 +137,13 @@ function measure() {
     if (trimmed_seconds < 0.2 || trimmed_seconds > words * 1.2 + 1) throw new Error(`Suspicious narration length ${l.id}: ${trimmed_seconds}s for ${words} words`);
     lines[l.id] = { speaker: l.speaker, text: l.text, source_seconds, trimmed_seconds };
   }
-  const timing = { schema_version: 1, generated_by: 'ops/academy-v3/align-narration.mjs measure', trim_filter: TRIM_FILTER, lines };
+  const sorted = Object.fromEntries(Object.entries(lines).sort(([a], [b]) => a.localeCompare(b)));
+  const timing = { schema_version: 1, generated_by: 'ops/academy-v3/align-narration.mjs measure', trim_filter: TRIM_FILTER, lines: sorted };
   writeFileSync(join(root, 'episodes/narration-timing.json'), JSON.stringify(timing, null, 2) + '\n');
   console.log(`Measured ${Object.keys(lines).length} narration lines -> episodes/narration-timing.json`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  if (process.argv[2] === 'measure') measure();
-  else { console.error('Usage: node align-narration.mjs measure'); process.exit(2); }
+  if (process.argv[2] === 'measure') measure(process.argv.slice(3));
+  else { console.error('Usage: node align-narration.mjs measure [E01 ...]'); process.exit(2); }
 }
