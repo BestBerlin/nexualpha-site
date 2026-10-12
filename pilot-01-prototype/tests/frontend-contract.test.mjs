@@ -1656,7 +1656,7 @@ test("locale state and the fixed default market cover the application root witho
   assert.doesNotMatch(app, /aria-label=\{copy\.ui\.marketRegion\}/);
   assert.match(app, /const readLocale = \(initialUrl\) =>/);
   assert.match(app, /sourceUrl\.searchParams\.get\("locale"\)/);
-  assert.match(app, /getBrazilPage\(publicRoute\.contentPathname \|\| sourceUrl\.pathname\)\) return "pt-BR"/);
+  assert.match(app, /isBrazilPagePath\(publicRoute\.contentPathname \|\| sourceUrl\.pathname\)\) return "pt-BR"/);
   assert.match(app, /window\.history\.replaceState/);
   assert.match(app, /setParaglideLocale\(locale, \{ reload: false \}\)/);
   assert.match(app, /popstate/);

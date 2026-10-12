@@ -181,6 +181,11 @@ export default defineConfig(({ isSsrBuild = false }) => ({
             if (id.includes("/src/components/v3/NextDecisionBridge") || id.endsWith("/src/components/v3/next-decision-bridge.css")) return "route-topic-guide-bridge";
             if (id.includes("/src/components/v3/OnsiteTelegramBotHandoff")) return "shared-onsite-telegram-handoff";
             if (id.includes("/src/data/referral-seo.js") || id.includes("/src/data/referral-partners.generated.js") || id.includes("/src/data/tr-percent.js")) return "data-referral-seo";
+            // Home budget (2026-10-12): the router reads news-listing-path.js / brazil-page-paths.js, so the news library
+            // and the Brazil content left the entry closure. Own chunks keep Rollup from folding them into the first route
+            // chunk that visits them (route-news-detail / route-international), which other routes would then import.
+            if (/\/src\/data\/(?:news-library|news-feed-client|news-read-time)\.js$/.test(id)) return "data-news-library";
+            if (id.endsWith("/src/data/brazil-market.js")) return "data-brazil-market";
             if (id.includes("/src/data/aeo-question-registry.js") || id.includes("/src/data/topic-reviewed-faqs.js") || id.includes("/src/data/international-source-registry.js")) return "data-aeo-questions";
           }
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).

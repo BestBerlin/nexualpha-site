@@ -3,34 +3,11 @@
 // produce the same pages, links and ordering. Pure functions only; no fetch, no DOM.
 import { localizedPath } from "./locale-routing.js";
 import { NEWS_CORE_LOCALES, hasNewsArticleLocale } from "./news-feed-client.js";
+import { NEWS_CATEGORY_KEYS, isNewsCategory, parseNewsListingPath, newsListingPath } from "./news-listing-path.js";
 
 export const NEWS_PAGE_SIZE = 24;
 export const NEWS_SEARCH_MAX_LIMIT = 48;
-export const NEWS_CATEGORY_KEYS = Object.freeze(["guide", "comparison", "exchange-update", "regulation", "rwa", "research"]);
-const CATEGORY_SET = new Set(NEWS_CATEGORY_KEYS);
-
-export function isNewsCategory(value) {
-  return typeof value === "string" && CATEGORY_SET.has(value);
-}
-
-// Content paths (no locale prefix): /news, /news/page/N, /news/category/<key>, /news/category/<key>/page/N.
-// Returns null when the path is not a listing path. `redirect` is set for /page/1 and other non-canonical forms.
-export function parseNewsListingPath(pathname) {
-  const match = String(pathname || "").match(/^\/news(?:\/category\/([a-z0-9-]+))?(?:\/page\/([0-9]{1,4}))?$/);
-  if (!match) return null;
-  const category = match[1] || null;
-  const rawPage = match[2];
-  const page = rawPage === undefined ? 1 : Number.parseInt(rawPage, 10);
-  if (category && !isNewsCategory(category)) return { category, page, invalid: true };
-  if (rawPage !== undefined && (!Number.isFinite(page) || page < 1)) return { category, page: 1, invalid: true };
-  const canonicalPath = newsListingPath({ category, page });
-  return { category, page, canonicalPath, redirect: canonicalPath !== pathname ? canonicalPath : null };
-}
-
-export function newsListingPath({ category = null, page = 1 } = {}) {
-  const base = category ? `/news/category/${category}` : "/news";
-  return page > 1 ? `${base}/page/${page}` : base;
-}
+export { NEWS_CATEGORY_KEYS, isNewsCategory, parseNewsListingPath, newsListingPath };
 
 export function newsListingHref({ category = null, page = 1 } = {}, locale = "en") {
   return localizedPath(newsListingPath({ category, page }), locale);
