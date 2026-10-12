@@ -521,4 +521,9 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   return manifest;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await generatePrerenderManifest();
+// The CLI imports the SSR runtime, which can retain native compiler resources.
+// Reusable imports stay side-effect free; the one-shot command exits after all writes.
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await generatePrerenderManifest();
+  process.exit(0);
+}

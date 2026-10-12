@@ -45,6 +45,7 @@ import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLoca
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
+import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -3676,6 +3677,9 @@ function summarizeNewsArticle(article) {
     title: article.title,
     summary: article.summary,
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
+    ...(Array.isArray(article.tags) ? { tags: article.tags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
+    ...(Array.isArray(article.topicTags) ? { topicTags: article.topicTags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
+    ...(article.cta && typeof article.cta === "object" ? { cta: article.cta } : {}),
     availableLocales: Array.isArray(article.availableLocales) ? article.availableLocales : undefined,
   };
 }
@@ -3909,10 +3913,47 @@ const newsFallbackTableStyles = `<style data-news-fallback-tables>
 .news-detail__table-scroll th{color:#f1f5f9;background:rgba(255,255,255,.045)}
 </style>`;
 
+function articlePromotionContext(article = {}) {
+  return {
+    topicTags: [...(article.topicTags || article.tags || []), article.cta?.topic].filter(Boolean),
+    venue: article.cta?.venue || (Array.isArray(article.relatedVenues) ? article.relatedVenues : []),
+    coin: article.cta?.coin,
+  };
+}
+
+function promotionHref(promotion, locale, market) {
+  if (promotion?.kind === "tool") {
+    const href = localizedCanonical(promotion.link || "/compare", locale);
+    if (!market) return href;
+    const url = new URL(href);
+    url.searchParams.set("market", market);
+    return url.href;
+  }
+  const href = promotion?.link || "#";
+  const separator = href.includes("?") ? "&" : "?";
+  return `${href}${separator}locale=${encodeURIComponent(locale)}${market ? `&market=${encodeURIComponent(market)}` : ""}`;
+}
+
+function renderSponsoredSlotHtml(promotions, { variant = "end", locale = "en", market } = {}) {
+  if (!Array.isArray(promotions) || !promotions.length) return "";
+  const t = promotionCopy(locale);
+  const dir = ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
+  const cards = promotions.map((promotion) => {
+    const isTool = promotion.kind === "tool";
+    const label = isTool ? t.tool : t.sponsored;
+    const condition = promotion.conditions?.[locale] || promotion.conditions?.en || (!isTool ? t.conditions : "");
+    const href = promotionHref(promotion, locale, market);
+    const externalAttrs = isTool ? "" : ' target="_blank" rel="sponsored noopener"';
+    return `<div class="sponsored-slot__card"><small class="sponsored-slot__label">${escapeHtml(label)}</small><strong>${escapeHtml(promotion.name || promotion.partner || t.compare)}</strong>${condition ? `<p>${escapeHtml(condition)}</p>` : ""}<a href="${escapeHtml(href)}"${externalAttrs}>${escapeHtml(t.open)} <span aria-hidden="true">→</span></a></div>`;
+  }).join("");
+  return `<aside class="sponsored-slot sponsored-slot--${escapeHtml(variant)}" data-sponsored-slot="${escapeHtml(variant)}" lang="${escapeHtml(locale)}" dir="${escapeHtml(dir)}">${cards}</aside>`;
+}
+
 function renderNewsFallbackBody(metadata, url) {
   if (metadata.status !== 200 || !Array.isArray(metadata.newsArticles)) return null;
   const requestedLocale = routeLocale(url);
   const locale = UI_LOCALES.has(requestedLocale) ? requestedLocale : (metadata.locale || requestedLocale);
+  const market = url.searchParams.get("market") || undefined;
   const t = newsFallbackCopy(locale);
   const newsHref = localizedCanonical("/news", locale);
   const listing = parseNewsListingPath(url.pathname);
@@ -3925,12 +3966,22 @@ function renderNewsFallbackBody(metadata, url) {
   const contentLocale = newsContentLocale(locale, article);
   const showsOriginalLanguage = contentLocale !== locale;
   const content = dedupeLongSentences(showsOriginalLanguage ? summary : (localizedArticleText(article.content, contentLocale) || summary));
-  const contentHtml = dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)).split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
+  const contentBlocks = dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)).split("\n\n");
+  const renderedContentBlocks = contentBlocks.map((block, index) => markdownBlockHtml(block, index, locale));
+  const promotionContext = articlePromotionContext(article);
+  const promotions = resolvePromotions({ ...promotionContext, locale, market, now: Date.now() });
+  const commercialPromotions = promotions.filter((promotion) => promotion.kind !== "tool");
+  const inlineSponsoredHtml = commercialPromotions.length ? renderSponsoredSlotHtml(commercialPromotions.slice(0, 1), { variant: "inline", locale, market }) : "";
+  if (inlineSponsoredHtml) renderedContentBlocks.splice(Math.ceil(contentBlocks.length / 3), 0, inlineSponsoredHtml);
+  const articleContentHtml = renderedContentBlocks.join("");
+  const endSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "end", locale, market });
+  const sidebarSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "sidebar", locale, market });
+  const railSponsoredHtml = sidebarSponsoredHtml ? `<div class="news-detail__rail"><div class="news-detail__rail-sticky">${sidebarSponsoredHtml}</div></div>` : "";
   const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
     : "";
-  return `${contentHtml.includes('class="news-detail__table-scroll"') ? newsFallbackTableStyles : ""}<main class="v2-page v3-page news-detail-page" id="top" data-nexualpha-ssr-fallback="news-detail">
+  return `${articleContentHtml.includes('class="news-detail__table-scroll"') ? newsFallbackTableStyles : ""}<main class="v2-page v3-page news-detail-page" id="top" data-nexualpha-ssr-fallback="news-detail">
     <article class="news-detail-container v2-shell">
       <nav class="news-detail__nav"><a href="${escapeHtml(newsHref)}" class="news-detail__back">${escapeHtml(t.back)}</a></nav>
       <header class="news-detail__header">
@@ -3940,7 +3991,8 @@ function renderNewsFallbackBody(metadata, url) {
         <div class="news-detail__author-bar"><span>${escapeHtml(t.author)}: <strong>${escapeHtml(article.author || "NexuAlpha Research Desk")}</strong></span></div>
         ${showsOriginalLanguage ? `<p class="news-detail__translation-note" role="note">${escapeHtml(t.originalNotice)}</p>` : ""}
       </header>
-      <section class="news-detail__content"><div class="news-detail__prose">${contentHtml}${relatedLinksHtml}${sourcesHtml}</div></section>
+      <section class="news-detail__content"><div class="news-detail__prose">${articleContentHtml}${relatedLinksHtml}${sourcesHtml}${endSponsoredHtml}</div></section>
+      ${railSponsoredHtml}
     </article>
   </main>`;
 }
