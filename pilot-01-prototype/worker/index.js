@@ -26,6 +26,7 @@ import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, is
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
+import { ARCHIVE_PATH, archiveItems, isArchiveIndexable } from "../src/data/announcement-archive.js";
 import { isUpdateNoindex, normalizeUpdateItem, updateCategory, updateHeadline, updateItems, updatePath } from "../src/data/activity-update.js";
 import { attachCampaignBriefs, CAMPAIGN_BRIEFS_URL, campaignBriefItems, localizedBriefText } from "../src/data/campaign-briefs.js";
 import { visibleOfficialUpdates } from "../src/components/official-updates/official-updates-model.js";
@@ -53,6 +54,7 @@ export default {
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     if (/^\/sitemap-(?:locales|venues|compare|topics-tools)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
+    if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
@@ -114,6 +116,18 @@ export default {
     const legacyFactbookSlug = LEGACY_VENUE_FACTBOOK_REDIRECTS[parsedRoute.contentPathname];
     if (legacyFactbookSlug && ["GET", "HEAD"].includes(request.method)) {
       const destination = new URL(localizedPath(`/factbook/${legacyFactbookSlug}`, parsedRoute.locale), PUBLIC_ORIGIN);
+      const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+      for (const [key, value] of preserved) destination.searchParams.append(key, value);
+      return Response.redirect(destination.href, 301);
+    }
+    // Retired paths still linked from crawled pages (site crawl 2026-10-12): /starter never existed as a page; the starter
+    // guide (新手村) lives in the Telegram hub.
+    // /starter is not a locale-eligible path, so the locale prefix is resolved here rather than by parsePublicRoute.
+    const retiredPathLocale = localePrefixForPath(normalizePathname(url.pathname));
+    const retiredContentPath = retiredPathLocale ? normalizePathname(stripLocalePrefix(normalizePathname(url.pathname), retiredPathLocale.prefix)) : parsedRoute.contentPathname;
+    const retiredPageTarget = RETIRED_PAGE_REDIRECTS[retiredContentPath];
+    if (retiredPageTarget && ["GET", "HEAD"].includes(request.method)) {
+      const destination = new URL(localizedPath(retiredPageTarget, retiredPathLocale?.locale || parsedRoute.locale), PUBLIC_ORIGIN);
       const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
       for (const [key, value] of preserved) destination.searchParams.append(key, value);
       return Response.redirect(destination.href, 301);
@@ -2512,6 +2526,7 @@ const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
 const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
+const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": "/telegram" });
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
 const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-"]);
 // The exchange directory renders the "compare any two" picker in SSR. Its stylesheet used to arrive with its chunk at
@@ -4169,6 +4184,41 @@ function findActivityUpdate(feed, venue, slug) {
   return { update, compact };
 }
 
+// Append-only announcement archive (src/data/announcement-archive.js): every item the live feed ever carried. The
+// production server passes INTEL_ARCHIVE_READ; Sites/preview builds read the shipped asset. null when unavailable.
+async function readActivityUpdateArchive(env, url) {
+  if (typeof env?.INTEL_ARCHIVE_READ === "function") {
+    try {
+      const archive = await env.INTEL_ARCHIVE_READ();
+      if (archive) return archive;
+    } catch {
+      // fall through to the shipped asset
+    }
+  }
+  if (!env?.ASSETS) return null;
+  try {
+    const response = await env.ASSETS.fetch(new Request(new URL(ARCHIVE_PATH, url), { headers: { accept: "application/json" } }));
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
+  }
+}
+
+// An update page whose item left the live feed: the archived row, rendered as an ended update. Same compact shape as the
+// live rows (plus archived: true), so SSR, hydration and the client find it through the same updatePath lookup.
+async function findArchivedActivityUpdate(env, url, venue, slug, now = Date.now()) {
+  const archive = await readActivityUpdateArchive(env, url);
+  const pathname = `/activities/updates/${venue}/${slug}`;
+  const row = archiveItems(archive, { now }).map(normalizeUpdateItem).find((item) => updatePath(item) === pathname);
+  if (!row) return null;
+  const { id, category, title, summary, url: officialUrl, publishedAt, startAt, endAt, expiresAt } = row;
+  return {
+    id, venue: row.venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url: officialUrl, publishedAt,
+    ...(typeof startAt === "string" ? { startAt } : {}), ...(typeof endAt === "string" ? { endAt } : {}), ...(typeof expiresAt === "string" ? { expiresAt } : {}),
+    archived: true,
+  };
+}
+
 function mergeActivityUpdateFeeds(seed, officialRows) {
   const rows = Array.isArray(officialRows) ? officialRows : [];
   if (!rows.length) return seed || null;
@@ -4656,6 +4706,32 @@ export async function renderLocaleSitemap(env = {}) {
   }
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">', ...rows, "</urlset>", ""].join("\n");
 }
+// Official update pages (2026-10-12): the live feed plus archived items published within ARCHIVE_INDEXABLE_MS, only the
+// categories the page itself marks index,follow. One <loc> per indexable locale; the page head carries the hreflang set.
+export const UPDATE_SITEMAP_PATH = "/sitemap-updates.xml";
+export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN), now = Date.now()) {
+  const live = compactActivityUpdateItems(await readActivityUpdateFeed(env, url))?.items || [];
+  const archived = archiveItems(await readActivityUpdateArchive(env, url), { now }).map(normalizeUpdateItem);
+  const byPath = new Map();
+  for (const item of live) byPath.set(updatePath(item), item);
+  // Same rule as the archived page's robots tag: index,follow for ARCHIVE_INDEXABLE_MS after publication.
+  for (const item of archived) if (!byPath.has(updatePath(item)) && isArchiveIndexable(item, now)) byPath.set(updatePath(item), item);
+  const rows = [];
+  for (const [pathname, item] of byPath) {
+    if (!["listing", "event"].includes(item.category) || isUpdateNoindex(item)) continue;
+    const lastmod = new Date(Date.parse(item.publishedAt)).toISOString().slice(0, 10);
+    for (const locale of INDEXABLE_LOCALES) {
+      rows.push(`  <url>\n    <loc>${xmlText(localizedCanonical(pathname, locale))}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
+    }
+  }
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...rows, "</urlset>", ""].join("\n");
+}
+let updateSitemapCache = null;
+async function handleUpdateSitemap(request, env, url) {
+  if (!updateSitemapCache || Date.now() - updateSitemapCache.at > 600e3) updateSitemapCache = { at: Date.now(), xml: await renderUpdateSitemap(env, url) };
+  return new Response(request.method === "HEAD" ? null : updateSitemapCache.xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
+}
+
 async function handleLocaleSitemap(env) {
   if (!localeSitemapCache || Date.now() - localeSitemapCache.at > 3600e3) localeSitemapCache = { at: Date.now(), xml: await renderLocaleSitemap(env) };
   return new Response(localeSitemapCache.xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" } });
@@ -7596,6 +7672,28 @@ async function routeMetadataBase(url, env, newsFeed) {
     try {
       const feed = await readActivityUpdateFeed(env, url);
       const { update, compact } = feed ? findActivityUpdate(feed, updateMatch.venue, updateMatch.slug) : { update: null, compact: null };
+      const archivedRow = update ? null : await findArchivedActivityUpdate(env, url, updateMatch.venue, updateMatch.slug);
+      const archived = archivedRow ? attachBriefToCompactItem(archivedRow, feed) : null;
+      if (!update && archived) {
+        const category = updateCategory(archived, requestedLocale);
+        const headline = updateHeadline(archived, requestedLocale) || archived.title;
+        const canonical = localizedCanonical(updatePath(archived), locale);
+        const indexable = ["listing", "event"].includes(archived.category) && !isUpdateNoindex(archived) && isArchiveIndexable(archived);
+        const items = [...(compact?.items || []).filter((row) => row.id !== archived.id), archived];
+        return {
+          status: 200,
+          title: budgetTitle(`${venueDisplayName(archived.venue)} ${category}: ${headline} | NexuAlpha`, titleBudgetForLocale(requestedLocale)),
+          description: activityUpdateDescription(archived, requestedLocale),
+          canonical,
+          locale,
+          robots: indexable ? "index,follow" : "noindex,follow",
+          marker: ACTIVITY_UPDATE_ROUTE_MARKER,
+          alternates: routeAlternates(updatePath(archived)),
+          schema: buildWorkerActivityUpdateSchema(archived, requestedLocale, canonical),
+          activityUpdateFeed: { ...(compact || { generatedAt: null }), items },
+          activityUpdateArchived: true,
+        };
+      }
       if (update) {
         const category = updateCategory(update, requestedLocale);
         const headline = updateHeadline(update, requestedLocale) || update.title;
@@ -7616,7 +7714,13 @@ async function routeMetadataBase(url, env, newsFeed) {
           activityUpdateFeed: compact,
         };
       }
-    } catch { /* Missing runtime evidence remains a 404. */ }
+    } catch { /* fall through to the listing redirect */ }
+    // Never published (or past the archive retention): send readers and crawlers to the activity listing, not a 404.
+    // The listing exists in every locale; ?market= is a compliance gate and is kept.
+    const target = new URL(localizedCanonical("/activities", locale));
+    const market = url.searchParams.get("market");
+    if (market) target.searchParams.set("market", market);
+    return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
   }
   // Activity detail IDs are runtime data. An unavailable or unknown ID is not a real page.
   const activityMatch = canonicalPath.match(/^\/activities\/([^/]+)$/);
@@ -7649,6 +7753,9 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
     return staticAssetResponse(htmlSecurityResponse(response, forceHtml), url);
   }
   const metadata = await routeMetadata(url, env);
+  if (metadata.status === 301 && metadata.redirect) {
+    return new Response(null, { status: 301, headers: { location: metadata.redirect, "cache-control": "public, max-age=3600", "x-robots-tag": "noindex,follow" } });
+  }
   // Home hero copy experiment (X5): assigned here, server-side, before the prerendered body is chosen. Inactive (flag off
   // and no preview force) = no cookie, no header change, variant A for everyone.
   const heroAssignment = homeHeroAssignmentFor(request, url, metadata, env);

@@ -298,6 +298,8 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
       lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10),
     });
   }
+  // Official update pages (live feed + archive), rendered by the Worker at request time (2026-10-12).
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-updates.xml", ...(options.newsSitemapLastmod ? { lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10) } : {}) });
   return {
     index: buildSitemapIndex(indexRows),
     files,

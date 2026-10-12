@@ -4,6 +4,7 @@
 .update-page__meta{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:28px;font-size:14px}
 .update-page__meta time{margin-inline-start:auto;color:var(--v5-ink-2,#b0b6c2)}
 .update-page__meta span{border:1px solid rgb(255 255 255/.2);padding:4px 10px;border-radius:4px}
+.update-page__meta .update-page__ended{border-color:rgb(255 255 255/.12);color:var(--v5-ink-2,#b0b6c2);background:rgb(255 255 255/.06)}
 .update-page section{margin-block:36px}.update-page h2{font-size:24px;line-height:1.3;margin:16px 0}
 .update-page p,.update-page li{font-size:17px;line-height:1.7}.update-page li{margin-block:10px}
 .update-page nav{display:flex;flex-wrap:wrap;gap:20px}.update-page a{overflow-wrap:anywhere;text-underline-offset:4px}

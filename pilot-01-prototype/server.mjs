@@ -11,7 +11,7 @@ import { createCtaCollector } from './server/cta-collector.mjs';
 import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
 import { resolveAssetPath } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
-import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
+import { createIntelFeed, INTEL_ARCHIVE_PATH, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
@@ -32,7 +32,15 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const distRoot = path.resolve(env.DIST_ROOT || path.join(appRoot, 'dist'));
   const clientRoot = path.join(distRoot, 'client');
   const renderNews = createNewsSsrRenderer(distRoot);
-  const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // Append-only announcement archive (2026-10-12): update pages stay real pages after their item leaves the live feed.
+  // INTEL_ARCHIVE_FILE lives outside the read-only app tree (production: /intel-state, host /data/private/nexualpha/intel).
+  let intelArchiveFile = null;
+  if (env.INTEL_ARCHIVE_FILE) {
+    try { intelArchiveFile = await privateDataFile(env.INTEL_ARCHIVE_FILE, appRoot, clientRoot); } catch (error) {
+      console.error(`[NexuAlpha] INTEL_ARCHIVE_FILE unusable (${error?.message || error}); serving the shipped archive only`);
+    }
+  }
+  const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', archiveFile: intelArchiveFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
@@ -175,6 +183,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
       } else if (requestPath === INTEL_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await intel.respond();
+      } else if (requestPath === INTEL_ARCHIVE_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await intel.respondArchive();
       } else if (requestPath === FUNDING_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await funding.respond();
       } else if (requestPath === '/api/analytics/cta' && collector) {
@@ -185,7 +195,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

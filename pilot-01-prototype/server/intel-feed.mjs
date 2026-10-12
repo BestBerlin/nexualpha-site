@@ -2,14 +2,16 @@
 // Sources are the exchanges' own public announcement endpoints; no key, no scraping. A source that fails keeps its
 // previous items; if every source fails the last good feed is served unchanged. Nothing is ever invented.
 // The feed lives in memory only (code and assets may be mounted read-only); the build ships a seed copy.
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { ARCHIVE_PATH, mergeArchive, unionArchives } from '../src/data/announcement-archive.js';
 import {
   mergeIntel, normalizeBitgetAnnouncements, normalizeBybitAnnouncements, readIntelFeed,
   normalizeOkxAnnouncements, normalizeBinanceAnnouncements, normalizeKucoinAnnouncements, normalizeRssAnnouncements,
 } from '../src/data/announcement-intel.js';
 
 export const INTEL_PATH = '/intel/official-announcements.json';
+export const INTEL_ARCHIVE_PATH = ARCHIVE_PATH;
 const UA = 'NexuAlphaAnnouncementReader/1.0 (+https://nexualpha.com)';
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -55,8 +57,9 @@ export const SOURCES = {
   kraken: async (now, fetchImpl) => normalizeRssAnnouncements(await getText('https://blog.kraken.com/feed', fetchImpl), 'kraken', { now }),
   bitget: async (now, fetchImpl) => {
     const out = [];
+    // limit: Bitget answers 40017 "Parameter verification failed" above 10 (every refresh failed from 2026-10-10).
     for (const annType of ['coin_listings', 'trading_competitions_promotions', 'latest_news', 'symbol_delisting']) {
-      out.push(...normalizeBitgetAnnouncements(await getJson(`https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=${annType}&limit=20`, fetchImpl), { now }));
+      out.push(...normalizeBitgetAnnouncements(await getJson(`https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=${annType}&limit=10`, fetchImpl), { now }));
       await wait(300);
     }
     return out;
@@ -90,16 +93,53 @@ export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch,
   return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now, limit: 240 }) };
 }
 
+const jsonResponse = (body, maxAge) => new Response(body, { status: 200, headers: {
+  'content-type': 'application/json; charset=utf-8', 'cache-control': `public, max-age=${maxAge}`, 'x-content-type-options': 'nosniff',
+} });
+
+async function readJson(file) {
+  try { return JSON.parse(await readFile(file, 'utf8')); } catch { return null; }
+}
+
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
-export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {} } = {}) {
+// Every feed it serves is also merged into the append-only archive (`archiveFile`, outside the read-only app tree), so an
+// update page stays resolvable after its item leaves the live feed. The build ships a seed archive next to the seed feed.
+export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {}, archiveFile = null, now = () => Date.now() } = {}) {
   let feed = null, body = null, refreshing = null;
-  const set = (next) => { feed = next; body = `${JSON.stringify(next)}\n`; };
-  const seeded = readFile(path.join(clientRoot, 'intel', 'official-announcements.json'), 'utf8')
+  let archive = null, archiveBody = null, writing = Promise.resolve();
+  const persist = () => {
+    if (!archiveFile) return writing;
+    // Read-merge-write: during a cutover two containers share the file, neither may drop the other's rows.
+    writing = writing.then(async () => {
+      const onDisk = await readJson(archiveFile);
+      const merged = onDisk ? unionArchives(onDisk, archive, { now: now() }) : archive;
+      archive = merged; archiveBody = `${JSON.stringify(merged)}\n`;
+      await mkdir(path.dirname(archiveFile), { recursive: true });
+      const tmp = `${archiveFile}.tmp-${process.pid}`;
+      await writeFile(tmp, archiveBody);
+      await rename(tmp, archiveFile);
+    }).catch((error) => log(`intel archive write failed: ${error?.message || error}`));
+    return writing;
+  };
+  const remember = (next) => {
+    const { archive: merged, changed } = mergeArchive(archive, next?.items, { now: now() });
+    archive = merged; archiveBody = `${JSON.stringify(merged)}\n`;
+    return changed ? persist() : writing;
+  };
+  const set = (next) => { feed = next; body = `${JSON.stringify(next)}\n`; return remember(next); };
+  const archiveSeeded = Promise.all([
+    archiveFile ? readJson(archiveFile) : null,
+    readJson(path.join(clientRoot, 'intel', 'official-announcements-archive.json')),
+  ]).then(([stored, shipped]) => {
+    archive = unionArchives(shipped, stored, { now: now() });
+    archiveBody = `${JSON.stringify(archive)}\n`;
+  });
+  const seeded = archiveSeeded.then(() => readFile(path.join(clientRoot, 'intel', 'official-announcements.json'), 'utf8'))
     .then((text) => set(JSON.parse(text))).catch(() => {});
   const refresh = () => {
     if (refreshing) return refreshing;
     refreshing = seeded.then(() => buildFeed(feed, { fetchImpl }))
-      .then((next) => { if (next) { set(next); log(`intel refreshed: ${next.items.length} items`); } })
+      .then((next) => { if (next) { const saved = set(next); log(`intel refreshed: ${next.items.length} items, archive ${archive?.items.length ?? 0}`); return saved; } })
       .catch((error) => log(`intel refresh failed: ${error?.message || error}`))
       .finally(() => { refreshing = null; });
     return refreshing;
@@ -113,16 +153,22 @@ export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled =
   return {
     refresh,
     stop: () => { if (timer) clearInterval(timer); },
+    flush: () => writing,
     // Changes whenever a refresh replaced the feed; the SSR page cache keys on it so cached HTML never outlives a feed.
     version: () => feed?.generatedAt || "",
     // The current feed object (seed or last good refresh) for request-time SSR of /activities; null until seeded.
     async read() { await seeded; return feed; },
+    // Every item the feed ever carried (see src/data/announcement-archive.js); null when nothing is archived.
+    async readArchive() { await seeded; return archive?.items?.length ? archive : null; },
     async respond() {
       await seeded;
       if (!body) return new Response('Not Found', { status: 404, headers: { 'cache-control': 'no-store' } });
-      return new Response(body, { status: 200, headers: {
-        'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300', 'x-content-type-options': 'nosniff',
-      } });
+      return jsonResponse(body, 300);
+    },
+    async respondArchive() {
+      await seeded;
+      if (!archiveBody || !archive?.items?.length) return new Response('Not Found', { status: 404, headers: { 'cache-control': 'no-store' } });
+      return jsonResponse(archiveBody, 300);
     },
   };
 }
