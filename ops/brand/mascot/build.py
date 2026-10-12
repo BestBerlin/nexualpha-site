@@ -60,8 +60,12 @@ def artwork(name, mood='neutral', pose='rest', view='front'):
         'warning':path('M235 283 Q254 264 277 280',width=6),
     }
     cheeks=ellipse(175,270,13,7,C['coral'])+ellipse(334,264,13,7,C['coral'])
-    coin=ellipse(257,344,42,39,C['amber'],C['ink'],6)+ellipse(257,344,33,31,C['gold'],'#b57830',3)
-    coin+=path('M258 323 L269 343 L258 363 L246 345 Z',C['cream'],'#b57830',3)+path('M232 326 Q240 315 251 315',stroke=C['cream'],width=4)
+    # Owner 2026-10-12: the belly coin is a Bitcoin (orange disc + tilted white ₿, drawn as paths so no font is needed).
+    btc_b = ('M-8 -16 L-8 16 M-8 -16 H3 A7.5 8 0 0 1 3 0 H-8 M-8 0 H5 A8 8 0 0 1 5 16 H-8 '
+             'M-3 -21 V-16 M3 -21 V-16 M-3 16 V21 M3 16 V21')
+    coin=ellipse(257,344,42,39,'#f7931a',C['ink'],6)+ellipse(257,344,33,31,'#f7931a','#d97a0f',3)
+    coin+=f'<g transform="translate(257 344) rotate(14)">'+path(btc_b,stroke='#ffffff',width=5.5)+'</g>'
+    coin+=path('M232 326 Q240 315 251 315',stroke='#ffd9a8',width=4)
     coin+=path('M211 327 L199 323 M299 328 L310 321',stroke=C['gold'],width=4)
     antenna=path('M255 118 Q253 96 271 90 Q290 86 285 67',stroke=C['ink'],width=14)+path('M255 118 Q253 96 271 90 Q290 86 285 67',stroke=C['highlight'],width=7)
     lamp=ellipse(284,53,24,24,light,'none')+ellipse(284,53,17,17,light,C['ink'],5)+ellipse(280,48,5,5,C['white'])
@@ -84,7 +88,7 @@ def artwork(name, mood='neutral', pose='rest', view='front'):
         eyes=group('eye-right',ellipse(323,217,21,43,C['white'],C['ink'],5)+ellipse(334,220,9,20,C['ink'])+ellipse(331,210,3,5,C['white']))
         cheeks=''
         mouths['neutral']=path('M336 277 Q347 286 351 273',width=5)
-        coin=ellipse(338,344,11,37,C['gold'],C['ink'],5)+path('M342 322 L342 360',stroke='#b57830',width=3)
+        coin=ellipse(338,344,11,37,'#f7931a',C['ink'],5)+path('M342 322 L342 360',stroke='#d97a0f',width=3)
         arms=group('arm-left','')+group('arm-right',path('M248 283 Q265 282 275 308 Q280 328 261 333 Q245 334 239 312',C['blue']))
         legs=group('leg-left',path('M218 395 L213 421 Q215 439 239 436 L261 428 L254 408',C['shade']))+group('leg-right',path('M277 399 L275 421 Q287 440 307 432 L322 420 L310 399',C['shade']))
     if view=='back':
@@ -98,7 +102,7 @@ def artwork(name, mood='neutral', pose='rest', view='front'):
     if mood=='confused':
         extras+=path('M403 166 Q400 146 418 146 Q440 150 424 166 L417 175',stroke=C['amber'],width=7)+ellipse(415,190,4,4,C['amber'])
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-<title id="title">NexuAlpha academy monster — {name}</title><desc id="desc">Round blue original monster, one {light} antenna light, gold belly coin; {view} view, {mood} expression, {pose} pose.</desc>
+<title id="title">NexuAlpha academy monster — {name}</title><desc id="desc">Round blue original monster, one {light} antenna light, Bitcoin belly coin; {view} view, {mood} expression, {pose} pose.</desc>
 {group('shadow',ellipse(257,452,112,13,C['ink']), 'opacity=".14"')}
 {group('character',group('legs',legs)+group('body',body)+group('antenna',antenna)+group('antenna-light',lamp)+group('eyes',eyes)+group('cheeks',cheeks)+group('mouth',mouths[mood])+group('coin',coin)+group('arms',arms)+group('props',props)+group('effects',extras))}
 </svg>'''
