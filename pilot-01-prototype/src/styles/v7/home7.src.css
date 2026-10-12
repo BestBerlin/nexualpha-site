@@ -156,6 +156,8 @@
 @ .h7-flash-tag[data-type=liquidation-spike],@ .h7-flash-tag[data-type=sharp-move]{color:#FFB86B;background:rgb(255 184 107/.1)}
 @ .h7-flash-tag[data-type=funding-extreme]{color:#B79CFF;background:rgb(183 156 255/.1)}
 @ .h7-flash-tag[data-type=news]{color:#8FB0FF;background:rgb(143 176 255/.1)}
+@ .h7-flash-tag[data-type=incident]{color:#FF8A8E;background:rgb(255 90 95/.1)}
+@ .h7-flash-tag[data-important=true]{color:#1a0405;background:#FF5A5F}
 @ .h7-flash-list a{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:15px;color:var(--ink);text-decoration:none}
 @ .h7-flash-list a:hover{text-decoration:underline;text-underline-offset:3px}
 @ .h7-flash-skel span{display:block;block-size:10px;border-radius:5px;background:rgb(255 255 255/.06)}

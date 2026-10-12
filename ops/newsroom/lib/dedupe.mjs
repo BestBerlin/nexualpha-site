@@ -8,8 +8,9 @@ import {
   originKey,
   sourcePlatform,
   sourceTier,
-  trigramSimilarity,
 } from './normalization.mjs';
+import { relevanceForItem } from './relevance.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -23,6 +24,10 @@ const COMPATIBLE_EVENT_TYPES = new Map([
 
 function eventTypeOf(item) {
   return item.event_type ?? item.eventType ?? item.event_type_guess ?? item.eventTypeGuess ?? 'unknown';
+}
+
+function marketChannelOf(item) {
+  return item.market_channel ?? item.marketChannel ?? item.discussion?.market_channel ?? item.discussion?.marketChannel ?? null;
 }
 
 function compatibleEventType(left, right) {
@@ -95,11 +100,15 @@ function buildEvidence(item, itemsById, duplicateOriginById) {
     kind: item.evidence_kind ?? item.evidenceKind ?? defaultEvidenceKind(item),
     is_independent: true,
     origin_key: resolveOriginKey(item, itemsById, duplicateOriginById),
+    title: item.title ?? null,
+    facts: storyFacts(item),
     excerpt: excerpt == null ? null : String(excerpt).slice(0, 600),
     author_account: item.author_account ?? item.authorAccount ?? null,
     published_at: sourcePublishedAt ? sourcePublishedAt.toISOString() : null,
     source_platform: sourcePlatform(item),
     source_tier: sourceTier(item),
+    verified_official: item.verified_official === true || item.source?.verified_official === true,
+    source_id: item.source_id ?? item.sourceId ?? null,
     metrics: item.metrics ?? null,
     metrics_at: item.metrics_at ?? item.metricsAt ?? null,
   };
@@ -128,7 +137,7 @@ function normalizeExistingEvent(event) {
     title_internal: event.title_internal ?? event.titleInternal ?? '',
     source_published_at: event.source_published_at ?? event.sourcePublishedAt ?? event.published_at ?? event.publishedAt ?? null,
     original_links: event.original_links ?? event.originalLinks ?? [],
-    hard_keys: event.hard_keys ?? event.hardKeys ?? [],
+    hard_keys: event.hard_keys ?? event.hardKeys ?? rawItems.flatMap(extractHardKeys),
     content_hashes: event.content_hashes ?? event.contentHashes ?? rawItems.map(item => item.content_hash ?? item.contentHash).filter(Boolean),
     simhashes: event.simhashes ?? rawItems.map(item => item.simhash).filter(value => simhashValue(value) != null),
     evidence,
@@ -139,6 +148,7 @@ function normalizeExistingEvent(event) {
 
 function discussionFromEvidence(evidence) {
   const originSeen = new Set();
+  const publisherSeen = new Set();
   const byPlatform = {};
   for (const row of evidence) {
     const platform = row.source_platform;
@@ -148,9 +158,15 @@ function discussionFromEvidence(evidence) {
       metric_growth_max: null,
       metrics_unknown: false,
     };
-    const firstForOrigin = !originSeen.has(row.origin_key);
+    const mirror = isMirrorEvidence(row);
+    let publisher = null;
+    if (['media', 'google_news', 'exchange'].includes(platform)) {
+      try { publisher = new URL(row.url).hostname.replace(/^www\./, ''); } catch { publisher = row.source_id; }
+    }
+    const firstForOrigin = !mirror && !originSeen.has(row.origin_key) && (!publisher || !publisherSeen.has(publisher));
     if (firstForOrigin) {
       originSeen.add(row.origin_key);
+      if (publisher) publisherSeen.add(publisher);
       byPlatform[platform].independent_posts += 1;
       byPlatform[platform].origin_keys.push(row.origin_key);
     }
@@ -170,6 +186,15 @@ function discussionFromEvidence(evidence) {
   };
 }
 
+function isMirrorEvidence(row) {
+  return String(row.source_id ?? row.sourceId ?? '').startsWith('nexualpha-official');
+}
+
+function withMarketChannel(discussion, item, fallback = null) {
+  const channel = marketChannelOf(item) ?? (fallback ? marketChannelOf(fallback) : null);
+  return channel ? { ...discussion, market_channel: channel } : discussion;
+}
+
 function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
   const subjects = itemEntities(item, watchlist);
   const sourcePublishedAt = itemSourcePublishedAt(item);
@@ -187,33 +212,40 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
     content_hashes: [item.content_hash ?? item.contentHash].filter(Boolean),
     simhashes: [item.simhash].filter(value => simhashValue(value) != null),
     evidence,
-    discussion: discussionFromEvidence(evidence),
+    discussion: withMarketChannel(discussionFromEvidence(evidence), item),
     raw_items: [item],
   };
 }
 
 function shouldAttach(item, event, config, watchlist, itemsById, duplicateOriginById) {
   const itemSubjects = itemEntities(item, watchlist);
-  if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
   if (!compatibleEventType(eventTypeOf(item), event.event_type)) return false;
+  if (itemSubjects.length && event.subjects?.length && !commonValues(itemSubjects, event.subjects)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
   const knownOccurrences = itemOccurred && eventOccurred && Number.isFinite(Date.parse(itemOccurred)) && Number.isFinite(Date.parse(eventOccurred));
   const eventTime = knownOccurrences ? new Date(eventOccurred) : event.source_published_at ? new Date(event.source_published_at) : itemPublishedAt(event.raw_items?.[0] ?? event);
   if (timeDistanceHours(knownOccurrences ? new Date(itemOccurred) : itemPublishedAt(item), eventTime) > config.eventWindowHours) return false;
+  const itemFacts = storyFacts(item, watchlist);
+  const capturedItems = event.raw_items?.length ? event.raw_items : [{ ...event, title: event.title_internal }];
+  if (capturedItems.some(row => conflictingFacts(itemFacts, storyFacts(row, watchlist)))) return false;
   const itemHardKeys = extractHardKeys(item);
-  if (itemHardKeys.length && commonValues(itemHardKeys, event.hard_keys)) return true;
+  if (itemHardKeys.length && commonValues(itemHardKeys, event.hard_keys)) return 'shared_hard_key';
+
   const itemOrigin = resolveOriginKey(item, itemsById, duplicateOriginById);
-  if (itemOrigin && event.evidence?.some(row => row.origin_key === itemOrigin)) return true;
+  if (itemOrigin && event.evidence?.some(row => row.origin_key === itemOrigin)) return 'shared_origin';
   const itemLinks = linksFor(item);
-  if (itemLinks.length && commonValues(itemLinks, event.original_links)) return true;
+  if (itemLinks.length && commonValues(itemLinks, event.original_links)) return 'shared_link';
   const contentHash = item.content_hash ?? item.contentHash;
-  if (contentHash && event.content_hashes?.includes(contentHash)) return true;
-  if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return true;
-  return trigramSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity;
+  if (contentHash && event.content_hashes?.includes(contentHash)) return 'content_hash';
+  if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return 'simhash';
+  if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
+  if (capturedItems.some(row => factsMatch(itemFacts, storyFacts(row, watchlist)))) return 'shared_key_facts';
+  return titleSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity ? 'fuzzy_title' : false;
 }
 
-function attachItem(event, item, itemsById, duplicateOriginById) {
+function attachItem(event, item, itemsById, duplicateOriginById, method) {
+  const provenance = [...(event.discussion?.merge_provenance ?? []), { raw_item_id: item.id ?? null, source_id: item.source_id ?? null, matched_event_title: event.title_internal, method, facts: storyFacts(item) }];
   event.raw_items.push(item);
   event.evidence.push(buildEvidence(item, itemsById, duplicateOriginById));
   event.original_links = [...new Set([...event.original_links, ...linksFor(item)])];
@@ -222,7 +254,7 @@ function attachItem(event, item, itemsById, duplicateOriginById) {
   event.simhashes = [...new Set([...(event.simhashes ?? []), item.simhash].filter(value => simhashValue(value) != null))];
   const sourcePublishedAt = itemSourcePublishedAt(item);
   if (sourcePublishedAt && (!event.source_published_at || sourcePublishedAt < new Date(event.source_published_at))) event.source_published_at = sourcePublishedAt.toISOString();
-  event.discussion = discussionFromEvidence(event.evidence);
+  event.discussion = { ...withMarketChannel(discussionFromEvidence(event.evidence), item, event), merge_provenance: provenance };
 }
 
 function parentOriginKey(item, itemsById, seen = new Set()) {
@@ -264,28 +296,48 @@ function duplicateOriginMap(items, itemsById) {
 export function mergeRawItems(items, options = {}) {
   const config = { ...DEFAULT_DEDUPE_CONFIG, ...(options.config ?? {}) };
   const watchlist = options.watchlist ?? [];
+  const keywords = options.keywords ?? [];
+  const coinUniverse = options.coinUniverse;
   const events = structuredClone(options.existingEvents ?? []).map(normalizeExistingEvent);
   const itemsById = new Map(items.map(item => [itemId(item), item]));
   const duplicateOriginById = duplicateOriginMap(items, itemsById);
   const assignments = new Map();
+  const irrelevantItems = [];
   const seenExternalIds = new Set();
   for (const item of [...items].sort((a, b) => itemPublishedAt(a) - itemPublishedAt(b))) {
     const externalId = item.external_id ?? item.externalId;
     const uniqueKey = externalId ? JSON.stringify([item.source_id ?? item.sourceId ?? '', externalId]) : item.id ? `id:${item.id}` : null;
     if (uniqueKey && seenExternalIds.has(uniqueKey)) continue;
     if (uniqueKey) seenExternalIds.add(uniqueKey);
-    let event = events.find(candidate => shouldAttach(item, candidate, config, watchlist, itemsById, duplicateOriginById));
+    const relevance = relevanceForItem(item, { watchlist, keywords, coinUniverse });
+    if (!relevance.relevant) {
+      irrelevantItems.push(item);
+      continue;
+    }
+    const action = storyFacts(item, watchlist).action;
+    const inferredAction = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    const itemForMerge = {
+      ...item,
+      ...(eventTypeOf(item) === 'unknown' && inferredAction !== 'unknown' ? { event_type_guess: inferredAction } : {}),
+      ...(relevance.inferred_event_type && (!eventTypeOf(item) || eventTypeOf(item) === 'unknown') ? { event_type_guess: relevance.inferred_event_type } : {}),
+      ...(relevance.inferred_market_channel && !marketChannelOf(item) ? { market_channel: relevance.inferred_market_channel } : {}),
+    };
+    let method;
+    let event = events.find(candidate => (method = shouldAttach(itemForMerge, candidate, config, watchlist, itemsById, duplicateOriginById)));
     if (!event) {
-      event = createEvent(item, events.length, watchlist, itemsById, duplicateOriginById);
+      event = createEvent(itemForMerge, events.length, watchlist, itemsById, duplicateOriginById);
       events.push(event);
     } else {
-      attachItem(event, item, itemsById, duplicateOriginById);
+      attachItem(event, itemForMerge, itemsById, duplicateOriginById, method);
     }
     assignments.set(itemId(item), event.id);
   }
-  return { events, assignments };
+  return { events, assignments, irrelevantItems };
 }
 
 export function countIndependentSources(evidence = []) {
-  return new Set(evidence.map(row => row.origin_key ?? row.originKey).filter(Boolean)).size;
+  return new Set(evidence
+    .filter(row => row.is_independent !== false && !isMirrorEvidence(row))
+    .map(row => row.origin_key ?? row.originKey)
+    .filter(Boolean)).size;
 }

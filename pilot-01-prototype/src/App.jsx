@@ -6,6 +6,7 @@ import { loadSiteView } from "./data/site-data.ts";
 import { marketCommand, presentationModel, neutralVenueCatalog } from "./data/market-command";
 import { DesignSystem } from "./components/DesignSystem";
 import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
+import { TickerBar } from "./components/ticker/TickerBar.jsx";
 import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
 import { researchRoute } from "./data/official-research-route.js";
 import { v3ShellCopy } from "./data/v3-shell-copy.js";
@@ -32,6 +33,7 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
@@ -95,6 +97,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/coins/CoinPages.jsx",
+  "./components/converter/ConverterPage.jsx",
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
@@ -150,6 +153,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/coins/CoinPages.jsx",
+  "./components/converter/ConverterPage.jsx",
   "./data/coin-content-*.js",
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
@@ -208,6 +212,7 @@ function readAcademyContent(locale) {
 }
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
+const ConverterPage = deferredComponent(ROUTE_MODULE_PATHS.converter, "ConverterPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
 // Descriptions reach the server render here; in the browser the page keeps the server text (CoinPages.jsx) and loads
 // the locale module itself after a client-side navigation, so the entry carries no per-locale loaders.
@@ -329,7 +334,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -495,6 +500,9 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  const converter = parseConverterPath(pathname);
+  if (converter?.kind === "pair") return { name: "converter", symbol: converter.symbol, fiat: converter.fiat, ...contextParams() };
+  if (converter) return { name: "notFound" };
   const coins = parseCoinsPath(pathname);
   if (coins?.kind === "hub") return { name: "coinsHub", ...contextParams() };
   if (coins?.kind === "coin") return { name: "coinPage", slug: coins.slug, ...contextParams() };
@@ -651,7 +659,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -809,9 +817,11 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
-  if (route.name === "flashStream") return pageShell(<FlashStreamPage locale={locale} market={route.market} initial={initialFlash} />);
-  if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
+  // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
+  if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
+  if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
@@ -916,6 +926,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} />
     <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}

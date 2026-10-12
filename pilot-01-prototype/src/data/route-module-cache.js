@@ -56,6 +56,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
+  converter: "./components/converter/ConverterPage.jsx",
   coins: "./components/coins/CoinPages.jsx",
   appDownload: "./components/apps/AppDownloadPage.jsx",
   // Flash stream + item pages (2026-10-12).
@@ -147,6 +148,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "fundingMatrix") return [ROUTE_MODULE_PATHS.fundingMatrix];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];

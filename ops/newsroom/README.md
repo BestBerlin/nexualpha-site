@@ -93,3 +93,94 @@ ranking never substitutes for verification gates or publish eligibility.
 The T2 collector CLI, bundled watchlist loader, source-family coverage,
 credential contract, quotas, dry-run behavior and fixture tests are documented
 in [collectors/README.md](collectors/README.md).
+
+## Publishable pool upgrade (2026-10-12)
+
+Run `migrate` before starting the updated scheduler. The pipeline now runs
+`dedupe → score → verify → export:top`, stopping if a prerequisite fails.
+`events:top` remains an operator ranking view; `export:top` includes only
+new/candidate events at or above the current configured publish threshold,
+with fresh scores and fresh `verified-primary`/`corroborated` verification,
+and no unresolved review entry. Official-major priority never bypasses these checks.
+
+`verify` checks the captured headline/fact summary against captured evidence.
+A matching verified tier-1 exchange/regulator/court/company filing source is
+primary; two matching independent non-mirror publishers can corroborate.
+Different URLs from one publisher and reposts sharing an origin count once.
+Fraud/insolvency allegations without matching primary evidence, and conflicting
+evidence, go to `review_queue` as `needs-review`. Review entries are not silently
+resolved by a later collection. This is event-level verification, not a substitute
+for the claim-level article/package gates in [gates/README.md](gates/README.md).
+Conservative exact normalized fact matching can leave paraphrased reports
+unverified; operators should inspect captured evidence rather than lower the gate.
+
+Raw items now have a durable `pending`/`processed`/`irrelevant` work state.
+Dedupe reads only pending rows, in ID order, including older backlog, and marks
+assigned or irrelevant rows in the same transaction. It does not use a timestamp
+watermark that could lose late inserts. Existing event evidence remains available
+for clustering across runs. Migration 091 adds origin, fetched-time, pending-work,
+evidence-event and score indexes; the event-state index already exists in 001.
+Existing assigned history is retained; the upgrade does not delete old events.
+Verification also rechecks relevance for existing unclaimed events; unrelated
+legacy regulator leads remain unverified and cannot export. Existing erroneous
+event history is retained for operator review.
+
+The bundled `db/coin-universe.json` is a compact snapshot of
+`pilot-01-prototype/public/intel/coins.json`, so the standalone deployed newsroom
+has the same coin symbols without depending on the site's directory layout.
+Refresh this snapshot when changing the site's coin universe.
+
+Relevance requires a scoped watchlist subject, crypto terms, coin symbols or
+exchange names, or a concrete market event in the owner's equity/cross-asset
+scope. Generic regulator names and enforcement words alone are insufficient.
+NexuAlpha exchange announcement mirrors never count as independent sources;
+listing/delisting clustering also uses venue, symbol, action and date.
+
+Telegram RSSHub sources with three consecutive HTTP 503 responses become
+`missing-authorization` and are skipped until an operator restores access.
+Other source failures remain isolated. Feed URL/status updates and collection
+notes preserve the distinction between reachable feeds and unavailable ones.
+
+For a deployment performance check, time a pipeline with the real database and
+backlog after migration. Local pure tests do not prove the <30-second production
+pipeline target; database/container validation requires PostgreSQL/Docker.
+
+## Story clustering and calibration (2026-10-13)
+
+Clustering uses compatible actions, shared subjects, a 48-hour window, normalized
+word similarity and shared captured tickers, amounts or dates. English/Chinese
+watchlist aliases participate in fact matching. Contradictory venues, symbols,
+amounts or explicit dates block attachment even when a URL/hash matches. Merge
+reasons and item facts persist in `discussion.merge_provenance`; independently
+reported stories retain publisher/origin identity. Captured titles and excerpts
+supply corroboration facts rather than requiring identical headlines.
+
+Heat uses independent sources with time decay; unknown growth metrics remain
+unknown. Verified notable exchange listings/delistings receive explicit relevance
+and impact adjustments, without inventing discussion metrics or bypassing
+verification, novelty, credibility or article gates. The bundled coin universe's
+first 200 entries are the local notable-asset snapshot, not a refreshed market
+ranking.
+
+```sh
+node ops/newsroom/bin/newsroom.mjs calibrate
+node ops/newsroom/bin/newsroom.mjs config:get scoring_thresholds
+node ops/newsroom/bin/newsroom.mjs config:set scoring_thresholds '{"publish_editorial_score_min":55}'
+```
+
+`calibrate` is read-only: the last 72 hours, thresholds 40/45/50/55, UTC daily
+counts and totals normalized over three days against a target of 40/day, including
+qualified events already claimed or published. Review
+measured availability before tuning the stored threshold; calibration does not
+change verification rules or authorize publication. The default remains 55.
+
+EDGAR collection and pending-item relevance admit only 8-K, 10-Q, 10-K, S-1 and
+13F families with watchlist-company or crypto context. Structured-note filings
+such as 424B2, FWP and 497 are excluded. Direct KuCoin announcements and Kraken
+asset-listing RSS supplement the existing mirror and status feeds.
+
+Deployment checks `deploy/backup.sh --dry-run` before switching releases. It
+compares the server and `pg_dump` major versions inside the PostgreSQL container;
+the backup also executes its dump there. Unit tests use a Docker command double;
+a real dump/restore and live database calibration still require the deployment
+environment. Existing processed events are not destructively reset or reclustered.

@@ -8,6 +8,7 @@ import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey
 import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
+import { COIN_ROWS } from "./coins-data.generated.js";
 
 // Search editions (same set as the Worker's INDEXABLE_LOCALES): every one has its own templates below.
 export const FLASH_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
@@ -17,6 +18,39 @@ const NEWS_WINDOW_MS = 60 * 24 * 60 * 60 * 1000;
 const MAX_FUTURE_SKEW_MS = 10 * 60 * 1000;
 const MAX_MARKET_ITEMS = 3000;
 const MAX_ASSETS = 4;
+
+// "Important" level (2026-10-13): rule-based, never editorial. An item is important when it is a large liquidation hour,
+// a sharp BTC/ETH hour, a listing/delisting of a top-20 coin by market cap (stablecoins excluded; ranks from the
+// baked coin table) or an official exchange service notice about an outage or a withdrawal halt. The browser gets a
+// boolean plus the rule name, so the red marker, the "Important only" filter and notifications all agree.
+export const FLASH_IMPORTANT_RULES = Object.freeze({ liquidationHourUsd: 50e6, majorMove1hPct: 3, majorAssets: ["BTC", "ETH"] });
+const rowRank = (row) => (Array.isArray(row) ? row[4] : row?.rank);
+const rowSymbol = (row) => (Array.isArray(row) ? row[3] : row?.symbol);
+const rowCategory = (row) => (Array.isArray(row) ? row[5] : row?.category);
+export const FLASH_TOP_COINS = Object.freeze([...(Array.isArray(COIN_ROWS) ? COIN_ROWS : [])]
+  .filter((row) => Number(rowRank(row)) > 0 && rowCategory(row) !== "stablecoin" && rowSymbol(row))
+  .sort((a, b) => rowRank(a) - rowRank(b)).slice(0, 20).map((row) => String(rowSymbol(row)).toUpperCase()));
+const TOP_COIN_SET = new Set(FLASH_TOP_COINS);
+// Official service notices: suspensions, halts, outages. A notice is an "incident" flash item; it is important when it
+// reads like an outage (system-wide, trading halted) or halts deposits/withdrawals of a top-20 coin or of everything.
+const INCIDENT_RE = /\b(?:suspend(?:s|ed|ing)?|suspension|halt(?:s|ed|ing)?|paus(?:e|es|ed|ing)|cease(?:s|d)?|ceasing|temporarily (?:closed|closes|close|unavailable|disabled)|outage|downtime|disruption|interruption|degraded|unscheduled maintenance)\b|暂停|中断|故障|暫停|中斷/i;
+const OUTAGE_RE = /\b(?:outage|downtime|disruption|interruption|degraded|unscheduled maintenance|(?:all|trading|system|platform|exchange)[\w\s-]{0,24}(?:suspend|halt|paus))|系统|系統|故障/i;
+const FUNDS_RE = /\b(?:deposits?|withdrawals?|withdraw)\b|提现|提币|充值|充提|提現|提幣/i;
+const ALL_FUNDS_RE = /\ball\b[^.]{0,30}\b(?:deposits?|withdrawals?)\b|全部(?:充值|提现|提币|充提)/i;
+export function flashImportance(item) {
+  const d = item?.data || {};
+  const assets = Array.isArray(item?.assets) ? item.assets.map((a) => String(a).toUpperCase().replace(/\/.*$/, "")) : [];
+  if (item?.type === "liquidation-spike" && Number(d.totalUsd) >= FLASH_IMPORTANT_RULES.liquidationHourUsd) return "liquidations";
+  if (item?.type === "sharp-move" && d.kind === "1h" && FLASH_IMPORTANT_RULES.majorAssets.includes(assets[0])
+    && Math.abs(Number(d.change1hPct) || 0) >= FLASH_IMPORTANT_RULES.majorMove1hPct) return "major-move";
+  if ((item?.type === "listing" || item?.type === "delisting") && assets.some((a) => TOP_COIN_SET.has(a))) return "top-coin";
+  if (item?.type === "incident") {
+    const title = String(item.source?.title || "");
+    if (OUTAGE_RE.test(title)) return "outage";
+    if (FUNDS_RE.test(title) && (ALL_FUNDS_RE.test(title) || assets.some((a) => TOP_COIN_SET.has(a)))) return "withdrawals";
+  }
+  return null;
+}
 
 const VENUE_NAMES = { binance: "Binance", okx: "OKX", bitget: "Bitget", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate", mexc: "MEXC", htx: "HTX", hyperliquid: "Hyperliquid", coinbase: "Coinbase" };
 const ZH_VENUE_NAMES = { "zh-Hans": { binance: "币安" }, "zh-Hant": { binance: "幣安" } };
@@ -57,6 +91,7 @@ const T = {
     moverHead: "{sym} {pct} in 24 hours", moverBody: "The {sym} perpetual on Binance USDT-M moved {pct} over 24 hours on {vol} of trading volume, as of {time} UTC.",
     fundHead: "{sym} funding rate at {rate} on {venue}", fundBody: "Funding on the {sym} perpetual: Binance {binance}, OKX {okx}. Next settlement at {next} UTC. {payer}",
     payLong: "Longs pay shorts.", payShort: "Shorts pay longs.",
+    incidentHead: "{venue} service notice: {assets}", incidentGeneric: "{venue} posts a service notice", incidentBody: "Deposits, withdrawals or trading may be affected. Check the official notice for the exact scope and timing.",
   },
   "zh-Hans": {
     listing: "{venue}上线 {assets}{market}", listingNotice: "{venue}上币公告：{assets}{market}", listingGeneric: "{venue}发布新的上币公告",
@@ -70,6 +105,7 @@ const T = {
     moverHead: "{sym} 24 小时 {pct}", moverBody: "截至 {time} UTC，{sym} 在 Binance USDT 本位永续合约 24 小时变动 {pct}，成交额 {vol}。",
     fundHead: "{sym} 资金费率 {rate}（{venue}）", fundBody: "{sym} 永续合约资金费率：Binance {binance}，OKX {okx}。下次结算 {next} UTC。{payer}",
     payLong: "多头向空头支付。", payShort: "空头向多头支付。",
+    incidentHead: "{venue}服务公告：{assets}", incidentGeneric: "{venue}发布服务状态公告", incidentBody: "充值、提现或交易可能受到影响，具体范围和时间以官方公告为准。",
   },
   "zh-Hant": {
     listing: "{venue}上線 {assets}{market}", listingNotice: "{venue}上幣公告：{assets}{market}", listingGeneric: "{venue}發布新的上幣公告",
@@ -83,6 +119,7 @@ const T = {
     moverHead: "{sym} 24 小時 {pct}", moverBody: "截至 {time} UTC，{sym} 在 Binance USDT 本位永續合約 24 小時變動 {pct}，成交額 {vol}。",
     fundHead: "{sym} 資金費率 {rate}（{venue}）", fundBody: "{sym} 永續合約資金費率：Binance {binance}，OKX {okx}。下次結算 {next} UTC。{payer}",
     payLong: "多頭向空頭支付。", payShort: "空頭向多頭支付。",
+    incidentHead: "{venue}服務公告：{assets}", incidentGeneric: "{venue}發布服務狀態公告", incidentBody: "充值、提現或交易可能受到影響，具體範圍和時間以官方公告為準。",
   },
   es: {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listado de {venue}: {assets}{market}", listingGeneric: "{venue} publica un nuevo aviso de listado",
@@ -96,6 +133,7 @@ const T = {
     moverHead: "{sym} {pct} en 24 horas", moverBody: "El perpetuo {sym} de Binance USDT-M se movió {pct} en 24 horas con un volumen de {vol}, a las {time} UTC.",
     fundHead: "Financiación de {sym} en {rate} en {venue}", fundBody: "Financiación del perpetuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidación a las {next} UTC. {payer}",
     payLong: "Los largos pagan a los cortos.", payShort: "Los cortos pagan a los largos.",
+    incidentHead: "{venue}: aviso de servicio sobre {assets}", incidentGeneric: "{venue} publica un aviso de servicio", incidentBody: "Los depósitos, retiros o la operativa pueden verse afectados. Consulta el aviso oficial para el alcance y los horarios exactos.",
   },
   "pt-BR": {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listagem da {venue}: {assets}{market}", listingGeneric: "{venue} publica novo aviso de listagem",
@@ -109,6 +147,7 @@ const T = {
     moverHead: "{sym} {pct} em 24 horas", moverBody: "O perpétuo {sym} na Binance USDT-M variou {pct} em 24 horas com volume de {vol}, às {time} UTC.",
     fundHead: "Funding de {sym} em {rate} na {venue}", fundBody: "Funding do perpétuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidação às {next} UTC. {payer}",
     payLong: "Comprados pagam os vendidos.", payShort: "Vendidos pagam os comprados.",
+    incidentHead: "{venue}: aviso de serviço sobre {assets}", incidentGeneric: "{venue} publica um aviso de serviço", incidentBody: "Depósitos, saques ou negociações podem ser afetados. Veja o aviso oficial para o escopo e os horários exatos.",
   },
   fr: {
     listing: "{venue} cote {assets}{market}", listingNotice: "Avis de cotation {venue} : {assets}{market}", listingGeneric: "{venue} publie un nouvel avis de cotation",
@@ -122,6 +161,7 @@ const T = {
     moverHead: "{sym} {pct} en 24 heures", moverBody: "Le perpétuel {sym} sur Binance USDT-M a varié de {pct} en 24 heures pour un volume de {vol}, à {time} UTC.",
     fundHead: "Taux de financement de {sym} à {rate} sur {venue}", fundBody: "Financement du perpétuel {sym} : Binance {binance}, OKX {okx}. Prochain règlement à {next} UTC. {payer}",
     payLong: "Les longs paient les shorts.", payShort: "Les shorts paient les longs.",
+    incidentHead: "{venue} : avis de service sur {assets}", incidentGeneric: "{venue} publie un avis de service", incidentBody: "Les dépôts, retraits ou le trading peuvent être affectés. Consultez l’avis officiel pour le périmètre et le calendrier exacts.",
   },
   de: {
     listing: "{venue} listet {assets}{market}", listingNotice: "{venue}-Listing-Mitteilung: {assets}{market}", listingGeneric: "{venue} veröffentlicht eine neue Listing-Mitteilung",
@@ -135,6 +175,7 @@ const T = {
     moverHead: "{sym} {pct} in 24 Stunden", moverBody: "Der {sym}-Perpetual auf Binance USDT-M bewegte sich in 24 Stunden um {pct} bei {vol} Handelsvolumen, Stand {time} UTC.",
     fundHead: "{sym}-Funding-Rate bei {rate} auf {venue}", fundBody: "Funding des {sym}-Perpetuals: Binance {binance}, OKX {okx}. Nächste Abrechnung um {next} UTC. {payer}",
     payLong: "Longs zahlen an Shorts.", payShort: "Shorts zahlen an Longs.",
+    incidentHead: "{venue}: Servicehinweis zu {assets}", incidentGeneric: "{venue} veröffentlicht einen Servicehinweis", incidentBody: "Ein- und Auszahlungen oder der Handel können betroffen sein. Umfang und Zeitplan stehen in der offiziellen Mitteilung.",
   },
   it: {
     listing: "{venue} quota {assets}{market}", listingNotice: "Avviso di listing {venue}: {assets}{market}", listingGeneric: "{venue} pubblica un nuovo avviso di listing",
@@ -148,6 +189,7 @@ const T = {
     moverHead: "{sym} {pct} in 24 ore", moverBody: "Il perpetuo {sym} su Binance USDT-M si è mosso del {pct} in 24 ore con {vol} di volume, alle {time} UTC.",
     fundHead: "Funding di {sym} a {rate} su {venue}", fundBody: "Funding del perpetuo {sym}: Binance {binance}, OKX {okx}. Prossimo regolamento alle {next} UTC. {payer}",
     payLong: "I long pagano gli short.", payShort: "Gli short pagano i long.",
+    incidentHead: "{venue}: avviso di servizio su {assets}", incidentGeneric: "{venue} pubblica un avviso di servizio", incidentBody: "Depositi, prelievi o trading potrebbero essere interessati. Controlla l’avviso ufficiale per portata e orari esatti.",
   },
   ja: {
     listing: "{venue}、{assets}{market}を上場", listingNotice: "{venue} 上場のお知らせ：{assets}{market}", listingGeneric: "{venue}、新規上場のお知らせを公開",
@@ -161,6 +203,7 @@ const T = {
     moverHead: "{sym} 24時間で {pct}", moverBody: "{time} UTC 時点で、Binance USDT-M の {sym} 無期限先物は24時間で {pct} 変動、出来高は {vol}。",
     fundHead: "{sym} の資金調達率が {rate}（{venue}）", fundBody: "{sym} 無期限先物の資金調達率：Binance {binance}、OKX {okx}。次回精算は {next} UTC。{payer}",
     payLong: "ロングがショートに支払います。", payShort: "ショートがロングに支払います。",
+    incidentHead: "{venue}のサービスのお知らせ：{assets}", incidentGeneric: "{venue}がサービスに関するお知らせを公開", incidentBody: "入出金や取引に影響が出る可能性があります。対象範囲と時間は公式のお知らせをご確認ください。",
   },
   ko: {
     listing: "{venue}, {assets}{market} 상장", listingNotice: "{venue} 상장 공지: {assets}{market}", listingGeneric: "{venue}, 신규 상장 공지 게시",
@@ -174,6 +217,7 @@ const T = {
     moverHead: "{sym} 24시간 {pct}", moverBody: "{time} UTC 기준 Binance USDT-M {sym} 무기한 선물은 24시간 동안 {pct} 움직였고 거래대금은 {vol}입니다.",
     fundHead: "{sym} 펀딩비 {rate} ({venue})", fundBody: "{sym} 무기한 선물 펀딩비: Binance {binance}, OKX {okx}. 다음 정산 {next} UTC. {payer}",
     payLong: "롱이 숏에게 지급합니다.", payShort: "숏이 롱에게 지급합니다.",
+    incidentHead: "{venue} 서비스 공지: {assets}", incidentGeneric: "{venue}, 서비스 공지 게시", incidentBody: "입출금 또는 거래에 영향이 있을 수 있습니다. 정확한 범위와 시간은 공식 공지를 확인하세요.",
   },
   ru: {
     listing: "{venue} добавляет {assets}{market}", listingNotice: "Объявление о листинге на {venue}: {assets}{market}", listingGeneric: "{venue} опубликовала объявление о листинге",
@@ -187,6 +231,7 @@ const T = {
     moverHead: "{sym} {pct} за 24 часа", moverBody: "Бессрочный фьючерс {sym} на Binance USDT-M изменился на {pct} за 24 часа при объёме торгов {vol}, данные на {time} UTC.",
     fundHead: "Ставка финансирования {sym}: {rate} на {venue}", fundBody: "Финансирование бессрочного фьючерса {sym}: Binance {binance}, OKX {okx}. Следующее начисление в {next} UTC. {payer}",
     payLong: "Лонги платят шортам.", payShort: "Шорты платят лонгам.",
+    incidentHead: "{venue}: сервисное уведомление по {assets}", incidentGeneric: "{venue} публикует сервисное уведомление", incidentBody: "Возможны ограничения на ввод, вывод или торговлю. Точный объём и сроки — в официальном уведомлении.",
   },
   tr: {
     listing: "{venue}, {assets}{market} listeliyor", listingNotice: "{venue} listeleme duyurusu: {assets}{market}", listingGeneric: "{venue} yeni bir listeleme duyurusu yayımladı",
@@ -200,6 +245,7 @@ const T = {
     moverHead: "{sym} 24 saatte {pct}", moverBody: "Binance USDT-M'deki {sym} vadeli kontratı 24 saatte {pct} hareket etti, işlem hacmi {vol} ({time} UTC itibarıyla).",
     fundHead: "{sym} fonlama oranı: {rate} ({venue})", fundBody: "{sym} vadeli kontratında fonlama: Binance {binance}, OKX {okx}. Bir sonraki ödeme {next} UTC. {payer}",
     payLong: "Long pozisyonlar short pozisyonlara öder.", payShort: "Short pozisyonlar long pozisyonlara öder.",
+    incidentHead: "{venue} hizmet duyurusu: {assets}", incidentGeneric: "{venue} bir hizmet duyurusu yayımladı", incidentBody: "Para yatırma, çekme veya işlemler etkilenebilir. Kapsam ve zamanlama için resmi duyuruya bakın.",
   },
   id: {
     listing: "{venue} melisting {assets}{market}", listingNotice: "Pengumuman listing {venue}: {assets}{market}", listingGeneric: "{venue} merilis pengumuman listing baru",
@@ -213,6 +259,7 @@ const T = {
     moverHead: "{sym} {pct} dalam 24 jam", moverBody: "Perpetual {sym} di Binance USDT-M bergerak {pct} dalam 24 jam dengan volume {vol}, per {time} UTC.",
     fundHead: "Funding rate {sym} {rate} di {venue}", fundBody: "Funding perpetual {sym}: Binance {binance}, OKX {okx}. Penyelesaian berikutnya pukul {next} UTC. {payer}",
     payLong: "Posisi long membayar short.", payShort: "Posisi short membayar long.",
+    incidentHead: "Pemberitahuan layanan {venue}: {assets}", incidentGeneric: "{venue} merilis pemberitahuan layanan", incidentBody: "Deposit, penarikan, atau perdagangan dapat terdampak. Cek pengumuman resmi untuk cakupan dan waktu pastinya.",
   },
   vi: {
     listing: "{venue} niêm yết {assets}{market}", listingNotice: "Thông báo niêm yết của {venue}: {assets}{market}", listingGeneric: "{venue} đăng thông báo niêm yết mới",
@@ -226,6 +273,7 @@ const T = {
     moverHead: "{sym} {pct} trong 24 giờ", moverBody: "Hợp đồng vĩnh cửu {sym} trên Binance USDT-M biến động {pct} trong 24 giờ với khối lượng {vol}, tính đến {time} UTC.",
     fundHead: "Funding rate của {sym} ở mức {rate} trên {venue}", fundBody: "Funding hợp đồng vĩnh cửu {sym}: Binance {binance}, OKX {okx}. Lần thanh toán tiếp theo lúc {next} UTC. {payer}",
     payLong: "Bên long trả cho bên short.", payShort: "Bên short trả cho bên long.",
+    incidentHead: "Thông báo dịch vụ của {venue}: {assets}", incidentGeneric: "{venue} đăng thông báo dịch vụ", incidentBody: "Nạp, rút hoặc giao dịch có thể bị ảnh hưởng. Xem thông báo chính thức để biết phạm vi và thời gian cụ thể.",
   },
   ar: {
     listing: "{venue} تدرج {assets}{market}", listingNotice: "إعلان إدراج من {venue}: {assets}{market}", listingGeneric: "{venue} تنشر إعلان إدراج جديدًا",
@@ -239,6 +287,7 @@ const T = {
     moverHead: "{sym} {pct} خلال 24 ساعة", moverBody: "تحرّك العقد الدائم {sym} على Binance USDT-M بنسبة {pct} خلال 24 ساعة بحجم تداول {vol}، حتى {time} UTC.",
     fundHead: "معدل تمويل {sym} عند {rate} على {venue}", fundBody: "تمويل العقد الدائم {sym}: Binance {binance}، OKX {okx}. التسوية التالية في {next} UTC. {payer}",
     payLong: "مراكز الشراء تدفع لمراكز البيع.", payShort: "مراكز البيع تدفع لمراكز الشراء.",
+    incidentHead: "إشعار خدمة من {venue}: {assets}", incidentGeneric: "{venue} تنشر إشعار خدمة", incidentBody: "قد تتأثر الإيداعات أو السحوبات أو التداول. راجع الإشعار الرسمي لمعرفة النطاق والتوقيت بدقة.",
   },
 };
 export const FLASH_TEMPLATE_LOCALES = Object.freeze(Object.keys(T));
@@ -307,7 +356,8 @@ const withIdentity = (item, enHeadline) => {
 
 function announcementItem(row, brief) {
   if (!row || typeof row.id !== "string" || !row.title || !row.url || !Number.isFinite(Date.parse(row.publishedAt))) return null;
-  const type = brief ? "campaign" : ({ listing: "listing", delisting: "delisting", event: "campaign" })[row.category];
+  const incident = !brief && ["news", "product"].includes(row.category) && INCIDENT_RE.test(String(row.title));
+  const type = brief ? "campaign" : incident ? "incident" : ({ listing: "listing", delisting: "delisting", event: "campaign" })[row.category];
   if (!type) return null;
   const parsed = parseAnnouncementTitle(row.title);
   const item = {
@@ -425,7 +475,14 @@ export function renderText(item, locale = "en") {
   const facts = [];
   const f = (value) => { facts.push(value); return value; };
   let headline = "", body = "", generic = false;
-  if (item.type === "listing" || item.type === "delisting" || item.type === "campaign") {
+  if (item.type === "incident") {
+    const published = f(fmtUtc(item.time));
+    const assets = item.assets.length ? f(assetsText(item.assets)) : "";
+    generic = !assets;
+    headline = assets ? fill(tt.incidentHead, { venue, assets }) : fill(tt.incidentGeneric, { venue });
+    const lead = fill(tt.annBody, { venue, published });
+    body = `${lead}${/[。！？]$/.test(lead) ? "" : " "}${tt.incidentBody}`;
+  } else if (item.type === "listing" || item.type === "delisting" || item.type === "campaign") {
     const published = f(fmtUtc(item.time));
     body = fill(tt.annBody, { venue, published });
     if (d.when) body += ` ${fill(tt.whenBody, { when: f(d.when) })}`;
@@ -487,7 +544,9 @@ export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
 /** Compact, locale-rendered row the browser receives (no templates ship to the client). */
 export function flashView(item, locale = "en", { now = Date.now() } = {}) {
   const text = renderText(item, locale);
+  const importance = flashImportance(item);
   return {
+    ...(importance ? { important: true, importance } : {}),
     id: item.id, key: item.key, path: flashItemPath(item), type: item.type, typeLabel: flashUiCopy(locale).types[item.type], time: item.time, venue: item.venue || null,
     venueName: item.venue ? flashVenueName(item.venue, text.lang) : null, assets: item.assets || [],
     headline: text.headline, body: text.body, lang: text.lang, ...(text.generic ? { generic: true } : {}),
@@ -499,9 +558,10 @@ export function flashView(item, locale = "en", { now = Date.now() } = {}) {
 export const findFlashItem = (items, key) => (Array.isArray(items) ? items : []).find((item) => item.key === key) || null;
 
 /** Stream page / JSON payload: newest first, optional type, venue and `before` cursor. */
-export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, now = Date.now(), generatedAt = null } = {}) {
+export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, important = false, now = Date.now(), generatedAt = null } = {}) {
   const all = Array.isArray(items) ? items : [];
   let rows = all;
+  if (important) rows = rows.filter((item) => flashImportance(item));
   if (type && FLASH_TYPES.includes(type)) rows = rows.filter((item) => item.type === type);
   if (venue) rows = rows.filter((item) => item.venue === venue);
   if (before && Number.isFinite(Date.parse(before))) rows = rows.filter((item) => Date.parse(item.time) < Date.parse(before));

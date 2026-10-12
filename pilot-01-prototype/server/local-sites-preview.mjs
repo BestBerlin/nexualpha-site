@@ -10,6 +10,7 @@ import { createNewsSsrRenderer } from "./news-ssr.mjs";
 import { createFundingMatrixReader } from "./funding-matrix.mjs";
 import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
+import { createFxFeed, FX_JSON_PATH } from "./fx-feed.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
@@ -17,6 +18,11 @@ const clientRoot = path.join(distRoot, "client");
 const renderNews = createNewsSsrRenderer(distRoot);
 const fundingMatrix = createFundingMatrixReader({ enabled: process.env.INTEL_REFRESH !== "off" });
 const marketEvents = marketEventsReaderFromEnv(process.env);
+const fx = createFxFeed({
+  enabled: process.env.FX_REFRESH !== "off",
+  ...(process.env.FX_SOURCE_URL ? { sourceUrl: process.env.FX_SOURCE_URL } : {}),
+  log: (m) => process.stdout.write(`[NexuAlpha] ${m}\n`),
+});
 const { default: worker } = await import(pathToFileURL(path.join(distRoot, "server/index.js")));
 const collectCta = createCtaCollector(process.env.CTA_DATA_FILE || path.join(root, ".private", "analytics", "local-cta.jsonl"));
 const port = Number.parseInt(process.env.PORT ?? "4173", 10);
@@ -55,13 +61,17 @@ createServer(async (request, response) => {
       body,
       duplex: body ? "half" : undefined,
     });
-    const workerResponse = new URL(workerRequest.url).pathname === "/api/analytics/cta"
+    const pathname = new URL(workerRequest.url).pathname;
+    const workerResponse = pathname === "/api/analytics/cta"
       ? await collectCta(workerRequest, origin)
-      : await worker.fetch(workerRequest, {
+      : pathname === FX_JSON_PATH && (request.method === "GET" || request.method === "HEAD")
+        ? await fx.respond(request.method)
+        : await worker.fetch(workerRequest, {
       ASSETS: assets,
       NEWS_SSR_RENDER: renderNews,
       FUNDING_MATRIX_READ: fundingMatrix.read,
       MARKET_EVENTS_READ: marketEvents.read,
+      FX_SNAPSHOT_READ: fx.read,
       CORE_API_ORIGIN: process.env.CORE_API_ORIGIN,
       CORE_API_BASE_URL: process.env.CORE_API_BASE_URL,
     });

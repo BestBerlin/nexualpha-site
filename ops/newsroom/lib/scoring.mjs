@@ -1,5 +1,8 @@
+import { readFileSync } from 'node:fs';
 import { countIndependentSources } from './dedupe.mjs';
 import { trigramSimilarity } from './normalization.mjs';
+import { verifyEvent } from './verification.mjs';
+import { storyFacts } from './facts.mjs';
 
 export const DEFAULT_NEWSROOM_CONFIG = {
   weights: { relevance: 25, heat: 20, timeliness: 20, new_info: 20, impact: 15 },
@@ -31,25 +34,100 @@ const LOW_RELEVANCE_TYPES = new Set(['pure_politics', 'unrelated_society', 'rout
 
 const OFFICIAL_MAJOR_TYPES = new Set(['withdrawal_halt', 'hack_exploit', 'delisting', 'enforcement', 'bankruptcy_filing', 'stablecoin_depeg']);
 const OFFICIAL_KINDS = new Set(['official_notice', 'original_statement', 'filing', 'court_record', 'onchain_tx']);
+const EXCHANGE_LISTING_TYPES = new Set(['listing', 'delisting']);
+const MAJOR_LISTING_VENUES = new Set(['binance', 'okx', 'bybit', 'bitget', 'coinbase']);
+const TOP_200_SYMBOLS = loadTop200Symbols();
+
+function loadTop200Symbols() {
+  try {
+    const rows = JSON.parse(readFileSync(new URL('../db/coin-universe.json', import.meta.url), 'utf8'));
+    return new Set(rows.map(row => String(row.symbol ?? '').toUpperCase()).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
 
 function clamp(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function eventMarketChannel(event) {
+  return event.market_channel ?? event.marketChannel ?? event.discussion?.market_channel ?? event.discussion?.marketChannel ?? null;
 }
 
 function scoreRelevance(event, entitiesById = {}) {
   const entity = entitiesById[event.subject_entity] ?? {};
   const priorityScore = { 1: 100, 2: 70, 3: 40 }[entity.priority ?? event.entity_priority ?? event.entityPriority ?? 2] ?? 50;
   if (!SCOPED_EVENT_TYPES.has(event.event_type) || LOW_RELEVANCE_TYPES.has(event.event_type)) return 0;
-  if ((event.event_type === 'fx_macro' || event.event_type === 'politics_market') && !(event.market_channel || event.marketChannel)) return 0;
-  const typeFactor = HIGH_RELEVANCE_TYPES.has(event.event_type) ? 1 : event.market_channel || event.marketChannel ? 0.8 : 0.45;
+  const marketChannel = eventMarketChannel(event);
+  if ((event.event_type === 'fx_macro' || event.event_type === 'politics_market') && !marketChannel) return 0;
+  const typeFactor = HIGH_RELEVANCE_TYPES.has(event.event_type) ? 1 : marketChannel ? 0.8 : 0.45;
   if (event.out_of_scope || event.outOfScope) return 0;
   return clamp(priorityScore * typeFactor);
 }
 
-function scoreHeat(event) {
+function hoursSince(value, now) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return null;
+  return Math.max(0, (now - date) / 36e5);
+}
+
+function heatDecayWeight(hours) {
+  if (!Number.isFinite(hours)) return 1;
+  if (hours <= 6) return 1;
+  if (hours >= 72) return 0.1;
+  return Math.max(0.1, Math.pow(0.5, (hours - 6) / 24));
+}
+
+function independentSourceHeat(event, now) {
+  const seenOrigins = new Set();
+  const seenPublishers = new Set();
+  const rows = (event.evidence ?? []).filter(row => row.is_independent !== false && ((row.origin_key ?? row.originKey) || publisherKey(row)));
+  let weighted = 0;
+  let count = 0;
+  let oldestHours = null;
+  let newestHours = null;
+  for (const row of rows) {
+    const origin = row.origin_key ?? row.originKey ?? null;
+    const publisher = publisherKey(row);
+    if ((origin && seenOrigins.has(origin)) || (publisher && seenPublishers.has(publisher))) continue;
+    if (origin) seenOrigins.add(origin);
+    if (publisher) seenPublishers.add(publisher);
+    count += 1;
+    const hours = hoursSince(row.published_at ?? row.publishedAt ?? event.source_published_at ?? event.sourcePublishedAt, now);
+    if (hours != null) {
+      oldestHours = oldestHours == null ? hours : Math.max(oldestHours, hours);
+      newestHours = newestHours == null ? hours : Math.min(newestHours, hours);
+    }
+    weighted += heatDecayWeight(hours);
+  }
+  if (count) return { count, weighted, oldestHours, newestHours, decayed: true };
+  const fallback = Number(event.discussion?.independent_sources ?? countIndependentSources(event.evidence ?? []));
+  return {
+    count: Number.isFinite(fallback) ? fallback : 0,
+    weighted: Number.isFinite(fallback) ? fallback : 0,
+    oldestHours: null,
+    newestHours: null,
+    decayed: false,
+  };
+}
+
+function publisherKey(row) {
+  try {
+    const hostname = new URL(row.url).hostname.toLowerCase().replace(/^www\./, '');
+    if (hostname) return hostname;
+  } catch {
+    // Fall back to registry/account identity when evidence has no usable URL.
+  }
+  return row.source_id ?? row.sourceId ?? row.author_account ?? row.authorAccount ?? row.source_name ?? row.sourceName ?? row.source_platform ?? row.sourcePlatform ?? null;
+}
+
+function scoreHeat(event, now) {
   const discussion = event.discussion ?? {};
   const byPlatform = discussion.by_platform ?? discussion.byPlatform ?? {};
-  const independentSources = discussion.independent_sources ?? countIndependentSources(event.evidence ?? []);
+  const sourceHeat = independentSourceHeat(event, now);
+  const independentSources = sourceHeat.count;
   const platformsWithIndependentItems = discussion.platforms_with_independent_items ?? Object.values(byPlatform).filter(value => value.independent_posts > 0).length;
   const growthScores = Object.entries(byPlatform).map(([platform, value]) => {
     const computedGrowth = Number.isFinite(value.metric_now) && Number.isFinite(value.baseline) && value.baseline > 0
@@ -66,12 +144,16 @@ function scoreHeat(event) {
   const knownGrowth = growthScores.map(row => row.metric_growth_max).filter(Number.isFinite);
   const maxGrowth = knownGrowth.reduce((max, value) => Math.max(max, value), 0);
   const growthComponent = Math.min(50, maxGrowth * 10);
-  const independentComponent = Math.min(40, Math.max(0, independentSources - 1) * 10);
+  const independentComponent = Math.min(50, Math.max(0, sourceHeat.weighted) * 12);
   const platformComponent = Math.min(30, Math.max(0, platformsWithIndependentItems - 1) * 10);
   return {
     score: clamp(growthComponent + independentComponent + platformComponent),
     explain: {
       independent_sources: independentSources,
+      independent_sources_decayed: Number(sourceHeat.weighted.toFixed(2)),
+      independent_source_decay_applied: sourceHeat.decayed,
+      newest_independent_source_hours: sourceHeat.newestHours == null ? null : Number(sourceHeat.newestHours.toFixed(2)),
+      oldest_independent_source_hours: sourceHeat.oldestHours == null ? null : Number(sourceHeat.oldestHours.toFixed(2)),
       platforms_with_independent_items: platformsWithIndependentItems,
       per_platform_growth: growthScores,
       max_platform_growth: knownGrowth.length ? maxGrowth : null,
@@ -117,6 +199,52 @@ function scoreImpact(event) {
   const venues = event.affected_venues ?? event.affectedVenues ?? 0;
   const usdScore = Number.isFinite(usd) && usd > 0 ? Math.min(70, Math.log10(usd) * 10) : 0;
   return clamp(usdScore + Math.min(20, users / 5000) + Math.min(10, venues * 5) + (event.retail_can_act_this_week ? 10 : 0));
+}
+
+function tokenSet(values = []) {
+  return new Set(values.flatMap(value => String(value ?? '').toUpperCase().match(/[A-Z0-9]{2,12}/g) ?? []));
+}
+
+function eventVenueTokens(event) {
+  return tokenSet([
+    event.subject_entity,
+    event.subjectEntity,
+    ...(event.subjects ?? []),
+    event.venue,
+    event.exchange,
+    event.title_internal,
+    event.titleInternal,
+    ...(event.evidence ?? []).flatMap(row => [row.source_id, row.sourceId, row.url, row.author_account, row.authorAccount]),
+  ]);
+}
+
+function listedAssetTokens(event) {
+  // Only captured symbols/names or explicit asset fields qualify; ordinary
+  // words such as "one" must not become a token through case folding.
+  return new Set([
+    ...storyFacts({ ...event, title: event.title_internal ?? event.titleInternal ?? event.fact_summary ?? '' }).tickers,
+    ...tokenSet([
+      ...(event.asset_symbols ?? event.assetSymbols ?? []),
+      ...(event.listed_assets ?? event.listedAssets ?? []),
+      ...(event.delisted_assets ?? event.delistedAssets ?? []),
+      ...(event.tokens ?? []),
+    ]),
+  ]);
+}
+
+function hasOfficialPrimaryEvidence(event) {
+  if (event.verification_status === 'verified-primary' || event.verificationStatus === 'verified-primary') return true;
+  return verifyEvent(event) === 'verified-primary';
+}
+
+export function notableExchangeListing(event) {
+  if (!EXCHANGE_LISTING_TYPES.has(event.event_type ?? event.eventType)) return false;
+  if (!hasOfficialPrimaryEvidence(event)) return false;
+  const venues = eventVenueTokens(event);
+  const listedAssets = listedAssetTokens(event);
+  const majorVenue = [...MAJOR_LISTING_VENUES].some(venue => venues.has(venue.toUpperCase()));
+  const top200Asset = [...listedAssets].some(symbol => TOP_200_SYMBOLS.has(symbol));
+  return majorVenue || top200Asset;
 }
 
 export function credibilityScore(event) {
@@ -186,12 +314,15 @@ export function scoreEvent(event, options = {}) {
   validateThresholds(config.thresholds);
   const now = new Date(options.now ?? Date.now());
   const relevance = scoreRelevance(event, options.entitiesById ?? {});
-  const heat = scoreHeat(event);
+  const heat = scoreHeat(event, now);
   const timeliness = scoreTimeliness(event, now);
   const newInfo = scoreNewInfo(event, options.articles ?? [], now, config.thresholds.repeatAngleSimilarity);
-  const impact = scoreImpact(event);
+  const impactRaw = scoreImpact(event);
+  const notableListing = relevance > 0 && notableExchangeListing(event);
+  const relevanceScore = notableListing ? Math.max(relevance, 70) : relevance;
+  const impact = notableListing ? Math.max(impactRaw, 50) : impactRaw;
   const factors = {
-    relevance,
+    relevance: relevanceScore,
     heat: heat.score,
     timeliness: timeliness.score,
     new_info: newInfo.score,
@@ -219,7 +350,9 @@ export function scoreEvent(event, options = {}) {
       heat: heat.explain,
       timeliness: { hours_since_source: timeliness.hours == null ? null : Number(timeliness.hours.toFixed(2)), unknown_source_time: timeliness.unknown === true },
       new_info: newInfo,
-      impact: { input: event.impact_score ?? event.impactScore ?? event.usd_amount ?? event.usdAmount ?? null },
+      impact: { input: event.impact_score ?? event.impactScore ?? event.usd_amount ?? event.usdAmount ?? null, raw_score: impactRaw },
+      notable_exchange_listing: notableListing,
+      notable_listing_boosts: notableListing ? { relevance_floor: 70, impact_floor: 50, raw_relevance: relevance } : null,
       credibility_separate_from_editorial_score: true,
       priority_override_does_not_bypass_eligibility: true,
       required_credibility_for_publish: requiredCredibility,

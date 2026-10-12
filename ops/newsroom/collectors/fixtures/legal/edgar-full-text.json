@@ -12,6 +12,43 @@
           "file_date": "2026-10-12",
           "items": "Item 8.01 Other Events - digital asset treasury update"
         }
+      },
+      {
+        "_id": "0001193125-26-000006",
+        "_score": 9.4,
+        "_source": {
+          "adsh": "0001193125-26-000006",
+          "ciks": ["999999"],
+          "form": "6-K",
+          "company_name": "Foreign Crypto Notes Ltd.",
+          "file_date": "2026-10-12",
+          "items": "digital asset structured note update"
+        }
+      },
+      {
+        "_id": "0001193125-26-000497",
+        "_score": 7.7,
+        "_source": {
+          "adsh": "0001193125-26-000497",
+          "ciks": ["999998"],
+          "form": "497K",
+          "company_name": "Historical Bitcoin Structured Notes Trust",
+          "file_date": "2026-10-12",
+          "items": "bitcoin buffered structured notes"
+        }
+      },
+      {
+        "_id": "0001193125-26-000424",
+        "_score": 6.4,
+        "_source": {
+          "adsh": "0001193125-26-000424",
+          "ciks": ["999997"],
+          "form": "424B2",
+          "root_forms": ["8-K"],
+          "company_name": "Bitcoin Buffered Notes Shelf",
+          "file_date": "2026-10-12",
+          "items": "bitcoin linked structured note pricing supplement"
+        }
       }
     ]
   }
