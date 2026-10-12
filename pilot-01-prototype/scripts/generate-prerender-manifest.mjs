@@ -30,6 +30,7 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
+import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -313,17 +314,26 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
   // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
+  // Campaign landing pages (2026-10-12: /activities/binance-october-gifts), rendered by the Worker at request time;
+  // hreflang sets are the page head's.
+  const campaigns = buildCampaignSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-campaigns.xml", lastmod: campaigns.lastmod });
   return {
     index: buildSitemapIndex(indexRows),
     files,
     academy,
     apps,
+    campaigns,
     publication,
   };
 }
 
 export function buildAppsSitemap() {
   return buildDownloadOrAcademySitemap(appDownloadSitemapEntries);
+}
+
+export function buildCampaignSitemap() {
+  return buildDownloadOrAcademySitemap(binanceOctoberSitemapEntries);
 }
 
 export function buildAcademySitemap() {
@@ -492,6 +502,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -503,6 +514,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);
+  writeFileSync(path.join(clientDir, "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);

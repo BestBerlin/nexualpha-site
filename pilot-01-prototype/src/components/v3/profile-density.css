@@ -87,3 +87,17 @@
 .v3-kw__sources { display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
 .v3-kw__sources a { display: inline-flex; align-items: center; min-height: 44px; }
 .v3-kw a:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 3px; }
+
+/* Campaign banner on /exchanges/<slug> (owner 2026-10-12): links our campaign page, gold like the header. */
+.v3-venue-campaign-banner:not(#_):not(#_) { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px 16px; margin: 14px 0 6px; padding: 14px 18px; border-radius: 14px; border: 1px solid rgb(245 197 66 / .45); background: radial-gradient(60% 160% at 100% 0%, rgb(245 197 66 / .12), transparent 70%), rgb(255 255 255 / .03); color: #EDEEF0; text-decoration: none; transition: border-color .2s; }
+.v3-venue-campaign-banner:not(#_):not(#_):hover { border-color: rgb(245 197 66 / .8); }
+.v3-venue-campaign-banner:not(#_):not(#_):focus-visible { outline: 2px solid #f5c542; outline-offset: 3px; }
+.v3-venue-campaign-banner__tag:not(#_):not(#_) { padding: 4px 10px; border-radius: 999px; border: 1px solid rgb(245 197 66 / .55); color: #ffe27a; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.v3-venue-campaign-banner__text:not(#_):not(#_) { display: grid; gap: 2px; min-width: 0; }
+.v3-venue-campaign-banner__text:not(#_):not(#_) b { font-size: 15px; line-height: 1.4; color: #EDEEF0; }
+.v3-venue-campaign-banner__text:not(#_):not(#_) span { font-size: 13.5px; line-height: 1.45; color: #B0B4BA; }
+.v3-venue-campaign-banner__go:not(#_):not(#_) { font-size: 14px; font-weight: 600; color: #ffe27a; white-space: nowrap; }
+@media (max-width: 640px) {
+  .v3-venue-campaign-banner:not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); }
+  .v3-venue-campaign-banner__tag:not(#_):not(#_) { justify-self: start; }
+}

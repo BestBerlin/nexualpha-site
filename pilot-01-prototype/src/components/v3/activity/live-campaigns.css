@@ -49,3 +49,19 @@
 .live-campaigns__skeleton-line--meta:not(#_):not(#_) { width: 38%; }
 .live-campaigns__skeleton-line--title:not(#_):not(#_) { height: 18px; width: 86%; }
 .live-campaigns__skeleton-line--action:not(#_):not(#_) { height: 44px; width: 60%; border-radius: 10px; align-self: end; }
+/* Featured campaign page (owner 2026-10-12): spotlight on top of /activities, with the header gold sparkle. */
+.campaign-spotlight:not(#_):not(#_) { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tag brand go" "title title title" "body body body"; align-items: center; gap: 8px 12px; margin: 0 0 28px; padding: 20px 22px; border-radius: 16px; border: 1px solid rgb(245 197 66 / .45); background: radial-gradient(70% 140% at 100% 0%, rgb(245 197 66 / .14), transparent 70%), rgb(255 255 255 / .03); text-decoration: none; transition: border-color .2s, background-color .2s; }
+.campaign-spotlight:not(#_):not(#_):hover { border-color: rgb(245 197 66 / .75); }
+.campaign-spotlight:not(#_):not(#_):focus-visible { outline: 2px solid #f5c542; outline-offset: 3px; }
+.campaign-spotlight__tag:not(#_):not(#_) { grid-area: tag; position: relative; justify-self: start; padding: 4px 10px; border-radius: 999px; border: 1px solid rgb(245 197 66 / .5); font-size: 12px; font-weight: 700; --nx-gold: #f5c542; background: linear-gradient(100deg, var(--nx-gold) 0%, var(--nx-gold) 38%, #fff8dc 48%, #ffe27a 52%, var(--nx-gold) 62%, var(--nx-gold) 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nx-gold-sweep 2.6s linear infinite, nx-chip-glow 2.6s ease-out infinite; }
+.campaign-spotlight__tag:not(#_):not(#_)::after { content: "✦"; position: absolute; inset-block-start: -7px; inset-inline-end: -6px; font-size: 11px; color: #ffe27a; -webkit-text-fill-color: #ffe27a; text-shadow: 0 0 6px rgb(255 214 90 / .9); animation: nx-twinkle 1.3s ease-in-out infinite; }
+.campaign-spotlight__brand:not(#_):not(#_) { grid-area: brand; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__brand b { color: #EDEEF0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__title { grid-area: title; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 650; line-height: 1.35; color: #EDEEF0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__body { grid-area: body; font-size: 14.5px; line-height: 1.55; color: #B0B4BA; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { grid-area: go; justify-self: end; font-size: 14px; font-weight: 600; color: #ffe27a; white-space: nowrap; }
+@media (max-width: 560px) {
+  .campaign-spotlight:not(#_):not(#_) { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "tag brand" "title title" "body body" "go go"; }
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { justify-self: start; min-height: 32px; display: inline-flex; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) { .campaign-spotlight__tag:not(#_):not(#_), .campaign-spotlight__tag:not(#_):not(#_)::after { animation: none; } }

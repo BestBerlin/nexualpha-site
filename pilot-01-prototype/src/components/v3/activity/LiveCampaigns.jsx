@@ -14,6 +14,8 @@ import { activeOwnerCampaigns } from "../../../data/owner-campaigns.js";
 import { CampaignBriefFacts } from "../../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../../shared/useCampaignBriefs.js";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
+import { localizedHref } from "../../../data/locale-routing.js";
+import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../../data/binance-october.js";
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
@@ -83,8 +85,21 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
   const shown = venue === "all" ? all : all.filter((c) => c.venue === venue);
   const groups = venues.filter((v) => venue === "all" || v === venue).map((v) => ({ venue: v, items: shown.filter((c) => c.venue === v) })).filter((g) => g.items.length);
 
+  const spotlight = binanceOctoberPromotable({ locale, market }) ? binanceOctoberTeaser(locale) : null;
+
   return (
     <section className="live-campaigns" aria-labelledby="live-campaigns-h">
+      {/* Featured campaign page (owner 2026-10-12): first item on /activities while Binance's October gifts run. */}
+      {spotlight && (
+        <a className="campaign-spotlight" href={localizedHref(BINANCE_OCTOBER_PATH, { locale, market })} data-featured-campaign="binance-october"
+          data-cta-kind="research" data-cta-platform="binance" data-cta-placement="activities-featured-campaign">
+          <span className="campaign-spotlight__tag" data-hot="true">{spotlight.tag}</span>
+          <span className="campaign-spotlight__brand"><BrandMark slug="binance" compact /><b>Binance</b></span>
+          <span className="campaign-spotlight__title">{spotlight.title}</span>
+          <span className="campaign-spotlight__body">{spotlight.body}</span>
+          <span className="campaign-spotlight__go">{spotlight.go}<span aria-hidden="true"> →</span></span>
+        </a>
+      )}
       <section className="campaign-month" aria-labelledby="campaign-month-title">
         <h2 id="campaign-month-title">{joinText.month}</h2>
         {isStartOfMonth(locale) && <small suppressHydrationWarning>{joinText.season}</small>}

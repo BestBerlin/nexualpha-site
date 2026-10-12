@@ -7,6 +7,7 @@ import { readFile, appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { clickMetadata } from './click-metadata.mjs';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
+import { BINANCE_OCTOBER_GO_SLUGS, binanceCampaignActive, binanceCampaignUrl } from '../src/data/binance-october.js';
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
@@ -33,10 +34,23 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     const url = new URL(request.url);
     const slug = url.pathname.slice('/go/'.length).toLowerCase();
     const headers = { 'cache-control': 'no-store', 'x-robots-tag': 'noindex, nofollow', 'referrer-policy': 'no-referrer-when-downgrade' };
-    let target;
-    try { target = (await partnerMap()).get(slug); } catch { target = undefined; }
-    if (!target) return new Response('Not Found', { status: 404, headers });
     const src = SRC.test(url.searchParams.get('src') || '') ? url.searchParams.get('src') : 'unknown';
+    let target;
+    let campaign = null;
+    // Binance October campaign links (owner 2026-10-12): /go/binance-gifts, /go/binance-refer2earn, /go/binance-tournament
+    // open the official binance.com campaign page in the visitor's language; after the campaign end date they fall back
+    // to the regular /go/binance route (which records its own click).
+    const campaignKey = BINANCE_OCTOBER_GO_SLUGS[slug];
+    if (campaignKey) {
+      if (!binanceCampaignActive(campaignKey, now())) {
+        return new Response(null, { status: 302, headers: { ...headers, location: `/go/binance?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}` } });
+      }
+      target = binanceCampaignUrl(campaignKey, url.searchParams.get('lang') || 'en');
+      campaign = campaignKey;
+    } else {
+      try { target = (await partnerMap()).get(slug); } catch { target = undefined; }
+    }
+    if (!target) return new Response('Not Found', { status: 404, headers });
     const ua = request.headers.get('user-agent') || '';
     if (eventFile && !BOT_UA.test(ua) && request.method === 'GET') {
       let refHost = null;
@@ -45,7 +59,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       const metadata = clickMetadata({ ref: referer, src });
       // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost, ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
+      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost, ...(campaign ? { venue: 'binance', campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
     }
     return new Response(null, { status: 302, headers: { ...headers, location: target } });
   };
