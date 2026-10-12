@@ -1,5 +1,6 @@
 // /liquidations — today's crypto liquidations from the market collector feed (see src/data/market-data-pages.js).
 import React from "react";
+import { localizedHref } from "../../data/locale-routing.js";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { LIQUIDATIONS_PATH, dataPageCopy, formatUsdCompact, formatUsdFull, formatUtc, formatUtcTime, readHistory, readLiquidations } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
@@ -35,6 +36,8 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
       <DataPageHero locale={locale} page={page} pathname={LIQUIDATIONS_PATH} generatedAt={data?.generatedAt} sourceLine={page.sourceLine}>
         {data?.coverageSince ? <p className="nxd-coverage"><span>{page.coverage}</span> <time dateTime={data.coverageSince} dir="ltr">{formatUtc(data.coverageSince)}</time></p> : null}
       </DataPageHero>
+
+      <nav className="v2-shell nxd-legend"><a href={localizedHref("/funding-rates/matrix", { locale })}>{copy.nav.funding} · {locale === "zh-Hans" ? "跨所矩阵与计算器" : locale === "zh-Hant" ? "跨所矩陣與計算器" : "Matrix"}</a></nav>
 
       {!data ? <DataUnavailable locale={locale} /> : (
         <>

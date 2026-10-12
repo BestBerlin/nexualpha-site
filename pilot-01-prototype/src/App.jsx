@@ -87,6 +87,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
   "./components/academy/AcademyPages.jsx",
@@ -141,6 +142,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
   "./components/academy/AcademyPages.jsx",
@@ -188,6 +190,7 @@ const VenueYellowPages = deferredComponent("./components/v3/VenueYellowPages.jsx
 const CrossroadsCompare = deferredComponent("./components/v3/CrossroadsCompare.jsx", "CrossroadsCompare");
 const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx", "PlatformMatcher");
 const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
+const FundingMatrixPage = deferredComponent("./components/data/FundingMatrixPage.jsx", "FundingMatrixPage");
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
@@ -502,6 +505,7 @@ function routeState(venues, initialUrl) {
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
+  if (pathname === "/funding-rates/matrix") return { name: "fundingMatrix", ...contextParams() };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
   const topicMatch = pathname.match(/^\/topics\/([a-z0-9-]+)$/);
@@ -647,7 +651,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -811,6 +815,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
+  if (route.name === "fundingMatrix") return pageShell(<FundingMatrixPage locale={locale} initialFeed={initialFundingMatrix} market={route.market} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);

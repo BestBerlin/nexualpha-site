@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { createFundingMatrixReader } from "./server/funding-matrix.mjs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
@@ -195,6 +196,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
+          if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
@@ -377,6 +379,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
       name: "nexualpha-dev-market-events",
       apply: "serve",
       configureServer(server) {
+        const matrix = createFundingMatrixReader();
+        server.middlewares.use("/intel/funding-matrix.json", async (req, res) => {
+          const response = await matrix.respond(req.method);
+          res.statusCode = response.status;
+          for (const [key, value] of response.headers) res.setHeader(key, value);
+          res.end(await response.text());
+        });
         server.middlewares.use("/intel/market-events.json", async (req, res) => {
           try {
             const body = process.env.MARKET_EVENTS_FILE

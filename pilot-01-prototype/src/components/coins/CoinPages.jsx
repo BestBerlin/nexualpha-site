@@ -10,6 +10,7 @@ import {
   coinSignup, fill, formatChange, formatCompactUsd, formatUsd, isCoinListed, joinList, mainPair, perpVenues, primarySignup, relatedCoins,
   spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale, applyCoinOverlay, coinOverlayFromSnapshot,
 } from "../../data/coins.js";
+import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./coins.css";
@@ -250,6 +251,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
           <p className="nxc-overline"><CoinMark coin={coin} size={28} /><span translate="no">{coin.symbol}</span><span aria-hidden="true">·</span><span>{t.categories[coin.category] || t.categories.other}</span></p>
           <h1 className="nxc-title">{fill(t.h1, vars)}</h1>
           <p className="nxc-answer" data-coin-answer>{coinAnswer(coin, locale)}</p>
+          <p><a href={hrefFor(`/funding-rates/matrix#symbol-${encodeURIComponent(coin.symbol)}`, locale, market)}>{coin.symbol} · {(DATA_PAGE_NAV[locale] || DATA_PAGE_NAV.en).funding}</a></p>
           {listed ? <div className="nxc-listed">
             <span className="nxc-listed__label">{t.listedOn}</span>
             <ul>{coin.venues.map((venue) => <li key={venue.slug}><a href={`#venue-${venue.slug}`} title={venue.name}><BrandMark slug={venue.slug} compact /><span className="nxc-visually-hidden">{venue.name}</span></a></li>)}</ul>
