@@ -3,7 +3,9 @@ import test from "node:test";
 
 import {
   buildIndexNowPayload,
+  collectSitemapUrls,
   filterHttp200,
+  isSitemapIndex,
   parseChangedUrls,
   parseSitemapUrls,
   selectIndexNowCandidates,
@@ -25,6 +27,26 @@ test("sitemap parsing keeps only same-origin canonical locations", () => {
     "https://nexualpha.com/br",
     "https://nexualpha.com/news/source-backed-research?locale=zh-Hans",
   ]);
+});
+
+test("a sitemap index is expanded into its children's page URLs, never the child sitemap URLs", async () => {
+  const index = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://nexualpha.com/sitemap-venues.xml</loc></sitemap>
+  <sitemap><loc>https://nexualpha.com/news-sitemap.xml</loc><lastmod>2026-10-12</lastmod></sitemap>
+  <sitemap><loc>https://evil.example/sitemap.xml</loc></sitemap>
+</sitemapindex>`;
+  const children = {
+    "https://nexualpha.com/sitemap-venues.xml": `<urlset><url><loc>https://nexualpha.com/venues/okx</loc></url><url><loc>https://nexualpha.com/</loc></url></urlset>`,
+    "https://nexualpha.com/news-sitemap.xml": `<urlset><url><loc>https://nexualpha.com/news/a</loc></url><url><loc>https://nexualpha.com/</loc></url></urlset>`,
+  };
+  const loaded = [];
+  assert.equal(isSitemapIndex(index), true);
+  assert.equal(isSitemapIndex(sitemap), false);
+  const urls = await collectSitemapUrls(index, { loadChild: async (url) => { loaded.push(url); return children[url]; } });
+  assert.deepEqual(loaded, Object.keys(children));
+  assert.deepEqual(urls, ["https://nexualpha.com/venues/okx", "https://nexualpha.com/", "https://nexualpha.com/news/a"]);
+  assert.deepEqual(await collectSitemapUrls(sitemap, { loadChild: () => assert.fail("urlset has no children") }), parseSitemapUrls(sitemap));
 });
 
 test("changed URL file supports JSON and line formats", () => {
