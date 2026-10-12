@@ -206,6 +206,14 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
+          // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules
+          // (glossary-index/shard/links-<locale>.js) stay lazy chunks of their own via glossary-content-loader.js.
+          if (id.includes("/src/components/glossary/") || /\/src\/data\/glossary(?:-copy|-terms)?\.js$/.test(id)) return "route-glossary";
+          // The promotions resolver (SponsoredSlot) is read by the news article and glossary chunks: pinned with the
+          // partner status it evaluates at load, so neither route chunk imports the other (SSR build: TDZ cycle).
+          if (/\/src\/data\/(?:promotions|promotions\.generated|promotion-copy|partner-benefit-status)\.js$/.test(id)) return "data-promotions";
+          // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
+          if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
