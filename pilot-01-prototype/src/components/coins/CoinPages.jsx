@@ -72,7 +72,7 @@ function tickerSources(coin) {
   }
   return sources.slice(0, 2);
 }
-function useLivePrice(coin) {
+export function useLivePrice(coin) {
   const [live, setLive] = useState(null);
   const slug = coin?.slug;
   useEffect(() => {
@@ -214,7 +214,7 @@ function CoinLink({ coin, locale, market }) {
 // before the first render so hydration matches). After a client-side navigation there is none: read the runtime
 // /intel/coins.json once and re-render if it is newer than the table in the bundle.
 let runtimeFetch = null;
-function useCoinData(overlay) {
+export function useCoinData(overlay) {
   applyCoinOverlay(overlay);
   const [version, setVersion] = useState(0);
   useEffect(() => {

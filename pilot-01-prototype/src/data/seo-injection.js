@@ -29,6 +29,8 @@ import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
+import { parseConverterPath } from "./converter-routes.js";
+import { converterRouteSeo } from "./converter-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
@@ -343,6 +345,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
@@ -2133,6 +2136,14 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = coins.schemas;
     ogType = "website";
     if (!coins.indexable) robots = "noindex,follow";
+  } else if (parseConverterPath(pathname) && converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    const converter = converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = converter.title;
+    description = converter.description;
+    schemas = converter.schemas;
+    ogType = "website";
+    if (!converter.indexable) robots = "noindex,follow";
   } else if (parseBinanceOctoberPath(pathname)) {
     // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
     const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
