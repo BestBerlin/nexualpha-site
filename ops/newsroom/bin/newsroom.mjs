@@ -6,7 +6,9 @@ import { resolve } from 'node:path';
 import { databaseStore } from '../collectors/store.mjs';
 import { runCollect } from '../collectors/runner.mjs';
 import { loadSeeds } from '../collectors/seeds.mjs';
+import { runCalibration } from '../lib/calibration.mjs';
 import { exportTopQuery, runDedupe, runScore, runVerify, statusQuery } from '../lib/pipeline.mjs';
+import { configFromNewsroomRows } from '../lib/scoring.mjs';
 import { claimQuery, releaseQuery, completeQuery } from '../writer/queries.mjs';
 import { enrichEvent } from '../writer/event-plan.mjs';
 
@@ -85,6 +87,7 @@ export function buildQuery(argv) {
       const keys = ['relevance', 'heat', 'timeliness', 'new_info', 'impact'];
       if (!value || typeof value !== 'object' || Object.keys(value).length !== 5 || keys.some(key => !Number.isFinite(value[key]) || value[key] < 0) || keys.reduce((sum, key) => sum + value[key], 0) !== 100) throw new Error('weights must contain five non-negative factors totaling 100');
     }
+    if (args[0] === 'thresholds' || args[0] === 'scoring_thresholds') configFromNewsroomRows([{ key: args[0], value }]);
     return `WITH result AS (INSERT INTO newsroom_config(key,value) VALUES (${literal(args[0])},${json(value)}) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=now() RETURNING *) SELECT to_jsonb(result) FROM result;`;
   }
   throw new Error('Unknown command');
@@ -99,7 +102,7 @@ export function runPsql(sql, env = process.env) {
   return result.stdout.trim();
 }
 export async function main(argv, execute = runPsql) {
-  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | claim --limit N --writer ID [--history PATH --locale LOCALE --market MARKET] | release ID [--writer ID] | complete ID --article SLUG --url URL [--writer ID] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | claim --limit N --writer ID [--history PATH --locale LOCALE --market MARKET] | release ID [--writer ID] | complete ID --article SLUG --url URL [--writer ID] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N] | calibrate\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
   if (argv[0] === 'collect') return JSON.stringify(await runCollect(argv.slice(1),databaseStore(execute,literal)),null,2);
   if (argv[0] === 'claim') {
     const query = buildQuery(argv);
@@ -145,6 +148,10 @@ export async function main(argv, execute = runPsql) {
   if (argv[0] === 'export:top') {
     const opts = options(argv.slice(1), ['limit']);
     return execute(exportTopQuery(integer(opts.limit ?? 50, 'limit', 1, 500)));
+  }
+  if (argv[0] === 'calibrate') {
+    if (argv.length !== 1) throw new Error('calibrate takes no options');
+    return runCalibration(execute);
   }
   return execute(buildQuery(argv));
 }

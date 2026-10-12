@@ -237,3 +237,43 @@ The last command needs Docker and runs migration/lifecycle/concurrent-claim
 checks in its disposable PostgreSQL 16 container, including
 `scripts/writer-smoke.mjs`. SQL-construction fixtures alone do not prove database
 execution or concurrent locking. Never run that smoke script against production.
+
+## Story clustering and calibration (2026-10-13)
+
+Clustering uses compatible actions, shared subjects, a 48-hour window, normalized
+word similarity and shared captured tickers, amounts or dates. English/Chinese
+watchlist aliases participate in fact matching. Contradictory venues, symbols,
+amounts or explicit dates block attachment even when a URL/hash matches. Merge
+reasons and item facts persist in `discussion.merge_provenance`; independently
+reported stories retain publisher/origin identity. Captured titles and excerpts
+supply corroboration facts rather than requiring identical headlines.
+
+Heat uses independent sources with time decay; unknown growth metrics remain
+unknown. Verified notable exchange listings/delistings receive explicit relevance
+and impact adjustments, without inventing discussion metrics or bypassing
+verification, novelty, credibility or article gates. The bundled coin universe's
+first 200 entries are the local notable-asset snapshot, not a refreshed market
+ranking.
+
+```sh
+node ops/newsroom/bin/newsroom.mjs calibrate
+node ops/newsroom/bin/newsroom.mjs config:get scoring_thresholds
+node ops/newsroom/bin/newsroom.mjs config:set scoring_thresholds '{"publish_editorial_score_min":55}'
+```
+
+`calibrate` is read-only: the last 72 hours, thresholds 40/45/50/55, UTC daily
+counts and totals normalized over three days against a target of 40/day, including
+qualified events already claimed or published. Review
+measured availability before tuning the stored threshold; calibration does not
+change verification rules or authorize publication. The default remains 55.
+
+EDGAR collection and pending-item relevance admit only 8-K, 10-Q, 10-K, S-1 and
+13F families with watchlist-company or crypto context. Structured-note filings
+such as 424B2, FWP and 497 are excluded. Direct KuCoin announcements and Kraken
+asset-listing RSS supplement the existing mirror and status feeds.
+
+Deployment checks `deploy/backup.sh --dry-run` before switching releases. It
+compares the server and `pg_dump` major versions inside the PostgreSQL container;
+the backup also executes its dump there. Unit tests use a Docker command double;
+a real dump/restore and live database calibration still require the deployment
+environment. Existing processed events are not destructively reset or reclustered.

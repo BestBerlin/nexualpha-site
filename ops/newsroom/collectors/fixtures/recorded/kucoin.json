@@ -1,0 +1,29 @@
+{
+  "code": "200000",
+  "data": {
+    "totalNumber": 126,
+    "totalPage": 63,
+    "pageNumber": 1,
+    "pageSize": 2,
+    "list": [
+      {
+        "id": 342914,
+        "title": "KuCoin Content Mining Rewards Distribution Notice (October 5 - October 11)",
+        "type": ["latest-announcements"],
+        "description": "The Content Mining rewards generated on KuCoin Feed from October 4, 2026 to October 11, 2026 have now been successfully settled.",
+        "releaseTime": 1791802800000,
+        "language": "en_US",
+        "url": "https://www.kucoin.com/announcement/en-kucoin-content-mining-rewards-distribution-notice-october-5-october-11?lang=en_US"
+      },
+      {
+        "id": 342774,
+        "title": "KuCoin Will Delist VENOM and NFP on 2026-10-14",
+        "type": ["latest-announcements", "delistings"],
+        "description": "In accordance with the Token Delisting Guidelines, KuCoin will delist the following tokens at 8:00 on October 14, 2026 (UTC).",
+        "releaseTime": 1791800340000,
+        "language": "en_US",
+        "url": "https://www.kucoin.com/announcement/en-kucoin-will-delist-venom-and-NFP-on-20261014?lang=en_US"
+      }
+    ]
+  }
+}

@@ -17,7 +17,7 @@ const EVIDENCE_KINDS = new Set(['official_notice', 'original_statement', 'filing
 
 const ITEM_COLUMNS = `r.id, r.source_id, r.external_id, r.url, r.canonical_url, r.origin_item_id, r.author, r.author_account,
   r.title, r.body_excerpt, r.lang, r.published_at, r.fetched_at, r.metrics, r.metrics_at, r.entities, r.event_type_guess,
-  r.simhash::text AS simhash, r.content_hash, s.platform, s.tier`;
+  r.simhash::text AS simhash, r.content_hash, s.platform, s.tier, s.verified_official`;
 
 export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {}) {
   const watchlist = parse(execute(rows(`SELECT id, kind, display_name, aliases, partner_slug, priority, status FROM watchlist_entities WHERE status='active'`)));
@@ -97,7 +97,7 @@ export function loadScoreInputs(execute, { limit = 500, rescoreMinutes = 30 } = 
   const configRows = parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key IN ('weights','thresholds','scoring_thresholds')`)));
   const entities = parse(execute(rows(`SELECT id, priority FROM watchlist_entities`)));
   const events = parse(execute(rows(`SELECT e.*, coalesce((SELECT jsonb_agg(jsonb_build_object('kind', v.kind, 'origin_key', v.origin_key, 'is_independent', v.is_independent,
-        'source_platform', s.platform, 'source_tier', s.tier, 'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
+        'source_platform', s.platform, 'source_tier', s.tier, 'verified_official', s.verified_official, 'url', v.url, 'title', r.title, 'excerpt', v.excerpt, 'published_at', v.published_at, 'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id WHERE v.event_id=e.id), '[]'::jsonb) AS evidence
     FROM events e
     LEFT JOIN LATERAL (SELECT max(scored_at) AS last_scored FROM event_scores WHERE event_id=e.id) ls ON true
@@ -187,7 +187,7 @@ FROM (
 export function runVerify(execute) {
   const events = parse(execute(rows(`SELECT e.*, coalesce((SELECT jsonb_agg(jsonb_build_object(
       'url', v.url, 'kind', v.kind, 'origin_key', v.origin_key, 'is_independent', v.is_independent,
-      'excerpt', v.excerpt, 'title', r.title, 'source_id', r.source_id, 'source_platform', s.platform,
+      'excerpt', v.excerpt, 'title', r.title, 'published_at', v.published_at, 'metrics', r.metrics, 'source_id', r.source_id, 'source_platform', s.platform,
       'source_tier', s.tier, 'verified_official', s.verified_official))
       FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id
       WHERE v.event_id=e.id), '[]'::jsonb) AS evidence
@@ -197,7 +197,7 @@ export function runVerify(execute) {
   const keywords = parse(execute(rows(`SELECT term, lang, entity_id, status FROM keywords WHERE status='active'`)));
   const statements = events.map(event => {
     const relevant = relevanceForItem({ ...event, title: event.title_internal, body_excerpt: [event.fact_summary, ...event.evidence.map(row => row.excerpt)].filter(Boolean).join(' '), entities: event.subjects }, { watchlist, keywords }).relevant;
-    const status = relevant ? verifyEvent(event) : 'unverified';
+    const status = relevant ? verifyEvent(event, { watchlist }) : 'unverified';
     const update = `UPDATE events SET verification_status=${lit(status)}, verified_at=now() WHERE id=${Number(event.id)} AND last_update_at=${ts(event.last_update_at)} RETURNING id`;
     return status === 'needs-review'
       ? `WITH target AS (${update}) INSERT INTO review_queue(event_id,reason,rule_ids) SELECT id, 'Event evidence needs review', ARRAY['EVENT_VERIFICATION'] FROM target WHERE NOT EXISTS (SELECT 1 FROM review_queue WHERE event_id=target.id AND resolved_at IS NULL AND rule_ids @> ARRAY['EVENT_VERIFICATION']);`

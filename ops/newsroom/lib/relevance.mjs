@@ -18,9 +18,10 @@ const MARKET_CHANNEL_PATTERNS = [
   ['fx', /\b(usd|dollar|fx|forex)\b|美元/iu],
   ['equity', /\b(stock|shares|equity|earnings?|listed company|public company)\b|上市公司|美股/iu],
 ];
-const EXCHANGE_NAMES = new Set(['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kraken', 'gate', 'mexc', 'htx', 'backpack', 'hyperliquid']);
+const EXCHANGE_NAMES = new Set(['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kraken', 'kucoin', 'gate', 'mexc', 'htx', 'backpack', 'hyperliquid']);
 const CROSS_ASSET_TYPES = new Set(['fx_macro', 'equity_event', 'earnings_flows', 'crypto_treasury_company', 'politics_market']);
 const CRYPTO_MARKET_TYPES = new Set(['price_move', 'liquidity_anomaly', 'stablecoin_depeg', 'flows', 'listing', 'delisting', 'product_launch', 'market_structure', 'whale_transfer', 'exchange_flow', 'institutional_trade', 'liquidation_wave', 'withdrawal_halt', 'hack_exploit', 'loss_repayment']);
+const EDGAR_ALLOWED_FORMS = new Set(['8-K', '10-Q', '10-K', 'S-1', '13F']);
 
 function itemText(item) {
   return [item.title, item.body_excerpt, item.bodyExcerpt, item.author, item.author_account, item.authorAccount].filter(Boolean).join(' ');
@@ -91,12 +92,28 @@ function coinMatches(text, coinUniverse = defaultCoinUniverse) {
 export function relevanceForItem(item, { watchlist = [], keywords = [], coinUniverse = defaultCoinUniverse } = {}) {
   const text = itemText(item);
   const platform = sourcePlatform(item);
+  if (platform === 'edgar' && !allowedEdgarItemForm(item, text)) {
+    return {
+      relevant: false,
+      reasons: ['edgar-form-out-of-scope'],
+      inferred_event_type: null,
+      inferred_market_channel: null,
+    };
+  }
   const eventType = item.event_type_guess ?? item.eventTypeGuess ?? item.event_type ?? item.eventType ?? null;
   const watchlistMatches = relevantWatchlistEntities(item, watchlist);
   const cryptoKeywords = keywordMatches(text, keywords, watchlist);
   const coins = coinMatches(text, coinUniverse);
   const exchanges = exchangeMatches(text, watchlist);
   const hasDirectCryptoContext = CRYPTO_CONTEXT.test(text);
+  if (platform === 'edgar' && !edgarItemInScope(item, text, { watchlistMatches, cryptoKeywords, coins, hasDirectCryptoContext })) {
+    return {
+      relevant: false,
+      reasons: ['edgar-scope-missing'],
+      inferred_event_type: null,
+      inferred_market_channel: null,
+    };
+  }
   const hasCryptoContext = hasDirectCryptoContext || (CRYPTO_MARKET_TYPES.has(eventType) && ['exchange', 'onchain', 'market'].includes(platform));
   const hasCrossAssetMove = CROSS_ASSET_CONTEXT.test(text) && CROSS_ASSET_EVENT_CONTEXT.test(text);
   const hasCrossAssetScope = (CROSS_ASSET_TYPES.has(eventType) || !eventType || eventType === 'unknown') && hasCrossAssetMove;
@@ -122,4 +139,28 @@ export function relevanceForItem(item, { watchlist = [], keywords = [], coinUniv
     inferred_event_type: hasCrossAssetScope && (!eventType || eventType === 'unknown') ? 'fx_macro' : null,
     inferred_market_channel: inferredMarketChannel,
   };
+}
+
+function allowedEdgarItemForm(item, text) {
+  const authoritativeForms = [item.form, item.file_type, item.fileType, item.metrics?.form, item.metrics?.file_type, item.metrics?.fileType]
+    .filter(Boolean)
+    .map(normalizeEdgarForm);
+  if (authoritativeForms.length) return authoritativeForms.some(form => EDGAR_ALLOWED_FORMS.has(form));
+  const forms = [];
+  if (!authoritativeForms.length) {
+    const match = String(text ?? '').match(/\b(8-K|10-Q|10-K|S-1|13F(?:-[A-Z]+)?|6-K|497K)\b/i);
+    if (match) forms.push(normalizeEdgarForm(match[1]));
+  }
+  return forms.some(form => EDGAR_ALLOWED_FORMS.has(form));
+}
+
+function normalizeEdgarForm(form) {
+  const value = String(form ?? '').toUpperCase().trim();
+  return value.startsWith('13F') ? '13F' : value;
+}
+
+function edgarItemInScope(item, text, { watchlistMatches, cryptoKeywords, coins, hasDirectCryptoContext }) {
+  return watchlistMatches.some(entity => ['company', 'financial_institution', 'project'].includes(entity.kind)) || Boolean(
+    item.cik || item.cik_str || item.metrics?.cik || hasDirectCryptoContext || cryptoKeywords.length || coins.length,
+  );
 }

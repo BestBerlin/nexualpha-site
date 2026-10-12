@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { mergeRawItems } from './dedupe.mjs';
-import { configFromNewsroomRows, credibilityScore, scoreEvent } from './scoring.mjs';
+import { configFromNewsroomRows, credibilityScore, notableExchangeListing, scoreEvent } from './scoring.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixture = async name => JSON.parse(await readFile(join(here, 'fixtures', name), 'utf8'));
@@ -54,6 +54,23 @@ test('heat keeps known zero growth distinct from unknown baseline', () => {
   assert.equal(unknownBaseline.explain.heat.per_platform_growth[0].baseline_unknown, true);
 });
 
+test('heat dedupes repeated URLs from the same publisher while preserving distinct origins', () => {
+  const score = scoreEvent({
+    subject_entity: 'binance',
+    subjects: ['binance', 'SOL'],
+    event_type: 'listing',
+    source_published_at: '2026-10-12T10:00:00Z',
+    evidence: [
+      { kind: 'media_report', origin_key: 'media:a', source_id: 'publisher-one-feed-a', url: 'https://publisher.example/a', published_at: '2026-10-12T10:00:00Z' },
+      { kind: 'media_report', origin_key: 'media:b', source_id: 'publisher-one-feed-b', url: 'https://www.publisher.example/b', published_at: '2026-10-12T10:05:00Z' },
+      { kind: 'media_report', origin_key: 'media:c', source_id: 'publisher-two', url: 'https://other.example/c', published_at: '2026-10-11T10:00:00Z' },
+    ],
+  }, { now, entitiesById: { binance: { priority: 1 } } });
+  assert.equal(score.explain.heat.independent_sources, 2);
+  assert.equal(score.explain.heat.independent_source_decay_applied, true);
+  assert.ok(score.explain.heat.independent_sources_decayed < 2);
+});
+
 
 test('repeat-angle fixture gets new_info 0', async () => {
   const data = await fixture('repeat-angle.json');
@@ -78,6 +95,44 @@ test('official tier-1 withdrawal halt gets official_major without mixing credibi
   assert.equal(credibilityScore(data.event), 3);
   assert.equal(score.explain.credibility_separate_from_editorial_score, true);
   assert.equal(score.explain.priority_override_does_not_bypass_eligibility, true);
+});
+
+test('verified-primary notable exchange listing receives relevance and impact floors without fabricated heat', () => {
+  const event = {
+    subject_entity: 'bybit',
+    subjects: ['bybit', 'SOL'],
+    event_type: 'listing',
+    title_internal: 'Bybit lists SOL spot trading',
+    source_published_at: '2026-10-12T10:00:00Z',
+    verification_status: 'verified-primary',
+    discussion: { independent_sources: 1, platforms_with_independent_items: 1, by_platform: { exchange: { independent_posts: 1, metric_growth_max: null } } },
+    fact_summary: 'Bybit lists SOL spot trading',
+    evidence: [{ kind: 'official_notice', origin_key: 'notice:bybit-sol', source_id: 'bybit-announcements', source_tier: 1, source_platform: 'exchange', verified_official: true, url: 'https://announcements.bybit.com/sol-listing', title: 'Bybit lists SOL spot trading', excerpt: 'Bybit lists SOL spot trading', published_at: '2026-10-12T10:00:00Z' }],
+  };
+  const score = scoreEvent(event, { now, entitiesById: { bybit: { priority: 2 } } });
+  assert.equal(notableExchangeListing(event), true);
+  assert.equal(score.heat, 12);
+  assert.equal(score.impact, 50);
+  assert.equal(score.explain.notable_exchange_listing, true);
+  assert.deepEqual(score.explain.notable_listing_boosts, { relevance_floor: 70, impact_floor: 50, raw_relevance: 70 });
+  assert.equal(score.publish_eligible, true);
+});
+
+test('minor exchange listing without a top-200 asset does not receive notable floors', () => {
+  const event = {
+    subject_entity: 'small-exchange',
+    subjects: ['small-exchange', 'NOTTOP'],
+    event_type: 'listing',
+    title_internal: 'Small Exchange lists NOTTOP',
+    source_published_at: '2026-10-12T10:00:00Z',
+    verification_status: 'verified-primary',
+    fact_summary: 'Small Exchange lists NOTTOP',
+    evidence: [{ kind: 'official_notice', origin_key: 'notice:small-nottop', source_id: 'small-exchange', source_tier: 1, source_platform: 'exchange', verified_official: true, url: 'https://small.example/nottop', title: 'Small Exchange lists NOTTOP', excerpt: 'Small Exchange lists NOTTOP', published_at: '2026-10-12T10:00:00Z' }],
+  };
+  const score = scoreEvent(event, { now, entitiesById: { 'small-exchange': { priority: 2 } } });
+  assert.equal(notableExchangeListing(event), false);
+  assert.equal(score.heat, 12);
+  assert.equal(score.explain.notable_exchange_listing, false);
 });
 
 test('owner weights are configurable and included in the score snapshot', async () => {
@@ -175,4 +230,12 @@ test('missing or unrecognized taxonomy cannot qualify on heat alone', () => {
 test('thresholds reject impossible credibility and similarity settings', () => {
   assert.throws(() => scoreEvent({}, { config: { thresholds: { flashCredibilityMin: 4 } } }));
   assert.throws(() => scoreEvent({}, { config: { thresholds: { repeatAngleSimilarity: 2 } } }));
+});
+
+test('ordinary words do not count as top-200 symbols and excluded events stay at relevance zero', () => {
+  const event = { event_type: 'listing', verification_status: 'verified-primary', title_internal: 'Small Exchange lists NOTTOP with one new pair' };
+  assert.equal(notableExchangeListing(event), false);
+  const excluded = scoreEvent({ ...event, title_internal: 'Binance lists SOL', out_of_scope: true });
+  assert.equal(excluded.relevance, 0);
+  assert.equal(excluded.publish_eligible, false);
 });

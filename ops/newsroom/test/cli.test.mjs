@@ -67,13 +67,17 @@ test('shortfall upsert uses a data-modifying CTE and explicit slot', () => {
 });
 test('config JSON roundtrips and review query selects unresolved entries', async () => {
   assert.match(buildQuery(['config:set', 'weights', '{"relevance":25,"heat":20,"timeliness":20,"new_info":20,"impact":15}']), /::jsonb/);
+  assert.match(buildQuery(['config:set', 'thresholds', '{"publish":45,"publish_credibility_min":2}']), /::jsonb/);
+  assert.throws(() => buildQuery(['config:set', 'thresholds', '{"publish":101}']), /invalid threshold/);
   assert.match(buildQuery(['review:list']), /resolved_at IS NULL/);
   let query;
   assert.equal(await main(['config:get', 'weights'], sql => { query = sql; return '[{"key":"weights"}]'; }), '[{"key":"weights"}]');
   assert.ok(query.includes("key='weights'"));
 });
 test('help does not connect', async () => {
-  assert.match(await main(['--help'], () => assert.fail('unexpected DB access')), /PGDATABASE/);
+  const help = await main(['--help'], () => assert.fail('unexpected DB access'));
+  assert.match(help, /PGDATABASE/);
+  assert.match(help, /calibrate/);
 });
 test('migrate and seed submit atomic serialized batches and reject unexpected options', async () => {
   for (const command of ['migrate', 'seed']) {
@@ -96,4 +100,15 @@ test('seed:watchlist imports the bundled verified snapshot atomically without ap
   assert.match(calls[0],/'x_daily_read_budget','0'/);
   assert.match(calls[0],/defillama-hacks/);
   assert.match(calls[0],/COMMIT;$/);
+});
+
+test('calibrate command is read-only and fixed to the owner calibration window', async () => {
+  const calls = [];
+  const result = await main(['calibrate'], sql => { calls.push(sql); return '{"schema":"newsroom.calibration.v1"}'; });
+  assert.equal(result, '{"schema":"newsroom.calibration.v1"}');
+  assert.equal(calls.length, 1);
+  assert.match(calls[0], /\(40\), \(45\), \(50\), \(55\)/);
+  assert.match(calls[0], /interval '72 hours'/);
+  assert.doesNotMatch(calls[0], /\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bALTER\b/i);
+  await assert.rejects(main(['calibrate', '--threshold', '45'], () => assert.fail('unexpected DB access')));
 });

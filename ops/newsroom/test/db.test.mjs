@@ -28,6 +28,8 @@ const expectedSourceStatuses = {
   'okx-announcements': 'connected',
   'bybit-announcements': 'connected',
   'bitget-announcements': 'connected',
+  'kucoin-announcements': 'connected',
+  'kraken-announcements': 'connected',
   'coinbase-status': 'partial',
   'kraken-status': 'connected',
   'nexualpha-official-announcements': 'connected',

@@ -15,10 +15,13 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
+import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
 
 const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
 const STATE = process.env.ALERT_STATE_FILE || "/var/lib/nexualpha-alerts/state.json";
+// Custom /alert rules, written by the bot poller; mounted read-only here (missing file = no rules).
+const TRIGGERS = process.env.ALERT_TRIGGERS_FILE || "/var/lib/crypto-telegram-ops/alert-triggers.json";
 const ENV_FILE = process.env.BOT_ENV_FILE || "/srv/agent/stacks/crypto-telegram-ops/community-poller.env";
 // Per-language channels (2026-10-11 owner approved ru/tr/vi): ALERT_CHANNELS="zh:@NexuAlphaClub,en:@NexuAlphaGlobal,ru:@NexuAlphaRU,tr:-100…"
 // (private channels use their numeric -100 id). Unknown languages are dropped so a typo never posts English to a local channel.
@@ -74,6 +77,12 @@ function token() {
 }
 async function getJson(url) {
   const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });
+  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+  return res.json();
+}
+// Binance public API without the cache-buster query (getJson adds ?r= for our CDN-cached site files only).
+async function getBinance(url) {
+  const res = await fetch(url, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });
   if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
   return res.json();
 }
@@ -271,6 +280,66 @@ export function funnelReportDue({ now = new Date(), sentDates = [], ownerChatId 
   return now.getUTCHours() === 13 && now.getUTCMinutes() >= 5 && !sentDates.includes(today);
 }
 
+// ---------- custom /alert rules ----------
+const FAPI = "https://fapi.binance.com/fapi/v1";
+const round2 = (n) => Math.round(n * 100) / 100;
+let slugCache = { at: 0, map: {} };
+/** COIN -> {price, change24hPct, change1hPct?}: one 24hr ticker call, plus 1h klines only for coins with move rules. */
+export async function fetchTriggerPrices({ fetchJson = getBinance, coins = [], sleep = (ms) => new Promise((r) => setTimeout(r, ms)) } = {}) {
+  const prices = {};
+  for (const t of await fetchJson(`${FAPI}/ticker/24hr`)) {
+    if (!String(t.symbol).endsWith("USDT")) continue;
+    prices[t.symbol.slice(0, -4)] = { price: Number(t.lastPrice), change24hPct: round2(Number(t.priceChangePercent)) };
+  }
+  // 1h change = last price vs the open of the current hourly candle, as ops/market-collector computes it
+  for (const coin of [...new Set(coins)].slice(0, 40)) {
+    if (!prices[coin]) continue;
+    try {
+      const k = await fetchJson(`${FAPI}/klines?symbol=${coin}USDT&interval=1h&limit=2`);
+      const open = Number(k[k.length - 1][1]);
+      if (open > 0) prices[coin].change1hPct = round2((prices[coin].price / open - 1) * 100);
+    } catch (e) { log(`klines ${coin}: ${e.message}`); }
+    await sleep(120);
+  }
+  return prices;
+}
+/** SYMBOL -> coin page slug from coins.json (first, i.e. highest-ranked, coin per symbol), cached for 6 h. */
+export async function coinSlugs({ fetchJson = getJson, now = Date.now() } = {}) {
+  if (now - slugCache.at < 6 * 3600e3) return slugCache.map;
+  const map = {};
+  try {
+    for (const c of (await fetchJson(`${SITE}/intel/coins.json`)).coins || []) if (c?.symbol && c.slug && !map[String(c.symbol).toUpperCase()]) map[String(c.symbol).toUpperCase()] = c.slug;
+    slugCache = { at: now, map };
+  } catch (e) { log(`coins.json: ${e.message}`); return slugCache.map; }
+  return map;
+}
+/**
+ * Evaluates the custom rules and DMs each fired alert. Prices are only fetched when a price or move rule exists.
+ * Returns the new state.triggers value (unchanged when nobody has a rule).
+ */
+export async function runTriggerAlerts({ doc, state, subs, market, announcements, dm, blocked = new Set(), now = Date.now(), fetchBinance = getBinance, fetchSite = getJson, sleep }) {
+  if (!countTriggers(doc)) return state;
+  const needPrices = Object.values(doc.users).some((u) => (u?.triggers || []).some((t) => t.type === "price" || t.type === "move"));
+  let prices = {};
+  if (needPrices) {
+    try { prices = await fetchTriggerPrices({ fetchJson: fetchBinance, coins: moveCoins(doc), sleep }); } catch (e) { log(`binance prices: ${e.message}`); }
+  }
+  const slugs = needPrices ? await coinSlugs({ fetchJson: fetchSite, now }) : {};
+  const r = evaluateTriggers({ doc, state, now, prices, market, announcements, coinSlugs: slugs, subs });
+  // Only the poller writes the rules file, so a member who blocked the bot keeps rules there: pause them for 7 days
+  // instead of retrying every cycle (a /stop or new rule after unblocking resumes them once the pause ends).
+  const paused = Object.fromEntries(Object.entries(r.state.paused || {}).filter(([, until]) => until > now));
+  for (const d of r.deliveries) {
+    if (paused[d.uid]) continue;
+    await dm(d.uid, d.text, d.buttons);
+    if (blocked.has(d.uid) || blocked.has(String(d.uid))) paused[d.uid] = now + 7 * 24 * 3600e3;
+    else log(`custom alert ${d.type} -> ${d.uid}`);
+  }
+  r.state.paused = paused;
+  for (const d of r.dropped) log(`custom alert ${d.type} for ${d.uid} dropped: daily cap reached`);
+  return r.state;
+}
+
 // ---------- cycle ----------
 async function cycle(tok) {
   const state = readState(STATE, { sentEvents: {}, sentListings: {}, digestDates: [], initialized: false });
@@ -349,6 +418,11 @@ async function cycle(tok) {
     const r = await send(tok, OWNER_CHAT_ID, buildFunnelReport({ clicksText, subs: readJson(SUBS, { users: {} }) }));
     if (r.ok) { state.funnelDates = [...state.funnelDates.slice(-30), today]; log("owner funnel report sent"); } else log(`owner funnel report failed: ${r.description || "unknown"}`);
   }
+
+  // custom /alert rules (price, 1h move, liquidations, funding, listings); a failure here never blocks the rest
+  try {
+    state.triggers = await runTriggerAlerts({ doc: loadTriggers({ file: TRIGGERS }), state: state.triggers, subs, market: mk, announcements: ann.items || [], dm, blocked });
+  } catch (error) { log(`custom alerts failed: ${error.message}`); }
 
   if (blocked.size) { const s2 = readJson(SUBS, { users: {} }); for (const uid of blocked) delete s2.users[uid]; writeJson(SUBS, s2); log(`removed ${blocked.size} blocked users`); }
   for (const k of Object.keys(state.sentListings)) if (Object.keys(state.sentListings).length > 2000) delete state.sentListings[k];
