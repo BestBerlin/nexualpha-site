@@ -1,0 +1,256 @@
+{
+  "seoTitle": "Bybit Stocks: USDC ile ABD hissesi al (kod {code})",
+  "seoTitleNeutral": "Bybit Stocks: USDC ile ABD hisseleri ve ETF'ler",
+  "seoDescription": "Bybit'te USDC ile Apple, Nvidia, Tesla ve 1,000+ ABD hissesi ve ETF al. Gerçek hisseler Alpaca'da; 5 USDC'den başla, haftada 5 gün 24 saat işlem yap.",
+  "seoDescriptionNeutral": "Bybit Stocks nasıl çalışır: USDC ile 1,000+ ABD hissesi ve ETF, Alpaca'da saklanan gerçek hisseler, en az 5 USDC, haftada 5 gün 24 saat işlem.",
+  "breadcrumb": "Kampanyalar",
+  "kicker": "Bybit'te yeni · ABD hisseleri ve ETF'ler",
+  "h1": "Apple, Nvidia ve Tesla'yı USDC ile al — Bybit'te",
+  "sub": "Bybit artık 1,000'den fazla gerçek ABD hissesi ve ETF sunuyor; ödeme doğrudan Birleşik Alım Satım Hesabı'ndaki USDC'den yapılıyor. Emirler 5 USDC'den başlıyor, piyasa haftada beş gün 24 saat açık.",
+  "cta": "{code} davet koduyla kaydol",
+  "how": "Nasıl çalışır",
+  "codeLabel": "Davet kodu",
+  "copy": "Kopyala",
+  "copied": "Kopyalandı",
+  "neutralLead": "Aşağıda: neye sahip olduğun, bir emrin nasıl işlediği, ne zaman işlem yapabileceğin ve lansman kampanyasının neler sunduğu.",
+  "tickersLabel": "Popüler semboller",
+  "factsH": "Bilmen gereken dört şey",
+  "facts": [
+    [
+      "Token değil, gerçek hisse",
+      "ABD borsalarında işlem gören hisseler alırsın. Emri Alpaca Securities LLC (FINRA/SIPC üyesi) gerçekleştirir ve hisseleri saklar. Token değil, CFD değil."
+    ],
+    [
+      "Ödeme USDC ile",
+      "Emirler Birleşik Alım Satım Hesabı (UTA) içindeki USDC ile ödenir ve takas edilir. Banka havalesine gerek yok."
+    ],
+    [
+      "5 USDC'den başlayan",
+      "Uygun hisselerde kesirli hisse: 5 USDC yatır, bir hissenin bir parçasına sahip ol."
+    ],
+    [
+      "24 saat, 5 gün",
+      "Desteklenen hisselerde piyasa öncesi, normal seans, piyasa sonrası ve gece seansı; Pazar akşamından Cuma akşamına (New York saati)."
+    ]
+  ],
+  "stepsH": "5 adımda ilk hisse emrin",
+  "steps": [
+    [
+      "Hesabını aç",
+      "NexuAlpha bağlantısıyla kaydol ya da {code} davet kodunu gir, ardından Gelişmiş Kimlik Doğrulamayı tamamla. Hisse işlemleri bu seviyeyi ister."
+    ],
+    [
+      "UTA'na USDC koy",
+      "USDC yatır ya da USDC'ye dönüştür ve Birleşik Alım Satım Hesabı'nda tut. Hisse emirleri buradan ödenir."
+    ],
+    [
+      "TradFi → Stocks'a git",
+      "Bybit uygulamasında ya da web sitesinde TradFi'yi aç ve Stocks'u seç."
+    ],
+    [
+      "Sembolü ara",
+      "AAPL, NVDA, TSLA, QQQ ya da 1,000+ sembolden herhangi birini yaz ve TradingView grafikli işlem sayfasını aç."
+    ],
+    [
+      "Emrini ver",
+      "Piyasa ya da Limit seç, tutarı gir (5 USDC'den itibaren) ve onayla. Hisseler Bybit portföyünde görünür."
+    ]
+  ],
+  "stepOneNeutral": [
+    "Hesabını aç",
+    "Hizmetin sunulduğu bir bölgede Bybit hesabı aç ve Gelişmiş Kimlik Doğrulama'yı tamamla. Hisse işlemleri için gelişmiş seviye gerekir."
+  ],
+  "sessionsH": "Ne zaman işlem yapabilirsin",
+  "sessionsLead": "Saatler New York saatidir (ET). İşlem sayfası bunları yerel saatine çevirir.",
+  "sessions": [
+    [
+      "Gece seansı",
+      "8:00 PM – 4:00 AM",
+      "Desteklenen hisseler"
+    ],
+    [
+      "Piyasa öncesi",
+      "4:00 AM – 9:30 AM",
+      "Limit emirler"
+    ],
+    [
+      "Normal seans",
+      "9:30 AM – 4:00 PM",
+      "Tüm emir türleri"
+    ],
+    [
+      "Piyasa sonrası",
+      "4:00 PM – 8:00 PM",
+      "Limit emirler"
+    ]
+  ],
+  "sessionsWeekend": "Cuma 8:00 PM'den Pazar 8:00 PM'e (ET) kadar ve ABD piyasa tatillerinde kapalı. Piyasa emirleri normal seansta gerçekleşir; bunun dışında limit emirde 24-Hour Trading'i seç.",
+  "yourTime": "Senin saatin",
+  "campaignKicker": "Lansman kampanyası",
+  "campaignH": "Full Stocks Ahead: hisse yatırımcılarına 150,000 USDC",
+  "campaignLead": "Bybit'in lansman kampanyası 12 Ekim – 31 Ekim 2026 (00:00 UTC) arasında sürüyor. Kampanya sayfasından kaydol, ardından Bybit uygulamasında ya da web sitesinde hisse işlemi yap.",
+  "endsIn": "Bitmesine",
+  "endsAt": "Bitiş: 31 Eki 2026, 00:00 UTC",
+  "units": [
+    "gün",
+    "saat",
+    "dk",
+    "sn"
+  ],
+  "ended": "Kampanya sona erdi.",
+  "rewards": [
+    [
+      "İlk işlem ödülü",
+      "İlk hisse işlemini yaptığında ödül kazanırsın. Tutarı Bybit kampanya sayfasında gösterir."
+    ],
+    [
+      "Günlük ödül kutusu",
+      "Bir günde $2,000'dan fazla hisse işlemi yap, 50 USDC'ye kadar değerinde bir kutu kazan — kampanyanın her günü."
+    ],
+    [
+      "Stock Splash: 100,000 USDC",
+      "Kampanya boyunca en az $1,000 hisse işlemi yap ve kampanya sonunda en az $1,000 hisse tut. Havuz uygun işlem hacmine göre paylaştırılır, kişi başı en fazla 5,000 USDC."
+    ]
+  ],
+  "multipliersH": "Stock Splash çarpanları",
+  "multiplierEarly": "Erken işlem",
+  "multiplierEarlyRows": [
+    [
+      "1–5. günler",
+      "1.4×"
+    ],
+    [
+      "6–10. günler",
+      "1.3×"
+    ],
+    [
+      "11–15. günler",
+      "1.2×"
+    ],
+    [
+      "16–18. günler",
+      "1.1×"
+    ],
+    [
+      "19–20. günler",
+      "1.0×"
+    ]
+  ],
+  "multiplierHold": "Ortalama günlük hisse varlığı",
+  "multiplierHoldRows": [
+    [
+      "$1,000–10,000",
+      "1.1×"
+    ],
+    [
+      "$10,000–100,000",
+      "1.2×"
+    ],
+    [
+      "$100,000 üzeri",
+      "1.5×"
+    ]
+  ],
+  "whoH": "Kimler katılabilir",
+  "who": "Bybit Stocks'un sunulduğu bölgelerdeki ana hesaplar. Pro hesaplar ve Dubai'de yaşayanlar katılamaz.",
+  "officialLink": "Bybit duyurusu",
+  "compareH": "Bybit Stocks, tokenize hisseler ve geleneksel aracı kurum karşılaştırması",
+  "compareCols": [
+    "Bybit Stocks",
+    "Tokenize hisseler (ör. Backpack)",
+    "Geleneksel aracı kurum"
+  ],
+  "compareRows": [
+    [
+      "Neye sahip olursun",
+      "ABD borsalarında işlem gören hisseler",
+      "Solana üzerinde, bir SPV'de tutulan hisseyle desteklenen ve 1:1 itfa edilebilen bir token",
+      "Aracı kurum hesabındaki hisseler"
+    ],
+    [
+      "Saklama",
+      "Alpaca Securities LLC (FINRA/SIPC üyesi)",
+      "Hisseyi ihraççının SPV'si tutar; sen token'ı tutarsın",
+      "Aracı kurumun ya da takas kuruluşu"
+    ],
+    [
+      "İşlem saatleri",
+      "Haftada 5 gün, 24 saat",
+      "Solana üzerinde 24/7",
+      "Borsa saatleri; uzatılmış saatler değişir"
+    ],
+    [
+      "Minimum",
+      "5 USDC",
+      "Platform belirler",
+      "Kuruma göre değişir"
+    ],
+    [
+      "Ücretler",
+      "Komisyon yok; 0.1% hizmet ücreti, emir başına en az 0.35 USDC",
+      "Platform işlem ücretleri",
+      "Kuruma göre değişir"
+    ],
+    [
+      "Ödeme yöntemi",
+      "Bybit UTA'ndaki USDC",
+      "Kripto",
+      "Banka havalesi"
+    ]
+  ],
+  "faqH": "Sorular",
+  "faq": [
+    [
+      "Bybit Stocks benim ülkemde var mı?",
+      "ABD'de yok; Bybit'in kendisinin hizmet vermediği yerlerde de yok (örneğin Çin Anakarası, Hong Kong, Singapur ve Kanada). Bybit ayrıca AEA ülkelerini, Hindistan'ı, Mauritius'u ve BAE'yi Stocks için kısıtlı olarak listeliyor; Güney Afrika henüz netleşmedi. Diğer yerlerde Gelişmiş Kimlik Doğrulama'sı tamamlanmış bir Bybit hesabı gerekir."
+    ],
+    [
+      "Gerçek hisselere mi sahip oluyorum?",
+      "Evet. Aldığında, Alpaca Securities LLC (FINRA/SIPC üyesi) tarafından saklanan ABD borsa hisselerini satın alırsın; Alpaca emirleri NYSE ve Nasdaq gibi piyasalara yönlendirir. Token ya da CFD değildir, bu yüzden zincir üzerinde gönderilemez."
+    ],
+    [
+      "Temettüler nasıl işler?",
+      "Nakit temettüler, varsa stopaj vergisi düşüldükten sonra USDC'ye çevrilip Birleşik Alım Satım Hesabı'na yatırılır. Hisse temettüleri ek hisse olarak gelir, bölünmeler pozisyonunu otomatik ayarlar. Hissedar oylaması henüz yok."
+    ],
+    [
+      "Bir işlem ne kadara mal olur?",
+      "Bybit komisyon almaz. Emir değerinin 0.1%'i kadar, emir başına en az 0.35 USDC hizmet ücreti uygulanır; spread fiyata dahildir."
+    ],
+    [
+      "Başlamak için ne kadar gerekir?",
+      "5 USDC. Uygun hisseler kesirli alınabilir, bu yüzden hisse fiyatı önemli değil. Tek bir emir 1,000,000 USDC'ye kadar olabilir."
+    ],
+    [
+      "Gece ya da hafta sonu işlem yapabilir miyim?",
+      "Gece evet: desteklenen hisseler, piyasa öncesi ve sonrası seansların yanında 8:00 PM ile 4:00 AM (ET) arasında gece seansında işlem görür. Hafta sonu hayır: işlemler Cuma 8:00 PM'den Pazar 8:00 PM'e (ET) kadar durur."
+    ]
+  ],
+  "relatedH": "Okumaya devam et",
+  "related": [
+    [
+      "Bybit borsa profili",
+      "Ücretler, ürünler ve nasıl kaydolunur"
+    ],
+    [
+      "Bybit hisseleriyle gerçekte neye sahip olursun",
+      "Lansmana dair haber analizimiz"
+    ],
+    [
+      "Ders 7: ilk spot işlemin",
+      "Piyasa ve limit emirler, adım adım"
+    ],
+    [
+      "Ders 5: KYC — kimliğin kime gidiyor",
+      "Kimlik doğrulamada neler istenir"
+    ]
+  ],
+  "finalH": "İlk hissen 5 USDC uzağında",
+  "finalBody": "{code} koduyla kaydol, kimliğini doğrula, USDC'yi UTA'na aktar ve al.",
+  "finalNeutralH": "Haberin tamamını oku",
+  "finalNeutralBody": "Haber analizimiz saklamayı, maliyetleri ve Bybit Stocks'un tokenize hisselerle karşılaştırmasını ele alıyor.",
+  "dealChips": [
+    "Komisyon yok",
+    "5 USDC'den başlayan",
+    "1,000+ hisse ve ETF"
+  ]
+}

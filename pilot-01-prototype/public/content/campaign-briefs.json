@@ -1,6 +1,154 @@
 {
   "items": [
     {
+      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-expands-beyond-crypto-with-direct-access-to-u-s-stocks-etfs--art55453cbc5bf2/",
+      "updated": "2026-10-12T12:43:13Z",
+      "headline": {
+        "en": "Bybit launches US stocks and ETFs bought with USDC, plus a 150,000 USDC launch campaign",
+        "zh-Hans": "Bybit 上线美股和 ETF，用 USDC 直接买，另有 150,000 USDC 上线活动",
+        "zh-Hant": "Bybit 上線美股和 ETF，用 USDC 直接買，另有 150,000 USDC 上線活動",
+        "es": "Bybit lanza acciones y ETF de EE. UU. que se compran con USDC, con una campaña de 150,000 USDC",
+        "pt-BR": "Bybit lança ações e ETFs dos EUA comprados com USDC, com campanha de 150,000 USDC",
+        "fr": "Bybit lance les actions et ETF américains achetés en USDC, avec une campagne de 150,000 USDC",
+        "de": "Bybit startet US-Aktien und ETFs gegen USDC, dazu eine Launch-Kampagne mit 150,000 USDC",
+        "ja": "Bybit、USDCで買える米国株・ETFを開始　150,000 USDCのローンチキャンペーンも",
+        "ko": "Bybit, USDC로 사는 미국 주식·ETF 출시… 150,000 USDC 런칭 캠페인도",
+        "ru": "Bybit запускает акции и ETF США за USDC и кампанию с фондом 150,000 USDC",
+        "tr": "Bybit, USDC ile alınan ABD hisse ve ETF'lerini başlattı; 150,000 USDC'lik lansman kampanyası da var",
+        "id": "Bybit meluncurkan saham dan ETF AS yang dibeli dengan USDC, plus kampanye 150,000 USDC",
+        "vi": "Bybit ra mắt cổ phiếu và ETF Mỹ mua bằng USDC, kèm sự kiện ra mắt 150,000 USDC",
+        "ar": "Bybit تطلق الأسهم وصناديق ETF الأمريكية مقابل USDC مع حملة إطلاق بقيمة 150,000 USDC"
+      },
+      "summary": {
+        "en": "Since 12 October 2026 Bybit sells more than 1,000 US-listed stocks and ETFs, paid in USDC from the Unified Trading Account. You own real shares held in custody by Alpaca Securities LLC; orders start at 5 USDC and trading runs 24 hours a day, five days a week. The Full Stocks Ahead campaign, until 31 October 00:00 UTC, adds a first-trade reward, a daily box of up to 50 USDC on days with more than $2,000 traded, and the 100,000 USDC Stock Splash pool.",
+        "zh-Hans": "自 2026 年 10 月 12 日起，Bybit 开放 1,000 多只美股和 ETF，直接用统一交易账户里的 USDC 支付。买到的是真实股票，由 Alpaca Securities LLC 托管；每笔 5 USDC 起，每周 5 个交易日、每天 24 小时可交易。Full Stocks Ahead 活动持续到 10 月 31 日 00:00 UTC：首笔交易奖励、单日股票交易额超过 $2,000 可得最高 50 USDC 的每日宝箱，以及 100,000 USDC 的 Stock Splash 奖池。",
+        "zh-Hant": "自 2026 年 10 月 12 日起，Bybit 開放 1,000 多檔美股和 ETF，直接用統一交易帳戶裡的 USDC 支付。買到的是真實股票，由 Alpaca Securities LLC 託管；每筆 5 USDC 起，每週 5 個交易日、每天 24 小時可交易。Full Stocks Ahead 活動持續到 10 月 31 日 00:00 UTC：首筆交易獎勵、單日股票交易額超過 $2,000 可得最高 50 USDC 的每日寶箱，以及 100,000 USDC 的 Stock Splash 獎池。",
+        "es": "Desde el 12 de octubre de 2026, Bybit vende más de 1,000 acciones y ETF de EE. UU., pagados en USDC desde la Cuenta de Trading Unificada. Son acciones reales en custodia de Alpaca Securities LLC; las órdenes empiezan en 5 USDC y se opera 24 horas al día, cinco días a la semana. La campaña Full Stocks Ahead, hasta el 31 de octubre a las 00:00 UTC, suma un premio por la primera operación, una caja diaria de hasta 50 USDC los días con más de $2,000 operados y el fondo Stock Splash de 100,000 USDC.",
+        "pt-BR": "Desde 12 de outubro de 2026, a Bybit vende mais de 1,000 ações e ETFs dos EUA, pagos em USDC da Conta de Trading Unificada. São ações reais sob custódia da Alpaca Securities LLC; as ordens começam em 5 USDC e a negociação vai 24 horas por dia, cinco dias por semana. A campanha Full Stocks Ahead, até 31 de outubro às 00:00 UTC, traz prêmio pela primeira negociação, uma caixa diária de até 50 USDC nos dias com mais de $2,000 negociados e o fundo Stock Splash de 100,000 USDC.",
+        "fr": "Depuis le 12 octobre 2026, Bybit vend plus de 1,000 actions et ETF cotés aux États-Unis, payés en USDC depuis le compte de trading unifié. Ce sont de vraies actions conservées par Alpaca Securities LLC ; les ordres commencent à 5 USDC et le marché est ouvert 24 heures par jour, cinq jours par semaine. La campagne Full Stocks Ahead, jusqu’au 31 octobre 00:00 UTC, ajoute une récompense de premier trade, une boîte quotidienne jusqu’à 50 USDC les jours à plus de $2,000 échangés et la cagnotte Stock Splash de 100,000 USDC.",
+        "de": "Seit dem 12. Oktober 2026 verkauft Bybit mehr als 1,000 US-Aktien und ETFs, bezahlt mit USDC aus dem Unified Trading Account. Es sind echte Aktien in Verwahrung bei Alpaca Securities LLC; Orders gibt es ab 5 USDC, gehandelt wird 24 Stunden am Tag, fünf Tage die Woche. Die Kampagne Full Stocks Ahead bis 31. Oktober 00:00 UTC bringt eine Prämie für den ersten Trade, eine tägliche Box mit bis zu 50 USDC an Tagen mit mehr als $2,000 Volumen und den Stock-Splash-Pool mit 100,000 USDC.",
+        "ja": "Bybitは2026年10月12日から、1,000以上の米国上場株・ETFを統一取引アカウントのUSDCで買えるようにしました。実株はAlpaca Securities LLCが保管し、注文は5 USDCから、平日は24時間取引できます。10月31日00:00 UTCまでのFull Stocks Aheadキャンペーンでは、初回取引報酬、株式取引額が一日$2,000を超えた日に最大50 USDCのデイリーボックス、100,000 USDCのStock Splashプールが用意されています。",
+        "ko": "Bybit는 2026년 10월 12일부터 1,000개 이상의 미국 상장 주식·ETF를 통합거래계정의 USDC로 살 수 있게 했습니다. 실제 주식은 Alpaca Securities LLC가 보관하며, 주문은 5 USDC부터, 평일에는 24시간 거래할 수 있습니다. 10월 31일 00:00 UTC까지 진행되는 Full Stocks Ahead 캠페인에서는 첫 거래 보상, 하루 주식 거래액이 $2,000를 넘는 날 최대 50 USDC 데일리 박스, 100,000 USDC 규모의 Stock Splash 풀이 제공됩니다.",
+        "ru": "С 12 октября 2026 года Bybit продаёт более 1,000 акций и ETF с листингом в США за USDC из единого торгового аккаунта. Это настоящие акции на хранении у Alpaca Securities LLC; заявки от 5 USDC, торги идут 24 часа в сутки пять дней в неделю. Кампания Full Stocks Ahead до 31 октября 00:00 UTC даёт награду за первую сделку, ежедневную коробку до 50 USDC в дни с оборотом больше $2,000 и пул Stock Splash на 100,000 USDC.",
+        "tr": "Bybit 12 Ekim 2026'dan beri 1,000'den fazla ABD hissesi ve ETF'yi Birleşik Alım Satım Hesabı'ndaki USDC ile satıyor. Hisseler gerçek ve Alpaca Securities LLC'nin saklamasında; emirler 5 USDC'den başlıyor, işlemler haftada beş gün 24 saat açık. 31 Ekim 00:00 UTC'ye kadar süren Full Stocks Ahead kampanyası ilk işlem ödülü, günde $2,000'ın üzerinde işlem yapılan günlerde 50 USDC'ye kadar günlük kutu ve 100,000 USDC'lik Stock Splash havuzu sunuyor.",
+        "id": "Sejak 12 Oktober 2026, Bybit menjual lebih dari 1,000 saham dan ETF AS yang dibayar dengan USDC dari Akun Trading Terpadu. Sahamnya sungguhan dan disimpan oleh Alpaca Securities LLC; order mulai 5 USDC dan trading berjalan 24 jam sehari, lima hari seminggu. Kampanye Full Stocks Ahead hingga 31 Oktober 00:00 UTC memberi hadiah transaksi pertama, kotak harian hingga 50 USDC pada hari dengan transaksi lebih dari $2,000, dan pool Stock Splash 100,000 USDC.",
+        "vi": "Từ 12/10/2026, Bybit bán hơn 1,000 cổ phiếu và ETF niêm yết tại Mỹ, thanh toán bằng USDC từ Tài khoản Giao dịch Hợp nhất. Đây là cổ phiếu thật do Alpaca Securities LLC lưu ký; lệnh từ 5 USDC, giao dịch 24 giờ mỗi ngày, năm ngày mỗi tuần. Sự kiện Full Stocks Ahead đến 00:00 UTC ngày 31/10 có thưởng giao dịch đầu tiên, hộp quà hằng ngày tới 50 USDC cho ngày giao dịch trên $2,000 và quỹ Stock Splash 100,000 USDC.",
+        "ar": "منذ 12 أكتوبر 2026 تبيع Bybit أكثر من 1,000 سهم وصندوق ETF مدرج في الولايات المتحدة تُدفع بعملة USDC من حساب التداول الموحد. الأسهم حقيقية وتحفظها Alpaca Securities LLC؛ تبدأ الأوامر من 5 USDC والتداول متاح 24 ساعة يوميًا خمسة أيام في الأسبوع. تضيف حملة Full Stocks Ahead حتى 31 أكتوبر 00:00 UTC مكافأة أول صفقة، وصندوقًا يوميًا حتى 50 USDC في الأيام التي يتجاوز فيها التداول $2,000، ومجمع Stock Splash بقيمة 100,000 USDC."
+      },
+      "key_facts": [
+        {
+          "label": {
+            "en": "Campaign period",
+            "zh-Hans": "活动时间",
+            "zh-Hant": "活動時間",
+            "es": "Periodo",
+            "pt-BR": "Período",
+            "fr": "Période",
+            "de": "Zeitraum",
+            "ja": "期間",
+            "ko": "기간",
+            "ru": "Период",
+            "tr": "Süre",
+            "id": "Periode",
+            "vi": "Thời gian",
+            "ar": "الفترة"
+          },
+          "value": "2026-10-12 00:00 – 2026-10-31 00:00 UTC"
+        },
+        {
+          "label": {
+            "en": "Prize pool",
+            "zh-Hans": "奖池",
+            "zh-Hant": "獎池",
+            "es": "Premios",
+            "pt-BR": "Prêmios",
+            "fr": "Dotation",
+            "de": "Preispool",
+            "ja": "賞金総額",
+            "ko": "총상금",
+            "ru": "Призовой фонд",
+            "tr": "Ödül havuzu",
+            "id": "Total hadiah",
+            "vi": "Quỹ thưởng",
+            "ar": "الجوائز"
+          },
+          "value": "150,000 USDC"
+        },
+        {
+          "label": {
+            "en": "Minimum order",
+            "zh-Hans": "最低下单",
+            "zh-Hant": "最低下單",
+            "es": "Orden mínima",
+            "pt-BR": "Ordem mínima",
+            "fr": "Ordre minimum",
+            "de": "Mindestorder",
+            "ja": "最低注文額",
+            "ko": "최소 주문",
+            "ru": "Минимальная заявка",
+            "tr": "Minimum emir",
+            "id": "Order minimum",
+            "vi": "Lệnh tối thiểu",
+            "ar": "الحد الأدنى للأمر"
+          },
+          "value": "5 USDC"
+        },
+        {
+          "label": {
+            "en": "Custody",
+            "zh-Hans": "托管",
+            "zh-Hant": "託管",
+            "es": "Custodia",
+            "pt-BR": "Custódia",
+            "fr": "Conservation",
+            "de": "Verwahrung",
+            "ja": "保管",
+            "ko": "보관",
+            "ru": "Хранение",
+            "tr": "Saklama",
+            "id": "Kustodian",
+            "vi": "Lưu ký",
+            "ar": "الحفظ"
+          },
+          "value": "Alpaca Securities LLC (FINRA/SIPC)"
+        }
+      ],
+      "who_can_join": {
+        "en": "Main accounts with Advanced Identity Verification in regions where Bybit Stocks is offered. Not available in the US, the EEA, India, Mauritius or the UAE; Pro accounts are excluded.",
+        "zh-Hans": "已完成高级身份认证、且所在地区开放 Bybit Stocks 的主账户。美国、欧洲经济区、印度、毛里求斯和阿联酋不可参与；Pro 账户除外。",
+        "zh-Hant": "已完成進階身分驗證、且所在地區開放 Bybit Stocks 的主帳戶。美國、歐洲經濟區、印度、模里西斯和阿聯酋不可參與；Pro 帳戶除外。",
+        "es": "Cuentas principales con verificación de identidad avanzada en regiones donde se ofrece Bybit Stocks. No disponible en EE. UU., el EEE, India, Mauricio ni los EAU; las cuentas Pro quedan fuera.",
+        "pt-BR": "Contas principais com verificação de identidade avançada em regiões onde a Bybit Stocks é oferecida. Indisponível nos EUA, no EEE, na Índia, em Maurício e nos EAU; contas Pro ficam de fora.",
+        "fr": "Comptes principaux avec vérification d’identité avancée, dans les régions où Bybit Stocks est proposé. Indisponible aux États-Unis, dans l’EEE, en Inde, à Maurice et aux EAU ; comptes Pro exclus.",
+        "de": "Hauptkonten mit erweiterter Identitätsprüfung in Regionen, in denen Bybit Stocks angeboten wird. Nicht in den USA, im EWR, in Indien, Mauritius oder den VAE; Pro-Konten sind ausgeschlossen.",
+        "ja": "上級本人確認を済ませ、Bybit Stocksが提供されている地域のメインアカウント。米国、EEA、インド、モーリシャス、UAEでは利用できず、Proアカウントは対象外です。",
+        "ko": "고급 신원 인증을 마치고 Bybit Stocks가 제공되는 지역의 메인 계정. 미국, EEA, 인도, 모리셔스, UAE에서는 이용할 수 없으며 Pro 계정은 제외됩니다.",
+        "ru": "Основные аккаунты с расширенной верификацией в регионах, где доступен Bybit Stocks. Недоступно в США, ЕЭЗ, Индии, на Маврикии и в ОАЭ; Pro-аккаунты не участвуют.",
+        "tr": "Bybit Stocks'un sunulduğu bölgelerde Gelişmiş Kimlik Doğrulamayı tamamlamış ana hesaplar. ABD, AEA, Hindistan, Mauritius ve BAE'de yok; Pro hesaplar katılamaz.",
+        "id": "Akun utama dengan Verifikasi Identitas Lanjutan di wilayah tempat Bybit Stocks tersedia. Tidak tersedia di AS, EEA, India, Mauritius, atau UEA; akun Pro tidak termasuk.",
+        "vi": "Tài khoản chính đã xác minh danh tính nâng cao tại khu vực có Bybit Stocks. Không áp dụng tại Mỹ, EEA, Ấn Độ, Mauritius và UAE; tài khoản Pro không tham gia.",
+        "ar": "الحسابات الرئيسية التي أكملت التحقق المتقدم من الهوية في المناطق التي تتوفر فيها Bybit Stocks. غير متاحة في الولايات المتحدة والمنطقة الاقتصادية الأوروبية والهند وموريشيوس والإمارات؛ وحسابات Pro مستثناة."
+      },
+      "deadline": "2026-10-31T00:00:00Z",
+      "reward_text": {
+        "en": "Daily box up to 50 USDC · Stock Splash share of 100,000 USDC (up to 5,000 USDC each)",
+        "zh-Hans": "每日宝箱最高 50 USDC · Stock Splash 瓜分 100,000 USDC（每人最高 5,000 USDC）",
+        "zh-Hant": "每日寶箱最高 50 USDC · Stock Splash 瓜分 100,000 USDC（每人最高 5,000 USDC）",
+        "es": "Caja diaria de hasta 50 USDC · Stock Splash: reparto de 100,000 USDC (hasta 5,000 USDC por persona)",
+        "pt-BR": "Caixa diária de até 50 USDC · Stock Splash: divisão de 100,000 USDC (até 5,000 USDC por pessoa)",
+        "fr": "Boîte quotidienne jusqu’à 50 USDC · Stock Splash : partage de 100,000 USDC (jusqu’à 5,000 USDC chacun)",
+        "de": "Tägliche Box bis 50 USDC · Stock Splash: Anteil an 100,000 USDC (bis 5,000 USDC pro Person)",
+        "ja": "デイリーボックス最大50 USDC・Stock Splashで100,000 USDCを山分け（一人あたり最大5,000 USDC）",
+        "ko": "데일리 박스 최대 50 USDC · Stock Splash 100,000 USDC 분배(한 사람당 최대 5,000 USDC)",
+        "ru": "Ежедневная коробка до 50 USDC · Stock Splash: доля в 100,000 USDC (до 5,000 USDC на человека)",
+        "tr": "50 USDC'ye kadar günlük kutu · Stock Splash: 100,000 USDC'den pay (kişi başı en fazla 5,000 USDC)",
+        "id": "Kotak harian hingga 50 USDC · Stock Splash: bagian dari 100,000 USDC (maks. 5,000 USDC per orang)",
+        "vi": "Hộp quà hằng ngày tới 50 USDC · Stock Splash chia 100,000 USDC (tối đa 5,000 USDC mỗi người)",
+        "ar": "صندوق يومي حتى 50 USDC · Stock Splash: حصة من 100,000 USDC (حتى 5,000 USDC للشخص)"
+      },
+      "source_checked": "2026-10-12T12:43:13Z"
+    },
+    {
       "id": "binance:54f481d07bee4e98a2c082aa1e481d0b",
       "updated": "2026-10-12T05:16:31Z",
       "headline": {

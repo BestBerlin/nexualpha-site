@@ -65,3 +65,7 @@
   .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { justify-self: start; min-height: 32px; display: inline-flex; align-items: center; }
 }
 @media (prefers-reduced-motion: reduce) { .campaign-spotlight__tag:not(#_):not(#_), .campaign-spotlight__tag:not(#_):not(#_)::after { animation: none; } }
+/* Spotlight tag: plain gold text. The gradient-clipped text above rendered as an empty pill under the page's
+   `color: inherit` rule (verified in Chromium 2026-10-12), so the label is painted solid here. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { background: rgb(245 197 66 / .10); color: #ffe27a; -webkit-text-fill-color: #ffe27a; animation: nx-chip-glow 2.6s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { animation: none; } }

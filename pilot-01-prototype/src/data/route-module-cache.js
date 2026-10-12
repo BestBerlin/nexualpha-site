@@ -50,6 +50,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
   // boundary below the tool, so React keeps the server HTML until the chunk arrives and then hydrates it.
   toolArticles: "./components/shared/ToolArticleLinks.jsx",
+  // "Related research" crawl index (2026-10-12, build budget): not preloaded, own Suspense boundary like toolArticles.
+  crawlLinks: "./components/shared/CrawlPriorityLinks.jsx",
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
@@ -59,6 +61,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   flash: "./components/flash/FlashPages.jsx",
   // Binance October campaigns page (/activities/binance-october-gifts, 2026-10-12): route chunk route-campaign-landing.
   binanceOctober: "./components/campaigns/BinanceOctoberPage.jsx",
+  // Bybit Stocks campaign page (/activities/bybit-stocks, 2026-10-12): route chunk route-campaign-bybit.
+  bybitStocks: "./components/campaigns/BybitStocksPage.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -145,6 +149,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
+  if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

@@ -46,6 +46,8 @@ import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashI
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
+import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
+import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 export default {
@@ -2572,6 +2574,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [FLASH_ROUTE_MARKER]: ["route-flash-", "route-news-"],
   // Campaign landing pages (/activities/binance-october-gifts): own chunk only.
+  // Campaign landing pages (/activities/bybit-stocks): own chunk only.
   [CAMPAIGN_LANDING_ROUTE_MARKER]: ["route-campaign-landing-"],
 });
 const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
@@ -4551,12 +4554,13 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
-    // Campaign landing pages (/activities/binance-october-gifts): every section in the HTML, rendered with the hydrated component.
+    // Campaign landing pages (/activities/binance-october-gifts, /activities/bybit-stocks): every section in the HTML,
+    // rendered with the hydrated component.
     if (metadata.marker === CAMPAIGN_LANDING_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && appHtml.includes("class=\"nxbg ")) {
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs "))) {
           metadata.campaignSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -6378,6 +6382,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseFlashPath(pathname)?.kind === "item") return options.flashIndexLocales || FLASH_INDEX_LOCALES;
   // Binance October campaigns page: its written editions (src/data/binance-october.js).
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
+  // Bybit Stocks campaign page: its written editions (src/data/bybit-stocks.js).
+  if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -7771,6 +7777,17 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, BINANCE_OCTOBER_INDEX_LOCALES), schema: binanceOctoberSeo.schemas,
     };
   }
+  // Bybit Stocks campaign page (2026-10-12): WebPage + FAQPage + BreadcrumbList from src/data/bybit-stocks-seo.js (same
+  // helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
+  const bybitStocksSeo = bybitStocksRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (bybitStocksSeo) {
+    return {
+      status: 200, title: bybitStocksSeo.title, description: bybitStocksSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: bybitStocksSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, BYBIT_STOCKS_INDEX_LOCALES), schema: bybitStocksSeo.schemas,
+    };
+  }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
   // src/data/brand-entity.js; every UI locale is indexable and self-canonical.
   if (isBrandPagePath(canonicalPath)) {
@@ -8238,6 +8255,8 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
   if (pathname === BINANCE_OCTOBER_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CAMPAIGN_LANDING_ROUTE_MARKER]];
+  // Bybit Stocks has its own route chunk (route-campaign-bybit), separate from the Binance page's.
+  if (pathname === BYBIT_STOCKS_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bybit-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];

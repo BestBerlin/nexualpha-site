@@ -32,6 +32,7 @@ import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
+import { bybitStocksSitemapEntries } from "../src/data/bybit-stocks-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -319,8 +320,8 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
   // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
-  // Campaign landing pages (2026-10-12: /activities/binance-october-gifts), rendered by the Worker at request time;
-  // hreflang sets are the page head's.
+  // Campaign landing pages (2026-10-12: /activities/binance-october-gifts, /activities/bybit-stocks), rendered by the
+  // Worker at request time; hreflang sets are the page head's.
   const campaigns = buildCampaignSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-campaigns.xml", lastmod: campaigns.lastmod });
   return {
@@ -338,12 +339,13 @@ export function buildAppsSitemap() {
   return buildDownloadOrAcademySitemap(appDownloadSitemapEntries);
 }
 
-export function buildCampaignSitemap() {
-  return buildDownloadOrAcademySitemap(binanceOctoberSitemapEntries);
-}
-
 export function buildAcademySitemap() {
   return buildDownloadOrAcademySitemap(academySitemapEntries);
+}
+
+// Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12).
+export function buildCampaignSitemap() {
+  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options)]);
 }
 
 function buildDownloadOrAcademySitemap(sitemapEntries) {

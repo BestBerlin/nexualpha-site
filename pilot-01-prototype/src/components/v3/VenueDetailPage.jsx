@@ -42,6 +42,7 @@ import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
+import { BYBIT_STOCKS_PATH, BYBIT_STOCKS_VENUE, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
 import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
 import "./venue-popular-coins.css";
 
@@ -677,6 +678,16 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         const teaser = binanceOctoberTeaser(locale);
         return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
           data-cta-kind="research" data-cta-platform="binance" data-cta-placement="venue-campaign-banner">
+          <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
+          <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
+          <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
+        </LocalLink>;
+      })()}
+      {/* Bybit Stocks campaign page (owner 2026-10-12): banner on the Bybit profile while the launch campaign runs. */}
+      {profile.slug === BYBIT_STOCKS_VENUE && bybitStocksCampaignActive() && (() => {
+        const teaser = bybitStocksTeaser(locale);
+        return <LocalLink locale={locale} href={`${BYBIT_STOCKS_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bybit-stocks"
+          data-cta-kind="research" data-cta-platform="bybit" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
           <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>

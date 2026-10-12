@@ -1,0 +1,256 @@
+{
+  "seoTitle": "Bybit Stocks: acciones de EE. UU. con USDC (código {code})",
+  "seoTitleNeutral": "Bybit Stocks: compra acciones y ETFs de EE. UU. con USDC",
+  "seoDescription": "Compra Apple, Nvidia, Tesla y 1,000+ acciones y ETFs de EE. UU. con USDC en Bybit. Acciones reales en Alpaca, desde 5 USDC, 24 horas al día, 5 días a la semana.",
+  "seoDescriptionNeutral": "Cómo funciona Bybit Stocks: 1,000+ acciones y ETFs de EE. UU. con USDC, acciones reales en Alpaca, mínimo 5 USDC, 24 horas al día, 5 días a la semana.",
+  "breadcrumb": "Campañas",
+  "kicker": "Nuevo en Bybit · Acciones y ETFs de EE. UU.",
+  "h1": "Compra Apple, Nvidia y Tesla con USDC, en Bybit",
+  "sub": "Bybit ya vende acciones y ETFs reales de EE. UU. —más de 1,000— pagados directamente con el USDC de tu Cuenta de Trading Unificada. Las órdenes empiezan en 5 USDC y el mercado abre 24 horas al día, cinco días a la semana.",
+  "cta": "Regístrate con el código {code}",
+  "how": "Cómo funciona",
+  "codeLabel": "Código de invitación",
+  "copy": "Copiar",
+  "copied": "Copiado",
+  "neutralLead": "A continuación: qué tienes en propiedad, cómo funciona una orden, cuándo puedes operar y qué paga la campaña de lanzamiento.",
+  "tickersLabel": "Tickers populares",
+  "factsH": "Cuatro cosas que debes saber",
+  "facts": [
+    [
+      "Acciones reales, no tokens",
+      "Compras acciones que cotizan en EE. UU. Alpaca Securities LLC (miembro de FINRA/SIPC) ejecuta la orden y custodia las acciones. Ni un token ni un CFD."
+    ],
+    [
+      "Pagas en USDC",
+      "Las órdenes se pagan y liquidan en USDC desde tu Cuenta de Trading Unificada (UTA). Sin transferencias bancarias."
+    ],
+    [
+      "Desde 5 USDC",
+      "Acciones fraccionadas en valores elegibles: pon 5 USDC y ya tienes una parte de una acción."
+    ],
+    [
+      "24 horas, 5 días",
+      "Preapertura, horario regular, poscierre y una sesión nocturna para acciones compatibles, del domingo por la noche al viernes por la noche (hora de Nueva York)."
+    ]
+  ],
+  "stepsH": "Tu primera orden de acciones en 5 pasos",
+  "steps": [
+    [
+      "Abre tu cuenta",
+      "Regístrate con el enlace de NexuAlpha o introduce el código de invitación {code} y completa la verificación de identidad avanzada. Las acciones exigen ese nivel."
+    ],
+    [
+      "Pon USDC en tu UTA",
+      "Deposita o convierte a USDC y mantenlo en tu Cuenta de Trading Unificada. Las órdenes de acciones se pagan desde ahí."
+    ],
+    [
+      "Ve a TradFi → Stocks",
+      "En la app de Bybit o en la web, abre TradFi y elige Stocks."
+    ],
+    [
+      "Busca el ticker",
+      "Escribe AAPL, NVDA, TSLA, QQQ o cualquiera de los 1,000+ símbolos y abre su página de trading, con gráficos de TradingView."
+    ],
+    [
+      "Coloca tu orden",
+      "Elige Mercado o Límite, ingresa el monto (desde 5 USDC) y confirma. Las acciones aparecen en tu portafolio de Bybit."
+    ]
+  ],
+  "stepOneNeutral": [
+    "Abre tu cuenta",
+    "Abre una cuenta de Bybit donde el servicio esté disponible y completa la verificación de identidad avanzada. Para operar acciones necesitas el nivel avanzado."
+  ],
+  "sessionsH": "Cuándo puedes operar",
+  "sessionsLead": "Horarios en hora de Nueva York (ET). La página de trading los convierte a tu hora local.",
+  "sessions": [
+    [
+      "Nocturna",
+      "8:00 PM – 4:00 AM",
+      "Acciones compatibles"
+    ],
+    [
+      "Preapertura",
+      "4:00 AM – 9:30 AM",
+      "Órdenes límite"
+    ],
+    [
+      "Horario regular",
+      "9:30 AM – 4:00 PM",
+      "Todos los tipos de orden"
+    ],
+    [
+      "Poscierre",
+      "4:00 PM – 8:00 PM",
+      "Órdenes límite"
+    ]
+  ],
+  "sessionsWeekend": "Cerrado del viernes 8:00 PM al domingo 8:00 PM ET y en los feriados del mercado de EE. UU. Las órdenes de mercado se ejecutan en horario regular; fuera de él, activa el trading 24 horas en una orden límite.",
+  "yourTime": "Tu hora",
+  "campaignKicker": "Campaña de lanzamiento",
+  "campaignH": "Full Stocks Ahead: 150,000 USDC para traders de acciones",
+  "campaignLead": "La campaña de lanzamiento de Bybit va del 12 al 31 de octubre de 2026 (00:00 UTC). Regístrate en la página de la campaña y luego opera acciones en la app de Bybit o en la web.",
+  "endsIn": "Termina en",
+  "endsAt": "Termina el 31 oct 2026, 00:00 UTC",
+  "units": [
+    "días",
+    "horas",
+    "min",
+    "seg"
+  ],
+  "ended": "La campaña ha terminado.",
+  "rewards": [
+    [
+      "Recompensa por tu primera operación",
+      "Una recompensa por hacer tu primera operación con acciones. Bybit muestra el monto en la página de la campaña."
+    ],
+    [
+      "Caja de recompensa diaria",
+      "Opera más de $2,000 en acciones en un día y recibe una caja de hasta 50 USDC, todos los días de la campaña."
+    ],
+    [
+      "Stock Splash: 100,000 USDC",
+      "Opera al menos $1,000 en acciones durante la campaña y mantén al menos $1,000 en acciones al cierre. El pozo se reparte según el volumen elegible, hasta 5,000 USDC por persona."
+    ]
+  ],
+  "multipliersH": "Multiplicadores de Stock Splash",
+  "multiplierEarly": "Opera temprano",
+  "multiplierEarlyRows": [
+    [
+      "Días 1–5",
+      "1.4×"
+    ],
+    [
+      "Días 6–10",
+      "1.3×"
+    ],
+    [
+      "Días 11–15",
+      "1.2×"
+    ],
+    [
+      "Días 16–18",
+      "1.1×"
+    ],
+    [
+      "Días 19–20",
+      "1.0×"
+    ]
+  ],
+  "multiplierHold": "Tenencia diaria promedio en acciones",
+  "multiplierHoldRows": [
+    [
+      "$1,000–10,000",
+      "1.1×"
+    ],
+    [
+      "$10,000–100,000",
+      "1.2×"
+    ],
+    [
+      "Más de $100,000",
+      "1.5×"
+    ]
+  ],
+  "whoH": "Quién puede participar",
+  "who": "Cuentas principales en regiones donde Bybit Stocks está disponible. No pueden participar las cuentas Pro ni los residentes de Dubái.",
+  "officialLink": "Anuncio de Bybit",
+  "compareH": "Bybit Stocks vs. acciones tokenizadas vs. un bróker tradicional",
+  "compareCols": [
+    "Bybit Stocks",
+    "Acciones tokenizadas (p. ej., Backpack)",
+    "Bróker tradicional"
+  ],
+  "compareRows": [
+    [
+      "Qué tienes",
+      "Acciones que cotizan en EE. UU.",
+      "Un token en Solana respaldado por una acción que guarda un SPV, canjeable 1:1",
+      "Acciones en tu cuenta de corretaje"
+    ],
+    [
+      "Custodia",
+      "Alpaca Securities LLC (miembro de FINRA/SIPC)",
+      "El SPV del emisor guarda la acción; tú tienes el token",
+      "Tu bróker o su firma de compensación"
+    ],
+    [
+      "Horario de trading",
+      "24 horas, 5 días a la semana",
+      "24/7 en Solana",
+      "Horario de bolsa; el horario extendido varía"
+    ],
+    [
+      "Mínimo",
+      "5 USDC",
+      "Lo fija la plataforma",
+      "Depende del bróker"
+    ],
+    [
+      "Comisiones",
+      "Sin comisión; tarifa de servicio del 0.1%, mínimo 0.35 USDC por orden",
+      "Comisiones de trading de la plataforma",
+      "Depende del bróker"
+    ],
+    [
+      "Pagas con",
+      "USDC en tu UTA de Bybit",
+      "Cripto",
+      "Transferencia bancaria"
+    ]
+  ],
+  "faqH": "Preguntas",
+  "faq": [
+    [
+      "¿Bybit Stocks está disponible en mi país?",
+      "No en Estados Unidos, ni en ningún lugar donde Bybit no esté disponible (por ejemplo, China continental, Hong Kong, Singapur y Canadá). Bybit también marca como restringidos para Stocks los países del EEE, India, Mauricio y los EAU, y Sudáfrica está por confirmar. En el resto, necesitas una cuenta de Bybit con verificación de identidad avanzada."
+    ],
+    [
+      "¿Tengo acciones reales?",
+      "Sí. Al comprar, adquieres acciones que cotizan en EE. UU. y que Alpaca Securities LLC (miembro de FINRA/SIPC) mantiene en custodia; Alpaca enruta las órdenes a mercados como NYSE y Nasdaq. No son tokens ni CFD, así que no se pueden enviar on-chain."
+    ],
+    [
+      "¿Cómo funcionan los dividendos?",
+      "Los dividendos en efectivo se convierten a USDC y se acreditan en tu Cuenta de Trading Unificada, descontada la retención de impuestos que corresponda. Los dividendos en acciones llegan como acciones adicionales y los splits ajustan tu posición automáticamente. El voto de accionistas aún no está disponible."
+    ],
+    [
+      "¿Cuánto cuesta una operación?",
+      "Bybit no cobra comisión. Se aplica una tarifa de servicio del 0.1% del valor de la orden, con un mínimo de 0.35 USDC por orden, y el spread está incluido en el precio."
+    ],
+    [
+      "¿Cuánto necesito para empezar?",
+      "5 USDC. Las acciones elegibles se pueden comprar en fracciones, así que el precio de la acción no importa. Una sola orden puede llegar a 1,000,000 USDC."
+    ],
+    [
+      "¿Puedo operar de noche o los fines de semana?",
+      "De noche, sí: las acciones compatibles cotizan en la sesión nocturna de 8:00 PM a 4:00 AM ET, además de la preapertura y el poscierre. Los fines de semana, no: el trading se pausa del viernes 8:00 PM al domingo 8:00 PM ET."
+    ]
+  ],
+  "relatedH": "Sigue leyendo",
+  "related": [
+    [
+      "Perfil del exchange Bybit",
+      "Comisiones, productos y cómo registrarte"
+    ],
+    [
+      "Qué tienes realmente con las acciones de Bybit",
+      "Nuestro análisis del lanzamiento"
+    ],
+    [
+      "Lección 7: tu primera operación spot",
+      "Órdenes de mercado vs. límite, paso a paso"
+    ],
+    [
+      "Lección 5: KYC — quién recibe tu identificación",
+      "Qué te pide la verificación de identidad"
+    ]
+  ],
+  "finalH": "Tu primera acción está a 5 USDC",
+  "finalBody": "Regístrate con el código {code}, verifícate, pasa USDC a tu UTA y compra.",
+  "finalNeutralH": "Lee la historia completa",
+  "finalNeutralBody": "Nuestro análisis cubre la custodia, los costos y cómo se compara Bybit Stocks con las acciones tokenizadas.",
+  "dealChips": [
+    "Sin comisión",
+    "Desde 5 USDC",
+    "1,000+ acciones y ETF"
+  ]
+}

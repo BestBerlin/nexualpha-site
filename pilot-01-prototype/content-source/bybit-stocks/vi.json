@@ -1,0 +1,256 @@
+{
+  "seoTitle": "Bybit Stocks: mua cổ phiếu Mỹ bằng USDC (mã {code})",
+  "seoTitleNeutral": "Bybit Stocks: mua cổ phiếu và ETF Mỹ bằng USDC",
+  "seoDescription": "Mua Apple, Nvidia, Tesla và 1,000+ cổ phiếu, ETF Mỹ bằng USDC trên Bybit. Cổ phiếu thật do Alpaca lưu ký, từ 5 USDC, giao dịch 24 giờ mỗi ngày, 5 ngày mỗi tuần.",
+  "seoDescriptionNeutral": "Bybit Stocks hoạt động thế nào: 1,000+ cổ phiếu và ETF Mỹ mua bằng USDC, cổ phiếu thật do Alpaca lưu ký, tối thiểu 5 USDC, giao dịch 24 giờ, 5 ngày/tuần.",
+  "breadcrumb": "Chiến dịch",
+  "kicker": "Mới trên Bybit · Cổ phiếu & ETF Mỹ",
+  "h1": "Mua Apple, Nvidia và Tesla bằng USDC — ngay trên Bybit",
+  "sub": "Bybit nay bán cổ phiếu và ETF Mỹ thật — hơn 1,000 mã — thanh toán thẳng bằng USDC trong Tài khoản Giao dịch Hợp nhất của bạn. Lệnh chỉ từ 5 USDC và thị trường mở cửa 24 giờ mỗi ngày, năm ngày mỗi tuần.",
+  "cta": "Đăng ký với mã {code}",
+  "how": "Cách hoạt động",
+  "codeLabel": "Mã mời",
+  "copy": "Sao chép",
+  "copied": "Đã sao chép",
+  "neutralLead": "Dưới đây: bạn sở hữu gì, một lệnh hoạt động ra sao, khi nào bạn có thể giao dịch và chiến dịch ra mắt trả thưởng những gì.",
+  "tickersLabel": "Mã phổ biến",
+  "factsH": "Bốn điều cần biết",
+  "facts": [
+    [
+      "Cổ phiếu thật, không phải token",
+      "Bạn mua cổ phiếu niêm yết tại Mỹ. Alpaca Securities LLC (thành viên FINRA/SIPC) khớp lệnh và lưu ký cổ phiếu. Không phải token, không phải CFD."
+    ],
+    [
+      "Thanh toán bằng USDC",
+      "Lệnh được thanh toán và tất toán bằng USDC từ Tài khoản Giao dịch Hợp nhất (UTA) của bạn. Không cần chuyển khoản ngân hàng."
+    ],
+    [
+      "Chỉ từ 5 USDC",
+      "Cổ phiếu lẻ với các mã đủ điều kiện: bỏ ra 5 USDC là bạn sở hữu một phần cổ phiếu."
+    ],
+    [
+      "24 giờ, 5 ngày",
+      "Trước giờ mở cửa, phiên chính, sau giờ đóng cửa và phiên qua đêm cho các mã được hỗ trợ, từ tối Chủ nhật đến tối thứ Sáu (giờ New York)."
+    ]
+  ],
+  "stepsH": "Lệnh cổ phiếu đầu tiên trong 5 bước",
+  "steps": [
+    [
+      "Mở tài khoản",
+      "Đăng ký qua liên kết của NexuAlpha hoặc nhập mã mời {code}, rồi hoàn tất xác minh danh tính nâng cao. Giao dịch cổ phiếu cần cấp độ này."
+    ],
+    [
+      "Nạp USDC vào UTA",
+      "Nạp hoặc chuyển đổi sang USDC và giữ trong Tài khoản Giao dịch Hợp nhất. Lệnh cổ phiếu được thanh toán từ đó."
+    ],
+    [
+      "Vào TradFi → Stocks",
+      "Trên ứng dụng Bybit hoặc website, mở TradFi và chọn Stocks."
+    ],
+    [
+      "Tìm mã cổ phiếu",
+      "Gõ AAPL, NVDA, TSLA, QQQ hoặc bất kỳ mã nào trong 1,000+ mã và mở trang giao dịch với biểu đồ TradingView."
+    ],
+    [
+      "Đặt lệnh",
+      "Chọn lệnh Thị trường hoặc Giới hạn, nhập số tiền (từ 5 USDC) và xác nhận. Cổ phiếu sẽ hiện trong danh mục Bybit của bạn."
+    ]
+  ],
+  "stepOneNeutral": [
+    "Mở tài khoản",
+    "Mở tài khoản Bybit tại nơi dịch vụ được cung cấp và hoàn tất Xác minh danh tính nâng cao. Giao dịch cổ phiếu yêu cầu cấp nâng cao."
+  ],
+  "sessionsH": "Khi nào bạn có thể giao dịch",
+  "sessionsLead": "Giờ theo giờ New York (ET). Trang giao dịch tự quy đổi sang giờ địa phương của bạn.",
+  "sessions": [
+    [
+      "Qua đêm",
+      "8:00 PM – 4:00 AM",
+      "Các mã được hỗ trợ"
+    ],
+    [
+      "Trước giờ mở cửa",
+      "4:00 AM – 9:30 AM",
+      "Lệnh giới hạn"
+    ],
+    [
+      "Phiên chính",
+      "9:30 AM – 4:00 PM",
+      "Mọi loại lệnh"
+    ],
+    [
+      "Sau giờ đóng cửa",
+      "4:00 PM – 8:00 PM",
+      "Lệnh giới hạn"
+    ]
+  ],
+  "sessionsWeekend": "Đóng cửa từ 8:00 PM thứ Sáu đến 8:00 PM Chủ nhật (ET) và vào các ngày nghỉ lễ của thị trường Mỹ. Lệnh thị trường khớp trong phiên chính; ngoài phiên này, hãy chọn 24-Hour Trading với lệnh giới hạn.",
+  "yourTime": "Giờ của bạn",
+  "campaignKicker": "Chiến dịch ra mắt",
+  "campaignH": "Full Stocks Ahead: 150,000 USDC cho nhà giao dịch cổ phiếu",
+  "campaignLead": "Chiến dịch ra mắt của Bybit diễn ra từ ngày 12 tháng Mười đến ngày 31 tháng Mười năm 2026 (00:00 UTC). Đăng ký trên trang chiến dịch, rồi giao dịch cổ phiếu trên ứng dụng Bybit hoặc website.",
+  "endsIn": "Kết thúc sau",
+  "endsAt": "Kết thúc ngày 31 tháng Mười 2026, 00:00 UTC",
+  "units": [
+    "ngày",
+    "giờ",
+    "phút",
+    "giây"
+  ],
+  "ended": "Chiến dịch đã kết thúc.",
+  "rewards": [
+    [
+      "Thưởng giao dịch đầu tiên",
+      "Phần thưởng khi bạn thực hiện giao dịch cổ phiếu đầu tiên. Bybit hiển thị số tiền trên trang chiến dịch."
+    ],
+    [
+      "Hộp quà mỗi ngày",
+      "Giao dịch hơn $2,000 cổ phiếu trong một ngày là bạn nhận được hộp quà trị giá đến 50 USDC — mỗi ngày trong suốt chiến dịch."
+    ],
+    [
+      "Stock Splash: 100,000 USDC",
+      "Giao dịch ít nhất $1,000 cổ phiếu trong chiến dịch và nắm giữ ít nhất $1,000 cổ phiếu khi kết thúc. Quỹ thưởng chia theo khối lượng hợp lệ, tối đa 5,000 USDC mỗi người."
+    ]
+  ],
+  "multipliersH": "Hệ số nhân Stock Splash",
+  "multiplierEarly": "Giao dịch sớm",
+  "multiplierEarlyRows": [
+    [
+      "Ngày 1–5",
+      "1.4×"
+    ],
+    [
+      "Ngày 6–10",
+      "1.3×"
+    ],
+    [
+      "Ngày 11–15",
+      "1.2×"
+    ],
+    [
+      "Ngày 16–18",
+      "1.1×"
+    ],
+    [
+      "Ngày 19–20",
+      "1.0×"
+    ]
+  ],
+  "multiplierHold": "Giá trị cổ phiếu nắm giữ bình quân mỗi ngày",
+  "multiplierHoldRows": [
+    [
+      "$1,000–10,000",
+      "1.1×"
+    ],
+    [
+      "$10,000–100,000",
+      "1.2×"
+    ],
+    [
+      "Trên $100,000",
+      "1.5×"
+    ]
+  ],
+  "whoH": "Ai được tham gia",
+  "who": "Tài khoản chính tại các khu vực có Bybit Stocks. Tài khoản Pro và cư dân Dubai không được tham gia.",
+  "officialLink": "Thông báo của Bybit",
+  "compareH": "Bybit Stocks so với cổ phiếu token hóa và công ty môi giới truyền thống",
+  "compareCols": [
+    "Bybit Stocks",
+    "Cổ phiếu token hóa (vd. Backpack)",
+    "Môi giới truyền thống"
+  ],
+  "compareRows": [
+    [
+      "Bạn sở hữu gì",
+      "Cổ phiếu niêm yết tại Mỹ",
+      "Token trên Solana được bảo chứng bằng cổ phiếu giữ trong một SPV, quy đổi 1:1",
+      "Cổ phiếu trong tài khoản môi giới của bạn"
+    ],
+    [
+      "Lưu ký",
+      "Alpaca Securities LLC (thành viên FINRA/SIPC)",
+      "SPV của bên phát hành giữ cổ phiếu; bạn giữ token",
+      "Công ty môi giới hoặc đơn vị bù trừ của họ"
+    ],
+    [
+      "Giờ giao dịch",
+      "24 giờ, 5 ngày mỗi tuần",
+      "24/7 trên Solana",
+      "Giờ của sở giao dịch, giờ mở rộng tùy nơi"
+    ],
+    [
+      "Tối thiểu",
+      "5 USDC",
+      "Do sàn quy định",
+      "Tùy công ty môi giới"
+    ],
+    [
+      "Phí",
+      "Không hoa hồng; phí dịch vụ 0.1%, tối thiểu 0.35 USDC mỗi lệnh",
+      "Phí giao dịch của sàn",
+      "Tùy công ty môi giới"
+    ],
+    [
+      "Thanh toán bằng",
+      "USDC trong UTA Bybit của bạn",
+      "Crypto",
+      "Chuyển khoản ngân hàng"
+    ]
+  ],
+  "faqH": "Câu hỏi",
+  "faq": [
+    [
+      "Bybit Stocks có ở quốc gia của tôi không?",
+      "Không có tại Hoa Kỳ, và không có ở bất kỳ nơi nào Bybit không hoạt động (ví dụ Trung Quốc đại lục, Hồng Kông, Singapore và Canada). Bybit cũng liệt kê các nước EEA, Ấn Độ, Mauritius và UAE là bị hạn chế với Stocks, còn Nam Phi đang chờ xác nhận. Ở những nơi khác, bạn cần tài khoản Bybit đã Xác minh danh tính nâng cao."
+    ],
+    [
+      "Tôi có sở hữu cổ phiếu thật không?",
+      "Có. Khi mua, bạn mua cổ phiếu niêm yết tại Mỹ do Alpaca Securities LLC (thành viên FINRA/SIPC) lưu ký; Alpaca chuyển lệnh tới các sàn như NYSE và Nasdaq. Đây không phải token hay CFD, nên không thể chuyển on-chain."
+    ],
+    [
+      "Cổ tức được xử lý thế nào?",
+      "Cổ tức tiền mặt được quy đổi sang USDC và ghi có vào Tài khoản Giao dịch Hợp nhất sau khi khấu trừ thuế (nếu có). Cổ tức bằng cổ phiếu về dưới dạng cổ phiếu bổ sung, và chia tách cổ phiếu tự động điều chỉnh vị thế của bạn. Quyền biểu quyết cổ đông chưa được hỗ trợ."
+    ],
+    [
+      "Một giao dịch tốn bao nhiêu?",
+      "Bybit không thu hoa hồng. Áp dụng phí dịch vụ 0.1% giá trị lệnh, tối thiểu 0.35 USDC mỗi lệnh, và chênh lệch giá đã nằm trong giá."
+    ],
+    [
+      "Cần bao nhiêu để bắt đầu?",
+      "5 USDC. Các mã đủ điều kiện có thể mua lẻ, nên giá cổ phiếu không thành vấn đề. Một lệnh có thể lên tới 1,000,000 USDC."
+    ],
+    [
+      "Tôi có thể giao dịch ban đêm hoặc cuối tuần không?",
+      "Ban đêm thì có: các mã được hỗ trợ giao dịch qua đêm từ 8:00 PM đến 4:00 AM ET, bên cạnh phiên trước giờ mở cửa và sau giờ đóng cửa. Cuối tuần thì không: giao dịch tạm dừng từ 8:00 PM thứ Sáu đến 8:00 PM Chủ nhật ET."
+    ]
+  ],
+  "relatedH": "Đọc tiếp",
+  "related": [
+    [
+      "Hồ sơ sàn Bybit",
+      "Phí, sản phẩm và cách đăng ký"
+    ],
+    [
+      "Bạn thực sự sở hữu gì với cổ phiếu Bybit",
+      "Bài phân tích tin tức của chúng tôi về đợt ra mắt"
+    ],
+    [
+      "Bài 7: giao dịch spot đầu tiên",
+      "Lệnh thị trường và lệnh giới hạn, từng bước"
+    ],
+    [
+      "Bài 5: KYC — ai nhận giấy tờ tùy thân của bạn",
+      "Xác minh danh tính yêu cầu những gì"
+    ]
+  ],
+  "finalH": "Cổ phiếu đầu tiên chỉ cách bạn 5 USDC",
+  "finalBody": "Đăng ký với mã {code}, xác minh, chuyển USDC vào UTA và mua.",
+  "finalNeutralH": "Đọc toàn bộ câu chuyện",
+  "finalNeutralBody": "Bài phân tích của chúng tôi nói về lưu ký, chi phí và cách Bybit Stocks so với cổ phiếu token hóa.",
+  "dealChips": [
+    "Không hoa hồng giao dịch",
+    "Từ 5 USDC",
+    "1,000+ cổ phiếu & ETF"
+  ]
+}

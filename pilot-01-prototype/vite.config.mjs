@@ -199,6 +199,12 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
+          // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
+          // (before the shared campaigns rule, so the Binance page does not load this copy).
+          if (/\/src\/components\/campaigns\/(?:BybitStocksPage\.jsx|bybit-stocks\.css)$/.test(id) || id.includes("/src/data/bybit-stocks-copy.js")) return "route-campaign-bybit";
+          // Its route/teaser helper is read by the home stream, /activities and /exchanges/bybit: pinned so none of them
+          // pulls another route's chunk.
+          if (/\/src\/data\/bybit-stocks(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
           // Campaign landing pages (2026-10-12: Binance October): component, styles and copy in one route chunk.
           if (id.includes("/src/components/campaigns/") || /\/src\/data\/binance-october-(?:tournament-)?copy\.js$/.test(id)) return "route-campaign-landing";
           // The campaign route/teaser helper is read by the home stream, /activities and /exchanges/binance: pinned so none
