@@ -3,14 +3,17 @@
 // partner registry (publicCtaForVenue). Links to partners always go through our tracked /go/<venue>?src=coin-<slug>.
 import { COIN_ROWS, COIN_VENUE_SLUGS, COIN_VENUE_STATUS, COINS_GENERATED_AT } from "./coins-data.generated.js";
 import { COIN_COPY } from "./coins-copy.js";
-import { COIN_INDEX_LOCALES, COIN_NEUTRAL_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
+import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
+
+// Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
+export const COIN_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
 import { feeFact, feePair } from "./exchange-facts.js";
 import { isPartnerPromotableIn, promotionCountries } from "./partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES } from "./partner-geo-policy.generated.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
 
-export { COINS_GENERATED_AT, COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COIN_NEUTRAL_LOCALES, COINS_PATH, coinPath, coinContentLocale };
+export { COINS_GENERATED_AT, COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
 
 export const COIN_VENUE_NAMES = Object.freeze({ okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit", "gate-io": "Gate", mexc: "MEXC", htx: "HTX", kraken: "Kraken" });
 // Owner rule (academy, DECISIONS 2026-10-12 #3): Bitget's sign-up button names the domain.

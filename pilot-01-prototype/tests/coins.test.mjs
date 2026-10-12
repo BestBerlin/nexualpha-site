@@ -206,11 +206,10 @@ test("hydration of the hub and coin pages has no mismatch (en, zh-hans, tr)", as
   }
 });
 
-test("internal links: home 'Popular coins', exchange profile top 20, footer", async () => {
+test("internal links: home 'Popular coins' and exchange profile top 20", async () => {
   assert.equal(POPULAR_COINS.length, 20);
   const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", {});
   assert.match(home, /class="h7-in h7-coins"[\s\S]*href="\/zh-hans\/coins\/bitcoin"/, "home block");
-  assert.match(home, /<footer[\s\S]*href="\/zh-hans\/coins"/, "footer link");
   for (const venue of ["okx", "binance", "bitget"]) assert.equal(POPULAR_COINS_BY_VENUE[venue].length, 20, venue);
   const profile = await harness.render("https://nexualpha.com/exchanges/okx", {});
   assert.match(profile, /class="v2-section v3-venue-coins"[\s\S]*href="\/coins\/bitcoin"/, "exchange profile block");

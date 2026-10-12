@@ -3,7 +3,6 @@ import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
-import { coinShellCopy } from "../../data/coins-routes.js";
 import { localeManifest, supportedLocales } from "../../content/locale-manifest";
 import { brandSlogan } from "../../data/brand-slogan.js";
 
@@ -473,7 +472,6 @@ export function CleanFooter({ locale = "en", brazil = false }) {
           <ul>
             <li><a href={href("/exchanges")}>{labels.directory}</a></li>
             <li><a href={href("/academy")}>{academyShellCopy(locale).nav}</a></li>
-            <li><a href={href("/coins")}>{coinShellCopy(locale).nav}</a></li>
             <li><a href={href("/topics")}>{labels.topics}</a></li>
             <li><a href={href("/factbook")}>{labels.factbook}</a></li>
             <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
