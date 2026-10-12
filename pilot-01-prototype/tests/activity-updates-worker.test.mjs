@@ -76,11 +76,21 @@ const coreListingItem = {
 };
 
 const feed = { generatedAt: new Date(NOW).toISOString(), items: [listing, event, datedEvent, delisting, staleNews] };
+const campaignBriefs = { items: [{
+  id: event.id,
+  updated: published(1),
+  headline: { en: "Reviewed Bybit campaign", tr: "İncelenmiş Bybit kampanyası" },
+  summary: { en: "Reviewed summary for account eligibility. No reward amount is inferred from the raw title." },
+  key_facts: [{ label: { en: "Eligibility" }, value: "Verified account" }],
+  deadline: new Date(NOW + 3_600_000).toISOString(),
+  source_checked: published(1),
+}] };
 const SHELL = "<!doctype html><html lang=\"en\"><head><title>Shell</title><meta name=\"description\" content=\"shell\" /><link rel=\"canonical\" href=\"https://nexualpha.com/\" /><meta name=\"robots\" content=\"index,follow\" /></head><body><div id=\"root\"></div></body></html>";
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
   if (pathname === "/index.html") return new Response(SHELL, { headers: { "content-type": "text/html; charset=utf-8" } });
   if (pathname === "/intel/official-announcements.json") return Response.json(feed);
+  if (pathname === "/content/campaign-briefs.json") return Response.json(campaignBriefs);
   return new Response("missing", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 } };
 
@@ -120,7 +130,7 @@ test("activity update pages SSR from INTEL_READ with all validated feed categori
 
 test("activity update SEO indexes listings and campaigns, noindexes delistings, and never invents Event dates", async () => {
   const env = { ASSETS: assets, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" };
-  for (const item of [listing, event, delisting]) {
+  for (const item of [listing, datedEvent, delisting]) {
     const response = await fetchPage(routePath(item), env);
     const html = await response.text();
     const schema = schemaPayload(html);
@@ -132,7 +142,7 @@ test("activity update SEO indexes listings and campaigns, noindexes delistings, 
     assert.equal(robots(html), item.category === "delisting" ? "noindex,follow" : "index,follow", item.id);
     assert.ok(article, `${item.id}: NewsArticle schema is present`);
     assert.equal(article.citation, item.url, `${item.id}: schema cites the original announcement`);
-    assert.equal(eventSchema, undefined, `${item.id}: Event schema is omitted without real start/end dates`);
+    assert.equal(eventSchema, undefined, `${item.id}: Event schema is omitted without a brief deadline`);
   }
 });
 
@@ -144,14 +154,35 @@ test("activity update routes fall back to the cached official-announcements asse
   assert.equal(prerenderState(html).officialAnnouncements.items.some((item) => item.id === listing.id), true);
 });
 
-test("activity update SEO emits Event schema only when real event dates are present", async () => {
+test("activity update SEO emits Event schema only when the brief provides a deadline", async () => {
   const env = { ASSETS: assets, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" };
-  const html = await (await fetchPage(routePath(datedEvent), env)).text();
+  const html = await (await fetchPage(routePath(event), env)).text();
   const graph = schemaPayload(html)?.["@graph"] || [];
   const eventSchema = graph.find((entry) => entry["@type"] === "Event");
-  assert.ok(eventSchema, "dated campaign carries Event schema");
-  assert.equal(eventSchema.startDate, datedEvent.startAt);
-  assert.equal(eventSchema.endDate, datedEvent.endAt);
+  assert.ok(eventSchema, "brief deadline carries Event schema");
+  assert.equal(eventSchema.startDate, undefined);
+  assert.equal(eventSchema.endDate, campaignBriefs.items[0].deadline);
+});
+
+test("activity update route SEO and hydration state use campaign briefs from ASSETS", async () => {
+  const path = routePath(event);
+  const calls = [];
+  const response = await fetchPage(`/tr${path}`, {
+    ASSETS: assets,
+    INTEL_READ: async () => feed,
+    NEWS_SSR_RENDER: async (href, props) => {
+      calls.push({ href, props });
+      return `<main><h1>${props.officialAnnouncements.items.find((row) => row.id === event.id).brief.headline.tr}</h1></main>`;
+    },
+  });
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /<title[^>]*>Bybit Kampanya: İncelenmiş Bybit kampanyası/);
+  assert.match(html, /Reviewed summary for account eligibility/);
+  const state = prerenderState(html);
+  assert.equal(state.officialAnnouncements.items.find((row) => row.id === event.id).brief.headline.tr, "İncelenmiş Bybit kampanyası");
+  assert.equal(state.officialAnnouncements.campaignBriefs[0].id, event.id);
+  assert.equal(calls[0].props.officialAnnouncements.items.find((row) => row.id === event.id).brief.deadline, campaignBriefs.items[0].deadline);
 });
 
 test("localized activity update routes keep internal canonical, hreflang, and translated common listing headline", async () => {

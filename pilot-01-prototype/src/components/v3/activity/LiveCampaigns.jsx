@@ -10,13 +10,16 @@ import { campaignJoinCopy } from "./campaign-join-copy.js";
 import { monthCampaigns, isStartOfMonth } from "./campaign-month.js";
 import { readIntelFeed } from "../../../data/announcement-intel.js";
 import { updateHref } from "../../../data/activity-update.js";
+import { applyCampaignBriefs } from "../../../data/campaign-briefs.js";
 import { activeOwnerCampaigns } from "../../../data/owner-campaigns.js";
 import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
+import { CampaignBriefFacts } from "../../shared/CampaignBriefFacts.jsx";
+import { useCampaignBriefs } from "../../shared/useCampaignBriefs.js";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
-const feedLang = (item, locale) => (!item.featured && !/^en(?:-|$)/i.test(String(locale || "en")) ? "en" : undefined);
+const feedLang = (item, locale) => (!item.brief && !item.featured && !/^en(?:-|$)/i.test(String(locale || "en")) ? "en" : undefined);
 
 const FEED = "/intel/official-announcements.json";
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
@@ -65,14 +68,16 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
   const t = copyFor(locale);
   const joinText = campaignJoinCopy(locale);
   const { items, failed } = useCampaignFeed(initialFeed);
+  const campaignFeed = useMemo(() => ({ items: items || [], campaignBriefs: initialFeed?.campaignBriefs }), [items, initialFeed?.campaignBriefs]);
+  const briefFeed = useCampaignBriefs(campaignFeed);
   const [venue, setVenue] = useState("all");
   const [openGroups, setOpenGroups] = useState(() => new Set());
   const toggleGroup = (slug) => setOpenGroups((current) => { const next = new Set(current); if (next.has(slug)) next.delete(slug); else next.add(slug); return next; });
   const rtf = useMemo(() => new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" }), [locale]);
   const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 60 ? rtf.format(-m, "minute") : m < 1440 ? rtf.format(-Math.round(m / 60), "hour") : rtf.format(-Math.round(m / 1440), "day"); };
 
-  const featured = activeOwnerCampaigns().map((c) => ({ id: `owner:${c.id}`, venue: c.venue, title: pick(c.title, locale), summary: pick(c.summary, locale), url: c.url, publishedAt: c.startAt || c.checkedAt, endAt: c.endAt, featured: true }));
-  const events = readIntelFeed({ items: items || [] }).filter((i) => i.category === "event" && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5);
+  const featured = activeOwnerCampaigns().map((c) => applyCampaignBriefs({ id: c.id, venue: c.venue, title: pick(c.title, locale), summary: pick(c.summary, locale), url: c.url, publishedAt: c.startAt || c.checkedAt, endAt: c.endAt, featured: true }, briefFeed, locale));
+  const events = readIntelFeed({ items: items || [] }).filter((i) => i.category === "event" && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5).map((i) => applyCampaignBriefs(i, briefFeed, locale));
   const all = [...featured, ...events];
   const venues = [...new Set(all.map((c) => c.venue))];
   // Grouped by exchange (owner 2026-10-10): every card is rendered; a group shows three and folds the rest behind
@@ -89,6 +94,9 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
         <ul>{monthCampaigns(events, locale).map(c => <li key={c.id}>
           <b>{NAMES[c.venue] || c.venue}</b>
           <h3 dir="auto" lang={feedLang(c, locale)}>{c.title}</h3>
+          {c.summary && <p dir="auto">{c.summary}</p>}
+          
+          <CampaignBriefFacts brief={c.brief} locale={locale} />
           <time dateTime={c.publishedAt}>{c.publishedAt.slice(0, 10)}</time>
           <a href={updateHref(c, locale, { market })}>{joinText.official}</a>
           <CampaignJoin venue={c.venue} locale={locale} market={market} placement="activities-month-campaign" />
@@ -142,7 +150,9 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
                 </div>
                 {/* Feed rows are the exchanges' own English announcement titles (data): marked lang="en" on other pages. */}
                 <h4 dir="auto" lang={feedLang(c, locale)}>{c.title}</h4>
+                
                 {c.summary && <p className="live-campaigns__sum" lang={feedLang(c, locale)}>{c.summary}</p>}
+                <CampaignBriefFacts brief={c.brief} locale={locale} />
                 <div className="live-campaigns__acts">
                   <a className="live-campaigns__details" href={updateHref(c, locale, { market })}>{joinText.official}</a>
                 </div>

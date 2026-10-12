@@ -1,3 +1,6 @@
+import { useCampaignBriefs } from '../../shared/useCampaignBriefs.js';
+import { CampaignBriefFacts } from '../../shared/CampaignBriefFacts.jsx';
+import { applyCampaignBriefs, localizedBriefText } from '../../../data/campaign-briefs.js';
 import { useMemo, useState } from "react";
 import { SectionRule } from "../../shared/DataRule.jsx";
 import { BrandMark } from "../../brand/BrandMark";
@@ -144,6 +147,7 @@ const activitySupportSummary = {
 
 
 export function ActivityCenterV3({ locale = "en", market, product, venues = [], publicUpdates = [], campaignFeed }) {
+  const briefFeed = useCampaignBriefs(campaignFeed);
   const activityLocaleUi = {
     ja: { badge: "公式出典リサーチ速報", body: "出典付きの活動、上場、条件を掲載します。資格、期限、具体的な条件は公式アカウントで確認してください。", subscribe: "Telegramで出典付き調査を購読 ↗", index: "公式リサーチ索引を開く", indexHint: "サービス別に出典、状態、確認日を見る" },
     ko: { badge: "공식 출처 리서치 브리핑", body: "출처가 있는 활동, 상장 및 조건을 게시합니다. 자격, 기간과 혜택은 공식 계정에서 확인하세요.", subscribe: "Telegram에서 출처 리서치 구독 ↗", index: "공식 리서치 색인 열기", indexHint: "플랫폼별 출처, 상태와 검토일 확인" },
@@ -286,8 +290,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           <h2 className="activity-center-v3__group-head"><span className="activity-center-v3__research-identity" translate="no" lang="en" dir="ltr"><BrandMark slug={group.slug} compact /><b>{groupName}</b></span><b className="activity-center-v3__chip-count" translate="no" lang="en">{group.items.length}</b></h2>
           <div className="activity-center-v3__grid">
       {group.items.map((update, itemIndex) => {
-        const titleStr = typeof update.title === "object" ? (update.title[locale] || update.title["zh-Hans"] || update.title.en) : update.title;
-        const summaryStr = typeof update.summary === "object" ? (update.summary[locale] || update.summary["zh-Hans"] || update.summary.en) : update.summary;
+        const briefUpdate = applyCampaignBriefs(update, briefFeed, locale);
+        const titleStr = briefUpdate.title || (typeof update.title === "object" ? (update.title[locale] || update.title["zh-Hans"] || update.title.en) : update.title);
+        const summaryStr = briefUpdate.summary || (typeof update.summary === "object" ? (update.summary[locale] || update.summary["zh-Hans"] || update.summary.en) : update.summary);
         const pName = update.platform?.cnName && locale.startsWith("zh")
           ? `${update.platform.name} (${update.platform.cnName})`
           : (update.platform?.name ?? update.platform?.slug ?? "Platform");
@@ -305,11 +310,12 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           <span data-state={eligibility.status}>{eligibility.statusLabel}</span>
         </div>
         <h3>{titleStr}</h3>
-        {summaryStr && <p>{update.cardType === "research" && update.contentLocale !== locale
+        <CampaignBriefFacts brief={briefUpdate.brief} locale={locale} />
+        {summaryStr && <p>{update.cardType === "research" && update.contentLocale !== locale && !localizedBriefText(briefUpdate.brief?.summary, locale)
           ? (rewardsText.intro || detailCopy.verifyBefore || text.pending)
           : summaryStr}</p>}
         <dl aria-label={eligibility.statusLabel}>
-          {eligibility.rows.map((row) => <div key={row.key} data-missing={row.missing ? "true" : undefined}>
+          {eligibility.rows.filter(row => row.key !== "deadline").map((row) => <div key={row.key} data-missing={row.missing ? "true" : undefined}>
             <dt>{row.label}</dt>
             <dd translate={row.key === "officialSource" ? "no" : undefined} lang={row.key === "officialSource" ? "en" : undefined}>{row.value}</dd>
           </div>)}
