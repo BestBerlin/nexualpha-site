@@ -25,7 +25,9 @@ test('update routes render all categories and translated template guidance in ev
   assert.ok(html.includes(updateCopy(locale).means));
   assert.ok(html.includes(updateCopy(locale)[item.category]));
   assert.ok(html.includes(updateHref(items.find(row => row.id !== item.id),locale)));
-  assert.match(html,/\/starter/);
+  // The starter guide (新手村) lives in the Telegram hub; /starter never existed and 404ed (crawl 2026-10-12).
+  assert.match(html,/href="(?:\/[a-z-]+)?\/telegram(?:[?#][^"]*)?"/);
+  assert.doesNotMatch(html,/href="[^"]*\/starter/);
   assert.equal((html.match(/href="https:\/\/www.okx.com\/help\//g)||[]).length,1,'original source only at bottom');
  }
 });

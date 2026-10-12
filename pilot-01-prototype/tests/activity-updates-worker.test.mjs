@@ -197,13 +197,115 @@ test("localized activity update routes keep internal canonical, hreflang, and tr
   assert.match(html, /hreflang="zh-Hans"/);
 });
 
-test("unknown activity update URLs are real 404s and do not call the runtime renderer", async () => {
-  const response = await fetchPage("/activities/updates/binance/unknown-update", {
-    ASSETS: assets,
-    INTEL_READ: async () => feed,
-  });
-  assert.equal(response.status, 404);
-  assert.equal(robots(await response.text()), "noindex,nofollow");
+// GSC "Not found (404)", 2026-10-12: update pages whose item rotated out of the live feed returned 404 although Telegram,
+// sitemaps and our own pages had linked them. Archived items stay real pages; never-published slugs redirect.
+const archivedEvent = {
+  id: "binance:0123456789abcdef0123456789abcdef",
+  venue: "binance",
+  category: "event",
+  title: "Binance Archived Trading Campaign",
+  url: "https://www.binance.com/en/support/announcement/detail/0123456789abcdef0123456789abcdef",
+  publishedAt: published(24 * 40),
+  firstSeenAt: published(24 * 40),
+  lastSeenAt: published(24 * 10),
+};
+const oldArchivedListing = {
+  id: "binance:fedcba9876543210fedcba9876543210",
+  venue: "binance",
+  category: "listing",
+  title: "Binance Will List OLDCOIN",
+  url: "https://www.binance.com/en/support/announcement/detail/fedcba9876543210fedcba9876543210",
+  publishedAt: published(24 * 200),
+};
+const archive = { version: 1, items: [listing, archivedEvent, oldArchivedListing] };
+
+test("unknown activity update URLs 301 to the localized activity listing, keep ?market= and never render", async () => {
+  let rendered = 0;
+  const env = { ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive, NEWS_SSR_RENDER: async () => { rendered += 1; return "<main><h1>x</h1></main>"; } };
+  const plain = await fetchPage("/activities/updates/binance/unknown-update", env);
+  assert.equal(plain.status, 301);
+  assert.equal(plain.headers.get("location"), "https://nexualpha.com/activities");
+  const localized = await fetchPage("/zh-hans/activities/updates/binance/unknown-update?market=JP", env);
+  assert.equal(localized.status, 301);
+  assert.equal(localized.headers.get("location"), "https://nexualpha.com/zh-hans/activities?market=JP");
+  const noArchive = await fetchPage("/activities/updates/okx/okx-some-old-item-abc123", { ASSETS: assets, INTEL_READ: async () => feed });
+  assert.equal(noArchive.status, 301, "a missing archive still never yields a 404");
+  assert.equal(rendered, 0);
+});
+
+test("archived activity updates stay 200 with the ended label, CTA and related links, and the archived row in hydration state", async () => {
+  const { createSsrHarness, hydrateInJsdom, hydrationErrors } = await import("./helpers/ssr-hydration-harness.mjs");
+  const harness = await createSsrHarness();
+  try {
+    for (const [prefix, label] of [["", "Ended"], ["/zh-hans", "已结束"]]) {
+      const pageUrl = `https://nexualpha.com${prefix}${updatePath(archivedEvent)}`;
+      const response = await worker.fetch(new Request(pageUrl), {
+        ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive,
+        NEWS_SSR_RENDER: async (href, props) => harness.render(href, props),
+      });
+      const html = await response.text();
+      assert.equal(response.status, 200, prefix);
+      assert.equal(robots(html), "index,follow", `${prefix}: archived campaign inside 180 days stays indexable`);
+      assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com${prefix}${updatePath(archivedEvent).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+      const article = html.match(/<article>([\s\S]*?)<\/article>/)[1];
+      assert.ok(article.includes(`class="update-page__ended">${label}<`), `${prefix}: ended label`);
+      assert.match(article, /Binance Archived Trading Campaign/);
+      assert.ok(article.includes(`href="${prefix}/exchanges/binance"`), `${prefix}: venue profile link`);
+      assert.ok(article.includes(updatePath(listing)), `${prefix}: related live update link`);
+      assert.doesNotMatch(article, /Announcement unavailable|公告暂不可用/);
+      const state = prerenderState(html);
+      assert.ok(state.officialAnnouncements.items.some((row) => row.id === archivedEvent.id && row.archived === true));
+      const result = await hydrateInJsdom(harness.vite, html, pageUrl);
+      assert.deepEqual(hydrationErrors(result.errors), []);
+    }
+  } finally { await harness.close(); }
+});
+
+test("archived activity updates older than 180 days are noindex but still 200; live pages never show the ended label", async () => {
+  const env = { ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive, NEWS_SSR_RENDER: async (href, props) => `<main><h1>${props.officialAnnouncements.items.filter((row) => row.archived).map((row) => row.id).join(",")}</h1></main>` };
+  const old = await fetchPage(updatePath(oldArchivedListing), env);
+  const oldHtml = await old.text();
+  assert.equal(old.status, 200);
+  assert.equal(robots(oldHtml), "noindex,follow");
+  const live = await fetchPage(updatePath(listing), env);
+  const liveHtml = await live.text();
+  assert.equal(live.status, 200);
+  assert.equal(robots(liveHtml), "index,follow");
+  assert.equal(prerenderState(liveHtml).officialAnnouncements.items.some((row) => row.archived), false, "a live item is never served as archived");
+});
+
+test("archived activity updates resolve from the shipped archive asset when INTEL_ARCHIVE_READ is absent", async () => {
+  const withArchive = { fetch: async (request) => new URL(request.url).pathname === "/intel/official-announcements-archive.json" ? Response.json(archive) : assets.fetch(request) };
+  const response = await fetchPage(updatePath(archivedEvent), { ASSETS: withArchive, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" });
+  assert.equal(response.status, 200);
+  assert.equal(prerenderState(await response.text()).officialAnnouncements.items.find((row) => row.id === archivedEvent.id).archived, true);
+});
+
+test("retired /starter links 301 to the localized Telegram hub (it never existed as a page)", async () => {
+  const env = { ASSETS: assets };
+  const en = await worker.fetch(new Request("https://nexualpha.com/starter?market=JP"), env);
+  assert.equal(en.status, 301);
+  assert.equal(en.headers.get("location"), "https://nexualpha.com/telegram?market=JP");
+  const zh = await worker.fetch(new Request("https://nexualpha.com/zh-hans/starter"), env);
+  assert.equal(zh.status, 301);
+  assert.equal(zh.headers.get("location"), "https://nexualpha.com/zh-hans/telegram");
+});
+
+test("/sitemap-updates.xml lists live and archived-within-180-days indexable updates only", async () => {
+  const { renderUpdateSitemap } = await import("../worker/index.js");
+  const xml = await renderUpdateSitemap({ ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive }, new URL("https://nexualpha.com/"), NOW);
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  const has = (item, prefix = "") => locs.includes(`https://nexualpha.com${prefix}${updatePath(item)}`);
+  assert.ok(has(listing) && has(listing, "/zh-hans"), "live listing in every indexable locale");
+  assert.ok(has(event), "live campaign");
+  assert.ok(has(archivedEvent) && has(archivedEvent, "/ja"), "archived campaign within 180 days");
+  assert.equal(has(oldArchivedListing), false, "archived longer than 180 days: noindex page, not in the sitemap");
+  assert.equal(has(delisting), false, "noindex delisting stays out");
+  assert.equal(has(staleNews), false, "news category is noindex and stays out");
+  assert.equal(new Set(locs).size, locs.length, "no duplicate URLs");
+  const response = await worker.fetch(new Request("https://nexualpha.com/sitemap-updates.xml"), { ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive });
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /application\/xml/);
 });
 
 test("activity update routes merge approved non-fixture core official-updates rows with the cached update feed", async () => {
@@ -262,7 +364,7 @@ test('request-time update SSR and hydration retain the blocked market gate', asy
     assert.doesNotMatch(article, /data-cta-kind="registration"|data-cta-code=|40%/);
     assert.ok(article.includes(`${updatePath(delisting)}?market=JP`));
     assert.ok(article.includes('href="/activities?market=JP"'));
-    assert.ok(article.includes('href="/starter?market=JP"'));
+    assert.ok(article.includes('href="/telegram?market=JP"'));
     const result = await hydrateInJsdom(harness.vite, html, pageUrl);
     assert.deepEqual(hydrationErrors(result.errors), []);
   } finally { await harness.close(); }
