@@ -118,11 +118,11 @@ test("finder serves high-intent regional and product routes with safe context on
   const context = finderSafeContext("?market=BR&product=spot&account_stage=new_account&funding=Pix&ref=11350287&platform=bitget&locale=pt-BR", { locale: "pt-BR" });
   const results = buildFinderResults({ copy, command, locale: "pt-BR", context });
 
-  assert.equal(searchFinderResults(results, "pix brl", "pt-BR")[0].href, "/br/pix?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix");
-  assert.equal(searchFinderResults(results, "br cost", "pt-BR")[0].href, "/br/custos?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix");
-  assert.equal(searchFinderResults(results, "japan", "pt-BR")[0].href, "/jp?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix");
-  assert.equal(searchFinderResults(results, "korea", "pt-BR")[0].href, "/kr?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix");
-  assert.equal(searchFinderResults(results, "turkiye", "pt-BR")[0].href, "/pt-br/markets/turkiye?market=BR&product=spot&account_stage=new_account&funding=Pix");
+  assert.equal(searchFinderResults(results, "pix brl", "pt-BR")[0].href, "/br/pix#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
+  assert.equal(searchFinderResults(results, "br cost", "pt-BR")[0].href, "/br/custos#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
+  assert.equal(searchFinderResults(results, "japan", "pt-BR")[0].href, "/jp#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix&locale=pt-BR");
+  assert.equal(searchFinderResults(results, "korea", "pt-BR")[0].href, "/kr#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix&locale=pt-BR");
+  assert.equal(searchFinderResults(results, "turkiye", "pt-BR")[0].href, "/pt-br/markets/turkiye#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
 
   assert.ok(results.every((entry) => !entry.href.includes("platform=")));
   assert.ok(results.every((entry) => !entry.href.includes("ref=")));
@@ -134,8 +134,8 @@ test("signup and invitation intent stays on internal registration-path anchors",
   const invite = searchFinderResults(results, "Bitget 邀请码", "zh-Hans")[0];
   const signup = searchFinderResults(results, "OKX register link", "zh-Hans")[0];
 
-  assert.equal(invite.href, "/zh-hans/exchanges/bitget?market=BR&product=spot&account_stage=new_account&funding=Pix&venue=bitget#registration-path");
-  assert.equal(signup.href, "/zh-hans/exchanges/okx?market=BR&product=spot&account_stage=new_account&funding=Pix&venue=okx#registration-path");
+  assert.equal(invite.href, "/zh-hans/exchanges/bitget#registration-path?market=BR&product=spot&account_stage=new_account&funding=Pix&venue=bitget");
+  assert.equal(signup.href, "/zh-hans/exchanges/okx#registration-path?market=BR&product=spot&account_stage=new_account&funding=Pix&venue=okx");
   assert.ok(results.every((entry) => entry.href.startsWith("/")));
   assert.ok(results.every((entry) => !/https?:|ref=|invite_code|nexu888|11350287/i.test(entry.href)));
 });

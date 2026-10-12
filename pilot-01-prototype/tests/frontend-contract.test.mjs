@@ -1202,8 +1202,8 @@ test("factbook decision and activation paths expose bounded growth attribution",
   assert.match(factbookPage, /data-growth-placement="factbook-activation"/);
 });
 
-test("3.0 locale links preserve query parameters before anchors", () => {
-  assert.match(app, /import \{ localizedHref, parsePublicRoute \} from "\.\/data\/locale-routing\.js"/);
+test("3.0 locale links preserve state fragments while default anchors stay canonical", () => {
+  assert.match(app, /import \{ localizedHref, localizedLanguageHref, parsePublicRoute \} from "\.\/data\/locale-routing\.js"/);
   assert.match(app, /const withLocale = \(locale, href\) => localizedHref\(href, \{ locale \}\)/);
   assert.match(v3Pages, /href=\{localizedHref\(href, \{ locale \}\)\}/);
   assert.doesNotMatch(venueYellowPages, /href=\{`\/exchanges[^`]*\$\{contextSearch\}/);
@@ -2193,8 +2193,9 @@ test("Brazil decision CTAs require a verified public claim before registration",
   assert.match(brazilDecisionPage, /activeCta\?\.hasReferral/);
   assert.match(brazilDecisionPage, /data-cta-kind="registration" data-cta-status=\{activeCta\.claim\.status\}/);
   assert.match(brazilDecisionPage, /data-cta-kind="research" data-cta-status=\{cta\.claim\.status\}/);
-  assert.match(brazilDecisionPage, /target\.searchParams\.set\("market", state\.region\)/);
-  assert.match(brazilDecisionPage, /target\.searchParams\.set\("product", state\.product\)/);
+  assert.match(brazilDecisionPage, /appendFragmentContextParams/);
+  assert.match(brazilDecisionPage, /market: state\.region/);
+  assert.match(brazilDecisionPage, /product: state\.product/);
   assert.match(brazilDecisionPage, /const globalDirectoryUrl = withBrazilPassport\("\/exchanges", state, pageLocale\)/);
 });
 
@@ -2234,7 +2235,7 @@ test("Brazil unsupported locale fallback is visible in client-only previews", ()
   assert.match(brazilDecisionPage, /publicCtaForVenue\(venue\.slug, pageLocale, state\.region\)/);
   assert.match(brazilDecisionPage, /venueBenefit\(partner, pageLocale\)/);
   assert.match(brazilDecisionPage, /formatCurrency\(pageLocale, estimate\.total\)/);
-  assert.match(brazilDecisionPage, /target\.searchParams\.set\("locale", pageLocale\)/);
+  assert.match(brazilDecisionPage, /locale: pageLocale/);
   assert.match(brazilDecisionPage, /className="br-decision-panel__status"/);
   assert.match(brazilDecisionCss, /\.br-decision-panel__status/);
 });

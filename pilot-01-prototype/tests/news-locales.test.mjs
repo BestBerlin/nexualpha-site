@@ -1,6 +1,6 @@
 // Localized news lane (2026-10-10): articles may carry natively written editions in any of the 15 site locales.
 // An edition (title + summary + body in that locale) is indexable at /<locale>/news/<slug>; without it the locale
-// route keeps today's behaviour (English content, noindex, canonical to the English edition).
+// route keeps today's behaviour (English content, noindex, canonical to the English edition), while internal anchors point to the locale news home.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
@@ -130,8 +130,8 @@ test("feed schema: editions may use any of the 15 locale keys and stay compatibl
 
 test("article links use the locale path only for articles that carry that edition", () => {
   assert.equal(newsArticleUrl(trArticle.slug, "tr", trArticle), "/tr/news/okx-turkiye-kayit-rehberi");
-  assert.equal(newsArticleUrl(plainArticle.slug, "tr", plainArticle), "/news/binance-fee-update-october?locale=tr");
-  assert.equal(newsArticleUrl(plainArticle.slug, "tr"), "/news/binance-fee-update-october?locale=tr");
+  assert.equal(newsArticleUrl(plainArticle.slug, "tr", plainArticle), "/tr/news");
+  assert.equal(newsArticleUrl(plainArticle.slug, "tr"), "/tr/news");
   assert.equal(newsArticleUrl(plainArticle.slug, "zh-Hans", plainArticle), "/zh-hans/news/binance-fee-update-october");
   const ordered = sortNewsForLocale([plainArticle, ruArticle, trArticle], "tr").map((item) => item.slug);
   assert.deepEqual(ordered, [trArticle.slug, plainArticle.slug, ruArticle.slug], "native tr article first, then newest-first");
@@ -264,7 +264,7 @@ test("published news sitemap generator emits localized article URLs with the rig
   assert.deepEqual(trEntry.alternates.map((item) => item.hreflang), ["en", "zh-Hans", "tr", "x-default"]);
   assert.equal(result.newsSitemapUrls.find((entry) => entry.loc === "https://nexualpha.com/zh-hans/news/binance-fee-update-october").language, "zh-cn");
   assert.ok(!result.newsSitemapUrls.some((entry) => entry.loc === "https://nexualpha.com/tr/news/binance-fee-update-october"));
-  assert.match(result.sitemap, /<loc>https:\/\/nexualpha\.com\/ru\/news\/bybit-likvidatsii-obzor<\/loc>/);
+  assert.match(result.sitemapFiles["sitemap-articles-ru.xml"], /<loc>https:\/\/nexualpha\.com\/ru\/news\/bybit-likvidatsii-obzor<\/loc>/);
 });
 
 test("/api/news/article/<slug> accepts ?locale= and ships the requested edition plus English", async () => {

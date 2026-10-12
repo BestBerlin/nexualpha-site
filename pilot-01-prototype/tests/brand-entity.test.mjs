@@ -7,6 +7,7 @@ import { readFile, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { routeMetadata, metaDescriptionLimit } from "../worker/index.js";
+import { budgetTitle, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
@@ -61,8 +62,8 @@ test("/about and /editorial-policy route metadata in all 15 locales: indexable, 
       assert.equal(meta.robots, "index,follow", loc);
       assert.equal(meta.canonical, loc, loc);
       assert.equal(meta.locale, locale, loc);
-      assert.equal(meta.title, brandPageMeta(pathname, locale).title, loc);
-      assert.ok(meta.title.length <= 65, `${loc} title ${meta.title.length}`);
+      assert.equal(meta.title, budgetTitle(brandPageMeta(pathname, locale).title, titleBudgetForLocale(locale)), loc);
+      assert.ok(meta.title.length <= titleBudgetForLocale(locale), `${loc} title ${meta.title.length}`);
       assert.ok(meta.description.length <= metaDescriptionLimit(locale), `${loc} description ${meta.description.length}`);
       assert.ok(meta.description.length >= 40, `${loc} description too short`);
       assert.equal(meta.alternates.length, 16, loc);

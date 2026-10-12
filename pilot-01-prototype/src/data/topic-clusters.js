@@ -253,7 +253,7 @@ export function toolArticles(toolKey, articles, { limit = TOOL_ARTICLE_LIMIT } =
 
 /**
  * The payload a tool page renders and hydrates with: { tool, locale, items: [{ slug, href, title, lang, publishedAt }] }.
- * Links follow the news library rules (localized edition when present, otherwise the English edition's query-form URL).
+ * Links follow the news library rules (localized edition when present, otherwise the locale news home; never query-locale article variants).
  * A locale without its own edition shows the real English headline marked lang="en" (an article headline is data), not
  * the generic "Research: <venue>" placeholder title.
  */

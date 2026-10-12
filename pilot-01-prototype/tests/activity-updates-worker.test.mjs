@@ -160,7 +160,8 @@ test("localized activity update routes keep internal canonical, hreflang, and tr
   const response = await fetchPage(`/zh-hans${path}`, env);
   const html = await response.text();
   assert.equal(response.status, 200);
-  assert.match(html, /Binance 上币: 币安将上线 TESTCOIN \| NexuAlpha/);
+  // SEO title budget (PR seo-crawl-fixes) may truncate the brand suffix; the translated headline must lead the title.
+  assert.match(html, /<title[^>]*>Binance 上币: 币安将上线 TESTCOIN/);
   assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com/zh-hans${path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   assert.match(html, /hreflang="zh-Hans"/);
 });

@@ -16,6 +16,15 @@ const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "k
 // Class b: 4a31e90 publishes reviewed spot and perpetual schedules, including OKX.
 const reviewedSlugs = ["binance", "okx", "bybit", "bitget"];
 
+
+function combinedParams(url) {
+  const params = new URLSearchParams(url.search);
+  const hash = String(url.hash || "");
+  const hashQuery = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : "";
+  for (const [key, value] of new URLSearchParams(hashQuery)) if (!params.has(key)) params.set(key, value);
+  return params;
+}
+
 const escapeHtml = (value) => String(value)
   .replaceAll("&", "&amp;")
   .replaceAll('"', "&quot;")
@@ -152,9 +161,10 @@ test("fee benchmark preserves source-bound CTA destinations and progressive full
       assert.ok(research, `${slug}: full platform research remains accessible`);
       const url = new URL(research.href, "https://nexualpha.com");
       assert.equal(url.pathname, `/exchanges/${slug}`);
-      assert.equal(url.searchParams.get("market"), "BR");
-      assert.equal(url.searchParams.get("product"), "spot");
-      assert.equal(url.hash, "#registration-path");
+      const params = combinedParams(url);
+      assert.equal(params.get("market"), "BR");
+      assert.equal(params.get("product"), "spot");
+      assert.equal(url.hash.startsWith("#registration-path?"), true);
     }
     const pending = table.querySelector(".ft-pending details");
     assert.equal(pending.open, false, "pending venue list remains progressive");
@@ -182,9 +192,9 @@ test("rates route exposes answer-first conversion bridge through source-bound CT
   assert.match(section, /fee-terminal__answer-block/, "answer block should render in SSR");
   assert.match(section, /What the public fee check can answer/);
   assert.match(section, /It cannot prove your final account rate/);
-  assert.ok(section.includes('href="/compare/binance-vs-okx?market=BR&amp;product=spot"'), "spot comparison handoff");
-  assert.ok(section.includes('href="/compare/bybit-vs-bitget?market=BR&amp;product=perpetuals"'), "perpetual comparison handoff");
-  assert.ok(section.includes('href="/topics/derivatives?market=BR&amp;product=perpetuals"'), "derivatives education handoff");
+  assert.ok(section.includes('href="/compare/binance-vs-okx#nxa-context?market=BR&amp;product=spot"'), "spot comparison handoff");
+  assert.ok(section.includes('href="/compare/bybit-vs-bitget#nxa-context?market=BR&amp;product=perpetuals"'), "perpetual comparison handoff");
+  assert.ok(section.includes('href="/topics/derivatives#nxa-context?market=BR&amp;product=perpetuals"'), "derivatives education handoff");
   // Class b: 4a31e90 places the result cards before the follow-up action strip.
   assert.ok(section.indexOf("cost-decision__results") >= 0, "results are present");
   assert.ok(section.indexOf("cost-decision__results") < section.indexOf("cost-decision__next-actions"), "next actions follow results");

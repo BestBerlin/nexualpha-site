@@ -201,8 +201,8 @@ test("browser feed client normalizes safe articles and fails closed for bad data
   assert.deepEqual(articles[0].relatedVenues, ["kraken"]);
   assert.equal(newsArticleUrl("valid-article", "zh-Hans"), "/zh-hans/news/valid-article");
   assert.equal(newsArticleUrl("valid-article", "en"), "/news/valid-article");
-  assert.equal(newsArticleUrl("valid-article", "ja"), "/news/valid-article?locale=ja");
-  assert.equal(newsArticleUrl("valid-article", "ar"), "/news/valid-article?locale=ar");
+  assert.equal(newsArticleUrl("valid-article", "ja"), "/ja/news");
+  assert.equal(newsArticleUrl("valid-article", "ar"), "/ar/news");
   assert.equal(exchangeUrl("kraken", "en"), "/exchanges/kraken");
   assert.deepEqual(await loadNewsArticles(async () => ({ ok: false })), []);
   assert.deepEqual(await loadNewsArticles(async () => { throw new Error("network"); }), []);

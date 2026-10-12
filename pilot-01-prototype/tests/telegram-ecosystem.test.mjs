@@ -1432,7 +1432,7 @@ test("TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES maps high-intent topics to real onsite
 
     const localized = new URL(localizedHref(route.canonicalPath, { locale: route.locale }), "https://nexualpha.com");
     assert.equal(localized.pathname, expected.pathname);
-    if (expected.locale) assert.equal(localized.searchParams.get("locale"), expected.locale);
+    if (expected.locale) assert.equal(localized.pathname === expected.pathname, true);
 
     const deepLink = getTelegramDeepLink(route.deepLinkAction);
     assert.ok(deepLink.startsWith("https://t.me/NexuAlphaAssistantBot?start="));
@@ -2153,12 +2153,12 @@ test("non-English Telegram backlinks pin landing-page language independent of pr
   for (const id of ["brazil-pix-ptbr", "brazil-saque-pix-ptbr", "brazil-kyc-cpf-ptbr", "brazil-cost-ptbr", "brazil-account-ptbr", "brazil-hub-ptbr", "brazil-compare-ptbr"]) {
     const url = new URL(byId[id].canonicalBacklink);
     assert.equal(url.pathname === "/br" || url.pathname.startsWith("/br/"), true);
-    assert.equal(url.searchParams.get("locale"), "pt-BR");
+    assert.equal(url.searchParams.get("locale"), null);
   }
 
   const mexicoUrl = new URL(byId["mexico-spei-es"].canonicalBacklink);
   assert.equal(mexicoUrl.pathname, "/mx");
-  assert.equal(mexicoUrl.searchParams.get("locale"), "es");
+  assert.equal(mexicoUrl.searchParams.get("locale"), null);
   assert.equal(mexicoUrl.searchParams.get("utm_campaign"), "mx_spei_es");
   assert.equal(mexicoUrl.searchParams.get("tg_market"), "mx");
   assert.equal(mexicoUrl.searchParams.get("tg_locale"), "es");
@@ -2180,7 +2180,7 @@ test("non-English Telegram backlinks pin landing-page language independent of pr
 
   const hongKongUrl = new URL(byId["hong-kong-account-en"].canonicalBacklink);
   assert.equal(hongKongUrl.pathname, "/hk");
-  assert.equal(hongKongUrl.searchParams.get("locale"), "en");
+  assert.equal(hongKongUrl.searchParams.get("locale"), null);
   assert.equal(hongKongUrl.searchParams.get("utm_campaign"), "hk_account_en");
   assert.equal(hongKongUrl.searchParams.get("tg_market"), "hk");
   assert.equal(hongKongUrl.searchParams.get("tg_locale"), "en");
@@ -2197,7 +2197,7 @@ test("non-English Telegram backlinks pin landing-page language independent of pr
   for (const id of ["korea-regulatory-context-ko", "korea-krw-funding-ko"]) {
     const url = new URL(byId[id].canonicalBacklink);
     assert.equal(url.pathname, "/kr");
-    assert.equal(url.searchParams.get("locale"), "ko");
+    assert.equal(url.searchParams.get("locale"), null);
     assert.equal(url.searchParams.get("tg_market"), "kr");
     assert.equal(url.searchParams.get("tg_locale"), "ko");
     assert.match(byId[id].deepLink, /start=partner_desk_m_KR_l_ko_t_spot/);

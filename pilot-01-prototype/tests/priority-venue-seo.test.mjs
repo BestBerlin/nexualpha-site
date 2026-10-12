@@ -8,7 +8,7 @@ import { priorityVenueAnswers, priorityVenueAnswerFor } from "../src/data/priori
 import { partnerVenueFaqFor } from "../src/data/partner-venue-faq.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
-import { localizedPath } from "../src/data/locale-routing.js";
+import { localizedHref, localizedPath } from "../src/data/locale-routing.js";
 import { buildSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -96,7 +96,7 @@ test("priority FAQs exist in server HTML while remaining questions are initially
       if (answer.fit) assert.ok(detailContent.includes(escape(answer.fit.label)), `${key} fit label is available on demand`);
       if (answer.avoid) assert.ok(detailContent.includes(escape(answer.avoid.items[0])), `${key} avoid guidance is available on demand`);
       if (answer.nextSteps) assert.ok(detailContent.includes(escape(answer.nextSteps.items[0])), `${key} next step guidance is available on demand`);
-      for (const [, href] of answer.internalLinks.slice(1)) assert.ok(detailContent.includes(escape(href)), `${key} additional research remains available on demand`);
+      for (const [, href] of answer.internalLinks.slice(1)) assert.ok(detailContent.includes(escape(localizedHref(href, { locale }))), `${key} additional research remains available on demand`);
       assert.doesNotMatch(heroHtml, /class="v3-venue-summary"|class="v3-venue-decision-strip"/);
       for (const [, href] of answer.sources) assert.ok(heroHtml.includes(escape(href)), `${key} source retained`);
     }

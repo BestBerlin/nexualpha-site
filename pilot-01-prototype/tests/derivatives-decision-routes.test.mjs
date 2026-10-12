@@ -86,12 +86,12 @@ test("derivatives SSR renders the four next-step routes and preserves the dictio
   assert.match(html, /Wallet-connected Perp DEX route/);
   assert.match(html, /Options \/ perps specialist route/);
   assert.match(html, /GMX pool-based perp route/);
-  assert.match(html, /href="\/compare\/binance-vs-okx\?market=unknown&amp;product=perp"/);
-  assert.match(html, /href="\/compare\/hyperliquid-vs-dydx\?market=unknown&amp;product=perp"/);
-  assert.match(html, /href="\/exchanges\/deribit\?market=unknown&amp;product=perp"/);
-  assert.match(html, /href="\/exchanges\/gmx\?market=unknown&amp;product=perp"/);
+  assert.match(html, /href="\/compare\/binance-vs-okx#nxa-context\?product=perp"/);
+  assert.match(html, /href="\/compare\/hyperliquid-vs-dydx#nxa-context\?product=perp"/);
+  assert.match(html, /href="\/exchanges\/deribit#nxa-context\?product=perp"/);
+  assert.match(html, /href="\/exchanges\/gmx#nxa-context\?product=perp"/);
   assert.match(html, /id="perp-cost-field-dictionary"/);
-  assert.match(html, /\/topics\/derivatives\?market=unknown&amp;product=perp#perp-cost-field-dictionary/);
+  assert.match(html, /\/topics\/derivatives#perp-cost-field-dictionary\?product=perp/);
 
   const primaryLabels = [...html.matchAll(/topic-derivatives-route-primary[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
   assert.deepEqual(primaryLabels, [

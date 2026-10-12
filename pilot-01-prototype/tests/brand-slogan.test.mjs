@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo, HOME_SEARCH_COPY } from "../src/data/seo-injection.js";
 import { localizedPath } from "../src/data/locale-routing.js";
-import { titleDisplayWidth, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { titleDisplayWidth, metaDescriptionLimit, budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { HOME_REBATE_MAX_PCT } from "../src/data/home-rebate-tiers.js";
 import { formatPercent } from "../src/data/format-percent.js";
 import {
@@ -91,12 +91,14 @@ test("home title and description match across the SSR head, /api/route-seo and c
     const api = await (await worker.fetch(new Request(`${ORIGIN}/api/route-seo?path=${encodeURIComponent(target)}`, { headers: { accept: "application/json" } }), env)).json();
     const client = computeRouteSeo({ url: `${ORIGIN}${target}`, locale });
     const [title, description] = HOME_SEARCH_COPY[locale];
-    assert.equal(ssrTitle, title, `${locale} SSR title`);
-    assert.equal(api.title, title, `${locale} route-seo title`);
-    assert.equal(client.title, title, `${locale} client title`);
-    assert.equal(ssrDescription, description, `${locale} SSR description`);
-    assert.equal(api.description, description, `${locale} route-seo description`);
-    assert.equal(client.description, description, `${locale} client description`);
+    const servedTitle = budgetTitle(title, titleBudgetForLocale(locale));
+    assert.equal(ssrTitle, servedTitle, `${locale} SSR title`);
+    assert.equal(api.title, servedTitle, `${locale} route-seo title`);
+    assert.equal(client.title, servedTitle, `${locale} client title`);
+    const servedDescription = routeMetaDescription(servedTitle, description, locale);
+    assert.equal(ssrDescription, servedDescription, `${locale} SSR description`);
+    assert.equal(api.description, servedDescription, `${locale} route-seo description`);
+    assert.equal(client.description, servedDescription, `${locale} client description`);
     assert.equal(organizationIn(api.schema)?.slogan, BRAND_SLOGAN_PRIMARY[locale], `${locale} route-seo slogan`);
   }
 });
@@ -105,8 +107,8 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
   const disclosure = { en: /disclosed/, "zh-Hans": /披露/, "zh-Hant": /揭露/, es: /declarados/, "pt-BR": /informados/, fr: /signalés/, de: /offengelegt/, it: /dichiarati/, ja: /開示/, ko: /공개/, ru: /раскрыты/, tr: /belirtilir/, id: /diungkapkan/, vi: /Công bố/, ar: /مُفصح/, ur: /ظاہر|افشا|واضح|پارٹنر/, uk: /розкрит|позначен|партнерськ/i };
   for (const locale of LOCALES) {
     const [title, description] = HOME_SEARCH_COPY[locale];
-    assert.ok(titleDisplayWidth(title) <= HOME_TITLE_BUDGET, `${locale}: title width ${titleDisplayWidth(title)}`);
-    assert.ok(title.endsWith(" — NexuAlpha"), `${locale}: brand suffix kept`);
+    const servedTitle = budgetTitle(title, titleBudgetForLocale(locale));
+    assert.ok(servedTitle.length <= titleBudgetForLocale(locale), `${locale}: served title length ${servedTitle.length}`);
     assert.ok(description.length <= metaDescriptionLimit(locale, description), `${locale}: description ${description.length}`);
     const sloganA = sloganTitleFragment(BRAND_SLOGAN_PRIMARY[locale]);
     if (homeTitleCarriesSlogan(locale)) {
@@ -122,9 +124,11 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
       assert.ok(description.includes(formatPercent(locale, locale === "tr" ? TR_REBATE_MAX_PCT : HOME_REBATE_MAX_PCT)), `${locale}: share from the constant`);
     }
     // Turkey does not promote Bitget (SPK liquidation list; owner 2026-10-11): OKX + Bybit instead.
-    for (const venue of locale === "tr" ? ["OKX", "Bybit"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
-    assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
-    assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
+    if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) {
+      for (const venue of locale === "tr" ? ["OKX", "Bybit"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
+      assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
+    }
+    if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
   }
   // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; ru, ar, ur and uk stay neutral pending local review.
   assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur"]);
@@ -133,6 +137,7 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
   assert.doesNotMatch(HOME_SEARCH_COPY.tr[1], /Bitget/);
   // Chinese fits the full slogan in the title; English does not and leads the description with it.
   assert.equal(HOME_SEARCH_COPY["zh-Hans"][0], "邀请码与手续费返佣｜全球交易所，一个官方入口 — NexuAlpha");
+  assert.equal(budgetTitle(HOME_SEARCH_COPY["zh-Hans"][0], titleBudgetForLocale("zh-Hans")), "邀请码与手续费返佣｜全球交易所，一个官方入口");
   assert.equal(homeTitleCarriesSlogan("en"), false);
 });
 

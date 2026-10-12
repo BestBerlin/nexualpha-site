@@ -27,8 +27,8 @@ export function reviewedCostDecisionRate(venue, market = 'futuresFee', order = '
   return { product, reviewedRate, rate };
 }
 
-export function restoreCostDecisionState(search = '') {
-  const state = readDecisionReturnState(search);
+export function restoreCostDecisionState(search = '', hash = '') {
+  const state = readDecisionReturnState(search, hash);
   if (!state || state.kind !== 'cost') return null;
   return {
     volume: String(state.volume),
@@ -64,7 +64,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   ), { instrument:market==='futuresFee'?'futures':'spot', order:order==='makerRate'?'maker':'taker', volume:amount, basis });
   useEffect(()=>{
     if(typeof window === 'undefined') return;
-    const restored=restoreCostDecisionState(window.location.search);
+    const restored=restoreCostDecisionState(window.location.search, window.location.hash);
     if(!restored) return;
     setVolume(restored.volume);
     setMarket(restored.market);

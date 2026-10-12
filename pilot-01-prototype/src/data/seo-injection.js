@@ -15,13 +15,14 @@ import { getBrazilPage } from "./brazil-market.js";
 const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
-import { budgetTitle, clampMetaDescription } from "./meta-description.js";
+import { articleMetaDescription, budgetTitle, clampMetaDescription, routeMetaDescription, titleBudgetForLocale } from "./meta-description.js";
 import { HOME_SEARCH_COPY } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
 import { newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
+import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -2043,7 +2044,10 @@ export function computeRouteSeo(options = {}) {
   const legalRoute = parsePublicRoute(legalUrl.pathname, legalUrl.searchParams);
   if (isLegalPagePath(legalRoute.contentPathname)) return legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
   const seo = computeRouteSeoUnbudgeted(options);
-  return seo && typeof seo.title === "string" ? { ...seo, title: budgetTitle(seo.title) } : seo;
+  if (!seo) return seo;
+  const title = typeof seo.title === "string" ? budgetTitle(seo.title, titleBudgetForLocale(seo.locale)) : seo.title;
+  const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
+  return { ...seo, title, description };
 }
 
 function computeRouteSeoUnbudgeted(options = {}) {
@@ -2370,7 +2374,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       .replace(/零手续费/g, "费率条件待官方核验")
       .replace(/0\.00%/g, "published base fee terms")
       .replace(/100x/gi, "high-volatility");
-    title = publicTopicTitle;
+    title = topic.slug === "no-kyc" ? noKycMetaTitle(locale) : publicTopicTitle;
     description = publicTopicDescription;
     const topicSchema = pageSchema(publicTopicTitle, canonical(pathname, locale), locale, "CollectionPage");
     topicSchema.dateModified = topic.slug === "derivatives" ? topic.lastUpdated : TOPIC_SOURCE_REVIEW_DATE;
@@ -2412,14 +2416,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     description = serpOverride?.description || (articleLocale === "en" && article.seo?.description
       ? article.seo.description
       : localized(article.summary, articleLocale));
-    const schemaDescription = description;
+    const schemaDescription = articleMetaDescription(article, articleLocale, description);
     if (!isPublishedLocale) {
       title = `${localizedNewsTitle(article, locale)} — NexuAlpha`;
       description = localizedNewsSummary(article, locale);
     }
-    // Meta/og/twitter descriptions use the same complete-sentence clamp as the Worker head (audit NX-09); the
-    // NewsArticle JSON-LD keeps the full summary.
-    description = clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
+    // Meta/og/twitter descriptions use the same article-specific source text as the Worker head.
+    description = isPublishedLocale
+      ? articleMetaDescription(article, articleLocale, description)
+      : clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
     robots = article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow";
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(articleLocale) : null;

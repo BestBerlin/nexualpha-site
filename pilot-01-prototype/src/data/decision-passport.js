@@ -1,4 +1,6 @@
 import { REGIONAL_FUNDING_VERIFICATION_MATRIX } from "./regional-funding-verification-matrix.js";
+import { FRAGMENT_CONTEXT_KEYS } from "./locale-routing.js";
+import { appendFragmentContext } from "./contextual-href.js";
 import { venueDatabase } from "./venue-database.js";
 
 const MARKET_RE = /^(?:unknown|global|OTHER|[A-Z]{2}|EU|UK)$/;
@@ -64,6 +66,18 @@ export function readDecisionPassport(search = "", overrides = {}) {
   };
 }
 
+export function decisionContextSearchFromUrl(input) {
+  const url = input instanceof URL ? new URL(input) : new URL(String(input || "/"), "https://nexualpha.com");
+  const params = new URLSearchParams(url.search);
+  const fragmentParams = new URLSearchParams(String(url.hash || "").split("?")[1] || "");
+  for (const key of new Set(Object.values(FRAGMENT_CONTEXT_KEYS))) {
+    const value = fragmentParams.get(key);
+    if (value && !params.has(key)) params.set(key, value);
+  }
+  const serialized = params.toString();
+  return serialized ? `?${serialized}` : "";
+}
+
 export function buildDecisionPassportQuery(input = {}) {
   const passport = readDecisionPassport("", input);
   const params = new URLSearchParams();
@@ -79,8 +93,7 @@ export function appendDecisionPassportQuery(href, input = {}) {
   if (!passport.size) return href;
   const [pathAndSearch, hash = ""] = String(href || "").split("#");
   const target = new URL(pathAndSearch, "https://nexualpha.com");
-  for (const [key, value] of passport) target.searchParams.set(key, value);
-  return `${target.pathname}${target.search}${hash ? `#${hash}` : ""}`;
+  return appendFragmentContext(`${target.pathname}${hash ? `#${hash}` : ""}`, Object.fromEntries(passport));
 }
 
 

@@ -1,12 +1,13 @@
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
-import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
-import { budgetTitle, clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
@@ -19,7 +20,8 @@ import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlinePath } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
-import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
+import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
@@ -46,12 +48,16 @@ export default {
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
+    if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
+    if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
+      return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
+    }
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
-    if (url.pathname === "/news-library-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleNewsLibrarySitemap(env, url);
-    if (url.pathname === "/locale-sitemap.xml" && request.method === "GET") return handleLocaleSitemap(env);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -3529,13 +3535,42 @@ function decodeHtmlAttribute(value) {
     .replace(/&gt;/gi, ">");
 }
 
+function fragmentContextParamsFromUrl(url) {
+  const params = new URLSearchParams(url?.search || "");
+  const hash = String(url?.hash || "");
+  const fragmentQuery = hash.includes("?") ? hash.split("?").slice(1).join("?") : "";
+  if (fragmentQuery) {
+    const fragmentParams = new URLSearchParams(fragmentQuery);
+    for (const key of Object.values(FRAGMENT_CONTEXT_KEYS)) {
+      if (!params.has(key) && fragmentParams.has(key)) params.set(key, fragmentParams.get(key));
+    }
+  }
+  return params;
+}
+
 function shouldProjectBrazilHref(url) {
   if (!url || url.origin !== "https://nexualpha.com") return false;
-  if (!url.searchParams.has("market") || !url.searchParams.has("product")) return false;
+  const context = fragmentContextParamsFromUrl(url);
+  if (!context.has("market") || !context.has("product")) return false;
   if (brazilPath(url.pathname)) return true;
   if (url.pathname === "/rates") return true;
   if (url.pathname === "/exchanges" || /^\/exchanges\/[a-z0-9-]+$/i.test(url.pathname)) return true;
   return false;
+}
+
+function projectBrazilHrefWithAttribution(target, attribution) {
+  const sourceContext = fragmentContextParamsFromUrl(target);
+  const context = {};
+  for (const [key, value] of sourceContext) {
+    if (["utm_source", "utm_medium", "utm_campaign", "locale"].includes(key)) continue;
+    context[key] = value;
+  }
+  if (attribution?.source) context.utm_source = attribution.source;
+  if (attribution?.medium) context.utm_medium = attribution.medium;
+  if (attribution?.campaign) context.utm_campaign = attribution.campaign;
+  if (sourceContext.has("locale")) context.locale = sourceContext.get("locale");
+  const fragmentTarget = String(target.hash || "").split("?")[0];
+  return appendFragmentContextParams(`${target.pathname}${fragmentTarget}`, context);
 }
 
 function projectBrazilAttributionHtml(appHtml, pathname, requestUrl) {
@@ -3552,13 +3587,12 @@ function projectBrazilAttributionHtml(appHtml, pathname, requestUrl) {
       return tag;
     }
     if (!shouldProjectBrazilHref(target)) return tag;
-    applySafeAttributionToSearchParams(target.searchParams, attribution);
-    const projectedHref = `${target.pathname}${target.search}${target.hash}`;
+    const projectedHref = projectBrazilHrefWithAttribution(target, attribution);
     if (projectedHref === decodedHref) return tag;
     projectedCount += 1;
     return tag.replace(new RegExp(`\\shref=${quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[\\s\\S]*?${quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i"), ` href="${escapeHtml(projectedHref)}"`);
   });
-  return projectedCount > 0 ? { html, attribution, projectedCount } : { html: appHtml, attribution: null, projectedCount: 0 };
+  return projectedCount > 0 ? { html, attribution, projectedCount } : { html: appHtml, attribution, projectedCount: 0 };
 }
 
 function isPrerenderAssetPath(asset) {
@@ -4612,6 +4646,48 @@ export function renderNewsLibrarySitemap(articles) {
 async function handleNewsLibrarySitemap(env, url) {
   const feed = await loadNewsFeed(env, url);
   return new Response(renderNewsLibrarySitemap(feed.articles), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
+}
+
+function articleSitemapLocaleFromPath(pathname) {
+  const match = String(pathname || "").match(/^\/sitemap-articles-([a-z0-9-]+)\.xml$/);
+  if (!match) return null;
+  if (match[1] === "zh-hans") return "zh-Hans";
+  if (match[1] === "zh-hant") return "zh-Hant";
+  if (match[1] === "pt-br") return "pt-BR";
+  if (match[1] === "id-id") return "id";
+  return match[1];
+}
+
+export function renderArticleSitemap(articles, locale = "en") {
+  const publishedSlugs = selectReviewedNewsSearchSlugs(articles);
+  const rows = [];
+  for (const article of Array.isArray(articles) ? articles : []) {
+    if (!publishedSlugs.has(article?.slug) || article?.seo?.noindex !== false) continue;
+    const locales = newsArticleSeoLocales(article);
+    if (!locales.includes(locale)) continue;
+    const pathname = `/news/${article.slug}`;
+    const lastmod = article.updatedAt || article.publishedAt;
+    rows.push([
+      "  <url>",
+      `    <loc>${xmlText(localizedCanonical(pathname, locale))}</loc>`,
+      ...sitemapAlternateLines(hreflangAlternates(locales, (entryLocale) => localizedCanonical(pathname, entryLocale))),
+      ...(lastmod && Number.isFinite(Date.parse(lastmod)) ? [`    <lastmod>${new Date(Date.parse(lastmod)).toISOString().slice(0, 10)}</lastmod>`] : []),
+      "  </url>",
+    ].join("\n"));
+  }
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...rows,
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
+async function handleArticleSitemap(env, url) {
+  const feed = await loadNewsFeed(env, url);
+  const locale = articleSitemapLocaleFromPath(url.pathname) || "en";
+  return new Response(renderArticleSitemap(feed.articles, locale), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
 }
 
 async function handleLiveNewsSitemap(env, url) {
@@ -6056,15 +6132,19 @@ function notFoundMetadata(pathname, locale) {
 // Served meta descriptions share the snippet budget with computeRouteSeo (src/data/meta-description.js).
 export { clampMetaDescription, metaDescriptionLimit };
 
+function applyServedMetadataBudget(metadata) {
+  if (metadata && typeof metadata.title === "string") metadata.title = budgetTitle(metadata.title, titleBudgetForLocale(metadata.locale));
+  if (metadata && typeof metadata.description === "string") {
+    metadata.description = routeMetaDescription(metadata.title, metadata.description, metadata.locale);
+  }
+  return metadata;
+}
+
 export async function routeMetadata(url, env) {
   const route = parsePublicRoute(url.pathname, url.searchParams);
-  if (isLegalPagePath(route.contentPathname)) return { ...legalPageSeo(route.contentPathname, route.locale), marker: STATIC_ROUTE_MARKER };
+  if (isLegalPagePath(route.contentPathname)) return applyServedMetadataBudget({ ...legalPageSeo(route.contentPathname, route.locale), marker: STATIC_ROUTE_MARKER });
   const metadata = await resolveRouteMetadata(url, env);
-  if (metadata && typeof metadata.description === "string") {
-    metadata.description = clampMetaDescription(metadata.description, metadata.locale);
-  }
-  if (metadata && typeof metadata.title === "string") metadata.title = budgetTitle(metadata.title);
-  return metadata;
+  return applyServedMetadataBudget(metadata);
 }
 
 async function resolveRouteMetadata(url, env) {
@@ -6939,7 +7019,8 @@ async function routeMetadataBase(url, env, newsFeed) {
       it: { "meme-coins": "Confronto delle piattaforme memecoin: MEXC, Gate.io e Raydium — NexuAlpha", derivatives: "Confronto delle piattaforme perpetual crypto: Binance, Bybit e Hyperliquid — NexuAlpha" },
     }[locale]?.[topic.slug];
     const localizedTopicSeo = localizedTopicSeoOverride(topic.slug, locale);
-    const title = sanitizePublicText((localizedTopicSeo?.title || localizedTopicTitles || (isZh ? topic.titleZh : topic.titleEn)).replace(/百倍/g, "高波动"));
+    const sourceTitle = sanitizePublicText((localizedTopicSeo?.title || localizedTopicTitles || (isZh ? topic.titleZh : topic.titleEn)).replace(/百倍/g, "高波动"));
+    const title = topic.slug === "no-kyc" ? noKycMetaTitle(locale) : sourceTitle;
     const description = sanitizePublicText((localizedTopicSeo?.description || (isZh ? topic.descZh : topic.descEn)))
       .replace(/20%\s*(fee\s*)?rebate/gi, "user benefits pending official verification")
       .replace(/零手续费/g, "费率条件待官方核验")
@@ -7128,9 +7209,12 @@ async function routeMetadataBase(url, env, newsFeed) {
     const searchTitle = serpOverride?.title || (contentLocale === "en" && article.seo?.title
       ? article.seo.title
       : title);
-    const description = serpOverride?.description || (contentLocale === "en"
+    const rawDescription = serpOverride?.description || (contentLocale === "en"
       ? (article.seo?.description || localizedArticleText(article.summary, contentLocale) || "Source-backed NexuAlpha research.")
       : (localizedArticleText(article.summary, contentLocale) || article.seo?.description || "NexuAlpha 源头核验研究。 "));
+    const description = isPublishedLocale
+      ? articleMetaDescription(article, contentLocale, rawDescription)
+      : localizedNewsSummary(article, locale);
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const articleRelatedLinks = Array.isArray(article.seo?.internalLinkTargets)
       ? [...new Set(article.seo.internalLinkTargets)]
@@ -7146,7 +7230,7 @@ async function routeMetadataBase(url, env, newsFeed) {
     return {
       status: 200,
       title: `${isPublishedLocale ? searchTitle : localizedNewsTitle(article, locale)} — NexuAlpha`,
-      description: isPublishedLocale ? description : localizedNewsSummary(article, locale),
+      description,
       canonical: articleCanonical,
       locale: contentLocale,
       displayLocale: UI_LOCALES.has(locale) ? locale : contentLocale,

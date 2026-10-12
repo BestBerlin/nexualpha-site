@@ -26,8 +26,8 @@ test('cost decision localizes the whole rendered tool and keeps decimal input pl
       assert.match(html[locale], /step="0\.01"/,locale);
       // Locale routes use canonical public prefixes such as zh-hans/pt-br/id-id, not raw locale codes.
       const localePrefix = locale === 'en' ? '' : `/${LOCALE_PREFIX_BY_CODE[locale]}`;
-      const binanceOfferHref = `${localePrefix}/exchanges/binance?product=spot&amp;scenario=cost&amp;instrument=spot&amp;order=taker&amp;volume=100000&amp;basis=base#registration-path`;
-      assert.ok(html[locale].includes(`href="${binanceOfferHref}"`), `${locale}: exact onsite calculator eligibility href`);
+      const binanceOfferHref = new RegExp(`href="${localePrefix}/exchanges/binance#registration-path\\?(?=[^\"]*product=spot)(?=[^\"]*scenario=cost)(?=[^\"]*instrument=spot)(?=[^\"]*order=taker)(?=[^\"]*volume=100000)(?=[^\"]*basis=base)[^\"]*"`);
+      assert.match(html[locale], binanceOfferHref, `${locale}: exact onsite calculator eligibility href`);
       assert.ok(html[locale].includes('href="https://www.binance.com?ref=11350287"'), `${locale}: exact Binance protected registration href`);
       assert.ok(html[locale].includes('href="https://www.bybit.com/register?affiliate_id=48553"'), `${locale}: exact Bybit protected registration href`);
       if (isPartnerPromotableIn('bitget', { locale })) {

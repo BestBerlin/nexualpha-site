@@ -5,7 +5,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { hreflangAlternates, newsArticleSeoLocales, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
-import { INDEXABLE_LOCALES, routeInventory, routeLastmod } from "./generate-prerender-manifest.mjs";
+import { INDEXABLE_LOCALES, buildSplitSitemaps, routeInventory, routeLastmod } from "./generate-prerender-manifest.mjs";
 import {
   SEARCH_PUBLICATION_VERSION,
   buildSearchPublicationReport,
@@ -326,36 +326,22 @@ export function buildNewsSeoFiles(feed, options = {}) {
   const publicationReport = buildSearchPublicationReport(publication);
   const indexableArticles = selectPublicationNewsArticles(articles, publication);
 
-  const generatedUrls = publication.urls.map(({ route, loc, locale }) => {
-    const article = articles.find((item) => route.pathname === `/news/${item.slug}`);
-    const pathname = route.pathname;
-    return {
-      loc,
-      // The route's own content date (audit 2026-10-11 #3); the feed date only for a route without any date.
-      lastmod: dateOnly(routeLastmod(route, article, locale, { newsArticles: articles }), generatedDate),
-      changefreq: pathname === "/news" ? "daily" : pathname.startsWith("/news/") ? "monthly" : "weekly",
-      priority: pathname === "/" ? "1.0" : pathname === "/news" ? "0.9" : pathname.startsWith("/news/") ? "0.8" : "0.7",
-      alternates: sitemapHreflangAlternates(pathname, { article, newsArticles: articles }),
-    };
-  });
   const newsSitemapUrls = newsSitemapEntries(indexableArticles, generatedAt, origin);
-
-  // Inventory routes that are not indexable (e.g. /embed/calculator since audit 2026-10-11 #13) are managed too, so an
-  // old entry for them is dropped instead of carried over.
-  const managedPaths = new Set([
-    ...publication.urls.map(({ route }) => route.pathname),
-    ...inventory.filter((route) => !route.index).map((route) => route.pathname),
-  ]);
-  const sitemapResult = mergeSitemap(options.existingSitemap, generatedUrls, origin, managedPaths);
+  const splitSitemaps = buildSplitSitemaps(inventory, articles, {
+    policy,
+    allLocales: options.allLocales || INDEXABLE_LOCALES,
+    newsSitemapLastmod: generatedAt,
+  });
   const llms = mergeLlms(options.existingLlms, indexableArticles, origin, publicationReport);
 
   return {
-    sitemap: sitemapResult.sitemap,
+    sitemap: splitSitemaps.index,
+    sitemapFiles: Object.fromEntries([...splitSitemaps.files.entries()].map(([file, data]) => [file, data.xml])),
     llms,
     newsSitemap: serializeNewsSitemap(newsSitemapUrls),
     newsSitemapUrls,
-    urls: sitemapResult.urls,
-    preservedUrlCount: sitemapResult.preservedUrlCount,
+    urls: publication.urls.map(({ loc }) => ({ loc })),
+    preservedUrlCount: 0,
     articles,
     publication: {
       version: SEARCH_PUBLICATION_VERSION,
@@ -381,6 +367,8 @@ export async function writeNewsSeoFiles(feedPath, sitemapPath, llmsPath, newsSit
     writeFile(sitemapPath, result.sitemap),
     writeFile(llmsPath, result.llms),
   ];
+  const sitemapDir = path.dirname(sitemapPath);
+  for (const [file, xml] of Object.entries(result.sitemapFiles || {})) writes.push(writeFile(path.join(sitemapDir, file), xml));
   if (newsSitemapPath) writes.push(writeFile(newsSitemapPath, result.newsSitemap));
   await Promise.all(writes);
   return result;

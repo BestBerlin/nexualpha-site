@@ -169,20 +169,37 @@ function hrefInventory(html) {
     .filter((href) => href !== "https://partner.bitget.cafe/bg/C6PRAF");
 }
 
+function hrefContextParams(url) {
+  const params = new URLSearchParams(url.search);
+  const hashQuery = url.hash.includes("?") ? url.hash.split("?").slice(1).join("?") : "";
+  if (hashQuery) {
+    const fragmentParams = new URLSearchParams(hashQuery);
+    for (const [key, value] of fragmentParams) {
+      if (!params.has(key)) params.set(key, value);
+    }
+  }
+  return params;
+}
+
 function assertProjectedAttribution(hrefs, attribution) {
+  let projected = 0;
   for (const href of hrefs) {
     if (href.startsWith("#")) continue;
     const url = new URL(href, "https://nexualpha.com");
     if (url.origin !== "https://nexualpha.com") continue;
-    if (!url.searchParams.has("market") || !url.searchParams.has("product")) continue;
+    const context = hrefContextParams(url);
+    if (!context.has("market") || !context.has("product")) continue;
+    projected += 1;
+    assert.equal(url.search, "", `${href} keeps state out of query`);
     for (const [param, expected] of [
       ["utm_source", attribution.source || null],
       ["utm_medium", attribution.medium || null],
       ["utm_campaign", attribution.campaign || null],
     ]) {
-      assert.equal(url.searchParams.get(param), expected, `${href} ${param}`);
+      assert.equal(context.get(param), expected, `${href} ${param}`);
     }
   }
+  assert.ok(projected > 0, "expected at least one internal BR decision href with projected attribution");
 }
 
 for (const pathname of ["/br", "/br/pix", "/br/custos", "/br/comparar"]) {
@@ -239,9 +256,10 @@ test("R74 preserves decision-state first-value and per-field attribution sanitiz
     if (href.startsWith("#")) continue;
     const url = new URL(href, "https://nexualpha.com");
     if (url.origin !== "https://nexualpha.com") continue;
-    assert.equal(url.searchParams.get("utm_source"), null, href);
-    assert.equal(url.searchParams.get("utm_medium"), null, href);
-    assert.equal(url.searchParams.get("utm_campaign"), null, href);
+    const context = hrefContextParams(url);
+    assert.equal(context.get("utm_source"), null, href);
+    assert.equal(context.get("utm_medium"), null, href);
+    assert.equal(context.get("utm_campaign"), null, href);
   }
 });
 
@@ -264,10 +282,12 @@ test("R74 isolates A/B/clean attribution with one shared prerender manifest", as
     if (href.startsWith("#")) continue;
     const url = new URL(href, "https://nexualpha.com");
     if (url.origin !== "https://nexualpha.com") continue;
-    if (!url.searchParams.has("market") && !url.searchParams.has("product")) continue;
-    assert.equal(url.searchParams.get("utm_source"), null, href);
-    assert.equal(url.searchParams.get("utm_medium"), null, href);
-    assert.equal(url.searchParams.get("utm_campaign"), null, href);
+    const context = hrefContextParams(url);
+    if (!context.has("market") && !context.has("product")) continue;
+    assert.equal(url.search, "", `${href} keeps state out of query`);
+    assert.equal(context.get("utm_source"), null, href);
+    assert.equal(context.get("utm_medium"), null, href);
+    assert.equal(context.get("utm_campaign"), null, href);
   }
 });
 

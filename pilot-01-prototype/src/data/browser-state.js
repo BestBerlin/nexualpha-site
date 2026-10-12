@@ -21,7 +21,8 @@ export function cleanSelection(value, venues) {
 export function scrollToHash(doc, hash) {
   if (!hash || hash === '#') return false;
   let id;
-  try { id = decodeURIComponent(hash.slice(1)); } catch { return false; }
+  try { id = decodeURIComponent(hash.slice(1).split("?")[0]); } catch { return false; }
+  if (!id) return false;
   const target = doc.getElementById(id);
   if (!target) return false;
   for (let ancestor = target; ancestor; ancestor = ancestor.parentElement) {

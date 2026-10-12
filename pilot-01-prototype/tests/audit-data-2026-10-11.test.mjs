@@ -138,7 +138,7 @@ test("NX-01 home calculator rows print the exact rate next to a reproducible yea
   assert.doesNotMatch(t, /0\.06%|0\.04%|0\.01% /);
   assert.match(t, /per year · base fees/);
   assert.match(t, /per year · after max rebate/);
-  assert.match(out.html, /href="\/rates\?[^"]*scenario=cost[^"]*volume=100000[^"]*basis=rebate[^"]*#cost-scenario"/);
+  assert.match(out.html, /href="\/rates#cost-scenario\?(?=[^"]*scenario=cost)(?=[^"]*volume=100000)(?=[^"]*basis=rebate)[^"]*"/);
   assert.match(text(out.fr), /0,02\s%\s\/\s0,055\s%/u);
 });
 
@@ -243,23 +243,24 @@ test("NX-03 same inputs give the same ranking on home (per year) and /rates (per
 
 test("NX-03 scenario params round-trip home → /rates → venue/compare", async () => {
   const homeHref = buildDecisionReturnHref({ kind: "cost", locale: "en", instrument: "futures", order: "taker", volume: 100000, basis: "rebate" });
-  assert.match(homeHref, /^\/rates\?/);
-  const search = homeHref.split("?")[1].split("#")[0];
+  assert.match(homeHref, /^\/rates#cost-scenario\?/);
+  const homeHash = `#${homeHref.split("#")[1]}`;
   const { restored } = await ssr(`
     import { restoreCostDecisionState } from "../../src/components/v3/CostDecision.jsx";
-    console.log(JSON.stringify({ restored: restoreCostDecisionState(${JSON.stringify("?" + search)}) }));
+    console.log(JSON.stringify({ restored: restoreCostDecisionState("", ${JSON.stringify(homeHash)}) }));
   `);
   assert.deepEqual(restored, { volume: "100000", market: "futuresFee", order: "takerRate", basis: "rebate" });
   const venueHref = appendCostScenarioQuery("/exchanges/okx?product=perpetuals#registration-path", { instrument: "futures", order: "taker", volume: 100000, basis: "rebate" });
-  assert.match(venueHref, /#registration-path$/);
-  const state = readDecisionReturnState(venueHref.split("?")[1].split("#")[0]);
+  assert.match(venueHref, /#registration-path\?/);
+  const venueHash = `#${venueHref.split("#")[1]}`;
+  const state = readDecisionReturnState("", venueHash);
   assert.equal(state.instrument, "futures");
   assert.equal(state.order, "taker");
   assert.equal(state.volume, 100000);
   assert.equal(state.basis, "rebate");
-  assert.equal(new URLSearchParams(venueHref.split("?")[1].split("#")[0]).get("product"), "perpetuals");
+  assert.equal(new URLSearchParams(venueHash.split("?")[1]).get("product"), "perpetuals");
   const compareHref = appendCostScenarioQuery("/compare/bybit-vs-bitget", { instrument: "spot", order: "maker", volume: 5000, basis: "base" });
-  const cmp = readDecisionReturnState(compareHref.split("?")[1]);
+  const cmp = readDecisionReturnState("", `#${compareHref.split("#")[1]}`);
   assert.deepEqual([cmp.kind, cmp.product, cmp.instrument, cmp.order, cmp.volume, cmp.basis], ["cost", "spot", "spot", "maker", 5000, "base"]);
   assert.equal(readDecisionReturnState("scenario=cost&instrument=spot&order=maker&volume=10&basis=evil").basis, undefined);
 });

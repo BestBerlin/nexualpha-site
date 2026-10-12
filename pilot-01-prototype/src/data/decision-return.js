@@ -1,6 +1,7 @@
 import { venueDatabase } from './venue-database.js';
 import { localizedHref, LOCALE_PREFIX_BY_CODE } from './locale-routing.js';
 import { sanitizeMarket, sanitizeProduct } from './growth-context.js';
+import { appendFragmentContext } from './contextual-href.js';
 
 const FEE_VENUES = new Set(['binance','okx','bybit','bitget','gate-io','kucoin','mexc']);
 const FEE_VOLUMES = new Set([5000,20000,50000,100000,300000,500000,1000000]);
@@ -23,6 +24,17 @@ function normalizeScenario(input) {
   return {...context,instrument:input.instrument,order:input.order,volume:Math.round(volume*100)/100,...(basis?{basis}:{})};
 }
 
+function hashParams(hash='') {
+  const fragment = String(hash || '').replace(/^#/, '');
+  const query = fragment.includes('?') ? fragment.slice(fragment.indexOf('?') + 1) : '';
+  return new URLSearchParams(query);
+}
+
+function stateParams(search='', hash='') {
+  const params = new URLSearchParams(search);
+  return params.has('scenario') ? params : hashParams(hash);
+}
+
 // Deliberately build fresh parameters: never reuse the current URL's identity,
 // campaign, referral or computed-result fields in a shareable scenario.
 export function buildDecisionReturnHref(input={}) {
@@ -32,17 +44,17 @@ export function buildDecisionReturnHref(input={}) {
     const slugs=input.slugs;
     if (!Array.isArray(slugs) || slugs.length<2 || slugs.length>3 || new Set(slugs).size!==slugs.length || !slugs.every(s=>Object.hasOwn(venueDatabase,s))) return null;
     const product=sanitizeProduct(input.product);
-    return localizedHref(`/compare/${slugs.join('-vs-')}`,{locale,...(market&&market!=='unknown'?{market}:{}),...(product&&product!=='unknown'?{product}:{})});
+    return appendFragmentContext(localizedHref(`/compare/${slugs.join('-vs-')}`,{locale}), {...(market&&market!=='unknown'?{market}:{}),...(product&&product!=='unknown'?{product}:{})});
   }
   const state=normalizeScenario(input);
   if (!state) return null;
   const {kind,...fields}=state;
   if(fields.market==='unknown') delete fields.market;
-  return localizedHref(kind==='fees'?'/embed/calculator':'/rates#cost-scenario',{locale,scenario:kind,...fields});
+  return appendFragmentContext(localizedHref(kind==='fees'?'/embed/calculator':'/rates#cost-scenario',{locale}),{scenario:kind,...fields});
 }
 
-export function readDecisionReturnState(search='') {
-  const params=new URLSearchParams(search);
+export function readDecisionReturnState(search='', hash='') {
+  const params=stateParams(search, hash);
   if(STATE_KEYS.some(key=>params.getAll(key).length>1)) return null;
   return normalizeScenario({kind:params.get('scenario'),venue:params.get('venue'),instrument:params.get('instrument'),volume:params.get('volume'),order:params.get('order'),market:params.get('market'),basis:params.get('basis')});
 }
@@ -54,12 +66,15 @@ export function appendCostScenarioQuery(href, input={}) {
   if (!state) return href;
   const [pathAndSearch, hash=''] = String(href || '').split('#');
   const target=new URL(pathAndSearch,'https://nexualpha.com');
-  target.searchParams.set('scenario','cost');
-  target.searchParams.set('instrument',state.instrument);
-  target.searchParams.set('order',state.order);
-  target.searchParams.set('volume',String(state.volume));
-  if (state.basis) target.searchParams.set('basis',state.basis);
-  return `${target.pathname}${target.search}${hash ? `#${hash}` : ''}`;
+  return appendFragmentContext(`${target.pathname}${hash ? `#${hash}` : ''}`, {
+    market: target.searchParams.get('market') || undefined,
+    product: target.searchParams.get('product') || undefined,
+    scenario: 'cost',
+    instrument: state.instrument,
+    order: state.order,
+    volume: String(state.volume),
+    ...(state.basis ? { basis: state.basis } : {}),
+  });
 }
 
 const COPY = {

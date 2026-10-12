@@ -77,11 +77,12 @@ const xmlEntries = (xml) => Object.fromEntries([...xml.matchAll(/<url>([\s\S]*?)
     lastmod: block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1] || null,
   },
 ]));
+const splitXmlEntries = (files) => Object.assign({}, ...Object.values(files.sitemapFiles || {}).map(xmlEntries));
 
 // ---------- #1 one hreflang source ----------
 test("#1 every sitemap entry that carries hreflang matches the page head; other routes carry none in sitemap.xml", async () => {
   const files = buildNewsSeoFiles({ generatedAt: "2026-10-11T08:00:00Z", articles: feedArticles });
-  const built = xmlEntries(files.sitemap);
+  const built = splitXmlEntries(files);
   const library = xmlEntries(renderNewsLibrarySitemap(articles));
   const live = xmlEntries(renderLiveNewsSitemap(articles, Date.parse("2026-09-27T00:00:00Z")));
   let compared = 0;
@@ -107,7 +108,7 @@ test("#1 every sitemap entry that carries hreflang matches the page head; other 
   }
 });
 
-test("#1 the build sitemap uses the same helpers, and carried-over entries lose stale hreflang sets", () => {
+test("#1 the build sitemap uses the same helpers, and stale flat sitemap blocks are not carried into split children", () => {
   const xml = buildSitemap(routeInventory(articles), articles);
   for (const [loc, entry] of Object.entries(xmlEntries(xml))) {
     const pathname = new URL(loc).pathname.replace(/^\/(?:zh-hans|zh-hant|es|pt-br|fr|de|it|ja|ko|ru|tr|id-id|vi|ar)(?=\/|$)/, "") || "/";
@@ -115,11 +116,12 @@ test("#1 the build sitemap uses the same helpers, and carried-over entries lose 
     assert.deepEqual(entry.alternates, altSet(sitemapHreflangAlternates(pathname, { article: art, newsArticles: articles })), loc);
   }
   const stale = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n  <url>\n    <loc>${ORIGIN}/compare/binance-vs-bybit</loc>\n    <xhtml:link rel="alternate" hreflang="en" href="${ORIGIN}/compare/binance-vs-bybit" />\n    <xhtml:link rel="alternate" hreflang="ja" href="${ORIGIN}/ja/compare/binance-vs-bybit" />\n    <lastmod>2026-10-11</lastmod>\n  </url>\n  <url>\n    <loc>${ORIGIN}/legacy-page</loc>\n    <xhtml:link rel="alternate" hreflang="en" href="${ORIGIN}/legacy-page" />\n    <lastmod>2026-09-01</lastmod>\n  </url>\n  <url>\n    <loc>${ORIGIN}/embed/calculator</loc>\n    <lastmod>2026-10-11</lastmod>\n  </url>\n</urlset>\n`;
-  const merged = xmlEntries(buildNewsSeoFiles({ generatedAt: "2026-10-11T08:00:00Z", articles: feedArticles }, { existingSitemap: stale }).sitemap);
-  assert.deepEqual(merged[`${ORIGIN}/compare/binance-vs-bybit`].alternates, []);
-  assert.deepEqual(merged[`${ORIGIN}/legacy-page`].alternates, [], "a carried-over block keeps its URL but drops its old hreflang set");
-  assert.equal(merged[`${ORIGIN}/legacy-page`].lastmod, "2026-09-01");
-  assert.equal(merged[`${ORIGIN}/embed/calculator`], undefined, "#13: the embed widget is no longer listed");
+  const result = buildNewsSeoFiles({ generatedAt: "2026-10-11T08:00:00Z", articles: feedArticles }, { existingSitemap: stale });
+  const split = splitXmlEntries(result);
+  assert.match(result.sitemap, /<sitemapindex/);
+  assert.deepEqual(split[`${ORIGIN}/compare/binance-vs-bybit`].alternates, []);
+  assert.equal(split[`${ORIGIN}/legacy-page`], undefined, "legacy URLs are not carried into the new split sitemap index");
+  assert.equal(split[`${ORIGIN}/embed/calculator`], undefined, "#13: the embed widget is not listed");
 });
 
 test("#1 hreflangAlternates is the page head shape: one link per edition plus x-default on the first", () => {
@@ -146,7 +148,7 @@ test("#2 NewsArticle JSON-LD carries the article's 1200x630 social card in the w
 // ---------- #3 lastmod ----------
 test("#3 sitemap lastmod is each route's own content date, not the publish/build date", () => {
   const files = buildNewsSeoFiles({ generatedAt: "2026-10-11T08:00:00Z", articles: feedArticles });
-  const entries = xmlEntries(files.sitemap);
+  const entries = splitXmlEntries(files);
   const inventory = routeInventory(articles);
   const route = (pathname) => inventory.find((item) => item.pathname === pathname);
   assert.equal(entries[`${ORIGIN}/exchanges/okx`].lastmod, routeLastmod(route("/exchanges/okx"), null).slice(0, 10));

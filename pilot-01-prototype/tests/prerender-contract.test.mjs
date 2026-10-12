@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
-import { budgetTitle } from "../src/data/meta-description.js";
+import { budgetTitle, titleBudgetForLocale } from "../src/data/meta-description.js";
 import worker from "../worker/index.js";
 import { routeInventory, PRERENDER_LOCALES } from "../scripts/generate-prerender-manifest.mjs";
 import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
@@ -136,10 +136,10 @@ test("worker injects readable comparison body with both independent partner CTAs
 test("worker SSR metadata mirrors the English GSC query-target overrides", async () => {
   const cases = [
     // Owner 2026-10-10: partner profiles lead with the real invite code (src/data/referral-seo.js).
-    ["/exchanges/hyperliquid", referralSeoFor("hyperliquid", "en").title],
+    ["/exchanges/hyperliquid", budgetTitle(referralSeoFor("hyperliquid", "en").title, titleBudgetForLocale("en"))],
     // Owner 2026-10-11: titles over ~60 display characters drop the brand suffix (meta-description.js budgetTitle).
-    ["/exchanges/uniswap", "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist"],
-    ["/compare/bybit-vs-bitget", budgetTitle(compareDirectAnswerFor("bybit-vs-bitget", "en").seoTitle)],
+    ["/exchanges/uniswap", budgetTitle("Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist", titleBudgetForLocale("en"))],
+    ["/compare/bybit-vs-bitget", budgetTitle(compareDirectAnswerFor("bybit-vs-bitget", "en").seoTitle, titleBudgetForLocale("en"))],
   ];
 
   for (const [pathname, title] of cases) {

@@ -264,7 +264,7 @@ test("Singapore regional worker metadata keeps answer-first checks and onsite CT
 
   assert.equal(response.status, 200);
   // Class b: 3c54a66 removes the brand suffix from long head titles.
-  assert.match(html, /<title translate="no" lang="en">Singapore crypto account checks: MAS DPT, SGD, PayNow and FAST<\/title>/);
+  assert.match(html, /<title translate="no" lang="en">Singapore crypto account checks: MAS DPT, SGD, PayNow and…<\/title>/);
   assert.deepEqual(webPage.relatedLink, [
     "https://nexualpha.com/exchanges?market=SG&product=spot",
     "https://nexualpha.com/rates?market=SG&product=spot",

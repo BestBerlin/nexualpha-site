@@ -24,9 +24,9 @@ import { VENUE_ALTERNATIVE_SLUGS } from "./data/venue-alternative-slugs.js";
 import { BRAZIL_DEADLINE_SLUGS } from "./data/brazil-vasp-deadline-slugs.js";
 import { getBrazilPage } from "./data/brazil-market.js";
 import { trackGrowthDecision } from "./data/cta-analytics.js";
-import { readDecisionPassport } from "./data/decision-passport.js";
+import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
-import { localizedHref, parsePublicRoute } from "./data/locale-routing.js";
+import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
@@ -230,7 +230,8 @@ const readLocale = (initialUrl) => {
     ? new URL(initialUrl, "https://nexualpha.com")
     : (typeof window !== "undefined" ? new URL(window.location.href) : null);
   if (!sourceUrl) return "en";
-  const requested = sourceUrl.searchParams.get("locale");
+  const contextParams = new URLSearchParams(decisionContextSearchFromUrl(sourceUrl));
+  const requested = sourceUrl.searchParams.get("locale") || contextParams.get("locale");
   const publicRoute = parsePublicRoute(sourceUrl.pathname, sourceUrl.searchParams);
   // Brazil decision routes are original pt-BR pages. Letting an arbitrary UI
   // locale override them creates a mixed-language page and can even apply RTL
@@ -240,7 +241,7 @@ const readLocale = (initialUrl) => {
   const normalized = normalizeRequestedLocale(requested);
   if (normalized) return normalized;
   if (publicRoute.localeSource === "default" && isGenericEnglishDefaultRoute(publicRoute.contentPathname)) return "en";
-  const policyLocale = resolveMarketLocale({ pathname: sourceUrl.pathname, locale: normalized || requested, market: sourceUrl.searchParams.get("market") });
+  const policyLocale = resolveMarketLocale({ pathname: sourceUrl.pathname, locale: normalized || requested, market: sourceUrl.searchParams.get("market") || contextParams.get("market") });
   if (supportedLocales.includes(policyLocale)) return policyLocale;
   if (typeof window === "undefined") return "en";
   try { return storedLocale(window.localStorage, localStorageKey, supportedLocales); }
@@ -608,7 +609,7 @@ function activateMobileMenu(dialog, trigger, header, onClose) {
   };
 }
 
-function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
+function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initialUrl }) {
   const [navigationUrl, setNavigationUrl] = useState(null);
   useEffect(() => {
     const update = () => setNavigationUrl(window.location.href);
@@ -659,7 +660,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     if (!mobileOpen) return;
     return activateMobileMenu(mobileMenuRef.current, mobileTriggerRef.current, headerRef.current, () => setMobileOpen(false));
   }, [mobileOpen]);
-  const localeOptions = useMemo(() => supportedLocales.map((code) => ({ code, label: localeManifest[code].language })).filter((option) => !brazil || option.code === "pt-BR"), [brazil]);
+  const localeOptions = useMemo(() => supportedLocales.map((code) => ({ code, label: localeManifest[code].language })).filter((option) => !brazil || option.code === "pt-BR").map((option) => ({ ...option, href: localizedLanguageHref(navigationUrl || initialUrl || "/", { locale: option.code }) })), [brazil, navigationUrl, initialUrl]);
   const navState = (href) => headerNavigationState(href, navigationUrl);
   const closeMobile = () => setMobileOpen(false);
   const languageMenu = <LanguageMenu locale={locale} options={localeOptions} label={copy.ui.language} disabled={brazil} onSelect={onLocaleChange} inline />;
@@ -714,7 +715,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       setLocale(nextLocale);
       return;
     }
-    window.location.assign(localizedHref(`${window.location.pathname}${window.location.search}${window.location.hash}`, { locale: nextLocale }));
+    window.location.assign(localizedHref(`${window.location.pathname}${window.location.search}${window.location.hash}`, { locale: nextLocale, preserveQuery: true }));
   }, []);
 
   useEffect(() => {
@@ -723,7 +724,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       window.localStorage.setItem(localStorageKey, locale);
       document.cookie = `${localStorageKey}=${encodeURIComponent(locale)}; path=/; max-age=34560000; samesite=lax`;
     } catch { /* Locale changes remain usable without browser persistence. */ }
-    const localizedUrl = localizedHref(`${window.location.pathname}${window.location.search}${window.location.hash}`, { locale });
+    const localizedUrl = localizedHref(`${window.location.pathname}${window.location.search}${window.location.hash}`, { locale, preserveQuery: true });
     if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== localizedUrl) window.history.replaceState(window.history.state, "", localizedUrl);
     document.documentElement.lang = intlLocale(locale);
     document.documentElement.dir = getTextDirection(locale);
@@ -781,11 +782,23 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale });
   }, [locale, route]);
 
+  const [liveDecisionContextSearch, setLiveDecisionContextSearch] = useState(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const update = () => setLiveDecisionContextSearch(decisionContextSearchFromUrl(window.location.href));
+    update();
+    window.addEventListener("hashchange", update);
+    window.addEventListener("popstate", update);
+    return () => {
+      window.removeEventListener("hashchange", update);
+      window.removeEventListener("popstate", update);
+    };
+  }, []);
   if (import.meta.env.DEV && typeof window !== "undefined" && window.location.pathname === "/dev/design-system") return <DesignSystem />;
   const selectedFromRoute = route.name === "compare" && route.slugs.length >= 2 ? route.slugs : compareSelection;
-  const sourceSearch = initialUrl
-    ? new URL(initialUrl, "https://nexualpha.com").search
-    : (typeof window !== "undefined" ? window.location.search : "");
+  const sourceSearch = liveDecisionContextSearch ?? (initialUrl
+    ? decisionContextSearchFromUrl(initialUrl)
+    : (typeof window !== "undefined" ? decisionContextSearchFromUrl(window.location.href) : ""));
   const decisionPassport = readDecisionPassport(sourceSearch, route);
   const routedVenue = route.name === "venue" ? command.venueCatalog.find((venue) => venue.slug === route.slug) : null;
   const searchDialog = searchOpen && <DeferredBoundary scope="search-dialog"><SearchDialog label={copy.common.openFinder} onClose={closeSearchDialog} returnFocusRef={searchReturnFocusRef}><h2>{copy.common.openFinder}</h2><CommandFinder copy={copy} command={command} autoFocus onClose={closeSearchDialog} /><button type="button" onClick={closeSearchDialog}>{copy.common.closeFinder}</button></SearchDialog></DeferredBoundary>;
@@ -797,15 +810,15 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   // sections keep derived copy in child state; reusing those nodes can leave
   // an English body below a translated header after a client-side switch.
   const toolKey = toolKeyOf(route);
-  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
+  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header initialUrl={initialUrl} copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
 
   const adjustSelection = () => document.querySelector("#exchanges")?.scrollIntoView({ behavior: typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   if (route.name === "embedCalculator") {
-    const embedUrl = new URL(initialUrl || (typeof window !== "undefined" ? window.location.href : "/embed/calculator"), "https://nexualpha.com");
+    const embedUrl = new URL(sourceSearch ? `/embed/calculator${sourceSearch}` : (initialUrl || (typeof window !== "undefined" ? window.location.href : "/embed/calculator")), "https://nexualpha.com");
     const isBrazilWidget = embedUrl.searchParams.get("scenario") !== "fees"
       && embedUrl.searchParams.get("market") === "BR"
       && (!embedUrl.searchParams.has("product") || embedUrl.searchParams.get("product") === "spot");
-    return <DeferredBoundary scope="embed-content">{isBrazilWidget ? <BrazilCostEmbed initialUrl={initialUrl} locale="pt-BR" /> : <EmbedCalculator locale={locale} market={embedUrl.searchParams.get("market")} product={embedUrl.searchParams.get("product")} />}</DeferredBoundary>;
+    return <DeferredBoundary scope="embed-content">{isBrazilWidget ? <BrazilCostEmbed initialUrl={embedUrl.href} locale="pt-BR" /> : <EmbedCalculator locale={locale} market={embedUrl.searchParams.get("market")} product={embedUrl.searchParams.get("product")} />}</DeferredBoundary>;
   }
   if (route.name === "brazil") return pageShell(<BrazilDecisionPage pathname={route.pathname} initialUrl={initialUrl} locale={locale} trackGrowthDecision={trackGrowthDecision} />);
   if (route.name === "regionalPreview") return pageShell(<RegionalMarketPreview market={route.market} locale={locale} decisionPassport={decisionPassport} />);
@@ -916,7 +929,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const homeCtx = { locale, venues: command.venueCatalog, decisionPassport };
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
-    <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <HomeV7 locale={locale} market={route.market} />
     <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}

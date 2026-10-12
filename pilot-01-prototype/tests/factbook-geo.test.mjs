@@ -10,6 +10,8 @@ import {
 import { buildFactbookSchemas } from "../src/data/seo-injection.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import sitesWorker from "../worker/index.js";
+import { buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
+import { loadSearchPublicationBaseline } from "../scripts/sitemap-publication-policy.mjs";
 
 const EXPECTED_VENUES = [
   "binance",
@@ -164,15 +166,16 @@ test("public llms files expose a comprehensive, source-bounded AI knowledge grap
   }
 });
 
-test("public/sitemap.xml includes all 24 English factbook URLs without forcing duplicate zh-Hans factbooks", async () => {
-  const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf-8");
+test("split sitemap children include all 24 English factbook URLs without query-locale duplicates", async () => {
+  const split = buildSplitSitemaps(routeInventory([]), [], { policy: loadSearchPublicationBaseline() });
+  const sitemap = split.files.get("sitemap-venues.xml")?.xml || "";
   for (const slug of EXPECTED_VENUES) {
     assert.ok(
       sitemap.includes(`<loc>https://nexualpha.com/factbook/${slug}</loc>`),
       `sitemap missing en URL for ${slug}`,
     );
     const zhUrl = `<loc>https://nexualpha.com/factbook/${slug}?locale=zh-Hans</loc>`;
-    assert.equal(sitemap.includes(zhUrl), false, `sitemap should not publish duplicate zh-Hans factbook for ${slug}`);
+    assert.equal(sitemap.includes(zhUrl), false, `sitemap should not publish query-locale duplicate for ${slug}`);
   }
 });
 

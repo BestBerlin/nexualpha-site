@@ -18,8 +18,9 @@ import { HYPERLIQUID_FEE_TIERS, VENUE_KEYWORD_SECTION_LOCALES, BACKPACK_STOCKS_L
 import { VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativeRows } from "../src/data/venue-alternatives.js";
 import { VENUE_ALTERNATIVE_SLUGS } from "../src/data/venue-alternative-slugs.js";
 import { feeDisplay } from "../src/data/exchange-facts.js";
-import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
-import { sitemapLocalesForRoute } from "../scripts/sitemap-publication-policy.mjs";
+import { budgetTitle, titleBudgetForLocale } from "../src/data/meta-description.js";
+import { buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
+import { loadSearchPublicationBaseline, sitemapLocalesForRoute } from "../scripts/sitemap-publication-policy.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const ALL_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
@@ -218,12 +219,14 @@ test("/topics/bybit-alternatives is indexable in English in both runtimes, in th
     assert.equal(client.robots, expected, `${route} client`);
     assert.equal(worker.robots, expected, `${route} worker`);
     assert.equal(worker.canonical, "https://nexualpha.com/topics/bybit-alternatives", route);
-    assert.equal(worker.title, client.title, route);
+    assert.equal(worker.title, budgetTitle(client.title, titleBudgetForLocale(locale)), route);
     assert.deepEqual(faqOf(worker.schema).mainEntity, faqOf(client.schemas).mainEntity, `${route}: FAQ drift`);
   }
   const route = routeInventory([]).find((r) => r.pathname === "/topics/bybit-alternatives");
   assert.ok(route?.index, "prerender inventory lists the page as indexable");
   assert.deepEqual(sitemapLocalesForRoute(route), ["en"]);
+  const split = buildSplitSitemaps(routeInventory([]), [], { policy: loadSearchPublicationBaseline() });
+  assert.match(split.files.get("sitemap-topics-tools.xml")?.xml || "", /<loc>https:\/\/nexualpha\.com\/topics\/bybit-alternatives<\/loc>/);
   for (const [slug, locales] of Object.entries({ okx: ["vi", "id", "pt-BR"], bitget: ["vi", "id"], bybit: ["vi", "id"], binance: ["vi", "pt-BR"], backpack: ["fr"] })) {
     const venue = routeInventory([]).find((r) => r.pathname === `/exchanges/${slug}`);
     for (const locale of locales) assert.ok(sitemapLocalesForRoute(venue).includes(locale), `${slug}/${locale} in sitemap`);
