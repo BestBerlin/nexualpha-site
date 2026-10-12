@@ -16,11 +16,12 @@ import path from "node:path";
 
 const SITE = "https://nexualpha.com/";
 const SITEMAPS = ["https://nexualpha.com/sitemap.xml", "https://nexualpha.com/news-sitemap.xml", "https://nexualpha.com/news-library-sitemap.xml", "https://nexualpha.com/locale-sitemap.xml"];
-// An empty news sitemap is reported by Google as an error ("missing <url>"); submit only sitemaps that list URLs.
+// An empty news sitemap is reported by Google as an error ("missing <url>"); submit only sitemaps that list URLs
+// or, since 2026-10-12, a sitemap index listing <sitemap> children.
 async function nonEmptySitemaps() {
   const keep = [];
   for (const url of SITEMAPS) {
-    try { const text = await (await fetch(url, { headers: { "cache-control": "no-cache" } })).text(); if (/<url>/.test(text)) keep.push(url); else console.log(`skip    ${url} (no <url> entries)`); }
+    try { const text = await (await fetch(url, { headers: { "cache-control": "no-cache" } })).text(); if (/<url>|<sitemap>/.test(text)) keep.push(url); else console.log(`skip    ${url} (no <url>/<sitemap> entries)`); }
     catch { keep.push(url); }
   }
   return keep;
