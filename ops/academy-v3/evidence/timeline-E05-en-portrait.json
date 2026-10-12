@@ -1,0 +1,79 @@
+{
+  "locale": "en",
+  "format": "portrait",
+  "duration": 135,
+  "captionTiming": "supplied words",
+  "destination": "https://nexualpha.com/starter/kyc-who-gets-your-id?src=academy-video",
+  "scenes": [
+    {
+      "id": "scene-0",
+      "kind": "shot",
+      "start": 0,
+      "duration": 6,
+      "hero": 3
+    },
+    {
+      "id": "scene-1",
+      "kind": "open",
+      "start": 6,
+      "duration": 3,
+      "hero": 7.8
+    },
+    {
+      "id": "scene-2",
+      "kind": "shot",
+      "start": 9,
+      "duration": 23,
+      "hero": 12
+    },
+    {
+      "id": "scene-3",
+      "kind": "shot",
+      "start": 32,
+      "duration": 28,
+      "hero": 35
+    },
+    {
+      "id": "scene-4",
+      "kind": "shot",
+      "start": 60,
+      "duration": 24,
+      "hero": 63
+    },
+    {
+      "id": "scene-5",
+      "kind": "shot",
+      "start": 84,
+      "duration": 19,
+      "hero": 87
+    },
+    {
+      "id": "scene-6",
+      "kind": "shot",
+      "start": 103,
+      "duration": 13,
+      "hero": 106
+    },
+    {
+      "id": "scene-7",
+      "kind": "conversion",
+      "start": 116,
+      "duration": 10,
+      "hero": 119
+    },
+    {
+      "id": "scene-8",
+      "kind": "hook",
+      "start": 126,
+      "duration": 5,
+      "hero": 129
+    },
+    {
+      "id": "scene-9",
+      "kind": "close",
+      "start": 131,
+      "duration": 4,
+      "hero": 133.4
+    }
+  ]
+}

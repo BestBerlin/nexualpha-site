@@ -1,0 +1,1445 @@
+{
+  "schema_version": 1,
+  "generated_by": "ops/academy-v3/narration-plan.mjs",
+  "generated_at": "1970-01-01T00:00:00.000Z",
+  "status": "planned-only",
+  "notes": [
+    "Timings are estimated from the v3 episode scene timecodes until real wav alignment writes back measured durations.",
+    "The runner sets HF/Transformers offline flags so cached local models are used; missing caches fail closed.",
+    "No narration is claimed delivered by this plan."
+  ],
+  "voice_profiles": {
+    "englishMasterClone": {
+      "id": "english-master-clone",
+      "mode": "clone",
+      "speakers": [
+        "narrator",
+        "nexubo"
+      ],
+      "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+      "lang_code": "en",
+      "ref_audio": "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+      "ref_text": "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+      "source": "/Volumes/致态2TB/nx-agents/codex/queue/academy-global/OWNER-NOTE.txt",
+      "command_template": [
+        "python",
+        "-m",
+        "mlx_audio.tts.generate",
+        "--model",
+        "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+        "--lang_code",
+        "en",
+        "--ref_audio",
+        "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+        "--ref_text",
+        "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+        "--text",
+        "<line>",
+        "--output_path",
+        "<dir>",
+        "--file_prefix",
+        "<name>"
+      ]
+    },
+    "samVoiceDesign": {
+      "id": "sam-voice-design",
+      "mode": "voice-design",
+      "seed": null,
+      "seed_note": "Installed mlx_audio.tts.generate CLI has no seed option; review voice consistency before final delivery.",
+      "speakers": [
+        "sam"
+      ],
+      "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+      "lang_code": "en",
+      "instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+      "source": "/Volumes/致态2TB/nx-agents/codex/queue/academy-v3-samples/BRIEF.md",
+      "command_template": [
+        "python",
+        "-m",
+        "mlx_audio.tts.generate",
+        "--model",
+        "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "--lang_code",
+        "en",
+        "--instruct",
+        "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+        "--text",
+        "<line>",
+        "--output_path",
+        "<dir>",
+        "--file_prefix",
+        "<name>"
+      ]
+    }
+  },
+  "episodes": [
+    {
+      "id": "E05",
+      "slug": "kyc-who-gets-your-id",
+      "title": {
+        "en": "How does KYC work, and who should get your ID?",
+        "zh-Hans": "KYC怎么做？证件应该交给谁？"
+      },
+      "duration_target_s": 130,
+      "scenes": [
+        {
+          "id": "e05-00-problem",
+          "kind": "problem",
+          "timecode": "00:00-00:06",
+          "start": 0,
+          "end": 6,
+          "duration": 6,
+          "antenna": "amber",
+          "visual_en": "Sam sees an ID upload page; at the same time a chat window pops up: 'I can pass KYC for you.'",
+          "onscreen_text_en": [
+            "Chat: \"I can pass KYC for you\""
+          ],
+          "lines": [
+            {
+              "id": "e05-00-problem-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "It wants my ID. And this guy says he can do it for me?",
+              "text_zh_Hans": "它要我的证件，旁边这个人说能帮我代办？",
+              "start": 0,
+              "end": 6,
+              "duration": 6,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "It wants my ID. And this guy says he can do it for me?",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-00-problem-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-00-problem-l01-sam_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-01-open",
+          "kind": "open",
+          "timecode": "00:06-00:09",
+          "start": 6,
+          "end": 9,
+          "duration": 3,
+          "antenna": "blue",
+          "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E05' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "S1 · E05",
+            "How does KYC work, and who should get your ID?"
+          ],
+          "lines": []
+        },
+        {
+          "id": "e05-02-lesson",
+          "kind": "lesson",
+          "timecode": "00:09-00:32",
+          "start": 9,
+          "end": 32,
+          "duration": 23,
+          "antenna": "red",
+          "visual_en": "Nexubo closes the private chat with a ding (antenna red, chip 'Never send ID in chat'); camera zooms to the official domain and the official verification entry, antenna turns blue.",
+          "onscreen_text_en": [
+            "Never send ID in chat",
+            "Official domain ✓"
+          ],
+          "lines": [
+            {
+              "id": "e05-02-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Identity checks are usually there to confirm you are the account owner and to meet the rules. Make sure it's the official flow first. Don't hand your ID or codes to an 'agent' in a chat group.",
+              "text_zh_Hans": "身份认证通常用来核实账户本人、满足合规要求。先确认是官方流程，不要把证件、验证码交给聊天群里的代办。",
+              "start": 9,
+              "end": 32,
+              "duration": 23,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Identity checks are usually there to confirm you are the account owner and to meet the rules. Make sure it's the official flow first. Don't hand your ID or codes to an 'agent' in a chat group.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-02-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-02-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-03-lesson",
+          "kind": "lesson",
+          "timecode": "00:32-01:00",
+          "start": 32,
+          "end": 60,
+          "duration": 28,
+          "antenna": "blue",
+          "visual_en": "Mock flow: real residence and name → valid ID → photo as instructed. Every ID shown is an obviously fictional sample marked SAMPLE.",
+          "onscreen_text_en": [
+            "1 Real details",
+            "2 Valid ID",
+            "3 Photo / face check",
+            "SAMPLE ID · fictional"
+          ],
+          "lines": [
+            {
+              "id": "e05-03-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Usually you enter your real details, upload a supported valid ID, then follow the prompts for a photo or face check. Whether you need proof of address, and which IDs are accepted, depends on your region and platform.",
+              "text_zh_Hans": "一般先填真实信息，再提交支持的有效证件，按提示完成照片或本人验证。是否需要地址证明、接受什么证件，都取决于地区和平台。",
+              "start": 32,
+              "end": 60,
+              "duration": 28,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Usually you enter your real details, upload a supported valid ID, then follow the prompts for a photo or face check. Whether you need proof of address, and which IDs are accepted, depends on your region and platform.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-03-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-03-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-04-lesson",
+          "kind": "lesson",
+          "timecode": "01:00-01:24",
+          "start": 60,
+          "end": 84,
+          "duration": 24,
+          "antenna": "amber",
+          "visual_en": "Three failed samples (glare, cropped, expired) each get a red X, then morph into a clear, complete, valid example with a green check.",
+          "onscreen_text_en": [
+            "Glare ✗",
+            "Cropped ✗",
+            "Expired ✗",
+            "Clear · complete · valid ✓"
+          ],
+          "lines": [
+            {
+              "id": "e05-04-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "If it fails, read the reason first. Is the ID expired? Is there glare? Does the name match? Fix it as instructed. Never try again with a fake identity.",
+              "text_zh_Hans": "失败时先看原因：证件是否过期、画面是否反光、姓名是否一致。按提示补正，不要换一个虚假的身份去尝试。",
+              "start": 60,
+              "end": 84,
+              "duration": 24,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "If it fails, read the reason first. Is the ID expired? Is there glare? Does the name match? Fix it as instructed. Never try again with a fake identity.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-04-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-04-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-05-lesson",
+          "kind": "lesson",
+          "timecode": "01:24-01:43",
+          "start": 84,
+          "end": 103,
+          "duration": 19,
+          "antenna": "blue",
+          "visual_en": "Status stays 'Under review'; an official help link sits beside it. No countdown, no 'approved in X minutes' promise.",
+          "onscreen_text_en": [
+            "Under review",
+            "Official help"
+          ],
+          "lines": [
+            {
+              "id": "e05-05-lesson-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "Once I'm done, can I trade right away?",
+              "text_zh_Hans": "做完是不是马上能交易？",
+              "start": 84,
+              "end": 87.58,
+              "duration": 3.58,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "Once I'm done, can I trade right away?",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-05-lesson-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-05-lesson-l01-sam_000.wav"
+            },
+            {
+              "id": "e05-05-lesson-l02-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Not guaranteed. The result, the products you can use and whether you can deposit all depend on the official notice. And this academy never collects your real ID.",
+              "text_zh_Hans": "不保证。审核结果、可用产品和入金资格都要看官方通知。这个学院也不收集你的真实证件。",
+              "start": 87.83,
+              "end": 103,
+              "duration": 15.17,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Not guaranteed. The result, the products you can use and whether you can deposit all depend on the official notice. And this academy never collects your real ID.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-05-lesson-l02-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-05-lesson-l02-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-06-lesson",
+          "kind": "lesson",
+          "timecode": "01:43-01:56",
+          "start": 103,
+          "end": 116,
+          "duration": 13,
+          "antenna": "green",
+          "visual_en": "Multiple choice: official verification page / private 'agent' / post your ID in the course chat. Only the first turns green.",
+          "onscreen_text_en": [
+            "Official verification page ✓",
+            "Private 'agent' ✗",
+            "Course chat ✗"
+          ],
+          "lines": [
+            {
+              "id": "e05-06-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Who gets your ID? Only the verified official flow. Not us, and not a stranger.",
+              "text_zh_Hans": "证件交给谁？只按核验后的官方流程提交，不交给我们，也不交给陌生人。",
+              "start": 103,
+              "end": 116,
+              "duration": 13,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Who gets your ID? Only the verified official flow. Not us, and not a stranger.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-06-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-06-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-07-conversion",
+          "kind": "conversion",
+          "timecode": "01:56-02:02",
+          "start": 116,
+          "end": 122,
+          "duration": 6,
+          "antenna": "green",
+          "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+          "onscreen_text_en": [
+            "OKX · official site via partner link",
+            "nexualpha.com/go/okx",
+            "Code nexu888",
+            "Partner link · the exchange pays our commission",
+            "Availability depends on your country or region"
+          ],
+          "lines": [
+            {
+              "id": "e05-07-conversion-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+              "text_zh_Hans": "准备好认证了？只在官网开始。我们的 OKX 合作链接直达官网，邀请码 nexu888 可享手续费返还。我们从不索取你的证件。",
+              "start": 116,
+              "end": 122,
+              "duration": 6,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-07-conversion-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-07-conversion-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-08-hook",
+          "kind": "hook",
+          "timecode": "02:02-02:06",
+          "start": 122,
+          "end": 126,
+          "duration": 4,
+          "antenna": "amber",
+          "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+          "onscreen_text_en": [
+            "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press."
+          ],
+          "lines": [
+            {
+              "id": "e05-08-hook-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+              "text_zh_Hans": "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。",
+              "start": 122,
+              "end": 126,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-08-hook-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-08-hook-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e05-09-close",
+          "kind": "close",
+          "timecode": "02:06-02:10",
+          "start": 126,
+          "end": 130,
+          "duration": 4,
+          "antenna": "green",
+          "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "Understand first, then act.",
+            "One verified gateway to the world's exchanges",
+            "nexualpha.com"
+          ],
+          "lines": [
+            {
+              "id": "e05-09-close-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Understand first, then act.",
+              "text_zh_Hans": "先看懂，再动手。",
+              "start": 126,
+              "end": 130,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Understand first, then act.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e05-09-close-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e05-09-close-l01-narrator_000.wav"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E09",
+      "slug": "pre-transfer-checklist",
+      "title": {
+        "en": "Before you transfer: don't guess any of these",
+        "zh-Hans": "转账之前，这几项一个也别猜"
+      },
+      "duration_target_s": 154,
+      "scenes": [
+        {
+          "id": "e09-00-problem",
+          "kind": "problem",
+          "timecode": "00:00-00:06",
+          "start": 0,
+          "end": 6,
+          "duration": 6,
+          "antenna": "red",
+          "visual_en": "Sam sees only the lower fee and goes to switch networks. Nexubo's antenna snaps red with a short 'ding'; a red chip pops up: 'Network must match'.",
+          "onscreen_text_en": [
+            "Network must match"
+          ],
+          "lines": [
+            {
+              "id": "e09-00-problem-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "This network is cheaper. Why not just switch?",
+              "text_zh_Hans": "这个网络更便宜，随便换它不就好了？",
+              "start": 0,
+              "end": 6,
+              "duration": 6,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "This network is cheaper. Why not just switch?",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-00-problem-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-00-problem-l01-sam_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-01-open",
+          "kind": "open",
+          "timecode": "00:06-00:09",
+          "start": 6,
+          "end": 9,
+          "duration": 3,
+          "antenna": "blue",
+          "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E09' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "S1 · E09",
+            "Before you transfer: don't guess any of these"
+          ],
+          "lines": []
+        },
+        {
+          "id": "e09-02-lesson",
+          "kind": "lesson",
+          "timecode": "00:09-00:39",
+          "start": 9,
+          "end": 39,
+          "duration": 30,
+          "antenna": "blue",
+          "visual_en": "A sender card and a receiver card; coin and network lines connect and must match on both ends.",
+          "onscreen_text_en": [
+            "Coin ↔ Coin",
+            "Network ↔ Network"
+          ],
+          "lines": [
+            {
+              "id": "e09-02-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "First confirm which asset and network the receiver supports. Then think about fees. If the two ends don't match, don't send just because it's cheaper. Even USDT can live on different networks.",
+              "text_zh_Hans": "先确认收款方支持哪种资产和网络，再选择费用。两端不匹配，不能因为便宜就发送。同叫泰达币，也可能在不同网络上。",
+              "start": 9,
+              "end": 39,
+              "duration": 30,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "First confirm which asset and network the receiver supports. Then think about fees. If the two ends don't match, don't send just because it's cheaper. Even USDT can live on different networks.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-02-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-02-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-03-lesson",
+          "kind": "lesson",
+          "timecode": "00:39-01:15",
+          "start": 39,
+          "end": 75,
+          "duration": 36,
+          "antenna": "blue",
+          "visual_en": "Mail analogy: network = route, address = destination. A big label says 'Analogy only'.",
+          "onscreen_text_en": [
+            "Network = route",
+            "Address = destination",
+            "Analogy only"
+          ],
+          "lines": [
+            {
+              "id": "e09-03-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "For now, think of the network as the route and the address as the destination. But two addresses can look alike and still not work on the same network. Always check that the receiving platform supports this chain and this asset.",
+              "text_zh_Hans": "你可以暂时把网络想成路线，把地址想成目的地，但地址看起来一样，也不代表网络兼容。必须查看接收平台对这条链和这项资产的支持。",
+              "start": 39,
+              "end": 75,
+              "duration": 36,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "For now, think of the network as the route and the address as the destination. But two addresses can look alike and still not work on the same network. Always check that the receiving platform supports this chain and this asset.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-03-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-03-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-04-lesson",
+          "kind": "lesson",
+          "timecode": "01:15-01:46",
+          "start": 75,
+          "end": 106,
+          "duration": 31,
+          "antenna": "amber",
+          "visual_en": "Full checklist lights up item by item: coin, network, full address, Memo/Tag if required, minimum deposit, estimated arrival.",
+          "onscreen_text_en": [
+            "Coin",
+            "Network",
+            "Full address",
+            "Memo / Tag (if required)",
+            "Minimum deposit",
+            "Estimated arrival"
+          ],
+          "lines": [
+            {
+              "id": "e09-04-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Copy the address from the receiving page, then check all of it. If a memo or tag is required, fill it in. Confirm the minimum deposit, the withdrawal fee and the amount that will arrive. Don't judge an address by its first and last few characters.",
+              "text_zh_Hans": "从收款页面复制地址，再核对完整内容。若要求备注或标签，也要填写。确认最低充值、提币费用和到账金额；不要只靠地址前后几个字符判断。",
+              "start": 75,
+              "end": 106,
+              "duration": 31,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Copy the address from the receiving page, then check all of it. If a memo or tag is required, fill it in. Confirm the minimum deposit, the withdrawal fee and the amount that will arrive. Don't judge an address by its first and last few characters.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-04-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-04-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-05-lesson",
+          "kind": "lesson",
+          "timecode": "01:46-02:10",
+          "start": 106,
+          "end": 130,
+          "duration": 24,
+          "antenna": "blue",
+          "visual_en": "A small test that meets the minimum arrives and is credited; then the details are re-checked before the next transfer. Self-custody path shows a note about the network fee asset.",
+          "onscreen_text_en": [
+            "Small test → credited ✓",
+            "Re-check before the next one"
+          ],
+          "lines": [
+            {
+              "id": "e09-05-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Send a small test that meets the minimum, and confirm it was actually credited. For a bigger transfer, check everything again. Don't blindly reuse old records. For self-custody transfers, have the network fee ready too.",
+              "text_zh_Hans": "先做一笔满足最低条件的小额测试，并确认接收方实际入账。后续大额仍要重新核对，不能盲目复用历史记录。自托管转账还要准备相应网络手续费。",
+              "start": 106,
+              "end": 130,
+              "duration": 24,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Send a small test that meets the minimum, and confirm it was actually credited. For a bigger transfer, check everything again. Don't blindly reuse old records. For self-custody transfers, have the network fee ready too.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-05-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-05-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-06-lesson",
+          "kind": "lesson",
+          "timecode": "02:10-02:26",
+          "start": 130,
+          "end": 146,
+          "duration": 16,
+          "antenna": "green",
+          "visual_en": "Question card: 'Same address, but the receiving platform doesn't support this network. Can you send?'",
+          "onscreen_text_en": [
+            "Network not supported → DON'T SEND"
+          ],
+          "lines": [
+            {
+              "id": "e09-06-lesson-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "No.",
+              "text_zh_Hans": "不能。",
+              "start": 130,
+              "end": 130.656,
+              "duration": 0.656,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "No.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-06-lesson-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-06-lesson-l01-sam_000.wav"
+            },
+            {
+              "id": "e09-06-lesson-l02-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "One more check before sending beats looking for help after a mistake.",
+              "text_zh_Hans": "转账前多核对一次，比转错后找人补救更重要。",
+              "start": 130.906,
+              "end": 146,
+              "duration": 15.094,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "One more check before sending beats looking for help after a mistake.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-06-lesson-l02-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-06-lesson-l02-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-07-hook",
+          "kind": "hook",
+          "timecode": "02:26-02:30",
+          "start": 146,
+          "end": 150,
+          "duration": 4,
+          "antenna": "amber",
+          "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+          "onscreen_text_en": [
+            "It says 'success', but nothing arrived. Don't send it again. Next: where to look."
+          ],
+          "lines": [
+            {
+              "id": "e09-07-hook-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
+              "text_zh_Hans": "显示成功却没到账？先别再转。下一集：该查哪里。",
+              "start": 146,
+              "end": 150,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-07-hook-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-07-hook-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e09-08-close",
+          "kind": "close",
+          "timecode": "02:30-02:34",
+          "start": 150,
+          "end": 154,
+          "duration": 4,
+          "antenna": "green",
+          "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "Understand first, then act.",
+            "One verified gateway to the world's exchanges",
+            "nexualpha.com"
+          ],
+          "lines": [
+            {
+              "id": "e09-08-close-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Understand first, then act.",
+              "text_zh_Hans": "先看懂，再动手。",
+              "start": 150,
+              "end": 154,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Understand first, then act.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e09-08-close-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e09-08-close-l01-narrator_000.wav"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E21",
+      "slug": "isolated-margin",
+      "title": {
+        "en": "Isolated margin: putting one trade in its own box",
+        "zh-Hans": "逐仓：把这笔交易装进独立小盒子"
+      },
+      "duration_target_s": 124,
+      "scenes": [
+        {
+          "id": "e21-00-problem",
+          "kind": "problem",
+          "timecode": "00:00-00:06",
+          "start": 0,
+          "end": 6,
+          "duration": 6,
+          "antenna": "amber",
+          "visual_en": "On the desk: a small box holding 100 and a remaining balance of 900. Sam tapes a divider between them.",
+          "onscreen_text_en": [
+            "Box 100",
+            "Balance 900"
+          ],
+          "lines": [
+            {
+              "id": "e21-00-problem-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "If I put 100 in isolated, the other 900 can never be touched?",
+              "text_zh_Hans": "放一百做逐仓，另外九百就永远碰不到了？",
+              "start": 0,
+              "end": 6,
+              "duration": 6,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "If I put 100 in isolated, the other 900 can never be touched?",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-00-problem-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-00-problem-l01-sam_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-01-open",
+          "kind": "open",
+          "timecode": "00:06-00:09",
+          "start": 6,
+          "end": 9,
+          "duration": 3,
+          "antenna": "blue",
+          "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E21' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "S2 · E21",
+            "Isolated margin: putting one trade in its own box"
+          ],
+          "lines": []
+        },
+        {
+          "id": "e21-02-lesson",
+          "kind": "lesson",
+          "timecode": "00:09-00:32",
+          "start": 9,
+          "end": 32,
+          "duration": 23,
+          "antenna": "blue",
+          "visual_en": "Nexubo keeps the divider but peels off the word 'forever'; the box is labelled with a specific position.",
+          "onscreen_text_en": [
+            "Isolated = own margin",
+            "\"forever\" ✗"
+          ],
+          "lines": [
+            {
+              "id": "e21-02-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Isolated margin means a position gets its own margin. In a simple setup, with no adding and no auto-add, this position's liquidation risk is mainly carried by the margin you assigned.",
+              "text_zh_Hans": "逐仓的核心，是给仓位单独分配保证金。在不追加、不启用自动追加等简化条件下，这个仓位的强平风险主要由分配的保证金承担。",
+              "start": 9,
+              "end": 32,
+              "duration": 23,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Isolated margin means a position gets its own margin. In a simple setup, with no adding and no auto-add, this position's liquidation risk is mainly carried by the margin you assigned.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-02-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-02-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-03-lesson",
+          "kind": "lesson",
+          "timecode": "00:32-01:00",
+          "start": 32,
+          "end": 60,
+          "duration": 28,
+          "antenna": "amber",
+          "visual_en": "A loss only lowers the box's equity; the other balance doesn't automatically become this position's margin.",
+          "onscreen_text_en": [
+            "100 can still be lost",
+            "Isolated ≠ stop-loss"
+          ],
+          "lines": [
+            {
+              "id": "e21-03-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.",
+              "text_zh_Hans": "所以它便于区分不同仓位的保证金范围。但这一百本身仍可能损失，逐仓不是让亏损消失，也不是止损订单。",
+              "start": 32,
+              "end": 60,
+              "duration": 28,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-03-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-03-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-04-lesson",
+          "kind": "lesson",
+          "timecode": "01:00-01:24",
+          "start": 60,
+          "end": 84,
+          "duration": 24,
+          "antenna": "red",
+          "visual_en": "An 'Auto-add margin' toggle switches on; a pipe carries extra balance into the box; the total money-at-risk number rises. Antenna red with a ding, red chip 'Auto-add moves more money in'.",
+          "onscreen_text_en": [
+            "Auto-add margin: ON",
+            "Money at risk ↑",
+            "Auto-add moves more money in"
+          ],
+          "lines": [
+            {
+              "id": "e21-04-lesson-l01-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "Watch this switch. Some platforms offer auto-add margin. Turn it on, and your available balance can keep flowing into the position. Adding margin by hand does the same. More money ends up carrying the risk.",
+              "text_zh_Hans": "注意这个开关：有的平台提供自动追加保证金。打开后，可用余额可能继续流入仓位。手动追加也一样，会让更多资金参与承担风险。",
+              "start": 60,
+              "end": 84,
+              "duration": 24,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Watch this switch. Some platforms offer auto-add margin. Turn it on, and your available balance can keep flowing into the position. Adding margin by hand does the same. More money ends up carrying the risk.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-04-lesson-l01-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-04-lesson-l01-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-05-lesson",
+          "kind": "lesson",
+          "timecode": "01:24-01:43",
+          "start": 84,
+          "end": 103,
+          "duration": 19,
+          "antenna": "amber",
+          "visual_en": "Sam checks four items: margin mode, auto-add switch, how fees are deducted, total amount committed. Not judging by button colour.",
+          "onscreen_text_en": [
+            "Mode",
+            "Auto-add",
+            "Fee deduction",
+            "Total committed"
+          ],
+          "lines": [
+            {
+              "id": "e21-05-lesson-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.",
+              "text_zh_Hans": "别只看“逐仓”两个字就假定最大损失永远等于最初那一百。具体还要核对追加设置、费用和产品规则。",
+              "start": 84,
+              "end": 103,
+              "duration": 19,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-05-lesson-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-05-lesson-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-06-lesson",
+          "kind": "lesson",
+          "timecode": "01:43-01:56",
+          "start": 103,
+          "end": 116,
+          "duration": 13,
+          "antenna": "green",
+          "visual_en": "Question card: 'Isolated with auto-add on. Can you still say you'll only ever use the first 100?'",
+          "onscreen_text_en": [
+            "Isolated + auto-add = only 100?  NO"
+          ],
+          "lines": [
+            {
+              "id": "e21-06-lesson-l01-sam",
+              "speaker": "sam",
+              "voice_profile": "sam-voice-design",
+              "text": "No.",
+              "text_zh_Hans": "不能。",
+              "start": 103,
+              "end": 103.44,
+              "duration": 0.44,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+                "--lang_code",
+                "en",
+                "--instruct",
+                "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+                "--text",
+                "No.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-06-lesson-l01-sam"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-06-lesson-l01-sam_000.wav"
+            },
+            {
+              "id": "e21-06-lesson-l02-nexubo",
+              "speaker": "nexubo",
+              "voice_profile": "english-master-clone",
+              "text": "With isolated margin, look at the walls, and also at any pipes plugged into the box.",
+              "text_zh_Hans": "逐仓看隔离范围，也要看有没有额外接进来的管道。",
+              "start": 103.69,
+              "end": 116,
+              "duration": 12.31,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "With isolated margin, look at the walls, and also at any pipes plugged into the box.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-06-lesson-l02-nexubo"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-06-lesson-l02-nexubo_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-07-hook",
+          "kind": "hook",
+          "timecode": "01:56-02:00",
+          "start": 116,
+          "end": 120,
+          "duration": 4,
+          "antenna": "amber",
+          "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+          "onscreen_text_en": [
+            "One position leaks, and another one starts sinking. Next: cross margin."
+          ],
+          "lines": [
+            {
+              "id": "e21-07-hook-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "One position leaks, and another one starts sinking. Next: cross margin.",
+              "text_zh_Hans": "一个仓位漏水，另一个也开始下沉。下一集：全仓。",
+              "start": 116,
+              "end": 120,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "One position leaks, and another one starts sinking. Next: cross margin.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-07-hook-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-07-hook-l01-narrator_000.wav"
+            }
+          ]
+        },
+        {
+          "id": "e21-08-close",
+          "kind": "close",
+          "timecode": "02:00-02:04",
+          "start": 120,
+          "end": 124,
+          "duration": 4,
+          "antenna": "green",
+          "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+          "onscreen_text_en": [
+            "Sam's First Crypto Lesson",
+            "Understand first, then act.",
+            "One verified gateway to the world's exchanges",
+            "nexualpha.com"
+          ],
+          "lines": [
+            {
+              "id": "e21-08-close-l01-narrator",
+              "speaker": "narrator",
+              "voice_profile": "english-master-clone",
+              "text": "Understand first, then act.",
+              "text_zh_Hans": "先看懂，再动手。",
+              "start": 120,
+              "end": 124,
+              "duration": 4,
+              "timing_source": "estimated-from-scene-timecode",
+              "command": [
+                "${PYTHON_BIN}",
+                "-m",
+                "mlx_audio.tts.generate",
+                "--model",
+                "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+                "--lang_code",
+                "en",
+                "--ref_audio",
+                "/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav",
+                "--ref_text",
+                "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.",
+                "--text",
+                "Understand first, then act.",
+                "--output_path",
+                "ops/academy-v3/build/narration/audio",
+                "--file_prefix",
+                "e21-08-close-l01-narrator"
+              ],
+              "output_path": "ops/academy-v3/build/narration/audio/e21-08-close-l01-narrator_000.wav"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "episodes": [
+      "E05",
+      "E09",
+      "E21"
+    ],
+    "scenes": 28,
+    "lines": 28,
+    "audio_dir": "ops/academy-v3/build/narration/audio",
+    "next_steps": [
+      "Run ops/academy-v3/narrate.sh on a Mac session with Metal access and the cached mlx_audio models.",
+      "Review generated wavs for voice consistency and pronunciation before muxing.",
+      "Replace estimated line timings with measured wav durations or forced alignment before final video mux.",
+      "Mux narration with the rendered compositions only after alignment and SFX cues are approved."
+    ]
+  }
+}

@@ -13,13 +13,44 @@ SCENES.forEach((s,i)=>{
     timeline.from(row,{x:18,opacity:0,duration:.3,immediateRender:false},at+.4+j*.25);
     timeline.to(row,{borderColor:colors.blue,duration:.3,repeat:1,yoyo:true},at+Math.min(s.duration-1,2+j*2.5));
   });
+  // Hosts gesture at the teaching layer, then react; beats continue in long shots.
+  // Wave scenes animate the raised hand only; stacking the beat gesture on the same rig drifts it.
+  const arm = s.pose==='wave' ? null : document.querySelector(p + ' .character .rig-arm-right');
+  for(let beat=at+.8;beat<at+s.duration-.8;beat+=3){
+    if(arm) timeline.to(arm,{rotation:-14,transformOrigin:'20% 80%',duration:.3,repeat:1,yoyo:true,ease:'power2.inOut'},beat);
+    timeline.to(p+' .cast',{y:-10,scaleY:1.02,duration:.25,repeat:1,yoyo:true},beat+.4);
+  }
+  document.querySelectorAll(p+' .widget-checklist .row').forEach((row,j)=>{
+    const chip=row.querySelector('.chip');
+    if(chip) timeline.from(chip,{scale:0,opacity:0,duration:.3,immediateRender:false},at+1+j*2.5);
+  });
+  document.querySelectorAll(p+' .sample-id').forEach((card,j)=>{
+    timeline.set(card.querySelector('.correction'),{visibility:'hidden'},at);
+    timeline.from(card.querySelector('.rejection'),{scale:1.4,opacity:0,duration:.3,immediateRender:false},at+.6+j*2.5);
+    timeline.set(card.querySelector('.rejection'),{visibility:'hidden'},at+3+j*2.5);
+    timeline.set(card.querySelector('.correction'),{visibility:'visible'},at+3+j*2.5);
+    // A child set to 'visible' overrides its hidden scene, so hide the stamp again when the scene ends.
+    timeline.set(card.querySelector('.correction'),{visibility:'hidden'},at+s.duration);
+    timeline.from(card.querySelector('.correction'),{scale:1.4,duration:.3,immediateRender:false},at+3+j*2.5);
+  });
+  const connector=document.querySelector(p+' .match-connector');
+  if(connector) timeline.from(connector,{scaleX:0,opacity:0,duration:.4,immediateRender:false},at+2);
+  const pipe=document.querySelector(p+' .pipe i');
+  const toggle=document.querySelector(p+' .auto-toggle[data-auto-add="true"]');
+  if(pipe && toggle){
+    const risk=document.querySelector(p+' [data-risk-initial]');
+    if(risk){timeline.set(risk,{textContent:risk.dataset.riskInitial},at);timeline.set(risk,{textContent:risk.dataset.riskInitial+' + …'},at+2);}
+    timeline.from(toggle,{backgroundColor:'#516074',duration:.3,immediateRender:false},at+1);
+    for(let beat=at+1.3;beat<at+s.duration-1;beat+=2.5)
+      timeline.fromTo(pipe,{x:0,opacity:0},{x:80,opacity:1,duration:1.2,immediateRender:false},beat);
+  }else if(pipe) timeline.set(pipe,{visibility:'hidden'},at);
   const lamp = document.querySelector(p + ' .nexubo .rig-antenna-light');
   const lampPaint = lamp ? [...lamp.children].filter(el=>el.getAttribute('fill')!=='#ffffff') : [];
   if(lampPaint.length) timeline.set(lampPaint,{fill:colors[s.antenna]},at);
   // Repeated blink and small antenna pulse add deterministic life at 2.5s beats.
   for(let beat=at+1.6;beat<at+s.duration-.5;beat+=2.5){
     const eyes = document.querySelectorAll(p + ' .rig-eyes');
-    if(eyes.length) timeline.to(eyes,{scaleY:.1,duration:.09,repeat:1,yoyo:true},beat);
+    if(eyes.length) timeline.to(eyes,{scaleY:.1,transformOrigin:'50% 50%',duration:.09,repeat:1,yoyo:true},beat);
     if(lamp) timeline.to(lamp,{opacity:.5,duration:.2,repeat:1,yoyo:true},beat+.2);
   }
   for(const line of s.lines){
@@ -28,11 +59,11 @@ SCENES.forEach((s,i)=>{
     const span=line.end-line.start, cycles=Math.max(1,Math.floor(span/.4));
     timeline.to(character,{y:-5,duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
     const mouth = character.querySelector('.rig-mouth');
-    if(mouth) timeline.to(mouth,{scaleY:1.55,duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
+    if(mouth) timeline.to(mouth,{scaleY:1.55,transformOrigin:'50% 30%',duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
   }
   if(s.pose==='wave'){
-    const arm=document.querySelector(p + ' .nexubo .rig-arm-right');
-    if(arm) timeline.to(arm,{rotation:16,transformOrigin:'20% 80%',duration:.3,repeat:7,yoyo:true},at+.5);
+    const hand=document.querySelector(p + ' .nexubo .rig-arm-left');
+    if(hand) timeline.to(hand,{rotation:-14,transformOrigin:'85% 90%',duration:.3,repeat:7,yoyo:true,ease:'sine.inOut'},at+.5);
   }
   if(s.ding){
     if(lampPaint.length) timeline.set(lampPaint,{fill:colors.red},at+.6);

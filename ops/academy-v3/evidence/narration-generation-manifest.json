@@ -1,0 +1,12 @@
+{
+  "status": "blocked-metal-unavailable",
+  "plan": "/Volumes/致态2TB/nx-wt-codex-academy-v3-samples/ops/academy-v3/build/narration/narration-plan.json",
+  "expected_line_count": 28,
+  "message": "mlx_audio is installed in the v2 virtualenv, but this session cannot access a Metal device. No wav files were generated.",
+  "next_steps": [
+    "Run ops/academy-v3/narrate.sh on a Mac session with Metal access and the cached mlx_audio models.",
+    "Review generated wavs for voice consistency and pronunciation before muxing.",
+    "Replace estimated line timings with measured wav durations or forced alignment before final video mux.",
+    "Mux narration with the rendered compositions only after alignment and SFX cues are approved."
+  ]
+}

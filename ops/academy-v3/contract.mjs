@@ -1,6 +1,6 @@
 // Episode times are seconds, local to each shot. No wall clock or randomness.
 export const locales = {
-  en: { series: 'Crypto 101 for Beginners', slogan: 'Understand first, then act.', demo: 'Teaching illustration · fictional data', warning: 'STOP · check first', next: 'NEXT LESSON', practice: 'Practice on NexuAlpha', ep: 'EP' },
+  en: { series: "Sam's First Crypto Lesson", slogan: 'Understand first, then act.', demo: 'Teaching illustration · fictional data', warning: 'STOP · check first', next: 'NEXT LESSON', practice: 'Practice on NexuAlpha', ep: 'EP' },
   'zh-Hans': { series: '《小白的加密第一课》', slogan: '先看懂，再动手。', demo: '教学示意 · 虚构数据', warning: '暂停 · 先核对', next: '下一课', practice: '在 NexuAlpha 练习', ep: '第' }
 };
 export const antennas = { blue: '#4f7cff', green: '#3ddc97', amber: '#f8bb6a', red: '#ff5c5c' };
@@ -14,6 +14,7 @@ export function validateEpisode(e, locale = 'en') {
   if (!localized(e.title, locale)?.trim()) fail(`Missing ${locale} title`);
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(e.slug)) fail('Invalid starter slug');
   if (!Array.isArray(e.shots) || !e.shots.length || e.shots[0].duration !== 6) fail('First problem shot must last 6 seconds');
+  if(e.production_id !== undefined && !/^E(?:0[1-9]|1[0-9]|2[0-4])$/.test(e.production_id)) fail('Invalid production_id');
   const ids = new Set();
   for (const s of e.shots) {
     if (!/^[a-z][a-z0-9-]*$/.test(s.id) || ids.has(s.id)) fail('Unique CSS-safe shot id required');
@@ -23,6 +24,8 @@ export function validateEpisode(e, locale = 'en') {
     if (!Object.hasOwn(antennas, s.antenna)) fail(`Unknown antenna: ${s.antenna}`);
     if (typeof s.visual_en !== 'string' || !s.visual_en.trim()) fail('visual_en storyboard description required');
     if (!localized(s[`onscreen_text_${locale}`] ?? s.onscreen_text, locale)?.trim()) fail(`Missing on-screen text: ${s.id}/${locale}`);
+    if(s.framing !== undefined && !['wide','close-up','detail'].includes(s.framing)) fail('Invalid framing');
+    if(s.focus !== undefined && !['sam','nexubo'].includes(s.focus)) fail('Invalid focus');
     let previous = 0;
     for (const l of s.lines ?? []) {
       if (!['nexubo', 'sam', 'narrator'].includes(l.speaker)) fail('Unknown line speaker');
@@ -49,6 +52,16 @@ export function validateEpisode(e, locale = 'en') {
     if (!finite(c.duration) || c.duration < 4 || c.duration > 10 || !localized(c.disclosure, locale)?.trim()) fail('Conversion requires 4..10s duration and same-card disclosure');
     for (const key of ['partner_name', 'code', 'rebate_line']) if (c[key] !== undefined && !localized(c[key], locale)?.trim()) fail(`Missing localized conversion ${key}`);
     if ((c.code || c.rebate_line) && !c.partner_name) fail('Commercial fields require supplied partner name');
+  }
+  for(const [label, lines, duration] of [
+    ['open',e.open_lines,3],['hook',hook.lines,hook.duration],
+    ['close',e.close_lines,close],['conversion',e.conversion_card?.lines,e.conversion_card?.duration]
+  ]) {
+    let previous=0;
+    for(const l of lines ?? []) {
+      if(!['sam','nexubo','narrator'].includes(l.speaker) || !localized(l.text,locale)?.trim() || !finite(l.start) || !finite(l.end) || l.start<previous || l.end<=l.start || l.end>duration) fail(`Invalid ${label} line timing/copy`);
+      previous=l.end;
+    }
   }
   return e;
 }
@@ -81,10 +94,10 @@ export function schedule(e) {
   const add = (kind, duration, data) => { scenes.push({ kind, start: cursor, duration, ...data }); cursor += duration; };
   e.shots.forEach((shot, i) => {
     add('shot', shot.duration, { shot });
-    if (i === 0) add('open', 3);
+    if (i === 0) add('open', 3, { lines: e.open_lines ?? [], visual_en: e.open_visual_en, antenna: 'blue' });
   });
-  if (e.conversion_card) add('conversion', e.conversion_card.duration);
-  add('hook', e.end_hook.duration);
-  add('close', e.close_duration ?? 4);
+  if (e.conversion_card) add('conversion', e.conversion_card.duration, { lines: e.conversion_card.lines ?? [], visual_en: e.conversion_card.visual_en, antenna: 'green' });
+  add('hook', e.end_hook.duration, { lines: e.end_hook.lines ?? [], visual_en: e.end_hook.visual_en, antenna: 'amber' });
+  add('close', e.close_duration ?? 4, { lines: e.close_lines ?? [], visual_en: e.close_visual_en, antenna: 'green' });
   return { scenes, duration: cursor };
 }
