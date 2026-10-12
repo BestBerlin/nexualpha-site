@@ -1,7 +1,7 @@
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
-import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
@@ -34,7 +34,8 @@ import { factbookDates } from "../src/data/factbook-dates.js";
 import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
 import { articleEmbedHtml, articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../src/data/article-embeds.js";
 import { repairNewsArticle } from "../src/data/news-content-repair.js";
-import { TOOL_CLUSTER_IDS, articleClusterLineLabel, articleClusterLinks, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
+import { applyNewsSearchState, newsCanonicalTargetSlug, newsStrengthRank } from "../src/data/news-search-state.js";
+import { NEWS_HUB_TOOL_KEY, articleClusterLineLabel, articleClusterLinks, isRelatedArticlesToolKey, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { ACADEMY_INDEX_LOCALES, ACADEMY_PATH, parseAcademyPath } from "../src/data/academy.js";
 import { appDownloadRouteSeo } from "../src/data/app-downloads.js";
 import { parseAppDownloadPath } from "../src/data/app-download-path.js";
@@ -4134,10 +4135,14 @@ async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRo
       category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages,
       libraryTotal: metadata.newsArticles.length, counts: newsCategoryCounts(metadata.newsArticles),
     };
-    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing });
+    // T10: the hub (page 1, all categories) links the strongest articles by Google impressions.
+    const toolArticles = toolKeyForPath(pathname) === NEWS_HUB_TOOL_KEY && metadata.newsFeedFingerprint
+      ? cachedToolArticleLinks({ articles: metadata.newsArticles, fingerprint: metadata.newsFeedFingerprint }, NEWS_HUB_TOOL_KEY, UI_LOCALES.has(locale) ? locale : "en") || undefined
+      : undefined;
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
       metadata.newsSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles, newsListing }, url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles, newsListing, ...(toolArticles ? { toolArticles } : {}) }, url);
     }
     console.error(`[NexuAlpha] news listing SSR returned no listing body for ${pathname} (${locale}); serving the fallback template`);
   } catch (error) {
@@ -4571,7 +4576,9 @@ function sanitizeRawNewsFeedArticle(article) {
   const { routeProjection: _discardRawRouteProjection, ...rest } = article;
   // Content sweep guard (scorecard C4): a feed that has not been repaired yet never shows a truncated summary,
   // Markdown markers in plain text or a link to a local filesystem path (scripts/repair-news-feed-content.mjs).
-  return repairNewsArticle(rest).article;
+  // T10 (2026-10-12): thin template pages and weaker duplicates get their search state here, the one choke point every
+  // news route, sitemap and API response reads the live feed through (src/data/news-search-state.js).
+  return applyNewsSearchState(repairNewsArticle(rest).article);
 }
 
 // The production feed is a mounted, auto-updated file (~23 MB). Parsing, sanitizing and hashing it on every news request
@@ -4660,7 +4667,7 @@ function cachedToolArticleLinks(feed, toolKey, locale) {
   const key = `${feed.fingerprint}|${toolKey}|${locale}`;
   if (!toolArticlesCache.has(key)) {
     if (toolArticlesCache.size > 2000) toolArticlesCache.clear();
-    toolArticlesCache.set(key, toolArticleLinks(toolKey, feed.articles, locale));
+    toolArticlesCache.set(key, toolArticleLinks(toolKey, feed.articles, locale, { rank: newsStrengthRank }));
   }
   return toolArticlesCache.get(key);
 }
@@ -4676,8 +4683,7 @@ async function toolArticlesForRequest(env, url, pathname, locale) {
 async function handleToolArticlesJson(env, url) {
   const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff" };
   const tool = String(url.searchParams.get("tool") || "");
-  const toolPath = tool.startsWith("compare:") ? `/compare/${tool.slice(8)}` : TOOL_CLUSTER_IDS.includes(tool) ? `/${tool}` : "";
-  const toolKey = toolKeyForPath(toolPath);
+  const toolKey = isRelatedArticlesToolKey(tool) ? tool : null;
   const requestedLocale = url.searchParams.get("locale") || "en";
   const locale = UI_LOCALES.has(requestedLocale) ? requestedLocale : "en";
   if (!toolKey) return new Response(JSON.stringify({ version: 1, status: "invalid", items: [] }), { status: 400, headers: { ...headers, "cache-control": "no-store" } });
@@ -5001,7 +5007,12 @@ async function loadPrerenderedNewsSnapshot(env, requestUrl) {
     const payload = await loadPrerenderAssetPayload(route, requestUrl, env);
     articles = payload?.newsArticles;
   }
-  return Array.isArray(articles) ? { articles, fingerprint, searchPublished: route.searchPublished !== false } : null;
+  if (!Array.isArray(articles)) return null;
+  const stated = articles.map(applyNewsSearchState);
+  // A build-time snapshot marked search-published loses that status when the article is now thin or canonicalized.
+  const slug = requestUrl.pathname.match(/\/news\/([a-z0-9-]+)$/)?.[1];
+  const current = slug ? stated.find((item) => item?.slug === slug) : null;
+  return { articles: stated, fingerprint, searchPublished: route.searchPublished !== false && !(current && current.searchState) };
 }
 
 
@@ -6327,6 +6338,8 @@ export function applySocialImage(metadata, pathname, locale = "en") {
 
 function applySearchPublicationEligibility(metadata, pathname, locale, options = {}) {
   if (!metadata || metadata.status !== 200) return metadata;
+  // T10 canonicalized duplicate: index,follow + cross-article canonical, outside the search-published set by design.
+  if (metadata.newsCanonicalTarget) { metadata.alternates = []; return metadata; }
   // Flash items: indexable editions are the item's localized ones within 30 days (src/data/flash-feed.js).
   if (Array.isArray(metadata.flashIndexLocales)) {
     if (metadata.robots === "index,follow" && !metadata.flashIndexLocales.includes(locale)) metadata.robots = "noindex,follow";
@@ -7504,7 +7517,16 @@ async function routeMetadataBase(url, env, newsFeed) {
     }
     if (isTokenizedTreasuryArticle && !articleRelatedLinks.includes("/research/wave48-tokenized-treasury-rights-ops.json")) articleRelatedLinks.push("/research/wave48-tokenized-treasury-rights-ops.json");
     const ownerPath = isTokenizedTreasuryArticle ? TOKENIZED_TREASURY_OWNER_PATH : null;
-    const articleCanonical = localizedCanonical(canonicalPath, contentLocale);
+    // T10: a weaker duplicate points its canonical at the stronger article (same language edition when it exists),
+    // stays index,follow so Google can consolidate, and carries no hreflang set of its own.
+    // An edition the stronger article does not have (no cross-language canonical) stays noindex,follow instead.
+    const canonicalTargetSlug = newsCanonicalTargetSlug(article);
+    const targetArticle = canonicalTargetSlug ? newsFeed?.articles.find((item) => item?.slug === canonicalTargetSlug) : null;
+    const canonicalTarget = isPublishedLocale && targetArticle && newsContentLocale(contentLocale, targetArticle) === contentLocale ? targetArticle : null;
+    const articleCanonical = canonicalTarget
+      ? localizedCanonical(`/news/${canonicalTarget.slug}`, contentLocale)
+      : localizedCanonical(canonicalPath, contentLocale);
+    const humanReview = newsHumanReview(article);
     return {
       status: 200,
       title: `${isPublishedLocale ? searchTitle : localizedNewsTitle(article, locale)} — NexuAlpha`,
@@ -7512,10 +7534,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       canonical: articleCanonical,
       locale: contentLocale,
       displayLocale: UI_LOCALES.has(locale) ? locale : contentLocale,
-      robots: article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow",
+      robots: canonicalTarget || (article.seo?.noindex === false && isPublishedLocale) ? "index,follow" : "noindex,follow",
+      ...(canonicalTarget ? { newsCanonicalTarget: canonicalTarget.slug } : {}),
       marker: ARTICLE_ROUTE_MARKER,
       ogType: "article",
-      alternates: article.seo?.noindex === false && isPublishedLocale ? routeAlternates(canonicalPath, articleLocales) : [],
+      alternates: !canonicalTarget && article.seo?.noindex === false && isPublishedLocale ? routeAlternates(canonicalPath, articleLocales) : [],
       schema: [{
         "@context": "https://schema.org",
         "@type": "NewsArticle",
@@ -7529,7 +7552,8 @@ async function routeMetadataBase(url, env, newsFeed) {
         inLanguage: contentLocale,
         author: newsArticleAuthor(article),
         publisher: NEXUALPHA_PUBLISHER,
-        reviewedBy: RESEARCH_DESK,
+        // No reviewer is claimed unless a human review record exists (AUDIT 2026-10-12: "never claim human review").
+        ...(humanReview ? { reviewedBy: { "@type": "Person", name: humanReview.by } } : {}),
         isAccessibleForFree: true,
         hasPart: [...citationAssetSchemas(), ...(isTokenizedTreasuryArticle ? [wave48TokenizedTreasuryRightsOpsDatasetSchema()] : [])],
         citation: Array.isArray(article.sources) ? article.sources.map((source) => source?.url).filter(Boolean) : [],

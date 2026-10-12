@@ -19,11 +19,13 @@ import {
   sitemapUrl,
 } from "../scripts/sitemap-publication-policy.mjs";
 import { newsArticleAvailableLocales, normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 
 const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
 const brazilMetadataText = await readFile(new URL("../public/content/brazil-metadata.json", import.meta.url), "utf8");
-const articles = normalizeNewsFeed(JSON.parse(feedText));
+// Same T10 search state the build scripts and the Worker apply (src/data/news-search-state.js).
+const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(JSON.parse(feedText)));
 const inventory = routeInventory(articles);
 const policy = loadSearchPublicationBaseline();
 const publication = selectSitemapPublicationEntries(inventory, articles, {
@@ -90,8 +92,9 @@ test("sitemap publication gate stays inside reviewed locale and URL budgets", ()
   assert.equal(publication.stats.publicationMode, "full-reviewed-indexable");
   assert.ok(publication.stats.totalUrls > policy.maxSitemapUrls, "full-reviewed indexable mode is no longer capped by the old cautious max");
   assert.equal(publication.stats.queryLocaleUrls, 0);
-  assert.equal(publication.stats.routesByTemplate.article, 312);
-  assert.equal(publication.stats.urlsByTemplate.article, 624);
+  // T10 (2026-10-12): 312 -> 224 article routes after the thin template pages and weaker duplicates left search.
+  assert.equal(publication.stats.routesByTemplate.article, 224);
+  assert.equal(publication.stats.urlsByTemplate.article, 448);
   assert.equal(publication.stats.routesByTemplate.comparison, 48);
   assert.equal(publication.stats.urlsByTemplate.comparison, 234);
   assert.equal(publication.stats.urlsByTemplate.venue, 258);

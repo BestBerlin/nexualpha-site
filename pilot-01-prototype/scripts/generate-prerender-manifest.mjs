@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { applyNewsSearchStateToFeed, newsStrengthRank } from "../src/data/news-search-state.js";
 import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_EFFECTIVE_DATE } from "../src/data/legal-pages.js";
 import { buildPartnerGeoRestrictionsFeed } from "../src/data/partner-geo-restrictions.js";
 import { createHash } from "node:crypto";
@@ -425,7 +426,8 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
     ({ render } = await import(pathToFileURL(ssrEntry).href));
   }
   const feedText = readFileSync(path.join(projectRoot, "public", "content", "news-feed.json"), "utf8");
-  const rawFeed = JSON.parse(feedText);
+  // T10: same search state as the Worker applies to the live feed (src/data/news-search-state.js).
+  const rawFeed = applyNewsSearchStateToFeed(JSON.parse(feedText));
   const newsArticles = normalizeNewsFeed(rawFeed);
   const newsArticleSummaries = normalizeNewsFeedSummaries(rawFeed);
   const newsFeedFingerprint = createHash("sha256").update(feedText).digest("hex");
@@ -448,7 +450,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // Tool pages (/rates, curated compare pairs, /activities without a live feed) list their related articles from the
       // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
       const toolKey = toolKeyForPath(pathname);
-      const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale) || undefined : undefined;
+      const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale, { rank: newsStrengthRank }) || undefined : undefined;
       const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;

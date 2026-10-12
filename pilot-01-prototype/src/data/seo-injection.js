@@ -20,7 +20,7 @@ import { HOME_SEARCH_COPY } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
-import { newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
+import { newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
@@ -2073,6 +2073,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   let description = isZh ? "请求的页面不存在或未发布。" : "The requested page does not exist or is not published.";
   let status = 404;
   let robots = "noindex,nofollow";
+  let newsCanonicalOverride = null; // T10: canonical URL of the stronger article for a canonicalized duplicate
   let schemas = [];
   let ogType = "website";
   const accept = () => { status = 200; robots = "index,follow"; };
@@ -2446,6 +2447,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
       ? articleMetaDescription(article, articleLocale, description)
       : clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
     robots = article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow";
+    // T10 (same rule as the Worker): a canonicalized duplicate is index,follow with its canonical on the stronger
+    // article's edition in the same language; an edition the stronger article lacks stays noindex,follow.
+    if (article.canonicalSlug && isPublishedLocale) {
+      const target = Array.isArray(options.newsArticles) ? options.newsArticles.find((item) => item?.slug === article.canonicalSlug) : null;
+      if (!target || newsArticleAvailableLocales(target).includes(articleLocale)) {
+        newsCanonicalOverride = canonical(`/news/${article.canonicalSlug}`, articleLocale);
+        robots = "index,follow";
+      }
+    }
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(articleLocale) : null;
     const articleFaq = [
@@ -2462,8 +2472,12 @@ function computeRouteSeoUnbudgeted(options = {}) {
     }
     if (isTokenizedTreasuryArticle && !articleRelatedLinks.includes("/research/wave48-tokenized-treasury-rights-ops.json")) articleRelatedLinks.push("/research/wave48-tokenized-treasury-rights-ops.json");
     const articleAttribution = researchAttribution(Array.isArray(article.sources) ? article.sources.map((source) => source?.url).filter(Boolean) : []);
+    // Same as the Worker: no reviewer is claimed on an article unless a human review record exists.
+    delete articleAttribution.reviewedBy;
+    const humanReview = newsHumanReview(article);
+    if (humanReview) articleAttribution.reviewedBy = { "@type": "Person", name: humanReview.by };
     if (isTokenizedTreasuryArticle) articleAttribution.hasPart = [...articleAttribution.hasPart, wave48TokenizedTreasuryRightsOpsDatasetSchema()];
-    const articleCanonical = canonical(pathname, articleLocale);
+    const articleCanonical = newsCanonicalOverride || canonical(pathname, articleLocale);
     const owner = priorityOwnerForPath(pathname);
     schemas = [
       { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical }, image: [socialImageObject(pathname, rawLocale, PUBLIC_ORIGIN)].filter(Boolean), datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale)) } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
@@ -2496,7 +2510,9 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const mxDecisionPath = Boolean(MX_DECISION_SEO[pathname]);
   const mxDecisionIndexable = mxDecisionPath && locale === "es";
   const brazilDeadlineRoute = Boolean(topicMatch && isBrazilDeadlineSlug(topicMatch[1]));
-  const canonicalUrl = brazilDeadlineRoute
+  const canonicalUrl = newsCanonicalOverride
+    ? newsCanonicalOverride
+    : brazilDeadlineRoute
     ? canonical(brazilDeadlinePathFor(locale), brazilDeadlineContentLocale(locale))
     : mxDecisionPath
     ? `${PUBLIC_ORIGIN}${pathname}`
@@ -2504,10 +2520,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
     ? (regionalPreviewIsIndexable(route.market, locale) ? regionalPreviewCanonical : `${PUBLIC_ORIGIN}${pathname}`)
     : canonical(pathname, canonicalLocale);
   const publishedSearchLocales = searchPublicationLocales(pathname, { article: options.article, newsArticles: options.newsArticles });
-  if (status === 200 && robots === "index,follow" && !publishedSearchLocales.includes(locale)) {
+  if (status === 200 && robots === "index,follow" && !newsCanonicalOverride && !publishedSearchLocales.includes(locale)) {
     robots = "noindex,follow";
   }
-  const alternateLocales = robots !== "index,follow"
+  const alternateLocales = robots !== "index,follow" || newsCanonicalOverride
     ? []
     : brazilDeadlineRoute
     ? brazilDeadlineAlternates(canonical)
