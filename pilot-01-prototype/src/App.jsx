@@ -39,6 +39,7 @@ import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePat
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
+import { parseBitgetAlliancePath } from "./data/bitget-alliance-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -104,6 +105,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/campaigns/BitgetAlliancePage.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -170,6 +172,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/campaigns/BitgetAlliancePage.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -257,6 +260,8 @@ function readGlossaryLinks(locale) {
 const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
 // Bybit Stocks campaign landing page (2026-10-12): its own route chunk (route-campaign-bybit).
 const BybitStocksPage = deferredComponent(ROUTE_MODULE_PATHS.bybitStocks, "BybitStocksPage");
+// Bitget Alliance campaign landing page (2026-10-13): its own route chunk (route-campaign-bitget).
+const BitgetAlliancePage = deferredComponent(ROUTE_MODULE_PATHS.bitgetAlliance, "BitgetAlliancePage");
 function AcademyRoute({ route, locale }) {
   const content = readAcademyContent(locale);
   if (route.name === "academyHub") return <AcademyHubPage locale={locale} content={content} market={route.market} />;
@@ -577,6 +582,7 @@ function routeState(venues, initialUrl) {
   if (officialResearch) return { ...officialResearch, ...contextParams() };
   if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   if (parseBybitStocksPath(pathname)) return { name: "bybitStocks", ...contextParams() };
+  if (parseBitgetAlliancePath(pathname)) return { name: "bitgetAlliance", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
   const activityMatch = pathname.match(/^\/activities\/([^/]+)$/);
@@ -858,6 +864,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
+  if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingMatrix") return pageShell(<FundingMatrixPage locale={locale} initialFeed={initialFundingMatrix} market={route.market} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
