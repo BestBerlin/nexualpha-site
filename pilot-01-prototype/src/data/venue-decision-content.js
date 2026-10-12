@@ -180,7 +180,7 @@ export const venueDecisionContent = {
       ur: "سرکاری صفحات اسپاٹ میکر/ٹیکر فیس، فیوچرز لین دین اور فنڈنگ فیس، شناخت اور اعلانات کو الگ جائزے کے نکات میں تقسیم کرتے ہیں۔",
       // l10n: needs native review
       uk: "Офіційні сторінки окремо описують спотові комісії мейкера/тейкера, ф’ючерсні й фінансувальні комісії, перевірку особи та оголошення.",
-      ar: "تفصل الصفحات الرسمية رسوم maker/taker الفورية ورسوم معاملات العقود والتمويل ومسار الهوية والإعلانات كنقاط مراجعة منفصلة.",
+      ar: "تفصل الصفحات الرسمية رسوم الصانع/الآخذ (Maker/Taker) الفورية ورسوم معاملات العقود والتمويل ومسار الهوية والإعلانات كنقاط مراجعة منفصلة.",
       tr: "Resmi sayfalar spot maker/taker, futures işlem ve funding ücretleri, kimlik akışı ve duyuruları ayrı kontrol noktaları yapar.",
       ru: "Официальные страницы разделяют spot maker/taker, комиссии и funding фьючерсов, идентификацию и объявления на отдельные проверки.",
       id: "Halaman resmi memisahkan maker/taker spot, biaya transaksi dan funding futures, alur identitas, serta pengumuman sebagai titik tinjau.",
