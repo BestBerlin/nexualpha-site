@@ -6,7 +6,11 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 export * from "./flash-path.js";
 import { FLASH_PATH } from "./flash-path.js";
 
-export const FLASH_FEED_URL = "/content/flash.json";
+// The browser reads the flash JSON from /api/flash.json. nginx serves /content/ from the publisher's static directory
+// (2026-10-12), so /content/flash.json never reached the server there (404: no refresh, empty home rail). The Worker
+// still answers the old path for anything that cached it.
+export const FLASH_FEED_URL = "/api/flash.json";
+export const FLASH_FEED_LEGACY_URL = "/content/flash.json";
 export const FLASH_SITEMAP_PATH = "/sitemap-flash.xml";
 export const FLASH_TYPES = Object.freeze(["listing", "delisting", "incident", "campaign", "liquidation-spike", "sharp-move", "funding-extreme", "news"]);
 // Items older than this stay reachable (200) but are served noindex,follow.
