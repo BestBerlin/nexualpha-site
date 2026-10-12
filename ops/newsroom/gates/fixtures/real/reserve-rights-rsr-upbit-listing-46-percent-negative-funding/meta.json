@@ -1,0 +1,59 @@
+{
+  "slug": "reserve-rights-rsr-upbit-listing-46-percent-negative-funding",
+  "batchId": "20261012T1635",
+  "contentType": "market_structure",
+  "pillar": "decision_relevant_industry_news",
+  "stage": "awareness",
+  "titles": {
+    "en": "Why Is RSR Up 46% Today? Upbit Listed Reserve Rights, and Shorts Now Pay Almost 2% Every Eight Hours (12 October 2026)",
+    "zh-Hans": "RSR 今天为什么涨 46%？Upbit 上线 Reserve Rights，空头每 8 小时要付近 2% 资金费（2026 年 10 月 12 日）",
+    "tr": "RSR Neden Yükseldi? Upbit Listelemesiyle %46 Artış ve %2'ye Yaklaşan Negatif Fonlama (12 Ekim 2026)"
+  },
+  "summary": {
+    "tr": "Reserve Rights (RSR), Upbit'in 12 Ekim 2026'da TSİ 07:54'te RSR'yi won ve USDT piyasalarına ekleyeceğini duyurmasıyla 24 saatte yaklaşık %46 yükseldi; Binance vadeli kontratında fonlama -%1,96'ya (taban -%2), OKX'te -%1 tabanına indi ve açık pozisyon sekiz saatte 4,4 kat büyüdü."
+  },
+  "primaryQuery": "why is rsr up",
+  "entities": ["Reserve Rights", "RSR", "Upbit", "Korean won listing", "funding rate", "open interest", "Binance", "OKX", "Hyperliquid", "DTF"],
+  "internalLinks": [
+    "/funding-rates",
+    "/liquidations",
+    "/exchanges/okx",
+    "/exchanges/hyperliquid",
+    "/exchanges/bybit",
+    "/news/what-is-funding-rate-crypto-perpetuals-how-it-is-calculated",
+    "/news/wormhole-w-token-up-66-percent-why-funding-split-leverage"
+  ],
+  "sources": [
+    {"id": "upbit-notice-6651", "url": "https://upbit.com/service_center/notice?id=6651", "publisher": "Upbit", "title": "리저브라이트(RSR) KRW, USDT 마켓 디지털 자산 추가 (Upbit notice 6651, via api-manager.upbit.com/api/v1/announcements/6651)", "publishedAt": "2026-10-12T04:54:09Z", "primary": true, "role": "listing notice 13:54 KST, trading from 14:05 KST, Ethereum network only, contract 0x320623b8e4ff03373931769a31fc52a4e78b5d70, 5-min buy block, -10% sell floor, 2h limit-only, reference close 0.00000002 BTC = 2.262 KRW / 0.001671 USDT, 100M KRW withdrawal limit after 20 business days, DTF and RSR staking description"},
+    {"id": "upbit-ticker", "url": "https://api.upbit.com/v1/ticker?markets=KRW-RSR,USDT-RSR,KRW-USDT", "publisher": "Upbit", "title": "Upbit public ticker and hourly candles for KRW-RSR and KRW-USDT", "publishedAt": "2026-10-12T08:48:39Z", "primary": true, "role": "KRW-RSR first price 3.95, high 4.98, low 2.92, last 3.23 KRW at 17:48 KST; 24h turnover 40,568,998,300 KRW; KRW-USDT 1,347"},
+    {"id": "binance-rsr", "url": "https://fapi.binance.com/fapi/v1/premiumIndex?symbol=RSRUSDT", "publisher": "Binance", "title": "Binance RSRUSDT premium index, funding history, fundingInfo, open interest history, long/short account ratio, 24h tickers and 1h klines (spot and USDT-M)", "publishedAt": "2026-10-12T08:48:09Z", "primary": true, "role": "funding settled -1.961578% at 08:00 UTC after eleven +0.01%-range settlements; predicted -1.86492% for 16:00 UTC; cap/floor +/-2%, 8h interval; mark 0.00233612 index 0.00235997; OI 1,037,326,822 RSR ($1.72M) 00:00 UTC, 4,599,217,552 ($10.78M) 08:00 UTC, 4,757,140,661 at 08:48; long accounts 62.71% 03:00, 51.69% 05:00, 54.50% 08:00 UTC; spot +47.132% last 0.00236 high 0.002999, perp +46.13% quote volume $165.5M; 04:00 UTC candle spot O 0.001658 H 0.002812 C 0.002696, perp C 0.002356"},
+    {"id": "okx-rsr", "url": "https://www.okx.com/api/v5/public/funding-rate?instId=RSR-USDT-SWAP", "publisher": "OKX", "title": "OKX RSR-USDT-SWAP funding rate and history; RSR-USDT spot ticker", "publishedAt": "2026-10-12T08:48:07Z", "primary": true, "role": "settled -1% at 08:00 UTC (floor -1%), current -1% with fundingTime 12:00 UTC; previous settlements -0.0308%, -0.0078%; spot high24h 0.00315"},
+    {"id": "hyperliquid-rsr", "url": "https://api.hyperliquid.xyz/info", "publisher": "Hyperliquid", "title": "Hyperliquid metaAndAssetCtxs (RSR perpetual)", "publishedAt": "2026-10-12T08:50:00Z", "primary": true, "role": "RSR max leverage 3x, funding -0.12542% hourly, premium -0.842%, OI 399,296,620 RSR"},
+    {"id": "nexualpha-market-events", "url": "https://nexualpha.com/intel/market-events.json", "publisher": "NexuAlpha", "title": "NexuAlpha market events feed (movers, funding)", "publishedAt": "2026-10-12T08:43:23Z", "primary": true, "role": "RSRUSDT +46.11% 24h on $163,888,652 volume among top movers"},
+    {"id": "nexualpha-partners", "url": "https://nexualpha.com/intel/partners.json", "publisher": "NexuAlpha", "title": "Partner feed: invite codes, rebate shares and settlement cadence", "primary": false, "role": "OKX nexu888 40% hourly, perp 0.02%/0.05%; Hyperliquid NEXU888; Bybit 48553"}
+  ],
+  "claims": [
+    {"id": "c1", "text": "Upbit announced RSR KRW and USDT markets at 13:54 KST (04:54 UTC) on 12 October 2026 with trading from 14:05 KST.", "sourceIds": ["upbit-notice-6651"], "risk": "low"},
+    {"id": "c2", "text": "RSR rose about 46-47% in 24 hours on Binance; spot high $0.002999, $0.00236 at 08:48 UTC.", "sourceIds": ["binance-rsr", "nexualpha-market-events"], "risk": "low"},
+    {"id": "c3", "text": "Binance RSR perpetual funding settled at -1.96% at 08:00 UTC against a -2% floor; OKX settled at its -1% floor.", "sourceIds": ["binance-rsr", "okx-rsr"], "risk": "low"},
+    {"id": "c4", "text": "Binance RSR open interest rose about 4.4x in coins between 00:00 and 08:48 UTC (our arithmetic).", "sourceIds": ["binance-rsr"], "risk": "low"},
+    {"id": "c5", "text": "Upbit KRW-RSR peaked at 4.98 won, about $0.0037 at 1,347 won per USDT (our arithmetic), and traded about 1.6% above Binance at 08:48 UTC.", "sourceIds": ["upbit-ticker", "binance-rsr"], "risk": "low"},
+    {"id": "c6", "text": "Hyperliquid lists RSR with 3x max leverage and -0.1254% hourly funding.", "sourceIds": ["hyperliquid-rsr"], "risk": "low"},
+    {"id": "c7", "text": "OKX code nexu888 returns 40% of fees hourly; Hyperliquid code NEXU888; Bybit code 48553.", "sourceIds": ["nexualpha-partners"], "risk": "low"}
+  ],
+  "seo": {
+    "title": "Why Is RSR Up 46% Today? Upbit Listing and -2% Funding Explained",
+    "description": "Reserve Rights (RSR) rose about 46% on 12 October 2026 after Upbit listed it against the Korean won; Binance funding hit -1.96% and open interest grew 4.4x in eight hours."
+  },
+  "aeo": {
+    "directAnswer": "RSR rose about 46% in 24 hours on 12 October 2026 because Upbit announced at 04:54 UTC that it would list Reserve Rights against the Korean won and USDT, with trading from 05:05 UTC. Binance spot peaked at $0.002999 and was near $0.00236 at 08:48 UTC; Binance perpetual funding settled at -1.96% (floor -2%) and OKX at its -1% floor, so shorts are paying longs heavily.",
+    "questions": [
+      "Why is RSR up today?",
+      "When did Upbit list Reserve Rights?",
+      "Is RSR funding rate negative?",
+      "What is RSR used for?"
+    ]
+  },
+  "geo": {"knownUnknowns": ["RSR-specific liquidations", "identity of large traders", "the ETF-interest explanation reported by aggregators", "whether Binance or OKX will change RSR funding caps or intervals further"]},
+  "imageBrief": "An RSR price line jumping at a marked 'Upbit listing' moment, a Korean won sign beside it, and below it a funding-rate gauge pinned at the red -2% floor; dark NexuAlpha palette."
+}

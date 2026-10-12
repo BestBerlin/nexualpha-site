@@ -1,0 +1,47 @@
+{
+  "slug": "standard-chartered-rlusd-custody-lmax-collateral-what-it-means",
+  "batchId": "20261012T1835",
+  "contentType": "market_structure",
+  "pillar": "decision_relevant_industry_news",
+  "stage": "awareness",
+  "titles": {
+    "en": "Standard Chartered Now Holds Ripple's RLUSD for Institutions, and LMAX Plans to Accept It as Collateral: What It Means (12 October 2026)",
+    "zh-Hans": "渣打银行开始托管 Ripple 稳定币 RLUSD，LMAX 计划接受它作保证金：这意味着什么（2026 年 10 月 12 日）"
+  },
+  "primaryQuery": "standard chartered rlusd custody",
+  "entities": ["Standard Chartered", "Ripple", "RLUSD", "Ripple USD", "LMAX Group", "XRP Ledger", "DIFC", "DFSA", "collateral mirroring", "stablecoin custody"],
+  "internalLinks": [
+    "/exchanges/okx",
+    "/news/fsb-g20-stablecoin-cross-border-risks-what-it-means-for-usdt-usdc",
+    "/news/esma-non-mica-stablecoins-usdt-three-month-deadline-eu-users",
+    "/news/xrp-ledger-overflow-bug-could-mint-xrp-fixed-what-it-means"
+  ],
+  "sources": [
+    {"id": "lmax-joint-release", "url": "https://www.lmax.com/documents/press-release/lmax-group-ripple-and-standard-chartered-plan-rlusd-collateral-integration-as-standard-chartered-launches-rlusd-custody.pdf", "publisher": "LMAX Group, Ripple and Standard Chartered", "title": "LMAX Group, Ripple and Standard Chartered plan RLUSD collateral integration as Standard Chartered launches RLUSD custody", "publishedAt": "2026-10-12T00:00:00Z", "primary": true, "role": "custody of RLUSD on XRPL live via Standard Chartered Bank DIFC Branch (DFSA-regulated) for eligible clients; intent to make RLUSD eligible collateral for agreed LMAX products; LMAX to adopt SC collateral mirroring model; conditions (documentation, testing, laws, approvals, jurisdictional readiness); quotes from Luke Dorney, Waqar Chaudry, Jack McDonald; LMAX entities and regulators; Ripple 85+ licences"},
+    {"id": "cointelegraph-sc-rlusd", "url": "https://cointelegraph.com/news/standard-chartered-rlusd-custody-lmax-deal", "publisher": "Cointelegraph", "title": "Standard Chartered adds Ripple USD custody, eyes LMAX collateral deal", "publishedAt": "2026-10-12T09:30:57Z", "primary": false, "role": "independent report of the announcement; Ripple-LMAX partnership announced January 2026"},
+    {"id": "defillama-stablecoins", "url": "https://stablecoins.llama.fi/stablecoins", "publisher": "DefiLlama", "title": "Stablecoins circulating supply", "publishedAt": "2026-10-12T10:50:00Z", "primary": true, "role": "RLUSD about $2.447B circulating ($1.304B Ethereum, $1.143B XRPL); USDT about $184.1B; USDC about $73.0B"},
+    {"id": "nexualpha-partners", "url": "https://nexualpha.com/intel/partners.json", "publisher": "NexuAlpha", "title": "Partner feed: invite codes", "primary": false, "role": "OKX code nexu888"}
+  ],
+  "claims": [
+    {"id": "c1", "text": "Standard Chartered's custody for RLUSD on the XRP Ledger is live for eligible institutional clients through its DFSA-regulated DIFC branch.", "sourceIds": ["lmax-joint-release", "cointelegraph-sc-rlusd"], "risk": "low"},
+    {"id": "c2", "text": "LMAX, Ripple and Standard Chartered intend to make RLUSD eligible collateral on agreed LMAX products via collateral mirroring, subject to documentation, testing, regulation and approvals.", "sourceIds": ["lmax-joint-release", "cointelegraph-sc-rlusd"], "risk": "low"},
+    {"id": "c3", "text": "RLUSD circulating supply was about $2.45 billion on 12 October 2026, $1.30 billion on Ethereum and $1.14 billion on XRPL.", "sourceIds": ["defillama-stablecoins"], "risk": "low"},
+    {"id": "c4", "text": "Ripple and LMAX announced a partnership in January 2026.", "sourceIds": ["cointelegraph-sc-rlusd"], "risk": "low"},
+    {"id": "c5", "text": "OKX sign-up code nexu888.", "sourceIds": ["nexualpha-partners"], "risk": "low"}
+  ],
+  "seo": {
+    "title": "Standard Chartered RLUSD Custody and LMAX Collateral Plan Explained",
+    "description": "Standard Chartered launched institutional custody for Ripple's RLUSD on the XRP Ledger on 12 October 2026 and plans, with LMAX, to let it back trades as collateral. What is live, what is not, and why it matters."
+  },
+  "aeo": {
+    "directAnswer": "On 12 October 2026 Standard Chartered launched institutional custody for Ripple USD (RLUSD) on the XRP Ledger through its DFSA-regulated DIFC branch. LMAX Group, Ripple and the bank also plan to make RLUSD eligible collateral on agreed LMAX products using the bank's collateral mirroring model, so tokens stay in bank custody while LMAX recognises their value; that part still needs documentation, testing and approvals.",
+    "questions": [
+      "Does Standard Chartered custody RLUSD?",
+      "What is collateral mirroring?",
+      "Can LMAX clients use RLUSD as collateral?",
+      "How big is RLUSD?"
+    ]
+  },
+  "geo": {"knownUnknowns": ["eligibility criteria", "custody fees", "start date of LMAX collateral", "coverage of RLUSD on Ethereum", "list of LMAX products"]},
+  "imageBrief": "A bank vault holding RLUSD tokens with a dotted line mirroring their value to a trading screen labelled LMAX; dark NexuAlpha palette."
+}
