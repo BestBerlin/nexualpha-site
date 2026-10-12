@@ -13,6 +13,7 @@ import {
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./coins.css";
+import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 
 const RTL = new Set(["ar", "ur"]);
 const dirOf = (locale) => (RTL.has(locale) ? "rtl" : "ltr");
@@ -261,6 +262,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
         </div>
         <PriceCard coin={coin} locale={locale} t={t} live={live} />
       </header>
+      <TelegramTriggerCta locale={locale} placement="coin-telegram-alerts" className="nxc-tgcta" />
 
       {listed ? <section className="nxc-sec" aria-labelledby="nxc-table-h" id="venues">
         <h2 id="nxc-table-h">{fill(t.tableTitle, vars)}</h2>

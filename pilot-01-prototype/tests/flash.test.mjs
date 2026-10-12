@@ -262,3 +262,132 @@ test("header keeps five primary items with Flash under More; home has the live r
   const source = await readFile(new URL("../src/components/shell/SiteHeader.jsx", import.meta.url), "utf8");
   assert.match(source, /const PRIMARY_COUNT = 5;/);
 });
+
+// ------------------------------------------------------------------------------------- Important level (2026-10-13)
+import { FLASH_IMPORTANT_RULES, FLASH_TOP_COINS, flashImportance, flashStreamPayload, flashView } from "../src/data/flash-feed.js";
+
+const IMPORTANT_SOURCES = {
+  announcements: { items: [
+    { id: "kucoin:xmr-halt", venue: "kucoin", category: "news", title: "KuCoin Has Temporarily Closed the Deposit and Withdrawal Services of Monero (XMR)", url: "https://www.kucoin.com/announcement/xmr", publishedAt: ago(20 * 60 * 1000) },
+    { id: "okx:outage", venue: "okx", category: "news", title: "OKX trading services degraded: investigating an outage", url: "https://www.okx.com/help/outage", publishedAt: ago(25 * 60 * 1000) },
+    { id: "okx:gravity", venue: "okx", category: "product", title: "OKX to cease deposits and withdrawals on the Gravity Alpha Mainnet network", url: "https://www.okx.com/help/gravity", publishedAt: ago(30 * 60 * 1000) },
+    { id: "kucoin:pix", venue: "kucoin", category: "news", title: "Notice on Temporary Suspension of Pix Services", url: "https://www.kucoin.com/announcement/pix", publishedAt: ago(35 * 60 * 1000) },
+    { id: "kraken:promo", venue: "kraken", category: "news", title: "The $5,000,000 USDG Kraken Futures Challenge", url: "https://blog.kraken.com/x", publishedAt: ago(40 * 60 * 1000) },
+    { id: "binance:sol", venue: "binance", category: "listing", title: "Binance Will List Solana (SOL) on Binance Alpha", url: "https://www.binance.com/sol", publishedAt: ago(45 * 60 * 1000) },
+    { id: "binance:tiny", venue: "binance", category: "listing", title: "Binance Will List Tinycoin (TINY)", url: "https://www.binance.com/tiny", publishedAt: ago(50 * 60 * 1000) },
+  ] },
+  market: {
+    generatedAt: ago(60 * 1000),
+    history: { hourly: [{ t: ago(H), totalUsd: 64e6, longUsd: 50e6, shortUsd: 14e6 }, { t: ago(2 * H), totalUsd: 9e6, longUsd: 5e6, shortUsd: 4e6 }] },
+    market: { majors: [{ symbol: "BTCUSDT", price: 80000, change1hPct: -3.4, change24hPct: -5 }, { symbol: "SOLUSDT", price: 150, change1hPct: 4.2, change24hPct: 6 }], movers: [] },
+  },
+};
+const IMP = buildFlashItems({ ...IMPORTANT_SOURCES, now: NOW }).items;
+const impBy = (id) => IMP.find((item) => item.id === id);
+
+test("important level: rule-based marker for liquidations, BTC/ETH hours, top-20 listings and outages / withdrawal halts", () => {
+  assert.ok(FLASH_TOP_COINS.length === 20 && FLASH_TOP_COINS.includes("BTC") && FLASH_TOP_COINS.includes("SOL"), FLASH_TOP_COINS.join(" "));
+  assert.ok(!FLASH_TOP_COINS.includes("USDT") && !FLASH_TOP_COINS.includes("USDC"), "stablecoins excluded");
+  assert.equal(FLASH_IMPORTANT_RULES.liquidationHourUsd, 50e6);
+  const liq = IMP.filter((item) => item.type === "liquidation-spike");
+  assert.deepEqual(liq.map(flashImportance).sort(), [null, "liquidations"].sort(), "only the $64M hour");
+  const moves = IMP.filter((item) => item.type === "sharp-move");
+  assert.equal(flashImportance(moves.find((item) => item.assets[0] === "BTC")), "major-move");
+  assert.equal(flashImportance(moves.find((item) => item.assets[0] === "SOL")), null, "big hours count for BTC/ETH only");
+  assert.equal(impBy("a:binance:sol").type, "listing");
+  assert.equal(flashImportance(impBy("a:binance:sol")), "top-coin");
+  assert.equal(flashImportance(impBy("a:binance:tiny")), null);
+  // Official service notices become "incident" items; only outages and halts that matter are important.
+  assert.equal(impBy("a:kucoin:xmr-halt").type, "incident");
+  assert.equal(flashImportance(impBy("a:kucoin:xmr-halt")), "withdrawals");
+  assert.equal(flashImportance(impBy("a:okx:outage")), "outage");
+  assert.equal(impBy("a:okx:gravity").type, "incident");
+  assert.equal(flashImportance(impBy("a:okx:gravity")), null, "one small network is not important");
+  assert.equal(impBy("a:kucoin:pix").type, "incident");
+  assert.equal(flashImportance(impBy("a:kucoin:pix")), null);
+  assert.equal(impBy("a:kraken:promo"), undefined, "ordinary news posts are not flash items");
+  const view = flashView(impBy("a:kucoin:xmr-halt"), "en");
+  assert.equal(view.important, true);
+  assert.equal(view.importance, "withdrawals");
+  assert.equal(flashView(impBy("a:binance:tiny"), "en").important, undefined);
+});
+
+test("incident items: localized headline and body in every template locale, tickers kept, CJK sentences joined cleanly", () => {
+  const item = impBy("a:kucoin:xmr-halt");
+  for (const locale of FLASH_TEMPLATE_LOCALES) {
+    const text = renderText(item, locale);
+    assert.ok(text.headline && text.body, locale);
+    assert.ok(text.headline.includes("XMR"), `${locale}: ${text.headline}`);
+    assert.doesNotMatch(text.headline + text.body, /\{\w+\}|undefined/, locale);
+    assert.equal(flashUiCopy(locale).types.incident.length > 0, true, locale);
+  }
+  assert.match(renderText(item, "zh-Hans").body, /消息。充值/);
+  assert.match(renderText(impBy("a:kucoin:pix"), "en").headline, /^KuCoin posts a service notice$/);
+});
+
+test("stream payload and JSON feed: important=1 keeps only important items", async () => {
+  const payload = flashStreamPayload(IMP, "en", { important: true, now: NOW });
+  assert.ok(payload.items.length >= 4);
+  assert.ok(payload.items.every((row) => row.important === true));
+  const response = await worker.fetch(new Request("https://nexualpha.com/content/flash.json?locale=en&important=1"), env());
+  const data = await response.json();
+  assert.equal(response.status, 200);
+  assert.ok(data.items.every((row) => row.important === true), "worker honours important=1");
+});
+
+const TICKER = { generatedAt: ago(10 * 1000), source: "binance-usdm", items: [
+  { sym: "BTC", price: "$82,576", change: "−1.26%", dir: "down" }, { sym: "ETH", price: "$2,484.45", change: "+0.52%", dir: "up" },
+  { sym: "SOL", price: "$151.20", change: "+3.10%", dir: "up" }, { sym: "BNB", price: "$612.30", change: "0.00%", dir: "flat" }, { sym: "XRP", price: "$2.41", change: "−0.80%", dir: "down" },
+], mover: { sym: "GTC", change: "+53.12%", dir: "up" } };
+const impAssets = { fetch: async (request) => {
+  const pathname = new URL(request.url).pathname;
+  if (pathname === "/intel/official-announcements.json") return Response.json(IMPORTANT_SOURCES.announcements);
+  if (pathname === "/intel/market-events.json") return Response.json(IMPORTANT_SOURCES.market);
+  return sharedAssets.fetch(request);
+} };
+const impEnv = () => ({ ASSETS: impAssets, NEWS_SSR_RENDER: (href, options) => harness.render(href, options), TICKER_READ: async () => TICKER });
+
+test("/flash: red Important marker, 'Important only' chip, opt-in notification and sound toggles, Telegram CTA, ticker frame", async () => {
+  const html = await (await fetchPage("/flash", impEnv())).text();
+  const main = mainHtml(html);
+  assert.match(main, /data-important="true"/);
+  assert.match(main, /class="nxf-imp"[^>]*data-importance="(?:withdrawals|outage|liquidations|major-move|top-coin)"/);
+  assert.match(main, /class="nxf-chip-imp" aria-pressed="false"[^>]*>[\s\S]*?Important only</);
+  assert.match(main, /class="nxf-toggle" aria-pressed="false"[^>]*>[\s\S]*?Notify me</, "notifications off until the reader opts in");
+  assert.match(main, /class="nxf-toggle" role="switch" aria-checked="false"[^>]*>[\s\S]*?Sound</, "sound off by default");
+  assert.match(main, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts-en"[^>]*data-cta-placement="flash-telegram-alerts"[^>]*>Get alerts on Telegram/);
+  const bar = html.match(/<div class="nx-ticker"[\s\S]*?<\/ul><\/div><\/div><\/div>/)?.[0] || "";
+  assert.match(bar, /data-tk="BTC-p">\$82,576</, "ticker first frame rendered on the server");
+  assert.match(bar, /data-sym="BTC" data-dir="down"/);
+  assert.match(bar, /data-tk="mover-sym">GTC</);
+  assert.ok(html.indexOf("nx-ticker") < html.indexOf("<main"), "the bar sits under the header, above the page");
+  const zh = mainHtml(await (await fetchPage("/zh-hans/flash", impEnv())).text());
+  assert.match(zh, /只看重要/);
+  assert.match(zh, /start=alerts-zh"[^>]*>在 Telegram 接收提醒/);
+  for (const pattern of FINE_PRINT) assert.doesNotMatch(main, pattern);
+});
+
+test("/flash with the ticker and important items hydrates without mismatch (en, zh-hans, ar)", async () => {
+  for (const path of ["/flash", "/zh-hans/flash", `/ar${flashItemPath(impBy("a:kucoin:xmr-halt"))}`]) {
+    const html = await (await fetchPage(path, impEnv())).text();
+    assert.ok(html.includes("\"ticker\":"), `${path}: ticker state shipped`);
+    const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
+    assert.deepEqual(hydrationErrors(errors), [], `${path}: ${errors.join("\n")}`);
+  }
+});
+
+test("flash alerts module: preferences survive blocked storage, notifications need permission, chime fails soft", async () => {
+  const mod = await import("../src/components/flash/flash-alerts.js");
+  assert.equal(mod.notificationPermission(), "unsupported");
+  assert.equal(mod.readFlashPref("sound"), false);
+  assert.doesNotThrow(() => mod.writeFlashPref("sound", true));
+  assert.equal(mod.notifyImportant([{ id: "x", headline: "h" }]), 0);
+  assert.equal(mod.chime(), false);
+  let last = null;
+  globalThis.Notification = class { static permission = "granted"; constructor(title, options) { this.title = title; this.options = options; last = this; } close() {} };
+  try {
+    assert.equal(mod.notifyImportant([{ id: "a", headline: "BTC −3.4% in 1 hour", body: "b" }, { id: "b", headline: "x" }, { id: "c", headline: "y" }, { id: "d", headline: "z" }], { label: "Important" }), 3, "at most three per refresh");
+    assert.equal(last.options.tag, "nexualpha-flash-c");
+    assert.equal(last.title, "Important: y");
+  } finally { delete globalThis.Notification; }
+});

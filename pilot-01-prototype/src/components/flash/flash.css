@@ -120,3 +120,35 @@
   .nxf-day__label { padding-inline-start: calc(46px + 24px); }
   .nxf-pill { inset-block-start: calc(var(--nx-header-h, 56px) + 104px); }
 }
+
+/* "Get alerts on Telegram" line (TelegramTriggerCta, 2026-10-13): CSS-free component, styled per route. */
+.nxf .nx-tgcta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; margin: 0; padding: 10px 14px; border: 1px solid rgb(255 255 255 / .1); border-radius: 10px; background: rgb(255 255 255 / .025); color: #cbd5e1; font-size: .9rem; line-height: 1.45; }
+.nxf .nx-tgcta__icon { display: inline-flex; flex: none; color: #94a3b8; }
+.nxf .nx-tgcta__text { flex: 1 1 16rem; min-inline-size: 0; }
+.nxf .nx-tgcta__btn { flex: none; display: inline-flex; align-items: center; gap: 6px; min-block-size: 44px; margin-inline-start: auto; padding: 0 4px; color: #67e8f9; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.nxf .nx-tgcta__btn:hover, .nxf .nx-tgcta__btn:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.nxf .nx-tgcta__btn:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; border-radius: 4px; }
+.nxf .nx-tgcta[dir="rtl"] .nx-tgcta__btn > span { display: inline-block; transform: scaleX(-1); }
+.nxf .nxf-hero .nx-tgcta { margin-block-start: 20px; max-inline-size: 760px; }
+.nxf .nxf-article .nx-tgcta { margin-block-start: 28px; }
+
+/* Important level (2026-10-13): a red marker with a text label (never colour alone), a left rule on the row, the
+   "Important only" chip and the opt-in notification / sound toggles. Fixed sizes: nothing moves after hydration. */
+.nxf { --f-imp: #FF5A5F; }
+.nxf-imp { display: inline-flex; align-items: center; gap: 6px; min-block-size: 22px; padding: 0 8px; border-radius: 6px; background: rgb(255 90 95 / .14); color: #FF8A8E; font: 700 12px/1 var(--font-ui, inherit); letter-spacing: .01em; white-space: nowrap; }
+.nxf-imp__dot { display: inline-block; inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--f-imp); flex: none; }
+.nxf-row[data-important="true"]::after { background: var(--f-imp); box-shadow: 0 0 0 3px rgb(255 90 95 / .22); }
+.nxf-row[data-important="true"] .nxf-row__card { box-shadow: inset 2px 0 0 var(--f-imp); padding-inline-start: 14px; }
+.nxf[dir="rtl"] .nxf-row[data-important="true"] .nxf-row__card { box-shadow: inset -2px 0 0 var(--f-imp); }
+.nxf-chips .nxf-chip-imp { color: #FF8A8E; border-color: rgb(255 90 95 / .35); }
+.nxf-chips .nxf-chip-imp[aria-pressed="true"] { background: var(--f-imp); border-color: var(--f-imp); color: #1a0405; }
+.nxf-chips .nxf-chip-imp[aria-pressed="true"] .nxf-imp__dot { background: #1a0405; }
+.nxf-tag[data-type="incident"] { color: #FF8A8E; background: rgb(255 90 95 / .1); }
+.nxf-alerts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-block-start: 14px; }
+.nxf-toggle { display: inline-flex; align-items: center; gap: 8px; min-block-size: 40px; padding: 0 14px; border: 1px solid var(--f-line2); border-radius: 999px; background: transparent; color: var(--f-ink2); font: 600 14px/1 var(--font-ui, inherit); cursor: pointer; transition: background-color .2s var(--f-ease), border-color .2s var(--f-ease), color .2s var(--f-ease); }
+.nxf-toggle:hover:not(:disabled) { color: var(--f-ink); border-color: var(--f-ink3); }
+.nxf-toggle[aria-pressed="true"], .nxf-toggle[aria-checked="true"] { background: rgb(31 224 192 / .12); border-color: var(--f-accent); color: var(--f-accent); }
+.nxf-toggle:disabled { opacity: .5; cursor: not-allowed; }
+.nxf-toggle:focus-visible { outline: 2px solid var(--f-accent); outline-offset: 3px; }
+.nxf-alerts__hint { flex: 1 1 100%; min-inline-size: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; line-height: 20px; block-size: 20px; color: var(--f-ink3); }
+@media (prefers-reduced-motion: reduce) { .nxf-toggle { transition: none; } }

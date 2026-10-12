@@ -22,6 +22,7 @@ import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-cl
 import { createSsrPageCache } from './server/ssr-page-cache.mjs';
 import { createEmbedRoute } from './server/embed-widgets.mjs';
 import { createFlashMemory } from './server/flash-memory.mjs';
+import { createTickerFeed, TICKER_PATH } from './server/ticker-feed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -66,6 +67,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /coins pages + /intel/coins.json: the host's refreshed snapshot (COINS_FILE, read-only for the server); unset = baked table.
+  // Live ticker bar (home, /flash): Binance 24h tickers cached 15 s server-side, the collector feed as fallback. A supplied
+  // worker (tests) or INTEL_REFRESH=off never calls out; the bar then renders from the collector feed alone.
+  const ticker = createTickerFeed({ readMarketEvents: marketEvents.read, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('ticker network off'); } } : {}), log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
@@ -208,6 +212,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await intel.respond();
       } else if (requestPath === INTEL_ARCHIVE_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await intel.respondArchive();
+      } else if (requestPath === TICKER_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await ticker.respond(req.method);
       } else if (requestPath === FUNDING_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await funding.respond();
       } else if (requestPath === FX_JSON_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
@@ -222,7 +228,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

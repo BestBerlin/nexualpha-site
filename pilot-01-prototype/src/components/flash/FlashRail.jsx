@@ -56,7 +56,7 @@ export function FlashRail({ locale = "en" }) {
       {rows.map((item, index) => item
         ? <li key={item.id}>
           <time dateTime={item.time}><bdi>{String(item.time).slice(11, 16)}</bdi></time>
-          <span className="h7-flash-tag" data-type={item.type}>{item.typeLabel}</span>
+          <span className="h7-flash-tag" data-type={item.type} data-important={item.important ? "true" : undefined}>{item.typeLabel}</span>
           <a href={localizedHref(item.path, { locale })} lang={item.lang !== locale ? item.lang : undefined} dir="auto">{item.headline}</a>
         </li>
         : <li key={`s${index}`} className="h7-flash-skel" aria-hidden="true"><span /><span /><span /></li>)}
