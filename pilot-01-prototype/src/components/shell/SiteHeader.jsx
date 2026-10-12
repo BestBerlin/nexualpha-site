@@ -110,9 +110,7 @@ export function SiteHeader({
         {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
           {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramIcon /><span className="nx-tg__label">Telegram</span></a>}
-          <button type="button" className="nx-search" onClick={onSearch} aria-keyshortcuts="Control+K Meta+K">
-            <SearchIcon /><span className="nx-search__label">{copy.hero.search}</span><kbd className="nx-search__kbd" aria-hidden="true">⌘K</kbd>
-          </button>
+          {/* Owner 2026-10-12: the header "搜索平台" box was unused and cluttered the bar — removed. */}
           {languageMenu(false)}
         </div>
         <button ref={mobileTriggerRef} className="nx-burger" type="button" aria-expanded={mobileOpen} aria-controls={mobileOpen ? "v2-mobile-menu" : undefined} aria-label={copy.ui.menu} onClick={onMobileToggle}>
