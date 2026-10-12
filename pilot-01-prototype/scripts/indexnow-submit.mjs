@@ -98,6 +98,28 @@ export function parseSitemapUrls(sitemapXml, origin = DEFAULT_ORIGIN) {
   return urls;
 }
 
+// sitemap.xml is a <sitemapindex> since #118: its <loc>s are child sitemaps, not pages. Descend into each same-origin
+// child (read via loadChild, e.g. from public/) and return only page URLs; a plain <urlset> is parsed as before.
+export function isSitemapIndex(sitemapXml) {
+  return /<sitemapindex[\s>]/.test(String(sitemapXml || ""));
+}
+
+export async function collectSitemapUrls(sitemapXml, { origin = DEFAULT_ORIGIN, loadChild, depth = 0 } = {}) {
+  if (!isSitemapIndex(sitemapXml)) return parseSitemapUrls(sitemapXml, origin);
+  if (depth > 2) throw new Error("Sitemap index nesting is too deep");
+  const seen = new Set();
+  const urls = [];
+  for (const child of parseSitemapUrls(sitemapXml, origin)) {
+    const childXml = await loadChild(child);
+    for (const href of await collectSitemapUrls(childXml, { origin, loadChild, depth: depth + 1 })) {
+      if (seen.has(href)) continue;
+      seen.add(href);
+      urls.push(href);
+    }
+  }
+  return urls;
+}
+
 export function parseChangedUrls(input) {
   const text = String(input || "").trim();
   if (!text) return [];
@@ -209,8 +231,13 @@ export async function submitIndexNowPayload({ endpoint = DEFAULT_ENDPOINT, paylo
 }
 
 export async function planIndexNowRun(options, fetchImpl = globalThis.fetch) {
-  const sitemapXml = await readFile(path.resolve(projectRoot, options.sitemap), "utf8");
-  const sitemapUrls = parseSitemapUrls(sitemapXml, options.origin);
+  const sitemapPath = path.resolve(projectRoot, options.sitemap);
+  const sitemapXml = await readFile(sitemapPath, "utf8");
+  // Index children are the files next to sitemap.xml (public/sitemap-*.xml, news-sitemap.xml).
+  const sitemapUrls = await collectSitemapUrls(sitemapXml, {
+    origin: options.origin,
+    loadChild: (url) => readFile(path.join(path.dirname(sitemapPath), path.basename(new URL(url).pathname)), "utf8"),
+  });
   const changedUrls = options.changedUrls
     ? parseChangedUrls(await readFile(path.resolve(projectRoot, options.changedUrls), "utf8"))
     : null;
