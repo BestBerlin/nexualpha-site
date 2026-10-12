@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import worker, { compactOfficialAnnouncements } from "../worker/index.js";
+import { updateHref } from "../src/data/activity-update.js";
 import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
 // Relative to the real clock: the worker filters with Date.now() (future-dated rows are dropped as unverifiable).
@@ -69,7 +70,9 @@ test("/activities is rendered at request time from the announcement feed: campai
     assert.equal(cards, 6, `${path}: every current event is a card (${cards})`);
     for (const venue of ["okx", "binance", "bitget"]) assert.match(html, new RegExp(`data-campaign-group="${venue}"`), `${path}: ${venue} group`);
     assert.match(html, /data-group-overflow="true"/, `${path}: the fourth OKX card folds behind "Show all"`);
-    assert.match(html, /href="https:\/\/www\.okx\.com\/help\/okx-trading-festival"[^>]*rel="noopener noreferrer nofollow"/, `${path}: official details link`);
+    const expectedUpdateHref = updateHref(intelFeed.items[0], locale);
+    assert.match(html, new RegExp(`href="${expectedUpdateHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), `${path}: campaign details link stays on NexuAlpha`);
+    assert.doesNotMatch(html, /href="https:\/\/www\.okx\.com\/help\/okx-trading-festival"/, `${path}: campaign cards do not link directly to the exchange`);
     assert.match(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=/, `${path}: sign-up link with the invite code`);
     assert.match(html, /data-disclosure-placement="activities-live-campaigns"/, `${path}: commission disclosure sits with the list`);
     assert.doesNotMatch(html, /okx\.example\.com|Expired campaign|OKX lists ABC/, `${path}: non-event, expired and unofficial rows stay out`);

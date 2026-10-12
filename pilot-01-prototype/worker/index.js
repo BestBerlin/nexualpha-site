@@ -24,6 +24,8 @@ import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, is
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
+import { isUpdateNoindex, normalizeUpdateItem, updateCategory, updateHeadline, updateItems, updatePath } from "../src/data/activity-update.js";
+import { visibleOfficialUpdates } from "../src/components/official-updates/official-updates-model.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
 import { articleEmbedHtml, articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../src/data/article-embeds.js";
@@ -2488,6 +2490,7 @@ const EXCHANGES_ROUTE_MARKER = "NEXUALPHA_EXCHANGES_ROUTE_V1";
 const VENUE_ROUTE_MARKER = "NEXUALPHA_VENUE_ROUTE_V1";
 const COMPARE_ROUTE_MARKER = "NEXUALPHA_COMPARE_ROUTE_V1";
 const ACTIVITIES_ROUTE_MARKER = "NEXUALPHA_ACTIVITIES_ROUTE_V1";
+const ACTIVITY_UPDATE_ROUTE_MARKER = "NEXUALPHA_ACTIVITY_UPDATE_ROUTE_V1";
 const TOPIC_ROUTE_MARKER = "NEXUALPHA_TOPIC_ROUTE_V1";
 const FACTBOOK_ROUTE_MARKER = "NEXUALPHA_FACTBOOK_ROUTE_V1";
 const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
@@ -2508,6 +2511,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"],
   [COMPARE_ROUTE_MARKER]: COMPARE_PAGE_STYLE_PREFIXES,
   [ACTIVITIES_ROUTE_MARKER]: ["route-activity-"],
+  [ACTIVITY_UPDATE_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
   [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
@@ -3504,6 +3508,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
+    ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
     // Home hero copy experiment (X5): the variant this HTML was rendered with; the browser hydrates the same one.
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
@@ -4031,6 +4036,17 @@ function hydrationRenderUrl(url, pathname, locale) {
   return renderUrl.href;
 }
 
+function activityRequestContext(url) {
+  return Object.fromEntries(["market", "product", "account_stage", "funding"]
+    .map(key => [key, url.searchParams.get(key)?.slice(0, 64)])
+    .filter(([, value]) => value));
+}
+function activityRenderUrl(url, pathname, locale) {
+  const renderUrl = new URL(hydrationRenderUrl(url, pathname, locale));
+  for (const [key, value] of Object.entries(activityRequestContext(url))) renderUrl.searchParams.set(key, value);
+  return renderUrl.href;
+}
+
 async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRoute) {
   const pathname = publicRoute.contentPathname;
   const listing = parseNewsListingPath(pathname);
@@ -4066,6 +4082,74 @@ export function compactOfficialAnnouncements(feed, now = Date.now()) {
   return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
 }
 
+function compactActivityUpdateItems(feed) {
+  if (!feed || typeof feed !== "object") return null;
+  const items = updateItems(feed).map(({ id, venue, category, title, headlines, summary, url, publishedAt, startAt, endAt, expiresAt }) => ({
+    id, venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url, publishedAt,
+    ...(headlines && typeof headlines === "object" ? { headlines } : {}),
+    ...(typeof startAt === "string" ? { startAt } : {}),
+    ...(typeof endAt === "string" ? { endAt } : {}),
+    ...(typeof expiresAt === "string" ? { expiresAt } : {}),
+  }));
+  return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
+}
+
+function findActivityUpdate(feed, venue, slug) {
+  const compact = compactActivityUpdateItems(feed);
+  const pathname = `/activities/updates/${venue}/${slug}`;
+  const update = compact?.items.find((item) => updatePath(item) === pathname) || null;
+  return { update, compact };
+}
+
+function mergeActivityUpdateFeeds(seed, officialRows) {
+  const rows = Array.isArray(officialRows) ? officialRows : [];
+  if (!rows.length) return seed || null;
+  return {
+    ...(seed && typeof seed === "object" ? seed : {}),
+    generatedAt: typeof seed?.generatedAt === "string" ? seed.generatedAt : null,
+    items: [...(Array.isArray(seed?.items) ? seed.items : []), ...rows],
+  };
+}
+
+async function readOfficialUpdatesForActivityFeed(env, url) {
+  try {
+    const apiUrl = new URL("/api/v1/official-updates", url);
+    const response = await handleApi(new Request(apiUrl, { headers: { accept: "application/json" } }), env, apiUrl);
+    const payload = response.ok ? await response.json() : null;
+    const reviewed = (Array.isArray(payload?.data) ? payload.data : []).filter((item) => item?.reviewStatus === "APPROVED" && item.fixture === false);
+    const updates = visibleOfficialUpdates(reviewed);
+    return updates.map(normalizeUpdateItem).filter((item) => item?.id && item.venue && item.title && item.url && item.publishedAt);
+  } catch {
+    return [];
+  }
+}
+
+async function readActivityUpdateFeed(env, url) {
+  const officialRows = await readOfficialUpdatesForActivityFeed(env, url);
+  if (typeof env?.INTEL_READ === "function") {
+    try {
+      const feed = await env.INTEL_READ();
+      if (feed) return mergeActivityUpdateFeeds(feed, officialRows);
+    } catch {
+      // Local Sites preview may not wire INTEL_READ; fall through to the built asset seed.
+    }
+  }
+  if (!env?.ASSETS) return mergeActivityUpdateFeeds(null, officialRows);
+  const response = await env.ASSETS.fetch(new Request(new URL("/intel/official-announcements.json", url), { headers: { accept: "application/json" } }));
+  if (!response.ok) return mergeActivityUpdateFeeds(null, officialRows);
+  return mergeActivityUpdateFeeds(await response.json(), officialRows);
+}
+
+function parseActivityUpdatePath(pathname) {
+  const match = normalizePathname(pathname).match(/^\/activities\/updates\/([^/]+)\/([^/]+)$/);
+  if (!match) return null;
+  try {
+    return { venue: decodeURIComponent(match[1]), slug: decodeURIComponent(match[2]) };
+  } catch {
+    return null;
+  }
+}
+
 async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   if (typeof env?.NEWS_SSR_RENDER !== "function" || typeof env?.INTEL_READ !== "function") return null;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
@@ -4076,14 +4160,35 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   if (!officialAnnouncements) return null;
   try {
     const toolArticles = await toolArticlesForRequest(env, url, "/activities", publicRoute.locale);
-    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements, toolArticles });
+    const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="live-campaigns')) {
       metadata.activitiesSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements, toolArticles }, url);
+      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements, toolArticles, activityContext: activityRequestContext(url) }, url);
     }
     console.error(`[NexuAlpha] activities SSR returned no campaign body (${publicRoute.locale}); serving the prerendered page`);
   } catch (error) {
     console.error(`[NexuAlpha] activities SSR failed (${publicRoute.locale}): ${error?.message || error}`);
+  }
+  return null;
+}
+
+async function renderActivityUpdateAtRequestTime(html, metadata, url, env) {
+  if (metadata?.marker !== ACTIVITY_UPDATE_ROUTE_MARKER || typeof env?.NEWS_SSR_RENDER !== "function") return null;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  let officialAnnouncements = metadata.activityUpdateFeed || null;
+  try { officialAnnouncements ||= compactActivityUpdateItems(await readActivityUpdateFeed(env, url)); } catch (error) {
+    console.error(`[NexuAlpha] activity update SSR could not read the announcement feed: ${error?.message || error}`);
+  }
+  if (!officialAnnouncements) return null;
+  try {
+    const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
+    if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
+      metadata.activitiesSsrMode = "runtime-update";
+      return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url);
+    }
+    console.error(`[NexuAlpha] activity update SSR returned no page body for ${publicRoute.contentPathname} (${publicRoute.locale}); serving the app shell`);
+  } catch (error) {
+    console.error(`[NexuAlpha] activity update SSR failed for ${publicRoute.contentPathname} (${publicRoute.locale}): ${error?.message || error}`);
   }
   return null;
 }
@@ -4118,7 +4223,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
 }
 
 const hasMainWithHeading = (appHtml) => /<main\b/i.test(appHtml) && /<h1\b/i.test(appHtml);
-const REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS = new Set([NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER, HOME_ROUTE_MARKER, EXCHANGES_ROUTE_MARKER, VENUE_ROUTE_MARKER, COMPARE_ROUTE_MARKER, ACTIVITIES_ROUTE_MARKER]);
+const REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS = new Set([NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER, HOME_ROUTE_MARKER, EXCHANGES_ROUTE_MARKER, VENUE_ROUTE_MARKER, COMPARE_ROUTE_MARKER, ACTIVITIES_ROUTE_MARKER, ACTIVITY_UPDATE_ROUTE_MARKER]);
 // NotFoundPage (V3Pages.jsx): `/ja/br` and other legacy market paths resolve to a different client page, so only the
 // 404 component itself is accepted; anything else keeps the shell.
 const isNotFoundPage = (appHtml) => appHtml.includes("v3-page--empty") && /<h1\b[^>]*>404<\/h1>/.test(appHtml);
@@ -4214,6 +4319,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // readable; without a feed the prerendered page (fixed-height campaign placeholder) is served as before.
     if (contentPath === "/activities" && metadata.marker === ACTIVITIES_ROUTE_MARKER) {
       const rendered = await renderActivitiesAtRequestTime(html, metadata, url, env);
+      if (rendered) return rendered;
+    }
+    if (metadata.marker === ACTIVITY_UPDATE_ROUTE_MARKER) {
+      const rendered = await renderActivityUpdateAtRequestTime(html, metadata, url, env);
       if (rendered) return rendered;
     }
   }
@@ -5292,6 +5401,73 @@ function buildWorkerActivitiesSchema(locale) {
   return [{ "@type": "CollectionPage", name: locale === "zh-Hans" ? "官方活动中心" : "Official Campaigns", url: localizedCanonical("/activities", locale), inLanguage: locale }];
 }
 
+function venueDisplayName(slug) {
+  return VENUE_REGISTRY[slug]?.name || String(slug || "").split("-").filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ") || "Exchange";
+}
+
+function activityUpdateDescription(item, locale) {
+  const venueName = venueDisplayName(item.venue);
+  const headline = updateHeadline(item, locale) || item.title;
+  const category = updateCategory(item, locale);
+  const templates = {
+    "zh-Hans": `${venueName} 官方${category}更新：${headline}。NexuAlpha 保留站内解读、账户步骤和官方原文入口。`,
+    "zh-Hant": `${venueName} 官方${category}更新：${headline}。NexuAlpha 保留站內解讀、帳戶步驟和官方原文入口。`,
+    es: `Actualización oficial de ${category} de ${venueName}: ${headline}. NexuAlpha mantiene la lectura, los pasos de cuenta y el enlace original dentro del sitio.`,
+    "pt-BR": `Atualização oficial de ${category} da ${venueName}: ${headline}. A NexuAlpha mantém a leitura, os passos de conta e o anúncio original dentro do site.`,
+    fr: `Mise à jour officielle ${category} de ${venueName} : ${headline}. NexuAlpha garde l'analyse, les étapes de compte et l'annonce originale sur la page.`,
+    de: `Offizielles ${category}-Update von ${venueName}: ${headline}. NexuAlpha hält Einordnung, Konto-Schritte und Originalmeldung auf dieser Seite zusammen.`,
+    it: `Aggiornamento ufficiale ${category} di ${venueName}: ${headline}. NexuAlpha tiene lettura, passaggi account e annuncio originale nella pagina.`,
+    ja: `${venueName} の公式${category}更新: ${headline}。NexuAlpha は解釈、アカウント手順、原文リンクを同じページにまとめます。`,
+    ko: `${venueName} 공식 ${category} 업데이트: ${headline}. NexuAlpha는 해석, 계정 단계, 원문 링크를 한 페이지에 둡니다.`,
+    vi: `Cập nhật ${category} chính thức của ${venueName}: ${headline}. NexuAlpha giữ phần diễn giải, bước tài khoản và thông báo gốc trên trang này.`,
+    id: `Pembaruan resmi ${category} dari ${venueName}: ${headline}. NexuAlpha menyimpan konteks, langkah akun, dan pengumuman asli di halaman ini.`,
+    tr: `${venueName} resmi ${category} güncellemesi: ${headline}. NexuAlpha yorumu, hesap adımlarını ve orijinal duyuruyu bu sayfada tutar.`,
+    ru: `Официальное обновление ${category} от ${venueName}: ${headline}. NexuAlpha держит пояснение, шаги аккаунта и оригинал объявления на этой странице.`,
+    ar: `تحديث ${category} رسمي من ${venueName}: ${headline}. تجمع NexuAlpha التفسير وخطوات الحساب ورابط الإعلان الأصلي في هذه الصفحة.`,
+  };
+  return templates[locale] || `${venueName} official ${category.toLowerCase()} update: ${headline}. NexuAlpha keeps the interpretation, account steps, and original announcement on our page.`;
+}
+
+function buildWorkerActivityUpdateSchema(item, locale, canonicalUrl) {
+  const headline = updateHeadline(item, locale) || item.title;
+  const description = activityUpdateDescription(item, locale);
+  const publishedAt = Number.isFinite(Date.parse(item.publishedAt)) ? new Date(item.publishedAt).toISOString() : undefined;
+  const schemas = [
+    pageBreadcrumb(headline, canonicalUrl, locale === "zh-Hans" ? "官方活动中心" : "Official Campaigns", "/activities", locale),
+    {
+      "@type": "NewsArticle",
+      headline,
+      description,
+      url: canonicalUrl,
+      mainEntityOfPage: canonicalUrl,
+      inLanguage: locale,
+      ...(publishedAt ? { datePublished: publishedAt, dateModified: publishedAt } : {}),
+      author: RESEARCH_DESK,
+      publisher: NEXUALPHA_PUBLISHER,
+      isAccessibleForFree: true,
+      about: { "@type": "Organization", name: venueDisplayName(item.venue) },
+      citation: item.url,
+    },
+  ];
+  const startDate = Number.isFinite(Date.parse(item.startAt)) ? new Date(item.startAt).toISOString() : null;
+  const endDate = Number.isFinite(Date.parse(item.endAt || item.expiresAt)) ? new Date(item.endAt || item.expiresAt).toISOString() : null;
+  if (item.category === "event" && (startDate || endDate)) {
+    schemas.push({
+      "@type": "Event",
+      name: headline,
+      description,
+      url: canonicalUrl,
+      inLanguage: locale,
+      ...(startDate ? { startDate } : {}),
+      ...(endDate ? { endDate } : {}),
+      eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      organizer: { "@type": "Organization", name: venueDisplayName(item.venue) },
+    });
+  }
+  return schemas;
+}
+
 const TOPIC_REGISTRY = {
   "meme-coins": {
     slug: "meme-coins",
@@ -5738,6 +5914,7 @@ function searchPublishedNewsSlugs(articles = []) {
 function searchPublicationLocales(pathname, options = {}) {
   if (pathname === "/" || pathname === "/index.html") return INDEXABLE_LOCALES;
   if (pathname === "/br" || pathname.startsWith("/br/")) return ["pt-BR"];
+  if (/^\/activities\/updates\/[^/]+\/[^/]+$/.test(pathname)) return INDEXABLE_LOCALES;
   const regionalLocales = {
     "/mx": ["es"],
     "/tw": ["zh-Hant"],
@@ -5805,6 +5982,10 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   const publishedLocales = searchPublicationLocales(pathname, options);
   if (metadata.robots === "index,follow" && !publishedLocales.includes(locale)) {
     metadata.robots = "noindex,follow";
+  }
+  if (/^\/activities\/updates\/[^/]+\/[^/]+$/.test(pathname)) {
+    metadata.alternates = routeAlternates(pathname, publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES);
+    return metadata;
   }
   if (metadata.robots !== "index,follow") {
     metadata.alternates = [];
@@ -7275,6 +7456,32 @@ async function routeMetadataBase(url, env, newsFeed) {
       description: "Public-source research with its own publication and review context.",
       canonical: localizedCanonical(canonicalPath, locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER,
     };
+  }
+  const updateMatch = parseActivityUpdatePath(canonicalPath);
+  if (updateMatch) {
+    try {
+      const feed = await readActivityUpdateFeed(env, url);
+      const { update, compact } = feed ? findActivityUpdate(feed, updateMatch.venue, updateMatch.slug) : { update: null, compact: null };
+      if (update) {
+        const category = updateCategory(update, requestedLocale);
+        const headline = updateHeadline(update, requestedLocale) || update.title;
+        const venueName = venueDisplayName(update.venue);
+        const canonical = localizedCanonical(updatePath(update), locale);
+        const indexable = ["listing", "event"].includes(update.category) && !isUpdateNoindex(update);
+        return {
+          status: 200,
+          title: `${venueName} ${category}: ${headline} | NexuAlpha`,
+          description: activityUpdateDescription(update, requestedLocale),
+          canonical,
+          locale,
+          robots: indexable ? "index,follow" : "noindex,follow",
+          marker: ACTIVITY_UPDATE_ROUTE_MARKER,
+          alternates: routeAlternates(updatePath(update)),
+          schema: buildWorkerActivityUpdateSchema(update, schemaLocale, canonical),
+          activityUpdateFeed: compact,
+        };
+      }
+    } catch { /* Missing runtime evidence remains a 404. */ }
   }
   // Activity detail IDs are runtime data. An unavailable or unknown ID is not a real page.
   const activityMatch = canonicalPath.match(/^\/activities\/([^/]+)$/);

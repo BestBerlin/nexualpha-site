@@ -19,6 +19,13 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
     const url = new URL(pathname, browserUrl || "https://nexualpha.com");
     // Explicit English prevents a saved browser language changing neutral SSR.
     url.searchParams.set("locale", prerenderState.locale || "en");
+    // Activity pages render these gates at request time; hydrate the same market instead of briefly exposing an unscoped CTA.
+    if (/^\/activities(?:\/|$)/.test(pathname) && prerenderState.activityContext) {
+      for (const key of ["market", "product", "account_stage", "funding"]) {
+        const value = prerenderState.activityContext[key];
+        if (typeof value === "string" && value && value.length <= 64) url.searchParams.set(key, value);
+      }
+    }
     if (/^\/br(?:\/|$)/i.test(pathname)) {
       applySafeAttributionToSearchParams(url.searchParams, validBrAttributionPayload(prerenderState.brAttribution));
     }

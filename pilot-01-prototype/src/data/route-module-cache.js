@@ -9,6 +9,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   venueDetail: "./components/v3/VenueDetailPage.jsx",
   // Its collapsed "Sources" hub: not preloaded for the route; App.jsx loads it when the disclosure opens.
   venueResearch: "./components/v3/VenueDetailResearch.jsx",
+  activityUpdate: "./components/v3/activity/ActivityUpdatePage.jsx",
   officialResearch: "./components/v3/activity/OfficialResearch.jsx",
   newsDetail: "./components/v3/news/NewsDetailPage.jsx",
   leanHero: "./components/v3/LeanHero.jsx",
@@ -121,6 +122,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
+  if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
   if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail];
   if (name === "rateTerminal") return [ROUTE_MODULE_PATHS.feeBenchmark];

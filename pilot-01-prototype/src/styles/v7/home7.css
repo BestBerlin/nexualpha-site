@@ -129,6 +129,8 @@
 .h7:not(#_):not(#_) .h7-ic-listing{color:var(--ac);background:rgb(31 224 192/.10)}
 .h7:not(#_):not(#_) .h7-ic-delisting{color:var(--danger);background:rgb(248 113 113/.10)}
 .h7:not(#_):not(#_) .h7-ic-event{color:var(--warn);background:rgb(233 169 59/.10)}
+.h7:not(#_):not(#_) .h7-ic-event[data-hot]{--nx-gold:#f5c542;position:relative;background:linear-gradient(100deg,var(--nx-gold) 0%,var(--nx-gold) 38%,#fff8dc 48%,#ffe27a 52%,var(--nx-gold) 62%,var(--nx-gold) 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;border:1px solid rgb(245 197 66/.42);box-shadow:0 0 0 0 rgb(245 197 66/.36);animation:nx-gold-sweep 2.6s linear infinite,nx-chip-glow 2.6s ease-out infinite}
+.h7:not(#_):not(#_) .h7-ic-event[data-hot]::after{content:"✦";position:absolute;inset-block-start:-6px;inset-inline-end:-5px;font-size:10px;line-height:1;color:#ffe27a;-webkit-text-fill-color:#ffe27a;text-shadow:0 0 6px rgb(255 214 90/.9);animation:nx-twinkle 1.3s ease-in-out infinite}
 .h7:not(#_):not(#_) .h7-iv{grid-area:v;display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3)}
 .h7:not(#_):not(#_) .h7-it{grid-area:x;display:block;padding-block:10px;color:var(--ink);font-size:16px;line-height:1.5;overflow-wrap:anywhere;transition:color 140ms}
 .h7:not(#_):not(#_) .h7-it:hover{color:#fff;text-decoration:underline;text-decoration-color:var(--ac);text-underline-offset:4px}
@@ -378,8 +380,10 @@
 .h7:not(#_):not(#_) .h7-lg-max{flex-wrap:wrap;row-gap:10px}
 
 /* Telegram block (owner 2026-10-10). Telegram blue marks the entry; cards follow the dark system. */
-.h7:not(#_):not(#_) .h7-tg-list{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
-.h7:not(#_):not(#_) .h7-tg-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;min-height:88px;padding:16px 18px;border-radius:14px;text-decoration:none;color:var(--ink);background:var(--sf);border:1px solid var(--line);transition:border-color .2s,background-color .2s,transform .2s}
+.h7:not(#_):not(#_) .h7-tg .h7-ih{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;justify-content:space-between}
+.h7:not(#_):not(#_) .h7-tg-list{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;gap:12px}
+.h7:not(#_):not(#_) .h7-tg-list>li{min-width:0;display:flex}
+.h7:not(#_):not(#_) .h7-tg-card{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;align-items:start;gap:10px 14px;width:100%;min-height:156px;padding:16px 18px;border-radius:14px;text-decoration:none;color:var(--ink);background:var(--sf);border:1px solid var(--line);transition:border-color .2s,background-color .2s,transform .2s}
 .h7:not(#_):not(#_) .h7-tg-card:hover{border-color:rgb(34 158 217/.6);background:rgb(34 158 217/.08)}
 .h7:not(#_):not(#_) .h7-tg-card:active{transform:translateY(1px)}
 .h7:not(#_):not(#_) .h7-tg-card:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -388,8 +392,11 @@
 .h7:not(#_):not(#_) .h7-tg-txt b{font-weight:600;font-size:16px}
 .h7:not(#_):not(#_) .h7-tg-txt small{font-size:13px;line-height:1.4;color:var(--ink2)}
 .h7:not(#_):not(#_) .h7-tg-handle{font:500 12px/1.3 var(--mono);color:var(--ink3)}
-.h7:not(#_):not(#_) .h7-tg-go{font-weight:600;font-size:14px;color:#4FB8EA;white-space:nowrap}
-@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-tg-card{transition:none}}
+.h7:not(#_):not(#_) .h7-tg-go{grid-column:2;align-self:end;justify-self:start;margin-top:4px;font-weight:600;font-size:14px;line-height:1.3;color:#4FB8EA;overflow-wrap:anywhere}
+@media(min-width:700px){.h7:not(#_):not(#_) .h7-tg-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1100px){.h7:not(#_):not(#_) .h7-tg-list{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1023px){.h7:not(#_):not(#_) .h7-tg .h7-ih{grid-template-columns:minmax(0,1fr);align-items:start}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-tg-card{transition:none}.h7:not(#_):not(#_) .h7-ic-event[data-hot],.h7:not(#_):not(#_) .h7-ic-event[data-hot]::after{animation:none}}
 .h7:not(#_):not(#_) .h7-tg{padding-block:clamp(56px,8vw,96px) 0}
 
 /* Live stream marker (owner 2026-10-10) */
@@ -456,9 +463,7 @@
 .h7:not(#_):not(#_) .h7-xn{flex-wrap:wrap;row-gap:6px}
 @media(max-width:640px){.h7:not(#_):not(#_) .h7-fr-v{gap:6px;font-size:14px}.h7:not(#_):not(#_) .h7-fr-v img{width:18px;height:18px}.h7:not(#_):not(#_) .h7-fr-row{gap:8px}}
 @media(max-width:900px){.h7:not(#_):not(#_) .h7-fl{display:none}}
-/* Telegram cards: on a narrow card the "Join" label moves under the text instead of squeezing it. */
 .h7:not(#_):not(#_) .h7-tg-list>li{container-type:inline-size}
-@container (max-width:340px){.h7:not(#_):not(#_) .h7-tg-card{grid-template-columns:auto minmax(0,1fr);row-gap:8px}.h7:not(#_):not(#_) .h7-tg-go{grid-column:2}}
 .h7:not(#_):not(#_) .h7-tg-txt small{overflow-wrap:break-word}
 /* Funding board header labels never spill out of their column on phones. */
 @media(max-width:640px){.h7:not(#_):not(#_) .h7-fr-head span{overflow-wrap:anywhere;font-size:11px;letter-spacing:0}}

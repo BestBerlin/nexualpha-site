@@ -48,6 +48,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
+  "./components/v3/activity/ActivityUpdatePage.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
   "./components/v3/LeanHero.jsx",
   "./components/v3/RebateTickerBar.jsx",
@@ -92,6 +93,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
+  "./components/v3/activity/ActivityUpdatePage.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
   "./components/v3/LeanHero.jsx",
   "./components/v3/RebateTickerBar.jsx",
@@ -152,6 +154,7 @@ const VenueDetailPage = deferredComponent("./components/v3/VenueDetailPage.jsx",
 // The venue page's collapsed "Sources" hub: static on the server, loaded on toggle in the browser (venue-graph lane).
 const VenueDetailResearch = deferredComponent("./components/v3/VenueDetailResearch.jsx", "VenueDetailResearch");
 const prefetchVenueResearch = () => preloadRouteModule(ROUTE_MODULE_PATHS.venueResearch).catch(() => {});
+const ActivityUpdatePage = deferredComponent(ROUTE_MODULE_PATHS.activityUpdate, "ActivityUpdatePage");
 const OfficialResearchPage = deferredComponent("./components/v3/activity/OfficialResearch.jsx", "OfficialResearchPage");
 // Perf lane 2026-10-11: the directory, the home comparison slots, the news list and the data pages are route modules
 // too (preloaded by modulePathsForRoute before hydration on their own routes), so other pages stop shipping them.
@@ -558,6 +561,8 @@ function routeState(venues, initialUrl) {
   }
   const officialResearch = researchRoute(pathname, venues);
   if (officialResearch) return { ...officialResearch, ...contextParams() };
+  const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
+  if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
   const activityMatch = pathname.match(/^\/activities\/([^/]+)$/);
   if (activityMatch) {
       try { return { name: "activity", id: decodeURIComponent(activityMatch[1]), ...contextParams() }; } catch { return { name: "notFound" }; }
@@ -851,6 +856,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "research") return pageShell(<OfficialResearchPage locale={locale} market={route.market} product={route.product} venue={command.venueCatalog.find((venue) => venue.slug === route.slug)} venues={command.venueCatalog} />);
   if (route.name === "activity") return pageShell(<ActivityDetailPage copy={copy} locale={locale} market={route.market} product={route.product} update={(model.officialUpdates ?? []).find((update) => update.id === route.id)} venues={command.venueCatalog} />);
+  if (route.name === "activityUpdate") return pageShell(<ActivityUpdatePage venue={route.venue} slug={route.slug} locale={locale} market={route.market} initialFeed={initialOfficialAnnouncements} />);
   if (route.name === "activities") return pageShell(<ActivityCenterPage copy={copy} locale={locale} market={route.market} product={route.product} venues={command.venueCatalog} updates={model.officialUpdates ?? []} campaignFeed={initialOfficialAnnouncements} />);
   if (route.name === "directory") return pageShell(<main className="v6 v2-page v3-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "exchanges")}><VenueYellowPages venues={command.venueCatalog} locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} headingLevel={1} /></main>, { deferContent: false, crawlScope: "directory" });
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
@@ -911,7 +917,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
-    <HomeV7 locale={locale} />
+    <HomeV7 locale={locale} market={route.market} />
     <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}
     {searchDialog}

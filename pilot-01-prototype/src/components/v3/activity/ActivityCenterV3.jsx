@@ -12,6 +12,7 @@ import { OFFICIAL_EXCHANGE_ACTIVITIES } from "../../../data/generated-official-a
 import { TELEGRAM_CONFIG } from "../../../data/telegram-config.js";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { contextualHref as addContext } from "../../../data/contextual-href.js";
+import { updateHref } from "../../../data/activity-update.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
@@ -321,9 +322,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
         <div className="activity-center-v3__source-actions">
           {update.platform?.slug && <a href={contextualHref(`/exchanges/${encodeURIComponent(update.platform.slug)}`)} data-cta-kind="research" data-cta-platform={update.platform.slug} data-cta-placement="activity-card-venue-profile" data-growth-decision={update.platform.slug} data-growth-placement="activity-card-venue-profile">{detailCopy.openDetail}</a>}
           {eligibility.cta.enabled && update.id
-            ? <a href={contextualHref(`/activities/${encodeURIComponent(update.id)}`)} data-cta-kind="research" data-cta-placement="activity-card-detail" data-growth-decision={update.id} data-growth-placement="activity-card-detail">{detailCopy.openActivityDetail}</a>
+            ? <a href={updateHref(update, locale, { market, product })} data-cta-kind="research" data-cta-placement="activity-card-detail" data-growth-decision={update.id} data-growth-placement="activity-card-detail">{detailCopy.openActivityDetail}</a>
             : update.platform?.slug && <a href={eligibility.cta.alternativeHref} data-cta-kind="research" data-cta-platform={update.platform.slug} data-cta-placement="activity-card-research-alternative" data-growth-decision={update.platform.slug} data-growth-placement="activity-card-research-alternative">{eligibility.cta.alternativeLabel}</a>}
-          {eligibility.source?.url && <a href={eligibility.source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="activity-card-source" data-growth-decision={update.platform?.slug || update.id} data-growth-placement="activity-card-source">{campaignJoinCopy(locale).official}</a>}
+          {eligibility.source?.url && <a href={updateHref(update, locale, { market, product })} data-cta-kind="research" data-cta-placement="activity-card-source" data-growth-decision={update.platform?.slug || update.id} data-growth-placement="activity-card-source">{campaignJoinCopy(locale).official}</a>}
         </div>
         <CampaignJoin venue={update.platform?.slug} locale={locale} market={market} placement="activity-card-join" />
       </article>;

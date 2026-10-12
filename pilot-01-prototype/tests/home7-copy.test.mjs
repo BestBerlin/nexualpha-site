@@ -39,8 +39,18 @@ test("every locale has exactly the en key set and inCat key set", () => {
         assert.equal(typeof copy.sep, "string", `${locale}.sep is a string (may be empty)`);
         continue;
       }
+      if (key === "inSub") {
+        assert.equal(copy.inSub, "", `${locale}.inSub removed from announcement heading`);
+        continue;
+      }
       assert.ok(typeof copy[key] === "string" && copy[key].trim(), `${locale}.${key} non-empty string`);
     }
+  }
+});
+
+test("announcement intro subtext is absent in every locale", () => {
+  for (const locale of locales) {
+    assert.equal(H7_COPY[locale].inSub, "", `${locale}.inSub empty`);
   }
 });
 

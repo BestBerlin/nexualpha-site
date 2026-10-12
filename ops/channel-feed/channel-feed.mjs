@@ -9,6 +9,22 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, renameSync, rmdirSy
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { runArticleFeed } from "./article-feed.mjs";
+// The Telegram runtime ships the ops bundle without the site tree. Keep this pure route contract local; parity tests lock it to the site helper.
+function updateIdentity(item) {
+  return String(item?.id || item?.url || item?.officialSource?.url || '');
+}
+function updateHash(value) {
+  let n = 2166136261;
+  for (const c of String(value)) { n ^= c.charCodeAt(0); n = Math.imul(n, 16777619); }
+  return (n >>> 0).toString(36);
+}
+
+function updatePath(item) {
+  const venue = item?.venue || item?.platform?.slug;
+  const id = updateIdentity(item);
+  const slug = id.replace(/^https?:\/\//, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase().slice(0, 70) || 'update';
+  return `/activities/updates/${encodeURIComponent(venue)}/${slug}-${updateHash(id)}`;
+}
 
 const DRY = process.argv.includes("--dry-run");
 const STATE_DIR = process.env.CHANNEL_FEED_STATE_DIR || "/var/lib/nexualpha-channel-feed";
@@ -20,6 +36,8 @@ const CHANNELS = (process.env.CHANNEL_FEED_TARGETS || "zh:@NexuAlphaClub").split
 const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi" };
 
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
+
+
 const COPY = {
   zh: {
     cat: { listing: "上币", event: "活动", delisting: "下架", news: "公告", product: "产品", security: "安全" },
@@ -78,7 +96,8 @@ async function getJson(url) {
 // the liquidation list); the announcement itself still posts with its official link.
 const NO_SIGNUP = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
 export function buildMessage(item, partnerIn, lang) {
-  const partner = NO_SIGNUP[lang]?.has(item.venue) ? null : partnerIn;
+  const neutral = /^(ru|ar|ur|uk)$|^zh-(Hant|TW|HK)$/i.test(lang);
+  const partner = neutral || NO_SIGNUP[lang]?.has(item.venue) ? null : partnerIn;
   const c = COPY[lang] || COPY.en;
   const name = NAMES[item.venue] || item.venue;
   const tag = lang === "zh" ? `【${esc(c.cat[item.category] || item.category)}｜${esc(name)}】` : `[${esc(c.cat[item.category] || item.category)} · ${esc(name)}] `;
@@ -88,7 +107,7 @@ export function buildMessage(item, partnerIn, lang) {
     if (terms) lines.push("", `${esc(c.via(name))}${esc(terms)}`);
     lines.push(`<i>${esc(c.disclosure)}</i>`);
   }
-  const row1 = [{ text: c.official, url: item.url }];
+  const row1 = [{ text: c.official, url: `${SITE}${LOCALE_PATH[lang] ?? ""}${updatePath(item)}` }];
   // tracked redirect (2026-10-10): lands on the same registration URL, attributes the click to this channel
   if (partner) row1.push({ text: c.signUp(name), url: `${SITE}/go/${partner.slug}?src=tg-channel-${lang}` });
   const row2 = [{ text: c.more, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/exchanges/${item.venue}` }];
