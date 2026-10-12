@@ -36,6 +36,27 @@ test('authorization status persists separately; persistence failure is isolated'
  const reports=await collect({sources:[{id:'auth'},{id:'db-error'},{id:'good'}],store,now,modules:[{supports:()=>true,poll:async s=>{if(s.id==='auth')throw new CollectorError('Credential missing','missing-authorization');return [row];}}]});
  assert.equal(reports[0].status,'missing-authorization');assert.equal(reports[1].last_error,'Persistence failed');assert.equal(reports[2].count,1);
 });
+test('RSSHub Telegram 503 becomes missing authorization after the third failure and is not hammered later',async()=>{
+ const store=memory();
+ const telegram={id:'telegram-private',platform:'telegram',access_method:'rsshub',consecutive_failures:2,last_error:'RSSHub Telegram HTTP 503 poll failure 2/3'};
+ const reports=await collect({sources:[telegram],store,now,modules:[{supports:()=>true,poll:async()=>{throw new CollectorError('HTTP 503','temporarily-failing',true);}}]});
+ assert.equal(reports[0].status,'missing-authorization');
+ assert.equal(store.writes[0].health.status,'missing-authorization');
+ assert.equal(store.writes[0].health.consecutive_failures,3);
+ assert.match(store.writes[0].health.last_error,/RSSHub Telegram returned HTTP 503 three times/);
+ const skipped=await collect({sources:[{...telegram,status:'missing-authorization',last_error:store.writes[0].health.last_error}],store:memory(),now,modules:[{supports:()=>assert.fail('collector should not run'),poll:async()=>[]} ]});
+ assert.equal(skipped[0].skipped,'missing-authorization');
+});
+test('RSSHub Telegram 503 threshold tracks consecutive 503 poll failures, not mixed errors or previews',async()=>{
+ const store=memory();
+ const modules=[{supports:()=>true,poll:async()=>{throw new CollectorError('HTTP 503','temporarily-failing',true);}}];
+ const mixed=await collect({sources:[{id:'mixed',platform:'telegram',access_method:'rsshub',consecutive_failures:2,last_error:'HTTP 500'}],store,now,modules});
+ assert.equal(mixed[0].status,'temporarily-failing');
+ assert.equal(store.writes[0].health.last_error,'RSSHub Telegram HTTP 503 poll failure 1/3');
+ const preview=await collect({sources:[{id:'preview',platform:'telegram',access_method:'html',consecutive_failures:2,last_error:'RSSHub Telegram HTTP 503 poll failure 2/3'}],store:memory(),now,modules});
+ assert.equal(preview[0].status,'temporarily-failing');
+ assert.equal(preview[0].last_error,'HTTP 503');
+});
 test('bounded transport retry, contact SEC UA, 403 no retry, parse failure sanitized',async()=>{
  let calls=0;const sleeps=[];
  const request=makeRequest({fetchImpl:async(url,opts)=>{assert.equal(opts.headers['User-Agent'],'NexuAlpha newsroom ops@nexualpha.com');return ++calls===1?{ok:false,status:503}:{ok:true,json:async()=>({items:[]})};},sleep:async ms=>sleeps.push(ms)});

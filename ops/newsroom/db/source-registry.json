@@ -1033,7 +1033,7 @@
     "id": "panews-rss",
     "platform": "media",
     "name": "PANews RSS",
-    "url": "https://www.panewslab.com/rss/index.xml",
+    "url": "https://www.panewslab.com/rss.xml?lang=en&type=NEWS",
     "topics": [
       "china-media"
     ],
@@ -1042,16 +1042,16 @@
     "tier": 2,
     "status": "connected",
     "poll_seconds": 300,
-    "cost_note": "Free RSS.",
+    "cost_note": "Free RSS; official generator page exposes rss.xml?lang=en&type=NEWS, while the previous rss/index.xml now returns 404.",
     "verified_official": true,
-    "verified_via": "SOURCES.md row 13c",
+    "verified_via": "Live probe 2026-10-12: rss.xml?lang=en&type=NEWS returned application/rss+xml with 100 parsed items.",
     "verified_at": "2026-10-12"
   },
   {
     "id": "odaily-newsflash-rss",
     "platform": "media",
     "name": "Odaily newsflash RSS",
-    "url": "https://www.odaily.news/rss/newsflash",
+    "url": "https://rss.odaily.news/rss/newsflash",
     "topics": [
       "china-media"
     ],
@@ -1060,9 +1060,9 @@
     "tier": 2,
     "status": "connected",
     "poll_seconds": 300,
-    "cost_note": "Free RSS.",
+    "cost_note": "Free RSS from Odaily's official RSS repository; the previous www.odaily.news/rss/newsflash path now returns 404.",
     "verified_official": true,
-    "verified_via": "SOURCES.md row 13c",
+    "verified_via": "Live probe 2026-10-12: rss.odaily.news/rss/newsflash returned application/xml with 10 parsed items.",
     "verified_at": "2026-10-12"
   },
   {

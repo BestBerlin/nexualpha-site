@@ -93,3 +93,54 @@ ranking never substitutes for verification gates or publish eligibility.
 The T2 collector CLI, bundled watchlist loader, source-family coverage,
 credential contract, quotas, dry-run behavior and fixture tests are documented
 in [collectors/README.md](collectors/README.md).
+
+## Publishable pool upgrade (2026-10-12)
+
+Run `migrate` before starting the updated scheduler. The pipeline now runs
+`dedupe → score → verify → export:top`, stopping if a prerequisite fails.
+`events:top` remains an operator ranking view; `export:top` includes only
+new/candidate events at or above the current configured publish threshold,
+with fresh scores and fresh `verified-primary`/`corroborated` verification,
+and no unresolved review entry. Official-major priority never bypasses these checks.
+
+`verify` checks the captured headline/fact summary against captured evidence.
+A matching verified tier-1 exchange/regulator/court/company filing source is
+primary; two matching independent non-mirror publishers can corroborate.
+Different URLs from one publisher and reposts sharing an origin count once.
+Fraud/insolvency allegations without matching primary evidence, and conflicting
+evidence, go to `review_queue` as `needs-review`. Review entries are not silently
+resolved by a later collection. This is event-level verification, not a substitute
+for the claim-level article/package gates in [gates/README.md](gates/README.md).
+Conservative exact normalized fact matching can leave paraphrased reports
+unverified; operators should inspect captured evidence rather than lower the gate.
+
+Raw items now have a durable `pending`/`processed`/`irrelevant` work state.
+Dedupe reads only pending rows, in ID order, including older backlog, and marks
+assigned or irrelevant rows in the same transaction. It does not use a timestamp
+watermark that could lose late inserts. Existing event evidence remains available
+for clustering across runs. Migration 091 adds origin, fetched-time, pending-work,
+evidence-event and score indexes; the event-state index already exists in 001.
+Existing assigned history is retained; the upgrade does not delete old events.
+Verification also rechecks relevance for existing unclaimed events; unrelated
+legacy regulator leads remain unverified and cannot export. Existing erroneous
+event history is retained for operator review.
+
+The bundled `db/coin-universe.json` is a compact snapshot of
+`pilot-01-prototype/public/intel/coins.json`, so the standalone deployed newsroom
+has the same coin symbols without depending on the site's directory layout.
+Refresh this snapshot when changing the site's coin universe.
+
+Relevance requires a scoped watchlist subject, crypto terms, coin symbols or
+exchange names, or a concrete market event in the owner's equity/cross-asset
+scope. Generic regulator names and enforcement words alone are insufficient.
+NexuAlpha exchange announcement mirrors never count as independent sources;
+listing/delisting clustering also uses venue, symbol, action and date.
+
+Telegram RSSHub sources with three consecutive HTTP 503 responses become
+`missing-authorization` and are skipped until an operator restores access.
+Other source failures remain isolated. Feed URL/status updates and collection
+notes preserve the distinction between reachable feeds and unavailable ones.
+
+For a deployment performance check, time a pipeline with the real database and
+backlog after migration. Local pure tests do not prove the <30-second production
+pipeline target; database/container validation requires PostgreSQL/Docker.

@@ -5,9 +5,12 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { mergeRawItems } from './dedupe.mjs';
 import { canonicalizeUrl, originKey, trigramSimilarity } from './normalization.mjs';
+import { relevanceForItem } from './relevance.mjs';
+import { parseFeed } from '../collectors/feeds.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixture = async name => JSON.parse(await readFile(join(here, 'fixtures', name), 'utf8'));
+const collectorFixture = async name => readFile(join(here, '../collectors/fixtures', name), 'utf8');
 
 test('canonical URLs strip tracking and keep stable query order', () => {
   assert.equal(canonicalizeUrl('https://example.com/path?b=2&utm_source=x&a=1#frag'), 'https://example.com/path?a=1&b=2');
@@ -60,16 +63,18 @@ test('short aliases require token boundaries', () => {
   const items = [
     { id: 'a', source_id: 'one', platform: 'media', url: 'https://one.example/a', title: 'Exchange denies insolvency rumor', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'insolvency' },
   ];
-  const { events } = mergeRawItems(items, { watchlist: [{ id: 'solana', aliases: ['sol'] }] });
-  assert.deepEqual(events[0].subjects, []);
+  const { events, irrelevantItems } = mergeRawItems(items, { watchlist: [{ id: 'solana', aliases: ['sol'] }] });
+  assert.equal(events.length, 0);
+  assert.equal(irrelevantItems.length, 1);
 });
 
 test('candidate watchlist entities are ignored until verified active', () => {
   const items = [
     { id: 'a', source_id: 'one', platform: 'media', url: 'https://one.example/a', title: 'CandidateCoin listing', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'listing' },
   ];
-  const { events } = mergeRawItems(items, { watchlist: [{ id: 'candidatecoin', aliases: ['CandidateCoin'], status: 'candidate' }] });
-  assert.deepEqual(events[0].subjects, []);
+  const { events, irrelevantItems } = mergeRawItems(items, { watchlist: [{ id: 'candidatecoin', aliases: ['CandidateCoin'], status: 'candidate' }] });
+  assert.equal(events.length, 0);
+  assert.equal(irrelevantItems.length, 1);
 });
 
 test('content_hash and near simhash duplicates attach within the 48 hour window', () => {
@@ -162,5 +167,100 @@ test('source-scoped external ids preserve distinct item assignments before datab
   const result = mergeRawItems([{ ...base, source_id: 'one', url: 'https://example.test/a' }, { ...base, source_id: 'two', url: 'https://example.test/b' }]);
   assert.equal(result.assignments.size, 2);
   assert.equal(result.events[0].evidence.length, 2);
-  assert.equal(result.events[0].discussion.independent_sources, 2);
+  assert.equal(result.events[0].discussion.independent_sources, 1);
+});
+
+test('relevance gate rejects generic regulator enforcement without crypto context', () => {
+  const sec = { id: 'sec', kind: 'regulator', display_name: { en: 'SEC' }, aliases: ['U.S. Securities and Exchange Commission'], status: 'active' };
+  const irrelevant = { id: 901, source_id: 'sec-litigation', platform: 'regulator', url: 'https://www.sec.gov/litigation/1', title: 'SEC charges adviser with disclosure failures', body_excerpt: 'The Commission filed a complaint.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'enforcement' };
+  const relevant = { ...irrelevant, id: 902, title: 'SEC charges crypto exchange over token sales' };
+  assert.equal(relevanceForItem(irrelevant, { watchlist: [sec], keywords: [{ term: 'enforcement', event_type: 'enforcement', status: 'active' }] }).relevant, false);
+  assert.equal(relevanceForItem(relevant, { watchlist: [sec], keywords: [{ term: 'crypto exchange', event_type: 'enforcement', status: 'active' }] }).relevant, true);
+  const merged = mergeRawItems([irrelevant, relevant], { watchlist: [sec], keywords: [{ term: 'crypto exchange', event_type: 'enforcement', status: 'active' }] });
+  assert.equal(merged.events.length, 1);
+  assert.equal(merged.irrelevantItems.length, 1);
+});
+
+test('recorded SEC regulator feed rows stay irrelevant without crypto context', async () => {
+  const sec = { id: 'sec', kind: 'regulator', display_name: { en: 'SEC' }, aliases: ['Securities and Exchange Commission'], status: 'active' };
+  const rows = parseFeed(await collectorFixture('recorded/sec.xml')).map((row, index) => ({
+    ...row,
+    id: 980 + index,
+    source_id: 'sec-press',
+    platform: 'regulator',
+    tier: 1,
+    event_type_guess: 'enforcement',
+  }));
+  const result = mergeRawItems(rows, { watchlist: [sec], keywords: [{ term: 'enforcement', event_type: 'enforcement', status: 'active' }] });
+  assert.equal(rows.length, 2);
+  assert.equal(result.events.length, 0);
+  assert.deepEqual(result.irrelevantItems.map(item => item.id).sort(), [980, 981]);
+});
+
+test('coin universe accepts explicit three-letter uppercase symbols without generic collisions', () => {
+  assert.equal(relevanceForItem({ title: 'SUI jumps 12% after exchange listing' }, { coinUniverse: [{ id: 'sui', name: 'Sui', symbol: 'SUI' }] }).relevant, true);
+  assert.equal(relevanceForItem({ title: 'ONE analyst opens new coverage' }, { coinUniverse: [{ id: 'harmony', name: 'Harmony', symbol: 'ONE' }] }).relevant, false);
+});
+
+test('owner cross-asset moves infer event type and market channel without a collector guess', () => {
+  const oil = { id: 905, source_id: 'macro-wire', platform: 'media', url: 'https://macro.example/oil', title: 'Oil prices surge 8% as USD yields jump', published_at: '2026-10-12T10:00:00Z' };
+  const speech = { id: 906, source_id: 'macro-wire', platform: 'media', url: 'https://macro.example/fed', title: 'Fed official gives routine speech on supervision', published_at: '2026-10-12T10:01:00Z' };
+  const gold = { id: 907, source_id: 'macro-wire', platform: 'media', url: 'https://macro.example/gold', title: 'Gold breaks record high as dollar falls', published_at: '2026-10-12T10:02:00Z' };
+  const oilRelevance = relevanceForItem(oil);
+  assert.equal(oilRelevance.relevant, true);
+  assert.equal(oilRelevance.inferred_event_type, 'fx_macro');
+  assert.equal(oilRelevance.inferred_market_channel, 'oil');
+  assert.equal(relevanceForItem(speech).relevant, false);
+  const { events, irrelevantItems } = mergeRawItems([oil, speech, gold]);
+  assert.equal(events.length, 2);
+  assert.equal(irrelevantItems.length, 1);
+  assert.deepEqual(events.map(event => event.event_type), ['fx_macro', 'fx_macro']);
+  assert.deepEqual(events.map(event => event.discussion.market_channel), ['oil', 'gold']);
+});
+
+test('nexualpha official exchange mirror shares origin with official source and does not add independence', () => {
+  const items = [
+    { id: 911, source_id: 'bybit-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/en-US/article/bybit-to-delist-abc--art1/', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'delisting', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+    { id: 912, source_id: 'nexualpha-official-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/en-US/article/bybit-to-delist-abc--art1/', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'delisting', published_at: '2026-10-12T10:01:00Z', event_type_guess: 'delisting', metrics: { venue: 'Bybit', source_type: 'mirror' } },
+  ];
+  const { events } = mergeRawItems(items);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].raw_items.length, 2);
+  assert.equal(events[0].discussion.independent_sources, 1);
+  assert.deepEqual(events[0].evidence.map(row => row.origin_key), ['exchange-action:bybit:ABC:delisting:2026-10-12', 'exchange-action:bybit:ABC:delisting:2026-10-12']);
+});
+
+test('exchange mirror first still leaves the exchange source independent', () => {
+  const mirror = { id: 921, source_id: 'nexualpha-official-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/en-US/article/bybit-to-delist-abc--art1/', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'delisting', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting', metrics: { venue: 'Bybit', source_type: 'mirror' } };
+  const official = { ...mirror, id: 922, source_id: 'bybit-announcements', published_at: '2026-10-12T10:01:00Z', metrics: null };
+  const { events } = mergeRawItems([mirror, official]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].discussion.independent_sources, 1);
+  assert.deepEqual(events[0].evidence.map(row => row.is_independent), [false, true]);
+});
+
+test('standalone mirrors do not create independent source heat', () => {
+  const { events } = mergeRawItems([
+    { id: 931, source_id: 'nexualpha-official-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/en-US/article/bybit-to-delist-abc--art1/', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'delisting', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting', metrics: { venue: 'Bybit', source_type: 'mirror' } },
+  ]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].discussion.independent_sources, 0);
+  assert.equal(events[0].evidence[0].is_independent, false);
+});
+
+test('listing and delisting clustering keeps different symbols and dates apart', () => {
+  const base = { source_id: 'bybit-announcements', platform: 'exchange', tier: 1, event_type_guess: 'delisting' };
+  const { events } = mergeRawItems([
+    { ...base, id: 941, url: 'https://announcements.bybit.com/a', title: 'Bybit Will Delist ABC Trading Pairs', published_at: '2026-10-12T10:00:00Z' },
+    { ...base, id: 942, url: 'https://announcements.bybit.com/b', title: 'Bybit Will Delist XYZ Trading Pairs', published_at: '2026-10-12T10:05:00Z' },
+    { ...base, id: 943, url: 'https://announcements.bybit.com/c', title: 'Bybit Will Delist ABC Trading Pairs', published_at: '2026-10-15T10:00:00Z' },
+  ], { watchlist: [{ id: 'bybit', kind: 'exchange', display_name: { en: 'Bybit' }, status: 'active' }] });
+  assert.equal(events.length, 3);
+});
+
+test('generic listing headlines do not invent a symbol hard key', () => {
+  const { events } = mergeRawItems([
+    { id: 951, source_id: 'bybit-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/a', title: 'Bybit Lists New Trading Pairs', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'listing' },
+  ]);
+  assert.deepEqual(events[0].hard_keys, []);
 });
