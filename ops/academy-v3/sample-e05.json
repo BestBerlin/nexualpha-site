@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "episode": 5,
+  "slug": "kyc-official-channel",
+  "title": {
+    "en": "KYC: who should receive my ID?",
+    "zh-Hans": "KYC：证件应该交给谁？"
+  },
+  "direction": "ltr",
+  "status": "INTERNAL_SILENT_DEMO",
+  "timing_note": "Hand-authored shot/line timing; word timing estimated, not forced alignment. Adapted from owner manual E05, not a platform operation tutorial.",
+  "shots": [
+    {
+      "id": "problem",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "Sam sees an ID-upload panel beside a private-message offer; Nexubo signals stop.",
+      "onscreen_text_en": "Someone offered to “do KYC for me”",
+      "onscreen_text_zh-Hans": "有人说能“代过认证”",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "expression": "worried",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "They want my ID. Should I send it to this person?",
+            "zh-Hans": "它要我的证件，我该发给这个人吗？"
+          },
+          "start": 0.4,
+          "end": 5.7
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "Private message: “Send me your ID”",
+            "zh-Hans": "私信：“把证件发给我”"
+          }
+        }
+      ]
+    },
+    {
+      "id": "official",
+      "duration": 23,
+      "set": "study-desk",
+      "visual_en": "Nexubo shields Sam and closes the private-message route; an official-entry checklist takes focus.",
+      "onscreen_text_en": "Verify the official channel first",
+      "onscreen_text_zh-Hans": "先核验官方渠道",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "happy"
+      },
+      "sam": {
+        "expression": "confused",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Identity checks usually verify the account holder and support compliance requirements.",
+            "zh-Hans": "身份认证通常用于核实账户本人、满足合规要求。"
+          },
+          "start": 0.5,
+          "end": 10
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Confirm the official process first. Never send IDs or verification codes to a chat-group agent.",
+            "zh-Hans": "先确认官方流程，不把证件、验证码交给聊天群里的代办。"
+          },
+          "start": 10.5,
+          "end": 22
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Verified official website or app",
+                "zh-Hans": "核验后的官方网站或应用"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Official identity-check entry",
+                "zh-Hans": "官方认证入口"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "No private-message agents",
+                "zh-Hans": "不找私信代办"
+              },
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steps",
+      "duration": 28,
+      "set": "study-desk",
+      "visual_en": "A fictional ID checklist appears one step at a time; no real personal information.",
+      "onscreen_text_en": "Your region determines the requirements",
+      "onscreen_text_zh-Hans": "要求取决于地区与平台",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "expression": "neutral",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Use truthful information, a supported valid ID, and the requested photos or personal verification.",
+            "zh-Hans": "填写真实信息，提交支持的有效证件，按提示完成照片或本人验证。"
+          },
+          "start": 0.5,
+          "end": 15
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Accepted documents and any address-proof requirement depend on your region and platform.",
+            "zh-Hans": "接受什么证件、是否需要地址证明，取决于地区和平台。"
+          },
+          "start": 15.5,
+          "end": 27
+        }
+      ],
+      "widgets": [
+        {
+          "type": "identity",
+          "steps": [
+            {
+              "label": {
+                "en": "Truthful residence and name",
+                "zh-Hans": "真实居住地与姓名"
+              },
+              "status": {
+                "en": "Check",
+                "zh-Hans": "核对"
+              }
+            },
+            {
+              "label": {
+                "en": "Supported valid document",
+                "zh-Hans": "支持的有效证件"
+              },
+              "status": {
+                "en": "Check",
+                "zh-Hans": "核对"
+              }
+            },
+            {
+              "label": {
+                "en": "Follow photo instructions",
+                "zh-Hans": "按要求拍摄"
+              },
+              "status": {
+                "en": "Check",
+                "zh-Hans": "核对"
+              }
+            }
+          ],
+          "fictionalNote": {
+            "en": "Fictional illustration · no ID upload here",
+            "zh-Hans": "虚构样张 · 此处不上传证件"
+          }
+        }
+      ]
+    },
+    {
+      "id": "correct",
+      "duration": 24,
+      "set": "study-desk",
+      "visual_en": "Reflection, cropped edges and expired-document labels are checked; Sam corrects the fictional checklist.",
+      "onscreen_text_en": "Fix the stated reason, never invent an identity",
+      "onscreen_text_zh-Hans": "按原因补正，不使用虚假身份",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "expression": "confused",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "If a check fails, read the reason: expired document, glare, cropped edges, or a name mismatch.",
+            "zh-Hans": "失败时先看原因：证件过期、反光、裁切，或姓名不一致。"
+          },
+          "start": 0.5,
+          "end": 13
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Correct the issue as instructed. Do not try again with a false identity.",
+            "zh-Hans": "按提示补正，不要换一个虚假的身份再试。"
+          },
+          "start": 13.5,
+          "end": 23
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Valid, clear, complete document",
+                "zh-Hans": "有效、清晰、完整的证件"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Name matches the document",
+                "zh-Hans": "姓名与证件一致"
+              },
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pending",
+      "duration": 19,
+      "set": "study-desk",
+      "visual_en": "Pending status remains pending. No countdown or promise of trading access appears.",
+      "onscreen_text_en": "Submission does not guarantee approval",
+      "onscreen_text_zh-Hans": "提交不等于审核通过",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "expression": "neutral",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Does submitting it mean I can trade immediately?",
+            "zh-Hans": "提交后是不是马上就能交易？"
+          },
+          "start": 0.5,
+          "end": 5
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "No guarantee. Check official results, product access and funding eligibility. This academy does not collect your real ID.",
+            "zh-Hans": "不保证。审核结果、产品和入金资格以官方通知为准。本学院不收集真实证件。"
+          },
+          "start": 5.5,
+          "end": 18
+        }
+      ],
+      "widgets": [
+        {
+          "type": "identity",
+          "steps": [
+            {
+              "label": {
+                "en": "Official review",
+                "zh-Hans": "官方审核"
+              },
+              "status": {
+                "en": "Pending",
+                "zh-Hans": "审核中"
+              }
+            }
+          ],
+          "fictionalNote": {
+            "en": "No approval-time promise · no real IDs collected",
+            "zh-Hans": "不承诺审核时限 · 不收集真实证件"
+          }
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "duration": 9,
+      "set": "study-desk",
+      "visual_en": "Sam confidently points to the verified official channel, while the other routes are rejected.",
+      "onscreen_text_en": "Only the verified official process",
+      "onscreen_text_zh-Hans": "只按核验后的官方流程提交",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "expression": "happy",
+        "pose": "rest"
+      },
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Who should receive your ID? Only the verified official process. Not us, and not strangers.",
+            "zh-Hans": "证件交给谁？只按核验后的官方流程提交，不交给我们，也不交给陌生人。"
+          },
+          "start": 0.5,
+          "end": 8.6
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Official process only",
+                "zh-Hans": "只用官方流程"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "No strangers. No course chat uploads.",
+                "zh-Hans": "不给陌生人，不上传课程聊天区"
+              },
+              "done": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "end_hook": {
+    "duration": 4,
+    "pose": "point",
+    "text": {
+      "en": "Next: where does your first deposit actually go?",
+      "zh-Hans": "下一课：第一次入金，钱到底进到哪里？"
+    }
+  },
+  "close_duration": 4,
+  "conversion_card": null
+}

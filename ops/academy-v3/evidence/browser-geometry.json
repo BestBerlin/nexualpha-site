@@ -1,0 +1,1550 @@
+[
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 3,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Someone offered to “do KYC for me”",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-0",
+    "teaching": {
+      "bottom": 697.140625,
+      "height": 389.28125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 307.859375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 7.8,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 532,
+      "width": 460,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "EP 5KYC: who should receive my ID?",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-1",
+    "teaching": {
+      "bottom": 694.40625,
+      "height": 383.8125,
+      "right": 1848,
+      "width": 1260,
+      "x": 588,
+      "y": 310.59375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 12,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Verify the official channel first",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-2",
+    "teaching": {
+      "bottom": 816.1328125,
+      "height": 627.265625,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 188.8671875
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 35,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 687.125,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 347.125
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Your region determines the requirements",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-3",
+    "teaching": {
+      "bottom": 874.2578125,
+      "height": 714.2578125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 160
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 63,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Fix the stated reason, never invent an identity",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-4",
+    "teaching": {
+      "bottom": 756.6328125,
+      "height": 508.2734375,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 248.359375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 87,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Submission does not guarantee approval",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-5",
+    "teaching": {
+      "bottom": 768.234375,
+      "height": 531.46875,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 236.765625
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 106,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "Only the verified official process",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-6",
+    "teaching": {
+      "bottom": 756.6328125,
+      "height": 508.2734375,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 248.359375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 114.4,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "Next: where does your first deposit actually go?",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-7",
+    "teaching": {
+      "bottom": 576.84375,
+      "height": 148.6953125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 428.1484375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "landscape",
+    "at": 118.4,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 532,
+      "width": 460,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "Understand first, then act.",
+    "lang": "en",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-8",
+    "teaching": {
+      "bottom": 701.328125,
+      "height": 397.65625,
+      "right": 1848,
+      "width": 1260,
+      "x": 588,
+      "y": 303.671875
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 3,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1051.796875,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 731.796875
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Someone offered to “do KYC for me”",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-0",
+    "teaching": {
+      "bottom": 699.796875,
+      "height": 454.796875,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 7.8,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1297.6171875,
+      "height": 380,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 917.6171875
+    },
+    "groups": [],
+    "heading": "EP 5KYC: who should receive my ID?",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-1",
+    "teaching": {
+      "bottom": 885.6171875,
+      "height": 453.2421875,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 432.375
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 12,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1230.4375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 910.4375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Verify the official channel first",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-2",
+    "teaching": {
+      "bottom": 878.4375,
+      "height": 633.4375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 35,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1410,
+      "height": 270.8125,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1139.1875
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Your region determines the requirements",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-3",
+    "teaching": {
+      "bottom": 1107.1875,
+      "height": 862.1875,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 63,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1173.59375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 853.59375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Fix the stated reason, never invent an identity",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-4",
+    "teaching": {
+      "bottom": 821.59375,
+      "height": 576.59375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 87,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1215.59375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 895.59375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Submission does not guarantee approval",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-5",
+    "teaching": {
+      "bottom": 863.59375,
+      "height": 618.59375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 106,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1108.640625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 788.640625
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "Only the verified official process",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-6",
+    "teaching": {
+      "bottom": 756.640625,
+      "height": 511.640625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 114.4,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 808.40625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 488.40625
+    },
+    "groups": [],
+    "heading": "Next: where does your first deposit actually go?",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-7",
+    "teaching": {
+      "bottom": 456.40625,
+      "height": 211.40625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "en",
+    "format": "portrait",
+    "at": 118.4,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1265.453125,
+      "height": 380,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 885.453125
+    },
+    "groups": [],
+    "heading": "Understand first, then act.",
+    "lang": "en",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-8",
+    "teaching": {
+      "bottom": 853.453125,
+      "height": 388.9140625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 464.5390625
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 3,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "有人说能“代过认证”",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-0",
+    "teaching": {
+      "bottom": 697.140625,
+      "height": 389.28125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 307.859375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 7.8,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 532,
+      "width": 460,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "第 5KYC：证件应该交给谁？",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-1",
+    "teaching": {
+      "bottom": 694.40625,
+      "height": 383.8125,
+      "right": 1848,
+      "width": 1260,
+      "x": 588,
+      "y": 310.59375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 12,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "先核验官方渠道",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-2",
+    "teaching": {
+      "bottom": 816.1328125,
+      "height": 627.265625,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 188.8671875
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 35,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 687.125,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 347.125
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "要求取决于地区与平台",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-3",
+    "teaching": {
+      "bottom": 874.2578125,
+      "height": 714.2578125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 160
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 63,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "按原因补正，不使用虚假身份",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-4",
+    "teaching": {
+      "bottom": 756.6328125,
+      "height": 508.2734375,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 248.359375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 87,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "提交不等于审核通过",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-5",
+    "teaching": {
+      "bottom": 748.6328125,
+      "height": 492.2734375,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 256.359375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 106,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [
+      {
+        "bottom": 992.09375,
+        "height": 87.09375,
+        "right": 1830,
+        "width": 1740,
+        "x": 90,
+        "y": 905
+      }
+    ],
+    "heading": "只按核验后的官方流程提交",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-6",
+    "teaching": {
+      "bottom": 756.6328125,
+      "height": 508.2734375,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 248.359375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 114.4,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 482,
+      "width": 410,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "下一课：第一次入金，钱到底进到哪里？",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-7",
+    "teaching": {
+      "bottom": 576.84375,
+      "height": 148.6953125,
+      "right": 1848,
+      "width": 1310,
+      "x": 538,
+      "y": 428.1484375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "at": 118.4,
+    "caption": {
+      "bottom": 1005,
+      "height": 100,
+      "right": 1830,
+      "width": 1740,
+      "x": 90,
+      "y": 905
+    },
+    "cast": {
+      "bottom": 672.5,
+      "height": 340,
+      "right": 532,
+      "width": 460,
+      "x": 72,
+      "y": 332.5
+    },
+    "groups": [],
+    "heading": "先看懂，再动手。",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1080,
+      "width": 1920
+    },
+    "scene": "scene-8",
+    "teaching": {
+      "bottom": 701.328125,
+      "height": 397.65625,
+      "right": 1848,
+      "width": 1260,
+      "x": 588,
+      "y": 303.671875
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 3,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 986.84375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 666.84375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "有人说能“代过认证”",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-0",
+    "teaching": {
+      "bottom": 634.84375,
+      "height": 389.84375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 7.8,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1260.6640625,
+      "height": 380,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 880.6640625
+    },
+    "groups": [],
+    "heading": "第 5KYC：证件应该交给谁？",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-1",
+    "teaching": {
+      "bottom": 848.6640625,
+      "height": 379.328125,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 469.3359375
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 12,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1230.4375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 910.4375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "先核验官方渠道",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-2",
+    "teaching": {
+      "bottom": 878.4375,
+      "height": 633.4375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 35,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1352.234375,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1032.234375
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "要求取决于地区与平台",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-3",
+    "teaching": {
+      "bottom": 1000.234375,
+      "height": 755.234375,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 63,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1108.640625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 788.640625
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "按原因补正，不使用虚假身份",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-4",
+    "teaching": {
+      "bottom": 756.640625,
+      "height": 511.640625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 87,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1150.640625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 830.640625
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "提交不等于审核通过",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-5",
+    "teaching": {
+      "bottom": 798.640625,
+      "height": 553.640625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 106,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1108.640625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 788.640625
+    },
+    "groups": [
+      {
+        "bottom": 1562.8984375,
+        "height": 100.8984375,
+        "right": 1020,
+        "width": 960,
+        "x": 60,
+        "y": 1462
+      }
+    ],
+    "heading": "只按核验后的官方流程提交",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-6",
+    "teaching": {
+      "bottom": 756.640625,
+      "height": 511.640625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 114.4,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 808.40625,
+      "height": 320,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 488.40625
+    },
+    "groups": [],
+    "heading": "下一课：第一次入金，钱到底进到哪里？",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-7",
+    "teaching": {
+      "bottom": 456.40625,
+      "height": 211.40625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 245
+    }
+  },
+  {
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "at": 118.4,
+    "caption": {
+      "bottom": 1600,
+      "height": 138,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 1462
+    },
+    "cast": {
+      "bottom": 1265.453125,
+      "height": 380,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 885.453125
+    },
+    "groups": [],
+    "heading": "先看懂，再动手。",
+    "lang": "zh-Hans",
+    "root": {
+      "height": 1920,
+      "width": 1080
+    },
+    "scene": "scene-8",
+    "teaching": {
+      "bottom": 853.453125,
+      "height": 388.9140625,
+      "right": 1020,
+      "width": 960,
+      "x": 60,
+      "y": 464.5390625
+    }
+  }
+]

@@ -1,0 +1,8 @@
+
+◆  Rendering en-portrait → /Volumes/致态2TB/nx-wt-codex-academy-template-v3/ops/academy-v3/renders/en-portrait.mp4
+   30fps · high · 2 workers
+   GPU: browser GPU (auto-detect)
+
+[?25l│
+◒  Checking browser[1G[J◇  Browser: env
+[?25hA system error occurred: uv_os_setpriority returned EPERM (operation not permitted)

@@ -1,0 +1,2 @@
+$ git add ops/academy-v3
+fatal: Unable to create '/Volumes/致态2TB/nexualpha-site-git/.git/worktrees/nx-wt-codex-academy-template-v3/index.lock': Operation not permitted
