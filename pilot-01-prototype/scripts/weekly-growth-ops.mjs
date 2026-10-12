@@ -5,6 +5,7 @@ import { access, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseGscInput } from "./gsc-opportunity-queue.mjs";
+import { isSitemapIndex, readSitemapTree, sitemapPageUrls } from "./sitemap-tree.mjs";
 import { buildGrowthReportData } from "../server/growth-report.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -174,11 +175,15 @@ export async function checkSitemap(root = projectRoot) {
     return { id: "sitemap_hreflang", status: "BLOCKED", summary: "public/sitemap.xml is missing.", metrics: null, issues: ["missing_sitemap"] };
   }
 
-  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  const hreflangs = unique([...sitemap.matchAll(/hreflang="([^"]+)"/g)].map((match) => match[1]));
-  const badLocs = locs.filter((loc) => !/^https:\/\/nexualpha\.com\//.test(loc));
+  // Since #118 sitemap.xml is a <sitemapindex>: count pages and hreflang across the child sitemaps it lists.
+  const tree = readSitemapTree(sitemapPath);
+  const childLocs = tree.files.filter(({ xml }) => isSitemapIndex(xml)).flatMap(({ xml }) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
+  const locs = sitemapPageUrls(tree);
+  const hreflangs = unique(tree.files.flatMap(({ xml }) => [...xml.matchAll(/hreflang="([^"]+)"/g)].map((match) => match[1])));
+  const badLocs = [...childLocs, ...locs].filter((loc) => !/^https:\/\/nexualpha\.com\//.test(loc));
   const issues = [];
   if (!locs.length) issues.push("no_loc_entries");
+  if (tree.missing.length) issues.push("missing_child_sitemaps");
   if (!hreflangs.length) issues.push("no_hreflang_alternates");
   if (!hreflangs.includes("x-default")) issues.push("missing_x_default");
   if (badLocs.length) issues.push("non_canonical_origin_locs");
@@ -189,6 +194,8 @@ export async function checkSitemap(root = projectRoot) {
     summary: "Sitemap canonical inventory and hreflang alternates are present for search engines and answer systems.",
     metrics: {
       locCount: locs.length,
+      sitemapFileCount: tree.files.length,
+      missingChildSitemaps: tree.missing,
       hreflangCount: hreflangs.length,
       hreflangs,
       badLocCount: badLocs.length,
