@@ -165,6 +165,8 @@ args += ['-v', '/data/private/nexualpha/og-fonts:/og-fonts:ro', '-e', 'OG_FONT_D
 args += ['-v', '/data/private/nexualpha/intel:/intel-state', '-e', 'INTEL_ARCHIVE_FILE=/intel-state/official-announcements-archive.json']
 # Runtime coin snapshot (2026-10-12): ops/coins-refresh rewrites it on the host daily/weekly; /coins pages read it without a redeploy.
 args += ['-e', 'COINS_FILE=/intel-state/coins.json']
+# Spot ETF flows + crypto calendar (2026-10-13): ops/intel-tools rewrites them on the host daily; the pages read them without a redeploy.
+args += ['-e', 'ETF_FLOWS_FILE=/intel-state/etf-flows.json', '-e', 'CALENDAR_FILE=/intel-state/calendar.json']
 # Live market feed (written by the market-collector; nginx serves it as /intel/market-events.json) for the liquidation card and data pages
 args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json']
 args += [info['Config']['Image'], 'node', 'server.mjs']

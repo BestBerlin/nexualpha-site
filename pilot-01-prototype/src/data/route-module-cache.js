@@ -63,6 +63,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   binanceOctober: "./components/campaigns/BinanceOctoberPage.jsx",
   // Bybit Stocks campaign page (/activities/bybit-stocks, 2026-10-12): route chunk route-campaign-bybit.
   bybitStocks: "./components/campaigns/BybitStocksPage.jsx",
+  // Spot ETF flows + crypto calendar (2026-10-13): route chunk route-intel-tools.
+  intelTools: "./components/intel-tools/IntelToolPages.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -142,6 +144,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "home") return [];
   if (name === "directory") return [ROUTE_MODULE_PATHS.directory];
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
+  if (name === "etfFlows" || name === "calendar") return [ROUTE_MODULE_PATHS.intelTools];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];

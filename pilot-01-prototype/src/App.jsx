@@ -34,6 +34,7 @@ import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
+import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
@@ -97,6 +98,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -152,6 +154,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -216,6 +219,10 @@ function CoinsRoute({ route, locale, overlay }) {
   if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} overlay={overlay} />;
   return <CoinPage locale={locale} content={readCoinContent(locale)} slug={route.slug} market={route.market} overlay={overlay} />;
 }
+// Spot ETF flows + crypto calendar (2026-10-13): one route chunk (route-intel-tools). `initial` is the snapshot the
+// server rendered with (prerender state "intelTool"); `now` keeps the calendar's first client render identical.
+const EtfFlowsPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "EtfFlowsPage");
+const CalendarPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "CalendarPage");
 // Binance October campaigns page (2026-10-12): its own route chunk (route-campaign-landing).
 const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
 // Bybit Stocks campaign landing page (2026-10-12): its own route chunk (route-campaign-bybit).
@@ -325,7 +332,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -501,6 +508,8 @@ function routeState(venues, initialUrl) {
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
+  if (pathname === ETF_FLOWS_PATH) return { name: "etfFlows", ...contextParams() };
+  if (pathname === CALENDAR_PATH) return { name: "calendar", ...contextParams() };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
@@ -647,7 +656,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -810,6 +819,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
+  if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
+  if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);

@@ -202,6 +202,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
+          // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
+          if (id.includes("/src/components/intel-tools/") || /\/src\/data\/(?:intel-tools-copy|intel-tools-labels|etf-flows|crypto-calendar)\.js/.test(id)) return "route-intel-tools";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk

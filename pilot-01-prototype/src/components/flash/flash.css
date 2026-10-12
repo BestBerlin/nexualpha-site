@@ -120,3 +120,8 @@
   .nxf-day__label { padding-inline-start: calc(46px + 24px); }
   .nxf-pill { inset-block-start: calc(var(--nx-header-h, 56px) + 104px); }
 }
+
+/* links to the daily data pages (/etf-flows, /calendar), 2026-10-13 */
+.nxf-tools { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.7rem; font-size: 0.92rem; }
+.nxf-tools a { font-weight: 600; text-decoration: none; }
+.nxf-tools a:hover { text-decoration: underline; }

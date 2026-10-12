@@ -1,0 +1,83 @@
+/* /etf-flows and /calendar (route-intel-tools). Builds on data-pages.css (.nxd-*); tokens from src/styles/tokens.css.
+   One column at 390px; wide tables scroll inside their own box so the page never scrolls sideways. */
+.nxi .pos { color: var(--positive); }
+.nxi .neg { color: var(--danger); }
+
+/* segmented buttons: asset tabs, chart window, calendar filters and week navigation */
+.nxi-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+.nxi-tabs--small { margin-top: 0; }
+.nxi-tab { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 36px; padding: 0.35rem 0.85rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-1); color: var(--ink); font: 600 0.88rem/1 var(--font-ui); cursor: pointer; }
+.nxi-tab:hover { border-color: var(--blue-text); }
+.nxi-tab[aria-pressed="true"] { background: var(--blue-text); border-color: var(--blue-text); color: var(--bg, #0b0f19); }
+.nxi-tab:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 2px; }
+.nxi-count { font: 600 0.72rem/1 var(--font-ui); padding: 0.18rem 0.4rem; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+.nxi-tab[aria-pressed="true"] .nxi-count { background: rgba(0, 0, 0, 0.18); color: inherit; }
+.nxi-chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 0.75rem; }
+.nxi-chart-head h2 { margin: 0; }
+
+/* ETF chart bars */
+.nxi-bar--in rect { fill: var(--positive); }
+.nxi-bar--out rect { fill: var(--danger); }
+.nxi-bar--partial rect { opacity: 0.55; }
+.nxi-bar:hover rect { opacity: 0.85; }
+
+/* tables that may be wider than the column */
+.nxi-funds, .nxi-daily { margin-top: 2rem; }
+.nxi-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxi-scroll:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 2px; }
+.nxi-table { min-width: 640px; }
+.nxi-table th, .nxi-table td { padding-inline: 0.7rem; white-space: nowrap; }
+.nxi-table thead th { background: var(--surface-2); }
+.nxi-table tbody th small, .nxi-total small { display: block; font-size: 0.74rem; font-weight: 500; color: var(--muted); white-space: normal; max-width: 22ch; }
+.nxi-matrix { min-width: 0; }
+.nxi-matrix th:first-child { position: sticky; left: 0; background: var(--surface-1); z-index: 1; }
+.nxi-matrix thead th:first-child { background: var(--surface-2); }
+.nxi-total { font-weight: 700; }
+
+/* soft CTA */
+.nxi-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.9rem 1.5rem; margin-top: 2rem; padding: 1.1rem 1.25rem; border: 1px solid rgba(111, 144, 255, 0.35); border-radius: 14px; background: linear-gradient(180deg, rgba(49, 92, 207, 0.14), rgba(49, 92, 207, 0.03)), var(--surface-1); }
+.nxi-cta h2 { margin-bottom: 0.3rem; }
+.nxi-cta p { color: var(--muted); max-width: 60ch; }
+.nxi-cta__btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0.6rem 1.15rem; border-radius: 10px; background: var(--blue-text); color: var(--bg, #0b0f19) !important; font: 700 0.95rem/1 var(--font-ui); text-decoration: none; }
+.nxi-cta__btn:hover { filter: brightness(1.08); }
+
+/* sources */
+.nxi-sources { margin-top: 2rem; }
+.nxi-sources ul { margin: 0; padding-inline-start: 1.1rem; display: grid; gap: 0.3rem; font-size: 0.9rem; }
+
+/* calendar: week grid */
+.nxi-week { margin-top: 1.75rem; }
+.nxi-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+@media (min-width: 640px) { .nxi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .nxi-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+.nxi-day { min-width: 0; padding: 0.6rem 0.65rem 0.7rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); }
+.nxi-day--today { border-color: var(--blue-text); box-shadow: inset 0 0 0 1px var(--blue-text); }
+@media (max-width: 1099px) { .nxi-day--empty { display: none; } .nxi-day--today.nxi-day--empty { display: block; } }
+.nxi-day__head { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
+.nxi-day__head b { color: var(--ink); }
+.nxi-day__none { font-size: 0.8rem; }
+.nxi-day ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+.nxi-wev { font-size: 0.8rem; line-height: 1.3; padding: 0.3rem 0.45rem; border-radius: 8px; background: var(--surface-2); border-inline-start: 3px solid var(--line); overflow-wrap: anywhere; }
+.nxi-wev__time { display: block; font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nxi-wev__label { display: block; }
+.nxi-wev--macro, .nxi-ev--macro .nxi-kind { border-color: #f59e0b; }
+.nxi-wev--unlock, .nxi-ev--unlock .nxi-kind { border-color: #a78bfa; }
+.nxi-wev--exchange, .nxi-ev--exchange .nxi-kind { border-color: #38bdf8; }
+.nxi-wev--campaign, .nxi-ev--campaign .nxi-kind { border-color: #22c88a; }
+
+/* calendar: list */
+.nxi-list { margin-top: 2rem; }
+.nxi-group h3 { margin: 1.1rem 0 0.4rem; color: var(--ink); font-size: 0.95rem; }
+.nxi-list ul { list-style: none; margin: 0; padding: 0; }
+.nxi-ev { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.75rem; padding: 0.7rem 0; border-top: 1px solid var(--border-subtle); }
+.nxi-ev__time { font: 600 0.85rem/1.4 var(--font-ui); color: var(--muted); font-variant-numeric: tabular-nums; }
+.nxi-ev__title { font-weight: 600; overflow-wrap: anywhere; }
+.nxi-kind { display: inline-block; margin-inline-end: 0.35rem; padding: 0.1rem 0.45rem; border: 1px solid var(--line); border-radius: 999px; font: 600 0.72rem/1.3 var(--font-ui); color: var(--muted); vertical-align: 0.1em; }
+.nxi-ev__meta { margin-top: 0.2rem; font-size: 0.86rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nxi-ev__links { margin-top: 0.25rem; font-size: 0.84rem; }
+.nxi-recent { margin-top: 1.25rem; border: 1px solid var(--line); border-radius: 12px; padding: 0.6rem 0.9rem; background: var(--surface-1); }
+.nxi-recent summary { cursor: pointer; font-weight: 600; }
+.nxi-ics { margin-top: 2rem; padding: 1rem 1.15rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxi-ics h2 { margin-bottom: 0.35rem; }
+.nxi-ics__types { margin-top: 0.5rem; font-size: 0.88rem; }
+@media (max-width: 479px) { .nxi-ev { grid-template-columns: 1fr; gap: 0.2rem; } }
