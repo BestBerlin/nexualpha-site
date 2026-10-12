@@ -134,14 +134,16 @@ async function pollDefiLlamaHacks(source, request, now) {
   const json = await request(hacksUrl);
   const rows = Array.isArray(json) ? json : Array.isArray(json?.hacks) ? json.hacks : null;
   if (!rows) malformed('DefiLlama hacks');
-  return rows.slice(0, 50).map(row => {
+  // The feed is not ordered; newest first so the cap keeps recent incidents.
+  const recentFirst = [...rows].sort((a, b) => (hackDate(b.date ?? b.timestamp ?? b.published_at)?.getTime() ?? 0) - (hackDate(a.date ?? a.timestamp ?? a.published_at)?.getTime() ?? 0));
+  return recentFirst.slice(0, 50).map(row => {
     const amountUsd = number(row.amount ?? row.amountUsd ?? row.amount_usd);
     const when = hackDate(row.date ?? row.timestamp ?? row.published_at);
     const name = plain(row.name ?? row.protocol ?? row.target ?? 'DeFi protocol');
     if (!name || amountUsd == null || amountUsd < 1_000_000) return null;
     return item(source, {
       id: `defillama-hack:${digest(`${name}:${when?.toISOString() ?? 'undated'}:${amountUsd}`).slice(0, 16)}`,
-      url: row.source ?? row.url ?? `https://defillama.com/hacks`,
+      url: /^https?:\/\//.test(row.source ?? '') ? row.source : /^https?:\/\//.test(row.url ?? '') ? row.url : 'https://defillama.com/hacks',
       title: `${name} exploit recorded by DefiLlama`,
       body: `DefiLlama records a ${name} exploit with roughly ${Math.round(amountUsd).toLocaleString('en-US')} USD affected.`,
       at: when,

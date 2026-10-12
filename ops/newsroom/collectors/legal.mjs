@@ -22,10 +22,10 @@ const LEGAL_SOURCES = Object.freeze(new Set([
 
 const ENDPOINTS = Object.freeze({
   'sec-press': { host: 'www.sec.gov', path: '/news/pressreleases.rss' },
-  'sec-litigation': { host: 'www.sec.gov', path: '/rss/litigation/litreleases.xml' },
+  'sec-litigation': { host: 'www.sec.gov', path: '/enforcement-litigation/litigation-releases/rss' },
   'cftc-rss': { host: 'www.cftc.gov', path: '/RSS/RSSGP/rssgp.xml' },
   'esma-rss': { host: 'www.esma.europa.eu', path: '/rss.xml' },
-  'japan-fsa-rss': { host: 'www.fsa.go.jp', path: '/en/news/fsaEnNewsList_rss2.xml' },
+  'japan-fsa-rss': { host: 'www.fsa.go.jp', path: '/fsaEnNewsList_rss2.xml' },
   'fed-press-all': { host: 'www.federalreserve.gov', path: '/feeds/press_all.xml' },
   'courtlistener-search': { host: 'www.courtlistener.com', path: '/api/rest/v4/search/' },
   'sec-edgar-full-text': { host: 'efts.sec.gov', path: '/LATEST/search-index' },

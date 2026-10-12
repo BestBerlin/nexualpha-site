@@ -10,6 +10,10 @@ import * as legal from './legal.mjs';
 import * as market from './market.mjs';
 
 export const families = [exchange,legal,feeds,market,social];
+// Archive-style feeds (EDGAR submissions, full RSS archives) would otherwise
+// backfill years of history on a source's first run and swamp the 48 h dedupe
+// window. Items with a known publication time older than this are not stored.
+export const MAX_ITEM_AGE_DAYS = 7;
 export function dryStore(directory) {
   mkdirSync(directory,{recursive:true});
   return {
@@ -53,8 +57,10 @@ export async function collect({ sources, fallbackSources=sources, entities=[], k
       const raw=await Promise.race([collector.poll(source,since,ctx),new Promise((_,reject)=>{timer=setTimeout(()=>{controller.abort();reject(new CollectorError('Source timeout'));},timeoutMs);})]);
       if (!Array.isArray(raw)) throw new CollectorError('Collector did not return an array');
       const unique=new Map();
+      const floor=now.getTime()-MAX_ITEM_AGE_DAYS*86400000;
       for (const row of raw) {
         const item=normalizeItem(row,source,{entities,keywords,now});
+        if (item.published_at && Date.parse(item.published_at) < floor) continue;
         // Keep unknown publication times, never fabricate a source timestamp.
         unique.set(item.external_id,item);
       }
