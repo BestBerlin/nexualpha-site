@@ -23,15 +23,3 @@ export const isFlashPath = (pathname) => Boolean(parseFlashPath(pathname) && par
 // Header / footer label (the stream itself is "Flash" in Latin-script locales).
 const NAV = { "zh-Hans": "快讯", "zh-Hant": "快訊", ja: "速報", ko: "속보", ru: "Флеш", uk: "Флеш", tr: "Flaş", vi: "Tin nhanh", ar: "عاجل", ur: "فلیش" };
 export const flashNavLabel = (locale) => NAV[locale] || (String(locale || "").startsWith("zh") ? NAV["zh-Hans"] : "Flash");
-// Home rail strings (the rail ships with the home page, so they stay here rather than in the route chunk's flash.js).
-const RAIL = {
-  en: ["Flash · live updates", "View all"], "zh-Hans": ["快讯 · 实时更新", "查看全部"], "zh-Hant": ["快訊 · 即時更新", "查看全部"],
-  es: ["Flash · en vivo", "Ver todo"], "pt-BR": ["Flash · ao vivo", "Ver tudo"], fr: ["Flash · en direct", "Tout voir"], de: ["Flash · live", "Alle ansehen"],
-  it: ["Flash · live", "Vedi tutto"], ja: ["速報 · ライブ", "すべて見る"], ko: ["속보 · 실시간", "전체 보기"], ru: ["Флеш · онлайн", "Смотреть все"],
-  tr: ["Flaş · canlı", "Tümünü gör"], id: ["Flash · langsung", "Lihat semua"], vi: ["Tin nhanh · trực tiếp", "Xem tất cả"], ar: ["عاجل · مباشر", "عرض الكل"],
-  ur: ["فلیش · لائیو", "سب دیکھیں"], uk: ["Флеш · наживо", "Дивитися всі"],
-};
-export function flashRailCopy(locale) {
-  const [title, all] = RAIL[locale] || (String(locale || "").startsWith("zh") ? RAIL["zh-Hans"] : RAIL.en);
-  return { title, all };
-}

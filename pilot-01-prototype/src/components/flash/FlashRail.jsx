@@ -1,9 +1,23 @@
 // Home rail (2026-10-12): the latest 5 flash items, refreshed every 60 s, linking into /flash on our own site.
 // The home page is prerendered, so the server ships the frame with five fixed-height placeholder rows (no layout shift)
-// and the browser fills them from /content/flash.json once the rail approaches the viewport. Styles: home7.src.css.
+// and the browser fills them from /content/flash.json once the rail approaches the viewport. HomeV7 loads this module
+// as its own chunk when the rail scrolls near (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { FLASH_FEED_URL, FLASH_PATH, FLASH_REFRESH_MS, flashRailCopy } from "../../data/flash-path.js";
+import { FLASH_FEED_URL, FLASH_PATH, FLASH_REFRESH_MS } from "../../data/flash-path.js";
+
+// Rail strings (this module is its own lazy chunk on the home page).
+const RAIL = {
+  en: ["Flash · live updates", "View all"], "zh-Hans": ["快讯 · 实时更新", "查看全部"], "zh-Hant": ["快訊 · 即時更新", "查看全部"],
+  es: ["Flash · en vivo", "Ver todo"], "pt-BR": ["Flash · ao vivo", "Ver tudo"], fr: ["Flash · en direct", "Tout voir"], de: ["Flash · live", "Alle ansehen"],
+  it: ["Flash · live", "Vedi tutto"], ja: ["速報 · ライブ", "すべて見る"], ko: ["속보 · 실시간", "전체 보기"], ru: ["Флеш · онлайн", "Смотреть все"],
+  tr: ["Flaş · canlı", "Tümünü gör"], id: ["Flash · langsung", "Lihat semua"], vi: ["Tin nhanh · trực tiếp", "Xem tất cả"], ar: ["عاجل · مباشر", "عرض الكل"],
+  ur: ["فلیش · لائیو", "سب دیکھیں"], uk: ["Флеш · наживо", "Дивитися всі"],
+};
+export function flashRailCopy(locale) {
+  const [title, all] = RAIL[locale] || (String(locale || "").startsWith("zh") ? RAIL["zh-Hans"] : RAIL.en);
+  return { title, all };
+}
 
 const ROWS = 5;
 
@@ -29,7 +43,7 @@ export function FlashRail({ locale = "en" }) {
     return () => { off = true; observer?.disconnect(); if (timer) clearInterval(timer); };
   }, [locale]);
   const rows = items || Array.from({ length: ROWS }, () => null);
-  return <section className="h7-in h7-flash" aria-labelledby="h7-flash-h" ref={ref}>
+  return <section className="h7-in h7-flash" id="h7-flash" aria-labelledby="h7-flash-h" ref={ref}>
     <div className="h7-flash-head">
       <h2 id="h7-flash-h"><span className="h7-flash-dot" aria-hidden="true" />{copy.title}</h2>
       <a href={localizedHref(FLASH_PATH, { locale })}>{copy.all}<span aria-hidden="true" className="h7-flash-arrow">→</span></a>
