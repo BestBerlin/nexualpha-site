@@ -20,7 +20,7 @@ const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.j
 // Flash (2026-10-12): the Worker builds the flash feed, its head and sitemap from these.
 const flashData = ["flash.js", "flash-path.js", "flash-feed.js"];
 // Where to buy <coin> (2026-10-12): the Worker head imports the coin table, copy, SEO helper and every locale's descriptions.
-const coinData = ["coins-routes.js", "coins.js", "coins-seo.js", "coins-copy.js", "coins-data.generated.js", "coins-links.generated.js", "coins-venue-links.generated.js",
+const coinData = ["coins-routes.js", "coins.js", "coins-snapshot.js", "coins-seo.js", "coins-copy.js", "coins-data.generated.js", "coins-links.generated.js", "coins-venue-links.generated.js",
   "coin-content-en.js", "coin-content-zh-hans.js", "coin-content-es.js", "coin-content-pt-br.js", "coin-content-fr.js", "coin-content-de.js",
   "coin-content-ja.js", "coin-content-ko.js", "coin-content-tr.js", "coin-content-vi.js", "coin-content-id.js"];
 // Bybit Stocks campaign page (2026-10-12): the Worker head imports its route, SEO helper and copy.

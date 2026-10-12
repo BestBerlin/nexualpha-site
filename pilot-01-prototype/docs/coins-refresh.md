@@ -17,7 +17,7 @@ script and shipping the result.
 | Descriptions | our own text, `content-source/coins/descriptions/*.json` (11 locales) |
 | Template copy | `content-source/coins/ui/<locale>.json` |
 
-Outputs: `public/intel/coins.json` (full snapshot, also served at `/intel/coins.json`), `src/data/coins-data.generated.js`,
+Outputs: `public/intel/coins.json` (full snapshot baked into the release; production serves the runtime copy at `/intel/coins.json`), `src/data/coins-data.generated.js`,
 `src/data/coins-links.generated.js`, `src/data/coins-venue-links.generated.js`, `src/data/coins-copy.js`,
 `src/data/coin-content-<locale>.js`.
 
@@ -33,14 +33,27 @@ node scripts/build-coin-availability.mjs --offline        # rebuild the modules 
 A venue that does not answer keeps its previous listing (marked `stale` in coins.json); the run fails only when CoinGecko is
 unreachable. The script uses Node 20 built-ins only, so it also runs on the BaoTa host (`node:20-bookworm-slim`).
 
-## Daily refresh (to be switched on by the lead)
+## Scheduled refresh (live since 2026-10-12, no redeploy)
 
-1. Once a day (e.g. 03:20 UTC) on the build machine or a scheduled CI job:
-   `node scripts/build-coin-availability.mjs && node --test tests/coins.test.mjs`.
-2. If `git status` shows changes under `public/intel/coins.json` or `src/data/coin*`, commit them on a branch and open a
-   PR (the coin test checks counts, the no-fine-print rule and sitemap consistency).
-3. Merge and deploy through the normal "Deploy to production" workflow; then `node scripts/search-engines.mjs submit`
-   (sitemap-coins.xml is in the sitemap index).
+The BaoTa host rewrites the runtime snapshot `/data/private/nexualpha/intel/coins.json`; the web container reads it as
+`COINS_FILE=/intel-state/coins.json` (`deploy/stage-remote.py`, read at most every 5 minutes by `server/coins-feed.mjs`).
+
+| When (host cron, CST) | Command | What changes |
+| --- | --- | --- |
+| daily 11:20 (03:20 UTC) | `ops/coins-refresh/run.sh daily` → `build-coin-availability.mjs --reuse-universe --json-only --out <file>` | exchange listings, deposit networks, venue status |
+| Sunday 12:10 (04:10 UTC) | `ops/coins-refresh/run.sh weekly` → full run with `--json-only --out <file>` | coin universe ranks, prices, categories + listings |
+
+Host layout: `/data/agent/srv/coins-refresh/run.sh` and `app/` (copies of `scripts/build-coin-availability.mjs`,
+`src/data/coins-routes.js`, `src/data/coins-snapshot.js`), log `/data/agent/srv/coins-refresh/refresh.log`, previous
+snapshot kept as `coins.json.prev`. Re-copy those three files after changing them.
+
+How pages use it: when the runtime snapshot is newer than the table baked into the release, the Worker applies it
+(`applyCoinOverlay` in `src/data/coins.js`) before building the head (robots, FAQ, ItemList) and renders the page with it;
+the rows that differ from the baked table travel in the prerender state (`coins`) so the browser hydrates the same table.
+After a client-side navigation into /coins the page reads `/intel/coins.json` (served from the runtime file) once. A
+missing, truncated or older file is ignored and the baked table renders. The page set (routes, sitemap-coins.xml,
+descriptions) still comes from the release: a coin that enters the top 200 between releases is ignored until the
+repository copy is refreshed (`node scripts/build-coin-availability.mjs`, commit, deploy).
 
 After load, a coin page asks one exchange that lists the coin (OKX, Bitget, Binance or Gate public ticker, CORS-enabled,
 no key) for the live USDT/USDC price and shows it with its source; the server HTML and the hub show the snapshot price with

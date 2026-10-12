@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   COINS, COIN_VENUE_SLUGS, COIN_YEAR, coinAnswer, coinBySlug, coinCopy, coinCountryNote, coinDataCheckedOn, coinFaq, coinLesson, coinPath,
   coinSignup, fill, formatChange, formatCompactUsd, formatUsd, isCoinListed, joinList, mainPair, perpVenues, primarySignup, relatedCoins,
-  spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale,
+  spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale, applyCoinOverlay, coinOverlayFromSnapshot,
 } from "../../data/coins.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -210,7 +210,25 @@ function CoinLink({ coin, locale, market }) {
   </a>;
 }
 
-export function CoinPage({ locale = "en", content, slug, market }) {
+// Coin table for this render. Server-rendered pages carry the overlay the server used (prerender state "coins", applied
+// before the first render so hydration matches). After a client-side navigation there is none: read the runtime
+// /intel/coins.json once and re-render if it is newer than the table in the bundle.
+let runtimeFetch = null;
+function useCoinData(overlay) {
+  applyCoinOverlay(overlay);
+  const [version, setVersion] = useState(0);
+  useEffect(() => {
+    if (overlay) return undefined;
+    let active = true;
+    runtimeFetch ??= fetch("/intel/coins.json", { headers: { accept: "application/json" } }).then((res) => (res.ok ? res.json() : null)).catch(() => null);
+    runtimeFetch.then((snapshot) => { if (applyCoinOverlay(coinOverlayFromSnapshot(snapshot)) && active) setVersion((v) => v + 1); });
+    return () => { active = false; };
+  }, [overlay]);
+  return version;
+}
+
+export function CoinPage({ locale = "en", content, slug, market, overlay }) {
+  useCoinData(overlay);
   const t = coinCopy(locale);
   const coin = coinBySlug(slug);
   const live = useLivePrice(coin);
@@ -286,7 +304,8 @@ export function CoinPage({ locale = "en", content, slug, market }) {
 }
 
 // ---------------------------------------------------------------- hub
-export function CoinsHubPage({ locale = "en", market }) {
+export function CoinsHubPage({ locale = "en", market, overlay }) {
+  const dataVersion = useCoinData(overlay);
   const t = coinCopy(locale);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
@@ -294,7 +313,7 @@ export function CoinsHubPage({ locale = "en", market }) {
     const counts = new Map();
     for (const coin of COINS) counts.set(coin.category, (counts.get(coin.category) || 0) + 1);
     return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([key]) => key);
-  }, []);
+  }, [dataVersion]);
   const q = query.trim().toLowerCase();
   const visible = COINS.filter((coin) => (category === "all" || coin.category === category)
     && (!q || coin.name.toLowerCase().includes(q) || coin.symbol.toLowerCase().includes(q) || coin.slug.includes(q)));

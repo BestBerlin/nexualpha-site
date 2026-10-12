@@ -163,6 +163,8 @@ args += ['-v', '/data/private/nexualpha/og-cache:/og-cache', '-e', 'OG_CACHE_DIR
 args += ['-v', '/data/private/nexualpha/og-fonts:/og-fonts:ro', '-e', 'OG_FONT_DIR=/og-fonts']
 # Append-only official-announcement archive (2026-10-12): update pages whose item left the live feed stay 200, not 404.
 args += ['-v', '/data/private/nexualpha/intel:/intel-state', '-e', 'INTEL_ARCHIVE_FILE=/intel-state/official-announcements-archive.json']
+# Runtime coin snapshot (2026-10-12): ops/coins-refresh rewrites it on the host daily/weekly; /coins pages read it without a redeploy.
+args += ['-e', 'COINS_FILE=/intel-state/coins.json']
 # Live market feed (written by the market-collector; nginx serves it as /intel/market-events.json) for the liquidation card and data pages
 args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json']
 args += [info['Config']['Image'], 'node', 'server.mjs']
