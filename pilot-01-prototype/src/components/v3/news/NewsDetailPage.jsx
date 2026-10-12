@@ -25,6 +25,8 @@ import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
 import { resolvePromotions } from "../../../data/promotions.js";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
+import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
+import { glossaryTermPath } from "../../../data/glossary-routes.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
@@ -703,7 +705,7 @@ export function ArticleByline({ article, locale = "en" }) {
   );
 }
 
-export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles }) {
+export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles, glossaryLinks = null }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
@@ -823,12 +825,21 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const leadBlockCount = leadBlocks.length;
   // Owner 2026-10-10: first plain-text mention of each partner exchange links to its profile; the state lives for one
   // render, so server and client output stay identical.
-  const partnerLinker = createPartnerAutolinker({
+  const exchangeLinker = createPartnerAutolinker({
     locale,
     createLink: ({ slug, href, text }) => (
       <a key={`partner-${slug}`} href={withContext(href)} className="news-detail__partner-link" data-partner-link={slug} data-cta-kind="research" data-cta-placement="news-detail-partner-mention">{text}</a>
     ),
   });
+  // Glossary (2026-10-13): after partner names, the first mentions of up to 5 glossary terms link to their definitions
+  // (only when the article is shown in its own language and the glossary is written in it; glossaryLinks is null otherwise).
+  const glossaryLinker = glossaryLinks && resolveNewsContentLocale(locale, article) === locale ? createGlossaryLinker(glossaryLinks, { max: 5 }) : null;
+  const partnerLinker = glossaryLinker ? {
+    ...exchangeLinker,
+    linkSegments: (segments) => exchangeLinker.linkSegments(segments).flatMap((segment) => (typeof segment !== "string" ? [segment]
+      : glossaryLinker.linkText(segment).map((part) => (typeof part === "string" ? part
+        : <a key={`glossary-${part.slug}`} href={withContext(localizedHref(glossaryTermPath(part.slug), { locale }))} className="news-detail__glossary-link" data-glossary-link={part.slug}>{part.text}</a>)))),
+  } : exchangeLinker;
   // The first H2 section is the lead answer: its heading becomes the section's data rule (same id, same TOC target).
   const leadHeading = leadBlocks[0]?.startsWith("## ") ? leadBlocks[0] : null;
   if (leadHeading) partnerLinker.observe(leadHeading);

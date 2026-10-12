@@ -173,6 +173,8 @@
 .nxa-transcript__row[data-who="sam"] .nxa-transcript__who { color: #F8BB6A; }
 .nxa-transcript__line p { margin: 0; max-inline-size: 70ch; font-size: 16px; line-height: 1.65; color: var(--a-ink); }
 :is(:lang(zh), :lang(ja), :lang(ko)) .nxa-transcript__line p { line-height: 1.8; }
+.nxa-glossary-link { color: inherit; text-decoration: underline dotted; text-decoration-color: rgb(31 224 192 / .7); text-underline-offset: 3px; }
+.nxa-glossary-link:hover { text-decoration-style: solid; }
 
 /* pager */
 .nxa-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-block-start: clamp(36px, 5vw, 56px); }

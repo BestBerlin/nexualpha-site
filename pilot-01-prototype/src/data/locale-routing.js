@@ -79,6 +79,7 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([
   "/academy",
   "/coins",
   "/convert",
+  "/glossary",
   "/flash",
 ]);
 

@@ -32,6 +32,7 @@ import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
+import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 import { bybitStocksSitemapEntries } from "../src/data/bybit-stocks-seo.js";
 export { sitemapLocalesForRoute };
@@ -320,6 +321,10 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-coins.xml", lastmod: coins.lastmod });
   const convert = buildConvertSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-convert.xml", lastmod: convert.lastmod });
+  // Crypto glossary (2026-10-13): /glossary and every term page in the locales it is written in, rendered by the Worker
+  // at request time; hreflang sets match the page head.
+  const glossary = buildGlossarySitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-glossary.xml", lastmod: glossary.lastmod });
   // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
   // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
@@ -333,6 +338,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     academy,
     coins,
     convert,
+    glossary,
     apps,
     campaigns,
     publication,
@@ -341,6 +347,10 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
 
 export function buildAppsSitemap() {
   return buildDownloadOrAcademySitemap(appDownloadSitemapEntries);
+}
+
+export function buildGlossarySitemap() {
+  return buildDownloadOrAcademySitemap(glossarySitemapEntries);
 }
 
 export function buildAcademySitemap() {
@@ -544,6 +554,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-convert.xml"), splitSitemaps.convert.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
@@ -558,6 +569,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "sitemap-convert.xml"), splitSitemaps.convert.xml);
+  writeFileSync(path.join(clientDir, "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(clientDir, "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);

@@ -32,6 +32,8 @@ import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
+import { parseGlossaryPath } from "./glossary-routes.js";
+import { glossaryRouteSeo } from "./glossary-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
@@ -347,6 +349,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
+  if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
@@ -2145,6 +2149,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = converter.schemas;
     ogType = "website";
     if (!converter.indexable) robots = "noindex,follow";
+  } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Crypto glossary: same helper as the Worker head (src/data/glossary-seo.js).
+    const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = glossary.title;
+    description = glossary.description;
+    schemas = glossary.schemas;
+    ogType = pathname === "/glossary" ? "website" : "article";
+    if (!glossary.indexable) robots = "noindex,follow";
   } else if (parseBinanceOctoberPath(pathname)) {
     // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
     const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
