@@ -34,6 +34,18 @@ bash render.sh zh-Hans sample-e05.json
 
 `render.sh` builds, performs strict HyperFrames lint, then renders **silent** 1920×1080 and independently composed 1080×1920, 30fps masters. Files: `renders/<locale>-landscape.mp4`, `renders/<locale>-portrait.mp4`. It then extracts nine actual MP4 frames into `evidence/contact-video-*.png`. HTML contact sheets and Chrome JPGs are explicitly HTML-timeline evidence, never encoded-video evidence. Render logs are retained even on failure. This sandbox failed before capture with `uv_os_setpriority returned EPERM`; the lead needs a runtime that permits HyperFrames process creation/priority, not weaker content lint. Voice recording, forced alignment, SFX replacement, muxing, final phone/video playback review and content/brand approval remain lead production gates.
 
+### Lead narration commands
+
+```sh
+cd ops/academy-v3
+node narration-plan.mjs --out build/narration/narration-plan.json
+bash narrate.sh
+```
+
+`narration-plan.mjs` reads the reviewed v3 episode files for E05, E09 and E21, adapts their `tc` timecodes into global seconds, and includes every scene: problem shot, open, lesson shots, conversion card where supplied, end hook and close. The plan routes Sam to the separate Qwen3 VoiceDesign profile with the recorded instruction text, and routes Nexubo/narrator lines through the owner-approved English clone command from `OWNER-NOTE.txt`.
+
+`narrate.sh` uses the existing `/Volumes/致态2TB/nx-agents/education/v2/.venv` only, sets Hugging Face/Transformers offline flags, writes one wav per spoken line, and writes `build/narration/generation-manifest.json`. In a headless sandbox without Metal it stops with a `blocked-metal-unavailable` manifest; that is expected and is not narrated delivery. After the lead generates wavs, replace estimated timings with measured alignment before muxing narration and approved SFX into rendered videos.
+
 ## Components
 
 | Component | Contract |
