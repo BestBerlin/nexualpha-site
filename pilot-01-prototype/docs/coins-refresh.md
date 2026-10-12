@@ -43,7 +43,7 @@ The BaoTa host rewrites the runtime snapshot `/data/private/nexualpha/intel/coin
 | daily 11:20 (03:20 UTC) | `ops/coins-refresh/run.sh daily` → `build-coin-availability.mjs --reuse-universe --json-only --out <file>` | exchange listings, deposit networks, venue status |
 | Sunday 12:10 (04:10 UTC) | `ops/coins-refresh/run.sh weekly` → full run with `--json-only --out <file>` | coin universe ranks, prices, categories + listings |
 
-Host layout: `/data/agent/srv/coins-refresh/run.sh` and `app/` (copies of `scripts/build-coin-availability.mjs`,
+Host layout: `/data/agent/srv/coins-refresh/run.sh` (runs the generator in a throwaway `node:20-bookworm-slim` container; the host node does not run on its glibc) and `app/` (copies of `scripts/build-coin-availability.mjs`,
 `src/data/coins-routes.js`, `src/data/coins-snapshot.js`), log `/data/agent/srv/coins-refresh/refresh.log`, previous
 snapshot kept as `coins.json.prev`. Re-copy those three files after changing them.
 

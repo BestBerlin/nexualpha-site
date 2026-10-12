@@ -8,14 +8,15 @@
 set -euo pipefail
 HERE=$(cd "$(dirname "$0")" && pwd)
 OUT=${COINS_OUT:-/data/private/nexualpha/intel/coins.json}
-NODE=${NODE_BIN:-$(command -v node || echo /root/.nvm/versions/node/v20.20.2/bin/node)}
+# The host's own node does not run on its glibc: use the same image as the web containers (no npm install needed).
+IMAGE=${COINS_REFRESH_IMAGE:-node:20-bookworm-slim}
 mode=${1:-daily}
-args=(--json-only --out "$OUT")
+args=(--json-only --out "/out/$(basename "$OUT")")
 [ "$mode" = daily ] && args+=(--reuse-universe)
 [ -s "$OUT" ] || { echo "$(date -u +%FT%TZ) no $OUT yet: seed it with the release copy first" >&2; exit 1; }
 cp -p "$OUT" "$OUT.prev"
-cd "$HERE/app"
-if timeout 1800 "$NODE" scripts/build-coin-availability.mjs "${args[@]}"; then
+if timeout 1800 docker run --rm --name "coins-refresh-$mode" -v "$HERE/app:/app:ro" -v "$(dirname "$OUT"):/out" -w /app \
+    "$IMAGE" node scripts/build-coin-availability.mjs "${args[@]}"; then
   echo "$(date -u +%FT%TZ) $mode ok"
 else
   echo "$(date -u +%FT%TZ) $mode FAILED; $OUT unchanged (the generator writes via rename only after a usable snapshot)" >&2
