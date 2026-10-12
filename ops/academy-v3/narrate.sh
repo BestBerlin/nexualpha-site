@@ -34,28 +34,18 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-mkdir -p "$(dirname "$PLAN_PATH")"
-case "$(cd "$(dirname "$PLAN_PATH")" && pwd -P)/$(basename "$PLAN_PATH")" in
-  "$WORKTREE_ROOT"/*) ;;
-  *)
-    echo "Refusing to write plan outside the worktree: $PLAN_PATH" >&2
-    exit 2
-    ;;
-esac
-case "$(mkdir -p "$AUDIO_DIR" && cd "$AUDIO_DIR" && pwd -P)" in
-  "$WORKTREE_ROOT"/*) ;;
-  *)
-    echo "Refusing to write audio outside the worktree: $AUDIO_DIR" >&2
-    exit 2
-    ;;
-esac
-case "$(mkdir -p "$(dirname "$MANIFEST_PATH")" && cd "$(dirname "$MANIFEST_PATH")" && pwd -P)/$(basename "$MANIFEST_PATH")" in
-  "$WORKTREE_ROOT"/*) ;;
-  *)
-    echo "Refusing to write manifest outside the worktree: $MANIFEST_PATH" >&2
-    exit 2
-    ;;
-esac
+# Validate all resolved paths before creating any directory, including symlink ancestors.
+node - "$WORKTREE_ROOT" "$PLAN_PATH" "$AUDIO_DIR" "$MANIFEST_PATH" <<'NODE'
+const fs=require('node:fs');const path=require('node:path');
+const [root,...targets]=process.argv.slice(2);const allowed=fs.realpathSync(root)+path.sep;
+for(const target of targets){
+ let ancestor=path.resolve(target),tail=[];
+ while(!fs.existsSync(ancestor)){tail.unshift(path.basename(ancestor));ancestor=path.dirname(ancestor);}
+ const resolved=path.join(fs.realpathSync(ancestor),...tail);
+ if(!resolved.startsWith(allowed)) {console.error('Refusing output outside worktree: '+target);process.exit(2);}
+}
+NODE
+mkdir -p "$(dirname "$PLAN_PATH")" "$AUDIO_DIR" "$(dirname "$MANIFEST_PATH")"
 
 node "$SCRIPT_DIR/narration-plan.mjs" --out "$PLAN_PATH"
 

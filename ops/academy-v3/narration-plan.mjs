@@ -4,7 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const worktreeRoot = resolve(root, '../..');
-const defaultEpisodeDir = '/Volumes/致态2TB/nx-agents/education/v3/episodes';
+const defaultEpisodeDir = resolve(root,'episodes/source');
 const defaultEpisodes = ['E05', 'E09', 'E21'];
 const defaultOut = resolve(root, 'build/narration/narration-plan.json');
 const ownerRefAudio = '/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav';
@@ -37,11 +37,13 @@ const voiceProfiles = {
   samVoiceDesign: {
     id: 'sam-voice-design',
     mode: 'voice-design',
+    seed: null,
+    seed_note: 'Installed mlx_audio.tts.generate CLI has no seed option; review voice consistency before final delivery.',
     speakers: ['sam'],
     model: samVoiceDesignModel,
     lang_code: 'en',
     instruct: samVoiceInstruct,
-    source: '/Volumes/致态2TB/nx-agents/codex/queue/academy-global/BRIEF.md',
+    source: '/Volumes/致态2TB/nx-agents/codex/queue/academy-v3-samples/BRIEF.md',
     command_template: [
       'python', '-m', 'mlx_audio.tts.generate',
       '--model', samVoiceDesignModel,

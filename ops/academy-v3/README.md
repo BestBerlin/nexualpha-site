@@ -1,50 +1,41 @@
-# Academy v3 shared animation kit
+# Academy v3 sample episodes
 
-Internal authoring kit, built in the assigned worktree. No website changes, publication, partner-registry edits or dependency downloads. The English E05 sample adapts the owner's 2026-10-12 manual; it is a silent 120-second demo with estimated word timing, not a narrated or approved master.
+Internal E05 / E09 / E21 samples from the merged v3 scripts. No site changes, publication, registry edits, installs or model downloads. The original `sample-e05.json` remains a legacy 120-second kit fixture; the new `episodes/E05.json` is 130 seconds with the supplied conversion card. E09 is 154 seconds; E21 is 124 seconds.
 
-## Run from the repository root
+## Build and review
 
-Reuse the **existing** HyperFrames pilot dependency directory. The local session uses the sibling worktree because neither this checkout nor the main checkout has the pilot's dependencies. Set the path to whichever existing pilot dependency directory the lead retains; do not run a network install.
+Run from this repository's `ops/academy-v3` directory, reusing the existing `node_modules` symlink:
 
 ```sh
-cd ops/academy-v3
-ln -s /Volumes/致态2TB/nx-wt-codex-hyperframes-pilot/ops/academy-v2/hyperframes-l4/node_modules node_modules
+bash build-samples.sh
 npm test
-node build.mjs sample-e05.json en
-node build.mjs sample-e05.json zh-Hans
-node gallery.mjs
-node contact-sheets.mjs en
-node contact-sheets.mjs zh-Hans
-python3 -m http.server 4571 --bind 127.0.0.1
+python3 -m http.server 4573 --bind 127.0.0.1
 ```
 
-Skip `ln -s` if `node_modules` already exists. Tests also reuse the site's existing `pilot-01-prototype/node_modules/jsdom`; no new dependency is added to the site. Dependencies: existing HyperFrames 0.8.149, GSAP 3.15.0, QRCode 1.5.4. GSAP's original license header is preserved in copied runtime assets. The official logo is copied unmodified from `pilot-01-prototype/public/brand/nexualpha/nexualpha-round.svg`. Missing logo/source rigs fail the build.
+`from-v3.mjs` reads the frozen `episodes/source/` copies by default, preserves dialogue and source timecodes, maps teaching widgets and character actions, and separates open/conversion/hook/close so the kit never inserts them twice. To refresh from a reviewed script directory, use `node from-v3.mjs --source-root /absolute/path/to/episodes`. All commercial copy comes from the supplied source unchanged.
 
-Open `http://127.0.0.1:4571/evidence/contact-en-landscape.html`, `contact-en-portrait.html`, the corresponding `zh-Hans` pages, or `build/gallery/index.html`. A composition can be inspected at a deterministic time via `build/en-portrait/index.html?at=35`. Stop the preview server when finished. Build outputs and video masters are ignored; source and review evidence are tracked.
+Eight compositions: E05/E09/E21 English, plus E05 Simplified Chinese on-screen text, each in 1920×1080 and 1080×1920. Outputs are `build/<episode>-<locale>-<format>/`; contact sheets are `evidence/contact-<episode>-<locale>-<format>.html`. Each shot is sampled, including all ten E05 scenes. `contact-chrome-*.png` and `samples-browser-geometry.json` are Chrome HTML-timeline evidence, not MP4 evidence. Stop the preview server after review.
 
-### Lead render commands
-
-```sh
-cd ops/academy-v3
-# Optional: select an ALREADY installed browser; no automatic browser download is authorized.
-export HYPERFRAMES_BROWSER_PATH=/absolute/path/to/existing/chrome-or-headless-shell
-bash render.sh en sample-e05.json
-bash render.sh zh-Hans sample-e05.json
-```
-
-`render.sh` builds, performs strict HyperFrames lint, then renders **silent** 1920×1080 and independently composed 1080×1920, 30fps masters. Files: `renders/<locale>-landscape.mp4`, `renders/<locale>-portrait.mp4`. It then extracts nine actual MP4 frames into `evidence/contact-video-*.png`. HTML contact sheets and Chrome JPGs are explicitly HTML-timeline evidence, never encoded-video evidence. Render logs are retained even on failure. This sandbox failed before capture with `uv_os_setpriority returned EPERM`; the lead needs a runtime that permits HyperFrames process creation/priority, not weaker content lint. Voice recording, forced alignment, SFX replacement, muxing, final phone/video playback review and content/brand approval remain lead production gates.
-
-### Lead narration commands
+## Lead narration and render handoff
 
 ```sh
-cd ops/academy-v3
-node narration-plan.mjs --out build/narration/narration-plan.json
+bash narrate.sh --plan-only
 bash narrate.sh
+export HYPERFRAMES_BROWSER_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+bash build-samples.sh --render
 ```
 
-`narration-plan.mjs` reads the reviewed v3 episode files for E05, E09 and E21, adapts their `tc` timecodes into global seconds, and includes every scene: problem shot, open, lesson shots, conversion card where supplied, end hook and close. The plan routes Sam to the separate Qwen3 VoiceDesign profile with the recorded instruction text, and routes Nexubo/narrator lines through the owner-approved English clone command from `OWNER-NOTE.txt`.
+`narrate.sh` uses the existing v2 mlx virtualenv with offline model flags. Nexubo/narrator use the owner's exact female CLONE command and reference wav. Sam uses a separate VoiceDesign profile, as explicitly requested by this task's newer brief. The recorded instruction is: **a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish**. The installed CLI has no seed flag. No model download is attempted; missing cached models fail closed. Outputs stay under this worktree.
 
-`narrate.sh` uses the existing `/Volumes/致态2TB/nx-agents/education/v2/.venv` only, sets Hugging Face/Transformers offline flags, writes one wav per spoken line, and writes `build/narration/generation-manifest.json`. In a headless sandbox without Metal it stops with a `blocked-metal-unavailable` manifest; that is expected and is not narrated delivery. After the lead generates wavs, replace estimated timings with measured alignment before muxing narration and approved SFX into rendered videos.
+`narration-plan.mjs` plans all source scenes and 28 spoken lines, including conversion, hooks and closes. This sandbox cannot access Metal; `evidence/narration-generation-manifest.json` records the blocked generation. No narration wav was delivered. Run on a Metal-capable Mac with the existing cached models, review voice consistency, measure/align the wavs, update the estimated scene-local timing, and validate again before muxing.
+
+`render.sh` performs strict HyperFrames lint and renders silent masters to `renders/<episode>-<locale>-<format>.mp4`. It generates contact sheets from every actual video scene only on successful rendering. This sandbox fails before capture with `uv_os_setpriority returned EPERM`. Logs are retained; use the lead runner where process priority and Chrome creation are permitted. Do not weaken lint. Replace silent SFX cues with approved audio and mux narration after alignment. Long conversion/hook scripts may exceed their 6s/4s windows at natural speech speed; real audio is required to resolve this before master approval.
+
+## Visual direction
+
+Shared layouts alternate close-up reactions, wide UI demonstrations and full-screen details with a small pointer. Primary character rigs occupy roughly 35–50% of frame height in teaching character shots; the official mascot artwork remains unchanged. Every shot includes gestures/reactions, line-timed mouth motion and blinks. Sets have windows, shelves, lamps, desks and foreground floor layers. UI text uses a 34px minimum; KYC specimens stamp rejection then correction, checklists tick in sequence, and the auto-add diagram animates a balance pipe. E21's values are explicitly a teaching model and its switch is an illustrative state, never a claimed platform default. The hook uses an enlarged pointing/teasing Nexubo and large text.
+
+E05 shows the supplied partner name, code, source URL, disclosure and regional availability on one designed card. Its QR follows the existing kit contract and leads to the source-slug lesson page, not a receiving address. The restricted variant remains preserved in JSON metadata; this task renders only the requested en/zh-Hans variants. A production restricted-language rendition remains a separate gate.
 
 ## Components
 
@@ -65,14 +56,14 @@ Financial values, fees, addresses, pool scope and position amounts come from pro
 
 ## Episode JSON contract (version 1)
 
-`sample-e05.json` is the complete bilingual reference. The incoming episode directory did not exist at implementation time, so the lead must adapt those scripts to this explicit contract before bulk production.
+`episodes/*.json` are the adapted bilingual v3 inputs. `sample-e05.json` is the older kit test fixture.
 
 - `version: 1`, `episode: 1..24`, `slug: lower-case-kebab`, `title: {en, "zh-Hans"}`, optional `direction: "ltr" | "rtl"`.
 - `shots[]`: unique CSS-safe `id`, `duration` in seconds aligned to 30fps, `set`, `visual_en` storyboard description, `onscreen_text_en` / `onscreen_text_zh-Hans` (or localized `onscreen_text`), `antenna`, optional `ding`, `nexubo: {pose, expression}`, `sam: {pose, expression}`, `widgets[]`, `lines[]`.
 - First shot lasts exactly 6 seconds. Builder inserts the 3-second brand shot after it; other shots follow. Shot-local line times do **not** include the brand insertion. The demo retains E05's learning boundaries and adjusts the recap to accommodate a 4-second next hook within 120s.
 - `lines[]`: `speaker: "sam" | "nexubo" | "narrator"`, localized `text`, `start`, `end` in **shot-local** seconds, ordered and nonoverlapping. Optional `words: {en: [{text,start,end}], "zh-Hans": [...]}` (or single-language word array). Words use the same shot-local clock, preserve all spoken text, and may contain gaps. Missing words are estimated with `Intl.Segmenter`; replace them using real alignment before voiced delivery.
-- `end_hook: {duration: 3..5, text: {en, "zh-Hans"}, pose?}`. `close_duration: 4..6` (defaults to 4). Neither includes real narration in this demo.
-- `conversion_card: null` or `{duration: 4..10, partner_name?, code?, rebate_line?, disclosure}`. All copy can be localized. Commercial values appear only when supplied; code/rebate require a partner name. Disclosure is mandatory on the same card. The QR always encodes `https://nexualpha.com/starter/<slug>?src=academy-video`; there is no partner-link override. E05 supplies no conversion or commercial data.
+- `end_hook: {duration: 3..5, text: {en, "zh-Hans"}, pose?}`. `close_duration: 4..6` (defaults to 4). Optional `lines` carry estimated card narration; `close_lines` carries the close narration.
+- `conversion_card: null` or `{duration: 4..10, partner_name?, code?, rebate_line?, disclosure}`. All copy can be localized. Commercial values appear only when supplied; code/rebate require a partner name. Disclosure is mandatory on the same card. The QR always encodes `https://nexualpha.com/starter/<slug>?src=academy-video`; there is no partner-link override. The legacy fixture supplies no commercial data; the adapted E05 preserves the source card.
 - `visual_en` is retained as storyboard metadata, not passed to an image generator or guessed into financial data. `widgets` and rig props are the deterministic visual instructions. A localized widget string is `{en, "zh-Hans"}`; numeric values remain numbers or preformatted strings as appropriate.
 
 Widget props (all copy escaped):

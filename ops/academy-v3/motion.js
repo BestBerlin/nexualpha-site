@@ -13,6 +13,34 @@ SCENES.forEach((s,i)=>{
     timeline.from(row,{x:18,opacity:0,duration:.3,immediateRender:false},at+.4+j*.25);
     timeline.to(row,{borderColor:colors.blue,duration:.3,repeat:1,yoyo:true},at+Math.min(s.duration-1,2+j*2.5));
   });
+  // Hosts gesture at the teaching layer, then react; beats continue in long shots.
+  const arm = document.querySelector(p + ' .character .rig-arm-right');
+  for(let beat=at+.8;beat<at+s.duration-.8;beat+=3){
+    if(arm) timeline.to(arm,{rotation:-14,transformOrigin:'20% 80%',duration:.3,repeat:1,yoyo:true,ease:'power2.inOut'},beat);
+    timeline.to(p+' .cast',{y:-10,scaleY:1.02,duration:.25,repeat:1,yoyo:true},beat+.4);
+  }
+  document.querySelectorAll(p+' .widget-checklist .row').forEach((row,j)=>{
+    const chip=row.querySelector('.chip');
+    if(chip) timeline.from(chip,{scale:0,opacity:0,duration:.3,immediateRender:false},at+1+j*2.5);
+  });
+  document.querySelectorAll(p+' .sample-id').forEach((card,j)=>{
+    timeline.set(card.querySelector('.correction'),{visibility:'hidden'},at);
+    timeline.from(card.querySelector('.rejection'),{scale:1.4,opacity:0,duration:.3,immediateRender:false},at+.6+j*2.5);
+    timeline.set(card.querySelector('.rejection'),{visibility:'hidden'},at+3+j*2.5);
+    timeline.set(card.querySelector('.correction'),{visibility:'visible'},at+3+j*2.5);
+    timeline.from(card.querySelector('.correction'),{scale:1.4,duration:.3,immediateRender:false},at+3+j*2.5);
+  });
+  const connector=document.querySelector(p+' .match-connector');
+  if(connector) timeline.from(connector,{scaleX:0,opacity:0,duration:.4,immediateRender:false},at+2);
+  const pipe=document.querySelector(p+' .pipe i');
+  const toggle=document.querySelector(p+' .auto-toggle[data-auto-add="true"]');
+  if(pipe && toggle){
+    const risk=document.querySelector(p+' [data-risk-initial]');
+    if(risk){timeline.set(risk,{textContent:risk.dataset.riskInitial},at);timeline.set(risk,{textContent:risk.dataset.riskInitial+' + …'},at+2);}
+    timeline.from(toggle,{backgroundColor:'#516074',duration:.3,immediateRender:false},at+1);
+    for(let beat=at+1.3;beat<at+s.duration-1;beat+=2.5)
+      timeline.fromTo(pipe,{x:0,opacity:0},{x:80,opacity:1,duration:1.2,immediateRender:false},beat);
+  }else if(pipe) timeline.set(pipe,{visibility:'hidden'},at);
   const lamp = document.querySelector(p + ' .nexubo .rig-antenna-light');
   const lampPaint = lamp ? [...lamp.children].filter(el=>el.getAttribute('fill')!=='#ffffff') : [];
   if(lampPaint.length) timeline.set(lampPaint,{fill:colors[s.antenna]},at);

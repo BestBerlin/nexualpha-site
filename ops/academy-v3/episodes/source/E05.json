@@ -1,0 +1,316 @@
+{
+  "ep": 5,
+  "season": 1,
+  "slug": "kyc-who-gets-your-id",
+  "title_en": "How does KYC work, and who should get your ID?",
+  "title_zh": "KYC怎么做？证件应该交给谁？",
+  "goal_en": "Understand the general purpose and flow of identity verification, and submit only through a verified official channel.",
+  "goal_zh": "理解身份认证的一般目的和流程，知道只向核验后的官方渠道提交。",
+  "duration_target_s": 130,
+  "shots": [
+    {
+      "tc": "00:00-00:06",
+      "visual_en": "Sam sees an ID upload page; at the same time a chat window pops up: 'I can pass KYC for you.'",
+      "visual_zh": "小白看到证件上传页面；聊天窗口同时有人自称可以代过认证。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "It wants my ID. And this guy says he can do it for me?",
+          "zh": "它要我的证件，旁边这个人说能帮我代办？"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Chat: \"I can pass KYC for you\""
+      ],
+      "onscreen_text_zh": [
+        "聊天：“我能帮你代过认证”"
+      ]
+    },
+    {
+      "tc": "00:06-00:09",
+      "visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E05' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+      "visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第05集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+      "lines": [],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "S1 · E05",
+        "How does KYC work, and who should get your ID?"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "S1 · E05",
+        "KYC怎么做？证件应该交给谁？"
+      ]
+    },
+    {
+      "tc": "00:09-00:32",
+      "visual_en": "Nexubo closes the private chat with a ding (antenna red, chip 'Never send ID in chat'); camera zooms to the official domain and the official verification entry, antenna turns blue.",
+      "visual_zh": "小纳关闭私人聊天（天线红灯“叮”一声，红色警示条“不在聊天里发证件”），画面放大官网域名与官方认证入口，天线转蓝。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "Identity checks are usually there to confirm you are the account owner and to meet the rules. Make sure it's the official flow first. Don't hand your ID or codes to an 'agent' in a chat group.",
+          "zh": "身份认证通常用来核实账户本人、满足合规要求。先确认是官方流程，不要把证件、验证码交给聊天群里的代办。"
+        }
+      ],
+      "antenna": "red",
+      "onscreen_text_en": [
+        "Never send ID in chat",
+        "Official domain ✓"
+      ],
+      "onscreen_text_zh": [
+        "不在聊天里发证件",
+        "官方域名 ✓"
+      ]
+    },
+    {
+      "tc": "00:32-01:00",
+      "visual_en": "Mock flow: real residence and name → valid ID → photo as instructed. Every ID shown is an obviously fictional sample marked SAMPLE.",
+      "visual_zh": "模拟流程：真实居住地和姓名→有效证件→按要求拍摄；所有证件为明显虚构样张。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Usually you enter your real details, upload a supported valid ID, then follow the prompts for a photo or face check. Whether you need proof of address, and which IDs are accepted, depends on your region and platform.",
+          "zh": "一般先填真实信息，再提交支持的有效证件，按提示完成照片或本人验证。是否需要地址证明、接受什么证件，都取决于地区和平台。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "1 Real details",
+        "2 Valid ID",
+        "3 Photo / face check",
+        "SAMPLE ID · fictional"
+      ],
+      "onscreen_text_zh": [
+        "1 真实信息",
+        "2 有效证件",
+        "3 照片／本人验证",
+        "样张 · 虚构"
+      ]
+    },
+    {
+      "tc": "01:00-01:24",
+      "visual_en": "Three failed samples (glare, cropped, expired) each get a red X, then morph into a clear, complete, valid example with a green check.",
+      "visual_zh": "反光、裁切、过期三张失败样张变成清晰、完整、有效的示意图。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "If it fails, read the reason first. Is the ID expired? Is there glare? Does the name match? Fix it as instructed. Never try again with a fake identity.",
+          "zh": "失败时先看原因：证件是否过期、画面是否反光、姓名是否一致。按提示补正，不要换一个虚假的身份去尝试。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Glare ✗",
+        "Cropped ✗",
+        "Expired ✗",
+        "Clear · complete · valid ✓"
+      ],
+      "onscreen_text_zh": [
+        "反光 ✗",
+        "裁切 ✗",
+        "过期 ✗",
+        "清晰 · 完整 · 有效 ✓"
+      ]
+    },
+    {
+      "tc": "01:24-01:43",
+      "visual_en": "Status stays 'Under review'; an official help link sits beside it. No countdown, no 'approved in X minutes' promise.",
+      "visual_zh": "“审核中”状态保持；旁边是官方帮助入口，不出现倒计时通过承诺。",
+      "lines": [
+        {
+          "who": "Sam",
+          "en": "Once I'm done, can I trade right away?",
+          "zh": "做完是不是马上能交易？"
+        },
+        {
+          "who": "Nexubo",
+          "en": "Not guaranteed. The result, the products you can use and whether you can deposit all depend on the official notice. And this academy never collects your real ID.",
+          "zh": "不保证。审核结果、可用产品和入金资格都要看官方通知。这个学院也不收集你的真实证件。"
+        }
+      ],
+      "antenna": "blue",
+      "onscreen_text_en": [
+        "Under review",
+        "Official help"
+      ],
+      "onscreen_text_zh": [
+        "审核中",
+        "官方帮助"
+      ]
+    },
+    {
+      "tc": "01:43-01:56",
+      "visual_en": "Multiple choice: official verification page / private 'agent' / post your ID in the course chat. Only the first turns green.",
+      "visual_zh": "选择题：官网认证入口／私信代办／把证件发到课程聊天区。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Who gets your ID? Only the verified official flow. Not us, and not a stranger.",
+          "zh": "证件交给谁？只按核验后的官方流程提交，不交给我们，也不交给陌生人。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Official verification page ✓",
+        "Private 'agent' ✗",
+        "Course chat ✗"
+      ],
+      "onscreen_text_zh": [
+        "官网认证入口 ✓",
+        "私信代办 ✗",
+        "课程聊天区 ✗"
+      ]
+    },
+    {
+      "tc": "01:56-02:02",
+      "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+      "visual_zh": "转化卡（6秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+      "lines": [
+        {
+          "who": "Nexubo",
+          "en": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+          "zh": "准备好认证了？只在官网开始。我们的 OKX 合作链接直达官网，邀请码 nexu888 可享手续费返还。我们从不索取你的证件。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "OKX · official site via partner link",
+        "nexualpha.com/go/okx",
+        "Code nexu888",
+        "Partner link · the exchange pays our commission",
+        "Availability depends on your country or region"
+      ],
+      "onscreen_text_zh": [
+        "OKX · 合作链接直达官网",
+        "nexualpha.com/go/okx",
+        "邀请码 nexu888",
+        "合作推广链接 · 佣金由交易所支付",
+        "是否可用取决于你所在的国家或地区"
+      ]
+    },
+    {
+      "tc": "02:02-02:06",
+      "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+      "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+          "zh": "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。"
+        }
+      ],
+      "antenna": "amber",
+      "onscreen_text_en": [
+        "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press."
+      ],
+      "onscreen_text_zh": [
+        "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。"
+      ]
+    },
+    {
+      "tc": "02:06-02:10",
+      "visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+      "visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+      "lines": [
+        {
+          "who": "Narrator",
+          "en": "Understand first, then act.",
+          "zh": "先看懂，再动手。"
+        }
+      ],
+      "antenna": "green",
+      "onscreen_text_en": [
+        "Sam's First Crypto Lesson",
+        "Understand first, then act.",
+        "One verified gateway to the world's exchanges",
+        "nexualpha.com"
+      ],
+      "onscreen_text_zh": [
+        "小白的加密第一课",
+        "先看懂，再动手。",
+        "全球交易所，一个官方入口",
+        "nexualpha.com"
+      ]
+    }
+  ],
+  "end_hook": {
+    "en": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+    "zh": "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。"
+  },
+  "conversion_card": {
+    "partner": "okx",
+    "partners": [
+      "okx"
+    ],
+    "url": "nexualpha.com/go/okx",
+    "codes": {
+      "okx": "nexu888"
+    },
+    "line_en": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+    "line_zh": "准备好认证了？只在官网开始。我们的 OKX 合作链接直达官网，邀请码 nexu888 可享手续费返还。我们从不索取你的证件。",
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "availability_en": "Availability depends on your country or region",
+    "availability_zh": "是否可用取决于你所在的国家或地区",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "Ready to verify? Start only on the official site. Check the address on NexuAlpha first. We never ask for your ID.",
+      "line_zh": "准备好认证了？只在官网开始，先在 NexuAlpha 核对网址。我们从不索取你的证件。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "page_cta": {
+    "kind": "signup",
+    "partner": "okx",
+    "line_en": "Verify only on the official site. Open OKX through our partner link (code nexu888). We never collect your ID.",
+    "line_zh": "只在官网认证。通过我们的 OKX 合作链接进入（邀请码 nexu888）。我们不收集你的证件。",
+    "placement": "directly beside / under the video player; never gates the lesson",
+    "url": "nexualpha.com/go/okx",
+    "codes": {
+      "okx": "nexu888"
+    },
+    "disclosure_en": "Partner link · the exchange pays our commission",
+    "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+  },
+  "exercise": {
+    "task_en": "Put the verification steps in order using fictional details. Uploading a real ID to the course is not allowed.",
+    "task_zh": "用虚构信息排列认证步骤；课程禁止上传真实证件。",
+    "answer_en": "Verify the entry → submit your real details as your region requires → wait and check the result.",
+    "answer_zh": "核验入口→按本地区要求提交真实本人资料→等待并核对结果。"
+  },
+  "red_lines": [
+    "Never promise review times or that 'everything unlocks after KYC' ｜ 不承诺审核时限或“认证后所有功能开放”",
+    "No tutorial for bypassing verification ｜ 不做绕过认证教程",
+    "All IDs on screen are obviously fictional samples ｜ 画面证件全部为明显虚构样张",
+    "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+    "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+  ],
+  "sources": [
+    "S11",
+    "S12"
+  ]
+}

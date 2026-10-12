@@ -30,6 +30,7 @@ const COPY = {
     isolated: "Isolated box",
     cross: "Cross pool",
     autoAdd: "Auto-add",
+    moneyAtRisk: "Money at risk",
     poolScope: "Pool scope",
     position: "Position",
     amount: "Amount",
@@ -81,6 +82,7 @@ const COPY = {
     isolated: "逐仓盒子",
     cross: "全仓池",
     autoAdd: "自动追加",
+    moneyAtRisk: "风险资金",
     poolScope: "池范围",
     position: "仓位",
     amount: "数量",
@@ -111,6 +113,9 @@ const TYPES = {
   "risk-meter": "riskMeter",
   "candlestick-chart": "candlestickChart",
   margin: "margin",
+  "margin-flow": "marginFlow",
+  "id-samples": "idSamples",
+  "transfer-match": "transferMatch",
   checklist: "checklist",
   identity: "identity",
   warning: "warning",
@@ -142,12 +147,13 @@ export function setBackdrop(name, locale = "en") {
     "transfer-station": copy.transferStation,
   }[name] || copy.studyDesk;
   const decor = {
-    "study-desk": '<circle class="lamp" cx="128" cy="116" r="26"/><path class="book" d="M180 238h92v38h-92zM288 238h92v38h-92z"/>',
+    "study-desk": '<path class="lamp" d="M94 156h68l-18-35h-32z"/><path d="M128 157v66h-27m27 0h27" fill="none" stroke="#516074" stroke-width="5"/><path class="book" d="M180 238h92v38h-92zM288 238h92v38h-92z"/>',
     "trading-desk": '<path class="term" d="M176 102h248v126H176z"/><path class="spark" d="M206 190l42-36 42 18 54-52 44 28"/>',
     "transfer-station": '<path class="gate" d="M146 118h132v118H146zM346 118h132v118H346z"/><path class="route" d="M284 174h54m-18-18 18 18-18 18"/>',
   }[name] || "";
   return `<svg class="set-backdrop set-${esc(name)}" viewBox="0 0 640 360" role="img" aria-label="${esc(label)}">`
     + '<rect class="room" x="0" y="0" width="640" height="360" rx="18"/>'
+    + '<path d="M32 40h112v100H32z" fill="#fff" stroke="#c2cee4" stroke-width="6"/><path d="M88 40v100M32 90h112" stroke="#c2cee4" stroke-width="4"/><path d="M450 96h140v8H450zM470 58h22v38h-22zM500 68h30v28h-30z" fill="#a8b9e3"/>'
     + '<path class="floor" d="M0 276h640v84H0z"/>'
     + '<path class="desk" d="M118 226h404l34 78H84z"/>'
     + '<path class="desk-edge" d="M96 304h448"/>'
@@ -156,6 +162,9 @@ export function setBackdrop(name, locale = "en") {
 }
 
 const RENDER = {
+  idSamples: (spec, copy) => `<div class="id-samples">${(spec.labels ?? []).map(label=>`<div class="sample-id"><div class="id-portrait"></div><div class="id-lines">SAMPLE ID<br><span>— — —</span></div><div class="rejection">✗ ${esc(label)}</div><div class="correction">✓ ${esc(copy.complete)}</div></div>`).join('')}</div><small>${esc(spec.note ?? (copy.note+' · SAMPLE'))}</small>`,
+  transferMatch: (spec, copy) => `<div class="transfer-match"><div class="transfer-end"><h2>${esc(spec.sender)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div><div class="match-connector">✓</div><div class="transfer-end"><h2>${esc(spec.receiver)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div></div><small>${esc(spec.note ?? '')}</small>`,
+  marginFlow: (spec, copy) => `<div class="margin-flow"><div class="box">${esc(copy.available)}<b>${esc(spec.balance)}</b></div><div class="pipe"><i></i></div><div class="box">${esc(copy.isolated)}<b>${esc(spec.margin)}</b></div></div><div class="auto-toggle" data-auto-add="${Boolean(spec.autoAdd)}">${esc(copy.autoAdd)} · ${esc(spec.autoAdd ? copy.on : copy.off)}</div>${spec.autoAdd ? `<div class="risk-total">${esc(copy.moneyAtRisk)} · <b data-risk-initial="${esc(spec.margin)}">${esc(spec.margin)} + …</b></div>` : ''}<p>${esc(spec.label ?? '')}</p><small>${esc(spec.note ?? '')}</small>`,
   priceBoard: (spec, copy) => {
     const rows = asArray(spec.rows || spec.items).map((row) => rowBlock([
       cell(copy.symbol, row.symbol),
