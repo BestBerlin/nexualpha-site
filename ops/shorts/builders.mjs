@@ -9,8 +9,14 @@ import {
 
 export const MARKET_URL = 'https://nexualpha.com/intel/market-events.json';
 export const FUNDING_URL = 'https://nexualpha.com/intel/funding-rates.json';
-export const DISCLAIMER = '数据来自 NexuAlpha 覆盖的交易所，为下限，不构成投资建议';
 const HOUR = 3600000;
+const HOSTS = {
+  hero: {pose: 'rest', expression: 'surprised'},
+  split: {pose: 'point', expression: 'thinking'},
+  receipt: {pose: 'rest', expression: 'surprised'},
+  funding: {pose: 'rest', expression: 'thinking'},
+  end: {pose: 'wave', expression: 'happy'},
+};
 function requireValue(ok, message) { if (!ok) throw new Error(message); }
 function text(value, name) { requireValue(typeof value === 'string' && value.trim().length > 0 && value.length < 300, `Missing or invalid ${name}`); return value; }
 function number(value, name, min = 0) { requireValue(typeof value === 'number' && Number.isFinite(value) && value >= min, `Missing or invalid ${name}`); return value; }
@@ -122,7 +128,7 @@ function platformMeta(strings, values, locale, platform) {
   const url = platformUrl(locale, platform);
   return {
     title: entry.title(values),
-    description: `${entry.description(values)}\n${entry.ctaLabel}: ${url}\n${strings.copy.disclaimer}`,
+    description: `${entry.description(values)}\n${entry.ctaLabel}: ${url}`,
     hashtags: [...entry.hashtags],
     cta: {label: entry.ctaLabel, url},
   };
@@ -164,6 +170,7 @@ export function buildPackage(data, lang) {
     spokenBigUsd: spokenUsdZh(big.usd),
     time,
     topRates,
+    topRate: data.rates[0].rate,
   };
   const reaction = {
     pose: 'point-right',
@@ -238,9 +245,14 @@ export function buildPackage(data, lang) {
       lines: callStrings(strings, 'end', 'lines', values),
       narration: callStrings(strings, 'end', 'narration', values),
     },
-  ].map(s => ({...s, captions: captionLines(s.narration,lang), duration: 6}));
+  ].map(s => ({
+    ...s,
+    mascot: {...s.mascot, ...HOSTS[s.kind]},
+    captions: captionLines(s.narration, lang),
+    duration: 6,
+  }));
   const platforms = Object.fromEntries(PLATFORM_KEYS.map(platform => [platform, platformMeta(strings, values, lang, platform)]));
   const primary = platforms.youtube;
   requireValue([...primary.title].length <= 70, 'Title exceeds 70 characters');
-  return {slides, meta: {lang, locale: lang, dir: strings.dir, rtl: RTL_LOCALES.includes(lang), title: primary.title, description: primary.description, hashtags: primary.hashtags, cta: primary.cta, platforms, generatedAt: data.generatedAt, fundingAt: data.fundingAt, source: data.source, sourceUrls: [MARKET_URL, ...(data.fundingSourceUrl ? [data.fundingSourceUrl] : [])], date: data.generatedAt.slice(0,10), disclaimer: DISCLAIMER, reactionThresholdUsd: LIQUIDATION_REACTION_THRESHOLD_USD}};
+  return {slides, meta: {lang, locale: lang, dir: strings.dir, rtl: RTL_LOCALES.includes(lang), title: primary.title, description: primary.description, hashtags: primary.hashtags, cta: primary.cta, platforms, generatedAt: data.generatedAt, fundingAt: data.fundingAt, source: data.source, sourceUrls: [MARKET_URL, ...(data.fundingSourceUrl ? [data.fundingSourceUrl] : [])], date: data.generatedAt.slice(0,10), reactionThresholdUsd: LIQUIDATION_REACTION_THRESHOLD_USD}};
 }

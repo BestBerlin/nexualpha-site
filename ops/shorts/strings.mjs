@@ -1,584 +1,302 @@
 import {localizedPath} from '../../pilot-01-prototype/src/data/locale-routing.js';
-
-export const SUPPORTED_LOCALES = ['en', 'es', 'pt-BR', 'vi', 'id', 'tr', 'ru', 'zh-Hans', 'ar'];
+export const SUPPORTED_LOCALES = ['en','es','pt-BR','vi','id','tr','ru','zh-Hans','ar'];
 export const RTL_LOCALES = ['ar'];
-export const PLATFORM_KEYS = ['youtube', 'tiktok', 'x', 'telegram'];
-
-// Nexubo turns the antenna red only when 24h covered liquidations reach $100M.
+export const PLATFORM_KEYS = ['youtube','tiktok','x','telegram'];
 export const LIQUIDATION_REACTION_THRESHOLD_USD = 100_000_000;
-
-export const liquidationsPath = locale => localizedPath('/liquidations', locale);
-
-const makeMeta = ({title, description, hashtags, ctaLabel}) => ({
-  youtube: {title, description, hashtags, ctaLabel},
-  tiktok: {title, description, hashtags, ctaLabel},
-  x: {title, description, hashtags, ctaLabel},
-  telegram: {title, description, hashtags, ctaLabel},
-});
-
-export const STRINGS = {
-  en: {
-    dir: 'ltr',
-    labels: {long: 'long', short: 'short', longs: 'Longs', shorts: 'Shorts', sideLong: 'LONG', sideShort: 'SHORT'},
-    copy: {
-      fullData: 'Full market data',
-      scope: 'Covered venues only; this is a lower bound.',
-      disclaimer: 'This is not investment advice.',
-      negativeFunding: 'Negative funding means shorts pay longs.',
-      snapshot: 'This funding view is a current snapshot.',
-      intervals: 'Funding intervals can vary by venue.',
-      observed: 'Observed inside covered venues.',
-      longs: 'Longs',
-      shorts: 'Shorts',
-      long: 'Long',
-      short: 'Short',
-      cta: 'Open the full liquidation board.',
-      domain: 'nexualpha.com',
+export const liquidationsPath = locale => localizedPath('/liquidations',locale);
+const LOCALES = {
+  "en": {
+    "dir": "ltr",
+    "labels": {
+      "long": "long",
+      "short": "short",
+      "longs": "Longs",
+      "shorts": "Shorts",
+      "sideLong": "LONG",
+      "sideShort": "SHORT"
     },
-    slides: {
-      hero: {
-        title: '24h liquidation data',
-        label: '24h liquidations, at least',
-        support: v => [`Shorts account for ${v.shortShare}.`, 'Covered venues only; this is a lower bound.'],
-        lines: v => [`At least ${v.total} was liquidated in covered venues.`, `Shorts account for ${v.shortShare}.`, 'Covered venues only; this is a lower bound.'],
-        narration: v => `Covered venues show at least ${v.total} in 24-hour liquidations. Shorts account for ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Long and short liquidation split',
-        label: 'Dominant side',
-        support: v => [`Short liquidations total ${v.shortUsd}.`, `Long liquidations total ${v.longUsd}.`],
-        lines: v => ['Covered venues only; this is a lower bound.', `Long liquidations total ${v.longUsd}, or ${v.longShare}.`, `Short liquidations total ${v.shortUsd}, or ${v.shortShare}.`],
-        narration: v => `Long liquidations total ${v.longUsd}. Short liquidations total ${v.shortUsd}. The figures are a covered-venue lower bound.`,
-      },
-      receipt: {
-        title: 'Largest observed order',
-        label: 'Largest observed order',
-        support: v => [`${v.venue} shows ${v.symbol}.`, `${v.sideLabel} side at ${v.time}.`],
-        lines: v => [`${v.venue} shows ${v.symbol}.`, `The ${v.sideLabel} order was ${v.bigUsd}.`, `It was observed at ${v.time}.`],
-        narration: v => `The largest observed order came from ${v.venue} on ${v.symbol}. It was a ${v.sideLabel} liquidation worth ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Top three absolute funding rates',
-        label: 'Top absolute funding rates',
-        support: () => ['Negative funding means shorts pay longs.', 'This is a current snapshot.'],
-        lines: () => ['Negative funding means shorts pay longs.', 'This snapshot is not a 24-hour extreme.'],
-        narration: v => `The current funding snapshot ranks the top three absolute rates: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Full market data',
-        label: 'Full market data',
-        support: () => ['Telegram @NexuAlphaClub.', 'Covered venues only; this is a lower bound.', 'This is not investment advice.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Open the full liquidation board.', 'Covered venues only; this is not investment advice.'],
-        narration: () => 'Open the full liquidation board on NexuAlpha. Daily updates are available on the site.',
-      },
+    "copy": {
+      "fullData": "Full market data",
+      "negativeFunding": "Negative funding means shorts pay longs.",
+      "longs": "Longs",
+      "shorts": "Shorts",
+      "long": "Long",
+      "short": "Short",
+      "cta": "Open the full liquidation board.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `24h liquidations at least ${v.total}`,
-      description: v => `Covered venues show at least ${v.total} in 24-hour liquidations. Shorts account for ${v.shortShare}. The largest observed order was ${v.bigUsd} on ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Crypto', '#Liquidations', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Open the full liquidation board',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Crypto",
+      "#Liquidations",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  es: {
-    dir: 'ltr',
-    labels: {long: 'largo', short: 'corto', longs: 'Largos', shorts: 'Cortos', sideLong: 'LARGO', sideShort: 'CORTO'},
-    copy: {
-      fullData: 'Datos completos del mercado',
-      scope: 'Solo venues cubiertos; es un límite inferior.',
-      disclaimer: 'Esto no es asesoramiento financiero.',
-      negativeFunding: 'La financiación negativa significa que los cortos pagan a los largos.',
-      snapshot: 'Esta vista de financiación es una instantánea actual.',
-      intervals: 'Los intervalos de financiación pueden variar por venue.',
-      observed: 'Observado dentro de los venues cubiertos.',
-      longs: 'Largos',
-      shorts: 'Cortos',
-      long: 'Largo',
-      short: 'Corto',
-      cta: 'Abre el panel completo de liquidaciones.',
-      domain: 'nexualpha.com',
+  "es": {
+    "dir": "ltr",
+    "labels": {
+      "long": "largo",
+      "short": "corto",
+      "longs": "Largos",
+      "shorts": "Cortos",
+      "sideLong": "LARGO",
+      "sideShort": "CORTO"
     },
-    slides: {
-      hero: {
-        title: 'Datos de liquidaciones en 24 horas',
-        label: 'Liquidaciones en 24 horas, al menos',
-        support: v => [`Los cortos representan ${v.shortShare}.`, 'Solo venues cubiertos; es un límite inferior.'],
-        lines: v => [`Al menos ${v.total} fue liquidado en venues cubiertos.`, `Los cortos representan ${v.shortShare}.`, 'Solo venues cubiertos; es un límite inferior.'],
-        narration: v => `Los venues cubiertos muestran al menos ${v.total} en liquidaciones de 24 horas. Los cortos representan ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Distribución entre largos y cortos',
-        label: 'Lado dominante',
-        support: v => [`Las liquidaciones cortas suman ${v.shortUsd}.`, `Las liquidaciones largas suman ${v.longUsd}.`],
-        lines: v => ['Solo venues cubiertos; es un límite inferior.', `Las liquidaciones largas suman ${v.longUsd}, o ${v.longShare}.`, `Las liquidaciones cortas suman ${v.shortUsd}, o ${v.shortShare}.`],
-        narration: v => `Las liquidaciones largas suman ${v.longUsd}. Las liquidaciones cortas suman ${v.shortUsd}. Las cifras son un límite inferior de venues cubiertos.`,
-      },
-      receipt: {
-        title: 'Mayor orden observada',
-        label: 'Mayor orden observada',
-        support: v => [`${v.venue} muestra ${v.symbol}.`, `Lado ${v.sideLabel} a las ${v.time}.`],
-        lines: v => [`${v.venue} muestra ${v.symbol}.`, `La orden ${v.sideLabel} fue de ${v.bigUsd}.`, `Se observó a las ${v.time}.`],
-        narration: v => `La mayor orden observada vino de ${v.venue} en ${v.symbol}. Fue una liquidación ${v.sideLabel} por ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Tres mayores tasas absolutas de financiación',
-        label: 'Mayores tasas absolutas de financiación',
-        support: () => ['La financiación negativa significa que los cortos pagan a los largos.', 'Esta es una instantánea actual.'],
-        lines: () => ['La financiación negativa significa que los cortos pagan a los largos.', 'Esta instantánea no es un extremo de 24 horas.'],
-        narration: v => `La instantánea actual de financiación ordena las tres mayores tasas absolutas: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Datos completos del mercado',
-        label: 'Datos completos del mercado',
-        support: () => ['Telegram @NexuAlphaClub.', 'Solo venues cubiertos; es un límite inferior.', 'Esto no es asesoramiento financiero.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Abre el panel completo de liquidaciones.', 'Solo venues cubiertos; esto no es asesoramiento financiero.'],
-        narration: () => 'Abre el panel completo de liquidaciones en NexuAlpha. Hay actualizaciones diarias disponibles en el sitio.',
-      },
+    "copy": {
+      "fullData": "Datos completos del mercado",
+      "negativeFunding": "La financiación negativa significa que los cortos pagan a los largos.",
+      "longs": "Largos",
+      "shorts": "Cortos",
+      "long": "Largo",
+      "short": "Corto",
+      "cta": "Abre el panel completo de liquidaciones.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `Liquidaciones 24h de al menos ${v.total}`,
-      description: v => `Los venues cubiertos muestran al menos ${v.total} en liquidaciones de 24 horas. Los cortos representan ${v.shortShare}. La mayor orden observada fue de ${v.bigUsd} en ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Cripto', '#Liquidaciones', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Abre el panel completo de liquidaciones',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Cripto",
+      "#Liquidaciones",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  'pt-BR': {
-    dir: 'ltr',
-    labels: {long: 'comprada', short: 'vendida', longs: 'Comprados', shorts: 'Vendidos', sideLong: 'COMPRADA', sideShort: 'VENDIDA'},
-    copy: {
-      fullData: 'Dados completos do mercado',
-      scope: 'Somente venues cobertos; este é um piso.',
-      disclaimer: 'Isto não é aconselhamento financeiro.',
-      negativeFunding: 'Funding negativo significa que vendidos pagam comprados.',
-      snapshot: 'Esta visão de funding é um retrato atual.',
-      intervals: 'Os intervalos de funding podem variar por venue.',
-      observed: 'Observado dentro dos venues cobertos.',
-      longs: 'Comprados',
-      shorts: 'Vendidos',
-      long: 'Comprada',
-      short: 'Vendida',
-      cta: 'Abra o painel completo de liquidações.',
-      domain: 'nexualpha.com',
+  "pt-BR": {
+    "dir": "ltr",
+    "labels": {
+      "long": "comprada",
+      "short": "vendida",
+      "longs": "Comprados",
+      "shorts": "Vendidos",
+      "sideLong": "COMPRADA",
+      "sideShort": "VENDIDA"
     },
-    slides: {
-      hero: {
-        title: 'Dados de liquidações em 24 horas',
-        label: 'Liquidações em 24 horas, no mínimo',
-        support: v => [`Vendidos representam ${v.shortShare}.`, 'Somente venues cobertos; este é um piso.'],
-        lines: v => [`Pelo menos ${v.total} foi liquidado nos venues cobertos.`, `Vendidos representam ${v.shortShare}.`, 'Somente venues cobertos; este é um piso.'],
-        narration: v => `Os venues cobertos mostram pelo menos ${v.total} em liquidações de 24 horas. Vendidos representam ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Divisão entre comprados e vendidos',
-        label: 'Lado dominante',
-        support: v => [`Liquidações vendidas somam ${v.shortUsd}.`, `Liquidações compradas somam ${v.longUsd}.`],
-        lines: v => ['Somente venues cobertos; este é um piso.', `Liquidações compradas somam ${v.longUsd}, ou ${v.longShare}.`, `Liquidações vendidas somam ${v.shortUsd}, ou ${v.shortShare}.`],
-        narration: v => `Liquidações compradas somam ${v.longUsd}. Liquidações vendidas somam ${v.shortUsd}. Os valores são um piso dos venues cobertos.`,
-      },
-      receipt: {
-        title: 'Maior ordem observada',
-        label: 'Maior ordem observada',
-        support: v => [`${v.venue} mostra ${v.symbol}.`, `Lado ${v.sideLabel} em ${v.time}.`],
-        lines: v => [`${v.venue} mostra ${v.symbol}.`, `A ordem ${v.sideLabel} foi de ${v.bigUsd}.`, `Ela foi observada em ${v.time}.`],
-        narration: v => `A maior ordem observada veio da ${v.venue} em ${v.symbol}. Foi uma liquidação ${v.sideLabel} de ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Três maiores taxas absolutas de funding',
-        label: 'Maiores taxas absolutas de funding',
-        support: () => ['Funding negativo significa que vendidos pagam comprados.', 'Este é um retrato atual.'],
-        lines: () => ['Funding negativo significa que vendidos pagam comprados.', 'Este retrato não é um extremo de 24 horas.'],
-        narration: v => `O retrato atual de funding ordena as três maiores taxas absolutas: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Dados completos do mercado',
-        label: 'Dados completos do mercado',
-        support: () => ['Telegram @NexuAlphaClub.', 'Somente venues cobertos; este é um piso.', 'Isto não é aconselhamento financeiro.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Abra o painel completo de liquidações.', 'Somente venues cobertos; isto não é aconselhamento financeiro.'],
-        narration: () => 'Abra o painel completo de liquidações na NexuAlpha. Atualizações diárias estão disponíveis no site.',
-      },
+    "copy": {
+      "fullData": "Dados completos do mercado",
+      "negativeFunding": "Funding negativo significa que vendidos pagam comprados.",
+      "longs": "Comprados",
+      "shorts": "Vendidos",
+      "long": "Comprada",
+      "short": "Vendida",
+      "cta": "Abra o painel completo de liquidações.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `Liquidações 24h de pelo menos ${v.total}`,
-      description: v => `Os venues cobertos mostram pelo menos ${v.total} em liquidações de 24 horas. Vendidos representam ${v.shortShare}. A maior ordem observada foi de ${v.bigUsd} na ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Cripto', '#Liquidacoes', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Abra o painel completo de liquidações',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Cripto",
+      "#Liquidacoes",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  vi: {
-    dir: 'ltr',
-    labels: {long: 'long', short: 'short', longs: 'Long', shorts: 'Short', sideLong: 'LONG', sideShort: 'SHORT'},
-    copy: {
-      fullData: 'Dữ liệu thị trường đầy đủ',
-      scope: 'Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.',
-      disclaimer: 'Đây không phải là lời khuyên đầu tư.',
-      negativeFunding: 'Funding âm nghĩa là vị thế short trả cho vị thế long.',
-      snapshot: 'Góc nhìn funding này là ảnh chụp hiện tại.',
-      intervals: 'Chu kỳ funding có thể khác nhau theo từng sàn.',
-      observed: 'Được quan sát trong các sàn được theo dõi.',
-      longs: 'Long',
-      shorts: 'Short',
-      long: 'Long',
-      short: 'Short',
-      cta: 'Mở bảng thanh lý đầy đủ.',
-      domain: 'nexualpha.com',
+  "vi": {
+    "dir": "ltr",
+    "labels": {
+      "long": "long",
+      "short": "short",
+      "longs": "Long",
+      "shorts": "Short",
+      "sideLong": "LONG",
+      "sideShort": "SHORT"
     },
-    slides: {
-      hero: {
-        title: 'Dữ liệu thanh lý 24 giờ',
-        label: 'Thanh lý 24 giờ, tối thiểu',
-        support: v => [`Short chiếm ${v.shortShare}.`, 'Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.'],
-        lines: v => [`Ít nhất ${v.total} đã bị thanh lý trên các sàn được theo dõi.`, `Short chiếm ${v.shortShare}.`, 'Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.'],
-        narration: v => `Các sàn được theo dõi ghi nhận ít nhất ${v.total} thanh lý trong 24 giờ. Short chiếm ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Tỷ lệ thanh lý long và short',
-        label: 'Phía chiếm ưu thế',
-        support: v => [`Thanh lý short đạt ${v.shortUsd}.`, `Thanh lý long đạt ${v.longUsd}.`],
-        lines: v => ['Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.', `Thanh lý long đạt ${v.longUsd}, tương đương ${v.longShare}.`, `Thanh lý short đạt ${v.shortUsd}, tương đương ${v.shortShare}.`],
-        narration: v => `Thanh lý long đạt ${v.longUsd}. Thanh lý short đạt ${v.shortUsd}. Các con số là mức tối thiểu từ sàn được theo dõi.`,
-      },
-      receipt: {
-        title: 'Lệnh lớn nhất được quan sát',
-        label: 'Lệnh lớn nhất được quan sát',
-        support: v => [`${v.venue} ghi nhận ${v.symbol}.`, `Phía ${v.sideLabel} tại ${v.time}.`],
-        lines: v => [`${v.venue} ghi nhận ${v.symbol}.`, `Lệnh ${v.sideLabel} có giá trị ${v.bigUsd}.`, `Lệnh được quan sát lúc ${v.time}.`],
-        narration: v => `Lệnh lớn nhất được quan sát đến từ ${v.venue} trên ${v.symbol}. Đó là thanh lý ${v.sideLabel} trị giá ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Ba funding rate tuyệt đối lớn nhất',
-        label: 'Funding rate tuyệt đối lớn nhất',
-        support: () => ['Funding âm nghĩa là short trả cho long.', 'Đây là ảnh chụp hiện tại.'],
-        lines: () => ['Funding âm nghĩa là short trả cho long.', 'Ảnh chụp này không phải cực trị 24 giờ.'],
-        narration: v => `Ảnh chụp funding hiện tại xếp ba tỷ lệ tuyệt đối lớn nhất: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Dữ liệu thị trường đầy đủ',
-        label: 'Dữ liệu thị trường đầy đủ',
-        support: () => ['Telegram @NexuAlphaClub.', 'Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.', 'Đây không phải là lời khuyên đầu tư.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Mở bảng thanh lý đầy đủ.', 'Chỉ gồm các sàn được theo dõi; đây không phải là lời khuyên đầu tư.'],
-        narration: () => 'Mở bảng thanh lý đầy đủ trên NexuAlpha. Trang web có cập nhật hằng ngày.',
-      },
+    "copy": {
+      "fullData": "Dữ liệu thị trường đầy đủ",
+      "negativeFunding": "Funding âm nghĩa là vị thế short trả cho vị thế long.",
+      "longs": "Long",
+      "shorts": "Short",
+      "long": "Long",
+      "short": "Short",
+      "cta": "Mở bảng thanh lý đầy đủ.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `Thanh lý 24 giờ tối thiểu ${v.total}`,
-      description: v => `Các sàn được theo dõi ghi nhận ít nhất ${v.total} thanh lý trong 24 giờ. Short chiếm ${v.shortShare}. Lệnh lớn nhất được quan sát là ${v.bigUsd} trên ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Crypto', '#ThanhLy', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Mở bảng thanh lý đầy đủ',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Crypto",
+      "#ThanhLy",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  id: {
-    dir: 'ltr',
-    labels: {long: 'long', short: 'short', longs: 'Long', shorts: 'Short', sideLong: 'LONG', sideShort: 'SHORT'},
-    copy: {
-      fullData: 'Data pasar lengkap',
-      scope: 'Hanya venue tercakup; ini adalah batas bawah.',
-      disclaimer: 'Ini bukan nasihat investasi.',
-      negativeFunding: 'Funding negatif berarti short membayar long.',
-      snapshot: 'Tampilan funding ini adalah snapshot saat ini.',
-      intervals: 'Interval funding dapat berbeda di setiap venue.',
-      observed: 'Diamati di dalam venue yang tercakup.',
-      longs: 'Long',
-      shorts: 'Short',
-      long: 'Long',
-      short: 'Short',
-      cta: 'Buka papan likuidasi lengkap.',
-      domain: 'nexualpha.com',
+  "id": {
+    "dir": "ltr",
+    "labels": {
+      "long": "long",
+      "short": "short",
+      "longs": "Long",
+      "shorts": "Short",
+      "sideLong": "LONG",
+      "sideShort": "SHORT"
     },
-    slides: {
-      hero: {
-        title: 'Data likuidasi 24 jam',
-        label: 'Likuidasi 24 jam, setidaknya',
-        support: v => [`Short mencakup ${v.shortShare}.`, 'Hanya venue tercakup; ini adalah batas bawah.'],
-        lines: v => [`Setidaknya ${v.total} dilikuidasi di venue tercakup.`, `Short mencakup ${v.shortShare}.`, 'Hanya venue tercakup; ini adalah batas bawah.'],
-        narration: v => `Venue tercakup menunjukkan setidaknya ${v.total} dalam likuidasi 24 jam. Short mencakup ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Pembagian likuidasi long dan short',
-        label: 'Sisi dominan',
-        support: v => [`Likuidasi short berjumlah ${v.shortUsd}.`, `Likuidasi long berjumlah ${v.longUsd}.`],
-        lines: v => ['Hanya venue tercakup; ini adalah batas bawah.', `Likuidasi long berjumlah ${v.longUsd}, atau ${v.longShare}.`, `Likuidasi short berjumlah ${v.shortUsd}, atau ${v.shortShare}.`],
-        narration: v => `Likuidasi long berjumlah ${v.longUsd}. Likuidasi short berjumlah ${v.shortUsd}. Angka ini adalah batas bawah dari venue tercakup.`,
-      },
-      receipt: {
-        title: 'Order terbesar yang diamati',
-        label: 'Order terbesar yang diamati',
-        support: v => [`${v.venue} menunjukkan ${v.symbol}.`, `Sisi ${v.sideLabel} pada ${v.time}.`],
-        lines: v => [`${v.venue} menunjukkan ${v.symbol}.`, `Order ${v.sideLabel} bernilai ${v.bigUsd}.`, `Order diamati pada ${v.time}.`],
-        narration: v => `Order terbesar yang diamati berasal dari ${v.venue} pada ${v.symbol}. Itu adalah likuidasi ${v.sideLabel} senilai ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Tiga funding rate absolut teratas',
-        label: 'Funding rate absolut teratas',
-        support: () => ['Funding negatif berarti short membayar long.', 'Ini adalah snapshot saat ini.'],
-        lines: () => ['Funding negatif berarti short membayar long.', 'Snapshot ini bukan ekstrem 24 jam.'],
-        narration: v => `Snapshot funding saat ini mengurutkan tiga rate absolut teratas: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Data pasar lengkap',
-        label: 'Data pasar lengkap',
-        support: () => ['Telegram @NexuAlphaClub.', 'Hanya venue tercakup; ini adalah batas bawah.', 'Ini bukan nasihat investasi.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Buka papan likuidasi lengkap.', 'Hanya venue tercakup; ini bukan nasihat investasi.'],
-        narration: () => 'Buka papan likuidasi lengkap di NexuAlpha. Pembaruan harian tersedia di situs.',
-      },
+    "copy": {
+      "fullData": "Data pasar lengkap",
+      "negativeFunding": "Funding negatif berarti short membayar long.",
+      "longs": "Long",
+      "shorts": "Short",
+      "long": "Long",
+      "short": "Short",
+      "cta": "Buka papan likuidasi lengkap.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `Likuidasi 24 jam setidaknya ${v.total}`,
-      description: v => `Venue tercakup menunjukkan setidaknya ${v.total} dalam likuidasi 24 jam. Short mencakup ${v.shortShare}. Order terbesar yang diamati bernilai ${v.bigUsd} di ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Crypto', '#Likuidasi', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Buka papan likuidasi lengkap',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Crypto",
+      "#Likuidasi",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  tr: {
-    dir: 'ltr',
-    labels: {long: 'long', short: 'short', longs: 'Longlar', shorts: 'Shortlar', sideLong: 'LONG', sideShort: 'SHORT'},
-    copy: {
-      fullData: 'Tam piyasa verisi',
-      scope: 'Yalnızca kapsanan borsalar; bu bir alt sınırdır.',
-      disclaimer: 'Bu yatırım tavsiyesi değildir.',
-      negativeFunding: 'Negatif fonlama, shortların longlara ödeme yaptığı anlamına gelir.',
-      snapshot: 'Bu fonlama görünümü güncel bir anlık görüntüdür.',
-      intervals: 'Fonlama aralıkları borsaya göre değişebilir.',
-      observed: 'Kapsanan borsalarda gözlemlendi.',
-      longs: 'Longlar',
-      shorts: 'Shortlar',
-      long: 'Long',
-      short: 'Short',
-      cta: 'Tam likidasyon panelini aç.',
-      domain: 'nexualpha.com',
+  "tr": {
+    "dir": "ltr",
+    "labels": {
+      "long": "long",
+      "short": "short",
+      "longs": "Longlar",
+      "shorts": "Shortlar",
+      "sideLong": "LONG",
+      "sideShort": "SHORT"
     },
-    slides: {
-      hero: {
-        title: '24 saatlik likidasyon verisi',
-        label: '24 saatlik likidasyon, en az',
-        support: v => [`Shortlar ${v.shortShare} pay alıyor.`, 'Yalnızca kapsanan borsalar; bu bir alt sınırdır.'],
-        lines: v => [`Kapsanan borsalarda en az ${v.total} likide oldu.`, `Shortlar ${v.shortShare} pay alıyor.`, 'Yalnızca kapsanan borsalar; bu bir alt sınırdır.'],
-        narration: v => `Kapsanan borsalar 24 saatlik likidasyonlarda en az ${v.total} gösteriyor. Shortlar ${v.shortShare} pay alıyor.`,
-      },
-      split: {
-        title: 'Long ve short likidasyon dağılımı',
-        label: 'Baskın taraf',
-        support: v => [`Short likidasyonları ${v.shortUsd}.`, `Long likidasyonları ${v.longUsd}.`],
-        lines: v => ['Yalnızca kapsanan borsalar; bu bir alt sınırdır.', `Long likidasyonları ${v.longUsd}, yani ${v.longShare}.`, `Short likidasyonları ${v.shortUsd}, yani ${v.shortShare}.`],
-        narration: v => `Long likidasyonları ${v.longUsd}. Short likidasyonları ${v.shortUsd}. Rakamlar kapsanan borsalar için alt sınırdır.`,
-      },
-      receipt: {
-        title: 'Gözlemlenen en büyük emir',
-        label: 'Gözlemlenen en büyük emir',
-        support: v => [`${v.venue} ${v.symbol} gösteriyor.`, `${v.sideLabel} tarafı, ${v.time}.`],
-        lines: v => [`${v.venue} ${v.symbol} gösteriyor.`, `${v.sideLabel} emri ${v.bigUsd} değerindeydi.`, `Emir ${v.time} zamanında gözlemlendi.`],
-        narration: v => `Gözlemlenen en büyük emir ${v.venue} üzerinde ${v.symbol} paritesinden geldi. ${v.bigUsd} değerinde bir ${v.sideLabel} likidasyonuydu.`,
-      },
-      funding: {
-        title: 'En yüksek üç mutlak fonlama oranı',
-        label: 'En yüksek mutlak fonlama oranları',
-        support: () => ['Negatif fonlama, shortların longlara ödeme yaptığı anlamına gelir.', 'Bu güncel bir anlık görüntüdür.'],
-        lines: () => ['Negatif fonlama, shortların longlara ödeme yaptığı anlamına gelir.', 'Bu anlık görüntü 24 saatlik uç değer değildir.'],
-        narration: v => `Güncel fonlama anlık görüntüsü en yüksek üç mutlak oranı sıralıyor: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Tam piyasa verisi',
-        label: 'Tam piyasa verisi',
-        support: () => ['Telegram @NexuAlphaClub.', 'Yalnızca kapsanan borsalar; bu bir alt sınırdır.', 'Bu yatırım tavsiyesi değildir.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Tam likidasyon panelini aç.', 'Yalnızca kapsanan borsalar; bu yatırım tavsiyesi değildir.'],
-        narration: () => 'NexuAlpha üzerinde tam likidasyon panelini aç. Günlük güncellemeler sitede mevcuttur.',
-      },
+    "copy": {
+      "fullData": "Tam piyasa verisi",
+      "negativeFunding": "Negatif fonlama, shortların longlara ödeme yaptığı anlamına gelir.",
+      "longs": "Longlar",
+      "shorts": "Shortlar",
+      "long": "Long",
+      "short": "Short",
+      "cta": "Tam likidasyon panelini aç.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `24 saatlik likidasyon en az ${v.total}`,
-      description: v => `Kapsanan borsalar 24 saatlik likidasyonlarda en az ${v.total} gösteriyor. Shortlar ${v.shortShare} pay alıyor. Gözlemlenen en büyük emir ${v.venue} üzerinde ${v.bigUsd} oldu.`,
-      hashtags: ['#Bitcoin', '#Kripto', '#Likidasyon', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Tam likidasyon panelini aç',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Kripto",
+      "#Likidasyon",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  ru: {
-    dir: 'ltr',
-    labels: {long: 'лонг', short: 'шорт', longs: 'Лонги', shorts: 'Шорты', sideLong: 'ЛОНГ', sideShort: 'ШОРТ'},
-    copy: {
-      fullData: 'Полные рыночные данные',
-      scope: 'Только покрытые площадки; это нижняя оценка.',
-      disclaimer: 'Это не инвестиционная рекомендация.',
-      negativeFunding: 'Отрицательный фандинг означает, что шорты платят лонгам.',
-      snapshot: 'Этот фандинг является текущим снимком.',
-      intervals: 'Интервалы фандинга могут отличаться по площадкам.',
-      observed: 'Наблюдается на покрытых площадках.',
-      longs: 'Лонги',
-      shorts: 'Шорты',
-      long: 'Лонг',
-      short: 'Шорт',
-      cta: 'Откройте полную доску ликвидаций.',
-      domain: 'nexualpha.com',
+  "ru": {
+    "dir": "ltr",
+    "labels": {
+      "long": "лонг",
+      "short": "шорт",
+      "longs": "Лонги",
+      "shorts": "Шорты",
+      "sideLong": "ЛОНГ",
+      "sideShort": "ШОРТ"
     },
-    slides: {
-      hero: {
-        title: 'Данные ликвидаций за 24 часа',
-        label: 'Ликвидации за 24 часа, минимум',
-        support: v => [`На шорты приходится ${v.shortShare}.`, 'Только покрытые площадки; это нижняя оценка.'],
-        lines: v => [`На покрытых площадках ликвидировано не менее ${v.total}.`, `На шорты приходится ${v.shortShare}.`, 'Только покрытые площадки; это нижняя оценка.'],
-        narration: v => `Покрытые площадки показывают не менее ${v.total} ликвидаций за 24 часа. На шорты приходится ${v.shortShare}.`,
-      },
-      split: {
-        title: 'Распределение ликвидаций лонгов и шортов',
-        label: 'Доминирующая сторона',
-        support: v => [`Ликвидации шортов составляют ${v.shortUsd}.`, `Ликвидации лонгов составляют ${v.longUsd}.`],
-        lines: v => ['Только покрытые площадки; это нижняя оценка.', `Ликвидации лонгов составляют ${v.longUsd}, или ${v.longShare}.`, `Ликвидации шортов составляют ${v.shortUsd}, или ${v.shortShare}.`],
-        narration: v => `Ликвидации лонгов составляют ${v.longUsd}. Ликвидации шортов составляют ${v.shortUsd}. Эти цифры являются нижней оценкой по покрытым площадкам.`,
-      },
-      receipt: {
-        title: 'Крупнейший наблюдаемый ордер',
-        label: 'Крупнейший наблюдаемый ордер',
-        support: v => [`${v.venue} показывает ${v.symbol}.`, `Сторона ${v.sideLabel} в ${v.time}.`],
-        lines: v => [`${v.venue} показывает ${v.symbol}.`, `Ордер ${v.sideLabel} составил ${v.bigUsd}.`, `Он был замечен в ${v.time}.`],
-        narration: v => `Крупнейший наблюдаемый ордер пришел с ${v.venue} по ${v.symbol}. Это была ликвидация ${v.sideLabel} на ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'Три крупнейшие абсолютные ставки фандинга',
-        label: 'Крупнейшие абсолютные ставки фандинга',
-        support: () => ['Отрицательный фандинг означает, что шорты платят лонгам.', 'Это текущий снимок.'],
-        lines: () => ['Отрицательный фандинг означает, что шорты платят лонгам.', 'Этот снимок не является экстремумом за 24 часа.'],
-        narration: v => `Текущий снимок фандинга ранжирует три крупнейшие абсолютные ставки: ${v.topRates}.`,
-      },
-      end: {
-        title: 'Полные рыночные данные',
-        label: 'Полные рыночные данные',
-        support: () => ['Telegram @NexuAlphaClub.', 'Только покрытые площадки; это нижняя оценка.', 'Это не инвестиционная рекомендация.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'Откройте полную доску ликвидаций.', 'Только покрытые площадки; это не инвестиционная рекомендация.'],
-        narration: () => 'Откройте полную доску ликвидаций на NexuAlpha. Ежедневные обновления доступны на сайте.',
-      },
+    "copy": {
+      "fullData": "Полные рыночные данные",
+      "negativeFunding": "Отрицательный фандинг означает, что шорты платят лонгам.",
+      "longs": "Лонги",
+      "shorts": "Шорты",
+      "long": "Лонг",
+      "short": "Шорт",
+      "cta": "Откройте полную доску ликвидаций.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `Ликвидации за 24 часа не менее ${v.total}`,
-      description: v => `Покрытые площадки показывают не менее ${v.total} ликвидаций за 24 часа. На шорты приходится ${v.shortShare}. Крупнейший наблюдаемый ордер составил ${v.bigUsd} на ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Crypto', '#Ликвидации', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'Откройте полную доску ликвидаций',
-    }),
+    "hashtags": [
+      "#Bitcoin",
+      "#Crypto",
+      "#Ликвидации",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  'zh-Hans': {
-    dir: 'ltr',
-    labels: {long: '多头', short: '空头', longs: '多头', shorts: '空头', sideLong: '多头', sideShort: '空头'},
-    copy: {
-      fullData: '完整市场数据',
-      scope: '仅覆盖已接入交易所，这是下限。',
-      disclaimer: '这不构成投资建议。',
-      negativeFunding: '负资金费率表示空头付钱给多头。',
-      snapshot: '这是一张当前资金费率快照。',
-      intervals: '资金费率结算周期可能因交易所而异。',
-      observed: '在覆盖交易所内观测到。',
-      longs: '多头',
-      shorts: '空头',
-      long: '多头',
-      short: '空头',
-      cta: '打开完整爆仓看板。',
-      domain: 'nexualpha.com',
+  "zh-Hans": {
+    "dir": "ltr",
+    "labels": {
+      "long": "多头",
+      "short": "空头",
+      "longs": "多头",
+      "shorts": "空头",
+      "sideLong": "多头",
+      "sideShort": "空头"
     },
-    slides: {
-      hero: {
-        title: '24小时爆仓数据',
-        label: '24小时爆仓，至少',
-        support: v => [`空头占 ${v.shortShare}。`, '仅覆盖已接入交易所，这是下限。'],
-        lines: v => [`覆盖交易所内至少爆仓 ${v.total}。`, `空头占 ${v.shortShare}。`, '仅覆盖已接入交易所，这是下限。'],
-        narration: v => `覆盖交易所显示，24小时爆仓至少${v.spokenTotal}。空头占${v.shortShare}。`,
-      },
-      split: {
-        title: '多空爆仓分布',
-        label: '主导方向',
-        support: v => [`空头爆仓 ${v.shortUsd}。`, `多头爆仓 ${v.longUsd}。`],
-        lines: v => ['仅覆盖已接入交易所，这是下限。', `多头爆仓 ${v.longUsd}，占 ${v.longShare}。`, `空头爆仓 ${v.shortUsd}，占 ${v.shortShare}。`],
-        narration: v => `多头爆仓${v.spokenLongUsd}。空头爆仓${v.spokenShortUsd}。这些数字是覆盖交易所的下限。`,
-      },
-      receipt: {
-        title: '覆盖内最大单笔',
-        label: '最大单笔',
-        support: v => [`${v.venue} 显示 ${v.symbol}。`, `${v.sideLabel}，时间 ${v.time}。`],
-        lines: v => [`${v.venue} 显示 ${v.symbol}。`, `这笔${v.sideLabel}爆仓为 ${v.bigUsd}。`, `观测时间为 ${v.time}。`],
-        narration: v => `覆盖内最大单笔来自${v.venue}，交易对${v.symbol}。这是一笔${v.sideLabel}爆仓，金额为${v.spokenBigUsd}。`,
-      },
-      funding: {
-        title: '资金费率绝对值前三',
-        label: '费率绝对值前三',
-        support: () => ['负资金费率表示空头付钱给多头。', '这是一张当前快照。'],
-        lines: () => ['负资金费率表示空头付钱给多头。', '这张快照不代表24小时极值。'],
-        narration: v => `当前资金费率快照按绝对值排序前三项：${v.topRates}。`,
-      },
-      end: {
-        title: '完整市场数据',
-        label: '完整市场数据',
-        support: () => ['Telegram @NexuAlphaClub。', '仅覆盖已接入交易所，这是下限。', '这不构成投资建议。'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub。', '打开完整爆仓看板。', '仅覆盖已接入交易所，这不构成投资建议。'],
-        narration: () => '请在NexuAlpha打开完整爆仓看板。网站每天更新。',
-      },
+    "copy": {
+      "fullData": "完整市场数据",
+      "negativeFunding": "负资金费率表示空头付钱给多头。",
+      "longs": "多头",
+      "shorts": "空头",
+      "long": "多头",
+      "short": "空头",
+      "cta": "打开完整爆仓看板。",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `24小时爆仓至少 ${v.total}`,
-      description: v => `覆盖交易所显示，24小时爆仓至少 ${v.total}。空头占 ${v.shortShare}。覆盖内最大单笔为 ${v.venue} 的 ${v.bigUsd}。`,
-      hashtags: ['#比特币', '#加密货币', '#爆仓', '#资金费率', '#NexuAlpha', '#Shorts'],
-      ctaLabel: '打开完整爆仓看板',
-    }),
+    "hashtags": [
+      "#比特币",
+      "#加密货币",
+      "#爆仓",
+      "#资金费率",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
   },
-  ar: {
-    dir: 'rtl',
-    labels: {long: 'شراء', short: 'بيع', longs: 'صفقات الشراء', shorts: 'صفقات البيع', sideLong: 'شراء', sideShort: 'بيع'},
-    copy: {
-      fullData: 'بيانات السوق الكاملة',
-      scope: 'يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.',
-      disclaimer: 'هذه ليست نصيحة استثمارية.',
-      negativeFunding: 'يعني التمويل السلبي أن مراكز البيع تدفع لمراكز الشراء.',
-      snapshot: 'عرض التمويل هذا لقطة حالية.',
-      intervals: 'قد تختلف فترات التمويل حسب المنصة.',
-      observed: 'تم رصده داخل المنصات المغطاة.',
-      longs: 'صفقات الشراء',
-      shorts: 'صفقات البيع',
-      long: 'شراء',
-      short: 'بيع',
-      cta: 'افتح لوحة التصفية الكاملة.',
-      domain: 'nexualpha.com',
+  "ar": {
+    "dir": "rtl",
+    "labels": {
+      "long": "شراء",
+      "short": "بيع",
+      "longs": "صفقات الشراء",
+      "shorts": "صفقات البيع",
+      "sideLong": "شراء",
+      "sideShort": "بيع"
     },
-    slides: {
-      hero: {
-        title: 'بيانات التصفية خلال 24 ساعة',
-        label: 'تصفيات 24 ساعة، على الأقل',
-        support: v => [`تمثل مراكز البيع ${v.shortShare}.`, 'يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.'],
-        lines: v => [`تمت تصفية ما لا يقل عن ${v.total} في المنصات المغطاة.`, `تمثل مراكز البيع ${v.shortShare}.`, 'يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.'],
-        narration: v => `تظهر المنصات المغطاة ما لا يقل عن ${v.total} من التصفيات خلال 24 ساعة. تمثل مراكز البيع ${v.shortShare}.`,
-      },
-      split: {
-        title: 'توزيع تصفيات الشراء والبيع',
-        label: 'الجانب المسيطر',
-        support: v => [`بلغت تصفيات البيع ${v.shortUsd}.`, `بلغت تصفيات الشراء ${v.longUsd}.`],
-        lines: v => ['يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.', `بلغت تصفيات الشراء ${v.longUsd}، أو ${v.longShare}.`, `بلغت تصفيات البيع ${v.shortUsd}، أو ${v.shortShare}.`],
-        narration: v => `بلغت تصفيات الشراء ${v.longUsd}. بلغت تصفيات البيع ${v.shortUsd}. هذه الأرقام حد أدنى للمنصات المغطاة.`,
-      },
-      receipt: {
-        title: 'أكبر أمر مرصود',
-        label: 'أكبر أمر مرصود',
-        support: v => [`تعرض ${v.venue} الرمز ${v.symbol}.`, `جانب ${v.sideLabel} عند ${v.time}.`],
-        lines: v => [`تعرض ${v.venue} الرمز ${v.symbol}.`, `بلغ أمر ${v.sideLabel} قيمة ${v.bigUsd}.`, `تم رصده عند ${v.time}.`],
-        narration: v => `جاء أكبر أمر مرصود من ${v.venue} على ${v.symbol}. كان ذلك تصفية ${v.sideLabel} بقيمة ${v.bigUsd}.`,
-      },
-      funding: {
-        title: 'أعلى ثلاث نسب تمويل مطلقة',
-        label: 'أعلى نسب التمويل المطلقة',
-        support: () => ['يعني التمويل السلبي أن مراكز البيع تدفع لمراكز الشراء.', 'هذه لقطة حالية.'],
-        lines: () => ['يعني التمويل السلبي أن مراكز البيع تدفع لمراكز الشراء.', 'هذه اللقطة ليست قمة خلال 24 ساعة.'],
-        narration: v => `ترتب لقطة التمويل الحالية أعلى ثلاث نسب مطلقة: ${v.topRates}.`,
-      },
-      end: {
-        title: 'بيانات السوق الكاملة',
-        label: 'بيانات السوق الكاملة',
-        support: () => ['Telegram @NexuAlphaClub.', 'يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.', 'هذه ليست نصيحة استثمارية.'],
-        lines: () => ['nexualpha.com', 'Telegram @NexuAlphaClub.', 'افتح لوحة التصفية الكاملة.', 'يشمل ذلك المنصات المغطاة فقط؛ هذه ليست نصيحة استثمارية.'],
-        narration: () => 'افتح لوحة التصفية الكاملة على NexuAlpha. التحديثات اليومية متاحة على الموقع.',
-      },
+    "copy": {
+      "fullData": "بيانات السوق الكاملة",
+      "negativeFunding": "يعني التمويل السلبي أن مراكز البيع تدفع لمراكز الشراء.",
+      "longs": "صفقات الشراء",
+      "shorts": "صفقات البيع",
+      "long": "شراء",
+      "short": "بيع",
+      "cta": "افتح لوحة التصفية الكاملة.",
+      "domain": "nexualpha.com"
     },
-    meta: makeMeta({
-      title: v => `تصفيات 24 ساعة لا تقل عن ${v.total}`,
-      description: v => `تظهر المنصات المغطاة ما لا يقل عن ${v.total} من التصفيات خلال 24 ساعة. تمثل مراكز البيع ${v.shortShare}. أكبر أمر مرصود كان ${v.bigUsd} على ${v.venue}.`,
-      hashtags: ['#Bitcoin', '#Crypto', '#Liquidations', '#FundingRates', '#NexuAlpha', '#Shorts'],
-      ctaLabel: 'افتح لوحة التصفية الكاملة',
-    }),
-  },
+    "hashtags": [
+      "#Bitcoin",
+      "#Crypto",
+      "#Liquidations",
+      "#FundingRates",
+      "#NexuAlpha",
+      "#Shorts"
+    ]
+  }
 };
 
+// Each spoken line explains the metric instead of reading its headline back.
+const EXPLANATIONS = {
+  en: {labels:['Liquidated in the last 24h','Who took the hit?','Largest liquidation','Top funding rates'], hero:'Leveraged positions were forced to close.', split:['Most forced closures hit short sellers.','Most forced closures hit long buyers.'], receipt:'One leveraged position was closed in a single order.', positive:'Positive funding means longs pay shorts.', zero:'Zero funding means no funding payment.'},
+  es: {labels:['Liquidado en las últimas 24 h','¿Quién recibió el golpe?','Mayor liquidación','Mayores tasas de financiación'], hero:'Las posiciones apalancadas se cerraron por la fuerza.', split:['Los cortos sufrieron la mayoría de los cierres forzosos.','Los largos sufrieron la mayoría de los cierres forzosos.'], receipt:'Una posición apalancada se cerró en una sola orden.', positive:'Con financiación positiva, los largos pagan a los cortos.', zero:'Con financiación cero, no hay pago de financiación.'},
+  'pt-BR': {labels:['Liquidado nas últimas 24h','Quem sofreu mais?','Maior liquidação','Maiores taxas de funding'], hero:'Posições alavancadas foram encerradas à força.', split:['Os vendidos sofreram a maioria dos encerramentos forçados.','Os comprados sofreram a maioria dos encerramentos forçados.'], receipt:'Uma posição alavancada foi encerrada em uma única ordem.', positive:'Funding positivo significa que comprados pagam vendidos.', zero:'Funding zero significa que não há pagamento de funding.'},
+  vi: {labels:['Bị thanh lý trong 24 giờ qua','Bên nào chịu thiệt hại?','Lệnh thanh lý lớn nhất','Funding rate cao nhất'], hero:'Các vị thế dùng đòn bẩy đã bị buộc đóng.', split:['Phần lớn vị thế bị buộc đóng là short.','Phần lớn vị thế bị buộc đóng là long.'], receipt:'Một vị thế đòn bẩy đã bị đóng trong một lệnh.', positive:'Funding dương nghĩa là long trả cho short.', zero:'Funding bằng không nghĩa là không có khoản thanh toán funding.'},
+  id: {labels:['Dilikuidasi dalam 24 jam terakhir','Siapa yang paling terdampak?','Likuidasi terbesar','Funding rate tertinggi'], hero:'Posisi dengan leverage terpaksa ditutup.', split:['Sebagian besar penutupan paksa menimpa posisi short.','Sebagian besar penutupan paksa menimpa posisi long.'], receipt:'Satu posisi dengan leverage ditutup dalam satu order.', positive:'Funding positif berarti long membayar short.', zero:'Funding nol berarti tidak ada pembayaran funding.'},
+  tr: {labels:['Son 24 saatte likide edilen','En çok kim etkilendi?','En büyük likidasyon','En yüksek fonlama oranları'], hero:'Kaldıraçlı pozisyonlar zorunlu olarak kapatıldı.', split:['Zorunlu kapanışların çoğu short pozisyonları etkiledi.','Zorunlu kapanışların çoğu long pozisyonları etkiledi.'], receipt:'Tek bir kaldıraçlı pozisyon tek emirle kapatıldı.', positive:'Pozitif fonlamada longlar shortlara ödeme yapar.', zero:'Sıfır fonlamada fonlama ödemesi yoktur.'},
+  ru: {labels:['Ликвидировано за последние 24 часа','Кто пострадал больше?','Крупнейшая ликвидация','Высокие ставки фандинга'], hero:'Позиции с плечом были принудительно закрыты.', split:['Большинство принудительных закрытий пришлось на шорты.','Большинство принудительных закрытий пришлось на лонги.'], receipt:'Одна позиция с плечом была закрыта одним ордером.', positive:'При положительном фандинге лонги платят шортам.', zero:'При нулевом фандинге платежа нет.'},
+  'zh-Hans': {labels:['过去24小时爆仓金额','哪一方损失更多？','最大单笔爆仓','高资金费率'], hero:'使用杠杆的仓位被强制平仓。', split:['大部分强制平仓发生在空头仓位。','大部分强制平仓发生在多头仓位。'], receipt:'一个杠杆仓位通过单笔订单被强制平仓。', positive:'正资金费率表示多头付钱给空头。', zero:'零资金费率表示无需支付资金费用。'},
+  ar: {labels:['تمت تصفيته خلال آخر 24 ساعة','من تضرر أكثر؟','أكبر تصفية','أعلى معدلات التمويل'], hero:'أُغلقت مراكز الرافعة المالية قسراً.', split:['معظم الإغلاقات القسرية طالت مراكز البيع.','معظم الإغلاقات القسرية طالت مراكز الشراء.'], receipt:'أُغلق مركز واحد برافعة مالية في أمر واحد.', positive:'التمويل الإيجابي يعني أن مراكز الشراء تدفع لمراكز البيع.', zero:'التمويل الصفري يعني عدم وجود دفعة تمويل.'},
+};
+function scene(label, explanation, details = () => []) {
+  return {title:label, label, support:v=>[explanation(v)], lines:v=>[...details(v),explanation(v)], narration:explanation};
+}
+export const STRINGS = Object.fromEntries(SUPPORTED_LOCALES.map(locale => {
+  const s=LOCALES[locale], e=EXPLANATIONS[locale];
+  const funding=v=>v.topRate<0?s.copy.negativeFunding:v.topRate>0?e.positive:e.zero;
+  const slides={
+    hero:scene(e.labels[0],()=>e.hero,v=>[v.total]),
+    split:scene(e.labels[1],v=>e.split[v.dominantSide==='short'?0:1],v=>[s.labels.longs+' '+v.longUsd+' / '+v.longShare,s.labels.shorts+' '+v.shortUsd+' / '+v.shortShare]),
+    receipt:scene(e.labels[2],()=>e.receipt,v=>[v.venue+' · '+v.symbol,v.sideLabel+' '+v.bigUsd,v.time]),
+    funding:scene(e.labels[3],funding,v=>[v.topRates]),
+    end:scene(s.copy.fullData,()=>s.copy.cta,()=>[s.copy.domain]),
+  };
+  const entry={title:v=>e.labels[0]+' '+v.total,description:v=>e.labels[0]+': '+v.total+'. '+slides.split.narration(v),hashtags:s.hashtags,ctaLabel:s.copy.cta.replace(/[。.]$/u,'')};
+  return [locale,{...s,slides,meta:Object.fromEntries(PLATFORM_KEYS.map(key=>[key,entry]))}];
+}));
 export function getShortsStrings(locale) {
-  const strings = STRINGS[locale];
-  if (!strings) throw new Error(`Unsupported locale: ${locale}`);
-  return strings;
+  if(!STRINGS[locale]) throw new Error('Unsupported locale: '+locale);
+  return STRINGS[locale];
 }

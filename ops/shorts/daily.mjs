@@ -4,7 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {MARKET_URL,FUNDING_URL,validateData,buildPackage} from './builders.mjs';
 import {STRINGS} from './strings.mjs';
-import {renderShort} from './render.mjs';
+import {renderShort,renderContactSheet} from './render.mjs';
 import {writePreview} from './preview.mjs';
 
 export function parseDailyArgs(args) {
@@ -54,7 +54,9 @@ export async function main(args=process.argv.slice(2)) {
       for(const format of ['portrait','square']) {
         const result=await renderShort(slides,path.join(dir,format),{lang,format,voice:options.voice&&lang==='en'});
         if(result.duration<25 || result.duration>35) throw new Error(`Daily short outside 25–35s: ${result.duration}`);
-        renders[format]={...result};
+        const contactSheetPath=path.join(dir,format,'contact-sheet.png');
+        await renderContactSheet(result.videoPath,contactSheetPath);
+        renders[format]={...result,contactSheetPath:path.relative(dir,contactSheetPath)};
         for(const key of ['videoPath','audioPath','posterPath','srtPath']) if(renders[format][key]) renders[format][key]=path.relative(dir,renders[format][key]);
         renders[format].framePaths=result.framePaths.map(file=>path.relative(dir,file));
       }

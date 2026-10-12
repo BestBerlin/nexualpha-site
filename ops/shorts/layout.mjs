@@ -1,14 +1,19 @@
 import {readFileSync,readdirSync,existsSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
+import {nexubo} from '../academy-v3/characters.mjs';
 import {usd, fundingPercent, captionLines} from './builders.mjs';
 const require = createRequire(new URL('../../pilot-01-prototype/package.json', import.meta.url));
 const {Resvg} = require('@resvg/resvg-js');
-export const SAFE = {left:64, right:920, top:48, bottom:1500};
+export const SAFE = {left:64, right:920, top:48, bottom:1780};
 export const TOKENS = {background:'#0b0d10', blue:'#4f7cff', green:'#3ddc97', red:'#ff5c5c', white:'#f7f9ff', muted:'#a8b1c2'};
 const mark = readFileSync(new URL('../../pilot-01-prototype/public/brand/nexualpha/nexualpha-round.svg', import.meta.url)).toString('base64');
 export const FONT = 'PingFang SC, SF Pro Display, Inter, Arial, sans-serif';
-const mascotSource = readFileSync(new URL('../brand/mascot/svg/pose-point-right.svg', import.meta.url), 'utf8');
+// Reuse the academy rig so expression and pose share the canonical assets.
+const mascotRigs = new Map();
+for (const [pose,expression] of [['rest','surprised'],['point','thinking'],['rest','thinking'],['wave','happy']]) {
+  for (const antenna of ['green','red']) mascotRigs.set(`${pose}/${expression}/${antenna}`, await nexubo({id:`shorts-${pose}-${expression}-${antenna}`,pose,expression,antenna:antenna==='red'?'#ff5c5c':'#3ddc97'}));
+}
 const fontRoot='/System/Library/AssetsV2/com_apple_MobileAsset_Font8';
 const localFonts=[fileURLToPath(new URL('./fonts/InterVariable.ttf',import.meta.url)),'/System/Library/Fonts/Supplemental/Arial.ttf'];
 if(existsSync(fontRoot)) for(const entry of readdirSync(fontRoot)) {
@@ -67,18 +72,16 @@ export function slideToSvg(slide, index, total, lang, {progress=1, caption='', f
   const p=Math.min(1,Math.max(0,progress)), hero=slide.hero;
   const number=hero?hero.format==='usd'?usd(hero.value*p):hero.format==='funding'?fundingPercent(hero.value*p):`${Math.round(hero.value*p*100)}%`:slide.title;
   const color=hero?.format==='funding'?(hero.value<0?C.red:C.green):slide.kind==='split'?(slide.bar.longShare<.5?C.red:C.green):C.white;
-  const y= square ? {label:215,hero:375,detail:445,rows:490,scope:710,mascot:715,caption:925} : {label:300,hero:590,detail:720,rows:770,scope:1135,mascot:1150,caption:1400};
+  const y= square ? {label:215,hero:375,detail:445,rows:490,mascot:620,caption:775} : {label:300,hero:560,detail:690,rows:730,mascot:1100,caption:1060};
   let content='';
   content+=text('NexuAlpha',143,48,C.white,{x:160,anchor:'start',width:400,weight:800,numeric:true});
-  content+=text(slide.label||slide.title,y.label,52,C.muted);
+  if(slide.kind!=='end') content+=text(slide.label||slide.title,y.label,52,C.muted);
   if(slide.kind==='end') {
     content+=text(slide.domain,y.hero,110,C.white,{weight:800,numeric:true});
     content+=text(slide.cta,y.detail,48,C.blue);
-    content+=text(copy.scope,square?525:860,34,C.muted);
-    content+=text(copy.disclaimer,square?580:920,34,C.muted);
+
   } else {
-    const hostSpace=square?190:240;
-    content+=text(number,y.hero,square?160:300,color,{x:(safe.left+hostSpace+safe.right)/2,width:span-hostSpace,weight:800,numeric:true});
+    content+=text(number,y.hero,square?160:280,color,{weight:800,numeric:true});
     if(slide.kind==='split') {
       content+=rect(safe.left,y.detail,span,50,'#1c2532');
       content+=rect(safe.left,y.detail,span*slide.bar.longShare*p,50,C.green);
@@ -99,19 +102,26 @@ export function slideToSvg(slide, index, total, lang, {progress=1, caption='', f
         content+=rect(safe.left,baseline+16,span,12,'#1c2532');
         content+=rect(safe.left,baseline+16,span*Math.abs(r.rate)/max*p,12,c);
       });
-      content+=text(copy.intervals,square?710:1135,34,C.muted);
-    } else content+=text(slide.support[0],y.detail,62,C.red,{weight:800});
-    if(slide.kind!=='funding') content+=text(slide.kind==='receipt'?copy.observed:copy.scope,y.scope,34,C.muted);
+
+    }
   }
   const antenna=slide.reaction?.antenna==='red'?C.red:C.green;
-  const mascot=mascotSource.replace(/(<g id="antenna-light"[^>]*>)([\s\S]*?)(<\/g>)/,(_,open,body,close)=>open+body.replace(/fill="#4f7cff"/g,`fill="${antenna}"`)+close);
+  const pose=slide.mascot?.pose||'rest', expression=slide.mascot?.expression||'surprised';
+  const mascot=mascotRigs.get(`${pose}/${expression}/${slide.reaction?.antenna==='red'?'red':'green'}`);
+  if(!mascot) throw new Error(`Unsupported shorts mascot: ${pose}/${expression}`);
   const mascot64=Buffer.from(mascot).toString('base64');
-  content+=`<image data-mascot="Nexubo" data-antenna="${antenna}" x="${safe.left}" y="${(slide.kind==='end'?y.mascot:y.hero-(square?165:220))+(1-p)*14}" width="${square?180:240}" height="${square?180:240}" href="data:image/svg+xml;base64,${mascot64}"/>`;
-  if(caption) {
-    const lines=wrapSentence(caption,span,40,font);
-    // One complete sentence stays visible; line wrapping changes only its layout.
-    const size=Math.min(40,(safe.bottom-y.caption-8)/Math.max(1,lines.length));
-    lines.forEach((line,i)=>content+=text(line,y.caption+i*(size+5),size));
+  // The asset's built-in whitespace leaves a visible host ~40%/30% wide.
+  // Scale-in and a gentle entrance bob are encoded during the first .8s.
+  const hostSize=(square?475:pose==='point'?620:680)*(.96+.04*p);
+  const hostX=square?safe.right-hostSize:(width-hostSize)/2;
+  content+=`<image data-mascot="Nexubo" data-pose="${pose}" data-expression="${expression}" data-antenna="${antenna}" x="${hostX}" y="${y.mascot+(1-p)*14-Math.sin(p*Math.PI)*8}" width="${hostSize}" height="${hostSize}" href="data:image/svg+xml;base64,${mascot64}"/>`;
+  // One explanatory line is shared by the frame, spoken track and captions.
+  // The end card already displays its single CTA above the waving host.
+  if(slide.kind!=='end') {
+    const explanation=caption||slide.support[0], captionWidth=square?530:span;
+    const lines=wrapSentence(explanation,captionWidth,40,font);
+    lines.forEach((line,i)=>content+=text(line,y.caption+i*48,40,C.white,
+      square?{x:safe.left,anchor:'start',width:captionWidth}:{}));
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
 <rect width="${width}" height="${height}" fill="${C.background}"/>

@@ -15,6 +15,11 @@ for(const entry of await readdir(root,{withFileTypes:true})) {
   const meta=JSON.parse(await readFile(path.join(dir,'meta.json'),'utf8'));
   assert.equal(meta.generatedAt,source.market.generatedAt);
   assert.equal(meta.dataMode,source.dataMode);
+  assert.equal(Object.hasOwn(meta,'disclaimer'),false);
+  for(const slide of meta.slides) {
+    assert.equal(slide.narration,slide.support[0]);
+    for(const key of ['scope','disclaimer','observed','intervals','snapshot']) assert.equal(Object.hasOwn(slide.copy,key),false);
+  }
   const prefix={en:'',es:'/es','pt-BR':'/pt-br',vi:'/vi',id:'/id-id',tr:'/tr',ru:'/ru','zh-Hans':'/zh-hans',ar:'/ar'}[lang];
   assert.notEqual(prefix,undefined,'Unknown locale');
   for(const platform of PLATFORM_KEYS) {
@@ -33,12 +38,16 @@ for(const entry of await readdir(root,{withFileTypes:true})) {
     const duration=Number(media.format.duration);
     assert.ok(duration>=25&&duration<=35);
     assert.ok(Math.abs(duration-render.duration)<.2);
+    const sheet=await readFile(path.join(dir,render.contactSheetPath));
+    assert.equal(sheet.subarray(1,4).toString(),'PNG');
+    assert.equal(sheet.readUInt32BE(16),1800);
+    assert.equal(sheet.readUInt32BE(20),expectedHeight/3);
     const poster=await readFile(path.join(dir,render.posterPath));
     assert.equal(poster.subarray(1,4).toString(),'PNG');
     assert.equal(poster.readUInt32BE(16),1080);assert.equal(poster.readUInt32BE(20),expectedHeight);
     assert.equal(await readFile(path.join(dir,render.srtPath),'utf8'),buildSrt(render.captions,render.durations));
     assert.ok(render.captions.flat().every(caption=>/[。！？.!?]$/.test(caption.text)));
-    console.log(`${lang}/${format}: ${video.width}x${video.height}, H264/AAC, 30fps, ${duration}s; poster/SRT/metadata PASS`);
+    console.log(`${lang}/${format}: ${video.width}x${video.height}, H264/AAC, 30fps, ${duration}s; poster/contact-sheet/SRT/metadata PASS`);
     count++;
   }
 }

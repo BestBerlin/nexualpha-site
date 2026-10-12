@@ -1,12 +1,57 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {validateData, usd, percent, fundingPercent, buildPackage, DISCLAIMER, captionLines} from './builders.mjs';
+import {validateData, usd, percent, fundingPercent, buildPackage, captionLines} from './builders.mjs';
 import {parseArgs} from './make-short.mjs';
 import {LIQUIDATION_REACTION_THRESHOLD_USD, PLATFORM_KEYS, STRINGS, SUPPORTED_LOCALES} from './strings.mjs';
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/market.json', import.meta.url)));
 const now = Date.parse('2026-10-11T19:20:00Z');
 const copy = () => structuredClone(fixture);
+const FORBIDDEN_FINE_PRINT = [
+  'Bu yatırım tavsiyesi değildir.',
+  'Chu kỳ funding có thể khác nhau theo từng sàn.',
+  'Chỉ gồm các sàn được theo dõi; đây là mức tối thiểu.',
+  'Covered venues only; this is a lower bound.',
+  'Diamati di dalam venue yang tercakup.',
+  'Esto no es asesoramiento financiero.',
+  'Fonlama aralıkları borsaya göre değişebilir.',
+  'Funding intervals can vary by venue.',
+  'Hanya venue tercakup; ini adalah batas bawah.',
+  'Ini bukan nasihat investasi.',
+  'Interval funding dapat berbeda di setiap venue.',
+  'Isto não é aconselhamento financeiro.',
+  'Kapsanan borsalarda gözlemlendi.',
+  'Los intervalos de financiación pueden variar por venue.',
+  'Observado dentro de los venues cubiertos.',
+  'Observado dentro dos venues cobertos.',
+  'Observed inside covered venues.',
+  'Os intervalos de funding podem variar por venue.',
+  'Solo venues cubiertos; es un límite inferior.',
+  'Somente venues cobertos; este é um piso.',
+  'This is not investment advice.',
+  'Yalnızca kapsanan borsalar; bu bir alt sınırdır.',
+  'Đây không phải là lời khuyên đầu tư.',
+  'Được quan sát trong các sàn được theo dõi.',
+  'Интервалы фандинга могут отличаться по площадкам.',
+  'Наблюдается на покрытых площадках.',
+  'Только покрытые площадки; это нижняя оценка.',
+  'Это не инвестиционная рекомендация.',
+  'تم رصده داخل المنصات المغطاة.',
+  'قد تختلف فترات التمويل حسب المنصة.',
+  'هذه ليست نصيحة استثمارية.',
+  'يشمل ذلك المنصات المغطاة فقط؛ وهو حد أدنى.',
+  '仅覆盖已接入交易所，这是下限。',
+  '在覆盖交易所内观测到。',
+  '资金费率结算周期可能因交易所而异。',
+  '这不构成投资建议。',
+];
+const expectedMascot = [
+  {pose:'rest', expression:'surprised'},
+  {pose:'point', expression:'thinking'},
+  {pose:'rest', expression:'surprised'},
+  {pose:'rest', expression:'thinking'},
+  {pose:'wave', expression:'happy'},
+];
 
 test('format USD conservatively, fractional rates as percentages', () => {
   assert.equal(usd(16488040), '$16.48M');
@@ -18,10 +63,10 @@ test('format USD conservatively, fractional rates as percentages', () => {
   assert.equal(fundingPercent(0), '0.00000%');
   assert.throws(() => usd(NaN));
 });
-test('5-slide global package preserves numbers, lower bound and snapshot scope', () => {
+test('5-slide global package preserves numbers, explanatory copy and no fine print', () => {
   const data = validateData(fixture, null, now);
   assert.deepEqual(data.rates.map(r=>[r.venue,r.symbol]), [['Binance','RLC'],['Binance','S'],['OKX','S']]);
-  const requiredCopy = ['fullData','scope','disclaimer','negativeFunding','snapshot','intervals','observed','longs','shorts','long','short'];
+  const requiredCopy = ['fullData','negativeFunding','longs','shorts','long','short'];
   assert.deepEqual(Object.keys(STRINGS), SUPPORTED_LOCALES);
   for (const lang of SUPPORTED_LOCALES) {
     const {slides,meta} = buildPackage(data,lang);
@@ -31,16 +76,16 @@ test('5-slide global package preserves numbers, lower bound and snapshot scope',
     assert.ok([...meta.title].length<=70);
     assert.ok(meta.description.split('\n').length>=2 && meta.description.split('\n').length<=4);
     assert.ok(meta.hashtags.length>=5 && meta.hashtags.length<=8);
-    assert.equal(meta.disclaimer, DISCLAIMER);
+    assert.ok(!Object.hasOwn(meta, 'disclaimer'));
     assert.equal(meta.reactionThresholdUsd, LIQUIDATION_REACTION_THRESHOLD_USD);
     assert.equal(meta.dir, lang === 'ar' ? 'rtl' : 'ltr');
     assert.equal(meta.rtl, lang === 'ar');
+    for (const finePrint of FORBIDDEN_FINE_PRINT) assert.doesNotMatch(JSON.stringify(meta), new RegExp(finePrint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
     assert.deepEqual(Object.keys(meta.platforms), PLATFORM_KEYS);
     for (const platform of PLATFORM_KEYS) {
       const entry = meta.platforms[platform];
       assert.ok([...entry.title].length<=70, `${lang} ${platform} title too long`);
       assert.ok(entry.description.includes(entry.cta.url));
-      assert.ok(entry.description.includes(STRINGS[lang].copy.disclaimer));
       assert.ok(entry.cta.url.endsWith(`/liquidations?src=${platform}-short`));
       const prefix={en:'',es:'/es','pt-BR':'/pt-br',vi:'/vi',id:'/id-id',tr:'/tr',ru:'/ru','zh-Hans':'/zh-hans',ar:'/ar'}[lang];
       assert.equal(entry.cta.url,`https://nexualpha.com${prefix}/liquidations?src=${platform}-short`);
@@ -51,18 +96,27 @@ test('5-slide global package preserves numbers, lower bound and snapshot scope',
     assert.doesNotMatch(meta.title,/暴跌|崩盘|送钱|buy|sell/i);
     assert.deepEqual(slides.map(s=>s.kind), ['hero','split','receipt','funding','end']);
     assert.ok(slides.every(s=>Array.isArray(s.captions) && s.captions.length && s.captions.every(c=>/[。！？.!?]$/u.test(c))));
-    for (const slide of slides) {
+    if (lang === 'en') assert.equal(slides[0].label, 'Liquidated in the last 24h');
+    assert.notEqual(slides[0].label, '24h liquidations, at least');
+    for (const [index, slide] of slides.entries()) {
       assert.equal(slide.dir, lang === 'ar' ? 'rtl' : 'ltr');
       assert.equal(slide.rtl, lang === 'ar');
       assert.deepEqual(Object.keys(slide.copy), [...requiredCopy, 'cta', 'domain']);
       for (const key of requiredCopy) assert.equal(typeof slide.copy[key], 'string', `${lang} ${slide.kind} copy.${key}`);
       assert.deepEqual(slide.reaction, {pose:'point-right', antenna:'green', thresholdUsd:LIQUIDATION_REACTION_THRESHOLD_USD, metric:'liquidation.totalUsd'});
-      assert.deepEqual(slide.mascot, {pose:'point-right', antenna:'green', antennaThresholdUsd:LIQUIDATION_REACTION_THRESHOLD_USD});
+      assert.deepEqual(slide.mascot, {...expectedMascot[index], antenna:'green', antennaThresholdUsd:LIQUIDATION_REACTION_THRESHOLD_USD});
+      assert.deepEqual(slide.support, [slide.narration]);
+      assert.deepEqual(slide.captions, captionLines(slide.narration, lang));
+      assert.ok(slide.lines.includes(slide.narration), `${lang} ${slide.kind} lines include explanatory narration`);
+      for (const finePrint of FORBIDDEN_FINE_PRINT) assert.doesNotMatch(JSON.stringify(slide), new RegExp(finePrint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
     }
     assert.deepEqual(slides[0].hero, {value:16488040, format:'usd'});
+    assert.ok(slides[0].lines.some(line => line.includes('$16.48M') || line.includes('1648.80')));
     assert.equal(slides[1].hero.value, 14337661/16488040);
     assert.equal(slides[1].hero.format, 'percent');
     assert.equal(slides[1].hero.side, 'short');
+    assert.ok(slides[1].lines.some(line => line.includes('$14.33M') || line.includes('1433.76')));
+    assert.ok(slides[1].lines.some(line => line.includes('87.0%')));
     assert.ok(slides[2].lines.some(line => line.includes('OKX') && line.includes('ETHUSDT')));
     assert.equal(slides[2].hero.value, 2528150);
     assert.equal(slides[2].hero.format, 'usd');
@@ -72,7 +126,8 @@ test('5-slide global package preserves numbers, lower bound and snapshot scope',
     assert.ok(slides[2].lines.some(line => line.includes(slides[2].receipt.time)));
     assert.equal(slides[3].hero.value, -.00276609);
     assert.equal(slides[3].hero.format, 'funding');
-    assert.equal(slides[3].support[0], STRINGS[lang].slides.funding.support()[0]);
+    assert.equal(slides[3].support[0], slides[3].narration);
+    assert.ok(slides[3].lines.some(line => line.includes('-0.27661%')));
     assert.equal(slides[3].rates[0].rate,-.00276609);
     assert.deepEqual(Object.keys(slides[3].rates[0]), ['venue','symbol','text','rate','intervalH']);
     assert.ok(Math.abs(slides[1].bar.longShare - 2150379/16488040)<1e-12);
@@ -102,7 +157,26 @@ test('Nexubo antenna switches to red at the documented liquidation threshold', (
   fixtureCopy.liquidations.h24.largest.usd = 10_000_000;
   const slides = buildPackage(validateData(fixtureCopy, null, now), 'en').slides;
   assert.ok(slides.every(slide => slide.reaction.antenna === 'red'));
-  assert.ok(slides.every(slide => slide.mascot.pose === 'point-right'));
+  assert.deepEqual(slides.map(slide => [slide.mascot.pose, slide.mascot.expression]), expectedMascot.map(({pose,expression}) => [pose,expression]));
+  assert.ok(slides.every(slide => slide.mascot.antenna === 'red'));
+});
+test('long-dominant splits and non-negative funding rows preserve branch-specific copy', () => {
+  const fixtureCopy = copy();
+  fixtureCopy.liquidations.h24.totalUsd = 10_000_000;
+  fixtureCopy.liquidations.h24.longUsd = 7_000_000;
+  fixtureCopy.liquidations.h24.shortUsd = 3_000_000;
+  fixtureCopy.liquidations.h24.largest.usd = 1_000_000;
+  fixtureCopy.funding.rows = [
+    {symbol:'BTC',binanceRate:0,okxRate:null},
+    {symbol:'ETH',binanceRate:.002,okxRate:.0005},
+  ];
+  const {slides} = buildPackage(validateData(fixtureCopy, null, now), 'en');
+  assert.equal(slides[1].hero.side, 'long');
+  assert.equal(slides[1].bar.longLabel, '70.0%');
+  assert.ok(slides[1].lines.some(line => line.includes('Longs') && line.includes('$7.00M')));
+  assert.ok(slides[3].rates.some(row => row.rate === 0 && row.text.includes('0.00000%')));
+  assert.ok(slides[3].rates.some(row => row.rate > 0 && row.text.includes('+0.20000%')));
+  assert.equal(slides[3].narration, slides[3].support[0]);
 });
 test('freshness applies independently to market and funding; exact 60-minute boundary', () => {
   assert.doesNotThrow(()=>validateData(fixture,null,Date.parse(fixture.funding.generatedAt)+3600000));
