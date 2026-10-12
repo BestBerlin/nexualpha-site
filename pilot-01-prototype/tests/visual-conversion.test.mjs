@@ -130,7 +130,7 @@ test("Telegram page leads with the alerts product: sample message, four topics, 
   assert.match(ja, /ボットを開く/);
 });
 
-test("compare page first screen: H1, the existing verdict, both official sign-up routes with the same hrefs and codes as the final-choice card, disclosure alongside, copy link demoted", async () => {
+test("compare page first screen: H1, the existing verdict, both official sign-up routes with the same hrefs and codes as the final-choice card, no in-hero disclosure, copy link demoted", async () => {
   const [html, de] = await render(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
@@ -145,11 +145,22 @@ test("compare page first screen: H1, the existing verdict, both official sign-up
   const actions = html.indexOf("data-compare-hero-actions", hero);
   const ledger = html.indexOf('class="r9-cmp"', hero);
   const copyLink = html.indexOf('data-cta-placement="decision-return-copy"', hero);
-  const heroEnd = html.indexOf('class="v3-relationship-note"', hero);
+  // End of the hero <section>: walk nested section tags from the hero's opening tag.
+  const heroEnd = (() => {
+    const re = /<\/?section\b/g;
+    re.lastIndex = html.lastIndexOf("<section", hero);
+    let depth = 0;
+    for (let m = re.exec(html); m; m = re.exec(html)) {
+      depth += m[0] === "<section" ? 1 : -1;
+      if (depth === 0) return m.index;
+    }
+    return -1;
+  })();
   assert.ok(hero > 0 && h1 > hero && actions > h1 && ledger > actions && copyLink > ledger && copyLink < heroEnd, "order: h1, verdict + sign-up, fee ledger, copy link, all inside the hero");
   const heroBlock = html.slice(actions, ledger);
   assert.match(heroBlock, /Choose Binance for broad exchange depth; choose OKX when Web3-style routing and tools matter more\./, "verdict reuses the final-choice card title");
-  assert.match(heroBlock, /data-disclosure-placement="compare-hero-signup"/, "commission disclosure in the same block");
+  // Owner rule 2026-10-12: no commission disclosure inside page sections (footer and legal pages only).
+  assert.doesNotMatch(html.slice(hero, heroEnd), /data-disclosure-placement=|commission-disclosure-line|v3-relationship-note/, "no commission disclosure in the hero");
   const heroSignup = [...heroBlock.matchAll(/<a href="([^"]+)"[^>]*data-cta-placement="compare-hero-signup"[^>]*>/g)];
   assert.equal(heroSignup.length, 2);
   const cardStart = html.indexOf('class="v3-compare-final-choice-card"');

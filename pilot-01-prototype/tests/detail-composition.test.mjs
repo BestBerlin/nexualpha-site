@@ -192,7 +192,7 @@ test("venue detail high-intent controls cannot render English fallbacks for supp
   }
 });
 
-test("registration handoff owns localized route, region, disclosure and context copy", () => {
+test("registration handoff owns localized route, region and context copy, with no in-card disclosure", () => {
   assert.match(registrationCard, /import \{ v3Copy \} from "\.\.\/\.\.\/data\/v3-product\.js"/);
   assert.match(registrationCard, /function registrationRuntimeCopy\(locale, baseCopy\)/);
   assert.match(registrationCard, /const text = v3Copy\(locale\)/);
@@ -202,9 +202,10 @@ test("registration handoff owns localized route, region, disclosure and context 
     "copy.productChoose",
     "copy.regionalContext?.(context.label, productLabel)",
     "copy.stateListLabel",
-    "copy.disclosureSummary",
   ]) {
     assert.ok(registrationCard.includes(token), `${token} must drive RegistrationCard localized UI`);
   }
+  // Owner rule 2026-10-12: the card carries no commission disclosure (footer + legal pages only).
+  assert.doesNotMatch(registrationCard, /copy\.disclosure(Title|Short|Body|Summary)|registration-card__(inline-)?disclosure|data-disclosure-placement=/);
   assert.doesNotMatch(registrationCard, /aria-label=\{locale\.startsWith\("zh"\) \? "合作入口、优惠和地区状态" : "Partner route, benefit and regional states"\}/);
 });

@@ -3,7 +3,6 @@
 import React from "react";
 import { localizedHref } from "../../../data/locale-routing.js";
 import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
-import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
 import { ABOUT_COPY } from "./about-copy.js";
 import "./brand-pages.css";
 
@@ -51,7 +50,6 @@ export function AboutPage({ locale = "en" }) {
       <section className="nxb-section nxb-section--card v2-shell" id="funding" aria-labelledby="nxb-funding-h" data-rv="1">
         <h2 id="nxb-funding-h">{t.fundingTitle}</h2>
         <p>{t.fundingBody}</p>
-        <CommissionDisclosureLine locale={code} placement="about-funding" className="nxb-disclosure" />
       </section>
 
       <section className="nxb-section v2-shell" id="verification" aria-labelledby="nxb-verify-h" data-rv="1">

@@ -54,7 +54,7 @@ test("compactOfficialAnnouncements keeps official event rows of the last 30 days
   assert.equal(compactOfficialAnnouncements({ generatedAt: "x" }), null);
 });
 
-test("/activities is rendered at request time from the announcement feed: campaign cards, join links and disclosure in the SSR HTML", async () => {
+test("/activities is rendered at request time from the announcement feed: campaign cards, join links and footer-only disclosure in the SSR HTML", async () => {
   const calls = [];
   const env = { ASSETS: assets, INTEL_READ: async () => intelFeed, NEWS_SSR_RENDER: async (href, options) => { calls.push({ href, options }); return harness.render(href, options); } };
   for (const [path, locale] of [["/activities", "en"], ["/vi/activities", "vi"], ["/tr/activities", "tr"]]) {
@@ -74,7 +74,10 @@ test("/activities is rendered at request time from the announcement feed: campai
     assert.match(html, new RegExp(`href="${expectedUpdateHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), `${path}: campaign details link stays on NexuAlpha`);
     assert.doesNotMatch(html, /href="https:\/\/www\.okx\.com\/help\/okx-trading-festival"/, `${path}: campaign cards do not link directly to the exchange`);
     assert.match(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=/, `${path}: sign-up link with the invite code`);
-    assert.match(html, /data-disclosure-placement="activities-live-campaigns"/, `${path}: commission disclosure sits with the list`);
+    // Owner rule 2026-10-12: commission disclosure only in the footer and legal pages, never with the list.
+    assert.doesNotMatch(html, /data-disclosure-placement=/, `${path}: no in-section commission disclosure`);
+    assert.match(html, /class="clean-footer__statement"/, `${path}: the footer keeps the disclosure statement`);
+    assert.match(html, /href="[^"]*\/methodology#disclosure"/, `${path}: the footer links the disclosure`);
     assert.doesNotMatch(html, /okx\.example\.com|Expired campaign|OKX lists ABC/, `${path}: non-event, expired and unofficial rows stay out`);
     const state = prerenderState(html);
     assert.equal(state.pathname, "/activities");

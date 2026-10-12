@@ -1,7 +1,7 @@
 // Exchange keyword plan 2026-10-11: first-party answers for "hyperliquid fees / referral code / funded account" and
 // "backpack exchange tokenized stocks" on the existing profiles (data: src/data/venue-keyword-sections.js). Styles live
 // in profile-density.css (already linked on every profile) so the SSR page never waits for a separate stylesheet.
-// The invite code comes from the CTA (partner feed), never typed here, and travels with the commission disclosure.
+// The invite code comes from the CTA (partner feed), never typed here.
 import { referralTitleAllowed } from "../../data/referral-seo.js";
 import {
   BACKPACK_SOURCES,
@@ -11,7 +11,6 @@ import {
   backpackStocksCopy,
   hyperliquidKeywordCopy,
 } from "../../data/venue-keyword-sections.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 function SourceLinks({ items, placement }) {
   return (
@@ -52,7 +51,6 @@ function HyperliquidSections({ locale, market, inviteCode }) {
         <div className="v3-kw__block" data-keyword-block="referral">
           <h3>{t.referralTitle}</h3>
           <p>{t.referralBody} <code translate="no">{inviteCode}</code>{/[\u3000-\u9fff]/.test(t.referralBody) ? "。" : "."}{t.noShare ? <> {t.noShare}</> : null}</p>
-          <CommissionDisclosureLine locale={locale} placement="hyperliquid-referral-section" />
         </div>
       )}
       <div className="v3-kw__block" data-keyword-block="funded-account">

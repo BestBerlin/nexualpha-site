@@ -1,15 +1,14 @@
 // Brazil BCB 30-Oct-2026 deadline topic (owner plan 2026-10-12): /pt-br/topics/<pt slug> (Portuguese) and
 // /topics/<en slug> (English). Other locales get translated chrome around the English article, with noindex.
 // Data and copy: src/data/brazil-vasp-deadline.js (article) and src/data/brazil-vasp-status.js (per-exchange status).
-// Partner links come only from publicCtaForVenue, never for an exchange whose status is "leaving", and the commission
-// disclosure sits directly above the table whenever a partner link is shown.
+// Partner links come only from publicCtaForVenue, never for an exchange whose status is "leaving". The commission
+// disclosure lives only in the site footer and legal pages (owner rule 2026-10-12).
 import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT } from "../../data/brazil-vasp-deadline-slugs.js";
 import { BRAZIL_DEADLINE_DATE, BRAZIL_DEADLINE_REVIEWED_AT, brazilStatusLabel } from "../../data/brazil-vasp-status.js";
 import { brazilDeadlineChrome, brazilDeadlineContent, brazilDeadlineRows } from "../../data/brazil-vasp-deadline.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import "./brazil-deadline-page.css";
 
 export function BrazilDeadlinePage({ locale = "en" }) {
@@ -21,7 +20,6 @@ export function BrazilDeadlinePage({ locale = "en" }) {
     const cta = row.promotable ? publicCtaForVenue(row.slug, locale) : null;
     return { ...row, registrationUrl: cta?.hasPartnerRoute ? cta.registrationUrl : null, sponsored: Boolean(cta?.hasReferral) };
   });
-  const anyPartnerLink = rows.some((row) => row.registrationUrl);
   const otherEditions = locale === "pt-BR"
     ? [[chrome.readEn, localizedHref(BRAZIL_DEADLINE_PATH_EN, { locale: "en" }), "en"]]
     : locale === "en"
@@ -62,7 +60,6 @@ export function BrazilDeadlinePage({ locale = "en" }) {
       <section className="brazil-deadline-section v2-shell" aria-labelledby="brazil-deadline-status-title">
         <h2 id="brazil-deadline-status-title">{chrome.tableTitle}</h2>
         <p>{chrome.tableLead}</p>
-        {anyPartnerLink ? <CommissionDisclosureLine locale={locale} placement="brazil-deadline-table" /> : null}
         <div className="brazil-deadline-table-wrap" role="region" aria-label={chrome.tableTitle} tabIndex={0}>
           <table className="brazil-deadline-table">
             <thead><tr>{chrome.cols.map((col) => <th key={col} scope="col">{col}</th>)}</tr></thead>

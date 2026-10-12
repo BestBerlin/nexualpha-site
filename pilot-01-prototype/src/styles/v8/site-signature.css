@@ -59,7 +59,6 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
 .guide-breadcrumbs a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; min-inline-size: 44px; }
 :is(.guide-tg-btn, .kol-venue-card__cta, .bleed-venue-btn, .embed-attribution-link):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; }
 :is(.br-chain__evidence a, .methodology-page a, main a[href*="/kr"], main a[href*="/br"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-inline-size: 44px; justify-content: center; }
-.bleed-cta-disclosure:not(#_):not(#_) { margin: 0 0 10px; }
 
 /* Layout pass 2026-10-10: headings in every locale break into balanced lines — no last line holding one
    word or one or two CJK characters. text-wrap-style (longhand) so it never resets white-space: nowrap. */

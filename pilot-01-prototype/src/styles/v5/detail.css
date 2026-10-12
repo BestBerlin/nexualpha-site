@@ -271,7 +271,6 @@
   transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
 }
 .v5-detail.v3-profile-page .button-quiet:hover { background: var(--surface-hover); border-color: var(--n10); }
-.v5-detail.v3-profile-page .v3-relationship-note { margin: 0; max-inline-size: 60ch; color: var(--text-muted); font-size: var(--t-xs); line-height: var(--lh-body, 1.55); }
 
 /* ---------- the hero moment: decision card ---------- */
 .v5-detail.v3-profile-page .v3-profile-main-registration {
@@ -414,18 +413,7 @@
 .v5-detail.v3-profile-page .registration-card__next-step b { color: var(--text-strong); font-weight: 500; }
 .v5-detail.v3-profile-page .registration-card__url-text { color: var(--text); overflow-wrap: anywhere; }
 .v5-detail.v3-profile-page .registration-card__research-actions a { color: var(--text-strong); }
-.v5-detail.v3-profile-page .registration-card__disclosure {
-  margin: 0;
-  padding: var(--s-4) var(--s-6) var(--s-5);
-  border: 0;
-  border-block-start: var(--hairline);
-  background: none;
-  color: var(--text-muted);
-  font-size: var(--t-xs);
-  line-height: var(--lh-body, 1.55);
-}
-.v5-detail.v3-profile-page .registration-card__disclosure b { color: var(--text); font-weight: 500; }
-.v5-detail.v3-profile-page .registration-card__disclosure-details summary { color: var(--text); text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; min-block-size: 24px; }
+
 .v5-detail.v3-profile-page .registration-card__passport { border: 0; background: none; padding: 0; }
 .v5-detail.v3-profile-page .registration-card__passport a { color: var(--text-strong); }
 
@@ -505,7 +493,6 @@
   .v5-detail.v3-profile-page .v3-venue-identity .v2-brand-fallback { inline-size: 48px; block-size: 48px; flex-basis: 48px; }
   .v5-detail.v3-profile-page .registration-card__head { padding: var(--s-4) var(--s-5) 0; }
   .v5-detail.v3-profile-page .registration-card__body { padding: var(--s-4) var(--s-5) var(--s-5); gap: var(--s-4); }
-  .v5-detail.v3-profile-page .registration-card__disclosure { padding-inline: var(--s-5); }
 }
 .v5-detail.v3-profile-page { overflow-x: clip; }
 .v5-detail [dir="rtl"] .d5-figure, .v5-detail .d5-figure { unicode-bidi: plaintext; }

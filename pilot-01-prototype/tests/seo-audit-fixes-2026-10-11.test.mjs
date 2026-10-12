@@ -327,7 +327,8 @@ test("#10 llms*.txt describe the site accurately: slogan-led summary, partner co
     await rm(dir, { recursive: true, force: true });
   }
   const registration = await readFile(path.join(root, "src/components/v3/RegistrationCard.jsx"), "utf8");
-  assert.ok(registration.includes('disclosureShort: "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you."'), "llms reuses the site's disclosure sentence");
+  // Owner rule 2026-10-12: the on-site disclosure moved to the footer and legal pages; the registration card has none.
+  assert.ok(!registration.includes("disclosureShort") && !registration.includes("platform-paid commission"), "registration card carries no commission disclosure");
 });
 
 // ---------- Turkish percent dative (lead request 2026-10-11) ----------

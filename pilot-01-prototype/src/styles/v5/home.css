@@ -566,33 +566,6 @@
   max-inline-size: 100%;
   overflow-wrap: anywhere;
 }
-#top.v5 .hx-route .registration-card__disclosure {
-  grid-column: 1 / -1;
-  grid-row: 5;
-  margin: 0;
-  padding: 0;
-  background: none;
-  border: 0;
-  font-size: var(--t-xs);
-  line-height: var(--lh-body, 1.55);
-  color: var(--text-muted);
-}
-#top.v5 .hx-route .registration-card__disclosure b {
-  color: var(--text);
-  font-weight: 600;
-}
-#top.v5 .hx-route .registration-card__disclosure summary {
-  display: inline;
-  margin-inline-start: 0.35em;
-  cursor: pointer;
-  color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--n8);
-  text-underline-offset: 0.2em;
-}
-#top.v5 .hx-route .registration-card__disclosure-details {
-  display: inline;
-}
 
 /* matrix */
 #top.v5 .hx-matrix {
@@ -1091,12 +1064,7 @@
     margin-block-start: var(--s-2);
     font-size: var(--t-base);
   }
-  #top.v5 .hx-route .registration-card__disclosure > span {
-    display: none;
-  }
-  #top.v5 .hx-route .registration-card__disclosure-details {
-    display: inline;
-  }
+
   #top.v5 .hx-intent button {
     min-block-size: 2.5rem;
   }
@@ -1124,9 +1092,7 @@
   #top.v5 .hx-route .registration-card__mobile-route-details {
     display: none;
   }
-  #top.v5 .hx-route .registration-card__disclosure {
-    grid-row: 6;
-  }
+
   #top.v5 .hx-route .registration-card__head .registration-card__domain-hint {
     display: none;
   }
@@ -1228,9 +1194,9 @@
 }
 
 /* CJK faces ship 400/500/600/700 subsets; intermediate weights mix faces mid-line. Snap to 700. */
-html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
-html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
-html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
+html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -1239,9 +1205,6 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 #top.v5 .hx-route .registration-card__mobile-route-summary {
   min-block-size: 0;
   block-size: auto;
-}
-#top.v5 .hx-route .registration-card__disclosure {
-  max-inline-size: none;
 }
 
 /* ============================================================ round 2: left column story, grid field, trust line */

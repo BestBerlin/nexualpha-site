@@ -32,7 +32,6 @@ export function FeaturedOpportunity({ copy, locale = "en", model, venues = [], d
       </div>
     </div>
     <div className="ticket-actions"><button className="button-primary" type="button" onClick={onAlternatives}>{copy.home.exploreLabel} →</button></div>
-    <p className="ticket-disclosure">{text.relationship}</p>
   </article>;
   return <article className="featured-ticket" aria-busy={dataStatus === "loading"}>
     <div className="ticket-kicker"><span className="signal-dot" />{copy.opportunity.current(state)}</div>
@@ -55,6 +54,5 @@ export function FeaturedOpportunity({ copy, locale = "en", model, venues = [], d
       {model.isRestricted ? <button className="button-primary" type="button" onClick={onAlternatives}>{copy.opportunity.alternatives} →</button> : <button className="button-primary" type="button" onClick={toggleDetails}>{copy.opportunity.condition} →</button>}
       <button className="button-quiet" type="button" aria-expanded={expanded} onClick={toggleDetails}>{expanded ? copy.actions.close : copy.actions.expand}</button>
     </div>
-    <p className="ticket-disclosure">{model.disclosure}</p>
   </article>;
 }

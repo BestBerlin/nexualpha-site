@@ -169,8 +169,7 @@
 .registration-card__copy-btn:focus-visible,
 .registration-card__primary-btn:focus-visible,
 .registration-card__research-actions a:focus-visible,
-.registration-card__mobile-route-details > summary:focus-visible,
-.registration-card__disclosure-details summary:focus-visible {
+.registration-card__mobile-route-details > summary:focus-visible {
   outline: 2px solid var(--blue-text, #53b1fd);
   outline-offset: 3px;
 }
@@ -390,32 +389,6 @@
 }
 
 /* 透明披露声明 */
-.registration-card__disclosure {
-  font-size: 0.8125rem;
-  line-height: var(--lh-body, 1.55);
-  color: var(--muted, #667085);
-  border-top: 1px solid var(--line, rgba(255, 255, 255, 0.08));
-  padding-top: 0.875rem;
-  margin: 0;
-}
-
-.registration-card__disclosure b {
-  color: var(--ink, #d0d5dd);
-  font-weight: 600;
-}
-
-.registration-card__disclosure > span { margin-inline-start: 0.25rem; }
-.registration-card__disclosure-details { margin-top: 0.45rem; }
-.registration-card__disclosure-details summary {
-  display: inline-flex;
-  min-height: 32px;
-  align-items: center;
-  color: var(--blue-text, #53b1fd);
-  cursor: pointer;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-.registration-card__disclosure-details p { margin: 0.4rem 0 0; }
 
 /* The detail-page handoff repeats the hero's domain and full URL. Keep this
    lower decision point compact while preserving the code, disclosure, and CTA. */
@@ -448,10 +421,6 @@
   grid-template-columns: 1fr;
 }
 
-.registration-card--compact .registration-card__disclosure {
-  padding-top: 0.625rem;
-}
-
 @media (max-width: 640px) {
   .registration-card__passport {
     display: grid;
@@ -476,9 +445,7 @@
     grid-template-columns: 1fr;
   }
 
-
 }
-
 
 /* Progressive disclosure applies to compact cards at every viewport width. */
 .registration-card--compact .registration-card__mobile-route-details {

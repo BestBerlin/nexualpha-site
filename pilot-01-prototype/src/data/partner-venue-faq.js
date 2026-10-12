@@ -7,8 +7,8 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Rules for this file:
 // - Every answer restates only what the exchange's own help/support page says; each entry cites those pages.
 //   Pages were read on 2026-10-10. A topic without a readable official page is left out instead of guessed.
-// - Invite codes are never typed here: `{code}` is filled from the partner feed (referral-partners.generated.js) and
-//   every answer that shows a code carries the commission disclosure in the same sentence block.
+// - Invite codes are never typed here: `{code}` is filled from the partner feed (referral-partners.generated.js).
+//   Owner rule 2026-10-12: answers carry no commission disclosure; it lives in the site footer and legal pages only.
 // - No bonus promises and no rebate percentages (the profile already shows the owner-confirmed share elsewhere).
 // - pt-BR, es (neutral Latin American) and fr replace the generic English schema FAQ on those pages; en and zh-Hans
 //   only gain the "exchange account vs Web3 wallet" answer for OKX and Bitget.
@@ -47,18 +47,6 @@ export function normalizePartnerFaqLocale(locale = "en") {
   if (lower === "id" || lower.startsWith("id-")) return "id";
   return null;
 }
-
-// Commission disclosure shown inside every answer that names a partner code (same viewport as the code).
-const DISCLOSURE = {
-  "pt-BR": "Transparência: {code} é um código de parceiro da NexuAlpha, e a NexuAlpha pode receber comissão da {name} quando você o usa.",
-  es: "Transparencia: {code} es un código de socio de NexuAlpha, y NexuAlpha puede recibir una comisión de {name} cuando lo usas.",
-  fr: "Transparence : {code} est un code partenaire de NexuAlpha, qui peut percevoir une commission de {name} lorsque vous l’utilisez.",
-  en: "Disclosure: {code} is a NexuAlpha partner code, and NexuAlpha may receive a commission from {name} when you use it.",
-  // l10n: needs native review (tr, vi, id)
-  tr: "Açıklama: {code} bir NexuAlpha ortaklık kodudur; bu kodu kullandığınızda NexuAlpha, {name} tarafından komisyon alabilir.",
-  vi: "Công bố: {code} là mã đối tác của NexuAlpha, và NexuAlpha có thể nhận hoa hồng từ {name} khi bạn dùng mã này.",
-  id: "Pengungkapan: {code} adalah kode mitra NexuAlpha, dan NexuAlpha dapat menerima komisi dari {name} saat Anda menggunakannya.",
-};
 
 // Payout cadence from the partner feed ({cadence}); an entry using it is dropped when the feed has no cadence.
 const CADENCE = {
@@ -176,12 +164,12 @@ const SRC_EXTRA = {
 
 const faq = (question, answer, sources) => ({ question, answer, sources });
 
-// Entries per slug and locale. `{code}`, `{name}` and `{disclosure}` are filled from the partner feed at read time.
+// Entries per slug and locale. `{code}`, `{name}` and `` are filled from the partner feed at read time.
 const ENTRIES = {
   okx: {
     "pt-BR": [
       faq("Onde coloco o código de convite da OKX no cadastro?",
-        "O código de indicação entra antes de a conta ser criada: no formulário de cadastro, ou já preenchido quando você abre um link de convite. Se o link não abrir, a própria OKX orienta baixar o app e digitar o código na página de cadastro. O código de parceiro da NexuAlpha para a OKX é {code}. {disclosure}",
+        "O código de indicação entra antes de a conta ser criada: no formulário de cadastro, ou já preenchido quando você abre um link de convite. Se o link não abrir, a própria OKX orienta baixar o app e digitar o código na página de cadastro. O código de parceiro da NexuAlpha para a OKX é {code}.",
         [SRC.okx.refPt]),
       faq("Esqueci o código de convite da OKX. Dá para adicionar ou trocar depois?",
         "Não. Segundo a OKX, o código de indicação só pode ser vinculado no cadastro: depois que a conta é criada não é possível adicionar nem alterar o código, e o vínculo não muda após o cadastro ou a verificação de identidade. Para ver se a sua conta tem um indicador, abra no app Menu > Configurações da conta > Perfil > Recompensas de indicação; se a opção não aparece, nenhum vínculo foi criado.",
@@ -204,7 +192,7 @@ const ENTRIES = {
     ],
     es: [
       faq("¿Dónde pongo el código de referido de OKX al registrarme?",
-        "El código de referido se agrega antes de crear la cuenta: en el formulario de registro, o ya viene cargado si abres un enlace de invitación. Si el enlace no abre, OKX indica descargar la app e ingresar el código en la página de registro. El código de socio de NexuAlpha para OKX es {code}. {disclosure}",
+        "El código de referido se agrega antes de crear la cuenta: en el formulario de registro, o ya viene cargado si abres un enlace de invitación. Si el enlace no abre, OKX indica descargar la app e ingresar el código en la página de registro. El código de socio de NexuAlpha para OKX es {code}.",
         [SRC.okx.refEs]),
       faq("¿Puedo agregar o cambiar el código de referido de OKX después de registrarme?",
         "No. OKX explica que el código de referido solo se vincula al registrarse: una vez creada la cuenta no se puede agregar ni cambiar, y el vínculo tampoco cambia después del registro o de la verificación de identidad. Para comprobar si tu cuenta tiene un referente, entra en la app a Menú > Configuración de la cuenta > Perfil > Recompensas por referidos; si esa opción no aparece, no hay vínculo.",
@@ -224,7 +212,7 @@ const ENTRIES = {
     ],
     fr: [
       faq("Où saisir le code de parrainage OKX à l’inscription ?",
-        "Le code de parrainage doit être ajouté avant la création du compte : dans le formulaire d’inscription, ou il est prérempli si vous ouvrez un lien d’invitation. Si le lien ne s’ouvre pas, OKX conseille de télécharger l’application et de saisir le code sur la page d’inscription. Le code partenaire de NexuAlpha pour OKX est {code}. {disclosure}",
+        "Le code de parrainage doit être ajouté avant la création du compte : dans le formulaire d’inscription, ou il est prérempli si vous ouvrez un lien d’invitation. Si le lien ne s’ouvre pas, OKX conseille de télécharger l’application et de saisir le code sur la page d’inscription. Le code partenaire de NexuAlpha pour OKX est {code}.",
         [SRC.okx.refFr]),
       faq("Peut-on ajouter ou changer le code de parrainage OKX après l’inscription ?",
         "Non. OKX précise que le code ne peut être lié qu’au moment de l’inscription : une fois le compte créé, il n’est plus possible de l’ajouter ni de le modifier, et la relation ne change plus après l’inscription ou la vérification d’identité. Pour savoir si votre compte a un parrain, ouvrez dans l’application Menu > Paramètres du compte > Profil > Récompenses de parrainage ; si l’entrée n’apparaît pas, aucun lien n’existe.",
@@ -256,7 +244,7 @@ const ENTRIES = {
   bitget: {
     "pt-BR": [
       faq("Onde informar o código de convite da Bitget no cadastro?",
-        "No guia oficial de cadastro, depois de digitar e-mail ou celular, o passo 2 é “Insira um código de convite (caso tenha)”, antes de aceitar os termos e criar a conta. O código de parceiro da NexuAlpha para a Bitget é {code}. {disclosure}",
+        "No guia oficial de cadastro, depois de digitar e-mail ou celular, o passo 2 é “Insira um código de convite (caso tenha)”, antes de aceitar os termos e criar a conta. O código de parceiro da NexuAlpha para a Bitget é {code}.",
         [SRC.bitget.regPt]),
       faq("Esqueci o código de convite da Bitget. Posso incluir depois?",
         "Os guias de cadastro da Bitget mostram o campo do código apenas no formulário de criação da conta e não descrevem uma forma de incluí-lo depois. O programa de indicação da Bitget considera convidado quem se registra usando o link ou o código. Por isso, confira o código antes de concluir o cadastro.",
@@ -276,7 +264,7 @@ const ENTRIES = {
     ],
     es: [
       faq("¿Dónde ingreso el código de referido de Bitget al registrarme?",
-        "En la guía oficial de registro, después de escribir tu correo o celular, el paso 2 es “Ingresa un código de referidos (opcional)”, antes de aceptar los términos y crear la cuenta. El código de socio de NexuAlpha para Bitget es {code}. {disclosure}",
+        "En la guía oficial de registro, después de escribir tu correo o celular, el paso 2 es “Ingresa un código de referidos (opcional)”, antes de aceptar los términos y crear la cuenta. El código de socio de NexuAlpha para Bitget es {code}.",
         [SRC.bitget.regEs]),
       faq("¿Puedo poner o cambiar el código de referido de Bitget después?",
         "Las guías de registro de Bitget muestran el campo del código solo en el formulario de creación de la cuenta y no describen una forma de agregarlo después. El programa de referidos de Bitget cuenta como invitado a quien se registra con el enlace o el código. Revisa el código antes de terminar el registro.",
@@ -293,7 +281,7 @@ const ENTRIES = {
     ],
     fr: [
       faq("Où saisir le code de parrainage Bitget à l’inscription ?",
-        "Dans le guide officiel, après l’e-mail ou le numéro de téléphone, l’étape 2 est « Saisissez un code de parrainage (facultatif) », avant d’accepter les conditions et de créer le compte. Le code partenaire de NexuAlpha pour Bitget est {code}. {disclosure}",
+        "Dans le guide officiel, après l’e-mail ou le numéro de téléphone, l’étape 2 est « Saisissez un code de parrainage (facultatif) », avant d’accepter les conditions et de créer le compte. Le code partenaire de NexuAlpha pour Bitget est {code}.",
         [SRC.bitget.regFr]),
       faq("J’habite en France : puis-je ouvrir un compte Bitget ?",
         "Non. Bitget indique que les résidents de France (y compris les territoires d’outre-mer) et d’Allemagne ne peuvent plus ouvrir de compte depuis le 16 janvier 2026, et que tous les services sont arrêtés pour les résidents français depuis le 31 mars 2026, quelle que soit la date d’inscription. Cette mesure ne concerne pas les autres pays.",
@@ -325,7 +313,7 @@ const ENTRIES = {
   binance: {
     "pt-BR": [
       faq("Onde coloco o código de convite (indicação) da Binance?",
-        "No app, logo depois de criar a conta, aparece a etapa do código de indicação. Se você chegou por um link de indicação, o código já vem preenchido com um sinal verde e “Vinculado”; se o código for inválido, dá para editar ou digitar outro nessa mesma etapa. O código de parceiro da NexuAlpha para a Binance é {code}. {disclosure}",
+        "No app, logo depois de criar a conta, aparece a etapa do código de indicação. Se você chegou por um link de indicação, o código já vem preenchido com um sinal verde e “Vinculado”; se o código for inválido, dá para editar ou digitar outro nessa mesma etapa. O código de parceiro da NexuAlpha para a Binance é {code}.",
         [SRC.binance.register]),
       faq("O código de convite da Binance não funciona. Dá para corrigir depois?",
         "Não. A Binance informa que, depois de vinculado, o código não pode ser modificado, e que nenhuma correção é possível depois que o novo usuário conclui o cadastro. Os motivos que ela lista para o vínculo falhar: outro código foi usado, o código não foi digitado no cadastro, ou a conta violou os termos.",
@@ -348,7 +336,7 @@ const ENTRIES = {
     ],
     es: [
       faq("¿Dónde ingreso el código de referido de Binance?",
-        "En la app, justo después de crear la cuenta aparece el paso del código de referido. Si llegaste por un enlace de referido, el código ya viene cargado con un check verde y la etiqueta “Vinculado”; si el código no es válido, puedes editarlo o escribir otro en ese mismo paso. El código de socio de NexuAlpha para Binance es {code}. {disclosure}",
+        "En la app, justo después de crear la cuenta aparece el paso del código de referido. Si llegaste por un enlace de referido, el código ya viene cargado con un check verde y la etiqueta “Vinculado”; si el código no es válido, puedes editarlo o escribir otro en ese mismo paso. El código de socio de NexuAlpha para Binance es {code}.",
         [SRC.binance.register]),
       faq("Mi código de referido de Binance no quedó vinculado, ¿se puede corregir?",
         "No. Binance indica que una vez vinculado el código no se puede modificar y que no hay corrección posible después de que el usuario nuevo se registra. Las causas que menciona: se usó otro código, no se ingresó el código durante el registro o la cuenta incumplió los términos.",
@@ -368,7 +356,7 @@ const ENTRIES = {
     ],
     fr: [
       faq("Où saisir le code de parrainage Binance ?",
-        "Dans l’application, juste après la création du compte, une étape est consacrée au code de parrainage. Si vous arrivez par un lien de parrainage, le code est déjà rempli avec une coche verte et la mention « Lié » ; s’il est invalide, vous pouvez le modifier ou en saisir un autre à cette étape. Le code partenaire de NexuAlpha pour Binance est {code}. {disclosure}",
+        "Dans l’application, juste après la création du compte, une étape est consacrée au code de parrainage. Si vous arrivez par un lien de parrainage, le code est déjà rempli avec une coche verte et la mention « Lié » ; s’il est invalide, vous pouvez le modifier ou en saisir un autre à cette étape. Le code partenaire de NexuAlpha pour Binance est {code}.",
         [SRC.binance.register]),
       faq("Peut-on ajouter ou changer le code de parrainage Binance après l’inscription ?",
         "Non. Binance précise qu’un code lié ne peut plus être modifié et qu’aucune correction n’est possible une fois l’inscription terminée. Causes d’échec citées : un autre code a été utilisé, le code n’a pas été saisi à l’inscription, ou le compte a enfreint les conditions.",
@@ -390,7 +378,7 @@ const ENTRIES = {
   bybit: {
     "pt-BR": [
       faq("Onde coloco o código de convite (indicação) da Bybit?",
-        "No cadastro, depois de escolher o país e informar e-mail ou celular, digite o código de indicação ou de afiliado antes de clicar em criar a conta (Sign Up Now). O código de parceiro da NexuAlpha para a Bybit é {code}. {disclosure}",
+        "No cadastro, depois de escolher o país e informar e-mail ou celular, digite o código de indicação ou de afiliado antes de clicar em criar a conta (Sign Up Now). O código de parceiro da NexuAlpha para a Bybit é {code}.",
         [SRC.bybit.register]),
       faq("Esqueci o código de convite na Bybit. Dá para adicionar depois?",
         "Em regra, não: depois que a conta é criada, a Bybit não permite adicionar, alterar nem apagar o código de indicação ou de afiliado. A exceção é o código de afiliado: a conta principal pode adicioná-lo em até 14 dias após o cadastro, em Conta > “Join an Affiliate's Community”, se ainda não tiver nenhum código vinculado. Códigos do programa de indicação de usuários comuns não entram por esse caminho, e depois de adicionado o código não pode ser trocado.",
@@ -410,7 +398,7 @@ const ENTRIES = {
     ],
     es: [
       faq("¿Dónde pongo el código de referido de Bybit?",
-        "Al registrarte, después de elegir tu país e ingresar correo o celular, escribe el código de referido o de afiliado antes de tocar crear cuenta (Sign Up Now). El código de socio de NexuAlpha para Bybit es {code}. {disclosure}",
+        "Al registrarte, después de elegir tu país e ingresar correo o celular, escribe el código de referido o de afiliado antes de tocar crear cuenta (Sign Up Now). El código de socio de NexuAlpha para Bybit es {code}.",
         [SRC.bybit.register]),
       faq("Olvidé el código en Bybit, ¿puedo agregarlo después?",
         "Por regla general no: una vez creada la cuenta, Bybit no permite agregar, cambiar ni borrar el código de referido o de afiliado. La excepción es el código de afiliado: la cuenta principal puede agregarlo dentro de los 14 días posteriores al registro, en Cuenta > “Join an Affiliate's Community”, si todavía no tiene ningún código vinculado. Los códigos del programa de referidos entre usuarios no entran por esa vía, y una vez agregado ya no se puede cambiar.",
@@ -430,7 +418,7 @@ const ENTRIES = {
     ],
     fr: [
       faq("Où saisir le code de parrainage Bybit ?",
-        "À l’inscription, après avoir choisi votre pays et saisi votre e-mail ou votre numéro, entrez le code de parrainage ou d’affilié avant de cliquer sur créer le compte (Sign Up Now). Le code partenaire de NexuAlpha pour Bybit est {code}. {disclosure}",
+        "À l’inscription, après avoir choisi votre pays et saisi votre e-mail ou votre numéro, entrez le code de parrainage ou d’affilié avant de cliquer sur créer le compte (Sign Up Now). Le code partenaire de NexuAlpha pour Bybit est {code}.",
         [SRC.bybit.register]),
       faq("J’ai oublié le code sur Bybit : puis-je l’ajouter plus tard ?",
         "En règle générale, non : une fois le compte créé, Bybit ne permet ni d’ajouter, ni de modifier, ni de supprimer le code. Exception : un code d’affilié peut être ajouté par le compte principal dans les 14 jours suivant l’inscription, via Compte > « Join an Affiliate's Community », si aucun code n’est encore lié. Les codes du programme de parrainage entre utilisateurs ne passent pas par cette voie, et un code ajouté ne peut plus être changé.",
@@ -508,7 +496,7 @@ const ENTRIES = {
   mexc: {
     "pt-BR": [
       faq("Onde coloco o código de indicação da MEXC?",
-        "No cadastro, digite o código de indicação no campo correspondente; se você abrir um link de indicação, o código é aplicado automaticamente. O código de parceiro da NexuAlpha para a MEXC é {code}. {disclosure}",
+        "No cadastro, digite o código de indicação no campo correspondente; se você abrir um link de indicação, o código é aplicado automaticamente. O código de parceiro da NexuAlpha para a MEXC é {code}.",
         [SRC.mexc.invite]),
       faq("Esqueci o código de convite da MEXC. Dá para vincular depois?",
         "Sim, dentro de 30 dias após o cadastro: a MEXC permite vincular o código de convite pelo suporte ou pela função de autoatendimento de vínculo de convidante. Depois de vinculado, o código não pode ser trocado nem removido.",
@@ -525,7 +513,7 @@ const ENTRIES = {
     ],
     es: [
       faq("¿Dónde pongo el código de referido de MEXC?",
-        "Al registrarte, escribe el código de referido en el campo correspondiente; si abres un enlace de referido, el código se aplica solo. El código de socio de NexuAlpha para MEXC es {code}. {disclosure}",
+        "Al registrarte, escribe el código de referido en el campo correspondiente; si abres un enlace de referido, el código se aplica solo. El código de socio de NexuAlpha para MEXC es {code}.",
         [SRC.mexc.invite]),
       faq("Olvidé el código de invitación de MEXC, ¿puedo vincularlo después?",
         "Sí, dentro de los 30 días posteriores al registro: MEXC permite vincular el código de invitación a través de soporte o de la función de autoservicio. Una vez vinculado, el código no se puede cambiar ni eliminar.",
@@ -542,7 +530,7 @@ const ENTRIES = {
     ],
     fr: [
       faq("Où saisir le code de parrainage MEXC ?",
-        "À l’inscription, saisissez le code de parrainage dans le champ prévu ; si vous ouvrez un lien de parrainage, le code s’applique automatiquement. Le code partenaire de NexuAlpha pour MEXC est {code}. {disclosure}",
+        "À l’inscription, saisissez le code de parrainage dans le champ prévu ; si vous ouvrez un lien de parrainage, le code s’applique automatiquement. Le code partenaire de NexuAlpha pour MEXC est {code}.",
         [SRC.mexc.invite]),
       faq("J’ai oublié le code de parrainage MEXC : puis-je le lier plus tard ?",
         "Oui, dans les 30 jours qui suivent l’inscription : MEXC permet de lier le code d’invitation via le support ou la fonction en libre-service. Une fois lié, le code ne peut plus être changé ni supprimé.",
@@ -562,14 +550,14 @@ const ENTRIES = {
 
 // Owner exchange keyword plan 2026-10-11: referral long-tail answers in tr / vi / id (questions follow the real
 // autocomplete phrasing in docs/company/exchange-keyword-map-2026-10-11.md), plus hyperliquid (en) and backpack
-// (en, fr). Same rules as ENTRIES: official pages only, `{code}` from the partner feed, disclosure in the same answer.
+// (en, fr). Same rules as ENTRIES: official pages only, `{code}` from the partner feed.
 // l10n: needs native review (tr, vi, id blocks below)
 const LOCAL_ENTRIES = {
   okx: {
     // l10n: needs native review
     tr: [
       faq("OKX referans kodu nereye yazılır?",
-        "Referans kodu hesap oluşturulmadan önce girilir: kayıt formundaki alana yazılır ya da bir davet bağlantısını açtığınızda alan önceden dolu gelir. Bağlantı açılmazsa OKX, uygulamayı indirip kodu kayıt sayfasına yazmanızı önerir. NexuAlpha'nın OKX ortaklık kodu {code}. {disclosure}",
+        "Referans kodu hesap oluşturulmadan önce girilir: kayıt formundaki alana yazılır ya da bir davet bağlantısını açtığınızda alan önceden dolu gelir. Bağlantı açılmazsa OKX, uygulamayı indirip kodu kayıt sayfasına yazmanızı önerir. NexuAlpha'nın OKX ortaklık kodu {code}.",
         [SRC.okx.refEn]),
       faq("OKX referans kodu sonradan eklenir mi, değiştirilebilir mi?",
         "Hayır. OKX'e göre referans kodu yalnızca kayıt sırasında bağlanabilir: hesap açıldıktan sonra kod eklenemez veya değiştirilemez, bağlantı kayıttan ya da kimlik doğrulamadan sonra da değişmez. Hesabınızın bir davet edeni olup olmadığını uygulamada Menü > Hesap ayarları > Profil > Referans ödülleri yolundan kontrol edebilirsiniz; bu seçenek görünmüyorsa bağlantı oluşmamıştır.",
@@ -578,10 +566,10 @@ const LOCAL_ENTRIES = {
         "OKX'in saydığı nedenler: hesap zaten açılmıştır (kod sonradan girilemez); son 30 gün içinde bir davet bağlantısı açtığınız ya da uygulamayı kodlu bir bağlantıdan indirdiğiniz için başka bir kod önceden dolmuştur (OKX bu durumda gizli pencerede kayıt olmanızı ve tamamlamadan önce kodu kontrol etmenizi önerir); ya da referans özelliği her kullanıcıya açık değildir. OKX ayrıca farklı bölgeler arasındaki davetlerin davet edene ödül kazandırmadığını belirtir.",
         [SRC.okx.refEn]),
       faq("OKX komisyon iadesi nasıl yapılır, kim öder?",
-        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve OKX tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da davet bağlantısıyla yapılan hesaplar içindir; kod sonradan eklenemez. {disclosure}",
+        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve OKX tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da davet bağlantısıyla yapılan hesaplar içindir; kod sonradan eklenemez.",
         [SRC.okx.refEn]),
       faq("OKX TR mi, global OKX hesabı mı? Referans kodu hangisinde geçerli?",
-        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) OKX TR Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın OKX referans programındaki ortaklık kodudur ve NexuAlpha bu kodun OKX TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. OKX, farklı bölgeler arasındaki davetlerin davet edene ödül kazandırmadığını belirtir. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) OKX TR Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın OKX referans programındaki ortaklık kodudur ve NexuAlpha bu kodun OKX TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. OKX, farklı bölgeler arasındaki davetlerin davet edene ödül kazandırmadığını belirtir. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin.",
         [REG.spkOperating, SRC.okx.refEn]),
       faq("OKX hesabı ile OKX Wallet aynı şey mi?",
         "Hayır. OKX Web3 Wallet saklama hizmeti olmayan (non-custodial) bir cüzdandır: kurtarma ifadesini veya özel anahtarı siz saklarsınız, cüzdan kimlik doğrulama ya da giriş istemez ve kurtarma ifadesini kaybeden varlıklarına erişimini kaybeder. OKX borsa hesabı ise kimlik doğrulamalı ayrı bir kayıttır. Referans kodu bu borsa hesabı açılmadan önce girilir.",
@@ -593,7 +581,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     vi: [
       faq("Nhập mã giới thiệu OKX ở đâu?",
-        "Mã giới thiệu phải được nhập trước khi tạo tài khoản: trong ô của biểu mẫu đăng ký, hoặc mã được điền sẵn khi bạn mở một liên kết mời. Nếu liên kết không mở được, OKX hướng dẫn tải ứng dụng và nhập mã ở trang đăng ký (trên điện thoại hay trên máy tính đều là bước đăng ký này). Mã đối tác của NexuAlpha cho OKX là {code}. {disclosure}",
+        "Mã giới thiệu phải được nhập trước khi tạo tài khoản: trong ô của biểu mẫu đăng ký, hoặc mã được điền sẵn khi bạn mở một liên kết mời. Nếu liên kết không mở được, OKX hướng dẫn tải ứng dụng và nhập mã ở trang đăng ký (trên điện thoại hay trên máy tính đều là bước đăng ký này). Mã đối tác của NexuAlpha cho OKX là {code}.",
         [SRC.okx.refEn]),
       faq("Đã đăng ký OKX rồi có thêm hoặc đổi mã giới thiệu được không?",
         "Không. Theo OKX, mã giới thiệu chỉ được liên kết khi đăng ký: sau khi tài khoản đã tạo thì không thể thêm hay đổi mã, và liên kết không thay đổi sau khi đăng ký hoặc xác minh danh tính. Để xem tài khoản có người giới thiệu hay không, vào ứng dụng Menu > Cài đặt tài khoản > Hồ sơ > Phần thưởng giới thiệu; nếu không thấy mục này thì chưa có liên kết nào.",
@@ -611,7 +599,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     id: [
       faq("Di mana memasukkan kode referral OKX?",
-        "Kode referral dimasukkan sebelum akun dibuat: di kolom formulir pendaftaran, atau sudah terisi otomatis saat Anda membuka tautan undangan. Jika tautan tidak terbuka, OKX menyarankan mengunduh aplikasi lalu mengetik kode di halaman pendaftaran. Kode mitra NexuAlpha untuk OKX adalah {code}. {disclosure}",
+        "Kode referral dimasukkan sebelum akun dibuat: di kolom formulir pendaftaran, atau sudah terisi otomatis saat Anda membuka tautan undangan. Jika tautan tidak terbuka, OKX menyarankan mengunduh aplikasi lalu mengetik kode di halaman pendaftaran. Kode mitra NexuAlpha untuk OKX adalah {code}.",
         [SRC.okx.refEn]),
       faq("Sudah daftar OKX, apakah kode referral bisa ditambahkan atau diganti?",
         "Tidak. Menurut OKX, kode referral hanya dapat ditautkan saat pendaftaran: setelah akun dibuat, kode tidak bisa ditambahkan atau diubah, dan tautan tidak berubah setelah pendaftaran atau verifikasi identitas. Untuk mengecek apakah akun Anda punya pengundang, buka aplikasi Menu > Pengaturan akun > Profil > Hadiah referral; jika menu itu tidak muncul, belum ada tautan.",
@@ -634,16 +622,16 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     tr: [
       faq("Binance referans kodu nereye yazılır?",
-        "Uygulamada hesabı oluşturduktan hemen sonra referans kodu adımı gelir. Bir referans bağlantısıyla geldiyseniz kod, yeşil onay işareti ve “Bağlandı” etiketiyle önceden dolu olur; kod geçersizse aynı adımda düzenleyebilir veya başka bir kod yazabilirsiniz. NexuAlpha'nın Binance ortaklık kodu {code}. {disclosure}",
+        "Uygulamada hesabı oluşturduktan hemen sonra referans kodu adımı gelir. Bir referans bağlantısıyla geldiyseniz kod, yeşil onay işareti ve “Bağlandı” etiketiyle önceden dolu olur; kod geçersizse aynı adımda düzenleyebilir veya başka bir kod yazabilirsiniz. NexuAlpha'nın Binance ortaklık kodu {code}.",
         [SRC.binance.register]),
       faq("Binance referans kodu sonradan eklenir mi veya değiştirilir mi?",
         "Hayır. Binance'e göre bağlanan kod sonradan değiştirilemez ve yeni kullanıcı kaydı tamamladıktan sonra düzeltme yapılamaz. Binance'in saydığı bağlanmama nedenleri: başka bir kod kullanılmıştır, kayıt sırasında kod girilmemiştir ya da hesap kuralları ihlal etmiştir.",
         [SRC.binance.register, SRC.binance.referralLite]),
       faq("Binance komisyon iadesi nasıl yapılır, kim öder?",
-        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve Binance tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da referans bağlantısıyla yapılan hesaplar içindir; Binance bağlanan kodun sonradan değiştirilemeyeceğini belirtir. {disclosure}",
+        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve Binance tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da referans bağlantısıyla yapılan hesaplar içindir; Binance bağlanan kodun sonradan değiştirilemeyeceğini belirtir.",
         [SRC.binance.register, SRC.binance.referralLite]),
       faq("Binance TR mi, global Binance mi? Kod hangisinde geçerli?",
-        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Binance Turkey Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Binance referans programındaki ortaklık kodudur ve NexuAlpha bu kodun Binance TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Binance Turkey Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Binance referans programındaki ortaklık kodudur ve NexuAlpha bu kodun Binance TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin.",
         [REG.spkOperating, SRC.binance.register]),
       faq("Binance Wallet, Binance hesabıyla aynı şey mi?",
         "Hayır. Binance Wallet uygulamanın içindeki, anahtarı parçalara bölünüp cihazınızda ve bulutunuzda saklanan bir kendi kendine saklama cüzdanıdır; grubun başka bir şirketinin sunduğu isteğe bağlı bir üründür. Borsa hesabı ise kimlik doğrulamalı kayıttır ve referans kodu bu hesaba bağlanır.",
@@ -655,7 +643,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     vi: [
       faq("Nhập mã giới thiệu Binance ở đâu?",
-        "Trong ứng dụng, ngay sau khi tạo tài khoản sẽ có bước nhập mã giới thiệu. Nếu bạn đến từ một liên kết giới thiệu, mã đã được điền sẵn kèm dấu tích xanh và nhãn “Đã liên kết”; nếu mã không hợp lệ, bạn có thể sửa hoặc nhập mã khác ngay ở bước này. Mã đối tác của NexuAlpha cho Binance là {code}. {disclosure}",
+        "Trong ứng dụng, ngay sau khi tạo tài khoản sẽ có bước nhập mã giới thiệu. Nếu bạn đến từ một liên kết giới thiệu, mã đã được điền sẵn kèm dấu tích xanh và nhãn “Đã liên kết”; nếu mã không hợp lệ, bạn có thể sửa hoặc nhập mã khác ngay ở bước này. Mã đối tác của NexuAlpha cho Binance là {code}.",
         [SRC.binance.register]),
       faq("Đổi mã giới thiệu Binance sau khi đăng ký được không?",
         "Không. Binance cho biết mã đã liên kết thì không thể sửa, và không thể điều chỉnh sau khi người dùng mới đã hoàn tất đăng ký.",
@@ -675,7 +663,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     tr: [
       faq("Bybit referans kodu nereye yazılır?",
-        "Kayıt sırasında ülkenizi seçip e-posta veya telefon numaranızı girdikten sonra, hesap oluşturma (Sign Up Now) düğmesine basmadan önce referans ya da affiliate kodunu yazın. NexuAlpha'nın Bybit ortaklık kodu {code}. {disclosure}",
+        "Kayıt sırasında ülkenizi seçip e-posta veya telefon numaranızı girdikten sonra, hesap oluşturma (Sign Up Now) düğmesine basmadan önce referans ya da affiliate kodunu yazın. NexuAlpha'nın Bybit ortaklık kodu {code}.",
         [SRC.bybit.register]),
       faq("Bybit referans kodu sonradan eklenir mi?",
         "Genel kural olarak hayır: hesap açıldıktan sonra Bybit referans veya affiliate kodunun eklenmesine izin vermez. İstisna affiliate kodudur: ana hesap, henüz bağlı bir kod yoksa kayıttan sonraki 14 gün içinde Hesap > “Join an Affiliate's Community” yolundan affiliate kodu ekleyebilir. Kullanıcıdan kullanıcıya referans programının kodları bu yolla eklenemez.",
@@ -684,7 +672,7 @@ const LOCAL_ENTRIES = {
         "Hayır. Bybit, hesap oluşturulduktan sonra referans veya affiliate kodunun değiştirilmesine ya da silinmesine izin vermez; 14 günlük affiliate istisnasıyla eklenen kod da sonradan değiştirilemez.",
         [SRC.bybit.register, SRC.bybit.affiliateCode]),
       faq("Bybit TR mi, global Bybit mi? Kod hangisinde geçerli?",
-        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Bybit Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Bybit ortaklık kodudur ve NexuAlpha bu kodun Bybit'in Türkiye hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Bybit Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Bybit ortaklık kodudur ve NexuAlpha bu kodun Bybit'in Türkiye hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin.",
         [REG.spkOperating, SRC.bybit.register]),
       faq("Bybit Wallet, Bybit hesabıyla aynı şey mi?",
         "Hayır. Bybit Wallet üç cüzdan türü sunar ve hiçbiri kimlik doğrulama istemez: kurtarma ifadeli cüzdanda anahtarları siz kontrol edersiniz; keyless cüzdanda anahtar Bybit ile bulutunuz arasında bölünür; bulut cüzdanda anahtarları Bybit yönetir. Borsa hesabı ise KYC'li kayıttır ve referans kodu bu hesaba girilir.",
@@ -696,7 +684,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     vi: [
       faq("Mã giới thiệu Bybit nhập ở đâu (trên máy tính hay điện thoại)?",
-        "Khi đăng ký, sau khi chọn quốc gia và nhập email hoặc số điện thoại, hãy nhập mã giới thiệu hoặc mã affiliate trước khi bấm tạo tài khoản (Sign Up Now). Mã đối tác của NexuAlpha cho Bybit là {code}. {disclosure}",
+        "Khi đăng ký, sau khi chọn quốc gia và nhập email hoặc số điện thoại, hãy nhập mã giới thiệu hoặc mã affiliate trước khi bấm tạo tài khoản (Sign Up Now). Mã đối tác của NexuAlpha cho Bybit là {code}.",
         [SRC.bybit.register]),
       faq("Quên nhập mã giới thiệu Bybit, có thêm sau được không?",
         "Về nguyên tắc là không: sau khi tạo tài khoản, Bybit không cho thêm mã giới thiệu hay mã affiliate. Ngoại lệ là mã affiliate: tài khoản chính có thể thêm trong 14 ngày sau khi đăng ký, tại Tài khoản > “Join an Affiliate's Community”, nếu chưa liên kết mã nào. Mã của chương trình giới thiệu giữa người dùng không thêm được theo cách này.",
@@ -714,7 +702,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     id: [
       faq("Di mana memasukkan kode referral Bybit?",
-        "Saat mendaftar, setelah memilih negara dan mengisi email atau nomor ponsel, ketik kode referral atau kode afiliasi sebelum menekan tombol buat akun (Sign Up Now). Kode mitra NexuAlpha untuk Bybit adalah {code}. {disclosure}",
+        "Saat mendaftar, setelah memilih negara dan mengisi email atau nomor ponsel, ketik kode referral atau kode afiliasi sebelum menekan tombol buat akun (Sign Up Now). Kode mitra NexuAlpha untuk Bybit adalah {code}.",
         [SRC.bybit.register]),
       faq("Lupa memasukkan kode referral Bybit, bisa ditambahkan nanti?",
         "Pada umumnya tidak: setelah akun dibuat, Bybit tidak mengizinkan penambahan kode referral atau kode afiliasi. Pengecualiannya kode afiliasi: akun utama dapat menambahkannya dalam 14 hari setelah pendaftaran lewat Akun > “Join an Affiliate's Community”, bila belum ada kode yang tertaut. Kode dari program referral antarpengguna tidak bisa ditambahkan dengan cara ini.",
@@ -737,7 +725,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     vi: [
       faq("Cách nhập mã giới thiệu Bitget khi đăng ký?",
-        "Theo hướng dẫn đăng ký chính thức, sau khi nhập email hoặc số điện thoại, bước 2 là nhập mã mời (không bắt buộc), trước khi đồng ý điều khoản và tạo tài khoản. Vì ô này ghi “không bắt buộc” nên nhiều người bỏ qua. Mã đối tác của NexuAlpha cho Bitget là {code}. {disclosure}",
+        "Theo hướng dẫn đăng ký chính thức, sau khi nhập email hoặc số điện thoại, bước 2 là nhập mã mời (không bắt buộc), trước khi đồng ý điều khoản và tạo tài khoản. Vì ô này ghi “không bắt buộc” nên nhiều người bỏ qua. Mã đối tác của NexuAlpha cho Bitget là {code}.",
         [SRC.bitget.regEn]),
       faq("Đã đăng ký Bitget rồi có thêm hoặc đổi mã giới thiệu được không?",
         "Hướng dẫn đăng ký của Bitget chỉ có ô nhập mã trong biểu mẫu tạo tài khoản và không mô tả cách thêm hay đổi mã sau đó. Chương trình giới thiệu của Bitget tính người được mời là người đăng ký bằng liên kết hoặc mã. Vì vậy hãy kiểm tra mã trước khi hoàn tất đăng ký.",
@@ -755,7 +743,7 @@ const LOCAL_ENTRIES = {
     // l10n: needs native review
     id: [
       faq("Di mana kolom kode referral Bitget saat daftar?",
-        "Menurut panduan pendaftaran resmi, setelah mengisi email atau nomor ponsel, langkah 2 adalah memasukkan kode undangan (opsional), sebelum menyetujui ketentuan dan membuat akun. Karena kolomnya bertanda “opsional”, banyak orang melewatkannya. Kode mitra NexuAlpha untuk Bitget adalah {code}. {disclosure}",
+        "Menurut panduan pendaftaran resmi, setelah mengisi email atau nomor ponsel, langkah 2 adalah memasukkan kode undangan (opsional), sebelum menyetujui ketentuan dan membuat akun. Karena kolomnya bertanda “opsional”, banyak orang melewatkannya. Kode mitra NexuAlpha untuk Bitget adalah {code}.",
         [SRC.bitget.regEn]),
       faq("Sudah daftar Bitget, apakah kode referral bisa ditambahkan nanti?",
         "Panduan pendaftaran Bitget hanya menampilkan kolom kode di formulir pembuatan akun dan tidak menjelaskan cara menambahkannya setelah itu. Program referral Bitget menghitung pengguna yang diundang sebagai orang yang mendaftar memakai tautan atau kode. Jadi periksa kode sebelum menyelesaikan pendaftaran.",
@@ -777,7 +765,7 @@ const LOCAL_ENTRIES = {
   hyperliquid: {
     en: [
       faq("What does a Hyperliquid referral code give you?",
-        "Hyperliquid's docs say that using a referral code gives a 4% discount on your fees for your first $25M in volume, and that referral discounts do not apply to vaults or sub-accounts. You enter the code on the app's referrals page (app.hyperliquid.xyz/referrals) or by opening a shared join link (app.hyperliquid.xyz/join/…). NexuAlpha's partner code for Hyperliquid is {code}; NexuAlpha publishes no rebate share for Hyperliquid. {disclosure}",
+        "Hyperliquid's docs say that using a referral code gives a 4% discount on your fees for your first $25M in volume, and that referral discounts do not apply to vaults or sub-accounts. You enter the code on the app's referrals page (app.hyperliquid.xyz/referrals) or by opening a shared join link (app.hyperliquid.xyz/join/…). NexuAlpha's partner code for Hyperliquid is {code}; NexuAlpha publishes no rebate share for Hyperliquid.",
         [SRC_EXTRA.hyperliquid.referrals, SRC_EXTRA.hyperliquid.fees]),
       faq("Can I change my Hyperliquid referral code later?",
         "Hyperliquid's referral docs explain how to enter a code but do not describe changing or removing one afterwards, so NexuAlpha cannot confirm that a code can be changed. Check the referrals page in the app before you enter a code.",
@@ -827,8 +815,7 @@ function cadenceFor(partner, locale) {
 function fill(text, partner, locale) {
   const name = partner?.name || "";
   const code = partner?.inviteCode || "";
-  const disclosure = (DISCLOSURE[locale] || "").replaceAll("{code}", code).replaceAll("{name}", name);
-  return String(text).replaceAll("{disclosure}", disclosure).replaceAll("{code}", code).replaceAll("{name}", name).replaceAll("{cadence}", cadenceFor(partner, locale));
+  return String(text).replaceAll("{code}", code).replaceAll("{name}", name).replaceAll("{cadence}", cadenceFor(partner, locale));
 }
 
 function rawEntriesFor(slug, locale) {

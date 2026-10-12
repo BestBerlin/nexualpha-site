@@ -42,7 +42,7 @@
 /* ---------- 4b. profile, 960-1199px (single reading column ~630px beside the docked card) ----------
    The disclosure note stopped at ~460px under the action links, and Products / Regions lists ran one short item per row. */
 @media (min-width: 960px) and (max-width: 1199px) {
-  main.v3-profile-page.v6 .v3-profile-reading-overview > .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+
   main.v3-profile-page.v6 .d5-scope__col > .d5-list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
 }
 
@@ -51,7 +51,6 @@
   main.v3-compare-page.v6 .v3-page-hero > .v3-venue-hero:has(> .v3-compare-decision-nav):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: max-content minmax(0, 1fr) minmax(264px, 26%); column-gap: 32px; }
   main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > h1:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / span 2; max-inline-size: none; text-wrap: pretty; }
   main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > .decision-return-link:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; align-self: start; }
-  main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 2; align-self: start; padding-block: 0; max-inline-size: 60ch; }
   main.v3-compare-page.v6 .v3-venue-hero > .v3-compare-decision-nav:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; grid-row: 1 / span 2; }
 }
 

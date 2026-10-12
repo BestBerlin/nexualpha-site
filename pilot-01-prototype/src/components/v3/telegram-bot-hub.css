@@ -1251,7 +1251,6 @@
 .tg-signal-hero__secondary a:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
 .tg-signal-hero__secondary b { font-size: 0.875rem; font-weight: 600; }
 .tg-signal-hero__secondary small { font-size: 0.75rem; color: #94a3b8; overflow-wrap: anywhere; }
-.tg-signal-hero__note { margin: 0; font-size: 0.75rem; line-height: 1.5; color: #9097a0; }
 
 @media (max-width: 900px) {
   .tg-signal-hero { grid-template-columns: minmax(0, 1fr); }
@@ -1266,7 +1265,6 @@
   .tg-signal-hero__topics-title { order: 5; }
   .tg-signal-hero__topics { order: 6; }
   .tg-signal-hero__secondary { order: 7; }
-  .tg-signal-hero__note { order: 8; }
   .tg-signal-hero__cta .tg-signal-hero__primary { width: 100%; }
 }
 @media (max-width: 480px) {

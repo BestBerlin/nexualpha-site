@@ -183,7 +183,7 @@ async function renderComparePage(pair, locale) {
   }
 }
 
-test("SSR renders both venue sign-up routes beside the commission disclosure for the new pairs", async () => {
+test("SSR renders both venue sign-up routes for the new pairs without in-section commission disclosure", async () => {
   for (const [pair, locale] of [["binance-vs-bitget", "en"], ["bybit-vs-mexc", "zh-Hans"], ["bitget-vs-okx", "tr"], ["bitget-vs-mexc", "ar"]]) {
     const html = await renderComparePage(pair, locale);
     const [left, right] = pair.split("-vs-");
@@ -192,7 +192,8 @@ test("SSR renders both venue sign-up routes beside the commission disclosure for
     assert.match(html, new RegExp(`<h1[^>]*>${answer.ownerQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/'/g, "(?:'|&#x27;)")}</h1>`), `${label} question H1`);
     const finalChoice = html.slice(html.indexOf('id="compare-final-choice"'));
     const card = finalChoice.slice(0, finalChoice.indexOf("</article>") + 10);
-    assert.ok(card.includes('class="commission-disclosure-line v3-compare-final-choice-card__disclosure"'), `${label} disclosure inside the final-choice card`);
+    // Owner rule 2026-10-12: commission disclosure only in the footer and legal pages.
+    assert.ok(!card.includes("commission-disclosure-line"), `${label} no disclosure line inside the final-choice card`);
     for (const slug of [left, right]) {
       const anchor = card.match(new RegExp(`<a[^>]+data-cta-platform="${slug}"[^>]+data-cta-placement="compare-final-choice-registration"[^>]*>`))?.[0];
       assert.ok(anchor, `${label} ${slug} sign-up route`);
@@ -209,7 +210,7 @@ test("SSR renders both venue sign-up routes beside the commission disclosure for
       assert.match(html, new RegExp(`data-cta-platform="${slug}"[^>]+data-cta-placement="compare-sticky-registration"`), `${label} ${slug} sticky route`);
       assert.match(html, new RegExp(`data-cta-platform="${slug}"[^>]+data-cta-placement="compare-hero-versus"`), `${label} ${slug} hero route`);
     }
-    assert.match(html, /data-disclosure-placement="compare-versus"/, `${label} versus disclosure`);
+    assert.doesNotMatch(html, /data-disclosure-placement=/, `${label} no in-section disclosure (versus card, sticky bar)`);
     // The visible FAQ shows the locale questions and the fee row comes from venue data (or the pending state), not from copy.
     assert.ok(html.includes(answer.faq[0][0]), `${label} first FAQ question visible`);
     assert.match(html, /id="compare-faq"/, `${label} faq section`);

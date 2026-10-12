@@ -179,7 +179,6 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // stylesheet they came from so the worker links their CSS on the same routes as before.
           if (!isSsrBuild) {
             if (id.includes("/src/components/v3/NextDecisionBridge") || id.endsWith("/src/components/v3/next-decision-bridge.css")) return "route-topic-guide-bridge";
-            if (id.includes("/src/components/v3/CommissionDisclosureLine") || id.endsWith("/src/components/v3/commission-disclosure-line.css")) return "route-news-commission";
             if (id.includes("/src/components/v3/OnsiteTelegramBotHandoff")) return "shared-onsite-telegram-handoff";
             if (id.includes("/src/data/referral-seo.js") || id.includes("/src/data/referral-partners.generated.js") || id.includes("/src/data/tr-percent.js")) return "data-referral-seo";
             if (id.includes("/src/data/aeo-question-registry.js") || id.includes("/src/data/topic-reviewed-faqs.js") || id.includes("/src/data/international-source-registry.js")) return "data-aeo-questions";

@@ -60,7 +60,7 @@
 }
 .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { font-size: 16px; line-height: var(--lh-body, 1.55); font-weight: 500; }
 .v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 8px; }
-.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note { margin: 0; line-height: var(--lh-body, 1.55); }
+
 @media (max-width: 640px) {
   .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }

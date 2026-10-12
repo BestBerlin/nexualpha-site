@@ -481,12 +481,7 @@
   font-family: var(--font-data);
   font-size: 11px;
 }
-.v3-relationship-note {
-  padding-block-start: 10px;
-  border-block-start: 1px solid var(--line);
-  color: var(--muted) !important;
-  font-size: 13px !important;
-}
+
 .v3-snapshot-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -1907,12 +1902,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .v3-venue-decision-strip article:last-child { grid-column: 1 / -1; }
-  .v3-profile-page .v3-relationship-note {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-  }
+
   .v3-profile-page .v3-hero-actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

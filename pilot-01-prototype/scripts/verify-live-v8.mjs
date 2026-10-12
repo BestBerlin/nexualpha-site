@@ -39,7 +39,8 @@ const tiles = (home.match(/data-brand-slug=/g) || []).length;
 if (tiles < 10) fail(`partner wall shows ${tiles} logos, expected at least 10`);
 if (home.includes("h7-desk") || home.includes("site-ticker")) fail("notice desk/ticker should no longer be on home");
 if (home.includes("mobile-bottom-nav")) fail("mobile bottom dock still rendered on home");
-if (!/data-disclosure-placement="directory-matrix"/.test(pages["/zh-hans/exchanges"])) fail("directory commission disclosure missing");
+// Owner rule 2026-10-12: commission disclosure lives only in the footer and legal pages, never inside page sections.
+if (/data-disclosure-placement=/.test(pages["/zh-hans/exchanges"])) fail("directory still renders an in-section commission disclosure");
 
 const feed = JSON.parse(pages["/intel/official-announcements.json"]);
 console.log(`notices ${feed.items?.length ?? 0} generatedAt ${feed.generatedAt}`);

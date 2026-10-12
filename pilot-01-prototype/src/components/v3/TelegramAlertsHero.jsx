@@ -1,8 +1,7 @@
 // /telegram first screen (owner 2026-10-10): the page sells the bot's alerts, not a research hub. One static sample
 // message (clearly labelled as a sample, same structure as the bot's liquidation card), the four alert topics, one
 // primary "Open the bot" deep link (?start=alerts) and the channels / Mini App as secondary routes.
-// Honest by construction: no subscriber counts, no invented metrics; liquidation data is Binance + OKX public data
-// and a lower bound, and the sample says so.
+// Honest by construction: no subscriber counts, no invented metrics; the sample names its Binance + OKX public source.
 import { TELEGRAM_ALERTS_URL, telegramAlertsUrl } from "./news/NewsTelegramAlerts.jsx";
 import { TELEGRAM_ENTRIES, telegramCopy } from "../v7/home7-telegram.jsx";
 
@@ -17,7 +16,7 @@ const COPY = {
     sub: "The bot sends one message when longs or shorts get flushed, when BTC or ETH moves sharply, or when an exchange lists a token or starts a campaign. The daily brief lands at 21:00 Beijing time (13:00 UTC).",
     sampleLabel: "Sample message",
     sampleNote: "Static example of the message format. Figures are placeholders.",
-    card: { title: "Liquidation flush", asset: "Asset", side: "Side", long: "Longs liquidated", amount: "Liquidated", exchange: "Venue", window: (m) => `Last ${m} min`, time: "Time", source: "Source: Binance + OKX public data · sampled lower bound, not the whole market" },
+    card: { title: "Liquidation flush", asset: "Asset", side: "Side", long: "Longs liquidated", amount: "Liquidated", exchange: "Venue", window: (m) => `Last ${m} min`, time: "Time", source: "Source: Binance + OKX public data" },
     topicsTitle: "What the bot sends",
     topics: [
       ["Liquidations", "Long and short flushes above the 7-day baseline, 60-minute cooldown per asset."],
@@ -30,14 +29,13 @@ const COPY = {
     secondaryLabel: "Also on Telegram",
     miniApp: "Mini App",
     miniAppHint: "Fee comparison and rebates inside Telegram",
-    dataNote: "Liquidation data comes from Binance and OKX public feeds and is a lower bound, not the whole market. Alerts are information, not trading advice.",
   },
   "zh-Hans": {
     h1: "爆仓、急涨急跌告警和每日简报，直接发到 Telegram",
     sub: "多头或空头被集中清算（多空双杀）、BTC/ETH 急涨急跌、交易所上新或开始活动时，机器人只发一条消息。每日简报北京时间 21:00（13:00 UTC）送达。",
     sampleLabel: "示例消息",
     sampleNote: "消息格式的静态示例，数字为占位。",
-    card: { title: "合约大额爆仓", asset: "标的", side: "方向", long: "多头爆仓", amount: "清算金额", exchange: "平台", window: (m) => `近 ${m} 分钟`, time: "时间", source: "数据源：Binance + OKX 公开数据 · 采样下限，不是全网数据" },
+    card: { title: "合约大额爆仓", asset: "标的", side: "方向", long: "多头爆仓", amount: "清算金额", exchange: "平台", window: (m) => `近 ${m} 分钟`, time: "时间", source: "数据源：Binance + OKX 公开数据" },
     topicsTitle: "机器人会推送什么",
     topics: [
       ["爆仓告警", "多空双杀：超过 7 天基线的集中清算，每个币种 60 分钟冷却。"],
@@ -50,14 +48,13 @@ const COPY = {
     secondaryLabel: "Telegram 其他入口",
     miniApp: "Mini App",
     miniAppHint: "在 Telegram 内查费率对比和返佣",
-    dataNote: "爆仓数据来自 Binance 与 OKX 公开数据，是采样下限，不代表全网。告警只是信息，不构成交易建议。",
   },
   "zh-Hant": {
     h1: "爆倉、急漲急跌提醒和每日簡報，直接發到 Telegram",
     sub: "多頭或空頭被集中清算（多空雙殺）、BTC/ETH 急漲急跌、交易所上新或開始活動時，機器人只發一則訊息。每日簡報北京時間 21:00（13:00 UTC）送達。",
     sampleLabel: "示例訊息",
     sampleNote: "訊息格式的靜態示例，數字為佔位。",
-    card: { title: "合約大額爆倉", asset: "標的", side: "方向", long: "多頭爆倉", amount: "清算金額", exchange: "平台", window: (m) => `近 ${m} 分鐘`, time: "時間", source: "資料來源：Binance + OKX 公開資料 · 取樣下限，不是全網資料" },
+    card: { title: "合約大額爆倉", asset: "標的", side: "方向", long: "多頭爆倉", amount: "清算金額", exchange: "平台", window: (m) => `近 ${m} 分鐘`, time: "時間", source: "資料來源：Binance + OKX 公開資料" },
     topicsTitle: "機器人會推送什麼",
     topics: [
       ["爆倉提醒", "多空雙殺：超過 7 天基線的集中清算，每個幣種 60 分鐘冷卻。"],
@@ -70,14 +67,13 @@ const COPY = {
     secondaryLabel: "Telegram 其他入口",
     miniApp: "Mini App",
     miniAppHint: "在 Telegram 內查費率比較和返傭",
-    dataNote: "爆倉資料來自 Binance 與 OKX 公開資料，是取樣下限，不代表全網。提醒只是資訊，不構成交易建議。",
   },
   es: {
     h1: "Alertas de liquidaciones y movimientos bruscos, más un resumen diario, en Telegram",
     sub: "El bot envía un mensaje cuando se liquidan largos o cortos, cuando BTC o ETH se mueven con fuerza o cuando un exchange lista un token o lanza una campaña. El resumen diario llega a las 21:00 de Pekín (13:00 UTC).",
     sampleLabel: "Mensaje de ejemplo",
     sampleNote: "Ejemplo estático del formato. Las cifras son de muestra.",
-    card: { title: "Liquidación masiva", asset: "Activo", side: "Lado", long: "Largos liquidados", amount: "Liquidado", exchange: "Exchange", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fuente: datos públicos de Binance + OKX · muestra, límite inferior, no todo el mercado" },
+    card: { title: "Liquidación masiva", asset: "Activo", side: "Lado", long: "Largos liquidados", amount: "Liquidado", exchange: "Exchange", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fuente: datos públicos de Binance + OKX" },
     topicsTitle: "Qué envía el bot",
     topics: [
       ["Liquidaciones", "Barridos de largos y cortos por encima de la base de 7 días, con 60 minutos de pausa por activo."],
@@ -90,14 +86,13 @@ const COPY = {
     secondaryLabel: "También en Telegram",
     miniApp: "Mini App",
     miniAppHint: "Comparación de comisiones y reembolsos dentro de Telegram",
-    dataNote: "Los datos de liquidaciones proceden de los feeds públicos de Binance y OKX y son un límite inferior, no todo el mercado. Las alertas son información, no consejos de inversión.",
   },
   "pt-BR": {
     h1: "Alertas de liquidações e movimentos bruscos, mais um resumo diário, no Telegram",
     sub: "O bot envia uma mensagem quando longs ou shorts são liquidados, quando BTC ou ETH se movem com força ou quando uma corretora lista um token ou abre uma campanha. O resumo diário chega às 21:00 de Pequim (13:00 UTC).",
     sampleLabel: "Mensagem de exemplo",
     sampleNote: "Exemplo estático do formato. Os números são ilustrativos.",
-    card: { title: "Liquidação em massa", asset: "Ativo", side: "Lado", long: "Longs liquidados", amount: "Liquidado", exchange: "Corretora", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fonte: dados públicos da Binance + OKX · amostra, limite inferior, não o mercado inteiro" },
+    card: { title: "Liquidação em massa", asset: "Ativo", side: "Lado", long: "Longs liquidados", amount: "Liquidado", exchange: "Corretora", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fonte: dados públicos da Binance + OKX" },
     topicsTitle: "O que o bot envia",
     topics: [
       ["Liquidações", "Varridas de longs e shorts acima da base de 7 dias, com pausa de 60 minutos por ativo."],
@@ -110,14 +105,13 @@ const COPY = {
     secondaryLabel: "Também no Telegram",
     miniApp: "Mini App",
     miniAppHint: "Comparação de taxas e cashback dentro do Telegram",
-    dataNote: "Os dados de liquidação vêm dos feeds públicos da Binance e da OKX e são um limite inferior, não o mercado inteiro. Alertas são informação, não recomendação.",
   },
   fr: {
     h1: "Alertes de liquidations et de mouvements brusques, plus un point quotidien, sur Telegram",
     sub: "Le bot envoie un message quand des longs ou des shorts sont liquidés, quand BTC ou ETH bouge fortement, ou quand une plateforme liste un jeton ou lance une campagne. Le point quotidien arrive à 21:00 heure de Pékin (13:00 UTC).",
     sampleLabel: "Exemple de message",
     sampleNote: "Exemple statique du format. Les chiffres sont fictifs.",
-    card: { title: "Vague de liquidations", asset: "Actif", side: "Sens", long: "Longs liquidés", amount: "Liquidé", exchange: "Plateforme", window: (m) => `${m} dernières min`, time: "Heure", source: "Source : données publiques Binance + OKX · échantillon, borne basse, pas tout le marché" },
+    card: { title: "Vague de liquidations", asset: "Actif", side: "Sens", long: "Longs liquidés", amount: "Liquidé", exchange: "Plateforme", window: (m) => `${m} dernières min`, time: "Heure", source: "Source : données publiques Binance + OKX" },
     topicsTitle: "Ce que le bot envoie",
     topics: [
       ["Liquidations", "Vagues de longs et de shorts au-dessus de la base sur 7 jours, 60 minutes de pause par actif."],
@@ -130,14 +124,13 @@ const COPY = {
     secondaryLabel: "Aussi sur Telegram",
     miniApp: "Mini App",
     miniAppHint: "Comparaison des frais et remboursements dans Telegram",
-    dataNote: "Les données de liquidation viennent des flux publics de Binance et OKX et constituent une borne basse, pas tout le marché. Les alertes sont de l’information, pas un conseil.",
   },
   de: {
     h1: "Liquidations- und Kurssprung-Alarme plus ein tägliches Briefing in Telegram",
     sub: "Der Bot schickt eine Nachricht, wenn Longs oder Shorts liquidiert werden, wenn BTC oder ETH stark ausschlagen oder wenn eine Börse einen Token listet bzw. eine Aktion startet. Das tägliche Briefing kommt um 21:00 Peking-Zeit (13:00 UTC).",
     sampleLabel: "Beispielnachricht",
     sampleNote: "Statisches Beispiel des Formats. Zahlen sind Platzhalter.",
-    card: { title: "Liquidationswelle", asset: "Asset", side: "Seite", long: "Longs liquidiert", amount: "Liquidiert", exchange: "Börse", window: (m) => `Letzte ${m} Min`, time: "Zeit", source: "Quelle: öffentliche Daten von Binance + OKX · Stichprobe, Untergrenze, nicht der Gesamtmarkt" },
+    card: { title: "Liquidationswelle", asset: "Asset", side: "Seite", long: "Longs liquidiert", amount: "Liquidiert", exchange: "Börse", window: (m) => `Letzte ${m} Min`, time: "Zeit", source: "Quelle: öffentliche Daten von Binance + OKX" },
     topicsTitle: "Was der Bot sendet",
     topics: [
       ["Liquidationen", "Long- und Short-Wellen über der 7-Tage-Basis, 60 Minuten Pause je Asset."],
@@ -150,14 +143,13 @@ const COPY = {
     secondaryLabel: "Auch auf Telegram",
     miniApp: "Mini App",
     miniAppHint: "Gebührenvergleich und Rückvergütung in Telegram",
-    dataNote: "Liquidationsdaten stammen aus öffentlichen Feeds von Binance und OKX und sind eine Untergrenze, nicht der Gesamtmarkt. Alarme sind Information, keine Anlageberatung.",
   },
   it: {
     h1: "Avvisi di liquidazioni e movimenti bruschi, più un riepilogo giornaliero, su Telegram",
     sub: "Il bot invia un messaggio quando long o short vengono liquidati, quando BTC o ETH si muovono con forza o quando un exchange lista un token o avvia una campagna. Il riepilogo giornaliero arriva alle 21:00 di Pechino (13:00 UTC).",
     sampleLabel: "Messaggio di esempio",
     sampleNote: "Esempio statico del formato. Le cifre sono segnaposto.",
-    card: { title: "Ondata di liquidazioni", asset: "Asset", side: "Lato", long: "Long liquidati", amount: "Liquidato", exchange: "Exchange", window: (m) => `Ultimi ${m} min`, time: "Ora", source: "Fonte: dati pubblici Binance + OKX · campione, limite inferiore, non l’intero mercato" },
+    card: { title: "Ondata di liquidazioni", asset: "Asset", side: "Lato", long: "Long liquidati", amount: "Liquidato", exchange: "Exchange", window: (m) => `Ultimi ${m} min`, time: "Ora", source: "Fonte: dati pubblici Binance + OKX" },
     topicsTitle: "Cosa invia il bot",
     topics: [
       ["Liquidazioni", "Ondate di long e short sopra la base a 7 giorni, 60 minuti di pausa per asset."],
@@ -170,14 +162,13 @@ const COPY = {
     secondaryLabel: "Anche su Telegram",
     miniApp: "Mini App",
     miniAppHint: "Confronto commissioni e rimborsi dentro Telegram",
-    dataNote: "I dati sulle liquidazioni arrivano dai feed pubblici di Binance e OKX e sono un limite inferiore, non l’intero mercato. Gli avvisi sono informazione, non consigli di trading.",
   },
   ja: {
     h1: "清算と急変動のアラート、毎日のブリーフを Telegram で受け取る",
     sub: "ロングやショートがまとめて清算されたとき、BTC/ETH が急変動したとき、取引所が上場やキャンペーンを発表したときに、ボットが 1 通だけ送ります。毎日のブリーフは北京時間 21:00（13:00 UTC）に届きます。",
     sampleLabel: "サンプルメッセージ",
     sampleNote: "メッセージ形式の静的な例です。数値はダミーです。",
-    card: { title: "大口清算", asset: "銘柄", side: "方向", long: "ロング清算", amount: "清算額", exchange: "取引所", window: (m) => `直近 ${m} 分`, time: "時刻", source: "データ：Binance + OKX 公開データ · サンプリング下限であり全市場ではありません" },
+    card: { title: "大口清算", asset: "銘柄", side: "方向", long: "ロング清算", amount: "清算額", exchange: "取引所", window: (m) => `直近 ${m} 分`, time: "時刻", source: "データ：Binance + OKX 公開データ" },
     topicsTitle: "ボットが送るもの",
     topics: [
       ["清算アラート", "7 日基準を超えるロング/ショートの連鎖清算。銘柄ごとに 60 分のクールダウン。"],
@@ -190,14 +181,13 @@ const COPY = {
     secondaryLabel: "Telegram のその他の入口",
     miniApp: "Mini App",
     miniAppHint: "Telegram 内で手数料比較と還元を確認",
-    dataNote: "清算データは Binance と OKX の公開データに基づくサンプリング下限で、市場全体ではありません。アラートは情報であり、投資助言ではありません。",
   },
   ko: {
     h1: "청산·급등락 알림과 데일리 브리핑을 텔레그램으로",
     sub: "롱이나 숏이 대량 청산될 때, BTC/ETH가 급등락할 때, 거래소가 상장이나 이벤트를 발표할 때 봇이 메시지 한 건만 보냅니다. 데일리 브리핑은 베이징 시간 21:00(13:00 UTC)에 도착합니다.",
     sampleLabel: "샘플 메시지",
     sampleNote: "메시지 형식의 정적 예시입니다. 숫자는 예시값입니다.",
-    card: { title: "대량 청산", asset: "자산", side: "방향", long: "롱 청산", amount: "청산 금액", exchange: "거래소", window: (m) => `최근 ${m}분`, time: "시간", source: "출처: Binance + OKX 공개 데이터 · 샘플링 하한값, 전체 시장 아님" },
+    card: { title: "대량 청산", asset: "자산", side: "방향", long: "롱 청산", amount: "청산 금액", exchange: "거래소", window: (m) => `최근 ${m}분`, time: "시간", source: "출처: Binance + OKX 공개 데이터" },
     topicsTitle: "봇이 보내는 것",
     topics: [
       ["청산 알림", "7일 기준선을 넘는 롱/숏 연쇄 청산, 자산별 60분 쿨다운."],
@@ -210,14 +200,13 @@ const COPY = {
     secondaryLabel: "텔레그램의 다른 입구",
     miniApp: "Mini App",
     miniAppHint: "텔레그램 안에서 수수료 비교와 리베이트 확인",
-    dataNote: "청산 데이터는 Binance와 OKX 공개 피드 기반의 하한값이며 전체 시장이 아닙니다. 알림은 정보이며 투자 조언이 아닙니다.",
   },
   ru: {
     h1: "Уведомления о ликвидациях и резких движениях плюс ежедневная сводка в Telegram",
     sub: "Бот присылает одно сообщение, когда ликвидируют лонги или шорты, когда BTC или ETH резко двигаются или когда биржа листит токен либо запускает акцию. Ежедневная сводка приходит в 21:00 по Пекину (13:00 UTC).",
     sampleLabel: "Пример сообщения",
     sampleNote: "Статический пример формата. Цифры условные.",
-    card: { title: "Волна ликвидаций", asset: "Актив", side: "Сторона", long: "Ликвидированы лонги", amount: "Ликвидировано", exchange: "Биржа", window: (m) => `Последние ${m} мин`, time: "Время", source: "Источник: открытые данные Binance + OKX · выборка, нижняя граница, не весь рынок" },
+    card: { title: "Волна ликвидаций", asset: "Актив", side: "Сторона", long: "Ликвидированы лонги", amount: "Ликвидировано", exchange: "Биржа", window: (m) => `Последние ${m} мин`, time: "Время", source: "Источник: открытые данные Binance + OKX" },
     topicsTitle: "Что присылает бот",
     topics: [
       ["Ликвидации", "Волны лонгов и шортов выше 7-дневной базы, пауза 60 минут на актив."],
@@ -230,14 +219,13 @@ const COPY = {
     secondaryLabel: "Также в Telegram",
     miniApp: "Mini App",
     miniAppHint: "Сравнение комиссий и возврат внутри Telegram",
-    dataNote: "Данные о ликвидациях берутся из открытых потоков Binance и OKX и являются нижней границей, а не всем рынком. Уведомления — информация, не торговая рекомендация.",
   },
   tr: {
     h1: "Tasfiye ve sert hareket uyarıları ile günlük özet, Telegram'da",
     sub: "Bot; longlar veya shortlar tasfiye edildiğinde, BTC ya da ETH sert hareket ettiğinde veya bir borsa token listelediğinde ya da kampanya başlattığında tek bir mesaj gönderir. Günlük özet Pekin saatiyle 21:00'de (13:00 UTC) gelir.",
     sampleLabel: "Örnek mesaj",
     sampleNote: "Biçimin statik örneği. Rakamlar temsilidir.",
-    card: { title: "Tasfiye dalgası", asset: "Varlık", side: "Yön", long: "Longlar tasfiye edildi", amount: "Tasfiye", exchange: "Borsa", window: (m) => `Son ${m} dk`, time: "Saat", source: "Kaynak: Binance + OKX açık verisi · örneklem, alt sınır, tüm piyasa değil" },
+    card: { title: "Tasfiye dalgası", asset: "Varlık", side: "Yön", long: "Longlar tasfiye edildi", amount: "Tasfiye", exchange: "Borsa", window: (m) => `Son ${m} dk`, time: "Saat", source: "Kaynak: Binance + OKX açık verisi" },
     topicsTitle: "Bot ne gönderir",
     topics: [
       ["Tasfiyeler", "7 günlük tabanın üzerindeki long ve short dalgaları, varlık başına 60 dakika bekleme."],
@@ -250,14 +238,13 @@ const COPY = {
     secondaryLabel: "Telegram'da ayrıca",
     miniApp: "Mini App",
     miniAppHint: "Telegram içinde ücret karşılaştırması ve iade",
-    dataNote: "Tasfiye verisi Binance ve OKX açık akışlarından gelir ve alt sınırdır, tüm piyasa değildir. Uyarılar bilgidir, yatırım tavsiyesi değildir.",
   },
   id: {
     h1: "Peringatan likuidasi dan pergerakan tajam, plus ringkasan harian, di Telegram",
     sub: "Bot mengirim satu pesan saat long atau short dilikuidasi, saat BTC atau ETH bergerak tajam, atau saat bursa melisting token atau memulai kampanye. Ringkasan harian tiba pukul 21:00 Beijing (13:00 UTC).",
     sampleLabel: "Contoh pesan",
     sampleNote: "Contoh statis format pesan. Angka hanya ilustrasi.",
-    card: { title: "Likuidasi massal", asset: "Aset", side: "Sisi", long: "Long dilikuidasi", amount: "Dilikuidasi", exchange: "Bursa", window: (m) => `${m} menit terakhir`, time: "Waktu", source: "Sumber: data publik Binance + OKX · sampel, batas bawah, bukan seluruh pasar" },
+    card: { title: "Likuidasi massal", asset: "Aset", side: "Sisi", long: "Long dilikuidasi", amount: "Dilikuidasi", exchange: "Bursa", window: (m) => `${m} menit terakhir`, time: "Waktu", source: "Sumber: data publik Binance + OKX" },
     topicsTitle: "Apa yang dikirim bot",
     topics: [
       ["Likuidasi", "Gelombang long dan short di atas garis dasar 7 hari, jeda 60 menit per aset."],
@@ -270,14 +257,13 @@ const COPY = {
     secondaryLabel: "Juga di Telegram",
     miniApp: "Mini App",
     miniAppHint: "Perbandingan biaya dan rebate di dalam Telegram",
-    dataNote: "Data likuidasi berasal dari feed publik Binance dan OKX dan merupakan batas bawah, bukan seluruh pasar. Peringatan adalah informasi, bukan saran trading.",
   },
   vi: {
     h1: "Cảnh báo thanh lý và biến động mạnh, kèm bản tin hằng ngày, trên Telegram",
     sub: "Bot gửi một tin nhắn khi long hoặc short bị thanh lý hàng loạt, khi BTC hoặc ETH biến động mạnh, hoặc khi sàn niêm yết token hay mở sự kiện. Bản tin hằng ngày đến lúc 21:00 giờ Bắc Kinh (13:00 UTC).",
     sampleLabel: "Tin nhắn mẫu",
     sampleNote: "Ví dụ tĩnh về định dạng tin nhắn. Số liệu chỉ để minh họa.",
-    card: { title: "Thanh lý hàng loạt", asset: "Tài sản", side: "Chiều", long: "Long bị thanh lý", amount: "Giá trị thanh lý", exchange: "Sàn", window: (m) => `${m} phút qua`, time: "Thời gian", source: "Nguồn: dữ liệu công khai Binance + OKX · mẫu, mức sàn, không phải toàn thị trường" },
+    card: { title: "Thanh lý hàng loạt", asset: "Tài sản", side: "Chiều", long: "Long bị thanh lý", amount: "Giá trị thanh lý", exchange: "Sàn", window: (m) => `${m} phút qua`, time: "Thời gian", source: "Nguồn: dữ liệu công khai Binance + OKX" },
     topicsTitle: "Bot gửi gì",
     topics: [
       ["Thanh lý", "Đợt thanh lý long/short vượt nền 7 ngày, nghỉ 60 phút cho mỗi tài sản."],
@@ -290,14 +276,13 @@ const COPY = {
     secondaryLabel: "Cũng có trên Telegram",
     miniApp: "Mini App",
     miniAppHint: "So sánh phí và hoàn phí ngay trong Telegram",
-    dataNote: "Dữ liệu thanh lý lấy từ nguồn công khai của Binance và OKX, là mức sàn chứ không phải toàn thị trường. Cảnh báo là thông tin, không phải lời khuyên giao dịch.",
   },
   ar: {
     h1: "تنبيهات التصفية والتحركات الحادة، مع موجز يومي، على تيليجرام",
     sub: "يرسل البوت رسالة واحدة عند تصفية مراكز الشراء أو البيع، أو عند تحرك BTC أو ETH بحدة، أو عندما تدرج منصة عملة أو تبدأ حملة. يصل الموجز اليومي في 21:00 بتوقيت بكين (13:00 UTC).",
     sampleLabel: "رسالة نموذجية",
     sampleNote: "مثال ثابت على شكل الرسالة. الأرقام توضيحية.",
-    card: { title: "موجة تصفية", asset: "الأصل", side: "الاتجاه", long: "تصفية مراكز شراء", amount: "قيمة التصفية", exchange: "المنصة", window: (m) => `آخر ${m} دقيقة`, time: "الوقت", source: "المصدر: بيانات عامة من Binance وOKX · عينة وحد أدنى، وليس السوق كله" },
+    card: { title: "موجة تصفية", asset: "الأصل", side: "الاتجاه", long: "تصفية مراكز شراء", amount: "قيمة التصفية", exchange: "المنصة", window: (m) => `آخر ${m} دقيقة`, time: "الوقت", source: "المصدر: بيانات عامة من Binance وOKX" },
     topicsTitle: "ما يرسله البوت",
     topics: [
       ["التصفيات", "موجات تصفية الشراء والبيع فوق خط الأساس لسبعة أيام، مع توقف 60 دقيقة لكل أصل."],
@@ -310,7 +295,6 @@ const COPY = {
     secondaryLabel: "أيضًا على تيليجرام",
     miniApp: "Mini App",
     miniAppHint: "مقارنة الرسوم والاسترداد داخل تيليجرام",
-    dataNote: "بيانات التصفية مأخوذة من البيانات العامة لـ Binance وOKX وهي حد أدنى وليست السوق كله. التنبيهات معلومات وليست نصيحة تداول.",
   },
 };
 
@@ -321,7 +305,7 @@ COPY.ur = {
   sub: "بوٹ اس وقت ایک پیغام بھیجتا ہے جب لانگ یا شارٹ پوزیشنز بڑی مقدار میں لیکویڈ ہوں، BTC یا ETH تیزی سے حرکت کرے، یا کوئی ایکسچینج ٹوکن لسٹ کرے یا مہم شروع کرے۔ روزانہ خلاصہ بیجنگ وقت 21:00 (13:00 UTC) پر آتا ہے۔",
   sampleLabel: "نمونہ پیغام",
   sampleNote: "پیغام کے فارمیٹ کی جامد مثال۔ اعداد صرف جگہ رکھنے کے لیے ہیں۔",
-  card: { ...COPY.en.card, title: "لیکویڈیشن کی لہر", asset: "اثاثہ", side: "سمت", long: "لیکویڈ لانگ پوزیشنز", amount: "لیکویڈ رقم", exchange: "پلیٹ فارم", window: (m) => `گزشتہ ${m} منٹ`, time: "وقت", source: "ماخذ: Binance + OKX عوامی ڈیٹا · نمونہ شدہ کم حد، پوری مارکیٹ نہیں" },
+  card: { ...COPY.en.card, title: "لیکویڈیشن کی لہر", asset: "اثاثہ", side: "سمت", long: "لیکویڈ لانگ پوزیشنز", amount: "لیکویڈ رقم", exchange: "پلیٹ فارم", window: (m) => `گزشتہ ${m} منٹ`, time: "وقت", source: "ماخذ: Binance + OKX عوامی ڈیٹا" },
   topicsTitle: "بوٹ کیا بھیجتا ہے",
   topics: [["لیکویڈیشنز", "7 دن کی بنیادی سطح سے اوپر لانگ اور شارٹ کی صفائی؛ ہر اثاثے پر 60 منٹ کا وقفہ۔"], ["BTC / ETH کی تیز حرکت", "صرف حد عبور ہونے پر؛ ہر ٹک کا شور نہیں۔"], ["لسٹنگز اور مہمات", "سرکاری اعلانات سے نئی لسٹنگز، رجسٹریشن مہمات اور ٹریڈنگ مقابلے۔"], ["روزانہ خلاصہ", "21:00 بیجنگ / 13:00 UTC: 24 گھنٹے کی لیکویڈیشنز، فنڈنگ کی انتہائیں اور ایک ایکسچینج مہم۔"]],
   primary: "بوٹ کھولیں",
@@ -329,7 +313,6 @@ COPY.ur = {
   secondaryLabel: "Telegram پر بھی",
   miniApp: "Mini App",
   miniAppHint: "Telegram کے اندر فیس موازنہ اور ریبیٹ",
-  dataNote: "لیکویڈیشن ڈیٹا Binance اور OKX کے عوامی فیڈز سے آتا ہے اور کم حد ہے، پوری مارکیٹ نہیں۔ الرٹس معلومات ہیں، ٹریڈنگ مشورہ نہیں۔",
 };
 // l10n: needs native review
 COPY.uk = {
@@ -338,7 +321,7 @@ COPY.uk = {
   sub: "Бот надсилає одне повідомлення, коли масово ліквідуються довгі або короткі позиції, коли BTC чи ETH різко рухається або коли біржа лістить токен чи запускає кампанію. Щоденний бриф приходить о 21:00 за Пекіном (13:00 UTC).",
   sampleLabel: "Приклад повідомлення",
   sampleNote: "Статичний приклад формату повідомлення. Числа є заповнювачами.",
-  card: { ...COPY.en.card, title: "Хвиля ліквідацій", asset: "Актив", side: "Сторона", long: "Ліквідовано довгі позиції", amount: "Ліквідовано", exchange: "Платформа", window: (m) => `Останні ${m} хв`, time: "Час", source: "Джерело: публічні дані Binance + OKX · вибіркова нижня межа, не весь ринок" },
+  card: { ...COPY.en.card, title: "Хвиля ліквідацій", asset: "Актив", side: "Сторона", long: "Ліквідовано довгі позиції", amount: "Ліквідовано", exchange: "Платформа", window: (m) => `Останні ${m} хв`, time: "Час", source: "Джерело: публічні дані Binance + OKX" },
   topicsTitle: "Що надсилає бот",
   topics: [["Ліквідації", "Зачистки довгих і коротких позицій вище 7-денної бази, 60 хвилин паузи на актив."], ["Різкі рухи BTC / ETH", "Лише коли рух проходить поріг; без шуму кожного тіку."], ["Лістинги й кампанії", "Нові лістинги, реєстраційні кампанії та торгові конкурси з офіційних оголошень."], ["Щоденний бриф", "21:00 Пекін / 13:00 UTC: ліквідації за 24 год, крайні ставки фінансування й одна кампанія біржі."]],
   primary: "Відкрити бота",
@@ -346,7 +329,6 @@ COPY.uk = {
   secondaryLabel: "Також у Telegram",
   miniApp: "Mini App",
   miniAppHint: "Порівняння комісій і ребейти всередині Telegram",
-  dataNote: "Дані ліквідацій походять із публічних фідів Binance та OKX і є нижньою межею, а не всім ринком. Сповіщення є інформацією, а не торговою порадою.",
 };
 
 export const telegramAlertsHeroCopy = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
@@ -410,7 +392,6 @@ export function TelegramAlertsHero({ locale = "en", headingLevel = 1, heading = 
             </li>
           ))}
         </ul>
-        <p className="tg-signal-hero__note">{t.dataNote}</p>
       </figure>
     </section>
   );

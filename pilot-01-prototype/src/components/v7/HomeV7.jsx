@@ -62,7 +62,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
         <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</option>)}</select>
       </label>
-      <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span><small className="h7-go-disclosure">{t.lgAd}</small></Cta>
+      <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span></Cta>
     </div>
   );
 }
@@ -172,8 +172,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
             <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} /></dd></div>
           </dl>
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
-          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span><small className="h7-go-disclosure">{sel.open ? `${t.lgBuilt} · ` : ""}{t.lgAd}</small></Cta>
-          <p className="h7-lg-disclosure">{t.t2b}</p>
+          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span>{sel.open ? <small className="h7-go-disclosure">{t.lgBuilt}</small> : null}</Cta>
         </aside>
 
         <div className="h7-strip">

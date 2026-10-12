@@ -228,7 +228,7 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
 }
 /* profile reading column: one 32px stack instead of 48-64px leaps between button, note and link */
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-reading-overview:not(#_):not(#_):not(#_):not(#_) { row-gap: 32px; }
-:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-relationship-note, .v3-profile-primary-actions, .v3-hero-actions):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-profile-primary-actions, .v3-hero-actions):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-decision-context:not(#_):not(#_):not(#_):not(#_) { margin-block: 0; }
 
 /* /exchanges mobile rows: name + CTA, then spot and perp as labelled one-liners (digits never break), code chip on the right */

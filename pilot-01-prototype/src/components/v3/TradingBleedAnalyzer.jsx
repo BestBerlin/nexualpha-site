@@ -8,7 +8,6 @@ import { partnerRegistry } from "../../data/partner-registry.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
@@ -374,8 +373,6 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                 </div>
               )}
 
-              {/* QA 2026-10-10: the registration link needs its commission disclosure in the same view (rule 8), also in /embed/calculator */}
-              {directRoute && <CommissionDisclosureLine locale={locale} className="bleed-cta-disclosure" placement="bleed-analyzer" />}
               <div className="bleed-action-buttons">
                 <a
                   href={regUrl}
