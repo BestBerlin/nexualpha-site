@@ -16,12 +16,12 @@ const COPY = {
   en: [
     (n, c, p, y) => `${n} Referral Code ${c}: Up to ${p}% Fee Rebate (${y})`,
     (n, c, y) => `${n} Referral Code ${c}: Sign-up, Fees & Official Route (${y})`,
-    (n, c, p, s) => `${n} referral code ${c}: fees and official sign-up link checked by NexuAlpha${p ? `; up to ${p}% of fees back, paid by ${n}${s === "hourly" ? " hourly" : s === "daily" ? " daily" : ""}` : ""}. Partner link disclosed.`,
+    (n, c, p, s) => `${n} referral code ${c}: fees and official sign-up link checked by NexuAlpha${p ? `; up to ${p}% of fees back, paid by ${n}${s === "hourly" ? " hourly" : s === "daily" ? " daily" : ""}` : ""}.`,
   ],
   "zh-Hans": [
     (n, c, p, y) => `${n} 邀请码 ${c}：最高返佣 ${p}%（${y}）`,
     (n, c, y) => `${n} 邀请码 ${c}：注册教程、手续费与官方入口（${y}）`,
-    (n, c, p, s) => `${n} 邀请码 ${c}${p ? `：手续费最高返还 ${p}%，由 ${n} 结算${s === "hourly" ? "、每小时到账" : s === "daily" ? "、每天到账" : ""}` : "：注册入口与手续费"}。NexuAlpha 核验官方入口，合作关系已披露。`,
+    (n, c, p, s) => `${n} 邀请码 ${c}${p ? `：手续费最高返还 ${p}%，由 ${n} 结算${s === "hourly" ? "、每小时到账" : s === "daily" ? "、每天到账" : ""}` : "：注册入口与手续费"}。NexuAlpha 核验官方入口。`,
   ],
   "zh-Hant": [
     (n, c, p, y) => `${n} 邀請碼 ${c}：最高返傭 ${p}%（${y}）`,

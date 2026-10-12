@@ -161,7 +161,7 @@ const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
       "title": "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)",
-      "description": "Hyperliquid referral code NEXU888: fees and official sign-up link checked by NexuAlpha. Partner link disclosed.",
+      "description": "Hyperliquid referral code NEXU888: fees and official sign-up link checked by NexuAlpha.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -232,7 +232,7 @@ const PRIORITY_VENUE_SEO = {
     },
     "zh-Hans": {
       "title": "Hyperliquid 邀请码 NEXU888：注册教程、手续费与官方入口（2026）",
-      "description": "Hyperliquid 邀请码 NEXU888：注册入口与手续费。NexuAlpha 核验官方入口，合作关系已披露。",
+      "description": "Hyperliquid 邀请码 NEXU888：注册入口与手续费。NexuAlpha 核验官方入口。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",

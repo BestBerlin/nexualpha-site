@@ -13,7 +13,7 @@ export const H7_COPY = {
     cta: (n) => `领取返佣，去 ${n} 开户`, calcLink: "算算一年能省多少",
     pw: (n) => `${n} 家合作交易所`,
     cap: (n) => `${n} 家合作交易所，返佣比例各不相同，最高 {max}%。\n点开任意一家，看比例和邀请码。`,
-    t1: "官方域名已核验", t1b: "开户前先看地址栏，我们列出每家的官方域名。", t2: "返佣公开披露", t2b: "我们从交易所获得佣金，并公开返还比例。", t3: "不经手你的资金", t3b: "注册、认证、入金都在交易所官方页面完成。",
+    t1: "官方域名已核验", t1b: "开户前先看地址栏，我们列出每家的官方域名。", t2: "返佣比例公开", t2b: "每家交易所能返多少手续费，页面上直接写明。", t3: "不经手你的资金", t3b: "注册、认证、入金都在交易所官方页面完成。",
     howH: "三步拿到返佣",
     how: [["挑一家交易所", "官方费率、返佣比例、官方域名逐家公开，先比再选。"], ["一键直达官方开户", "链接已内置我们的邀请码，注册时无需手动填写。"], ["正常交易，返佣到账", "OKX、币安每小时、Bitget 每天由交易所官方自动结算，其余按各家规则发放。"]],
     calcEmpty: "输入每月成交额，看看一年能省多少。",
@@ -24,7 +24,7 @@ export const H7_COPY = {
     inBtn: "比一比费率", shH: "想参与？先比一下手续费", shSpot: "按现货基础费率", shPerp: "按永续合约基础费率", shAfter: "返佣后约", shClose: "关闭", shSrc: "查看官方公告原文", shNote: "费率为各平台公开的基础费率，不含 VIP 等级和平台币抵扣。返佣比例以各交易所当期规则和你的账户为准。公告本身不代表任何优惠。",
     rate: "费率", code: "邀请码", rebate: "返", pending: "比例见详情", open: "开户拿返佣", detail: "查看详情", unchecked: "费率待核对",
     lowest: (n, v) => `${n} 用我们的码实付最低，一年 ${v}。`, most: (n, v) => `${n} 返还最多，一年返 ${v}。`,
-    all: "查看全部交易所", foot: (d) => `费率为各平台公开的基础费率（默认按 USDT 永续合约，可切换现货），数据日期 ${d}，不含 VIP 等级、平台币抵扣和地区差异。我们通过邀请链接从交易所获得佣金，并将其中一部分作为返佣返还给你。首页“最高 {max}%”为合作交易所中的最高档位，各家最高比例不同（如币安 25%、OKX 40%、Bitget 60%），实际比例以逐家披露和你的账户为准，计算按最高比例估算。返佣比例以交易所当期规则和你的账户为准，你的手续费不会因此增加。`,
+    all: "查看全部交易所", foot: (d) => `费率为各平台公开的基础费率（默认按 USDT 永续合约，可切换现货），数据日期 ${d}，不含 VIP 等级、平台币抵扣和地区差异。首页“最高 {max}%”为合作交易所中的最高档位，各家最高比例不同（如币安 25%、OKX 40%、Bitget 60%），计算按最高比例估算。`,
   },
   en: {
     kick: "NEXUALPHA · EXCHANGE FEES & REBATES",
@@ -36,7 +36,7 @@ export const H7_COPY = {
     cta: (n) => `Claim rebate, open on ${n}`, calcLink: "See what I could save",
     pw: (n) => `${n} partner exchanges`,
     cap: (n) => `${n} partner exchanges, each with its own rebate share, up to {max}%.\nOpen any of them to see its share and invite code.`,
-    t1: "Official domains checked", t1b: "Check the address bar before signing up. We list every official domain.", t2: "Rebates disclosed", t2b: "We earn a commission from the exchange and publish the share we return.", t3: "We never touch your funds", t3b: "Sign-up, verification and deposits all happen on the exchange's own pages.",
+    t1: "Official domains checked", t1b: "Check the address bar before signing up. We list every official domain.", t2: "Rebate rates shown", t2b: "See exactly how much of your fees each exchange gives back.", t3: "We never touch your funds", t3b: "Sign-up, verification and deposits all happen on the exchange's own pages.",
     howH: "Your rebate in three steps",
     how: [["Pick an exchange", "Official fees, rebate shares and domains are published for each exchange. Compare, then choose."], ["Sign up in one tap", "The link carries our invite code, so there is nothing to type."], ["Trade, get the rebate", "OKX and Binance pay out hourly, Bitget daily, automatically; others follow their own rules."]],
     calcEmpty: "Enter your monthly volume to see the yearly difference.",
@@ -47,7 +47,7 @@ export const H7_COPY = {
     inBtn: "Compare fees", shH: "Thinking of joining? Compare fees first", shSpot: "Base spot fees", shPerp: "Base perpetual fees", shAfter: "≈ after rebate", shClose: "Close", shSrc: "Read the official post", shNote: "Fees are each exchange's published base rates, excluding VIP tiers and platform-token discounts. Rebates follow each exchange's current rules and your account. The announcement itself implies no offer.",
     rate: "Fee", code: "Invite code", rebate: "Rebate", pending: "See details", open: "Sign up, get rebate", detail: "Details", unchecked: "Fee not yet checked",
     lowest: (n, v) => `${n} is cheapest with our code: ${v} a year.`, most: (n, v) => `${n} returns the most: ${v} a year.`,
-    all: "See all exchanges", foot: (d) => `Fees are each exchange's published base rates (USDT perpetuals by default, spot on request) as of ${d}, excluding VIP tiers, platform-token discounts and regional differences. We earn a commission from the exchange through invite links and return part of it to you as a rebate. The headline "up to {max}%" is the highest tier among partner exchanges; top shares differ by exchange (for example Binance 25%, OKX 40%, Bitget 60%); actual shares follow each exchange's disclosure and your account, and estimates use the top share. Rebates follow each exchange's current rules and your account, and your fees do not increase.`,
+    all: "See all exchanges", foot: (d) => `Fees are each exchange's published base rates (USDT perpetuals by default, spot on request) as of ${d}, excluding VIP tiers, platform-token discounts and regional differences. The headline "up to {max}%" is the highest tier among partner exchanges; top shares differ by exchange (for example Binance 25%, OKX 40%, Bitget 60%); estimates use the top share.`,
   },
   // l10n: needs native review
   ur: {
@@ -61,7 +61,7 @@ export const H7_COPY = {
     cta: (n) => `ریبیٹ لیں، ${n} پر اکاؤنٹ کھولیں`, calcLink: "ممکنہ بچت دیکھیں",
     pw: (n) => `${n} پارٹنر ایکسچینجز`,
     cap: (n) => `${n} پارٹنر ایکسچینجز، ریبیٹ {max}% تک۔\nحصہ اور دعوتی کوڈ دیکھنے کے لیے کوئی بھی کھولیں۔`,
-    t1: "سرکاری ڈومینز چیک شدہ", t1b: "سائن اپ سے پہلے ایڈریس بار چیک کریں۔", t2: "ریبیٹس ظاہر شدہ", t2b: "ہم کمیشن لیتے ہیں اور واپس ہونے والا حصہ شائع کرتے ہیں۔", t3: "ہم آپ کے فنڈز کو کبھی نہیں چھوتے", t3b: "سائن اپ، تصدیق اور ڈپازٹ ایکسچینج پر ہوتے ہیں۔",
+    t1: "سرکاری ڈومینز چیک شدہ", t1b: "سائن اپ سے پہلے ایڈریس بار چیک کریں۔", t2: "ریبیٹ کی شرحیں واضح", t2b: "ہر ایکسچینج آپ کی فیس کا کتنا حصہ واپس کرتا ہے، صاف لکھا ہے۔", t3: "ہم آپ کے فنڈز کو کبھی نہیں چھوتے", t3b: "سائن اپ، تصدیق اور ڈپازٹ ایکسچینج پر ہوتے ہیں۔",
     howH: "آپ کا ریبیٹ تین مراحل میں",
     how: [["ایکسچینج منتخب کریں", "ہر ایکسچینج کی فیس، ریبیٹ اور ڈومین دکھائے گئے ہیں۔"], ["ایک ٹیپ میں سائن اپ", "دعوتی کوڈ لنک میں ہے؛ کچھ ٹائپ نہ کریں۔"], ["ٹریڈ کریں، ریبیٹ لیں", "OKX/Binance ہر گھنٹے، Bitget روزانہ؛ باقی اپنے قواعد کے مطابق۔"]],
     calcEmpty: "سالانہ فرق کے لیے ماہانہ حجم درج کریں۔",
@@ -72,7 +72,7 @@ export const H7_COPY = {
     inBtn: "فیس موازنہ", shH: "شامل ہونے سے پہلے فیس موازنہ کریں", shSpot: "بنیادی اسپاٹ فیس", shPerp: "بنیادی دائمی معاہدہ فیس", shAfter: "≈ ریبیٹ کے بعد", shClose: "بند", shSrc: "سرکاری پوسٹ پڑھیں", shNote: "فیس ہر ایکسچینج کی شائع شدہ بنیادی شرح ہے، جس میں VIP درجے اور پلیٹ فارم ٹوکن رعایتیں شامل نہیں۔ ریبیٹ ہر ایکسچینج کے موجودہ قواعد اور آپ کے اکاؤنٹ کے تابع ہے۔ اعلان بذات خود کوئی آفر ثابت نہیں کرتا۔",
     rate: "فیس", code: "دعوتی کوڈ", rebate: "ریبیٹ", pending: "تفصیلات دیکھیں", open: "سائن اپ، ریبیٹ لیں", detail: "تفصیلات", unchecked: "فیس ابھی چیک نہیں",
     lowest: (n, v) => `${n} ہمارے کوڈ کے ساتھ سب سے سستا ہے: سالانہ ${v}۔`, most: (n, v) => `${n} سب سے زیادہ واپس کرتا ہے: سالانہ ${v}۔`,
-    all: "تمام ایکسچینجز دیکھیں", foot: (d) => `فیس ہر ایکسچینج کی شائع شدہ بنیادی شرحیں ہیں (بطور ڈیفالٹ USDT دائمی معاہدے، ضرورت پر اسپاٹ)، تاریخ ${d}، VIP درجوں، پلیٹ فارم ٹوکن رعایتوں اور علاقائی فرق کے بغیر۔ ہم دعوتی لنکس کے ذریعے ایکسچینج سے کمیشن لیتے ہیں اور اس کا ایک حصہ ریبیٹ کے طور پر آپ کو واپس کرتے ہیں۔ سرخی میں “{max}% تک” شراکتی ایکسچینجز میں سب سے اونچا درجہ ہے؛ ہر ایکسچینج کا زیادہ سے زیادہ حصہ مختلف ہے (مثلاً Binance 25%، OKX 40%، Bitget 60%)؛ اصل حصہ ہر ایکسچینج کے انکشاف اور آپ کے اکاؤنٹ کے مطابق ہوتا ہے، اور اندازے سب سے اونچے حصے سے لگائے جاتے ہیں۔ ریبیٹ ہر ایکسچینج کے موجودہ قواعد اور آپ کے اکاؤنٹ کے تابع ہے، اور اس سے آپ کی فیس نہیں بڑھتی۔`,
+    all: "تمام ایکسچینجز دیکھیں", foot: (d) => `فیس ہر ایکسچینج کی شائع شدہ بنیادی شرحیں ہیں (بطور ڈیفالٹ USDT دائمی معاہدے، ضرورت پر اسپاٹ)، تاریخ ${d}، VIP درجوں، پلیٹ فارم ٹوکن رعایتوں اور علاقائی فرق کے بغیر۔ سرخی میں “{max}% تک” شراکتی ایکسچینجز میں سب سے اونچا درجہ ہے؛ ہر ایکسچینج کا زیادہ سے زیادہ حصہ مختلف ہے (مثلاً Binance 25%، OKX 40%، Bitget 60%)؛ اندازے سب سے اونچے حصے سے لگائے جاتے ہیں۔`,
   },
   // l10n: needs native review
   uk: {
@@ -86,7 +86,7 @@ export const H7_COPY = {
     cta: (n) => `Отримати ребейт, відкрити на ${n}`, calcLink: "Порахувати економію",
     pw: (n) => `${n} партнерських бірж`,
     cap: (n) => `${n} партнерських бірж із ребейтом до {max}%.\nВідкрийте будь-яку, щоб побачити частку й код.`,
-    t1: "Офіційні домени перевірено", t1b: "Перед реєстрацією перевірте адресний рядок. Ми перелічуємо всі офіційні домени.", t2: "Ребейти розкрито", t2b: "Ми отримуємо комісію від біржі та публікуємо частку, яку повертаємо вам.", t3: "Ми ніколи не торкаємося ваших коштів", t3b: "Реєстрація, KYC і депозити відбуваються на біржі.",
+    t1: "Офіційні домени перевірено", t1b: "Перед реєстрацією перевірте адресний рядок. Ми перелічуємо всі офіційні домени.", t2: "Ставки ребейту на виду", t2b: "Точно видно, скільки комісії повертає кожна біржа.", t3: "Ми ніколи не торкаємося ваших коштів", t3b: "Реєстрація, KYC і депозити відбуваються на біржі.",
     howH: "Ваш ребейт у три кроки",
     how: [["Оберіть біржу", "Для кожної біржі опубліковано офіційні комісії, частки ребейту й домени. Порівняйте, потім оберіть."], ["Зареєструйтеся в один дотик", "Посилання містить наш код запрошення, тож нічого вводити не потрібно."], ["Торгуйте й отримуйте ребейт", "OKX і Binance виплачують щогодини, Bitget — щодня, автоматично; інші біржі дотримуються власних правил."]],
     calcEmpty: "Введіть місячний обсяг для річної різниці.",
@@ -97,7 +97,7 @@ export const H7_COPY = {
     inBtn: "Порівняти комісії", shH: "Перед реєстрацією порівняйте комісії", shSpot: "Базові спотові комісії", shPerp: "Базові комісії безстрокових контрактів", shAfter: "≈ після ребейту", shClose: "Закрити", shSrc: "Читати офіційну публікацію", shNote: "Комісії — це опубліковані базові ставки кожної біржі без VIP-рівнів і знижок за платформний токен. Ребейти залежать від поточних правил кожної біржі та вашого акаунта. Саме оголошення не означає наявність пропозиції.",
     rate: "Комісія", code: "Код запрошення", rebate: "Ребейт", pending: "Див. деталі", open: "Зареєструватися й отримати ребейт", detail: "Деталі", unchecked: "Комісію ще не перевірено",
     lowest: (n, v) => `${n} найдешевша з нашим кодом: ${v} на рік.`, most: (n, v) => `${n} повертає найбільше: ${v} на рік.`,
-    all: "Переглянути всі біржі", foot: (d) => `Комісії — це опубліковані базові ставки кожної біржі (за замовчуванням безстрокові USDT-контракти, спот за запитом) станом на ${d}, без VIP-рівнів, знижок за платформний токен і регіональних відмінностей. Ми отримуємо комісію від біржі через запрошувальні посилання і повертаємо частину вам як ребейт. Заголовок “до {max}%” означає найвищий рівень серед партнерських бірж; максимальні частки різняться за біржами (наприклад Binance 25%, OKX 40%, Bitget 60%); фактичні частки залежать від розкриття кожної біржі та вашого акаунта, а розрахунки використовують найвищу частку. Ребейти залежать від поточних правил кожної біржі та вашого акаунта, і ваші комісії не збільшуються.`,
+    all: "Переглянути всі біржі", foot: (d) => `Комісії — це опубліковані базові ставки кожної біржі (за замовчуванням безстрокові USDT-контракти, спот за запитом) станом на ${d}, без VIP-рівнів, знижок за платформний токен і регіональних відмінностей. Заголовок “до {max}%” означає найвищий рівень серед партнерських бірж; максимальні частки різняться за біржами (наприклад Binance 25%, OKX 40%, Bitget 60%); розрахунки використовують найвищу частку.`,
   },
   ...H7_I18N,
 };
