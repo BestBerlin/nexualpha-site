@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { createServer as createViteServer } from "vite";
+import { clickMetadata } from "../server/click-metadata.mjs";
 import { createCtaClickBeacon, createRateLimiter, clientKey, validateCtaClick } from "../server/cta-click.mjs";
 import { createProductionServer } from "../server.mjs";
 import { ctaClickPayload, ctaClickSource, registrationAnchor, sendCtaClick } from "../src/data/cta-click-beacon.js";
@@ -38,10 +39,21 @@ test("cta-click beacon appends one anonymous site click to the shared click file
     assert.equal(res.status, 204);
     assert.equal(res.headers.get("cache-control"), "no-store");
     await wait();
-    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site" }]);
+    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
     const raw = await readFile(f.eventFile, "utf8");
     assert.doesNotMatch(raw, /203\.0\.113\.9/, "IPs are never written");
   } finally { await f.close(); }
+});
+
+test("click metadata keeps only safe path, locale and country attribution", () => {
+  assert.deepEqual(clickMetadata({ ref: "https://nexualpha.com/pt-br/compare/binance-vs-okx?utm_source=x", src: "telegram" }), { path: "/pt-br/compare/binance-vs-okx", locale: "pt-BR", country: null });
+  assert.deepEqual(clickMetadata({ path: "/br", src: "home-v7-hero" }), { path: "/br", locale: "pt-BR", country: null });
+  assert.deepEqual(clickMetadata({ path: "/br/en", src: "home-v7-hero" }), { path: "/br/en", locale: "en", country: null });
+  assert.deepEqual(clickMetadata({ src: "tg-digest-zh", country: "gb" }), { path: null, locale: "zh-Hans", country: "GB" });
+  assert.deepEqual(clickMetadata({ ref: "https://evil.example/zh-hans/exchanges/okx", locale: "<script>", country: "ZZZ" }), { path: null, locale: null, country: null });
+  assert.deepEqual(clickMetadata({ path: "//evil.example/path", src: "home-v7-hero" }), { path: null, locale: null, country: null });
+  assert.deepEqual(clickMetadata({ path: "/users/alice%40example.com", src: "home-v7-hero" }), { path: null, locale: null, country: null });
+  assert.deepEqual(clickMetadata({ ref: "https://user@example.com/zh-hans/exchanges/okx", src: "home-v7-hero" }), { path: null, locale: null, country: null });
 });
 
 test("cta-click beacon rejects unknown partners, bad sources, long paths, oversized or non-JSON bodies and wrong methods", async () => {
@@ -53,6 +65,8 @@ test("cta-click beacon rejects unknown partners, bad sources, long paths, oversi
     assert.equal((await handle(post({ partner: "okx", src: "<script>", path: "/" }))).status, 400);
     assert.equal((await handle(post({ partner: "okx", src: "Home", path: "/" }))).status, 400, "src must be lower-case slug");
     assert.equal((await handle(post({ partner: "okx", src: "home", path: `/${"a".repeat(200)}` }))).status, 400);
+    assert.equal((await handle(post({ partner: "okx", src: "home", path: "//evil.example/path" }))).status, 400);
+    assert.equal((await handle(post({ partner: "okx", src: "home", path: "/users/alice%40example.com" }))).status, 400);
     assert.equal((await handle(post({ partner: "okx", src: "home", path: "https://evil.example/" }))).status, 400);
     assert.equal((await handle(post({ partner: "okx", src: "home" }))).status, 400);
     assert.equal((await handle(post("not json"))).status, 400);
@@ -110,7 +124,7 @@ test("production server routes POST /api/cta-click and writes to CLICK_EVENT_FIL
     assert.equal(go.status, 302);
     await wait();
     const all = await rows(f.eventFile);
-    assert.deepEqual(all.map((r) => [r.partner, r.src, r.ref, r.kind ?? null]), [["okx", "registration-card-primary", "/exchanges/okx", "site"], ["okx", "tg-channel-zh", null, null]]);
+    assert.deepEqual(all.map((r) => [r.partner, r.src, r.ref, r.kind ?? null, r.path ?? null, r.locale ?? null]), [["okx", "registration-card-primary", "/exchanges/okx", "site", "/exchanges/okx", "en"], ["okx", "tg-channel-zh", null, null, null, "zh-Hans"]]);
   } finally {
     if (server?.listening) await new Promise((resolve) => { server.close(resolve); server.closeIdleConnections?.(); });
     await f.close();

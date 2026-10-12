@@ -78,3 +78,21 @@ test("home hero A/B (X5): rows carrying experiment + variant are split per varia
   assert.match(funnelReportMessage({ summary: s, subscribers: 0, lang: "en" }), /A\/B clicks \(7 d\) home_hero_copy_v1: a 1 · b 2/);
   assert.doesNotMatch(funnelReportMessage({ summary: summarizeClicks(parseClickLines(FIXTURE), NOW), subscribers: 0, lang: "en" }), /A\/B/, "no line without experiment rows");
 });
+
+test('combined top five placements include redirects and beacons, with counts only', () => {
+  const s = summarizeClicks(parseClickLines(FIXTURE), NOW);
+  assert.equal(s.week.allPlacements.length, 5);
+  assert.deepEqual(s.week.allPlacements[0], ['home-v7-hero', 2]);
+  assert.ok(s.week.allPlacements.some(([src]) => src === 'tg-alert-dm-en'));
+  const message = funnelReportMessage({ summary: s, subscribers: 0, lang: 'en' });
+  assert.match(message, /Top 5 placements \(7 d\):/);
+  assert.doesNotMatch(message, /\/exchanges|t.me/);
+});
+
+test('invalid placement slugs are unknown and historical partner HTML is escaped', () => {
+  const rows = parseClickLines(JSON.stringify({ t: h(1), partner: '<b>unsafe</b>', src: '<script>' }));
+  assert.equal(rows[0].src, 'unknown');
+  const message = funnelReportMessage({ summary: summarizeClicks(rows, NOW), subscribers: 0, lang: 'en' });
+  assert.match(message, /&lt;b&gt;unsafe/);
+  assert.doesNotMatch(message, /<script>|<b>unsafe/);
+});
