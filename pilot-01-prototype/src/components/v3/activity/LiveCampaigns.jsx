@@ -1,6 +1,6 @@
 // Live exchange campaigns (owner 2026-10-10): sign-up drives, airdrops, trading competitions and launch events,
 // read from the exchanges' own announcement feeds (category "event"), plus owner-curated campaigns. Every card links
-// the official campaign page and that exchange's sign-up with our invite code; the commission disclosure sits with
+// the NexuAlpha update page and that exchange's sign-up with our invite code; the commission disclosure sits with
 // the list. Nothing is invented: no feed, no cards.
 import React, { useEffect, useMemo, useState } from "react";
 import { SectionRule } from "../../shared/DataRule.jsx";
@@ -9,6 +9,7 @@ import { CampaignJoin } from "./CampaignJoin.jsx";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
 import { monthCampaigns, isStartOfMonth } from "./campaign-month.js";
 import { readIntelFeed } from "../../../data/announcement-intel.js";
+import { updateHref } from "../../../data/activity-update.js";
 import { activeOwnerCampaigns } from "../../../data/owner-campaigns.js";
 import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
@@ -89,7 +90,7 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
           <b>{NAMES[c.venue] || c.venue}</b>
           <h3 dir="auto" lang={feedLang(c, locale)}>{c.title}</h3>
           <time dateTime={c.publishedAt}>{c.publishedAt.slice(0, 10)}</time>
-          <a href={c.url} target="_blank" rel="noopener noreferrer nofollow">{joinText.official} ↗</a>
+          <a href={updateHref(c, locale, { market })}>{joinText.official}</a>
           <CampaignJoin venue={c.venue} locale={locale} market={market} placement="activities-month-campaign" />
         </li>)}</ul>
       </section>
@@ -143,7 +144,7 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
                 <h4 dir="auto" lang={feedLang(c, locale)}>{c.title}</h4>
                 {c.summary && <p className="live-campaigns__sum" lang={feedLang(c, locale)}>{c.summary}</p>}
                 <div className="live-campaigns__acts">
-                  <a className="live-campaigns__details" href={c.url} target="_blank" rel="noopener noreferrer nofollow">{joinText.official} ↗</a>
+                  <a className="live-campaigns__details" href={updateHref(c, locale, { market })}>{joinText.official}</a>
                 </div>
                 <CampaignJoin venue={c.venue} locale={locale} market={market} placement="activities-live-campaign" />
               </li>

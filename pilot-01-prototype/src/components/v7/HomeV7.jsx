@@ -68,7 +68,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 }
 
 
-export function HomeV7({ locale, venues: _catalog }) {
+export function HomeV7({ locale, market, venues: _catalog }) {
   const t = h7Copy(locale);
   // Hero copy experiment (X5): the variant comes from the SSR/hydration context, never from a client-side swap.
   const heroVariant = useHomeHeroVariant();
@@ -202,7 +202,7 @@ export function HomeV7({ locale, venues: _catalog }) {
       </section>
 
       <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
-        <HomeBelowFold t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
+        <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
       </DeferUntilVisible>
       <div className="h7-in h7-foot">{replaceMaxPercent(t.foot(FACTS_AS_OF), locale, HOME_REBATE_MAX_PCT).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
