@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { readSitemapTree, sitemapPageUrls } from "./sitemap-tree.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_INPUT = path.join(projectRoot, "docs/evidence/four-week-growth-20260927/index-backlog-priority.json");
@@ -263,8 +264,10 @@ export function run(argv = process.argv.slice(2)) {
   const outputMarkdown = path.resolve(args.markdown || DEFAULT_MARKDOWN);
   const backlog = JSON.parse(readFileSync(input, "utf8"));
   const manifest = JSON.parse(readFileSync(path.join(dist, "prerender-manifest.json"), "utf8"));
-  const sitemap = readFileSync(path.join(dist, "sitemap.xml"), "utf8");
-  const publishedUrls = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].replace(/&amp;/g, "&")));
+  // sitemap.xml is an index; published pages are the <loc>s of its child sitemaps.
+  const sitemapTree = readSitemapTree(path.join(dist, "sitemap.xml"));
+  if (sitemapTree.missing.length) throw new Error(`Child sitemaps missing from ${dist}: ${sitemapTree.missing.join(", ")}`);
+  const publishedUrls = new Set(sitemapPageUrls(sitemapTree));
   const report = buildPriorityOwnerReport({
     backlog,
     manifest,
