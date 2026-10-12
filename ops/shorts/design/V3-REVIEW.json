@@ -1,0 +1,33 @@
+{
+  "iteration": 3,
+  "verdict": "pass",
+  "scope": "Encoded EN/VI portrait/square plus Arabic fixture raster",
+  "evidence": [
+    "ops/shorts/samples/v3-review/2026-10-12/en/portrait/contact-sheet.png",
+    "ops/shorts/samples/v3-review/2026-10-12/vi/portrait/contact-sheet.png",
+    "ops/shorts/samples/v3-review/2026-10-12/en/square/contact-sheet.png",
+    "ops/shorts/samples/v3-review/2026-10-12/vi/square/contact-sheet.png",
+    "ops/shorts/samples/layout-review/ar-square-fixed.png"
+  ],
+  "observations": [
+    "No clipping or overlap in encoded sample scene midpoints",
+    "Arabic mixed currency and percent tokens retain their LTR order through bidi isolation"
+  ],
+  "pending": [],
+  "tests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "liveSourceGeneratedAt": "2026-10-12T04:43:18.823Z",
+  "videos": {
+    "en/portrait": "1080x1920 H264/AAC 30fps 30s",
+    "en/square": "1080x1080 H264/AAC 30fps 30s",
+    "vi/portrait": "1080x1920 H264/AAC 30fps 30s",
+    "vi/square": "1080x1080 H264/AAC 30fps 30s"
+  },
+  "limits": [
+    "No optional clone narration rendered",
+    "Native translation review is pending",
+    "No publishing or production changes"
+  ]
+}

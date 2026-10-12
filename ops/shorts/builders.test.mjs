@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {validateData, usd, percent, fundingPercent, buildPackage, DISCLAIMER} from './builders.mjs';
+import {validateData, usd, percent, fundingPercent, buildPackage, DISCLAIMER, captionLines} from './builders.mjs';
 import {parseArgs} from './make-short.mjs';
+import {LIQUIDATION_REACTION_THRESHOLD_USD, PLATFORM_KEYS, STRINGS, SUPPORTED_LOCALES} from './strings.mjs';
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/market.json', import.meta.url)));
 const now = Date.parse('2026-10-11T19:20:00Z');
 const copy = () => structuredClone(fixture);
@@ -17,45 +18,90 @@ test('format USD conservatively, fractional rates as percentages', () => {
   assert.equal(fundingPercent(0), '0.00000%');
   assert.throws(() => usd(NaN));
 });
-test('5-slide bilingual package preserves numbers, lower bound and snapshot scope', () => {
+test('5-slide global package preserves numbers, lower bound and snapshot scope', () => {
   const data = validateData(fixture, null, now);
   assert.deepEqual(data.rates.map(r=>[r.venue,r.symbol]), [['Binance','RLC'],['Binance','S'],['OKX','S']]);
-  for (const lang of ['en','zh-Hans']) {
+  const requiredCopy = ['fullData','scope','disclaimer','negativeFunding','snapshot','intervals','observed','longs','shorts','long','short'];
+  assert.deepEqual(Object.keys(STRINGS), SUPPORTED_LOCALES);
+  for (const lang of SUPPORTED_LOCALES) {
     const {slides,meta} = buildPackage(data,lang);
     assert.equal(slides.length,5);
-    assert.equal(slides.reduce((s,r)=>s+r.duration,0),35);
+    assert.equal(slides.reduce((s,r)=>s+r.duration,0),30);
     assert.ok(slides.every(s=>s.duration>=5 && s.duration<=8 && s.narration));
     assert.ok([...meta.title].length<=70);
     assert.ok(meta.description.split('\n').length>=2 && meta.description.split('\n').length<=4);
     assert.ok(meta.hashtags.length>=5 && meta.hashtags.length<=8);
-    assert.ok(meta.description.includes(DISCLAIMER));
-    assert.ok(meta.description.includes('https://nexualpha.com/zh-hans/liquidations?src=yt-short'));
-    assert.ok(meta.description.includes('https://t.me/NexuAlphaClub'));
-    assert.match(meta.title,/16\.48M/);
+    assert.equal(meta.disclaimer, DISCLAIMER);
+    assert.equal(meta.reactionThresholdUsd, LIQUIDATION_REACTION_THRESHOLD_USD);
+    assert.equal(meta.dir, lang === 'ar' ? 'rtl' : 'ltr');
+    assert.equal(meta.rtl, lang === 'ar');
+    assert.deepEqual(Object.keys(meta.platforms), PLATFORM_KEYS);
+    for (const platform of PLATFORM_KEYS) {
+      const entry = meta.platforms[platform];
+      assert.ok([...entry.title].length<=70, `${lang} ${platform} title too long`);
+      assert.ok(entry.description.includes(entry.cta.url));
+      assert.ok(entry.description.includes(STRINGS[lang].copy.disclaimer));
+      assert.ok(entry.cta.url.endsWith(`/liquidations?src=${platform}-short`));
+      assert.ok(entry.cta.url.startsWith(`https://nexualpha.com/${lang.toLowerCase()}/`));
+      assert.doesNotMatch(entry.cta.url,/code=|ref=|partner|invite/i);
+      assert.ok(entry.hashtags.length>=5 && entry.hashtags.length<=8);
+    }
+    assert.match(meta.title,/\$16\.48M/);
     assert.doesNotMatch(meta.title,/暴跌|崩盘|送钱|buy|sell/i);
     assert.deepEqual(slides.map(s=>s.kind), ['hero','split','receipt','funding','end']);
-    assert.ok(slides.every(s=>Array.isArray(s.captions) && s.captions.length && s.captions.every(c=>[...c].length<=16)));
+    assert.ok(slides.every(s=>Array.isArray(s.captions) && s.captions.length && s.captions.every(c=>/[。！？.!?]$/u.test(c))));
+    for (const slide of slides) {
+      assert.equal(slide.dir, lang === 'ar' ? 'rtl' : 'ltr');
+      assert.equal(slide.rtl, lang === 'ar');
+      assert.deepEqual(Object.keys(slide.copy), [...requiredCopy, 'cta', 'domain']);
+      for (const key of requiredCopy) assert.equal(typeof slide.copy[key], 'string', `${lang} ${slide.kind} copy.${key}`);
+      assert.deepEqual(slide.reaction, {pose:'point-right', antenna:'green', thresholdUsd:LIQUIDATION_REACTION_THRESHOLD_USD, metric:'liquidation.totalUsd'});
+      assert.deepEqual(slide.mascot, {pose:'point-right', antenna:'green', antennaThresholdUsd:LIQUIDATION_REACTION_THRESHOLD_USD});
+    }
     assert.deepEqual(slides[0].hero, {value:16488040, format:'usd'});
     assert.equal(slides[1].hero.value, 14337661/16488040);
     assert.equal(slides[1].hero.format, 'percent');
     assert.equal(slides[1].hero.side, 'short');
-    assert.ok(slides[2].lines.includes('OKX · ETHUSDT'));
+    assert.ok(slides[2].lines.some(line => line.includes('OKX') && line.includes('ETHUSDT')));
     assert.equal(slides[2].hero.value, 2528150);
     assert.equal(slides[2].hero.format, 'usd');
     assert.deepEqual(Object.keys(slides[2].receipt), ['venue','symbol','side','time']);
     if (lang === 'zh-Hans') assert.match(slides[2].receipt.time,/2026-10-11 23:40:26 UTC\+8/);
     else assert.match(slides[2].receipt.time,/2026-10-11 15:40:26 UTC/);
-    assert.equal(slides[2].lines[2], slides[2].receipt.time);
+    assert.ok(slides[2].lines.some(line => line.includes(slides[2].receipt.time)));
     assert.equal(slides[3].hero.value, -.00276609);
     assert.equal(slides[3].hero.format, 'funding');
-    assert.ok(slides[3].support[0].includes(lang === 'zh-Hans' ? '空头付钱给多头' : 'shorts pay longs'));
+    assert.equal(slides[3].support[0], STRINGS[lang].slides.funding.support()[0]);
     assert.equal(slides[3].rates[0].rate,-.00276609);
     assert.deepEqual(Object.keys(slides[3].rates[0]), ['venue','symbol','text','rate','intervalH']);
     assert.ok(Math.abs(slides[1].bar.longShare - 2150379/16488040)<1e-12);
     assert.equal(slides[4].domain, 'nexualpha.com');
     assert.equal(slides[4].lines[0], 'nexualpha.com');
-    assert.ok(slides[4].cta);
+    assert.equal(slides[4].cta, STRINGS[lang].copy.cta);
   }
+});
+test('captions stay as complete decimal-safe sentences', () => {
+  assert.deepEqual(captionLines('At least $16.48M was liquidated. Shorts account for 87.0%.', 'en'), [
+    'At least $16.48M was liquidated.',
+    'Shorts account for 87.0%.',
+  ]);
+  assert.deepEqual(captionLines('Top rates: RLC, -0.27661%; S, -0.22452%.', 'en'), [
+    'Top rates: RLC, -0.27661%; S, -0.22452%.',
+  ]);
+  assert.deepEqual(captionLines('覆盖交易所显示，24小时爆仓至少1648.80万美元。空头占87.0%。', 'zh-Hans'), [
+    '覆盖交易所显示，24小时爆仓至少1648.80万美元。',
+    '空头占87.0%。',
+  ]);
+});
+test('Nexubo antenna switches to red at the documented liquidation threshold', () => {
+  const fixtureCopy = copy();
+  fixtureCopy.liquidations.h24.totalUsd = LIQUIDATION_REACTION_THRESHOLD_USD;
+  fixtureCopy.liquidations.h24.longUsd = 40_000_000;
+  fixtureCopy.liquidations.h24.shortUsd = 60_000_000;
+  fixtureCopy.liquidations.h24.largest.usd = 10_000_000;
+  const slides = buildPackage(validateData(fixtureCopy, null, now), 'en').slides;
+  assert.ok(slides.every(slide => slide.reaction.antenna === 'red'));
+  assert.ok(slides.every(slide => slide.mascot.pose === 'point-right'));
 });
 test('freshness applies independently to market and funding; exact 60-minute boundary', () => {
   assert.doesNotThrow(()=>validateData(fixture,null,Date.parse(fixture.funding.generatedAt)+3600000));

@@ -1,13 +1,12 @@
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
 import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {slideToSvg, captionLines, FONT_OPTIONS} from './layout.mjs';
+import {slideToSvg, captionLines, FONT_OPTIONS, FORMATS} from './layout.mjs';
 export {slideToSvg, captionLines} from './layout.mjs';
 
-const WIDTH = 1080;
-const HEIGHT = 1920;
 const FPS = 30;
 const FADE_SECONDS = 0.25;
 const DEFAULT_DURATION = 7;
@@ -16,17 +15,22 @@ const MIN_VOICE_SLIDE_SECONDS = 6;
 const DEFAULT_FFMPEG = '/opt/homebrew/bin/ffmpeg';
 const DEFAULT_FFPROBE = '/opt/homebrew/bin/ffprobe';
 const LOCAL_DYLD_LIBRARY_PATH = '/opt/homebrew/Cellar/x265/4.2/lib';
+const DEFAULT_TTS_PYTHON = '/opt/homebrew/bin/python3';
+const QWEN_MODEL = 'mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit';
+const OWNER_REF_AUDIO = '/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav';
+const OWNER_REF_TEXT = "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.";
 
 const repoRoot = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const pilotPackage = path.join(repoRoot, 'pilot-01-prototype/package.json');
 const requireFromPilot = createRequire(pilotPackage);
 const { Resvg } = requireFromPilot('@resvg/resvg-js');
 
-export async function renderShort(slides, outDir, { voice = false, lang = 'en' } = {}) {
+export async function renderShort(slides, outDir, { voice = false, lang = 'en', format = 'portrait' } = {}) {
   if (!outDir) throw new Error('renderShort requires an output directory');
+  const dimensions = renderDimensions(format);
   await fs.mkdir(outDir, { recursive: true });
 
-  const normalizedSlides = normalizeSlides(slides);
+  const normalizedSlides = normalizeSlides(slides, lang);
   const workDir = path.join(outDir, 'work');
   const framesDir = path.join(workDir, 'frames');
   const audioDir = path.join(workDir, 'audio');
@@ -37,8 +41,8 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en' }
   const voiceResult = voice ? await renderVoiceTrack(normalizedSlides, audioDir, lang) : null;
   const durations = voiceResult?.durations ?? normalizedSlides.map(slide => slide.duration);
   const totalDuration = sum(durations);
-  if (voice && (totalDuration < 30 || totalDuration > 45)) {
-    throw new Error(`voice production duration must be 30-45 seconds; got ${totalDuration.toFixed(2)}s`);
+  if (voice && (totalDuration < 25 || totalDuration > 35)) {
+    throw new Error(`voice production duration must be 25-35 seconds; got ${totalDuration.toFixed(2)}s`);
   }
   const captions = normalizedSlides.map((slide,index) => {
     if (voiceResult) return voiceResult.captions[index];
@@ -57,7 +61,7 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en' }
     for (let i=0;i<times.length;i++) {
       const time = times[i];
       const caption = captions[index].find(c=>time>=c.start && time<c.end)?.text || '';
-      const svg = slideToSvg(slide,index,normalizedSlides.length,lang,{progress:Math.min(1,time/.8),caption});
+      const svg = slideToSvg(slide,index,normalizedSlides.length,lang,{format,progress:Math.min(1,time/.8),caption});
       const png = new Resvg(svg,{font:FONT_OPTIONS}).render().asPng();
       const file = path.join(directory,`${i}.png`);
       await fs.writeFile(file,png);
@@ -68,7 +72,7 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en' }
     const list = path.join(directory,'frames.txt');
     await fs.writeFile(list,entries.join('\n'));
     const finalFrame = path.join(framesDir,`slide-${String(index).padStart(2,'0')}.png`);
-    await fs.writeFile(finalFrame,new Resvg(slideToSvg(slide,index,normalizedSlides.length,lang),{font:FONT_OPTIONS}).render().asPng());
+    await fs.writeFile(finalFrame,new Resvg(slideToSvg(slide,index,normalizedSlides.length,lang,{format}),{font:FONT_OPTIONS}).render().asPng());
     framePaths.push(finalFrame);
     const clip = path.join(workDir,`clip-${index}.mp4`);
     await run(ffmpegPath(),['-hide_banner','-y','-f','concat','-safe','0','-i',list,
@@ -77,6 +81,10 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en' }
   }
   const videoPath = path.join(outDir,'short.mp4');
   await renderVideo(clips,durations,voiceResult?.audioPath,videoPath);
+  const posterPath = path.join(outDir, 'poster.png');
+  await fs.copyFile(framePaths[0], posterPath);
+  const srtPath = path.join(outDir, 'captions.srt');
+  await fs.writeFile(srtPath, buildSrt(captions, durations));
   await Promise.all(clips.map(file=>fs.rm(file)));
   await Promise.all(normalizedSlides.map((_,index)=>fs.rm(path.join(framesDir,String(index)),{recursive:true,force:true})));
   if (!voice) await fs.rm(audioDir,{recursive:true,force:true});
@@ -85,22 +93,26 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en' }
     durations,
     voice: Boolean(voiceResult),
     voiceName: voiceResult?.voiceName ?? null,
+    voiceConfig: voiceResult?.config ?? null,
     speechDurations: voiceResult?.speechDurations ?? [],
     captions,
     animationSeconds: 0.8,
     crossfadeSeconds: FADE_SECONDS,
     videoPath,
+    posterPath,
+    srtPath,
     framePaths,
     audioPath: voiceResult?.audioPath ?? null,
-    width: WIDTH,
-    height: HEIGHT,
+    width: dimensions.width,
+    height: dimensions.height,
+    format,
     fps: FPS,
     ffmpeg: ffmpegPath(),
     ffprobe: ffprobePath(),
   };
 }
 
-function normalizeSlides(slides) {
+function normalizeSlides(slides, lang) {
   if (!Array.isArray(slides) || slides.length === 0) {
     throw new Error('renderShort requires at least one slide');
   }
@@ -118,28 +130,28 @@ function normalizeSlides(slides) {
       duration,
       bar: slide.bar,
       rates: Array.isArray(slide.rates) ? slide.rates : [],
+      copy: requireCopy(slide.copy, index),
     };
   });
 }
 
 async function renderVoiceTrack(slides, audioDir, lang) {
-  const voiceName = await selectVoice(lang, audioDir);
+  if (lang !== 'en') {
+    throw new Error(`voice narration is English-only for now; got ${lang}`);
+  }
+  await ensureOwnerVoicePrerequisites();
+  const voiceName = 'Qwen3-TTS owner English clone';
   const clips = [], durations = [], speechDurations = [], captions = [];
   for (let index=0;index<slides.length;index++) {
     const lines = captionLines(slides[index].narration,lang);
-    let rate = speechRate(slides[index].narration,slides[index].duration);
-    let segments;
-    for (let attempt=0;attempt<5;attempt++) {
-      segments = [];
-      for (let i=0;i<lines.length;i++) {
-        const file = path.join(audioDir,`segment-${index}-${i}.aiff`);
-        await synthesizeSpeech(lines[i],file,voiceName,rate);
-        segments.push({file,text:lines[i],duration:await mediaDuration(file)});
-      }
-      const length = sum(segments.map(s=>s.duration));
-      if (length+.45<=MAX_VOICE_SLIDE_SECONDS) break;
-      if (attempt===4) throw new Error(`slide ${index+1} voice cannot fit in 8 seconds`);
-      rate = Math.round(clamp(rate*(length+.45)/7.5*1.05,rate+18,420));
+    const segments = [];
+    for (let i=0;i<lines.length;i++) {
+      const file = await synthesizeSpeech(lines[i], audioDir, `segment-${index}-${i}`);
+      segments.push({file,text:lines[i],duration:await mediaDuration(file)});
+    }
+    const length = sum(segments.map(s=>s.duration));
+    if (length+.45 > MAX_VOICE_SLIDE_SECONDS) {
+      throw new Error(`slide ${index+1} voice cannot fit in 8 seconds; got ${(length+.45).toFixed(2)}s`);
     }
     let start=0;
     captions.push(segments.map(s=>{const caption={text:s.text,start,end:start+s.duration}; start+=s.duration; return caption;}));
@@ -154,68 +166,29 @@ async function renderVoiceTrack(slides, audioDir, lang) {
   await fs.writeFile(list,clips.map(file=>`file '${escapeConcatPath(file)}'`).join('\n'));
   const audioPath=path.join(audioDir,'voice.m4a');
   await run(ffmpegPath(),['-hide_banner','-y','-f','concat','-safe','0','-i',list,'-c:a','aac','-b:a','128k',audioPath]);
-  return {audioPath,durations,voiceName,speechDurations,captions};
+  return {audioPath,durations,voiceName,speechDurations,captions,config: voiceConfig()};
 }
 
-async function synthesizeSpeech(text, output, voiceName, rate) {
-  const args = ['-v', voiceName, '-r', String(rate), '-o', output, text];
-  await run('/usr/bin/say', args);
-}
-
-async function selectVoice(lang, audioDir) {
-  const listing = await run('/usr/bin/say', ['-v', '?'], { collect: true });
-  const voices = parseSayVoices(listing);
-  const candidates = voiceCandidates(voices, lang);
-  const failures = [];
-  for (const candidate of candidates) {
-    const probePath = path.join(audioDir, `voice-probe-${safeFilePart(candidate.name)}.aiff`);
-    try {
-      await synthesizeSpeech(greetingForVoice(lang), probePath, candidate.name, 180);
-      await mediaDuration(probePath);
-      return candidate.name;
-    } catch (error) {
-      failures.push(`${candidate.name}: ${error.message.split('\n')[0]}`);
-    }
+async function synthesizeSpeech(text, outputDir, filePrefix) {
+  const before = new Set(await listFiles(outputDir));
+  await run(pythonPath(), [
+    '-m', 'mlx_audio.tts.generate',
+    '--model', QWEN_MODEL,
+    '--lang_code', 'en',
+    '--ref_audio', OWNER_REF_AUDIO,
+    '--ref_text', OWNER_REF_TEXT,
+    '--text', text,
+    '--output_path', outputDir,
+    '--file_prefix', filePrefix,
+  ], { env: offlineTtsEnv(process.env) });
+  const created = (await listFiles(outputDir))
+    .filter((file) => !before.has(file) && file.startsWith(filePrefix))
+    .filter((file) => /\.(wav|aiff|m4a|mp3)$/i.test(file))
+    .sort();
+  if (created.length === 0) {
+    throw new Error(`Qwen3-TTS did not create audio for ${filePrefix}`);
   }
-  throw new Error(`no usable macOS voice found for ${lang}; tried ${candidates.map((voice) => voice.name).join(', ') || 'none'}; failures: ${failures.join(' | ') || 'no matching voices'}`);
-}
-
-export function parseSayVoices(listing) {
-  return String(listing).split(/\r?\n/).flatMap((line) => {
-    const match = /^(.*?)\s{2,}([a-z]{2}_[A-Z]{2})\s+#/.exec(line);
-    if (!match) return [];
-    return [{ name: match[1].trim(), locale: match[2] }];
-  });
-}
-
-export function voiceCandidates(voices, lang) {
-  const normalized = String(lang).toLowerCase();
-  if (normalized.startsWith('zh')) {
-    const zhCn = voices.filter((voice) => voice.locale === 'zh_CN');
-    return [
-      ...zhCn.filter((voice) => voice.name === 'Tingting'),
-      ...zhCn.filter((voice) => voice.name.startsWith('Flo ')),
-      ...zhCn.filter((voice) => voice.name !== 'Tingting' && !voice.name.startsWith('Flo ')),
-    ];
-  }
-  const enUs = voices.filter((voice) => voice.locale === 'en_US');
-  return [
-    ...enUs.filter((voice) => voice.name === 'Samantha'),
-    ...enUs.filter((voice) => voice.name.startsWith('Flo ')),
-    ...enUs.filter((voice) => voice.name !== 'Samantha' && !voice.name.startsWith('Flo ')),
-  ];
-}
-
-function greetingForVoice(lang) {
-  return /^zh/i.test(lang) ? '语音测试。' : 'Voice test.';
-}
-
-function speechRate(text, targetSeconds) {
-  const raw = String(text).trim();
-  const units = /[\u3400-\u9fff]/.test(raw)
-    ? Array.from(raw).filter((char) => /\S/.test(char)).length / 1.8
-    : raw.split(/\s+/).filter(Boolean).length;
-  return Math.round(clamp((Math.max(6, units) / targetSeconds) * 60, 135, 260));
+  return path.join(outputDir, created[0]);
 }
 
 async function renderVideo(clips, durations, audioPath, videoPath) {
@@ -237,6 +210,90 @@ async function renderVideo(clips, durations, audioPath, videoPath) {
   await run(ffmpegPath(),args);
 }
 
+export function buildSrt(captions, durations) {
+  let offset = 0;
+  let index = 1;
+  const entries = [];
+  for (let slideIndex = 0; slideIndex < captions.length; slideIndex++) {
+    for (const caption of captions[slideIndex]) {
+      entries.push([
+        String(index++),
+        `${srtTime(offset + caption.start)} --> ${srtTime(offset + caption.end)}`,
+        caption.text,
+      ].join('\n'));
+    }
+    offset += durations[slideIndex];
+  }
+  return `${entries.join('\n\n')}\n`;
+}
+
+function srtTime(value) {
+  const milliseconds = Math.max(0, Math.round(Number(value) * 1000));
+  const hours = Math.floor(milliseconds / 3600000);
+  const minutes = Math.floor(milliseconds % 3600000 / 60000);
+  const seconds = Math.floor(milliseconds % 60000 / 1000);
+  const ms = milliseconds % 1000;
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)},${String(ms).padStart(3, '0')}`;
+}
+
+function pad(value) {
+  return String(value).padStart(2, '0');
+}
+
+function renderDimensions(format) {
+  const dimensions = FORMATS[format];
+  if (!dimensions) {
+    throw new Error(`Unknown render format: ${format}`);
+  }
+  return dimensions;
+}
+
+function requireCopy(copy, index) {
+  if (!copy || typeof copy !== 'object') {
+    throw new Error(`slide ${index + 1} is missing localized copy`);
+  }
+  return copy;
+}
+
+function voiceConfig() {
+  return {
+    mode: 'clone',
+    model: QWEN_MODEL,
+    refAudio: OWNER_REF_AUDIO,
+    refText: OWNER_REF_TEXT,
+    langCode: 'en',
+    seed: null,
+    offline: true,
+  };
+}
+
+async function ensureOwnerVoicePrerequisites() {
+  try {
+    await fs.access(OWNER_REF_AUDIO);
+  } catch {
+    throw new Error(`owner voice reference audio missing: ${OWNER_REF_AUDIO}`);
+  }
+  const modelCache = path.join(huggingFaceHubDir(), 'models--mlx-community--Qwen3-TTS-12Hz-1.7B-Base-8bit');
+  try {
+    await fs.access(modelCache);
+  } catch {
+    throw new Error(`Qwen3-TTS model cache missing: ${modelCache}; downloads are disabled for this renderer`);
+  }
+  try {
+    await run(pythonPath(), ['-c', 'import mlx_audio'], { collect: true, env: offlineTtsEnv(process.env) });
+  } catch (error) {
+    throw new Error(`mlx_audio is required for English owner voice narration; no downloads or macOS voice fallback are allowed. ${error.message.split('\n')[0]}`);
+  }
+}
+
+async function listFiles(directory) {
+  try {
+    return await fs.readdir(directory);
+  } catch {
+    return [];
+  }
+}
+
 async function mediaDuration(file) {
   const output = await run(ffprobePath(), ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', file], { collect: true });
   const duration = Number.parseFloat(output.trim());
@@ -246,18 +303,18 @@ async function mediaDuration(file) {
   return duration;
 }
 
-async function run(command, args, { collect = false, fallback = false } = {}) {
+async function run(command, args, { collect = false, fallback = false, env = process.env } = {}) {
   try {
-  return await runOnce(command,args,{collect,fallback});
+  return await runOnce(command,args,{collect,fallback,env});
   } catch(error) {
-    if (!fallback && /dyld.*Library not loaded|Library not loaded:.*libx265/s.test(error.message) && [ffmpegPath(),ffprobePath()].includes(command)) return run(command,args,{collect,fallback:true});
+    if (!fallback && /dyld.*Library not loaded|Library not loaded:.*libx265/s.test(error.message) && [ffmpegPath(),ffprobePath()].includes(command)) return run(command,args,{collect,fallback:true,env});
     throw error;
   }
 }
-function runOnce(command, args, {collect, fallback}) {
+function runOnce(command, args, {collect, fallback, env}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
-      env: fallback ? ffmpegEnv(process.env) : process.env,
+      env: fallback ? ffmpegEnv(env) : env,
       stdio: collect ? ['ignore', 'pipe', 'pipe'] : ['ignore', 'pipe', 'pipe'],
     });
     let stdout = '';
@@ -283,6 +340,24 @@ function ffprobePath() {
   return process.env.FFPROBE || DEFAULT_FFPROBE;
 }
 
+function pythonPath() {
+  return process.env.SHORTS_TTS_PYTHON || DEFAULT_TTS_PYTHON;
+}
+
+function offlineTtsEnv(env) {
+  return {
+    ...env,
+    HF_HUB_OFFLINE: '1',
+    TRANSFORMERS_OFFLINE: '1',
+  };
+}
+
+function huggingFaceHubDir() {
+  if (process.env.HF_HUB_CACHE) return process.env.HF_HUB_CACHE;
+  if (process.env.HF_HOME) return path.join(process.env.HF_HOME, 'hub');
+  return path.join(os.homedir(), '.cache/huggingface/hub');
+}
+
 function ffmpegEnv(env) {
   return {
     ...env,
@@ -296,24 +371,17 @@ function escapeConcatPath(value) {
   return String(value).replaceAll("'", "'\\''");
 }
 
-function safeFilePart(value) {
-  return String(value).replace(/[^a-z0-9._-]+/gi, '-').slice(0, 72) || 'voice';
-}
-
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
-}
-
 function sum(values) {
   return values.reduce((total, value) => total + Number(value), 0);
 }
 
 
 export async function renderContactSheet(videoPath, outputPath) {
-  const times = [2, 9, 16, 23, 31];
+  const duration = await mediaDuration(videoPath);
+  const times = Array.from({length:5},(_,i)=>(i+.5)*duration/5);
   const args = ['-hide_banner', '-y'];
   times.forEach(time => args.push('-ss', String(time), '-i', videoPath));
-  const filters = times.map((_,i) => `[${i}:v]scale=360:640[v${i}]`);
+  const filters = times.map((_,i) => `[${i}:v]scale=360:-2[v${i}]`);
   filters.push(`${times.map((_,i)=>`[v${i}]`).join('')}hstack=inputs=5[sheet]`);
   args.push('-filter_complex', filters.join(';'), '-map', '[sheet]', '-frames:v', '1', outputPath);
   await run(ffmpegPath(), args);
