@@ -36,6 +36,8 @@ import { articleEmbedHtml, articleEmbedModel, isolateArticleEmbedDirectives, par
 import { repairNewsArticle } from "../src/data/news-content-repair.js";
 import { TOOL_CLUSTER_IDS, articleClusterLineLabel, articleClusterLinks, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { ACADEMY_INDEX_LOCALES, ACADEMY_PATH, parseAcademyPath } from "../src/data/academy.js";
+import { appDownloadRouteSeo } from "../src/data/app-downloads.js";
+import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
@@ -54,7 +56,7 @@ export default {
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
@@ -2528,6 +2530,7 @@ const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
 const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
+const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
 const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": ACADEMY_PATH });
@@ -2547,6 +2550,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
   [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
   [ARTICLE_ROUTE_MARKER]: ["route-news-"],
+  [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
 });
@@ -3542,6 +3546,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
+    ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
     // Home hero copy experiment (X5): the variant this HTML was rendered with; the browser hydrates the same one.
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
@@ -4339,7 +4344,7 @@ async function renderActivityUpdateAtRequestTime(html, metadata, url, env) {
 // 0.3-0.9 at 390, nothing for no-JS readers). Render the same component with the same props and the same bootstrap URL
 // the browser hydrates (content pathname + explicit locale); the shell is served only when the renderer throws or
 // returns no page (both logged). `accept` names the markup that proves the renderer produced the client's page.
-async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label, preserveContext = false }) {
+async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label, preserveContext = false, hydrationData = {} }) {
   if (typeof env?.NEWS_SSR_RENDER !== "function") return null;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const pathname = publicRoute.contentPathname;
@@ -4353,7 +4358,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
     const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, {});
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, {}, url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, hydrationData, url);
     }
     console.error(`[NexuAlpha] ${label} SSR returned no page body for ${pathname} (${locale}); serving the app shell`);
   } catch (error) {
@@ -4427,6 +4432,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    if (metadata.marker === APP_DOWNLOAD_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      const rendered = await renderRouteAtRequestTime(html, metadata, url, env, {
+        accept: (appHtml) => appHtml.includes('class="nx-app-download '), label: "app-download", preserveContext: true, hydrationData: { appDownloadContext: activityRequestContext(url) },
+      });
+      if (rendered) return rendered;
+    }
     // Academy hub and lessons: static copy rendered at request time with the component the browser hydrates (full
     // transcript, takeaways and exercise in the HTML for crawlers and no-JS readers).
     if (metadata.marker === ACADEMY_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -4467,6 +4478,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
+    // App pages always carry their own market-aware hydration payload, including when a country changes policy.
+    if (metadata.marker === APP_DOWNLOAD_ROUTE_MARKER) return fallback();
     // /activities: campaigns come from the live announcement feed, so the body is rendered per request when the feed is
     // readable; without a feed the prerendered page (fixed-height campaign placeholder) is served as before.
     if (contentPath === "/activities" && metadata.marker === ACTIVITIES_ROUTE_MARKER) {
@@ -6150,6 +6163,7 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
+  if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   // Academy hub and lessons: the locales with a localized lesson (src/data/academy.js).
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
@@ -7439,8 +7453,18 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history }),
     };
   }
-  // NexuAlpha Academy (2026-10-12): Course on the hub, VideoObject + LearningResource on every lesson, from
-  // src/data/academy-seo.js (same helper as seo-injection.js). Locales without a localized lesson are noindex,follow.
+  // App downloads share their localized head and schema with the client.
+  const appSeo = appDownloadRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  if (appSeo) {
+    if (appSeo.status !== 200) return notFoundMetadata(canonicalPath, requestedLocale);
+    return {
+      status: 200, title: appSeo.title, description: appSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: "index,follow", marker: APP_DOWNLOAD_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, Object.keys(LOCALE_PREFIX_BY_CODE)), schema: appSeo.schemas,
+    };
+  }
+  // Academy hub and lessons share the client SEO helper; only localized lesson editions are indexable.
   const academySeo = academyRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
   if (academySeo) {
     if (academySeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
@@ -7915,6 +7939,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
   if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
   if (pathname === "/compare") return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES, "shared-compare-picker-"];
+  if (parseAppDownloadPath(pathname)?.valid) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-apps-"];
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];

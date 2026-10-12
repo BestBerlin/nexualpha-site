@@ -27,6 +27,13 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
         if (typeof value === "string" && value && value.length <= 64) url.searchParams.set(key, value);
       }
     }
+    // App download registration uses the same explicit market on the first client render as request-time SSR.
+    if (/^\/exchanges\/[^/]+\/app$/.test(pathname) && prerenderState.appDownloadContext) {
+      for (const key of ["market", "product", "account_stage", "funding"]) {
+        const value = prerenderState.appDownloadContext[key];
+        if (typeof value === "string" && value && value.length <= 64) url.searchParams.set(key, value);
+      }
+    }
     if (/^\/br(?:\/|$)/i.test(pathname)) {
       const attribution = validBrAttributionPayload(prerenderState.brAttribution);
       if (attribution) {
