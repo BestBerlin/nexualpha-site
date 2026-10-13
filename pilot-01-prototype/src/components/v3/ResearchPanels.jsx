@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { useState } from "react";
 import { researchForVenue } from "../../data/exchange-research";
 import { BrandMark } from "../brand/BrandMark";
@@ -36,9 +37,9 @@ export function ResearchPanel({ slug, locale }) {
     <div className="research-heading"><div><p>{text[1]}</p><h2>{text[0]}</h2></div><small>{text[3]} <time dateTime={research.checkedAt}>{new Date(research.checkedAt).toISOString().slice(0, 10)}</time></small></div>
     {research.contentLocale !== locale && <p className="research-language-note">{text[4]}</p>}
     <dl className="research-facts" lang={research.contentLocale} dir={isRtlLocale(research.contentLocale) ? "rtl" : "ltr"}>
-      {research.facts.map((fact) => <div key={fact.id ?? fact.label}><dt>{fact.label}</dt><dd>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale} aria-label={`${text[2]}: ${fact.label}`}>{text[2]} <span aria-hidden="true">↗</span></a></dd></div>)}
+      {research.facts.map((fact) => <div key={fact.id ?? fact.label}><dt>{fact.label}</dt><dd>{fact.value}<SourceLink locale={locale} href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale} aria-label={`${text[2]}: ${fact.label}`}>{text[2]} <span aria-hidden="true">↗</span></SourceLink></dd></div>)}
     </dl>
-    <details className="research-references"><summary>{text[14]} <span>{research.sources.length}</span></summary><ul>{research.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></details>
+    <details className="research-references"><summary>{text[14]} <span>{research.sources.length}</span></summary><ul>{research.sources.map((source) => <li key={source.url}><SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</SourceLink></li>)}</ul></details>
   </section>;
 }
 
@@ -54,7 +55,7 @@ export function ResearchComparison({ profiles, locale }) {
     <div className="research-heading"><h2>{text[5]}</h2><label className="research-differences"><input type="checkbox" checked={differences} onChange={(event) => setDifferences(event.target.checked)} />{text[6]}</label></div>
     {research.some((entry) => entry && entry.contentLocale !== locale) && <p className="research-language-note">{text[4]}</p>}
     {rows.length ? <table className="research-table"><thead><tr><th scope="col">{text[5]}</th>{profiles.map((profile) => <th scope="col" key={profile.slug}><span translate="no" lang="en" dir="ltr"><BrandMark slug={profile.slug} compact />{profile.name}</span></th>)}</tr></thead>
-      <tbody>{rows.map((row) => <tr key={row.id}><th scope="row">{row.label}</th>{row.facts.map((facts, index) => <td key={profiles[index].slug} data-platform={profiles[index].name} lang={facts.length ? research[index].contentLocale : locale} dir={facts.length ? (isRtlLocale(research[index].contentLocale) ? "rtl" : "ltr") : undefined}>{facts.length ? facts.map((fact) => <p key={fact.id}>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale}>{text[2]} ↗</a></p>) : text[12]}</td>)}</tr>)}</tbody>
+      <tbody>{rows.map((row) => <tr key={row.id}><th scope="row">{row.label}</th>{row.facts.map((facts, index) => <td key={profiles[index].slug} data-platform={profiles[index].name} lang={facts.length ? research[index].contentLocale : locale} dir={facts.length ? (isRtlLocale(research[index].contentLocale) ? "rtl" : "ltr") : undefined}>{facts.length ? facts.map((fact) => <p key={fact.id}>{fact.value}<SourceLink locale={locale} href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale}>{text[2]} ↗</SourceLink></p>) : text[12]}</td>)}</tr>)}</tbody>
     </table> : <p role="status">{text[13]}</p>}
   </section>;
 }

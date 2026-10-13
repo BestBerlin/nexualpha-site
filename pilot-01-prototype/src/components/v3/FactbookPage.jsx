@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS, AUDIT_DATE, AUDIT_DECLARATION, generateLlmMarkdown } from "../../data/factbook-registry.js";
 import { neutralVenueCatalog } from "../../data/market-command.js";
@@ -1412,7 +1413,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <dl className="factbook-venue-meta">
                   <div><dt>{t.foundedLabel}</dt><dd>{venue.foundedYear}</dd></div>
                   <div><dt>{t.hqLabel}</dt><dd>{venue.headquarters}</dd></div>
-                  <div><dt>{t.primaryLabel}</dt><dd><a href={`https://${venue.officialDomain}`} target="_blank" rel="noopener noreferrer" className="factbook-domain-link" data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-official-domain" data-growth-decision={venue.slug} data-growth-placement="factbook-official-domain">{venue.officialDomain}</a></dd></div>
+                  <div><dt>{t.primaryLabel}</dt><dd><SourceLink locale={locale} href={`https://${venue.officialDomain}`} target="_blank" rel="noopener noreferrer" className="factbook-domain-link" data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-official-domain" data-growth-decision={venue.slug} data-growth-placement="factbook-official-domain">{venue.officialDomain}</SourceLink></dd></div>
                 </dl>
               </div>
             </div>
@@ -1766,14 +1767,14 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <h3 className="factbook-subheading" id="factbook-auditor-title">{t.auditorLabel}</h3>
                 <p className="factbook-auditor-text">{!venue.porVerified && venue.por?.merkleUrl ? linkedNotReviewedCopy(currentLocale) : venue.por?.auditor}</p>
                 {venue.por?.merkleUrl && (
-                  <a
+                  <SourceLink locale={locale}
                     href={venue.por.merkleUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="factbook-merkle-link"
                   >
                     {t.merkleLink}
-                  </a>
+                  </SourceLink>
                 )}
               </section>
             </div>
@@ -1881,14 +1882,14 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               </div>
             </dl>
             <div className="factbook-recorded-domain-footer">
-              <a
+              <SourceLink locale={locale}
                 href={venue.apiEndpoints?.docUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="factbook-doc-btn"
               >
                 {t.docLink}
-              </a>
+              </SourceLink>
               <span className="factbook-tg-notice">
                 {t.tgVerifyTip}
               </span>

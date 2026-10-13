@@ -38,6 +38,7 @@ export function normalizeFundingMatrixFeed(initialFeed) {
     source: matrix?.source || payload?.source || "",
     ttlSeconds: Math.min(num(matrix?.ttlSeconds) ?? 60, 60),
     venues,
+    coverage: matrix?.coverage || {},
     rows,
   };
 }
@@ -98,6 +99,8 @@ function VenueCell({ row, venue, copy, locale, market, allVenues }) {
 
 function MatrixTable({ matrix, copy, locale, market }) {
   const [sort, setSort] = useState("spread");
+  const unavailable = matrix.venues.filter((venue) => matrix.coverage[venue.slug]?.status === "unavailable");
+  const availableVenues = matrix.venues.filter((venue) => !unavailable.includes(venue));
   const rows = useMemo(() => {
     const next = [...matrix.rows];
     if (sort === "symbol") next.sort((a, b) => a.symbol.localeCompare(b.symbol));
@@ -123,6 +126,7 @@ function MatrixTable({ matrix, copy, locale, market }) {
           <SortButton active={sort === "symbol"} onClick={() => setSort("symbol")}>{copy.sortSymbol}</SortButton>
         </div>
       </div>
+      {unavailable.map((venue) => <p key={venue.slug} role="status" data-testid={`funding-venue-unavailable-${venue.slug}`}>{venue.name}: {copy.venueUnavailable}</p>)}
       <div className="nxdm-tablewrap">
         <table className="nxdm-table" dir="ltr">
           <thead>
@@ -130,7 +134,7 @@ function MatrixTable({ matrix, copy, locale, market }) {
               <th scope="col" aria-sort={ariaSort("symbol")}><HeaderSortButton active={sort === "symbol"} onClick={() => setSort("symbol")}>{copy.colSymbol}</HeaderSortButton></th>
               <th scope="col" className="num" aria-sort={ariaSort("spread")}><HeaderSortButton active={sort === "spread"} onClick={() => setSort("spread")}>{copy.colSpread}</HeaderSortButton></th>
               <th scope="col" className="num" aria-sort={ariaSort("annualized")}><HeaderSortButton active={sort === "annualized"} onClick={() => setSort("annualized")}>{copy.colAnnualized}</HeaderSortButton></th>
-              {matrix.venues.map((venue) => (
+              {availableVenues.map((venue) => (
                 <th scope="col" key={venue.slug} aria-sort={ariaSort(`venue:${venue.slug}`)}>
                   <HeaderSortButton active={sort === `venue:${venue.slug}`} onClick={() => setSort(`venue:${venue.slug}`)}>{venue.name}</HeaderSortButton>
                   <small>{copy.colRate} · {copy.colNext}</small>
@@ -144,7 +148,7 @@ function MatrixTable({ matrix, copy, locale, market }) {
                 <th scope="row" translate="no">{row.symbol}</th>
                 <td className="num nxdm-spread" data-label={copy.colSpread}>{formatFundingPct(row.maxSpread.spread8h)}</td>
                 <td className="num" data-label={copy.colAnnualized}>{formatFundingPct(row.maxSpread.annualized, 1)}</td>
-                {matrix.venues.map((venue) => <VenueCell key={venue.slug} row={row} venue={venue} copy={copy} locale={locale} market={market} allVenues={matrix.venues} />)}
+                {availableVenues.map((venue) => <VenueCell key={venue.slug} row={row} venue={venue} copy={copy} locale={locale} market={market} allVenues={matrix.venues} />)}
               </tr>
             ))}
           </tbody>

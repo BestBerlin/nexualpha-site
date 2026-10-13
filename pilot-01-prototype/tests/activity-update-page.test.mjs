@@ -48,3 +48,14 @@ test('neutral locales and blocked markets have no commercial CTA inside update a
  assert.match(html,/class="clean-footer__statement"/);
  assert.match(html,/href="[^"]*\/methodology#disclosure"/);
 });
+test('Türkiye Bitget event update falls back to the activity index while listings stay informationally reachable', () => {
+ const bitgetEvent = { id: 'bitget:event', venue: 'bitget', category: 'event', title: 'Bitget campaign title', url: 'https://www.bitget.com/support/articles/event', publishedAt: new Date(Date.now()-3600000).toISOString() };
+ const bitgetListing = { id: 'bitget:listing', venue: 'bitget', category: 'listing', title: 'Bitget Will List TEST', url: 'https://www.bitget.com/support/articles/listing', publishedAt: new Date(Date.now()-3600000).toISOString() };
+ const trEvent = harness.render(`https://nexualpha.com${updateHref(bitgetEvent,'tr')}`, {officialAnnouncements:{items:[bitgetEvent, bitgetListing]}});
+ assert.match(trEvent, /update-page/);
+ assert.match(trEvent, /href="\/tr\/activities"/);
+ assert.doesNotMatch(trEvent, /Bitget campaign title/);
+ const trListing = harness.render(`https://nexualpha.com${updateHref(bitgetListing,'tr')}`, {officialAnnouncements:{items:[bitgetEvent, bitgetListing]}});
+ assert.match(trListing, /Bitget listeleyecek TEST/);
+ assert.doesNotMatch(trListing, /Bitget campaign title/);
+});

@@ -286,7 +286,7 @@ test("#8 every crawler-specific robots group repeats the * group's Disallow line
   const groups = robots.split(/\n\s*\n/).filter((group) => /^User-agent:/m.test(group));
   const star = groups.find((group) => /^User-agent: \*$/m.test(group));
   const disallows = star.match(/^Disallow: .+$/gm);
-  assert.deepEqual(disallows, ["Disallow: /go/"]);
+  assert.deepEqual(disallows, ["Disallow: /go/", "Disallow: /insights/"]);
   assert.ok(groups.length >= 12);
   for (const group of groups) for (const line of disallows) assert.ok(group.includes(line), `${group.split("\n").find((l) => l.startsWith("User-agent"))} lacks ${line}`);
 });

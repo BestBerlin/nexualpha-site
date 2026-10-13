@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 /**
  * FeeBenchmarkTerminal — B1. Published fee benchmark
  * 展示带来源状态的基础费率；没有字段级核验时保持待核验。
@@ -779,7 +780,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
                 <td className="ft-cell" data-label={`${mx.perp} · ${mx.maker}`}>{renderRateCell(row.futuresRate, labels)}</td>
                 <td className="ft-cell ft-checked-td" data-label={checkedLabel}><div className="ft-checked">
                   {checkedOn ? <time dateTime={checkedOn}>{checkedOn}</time> : <span className="ft-none">{labels.unchecked}</span>}
-                  <span className="ft-src">{sources.map((href, i) => <a key={href} href={href} target="_blank" rel="noopener noreferrer">{labels.source}{sources.length > 1 ? ` ${i + 1}` : ""} ↗</a>)}</span>
+                  <span className="ft-src">{sources.map((href, i) => <SourceLink locale={locale} key={href} href={href} target="_blank" rel="noopener noreferrer">{labels.source}{sources.length > 1 ? ` ${i + 1}` : ""} ↗</SourceLink>)}</span>
                   {rates.length > 0 && <details className="ft-cond">
                     <summary>{labels.conditions}</summary>
                     {rates.map((r) => <p key={r.product}><b>{r.productLabel}</b> {sentence(r.scope)} {r.conditions}</p>)}

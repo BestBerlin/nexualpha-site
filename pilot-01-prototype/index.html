@@ -12,6 +12,10 @@
     <!-- Geist (home hero, v5 pages): preload so the first paint already uses it (22 KB each, same origin). -->
     <link rel="preload" href="/fonts/geist/geist-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/geist/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Visitor analytics: self-hosted Umami proxied same-origin under /insights/ (cookieless, ~2 KB, counts nexualpha.com only). -->
+    <script defer src="/insights/s.js" data-website-id="d04d1cee-c67e-47a4-a6db-f70c3a766761" data-domains="nexualpha.com"></script>
+    <!-- Partner clicks: /go/<partner> redirects and outbound links become Umami events (hrefs unchanged). -->
+    <script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]"),t=window.umami,u;if(!a||!t)return;try{u=new URL(a.href,location.href)}catch(_){return}if(u.origin===location.origin){if(u.pathname.indexOf("/go/")===0)t.track("go-click",{partner:u.pathname.split("/")[2]||"",page:location.pathname})}else if(/^https?:$/.test(u.protocol))t.track("outbound-click",{host:u.hostname,page:location.pathname})},true)</script>
   </head>
   <body>
     <div id="root"></div>

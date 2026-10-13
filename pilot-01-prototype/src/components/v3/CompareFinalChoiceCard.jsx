@@ -1,8 +1,9 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { CodeChip } from "../v6/CodeChip.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
-import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { compareVenueCta } from "../../data/compare-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { decisionForVenue } from "../../data/venue-decision-content.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -149,7 +150,7 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
   const ctas = profiles.slice(0, 2).map((profile) => ({
     profile,
     access: publicVenueAccess(profile.slug, locale, market),
-    cta: regionalVenueCta(profile.slug, locale, market, product, { accountStage, funding }),
+    cta: compareVenueCta(profile.slug, profiles.map((p) => p.slug), locale, market, product, { accountStage, funding }),
     decision: decisionForVenue(profile.slug, locale),
   }));
   return { pageContext, detailHref, ctas };
@@ -301,7 +302,7 @@ function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, deta
           {(directAnswer.sourceLinks?.length || directAnswer.internalLinks?.length || ctas.length) && (
             <div className="v3-compare-direct-answer__links">
               {evidencePairs(directAnswer.sourceLinks).map(([label, href]) => (
-                <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="compare-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
+                <SourceLink locale={locale} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="compare-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</SourceLink>
               ))}
               {evidencePairs(directAnswer.internalLinks).map(([label, href]) => (
                 <LocalLink key={href} locale={locale} href={contextualInternalHref(href, pageContext)} data-cta-kind="research" data-cta-placement="compare-direct-answer-internal">{label}</LocalLink>

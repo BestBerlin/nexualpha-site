@@ -37,3 +37,15 @@ test("go redirect rejects unknown or unsafe partners, sanitizes src and does not
   assert.equal(rows.length, 1);
   assert.equal(rows[0].src, "unknown");
 });
+
+test("official-only tracked routes resolve the unchanged registry URL without reviving missing referral routes", async () => {
+  const { partnerRegistry } = await import("../src/data/partner-registry.js");
+  const { handle } = await setup();
+  for (const [slug, partner] of Object.entries(partnerRegistry)) {
+    if (partner.hasReferral !== false) continue;
+    const response = await handle(new Request(`https://nexualpha.com/go/${slug}?src=registration-card-official-route`));
+    assert.equal(response.status, 302, slug);
+    assert.equal(response.headers.get("location"), partner.registrationUrl, slug);
+  }
+  assert.equal((await handle(new Request("https://nexualpha.com/go/deribit"))).status, 404, "missing referral routes stay fail-closed");
+});

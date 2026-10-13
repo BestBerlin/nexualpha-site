@@ -92,3 +92,27 @@ test('shadow-run rejects duplicate options and empty release receipts', async ()
     files: { async mkdir() {}, async writeFile() {} },
   }), /release failed for 1/);
 });
+
+test('recorded shadow events expose source age and verification status in the saved plan', async () => {
+  const { readFileSync } = await import('node:fs');
+  const recorded = JSON.parse(readFileSync(new URL('../lib/fixtures/shadow-1110.json', import.meta.url)));
+  const events = recorded.plan.events.map((event, index) => ({
+    ...event,
+    source_published_at: event.evidence[0].published_at,
+    verification_status: index ? 'verified-primary' : 'corroborated',
+  }));
+  events.push({ id: 999 });
+  let saved;
+  const result = await shadowRun(['--start', recorded.plan.shadow_start, '--writer', 'fixture', '--out', '/tmp/fixture-plan.json'], {
+    now: recorded.plan.generated_at,
+    async cli(args) { return JSON.stringify(args[0] === 'claim' ? events : [{ id: Number(args[1]) }]); },
+    files: { async mkdir() {}, async writeFile(file, body) { saved = JSON.parse(body); } },
+  });
+  assert.equal(result.released, events.length);
+  events.slice(0, 4).forEach((event, index) => {
+    assert.equal(saved.events[index].source_published_at, event.source_published_at);
+    assert.equal(saved.events[index].verification_status, event.verification_status);
+  });
+  assert.equal(saved.events[4].source_published_at, null);
+  assert.equal(saved.events[4].verification_status, 'unverified');
+});

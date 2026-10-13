@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
 import { enAttrs } from "../../utils/fallback-lang.js";
@@ -30,6 +31,8 @@ import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
+import { ExchangeScorecard, CountryScorecards } from "../compare/ExchangeScorecard.jsx";
+import { compareVenueCta } from "../../data/compare-cta.js";
 import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
@@ -1726,7 +1729,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Spot"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">
-                        {d.spot?.publishable ? <>{d.spot.conditions} <a href={d.spot.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</a></> : compareFeeSurfaceCopy(locale).sourceBound}
+                        {d.spot?.publishable ? <>{d.spot.conditions} <SourceLink locale={locale} href={d.spot.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</SourceLink></> : compareFeeSurfaceCopy(locale).sourceBound}
                       </span>
                     </div>
                   </td>
@@ -1751,7 +1754,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Futures"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">
-                        {d.futures?.publishable ? <>{d.futures.conditions} <a href={d.futures.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</a></> : compareFeeSurfaceCopy(locale).sourceBound}
+                        {d.futures?.publishable ? <>{d.futures.conditions} <SourceLink locale={locale} href={d.futures.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</SourceLink></> : compareFeeSurfaceCopy(locale).sourceBound}
                       </span>
                     </div>
                   </td>
@@ -1847,9 +1850,9 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--green">{isZh ? "★ 储备最高" : "★ Top Reserves"}</span>}
                       </span>
                       {d.porAuditUrl ? (
-                        <a href={d.porAuditUrl} target="_blank" rel="noopener noreferrer" className="v3-por-audit-link">
+                        <SourceLink locale={locale} href={d.porAuditUrl} target="_blank" rel="noopener noreferrer" className="v3-por-audit-link">
                           {isZh ? zhText(locale, "查看验资公示 ↗", "查看驗資公示 ↗") : `${shortLabels.audit || "View Audit Report"} ↗`}
-                        </a>
+                        </SourceLink>
                       ) : (
                         <span className="v3-matrix-sub-val">
                           {compareFeeSurfaceCopy(locale).sourceBound}
@@ -2142,7 +2145,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             const pFeeSummary = buildVenueFeeSummary(pDb, researchForVenue(p.slug, locale) || {});
             const pSpotRate = publishableFeeRate(pFeeSummary, "spot", locale);
             const pFee = pSpotRate?.display || localePending(locale);
-            const pCta = regionalVenueCta(p.slug, locale, market, product, { accountStage, funding });
+            const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
             const pCode = pAccess.inviteCode;
             const pResearch = officialCampaignResearchByVenue[p.slug];
             const pSources = pResearch?.sources ?? [];
@@ -2166,7 +2169,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                   <div className="v3-versus-stat">
                     <span>{isZhLoc ? zhText(locale, "现货费率", "現貨費率") : (compareLabels.spotFee || "Spot Fee")}</span>
                     <strong translate="no">{pFee}</strong>
-                    {pSpotRate && <small className="v3-matrix-sub-val">{pSpotRate.conditions} <a href={pSpotRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</a></small>}
+                    {pSpotRate && <small className="v3-matrix-sub-val">{pSpotRate.conditions} <SourceLink locale={locale} href={pSpotRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeSummaryCopy(locale).source} ↗</SourceLink></small>}
                   </div>
                   <div className="v3-versus-stat">
                     <span>{isZhLoc ? zhText(locale, "资产储备 (PoR)", "資產儲備 (PoR)") : (compareLabels.por || "Proof of Reserves (PoR)")}</span>
@@ -2232,11 +2235,11 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
                     <div className="v3-versus-sources__links">
                       {pSources.slice(0, 2).map((src) => (
-                        <a key={src.id || src.url} href={src.url} target="_blank" rel="noopener noreferrer" className="v3-versus-source-link">
+                        <SourceLink locale={locale} key={src.id || src.url} href={src.url} target="_blank" rel="noopener noreferrer" className="v3-versus-source-link">
                           <span className="v3-versus-source-bullet"></span>
                           <span className="v3-versus-source-name">{src.title}</span>
                           <span aria-hidden="true">↗</span>
-                        </a>
+                        </SourceLink>
                       ))}
                       <LocalLink locale={locale} href={`/exchanges/${p.slug}?${contextSearch}`} className="v3-versus-detail-link" data-cta-kind="research" data-cta-platform={p.slug} data-cta-placement="compare-source-detail" data-growth-decision={p.slug} data-growth-placement="compare-source-detail" data-growth-market={market} data-growth-product={product} data-growth-campaign={growthCampaign}>
                         {text.openDetail} ({p.name}) →
@@ -2264,7 +2267,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       <div className="v3-compare-sticky-bar__inner">
         {profiles.slice(0, 3).map((p) => {
           const locName = getLocalizedVenueName(p, locale);
-          const pCta = regionalVenueCta(p.slug, locale, market, product, { accountStage, funding });
+          const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
           return (
             <div key={p.slug} className="v3-compare-sticky-bar__col">
               <BrandMark slug={p.slug} compact />
@@ -2367,6 +2370,8 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
       </div>
     </section>
+
+    <ExchangeScorecard selected={selected} locale={locale} market={market} />
 
     {!isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}
 
@@ -2524,6 +2529,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
         <CompareAnyPicker locale={locale} venues={venues} placement="compare-hub" />
       </div>
     </section>
+    <CountryScorecards locale={locale} />
     <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-curated">
       <h2 id="compare-hub-curated" lang={locale}>{copy.curated}</h2>
       <ul className="v3-compare-hub__list">

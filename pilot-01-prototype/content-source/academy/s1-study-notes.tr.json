@@ -3,7 +3,7 @@
   "episodes": {
     "1": {
       "takeaways": [
-        "Bir bitcoinin fiyatı, başlamanın fiyatı değildir.",
+        "Bir Bitcoin'in fiyatı, başlamak için gereken tutar değildir.",
         "Bitcoin ondalıklara bölünür: 50,000 fiyattan 100 harcarsanız 0.002 BTC'ye sahip olursunuz.",
         "Her platform kendi minimum emir tutarını ve ücretlerini belirler, önce ikisini de kontrol edin."
       ],
@@ -86,7 +86,7 @@
         "Aldıktan sonra işlem kaydını kontrol edin: gerçekleşme durumu, ortalama fiyat ve ücret."
       ],
       "quiz": {
-        "q": "50,000 fiyattan 0.002 BTC alıyorsunuz; 0.1% ücret USDT olarak ayrıca kesiliyor. Toplam harcama nedir?",
+        "q": "50.000 USDT fiyattan 0,002 BTC alıyorsunuz; %0,1 komisyon USDT olarak ayrıca kesiliyor. Toplam harcama nedir?",
         "options": ["100", "100.10", "110"],
         "answer": 1,
         "why": "Coinler için 100 artı 0.10 ücret, 100.10 eder."

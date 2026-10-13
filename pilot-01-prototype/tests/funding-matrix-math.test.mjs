@@ -80,7 +80,7 @@ test("exchange source normalizers keep documented settlement timestamps and deri
   assert.equal(okxRows[0].nextFundingAt, new Date(1791619200000).toISOString(), "OKX current fundingRate settles at fundingTime");
   assert.equal(okxRows[0].intervalHours, 8);
 
-  const htxRows = await FUNDING_MATRIX_SOURCES.htx(async () => new Response(JSON.stringify({ data: [{
+  const htxRows = await FUNDING_MATRIX_SOURCES.htx(async () => new Response(JSON.stringify({ status: "ok", data: [{
     symbol: "BTC",
     funding_rate: "0.00003",
     funding_time: "1791619200000",

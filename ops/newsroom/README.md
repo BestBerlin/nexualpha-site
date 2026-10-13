@@ -65,7 +65,17 @@ story while retaining the individual event links. Automated market snapshots
 require the `/flash` Important thresholds: at least $50 million liquidated in
 one hour or a BTC/ETH move of at least 3% in one hour. Market stories are limited
 to one per six hours, with a single market story allowed in a claim batch or an
-active writer lease. Plans include a two- or three-sentence evidence summary, source URLs,
+active writer lease. The same magnitude, six-hour freshness and cadence gates apply
+when a market headline is classified as `fx_macro` or `market_headline`. Forecasts
+and opinion headlines cannot qualify on price metrics alone: an exception requires
+a captured hard retail action (`story_action` or `discussion.action`), a concrete
+effective date or deadline, and `verified-primary` or `corroborated` status. A daily
+percentage or dollar price level never substitutes for a one-hour move.
+Corroboration, credibility and source heat count outlet identities rather than
+feed transports; extend `OUTLET_IDENTITIES` in `lib/evidence-quality.mjs` for new
+aliases. Shadow plans include `source_published_at` and `verification_status`
+(explicitly null/unverified when missing).
+Plans include a two- or three-sentence evidence summary, source URLs,
 an editorial angle and retail relevance; summaries remain leads for source
 re-fetching and package review.
 

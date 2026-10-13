@@ -4,18 +4,18 @@
     "1": {
       "takeaways": [
         "Le prix d'un bitcoin n'est pas le prix pour commencer.",
-        "Le bitcoin se divise en décimales : dépensez 100 à 50,000 et vous détenez 0.002 BTC.",
+        "Le bitcoin se divise en décimales : dépensez 100 USDT à un cours de 50 000 USDT et vous détenez 0,002 BTC.",
         "Chaque plateforme fixe son propre ordre minimum et ses frais : vérifiez les deux d'abord."
       ],
       "quiz": {
-        "q": "Un bitcoin vaut 50,000 USDT. Vous dépensez 100 USDT, hors frais. Qu'obtenez-vous ?",
+        "q": "Un bitcoin vaut 50 000 USDT. Vous dépensez 100 USDT, hors frais. Qu'obtenez-vous ?",
         "options": [
           "Rien, il faut un bitcoin entier",
-          "0.002 BTC",
-          "0.02 BTC"
+          "0,002 BTC",
+          "0,02 BTC"
         ],
         "answer": 1,
-        "why": "100 ÷ 50,000 = 0.002. Vous pouvez détenir une fraction de bitcoin."
+        "why": "100 ÷ 50 000 = 0,002. Vous pouvez détenir une fraction de bitcoin."
       }
     },
     "2": {
@@ -110,14 +110,14 @@
         "Après l'achat, consultez l'historique : statut d'exécution, prix moyen et frais."
       ],
       "quiz": {
-        "q": "Vous achetez 0.002 BTC à 50,000 avec des frais de 0.1% prélevés à part en USDT. Quel est le total dépensé ?",
+        "q": "Vous achetez 0,002 BTC au cours de 50 000 USDT, avec 0,1 % de frais prélevés à part en USDT. Quel est le montant total dépensé ?",
         "options": [
-          "100",
-          "100.10",
-          "110"
+          "100 USDT",
+          "100,10 USDT",
+          "110 USDT"
         ],
         "answer": 1,
-        "why": "100 pour les bitcoins plus 0.10 de frais, soit 100.10."
+        "why": "100 USDT pour les bitcoins plus 0,10 USDT de frais, soit 100,10 USDT."
       }
     },
     "8": {
