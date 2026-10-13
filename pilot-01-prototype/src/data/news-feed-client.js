@@ -585,14 +585,17 @@ export function normalizeNewsArticle(article) {
   if (!PUBLISHABLE_STATUSES.has(status)) return null;
 
   const override = REVIEWED_NEWS_LOCALE_OVERRIDES[slug] || {};
-  const title = cleanPlainLocalizedText({ ...(article.title || {}), ...(override.title || {}) }, cleanLocalizedText);
-  const summary = cleanPlainLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) }, cleanLocalizedText);
-  const content = cleanLocalizedContent(article.content);
+  // A policy-filtered route projection may retain only its native edition.
+  const cleanText = routeProjection(article) ? cleanCompactLocalizedText : cleanLocalizedText;
+  const title = cleanPlainLocalizedText({ ...(article.title || {}), ...(override.title || {}) }, cleanText);
+  const summary = cleanPlainLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) }, cleanText);
+  const rawContent = cleanText(article.content);
+  const content = rawContent ? Object.fromEntries(Object.entries(rawContent).map(([locale, text]) => [locale, dedupeRepeatedLongSentences(text)])) : null;
   const categoryName = cleanLocalizedText(article.categoryName);
   const sources = cleanSources(article.sources);
   const publishedTime = Date.parse(article.publishedAt);
 
-  if (!title || !summary || !content || sources.length === 0 || Number.isNaN(publishedTime)) return null;
+  if (!title || !summary || !content || (sources.length === 0 && !routeProjection(article)) || Number.isNaN(publishedTime)) return null;
   // Reading time measured on each edition's own body (SEO audit 2026-10-11 #7), so stored values from older imports
   // (English pages showed the Chinese edition's time) are corrected wherever the full article is loaded.
   const readTimeByLocale = newsReadTimes(content);

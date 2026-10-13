@@ -1,3 +1,4 @@
+import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
 import { partnerProgramCopy } from "../src/data/partner-program-copy.js";
 import { approvedCampaign, campaignRouteSeo, CAMPAIGN_LOCALES } from "../src/data/campaign-autodraft.js";
 import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
@@ -4215,7 +4216,7 @@ function renderNewsFallbackBody(metadata, url) {
   const endSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "end", locale, market });
   const sidebarSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "sidebar", locale, market });
   const railSponsoredHtml = sidebarSponsoredHtml ? `<div class="news-detail__rail"><div class="news-detail__rail-sticky">${sidebarSponsoredHtml}</div></div>` : "";
-  const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
+  const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale, market);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
     : "";
@@ -4349,12 +4350,13 @@ function renderArticleClusterLinksHtml(article, locale) {
   return `<p class="news-detail__cluster-links" data-news-cluster-links=""><span>${escapeHtml(articleClusterLineLabel(locale))}:</span> ${links.map((link) => `<a href="${escapeHtml(link.href)}" data-cluster-link="${escapeHtml(link.id)}">${escapeHtml(link.label)}</a>`).join(" · ")}</p>`;
 }
 
-function renderArticleRelatedLinks(article, locale) {
+function renderArticleRelatedLinks(article, locale, market) {
   const targets = Array.isArray(article?.seo?.internalLinkTargets) ? article.seo.internalLinkTargets : [];
   const venueTargets = articleVenueTargets(article);
   const safeTargets = [...new Set([...targets, ...venueTargets])]
     .filter((target) => typeof target === "string" && /^\/[a-z0-9][a-z0-9/_-]*(?:\?[a-z0-9=&._%-]+)?$/i.test(target))
     .filter((target) => !target.startsWith("/ref/"))
+    .filter(target => newsMetadataAllowed(target, { locale, market }))
     .slice(0, 8);
   if (!safeTargets.length) return "";
   const label = locale === "zh-Hans" ? "继续核验" : locale === "zh-Hant" ? "繼續核驗" : "Continue checking";
@@ -4961,6 +4963,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
+  // Locale-only prerenders predate request-market filtering. Restricted article editions
+  // must use the filtered feed for their body and hydration, as well as the head.
+  const articleContext = { locale: routeLocale(url), market: url.searchParams.get("market") || undefined };
+  if (metadata.marker === ARTICLE_ROUTE_MARKER && Object.keys(VENUE_REGISTRY).some(slug => !newsMetadataAllowed(slug, articleContext))) return fallback();
   if (typeof env?.NEWS_SSR_RENDER === "function") {
     const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
     if (contentPath === "/funding-rates/matrix") return fallback();
@@ -5161,8 +5167,8 @@ async function handleNewsArticleJson(env, url) {
       availableLocales: articlePublishedLocales(article),
       routeProjection: { source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE, locale: requestedLocale, availableLocales: articleSeoLocales(article) },
     };
-    const neutral = (row) => neutralArticleView(row, requestedLocale);
-    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries].map(neutral), relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
+    const articles = newsArticleGeoPool([projected, ...related, ...linkedSummaries], { locale: requestedLocale, market: url.searchParams.get("market") || undefined }, slug);
+    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles, relatedSlugs: articles.slice(1).map(row => row.slug) }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
   }
   return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
@@ -7112,9 +7118,12 @@ async function resolveRouteMetadata(url, env) {
     : null;
   // Neutral locales (locale-policy.js): titles, summaries, bodies and schema read the sign-up-free text, and the listing
   // leaves out articles whose whole topic is a referral code (their pages stay reachable, noindex).
-  const newsFeed = loadedNewsFeed && isNeutralCtaLocale(requestedLocale)
+  const neutralFeed = loadedNewsFeed && isNeutralCtaLocale(requestedLocale)
     ? neutralNewsFeed(loadedNewsFeed, requestedLocale, { listing: !/^\/news\/[a-z0-9-]+$/.test(contentUrl.pathname) })
     : loadedNewsFeed;
+  const newsContext = { locale: requestedLocale, market: url.searchParams.get("market") || undefined };
+  const requestedSlug = contentUrl.pathname.match(/^\/news\/([a-z0-9-]+)$/)?.[1];
+  const newsFeed = neutralFeed ? { ...neutralFeed, articles: newsArticleGeoPool(neutralFeed.articles, newsContext, requestedSlug) } : neutralFeed;
   const searchEligibilityNewsFeed = isNewsRoute && typeof newsFeed?.searchPublished !== "boolean"
     ? await loadNewsFeed(env, url)
     : null;
@@ -8237,7 +8246,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         hasPart: [...citationAssetSchemas(), ...(isTokenizedTreasuryArticle ? [wave48TokenizedTreasuryRightsOpsDatasetSchema()] : [])],
         citation: Array.isArray(article.sources) ? article.sources.map((source) => source?.url).filter(Boolean) : [],
         ...(ownerPath ? { isPartOf: `${PUBLIC_ORIGIN}${ownerPath}`, articleSection: "Dated source trail" } : {}),
-        ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => String(link).startsWith("/research/") ? `${PUBLIC_ORIGIN}${link}` : localizedCanonical(link, contentLocale)) } : {}),
+        ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.filter(link => newsMetadataAllowed(link, { locale, market: url.searchParams.get("market") || undefined })).map((link) => String(link).startsWith("/research/") ? `${PUBLIC_ORIGIN}${link}` : localizedCanonical(link, contentLocale)) } : {}),
         ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}),
       }, pageBreadcrumb(title, articleCanonical, "News", "/news", contentLocale), ...(() => {
         const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(contentLocale) : null;

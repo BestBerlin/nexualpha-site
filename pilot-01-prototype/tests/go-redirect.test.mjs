@@ -49,3 +49,16 @@ test("official-only tracked routes resolve the unchanged registry URL without re
   }
   assert.equal((await handle(new Request("https://nexualpha.com/go/deribit"))).status, 404, "missing referral routes stay fail-closed");
 });
+
+
+test("/go/gate resolves the canonical Gate.io partner target", async () => {
+  const { handle, eventFile } = await setup();
+  const { partnerRegistry } = await import("../src/data/partner-registry.js");
+  await writeFile(path.join(path.dirname(eventFile), "..", "client", "intel", "partners.json"), JSON.stringify({ partners: [{ slug: "gate-io", registrationUrl: partnerRegistry["gate-io"].registrationUrl }] }));
+  const response = await handle(new Request("https://nexualpha.com/go/gate?src=news", { headers: { "user-agent": "Mozilla/5.0" } }));
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get("location"), partnerRegistry["gate-io"].registrationUrl);
+  await wait();
+  const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map(row => JSON.parse(row));
+  assert.equal(rows[0].partner, "gate-io");
+});
