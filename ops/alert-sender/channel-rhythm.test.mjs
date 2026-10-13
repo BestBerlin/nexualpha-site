@@ -43,7 +43,7 @@ test("timezone slots fire at 08:00 local and Monday 12:00 local only", () => {
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T00:15:00Z"), "zh").map((s) => s.kind), ["morning"]);
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T08:15:00Z"), "en").map((s) => s.kind), ["morning"]);
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T09:15:00Z"), "ru").map((s) => s.kind), ["weeklyPoll"]);
-  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T12:15:00Z"), "en").map((s) => s.kind), ["weeklyPoll"]);
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T12:15:00Z"), "en").map((s) => s.kind), ["weeklyPoll", "toolOfWeek"]);
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-13T12:15:00Z"), "en"), []);
 });
 
@@ -119,13 +119,15 @@ test("dry run does not write state or mark slots", async () => {
 test("weekly poll uses sendPoll and marks the Monday noon slot", async () => {
   const state = {};
   const polls = [];
+  const sent = [];
   const opts = {
     channels: [["en", "@en"]],
     state,
     now: new Date("2026-10-12T12:05:00Z"),
     market,
     save: async () => {},
-    sendMessage: async () => assert.fail("not morning time"),
+    // Monday 12:00 UTC is also Monday 20:00 SGT: the only message is the tool of the week, never the morning snapshot
+    sendMessage: async (chat, text, buttons, { slot }) => { assert.equal(slot.kind, "toolOfWeek"); sent.push([chat, text, buttons]); },
     sendPoll: async (chat, poll) => polls.push([chat, poll]),
   };
   await runChannelRhythm(opts);
@@ -135,6 +137,28 @@ test("weekly poll uses sendPoll and marks the Monday noon slot", async () => {
   assert.deepEqual(polls[0][1].options, [{ text: "Up" }, { text: "Down" }, { text: "Sideways" }]);
   assert.equal(polls.length, 1);
   assert.equal(state.channelRhythm.weeklyPoll["en:@en"], "2026-10-12:12");
+  assert.equal(sent.length, 1);
+});
+
+test("tool of the week: Monday 20:00 SGT in every channel, once, native copy and one tg-tool-<lang> button", async () => {
+  const state = {};
+  const sent = [];
+  const channels = [["zh", "@zh"], ["en", "@en"], ["ru", "@ru"], ["tr", "-100"], ["vi", "-200"]];
+  const opts = { channels, state, now: new Date("2026-10-12T12:30:00Z"), market, save: async () => {}, sendPoll: async () => {},
+    sendMessage: async (chat, text, buttons, { slot }) => { if (slot.kind === "toolOfWeek") sent.push({ chat, text, buttons }); } };
+  await runChannelRhythm(opts);
+  await runChannelRhythm(opts);
+  assert.equal(sent.length, 5);
+  for (const [i, [lang]] of channels.entries()) {
+    const m = sent[i];
+    assert.match(m.text, /^<b>🧰 .+<\/b>\n\n.+/s, lang);
+    assert.ok(m.text.split("\n").length <= 4, `${lang} short`);
+    assert.equal(m.buttons.length, 1);
+    assert.match(m.buttons[0][0].url, new RegExp(`src=tg-tool-${lang}$|start=alerts-${lang}$`));
+    assert.equal(state.channelRhythm.toolOfWeek[`${lang}:${channels[i][1]}`], "2026-10-12:20");
+  }
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T11:59:00Z"), "vi").filter((s) => s.kind === "toolOfWeek"), []);
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-13T12:10:00Z"), "vi").filter((s) => s.kind === "toolOfWeek"), []);
 });
 
 test("morning snapshot fails closed on missing required market metrics and corrupt rhythm maps", async () => {
