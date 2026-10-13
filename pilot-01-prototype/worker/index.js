@@ -55,7 +55,8 @@ import { compactEtfFlows, readEtfFlows } from "../src/data/etf-flows.js";
 import { CALENDAR_TYPES, compactCalendar, filterEvents, readCalendar, renderIcs } from "../src/data/crypto-calendar.js";
 import { GLOSSARY_PATH, parseGlossaryPath } from "../src/data/glossary-routes.js";
 import { glossaryRouteSeo } from "../src/data/glossary-seo.js";
-import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
+import { applyCoinOverlay, coinBySlug, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
+import { coinHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
@@ -4200,6 +4201,27 @@ function newsRelatedSummaries(article, articles) {
   return relatedNewsArticles(article, articles).map(summarizeNewsArticle).filter(Boolean);
 }
 
+function newsDetailSummaries(article, articles) {
+  return (Array.isArray(articles) ? articles : [])
+    .filter((item) => item?.slug && item.slug !== article?.slug)
+    .map(summarizeNewsArticle)
+    .filter(Boolean);
+}
+
+// Only the news cards and chronological neighbors need summary rows in hydration.
+// Keep SSR selection on the complete feed, then project its actual rendered links.
+function renderedNewsDetailPool(article, summaries, html) {
+  const slugs = new Set([article.slug]);
+  const relatedCards = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*data-cta-placement="news-detail-related-article"/g)];
+  const neighbors = html.match(/<nav\b[^>]*data-news-reading-neighbors[^>]*>([\s\S]*?)<\/nav>/)?.[1] || "";
+  const hrefs = [...relatedCards.map(match => match[1]), ...[...neighbors.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1])];
+  for (const href of hrefs) {
+    const slug = href.match(/\/news\/([a-z0-9-]+)(?:[?#]|$)/)?.[1];
+    if (slug) slugs.add(slug);
+  }
+  return [article, ...summaries.filter(item => item.slug !== article.slug && slugs.has(item.slug))];
+}
+
 function renderNewsRelatedArticlesHtml(article, articles, locale) {
   const related = relatedNewsArticles(article, articles);
   if (!related.length) return "";
@@ -4596,11 +4618,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       if (article) {
         try {
           const locale = publicRoute.locale;
-          const newsArticles = [article, ...newsRelatedSummaries(article, metadata.newsArticles)];
+          const newsArticles = [article, ...newsDetailSummaries(article, metadata.newsArticles)];
           const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
             metadata.newsSsrMode = "runtime";
-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles }, url);
+            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }, url);
           }
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
@@ -4680,10 +4702,14 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         // No newer runtime snapshot: an empty overlay still tells the browser this page was server-rendered (no refetch).
         const overlay = await refreshCoinOverlay(env);
         const coins = overlay || { generatedAt: COINS_GENERATED_AT, rows: [] };
-        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins });
+        const coinsRoute = parseCoinsPath(pathname);
+        const coin = coinsRoute?.kind === "coin" ? coinBySlug(coinsRoute.slug) : null;
+        const feed = coin ? await loadNewsFeed(env, url) : null;
+        const newsArticles = coin ? initialNewsArticlesForRoute(pathname, coinHubNewsArticles(feed?.articles || [], { coin }), publicRoute.locale) : [];
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, ...(newsArticles.length ? { newsArticles } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxc ")) {
           metadata.coinsSsrMode = overlay ? "runtime-snapshot" : "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, ...(newsArticles.length ? { newsArticles } : {}) }, url);
         }
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }

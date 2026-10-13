@@ -11,9 +11,11 @@ import {
   spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale, applyCoinOverlay, coinOverlayFromSnapshot,
 } from "../../data/coins.js";
 import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
+import { coinHubNewsItems } from "../../data/hub-entity-news.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import "./coins.css";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 
@@ -232,7 +234,7 @@ export function useCoinData(overlay) {
   return version;
 }
 
-export function CoinPage({ locale = "en", content, slug, market, overlay }) {
+export function CoinPage({ locale = "en", content, slug, market, overlay, initialNewsArticles = [] }) {
   useCoinData(overlay);
   const t = coinCopy(locale);
   const coin = coinBySlug(slug);
@@ -246,6 +248,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
   const primary = listed ? primarySignup(coin, { locale, market }) : null;
   const faq = coinFaq(coin, locale, description && !descriptionLang ? description : null);
   const related = relatedCoins(coin, 6);
+  const latestNews = coinHubNewsItems(initialNewsArticles, { coin, locale });
   const t2 = { ...t };
   return <main className="nxc nxc--coin" id="top" dir={dirOf(locale)} data-coin={coin.slug}>
     <div className="nxc-shell">
@@ -291,6 +294,8 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
       </section> : null}
 
       <CountryNote coin={coin} locale={locale} market={market} t={t} />
+
+      <HubNewsLinks className="nxc-sec" locale={locale} name={`${coin.name} (${coin.symbol})`} items={latestNews} id={`latest-${coin.slug}`} />
 
       {faq.length ? <section className="nxc-sec nxc-faq" aria-labelledby="nxc-faq-h">
         <h2 id="nxc-faq-h">{fill(t.faqTitle, vars)}</h2>

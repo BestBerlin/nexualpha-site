@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { articleRelatedPool } from '../src/data/article-related-links.js';
 import { applyNewsSearchStateToFeed, newsStrengthRank } from "../src/data/news-search-state.js";
 import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_EFFECTIVE_DATE } from "../src/data/legal-pages.js";
 import { buildPartnerGeoRestrictionsFeed } from "../src/data/partner-geo-restrictions.js";
@@ -32,6 +33,7 @@ import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { licenseSitemapEntries } from "../src/data/licenses-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
+import { exchangeHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
 import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
@@ -505,6 +507,21 @@ export function buildNewsSitemap(newsArticles, { generatedAt = new Date().toISOS
   return [...lines, "</urlset>", ""].join("\n");
 }
 
+function routeNewsArticles(pathname, { newsArticles, newsArticleSummaries, locale }) {
+  if (pathname === "/news") return newsArticleSummaries;
+  if (pathname.startsWith("/news/")) {
+    const current = newsArticles.find((article) => pathname === `/news/${article.slug}`);
+    if (!current) return [];
+    return articleRelatedPool(current, [current, ...newsArticleSummaries.filter((article) => article.slug !== current.slug)]);
+  }
+  const venueSlug = pathname.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
+  if (venueSlug) {
+    const venue = venueDatabase[venueSlug];
+    return exchangeHubNewsArticles(newsArticleSummaries, { slug: venueSlug, name: venue?.name, locale });
+  }
+  return undefined;
+}
+
 export async function generatePrerenderManifest({ projectRoot = root, render } = {}) {
   const clientDir = path.join(projectRoot, "dist", "client");
   const ssrEntry = path.join(projectRoot, "dist", "ssr", "entry-server.js");
@@ -533,8 +550,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
     const { pathname } = route;
     for (const locale of route.prerenderLocales || route.locales || PRERENDER_LOCALES) {
       const url = prerenderUrl(pathname, locale);
-      const isNews = pathname === "/news" || pathname.startsWith("/news/");
-      const initialArticles = isNews ? (pathname === "/news" ? newsArticleSummaries : newsArticles.filter((article) => pathname === `/news/${article.slug}`)) : undefined;
+      const initialArticles = routeNewsArticles(pathname, { newsArticles, newsArticleSummaries, locale });
       // Tool pages (/rates, curated compare pairs, /activities without a live feed) list their related articles from the
       // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
       const toolKey = toolKeyForPath(pathname);
@@ -545,7 +561,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       const assetPath = path.join(clientDir, asset);
       mkdirSync(path.dirname(assetPath), { recursive: true });
       const assetPayload = { html,
-        ...(isNews ? { newsArticles: projectNewsFeedForRoute(pathname, initialArticles, locale), newsFeedFingerprint } : {}),
+        ...(initialArticles?.length ? { newsArticles: projectNewsFeedForRoute(pathname.startsWith("/news/") ? pathname : "/news", initialArticles, locale), newsFeedFingerprint } : {}),
         ...(toolArticles ? { toolArticles } : {}),
       };
       writeFileSync(assetPath, `${JSON.stringify(assetPayload)}\n`);
@@ -562,7 +578,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       }
       routes[`${pathname}|${locale}`] = { pathname, locale, asset,
         searchPublished: publishedRouteLocales.has(`${pathname}|${locale}`),
-        ...(isNews ? { newsFeedFingerprint } : {}),
+        ...(initialArticles?.length ? { newsFeedFingerprint } : {}),
         ...(heroVariants ? { heroVariants } : {}),
       };
     }
