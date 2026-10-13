@@ -44,36 +44,36 @@ const COPY = {
     terms: (p) => [p.share != null ? `最高返佣 ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "官方自动结算" : null, p.settle === "hourly" ? "每小时到账" : p.settle === "daily" ? "每天到账" : null, p.inviteCode ? `邀请码 ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `通过 NexuAlpha 注册 ${n}：`,
     official: "查看官方公告", signUp: (n) => `注册 ${n} 拿返佣`, more: "费率对比",
-    time: (iso) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) + "（北京时间）",
+    time: (iso) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Singapore", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) + "（新加坡时间 SGT）",
   },
   en: {
     cat: { listing: "Listing", event: "Event", delisting: "Delisting", news: "Notice", product: "Product", security: "Security" },
     terms: (p) => [p.share != null ? `up to ${Math.round(p.share * 100)}% back` : null, p.autoSettle ? "settled by the exchange" : null, p.settle === "hourly" ? "paid hourly" : p.settle === "daily" ? "paid daily" : null, p.inviteCode ? `code ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Sign up on ${n} via NexuAlpha: `,
     official: "Official notice", signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
-    time: (iso) => new Date(iso).toUTCString().replace(/:\d\d GMT$/, " UTC"),
+    time: (iso) => new Date(iso).toLocaleString("en-GB", { timeZone: "Asia/Singapore", weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).replace(/,/g, "") + " SGT",
   },
-  // ru/tr/vi channels (2026-10-11): same facts, local wording; time in UTC with the local date format.
+  // ru/tr/vi channels (2026-10-11): same facts, local wording; time in SGT (site time, 2026-10-13) with the local date format.
   ru: {
     cat: { listing: "Листинг", event: "Акция", delisting: "Делистинг", news: "Объявление", product: "Продукт", security: "Безопасность" },
     terms: (p) => [p.share != null ? `до ${Math.round(p.share * 100)}% возврата` : null, p.autoSettle ? "начисляет биржа" : null, p.settle === "hourly" ? "выплата каждый час" : p.settle === "daily" ? "выплата ежедневно" : null, p.inviteCode ? `код ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Регистрация на ${n} через NexuAlpha: `,
     official: "Официальное объявление", signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
-    time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
+    time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   tr: {
     cat: { listing: "Listeleme", event: "Kampanya", delisting: "Listeden çıkarma", news: "Duyuru", product: "Ürün", security: "Güvenlik" },
     terms: (p) => [p.share != null ? `en fazla %${Math.round(p.share * 100)} iade` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `NexuAlpha üzerinden ${n} kaydı: `,
     official: "Resmî duyuru", signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
-    time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
+    time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   vi: {
     cat: { listing: "Niêm yết", event: "Sự kiện", delisting: "Hủy niêm yết", news: "Thông báo", product: "Sản phẩm", security: "Bảo mật" },
     terms: (p) => [p.share != null ? `hoàn tới ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "sàn tự động thanh toán" : null, p.settle === "hourly" ? "trả mỗi giờ" : p.settle === "daily" ? "trả mỗi ngày" : null, p.inviteCode ? `mã ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Đăng ký ${n} qua NexuAlpha: `,
     official: "Thông báo chính thức", signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
-    time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "UTC", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " UTC",
+    time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "Asia/Singapore", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
 };
 
