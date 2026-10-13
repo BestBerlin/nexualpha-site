@@ -32,6 +32,7 @@ import { createEmbedRoute } from './server/embed-widgets.mjs';
 import { createFlashMemory } from './server/flash-memory.mjs';
 import { createPositionRadar } from './server/position-radar.mjs';
 import { createTickerFeed, TICKER_PATH } from './server/ticker-feed.mjs';
+import { createMoversFeed, MOVERS_PATH } from './server/movers-feed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -94,6 +95,11 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const ticker = createTickerFeed({ readMarketEvents: marketEvents.read, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('ticker network off'); } } : {}), log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const radar = createPositionRadar({ ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // Home "Today's movers": the ticker's Binance rows + the coin universe (runtime snapshot, else the release copy) + the
+  // collector feed. No extra upstream request.
+  let releaseCoins = null;
+  const readReleaseCoins = async () => (releaseCoins ??= readFile(path.join(clientRoot, 'intel', 'coins.json'), 'utf8').then(JSON.parse).catch(() => null));
+  const movers = createMoversFeed({ readBinanceRows: ticker.readRows, readCoins: async () => (coinsSnapshot.enabled ? await coinsSnapshot.read() : null) || readReleaseCoins(), readMarketEvents: marketEvents.read, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /etf-flows + /calendar (2026-10-13): host-refreshed snapshots (ETF_FLOWS_FILE / CALENDAR_FILE, read-only); the release's
   // public/intel copies answer until the host has written one.
   const etfFlows = createJsonSnapshotReader({ file: env.ETF_FLOWS_FILE || null, fallbackFile: path.join(clientRoot, 'intel', 'etf-flows.json'), validate: (j) => Boolean(readEtfFlows(j)), label: 'etf-flows', log: (m) => console.log(`[NexuAlpha] ${m}`) });
@@ -241,6 +247,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await intel.respondArchive();
       } else if (requestPath === TICKER_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await ticker.respond(req.method);
+      } else if (requestPath === MOVERS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await movers.respond(req.method);
       } else if (requestPath === FUNDING_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await funding.respond();
       } else if ((requestPath === ETF_FLOWS_JSON_PATH || requestPath === CALENDAR_JSON_PATH) && (req.method === 'GET' || req.method === 'HEAD') && (result = await (requestPath === ETF_FLOWS_JSON_PATH ? etfFlows : calendar).respond(req.method))) {
@@ -263,7 +271,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, MOVERS_READ: movers.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

@@ -18,8 +18,9 @@ const academyData = ["academy.js", "academy-season1.js", "academy-seo.js", "acad
 // App pages use the existing source-bound CTA projection; ship its transitive public data dependencies.
 const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.js", "regional-cta.js", "directory-context.js", "market-policy.js", "regional-eligibility-evidence.js", "decision-passport.js", "regional-funding-verification-matrix.js", "contextual-href.js", "regional-shortlist.js", "regional-directory.js", "telegram-start-payload.js"];
 // Flash (2026-10-12): the Worker builds the flash feed, its head and sitemap from these.
-// Live ticker bar (2026-10-13): the Worker splices the server snapshot into the home page (ticker.js).
-const flashData = ["flash.js", "flash-path.js", "flash-feed.js", "local-time.js", "ticker.js"];
+// Live ticker bar (2026-10-13): the Worker splices the server snapshot into the home page (ticker.js); same for the home
+// "Today's movers" board (movers.js, movers-html.js).
+const flashData = ["flash.js", "flash-path.js", "flash-feed.js", "local-time.js", "ticker.js", "movers.js", "movers-html.js"];
 // License directory (2026-10-13): Worker head imports the route parser, data table and SEO helper.
 const licenseData = ["licenses-routes.js", "licenses.js", "licenses-seo.js", "venue-display-names.js"];
 // Where to buy <coin> (2026-10-12): the Worker head imports the coin table, copy, SEO helper and every locale's descriptions.
