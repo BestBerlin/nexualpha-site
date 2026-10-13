@@ -134,7 +134,7 @@ test("JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson", a
   const video = lesson.find((item) => item["@type"] === "VideoObject");
   assert.equal(video.contentUrl, "https://nexualpha.com/media/academy/s1/en/E05-landscape.mp4");
   assert.deepEqual(video.thumbnailUrl, ["https://nexualpha.com/media/academy/s1/en/E05-landscape.jpg", "https://nexualpha.com/media/academy/s1/en/E05-portrait.jpg"]);
-  assert.equal(video.uploadDate, "2026-10-12");
+  assert.equal(video.uploadDate, "2026-10-12T12:00:00+08:00");
   assert.equal(video.duration, "PT2M17S");
   assert.equal(video.inLanguage, "en");
   assert.ok(video.transcript.length > 400, "transcript text");

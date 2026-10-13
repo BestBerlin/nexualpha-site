@@ -117,7 +117,8 @@ export function academySchemas(pathname, locale, { urlFor }) {
       name: lesson.title,
       description: meta.description,
       thumbnailUrl: [media.posterLandscape, media.posterPortrait],
-      uploadDate: ACADEMY_UPLOAD_DATE,
+      // Google requires a full ISO 8601 datetime with a time zone for VideoObject.uploadDate (GSC 2026-10-13).
+      uploadDate: `${ACADEMY_UPLOAD_DATE}T12:00:00+08:00`,
       duration: isoDuration(episode.duration),
       contentUrl: media.landscape,
       embedUrl: pageUrl,
