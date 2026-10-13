@@ -39,10 +39,10 @@ async function renderRegistrationCard(props) {
   }
 }
 
-test("Arabic configured partner route keeps the code visible while regional eligibility stays blocked", async () => {
+test("Arabic research-only card suppresses partner code and outbound signup while eligibility stays blocked", async () => {
   const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "ar", market: "BR", product: "spot" });
 
-  assert.match(html, /nexu888/);
+  assert.doesNotMatch(html, /nexu888|href="\/go\//);
   assert.doesNotMatch(html, /https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF/);
   assert.match(html, /data-registration-decision-state="blocked"/);
   assert.match(html, /مسار الشراكة/);

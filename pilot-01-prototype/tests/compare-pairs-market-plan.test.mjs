@@ -197,12 +197,13 @@ test("SSR renders both venue sign-up routes for the new pairs without in-section
     for (const slug of [left, right]) {
       const anchor = card.match(new RegExp(`<a[^>]+data-cta-platform="${slug}"[^>]+data-cta-placement="compare-final-choice-registration"[^>]*>`))?.[0];
       assert.ok(anchor, `${label} ${slug} sign-up route`);
-      if (isPartnerPromotableIn(slug, { locale, market: "unknown" })) {
+      if (!new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']).has(locale) && isPartnerPromotableIn(slug, { locale, market: "unknown" })) {
         assert.match(anchor, new RegExp(`href="/go/${slug}\\?src=compare-${pair}&amp;locale=${locale}&amp;market=unknown"`), `${label} ${slug} tracked href`);
         assert.match(anchor, /rel="sponsored noopener noreferrer"/, `${label} ${slug} sponsored rel`);
       } else {
         assert.match(anchor, /data-cta-kind="research"/, `${label} ${slug} gated research route`);
         assert.doesNotMatch(anchor, /rel="sponsored noopener noreferrer"|data-cta-code=/, `${label} ${slug} no sponsored gated route`);
+        assert.doesNotMatch(anchor, /href="https?:\/\//, `${label} ${slug} no outbound signup`);
       }
     }
     // The sticky bar and the hero versus card also carry one route per venue.
