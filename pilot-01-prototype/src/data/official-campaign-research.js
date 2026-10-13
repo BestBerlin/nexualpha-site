@@ -301,7 +301,7 @@ officialCampaignResearchByVenue.hyperliquid = record("hyperliquid",
   { status: "PUBLIC_TERMS", kind: "fee_discount", amount: "4%", sourceUrls: [hyperliquidMarkdown],
     summary: tr("The documented discount is 4% on fees for the first $25 million of volume; vaults and sub-accounts are excluded. This is not a cash signup reward.", "文档折扣为首 2,500 万美元成交量的手续费减免 4%，金库与子账户不适用，不是注册现金奖励。", "文件折扣為首 2,500 萬美元成交量的手續費減免 4%，金庫與子帳戶不適用，不是註冊現金獎勵。"),
     conditions: [
-      tr("A valid referral code or link must be applied. This research panel does not include referral codes; the sign-up cards on this site do and disclose the commission.", "需绑定有效邀请代码或链接。本研究面板不附邀请码；本站的开户卡片会附带邀请码并披露佣金。", "需綁定有效邀請代碼或連結。本研究面板不附邀請碼；本站的開戶卡片會附帶邀請碼並揭露佣金。"),
+      tr("A valid referral code or link must be applied. This research panel does not include referral codes; the sign-up cards on this site do.", "需绑定有效邀请代码或链接。本研究面板不附邀请码；本站的开户卡片会附带邀请码。", "需綁定有效邀請代碼或連結。本研究面板不附邀請碼；本站的開戶卡片會附帶邀請碼。"),
       tr("The fee discount stops after the referred account's first $25 million in volume; vaults and sub-accounts do not inherit it.", "受邀账户首 2,500 万美元成交量之后不再适用；金库与子账户不会继承此折扣。", "受邀帳戶首 2,500 萬美元成交量之後不再適用；金庫與子帳戶不會繼承此折扣。"),
       tr("The inviter's $10,000 volume requirement and fee share are separate from the referred user's benefit. Region and identity requirements are not specified on this page.", "邀请人创建代码所需的 1 万美元交易量及其手续费分成，与受邀人权益不同；本页未说明地区与身份要求。", "邀請人建立代碼所需的 1 萬美元交易量及其手續費分成，與受邀人權益不同；本頁未說明地區與身分要求。"),
     ] },

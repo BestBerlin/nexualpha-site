@@ -52,7 +52,7 @@ export const LOCAL_MARKET_BRIEFS = Object.freeze({
     ],
     marketLink: "Türkiye pazar sayfası",
     sourcesLabel: "Kaynak",
-    reviewed: (date) => `Kaynaklar ${date} tarihinde incelendi. Bu bölüm hukuki görüş ya da hesap uygunluğu kararı değildir.`,
+    reviewed: (date) => `Kaynaklar ${date} tarihinde incelendi.`,
   },
   id: {
     market: "ID",
@@ -83,7 +83,7 @@ export const LOCAL_MARKET_BRIEFS = Object.freeze({
     ],
     marketLink: "Halaman pasar Indonesia",
     sourcesLabel: "Sumber",
-    reviewed: (date) => `Sumber ditinjau pada ${date}. Bagian ini bukan pendapat hukum atau keputusan kelayakan akun.`,
+    reviewed: (date) => `Sumber ditinjau pada ${date}.`,
   },
   vi: {
     market: "VN",
@@ -109,7 +109,7 @@ export const LOCAL_MARKET_BRIEFS = Object.freeze({
     ],
     marketLink: "Trang thị trường Việt Nam",
     sourcesLabel: "Nguồn",
-    reviewed: (date) => `Cập nhật ${date}. Phần này không phải ý kiến pháp lý hay quyết định về điều kiện tài khoản.`,
+    reviewed: (date) => `Cập nhật ${date}.`,
   },
 });
 

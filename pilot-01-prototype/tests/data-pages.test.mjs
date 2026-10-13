@@ -36,7 +36,8 @@ test("both data pages have route metadata in all 17 locales: review-gated, self-
       assert.equal(meta.title, budgetTitle(dataPageMeta(pathname, locale).title, titleBudgetForLocale(locale)));
       assert.ok(meta.title.length <= titleBudgetForLocale(locale), `${loc} title ${meta.title.length}`);
       assert.ok(meta.description.length <= metaDescriptionLimit(locale, meta.description), `${loc} description ${meta.description.length}`);
-      if (dataPageMeta(pathname, locale).description.length < 110) assert.ok(meta.description.length >= 120, `${loc} description ${meta.description.length}`);
+      // Served as written since 2026-10-13 (no generic padding; short CJK descriptions are fine).
+      assert.doesNotMatch(meta.description, /Use this NexuAlpha page|用这一页了解|source boundary/, loc);
       assert.equal(meta.alternates.length, ["ur", "uk"].includes(locale) ? 0 : 16, loc);
       if (["ur", "uk"].includes(locale)) continue;
       assert.ok(meta.alternates.some((a) => a.hreflang === "x-default" && a.href === `https://nexualpha.com${pathname}`), loc);
