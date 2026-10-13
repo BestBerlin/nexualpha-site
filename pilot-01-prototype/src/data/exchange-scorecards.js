@@ -5,6 +5,7 @@ import { FUNDING_MATRIX_SYMBOLS, FUNDING_MATRIX_VENUES, venueName as fundingVenu
 import { isPartnerPromotableIn, isTurkeyGated, promotionCountries } from "./partner-geo-policy.js";
 import { resolvePromotions } from "./promotions.js";
 import { venueDatabase } from "./venue-database.js";
+import { licenseRecords } from "./licenses.js";
 
 export const SCORECARD_MARKETS = Object.freeze([
   { key: "tr", country: "TR", name: "Türkiye", fiat: "TRY", locale: "tr" },
@@ -156,6 +157,14 @@ function nullFactValue(slug, label) {
   return value(slug, null, "Not in repo data", { asOf: null, sources: [], meta: { fact: label } });
 }
 
+function licenseValue(slug) {
+  const records = licenseRecords.filter((record) => record.exchange === slug);
+  if (!records.length) return value(slug, null, "No official register entry recorded", { asOf: null, sources: [], meta: { fact: "licenses" } });
+  const display = records.map((record) => `${record.regulator} (${record.country}): ${record.status}`).join("; ");
+  const asOf = records.map((record) => record.lastChecked).filter(Boolean).sort().at(-1) || null;
+  return value(slug, records.length, display, { asOf, sources: records.map((record) => record.sourceUrl), meta: { records: records.length } });
+}
+
 function buildRows(slugs, context) {
   const counts = top200CoinCounts(slugs);
   const rows = [
@@ -166,7 +175,7 @@ function buildRows(slugs, context) {
     row("localFiatRails", `Reviewed ${context.fiat || "local fiat"} funding guide`, slugs.map((slug) => fiatRailValue(slug, context.fiat, context)), { direction: "none", rule: "Only converter funding guides count as local fiat rail evidence." }),
     row("currentPromotion", "Current verified promotion", slugs.map((slug) => promotionValue(slug, context)), { direction: "none", rule: "Promotion must pass existing time, source, locale, market and partner gates." }),
     row("futures", "Futures product evidence", slugs.map((slug) => productValue(slug, "perp")), { direction: "none", rule: "Futures evidence comes from checked futures fee facts." }),
-    row("licenses", "License facts", slugs.map((slug) => nullFactValue(slug, "licenses")), { direction: "max", rule: "No license data file is present in this repo slice, so no venue competes." }),
+    row("licenses", "Official register entries", slugs.map(licenseValue), { direction: "none", rule: "Entries from the official-register directory (/licenses); statuses differ by regulator, so no venue wins this row." }),
     row("appRatings", "App rating facts", slugs.map((slug) => nullFactValue(slug, "appRatings")), { direction: "max", rule: "No app-rating data file is present in this repo slice, so no venue competes." }),
   ];
   return Object.freeze(rows.map((item) => {

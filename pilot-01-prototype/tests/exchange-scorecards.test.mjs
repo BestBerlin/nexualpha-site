@@ -19,10 +19,12 @@ test("buildScorecard exposes deterministic pair rows without synthetic facts or 
   assert.equal(valueFor(counts, "unknown").value, null);
   assert.deepEqual(valueFor(counts, "binance").sources, ["/coins"]);
 
-  const missingLicenses = rowByKey(card, "licenses");
-  assert.deepEqual(missingLicenses.winners, []);
-  assert.equal(valueFor(missingLicenses, "binance").value, null);
-  assert.equal(valueFor(missingLicenses, "binance").display, "Not in repo data");
+  const licenses = rowByKey(card, "licenses");
+  assert.deepEqual(licenses.winners, []);
+  assert.equal(valueFor(licenses, "binance").value, 2);
+  assert.match(valueFor(licenses, "binance").display, /SPK \(TR\): applied; Japan FSA \(JP\): registered/);
+  assert.ok(valueFor(licenses, "binance").sources.every((url) => /^https:\/\/(spk\.gov\.tr|www\.fsa\.go\.jp)\//.test(url)));
+  assert.equal(valueFor(licenses, "unknown").value, null);
 });
 
 test("funding matrix participation is descriptive and never an observed venue coverage count", () => {
