@@ -191,7 +191,7 @@ test("Japanese path routes are limited to eligible global content", () => {
 
 test("localizedHref switches between path locales without carrying locale aliases or state params", () => {
   assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ko" }), "/ko/exchanges/binance#registration-path?market=JP");
-  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ar" }), "/ar/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ar" }), "/ar/exchanges/binance#platform-facts?market=JP");
   assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "tr" }), "/tr/exchanges/binance#registration-path?market=JP");
   assert.equal(localizedHref("/ko/exchanges/binance?market=KR#registration-path", { locale: "fr" }), "/fr/exchanges/binance#registration-path?market=KR");
   assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "en" }), "/exchanges/binance#registration-path?market=JP");

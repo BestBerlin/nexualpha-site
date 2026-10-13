@@ -809,7 +809,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
   const publicCta = publicCtaForVenue(venueSlug, locale, market);
   const regionalCta = regionalVenueCta(venueSlug, locale, market, product, { accountStage, funding });
   const officialRouteUrl = !publicCta.hasPartnerRoute && /^https:\/\//i.test(publicCta.registrationUrl || "")
-    ? publicCta.registrationUrl
+    ? `/go/${venueSlug}?src=registration-card-official-route`
     : null;
   const compareHref = localizedHref(`/exchanges?${directoryContextSearch({ market, product, locale, accountStage, funding })}`, { locale });
   const telegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venueSlug, market, locale, product, campaign: "registration_card_monitor" });

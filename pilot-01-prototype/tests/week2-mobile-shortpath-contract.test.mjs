@@ -82,12 +82,13 @@ test("venue detail mobile contract keeps the registration path before long evide
   for (const { locale, slug, html } of pages) {
     const context = `${slug}/${locale}`;
     const quickRegistration = firstIndex(html, 'data-cta-surface="venue-profile-main-registration"', context);
-    const promotable = isPartnerPromotableIn(slug, { locale });
+    const promotable = Boolean(publicCtaForVenue(slug, locale).registrationUrl) && isPartnerPromotableIn(slug, { locale });
     const primaryCta = firstIndex(html, promotable ? 'data-cta-placement="registration-card-primary"' : 'registration-card__primary-btn--disabled', context);
     if (!promotable) {
       const original = publicCtaForVenue(slug, "en");
       assert.ok(!html.includes(original.inviteCode), `${context}: restricted code hidden`);
       assert.doesNotMatch(html, /data-cta-placement="registration-card-primary"/, `${context}: restricted signup hidden`);
+      assert.doesNotMatch(html, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${context}: gated signup and codes absent`);
     }
     const directAnswer = html.indexOf('class="v3-venue-direct-answer"');
     // R110 venue split moved invitation proof into the grouped Sources chapter while keeping the CTA route before it.

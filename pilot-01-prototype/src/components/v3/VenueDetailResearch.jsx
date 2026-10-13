@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 // Venue detail "Sources" hub: account and costs (quick registration, rebate card, metrics, calculator, fee matrix,
 // pre-registration decision notes), sources and security (proof of reserves, anti-phishing, research panel, official
 // reward research) and follow-up (Telegram handoff and monitor). The server renders it inline inside the collapsed
@@ -488,9 +489,9 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
             )}
             <div className="v3-fee-cta-inline">
               {sourceUrl && (
-                <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="v3-expand-tiers-btn">
+                <SourceLink locale={locale} href={sourceUrl} target="_blank" rel="noopener noreferrer" className="v3-expand-tiers-btn">
                   {compactUi.source}
-                </a>
+                </SourceLink>
               )}
               {safeRegistrationUrl ? (
                 <a href={safeRegistrationUrl} target={registrationDirect ? "_blank" : undefined} rel={registrationDirect ? "sponsored noopener noreferrer" : undefined} className="v3-fee-lock-btn">
@@ -571,16 +572,16 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
             </table>
             {summary.rates.map(rate => <div key={rate.product} className="v3-fee-scope-note" data-fee-scope={rate.scopeKey}>
               <p>{reviewedFeeCopy(rate, locale).conditions}</p>
-              <p><a href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a> · {feeText.checked}: <time dateTime={isoDay(rate.checkedAt)}>{isoDay(rate.checkedAt)}</time></p>
+              <p><SourceLink locale={locale} href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</SourceLink> · {feeText.checked}: <time dateTime={isoDay(rate.checkedAt)}>{isoDay(rate.checkedAt)}</time></p>
             </div>)}
           </div>
         )}
         <div className="v3-fee-matrix-footer">
           <div className="v3-fee-cta-inline">
             {(summary.rates.length ? [] : summary.sources).map((href, index) => (
-              <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="v3-expand-tiers-btn">
+              <SourceLink locale={locale} key={href} href={href} target="_blank" rel="noopener noreferrer" className="v3-expand-tiers-btn">
                 {feeText.source}{summary.sources.length > 1 ? ` ${index + 1}` : ""} ↗
-              </a>
+              </SourceLink>
             ))}
           </div>
           <div className="v3-fee-cta-inline">
@@ -731,9 +732,9 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
               </p>
             </div>
           </div>
-          <a href={porUrl} target="_blank" rel="noopener noreferrer" className="v3-por-audit-btn">
+          <SourceLink locale={locale} href={porUrl} target="_blank" rel="noopener noreferrer" className="v3-por-audit-btn">
             {isZh ? zhText(locale, "查验官方储备金审计报告 ↗", "查驗官方儲備金稽核報告 ↗") : (ui.auditBtn || "View Official PoR Audit Report ↗")}
-          </a>
+          </SourceLink>
         </div>
       </div>
     </section>
@@ -820,7 +821,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
               <p>{isZh ? "收到自称官方客服的 Telegram 私聊、邮件或网址？请使用官方验证工具一键核验对方身份真伪。" : (securityUi.toolBody || "Verify Telegram IDs, emails, domain names or phone numbers directly through official verifier.")}</p>
             </div>
           </div>
-          <a
+          <SourceLink locale={locale}
             href={officialVerifyUrl.startsWith("http") ? officialVerifyUrl : `https://${officialVerifyUrl}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -836,7 +837,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
               // l10n: needs native review
               uk: "Відкрити офіційний верифікатор ↗"
             }[locale] || "Open Official Verifier ↗")}
-          </a>
+          </SourceLink>
         </div>
 
         <div className="v3-rules-row">
