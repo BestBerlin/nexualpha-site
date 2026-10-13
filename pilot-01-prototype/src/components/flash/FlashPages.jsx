@@ -14,25 +14,13 @@ import { chime, notifyImportant, notificationPermission, readFlashPref, requestN
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 import "./flash.css";
+import { ReaderTime } from "../shared/ReaderTime.jsx";
+import { readerDayKey } from "../../data/local-time.js";
 
 const dirOf = (locale) => (/^(ar|ur)$/.test(locale) ? "rtl" : "ltr");
-const clock = (iso) => String(iso || "").slice(11, 16);
-const stamp = (iso) => `${String(iso || "").slice(0, 10)} ${clock(iso)} UTC`;
 const hrefFor = (path, locale, market) => localizedHref(path, { locale, market });
-const dayKey = (iso) => String(iso || "").slice(0, 10);
-function dayLabel(iso, locale) {
-  try { return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(iso)); } catch { return dayKey(iso); }
-}
-function relative(iso, now, locale) {
-  if (!now) return "";
-  const seconds = Math.round((Date.parse(iso) - now) / 1000);
-  if (!Number.isFinite(seconds) || seconds < -86400) return "";
-  try {
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
-    if (seconds > -60) return rtf.format(0, "minute");
-    if (seconds > -3600) return rtf.format(Math.round(seconds / 60), "minute");
-    return rtf.format(Math.round(seconds / 3600), "hour");
-  } catch { return ""; }
+function dayLabel(key, locale) {
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(`${key}T00:00:00Z`));
 }
 async function fetchFlash(params) {
   const response = await fetch(`${FLASH_FEED_URL}?${new URLSearchParams(params)}`, { headers: { accept: "application/json" } });
@@ -63,10 +51,9 @@ function Assets({ assets }) {
   return <ul className="nxf-assets" translate="no">{assets.slice(0, 6).map((asset) => <li key={asset}><bdi>{asset}</bdi></li>)}</ul>;
 }
 
-function StreamItem({ item, locale, market, now, t }) {
-  const rel = relative(item.time, now, locale);
+function StreamItem({ item, locale, market, t }) {
   return <li className="nxf-row" data-type={item.type} data-important={item.important ? "true" : undefined}>
-    <div className="nxf-row__time"><time dateTime={item.time}><bdi>{clock(item.time)}</bdi></time>{rel ? <span>{rel}</span> : null}</div>
+    <div className="nxf-row__time"><ReaderTime iso={item.time} locale={locale} relative /></div>
     <article className="nxf-row__card">
       <div className="nxf-row__meta"><ImportantMark item={item} t={t} /><Tag item={item} /><Venue item={item} /></div>
       <h3 className="nxf-row__title" lang={item.lang !== locale ? item.lang : undefined} dir="auto"><a href={hrefFor(item.path, locale, market)}>{item.headline}</a></h3>
@@ -185,7 +172,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   const types = useMemo(() => FLASH_TYPES.filter((key) => items.some((item) => item.type === key)), [items]);
   const groups = [];
   for (const item of visible) {
-    const key = dayKey(item.time);
+    const key = readerDayKey(item.time);
     if (groups[groups.length - 1]?.key !== key) groups.push({ key, items: [] });
     groups[groups.length - 1].items.push(item);
   }
@@ -233,8 +220,8 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       <FeaturedCampaign locale={locale} market={market} />
       {freshVisible ? <button type="button" className="nxf-pill" onClick={showPending} aria-live="polite"><LiveDot />{freshVisible} {t.fresh} · {t.showNew}</button> : null}
       {groups.length ? groups.map((group) => <div className="nxf-day" key={group.key}>
-        <h2 className="nxf-day__label"><time dateTime={group.key}>{dayLabel(`${group.key}T00:00:00Z`, locale)}</time></h2>
-        <ol className="nxf-list">{group.items.map((item) => <StreamItem key={item.id} item={item} locale={locale} market={market} now={now} t={t} />)}</ol>
+        <h2 className="nxf-day__label"><time dateTime={group.key}>{dayLabel(group.key, locale)}</time></h2>
+        <ol className="nxf-list">{group.items.map((item) => <StreamItem key={item.id} item={item} locale={locale} market={market} t={t} />)}</ol>
       </div>) : <p className="nxf-empty">{feed ? t.empty : "…"}</p>}
       {feed?.hasMore && !type && !venue && !importantOnly ? <div className="nxf-more"><button type="button" className="nxf-btn" onClick={loadMore} disabled={loadingMore}>{t.loadMore}</button></div> : null}
     </section>
@@ -277,7 +264,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
     <div className="v2-shell nxf-layout">
       <article className="nxf-article">
         <a className="nxf-back" href={hrefFor("/flash", locale, market)}><span aria-hidden="true" className="nxf-back__arrow">←</span>{t.back}</a>
-        <div className="nxf-article__meta"><ImportantMark item={item} t={t} /><Tag item={item} /><Venue item={item} /><time dateTime={item.time}><bdi>{stamp(item.time)}</bdi></time></div>
+        <div className="nxf-article__meta"><ImportantMark item={item} t={t} /><Tag item={item} /><Venue item={item} /><ReaderTime iso={item.time} locale={locale} style="stamp" /></div>
         <h1 className="nxf-article__title" lang={lang} dir="auto">{item.headline}</h1>
         {item.body ? <p className="nxf-article__body" lang={lang} dir="auto">{item.body}</p> : null}
         <Assets assets={item.assets} />
@@ -302,7 +289,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
       {related.length ? <aside className="nxf-related" aria-labelledby="nxf-related-h">
         <h2 id="nxf-related-h"><LiveDot />{t.more}</h2>
         <ol>{related.map((row) => <li key={row.id}>
-          <div className="nxf-related__meta"><ImportantMark item={row} t={t} /><Tag item={row} /><time dateTime={row.time}><bdi>{stamp(row.time)}</bdi></time></div>
+          <div className="nxf-related__meta"><ImportantMark item={row} t={t} /><Tag item={row} /><ReaderTime iso={row.time} locale={locale} style="stamp" /></div>
           <a href={hrefFor(row.path, locale, market)} lang={row.lang !== locale ? row.lang : undefined} dir="auto">{row.headline}</a>
         </li>)}</ol>
         <a className="nxf-btn nxf-btn--ghost" href={hrefFor("/flash", locale, market)}>{t.back}</a>

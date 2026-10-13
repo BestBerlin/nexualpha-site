@@ -155,7 +155,7 @@ const assertCompleteCopy = (map, label, { allowSame = [] } = {}) => {
 test("home campaign radar renders localized UI copy and research text for every locale", () => {
   const en = render(mod.CampaignRadar, { locale: "en" });
   assert.match(en, /Official Exchange Campaigns &amp; Welcome Packs/);
-  assert.match(en, /Source reviewed: <!-- -->Sep 6, 2026|Source reviewed: Sep 6, 2026/);
+  assert.match(en, /Source reviewed: <!-- -->Sep 7, 2026|Source reviewed: Sep 7, 2026/);
   assert.doesNotMatch(en, /2026-09-06T18:35:39Z</, "raw ISO stamp is no longer visible text (it stays in dateTime)");
   for (const locale of NON_EN) {
     const html = render(mod.CampaignRadar, { locale });
@@ -263,12 +263,12 @@ test("partner embed guide copy exists for every locale", () => {
   }
 });
 
-test("format-date renders ISO stamps per locale in UTC and tolerates unknown input", () => {
+test("format-date renders ISO stamps per locale in SGT and tolerates unknown input", () => {
   assert.equal(formatMonthYear("en", "2026-09"), "September 2026");
   assert.equal(formatMonthYear("de", "2026-09"), "September 2026");
   assert.equal(formatMonthYear("ja", "2026-09"), "2026年9月");
-  assert.equal(formatDate("en", "2026-09-06T18:35:39Z"), "Sep 6, 2026");
-  assert.equal(formatDate("de", "2026-09-06T23:59:59Z"), "06.09.2026", "UTC day, not the host timezone");
+  assert.equal(formatDate("en", "2026-09-06T18:35:39Z"), "Sep 7, 2026");
+  assert.equal(formatDate("de", "2026-09-06T23:59:59Z"), "07.09.2026", "SGT day, not the host timezone");
   assert.equal(formatDate("en", "not a date"), "");
   assert.equal(formatDate("en", null), "");
   assert.equal(intlLocale("pt-br"), "pt-BR");

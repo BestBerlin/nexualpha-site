@@ -1,3 +1,4 @@
+import { formatSgt } from "../../data/local-time.js";
 import { useEffect, useState } from "react";
 import { readableCryptoSentiment as readable } from "../../data/market-intelligence-view.js";
 import { sentimentLabel } from "../../content/sentiment-labels.js";
@@ -23,7 +24,7 @@ export function CryptoSentiment({ copy, refreshRevision = 0 }) {
   }, [refreshRevision]);
   const live = readable(snapshot);
   if (!live) return null;
-  const asOf = live ? new Intl.DateTimeFormat(copy.locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(snapshot.asOf)) : null;
+  const asOf = live ? formatSgt(snapshot.asOf, copy.locale) : null;
   return <section className="v2-section live-market-signal" aria-label={copy.sentiment.title}>
     <aside className={`crypto-sentiment crypto-sentiment--${snapshot.freshness}`} aria-live="polite">
       <div className="crypto-sentiment__reading">

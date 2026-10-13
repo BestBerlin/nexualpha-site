@@ -136,6 +136,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
           // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.
           if (!isSsrBuild && id.endsWith("vite/preload-helper.js")) return "core-ui";
+          // Shared clock formatting must not pull deferred home modules into the entry.
+          if (!isSsrBuild && id.endsWith("/src/data/local-time.js")) return "core-ui";
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";

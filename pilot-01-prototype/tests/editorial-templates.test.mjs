@@ -84,12 +84,13 @@ test("copy for the new blocks exists in all 17 locales", () => {
   assert.equal(collectionHubCopy("topics", "zh-TW").title, collectionHubCopy("topics", "zh-Hant").title);
 });
 
-test("day groups are UTC days in feed order; Today / Yesterday only with a reader clock", () => {
+test("day groups are SGT days in feed order; Today / Yesterday only with a reader clock", () => {
   const groups = groupNewsByDay(others);
   assert.deepEqual(groups.map((g) => g.day), ["2026-10-11", "2026-10-10", "2026-10-09"]);
   assert.equal(groups.reduce((n, g) => n + g.rows.length, 0), others.length);
   assert.equal(relativeDay("2026-10-11", null), null, "no clock on the server");
-  assert.equal(relativeDay("2026-10-11", Date.UTC(2026, 9, 11, 23)), "today");
+  assert.equal(relativeDay("2026-10-12", Date.UTC(2026, 9, 11, 23)), "today");
+  assert.equal(relativeDay("2026-10-11", Date.UTC(2026, 9, 11, 15)), "today");
   assert.equal(relativeDay("2026-10-10", Date.UTC(2026, 9, 11, 1)), "yesterday");
   assert.equal(relativeDay("2026-10-08", Date.UTC(2026, 9, 11, 1)), null);
 });
@@ -117,7 +118,7 @@ test("article SSR: lead answer block, section index (rail + mobile disclosure), 
   const html = await harness.render(`https://nexualpha.com/news/${article.slug}`, { newsArticles: [article] });
   assert.match(html, /<div class="news-detail__prose news-detail__prose--lead news-detail__answer" data-lead-kind="short-answer">/);
   assert.match(html, /<div class="nx-rule news-detail__answer-rule"><h2 class="nx-rule__label" id="article-section-0" tabindex="-1">The short answer<\/h2>/);
-  assert.match(html, /<time class="nx-rule__stamp" dateTime="2026-10-11T06:05:00.000Z"><span class="nx-rule__date">2026-10-11 · <\/span>06:05 UTC<\/time>/);
+  assert.match(html, /<time class="nx-rule__stamp" dateTime="2026-10-11T06:05:00.000Z"><span class="nx-rule__date">2026-10-11 · <\/span>14:05 SGT<\/time>/);
   assert.match(html, /<nav class="news-detail__toc"[\s\S]*?<\/nav>/, "desktop section index");
   assert.match(html, /<div class="news-detail__rail-sticky"><nav class="news-detail__toc"/, "the index sits in the sticky rail wrapper");
   assert.match(html, /<details class="news-detail__section-disclosure"><summary><span>Jump to section<\/span><span class="news-detail__section-count">04<\/span><\/summary>/);
@@ -130,7 +131,7 @@ test("article SSR: lead answer block, section index (rail + mobile disclosure), 
   assert.match(html, /<td class="is-num">\$9.8B<\/td>/);
   assert.match(html, /<td>Binance<\/td>/, "text cells are not figures");
   assert.match(html, /<p class="news-detail__category"><a class="news-detail__tag" href="\/news\/category\/research"/);
-  assert.match(html, /<div class="news-detail__metaline">[\s\S]*?data-testid="article-byline"[\s\S]*?<span class="news-detail__clock"> (?:<!-- -->)?06:05 UTC<\/span>/);
+  assert.match(html, /<div class="news-detail__metaline">[\s\S]*?data-testid="article-byline"[\s\S]*?<span class="news-detail__clock"> (?:<!-- -->)?14:05 SGT<\/span>/);
   assert.doesNotMatch(html, /news-market-context/, "market context is client-only and absent from SSR");
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
 });
@@ -152,13 +153,13 @@ test("news index SSR: a lead story, then day groups with every other row", async
   const rows = [article, ...others].map(({ content, sources, seo, ...summary }) => summary);
   const html = await harness.render("https://nexualpha.com/news", { newsArticles: rows, newsListing: { category: null, page: 1, total: rows.length, totalPages: 1, libraryTotal: rows.length, counts: {} } });
   assert.match(html, new RegExp(`<article class="news-lead" aria-labelledby="news-lead-title" data-news-lead="${article.slug}">`));
-  assert.match(html, /<div class="nx-rule"><span class="nx-rule__label">Latest<\/span><span class="nx-rule__line" aria-hidden="true"><\/span><time class="nx-rule__stamp" dateTime="2026-10-11T06:05:00.000Z">2026-10-11 · 06:05 UTC<\/time><\/div>/);
+  assert.match(html, /<div class="nx-rule"><span class="nx-rule__label">Latest<\/span><span class="nx-rule__line" aria-hidden="true"><\/span><time class="nx-rule__stamp" dateTime="2026-10-11T06:05:00.000Z">2026-10-11 · 14:05 SGT<\/time><\/div>/);
   assert.match(html, /data-cta-placement="news-card-read"/);
   const days = [...html.matchAll(/data-news-day="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(days, ["2026-10-11", "2026-10-10", "2026-10-09"]);
   assert.match(html, /<h2 class="nx-rule__label" id="news-day-2026-10-11"><bdi dir="ltr">2026-10-11<\/bdi><\/h2>/, "server renders the absolute date (no clock)");
   assert.equal((html.match(/class="news-row"/g) || []).length, others.length, "every non-lead row of the page is listed");
-  assert.match(html, /<time class="news-row__time" dateTime="2026-10-11T05:00:00.000Z">05:00<\/time>/);
+  assert.match(html, /<time class="news-row__time" dateTime="2026-10-11T05:00:00.000Z">13:00 SGT<\/time>/);
   assert.doesNotMatch(html, /news-research-index/, "the duplicate title index is gone");
 });
 

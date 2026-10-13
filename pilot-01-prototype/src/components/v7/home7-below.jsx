@@ -12,6 +12,7 @@ import { formatFee } from "../../data/format-fee.js";
 import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/decision-return.js";
 import { updateHref } from "../../data/activity-update.js";
 import { readIntelFeed } from "../../data/announcement-intel.js";
+import { formatSgt } from "../../data/local-time.js";
 import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
@@ -158,7 +159,7 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
   );
 }
 
-const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
 
 // Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
 function useNow(stepMs = 60 * 1000) {
