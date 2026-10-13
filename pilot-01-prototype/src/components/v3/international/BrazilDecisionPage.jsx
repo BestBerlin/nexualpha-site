@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { partnerRegistry } from "../../../data/partner-registry.js";
 import { publicCtaForVenue } from "../../../data/source-bound-cta.js";
 import { regionalVenueCta } from "../../../data/source-bound-cta.js";
@@ -265,7 +266,7 @@ function normalizeAnswerTable(table) {
   };
 }
 
-function BrazilAeoAnswers({ answers = [], sources }) {
+function BrazilAeoAnswers({ answers = [], sources, locale = "pt-BR" }) {
   if (!Array.isArray(answers) || answers.length === 0) return null;
 
   return (
@@ -305,7 +306,7 @@ function BrazilAeoAnswers({ answers = [], sources }) {
                 <ul className="br-aeo-sources" aria-label="Fontes desta resposta">
                   {answerSources.map((source) => (
                     <li key={source.id}>
-                      <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
+                      <SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</SourceLink>
                     </li>
                   ))}
                 </ul>
@@ -1111,7 +1112,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
             </article>
           ))}
         </div>
-        <BrazilAeoAnswers answers={page.aeoAnswers} sources={sources} />
+        <BrazilAeoAnswers answers={page.aeoAnswers} sources={sources} locale={locale} />
       </details>
 
       <section className="br-sources v2-shell" aria-labelledby="br-sources-title">
@@ -1122,7 +1123,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         <ul>
           {contentSources.length ? contentSources.map((source) => (
             <li key={source.id}>
-              <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
+              <SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</SourceLink>
               <time dateTime={source.checkedAt}>{new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(new Date(source.checkedAt))}</time>
             </li>
           )) : <li><span>{copy.officialCheck}</span></li>}

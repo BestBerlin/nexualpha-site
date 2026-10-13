@@ -110,7 +110,8 @@ test("server-rendered article links the first partner mention, skips headings/co
   assert.equal(bodyLinks[0].text, "Binance", "anchor text is the exchange name");
   assert.doesNotMatch(html, /<h2[^>]*>[^<]*<a/, "no link inside a heading");
   assert.doesNotMatch(html, /<code>[^<]*<a/, "no link inside code");
-  assert.match(html, /<a href="https:\/\/www\.binance\.com\/en\/fee\/schedule"[^>]*>Binance fees<\/a>/, "existing link untouched");
+  // Owner 2026-10-13: the Binance page link carries our code through /go/binance-page; it is not autolinked again.
+  assert.match(html, /<a href="\/go\/binance-page\?to=%2Fen%2Ffee%2Fschedule&amp;src=article"[^>]*>Binance fees<\/a>/, "existing link kept (coded)");
   const related = html.match(/<p class="news-detail__related-partners"[^>]*>([\s\S]*?)<\/p>/);
   assert.ok(related, "related line present");
   assert.match(related[1], /Related:/);

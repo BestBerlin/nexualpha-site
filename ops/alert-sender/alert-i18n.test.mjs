@@ -9,6 +9,7 @@ import { articles, campaignItem, campaigns, listingItem, mk, partners } from "./
 
 const baseline = JSON.parse(readFileSync(new URL("./fixtures/zh-en-baseline.json", import.meta.url), "utf8"));
 const NEW_LANGS = ["ru", "tr", "vi", "id", "es", "pt"];
+const NEUTRAL = ["ru", "vi"]; // information-only locales among the channel languages (owner 2026-10-13)
 const EVENT_TYPES = ["liquidation-spike", "both-sides-liquidated", "sharp-move"];
 // Intl separates numbers from units with no-break spaces (U+00A0 / U+202F), which Telegram renders as spaces and
 // which keep "120 млн $" on one line; comparisons below read them as plain spaces.
@@ -88,8 +89,12 @@ for (const lang of NEW_LANGS) {
     noLeaks(d.text, `${lang} digest`);
     assert.ok(d.text.startsWith(`<b>🗞 ${e.digest}</b>\n\n`), d.text.split("\n")[0]);
     assert.ok(d.text.includes(`<b>${e.today}</b>`), "today-on-NexuAlpha header");
-    assert.ok(d.text.includes(`<b>${e.campaigns}</b>`), "exchange campaigns header");
-    assert.ok(d.text.includes("OKX: <a href=\"https://www.okx.com/help/campaign-1\">"), "campaign keeps the official URL");
+    // neutral locales (ru, vi; owner 2026-10-13): no campaigns block at all
+    if (NEUTRAL.includes(lang)) assert.ok(!d.text.includes(`<b>${e.campaigns}</b>`) && !d.text.includes("campaign-1"), "neutral: no campaigns");
+    else {
+      assert.ok(d.text.includes(`<b>${e.campaigns}</b>`), "exchange campaigns header");
+      assert.ok(d.text.includes("OKX: <a href=\"https://www.okx.com/help/campaign-1\">"), "campaign keeps the official URL");
+    }
     assert.ok(!d.text.includes(e.disclosure) && !d.text.includes("<i>"), "digest carries no footer");
     assert.ok(d.text.endsWith(`<a href="https://nexualpha.com${path}/news?src=tg-digest">${e.readMore}</a>`), "digest backlink");
     assert.ok(d.text.includes(`DOGE ${fmt.pct(lang, 12.3, true)}`), "movers are signed and locale-formatted");
@@ -102,8 +107,14 @@ for (const lang of NEW_LANGS) {
       assert.ok(d.text.includes('<a href="https://nexualpha.com/news/btc-liquidations-weekly">BTC liquidations weekly</a>'), `${lang} falls back to English article`);
     }
     // Turkey (owner 2026-10-11): only SPK-"operating" partners (OKX, Binance, Bybit); the fixture has OKX of those.
-    assert.deepEqual(d.buttons[0].map((b) => b.url), lang === "tr" ? [`https://nexualpha.com/go/okx?src=tg-digest-tr`] : [`https://nexualpha.com/go/okx?src=tg-digest-${lang}`, `https://nexualpha.com/go/bitget?src=tg-digest-${lang}`]);
-    assert.equal(d.buttons[0][0].text, e.signUp);
+    if (NEUTRAL.includes(lang)) {
+      // neutral: exchange name only, opening the site's exchange page (never /go/)
+      assert.deepEqual(d.buttons[0].map((b) => b.url), ["okx", "bitget"].map((s) => `https://nexualpha.com${path}/exchanges/${s}?src=tg-digest-${lang}`));
+      assert.deepEqual(d.buttons[0].map((b) => b.text), ["OKX", "Bitget"]);
+    } else {
+      assert.deepEqual(d.buttons[0].map((b) => b.url), lang === "tr" ? [`https://nexualpha.com/go/okx?src=tg-digest-tr`] : [`https://nexualpha.com/go/okx?src=tg-digest-${lang}`, `https://nexualpha.com/go/bitget?src=tg-digest-${lang}`]);
+      assert.equal(d.buttons[0][0].text, e.signUp);
+    }
     assert.deepEqual(d.buttons[1].map((b) => b.text), [e.getAlerts, e.funding]);
     assert.equal(d.buttons[1][1].url, `https://nexualpha.com${path}/rates`);
     for (const b of d.buttons.flat()) noLeaks(b.text, `${lang} button`);
@@ -113,8 +124,16 @@ for (const lang of NEW_LANGS) {
     const m = listingMessage(listingItem, partners[0], lang);
     noLeaks(m.text, `${lang} listing`);
     assert.ok(m.text.startsWith(`<b>[${e.listing} · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\n`), m.text.split("\n")[0]);
-    assert.ok(m.text.includes(`<a href="https://nexualpha.com${path}/activities?src=tg-listing">${e.readMore}</a>`), "listing backlink");
     assert.ok(!m.text.includes(e.disclosure) && !m.text.includes("<i>"), "listing carries no footer");
+    if (NEUTRAL.includes(lang)) {
+      // neutral: news backlink, exchange page instead of /go/, and campaign DMs are not sent at all
+      assert.ok(m.text.includes(`<a href="https://nexualpha.com${path}/news?src=tg-listing">${e.readMore}</a>`), "listing backlink");
+      assert.deepEqual(m.buttons[0].map((b) => b.text), [e.notice, "OKX"]);
+      assert.deepEqual(m.buttons[0].map((b) => b.url), ["https://www.okx.com/help/abc", `https://nexualpha.com${path}/exchanges/okx?src=tg-dm-listing-${lang}`]);
+      assert.equal(listingMessage(campaignItem, partners[1], lang), null);
+      return;
+    }
+    assert.ok(m.text.includes(`<a href="https://nexualpha.com${path}/activities?src=tg-listing">${e.readMore}</a>`), "listing backlink");
     assert.deepEqual(m.buttons[0].map((b) => b.text), [e.notice, e.signUp]);
     assert.deepEqual(m.buttons[0].map((b) => b.url), ["https://www.okx.com/help/abc", `https://nexualpha.com/go/okx?src=tg-dm-listing-${lang}`]);
     const c = listingMessage(campaignItem, partners[1], lang);

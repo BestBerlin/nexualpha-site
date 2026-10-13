@@ -8,9 +8,9 @@ import { dataPageCopy, formatUtc, formatUtcTime } from "../../data/market-data-p
 import { fundingMatrixCopy } from "../../data/funding-matrix-copy.js";
 import { textDirection } from "./DataPageFrame.jsx";
 import "./funding-matrix.css";
+import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
 export const FUNDING_MATRIX_PATH = "/funding-rates/matrix";
-const NEUTRAL_CTA_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
 const TURKEY_CTA_ALLOWLIST = new Set(["binance", "okx", "bybit"]);
 
 const num = (value) => {

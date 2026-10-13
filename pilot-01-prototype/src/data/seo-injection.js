@@ -18,7 +18,7 @@ const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de"
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, routeMetaDescription, titleBudgetForLocale } from "./meta-description.js";
-import { HOME_SEARCH_COPY } from "./home-search-copy.js";
+import { HOME_NEUTRAL_SEARCH_COPY_EN, HOME_SEARCH_COPY, homeSearchCopyFor } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
@@ -2383,6 +2383,9 @@ function computeRouteSeoUnbudgeted(options = {}) {
       schemas = [onchainGuideSchema(schemaLocale(locale), { canonical: canonical(pathname, locale) })];
     }
     if (pathname === "/") {
+      // ?market=VN in a promotable locale: the neutral home title and description (same helper as the Worker head).
+      const marketHome = homeSearchCopyFor(rawLocale, url.searchParams.get("market"));
+      if (marketHome === HOME_NEUTRAL_SEARCH_COPY_EN) [title, description] = marketHome;
       const featuredVenues = neutralVenueCatalog.slice(0, 6).map((venue, index) => ({
         "@type": "ListItem",
         position: index + 1,

@@ -6,6 +6,7 @@ import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 import { updateHref } from "../src/data/activity-update.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { monthCampaigns, isStartOfMonth } from "../src/components/v3/activity/campaign-month.js";
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 let harness, CampaignJoin;
 test.before(async () => { harness = await createSsrHarness(); ({ CampaignJoin } = await harness.vite.ssrLoadModule('/src/components/v3/activity/CampaignJoin.jsx')); });
 test.after(async () => { await harness?.close(); });
@@ -19,7 +20,7 @@ test('join blocks use gated routes, omit unknown rebates, and keep neutral local
   assert.doesNotMatch(en, /commission disclosed|official page|<small>|data-disclosure-placement=/);
   assert.match(render({ venue: 'okx', locale: 'zh-Hans' }), /参加条件/);
   assert.doesNotMatch(render({ venue: 'bybit', locale: 'en' }), /fees back/);
-  for (const locale of ['ru', 'ar', 'zh-Hant', 'ur', 'uk', 'zh-TW', 'zh-HK', 'ru-RU', 'ar-SA']) assert.doesNotMatch(render({ venue: 'okx', locale }), /data-cta-code=|40%/);
+  for (const locale of [...NEUTRAL_CTA_LOCALE_LIST, 'zh-TW', 'zh-HK', 'ru-RU', 'ar-SA', 'vi-VN']) assert.doesNotMatch(render({ venue: 'okx', locale }), /data-cta-code=|40%/);
   for (const venue of ['kraken', 'kucoin', 'okx']) {
     const html = render({ venue, locale: 'en', market: 'JP', officialUrl: 'https://www.okx.com/help/example' });
     assert.doesNotMatch(html, /data-cta-kind="registration"/);
@@ -87,7 +88,7 @@ test('campaign copy is complete in every locale and unknown shares never create 
   for (const [locale, copy] of Object.entries(campaignJoinCopyByLocale)) {
     for (const key of ['month', 'season', 'synced', 'official']) assert.ok(copy[key], `${locale}.${key}`);
     assert.doesNotMatch(copy.body('TestVenue', 'TESTCODE', null), /null|undefined|%/);
-    if (['ru', 'ar', 'zh-Hant', 'ur', 'uk'].includes(locale)) assert.doesNotMatch(copy.body('TestVenue', 'TESTCODE', 40), /TESTCODE|40|%/);
+    if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(copy.body('TestVenue', 'TESTCODE', 40), /TESTCODE|40|%/);
     assert.ok(copy.button('TestVenue').includes('TestVenue'));
   }
 });

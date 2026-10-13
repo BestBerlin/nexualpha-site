@@ -4,8 +4,9 @@ import { partnerRegistry } from '../src/data/partner-registry.js';
 import { publicCtaForVenue, regionalVenueCta, publicCtaForTopicPlatform } from '../src/data/source-bound-cta.js';
 import { pickNewsOfferVenue } from '../src/data/news-offer.js';
 import { DATA_PAGE_SIGNUP_VENUES } from '../src/data/market-data-pages.js';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
-const neutralLocales = ['ru', 'ar', 'zh-Hant', 'ur', 'uk'];
+const neutralLocales = [...NEUTRAL_CTA_LOCALE_LIST];
 
 test('neutral locale projection closes every venue signup even with a promotable explicit market', () => {
   for (const locale of neutralLocales) for (const slug of Object.keys(partnerRegistry)) {
@@ -42,25 +43,35 @@ test('promotable locale routes and registry destinations remain intact', () => {
 });
 
 test('Türkiye citation rendering retains labels while blocking Bitget external anchors', async () => {
-  const { transformSync } = await import('esbuild');
-  const { readFileSync } = await import('node:fs');
+  const { buildSync } = await import('esbuild');
+  const { fileURLToPath } = await import('node:url');
   const { createRequire } = await import('node:module');
   const { runInNewContext } = await import('node:vm');
   const require = createRequire(import.meta.url);
   const React = require('react');
   const { renderToStaticMarkup } = require('react-dom/server');
   const module = { exports: {} };
-  const source = readFileSync(new URL('../src/components/shared/SourceLink.jsx', import.meta.url), 'utf8');
-  runInNewContext(transformSync(source, { loader: 'jsx', format: 'cjs' }).code, { module, exports: module.exports, require, URL });
+  const bundle = buildSync({ entryPoints: [fileURLToPath(new URL('../src/components/shared/SourceLink.jsx', import.meta.url))], bundle: true, write: false, format: 'cjs', platform: 'node', external: ['react'], loader: { '.jsx': 'jsx' } });
+  runInNewContext(bundle.outputFiles[0].text, { module, exports: module.exports, require, URL, URLSearchParams });
   const { SourceLink } = module.exports;
   const render = (href, locale) => renderToStaticMarkup(React.createElement(SourceLink, { href, locale, target: '_blank', rel: 'noopener noreferrer', className: 'citation' }, 'Official source'));
+  // Türkiye: every Bitget source is a plain label (title + domain), never a link.
   for (const href of ['https://www.bitget.com/support/articles/123', 'https://api.bitget.com/api/v2/test', 'https://partner.bitget.cafe/bg/C6PRAF']) {
-    assert.equal(render(href, 'tr'), '<span class="citation">Official source</span>');
-    assert.match(render(href, 'en'), /<a href=/);
+    assert.match(render(href, 'tr'), /^<span class="citation"[^>]*>Official source<span class="source-plain__domain"> · [a-z.]*bitget\.[a-z]+<\/span><\/span>$/);
   }
-  for (const href of ['/tr/exchanges/bitget#platform-facts', 'https://www.binance.com/en/fee/trading', 'https://bitget.com.evil.test/source']) {
+  // Owner 2026-10-13: Bitget has no sitewide referral parameter, so its help pages are plain text everywhere; the
+  // registry sign-up link (with the code) stays a link.
+  assert.doesNotMatch(render('https://www.bitget.com/support/articles/123', 'en'), /<a /);
+  const registryLink = render('https://partner.bitget.cafe/bg/C6PRAF', 'en');
+  assert.match(registryLink, /<a [^>]*href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(registryLink, /rel="noopener noreferrer nofollow sponsored"/);
+  // Binance pages carry the code through /go/binance-page in Türkiye; non-exchange links are unchanged.
+  assert.match(render('https://www.binance.com/en/fee/trading', 'tr'), /<a [^>]*href="\/go\/binance-page\?to=%2Fen%2Ffee%2Ftrading"/);
+  for (const href of ['/tr/exchanges/bitget#platform-facts', 'https://bitget.com.evil.test/source']) {
     assert.match(render(href, 'tr'), /<a href=/);
   }
+  // Neutral locales: exchange sources are plain text.
+  assert.doesNotMatch(render('https://www.binance.com/en/fee/trading', 'ru'), /<a /);
 });
 
 test('actual Turkish home, activities, venue and comparison SSR retain facts without external Bitget links', async () => {

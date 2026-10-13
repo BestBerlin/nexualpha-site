@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { venueKycLevel, venueKycSummary } from "../../data/venue-kyc-corrections.js";
 import { v3Copy } from "../../data/v3-product";
@@ -213,7 +214,7 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
             </div>
             {db.porAuditUrl && (
               <p>
-                 <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>查看 {locName} 官方最新驗資報告與公開稽核公示 ↗</a>
+                 <SourceLink locale={locale} market={market} href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>查看 {locName} 官方最新驗資報告與公開稽核公示 ↗</SourceLink>
               </p>
             )}
           </>
@@ -313,7 +314,7 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
           </div>
           {db.porAuditUrl && (
             <p>
-               <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>View {name}'s Official Audited Reserves Report ↗</a>
+               <SourceLink locale={locale} market={market} href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>View {name}'s Official Audited Reserves Report ↗</SourceLink>
             </p>
           )}
         </>
@@ -368,7 +369,7 @@ export function VenueFaqSection({ venue, profile, locale, market, db = {}, partn
   const priorityAnswer = priorityVenueAnswerFor(venue.slug, locale);
   const faqs = priorityAnswer ? priorityAnswer.faq.map(([q, answer, citations = []]) => ({
     q,
-    a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</a>)}</p></>,
+    a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <SourceLink locale={locale} market={market} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</SourceLink>)}</p></>,
   })) : getVenueFaqs(venue, profile, locale, db, partner, market);
   // Localized partner FAQ (src/data/partner-venue-faq.js): the same entries feed the FAQPage schema.
   const partnerFaq = partnerVenueFaqFor(venue.slug, locale);
@@ -376,7 +377,7 @@ export function VenueFaqSection({ venue, profile, locale, market, db = {}, partn
   const partnerFaqEntries = (partnerFaq?.entries || []).filter((entry) => partnerAccess?.hasReferral || !entry.showsInviteCode);
   const partnerFaqItems = partnerFaqEntries.map((entry) => ({
     q: entry.question,
-    a: <><p>{entry.answer}</p><p className="v3-venue-direct-answer__links">{entry.sources.map(([label, href]) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>)}</p></>,
+    a: <><p>{entry.answer}</p><p className="v3-venue-direct-answer__links">{entry.sources.map(([label, href]) => <SourceLink locale={locale} market={market} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</SourceLink>)}</p></>,
   }));
   const hasPartnerFaqItems = partnerFaqItems.length > 0;
   const shownFaqs = !hasPartnerFaqItems ? faqs : partnerFaq.mode === "replace" ? partnerFaqItems : [...faqs, ...partnerFaqItems.filter((item) => !faqs.some((existing) => existing.q === item.q))];

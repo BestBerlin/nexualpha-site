@@ -1,4 +1,5 @@
 import { nextDecisionBridgeCopy } from "../../data/next-decision-bridge.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import { TOPIC_GUIDES, TOPIC_SLUGS } from "../../data/topic-guides-data.js";
 import { neutralVenueCatalog } from "../../data/market-command.js";
@@ -3233,7 +3234,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           </details>
         </div>
 
-        <TopDecisionBox
+        <TopDecisionBox locale={locale}
           className="topic-decision-rail topic-top-decision"
           eyebrow={topicDecisionAnswer.eyebrow}
           title={topicDecisionAnswer.title}
@@ -3266,7 +3267,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                 <small>{record.checkedAt || (isZh ? zhCopy(isHant, "未记录审阅时间") : "No review timestamp")}</small>
                 <div {...enIfLatin(record.sources.map((source) => source.title).join(" "), locale)}>
                   {record.sources.slice(0, 3).map((source) => (
-                    <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</a>
+                    <SourceLink locale={locale} market={market} key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</SourceLink>
                   ))}
                 </div>
               </article>
@@ -3341,7 +3342,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
             <a className="topic-nav-btn" href="/research/perp-dex-cost-field-dictionary.json">JSON ↓</a>
             <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.csv">Citations CSV ↓</a>
             <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.json">Citations JSON ↓</a>
-            {PERP_COST_FIELD_SOURCES.slice(0, 4).map((source) => <a key={source.url} className="topic-nav-btn" href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}
+            {PERP_COST_FIELD_SOURCES.slice(0, 4).map((source) => <SourceLink locale={locale} market={market} key={source.url} className="topic-nav-btn" href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</SourceLink>)}
           </nav>
           <details className="topic-source-detail">
             <summary>{dictionaryCopy.openFields}</summary>
@@ -3361,7 +3362,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <details className="topic-source-detail">
             <summary>{dictionaryCopy.openSources}</summary>
             <div className="topic-source-detail__links">
-              {PERP_COST_FIELD_SOURCES.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}
+              {PERP_COST_FIELD_SOURCES.map((source) => <SourceLink locale={locale} market={market} key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</SourceLink>)}
             </div>
           </details>
         </section>}
@@ -3585,7 +3586,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                 <p className="topic-faq-a">{faq.answer ?? (isZh ? zhCopy(isHant, faq.aZh, faq.aHant) : faq.aEn)}</p>
                 {faq.sources?.map(source => (
                   <p className="topic-faq-a" key={source.url}>
-                    <a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>
+                    <SourceLink locale={locale} market={market} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</SourceLink>
                     {' · '}{(TOPIC_FAQ_SOURCE_COPY[locale] || TOPIC_FAQ_SOURCE_COPY.en)[0]}{' '}
                     <time dateTime={source.reviewedAt}>{source.reviewedAt}</time>
                     {source.updatedAt && <>{' · '}{(TOPIC_FAQ_SOURCE_COPY[locale] || TOPIC_FAQ_SOURCE_COPY.en)[1]}{' '}<time dateTime={source.updatedAt}>{source.updatedAt}</time></>}

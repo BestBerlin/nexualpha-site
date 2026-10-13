@@ -15,6 +15,8 @@ import { titleBudgetForLocale } from "../src/data/meta-description.js";
 import { validateCampaignBriefs } from "../src/data/campaign-briefs.js";
 import { buildCampaignSitemap, buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -65,8 +67,8 @@ test("sign-up gating: registry code via /go/bybit, none in the US, restricted ma
   const en = bybitStocksSignup({ locale: "en" });
   assert.deepEqual(en, { code: CODE, href: "/go/bybit?src=bybit-stocks-hero" });
   assert.ok(bybitStocksSignup({ locale: "tr" }), "Bybit may be promoted in Türkiye");
-  for (const locale of ["zh-Hans", "es", "pt-BR", "vi", "id", "ja", "ko"]) assert.ok(bybitStocksSignup({ locale }), locale);
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.equal(bybitStocksSignup({ locale }), null, `${locale} is neutral`);
+  for (const locale of ["zh-Hans", "es", "pt-BR", "id", "ja", "ko"]) assert.ok(bybitStocksSignup({ locale }), locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.equal(bybitStocksSignup({ locale }), null, `${locale} is neutral`);
   for (const locale of ["fr", "de", "it"]) assert.equal(bybitStocksSignup({ locale }), null, `${locale}: Bybit Stocks is restricted in the EEA`);
   for (const market of ["US", "EU", "IN", "SG", "HK"]) assert.equal(bybitStocksSignup({ locale: "en", market }), null, `market ${market}`);
   assert.equal(bybitStocksSignupGate({ locale: "en", market: "US" }), "partner-geo-restricted");
@@ -117,7 +119,8 @@ test("JSON-LD: WebPage, FAQPage with the page's questions, BreadcrumbList; clien
 });
 
 test("every sign-up is attributed: CTAs are /go/bybit?src=bybit-stocks-*, no direct bybit.com sign-up link, code with copy next to each CTA", async () => {
-  for (const path of [BYBIT_STOCKS_PATH, `/zh-hans${BYBIT_STOCKS_PATH}`, `/tr${BYBIT_STOCKS_PATH}`, `/vi${BYBIT_STOCKS_PATH}`]) {
+  // vi is neutral since 2026-10-13 (covered by tests/vi-neutral-locale.test.mjs): id takes its place here.
+  for (const path of [BYBIT_STOCKS_PATH, `/zh-hans${BYBIT_STOCKS_PATH}`, `/tr${BYBIT_STOCKS_PATH}`, `/id-id${BYBIT_STOCKS_PATH}`]) {
     const main = mainHtml(await (await fetchPage(path)).text());
     const links = anchors(main);
     for (const { href } of links) {
@@ -129,12 +132,12 @@ test("every sign-up is attributed: CTAs are /go/bybit?src=bybit-stocks-*, no dir
     for (const { href } of ctas) assert.match(href, /^\/go\/bybit\?src=bybit-stocks-[a-z]+$/, `${path}: CTA ${href}`);
     assert.ok(links.some(({ href }) => href === "/go/bybit?src=bybit-stocks-hero"), `${path}: hero CTA`);
     assert.equal((main.match(new RegExp(`<code translate="no">${CODE}</code>`, "g")) || []).length, ctas.length, `${path}: a copyable code next to every CTA`);
-    assert.ok(main.includes(CODE) && main.includes(`>${BYBIT_STOCKS_COPY[path === BYBIT_STOCKS_PATH ? "en" : path.startsWith("/zh") ? "zh-Hans" : path.startsWith("/tr") ? "tr" : "vi"].steps[0][0]}<`), `${path}: step 1`);
+    assert.ok(main.includes(CODE) && main.includes(`>${BYBIT_STOCKS_COPY[path === BYBIT_STOCKS_PATH ? "en" : path.startsWith("/zh") ? "zh-Hans" : path.startsWith("/tr") ? "tr" : "id"].steps[0][0]}<`), `${path}: step 1`);
   }
 });
 
 test("no sign-up in the US market or neutral/restricted editions; informational page instead", async () => {
-  for (const path of [`${BYBIT_STOCKS_PATH}?market=US`, `/ru${BYBIT_STOCKS_PATH}`, `/ar${BYBIT_STOCKS_PATH}`, `/zh-hant${BYBIT_STOCKS_PATH}`, `/de${BYBIT_STOCKS_PATH}`, `/fr${BYBIT_STOCKS_PATH}`]) {
+  for (const path of [`${BYBIT_STOCKS_PATH}?market=US`, `${BYBIT_STOCKS_PATH}?market=VN`, `/vi${BYBIT_STOCKS_PATH}`, `/ru${BYBIT_STOCKS_PATH}`, `/ar${BYBIT_STOCKS_PATH}`, `/zh-hant${BYBIT_STOCKS_PATH}`, `/de${BYBIT_STOCKS_PATH}`, `/fr${BYBIT_STOCKS_PATH}`]) {
     const response = await fetchPage(path);
     assert.equal(response.status, 200, path);
     const main = mainHtml(await response.text());

@@ -25,11 +25,11 @@ import {
   venueGoHref,
 } from "../../data/radar.js";
 import "./radar.css";
+import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
 const directionFor = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 
 // Neutral locales (ru/ar/zh-Hant/ur/uk/vi) carry no partner offer or sponsored row links.
-const NEUTRAL_CTA_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
 const SOURCE_DISPLAY = { btcMempool: "mempool.space", ethereumRpc: "PublicNode Ethereum RPC", "publicnode-ethereum-rpc": "PublicNode" };
 const chainDisplay = (chain) => (chain ? `${chain.charAt(0).toUpperCase()}${chain.slice(1)}` : "");
 const sourceDisplay = (value) => SOURCE_DISPLAY[value] || venueDisplayName(value);

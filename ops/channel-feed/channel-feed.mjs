@@ -90,8 +90,18 @@ async function getJson(url) {
 // Turkey (owner 2026-10-11): no sign-up route for partners without an SPK "operating" listing (Bitget Teknoloji AŞ is on
 // the liquidation list); the announcement itself still posts with its official link.
 const NO_SIGNUP = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
+// Neutral (information-only) locales (owner 2026-10-13; vi: Vietnam Resolution 05/2025/NQ-CP): listings and notices
+// post without any sign-up route; exchange campaigns ("event") are not posted at all (null). Kept local so this file
+// runs standalone; channel-feed.test.mjs pins it to pilot-01-prototype/src/data/locale-policy.js.
+export const NEUTRAL_CTA_LOCALE_LIST = Object.freeze(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+export const isNeutralCtaLocale = (lang) => /^(ru|ar|ur|uk|vi)(-|$)|^zh-(Hant|TW|HK)(-|$)/i.test(String(lang || ""));
+// Exchanges file many campaigns under "news" or "listing" ("... Futures Challenge", "... Share 150,000 USDC"), so a
+// neutral channel also skips anything whose title reads like a promotion. Same pattern as ../alert-sender/alert-sender.mjs.
+export const CAMPAIGN_TITLE = /\b(campaign|challenge|giveaway|airdrop|cashback|promotion|promo|bonus|rewards?|prize|leaderboard|competition|tournament|launchpool|launchpad|share\s+[\d,.]+|earn\s+up\s+to|win\s+up\s+to)\b/i;
+export const isCampaignLike = (item) => item?.category === "event" || CAMPAIGN_TITLE.test(String(item?.title || ""));
 export function buildMessage(item, partnerIn, lang) {
-  const neutral = /^(ru|ar|ur|uk)$|^zh-(Hant|TW|HK)$/i.test(lang);
+  const neutral = isNeutralCtaLocale(lang);
+  if (neutral && isCampaignLike(item)) return null;
   const partner = neutral || NO_SIGNUP[lang]?.has(item.venue) ? null : partnerIn;
   const c = COPY[lang] || COPY.en;
   const name = NAMES[item.venue] || item.venue;
@@ -158,6 +168,7 @@ async function main() {
   for (const item of fresh) {
     for (const { lang, chat } of CHANNELS) {
       const msg = buildMessage(item, partners[item.venue], lang);
+      if (!msg) continue;
       if (DRY) { console.log(`--- ${chat}\n${msg.text}\n${JSON.stringify(msg.reply_markup)}`); continue; }
       await send(token, chat, msg);
       await new Promise((r) => setTimeout(r, 1500));

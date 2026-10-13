@@ -4,6 +4,7 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { LOCALE_PREFIX_BY_CODE } from "./locale-routing.js";
 import { APP_DOWNLOAD_SLUGS, appDownloadPath, parseAppDownloadPath } from "./app-download-path.js";
 import { appDownloadCopy, fillAppCopy } from "./app-download-copy.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export const APP_DOWNLOAD_CHECKED = "2026-10-12";
 export const APP_DOWNLOAD_YEAR = Number(APP_DOWNLOAD_CHECKED.slice(0, 4));
@@ -36,7 +37,7 @@ export const APP_DOWNLOADS = {
   },
 };
 
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 const crumbs = (items) => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([name, item], index) => ({ "@type": "ListItem", position: index + 1, name, item })) });
 
 export function appDownloadSignupAllowed(slug, { locale = "en", market } = {}) {
@@ -59,7 +60,9 @@ export function appDownloadContent(slug, locale) {
   const cta = publicCtaForVenue(slug, locale);
   const vars = { name: partner.name, year: APP_DOWNLOAD_YEAR, code: cta.inviteCode, domain: partner.officialDomain, iosDeveloper: app.iosDeveloper, androidDeveloper: app.androidDeveloper };
   const text = (key) => fillAppCopy(copy[key], vars);
-  return { app, partner, cta, copy, text, apk: verifiedAppApk(app.apk) };
+  // No APK button where the page is information-only: neutral locales and no-promotion markets (vi / Vietnam).
+  const apk = NEUTRAL_LOCALES.has(locale) || !isPartnerPromotableIn(slug, { locale }) ? null : verifiedAppApk(app.apk);
+  return { app, partner, cta, copy, text, apk };
 }
 export function appDownloadRouteSeo(pathname, locale, { urlFor }) {
   const route = parseAppDownloadPath(pathname);

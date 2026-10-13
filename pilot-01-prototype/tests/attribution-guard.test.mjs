@@ -8,16 +8,23 @@ import { partnerRegistry } from '../src/data/partner-registry.js';
 import { EXCHANGE_FACTS } from '../src/data/exchange-facts.js';
 import { BINANCE_OCTOBER_CAMPAIGNS, binanceCampaignUrl } from '../src/data/binance-october.js';
 import { bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
-import { createGoRedirect } from '../server/go-redirect.mjs';
+import { createGoRedirect, GO_ALIASES } from '../server/go-redirect.mjs';
+import { KRAKEN_USDG_GO_SLUG } from '../src/data/kraken-usdg.js';
+import { SITEWIDE_PARAM_VENUES, sitewideReferral, exchangeVenueForUrl } from '../src/data/exchange-outbound.js';
+import { BACKUP_SIGNUP_URLS } from '../src/data/backup-signup.js';
+import { LEGAL_PAGE_PATHS } from '../src/data/legal-pages.js';
+import { mkdtemp, mkdir, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { ACADEMY_EPISODES } from '../src/data/academy.js';
 import { COINS } from '../src/data/coins.js';
 import { APP_DOWNLOAD_SLUGS, appDownloadPath } from '../src/data/app-download-path.js';
 import { parsePublicRoute, localizedPath, LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 import { ATTRIBUTION_ALLOWLIST } from './helpers/attribution-allowlist.mjs';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const root = resolve(import.meta.dirname, '..');
 const sourceHrefPattern = /(?:https?:\/\/[^\s<>"'`\\)\]}，。；）]+|\/go\/[a-z0-9-]+(?:\?[^\s<>"'`\\)\]}，。；）]*)?)/g;
-const neutral = new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']);
+const neutral = new Set(NEUTRAL_CTA_LOCALE_LIST);
 const domains = new Map();
 const targets = [];
 const addDomain = (host, venue) => domains.set(host.replace(/^www\./, '').replace(/^app\./, ''), venue);
@@ -38,6 +45,14 @@ targets.push({ venue: 'bitget', url: new URL(bitgetAllianceUrl()) });
 const goVenues = new Map(Object.keys(partnerRegistry).map(venue => [venue, venue]));
 for (const campaign of Object.values(BINANCE_OCTOBER_CAMPAIGNS)) goVenues.set(campaign.slug, 'binance');
 goVenues.set('bitget-alliance', 'bitget');
+goVenues.set(KRAKEN_USDG_GO_SLUG, 'kraken');
+for (const venue of SITEWIDE_PARAM_VENUES) if (sitewideReferral(venue)) goVenues.set(`${venue}-page`, venue);
+for (const venue of Object.keys(BACKUP_SIGNUP_URLS)) goVenues.set(`${venue}-alt`, venue);
+for (const [alias, slug] of Object.entries(GO_ALIASES)) if (goVenues.has(slug)) goVenues.set(alias, goVenues.get(slug));
+// Owner 2026-10-13 ("every click carries our code"): rendered body links to a referral venue must go through /go or
+// carry the code. Real external exchange links are allowed only on the legal and methodology pages; the reviewed
+// allowlist below still covers non-referral venues and source literals stored in data (rendering rewrites those).
+const DIRECT_LINK_PAGES = new Set([...LEGAL_PAGE_PATHS, '/methodology']);
 
 function venueFor(url) {
   return [...domains].sort((a, b) => b[0].length - a[0].length)
@@ -63,7 +78,7 @@ function attributed(url, venue) {
     return url.hostname === registered.hostname && url.pathname === registered.pathname;
   });
 }
-function classify(href, attrs = {}) {
+function classify(href, attrs = {}, { rendered = false, directAllowed = false } = {}) {
   let url;
   try { url = new URL(href, 'https://nexualpha.com'); } catch { return null; }
   if (!['http:', 'https:'].includes(url.protocol)) return null;
@@ -77,7 +92,9 @@ function classify(href, attrs = {}) {
   if (attributed(url, venue)) return { venue, signup: true, valid: true };
   const conversion = ['register', 'registration', 'signup', 'campaign'].includes(attrs['data-cta-kind']) || attrs.sourceKey === 'affiliateUrl';
   const unregisteredCode = ['ref', 'referralCode', 'inviteCode', 'invite_code', 'affiliate_id', 'channelCode', 'vipCode', 'rcode', 'reg', 'clacCode'].some(key => url.searchParams.has(key));
-  const allowed = !conversion && !unregisteredCode && ATTRIBUTION_ALLOWLIST.some(entry => entry.matches(url, attrs));
+  // Strict for the venue's own domains (exchange-outbound.js); third-party doc hosts (GitBook) keep the reviewed allowlist.
+  const strict = rendered && !directAllowed && partnerRegistry[venue]?.hasReferral && exchangeVenueForUrl(url) === venue;
+  const allowed = !strict && !conversion && !unregisteredCode && ATTRIBUTION_ALLOWLIST.some(entry => entry.matches(url, attrs));
   return { venue, signup: !allowed, valid: allowed };
 }
 function files(dir, extensions) {
@@ -106,8 +123,8 @@ function anchors(html) {
   walk(parse(html));
   return result;
 }
-function violations(attrs, locale) {
-  const item = classify(attrs.href, attrs);
+function violations(attrs, locale, options = {}) {
+  const item = classify(attrs.href, attrs, options);
   const errors = [];
   if (item && !item.valid) errors.push('missing attribution or unreviewed source');
   if (locale === 'tr' && item?.venue === 'bitget') errors.push('Türkiye Bitget link');
@@ -134,7 +151,50 @@ test('guard rejects bare/wrong-code links and enforces locale gates', () => {
   assert.equal(classify('https://www.binance.com/en/fee/trading?ref=wrong', { 'data-cta-kind': 'source' }).valid, false);
   assert.ok(violations({ href: '/go/bitget' }, 'tr').errors.length);
   for (const locale of neutral) for (const href of ['/go/binance-gifts', 'https://www.binance.com?ref=11350287', '/exchanges/okx#registration-path']) assert.ok(violations({ href }, locale).errors.length);
-  assert.equal(classify('https://www.binance.com/en/fee/trading').valid, true);
+  assert.equal(classify('https://www.binance.com/en/fee/trading').valid, true, 'data literal: reviewed source');
+  assert.equal(classify('https://www.binance.com/en/fee/trading', {}, { rendered: true }).valid, false, 'rendered body link without the code fails');
+  assert.equal(classify('https://www.okx.com/help/x', { 'data-cta-kind': 'source' }, { rendered: true }).valid, false);
+  assert.equal(classify('https://www.binance.com/en/fee/trading', {}, { rendered: true, directAllowed: true }).valid, true, 'legal/methodology pages keep real external links');
+  assert.equal(classify('/go/binance-page?to=%2Fen%2Ffee%2Ftrading').valid, true);
+  assert.equal(classify('/go/okx-page?to=%2Fhelp').valid, false, 'no sitewide referral route for OKX');
+  assert.equal(classify('https://www.coinbase.com/fees', { 'data-cta-kind': 'source' }, { rendered: true }).valid, false, 'unreviewed non-referral path still fails');
+  for (const locale of neutral) assert.ok(violations({ href: '/go/binance-page?to=%2F' }, locale).errors.length, 'no attributed citation links in neutral locales');
+  assert.ok(violations({ href: '/go/bitget-alt' }, 'tr').errors.length, 'no Bitget backup link in Türkiye');
+});
+
+// Every /go route the site can emit resolves to a destination that carries the venue's code or campaign id.
+test('every /go route in the registries redirects with the venue code or campaign id', async () => {
+  const dir = await mkdtemp(resolve(tmpdir(), 'go-attr-'));
+  await mkdir(resolve(dir, 'intel'), { recursive: true });
+  const partners = Object.entries(partnerRegistry).filter(([, p]) => p.hasReferral).map(([slug, p]) => ({ slug, registrationUrl: p.registrationUrl }));
+  await writeFile(resolve(dir, 'intel', 'partners.json'), JSON.stringify({ partners }));
+  const now = () => new Date('2026-10-14T00:00:00Z'); // every October campaign running
+  const up = createGoRedirect({ clientRoot: dir, now, mirrorHealth: async () => true });
+  const down = createGoRedirect({ clientRoot: dir, now, mirrorHealth: async () => false });
+  const campaignIds = { binance: Object.values(BINANCE_OCTOBER_CAMPAIGNS).map(c => c.ref), bitget: [new URL(bitgetAllianceUrl()).searchParams.get('clacCode')] };
+  const carries = (location, venue) => {
+    const url = new URL(location);
+    if (attributed(url, venue)) return true;
+    const partner = partnerRegistry[venue];
+    const codes = [partner.inviteCode, ...(campaignIds[venue] || [])].filter(Boolean).map(code => String(code).toLowerCase());
+    return [...url.searchParams.values()].some(value => codes.includes(value.toLowerCase()))
+      || codes.includes(url.pathname.split('/').filter(Boolean).at(-1)?.toLowerCase())
+      || [partner.registrationUrl, ...(partner.alternateRegistrationUrls || [])].includes(url.href);
+  };
+  const routes = [...goVenues].map(([slug, venue]) => [slug, venue, slug.endsWith('-page') ? '?to=%2Fen%2Fsupport%2Ffaq' : '']);
+  const report = [];
+  for (const [slug, venue, query] of routes) for (const [label, handle] of [['mirror-up', up], ['mirror-down', down]]) {
+    if (label === 'mirror-down' && !slug.endsWith('-alt')) continue;
+    const response = await handle(new Request(`https://nexualpha.com/go/${slug}${query}`, { headers: { 'user-agent': 'Mozilla/5.0' } }));
+    assert.equal(response.status, 302, `/go/${slug} resolves`);
+    const location = response.headers.get('location');
+    report.push(`/go/${slug}${query} (${label}) -> ${location}`);
+    if (!partnerRegistry[venue]?.hasReferral) continue;
+    assert.ok(carries(location, venue), `/go/${slug} (${label}) must carry the ${venue} code: ${location}`);
+  }
+  assert.equal((await up(new Request('https://nexualpha.com/go/binance-page?to=%2F%2Fevil.test'))).status, 404, 'no open redirect');
+  assert.equal((await up(new Request('https://nexualpha.com/go/okx-page?to=%2Fhelp'))).status, 404, 'OKX has no sitewide referral parameter');
+  console.log(`Resolved /go routes:\n${report.join('\n')}`);
 });
 
 test('built SSR and content/data exchange links retain attribution', async () => {
@@ -152,8 +212,10 @@ test('built SSR and content/data exchange links retain attribution', async () =>
   const emittedGoLinks = new Set();
   let inspected = 0;
   let configDeclarations = 0;
-  function check(path, attrs, locale, routeLabel = '') {
-    const { item, errors } = violations(attrs, locale);
+  function check(path, attrs, locale, routeLabel = '', page = null) {
+    const contentPath = page ? parsePublicRoute(page.split('?')[0]).contentPathname : null;
+    const options = page ? { rendered: true, directAllowed: DIRECT_LINK_PAGES.has(contentPath) } : {};
+    const { item, errors } = violations(attrs, locale, options);
     if (locale && item?.valid && attrs.href.startsWith('/go/')) emittedGoLinks.add(attrs.href);
     if (item) counts.set(item.venue, (counts.get(item.venue) || 0) + 1);
     for (const error of errors) failures.push(`${relative(root, path)}${routeLabel ? ` (${routeLabel})` : ""}: ${attrs.href} — ${error}`);
@@ -163,14 +225,14 @@ test('built SSR and content/data exchange links retain attribution', async () =>
     const page = '/' + relative(resolve(root, 'dist/client'), path).replace(/(?:\/)?index\.html$/, '').replace(/\.html$/, '');
     const html = readFileSync(path, 'utf8');
     const locale = parsePublicRoute(page).locale;
-    for (const attrs of anchors(html)) check(path, attrs, locale);
+    for (const attrs of anchors(html)) check(path, attrs, locale, '', page || '/');
   }
   for (const route of Object.values(manifest.routes)) {
     for (const asset of [route.asset, ...Object.values(route.heroVariants || {})]) {
       const path = resolve(root, 'dist/client', asset.replace(/^\//, ''));
       const { html } = JSON.parse(readFileSync(path, 'utf8'));
       assert.ok(html?.includes('<h1'), `SSR content missing: ${asset}`);
-      for (const attrs of anchors(html)) check(path, attrs, route.locale);
+      for (const attrs of anchors(html)) check(path, attrs, route.locale, '', route.pathname);
     }
   }
   // These families are request-time SSR, not prerender assets. Exercise the built renderer for their full
@@ -184,10 +246,10 @@ test('built SSR and content/data exchange links retain attribution', async () =>
     const page = localizedPath(pathname, locale);
     const html = render(`https://nexualpha.com${page}`);
     assert.ok(html.includes('<h1') && html.length > 2000, `Request-time SSR missing: ${page}`);
-    for (const attrs of anchors(html)) check(resolve(root, 'dist/ssr/entry-server.js'), attrs, locale, page);
+    for (const attrs of anchors(html)) check(resolve(root, 'dist/ssr/entry-server.js'), attrs, locale, page, page);
     runtimePages++;
   }
-  const redirect = createGoRedirect({ clientRoot: resolve(root, 'dist/client') });
+  const redirect = createGoRedirect({ clientRoot: resolve(root, 'dist/client'), mirrorHealth: async () => false });
   for (const href of emittedGoLinks) {
     const response = await redirect(new Request(`https://nexualpha.com${href}`));
     assert.equal(response.status, 302, `Emitted tracked link must resolve: ${href}`);
