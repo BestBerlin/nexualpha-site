@@ -19,7 +19,7 @@ import { EXCHANGE_ADDRESS_LABEL_ROWS } from "./exchange-address-labels.mjs";
 
 const UA = "NexuAlphaPositionRadar/1.0 (+https://nexualpha.com)";
 const MAX_TTL_MS = 60_000;
-const DEFAULT_TIMEOUT_MS = 8_000;
+const DEFAULT_TIMEOUT_MS = 3_000;
 const DEFAULT_LIMIT = 30;
 
 export const POSITION_RADAR_KINDS = Object.freeze(["long-short", "whales"]);
@@ -615,12 +615,18 @@ export function createPositionRadar({
       .then((next) => {
         if (next) {
           if (next.status === "ok") next.updatedAt = new Date(now()).toISOString();
+          else {
+            const hit = cache.get(kind);
+            if (hit?.data?.status === "ok") return { ...hit.data, stale: true };
+          }
           cache.set(kind, { at: now(), data: next });
         }
         return next;
       })
       .catch((error) => {
         log(`position radar ${kind}: ${error?.message || error}`);
+        const hit = cache.get(kind);
+        if (hit?.data?.status === "ok") return { ...hit.data, stale: true };
         const fallback = unavailableFeed(kind, kind === "long-short" ? Object.keys(longShortSources) : Object.keys(whaleSources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name), String(error?.message || error));
         cache.set(kind, { at: now(), data: fallback });
         return fallback;
@@ -636,7 +642,9 @@ export function createPositionRadar({
     const run = refresh(kind);
     await Promise.race([run, sleep(waitMs)]);
     const next = cache.get(kind);
-    return next && now() - next.at <= cappedTtlMs ? next.data : unavailableFeed(kind, kind === "long-short" ? Object.keys(longShortSources) : Object.keys(whaleSources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name), "refresh-timeout");
+    if (next && now() - next.at <= cappedTtlMs) return next.data;
+    if (next?.data?.status === "ok") return { ...next.data, stale: true };
+    return unavailableFeed(kind, kind === "long-short" ? Object.keys(longShortSources) : Object.keys(whaleSources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name), "refresh-timeout");
   };
   return { read, refresh, cacheSize: () => cache.size };
 }

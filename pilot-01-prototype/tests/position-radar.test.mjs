@@ -148,6 +148,42 @@ test("long-short cache is capped at sixty seconds even when a larger ttl is pass
   assert.equal(topCalls, 2);
 });
 
+test("long-short reader retains the previous good snapshot when refresh returns unavailable", async () => {
+  let now = NOW;
+  let fail = false;
+  const radar = createPositionRadar({
+    now: () => now,
+    ttlMs: 1,
+    limit: 1,
+    longShortSources: {
+      binance: {
+        topSymbols: async () => {
+          if (fail) throw new Error("HTTP 429");
+          return [{ symbol: "BTC", marketSymbol: "BTCUSDT", turnoverUsd: 1 }];
+        },
+        symbol: async () => ({
+          venue: "binance",
+          accountLongShortRatio: 1,
+          topTraderLongShortRatio: null,
+          openInterest: null,
+          openInterestUnit: null,
+          openInterestChange24hPct: null,
+          sparkline24h: [],
+          status: "ok",
+        }),
+      },
+    },
+  });
+  const first = await radar.read("long-short");
+  assert.equal(first.status, "ok");
+  fail = true;
+  now += 2;
+  const second = await radar.read("long-short");
+  assert.equal(second.status, "ok");
+  assert.equal(second.stale, true);
+  assert.deepEqual(second.rows, first.rows);
+});
+
 test("whale reader emits output-level BTC rows and never guesses labels or sale intent", async () => {
   assert.ok(!EXCHANGE_ADDRESS_LABELS.btc.bc1qinputa && !EXCHANGE_ADDRESS_LABELS.btc.bc1qlarge, "fixture addresses are unlabelled");
   const radar = createPositionRadar({

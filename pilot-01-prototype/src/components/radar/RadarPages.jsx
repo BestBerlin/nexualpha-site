@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
+import { startJsonPolling } from "../shared/json-polling.js";
 import {
   LONG_SHORT_API_PATH,
   LONG_SHORT_PATH,
@@ -41,20 +42,21 @@ function useRadarFeed(kind, initial) {
   const [feed, setFeed] = useState(() => normalize(extractInitialRadar(initial, kind)));
 
   useEffect(() => {
-    let alive = true;
-    const load = () => fetch(apiPath, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((next) => { if (alive && next && typeof next === "object") setFeed(normalize(next)); })
-      .catch(() => {
-        if (!alive) return;
+    const stop = startJsonPolling({
+      request: apiPath,
+      intervalMs: RADAR_REFRESH_MS,
+      immediate: !feed.updatedAt || !feed.rows.length,
+      cache: "no-cache",
+      isData: (next) => next && typeof next === "object",
+      onData: (next) => setFeed(normalize(next)),
+      onError: () => {
         setFeed((current) => {
           const age = current.updatedAt ? Date.now() - Date.parse(current.updatedAt) : Number.POSITIVE_INFINITY;
           return age > RADAR_REFRESH_MS ? { ...current, status: "unavailable" } : current;
         });
-      });
-    if (!feed.updatedAt || !feed.rows.length) load();
-    const id = setInterval(() => { if (typeof document === "undefined" || document.visibilityState === "visible") load(); }, RADAR_REFRESH_MS);
-    return () => { alive = false; clearInterval(id); };
+      },
+    });
+    return stop;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- the API path is fixed by route kind
 
   return feed;

@@ -171,13 +171,31 @@ test("worker request-time SSR forwards FUNDING_MATRIX_READ output into HTML stat
   }
 });
 
-test("/intel/funding-matrix.json fails closed when the runtime feed is unavailable", async () => {
-  const response = await worker.fetch(new Request("https://nexualpha.com/intel/funding-matrix.json"), {
+test("/intel/funding-matrix.json serves the last good feed stale and only 503s on cold failure", async () => {
+  const feed = sampleFeed();
+  const env = {
+    WORKER_POLLED_JSON_TTL_MS: 0,
+    FUNDING_MATRIX_READ: async () => feed,
+  };
+  const first = await worker.fetch(new Request("https://nexualpha.com/intel/funding-matrix.json"), env);
+  assert.equal(first.status, 200);
+  assert.equal(first.headers.get("cache-control"), "public, max-age=10, stale-while-revalidate=60");
+  assert.equal((await first.json()).generatedAt, feed.generatedAt);
+
+  env.FUNDING_MATRIX_READ = async () => { throw new Error("collector unavailable"); };
+  const staleResponse = await worker.fetch(new Request("https://nexualpha.com/intel/funding-matrix.json"), env);
+  const stale = await staleResponse.json();
+  assert.equal(staleResponse.status, 200);
+  assert.equal(stale.stale, true);
+  assert.equal(stale.generatedAt, feed.generatedAt);
+  assert.ok(Array.isArray(stale.rows) && stale.rows.length > 0);
+
+  const cold = await worker.fetch(new Request("https://nexualpha.com/intel/funding-matrix.json"), {
     FUNDING_MATRIX_READ: async () => { throw new Error("collector unavailable"); },
   });
-  const body = await response.text();
-  assert.equal(response.status, 503);
-  assert.equal(response.headers.get("cache-control"), "no-store");
+  const body = await cold.text();
+  assert.equal(cold.status, 503);
+  assert.equal(cold.headers.get("cache-control"), "no-store");
   assert.deepEqual(JSON.parse(body), {});
   assert.doesNotMatch(body, /BTC|ETH|0\.000|rate|annualized/i, "failure response must not invent market data");
 });
