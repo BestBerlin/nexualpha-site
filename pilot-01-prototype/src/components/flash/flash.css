@@ -121,6 +121,10 @@
   .nxf-pill { inset-block-start: calc(var(--nx-header-h, 56px) + 104px); }
 }
 
+/* links to the daily data pages (/etf-flows, /calendar), 2026-10-13 */
+.nxf-tools { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.7rem; font-size: 0.92rem; }
+.nxf-tools a { font-weight: 600; text-decoration: none; }
+.nxf-tools a:hover { text-decoration: underline; }
 /* "Get alerts on Telegram" line (TelegramTriggerCta, 2026-10-13): CSS-free component, styled per route. */
 .nxf .nx-tgcta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; margin: 0; padding: 10px 14px; border: 1px solid rgb(255 255 255 / .1); border-radius: 10px; background: rgb(255 255 255 / .025); color: #cbd5e1; font-size: .9rem; line-height: 1.45; }
 .nxf .nx-tgcta__icon { display: inline-flex; flex: none; color: #94a3b8; }

@@ -208,6 +208,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
+          // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
+          if (id.includes("/src/components/intel-tools/") || /\/src\/data\/(?:intel-tools-copy|intel-tools-labels|etf-flows|crypto-calendar)\.js/.test(id)) return "route-intel-tools";
           // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules
           // (glossary-index/shard/links-<locale>.js) stay lazy chunks of their own via glossary-content-loader.js.
           if (id.includes("/src/components/glossary/") || /\/src\/data\/glossary(?:-copy|-terms)?\.js$/.test(id)) return "route-glossary";

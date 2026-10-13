@@ -95,6 +95,8 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/telegram",
   "/liquidations",
   "/funding-rates",
+  "/etf-flows",
+  "/calendar",
   "/funding-rates/matrix",
 ]);
 
