@@ -4,6 +4,7 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { LOCALE_PREFIX_BY_CODE } from "./locale-routing.js";
 import { APP_DOWNLOAD_SLUGS, appDownloadPath, parseAppDownloadPath } from "./app-download-path.js";
 import { appDownloadCopy, fillAppCopy } from "./app-download-copy.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export const APP_DOWNLOAD_CHECKED = "2026-10-12";
 export const APP_DOWNLOAD_YEAR = Number(APP_DOWNLOAD_CHECKED.slice(0, 4));
@@ -36,7 +37,9 @@ export const APP_DOWNLOADS = {
   },
 };
 
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
+const crumbs = (items) => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([name, item], index) => ({ "@type": "ListItem", position: index + 1, name, item })) });
+
 export function appDownloadSignupAllowed(slug, { locale = "en", market } = {}) {
   if (!APP_DOWNLOAD_SLUGS.includes(slug) || NEUTRAL_LOCALES.has(locale) || !isPartnerPromotableIn(slug, { locale, market })) return false;
   const cta = publicCtaForVenue(slug, locale, market);
@@ -57,19 +60,23 @@ export function appDownloadContent(slug, locale) {
   const cta = publicCtaForVenue(slug, locale);
   const vars = { name: partner.name, year: APP_DOWNLOAD_YEAR, code: cta.inviteCode, domain: partner.officialDomain, iosDeveloper: app.iosDeveloper, androidDeveloper: app.androidDeveloper };
   const text = (key) => fillAppCopy(copy[key], vars);
-  return { app, partner, cta, copy, text, apk: verifiedAppApk(app.apk) };
+  // No APK button where the page is information-only: neutral locales and no-promotion markets (vi / Vietnam).
+  const apk = NEUTRAL_LOCALES.has(locale) || !isPartnerPromotableIn(slug, { locale }) ? null : verifiedAppApk(app.apk);
+  return { app, partner, cta, copy, text, apk };
 }
 export function appDownloadRouteSeo(pathname, locale, { urlFor }) {
   const route = parseAppDownloadPath(pathname);
   if (!route) return null;
   if (!route.valid) return { status: 404 };
-  const { app, partner, copy, text, apk } = appDownloadContent(route.slug, locale);
+  const { app, partner, copy, text } = appDownloadContent(route.slug, locale);
   const canonical = urlFor(pathname);
+  const officialDownloadUrls = [app.appStore, app.googlePlay];
   return {
     status: 200, title: text("shortTitle"), description: text("answer"),
     schemas: [
-      { "@context": "https://schema.org", "@type": "SoftwareApplication", "@id": `${canonical}#app`, name: `${partner.name} App`, applicationCategory: "FinanceApplication", operatingSystem: "iOS, Android", url: canonical, inLanguage: locale, downloadUrl: [app.appStore, app.googlePlay, ...(apk ? [apk.url] : [])], publisher: { "@type": "Organization", name: partner.name, url: `https://${partner.officialDomain}` } },
+      { "@context": "https://schema.org", "@type": "SoftwareApplication", "@id": `${canonical}#app`, name: `${partner.name} App`, applicationCategory: "FinanceApplication", operatingSystem: "iOS, Android", url: canonical, inLanguage: locale, dateModified: app.lastChecked, downloadUrl: officialDownloadUrls, sameAs: [...app.sources], publisher: { "@type": "Organization", name: partner.name, url: `https://${partner.officialDomain}` } },
       { "@context": "https://schema.org", "@type": "FAQPage", "@id": `${canonical}#faq`, inLanguage: locale, mainEntity: copy.faqs.map(({ q: question, a: answer }) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
+      crumbs([["NexuAlpha", urlFor("/")], [partner.name, urlFor(`/exchanges/${route.slug}`)], [text("shortTitle"), canonical]]),
     ],
   };
 }

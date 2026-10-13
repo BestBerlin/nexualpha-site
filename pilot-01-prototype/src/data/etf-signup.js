@@ -2,9 +2,10 @@
 // /go/<venue>?src=etf-flows. Neutral locales and restricted markets get none.
 import { isPartnerPromotableIn, promotionCountries } from "./partner-geo-policy.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 const SIGNUP_ORDER = ["okx", "bitget", "binance"];
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 const TURKEY_VENUES = new Set(["okx", "binance", "bybit"]);
 const VENUE_NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance" };
 export function etfSignup({ locale = "en", market } = {}) {

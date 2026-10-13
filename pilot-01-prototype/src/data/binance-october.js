@@ -25,6 +25,7 @@
 //   the tournament to visitors as referrers after they join, not as a guaranteed new-user reward.
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "./binance-october-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { BINANCE_OCTOBER_PATH, parseBinanceOctoberPath };
 export const BINANCE_OCTOBER_ORIGIN = "https://nexualpha.com";
@@ -85,7 +86,7 @@ export function binanceCampaignUrl(key, locale = "en") {
 // Locales with a written edition of the page (indexable, in the sitemap). Other UI locales read English, noindex.
 export const BINANCE_OCTOBER_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "tr", "vi", "id", "ja", "ko", "fr", "de"]);
 // Same neutral set as the academy and the campaign join block: no sign-up wording, no CTA.
-export const BINANCE_OCTOBER_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const BINANCE_OCTOBER_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 
 /** Why the sign-up is not offered here (null = offered). Follows the site's Binance gating. */
 export function binanceOctoberSignupGate({ locale = "en", market } = {}) {

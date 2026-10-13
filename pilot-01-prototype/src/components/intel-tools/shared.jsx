@@ -2,6 +2,7 @@
 // method/FAQ tail and the "more data" links. Server-rendered from the snapshot the Worker read; the browser starts
 // from that hydration state and re-reads the JSON every 10 minutes while the tab is visible.
 import React, { useEffect, useState } from "react";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
@@ -75,7 +76,7 @@ export function SourcesList({ locale, sources }) {
     <section className="nxi-sources v2-shell" aria-labelledby="nxi-sources-h">
       <SectionRule stamp={sources.length} />
       <h2 id="nxi-sources-h">{common.sources}</h2>
-      <ul>{sources.map((s) => <li key={s.url}><a href={s.url} target="_blank" rel="noopener nofollow">{s.name}</a></li>)}</ul>
+      <ul>{sources.map((s) => <li key={s.url}><SourceLink locale={locale} href={s.url} target="_blank" rel="noopener nofollow">{s.name}</SourceLink></li>)}</ul>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { rendersSource } from './helpers/outbound-expect.mjs';
 import assert from 'node:assert/strict';
 import { validateCampaignBriefs, attachCampaignBriefs, applyCampaignBriefs } from '../src/data/campaign-briefs.js';
 import { updatePath, updateHref } from '../src/data/activity-update.js';
@@ -33,7 +34,7 @@ test('SSR renders brief, English fallback and source (no raw exchange title unde
   assert.ok(!html.includes(item.title));
   assert.ok(html.includes('Verified account'));
   assert.match(html, /dateTime="2026-10-20T00:00:00Z"/i);
-  assert.ok(html.includes(`href="${item.url}"`));
+  assert.ok(rendersSource(html, item.url, { locale }), `${locale}: source carries the code or is a plain label`);
  }
  const html = harness.render(`https://nexualpha.com${updatePath(item)}`,{officialAnnouncements:{items:[item]}});
  assert.ok(html.includes(item.title));

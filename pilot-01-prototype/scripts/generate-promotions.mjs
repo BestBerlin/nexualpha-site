@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { PROMOTIONS } from '../src/data/promotions.js';
+import { PROMOTIONS, NEUTRAL_PROMOTION_LOCALES } from '../src/data/promotions.js';
 import { OWNER_CAMPAIGNS } from '../src/data/owner-campaigns.js';
 import { promotionConditions, promotionCopy } from '../src/data/promotion-copy.js';
 const root = new URL('../', import.meta.url);
@@ -8,7 +8,7 @@ const partners = new Set(PROMOTIONS.filter(p => p.kind === 'signup').map(p => p.
 // Announcement publication/fetch time does not establish expiry, eligibility or a terms verification date.
 const campaigns = [...OWNER_CAMPAIGNS, ...(feed.items || []).filter(c => c.category === 'event')].filter(c => partners.has(c.venue)).map(c => ({
   id: `campaign-${c.id}`, partner: c.venue, kind: 'campaign', name: typeof c.title === 'string' ? c.venue : c.title?.en || c.venue,
-  officialSource: c.url, regions: c.regions || { allow: [], deny: [] }, locales: { allow: [], neutral: ['ru', 'ar', 'zh-Hant', 'ur', 'uk'] },
+  officialSource: c.url, regions: c.regions || { allow: [], deny: [] }, locales: { allow: [], neutral: [...NEUTRAL_PROMOTION_LOCALES] },
   validFrom: c.startAt || null, validTo: c.endAt || null, conditions: c.conditions || promotionConditions,
   link: `/go/${c.venue}?src=news-campaign`, lastVerified: c.checkedAt || null,
   enabled: Boolean(c.startAt && c.endAt && c.checkedAt && c.regions && c.conditions),

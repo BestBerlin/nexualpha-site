@@ -17,6 +17,8 @@ import { POPULAR_COINS } from "../src/data/coins-links.generated.js";
 import { POPULAR_COINS_BY_VENUE } from "../src/data/coins-venue-links.generated.js";
 import { buildCoinsSitemap, buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -168,7 +170,7 @@ test("sign-up CTA: registry codes via /go/<venue>?src=coin-<slug>, Türkiye OKX/
     assert.equal(Boolean(tr), ["okx", "binance", "bybit"].includes(venue.slug), `tr: ${venue.slug}`);
   }
   assert.equal(coinSignup("bitget", sol, { locale: "en", market: "TR" }), null, "market=TR applies the Türkiye rule too");
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.equal(primarySignup(sol, { locale }), null, locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.equal(primarySignup(sol, { locale }), null, locale);
   assert.equal(coinSignup("okx", sol, { locale: "ja" }), null, "OKX is not promoted in Japan (geo policy)");
 
   const trHtml = mainHtml(await (await fetchPage("/tr/coins/solana")).text());

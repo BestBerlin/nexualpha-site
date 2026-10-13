@@ -6,6 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 import { isPartnerPromotableIn } from '../src/data/partner-geo-restrictions.js';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it', "ur", "uk"];
@@ -25,7 +26,7 @@ test('cost decision localizes the whole rendered tool and keeps decimal input pl
       if(locale!=='en') assert.doesNotMatch(html[locale], /CALCULATE YOUR TRADING COST|What does the same trading volume cost|Monthly volume|Order type|Pending source review|Offer &amp; eligibility|Register at|USDT\/mo<\/small>/ ,locale);
       assert.match(html[locale], /step="0\.01"/,locale);
       // Locale routes use canonical public prefixes such as zh-hans/pt-br/id-id, not raw locale codes.
-      const neutral = new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']).has(locale);
+      const neutral = NEUTRAL_CTA_LOCALE_LIST.includes(locale);
       const localePrefix = locale === 'en' ? '' : `/${LOCALE_PREFIX_BY_CODE[locale]}`;
       const binanceOfferHref = new RegExp(`href="${localePrefix}/exchanges/binance#${neutral ? 'platform-facts' : 'registration-path'}\\?(?=[^\"]*product=spot)(?=[^\"]*scenario=cost)(?=[^\"]*instrument=spot)(?=[^\"]*order=taker)(?=[^\"]*volume=100000)(?=[^\"]*basis=base)[^\"]*"`);
       assert.match(html[locale], binanceOfferHref, `${locale}: exact onsite calculator eligibility href`);

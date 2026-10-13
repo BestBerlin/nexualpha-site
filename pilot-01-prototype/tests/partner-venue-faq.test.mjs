@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { rendersSource, renderedSourceHref } from "./helpers/outbound-expect.mjs";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import path from "node:path";
@@ -100,13 +101,14 @@ test("en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer 
   }
 });
 
-test("neutral locales get no partner FAQ; tr / vi / id only for the owner's target exchanges", () => {
+test("neutral locales get no partner FAQ; tr / id only for the owner's target exchanges", () => {
   // Owner update 2026-10-11 (exchange keyword plan): tr, vi and id moved from "under review" to a per-exchange target
   // list (PARTNER_VENUE_FAQ_LOCAL_TARGETS); ru, ar and zh-Hant stay neutral.
-  for (const locale of ["zh-Hant", "ru", "ar"]) {
-    for (const slug of PARTNER_VENUE_FAQ_SLUGS) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
+  // vi became neutral on 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP).
+  for (const locale of ["zh-Hant", "ru", "ar", "vi", "ur", "uk"]) {
+    for (const slug of [...PARTNER_VENUE_FAQ_SLUGS, "hyperliquid", "backpack"]) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
   }
-  for (const locale of ["tr", "vi", "id"]) {
+  for (const locale of ["tr", "id"]) {
     for (const slug of PARTNER_VENUE_FAQ_SLUGS) {
       if (PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale].includes(slug)) assert.ok(partnerVenueFaqFor(slug, locale)?.entries.length >= 5, `${slug}/${locale}`);
       else assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
@@ -141,7 +143,11 @@ test("visible profile FAQ renders the same localized questions and answers as th
       for (const e of faq.entries) {
         assert.ok(html.includes(escape(e.question)), `${key} question missing from visible FAQ: ${e.question}`);
         assert.ok(html.includes(escape(e.answer)), `${key} answer missing from visible FAQ: ${e.question}`);
-        for (const href of e.citations) assert.ok(html.includes(escape(href)), `${key} source link missing: ${href}`);
+        for (const href of e.citations) {
+          // Owner 2026-10-13: coded /go route, or a plain label + domain where the venue has no sitewide parameter.
+          const routed = renderedSourceHref(href, { locale });
+          assert.ok(routed ? html.includes(routed) : html.includes(`data-source-plain="${new URL(href).hostname.replace(/^www\./, "")}"`), `${key} source missing: ${href}`);
+        }
       }
       assert.doesNotMatch(html, /commission-disclosure-line|data-disclosure-placement=/, `${key}: no disclosure line in the FAQ section`);
       if (faq.mode === "replace") assert.ok(!GENERIC_ENGLISH.test(html), `${key} visible FAQ still English`);

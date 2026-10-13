@@ -4,12 +4,13 @@ import { partnerBenefitStatus } from './partner-benefit-status.js';
 import { isPartnerPromotableIn, promotionCountries } from './partner-geo-policy.js';
 import { CAMPAIGN_PROMOTIONS } from './promotions.generated.js';
 import { promotionCopy, promotionConditions } from './promotion-copy.js';
+import { NEUTRAL_CTA_LOCALE_LIST } from './locale-policy.js';
 export { promotionCopy } from './promotion-copy.js';
 
 // This compact registry projection is generated from buildPartnersFeed before this module is built.
 const registryRows = REFERRAL_PARTNERS.map(p => ({ ...p, termsConfirmedOn: partnerBenefitStatus(p.slug)?.confirmedOn || null }));
 const registrySlugs = new Set(registryRows.map(p => p.slug));
-export const NEUTRAL_PROMOTION_LOCALES = ['ru', 'ar', 'zh-Hant', 'ur', 'uk'];
+export const NEUTRAL_PROMOTION_LOCALES = [...NEUTRAL_CTA_LOCALE_LIST];
 // Confirmation dates come from the registry, never the build clock. Undated terms stay disabled.
 export const PROMOTIONS = Object.freeze([
   ...registryRows.map(p => ({

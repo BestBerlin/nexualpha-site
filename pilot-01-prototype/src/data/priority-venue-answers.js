@@ -694,8 +694,9 @@ export const priorityVenueAnswers = {
         faq("How should I read Deribit liquidation risk?", "Deribit describes incremental auto-liquidation and says users do not control the account during the process. Treat liquidation fees, margin usage, collateral model and possible portfolio-margin hedges as separate risk checks from the entry order.", ["https://support.deribit.com/hc/en-us/articles/25944769313309-Liquidations", "https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage"]),
         faq("What changes after the Deribit affiliate migration dates?", "Treat 2026-09-09 as the stop date for creating new affiliates and 2027-01-01 as the stop date for onboarding new users through legacy affiliate links, based on the cited notice. Recheck entity, region and attribution before treating an old readable link as current.", ["https://support.deribit.com/hc/en-us/articles/25944777728797-Affiliate-Program"]),
       ],
-      seoTitle: "Deribit Fees: Options, Futures and 10% User Discount Terms",
-      seoDescription: "Deribit fees for options and futures, the six-month 10% user fee discount, DRB Panama vs FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      // CTR pass 2026-10-13 (GSC 28 d: position 12.2, 17 impressions, 0 clicks; "deribit fees", "deribit mark price").
+      seoTitle: "Deribit Fees (2026): Options, Futures and 10% Discount",
+      seoDescription: "Deribit options and futures fees, the six-month 10% discount for referred users, DRB Panama vs FZE limits, margin modes and how liquidation works.",
     },
     "zh-Hans": {
       title: "Deribit 决策检查：先确认产品、保证金、affiliate 实体和迁移限制，再把它当作专业衍生品平台使用。",

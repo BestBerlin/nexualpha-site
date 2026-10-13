@@ -164,7 +164,7 @@ test("home campaign radar renders localized UI copy and research text for every 
     assert.match(html, /<time dateTime="2026-09-06T18:\d{2}:\d{2}Z">/, `${locale} keeps the machine-readable review stamp`);
   }
   // Official source titles are data and stay English, marked as such on non-Latin pages.
-  assert.match(render(mod.CampaignRadar, { locale: "ja" }), /lang="en" dir="ltr">[^<]*<svg[^]*?Backpack Exchange referral program/);
+  assert.match(render(mod.CampaignRadar, { locale: "ja" }), /lang="en" dir="ltr"[^>]*>[^]*?Backpack Exchange referral program/);
   assertCompleteCopy(mod.campaignRadarCopy, "campaignRadarCopy");
   assert.equal(mod.campaignRadarCopyFor("pt").title, mod.campaignRadarCopy["pt-BR"].title);
   assert.equal(mod.campaignRadarCopyFor("zh-TW").title, mod.campaignRadarCopy["zh-Hant"].title);

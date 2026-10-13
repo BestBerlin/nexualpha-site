@@ -248,7 +248,8 @@ test("regional research previews expose bounded AEO questions and source freshne
 test("homepage keeps primary decisions above a collapsible research drawer", () => {
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
   assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} \/>/);
-  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{homeSlots\.closing\} \/>/);
+  // A no-promotion market (Vietnam) keeps only the crawl links; every other market keeps the research drawer.
+  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{isNeutralCtaLocale\(locale\) \|\| jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
   const closingSlot = app.slice(app.indexOf("closing: <>"), app.indexOf("const homeCtx"));
   assert.match(closingSlot, /<HomeResearchDrawer locale=\{locale\} \/>/);
@@ -2203,8 +2204,8 @@ test("Brazil decision CTAs require a verified public claim before registration",
 });
 
 test("Brazil decision renders AEO answers inside the collapsed evidence area", () => {
-  assert.match(brazilDecisionPage, /function BrazilAeoAnswers\(\{ answers = \[\], sources \}\)/);
-  assert.match(brazilDecisionPage, /<BrazilAeoAnswers answers=\{page\.aeoAnswers\} sources=\{sources\} \/>/);
+  assert.match(brazilDecisionPage, /function BrazilAeoAnswers\(\{ answers = \[\], sources(?:, locale = "pt-BR")? \}\)/);
+  assert.match(brazilDecisionPage, /<BrazilAeoAnswers answers=\{page\.aeoAnswers\} sources=\{sources\}(?: locale=\{locale\})? \/>/);
   assert.match(brazilDecisionPage, /<details className="br-aeo-answer" key=\{item\.id \|\| item\.question\}>/);
   assert.match(brazilDecisionPage, /<summary>\{item\.question\}<\/summary>/);
   assert.match(brazilDecisionPage, /item\.steps\.slice\(0, 5\)\.map/);

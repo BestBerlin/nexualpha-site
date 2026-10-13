@@ -1,14 +1,20 @@
+import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
-import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
+import { isPartnerPromotableIn, jurisdictionPromotionBan } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
+import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-topic.js";
+import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
+import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
+import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
+import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
-import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
+import { HOME_SEARCH_COPY, homeSearchCopyFor } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
@@ -27,6 +33,7 @@ import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
 import { LIQUIDATION_LEVELS_PATH } from "../server/liquidation-levels-feed.mjs";
 import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
+import { completePageSchemas } from "../src/data/page-schemas.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { ARCHIVE_PATH, archiveItems, isArchiveIndexable } from "../src/data/announcement-archive.js";
@@ -235,6 +242,10 @@ export default {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
     const parsedRoute = parsePublicRoute(url.pathname, url.searchParams);
+    if (parsedRoute.locale === "tr" && parseBitgetAlliancePath(parsedRoute.contentPathname) && ["GET", "HEAD"].includes(request.method)) {
+      const metadata = await routeMetadata(url, env);
+      return new Response(null, { status: 301, headers: { location: metadata.redirect, "cache-control": "public, max-age=3600", "x-robots-tag": "noindex,follow" } });
+    }
     const legacyCompareRedirect = LEGACY_COMPARE_REDIRECTS[parsedRoute.contentPathname];
     if (legacyCompareRedirect && ["GET", "HEAD"].includes(request.method)) {
       const destination = new URL(localizedPath(legacyCompareRedirect, parsedRoute.locale), PUBLIC_ORIGIN);
@@ -324,8 +335,8 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)",
-      "description": "Hyperliquid referral code NEXU888: fees and official sign-up link checked by NexuAlpha.",
+      "title": "Hyperliquid Fees, Code NEXU888 & Funded Accounts (2026)",
+      "description": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -395,8 +406,8 @@ const PRIORITY_VENUE_SEO = {
       "reviewedAt": "2026-09-22"
     },
     "zh-Hans": {
-      "title": "Hyperliquid 邀请码 NEXU888：注册教程、手续费与官方入口（2026）",
-      "description": "Hyperliquid 邀请码 NEXU888：注册入口与手续费。NexuAlpha 核验官方入口。",
+      "title": "Hyperliquid 邀请码 NEXU888（2026）",
+      "description": "Hyperliquid 无需注册账户：在官方 App 连接自己的钱包、存入 USDC，填写邀请码 NEXU888 即可享受交易手续费 4% 折扣。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
@@ -1076,8 +1087,8 @@ const PRIORITY_VENUE_SEO = {
   },
   "deribit": {
     "en": {
-      "title": "Deribit Fees: Options, Futures and 10% User Discount Terms",
-      "description": "Deribit fees for options and futures, the six-month 10% user fee discount, DRB Panama vs FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      "title": "Deribit Fees (2026): Options, Futures and 10% Discount",
+      "description": "Deribit options and futures fees, the six-month 10% discount for referred users, DRB Panama vs FZE limits, margin modes and how liquidation works.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -2786,29 +2797,6 @@ const SEARCH_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "
 const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SEARCH_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
-const SERP_CTR_NEWS_OVERRIDES = {
-  "okx-usd-to-usdc-spot-pair-migration": {
-    title: "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots",
-    description: "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.",
-    question: "What should I check before the OKX USD to USDC spot-pair migration?",
-    answer: "Check the official pair scope first, then inspect open orders, bots, API instrument identifiers, quote-currency handling and account balances before changing a live workflow.",
-  },
-  "hyperliquid-vs-dydx": {
-    title: "Hyperliquid vs dYdX: Fees, Funding and Liquidation",
-    description: "Compare Hyperliquid and dYdX fees, funding, collateral, liquidation, oracle, wallet and recovery mechanics before opening a perpetual position.",
-    question: "Should I choose Hyperliquid or dYdX for perp DEX trading?",
-    answer: "Choose only after comparing fees and funding alongside collateral, liquidation, oracle, wallet recovery and regional access; no single quoted rate settles the decision.",
-  },
-  "tokenized-treasuries-structure-access-risks": {
-    title: "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks",
-    description: "Check what a tokenized Treasury legally represents before comparing yield: issuer, recordkeeper, custodian, redemption path, wallet controls and eligibility.",
-    question: "What should I verify before comparing tokenized Treasury yield?",
-  },
-};
-
-function serpCtrNewsOverride(slug, locale) {
-  return locale === "en" ? SERP_CTR_NEWS_OVERRIDES[slug] || null : null;
-}
 
 const REGIONAL_PREVIEW_SEO = {
   "/mx": ["México: preparación para MXN y SPEI — NexuAlpha", "Ruta de investigación para MXN, SPEI y la preparación de una cuenta de pagos local."],
@@ -3364,7 +3352,7 @@ function articlePublishedLocales(article) {
   const locales = explicit.filter((locale) => hasExactArticleText(article.title, locale)
     && hasExactArticleText(article.summary, locale)
     && hasExactArticleText(article.content, locale));
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 function articleProjectionLocales(article) {
@@ -3375,7 +3363,7 @@ function articleProjectionLocales(article) {
   const locales = Array.isArray(projection.availableLocales)
     ? projection.availableLocales.filter((locale) => NEWS_INDEXABLE_LOCALES.includes(locale))
     : [];
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 function articleSeoLocales(article) {
@@ -3544,7 +3532,11 @@ function routeTrustPairs(metadata) {
   ].filter(([, content]) => Boolean(content));
 }
 
-function routeSchemaPayload(schema) {
+function routeSchemaPayload(schema, metadata) {
+  if (metadata?.status === 200) {
+    const pathname = parsePublicRoute(new URL(metadata.canonical).pathname).contentPathname;
+    schema = completePageSchemas(schema, { pathname, canonical: metadata.canonical, title: metadata.title, description: metadata.description, locale: metadata.locale });
+  }
   if (!schema) return null;
   return Array.isArray(schema)
     ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
@@ -3585,7 +3577,7 @@ export function routeSeoPayload(metadata, url) {
     openGraph: routeOpenGraphPairs(metadata),
     twitter: routeTwitterPairs(metadata),
     trust: routeTrustPairs(metadata),
-    schema: routeSchemaPayload(metadata.schema),
+    schema: routeSchemaPayload(metadata.schema, { ...metadata, locale: documentLocaleFor(metadata, url) }),
   };
 }
 
@@ -3682,7 +3674,7 @@ function injectRouteMetadata(html, metadata) {
     );
   }
   output = output.replace(/\s*<script\b[^>]*id=["']nexualpha-route-schema["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
-  const schemaPayload = routeSchemaPayload(metadata.schema);
+  const schemaPayload = routeSchemaPayload(metadata.schema, metadata);
   if (schemaPayload) {
     output = output.replace(
       /<\/head>/i,
@@ -3714,7 +3706,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
-    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    // Neutral locales (locale-policy.js): the state carries the same sign-up-free text the page renders.
+    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }).map((article) => (isNeutralCtaLocale(locale) ? neutralArticleView(article, locale) : article)) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
@@ -4310,6 +4303,8 @@ function injectFallbackBody(html, metadata, url) {
   if (!hydrationArticles.length) {
     return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
   }
+  // Neutral locales (locale-policy.js): the hydration state carries the same sign-up-free text the page renders.
+  if (isNeutralCtaLocale(locale)) hydrationArticles = hydrationArticles.map((article) => neutralArticleView(article, locale));
   const payload = safeJson({
     pathname: contentUrl.pathname,
     locale,
@@ -4648,6 +4643,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
       let fundingMatrix = null;
       try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      // Neutral locales and no-promotion markets (Vietnam): the embedded payload carries no /go/ trade routes.
+      if (fundingMatrix && (isNeutralCtaLocale(publicRoute.locale) || jurisdictionPromotionBan({ locale: publicRoute.locale, market: url.searchParams.get("market") }))) fundingMatrix = withoutFundingTradeHrefs(fundingMatrix);
       try {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { fundingMatrix });
         if (typeof appHtml === "string" && appHtml.includes('data-testid="funding-matrix-page"')) {
@@ -4848,7 +4845,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   // so a locale-only snapshot must never expose a code excluded by the requested market.
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const market = url.searchParams.get("market");
-  const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates";
+  // The home is a promotion page too: a no-promotion market (Vietnam) renders it without the rebate desk.
+  const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates" || publicRoute.contentPathname === "/";
   const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
     !isPartnerPromotableIn(slug, { locale: publicRoute.locale, market }) && isPartnerPromotableIn(slug, { locale: publicRoute.locale }));
   if (policyChanges) {
@@ -4981,7 +4979,8 @@ async function handleNewsArticleJson(env, url) {
       availableLocales: articlePublishedLocales(article),
       routeProjection: { source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE, locale: requestedLocale, availableLocales: articleSeoLocales(article) },
     };
-    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
+    const neutral = (row) => neutralArticleView(row, requestedLocale);
+    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries].map(neutral), relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
   }
   return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
@@ -5112,6 +5111,7 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
     if (!["listing", "event"].includes(item.category) || isUpdateNoindex(item)) continue;
     const lastmod = new Date(Date.parse(item.publishedAt)).toISOString().slice(0, 10);
     for (const locale of INDEXABLE_LOCALES) {
+      if (!campaignVisibleInLocale(item, locale)) continue;
       rows.push(`  <url>\n    <loc>${xmlText(localizedCanonical(pathname, locale))}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
     }
   }
@@ -5194,7 +5194,7 @@ async function handleFlashFeedJson(request, env, url) {
   let payload;
   if (key) {
     const item = /^[0-9a-z]{10}$/.test(key) ? findFlashItem(items, key) : null;
-    if (!item) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
+    if (!item || !campaignVisibleInLocale(item, locale)) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
     payload = flashItemPayload(items, item, locale, { now });
   } else {
     payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
@@ -5921,6 +5921,8 @@ function pageBreadcrumb(name, canonicalUrl, parentName, parentPath, locale) {
 function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null) {
   const sourceUrls = seoOverride?.sourceUrls || [];
   const schemas = [pageBreadcrumb(venue.name, canonicalUrl, "Exchanges", "/exchanges", locale), {
+    "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}`,
+  }, {
     "@type": "WebPage", name: `${venue.name} Exchange Profile`, url: canonicalUrl, inLanguage: locale, dateModified: seoOverride?.reviewedAt || (seoOverride ? "2026-09-15" : "2026-09-08"),
     ...researchAttribution([`https://${venue.officialDomain}`, ...sourceUrls]),
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -6182,19 +6184,24 @@ function buildWorkerActivityUpdateSchema(item, locale, canonicalUrl) {
       ...(publishedAt ? { datePublished: publishedAt, dateModified: publishedAt } : {}),
       author: RESEARCH_DESK,
       publisher: NEXUALPHA_PUBLISHER,
+      image: ["https://nexualpha.com/brand/nexualpha/nexualpha-square.png"],
       isAccessibleForFree: true,
       about: { "@type": "Organization", name: venueDisplayName(item.venue) },
       citation: item.url,
     },
   ];
-  const deadline = Number.isFinite(Date.parse(item?.brief?.deadline)) ? new Date(item.brief.deadline).toISOString() : null;
-  if (item.category === "event" && deadline) {
+  const startDate = Number.isFinite(Date.parse(item.startAt)) ? new Date(item.startAt).toISOString() : null;
+  const end = item.endAt || item?.brief?.deadline;
+  const deadline = Number.isFinite(Date.parse(end)) ? new Date(end).toISOString() : null;
+  // An announcement/publication date is not an event start. Keep the article alternative when dates are unknown.
+  if (item.category === "event" && startDate && deadline && startDate <= deadline) {
     schemas.push({
       "@type": "Event",
       name: headline,
       description,
       url: canonicalUrl,
       inLanguage: locale,
+      startDate,
       endDate: deadline,
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
@@ -6751,7 +6758,9 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
     metadata.robots = "noindex,follow";
   }
   if (/^\/activities\/updates\/[^/]+\/[^/]+$/.test(pathname)) {
-    metadata.alternates = routeAlternates(pathname, publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES);
+    const item = metadata.activityUpdateFeed?.items?.find((entry) => updatePath(entry) === pathname);
+    const locales = (publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES).filter((lang) => campaignVisibleInLocale(item, lang));
+    metadata.alternates = routeAlternates(pathname, locales);
     return metadata;
   }
   if (metadata.robots !== "index,follow") {
@@ -6858,9 +6867,14 @@ async function resolveRouteMetadata(url, env) {
     return { status: 200, title: "NexuAlpha Partner Page", description: "Platform choices for this partner entry.", canonical: localizedCanonical(slug ? `/ref/${slug}` : "/", locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER };
   }
   const isNewsRoute = contentUrl.pathname === "/news" || contentUrl.pathname.startsWith("/news/");
-  const newsFeed = isNewsRoute
+  const loadedNewsFeed = isNewsRoute
     ? (await loadPrerenderedNewsSnapshot(env, url)) || await loadNewsFeed(env, url)
     : null;
+  // Neutral locales (locale-policy.js): titles, summaries, bodies and schema read the sign-up-free text, and the listing
+  // leaves out articles whose whole topic is a referral code (their pages stay reachable, noindex).
+  const newsFeed = loadedNewsFeed && isNeutralCtaLocale(requestedLocale)
+    ? neutralNewsFeed(loadedNewsFeed, requestedLocale, { listing: !/^\/news\/[a-z0-9-]+$/.test(contentUrl.pathname) })
+    : loadedNewsFeed;
   const searchEligibilityNewsFeed = isNewsRoute && typeof newsFeed?.searchPublished !== "boolean"
     ? await loadNewsFeed(env, url)
     : null;
@@ -6890,16 +6904,36 @@ async function resolveRouteMetadata(url, env) {
   });
 }
 
+const neutralNewsFeedCache = new WeakMap();
+function neutralNewsFeed(feed, locale, { listing = false } = {}) {
+  if (!feed || !Array.isArray(feed.articles)) return feed;
+  let byLocale = neutralNewsFeedCache.get(feed);
+  if (!byLocale) { byLocale = new Map(); neutralNewsFeedCache.set(feed, byLocale); }
+  const key = `${locale}|${listing ? "listing" : "article"}`;
+  if (!byLocale.has(key)) {
+    const rows = listing ? feed.articles.filter((article) => !isReferralTopicArticle(article)) : feed.articles;
+    byLocale.set(key, { ...feed, articles: rows.map((article) => neutralArticleView(article, locale)) });
+  }
+  return byLocale.get(key);
+}
+
 async function routeMetadataBase(url, env, newsFeed) {
   const canonicalPath = url.pathname === "/index.html" ? "/" : url.pathname;
   const locale = routeLocale(url);
   const requestedLocale = url.searchParams.get("locale") || locale;
   const schemaLocale = String(requestedLocale).startsWith("zh") ? requestedLocale : locale;
   const isZh = locale === "zh-Hans";
+  const campaignListingRedirect = () => {
+    const target = new URL(localizedCanonical("/activities", requestedLocale));
+    const market = url.searchParams.get("market");
+    if (market) target.searchParams.set("market", market);
+    return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
+  };
+  if (parseBitgetAlliancePath(canonicalPath) && requestedLocale === "tr") return campaignListingRedirect();
 
   if (canonicalPath === "/") {
     const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
-    const [title, description] = HOME_SEARCH_COPY[homeCopyLocale] || HOME_SEARCH_COPY.en;
+    const [title, description] = homeSearchCopyFor(homeCopyLocale, url.searchParams.get("market"));
 
     return {
       status: 200,
@@ -7000,7 +7034,7 @@ async function routeMetadataBase(url, env, newsFeed) {
 
       // l10n: needs native review
       uk: ["Довідник криптобірж і порівняння комісій (2026) — NexuAlpha", "Порівнюйте опубліковані комісії, резерви, KYC і регіональні умови CEX та DEX за джерелами."],
-    }[locale] || (isZh ? ["全球核心加密货币交易所黄页与费率评测 (2026) — NexuAlpha", "收录币安、OKX、Bybit、Bitget 等中心化与去中心化平台，整理 PoR 来源、现货与合约公开费率、KYC 要求和地区条件。"] : ["Crypto Exchanges Directory & Fee Comparison (2026) — NexuAlpha", "A source-linked directory of crypto CEXs and DEXs. Compare published spot/futures fees, reserve sources, KYC tiers and regional conditions."]);
+    }[locale] || (isZh ? ["全球核心加密货币交易所黄页与费率评测 (2026) — NexuAlpha", "收录币安、OKX、Bybit、Bitget 等中心化与去中心化平台，整理 PoR 来源、现货与合约公开费率、KYC 要求和地区条件。"] : ["Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha", "Compare 24 crypto exchanges and DEXs on spot and futures fees, KYC, proof of reserves and regions, with the official link for each."]);
     const [title, description] = directoryCopy;
 
     return {
@@ -7047,6 +7081,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       it: "Profilo della piattaforma e commissioni",
     }[requestedLocale] || { "zh-Hant": "平台檔案與手續費" }[locale];
     const venueSeoOverride = {
+      // CTR pass 2026-10-13 (GSC 28 d: position 10.6, 10 impressions, 0 clicks): the generic profile title named no query.
+      curve: {
+        title: "Curve Finance (2026): Swap Fees, Pools and Wallet Checks",
+        description: "How Curve Finance swaps work: pool-set fees, slippage and gas, plus the wallet approvals to check before your first stablecoin swap on the official app.",
+      },
       "gate-io": {
         title: "Gate.io Fees, KYC, Listings and Referral Code Checks — NexuAlpha",
         description: "Check Gate.io spot and futures fee sources, KYC and regional conditions, withdrawal and listing risks, API scope, and whether the referral code appears in the official signup flow.",
@@ -7570,10 +7609,10 @@ async function routeMetadataBase(url, env, newsFeed) {
     const activityLocalized = { ja: { title: "公式暗号資産キャンペーン・上場・エアドロップレーダー — NexuAlpha", description: "確認済みの公式キャンペーン、新規上場、Launchpool、各プラットフォームの新規特典を整理します。" }, ko: { title: "공식 암호화폐 캠페인·상장·에어드롭 레이더 — NexuAlpha", description: "검토된 공식 캠페인, 신규 상장, Launchpool과 플랫폼별 신규 혜택을 정리합니다." }, tr: { title: "Resmî kripto kampanyaları, listelemeler ve airdrop radarı — NexuAlpha", description: "İncelenmiş resmî kampanyaları, yeni listelemeleri, Launchpool ve platforma özel avantajları takip edin." }, es: { title: "Radar de campañas cripto oficiales y airdrops — NexuAlpha", description: "Consulta campañas oficiales, nuevos listados, Launchpool y ventajas para nuevos usuarios." }, "zh-Hant": { title: "官方加密活動、上線與空投雷達 — NexuAlpha", description: "整理已審核的官方活動、新上線、Launchpool 與平台更新。" }, "pt-BR": { title: "Radar de campanhas cripto oficiais e airdrops — NexuAlpha", description: "Consulte campanhas oficiais, novas listagens, Launchpool e atualizações de plataformas." }, fr: { title: "Radar des campagnes crypto officielles et airdrops — NexuAlpha", description: "Consultez les campagnes officielles, nouvelles cotations, Launchpool et mises à jour des plateformes." }, de: { title: "Radar für offizielle Krypto-Kampagnen und Airdrops — NexuAlpha", description: "Prüfen Sie offizielle Kampagnen, neue Listings, Launchpool und Plattform-Updates." }, ar: { title: "رادار حملات العملات المشفرة الرسمية والإسقاطات — NexuAlpha", description: "راجع الحملات الرسمية والإدراجات الجديدة وLaunchpool وتحديثات المنصات." }, ru: { title: "Радар официальных криптокампаний и аирдропов — NexuAlpha", description: "Изучайте официальные кампании, новые листинги, Launchpool и обновления платформ." }, id: { title: "Radar kampanye kripto resmi dan airdrop — NexuAlpha", description: "Tinjau kampanye resmi, listing baru, Launchpool, dan pembaruan platform." }, vi: { title: "Radar chiến dịch crypto chính thức và airdrop — NexuAlpha", description: "Xem các chiến dịch chính thức, niêm yết mới, Launchpool và cập nhật nền tảng." }, it: { title: "Radar delle campagne crypto ufficiali e degli airdrop — NexuAlpha", description: "Consulta campagne ufficiali, nuovi listing, Launchpool e aggiornamenti delle piattaforme." } }[requestedLocale];
     const title = isZh
       ? "官方活动中心：Launchpool 质押、新币空投与迎新福利雷达 — NexuAlpha"
-      : activityLocalized?.title || "Official Crypto Campaigns, Launchpool & Airdrop Radar — NexuAlpha";
+      : activityLocalized?.title || "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha";
     const description = isZh
       ? "实时追踪币安、OKX、Bybit 等官方最新活动，汇集 Launchpool 挖矿年化、空投申领、充值返利与独家新手任务礼包。"
-      : activityLocalized?.description || "Verified exchange campaigns, new token listings, Launchpool staking yields, and platform-specific welcome terms across reviewed venues.";
+      : activityLocalized?.description || "Live campaigns from Binance, OKX, Bybit and Bitget: Launchpool, new listings, airdrops and welcome offers, each with its dates and the official rules page.";
 
     return {
       status: 200,
@@ -8050,6 +8089,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const target = keep(new URL(localizedCanonical(FLASH_PATH, requestedLocale)));
       return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
     }
+    if (!campaignVisibleInLocale(item, requestedLocale)) return campaignListingRedirect();
     const itemPath = flashItemPath(item);
     if (canonicalPath !== itemPath) {
       const target = keep(new URL(localizedCanonical(itemPath, requestedLocale)));
@@ -8221,8 +8261,8 @@ async function routeMetadataBase(url, env, newsFeed) {
     },
     "/methodology": {
       en: {
-        title: "Research Methodology & Editorial Policy — NexuAlpha",
-        description: "How NexuAlpha verifies sources, separates facts from estimates, and discloses commercial relationships.",
+        title: "How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha",
+        description: "How we verify exchange fees, referral codes and news: official sources only, dated checks, facts kept apart from estimates, and how partner links work.",
       },
       "zh-Hans": {
         title: "研究方法与编辑政策 — NexuAlpha",
@@ -8449,6 +8489,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const archivedRow = update ? null : await findArchivedActivityUpdate(env, url, updateMatch.venue, updateMatch.slug);
       const archived = archivedRow ? attachBriefToCompactItem(archivedRow, feed) : null;
       if (!update && archived) {
+        if (!campaignVisibleInLocale(archived, requestedLocale)) return campaignListingRedirect();
         const category = updateCategory(archived, requestedLocale);
         const headline = updateHeadline(archived, requestedLocale) || archived.title;
         const canonical = localizedCanonical(updatePath(archived), locale);
@@ -8469,6 +8510,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         };
       }
       if (update) {
+        if (!campaignVisibleInLocale(update, requestedLocale)) return campaignListingRedirect();
         const category = updateCategory(update, requestedLocale);
         const headline = updateHeadline(update, requestedLocale) || update.title;
         const venueName = venueDisplayName(update.venue);
@@ -8504,6 +8546,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const payload = response.ok ? await response.json() : null;
       const updates = Array.isArray(payload?.data) ? payload.data : [];
       const update = updates.find((entry) => entry?.id === decodeURIComponent(activityMatch[1]));
+      if (update && !campaignVisibleInLocale(update, requestedLocale)) return campaignListingRedirect();
       if (update) return { status: 200, title: `${localized(update.title, locale) || "Official Update"} — NexuAlpha`, description: localized(update.summary, locale), canonical: localizedCanonical(canonicalPath, locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER };
     } catch { /* Missing runtime evidence remains a 404. */ }
   }

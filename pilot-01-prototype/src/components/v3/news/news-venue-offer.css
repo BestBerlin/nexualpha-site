@@ -58,3 +58,7 @@
   .news-offer--timed .news-offer__go { flex: none; padding-inline: 14px; font-size: 14px; }
   .news-offer--timed .news-offer__logo { inline-size: 34px; block-size: 34px; }
 }
+
+/* Backup sign-up link (owner 2026-10-13): own line under the button; hidden in the compact timed slide-in. */
+.news-offer__act .nx-backup-signup { flex-basis: 100%; }
+.news-offer--timed .nx-backup-signup { display: none !important; }

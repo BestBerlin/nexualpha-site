@@ -24,7 +24,7 @@
     "templateTitles": 484,
     "alreadyNoindex": 24,
     "noindex": 302,
-    "canonical": 6,
+    "canonical": 7,
     "keptForImpressions": 153,
     "keptForClicks": 0,
     "keptForBacklinks": 0,
@@ -2152,6 +2152,11 @@
     }
   ],
   "canonical": [
+    {
+      "slug": "how-to-verify-binance-travel-rule-address-book-satoshi-test",
+      "canonicalSlug": "binance-travel-rule-address-book-satoshi-test-checklist",
+      "reason": "CTR pass 2026-10-13: near-duplicate of the Travel Rule / Satoshi Test checklist (same Binance sources and fact list); \"binance satoshi test\" (13 impressions, 28 d) was split between the two, landing on this noindex zh-Hans edition."
+    },
     {
       "slug": "october-10-crypto-crash-one-year-later-liquidity-leverage-liquidations",
       "canonicalSlug": "october-10-crypto-crash-one-year-later-liquidity-leverage",

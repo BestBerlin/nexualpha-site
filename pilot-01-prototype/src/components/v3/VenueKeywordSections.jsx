@@ -3,6 +3,7 @@
 // in profile-density.css (already linked on every profile) so the SSR page never waits for a separate stylesheet.
 // The invite code comes from the CTA (partner feed), never typed here.
 import { referralTitleAllowed } from "../../data/referral-seo.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import {
   BACKPACK_SOURCES,
   HYPERLIQUID_FEE_TIERS,
@@ -12,11 +13,11 @@ import {
   hyperliquidKeywordCopy,
 } from "../../data/venue-keyword-sections.js";
 
-function SourceLinks({ items, placement }) {
+function SourceLinks({ items, placement, locale, market }) {
   return (
     <p className="v3-kw__sources">
       {items.map(([label, href]) => (
-        <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement={placement}>{label} ↗</a>
+        <SourceLink locale={locale} market={market} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement={placement}>{label} ↗</SourceLink>
       ))}
     </p>
   );
@@ -58,7 +59,7 @@ function HyperliquidSections({ locale, market, inviteCode }) {
         <p>{t.fundedBody}</p>
       </div>
       <p className="v3-kw__checked">{t.checked} <time dateTime={SECTIONS_REVIEWED_AT}>{SECTIONS_REVIEWED_AT}</time></p>
-      <SourceLinks
+      <SourceLinks locale={locale} market={market}
         placement="hyperliquid-keyword-source"
         items={[[t.sources[0], HYPERLIQUID_SOURCES.fees], [t.sources[1], HYPERLIQUID_SOURCES.referrals], [t.sources[2], HYPERLIQUID_SOURCES.subAccounts], [t.sources[3], HYPERLIQUID_SOURCES.vaults]]}
       />
@@ -66,7 +67,7 @@ function HyperliquidSections({ locale, market, inviteCode }) {
   );
 }
 
-function BackpackStocksSection({ locale }) {
+function BackpackStocksSection({ locale, market }) {
   const t = backpackStocksCopy(locale);
   return (
     <section className="v3-kw" data-keyword-section="backpack-stocks" aria-labelledby="bp-stocks-title">
@@ -75,14 +76,14 @@ function BackpackStocksSection({ locale }) {
       <ul className="v3-kw__list">{t.items.map((item) => <li key={item}>{item}</li>)}</ul>
       <p className="v3-kw__note">{t.boundary}</p>
       <p className="v3-kw__checked">{t.checked} <time dateTime={SECTIONS_REVIEWED_AT}>{SECTIONS_REVIEWED_AT}</time></p>
-      <SourceLinks placement="backpack-stocks-source" items={[[t.sources[0], BACKPACK_SOURCES.securities], [t.sources[1], BACKPACK_SOURCES.tokenized]]} />
+      <SourceLinks locale={locale} market={market} placement="backpack-stocks-source" items={[[t.sources[0], BACKPACK_SOURCES.securities], [t.sources[1], BACKPACK_SOURCES.tokenized]]} />
     </section>
   );
 }
 
 export function VenueKeywordSections({ slug, locale = "en", market, inviteCode = null }) {
   if (slug === "hyperliquid") return <HyperliquidSections locale={locale} market={market} inviteCode={inviteCode} />;
-  if (slug === "backpack") return <BackpackStocksSection locale={locale} />;
+  if (slug === "backpack") return <BackpackStocksSection locale={locale} market={market} />;
   return null;
 }
 

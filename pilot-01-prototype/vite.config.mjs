@@ -219,6 +219,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // The partner geo policy is read by locale-routing.js (Türkiye link gate, 2026-10-13) and so by every route: pinned
           // in its own small chunk so no route chunk absorbs it and becomes a dependency of every other (SSR TDZ cycle).
           if (/\/src\/data\/partner-geo-policy(?:\.generated)?\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
+          // The neutral-locale list (locale-policy.js, vi neutral 2026-10-13) and its tiny helpers are read by the campaign,
+          // academy, news and data chunks: same pin, same reason.
+          if (/\/src\/data\/(?:locale-policy|neutral-referral-topic|campaign-codes)\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
           if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";

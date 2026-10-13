@@ -12,6 +12,7 @@ import {
   radarCopy,
   sortRows,
 } from "../src/data/radar.js";
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const SAMPLE_RADAR = {
   longShort: {
@@ -118,8 +119,11 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   assert.deepEqual(h1Texts(whalesHtml), ["Whale transfer radar"]);
   doc = new JSDOM(whalesHtml).window.document;
   assert.equal(doc.querySelectorAll(".nxradar-table tbody tr").length, 2);
-  assert.ok(doc.body.textContent.includes("unknown"), "unknown counterparties stay unknown");
-  assert.ok(doc.body.textContent.includes("not proof of a sale"), "exchange-transfer caveat renders");
+  assert.ok(doc.body.textContent.includes("Unlabelled wallet"), "unknown counterparties render as an unlabelled wallet");
+  const method = doc.querySelector("details.nxradar-method");
+  assert.ok(method && !method.hasAttribute("open"), "methodology sits in a collapsed block");
+  assert.ok(method.textContent.includes("not proof of a sale"), "exchange-transfer note lives in the collapsed methodology");
+  assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("not proof of a sale"), false, "no caveat above the fold");
   assert.ok(doc.querySelector('a[href="https://mempool.space/tx/example"]'), "explorer link is preserved as the source action");
   assert.ok(doc.querySelector('a[href="/go/binance?src=whales"]'), "whales CTA uses its own src attribution");
 });
@@ -147,5 +151,55 @@ test('populated radar SSR hydrates with the identical rows and no recoverable mi
     const html = `<!doctype html><html><head></head><body><div id="root">${appHtml}</div><script type="application/json" id="nexualpha-prerender-state">${state}</script></body></html>`;
     const result = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
     assert.deepEqual(hydrationErrors(result.errors), [], path);
+  }
+});
+
+test("zh-Hans radar UI is fully localized: headers, directions, venue names and row action", async () => {
+  const { LongShortPage, WhalesPage } = await harness.vite.ssrLoadModule("/src/components/radar/RadarPages.jsx");
+  const longRows = { ...SAMPLE_RADAR.longShort, rows: SAMPLE_RADAR.longShort.rows.map((row) => ({ ...row, venue: row.venue.toLowerCase() })) };
+  let doc = new JSDOM(renderToStaticMarkup(React.createElement(LongShortPage, { locale: "zh-Hans", initial: { longShort: longRows } }))).window.document;
+  const headers = [...doc.querySelectorAll(".nxradar-table thead th")].map((th) => th.textContent).join(" ");
+  for (const label of ["币种", "平台", "账户多空比", "大户多空比", "未平仓量"]) assert.ok(headers.includes(label), label);
+  assert.ok(!/Symbol|Venue|Open interest/.test(headers));
+  const venues = [...doc.querySelectorAll(".nxradar-table tbody td[data-label='平台'] > span")].map((el) => el.textContent);
+  assert.deepEqual(venues.sort(), ["Binance", "OKX"]);
+  const action = doc.querySelector(".nxradar-go");
+  assert.match(action.textContent, /^查看 (Binance|OKX)$/);
+  assert.match(action.getAttribute("href"), /^\/go\/(binance|okx)\?src=long-short&locale=zh-Hans$/, "keeps /go route with src attribution");
+  assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("多空比反映"), false);
+  assert.ok(!doc.querySelector(".nxradar-hero ul"), "no English limitation bullets above the fold");
+  assert.equal(doc.querySelector("details.nxradar-method summary").textContent, "数据说明");
+
+  doc = new JSDOM(renderToStaticMarkup(React.createElement(WhalesPage, { locale: "zh-Hans", initial: SAMPLE_RADAR }))).window.document;
+  const whaleHeaders = [...doc.querySelectorAll(".nxradar-table thead th")].map((th) => th.textContent).join(" ");
+  for (const label of ["资产", "数量", "转出方", "转入方", "方向", "时间"]) assert.ok(whaleHeaders.includes(label), label);
+  const body = doc.querySelector(".nxradar-table tbody").textContent;
+  assert.ok(body.includes("转入交易所") && body.includes("未标注钱包"));
+  assert.ok(!/unknown|to exchange/.test(body));
+  assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("不等于卖出"), false);
+});
+
+test("neutral locales get profile links instead of sponsored routes and no offer block", async () => {
+  const { LongShortPage } = await harness.vite.ssrLoadModule("/src/components/radar/RadarPages.jsx");
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) {
+    const doc = new JSDOM(renderToStaticMarkup(React.createElement(LongShortPage, { locale, initial: SAMPLE_RADAR }))).window.document;
+    assert.equal(doc.querySelectorAll('a[href^="/go/"]').length, 0, locale);
+    assert.equal(doc.querySelectorAll('a[rel~="sponsored"]').length, 0, locale);
+    assert.ok(doc.querySelector(".nxradar-go--profile"), locale);
+  }
+});
+
+test("every radar locale localizes table headers, directions and unknown label", () => {
+  const en = radarCopy("en");
+  for (const locale of RADAR_LOCALES.filter((l) => l !== "en")) {
+    const copy = radarCopy(locale);
+    for (const key of ["symbol", "venue", "accountRatio", "topTraderRatio", "oi", "asset", "amount", "from", "to", "direction", "time"]) {
+      // "Symbol", "Asset" and "Open interest" are the native trading terms in several Latin-script locales.
+      if (["symbol", "asset", "oi", "direction"].includes(key) && ["de", "it", "fr", "pt-BR", "id"].includes(locale)) continue;
+      assert.notEqual(copy.columns[key], en.columns[key], `${locale}.${key}`);
+    }
+    for (const key of ["to_exchange", "from_exchange", "wallet_to_wallet", "unknown"]) assert.notEqual(copy.directions[key], en.directions[key], `${locale}.${key}`);
+    assert.notEqual(copy.unknown, "unknown", locale);
+    assert.match(copy.viewVenueNamed, /\{venue\}/);
   }
 });

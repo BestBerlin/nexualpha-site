@@ -1,4 +1,5 @@
 import { radarCopy } from "../../data/radar.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 // NexuAlpha Flash (/flash, /flash/<key>-<slug>): the 7x24 stream and one page per item. The Worker renders both at
 // request time with these components and the same payload the browser hydrates (state "flash"); headline and body
 // arrive already localized, so no templates ship to the browser. The stream refreshes every 60 s and shows a
@@ -273,7 +274,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
         <div className="nxf-source">
           <span className="nxf-source__label">{t.source}</span>
           {item.source.kind === "official"
-            ? <a href={item.source.url} target="_blank" rel="nofollow noopener noreferrer" lang="en" dir="ltr">{t.official}: {item.source.title} <span aria-hidden="true">↗</span></a>
+            ? <SourceLink locale={locale} market={market} href={item.source.url} target="_blank" rel="nofollow noopener noreferrer" lang="en" dir="ltr">{t.official}: {item.source.title} <span aria-hidden="true">↗</span></SourceLink>
             : item.source.kind === "news"
               ? <a href={hrefFor(item.source.url, locale, market)}>{t.article}</a>
               : <a href={hrefFor(item.source.url, locale, market)}>{t.data}</a>}

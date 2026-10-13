@@ -4,9 +4,12 @@
 // - mempool.space exposes keyless public REST endpoints, but rate limits are not a product contract. This module only
 //   reads it through the server cache and returns an explicit unavailable snapshot on HTTP/rate-limit failure.
 // - PublicNode advertises free public Ethereum RPC endpoints. This module uses read-only eth_getBlockByNumber and
-//   eth_getLogs with a 10-block lookback for ETH/USDT/USDC samples; failures produce an unavailable snapshot.
-// - Label rule: the exact-label list is a dated subset of DeFiLlama’s maintained public CEX list. Unknown
-//   addresses stay "unknown"; exchange-transfer direction never means sale.
+//   eth_getLogs. A cold start reads a 40-block lookback; later refreshes only scan blocks added since the last cursor
+//   (capped catch-up), and qualifying rows are kept in a rolling 3-hour window. Failures produce an unavailable snapshot.
+// - Label rule: exact addresses from exchanges' own published proof-of-reserves wallet lists (see
+//   exchange-address-labels.mjs, one source URL per address). Unknown addresses stay "unknown"; exchange-transfer
+//   direction never means sale.
+import { EXCHANGE_ADDRESS_LABEL_ROWS } from "./exchange-address-labels.mjs";
 
 const UA = "NexuAlphaPositionRadar/1.0 (+https://nexualpha.com)";
 const MAX_TTL_MS = 60_000;
@@ -29,15 +32,28 @@ export const POSITION_RADAR_SOURCE_LIMITATIONS = Object.freeze({
   ],
 });
 
+const labelMap = (chain) => Object.freeze(Object.fromEntries((EXCHANGE_ADDRESS_LABEL_ROWS[chain] || []).map((entry) => [
+  chain === "ethereum" ? entry.address.toLowerCase() : entry.address,
+  Object.freeze({ label: entry.label, owner: entry.owner, type: "exchange", source: entry.source, reviewedAt: entry.reviewedAt }),
+])));
+
 export const EXCHANGE_ADDRESS_LABELS = Object.freeze({
-  btc: Object.freeze({}),
-  ethereum: Object.freeze(Object.fromEntries([
-    "0x61189da79177950a7272c88c6058b96d4bcd6be2",
-    "0x34ea4138580435b5a521e460035edb19df1938c1",
-    "0xf60c2ea62edbfe808163751dd0d8693dcb30019c",
-  ].map(address => [address, Object.freeze({ label: "Binance.US", owner: "binance-us", type: "exchange",
-    source: "https://github.com/DefiLlama/DefiLlama-Adapters/blob/main/cex/index.js", reviewedAt: "2026-10-13" })]))),
+  btc: labelMap("btc"),
+  ethereum: labelMap("ethereum"),
 });
+
+const WHALE_RETENTION_MS = 3 * 60 * 60 * 1000;
+const WHALE_MAX_ROWS = 60;
+// Cold start: native ETH reads full blocks (heavy), so it keeps a short lookback; all USDT/USDC Transfer logs use a
+// medium lookback; logs touching a labelled exchange address are topic-filtered server side, so they are cheap and
+// use a long lookback. Later refreshes only scan blocks after the cursor.
+const ETH_NATIVE_LOOKBACK = 10;
+const ETH_LOG_LOOKBACK = 50;
+const ETH_EXCHANGE_LOG_LOOKBACK = 300;
+const ETH_MAX_CATCH_UP = 50;
+const LOG_CHUNK_BLOCKS = 50;
+const EXCHANGE_LOG_CHUNK_BLOCKS = 300;
+const EXCHANGE_TOPIC_BATCH = 100;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const finite = (value) => {
@@ -279,7 +295,7 @@ async function buildLongShort({ fetchImpl, now, limit, sources, interSymbolDelay
 }
 
 function labelAddress(chain, address) {
-  const key = String(address || "").toLowerCase();
+  const key = chain === "ethereum" ? String(address || "").toLowerCase() : String(address || "");
   const source = EXCHANGE_ADDRESS_LABELS[chain]?.[key] || null;
   return source ? { address: key, label: source.label, owner: source.owner, type: source.type, source: source.source } : { address: key || null, label: "unknown", owner: "unknown", type: "unknown", source: null };
 }
@@ -341,7 +357,7 @@ function normalizeEthTransfers(payload, { minEth, minUsd }) {
     const to = labelAddress("ethereum", tx.recipient || tx.to || tx.to_address);
     const txid = tx.transaction_hash || tx.hash || tx.txid || null;
     return {
-      id: txid,
+      id: tx.eventId || txid,
       explorerUrl: `https://etherscan.io/tx/${tx.transaction_hash || tx.hash || tx.txid}`,
       chain: "ethereum",
       asset,
@@ -387,10 +403,46 @@ async function rpc(fetchImpl, method, params = []) {
   return body.result;
 }
 
-async function ethereumRpcTransfers(fetchImpl, { lookbackBlocks = 10, minEth = 250, maxReceipts = 20 } = {}) {
+async function mapLimit(items, limit, fn) {
+  const out = new Array(items.length);
+  let next = 0;
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (next < items.length) {
+      const index = next++;
+      out[index] = await fn(items[index], index);
+    }
+  });
+  await Promise.all(workers);
+  return out;
+}
+
+// Incremental: `state.ethCursor` remembers the last scanned block so a refresh only reads new blocks.
+const addressTopic = (address) => `0x${"0".repeat(24)}${String(address).toLowerCase().replace(/^0x/, "")}`;
+const blockRanges = (from, to, size) => {
+  const ranges = [];
+  for (let start = from; start <= to; start += size) ranges.push([start, Math.min(to, start + size - 1)]);
+  return ranges;
+};
+
+async function ethereumRpcTransfers(fetchImpl, {
+  nativeLookback = ETH_NATIVE_LOOKBACK,
+  logLookback = ETH_LOG_LOOKBACK,
+  exchangeLogLookback = ETH_EXCHANGE_LOG_LOOKBACK,
+  maxCatchUp = ETH_MAX_CATCH_UP,
+  minEth = 250,
+  minUsd = 1_000_000,
+  maxReceipts = 20,
+  exchangeAddresses = Object.keys(EXCHANGE_ADDRESS_LABELS.ethereum),
+  state = null,
+} = {}) {
   const head = hexNumber(await rpc(fetchImpl, "eth_blockNumber"));
   const latest = Math.max(0, head - 2);
-  const from = Math.max(0, latest - lookbackBlocks);
+  const cursor = state && Number.isFinite(state.ethCursor) ? state.ethCursor : null;
+  if (cursor != null && cursor >= latest) return [];
+  const startAt = (lookback) => (cursor != null ? Math.max(cursor + 1, latest - maxCatchUp) : Math.max(0, latest - lookback));
+  const from = startAt(nativeLookback);
+  const logFrom = startAt(logLookback);
+  const exchangeFrom = startAt(exchangeLogLookback);
   const blocks = new Map();
   const blockFor = async (n, full = false) => {
     if (!full && blocks.has(n)) return blocks.get(n);
@@ -400,35 +452,64 @@ async function ethereumRpcTransfers(fetchImpl, { lookbackBlocks = 10, minEth = 2
   };
   const out = [];
   let receiptsRead = 0;
-  for (let n = from; n <= latest; n += 1) {
-    const block = await blockFor(n, true);
+  const numbers = Array.from({ length: latest - from + 1 }, (_, i) => from + i);
+  const fullBlocks = await mapLimit(numbers, 4, (n) => blockFor(n, true));
+  const minWei = BigInt(Math.ceil(minEth * 1e6)) * 10n ** 12n;
+  for (const block of fullBlocks) {
     const timestamp = hexNumber(block?.timestamp);
     for (const tx of block?.transactions || []) {
       const wei = hexBigInt(tx.value);
-      if (wei >= BigInt(Math.ceil(minEth * 1e6)) * 10n ** 12n && receiptsRead < maxReceipts) {
+      if (wei >= minWei && receiptsRead < maxReceipts) {
         receiptsRead += 1;
         const receipt = await rpc(fetchImpl, "eth_getTransactionReceipt", [tx.hash]);
         if (receipt?.status === "0x1") out.push({ source: "publicnode-ethereum-rpc", asset: "ETH", hash: tx.hash, from: tx.from, to: tx.to, value: Number(wei) / 1e18, timestamp });
       }
     }
   }
+  const minRaw = BigInt(Math.ceil(minUsd)) * 10n ** 6n;
+  const exchangeTopics = [...new Set(exchangeAddresses.map((a) => String(a).toLowerCase()).filter((a) => /^0x[0-9a-f]{40}$/.test(a)))].map(addressTopic);
+  const seen = new Set();
+  const qualifying = [];
   for (const [asset, address, decimals] of [["USDT", USDT_CONTRACT, 6], ["USDC", USDC_CONTRACT, 6]]) {
-    const logs = await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(from), toBlock: hex(latest), address, topics: [TRANSFER_TOPIC] }]);
-    for (const entry of logs || []) {
+    const logs = [];
+    for (const [start, end] of blockRanges(logFrom, latest, LOG_CHUNK_BLOCKS)) logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address, topics: [TRANSFER_TOPIC] }]) || []));
+    // Exchange flows: Transfer logs whose sender or recipient topic is a labelled exchange address.
+    for (let i = 0; i < exchangeTopics.length; i += EXCHANGE_TOPIC_BATCH) {
+      const batch = exchangeTopics.slice(i, i + EXCHANGE_TOPIC_BATCH);
+      for (const [start, end] of blockRanges(exchangeFrom, latest, EXCHANGE_LOG_CHUNK_BLOCKS)) {
+        for (const topics of [[TRANSFER_TOPIC, batch], [TRANSFER_TOPIC, null, batch]]) {
+          logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address, topics }]) || []));
+        }
+      }
+    }
+    for (const entry of logs) {
       if (entry.removed) continue;
-      const block = await blockFor(hexNumber(entry.blockNumber), false);
-      out.push({
-        source: "publicnode-ethereum-rpc",
-        asset,
-        transaction_hash: entry.transactionHash,
-        eventId: `${entry.transactionHash}:${entry.logIndex || "0x0"}`,
-        from: topicAddress(entry.topics?.[1]),
-        to: topicAddress(entry.topics?.[2]),
-        value: tokenAmount(entry.data, decimals),
-        timestamp: hexNumber(block?.timestamp),
-      });
+      const eventKey = `${entry.transactionHash}:${entry.logIndex || "0x0"}`;
+      if (seen.has(eventKey)) continue;
+      seen.add(eventKey);
+      if (hexBigInt(entry.data) < minRaw) continue;
+      qualifying.push({ asset, decimals, entry, eventKey });
     }
   }
+  // Keep only the newest events before reading block headers, so a cold start stays bounded.
+  qualifying.sort((a, b) => hexNumber(b.entry.blockNumber) - hexNumber(a.entry.blockNumber));
+  qualifying.splice(WHALE_MAX_ROWS);
+  const headerNumbers = [...new Set(qualifying.map(({ entry }) => hexNumber(entry.blockNumber)))];
+  await mapLimit(headerNumbers, 4, (n) => blockFor(n, false));
+  for (const { asset, decimals, entry, eventKey } of qualifying) {
+    const block = blocks.get(hexNumber(entry.blockNumber));
+    out.push({
+      source: "publicnode-ethereum-rpc",
+      asset,
+      transaction_hash: entry.transactionHash,
+      eventId: eventKey,
+      from: topicAddress(entry.topics?.[1]),
+      to: topicAddress(entry.topics?.[2]),
+      value: tokenAmount(entry.data, decimals),
+      timestamp: hexNumber(block?.timestamp),
+    });
+  }
+  if (state) state.ethCursor = latest;
   return out;
 }
 
@@ -443,7 +524,7 @@ export const POSITION_RADAR_WHALE_SOURCES = Object.freeze({
   ethereumRpc: ethereumRpcTransfers,
 });
 
-async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, btcUsd }) {
+async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, btcUsd, state }) {
   const rows = [];
   const errors = [];
   try {
@@ -454,15 +535,35 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, bt
   try {
     for (const [name, source] of Object.entries(sources)) {
       if (!name.startsWith("ethereum") || typeof source !== "function") continue;
-      rows.push(...normalizeEthTransfers(await source(fetchImpl, { minEth }), { minEth, minUsd }));
+      rows.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd }));
     }
   } catch (error) {
     errors.push(`ethereum: ${error?.message || error}`);
   }
   const sourceNames = Object.keys(sources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name);
+  if (state) {
+    // Rolling window: merge this refresh's rows with earlier ones (dedupe by event id) and drop rows first seen more than 3h ago.
+    const history = state.rows || (state.rows = new Map());
+    const nowIso = new Date(now).toISOString();
+    for (const row of rows) {
+      const key = row.eventId || row.id;
+      history.set(key, { ...row, seenAt: history.get(key)?.seenAt || nowIso });
+    }
+    const cutoff = now - WHALE_RETENTION_MS;
+    // Retention uses first-seen time so a lagging chain timestamp never evicts a row we just read.
+    const at = (row) => { const t = Date.parse(row.seenAt || row.time || ""); return Number.isFinite(t) ? t : 0; };
+    for (const [key, row] of history) if (at(row) < cutoff) history.delete(key);
+    rows.splice(0, rows.length, ...history.values());
+    if (history.size > WHALE_MAX_ROWS * 3) {
+      const keep = [...history.entries()].sort((a, b) => at(b[1]) - at(a[1])).slice(0, WHALE_MAX_ROWS * 3);
+      history.clear();
+      for (const [key, row] of keep) history.set(key, row);
+    }
+  }
   if (!rows.length) return unavailableFeed("whales", sourceNames, errors.length ? errors.join("; ") : "no-large-transfers-or-eth-source-unavailable");
-  rows.sort((a, b) => Date.parse(b.time || "") - Date.parse(a.time || ""));
-  const limitedRows = rows.slice(0, 60);
+  const sortAt = (row) => { const t = Date.parse(row.time || row.seenAt || ""); return Number.isFinite(t) ? t : 0; };
+  rows.sort((a, b) => sortAt(b) - sortAt(a));
+  const limitedRows = rows.slice(0, WHALE_MAX_ROWS);
   return {
     kind: "whales",
     status: "ok",
@@ -494,9 +595,10 @@ export function createPositionRadar({
   const cache = new Map();
   const cappedTtlMs = Math.min(Math.max(0, ttlMs), MAX_TTL_MS);
   const pending = new Map();
+  const whaleState = { ethCursor: null, rows: new Map() };
   const builders = {
     "long-short": () => buildLongShort({ fetchImpl, now: now(), limit, sources: longShortSources, interSymbolDelayMs }),
-    whales: () => buildWhales({ fetchImpl, now: now(), sources: whaleSources, minBtc, minEth, minUsd, btcUsd }),
+    whales: () => buildWhales({ fetchImpl, now: now(), sources: whaleSources, minBtc, minEth, minUsd, btcUsd, state: whaleState }),
   };
   const refresh = (kind) => {
     if (!POSITION_RADAR_KINDS.includes(kind)) throw new RangeError(`unknown radar kind: ${kind}`);

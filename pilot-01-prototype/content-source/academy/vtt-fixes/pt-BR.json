@@ -1,0 +1,5 @@
+{
+  "A practice calculation. Suppose one Bitcoin costs 50,000 USDT and you spend 100. Before fees, that is 0.002 Bitcoin. This is not today's market price.": "Um exercício prático. Suponha que um bitcoin custe 50,000 USDT e você gaste 100. Sem taxas, são 0.002 bitcoin. Isso não é a cotação de mercado de hoje.",
+  "Assume the executed price is 50,000 and you spend 100. You receive 0.002 Bitcoin. With a 0.1% fee taken separately in USDT, you spend 100.10 total. Real rules depend on the platform.": "Suponha que o preço seja 50,000 e você gaste 100. Recebe 0.002 bitcoin. Com taxa de 0.1% descontada à parte em USDT, você gasta 100.10 no total. As regras reais variam por plataforma.",
+  "Why can you be closed out before your margin reaches zero? Next: the invisible line.": "Por que você pode ser encerrado antes da margem chegar a zero? A seguir: aquela linha invisível."
+}

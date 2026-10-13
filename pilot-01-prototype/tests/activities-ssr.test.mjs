@@ -57,6 +57,7 @@ test("compactOfficialAnnouncements keeps official event rows of the last 30 days
 test("/activities is rendered at request time from the announcement feed: campaign cards, join links and footer-only disclosure in the SSR HTML", async () => {
   const calls = [];
   const env = { ASSETS: assets, INTEL_READ: async () => intelFeed, NEWS_SSR_RENDER: async (href, options) => { calls.push({ href, options }); return harness.render(href, options); } };
+  // vi is neutral since 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP): its cards keep the official link, no join CTA.
   for (const [path, locale] of [["/activities", "en"], ["/vi/activities", "vi"], ["/tr/activities", "tr"]]) {
     calls.length = 0;
     const response = await fetchPage(path, env);
@@ -67,13 +68,15 @@ test("/activities is rendered at request time from the announcement feed: campai
     assert.doesNotMatch(html, /Prerendered activities/, `${path}: not the build-time manifest body`);
     assert.doesNotMatch(html, /live-campaigns__group--skeleton/, `${path}: no placeholder when the feed is readable`);
     const cards = (html.match(/class="live-campaigns__card(?:\s[^"]*)?"/g) || []).length;
-    assert.equal(cards, 6, `${path}: every current event is a card (${cards})`);
-    for (const venue of ["okx", "binance", "bitget"]) assert.match(html, new RegExp(`data-campaign-group="${venue}"`), `${path}: ${venue} group`);
+    assert.equal(cards, locale === "tr" ? 5 : 6, `${path}: every visible current event is a card (${cards})`);
+    for (const venue of locale === "tr" ? ["okx", "binance"] : ["okx", "binance", "bitget"]) assert.match(html, new RegExp(`data-campaign-group="${venue}"`), `${path}: ${venue} group`);
+    if (locale === "tr") assert.doesNotMatch(html, /data-campaign-group="bitget"/, `${path}: Bitget campaigns are hidden in Turkish`);
     assert.match(html, /data-group-overflow="true"/, `${path}: the fourth OKX card folds behind "Show all"`);
     const expectedUpdateHref = updateHref(intelFeed.items[0], locale);
     assert.match(html, new RegExp(`href="${expectedUpdateHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), `${path}: campaign details link stays on NexuAlpha`);
     assert.doesNotMatch(html, /href="https:\/\/www\.okx\.com\/help\/okx-trading-festival"/, `${path}: campaign cards do not link directly to the exchange`);
-    assert.match(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=/, `${path}: sign-up link with the invite code`);
+    if (locale === "vi") assert.doesNotMatch(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=|data-cta-code=/, `${path}: neutral locale, no sign-up link or code`);
+    else assert.match(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=/, `${path}: sign-up link with the invite code`);
     // Owner rule 2026-10-12: commission disclosure only in the footer and legal pages, never with the list.
     assert.doesNotMatch(html, /data-disclosure-placement=/, `${path}: no in-section commission disclosure`);
     assert.match(html, /class="clean-footer__statement"/, `${path}: the footer keeps the disclosure statement`);

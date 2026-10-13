@@ -7,115 +7,133 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // exchange without a real invite route gets no referral title.
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { trPercentDative } from "./tr-percent.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 const YEAR = () => new Date().getUTCFullYear();
 
-// [title with share, title without share, description builder]
-// Descriptions stay within the search snippet budget (160 characters; 80 for zh/ja/ko), see worker clampMetaDescription.
+// CTR pass 2026-10-13 (GSC 28 d: registration searches such as "okx register", "okx怎么注册", "okx nasıl kayıt olunur",
+// "cara daftar okx" landed on /news tutorials instead of the profile, and the profile sat in the top 10 with 0 clicks):
+// the profile title answers the sign-up query first ("How to Sign Up for OKX (2026): Steps, KYC, Code nexu888") and
+// the owner rebate share moves into the description. `titles` are tried in order; the first one inside the title
+// budget (60 characters, 32 for zh/ja/ko) wins. Descriptions stay within 155 characters and carry no fine print.
+// Only promotable locales are listed: ru, ar, zh-Hant, ur, uk and vi stay neutral (NEUTRAL_TITLE_LOCALES below).
+const CADENCE = {
+  en: { hourly: " hourly", daily: " daily" },
+  "zh-Hans": { hourly: "每小时", daily: "每天" },
+};
 const COPY = {
-  en: [
-    (n, c, p, y) => `${n} Referral Code ${c}: Up to ${p}% Fee Rebate (${y})`,
-    (n, c, y) => `${n} Referral Code ${c}: Sign-up, Fees & Official Route (${y})`,
-    (n, c, p, s) => `${n} referral code ${c}: fees and official sign-up link checked by NexuAlpha${p ? `; up to ${p}% of fees back, paid by ${n}${s === "hourly" ? " hourly" : s === "daily" ? " daily" : ""}` : ""}.`,
-  ],
-  "zh-Hans": [
-    (n, c, p, y) => `${n} 邀请码 ${c}：最高返佣 ${p}%（${y}）`,
-    (n, c, y) => `${n} 邀请码 ${c}：注册教程、手续费与官方入口（${y}）`,
-    (n, c, p, s) => `${n} 邀请码 ${c}${p ? `：手续费最高返还 ${p}%，由 ${n} 结算${s === "hourly" ? "、每小时到账" : s === "daily" ? "、每天到账" : ""}` : "：注册入口与手续费"}。NexuAlpha 核验官方入口。`,
-  ],
-  "zh-Hant": [
-    (n, c, p, y) => `${n} 邀請碼 ${c}：最高返傭 ${p}%（${y}）`,
-    (n, c, y) => `${n} 邀請碼 ${c}：註冊教學、手續費與官方入口（${y}）`,
-    (n, c, p, s) => `${n} 邀請碼 ${c}${p ? `：手續費最高返還 ${p}%，由 ${n} 結算${s === "hourly" ? "、每小時到帳" : s === "daily" ? "、每天到帳" : ""}` : "：註冊入口與手續費"}。NexuAlpha 核驗官方入口，合作關係已揭露。`,
-  ],
-  es: [
-    (n, c, p, y) => `Código de referido ${n} ${c}: hasta ${p}% de reembolso (${y})`,
-    (n, c, y) => `Código de referido ${n} ${c}: registro y comisiones (${y})`,
-    (n, c, p) => `Código de referido ${n} ${c}: comisiones y enlace oficial verificados por NexuAlpha${p ? `; hasta ${p}% de comisiones de vuelta, paga ${n}` : ""}. Enlace de socio.`,
-  ],
+  en: {
+    titles: [
+      (n, c, y) => `How to Sign Up for ${n} (${y}): Steps, KYC, Code ${c}`,
+      (n, c, y) => `Sign Up for ${n} (${y}): Steps, KYC, Code ${c}`,
+      (n, c, y) => `${n} Sign-Up (${y}): KYC and Code ${c}`,
+    ],
+    describe: (n, c, p, s) => `Sign up for ${n} on the official site or app, pass KYC, then enter code ${c}${p ? `: up to ${p}% of trading fees back, paid by ${n}${CADENCE.en[s] || ""}.` : ". Steps, documents and fees on one page."}`,
+  },
+  "zh-Hans": {
+    titles: [
+      (n, c, y) => `${n} 怎么注册：邀请码 ${c}（${y}）`,
+      (n, c, y) => `${n} 注册邀请码 ${c}（${y}）`,
+      (n, c) => `${n} 注册邀请码 ${c}`,
+    ],
+    describe: (n, c, p, s) => `${n} 注册步骤：从官网或 App 注册、完成 KYC，填写邀请码 ${c}${p ? `，手续费最高返还 ${p}%，由 ${n} ${CADENCE["zh-Hans"][s] || ""}结算` : "，附所需证件与手续费"}。`,
+  },
+  es: {
+    titles: [
+      (n, c, y) => `Registro en ${n} (${y}): pasos, KYC y código ${c}`,
+      (n, c, y) => `Registro en ${n} (${y}): KYC y código ${c}`,
+    ],
+    describe: (n, c, p) => `Regístrate en ${n} desde la web o la app oficial, completa el KYC e introduce el código ${c}${p ? `: hasta ${p}% de comisiones de vuelta, pagado por ${n}.` : ". Pasos, documentos y comisiones."}`,
+  },
   // Exchange keyword map 2026-10-11: Brazilians type "código de convite" more often than "código de indicação"
-  // (Google autocomplete 16 vs 6), so the title leads with convite and the description keeps indicação as well.
-  "pt-BR": [
-    (n, c, p, y) => `Código de convite ${n} ${c}: até ${p}% de cashback (${y})`,
-    (n, c, y) => `Código de convite ${n} ${c}: indicação, cadastro e taxas (${y})`,
-    (n, c, p) => `Código de convite (indicação) ${n} ${c}: taxas e link oficial verificados pela NexuAlpha${p ? `; até ${p}% das taxas de volta, pago pela ${n}` : ""}. Link de parceiro.`,
-  ],
-  fr: [
-    (n, c, p, y) => `Code de parrainage ${n} ${c} : jusqu’à ${p} % de remise (${y})`,
-    (n, c, y) => `Code de parrainage ${n} ${c} : inscription et frais (${y})`,
-    (n, c, p) => `Code de parrainage ${n} ${c} : frais et lien officiel vérifiés par NexuAlpha${p ? ` ; jusqu’à ${p} % des frais remboursés par ${n}` : ""}. Lien partenaire signalé.`,
-  ],
-  de: [
-    (n, c, p, y) => `${n} Empfehlungscode ${c}: bis zu ${p} % Gebührenrabatt (${y})`,
-    (n, c, y) => `${n} Empfehlungscode ${c}: Anmeldung und Gebühren (${y})`,
-    (n, c, p) => `${n} Empfehlungscode ${c}: Gebühren und offizieller Link, geprüft von NexuAlpha${p ? `; bis zu ${p} % der Gebühren zurück, zahlt ${n}` : ""}. Partnerlink offengelegt.`,
-  ],
-  it: [
-    (n, c, p, y) => `Codice referral ${n} ${c}: fino al ${p}% di rimborso (${y})`,
-    (n, c, y) => `Codice referral ${n} ${c}: iscrizione e commissioni (${y})`,
-    (n, c, p) => `Codice referral ${n} ${c}: commissioni e link ufficiale verificati da NexuAlpha${p ? `; fino al ${p}% di commissioni rimborsate da ${n}` : ""}. Link partner.`,
-  ],
-  ja: [
-    (n, c, p, y) => `${n} 招待コード ${c}：手数料最大${p}%還元（${y}）`,
-    (n, c, y) => `${n} 招待コード ${c}：登録方法と手数料（${y}）`,
-    (n, c, p) => `${n} 招待コード ${c}${p ? `：取引手数料の最大${p}%を ${n} が還元` : "：登録方法と手数料"}。公式リンクを NexuAlpha が確認、提携を開示。`,
-  ],
-  ko: [
-    (n, c, p, y) => `${n} 추천 코드 ${c}: 수수료 최대 ${p}% 페이백 (${y})`,
-    (n, c, y) => `${n} 추천 코드 ${c}: 가입 방법과 수수료 (${y})`,
-    (n, c, p) => `${n} 추천 코드 ${c}${p ? `: 거래 수수료 최대 ${p}%를 ${n}이 페이백` : ": 가입 방법과 수수료"}. 공식 링크 NexuAlpha 확인, 제휴 공개.`,
-  ],
-  ru: [
-    (n, c, p, y) => `Реферальный код ${n} ${c}: возврат до ${p}% комиссии (${y})`,
-    (n, c, y) => `Реферальный код ${n} ${c}: регистрация и комиссии (${y})`,
-    (n, c, p) => `Реферальный код ${n} ${c}: комиссии, условия и официальная ссылка проверены NexuAlpha${p ? `; до ${p}% комиссий возвращает ${n}` : ""}. Партнёрская ссылка раскрыта.`,
-  ],
-  tr: [
-    (n, c, p, y) => `${n} referans kodu ${c}: ${trPercentDative(p)} varan komisyon iadesi (${y})`,
-    (n, c, y) => `${n} referans kodu ${c}: kayıt ve ücretler (${y})`,
-    (n, c, p) => `${n} referans kodu ${c}: ücretler ve resmî bağlantı NexuAlpha kontrolünden geçti${p ? `; ücretlerin ${trPercentDative(p)} varan kısmını ${n} iade eder` : ""}. Ortaklık bağlantısı.`,
-  ],
-  id: [
-    (n, c, p, y) => `Kode referral ${n} ${c}: rabat biaya hingga ${p}% (${y})`,
-    (n, c, y) => `Kode referral ${n} ${c}: cara daftar dan biaya (${y})`,
-    (n, c, p) => `Kode referral ${n} ${c}: biaya, syarat, dan tautan resmi diperiksa NexuAlpha${p ? `; hingga ${p}% biaya kembali, dibayar ${n}` : ""}. Tautan mitra diungkapkan.`,
-  ],
-  vi: [
-    (n, c, p, y) => `Mã giới thiệu ${n} ${c}: hoàn phí đến ${p}% (${y})`,
-    (n, c, y) => `Mã giới thiệu ${n} ${c}: đăng ký và phí (${y})`,
-    (n, c, p) => `Mã giới thiệu ${n} ${c}: phí và liên kết chính thức được NexuAlpha kiểm tra${p ? `; hoàn đến ${p}% phí, do ${n} chi trả` : ""}. Có công bố liên kết đối tác.`,
-  ],
-  ar: [
-    (n, c, p, y) => `رمز إحالة ${n} ‏${c}: استرداد حتى ${p}% من الرسوم (${y})`,
-    (n, c, y) => `رمز إحالة ${n} ‏${c}: التسجيل والرسوم (${y})`,
-    (n, c, p) => `رمز إحالة ${n} ‏${c}: الرسوم والشروط والرابط الرسمي راجعتها NexuAlpha${p ? `؛ استرداد حتى ${p}% من الرسوم تدفعها ${n}` : ""}. رابط الشراكة مُفصح عنه.`,
-  ],
-  // l10n: needs native review. Only neutral wording is drafted until partner regulator review.
-  ur: [
-    (n, c, p, y) => `${n}: فیس اور پلیٹ فارم کا تعارف (${y})`,
-    (n, c, y) => `${n}: فیس اور پلیٹ فارم کا تعارف (${y})`,
-    (n) => `${n} کی فیس، شرائط اور سرکاری ماخذ کا NexuAlpha کا آزاد جائزہ۔`,
-  ],
-  // l10n: needs native review. Only neutral wording is drafted until partner regulator review.
-  uk: [
-    (n, c, p, y) => `${n}: комісії та профіль платформи (${y})`,
-    (n, c, y) => `${n}: комісії та профіль платформи (${y})`,
-    (n) => `Незалежний огляд комісій, умов і офіційних джерел ${n} від NexuAlpha.`,
-  ],
+  // (Google autocomplete 16 vs 6), so the title keeps convite and the description keeps indicação as well.
+  "pt-BR": {
+    titles: [
+      (n, c, y) => `Código de convite ${n} ${c}: cadastro e KYC (${y})`,
+      (n, c, y) => `Código de convite ${n} ${c}: cadastro (${y})`,
+      (n, c) => `Código de convite ${n} ${c}`,
+    ],
+    describe: (n, c, p) => `Cadastre-se na ${n} pelo site ou app oficial, faça o KYC e use o código de convite (indicação) ${c}${p ? `: até ${p}% das taxas de volta, pago pela ${n}.` : ". Passos, documentos e taxas."}`,
+  },
+  fr: {
+    titles: [
+      (n, c, y) => `Inscription ${n} (${y}) : étapes, KYC et code ${c}`,
+      (n, c, y) => `Inscription ${n} (${y}) : KYC et code ${c}`,
+    ],
+    describe: (n, c, p) => `Inscrivez-vous sur ${n} via le site ou l’app officiels, validez le KYC et saisissez le code ${c}${p ? ` : jusqu’à ${p} % des frais remboursés par ${n}.` : ". Étapes, documents et frais."}`,
+  },
+  de: {
+    titles: [
+      (n, c, y) => `${n} Anmeldung (${y}): Schritte, KYC und Code ${c}`,
+      (n, c, y) => `${n} Anmeldung (${y}): KYC und Code ${c}`,
+    ],
+    describe: (n, c, p) => `Bei ${n} über die offizielle Website oder App anmelden, KYC abschließen, Code ${c} eingeben${p ? `: bis zu ${p} % der Gebühren zurück, gezahlt von ${n}.` : ". Schritte, Dokumente und Gebühren."}`,
+  },
+  it: {
+    titles: [
+      (n, c, y) => `Iscrizione a ${n} (${y}): passi, KYC e codice ${c}`,
+      (n, c, y) => `Iscrizione a ${n} (${y}): KYC e codice ${c}`,
+    ],
+    describe: (n, c, p) => `Iscriviti a ${n} dal sito o dall’app ufficiale, completa il KYC e inserisci il codice ${c}${p ? `: fino al ${p}% delle commissioni rimborsate da ${n}.` : ". Passi, documenti e commissioni."}`,
+  },
+  ja: {
+    titles: [
+      (n, c, y) => `${n} 登録方法：招待コード ${c}（${y}）`,
+      (n, c, y) => `${n} 招待コード ${c}（${y}）`,
+      (n, c) => `${n} 招待コード ${c}`,
+    ],
+    describe: (n, c, p) => `${n} の登録手順：公式サイトかアプリで登録し本人確認（KYC）を完了、招待コード ${c} を入力${p ? `。取引手数料の最大${p}%を ${n} が還元` : "。必要書類と手数料も確認"}。`,
+  },
+  ko: {
+    titles: [
+      (n, c, y) => `${n} 가입 방법: 추천 코드 ${c} (${y})`,
+      (n, c, y) => `${n} 가입 추천 코드 ${c} (${y})`,
+      (n, c) => `${n} 가입 추천 코드 ${c}`,
+    ],
+    describe: (n, c, p) => `${n} 가입 절차: 공식 사이트나 앱에서 가입하고 KYC를 마친 뒤 추천 코드 ${c} 입력${p ? `. 거래 수수료 최대 ${p}%를 ${n}에서 페이백` : ". 필요 서류와 수수료 안내"}.`,
+  },
+  tr: {
+    titles: [
+      (n, c, y) => `${n} nasıl kayıt olunur? KYC ve kod ${c} (${y})`,
+      (n, c, y) => `${n} kayıt: KYC ve kod ${c} (${y})`,
+    ],
+    describe: (n, c, p) => `${n} hesabını resmî site veya uygulamadan açın, KYC'yi tamamlayın ve ${c} kodunu girin${p ? `; ücretlerin ${trPercentDative(p)} varan kısmını ${n} iade eder.` : ". Adımlar, belgeler ve ücretler."}`,
+  },
+  id: {
+    titles: [
+      (n, c, y) => `Cara daftar ${n} (${y}): langkah, KYC, kode ${c}`,
+      (n, c, y) => `Cara daftar ${n} (${y}): KYC, kode ${c}`,
+    ],
+    describe: (n, c, p) => `Daftar ${n} lewat situs atau aplikasi resmi, selesaikan KYC, lalu masukkan kode ${c}${p ? `; hingga ${p}% biaya kembali, dibayar ${n}.` : ". Langkah, dokumen, dan biaya."}`,
+  },
 };
 
+// Hyperliquid is a wallet venue with no exchange KYC: its profile keeps fee wording and a wallet-based description.
+// The referral discount (4% on fees) is the one documented in /news/hyperliquid-referral-code-2026-where-to-enter-4-percent-discount.
+const WALLET_COPY = {
+  en: { title: (n, c, y) => `${n} Fees, Code ${c} & Funded Accounts (${y})`, describe: (n, c) => `Trade on ${n} from your own wallet: connect on the official app, deposit USDC and enter referral code ${c} for a 4% discount on trading fees.` },
+  "zh-Hans": { title: (n, c, y) => `${n} 邀请码 ${c}（${y}）`, describe: (n, c) => `${n} 无需注册账户：在官方 App 连接自己的钱包、存入 USDC，填写邀请码 ${c} 即可享受交易手续费 4% 折扣。` },
+  es: { title: (n, c, y) => `${n}: comisiones y código de referido ${c} (${y})`, describe: (n, c) => `Opera en ${n} con tu propia wallet: conéctala en la app oficial, deposita USDC y usa el código ${c} para un 4% de descuento en comisiones.` },
+  "pt-BR": { title: (n, c, y) => `Código de convite ${n} ${c}: taxas (${y})`, describe: (n, c) => `Opere na ${n} com sua própria carteira: conecte no app oficial, deposite USDC e use o código de convite (indicação) ${c}: 4% a menos de taxas.` },
+  fr: { title: (n, c, y) => `${n} : frais et code de parrainage ${c} (${y})`, describe: (n, c) => `Tradez sur ${n} avec votre wallet : connectez-le sur l’app officielle, déposez des USDC et saisissez le code ${c} pour 4 % de frais en moins.` },
+  de: { title: (n, c, y) => `${n}: Gebühren und Empfehlungscode ${c} (${y})`, describe: (n, c) => `Auf ${n} mit eigener Wallet handeln: in der offiziellen App verbinden, USDC einzahlen, Code ${c} eingeben und 4 % Handelsgebühren sparen.` },
+  it: { title: (n, c, y) => `${n}: commissioni e codice referral ${c} (${y})`, describe: (n, c) => `Fai trading su ${n} dal tuo wallet: collegalo nell’app ufficiale, deposita USDC e usa il codice ${c} per il 4% di sconto sulle commissioni.` },
+  ja: { title: (n, c, y) => `${n} 招待コード ${c}（${y}）`, describe: (n, c) => `${n} は口座登録不要：公式アプリで自分のウォレットを接続し USDC を入金、招待コード ${c} の入力で取引手数料が4%割引。` },
+  ko: { title: (n, c, y) => `${n} 추천 코드 ${c} (${y})`, describe: (n, c) => `${n}는 계정 가입 없이 지갑으로 거래: 공식 앱에서 지갑 연결, USDC 입금 후 추천 코드 ${c} 입력 시 거래 수수료 4% 할인.` },
+  tr: { title: (n, c, y) => `${n} ücretleri ve referans kodu ${c} (${y})`, describe: (n, c) => `${n} üzerinde kendi cüzdanınızla işlem yapın: resmî uygulamada bağlayın, USDC yatırın ve ${c} kodunu girerek işlem ücretlerinde %4 indirim alın.` },
+  id: { title: (n, c, y) => `${n}: biaya dan kode referral ${c} (${y})`, describe: (n, c) => `Trading di ${n} dari wallet sendiri: hubungkan di aplikasi resmi, setor USDC, lalu masukkan kode ${c} untuk diskon 4% biaya trading.` },
+};
+const WALLET_VENUES = new Set(["hyperliquid"]);
+
 const BY_SLUG = Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
-// Pages that already earn impressions keep the words people search with (GSC 2026-09-09..10-06: "hyperliquid fees"
-// 68 impressions, "hyperliquid funded account" 16), with the invite code added.
+// Pages that already earn impressions keep the words people search with, with the invite code added.
 const TITLE_OVERRIDES = {
-  hyperliquid: { en: (n, c, y) => `${n} Fees & Referral Code ${c}: Funded Account Checks (${y})` },
-  // Striking distance (GSC 2026-10-11): "backpack fee" ranks ~6; the default no-share title ran past 60 characters and
-  // put "Fees" late. Same invite code from the partner feed, fees first, within the title budget.
-  // Exchange keyword map 2026-10-11 row 38: French searchers type "backpack exchange avis" (GSC impressions at ~67);
-  // the French profile answers it (partner-venue-faq.js fr entries), so the title names it.
+  // Striking distance (GSC 2026-10-11, 2026-10-13): "backpack fee" ranks ~6.5 on the English profile; fees first.
+  // Exchange keyword map 2026-10-11 row 38: French searchers type "backpack exchange avis"; /fr/exchanges/backpack is
+  // the one page that answers it (partner-venue-faq.js fr entries), and the title now fits the 60-character budget.
   backpack: {
-    en: (n, c, y) => `${n} Fees & Referral Code ${c} (${y})`,
-    fr: (n, c, y) => `${n} Exchange : avis, frais et code de parrainage ${c} (${y})`,
+    en: (n, c, y) => `${n} Exchange Fees (${y}) & Referral Code ${c}`,
+    fr: (n, c, y) => `${n} Exchange avis (${y}) : frais et code ${c}`,
   },
 };
 const partnersBySlug = () => BY_SLUG;
@@ -125,7 +143,7 @@ const partnersBySlug = () => BY_SLUG;
 // ru (Russia advertising rules), ar (Egypt CBE law 194/2020), zh-Hant (Hong Kong SFC Part 5B). In Turkish, Law 7518
 // treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
 // entity is on the SPK list keep a referral title.
-const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_TITLE_LOCALES = NEUTRAL_CTA_LOCALES;
 // Turkey SPK allow-list and every other country restriction live in partner-geo-restrictions.js (sourced, dated).
 export function referralTitleAllowed(slug, locale, market) {
   if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;
@@ -142,12 +160,18 @@ export function referralSharePercent(slug) {
 export function referralSeoFor(slug, locale = "en", market) {
   const p = partnersBySlug()[slug];
   if (!p?.inviteCode || !referralTitleAllowed(slug, locale, market)) return null;
-  const [withShare, withoutShare, describe] = COPY[locale] || COPY.en;
   const pct = p.share != null ? Math.round(p.share * 100) : null;
+  if (WALLET_VENUES.has(slug)) {
+    const copy = WALLET_COPY[locale] || WALLET_COPY.en;
+    return { title: copy.title(p.name, p.inviteCode, YEAR()), description: copy.describe(p.name, p.inviteCode, pct, p.settle) };
+  }
+  const copy = COPY[locale] || COPY.en;
   const override = TITLE_OVERRIDES[slug]?.[locale];
+  const budget = /^(zh|ja|ko)(?:-|$)/.test(locale) ? 32 : 60;
+  const candidates = (override ? [override] : copy.titles).map((title) => title(p.name, p.inviteCode, YEAR()));
   return {
-    title: override ? override(p.name, p.inviteCode, YEAR()) : pct ? withShare(p.name, p.inviteCode, pct, YEAR()) : withoutShare(p.name, p.inviteCode, YEAR()),
-    description: describe(p.name, p.inviteCode, pct, p.settle),
+    title: candidates.find((title) => title.length <= budget) || candidates[candidates.length - 1],
+    description: copy.describe(p.name, p.inviteCode, pct, p.settle),
   };
 }
 

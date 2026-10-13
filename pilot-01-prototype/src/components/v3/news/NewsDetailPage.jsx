@@ -23,12 +23,14 @@ import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
+import { neutralArticleMarkdown, neutralArticleSources } from "../../../data/neutral-article.js";
 import { resolvePromotions } from "../../../data/promotions.js";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
 import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
 import { glossaryTermPath } from "../../../data/glossary-routes.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
+import { newsQueryOwnerLink, newsSignupBridge } from "../../../data/news-lead-links.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
@@ -462,7 +464,7 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
     ? { label: originalSource.publisher || t.sourcesTitle || fallbackCopy.sourcesTitle, href: originalSource.url, kind: "source" }
     : null;
 
-  return <TopDecisionBox className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
+  return <TopDecisionBox locale={locale} className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
 }
 
 // Related research (2026-10-10): up to six articles from the same category and shared platforms (server-rendered from
@@ -563,7 +565,7 @@ function renderInlineTokens(tokens, keyPrefix, linker) {
     if (token.type === "strong") return [<strong key={key}>{renderInlineTokens(token.children, key, null)}</strong>];
     if (token.type === "em") return [<em key={key}>{renderInlineTokens(token.children, key, null)}</em>];
     return [token.external
-      ? <a key={key} href={token.href} target="_blank" rel="noopener noreferrer">{renderInlineTokens(token.children, key, null)}</a>
+      ? <a key={key} href={token.href} target="_blank" rel={token.sponsored ? "nofollow sponsored noopener" : "noopener noreferrer"}>{renderInlineTokens(token.children, key, null)}</a>
       : <a key={key} href={token.href}>{renderInlineTokens(token.children, key, null)}</a>];
   });
 }
@@ -820,8 +822,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   const contentLocale = resolveNewsContentLocale(locale, article);
   const title = localizedNewsTitle(article, locale);
-  const localizedSummary = localizedNewsSummary(article, locale);
-  const content = localizedValue(article.content, contentLocale);
+  // Neutral locales (locale-policy.js): sign-up sentences, codes and the partner-feed source are removed at render time.
+  const localizedSummary = neutralArticleMarkdown(localizedNewsSummary(article, locale), locale);
+  const content = neutralArticleMarkdown(localizedValue(article.content, contentLocale), locale);
+  const articleSources = neutralArticleSources(article.sources, locale) || [];
   const showsOriginalLanguage = contentLocale !== locale;
   const { leadBlocks, deepBlocks } = splitArticleReadingSections(dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)));
   const leadBlockCount = leadBlocks.length;
@@ -864,8 +868,12 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   // Topic hubs & tools (links-l10n lane 2026-10-11, scorecard C5/D4): the main page of every query family this article
   // belongs to and the data tools on its subject, from the mapping in src/data/topic-clusters.js.
   const clusterLinks = articleClusterLinks(article, locale);
+  // CTR pass 2026-10-13: registration tutorials open with the exchange profile (and app page) built for that search
+  // intent; an article that splits a query with a stronger article links to the query owner. See news-lead-links.js.
+  const signupBridge = newsSignupBridge({ articleSlug: article.slug, locale, market, hasVenue: (venueSlug) => Boolean(venueDatabase[venueSlug]), venueName: (venueSlug) => venueDatabase[venueSlug]?.name });
+  const queryOwner = newsQueryOwnerLink(article.slug, locale);
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
-  const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], article.sources.length > 0, leadBlockCount, t.sourcesTitle);
+  const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], articleSources.length > 0, leadBlockCount, t.sourcesTitle);
   const jumpToSection = (id) => {
     if (!sectionTargets.some((target) => target.id === id)) return;
     if (activateArticleSection(id, articleDisclosureRef.current, setShowFullArticle, document, window)) {
@@ -911,6 +919,14 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         {/* 文章正文 */}
         <section className="news-detail__content" lang={contentLocale} dir={["ar", "ur"].includes(contentLocale) ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
+          {(signupBridge || queryOwner) && (
+            <nav className={`news-detail__lead-links${signupBridge && !signupBridge.neutral ? " news-detail__lead-links--signup" : ""}`} aria-label={signupBridge?.eyebrow || queryOwner?.label} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-lead-links="">
+              {signupBridge?.links.map((link) => (
+                <a key={link.kind} href={withContext(link.href)} data-lead-link={link.kind} data-cta-kind="research" data-cta-platform={signupBridge.venue} data-cta-placement={`news-detail-lead-${link.kind}`}>{link.label} <span aria-hidden="true">→</span></a>
+              ))}
+              {queryOwner && <a href={withContext(queryOwner.href)} data-lead-link="query-owner" data-cta-kind="research" data-cta-placement="news-detail-lead-query-owner">{queryOwner.label} <span aria-hidden="true">→</span></a>}
+            </nav>
+          )}
           {showsOriginalLanguage && (
             <aside className="news-detail__local-brief" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <span className="news-detail__local-brief-eyebrow">{t.sourceBodyTitle}</span>
@@ -983,17 +999,17 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           )}
           <NewsTelegramAlerts locale={locale} />
           <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="end" />
-          {article.sources.length > 0 && (
+          {articleSources.length > 0 && (
             <section className="news-detail__prose news-detail__sources news-detail__footnotes" aria-labelledby="article-sources">
               <DataRule
                 as="h2"
                 label={t.sourcesTitle}
                 labelId="article-sources"
                 labelProps={{ tabIndex: -1, lang: t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale, dir: ["ar", "ur"].includes(locale) ? "rtl" : "ltr" }}
-                stamp={String(article.sources.length).padStart(2, "0")}
+                stamp={String(articleSources.length).padStart(2, "0")}
               />
               <ol className="news-detail__footnote-list">
-                {article.sources.map((source, index) => {
+                {articleSources.map((source, index) => {
                   const sourceDate = utcStamp(source.publishedAt, { time: false });
                   return (
                     <li key={source.id || source.url} id={`article-source-${index + 1}`}>
