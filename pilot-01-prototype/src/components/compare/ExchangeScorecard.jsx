@@ -1,5 +1,6 @@
 import { buildScorecard, countryRankings } from '../../data/exchange-scorecards.js';
 import { localizedHref } from '../../data/locale-routing.js';
+import { SourceLink } from '../shared/SourceLink.jsx';
 import './scorecards.css';
 
 // Untranslated explanatory rules carry an explicit language for assistive technology.
@@ -38,7 +39,7 @@ export function ExchangeScorecard({ selected, locale = 'en', market }) {
           <span lang="en">{cell.display || t[4]}</span>
           {row.winners.includes(card.venues[i].slug) && <span className="exchange-scorecard__badge">{row.winners.length > 1 ? t[3] : t[2]}</span>}
           <span className="exchange-scorecard__date" lang="en">{cell.asOf ? `${t[5]} ${asOf(cell.asOf)}` : 'Date not recorded'}</span>
-          {cell.sources?.length > 0 && <span className="exchange-scorecard__sources">{cell.sources.map((url, n) => <a key={url} href={url} lang="en">Source {n + 1}</a>)}</span>}
+          {cell.sources?.length > 0 && <span className="exchange-scorecard__sources">{cell.sources.map((url, n) => <SourceLink key={url} locale={locale} href={url} lang="en">Source {n + 1}</SourceLink>)}</span>}
         </td>)}</tr>)}</tbody>
       </table>
     </div>
