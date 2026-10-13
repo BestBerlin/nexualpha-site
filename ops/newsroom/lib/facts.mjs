@@ -8,6 +8,7 @@ const tickerStop = new Set([...stop].filter(token => !['usdt', 'usdc'].includes(
 // made two reports of one story "conflict" when only one mentioned e.g. the DOJ.
 const acronymStop = new Set('us usa uk eu un hk sg uae sec cftc doj fbi irs fed fomc imf ecb boj pboc sfc mas fca esma mica bis occ fdic finra ceo cfo cto coo ai ipo etf etfs nft nfts dao api utc gmt otc kyc aml dex cex tvl ath atl cpi gdp ppi pce q1 q2 q3 q4 h1 h2 yoy qoq l1 l2 defi rwa ama faq breaking update new official live vip apy apr pos pow p2p'.split(' '));
 const venueAliases = [['binance', /币安|幣安/u], ['okx', /欧易|歐易/u], ['bybit', /\bbybit\b/iu], ['bitget', /\bbitget\b/iu], ['coinbase', /\bcoinbase\b/iu], ['kucoin', /库币|庫幣/u], ['kraken', /\bkraken\b/iu]];
+const venueNameStop = new Set(venues);
 const LISTING_ACTIONS = new Set(['listing', 'delisting']);
 const actions = [
   ['delisting', /\bdelist(?:s|ed|ing)?\b|下架|退市/iu],
@@ -30,7 +31,7 @@ const coinPatterns = coins.map(coin => {
   return {
     symbol,
     symbolRe: new RegExp(`(?:^|[^A-Za-z0-9])\\$?${symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:$|[^A-Za-z0-9])`),
-    nameRe: coin.name.length >= 5 ? new RegExp(`\\b${coin.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i') : null,
+    nameRe: coin.name.length >= 5 && !venueNameStop.has(normalizeText(coin.name)) ? new RegExp(`\\b${coin.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i') : null,
   };
 }).filter(Boolean);
 const venueRes = venues.map(venue => [venue, new RegExp(`\\b${venue}\\b`, 'i')]);

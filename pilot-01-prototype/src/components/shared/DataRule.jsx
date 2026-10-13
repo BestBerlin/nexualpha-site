@@ -1,11 +1,12 @@
 // Data rule (v9 editorial signature, docs/design-unified-v8.md "Data rule"): a section head made of a mono label, a
-// 1px hairline that fills the line and a mono figure or UTC stamp at the end. Used by the article, news index and hub
+// 1px hairline that fills the line and a mono figure or SGT stamp at the end. Used by the article, news index and hub
 // templates. Pure markup, CSS in src/styles/v8/site-signature.css (.nx-rule); pinned to the core-ui chunk.
 import React from "react";
+import { formatSgt, readerDayKey } from "../../data/local-time.js";
 
 /**
  * as: element for the label (h2 when the rule is the section heading, otherwise span).
- * stamp: mono text at the end (UTC time, count, date); dateTime makes it a <time>.
+ * stamp: mono text at the end (SGT time, count, date); dateTime makes it a <time>.
  */
 export function DataRule({ as: Label = "span", label, labelId, labelProps = {}, stamp, dateTime, className = "", children }) {
   return (
@@ -24,7 +25,7 @@ export function DataRule({ as: Label = "span", label, labelId, labelProps = {}, 
  * Section rule (V3, 2026-10-11): the same signature as the section line above an existing section heading on the
  * venue, compare, activities and data pages, where the heading itself stays a large h2. The label is the section's
  * running number (CSS counter, so hidden or conditional sections never leave gaps); the optional stamp is a figure
- * or UTC time. Decorative: the h2 below names the section, so the rule is hidden from assistive technology.
+ * or SGT time. Decorative: the h2 below names the section, so the rule is hidden from assistive technology.
  */
 export function SectionRule({ stamp, dateTime, className = "" }) {
   return (
@@ -38,23 +39,15 @@ export function SectionRule({ stamp, dateTime, className = "" }) {
   );
 }
 
-const pad = (n) => String(n).padStart(2, "0");
-// Deterministic UTC stamps (identical on the server and in every browser, so hydration never mismatches).
+// Compatibility exports for existing rule consumers; all visible stamps use SGT.
 export function utcStamp(iso, { time = true } = {}) {
-  const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return null;
-  const d = new Date(t);
-  const day = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
-  return time ? `${day} · ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC` : day;
+  return (time ? formatSgt(iso) : readerDayKey(iso)) || null;
 }
 export function utcClock(iso) {
-  const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return null;
-  const d = new Date(t);
-  return `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+  return formatSgt(iso, "en", "clock").replace(/ SGT$/, "") || null;
 }
 
-// "2026-10-11 · 09:08 UTC" with the date part in .nx-rule__date (dropped on phones by site-signature.css).
+// "2026-10-11 · 17:08 SGT" with the date part in .nx-rule__date (dropped on phones by site-signature.css).
 export function UtcRuleStamp({ iso }) {
   const full = utcStamp(iso);
   if (!full) return null;

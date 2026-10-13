@@ -109,7 +109,7 @@ test("SSR renders table, anchors, calculator, tracked CTAs and neutral locales w
   assert.match(en, /<main[^>]*data-testid="funding-matrix-page"/);
   assert.match(en, /<header class="nxd-hero nxdm-hero v2-shell">/);
   assert.match(en, /<h1>Crypto funding-rate matrix<\/h1>/);
-  assert.match(en, /2099-10-13 02:15 UTC/);
+  assert.match(en, /2099-10-13 · 10:15 SGT/);
   assert.match(en, /<table class="nxdm-table" dir="ltr">/);
   assert.match(en, /aria-sort="descending"><button type="button" class="nxdm-thbutton" aria-pressed="true">Max spread \/ 8h<\/button>/);
   assert.match(en, /aria-sort="none"><button type="button" class="nxdm-thbutton" aria-pressed="false">HTX<\/button>/);

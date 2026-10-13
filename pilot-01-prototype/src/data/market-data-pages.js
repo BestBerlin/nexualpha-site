@@ -5,10 +5,11 @@
 // missing — the pages render an "unavailable" state instead.
 import { localizedPath } from "./locale-routing.js";
 import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from "./brand-entity.js";
+import { formatSgt } from "./local-time.js";
 
-import { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
+import { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
 
-export { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH };
+export { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH };
 export const DATA_PAGE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
 export const DATA_PAGE_REFRESH_MS = 60 * 1000;
 // Annualised estimate: the current 8-hour rate repeated 3 times a day for 365 days (labelled as an estimate in the UI).
@@ -158,14 +159,12 @@ export function formatRatePct(rate, digits = 4) {
 export function formatUtc(iso, { seconds = false } = {}) {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
-  const d = new Date(t), p = (x) => String(x).padStart(2, "0");
-  return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())}${seconds ? `:${p(d.getUTCSeconds())}` : ""} UTC`;
+  return formatSgt(iso, "en", seconds ? "seconds" : "stamp");
 }
 export function formatUtcTime(iso) {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
-  const d = new Date(t), p = (x) => String(x).padStart(2, "0");
-  return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+  return formatSgt(iso, "en", "clock");
 }
 // seconds: false gives hh:mm (the reduced-motion clock ticks once a minute).
 export function formatCountdown(ms, { seconds = true } = {}) {
@@ -179,7 +178,7 @@ const COPY = {
   en: {
     nav: DATA_PAGE_NAV["en"],
     common: {
-      home: "Home", updated: "Updated", source: "Source", refresh: "Re-reads the feed every 60 seconds while this page is open. Times are UTC.",
+      home: "Home", updated: "Updated", source: "Source", refresh: "Re-reads the feed every 60 seconds while this page is open. Times are SGT.",
       unavailableTitle: "Live data is temporarily unavailable", unavailable: "The feed refreshes every few minutes. Nothing is estimated while it is missing — try again shortly.",
       explainer: "What this page shows", faq: "Frequently asked questions", relatedData: "More live data", json: "Raw JSON feed",
       embedTitle: "Embed this on your site", embedIntro: "Paste one of these snippets. The widget shows the same live numbers as this page, fits any column width and links back here.",
@@ -212,7 +211,7 @@ const COPY = {
         ["What is a crypto liquidation?", "A liquidation is the forced closing of a leveraged position by the exchange when its margin falls below the maintenance requirement. The trader loses the margin; the exchange closes the position at market to stop further losses."],
         ["Why are long and short liquidations shown separately?", "Long liquidations happen when the price falls, short liquidations when it rises. The split shows which side of the market was caught out. Large numbers on both sides in the same window point to a sharp move followed by a reversal (多空双杀)."],
         ["Where does this data come from and how complete is it?", "From Binance's public USDT-M force-order WebSocket stream and OKX's public liquidation-orders API, aggregated by NexuAlpha every five minutes. Binance sends at most one order per symbol per second, so the totals are a lower bound and cover only these two exchanges."],
-        ["How often is this page updated?", "The collector rewrites the feed every five minutes and the page re-reads it every 60 seconds while open. The timestamp above the numbers shows when the feed was last generated, in UTC."],
+        ["How often is this page updated?", "The collector rewrites the feed every five minutes and the page re-reads it every 60 seconds while open. The timestamp above the numbers shows when the feed was last generated, in SGT."],
       ],
       datasetName: "NexuAlpha live crypto liquidations (Binance + OKX)",
       datasetDescription: "Aggregated futures liquidations over 1h, 4h and 24h windows: long and short USD totals, order counts, most liquidated symbols and the largest single order. Lower bound from two exchanges, rewritten every five minutes.",
@@ -244,7 +243,7 @@ const COPY = {
   "zh-Hans": {
     nav: DATA_PAGE_NAV["zh-Hans"],
     common: {
-      home: "首页", updated: "更新于", source: "来源", refresh: "页面打开期间每 60 秒重新读取数据，时间均为 UTC。",
+      home: "首页", updated: "更新于", source: "来源", refresh: "页面打开期间每 60 秒重新读取数据，时间均为 SGT。",
       unavailableTitle: "实时数据暂时不可用", unavailable: "数据源每几分钟刷新一次。数据缺失时不做任何估算，请稍后再试。",
       explainer: "本页说明", faq: "常见问题", relatedData: "更多实时数据", json: "原始 JSON 数据",
       embedTitle: "嵌入到你的网站", embedIntro: "复制下面任一代码。小组件显示与本页相同的实时数字，自动适配栏宽，并链接回本页。",
@@ -277,7 +276,7 @@ const COPY = {
         ["什么是加密货币爆仓？", "当杠杆仓位的保证金低于维持要求时，交易所会强制以市价平仓，这就是爆仓。交易者损失保证金，交易所通过平仓阻止亏损继续扩大。"],
         ["为什么要把多单和空单爆仓分开显示？", "价格下跌时多单被爆，价格上涨时空单被爆。拆分后能看出哪一方被市场打中。同一时间窗内两侧都很大，说明出现了急涨急跌的反转，即多空双杀。"],
         ["数据来自哪里，完整吗？", "来自 Binance 公开的 USDT 合约强平 WebSocket 推送和 OKX 公开的爆仓订单 API，由 NexuAlpha 每五分钟汇总一次。Binance 每个币种每秒最多推送一笔，因此总额是下限，且只覆盖这两家交易所。"],
-        ["页面多久更新一次？", "采集器每五分钟重写一次数据文件，页面打开期间每 60 秒重新读取。数字上方的时间戳是数据生成时间（UTC）。"],
+        ["页面多久更新一次？", "采集器每五分钟重写一次数据文件，页面打开期间每 60 秒重新读取。数字上方的时间戳是数据生成时间（SGT）。"],
       ],
       datasetName: "NexuAlpha 实时加密货币爆仓数据（Binance + OKX）",
       datasetDescription: "1 小时、4 小时、24 小时窗口内的合约爆仓汇总：多空美元总额、笔数、爆仓最多的币种与最大单笔。两家交易所的下限，每五分钟重写。",
@@ -309,7 +308,7 @@ const COPY = {
   "zh-Hant": {
     nav: DATA_PAGE_NAV["zh-Hant"],
     common: {
-      home: "首頁", updated: "更新於", source: "來源", refresh: "頁面開啟期間每 60 秒重新讀取資料，時間均為 UTC。",
+      home: "首頁", updated: "更新於", source: "來源", refresh: "頁面開啟期間每 60 秒重新讀取資料，時間均為 SGT。",
       unavailableTitle: "即時資料暫時無法取得", unavailable: "資料來源每幾分鐘更新一次。資料缺失時不做任何估算，請稍後再試。",
       explainer: "本頁說明", faq: "常見問題", relatedData: "更多即時資料", json: "原始 JSON 資料",
       embedTitle: "嵌入到你的網站", embedIntro: "複製下面任一程式碼。小工具顯示與本頁相同的即時數字，自動適配欄寬，並連結回本頁。",
@@ -342,7 +341,7 @@ const COPY = {
         ["什麼是加密貨幣爆倉？", "當槓桿倉位的保證金低於維持要求時，交易所會強制以市價平倉，這就是爆倉。交易者損失保證金，交易所透過平倉阻止虧損繼續擴大。"],
         ["為什麼要把多單和空單爆倉分開顯示？", "價格下跌時多單被爆，價格上漲時空單被爆。拆分後能看出哪一方被市場打中。同一時間窗內兩側都很大，說明出現了急漲急跌的反轉，即多空雙殺。"],
         ["資料來自哪裡，完整嗎？", "來自 Binance 公開的 USDT 合約強平 WebSocket 推送和 OKX 公開的爆倉訂單 API，由 NexuAlpha 每五分鐘彙總一次。Binance 每個幣種每秒最多推送一筆，因此總額是下限，且只涵蓋這兩家交易所。"],
-        ["頁面多久更新一次？", "採集器每五分鐘重寫一次資料檔，頁面開啟期間每 60 秒重新讀取。數字上方的時間戳是資料生成時間（UTC）。"],
+        ["頁面多久更新一次？", "採集器每五分鐘重寫一次資料檔，頁面開啟期間每 60 秒重新讀取。數字上方的時間戳是資料生成時間（SGT）。"],
       ],
       datasetName: "NexuAlpha 即時加密貨幣爆倉資料（Binance + OKX）",
       datasetDescription: "1 小時、4 小時、24 小時窗口內的合約爆倉彙總：多空美元總額、筆數、爆倉最多的幣種與最大單筆。兩家交易所的下限，每五分鐘重寫。",
@@ -374,7 +373,7 @@ const COPY = {
   es: {
     nav: DATA_PAGE_NAV["es"],
     common: {
-      home: "Inicio", updated: "Actualizado", source: "Fuente", refresh: "Relee el feed cada 60 segundos mientras la página está abierta. Horas en UTC.",
+      home: "Inicio", updated: "Actualizado", source: "Fuente", refresh: "Relee el feed cada 60 segundos mientras la página está abierta. Horas en SGT.",
       unavailableTitle: "Los datos en vivo no están disponibles temporalmente", unavailable: "El feed se actualiza cada pocos minutos. Nada se estima mientras falta; vuelve a intentarlo en breve.",
       explainer: "Qué muestra esta página", faq: "Preguntas frecuentes", relatedData: "Más datos en vivo", json: "Feed JSON en bruto",
       embedTitle: "Inserta esto en tu sitio", embedIntro: "Pega uno de estos fragmentos. El widget muestra las mismas cifras en vivo que esta página, se adapta a cualquier ancho y enlaza de vuelta aquí.",
@@ -407,7 +406,7 @@ const COPY = {
         ["¿Qué es una liquidación cripto?", "Es el cierre forzoso de una posición apalancada por parte del exchange cuando su margen cae por debajo del requisito de mantenimiento. El trader pierde el margen; el exchange cierra la posición a mercado para frenar más pérdidas."],
         ["¿Por qué se muestran por separado las liquidaciones de largos y cortos?", "Los largos se liquidan cuando el precio cae y los cortos cuando sube. El reparto muestra qué lado del mercado quedó atrapado. Cifras grandes en ambos lados en la misma ventana indican un movimiento brusco seguido de una reversión."],
         ["¿De dónde salen los datos y qué tan completos son?", "Del stream WebSocket público de órdenes forzadas USDT-M de Binance y de la API pública de órdenes de liquidación de OKX, agregados por NexuAlpha cada cinco minutos. Binance envía como máximo una orden por símbolo y segundo, así que los totales son un límite inferior y cubren solo estos dos exchanges."],
-        ["¿Con qué frecuencia se actualiza la página?", "El colector reescribe el feed cada cinco minutos y la página lo relee cada 60 segundos mientras está abierta. La marca de tiempo sobre las cifras indica cuándo se generó el feed, en UTC."],
+        ["¿Con qué frecuencia se actualiza la página?", "El colector reescribe el feed cada cinco minutos y la página lo relee cada 60 segundos mientras está abierta. La marca de tiempo sobre las cifras indica cuándo se generó el feed, en SGT."],
       ],
       datasetName: "Liquidaciones cripto en vivo de NexuAlpha (Binance + OKX)",
       datasetDescription: "Liquidaciones de futuros agregadas en ventanas de 1h, 4h y 24h: totales en USD de largos y cortos, número de órdenes, símbolos más liquidados y mayor orden individual. Límite inferior de dos exchanges, reescrito cada cinco minutos.",
@@ -439,7 +438,7 @@ const COPY = {
   "pt-BR": {
     nav: DATA_PAGE_NAV["pt-BR"],
     common: {
-      home: "Início", updated: "Atualizado", source: "Fonte", refresh: "Relê o feed a cada 60 segundos enquanto a página está aberta. Horários em UTC.",
+      home: "Início", updated: "Atualizado", source: "Fonte", refresh: "Relê o feed a cada 60 segundos enquanto a página está aberta. Horários em SGT.",
       unavailableTitle: "Os dados ao vivo estão temporariamente indisponíveis", unavailable: "O feed é atualizado a cada poucos minutos. Nada é estimado enquanto ele falta; tente novamente em instantes.",
       explainer: "O que esta página mostra", faq: "Perguntas frequentes", relatedData: "Mais dados ao vivo", json: "Feed JSON bruto",
       embedTitle: "Incorpore isto no seu site", embedIntro: "Cole um destes trechos. O widget mostra os mesmos números ao vivo desta página, adapta-se a qualquer largura e aponta de volta para aqui.",
@@ -472,7 +471,7 @@ const COPY = {
         ["O que é uma liquidação cripto?", "É o fechamento forçado de uma posição alavancada pela exchange quando a margem cai abaixo do requisito de manutenção. O trader perde a margem; a exchange fecha a posição a mercado para conter novas perdas."],
         ["Por que longs e shorts aparecem separados?", "Longs são liquidados quando o preço cai; shorts, quando sobe. A divisão mostra qual lado do mercado foi pego. Números grandes nos dois lados na mesma janela indicam um movimento brusco seguido de reversão."],
         ["De onde vêm os dados e quão completos são?", "Do stream WebSocket público de ordens forçadas USDT-M da Binance e da API pública de ordens de liquidação da OKX, agregados pela NexuAlpha a cada cinco minutos. A Binance envia no máximo uma ordem por símbolo por segundo, então os totais são um limite inferior e cobrem apenas essas duas exchanges."],
-        ["Com que frequência a página é atualizada?", "O coletor reescreve o feed a cada cinco minutos e a página o relê a cada 60 segundos enquanto está aberta. O carimbo de tempo acima dos números mostra quando o feed foi gerado, em UTC."],
+        ["Com que frequência a página é atualizada?", "O coletor reescreve o feed a cada cinco minutos e a página o relê a cada 60 segundos enquanto está aberta. O carimbo de tempo acima dos números mostra quando o feed foi gerado, em SGT."],
       ],
       datasetName: "Liquidações cripto ao vivo da NexuAlpha (Binance + OKX)",
       datasetDescription: "Liquidações de futuros agregadas em janelas de 1h, 4h e 24h: totais em USD de longs e shorts, número de ordens, símbolos mais liquidados e maior ordem individual. Limite inferior de duas exchanges, reescrito a cada cinco minutos.",
@@ -504,7 +503,7 @@ const COPY = {
   fr: {
     nav: DATA_PAGE_NAV["fr"],
     common: {
-      home: "Accueil", updated: "Mis à jour", source: "Source", refresh: "Relit le flux toutes les 60 secondes tant que la page est ouverte. Heures en UTC.",
+      home: "Accueil", updated: "Mis à jour", source: "Source", refresh: "Relit le flux toutes les 60 secondes tant que la page est ouverte. Heures en SGT.",
       unavailableTitle: "Les données en direct sont temporairement indisponibles", unavailable: "Le flux se rafraîchit toutes les quelques minutes. Rien n'est estimé en son absence ; réessayez dans un instant.",
       explainer: "Ce que montre cette page", faq: "Questions fréquentes", relatedData: "Plus de données en direct", json: "Flux JSON brut",
       embedTitle: "Intégrer sur votre site", embedIntro: "Collez l'un de ces extraits. Le widget affiche les mêmes chiffres en direct que cette page, s'adapte à toute largeur et renvoie ici.",
@@ -537,7 +536,7 @@ const COPY = {
         ["Qu'est-ce qu'une liquidation crypto ?", "C'est la fermeture forcée d'une position à levier par la plateforme lorsque sa marge passe sous le seuil de maintenance. Le trader perd la marge ; la plateforme ferme la position au marché pour stopper les pertes."],
         ["Pourquoi séparer les liquidations longs et shorts ?", "Les longs sont liquidés quand le prix baisse, les shorts quand il monte. La répartition montre quel côté du marché a été pris à revers. Des montants élevés des deux côtés sur la même fenêtre signalent un mouvement brusque suivi d'un retournement."],
         ["D'où viennent ces données et sont-elles complètes ?", "Du flux WebSocket public d'ordres forcés USDT-M de Binance et de l'API publique d'ordres de liquidation d'OKX, agrégés par NexuAlpha toutes les cinq minutes. Binance envoie au plus un ordre par symbole et par seconde : les totaux sont donc une borne inférieure et ne couvrent que ces deux plateformes."],
-        ["À quelle fréquence la page est-elle mise à jour ?", "Le collecteur réécrit le flux toutes les cinq minutes et la page le relit toutes les 60 secondes tant qu'elle est ouverte. L'horodatage au-dessus des chiffres indique la génération du flux, en UTC."],
+        ["À quelle fréquence la page est-elle mise à jour ?", "Le collecteur réécrit le flux toutes les cinq minutes et la page le relit toutes les 60 secondes tant qu'elle est ouverte. L'horodatage au-dessus des chiffres indique la génération du flux, en SGT."],
       ],
       datasetName: "Liquidations crypto en direct NexuAlpha (Binance + OKX)",
       datasetDescription: "Liquidations de futures agrégées sur 1h, 4h et 24h : totaux USD longs et shorts, nombre d'ordres, symboles les plus liquidés et plus gros ordre unique. Borne inférieure de deux plateformes, réécrite toutes les cinq minutes.",
@@ -569,7 +568,7 @@ const COPY = {
   de: {
     nav: DATA_PAGE_NAV["de"],
     common: {
-      home: "Start", updated: "Aktualisiert", source: "Quelle", refresh: "Liest den Feed alle 60 Sekunden neu, solange die Seite offen ist. Zeiten in UTC.",
+      home: "Start", updated: "Aktualisiert", source: "Quelle", refresh: "Liest den Feed alle 60 Sekunden neu, solange die Seite offen ist. Zeiten in SGT.",
       unavailableTitle: "Live-Daten sind vorübergehend nicht verfügbar", unavailable: "Der Feed wird alle paar Minuten erneuert. Solange er fehlt, wird nichts geschätzt – bitte gleich noch einmal versuchen.",
       explainer: "Was diese Seite zeigt", faq: "Häufige Fragen", relatedData: "Mehr Live-Daten", json: "Roh-JSON-Feed",
       embedTitle: "Auf der eigenen Seite einbetten", embedIntro: "Einen dieser Schnipsel einfügen. Das Widget zeigt dieselben Live-Zahlen wie diese Seite, passt sich jeder Spaltenbreite an und verlinkt hierher.",
@@ -602,7 +601,7 @@ const COPY = {
         ["Was ist eine Krypto-Liquidation?", "Die zwangsweise Schließung einer gehebelten Position durch die Börse, wenn die Margin unter die Mindestanforderung fällt. Der Trader verliert die Margin; die Börse schließt die Position zum Marktpreis, um weitere Verluste zu stoppen."],
         ["Warum werden Long- und Short-Liquidationen getrennt gezeigt?", "Longs werden bei fallenden, Shorts bei steigenden Kursen liquidiert. Die Aufteilung zeigt, welche Marktseite erwischt wurde. Hohe Werte auf beiden Seiten im selben Fenster deuten auf eine scharfe Bewegung mit anschließender Umkehr."],
         ["Woher stammen die Daten und wie vollständig sind sie?", "Aus Binance' öffentlichem USDT-M-Force-Order-WebSocket-Stream und der öffentlichen OKX-API für Liquidationsorders, von NexuAlpha alle fünf Minuten aggregiert. Binance sendet höchstens eine Order pro Symbol und Sekunde, daher sind die Summen eine Untergrenze und decken nur diese zwei Börsen ab."],
-        ["Wie oft wird die Seite aktualisiert?", "Der Collector schreibt den Feed alle fünf Minuten neu, die Seite liest ihn alle 60 Sekunden, solange sie offen ist. Der Zeitstempel über den Zahlen zeigt, wann der Feed erzeugt wurde (UTC)."],
+        ["Wie oft wird die Seite aktualisiert?", "Der Collector schreibt den Feed alle fünf Minuten neu, die Seite liest ihn alle 60 Sekunden, solange sie offen ist. Der Zeitstempel über den Zahlen zeigt, wann der Feed erzeugt wurde (SGT)."],
       ],
       datasetName: "NexuAlpha Live-Krypto-Liquidationen (Binance + OKX)",
       datasetDescription: "Aggregierte Futures-Liquidationen in 1h-, 4h- und 24h-Fenstern: Long- und Short-Summen in USD, Orderanzahl, meistliquidierte Symbole und größte Einzelorder. Untergrenze aus zwei Börsen, alle fünf Minuten neu geschrieben.",
@@ -634,7 +633,7 @@ const COPY = {
   it: {
     nav: DATA_PAGE_NAV["it"],
     common: {
-      home: "Home", updated: "Aggiornato", source: "Fonte", refresh: "Rilegge il feed ogni 60 secondi mentre la pagina è aperta. Orari in UTC.",
+      home: "Home", updated: "Aggiornato", source: "Fonte", refresh: "Rilegge il feed ogni 60 secondi mentre la pagina è aperta. Orari in SGT.",
       unavailableTitle: "I dati in tempo reale non sono temporaneamente disponibili", unavailable: "Il feed si aggiorna ogni pochi minuti. Nulla viene stimato quando manca; riprova tra poco.",
       explainer: "Cosa mostra questa pagina", faq: "Domande frequenti", relatedData: "Altri dati in tempo reale", json: "Feed JSON grezzo",
       embedTitle: "Incorpora nel tuo sito", embedIntro: "Incolla uno di questi snippet. Il widget mostra gli stessi numeri in tempo reale di questa pagina, si adatta a qualsiasi larghezza e rimanda qui.",
@@ -667,7 +666,7 @@ const COPY = {
         ["Che cos'è una liquidazione crypto?", "È la chiusura forzata di una posizione a leva da parte dell'exchange quando il margine scende sotto il requisito di mantenimento. Il trader perde il margine; l'exchange chiude la posizione a mercato per fermare ulteriori perdite."],
         ["Perché long e short sono mostrati separatamente?", "I long vengono liquidati quando il prezzo scende, gli short quando sale. La ripartizione mostra quale lato del mercato è stato colpito. Valori elevati su entrambi i lati nella stessa finestra indicano un movimento brusco seguito da un'inversione."],
         ["Da dove arrivano i dati e quanto sono completi?", "Dallo stream WebSocket pubblico di ordini forzati USDT-M di Binance e dall'API pubblica degli ordini di liquidazione di OKX, aggregati da NexuAlpha ogni cinque minuti. Binance invia al massimo un ordine per simbolo al secondo, quindi i totali sono un limite inferiore e coprono solo questi due exchange."],
-        ["Con quale frequenza si aggiorna la pagina?", "Il collector riscrive il feed ogni cinque minuti e la pagina lo rilegge ogni 60 secondi mentre è aperta. Il timestamp sopra i numeri indica quando il feed è stato generato, in UTC."],
+        ["Con quale frequenza si aggiorna la pagina?", "Il collector riscrive il feed ogni cinque minuti e la pagina lo rilegge ogni 60 secondi mentre è aperta. Il timestamp sopra i numeri indica quando il feed è stato generato, in SGT."],
       ],
       datasetName: "Liquidazioni crypto live NexuAlpha (Binance + OKX)",
       datasetDescription: "Liquidazioni di futures aggregate su finestre di 1h, 4h e 24h: totali USD long e short, numero di ordini, simboli più liquidati e ordine singolo più grande. Limite inferiore di due exchange, riscritto ogni cinque minuti.",
@@ -699,7 +698,7 @@ const COPY = {
   ja: {
     nav: DATA_PAGE_NAV["ja"],
     common: {
-      home: "ホーム", updated: "更新", source: "出典", refresh: "ページを開いている間、60秒ごとにフィードを再読み込みします。時刻はUTCです。",
+      home: "ホーム", updated: "更新", source: "出典", refresh: "ページを開いている間、60秒ごとにフィードを再読み込みします。時刻はSGTです。",
       unavailableTitle: "ライブデータは一時的に利用できません", unavailable: "フィードは数分ごとに更新されます。欠損中は一切推定しません。しばらくしてからお試しください。",
       explainer: "このページの見方", faq: "よくある質問", relatedData: "その他のライブデータ", json: "生のJSONフィード",
       embedTitle: "自分のサイトに埋め込む", embedIntro: "いずれかのコードを貼り付けてください。ウィジェットはこのページと同じライブ数値を表示し、幅に合わせて伸縮し、ここへリンクします。",
@@ -732,7 +731,7 @@ const COPY = {
         ["暗号資産の清算とは何ですか？", "証拠金が維持証拠金を下回ったとき、取引所がレバレッジポジションを強制的に閉じることです。トレーダーは証拠金を失い、取引所は損失拡大を止めるため成行で決済します。"],
         ["ロングとショートの清算を分けて表示する理由は？", "ロングは価格下落時、ショートは価格上昇時に清算されます。分けることで市場のどちら側が巻き込まれたかが分かります。同じ時間枠で両側とも大きければ、急変動の後に反転が起きた（多空双殺）ことを示します。"],
         ["データの出典と網羅性は？", "BinanceのUSDT-M強制決済WebSocketストリームとOKXの公開清算注文APIから取得し、NexuAlphaが5分ごとに集計しています。Binanceは銘柄ごとに毎秒最大1件しか配信しないため、合計は下限値で、対象もこの2取引所に限られます。"],
-        ["ページの更新頻度は？", "収集プログラムが5分ごとにフィードを書き直し、ページは開いている間60秒ごとに再読み込みします。数値の上のタイムスタンプはフィード生成時刻（UTC）です。"],
+        ["ページの更新頻度は？", "収集プログラムが5分ごとにフィードを書き直し、ページは開いている間60秒ごとに再読み込みします。数値の上のタイムスタンプはフィード生成時刻（SGT）です。"],
       ],
       datasetName: "NexuAlpha ライブ暗号資産清算データ（Binance + OKX）",
       datasetDescription: "1時間・4時間・24時間の先物清算集計：ロングとショートのUSD合計、件数、清算が多い銘柄、最大の単一注文。2取引所の下限値を5分ごとに更新。",
@@ -764,7 +763,7 @@ const COPY = {
   ko: {
     nav: DATA_PAGE_NAV["ko"],
     common: {
-      home: "홈", updated: "업데이트", source: "출처", refresh: "페이지가 열려 있는 동안 60초마다 피드를 다시 읽습니다. 시간은 UTC입니다.",
+      home: "홈", updated: "업데이트", source: "출처", refresh: "페이지가 열려 있는 동안 60초마다 피드를 다시 읽습니다. 시간은 SGT입니다.",
       unavailableTitle: "실시간 데이터를 일시적으로 사용할 수 없습니다", unavailable: "피드는 몇 분마다 갱신됩니다. 데이터가 없는 동안에는 어떤 값도 추정하지 않습니다. 잠시 후 다시 시도하세요.",
       explainer: "이 페이지가 보여주는 것", faq: "자주 묻는 질문", relatedData: "더 많은 실시간 데이터", json: "원본 JSON 피드",
       embedTitle: "내 사이트에 삽입", embedIntro: "아래 코드 중 하나를 붙여 넣으세요. 위젯은 이 페이지와 같은 실시간 숫자를 보여주고, 어떤 너비에도 맞으며, 이 페이지로 링크합니다.",
@@ -797,7 +796,7 @@ const COPY = {
         ["암호화폐 청산이란 무엇인가요?", "증거금이 유지 증거금 아래로 떨어지면 거래소가 레버리지 포지션을 강제로 닫는 것입니다. 트레이더는 증거금을 잃고, 거래소는 손실 확대를 막기 위해 시장가로 포지션을 정리합니다."],
         ["롱과 숏 청산을 따로 보여주는 이유는?", "롱은 가격이 떨어질 때, 숏은 오를 때 청산됩니다. 나누어 보면 시장의 어느 쪽이 당했는지 알 수 있습니다. 같은 시간대에 양쪽 모두 크다면 급등락 뒤 반전이 있었다는 신호(多空双杀)입니다."],
         ["데이터 출처와 완전성은?", "바이낸스 공개 USDT-M 강제청산 WebSocket 스트림과 OKX 공개 청산 주문 API에서 가져와 NexuAlpha가 5분마다 집계합니다. 바이낸스는 종목당 초당 최대 1건만 보내므로 합계는 하한값이며 이 두 거래소만 포함합니다."],
-        ["페이지는 얼마나 자주 업데이트되나요?", "수집기가 5분마다 피드를 다시 쓰고, 페이지는 열려 있는 동안 60초마다 다시 읽습니다. 숫자 위의 타임스탬프는 피드 생성 시각(UTC)입니다."],
+        ["페이지는 얼마나 자주 업데이트되나요?", "수집기가 5분마다 피드를 다시 쓰고, 페이지는 열려 있는 동안 60초마다 다시 읽습니다. 숫자 위의 타임스탬프는 피드 생성 시각(SGT)입니다."],
       ],
       datasetName: "NexuAlpha 실시간 암호화폐 청산 데이터 (바이낸스 + OKX)",
       datasetDescription: "1시간·4시간·24시간 구간의 선물 청산 집계: 롱·숏 USD 합계, 건수, 청산 상위 종목, 최대 단일 주문. 두 거래소의 하한값이며 5분마다 갱신.",
@@ -829,7 +828,7 @@ const COPY = {
   ru: {
     nav: DATA_PAGE_NAV["ru"],
     common: {
-      home: "Главная", updated: "Обновлено", source: "Источник", refresh: "Перечитывает фид каждые 60 секунд, пока страница открыта. Время в UTC.",
+      home: "Главная", updated: "Обновлено", source: "Источник", refresh: "Перечитывает фид каждые 60 секунд, пока страница открыта. Время в SGT.",
       unavailableTitle: "Данные в реальном времени временно недоступны", unavailable: "Фид обновляется каждые несколько минут. Пока его нет, ничего не оценивается — попробуйте чуть позже.",
       explainer: "Что показывает эта страница", faq: "Частые вопросы", relatedData: "Больше данных в реальном времени", json: "Сырой JSON-фид",
       embedTitle: "Встроить на свой сайт", embedIntro: "Вставьте один из фрагментов. Виджет показывает те же живые цифры, что и эта страница, подстраивается под любую ширину и ссылается сюда.",
@@ -862,7 +861,7 @@ const COPY = {
         ["Что такое ликвидация в крипте?", "Принудительное закрытие позиции с плечом биржей, когда её маржа падает ниже поддерживающего уровня. Трейдер теряет маржу; биржа закрывает позицию по рынку, чтобы остановить дальнейшие потери."],
         ["Почему лонги и шорты показаны отдельно?", "Лонги ликвидируются при падении цены, шорты — при росте. Разбивка показывает, какую сторону рынка застали врасплох. Большие суммы с обеих сторон в одном окне указывают на резкое движение с последующим разворотом."],
         ["Откуда данные и насколько они полны?", "Из публичного WebSocket-потока принудительных ордеров Binance USDT-M и публичного API ордеров ликвидации OKX; NexuAlpha агрегирует их каждые пять минут. Binance передаёт не более одного ордера на символ в секунду, поэтому суммы — нижняя граница и охватывают только эти две биржи."],
-        ["Как часто обновляется страница?", "Сборщик перезаписывает фид каждые пять минут, а страница перечитывает его каждые 60 секунд, пока открыта. Метка времени над цифрами показывает момент формирования фида в UTC."],
+        ["Как часто обновляется страница?", "Сборщик перезаписывает фид каждые пять минут, а страница перечитывает его каждые 60 секунд, пока открыта. Метка времени над цифрами показывает момент формирования фида в SGT."],
       ],
       datasetName: "Ликвидации криптовалют в реальном времени NexuAlpha (Binance + OKX)",
       datasetDescription: "Агрегированные ликвидации фьючерсов за 1ч, 4ч и 24ч: суммы лонгов и шортов в USD, число ордеров, самые ликвидируемые монеты и крупнейший ордер. Нижняя граница по двум биржам, перезаписывается каждые пять минут.",
@@ -894,7 +893,7 @@ const COPY = {
   tr: {
     nav: DATA_PAGE_NAV["tr"],
     common: {
-      home: "Ana sayfa", updated: "Güncellendi", source: "Kaynak", refresh: "Sayfa açıkken akışı her 60 saniyede yeniden okur. Saatler UTC.",
+      home: "Ana sayfa", updated: "Güncellendi", source: "Kaynak", refresh: "Sayfa açıkken akışı her 60 saniyede yeniden okur. Saatler SGT.",
       unavailableTitle: "Canlı veri geçici olarak kullanılamıyor", unavailable: "Akış birkaç dakikada bir yenilenir. Veri yokken hiçbir şey tahmin edilmez; kısa süre sonra yeniden deneyin.",
       explainer: "Bu sayfa ne gösterir", faq: "Sık sorulan sorular", relatedData: "Daha fazla canlı veri", json: "Ham JSON akışı",
       embedTitle: "Sitenize gömün", embedIntro: "Bu parçalardan birini yapıştırın. Bileşen bu sayfadaki canlı sayıların aynısını gösterir, her sütun genişliğine uyar ve buraya bağlanır.",
@@ -927,7 +926,7 @@ const COPY = {
         ["Kripto tasfiyesi nedir?", "Teminatı sürdürme gereksiniminin altına düşen kaldıraçlı bir pozisyonun borsa tarafından zorla kapatılmasıdır. Yatırımcı teminatı kaybeder; borsa, daha fazla zararı durdurmak için pozisyonu piyasa fiyatından kapatır."],
         ["Long ve short tasfiyeleri neden ayrı gösteriliyor?", "Longlar fiyat düşerken, shortlar yükselirken tasfiye edilir. Ayrım, piyasanın hangi tarafının yakalandığını gösterir. Aynı pencerede iki tarafta da büyük rakamlar, sert bir hareketin ardından dönüş olduğuna işaret eder."],
         ["Veri nereden geliyor ve ne kadar eksiksiz?", "Binance'in halka açık USDT-M zorunlu emir WebSocket akışından ve OKX'in halka açık tasfiye emirleri API'sinden; NexuAlpha bunları her beş dakikada toplar. Binance sembol başına saniyede en fazla bir emir gönderdiği için toplamlar alt sınırdır ve yalnızca bu iki borsayı kapsar."],
-        ["Sayfa ne sıklıkla güncellenir?", "Toplayıcı akışı her beş dakikada yeniden yazar, sayfa açıkken her 60 saniyede yeniden okur. Rakamların üstündeki zaman damgası akışın UTC olarak ne zaman üretildiğini gösterir."],
+        ["Sayfa ne sıklıkla güncellenir?", "Toplayıcı akışı her beş dakikada yeniden yazar, sayfa açıkken her 60 saniyede yeniden okur. Rakamların üstündeki zaman damgası akışın SGT olarak ne zaman üretildiğini gösterir."],
       ],
       datasetName: "NexuAlpha canlı kripto tasfiyeleri (Binance + OKX)",
       datasetDescription: "1s, 4s ve 24s pencerelerinde toplanan vadeli tasfiyeleri: long ve short USD toplamları, emir sayısı, en çok tasfiye edilen semboller ve en büyük tek emir. İki borsadan alt sınır, her beş dakikada yeniden yazılır.",
@@ -959,7 +958,7 @@ const COPY = {
   id: {
     nav: DATA_PAGE_NAV["id"],
     common: {
-      home: "Beranda", updated: "Diperbarui", source: "Sumber", refresh: "Membaca ulang feed setiap 60 detik selama halaman terbuka. Waktu dalam UTC.",
+      home: "Beranda", updated: "Diperbarui", source: "Sumber", refresh: "Membaca ulang feed setiap 60 detik selama halaman terbuka. Waktu dalam SGT.",
       unavailableTitle: "Data langsung sementara tidak tersedia", unavailable: "Feed diperbarui setiap beberapa menit. Tidak ada yang diperkirakan saat data hilang; coba lagi sebentar.",
       explainer: "Apa yang ditampilkan halaman ini", faq: "Pertanyaan umum", relatedData: "Data langsung lainnya", json: "Feed JSON mentah",
       embedTitle: "Sematkan di situs Anda", embedIntro: "Tempel salah satu cuplikan ini. Widget menampilkan angka langsung yang sama dengan halaman ini, menyesuaikan lebar kolom, dan menautkan kembali ke sini.",
@@ -992,7 +991,7 @@ const COPY = {
         ["Apa itu likuidasi kripto?", "Penutupan paksa posisi berleverage oleh bursa ketika marginnya turun di bawah persyaratan pemeliharaan. Trader kehilangan margin; bursa menutup posisi di harga pasar untuk menghentikan kerugian lebih lanjut."],
         ["Mengapa likuidasi long dan short ditampilkan terpisah?", "Long dilikuidasi saat harga turun, short saat harga naik. Pembagian ini menunjukkan sisi pasar mana yang terjebak. Angka besar di kedua sisi dalam jendela yang sama menandakan pergerakan tajam yang diikuti pembalikan."],
         ["Dari mana data ini dan seberapa lengkap?", "Dari stream WebSocket force-order USDT-M publik Binance dan API order likuidasi publik OKX, diagregasi oleh NexuAlpha setiap lima menit. Binance mengirim paling banyak satu order per simbol per detik, sehingga total adalah batas bawah dan hanya mencakup dua bursa ini."],
-        ["Seberapa sering halaman diperbarui?", "Pengumpul menulis ulang feed setiap lima menit dan halaman membacanya ulang setiap 60 detik selama terbuka. Stempel waktu di atas angka menunjukkan kapan feed dibuat, dalam UTC."],
+        ["Seberapa sering halaman diperbarui?", "Pengumpul menulis ulang feed setiap lima menit dan halaman membacanya ulang setiap 60 detik selama terbuka. Stempel waktu di atas angka menunjukkan kapan feed dibuat, dalam SGT."],
       ],
       datasetName: "Likuidasi kripto langsung NexuAlpha (Binance + OKX)",
       datasetDescription: "Likuidasi futures agregat dalam jendela 1j, 4j, dan 24j: total USD long dan short, jumlah order, simbol paling banyak dilikuidasi, dan order tunggal terbesar. Batas bawah dari dua bursa, ditulis ulang setiap lima menit.",
@@ -1024,7 +1023,7 @@ const COPY = {
   vi: {
     nav: DATA_PAGE_NAV["vi"],
     common: {
-      home: "Trang chủ", updated: "Cập nhật", source: "Nguồn", refresh: "Đọc lại nguồn dữ liệu mỗi 60 giây khi trang đang mở. Giờ theo UTC.",
+      home: "Trang chủ", updated: "Cập nhật", source: "Nguồn", refresh: "Đọc lại nguồn dữ liệu mỗi 60 giây khi trang đang mở. Giờ theo SGT.",
       unavailableTitle: "Dữ liệu trực tiếp tạm thời không khả dụng", unavailable: "Nguồn dữ liệu làm mới vài phút một lần. Không có gì được ước tính khi dữ liệu thiếu; hãy thử lại sau ít phút.",
       explainer: "Trang này cho biết điều gì", faq: "Câu hỏi thường gặp", relatedData: "Thêm dữ liệu trực tiếp", json: "Nguồn JSON thô",
       embedTitle: "Nhúng vào trang của bạn", embedIntro: "Dán một trong các đoạn mã này. Widget hiển thị cùng số liệu trực tiếp như trang này, co giãn theo mọi độ rộng và liên kết về đây.",
@@ -1057,7 +1056,7 @@ const COPY = {
         ["Thanh lý crypto là gì?", "Là việc sàn buộc đóng một vị thế đòn bẩy khi ký quỹ giảm xuống dưới mức duy trì. Nhà giao dịch mất ký quỹ; sàn đóng vị thế theo giá thị trường để ngăn lỗ thêm."],
         ["Vì sao thanh lý long và short được tách riêng?", "Long bị thanh lý khi giá giảm, short khi giá tăng. Việc tách cho thấy bên nào của thị trường bị bất ngờ. Số lớn ở cả hai bên trong cùng khung thời gian cho thấy một cú biến động mạnh rồi đảo chiều."],
         ["Dữ liệu đến từ đâu và đầy đủ đến mức nào?", "Từ luồng WebSocket lệnh cưỡng chế USDT-M công khai của Binance và API lệnh thanh lý công khai của OKX, được NexuAlpha tổng hợp mỗi năm phút. Binance chỉ gửi tối đa một lệnh mỗi mã mỗi giây nên tổng là giới hạn dưới và chỉ bao gồm hai sàn này."],
-        ["Trang cập nhật bao lâu một lần?", "Bộ thu thập ghi lại nguồn dữ liệu mỗi năm phút và trang đọc lại mỗi 60 giây khi đang mở. Dấu thời gian phía trên các con số cho biết thời điểm tạo dữ liệu, theo UTC."],
+        ["Trang cập nhật bao lâu một lần?", "Bộ thu thập ghi lại nguồn dữ liệu mỗi năm phút và trang đọc lại mỗi 60 giây khi đang mở. Dấu thời gian phía trên các con số cho biết thời điểm tạo dữ liệu, theo SGT."],
       ],
       datasetName: "Thanh lý crypto trực tiếp NexuAlpha (Binance + OKX)",
       datasetDescription: "Thanh lý hợp đồng tương lai tổng hợp theo khung 1h, 4h và 24h: tổng USD long và short, số lệnh, mã bị thanh lý nhiều nhất và lệnh đơn lớn nhất. Giới hạn dưới từ hai sàn, ghi lại mỗi năm phút.",
@@ -1089,7 +1088,7 @@ const COPY = {
   ar: {
     nav: DATA_PAGE_NAV["ar"],
     common: {
-      home: "الرئيسية", updated: "آخر تحديث", source: "المصدر", refresh: "تُعاد قراءة البيانات كل 60 ثانية ما دامت الصفحة مفتوحة. الأوقات بتوقيت UTC.",
+      home: "الرئيسية", updated: "آخر تحديث", source: "المصدر", refresh: "تُعاد قراءة البيانات كل 60 ثانية ما دامت الصفحة مفتوحة. الأوقات بتوقيت SGT.",
       unavailableTitle: "البيانات المباشرة غير متاحة مؤقتًا", unavailable: "يتجدد المصدر كل بضع دقائق. لا يُقدَّر أي رقم أثناء غيابه؛ حاول مرة أخرى بعد قليل.",
       explainer: "ماذا تعرض هذه الصفحة", faq: "الأسئلة الشائعة", relatedData: "مزيد من البيانات المباشرة", json: "بيانات JSON الخام",
       embedTitle: "ضمّن هذا في موقعك", embedIntro: "الصق أحد هذين المقطعين. تعرض الأداة الأرقام المباشرة نفسها الموجودة في هذه الصفحة، وتتكيف مع أي عرض، وتربط إلى هنا.",
@@ -1122,7 +1121,7 @@ const COPY = {
         ["ما التصفية في العملات الرقمية؟", "هي إغلاق المنصة القسري لمركز برافعة مالية عندما يهبط هامشه دون متطلب الصيانة. يخسر المتداول الهامش، وتغلق المنصة المركز بسعر السوق لمنع مزيد من الخسائر."],
         ["لماذا تُعرض تصفيات الشراء والبيع منفصلة؟", "تُصفّى مراكز الشراء عند هبوط السعر ومراكز البيع عند صعوده. يوضح التقسيم أي جانب من السوق وقع في الفخ. الأرقام الكبيرة على الجانبين في النافذة نفسها تشير إلى حركة حادة تليها انعكاسة."],
         ["من أين تأتي البيانات وما مدى اكتمالها؟", "من تدفق WebSocket العام للأوامر القسرية USDT-M في Binance ومن واجهة أوامر التصفية العامة في OKX، وتجمعها NexuAlpha كل خمس دقائق. ترسل Binance أمرًا واحدًا على الأكثر لكل رمز في الثانية، لذا المجاميع حد أدنى وتغطي هاتين المنصتين فقط."],
-        ["كم مرة تُحدَّث الصفحة؟", "يعيد المُجمِّع كتابة البيانات كل خمس دقائق، وتعيد الصفحة قراءتها كل 60 ثانية أثناء فتحها. يوضح الطابع الزمني أعلى الأرقام وقت إنشاء البيانات بتوقيت UTC."],
+        ["كم مرة تُحدَّث الصفحة؟", "يعيد المُجمِّع كتابة البيانات كل خمس دقائق، وتعيد الصفحة قراءتها كل 60 ثانية أثناء فتحها. يوضح الطابع الزمني أعلى الأرقام وقت إنشاء البيانات بتوقيت SGT."],
       ],
       datasetName: "تصفيات العملات الرقمية المباشرة من NexuAlpha (Binance + OKX)",
       datasetDescription: "تصفيات العقود الآجلة المجمّعة على نوافذ 1س و4س و24س: مجاميع الشراء والبيع بالدولار، عدد الأوامر، أكثر الرموز تصفية، وأكبر أمر منفرد. حد أدنى من منصتين، يُعاد كتابته كل خمس دقائق.",
@@ -1158,7 +1157,7 @@ const REVIEW_PENDING_COPY_PATCH = Object.freeze({
   ur: {
     nav: DATA_PAGE_NAV["ur"],
     common: {
-      home: "ہوم", updated: "اپ ڈیٹ", source: "ماخذ", refresh: "صفحہ کھلا ہو تو فیڈ ہر 60 سیکنڈ بعد دوبارہ پڑھی جاتی ہے۔ اوقات UTC میں ہیں۔",
+      home: "ہوم", updated: "اپ ڈیٹ", source: "ماخذ", refresh: "صفحہ کھلا ہو تو فیڈ ہر 60 سیکنڈ بعد دوبارہ پڑھی جاتی ہے۔ اوقات SGT میں ہیں۔",
       unavailableTitle: "لائیو ڈیٹا عارضی طور پر دستیاب نہیں", unavailable: "فیڈ ہر چند منٹ بعد تازہ ہوتی ہے۔ غیر موجودگی میں کوئی اندازہ نہیں لگایا جاتا — کچھ دیر بعد دوبارہ کوشش کریں۔",
       explainer: "یہ صفحہ کیا دکھاتا ہے", faq: "اکثر پوچھے گئے سوالات", relatedData: "مزید لائیو ڈیٹا", json: "خام JSON فیڈ",
       embedTitle: "اسے اپنی سائٹ پر ایمبیڈ کریں", embedIntro: "ان میں سے کوئی ٹکڑا پیسٹ کریں۔ ویجیٹ یہی براہ راست اعداد دکھاتا ہے، کسی بھی کالم کی چوڑائی میں فٹ ہوتا ہے اور واپس اسی صفحے سے لنک کرتا ہے۔",
@@ -1190,7 +1189,7 @@ const REVIEW_PENDING_COPY_PATCH = Object.freeze({
         ["کرپٹو لیکویڈیشن کیا ہے؟", "جب لیوریجڈ پوزیشن کا مارجن لازمی حد سے نیچے آ جائے تو ایکسچینج اسے زبردستی بند کر دیتا ہے۔ ٹریڈر مارجن کھو دیتا ہے؛ ایکسچینج مزید نقصان روکنے کے لیے پوزیشن مارکیٹ پر بند کرتا ہے۔"],
         ["لانگ اور شارٹ لیکویڈیشن الگ کیوں دکھائی گئی ہیں؟", "لانگ لیکویڈیشن قیمت گرنے پر ہوتی ہے، شارٹ لیکویڈیشن قیمت بڑھنے پر۔ یہ تقسیم دکھاتی ہے کہ مارکیٹ کی کون سی طرف پھنس گئی۔ ایک ہی وقت کے خانے میں دونوں طرف بڑے اعداد تیز حرکت کے بعد پلٹاؤ، یعنی 多空双杀، کی طرف اشارہ کرتے ہیں۔"],
         ["یہ ڈیٹا کہاں سے آتا ہے اور کتنا مکمل ہے؟", "Binance کے عوامی USDT-M جبری آرڈر WebSocket اسٹریم اور OKX کے عوامی لیکویڈیشن آرڈرز API سے؛ NexuAlpha ہر پانچ منٹ بعد اسے جمع کرتا ہے۔ Binance ہر علامت فی سیکنڈ زیادہ سے زیادہ ایک آرڈر بھیجتا ہے، اس لیے کل اعداد کم حد ہیں اور صرف ان دو ایکسچینجز کو کور کرتے ہیں۔"],
-        ["یہ صفحہ کتنی بار اپ ڈیٹ ہوتا ہے؟", "کلیکٹر ہر پانچ منٹ بعد فیڈ دوبارہ لکھتا ہے اور صفحہ کھلا ہو تو ہر 60 سیکنڈ بعد اسے دوبارہ پڑھتا ہے۔ اعداد کے اوپر وقت دکھاتا ہے کہ فیڈ آخری بار کب UTC میں بنی۔"],
+        ["یہ صفحہ کتنی بار اپ ڈیٹ ہوتا ہے؟", "کلیکٹر ہر پانچ منٹ بعد فیڈ دوبارہ لکھتا ہے اور صفحہ کھلا ہو تو ہر 60 سیکنڈ بعد اسے دوبارہ پڑھتا ہے۔ اعداد کے اوپر وقت دکھاتا ہے کہ فیڈ آخری بار کب SGT میں بنی۔"],
       ],
       datasetName: "NexuAlpha براہ راست کرپٹو لیکویڈیشنز (Binance + OKX)",
       datasetDescription: "1 گھنٹہ، 4 گھنٹے اور 24 گھنٹے کے خانوں میں جمع شدہ فیوچرز لیکویڈیشنز: لانگ اور شارٹ کے USD کل اعداد، آرڈر گنتی، سب سے زیادہ لیکویڈ ہونے والے رموز اور سب سے بڑا واحد آرڈر۔ دو ایکسچینجز سے کم از کم حد، ہر پانچ منٹ بعد دوبارہ لکھی جاتی ہے۔",
@@ -1222,7 +1221,7 @@ const REVIEW_PENDING_COPY_PATCH = Object.freeze({
   uk: {
     nav: DATA_PAGE_NAV["uk"],
     common: {
-      home: "Головна", updated: "Оновлено", source: "Джерело", refresh: "Поки сторінка відкрита, фід перечитується кожні 60 секунд. Час подано в UTC.",
+      home: "Головна", updated: "Оновлено", source: "Джерело", refresh: "Поки сторінка відкрита, фід перечитується кожні 60 секунд. Час подано в SGT.",
       unavailableTitle: "Живі дані тимчасово недоступні", unavailable: "Фід оновлюється кожні кілька хвилин. Коли його немає, нічого не оцінюється — спробуйте ще раз трохи пізніше.",
       explainer: "Що показує ця сторінка", faq: "Поширені запитання", relatedData: "Більше живих даних", json: "Сирий JSON-фід",
       embedTitle: "Вбудувати на свій сайт", embedIntro: "Вставте один із цих фрагментів. Віджет показує ті самі живі числа, підлаштовується під будь-яку ширину колонки й посилається назад сюди.",
@@ -1253,7 +1252,7 @@ const REVIEW_PENDING_COPY_PATCH = Object.freeze({
         ["Що таке криптоліквідація?", "Це примусове закриття позиції з плечем біржею, коли її маржа падає нижче підтримувальної вимоги. Трейдер втрачає маржу; біржа закриває позицію за ринком, щоб зупинити подальші збитки."],
         ["Навіщо показувати ліквідації довгих і коротких позицій окремо?", "Ліквідації довгих позицій відбуваються, коли ціна падає, а ліквідації коротких позицій — коли зростає. Розподіл показує, яка сторона ринку потрапила в пастку. Великі числа з обох боків в одному вікні вказують на різкий рух і подальший розворот (多空双杀)."],
         ["Звідки ці дані й наскільки вони повні?", "З публічного WebSocket-стріму примусових ордерів Binance USDT-M і публічного API ліквідаційних ордерів OKX; NexuAlpha агрегує дані кожні п’ять хвилин. Binance надсилає максимум один ордер на символ за секунду, тому підсумки є нижньою межею й покривають лише ці дві біржі."],
-        ["Як часто оновлюється сторінка?", "Збирач переписує фід кожні п’ять хвилин, а сторінка перечитує його кожні 60 секунд, поки відкрита. Позначка часу над числами показує, коли фід востаннє було згенеровано в UTC."],
+        ["Як часто оновлюється сторінка?", "Збирач переписує фід кожні п’ять хвилин, а сторінка перечитує його кожні 60 секунд, поки відкрита. Позначка часу над числами показує, коли фід востаннє було згенеровано в SGT."],
       ],
       datasetName: "Живі криптоліквідації NexuAlpha (Binance + OKX)",
       datasetDescription: "Агреговані ф’ючерсні ліквідації у вікнах 1 год, 4 год і 24 год: суми довгих і коротких позицій у USD, кількість ордерів, найбільш ліквідовані символи й найбільший окремий ордер. Нижня межа з двох бірж, переписується кожні п’ять хвилин.",

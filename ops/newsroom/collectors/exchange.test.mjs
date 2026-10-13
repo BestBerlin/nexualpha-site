@@ -28,7 +28,7 @@ test('binance fans out by catalog and emits raw newsroom items after since', asy
       },
     },
   );
-  assert.deepEqual(calls.map(url => url.searchParams.get('catalogId')), ['48', '49', '93', '161']);
+  assert.deepEqual(calls.filter(url => url.hostname === 'www.binance.com' && url.pathname === '/bapi/composite/v1/public/cms/article/list/query').map(url => url.searchParams.get('catalogId')), ['48', '49', '93', '161']);
   assert.equal(items.length, 1);
   assert.equal(items[0].external_id, 'binance:a1a7996170f246da90ea49f199a61bcd');
   assert.equal(items[0].event_type_guess, 'listing');
@@ -56,7 +56,7 @@ test('bybit and bitget validate official links and preserve Bitget limit=10', as
       },
     },
   );
-  assert.ok(urls.every(url => url.searchParams.get('limit') === '10'));
+  assert.ok(urls.filter(url => url.hostname === 'api.bitget.com').every(url => url.searchParams.get('limit') === '10'));
   assert.deepEqual([...new Set(bitget.map(item => item.external_id))], ['bitget:1001']);
 });
 
@@ -73,8 +73,9 @@ test('kucoin fans out across official announcement types and maps listing and de
       },
     },
   );
-  assert.deepEqual(urls.map(url => url.searchParams.get('type')), ['latest-announcements', 'new-listings', 'delistings']);
-  assert.ok(urls.every(url => url.searchParams.get('language') === 'en_US' && url.searchParams.get('pageSize') === '50'));
+  const apiUrls = urls.filter(url => url.hostname === 'api.kucoin.com');
+  assert.deepEqual(apiUrls.map(url => url.searchParams.get('type')), ['latest-announcements', 'new-listings', 'delistings']);
+  assert.ok(apiUrls.every(url => url.searchParams.get('language') === 'en_US' && url.searchParams.get('pageSize') === '50'));
   assert.deepEqual([...new Set(rows.map(item => item.external_id))], ['kucoin:342429', 'kucoin:342774']);
   assert.equal(rows.find(item => item.external_id === 'kucoin:342429')?.event_type_guess, 'listing');
   assert.equal(rows.find(item => item.external_id === 'kucoin:342774')?.event_type_guess, 'delisting');
@@ -123,4 +124,75 @@ test('endpoint validation rejects a source registry drift before any request is 
     /endpoint does not match/,
   );
   assert.equal(calls, 0);
+});
+
+test('hidden delisting titles fetch announcement body for asset details and fail closed when absent', async () => {
+  const sourceRow = source('bybit-announcements', 'https://api.bybit.com/v5/announcements/index');
+  const payload = title => ({
+    retCode: 0,
+    result: { list: [{ title, type: { key: 'delistings' }, url: 'https://announcements.bybit.com/en-US/article/delist-hidden/', dateTimestamp: 1791806400000 }] },
+  });
+  const resolved = await poll(sourceRow, null, {
+    now,
+    async request(url) {
+      if (new URL(url).hostname === 'api.bybit.com') return payload('Bybit Will Delist 1 Token(s)');
+      return '<article>Bybit will delist ABCUSDT spot trading pair at 2026-10-14 08:00 UTC. Deposits and withdrawals for ABC stay open until further notice.</article>';
+    },
+  });
+  assert.equal(resolved[0].title, 'Bybit Will Delist 1 Token(s): ABC');
+  assert.match(resolved[0].body_excerpt, /Bybit will delist ABCUSDT spot trading pair/);
+  assert.deepEqual(resolved[0].metrics.tickers, ['ABC']);
+  assert.deepEqual(resolved[0].metrics.dates, ['2026-10-14']);
+
+  const unknown = await poll(sourceRow, null, {
+    now,
+    async request(url) {
+      if (new URL(url).hostname === 'api.bybit.com') return payload('Bybit Will Delist 1 Token(s)');
+      return '<article>Bybit will delist the affected spot trading pair after a project review.</article>';
+    },
+  });
+  assert.equal(unknown[0].metrics.detail_status, 'needs-detail');
+});
+
+test('announcement body fetches are capped per poll so a slow venue page cannot time out the list poll', async () => {
+  const sourceRow = source('bybit-announcements', 'https://api.bybit.com/v5/announcements/index');
+  const list = Array.from({ length: 20 }, (_, i) => ({
+    title: `New listing: Listing of T${i}USDT on Bybit`, type: { key: 'new_crypto' },
+    url: `https://announcements.bybit.com/en-US/article/listing-${i}/`, dateTimestamp: 1791806400000,
+  }));
+  let bodyCalls = 0;
+  const started = Date.now();
+  const items = await poll(sourceRow, null, {
+    now,
+    bodyFetch: { maxFetches: 3, perFetchMs: 50 },
+    async request(url) {
+      if (new URL(url).hostname === 'api.bybit.com') return { retCode: 0, result: { list: new URL(url).searchParams.get('type') === 'new_crypto' ? list : [] } };
+      bodyCalls += 1;
+      return new Promise(() => {}); // never resolves
+    },
+  });
+  assert.equal(bodyCalls, 3);
+  assert.equal(items.length, 20);
+  assert.ok(Date.now() - started < 2000);
+});
+
+test('binance bodies come from the CMS detail API with the marketing disclaimer stripped', async () => {
+  const code = 'b45206aa35eb4eb6820bf1db57239a0d';
+  const body = JSON.stringify({ node: 'root', child: [
+    { node: 'element', tag: 'p', child: [{ node: 'text', text: 'This is a general announcement and marketing communication. Products and services referred to here may not be available in your region.' }] },
+    { node: 'element', tag: 'p', child: [{ node: 'text', text: 'Binance will delist and cease trading on all spot trading pairs for ABC at 2026-10-14 03:00 (UTC). Users can withdraw ABC until 2026-12-14.' }] },
+  ] });
+  const urls = [];
+  const items = await poll(source('binance-announcements', 'https://www.binance.com/bapi/composite/v1/public/cms/article/list/query'), null, {
+    now,
+    async request(url) {
+      urls.push(url);
+      if (url.includes('/article/detail/query')) return { code: '000000', data: { body } };
+      const catalogId = Number(new URL(url).searchParams.get('catalogId'));
+      const articles = catalogId === 161 ? [{ code, title: 'Binance Will Delist ABC on 2026-10-14', releaseDate: 1791806400000 }] : [];
+      return { code: '000000', data: { catalogs: [{ catalogId, articles }] } };
+    },
+  });
+  assert.ok(urls.some(url => url.endsWith(`articleCode=${code}`)));
+  assert.match(items[0].body_excerpt, /^Binance will delist and cease trading/);
 });

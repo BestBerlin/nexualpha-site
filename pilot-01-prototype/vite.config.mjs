@@ -136,6 +136,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
           // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.
           if (!isSsrBuild && id.endsWith("vite/preload-helper.js")) return "core-ui";
+          // Shared clock formatting must not pull deferred home modules into the entry.
+          if (!isSsrBuild && id.endsWith("/src/data/local-time.js")) return "core-ui";
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
@@ -211,6 +213,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
+          if (id.includes("/src/components/licenses/") || /\/src\/data\/licenses(?:-copy|-cta)?\.js/.test(id)) return "route-licenses";
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
           // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
@@ -235,6 +238,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // route/teaser helper joins the shared campaign feature chunk (home stream, /activities, /exchanges/bitget, /flash).
           if (/\/src\/components\/campaigns\/(?:BitgetAlliancePage\.jsx|bitget-alliance\.css)$/.test(id) || id.includes("/src/data/bitget-alliance-copy.js")) return "route-campaign-bitget";
           if (/\/src\/data\/bitget-alliance(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
+          // Kraken 5M USDG Challenge page (2026-10-13): same pattern, own route chunk; route/teaser helper shared.
+          if (/\/src\/components\/campaigns\/(?:KrakenUsdgPage\.jsx|kraken-usdg\.css)$/.test(id) || id.includes("/src/data/kraken-usdg-copy.js")) return "route-campaign-kraken";
+          if (/\/src\/data\/kraken-usdg(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
           // Campaign landing pages (2026-10-12: Binance October): component, styles and copy in one route chunk.
           if (id.includes("/src/components/campaigns/") || /\/src\/data\/binance-october-(?:tournament-)?copy\.js$/.test(id)) return "route-campaign-landing";
           // The campaign route/teaser helper is read by the home stream, /activities and /exchanges/binance: pinned so none

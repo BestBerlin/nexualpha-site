@@ -1,4 +1,5 @@
 // The resolver lives in the site repo; deploy.sh vendors its module closure into the release
+import { isMirrorEvidence, dedupeEvidenceRows } from '../lib/evidence-quality.mjs';
 // (ops/newsroom/vendor/site-data). Fall back to tool-only CTAs rather than break the CLI.
 async function loadResolver() {
   for (const spec of ['../vendor/site-data/promotions.js', '../../../pilot-01-prototype/src/data/promotions.js']) {
@@ -51,6 +52,7 @@ const QUESTION_BY_EVENT = {
   insolvency: 'What is verified, and what remains unknown about solvency?',
   hack_exploit: 'What happened, what funds are at risk, and what should users check?',
   listing: 'Where is this asset available, and what does it cost to use?',
+  delisting: 'Which venues are removing the asset, when does trading stop, and what should holders check?',
   product_launch: 'Who can use it, what does it cost, and what are the limits?',
   campaign: 'Who is eligible, what are the real conditions, and when does it end?',
   regulation: 'What changes for users or venues?',
@@ -190,7 +192,7 @@ function sanitizePromotion(promotion) {
 }
 
 function evidenceSummary(event) {
-  return (event.evidence ?? []).map(item => ({
+  return dedupeEvidenceRows(event.evidence ?? []).filter(item => !isMirrorEvidence(item)).map(item => ({
     ...item,
     id: item.id,
     url: item.url,
@@ -202,6 +204,49 @@ function evidenceSummary(event) {
     supports: item.supports,
     is_independent: item.is_independent,
   }));
+}
+
+const RETAIL_RELEVANCE = {
+  listing: 'Retail traders can check the supported trading pairs, opening times and venue fees before placing orders.',
+  delisting: 'Holders can check each venue’s trading cutoff and withdrawal deadline before deciding how to manage their positions.',
+  liquidation_wave: 'Leveraged traders can review margin buffers and position size against the measured liquidation window.',
+  price_move: 'Retail traders can review exposure and order execution risk during the measured one-hour move.',
+  withdrawal_halt: 'Customers can check whether their assets and withdrawal routes are affected before transferring funds.',
+  hack_exploit: 'Users can check affected services and official recovery instructions before moving funds.',
+  campaign: 'Retail traders can compare eligibility, costs and deadlines before committing funds.',
+};
+
+function factualSummary(event) {
+  // Quote captured evidence rather than reconstructing a claim from a headline or score.
+  const evidence = evidenceSummary(event);
+  const primaryKinds = new Set(['official_notice', 'original_statement', 'filing', 'court_record', 'onchain_tx', 'market_data']);
+  const ordered = [...evidence].sort((a, b) => Number(primaryKinds.has(b.kind)) - Number(primaryKinds.has(a.kind)));
+  const segmenter = new Intl.Segmenter('en', { granularity: 'sentence' });
+  const grouped = (event.venues ?? event.story?.venues ?? []).length > 1;
+  const sentenceLimit = grouped ? 3 : 2;
+  const sentences = [];
+  const citations = [];
+  for (const row of ordered) {
+    const excerpt = text(row.excerpt).replace(/\s+/g, ' ');
+    if (!excerpt || excerpt.split(/\s+/).length < 3) continue;
+    for (const { segment } of segmenter.segment(excerpt)) {
+      const sentence = segment.trim();
+      if (sentence && !sentences.includes(sentence)) {
+        sentences.push(/[.!?。！？]$/.test(sentence) ? sentence : `${sentence}.`);
+        if (row.url && !citations.includes(row.url)) citations.push(row.url);
+      }
+      if (grouped || sentences.length === sentenceLimit) break;
+    }
+    if (sentences.length === sentenceLimit) break;
+  }
+  if (!sentences.length) sentences.push('No substantive evidence excerpt is available for a factual summary.');
+  if (sentences.length === 1) {
+    const row = ordered.find(item => citations.includes(item.url));
+    sentences.push(row?.published_at
+      ? `The cited source records its publication time as ${row.published_at}.`
+      : 'The captured evidence does not establish an exact publication time.');
+  }
+  return { factual_summary: sentences.join(' '), summary_source_urls: citations };
 }
 
 function relatedFromHistory(event, history = [], locale = 'en') {
@@ -278,6 +323,7 @@ export function enrichEvent(event, {
   resolvePromotions = defaultResolvePromotions,
 } = {}) {
   if (!event || typeof event !== 'object') throw new Error('event is required');
+  event = { ...event, evidence: evidenceSummary(event) };
   const entities = (event.entities ?? []).map(entity => normalizeEntity(entity, locale));
   const coins = inferCoins(event, entities);
   const suggested_format = event.parent_event_id != null ? 'followup' : suggestEventFormat(event);
@@ -290,6 +336,8 @@ export function enrichEvent(event, {
     suggested_format,
     suggested_angle: angle.angle,
     main_question: angle.main_question,
+    ...factualSummary(event),
+    why_it_matters: RETAIL_RELEVANCE[event.event_type] ?? 'Retail traders can use the verified facts to check affected products, costs and account conditions before acting.',
     cta_hints,
     topic_tags: topicTagsFor(event, entities, coins),
     related_existing_articles: [

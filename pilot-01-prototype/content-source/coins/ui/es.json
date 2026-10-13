@@ -16,7 +16,7 @@
   "change24h": "24 h",
   "rank": "Ranking por capitalización",
   "marketCap": "Capitalización",
-  "snapshot": "Datos del {time} UTC",
+  "snapshot": "Datos del {time}",
   "live": "Actualizado {time}",
   "listedOn": "Cotiza en",
   "venuesCount": "{n} exchanges",

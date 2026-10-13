@@ -67,3 +67,48 @@ test('follow-up events are marked as followup format', () => {
   assert.equal(enriched.suggested_format, 'followup');
   assert.match(enriched.suggested_angle, /follow-up/);
 });
+
+test('plan summarizes primary evidence, cites it and explains retail relevance', () => {
+  const enriched = enrichEvent({
+    ...event, event_type: 'delisting', title_internal: 'Misleading headline',
+    evidence: [
+      { kind: 'media_report', url: 'https://media.test/story', excerpt: 'Speculation about a price crash.' },
+      { kind: 'official_notice', url: 'https://bybit.test/notice', excerpt: 'Bybit will delist STG on 2026-10-14. Withdrawals remain available until 2026-11-14. A third sentence should stay out.' },
+    ],
+  });
+  assert.equal(enriched.factual_summary, 'Bybit will delist STG on 2026-10-14. Withdrawals remain available until 2026-11-14.');
+  assert.deepEqual(enriched.summary_source_urls, ['https://bybit.test/notice']);
+  assert.match(enriched.why_it_matters, /withdrawal deadline/);
+  assert.match(enriched.suggested_angle, /Which venues/);
+});
+
+test('single-sentence evidence gets provenance and missing evidence stays explicit', () => {
+  const enriched = enrichEvent({ ...event, evidence: [{ kind: 'market_data', url: 'https://data.test', excerpt: 'BTC fell 3.5% in one hour.', published_at: '2026-10-13T12:00:00Z' }] });
+  assert.equal(enriched.factual_summary, 'BTC fell 3.5% in one hour. The cited source records its publication time as 2026-10-13T12:00:00Z.');
+  const unknown = enrichEvent({ ...event, evidence: [{ excerpt: 'delist' }] });
+  assert.match(unknown.factual_summary, /No substantive evidence/);
+  assert.doesNotMatch(unknown.factual_summary, /Bybit/);
+});
+
+test('mirror excerpts never enter the writer evidence bundle or factual summary', () => {
+  const enriched = enrichEvent({ ...event, evidence: [
+    { source_id: 'nexualpha-official-announcements', kind: 'official_notice', excerpt: 'A fabricated mirror claim.', url: 'https://nexualpha.com/updates/test' },
+    ...event.evidence,
+  ] });
+  assert.equal(enriched.evidence.length, 1);
+  assert.doesNotMatch(enriched.factual_summary, /fabricated/);
+  const mirrorOnly = enrichEvent({ ...event, evidence: [{
+    source_id: 'nexualpha-official-announcements', kind: 'official_notice',
+    excerpt: 'Bybit lists TEST for spot trading.', url: 'https://nexualpha.com/updates/bybit-test',
+  }] });
+  assert.equal(mirrorOnly.cta_hints.every(hint => !hint.commercial_allowed), true);
+});
+
+test('grouped story summary includes notices from both venues without merging deadlines', () => {
+  const enriched = enrichEvent({ ...event, event_type: 'delisting', venues: ['bybit', 'kucoin'], evidence: [
+    { kind: 'official_notice', url: 'https://bybit.test/stg', excerpt: 'Bybit will delist STG on 2026-10-14. Withdrawals stop on 2026-11-14.' },
+    { kind: 'official_notice', url: 'https://kucoin.test/stg', excerpt: 'KuCoin will delist STG on 2026-10-15. Withdrawals stop on 2026-11-15.' },
+  ] });
+  assert.equal(enriched.factual_summary, 'Bybit will delist STG on 2026-10-14. KuCoin will delist STG on 2026-10-15.');
+  assert.deepEqual(enriched.summary_source_urls, ['https://bybit.test/stg', 'https://kucoin.test/stg']);
+});

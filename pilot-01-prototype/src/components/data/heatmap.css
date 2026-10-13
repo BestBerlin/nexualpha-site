@@ -1,0 +1,15 @@
+.nxh-section { margin-block: 36px; }
+.nxh-controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-block: 20px; }
+.nxh-controls label { display: flex; gap: 8px; align-items: center; }
+.nxh-controls select { color: inherit; background: var(--bg, #111827); border: 1px solid #536078; border-radius: 6px; padding: 8px; }
+.nxh-chart { width: 100%; height: auto; display: block; max-height: 340px; }
+.nxh-chart text { fill: currentColor; font-size: 12px; }
+.nxh-long { fill: #37b6a4; }
+.nxh-short { fill: #e88492; }
+.nxh-axis { stroke: currentColor; opacity: .25; }
+.nxh-legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px; }
+.nxh-summary { font-variant-numeric: tabular-nums; line-height: 1.8; }
+.nxh-scroll { overflow-x: auto; }
+.nxh-lessons { display: flex; flex-wrap: wrap; gap: 20px; margin-block: 24px; }
+.nxh-section h2 { margin-block: 20px 12px; }
+@media(max-width: 600px) { .nxh-chart text { font-size: 15px; } .nxh-section { margin-block: 24px; } }

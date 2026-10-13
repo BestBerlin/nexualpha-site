@@ -16,7 +16,7 @@
   "change24h": "24시간",
   "rank": "시가총액 순위",
   "marketCap": "시가총액",
-  "snapshot": "{time} UTC 기준",
+  "snapshot": "{time} 기준",
   "live": "{time} 업데이트",
   "listedOn": "상장 거래소",
   "venuesCount": "거래소 {n}곳",

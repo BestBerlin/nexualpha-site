@@ -16,7 +16,7 @@
   "change24h": "24小时",
   "rank": "市值排名",
   "marketCap": "市值",
-  "snapshot": "快照 {time} UTC",
+  "snapshot": "快照 {time}",
   "live": "更新于{time}",
   "listedOn": "已上线",
   "venuesCount": "{n}家交易所",
