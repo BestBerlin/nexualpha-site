@@ -1,5 +1,6 @@
 const CHECKED_AT = "2026-09-04T19:59:35Z";
 const UNISWAP_CHECKED_AT = "2026-09-16T00:00:00Z";
+const COINW_CHECKED_AT = "2026-10-13T00:00:00Z";
 
 const tr = (en, zhHans, zhHant = zhHans) => ({ en, "zh-Hans": zhHans, "zh-Hant": zhHant });
 
@@ -105,6 +106,7 @@ const factAxisByLabel = {
   "Dynamic fee boundary": "fees",
   "Hook test environment": "execution",
   "Deployment feed": "custody",
+  "Reserve disclosure": "custody",
 };
 
 const axisForLabel = (label) => {
@@ -292,6 +294,25 @@ const rawExchangeResearch = {
       source("Backpack Securities onchain access", "https://learn.backpack.exchange/articles/access-us-securities-onchain"),
     ],
     tags: ["cex", "spot", "perpetuals", "wallet", "tokenized-securities", "api"],
+  }),
+  coinw: makeRecord({
+    summary: tr(
+      "Account-based exchange founded in 2017 that runs spot, USDT perpetual futures, copy trading, Earn and trading bots in one account, with a public Merkle-tree proof of reserves.",
+      "2017 年成立的账户式交易所，一个账户内提供现货、U 本位永续合约、跟单、理财与交易机器人，并公开默克尔树储备金证明。",
+      "2017 年成立的帳戶式交易所，一個帳戶內提供現貨、U 本位永續合約、跟單、理財與交易機器人，並公開默克爾樹儲備金證明。"
+    ),
+    facts: [
+      fact(tr("Product map", "产品范围", "產品範圍"), tr("CoinW's official site lists spot trading, USDT perpetual futures, futures and spot copy trading, Earn (savings and auto-invest), grid and martingale bots, and a crypto card.", "CoinW 官网列出现货交易、U 本位永续合约、合约与现货跟单、理财（活期与定投）、网格与马丁格尔机器人，以及加密卡。", "CoinW 官網列出現貨交易、U 本位永續合約、合約與現貨跟單、理財（活期與定投）、網格與馬丁格爾機器人，以及加密卡。"), "https://www.coinw.com/about-us"),
+      fact(tr("Identity gate", "身份门槛", "身分門檻"), tr("CoinW's site configuration tells users without KYC that opening spot or futures orders, buying CoinW Earn and depositing are limited until identity verification is complete.", "CoinW 网站配置提示：未完成 KYC 的用户，现货/合约下单、购买理财与充值都会受限，完成身份认证后解除。", "CoinW 網站設定提示：未完成 KYC 的用戶，現貨/合約下單、購買理財與充值都會受限，完成身分認證後解除。"), "https://www.coinw.com/help-center/announcement-center/otc-news/otc-latest-news/2026-03-12/buy-crypto-earn-up-to-100-usdt/7539"),
+      fact(tr("Reserve disclosure", "储备金披露", "儲備金揭露"), tr("CoinW's proof-of-reserves page states a 100% reserve commitment and lets users check their balance against monthly SHA-256 Merkle-tree snapshots with an open-source verifier.", "CoinW 储备金证明页面承诺 100% 储备，用户可用开源验证工具，按月度 SHA-256 默克尔树快照核对自己的资产。", "CoinW 儲備金證明頁面承諾 100% 儲備，用戶可用開源驗證工具，依月度 SHA-256 默克爾樹快照核對自己的資產。"), "https://www.coinw.com/proof-of-reserves"),
+    ],
+    sources: [
+      source("About CoinW", "https://www.coinw.com/about-us"),
+      source("CoinW site notice on KYC limits (Buy Crypto page)", "https://www.coinw.com/help-center/announcement-center/otc-news/otc-latest-news/2026-03-12/buy-crypto-earn-up-to-100-usdt/7539"),
+      source("CoinW proof of reserves", "https://www.coinw.com/proof-of-reserves"),
+    ],
+    checkedAt: COINW_CHECKED_AT,
+    tags: ["cex", "spot", "perpetuals", "copy-trading"],
   }),
   deribit: makeRecord({
     summary: tr("Derivatives-led exchange profile centered on options, futures, perpetuals, API market data, and separate spot-routing updates.", "以衍生品为核心的交易所；重点是期权、交割合约、永续、API 行情和独立的现货路由更新。", "以衍生品為核心的交易所；重點是期權、交割合約、永續、API 行情和獨立的現貨路由更新。"),

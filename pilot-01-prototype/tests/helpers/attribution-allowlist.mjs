@@ -65,6 +65,14 @@ export const ATTRIBUTION_ALLOWLIST = [
   rule(['www.kraken.com'], /^\/competitions\//, 'Official Kraken competition terms cited as the campaign source; conversion buttons use /go.', attrs => attrs.sourceLiteral || attrs.class === 'campaign-card__source-link'),
   rule(['www.okx.com'], /^\/affiliatedownload\/apk$/, 'Official OKX channel-APK URL (channelId NEXU888 binds the invite) used only as the /go/okx-apk server redirect target.', attrs => attrs.sourceLiteral),
   rule(['download.binance.com'], /^\/pack\/[A-Za-z0-9_]+\.apk$/, 'Official Binance channel APK used only as the /go/binance-apk server redirect target; the page shows the code beside the button.', attrs => attrs.sourceLiteral),
+  rule(['www.coinw.com', 'coinw.com'], /^\/(?:[a-z]{2}_[A-Z]{2}\/)?(?:about-us|proof-of-reserves|install-app|fees|help-center)(?:\/|$)/, 'CoinW about, reserve disclosure, app-download, fee and help-center evidence (KYC, legal statement, announcements); sign-up CTAs use /go/coinw.'),
+  rule(['www.coinw.com', 'coinw.com'], /^\/$/, 'Official CoinW domain identity evidence; restricted to recorded identity/source and brand-provenance references, never sign-up buttons.', attrs =>
+    attrs.sourceLiteral && attrs.sourceContext && attrs.sourceKey !== 'affiliateUrl'
+    || attrs['data-cta-placement'] === 'factbook-official-domain'
+    || attrs['data-cta-kind'] === 'source'
+    || attrs.sourceContext
+    || attrs.sourceLiteral && ['officialPage', 'officialVerifyUrl'].includes(attrs.sourceKey)
+    || ['v3-expand-tiers-btn', 'v3-por-audit-btn', 'v3-open-verifier-btn', 'v3-por-audit-link', 'factbook-merkle-link'].includes(attrs.class)),
   rule(['hyperliquid.gitbook.io'], /^\/hyperliquid-docs(?:\/|$)/, 'Official protocol fee, risk, referral and API documentation hosted on GitBook.'),
   rule(['www.bitget.com', 'hyperliquid.xyz', 'www.kraken.com'], /^\/(?:baseasset\/favicon4\.png|micro-runtime\/images\/logo-light\.svg|apple-touch-icon\.png|_assets\/icons\/apple-touch-icon\.png)$/, 'Exact official brand-image acquisition URLs; source metadata only, not outbound conversion links.', attrs => attrs.sourceLiteral && attrs.sourceKey === 'directUrl'),
 ];

@@ -13,6 +13,7 @@ export const VENUE_DISPLAY_NAMES = Object.freeze({
   mexc: "MEXC",
   hashkey: "HashKey",
   htx: "HTX",
+  coinw: "CoinW",
 });
 
 export function venueDisplayName(value) {

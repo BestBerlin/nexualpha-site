@@ -18,6 +18,17 @@ export const PARTNER_GEO_RESTRICTIONS = Object.freeze({
   bybit: Object.freeze(rows("US CA CN HK SG UZ IR SY AE-DU SD KP CU", "https://www.datawallet.com/es/cripto/países-con-bybit-restringido", "Secondary list; official page timed out (Dubai applies to global entity)", false)),
   binance: Object.freeze(rows("CA NL", "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng", "Secondary list; official terms did not render a list", false)),
   htx: Object.freeze(rows("BD VE BO EC ES", "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/", "Secondary list; official page empty and sources conflict", false)),
+  // CoinW (added 2026-10-13). Terms list: "Restricted Countries and Regions" in CoinW's Legal Statement; the page text
+  // loads with JavaScript, so the list was read from search snippets of that page (not a verbatim copy). Regulator
+  // warnings make a market no-CTA for CoinW as well: Malaysia SC Investor Alert List (17 Oct 2024, read on sc.com.my),
+  // Philippines SEC advisory (20 Aug 2025), India FIU-IND PMLA notice (Oct 2025) and Türkiye SPK access ban (Dec 2024).
+  coinw: Object.freeze([
+    ...rows("CN CA HK JP SG US AE IR KP CU GB ZW", "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585", "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript", false),
+    ...rows("MY", "https://www.sc.com.my/resources/media/investor-alert-updates/investor-alert-list-as-at-17102024", "Regulator warning: Securities Commission Malaysia added CoinW to its Investor Alert List on 17 Oct 2024"),
+    ...rows("PH", "https://www.philstar.com/business/2025/08/25/2467745/sec-flags-more-unregistered-cryptocurrency-platforms", "Regulator warning: Philippines SEC advisory of 20 Aug 2025 names CoinW as an unregistered crypto platform; sec.gov.ph original not reachable, press report", false),
+    ...rows("IN", "https://www.outlookbusiness.com/news/govt-issues-notices-to-25-offshore-crypto-assets-cos-for-non-compliance-of-money-laundering-law", "Regulator action: FIU-IND notice under PMLA s.13 to 25 offshore platforms including CoinW (Oct 2025); press report", false),
+    ...rows("TR", "https://www.cumhuriyet.com.tr/ekonomi/kripto-para-borsalarina-erisim-engeli-geliyor-hukuki-surec-baslatildi-2278779", "Regulator action: SPK access-ban list for unlicensed crypto providers includes www.coinw.com (Dec 2024); press report. Türkiye promotes only the listed partners", false),
+  ]),
 });
 // Countries where NO partner may be promoted, whatever the partner's own terms allow. The page stays informational
 // (news, market data, tools) but carries no sign-up CTA, invite code, /go/ partner button or campaign join button,

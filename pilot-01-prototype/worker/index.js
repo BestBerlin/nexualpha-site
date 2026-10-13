@@ -2856,7 +2856,7 @@ const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
 const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS]);
-const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
+const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter", "coinw"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SEARCH_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -5695,6 +5695,26 @@ const VENUE_REGISTRY = {
     restrictedRegionsEn: "United States, Mainland China, Canada, Singapore",
     fiatChannelsZh: "P2P、信用卡、第三方支付",
     fiatChannelsEn: "P2P, Credit Card, Third-party payment",
+  },
+  coinw: {
+    slug: "coinw",
+    name: "CoinW",
+    category: "CEX",
+    officialDomain: "www.coinw.com",
+    rebate: 0,
+    welcomeBonus: null,
+    spotFee: null,
+    futuresFee: null,
+    porCoverage: null,
+    securityFund: null,
+    kycLevel: "mandatory",
+    kycSummaryZh: "完成 KYC 后才能现货/合约下单、充值和使用理财",
+    kycSummaryEn: "KYC required before spot or futures orders, deposits and Earn",
+    inviteCode: "2296057",
+    restrictedRegionsZh: "中国大陆、美国、加拿大、英国、香港、日本、新加坡、阿联酋及受制裁地区",
+    restrictedRegionsEn: "Mainland China, United States, Canada, United Kingdom, Hong Kong, Japan, Singapore, UAE and sanctioned regions",
+    fiatChannelsZh: "P2P、快捷买币、OTC",
+    fiatChannelsEn: "P2P, Quick Buy, OTC Desk",
   },
   backpack: {
     slug: "backpack",

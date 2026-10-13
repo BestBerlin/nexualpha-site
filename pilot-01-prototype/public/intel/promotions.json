@@ -521,6 +521,58 @@
       "notes": "Disabled: dated terms verification missing."
     },
     {
+      "id": "coinw-signup",
+      "partner": "coinw",
+      "kind": "signup",
+      "name": "CoinW",
+      "officialSource": "https://www.coinw.com",
+      "regions": {
+        "allow": [],
+        "deny": []
+      },
+      "locales": {
+        "allow": [],
+        "neutral": [
+          "ru",
+          "ar",
+          "zh-Hant",
+          "ur",
+          "uk",
+          "vi"
+        ]
+      },
+      "validFrom": null,
+      "validTo": null,
+      "conditions": {
+        "en": "Check regional eligibility and account terms",
+        "zh-Hans": "核对地区资格与账户条款",
+        "zh-Hant": "核對地區資格與帳戶條款",
+        "ja": "地域の利用資格と口座条件を確認",
+        "ko": "지역 자격과 계정 조건 확인",
+        "tr": "Bölgesel uygunluk ve hesap koşullarını kontrol edin",
+        "es": "Consulta la elegibilidad regional y las condiciones de cuenta",
+        "pt-BR": "Confira a elegibilidade regional e os termos da conta",
+        "fr": "Vérifiez l’éligibilité régionale et les conditions du compte",
+        "de": "Regionale Berechtigung und Kontobedingungen prüfen",
+        "ru": "Проверьте региональные ограничения и условия счёта",
+        "ar": "تحقق من الأهلية الإقليمية وشروط الحساب",
+        "id": "Periksa kelayakan wilayah dan ketentuan akun",
+        "vi": "Kiểm tra điều kiện khu vực và tài khoản",
+        "it": "Verifica idoneità regionale e condizioni del conto",
+        "ur": "علاقائی اہلیت اور اکاؤنٹ کی شرائط چیک کریں",
+        "uk": "Перевірте регіональні обмеження та умови рахунку"
+      },
+      "link": "/go/coinw?src=news-sponsored",
+      "lastVerified": null,
+      "enabled": false,
+      "inviteCode": "2296057",
+      "share": null,
+      "topicTags": [
+        "coinw"
+      ],
+      "notes": "Disabled: dated terms verification missing."
+    },
+    {
       "id": "campaign-binance:008b71e5fc82428a9b5947fbc3757791",
       "partner": "binance",
       "kind": "campaign",

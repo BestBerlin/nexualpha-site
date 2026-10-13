@@ -38,7 +38,7 @@ export function buildExchangeKeyFacts(slug) {
   const porUrl = registry?.por?.merkleUrl;
   // Exclude generic homepages masquerading as reserve records; only expose the recorded disclosure URL, no ratios.
   if (porUrl && new URL(porUrl).pathname.includes("proof-of-reserves")) {
-    add("proof-of-reserves", { url: porUrl, scope: "Recorded disclosure URL; reserve figures are not verified by this fact sheet." }, [porUrl], AUDIT_DATE);
+    add("proof-of-reserves", { url: porUrl, scope: "Recorded disclosure URL; reserve figures are not verified by this fact sheet." }, [porUrl], registry.por.checkedOn || AUDIT_DATE);
   }
   const app = APP_DOWNLOADS[slug];
   if (app) add("apps", { ios: Boolean(app.appStore), android: Boolean(app.googlePlay), scope: "Recorded store listings; regional availability requires checking the store." }, app.sources, app.lastChecked);

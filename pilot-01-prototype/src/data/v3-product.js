@@ -1705,6 +1705,7 @@ export const v3VenueSlugs = [
   "binance", "coinbase", "bybit", "bitget", "okx", "kraken", "gate-io", "kucoin", "mexc", "backpack", "deribit",
   "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve",
   "hyperliquid", "dydx", "gmx", "drift",
+  "coinw",
 ];
 
 // Imported here, after the copy objects, so tests can evaluate the copy section on its own (ESM imports are hoisted).

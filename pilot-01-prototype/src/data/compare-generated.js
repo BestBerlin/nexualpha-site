@@ -17,6 +17,7 @@ export {
   parseComparePair, canonicalComparePairSlug, canonicalComparePath, isCanonicalComparePair, normalizeCompareLocale,
   comparePickerCopy,
 } from "./compare-slug.js";
+import { generatedPairWithinIndexLimits } from "./compare-slug.js";
 import { COMPARE_LOCALES, ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, isActiveCompareVenue, isCuratedComparison, parseComparePair, canonicalComparePairSlug, canonicalComparePath, isCanonicalComparePair, normalizeCompareLocale } from "./compare-slug.js";
 
 // Reviewed fee row = exchange-facts.js has a checked maker AND taker figure for spot or perp (reviewed-base-fees.js).
@@ -39,13 +40,16 @@ export function generatedComparePolicy(pair, options = {}) {
   const bothReviewed = twoVenues && slugs.every((slug) => Boolean(hasReviewedFees(slug)));
   const anyPartner = twoVenues && slugs.some((slug) => Boolean(isPartner(slug)));
   const generated = twoVenues && !curated;
+  const withinLimits = twoVenues && generatedPairWithinIndexLimits(slugs);
+  const indexable = generated && bothReviewed && anyPartner && withinLimits;
   return Object.freeze({
     curated,
     generated,
     bothReviewed,
     anyPartner,
-    indexable: generated && bothReviewed && anyPartner,
-    robots: curated || (generated && bothReviewed && anyPartner) ? "index,follow" : "noindex,follow",
+    withinLimits,
+    indexable,
+    robots: curated || indexable ? "index,follow" : "noindex,follow",
   });
 }
 

@@ -8,6 +8,7 @@
 
 import { feeFact, primarySourceUrl } from "./exchange-facts.js";
 import { FACTBOOK_DOSSIER_COMPILED_ON } from "./factbook-dates.js";
+import { CUSTOM_INVITE_CODES, PARTNER_REGISTRATION_URLS } from "./partner-registry.js";
 
 // The source dossier date lives in factbook-dates.js (audit NX-06: one of three dated records on a factbook).
 export const AUDIT_DATE = FACTBOOK_DOSSIER_COMPILED_ON;
@@ -823,6 +824,65 @@ export const FACTBOOK_REGISTRY = {
       { tier: "Tier 9", vol30d: "≥ $100M", spotM: "0.0000%", spotT: "0.0200%", netSpotM: "0.0000%", netSpotT: "0.0160%", futM: "-0.0080%", futT: "0.0150%", netFutM: "-0.0080%", netFutT: "0.0120%" },
       { tier: "Market Maker", vol30d: "≥ $250M", spotM: "-0.0050%", spotT: "0.0150%", netSpotM: "-0.0050%", netSpotT: "0.0120%", futM: "-0.0100%", futT: "0.0120%", netFutM: "-0.0100%", netFutT: "0.0096%" },
     ],
+  },
+
+  // CoinW (2026-10-13): sourced fields only; the page shows unsourced fee, reserve-ratio and compliance fields as pending.
+  // auditHash = SHA-256 of the three source URLs (About, Proof of Reserves, Legal Statement), one per line.
+  coinw: {
+    slug: "coinw",
+    name: "CoinW",
+    category: "CEX",
+    foundedYear: 2017,
+    headquarters: null,
+    trustScore: null,
+    auditHash: "0x0290fae1302b3990d7fb1fb146b97e2e75415b46856354e21d21607a5b0d53e6",
+    officialDomain: "www.coinw.com",
+    mirrors: ["coinw.com"],
+    apiEndpoints: {
+      rest: null,
+      ws: null,
+      docUrl: null,
+    },
+    rebate: {
+      code: CUSTOM_INVITE_CODES.coinw,
+      percent: 0,
+      welcomeBonus: null,
+      url: PARTNER_REGISTRATION_URLS.coinw[0],
+    },
+    tokenDiscount: {
+      token: null,
+      spotDiscount: null,
+      futuresDiscount: null,
+      percent: 0,
+    },
+    por: {
+      totalRatio: null,
+      cleanRatio: null,
+      cleanRatioNoteZh: "官方页面承诺 100% 储备，用户可用默克尔树（SHA-256）与 GitHub 开源工具自行验证月度快照",
+      cleanRatioNoteEn: "CoinW states a 100% reserve commitment; users verify monthly snapshots with a SHA-256 Merkle tree and an open-source verifier",
+      nativeTokenShare: null,
+      auditor: null,
+      merkleUrl: "https://www.coinw.com/proof-of-reserves",
+      checkedOn: "2026-10-13",
+      assetCoverage: null,
+      securityFund: null,
+      fundAmount: null,
+    },
+    compliance: {
+      kycLevel: "mandatory",
+      kycSummaryZh: "完成 KYC 后才能现货/合约下单、充值和使用理财",
+      kycSummaryEn: "KYC required before spot or futures orders, deposits and Earn",
+      kycTiersZh: [],
+      kycTiersEn: [],
+      antiFreezeRating: null,
+      antiFreezeDescZh: null,
+      antiFreezeDescEn: null,
+      supportedRegions: [],
+      restrictedRegions: ["Mainland China", "United States", "Canada", "United Kingdom", "Hong Kong", "Japan", "Singapore", "UAE", "Sanctioned countries"],
+      licensesZh: ["香港信托或公司服务提供者（TCSP）牌照（2024，官方 About 页面所述）"],
+      licensesEn: ["Hong Kong Trust or Company Service Provider (TCSP) licence (2024, per CoinW's About page)"],
+    },
+    vipTiers: [],
   },
 
   deribit: {

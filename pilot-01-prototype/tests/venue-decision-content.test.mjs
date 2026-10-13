@@ -12,8 +12,8 @@ const mexcEvidence = {
   evidenceQuote: "API Trading is currently unavailable for Innovation Zone pairs",
 };
 
-test("all 21 research profiles have three distinct source-traceable decision notes", () => {
-  assert.equal(Object.keys(venueDecisionContent).length, 21);
+test("all 22 research profiles have three distinct source-traceable decision notes", () => {
+  assert.equal(Object.keys(venueDecisionContent).length, 22);
   assert.deepEqual(Object.keys(venueDecisionContent).sort(), Object.keys(exchangeResearch).sort());
   for (const slug of Object.keys(exchangeResearch)) {
     for (const locale of ["en", "zh-Hans", "zh-Hant"]) {

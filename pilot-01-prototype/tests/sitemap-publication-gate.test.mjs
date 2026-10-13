@@ -97,7 +97,7 @@ test("sitemap publication gate stays inside reviewed locale and URL budgets", ()
   assert.equal(publication.stats.urlsByTemplate.article, 448);
   assert.equal(publication.stats.routesByTemplate.comparison, 48);
   assert.equal(publication.stats.urlsByTemplate.comparison, 234);
-  assert.equal(publication.stats.urlsByTemplate.venue, 258);
+  assert.equal(publication.stats.urlsByTemplate.venue, 260); // + /exchanges/coinw (en, zh-Hans) 2026-10-13
   assert.equal(publication.stats.urlsByTemplate.home, 15);
   assert.ok(publication.stats.urlsByTemplate.factbook <= policy.maxUrlsByTemplate.factbook);
   assert.ok(publication.stats.lowDifferentiationUrlCount <= policy.maxLowDifferentiationUrls);

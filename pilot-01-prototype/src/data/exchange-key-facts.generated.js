@@ -900,6 +900,47 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
       }
     ]
   },
+  "coinw": {
+    "schemaVersion": 1,
+    "slug": "coinw",
+    "name": "CoinW",
+    "profileUrl": "https://nexualpha.com/exchanges/coinw",
+    "jsonUrl": "https://nexualpha.com/api/exchange-facts/coinw.json",
+    "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
+    "rows": [
+      {
+        "id": "proof-of-reserves",
+        "value": {
+          "url": "https://www.coinw.com/proof-of-reserves",
+          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+        },
+        "sourceUrls": [
+          "https://www.coinw.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-10-13"
+      },
+      {
+        "id": "apps",
+        "value": {
+          "ios": true,
+          "android": true,
+          "scope": "Recorded store listings; regional availability requires checking the store."
+        },
+        "sourceUrls": [
+          "https://www.coinw.com/install-app"
+        ],
+        "checkedOn": "2026-10-13"
+      },
+      {
+        "id": "product-scope",
+        "value": "CoinW's official site lists spot trading, USDT perpetual futures, futures and spot copy trading, Earn (savings and auto-invest), grid and martingale bots, and a crypto card.",
+        "sourceUrls": [
+          "https://www.coinw.com/about-us"
+        ],
+        "checkedOn": "2026-10-13"
+      }
+    ]
+  },
   "deribit": {
     "schemaVersion": 1,
     "slug": "deribit",

@@ -19,6 +19,7 @@ This index is designed for retrieval by search and answer systems. It is not an 
   - Kraken: invite code 7f97gkqw; no fee-return share published; profile https://nexualpha.com/exchanges/kraken
   - Backpack: invite code luckybitcoin; no fee-return share published; profile https://nexualpha.com/exchanges/backpack
   - Hyperliquid: invite code NEXU888; no fee-return share published; profile https://nexualpha.com/exchanges/hyperliquid
+  - CoinW: invite code 2296057; no fee-return share published; profile https://nexualpha.com/exchanges/coinw
 - A fee-return share is part of the trading fees the exchange pays back to the user's account; current terms are confirmed on the exchange's own page.
 
 ## Public data boundary
@@ -71,6 +72,7 @@ Use these public routes for compact, citable exchange facts. They are source-bou
 - MEXC: profile https://nexualpha.com/exchanges/mexc; JSON https://nexualpha.com/api/exchange-facts/mexc.json
 - HTX: profile https://nexualpha.com/exchanges/htx; JSON https://nexualpha.com/api/exchange-facts/htx.json
 - Backpack: profile https://nexualpha.com/exchanges/backpack; JSON https://nexualpha.com/api/exchange-facts/backpack.json
+- CoinW: profile https://nexualpha.com/exchanges/coinw; JSON https://nexualpha.com/api/exchange-facts/coinw.json
 - Deribit: profile https://nexualpha.com/exchanges/deribit; JSON https://nexualpha.com/api/exchange-facts/deribit.json
 - HashKey Global: profile https://nexualpha.com/exchanges/hashkey; JSON https://nexualpha.com/api/exchange-facts/hashkey.json
 - Hyperliquid: profile https://nexualpha.com/exchanges/hyperliquid; JSON https://nexualpha.com/api/exchange-facts/hyperliquid.json
@@ -150,6 +152,7 @@ The same research boundary is available in these UI languages. Locale pages are 
 - [MEXC source review](https://nexualpha.com/factbook/mexc) — CEX; official discovery domain: https://www.mexc.com
 - [HTX source review](https://nexualpha.com/factbook/htx) — CEX; official discovery domain: https://www.htx.com
 - [Backpack source review](https://nexualpha.com/factbook/backpack) — CEX; official discovery domain: https://backpack.exchange
+- [CoinW source review](https://nexualpha.com/factbook/coinw) — CEX; official discovery domain: https://www.coinw.com
 - [Deribit source review](https://nexualpha.com/factbook/deribit) — CEX; official discovery domain: https://www.deribit.com
 - [HashKey Global source review](https://nexualpha.com/factbook/hashkey) — CEX; official discovery domain: https://global.hashkey.com
 - [Hyperliquid source review](https://nexualpha.com/factbook/hyperliquid) — Perp DEX; official discovery domain: https://app.hyperliquid.xyz
@@ -920,7 +923,7 @@ These high-intent question routes help answer systems choose the canonical NexuA
 
 These public articles expose a direct answer, editorial attribution, publication dates and item-level source links. They remain dated research and do not prove current account eligibility, live fees, user benefits or outcomes.
 
-- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 1251; query-locale URLs: 0; published article canonicals: 224.
+- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 1254; query-locale URLs: 0; published article canonicals: 224.
 
 - [Binance Spot API WebSocket Reconnect and CancelReplace Checklist](https://nexualpha.com/news/binance-spot-api-websocket-reconnect-checklist) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: Binance published a Spot API update notice on June 25, 2026 for an infrastructure upgrade scheduled for July 9, 2026 at 07:00 UTC with an expected one-hour duration.; official/source citations: 4.
 - [Binance vs Kraken Order Failover and Cancel-Control Checklist](https://nexualpha.com/news/binance-vs-kraken-order-failover-cancel-controls) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: Binance and Kraken expose different order-failover controls, so the comparison should start with the failure mode rather than the brand.; official/source citations: 4.

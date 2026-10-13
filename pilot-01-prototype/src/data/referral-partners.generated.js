@@ -69,5 +69,12 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "inviteCode": "NEXU888",
     "share": null,
     "settle": null
+  },
+  {
+    "slug": "coinw",
+    "name": "CoinW",
+    "inviteCode": "2296057",
+    "share": null,
+    "settle": null
   }
 ]);
