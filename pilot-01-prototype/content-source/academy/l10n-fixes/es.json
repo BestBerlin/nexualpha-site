@@ -15,5 +15,9 @@
   "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "¿Poner 100 en una caja pequeña mantiene seguros para siempre los otros 900? Siguiente: margen aislado.",
   "If I put 100 in isolated, the other 900 can never be touched?": "Si pongo 100 en margen aislado, ¿los otros 900 quedan intocables para siempre?",
   "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "Ayuda a definir el límite de margen de cada operación. Pero esos 100 pueden perderse; el margen aislado no hace desaparecer las pérdidas ni reemplaza a un stop-loss.",
-  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "No asumas que la pérdida máxima se limita para siempre a esos primeros 100 solo por ver 'aislado'. Revisa las opciones de adición, tarifas y reglas del producto."
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "No asumas que la pérdida máxima se limita para siempre a esos primeros 100 solo por ver 'aislado'. Revisa las opciones de adición, tarifas y reglas del producto.",
+  "One bitcoin costs that much. Can I still buy some?": "Un bitcoin es muy caro. ¿Puedo comprar solo una fracción?",
+  "Before you transfer: don't guess any of these": "Antes de transferir: no dejes ninguno de estos puntos al azar",
+  "Why you can be closed out before your margin hits zero": "¿Por qué pueden liquidar tu posición antes de que tu margen llegue a cero?",
+  "Price flat, balance down? Finish the last level with costs in mind": "¿El precio no se mueve pero tu saldo baja? Cierra el curso entendiendo los costes"
 }

@@ -1,0 +1,6 @@
+{
+  "A whole coin costs that much? My money probably cannot even buy a ticket.": "Une pièce coûte si cher ? Mon argent ne me paie même pas un ticket d'entrée.",
+  "That is the price of one full Bitcoin, not the amount you must pay each time. Bitcoin is a digital asset and it can be held in decimal pieces. Most people do not buy a whole one.": "C'est le prix d'un coin entier, pas ce que tu dois payer à chaque fois. Le bitcoin est un actif numérique, on peut le détenir en décimales. On en achète rarement un entier.",
+  "A practice calculation. Suppose one Bitcoin costs 50,000 USDT and you spend 100. Before fees, that is 0.002 Bitcoin. This is not today's market price.": "Un calcul d'entraînement. Disons qu'un bitcoin vaut 50,000 USDT et que tu dépenses 100. Sans les frais, cela fait 0.002 bitcoin. Ce n'est pas le prix du jour.",
+  "Assume the executed price is 50,000 and you spend 100. You receive 0.002 Bitcoin. With a 0.1% fee taken separately in USDT, you spend 100.10 total. Real rules depend on the platform.": "Disons que le prix exécuté est de 50,000 et que tu dépenses 100. Tu obtiens 0.002 bitcoin. Avec 0.1 % de frais prélevés en plus sur l'USDT, tu dépenses 100.10 au total. Les vraies règles dépendent de la plateforme."
+}

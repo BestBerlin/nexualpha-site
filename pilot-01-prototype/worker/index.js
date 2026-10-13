@@ -1,3 +1,4 @@
+import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
@@ -236,6 +237,10 @@ export default {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
     const parsedRoute = parsePublicRoute(url.pathname, url.searchParams);
+    if (parsedRoute.locale === "tr" && parseBitgetAlliancePath(parsedRoute.contentPathname) && ["GET", "HEAD"].includes(request.method)) {
+      const metadata = await routeMetadata(url, env);
+      return new Response(null, { status: 301, headers: { location: metadata.redirect, "cache-control": "public, max-age=3600", "x-robots-tag": "noindex,follow" } });
+    }
     const legacyCompareRedirect = LEGACY_COMPARE_REDIRECTS[parsedRoute.contentPathname];
     if (legacyCompareRedirect && ["GET", "HEAD"].includes(request.method)) {
       const destination = new URL(localizedPath(legacyCompareRedirect, parsedRoute.locale), PUBLIC_ORIGIN);
@@ -5114,6 +5119,7 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
     if (!["listing", "event"].includes(item.category) || isUpdateNoindex(item)) continue;
     const lastmod = new Date(Date.parse(item.publishedAt)).toISOString().slice(0, 10);
     for (const locale of INDEXABLE_LOCALES) {
+      if (!campaignVisibleInLocale(item, locale)) continue;
       rows.push(`  <url>\n    <loc>${xmlText(localizedCanonical(pathname, locale))}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
     }
   }
@@ -5196,7 +5202,7 @@ async function handleFlashFeedJson(request, env, url) {
   let payload;
   if (key) {
     const item = /^[0-9a-z]{10}$/.test(key) ? findFlashItem(items, key) : null;
-    if (!item) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
+    if (!item || !campaignVisibleInLocale(item, locale)) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
     payload = flashItemPayload(items, item, locale, { now });
   } else {
     payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
@@ -6760,7 +6766,9 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
     metadata.robots = "noindex,follow";
   }
   if (/^\/activities\/updates\/[^/]+\/[^/]+$/.test(pathname)) {
-    metadata.alternates = routeAlternates(pathname, publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES);
+    const item = metadata.activityUpdateFeed?.items?.find((entry) => updatePath(entry) === pathname);
+    const locales = (publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES).filter((lang) => campaignVisibleInLocale(item, lang));
+    metadata.alternates = routeAlternates(pathname, locales);
     return metadata;
   }
   if (metadata.robots !== "index,follow") {
@@ -6905,6 +6913,13 @@ async function routeMetadataBase(url, env, newsFeed) {
   const requestedLocale = url.searchParams.get("locale") || locale;
   const schemaLocale = String(requestedLocale).startsWith("zh") ? requestedLocale : locale;
   const isZh = locale === "zh-Hans";
+  const campaignListingRedirect = () => {
+    const target = new URL(localizedCanonical("/activities", requestedLocale));
+    const market = url.searchParams.get("market");
+    if (market) target.searchParams.set("market", market);
+    return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
+  };
+  if (parseBitgetAlliancePath(canonicalPath) && requestedLocale === "tr") return campaignListingRedirect();
 
   if (canonicalPath === "/") {
     const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
@@ -8059,6 +8074,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const target = keep(new URL(localizedCanonical(FLASH_PATH, requestedLocale)));
       return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
     }
+    if (!campaignVisibleInLocale(item, requestedLocale)) return campaignListingRedirect();
     const itemPath = flashItemPath(item);
     if (canonicalPath !== itemPath) {
       const target = keep(new URL(localizedCanonical(itemPath, requestedLocale)));
@@ -8458,6 +8474,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const archivedRow = update ? null : await findArchivedActivityUpdate(env, url, updateMatch.venue, updateMatch.slug);
       const archived = archivedRow ? attachBriefToCompactItem(archivedRow, feed) : null;
       if (!update && archived) {
+        if (!campaignVisibleInLocale(archived, requestedLocale)) return campaignListingRedirect();
         const category = updateCategory(archived, requestedLocale);
         const headline = updateHeadline(archived, requestedLocale) || archived.title;
         const canonical = localizedCanonical(updatePath(archived), locale);
@@ -8478,6 +8495,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         };
       }
       if (update) {
+        if (!campaignVisibleInLocale(update, requestedLocale)) return campaignListingRedirect();
         const category = updateCategory(update, requestedLocale);
         const headline = updateHeadline(update, requestedLocale) || update.title;
         const venueName = venueDisplayName(update.venue);
@@ -8513,6 +8531,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       const payload = response.ok ? await response.json() : null;
       const updates = Array.isArray(payload?.data) ? payload.data : [];
       const update = updates.find((entry) => entry?.id === decodeURIComponent(activityMatch[1]));
+      if (update && !campaignVisibleInLocale(update, requestedLocale)) return campaignListingRedirect();
       if (update) return { status: 200, title: `${localized(update.title, locale) || "Official Update"} — NexuAlpha`, description: localized(update.summary, locale), canonical: localizedCanonical(canonicalPath, locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER };
     } catch { /* Missing runtime evidence remains a 404. */ }
   }

@@ -4,18 +4,18 @@
     "1": {
       "takeaways": [
         "O preço de um bitcoin não é o preço para começar.",
-        "O bitcoin se divide em decimais: gaste 100 a 50,000 e você terá 0.002 BTC.",
+        "O bitcoin é divisível em casas decimais: se o BTC custa 50.000 USDT e você investe 100 USDT, recebe 0,002 BTC.",
         "Cada plataforma define sua própria ordem mínima e suas taxas, então confira as duas antes."
       ],
       "quiz": {
-        "q": "Um bitcoin vale 50,000 USDT. Você gasta 100 USDT, sem contar taxas. O que você recebe?",
+        "q": "Um bitcoin vale 50.000 USDT. Você gasta 100 USDT, sem contar taxas. O que você recebe?",
         "options": [
           "Nada, é preciso uma moeda inteira",
-          "0.002 BTC",
-          "0.02 BTC"
+          "0,002 BTC",
+          "0,02 BTC"
         ],
         "answer": 1,
-        "why": "100 ÷ 50,000 = 0.002. Você pode ter uma fração de um bitcoin."
+        "why": "100 ÷ 50.000 = 0,002. Você pode ter uma fração de um bitcoin."
       }
     },
     "2": {
@@ -110,14 +110,14 @@
         "Depois de comprar, confira o registro da operação: status de execução, preço médio e taxa."
       ],
       "quiz": {
-        "q": "Você compra 0.002 BTC a 50,000 com uma taxa de 0.1% cobrada à parte em USDT. Qual é o gasto total?",
+        "q": "Você compra 0,002 BTC a 50.000 com uma taxa de 0,1% cobrada à parte em USDT. Qual é o gasto total?",
         "options": [
           "100",
-          "100.10",
+          "100,10",
           "110"
         ],
         "answer": 1,
-        "why": "100 pelas moedas mais 0.10 de taxa dá 100.10."
+        "why": "100 pelas moedas mais 0,10 de taxa dá 100,10."
       }
     },
     "8": {

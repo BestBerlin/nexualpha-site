@@ -21,7 +21,7 @@
   "If I use ten times, does the exchange give me 900?": "열 배로 설정하면 거래소가 900을 그냥 주는 건가요?",
   "You still have margin left. So why can you be forced out? Next: the line you can't see.": "증거금이 바닥나기 전에 강제 종료될 수 있는 이유는? 다음 화: 보이지 않는 경계선.",
   "When equity gets close to the platform's maintenance level, the risk system may step in. It doesn't have to wait for zero. It depends on the account type, margin mode and product rules.": "순자산이 플랫폼의 유지 수준에 가까워지면 리스크 시스템이 개입할 수 있습니다. 0이 될 때까지 기다릴 필요가 없죠. 계정 유형, 마진 모드, 상품 규칙에 따라 다릅니다.",
-  "Why you can be closed out before your margin hits zero": "증거금이 제로가 되기 전에 강제 종료될 수 있는 이유는?",
+  "Why you can be closed out before your margin hits zero": "증거금이 0이 되기 전에 강제 청산될 수 있는 이유는?",
   "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.": "정산 주기와 요율은 페어, 거래소, 시장 상황에 따라 달라집니다. '모든 계약이 여덟 시간마다 영원히 똑같다'고 외우지 마세요. 펀딩비를 받는 것을 무위험 수익으로 여겨서도 안 됩니다.",
   "Don't let a reward decide. First check: is this allowed where you live? Does the platform accept your real country of residence? Which company provides the service? Then look at fees, deposits and withdrawal rules.": "보상만 보고 결정하지 마세요. 먼저 확인할 것은: 내가 사는 곳에서 허용되는지, 플랫폼이 실제 거주 국가를 지원하는지, 어떤 회사가 서비스를 제공하는지입니다. 그 다음 수수료와 입출금 규정을 살펴보세요.",
   "There's still money there. Why won't it let me keep waiting?": "아직 잔고가 남아 있는데 왜 계속 기다리게 놔두지 않나요?",
@@ -31,5 +31,13 @@
   "Adding money doesn't change the price direction, and it doesn't guarantee you won't be liquidated. It can pull more money into the same risk.": "돈을 추가한다고 해서 가격 방향이 바뀌진 않으며, 청산당하지 않는다고 보장하지도 않습니다. 오히려 더 많은 자금을 동일한 위험으로 끌어들일 수 있죠.",
   "Check equity first, then how far it is from the warning line.": "먼저 순자산을 확인한 다음, 경고선에서 얼마나 떨어져 있는지 확인하세요.",
   "Understand first, then act.": "먼저 이해하고, 그다음에 행동하세요.",
-  "That's a passing result too. Finishing the course doesn't mean you can make money. Understand first, then act.": "그것 역시 훌륭한 합격입니다. 코스를 마쳤다고 해서 돈을 벌 수 있다는 뜻은 아닙니다. 먼저 이해하고, 그다음에 행동하세요."
+  "That's a passing result too. Finishing the course doesn't mean you can make money. Understand first, then act.": "그것 역시 훌륭한 합격입니다. 코스를 마쳤다고 해서 돈을 벌 수 있다는 뜻은 아닙니다. 먼저 이해하고, 그다음에 행동하세요.",
+  "Market, limit, cancel: what does each one solve?": "시장가, 지정가, 주문 취소: 각각 언제 써야 할까요?",
+  "One candle: what four things does it tell you?": "캔들 하나가 알려주는 네 가지 핵심 정보는?",
+  "Decide how much you could lose before you decide how much to buy": "얼마어치 살지보다 얼마까지 잃어도 되는지 먼저 정하세요",
+  "Take-profit and stop-loss are plans, not insurance": "익절과 손절은 계획일 뿐, 보험이 아닙니다",
+  "Spot vs futures: you're not buying the same thing": "현물과 선물: 같은 코인이라도 전혀 다른 상품입니다",
+  "10x leverage: more money, or more risk?": "10배 레버리지: 수익이 커질까요, 위험이 커질까요?",
+  "Liquidation: who pressed the forced-close button?": "강제 청산: 내 포지션은 왜 자동으로 정리될까요?",
+  "Price flat, balance down? Finish the last level with costs in mind": "가격은 그대로인데 잔고가 줄었다? 숨은 비용까지 계산해 마지막 관문을 통과하세요"
 }

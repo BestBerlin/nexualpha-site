@@ -104,6 +104,7 @@ const RESTRICTED_FIRST_LOCALES = new Set(["fr", "de"]);
  * country come from the site's Bitget policy (isPartnerPromotableIn); neutral locales are informational.
  */
 export function bitgetAllianceSignupGate({ locale = "en", market } = {}) {
+  if (locale === "tr") return "partner-geo-restricted";
   if (BITGET_ALLIANCE_NEUTRAL_LOCALES.has(locale)) return "neutral-locale";
   if (!market && RESTRICTED_FIRST_LOCALES.has(locale)) return "partner-geo-restricted";
   if (!isPartnerPromotableIn(BITGET_ALLIANCE_VENUE, { locale, market })) return "partner-geo-restricted";

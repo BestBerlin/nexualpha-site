@@ -81,11 +81,11 @@ test("comparison matrix compacts all-pending rows but keeps sourced and CTA rows
   assert.doesNotMatch(table, /User benefit status/, "all-pending user benefit row is removed from the main matrix");
   assert.match(matrix, /<strong>User benefit status<\/strong>/, "compacted disclosure preserves original field name");
   assert.match(matrix, /<strong>Maximum futures leverage<\/strong>/, "compacted disclosure preserves original leverage field");
-  assert.match(page.html, /href="https:\/\/www\.binance\.com\?ref=11350287"/, "Binance protected invite URL is unchanged");
-  assert.match(page.html, /href="https:\/\/www\.okx\.com\/join\/nexu888"/, "OKX invite URL is unchanged");
+  assert.match(page.html, /href="\/go\/binance\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "Binance tracked invite route is available");
+  assert.match(page.html, /href="\/go\/okx\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "OKX tracked invite route is available");
   assert.match(table, /data-cta-placement="compare-metric-matrix-detail"/, "matrix action routes to onsite details");
-  assert.doesNotMatch(table, /href="https:\/\/www\.binance\.com\?ref=11350287"/, "matrix does not repeat Binance protected invite URL");
-  assert.doesNotMatch(table, /href="https:\/\/www\.okx\.com\/join\/nexu888"/, "matrix does not repeat OKX protected invite URL");
+  assert.doesNotMatch(table, /href="\/go\/binance\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "matrix does not repeat Binance protected invite URL");
+  assert.doesNotMatch(table, /href="\/go\/okx\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "matrix does not repeat OKX protected invite URL");
 });
 
 test("comparison matrix preserves hero partner CTAs while routing matrix actions onsite for Bybit vs Bitget", async () => {
@@ -98,11 +98,11 @@ test("comparison matrix preserves hero partner CTAs while routing matrix actions
   assert.match(table, /Proof of Reserves \(PoR\)/);
   assert.doesNotMatch(table, /Effective net cost/, "net-cost row stays compact while both values lack source-linked commercial data");
   assert.match(matrix, /<strong>Effective net cost<\/strong>/);
-  assert.match(page.html, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/);
-  assert.match(page.html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(page.html, /href="\/go\/bybit\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
+  assert.match(page.html, /href="\/go\/bitget\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
   assert.match(table, /data-cta-placement="compare-metric-matrix-detail"/);
-  assert.doesNotMatch(table, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/);
-  assert.doesNotMatch(table, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.doesNotMatch(table, /href="\/go\/bybit\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
+  assert.doesNotMatch(table, /href="\/go\/bitget\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
   assert.match(page.html, /<strong class="v3-matrix-code-val">nexu888<\/strong>/);
 });
 

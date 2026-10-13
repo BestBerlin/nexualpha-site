@@ -620,7 +620,7 @@ function routeState(venues, initialUrl) {
   if (officialResearch) return { ...officialResearch, ...contextParams() };
   if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   if (parseBybitStocksPath(pathname)) return { name: "bybitStocks", ...contextParams() };
-  if (parseBitgetAlliancePath(pathname)) return { name: "bitgetAlliance", ...contextParams() };
+  if (parseBitgetAlliancePath(pathname)) return { name: publicRoute.locale === "tr" ? "activities" : "bitgetAlliance", ...contextParams() };
   if (parseKrakenUsdgPath(pathname)) return { name: "krakenUsdg", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };

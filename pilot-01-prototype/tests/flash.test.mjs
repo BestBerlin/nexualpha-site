@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
-import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, marketFlashItems, parseAnnouncementTitle, renderText } from "../src/data/flash-feed.js";
+import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, flashItemIndexLocales, marketFlashItems, parseAnnouncementTitle, renderText } from "../src/data/flash-feed.js";
 import { flashItemPath, flashSignupVenues, flashUiCopy, parseFlashPath } from "../src/data/flash.js";
 import { buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts, decodeEntities } from "./helpers/ssr-hydration-harness.mjs";
@@ -168,6 +168,22 @@ test("item pages: H1, NewsArticle schema, related links, 301 for old slugs and u
   assert.equal((await fetchPage("/flash/nope")).status, 404);
 });
 
+test("item pages: Turkish Bitget campaign flash routes redirect to activities while English stays available", async () => {
+  const tr = await fetchPage(`/tr${flashItemPath(BITGET)}?market=US`);
+  assert.equal(tr.status, 301);
+  assert.equal(tr.headers.get("location"), "https://nexualpha.com/tr/activities?market=US");
+  assert.equal(await tr.text(), "");
+  const stale = await fetchPage(`/tr/flash/${BITGET.key}-old-slug`);
+  assert.equal(stale.status, 301);
+  assert.equal(stale.headers.get("location"), "https://nexualpha.com/tr/activities");
+  const en = await fetchPage(flashItemPath(BITGET));
+  const html = await en.text();
+  assert.equal(en.status, 200);
+  assert.equal(robots(html), "index,follow");
+  assert.deepEqual(h1Texts(html), [renderText(BITGET, "en").headline]);
+  assert.doesNotMatch(html, /hreflang="tr"/);
+});
+
 test("noindex rule: items older than 30 days, news items and fallback-language editions stay 200 but noindex", async () => {
   const old = await fetchPage(flashItemPath(OLD));
   const oldHtml = await old.text();
@@ -189,9 +205,6 @@ test("sign-up block: the item's exchange via /go/<venue>?src=flash-<type>, geo-g
   assert.match(okx, /href="\/go\/okx\?src=flash-listing"/);
   const bitgetEn = mainHtml(await (await fetchPage(flashItemPath(BITGET))).text());
   assert.match(bitgetEn, /href="\/go\/bitget\?src=flash-campaign"/);
-  const bitgetTr = mainHtml(await (await fetchPage(`/tr${flashItemPath(BITGET)}`)).text());
-  assert.doesNotMatch(bitgetTr, /href="\/go\/bitget/, "no Bitget sign-up in Türkiye");
-  assert.match(bitgetTr, /href="\/go\/(?:okx|binance|bybit)\?src=flash-campaign"/, "a Türkiye-promotable partner instead");
   const funding = mainHtml(await (await fetchPage(flashItemPath(FUND))).text());
   assert.match(funding, /href="\/go\/binance\?src=flash-funding-extreme"/);
   for (const prefix of ["/ru", "/ar", "/zh-hant"]) {
@@ -228,6 +241,8 @@ test("JSON feed: localized rows, cursor and single-item lookup; no templates nee
   assert.ok(next.items.every((row) => Date.parse(row.time) < Date.parse(data.items[2].time)));
   const one = await (await worker.fetch(new Request(`https://nexualpha.com/content/flash.json?locale=ja&key=${LIQ.key}`), env())).json();
   assert.equal(one.item.headline, renderText(LIQ, "ja").headline);
+  const hidden = await worker.fetch(new Request(`https://nexualpha.com/content/flash.json?locale=tr&key=${BITGET.key}`), env());
+  assert.equal(hidden.status, 404, "blocked Turkish Bitget campaign item detail is not served by the JSON API");
   assert.equal((await worker.fetch(new Request("https://nexualpha.com/content/flash.json?key=zzzzzzzzzz"), env())).status, 404);
 });
 
@@ -333,6 +348,26 @@ test("stream payload and JSON feed: important=1 keeps only important items", asy
   const data = await response.json();
   assert.equal(response.status, 200);
   assert.ok(data.items.every((row) => row.important === true), "worker honours important=1");
+});
+
+test("stream payload: Turkish Bitget campaigns are excluded, but Bitget listings remain", () => {
+  const tr = flashStreamPayload(items, "tr", { now: NOW, limit: 100 });
+  assert.ok(tr.items.some((row) => row.id === OKX.id), "other venue campaign/listing rows remain");
+  assert.ok(!tr.items.some((row) => row.id === BITGET.id), "Bitget event campaign hidden in /tr flash");
+  const listing = {
+    ...BITGET,
+    id: "a:bitget:listing",
+    type: "listing",
+    assets: ["TEST"],
+    data: { market: "spot" },
+    key: "btglisting",
+    slug: "bitget-lists-test",
+  };
+  const withListing = flashStreamPayload([BITGET, listing], "tr", { now: NOW, limit: 100 });
+  assert.deepEqual(withListing.items.map((row) => row.id), ["a:bitget:listing"]);
+  assert.equal(withListing.venues.some((row) => row.slug === "bitget"), true);
+  assert.equal(flashItemIndexLocales(BITGET, { now: NOW }).includes("tr"), false, "no Turkish hreflang/sitemap for Bitget campaign flash item");
+  assert.equal(flashItemIndexLocales(listing, { now: NOW }).includes("tr"), true, "Turkish Bitget listing flash item remains indexable");
 });
 
 const TICKER = { generatedAt: ago(10 * 1000), source: "binance-usdm", items: [
