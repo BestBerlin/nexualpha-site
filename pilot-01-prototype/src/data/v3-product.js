@@ -504,7 +504,7 @@ const fr = {
   ...en,
   independent: "Profil de plateforme indépendant NexuAlpha",
   relationship: "Cette page est éditée indépendamment par NexuAlpha. Certains liens sont affiliés et peuvent nous rapporter une commission payée par la plateforme ; les avantages dépendent de ses conditions.",
-  activities: "Centre des activités et listings",
+  activities: "Activités et cotations",
   venueDetail: "Détail de l'exchange",
   deepCompare: "Comparaison approfondie",
   home: "Accueil",

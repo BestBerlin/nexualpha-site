@@ -52,7 +52,10 @@ Sitemap: https://nexualpha.com/sitemap.xml
 Sitemap: https://nexualpha.com/news-sitemap.xml
 Sitemap: https://nexualpha.com/sitemap-updates.xml
 Sitemap: https://nexualpha.com/sitemap-academy.xml
+Sitemap: https://nexualpha.com/sitemap-licenses.xml
 Sitemap: https://nexualpha.com/sitemap-coins.xml
+Sitemap: https://nexualpha.com/sitemap-data.xml
 Sitemap: https://nexualpha.com/sitemap-convert.xml
+Sitemap: https://nexualpha.com/sitemap-glossary.xml
 Sitemap: https://nexualpha.com/sitemap-flash.xml
 Sitemap: https://nexualpha.com/sitemap-campaigns.xml

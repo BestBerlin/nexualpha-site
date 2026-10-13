@@ -9,11 +9,11 @@ import {
   converterTitle,
   converterCopy,
   converterVenues,
-  formatAmount,
+  formatFiatAmount,
   unitPrice,
 } from "./converter.js";
 import { parseConverterPath } from "./converter-routes.js";
-import { COINS_GENERATED_AT, formatChange } from "./coins.js";
+import { COINS_GENERATED_AT, fill, formatChange } from "./coins.js";
 import { titleBudgetForLocale } from "./meta-description.js";
 import { hreflangAlternates } from "./news-feed-client.js";
 
@@ -48,7 +48,7 @@ export function converterMeta(coin, fiat, locale, { fx } = {}) {
       converterTitle(coin, fiat, locale),
       `${coin.symbol} to ${fiat} converter`,
     ], locale),
-    description: clip(copy.description.replace("{symbol}", coin.symbol).replace("{fiat}", fiat).replace("{coin}", coin.name)),
+    description: clip(fill(copy.seoDescription || copy.description, { symbol: coin.symbol, fiat, coin: coin.name })),
   };
 }
 
@@ -83,7 +83,7 @@ export function converterSchemas(coin, fiat, locale, { urlFor, fx, market } = {}
           "@type": "ListItem",
           position: index + 1,
           name: `${amount} ${coin.symbol}`,
-          description: price ? `${amount} ${coin.symbol} = ${formatAmount(amount * price, locale)} ${fiat}` : `${amount} ${coin.symbol}`,
+          description: price ? `${amount} ${coin.symbol} = ${formatFiatAmount(amount * price, locale, fiat)} ${fiat}` : `${amount} ${coin.symbol}`,
         })),
       },
       ...(Number.isFinite(coin.change24h) ? { additionalProperty: { "@type": "PropertyValue", name: "24h change", value: formatChange(coin.change24h, locale) } } : {}),

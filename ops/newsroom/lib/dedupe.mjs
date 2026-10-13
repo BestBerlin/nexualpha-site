@@ -10,7 +10,9 @@ import {
   sourceTier,
 } from './normalization.mjs';
 import { relevanceForItem } from './relevance.mjs';
-import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch, inferNarrativeType } from './facts.mjs';
+import { dedupeEvidenceRows, isMirrorEvidence, isMirrorItem } from './evidence-quality.mjs';
+export { dedupeEvidenceRows, isMirrorEvidence, isMirrorItem, isDiscoveryHint, qualityEvidence } from './evidence-quality.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -21,6 +23,8 @@ const COMPATIBLE_EVENT_TYPES = new Map([
   ['withdrawal_halt', new Set(['withdrawal_halt', 'insolvency'])],
   ['bankruptcy_filing', new Set(['bankruptcy_filing', 'insolvency'])],
 ]);
+
+const NARRATIVE_PLATFORMS = new Set(['media', 'google_news', 'telegram', 'x', 'youtube', 'reddit']);
 
 function eventTypeOf(item) {
   return item.event_type ?? item.eventType ?? item.event_type_guess ?? item.eventTypeGuess ?? 'unknown';
@@ -98,7 +102,7 @@ function buildEvidence(item, itemsById, duplicateOriginById) {
     raw_item_id: item.id ?? null,
     url: canonicalizeUrl(item.url ?? item.canonical_url ?? item.canonicalUrl) ?? '',
     kind: item.evidence_kind ?? item.evidenceKind ?? defaultEvidenceKind(item),
-    is_independent: true,
+    is_independent: !isMirrorItem(item),
     origin_key: resolveOriginKey(item, itemsById, duplicateOriginById),
     title: item.title ?? null,
     facts: storyFacts(item),
@@ -186,10 +190,6 @@ function discussionFromEvidence(evidence) {
   };
 }
 
-function isMirrorEvidence(row) {
-  return String(row.source_id ?? row.sourceId ?? '').startsWith('nexualpha-official');
-}
-
 function withMarketChannel(discussion, item, fallback = null) {
   const channel = marketChannelOf(item) ?? (fallback ? marketChannelOf(fallback) : null);
   return channel ? { ...discussion, market_channel: channel } : discussion;
@@ -211,7 +211,7 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
     hard_keys: extractHardKeys(item),
     content_hashes: [item.content_hash ?? item.contentHash].filter(Boolean),
     simhashes: [item.simhash].filter(value => simhashValue(value) != null),
-    evidence,
+    evidence: dedupeEvidenceRows(evidence),
     discussion: withMarketChannel(discussionFromEvidence(evidence), item),
     raw_items: [item],
   };
@@ -219,7 +219,11 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
 
 function shouldAttach(item, event, config, watchlist, itemsById, duplicateOriginById) {
   const itemSubjects = itemEntities(item, watchlist);
-  if (!compatibleEventType(eventTypeOf(item), event.event_type)) return false;
+  const typeOk = compatibleEventType(eventTypeOf(item), event.event_type);
+  // Media reports of one story often differ only in whether a keyword gave them a type.
+  const narrative = NARRATIVE_PLATFORMS.has(sourcePlatform(item)) && (event.raw_items ?? []).every(row => NARRATIVE_PLATFORMS.has(sourcePlatform(row)));
+  // Narrative topic types are inferred from wording, so they only gate via the stricter fact match below.
+  if (!typeOk && !narrative) return false;
   if (itemSubjects.length && event.subjects?.length && !commonValues(itemSubjects, event.subjects)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
@@ -239,6 +243,10 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
   const contentHash = item.content_hash ?? item.contentHash;
   if (contentHash && event.content_hashes?.includes(contentHash)) return 'content_hash';
   if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return 'simhash';
+  // Stories with no watchlist entity (or a different one detected by one outlet) still cluster when two
+  // narrative reports share a discriminating fact (amount/ticker) plus distinctive words, or many words.
+  if (narrative && (!itemSubjects.length || !event.subjects?.length) && capturedItems.some(row => narrativeStoryMatch(item.title ?? '', row.title ?? row.title_internal ?? '', itemFacts, storyFacts(row, watchlist)))) return 'narrative_facts';
+  if (!typeOk) return false;
   if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
   if (capturedItems.some(row => factsMatch(itemFacts, storyFacts(row, watchlist)))) return 'shared_key_facts';
   return titleSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity ? 'fuzzy_title' : false;
@@ -247,7 +255,7 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
 function attachItem(event, item, itemsById, duplicateOriginById, method) {
   const provenance = [...(event.discussion?.merge_provenance ?? []), { raw_item_id: item.id ?? null, source_id: item.source_id ?? null, matched_event_title: event.title_internal, method, facts: storyFacts(item) }];
   event.raw_items.push(item);
-  event.evidence.push(buildEvidence(item, itemsById, duplicateOriginById));
+  event.evidence = dedupeEvidenceRows([...event.evidence, buildEvidence(item, itemsById, duplicateOriginById)]);
   event.original_links = [...new Set([...event.original_links, ...linksFor(item)])];
   event.hard_keys = [...new Set([...event.hard_keys, ...extractHardKeys(item)])].sort();
   event.content_hashes = [...new Set([...(event.content_hashes ?? []), item.content_hash ?? item.contentHash].filter(Boolean))];
@@ -255,6 +263,11 @@ function attachItem(event, item, itemsById, duplicateOriginById, method) {
   const sourcePublishedAt = itemSourcePublishedAt(item);
   if (sourcePublishedAt && (!event.source_published_at || sourcePublishedAt < new Date(event.source_published_at))) event.source_published_at = sourcePublishedAt.toISOString();
   event.discussion = { ...withMarketChannel(discussionFromEvidence(event.evidence), item, event), merge_provenance: provenance };
+}
+
+function needsDetail(item) {
+  const metrics = item.metrics ?? {};
+  return metrics.detail_status === 'needs-detail' || item.detail_status === 'needs-detail' || item.detailStatus === 'needs-detail';
 }
 
 function parentOriginKey(item, itemsById, seen = new Set()) {
@@ -309,13 +322,20 @@ export function mergeRawItems(items, options = {}) {
     const uniqueKey = externalId ? JSON.stringify([item.source_id ?? item.sourceId ?? '', externalId]) : item.id ? `id:${item.id}` : null;
     if (uniqueKey && seenExternalIds.has(uniqueKey)) continue;
     if (uniqueKey) seenExternalIds.add(uniqueKey);
+    if (needsDetail(item)) {
+      irrelevantItems.push(item);
+      continue;
+    }
     const relevance = relevanceForItem(item, { watchlist, keywords, coinUniverse });
     if (!relevance.relevant) {
       irrelevantItems.push(item);
       continue;
     }
     const action = storyFacts(item, watchlist).action;
-    const inferredAction = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    const actionType = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    // Relevant media/social stories without an action verb get a topic type so they can be scored at all.
+    const inferredAction = actionType !== 'unknown' || !NARRATIVE_PLATFORMS.has(sourcePlatform(item)) ? actionType
+      : inferNarrativeType(item.title ?? '') ?? 'unknown';
     const itemForMerge = {
       ...item,
       ...(eventTypeOf(item) === 'unknown' && inferredAction !== 'unknown' ? { event_type_guess: inferredAction } : {}),

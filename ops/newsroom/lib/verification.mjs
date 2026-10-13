@@ -1,10 +1,10 @@
 import { normalizeText } from './normalization.mjs';
-import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch } from './facts.mjs';
+import { isMirrorEvidence } from './evidence-quality.mjs';
 
 const primaryKinds = new Set(['official_notice', 'filing', 'court_record']);
 const primaryPlatforms = new Set(['exchange', 'regulator', 'court', 'edgar', 'company']);
 const allegation = /fraud|scam|rug.?pull|insolven|bankrupt|诈骗|詐騙|跑路|破产|破產|资不抵债|資不抵債/iu;
-const mirror = row => /^nexualpha-official/.test(row.source_id ?? '');
 
 // Fact matching is conservative about contradictory symbols, amounts and dates.
 export function matchingFacts(event, row, watchlist = []) {
@@ -13,20 +13,24 @@ export function matchingFacts(event, row, watchlist = []) {
   const left = storyFacts({ ...event, title: event.fact_summary || event.title_internal }, watchlist);
   // Do not copy the event's subject/type into source evidence: they must be captured.
   const right = storyFacts(row, watchlist);
-  if (conflictingFacts(left, right) || ['tickers', 'amounts', 'dates'].some(key => left[key].some(value => !right[key].includes(value)))) return false;
+  // Contradicting symbols/amounts/dates never corroborate; a paraphrase that omits one of them can.
+  if (conflictingFacts(left, right)) return false;
   const eventTime = event.source_published_at ?? event.published_at;
   if (eventTime && row.published_at && Math.abs(Date.parse(eventTime) - Date.parse(row.published_at)) > 48 * 36e5) return false;
   if (event.occurred_at && row.occurred_at && Math.abs(Date.parse(event.occurred_at) - Date.parse(row.occurred_at)) > 48 * 36e5) return false;
   if (fact.length >= 12 && captured.includes(fact)) return true;
-  return factsMatch(left, right) || (left.action !== 'unknown' && left.action === right.action
-    && left.entities.some(entity => right.entities.includes(entity)) && titleSimilarity(fact, captured) >= 0.65);
+  const eventTitle = event.fact_summary || event.title_internal || '';
+  return factsMatch(left, right)
+    || narrativeStoryMatch(eventTitle, row.title ?? row.excerpt ?? '', left, right)
+    || (left.action !== 'unknown' && left.action === right.action
+      && left.entities.some(entity => right.entities.includes(entity)) && titleSimilarity(fact, captured) >= 0.65);
 }
 
 export function verifyEvent(event, { watchlist = [] } = {}) {
   const evidence = event.evidence ?? [];
   if (event.verification_status === 'conflicting' || evidence.some(row => row.conflicting)) return 'needs-review';
   if (event.verification_status === 'debunked') return 'debunked';
-  const matched = evidence.filter(row => !mirror(row) && matchingFacts(event, row, watchlist) && /^https?:\/\//.test(row.url ?? ''));
+  const matched = evidence.filter(row => !isMirrorEvidence(row) && matchingFacts(event, row, watchlist) && /^https?:\/\//.test(row.url ?? ''));
   const primary = matched.some(row => row.verified_official === true && Number(row.source_tier) === 1 && primaryPlatforms.has(row.source_platform) && primaryKinds.has(row.kind));
   if (primary) return 'verified-primary';
   if (allegation.test([event.title_internal, event.fact_summary, event.event_type].join(' '))) return 'needs-review';

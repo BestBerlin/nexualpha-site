@@ -18,6 +18,40 @@ test('event bundle contains evidence, score history and linked articles', () => 
   const sql = buildQuery(['event:show', '12']);
   for (const table of ['event_evidence', 'event_scores', 'articles']) assert.ok(sql.includes(table));
   assert.match(sql, /e.id=12/);
+  assert.ok(sql.includes("a.states->'story_event_ids' @> jsonb_build_array(e.id)"));
+});
+test('writer claim, release and complete SQL is bounded and validated', () => {
+  const claim = buildQuery(['claim', '--limit', '2', '--writer', 'writer-a']);
+  assert.match(claim, /pg_advisory_xact_lock\(20261012,5\)/);
+  assert.match(claim, /story_heads/);
+  assert.match(claim, /shortfall_log/);
+  assert.match(claim, /state='claimed'/);
+  assert.match(buildQuery(['release', '12', '--writer', 'writer-a']), /claimed_by='writer-a'/);
+  assert.match(buildQuery(['complete', '12', '--writer', 'writer-a', '--article', 'bybit-lists-test', '--url', 'https://nexualpha.com/news/bybit-lists-test']), /published_url/);
+  assert.throws(() => buildQuery(['claim', '--limit', '0', '--writer', 'writer-a']));
+  assert.throws(() => buildQuery(['claim', '--limit', '2']));
+  assert.throws(() => buildQuery(['release', 'bad']));
+  assert.throws(() => buildQuery(['complete', '12', '--article', 'Bad Slug', '--url', 'https://nexualpha.com/news/x']));
+  assert.throws(() => buildQuery(['complete', '12', '--article', 'ok-slug', '--url', 'javascript:alert(1)']));
+});
+test('claim command enriches database events for the writer without publishing', async () => {
+  let query;
+  const output = await main(['claim', '--limit', '1', '--writer', 'writer-a'], sql => {
+    query = sql;
+    return JSON.stringify([{
+      id: 99,
+      event_type: 'listing',
+      title_internal: 'Bybit lists TEST',
+      subject_entity: 'bybit',
+      subjects: ['TEST'],
+      evidence: [{ id: 'ev1', url: 'https://example.com', kind: 'official_notice', excerpt: 'Bybit lists TEST' }],
+      entities: [{ id: 'bybit', kind: 'exchange', display_name: { en: 'Bybit' }, partner_slug: 'bybit' }],
+    }]);
+  });
+  const events = JSON.parse(output);
+  assert.match(query, /pg_advisory_xact_lock\(20261012,5\)/);
+  assert.equal(events[0].suggested_format, 'flash');
+  assert.ok(events[0].cta_hints.length);
 });
 test('invalid options, ids and JSON are rejected before database execution', async () => {
   for (const args of [['events:top', '--limit', '0'], ['events:top', '--limit', '1;DROP'], ['events:top', '--bad', '2'], ['event:show', '-1'], ['review:list', 'extra'], ['config:set', 'key', 'bad'], ['config:set', 'weights', '{}']]) {

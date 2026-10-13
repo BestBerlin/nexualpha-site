@@ -1,3 +1,4 @@
+import { formatSgt } from "./local-time.js";
 import { localizedHref } from "./locale-routing.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 
@@ -338,8 +339,8 @@ export function formatOpenInterest(row) {
 export function formatUtc(iso) {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
-  const d = new Date(t), p = (x) => String(x).padStart(2, "0");
-  return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+  // Site clock is Singapore Time (SGT); the name is kept for existing callers.
+  return formatSgt(iso, "en", "stamp");
 }
 
 export function venueGoHref(slug, src, locale = "en", market) {

@@ -1,3 +1,4 @@
+import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
@@ -27,15 +28,25 @@ import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
 import { appDownloadRouteSeo } from "./app-downloads.js";
 import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
+import { parseLicensesPath } from "./licenses-routes.js";
+import { licenseRouteSeo } from "./licenses-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
+import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./intel-tools-routes.js";
+import { intelToolRouteSeo } from "./intel-tools-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
 import { RADAR_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "./radar-seo.js";
+import { parseGlossaryPath } from "./glossary-routes.js";
+import { glossaryRouteSeo } from "./glossary-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
 import { bybitStocksRouteSeo } from "./bybit-stocks-seo.js";
+import { BITGET_ALLIANCE_INDEX_LOCALES, parseBitgetAlliancePath } from "./bitget-alliance.js";
+import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
+import { KRAKEN_USDG_INDEX_LOCALES, parseKrakenUsdgPath } from "./kraken-usdg.js";
+import { krakenUsdgRouteSeo } from "./kraken-usdg-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -288,7 +299,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -344,14 +355,23 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  if (parseLicensesPath(pathname) && parseLicensesPath(pathname).kind !== "missing") return licenseRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Spot ETF flows + crypto calendar (mirror of the Worker).
+  if (isIntelToolPath(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
+  // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
+  if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
+  // Bitget Alliance campaign page (mirror of the Worker): its written editions.
+  if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
+  // Kraken 5M USDG Challenge page (mirror of the Worker): its written editions.
+  if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
@@ -2129,6 +2149,23 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (parseLicensesPath(pathname) && licenseRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    const licenses = licenseRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = licenses.title;
+    description = licenses.description;
+    schemas = licenses.schemas;
+    ogType = "website";
+    if (!licenses.indexable) robots = "noindex,follow";
+  } else if (isIntelToolPath(pathname)) {
+    // Spot ETF flows + crypto calendar: same helper as the Worker head (without the live snapshot: no Event list).
+    const tool = intelToolRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = tool.title;
+    description = tool.description;
+    schemas = tool.schemas;
+    ogType = "website";
+    if (!tool.indexable) robots = "noindex,follow";
   } else if (parseCoinsPath(pathname) && coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
     // Where to buy <coin>: same helper as the Worker head (src/data/coins-seo.js).
     const coins = coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
@@ -2154,6 +2191,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = radar.schemas;
     if (!radar.indexable) robots = "noindex,follow";
     ogType = "website";
+  } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Crypto glossary: same helper as the Worker head (src/data/glossary-seo.js).
+    const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = glossary.title;
+    description = glossary.description;
+    schemas = glossary.schemas;
+    ogType = pathname === "/glossary" ? "website" : "article";
+    if (!glossary.indexable) robots = "noindex,follow";
   } else if (parseBinanceOctoberPath(pathname)) {
     // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
     const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
@@ -2165,6 +2211,22 @@ function computeRouteSeoUnbudgeted(options = {}) {
   } else if (parseBybitStocksPath(pathname)) {
     // Bybit Stocks campaign page: same helper as the Worker head (src/data/bybit-stocks-seo.js).
     const campaign = bybitStocksRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = campaign.title;
+    description = campaign.description;
+    schemas = campaign.schemas;
+    if (!campaign.indexable) robots = "noindex,follow";
+  } else if (parseBitgetAlliancePath(pathname)) {
+    // Bitget Alliance campaign page: same helper as the Worker head (src/data/bitget-alliance-seo.js).
+    const campaign = bitgetAllianceRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = campaign.title;
+    description = campaign.description;
+    schemas = campaign.schemas;
+    if (!campaign.indexable) robots = "noindex,follow";
+  } else if (parseKrakenUsdgPath(pathname)) {
+    // Kraken 5M USDG Challenge page: same helper as the Worker head (src/data/kraken-usdg-seo.js).
+    const campaign = krakenUsdgRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
     accept();
     title = campaign.title;
     description = campaign.description;
@@ -2282,6 +2344,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
       "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: mxFaq.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })),
     }];
+  } else if (pathname === "/funding-rates/matrix") {
+    accept();
+    const matrix = fundingMatrixSeo(locale);
+    title = matrix.title; description = matrix.description; schemas = matrix.schema;
   } else if (STATIC_COPY[pathname]) {
     accept();
     const staticPageCopy = STATIC_PAGE_COPY_LOCALIZED[pathname]?.[rawLocale] || STATIC_PAGE_COPY_LOCALIZED[pathname]?.[locale];

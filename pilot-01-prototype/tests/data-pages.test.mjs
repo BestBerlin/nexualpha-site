@@ -10,7 +10,7 @@ import { budgetTitle, metaDescriptionLimit, titleBudgetForLocale } from "../src/
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import {
   DATA_PAGE_LOCALES, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, compactMarketEvents, dataPageCopy, dataPageMeta, dataPageSchemas,
-  formatRatePct, formatUsdCompact, formatUtc, readFunding, readLiquidations, splitSymbol,
+  formatRatePct, formatUsdCompact, formatUtc, formatUtcTime, readFunding, readLiquidations, splitSymbol,
 } from "../src/data/market-data-pages.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -36,7 +36,8 @@ test("both data pages have route metadata in all 17 locales: review-gated, self-
       assert.equal(meta.title, budgetTitle(dataPageMeta(pathname, locale).title, titleBudgetForLocale(locale)));
       assert.ok(meta.title.length <= titleBudgetForLocale(locale), `${loc} title ${meta.title.length}`);
       assert.ok(meta.description.length <= metaDescriptionLimit(locale, meta.description), `${loc} description ${meta.description.length}`);
-      if (dataPageMeta(pathname, locale).description.length < 110) assert.ok(meta.description.length >= 120, `${loc} description ${meta.description.length}`);
+      // Served as written since 2026-10-13 (no generic padding; short CJK descriptions are fine).
+      assert.doesNotMatch(meta.description, /Use this NexuAlpha page|用这一页了解|source boundary/, loc);
       assert.equal(meta.alternates.length, ["ur", "uk"].includes(locale) ? 0 : 16, loc);
       if (["ur", "uk"].includes(locale)) continue;
       assert.ok(meta.alternates.some((a) => a.hreflang === "x-default" && a.href === `https://nexualpha.com${pathname}`), loc);
@@ -143,7 +144,10 @@ test("feed readers normalize the collector document and refuse to invent numbers
   assert.equal(formatRatePct(0.0000326), "+0.0033%");
   assert.equal(formatRatePct(-0.00012, 4), "−0.0120%");
   assert.equal(formatRatePct(null), "—");
-  assert.equal(formatUtc("2026-10-10T14:58:12.739Z"), "2026-10-10 14:58 UTC");
+  assert.equal(formatUtc("2026-10-10T14:58:12.739Z"), "2026-10-10 · 22:58 SGT");
+  assert.equal(formatUtc("2026-10-10T18:30:00.000Z"), "2026-10-11 · 02:30 SGT");
+  assert.equal(formatUtc("2026-10-10T14:58:12.739Z", { seconds: true }), "2026-10-10 · 22:58:12 SGT");
+  assert.equal(formatUtcTime("2026-10-10T16:00:00.000Z"), "00:00 SGT");
   const compact = compactMarketEvents(sampleFeed);
   assert.ok(!("headlines" in compact) && !("events" in compact), "hydration payload drops headlines and events");
   assert.ok(compact.liquidations && compact.funding && compact.market.majors);
@@ -185,7 +189,7 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.ok(en.includes("$6.11M"), "24h total");
   assert.ok(en.includes("$3.34M"), "1h total");
   assert.ok(en.includes("$1,452,978"), "largest single liquidation");
-  assert.ok(en.includes("2026-10-10 14:58 UTC"), "generatedAt in UTC");
+  assert.ok(en.includes("2026-10-10 · 22:58 SGT"), "generatedAt in SGT");
   assert.match(en, /<th scope="row" translate="no">SOL<\/th><td translate="no">OKX<\/td>/);
   // The explainer keeps the coverage limit as real content; the hero source line carries no caveat suffix (owner 2026-10-12).
   assert.match(en, /lower bound for two exchanges, not the whole market/);
@@ -200,7 +204,7 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.match(fr, /<h1>Crypto funding rates: Binance vs OKX<\/h1>/);
   assert.ok(fr.includes("+0.0033%") && fr.includes("−0.0120%"), "per-period rates with sign");
   assert.ok(fr.includes("+3.6%"), "annualized estimate of BTC Binance rate (0.0000326 × 1095)");
-  assert.ok(fr.includes("16:00 UTC"), "next funding time");
+  assert.ok(fr.includes("00:00 SGT"), "next funding time in SGT");
   assert.match(fr, /rate × 3 × 365/);
   assert.match(fr, /<th scope="row" translate="no">1000PEPE<\/th>/);
   assert.match(fr, /class="num neg"/);

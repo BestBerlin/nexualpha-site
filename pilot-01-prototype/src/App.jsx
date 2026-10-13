@@ -33,11 +33,16 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { parseLicensesPath } from "./data/licenses-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
+import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
+import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
+import { parseBitgetAlliancePath } from "./data/bitget-alliance-path.js";
+import { parseKrakenUsdgPath } from "./data/kraken-usdg-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -47,6 +52,7 @@ import {
   preloadRouteModules,
   readRouteModuleExport,
   registerRouteModuleLoaders,
+  registerRouteModuleResolver,
 } from "./data/route-module-cache.js";
 
 const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
@@ -89,21 +95,32 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
   "./components/academy/AcademyPages.jsx",
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
+  "./components/glossary/GlossaryPages.jsx",
   "./components/flash/FlashPages.jsx",
   "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
+  "./components/campaigns/BitgetAlliancePage.jsx",
+  "./components/campaigns/KrakenUsdgPage.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
+// Glossary content (index, term shards, auto-link forms: 160+ modules) gets its loaders from one small chunk on first use,
+// so the browser entry carries no per-module loader table.
+const GLOSSARY_MODULE_PATTERN = /^\.\/data\/glossary-(?:index|shard|links)-[a-z0-9-]+\.js$/;
+if (!import.meta.env.SSR) registerRouteModuleResolver((path) => (GLOSSARY_MODULE_PATTERN.test(path)
+  ? () => import("./data/glossary-content-loader.js").then((loader) => loader.loadGlossaryModule(path)) : null));
 
 const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
@@ -145,19 +162,28 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
   "./components/academy/AcademyPages.jsx",
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
   "./data/coin-content-*.js",
+  "./components/glossary/GlossaryPages.jsx",
+  "./data/glossary-index-*.js",
+  "./data/glossary-shard-*.js",
+  "./data/glossary-links-*.js",
   "./components/flash/FlashPages.jsx",
   "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
+  "./components/campaigns/BitgetAlliancePage.jsx",
+  "./components/campaigns/KrakenUsdgPage.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -194,6 +220,7 @@ const VenueYellowPages = deferredComponent("./components/v3/VenueYellowPages.jsx
 const CrossroadsCompare = deferredComponent("./components/v3/CrossroadsCompare.jsx", "CrossroadsCompare");
 const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx", "PlatformMatcher");
 const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
+const FundingMatrixPage = deferredComponent("./components/data/FundingMatrixPage.jsx", "FundingMatrixPage");
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
@@ -210,6 +237,7 @@ function readAcademyContent(locale) {
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
 }
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
+const LicenseDirectoryPage = deferredComponent("./components/licenses/LicensePages.jsx", "LicenseDirectoryPage");
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
 const ConverterPage = deferredComponent(ROUTE_MODULE_PATHS.converter, "ConverterPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
@@ -223,14 +251,39 @@ function CoinsRoute({ route, locale, overlay }) {
   if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} overlay={overlay} />;
   return <CoinPage locale={locale} content={readCoinContent(locale)} slug={route.slug} market={route.market} overlay={overlay} />;
 }
+// Spot ETF flows + crypto calendar (2026-10-13): one route chunk (route-intel-tools). `initial` is the snapshot the
+// server rendered with (prerender state "intelTool"); `now` keeps the calendar's first client render identical.
+const EtfFlowsPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "EtfFlowsPage");
+const CalendarPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "CalendarPage");
+// Crypto glossary (2026-10-13): one route chunk for /glossary and /glossary/<slug>; content is the locale's index (hub) or
+// the term's shard module (term page), both preloaded before hydration (modulePathsForRoute).
+const GlossaryHubPage = deferredComponent(ROUTE_MODULE_PATHS.glossary, "GlossaryHubPage");
+const GlossaryTermPage = deferredComponent(ROUTE_MODULE_PATHS.glossary, "GlossaryTermPage");
+function readGlossaryModule(path, exportName) {
+  if (import.meta.env.SSR) return ssrDeferredPageModules[path]?.[exportName];
+  return readRouteModuleExport(path, exportName);
+}
+function GlossaryRoute({ route, locale }) {
+  if (route.name === "glossaryHub") return <GlossaryHubPage locale={locale} content={readGlossaryModule(glossaryIndexModulePath(locale), "GLOSSARY_INDEX")} market={route.market} />;
+  return <GlossaryTermPage locale={locale} content={readGlossaryModule(glossaryShardModulePath(locale, route.slug), "GLOSSARY_SHARD")} slug={route.slug} market={route.market} />;
+}
+/** Auto-link forms of the locale's glossary for news articles and lesson transcripts (null outside written locales). */
+function readGlossaryLinks(locale) {
+  if (!GLOSSARY_INDEX_LOCALES.includes(locale)) return null;
+  return readGlossaryModule(glossaryLinksModulePath(locale), "GLOSSARY_LINKS") || null;
+}
 // Binance October campaigns page (2026-10-12): its own route chunk (route-campaign-landing).
 const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
 // Bybit Stocks campaign landing page (2026-10-12): its own route chunk (route-campaign-bybit).
 const BybitStocksPage = deferredComponent(ROUTE_MODULE_PATHS.bybitStocks, "BybitStocksPage");
+// Bitget Alliance campaign landing page (2026-10-13): its own route chunk (route-campaign-bitget).
+const BitgetAlliancePage = deferredComponent(ROUTE_MODULE_PATHS.bitgetAlliance, "BitgetAlliancePage");
+// Kraken 5M USDG Futures Challenge page (2026-10-13): its own route chunk (route-campaign-kraken).
+const KrakenUsdgPage = deferredComponent(ROUTE_MODULE_PATHS.krakenUsdg, "KrakenUsdgPage");
 function AcademyRoute({ route, locale }) {
   const content = readAcademyContent(locale);
   if (route.name === "academyHub") return <AcademyHubPage locale={locale} content={content} market={route.market} />;
-  return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} />;
+  return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} glossaryLinks={readGlossaryLinks(locale)} />;
 }
 // Flash (2026-10-12): the 7x24 stream and item pages share one route chunk (route-flash).
 const LongShortPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "LongShortPage");
@@ -334,8 +387,8 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert"];
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -501,6 +554,10 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  const licenses = parseLicensesPath(pathname);
+  if (licenses?.kind === "hub") return { name: "licenses", ...contextParams() };
+  if (licenses?.kind === "country") return { name: "licenses", country: licenses.country, ...contextParams() };
+  if (licenses) return { name: "notFound" };
   const converter = parseConverterPath(pathname);
   if (converter?.kind === "pair") return { name: "converter", symbol: converter.symbol, fiat: converter.fiat, ...contextParams() };
   if (converter) return { name: "notFound" };
@@ -508,6 +565,10 @@ function routeState(venues, initialUrl) {
   if (coins?.kind === "hub") return { name: "coinsHub", ...contextParams() };
   if (coins?.kind === "coin") return { name: "coinPage", slug: coins.slug, ...contextParams() };
   if (coins?.kind === "missing") return { name: "notFound" };
+  const glossary = parseGlossaryPath(pathname);
+  if (glossary?.kind === "hub") return { name: "glossaryHub", ...contextParams() };
+  if (glossary?.kind === "term") return { name: "glossaryTerm", slug: glossary.slug, ...contextParams() };
+  if (glossary?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
   if (pathname === "/long-short") return { name: "longShort", ...contextParams() };
   if (pathname === "/whales") return { name: "whales", ...contextParams() };
@@ -515,7 +576,10 @@ function routeState(venues, initialUrl) {
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
+  if (pathname === ETF_FLOWS_PATH) return { name: "etfFlows", ...contextParams() };
+  if (pathname === CALENDAR_PATH) return { name: "calendar", ...contextParams() };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
+  if (pathname === "/funding-rates/matrix") return { name: "fundingMatrix", ...contextParams() };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
   const topicMatch = pathname.match(/^\/topics\/([a-z0-9-]+)$/);
@@ -546,6 +610,8 @@ function routeState(venues, initialUrl) {
   if (officialResearch) return { ...officialResearch, ...contextParams() };
   if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   if (parseBybitStocksPath(pathname)) return { name: "bybitStocks", ...contextParams() };
+  if (parseBitgetAlliancePath(pathname)) return { name: "bitgetAlliance", ...contextParams() };
+  if (parseKrakenUsdgPath(pathname)) return { name: "krakenUsdg", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
   const activityMatch = pathname.match(/^\/activities\/([^/]+)$/);
@@ -638,7 +704,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         // l10n: needs native review
         uk: "Тематичні посібники", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
-    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
+    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Analyses Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
         // l10n: needs native review
         ur: "Telegram تحقیق",
         // l10n: needs native review
@@ -661,7 +727,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -819,8 +885,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "licenses") return pageShell(<LicenseDirectoryPage locale={locale} country={route.country} market={route.market} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
+  if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
   // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
   if (route.name === "longShort") return pageShell(<LongShortPage locale={locale} market={route.market} initial={initialRadar} />);
   if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} initial={initialRadar} />);
@@ -828,7 +896,12 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
+  if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
+  if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
+  if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);
+  if (route.name === "krakenUsdg") return pageShell(<KrakenUsdgPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
+  if (route.name === "fundingMatrix") return pageShell(<FundingMatrixPage locale={locale} initialFeed={initialFundingMatrix} market={route.market} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);
@@ -860,7 +933,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   </main>, { crawlScope: "rates" });
   if (route.name === "onchainBoard") return pageShell(<main className="v6 v2-page v3-page" id="top"><OnChainLiquidityBoard locale={locale} headingLevel={1} /></main>);
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
-  if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
+  if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} glossaryLinks={readGlossaryLinks(locale)} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });

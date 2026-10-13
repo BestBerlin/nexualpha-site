@@ -13,6 +13,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import "./fee-benchmark-terminal.css";
 import { CostDecision } from "./CostDecision.jsx";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { isTurkeyGated } from "../../data/partner-geo-policy.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
@@ -600,7 +601,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     const rebatePercent = commercialClaim.status === "verified" ? commercialClaim.rebatePercent : 0;
     // Partner venues (audit NX-02/NX-03): the share comes from the single partner benefit record and the net figure uses
     // the home calculator's formula (base × (1 − top share)), labelled "after max rebate".
-    const partner_ = rebatePercent > 0 ? null : partnerBenefitStatus(slug);
+    const partner_ = rebatePercent > 0 || isTurkeyGated(slug, { locale, market }) ? null : partnerBenefitStatus(slug);
     const sharePct = rebatePercent > 0 ? rebatePercent : partner_?.sharePct || 0;
     const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : partner_ ? `${h7Copy(locale).upTo} ${formatPercent(locale, partner_.sharePct)}` : null;
     const productRate = product === "futures" || product === "perp" || product === "perpetuals" ? futuresRate : spotRate;

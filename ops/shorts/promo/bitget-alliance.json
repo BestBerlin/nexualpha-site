@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "id": "bitget-alliance",
+  "source": "Bitget.com official announcement and campaign page for the Bitget Alliance Program (verified 2026-10-13; pool figure from Bitget for 11 Oct). Facts only; no added claims.",
+  "qr": "https://nexualpha.com/activities/bitget-alliance?src=short",
+  "url": "nexualpha.com/activities/bitget-alliance",
+  "code": "DPRWSXAS",
+  "pool_weights": [60, 40],
+  "narration_locale": "en",
+  "lead_in": 0.3,
+  "scenes": [
+    { "id": "pool", "duration": 4.0, "pose": "rest", "expression": "surprised", "antenna": "amber",
+      "narration": "Nearly five million USDT, up for grabs." },
+    { "id": "split", "duration": 5.5, "pose": "point", "expression": "happy", "antenna": "blue",
+      "narration": "Bitget dot com is sharing its trading fees with users, every single day." },
+    { "id": "qualify", "duration": 6.5, "pose": "thumbs-up", "expression": "happy", "antenna": "green",
+      "narration": "Trade or hold one hundred USDT a day. No sign-up. Your share counts automatically." },
+    { "id": "box", "duration": 6.0, "pose": "hold-phone", "expression": "celebrating", "antenna": "amber",
+      "narration": "Every three days, claim your rewards, plus a mystery box that always wins." },
+    { "id": "cta", "duration": 8.0, "pose": "wave", "expression": "happy", "antenna": "blue",
+      "narration": "Join with code D, P, R, W, S, X, A, S. Scan the code, or visit nexualpha dot com." }
+  ],
+  "copy": {
+    "en": {
+      "pool_lead": "Bitget.com prize pool", "pool": "4.8M+", "pool_unit": "USDT up for grabs", "pool_tail": "Shared out every day",
+      "split_title": "Bitget.com shares its trading fees with you",
+      "pools": ["Trading pool", "Asset pool"],
+      "split_sub": "Trade or hold more, take a bigger share",
+      "qualify_title": "How to join",
+      "qualify": ["Trade 100 USDT a day: futures, spot or stocks", "Or hold 100 USDT", "No sign-up: your share counts automatically"],
+      "box_title": "Rewards every 3 days + a mystery box",
+      "box_sub": "Every box wins",
+      "prizes": ["Futures voucher up to 10,000 USDT", "Earn APR boost", "Grid vouchers", "GetAgent Ultra"],
+      "cta_sub": "New\u00a0&\u00a0existing\u00a0users\u00a0· ends\u00a026\u00a0Oct",
+      "cta": "Join on Bitget.com with code"
+    },
+    "zh-Hans": {
+      "pool_lead": "Bitget.com 同行计划", "pool": "近 500 万", "pool_unit": "USDT 奖池", "pool_tail": "每天瓜分",
+      "split_title": "Bitget.com 拿出 平台手续费 分给用户",
+      "pools": ["交易奖池", "资产奖池"],
+      "split_sub": "交易越多、持仓越多，分得越多",
+      "qualify_title": "怎么参与",
+      "qualify": ["每天交易满 100 USDT 合约、现货、股票 都算", "或持仓满 100 USDT", "无需报名 系统自动计入"],
+      "box_title": "每 3 天领奖 再开神秘盲盒",
+      "box_sub": "盲盒每开必中",
+      "prizes": ["最高 10,000 USDT 合约仓位券", "理财加息券", "网格体验券", "GetAgent Ultra"],
+      "cta_sub": "新老用户都能参加\u00a0· 10\u00a0月\u00a026\u00a0日截止",
+      "cta": "去 Bitget.com 填写邀请码"
+    }
+  }
+}

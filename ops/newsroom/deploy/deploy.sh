@@ -12,8 +12,13 @@ ROOT=/data/agent/srv/stacks/crypto-telegram-ops/newsroom
 REL=$(date -u +%Y%m%dT%H%M%SZ)-$(git rev-parse --short HEAD)$(git diff --quiet HEAD -- ops/newsroom || echo -dirty)
 cd "$(git rev-parse --show-toplevel)"
 
-tar --no-xattrs -C ops/newsroom --exclude='node_modules' --exclude='.psql-test-*' -czf - . \
+tar --no-xattrs -C ops/newsroom --exclude='node_modules' --exclude='.psql-test-*' --exclude='vendor' -czf - . \
   | "$NEWSROOM_SSH" "set -e; mkdir -p $ROOT/releases/$REL && tar -xzf - -C $ROOT/releases/$REL"
+# The writer's CTA hints use the site's promotions resolver; ship its module closure with the release.
+SITE_DATA=(promotions.js partner-registry.js referral-partners.generated.js partner-benefit-status.js home-rebate-tiers.js
+  partner-geo-policy.js partner-geo-policy.generated.js promotions.generated.js promotion-copy.js)
+tar --no-xattrs -C pilot-01-prototype/src/data -czf - "${SITE_DATA[@]}" \
+  | "$NEWSROOM_SSH" "set -e; mkdir -p $ROOT/releases/$REL/vendor/site-data && tar -xzf - -C $ROOT/releases/$REL/vendor/site-data"
 tar --no-xattrs -C "$WATCHLIST_DIR" -czf - watchlist.json keywords.json \
   | "$NEWSROOM_SSH" "set -e; mkdir -p $ROOT/watchlist && tar -xzf - -C $ROOT/watchlist"
 

@@ -1,14 +1,12 @@
-// News index day groups (editorial templates, 2026-10-11): rows grouped by their UTC publication day. Pure and
+// News index day groups (editorial templates, 2026-10-11): rows grouped by their SGT publication day. Pure and
 // deterministic, so the server render and the first client render are identical; "Today" / "Yesterday" are applied
 // only after mount (the server never guesses the reader's clock).
+import { readerDayKey } from "../../../data/local-time.js";
 
 const DAY = 86_400_000;
-export const utcDay = (iso) => {
-  const t = Date.parse(iso);
-  return Number.isFinite(t) ? new Date(t).toISOString().slice(0, 10) : "";
-};
+export const utcDay = (iso) => readerDayKey(iso);
 
-/** Consecutive rows that share a UTC day form one group; the feed order (newest first) is preserved. */
+/** Consecutive rows that share a Singapore day form one group; the feed order (newest first) is preserved. */
 export function groupNewsByDay(rows = []) {
   const groups = [];
   for (const row of rows) {
@@ -23,9 +21,9 @@ export function groupNewsByDay(rows = []) {
 /** "today" | "yesterday" | null for a group day, given the reader's clock (null before mount). */
 export function relativeDay(day, nowMs) {
   if (!nowMs || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
-  const today = new Date(nowMs).toISOString().slice(0, 10);
+  const today = readerDayKey(new Date(nowMs).toISOString());
   if (day === today) return "today";
-  if (day === new Date(nowMs - DAY).toISOString().slice(0, 10)) return "yesterday";
+  if (day === readerDayKey(new Date(nowMs - DAY).toISOString())) return "yesterday";
   return null;
 }
 

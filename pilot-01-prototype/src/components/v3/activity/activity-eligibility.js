@@ -1,3 +1,5 @@
+import { formatSgt } from "../../../data/local-time.js";
+
 const labelsByLocale = {
   en: {
     regions: "Regions",
@@ -96,7 +98,7 @@ function normalizeUrl(value) {
 function formatDate(locale, value, unknown) {
   const time = Date.parse(value ?? "");
   if (!Number.isFinite(time)) return unknown;
-  return new Intl.DateTimeFormat(locale || "en", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }).format(new Date(time)) + " UTC";
+  return formatSgt(new Date(time).toISOString(), locale || "en", "end");
 }
 
 function fieldRow(labels, key, rawValue, locale) {

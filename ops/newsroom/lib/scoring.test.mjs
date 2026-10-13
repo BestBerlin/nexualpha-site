@@ -239,3 +239,47 @@ test('ordinary words do not count as top-200 symbols and excluded events stay at
   assert.equal(excluded.relevance, 0);
   assert.equal(excluded.publish_eligible, false);
 });
+
+test('self mirrors cannot supply credibility, overrides or cached independent heat', () => {
+  const score = scoreEvent({
+    event_type: 'delisting', subject_entity: 'bybit', source_published_at: now,
+    title_internal: 'Bybit delists STG', verification_status: 'verified-primary',
+    impact_score: 100,
+    discussion: { independent_sources: 9, platforms_with_independent_items: 4, by_platform: { telegram: { metric_growth_max: 10 } } },
+    evidence: [{ kind: 'official_notice', source_tier: 1, source_id: 'nexualpha-official-announcements', origin_key: 'mirror:1', url: 'https://nexualpha.com/updates/stg' }],
+  }, { now });
+  assert.equal(score.credibility, 0);
+  assert.equal(score.priority_override, null);
+  assert.equal(score.heat, 0);
+  assert.equal(score.explain.notable_exchange_listing, false);
+  assert.equal(score.publish_eligible, false);
+});
+
+test('scoring eligibility rejects stale official events and sub-important market snapshots', async () => {
+  const data = await fixture('official-major.json');
+  const stale = scoreEvent({ ...data.event, source_published_at: '2026-10-09T10:00:00Z' }, { now });
+  assert.equal(stale.publish_eligible, false);
+  assert.equal(stale.explain.claim_quality.freshness.fresh, false);
+  const noise = scoreEvent({ ...data.event, event_type: 'liquidation_wave', discussion: { liquidations_usd_1h: 49_999_999 } }, { now });
+  assert.equal(noise.publish_eligible, false);
+  assert.equal(noise.explain.claim_quality.market_noise.claimable, false);
+});
+
+test('claim-quality config rejects unsafe freshness limits before SQL execution', () => {
+  assert.throws(() => configFromNewsroomRows([{ key: 'claim_quality', value: { default_freshness_hours: 0 } }]));
+  const config = configFromNewsroomRows([{ key: 'claim_quality', value: { default_freshness_hours: 24 } }]);
+  assert.equal(config.claim_quality.defaultFreshnessHours, 24);
+});
+
+test('mixed mirror bundles retain independent source heat without cached mirror growth', () => {
+  const score = scoreEvent({ event_type: 'withdrawal_halt', source_published_at: now,
+    discussion: { independent_sources: 5, platforms_with_independent_items: 3, by_platform: { telegram: { metric_growth_max: 10 } } },
+    evidence: [
+      { source_id: 'telegram-nexualphaclub-preview', kind: 'social_post', origin_key: 'mirror:1', source_platform: 'telegram' },
+      { source_id: 'bybit-announcements', kind: 'official_notice', origin_key: 'notice:1', source_platform: 'exchange', url: 'https://announcements.bybit.com/notice', published_at: now },
+    ],
+  }, { now });
+  assert.equal(score.heat, 12);
+  assert.equal(score.explain.heat.independent_sources, 1);
+  assert.equal(score.explain.heat.max_platform_growth, null);
+});

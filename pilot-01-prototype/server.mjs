@@ -12,11 +12,18 @@ import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
 import { resolveAssetPath } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_ARCHIVE_PATH, INTEL_PATH } from './server/intel-feed.mjs';
+import { createFundingMatrixReader } from './server/funding-matrix.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
+import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usdg-live.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
+import { createJsonSnapshotReader } from './server/intel-tools-feed.mjs';
+import { readEtfFlows } from './src/data/etf-flows.js';
+import { readCalendar } from './src/data/crypto-calendar.js';
+import { CALENDAR_JSON_PATH, ETF_FLOWS_JSON_PATH } from './src/data/intel-tools-routes.js';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
 import { createSsrPageCache } from './server/ssr-page-cache.mjs';
@@ -48,11 +55,23 @@ export async function createProductionServer({ env = process.env, appRoot = root
     }
   }
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', archiveFile: intelArchiveFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const fundingMatrix = createFundingMatrixReader({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off' });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const fx = createFxFeed({
     enabled: env.FX_REFRESH !== 'off' && (!suppliedWorker || env.FX_REFRESH === 'on'),
     ...(env.FX_SOURCE_URL ? { sourceUrl: env.FX_SOURCE_URL } : {}),
     everyMs: Math.max(60_000, Number.parseInt(env.FX_REFRESH_MS || `${24 * 60 * 60 * 1000}`, 10) || 24 * 60 * 60 * 1000),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
+  // Bitget Alliance live prize pool (2026-10-13): Bitget's public campaign figures, read on demand at most every 10 min.
+  const bitgetAlliancePool = createBitgetAlliancePool({
+    enabled: env.BITGET_ALLIANCE_POOL !== 'off' && (!suppliedWorker || env.BITGET_ALLIANCE_POOL === 'on'),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
+  // Kraken 5M USDG Challenge live figures (2026-10-13): community volume, tier and top 5 from Kraken's public page, read on
+  // demand at most every 10 min.
+  const krakenUsdgLive = createKrakenUsdgLive({
+    enabled: env.KRAKEN_USDG_LIVE !== 'off' && (!suppliedWorker || env.KRAKEN_USDG_LIVE === 'on'),
     log: (m) => console.log(`[NexuAlpha] ${m}`),
   });
   // Flash market items (2026-10-12): kept next to the announcement archive (FLASH_MEMORY_FILE, default
@@ -73,6 +92,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const ticker = createTickerFeed({ readMarketEvents: marketEvents.read, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('ticker network off'); } } : {}), log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const radar = createPositionRadar({ ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // /etf-flows + /calendar (2026-10-13): host-refreshed snapshots (ETF_FLOWS_FILE / CALENDAR_FILE, read-only); the release's
+  // public/intel copies answer until the host has written one.
+  const etfFlows = createJsonSnapshotReader({ file: env.ETF_FLOWS_FILE || null, fallbackFile: path.join(clientRoot, 'intel', 'etf-flows.json'), validate: (j) => Boolean(readEtfFlows(j)), label: 'etf-flows', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const calendar = createJsonSnapshotReader({ file: env.CALENDAR_FILE || null, fallbackFile: path.join(clientRoot, 'intel', 'calendar.json'), validate: (j) => Boolean(readCalendar(j)), label: 'calendar', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
@@ -218,6 +241,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await ticker.respond(req.method);
       } else if (requestPath === FUNDING_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await funding.respond();
+      } else if ((requestPath === ETF_FLOWS_JSON_PATH || requestPath === CALENDAR_JSON_PATH) && (req.method === 'GET' || req.method === 'HEAD') && (result = await (requestPath === ETF_FLOWS_JSON_PATH ? etfFlows : calendar).respond(req.method))) {
+        // served from ETF_FLOWS_FILE / CALENDAR_FILE (falls through to the static release copy when the file is not usable)
+      } else if (requestPath === BITGET_ALLIANCE_POOL_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await bitgetAlliancePool.respond(req.method);
+      } else if (requestPath === KRAKEN_USDG_LIVE_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await krakenUsdgLive.respond(req.method);
       } else if (requestPath === FX_JSON_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await fx.respond(req.method);
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
@@ -230,7 +259,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

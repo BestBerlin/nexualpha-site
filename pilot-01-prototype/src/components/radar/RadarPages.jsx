@@ -217,6 +217,9 @@ function WhalesTable({ rows, locale }) {
   );
 }
 
+// Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
+const NEUTRAL_CTA_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+
 function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
   const copy = radarCopy(locale);
   return (
@@ -226,6 +229,7 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
         <h2 id={`nxradar-${src}-explainer`}>{page.title}</h2>
         {page.explainer.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </section>
+      {NEUTRAL_CTA_LOCALES.has(locale) ? null : (
       <div className="v2-shell nxradar-offer">
         <NewsVenueOffer
           venues={RADAR_SIGNUP_VENUES}
@@ -237,6 +241,7 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
           linkFor={(slug) => venueGoHref(slug, src, locale, market)}
         />
       </div>
+      )}
       <footer className="nxradar-foot v2-shell">
         <p><span>{copy.related}:</span> <a href={localizedHref(relatedPath, { locale })}>{relatedLabel}</a></p>
       </footer>
