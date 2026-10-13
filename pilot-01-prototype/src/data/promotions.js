@@ -1,3 +1,4 @@
+import { orderVenues } from "./venue-priority.js";
 import { partnerRegistry } from './partner-registry.js';
 import { REFERRAL_PARTNERS } from './referral-partners.generated.js';
 import { partnerBenefitStatus } from './partner-benefit-status.js';
@@ -29,7 +30,7 @@ export function resolvePromotions({ topicTags = [], venue, coin, locale = 'en', 
   const clock = typeof now === 'number' ? now : Date.parse(now);
   const tags = new Set([...(Array.isArray(topicTags) ? topicTags : []), ...(Array.isArray(venue) ? venue : [venue]), coin].filter(v => typeof v === 'string').map(v => v.toLowerCase()));
   const countries = promotionCountries({ locale, market });
-  const selected = Number.isFinite(clock) && !NEUTRAL_PROMOTION_LOCALES.includes(locale) ? records.filter(p => {
+  const selected = Number.isFinite(clock) && !NEUTRAL_PROMOTION_LOCALES.includes(locale) ? orderVenues(records.filter(p => {
     const verified = Date.parse(p.lastVerified);
     const start = p.validFrom ? Date.parse(p.validFrom) : -Infinity;
     const end = p.validTo ? Date.parse(p.validTo) : Infinity;
@@ -40,7 +41,7 @@ export function resolvePromotions({ topicTags = [], venue, coin, locale = 'en', 
     const areas = [...countries, String(market || '').toUpperCase()];
     if (p.regions?.deny?.some(r => areas.includes(r.toUpperCase())) || (p.regions?.allow?.length && !p.regions.allow.some(r => areas.includes(r.toUpperCase())))) return false;
     return tags.has(p.partner) || p.topicTags?.some(tag => tags.has(tag.toLowerCase())) || p.coins?.some(c => tags.has(c.toLowerCase()));
-  }).slice(0, 2) : [];
+  }), locale).slice(0, 2) : [];
   if (selected.length) return selected;
   const t = promotionCopy(locale);
   return [{ id: 'site-tool', kind: 'tool', link: '/compare', name: t.compare, conditions: {} }];

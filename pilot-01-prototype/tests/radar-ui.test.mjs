@@ -125,7 +125,7 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   assert.ok(method.textContent.includes("not proof of a sale"), "exchange-transfer note lives in the collapsed methodology");
   assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("not proof of a sale"), false, "no caveat above the fold");
   assert.ok(doc.querySelector('a[href="https://mempool.space/tx/example"]'), "explorer link is preserved as the source action");
-  assert.ok(doc.querySelector('a[href="/go/binance?src=whales"]'), "whales CTA uses its own src attribution");
+  assert.ok(doc.querySelector('a[href="/go/bitget?src=whales"]'), "whales CTA uses its own src attribution");
 });
 
 test("route SSR keeps readable unavailable states and RTL direction", async () => {

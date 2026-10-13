@@ -48,11 +48,53 @@ test('shared footer renders localized topic and factbook labels without changing
       assert.ok(nav, `${locale}: semantic navigation exists`);
       assert.ok(nav.includes(`<a href="${localizedHref('/topics', { locale })}">${topics}</a>`), `${locale}: topic link`);
       assert.ok(nav.includes(`<a href="${localizedHref('/factbook', { locale })}">${factbook}</a>`), `${locale}: factbook link`);
+      if (locale === 'en') {
+        const bitget = rendered[locale].indexOf('Bitget Referral codes');
+        const okx = rendered[locale].indexOf('OKX Referral codes');
+        const binance = rendered[locale].indexOf('Binance Referral codes');
+        assert.ok(bitget > 0 && bitget < okx && okx < binance, `${locale}: referral codes follow shared venue priority`);
+      }
+      if (locale === 'tr') {
+        assert.ok(!rendered[locale].includes('Bitget Referans kodları'), `${locale}: no Bitget referral code link`);
+        assert.ok(!rendered[locale].includes('CoinW Referans kodları'), `${locale}: no CoinW referral code link`);
+        assert.ok(rendered[locale].indexOf('OKX Referans kodları') < rendered[locale].indexOf('Binance Referans kodları'), `${locale}: Turkish referral links start with OKX`);
+      }
       if (locale !== 'en') {
         assert.ok(!nav.includes('>Topic Guides<'), `${locale}: no topic English fallback`);
         assert.ok(!nav.includes('>Factbook<'), `${locale}: no standalone factbook English fallback`);
       }
     }
+  } finally {
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test('footer referral links preserve explicit market promotion gates', async () => {
+  const temp = await mkdtemp(path.join(root, 'tests/.tmp-footer-'));
+  try {
+    const entry = path.join(temp, 'entry.mjs');
+    const bundle = path.join(temp, 'bundle.cjs');
+    await writeFile(entry, `
+      import React from 'react';
+      import { renderToStaticMarkup } from 'react-dom/server';
+      import { CleanFooter } from '../../src/components/v3/CleanFooter.jsx';
+      const cases = {
+        en: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en' })),
+        tr: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'TR' })),
+        vn: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'VN' })),
+      };
+      console.log(JSON.stringify(cases));
+    `);
+    execFileSync(path.join(root, 'node_modules/.bin/esbuild'), [entry, '--bundle', '--platform=node',
+      '--format=cjs', '--loader:.css=empty', '--log-level=warning', `--outfile=${bundle}`], { cwd: root });
+    const rendered = JSON.parse(execFileSync('node', [bundle], { cwd: root, encoding: 'utf8' }));
+    assert.ok(rendered.en.includes('Bitget Referral codes'), 'en: Bitget available without market ban');
+    assert.ok(rendered.en.includes('CoinW Referral codes'), 'en: CoinW available without market ban');
+    assert.ok(!rendered.tr.includes('Bitget Referral codes'), 'TR market: no Bitget referral code link');
+    assert.ok(!rendered.tr.includes('CoinW Referral codes'), 'TR market: no CoinW referral code link');
+    assert.ok(rendered.tr.indexOf('OKX Referral codes') < rendered.tr.indexOf('Binance Referral codes'), 'TR market: starts OKX then Binance');
+    assert.doesNotMatch(rendered.vn, /Referral codes/);
+    assert.doesNotMatch(rendered.vn, /clean-footer__nav--referrals/);
   } finally {
     await rm(temp, { recursive: true, force: true });
   }

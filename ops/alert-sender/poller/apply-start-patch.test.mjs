@@ -37,7 +37,8 @@ test("patches service, contract and decoder, copies site-features.js, keeps back
   const dec = read(dir, FILES[2][1]);
   assert.match(dec, /language_code: z\.string\(\)\.max\(35\)\.optional\(\) \}\)\.optional\(\),/);
   assert.match(dec, /languageCode: sender\.language_code/);
-  assert.equal(read(dir, path.join(SRC_DIR, "site-features.js")), readFileSync(new URL("../site-features.mjs", import.meta.url), "utf8"));
+  assert.equal(read(dir, path.join(SRC_DIR, "site-features.js")), readFileSync(new URL("../site-features.mjs", import.meta.url), "utf8").replace('from "../../pilot-01-prototype/src/data/venue-priority.js"', 'from "./venue-priority.js"'));
+  assert.equal(read(dir, path.join(SRC_DIR, "venue-priority.js")), readFileSync(new URL("../../../pilot-01-prototype/src/data/venue-priority.js", import.meta.url), "utf8"));
 });
 
 test("the copied helpers load inside the release and export what the patch imports", async () => {

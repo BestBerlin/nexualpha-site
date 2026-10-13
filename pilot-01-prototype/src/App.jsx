@@ -889,7 +889,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const decisionPassport = readDecisionPassport(sourceSearch, route);
   const routedVenue = route.name === "venue" ? command.venueCatalog.find((venue) => venue.slug === route.slug) : null;
   const searchDialog = searchOpen && <DeferredBoundary scope="search-dialog"><SearchDialog label={copy.common.openFinder} onClose={closeSearchDialog} returnFocusRef={searchReturnFocusRef}><h2>{copy.common.openFinder}</h2><CommandFinder copy={copy} command={command} autoFocus onClose={closeSearchDialog} /><button type="button" onClick={closeSearchDialog}>{copy.common.closeFinder}</button></SearchDialog></DeferredBoundary>;
-  const footer = <CleanFooter locale={locale} brazil={route.name === "brazil"} />;
+  const footerMarket = route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined);
+  const footer = <CleanFooter locale={locale} market={footerMarket} brazil={route.name === "brazil"} />;
   const regionalDecisionDockOwnsMobileNav = ["regionalPreview", "regionalDecision"].includes(route.name)
     && REGIONAL_DECISION_DOCK_MARKETS.has(route.market);
   const showSharedMobileNav = route.name !== "venue" && route.name !== "compare" && !regionalDecisionDockOwnsMobileNav;

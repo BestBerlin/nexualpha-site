@@ -7,8 +7,9 @@ import { readFileSync } from "node:fs";
 import { CAMPAIGN_TITLE, digestMessage, eventMessage, listingMessage, partnerButtons } from "./alert-sender.mjs";
 import { CAMPAIGN_TITLE as FEED_CAMPAIGN_TITLE, NEUTRAL_CTA_LOCALE_LIST as FEED_NEUTRAL } from "../channel-feed/channel-feed.mjs";
 import { articles, campaignItem, campaigns, listingItem, mk, partners } from "./fixtures/alert-fixture.mjs";
+import { VENUE_PRIORITY as SITE_VENUE_PRIORITY } from "../../pilot-01-prototype/src/data/venue-priority.js";
 import {
-  FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
+  CAMPAIGN_PAGES, FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
   todayBlock, todaysCalendarEvents, toolOfWeekKey, toolOfWeekMessage, topImportantFlash,
 } from "./site-features.mjs";
 
@@ -34,6 +35,11 @@ const calendar = { events: [
   { start: "2026-10-13T00:00:00Z", allDay: true, title: "Bybit to delist 1 token", venue: "bybit" },
   { start: "2026-10-13T17:00:00Z", allDay: false, title: "Tomorrow in SGT" },
 ] };
+
+test("Telegram venue priority uses the canonical site constant", () => {
+  assert.deepEqual(CAMPAIGN_PAGES, ["bitget-alliance", "binance-october-gifts", "bybit-stocks"]);
+  assert.deepEqual(SITE_VENUE_PRIORITY.slice(0, 3), ["bitget", "okx", "binance"]);
+});
 
 for (const lang of FEATURE_LANGS) {
   test(`${lang}: start menu lists /alert examples and tagged tool buttons, no fine print, no domain text`, () => {
@@ -103,6 +109,8 @@ test("Türkiye: no Bitget in any Telegram surface; ru: no sign-up wording in any
   assert.doesNotMatch(allText(surfaces("tr")), /bitget/i);
   assert.doesNotMatch(visible(allText(surfaces("ru")).replace(/https?:[^"\\]+/g, "")), RU_SIGNUP);
   assert.deepEqual(campaignLinks("ru", "x").map((c) => c.key), ["activities"]);
+  assert.deepEqual(campaignLinks("en", "x").map((c) => c.key), ["bitget-alliance", "binance-october-gifts", "bybit-stocks"]);
+  assert.deepEqual(campaignLinks("tr", "x").map((c) => c.key), ["binance-october-gifts", "bybit-stocks"]);
   assert.ok(campaignLinks("zh", "x").some((c) => c.key === "bitget-alliance"));
   assert.ok(!campaignLinks("tr", "x").some((c) => /bitget/.test(c.key)));
 });

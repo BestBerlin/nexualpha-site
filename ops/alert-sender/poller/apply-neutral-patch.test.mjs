@@ -39,7 +39,8 @@ test("patches the service after v1: neutral /start has no /hub, sign-up requests
   const guard = s.indexOf("nx-neutral-cta: information-only languages");
   assert.ok(guard > s.indexOf("nx-start-menu: a private /start") && guard > s.indexOf("custom_alert_stop_failed"));
   assert.ok(guard < s.indexOf("if (response && (event.isPrivateChat || groupReplyCommands.has(parsed.command)))"));
-  assert.equal(readFileSync(path.join(dir, SRC_DIR, "site-features.js"), "utf8"), readFileSync(new URL("../site-features.mjs", import.meta.url), "utf8"));
+  assert.equal(readFileSync(path.join(dir, SRC_DIR, "site-features.js"), "utf8"), readFileSync(new URL("../site-features.mjs", import.meta.url), "utf8").replace('from "../../pilot-01-prototype/src/data/venue-priority.js"', 'from "./venue-priority.js"'));
+  assert.equal(readFileSync(path.join(dir, SRC_DIR, "venue-priority.js"), "utf8"), readFileSync(new URL("../../../pilot-01-prototype/src/data/venue-priority.js", import.meta.url), "utf8"));
 });
 
 test("the neutral sign-up text detector: Vietnamese/Russian sign-up words, short texts only", () => {

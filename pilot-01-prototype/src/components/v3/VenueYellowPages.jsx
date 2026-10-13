@@ -1,3 +1,4 @@
+import { compareVenuePriority } from "../../data/venue-priority.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
@@ -969,13 +970,13 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
       list = [...list].sort((a, b) => {
         const fa = feeFact(a.slug, "spot").taker ?? 9999;
         const fb = feeFact(b.slug, "spot").taker ?? 9999;
-        return fa - fb;
+        return fa - fb || compareVenuePriority(a, b);
       });
     } else if (sortBy === "rebate" && list.every((v) => resolveCommercialClaim({ partner: partnerRegistry[v.slug] || {}, venue: venueDatabase[v.slug] || {} }).status === "verified")) {
       list = [...list].sort((a, b) => {
         const ra = venueDatabase[a.slug]?.rebatePercent ?? 0;
         const rb = venueDatabase[b.slug]?.rebatePercent ?? 0;
-        return rb - ra;
+        return rb - ra || compareVenuePriority(a, b);
       });
     }
     return list;

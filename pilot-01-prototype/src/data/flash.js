@@ -1,3 +1,4 @@
+import { orderVenues } from "./venue-priority.js";
 // NexuAlpha Flash (/flash, 2026-10-12): the 7x24 stream of short, sourced updates. Browser-safe helpers shared by the
 // route component, the home rail, the Worker head and the tests: paths, UI strings and the sign-up venue rule.
 // The flash items themselves (and their localized headline/body templates) are built server-side in flash-feed.js.
@@ -44,12 +45,14 @@ const FALLBACK_VENUES = ["okx", "bitget", "binance", "bybit"];
 
 /**
  * Sign-up venue for a flash item in this locale/market: the item's exchange when it may be promoted there, else the
- * first promotable fallback partner (OKX, Bitget, Binance, Bybit). Neutral locales get none.
+ * highest-priority promotable fallback partner. Neutral locales get none.
  */
 export function flashSignupVenues(item, { locale = "en", market } = {}) {
   if (FLASH_NEUTRAL_LOCALES.has(locale)) return [];
   const allowed = (slug) => isPartnerPromotableIn(slug, { locale, market });
-  return [...new Set([item?.venue, ...FALLBACK_VENUES].filter(Boolean))].filter(allowed);
+  // Official exchange updates keep their source-specific destination; market-wide tools use the owner default.
+  if (["listing", "delisting", "incident", "campaign"].includes(item?.type) && item?.venue && allowed(item.venue)) return [item.venue];
+  return orderVenues([...new Set([item?.venue, ...FALLBACK_VENUES].filter(Boolean))], locale).filter(allowed);
 }
 /** Tracked partner redirect (server/go-redirect.mjs): carries the registry link and code unchanged. */
 export const flashGoHref = (slug, item) => `/go/${slug}?src=flash-${item?.type || "stream"}`;

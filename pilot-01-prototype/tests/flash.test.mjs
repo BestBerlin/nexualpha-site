@@ -293,7 +293,7 @@ test("thin flash details: announcement-only pages stay noindex until concrete re
   assert.doesNotMatch(sitemap, new RegExp(`/zh-hans${flashItemPath(briefEnOnly)}`), "missing localized summary blocks zh-Hans sitemap entry");
 });
 
-test("sign-up block: the item's exchange via /go/<venue>?src=flash-<type>, geo-gated, none in neutral locales", async () => {
+test("sign-up block: the item's exchange or highest-priority fallback via /go/<venue>?src=flash-<type>, geo-gated, none in neutral locales", async () => {
   assert.deepEqual(flashSignupVenues(BITGET, { locale: "tr" }).includes("bitget"), false, "Bitget is not promoted in Türkiye");
   assert.ok(flashSignupVenues(BITGET, { locale: "tr" }).every((slug) => ["okx", "binance", "bybit"].includes(slug)));
   for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.deepEqual(flashSignupVenues(OKX, { locale }), [], locale);
@@ -303,7 +303,7 @@ test("sign-up block: the item's exchange via /go/<venue>?src=flash-<type>, geo-g
   const bitgetEn = mainHtml(await (await fetchPage(flashItemPath(BITGET))).text());
   assert.match(bitgetEn, /href="\/go\/bitget\?src=flash-campaign"/);
   const funding = mainHtml(await (await fetchPage(flashItemPath(FUND))).text());
-  assert.match(funding, /href="\/go\/binance\?src=flash-funding-extreme"/);
+  assert.match(funding, /href="\/go\/bitget\?src=flash-funding-extreme"/);
   for (const prefix of ["/ru", "/ar", "/zh-hant"]) {
     const html = mainHtml(await (await fetchPage(`${prefix}${flashItemPath(OKX)}`)).text());
     assert.doesNotMatch(html, /href="\/go\/|news-offer__go/, `${prefix}: no sign-up in a neutral locale`);
