@@ -14,6 +14,8 @@ import { BITGET_ALLIANCE_GO_SLUG, bitgetAllianceActive, bitgetAllianceUrl } from
 import { KRAKEN_USDG_GO_SLUG, krakenUsdgRegisterUrl, krakenUsdgActive } from '../src/data/kraken-usdg.js';
 import { sitewideReferral } from '../src/data/exchange-outbound.js';
 import { BACKUP_SIGNUP_URLS, backupSignupVenue } from '../src/data/backup-signup.js';
+import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
+import { createApkProbe } from './exchange-apk-probe.mjs';
 
 // Older campaign route names some pages, posts or bots used; they resolve to the live tracked route (same code).
 export const GO_ALIASES = Object.freeze({ 'bybit-stocks': 'bybit', 'binance-october-gifts': 'binance-gifts', 'binance-october': 'binance-gifts' });
@@ -74,8 +76,10 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, mirrorHealth = createMirrorHealth() } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, apkTargets = {}, mirrorHealth = createMirrorHealth() } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
+  // venue -> async () => redirect URL (injectable for tests); created lazily so a probe runs only once someone clicks.
+  const apkProbes = { ...apkTargets };
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
 
   return async function handle(request) {
@@ -119,6 +123,15 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       target = krakenUsdgRegisterUrl();
       campaign = 'usdg-challenge';
       venue = 'kraken';
+    } else if (EXCHANGE_APK_BY_GO_SLUG[slug]) {
+      // Official Android APK (lead 2026-10-13): /go/okx-apk and /go/binance-apk redirect to the exchange's own APK URL
+      // while the cached probe confirms the chain stays on its host and ends in an APK; otherwise its download page.
+      const apk = EXCHANGE_APK_BY_GO_SLUG[slug];
+      if (!apkProbes[apk.venue]) apkProbes[apk.venue] = createApkProbe(apk.venue);
+      try { target = await apkProbes[apk.venue](); } catch { target = apk.fallbackUrl; }
+      if (target !== apk.officialUrl) target = apk.fallbackUrl;
+      campaign = 'android-apk';
+      venue = apk.venue;
     } else if (/-page$/.test(slug)) {
       target = venuePageTarget(slug, url.searchParams.get('to'));
       venue = slug.replace(/-page$/, '');

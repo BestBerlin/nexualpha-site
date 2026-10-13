@@ -1214,6 +1214,11 @@
 .tg-signal-hero__topics li strong { font-size: 0.95rem; font-weight: 600; color: #f1f5f9; }
 .tg-signal-hero__topics li span { font-size: 0.8375rem; line-height: 1.5; color: #94a3b8; }
 [dir="rtl"] .tg-signal-hero__topics li::before { font-family: inherit; }
+.tg-signal-hero__cmds { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tg-signal-hero__cmds li { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }
+.tg-signal-hero__cmds code { padding: 2px 8px; border-radius: 6px; background: rgba(103, 232, 249, 0.08); border: 1px solid rgba(103, 232, 249, 0.18); font: 500 0.8125rem/1.5 "Geist Mono V5", ui-monospace, monospace; color: #a5f3fc; white-space: nowrap; }
+.tg-signal-hero__cmds span { font-size: 0.8375rem; line-height: 1.5; color: #94a3b8; }
+@media (max-width: 480px) { .tg-signal-hero__cmds li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
 .tg-signal-sample { margin: 0; display: grid; gap: 12px; min-width: 0; }
 .tg-signal-sample__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9097A0; }
@@ -1264,6 +1269,7 @@
   .tg-signal-sample__bubble { order: 4; }
   .tg-signal-hero__topics-title { order: 5; }
   .tg-signal-hero__topics { order: 6; }
+  .tg-signal-hero__cmds-title, .tg-signal-hero__cmds { order: 6; }
   .tg-signal-hero__secondary { order: 7; }
   .tg-signal-hero__cta .tg-signal-hero__primary { width: 100%; }
 }
