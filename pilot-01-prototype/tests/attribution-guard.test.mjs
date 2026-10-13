@@ -10,6 +10,7 @@ import { BINANCE_OCTOBER_CAMPAIGNS, binanceCampaignUrl } from '../src/data/binan
 import { bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
 import { createGoRedirect, GO_ALIASES } from '../server/go-redirect.mjs';
 import { KRAKEN_USDG_GO_SLUG } from '../src/data/kraken-usdg.js';
+import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
 import { SITEWIDE_PARAM_VENUES, sitewideReferral, exchangeVenueForUrl } from '../src/data/exchange-outbound.js';
 import { BACKUP_SIGNUP_URLS } from '../src/data/backup-signup.js';
 import { LEGAL_PAGE_PATHS } from '../src/data/legal-pages.js';
@@ -48,6 +49,11 @@ goVenues.set('bitget-alliance', 'bitget');
 goVenues.set(KRAKEN_USDG_GO_SLUG, 'kraken');
 for (const venue of SITEWIDE_PARAM_VENUES) if (sitewideReferral(venue)) goVenues.set(`${venue}-page`, venue);
 for (const venue of Object.keys(BACKUP_SIGNUP_URLS)) goVenues.set(`${venue}-alt`, venue);
+// Official Android APK routes (/go/okx-apk, /go/binance-apk): tracked internal routes to the exchange's own APK host
+// (host-locked and probed in server/exchange-apk-probe.mjs, covered by tests/exchange-apk.test.mjs). OKX's channel APK
+// binds the code; Binance's does not, so its button sits next to the code. They are not code-carrying URL redirects.
+const APK_GO_SLUGS = new Set(Object.keys(EXCHANGE_APK_BY_GO_SLUG));
+for (const [slug, apk] of Object.entries(EXCHANGE_APK_BY_GO_SLUG)) goVenues.set(slug, apk.venue);
 for (const [alias, slug] of Object.entries(GO_ALIASES)) if (goVenues.has(slug)) goVenues.set(alias, goVenues.get(slug));
 // Owner 2026-10-13 ("every click carries our code"): rendered body links to a referral venue must go through /go or
 // carry the code. Real external exchange links are allowed only on the legal and methodology pages; the reviewed
@@ -181,7 +187,7 @@ test('every /go route in the registries redirects with the venue code or campaig
       || codes.includes(url.pathname.split('/').filter(Boolean).at(-1)?.toLowerCase())
       || [partner.registrationUrl, ...(partner.alternateRegistrationUrls || [])].includes(url.href);
   };
-  const routes = [...goVenues].map(([slug, venue]) => [slug, venue, slug.endsWith('-page') ? '?to=%2Fen%2Fsupport%2Ffaq' : '']);
+  const routes = [...goVenues].filter(([slug]) => !APK_GO_SLUGS.has(slug)).map(([slug, venue]) => [slug, venue, slug.endsWith('-page') ? '?to=%2Fen%2Fsupport%2Ffaq' : '']);
   const report = [];
   for (const [slug, venue, query] of routes) for (const [label, handle] of [['mirror-up', up], ['mirror-down', down]]) {
     if (label === 'mirror-down' && !slug.endsWith('-alt')) continue;
