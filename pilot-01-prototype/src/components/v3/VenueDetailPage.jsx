@@ -1,3 +1,4 @@
+import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
 import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
@@ -867,6 +868,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={market} />
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={market} />
+    <ExchangeKeyFacts slug={profile.slug} locale={locale} market={market} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
 

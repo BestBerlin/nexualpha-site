@@ -1,3 +1,4 @@
+import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
 import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
@@ -221,6 +222,7 @@ async function readRadarPayload(env, kind) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith("/api/exchange-facts/")) return exchangeFactsResponse(request);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
     // Coin pages read the runtime coins.json (server COINS_FILE, refreshed on the host) before any head or body is built.
     if (COINS_PATH_PATTERN.test(url.pathname) || CONVERTER_PATH_PATTERN.test(url.pathname) || (url.pathname === "/api/route-seo" && (COINS_PATH_PATTERN.test(url.searchParams.get("path") || "") || CONVERTER_PATH_PATTERN.test(url.searchParams.get("path") || "")))) await refreshCoinOverlay(env);
