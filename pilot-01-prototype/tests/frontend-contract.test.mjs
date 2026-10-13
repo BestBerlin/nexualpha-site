@@ -2014,7 +2014,8 @@ test("CleanFooter navigation labels match their destinations in every supported 
   assert.match(cleanFooter, /href=\{href\("\/editorial-policy"\)\}>\{labels\.editorial\}/);
   assert.match(cleanFooter, /href=\{href\("\/methodology"\)\}>\{labels\.methodology\}/);
   assert.match(cleanFooter, /href=\{brazil \? "\/br\/custos" : href\("\/embed\/calculator"\)\}>\{labels\.calculator\}/);
-  assert.match(cleanFooter, /href=\{href\("\/partners"\)\}>\{labels\.embedGuide\}/);
+  assert.match(cleanFooter, /href=\{href\("\/partners\/embed-guide"\)\}>\{labels\.embedGuide\}/);
+  assert.match(cleanFooter, /!isNeutralCtaLocale\(locale\)[\s\S]*?href=\{href\("\/partners"\)\}>\{partnerProgramLabel\}/);
   assert.match(cleanFooter, /href=\{href\("\/methodology#disclosure"\)\}>\{labels\.disclosure\}/);
   // Public policy/contact destinations replace the former anchor and email-only navigation.
   for (const label of ["privacy", "terms", "contact"]) {

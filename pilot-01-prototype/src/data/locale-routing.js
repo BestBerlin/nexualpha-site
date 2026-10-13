@@ -380,6 +380,10 @@ function preservedRedirectSearch(searchParams) {
   const next = new URLSearchParams();
   for (const [key, value] of searchParams) {
     if (key === "locale") continue;
+    if (key === "p" || key === "src") {
+      if (/^[a-z0-9][a-z0-9_-]{0,47}$/.test(value)) next.append(key, value);
+      continue;
+    }
     if (PRESERVED_REDIRECT_PARAMS.has(key) || key.startsWith("utm_")) {
       next.append(key, value);
     }

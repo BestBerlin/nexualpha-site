@@ -6,6 +6,7 @@ import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
 import { localeManifest, supportedLocales } from "../../content/locale-manifest";
 import { brandSlogan } from "../../data/brand-slogan.js";
+import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 
 const copyDict = {
   "zh-Hans": {
@@ -458,6 +459,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
   const dataNav = dataPageCopy(locale).nav;
   const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
+  const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
 
   return (
     <footer className="nx-ftr" id="policy">
@@ -483,7 +485,8 @@ export function CleanFooter({ locale = "en", brazil = false }) {
             <li><a href={href("/about")}>{labels.about}</a></li>
             <li><a href={href("/editorial-policy")}>{labels.editorial}</a></li>
             <li><a href={href("/methodology")}>{labels.methodology}</a></li>
-            <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
+            <li><a href={href("/partners/embed-guide")}>{labels.embedGuide}</a></li>
+            {!isNeutralCtaLocale(locale) && <li><a href={href("/partners")}>{partnerProgramLabel}</a></li>}
             <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>
             <li><a href={href("/privacy")}>{labels.privacy}</a></li>
             <li><a href={href("/terms")}>{labels.terms}</a></li>

@@ -894,7 +894,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "methodology") return pageShell(<AuditMethodologyPage locale={locale} />);
   if (route.name === "about") return pageShell(<AboutPage locale={locale} />);
   if (route.name === "editorialPolicy") return pageShell(<EditorialPolicyPage locale={locale} />);
-  if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
+  if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} pathname={new URL(initialUrl || "/", "https://nexualpha.com").pathname} />);
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);

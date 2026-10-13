@@ -1,3 +1,4 @@
+import { partnerProgramCopy } from "../src/data/partner-program-copy.js";
 import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
 import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
@@ -3248,6 +3249,10 @@ function preservedRedirectSearch(searchParams) {
   const next = new URLSearchParams();
   for (const [key, value] of searchParams) {
     if (key === "locale") continue;
+    if (key === "p" || key === "src") {
+      if (/^[a-z0-9][a-z0-9_-]{0,47}$/.test(value)) next.append(key, value);
+      continue;
+    }
     if (PRESERVED_REDIRECT_PARAMS.has(key) || key.startsWith("utm_")) next.append(key, value);
   }
   const serialized = next.toString();
@@ -3373,7 +3378,6 @@ function prerenderRouteKey(url) {
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const routePathname = publicRoute.localeSource === "path" ? publicRoute.contentPathname : url.pathname;
   let pathname = routePathname === "/index.html" ? "/" : routePathname;
-  if (pathname === "/partners/embed-guide") pathname = "/partners";
   const ref = url.searchParams.get("ref");
   if (ref && !brazilPath(pathname)) {
     const slug = cleanSlug(ref);
@@ -7049,8 +7053,8 @@ async function resolveRouteMetadata(url, env) {
     metadata.schema.inLanguage = requestedLocale;
   }
   if (contentUrl.pathname === "/partners/embed-guide") {
-    metadata.canonical = localizedCanonical("/partners", locale);
-    metadata.alternates = routeAlternates("/partners");
+    metadata.canonical = localizedCanonical("/partners/embed-guide", locale);
+    metadata.alternates = routeAlternates("/partners/embed-guide");
     if (metadata.schema) metadata.schema.url = metadata.canonical;
   }
   if (contentUrl.pathname === "/news" || contentUrl.pathname.startsWith("/news/")) {
@@ -7060,7 +7064,7 @@ async function resolveRouteMetadata(url, env) {
   const articleSlug = contentUrl.pathname.match(/^\/news\/([a-z0-9-]+)$/)?.[1] || null;
   const article = articleSlug ? newsFeed?.articles?.find((item) => item.slug === articleSlug) : null;
   const searchEligibilityArticle = articleSlug ? searchEligibilityNewsFeed?.articles?.find((item) => item.slug === articleSlug) || article : article;
-  const eligibilityPathname = contentUrl.pathname === "/partners/embed-guide" ? "/partners" : contentUrl.pathname;
+  const eligibilityPathname = contentUrl.pathname;
   applySocialImage(metadata, contentUrl.pathname, requestedLocale);
   return applySearchPublicationEligibility(metadata, eligibilityPathname, locale, {
     article: searchEligibilityArticle,
@@ -8599,6 +8603,11 @@ async function routeMetadataBase(url, env, newsFeed) {
   for (const [pathname, locales] of Object.entries(staticPageCopyPatch)) {
     staticPageCopy[pathname] ||= {};
     for (const [locale, copy] of Object.entries(locales)) staticPageCopy[pathname][locale] = copy;
+  }
+  for (const locale of Object.keys(staticPageCopy["/partners"])) {
+    if (isNeutralCtaLocale(locale)) continue;
+    const copy = partnerProgramCopy(locale);
+    staticPageCopy["/partners"][locale] = { title: `${copy.breadcrumb} — NexuAlpha`, description: copy.lead };
   }
   // /onchain is a proof-of-reserves verification guide (audit NX-05): title, description and schema come from
   // src/data/onchain-guide.js, shared with computeRouteSeo.
