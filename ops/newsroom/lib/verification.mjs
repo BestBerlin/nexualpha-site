@@ -1,5 +1,5 @@
 import { normalizeText } from './normalization.mjs';
-import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch } from './facts.mjs';
 
 const primaryKinds = new Set(['official_notice', 'filing', 'court_record']);
 const primaryPlatforms = new Set(['exchange', 'regulator', 'court', 'edgar', 'company']);
@@ -13,13 +13,17 @@ export function matchingFacts(event, row, watchlist = []) {
   const left = storyFacts({ ...event, title: event.fact_summary || event.title_internal }, watchlist);
   // Do not copy the event's subject/type into source evidence: they must be captured.
   const right = storyFacts(row, watchlist);
-  if (conflictingFacts(left, right) || ['tickers', 'amounts', 'dates'].some(key => left[key].some(value => !right[key].includes(value)))) return false;
+  // Contradicting symbols/amounts/dates never corroborate; a paraphrase that omits one of them can.
+  if (conflictingFacts(left, right)) return false;
   const eventTime = event.source_published_at ?? event.published_at;
   if (eventTime && row.published_at && Math.abs(Date.parse(eventTime) - Date.parse(row.published_at)) > 48 * 36e5) return false;
   if (event.occurred_at && row.occurred_at && Math.abs(Date.parse(event.occurred_at) - Date.parse(row.occurred_at)) > 48 * 36e5) return false;
   if (fact.length >= 12 && captured.includes(fact)) return true;
-  return factsMatch(left, right) || (left.action !== 'unknown' && left.action === right.action
-    && left.entities.some(entity => right.entities.includes(entity)) && titleSimilarity(fact, captured) >= 0.65);
+  const eventTitle = event.fact_summary || event.title_internal || '';
+  return factsMatch(left, right)
+    || narrativeStoryMatch(eventTitle, row.title ?? row.excerpt ?? '', left, right)
+    || (left.action !== 'unknown' && left.action === right.action
+      && left.entities.some(entity => right.entities.includes(entity)) && titleSimilarity(fact, captured) >= 0.65);
 }
 
 export function verifyEvent(event, { watchlist = [] } = {}) {

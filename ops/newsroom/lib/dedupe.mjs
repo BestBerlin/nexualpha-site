@@ -10,7 +10,7 @@ import {
   sourceTier,
 } from './normalization.mjs';
 import { relevanceForItem } from './relevance.mjs';
-import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch, inferNarrativeType } from './facts.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -224,8 +224,8 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
   const typeOk = compatibleEventType(eventTypeOf(item), event.event_type);
   // Media reports of one story often differ only in whether a keyword gave them a type.
   const narrative = NARRATIVE_PLATFORMS.has(sourcePlatform(item)) && (event.raw_items ?? []).every(row => NARRATIVE_PLATFORMS.has(sourcePlatform(row)));
-  const unknownType = eventTypeOf(item) === 'unknown' || event.event_type === 'unknown';
-  if (!typeOk && !(narrative && unknownType)) return false;
+  // Narrative topic types are inferred from wording, so they only gate via the stricter fact match below.
+  if (!typeOk && !narrative) return false;
   if (itemSubjects.length && event.subjects?.length && !commonValues(itemSubjects, event.subjects)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
@@ -325,7 +325,10 @@ export function mergeRawItems(items, options = {}) {
       continue;
     }
     const action = storyFacts(item, watchlist).action;
-    const inferredAction = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    const actionType = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    // Relevant media/social stories without an action verb get a topic type so they can be scored at all.
+    const inferredAction = actionType !== 'unknown' || !NARRATIVE_PLATFORMS.has(sourcePlatform(item)) ? actionType
+      : inferNarrativeType(item.title ?? '') ?? 'unknown';
     const itemForMerge = {
       ...item,
       ...(eventTypeOf(item) === 'unknown' && inferredAction !== 'unknown' ? { event_type_guess: inferredAction } : {}),
