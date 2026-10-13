@@ -1,0 +1,3 @@
+/* Inner-only segment between the second and third shared segments. */
+@import "./pages-inner-r5.css";
+@import "./pages-inner-r6.css";

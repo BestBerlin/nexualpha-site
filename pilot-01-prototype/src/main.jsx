@@ -130,6 +130,12 @@ import "./styles/split/home-mid2.css";
 import "./styles/split/directory-mid2.css";
 import "./styles/split/detail-mid2.css";
 import "./styles/v6/index.css";
+import "./styles/v6/pages-inner-r4.css";
+import "./styles/v6/cascade-shared-2.css";
+import "./styles/v6/cascade-inner-2.css";
+import "./styles/v6/cascade-shared-3.css";
+import "./styles/v6/pages-inner-r9.css";
+import "./styles/v6/cascade-shared-4.css";
 // Route-only layers (page-*-late chunks, see vite.config.mjs): after the shared layer in the cascade.
 import "./styles/v6/home.css";
 import "./styles/v6/pages-br.css";

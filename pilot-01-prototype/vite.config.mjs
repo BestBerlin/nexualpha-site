@@ -92,8 +92,10 @@ export const STYLESHEET_LINK_ORDER = Object.freeze([
   // Venue detail styles split out of route-v3-pages (they followed crossroads-compare.css inside that file).
   "route-v3-pages-detail", "route-v3-pages-return-banner", "route-v3-pages-directory", "route-news-shared",
   "route-telegram", "route-tokenized-assets", "route-international", "route-data",
-  "page-home-early", "index", "page-home-mid1", "page-compare-mid1", "page-profile-mid1", "core-b", "page-home-mid2",
-  "page-directory-mid2", "page-detail-mid2", "core-c", "page-home-late", "page-br-late", "page-rates-late",
+  "page-home-early", "index", "page-news-signature-mid1", "page-compare-signature-mid1", "page-profile-signature-mid1",
+  "page-home-mid1", "page-compare-mid1", "page-profile-mid1", "core-b", "page-home-mid2",
+  "page-directory-mid2", "page-detail-mid2", "core-c", "page-inner-c1", "core-c2", "page-inner-c2", "core-c3",
+  "page-inner-c3", "core-c4", "page-home-late", "page-br-late", "page-rates-late",
   "page-factbook-late", "page-telegram-late",
 ]);
 export const stylesheetChunkName = (fileName) => fileName.split("/").pop().replace(/-[\w-]{8}\.css$/, "");
@@ -146,6 +148,17 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Shared cascade layers after the entry stylesheet (always linked; "core-" prefix).
           if (id.endsWith("/src/styles/split/core-b.css")) return "core-b";
           if (id.endsWith("/src/styles/v6/index.css")) return "core-c";
+          if (id.endsWith("/src/styles/v6/pages-inner-r4.css")) return "page-inner-c1";
+          if (id.endsWith("/src/styles/v6/cascade-inner-2.css")) return "page-inner-c2";
+          if (id.endsWith("/src/styles/v6/pages-inner-r9.css")) return "page-inner-c3";
+          for (const segment of [2, 3, 4]) {
+            if (id.endsWith(`/src/styles/v6/cascade-shared-${segment}.css`)) return `core-c${segment}`;
+          }
+          // These route-scoped rules were at the tail of index.css. Keep that slot,
+          // before the existing mid1 layers, while dropping them from unrelated routes.
+          if (id.endsWith("/src/styles/v8/news-signature.css")) return "page-news-signature-mid1";
+          if (id.endsWith("/src/styles/v8/directory-compare-signature.css")) return "page-compare-signature-mid1";
+          if (id.endsWith("/src/styles/v8/rates-profile-signature.css")) return "page-profile-signature-mid1";
           // Route-only layers of the mid cascade (slot 1: before core-b, slot 2: between core-b and core-c).
           if (id.endsWith("/src/styles/split/home-mid1.css")) return "page-home-mid1";
           if (id.endsWith("/src/styles/split/compare-mid1.css")) return "page-compare-mid1";
@@ -394,7 +407,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
             html = html.replace(new RegExp(`\\s*<link\\b[^>]*rel="stylesheet"[^>]*href="[^"]*/assets/${pattern}-[\\w-]+\\.css"[^>]*>`, "g"), (tag) => { tags.push(tag.trim()); return ""; });
             return tags;
           };
-          const slots = ["[\\w-]+-early", "[\\w-]+-mid1", "core-b", "[\\w-]+-mid2", "core-c", "[\\w-]+-late"].map(pick);
+          const slots = ["[\\w-]+-early", "[\\w-]+-mid1", "core-b", "[\\w-]+-mid2", "(?:core-c[234]?|page-inner-c[123])", "[\\w-]+-late"].map(pick);
           if (!slots.some((tags) => tags.length)) return html;
           const entry = /<link\b[^>]*rel="stylesheet"[^>]*href="[^"]*\/assets\/index-[\w-]+\.css"[^>]*>/;
           if (!entry.test(html)) throw new Error("ordered route stylesheets: entry stylesheet link not found");

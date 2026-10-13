@@ -3,10 +3,10 @@
 //
 // The home page links ~26 stylesheets (~200 KB gzip, 1.2 MB raw) and all of them blocked the first paint; a coverage
 // run showed that only ~90 KB of those rules match any element of the home page. This build step keeps, from the exact
-// stylesheets the Worker links on the home route and in their cascade order, every rule whose selector can match an
-// element of a prerendered home page (all 17 UI locales), and writes them to dist/client/critical-css.json. The Worker
+// stylesheets the Worker links on the home route and in their cascade order, every rule whose selector can match the
+// shell or hero of a prerendered home page (all 17 UI locales), and writes them to dist/client/critical-css.json. The Worker
 // inlines that CSS and turns the stylesheet links into non-blocking loads (same order, so the final cascade is the one
-// the page had before). A rule is dropped only when it provably matches nothing in the SSR markup:
+// the page had before). Matching uses the complete SSR DOM, but below-hero subjects stay in the deferred stylesheets:
 //   - dynamic pseudo-classes (:hover, :focus-visible, :checked...), pseudo-elements and [open] (native <details>
 //     toggling) are ignored for matching, so their rules are kept whenever the element exists; a :not(...) that
 //     contained one is ignored as a whole;
@@ -281,7 +281,7 @@ const RECURSE_AT_RULES = new Set(["media", "supports", "layer", "container", "do
 
 // Keeps the rules of `cssTexts` (ordered stylesheets) that can match an element of any of `documents`.
 // Returns { css, stats }.
-export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss() } = {}) {
+export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(), subjects = null } = {}) {
   const matchCache = new Map();
   const stats = { rules: 0, kept: 0, unevaluable: 0, inputBytes: 0, outputBytes: 0 };
   const index = tokenIndex(documents);
@@ -295,7 +295,11 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
       try {
         // Test only the elements that can be the subject (rarest subject class/id, tag, or :is() alternatives).
         const candidates = subjectCandidates(probe, index);
-        result = candidates ? candidates.some((element) => element.matches(probe)) : documents.some((doc) => doc.querySelector(probe) !== null);
+        result = candidates
+          ? candidates.some((element) => (!subjects || subjects.has(element)) && element.matches(probe))
+          : documents.some((doc) => subjects
+            ? [...doc.querySelectorAll(probe)].some((element) => subjects.has(element))
+            : doc.querySelector(probe) !== null);
       } catch {
         stats.unevaluable += 1;
         result = true;
@@ -357,6 +361,22 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
 
 const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
+// Keep the complete shell before the hero, the hero itself, and their ancestors.
+// Do not remove below-fold DOM: :has(), siblings and positional selectors still
+// need the real document structure to decide which first-screen rules apply.
+export function homeCriticalSubjects(document) {
+  const hero = document.querySelector(".h7-hero");
+  if (!hero?.querySelector(".h7-num")) throw new Error("critical css: missing home hero/LCP element");
+  const subjects = new Set();
+  let reachedHero = false;
+  for (const element of document.getElementsByTagName("*")) {
+    if (reachedHero && !hero.contains(element)) break;
+    subjects.add(element);
+    if (element === hero) reachedHero = true;
+  }
+  return subjects;
+}
+
 export function stylesheetHrefs(indexHtml) {
   return [...indexHtml.matchAll(/<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi)]
     .map((match) => /\bhref=["']([^"']+)["']/i.exec(match[0])?.[1])
@@ -383,7 +403,8 @@ async function main() {
     const dir = ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
     documents.push(new JSDOM(`<!doctype html><html lang="${locale}" dir="${dir}"><head></head><body><div id="root">${html}</div></body></html>`).window.document);
   }
-  const { css, stats } = extractCriticalCss(cssTexts, documents);
+  const subjects = new Set(documents.flatMap((document) => [...homeCriticalSubjects(document)]));
+  const { css, stats } = extractCriticalCss(cssTexts, documents, { subjects });
   const payload = { version: CRITICAL_CSS_VERSION, routes: { home: { sheets, css } } };
   await writeFile(path.join(clientRoot, CRITICAL_CSS_FILE), `${JSON.stringify(payload)}\n`);
   process.stdout.write(`Critical CSS (home): ${sheets.length} stylesheets, ${stats.kept}/${stats.rules} rules kept, ${Math.round(stats.inputBytes / 1024)} KB -> ${Math.round(stats.outputBytes / 1024)} KB (${stats.unevaluable} selectors kept unevaluated)\n`);

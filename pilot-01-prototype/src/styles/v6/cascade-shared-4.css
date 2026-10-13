@@ -1,0 +1,6 @@
+/* Final shared segment after inner r9; includes footer rules used on home. */
+@import "./pages-commerce-r10.css";
+@import "./pages-commerce-r11.css";
+@import "./pages-content-r10.css";
+@import "./pages-content-r11.css";
+@import "./system-r11.css";
