@@ -10,7 +10,7 @@ import { articles, campaignItem, campaigns, listingItem, mk, partners } from "./
 import { VENUE_PRIORITY as SITE_VENUE_PRIORITY } from "../../pilot-01-prototype/src/data/venue-priority.js";
 import {
   CAMPAIGN_PAGES, FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
-  todayBlock, todaysCalendarEvents, toolOfWeekKey, toolOfWeekMessage, topImportantFlash,
+  calendarRecapEvents, comingCalendarEvents, comingUpHead, todayBlock, todayRecapHead, todaysCalendarEvents, toolOfWeekKey, toolOfWeekMessage, topImportantFlash,
 } from "./site-features.mjs";
 
 const CHANNEL_LANGS = ["zh", "en", "ru", "tr", "vi"];
@@ -72,22 +72,37 @@ for (const lang of CHANNEL_LANGS) {
     assert.equal(keys.size, FEATURE_KEYS.length, "a full rotation covers every feature");
   });
 
-  test(`${lang}: digest today block = rotating features + 24 h important flash (deduped) + today's SGT calendar`, () => {
+  test(`${lang}: digest today block separates recap from coming-up calendar items`, () => {
     const lines = todayBlock({ now: NOW, lang, flash, calendar });
     const text = lines.join("\n");
     const feats = rotatingFeatures(NOW, lang, `tg-digest-${lang}`);
+    assert.ok(text.includes(`<b>${todayRecapHead(lang)}</b>`));
+    assert.ok(text.includes(`<b>${comingUpHead(lang)}</b>`));
     assert.equal(feats.length, 2);
     for (const f of feats) assert.ok(text.includes(`<a href="${f.url}">`), f.key);
     assert.equal((text.match(/Binance lists ABC/g) || []).length, 1, "deduped by headline");
     assert.ok(!text.includes("Old news") && !text.includes("OKX minor notice"));
     assert.ok(text.includes("/flash/aaa-binance-lists-abc?src=tg-digest-"));
     assert.ok(text.includes(lang === "ru" ? "20:30 Инфляция CPI в США" : "20:30 US CPI inflation"), "CPI at 20:30 SGT");
-    assert.ok(!text.includes("Tomorrow in SGT"), "01:00 SGT next day is not today");
-    assert.ok(lines.length <= 10, "short");
+    assert.ok(text.includes("14 Oct 01:00 SGT Tomorrow in SGT"), "coming-up items include date and SGT time");
+    assert.ok(lines.length <= 14, "short");
     if (lang === "tr") assert.doesNotMatch(text, /bitget/i);
     else assert.ok(text.includes("Bitget lists XYZ"));
   });
 }
+
+test("calendar helpers split same-day recap from the next 7 days", () => {
+  const recap = calendarRecapEvents(calendar, NOW, "en").map((e) => e.title);
+  const coming = comingCalendarEvents(calendar, NOW, "en").map((e) => e.title);
+  assert.ok(recap.includes("US CPI inflation"));
+  assert.ok(recap.includes("Bybit to delist 1 token"));
+  assert.ok(!recap.includes("Tomorrow in SGT"));
+  assert.deepEqual(coming, ["Tomorrow in SGT"]);
+  assert.equal(todayRecapHead("id"), "Rekap hari ini");
+  assert.equal(comingUpHead("es"), "Próximo (fechas límite / calendario)");
+  assert.equal(todaysCalendarEvents(null, NOW, "en").length, 0);
+  assert.equal(topImportantFlash({ items: [{ important: true, time: "2026-10-13T14:00:00Z", headline: "Future", path: "/flash/future" }] }, NOW, "en").length, 0);
+});
 
 test("digestMessage with the today block: one header, two articles max, tr has no Bitget, ru buttons are neutral", () => {
   for (const lang of CHANNEL_LANGS) {
@@ -141,7 +156,7 @@ try {
 for (const p of partners) if (p.inviteCode) CODES.push(p.inviteCode);
 const CODE_RE = new RegExp(CODES.map((c) => String(c).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "i");
 const VI_SIGNUP = /đăng ký|mã mời|giới thiệu|hoàn tới|hoàn phí|ưu đãi|sign ?up|register|referral/i;
-const CAMPAIGN_PAGE = /\/activities/;
+const CAMPAIGN_PAGE = /\/activities(?!\/updates\/)/;
 const viSurfaces = () => [
   pinnedMenuMessage("vi"), startMenu("vi"), ...WEEKS.map((w) => toolOfWeekMessage(w, "vi")), campaignLinks("vi", "x"),
   partnerButtons(partners, "vi", "x"), digestMessage(mk, partners, articles, campaigns, "vi", { now: NOW, flash, calendar }),
@@ -187,7 +202,9 @@ test("vi listing DMs: official notice + exchange page; campaign DMs are not sent
   assert.equal(listingMessage(campaignItem, partners.find((p) => p.slug === "bitget") || partners[0], "vi"), null);
   assert.equal(listingMessage(campaignItem, partners.find((p) => p.slug === "bitget") || partners[0], "ru"), null);
   const m = listingMessage(listingItem, partners[0], "vi");
-  assert.doesNotMatch(allText(m), /\/go\/|\/activities/);
+  assert.doesNotMatch(allText(m), /\/go\//);
+  assert.match(m.buttons[0][0].url, /^https:\/\/nexualpha\.com\/vi\/activities\/updates\/okx\//);
+  assert.equal(m.buttons[0][0].text, "Đọc phần giải thích");
   assert.ok(listingMessage(campaignItem, partners[0], "en"), "other languages unchanged");
 });
 

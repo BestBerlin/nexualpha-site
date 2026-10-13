@@ -6,7 +6,7 @@
       "sharp-move": "<b>⚡ 急涨急跌</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>"
     },
     "digest": {
-      "text": "<b>🗞 NexuAlpha 每日市场简报</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h 爆仓（下限）：多 900.0M / 空 400.0M 美元\n异动：DOGE +12.3% · XRP -8.7%\n\n<b>今日文章</b>\n• <a href=\"https://nexualpha.com/zh-hans/news/btc-liquidations-weekly\">BTC 爆仓周报</a>\n• <a href=\"https://nexualpha.com/zh-hans/news/funding-rates-explained\">资金费率详解</a>\n\n<b>交易所活动</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/zh-hans/news?src=tg-digest\">查看详情 →</a>",
+      "text": "<b>🗞 NexuAlpha 每日市场简报</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h 爆仓（下限）：多 900.0M / 空 400.0M 美元\n异动：DOGE +12.3% · XRP -8.7%\n\n<b>今日文章</b>\n• <a href=\"https://nexualpha.com/zh-hans/news/btc-liquidations-weekly\">BTC 爆仓周报</a>\n• <a href=\"https://nexualpha.com/zh-hans/news/funding-rates-explained\">资金费率详解</a>\n\n<b>交易所活动</b>\n• OKX: OKX trading campaign: share 100,000 USDT\n  官方来源：https://www.okx.com/help/campaign-1\n\n<a href=\"https://nexualpha.com/zh-hans/news?src=tg-digest\">查看详情 →</a>",
       "buttons": [
         [
           {
@@ -25,18 +25,18 @@
           },
           {
             "text": "📊 资金费率",
-            "url": "https://nexualpha.com/zh-hans/rates"
+            "url": "https://nexualpha.com/zh-hans/funding-rates"
           }
         ]
       ]
     },
     "listing": {
-      "text": "<b>【上币｜OKX】</b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
+      "text": "<b>【上币｜OKX】</b>OKX lists ABC (ABC/USDT) for spot trading\n\n官方来源：https://www.okx.com/help/abc\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
       "buttons": [
         [
           {
-            "text": "官方公告",
-            "url": "https://www.okx.com/help/abc"
+            "text": "阅读解读",
+            "url": "https://nexualpha.com/zh-hans/activities/updates/okx/www-okx-com-help-abc-lszq6n?src=tg-dm-listing-zh"
           },
           {
             "text": "注册 OKX",
@@ -46,12 +46,12 @@
       ]
     },
     "campaign": {
-      "text": "<b>【活动｜Bitget】</b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
+      "text": "<b>【活动｜Bitget】</b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n官方来源：https://www.bitget.com/support/xyz\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
       "buttons": [
         [
           {
-            "text": "官方公告",
-            "url": "https://www.bitget.com/support/xyz"
+            "text": "阅读解读",
+            "url": "https://nexualpha.com/zh-hans/activities/updates/bitget/www-bitget-com-support-xyz-bnbosb?src=tg-dm-listing-zh"
           },
           {
             "text": "注册 Bitget",
@@ -69,7 +69,7 @@
       "sharp-move": "<b>⚡ Sharp move</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>"
     },
     "digest": {
-      "text": "<b>🗞 NexuAlpha daily brief</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h liquidations (lower bound): long 900.0M / short 400.0M USD\nMovers: DOGE +12.3% · XRP -8.7%\n\n<b>Today on NexuAlpha</b>\n• <a href=\"https://nexualpha.com/news/btc-liquidations-weekly\">BTC liquidations weekly</a>\n• <a href=\"https://nexualpha.com/news/funding-rates-explained\">Funding rates explained</a>\n\n<b>Exchange campaigns</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/news?src=tg-digest\">Read more →</a>",
+      "text": "<b>🗞 NexuAlpha daily brief</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h liquidations (lower bound): long 900.0M / short 400.0M USD\nMovers: DOGE +12.3% · XRP -8.7%\n\n<b>Today on NexuAlpha</b>\n• <a href=\"https://nexualpha.com/news/btc-liquidations-weekly\">BTC liquidations weekly</a>\n• <a href=\"https://nexualpha.com/news/funding-rates-explained\">Funding rates explained</a>\n\n<b>Exchange campaigns</b>\n• OKX: OKX trading campaign: share 100,000 USDT\n  Official source: https://www.okx.com/help/campaign-1\n\n<a href=\"https://nexualpha.com/news?src=tg-digest\">Read more →</a>",
       "buttons": [
         [
           {
@@ -88,18 +88,18 @@
           },
           {
             "text": "📊 Funding rates",
-            "url": "https://nexualpha.com/rates"
+            "url": "https://nexualpha.com/funding-rates"
           }
         ]
       ]
     },
     "listing": {
-      "text": "<b>[Listing · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
+      "text": "<b>[Listing · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\nOfficial source: https://www.okx.com/help/abc\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
       "buttons": [
         [
           {
-            "text": "Official notice",
-            "url": "https://www.okx.com/help/abc"
+            "text": "Read the explainer",
+            "url": "https://nexualpha.com/activities/updates/okx/www-okx-com-help-abc-lszq6n?src=tg-dm-listing-en"
           },
           {
             "text": "Sign up on OKX",
@@ -109,12 +109,12 @@
       ]
     },
     "campaign": {
-      "text": "<b>[Campaign · Bitget] </b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
+      "text": "<b>[Campaign · Bitget] </b>Bitget launchpool: stake BGB &amp; earn XYZ\n\nOfficial source: https://www.bitget.com/support/xyz\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
       "buttons": [
         [
           {
-            "text": "Official notice",
-            "url": "https://www.bitget.com/support/xyz"
+            "text": "Read the explainer",
+            "url": "https://nexualpha.com/activities/updates/bitget/www-bitget-com-support-xyz-bnbosb?src=tg-dm-listing-en"
           },
           {
             "text": "Sign up on Bitget",

@@ -665,9 +665,9 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
   };
   const withTelegramContext = (target, campaign) => ({
     ...target,
-    market: target?.market || telegramContext.market,
-    locale: target?.locale || telegramContext.locale,
-    product: target?.product || telegramContext.product,
+    ...(target?.market || !market ? {} : { market: contextValue(market, "") }),
+    locale: target?.locale || contextValue(locale, "en"),
+    ...(target?.product || !product ? {} : { product: contextValue(product, "") }),
     campaign: target?.campaign || campaign,
   });
   const growthContextAttrs = (campaign) => ({

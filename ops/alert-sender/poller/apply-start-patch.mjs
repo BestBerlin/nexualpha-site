@@ -7,7 +7,7 @@
 //   3. apps/bot-community/src/mock-community-service.js: a private /start (plain, ?start=<lang>, or a channel/group/
 //      story/website entry route) answers with the start menu — /alert examples plus URL buttons to the site's tools —
 //      in the member's language: deep-link lang, then the language they chose in /alerts, then Telegram's UI
-//      language, then English. Other /start payloads (alerts, signup, hub topics) keep their own routes.
+//      language, then English. Other /start payloads (alerts, alert, legacy launchpool_alert, signup, hub topics) keep their own routes.
 // Same contract as apply-poller-patch.mjs: every anchor must appear exactly once or nothing is written, already-patched
 // files are left untouched, and each original is kept as <file>.bak-<timestamp> before the first write.
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -20,13 +20,30 @@ const CANONICAL_VENUE_PRIORITY = path.join(HERE, "..", "..", "..", "pilot-01-pro
 const SITE_FEATURES_PRIORITY_IMPORT = 'from "../../pilot-01-prototype/src/data/venue-priority.js"';
 const RELEASE_PRIORITY_IMPORT = 'from "./venue-priority.js"';
 export const MARKER = "// nx-start-menu v1";
+export const ALERT_START_MARKER = "// nx-alert-start-route v1";
 const I8 = " ".repeat(8), I12 = " ".repeat(12), I16 = " ".repeat(16);
+
+export const ALERT_START_ANCHOR = `${I8}const startAlertsLang = startTarget && /^alerts-(zh|en|ru|tr|vi|id|es|pt)$/.test(startTarget) ? \`lang-\${startTarget.slice(7)}\` : undefined;\n`
+  + `${I8}const parsed = startAlertsLang ? { command: "alerts", argument: startAlertsLang }\n`
+  + `${I12}: startTarget === "alerts" || startTarget === "signup" ? { command: startTarget, argument: undefined } : rawParsed;\n`;
+
+export const ALERT_START_REPLACEMENT = `${I8}const startAlertsLang = startTarget && /^alerts-(zh|en|ru|tr|vi|id|es|pt)$/.test(startTarget) ? \`lang-\${startTarget.slice(7)}\` : undefined;\n`
+  + `${I8}// nx-alert-start-route: generic alert deep links open the /alerts card; legacy launchpool_alert links stay compatible without enabling topics. ${ALERT_START_MARKER}\n`
+  + `${I8}const nxAlertMetaLocale = startTarget?.match(/(?:^|_)l_([a-z0-9-]+)/i)?.[1];\n`
+  + `${I8}const nxAlertLang = langFromCode(nxAlertMetaLocale);\n`
+  + `${I8}const startAlertRoute = startTarget === "alert" || startTarget === "launchpool_alert" || /^alert(?:_|-|$)/.test(startTarget ?? "") || /^launchpool_alert(?:_|-|$)/.test(startTarget ?? "");\n`
+  + `${I8}const parsed = startAlertsLang ? { command: "alerts", argument: startAlertsLang }\n`
+  + `${I12}: startAlertRoute ? { command: "alerts", argument: nxAlertLang ? \`lang-\${nxAlertLang}\` : undefined }\n`
+  + `${I12}: startTarget === "alerts" || startTarget === "signup" ? { command: startTarget, argument: undefined } : rawParsed;\n`;
 
 const SERVICE_PATCHES = [
   ["import",
     `from "./alert-triggers.js"; ${TRIGGERS_MARKER}\n`,
     `from "./alert-triggers.js"; ${TRIGGERS_MARKER}\n`
     + `import { langFromCode, startMenu } from "./site-features.js"; import { storedLangFor } from "./alert-triggers.js"; ${MARKER}\n`],
+  ["generic-alert-start",
+    ALERT_START_ANCHOR,
+    ALERT_START_REPLACEMENT],
   ["start-menu",
     `${I8}// nx-alert-triggers: /stop (or "stop"/停止/退订 in private chat) also clears custom /alert rules and every /alerts topic.\n`,
     [

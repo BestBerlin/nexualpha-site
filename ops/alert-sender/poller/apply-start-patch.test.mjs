@@ -7,7 +7,10 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { SRC_DIR, applyPollerPatch } from "./apply-poller-patch.mjs";
-import { FILES, MARKER, applyStartPatch } from "./apply-start-patch.mjs";
+import { ALERT_START_ANCHOR, ALERT_START_MARKER, ALERT_START_REPLACEMENT, FILES, MARKER, applyStartPatch } from "./apply-start-patch.mjs";
+import { applyNeutralPatch } from "./apply-neutral-patch.mjs";
+import { applyHubPatch } from "./apply-hub-patch.mjs";
+import { applyAlertStartPatch, patchAlertStartText } from "./apply-alert-start-patch.mjs";
 
 const FIXTURES = new URL("../fixtures/poller/", import.meta.url);
 const COPY = { "mock-community-service.js": path.join(SRC_DIR, "mock-community-service.js"), "alert-subscriptions.js": path.join(SRC_DIR, "alert-subscriptions.js"),
@@ -32,6 +35,8 @@ test("patches service, contract and decoder, copies site-features.js, keeps back
   assert.match(svc, /import \{ langFromCode, startMenu \} from "\.\/site-features\.js";/);
   assert.ok(svc.indexOf("nx-start-menu: a private /start") > svc.indexOf("let response = responseFor("), "menu replaces the computed response");
   assert.ok(svc.indexOf("nx-start-menu: a private /start") < svc.indexOf("if (response && (event.isPrivateChat || groupReplyCommands.has(parsed.command)))"), "before sending");
+  assert.match(svc, /startAlertRoute \? \{ command: "alerts", argument: nxAlertLang \? `lang-\$\{nxAlertLang\}` : undefined \}/);
+  assert.match(svc, /startTarget === "launchpool_alert"/);
   assert.match(svc, /startMenu\(nxStartLang \?\? nxStored \?\? langFromCode\(event\.languageCode\) \?\? "en"\)/);
   assert.match(read(dir, FILES[1][1]), /languageCode: z\.string\(\)\.max\(35\)\.optional\(\),/);
   const dec = read(dir, FILES[2][1]);
@@ -39,6 +44,43 @@ test("patches service, contract and decoder, copies site-features.js, keeps back
   assert.match(dec, /languageCode: sender\.language_code/);
   assert.equal(read(dir, path.join(SRC_DIR, "site-features.js")), readFileSync(new URL("../site-features.mjs", import.meta.url), "utf8").replace('from "../../pilot-01-prototype/src/data/venue-priority.js"', 'from "./venue-priority.js"'));
   assert.equal(read(dir, path.join(SRC_DIR, "venue-priority.js")), readFileSync(new URL("../../../pilot-01-prototype/src/data/venue-priority.js", import.meta.url), "utf8"));
+});
+
+test("generic alert start payloads route to the alerts card with language context and no topic opt-in", () => {
+  const dir = release();
+  applyStartPatch(dir);
+  const source = read(dir, FILES[0][1]);
+  const block = source.slice(source.indexOf("        const startTarget"), source.indexOf("        const controlEvent"));
+  const run = new Function("rawParsed", "event", "langFromCode", `${block}\nreturn parsed;`);
+  const route = (argument, languageCode = "en") => run({ command: "start", argument }, { languageCode }, (value) => {
+    const c = String(value || "").toLowerCase();
+    if (c.startsWith("zh")) return "zh";
+    if (c.startsWith("pt")) return "pt";
+    return ["en", "ru", "tr", "vi", "id", "es"].includes(c.split(/[-_]/)[0]) ? c.split(/[-_]/)[0] : null;
+  });
+  assert.deepEqual(route("alert_l_ptBR"), { command: "alerts", argument: "lang-pt" });
+  assert.deepEqual(route("launchpool_alert", "ru"), { command: "alerts", argument: undefined });
+  assert.deepEqual(route("alert", "zz"), { command: "alerts", argument: undefined });
+});
+
+test("incremental alert-start patch upgrades an already start-neutral-hub patched release", () => {
+  const dir = release();
+  applyStartPatch(dir);
+  applyNeutralPatch(dir);
+  applyHubPatch(dir);
+  const file = path.join(dir, FILES[0][1]);
+  const fullyPatched = read(dir, FILES[0][1]);
+  const oldPatched = fullyPatched.replace(ALERT_START_REPLACEMENT, ALERT_START_ANCHOR);
+  assert.notEqual(oldPatched, fullyPatched);
+  writeFileSync(file, oldPatched);
+
+  const result = applyAlertStartPatch(dir, { now: new Date("2026-10-13T12:00:00Z") });
+  assert.equal(result.status, "patched");
+  assert.equal(readFileSync(result.backup, "utf8"), oldPatched);
+  assert.equal(read(dir, FILES[0][1]), fullyPatched);
+  assert.equal(applyAlertStartPatch(dir).status, "already");
+  assert.throws(() => patchAlertStartText(oldPatched.replace(ALERT_START_ANCHOR, "")), /anchor check failed/);
+  assert.throws(() => patchAlertStartText(`${oldPatched}\n${ALERT_START_MARKER}\n`), /incomplete/);
 });
 
 test("the copied helpers load inside the release and export what the patch imports", async () => {

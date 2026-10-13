@@ -308,6 +308,10 @@ test("getTelegramDeepLink correctly routes parameterized actions", () => {
     "https://t.me/NexuAlphaAssistantBot?start=compare_binance-vs-okx"
   );
   assert.equal(
+    getTelegramDeepLink({ action: "alert" }),
+    "https://t.me/NexuAlphaAssistantBot?start=alert"
+  );
+  assert.equal(
     getTelegramDeepLink({ action: "launchpool_alert" }),
     "https://t.me/NexuAlphaAssistantBot?start=launchpool_alert"
   );
@@ -567,6 +571,8 @@ test("TELEGRAM_RESEARCH_PATHS keeps public hub routes answer-first and onsite-on
     }
     assert.match(getTelegramDeepLink(path.deepLinkAction), /^https:\/\/t\.me\/NexuAlphaAssistantBot\?start=/);
   }
+  assert.deepEqual(TELEGRAM_RESEARCH_PATHS.find((path) => path.id === "fee-comparison")?.deepLinkAction, { action: "fee_calc" });
+  assert.deepEqual(TELEGRAM_RESEARCH_PATHS.find((path) => path.id === "regional-onboarding")?.deepLinkAction, { action: "partner_desk" });
 });
 
 test("TELEGRAM_WAVE7_SEARCH_TOPICS maps the three target queries to onsite-first review routes", () => {

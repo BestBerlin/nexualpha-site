@@ -1,6 +1,5 @@
 // Shared fixture for alert-sender tests: one market snapshot, partners, articles, campaigns and listing items.
-// zh-en-baseline.json was rendered from this fixture with the zh/en-only sender (origin/main 9570ad4) before the
-// other six languages were added; the i18n test asserts the current sender still renders zh and en byte-identically.
+// zh-en-baseline.json pins the zh/en output from this fixture, including the TG-04/05/06 routing and action fixes.
 export const mk = {
   liquidations: {
     h1: { longUsd: 120e6, shortUsd: 30e6, largest: { symbol: "BTCUSDT", side: "long", usd: 5e6 } },

@@ -326,22 +326,53 @@ export function langFromCode(code) {
 const TZ = "Asia/Singapore";
 const sgtDate = (d) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
 const sgtTime = (d) => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
+const sgtDateLabel = (d) => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, day: "numeric", month: "short" }).format(d);
 const banned = (lang, ...texts) => lang === "tr" && texts.some((s) => /bitget/i.test(String(s || "")));
+const TODAY_RECAP_HEAD = { zh: "今日回顾", en: "Today recap", ru: "Итоги дня", tr: "Bugünkü özet", vi: "Tóm tắt hôm nay", id: "Rekap hari ini", es: "Resumen de hoy", pt: "Resumo de hoje" };
+const COMING_UP_HEAD = { zh: "接下来（截止日期 / 日历）", en: "Coming up (deadlines / calendar)", ru: "Скоро (сроки / календарь)", tr: "Sırada (son tarihler / takvim)", vi: "Sắp tới (hạn chót / lịch)", id: "Akan datang (tenggat / kalender)", es: "Próximo (fechas límite / calendario)", pt: "A seguir (prazos / calendário)" };
 /** Calendar events whose start falls on the current SGT day (all-day events by their UTC date), max `limit`. */
 export function todaysCalendarEvents(calendar, now, lang, limit = 3) {
   const today = sgtDate(new Date(now));
+  return calendarEvents(calendar, lang)
+    .filter((e) => (e.allDay ? String(e.start).slice(0, 10) === today : sgtDate(new Date(e.start)) === today))
+    .slice(0, limit);
+}
+function calendarEvents(calendar, lang) {
   return (Array.isArray(calendar?.events) ? calendar.events : [])
     .filter((e) => e?.title && Number.isFinite(Date.parse(e.start)))
-    .filter((e) => (e.allDay ? String(e.start).slice(0, 10) === today : sgtDate(new Date(e.start)) === today))
     .filter((e) => !banned(lang, e.title, e.venue, eventTitle(e, lang)))
     .sort((a, b) => (a.allDay === b.allDay ? Date.parse(a.start) - Date.parse(b.start) : a.allDay ? 1 : -1))
+}
+export function calendarRecapEvents(calendar, now, lang, limit = 3) {
+  const nowMs = new Date(now).getTime();
+  const today = sgtDate(new Date(now));
+  return calendarEvents(calendar, lang)
+    .filter((e) => (e.allDay ? String(e.start).slice(0, 10) === today : sgtDate(new Date(e.start)) === today))
+    .filter((e) => e.allDay || Date.parse(e.start) <= nowMs)
+    .slice(0, limit);
+}
+export function comingCalendarEvents(calendar, now, lang, limit = 3) {
+  const nowMs = new Date(now).getTime();
+  const horizon = nowMs + 7 * DAY;
+  const today = sgtDate(new Date(now));
+  return calendarEvents(calendar, lang)
+    .filter((e) => {
+      const start = Date.parse(e.start);
+      if (e.allDay) return String(e.start).slice(0, 10) > today && start <= horizon;
+      return start > nowMs && start <= horizon;
+    })
+    .sort((a, b) => Date.parse(a.start) - Date.parse(b.start))
     .slice(0, limit);
 }
 /** Important flash items from the last 24 h, newest first, de-duplicated by headline, max `limit`. */
 export function topImportantFlash(flash, now, lang, limit = 3) {
   const seen = new Set();
+  const nowMs = new Date(now).getTime();
   return (Array.isArray(flash?.items) ? flash.items : [])
-    .filter((i) => i?.important && i.headline && i.path && new Date(now).getTime() - Date.parse(i.time) < DAY)
+    .filter((i) => {
+      const age = nowMs - Date.parse(i.time);
+      return i?.important && i.headline && i.path && age >= 0 && age < DAY;
+    })
     .filter((i) => !banned(lang, i.headline, i.venue))
     .sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
     .filter((i) => (seen.has(i.headline) ? false : seen.add(i.headline)))
@@ -350,20 +381,36 @@ export function topImportantFlash(flash, now, lang, limit = 3) {
 export const todayTitle = (lang) => featureCopy(lang).todayTitle || COPY.en.todayTitle;
 const CAL_LOCALE = { zh: "zh-Hans", pt: "pt-BR" };
 const eventTitle = (e, lang) => e.titles?.[CAL_LOCALE[lang] || lang] || e.title;
-/** HTML lines for the digest block body (title via todayTitle): rotating features, important flash, today's calendar. */
-export function todayBlock({ now = Date.now(), lang, flash, calendar, src = `tg-digest-${lang}` }) {
+export const todayRecapHead = (lang) => TODAY_RECAP_HEAD[lang] || TODAY_RECAP_HEAD.en;
+export const comingUpHead = (lang) => COMING_UP_HEAD[lang] || COMING_UP_HEAD.en;
+const calendarLines = (events, t, lang, src, { withDate = false } = {}) => {
+  if (!events.length) return [];
+  return [
+    `📅 <a href="${featureUrl(lang, "/calendar", src)}">${esc(t.calendarHead || COPY.en.calendarHead)}</a>:`,
+    ...events.map((e) => {
+      const d = new Date(e.start);
+      const when = withDate ? (e.allDay ? `${sgtDateLabel(d)} ${esc(t.allDay || COPY.en.allDay)}` : `${sgtDateLabel(d)} ${sgtTime(d)} SGT`) : (e.allDay ? esc(t.allDay || COPY.en.allDay) : sgtTime(d));
+      return `• ${when} ${esc(String(eventTitle(e, lang)).slice(0, 90))}`;
+    }),
+  ];
+};
+
+/** HTML lines for the digest block body (title via todayTitle): today recap, then coming-up deadlines/calendar. */
+export function todayBlock({ now = Date.now(), lang, flash, calendar, src = `tg-digest-${lang}`, recapLines = [] }) {
   const t = featureCopy(lang);
-  const lines = [];
+  const lines = [`<b>${esc(todayRecapHead(lang))}</b>`];
   for (const f of rotatingFeatures(now, lang, src)) lines.push(`${f.emoji} <a href="${f.url}">${esc(f.label)}</a>`);
   const items = topImportantFlash(flash, now, lang);
   if (items.length) {
     lines.push(`⚡ ${esc(t.flashHead || COPY.en.flashHead)}:`);
     for (const i of items) lines.push(`• <a href="${featureUrl(lang, i.path, src)}">${esc(i.headline)}</a>`);
   }
-  const events = todaysCalendarEvents(calendar, now, lang);
-  if (events.length) {
-    lines.push(`📅 <a href="${featureUrl(lang, "/calendar", src)}">${esc(t.calendarHead || COPY.en.calendarHead)}</a>:`);
-    for (const e of events) lines.push(`• ${e.allDay ? esc(t.allDay || COPY.en.allDay) : sgtTime(new Date(e.start))} ${esc(String(eventTitle(e, lang)).slice(0, 90))}`);
+  lines.push(...recapLines);
+  lines.push(...calendarLines(calendarRecapEvents(calendar, now, lang), t, lang, src));
+  const coming = comingCalendarEvents(calendar, now, lang);
+  if (coming.length) {
+    lines.push(`<b>${esc(comingUpHead(lang))}</b>`);
+    lines.push(...calendarLines(coming, t, lang, src, { withDate: true }));
   }
   return lines;
 }

@@ -108,6 +108,9 @@ export function buildTelegramStartPayload(target = "") {
       const p = pair || (venueA && venueB ? `${venueA}-vs-${venueB}` : "top");
       return composeTelegramStartPayload(`compare_${p}`, metaParts);
     }
+    case "alert": {
+      return composeTelegramStartPayload("alert", metaParts);
+    }
     case "launchpool_alert": {
       const p = project || symbol || "";
       const base = p ? `launchpool_alert_${p}` : "launchpool_alert";
@@ -145,8 +148,10 @@ export function buildTelegramStartPayload(target = "") {
  *  -> https://t.me/NexuAlphaAssistantBot?start=fee_calc_binance
  * getTelegramDeepLink({ action: 'compare', pair: 'binance-vs-okx' })
  *  -> https://t.me/NexuAlphaAssistantBot?start=compare_binance-vs-okx
+ * getTelegramDeepLink({ action: 'alert' })
+ *  -> https://t.me/NexuAlphaAssistantBot?start=alert
  * getTelegramDeepLink({ action: 'launchpool_alert' })
- *  -> https://t.me/NexuAlphaAssistantBot?start=launchpool_alert
+ *  -> https://t.me/NexuAlphaAssistantBot?start=launchpool_alert (legacy)
  * getTelegramDeepLink({ action: 'verify_domain', venue: 'okx' })
  *  -> https://t.me/NexuAlphaAssistantBot?start=verify_domain_okx
  * 

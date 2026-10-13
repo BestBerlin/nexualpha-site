@@ -17,6 +17,8 @@ import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
 import { isNeutralCtaLocale, todayBlock, todayTitle } from "./site-features.mjs";
+import { isRiskNotice } from "../channel-feed/notice-classifier.mjs";
+import { officialSourceCta, sourceUpdatePath } from "../channel-feed/official-source.mjs";
 
 const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
@@ -131,7 +133,7 @@ const TEXTS = {
     advice: "降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。",
     digestTitle: "<b>🗞 NexuAlpha 每日市场简报</b>", digestLiq: (l, s) => `24h 爆仓（下限）：多 ${l} / 空 ${s} 美元`, movers: "异动：",
     todayOn: "<b>今日文章</b>", campaigns: "<b>交易所活动</b>", cat: { listing: "上币", event: "活动" },
-    listingHead: (cat, name) => `【${cat}｜${name}】`, officialNotice: "官方公告",
+    listingHead: (cat, name) => `【${cat}｜${name}】`, officialNotice: "官方公告", readExplainer: "阅读解读", officialSource: "官方来源", sourceText: (url) => `官方来源：${url}`,
     signUp: (name) => `注册 ${name}（返佣）`, signUpListing: (name) => `注册 ${name}`, getAlerts: "🔔 订阅告警", fundingRates: "📊 资金费率", readMore: "查看详情 →",
     // unchanged from the original sender, whose strip pattern never matched the zh text: zh listing DMs keep the data clause
   },
@@ -143,7 +145,7 @@ const TEXTS = {
     advice: "Lower leverage, check your liquidation price; funding rates jump in moves like this.",
     digestTitle: "<b>🗞 NexuAlpha daily brief</b>", digestLiq: (l, s) => `24h liquidations (lower bound): long ${l} / short ${s} USD`, movers: "Movers: ",
     todayOn: "<b>Today on NexuAlpha</b>", campaigns: "<b>Exchange campaigns</b>", cat: { listing: "Listing", event: "Campaign" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Official notice",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Official notice", readExplainer: "Read the explainer", officialSource: "Official source", sourceText: (url) => `Official source: ${url}`,
     signUp: (name) => `Sign up on ${name}`, signUpListing: (name) => `Sign up on ${name}`, getAlerts: "🔔 Get alerts", fundingRates: "📊 Funding rates", readMore: "Read more →",
   },
   ru: {
@@ -154,7 +156,7 @@ const TEXTS = {
     advice: "Снизьте плечо и проверьте цену ликвидации: при таких движениях ставки финансирования тоже меняются скачками.",
     digestTitle: "<b>🗞 Ежедневная сводка NexuAlpha</b>", digestLiq: (l, s) => `Ликвидации за 24 ч (нижняя оценка): лонги ${l} / шорты ${s}`, movers: "Лидеры движения: ",
     todayOn: "<b>Сегодня на NexuAlpha</b>", campaigns: "<b>Акции бирж</b>", cat: { listing: "Листинг", event: "Акция" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Официальное объявление",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Официальное объявление", readExplainer: "Прочитать разбор", officialSource: "Официальный источник", sourceText: (url) => `Официальный источник: ${url}`,
     signUp: (name) => name, signUpListing: (name) => name, getAlerts: "🔔 Получать оповещения", fundingRates: "📊 Ставки финансирования", readMore: "Подробнее →",
   },
   tr: {
@@ -165,7 +167,7 @@ const TEXTS = {
     advice: "Kaldıracı düşürün ve likidasyon fiyatınızı kontrol edin; böyle hareketlerde fonlama oranları da sıçrar.",
     digestTitle: "<b>🗞 NexuAlpha günlük özet</b>", digestLiq: (l, s) => `24 saatlik likidasyon (alt sınır): long ${l} / short ${s}`, movers: "Hareketliler: ",
     todayOn: "<b>Bugün NexuAlpha'da</b>", campaigns: "<b>Borsa kampanyaları</b>", cat: { listing: "Listeleme", event: "Kampanya" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Resmi duyuru",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Resmi duyuru", readExplainer: "Açıklamayı oku", officialSource: "Resmî kaynak", sourceText: (url) => `Resmî kaynak: ${url}`,
     signUp: (name) => `${name} hesabı aç`, signUpListing: (name) => `${name} hesabı aç`, getAlerts: "🔔 Uyarı al", fundingRates: "📊 Fonlama oranları", readMore: "Devamını oku →",
   },
   vi: {
@@ -176,7 +178,7 @@ const TEXTS = {
     advice: "Hạ đòn bẩy và kiểm tra giá thanh lý; phí funding cũng nhảy mạnh trong những đợt biến động như thế này.",
     digestTitle: "<b>🗞 Bản tin hằng ngày NexuAlpha</b>", digestLiq: (l, s) => `Thanh lý 24 giờ (mức tối thiểu): long ${l} / short ${s}`, movers: "Biến động: ",
     todayOn: "<b>Hôm nay trên NexuAlpha</b>", campaigns: "<b>Sự kiện sàn giao dịch</b>", cat: { listing: "Niêm yết", event: "Sự kiện" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Thông báo chính thức",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Thông báo chính thức", readExplainer: "Đọc phần giải thích", officialSource: "Nguồn chính thức", sourceText: (url) => `Nguồn chính thức: ${url}`,
     signUp: (name) => `Đăng ký ${name}`, signUpListing: (name) => `Đăng ký ${name}`, getAlerts: "🔔 Nhận cảnh báo", fundingRates: "📊 Phí funding", readMore: "Xem chi tiết →",
   },
   id: {
@@ -187,7 +189,7 @@ const TEXTS = {
     advice: "Turunkan leverage dan cek harga likuidasi Anda; funding rate juga melonjak pada pergerakan seperti ini.",
     digestTitle: "<b>🗞 Ringkasan harian NexuAlpha</b>", digestLiq: (l, s) => `Likuidasi 24 jam (batas bawah): long ${l} / short ${s}`, movers: "Pergerakan: ",
     todayOn: "<b>Hari ini di NexuAlpha</b>", campaigns: "<b>Kampanye bursa</b>", cat: { listing: "Listing", event: "Kampanye" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Pengumuman resmi",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Pengumuman resmi", readExplainer: "Baca penjelasan", officialSource: "Sumber resmi", sourceText: (url) => `Sumber resmi: ${url}`,
     signUp: (name) => `Daftar di ${name}`, signUpListing: (name) => `Daftar di ${name}`, getAlerts: "🔔 Dapatkan notifikasi", fundingRates: "📊 Funding rate", readMore: "Baca selengkapnya →",
   },
   es: {
@@ -198,7 +200,7 @@ const TEXTS = {
     advice: "Baja el apalancamiento y revisa tu precio de liquidación; en movimientos así las tasas de financiación también saltan.",
     digestTitle: "<b>🗞 Resumen diario de NexuAlpha</b>", digestLiq: (l, s) => `Liquidaciones 24 h (mínimo estimado): largos ${l} / cortos ${s}`, movers: "Movimientos: ",
     todayOn: "<b>Hoy en NexuAlpha</b>", campaigns: "<b>Campañas de exchanges</b>", cat: { listing: "Listado", event: "Campaña" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial", readExplainer: "Leer la explicación", officialSource: "Fuente oficial", sourceText: (url) => `Fuente oficial: ${url}`,
     signUp: (name) => `Regístrate en ${name}`, signUpListing: (name) => `Regístrate en ${name}`, getAlerts: "🔔 Recibir alertas", fundingRates: "📊 Tasas de financiación", readMore: "Leer más →",
   },
   pt: {
@@ -209,16 +211,28 @@ const TEXTS = {
     advice: "Reduza a alavancagem e confira seu preço de liquidação; em movimentos assim as taxas de funding também disparam.",
     digestTitle: "<b>🗞 Resumo diário NexuAlpha</b>", digestLiq: (l, s) => `Liquidações 24 h (estimativa mínima): long ${l} / short ${s}`, movers: "Destaques: ",
     todayOn: "<b>Hoje na NexuAlpha</b>", campaigns: "<b>Campanhas das corretoras</b>", cat: { listing: "Listagem", event: "Campanha" },
-    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial", readExplainer: "Ler a explicação", officialSource: "Fonte oficial", sourceText: (url) => `Fonte oficial: ${url}`,
     signUp: (name) => `Cadastre-se na ${name}`, signUpListing: (name) => `Cadastre-se na ${name}`, getAlerts: "🔔 Receber alertas", fundingRates: "📊 Taxas de funding", readMore: "Saiba mais →",
   },
 };
 export const T = (lang) => TEXTS[lang] || TEXTS.en;
+const RISK_ACTION = {
+  zh: "💥 爆仓数据",
+  en: "💥 Liquidations",
+  ru: "💥 Ликвидации",
+  tr: "💥 Likidasyonlar",
+  vi: "💥 Thanh lý",
+  id: "💥 Likuidasi",
+  es: "💥 Liquidaciones",
+  pt: "💥 Liquidações",
+};
 
 // ---------- message builders ----------
-// Owner 2026-10-11: promote Bybit, Hyperliquid and Backpack more (second row). Turkey: only partners whose Turkish
-// entity is on the SPK "operating" list (OKX TR, Binance Turkey, Bybit) — Bitget Teknoloji AŞ is on the liquidation list.
-export const PARTNER_ROWS = { default: [null, ["bybit", "hyperliquid", "backpack"]], tr: [["okx", "binance", "bybit"]] };
+// Partner buttons are capped to one row: TG-05 keeps sign-up actions on commercial posts, but removes the old
+// six-venue block from risk contexts.
+// Turkey: only partners whose Turkish entity is on the SPK "operating" list (OKX TR, Binance Turkey, Bybit) — Bitget
+// Teknoloji AŞ is on the liquidation list.
+export const PARTNER_ROWS = { default: [null], tr: [["okx", "binance", "bybit"]] };
 export const PARTNER_EXCLUDED = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
 // Neutral locales (ru, vi, ...; owner 2026-10-13): the exchange name only, linking to the site's exchange page,
 // never a /go/ sign-up route.
@@ -228,17 +242,24 @@ export function partnerButtons(partners, lang, src) {
   const bySlug = Object.fromEntries(partners.map((p) => [p.slug, p]));
   const excluded = PARTNER_EXCLUDED[lang] || new Set();
   const neutral = isNeutralCtaLocale(lang);
+  const configuredRows = neutral ? [null, ["bybit", "hyperliquid", "backpack"]] : (PARTNER_ROWS[lang] || PARTNER_ROWS.default);
   // "(返佣)"-style wording only where a rebate share is confirmed in partners.json
   const button = (p) => (neutral ? { text: p.name, url: exchangePageUrl(lang, p.slug, src) }
     : { text: p.share === null ? t.signUpListing(p.name) : t.signUp(p.name), url: go(p.slug, src) });
-  const rows = (PARTNER_ROWS[lang] || PARTNER_ROWS.default).map((row) =>
+  const rows = configuredRows.map((row) =>
     (row === null ? partners.filter((p) => p.featured && !excluded.has(p.slug)).slice(0, 3) : row.map((slug) => bySlug[slug]).filter((p) => p && !excluded.has(p.slug)))
       .map(button)).filter((row) => row.length);
   return [
     ...rows,
     [{ text: t.getAlerts, url: "https://t.me/NexuAlphaAssistantBot?start=alerts" },
-     { text: t.fundingRates, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/rates` }],
+     { text: t.fundingRates, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/funding-rates` }],
   ];
+}
+
+export function eventButtons(lang, src) {
+  return [[
+    { text: RISK_ACTION[lang] || RISK_ACTION.en, url: sitePath(lang, "/liquidations", src) },
+  ]];
 }
 
 export function eventMessage(ev, mk, lang) {
@@ -259,7 +280,8 @@ export function articleLink(a, lang) {
   const loc = ARTICLE_LOCALE[lang] || "en";
   const hasEdition = Array.isArray(a.availableLocales) ? a.availableLocales.includes(loc) : Boolean(a.title?.[loc]);
   const localized = loc !== "en" && hasEdition;
-  const title = (localized ? a.title?.[loc] : null) || a.title?.en || a.slug;
+  const fallbackLabel = lang === "ru" && !localized ? " (EN)" : "";
+  const title = `${(localized ? a.title?.[loc] : null) || a.title?.en || a.slug}${fallbackLabel}`;
   return `• <a href="${SITE}${localized ? LOCALE_PATH[lang] : ""}/news/${a.slug}">${esc(title)}</a>`;
 }
 
@@ -280,15 +302,19 @@ export function digestMessage(mk, partners, articles, campaigns, lang, today = n
   lines.push("", t.digestLiq(fmt.usd(lang, L.longUsd), fmt.usd(lang, L.shortUsd)));
   if (mk.market.movers.length) lines.push(t.movers + mk.market.movers.slice(0, 3).map((m) => `${m.symbol.replace("USDT", "")} ${fmt.pct(lang, m.change24hPct, true)}`).join(" · "));
   if (today) {
-    lines.push("", todayTitle(lang), ...todayBlock({ ...today, lang }));
-    for (const a of articles.slice(0, 2)) lines.push(articleLink(a, lang));
+    const recapLines = articles.slice(0, 2).map((a) => articleLink(a, lang));
+    lines.push("", todayTitle(lang), ...todayBlock({ ...today, lang, recapLines }));
   } else if (articles.length) {
     lines.push("", t.todayOn);
     for (const a of articles.slice(0, 4)) lines.push(articleLink(a, lang));
   }
   if (campaigns.length) {
     lines.push("", t.campaigns);
-    for (const c of campaigns.slice(0, 3)) lines.push(`• ${esc(c.venue.toUpperCase())}: <a href="${c.url}">${esc(c.title.slice(0, 90))}</a>`);
+    for (const c of campaigns.slice(0, 3)) {
+      const source = officialSourceCta(c.url, c.venue, { lang, src: `tg-digest-${lang}`, neutral: isNeutralCtaLocale(lang) });
+      if (source?.buttonUrl) lines.push(`• ${esc(c.venue.toUpperCase())}: <a href="${source.buttonUrl}">${esc(c.title.slice(0, 90))}</a>`);
+      else lines.push(`• ${esc(c.venue.toUpperCase())}: ${esc(c.title.slice(0, 90))}${source?.url ? `\n  ${esc(t.sourceText(source.url))}` : ""}`);
+    }
   }
   lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"));
   return { text: lines.join("\n"), buttons: partnerButtons(partners, lang, `tg-digest-${lang}`) };
@@ -301,11 +327,90 @@ export function listingMessage(item, partner, lang) {
   const t = T(lang);
   const neutral = isNeutralCtaLocale(lang);
   if (neutral && (item.category === "event" || CAMPAIGN_TITLE.test(String(item.title || "")))) return null;
+  const risk = isRiskNotice(item);
   const cat = t.cat[item.category] || item.category;
-  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, neutral ? "/news" : BACKLINK_PATH.listing, "tg-listing")].join("\n");
-  const second = neutral ? { text: partner.name, url: exchangePageUrl(lang, partner.slug, `tg-dm-listing-${lang}`) }
-    : { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) };
-  return { text, buttons: [[{ text: t.officialNotice, url: item.url }, second]] };
+  const source = officialSourceCta(item.officialSource?.url || item.url, partner.slug, { lang, src: `tg-dm-listing-${lang}`, neutral });
+  const lines = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`];
+  if (source?.textOnly) lines.push("", esc(t.sourceText(source.url)));
+  lines.push("", readMore(lang, neutral ? "/news" : BACKLINK_PATH.listing, "tg-listing"));
+  const text = lines.join("\n");
+  const first = { text: t.readExplainer || t.officialNotice, url: `${SITE}${LOCALE_PATH[lang] ?? ""}${sourceUpdatePath({ ...item, venue: item.venue || partner.slug })}?src=tg-dm-listing-${lang}` };
+  const row = [first];
+  if (source?.buttonUrl) row.push({ text: t.officialSource, url: source.buttonUrl });
+  if (!risk) {
+    const second = neutral ? { text: partner.name, url: exchangePageUrl(lang, partner.slug, `tg-dm-listing-${lang}`) }
+      : { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) };
+    row.push(second);
+  }
+  return { text, buttons: [row] };
+}
+
+const GROUP_HEAD = {
+  zh: (n) => `【上币】${n} 条新上币`,
+  en: (n) => `[Listing] ${n} new listing notices`,
+  ru: (n) => `[Листинг] ${n} новых уведомлений`,
+  tr: (n) => `[Listeleme] ${n} yeni listeleme duyurusu`,
+  vi: (n) => `[Niêm yết] ${n} thông báo niêm yết mới`,
+  id: (n) => `[Listing] ${n} pengumuman listing baru`,
+  es: (n) => `[Listado] ${n} nuevos avisos de listado`,
+  pt: (n) => `[Listagem] ${n} novos avisos de listagem`,
+};
+const GROUP_MORE = {
+  zh: (n) => `另有 ${n} 条，打开列表查看。`,
+  en: (n) => `${n} more in the listing feed.`,
+  ru: (n) => `Еще ${n} в ленте листингов.`,
+  tr: (n) => `${n} duyuru daha listeleme akışında.`,
+  vi: (n) => `Còn ${n} tin trong luồng niêm yết.`,
+  id: (n) => `${n} lainnya di feed listing.`,
+  es: (n) => `${n} más en el feed de listados.`,
+  pt: (n) => `${n} mais no feed de listagens.`,
+};
+const GROUP_DETAIL_LIMIT = 5;
+export function groupListingItems(items) {
+  const groups = [];
+  for (const item of items) {
+    const grouped = item.category === "listing" && !CAMPAIGN_TITLE.test(String(item.title || "")) && !isRiskNotice(item);
+    const last = groups[groups.length - 1];
+    if (grouped && last?.type === "listing") last.items.push(item);
+    else groups.push({ type: grouped ? "listing" : "single", items: [item] });
+  }
+  return groups;
+}
+export function listingGroupMessage(items, bySlug, lang, detailLimit = GROUP_DETAIL_LIMIT) {
+  const t = T(lang);
+  const neutral = isNeutralCtaLocale(lang);
+  items = items.filter((item) => !(neutral && (item.category === "event" || CAMPAIGN_TITLE.test(String(item.title || "")))));
+  if (!items.length) return null;
+  if (items.length === 1) return listingMessage(items[0], bySlug[items[0].venue], lang);
+  const lines = [`<b>${esc((GROUP_HEAD[lang] || GROUP_HEAD.en)(items.length))}</b>`];
+  const renderedItems = items.slice(0, detailLimit);
+  const sourceButtons = [];
+  const actionButtons = [];
+  const seen = new Set();
+  for (const item of renderedItems) {
+    const partner = bySlug[item.venue];
+    if (!partner) continue;
+    const update = `${SITE}${LOCALE_PATH[lang] ?? ""}${sourceUpdatePath({ ...item, venue: item.venue || partner.slug })}?src=tg-dm-listing-${lang}`;
+    lines.push(`• <a href="${update}">${esc(partner.name)}: ${esc(String(item.title || "").slice(0, 140))}</a>`);
+    const source = officialSourceCta(item.officialSource?.url || item.url, partner.slug, { lang, src: `tg-dm-listing-${lang}`, neutral });
+    if (source?.buttonUrl && sourceButtons.length < 3) sourceButtons.push({ text: `${t.officialSource} · ${partner.name}`, url: source.buttonUrl });
+    else if (source?.url) lines.push(`  ${esc(t.sourceText(source.url))}`);
+    if (!seen.has(partner.slug) && actionButtons.length < 3) {
+      seen.add(partner.slug);
+      actionButtons.push(neutral
+        ? { text: partner.name, url: exchangePageUrl(lang, partner.slug, `tg-dm-listing-${lang}`) }
+        : { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) });
+    }
+  }
+  if (items.length > renderedItems.length) lines.push(`• ${esc((GROUP_MORE[lang] || GROUP_MORE.en)(items.length - renderedItems.length))}`);
+  lines.push("", readMore(lang, neutral ? "/news" : BACKLINK_PATH.listing, "tg-listing"));
+  const buttons = [];
+  if (sourceButtons.length) buttons.push(sourceButtons);
+  if (actionButtons.length) buttons.push(actionButtons);
+  const text = lines.join("\n");
+  // Long source URLs and HTML escaping also consume the payload budget. Keep the full count and feed link.
+  if (text.length > 3900 && renderedItems.length) return listingGroupMessage(items, bySlug, lang, renderedItems.length - 1);
+  return { text, buttons };
 }
 
 // Owner funnel DM: last 24 h / 7 d from the click log, subscriber count only (no user data leaves the box).
@@ -423,18 +528,24 @@ async function cycle(tok) {
     const key = hourKey(ev.type);
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
-    for (const [lang, chat] of Object.entries(CHANNELS)) await send(tok, chat, eventMessage(ev, mk, lang), partnerButtons(partners, lang, `tg-alert-channel-${lang}`));
-    for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, msgLang(u)), partnerButtons(partners, msgLang(u), `tg-alert-dm-${msgLang(u)}`));
+    for (const [lang, chat] of Object.entries(CHANNELS)) await send(tok, chat, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-channel-${lang}`));
+    for (const [uid, u] of users) if (u.topics?.includes(topic)) {
+      const lang = msgLang(u);
+      await dm(uid, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-dm-${lang}`));
+    }
     state.sentEvents[key] = new Date().toISOString();
     log(`event ${ev.type} sent`);
   }
 
   // partner listings and campaigns -> "listings" subscribers (channels already get them from channel-feed)
-  const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3);
-  for (const item of fresh) {
-    if (state.sentListings[item.id]) continue;
-    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], msgLang(u)); if (m) await dm(uid, m.text, m.buttons); }
-    state.sentListings[item.id] = new Date().toISOString();
+  const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3 && !state.sentListings[i.id]);
+  for (const group of groupListingItems(fresh)) {
+    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) {
+      const lang = msgLang(u);
+      const m = group.type === "listing" ? listingGroupMessage(group.items, bySlug, lang) : listingMessage(group.items[0], bySlug[group.items[0].venue], lang);
+      if (m) await dm(uid, m.text, m.buttons);
+    }
+    for (const item of group.items) state.sentListings[item.id] = new Date().toISOString();
   }
 
   // daily brief at 13:00 UTC
