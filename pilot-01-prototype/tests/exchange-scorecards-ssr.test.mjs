@@ -38,11 +38,12 @@ test('Türkiye descriptive data does not award excluded venues', () => {
 
 test('hub renders market-specific rules and excludes unsupported country claims', () => {
   const html = hub();
-  for (const name of ['Türkiye', 'Vietnam', 'Indonesia', 'Brazil', 'Mexico']) assert.ok(html.includes(name), name);
+  for (const name of ['Türkiye', 'Indonesia', 'Brazil', 'Mexico']) assert.ok(html.includes(name), name);
+  assert.ok(!html.includes('Best exchange for Vietnam'), 'Vietnam is a no-promotion market (2026-10-13): no ranking table');
   // Owner rule: no fine print outside footer/legal.
   assert.doesNotMatch(html, /Account eligibility still requires verification/);
   // Owner rule: Türkiye rankings list only OKX, Binance and Bybit.
-  const turkey = html.slice(html.indexOf('id="scorecard-tr"'), html.indexOf('id="scorecard-vi"'));
+  const turkey = html.slice(html.indexOf('id="scorecard-tr"'), html.indexOf('id="scorecard-id"'));
   assert.deepEqual([...new Set([...turkey.matchAll(/href="\/exchanges\/([a-z-]+)"/g)].map((m) => m[1]))].sort(), ['binance', 'bybit', 'okx']);
   assert.match(html, /ItemList/);
 });

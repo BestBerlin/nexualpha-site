@@ -25,6 +25,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { schedule } from "../../ops/academy-v3/contract.mjs";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
+import { NEUTRAL_CTA_LOCALES } from "../src/data/locale-policy.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repo = path.resolve(root, "..");
@@ -45,7 +46,7 @@ const UI_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it",
 // Locales with a localized lesson (dialogue + study notes). Others render the English lesson in their UI language.
 const CONTENT_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
 const L10N_KEY = (locale) => (locale === "zh-Hans" ? "zh" : locale);
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 const SPEAKERS = { sam: "sam", nexubo: "nexubo", narrator: "narrator" };
 // Episodes grouped into the three parts shown on the hub.
 const PART_OF = (ep) => (ep <= 12 ? 1 : ep <= 17 ? 2 : 3);

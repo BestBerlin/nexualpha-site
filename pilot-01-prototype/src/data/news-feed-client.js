@@ -1,6 +1,7 @@
 import { localizedHref } from "./locale-routing.js";
 import { stripPlainMarkdown } from "./news-content-repair.js";
 import { newsReadTimes } from "./news-read-time.js";
+import { withoutNeutralReferralEditions } from "./neutral-referral-topic.js";
 
 export const NEWS_FEED_URL = "/content/news-feed.json";
 export const NEWS_FEED_SUMMARY_URL = "/content/news-feed-summary.json";
@@ -416,7 +417,7 @@ function projectionLocales(article) {
   const locales = Array.isArray(projection.availableLocales)
     ? projection.availableLocales.map(cleanString).filter(Boolean)
     : [];
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 function routeProjection(article, locale = undefined) {
@@ -443,7 +444,7 @@ export function newsArticleAvailableLocales(article) {
       && cleanString(article.summary?.[locale])
       && cleanString(article.content?.[locale]);
   });
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 /**
@@ -458,7 +459,7 @@ export function newsArticleDeclaredLocales(article) {
     : [];
   const projected = projectionLocales(article);
   const declared = explicit.length ? explicit : projected.length ? projected : newsArticleAvailableLocales(article);
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => declared.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => declared.includes(locale)));
 }
 
 /** True when the article has its own edition (title + summary, body when the row carries one) in `locale`. */

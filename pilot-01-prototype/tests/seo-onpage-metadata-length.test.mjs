@@ -56,7 +56,7 @@ test("home title carries the commercial search intent per locale and stays withi
   const expectations = {
     en: [/Referral Codes/, /Fee Rebates/],
     "zh-Hans": [/邀请码/, /返佣/],
-    "zh-Hant": [/邀請碼/, /返傭/],
+    "zh-Hant": [/手續費/, /OKX/],
     ja: [/手数料/, /紹介コード/],
     ko: [/수수료/, /추천코드/],
     tr: [/komisyon iadesi/, /referans kodu/],
@@ -66,7 +66,7 @@ test("home title carries the commercial search intent per locale and stays withi
     de: [/Empfehlungscodes/, /Gebührenrabatte/],
     it: [/referral/, /commissioni/],
     id: [/referral/, /biaya/],
-    vi: [/giới thiệu/, /hoàn phí/],
+    vi: [/Phí/, /OKX/],
     ru: [/Комиссии/, /OKX/],
     ar: [/رسوم/, /OKX/],
   };
@@ -77,8 +77,8 @@ test("home title carries the commercial search intent per locale and stays withi
     if (!["zh-Hans", "zh-Hant", "ja", "ko"].includes(locale)) assert.match(metadata.title, /NexuAlpha/, `${locale} brand`);
     // ja/ko keep an informational tone; ru/ar stay neutral like the referral-title policy
     if (["ja", "ko"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /登録して|会員登録|가입하세요|회원가입/);
-    if (["ru", "ar"].includes(locale)) assert.doesNotMatch(metadata.title, /реферальн|промокод|إحالة/i);
-    if (locale !== "ru" && locale !== "ar" && locale !== "tr") assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
+    if (["ru", "ar", "vi", "zh-Hant"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /реферальн|промокод|إحالة|giới thiệu|hoàn phí|đăng ký|邀請碼|返傭/i);
+    if (!["ru", "ar", "tr", "vi", "zh-Hant"].includes(locale)) assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
     // the Worker mirror and the client router share one copy table
     const client = computeRouteSeo({ url: `https://nexualpha.com${localizedPath("/", locale)}`, locale });
     assert.equal(metadata.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} worker title`);

@@ -10,6 +10,8 @@ import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
 import { campaignVisibleInLocale } from "./campaign-locale-policy.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
+import { carriesSignupPath, isReferralTopicArticle, neutralArticleMarkdown } from "./neutral-article.js";
+import { isNeutralCtaLocale } from "./locale-policy.js";
 import { COIN_ROWS } from "./coins-data.generated.js";
 
 // Search editions (same set as the Worker's INDEXABLE_LOCALES): every one has its own templates below.
@@ -543,9 +545,19 @@ export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
   return FLASH_INDEX_LOCALES.filter((locale) => campaignVisibleInLocale(item, locale) && isFlashIndexable(item, locale, { now, localized: renderText(item, locale).localized }));
 }
 
+// Neutral locales (locale-policy.js): an item about a referral code, or whose text carries a code or sign-up link, is
+// left out of the stream and the related list; an item page opened directly loses those sentences.
+function neutralFlashHidden(item, locale) {
+  if (!isNeutralCtaLocale(locale)) return false;
+  const text = renderText(item, locale);
+  const slug = item.type === "news" ? String(item.source?.url || "").split(/[?#]/)[0].split("/").filter(Boolean).pop() : "";
+  return isReferralTopicArticle({ slug, title: { en: renderText(item, "en").headline } }) || carriesSignupPath(`${text.headline}\n${text.body}`);
+}
+
 /** Compact, locale-rendered row the browser receives (no templates ship to the client). */
 export function flashView(item, locale = "en", { now = Date.now() } = {}) {
-  const text = renderText(item, locale);
+  const rendered = renderText(item, locale);
+  const text = isNeutralCtaLocale(locale) ? { ...rendered, body: neutralArticleMarkdown(rendered.body, locale) } : rendered;
   const importance = flashImportance(item);
   return {
     ...(importance ? { important: true, importance } : {}),
@@ -561,7 +573,7 @@ export const findFlashItem = (items, key) => (Array.isArray(items) ? items : [])
 
 /** Stream page / JSON payload: newest first, optional type, venue and `before` cursor. */
 export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, important = false, now = Date.now(), generatedAt = null } = {}) {
-  const all = Array.isArray(items) ? items : [];
+  const all = (Array.isArray(items) ? items : []).filter((item) => !neutralFlashHidden(item, locale));
   let rows = all.filter((item) => campaignVisibleInLocale(item, locale));
   if (important) rows = rows.filter((item) => flashImportance(item));
   if (type && FLASH_TYPES.includes(type)) rows = rows.filter((item) => item.type === type);
@@ -580,7 +592,7 @@ export function flashStreamPayload(items, locale = "en", { limit = 40, before = 
 
 /** Item page payload: the item plus related items (same exchange first, then the latest of the same type). */
 export function flashItemPayload(items, item, locale = "en", { now = Date.now() } = {}) {
-  const others = (Array.isArray(items) ? items : []).filter((row) => row.key !== item.key);
+  const others = (Array.isArray(items) ? items : []).filter((row) => row.key !== item.key && !neutralFlashHidden(row, locale));
   const sameVenue = item.venue ? others.filter((row) => row.venue === item.venue) : [];
   const sameType = others.filter((row) => row.type === item.type);
   const related = [...new Map([...sameVenue.slice(0, 3), ...sameType.slice(0, 6), ...others.slice(0, 6)].filter((row) => campaignVisibleInLocale(row, locale)).map((row) => [row.key, row])).values()].slice(0, 6);

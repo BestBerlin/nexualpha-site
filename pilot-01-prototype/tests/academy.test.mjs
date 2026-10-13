@@ -17,6 +17,8 @@ import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { titleBudgetForLocale } from "../src/data/meta-description.js";
 import { buildAcademySitemap, buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -178,7 +180,7 @@ test("sign-up CTA: conversion lessons only, registry codes via /go/, geo-gated, 
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[6], { locale: "en" }), ["bitget"]);
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[6], { locale: "tr" }), ["okx"], "Bitget is not promoted in Türkiye; OKX instead");
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[11], { locale: "en" }), ["okx", "bitget", "binance"]);
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.deepEqual(academySignupVenues(E05, { locale }), [], locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.deepEqual(academySignupVenues(E05, { locale }), [], locale);
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[0], { locale: "en" }), [], "non-conversion lesson");
 
   const bitget = mainHtml(await (await fetchPage(`/academy/${ACADEMY_EPISODES[6].slug}`)).text());

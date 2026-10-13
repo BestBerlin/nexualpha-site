@@ -3,10 +3,12 @@
 // no fine print; no domain-like brand text in visible copy; links tagged with a src.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { digestMessage, partnerButtons } from "./alert-sender.mjs";
-import { articles, campaigns, mk, partners } from "./fixtures/alert-fixture.mjs";
+import { readFileSync } from "node:fs";
+import { CAMPAIGN_TITLE, digestMessage, eventMessage, listingMessage, partnerButtons } from "./alert-sender.mjs";
+import { CAMPAIGN_TITLE as FEED_CAMPAIGN_TITLE, NEUTRAL_CTA_LOCALE_LIST as FEED_NEUTRAL } from "../channel-feed/channel-feed.mjs";
+import { articles, campaignItem, campaigns, listingItem, mk, partners } from "./fixtures/alert-fixture.mjs";
 import {
-  FEATURE_KEYS, FEATURE_LANGS, campaignLinks, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
+  FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
   todayBlock, todaysCalendarEvents, toolOfWeekKey, toolOfWeekMessage, topImportantFlash,
 } from "./site-features.mjs";
 
@@ -119,4 +121,80 @@ test("helpers: language codes, rotation, links", () => {
   assert.notDeepEqual(rotatingFeatures(NOW, "en", "s").map((f) => f.key), rotatingFeatures(new Date(NOW.getTime() + 864e5), "en", "s").map((f) => f.key));
   assert.equal(topImportantFlash({ items: [] }, NOW, "en").length, 0);
   assert.equal(todaysCalendarEvents(null, NOW, "en").length, 0);
+});
+
+// Owner 2026-10-13: vi is an information-only locale like ru (Vietnam Resolution 05/2025/NQ-CP): news, market data and
+// tools stay; no sign-up CTA, no invite code, no /go/ partner button, no campaign post or campaign page link.
+const CODES = ["nexu888", "11350287", "7f97gkqw", "DPRWSXAS", "48553"];
+try {
+  const feed = JSON.parse(readFileSync(new URL("../../pilot-01-prototype/public/intel/partners.json", import.meta.url), "utf8"));
+  for (const p of feed.partners || []) if (p.inviteCode) CODES.push(p.inviteCode);
+} catch {}
+for (const p of partners) if (p.inviteCode) CODES.push(p.inviteCode);
+const CODE_RE = new RegExp(CODES.map((c) => String(c).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "i");
+const VI_SIGNUP = /đăng ký|mã mời|giới thiệu|hoàn tới|hoàn phí|ưu đãi|sign ?up|register|referral/i;
+const CAMPAIGN_PAGE = /\/activities/;
+const viSurfaces = () => [
+  pinnedMenuMessage("vi"), startMenu("vi"), ...WEEKS.map((w) => toolOfWeekMessage(w, "vi")), campaignLinks("vi", "x"),
+  partnerButtons(partners, "vi", "x"), digestMessage(mk, partners, articles, campaigns, "vi", { now: NOW, flash, calendar }),
+  digestMessage(mk, partners, articles, campaigns, "vi"),
+  eventMessage({ type: "liquidation-spike" }, mk, "vi"), listingMessage(listingItem, partners[0], "vi"),
+];
+
+test("vi is neutral: no /go/, no invite code, no sign-up copy, no campaign page in any Telegram surface", () => {
+  const all = allText(viSurfaces());
+  assert.doesNotMatch(all, /\/go\//);
+  assert.doesNotMatch(all, CODE_RE);
+  assert.doesNotMatch(all, CAMPAIGN_PAGE);
+  assert.doesNotMatch(visible(all.replace(/https?:[^"\\]+/g, "")), VI_SIGNUP);
+  assert.deepEqual(campaignLinks("vi", "x"), []);
+});
+
+test("vi pinned menu and /start: news, market and tool links only, no campaign row", () => {
+  const pin = pinnedMenuMessage("vi");
+  assert.doesNotMatch(pin.text, /🎁/);
+  for (const k of ["flash", "calendar", "liquidations", "matrix"]) assert.ok(pin.text.includes(feature(k, "vi", "tg-pin-vi").url), k);
+  const urls = [...pin.text.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).concat(pin.buttons.flat().map((b) => b.url));
+  for (const u of urls) assert.match(u, /^https:\/\/(nexualpha\.com\/vi\/(flash|calendar|liquidations|funding-rates|coins|convert|academy|glossary)|t\.me\/NexuAlphaAssistantBot\?start=alerts-vi)/, u);
+  const start = startMenu("vi");
+  assert.equal(start.rows.length, 3, "tool rows only");
+  assert.ok(!start.rows.flat().some((b) => /🎁/.test(b.text) || CAMPAIGN_PAGE.test(b.url)));
+});
+
+test("vi digest: exchange buttons show only the name and open the exchange page; no campaigns block", () => {
+  const d = digestMessage(mk, partners, articles, campaigns, "vi", { now: NOW, flash, calendar });
+  const exchangeButtons = d.buttons.flat().filter((b) => b.url.includes("/exchanges/"));
+  assert.ok(exchangeButtons.length >= 2);
+  for (const b of exchangeButtons) {
+    assert.ok(partners.some((p) => p.name === b.text), `name only: ${b.text}`);
+    assert.match(b.url, /^https:\/\/nexualpha\.com\/vi\/exchanges\/[a-z-]+\?src=tg-digest-vi$/);
+  }
+  assert.ok(!d.text.includes("Sự kiện sàn giao dịch"), "no campaigns heading");
+  for (const c of campaigns) assert.ok(!d.text.includes(c.url), "no campaign links");
+  const en = digestMessage(mk, partners, articles, campaigns, "en", { now: NOW, flash, calendar });
+  assert.ok(en.buttons.flat().some((b) => b.url.includes("/go/")), "non-neutral channels keep sign-up buttons");
+});
+
+test("vi listing DMs: official notice + exchange page; campaign DMs are not sent", () => {
+  assert.equal(listingMessage(campaignItem, partners.find((p) => p.slug === "bitget") || partners[0], "vi"), null);
+  assert.equal(listingMessage(campaignItem, partners.find((p) => p.slug === "bitget") || partners[0], "ru"), null);
+  const m = listingMessage(listingItem, partners[0], "vi");
+  assert.doesNotMatch(allText(m), /\/go\/|\/activities/);
+  assert.ok(listingMessage(campaignItem, partners[0], "en"), "other languages unchanged");
+});
+
+test("Telegram senders share one neutral list and one campaign-title pattern", () => {
+  assert.deepEqual(FEED_NEUTRAL, NEUTRAL_CTA_LOCALE_LIST);
+  assert.equal(FEED_CAMPAIGN_TITLE.source, CAMPAIGN_TITLE.source);
+  assert.equal(listingMessage({ ...listingItem, title: "OKX Futures Challenge: share 100,000 USDT" }, partners[0], "vi"), null);
+});
+
+test("neutral locale list matches the site policy (pilot-01-prototype/src/data/locale-policy.js)", async (t) => {
+  const policy = new URL("../../pilot-01-prototype/src/data/locale-policy.js", import.meta.url);
+  let site;
+  try { readFileSync(policy); site = await import(policy.href); } catch (e) { if (e.code === "ENOENT") return t.skip("site locale-policy.js not in this tree"); throw e; }
+  assert.deepEqual([...NEUTRAL_CTA_LOCALE_LIST].sort(), [...site.NEUTRAL_CTA_LOCALE_LIST].sort());
+  for (const l of ["ru", "vi", "vi-VN", "zh-Hant", "zh-TW", "zh-HK", "ar", "ur", "uk", "en", "zh", "tr", "id", "es", "pt", "zh-Hans", "ruby", ""]) {
+    assert.equal(isNeutralCtaLocale(l), site.isNeutralCtaLocale(l), l);
+  }
 });

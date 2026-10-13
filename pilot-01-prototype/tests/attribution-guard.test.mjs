@@ -20,10 +20,11 @@ import { COINS } from '../src/data/coins.js';
 import { APP_DOWNLOAD_SLUGS, appDownloadPath } from '../src/data/app-download-path.js';
 import { parsePublicRoute, localizedPath, LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 import { ATTRIBUTION_ALLOWLIST } from './helpers/attribution-allowlist.mjs';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const root = resolve(import.meta.dirname, '..');
 const sourceHrefPattern = /(?:https?:\/\/[^\s<>"'`\\)\]}，。；）]+|\/go\/[a-z0-9-]+(?:\?[^\s<>"'`\\)\]}，。；）]*)?)/g;
-const neutral = new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']);
+const neutral = new Set(NEUTRAL_CTA_LOCALE_LIST);
 const domains = new Map();
 const targets = [];
 const addDomain = (host, venue) => domains.set(host.replace(/^www\./, '').replace(/^app\./, ''), venue);

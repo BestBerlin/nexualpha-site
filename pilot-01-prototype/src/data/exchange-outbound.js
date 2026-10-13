@@ -11,11 +11,12 @@
 // - Real external links remain only on the legal and methodology pages (callers pass { allowDirect: true }).
 // Codes and parameter names are read from the partner registry, never typed here.
 import { partnerRegistry } from "./partner-registry.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 /** Venues whose referral query parameter is honoured on every page of their main site (owner list 2026-10-13). */
 export const SITEWIDE_PARAM_VENUES = Object.freeze(["binance", "bybit", "kraken"]);
 /** Locales that never show a sign-up CTA or an attributed exchange link (same set as the attribution guard, plus vi). */
-export const OUTBOUND_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+export const OUTBOUND_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES; // single list: src/data/locale-policy.js
 const NO_CTA_MARKETS = new Set(["VN"]);
 
 const baseDomain = (host) => String(host || "").toLowerCase().replace(/^(?:www|app|partner|accounts)\./, "");

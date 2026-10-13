@@ -20,15 +20,17 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // - hyperliquid (en) and backpack (en, fr) use the exchange's own docs / help pages read 2026-10-11.
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { priorityVenueAnswerFor } from "./priority-venue-answers.js";
+import { isNeutralCtaLocale } from "./locale-policy.js";
 
 export const PARTNER_VENUE_FAQ_REVIEWED_AT = "2026-10-10";
 export const PARTNER_VENUE_FAQ_SLUGS = Object.freeze(["okx", "bitget", "binance", "bybit", "gate-io", "mexc"]);
 export const PARTNER_VENUE_FAQ_REPLACE_LOCALES = Object.freeze(["pt-BR", "es", "fr"]);
 export const PARTNER_VENUE_FAQ_APPEND_LOCALES = Object.freeze(["en", "zh-Hans"]);
 // Owner exchange keyword plan 2026-10-11: localized referral FAQ only for these exchanges per locale (replace mode).
+// vi left the list on 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP): it is a neutral locale (locale-policy.js) and its
+// written entries below stay unused.
 export const PARTNER_VENUE_FAQ_LOCAL_TARGETS = Object.freeze({
   tr: Object.freeze(["okx", "binance", "bybit"]),
-  vi: Object.freeze(["okx", "bitget", "bybit", "binance"]),
   id: Object.freeze(["bybit", "bitget", "okx"]),
 });
 // Partner exchanges whose FAQ covers only some locales (hyperliquid: en; backpack: en + fr).
@@ -832,6 +834,8 @@ function rawEntriesFor(slug, locale) {
  */
 export function partnerVenueFaqFor(slug, locale = "en") {
   const normalized = normalizePartnerFaqLocale(locale);
+  // Neutral locales (ru, ar, zh-Hant, ur, uk, vi) carry no referral FAQ.
+  if (normalized && isNeutralCtaLocale(normalized)) return null;
   if (!normalized || !(PARTNER_VENUE_FAQ_SLUGS.includes(slug) || PARTNER_VENUE_FAQ_EXTRA_SLUGS.includes(slug))) return null;
   const raw = rawEntriesFor(slug, normalized);
   if (!raw?.length) return null;

@@ -22,6 +22,8 @@ import { createGoRedirect } from "../server/go-redirect.mjs";
 import { createKrakenUsdgLive, extractKrakenCompetition, normalizeKrakenUsdg } from "../server/kraken-usdg-live.mjs";
 import { buildCampaignSitemap } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -89,14 +91,14 @@ test("copy: 10 written editions, same structure, code only through the placehold
 test("funnel: step 1 = /go/kraken with src + registry code, step 2 = /go/kraken-usdg-challenge", () => {
   assert.deepEqual(krakenUsdgSignup({ locale: "en", placement: "hero", now: DURING }),
     { code: CODE, href: "/go/kraken?src=kraken-usdg-hero", registerHref: "/go/kraken-usdg-challenge?src=kraken-usdg-hero" });
-  for (const locale of ["en", "zh-Hans", "es", "vi", "id", "ko"]) assert.ok(krakenUsdgSignup({ locale, now: DURING }), locale);
+  for (const locale of ["en", "zh-Hans", "es", "id", "ko"]) assert.ok(krakenUsdgSignup({ locale, now: DURING }), locale);
   assert.equal(krakenUsdgSignup({ locale: "en", now: AFTER }), null, "no CTA after the end");
 });
 
 test("geo: no CTA in Türkiye, excluded countries, neutral locales or fr/de/pt-BR/ja editions", () => {
   assert.equal(krakenUsdgSignupGate({ locale: "tr" }), "partner-geo-restricted", "Türkiye: Kraken is not on the allow-list");
   for (const market of ["TR", "US", "UK", "BR", "AR-COUNTRY", "JP", "EU"]) assert.equal(krakenUsdgSignup({ locale: "en", market, now: DURING }), null, `market ${market}`);
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.equal(krakenUsdgSignupGate({ locale }), "neutral-locale", locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.equal(krakenUsdgSignupGate({ locale }), "neutral-locale", locale);
   for (const locale of ["fr", "de", "it", "pt-BR", "ja"]) assert.equal(krakenUsdgSignup({ locale, now: DURING }), null, locale);
   assert.equal(krakenUsdgPromotable({ locale: "tr", now: DURING }), false);
   assert.equal(krakenUsdgPromotable({ locale: "en", now: AFTER }), false);

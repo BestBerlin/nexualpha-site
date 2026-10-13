@@ -138,8 +138,12 @@ def logo(size):
     return im
 
 
+# Mirror of NEUTRAL_CTA_LOCALE_LIST in pilot-01-prototype/src/data/locale-policy.js (parity: tests/locale-policy.test.mjs).
+NEUTRAL_CTA_LOCALES=('ru','ar','zh-Hant','ur','uk','vi')
+
+
 def resolve_cta(meta,locale,market=''):
-    if meta['cta']['kind']!='partner' or locale in ('ru','ar','zh-Hant','ur','uk'):
+    if meta['cta']['kind']!='partner' or locale in NEUTRAL_CTA_LOCALES:
         return None
     return json.loads(run(['node',ROOT/'cta.mjs',meta['cta']['partner'],locale,market]))
 

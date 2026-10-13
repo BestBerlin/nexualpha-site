@@ -24,6 +24,8 @@ import { COIN_ROWS } from "../src/data/coins-data.generated.js";
 import { modulePathsForRoute } from "../src/data/route-module-cache.js";
 import { buildGlossarySitemap, buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts, decodeEntities } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -197,7 +199,7 @@ test("partner CTA: only on trading terms, registry code via /go/<venue>?src=glos
     if (tr) assert.ok(["okx", "binance", "bybit"].includes(tr.venue), `tr ${term.slug}: ${tr.venue}`);
     const trMarket = glossarySignup(term, { locale: "en", market: "TR" });
     if (trMarket) assert.ok(["okx", "binance", "bybit"].includes(trMarket.venue), `market=TR ${term.slug}`);
-    for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.equal(glossarySignup(term, { locale }), null, `${locale} ${term.slug}`);
+    for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.equal(glossarySignup(term, { locale }), null, `${locale} ${term.slug}`);
   }
   const page = mainHtml(await (await fetchPage("/glossary/funding-rate")).text());
   assert.match(page, /href="\/go\/[a-z-]+\?src=glossary-funding-rate&amp;locale=en"/);

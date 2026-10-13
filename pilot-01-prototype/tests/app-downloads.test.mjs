@@ -11,6 +11,8 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { buildAppsSitemap, buildSplitSitemaps } from "../scripts/generate-prerender-manifest.mjs";
 import { modulePathsForRoute } from "../src/data/route-module-cache.js";
 import { createSsrHarness, SHELL_HTML, h1Texts, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const path = new URL(request.url).pathname;
@@ -75,7 +77,7 @@ test("all locale editions are localized and indexable, neutral locales never con
     assert.ok(APP_DOWNLOAD_COPY[locale].answer);
     assert.equal(APP_DOWNLOAD_COPY[locale].steps.length, 3);
     if (locale !== "en") assert.notEqual(APP_DOWNLOAD_COPY[locale].answer, APP_DOWNLOAD_COPY.en.answer);
-    if (["ru", "ar", "zh-Hant", "ur", "uk"].includes(locale)) assert.doesNotMatch(main(html), /data-app-registration|href="\/go\//);
+    if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(main(html), /data-app-registration|href="\/go\//);
     assert.doesNotMatch(main(html), /not (?:investment|financial) advice|affiliate commission|pays our commission|terms (?:and conditions )?apply|非投资建议|非投資建議|佣金|傭金/i);
   }
 });

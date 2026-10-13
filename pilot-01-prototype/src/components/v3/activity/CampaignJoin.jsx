@@ -3,11 +3,12 @@ import { publicCtaForVenue } from "../../../data/source-bound-cta.js";
 import { isPartnerPromotableIn } from "../../../data/partner-geo-policy.js";
 import { partnerBenefitStatus } from "../../../data/partner-benefit-status.js";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
+import { isNeutralCtaLocale } from "../../../data/locale-policy.js";
 import { SourceLink } from "../../shared/SourceLink.jsx";
 import { BackupSignupLink } from "../../shared/BackupSignupLink.jsx";
 import "./campaign-join.css";
 
-const isNeutralLocale = (locale) => /^(ru|ar|ur|uk)(-|$)|^zh-(Hant|TW|HK)(-|$)/i.test(locale);
+const isNeutralLocale = isNeutralCtaLocale;
 export function CampaignJoin({ venue, locale = "en", market, officialUrl, placement = "activities-live-campaign" }) {
   const t = campaignJoinCopy(locale);
   const cta = publicCtaForVenue(venue, locale, market);

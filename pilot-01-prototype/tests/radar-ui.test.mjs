@@ -12,6 +12,7 @@ import {
   radarCopy,
   sortRows,
 } from "../src/data/radar.js";
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const SAMPLE_RADAR = {
   longShort: {
@@ -180,7 +181,7 @@ test("zh-Hans radar UI is fully localized: headers, directions, venue names and 
 
 test("neutral locales get profile links instead of sponsored routes and no offer block", async () => {
   const { LongShortPage } = await harness.vite.ssrLoadModule("/src/components/radar/RadarPages.jsx");
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk", "vi"]) {
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) {
     const doc = new JSDOM(renderToStaticMarkup(React.createElement(LongShortPage, { locale, initial: SAMPLE_RADAR }))).window.document;
     assert.equal(doc.querySelectorAll('a[href^="/go/"]').length, 0, locale);
     assert.equal(doc.querySelectorAll('a[rel~="sponsored"]').length, 0, locale);

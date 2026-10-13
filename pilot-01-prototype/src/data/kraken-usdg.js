@@ -26,6 +26,7 @@
 import { isPartnerPromotableIn, promotionCountries } from "./partner-geo-policy.js";
 import { partnerRegistry } from "./partner-registry.js";
 import { KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "./kraken-usdg-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { KRAKEN_USDG_PATH, parseKrakenUsdgPath };
 export const KRAKEN_USDG_ORIGIN = "https://nexualpha.com";
@@ -108,7 +109,7 @@ export function krakenUsdgActive(now = Date.now()) {
 // Locales with a written edition of the page (indexable, in the sitemap). Other UI locales read English, noindex.
 export const KRAKEN_USDG_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "vi", "id", "ja", "ko", "fr", "de"]);
 // Same neutral set as the academy and the other campaign pages: informational, no sign-up wording, no CTA.
-export const KRAKEN_USDG_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const KRAKEN_USDG_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // French, German and Italian editions are read mostly from the EEA and Switzerland, which the challenge excludes; without
 // an explicit market they stay informational.
 const EXCLUDED_FIRST_LOCALES = new Set(["fr", "de", "it"]);

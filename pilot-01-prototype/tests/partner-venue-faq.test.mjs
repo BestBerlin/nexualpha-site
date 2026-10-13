@@ -101,13 +101,14 @@ test("en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer 
   }
 });
 
-test("neutral locales get no partner FAQ; tr / vi / id only for the owner's target exchanges", () => {
+test("neutral locales get no partner FAQ; tr / id only for the owner's target exchanges", () => {
   // Owner update 2026-10-11 (exchange keyword plan): tr, vi and id moved from "under review" to a per-exchange target
   // list (PARTNER_VENUE_FAQ_LOCAL_TARGETS); ru, ar and zh-Hant stay neutral.
-  for (const locale of ["zh-Hant", "ru", "ar"]) {
-    for (const slug of PARTNER_VENUE_FAQ_SLUGS) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
+  // vi became neutral on 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP).
+  for (const locale of ["zh-Hant", "ru", "ar", "vi", "ur", "uk"]) {
+    for (const slug of [...PARTNER_VENUE_FAQ_SLUGS, "hyperliquid", "backpack"]) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
   }
-  for (const locale of ["tr", "vi", "id"]) {
+  for (const locale of ["tr", "id"]) {
     for (const slug of PARTNER_VENUE_FAQ_SLUGS) {
       if (PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale].includes(slug)) assert.ok(partnerVenueFaqFor(slug, locale)?.entries.length >= 5, `${slug}/${locale}`);
       else assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
