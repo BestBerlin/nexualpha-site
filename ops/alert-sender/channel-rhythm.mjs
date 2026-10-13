@@ -1,5 +1,6 @@
 // Channel-local rhythm helpers for the Telegram alert sender.
 // This module is intentionally independent from alert-sender.mjs so tests can import it without a circular dependency.
+import { toolOfWeekMessage } from "./site-features.mjs";
 export const RHYTHM_LANGS = ["zh", "en", "ru", "tr", "vi"];
 export const RHYTHM_TIMEZONE = {
   zh: "Asia/Shanghai",
@@ -72,7 +73,7 @@ const TEXT = {
 };
 
 export function localSlot(now, lang) {
-  const timeZone = RHYTHM_TIMEZONE[lang];
+  const timeZone = lang === "sgt" ? "Asia/Singapore" : RHYTHM_TIMEZONE[lang];
   if (!timeZone) return null;
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
     timeZone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
@@ -87,6 +88,9 @@ export function dueRhythmSlots(now, lang) {
   const out = [];
   if (slot.hour === 8) out.push({ kind: "morning", key: `${slot.date}:08`, local: slot });
   if (slot.weekday === "Mon" && slot.hour === 12) out.push({ kind: "weeklyPoll", key: `${slot.date}:12`, local: slot });
+  // "Tool of the week" (owner 2026-10-13): Monday 20:00 Singapore time in every channel, whatever the channel's zone.
+  const sgt = localSlot(now, "sgt");
+  if (sgt.weekday === "Mon" && sgt.hour === 20) out.push({ kind: "toolOfWeek", key: `${sgt.date}:20`, local: sgt });
   return out;
 }
 
@@ -154,7 +158,7 @@ function validateExistingRhythmState(state) {
   if (!validObject(state)) throw new Error("channel rhythm state root is corrupt");
   if (state.channelRhythm === undefined) return;
   if (!validObject(state.channelRhythm)) throw new Error("channel rhythm state is corrupt");
-  for (const name of ["morning", "weeklyPoll"]) {
+  for (const name of ["morning", "weeklyPoll", "toolOfWeek"]) {
     const map = state.channelRhythm[name];
     if (map === undefined) continue;
     if (!validObject(map)) throw new Error("channel rhythm state maps are corrupt");
@@ -168,6 +172,7 @@ function ensureRhythmState(state) {
   if (state.channelRhythm === undefined) state.channelRhythm = {};
   if (state.channelRhythm.morning === undefined) state.channelRhythm.morning = {};
   if (state.channelRhythm.weeklyPoll === undefined) state.channelRhythm.weeklyPoll = {};
+  if (state.channelRhythm.toolOfWeek === undefined) state.channelRhythm.toolOfWeek = {};
   return state.channelRhythm;
 }
 
@@ -185,6 +190,9 @@ export async function runChannelRhythm({ channels, state, now = new Date(), mark
         if (slot.kind === "morning") {
           const msg = morningSnapshotMessage(market, lang, { disclosure: disclosureFor(lang) });
           await sendMessage(chat, msg.text, buttonsFor(lang, `tg-morning-${lang}`), { slot, partners });
+        } else if (slot.kind === "toolOfWeek") {
+          const msg = toolOfWeekMessage(now, lang);
+          await sendMessage(chat, msg.text, msg.buttons, { slot, partners });
         } else {
           await sendPoll(chat, weeklyPollPayload(lang), { slot });
         }
