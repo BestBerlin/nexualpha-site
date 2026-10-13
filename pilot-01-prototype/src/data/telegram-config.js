@@ -37,7 +37,7 @@ export const TELEGRAM_RESEARCH_PATHS = [
       { label: { en: "Open Hyperliquid fee detail", "zh-Hans": "查看 Hyperliquid 费用详情", "zh-Hant": "查看 Hyperliquid 費用詳情", "pt-BR": "Ver custos da Hyperliquid", ko: "Hyperliquid 비용 세부 정보", tr: "Hyperliquid ücret detayını aç" }, href: "/exchanges/hyperliquid" },
       { label: { en: "Use the fee scenario tool", "zh-Hans": "打开费用情景工具", "zh-Hant": "打開費用情景工具", "pt-BR": "Usar simulador de custos", ko: "수수료 시나리오 도구 사용", tr: "Ücret senaryosu aracını kullan" }, href: "/rates" },
     ],
-    deepLinkAction: { action: "fee_calc", venue: "binance", product: "spot" },
+    deepLinkAction: { action: "fee_calc" },
   },
   {
     id: "regional-onboarding",
@@ -62,7 +62,7 @@ export const TELEGRAM_RESEARCH_PATHS = [
       { label: { en: "Korea account research", "zh-Hans": "韩国账户研究入口", "zh-Hant": "韓國帳戶研究入口", "pt-BR": "Pesquisa de conta Coreia", ko: "한국 계정 리서치", tr: "Kore hesap araştırması" }, href: "/kr" },
       { label: { en: "Turkey market research", "zh-Hans": "土耳其市场研究入口", "zh-Hant": "土耳其市場研究入口", "pt-BR": "Pesquisa de mercado Turquia", ko: "튀르키예 시장 리서치", tr: "Türkiye piyasa araştırması" }, href: "/markets/turkiye" },
     ],
-    deepLinkAction: { action: "partner_desk", market: "BR", locale: "pt-BR", product: "spot" },
+    deepLinkAction: { action: "partner_desk" },
   },
   {
     id: "dex-safety",
@@ -1688,6 +1688,8 @@ export function parseTelegramWebsiteStartPayload(payload = "") {
     return { ...parsed, action: "fee_calc", ...(venue ? { venue } : {}), ...(type ? { type } : {}), ...(volume ? { volume: volume.replace(/p/g, ".") } : {}) };
   }
   if (head === "partner" && second === "desk") return { ...parsed, action: "partner_desk" };
+  if (head === "alert" && !second) return { ...parsed, action: "alert" };
+  if (head === "launchpool" && second === "alert") return { ...parsed, action: "alert", legacyAction: "launchpool_alert", ...(third ? { project: third } : {}) };
   if (head === "verify" && second === "domain") return { ...parsed, action: "verify_domain", ...(third ? { venue: third } : {}) };
   if (head === "rates") return { ...parsed, action: "rates", ...(second ? { venue: second } : {}) };
   return { ...parsed, status: "unrecognized" };
@@ -1704,6 +1706,8 @@ function websiteStartPayloadBodyShape(payload = "") {
   if (head === "compare") return { cleaned, valid: body.length === 2, reason: body.length === 2 ? null : "unexpected_body_tail" };
   if (head === "fee" && second === "calc") return { cleaned, valid: body.length >= 3 && body.length <= 5, reason: body.length >= 3 && body.length <= 5 ? null : "unexpected_body_tail" };
   if (head === "partner" && second === "desk") return { cleaned, valid: body.length >= 2 && body.length <= 3, reason: body.length >= 2 && body.length <= 3 ? null : "unexpected_body_tail" };
+  if (head === "alert") return { cleaned, valid: body.length === 1, reason: body.length === 1 ? null : "unexpected_body_tail" };
+  if (head === "launchpool" && second === "alert") return { cleaned, valid: body.length >= 2 && body.length <= 3, reason: body.length >= 2 && body.length <= 3 ? null : "unexpected_body_tail" };
   if (head === "verify" && second === "domain") return { cleaned, valid: body.length >= 2 && body.length <= 3, reason: body.length >= 2 && body.length <= 3 ? null : "unexpected_body_tail" };
   if (head === "rates") return { cleaned, valid: body.length >= 1 && body.length <= 2, reason: body.length >= 1 && body.length <= 2 ? null : "unexpected_body_tail" };
   return { cleaned, valid: true, reason: null };
@@ -2452,7 +2456,7 @@ export const TELEGRAM_COMMANDS = [
     descHant: "自己設規則：價格關口、1 小時波動、爆倉、資金費率或新幣上線，觸發即私訊。/alert list 查看，/stop 全部關閉。",
     descEn: "Your own rules: price levels, 1h moves, liquidations, funding or new listings, sent to you the moment they fire. /alert list to review, /stop to turn off.",
     descJa: "価格ライン、1 時間の変動、清算、資金調達率、新規上場を自分で設定し、発生した瞬間に届きます。/alert list で確認、/stop で停止。", descKo: "가격대, 1시간 변동, 청산, 펀딩비, 신규 상장 규칙을 직접 만들면 발생 즉시 알려 드립니다. /alert list로 확인, /stop으로 끄기.", descTr: "Fiyat seviyesi, 1 saatlik hareket, tasfiye, fonlama veya yeni listeleme kuralını kendin kur; tetiklenince hemen gelir. /alert list ile gör, /stop ile kapat.",
-    deepLinkAction: { action: "launchpool_alert" },
+    deepLinkAction: { action: "alert" },
     badgeZh: "自定义提醒",
     badgeHant: "自訂提醒",
     badgeEn: "Alerts",
