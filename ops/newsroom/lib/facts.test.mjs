@@ -81,6 +81,13 @@ test('Chinese venue names resolve and listings still never merge different symbo
   assert.equal(conflictingFacts(en, other), true);
 });
 
+
+test('venue names do not imply same-named exchange tokens', () => {
+  const facts = storyFacts({ title: 'KuCoin will delist STG at 8:00 on October 15, 2026 (UTC)', source_id: 'kucoin-announcements', platform: 'exchange', tier: 1 });
+  assert.ok(facts.venues.includes('kucoin'));
+  assert.deepEqual(facts.tickers, ['STG']);
+});
+
 test('media reports with an extra percentage or coin still corroborate, different amounts do not', () => {
   const a = storyFacts({ title: 'Bybit hacker moves $1.4 billion in ETH' });
   const b = storyFacts({ title: 'Bybit hack: $1.4 billion ETH moved, BTC falls 3%' });

@@ -12,6 +12,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
+import { formatSgt } from "../../data/local-time.js";
 import "./binance-october.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -45,17 +46,18 @@ function Cta({ href, campaign, children, ghost = false }) {
   );
 }
 
-function Countdown({ t, now, endAt, label }) {
+function Countdown({ t, now, endAt, label, locale = "en", exact = false }) {
   const end = Date.parse(endAt);
   const left = now ? Math.max(0, end - now.getTime()) : null;
   const parts = left == null ? [null, null, null, null] : [Math.floor(left / 864e5), Math.floor(left / 36e5) % 24, Math.floor(left / 6e4) % 60, Math.floor(left / 1e3) % 60];
+  const endLabel = exact ? (formatSgt(endAt, locale, "end") || label) : label;
   return (
     <div className="nxbg-count" role="timer" aria-label={label}>
       <span className="nxbg-count__label">{t.endsIn}</span>
       <ol className="nxbg-count__cells">
         {parts.map((value, index) => <li key={t.units[index]}><b>{value == null ? "--" : String(value).padStart(2, "0")}</b><span>{t.units[index]}</span></li>)}
       </ol>
-      <time className="nxbg-count__end" dateTime={endAt}>{label}</time>
+      <time className="nxbg-count__end" dateTime={endAt}>{endLabel}</time>
     </div>
   );
 }
@@ -132,7 +134,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
 
       <section className="nxbg-shell nxbg-section" id="steps" aria-labelledby="nxbg-steps">
         <h2 id="nxbg-steps">{t.stepsH}</h2>
-        <Countdown t={t} now={now} endAt={BINANCE_OCTOBER_CAMPAIGNS.gifts.endAt} label={t.endsAt} />
+        <Countdown t={t} now={now} endAt={BINANCE_OCTOBER_CAMPAIGNS.gifts.endAt} label={t.endsAt} locale={locale} />
         <ol className="nxbg-steps">
           {t.steps.map(([title, body], index) => (
             <li key={title} className="nxbg-step">
@@ -160,7 +162,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
           <p className="nxbg-tag"><span className="nxbg-hot" data-hot="true">✦</span>{t.tKicker}</p>
           <h2 id="nxbg-tour">{t.tH}</h2>
           <p className="nxbg-lead">{t.tLead}</p>
-          <Countdown t={t} now={now} endAt={BINANCE_OCTOBER_CAMPAIGNS.tournament.endAt} label={t.tEndsAt} />
+          <Countdown t={t} now={now} endAt={BINANCE_OCTOBER_CAMPAIGNS.tournament.endAt} label={t.tEndsAt} locale={locale} exact />
           <ul className="nxbg-cards">
             {t.tRewards.map(([title, body]) => <li key={title}><h3>{title}</h3><p>{body}</p></li>)}
           </ul>

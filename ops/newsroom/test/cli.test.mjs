@@ -18,10 +18,12 @@ test('event bundle contains evidence, score history and linked articles', () => 
   const sql = buildQuery(['event:show', '12']);
   for (const table of ['event_evidence', 'event_scores', 'articles']) assert.ok(sql.includes(table));
   assert.match(sql, /e.id=12/);
+  assert.ok(sql.includes("a.states->'story_event_ids' @> jsonb_build_array(e.id)"));
 });
 test('writer claim, release and complete SQL is bounded and validated', () => {
   const claim = buildQuery(['claim', '--limit', '2', '--writer', 'writer-a']);
-  assert.match(claim, /FOR UPDATE OF e SKIP LOCKED/);
+  assert.match(claim, /pg_advisory_xact_lock\(20261012,5\)/);
+  assert.match(claim, /story_heads/);
   assert.match(claim, /shortfall_log/);
   assert.match(claim, /state='claimed'/);
   assert.match(buildQuery(['release', '12', '--writer', 'writer-a']), /claimed_by='writer-a'/);
@@ -47,7 +49,7 @@ test('claim command enriches database events for the writer without publishing',
     }]);
   });
   const events = JSON.parse(output);
-  assert.match(query, /FOR UPDATE OF e SKIP LOCKED/);
+  assert.match(query, /pg_advisory_xact_lock\(20261012,5\)/);
   assert.equal(events[0].suggested_format, 'flash');
   assert.ok(events[0].cta_hints.length);
 });

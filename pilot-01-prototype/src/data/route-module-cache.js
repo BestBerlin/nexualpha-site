@@ -53,6 +53,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   platformMatcher: "./components/v3/PlatformMatcher.jsx",
   newsList: "./components/v3/news/NewsListPage.jsx",
   liquidations: "./components/data/LiquidationsPage.jsx",
+  liquidationHeatmap: "./components/data/LiquidationHeatmapPage.jsx",
   fundingMatrix: "./components/data/FundingMatrixPage.jsx",
   fundingRates: "./components/data/FundingRatesPage.jsx",
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
@@ -62,6 +63,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   crawlLinks: "./components/shared/CrawlPriorityLinks.jsx",
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
+  licenses: "./components/licenses/LicensePages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
   converter: "./components/converter/ConverterPage.jsx",
   coins: "./components/coins/CoinPages.jsx",
@@ -70,6 +72,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   appDownload: "./components/apps/AppDownloadPage.jsx",
   // Flash stream + item pages (2026-10-12).
   flash: "./components/flash/FlashPages.jsx",
+  radar: "./components/radar/RadarPages.jsx",
   // Binance October campaigns page (/activities/binance-october-gifts, 2026-10-12): route chunk route-campaign-landing.
   binanceOctober: "./components/campaigns/BinanceOctoberPage.jsx",
   // Bybit Stocks campaign page (/activities/bybit-stocks, 2026-10-12): route chunk route-campaign-bybit.
@@ -78,6 +81,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   intelTools: "./components/intel-tools/IntelToolPages.jsx",
   // Bitget Alliance campaign page (/activities/bitget-alliance, 2026-10-13): route chunk route-campaign-bitget.
   bitgetAlliance: "./components/campaigns/BitgetAlliancePage.jsx",
+  // Kraken 5M USDG Challenge page (/activities/kraken-usdg-challenge, 2026-10-13): route chunk route-campaign-kraken.
+  krakenUsdg: "./components/campaigns/KrakenUsdgPage.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -177,20 +182,25 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "etfFlows" || name === "calendar") return [ROUTE_MODULE_PATHS.intelTools];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
+  if (name === "liquidationHeatmap") return [ROUTE_MODULE_PATHS.liquidationHeatmap];
   if (name === "fundingMatrix") return [ROUTE_MODULE_PATHS.fundingMatrix];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
   // Lesson transcripts and news articles link their first glossary terms (glossary-links-<locale>.js, index locales only).
   if (name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl)), ...glossaryLinkPaths(sourceUrl)];
+  if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  if (name === "licenses") return [ROUTE_MODULE_PATHS.licenses];
   if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
   if (name === "glossaryHub") return [ROUTE_MODULE_PATHS.glossary, glossaryIndexModulePath(urlLocale(sourceUrl))];
   if (name === "glossaryTerm") return [ROUTE_MODULE_PATHS.glossary, glossaryShardModulePath(urlLocale(sourceUrl), route.slug || glossarySlugFromUrl(sourceUrl))];
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
+  if (name === "longShort" || name === "whales") return [ROUTE_MODULE_PATHS.radar];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
   if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];
   if (name === "bitgetAlliance") return [ROUTE_MODULE_PATHS.bitgetAlliance];
+  if (name === "krakenUsdg") return [ROUTE_MODULE_PATHS.krakenUsdg];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

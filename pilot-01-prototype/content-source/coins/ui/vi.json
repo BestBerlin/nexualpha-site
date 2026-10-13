@@ -16,7 +16,7 @@
   "change24h": "24h",
   "rank": "Hạng vốn hóa",
   "marketCap": "Vốn hóa",
-  "snapshot": "Dữ liệu lúc {time} UTC",
+  "snapshot": "Dữ liệu lúc {time}",
   "live": "Cập nhật {time}",
   "listedOn": "Niêm yết trên",
   "venuesCount": "{n} sàn",

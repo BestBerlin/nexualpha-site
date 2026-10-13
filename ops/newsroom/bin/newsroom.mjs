@@ -56,7 +56,7 @@ export function buildQuery(argv) {
   if (command === 'event:show') {
     if (args.length !== 1) throw new Error('event:show requires one id');
     const id = integer(args[0], 'event id', 1, Number.MAX_SAFE_INTEGER);
-    return rows(`SELECT e.*, coalesce((SELECT jsonb_agg(to_jsonb(v) ORDER BY v.id) FROM event_evidence v WHERE v.event_id=e.id), '[]'::jsonb) evidence, coalesce((SELECT jsonb_agg(to_jsonb(s) ORDER BY s.scored_at DESC) FROM event_scores s WHERE s.event_id=e.id), '[]'::jsonb) scores, coalesce((SELECT jsonb_agg(to_jsonb(a) ORDER BY a.slug) FROM articles a WHERE a.event_id=e.id), '[]'::jsonb) articles FROM events e WHERE e.id=${id}`);
+    return rows(`SELECT e.*, coalesce((SELECT jsonb_agg(to_jsonb(v) ORDER BY v.id) FROM event_evidence v WHERE v.event_id=e.id), '[]'::jsonb) evidence, coalesce((SELECT jsonb_agg(to_jsonb(s) ORDER BY s.scored_at DESC) FROM event_scores s WHERE s.event_id=e.id), '[]'::jsonb) scores, coalesce((SELECT jsonb_agg(to_jsonb(a) ORDER BY a.slug) FROM articles a WHERE a.event_id=e.id OR a.states->'story_event_ids' @> jsonb_build_array(e.id)), '[]'::jsonb) articles FROM events e WHERE e.id=${id}`);
   }
   if (command === 'review:list') {
     if (args.length) throw new Error('review:list takes no options');
@@ -87,7 +87,7 @@ export function buildQuery(argv) {
       const keys = ['relevance', 'heat', 'timeliness', 'new_info', 'impact'];
       if (!value || typeof value !== 'object' || Object.keys(value).length !== 5 || keys.some(key => !Number.isFinite(value[key]) || value[key] < 0) || keys.reduce((sum, key) => sum + value[key], 0) !== 100) throw new Error('weights must contain five non-negative factors totaling 100');
     }
-    if (args[0] === 'thresholds' || args[0] === 'scoring_thresholds') configFromNewsroomRows([{ key: args[0], value }]);
+    if (['thresholds', 'scoring_thresholds', 'claim_quality'].includes(args[0])) configFromNewsroomRows([{ key: args[0], value }]);
     return `WITH result AS (INSERT INTO newsroom_config(key,value) VALUES (${literal(args[0])},${json(value)}) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=now() RETURNING *) SELECT to_jsonb(result) FROM result;`;
   }
   throw new Error('Unknown command');
