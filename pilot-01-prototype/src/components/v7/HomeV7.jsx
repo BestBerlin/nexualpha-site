@@ -132,6 +132,8 @@ export function HomeV7({ locale, market, movers, venues: _catalog }) {
   // Ledger: venues with a disclosed rebate share; the pick drives the ledger and the hero CTA.
   const rebated = useMemo(() => homePushFor(locale, market).map((slug) => calc.rows.find((r) => r.slug === slug && r.share)).filter(Boolean), [calc, locale, market]);
   const [pickSlug, setPick] = useState(null);
+  // The SSR/LCP figures are already final. Animate the spring only after a visitor picks a venue.
+  const animateLedgerNudge = pickSlug !== null;
   const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
   const auto = HOME_AUTO_SETTLE.includes(sel.slug);
   const topShare = Math.max(0, ...rebated.map((r) => r.share || 0));
@@ -194,14 +196,14 @@ export function HomeV7({ locale, market, movers, venues: _catalog }) {
             {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
           </div>
           <div className="h7-lg-max">
-            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span>{formatPercent(locale, 1).startsWith("%") && <span>%</span>}<Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} />{!formatPercent(locale, 1).startsWith("%") && <span>%</span>}</p>
+            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span>{formatPercent(locale, 1).startsWith("%") && <span>%</span>}<Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} animateNudge={animateLedgerNudge} />{!formatPercent(locale, 1).startsWith("%") && <span>%</span>}</p>
             <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}{auto && HOME_SETTLE[sel.slug] && <span className="h7-auto h7-auto--cad">{HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}</span>}</div>
           </div>
           <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
           <dl className="h7-lg-rows">
-            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} nudge={sel.slug} /></dd></div>
-            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" nudge={sel.slug} /></dd></div>
-            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} /></dd></div>
+            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
+            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
+            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
           </dl>
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span>{sel.open ? <small className="h7-go-disclosure">{t.lgBuilt}</small> : null}</Cta>

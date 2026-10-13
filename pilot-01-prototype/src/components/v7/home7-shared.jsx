@@ -13,18 +13,19 @@ export const usd = (n) => `$${Math.round(n).toLocaleString("en-US")}`;
 export const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
-export function Roll({ value, prefix = "", fmt = usd, nudge }) {
+export function Roll({ value, prefix = "", fmt = usd, nudge, animateNudge = true }) {
   const [shown, setShown] = useState(value);
   const from = useRef(value);
   useEffect(() => {
-    if (value == null || from.current == null || reduced()) { from.current = value; setShown(value); return undefined; }
+    if (value == null || from.current == null || from.current === value || reduced()) { from.current = value; setShown(value); return undefined; }
     const a = from.current, b = value, t0 = performance.now(); let raf = 0;
     const f = (n) => { const k = Math.min(1, (n - t0) / 700); const v = a + (b - a) * (1 - Math.pow(1 - k, 4)); setShown(v); if (k < 1) raf = requestAnimationFrame(f); else from.current = b; };
     raf = requestAnimationFrame(f);
     return () => { cancelAnimationFrame(raf); from.current = b; };
   }, [value]);
-  // a spring nudge plays when `nudge` changes (e.g. another exchange picked), not on every slider step
-  return <span className={nudge == null ? undefined : "h7-roll"} key={nudge ?? "v"}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
+  // Keep the class (also used by the number's gradient) but let the hero suppress the spring until a venue is picked.
+  // Changing `nudge` remounts the span to replay the spring, not on every slider step.
+  return <span className={nudge == null ? undefined : "h7-roll"} data-roll-static={nudge != null && !animateNudge ? "" : undefined} key={nudge ?? "v"}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
 }
 
 export function Cta({ v, locale, children, className, placement }) {
