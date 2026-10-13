@@ -48,7 +48,9 @@ async function renderSamples() {
     import { FundingMatrixPage, formatFundingPct, normalizeFundingMatrixFeed } from "../../src/components/data/FundingMatrixPage.jsx";
     const feed = ${JSON.stringify(sampleFeed)};
     const matrix = normalizeFundingMatrixFeed(feed);
+    const unavailableMatrix = { ...matrix, coverage: { htx: { count: 0, status: "unavailable", lastSuccessAt: null } } };
     const out = {
+      unavailable: renderToStaticMarkup(React.createElement(FundingMatrixPage, { locale: "en", initialFeed: unavailableMatrix })),
       summary: {
         rows: matrix.rows.length,
         venues: matrix.venues.map((v) => v.slug),
@@ -150,4 +152,11 @@ test("Turkey CTA allowlist only exposes allowed partner routes after geo gating"
 test("component bundles with CSS ignored for the SSR worker build path", async () => {
   const { bundleCheck } = await renderSamples();
   assert.ok(bundleCheck > 5000);
+});
+
+ test("unavailable HTX is announced once and has no repeated table cells", async () => {
+  const { unavailable } = await renderSamples();
+  assert.equal((unavailable.match(/HTX: Data unavailable/g) || []).length, 1);
+  assert.doesNotMatch(unavailable, /data-label="HTX"/);
+  assert.match(unavailable, /Binance/);
 });
