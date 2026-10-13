@@ -1,0 +1,10 @@
+{"events":[
+  {"event_type":"campaign","title_internal":"Earn 25 USDT in the OKX challenge","original_links":["https://www.okx.com/help/fixture-challenge"],"source_published_at":"2026-10-13T00:00:00Z","campaign":{"startAt":"2026-10-12T22:00:00Z","endAt":"2026-11-01T00:00:00Z","campaignLinkRequired":false,"copy":{"en":{"title":"OKX challenge","rewardHeadline":"Earn 25 USDT by completing the challenge","eligibility":"Eligible new users who complete identity verification","steps":["Enroll in the challenge","Complete the qualifying task"]},"zh-Hans":{"title":"OKX 挑战赛","rewardHeadline":"完成挑战可获 25 USDT","eligibility":"完成身份认证的合资格新用户","steps":["报名参加挑战","完成达标任务"]}}}},
+  {"type":"promotion","title":"Bitget reward campaign","url":"https://www.bitget.com/support/articles/fixture-reward"},
+  {"event_type_guess":"campaign","title":"Binance reward campaign","url":"https://www.binance.com/en/support/announcement/fixture-reward"},
+  {"type":"campaign","title":"Bybit reward campaign","url":"https://announcements.bybit.com/en/article/fixture-reward"},
+  {"type":"campaign","title":"Kraken reward campaign","url":"https://blog.kraken.com/fixture-reward"},
+  {"type":"listing","title":"A new listing","url":"https://www.okx.com/help/listing"},
+  {"type":"campaign","title":"Fake campaign","url":"https://www.okx.com.evil.example/help/reward"},
+  {"type":"campaign","title":"Other venue","url":"https://www.kucoin.com/announcement/reward"}
+]}

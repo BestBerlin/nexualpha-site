@@ -1,0 +1,1 @@
+These announcements are synthetic fixture inputs, never live campaigns. They cover all five partner venues, an unrelated listing, an unsupported venue and a deceptive hostname. Tests write drafts/promotions only to isolated temporary directories.

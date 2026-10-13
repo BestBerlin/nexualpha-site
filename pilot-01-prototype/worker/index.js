@@ -1,4 +1,5 @@
 import { partnerProgramCopy } from "../src/data/partner-program-copy.js";
+import { approvedCampaign, campaignRouteSeo, CAMPAIGN_LOCALES } from "../src/data/campaign-autodraft.js";
 import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
 import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
@@ -4872,7 +4873,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba ") || appHtml.includes("class=\"nxku "))) {
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba ") || appHtml.includes("class=\"nxku ") || appHtml.includes("class=\"nxad "))) {
           metadata.campaignSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -6864,6 +6865,7 @@ function searchPublicationLocales(pathname, options = {}) {
   // Bitget Alliance campaign page: its written editions (src/data/bitget-alliance.js).
   if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
   // Kraken 5M USDG Challenge page: its written editions (src/data/kraken-usdg.js).
+  if (approvedCampaign(pathname)) return CAMPAIGN_LOCALES;
   if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
@@ -8392,6 +8394,13 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, BITGET_ALLIANCE_INDEX_LOCALES), schema: bitgetAllianceSeo.schemas,
     };
   }
+  const autodraftSeo = campaignRouteSeo(canonicalPath, requestedLocale, { urlFor: path => localizedCanonical(path, requestedLocale) });
+  if (autodraftSeo) return {
+    status: 200, title: autodraftSeo.title, description: autodraftSeo.description,
+    canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+    robots: autodraftSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+    alternates: routeAlternates(canonicalPath, CAMPAIGN_LOCALES), schema: autodraftSeo.schemas,
+  };
   // Kraken 5M USDG Challenge page (2026-10-13): WebPage + FAQPage + BreadcrumbList from src/data/kraken-usdg-seo.js.
   const krakenUsdgSeo = krakenUsdgRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
   if (krakenUsdgSeo) {
