@@ -29,7 +29,9 @@ export function normalize(movers, market, now) {
   fresh(market?.generatedAt, now, 'market');
   const seen = new Set();
   const board = (rows, up) => {
-    if (!Array.isArray(rows) || rows.length < 5) throw new Error('Five gainers and losers required');
+    // One-sided markets are normal (e.g. a red day has one gainer): accept 0-5
+    // rows per side and require five rows in total below.
+    if (!Array.isArray(rows)) throw new Error('Mover board missing');
     return rows.map((r) => {
       if (!/^[A-Z0-9]{1,15}$/.test(r?.sym || '') || seen.has(r.sym)) throw new Error('Invalid or duplicate symbol');
       seen.add(r.sym);
@@ -40,6 +42,7 @@ export function normalize(movers, market, now) {
     }).sort((a, b) => up ? b.change - a.change : a.change - b.change).slice(0, 5);
   };
   const up = board(movers.up, true), down = board(movers.down, false);
+  if (up.length + down.length < 5) throw new Error('At least five movers required');
   const liq = market?.liquidations?.h24;
   const total = numeric(liq?.totalUsd, '24h liquidations');
   let largest = null;
@@ -67,7 +70,8 @@ export function postText(data, locale, platform) {
   const zh = locale === 'zh-Hans';
   const url = `${SITE}/${zh ? 'zh-hans' : 'en'}?src=${platform}-daily`;
   const text = [zh ? `今日异动 · ${data.day} SGT` : `Today's movers · ${data.day} SGT`,
-    `${zh ? '领涨' : 'Top gainer'} ${data.up[0].sym} ${pct(data.up[0].change)} · ${zh ? '领跌' : 'Top loser'} ${data.down[0].sym} ${pct(data.down[0].change)}`,
+    [data.up[0] && `${zh ? '领涨' : 'Top gainer'} ${data.up[0].sym} ${pct(data.up[0].change)}`,
+      data.down[0] && `${zh ? '领跌' : 'Top loser'} ${data.down[0].sym} ${pct(data.down[0].change)}`].filter(Boolean).join(' · '),
     zh ? `24h 已观测爆仓 ≥${money(data.total)}` : `24h observed liquidations ≥${money(data.total)}`, url].join('\n');
   if (weightedLength(text) > 280) throw new Error('Text exceeds X weighted limit');
   return text;
@@ -78,8 +82,9 @@ export function cardSvg(data) {
   const color = (key) => { const value = css.match(new RegExp(`--${key}:(#[0-9a-fA-F]{3,8})(?:;|})`))?.[1]; if (!value) throw new Error(`Missing brand token ${key}`); return value; };
   const logo = readFileSync(path.join(ROOT, 'pilot-01-prototype/public/brand/nexualpha/nexualpha-round.svg')).toString('base64');
   const text = (x, y, label, size = 26, fill = color('ink'), anchor = 'start') => `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" text-anchor="${anchor}">${esc(label)}</text>`;
-  const columns = [[data.up, 56, 'TOP 5 GAINERS · 24H', 'positive'], [data.down, 648, 'TOP 5 LOSERS · 24H', 'danger']].map(([rows, x, title, key]) =>
-    text(x, 209, title, 18, color('muted')) + rows.map((r, i) => text(x, 255 + i * 49, `${i + 1}  ${r.sym}`, 28) + text(x + 490, 255 + i * 49, pct(r.change), 28, color(key), 'end')).join('')).join('');
+  const columns = [[data.up, 56, 'GAINERS', 'positive'], [data.down, 648, 'LOSERS', 'danger']].map(([rows, x, title, key]) =>
+    text(x, 209, rows.length ? `TOP ${rows.length} ${title} · 24H` : `${title} · 24H`, 18, color('muted')) +
+    (rows.length ? '' : text(x, 255, 'None in the tracked set', 24, color('muted'))) + rows.map((r, i) => text(x, 255 + i * 49, `${i + 1}  ${r.sym}`, 28) + text(x + 490, 255 + i * 49, pct(r.change), 28, color(key), 'end')).join('')).join('');
   const largest = data.largest ? `${data.largest.sym} ${data.largest.side} ${money(data.largest.usd)}` : 'None observed';
   const funding = data.funding.map((n, i) => `${['Binance', 'OKX'][i]} ${n === null ? 'unavailable' : rate(n)}`).join(' / ');
   return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="675" viewBox="0 0 1200 675">

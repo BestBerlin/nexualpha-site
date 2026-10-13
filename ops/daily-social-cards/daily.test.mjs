@@ -47,7 +47,8 @@ test('untrusted domains, malformed numbers, stale/future data and incomplete boa
     (f) => { f.movers.down[0].sym = 'MEXC.COM'; },
     (f) => { f.movers.up[0].change = 'Infinity%'; },
     (f) => { f.movers.up[0].change = '-2%'; },
-    (f) => { f.movers.up.pop(); },
+    (f) => { f.movers.up = f.movers.up.slice(0, 2); f.movers.down = f.movers.down.slice(0, 2); },
+    (f) => { delete f.movers.down; },
     (f) => { f.market.liquidations.h24.totalUsd = null; },
     (f) => { f.market.liquidations.h24.largest.symbol = 'gate.io'; },
     (f) => { f.market.funding.rows[0].binanceRate = null; f.market.funding.rows[0].okxRate = null; },
@@ -139,4 +140,18 @@ test('community token helper and sendPhoto use existing bot with multipart plain
   });
   assert.deepEqual(result, { ok: true, id: 22 });
   assert.equal((await sendPhoto('example', '@NexuAlphaClub', Buffer.from('png'), 'caption', async () => Response.json({ ok: false }, { status: 403 }))).ok, false);
+});
+test('one-sided market (one gainer, five losers) still renders truthfully', () => {
+  for (const [up, down] of [[1, 5], [0, 5], [5, 0]]) {
+    const f = structuredClone(fixture); f.movers.up = f.movers.up.slice(0, up); f.movers.down = f.movers.down.slice(0, down);
+    const d = normalize(f.movers, f.market, now), svg = cardSvg(d);
+    assert.equal(d.up.length, up); assert.equal(d.down.length, down);
+    assert.ok(svg.includes(up ? `TOP ${up} GAINERS` : 'None in the tracked set'));
+    assert.equal(renderCard(d).readUInt32BE(16), 1200);
+    for (const locale of ['zh-Hans', 'en']) {
+      const text = postText(d, locale, 'x');
+      assert.equal(text.split('\n').length, 4); assert.doesNotMatch(text, /undefined/);
+      assert.equal(/Top gainer|领涨/.test(text), up > 0); assert.equal(/Top loser|领跌/.test(text), down > 0);
+    }
+  }
 });
