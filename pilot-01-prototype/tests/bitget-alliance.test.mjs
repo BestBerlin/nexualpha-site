@@ -23,6 +23,8 @@ import { createGoRedirect } from "../server/go-redirect.mjs";
 import { createBitgetAlliancePool, normalizeBitgetAlliancePool } from "../server/bitget-alliance-pool.mjs";
 import { buildCampaignSitemap } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -89,11 +91,11 @@ test("campaign CTA: /go/bitget-alliance with DPRWSXAS only; none in Türkiye, th
   assert.notEqual(MAIN_CODE, BITGET_ALLIANCE_CODE, "the campaign code is separate from the main Bitget code");
   assert.deepEqual(bitgetAllianceSignup({ locale: "en", placement: "hero", now: DURING }), { code: "DPRWSXAS", href: "/go/bitget-alliance?src=alliance-hero" });
   assert.deepEqual(bitgetAllianceSignup({ locale: "zh-Hans", placement: "final", now: DURING }), { code: "DPRWSXAS", href: "/go/bitget-alliance?src=alliance-final&lang=zh-Hans" });
-  for (const locale of ["zh-Hans", "es", "pt-BR", "vi", "id", "ko"]) assert.ok(bitgetAllianceSignup({ locale, now: DURING }), locale);
+  for (const locale of ["zh-Hans", "es", "pt-BR", "id", "ko"]) assert.ok(bitgetAllianceSignup({ locale, now: DURING }), locale);
   assert.equal(bitgetAllianceSignupGate({ locale: "tr" }), "partner-geo-restricted", "Türkiye: Bitget is not promoted (SPK list)");
   assert.equal(bitgetAllianceSignup({ locale: "en", market: "TR", now: DURING }), null, "TR market");
   for (const market of ["US", "CA", "SG", "HK", "JP", "FR", "DE"]) assert.equal(bitgetAllianceSignup({ locale: "en", market, now: DURING }), null, `market ${market}`);
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.equal(bitgetAllianceSignupGate({ locale }), "neutral-locale", locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.equal(bitgetAllianceSignupGate({ locale }), "neutral-locale", locale);
   for (const locale of ["fr", "de", "ja"]) assert.equal(bitgetAllianceSignup({ locale, now: DURING }), null, `${locale}: Bitget-restricted country edition`);
   assert.equal(bitgetAllianceSignup({ locale: "en", now: AFTER }), null, "no campaign CTA after the end");
   assert.equal(bitgetAlliancePromotable({ locale: "tr", now: DURING }), false, "no teaser in Türkiye");
@@ -179,7 +181,8 @@ test("JSON-LD: WebPage, FAQPage with the page's questions, BreadcrumbList; clien
 });
 
 test("every CTA uses /go/bitget-alliance with the code and a copy button next to it; no direct bitget.com sign-up link", async () => {
-  for (const p of [BITGET_ALLIANCE_PATH, `/zh-hans${BITGET_ALLIANCE_PATH}`, `/es${BITGET_ALLIANCE_PATH}`, `/vi${BITGET_ALLIANCE_PATH}`, `/ko${BITGET_ALLIANCE_PATH}`]) {
+  // vi is neutral since 2026-10-13 (covered by tests/vi-neutral-locale.test.mjs): id takes its place here.
+  for (const p of [BITGET_ALLIANCE_PATH, `/zh-hans${BITGET_ALLIANCE_PATH}`, `/es${BITGET_ALLIANCE_PATH}`, `/id-id${BITGET_ALLIANCE_PATH}`, `/ko${BITGET_ALLIANCE_PATH}`]) {
     const main = mainHtml(await (await fetchPage(p)).text());
     const links = anchors(main);
     for (const { href } of links) {

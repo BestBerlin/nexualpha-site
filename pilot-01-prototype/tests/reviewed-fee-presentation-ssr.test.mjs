@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { rendersSource, renderedSourceHref } from './helpers/outbound-expect.mjs';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -7,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { buildVenueFeeSummary } from '../src/data/venue-fee-summary.js';
 import { reviewedFeeCopy } from '../src/data/reviewed-fee-copy.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"];
@@ -61,11 +63,11 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
       }
       if (locale === 'tr' && slug === 'bitget') {
         assert.ok(!feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: prohibited external source absent`);
-        assert.match(feeHtml, /<span>[^<]+ ↗<\/span>/, `${slug}/${locale}: source label remains visible`);
+        assert.match(feeHtml, /<span[^>]*data-source-plain="[^"]+"[^>]*>[^<]+/, `${slug}/${locale}: source label remains visible`);
       } else {
-        assert.ok(feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: exact reviewed source`);
+        assert.ok(rendersSource(feeHtml, rate.sourceUrl, { locale }), `${slug}/${locale}: reviewed source (coded route or plain label)`);
       }
-      if (new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']).has(locale)) assert.doesNotMatch(feeHtml, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${slug}/${locale}: neutral signup absent`);
+      if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(feeHtml, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${slug}/${locale}: neutral signup absent`);
       assert.ok(feeHtml.includes(`dateTime="${rate.checkedAt}"`), `${slug}/${locale}: review date`);
       assert.ok(feeHtml.includes('data-fee-product="spot"'));
       // Futures rows are allowed only when the venue carries a reviewed futures record (data update 2026-10-08).

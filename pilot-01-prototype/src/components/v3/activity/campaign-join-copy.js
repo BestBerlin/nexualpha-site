@@ -1,4 +1,5 @@
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+import { NEUTRAL_CTA_LOCALES } from "../../../data/locale-policy.js";
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 
 const withShare = (base, share, rebate, end = ".") => (share == null ? `${base}${end}` : `${base}${rebate(share)}`);
 
@@ -121,8 +122,9 @@ const COPY = {
     season: "Chiến dịch đầu tháng",
     synced: "Đồng bộ từ thông báo chính thức mỗi 5 phút.",
     official: "Mở trang chiến dịch chính thức",
-    body: (name, code, share) => withShare(`Để tham gia, bạn cần có tài khoản ${name}. Nếu chưa có, hãy đăng ký qua liên kết chính thức bên dưới (đã kèm mã ${code}), sau đó bạn có thể tham gia chiến dịch`, share, (value) => ` và nhận lại tối đa ${value}% phí giao dịch.`),
-    button: (name) => `Đăng ký ${name} và tham gia →`,
+    // Neutral locale (Vietnam Resolution 05/2025/NQ-CP): no sign-up wording, no code.
+    body: (name) => `Để tham gia cần có tài khoản ${name}. Hãy xem điều kiện tham gia trên trang chiến dịch chính thức.`,
+    button: (name) => `Mở trang chính thức của ${name} →`,
   },
   it: {
     month: "Campagne di questo mese",

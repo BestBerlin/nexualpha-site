@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { rendersSource, renderedSourceHref } from "./helpers/outbound-expect.mjs";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import path from "node:path";
@@ -98,7 +99,11 @@ test("priority FAQs exist in server HTML while remaining questions are initially
       if (answer.nextSteps) assert.ok(detailContent.includes(escape(answer.nextSteps.items[0])), `${key} next step guidance is available on demand`);
       for (const [, href] of answer.internalLinks.slice(1)) assert.ok(detailContent.includes(escape(localizedHref(href, { locale }))), `${key} additional research remains available on demand`);
       assert.doesNotMatch(heroHtml, /class="v3-venue-summary"|class="v3-venue-decision-strip"/);
-      for (const [, href] of answer.sources) assert.ok(heroHtml.includes(escape(href)), `${key} source retained`);
+      for (const [, href] of answer.sources) {
+        const routed = renderedSourceHref(href, { locale });
+        const plain = `data-source-plain="${new URL(href).hostname.replace(/^www\./, "")}"`;
+        assert.ok(routed ? heroHtml.includes(routed) || heroHtml.includes(escape(href)) : heroHtml.includes(plain), `${key} source retained`);
+      }
     }
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

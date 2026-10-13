@@ -2,6 +2,7 @@
 // its official site, the source-bound local payment rail and what NexuAlpha cannot confirm for residents. Content and
 // sources: src/data/local-market-brief.js. No partner link or invite code is shown here, so no commission disclosure.
 import { localMarketBrief, LOCAL_MARKET_BRIEF_ENABLED, LOCAL_MARKET_BRIEF_REVIEWED_AT } from "../../data/local-market-brief.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 
 export function LocalMarketBrief({ locale, enabled = LOCAL_MARKET_BRIEF_ENABLED }) {
   const brief = enabled ? localMarketBrief(locale) : null;
@@ -14,12 +15,12 @@ export function LocalMarketBrief({ locale, enabled = LOCAL_MARKET_BRIEF_ENABLED 
         {brief.sections.map((section) => (
           <div className="h7-local-col" key={section.heading}>
             <h3>{section.heading}</h3>
-            {section.regulator && <p className="h7-local-reg"><a href={section.regulator.url} target="_blank" rel="noopener noreferrer">{section.regulator.name} ↗</a></p>}
+            {section.regulator && <p className="h7-local-reg"><SourceLink locale={locale} href={section.regulator.url} target="_blank" rel="noopener noreferrer">{section.regulator.name} ↗</SourceLink></p>}
             <ul>
               {section.items.map((item) => (
                 <li key={item.text}>
                   <span>{item.text}</span>
-                  {item.source && <a className="h7-local-src" href={item.source.url} target="_blank" rel="noopener noreferrer">{brief.sourcesLabel}: {item.source.label} ↗</a>}
+                  {item.source && <SourceLink locale={locale} className="h7-local-src" href={item.source.url} target="_blank" rel="noopener noreferrer">{brief.sourcesLabel}: {item.source.label} ↗</SourceLink>}
                 </li>
               ))}
             </ul>

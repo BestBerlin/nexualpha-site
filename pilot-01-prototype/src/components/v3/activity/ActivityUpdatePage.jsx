@@ -1,4 +1,5 @@
 import { useCampaignBriefs } from '../../shared/useCampaignBriefs.js';
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { CampaignBriefFacts } from '../../shared/CampaignBriefFacts.jsx';
 import { localizedBriefText } from '../../../data/campaign-briefs.js';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ import { isPartnerPromotableIn } from '../../../data/partner-geo-policy.js';
 import { campaignVisibleInLocale } from '../../../data/campaign-locale-policy.js';
 import { formatSgt } from '../../../data/local-time.js';
 import './activity-update.css';
+import { isNeutralCtaLocale } from '../../../data/locale-policy.js';
 
 // Market gating is a compliance control (blocked countries must not see partner codes), so links between update pages keep
 // ?market= as a real query the server can read; those URLs canonicalise to the bare path, so crawl authority is unaffected.
@@ -52,7 +54,7 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
   if (!campaignVisibleInLocale(item, locale)) return <main className="update-page"><h1>{t.missing}</h1><a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)}</a></main>;
   const cta = publicCtaForVenue(venue, locale, market);
   const regional = regionalVenueCta(venue, locale, market);
-  const neutral = /^(ru|ar|ur|uk)(-|$)|^zh-(Hant|TW|HK)(-|$)/i.test(locale);
+  const neutral = isNeutralCtaLocale(locale);
   const promotable = !neutral && regional.ctaState !== 'blocked' && isPartnerPromotableIn(venue, { locale, market });
   const officialEntry = cta.officialDomain ? `https://${cta.officialDomain}` : null;
   const related = updateItems(briefFeed).filter(row => row.venue === venue && row.id !== item.id && !row.archived && campaignVisibleInLocale(row, locale)).slice(0, 5);
@@ -69,7 +71,7 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
         {promotable ? <CampaignJoin venue={venue} locale={locale} market={market} officialUrl={officialEntry} placement="activity-update-join" /> : officialEntry && <a href={officialEntry} target="_blank" rel="nofollow noopener noreferrer">{cta.name || venue} ↗</a>}
       </section>
       <section><SectionRule /><h2>{t.related}</h2><ul>{related.map(row => <li key={row.id}><a href={withMarket(updateHref(row, locale), market)}>{updateHeadline(row, locale)}</a></li>)}</ul><nav aria-label={t.related}><a href={withMarket(localizedHref(`/exchanges/${venue}`, { locale }), market)}>{t.profile}</a><a href={withMarket(localizedHref('/academy', { locale }), market)}>{t.starter}</a></nav></section>
-      <footer className="update-page__source"><a href={item.url} target="_blank" rel="nofollow noopener noreferrer">{t.original} ↗</a></footer>
+      <footer className="update-page__source"><SourceLink locale={locale} market={market} href={item.url} target="_blank" rel="nofollow noopener noreferrer">{t.original} ↗</SourceLink></footer>
     </article>
   </main>;
 }

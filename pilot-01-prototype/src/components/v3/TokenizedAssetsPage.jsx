@@ -1,4 +1,5 @@
 import React from "react";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import {
   TOKENIZED_ASSET_CLUSTER_REVIEW_DATE,
   TOKENIZED_ASSET_LOCALES,
@@ -216,10 +217,10 @@ export function TokenizedAssetsPage({ slug = "tokenized-assets", locale = "en" }
           </div>
           <div className="tokenized-assets-sources">
             {sources.map((source) => (
-              <a key={source.id} href={source.url} target="_blank" rel="noreferrer">
+              <SourceLink locale={locale} key={source.id} href={source.url} target="_blank" rel="noreferrer">
                 <strong>{source.name}</strong>
                 <span>{tokenizedAssetLocalized(source.role, resolvedLocale)}</span>
-              </a>
+              </SourceLink>
             ))}
           </div>
         </div>

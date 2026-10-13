@@ -16,7 +16,7 @@ import { pathToFileURL } from "node:url";
 import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
-import { todayBlock, todayTitle } from "./site-features.mjs";
+import { isNeutralCtaLocale, todayBlock, todayTitle } from "./site-features.mjs";
 
 const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
@@ -207,12 +207,17 @@ export const T = (lang) => TEXTS[lang] || TEXTS.en;
 // entity is on the SPK "operating" list (OKX TR, Binance Turkey, Bybit) — Bitget Teknoloji AŞ is on the liquidation list.
 export const PARTNER_ROWS = { default: [null, ["bybit", "hyperliquid", "backpack"]], tr: [["okx", "binance", "bybit"]] };
 export const PARTNER_EXCLUDED = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
+// Neutral locales (ru, vi, ...; owner 2026-10-13): the exchange name only, linking to the site's exchange page,
+// never a /go/ sign-up route.
+export const exchangePageUrl = (lang, slug, src) => `${SITE}${LOCALE_PATH[lang] ?? ""}/exchanges/${slug}?src=${src}`;
 export function partnerButtons(partners, lang, src) {
   const t = T(lang);
   const bySlug = Object.fromEntries(partners.map((p) => [p.slug, p]));
   const excluded = PARTNER_EXCLUDED[lang] || new Set();
+  const neutral = isNeutralCtaLocale(lang);
   // "(返佣)"-style wording only where a rebate share is confirmed in partners.json
-  const button = (p) => ({ text: p.share === null ? t.signUpListing(p.name) : t.signUp(p.name), url: go(p.slug, src) });
+  const button = (p) => (neutral ? { text: p.name, url: exchangePageUrl(lang, p.slug, src) }
+    : { text: p.share === null ? t.signUpListing(p.name) : t.signUp(p.name), url: go(p.slug, src) });
   const rows = (PARTNER_ROWS[lang] || PARTNER_ROWS.default).map((row) =>
     (row === null ? partners.filter((p) => p.featured && !excluded.has(p.slug)).slice(0, 3) : row.map((slug) => bySlug[slug]).filter((p) => p && !excluded.has(p.slug)))
       .map(button)).filter((row) => row.length);
@@ -256,7 +261,8 @@ export function digestMessage(mk, partners, articles, campaigns, lang, today = n
   const L = mk.liquidations.h24;
   const lines = [t.digestTitle, ""];
   articles = articles.filter((a) => noBitget(lang, a.title?.[ARTICLE_LOCALE[lang]], a.title?.en, a.slug));
-  campaigns = campaigns.filter((c) => noBitget(lang, c.venue, c.title));
+  // neutral locales (ru, vi, ...): no exchange campaigns in the digest
+  campaigns = isNeutralCtaLocale(lang) ? [] : campaigns.filter((c) => noBitget(lang, c.venue, c.title));
   for (const m of mk.market.majors.slice(0, 4)) lines.push(`${m.symbol.replace("USDT", "")} ${fmt.num(lang, m.price)}  ${fmt.pct(lang, m.change24hPct, true)}`);
   lines.push("", t.digestLiq(fmt.usd(lang, L.longUsd), fmt.usd(lang, L.shortUsd)));
   if (mk.market.movers.length) lines.push(t.movers + mk.market.movers.slice(0, 3).map((m) => `${m.symbol.replace("USDT", "")} ${fmt.pct(lang, m.change24hPct, true)}`).join(" · "));
@@ -275,11 +281,18 @@ export function digestMessage(mk, partners, articles, campaigns, lang, today = n
   return { text: lines.join("\n"), buttons: partnerButtons(partners, lang, `tg-digest-${lang}`) };
 }
 
+// Campaign-like titles filed as listings/news (same pattern as ../channel-feed/channel-feed.mjs).
+export const CAMPAIGN_TITLE = /\b(campaign|challenge|giveaway|airdrop|cashback|promotion|promo|bonus|rewards?|prize|leaderboard|competition|tournament|launchpool|launchpad|share\s+[\d,.]+|earn\s+up\s+to|win\s+up\s+to)\b/i;
+/** Listing/campaign DM; null for a campaign (category "event" or a promotion-like title) in a neutral locale. */
 export function listingMessage(item, partner, lang) {
   const t = T(lang);
+  const neutral = isNeutralCtaLocale(lang);
+  if (neutral && (item.category === "event" || CAMPAIGN_TITLE.test(String(item.title || "")))) return null;
   const cat = t.cat[item.category] || item.category;
-  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing")].join("\n");
-  return { text, buttons: [[{ text: t.officialNotice, url: item.url }, { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) }]] };
+  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, neutral ? "/news" : BACKLINK_PATH.listing, "tg-listing")].join("\n");
+  const second = neutral ? { text: partner.name, url: exchangePageUrl(lang, partner.slug, `tg-dm-listing-${lang}`) }
+    : { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) };
+  return { text, buttons: [[{ text: t.officialNotice, url: item.url }, second]] };
 }
 
 // Owner funnel DM: last 24 h / 7 d from the click log, subscriber count only (no user data leaves the box).
@@ -407,7 +420,7 @@ async function cycle(tok) {
   const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3);
   for (const item of fresh) {
     if (state.sentListings[item.id]) continue;
-    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], msgLang(u)); await dm(uid, m.text, m.buttons); }
+    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], msgLang(u)); if (m) await dm(uid, m.text, m.buttons); }
     state.sentListings[item.id] = new Date().toISOString();
   }
 

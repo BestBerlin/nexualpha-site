@@ -4,6 +4,7 @@
 // Partner links come only from publicCtaForVenue, never for an exchange whose status is "leaving". The commission
 // disclosure lives only in the site footer and legal pages (owner rule 2026-10-12).
 import { localizedHref } from "../../data/locale-routing.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT } from "../../data/brazil-vasp-deadline-slugs.js";
@@ -71,7 +72,7 @@ export function BrazilDeadlinePage({ locale = "en" }) {
                     <span className={`brazil-deadline-status brazil-deadline-status--${row.status}`}>{brazilStatusLabel(row.status, locale)}</span>
                     {row.note ? <small {...bodyAttrs}>{row.note[bodyLang] || row.note.en}</small> : null}
                   </td>
-                  <td>{row.source ? <a href={row.source} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="brazil-deadline-status-source">{row.sourceLabel} ↗</a> : <span className="brazil-deadline-note">{chrome.noSource}</span>}</td>
+                  <td>{row.source ? <SourceLink locale={locale} href={row.source} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="brazil-deadline-status-source">{row.sourceLabel} ↗</SourceLink> : <span className="brazil-deadline-note">{chrome.noSource}</span>}</td>
                   <td className="v6-num">{row.sourceDate ? <time dateTime={row.sourceDate}>{row.sourceDate}</time> : "—"}</td>
                   <td className="brazil-deadline-actions">
                     {row.profile ? <a href={localizedHref(row.profile, { locale })} data-cta-kind="research" data-cta-placement="brazil-deadline-profile">{chrome.profile}</a> : null}
@@ -102,7 +103,7 @@ export function BrazilDeadlinePage({ locale = "en" }) {
         <ol className="brazil-deadline-sources">
           {content.sources.map((source) => (
             <li key={source.url}>
-              <a href={source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="brazil-deadline-source"><span {...bodyAttrs}>{source.label}</span> ↗</a>{" "}
+              <SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="brazil-deadline-source"><span {...bodyAttrs}>{source.label}</span> ↗</SourceLink>{" "}
               <time dateTime={source.date}>{chrome.sourceDated(source.date)}</time>
             </li>
           ))}

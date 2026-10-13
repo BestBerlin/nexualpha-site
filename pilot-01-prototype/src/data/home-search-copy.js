@@ -2,17 +2,19 @@
 // the SSR/client router (seo-injection.js computeRouteSeo) and therefore /api/route-seo, so all three stay identical.
 //
 // Owner 2026-10-10 (GSC CTR work): the title carries the commercial search intent (referral code / fee rebate; ja/ko
-// informational; ru/ar/ur/uk neutral, matching src/data/referral-seo.js).
+// informational; ru/ar/ur/uk/vi neutral, matching src/data/referral-seo.js).
 // Owner 2026-10-11 (brand slogans, src/data/brand-slogan.js):
 //   - title = search keywords + slogan A + " — NexuAlpha" when that fits the 60-wide budget (budgetTitle,
 //     titleDisplayWidth: CJK counts double); otherwise keywords + " — NexuAlpha" and slogan A leads the description;
 //   - description = [slogan A when not in the title] + slogan B + the facts (OKX/Bitget/Binance codes, settled by the
 //     exchange; no disclosure line since 2026-10-13), clamped with clampMetaDescription.
 // Slogan B (a rebate share) is left out where the home copy is neutral pending local review: ru (advertising
-// rules), ar (Egypt CBE law 194/2020), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
+// rules), ar (Egypt CBE law 194/2020), vi (Vietnam Resolution 05/2025/NQ-CP, owner 2026-10-13), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
 import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
+import { NEUTRAL_CTA_LOCALE_LIST, isNeutralCtaLocale } from "./locale-policy.js";
+import { jurisdictionPromotionBan } from "./partner-geo-policy.js";
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";
 import { clampMetaDescription, titleDisplayWidth } from "./meta-description.js";
 
@@ -21,14 +23,15 @@ export const TR_REBATE_MAX_PCT = Math.round(Math.max(...TR_PROMOTED.map((slug) =
 
 export const HOME_TITLE_BUDGET = 60;
 const BRAND_SUFFIX = " — NexuAlpha";
-export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar", "ur", "uk"]));
+// Every neutral locale (lead 2026-10-13: neutral = no codes, CTAs or rebate lines; zh-Hant included).
+export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(NEUTRAL_CTA_LOCALE_LIST));
 
 // Search keywords of the home title (the patterns pinned in tests/seo-onpage-metadata-length.test.mjs).
 const HOME_TITLE_KEYWORDS = Object.freeze({
   // CTR pass 2026-10-13 (GSC 28 d: home at position 7.7, 45 impressions, 0 clicks): the number leads the benefit.
   en: "Crypto Referral Codes: Up to 60% Fee Rebates",
   "zh-Hans": "邀请码与手续费返佣",
-  "zh-Hant": "邀請碼與手續費返傭",
+  "zh-Hant": "加密交易所手續費比較：OKX、Bitget、幣安",
   es: "Códigos de referido y reembolso de comisiones",
   "pt-BR": "Códigos de indicação e cashback de taxas cripto",
   fr: "Codes de parrainage et remises sur frais crypto",
@@ -39,7 +42,7 @@ const HOME_TITLE_KEYWORDS = Object.freeze({
   ru: "Комиссии криптобирж: OKX, Bitget и Binance",
   tr: "Kripto borsası komisyon iadesi ve referans kodu",
   id: "Kode referral dan rabat biaya exchange kripto",
-  vi: "Mã giới thiệu và hoàn phí sàn giao dịch crypto",
+  vi: "Phí sàn giao dịch crypto: OKX, Bitget và Binance",
   ar: "رسوم منصات العملات الرقمية: OKX وBitget وBinance",
 
   // l10n: needs native review
@@ -56,7 +59,7 @@ const TITLE_JOINER = { "zh-Hans": "｜", "zh-Hant": "｜", ja: "｜" };
 const HOME_FACTS = Object.freeze({
   en: "Official codes for OKX, Bitget and Binance; the exchange pays the rebate.",
   "zh-Hans": "OKX、Bitget、币安邀请码与官方注册入口，返佣由交易所结算。",
-  "zh-Hant": "OKX、Bitget、幣安邀請碼與官方註冊入口，返傭由交易所結算。",
+  "zh-Hant": "依官方費率表比較 OKX、Bitget、幣安手續費，附官方連結。",
   es: "Códigos de referido OKX, Bitget y Binance; paga el exchange.",
   "pt-BR": "Códigos de indicação da OKX, Bitget e Binance; o cashback é pago pela corretora.",
   fr: "Codes de parrainage OKX, Bitget et Binance, versé par la plateforme.",
@@ -67,7 +70,7 @@ const HOME_FACTS = Object.freeze({
   ru: "Комиссии OKX, Bitget и Binance по официальным тарифам и официальные ссылки.",
   tr: "OKX, Binance, Bybit referans kodları; iadeyi borsa öder.",
   id: "Kode referral OKX, Bitget dan Binance; rabat dibayar oleh exchange.",
-  vi: "Phí OKX, Bitget, Binance; khoản hoàn do sàn chi trả.",
+  vi: "So sánh phí OKX, Bitget và Binance theo biểu phí chính thức, kèm liên kết chính thức.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية.",
 
   // l10n: needs native review
@@ -104,3 +107,15 @@ export function homeDescription(locale) {
 export const HOME_SEARCH_COPY = Object.freeze(Object.fromEntries(
   SLOGAN_LOCALES.map((locale) => [locale, Object.freeze([homeTitle(locale), homeDescription(locale)])]),
 ));
+
+// A no-promotion market (Vietnam, Resolution 05/2025/NQ-CP) read in a promotable locale (?market=VN on the English
+// home): the same neutral title and description as the neutral locales, in English.
+export const HOME_NEUTRAL_SEARCH_COPY_EN = Object.freeze([
+  "Crypto Exchange Fees: OKX, Bitget, Binance — NexuAlpha",
+  "One verified gateway to the world's exchanges. Compare OKX, Bitget and Binance fees from the official schedules, with official links.",
+]);
+/** Home title and description for a locale and (optional) market. */
+export function homeSearchCopyFor(locale, market) {
+  if (market && !isNeutralCtaLocale(locale) && jurisdictionPromotionBan({ locale, market })) return HOME_NEUTRAL_SEARCH_COPY_EN;
+  return HOME_SEARCH_COPY[locale] || HOME_SEARCH_COPY.en;
+}

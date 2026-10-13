@@ -129,7 +129,8 @@ test.before(async () => {
   harness = await createSsrHarness();
   const files = new Map();
   const routes = {};
-  for (const locale of ["en", "ar"]) {
+  // ar is a neutral locale (information-only home, no hero experiment copy), so id is the second edition here.
+  for (const locale of ["en", "id"]) {
     const url = `https://nexualpha.com${localizedHref("/", { locale })}`;
     rendered[`${locale}:a`] = await harness.render(url, {});
     rendered[`${locale}:b`] = await harness.render(url, { heroVariant: "b" });
@@ -168,16 +169,16 @@ test("worker, kill switch off: home HTML and headers are unchanged (A, public ca
 });
 
 test("worker, experiment running: B visitors get the B prerender, private + Vary: Cookie, crawlers get A", async () => {
-  const b = await fetchHome("/ar", { cookie: "nx_hero=b", force: "on" });
+  const b = await fetchHome("/id-id", { cookie: "nx_hero=b", force: "on" });
   const bHtml = await b.text();
-  assert.equal(rootInnerHtml(bHtml), rendered["ar:b"], "served markup is the build-time B render");
+  assert.equal(rootInnerHtml(bHtml), rendered["id:b"], "served markup is the build-time B render");
   assert.equal(prerenderState(bHtml).heroVariant, "b");
   assert.equal(b.headers.get("x-nexualpha-hero-variant"), "b");
   assert.equal(b.headers.get("cache-control"), "private, max-age=300");
   assert.match(b.headers.get("vary"), /cookie/i);
   assert.equal(b.headers.get("set-cookie"), null, "an assigned visitor is not re-assigned");
   assert.match(bHtml, /<style[^>]*>\.h7-hero\{display:grid\}/, "critical CSS inlined for B too");
-  assert.deepEqual(h1Texts(rootInnerHtml(bHtml)).slice(0, 1).map((text) => text.replace(/\u00a0/g, " ")), [`${HOME_HERO_B.ar.h1a}${HOME_HERO_B.ar.h1b.replace("{max}%", formatPercent("ar", HOME_REBATE_MAX_PCT))}`]);
+  assert.deepEqual(h1Texts(rootInnerHtml(bHtml)).slice(0, 1).map((text) => text.replace(/\u00a0/g, " ")), [`${HOME_HERO_B.id.h1a}${HOME_HERO_B.id.h1b.replace("{max}%", formatPercent("id", HOME_REBATE_MAX_PCT))}`]);
 
   for (const ua of BOT_UAS) {
     const bot = await fetchHome("/", { ua, cookie: "nx_hero=b", force: "on" });
@@ -202,9 +203,9 @@ test("worker, experiment running: B visitors get the B prerender, private + Vary
 });
 
 for (const variant of ["a", "b"]) {
-  test(`SSR markup equals hydrated markup for variant ${variant.toUpperCase()} (en, ar)`, async () => {
-    for (const pathname of ["/", "/ar"]) {
-      const locale = pathname === "/" ? "en" : "ar";
+  test(`SSR markup equals hydrated markup for variant ${variant.toUpperCase()} (en, id)`, async () => {
+    for (const pathname of ["/", "/id-id"]) {
+      const locale = pathname === "/" ? "en" : "id";
       const html = await (await fetchHome(pathname, { cookie: `nx_hero=${variant}`, force: "on" })).text();
       const state = prerenderState(html);
       assert.equal(state.heroVariant, variant);

@@ -1,5 +1,6 @@
 import { canonicalComparePairSlug, parseComparePair } from "./compare-slug.js";
 import { isTurkeyGated } from "./partner-geo-policy.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export const LOCALE_PREFIX_BY_CODE = Object.freeze({
   en: "",
@@ -322,7 +323,7 @@ export function localizedPath(pathname, locale = "en") {
 // Owner 2026-10-13 (legal): Türkiye pages never link into the registration section of a partner that may not be promoted
 // there (Bitget); every such link lands on the neutral platform facts instead.
 function registrationSafeHash(pathname, hash, locale) {
-  if (["ru", "ar", "zh-Hant", "ur", "uk"].includes(locale) && /^#registration-path\b/.test(hash || "")) return hash.replace(/^#registration-path/, "#platform-facts");
+  if (NEUTRAL_CTA_LOCALES.has(locale) && /^#registration-path\b/.test(hash || "")) return hash.replace(/^#registration-path/, "#platform-facts");
   if (locale !== "tr" || !/^#registration-path\b/.test(hash || "")) return hash;
   const slug = /\/exchanges\/([^/?#]+)$/.exec(pathname)?.[1];
   return slug && isTurkeyGated(slug, { locale: "tr" }) ? hash.replace(/^#registration-path/, "#platform-facts") : hash;

@@ -3,9 +3,17 @@
 // Self-contained on purpose (no imports): the poller patch copies this file into the compiled bot release.
 // Rules baked in here and pinned by tests:
 //   - Türkiye (tr): no Bitget anywhere (Bitget's Turkish entity is on the SPK liquidation list);
-//   - ru: neutral, informational wording, no sign-up wording;
+//   - neutral (information-only) locales — NEUTRAL_CTA_LOCALES, incl. ru and vi: news, market data and tools only;
+//     no sign-up wording, no invite codes, no /go/ partner buttons, no campaign posts or join buttons;
 //   - no fine print / disclaimers; never write domain-like brand text ("Bitget.com") — Telegram auto-links it.
 export const SITE = "https://nexualpha.com";
+// Information-only locales. Local copy of pilot-01-prototype/src/data/locale-policy.js (the Telegram runtime ships
+// without the site tree); site-features.test.mjs fails when the two drift.
+//   vi: owner 2026-10-13, Vietnam Resolution 05/2025/NQ-CP (only MoF-licensed platforms may advertise crypto services).
+export const NEUTRAL_CTA_LOCALE_LIST = Object.freeze(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+const NEUTRAL_CTA_LOCALE_PATTERN = /^(ru|ar|ur|uk|vi)(-|$)|^zh-(Hant|TW|HK)(-|$)/i;
+/** True for an information-only locale (ru, vi, ...; region variants such as vi-VN or zh-TW included). */
+export const isNeutralCtaLocale = (lang) => NEUTRAL_CTA_LOCALE_PATTERN.test(String(lang || ""));
 export const BOT = "NexuAlphaAssistantBot";
 export const FEATURE_LANGS = ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"];
 export const FEATURE_LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi", id: "/id-id", es: "/es", pt: "/pt-br" };
@@ -217,9 +225,10 @@ const COPY = {
   },
 };
 export const featureCopy = (lang) => COPY[lang] || COPY.en;
-export const featureLang = (lang) => (COPY[lang] ? lang : "en");
+export const featureLang = (lang) => (COPY[lang] ? lang : langFromCode(lang) || "en");
 
-// Campaign pages per channel language. tr: no Bitget; ru: the neutral campaigns hub instead of single promos.
+// Campaign pages per channel language. tr: no Bitget; ru: the neutral campaigns hub instead of single promos;
+// every other neutral locale (vi, ...): no campaign links at all.
 const CAMPAIGN_LABELS = {
   "bitget-alliance": { zh: "Bitget 联盟活动", en: "Bitget Alliance", vi: "Bitget Alliance", id: "Bitget Alliance", es: "Bitget Alliance", pt: "Bitget Alliance" },
   "binance-october-gifts": { zh: "Binance 十月礼遇", en: "Binance October gifts", tr: "Binance ekim hediyeleri", vi: "Quà tháng 10 của Binance", id: "Hadiah Oktober Binance", es: "Regalos de octubre de Binance", pt: "Presentes de outubro da Binance" },
@@ -227,9 +236,10 @@ const CAMPAIGN_LABELS = {
 };
 export const CAMPAIGN_PAGES = Object.keys(CAMPAIGN_LABELS);
 
-/** [{key,label,url}] of live campaign pages for this language (ru gets the hub only). */
+/** [{key,label,url}] of live campaign pages for this language (ru gets the hub only, other neutral locales none). */
 export function campaignLinks(lang, src) {
   if (lang === "ru") return [{ key: "activities", label: featureCopy("ru").campaigns, url: featureUrl(lang, "/activities", src) }];
+  if (isNeutralCtaLocale(lang)) return [];
   return CAMPAIGN_PAGES.filter((slug) => CAMPAIGN_LABELS[slug][lang] || (lang !== "tr" && CAMPAIGN_LABELS[slug].en))
     .filter((slug) => !(lang === "tr" && /bitget/i.test(slug)))
     .map((slug) => ({ key: slug, label: CAMPAIGN_LABELS[slug][lang] || CAMPAIGN_LABELS[slug].en, url: featureUrl(lang, `/activities/${slug}`, src) }));
@@ -293,7 +303,8 @@ export function startMenu(lang, src = `tg-bot-start-${featureLang(lang)}`) {
     ...["flash", "calendar", "matrix", "coins", "academy", "liquidations"].map((k) => { const f = feature(k, l, src); return `${f.emoji} ${f.label}`; }), "", t.startStop].join("\n");
   const b = (k) => { const f = feature(k, l, src); return { text: `${f.emoji} ${f.label}`, url: f.url }; };
   const rows = [[b("flash"), b("calendar")], [b("matrix"), b("coins")], [b("academy"), b("liquidations")]];
-  const camp = campaignLinks(l, src)[0];
+  // neutral locales without their own copy (zh-Hant, uk, ar, ...) read zh/en text but never get a campaign row
+  const camp = isNeutralCtaLocale(lang) && lang !== "ru" ? null : campaignLinks(l, src)[0];
   if (camp) rows.push([{ text: `${EMOJI.campaigns} ${camp.label}`, url: camp.url }]);
   return { text, rows };
 }

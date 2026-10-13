@@ -1,7 +1,11 @@
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
-import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
+import { isPartnerPromotableIn, jurisdictionPromotionBan } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
+import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-topic.js";
+import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
+import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
+import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
@@ -10,7 +14,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../s
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
 import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
-import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
+import { HOME_SEARCH_COPY, homeSearchCopyFor } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
@@ -3345,7 +3349,7 @@ function articlePublishedLocales(article) {
   const locales = explicit.filter((locale) => hasExactArticleText(article.title, locale)
     && hasExactArticleText(article.summary, locale)
     && hasExactArticleText(article.content, locale));
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 function articleProjectionLocales(article) {
@@ -3356,7 +3360,7 @@ function articleProjectionLocales(article) {
   const locales = Array.isArray(projection.availableLocales)
     ? projection.availableLocales.filter((locale) => NEWS_INDEXABLE_LOCALES.includes(locale))
     : [];
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
 }
 
 function articleSeoLocales(article) {
@@ -3699,7 +3703,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
-    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    // Neutral locales (locale-policy.js): the state carries the same sign-up-free text the page renders.
+    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }).map((article) => (isNeutralCtaLocale(locale) ? neutralArticleView(article, locale) : article)) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
@@ -4295,6 +4300,8 @@ function injectFallbackBody(html, metadata, url) {
   if (!hydrationArticles.length) {
     return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
   }
+  // Neutral locales (locale-policy.js): the hydration state carries the same sign-up-free text the page renders.
+  if (isNeutralCtaLocale(locale)) hydrationArticles = hydrationArticles.map((article) => neutralArticleView(article, locale));
   const payload = safeJson({
     pathname: contentUrl.pathname,
     locale,
@@ -4633,6 +4640,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
       let fundingMatrix = null;
       try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      // Neutral locales and no-promotion markets (Vietnam): the embedded payload carries no /go/ trade routes.
+      if (fundingMatrix && (isNeutralCtaLocale(publicRoute.locale) || jurisdictionPromotionBan({ locale: publicRoute.locale, market: url.searchParams.get("market") }))) fundingMatrix = withoutFundingTradeHrefs(fundingMatrix);
       try {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { fundingMatrix });
         if (typeof appHtml === "string" && appHtml.includes('data-testid="funding-matrix-page"')) {
@@ -4833,7 +4842,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   // so a locale-only snapshot must never expose a code excluded by the requested market.
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const market = url.searchParams.get("market");
-  const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates";
+  // The home is a promotion page too: a no-promotion market (Vietnam) renders it without the rebate desk.
+  const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates" || publicRoute.contentPathname === "/";
   const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
     !isPartnerPromotableIn(slug, { locale: publicRoute.locale, market }) && isPartnerPromotableIn(slug, { locale: publicRoute.locale }));
   if (policyChanges) {
@@ -4966,7 +4976,8 @@ async function handleNewsArticleJson(env, url) {
       availableLocales: articlePublishedLocales(article),
       routeProjection: { source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE, locale: requestedLocale, availableLocales: articleSeoLocales(article) },
     };
-    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
+    const neutral = (row) => neutralArticleView(row, requestedLocale);
+    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries].map(neutral), relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
   }
   return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
@@ -6853,9 +6864,14 @@ async function resolveRouteMetadata(url, env) {
     return { status: 200, title: "NexuAlpha Partner Page", description: "Platform choices for this partner entry.", canonical: localizedCanonical(slug ? `/ref/${slug}` : "/", locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER };
   }
   const isNewsRoute = contentUrl.pathname === "/news" || contentUrl.pathname.startsWith("/news/");
-  const newsFeed = isNewsRoute
+  const loadedNewsFeed = isNewsRoute
     ? (await loadPrerenderedNewsSnapshot(env, url)) || await loadNewsFeed(env, url)
     : null;
+  // Neutral locales (locale-policy.js): titles, summaries, bodies and schema read the sign-up-free text, and the listing
+  // leaves out articles whose whole topic is a referral code (their pages stay reachable, noindex).
+  const newsFeed = loadedNewsFeed && isNeutralCtaLocale(requestedLocale)
+    ? neutralNewsFeed(loadedNewsFeed, requestedLocale, { listing: !/^\/news\/[a-z0-9-]+$/.test(contentUrl.pathname) })
+    : loadedNewsFeed;
   const searchEligibilityNewsFeed = isNewsRoute && typeof newsFeed?.searchPublished !== "boolean"
     ? await loadNewsFeed(env, url)
     : null;
@@ -6885,6 +6901,19 @@ async function resolveRouteMetadata(url, env) {
   });
 }
 
+const neutralNewsFeedCache = new WeakMap();
+function neutralNewsFeed(feed, locale, { listing = false } = {}) {
+  if (!feed || !Array.isArray(feed.articles)) return feed;
+  let byLocale = neutralNewsFeedCache.get(feed);
+  if (!byLocale) { byLocale = new Map(); neutralNewsFeedCache.set(feed, byLocale); }
+  const key = `${locale}|${listing ? "listing" : "article"}`;
+  if (!byLocale.has(key)) {
+    const rows = listing ? feed.articles.filter((article) => !isReferralTopicArticle(article)) : feed.articles;
+    byLocale.set(key, { ...feed, articles: rows.map((article) => neutralArticleView(article, locale)) });
+  }
+  return byLocale.get(key);
+}
+
 async function routeMetadataBase(url, env, newsFeed) {
   const canonicalPath = url.pathname === "/index.html" ? "/" : url.pathname;
   const locale = routeLocale(url);
@@ -6901,7 +6930,7 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   if (canonicalPath === "/") {
     const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
-    const [title, description] = HOME_SEARCH_COPY[homeCopyLocale] || HOME_SEARCH_COPY.en;
+    const [title, description] = homeSearchCopyFor(homeCopyLocale, url.searchParams.get("market"));
 
     return {
       status: 200,

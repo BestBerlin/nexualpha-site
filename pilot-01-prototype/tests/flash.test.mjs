@@ -154,7 +154,9 @@ test("item pages: H1, NewsArticle schema, related links, 301 for old slugs and u
     const main = mainHtml(html);
     assert.match(main, new RegExp(`href="${prefix}/exchanges/okx"`), "venue profile link");
     assert.match(main, new RegExp(`href="${prefix}/activities/updates/okx/`), "announcement update page link");
-    assert.match(main, /href="https:\/\/www\.okx\.com\/help\/okx-to-list-ct-usdt"[^>]*rel="nofollow noopener noreferrer"|rel="nofollow noopener noreferrer"[^>]*href="https:\/\/www\.okx\.com/, "official source");
+    // Owner 2026-10-13: OKX help pages take no referral parameter, so the official source is a plain label + domain.
+    assert.doesNotMatch(main, /href="https:\/\/www\.okx\.com/, "no uncoded OKX link");
+    assert.match(main, /data-source-plain="okx\.com"/, "official source");
     assert.ok((html.match(/rel="alternate" hreflang=/g) || []).length > 2, "hreflang for indexable editions");
   }
   const liq = mainHtml(await (await fetchPage(flashItemPath(LIQ))).text());
@@ -199,7 +201,7 @@ test("noindex rule: items older than 30 days, news items and fallback-language e
 test("sign-up block: the item's exchange via /go/<venue>?src=flash-<type>, geo-gated, none in neutral locales", async () => {
   assert.deepEqual(flashSignupVenues(BITGET, { locale: "tr" }).includes("bitget"), false, "Bitget is not promoted in Türkiye");
   assert.ok(flashSignupVenues(BITGET, { locale: "tr" }).every((slug) => ["okx", "binance", "bybit"].includes(slug)));
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.deepEqual(flashSignupVenues(OKX, { locale }), [], locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.deepEqual(flashSignupVenues(OKX, { locale }), [], locale);
 
   const okx = mainHtml(await (await fetchPage(flashItemPath(OKX))).text());
   assert.match(okx, /href="\/go\/okx\?src=flash-listing"/);
@@ -280,6 +282,8 @@ test("header keeps five primary items with Flash under More; home has the live r
 
 // ------------------------------------------------------------------------------------- Important level (2026-10-13)
 import { FLASH_IMPORTANT_RULES, FLASH_TOP_COINS, flashImportance, flashStreamPayload, flashView } from "../src/data/flash-feed.js";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const IMPORTANT_SOURCES = {
   announcements: { items: [

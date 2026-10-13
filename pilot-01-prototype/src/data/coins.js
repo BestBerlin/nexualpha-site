@@ -8,12 +8,13 @@ import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./c
 import { formatSgt } from "./local-time.js";
 
 // Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
-export const COIN_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const COIN_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 import { feeFact, feePair } from "./exchange-facts.js";
 import { isPartnerPromotableIn, isTurkeyGated, promotionCountries } from "./partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES } from "./partner-geo-policy.generated.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
 

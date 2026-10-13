@@ -47,7 +47,9 @@ test('locale and country mapping distinguishes multi-country languages and UK fr
   assert.equal(isPartnerPromotableIn('kucoin', {market:'OCCUPIED_UKRAINE'}), false);
   assert.equal(isPartnerPromotableIn('binance', {market:'EU'}), false);
   assert.equal(isPartnerPromotableIn('binance', {market:'FR'}), false);
-  assert.equal(isPartnerPromotableIn('gate-io', {locale:'vi',market:'/int'}), true);
+  // Vietnam (owner 2026-10-13, Resolution 05/2025/NQ-CP): vi pages and VN markets promote no partner, whatever market is named.
+  assert.equal(isPartnerPromotableIn('gate-io', {locale:'vi',market:'/int'}), false);
+  for (const slug of ['okx','bitget','binance','bybit','kraken']) for (const ctx of [{locale:'vi'},{locale:'vi',market:'/int'},{locale:'en',market:'VN'},{locale:'en',market:'/vn'},{locale:'zh-Hans',market:'VN'}]) assert.equal(isPartnerPromotableIn(slug, ctx), false, `${slug} ${JSON.stringify(ctx)}`);
   assert.equal(isPartnerPromotableIn('gate-io', {market:'/eu'}), false);
 });
 test('news offers carry their article market and skip restricted destinations', () => {
