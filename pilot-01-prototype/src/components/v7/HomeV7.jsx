@@ -101,6 +101,12 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
   // Hero copy experiment (X5): the variant comes from the SSR/hydration context, never from a client-side swap.
   const heroVariant = useHomeHeroVariant();
   const heroText = banned ? t : heroCopyFor(t, locale, heroVariant);
+  // Keep the SSR clock in the HTML so a deferred client render reuses the same snapshot,
+  // including homes without a seeded announcement feed.
+  const [renderedAt] = useState(() => {
+    const snapshot = typeof document !== "undefined" ? document.querySelector(".h7[data-rendered-at]")?.getAttribute("data-rendered-at") : null;
+    return snapshot || new Date(Date.now()).toISOString();
+  });
   const [product, setProduct] = useState("perp");
   const venues = useVenues(locale, product, market, banned);
   const maxPct = homeRebateMaxPctFor(locale, market);
@@ -175,7 +181,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
   }, [venues]);
 
   return (
-    <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
+    <div className="h7" data-rendered-at={renderedAt} {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})} {...(banned ? { "data-neutral": "" } : {})}>
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
@@ -239,7 +245,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
       <AcademyTeaser locale={locale} />
 
       <DeferUntilVisible target="#h7-flash, #h7-calc, #h7-funding, #h7-intel" prefetch={loadHomeBelow}>
-        <HomeBelowFold t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
+        <HomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       </DeferUntilVisible>
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />

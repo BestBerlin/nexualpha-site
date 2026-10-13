@@ -209,8 +209,8 @@ for (const variant of ["a", "b"]) {
       const html = await (await fetchHome(pathname, { cookie: `nx_hero=${variant}`, force: "on" })).text();
       const state = prerenderState(html);
       assert.equal(state.heroVariant, variant);
-      // tg_expires in the Telegram return links is a render-time timestamp (pre-existing); everything else must be identical.
-      const stable = (markup) => String(markup).replace(/tg_expires=\d+/g, "tg_expires=T");
+      // Both render-time metadata fields vary between independent SSR calls; hydration reuses the HTML clock.
+      const stable = (markup) => String(markup).replace(/tg_expires=\d+/g, "tg_expires=T").replace(/data-rendered-at="[^"]+"/g, 'data-rendered-at="T"');
       assert.equal(stable(await harness.render(`https://nexualpha.com${pathname}`, { heroVariant: state.heroVariant })), stable(rootInnerHtml(html)), "client props render the same markup");
       const { errors, inspected } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${pathname}`, {
         inspect: (window) => ({ h1: window.document.querySelector(".h7-hero h1")?.textContent, sub: window.document.querySelector(".h7-sub")?.textContent, marker: window.document.querySelector(".h7-hero")?.getAttribute("data-hero-variant") }),

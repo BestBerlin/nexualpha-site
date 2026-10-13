@@ -59,6 +59,9 @@ function useTick(renderedAt) {
 
 export function FundingBoard({ locale, initialFeed }) {
   const t = copyFor(locale);
+  // SSR has no media query. Adopt the reader preference only after hydration.
+  const [showSeconds, setShowSeconds] = useState(true);
+  useEffect(() => { setShowSeconds(!reduced()); }, []);
   const feed = useFunding(initialFeed);
   const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);
@@ -77,10 +80,10 @@ export function FundingBoard({ locale, initialFeed }) {
         <div className="h7-fr-row h7-fr-head" role="row"><span role="columnheader">{t.venue}</span><span role="columnheader">{t.rate}</span><span role="columnheader">{t.apr}</span><span role="columnheader">{t.next}</span></div>
         {rows.map((r, i) => (
           <a key={r.venue} role="row" className={`h7-fr-row${i === 0 ? " best" : ""}`} href={localizedHref(`/exchanges/${r.venue}`, { locale })}>
-            <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact />{brandsBySlug[r.venue]?.name || r.venue}</span>
+            <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}</span></span>
             <span role="cell" className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></span>
             <span role="cell" className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</span>
-            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(Date.parse(r.nextAt) - now, !reduced())}</span>
+            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</span>
           </a>
         ))}
       </div>
