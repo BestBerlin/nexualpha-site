@@ -11,7 +11,7 @@ export function ExchangeKeyFacts({ slug, locale = "en", market }) {
   if (!sheet?.rows.length) return null;
   const licenses = licenseCopy(locale);
   const matrix = matrixCopy(locale);
-  const labels = { "source-context": matrix.platform, "product-scope": matrix.products, "spot-fees": `${matrix.spot} (${matrix.maker})`, "perp-fees": `${matrix.perp} (${matrix.maker})`, apps: "iOS / Android", "proof-of-reserves": "Proof of reserves", "deposit-methods": "Deposit methods" };
+  const labels = { "source-context": matrix.platform, "product-scope": matrix.products, "spot-fees": `${matrix.spot} (${matrix.maker})`, "perp-fees": `${matrix.perp} (${matrix.maker})`, apps: "iOS / Android", "proof-of-reserves": "Proof of reserves", "kyc-reference": "KYC / eligibility", "deposit-methods": "Deposit methods" };
   const display = (row) => {
     const v = row.value;
     if (row.id.endsWith("-fees")) return `${feePair(v.maker, v.taker, locale)} — ${v.scope}`;

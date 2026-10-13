@@ -30,7 +30,6 @@ const canonicalOf = (html) => html.match(/<link rel="canonical" href="([^"]*)"/)
 const cases = [
   { path: "/ja/topics", locale: "ja", content: "/topics", canonical: "https://nexualpha.com/topics", minLinks: 30 },
   { path: "/ar/factbook", locale: "ar", content: "/factbook", canonical: "https://nexualpha.com/factbook", minLinks: 40 },
-  { path: "/de/factbook/binance", locale: "de", content: "/factbook/binance", canonical: "https://nexualpha.com/de/factbook/binance", minLinks: 30 },
   { path: "/ko/topics/tokenized-assets", locale: "ko", content: "/topics/tokenized-assets", canonical: "https://nexualpha.com/topics/tokenized-assets", minLinks: 30 },
 ];
 

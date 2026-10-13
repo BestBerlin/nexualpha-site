@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { JSDOM } from "jsdom";
 
-import { converterCoins, converterIndexable, converterLocales, converterPath, FIATS } from "../src/data/converter.js";
+import { converterCoins, converterIndexable, converterLocales, converterPath, FIATS, converterRelatedTargets } from "../src/data/converter.js";
 import { localizedHref } from "../src/data/locale-routing.js";
 import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 
@@ -15,21 +15,11 @@ function converterRoutes() {
 }
 
 function relatedConverterLinks(coin, fiat, locale) {
-  const coins = converterCoins();
-  const relatedFiats = FIATS
-    .filter((code) => code !== fiat)
-    .map((code) => ({ code, locale: converterLocales(code).find((candidate) => converterIndexable(coin, code, candidate)) }))
-    .filter((item) => item.locale)
-    .slice(0, 4)
-    .map(({ code, locale: targetLocale }) => localizedHref(converterPath(coin, code), { locale: targetLocale }));
-
-  const index = Math.max(0, coins.findIndex((row) => row?.slug === coin.slug));
-  const fiatPeers = [1, -1, 2, -2]
-    .map((offset) => coins[(index + offset + coins.length) % coins.length])
-    .filter((row) => row && row.slug !== coin.slug && converterIndexable(row, fiat, locale))
-    .map((row) => localizedHref(converterPath(row, fiat), { locale }));
-
-  return [...relatedFiats, ...fiatPeers];
+  const { relatedFiats, peers } = converterRelatedTargets(coin, fiat, locale);
+  return [
+    ...relatedFiats.map(({ code, locale: targetLocale }) => localizedHref(converterPath(coin, code), { locale: targetLocale })),
+    ...peers.map((row) => localizedHref(converterPath(row, fiat), { locale })),
+  ];
 }
 
 test("converter related-link graph gives every indexable converter at least three plain inlinks", () => {
@@ -51,11 +41,11 @@ test("converter related-link graph gives every indexable converter at least thre
 test("converter SSR emits only served converter related links and no commercial handoff links in the related nav", { timeout: 120_000 }, async (t) => {
   const harness = await createSsrHarness();
   t.after(() => harness.close());
-  const html = await harness.render("https://nexualpha.com/tr/convert/btc-to-try");
+  const html = await harness.render("https://nexualpha.com/convert/btc-to-usd");
   const doc = new JSDOM(typeof html === "string" ? html : html.html).window.document;
   const links = [...doc.querySelectorAll("[data-converter] nav a")].map((link) => link.getAttribute("href"));
-  assert.ok(links.includes("/convert/btc-to-usd"), "same-coin cross-fiat links use the served English USD route");
-  assert.ok(links.some((href) => href.startsWith("/tr/convert/") && href.endsWith("-to-try")), "same-fiat links stay in the served Turkish route set");
+  assert.ok(links.includes("/convert/btc-to-eur"), "same-coin cross-fiat links use the served English EUR route");
+  assert.ok(links.includes("/convert/eth-to-usd"), "same-fiat links stay in the served English USD route set");
   assert.equal(links.some((href) => href.includes("/go/")), false);
-  assert.equal(links.some((href) => href.includes("btc-to-inr")), false);
+  assert.equal(links.some((href) => href.includes("btc-to-inr") || href.includes("btc-to-try") || href.startsWith("/tr/convert/")), false);
 });

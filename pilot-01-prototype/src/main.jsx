@@ -88,6 +88,7 @@ function HydrationBootstrap() {
       initialTicker={prerenderState?.ticker}
       initialMovers={prerenderState?.movers}
       initialRadar={prerenderState?.radar}
+      initialSeoAlternates={prerenderState?.seoAlternates}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
   </>;

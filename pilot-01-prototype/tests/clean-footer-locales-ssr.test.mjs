@@ -5,6 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { localizedHref } from '../src/data/locale-routing.js';
+import { PARTNER_EXCHANGE_PAGE_SLUGS, partnerExchangePageLinks } from '../src/data/partner-page-links.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const localizedRights = {
@@ -49,15 +50,15 @@ test('shared footer renders localized topic and factbook labels without changing
       assert.ok(nav.includes(`<a href="${localizedHref('/topics', { locale })}">${topics}</a>`), `${locale}: topic link`);
       assert.ok(nav.includes(`<a href="${localizedHref('/factbook', { locale })}">${factbook}</a>`), `${locale}: factbook link`);
       if (locale === 'en') {
-        const bitget = rendered[locale].indexOf('Bitget Referral codes');
-        const okx = rendered[locale].indexOf('OKX Referral codes');
-        const binance = rendered[locale].indexOf('Binance Referral codes');
+        const bitget = rendered[locale].indexOf('/exchanges/bitget#registration-path');
+        const okx = rendered[locale].indexOf('/exchanges/okx#registration-path');
+        const binance = rendered[locale].indexOf('/exchanges/binance#registration-path');
         assert.ok(bitget > 0 && bitget < okx && okx < binance, `${locale}: referral codes follow shared venue priority`);
       }
       if (locale === 'tr') {
-        assert.ok(!rendered[locale].includes('Bitget Referans kodları'), `${locale}: no Bitget referral code link`);
-        assert.ok(!rendered[locale].includes('CoinW Referans kodları'), `${locale}: no CoinW referral code link`);
-        assert.ok(rendered[locale].indexOf('OKX Referans kodları') < rendered[locale].indexOf('Binance Referans kodları'), `${locale}: Turkish referral links start with OKX`);
+        assert.ok(!rendered[locale].includes('/tr/exchanges/bitget'), `${locale}: no Bitget link`);
+        assert.ok(!rendered[locale].includes('/tr/exchanges/coinw'), `${locale}: no CoinW link`);
+        assert.ok(rendered[locale].indexOf('/tr/exchanges/okx') < rendered[locale].indexOf('/tr/exchanges/binance'), `${locale}: Turkish referral links start with OKX`);
       }
       if (locale !== 'en') {
         assert.ok(!nav.includes('>Topic Guides<'), `${locale}: no topic English fallback`);
@@ -69,8 +70,8 @@ test('shared footer renders localized topic and factbook labels without changing
   }
 });
 
-test('footer referral links preserve explicit market promotion gates', async () => {
-  const temp = await mkdtemp(path.join(root, 'tests/.tmp-footer-'));
+test('shared footer renders partner exchange page links without code wording in neutral locales', async () => {
+  const temp = await mkdtemp(path.join(root, 'tests/.tmp-footer-partners-'));
   try {
     const entry = path.join(temp, 'entry.mjs');
     const bundle = path.join(temp, 'bundle.cjs');
@@ -78,24 +79,51 @@ test('footer referral links preserve explicit market promotion gates', async () 
       import React from 'react';
       import { renderToStaticMarkup } from 'react-dom/server';
       import { CleanFooter } from '../../src/components/v3/CleanFooter.jsx';
-      const cases = {
-        en: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en' })),
-        tr: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'TR' })),
-        vn: renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'VN' })),
-      };
-      console.log(JSON.stringify(cases));
+      const locales = ['en', 'tr', 'ru', 'zh-Hant', 'vi'];
+      const rendered = Object.fromEntries(locales.map(locale => [locale,
+        renderToStaticMarkup(React.createElement(CleanFooter, { locale }))]));
+      rendered['en@TR'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'TR' }));
+      rendered['en@VN'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'VN' }));
+      console.log(JSON.stringify(rendered));
     `);
     execFileSync(path.join(root, 'node_modules/.bin/esbuild'), [entry, '--bundle', '--platform=node',
       '--format=cjs', '--loader:.css=empty', '--log-level=warning', `--outfile=${bundle}`], { cwd: root });
     const rendered = JSON.parse(execFileSync('node', [bundle], { cwd: root, encoding: 'utf8' }));
-    assert.ok(rendered.en.includes('Bitget Referral codes'), 'en: Bitget available without market ban');
-    assert.ok(rendered.en.includes('CoinW Referral codes'), 'en: CoinW available without market ban');
-    assert.ok(!rendered.tr.includes('Bitget Referral codes'), 'TR market: no Bitget referral code link');
-    assert.ok(!rendered.tr.includes('CoinW Referral codes'), 'TR market: no CoinW referral code link');
-    assert.ok(rendered.tr.indexOf('OKX Referral codes') < rendered.tr.indexOf('Binance Referral codes'), 'TR market: starts OKX then Binance');
-    assert.doesNotMatch(rendered.vn, /Referral codes/);
-    assert.doesNotMatch(rendered.vn, /clean-footer__nav--referrals/);
+    for (const key of Object.keys(rendered)) {
+      const [locale, market] = key.split('@');
+      const expected = partnerExchangePageLinks(locale, { market });
+      const section = rendered[key].match(/<nav\b[^>]*data-footer-partner-links[^>]*>[\s\S]*?<\/nav>/)?.[0] || '';
+      assert.equal((section.match(/data-footer-partner-link=/g) || []).length, expected.length, key);
+      for (const link of expected) assert.ok(section.includes(`href="${link.href}"`), `${key}: ${link.slug}`);
+      if (['ru', 'zh-Hant', 'vi'].includes(locale) || market === 'VN') {
+        assert.doesNotMatch(section, /code|referral|referido|parrainage|邀请码|邀請碼|11350287|nexu888|48553|7f97gkqw|2296057|4BRhe|LuckyBitcoin/i, `${key}: neutral labels stay informational`);
+        assert.doesNotMatch(section, /#registration-path/, `${key}: neutral links stay on info pages`);
+      } else {
+        if (key === 'en') assert.match(section, /Referral codes/);
+        assert.match(section, /#registration-path/);
+      }
+      if (locale === 'tr' || market === 'TR') {
+        assert.doesNotMatch(section, /exchanges\/bitget|exchanges\/coinw/, `${key}: no Bitget or CoinW link on Türkiye pages`);
+        assert.ok(section.indexOf('exchanges/okx') < section.indexOf('exchanges/binance'), `${key}: OKX before Binance`);
+      }
+    }
+    assert.ok(rendered.en.indexOf('exchanges/bitget') < rendered.en.indexOf('exchanges/okx'), 'en: Bitget first, then OKX');
   } finally {
     await rm(temp, { recursive: true, force: true });
+  }
+});
+
+
+test('partner page link group covers every published real partner including Hyperliquid', async () => {
+  const { buildPartnersFeed } = await import('../src/data/partners-feed.js');
+  const { partnerExchangePageLinks } = await import('../src/data/partner-page-links.js');
+  const expected = buildPartnersFeed().partners.map(partner => partner.slug).sort();
+  for (const locale of ['en', 'ru', 'zh-Hant', 'vi']) {
+    assert.deepEqual(partnerExchangePageLinks(locale).map(link => link.slug).sort(), expected, locale);
+  }
+  for (const link of partnerExchangePageLinks('en', { market: 'VN' })) {
+    assert.equal(link.code, null);
+    assert.doesNotMatch(link.label, /referral|code/i);
+    assert.doesNotMatch(link.href, /registration-path/);
   }
 });

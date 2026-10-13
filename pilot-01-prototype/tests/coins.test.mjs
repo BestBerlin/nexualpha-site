@@ -7,7 +7,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
 import { COINS, coinBySlug, coinSignup, isCoinListed, primarySignup, spotVenues } from "../src/data/coins.js";
-import { COIN_INDEX_LOCALES, parseCoinsPath } from "../src/data/coins-routes.js";
+import { COIN_DETAIL_INDEX_LOCALES, COIN_INDEX_LOCALES, parseCoinsPath } from "../src/data/coins-routes.js";
 import { COIN_COPY } from "../src/data/coins-copy.js";
 import { coinIndexable, coinIndexLocales, coinsIndexReport, COIN_DESCRIPTIONS_BY_LOCALE } from "../src/data/coins-seo.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
@@ -129,14 +129,15 @@ test("noindex: unlisted coins, non-index locales, unknown slugs 404", async () =
   assert.match(mainHtml(page), /nxc-related"[\s\S]*href="\/coins\//, "similar listed coins");
   assert.doesNotMatch(mainHtml(page), /href="\/go\//);
   assert.equal(coinIndexable(unlisted, "en"), false);
-  for (const path of ["/it/coins/bitcoin", "/ru/coins/bitcoin", "/zh-hant/coins", "/ar/coins/solana"]) {
+  for (const path of ["/it/coins/bitcoin", "/ru/coins/bitcoin", "/zh-hant/coins", "/ar/coins/solana", "/ja/coins/solana", "/ko/coins/solana", "/fr/coins/solana", "/de/coins/solana"]) {
     const html = await (await fetchPage(path)).text();
     assert.equal(robots(html), "noindex,follow", path);
     assert.match(html, /<main class="nxc /, `${path}: still rendered`);
   }
   assert.equal((await fetchPage("/coins/not-a-coin")).status, 404);
   const report = coinsIndexReport();
-  for (const locale of COIN_INDEX_LOCALES) assert.ok(report[locale].indexed >= 150, `${locale}: ${report[locale].indexed} indexed`);
+  for (const locale of COIN_DETAIL_INDEX_LOCALES) assert.ok(report[locale].indexed >= 150, `${locale}: ${report[locale].indexed} indexed`);
+  for (const locale of ["ja", "ko", "fr", "de"]) assert.equal(report[locale].indexed, 0, `${locale}: gated until release flag is enabled`);
 });
 
 test("sitemap-coins.xml lists only indexable editions with the head's hreflang set, and is in the index and robots.txt", async () => {
@@ -150,9 +151,9 @@ test("sitemap-coins.xml lists only indexable editions with the head's hreflang s
   const split = buildSplitSitemaps(routeInventory([]), []);
   assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-coins\.xml<\/loc>/);
   assert.equal(split.coins.count, coins.count);
-  const head = await (await fetchPage("/ja/coins/solana")).text();
+  const head = await (await fetchPage("/es/coins/solana")).text();
   const headAlternates = [...head.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => `${m[1]} ${m[2]}`).sort();
-  const entry = coins.xml.split("<url>").find((block) => block.includes("<loc>https://nexualpha.com/ja/coins/solana</loc>"));
+  const entry = coins.xml.split("<url>").find((block) => block.includes("<loc>https://nexualpha.com/es/coins/solana</loc>"));
   const siteAlternates = [...entry.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => `${m[1]} ${m[2]}`).sort();
   assert.deepEqual(siteAlternates, headAlternates);
   assert.match(await readFile(new URL("../public/robots.txt", import.meta.url), "utf8"), /Sitemap: https:\/\/nexualpha\.com\/sitemap-coins\.xml/);

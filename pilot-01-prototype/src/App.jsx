@@ -28,6 +28,7 @@ import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
+import { languageOptionsFromHreflang, readDocumentHreflangAlternates } from "./data/page-hreflang-links.js";
 import { sharedOfficialEventItems } from "./data/event-source.js";
 import { startJsonPolling } from "./components/shared/json-polling.js";
 import { jurisdictionPromotionBan } from "./data/partner-geo-policy.js";
@@ -128,6 +129,21 @@ if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
 const GLOSSARY_MODULE_PATTERN = /^\.\/data\/glossary-(?:index|shard|links)-[a-z0-9-]+\.js$/;
 if (!import.meta.env.SSR) registerRouteModuleResolver((path) => (GLOSSARY_MODULE_PATTERN.test(path)
   ? () => import("./data/glossary-content-loader.js").then((loader) => loader.loadGlossaryModule(path)) : null));
+
+function readRenderedLanguageAlternates(doc = globalThis.document) {
+  if (!doc || typeof doc.querySelectorAll !== "function") return [];
+  return [...doc.querySelectorAll(".nx-lang__list a[hreflang]")].map((link) => ({
+    hreflang: link.getAttribute("hreflang"),
+    href: link.getAttribute("href"),
+  }));
+}
+
+function readInitialPageAlternates(doc = globalThis.document) {
+  if (!doc || typeof doc.querySelector !== "function") return [];
+  const headAlternates = readDocumentHreflangAlternates(doc);
+  const hasAuthoritativeHead = headAlternates.length || doc.querySelector('[data-nexualpha-route-seo="marker"], link[rel="canonical"], meta[name="robots"]');
+  return hasAuthoritativeHead ? headAlternates : readRenderedLanguageAlternates(doc);
+}
 
 const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
@@ -545,12 +561,9 @@ function routeState(venues, initialUrl) {
     accountStage: searchParams.get("account_stage") || undefined,
     funding: searchParams.get("funding") || undefined,
   });
-  const refParam = searchParams.get("ref");
-  if (refParam) {
-    return { name: "kolLanding", kol: refParam, ...contextParams() };
-  }
   const refMatch = pathname.match(/^\/ref\/([a-z0-9-]+)$/);
   if (refMatch) return { name: "kolLanding", kol: refMatch[1], ...contextParams() };
+  if (pathname === "/") return { name: "home", ...contextParams() };
   if (searchParams.get("page") === "newsDetail" && searchParams.get("slug")) {
     return { name: "newsDetail", slug: searchParams.get("slug"), ...contextParams() };
   }
@@ -679,7 +692,20 @@ function activateMobileMenu(dialog, trigger, header, onClose) {
   };
 }
 
-function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initialUrl }) {
+
+function appendLanguageContextFragment(href, contextUrl, locale) {
+  if (!contextUrl || !/[?#&](?:market|product|utm_source|platform|amount|scenario|venue|instrument|order|volume)=/.test(contextUrl)) return href;
+  try {
+    const contextHash = new URL(localizedLanguageHref(contextUrl, { locale }), "https://nexualpha.com").hash;
+    if (!contextHash) return href;
+    const target = new URL(href, "https://nexualpha.com");
+    return `${target.pathname}${target.search}${contextHash}`;
+  } catch {
+    return href;
+  }
+}
+
+function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initialUrl, pageAlternates = [] }) {
   const [navigationUrl, setNavigationUrl] = useState(null);
   useEffect(() => {
     const update = () => setNavigationUrl(window.location.href);
@@ -735,7 +761,13 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
     if (!mobileOpen) return;
     return activateMobileMenu(mobileMenuRef.current, mobileTriggerRef.current, headerRef.current, () => setMobileOpen(false));
   }, [mobileOpen]);
-  const localeOptions = useMemo(() => supportedLocales.map((code) => ({ code, label: localeManifest[code].language })).filter((option) => !brazil || option.code === "pt-BR").map((option) => ({ ...option, href: localizedLanguageHref(navigationUrl || initialUrl || "/", { locale: option.code }) })), [brazil, navigationUrl, initialUrl]);
+  const localeOptions = useMemo(() => {
+    const contextUrl = navigationUrl || "";
+    const options = languageOptionsFromHreflang(pageAlternates)
+      .filter((option) => !brazil || option.code === "pt-BR")
+      .map((option) => ({ ...option, href: appendLanguageContextFragment(option.href, contextUrl, option.code) }));
+    return options.length ? options : (brazil ? [{ code: "pt-BR", label: localeManifest["pt-BR"].language, href: localizedLanguageHref(navigationUrl || initialUrl || "/", { locale: "pt-BR" }) }] : []);
+  }, [brazil, navigationUrl, initialUrl, pageAlternates]);
   const navState = (href) => headerNavigationState(href, navigationUrl);
   const closeMobile = () => setMobileOpen(false);
   const languageMenu = <LanguageMenu locale={locale} options={localeOptions} label={copy.ui.language} disabled={brazil} onSelect={onLocaleChange} inline />;
@@ -748,13 +780,18 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialMovers, initialRadar, initialIntelTool } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialMovers, initialRadar, initialIntelTool, initialSeoAlternates } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
   const [dataStatus, setDataStatus] = useState("loading");
   const [dataRevision, setDataRevision] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [pageAlternates, setPageAlternates] = useState(() => {
+    if (Array.isArray(initialSeoAlternates)) return initialSeoAlternates;
+    if (typeof document === "undefined") return [];
+    return readInitialPageAlternates(document);
+  });
   const searchReturnFocusRef = useRef(null);
 
   // Hydration can begin from the server's default locale while the browser URL
@@ -864,8 +901,21 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     // Route SEO is server-rendered for every route (worker routeMetadata). The browser keeps that head on first load
     // and only after a client-side route change fetches that one route's head from /api/route-seo
     // (src/data/route-seo-client.js, seo-payload lane 2026-10-11) instead of shipping the route tables.
-    syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale });
+    let alive = true;
+    syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale }).then((seo) => {
+      if (!alive) return;
+      setPageAlternates(seo?.alternates?.length ? seo.alternates : readInitialPageAlternates(document));
+    });
+    return () => { alive = false; };
   }, [locale, route]);
+  useEffect(() => {
+    if (typeof document === "undefined" || typeof MutationObserver === "undefined") return undefined;
+    const update = () => setPageAlternates(readInitialPageAlternates(document));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.head, { childList: true, subtree: true, attributes: true, attributeFilter: ["href", "hreflang", "rel"] });
+    return () => observer.disconnect();
+  }, [locale, route.name]);
 
   const [liveDecisionContextSearch, setLiveDecisionContextSearch] = useState(null);
   // Apply fragment-based geographic gates before passive feed refresh effects.
@@ -898,7 +948,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   // sections keep derived copy in child state; reusing those nodes can leave
   // an English body below a translated header after a client-side switch.
   const toolKey = route.name === "venue" && !routedVenue ? null : toolKeyOf(route);
-  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header initialUrl={initialUrl} copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
+  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
 
   const adjustSelection = () => document.querySelector("#exchanges")?.scrollIntoView({ behavior: typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   if (route.name === "embedCalculator") {
@@ -1037,7 +1087,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const homeCtx = { locale, venues: command.venueCatalog, decisionPassport };
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
-    <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} />
     {/* Neutral locales and no-promotion markets (Vietnam) get no legacy research drawer: it holds sign-up links. */}

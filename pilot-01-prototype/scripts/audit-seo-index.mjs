@@ -117,7 +117,7 @@ export function readBuiltSitemapTree(sitemapPath, { baseUrl = defaultBaseUrl, ma
 
 async function readCompleteSitemapTree(sitemapPath, { root, baseUrl = defaultBaseUrl } = {}) {
   const clientRoot = path.join(root, "dist", "client");
-  const knownRuntimeChildren = new Set(["/news-sitemap.xml", "/sitemap-updates.xml", "/sitemap-flash.xml"]);
+  const knownRuntimeChildren = new Set(["/news-sitemap.xml"]);
   const files = [];
   const missingSitemaps = [];
   const urls = [];
@@ -260,10 +260,25 @@ export function parseHeadMetadata(html, { baseUrl = defaultBaseUrl } = {}) {
     ...entry,
     path: auditUrlKey(entry.href, { baseUrl }),
   }));
+  const languageLinks = [...String(html || "").matchAll(/<a\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .filter((tag) => attr(tag, "class").split(/\s+/).includes("nx-lang__opt"))
+    .map((tag) => ({ hreflang: attr(tag, "hreflang"), href: decodeHtml(attr(tag, "href")) }))
+    .map((entry) => {
+      try {
+        const target = new URL(entry.href, baseUrl);
+        // Fragments preserve browser decision context without changing the requested locale document.
+        target.hash = "";
+        return { ...entry, path: auditUrlKey(target.href, { baseUrl }) };
+      } catch {
+        return { ...entry, path: null };
+      }
+    });
   return {
     title,
     description,
     lang,
+    languageLinks,
     robots,
     noindex: robotsTokens.includes("noindex") || robotsTokens.includes("none"),
     indexFollow: robotsTokens.includes("index") && robotsTokens.includes("follow") && !robotsTokens.some((token) => ["noindex", "nofollow", "none"].includes(token)),
@@ -395,9 +410,16 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
     if (page.noindex && page.alternates?.length) failures.push({ kind: "noindex-has-hreflang", path: pagePath, alternates: page.alternates.length });
     if (!page.noindex && !page.canonicalHref) failures.push({ kind: "missing-canonical", path: pagePath });
     if (!page.noindex && (!page.title || !page.description)) failures.push({ kind: "missing-search-metadata", path: pagePath });
+    const languageTargets = new Set((page.alternates || []).filter((entry) => entry.hreflang !== "x-default").map((entry) => `${entry.hreflang}|${entry.path}`));
+    for (const link of page.languageLinks || []) {
+      if (!link.path || !languageTargets.has(`${link.hreflang}|${link.path}`)) {
+        failures.push({ kind: "language-link-not-in-hreflang", path: pagePath, href: link.href, hreflang: link.hreflang });
+      }
+    }
     if (page.canonicalPath && page.canonicalPath !== pagePath) {
       const target = pageByPath.get(page.canonicalPath);
       if (!target) failures.push({ kind: "canonical-target-not-rendered", path: pagePath, canonicalPath: page.canonicalPath });
+      else if (target.noindex) failures.push({ kind: "canonical-target-noindex", path: pagePath, canonicalPath: page.canonicalPath });
       else if (target.canonicalPath !== page.canonicalPath) failures.push({ kind: "canonical-chain", path: pagePath, canonicalPath: page.canonicalPath, targetCanonicalPath: target.canonicalPath });
     }
   }

@@ -41,19 +41,20 @@ test("converter SEO helper gates indexable markets and emits FAQ/HowTo/WebPage s
   assert.equal(seo.status, 200);
   assert.equal(seo.indexable, true);
   assert.ok(seo.title.length <= 60);
-  assert.deepEqual(seo.alternatesLocales, ["en", "es", "fr", "de"]);
+  assert.deepEqual(seo.alternatesLocales, ["en"]);
   assert.ok(seo.schemas.some((schema) => schema["@type"] === "FAQPage"));
   assert.ok(seo.schemas.some((schema) => schema["@type"] === "WebPage" && schema.mainEntity?.["@type"] === "ExchangeRateSpecification"));
   assert.equal(converterRouteSeo(converterPath(btc, "TRY"), "en", { urlFor: (path) => path }).indexable, false);
   assert.equal(converterRouteSeo(converterPath(btc, "INR"), "en", { urlFor: (path) => path }).indexable, false);
   assert.equal(converterRouteSeo("/convert/notreal-to-usd", "en", { urlFor: (path) => path }).status, 404);
   const brl = converterRouteSeo("/convert/btc-to-brl", "pt-BR", { urlFor: (path) => path, fx });
+  assert.equal(brl.indexable, false);
   assert.ok(brl.schemas.some((schema) => schema["@type"] === "HowTo"), "BRL has a reviewed funding-guide HowTo");
 });
 
 test("worker head, /api/route-seo and runtime SSR agree for converter routes", async () => {
   const html = await (await fetchPage("/pt-br/convert/btc-to-brl")).text();
-  assert.equal(robots(html), "index,follow");
+  assert.equal(robots(html), "noindex,follow");
   assert.match(html, /<main class="nxconvert"/);
   assert.equal(prerenderState(html).fx.generatedAt, fx.generatedAt);
   assert.match(html, /1 BTC = /);
@@ -62,11 +63,11 @@ test("worker head, /api/route-seo and runtime SSR agree for converter routes", a
   assert.ok(graph.some((schema) => schema["@type"] === "HowTo"));
   const api = await (await worker.fetch(new Request("https://nexualpha.com/api/route-seo?path=%2Fpt-br%2Fconvert%2Fbtc-to-brl"), env())).json();
   assert.equal(api.status, 200);
-  assert.equal(api.robots, "index,follow");
+  assert.equal(api.robots, "noindex,follow");
   assert.equal(api.marker, "NEXUALPHA_CONVERTER_ROUTE_V1");
   assert.equal(api.canonical, "https://nexualpha.com/pt-br/convert/btc-to-brl");
   const client = computeRouteSeo({ url: "/pt-br/convert/btc-to-brl" });
-  assert.equal(client.robots, "index,follow");
+  assert.equal(client.robots, "noindex,follow");
   const noindex = await (await fetchPage("/convert/btc-to-try")).text();
   assert.equal(robots(noindex), "noindex,follow");
 });
@@ -81,9 +82,15 @@ test("converter hydration keeps the server-rendered FX and coin snapshot state",
 
 test("sitemap-convert.xml lists only indexable converter editions and is advertised", async () => {
   const entries = converterSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
-  assert.ok(entries.length > 0);
+  assert.equal(entries.length, 12);
   assert.ok(entries.some((entry) => entry.loc === "https://nexualpha.com/convert/btc-to-usd"));
-  assert.ok(entries.some((entry) => entry.loc === "https://nexualpha.com/pt-br/convert/btc-to-brl"));
+  assert.ok(entries.some((entry) => entry.loc === "https://nexualpha.com/convert/eth-to-eur"));
+  assert.ok(entries.some((entry) => entry.loc === "https://nexualpha.com/convert/sol-to-gbp"));
+  assert.ok(entries.some((entry) => entry.loc === "https://nexualpha.com/convert/usdt-to-usd"));
+  assert.ok(entries.every((entry) => new URL(entry.loc).pathname.startsWith("/convert/")));
+  assert.ok(entries.every((entry) => !new URL(entry.loc).pathname.includes("/pt-br/")));
+  assert.ok(entries.every((entry) => ["btc", "eth", "sol", "usdt"].some((symbol) => entry.loc.includes(`/convert/${symbol}-to-`))));
+  assert.ok(entries.every((entry) => ["usd", "eur", "gbp"].some((fiat) => entry.loc.endsWith(`-to-${fiat}`))));
   assert.ok(entries.every((entry) => !entry.loc.includes("/convert/btc-to-inr")));
   const sitemap = buildConvertSitemap();
   assert.equal(sitemap.count, entries.length);

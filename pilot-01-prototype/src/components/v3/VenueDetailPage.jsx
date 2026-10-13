@@ -942,7 +942,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
-    <section className="v2-section v3-profile-research-hub">
+    <section className="v2-section v3-profile-research-hub" id="sources">
       <details className="v3-profile-sources-group">
         <summary className="v3-profile-sources-group__summary">
           <strong>{profileChapters[1]}</strong>

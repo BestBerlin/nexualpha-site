@@ -194,10 +194,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.binance.com/en/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 103.4%; review method Cryptographic Merkle Tree zk-SNARKs Self-Audit & Periodic Third-Party Audits; security fund SAFU (Secure Asset Fund for Users). Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.binance.com/en/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory Level 1/2 KYC (Government ID + facial liveness + proof of address); tiers: Verified: 50 BTC/day withdrawal limit, standard spot and derivatives trading / Verified Plus: Proof of address required, 100 BTC/day limit, high-volume fiat rails / Enterprise: Full institutional LEI, UBO structure, and formal AML audit report; supported regions: Taiwan, Hong Kong (Select), European Union, LATAM, Southeast Asia, Africa; restricted regions: United States, Mainland China, North Korea, Iran, Cuba, Syria, Crimea",
+        "sourceUrls": [
+          "https://www.binance.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -412,10 +420,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.okx.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 104.2%; review method zk-STARKs Cryptographic Merkle Tree Solvency Engine (Monthly Public Snapshot); security fund OKX Risk Reserve Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.okx.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory KYC (Government ID + biometric liveness verification); tiers: Level 1: Basic ID number registration, strict withdrawal limits / Level 2: ID photo + biometric facial scan, 500 BTC/day limit, full P2P fiat access / Level 3: Source of wealth documentation for uncapped VIP transactions; supported regions: Taiwan, Hong Kong, Europe, Southeast Asia, LATAM, Middle East; restricted regions: United States, Mainland China, North Korea, Iran, Cuba, Syria, Canada",
+        "sourceUrls": [
+          "https://www.okx.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -614,10 +630,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.bybit.com/en/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 102.1%; review method Quarterly Merkle Tree Solvency Snapshot & Independent Audit; security fund Bybit Insurance Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.bybit.com/en/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory Level 1 Identity Verification; tiers: Level 1: ID card/passport + liveness check, 1,000,000 USDT daily limit / Level 2: Proof of address, 2,000,000 USDT daily limit, institutional banking; supported regions: Global, Taiwan, Hong Kong, Latin America, Southeast Asia, CIS; restricted regions: United States, Mainland China, Singapore, Canada, North Korea, Iran",
+        "sourceUrls": [
+          "https://www.bybit.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -735,10 +759,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.bitget.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 145.0%; review method Monthly Public Merkle Tree Audited Snapshot; security fund Bitget Protection Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.bitget.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory Level 1 KYC; tiers: Level 1: ID card/passport, 3,000,000 USDT daily limit / Level 2: Proof of address, unlimited withdrawals and higher API rate limits; supported regions: Global, Taiwan, Europe, LATAM, Southeast Asia; restricted regions: United States, Mainland China, Singapore, Canada, North Korea",
+        "sourceUrls": [
+          "https://www.bitget.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -933,10 +965,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.coinbase.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 100.0%; review method Deloitte & Touche LLP (US Public Audit) + 1:1 Cold Storage Segregation; security fund US Regulated Segregated Custody. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.coinbase.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Strict US regulated KYC (SSN/Passport, Tax ID, AML proof of funds); tiers: Tier 1: Photo ID + SSN for baseline access / Tier 2: Linked bank account + address proof for Coinbase Advanced and API execution; supported regions: United States, European Union, United Kingdom, Canada, Australia, Singapore; restricted regions: Sanctioned countries (Iran, North Korea, Syria, Cuba, Crimea, Russia)",
+        "sourceUrls": [
+          "https://www.coinbase.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -1159,10 +1199,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.kraken.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 100.0%; review method Armanino LLP & Moore Johannesburg (Independent Accounting Audit); security fund Kraken Cold Storage Vault Reserve. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.kraken.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Intermediate / Pro KYC Mandatory; tiers: Intermediate: Photo ID + proof of residence, $500K/day limit / Pro: Institutional and high-net-worth tier with unlimited FedWire/SEPA limits; supported regions: United States, European Union, United Kingdom, Canada, Australia, Japan; restricted regions: Sanctioned jurisdictions (Iran, North Korea, Syria, Cuba)",
+        "sourceUrls": [
+          "https://www.kraken.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -1289,10 +1337,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.gate.io/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 108.2%; review method Hacken & Armanino (Historical) + Monthly Open Source zk-SNARKs Self-Audit; security fund Gate SAFU Reserve Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.gate.io/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory KYC (ID document + facial liveness); tiers: KYC 1: ID number verification, $2M daily withdrawal / KYC 2: Facial recognition check, full Startup airdrop and margin eligibility; supported regions: Global, Taiwan, Europe, LATAM, Southeast Asia; restricted regions: United States, Mainland China, Singapore, Canada",
+        "sourceUrls": [
+          "https://www.gate.io/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -1333,10 +1389,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.kucoin.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 101.0%; review method Monthly Cryptographic Merkle Tree Self-Proof & Historical Mazars; security fund KuCoin Protection Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.kucoin.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory KYC verification required; tiers: Level 1: Standard ID verification, 50 BTC/day limit / Level 2: Biometric verification, 200 BTC/day limit; supported regions: Global, Taiwan, Europe, LATAM, Asia; restricted regions: United States, Mainland China, Singapore, Canada",
+        "sourceUrls": [
+          "https://www.kucoin.com/"
         ],
         "checkedOn": "2026-09-08"
       }
@@ -1399,10 +1463,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.mexc.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 101.5%; review method Monthly Public PoR Snapshot; security fund MEXC Investor Protection Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.mexc.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Identity verification required under the MEXC User Agreement (https://www.mexc.com/terms); withdrawal limits rise with the KYC tier, and MEXC publishes no official limit for unverified accounts.; tiers: Primary KYC: Basic ID verification, 80 BTC/day limit / Advanced KYC: Full biometric check, 200 BTC/day limit; supported regions: Global, Taiwan, Latin America, Southeast Asia, Africa; restricted regions: United States, Mainland China, Singapore, North Korea",
+        "sourceUrls": [
+          "https://www.mexc.com/"
         ],
         "checkedOn": "2026-09-08"
       },
@@ -1443,10 +1515,18 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.htx.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL; clean reserve ratio 100.8%; review method Monthly Cryptographic Merkle Tree Solvency Audit; security fund HTX Security Reserve Fund. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.htx.com/proof-of-reserves"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Basic ID verification required; tiers: L1 Basic: Name and ID registration, 5 BTC limit / L2 Advanced: Document scan, 100 BTC limit / L3 Pro: Biometrics and address check, 500 BTC limit; supported regions: Global, Taiwan, Europe, LATAM, Asia; restricted regions: United States, Mainland China, Canada, Singapore, North Korea",
+        "sourceUrls": [
+          "https://www.htx.com/"
         ],
         "checkedOn": "2026-09-08"
       }
@@ -1460,6 +1540,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "jsonUrl": "https://nexualpha.com/api/exchange-facts/backpack.json",
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory Standard KYC; tiers: Tier 1: Government photo ID + facial scan, unlocks full trading and deposit rails; supported regions: Global, Taiwan, Europe, Southeast Asia, LATAM; restricted regions: United States, Mainland China, Sanctioned countries",
+        "sourceUrls": [
+          "https://backpack.exchange/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
       {
         "id": "product-scope",
         "value": "Backpack's API FAQ says the same order and account endpoints support both spot and perpetual futures.",
@@ -1497,12 +1585,20 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "id": "proof-of-reserves",
         "value": {
           "url": "https://www.coinw.com/proof-of-reserves",
-          "scope": "Recorded disclosure URL; reserve figures are not verified by this fact sheet."
+          "scope": "Recorded disclosure URL. Reserve figures are dated factbook fields, not live guarantees."
         },
         "sourceUrls": [
           "https://www.coinw.com/proof-of-reserves"
         ],
         "checkedOn": "2026-10-13"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; KYC required before spot or futures orders, deposits and Earn; restricted regions: Mainland China, United States, Canada, United Kingdom, Hong Kong, Japan, Singapore, UAE, Sanctioned countries",
+        "sourceUrls": [
+          "https://www.coinw.com/"
+        ],
+        "checkedOn": "2026-09-08"
       },
       {
         "id": "apps",
@@ -1561,6 +1657,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory KYC (Passport / National ID); tiers: Level 1: Photo ID check, full derivative trading access / Level 2: Proof of address for institutional unlimited settlement; supported regions: Global, Taiwan, Europe, Asia, Middle East, LATAM; restricted regions: United States, Mainland China, Netherlands (retail), Sanctioned countries",
+        "sourceUrls": [
+          "https://www.deribit.com/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
         "id": "product-scope",
         "value": "Deribit API docs describe the venue as offering futures, options, and perpetuals.",
         "sourceUrls": [
@@ -1592,6 +1696,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
           "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf"
         ],
         "checkedOn": "2026-10-14"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Strict Licensed Institutional KYC; tiers: Individual KYC: Passport + facial liveness + utility bill / Corporate KYC: Full corporate registration, UBO registry, and AML diligence questionnaire; supported regions: Global, Taiwan, Europe, Southeast Asia, LATAM; restricted regions: Mainland China, United States, Sanctioned countries",
+        "sourceUrls": [
+          "https://global.hashkey.com/"
+        ],
+        "checkedOn": "2026-09-08"
       }
     ]
   },
@@ -1628,6 +1740,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
           "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
         ],
         "checkedOn": "2026-10-10"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC (Web3 wallet connection via Arbitrum USDC bridge); tiers: Self-Custody: Immediate execution via private keys, zero verification delays; supported regions: Global Decentralized Access; restricted regions: United States (Front-end IP block)",
+        "sourceUrls": [
+          "https://app.hyperliquid.xyz/"
+        ],
+        "checkedOn": "2026-09-08"
       },
       {
         "id": "product-scope",
@@ -1667,6 +1787,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
           "https://docs.dydx.xyz/concepts/trading/rewards"
         ],
         "checkedOn": "2026-10-10"
+      },
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC (Cosmos / EVM wallet connection); tiers: Web3 Non-custodial: Connect with any supported self-custodial wallet; supported regions: Global Decentralized Access; restricted regions: United States, Sanctioned countries",
+        "sourceUrls": [
+          "https://dydx.trade/"
+        ],
+        "checkedOn": "2026-09-08"
       }
     ]
   },
@@ -1679,12 +1807,12 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "source-context",
-        "value": "GMX docs say trading is powered by GM and GLV liquidity pools and routes orders against those pools.",
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Web3 Wallet: Connect and sign, 100% non-custodial; supported regions: Global Decentralized Access; restricted regions: United States (Geo-blocked)",
         "sourceUrls": [
-          "https://docs.gmx.io/docs/intro/"
+          "https://gmx.io/"
         ],
-        "checkedOn": "2026-09-04"
+        "checkedOn": "2026-09-08"
       }
     ]
   },
@@ -1696,6 +1824,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "jsonUrl": "https://nexualpha.com/api/exchange-facts/drift.json",
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC (Solana wallet connection); tiers: Web3 Solana Connection: Instant non-custodial trade execution; supported regions: Global Decentralized Access; restricted regions: United States (IP restricted)",
+        "sourceUrls": [
+          "https://app.drift.trade/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
       {
         "id": "product-scope",
         "value": "Drift's own website positions the product around Solana trading, market data, points, stats, staking, governance, and developer entry points.",
@@ -1715,10 +1851,10 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "source-context",
-        "value": "Recorded API documentation URL (discovery only).",
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Web3 Non-custodial: Self-custody private keys with zero delay; supported regions: Global Decentralized Access; restricted regions: United States",
         "sourceUrls": [
-          "https://docs.aevo.xyz/"
+          "https://app.aevo.xyz/"
         ],
         "checkedOn": "2026-09-08"
       }
@@ -1732,6 +1868,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "jsonUrl": "https://nexualpha.com/api/exchange-facts/uniswap.json",
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC (Web3 Wallet); tiers: Web3 Decentralized: No registration, no email, self-custodial keys; supported regions: Global Decentralized Access; restricted regions: OFAC Sanctioned Addresses (Front-end screening)",
+        "sourceUrls": [
+          "https://app.uniswap.org/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
       {
         "id": "product-scope",
         "value": "Uniswap v4 documentation points developers to hooks, flash accounting, dynamic fees, deployments, SDKs, and audit reports.",
@@ -1751,6 +1895,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Web3 Permissionless Connection; supported regions: Global Decentralized Access; restricted regions: OFAC Sanctioned Addresses",
+        "sourceUrls": [
+          "https://pancakeswap.finance/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
+      {
         "id": "product-scope",
         "value": "PancakeSwap Infinity documentation describes a modular architecture supporting Concentrated Liquidity Pools and Liquidity Book Pools.",
         "sourceUrls": [
@@ -1769,12 +1921,12 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "source-context",
-        "value": "Jupiter Swap API is the quote-and-transaction path for apps that need to fetch routes and build Solana swap transactions before the user signs in a wallet.",
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Solana Wallet Signature Direct Connection; supported regions: Global Decentralized Access; restricted regions: Sanctioned regions (Front-end IP filter)",
         "sourceUrls": [
-          "https://dev.jup.ag/docs/swap"
+          "https://jup.ag/"
         ],
-        "checkedOn": "2026-09-04"
+        "checkedOn": "2026-09-08"
       }
     ]
   },
@@ -1786,6 +1938,14 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "jsonUrl": "https://nexualpha.com/api/exchange-facts/raydium.json",
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
+      {
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Solana Wallet Connection; supported regions: Global Decentralized Access; restricted regions: Sanctioned jurisdictions",
+        "sourceUrls": [
+          "https://raydium.io/"
+        ],
+        "checkedOn": "2026-09-08"
+      },
       {
         "id": "product-scope",
         "value": "Raydium docs cover AMM v4, CPMM, CLMM, Farm, LaunchLab, Perps, on-chain accounts, math, instructions, fees, SDK, and runnable code.",
@@ -1805,12 +1965,12 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "source-context",
-        "value": "Aerodrome's docs describe it as the trading and liquidity hub of Base, so the route should be evaluated as a Base DEX path rather than a multi-chain exchange account.",
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: EVM Wallet Permissionless Access; supported regions: Global Decentralized Access; restricted regions: Sanctioned jurisdictions",
         "sourceUrls": [
-          "https://aerodrome.finance/docs"
+          "https://aerodrome.finance/"
         ],
-        "checkedOn": "2026-09-04"
+        "checkedOn": "2026-09-08"
       }
     ]
   },
@@ -1823,12 +1983,12 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "source-context",
-        "value": "Curve's risk documentation discusses pool-level impermanent-loss behavior and separates Cryptoswap V2 mechanics from a generic DEX claim.",
+        "id": "kyc-reference",
+        "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: none; Non-custodial, Zero KYC; tiers: Web3 Permissionless Connection; supported regions: Global Decentralized Access; restricted regions: Sanctioned jurisdictions",
         "sourceUrls": [
-          "https://resources.curve.finance/user/security/risks/pools"
+          "https://curve.finance/"
         ],
-        "checkedOn": "2026-09-04"
+        "checkedOn": "2026-09-08"
       }
     ]
   }

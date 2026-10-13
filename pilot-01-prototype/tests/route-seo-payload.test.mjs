@@ -163,6 +163,22 @@ test("/api/route-seo honours an explicit locale, the 404 head is noindex, and of
   assert.ok(payload.schema["@graph"].some((node) => node["@id"] === "https://nexualpha.com/#website"));
 });
 
+test("tracking query params keep the clean page canonical instead of becoming partner pages", async () => {
+  const tracked = await worker.fetch(new Request(`${ORIGIN}${ROUTE_SEO_ENDPOINT}?path=${encodeURIComponent("/exchanges/okx?ref=producthunt&utm_source=newsletter&src=deck")}`), env);
+  assert.equal(tracked.status, 200);
+  const seo = await tracked.json();
+  assert.equal(seo.status, 200);
+  assert.equal(seo.robots, "index,follow");
+  assert.equal(seo.canonical, "https://nexualpha.com/exchanges/okx");
+  assert.doesNotMatch(seo.title, /Partner Page/i);
+
+  const partner = await worker.fetch(new Request(`${ORIGIN}${ROUTE_SEO_ENDPOINT}?path=${encodeURIComponent("/ref/okx")}`), env);
+  const partnerSeo = await partner.json();
+  assert.equal(partnerSeo.robots, "noindex,follow");
+  assert.equal(partnerSeo.canonical, "https://nexualpha.com/ref/okx");
+  assert.match(partnerSeo.title, /Partner Page/);
+});
+
 // Minimal DOM: enough of document/head/element for the injector's selectors (attribute, prefix, id, tag).
 function fakeDocument({ serverMarker = true } = {}) {
   const parseSelector = (selector) => selector.split(",").map((part) => {

@@ -118,9 +118,7 @@ export function routeTemplate(pathname) {
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
   const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, ...RADAR_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
-  const venueProfileSlugs = neutralVenueCatalog
-    .map(({ slug }) => slug)
-    .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
+  const venueProfileSlugs = neutralVenueCatalog.map(({ slug }) => slug);
   const indexable = [
     ...staticPaths,
     "/topics",
@@ -134,7 +132,6 @@ export function routeInventory(newsArticles = []) {
     "/us",
     "/markets/turkiye",
     ...venueProfileSlugs.map((slug) => `/exchanges/${slug}`),
-    ...Object.keys(venueDatabase).map((slug) => `/factbook/${slug}`),
     ...Object.keys(TOPIC_GUIDES).map((slug) => `/topics/${slug}`),
     ...Object.values(TOKENIZED_ASSET_PAGES).map((page) => page.path),
     ...Object.values(VENUE_ALTERNATIVE_PAGES).map((page) => page.path),
@@ -313,10 +310,8 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
       lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10),
     });
   }
-  // Official update pages (live feed + archive), rendered by the Worker at request time (2026-10-12).
-  indexRows.push({ loc: "https://nexualpha.com/sitemap-updates.xml" });
   // NexuAlpha Academy (2026-10-12): hub + 24 lessons in every locale with a localized lesson, rendered by the Worker at
-  // request time. Like sitemap-updates.xml it is its own file outside the route inventory's publication budget; its
+  // request time. It is its own file outside the route inventory's publication budget; its
   // hreflang sets are the page head's (routeAlternates over ACADEMY_INDEX_LOCALES).
   const apps = buildAppsSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-apps.xml", lastmod: apps.lastmod });
@@ -337,9 +332,6 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // at request time; hreflang sets match the page head.
   const glossary = buildGlossarySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-glossary.xml", lastmod: glossary.lastmod });
-  // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
-  // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
-  indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
   // Campaign landing pages (2026-10-12: /activities/binance-october-gifts, /activities/bybit-stocks), rendered by the
   // Worker at request time; hreflang sets are the page head's.
   const campaigns = buildCampaignSitemap();

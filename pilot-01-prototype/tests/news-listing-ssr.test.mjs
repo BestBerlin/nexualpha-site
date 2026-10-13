@@ -92,6 +92,7 @@ test("listing routes are server-rendered by NewsListPage: one H1 equal to the cl
     assert.equal(state.pathname, category ? `/news/category/${category}` : page > 1 ? `/news/page/${page}` : "/news");
     assert.equal(state.locale, locale);
     assert.equal(state.newsArticles.length, expectedRows, `${path}: summary rows for this page only`);
+    assert.ok(Array.isArray(state.seoAlternates), `${path}: explicit SEO alternates replay state, including empty no-hreflang sets`);
     assert.deepEqual(state.newsListing, { category, page, total: category ? expectedRows : articles.length, totalPages: category ? 1 : Math.ceil(articles.length / NEWS_PAGE_SIZE), libraryTotal: articles.length, counts: state.newsListing.counts });
     for (const row of state.newsArticles) {
       const expectedHref = newsArticleUrl(row.slug, locale, row);
@@ -113,7 +114,7 @@ test("the hydration payload reproduces the SSR body byte for byte (renderToStrin
     const html = await (await fetchPage(path, env)).text();
     const state = prerenderState(html);
     const bootstrapUrl = `https://nexualpha.com${state.pathname}?locale=${locale}`;
-    const replay = await harness.render(bootstrapUrl, { newsArticles: state.newsArticles, newsListing: state.newsListing });
+    const replay = await harness.render(bootstrapUrl, { newsArticles: state.newsArticles, newsListing: state.newsListing, seoAlternates: state.seoAlternates });
     assert.equal(replay, rootInnerHtml(html), `${path}: client props render the same markup (page ${page}, category ${category})`);
   }
 });

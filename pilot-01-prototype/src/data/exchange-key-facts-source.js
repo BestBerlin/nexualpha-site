@@ -36,9 +36,29 @@ export function buildExchangeKeyFacts(slug) {
     }, [record.sourceUrl], record.lastChecked);
   }
   const porUrl = registry?.por?.merkleUrl;
-  // Exclude generic homepages masquerading as reserve records; only expose the recorded disclosure URL, no ratios.
+  // Exclude generic homepages masquerading as reserve records; expose only dated factbook fields with the recorded disclosure URL.
   if (porUrl && new URL(porUrl).pathname.includes("proof-of-reserves")) {
-    add("proof-of-reserves", { url: porUrl, scope: "Recorded disclosure URL; reserve figures are not verified by this fact sheet." }, [porUrl], registry.por.checkedOn || AUDIT_DATE);
+    const reserveContext = [
+      registry.por.cleanRatio ? `clean reserve ratio ${registry.por.cleanRatio}` : null,
+      registry.por.auditor ? `review method ${registry.por.auditor}` : null,
+      registry.por.securityFund ? `security fund ${registry.por.securityFund}` : null,
+    ].filter(Boolean).join("; ");
+    add("proof-of-reserves", {
+      url: porUrl,
+      scope: `Recorded disclosure URL${reserveContext ? `; ${reserveContext}` : ""}. Reserve figures are dated factbook fields, not live guarantees.`,
+    }, [porUrl], registry.por.checkedOn || AUDIT_DATE);
+  }
+  const compliance = registry?.compliance;
+  if (compliance?.kycSummaryEn || compliance?.kycLevel) {
+    const details = [
+      "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.",
+      compliance.kycLevel ? `KYC level: ${compliance.kycLevel}` : null,
+      compliance.kycSummaryEn,
+      compliance.kycTiersEn?.length ? `tiers: ${compliance.kycTiersEn.join(" / ")}` : null,
+      compliance.supportedRegions?.length ? `supported regions: ${compliance.supportedRegions.join(", ")}` : null,
+      compliance.restrictedRegions?.length ? `restricted regions: ${compliance.restrictedRegions.join(", ")}` : null,
+    ].filter(Boolean).join("; ");
+    add("kyc-reference", details, [`https://${registry.officialDomain}`], AUDIT_DATE);
   }
   const app = APP_DOWNLOADS[slug];
   if (app) add("apps", { ios: Boolean(app.appStore), android: Boolean(app.googlePlay), scope: "Recorded store listings; regional availability requires checking the store." }, app.sources, app.lastChecked);

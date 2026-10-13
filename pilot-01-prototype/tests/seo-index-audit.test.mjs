@@ -240,3 +240,33 @@ test("unchanged sitemap content keeps its dates across build clocks", () => {
   assert.equal(earlier, later);
   assert.match(earlier, /<lastmod>2026-09-15<\/lastmod>/);
 });
+
+
+test("language links must belong to the page hreflang set and canonicals must target indexable pages", () => {
+  const html = `<html lang="en"><head><meta name="robots" content="index,follow"><title>Test</title><meta name="description" content="Test description"><link rel="canonical" href="https://nexualpha.com/a"><link rel="alternate" hreflang="en" href="https://nexualpha.com/a"></head><body><a class="nx-lang__opt" href="/a#nxa-context?market=BR" hreflang="en">English</a><a href="/ja/a" class="nx-lang__opt" hreflang="ja">Japanese</a></body></html>`;
+  const metadata = parseHeadMetadata(html);
+  assert.equal(metadata.languageLinks.length, 2);
+  const page = { ...metadata, path: "/a", responseStatus: 200 };
+  const report = validateIndexConsistency({ pages: [page] });
+  assert.equal(report.failuresByKind["language-link-not-in-hreflang"], 1);
+  assert.equal(validateIndexConsistency({ pages: [{ ...page, languageLinks: metadata.languageLinks.slice(0, 1) }] }).failuresByKind["language-link-not-in-hreflang"], undefined);
+  const blocked = { ...page, path: "/blocked", canonicalPath: "/blocked", canonicalHref: "https://nexualpha.com/blocked", noindex: true, alternates: [], languageLinks: [] };
+  const duplicate = { ...page, canonicalPath: "/blocked", canonicalHref: "https://nexualpha.com/blocked", languageLinks: [] };
+  assert.equal(validateIndexConsistency({ pages: [duplicate, blocked] }).failuresByKind["canonical-target-noindex"], 1);
+});
+
+
+test("noindex metadata clears stale language alternates from an existing hydration payload", async () => {
+  const { default: worker } = await import("../worker/index.js");
+  const staleState = { pathname: "/glossary/airdrop", locale: "it", version: "nexualpha-prerender-v1", seoAlternates: [{ hreflang: "it", href: "https://nexualpha.com/it/glossary/airdrop" }] };
+  const shell = `<html><head><title>Old</title></head><body><div id="root"><main><h1>Airdrop</h1></main></div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify(staleState)}</script></body></html>`;
+  const response = await worker.fetch(new Request("https://nexualpha.com/it/glossary/airdrop"), {
+    ASSETS: { fetch: async request => new URL(request.url).pathname === "/index.html" ? new Response(shell, { headers: { "content-type": "text/html" } }) : new Response("missing", { status: 404 }) },
+  });
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.equal(parseHeadMetadata(html).noindex, true);
+  const payload = html.match(/id="nexualpha-prerender-state">([^<]*)<\/script>/)?.[1];
+  assert.ok(payload);
+  assert.deepEqual(JSON.parse(payload).seoAlternates, []);
+});

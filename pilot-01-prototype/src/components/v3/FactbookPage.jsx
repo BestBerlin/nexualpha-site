@@ -18,7 +18,6 @@ import { factbookProfileAnchor } from "../../data/news-lead-links.js";
 
 const factbookRecordCount = FACTBOOK_SLUGS.length;
 const comparisonDirectoryCount = neutralVenueCatalog.length;
-const factbookOnlyDecisionSlugs = new Set(["htx", "hashkey", "aevo"]);
 
 async function copyFactbookValue(text, setStatus, { revealManual, timeout = 2000, isActive = () => true, scheduleReset } = {}) {
   try {
@@ -1308,13 +1307,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const partnerBenefit = partnerBenefitParts(venue.slug, locale);
   const recordDates = factbookDates(venue.slug);
   const recordDatesCopy = factbookDatesCopy(locale);
-  const hasVenueProfile = useMemo(
-    () => !factbookOnlyDecisionSlugs.has(venue.slug) && neutralVenueCatalog.some((candidate) => candidate.slug === venue.slug),
-    [venue.slug],
-  );
-  const decisionHref = hasVenueProfile
-    ? localizedHref(`/exchanges/${encodeURIComponent(venue.slug)}#registration-path`, { locale, market, product })
-    : localizedHref(`/factbook/${encodeURIComponent(venue.slug)}#security`, { locale, market, product });
+  const decisionHref = localizedHref(`/exchanges/${encodeURIComponent(venue.slug)}#sources`, { locale, market, product });
   const FeeRecords = venue.feeVerified ? "div" : "details";
   const venueAnswer = locale === "en" ? venueAnswerOverrides[venue.slug]?.en : null;
 
@@ -1596,7 +1589,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <a
                   key={s}
                   hidden={capped || undefined}
-                  href={localizedHref(`/factbook/${encodeURIComponent(s)}`, { locale, market, product })}
+                  href={localizedHref(`/exchanges/${encodeURIComponent(s)}#sources`, { locale, market, product })}
                   aria-current={isActive ? "page" : undefined}
                   className={`factbook-venue-pill ${isActive ? "factbook-venue-pill--active" : ""}`}
                   data-cta-kind="research"

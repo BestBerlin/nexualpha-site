@@ -103,6 +103,11 @@ test("llms generator exposes GEO discovery routes and exchange facts JSON endpoi
     const llms = await readFile(join(outputDir, "llms.txt"), "utf8");
     const full = await readFile(join(outputDir, "llms-full.txt"), "utf8");
     for (const text of [llms, full]) {
+      assert.doesNotMatch(text, /https:\/\/nexualpha\.com\/factbook\//);
+      assert.match(text, /License directory: https:\/\/nexualpha\.com\/licenses/);
+      assert.match(text, /Fee benchmark: https:\/\/nexualpha\.com\/rates/);
+      assert.match(text, /OKX: invite code nexu888/);
+      assert.doesNotMatch(text, /(?:invite|referral) codes (?:are )?(?:omitted|excluded)/i);
       for (const route of ["/exchanges", "/rates", "/licenses", "/funding-rates", "/liquidations", "/long-short", "/whales", "/calendar", "/academy", "/glossary"]) {
         assert.ok(text.includes(`https://nexualpha.com${route}`), `missing ${route}`);
       }

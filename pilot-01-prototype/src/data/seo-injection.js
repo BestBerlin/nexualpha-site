@@ -55,7 +55,7 @@ import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NE
 import { completePageSchemas } from "./page-schemas.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
-import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
+import { CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "./factbook-registry.js";
 import { factbookDates } from "./factbook-dates.js";
@@ -2090,6 +2090,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const locale = contentLocale(rawLocale, contentPathname);
   const isZh = locale === "zh-Hans";
   let pathname = aliases(contentPathname);
+  let canonicalPathname = pathname;
   const route = options.route || {};
   if (rawLocale === "tr" && parseBitgetAlliancePath(pathname)) {
     const target = new URL(canonical("/activities", "tr"));
@@ -2097,7 +2098,6 @@ function computeRouteSeoUnbudgeted(options = {}) {
     if (market) target.searchParams.set("market", market);
     return { status: 301, redirect: target.href, canonical: target.href, locale: "tr", htmlLocale: "tr", title: "", description: "", robots: "noindex,follow", ogType: "website", schemas: [], alternates: [] };
   }
-  const ref = url.searchParams.get("ref") || (route.name === "kolLanding" ? route.kol : null);
   let title = isZh ? "页面不存在 — NexuAlpha" : "Page Not Found — NexuAlpha";
   let description = isZh ? "请求的页面不存在或未发布。" : "The requested page does not exist or is not published.";
   let status = 404;
@@ -2115,8 +2115,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
 
   if (route.name === "notFound") {
     // A component-level 404 must never receive homepage metadata.
-  } else if (ref || /^\/ref\/[a-z0-9-]+$/.test(pathname)) {
-    if (ref && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(ref)) pathname = `/ref/${ref}`;
+  } else if (/^\/ref\/[a-z0-9-]+$/.test(pathname)) {
     accept(); robots = "noindex,follow";
     title = "NexuAlpha Partner Page";
     description = "Platform choices for this partner entry.";
@@ -2183,15 +2182,16 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = radar.schemas;
     if (!radar.indexable) robots = "noindex,follow";
     ogType = "website";
-  } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+  } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path, targetLocale = locale) => canonical(path, targetLocale) })?.status === 200) {
     // Crypto glossary: same helper as the Worker head (src/data/glossary-seo.js).
-    const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path, targetLocale = locale) => canonical(path, targetLocale) });
     accept();
     title = glossary.title;
     description = glossary.description;
     schemas = glossary.schemas;
     ogType = pathname === "/glossary" ? "website" : "article";
     if (!glossary.indexable) robots = "noindex,follow";
+    if (glossary.canonical) newsCanonicalOverride = glossary.canonical;
   } else if (parseBinanceOctoberPath(pathname)) {
     // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
     const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
@@ -2433,23 +2433,26 @@ function computeRouteSeoUnbudgeted(options = {}) {
       ].concat([applyExchangeQuickAnswers(applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market")), slug, locale, url.searchParams.get("market"))]);
     }
   } else if (compareMatch) {
-    const slugs = compareMatch[1].split("-vs-");
-    if (slugs.length >= 2 && slugs.length <= 3 && new Set(slugs).size === slugs.length && slugs.every((slug) => ACTIVE_VENUES.has(slug))) {
+    const requestedSlugs = compareMatch[1].split("-vs-");
+    if (requestedSlugs.length >= 2 && requestedSlugs.length <= 3 && new Set(requestedSlugs).size === requestedSlugs.length && requestedSlugs.every((slug) => ACTIVE_VENUES.has(slug))) {
       accept();
+      const compareSlug = requestedSlugs.length === 2 ? canonicalComparePairSlug(requestedSlugs) : compareMatch[1];
+      const slugs = compareSlug.split("-vs-");
+      canonicalPathname = `/compare/${compareSlug}`;
       const compareNames = slugs.map((slug) => venueDatabase[slug].name);
       const name = compareNames.join(" vs ");
-      const compareSeoOverride = compareSeoOverrideFor(compareMatch[1], locale);
+      const compareSeoOverride = compareSeoOverrideFor(compareSlug, locale);
       title = compareSeoOverride?.title || `${name}: ${DETAIL_TITLE_LOCALIZED[rawLocale]?.compare || DETAIL_TITLE_LOCALIZED[locale]?.compare || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison")} — NexuAlpha`;
       description = compareSeoOverride?.description || (COMPARE_DESCRIPTION_LOCALIZED[rawLocale] || COMPARE_DESCRIPTION_LOCALIZED[locale] || COMPARE_DESCRIPTION_LOCALIZED.en)(name);
       // Compare-any (2026-10-11): generated two-venue pairs use the shared index policy and templated copy.
-      const generatedPolicy = !CURATED_COMPARISONS.has(compareMatch[1]) && slugs.length === 2 ? generatedComparePolicy(compareMatch[1]) : null;
+      const generatedPolicy = !CURATED_COMPARISONS.has(compareSlug) && slugs.length === 2 ? generatedComparePolicy(compareSlug) : null;
       if (generatedPolicy?.generated) {
         const generatedCopy = generatedCompareCopy(rawLocale, { nameA: compareNames[0], nameB: compareNames[1], date: generatedCompareDataDate(slugs) });
         title = generatedCopy.title;
         description = generatedCopy.description;
       }
-      robots = generatedPolicy ? generatedPolicy.robots : CURATED_COMPARISONS.has(compareMatch[1]) ? "index,follow" : "noindex,follow";
-      const comparisonUrl = canonical(pathname, locale);
+      robots = generatedPolicy ? generatedPolicy.robots : CURATED_COMPARISONS.has(compareSlug) ? "index,follow" : "noindex,follow";
+      const comparisonUrl = canonical(canonicalPathname, locale);
       const hasCompleteFaqOverride = compareSeoOverride?.completeFaq === true;
       const directAnswer = hasCompleteFaqOverride ? compareSeoOverride?.directAnswer : null;
       const answerEntries = hasCompleteFaqOverride
@@ -2645,8 +2648,8 @@ function computeRouteSeoUnbudgeted(options = {}) {
     ? `${PUBLIC_ORIGIN}${pathname}`
     : route.name === "regionalPreview"
     ? (regionalPreviewIsIndexable(route.market, locale) ? regionalPreviewCanonical : `${PUBLIC_ORIGIN}${pathname}`)
-    : canonical(pathname, canonicalLocale);
-  const publishedSearchLocales = searchPublicationLocales(pathname, { article: options.article, newsArticles: options.newsArticles });
+    : canonical(canonicalPathname, canonicalLocale);
+  const publishedSearchLocales = searchPublicationLocales(canonicalPathname, { article: options.article, newsArticles: options.newsArticles });
   if (status === 200 && robots === "index,follow" && !newsCanonicalOverride && !publishedSearchLocales.includes(locale)) {
     robots = "noindex,follow";
   }
@@ -2655,7 +2658,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
     : brazilDeadlineRoute
     ? brazilDeadlineAlternates(canonical)
     : getBrazilPage(pathname)
-    ? [{ hreflang: "pt-BR", href: canonical(pathname, "pt-BR") }, { hreflang: "x-default", href: canonical(pathname, "pt-BR") }]
+    ? [{ hreflang: "pt-BR", href: canonical(canonicalPathname, "pt-BR") }, { hreflang: "x-default", href: canonical(canonicalPathname, "pt-BR") }]
     : route.name === "regionalPreview" && regionalPreviewIsIndexable(route.market, locale)
     ? [{ hreflang: regionalPreviewCanonicalLocale(route.market, locale), href: regionalPreviewCanonical }, { hreflang: "x-default", href: regionalPreviewCanonical }]
     : pathname === "/news"
@@ -2685,12 +2688,12 @@ function computeRouteSeoUnbudgeted(options = {}) {
     ]
     : publishedSearchLocales.length
     ? [
-      ...publishedSearchLocales.map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
-      { hreflang: "x-default", href: canonical(pathname, publishedSearchLocales[0] || "en") },
+      ...publishedSearchLocales.map((hreflang) => ({ hreflang, href: canonical(canonicalPathname, hreflang) })),
+      { hreflang: "x-default", href: canonical(canonicalPathname, publishedSearchLocales[0] || "en") },
     ]
     : [
-      ...INDEXABLE_LOCALES.map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
-      { hreflang: "x-default", href: canonical(pathname, "en") },
+      ...INDEXABLE_LOCALES.map((hreflang) => ({ hreflang, href: canonical(canonicalPathname, hreflang) })),
+      { hreflang: "x-default", href: canonical(canonicalPathname, "en") },
     ];
   const returnedLocale = newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || locale;
   const returnedHtmlLocale = (pathname === "/news" || Boolean(newsMatch && options.article)) && UI_LOCALES.has(locale)

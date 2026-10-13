@@ -147,3 +147,12 @@ test('mobile cards mirror table rows with display names, jurisdiction, entity, t
   const css = readFileSync(new URL('../src/components/licenses/licenses.css', import.meta.url), 'utf8');
   assert.match(css, /@media \(max-width:639\.98px\)\{[^]*\.nx-license-table table\{display:none\}[^]*\.nx-license-cards\{display:grid/);
 });
+
+
+test('registered non-partner venues never create unregistered go routes', () => {
+  const hashkey = licenseRecords.find(record => record.exchange === 'hashkey');
+  assert.ok(hashkey);
+  for (const locale of ['en', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'id', 'it']) {
+    assert.equal(licenseSignup(hashkey, { locale }), null, locale);
+  }
+});

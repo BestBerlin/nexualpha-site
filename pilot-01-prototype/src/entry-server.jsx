@@ -7,9 +7,10 @@ import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
 import { rewritePartnerViewHtml } from "./data/partner-view.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
+import { computeRouteSeo } from "./data/seo-injection.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool, seoAlternates } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -23,11 +24,24 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
   const normalizedNewsArticles = Array.isArray(newsArticles)
     ? (normalizeNewsFeed(newsArticles).length ? normalizeNewsArticlePool(newsArticles) : normalizeNewsFeedSummaries(newsArticles))
     : undefined;
+  const newsSlug = publicRoute.contentPathname.match(/^\/news\/([a-z0-9-]+)$/)?.[1] || null;
+  const initialArticle = newsSlug && Array.isArray(normalizedNewsArticles)
+    ? normalizedNewsArticles.find((article) => article.slug === newsSlug)
+    : undefined;
+  const initialSeo = computeRouteSeo({
+    url: parsedUrl.href,
+    locale: initialLocale,
+    newsArticles: normalizedNewsArticles || [],
+    article: initialArticle,
+    route: newsSlug ? { name: "newsDetail", slug: newsSlug } : undefined,
+  });
+  const routeSeoAlternates = Array.isArray(seoAlternates) ? seoAlternates : (initialSeo?.alternates || []);
   const html = renderToString(withHomeHeroVariant(
     <React.StrictMode>
       <App
         initialUrl={parsedUrl.pathname + parsedUrl.search + parsedUrl.hash}
         initialLocale={initialLocale}
+        initialSeoAlternates={routeSeoAlternates}
         initialCompareSelection={["binance", "okx"]}
         initialNewsArticles={normalizedNewsArticles}
         initialNewsListing={newsListing && typeof newsListing === "object" ? newsListing : undefined}

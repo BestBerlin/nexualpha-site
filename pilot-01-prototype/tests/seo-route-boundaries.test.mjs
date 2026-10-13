@@ -65,20 +65,20 @@ test("collection hub locale publication stays English-only", async () => {
 
 test("detail breadcrumbs point back to collection hubs", async () => {
   const topic = await routeMetadata(new URL("https://nexualpha.com/topics/no-kyc"), { ASSETS: assets() });
-  const factbook = await routeMetadata(new URL("https://nexualpha.com/factbook/binance"), { ASSETS: assets() });
+  const exchange = await routeMetadata(new URL("https://nexualpha.com/exchanges/binance"), { ASSETS: assets() });
 
   const topicBreadcrumb = schemaOf(topic.schema, "BreadcrumbList");
-  const factbookBreadcrumb = schemaOf(factbook.schema, "BreadcrumbList");
+  const exchangeBreadcrumb = schemaOf(exchange.schema, "BreadcrumbList");
 
   assert.equal(topicBreadcrumb.itemListElement[1].item, "https://nexualpha.com/topics");
-  assert.equal(factbookBreadcrumb.itemListElement[1].item, "https://nexualpha.com/factbook");
+  assert.equal(exchangeBreadcrumb.itemListElement[0].item, "https://nexualpha.com/");
 });
 
-test("retired venue detail URLs preserve indexed equity through factbook redirects", async () => {
+test("factbook detail URLs preserve indexed equity through exchange profile source-anchor redirects", async () => {
   const cases = [
-    ["/exchanges/htx", "https://nexualpha.com/factbook/htx"],
-    ["/exchanges/hashkey?locale=zh-Hans&utm_source=gsc", "https://nexualpha.com/zh-hans/factbook/hashkey?utm_source=gsc"],
-    ["/ja/exchanges/aevo", "https://nexualpha.com/ja/factbook/aevo"],
+    ["/factbook/htx", "https://nexualpha.com/exchanges/htx#sources"],
+    ["/factbook/hashkey?locale=zh-Hans&utm_source=gsc", "https://nexualpha.com/zh-hans/exchanges/hashkey?utm_source=gsc#sources"],
+    ["/ja/factbook/aevo", "https://nexualpha.com/ja/exchanges/aevo#sources"],
   ];
 
   for (const [source, destination] of cases) {

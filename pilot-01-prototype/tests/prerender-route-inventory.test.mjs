@@ -100,17 +100,17 @@ test("topics and factbook collection hubs are reviewed English collection routes
   }
 });
 
-test("factbook-only legacy venues stay out of exchange and research prerender routes", () => {
+test("former factbook-only venues publish exchange profiles and no factbook detail routes", () => {
   const inventory = routeInventory();
   const pathnames = new Set(inventory.map((route) => route.pathname));
 
   for (const slug of ["htx", "hashkey", "aevo"]) {
-    assert.equal(pathnames.has(`/exchanges/${slug}`), false, slug);
-    assert.equal(pathnames.has(`/activities/research/${slug}`), false, slug);
-
-    const factbook = inventory.find((route) => route.pathname === `/factbook/${slug}`);
-    assert.ok(factbook, slug);
-    assert.equal(factbook.index, true, slug);
-    assert.equal(factbook.template, "factbook", slug);
+    const exchange = inventory.find((route) => route.pathname === `/exchanges/${slug}`);
+    assert.ok(exchange, slug);
+    assert.equal(exchange.index, true, slug);
+    assert.equal(exchange.template, "venue", slug);
+    const research = inventory.find((route) => route.pathname === `/activities/research/${slug}`);
+    if (research) assert.equal(research.index, false, slug);
+    assert.equal(pathnames.has(`/factbook/${slug}`), false, slug);
   }
 });

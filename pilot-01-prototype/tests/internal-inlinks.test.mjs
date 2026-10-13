@@ -137,7 +137,8 @@ test("prerender manifest variants map to canonical served URLs and use searchPub
   }
 });
 
-test("built corpus has HTML coverage and no zero-inbound indexable route types", { timeout: 180_000 }, async (t) => {
+// Full local SSR crawl, matching the SEO index audit budget on shared build hosts.
+test("built corpus has HTML coverage and no zero-inbound indexable route types", { timeout: 600_000 }, async (t) => {
   if (!existsSync(new URL("../dist/client/prerender-manifest.json", import.meta.url))) {
     t.skip("build output missing: run npm run build before the built-corpus internal inlink regression");
     return;

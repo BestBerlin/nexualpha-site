@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCoinData, useLivePrice } from "../coins/CoinPages.jsx";
 import { COINS_GENERATED_AT, coinLesson, fill, formatChange, utcStamp } from "../../data/coins.js";
-import { converterCoin, converterCoins, converterCopy, converterIndexable, converterLocales, converterTitle, converterFaq, converterPath, converterVenues, fiatSpotVenues, coinPath, FIATS, QUICK_AMOUNTS, unitPrice, convertedAmount, formatAmount, formatFiatAmount } from "../../data/converter.js";
+import { converterCoin, converterCopy, converterTitle, converterFaq, converterPath, converterVenues, fiatSpotVenues, coinPath, FIATS, QUICK_AMOUNTS, unitPrice, convertedAmount, formatAmount, formatFiatAmount, converterRelatedTargets } from "../../data/converter.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import "./converter.css";
 
@@ -41,17 +41,7 @@ export function ConverterPage({ locale = "en", symbol, fiat, market, overlay, fx
   const changed = live?.change24h ?? coin.change24h;
   const edit = (value, fromFiat) => { setInput(value); setReverse(fromFiat); };
   const inputValue = (fromFiat) => reverse === fromFiat ? input : output === null ? "" : String(Number(output.toPrecision(12)));
-  const relatedFiats = FIATS
-    .filter((code) => code !== fiat)
-    .map((code) => ({ code, locale: converterLocales(code).find((candidate) => converterIndexable(coin, code, candidate)) }))
-    .filter((item) => item.locale)
-    .slice(0, 4);
-  const fiatPeers = (() => {
-    const index = Math.max(0, converterCoins().findIndex((row) => row?.slug === coin.slug));
-    return [1, -1, 2, -2]
-      .map((offset) => converterCoins()[(index + offset + converterCoins().length) % converterCoins().length])
-      .filter((row) => row && row.slug !== coin.slug && converterIndexable(row, fiat, locale));
-  })();
+  const { relatedFiats, peers: fiatPeers } = converterRelatedTargets(coin, fiat, locale);
   return <main className="nxconvert" id="top" dir={locale === "ar" || locale === "ur" ? "rtl" : "ltr"} lang={t === converterCopy("en") && locale !== "en" ? "en" : locale} data-converter={`${symbol}-${fiat.toLowerCase()}`}>
     <div className="nxconvert-shell">
       <header><p className="nxconvert-pair" translate="no">{coin.symbol} / {fiat}</p><h1>{converterTitle(coin, fiat, locale)}</h1><p>{text("description")}</p></header>

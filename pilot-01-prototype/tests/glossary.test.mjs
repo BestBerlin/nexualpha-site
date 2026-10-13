@@ -9,7 +9,7 @@ import worker from "../worker/index.js";
 import { GLOSSARY_CATEGORIES, GLOSSARY_SLUGS, GLOSSARY_TERMS, glossaryTermBySlug } from "../src/data/glossary-terms.js";
 import { GLOSSARY_INDEX_LOCALES, GLOSSARY_SHARDS, glossaryShard, parseGlossaryPath } from "../src/data/glossary-routes.js";
 import { GLOSSARY_CONTENT_BY_LOCALE } from "../src/data/glossary-content-all.js";
-import { glossaryEntry, glossaryHubLocales, glossaryTermLocales, glossaryWrittenIn } from "../src/data/glossary-seo.js";
+import { GLOSSARY_CANONICAL_DISPOSITIONS, glossaryCanonicalDisposition, glossaryEntry, glossaryHubLocales, glossaryTermLocales, glossaryWrittenIn } from "../src/data/glossary-seo.js";
 import { glossarySignup } from "../src/data/glossary.js";
 import { glossaryCopy } from "../src/data/glossary-copy.js";
 import { createGlossaryLinker } from "../src/data/glossary-autolink.js";
@@ -92,7 +92,7 @@ test("content: every index locale is written natively for (almost) every term an
   assert.doesNotMatch(zh, /气体费|灯芯|体积/);
 });
 
-test("hub and term pages render at request time with one h1, self canonical, hreflang, title budget (9 locales)", async () => {
+test("hub and term pages render at request time with one h1, canonical, hreflang, title budget (9 locales)", async () => {
   for (const locale of GLOSSARY_INDEX_LOCALES) {
     for (const slug of [null, "funding-rate", "seed-phrase"]) {
       const path = `${LOCALE_PREFIX[locale]}/glossary${slug ? `/${slug}` : ""}`;
@@ -103,9 +103,10 @@ test("hub and term pages render at request time with one h1, self canonical, hre
       const entry = slug && glossaryEntry(slug, locale);
       const h1 = entry ? entry.term : glossaryCopy(locale).hubTitle.replace("{count}", String(GLOSSARY_TERMS.length));
       assert.deepEqual(h1Texts(html), [h1], `${path}: one h1`);
-      assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha.com${path}"`), `${path}: self canonical`);
+      const disposition = slug ? glossaryCanonicalDisposition(slug, locale, { urlFor: (targetPath, targetLocale = locale) => `https://nexualpha.com${LOCALE_PREFIX[targetLocale] || ""}${targetPath}` }) : null;
+      assert.match(html, new RegExp(`<link rel="canonical" href="${(disposition?.canonical || `https://nexualpha.com${path}`).replaceAll("/", "\\/")}"`), `${path}: canonical`);
       assert.equal(robots(html), "index,follow", `${path}: indexable`);
-      const expected = (slug ? glossaryTermLocales(slug) : glossaryHubLocales()).length + 1;
+      const expected = disposition ? 0 : (slug ? glossaryTermLocales(slug) : glossaryHubLocales()).length + 1;
       assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, expected, `${path}: hreflang set`);
       const title = decodeEntities(html.match(/<title[^>]*>([^<]*)<\/title>/)[1]);
       assert.ok(title.length <= Math.max(titleBudgetForLocale(locale), 70), `${path}: title budget (${title})`);
@@ -115,6 +116,22 @@ test("hub and term pages render at request time with one h1, self canonical, hre
         assert.ok(main.indexOf("data-glossary-definition") < main.indexOf("nxg-how-h"), `${path}: definition before the explanation`);
       }
     }
+  }
+});
+
+
+test("canonicalized glossary duplicates point at stronger destinations and drop hreflang clusters", () => {
+  const cases = [
+    ["/glossary/cross-margin", "https://nexualpha.com/academy/cross-margin", "index,follow"],
+    ["/ja/glossary/isolated-margin", "https://nexualpha.com/ja/academy/isolated-margin", "index,follow"],
+    ["/ur/glossary/cross-margin", "https://nexualpha.com/academy/cross-margin", "noindex,follow"],
+  ];
+  for (const [url, canonical, robots] of cases) {
+    const seo = computeRouteSeo({ url });
+    assert.equal(seo.status, 200, url);
+    assert.equal(seo.canonical, canonical, url);
+    assert.equal(seo.robots, robots, url);
+    assert.deepEqual(seo.alternates, [], url);
   }
 });
 
@@ -169,11 +186,13 @@ test("noindex: non-index UI locales show the English entry noindex,follow; unkno
 
 test("sitemap-glossary.xml lists written editions with the head's hreflang set; in the sitemap index and robots.txt", async () => {
   const sitemap = buildGlossarySitemap();
-  const expected = GLOSSARY_TERMS.reduce((sum, term) => sum + glossaryTermLocales(term.slug).length, 0) + glossaryHubLocales().length;
+  const canonicalized = new Set(Object.keys(GLOSSARY_CANONICAL_DISPOSITIONS));
+  const expected = GLOSSARY_TERMS.reduce((sum, term) => sum + (canonicalized.has(term.slug) ? 0 : glossaryTermLocales(term.slug).length), 0) + glossaryHubLocales().length;
   assert.equal(sitemap.count, expected);
-  assert.ok(sitemap.count >= GLOSSARY_TERMS.length * 9 * 0.95, `${sitemap.count} URLs`);
-  assert.match(sitemap.xml, /<loc>https:\/\/nexualpha\.com\/glossary\/funding-rate<\/loc>/);
-  assert.match(sitemap.xml, /<loc>https:\/\/nexualpha\.com\/pt-br\/glossary\/liquidation<\/loc>/);
+  assert.ok(sitemap.count >= (GLOSSARY_TERMS.length - canonicalized.size) * 9 * 0.95, `${sitemap.count} URLs`);
+  for (const slug of canonicalized) {
+    assert.doesNotMatch(sitemap.xml, new RegExp(`<loc>https:\\/\\/nexualpha\\.com(?:\\/[a-z0-9-]+)?\\/glossary\\/${slug}<\\/loc>`));
+  }
   assert.doesNotMatch(sitemap.xml, /\/(?:it|ru|ar|zh-hant|ur|uk-ua|fr|de)\/glossary/);
   const split = buildSplitSitemaps(routeInventory([]), []);
   assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-glossary\.xml<\/loc>/);

@@ -536,7 +536,7 @@ test("comparison snapshot prioritizes pair, eligibility, and next step", () => {
 test("Factbook exposes a source-bound direct answer and a venue decision handoff", () => {
   assert.match(factbookPage, /factbook-answer-card/);
   assert.match(factbookPage, /answerSteps/);
-  assert.match(factbookPage, /#registration-path/);
+  assert.match(factbookPage, /#sources/);
   assert.match(factbookPage, /final terms|最终条件/);
   assert.match(factbookCss, /\.factbook-answer-card/);
 });
@@ -903,7 +903,7 @@ test("Factbook preserves regional context through direct answer and venue switch
   assert.match(app, /<FactbookPage slug=\{route\.slug\} locale=\{locale\} market=\{route\.market\} product=\{route\.product\}/);
   assert.match(factbookPage, /localizedHref/);
   assert.match(factbookPage, /factbook-direct-answer[\s\S]*data-growth-market=\{market\}/);
-  assert.match(factbookPage, /localizedHref\(`\/factbook\/\$\{encodeURIComponent\(s\)\}`/);
+  assert.match(factbookPage, /localizedHref\(`\/exchanges\/\$\{encodeURIComponent\(s\)\}#sources`/);
 });
 
 // Class b: 4a31e90 puts follow-up actions after results; CTA ownership checks remain.
@@ -1654,7 +1654,7 @@ test("methodology remains available in code without occupying the conversion hom
 test("locale state and the fixed default market cover the application root without a region selector", () => {
   assert.match(app, /<main key=\{`locale-\$\{locale\}`\} className="v2-page home-refinement v5 v6" id="top" dir=\{getTextDirection\(locale\)\}>/);
   assert.match(app, /document\.documentElement\.dir = getTextDirection\(locale\)/);
-  assert.match(app, /supportedLocales\.map\(\(code\) => \(\{ code, label: localeManifest\[code\]\.language \}\)\)\.filter\(\(option\) => !brazil \|\| option\.code === "pt-BR"\)/);
+  assert.match(app, /languageOptionsFromHreflang\(pageAlternates\)[\s\S]*?\.filter\(\(option\) => !brazil \|\| option\.code === "pt-BR"\)/);
   assert.match(app, /const region = "Global"/);
   assert.doesNotMatch(app, /aria-label=\{copy\.ui\.marketRegion\}/);
   assert.match(app, /const readLocale = \(initialUrl\) =>/);
@@ -2170,7 +2170,7 @@ test("focus and touch stability layer is loaded for the V3 surface", () => {
 });
 
 test("KOL landing routes unresolved partner terms through research first", () => {
-  assert.match(app, /name: "kolLanding", kol: refParam, \.\.\.contextParams\(\)/);
+  assert.doesNotMatch(app, /searchParams\.get\("ref"\)[\s\S]*name: "kolLanding"/);
   assert.match(app, /name: "kolLanding", kol: refMatch\[1\], \.\.\.contextParams\(\)/);
   assert.match(kolLandingPage, /const directRoute = cta\.hasReferral/);
   assert.match(kolLandingPage, /contextualHref\(`\/exchanges\/\$\{slug\}#registration-path`/);
