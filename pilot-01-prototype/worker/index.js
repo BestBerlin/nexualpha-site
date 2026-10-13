@@ -32,7 +32,7 @@ import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIn
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
-import { DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
 import { LIQUIDATION_LEVELS_PATH } from "../server/liquidation-levels-feed.mjs";
 import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
@@ -4733,7 +4733,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if ((isDataPagePath(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
       let liquidationLevels = null;
-      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
+      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ(), { timeline: pathname !== FUNDING_RATES_PATH }) : null; } catch { marketEvents = null; }
       if (pathname === LIQUIDATION_HEATMAP_PATH) {
         try { liquidationLevels = typeof env?.LIQUIDATION_LEVELS_READ === "function" ? await env.LIQUIDATION_LEVELS_READ() : null; } catch { liquidationLevels = null; }
       }
@@ -4906,6 +4906,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if (typeof env?.NEWS_SSR_RENDER === "function") {
     const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
     if (contentPath === "/funding-rates/matrix") return fallback();
+    // /liquidations, /funding-rates and /liquidations/heatmap are in the manifest for sitemap/hreflang, but their build-time
+    // body has no feed ("temporarily unavailable"); always render them at request time from the collector feed.
+    if (isDataPagePath(contentPath) || contentPath === LIQUIDATION_HEATMAP_PATH) return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
