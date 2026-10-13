@@ -13,6 +13,7 @@ import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { h7NeutralCopy } from "./home7-neutral-copy.js";
 import { jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
+import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { academyShellCopy } from "../../data/academy.js";
@@ -94,7 +95,8 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 
 export function HomeV7({ locale, market, venues: _catalog }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
-  const banned = Boolean(jurisdictionPromotionBan({ locale, market }));
+  // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
+  const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
   const t = banned ? { ...h7Copy(locale), ...h7NeutralCopy(locale) } : h7Copy(locale);
   // Hero copy experiment (X5): the variant comes from the SSR/hydration context, never from a client-side swap.
   const heroVariant = useHomeHeroVariant();

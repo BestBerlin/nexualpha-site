@@ -14,7 +14,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../s
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
 import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
-import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
+import { HOME_SEARCH_COPY, homeSearchCopyFor } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
@@ -6930,7 +6930,7 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   if (canonicalPath === "/") {
     const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
-    const [title, description] = HOME_SEARCH_COPY[homeCopyLocale] || HOME_SEARCH_COPY.en;
+    const [title, description] = homeSearchCopyFor(homeCopyLocale, url.searchParams.get("market"));
 
     return {
       status: 200,

@@ -249,7 +249,7 @@ test("homepage keeps primary decisions above a collapsible research drawer", () 
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
   assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} \/>/);
   // A no-promotion market (Vietnam) keeps only the crawl links; every other market keeps the research drawer.
-  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
+  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{isNeutralCtaLocale\(locale\) \|\| jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
   const closingSlot = app.slice(app.indexOf("closing: <>"), app.indexOf("const homeCtx"));
   assert.match(closingSlot, /<HomeResearchDrawer locale=\{locale\} \/>/);

@@ -8,6 +8,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { NEUTRAL_CTA_LOCALE_LIST, NEUTRAL_CTA_LOCALES, isNeutralCtaLocale } from "../src/data/locale-policy.js";
+import { localizedPath } from "../src/data/locale-routing.js";
 import { isPartnerPromotableIn, jurisdictionPromotionBan } from "../src/data/partner-geo-policy.js";
 import { publicCtaForVenue, regionalVenueCta } from "../src/data/source-bound-cta.js";
 import { carriesSignupPath, isReferralTopicArticle, neutralArticleMarkdown, neutralArticleSources, neutralArticleView, NEUTRAL_FILTER_INVITE_CODES } from "../src/data/neutral-article.js";
@@ -37,7 +38,7 @@ test("one neutral list: vi joins ru, ar, zh-Hant, ur and uk, and every copy matc
   for (const locale of ["vi", "vi-VN", "ru-RU", "uk-UA", "zh-TW", "zh-HK", "zh-Hant", "ar", "ur"]) assert.equal(isNeutralCtaLocale(locale), true, locale);
   for (const locale of ["en", "zh-Hans", "tr", "id", "pt-BR", "ja", "ko", "es", "fr", "de", "it"]) assert.equal(isNeutralCtaLocale(locale), false, locale);
   assert.deepEqual([...NEUTRAL_PROMOTION_LOCALES], [...NEUTRAL_CTA_LOCALE_LIST]);
-  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), NEUTRAL_CTA_LOCALE_LIST.filter((l) => l !== "zh-Hant").sort());
+  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), [...NEUTRAL_CTA_LOCALE_LIST].sort());
   // No source file keeps its own five-locale copy of the list.
   const stale = /\[\s*['"]ru['"]\s*,\s*['"]ar['"]\s*,\s*['"]zh-Hant['"]\s*,\s*['"]ur['"]\s*,\s*['"]uk['"]\s*\]|\(\s*'ru'\s*,\s*'ar'\s*,\s*'zh-Hant'\s*,\s*'ur'\s*,\s*'uk'\s*\)/;
   const offenders = [];
@@ -173,7 +174,13 @@ async function servedHtml(paths) {
 }
 
 test("served vi pages and VN-market pages carry no /go/ route, invite code, registration link or sign-up copy", { skip: !distReady && "run npm run build first" }, async () => {
+  // Every neutral locale gets the vi treatment (lead 2026-10-13): home, exchange profiles, apps, compare, rates, activities.
+  const otherNeutral = NEUTRAL_CTA_LOCALE_LIST.filter((locale) => locale !== "vi").flatMap((locale) => [
+    "/", "/exchanges/okx", "/exchanges/bitget", "/exchanges/binance", "/exchanges/bybit", "/exchanges/okx/app",
+    "/activities", "/rates", "/compare/binance-vs-okx", "/funding-rates/matrix", "/flash", "/news",
+  ].map((path) => localizedPath(path, locale)));
   const pages = await servedHtml([
+    ...otherNeutral,
     "/vi", "/vn", "/?market=VN", "/de?market=VN",
     "/vi/exchanges/okx", "/vi/exchanges/bitget", "/vi/exchanges/binance", "/vi/exchanges/bybit", "/vi/exchanges/kraken", "/vi/exchanges/hyperliquid",
     "/vi/exchanges/okx/app", "/vi/exchanges/binance/app", "/exchanges/okx?market=VN",
@@ -199,6 +206,11 @@ test("served vi pages and VN-market pages carry no /go/ route, invite code, regi
   const headText = [...home.html.matchAll(/<title[^>]*>([^<]*)<\/title>|<meta [^>]*content="([^"]*)"/g)].map((m) => m[1] || m[2]).join("\n");
   assert.doesNotMatch(headText, /Lên đến|\b60\s?%|hoàn phí|mã giới thiệu/i, "vi home title and meta");
   assert.doesNotMatch(home.html.match(/<section class="h7-hero"[\s\S]*?<\/section>/)?.[0] || "", /Lên đến|60\s?%/i, "vi home hero");
+  for (const path of ["/?market=VN", ...NEUTRAL_CTA_LOCALE_LIST.map((locale) => localizedPath("/", locale))]) {
+    const page = pages.find((row) => row.path === path);
+    const meta = [...page.html.matchAll(/<title[^>]*>([^<]*)<\/title>|<meta [^>]*(?:name="description"|property="og:(?:title|description)")[^>]*content="([^"]*)"/g)].map((m) => m[1] || m[2]).join("\n");
+    assert.doesNotMatch(meta, /referral|rebate|\b60\s?%|Lên đến|hoàn phí|mã giới thiệu|邀請碼|返傭|реферал|промокод|إحالة/i, `${path}: neutral title and meta: ${meta}`);
+  }
   const article = pages.find((row) => row.path === `/vi/news/${VI_ARTICLE.slug}`);
   if (article?.status === 200) {
     assert.match(article.html, /Funding chuyển âm trước dữ liệu CPI/, "the article's facts stay");
