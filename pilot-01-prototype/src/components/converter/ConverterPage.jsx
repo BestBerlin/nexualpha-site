@@ -52,8 +52,8 @@ export function ConverterPage({ locale = "en", symbol, fiat, market, overlay, fx
         <p className="nxconvert-rate" aria-live="polite">{price === null ? t.unavailable : <bdi dir="ltr">1 {coin.symbol} = {formatFiatAmount(price, locale, fiat)} {fiat}</bdi>}</p>
         <dl className="nxconvert-facts">
           <div><dt>{t.change}</dt><dd><bdi dir="ltr">{formatChange(changed, locale)}</bdi></dd></div>
-          <div><dt>{t.source}</dt><dd>{live ? `${t.live} · ${live.source}` : `${t.snapshot} · CoinGecko USD`}<br /><time>{utcStamp(live?.at || COINS_GENERATED_AT)} UTC</time></dd></div>
-          {fiat !== "USD" && <div><dt>{t.fx}</dt><dd>{fx ? <><a href="https://www.exchangerate-api.com" translate="no">ExchangeRate-API</a><br /><time>{utcStamp(fx.generatedAt)} UTC</time></> : t.unavailable}</dd></div>}
+          <div><dt>{t.source}</dt><dd>{live ? `${t.live} · ${live.source}` : `${t.snapshot} · CoinGecko USD`}<br /><time dateTime={live?.at || COINS_GENERATED_AT}>{utcStamp(live?.at || COINS_GENERATED_AT, locale)}</time></dd></div>
+          {fiat !== "USD" && <div><dt>{t.fx}</dt><dd>{fx ? <><a href="https://www.exchangerate-api.com" translate="no">ExchangeRate-API</a><br /><time dateTime={fx.generatedAt}>{utcStamp(fx.generatedAt, locale)}</time></> : t.unavailable}</dd></div>}
         </dl>
       </section>
       <section><h2>{text("tableTitle")}</h2><table><thead><tr><th scope="col" translate="no">{coin.symbol}</th><th scope="col" translate="no">{fiat}</th></tr></thead><tbody>{QUICK_AMOUNTS.map((amount) => <tr key={amount}><th scope="row"><bdi>{formatAmount(amount, locale)}</bdi></th><td><bdi>{price === null ? "–" : formatFiatAmount(convertedAmount(amount, price), locale, fiat)}</bdi></td></tr>)}</tbody></table></section>

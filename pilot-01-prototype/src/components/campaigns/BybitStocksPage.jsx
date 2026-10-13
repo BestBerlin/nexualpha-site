@@ -9,6 +9,7 @@ import { BYBIT_STOCKS_CAMPAIGN, BYBIT_STOCKS_UPDATE_PATH } from "../../data/bybi
 import { bybitStocksSignup } from "../../data/bybit-stocks-signup.js";
 import { BYBIT_STOCKS_COPY } from "../../data/bybit-stocks-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatSgt } from "../../data/local-time.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./bybit-stocks.css";
 
@@ -34,12 +35,12 @@ function newYorkOffset(date) {
   const asUtc = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), Number(parts.hour) % 24, Number(parts.minute));
   return Math.round((asUtc - Math.floor(date.getTime() / 60000) * 60000) / 60000);
 }
-function localTime(etHour, locale, now) {
+function sgtTime(etHour, locale, now) {
   const offset = newYorkOffset(now);
   const base = new Date(now);
   base.setUTCHours(0, 0, 0, 0);
   const instant = new Date(base.getTime() + (etHour * 60 - offset) * 60000);
-  return new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit" }).format(instant);
+  return formatSgt(instant.toISOString(), locale, "clock");
 }
 
 function useClock() {
@@ -75,20 +76,21 @@ function SignupButton({ signup, t, className = "" }) {
   );
 }
 
-function Countdown({ t, now }) {
+function Countdown({ t, now, locale = "en" }) {
   const end = Date.parse(BYBIT_STOCKS_CAMPAIGN.endAt);
   if (now && now.getTime() >= end) return <p className="nxbs-count nxbs-count--ended">{t.ended}</p>;
   const left = now ? Math.max(0, end - now.getTime()) : null;
   const parts = left == null ? [null, null, null, null] : [Math.floor(left / 864e5), Math.floor(left / 36e5) % 24, Math.floor(left / 6e4) % 60, Math.floor(left / 1e3) % 60];
+  const endLabel = formatSgt(BYBIT_STOCKS_CAMPAIGN.endAt, locale, "end") || t.endsAt;
   return (
-    <div className="nxbs-count" role="timer" aria-label={t.endsAt}>
+    <div className="nxbs-count" role="timer" aria-label={endLabel}>
       <span className="nxbs-count__label">{t.endsIn}</span>
       <ol className="nxbs-count__cells">
         {parts.map((value, index) => (
           <li key={t.units[index]}><b>{value == null ? "--" : String(value).padStart(2, "0")}</b><span>{t.units[index]}</span></li>
         ))}
       </ol>
-      <time className="nxbs-count__end" dateTime={BYBIT_STOCKS_CAMPAIGN.endAt}>{t.endsAt}</time>
+      <time className="nxbs-count__end" dateTime={BYBIT_STOCKS_CAMPAIGN.endAt}>{endLabel}</time>
     </div>
   );
 }
@@ -104,6 +106,7 @@ export function BybitStocksPage({ locale = "en", market }) {
   const dir = RTL.has(locale) ? "rtl" : "ltr";
   const steps = t.steps.map((step, index) => (index === 0 && !stepsSignup ? t.stepOneNeutral : step));
   const lang = BYBIT_STOCKS_COPY[locale] ? locale : "en";
+  const campaignLead = String(t.campaignLead || "").replace("00:00 UTC", "08:00 SGT");
 
   return (
     <main className="nxbs nxbs-page" id="top" dir={dir} lang={lang} data-signup={hero ? "on" : "off"}>
@@ -177,9 +180,9 @@ export function BybitStocksPage({ locale = "en", market }) {
               <div key={SESSION_KEYS[index]} role="listitem" className={`nxbs-session nxbs-session--${SESSION_KEYS[index]}`} style={{ "--span": span }}>
                 <span className="nxbs-session__bar" aria-hidden="true" />
                 <b>{name}</b>
-                <span className="nxbs-session__et" translate="no">{hours} ET</span>
+                <span className="nxbs-session__et" translate="no" suppressHydrationWarning>{now ? `${sgtTime(from, locale, now)} – ${sgtTime(to, locale, now)}` : "SGT"}</span>
                 <span className="nxbs-session__note">{note}</span>
-                <span className="nxbs-session__local" suppressHydrationWarning>{now ? `${t.yourTime}: ${localTime(from, locale, now)} – ${localTime(to, locale, now)}` : " "}</span>
+                <span className="nxbs-session__local" aria-hidden="true"> </span>
               </div>
             );
           })}
@@ -190,8 +193,8 @@ export function BybitStocksPage({ locale = "en", market }) {
       <section className="nxbs-campaign" aria-labelledby="nxbs-campaign">
         <div className="nxbs-shell nxbs-section">
           <h2 id="nxbs-campaign"><span className="nxbs-hot" aria-hidden="true">✦</span> {t.campaignH}</h2>
-          <p className="nxbs-lead">{t.campaignLead}</p>
-          <Countdown t={t} now={now} />
+          <p className="nxbs-lead">{campaignLead}</p>
+          <Countdown t={t} now={now} locale={locale} />
           <ul className="nxbs-rewards">
             {t.rewards.map(([title, body]) => <li key={title}><h3>{title}</h3><p>{body}</p></li>)}
           </ul>

@@ -136,6 +136,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
           // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.
           if (!isSsrBuild && id.endsWith("vite/preload-helper.js")) return "core-ui";
+          // Shared clock formatting must not pull deferred home modules into the entry.
+          if (!isSsrBuild && id.endsWith("/src/data/local-time.js")) return "core-ui";
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
@@ -192,7 +194,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
             || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
-            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
+            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule") || id.includes("/src/components/shared/SourceLink"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
           if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
@@ -211,6 +213,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
+          if (id.includes("/src/components/licenses/") || /\/src\/data\/licenses(?:-copy|-cta)?\.js/.test(id)) return "route-licenses";
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
           // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
@@ -224,6 +227,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
           if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
+          if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
           // (before the shared campaigns rule, so the Binance page does not load this copy).
@@ -235,6 +239,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // route/teaser helper joins the shared campaign feature chunk (home stream, /activities, /exchanges/bitget, /flash).
           if (/\/src\/components\/campaigns\/(?:BitgetAlliancePage\.jsx|bitget-alliance\.css)$/.test(id) || id.includes("/src/data/bitget-alliance-copy.js")) return "route-campaign-bitget";
           if (/\/src\/data\/bitget-alliance(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
+          // Kraken 5M USDG Challenge page (2026-10-13): same pattern, own route chunk; route/teaser helper shared.
+          if (/\/src\/components\/campaigns\/(?:KrakenUsdgPage\.jsx|kraken-usdg\.css)$/.test(id) || id.includes("/src/data/kraken-usdg-copy.js")) return "route-campaign-kraken";
+          if (/\/src\/data\/kraken-usdg(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
           // Campaign landing pages (2026-10-12: Binance October): component, styles and copy in one route chunk.
           if (id.includes("/src/components/campaigns/") || /\/src\/data\/binance-october-(?:tournament-)?copy\.js$/.test(id)) return "route-campaign-landing";
           // The campaign route/teaser helper is read by the home stream, /activities and /exchanges/binance: pinned so none
@@ -402,6 +409,17 @@ export default defineConfig(({ isSsrBuild = false }) => ({
       name: "nexualpha-dev-market-events",
       apply: "serve",
       configureServer(server) {
+        let radar;
+        server.middlewares.use(async (req, res, next) => {
+          const pathname = new URL(req.url, "http://localhost").pathname;
+          if (!["/api/long-short.json", "/api/whales.json"].includes(pathname)) return next();
+          if (!["GET", "HEAD"].includes(req.method)) { res.statusCode = 405; res.setHeader("allow", "GET, HEAD"); res.end(); return; }
+          radar ||= import("./server/position-radar.mjs").then(({ createPositionRadar }) => createPositionRadar());
+          const snapshot = await (await radar).read(pathname.includes("whales") ? "whales" : "long-short");
+          res.setHeader("content-type", "application/json; charset=utf-8");
+          res.setHeader("cache-control", "no-store");
+          res.end(req.method === "HEAD" ? undefined : JSON.stringify(snapshot));
+        });
         const matrix = createFundingMatrixReader();
         server.middlewares.use("/intel/funding-matrix.json", async (req, res) => {
           const response = await matrix.respond(req.method);

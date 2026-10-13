@@ -1,15 +1,33 @@
 // Deterministic story identity. Missing facts never stand in for captured facts.
 import coins from '../db/coin-universe.json' with { type: 'json' };
 import { itemEntities, normalizeText, commonValues, trigramSimilarity } from './normalization.mjs';
-const venues = ['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kucoin', 'kraken'];
+export const KNOWN_VENUES = ['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kucoin', 'kraken', 'mexc', 'bingx', 'phemex', 'xt', 'bitrue', 'coinw', 'poloniex', 'btcc', 'bitmart'];
 const stop = new Set('will to the a an on in of for and with new trading pairs pair spot token tokens usd usdt usdc api utc ceo sec etf nft new will announcement support'.split(' '));
 const tickerStop = new Set([...stop].filter(token => !['usdt', 'usdc'].includes(token)));
 // Generic acronyms (regulators, places, finance jargon) are never asset tickers; treating them as tickers
 // made two reports of one story "conflict" when only one mentioned e.g. the DOJ.
-const acronymStop = new Set('us usa uk eu un hk sg uae sec cftc doj fbi irs fed fomc imf ecb boj pboc sfc mas fca esma mica bis occ fdic finra ceo cfo cto coo ai ipo etf etfs nft nfts dao api utc gmt otc kyc aml dex cex tvl ath atl cpi gdp ppi pce q1 q2 q3 q4 h1 h2 yoy qoq l1 l2 defi rwa ama faq breaking update new official live vip apy apr pos pow p2p'.split(' '));
-const venueAliases = [['binance', /币安|幣安/u], ['okx', /欧易|歐易/u], ['bybit', /\bbybit\b/iu], ['bitget', /\bbitget\b/iu], ['coinbase', /\bcoinbase\b/iu], ['kucoin', /库币|庫幣/u], ['kraken', /\bkraken\b/iu]];
-const venueNameStop = new Set(venues);
+const acronymStop = new Set('us usa uk eu un hk sg uae sec cftc doj fbi irs fed fomc imf ecb boj pboc sfc mas fca esma mica bis occ fdic finra ceo cfo cto coo ai ipo etf etfs nft nfts dao api utc gmt otc kyc aml dex cex tvl ath atl cpi gdp ppi pce q1 q2 q3 q4 h1 h2 yoy qoq l1 l2 defi rwa ama faq breaking update new official live vip apy apr pos pow p2p xt'.split(' '));
+const venueAliases = [
+  ['binance', /币安|幣安/u],
+  ['okx', /欧易|歐易/u],
+  ['bybit', /\bbybit\b/iu],
+  ['bitget', /\bbitget\b/iu],
+  ['coinbase', /\bcoinbase\b/iu],
+  ['kucoin', /库币|庫幣/u],
+  ['kraken', /\bkraken\b/iu],
+  ['mexc', /\bmexc\b/iu],
+  ['bingx', /\bbingx\b/iu],
+  ['phemex', /\bphemex\b/iu],
+  ['xt', /\bxt(?:\.|\s+)com\b/iu],
+  ['bitrue', /\bbitrue\b/iu],
+  ['coinw', /\bcoinw\b/iu],
+  ['poloniex', /\bpoloniex\b/iu],
+  ['btcc', /\bbtcc\b/iu],
+  ['bitmart', /\bbitmart\b/iu],
+];
+const venueNameStop = new Set(KNOWN_VENUES);
 const LISTING_ACTIONS = new Set(['listing', 'delisting']);
+const REGULATION_RE = /\b(?:regulat\w*|approv\w*|licen[cs]\w*|bill|legislat\w*|lawmakers?|senate|congress|parliament|rules?|framework|sanction\w*|bans?|banned|bars|barred|settle\w*|tax(?:es)?|guidance|stablecoin act|clarity act|genius act|website blocks?|blocks?\s+(?:access|websites?)|access restrictions?|terminate services?|unregistered (?:overseas )?(?:crypto(?:currency)? exchanges?|virtual asset service providers?))\b|监管|監管|牌照|法案|批准|制裁/iu;
 const actions = [
   ['delisting', /\bdelist(?:s|ed|ing)?\b|下架|退市/iu],
   ['listing', /\blist(?:s|ed|ing)?\b|\bavailable for trading\b|\btrading (?:starts|opens)\b|上线|上線|上币|上幣/iu],
@@ -22,6 +40,7 @@ const actions = [
   ['enforcement', /\b(?:charges?|charged|enforcement|fines?|fined)\b|执法|執法|处罚|處罰/iu],
   ['lawsuit', /\b(?:sues?|sued|lawsuit|litigation)\b|诉讼|訴訟|起诉|起訴/iu],
   ['bankruptcy_filing', /\bbankrupt\w*|破产|破產/iu],
+  ['regulation', REGULATION_RE],
 ];
 const same = (a, b) => a.length === b.length && a.every(value => b.includes(value));
 // Compiled once: storyFacts runs for every (item, candidate event) pair during dedupe.
@@ -34,7 +53,7 @@ const coinPatterns = coins.map(coin => {
     nameRe: coin.name.length >= 5 && !venueNameStop.has(normalizeText(coin.name)) ? new RegExp(`\\b${coin.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i') : null,
   };
 }).filter(Boolean);
-const venueRes = venues.map(venue => [venue, new RegExp(`\\b${venue}\\b`, 'i')]);
+const venueRes = KNOWN_VENUES.filter(venue => venue !== 'xt').map(venue => [venue, new RegExp(`\\b${venue}\\b`, 'i')]);
 const NO_WATCHLIST = Object.freeze([]);
 const factsCache = new WeakMap();
 // Facts are a pure function of the item object and watchlist; cache per (object, watchlist).
@@ -70,7 +89,7 @@ function computeStoryFacts(item, watchlist) {
   if (actions.slice(0, 2).some(([, re]) => re.test(text))) {
     for (const m of text.matchAll(/\b[A-Z][A-Z0-9]{1,11}\b/g)) {
       const token = m[0].toLowerCase();
-      if (!tickerStop.has(token) && !acronymStop.has(token) && !venues.includes(token)) tickers.add(m[0]);
+      if (!tickerStop.has(token) && !acronymStop.has(token) && !KNOWN_VENUES.includes(token)) tickers.add(m[0]);
     }
   }
   const dates = [...text.matchAll(/\b(20\d{2})[-/.](\d{1,2})[-/.](\d{1,2})\b|(20\d{2})年(\d{1,2})月(\d{1,2})日/g)].map(m => `${m[1] ?? m[4]}-${(m[2] ?? m[5]).padStart(2, '0')}-${(m[3] ?? m[6]).padStart(2, '0')}`);
@@ -82,7 +101,7 @@ function computeStoryFacts(item, watchlist) {
     amounts.push(`${Number(m[1].replaceAll(',', '')) * scale}${m[3] === '%' ? '%' : ''}`);
   }
   const action = actions.find(([, re]) => re.test(text))?.[0] ?? item.event_type_guess ?? item.event_type ?? 'unknown';
-  return { entities: entities.sort(), venues: venues.filter(venue => entities.includes(venue)), action, tickers: [...tickers].sort(), amounts: [...new Set(amounts)].sort(), dates: [...new Set(dates)].sort(), normalized };
+  return { entities: entities.sort(), venues: KNOWN_VENUES.filter(venue => entities.includes(venue)), action, tickers: [...tickers].sort(), amounts: [...new Set(amounts)].sort(), dates: [...new Set(dates)].sort(), normalized };
 }
 // "SEC sues X" and "SEC charges X" describe one legal action.
 const actionFamily = action => (action === 'lawsuit' ? 'enforcement' : action);
@@ -134,7 +153,7 @@ export function narrativeStoryMatch(leftTitle, rightTitle, left, right) {
 const narrativeTypes = [
   ['crypto_treasury_company', /\b(?:treasury|treasuries)\b|\b(?:buys?|bought|adds?|added|acquires?|acquired|purchases?|purchased)\s+(?:about\s+|another\s+)?[\d,.]+\s*(?:k\s+)?(?:btc|bitcoin|eth|ether|sol|xrp|bnb)\b|财库|財庫|增持/iu],
   ['flows', /\b(?:inflows?|outflows?|net flows?)\b|净流入|淨流入|净流出|淨流出/iu],
-  ['regulation', /\b(?:regulat\w*|approv\w*|licen[cs]\w*|bill|legislat\w*|lawmakers?|senate|congress|parliament|rules?|framework|sanction\w*|bans?|banned|bars|barred|settle\w*|tax(?:es)?|guidance|stablecoin act|clarity act|genius act)\b|监管|監管|牌照|法案|批准|制裁/iu],
+  ['regulation', REGULATION_RE],
   ['institutional_trade', /\b(?:raises?|raised|funding round|series [a-e]|seed round|acquires?|acquired|acquisition|merges?|merger|stake in|invests?|invested|ipo)\b|融资|融資|收购|收購|并购|併購/iu],
   ['product_launch', /\b(?:launch\w*|unveil\w*|debut\w*|rolls? out|rolled out|introduc\w*|mainnet|testnet|upgrade\w*|integrat\w*|partners? with|partnership)\b|推出|发布|發布|上线主网|主网|主網/iu],
   ['key_person_statement', /\b(?:says|said|warns?|predicts?|calls? for|argues?|urges?|interview)\b|表示|称|稱|警告/iu],

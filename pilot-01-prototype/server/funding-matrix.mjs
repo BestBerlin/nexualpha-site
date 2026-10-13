@@ -1,6 +1,7 @@
 import {
   FUNDING_MATRIX_PATH,
   FUNDING_MATRIX_SYMBOLS,
+  FUNDING_MATRIX_VENUES,
   buildFundingMatrix,
   normalizeFundingQuote,
 } from "../src/data/funding-matrix.js";
@@ -21,13 +22,13 @@ async function getJson(url, fetchImpl, init = {}, { timeoutMs = 4000, deadlineAt
   return response.json();
 }
 
-async function eachSymbol(fetchImpl, makeUrl, normalize, { concurrency = 4, delayMs = 40, deadlineMs = 12000 } = {}) {
+async function eachSymbol(fetchImpl, makeUrl, normalize, { concurrency = 4, delayMs = 40, deadlineMs = 12000, symbols = FUNDING_MATRIX_SYMBOLS } = {}) {
   const rows = [];
   const deadlineAt = Date.now() + deadlineMs;
   let index = 0;
   async function worker() {
-    while (index < FUNDING_MATRIX_SYMBOLS.length && Date.now() < deadlineAt) {
-      const symbol = FUNDING_MATRIX_SYMBOLS[index];
+    while (index < symbols.length && Date.now() < deadlineAt) {
+      const symbol = symbols[index];
       index += 1;
       try {
         const normalized = normalize(symbol, await getJson(makeUrl(symbol), fetchImpl, {}, { deadlineAt }));
@@ -72,9 +73,48 @@ function bybit(json, readAt) {
     .filter(Boolean);
 }
 
-function bitget(symbol, json, readAt) {
-  const row = json?.data?.[0];
-  return row ? quote("bitget", symbol, row.fundingRate, row.fundingRateInterval, row.nextUpdate, readAt) : null;
+function bitget(json, readAt) {
+  if (json?.code !== "00000" || !Array.isArray(json.data)) throw new Error("Invalid Bitget funding response");
+  return json.data.map((row) => {
+    const match = /^(.+)USDT$/.exec(String(row.symbol || ""));
+    return match ? quote("bitget", match[1], row.fundingRate, row.fundingRateInterval, row.nextUpdate, readAt) : null;
+  }).filter(Boolean);
+}
+
+async function bitgetBulk(fetchImpl, readAt) {
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      return bitget(await getJson("https://api.bitget.com/api/v2/mix/market/current-fund-rate?productType=usdt-futures", fetchImpl), readAt);
+    } catch (error) {
+      if (attempt >= 2) throw error;
+      await wait(200 * 2 ** attempt);
+    }
+  }
+}
+
+// Funding is a ratio of notional, independent of contract lot size. Metadata
+// confirms the underlying identity; contractSize is never a funding multiplier.
+export function mexcContractMap(json) {
+  const contracts = (Array.isArray(json?.data) ? json.data : []).filter((row) =>
+    row.quoteCoin === "USDT" && row.state === 0 && Number(row.contractSize) > 0 &&
+    typeof row.displayName === "string" && row.displayName.startsWith(`${row.symbol}`));
+  const mapping = new Map();
+  for (const symbol of FUNDING_MATRIX_SYMBOLS) {
+    const exact = contracts.filter((row) => row.symbol === `${symbol}_USDT` && row.baseCoin === symbol);
+    const underlying = symbol.startsWith("1000") ? symbol.slice(4) : symbol;
+    const candidates = exact.length ? exact : contracts.filter((row) => row.baseCoin === underlying && row.symbol === `${underlying}_USDT`);
+    if (candidates.length === 1) mapping.set(symbol, candidates[0].symbol);
+  }
+  return mapping;
+}
+
+async function mexcMapped(fetchImpl, readAt) {
+  const metadata = await getJson("https://contract.mexc.com/api/v1/contract/detail", fetchImpl);
+  if (metadata?.success !== true) throw new Error("Invalid MEXC contract detail response");
+  const mapping = mexcContractMap(metadata);
+  return eachSymbol(fetchImpl, (symbol) => `https://contract.mexc.com/api/v1/contract/funding_rate/${mapping.get(symbol)}`,
+    (symbol, json) => json?.success === true && json.data?.symbol === mapping.get(symbol) ? mexc(symbol, json, readAt) : null,
+    { symbols: [...mapping.keys()], concurrency: 8, delayMs: 0, deadlineMs: 20000 });
 }
 
 function gate(symbol, json, readAt) {
@@ -111,6 +151,19 @@ function hyperliquid(json, readAt, now = Date.now()) {
     .filter(Boolean);
 }
 
+export const HTX_FUNDING_HOSTS = Object.freeze(["api.hbdm.vn", "api.hbdm.com", "api.huobi.pro"]);
+async function htxFallback(fetchImpl, readAt) {
+  for (const host of HTX_FUNDING_HOSTS) {
+    try {
+      const json = await getJson(`https://${host}/linear-swap-api/v1/swap_batch_funding_rate`, fetchImpl);
+      if (json?.status !== "ok") continue;
+      const rows = htxBatch(json, readAt);
+      if (rows.length) return rows;
+    } catch { /* Try the next public host; never guess a missing interval. */ }
+  }
+  return [];
+}
+
 export const FUNDING_MATRIX_SOURCES = Object.freeze({
   binance: async (fetchImpl, { readAt }) => binance(
     await getJson("https://fapi.binance.com/fapi/v1/premiumIndex", fetchImpl),
@@ -119,14 +172,14 @@ export const FUNDING_MATRIX_SOURCES = Object.freeze({
   ),
   okx: (fetchImpl, { readAt }) => eachSymbol(fetchImpl, (symbol) => `https://www.okx.com/api/v5/public/funding-rate?instId=${symbol}-USDT-SWAP`, (symbol, json) => okx(symbol, json, readAt)),
   bybit: async (fetchImpl, { readAt }) => bybit(await getJson("https://api.bybit.com/v5/market/tickers?category=linear", fetchImpl), readAt),
-  bitget: (fetchImpl, { readAt }) => eachSymbol(fetchImpl, (symbol) => `https://api.bitget.com/api/v2/mix/market/current-fund-rate?symbol=${symbol}USDT&productType=usdt-futures`, (symbol, json) => bitget(symbol, json, readAt)),
+  bitget: (fetchImpl, { readAt }) => bitgetBulk(fetchImpl, readAt),
   "gate-io": (fetchImpl, { readAt }) => eachSymbol(fetchImpl, (symbol) => `https://api.gateio.ws/api/v4/futures/usdt/contracts/${symbol}_USDT`, (symbol, json) => gate(symbol, json, readAt)),
-  mexc: (fetchImpl, { readAt }) => eachSymbol(fetchImpl, (symbol) => `https://contract.mexc.com/api/v1/contract/funding_rate/${symbol}_USDT`, (symbol, json) => mexc(symbol, json, readAt)),
-  htx: async (fetchImpl, { readAt }) => htxBatch(await getJson("https://api.hbdm.com/linear-swap-api/v1/swap_batch_funding_rate", fetchImpl), readAt),
+  mexc: (fetchImpl, { readAt }) => mexcMapped(fetchImpl, readAt),
+  htx: (fetchImpl, { readAt }) => htxFallback(fetchImpl, readAt),
   hyperliquid: async (fetchImpl, { readAt, now }) => hyperliquid(await getJson("https://api.hyperliquid.xyz/info", fetchImpl, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ type: "metaAndAssetCtxs" }) }), readAt, now),
 });
 
-export async function buildFundingMatrixSnapshot({ now = Date.now(), fetchImpl = fetch, sources = FUNDING_MATRIX_SOURCES, log = () => {} } = {}) {
+export async function buildFundingMatrixSnapshot({ now = Date.now(), fetchImpl = fetch, sources = FUNDING_MATRIX_SOURCES, log = () => {}, lastSuccess = {} } = {}) {
   const readAt = new Date(now).toISOString();
   const settled = await Promise.allSettled(Object.entries(sources).map(async ([venue, load]) => {
     const rows = await load(fetchImpl, { now, readAt });
@@ -137,10 +190,18 @@ export async function buildFundingMatrixSnapshot({ now = Date.now(), fetchImpl =
     if (result.status === "fulfilled") quotes.push(...result.value.rows);
     else log(`funding matrix source failed: ${result.reason?.message || result.reason}`);
   }
-  return quotes.length ? buildFundingMatrix(quotes, { generatedAt: readAt }) : null;
+  if (!quotes.length) return null;
+  const matrix = buildFundingMatrix(quotes, { generatedAt: readAt });
+  const coverage = Object.fromEntries(FUNDING_MATRIX_VENUES.map((venue) => {
+    const symbolsWithData = matrix.rows.filter((row) => row.venues[venue]).map((row) => row.symbol);
+    if (symbolsWithData.length) lastSuccess[venue] = readAt;
+    return [venue, { symbolsWithData, count: symbolsWithData.length, lastSuccessAt: lastSuccess[venue] || null, status: symbolsWithData.length ? "available" : "unavailable" }];
+  }));
+  return Object.freeze({ ...matrix, coverage });
 }
 
 export function createFundingMatrixReader({ enabled = true, ttlMs = 60000, fetchImpl = fetch, sources = FUNDING_MATRIX_SOURCES, now = () => Date.now(), log = () => {} } = {}) {
+  const lastSuccess = {};
   let cached = null;
   let cachedAt = 0;
   let pending = null;
@@ -150,7 +211,7 @@ export function createFundingMatrixReader({ enabled = true, ttlMs = 60000, fetch
     const current = now();
     if (cached && current - cachedAt <= maxTtlMs) return cached;
     if (!pending) {
-      pending = buildFundingMatrixSnapshot({ now: current, fetchImpl, sources, log })
+      pending = buildFundingMatrixSnapshot({ now: current, fetchImpl, sources, log, lastSuccess })
         .then((matrix) => {
           if (matrix) {
             cached = matrix;

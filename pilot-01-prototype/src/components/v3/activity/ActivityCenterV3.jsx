@@ -1,3 +1,4 @@
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { useCampaignBriefs } from '../../shared/useCampaignBriefs.js';
 import { CampaignBriefFacts } from '../../shared/CampaignBriefFacts.jsx';
 import { applyCampaignBriefs, localizedBriefText } from '../../../data/campaign-briefs.js';
@@ -25,6 +26,7 @@ import { OfficialResearchIndex } from "./OfficialResearch";
 import { isoDay } from "../../../data/exchange-facts.js";
 import { r9Text } from "../../v6/inner-r9-copy.js";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
+import { formatSgt } from "../../../data/local-time.js";
 
 const categoryDefinitions = (text) => [
   { key: "all", label: text.all },
@@ -85,14 +87,7 @@ function normalizeUpdate(update, now) {
 
 function formatDate(locale, time) {
   if (!time) return "—";
-  // Fixed UTC zone: the server and the reader's browser must print the same text or hydration fails (React #418).
-  return new Intl.DateTimeFormat(locale || "en", {
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-  }).format(new Date(time));
+  return formatSgt(new Date(time).toISOString(), locale || "en", "end");
 }
 
 function firstReadableSource(record) {
@@ -386,7 +381,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           <div className="activity-center-v3__source-actions">
             <a href={contextualHref(`/exchanges/${encodeURIComponent(record.platform.slug)}`)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-venue-profile" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-venue-profile">{detailCopy.openDetail}</a>
             <a href={contextualHref(record.detailHref)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-research" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-research">{rewardsText.openResearch}</a>
-            {firstReadableSource(record) && <a href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{r9Text(locale).page} ↗</a>}
+            {firstReadableSource(record) && <SourceLink locale={locale} href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{r9Text(locale).page} ↗</SourceLink>}
           </div>
           </div>
         </article>)}

@@ -153,3 +153,46 @@ test('hidden delisting titles fetch announcement body for asset details and fail
   });
   assert.equal(unknown[0].metrics.detail_status, 'needs-detail');
 });
+
+test('announcement body fetches are capped per poll so a slow venue page cannot time out the list poll', async () => {
+  const sourceRow = source('bybit-announcements', 'https://api.bybit.com/v5/announcements/index');
+  const list = Array.from({ length: 20 }, (_, i) => ({
+    title: `New listing: Listing of T${i}USDT on Bybit`, type: { key: 'new_crypto' },
+    url: `https://announcements.bybit.com/en-US/article/listing-${i}/`, dateTimestamp: 1791806400000,
+  }));
+  let bodyCalls = 0;
+  const started = Date.now();
+  const items = await poll(sourceRow, null, {
+    now,
+    bodyFetch: { maxFetches: 3, perFetchMs: 50 },
+    async request(url) {
+      if (new URL(url).hostname === 'api.bybit.com') return { retCode: 0, result: { list: new URL(url).searchParams.get('type') === 'new_crypto' ? list : [] } };
+      bodyCalls += 1;
+      return new Promise(() => {}); // never resolves
+    },
+  });
+  assert.equal(bodyCalls, 3);
+  assert.equal(items.length, 20);
+  assert.ok(Date.now() - started < 2000);
+});
+
+test('binance bodies come from the CMS detail API with the marketing disclaimer stripped', async () => {
+  const code = 'b45206aa35eb4eb6820bf1db57239a0d';
+  const body = JSON.stringify({ node: 'root', child: [
+    { node: 'element', tag: 'p', child: [{ node: 'text', text: 'This is a general announcement and marketing communication. Products and services referred to here may not be available in your region.' }] },
+    { node: 'element', tag: 'p', child: [{ node: 'text', text: 'Binance will delist and cease trading on all spot trading pairs for ABC at 2026-10-14 03:00 (UTC). Users can withdraw ABC until 2026-12-14.' }] },
+  ] });
+  const urls = [];
+  const items = await poll(source('binance-announcements', 'https://www.binance.com/bapi/composite/v1/public/cms/article/list/query'), null, {
+    now,
+    async request(url) {
+      urls.push(url);
+      if (url.includes('/article/detail/query')) return { code: '000000', data: { body } };
+      const catalogId = Number(new URL(url).searchParams.get('catalogId'));
+      const articles = catalogId === 161 ? [{ code, title: 'Binance Will Delist ABC on 2026-10-14', releaseDate: 1791806400000 }] : [];
+      return { code: '000000', data: { catalogs: [{ catalogId, articles }] } };
+    },
+  });
+  assert.ok(urls.some(url => url.endsWith(`articleCode=${code}`)));
+  assert.match(items[0].body_excerpt, /^Binance will delist and cease trading/);
+});

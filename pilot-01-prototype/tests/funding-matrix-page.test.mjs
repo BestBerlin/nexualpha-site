@@ -48,7 +48,9 @@ async function renderSamples() {
     import { FundingMatrixPage, formatFundingPct, normalizeFundingMatrixFeed } from "../../src/components/data/FundingMatrixPage.jsx";
     const feed = ${JSON.stringify(sampleFeed)};
     const matrix = normalizeFundingMatrixFeed(feed);
+    const unavailableMatrix = { ...matrix, coverage: { htx: { count: 0, status: "unavailable", lastSuccessAt: null } } };
     const out = {
+      unavailable: renderToStaticMarkup(React.createElement(FundingMatrixPage, { locale: "en", initialFeed: unavailableMatrix })),
       summary: {
         rows: matrix.rows.length,
         venues: matrix.venues.map((v) => v.slug),
@@ -107,7 +109,7 @@ test("SSR renders table, anchors, calculator, tracked CTAs and neutral locales w
   assert.match(en, /<main[^>]*data-testid="funding-matrix-page"/);
   assert.match(en, /<header class="nxd-hero nxdm-hero v2-shell">/);
   assert.match(en, /<h1>Crypto funding-rate matrix<\/h1>/);
-  assert.match(en, /2099-10-13 02:15 UTC/);
+  assert.match(en, /2099-10-13 · 10:15 SGT/);
   assert.match(en, /<table class="nxdm-table" dir="ltr">/);
   assert.match(en, /aria-sort="descending"><button type="button" class="nxdm-thbutton" aria-pressed="true">Max spread \/ 8h<\/button>/);
   assert.match(en, /aria-sort="none"><button type="button" class="nxdm-thbutton" aria-pressed="false">HTX<\/button>/);
@@ -150,4 +152,11 @@ test("Turkey CTA allowlist only exposes allowed partner routes after geo gating"
 test("component bundles with CSS ignored for the SSR worker build path", async () => {
   const { bundleCheck } = await renderSamples();
   assert.ok(bundleCheck > 5000);
+});
+
+ test("unavailable HTX is announced once and has no repeated table cells", async () => {
+  const { unavailable } = await renderSamples();
+  assert.equal((unavailable.match(/HTX: Data unavailable/g) || []).length, 1);
+  assert.doesNotMatch(unavailable, /data-label="HTX"/);
+  assert.match(unavailable, /Binance/);
 });

@@ -16,7 +16,7 @@
   "change24h": "24h",
   "rank": "Posição por valor de mercado",
   "marketCap": "Valor de mercado",
-  "snapshot": "Dados de {time} UTC",
+  "snapshot": "Dados de {time}",
   "live": "Atualizado {time}",
   "listedOn": "Listado em",
   "venuesCount": "{n} corretoras",

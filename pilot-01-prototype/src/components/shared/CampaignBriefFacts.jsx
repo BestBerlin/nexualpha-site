@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { localizedBriefText } from '../../data/campaign-briefs.js';
+import { formatSgt } from '../../data/local-time.js';
 import './campaign-brief-facts.css';
 export function CampaignBriefFacts({ brief, locale = 'en' }) {
   // The first client render matches SSR. The live countdown starts only after hydration.
@@ -18,6 +19,6 @@ export function CampaignBriefFacts({ brief, locale = 'en' }) {
   return <div className="campaign-brief-facts">
     {brief.key_facts?.length > 0 && <dl>{brief.key_facts.map((fact, index) => <div key={index}><dt>{localizedBriefText(fact.label, locale)}</dt><dd dir="auto">{fact.value}</dd></div>)}</dl>}
     {who && <p dir="auto">{who}</p>}{reward && <p dir="auto">{reward}</p>}
-    {Number.isFinite(deadline) && <time dateTime={brief.deadline}><bdi>{new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(deadline))} UTC{now !== null ? ` · ${new Intl.NumberFormat(locale).format(Math.floor(minutes / 60))}:${String(minutes % 60).padStart(2, '0')}` : ''}</bdi></time>}
+    {Number.isFinite(deadline) && <time dateTime={brief.deadline}><bdi>{formatSgt(new Date(deadline).toISOString(), locale, 'end')}{now !== null ? ` · ${new Intl.NumberFormat(locale).format(Math.floor(minutes / 60))}:${String(minutes % 60).padStart(2, '0')}` : ''}</bdi></time>}
   </div>;
 }

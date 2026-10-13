@@ -1,3 +1,4 @@
+import { radarCopy } from "../../data/radar.js";
 // "Where to buy <coin>" (owner 2026-10-12): /coins hub and /coins/<slug> per locale. The answer comes first (which of the
 // exchanges we cover list the coin and the main pair), then the venue table (pairs, perpetuals, fees, deposit networks,
 // our code and a tracked /go/<venue> link), how-to steps linked to academy lessons, the visitor's country note, FAQ and
@@ -58,7 +59,7 @@ function CoinMark({ coin, size = 44 }) {
 }
 
 // ---------------------------------------------------------------- live price (after mount only)
-// The server HTML shows the snapshot price with its UTC time. After mount, the page asks one exchange that lists the
+// The server HTML shows the snapshot price with its SGT time. After mount, the page asks one exchange that lists the
 // coin against USDT/USDC for its public ticker (CORS-enabled endpoints, no key) and shows that price with its source.
 const TICKERS = {
   okx: { url: (s, q) => `https://www.okx.com/api/v5/market/ticker?instId=${s}-${q}`, read: (j) => { const r = j?.data?.[0]; const last = Number(r?.last), open = Number(r?.open24h); return { price: last, change24h: open > 0 ? (last / open - 1) * 100 : null }; } },
@@ -132,7 +133,7 @@ function PriceCard({ coin, locale, t, live }) {
       <div><dt>{t.rank}</dt><dd><LTR>#{coin.rank}</LTR></dd></div>
       <div><dt>{t.marketCap}</dt><dd><LTR>{formatCompactUsd(coin.marketCap, locale)}</LTR></dd></div>
     </dl>
-    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: `${utcStamp(live.at)} UTC` })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: utcStamp(live.at, locale) })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
   </div>;
 }
 
@@ -268,6 +269,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
         <PriceCard coin={coin} locale={locale} t={t} live={live} />
       </header>
       <TelegramTriggerCta locale={locale} placement="coin-telegram-alerts" className="nxc-tgcta" />
+        <nav aria-label={radarCopy(locale).longShortTitle}><a href={localizedHref("/long-short", { locale })}>{radarCopy(locale).longShortTitle}</a>{" · "}<a href={localizedHref("/whales", { locale })}>{radarCopy(locale).whalesTitle}</a></nav>
 
       {listed ? <section className="nxc-sec" aria-labelledby="nxc-table-h" id="venues">
         <h2 id="nxc-table-h">{fill(t.tableTitle, vars)}</h2>
@@ -330,7 +332,7 @@ export function CoinsHubPage({ locale = "en", market, overlay }) {
       <header className="nxc-hubhead">
         <h1 className="nxc-title">{fill(t.hubTitle, { count: COINS.length })}</h1>
         <p className="nxc-lead">{t.hubLead}</p>
-        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
       </header>
       <div className="nxc-tools" role="search">
         <label className="nxc-search">

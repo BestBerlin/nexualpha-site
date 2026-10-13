@@ -13,12 +13,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/ar/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ar/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/ar/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/ar/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ar/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/de/funding-rates</loc>
@@ -33,12 +45,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/de/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/de/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/de/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/de/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/de/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/es/funding-rates</loc>
@@ -53,12 +77,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/es/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/es/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/es/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/es/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/es/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/factbook</loc>
@@ -77,12 +113,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/fr/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/fr/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/fr/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/fr/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/fr/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/funding-rates</loc>
@@ -105,12 +153,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/id-id/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/id-id/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/id-id/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/id-id/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/id-id/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/it/funding-rates</loc>
@@ -125,12 +185,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/it/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/it/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/it/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/it/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/it/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/ja/funding-rates</loc>
@@ -142,6 +214,14 @@
   </url>
   <url>
     <loc>https://nexualpha.com/ja/liquidations</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ja/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ja/long-short</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
@@ -173,6 +253,10 @@
     <lastmod>2026-09-08</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/ja/whales</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/ko/funding-rates</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
@@ -182,6 +266,14 @@
   </url>
   <url>
     <loc>https://nexualpha.com/ko/liquidations</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ko/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ko/long-short</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
@@ -213,7 +305,19 @@
     <lastmod>2026-09-08</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/ko/whales</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/liquidations</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/long-short</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
@@ -241,6 +345,14 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/pt-br/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/pt-br/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/pt-br/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
@@ -251,6 +363,10 @@
   <url>
     <loc>https://nexualpha.com/pt-br/topics/prazo-banco-central-corretoras-cripto-2026</loc>
     <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/pt-br/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/rates</loc>
@@ -269,12 +385,24 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/ru/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ru/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/ru/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/ru/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/ru/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/topics</loc>
@@ -329,6 +457,14 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/tr/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/tr/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/tr/methodology</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
@@ -357,6 +493,10 @@
     <lastmod>2026-09-08</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/tr/whales</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/vi/funding-rates</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
@@ -369,12 +509,28 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/vi/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/vi/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/vi/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/vi/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/vi/whales</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hans/funding-rates</loc>
@@ -386,6 +542,14 @@
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hans/liquidations</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hans/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hans/long-short</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
@@ -433,6 +597,10 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/zh-hans/whales</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/zh-hant/funding-rates</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
@@ -445,11 +613,23 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/zh-hant/liquidations/heatmap</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hant/long-short</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/zh-hant/onchain</loc>
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hant/rates</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hant/whales</loc>
+    <lastmod>2026-09-17</lastmod>
   </url>
 </urlset>

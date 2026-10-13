@@ -142,7 +142,14 @@ test("v3 detail and comparison labels are localized in server-rendered 17-locale
       // localized "pending" placeholder.
       if (locale === "es") assert.ok(!/v3-metric-tile__val[^>]*>Pendiente de verificación de la fuente/.test(detailHtml), `${locale}: no max-leverage pending tile`);
       if (locale === "pt-BR") assert.ok(!/v3-metric-tile__val[^>]*>Aguardando verificação da fonte/.test(detailHtml), `${locale}: no max-leverage pending tile`);
-      assert.ok(compareHtml.includes(escapeHtml(expectedCodeLabel[locale])), `${locale}: localized code label appears in compare CTA cells`);
+      if (new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']).has(locale)) {
+        for (const html of [detailHtml, compareHtml]) {
+          assert.doesNotMatch(html, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${locale}: neutral signup and codes absent`);
+          assert.doesNotMatch(html, /nexu888|affiliate_id=48553/, `${locale}: venue invite code absent`);
+        }
+      } else {
+        assert.ok(compareHtml.includes(escapeHtml(expectedCodeLabel[locale])), `${locale}: localized code label appears in compare CTA cells`);
+      }
       assert.ok(compareHtml.includes(escapeHtml(expectedDecisionGuideNeedle[locale])), `${locale}: localized pre-signup decision guide copy appears`);
     }
   } finally {

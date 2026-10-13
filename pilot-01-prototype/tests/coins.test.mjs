@@ -92,6 +92,8 @@ test("/coins and coin pages render at request time in en and zh-hans with one h1
   assert.match(btc, /href="\/academy\/pre-transfer-checklist"/, "transfer checklist (E09)");
   assert.match(btc, /nxc-related"[\s\S]*href="\/coins\/[a-z0-9-]+"/, "related coins");
   assert.match(btc, /0\.08% \/ 0\.10%/, "OKX spot fee from exchange-facts");
+  assert.match(btc, /SGT/, "coin snapshot time is rendered in Singapore time");
+  assert.doesNotMatch(btc, /nxc-price__time[\s\S]*?UTC/, "coin snapshot time does not append UTC");
   const zh = mainHtml(await (await fetchPage("/zh-hans/coins/ethereum")).text());
   assert.ok(zh.includes(COIN_DESCRIPTIONS_BY_LOCALE["zh-Hans"].ethereum), "zh-Hans description in SSR");
   assert.match(zh, /href="\/zh-hans\/academy\/kyc-who-gets-your-id"/);

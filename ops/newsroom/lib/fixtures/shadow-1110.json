@@ -1,0 +1,449 @@
+{
+  "planPath": "/state/shadow-last.json",
+  "claimed": 4,
+  "released": 4,
+  "releaseErrors": [],
+  "plan": {
+    "schema": "newsroom.writer.shadow-plan.v1",
+    "generated_at": "2026-10-13T03:10:50.691Z",
+    "shadow_start": "2026-10-13T00:00:00+08:00",
+    "writer": "shadow-claude",
+    "publish": false,
+    "events": [
+      {
+        "id": 3921,
+        "title_internal": "South Korea Orders Website Blocks on 27 Unregistered Overseas Crypto Exchanges, Including KuCoin, MEXC and BingX",
+        "event_type": "unknown",
+        "suggested_format": "breakdown",
+        "suggested_angle": "What happened, what is verified, and what should readers check next? Keep facts, interpretation and unknowns separate; open with the verified fact and avoid unsupported causality.",
+        "main_question": "What happened, what is verified, and what should readers check next?",
+        "factual_summary": "South Korea Orders Website Blocks on 27 Unregistered Overseas Crypto Exchanges, Including KuCoin, MEXC and BingX South Korea's Financial Intelligence Unit (FIU) announced that the country's communications review authority has ordered domestic access restrictions on 27 unregistered overseas cryptocurrency exchange websites, including KuCoin, MEXC, Phemex, XT com, Bitrue, CoinW, Poloniex, BTCC, BingX and BitMart, according to Etoday. The decision, made following reviews on October 6–7, expands existing restrictions on app downloads and updates to exchange websites.",
+        "summary_source_urls": [
+          "https://t.me/wublockchainenglish/26387"
+        ],
+        "why_it_matters": "Retail traders can use the verified facts to check affected products, costs and account conditions before acting.",
+        "story_event_ids": [
+          3921
+        ],
+        "venues": [
+          "kucoin"
+        ],
+        "cta_hints": [
+          {
+            "intent": "site_tool",
+            "directive": "::cta site_tool",
+            "commercial_allowed": false,
+            "fallback_href": "/compare",
+            "promotions": [
+              {
+                "id": "site-tool",
+                "kind": "tool",
+                "name": "Compare platforms",
+                "link": "/compare"
+              }
+            ]
+          }
+        ],
+        "entities": [
+          {
+            "id": "kucoin",
+            "kind": "exchange",
+            "status": "active",
+            "aliases": [
+              "KuCoin",
+              "Mek Global Limited / PhoenixFin Pte. Ltd.",
+              "@kucoincom",
+              "@KuCoinUpdates"
+            ],
+            "accounts": {
+              "x": "kucoincom",
+              "youtube": "@KuCoinExchange",
+              "telegram": "KuCoin_Exchange",
+              "announcements_x": "KuCoinUpdates"
+            },
+            "priority": 2,
+            "addresses": [],
+            "role_note": "Exchange",
+            "display_name": {
+              "en": "KuCoin"
+            },
+            "partner_slug": null,
+            "discovered_at": null,
+            "official_urls": [
+              "https://www.kucoin.com",
+              "https://www.kucoin.com/cert",
+              "https://www.kucoin.com/announcement"
+            ],
+            "discovered_from": "nx-agents/newsroom/watchlist/watchlist.json",
+            "role_verified_at": null,
+            "name": "KuCoin"
+          },
+          {
+            "id": "mexc",
+            "kind": "exchange",
+            "status": "active",
+            "aliases": [
+              "MEXC",
+              "MEXC Global Ltd.",
+              "@MEXC_Official"
+            ],
+            "accounts": {
+              "x": "MEXC_Official",
+              "youtube": "@MEXCofficial",
+              "telegram": "MEXCEnglish",
+              "announcements_x": "MEXC_Official"
+            },
+            "priority": 2,
+            "addresses": [],
+            "role_note": "Exchange",
+            "display_name": {
+              "en": "MEXC"
+            },
+            "partner_slug": null,
+            "discovered_at": null,
+            "official_urls": [
+              "https://www.mexc.com",
+              "https://www.mexc.com/official-verify",
+              "https://www.mexc.com/support/announcements"
+            ],
+            "discovered_from": "nx-agents/newsroom/watchlist/watchlist.json",
+            "role_verified_at": null,
+            "name": "MEXC"
+          }
+        ],
+        "evidence": [
+          {
+            "id": 8732,
+            "url": "https://t.me/wublockchainenglish/26387",
+            "kind": "social_post",
+            "excerpt": "South Korea Orders Website Blocks on 27 Unregistered Overseas Crypto Exchanges, Including KuCoin, MEXC and BingX South Korea's Financial Intelligence Unit (FIU) announced that the country's communications review authority has ordered domestic access restrictions on 27 unregistered overseas cryptocurrency exchange websites, including KuCoin, MEXC, Phemex, XT com, Bitrue, CoinW, Poloniex, BTCC, BingX and BitMart, according to Etoday. The decision, made following reviews on October 6–7, expands existing restrictions on app downloads and updates to exchange websites. The FIU has referred 44 unregi",
+            "event_id": 3921,
+            "supports": null,
+            "source_id": "rsshub-telegram-wublockchainenglish",
+            "checked_at": "2026-10-13T01:50:17.140885+00:00",
+            "confidence": null,
+            "origin_key": "url:https://t.me/wublockchainenglish/26387",
+            "raw_item_id": 54038,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-13T01:36:17+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "telegram"
+          },
+          {
+            "id": 8733,
+            "url": "https://t.me/wublockchainenglish/26387",
+            "kind": "media_report",
+            "excerpt": "South Korea Orders Website Blocks on 27 Unregistered Overseas Crypto Exchanges, Including KuCoin, MEXC and BingX South Korea's Financial Intelligence Unit (FIU) announced that the country's communications review authority has ordered domestic access restrictions on 27 unregistered overseas cryptocurrency exchange websites, including KuCoin, MEXC, Phemex, XT com, Bitrue, CoinW, Poloniex, BTCC, BingX and BitMart, according to Etoday. The decision, made following reviews on October 6–7, expands existing restrictions on app downloads and updates to exchange websites. The FIU has referred 44 unregi",
+            "event_id": 3921,
+            "supports": null,
+            "source_id": "wublockchain-preview",
+            "checked_at": "2026-10-13T01:50:17.140885+00:00",
+            "confidence": null,
+            "origin_key": "url:https://t.me/wublockchainenglish/26387",
+            "raw_item_id": 54096,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-13T01:36:17+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": false,
+            "source_platform": "media"
+          },
+          {
+            "id": 8746,
+            "url": "https://panewslab.com/en/articles/01a132f6-f12d-7561-90f6-144da0f40bdb",
+            "kind": "media_report",
+            "excerpt": "PANews, October 13 – According to South Korean media outlet Etoday, the Korea Financial Intelligence Unit (FIU) stated that the relevant review body has decided to block access to or terminate services for the websites of 27 unregistered virtual asset service providers within South Korea, including KuCoin, MEXC, BingX, Phemex, and BitMart. Previous restrictions already covered the download, installation, and updates of their apps, and this move now extends to their websites. The FIU has reported 44 unregistered operators to investigative authorities and will continue to block alternative URLs.",
+            "event_id": 3921,
+            "supports": null,
+            "source_id": "panews-rss",
+            "checked_at": "2026-10-13T02:00:16.44412+00:00",
+            "confidence": null,
+            "origin_key": "url:https://panewslab.com/en/articles/01a132f6-f12d-7561-90f6-144da0f40bdb",
+            "raw_item_id": 54340,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-13T01:52:00+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          },
+          {
+            "id": 8922,
+            "url": "https://cointelegraph.com/news/south-korea-moves-to-block-27-crypto-websites-including-kucoin-mexc",
+            "kind": "media_report",
+            "excerpt": "Authorities said the restrictions are aimed at unregistered exchanges and have acknowledged that customers could have difficulty withdrawing assets.",
+            "event_id": 3921,
+            "supports": null,
+            "source_id": "cointelegraph-rss",
+            "checked_at": "2026-10-13T03:00:17.247319+00:00",
+            "confidence": null,
+            "origin_key": "url:https://cointelegraph.com/news/south-korea-moves-to-block-27-crypto-websites-including-kucoin-mexc",
+            "raw_item_id": 56579,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-13T02:41:30+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          }
+        ],
+        "related_existing_articles": []
+      },
+      {
+        "id": 2831,
+        "title_internal": "Tom Lee sees $2 trillion wealth transfer fueling crypto demand as Bitmine buys more ether",
+        "event_type": "fx_macro",
+        "suggested_format": "breakdown",
+        "suggested_angle": "What changes for crypto readers from this macro move? Keep facts, interpretation and unknowns separate; open with the verified fact and avoid unsupported causality.",
+        "main_question": "What changes for crypto readers from this macro move?",
+        "factual_summary": "The Bitmine chairman said he expects younger investors to drive demand for digital assets as his ether treasury company inches closer to owning 5% of the total supply. PANews reported on October 12, citing CoinDesk, that Tom Lee, Chairman of Bitmine Immersion Technologies, said the intergenerational wealth transfer taking place over the coming years could become an important factor driving the next round of crypto market demand.",
+        "summary_source_urls": [
+          "https://coindesk.com/business/2026/10/12/tom-lee-sees-usd2-trillion-wealth-transfer-fueling-crypto-demand-as-bitmine-buys-more-ether",
+          "https://panewslab.com/en/articles/01a130bb-c6a6-7031-b85c-6d73d0b6fd5c"
+        ],
+        "why_it_matters": "Retail traders can use the verified facts to check affected products, costs and account conditions before acting.",
+        "story_event_ids": [
+          2831
+        ],
+        "venues": [],
+        "cta_hints": [
+          {
+            "intent": "site_tool",
+            "directive": "::cta site_tool",
+            "commercial_allowed": false,
+            "fallback_href": "/compare",
+            "promotions": [
+              {
+                "id": "site-tool",
+                "kind": "tool",
+                "name": "Compare platforms",
+                "link": "/compare"
+              }
+            ]
+          }
+        ],
+        "entities": [],
+        "evidence": [
+          {
+            "id": 7210,
+            "url": "https://coindesk.com/business/2026/10/12/tom-lee-sees-usd2-trillion-wealth-transfer-fueling-crypto-demand-as-bitmine-buys-more-ether",
+            "kind": "media_report",
+            "excerpt": "The Bitmine chairman said he expects younger investors to drive demand for digital assets as his ether treasury company inches closer to owning 5% of the total supply.",
+            "event_id": 2831,
+            "supports": null,
+            "source_id": "coindesk-rss",
+            "checked_at": "2026-10-13T00:13:11.874089+00:00",
+            "confidence": null,
+            "origin_key": "url:https://coindesk.com/business/2026/10/12/tom-lee-sees-usd2-trillion-wealth-transfer-fueling-crypto-demand-as-bitmine-buys-more-ether",
+            "raw_item_id": 35497,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-12T15:27:09+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          },
+          {
+            "id": 7211,
+            "url": "https://panewslab.com/en/articles/01a130bb-c6a6-7031-b85c-6d73d0b6fd5c",
+            "kind": "media_report",
+            "excerpt": "PANews reported on October 12, citing CoinDesk, that Tom Lee, Chairman of Bitmine Immersion Technologies, said the intergenerational wealth transfer taking place over the coming years could become an important factor driving the next round of crypto market demand. According to data from the U.S. Internal Revenue Service (IRS) and Fundstrat research, approximately $1.5 trillion to $2 trillion in wealth is expected to be transferred between generations between 2026 and 2028. Because younger investors who inherit wealth generally have a higher risk appetite, they may increase their allocation to",
+            "event_id": 2831,
+            "supports": null,
+            "source_id": "panews-rss",
+            "checked_at": "2026-10-13T00:13:11.874089+00:00",
+            "confidence": null,
+            "origin_key": "url:https://panewslab.com/en/articles/01a130bb-c6a6-7031-b85c-6d73d0b6fd5c",
+            "raw_item_id": 48079,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-12T15:29:00+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          }
+        ],
+        "related_existing_articles": []
+      },
+      {
+        "id": 2598,
+        "title_internal": "Bitcoin falls below $83,000 as dollar strength keeps markets on edge",
+        "event_type": "fx_macro",
+        "suggested_format": "breakdown",
+        "suggested_angle": "What changes for crypto readers from this macro move? Keep facts, interpretation and unknowns separate; open with the verified fact and avoid unsupported causality.",
+        "main_question": "What changes for crypto readers from this macro move?",
+        "factual_summary": "Bitcoin and gold hold steady as a firm dollar and rising bond yields weigh on sentiment, while IREN secures a multiyear cloud services deal with Anthropic. PANews, October 12 - OKX market data shows BTC has just fallen below $83,000, currently trading at $82,981.70 per coin, down 1.10% on the day.",
+        "summary_source_urls": [
+          "https://coindesk.com/markets/2026/10/12/bitcoin-holds-usd83-000-as-dollar-strength-keeps-markets-on-edge",
+          "https://panewslab.com/en/articles/01a1301c-04e3-7313-aa82-f37c1a8b9f2c"
+        ],
+        "why_it_matters": "Retail traders can use the verified facts to check affected products, costs and account conditions before acting.",
+        "story_event_ids": [
+          2598
+        ],
+        "venues": [],
+        "cta_hints": [
+          {
+            "intent": "site_tool",
+            "directive": "::cta site_tool",
+            "commercial_allowed": false,
+            "fallback_href": "/compare",
+            "promotions": [
+              {
+                "id": "site-tool",
+                "kind": "tool",
+                "name": "Compare platforms",
+                "link": "/compare"
+              }
+            ]
+          }
+        ],
+        "entities": [],
+        "evidence": [
+          {
+            "id": 6822,
+            "url": "https://coindesk.com/markets/2026/10/12/bitcoin-holds-usd83-000-as-dollar-strength-keeps-markets-on-edge",
+            "kind": "media_report",
+            "excerpt": "Bitcoin and gold hold steady as a firm dollar and rising bond yields weigh on sentiment, while IREN secures a multiyear cloud services deal with Anthropic.",
+            "event_id": 2598,
+            "supports": null,
+            "source_id": "coindesk-rss",
+            "checked_at": "2026-10-13T00:13:11.874089+00:00",
+            "confidence": null,
+            "origin_key": "url:https://coindesk.com/markets/2026/10/12/bitcoin-holds-usd83-000-as-dollar-strength-keeps-markets-on-edge",
+            "raw_item_id": 254,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-12T11:21:11+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          },
+          {
+            "id": 6823,
+            "url": "https://panewslab.com/en/articles/01a1301c-04e3-7313-aa82-f37c1a8b9f2c",
+            "kind": "media_report",
+            "excerpt": "PANews, October 12 - OKX market data shows BTC has just fallen below $83,000, currently trading at $82,981.70 per coin, down 1.10% on the day.",
+            "event_id": 2598,
+            "supports": null,
+            "source_id": "panews-rss",
+            "checked_at": "2026-10-13T00:13:11.874089+00:00",
+            "confidence": null,
+            "origin_key": "url:https://panewslab.com/en/articles/01a1301c-04e3-7313-aa82-f37c1a8b9f2c",
+            "raw_item_id": 48100,
+            "source_tier": 2,
+            "label_source": null,
+            "published_at": "2026-10-12T12:35:04+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "media"
+          }
+        ],
+        "related_existing_articles": []
+      },
+      {
+        "id": 2585,
+        "title_internal": "KuCoin Will Delist VENOM and NFP on 2026-10-14",
+        "event_type": "delisting",
+        "suggested_format": "flash",
+        "suggested_angle": "Which venues are removing the asset, when does trading stop, and what should holders check? Keep facts, interpretation and unknowns separate; open with the verified fact and avoid unsupported causality.",
+        "main_question": "Which venues are removing the asset, when does trading stop, and what should holders check?",
+        "factual_summary": "In accordance with the Token Delisting Guidelines, KuCoin will delist the following tokens at 8:00 on October 14, 2026 (UTC). | Key fields: tickers NFP, VENOM; dates 2026-10-14.",
+        "summary_source_urls": [
+          "https://kucoin.com/announcement/en-kucoin-will-delist-venom-and-NFP-on-20261014?lang=en_US"
+        ],
+        "why_it_matters": "Holders can check each venue’s trading cutoff and withdrawal deadline before deciding how to manage their positions.",
+        "story_event_ids": [
+          2585
+        ],
+        "venues": [
+          "kucoin"
+        ],
+        "cta_hints": [
+          {
+            "intent": "site_tool",
+            "directive": "::cta site_tool",
+            "commercial_allowed": false,
+            "fallback_href": "/compare",
+            "promotions": [
+              {
+                "id": "site-tool",
+                "kind": "tool",
+                "name": "Compare platforms",
+                "link": "/compare"
+              }
+            ]
+          }
+        ],
+        "entities": [
+          {
+            "id": "kucoin",
+            "kind": "exchange",
+            "status": "active",
+            "aliases": [
+              "KuCoin",
+              "Mek Global Limited / PhoenixFin Pte. Ltd.",
+              "@kucoincom",
+              "@KuCoinUpdates"
+            ],
+            "accounts": {
+              "x": "kucoincom",
+              "youtube": "@KuCoinExchange",
+              "telegram": "KuCoin_Exchange",
+              "announcements_x": "KuCoinUpdates"
+            },
+            "priority": 2,
+            "addresses": [],
+            "role_note": "Exchange",
+            "display_name": {
+              "en": "KuCoin"
+            },
+            "partner_slug": null,
+            "discovered_at": null,
+            "official_urls": [
+              "https://www.kucoin.com",
+              "https://www.kucoin.com/cert",
+              "https://www.kucoin.com/announcement"
+            ],
+            "discovered_from": "nx-agents/newsroom/watchlist/watchlist.json",
+            "role_verified_at": null,
+            "name": "KuCoin"
+          }
+        ],
+        "evidence": [
+          {
+            "id": 6805,
+            "url": "https://kucoin.com/announcement/en-kucoin-will-delist-venom-and-NFP-on-20261014?lang=en_US",
+            "kind": "official_notice",
+            "excerpt": "In accordance with the Token Delisting Guidelines, KuCoin will delist the following tokens at 8:00 on October 14, 2026 (UTC). | Key fields: tickers NFP, VENOM; dates 2026-10-14",
+            "event_id": 2585,
+            "supports": null,
+            "source_id": "kucoin-announcements",
+            "checked_at": "2026-10-13T00:13:11.874089+00:00",
+            "confidence": null,
+            "origin_key": "exchange-action:kucoin:VENOM:delisting:2026-10-12",
+            "raw_item_id": 49601,
+            "source_tier": 1,
+            "label_source": null,
+            "published_at": "2026-10-12T10:19:00+00:00",
+            "source_status": "connected",
+            "author_account": null,
+            "is_independent": true,
+            "source_platform": "exchange"
+          }
+        ],
+        "related_existing_articles": []
+      }
+    ]
+  }
+}

@@ -81,3 +81,14 @@ test('neutral Russian announcements omit partner codes, rebates and signup route
   assert.equal(msg.reply_markup.inline_keyboard[0].length,1);
   assert.equal(msg.reply_markup.inline_keyboard[0][0].url,`https://nexualpha.com/ru${siteUpdatePath(item)}`);
 });
+
+test("post times are Singapore time labelled SGT in every channel language", async () => {
+  const { buildMessage } = await import("./channel-feed.mjs");
+  const item = { title: "X", publishedAt: "2026-10-13T02:00:00Z", venue: "okx", category: "event", url: "https://www.okx.com/x" };
+  for (const lang of ["zh", "en", "ru", "tr", "vi"]) {
+    const line = buildMessage(item, { slug: "okx", name: "OKX" }, lang).text.split("\n")[1];
+    assert.match(line, /SGT/, lang);
+    assert.match(line, /10:00/, `${lang} 02:00 UTC is 10:00 SGT`);
+    assert.doesNotMatch(line, /UTC|北京时间/, lang);
+  }
+});

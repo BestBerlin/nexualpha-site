@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { JSDOM } from "jsdom";
+import { formatSgt } from "../src/data/local-time.js";
 import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 let harness;
 test.before(async () => { harness = await createSsrHarness(); });
@@ -15,6 +16,9 @@ test("converter SSR exposes two labeled inputs, conversion table and buying guid
   assert.ok(doc.querySelector('a[href="/coins/bitcoin"]'));
   assert.ok(doc.querySelector('a[href^="/academy"]'));
   assert.equal(doc.querySelectorAll("[data-converter] details").length, 2);
+  const stamp = doc.querySelector("[data-converter] time");
+  assert.ok(stamp.dateTime.endsWith("Z"), "machine-readable source timestamp remains ISO/UTC");
+  assert.equal(stamp.textContent, formatSgt(stamp.dateTime, "en"));
 });
 test("foreign fiat SSR waits for FX and labels the source timestamps", async () => {
   const result = await harness.render("https://nexualpha.com/tr/convert/btc-to-try");
