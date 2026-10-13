@@ -63,6 +63,8 @@ export const ATTRIBUTION_ALLOWLIST = [
   rule(['fapi.binance.com'], /^\/(?:futures\/data|fapi\/v1)\//, 'Official public USDT-M futures statistics API used as a /long-short data source.'),
   rule(['api.bybit.com'], /^\/v5\/market\//, 'Official public v5 market-data API used as a /long-short data source.'),
   rule(['www.kraken.com'], /^\/competitions\//, 'Official Kraken competition terms cited as the campaign source; conversion buttons use /go.', attrs => attrs.sourceLiteral || attrs.class === 'campaign-card__source-link'),
+  rule(['www.okx.com'], /^\/affiliatedownload\/apk$/, 'Official OKX channel-APK URL (channelId NEXU888 binds the invite) used only as the /go/okx-apk server redirect target.', attrs => attrs.sourceLiteral),
+  rule(['download.binance.com'], /^\/pack\/[A-Za-z0-9_]+\.apk$/, 'Official Binance channel APK used only as the /go/binance-apk server redirect target; the page shows the code beside the button.', attrs => attrs.sourceLiteral),
   rule(['hyperliquid.gitbook.io'], /^\/hyperliquid-docs(?:\/|$)/, 'Official protocol fee, risk, referral and API documentation hosted on GitBook.'),
   rule(['www.bitget.com', 'hyperliquid.xyz', 'www.kraken.com'], /^\/(?:baseasset\/favicon4\.png|micro-runtime\/images\/logo-light\.svg|apple-touch-icon\.png|_assets\/icons\/apple-touch-icon\.png)$/, 'Exact official brand-image acquisition URLs; source metadata only, not outbound conversion links.', attrs => attrs.sourceLiteral && attrs.sourceKey === 'directUrl'),
 ];
