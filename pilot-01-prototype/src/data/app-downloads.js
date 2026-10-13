@@ -2,7 +2,7 @@ import { partnerRegistry } from "./partner-registry.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { LOCALE_PREFIX_BY_CODE } from "./locale-routing.js";
-import { APP_DOWNLOAD_SLUGS, appDownloadPath, parseAppDownloadPath } from "./app-download-path.js";
+import { APP_DOWNLOAD_SLUGS, appDownloadPath, appDownloadSlugsFor, parseAppDownloadPath } from "./app-download-path.js";
 import { appDownloadCopy, fillAppCopy } from "./app-download-copy.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
@@ -95,3 +95,4 @@ export function appDownloadSitemapEntries({ urlFor }) {
     alternates: [...locales.map((hreflang) => ({ hreflang, href: urlFor(appDownloadPath(slug), hreflang) })), { hreflang: "x-default", href: urlFor(appDownloadPath(slug), "en") }],
   })));
 }
+export { appDownloadSlugsFor };

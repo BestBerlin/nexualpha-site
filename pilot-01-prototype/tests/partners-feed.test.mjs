@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { HOME_PARTNERS } from "../src/data/home-rebate-tiers.js";
 import { partnerRegistry } from "../src/data/partner-registry.js";
+import { VENUE_PRIORITY } from "../src/data/venue-priority.js";
 
 test("partner feed lists real invite routes with owner shares and cadence", () => {
   const f = buildPartnersFeed({ generatedAt: "2026-10-10T00:00:00Z" });
@@ -15,7 +16,7 @@ test("partner feed lists real invite routes with owner shares and cadence", () =
   assert.deepEqual([...HOME_PARTNERS].sort(), registryPartnerSlugs.sort(), "home partner count is registry-derived");
   assert.equal(f.partners.length, HOME_PARTNERS.length);
   assert.deepEqual(f.partners.map((p) => p.slug), HOME_PARTNERS);
-  assert.equal(f.partners[0].slug, "okx");
+  assert.equal(f.partners[0].slug, VENUE_PRIORITY[0]);
   assert.equal(by.okx.inviteCode, "nexu888"); assert.equal(by.okx.share, 0.4); assert.equal(by.okx.settle, "hourly");
   assert.equal(by.bitget.share, 0.6); assert.equal(by.bitget.settle, "daily");
   assert.equal(by.binance.inviteCode, "11350287");

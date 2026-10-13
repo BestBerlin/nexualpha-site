@@ -6,6 +6,9 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { SRC_DIR } from "./apply-poller-patch.mjs";
 import { MARKER as NEUTRAL_MARKER, SERVICE } from "./apply-neutral-patch.mjs";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const CANONICAL_VENUE_PRIORITY = path.join(HERE, "..", "..", "..", "pilot-01-prototype", "src", "data", "venue-priority.js");
+const SITE_FEATURES_PRIORITY_IMPORT = 'from "../../pilot-01-prototype/src/data/venue-priority.js"';
+const RELEASE_PRIORITY_IMPORT = 'from "./venue-priority.js"';
 export const MARKER = "// nx-hub-menu v1";
 export const PATCHES = [
   ["import", `import { isNeutralCtaLocale } from "./site-features.js"; ${NEUTRAL_MARKER}\n`,
@@ -48,7 +51,8 @@ export function applyHubPatch(releaseDir, { now = new Date() } = {}) {
   const plan = patchHubText(readFileSync(file, "utf8"));
   const helpers = [
     ["bot-menu.js", readFileSync(path.join(HERE, "..", "bot-menu.mjs"), "utf8").replace('from "./site-features.mjs"', 'from "./site-features.js"')],
-    ["site-features.js", readFileSync(path.join(HERE, "..", "site-features.mjs"), "utf8")],
+    ["site-features.js", readFileSync(path.join(HERE, "..", "site-features.mjs"), "utf8").replace(SITE_FEATURES_PRIORITY_IMPORT, RELEASE_PRIORITY_IMPORT)],
+    ["venue-priority.js", readFileSync(CANONICAL_VENUE_PRIORITY, "utf8")],
   ];
   const stamp = now.toISOString().replace(/[:.]/g, "-");
   const results = helpers.map(([name, source]) => {

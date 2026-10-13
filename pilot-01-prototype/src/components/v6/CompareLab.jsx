@@ -1,3 +1,4 @@
+import { VENUE_PRIORITY, orderVenues } from "../../data/venue-priority.js";
 // V6 Act 2: Compare Lab. Paired ledger of verified fee figures that morphs between two chosen venues.
 // Only values present in EXCHANGE_FACTS are shown; anything else reads "Not yet checked". No ranking, no verdicts.
 import { startTransition, useLayoutEffect, useEffect, useRef, useState } from "react";
@@ -92,10 +93,10 @@ function Chips({ slot, cur, other, chips, label, nameOf, onPick, onDown, onKey, 
   );
 }
 
-function normalize(selected) {
+function normalize(selected, locale) {
   const out = [];
-  for (const s of Array.isArray(selected) ? selected : []) if (typeof s === "string" && /^[a-z0-9-]+$/.test(s) && !out.includes(s)) out.push(s);
-  for (const d of ["binance", "okx", "bybit"]) if (out.length < 2 && !out.includes(d)) out.push(d);
+  for (const s of Array.isArray(selected) ? selected : []) if (typeof s === "string" && /^[a-z0-9-]+$/.test(s) && !out.includes(s) && !(locale === "tr" && s === "bitget")) out.push(s);
+  for (const d of orderVenues(VENUE_PRIORITY, locale)) if (out.length < 2 && !out.includes(d)) out.push(d);
   return out.slice(0, 2);
 }
 
@@ -106,7 +107,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   // The lab owns its pair: a pick re-renders the lab in the click frame (FLIP starts at once); the rest of the page
   // (verify, directory) follows in a transition.
   const shared = useSharedSelection(store, selected);
-  const selKey = normalize(shared).join(",");
+  const selKey = normalize(shared, locale).join(",");
   const [pair, setPair] = useState(() => selKey.split(","));
   useEffect(() => { setPair((p) => (p.join(",") === selKey ? p : selKey.split(","))); }, [selKey]);
   const [a, b] = pair;
@@ -119,7 +120,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const catalog = Object.fromEntries((Array.isArray(venues) ? venues : []).map((v) => [v.slug, v]));
   const nameOf = (s) => catalog[s]?.name || NAMES[s] || s;
   const typeOf = (s) => TYPES[EXCHANGE_FACTS[s]?.type] || catalog[s]?.category || "";
-  const chips = [...CHIPS, ...[a, b].filter((s) => !CHIPS.includes(s))];
+  const chips = orderVenues([...CHIPS, ...[a, b].filter((s) => !CHIPS.includes(s))], locale);
   const href = (slug) => localizedHref(`/compare/${slug}`, {
     locale, market: ctx.market, product: ctx.product,
     ...(ctx.scoped ? { utm_source: "regional_preview", utm_campaign: `${ctx.market.toLowerCase()}-research-preview` } : {}),

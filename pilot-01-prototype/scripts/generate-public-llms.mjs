@@ -16,6 +16,7 @@ import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { EXCHANGE_KEY_FACT_SLUGS } from "../src/data/exchange-key-facts.js";
+import { orderVenues } from "../src/data/venue-priority.js";
 import { retainRetrievalNews } from "./retrieval-news-policy.mjs";
 import { INDEXABLE_LOCALES, routeInventory } from "./generate-prerender-manifest.mjs";
 import {
@@ -85,8 +86,9 @@ const SITE_SUMMARY = `${brandSlogan("en").replace(/[.。]\s*$/, "")}: NexuAlpha 
 // (/methodology#disclosure, owner rule 2026-10-12), never inside page sections.
 const COMMISSION_DISCLOSURE = "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.";
 const partnersFeed = buildPartnersFeed();
+const priorityPartners = orderVenues(partnersFeed.partners);
 const percent = (share) => `${Math.round(Number(share) * 100)}%`;
-const partnerFactLines = partnersFeed.partners.filter((partner) => partner.inviteCode).map((partner) => {
+const partnerFactLines = priorityPartners.filter((partner) => partner.inviteCode).map((partner) => {
   const share = Number.isFinite(partner.share) && partner.share > 0
     ? `up to ${percent(partner.share)} of trading fees returned${partner.settle ? `, settled ${partner.settle}` : ""}${partner.termsConfirmedOn ? ` (terms confirmed ${partner.termsConfirmedOn})` : ""}`
     : "no fee-return share published";
@@ -107,7 +109,7 @@ ${partnerFactLines.map((line) => `  ${line}`).join("\n")}
 - A fee-return share is part of the trading fees the exchange pays back to the user's account; current terms are confirmed on the exchange's own page.
 `;
 
-const exchangeFactDiscoveryLines = EXCHANGE_KEY_FACT_SLUGS.map((slug) => {
+const exchangeFactDiscoveryLines = orderVenues(EXCHANGE_KEY_FACT_SLUGS).map((slug) => {
   const venue = FACTBOOK_REGISTRY[slug];
   return `- ${venue?.name || slug}: profile ${PUBLIC_ORIGIN}/exchanges/${slug}; JSON ${PUBLIC_ORIGIN}/api/exchange-facts/${slug}.json`;
 }).join("\n");
@@ -202,12 +204,12 @@ ${PUBLIC_LOCALES.map((locale) => `- [${locale} homepage](https://nexualpha.com${
 
 `;
 
-const venueLinks = FACTBOOK_SLUGS.map((slug) => {
+const venueLinks = orderVenues(FACTBOOK_SLUGS).map((slug) => {
   const venue = FACTBOOK_REGISTRY[slug];
   return `- [${venue.name} source review](https://nexualpha.com/factbook/${slug}) — ${venue.category}; official discovery domain: https://${venue.officialDomain}`;
 }).join("\n");
 
-const canonicalVenueDetailSlugs = ["binance", "okx", "bybit", "bitget", "hyperliquid", "uniswap", "gmx"];
+const canonicalVenueDetailSlugs = orderVenues(["binance", "okx", "bybit", "bitget", "hyperliquid", "uniswap", "gmx"]);
 const canonicalVenueDetailLines = canonicalVenueDetailSlugs.map((slug) => {
   const venue = FACTBOOK_REGISTRY[slug];
   const research = researchForVenue(slug, "en");
@@ -324,7 +326,7 @@ const reviewedTopicRecords = "\n\n## Source-bound topic decision answers\n" + ['
   return `\n### ${record.question}\n\n- Canonical: ${PUBLIC_ORIGIN}${localizedPath(entry.canonicalPath,locale)}\n- Language: ${locale}\n- Direct answer: ${record.answer}\n- Sources:\n${sources}\n- Boundary: ${record.answerBoundary}\n`;
 }).join("\n")).join("\n")).join("\n");
 
-const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${pixRecipientRecord}${uniswapAffiliateRecords}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}${reviewedNewsFull}\n\n## Detailed venue records\n\n${FACTBOOK_SLUGS.map((slug) => generateLlmMarkdown(FACTBOOK_REGISTRY[slug])).join("\n\n")}`;
+const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${pixRecipientRecord}${uniswapAffiliateRecords}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}${reviewedNewsFull}\n\n## Detailed venue records\n\n${orderVenues(FACTBOOK_SLUGS).map((slug) => generateLlmMarkdown(FACTBOOK_REGISTRY[slug])).join("\n\n")}`;
 
 const llms = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}`;
 const small = `# NexuAlpha

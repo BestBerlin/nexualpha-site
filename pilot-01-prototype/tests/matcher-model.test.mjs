@@ -145,9 +145,10 @@ test("regional candidates are reviewed, sorted, scored and gated before compare"
     decisionPassport: { market: "BR", product: "spot", accountStage: "new_account", kycPreference: "avoid_kyc", usageFrequency: "daily", usageScale: "larger_size" },
   });
 
-  assert.deepEqual(model.regional.candidates.map((candidate) => candidate.slug), ["binance", "okx"]);
-  assert.deepEqual(model.comparisonSlugs, ["binance", "okx"]);
+  assert.deepEqual(model.regional.candidates.map((candidate) => candidate.slug), ["okx", "binance"]);
+  assert.deepEqual(model.comparisonSlugs, ["okx", "binance"]);
   assert.equal(model.canCompare, true);
+  assert.equal(model.regional.candidates[0].score, model.regional.candidates[1].score, "priority breaks equal reviewed scores");
   assert.match(model.comparisonHref, /\/compare\/binance-vs-okx#nxa-context\?/);
   assert.match(model.comparisonHref, /market=BR/);
   assert.match(model.comparisonHref, /kyc=avoid_kyc/);

@@ -16,6 +16,9 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { MARKER as TRIGGERS_MARKER, SRC_DIR } from "./apply-poller-patch.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const CANONICAL_VENUE_PRIORITY = path.join(HERE, "..", "..", "..", "pilot-01-prototype", "src", "data", "venue-priority.js");
+const SITE_FEATURES_PRIORITY_IMPORT = 'from "../../pilot-01-prototype/src/data/venue-priority.js"';
+const RELEASE_PRIORITY_IMPORT = 'from "./venue-priority.js"';
 export const MARKER = "// nx-start-menu v1";
 const I8 = " ".repeat(8), I12 = " ".repeat(12), I16 = " ".repeat(16);
 
@@ -88,9 +91,13 @@ export function applyStartPatch(releaseDir, { now = new Date(), featuresSource =
     return { name, file, ...patchText(readFileSync(file, "utf8"), patches, name === "service" ? { requires: TRIGGERS_MARKER } : {}) };
   });
   const helper = path.join(releaseDir, SRC_DIR, "site-features.js");
-  const helperSrc = readFileSync(featuresSource, "utf8");
+  const helperSrc = readFileSync(featuresSource, "utf8").replace(SITE_FEATURES_PRIORITY_IMPORT, RELEASE_PRIORITY_IMPORT);
+  const priorityHelper = path.join(releaseDir, SRC_DIR, "venue-priority.js");
+  const priorityHelperSrc = readFileSync(CANONICAL_VENUE_PRIORITY, "utf8");
   const helperChanged = !existsSync(helper) || readFileSync(helper, "utf8") !== helperSrc;
   if (helperChanged) writeFileSync(helper, helperSrc);
+  const priorityHelperChanged = !existsSync(priorityHelper) || readFileSync(priorityHelper, "utf8") !== priorityHelperSrc;
+  if (priorityHelperChanged) writeFileSync(priorityHelper, priorityHelperSrc);
   const stamp = now.toISOString().replace(/[:.]/g, "-");
   const results = plans.map((p) => {
     if (p.status !== "patched") return { name: p.name, file: p.file, status: p.status, backup: null };
@@ -99,7 +106,7 @@ export function applyStartPatch(releaseDir, { now = new Date(), featuresSource =
     writeFileSync(p.file, p.text);
     return { name: p.name, file: p.file, status: p.status, backup };
   });
-  return { results, helper, helperChanged };
+  return { results, helper, helperChanged, priorityHelper, priorityHelperChanged };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

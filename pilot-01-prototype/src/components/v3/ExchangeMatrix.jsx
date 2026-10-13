@@ -1,3 +1,4 @@
+import { compareVenuePriority, orderVenues } from "../../data/venue-priority.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
@@ -157,23 +158,24 @@ export function ExchangeMatrix({
   const sorted = useMemo(() => {
     // "Verified" = at least one fee field published as checked; a venue showing "Not yet checked" never sorts into it.
     const isChecked = (r) => Boolean(r.spot || r.perp);
-    const base = verifiedFirst ? [...rows.filter(isChecked), ...rows.filter((r) => !isChecked(r))] : rows;
+    const prioritized = orderVenues(rows, locale);
+    const base = verifiedFirst ? [...prioritized.filter(isChecked), ...prioritized.filter((r) => !isChecked(r))] : prioritized;
     if (!sort.key) return base;
     const pair = (r) => (sort.key === "spot" ? r.spot : sort.key === "perp" ? r.perp : null);
     const dir = sort.dir === "asc" ? 1 : -1;
     const byName = (a, b) => a.name.localeCompare(b.name, locale);
     // Neutral ordering: fee columns sort by taker, then maker (both in the chosen direction),
-    // then venue name A-Z, so source order never decides a tie. "Not yet checked" always sinks.
+    // then owner priority and venue name A-Z for equal figures. "Not yet checked" always sinks.
     // "Verified first" composes: verified rows stay on top and each group follows the active column.
     return [...base].sort((a, b) => {
       if (verifiedFirst && Boolean(a.spot || a.perp) !== Boolean(b.spot || b.perp)) return a.spot || a.perp ? -1 : 1;
       if (sort.key === "name") return byName(a, b) * dir;
       const pa = pair(a);
       const pb = pair(b);
-      if (!pa && !pb) return byName(a, b);
+      if (!pa && !pb) return compareVenuePriority(a, b) || byName(a, b);
       if (!pa) return 1;
       if (!pb) return -1;
-      return (pa[1] - pb[1]) * dir || (pa[0] - pb[0]) * dir || byName(a, b);
+      return (pa[1] - pb[1]) * dir || (pa[0] - pb[0]) * dir || compareVenuePriority(a, b) || byName(a, b);
     });
   }, [rows, sort, locale, verifiedFirst]);
 

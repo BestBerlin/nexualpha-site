@@ -1,3 +1,4 @@
+import { compareVenuePriority, orderVenues } from "./venue-priority.js";
 import { resolveMarketPolicy } from "./market-policy.js";
 import { venueDatabase } from "./venue-database.js";
 import { regionalEligibilityState } from "./regional-eligibility-evidence.js";
@@ -128,13 +129,14 @@ export function regionalDirectoryCandidateState(venue, { market, product = "unkn
 
 export function filterDirectoryVenues(venues = [], market, options = {}) {
   const context = directoryContext({ market, product: options.product, locale: options.locale });
+  venues = orderVenues(venues, context.locale);
   if (context.scoped) {
     return venues
       .map((venue) => ({ venue, regional: regionalDirectoryCandidateState(venue, { ...options, market: context.market }) }))
       .filter(({ regional }) => regional.status !== "not_in_shortlist")
       .sort((a, b) => {
         const rank = (status) => status === "researchable" ? 0 : status === "account_confirm" ? 1 : status === "paused" ? 2 : 3;
-        return rank(a.regional.status) - rank(b.regional.status);
+        return rank(a.regional.status) - rank(b.regional.status) || compareVenuePriority(a.venue, b.venue);
       })
       .map(({ venue }) => venue);
   }

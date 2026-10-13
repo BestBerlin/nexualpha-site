@@ -18,6 +18,9 @@ import { SRC_DIR } from "./apply-poller-patch.mjs";
 import { MARKER as START_MARKER } from "./apply-start-patch.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const CANONICAL_VENUE_PRIORITY = path.join(HERE, "..", "..", "..", "pilot-01-prototype", "src", "data", "venue-priority.js");
+const SITE_FEATURES_PRIORITY_IMPORT = 'from "../../pilot-01-prototype/src/data/venue-priority.js"';
+const RELEASE_PRIORITY_IMPORT = 'from "./venue-priority.js"';
 export const MARKER = "// nx-neutral-cta v1";
 const I8 = " ".repeat(8), I12 = " ".repeat(12), I16 = " ".repeat(16), I20 = " ".repeat(20);
 const warn = (event) => `console.warn(JSON.stringify({ service: "telegram-community-bot", event: "${event}", errorName: error instanceof Error ? error.name : "UnknownError" }));`;
@@ -94,22 +97,26 @@ export function applyNeutralPatch(releaseDir, { now = new Date(), featuresSource
   if (!existsSync(file)) throw new Error(`not a bot-community release (missing ${file})`);
   const plan = patchNeutralText(readFileSync(file, "utf8"));
   const helper = path.join(releaseDir, SRC_DIR, "site-features.js");
-  const helperSrc = readFileSync(featuresSource, "utf8");
+  const helperSrc = readFileSync(featuresSource, "utf8").replace(SITE_FEATURES_PRIORITY_IMPORT, RELEASE_PRIORITY_IMPORT);
+  const priorityHelper = path.join(releaseDir, SRC_DIR, "venue-priority.js");
+  const priorityHelperSrc = readFileSync(CANONICAL_VENUE_PRIORITY, "utf8");
   if (!helperSrc.includes("export const isNeutralCtaLocale")) throw new Error(`${featuresSource} does not export isNeutralCtaLocale`);
   const helperChanged = !existsSync(helper) || readFileSync(helper, "utf8") !== helperSrc;
+  const priorityHelperChanged = !existsSync(priorityHelper) || readFileSync(priorityHelper, "utf8") !== priorityHelperSrc;
   const stamp = now.toISOString().replace(/[:.]/g, "-");
   let helperBackup = null;
   if (helperChanged) {
     if (existsSync(helper)) { helperBackup = `${helper}.bak-${stamp}`; copyFileSync(helper, helperBackup); }
     writeFileSync(helper, helperSrc);
   }
+  if (priorityHelperChanged) writeFileSync(priorityHelper, priorityHelperSrc);
   let backup = null;
   if (plan.status === "patched") {
     backup = `${file}.bak-${stamp}`;
     copyFileSync(file, backup);
     writeFileSync(file, plan.text);
   }
-  return { file, status: plan.status, backup, helper, helperChanged, helperBackup };
+  return { file, status: plan.status, backup, helper, helperChanged, helperBackup, priorityHelper, priorityHelperChanged };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

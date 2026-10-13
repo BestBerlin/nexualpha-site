@@ -3,7 +3,7 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import worker from "../worker/index.js";
 import { APP_DOWNLOADS, APP_DOWNLOAD_YEAR, appDownloadContent, appDownloadRouteSeo, appDownloadSignupAllowed, verifiedAppApk } from "../src/data/app-downloads.js";
-import { APP_DOWNLOAD_SLUGS, appDownloadPath, parseAppDownloadPath } from "../src/data/app-download-path.js";
+import { APP_DOWNLOAD_SLUGS, appDownloadPath, appDownloadSlugsFor, parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { APP_DOWNLOAD_COPY } from "../src/data/app-download-copy.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath } from "../src/data/locale-routing.js";
@@ -28,6 +28,13 @@ test.after(async () => { await harness?.close(); });
 const fetchPage = (path) => worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html" } }), { ASSETS: assets, NEWS_SSR_RENDER: harness.render });
 const main = (html) => html.match(/<main\b[\s\S]*?<\/main>/)?.[0] || "";
 const schemas = (html) => [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap((m) => { const v = JSON.parse(m[1]); return Array.isArray(v) ? v : v["@graph"] || [v]; });
+
+test("app download venue lists use the shared priority order and filter Bitget for Turkish defaults", () => {
+  assert.deepEqual(APP_DOWNLOAD_SLUGS.slice(0, 3), ["bitget", "okx", "binance"]);
+  assert.deepEqual(appDownloadSlugsFor("tr").slice(0, 2), ["okx", "binance"]);
+  assert.equal(appDownloadSlugsFor("tr").includes("bitget"), false);
+  assert.equal(parseAppDownloadPath("/exchanges/bitget/app").valid, true, "Türkiye filtering does not remove the source-reviewed route");
+});
 
 // Route + Worker + hydration exercise the same page, not a static markup fixture.
 test("four app routes SSR in English and Simplified Chinese with matching client SEO and hydration", async () => {

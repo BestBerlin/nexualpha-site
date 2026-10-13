@@ -1,6 +1,8 @@
 // NexuAlpha site features surfaced in Telegram (owner 2026-10-13): pinned "start here" menu, the daily digest's
 // "today on NexuAlpha" block, the weekly "tool of the week" post and the bot's /start menu.
-// Self-contained on purpose (no imports): the poller patch copies this file into the compiled bot release.
+import { orderVenues } from "../../pilot-01-prototype/src/data/venue-priority.js";
+
+// The runtime patch copies this file into the compiled bot release; tests keep this import path honest in the repo.
 // Rules baked in here and pinned by tests:
 //   - Türkiye (tr): no Bitget anywhere (Bitget's Turkish entity is on the SPK liquidation list);
 //   - neutral (information-only) locales — NEUTRAL_CTA_LOCALES, incl. ru and vi: news, market data and tools only;
@@ -234,14 +236,15 @@ const CAMPAIGN_LABELS = {
   "binance-october-gifts": { zh: "Binance 十月礼遇", en: "Binance October gifts", tr: "Binance ekim hediyeleri", vi: "Quà tháng 10 của Binance", id: "Hadiah Oktober Binance", es: "Regalos de octubre de Binance", pt: "Presentes de outubro da Binance" },
   "bybit-stocks": { zh: "Bybit 美股代币", en: "Bybit stock tokens", tr: "Bybit hisse tokenları", vi: "Cổ phiếu token trên Bybit", id: "Token saham Bybit", es: "Acciones tokenizadas en Bybit", pt: "Ações tokenizadas na Bybit" },
 };
-export const CAMPAIGN_PAGES = Object.keys(CAMPAIGN_LABELS);
+const CAMPAIGN_VENUES = { "bitget-alliance": "bitget", "binance-october-gifts": "binance", "bybit-stocks": "bybit" };
+const campaignPagesFor = (lang = "en") => orderVenues(Object.keys(CAMPAIGN_LABELS).map((key) => ({ key, slug: CAMPAIGN_VENUES[key] || key })), lang).map((item) => item.key);
+export const CAMPAIGN_PAGES = campaignPagesFor();
 
 /** [{key,label,url}] of live campaign pages for this language (ru gets the hub only, other neutral locales none). */
 export function campaignLinks(lang, src) {
   if (lang === "ru") return [{ key: "activities", label: featureCopy("ru").campaigns, url: featureUrl(lang, "/activities", src) }];
   if (isNeutralCtaLocale(lang)) return [];
-  return CAMPAIGN_PAGES.filter((slug) => CAMPAIGN_LABELS[slug][lang] || (lang !== "tr" && CAMPAIGN_LABELS[slug].en))
-    .filter((slug) => !(lang === "tr" && /bitget/i.test(slug)))
+  return campaignPagesFor(lang).filter((slug) => CAMPAIGN_LABELS[slug][lang] || (lang !== "tr" && CAMPAIGN_LABELS[slug].en))
     .map((slug) => ({ key: slug, label: CAMPAIGN_LABELS[slug][lang] || CAMPAIGN_LABELS[slug].en, url: featureUrl(lang, `/activities/${slug}`, src) }));
 }
 

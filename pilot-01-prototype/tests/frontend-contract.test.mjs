@@ -1993,7 +1993,8 @@ test("Vite build identity is defined in build config and CleanFooter provides cl
   assert.match(viteConfig, /fileName: "version\.json"/);
   assert.match(viteConfig, /JSON\.stringify\(\{ version: "3\.0\.0", buildId \}\)/);
   assert.match(app, /document\.documentElement\.dataset\.build = __NEXUALPHA_BUILD_ID__/);
-  assert.match(app, /<CleanFooter locale=\{locale\} brazil=\{route\.name === "brazil"\} \/>/);
+  assert.match(app, /<CleanFooter locale=\{locale\} market=\{footerMarket\} brazil=\{route\.name === "brazil"\} \/>/);
+  assert.match(app, /const footerMarket = route\.market \|\| \(decisionPassport\.market !== "unknown" \? decisionPassport\.market : undefined\);/);
   assert.match(app, /const footer = <CleanFooter/);
   assert.doesNotMatch(app, /<small className="build-identity"/);
   assert.doesNotMatch(app, /className="data-connection"/);

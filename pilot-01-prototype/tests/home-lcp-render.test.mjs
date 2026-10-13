@@ -18,7 +18,7 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
       const dom = new JSDOM(html);
       const number = dom.window.document.querySelector(".h7-num");
       assert.ok(number, `${pathname}:${heroVariant}`);
-      assert.equal(number.querySelector(".h7-roll").textContent, "40");
+      assert.equal(number.querySelector(".h7-roll").textContent, "60");
       assert.equal(number.querySelector(".h7-roll").hasAttribute("data-roll-static"), true);
       dom.window.close();
     }

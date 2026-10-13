@@ -1,3 +1,4 @@
+import { compareVenuePriority, orderVenues } from "../../data/venue-priority.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { canonicalComparePairSlug } from "../../data/compare-generated.js";
 import { buildRegionalShortlist, regionalShortlistCopy } from "../../data/regional-shortlist.js";
@@ -1018,7 +1019,7 @@ function reviewedRegionalCandidates(candidates = [], context) {
       score: scoreRegionalCandidate(candidate, context),
       reasons: regionalCandidateReasons(candidate, context),
     }))
-    .sort((a, b) => b.score - a.score || String(a.slug).localeCompare(String(b.slug)))
+    .sort((a, b) => b.score - a.score || compareVenuePriority(a, b) || String(a.slug).localeCompare(String(b.slug)))
     .slice(0, 3);
 }
 
@@ -1051,7 +1052,7 @@ export function platformMatcherModel({ locale = "en", venues = [], selected = []
     selected: key === activeIntentKey,
     count: venuesForIntent(venues, key).length,
   }));
-  const shortlist = venuesForIntent(venues, activeIntentKey).slice(0, 5).map((venue) => ({
+  const shortlist = orderVenues(venuesForIntent(venues, activeIntentKey), locale).slice(0, 5).map((venue) => ({
     slug: venue.slug,
     name: venue.name,
     category: venue.category,

@@ -1,5 +1,8 @@
+import { orderVenues } from "./venue-priority.js";
+
 // Keep route recognition small: the page and localized copy load only on demand.
-export const APP_DOWNLOAD_SLUGS = Object.freeze(["okx", "bitget", "binance", "bybit", "coinw"]);
+export const APP_DOWNLOAD_SLUGS = Object.freeze(orderVenues(["okx", "bitget", "binance", "bybit", "coinw"]));
+export const appDownloadSlugsFor = (locale = "en") => Object.freeze(orderVenues(APP_DOWNLOAD_SLUGS, locale));
 export const appDownloadPath = (slug) => `/exchanges/${slug}/app`;
 export function parseAppDownloadPath(pathname) {
   const match = String(pathname || "").match(/^\/exchanges\/([a-z0-9-]+)\/app$/);
