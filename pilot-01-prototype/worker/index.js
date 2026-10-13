@@ -101,7 +101,7 @@ export default {
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
-    if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return handleSitemapIndex(request, env, url);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|coins|convert|glossary)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
@@ -5155,6 +5155,46 @@ export function renderArticleSitemap(articles, locale = "en") {
     "</urlset>",
     "",
   ].join("\n");
+}
+
+// Sitemap index (2026-10-13). nginx used to serve the content publisher's own /sitemap.xml, a stale copy that missed
+// every child sitemap added after 10-12; it now proxies here. The index is the release's build-time file (every child
+// the release serves); only the lastmod of the feed-driven children (sitemap-articles-*, news-sitemap) is refreshed
+// from the mounted live feed, since the build checkout's bundled feed is days older than the published one, and empty
+// article locales are dropped.
+export function refreshSitemapIndexLastmods(indexXml, articles, now = Date.now()) {
+  const day = (ms) => new Date(ms).toISOString().slice(0, 10);
+  const newest = new Map();
+  const bump = (file, ms) => { if (Number.isFinite(ms) && ms <= now && ms > (newest.get(file) || 0)) newest.set(file, ms); };
+  const publishedSlugs = selectReviewedNewsSearchSlugs(articles);
+  for (const article of Array.isArray(articles) ? articles : []) {
+    if (!publishedSlugs.has(article?.slug) || article?.seo?.noindex !== false) continue;
+    const modified = Date.parse(article.updatedAt || article.publishedAt);
+    for (const locale of newsArticleSeoLocales(article)) bump(`sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`, modified);
+  }
+  for (const article of Array.isArray(articles) ? articles : []) {
+    const published = Date.parse(article?.publishedAt);
+    if (isReviewedNewsSearchArticle(article) && now - published <= LIVE_NEWS_SITEMAP_WINDOW_MS) bump("news-sitemap.xml", published);
+  }
+  const feedLoaded = newest.size > 0;
+  return String(indexXml).replace(/\n?[ \t]*<sitemap>([\s\S]*?)<\/sitemap>/g, (block, inner) => {
+    const file = inner.match(/<loc>https:\/\/nexualpha\.com\/([^<]+)<\/loc>/)?.[1];
+    // A locale with no search-published article renders an empty urlset; leave it out of the index until it has one.
+    if (feedLoaded && /^sitemap-articles-[a-z0-9-]+\.xml$/.test(file || "") && !newest.has(file)) return "";
+    if (!file || !newest.has(file)) return block;
+    const lastmod = `<lastmod>${day(newest.get(file))}</lastmod>`;
+    return /<lastmod>[^<]*<\/lastmod>/.test(inner)
+      ? block.replace(/<lastmod>[^<]*<\/lastmod>/, lastmod)
+      : block.replace(/(<loc>[^<]*<\/loc>)/, `$1\n    ${lastmod}`);
+  });
+}
+
+async function handleSitemapIndex(request, env, url) {
+  const response = await env.ASSETS.fetch(new Request(new URL("/sitemap.xml", url), { headers: { accept: "application/xml" } }));
+  if (!response.ok) return response;
+  let xml = await response.text();
+  try { xml = refreshSitemapIndexLastmods(xml, (await loadNewsFeed(env, url)).articles); } catch { /* serve the build-time index */ }
+  return new Response(request.method === "HEAD" ? null : xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600", "x-content-type-options": "nosniff" } });
 }
 
 async function handleArticleSitemap(env, url) {
