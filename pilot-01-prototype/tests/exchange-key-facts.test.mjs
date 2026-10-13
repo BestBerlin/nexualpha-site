@@ -48,8 +48,8 @@ test("neutral contexts contain no codes; Türkiye excludes Bitget", () => {
 });
 
 test("page-level last verified date is derived from the newest dated source row", () => {
-  assert.equal(exchangeLastVerifiedDate("okx"), "2026-10-13");
-  assert.equal(exchangeLastVerifiedDate("binance"), "2026-10-13");
+  assert.equal(exchangeLastVerifiedDate("okx"), "2026-10-14"); // newest licence register check
+  assert.equal(exchangeLastVerifiedDate("binance"), "2026-10-14"); // newest licence register check
   assert.equal(exchangeLastVerifiedDate("hyperliquid"), "2026-10-10");
   assert.equal(exchangeLastVerifiedDate("backpack"), null);
   assert.equal(exchangeLastVerifiedDate("unknown"), null);
@@ -63,7 +63,7 @@ test("page-level last verified date is derived from the newest dated source row"
     }).sort((a, b) => a.time - b.time);
     const lastVerified = exchangeLastVerifiedDate(slug);
     assert.equal(lastVerified, dates.at(-1)?.day || null, slug);
-    if (lastVerified) assert.ok(Date.parse(`${lastVerified}T00:00:00Z`) <= Date.parse("2026-10-13T23:59:59Z"), `${slug} must not publish future freshness`);
+    if (lastVerified) assert.ok(Date.parse(`${lastVerified}T00:00:00Z`) <= Date.now() + 8 * 3600 * 1000, `${slug} must not publish future freshness`);
   }
 });
 

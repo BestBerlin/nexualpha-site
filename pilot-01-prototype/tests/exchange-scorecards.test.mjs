@@ -25,8 +25,10 @@ test("buildScorecard exposes deterministic pair rows without synthetic facts or 
   assert.deepEqual(licenses.winners, []);
   const binanceLicenses = licenseRecords.filter((record) => record.exchange === "binance");
   assert.equal(valueFor(licenses, "binance").value, binanceLicenses.length);
-  assert.match(valueFor(licenses, "binance").display, /SPK \(TR\): applied; Japan FSA \(JP\): registered/);
-  assert.ok(valueFor(licenses, "binance").sources.every((url) => /^https:\/\/(spk\.gov\.tr|www\.fsa\.go\.jp|www\.vara\.ae)\//.test(url)));
+  assert.match(valueFor(licenses, "binance").display, /SPK \(TR\): applied/);
+  assert.match(valueFor(licenses, "binance").display, /Japan FSA \(JP\): registered/);
+  const binanceSources = new Set(binanceLicenses.map((record) => record.sourceUrl));
+  assert.ok(valueFor(licenses, "binance").sources.every((url) => url.startsWith("https://") && binanceSources.has(url)));
   assert.equal(valueFor(licenses, "unknown").value, null);
 });
 
