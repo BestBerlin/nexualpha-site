@@ -2158,6 +2158,146 @@
         "vi": "Chia quỹ gần 5 triệu USDT mỗi ngày, kèm hộp quà bí ẩn chắc chắn trúng mỗi đợt nhận thưởng"
       },
       "source_checked": "2026-10-12T23:40:00Z"
+    },
+    {
+      "id": "kraken:https://www.kraken.com/competitions/futures-5m-usdg-challenge-10-26",
+      "updated": "2026-10-13T00:49:00Z",
+      "headline": {
+        "en": "Kraken 5M USDG Futures Challenge: up to 5,000,000 USDG, every trader from 50,000 USD volume gets a share",
+        "zh-Hans": "Kraken 500 万 USDG 合约挑战赛：奖池最高 5,000,000 USDG，交易量满 50,000 USD 人人有份",
+        "zh-Hant": "Kraken 500 萬 USDG 合約挑戰賽：獎池最高 5,000,000 USDG，交易量滿 50,000 USD 人人有份",
+        "es": "Desafío de Futuros Kraken: hasta 5,000,000 USDG; todo trader con 50,000 USD de volumen se lleva una parte",
+        "pt-BR": "Desafio de Futuros Kraken: até 5,000,000 USDG; todo trader com 50,000 USD de volume leva uma parte",
+        "fr": "Défi Futures Kraken : jusqu’à 5,000,000 USDG, chaque trader à partir de 50,000 USD de volume touche sa part",
+        "de": "Kraken Futures Challenge: bis zu 5,000,000 USDG, jeder Trader ab 50,000 USD Volumen bekommt einen Anteil",
+        "ja": "Kraken先物チャレンジ：賞金プール最大5,000,000 USDG、取引高50,000 USD以上で全員に賞金",
+        "ko": "Kraken 선물 챌린지: 상금 풀 최대 5,000,000 USDG, 거래량 50,000 USD 이상이면 모두 상금",
+        "id": "Tantangan Futures Kraken: hadiah hingga 5,000,000 USDG, semua trader dengan volume 50,000 USD dapat bagian",
+        "vi": "Thử thách Futures Kraken: quỹ thưởng tới 5,000,000 USDG, ai đạt 50,000 USD khối lượng đều có phần"
+      },
+      "summary": {
+        "en": "From 12 Oct 2026, 21:30 SGT to 11 Dec 2026, 07:59:59 SGT, Kraken ranks futures traders by weighted volume. The prize pool grows in 8 tiers from 25,000 USDG to 5,000,000 USDG as community volume rises. Ranks 1 to 50 win fixed prizes (#1 up to 750,000 USDG); everyone else with at least 50,000 USD of volume shares the tail pool equally. Register for the challenge before trading; the gold perpetual counts 3x and real-world-asset perpetuals 2x.",
+        "zh-Hans": "2026 年 10 月 12 日 21:30 SGT 至 12 月 11 日 07:59:59 SGT，Kraken 按加权合约交易量给交易者排名。奖池随全体交易量分 8 档从 25,000 USDG 涨到 5,000,000 USDG。第 1 至 50 名拿固定奖金（第 1 名最高 750,000 USDG），其余交易量满 50,000 USD 的人平分尾部奖池。交易前要先报名；黄金永续 3 倍、实物资产永续 2 倍计入交易量。",
+        "zh-Hant": "2026 年 10 月 12 日 21:30 SGT 至 12 月 11 日 07:59:59 SGT，Kraken 按加權合約交易量為交易者排名。獎池隨全體交易量分 8 級從 25,000 USDG 漲到 5,000,000 USDG。第 1 至 50 名拿固定獎金（第 1 名最高 750,000 USDG），其餘交易量滿 50,000 USD 的人平分尾部獎池。交易前須先報名；黃金永續 3 倍、實物資產永續 2 倍計入交易量。",
+        "es": "Del 12 oct 2026, 21:30 SGT al 11 dic 2026, 07:59:59 SGT, Kraken clasifica a los traders de futuros por volumen ponderado. El bote crece en 8 niveles de 25,000 USDG a 5,000,000 USDG según el volumen de la comunidad. Los puestos 1 a 50 ganan premios fijos (el #1 hasta 750,000 USDG); el resto con al menos 50,000 USD de volumen reparte el bote final a partes iguales. Inscríbete antes de operar; el perpetuo de oro cuenta x3 y los de activos reales x2.",
+        "pt-BR": "De 12 out 2026, 21:30 SGT a 11 dez 2026, 07:59:59 SGT, a Kraken classifica traders de futuros por volume ponderado. O prêmio cresce em 8 níveis de 25,000 USDG a 5,000,000 USDG conforme o volume da comunidade. Do 1º ao 50º há prêmios fixos (o 1º até 750,000 USDG); os demais com pelo menos 50,000 USD de volume dividem o prêmio final igualmente. Inscreva-se antes de negociar; o perpétuo de ouro conta 3x e os de ativos reais 2x.",
+        "fr": "Du 12 oct. 2026, 21:30 SGT au 11 déc. 2026, 07:59:59 SGT, Kraken classe les traders de futures selon leur volume pondéré. La cagnotte grimpe en 8 paliers de 25,000 USDG à 5,000,000 USDG avec le volume de la communauté. Les rangs 1 à 50 gagnent des prix fixes (le n°1 jusqu’à 750,000 USDG) ; tous les autres à partir de 50,000 USD de volume se partagent la cagnotte finale à parts égales. Inscription avant de trader ; le perpétuel or compte x3, les actifs réels x2.",
+        "de": "Vom 12. Okt. 2026, 21:30 SGT bis 11. Dez. 2026, 07:59:59 SGT rankt Kraken Futures-Trader nach gewichtetem Volumen. Der Pool wächst mit dem Community-Volumen in 8 Stufen von 25,000 USDG auf 5,000,000 USDG. Plätze 1 bis 50 erhalten feste Preise (Platz 1 bis zu 750,000 USDG); alle anderen mit mindestens 50,000 USD Volumen teilen den Rest-Pool zu gleichen Teilen. Vor dem Handel anmelden; das Gold-Perpetual zählt 3x, Real-World-Asset-Perpetuals 2x.",
+        "ja": "2026年10月12日21:30 SGTから12月11日07:59:59 SGTまで、Krakenは先物トレーダーを加重取引高でランキングします。賞金プールはコミュニティの取引高に応じて8段階で25,000 USDGから5,000,000 USDGへ拡大。1〜50位は固定賞金（1位は最大750,000 USDG）、取引高50,000 USD以上のその他全員は残りのプールを均等に分配。取引前にエントリーが必要で、ゴールド無期限は3倍、実物資産の無期限は2倍でカウントされます。",
+        "ko": "2026년 10월 12일 21:30 SGT부터 12월 11일 07:59:59 SGT까지 Kraken이 선물 트레이더를 가중 거래량으로 순위를 매깁니다. 상금 풀은 커뮤니티 거래량에 따라 8단계로 25,000 USDG에서 5,000,000 USDG까지 커집니다. 1~50위는 고정 상금(1위 최대 750,000 USDG), 거래량 50,000 USD 이상인 나머지 모두는 남은 풀을 균등하게 나눕니다. 거래 전에 참가 신청이 필요하며, 금 무기한은 3배, 실물자산 무기한은 2배로 계산됩니다.",
+        "id": "Dari 12 Okt 2026, 21:30 SGT hingga 11 Des 2026, 07:59:59 SGT, Kraken memeringkat trader futures berdasarkan volume tertimbang. Kolam hadiah naik dalam 8 tingkat dari 25,000 USDG ke 5,000,000 USDG seiring volume komunitas. Peringkat 1 sampai 50 mendapat hadiah tetap (#1 hingga 750,000 USDG); semua lainnya dengan volume minimal 50,000 USD berbagi sisa kolam secara rata. Daftar sebelum trading; perpetual emas dihitung 3x dan perpetual aset dunia nyata 2x.",
+        "vi": "Từ 21:30 SGT ngày 12/10/2026 đến 07:59:59 SGT ngày 11/12/2026, Kraken xếp hạng trader futures theo khối lượng có trọng số. Quỹ thưởng tăng qua 8 cấp từ 25,000 USDG lên 5,000,000 USDG theo khối lượng của cộng đồng. Hạng 1 đến 50 nhận thưởng cố định (hạng 1 tới 750,000 USDG); mọi người còn lại đạt ít nhất 50,000 USD khối lượng chia đều phần quỹ còn lại. Đăng ký trước khi giao dịch; perpetual vàng tính x3, perpetual tài sản thực x2."
+      },
+      "key_facts": [
+        {
+          "label": {
+            "en": "Challenge period",
+            "zh-Hans": "活动时间",
+            "zh-Hant": "活動時間",
+            "es": "Periodo",
+            "pt-BR": "Período",
+            "fr": "Période",
+            "de": "Zeitraum",
+            "ja": "期間",
+            "ko": "기간",
+            "id": "Periode",
+            "vi": "Thời gian"
+          },
+          "value": "2026-10-12 21:30 – 2026-12-11 07:59:59 (SGT)"
+        },
+        {
+          "label": {
+            "en": "Prize pool",
+            "zh-Hans": "奖池",
+            "zh-Hant": "獎池",
+            "es": "Bote",
+            "pt-BR": "Prêmio",
+            "fr": "Cagnotte",
+            "de": "Preispool",
+            "ja": "賞金プール",
+            "ko": "상금 풀",
+            "id": "Kolam hadiah",
+            "vi": "Quỹ thưởng"
+          },
+          "value": "25,000 – 5,000,000 USDG in 8 tiers"
+        },
+        {
+          "label": {
+            "en": "Top prize",
+            "zh-Hans": "第 1 名",
+            "zh-Hant": "第 1 名",
+            "es": "Primer premio",
+            "pt-BR": "1º lugar",
+            "fr": "1er prix",
+            "de": "Platz 1",
+            "ja": "1位",
+            "ko": "1위",
+            "id": "Juara 1",
+            "vi": "Hạng 1"
+          },
+          "value": "3,750 – 750,000 USDG"
+        },
+        {
+          "label": {
+            "en": "Qualify",
+            "zh-Hans": "门槛",
+            "zh-Hant": "門檻",
+            "es": "Mínimo",
+            "pt-BR": "Mínimo",
+            "fr": "Seuil",
+            "de": "Schwelle",
+            "ja": "条件",
+            "ko": "조건",
+            "id": "Syarat",
+            "vi": "Ngưỡng"
+          },
+          "value": "50,000 USD futures volume after registering"
+        },
+        {
+          "label": {
+            "en": "Multipliers",
+            "zh-Hans": "加成",
+            "zh-Hant": "加成",
+            "es": "Multiplicadores",
+            "pt-BR": "Multiplicadores",
+            "fr": "Multiplicateurs",
+            "de": "Multiplikatoren",
+            "ja": "倍率",
+            "ko": "배수",
+            "id": "Pengali",
+            "vi": "Hệ số"
+          },
+          "value": "Gold 3x · real-world assets 2x · crypto 1x"
+        }
+      ],
+      "who_can_join": {
+        "en": "Individual Kraken clients aged 18+ with access to Kraken Futures. Not open to residents of the US, the UK, the EEA, Switzerland, Canada, Australia, Brazil or Argentina.",
+        "zh-Hans": "年满 18 岁、已开通 Kraken 合约的个人用户。美国、英国、欧洲经济区、瑞士、加拿大、澳大利亚、巴西和阿根廷居民不能参加。",
+        "zh-Hant": "年滿 18 歲、已開通 Kraken 合約的個人用戶。美國、英國、歐洲經濟區、瑞士、加拿大、澳洲、巴西和阿根廷居民不能參加。",
+        "es": "Clientes individuales de Kraken mayores de 18 años con acceso a Kraken Futures. No disponible para residentes de EE. UU., Reino Unido, el EEE, Suiza, Canadá, Australia, Brasil ni Argentina.",
+        "pt-BR": "Clientes individuais da Kraken com 18+ anos e acesso ao Kraken Futures. Não aberto a residentes dos EUA, Reino Unido, EEE, Suíça, Canadá, Austrália, Brasil ou Argentina.",
+        "fr": "Clients particuliers de Kraken de 18 ans et plus ayant accès à Kraken Futures. Non ouvert aux résidents des États-Unis, du Royaume-Uni, de l’EEE, de la Suisse, du Canada, de l’Australie, du Brésil ou de l’Argentine.",
+        "de": "Privatkunden von Kraken ab 18 Jahren mit Zugang zu Kraken Futures. Nicht offen für Einwohner der USA, des Vereinigten Königreichs, des EWR, der Schweiz, Kanadas, Australiens, Brasiliens oder Argentiniens.",
+        "ja": "Kraken Futuresを利用できる18歳以上の個人顧客。米国、英国、EEA、スイス、カナダ、オーストラリア、ブラジル、アルゼンチンの居住者は対象外です。",
+        "ko": "Kraken Futures를 이용할 수 있는 만 18세 이상 개인 고객. 미국, 영국, EEA, 스위스, 캐나다, 호주, 브라질, 아르헨티나 거주자는 참여할 수 없습니다.",
+        "id": "Klien individu Kraken berusia 18+ dengan akses Kraken Futures. Tidak terbuka bagi penduduk AS, Inggris, EEA, Swiss, Kanada, Australia, Brasil, atau Argentina.",
+        "vi": "Khách hàng cá nhân Kraken từ 18 tuổi, có quyền truy cập Kraken Futures. Không dành cho cư dân Mỹ, Anh, EEA, Thụy Sĩ, Canada, Úc, Brazil hoặc Argentina."
+      },
+      "deadline": "2026-12-10T23:59:59Z",
+      "reward_text": {
+        "en": "Up to 5,000,000 USDG; #1 up to 750,000 USDG",
+        "zh-Hans": "奖池最高 5,000,000 USDG；第 1 名最高 750,000 USDG",
+        "zh-Hant": "獎池最高 5,000,000 USDG；第 1 名最高 750,000 USDG",
+        "es": "Hasta 5,000,000 USDG; el #1 hasta 750,000 USDG",
+        "pt-BR": "Até 5,000,000 USDG; o 1º até 750,000 USDG",
+        "fr": "Jusqu’à 5,000,000 USDG ; n°1 jusqu’à 750,000 USDG",
+        "de": "Bis zu 5,000,000 USDG; Platz 1 bis zu 750,000 USDG",
+        "ja": "最大5,000,000 USDG、1位は最大750,000 USDG",
+        "ko": "최대 5,000,000 USDG, 1위 최대 750,000 USDG",
+        "id": "Hingga 5,000,000 USDG; #1 hingga 750,000 USDG",
+        "vi": "Tới 5,000,000 USDG; hạng 1 tới 750,000 USDG"
+      },
+      "source_checked": "2026-10-13T00:49:00Z"
     }
   ]
 }

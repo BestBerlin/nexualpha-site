@@ -12,6 +12,7 @@ import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { chime, notifyImportant, notificationPermission, readFlashPref, requestNotifications, writeFlashPref } from "./flash-alerts.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
+import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 import "./flash.css";
 
 const dirOf = (locale) => (/^(ar|ur)$/.test(locale) ? "rtl" : "ltr");
@@ -240,19 +241,21 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   </main>;
 }
 
-// Pinned campaign item (owner 2026-10-13: Bitget Alliance, big push): first entry of the stream while the campaign runs,
-// where Bitget may be promoted. It links our campaign page, not the exchange.
+// Pinned campaign items (owner 2026-10-13: Kraken 5M USDG Challenge and Bitget Alliance, big pushes): first entries of the
+// stream while each campaign runs, where it may be promoted. They link our campaign pages, not the exchanges.
 function FeaturedCampaign({ locale, market }) {
-  if (!bitgetAlliancePromotable({ locale, market })) return null;
-  const teaser = bitgetAllianceTeaser(locale);
-  return <a className="nxf-feat" href={hrefFor(BITGET_ALLIANCE_PATH, locale, market)} data-featured-campaign="bitget-alliance"
-    data-cta-kind="research" data-cta-platform="bitget" data-cta-placement="flash-featured-campaign">
+  const rows = [
+    krakenUsdgPromotable({ locale, market }) && { id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) },
+    bitgetAlliancePromotable({ locale, market }) && { id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) },
+  ].filter(Boolean);
+  return rows.map(({ id, venue, name, path, teaser }) => <a key={id} className="nxf-feat" href={hrefFor(path, locale, market)} data-featured-campaign={id}
+    data-cta-kind="research" data-cta-platform={venue} data-cta-placement="flash-featured-campaign">
     <span className="nxf-feat__tag" data-hot="true">✦ {teaser.tag}</span>
-    <span className="nxf-feat__brand"><BrandMark slug="bitget" compact /><b>Bitget.com</b></span>
+    <span className="nxf-feat__brand"><BrandMark slug={venue} compact /><b>{name}</b></span>
     <span className="nxf-feat__title">{teaser.title}</span>
     <span className="nxf-feat__body">{teaser.body}</span>
     <span className="nxf-feat__go">{teaser.go} <span aria-hidden="true">→</span></span>
-  </a>;
+  </a>);
 }
 
 const LINK_LABEL = { update: "update", article: "article", liquidations: "liquidations", funding: "funding", profile: "profile" };

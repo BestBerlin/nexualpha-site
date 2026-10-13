@@ -85,6 +85,7 @@ import { FlashRail } from "../flash/FlashRail.jsx";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
+import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -194,6 +195,8 @@ function spread(items, limit, perVenue) {
 // Bitget Alliance (owner 2026-10-13, big push) takes the top spot where Bitget may be promoted.
 function featuredCampaigns(locale, market) {
   const rows = [];
+  // Kraken 5M USDG Challenge (owner 2026-10-13, strong push) first, Bitget Alliance right after it: both stay featured.
+  if (krakenUsdgPromotable({ locale, market })) rows.push({ id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) });
   if (bitgetAlliancePromotable({ locale, market })) rows.push({ id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) });
   if (bybitStocksCampaignActive()) rows.push({ id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) });
   if (binanceOctoberPromotable({ locale, market })) rows.push({ id: "binance-october", venue: "binance", name: "Binance", path: BINANCE_OCTOBER_PATH, teaser: binanceOctoberTeaser(locale) });

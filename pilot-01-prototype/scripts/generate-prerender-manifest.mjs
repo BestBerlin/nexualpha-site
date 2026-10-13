@@ -37,6 +37,7 @@ import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 import { bybitStocksSitemapEntries } from "../src/data/bybit-stocks-seo.js";
 import { bitgetAllianceSitemapEntries } from "../src/data/bitget-alliance-seo.js";
+import { krakenUsdgSitemapEntries } from "../src/data/kraken-usdg-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -365,7 +366,7 @@ export function buildAcademySitemap() {
 
 // Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12), Bitget Alliance (2026-10-13).
 export function buildCampaignSitemap() {
-  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options), ...bitgetAllianceSitemapEntries(options)]);
+  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options), ...bitgetAllianceSitemapEntries(options), ...krakenUsdgSitemapEntries(options)]);
 }
 
 function buildDownloadOrAcademySitemap(sitemapEntries) {

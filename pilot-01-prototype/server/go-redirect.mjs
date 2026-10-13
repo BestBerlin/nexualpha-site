@@ -9,6 +9,7 @@ import { clickMetadata } from './click-metadata.mjs';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 import { BINANCE_OCTOBER_GO_SLUGS, binanceCampaignActive, binanceCampaignUrl } from '../src/data/binance-october.js';
 import { BITGET_ALLIANCE_GO_SLUG, bitgetAllianceActive, bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
+import { KRAKEN_USDG_GO_SLUG, KRAKEN_USDG_OFFICIAL_URL, krakenUsdgActive } from '../src/data/kraken-usdg.js';
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
@@ -52,6 +53,16 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       target = bitgetAllianceUrl(url.searchParams.get('lang') || 'en');
       campaign = 'alliance';
       venue = 'bitget';
+    } else if (slug === KRAKEN_USDG_GO_SLUG) {
+      // Kraken 5M USDG Challenge (owner 2026-10-13): step 2 of the funnel, Kraken's official challenge page (it carries no
+      // referral parameter; the sign-up with our code is /go/kraken). Counted so step-2 clicks can be measured; after the
+      // end (11 Dec 07:59:59 SGT) it falls back to our Kraken profile.
+      if (!krakenUsdgActive(now())) {
+        return new Response(null, { status: 302, headers: { ...headers, location: '/exchanges/kraken' } });
+      }
+      target = KRAKEN_USDG_OFFICIAL_URL;
+      campaign = 'usdg-challenge';
+      venue = 'kraken';
     } else if (campaignKey) {
       if (!binanceCampaignActive(campaignKey, now())) {
         return new Response(null, { status: 302, headers: { ...headers, location: `/go/binance?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}` } });

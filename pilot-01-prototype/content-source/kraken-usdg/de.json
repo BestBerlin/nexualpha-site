@@ -1,0 +1,198 @@
+{
+  "seoTitle": "Kraken 5M USDG Futures Challenge: Code {code}",
+  "seoTitleNeutral": "Kraken 5M USDG Futures Challenge: Stufen, Preise, Regeln",
+  "seoDescription": "Bis zu 5,000,000 USDG: Jeder Kraken-Futures-Trader ab 50,000 USD Volumen bekommt einen Anteil, Platz 1 gewinnt bis zu 750,000 USDG. Bis 11. Dez. 2026, 07:59 SGT.",
+  "seoDescriptionNeutral": "So funktioniert die Kraken 5M USDG Futures Challenge: Preisstufen, Platzierungspreise, 2x- und 3x-Multiplikatoren, das Minimum von 50,000 USD und alle Termine in SGT.",
+  "breadcrumb": "Aktionen",
+  "crumb": "Kraken 5M USDG Challenge",
+  "kicker": "Kraken · Futures-Trading-Challenge",
+  "h1": "Bis zu 5,000,000 USDG Preispool. Jeder qualifizierte Trader bekommt seinen Anteil.",
+  "sub": "Handeln Sie Kraken-Futures, erreichen Sie 50,000 USD Volumen, und Sie werden aus dem Pool ausgezahlt. Platz 1 holt bis zu 750,000 USDG, die Top 50 gewinnen feste Preise, und alle anderen Qualifizierten teilen den Rest zu gleichen Teilen.",
+  "dealChips": [
+    "Platz 1 gewinnt bis zu 750,000 USDG",
+    "Ab 50,000 USD Volumen wird ausgezahlt",
+    "2x- und 3x-Volumen-Boosts",
+    "Alle Futures-Märkte zählen"
+  ],
+  "poolLabel": "Aktuell freigeschalteter Preispool",
+  "poolMax": "Wächst auf 5,000,000 USDG",
+  "poolLive": "Live",
+  "poolAsOf": "Kraken-Daten, Stand {time} SGT",
+  "topPrizeLabel": "Preis für Platz 1 aktuell",
+  "tailLabel": "Geteilt von allen ab Platz 51",
+  "progressLabel": "Community-Volumen",
+  "progressNext": "Noch {left} USD bis Stufe {tier}: {pool} USDG",
+  "progressMax": "Höchste Stufe freigeschaltet: 5,000,000 USDG",
+  "leaderH": "Live-Rangliste",
+  "leaderNote": "Gewichtetes Volumen in USD, Top 5 laut Kraken-Seite",
+  "step1Cta": "Kraken-Konto mit Code {code} eröffnen",
+  "step2Cta": "Für die Challenge anmelden",
+  "step2Hint": "Nach Schritt 1: öffnet die Challenge-Seite von Kraken",
+  "codeLabel": "Einladungscode",
+  "copy": "Kopieren",
+  "copied": "Kopiert",
+  "neutralLead": "Diese Ausgabe erklärt die Challenge von Kraken und enthält keinen Anmeldelink.",
+  "how": "So funktioniert's",
+  "endsIn": "Endet in",
+  "endsAt": "Endet am 11. Dez. 2026, 07:59:59 SGT",
+  "units": [
+    "Tage",
+    "Std.",
+    "Min.",
+    "Sek."
+  ],
+  "ended": "Diese Challenge ist beendet.",
+  "stepsH": "In 3 Schritten dabei",
+  "steps": [
+    [
+      "Kraken-Konto mit Code {code} eröffnen",
+      "Nutzen Sie den ersten Button. Registrieren Sie sich mit dem Einladungscode {code}, verifizieren Sie Ihr Konto und schalten Sie Kraken Futures frei."
+    ],
+    [
+      "Für die Challenge anmelden",
+      "Öffnen Sie die Challenge-Seite von Kraken und klicken Sie auf „Join the Challenge“ (an der Challenge teilnehmen), bevor Sie handeln. Es zählen nur Trades nach Ihrer Anmeldung."
+    ],
+    [
+      "Futures handeln, 50,000 USD erreichen",
+      "Handeln Sie einen beliebigen Futures-Markt auf Kraken. Ab 50,000 USD Volumen sind Sie im Pool; handeln Sie weiter, um in der Rangliste aufzusteigen."
+    ]
+  ],
+  "stepOneNeutral": [
+    "Kraken-Konto eröffnen",
+    "Melden Sie sich bei Kraken an oder eröffnen Sie ein Konto dort, wo Kraken Futures verfügbar ist, und schalten Sie Futures frei."
+  ],
+  "tiersH": "Der Pool wächst mit jedem Trade",
+  "tiersLead": "Alle Teilnehmer handeln gemeinsam auf 8 Stufen zu. Überschreitet das Community-Volumen eine Schwelle, springen der gesamte Pool und jeder einzelne Preis auf die nächste Stufe.",
+  "tierCols": [
+    "Stufe",
+    "Freigeschaltet ab Community-Volumen",
+    "Preispool",
+    "Preis Platz 1"
+  ],
+  "tierName": "Stufe {n}",
+  "tierBase": "Freigeschaltet",
+  "prizesH": "Was jeder Platz gewinnt",
+  "prizesLead": "Preise in USDG je Endplatzierung. Wählen Sie eine Stufe und sehen Sie, wie die Preise wachsen.",
+  "prizeCols": [
+    "Platz",
+    "Preis pro Person"
+  ],
+  "tailRank": "Ab Platz 51",
+  "tailPrize": "{x} USDG zu gleichen Teilen",
+  "boostH": "Volumen 2x und 3x boosten",
+  "boostLead": "Für Ihre Platzierung zählt das gewichtete Volumen. Manche Märkte zählen doppelt oder sogar dreifach.",
+  "boosts": [
+    [
+      "Gold-Perpetual",
+      "3x",
+      "PF_XAUUSD: Je 10,000 USD, die Sie handeln, zählen als 30,000."
+    ],
+    [
+      "Real-World-Assets",
+      "2x",
+      "Öl, Gas, Silber, Kupfer, EUR, GBP und CHF, US100, Chip- und Speicheraktien sowie xStocks wie NVDAx, TSLAx, AAPLx und SPYx."
+    ],
+    [
+      "Krypto-Futures",
+      "1x",
+      "Alle übrigen Perpetual- und Laufzeitkontrakte auf Kraken Futures."
+    ]
+  ],
+  "exampleH": "Rechenbeispiel",
+  "exampleLead": "Sie melden sich an und handeln danach 60,000 USD Futures. Damit liegen Sie über dem Minimum von 50,000 USD und werden aus dem Pool ausgezahlt. Wie viel für Ihre Platzierung zählt, hängt vom Markt ab:",
+  "exampleCols": [
+    "Sie handeln",
+    "Zählt für Ihre Platzierung"
+  ],
+  "exampleRows": [
+    [
+      "60,000 USD BTC-Perpetuals (1x)",
+      "60,000 USD"
+    ],
+    [
+      "60,000 USD NVDAx- oder EUR/USD-Perpetuals (2x)",
+      "120,000 USD"
+    ],
+    [
+      "60,000 USD Gold-Perpetual (3x)",
+      "180,000 USD"
+    ]
+  ],
+  "exampleNote": "Für das Minimum von 50,000 USD zählt Ihr tatsächlich gehandelter Betrag; die Multiplikatoren pushen Ihre Platzierung.",
+  "datesH": "Wichtige Termine (SGT)",
+  "dates": [
+    [
+      "Start der Challenge",
+      "12. Okt. 2026, 21:30 SGT"
+    ],
+    [
+      "Ende der Challenge",
+      "11. Dez. 2026, 07:59:59 SGT"
+    ],
+    [
+      "Qualifikation",
+      "50,000 USD Futures-Volumen nach Ihrer Anmeldung"
+    ],
+    [
+      "Auszahlung",
+      "In USDG auf Ihr Kraken-Spot-Konto; Gewinner werden innerhalb von 14 Tagen nach der finalen Rangliste benachrichtigt"
+    ]
+  ],
+  "whoH": "Wer teilnehmen kann",
+  "who": "Kraken-Privatkunden ab 18 Jahren mit Zugang zu Kraken Futures. Ausgeschlossen sind Einwohner der USA, des Vereinigten Königreichs, des EWR, der Schweiz, Kanadas, Australiens, Brasiliens und Argentiniens sowie Regionen, in denen Kraken Futures nicht verfügbar ist.",
+  "officialLink": "Offizielle Challenge-Seite von Kraken",
+  "faqH": "Fragen",
+  "faq": [
+    [
+      "Was ist die Kraken 5M USDG Futures Challenge?",
+      "Ein Futures-Trading-Wettbewerb von Kraken vom 12. Okt. 2026, 21:30 SGT bis 11. Dez. 2026, 07:59:59 SGT. Die Platzierung richtet sich nach dem gewichteten Futures-Volumen, und der Preispool wächst mit dem Community-Volumen in 8 Stufen von 25,000 USDG auf 5,000,000 USDG."
+    ],
+    [
+      "Bekommt wirklich jeder Qualifizierte etwas?",
+      "Ja. Erreichen Sie nach Ihrer Anmeldung 50,000 USD Futures-Volumen, sind Sie in der Wertung. Die Plätze 1 bis 50 gewinnen feste Preise; alle ab Platz 51 teilen sich den Rest-Pool zu gleichen Teilen: 10,125 USDG auf Stufe 1, bis zu 2,025,000 USDG auf Stufe 8."
+    ],
+    [
+      "Wie viel können die besten Trader gewinnen?",
+      "Auf Stufe 1 gewinnt Platz 1 3,750 USDG, Platz 2 2,000 und Platz 3 1,500. Schaltet die Community Stufe 8 frei (18.5 Mrd. USD gewichtetes Volumen), gewinnt Platz 1 750,000 USDG, Platz 2 400,000 und Platz 3 300,000."
+    ],
+    [
+      "Muss ich mich anmelden?",
+      "Ja. Klicken Sie auf der Challenge-Seite von Kraken auf „Join the Challenge“, bevor Sie handeln. Volumen vor Ihrer Anmeldung zählt nicht, auch nicht aus bereits zuvor eröffneten Positionen."
+    ],
+    [
+      "Wie funktionieren die 2x- und 3x-Multiplikatoren?",
+      "Ihre Platzierung basiert auf gewichtetem Volumen: Das Gold-Perpetual zählt 3x, Real-World-Asset-Perpetuals wie xStocks, Devisen, Öl und US100 zählen 2x, Krypto-Futures 1x. Für das Minimum von 50,000 USD zählt Ihr tatsächlich gehandelter Betrag."
+    ],
+    [
+      "Wann werden die Preise ausgezahlt?",
+      "Nach dem Ende der Challenge bestätigt Kraken die finale Rangliste und benachrichtigt die Gewinner innerhalb von 14 Tagen. Ausgezahlt wird in USDG auf Ihr Kraken-Spot-Konto. Für Preise ab 10,000 USD ist vor Ende der Challenge eine Intermediate-Verifizierung nötig."
+    ],
+    [
+      "Kann ich aus meinem Land teilnehmen?",
+      "Kraken Futures muss für Sie verfügbar sein. Ausgeschlossen sind Einwohner der USA, des Vereinigten Königreichs, des EWR, der Schweiz, Kanadas, Australiens, Brasiliens und Argentiniens; Kraken prüft die Teilnahmeberechtigung beim Login."
+    ]
+  ],
+  "relatedH": "Weiterlesen",
+  "related": [
+    [
+      "Kraken-Profil",
+      "Gebühren, Produkte und Kontoeröffnung"
+    ],
+    [
+      "Perpetual Futures",
+      "Glossar: So funktionieren Perpetual-Kontrakte"
+    ],
+    [
+      "Funding Rates",
+      "Live-Funding-Rates über Börsen hinweg"
+    ],
+    [
+      "Identitätsprüfung",
+      "Academy: Wer Ihre Ausweisdaten erhält und warum"
+    ]
+  ],
+  "finalH": "Ihr Anteil an 5,000,000 USDG beginnt mit Schritt 1",
+  "finalBody": "Eröffnen Sie Ihr Kraken-Konto mit Code {code}, melden Sie sich für die Challenge an und handeln Sie bis 11. Dez. 2026, 07:59 SGT 50,000 USD Futures-Volumen.",
+  "finalNeutralH": "Challenge verfolgen",
+  "finalNeutralBody": "Kraken zeigt Pool und Rangliste auf seiner Challenge-Seite. Das Profil unten fasst Gebühren und Produkte von Kraken zusammen."
+}
