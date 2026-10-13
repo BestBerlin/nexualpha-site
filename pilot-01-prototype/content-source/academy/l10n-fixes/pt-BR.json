@@ -15,5 +15,15 @@
   "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "Colocar 100 em uma caixinha mantém os outros 900 seguros para sempre? A seguir: margem isolada.",
   "If I put 100 in isolated, the other 900 can never be touched?": "Se eu colocar 100 em margem isolada, os outros 900 ficam intocáveis para sempre?",
   "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "Facilita delimitar o risco de margem de cada trade. Mas esses 100 ainda podem ser perdidos; margem isolada não elimina prejuízos nem substitui um stop-loss.",
-  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Não presuma que a perda máxima será para sempre igual àqueles 100 iniciais só porque diz 'isolada'. Verifique opções de acréscimo, taxas e regras do produto."
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Não presuma que a perda máxima será para sempre igual àqueles 100 iniciais só porque diz 'isolada'. Verifique opções de acréscimo, taxas e regras do produto.",
+  "One bitcoin costs that much. Can I still buy some?": "Um bitcoin inteiro é caro demais? Veja como comprar só uma fração",
+  "0.002 BTC (fees not deducted).": "0,002 BTC (sem descontar taxas).",
+  "One practice sum. Say one bitcoin is 50,000 USDT and you spend 100. Ignoring fees, that's 0.002 bitcoin. This is not today's market price.": "Um exercício prático. Suponha que um bitcoin custe 50.000 USDT e você gaste 100. Sem taxas, são 0,002 bitcoin. Isso não é a cotação de mercado de hoje.",
+  "Your first spot trade: from 100 to 0.002 BTC": "Sua primeira operação spot: de 100 USDT para 0,002 BTC",
+  "With a virtual balance of 1,000, buy 0.002 BTC. Check the remaining USDT balance of 899.90 and the trade record.": "Com saldo virtual de 1.000, compre 0,002 BTC. Confira o saldo restante de 899,90 USDT e o registro da negociação.",
+  "Amount 100, fee 0.10, total spent 100.10; 899.90 left.": "Valor 100, taxa 0,10, gasto total 100,10; sobram 899,90.",
+  "Say the fill price is 50,000 and you spend 100. You get 0.002 bitcoin. Now assume a 0.1% fee taken separately from your USDT. You spend 100.10 in total. Real rules depend on the platform.": "Suponha que o preço seja 50.000 e você gaste 100. Recebe 0,002 bitcoin. Com taxa de 0,1% descontada à parte em USDT, você gasta 100,10 no total. As regras reais variam por plataforma.",
+  "It says sent, but it never arrived. Where do you look?": "Aparece como enviado, mas não chegou. Onde conferir?",
+  "You still have margin left. So why can you be forced out? Next: the line you can't see.": "Por que sua posição pode ser liquidada antes de a margem chegar a zero? A seguir: aquela linha invisível.",
+  "Why you can be closed out before your margin hits zero": "Por que sua posição pode ser liquidada antes de a margem chegar a zero?"
 }

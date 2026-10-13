@@ -17,6 +17,7 @@ import { TELEGRAM_CONFIG } from "../../../data/telegram-config.js";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { contextualHref as addContext } from "../../../data/contextual-href.js";
 import { updateHref } from "../../../data/activity-update.js";
+import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
@@ -188,9 +189,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     () => {
       const liveUpdates = visibleOfficialUpdates(publicUpdates, now);
       const finalUpdates = liveUpdates.length > 0 ? liveUpdates : visibleOfficialUpdates(OFFICIAL_EXCHANGE_ACTIVITIES, now);
-      return finalUpdates.map((update) => normalizeUpdate(update, now));
+      return finalUpdates.filter((update) => campaignVisibleInLocale(update, locale)).map((update) => normalizeUpdate(update, now));
     },
-    [publicUpdates, now],
+    [publicUpdates, now, locale],
   );
   const publishableUpdates = useMemo(() => normalizedUpdates.filter((update) => update.publishable), [normalizedUpdates]);
   const researchItemList = useMemo(

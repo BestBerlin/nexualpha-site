@@ -3,15 +3,15 @@
   "episodes": {
     "1": {
       "takeaways": [
-        "Harga satu bitcoin bukanlah harga untuk mulai.",
-        "Bitcoin bisa dibagi menjadi desimal: belanjakan 100 di harga 50,000 dan Anda memegang 0.002 BTC.",
+        "Harga satu bitcoin utuh bukanlah modal minimum untuk mulai.",
+        "Bitcoin bisa dibagi menjadi pecahan desimal: belanjakan 100 USDT di harga 50.000 dan kamu memiliki 0,002 BTC.",
         "Setiap platform menetapkan minimum order dan biayanya sendiri, jadi periksa keduanya dulu."
       ],
       "quiz": {
-        "q": "Satu bitcoin seharga 50,000 USDT. Anda membelanjakan 100 USDT, tanpa menghitung biaya. Apa yang Anda dapat?",
-        "options": ["Tidak ada, Anda butuh satu koin utuh", "0.002 BTC", "0.02 BTC"],
+        "q": "Satu bitcoin seharga 50.000 USDT. Kamu membelanjakan 100 USDT, belum termasuk biaya. Berapa BTC yang kamu dapat?",
+        "options": ["Tidak ada, kamu butuh satu koin utuh", "0,002 BTC", "0,02 BTC"],
         "answer": 1,
-        "why": "100 ÷ 50,000 = 0.002. Anda bisa memegang sebagian dari satu bitcoin."
+        "why": "100 ÷ 50.000 = 0,002. Kamu bisa memiliki sebagian dari satu bitcoin."
       }
     },
     "2": {
