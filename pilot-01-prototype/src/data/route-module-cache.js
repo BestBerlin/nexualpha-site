@@ -53,6 +53,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   platformMatcher: "./components/v3/PlatformMatcher.jsx",
   newsList: "./components/v3/news/NewsListPage.jsx",
   liquidations: "./components/data/LiquidationsPage.jsx",
+  liquidationHeatmap: "./components/data/LiquidationHeatmapPage.jsx",
   fundingMatrix: "./components/data/FundingMatrixPage.jsx",
   fundingRates: "./components/data/FundingRatesPage.jsx",
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
@@ -181,6 +182,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "etfFlows" || name === "calendar") return [ROUTE_MODULE_PATHS.intelTools];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
+  if (name === "liquidationHeatmap") return [ROUTE_MODULE_PATHS.liquidationHeatmap];
   if (name === "fundingMatrix") return [ROUTE_MODULE_PATHS.fundingMatrix];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];

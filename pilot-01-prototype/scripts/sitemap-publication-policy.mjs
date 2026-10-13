@@ -106,6 +106,7 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   if (template === "newsList") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
   if (RADAR_PATHS.includes(pathname)) return supportedRouteLocales(route, allLocales);
   if (template === "regionalPreview") return supportedRouteLocales(route, allLocales);
+  if (template === "dataTool") return supportedRouteLocales(route, allLocales);
   if (!isLocalePathEligible(pathname)) return pickSupportedLocales(route, ["en"], allLocales);
   if (SITEMAP_CORE_STATIC_PATHS.has(pathname)) {
     return ["/", "/exchanges", "/activities", "/rates", "/onchain"].includes(pathname)

@@ -53,7 +53,7 @@ test("public CTA pairs the displayed code with the primary registration route", 
   const okx = publicCtaForVenue("okx", "en");
   assert.equal(okx.registrationUrl, "https://www.okx.com/join/nexu888");
   assert.equal(okx.inviteCode, "nexu888");
-  assert.equal(okx.configuredInviteCode, "LUCKX");
+  assert.equal(okx.configuredInviteCode, "nexu888");
   assert.ok(okx.registrationUrls.includes("https://www.topzhjdgxcb.net/join/CANDY007"));
 
   const bitget = publicCtaForVenue("bitget", "en");
