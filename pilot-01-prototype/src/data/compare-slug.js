@@ -7,7 +7,20 @@ export const COMPARE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", 
 export const ACTIVE_COMPARE_VENUE_SLUGS = Object.freeze([
   "binance", "coinbase", "bybit", "bitget", "okx", "kraken", "gate-io", "kucoin", "mexc", "backpack", "deribit",
   "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve", "hyperliquid", "dydx", "gmx", "drift",
+  "coinw",
 ]);
+
+// A newly added venue may be compared with any other (the picker and its /compare page render), but only the pairs
+// listed here can be search-indexed and enter the sitemap (2026-10-13: CoinW against the closest futures-led peers).
+export const GENERATED_PAIR_INDEX_LIMITS = Object.freeze({
+  coinw: Object.freeze(["bitget", "mexc"]),
+});
+export function generatedPairWithinIndexLimits(slugs = []) {
+  return slugs.every((slug) => {
+    const allowed = GENERATED_PAIR_INDEX_LIMITS[slug];
+    return !allowed || slugs.some((other) => other !== slug && allowed.includes(other));
+  });
+}
 
 // Hand-written comparison pages. Their slug order is editorial and stays canonical; the reverse slug redirects.
 export const CURATED_COMPARISON_SLUGS = Object.freeze([

@@ -35,6 +35,14 @@ export const APP_DOWNLOADS = {
     iosDeveloper: "Bybit Fintech Limited", androidDeveloper: "Bybit",
     sources: ["https://www.bybit.com/en/download/"], lastChecked: APP_DOWNLOAD_CHECKED, apk: null,
   },
+  // CoinW (2026-10-13): App Store lookup (seller COINW SP Z O O) and Google Play listing (CoinW.SGP), linked from the
+  // official coinw.com/install-app page.
+  coinw: {
+    appStore: "https://apps.apple.com/app/id1494077068",
+    googlePlay: "https://play.google.com/store/apps/details?id=com.coinw.win",
+    iosDeveloper: "COINW SP Z O O", androidDeveloper: "CoinW.SGP",
+    sources: ["https://www.coinw.com/install-app"], lastChecked: "2026-10-13", apk: null,
+  },
 };
 
 const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;

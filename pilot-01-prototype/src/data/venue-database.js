@@ -578,6 +578,62 @@ export const venueDatabase = {
     },
   },
 
+  // CoinW (partner since 2026-10-13). Only sourced fields are filled (coinw.com About, PoR, help-center pages and the
+  // App Store / Google Play listings, read 2026-10-13 via archived copies because coinw.com is blocked on the office
+  // network); fees, reserve ratio, leverage and listing counts stay null until read from the live official pages.
+  coinw: {
+    slug: "coinw",
+    name: "CoinW",
+    category: "CEX",
+    officialDomain: "www.coinw.com",
+    mirrors: ["coinw.com"],
+    foundedYear: 2017,
+    headquarters: null,
+    hasReferral: true,
+    inviteCode: CUSTOM_INVITE_CODES.coinw,
+    registrationUrl: PARTNER_REGISTRATION_URLS.coinw[0],
+    alternateRegistrationUrls: PARTNER_REGISTRATION_URLS.coinw.slice(1),
+    rebatePercent: 0,
+    welcomeBonusUsdt: 0,
+    welcomeRewardBadge: {
+      en: "🎁 New-user rewards on CoinW",
+      "zh-Hans": "🎁 CoinW 新用户福利",
+      "zh-Hant": "🎁 CoinW 新用戶福利",
+    },
+    benefit: {
+      en: `Sign up with code ${CUSTOM_INVITE_CODES.coinw} and unlock CoinW's new-user rewards`,
+      "zh-Hans": `填写邀请码 ${CUSTOM_INVITE_CODES.coinw} 注册，领取 CoinW 新用户福利`,
+      "zh-Hant": `填寫邀請碼 ${CUSTOM_INVITE_CODES.coinw} 註冊，領取 CoinW 新用戶福利`,
+    },
+    kycLevel: "mandatory",
+    kycSummary: {
+      en: "KYC required before spot or futures orders, deposits and Earn",
+      "zh-Hans": "完成 KYC 后才能现货/合约下单、充值和使用理财",
+      "zh-Hant": "完成 KYC 後才能現貨/合約下單、充值和使用理財",
+    },
+    supportedRegions: [],
+    restrictedRegions: ["Mainland China", "United States", "Canada", "United Kingdom", "Hong Kong", "Japan", "Singapore", "UAE", "Sanctioned countries"],
+    fiatChannels: ["P2P", "Quick Buy", "OTC Desk", "Crypto deposit"],
+    proofOfReserves: true,
+    porCoverageRatio: null,
+    porAuditUrl: "https://www.coinw.com/proof-of-reserves",
+    securityFund: null,
+    officialVerifyUrl: "https://www.coinw.com",
+    spotFee: null,
+    futuresFee: null,
+    maxLeverage: null,
+    tokenCount: null,
+    trustScore: null,
+    pros: {
+      "zh-Hans": ["现货、U 本位永续合约、跟单与理财一站式", "公开默克尔树储备金证明，可自行验证资产", "P2P、快捷买币与 OTC 多种买币方式"],
+      en: ["Spot, USDT perpetuals, copy trading and Earn in one account", "Public Merkle-tree proof of reserves you can verify yourself", "Buy crypto via P2P, Quick Buy or the OTC desk"],
+    },
+    cons: {
+      "zh-Hans": ["部分国家和地区不提供服务", "强制 KYC 后才能交易"],
+      en: ["Not available in several countries and regions", "KYC required before trading"],
+    },
+  },
+
   deribit: {
     slug: "deribit",
     name: "Deribit",

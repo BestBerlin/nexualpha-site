@@ -13,6 +13,7 @@ import { modulePathsForRoute } from "../src/data/route-module-cache.js";
 import { createSsrHarness, SHELL_HTML, h1Texts, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 // Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
 import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
+import { TURKEY_PROMOTED_PARTNERS } from "../src/data/partner-geo-restrictions.js";
 
 const assets = { fetch: async (request) => {
   const path = new URL(request.url).pathname;
@@ -84,9 +85,11 @@ test("all locale editions are localized and indexable, neutral locales never con
 
 test("Turkey and explicit market context use partner geo gating, including SSR", async () => {
   for (const slug of APP_DOWNLOAD_SLUGS) {
-    assert.equal(appDownloadSignupAllowed(slug, { locale: "tr" }), slug !== "bitget");
+    // Türkiye promotes only TURKEY_PROMOTED_PARTNERS (Bitget: SPK list; CoinW: SPK access ban).
+    const turkeyAllowed = TURKEY_PROMOTED_PARTNERS.includes(slug);
+    assert.equal(appDownloadSignupAllowed(slug, { locale: "tr" }), turkeyAllowed);
     const html = await (await fetchPage(`/tr${appDownloadPath(slug)}`)).text();
-    assert.equal(main(html).includes("data-app-registration"), slug !== "bitget");
+    assert.equal(main(html).includes("data-app-registration"), turkeyAllowed);
   }
   for (const [path, allowed] of [["/exchanges/bitget/app?market=TR", false], ["/exchanges/okx/app?market=CA", false], ["/exchanges/okx/app?market=BR", true]]) {
     const html = await (await fetchPage(path)).text();
@@ -136,7 +139,7 @@ test("profile crosslinks, lazy route module, sitemap index and unsupported app r
   assert.equal((await fetchPage("/exchanges/kraken/app")).status, 404);
   assert.equal((await fetchPage("/exchanges/okx/app/nope")).status, 404);
   const sitemap = buildAppsSitemap();
-  assert.equal(sitemap.count, 68);
+  assert.equal(sitemap.count, APP_DOWNLOAD_SLUGS.length * 17);
   for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) for (const slug of APP_DOWNLOAD_SLUGS) assert.ok(sitemap.xml.includes(`<loc>https://nexualpha.com${localizedPath(appDownloadPath(slug), locale)}</loc>`));
   assert.ok(buildSplitSitemaps([], []).index.includes("https://nexualpha.com/sitemap-apps.xml"));
   assert.equal(await (await fetchPage("/sitemap-apps.xml")).text(), sitemap.xml);

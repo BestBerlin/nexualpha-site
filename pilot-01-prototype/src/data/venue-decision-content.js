@@ -396,6 +396,12 @@ export const venueDecisionContent = {
     tr("Solana's #1 derivatives suite, sub-second execution with integrated multi-asset cross-margin lending and borrowing.", "Solana 链上第一衍生品交易套件，毫秒级撮合与多资产混合抵押借贷一体化。", "Solana 鏈上第一衍生品交易套件，毫秒級撮合與多資產混合抵押借貸一體化。"),
     tr("Available source coverage is insufficient to establish a broader venue fit; published material describes a proprietary DLMM hybrid liquidity order book and SOL/BTC cross-margin collateral.", "现有来源不足以确认更广泛的适用性；已发布材料描述了 DLMM 混合流动性订单簿与 SOL/BTC 跨币种抵押。", "現有來源不足以確認更廣泛的適用性；已發布材料描述了 DLMM 混合流動性訂單簿與 SOL/BTC 跨幣種抵押。"),
     tr("Asset coverage focuses primarily on high-cap tokens; a redirected documentation path alone does not establish a product migration, and margin requirements still need monitoring during extreme Solana volatility.", "币种覆盖主要围绕热门主流标的；文档重定向本身不能证明产品迁移，Solana 极端波动时仍需留意保证金要求。", "幣種覆蓋主要圍繞熱門主流標的；文檔重定向本身不能證明產品遷移，Solana 極端波動時仍需留意保證金要求。"), [0, 1]),
+  coinw: entry(
+    tr("Consider CoinW when you want spot, USDT perpetual futures, copy trading and Earn in one account and plan to finish KYC before trading.", "想在一个账户里使用现货、U 本位永续合约、跟单和理财，并准备先完成 KYC 再交易时，可以考虑 CoinW。", "想在一個帳戶裡使用現貨、U 本位永續合約、跟單和理財，並準備先完成 KYC 再交易時，可以考慮 CoinW。"),
+    tr("CoinW publishes a Merkle-tree proof of reserves with monthly snapshots you can check yourself, and lists spot, perpetuals, copy trading, Earn and bots on its official site.", "CoinW 公开默克尔树储备金证明，可自行核对月度快照；官网列出现货、永续合约、跟单、理财与交易机器人。", "CoinW 公開默克爾樹儲備金證明，可自行核對月度快照；官網列出現貨、永續合約、跟單、理財與交易機器人。"),
+    tr("Skip CoinW if you are in one of its restricted regions or want to trade without identity verification: orders, deposits and Earn stay limited until KYC is done.", "如果你在 CoinW 的受限地区，或想不做实名就交易，就不适合：未完成 KYC 时下单、充值和理财都会受限。", "如果你在 CoinW 的受限地區，或想不做實名就交易，就不適合：未完成 KYC 時下單、充值和理財都會受限。"),
+    [0, 1, 2],
+  ),
 };
 
 const unresolvedFit = new Set(["gate-io", "kucoin", "deribit", "drift"]);

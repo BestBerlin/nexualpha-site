@@ -50,7 +50,7 @@ test("empty opportunities do not discard connected venue data or call commercial
 
   assert.equal(result.status, "ready");
   assert.equal(result.view.source, "core");
-  assert.equal(result.view.venues.length, 24);
+  assert.equal(result.view.venues.length, 25);
   assert.equal(result.view.venues.some((venue) => venue.slug === "drift"), true);
   assert.equal(result.view.contentVersion, "integration-test-only");
   assert.deepEqual(result.view.listings, []);

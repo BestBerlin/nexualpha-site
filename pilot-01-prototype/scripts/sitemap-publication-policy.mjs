@@ -18,7 +18,7 @@ const SITEMAP_TOOL_STATIC_PATHS = new Set(["/liquidations", "/funding-rates", "/
 const SITEMAP_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SITEMAP_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
-const SITEMAP_LOCALE_EXCLUDED_VENUES = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
+const SITEMAP_LOCALE_EXCLUDED_VENUES = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter", "coinw"]);
 const SITEMAP_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SITEMAP_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 // Owner exchange keyword plan 2026-10-11: localized profiles that now carry the localized referral FAQ (and backpack's

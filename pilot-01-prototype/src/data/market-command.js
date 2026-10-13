@@ -3,7 +3,7 @@
 // or availability claim; those remain empty/unknown until source-backed.
 export const neutralVenueCatalog = [
   ["binance", "Binance", "CEX", "www.binance.com"], ["coinbase", "Coinbase", "CEX", "www.coinbase.com"], ["bybit", "Bybit", "CEX", "www.bybit.com"], ["bitget", "Bitget", "CEX", "www.bitget.com"], ["okx", "OKX", "CEX", "www.okx.com"], ["kraken", "Kraken", "CEX", "www.kraken.com"], ["gate-io", "Gate.io", "CEX", "www.gate.com"], ["kucoin", "KuCoin", "CEX", "www.kucoin.com"], ["mexc", "MEXC", "CEX", "www.mexc.com"], ["backpack", "Backpack", "CEX", "backpack.exchange"], ["deribit", "Deribit", "CEX", "www.deribit.com"],
-  ["htx", "HTX", "CEX", "www.htx.com"], ["hashkey", "HashKey Global", "CEX", "global.hashkey.com"],
+  ["htx", "HTX", "CEX", "www.htx.com"], ["hashkey", "HashKey Global", "CEX", "global.hashkey.com"], ["coinw", "CoinW", "CEX", "www.coinw.com"],
   ["uniswap", "Uniswap", "DEX", "app.uniswap.org"], ["pancakeswap", "PancakeSwap", "DEX", "pancakeswap.finance"], ["jupiter", "Jupiter", "DEX", "jup.ag"], ["raydium", "Raydium", "DEX", "raydium.io"], ["aerodrome", "Aerodrome", "DEX", "aerodrome.finance"], ["curve", "Curve", "DEX", "curve.finance"],
   ["hyperliquid", "Hyperliquid", "Perp DEX", "app.hyperliquid.xyz"], ["dydx", "dYdX", "Perp DEX", "dydx.trade"], ["gmx", "GMX", "Perp DEX", "gmx.io"], ["drift", "Drift", "Perp DEX", "app.drift.trade"], ["aevo", "Aevo", "Perp DEX", "app.aevo.xyz"],
 ].map(([slug, name, category, officialDomain]) => ({ slug, name, category, officialDomain, availability: "unavailable", sourceStatus: "UNKNOWN", assetCapabilities: [] }));

@@ -889,6 +889,120 @@
         "reason": "Secondary list; official page empty and sources conflict",
         "verified": false
       }
+    ],
+    "coinw": [
+      {
+        "country": "CN",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "CA",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "HK",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "JP",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "SG",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "US",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "AE",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "IR",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "KP",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "CU",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "GB",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "ZW",
+        "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+        "checked": "2026-10-11",
+        "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+        "verified": false
+      },
+      {
+        "country": "MY",
+        "source": "https://www.sc.com.my/resources/media/investor-alert-updates/investor-alert-list-as-at-17102024",
+        "checked": "2026-10-11",
+        "reason": "Regulator warning: Securities Commission Malaysia added CoinW to its Investor Alert List on 17 Oct 2024",
+        "verified": true
+      },
+      {
+        "country": "PH",
+        "source": "https://www.philstar.com/business/2025/08/25/2467745/sec-flags-more-unregistered-cryptocurrency-platforms",
+        "checked": "2026-10-11",
+        "reason": "Regulator warning: Philippines SEC advisory of 20 Aug 2025 names CoinW as an unregistered crypto platform; sec.gov.ph original not reachable, press report",
+        "verified": false
+      },
+      {
+        "country": "IN",
+        "source": "https://www.outlookbusiness.com/news/govt-issues-notices-to-25-offshore-crypto-assets-cos-for-non-compliance-of-money-laundering-law",
+        "checked": "2026-10-11",
+        "reason": "Regulator action: FIU-IND notice under PMLA s.13 to 25 offshore platforms including CoinW (Oct 2025); press report",
+        "verified": false
+      },
+      {
+        "country": "TR",
+        "source": "https://www.cumhuriyet.com.tr/ekonomi/kripto-para-borsalarina-erisim-engeli-geliyor-hukuki-surec-baslatildi-2278779",
+        "checked": "2026-10-11",
+        "reason": "Regulator action: SPK access-ban list for unlicensed crypto providers includes www.coinw.com (Dec 2024); press report. Türkiye promotes only the listed partners",
+        "verified": false
+      }
     ]
   },
   "territorialRestrictions": {
@@ -1233,6 +1347,126 @@
       "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
       "checked": "2026-10-11",
       "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "CN",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "CA",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "HK",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "JP",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "SG",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "US",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "AE",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "IR",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "KP",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "CU",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "GB",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "ZW",
+      "source": "https://www.coinw.com/help-center/faq/official-updates/2025-09-15/legal-statement/6585",
+      "checked": "2026-10-11",
+      "reason": "Restricted Countries and Regions in CoinW's Legal Statement; list read from search snippets because the page text loads with JavaScript",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "PH",
+      "source": "https://www.philstar.com/business/2025/08/25/2467745/sec-flags-more-unregistered-cryptocurrency-platforms",
+      "checked": "2026-10-11",
+      "reason": "Regulator warning: Philippines SEC advisory of 20 Aug 2025 names CoinW as an unregistered crypto platform; sec.gov.ph original not reachable, press report",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "IN",
+      "source": "https://www.outlookbusiness.com/news/govt-issues-notices-to-25-offshore-crypto-assets-cos-for-non-compliance-of-money-laundering-law",
+      "checked": "2026-10-11",
+      "reason": "Regulator action: FIU-IND notice under PMLA s.13 to 25 offshore platforms including CoinW (Oct 2025); press report",
+      "verified": false
+    },
+    {
+      "slug": "coinw",
+      "country": "TR",
+      "source": "https://www.cumhuriyet.com.tr/ekonomi/kripto-para-borsalarina-erisim-engeli-geliyor-hukuki-surec-baslatildi-2278779",
+      "checked": "2026-10-11",
+      "reason": "Regulator action: SPK access-ban list for unlicensed crypto providers includes www.coinw.com (Dec 2024); press report. Türkiye promotes only the listed partners",
       "verified": false
     },
     {

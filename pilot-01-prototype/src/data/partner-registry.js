@@ -20,6 +20,7 @@ export const CUSTOM_INVITE_CODES = {
   gmx: "NEXU_GMX",              // GMX推荐码
   drift: "NEXU_DRIFT",          // Drift推荐码
   htx: "nexu888",               // HTX专属邀请码
+  coinw: "2296057",             // CoinW邀请码（站长提供 2026-10-13）
 };
 
 // 甲方提供的完整合作链接簇。registrationUrl 使用首选链接，
@@ -52,6 +53,12 @@ export const PARTNER_REGISTRATION_URLS = {
     "https://www.topzhjdgxcb.net/join/1836370407",
     "https://www.topzhjdgxcb.net/join/QICYQ",
     "https://www.topzhjdgxcb.net/join/BL686",
+  ],
+  // Owner link 2026-10-13: https://www.coinw.com/zh_TW/register?r=2296057. The language-neutral path is the primary
+  // route (CoinW picks the visitor's language); the owner's zh_TW link stays as the alternate. Same code 2296057.
+  coinw: [
+    "https://www.coinw.com/register?r=2296057",
+    "https://www.coinw.com/zh_TW/register?r=2296057",
   ],
   backpack: [
     "https://backpack.exchange/join/luckybitcoin",
@@ -276,6 +283,28 @@ export const partnerRegistry = {
       "zh-Hant": "帳戶託管式（郵箱 / 手機註冊）",
     },
     products: ["Spot", "Futures", "Earn", "PrimePool"],
+  },
+  coinw: {
+    slug: "coinw",
+    name: "CoinW",
+    category: "CEX",
+    officialDomain: "www.coinw.com",
+    hasReferral: true,
+    inviteCode: CUSTOM_INVITE_CODES.coinw,
+    registrationUrl: PARTNER_REGISTRATION_URLS.coinw[0],
+    alternateRegistrationUrls: PARTNER_REGISTRATION_URLS.coinw.slice(1),
+    benefit: {
+      en: `Sign up with code ${CUSTOM_INVITE_CODES.coinw} and unlock CoinW's new-user rewards`,
+      "zh-Hans": `填写邀请码 ${CUSTOM_INVITE_CODES.coinw} 注册，领取 CoinW 新用户福利`,
+      "zh-Hant": `填寫邀請碼 ${CUSTOM_INVITE_CODES.coinw} 註冊，領取 CoinW 新用戶福利`,
+    },
+    kycRequired: true,
+    accountType: {
+      en: "Account-based (Email / Mobile)",
+      "zh-Hans": "账户托管式（邮箱 / 手机注册）",
+      "zh-Hant": "帳戶託管式（郵箱 / 手機註冊）",
+    },
+    products: ["Spot", "Perpetuals", "Copy Trading", "Earn"],
   },
   backpack: {
     slug: "backpack",

@@ -40,9 +40,9 @@ const EXPECTED_VENUES = [
   "curve",
 ];
 
-test("factbook-registry contains all 24 venues with complete GEO facts and 10 VIP tiers", () => {
+test("factbook-registry contains all 25 venues with complete GEO facts and 10 VIP tiers", () => {
   assert.equal(AUDIT_DATE, "2026-09-08");
-  assert.equal(FACTBOOK_SLUGS.length, 24);
+  assert.equal(FACTBOOK_SLUGS.length, 25); // 24 + CoinW (2026-10-13)
 
   for (const slug of EXPECTED_VENUES) {
     const venue = FACTBOOK_REGISTRY[slug];
