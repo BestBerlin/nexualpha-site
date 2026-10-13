@@ -7,6 +7,8 @@ import { BrandMark } from "../brand/BrandMark.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_REFRESH_MS, FLASH_TYPES, flashGoHref, flashSignupVenues, flashUiCopy } from "../../data/flash.js";
+import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
+import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { chime, notifyImportant, notificationPermission, readFlashPref, requestNotifications, writeFlashPref } from "./flash-alerts.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
@@ -196,6 +198,10 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
         <p className="nxf-overline"><LiveDot /><span>{t.live}</span><span aria-hidden="true">·</span><span>NexuAlpha</span></p>
         <h1 className="nxf-title">{t.h1}</h1>
         <p className="nxf-lead">{t.lead}</p>
+        <p className="nxf-tools" data-testid="flash-data-links">
+          {ETF_FLOWS_LIVE ? <a href={hrefFor(ETF_FLOWS_PATH, locale, market)}>{intelToolLinks(locale).etf}<span aria-hidden="true"> →</span></a> : null}
+          <a href={hrefFor(CALENDAR_PATH, locale, market)}>{intelToolLinks(locale).calendar}<span aria-hidden="true"> →</span></a>
+        </p>
         <TelegramTriggerCta locale={locale} placement="flash-telegram-alerts" />
         <div className="nxf-alerts" role="group" aria-label={t.notifyHint}>
           <button type="button" className="nxf-toggle" aria-pressed={notify} aria-describedby="nxf-alerts-hint" disabled={blocked} title={blocked ? t.notifyBlocked : t.notifyHint} onClick={toggleNotify}>

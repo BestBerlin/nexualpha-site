@@ -9,6 +9,8 @@ import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { EmbedThisBlock } from "./EmbedThisBlock.jsx";
+import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
+import { intelToolLinks } from "../../data/intel-tools-links.js";
 import "./data-pages.css";
 
 export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
@@ -71,6 +73,9 @@ export function DataPageTail({ locale, page, pathname }) {
         <p>{copy.common.refresh}</p>
         <p className="nxd-foot__links">
           <span>{copy.common.relatedData}:</span> <a href={localizedHref(other[0], { locale })}>{other[1]}</a>
+          {ETF_FLOWS_LIVE ? <><span aria-hidden="true"> · </span><a href={localizedHref(ETF_FLOWS_PATH, { locale })}>{intelToolLinks(locale).etf}</a></> : null}
+          <span aria-hidden="true"> · </span>
+          <a href={localizedHref(CALENDAR_PATH, { locale })}>{intelToolLinks(locale).calendar}</a>
           <span aria-hidden="true"> · </span>
           <a href={MARKET_EVENTS_PATH} rel="nofollow" dir="ltr">{copy.common.json}</a>
         </p>

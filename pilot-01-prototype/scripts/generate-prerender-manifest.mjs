@@ -31,6 +31,7 @@ import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
+import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
 import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
@@ -321,6 +322,9 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // and described in that language), rendered by the Worker at request time; hreflang sets match the page head.
   const coins = buildCoinsSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-coins.xml", lastmod: coins.lastmod });
+  // Spot ETF flows + crypto calendar (2026-10-13): refreshed daily on the host, so no build-time lastmod in the index.
+  const dataTools = buildIntelToolsSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-data.xml" });
   const convert = buildConvertSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-convert.xml", lastmod: convert.lastmod });
   // Crypto glossary (2026-10-13): /glossary and every term page in the locales it is written in, rendered by the Worker
@@ -339,6 +343,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     files,
     academy,
     coins,
+    dataTools,
     convert,
     glossary,
     apps,
@@ -375,6 +380,18 @@ function buildDownloadOrAcademySitemap(sitemapEntries) {
   }
   const lastmod = entries.map((entry) => entry.lastmod).sort().pop() || null;
   return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length, lastmod };
+}
+
+export function buildIntelToolsSitemap() {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const entries = intelToolsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const entry of entries) {
+    lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
+    for (const alternate of entry.alternates) lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
+    lines.push("    <changefreq>daily</changefreq>", "  </url>");
+  }
+  return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length };
 }
 
 export function buildCoinsSitemap() {
@@ -555,6 +572,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-convert.xml"), splitSitemaps.convert.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
@@ -570,6 +588,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
+  writeFileSync(path.join(clientDir, "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(clientDir, "sitemap-convert.xml"), splitSitemaps.convert.xml);
   writeFileSync(path.join(clientDir, "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);

@@ -37,6 +37,7 @@ import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
+import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
 import { parseBitgetAlliancePath } from "./data/bitget-alliance-path.js";
@@ -106,6 +107,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
 ]);
@@ -174,6 +176,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
 ], { eager: true }) : {};
@@ -242,6 +245,10 @@ function CoinsRoute({ route, locale, overlay }) {
   if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} overlay={overlay} />;
   return <CoinPage locale={locale} content={readCoinContent(locale)} slug={route.slug} market={route.market} overlay={overlay} />;
 }
+// Spot ETF flows + crypto calendar (2026-10-13): one route chunk (route-intel-tools). `initial` is the snapshot the
+// server rendered with (prerender state "intelTool"); `now` keeps the calendar's first client render identical.
+const EtfFlowsPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "EtfFlowsPage");
+const CalendarPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "CalendarPage");
 // Crypto glossary (2026-10-13): one route chunk for /glossary and /glossary/<slug>; content is the locale's index (hub) or
 // the term's shard module (term page), both preloaded before hydration (modulePathsForRoute).
 const GlossaryHubPage = deferredComponent(ROUTE_MODULE_PATHS.glossary, "GlossaryHubPage");
@@ -372,7 +379,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -555,6 +562,8 @@ function routeState(venues, initialUrl) {
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
+  if (pathname === ETF_FLOWS_PATH) return { name: "etfFlows", ...contextParams() };
+  if (pathname === CALENDAR_PATH) return { name: "calendar", ...contextParams() };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === "/funding-rates/matrix") return { name: "fundingMatrix", ...contextParams() };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
@@ -681,7 +690,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         // l10n: needs native review
         uk: "Тематичні посібники", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
-    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
+    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Analyses Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
         // l10n: needs native review
         ur: "Telegram تحقیق",
         // l10n: needs native review
@@ -704,7 +713,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -870,6 +879,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
+  if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
+  if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);
   if (route.name === "krakenUsdg") return pageShell(<KrakenUsdgPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });

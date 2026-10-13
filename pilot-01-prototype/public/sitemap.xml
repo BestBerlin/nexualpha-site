@@ -84,6 +84,9 @@
     <lastmod>2026-10-12</lastmod>
   </sitemap>
   <sitemap>
+    <loc>https://nexualpha.com/sitemap-data.xml</loc>
+  </sitemap>
+  <sitemap>
     <loc>https://nexualpha.com/sitemap-convert.xml</loc>
     <lastmod>2026-10-12</lastmod>
   </sitemap>

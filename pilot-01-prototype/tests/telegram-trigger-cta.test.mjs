@@ -31,7 +31,7 @@ test("coin page and /liquidations render the CTA on the server with their placem
   assert.match(cta(coin), /data-telegram-alerts-strip="coin-telegram-alerts"/);
   assert.match(cta(coin), /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts-en"[^>]*data-cta-kind="telegram" data-cta-placement="coin-telegram-alerts"/);
   const zhCoin = await harness.render("https://nexualpha.com/zh-hans/coins/bitcoin", {});
-  assert.match(cta(zhCoin), /在 Telegram 接收提醒/);
+  assert.match(cta(zhCoin), /订阅 Telegram 实时提醒/);
   const feed = { generatedAt: new Date().toISOString(), liquidations: { h1: { totalUsd: 1e6, longUsd: 6e5, shortUsd: 4e5, topSymbols: [] }, h4: { totalUsd: 2e6, longUsd: 1e6, shortUsd: 1e6, topSymbols: [] }, h24: { totalUsd: 9e6, longUsd: 5e6, shortUsd: 4e6, topSymbols: [], largest: null } }, market: { majors: [], movers: [] } };
   const liq = await harness.render("https://nexualpha.com/liquidations", { marketEvents: feed });
   assert.match(cta(liq), /data-cta-placement="liquidations-telegram-alerts"/);

@@ -1,3 +1,4 @@
+import { partnerPromotionGate } from "./partner-geo-policy.js";
 // Home v7 only. Rebate shares the owner stated for each venue's partner program (2026-10-09). Share of the fees the user
 // already paid, returned to the user. null = not confirmed yet: shown as "pending" and never counted.
 // Not a source of invite codes or links (those stay in partner-registry.js, untouched).
@@ -16,3 +17,16 @@ export const HOME_PUSH = Object.freeze(["okx", "bitget", "binance"]);
 export const HOME_AUTO_SETTLE = Object.freeze(["okx", "bitget", "binance"]);
 // Owner 2026-10-10: how often each exchange pays the rebate out automatically.
 export const HOME_SETTLE = Object.freeze({ okx: "hourly", binance: "hourly", bitget: "daily" });
+
+// Owner 2026-10-13 (legal): a partner that may not be promoted in the visitor's market (Türkiye: only
+// TURKEY_PROMOTED_PARTNERS; Bitget is on the SPK list) is left out of the home desk, calculator and strip entirely —
+// no card, no "sign up" button, no eligibility link. Other markets keep the full list (their gated CTAs already fall
+// back to the eligibility page).
+const turkeyGated = (slug, locale, market) => partnerPromotionGate(slug, { locale, market })?.country === "TR";
+export const homePartnersFor = (locale, market) => HOME_PARTNERS.filter((slug) => !turkeyGated(slug, locale, market));
+export const homePushFor = (locale, market) => HOME_PUSH.filter((slug) => !turkeyGated(slug, locale, market));
+/** Headline "up to X%": the top share among the partners this market's home actually shows. */
+export function homeRebateMaxPctFor(locale, market) {
+  const shares = homePartnersFor(locale, market).map((slug) => HOME_REBATE_SHARE[slug] ?? 0);
+  return shares.length ? Math.round(Math.max(...shares) * 100) : HOME_REBATE_MAX_PCT;
+}

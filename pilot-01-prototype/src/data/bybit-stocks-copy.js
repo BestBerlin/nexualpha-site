@@ -264,10 +264,10 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "So funktioniert Bybit Stocks: 1,000+ US-Aktien und ETFs mit USDC, echte Aktien bei Alpaca, ab 5 USDC, Handel 24 Stunden am Tag, 5 Tage die Woche.",
   "breadcrumb": "Kampagnen",
   "kicker": "Neu bei Bybit · US-Aktien & ETFs",
-  "h1": "Apple, Nvidia und Tesla mit USDC kaufen – auf Bybit",
-  "sub": "Bybit verkauft jetzt echte US-Aktien und ETFs – mehr als 1,000 davon – bezahlt direkt mit den USDC in deinem Unified Trading Account. Orders starten bei 5 USDC, und der Markt ist 24 Stunden am Tag geöffnet, fünf Tage die Woche.",
+  "h1": "US-Aktien wie Apple, Nvidia und Tesla mit USDC kaufen – ab 5 USDC auf Bybit",
+  "sub": "Über Bybit kaufst du jetzt mehr als 1.000 echte US-Aktien und ETFs – bezahlt direkt mit USDC aus deinem Unified Trading Account (UTA). Orders sind ab 5 USDC möglich, gehandelt wird 24 Stunden am Tag an fünf Tagen die Woche.",
   "cta": "Mit Code {code} registrieren",
-  "how": "So funktioniert's",
+  "how": "So funktioniert der Aktienkauf",
   "codeLabel": "Einladungscode",
   "copy": "Kopieren",
   "copied": "Kopiert",
@@ -299,16 +299,16 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Registriere dich über den Link von NexuAlpha oder gib den Einladungscode {code} ein und schließe die erweiterte Identitätsprüfung ab. Aktien setzen sie voraus."
    ],
    [
-    "USDC in dein UTA",
+    "USDC aufs UTA einzahlen",
     "Zahl USDC ein oder tausch in USDC und lass sie in deinem Unified Trading Account. Von dort werden Aktien-Orders bezahlt."
    ],
    [
-    "Geh zu TradFi → Stocks",
+    "TradFi → Stocks öffnen",
     "Öffne in der Bybit-App oder auf der Website TradFi und wähle Stocks."
    ],
    [
     "Ticker suchen",
-    "Gib AAPL, NVDA, TSLA, QQQ oder eines der 1,000+ Symbole ein und öffne die Handelsseite mit TradingView-Charts."
+    "Gib AAPL, NVDA, TSLA, QQQ oder eines der 1.000+ Symbole ein und öffne die Handelsseite mit TradingView-Charts."
    ],
    [
     "Order platzieren",
@@ -324,29 +324,29 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessions": [
    [
     "Nachthandel",
-    "8:00 PM – 4:00 AM",
+    "20:00 – 04:00",
     "Unterstützte Aktien"
    ],
    [
     "Vorbörse",
-    "4:00 AM – 9:30 AM",
+    "04:00 – 09:30",
     "Limit-Orders"
    ],
    [
     "Regulärer Handel",
-    "9:30 AM – 4:00 PM",
+    "09:30 – 16:00",
     "Alle Ordertypen"
    ],
    [
     "Nachbörse",
-    "4:00 PM – 8:00 PM",
+    "16:00 – 20:00",
     "Limit-Orders"
    ]
   ],
-  "sessionsWeekend": "Geschlossen von Freitag 8:00 PM bis Sonntag 8:00 PM ET sowie an US-Börsenfeiertagen. Market-Orders werden zu regulären Handelszeiten ausgeführt; außerhalb davon aktivierst du bei einer Limit-Order den 24-Stunden-Handel.",
+  "sessionsWeekend": "Geschlossen von Freitag 20:00 Uhr bis Sonntag 20:00 Uhr ET sowie an US-Börsenfeiertagen. Market-Orders werden zu regulären Handelszeiten ausgeführt; außerhalb davon aktivierst du bei einer Limit-Order den 24-Stunden-Handel.",
   "yourTime": "Deine Zeit",
   "campaignKicker": "Launch-Kampagne",
-  "campaignH": "Full Stocks Ahead: 150,000 USDC für Aktien-Trader",
+  "campaignH": "Full Stocks Ahead: 150.000 USDC für Aktien-Trader",
   "campaignLead": "Die Launch-Kampagne von Bybit läuft vom 12. bis 31. Oktober 2026 (00:00 UTC). Melde dich auf der Kampagnenseite an und handle dann Aktien in der Bybit-App oder auf der Website.",
   "endsIn": "Endet in",
   "endsAt": "Endet am 31. Okt. 2026, 00:00 UTC",
@@ -364,11 +364,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Tägliche Reward-Box",
-    "Handle an einem Tag Aktien für mehr als $2,000 und du bekommst eine Box im Wert von bis zu 50 USDC – an jedem Tag der Kampagne."
+    "Handle an einem Tag Aktien für mehr als 2.000 $ und du bekommst eine Box im Wert von bis zu 50 USDC – an jedem Tag der Kampagne."
    ],
    [
-    "Stock Splash: 100,000 USDC",
-    "Handle während der Kampagne Aktien für mindestens $1,000 und halte am Ende mindestens $1,000 in Aktien. Der Pool wird nach berechtigtem Volumen verteilt, bis zu 5,000 USDC pro Person."
+    "Stock Splash: 100.000 USDC",
+    "Handle während der Kampagne Aktien für mindestens 1.000 $ und halte am Ende mindestens 1.000 $ in Aktien. Der Pool wird nach berechtigtem Volumen verteilt, bis zu 5.000 USDC pro Person."
    ]
   ],
   "multipliersH": "Stock-Splash-Multiplikatoren",
@@ -376,38 +376,38 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "multiplierEarlyRows": [
    [
     "Tag 1–5",
-    "1.4×"
+    "1,4×"
    ],
    [
     "Tag 6–10",
-    "1.3×"
+    "1,3×"
    ],
    [
     "Tag 11–15",
-    "1.2×"
+    "1,2×"
    ],
    [
     "Tag 16–18",
-    "1.1×"
+    "1,1×"
    ],
    [
     "Tag 19–20",
-    "1.0×"
+    "1,0×"
    ]
   ],
   "multiplierHold": "Durchschnittlicher täglicher Aktienbestand",
   "multiplierHoldRows": [
    [
-    "$1,000–10,000",
-    "1.1×"
+    "1.000–10.000 $",
+    "1,1×"
    ],
    [
-    "$10,000–100,000",
-    "1.2×"
+    "10.000–100.000 $",
+    "1,2×"
    ],
    [
-    "Über $100,000",
-    "1.5×"
+    "Über 100.000 $",
+    "1,5×"
    ]
   ],
   "whoH": "Wer teilnehmen kann",
@@ -446,7 +446,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Gebühren",
-    "Keine Provision; 0.1% Servicegebühr, mindestens 0.35 USDC pro Order",
+    "Keine Provision; 0,1 % Servicegebühr, mindestens 0,35 USDC pro Order",
     "Handelsgebühren der Plattform",
     "Je nach Broker"
    ],
@@ -461,7 +461,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "faq": [
    [
     "Ist Bybit Stocks in meinem Land verfügbar?",
-    "Nicht in den USA und nirgends, wo Bybit selbst nicht verfügbar ist (zum Beispiel Festlandchina, Hongkong, Singapur und Kanada). Bybit führt außerdem die EWR-Länder, Indien, Mauritius und die VAE als eingeschränkt für Stocks; Südafrika ist noch offen. Überall sonst brauchst du ein Bybit-Konto mit erweiterter Identitätsprüfung."
+    "Nicht in den USA und nirgends, wo Bybit selbst nicht verfügbar ist (zum Beispiel Festlandchina, Hongkong, Singapur und Kanada). Außerdem schränkt Bybit Stocks in den EWR-Ländern, in Indien, Mauritius und den VAE ein; für Südafrika steht eine Entscheidung noch aus. Überall sonst brauchst du ein Bybit-Konto mit erweiterter Identitätsprüfung."
    ],
    [
     "Besitze ich echte Aktien?",
@@ -473,15 +473,15 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Was kostet ein Trade?",
-    "Bybit verlangt keine Provision. Es fällt eine Servicegebühr von 0.1% des Orderwerts an, mindestens 0.35 USDC pro Order, und der Spread ist im Preis enthalten."
+    "Bybit verlangt keine Provision. Es fällt eine Servicegebühr von 0,1 % des Orderwerts an, mindestens 0,35 USDC pro Order, und der Spread ist im Preis enthalten."
    ],
    [
     "Wie viel brauche ich zum Start?",
-    "5 USDC. Berechtigte Aktien lassen sich in Bruchstücken kaufen, der Aktienkurs spielt also keine Rolle. Eine einzelne Order kann bis zu 1,000,000 USDC betragen."
+    "5 USDC. Berechtigte Aktien lassen sich in Bruchstücken kaufen, der Aktienkurs spielt also keine Rolle. Eine einzelne Order kann bis zu 1.000.000 USDC betragen."
    ],
    [
     "Kann ich nachts oder am Wochenende handeln?",
-    "Nachts ja: Unterstützte Aktien werden über Nacht von 8:00 PM bis 4:00 AM ET gehandelt, zusätzlich zu Vor- und Nachbörse. Am Wochenende nein: Der Handel ruht von Freitag 8:00 PM bis Sonntag 8:00 PM ET."
+    "Nachts ja: Unterstützte Aktien werden über Nacht von 20:00 bis 04:00 Uhr ET gehandelt, zusätzlich zu Vor- und Nachbörse. Am Wochenende nein: Der Handel ruht von Freitag 20:00 Uhr bis Sonntag 20:00 Uhr ET."
    ]
   ],
   "relatedH": "Weiterlesen",
@@ -495,7 +495,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Unsere Analyse zum Launch"
    ],
    [
-    "Lektion 7: dein erster Spot-Trade",
+    "Lektion 7: Dein erster Spot-Trade",
     "Market- vs. Limit-Orders, Schritt für Schritt"
    ],
    [
@@ -510,7 +510,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "dealChips": [
    "Keine Provision",
    "Ab 5 USDC",
-   "1,000+ Aktien & ETFs"
+   "1.000+ Aktien & ETFs"
   ]
  },
  "en": {
@@ -777,8 +777,8 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "breadcrumb": "Campañas",
   "kicker": "Nuevo en Bybit · Acciones y ETFs de EE. UU.",
   "h1": "Compra Apple, Nvidia y Tesla con USDC, en Bybit",
-  "sub": "Bybit ya vende acciones y ETFs reales de EE. UU. —más de 1,000— pagados directamente con el USDC de tu Cuenta de Trading Unificada. Las órdenes empiezan en 5 USDC y el mercado abre 24 horas al día, cinco días a la semana.",
-  "cta": "Regístrate con el código {code}",
+  "sub": "En Bybit ya puedes comprar más de 1,000 acciones y ETF reales de EE. UU., pagando directamente con el USDC de tu Cuenta de Trading Unificada. Las órdenes empiezan en 5 USDC y el mercado abre 24 horas al día, cinco días a la semana.",
+  "cta": "Abre tu cuenta en Bybit con el código {code}",
   "how": "Cómo funciona",
   "codeLabel": "Código de invitación",
   "copy": "Copiar",
@@ -789,7 +789,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "facts": [
    [
     "Acciones reales, no tokens",
-    "Compras acciones que cotizan en EE. UU. Alpaca Securities LLC (miembro de FINRA/SIPC) ejecuta la orden y custodia las acciones. Ni un token ni un CFD."
+    "Compras acciones reales que cotizan en EE. UU. Alpaca Securities LLC (miembro de FINRA/SIPC) ejecuta la orden y custodia las acciones. No son tokens ni CFD."
    ],
    [
     "Pagas en USDC",
@@ -815,8 +815,8 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Deposita o convierte a USDC y mantenlo en tu Cuenta de Trading Unificada. Las órdenes de acciones se pagan desde ahí."
    ],
    [
-    "Ve a TradFi → Stocks",
-    "En la app de Bybit o en la web, abre TradFi y elige Stocks."
+    "Ve a TradFi → Acciones (Stocks)",
+    "En la app de Bybit o en la web, abre TradFi y elige Acciones (Stocks)."
    ],
    [
     "Busca el ticker",
@@ -907,7 +907,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "1.0×"
    ]
   ],
-  "multiplierHold": "Tenencia diaria promedio en acciones",
+  "multiplierHold": "Saldo diario promedio en acciones",
   "multiplierHoldRows": [
    [
     "$1,000–10,000",
@@ -969,7 +969,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Transferencia bancaria"
    ]
   ],
-  "faqH": "Preguntas",
+  "faqH": "Preguntas frecuentes",
   "faq": [
    [
     "¿Bybit Stocks está disponible en mi país?",
@@ -1015,8 +1015,8 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Qué te pide la verificación de identidad"
    ]
   ],
-  "finalH": "Tu primera acción está a 5 USDC",
-  "finalBody": "Regístrate con el código {code}, verifícate, pasa USDC a tu UTA y compra.",
+  "finalH": "Empieza a invertir en acciones de EE. UU. desde 5 USDC",
+  "finalBody": "Abre tu cuenta con el código {code}, verifícate, pasa USDC a tu UTA y compra.",
   "finalNeutralH": "Lee la historia completa",
   "finalNeutralBody": "Nuestro análisis cubre la custodia, los costos y cómo se compara Bybit Stocks con las acciones tokenizadas.",
   "dealChips": [
@@ -1032,10 +1032,10 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Comment fonctionne Bybit Stocks : 1,000+ actions et ETF US en USDC, de vraies actions chez Alpaca, dès 5 USDC, 24 heures par jour, 5 jours par semaine.",
   "breadcrumb": "Campagnes",
   "kicker": "Nouveau sur Bybit · Actions et ETF US",
-  "h1": "Achetez Apple, Nvidia et Tesla en USDC, sur Bybit",
-  "sub": "Bybit vend désormais de vraies actions et ETF américains — plus de 1,000 — payés directement avec les USDC de votre compte de trading unifié. Les ordres démarrent à 5 USDC et le marché est ouvert 24 heures par jour, cinq jours par semaine.",
+  "h1": "Achetez de vraies actions US (Apple, Nvidia, Tesla) en USDC sur Bybit",
+  "sub": "Bybit propose désormais plus de 1 000 actions et ETF américains réels, payés directement en USDC depuis votre compte de trading unifié. Ordres dès 5 USDC, marché ouvert 24 h/24, 5 j/7.",
   "cta": "Inscrivez-vous avec le code {code}",
-  "how": "Comment ça marche",
+  "how": "Voir les 5 étapes",
   "codeLabel": "Code d'invitation",
   "copy": "Copier",
   "copied": "Copié",
@@ -1056,7 +1056,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Actions fractionnées sur les titres éligibles : placez 5 USDC et vous détenez une part d'action."
    ],
    [
-    "24 heures, 5 jours",
+    "24 heures, 5 jours",
     "Pré-marché, séance régulière, post-marché et une séance de nuit pour les actions compatibles, du dimanche soir au vendredi soir (heure de New York)."
    ]
   ],
@@ -1076,7 +1076,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Cherchez le ticker",
-    "Tapez AAPL, NVDA, TSLA, QQQ ou l'un des 1,000+ symboles et ouvrez sa page de trading, avec les graphiques TradingView."
+    "Tapez AAPL, NVDA, TSLA, QQQ ou l'un des plus de 1 000 symboles et ouvrez sa page de trading, avec les graphiques TradingView."
    ],
    [
     "Passez votre ordre",
@@ -1092,29 +1092,29 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessions": [
    [
     "Nuit",
-    "8:00 PM – 4:00 AM",
+    "20 h – 4 h",
     "Actions compatibles"
    ],
    [
     "Pré-marché",
-    "4:00 AM – 9:30 AM",
+    "4 h – 9 h 30",
     "Ordres à cours limité"
    ],
    [
     "Séance régulière",
-    "9:30 AM – 4:00 PM",
+    "9 h 30 – 16 h",
     "Tous types d'ordres"
    ],
    [
     "Post-marché",
-    "4:00 PM – 8:00 PM",
+    "16 h – 20 h",
     "Ordres à cours limité"
    ]
   ],
-  "sessionsWeekend": "Fermé du vendredi 8:00 PM au dimanche 8:00 PM ET et les jours fériés des marchés américains. Les ordres au marché sont exécutés pendant la séance régulière ; en dehors, activez le trading 24 heures sur un ordre à cours limité.",
+  "sessionsWeekend": "Fermé du vendredi 20 h au dimanche 20 h (heure de New York) et les jours fériés des marchés américains. Les ordres au marché sont exécutés pendant la séance régulière ; en dehors, activez le trading 24 heures sur un ordre à cours limité.",
   "yourTime": "Votre heure",
   "campaignKicker": "Campagne de lancement",
-  "campaignH": "Full Stocks Ahead : 150,000 USDC pour les traders d'actions",
+  "campaignH": "Full Stocks Ahead : 150 000 USDC pour les traders d'actions",
   "campaignLead": "La campagne de lancement de Bybit se déroule du 12 au 31 octobre 2026 (00:00 UTC). Inscrivez-vous sur la page de la campagne, puis tradez des actions dans l'app Bybit ou sur le site.",
   "endsIn": "Se termine dans",
   "endsAt": "Fin le 31 oct. 2026, 00:00 UTC",
@@ -1132,50 +1132,50 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Coffret quotidien",
-    "Tradez plus de $2,000 d'actions dans la journée et recevez un coffret d'une valeur allant jusqu'à 50 USDC — chaque jour de la campagne."
+    "Tradez plus de 2 000 $ d'actions dans la journée et recevez un coffret d'une valeur allant jusqu'à 50 USDC — chaque jour de la campagne."
    ],
    [
-    "Stock Splash : 100,000 USDC",
-    "Tradez au moins $1,000 d'actions pendant la campagne et détenez au moins $1,000 d'actions à la fin. La cagnotte est répartie selon le volume éligible, jusqu'à 5,000 USDC par personne."
+    "Stock Splash : 100 000 USDC",
+    "Tradez au moins 1 000 $ d'actions pendant la campagne et détenez au moins 1 000 $ d'actions à la fin. La cagnotte est répartie selon le volume éligible, jusqu'à 5 000 USDC par personne."
    ]
   ],
   "multipliersH": "Multiplicateurs Stock Splash",
-  "multiplierEarly": "Trading anticipé",
+  "multiplierEarly": "Bonus de début de campagne",
   "multiplierEarlyRows": [
    [
     "Jours 1–5",
-    "1.4×"
+    "1,4×"
    ],
    [
     "Jours 6–10",
-    "1.3×"
+    "1,3×"
    ],
    [
     "Jours 11–15",
-    "1.2×"
+    "1,2×"
    ],
    [
     "Jours 16–18",
-    "1.1×"
+    "1,1×"
    ],
    [
     "Jours 19–20",
-    "1.0×"
+    "1,0×"
    ]
   ],
   "multiplierHold": "Détention moyenne quotidienne en actions",
   "multiplierHoldRows": [
    [
-    "$1,000–10,000",
-    "1.1×"
+    "1 000 – 10 000 $",
+    "1,1×"
    ],
    [
-    "$10,000–100,000",
-    "1.2×"
+    "10 000 – 100 000 $",
+    "1,2×"
    ],
    [
-    "Plus de $100,000",
-    "1.5×"
+    "Plus de 100 000 $",
+    "1,5×"
    ]
   ],
   "whoH": "Qui peut participer",
@@ -1191,7 +1191,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    [
     "Ce que vous détenez",
     "Des actions cotées aux États-Unis",
-    "Un token sur Solana adossé à une action détenue par un SPV, remboursable 1:1",
+    "Un token sur Solana adossé à une action détenue par un SPV, échangeable à 1 pour 1",
     "Des actions sur votre compte-titres"
    ],
    [
@@ -1202,7 +1202,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Horaires de trading",
-    "24 heures, 5 jours par semaine",
+    "24 heures, 5 jours",
     "24/7 sur Solana",
     "Horaires de la bourse, horaires étendus variables"
    ],
@@ -1214,7 +1214,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Frais",
-    "Pas de commission ; frais de service de 0.1%, minimum 0.35 USDC par ordre",
+    "Pas de commission ; frais de service de 0,1 %, minimum 0,35 USDC par ordre",
     "Frais de trading de la plateforme",
     "Selon le courtier"
    ],
@@ -1241,15 +1241,15 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Combien coûte un trade ?",
-    "Bybit ne prend aucune commission. Des frais de service de 0.1% de la valeur de l'ordre s'appliquent, avec un minimum de 0.35 USDC par ordre, et le spread est intégré au prix."
+    "Bybit ne prend aucune commission. Des frais de service de 0,1 % de la valeur de l'ordre s'appliquent, avec un minimum de 0,35 USDC par ordre, et le spread est intégré au prix."
    ],
    [
     "De combien ai-je besoin pour commencer ?",
-    "5 USDC. Les actions éligibles peuvent s'acheter en fractions : le prix de l'action n'a donc pas d'importance. Un seul ordre peut aller jusqu'à 1,000,000 USDC."
+    "5 USDC. Les actions éligibles peuvent s'acheter en fractions : le prix de l'action n'a donc pas d'importance. Un seul ordre peut aller jusqu'à 1 000 000 USDC."
    ],
    [
     "Puis-je trader la nuit ou le week-end ?",
-    "La nuit, oui : les actions compatibles se négocient de nuit de 8:00 PM à 4:00 AM ET, en plus du pré-marché et du post-marché. Le week-end, non : le trading est suspendu du vendredi 8:00 PM au dimanche 8:00 PM ET."
+    "La nuit, oui : les actions compatibles se négocient de nuit de 20 h à 4 h (heure de New York), en plus du pré-marché et du post-marché. Le week-end, non : le trading est suspendu du vendredi 20 h au dimanche 20 h (heure de New York)."
    ]
   ],
   "relatedH": "À lire aussi",
@@ -1278,7 +1278,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "dealChips": [
    "Sans commission",
    "Dès 5 USDC",
-   "1,000+ actions et ETF"
+   "Plus de 1 000 actions et ETF"
   ]
  },
  "id": {
@@ -1288,9 +1288,9 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Cara kerja Bybit Stocks: 1,000+ saham dan ETF AS dibeli dengan USDC, saham asli disimpan Alpaca, minimum 5 USDC, trading 24 jam sehari, 5 hari seminggu.",
   "breadcrumb": "Kampanye",
   "kicker": "Baru di Bybit · Saham & ETF AS",
-  "h1": "Beli Apple, Nvidia, dan Tesla pakai USDC — di Bybit",
-  "sub": "Bybit kini menjual saham dan ETF AS asli — lebih dari 1,000 pilihan — dibayar langsung dari USDC di Akun Trading Terpadu kamu. Order mulai 5 USDC dan pasar buka 24 jam sehari, lima hari seminggu.",
-  "cta": "Daftar dengan kode {code}",
+  "h1": "Beli saham AS asli (Apple, Nvidia, Tesla) pakai USDC di Bybit — mulai 5 USDC",
+  "sub": "Bybit kini menjual saham dan ETF AS asli — lebih dari 1.000 pilihan — dibayar langsung dari USDC di Akun Trading Terpadu kamu. Order mulai 5 USDC dan pasar buka 24 jam sehari, lima hari seminggu.",
+  "cta": "Daftar Bybit dengan kode {code}",
   "how": "Cara kerjanya",
   "codeLabel": "Kode undangan",
   "copy": "Salin",
@@ -1328,11 +1328,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Buka TradFi → Stocks",
-    "Di aplikasi Bybit atau situs web, buka TradFi lalu pilih Stocks."
+    "Di aplikasi atau situs web Bybit, buka menu TradFi lalu pilih Stocks."
    ],
    [
     "Cari ticker-nya",
-    "Ketik AAPL, NVDA, TSLA, QQQ atau salah satu dari 1,000+ simbol, lalu buka halaman trading-nya dengan grafik TradingView."
+    "Ketik AAPL, NVDA, TSLA, QQQ atau salah satu dari 1.000+ simbol, lalu buka halaman trading-nya dengan grafik TradingView."
    ],
    [
     "Pasang order",
@@ -1367,10 +1367,10 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Order limit"
    ]
   ],
-  "sessionsWeekend": "Tutup dari Jumat 8:00 PM hingga Minggu 8:00 PM ET dan pada hari libur pasar AS. Order market tereksekusi di jam reguler; di luar itu, pilih 24-Hour Trading pada order limit.",
+  "sessionsWeekend": "Tutup dari Jumat 8:00 PM hingga Minggu 8:00 PM ET dan pada hari libur pasar AS. Order market tereksekusi di jam reguler; di luar itu, pilih mode 24-Hour Trading (trading 24 jam) pada order limit.",
   "yourTime": "Waktu kamu",
   "campaignKicker": "Kampanye peluncuran",
-  "campaignH": "Full Stocks Ahead: 150,000 USDC untuk trader saham",
+  "campaignH": "Full Stocks Ahead: total hadiah 150.000 USDC untuk trader saham",
   "campaignLead": "Kampanye peluncuran Bybit berlangsung dari 12 Oktober hingga 31 Oktober 2026 (00:00 UTC). Daftar di halaman kampanye, lalu trading saham di aplikasi Bybit atau situs web.",
   "endsIn": "Berakhir dalam",
   "endsAt": "Berakhir 31 Okt 2026, 00:00 UTC",
@@ -1388,59 +1388,59 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Kotak hadiah harian",
-    "Trading saham lebih dari $2,000 dalam sehari dan dapatkan kotak senilai hingga 50 USDC — setiap hari selama kampanye."
+    "Trading saham lebih dari $2.000 dalam sehari dan dapatkan kotak senilai hingga 50 USDC — setiap hari selama kampanye."
    ],
    [
-    "Stock Splash: 100,000 USDC",
-    "Trading saham minimal $1,000 selama kampanye dan pegang saham minimal $1,000 di akhir kampanye. Pool dibagi berdasarkan volume yang memenuhi syarat, hingga 5,000 USDC per orang."
+    "Pool hadiah Stock Splash: 100.000 USDC",
+    "Trading saham minimal $1.000 selama kampanye dan pegang saham minimal $1.000 di akhir kampanye. Pool dibagi berdasarkan volume yang memenuhi syarat, hingga 5.000 USDC per orang."
    ]
   ],
-  "multipliersH": "Pengali Stock Splash",
+  "multipliersH": "Pengali hadiah Stock Splash",
   "multiplierEarly": "Trading lebih awal",
   "multiplierEarlyRows": [
    [
     "Hari 1–5",
-    "1.4×"
+    "1,4×"
    ],
    [
     "Hari 6–10",
-    "1.3×"
+    "1,3×"
    ],
    [
     "Hari 11–15",
-    "1.2×"
+    "1,2×"
    ],
    [
     "Hari 16–18",
-    "1.1×"
+    "1,1×"
    ],
    [
     "Hari 19–20",
-    "1.0×"
+    "1,0×"
    ]
   ],
   "multiplierHold": "Rata-rata kepemilikan saham harian",
   "multiplierHoldRows": [
    [
-    "$1,000–10,000",
-    "1.1×"
+    "$1.000–10.000",
+    "1,1×"
    ],
    [
-    "$10,000–100,000",
-    "1.2×"
+    "$10.000–100.000",
+    "1,2×"
    ],
    [
-    "Di atas $100,000",
-    "1.5×"
+    "Di atas $100.000",
+    "1,5×"
    ]
   ],
   "whoH": "Siapa yang bisa ikut",
   "who": "Akun utama di wilayah tempat Bybit Stocks tersedia. Akun Pro dan penduduk Dubai tidak dapat ikut serta.",
   "officialLink": "Pengumuman Bybit",
-  "compareH": "Bybit Stocks vs saham tokenisasi vs broker tradisional",
+  "compareH": "Bybit Stocks vs saham tertokenisasi vs broker tradisional",
   "compareCols": [
    "Bybit Stocks",
-   "Saham tokenisasi (mis. Backpack)",
+   "Saham tertokenisasi (mis. Backpack)",
    "Broker tradisional"
   ],
   "compareRows": [
@@ -1470,7 +1470,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Biaya",
-    "Tanpa komisi; biaya layanan 0.1%, minimum 0.35 USDC per order",
+    "Tanpa komisi; biaya layanan 0,1%, minimum 0,35 USDC per order",
     "Biaya trading platform",
     "Tergantung broker"
    ],
@@ -1484,11 +1484,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "faqH": "Pertanyaan",
   "faq": [
    [
-    "Apakah Bybit Stocks tersedia di negaraku?",
+    "Apakah Bybit Stocks tersedia di negaramu?",
     "Tidak di Amerika Serikat, dan tidak di mana pun Bybit sendiri tidak tersedia (misalnya Tiongkok Daratan, Hong Kong, Singapura, dan Kanada). Bybit juga mencantumkan negara-negara EEA, India, Mauritius, dan UEA sebagai wilayah terbatas untuk Stocks, sementara Afrika Selatan masih menunggu konfirmasi. Di tempat lain, kamu memerlukan akun Bybit dengan Verifikasi Identitas Lanjutan."
    ],
    [
-    "Apakah aku memiliki saham asli?",
+    "Apakah saham yang kamu beli adalah saham asli?",
     "Ya. Saat membeli, kamu membeli saham tercatat di AS yang disimpan oleh Alpaca Securities LLC (anggota FINRA/SIPC); Alpaca meneruskan order ke bursa seperti NYSE dan Nasdaq. Ini bukan token atau CFD, jadi tidak bisa dikirim on-chain."
    ],
    [
@@ -1497,14 +1497,14 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Berapa biaya satu transaksi?",
-    "Bybit tidak memungut komisi. Berlaku biaya layanan 0.1% dari nilai order, minimal 0.35 USDC per order, dan spread sudah termasuk dalam harga."
+    "Bybit tidak memungut komisi. Berlaku biaya layanan 0,1% dari nilai order, minimal 0,35 USDC per order, dan spread sudah termasuk dalam harga."
    ],
    [
     "Berapa modal untuk mulai?",
-    "5 USDC. Saham yang memenuhi syarat bisa dibeli pecahan, jadi harga per saham tidak jadi masalah. Satu order bisa mencapai 1,000,000 USDC."
+    "5 USDC. Saham yang memenuhi syarat bisa dibeli pecahan, jadi harga per saham tidak jadi masalah. Satu order bisa mencapai 1.000.000 USDC."
    ],
    [
-    "Bisakah aku trading malam hari atau akhir pekan?",
+    "Bisakah kamu trading di malam hari atau akhir pekan?",
     "Malam hari, bisa: saham yang didukung diperdagangkan semalam dari 8:00 PM hingga 4:00 AM ET, selain sesi pra-pasar dan pasca-pasar. Akhir pekan, tidak: trading berhenti dari Jumat 8:00 PM hingga Minggu 8:00 PM ET."
    ]
   ],
@@ -1515,7 +1515,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Biaya, produk, dan cara mendaftar"
    ],
    [
-    "Apa yang sebenarnya kamu miliki dengan saham Bybit",
+    "Apa yang sebenarnya kamu miliki saat membeli saham di Bybit",
     "Analisis berita kami tentang peluncurannya"
    ],
    [
@@ -1530,11 +1530,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "finalH": "Saham pertamamu hanya 5 USDC lagi",
   "finalBody": "Daftar dengan kode {code}, verifikasi, pindahkan USDC ke UTA, lalu beli.",
   "finalNeutralH": "Baca selengkapnya",
-  "finalNeutralBody": "Analisis berita kami membahas kustodian, biaya, dan perbandingan Bybit Stocks dengan saham tokenisasi.",
+  "finalNeutralBody": "Analisis berita kami membahas kustodian, biaya, dan perbandingan Bybit Stocks dengan saham tertokenisasi.",
   "dealChips": [
    "Tanpa komisi",
    "Mulai 5 USDC",
-   "1,000+ saham & ETF"
+   "1.000+ saham & ETF"
   ]
  },
  "ja": {
@@ -1544,16 +1544,16 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Bybit Stocksの仕組み：1,000+の米国株・ETFをUSDCで購入、実株はAlpacaが保管、最低5 USDC、週5日24時間取引。",
   "breadcrumb": "キャンペーン",
   "kicker": "Bybit 新登場 · 米国株・ETF",
-  "h1": "Apple、エヌビディア、テスラをUSDCで。Bybitで",
+  "h1": "BybitでApple・NVIDIA・Teslaなどの米国株をUSDCで直接取引",
   "sub": "Bybitで本物の米国株・ETFが買えるようになりました。銘柄数は1,000超、ユニファイドトレーディングアカウント（UTA）のUSDCでそのまま支払えます。注文は5 USDCから、平日は24時間取引できます。",
-  "cta": "招待コード {code} で登録",
+  "cta": "Bybitで米国株取引を始める（招待コード：{code}）",
   "how": "仕組み",
   "codeLabel": "招待コード",
   "copy": "コピー",
   "copied": "コピーしました",
   "neutralLead": "以下では、何を保有するのか、注文の流れ、取引時間、ローンチキャンペーンの内容を説明します。",
   "tickersLabel": "人気銘柄",
-  "factsH": "知っておきたい四つのポイント",
+  "factsH": "知っておきたい4つのポイント",
   "facts": [
    [
     "トークンではなく実株",
@@ -1565,7 +1565,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "5 USDCから",
-    "対象銘柄は端株(小口)に対応。5 USDCから株式の一部を保有できます。"
+    "対象銘柄は端株（小数点単位の少額取引）に対応。5 USDCから米国株を保有できます。"
    ],
    [
     "24時間・週5日",
@@ -1626,7 +1626,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessionsWeekend": "金曜午後8:00から日曜午後8:00（ET）までと米国市場の休場日は取引できません。成行注文は通常取引時間に約定します。それ以外の時間は指値注文で「24時間取引」を選択してください。",
   "yourTime": "現地時間",
   "campaignKicker": "ローンチキャンペーン",
-  "campaignH": "Full Stocks Ahead：総額150,000 USDCを株式トレーダーに",
+  "campaignH": "ローンチ記念「Full Stocks Ahead」：株式トレーダー向けに総額150,000 USDC",
   "campaignLead": "Bybitのローンチキャンペーンは2026年10月12日～10月31日（00:00 UTC）。キャンペーンページでエントリーし、BybitアプリまたはWebサイトで株式を取引しましょう。",
   "endsIn": "終了まで",
   "endsAt": "2026年10月31日 00:00 UTC 終了",
@@ -1709,7 +1709,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    [
     "保管",
     "Alpaca Securities LLC（FINRA/SIPC会員）",
-    "発行体のSPVが株式を保有し、あなたはトークンを保有",
+    "発行体のSPVが原株を保管し、ユーザーはトークンを保有",
     "証券会社またはその清算会社"
    ],
    [
@@ -1788,7 +1788,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "finalNeutralH": "詳しい解説を読む",
   "finalNeutralBody": "保管の仕組み、コスト、トークン化株式との違いをニュース分析で詳しく解説しています。",
   "dealChips": [
-   "取引手数料（コミッション）なし",
+   "売買コミッション0%（サービス料0.1%・最低0.35 USDC）",
    "5 USDCから",
    "1,000以上の株式・ETF"
   ]
@@ -1800,9 +1800,9 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Bybit Stocks: USDC로 미국 주식·ETF 1,000+개 매수, Alpaca 보관 실물주식, 최소 5 USDC, 주 5일 24시간.",
   "breadcrumb": "캠페인",
   "kicker": "Bybit 신규 출시 · 미국 주식·ETF",
-  "h1": "애플·엔비디아·테슬라를 USDC로, Bybit에서",
+  "h1": "Bybit에서 USDC로 애플·엔비디아·테슬라 실제 주식 매수하기",
   "sub": "이제 Bybit에서 실제 미국 주식과 ETF를 살 수 있습니다. 종목은 1,000개 이상, 통합거래계정(UTA)의 USDC로 바로 결제합니다. 주문은 5 USDC부터, 평일에는 24시간 거래할 수 있습니다.",
-  "cta": "초대 코드 {code}로 가입하기",
+  "cta": "초대 코드 {code} 적용해 가입하기",
   "how": "이용 방법",
   "codeLabel": "초대 코드",
   "copy": "복사",
@@ -1825,14 +1825,14 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "24시간, 주 5일",
-    "지원 종목은 프리마켓, 정규장, 애프터마켓, 야간 세션까지 거래됩니다. 일요일 저녁부터 금요일 저녁까지(뉴욕 시간)."
+    "지원 종목은 뉴욕 시간 기준 일요일 저녁부터 금요일 저녁까지 프리마켓, 정규장, 애프터마켓, 야간 세션 모두 거래할 수 있습니다."
    ]
   ],
   "stepsH": "첫 주식 주문, 5단계면 끝",
   "steps": [
    [
     "계정 만들기",
-    "NexuAlpha 링크로 가입하거나 초대 코드 {code}를 입력한 뒤 고급 신원 인증을 완료하세요. 주식 거래에는 고급 인증이 필요합니다."
+    "NexuAlpha 링크로 가입하거나 초대 코드 {code} 입력 후 고급 신원 인증을 완료하세요. 주식 거래에는 고급 인증이 필요합니다."
    ],
    [
     "UTA에 USDC 준비",
@@ -1882,7 +1882,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessionsWeekend": "금요일 오후 8:00부터 일요일 오후 8:00(ET)까지, 그리고 미국 증시 휴장일에는 거래할 수 없습니다. 시장가 주문은 정규장에 체결되며, 그 외 시간에는 지정가 주문에서 '24시간 거래'를 선택하세요.",
   "yourTime": "현지 시간",
   "campaignKicker": "출시 캠페인",
-  "campaignH": "Full Stocks Ahead: 주식 트레이더를 위한 150,000 USDC",
+  "campaignH": "Full Stocks Ahead 출시 캠페인: 총 150,000 USDC 보상 풀",
   "campaignLead": "Bybit 출시 캠페인은 2026년 10월 12일부터 10월 31일(00:00 UTC)까지 진행됩니다. 캠페인 페이지에서 등록한 뒤 Bybit 앱이나 웹사이트에서 주식을 거래하세요.",
   "endsIn": "종료까지",
   "endsAt": "2026년 10월 31일 00:00 UTC 종료",
@@ -2040,13 +2040,13 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ]
   ],
   "finalH": "첫 주식까지, 단 5 USDC",
-  "finalBody": "초대 코드 {code}로 가입하고, 인증을 마친 뒤, USDC를 UTA로 옮겨 매수하세요.",
+  "finalBody": "초대 코드 {code} 적용해 가입하고 본인 인증을 마친 뒤, 통합거래계정(UTA)에 USDC를 준비해 바로 매수해 보세요.",
   "finalNeutralH": "전체 분석 읽기",
   "finalNeutralBody": "보관 구조, 비용, 그리고 Bybit Stocks와 토큰화 주식의 차이를 뉴스 분석에서 다룹니다.",
   "dealChips": [
-   "수수료(커미션) 없음",
-   "5 USDC부터",
-   "1,000개+ 주식·ETF"
+   "커미션 0",
+   "최소 5 USDC부터",
+   "미국 주식·ETF 1,000종 이상"
   ]
  },
  "pt-BR": {
@@ -2056,16 +2056,16 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Como funciona o Bybit Stocks: 1,000+ ações e ETFs dos EUA com USDC, ações reais na Alpaca, mínimo de 5 USDC, 24 horas por dia, 5 dias por semana.",
   "breadcrumb": "Campanhas",
   "kicker": "Novidade na Bybit · Ações e ETFs dos EUA",
-  "h1": "Compre Apple, Nvidia e Tesla com USDC, na Bybit",
-  "sub": "A Bybit agora vende ações e ETFs reais dos EUA — mais de 1,000 — pagos direto com o USDC da sua Conta de Trading Unificada. As ordens começam em 5 USDC e o mercado fica aberto 24 horas por dia, cinco dias por semana.",
-  "cta": "Cadastre-se com o código {code}",
+  "h1": "Compre ações da Apple, Nvidia e Tesla com USDC na Bybit",
+  "sub": "A Bybit agora vende ações e ETFs reais dos EUA — mais de 1.000 — pagos direto com o USDC da sua Conta de Trading Unificada. As ordens começam em 5 USDC e o mercado fica aberto 24 horas por dia, cinco dias por semana.",
+  "cta": "Abra sua conta na Bybit com o código {code}",
   "how": "Como funciona",
   "codeLabel": "Código de convite",
   "copy": "Copiar",
   "copied": "Copiado",
   "neutralLead": "A seguir: o que você passa a ter, como funciona uma ordem, quando dá para negociar e o que a campanha de lançamento paga.",
   "tickersLabel": "Tickers populares",
-  "factsH": "Quatro coisas para saber",
+  "factsH": "4 pontos essenciais antes de começar",
   "facts": [
    [
     "Ações reais, não tokens",
@@ -2100,7 +2100,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Busque o ticker",
-    "Digite AAPL, NVDA, TSLA, QQQ ou qualquer um dos 1,000+ símbolos e abra a página de negociação, com gráficos do TradingView."
+    "Digite AAPL, NVDA, TSLA, QQQ ou qualquer um dos mais de 1.000 símbolos e abra a página de negociação, com gráficos do TradingView."
    ],
    [
     "Envie sua ordem",
@@ -2116,29 +2116,29 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessions": [
    [
     "Noturna",
-    "8:00 PM – 4:00 AM",
+    "20h – 4h",
     "Ações compatíveis"
    ],
    [
     "Pré-mercado",
-    "4:00 AM – 9:30 AM",
+    "4h – 9h30",
     "Ordens limitadas"
    ],
    [
     "Horário regular",
-    "9:30 AM – 4:00 PM",
+    "9h30 – 16h",
     "Todos os tipos de ordem"
    ],
    [
     "Pós-mercado",
-    "4:00 PM – 8:00 PM",
+    "16h – 20h",
     "Ordens limitadas"
    ]
   ],
-  "sessionsWeekend": "Fechado de sexta 8:00 PM a domingo 8:00 PM ET e nos feriados do mercado americano. Ordens a mercado são executadas no horário regular; fora dele, ative a negociação 24 horas em uma ordem limitada.",
+  "sessionsWeekend": "Fechado de sexta às 20h a domingo às 20h (ET) e nos feriados do mercado americano. Ordens a mercado são executadas no horário regular; fora dele, ative a negociação 24 horas em uma ordem limitada.",
   "yourTime": "Seu horário",
   "campaignKicker": "Campanha de lançamento",
-  "campaignH": "Full Stocks Ahead: 150,000 USDC para quem negocia ações",
+  "campaignH": "Full Stocks Ahead: 150.000 USDC para quem negocia ações",
   "campaignLead": "A campanha de lançamento da Bybit vai de 12 a 31 de outubro de 2026 (00:00 UTC). Inscreva-se na página da campanha e depois negocie ações no app da Bybit ou no site.",
   "endsIn": "Termina em",
   "endsAt": "Termina em 31 out 2026, 00:00 UTC",
@@ -2156,11 +2156,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Caixa de recompensa diária",
-    "Negocie mais de $2,000 em ações em um dia e ganhe uma caixa de até 50 USDC — todos os dias da campanha."
+    "Negocie mais de US$ 2.000 em ações em um dia e ganhe uma caixa de até 50 USDC — todos os dias da campanha."
    ],
    [
-    "Stock Splash: 100,000 USDC",
-    "Negocie pelo menos $1,000 em ações durante a campanha e mantenha pelo menos $1,000 em ações no final. O prêmio é dividido pelo volume elegível, até 5,000 USDC por pessoa."
+    "Stock Splash: 100.000 USDC",
+    "Negocie pelo menos US$ 1.000 em ações durante a campanha e mantenha pelo menos US$ 1.000 em ações no final. O prêmio é dividido pelo volume elegível, até 5.000 USDC por pessoa."
    ]
   ],
   "multipliersH": "Multiplicadores do Stock Splash",
@@ -2168,38 +2168,38 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "multiplierEarlyRows": [
    [
     "Dias 1–5",
-    "1.4×"
+    "1,4×"
    ],
    [
     "Dias 6–10",
-    "1.3×"
+    "1,3×"
    ],
    [
     "Dias 11–15",
-    "1.2×"
+    "1,2×"
    ],
    [
     "Dias 16–18",
-    "1.1×"
+    "1,1×"
    ],
    [
     "Dias 19–20",
-    "1.0×"
+    "1,0×"
    ]
   ],
   "multiplierHold": "Média diária em ações na carteira",
   "multiplierHoldRows": [
    [
-    "$1,000–10,000",
-    "1.1×"
+    "US$ 1.000–10.000",
+    "1,1×"
    ],
    [
-    "$10,000–100,000",
-    "1.2×"
+    "US$ 10.000–100.000",
+    "1,2×"
    ],
    [
-    "Acima de $100,000",
-    "1.5×"
+    "Acima de US$ 100.000",
+    "1,5×"
    ]
   ],
   "whoH": "Quem pode participar",
@@ -2238,7 +2238,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Taxas",
-    "Sem corretagem; taxa de serviço de 0.1%, mínimo de 0.35 USDC por ordem",
+    "Sem corretagem; taxa de serviço de 0,1%, mínimo de 0,35 USDC por ordem",
     "Taxas de negociação da plataforma",
     "Varia por corretora"
    ],
@@ -2265,15 +2265,15 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Quanto custa uma operação?",
-    "A Bybit não cobra corretagem. Há uma taxa de serviço de 0.1% do valor da ordem, com mínimo de 0.35 USDC por ordem, e o spread já está embutido no preço."
+    "A Bybit não cobra corretagem. Há uma taxa de serviço de 0,1% do valor da ordem, com mínimo de 0,35 USDC por ordem, e o spread já está embutido no preço."
    ],
    [
     "Quanto eu preciso para começar?",
-    "5 USDC. Ações elegíveis podem ser compradas em frações, então o preço da ação não importa. Uma única ordem pode chegar a 1,000,000 USDC."
+    "5 USDC. Ações elegíveis podem ser compradas em frações, então o preço da ação não importa. Uma única ordem pode chegar a 1.000.000 USDC."
    ],
    [
     "Dá para negociar à noite ou no fim de semana?",
-    "À noite, sim: ações compatíveis são negociadas na sessão noturna de 8:00 PM a 4:00 AM ET, além do pré e do pós-mercado. No fim de semana, não: a negociação pausa de sexta 8:00 PM a domingo 8:00 PM ET."
+    "À noite, sim: ações compatíveis são negociadas na sessão noturna das 20h às 4h (ET), além do pré e do pós-mercado. No fim de semana, não: a negociação pausa de sexta às 20h a domingo às 20h (ET)."
    ]
   ],
   "relatedH": "Continue lendo",
@@ -2295,14 +2295,14 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "O que a verificação de identidade pede"
    ]
   ],
-  "finalH": "Sua primeira ação está a 5 USDC de distância",
-  "finalBody": "Cadastre-se com o código {code}, verifique sua identidade, mova USDC para a sua UTA e compre.",
+  "finalH": "Comece a investir em ações dos EUA a partir de 5 USDC",
+  "finalBody": "Abra sua conta com o código {code}, verifique sua identidade, mova USDC para a sua UTA e compre.",
   "finalNeutralH": "Leia a história completa",
   "finalNeutralBody": "Nossa análise cobre custódia, custos e como o Bybit Stocks se compara às ações tokenizadas.",
   "dealChips": [
    "Sem corretagem",
    "A partir de 5 USDC",
-   "1,000+ ações e ETFs"
+   "Mais de 1.000 ações e ETFs"
   ]
  },
  "ru": {
@@ -2562,96 +2562,96 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   ]
  },
  "tr": {
-  "seoTitle": "Bybit Stocks: USDC ile ABD hissesi al (kod {code})",
+  "seoTitle": "Bybit Stocks: USDC ile ABD hissesi alın (kod {code})",
   "seoTitleNeutral": "Bybit Stocks: USDC ile ABD hisseleri ve ETF'ler",
-  "seoDescription": "Bybit'te USDC ile Apple, Nvidia, Tesla ve 1,000+ ABD hissesi ve ETF al. Gerçek hisseler Alpaca'da; 5 USDC'den başla, haftada 5 gün 24 saat işlem yap.",
-  "seoDescriptionNeutral": "Bybit Stocks nasıl çalışır: USDC ile 1,000+ ABD hissesi ve ETF, Alpaca'da saklanan gerçek hisseler, en az 5 USDC, haftada 5 gün 24 saat işlem.",
+  "seoDescription": "Bybit'te USDC ile Apple, Nvidia, Tesla ve 1.000+ ABD hissesi ve ETF alın. Gerçek hisseler Alpaca'da saklanır; 5 USDC'den başlayın, haftada 5 gün 24 saat işlem yapın.",
+  "seoDescriptionNeutral": "Bybit Stocks nasıl çalışır: USDC ile 1.000+ ABD hissesi ve ETF, Alpaca'da saklanan gerçek hisseler, en az 5 USDC, haftada 5 gün 24 saat işlem.",
   "breadcrumb": "Kampanyalar",
   "kicker": "Bybit'te yeni · ABD hisseleri ve ETF'ler",
-  "h1": "Apple, Nvidia ve Tesla'yı USDC ile al — Bybit'te",
-  "sub": "Bybit artık 1,000'den fazla gerçek ABD hissesi ve ETF sunuyor; ödeme doğrudan Birleşik Alım Satım Hesabı'ndaki USDC'den yapılıyor. Emirler 5 USDC'den başlıyor, piyasa haftada beş gün 24 saat açık.",
-  "cta": "{code} davet koduyla kaydol",
+  "h1": "Bybit'te USDC ile Apple, Nvidia ve Tesla hissesi alın",
+  "sub": "Bybit artık 1.000'den fazla gerçek ABD hissesi ve ETF sunuyor; ödeme doğrudan Birleşik Alım Satım Hesabı'ndaki USDC'den yapılıyor. Emirler 5 USDC'den başlıyor, piyasa haftada beş gün 24 saat açık.",
+  "cta": "{code} koduyla Bybit hesabı açın",
   "how": "Nasıl çalışır",
   "codeLabel": "Davet kodu",
   "copy": "Kopyala",
   "copied": "Kopyalandı",
-  "neutralLead": "Aşağıda: neye sahip olduğun, bir emrin nasıl işlediği, ne zaman işlem yapabileceğin ve lansman kampanyasının neler sunduğu.",
+  "neutralLead": "Aşağıda: neye sahip olduğunuz, bir emrin nasıl işlediği, ne zaman işlem yapabileceğiniz ve lansman kampanyasının neler sunduğu.",
   "tickersLabel": "Popüler semboller",
-  "factsH": "Bilmen gereken dört şey",
+  "factsH": "İşlem yapmadan önce bilmeniz gereken dört şey",
   "facts": [
    [
     "Token değil, gerçek hisse",
-    "ABD borsalarında işlem gören hisseler alırsın. Emri Alpaca Securities LLC (FINRA/SIPC üyesi) gerçekleştirir ve hisseleri saklar. Token değil, CFD değil."
+    "ABD borsalarında işlem gören hisseler alırsınız. Emri Alpaca Securities LLC (FINRA/SIPC üyesi) gerçekleştirir ve hisseleri saklar. Token değil, CFD değil."
    ],
    [
     "Ödeme USDC ile",
     "Emirler Birleşik Alım Satım Hesabı (UTA) içindeki USDC ile ödenir ve takas edilir. Banka havalesine gerek yok."
    ],
    [
-    "5 USDC'den başlayan",
-    "Uygun hisselerde kesirli hisse: 5 USDC yatır, bir hissenin bir parçasına sahip ol."
+    "5 USDC'den başlayan emirler",
+    "Uygun hisselerde kesirli hisse: 5 USDC yatırın, bir hissenin bir parçasına sahip olun."
    ],
    [
-    "24 saat, 5 gün",
+    "Haftada 5 gün, 24 saat",
     "Desteklenen hisselerde piyasa öncesi, normal seans, piyasa sonrası ve gece seansı; Pazar akşamından Cuma akşamına (New York saati)."
    ]
   ],
-  "stepsH": "5 adımda ilk hisse emrin",
+  "stepsH": "5 adımda ilk hisse emriniz",
   "steps": [
    [
-    "Hesabını aç",
-    "NexuAlpha bağlantısıyla kaydol ya da {code} davet kodunu gir, ardından Gelişmiş Kimlik Doğrulamayı tamamla. Hisse işlemleri bu seviyeyi ister."
+    "Hesabınızı açın",
+    "NexuAlpha bağlantısıyla kaydolun ya da {code} davet kodunu girin, ardından Gelişmiş Kimlik Doğrulamayı tamamlayın. Hisse işlemleri bu seviyeyi gerektirir."
    ],
    [
-    "UTA'na USDC koy",
-    "USDC yatır ya da USDC'ye dönüştür ve Birleşik Alım Satım Hesabı'nda tut. Hisse emirleri buradan ödenir."
+    "UTA'nıza USDC aktarın",
+    "USDC yatırın ya da USDC'ye dönüştürün ve Birleşik Alım Satım Hesabı'nda tutun. Hisse emirleri buradan ödenir."
    ],
    [
-    "TradFi → Stocks'a git",
-    "Bybit uygulamasında ya da web sitesinde TradFi'yi aç ve Stocks'u seç."
+    "TradFi → Stocks'a gidin",
+    "Bybit uygulamasında ya da web sitesinde TradFi'yi açın ve Stocks'u seçin."
    ],
    [
-    "Sembolü ara",
-    "AAPL, NVDA, TSLA, QQQ ya da 1,000+ sembolden herhangi birini yaz ve TradingView grafikli işlem sayfasını aç."
+    "Sembolü arayın",
+    "AAPL, NVDA, TSLA, QQQ ya da 1.000+ sembolden herhangi birini yazın ve TradingView grafikli işlem sayfasını açın."
    ],
    [
-    "Emrini ver",
-    "Piyasa ya da Limit seç, tutarı gir (5 USDC'den itibaren) ve onayla. Hisseler Bybit portföyünde görünür."
+    "Emrinizi verin",
+    "Piyasa ya da Limit seçin, tutarı girin (5 USDC'den itibaren) ve onaylayın. Hisseler Bybit portföyünüzde görünür."
    ]
   ],
   "stepOneNeutral": [
-   "Hesabını aç",
-   "Hizmetin sunulduğu bir bölgede Bybit hesabı aç ve Gelişmiş Kimlik Doğrulama'yı tamamla. Hisse işlemleri için gelişmiş seviye gerekir."
+   "Hesabınızı açın",
+   "Hizmetin sunulduğu bir bölgede Bybit hesabı açın ve Gelişmiş Kimlik Doğrulama'yı tamamlayın. Hisse işlemleri için gelişmiş seviye gerekir."
   ],
-  "sessionsH": "Ne zaman işlem yapabilirsin",
-  "sessionsLead": "Saatler New York saatidir (ET). İşlem sayfası bunları yerel saatine çevirir.",
+  "sessionsH": "Ne zaman işlem yapabilirsiniz",
+  "sessionsLead": "Saatler New York saatidir (ET). İşlem sayfası bunları yerel saatinize çevirir.",
   "sessions": [
    [
     "Gece seansı",
-    "8:00 PM – 4:00 AM",
+    "20.00 – 04.00",
     "Desteklenen hisseler"
    ],
    [
     "Piyasa öncesi",
-    "4:00 AM – 9:30 AM",
+    "04.00 – 09.30",
     "Limit emirler"
    ],
    [
     "Normal seans",
-    "9:30 AM – 4:00 PM",
+    "09.30 – 16.00",
     "Tüm emir türleri"
    ],
    [
     "Piyasa sonrası",
-    "4:00 PM – 8:00 PM",
+    "16.00 – 20.00",
     "Limit emirler"
    ]
   ],
-  "sessionsWeekend": "Cuma 8:00 PM'den Pazar 8:00 PM'e (ET) kadar ve ABD piyasa tatillerinde kapalı. Piyasa emirleri normal seansta gerçekleşir; bunun dışında limit emirde 24-Hour Trading'i seç.",
-  "yourTime": "Senin saatin",
+  "sessionsWeekend": "Cuma 20.00'den Pazar 20.00'ye (ET) kadar ve ABD piyasa tatillerinde kapalıdır. Piyasa emirleri normal seansta gerçekleşir; bunun dışında limit emirde 24-Hour Trading seçeneğini kullanın.",
+  "yourTime": "Yerel saatiniz",
   "campaignKicker": "Lansman kampanyası",
-  "campaignH": "Full Stocks Ahead: hisse yatırımcılarına 150,000 USDC",
-  "campaignLead": "Bybit'in lansman kampanyası 12 Ekim – 31 Ekim 2026 (00:00 UTC) arasında sürüyor. Kampanya sayfasından kaydol, ardından Bybit uygulamasında ya da web sitesinde hisse işlemi yap.",
+  "campaignH": "Full Stocks Ahead: hisse yatırımcılarına 150.000 USDC",
+  "campaignLead": "Bybit'in lansman kampanyası 12 Ekim – 31 Ekim 2026 (00:00 UTC) arasında sürüyor. Kampanya sayfasından kaydolun, ardından Bybit uygulamasında ya da web sitesinde hisse işlemi yapın.",
   "endsIn": "Bitmesine",
   "endsAt": "Bitiş: 31 Eki 2026, 00:00 UTC",
   "units": [
@@ -2664,15 +2664,15 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "rewards": [
    [
     "İlk işlem ödülü",
-    "İlk hisse işlemini yaptığında ödül kazanırsın. Tutarı Bybit kampanya sayfasında gösterir."
+    "İlk hisse işleminizi yaptığınızda ödül kazanırsınız. Tutar, Bybit kampanya sayfasında gösterilir."
    ],
    [
     "Günlük ödül kutusu",
-    "Bir günde $2,000'dan fazla hisse işlemi yap, 50 USDC'ye kadar değerinde bir kutu kazan — kampanyanın her günü."
+    "Bir günde $2.000'dan fazla hisse işlemi yapın, 50 USDC'ye kadar değerinde bir kutu kazanın — kampanyanın her günü."
    ],
    [
-    "Stock Splash: 100,000 USDC",
-    "Kampanya boyunca en az $1,000 hisse işlemi yap ve kampanya sonunda en az $1,000 hisse tut. Havuz uygun işlem hacmine göre paylaştırılır, kişi başı en fazla 5,000 USDC."
+    "Stock Splash: 100.000 USDC",
+    "Kampanya boyunca en az $1.000 hisse işlemi yapın ve kampanya sonunda en az $1.000 değerinde hisse tutun. Havuz uygun işlem hacmine göre paylaştırılır, kişi başı en fazla 5.000 USDC."
    ]
   ],
   "multipliersH": "Stock Splash çarpanları",
@@ -2680,38 +2680,38 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "multiplierEarlyRows": [
    [
     "1–5. günler",
-    "1.4×"
+    "1,4×"
    ],
    [
     "6–10. günler",
-    "1.3×"
+    "1,3×"
    ],
    [
     "11–15. günler",
-    "1.2×"
+    "1,2×"
    ],
    [
     "16–18. günler",
-    "1.1×"
+    "1,1×"
    ],
    [
     "19–20. günler",
-    "1.0×"
+    "1,0×"
    ]
   ],
   "multiplierHold": "Ortalama günlük hisse varlığı",
   "multiplierHoldRows": [
    [
-    "$1,000–10,000",
-    "1.1×"
+    "$1.000–10.000",
+    "1,1×"
    ],
    [
-    "$10,000–100,000",
-    "1.2×"
+    "$10.000–100.000",
+    "1,2×"
    ],
    [
-    "$100,000 üzeri",
-    "1.5×"
+    "$100.000 üzeri",
+    "1,5×"
    ]
   ],
   "whoH": "Kimler katılabilir",
@@ -2725,7 +2725,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   ],
   "compareRows": [
    [
-    "Neye sahip olursun",
+    "Neye sahip olursunuz",
     "ABD borsalarında işlem gören hisseler",
     "Solana üzerinde, bir SPV'de tutulan hisseyle desteklenen ve 1:1 itfa edilebilen bir token",
     "Aracı kurum hesabındaki hisseler"
@@ -2733,7 +2733,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    [
     "Saklama",
     "Alpaca Securities LLC (FINRA/SIPC üyesi)",
-    "Hisseyi ihraççının SPV'si tutar; sen token'ı tutarsın",
+    "Hisseyi ihraççının SPV'si tutar; siz token'ı tutarsınız",
     "Aracı kurumun ya da takas kuruluşu"
    ],
    [
@@ -2750,13 +2750,13 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Ücretler",
-    "Komisyon yok; 0.1% hizmet ücreti, emir başına en az 0.35 USDC",
+    "Komisyon yok; %0,1 hizmet ücreti, emir başına en az 0,35 USDC",
     "Platform işlem ücretleri",
     "Kuruma göre değişir"
    ],
    [
     "Ödeme yöntemi",
-    "Bybit UTA'ndaki USDC",
+    "Bybit UTA'nızdaki USDC",
     "Kripto",
     "Banka havalesi"
    ]
@@ -2769,52 +2769,52 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Gerçek hisselere mi sahip oluyorum?",
-    "Evet. Aldığında, Alpaca Securities LLC (FINRA/SIPC üyesi) tarafından saklanan ABD borsa hisselerini satın alırsın; Alpaca emirleri NYSE ve Nasdaq gibi piyasalara yönlendirir. Token ya da CFD değildir, bu yüzden zincir üzerinde gönderilemez."
+    "Evet. Aldığınızda, Alpaca Securities LLC (FINRA/SIPC üyesi) tarafından saklanan ABD borsa hisselerini satın alırsınız; Alpaca emirleri NYSE ve Nasdaq gibi piyasalara yönlendirir. Token ya da CFD değildir, bu yüzden zincir üzerinde gönderilemez."
    ],
    [
     "Temettüler nasıl işler?",
-    "Nakit temettüler, varsa stopaj vergisi düşüldükten sonra USDC'ye çevrilip Birleşik Alım Satım Hesabı'na yatırılır. Hisse temettüleri ek hisse olarak gelir, bölünmeler pozisyonunu otomatik ayarlar. Hissedar oylaması henüz yok."
+    "Nakit temettüler, varsa stopaj vergisi düşüldükten sonra USDC'ye çevrilip Birleşik Alım Satım Hesabı'na yatırılır. Hisse temettüleri ek hisse olarak gelir, bölünmeler pozisyonunuzu otomatik ayarlar. Hissedar oylaması henüz yok."
    ],
    [
     "Bir işlem ne kadara mal olur?",
-    "Bybit komisyon almaz. Emir değerinin 0.1%'i kadar, emir başına en az 0.35 USDC hizmet ücreti uygulanır; spread fiyata dahildir."
+    "Bybit komisyon almaz. Emir değerinin %0,1'i kadar, emir başına en az 0,35 USDC hizmet ücreti uygulanır; spread fiyata dahildir."
    ],
    [
     "Başlamak için ne kadar gerekir?",
-    "5 USDC. Uygun hisseler kesirli alınabilir, bu yüzden hisse fiyatı önemli değil. Tek bir emir 1,000,000 USDC'ye kadar olabilir."
+    "5 USDC. Uygun hisseler kesirli alınabilir, bu yüzden hisse fiyatı önemli değil. Tek bir emir 1.000.000 USDC'ye kadar olabilir."
    ],
    [
     "Gece ya da hafta sonu işlem yapabilir miyim?",
-    "Gece evet: desteklenen hisseler, piyasa öncesi ve sonrası seansların yanında 8:00 PM ile 4:00 AM (ET) arasında gece seansında işlem görür. Hafta sonu hayır: işlemler Cuma 8:00 PM'den Pazar 8:00 PM'e (ET) kadar durur."
+    "Gece evet: desteklenen hisseler, piyasa öncesi ve sonrası seansların yanında 20.00 ile 04.00 (ET) arasında gece seansında işlem görür. Hafta sonu hayır: işlemler Cuma 20.00'den Pazar 20.00'ye (ET) kadar durur."
    ]
   ],
-  "relatedH": "Okumaya devam et",
+  "relatedH": "Okumaya devam edin",
   "related": [
    [
     "Bybit borsa profili",
     "Ücretler, ürünler ve nasıl kaydolunur"
    ],
    [
-    "Bybit hisseleriyle gerçekte neye sahip olursun",
+    "Bybit hisseleriyle gerçekte neye sahip olursunuz",
     "Lansmana dair haber analizimiz"
    ],
    [
-    "Ders 7: ilk spot işlemin",
+    "Ders 7: ilk spot işleminiz",
     "Piyasa ve limit emirler, adım adım"
    ],
    [
-    "Ders 5: KYC — kimliğin kime gidiyor",
+    "Ders 5: KYC — kimliğiniz kime gidiyor",
     "Kimlik doğrulamada neler istenir"
    ]
   ],
-  "finalH": "İlk hissen 5 USDC uzağında",
-  "finalBody": "{code} koduyla kaydol, kimliğini doğrula, USDC'yi UTA'na aktar ve al.",
-  "finalNeutralH": "Haberin tamamını oku",
+  "finalH": "İlk hisseniz yalnızca 5 USDC uzakta",
+  "finalBody": "{code} koduyla kaydolun, kimliğinizi doğrulayın, USDC'yi UTA'nıza aktarın ve hisse alın.",
+  "finalNeutralH": "Haberin tamamını okuyun",
   "finalNeutralBody": "Haber analizimiz saklamayı, maliyetleri ve Bybit Stocks'un tokenize hisselerle karşılaştırmasını ele alıyor.",
   "dealChips": [
    "Komisyon yok",
-   "5 USDC'den başlayan",
-   "1,000+ hisse ve ETF"
+   "5 USDC'den başlayan emirler",
+   "1.000+ hisse ve ETF"
   ]
  },
  "vi": {
@@ -2822,11 +2822,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoTitleNeutral": "Bybit Stocks: mua cổ phiếu và ETF Mỹ bằng USDC",
   "seoDescription": "Mua Apple, Nvidia, Tesla và 1,000+ cổ phiếu, ETF Mỹ bằng USDC trên Bybit. Cổ phiếu thật do Alpaca lưu ký, từ 5 USDC, giao dịch 24 giờ mỗi ngày, 5 ngày mỗi tuần.",
   "seoDescriptionNeutral": "Bybit Stocks hoạt động thế nào: 1,000+ cổ phiếu và ETF Mỹ mua bằng USDC, cổ phiếu thật do Alpaca lưu ký, tối thiểu 5 USDC, giao dịch 24 giờ, 5 ngày/tuần.",
-  "breadcrumb": "Chiến dịch",
+  "breadcrumb": "Sự kiện",
   "kicker": "Mới trên Bybit · Cổ phiếu & ETF Mỹ",
   "h1": "Mua Apple, Nvidia và Tesla bằng USDC — ngay trên Bybit",
-  "sub": "Bybit nay bán cổ phiếu và ETF Mỹ thật — hơn 1,000 mã — thanh toán thẳng bằng USDC trong Tài khoản Giao dịch Hợp nhất của bạn. Lệnh chỉ từ 5 USDC và thị trường mở cửa 24 giờ mỗi ngày, năm ngày mỗi tuần.",
-  "cta": "Đăng ký với mã {code}",
+  "sub": "Giao dịch hơn 1.000 cổ phiếu và ETF Mỹ thật ngay trên Bybit, thanh toán bằng USDC từ Tài khoản Giao dịch Hợp nhất (UTA). Mua cổ phiếu lẻ chỉ từ 5 USDC, giao dịch 24 giờ/ngày, 5 ngày/tuần.",
+  "cta": "Mở tài khoản Bybit (mã {code})",
   "how": "Cách hoạt động",
   "codeLabel": "Mã mời",
   "copy": "Sao chép",
@@ -2903,11 +2903,11 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Lệnh giới hạn"
    ]
   ],
-  "sessionsWeekend": "Đóng cửa từ 8:00 PM thứ Sáu đến 8:00 PM Chủ nhật (ET) và vào các ngày nghỉ lễ của thị trường Mỹ. Lệnh thị trường khớp trong phiên chính; ngoài phiên này, hãy chọn 24-Hour Trading với lệnh giới hạn.",
+  "sessionsWeekend": "Thị trường đóng cửa từ 20:00 thứ Sáu đến 20:00 Chủ nhật (giờ ET) và vào các ngày nghỉ lễ của thị trường Mỹ. Lệnh thị trường chỉ khớp trong phiên chính; ngoài khung giờ này, hãy bật Giao dịch 24 giờ (24-Hour Trading) và đặt lệnh giới hạn.",
   "yourTime": "Giờ của bạn",
   "campaignKicker": "Chiến dịch ra mắt",
-  "campaignH": "Full Stocks Ahead: 150,000 USDC cho nhà giao dịch cổ phiếu",
-  "campaignLead": "Chiến dịch ra mắt của Bybit diễn ra từ ngày 12 tháng Mười đến ngày 31 tháng Mười năm 2026 (00:00 UTC). Đăng ký trên trang chiến dịch, rồi giao dịch cổ phiếu trên ứng dụng Bybit hoặc website.",
+  "campaignH": "Full Stocks Ahead: quỹ thưởng 150.000 USDC cho nhà giao dịch cổ phiếu",
+  "campaignLead": "Chiến dịch ra mắt của Bybit diễn ra từ ngày 12/10 đến ngày 31/10/2026 (00:00 UTC). Đăng ký trên trang chiến dịch, rồi giao dịch cổ phiếu trên ứng dụng Bybit hoặc website.",
   "endsIn": "Kết thúc sau",
   "endsAt": "Kết thúc ngày 31 tháng Mười 2026, 00:00 UTC",
   "units": [
@@ -3033,7 +3033,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
    ],
    [
     "Một giao dịch tốn bao nhiêu?",
-    "Bybit không thu hoa hồng. Áp dụng phí dịch vụ 0.1% giá trị lệnh, tối thiểu 0.35 USDC mỗi lệnh, và chênh lệch giá đã nằm trong giá."
+    "Bybit không thu phí hoa hồng. Mỗi lệnh chịu phí dịch vụ 0,1% giá trị lệnh (tối thiểu 0,35 USDC/lệnh), và chênh lệch giá mua – bán (spread) đã được tính sẵn trong giá hiển thị."
    ],
    [
     "Cần bao nhiêu để bắt đầu?",
@@ -3051,8 +3051,8 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "Phí, sản phẩm và cách đăng ký"
    ],
    [
-    "Bạn thực sự sở hữu gì với cổ phiếu Bybit",
-    "Bài phân tích tin tức của chúng tôi về đợt ra mắt"
+    "Bạn thực sự sở hữu gì khi mua cổ phiếu qua Bybit Stocks?",
+    "Bài phân tích chi tiết của chúng tôi về đợt ra mắt này"
    ],
    [
     "Bài 7: giao dịch spot đầu tiên",
@@ -3080,10 +3080,10 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "seoDescriptionNeutral": "Bybit Stocks解读：用USDC买1,000+只美股和ETF，真实股票由Alpaca托管，最低5 USDC，每周5天、每天24小时交易。",
   "breadcrumb": "活动",
   "kicker": "Bybit 新上线 · 美股与 ETF",
-  "h1": "用 USDC 买苹果、英伟达、特斯拉，就在 Bybit",
+  "h1": "在 Bybit 用 USDC 买美股：苹果、英伟达、特斯拉",
   "sub": "Bybit 现已开放真实美股和 ETF 交易，标的超过 1,000 只，直接用统一交易账户 (UTA) 里的 USDC 支付。5 USDC 起买，工作日全天 24 小时开放。",
   "cta": "使用邀请码 {code} 注册",
-  "how": "怎么买",
+  "how": "查看买入步骤",
   "codeLabel": "邀请码",
   "copy": "复制",
   "copied": "已复制",
@@ -3162,7 +3162,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   "sessionsWeekend": "周五晚上 8:00 至周日晚上 8:00 (ET) 及美股假日休市。市价单仅在常规时段成交；其他时段请在限价单中选择“24 小时交易”。",
   "yourTime": "你的时间",
   "campaignKicker": "上线活动",
-  "campaignH": "Full Stocks Ahead：150,000 USDC 奖池等你来拿",
+  "campaignH": "美股上线活动（Full Stocks Ahead）：瓜分 150,000 USDC 奖池",
   "campaignLead": "Bybit 上线活动时间为 2026 年 10 月 12 日至 10 月 31 日 (00:00 UTC)。先在活动页报名，再到 Bybit App 或网页端交易股票。",
   "endsIn": "距结束",
   "endsAt": "2026 年 10 月 31 日 00:00 UTC 结束",
@@ -3183,12 +3183,12 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
     "单日股票交易额超过 $2,000，即可领取最高 50 USDC 的盲盒，活动期间天天可领。"
    ],
    [
-    "Stock Splash：100,000 USDC",
+    "交易瓜分奖池（Stock Splash）：100,000 USDC",
     "活动期间股票交易额至少 $1,000，且活动结束时持股至少 $1,000，即可按有效交易量瓜分奖池，每人最高 5,000 USDC。"
    ]
   ],
-  "multipliersH": "Stock Splash 加成倍数",
-  "multiplierEarly": "越早交易越多",
+  "multipliersH": "奖池交易量加成倍数",
+  "multiplierEarly": "越早参与，加成倍数越高",
   "multiplierEarlyRows": [
    [
     "第 1–5 天",
@@ -3237,7 +3237,7 @@ export const BYBIT_STOCKS_COPY = Object.freeze({
   ],
   "compareRows": [
    [
-    "你持有的是",
+    "持有资产类型",
     "美国上市股票",
     "Solana 上的代币，由 SPV 持有的股票支持，可 1:1 赎回",
     "券商账户中的股票"

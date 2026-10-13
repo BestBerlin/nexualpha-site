@@ -9,7 +9,7 @@ import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./c
 // Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
 export const COIN_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
 import { feeFact, feePair } from "./exchange-facts.js";
-import { isPartnerPromotableIn, promotionCountries } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyGated, promotionCountries } from "./partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES } from "./partner-geo-policy.generated.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
@@ -67,8 +67,11 @@ export function applyCoinOverlay(overlay) {
 }
 export const coinBySlug = (slug) => BY_SLUG.get(String(slug || "").toLowerCase()) || null;
 
-export const spotVenues = (coin) => coin.venues.filter((venue) => venue.spot.length);
-export const perpVenues = (coin) => coin.venues.filter((venue) => venue.perp.length);
+// Türkiye (owner 2026-10-13, legal): a partner that may not be promoted there is still named where it lists the coin,
+// but after every other exchange, never as the example venue or among the headline names.
+const localeOrder = (venues, locale) => (locale ? [...venues.filter((v) => !isTurkeyGated(v.slug, { locale })), ...venues.filter((v) => isTurkeyGated(v.slug, { locale }))] : venues);
+export const spotVenues = (coin, locale) => localeOrder(coin.venues.filter((venue) => venue.spot.length), locale);
+export const perpVenues = (coin, locale) => localeOrder(coin.venues.filter((venue) => venue.perp.length), locale);
 export const isCoinListed = (coin) => Boolean(coin && coin.venues.length);
 
 export function coinCopy(locale) {
@@ -164,7 +167,12 @@ export function formatUsd(value, locale = "en") {
 }
 export function formatCompactUsd(value, locale = "en") {
   if (!Number.isFinite(value)) return "–";
-  try { return new Intl.NumberFormat(locale, { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(value); } catch { return `$${Math.round(value)}`; }
+  if (String(locale).startsWith("vi")) { const a = Math.abs(value); const [d, w] = a >= 1e12 ? [1e12, " nghìn tỷ"] : a >= 1e9 ? [1e9, " tỷ"] : a >= 1e6 ? [1e6, " triệu"] : [1, ""]; try { return `${new Intl.NumberFormat("vi", { maximumFractionDigits: 1 }).format(value / d)}${w} USD`; } catch { return `${Math.round(value)} USD`; } }
+  try {
+    // Indonesian short compact "M" means miliar (billion) and reads as million; spell the unit out.
+    if (/^id\b/i.test(String(locale))) return `US$${new Intl.NumberFormat(locale, { notation: "compact", compactDisplay: "long", maximumFractionDigits: 1 }).format(value)}`;
+    return new Intl.NumberFormat(locale, { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(value);
+  } catch { return `$${Math.round(value)}`; }
 }
 export function formatChange(value, locale = "en") {
   if (!Number.isFinite(value)) return "–";
@@ -176,7 +184,7 @@ export const utcStamp = (iso) => { const t = Date.parse(iso); return Number.isFi
 // ---------------------------------------------------------------- answer text (page + meta + FAQ)
 export function coinAnswer(coin, locale) {
   const t = coinCopy(locale);
-  const spot = spotVenues(coin), perp = perpVenues(coin);
+  const spot = spotVenues(coin, locale), perp = perpVenues(coin, locale);
   const vars = { coin: coin.name, symbol: coin.symbol };
   if (!coin.venues.length) return fill(t.answerNone, vars);
   if (!spot.length) return fill(t.answerPerpOnly, { ...vars, venues: joinList(perp.map((v) => v.name), locale) });
@@ -193,7 +201,7 @@ export function coinAnswer(coin, locale) {
 export function coinFaq(coin, locale, description) {
   const t = coinCopy(locale);
   const vars = { coin: coin.name, symbol: coin.symbol };
-  const spot = spotVenues(coin), perp = perpVenues(coin);
+  const spot = spotVenues(coin, locale), perp = perpVenues(coin, locale);
   const entries = [];
   if (coin.venues.length) {
     const main = mainPair(coin);

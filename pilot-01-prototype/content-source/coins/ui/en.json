@@ -138,5 +138,6 @@
     "PK": "Pakistan"
   },
   "listJoin": ", ",
-  "listLast": " and "
+  "listLast": " and ",
+  "venuesMore": "{list} and {n} more exchanges"
 }

@@ -30,6 +30,8 @@ import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
+import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./intel-tools-routes.js";
+import { intelToolRouteSeo } from "./intel-tools-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
 import { parseGlossaryPath } from "./glossary-routes.js";
@@ -350,6 +352,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  // Spot ETF flows + crypto calendar (mirror of the Worker).
+  if (isIntelToolPath(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
@@ -2140,6 +2144,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (isIntelToolPath(pathname)) {
+    // Spot ETF flows + crypto calendar: same helper as the Worker head (without the live snapshot: no Event list).
+    const tool = intelToolRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = tool.title;
+    description = tool.description;
+    schemas = tool.schemas;
+    ogType = "website";
+    if (!tool.indexable) robots = "noindex,follow";
   } else if (parseCoinsPath(pathname) && coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
     // Where to buy <coin>: same helper as the Worker head (src/data/coins-seo.js).
     const coins = coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
