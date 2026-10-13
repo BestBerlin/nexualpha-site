@@ -105,7 +105,10 @@ test("split queries point at one owner", () => {
 test("app route heads carry the new English titles", async () => {
   const head = async (path) => routeMetadata(new URL(`https://nexualpha.com${path}`), env);
   assert.equal(HOME_SEARCH_COPY.en[0], "Crypto Referral Codes: Up to 60% Fee Rebates — NexuAlpha");
-  assert.ok(HOME_SEARCH_COPY.en[1].length <= 155 && !/disclosed/i.test(HOME_SEARCH_COPY.en[1]));
+  for (const [locale, [, description]] of Object.entries(HOME_SEARCH_COPY)) {
+    assert.ok(description.length <= 155, `${locale} home description ${description.length}`);
+    assert.doesNotMatch(description, /disclosed|披露|揭露|declarados|informados|signalés|offengelegt|dichiarati|開示|제휴 공개|раскрыты|belirtilir|diungkapkan|Công bố|مُفصح|вказані/, locale);
+  }
   assert.equal(NEWS_HUB_SEO_EN.title, "Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha");
   assert.equal((await head("/exchanges")).title, "Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha");
   assert.equal((await head("/activities")).title, "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha");
