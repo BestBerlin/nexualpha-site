@@ -1,0 +1,221 @@
+{
+ "generatedAt": "2026-10-13T17:00:59.090Z",
+ "venues": {
+  "binance": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 4.287e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 4.688e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": 2.563e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": -1.892e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 5.343e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    }
+   ]
+  },
+  "okx": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 4.69870282966e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 5.2851293057e-06,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": 1.22190601743e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": -6.0351774595e-06,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 2.9697513066e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    }
+   ]
+  },
+  "bybit": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 1.634e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 2.423e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": 3.341e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": -4.588e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 0.0001,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    }
+   ]
+  },
+  "bitget": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 3.4e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 3.2e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": -2.9e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": -8e-06,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 5.5e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    }
+   ]
+  },
+  "gate-io": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 1.9e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 7e-06,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": -8.2e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": -0.000122,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 3.8e-05,
+     "intervalH": 8,
+     "nextAt": "2026-10-14T00:00:00.000Z"
+    }
+   ]
+  },
+  "hyperliquid": {
+   "ok": true,
+   "readAt": "2026-10-13T17:00:59.090Z",
+   "rows": [
+    {
+     "symbol": "BTC",
+     "rate": 1.25e-05,
+     "intervalH": 1,
+     "nextAt": "2026-10-13T18:00:00.000Z"
+    },
+    {
+     "symbol": "ETH",
+     "rate": 1.25e-05,
+     "intervalH": 1,
+     "nextAt": "2026-10-13T18:00:00.000Z"
+    },
+    {
+     "symbol": "SOL",
+     "rate": 3.8456e-06,
+     "intervalH": 1,
+     "nextAt": "2026-10-13T18:00:00.000Z"
+    },
+    {
+     "symbol": "XRP",
+     "rate": 1.308e-06,
+     "intervalH": 1,
+     "nextAt": "2026-10-13T18:00:00.000Z"
+    },
+    {
+     "symbol": "DOGE",
+     "rate": 1.25e-05,
+     "intervalH": 1,
+     "nextAt": "2026-10-13T18:00:00.000Z"
+    }
+   ]
+  }
+ }
+}
