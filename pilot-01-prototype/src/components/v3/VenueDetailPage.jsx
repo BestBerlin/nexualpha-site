@@ -1,5 +1,6 @@
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
+import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
 // Venue detail route (/exchanges/<slug>): its own route module and chunk (route-v3-venue) since the venue-graph perf
 // lane (2026-10-11). Before, it lived inside V3Pages.jsx, so every venue page downloaded the compare, activity and
 // topic-guide graphs (39 chunks, 1.3 MB) after hydration. The stylesheets it relies on keep their "route-v3-pages-"
@@ -864,6 +865,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     </section>
 
+    <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={market} />
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={market} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />

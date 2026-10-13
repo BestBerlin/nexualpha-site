@@ -1,0 +1,4 @@
+.exchange-quick-answers dl { margin: 0; }
+.exchange-quick-answers dl > div { padding-block: 0.75rem; border-block-start: 1px solid var(--reader-material-rule, var(--line)); }
+.exchange-quick-answers dt { font-weight: 600; }
+.exchange-quick-answers dd { margin: 0.35rem 0 0; line-height: 1.55; overflow-wrap: anywhere; }
