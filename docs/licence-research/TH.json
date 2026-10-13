@@ -1,0 +1,37 @@
+{
+  "country": "TH",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "binance",
+      "entityName": "GULF BINANCE COMPANY LIMITED (BINANCE TH only)",
+      "country": "TH",
+      "regulator": "Securities and Exchange Commission Thailand",
+      "type": "Digital Asset Exchange and Digital Asset Broker (local BINANCE TH)",
+      "status": "licensed",
+      "sourceUrl": "https://market.sec.or.th/LicenseCheck/views/DABusiness",
+      "lastChecked": "2026-10-14",
+      "evidence": "SEC lists GULF BINANCE as a licensed exchange and broker with binance.th. Scope is the local BINANCE TH entity; no Binance.com authorization or global referral eligibility is established. Licence number was not readable in the entity detail.",
+      "authorised": false,
+      "statusNote": "licensed local entity; international venue not verified"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://market.sec.or.th/LicenseCheck/views/DABusiness",
+      "result": "readable",
+      "reason": "SEC register lists GULF BINANCE under licensed digital asset exchanges and brokers, with binance.th as its website. This verifies the local BINANCE TH operator, not Binance.com or a global referral destination."
+    },
+    {
+      "url": "https://market.sec.or.th/public/orap/COMPANYPROFILE03.aspx?lang=en",
+      "result": "readable",
+      "reason": "English licensee list names GULF BINANCE CO.,LTD. in digital asset exchange and broker categories for crypto and tokens. No direct global partner entry was verified."
+    },
+    {
+      "url": "https://market.sec.or.th/LicenseCheck/CompanyDetail/0000033495",
+      "result": "readable-partial",
+      "reason": "Entity profile confirms GULF BINANCE COMPANY LIMITED and binance.th. The licence fields remain unresolved template expressions; no licence number is verified. Printed 0105565079411 is corporate registration at the Department of Business Development, not a digital asset licence number."
+    }
+  ],
+  "note": "Gulf Binance / BINANCE TH is a locally licensed exchange and broker; the Binance row is scoped to that entity and deliberately cannot enable an international Binance CTA. No direct authorization was verified for OKX, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC or Coinbase from the fetched lists; this is a verification limitation, not a finding that every venue is prohibited. No sourced fiat-rail detail was verified."
+}

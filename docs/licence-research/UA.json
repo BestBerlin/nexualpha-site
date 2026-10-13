@@ -1,0 +1,18 @@
+{
+  "country": "UA",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.nssmc.gov.ua/en/ua-holova-nktspfr-pytannia-ne-v-tomu-chy-rehuliuvaty-virtualni-aktyvy-a-iak/",
+      "result": "readable-regulator-context",
+      "reason": "NSSMC statement dated 2026-09-16 describes draft law 10225-d before its second reading, says the virtual asset market operates without government authorization, and describes registries as a future step after passage. This is not an exchange authorization register."
+    },
+    {
+      "url": "https://www.nssmc.gov.ua/en/u-nktspfr-rozpovily-iak-rehuliuvatymut-rynok-virtualnykh-aktyviv-v-ukraini/",
+      "result": "readable-regulator-context",
+      "reason": "2022 regulator explanation describes a proposed special register and conditional commencement after Tax Code amendments; it contains no venue-level authorization entries."
+    }
+  ],
+  "note": "No partner venue authorization rows are added: the official sources fetched are regulatory context, not an operational VASP register. The September 2026 NSSMC statement treats authorization infrastructure as planned. This does not establish an individual venue ban, restriction, application or absence from all possible registers. Do not present draft legislation, availability to Ukrainian users, or foreign licences as Ukrainian authorization; keep commercial CTA fail-closed."
+}

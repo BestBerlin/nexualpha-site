@@ -8,7 +8,7 @@ export function exchangeKeyFacts(slug, context = {}) {
   return Object.hasOwn(EXCHANGE_KEY_FACT_SHEETS, slug) ? EXCHANGE_KEY_FACT_SHEETS[slug] : null;
 }
 
-const LICENSE_SOURCE_STATUSES = new Set(["licensed", "registered", "applied", "restricted", "banned", "liquidation list", "warning", "revoked"]);
+const LICENSE_SOURCE_STATUSES = new Set(["licensed", "registered", "applied", "restricted", "banned", "liquidation list", "warning", "revoked", "withdrawn"]);
 const CODE_SOURCE_STATUSES = new Set(["verified", "source-backed", "confirmed"]);
 const isoDayTime = (value) => {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;

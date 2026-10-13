@@ -1,0 +1,60 @@
+{
+  "country": "CA",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "coinbase",
+      "entityName": "Coinbase Canada Inc.",
+      "country": "CA",
+      "regulator": "Canadian Securities Administrators (CSA)",
+      "type": "Authorised crypto asset trading platform",
+      "status": "authorised",
+      "sourceUrl": "https://www.securities-administrators.ca/crypto-platforms-regulation-and-enforcement-actions/crypto-platforms-authorized-to-do-business-with-canadians/",
+      "lastChecked": "2026-10-14",
+      "evidence": "The CSA authorised-platform list names Coinbase Canada Inc., links its April 3, 2024 decision and April 1, 2026 amended decision; list last updated September 18, 2026. No licence number is printed in this list.",
+      "authorised": true,
+      "statusNote": "The CSA authorised-platform list names Coinbase Canada Inc., links its April 3, 2024 decision and April 1, 2026 amended decision; list last updated September 18, 2026. No licence number is printed in this list."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward Canada Inc. (Kraken)",
+      "country": "CA",
+      "regulator": "Canadian Securities Administrators (CSA)",
+      "type": "Authorised crypto asset trading platform",
+      "status": "authorised",
+      "sourceUrl": "https://www.securities-administrators.ca/crypto-platforms-regulation-and-enforcement-actions/crypto-platforms-authorized-to-do-business-with-canadians/",
+      "lastChecked": "2026-10-14",
+      "evidence": "The CSA authorised-platform list names Payward Canada Inc. (Kraken), with its April 1, 2025 decision. List last updated September 18, 2026. No licence number is printed in this list.",
+      "authorised": true,
+      "statusNote": "The CSA authorised-platform list names Payward Canada Inc. (Kraken), with its April 1, 2025 decision. List last updated September 18, 2026. No licence number is printed in this list."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.securities-administrators.ca/crypto-platforms-regulation-and-enforcement-actions/crypto-platforms-authorized-to-do-business-with-canadians/",
+      "result": "read",
+      "reason": "Complete official authorised-platform list fetched; Coinbase and Kraken are named. No matching names for OKX, Binance, Bybit, Bitget, HTX, CoinW, Gate or MEXC on this list; absence is not a definitive finding of illegality."
+    },
+    {
+      "url": "https://fintrac-canafe.canada.ca/msb-esm/reg-eng",
+      "result": "partial",
+      "reason": "Official explanatory page readable, but JavaScript table rows unavailable in extracted response. FINTRAC says registration is not endorsement or licensing."
+    },
+    {
+      "url": "https://fintrac-canafe.canada.ca/msb-esm/reg-eng.csv",
+      "result": "skipped",
+      "reason": "Web fetch rejected application/octet-stream; independent direct Python urllib fetch returned HTTP 403 Forbidden. No FINTRAC row or number inferred."
+    },
+    {
+      "url": "https://www.osc.ca/en/securities-law/orders-rulings-decisions/coinbase-canada-inc-and-coinbase-inc-0",
+      "result": "skipped",
+      "reason": "CSA-linked amended decision returned HTTP 403 Forbidden. Current authorisation supported by accessible CSA list itself."
+    },
+    {
+      "url": "https://www.securities-administrators.ca/wp-content/uploads/2025/04/Payward-Canada-decision-document-signed-dated-April-1-2025.pdf",
+      "result": "read",
+      "reason": "Official 63-page April 1, 2025 decision fetched; corroborates Payward Canada Inc. operates Kraken in Canada. Not used to invent a licence number."
+    }
+  ],
+  "note": "CA evidence uses the CSA authorised-platform list, not FINTRAC AML registration as a crypto dealer licence. Exact current FINTRAC rows could not be read. No local fiat rails researched; no authorisation inferred for unmatched partner names."
+}

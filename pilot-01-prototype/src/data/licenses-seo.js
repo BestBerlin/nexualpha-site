@@ -6,13 +6,12 @@ import {
   LICENSE_INDEX_LOCALES,
   LICENSE_PATH,
   licenseCountry,
-  licenseRecords,
   licensePath,
   licenseRecordsForCountry,
   licenseAnswer,
-  licenseCopy,
   licenseSchemas,
   licenseTitle,
+  licenseLastmod,
 } from "./licenses.js";
 
 function fitTitle(candidates, locale) {
@@ -47,7 +46,8 @@ export function licenseRouteSeo(pathname, locale, { urlFor } = {}) {
   if (countrySlug && !licenseCountry(countrySlug)) return { status: 404 };
   const path = licensePath(countrySlug);
   const meta = licenseMeta(countrySlug, locale);
-  const alternatesLocales = LICENSE_INDEX_LOCALES;
+  const hasRecords = !countrySlug || licenseRecordsForCountry(countrySlug).length > 0;
+  const alternatesLocales = hasRecords ? LICENSE_INDEX_LOCALES : [];
   return {
     status: 200,
     ...meta,
@@ -59,10 +59,7 @@ export function licenseRouteSeo(pathname, locale, { urlFor } = {}) {
 }
 
 export function licenseSitemapEntries({ urlFor }) {
-  const lastmodFor = (countrySlug) => {
-    const records = countrySlug ? licenseRecordsForCountry(countrySlug) : licenseRecords;
-    return records.map((record) => record.lastChecked).filter(Boolean).sort().pop() || "2026-10-13";
-  };
+  const lastmodFor = licenseLastmod;
   const entry = (pathname, lastmod) => LICENSE_INDEX_LOCALES.map((locale) => ({
     pathname,
     locale,
@@ -72,7 +69,7 @@ export function licenseSitemapEntries({ urlFor }) {
   }));
   return [
     ...entry(LICENSE_PATH, lastmodFor()),
-    ...LICENSE_COUNTRIES.flatMap((country) => entry(licensePath(country.slug), lastmodFor(country.slug))),
+    ...LICENSE_COUNTRIES.filter(country => licenseRecordsForCountry(country.slug).length > 0).flatMap((country) => entry(licensePath(country.slug), lastmodFor(country.slug))),
   ];
 }
 

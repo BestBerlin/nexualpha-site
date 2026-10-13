@@ -1,0 +1,116 @@
+{
+  "country": "TR",
+  "checkedDate": "2026-10-14",
+  "replaceLegacy": true,
+  "records": [
+    {
+      "exchange": "binance",
+      "entityName": "Binance Turkey Kripto Varlık Alım Satım Platformu AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional operating list",
+      "status": "applied",
+      "sourceUrl": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation.",
+      "authorised": false,
+      "statusNote": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation."
+    },
+    {
+      "exchange": "bybit",
+      "entityName": "Bybit Kripto Varlık Alım Satım Platformu AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional operating list",
+      "status": "applied",
+      "sourceUrl": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation.",
+      "authorised": false,
+      "statusNote": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation."
+    },
+    {
+      "exchange": "gate-io",
+      "entityName": "Gate Kripto Varlık Alım Satım Platformu AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional operating list",
+      "status": "applied",
+      "sourceUrl": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation.",
+      "authorised": false,
+      "statusNote": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation."
+    },
+    {
+      "exchange": "mexc",
+      "entityName": "Mexc Kripto Varlık Alım Satım Platformu AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional operating list",
+      "status": "applied",
+      "sourceUrl": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation.",
+      "authorised": false,
+      "statusNote": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation."
+    },
+    {
+      "exchange": "okx",
+      "entityName": "OKX TR Kripto Varlık Alım Satım Platformu AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional operating list",
+      "status": "applied",
+      "sourceUrl": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation.",
+      "authorised": false,
+      "statusNote": "Named in the transitional operating list; SPK explicitly says inclusion does not mean authorisation."
+    },
+    {
+      "exchange": "bitget",
+      "entityName": "Bitget Teknoloji AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional liquidation list",
+      "status": "liquidation list",
+      "sourceUrl": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the list of organisations that will not continue crypto-asset services.",
+      "authorised": false,
+      "statusNote": "Named in the list of organisations that will not continue crypto-asset services."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "Tasfiye Halinde Coinbase Turkey Yazılım Teknolojileri AŞ",
+      "country": "TR",
+      "regulator": "SPK",
+      "type": "Transitional liquidation list",
+      "status": "liquidation list",
+      "sourceUrl": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "lastChecked": "2026-10-14",
+      "evidence": "Named in the list of organisations that will not continue crypto-asset services.",
+      "authorised": false,
+      "statusNote": "Named in the list of organisations that will not continue crypto-asset services."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "result": "readable_register",
+      "reason": "Full 52-row operating list and its explicit non-authorisation disclaimer were readable."
+    },
+    {
+      "url": "https://www.spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "result": "skipped",
+      "reason": "Direct web open failed; the same official list was readable on the non-www hostname."
+    },
+    {
+      "url": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "result": "readable_register",
+      "reason": "Full 56-row liquidation list was readable on the official non-www hostname."
+    }
+  ],
+  "note": "Seven partner entity matches were found across the two complete official transitional lists. None establishes authorisation. No licence numbers are asserted: row ordinals are not licence numbers. Kraken, HTX and CoinW were not matched; this does not establish that they are unlicensed. No local fiat rails were verified."
+}

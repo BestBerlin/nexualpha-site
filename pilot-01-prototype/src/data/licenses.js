@@ -1,10 +1,12 @@
+import { researchRecords, licenseResearch } from "./licenses-research.js";
+import { countryEditorial } from "./licenses-editorial.js";
 import { localizedPath } from "./locale-routing.js";
 import { venueDisplayName } from "./venue-display-names.js";
 
 export { venueDisplayName };
 
 export const LICENSE_PATH = "/licenses";
-export const LICENSE_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "tr", "vi", "id", "ja", "ko", "fr", "de"]);
+export const LICENSE_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "tr", "vi", "id", "ja", "ko", "fr", "de", "ar", "ur", "uk"]);
 
 export const LICENSE_COUNTRIES = Object.freeze([
   Object.freeze({ slug: "turkey", code: "TR", name: "Türkiye" }),
@@ -18,6 +20,23 @@ export const LICENSE_COUNTRIES = Object.freeze([
   Object.freeze({ slug: "austria", code: "AT", name: "Austria" }),
   Object.freeze({ slug: "ireland", code: "IE", name: "Ireland" }),
   Object.freeze({ slug: "luxembourg", code: "LU", name: "Luxembourg" }),
+  Object.freeze({ slug: "philippines", code: "PH", name: "Philippines" }),
+  Object.freeze({ slug: "brazil", code: "BR", name: "Brazil" }),
+  Object.freeze({ slug: "nigeria", code: "NG", name: "Nigeria" }),
+  Object.freeze({ slug: "indonesia", code: "ID", name: "Indonesia" }),
+  Object.freeze({ slug: "vietnam", code: "VN", name: "Vietnam" }),
+  Object.freeze({ slug: "india", code: "IN", name: "India" }),
+  Object.freeze({ slug: "south-korea", code: "KR", name: "South Korea" }),
+  Object.freeze({ slug: "thailand", code: "TH", name: "Thailand" }),
+  Object.freeze({ slug: "mexico", code: "MX", name: "Mexico" }),
+  Object.freeze({ slug: "argentina", code: "AR", name: "Argentina" }),
+  Object.freeze({ slug: "pakistan", code: "PK", name: "Pakistan" }),
+  Object.freeze({ slug: "ukraine", code: "UA", name: "Ukraine" }),
+  Object.freeze({ slug: "hong-kong", code: "HK", name: "Hong Kong" }),
+  Object.freeze({ slug: "european-union", code: "EU", name: "European Union" }),
+  Object.freeze({ slug: "united-kingdom", code: "GB", name: "United Kingdom" }),
+  Object.freeze({ slug: "australia", code: "AU", name: "Australia" }),
+  Object.freeze({ slug: "canada", code: "CA", name: "Canada" }),
 ]);
 
 const SPK_OPERATING_SOURCE = "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi";
@@ -42,7 +61,7 @@ const spkApplied = (exchange, entityName) => row({
   sourceUrl: SPK_OPERATING_SOURCE,
 });
 
-export const licenseRecords = Object.freeze([
+const legacyRecords = [
   spkApplied("binance", "Binance Turkey Kripto Varlık Alım Satım Platformu AŞ"),
   spkApplied("bybit", "Bybit Kripto Varlık Alım Satım Platformu AŞ"),
   spkApplied("gate-io", "Gate Kripto Varlık Alım Satım Platformu AŞ"),
@@ -265,12 +284,21 @@ export const licenseRecords = Object.freeze([
     sourceUrl: ESMA_CASP_SOURCE,
     evidence: "ESMA interim MiCA CASP register: authorised 2025-06-20 by the CSSF (LEI 984500F14CA4571AAC11).",
   }),
+];
+// Replace a researched jurisdiction atomically; unreadable sources retain their historical check dates.
+export const licenseRecords = Object.freeze([
+  ...legacyRecords.filter(record => !licenseResearch[record.country]?.replaceLegacy).map(record => record.country === "CY" ? Object.freeze({ ...record, authorised: false }) : record),
+  ...researchRecords.map(record => Object.freeze(record)),
 ]);
 
 const STATUS_LABELS_EN = Object.freeze({
+  authorised: "Authorised",
   licensed: "Licensed",
   registered: "Registered",
   applied: "Applied / listed, not authorised",
+  warning: "Warning",
+  withdrawn: "Withdrawn",
+  revoked: "Revoked",
   restricted: "Restricted",
   banned: "Banned",
   "liquidation list": "Liquidation list",
@@ -524,6 +552,15 @@ const BASE_COPY = {
   },
 };
 
+BASE_COPY.ar = { ...BASE_COPY.en, title: "دليل تراخيص منصات التداول", hubTitle: "تراخيص منصات العملات المشفرة", hubAnswer: "يعرض الدليل سجلات رسمية مع فصل الترخيص والتسجيل والطلبات. الإدراج ليس ترخيصًا.", exchange: "المنصة", country: "الدولة", entity: "الكيان", regulator: "الجهة الرقابية", type: "نوع الترخيص أو التسجيل", status: "الحالة", source: "السجل الرسمي", lastChecked: "آخر فحص", all: "الكل", empty: "لا توجد سجلات رسمية مطابقة.", question: "قراءة الدليل", answer: "كل صف يربط كيانًا بسجل رسمي. التسجيل لا يضمن جميع المنتجات أو أهلية الحساب.", statuses: { licensed: "مرخص", registered: "مسجل", applied: "طلب دون ترخيص", restricted: "مقيد", banned: "محظور", "liquidation list": "قائمة التصفية" } };
+BASE_COPY.ur = { ...BASE_COPY.en, title: "ایکسچینج لائسنس ڈائریکٹری", hubTitle: "کرپٹو ایکسچینج لائسنس اور حیثیت", hubAnswer: "یہ ڈائریکٹری سرکاری رجسٹر کے شواہد پیش کرتی ہے۔ درخواست لائسنس نہیں ہے۔", exchange: "ایکسچینج", country: "ملک", entity: "ادارہ", regulator: "نگران ادارہ", type: "لائسنس یا رجسٹریشن", status: "حیثیت", source: "سرکاری رجسٹر", lastChecked: "آخری جانچ", all: "سب", empty: "کوئی مماثل سرکاری ریکارڈ نہیں۔", question: "ڈائریکٹری کیسے پڑھیں", answer: "ہر سطر ادارے کو سرکاری رجسٹر سے جوڑتی ہے۔ رجسٹریشن تمام مصنوعات یا اکاؤنٹ کی اہلیت کی ضمانت نہیں۔", statuses: { licensed: "لائسنس یافتہ", registered: "رجسٹرڈ", applied: "درخواست، اجازت نہیں", restricted: "محدود", banned: "ممنوع", "liquidation list": "تصفیہ کی فہرست" } };
+BASE_COPY.uk = { ...BASE_COPY.en, title: "Каталог ліцензій бірж", hubTitle: "Ліцензії та регуляторний статус криптобірж", hubAnswer: "Каталог містить записи офіційних реєстрів. Заявка не є ліцензією.", exchange: "Біржа", country: "Країна", entity: "Юридична особа", regulator: "Регулятор", type: "Тип ліцензії або реєстрації", status: "Статус", source: "Офіційний реєстр", lastChecked: "Перевірено", all: "Усі", empty: "Відповідних офіційних записів немає.", question: "Як читати каталог", answer: "Кожен рядок пов’язує юридичну особу з офіційним реєстром. Реєстрація не гарантує всі продукти або право відкрити рахунок.", statuses: { licensed: "Ліцензовано", registered: "Зареєстровано", applied: "Заявка, без дозволу", restricted: "Обмежено", banned: "Заборонено", "liquidation list": "Список ліквідації" } };
+
+const negativeLabels = { en: ['Warning', 'Withdrawn', 'Revoked'], 'zh-Hans': ['警示', '已撤回', '已撤销'], es: ['Advertencia', 'Retirado', 'Revocado'], 'pt-BR': ['Alerta', 'Retirado', 'Revogado'], tr: ['Uyarı', 'Geri çekilmiş', 'İptal edilmiş'], vi: ['Cảnh báo', 'Đã rút', 'Đã thu hồi'], id: ['Peringatan', 'Ditarik', 'Dicabut'], ja: ['警告', '撤回', '取消'], ko: ['경고', '철회', '취소'], fr: ['Avertissement', 'Retiré', 'Révoqué'], de: ['Warnung', 'Zurückgezogen', 'Widerrufen'], ar: ['تحذير', 'مسحوب', 'ملغى'], ur: ['انتباہ', 'واپس لیا گیا', 'منسوخ'], uk: ['Попередження', 'Відкликано', 'Скасовано'] };
+for (const [locale, labels] of Object.entries(negativeLabels)) {
+  BASE_COPY[locale].statuses = { ...BASE_COPY[locale].statuses, authorised: locale === "en" ? "Authorised" : locale === "zh-Hans" ? "获授权" : BASE_COPY[locale].statuses.licensed, warning: labels[0], withdrawn: labels[1], revoked: labels[2] };
+}
+
 for (const locale of LICENSE_INDEX_LOCALES) {
   if (!BASE_COPY[locale]) BASE_COPY[locale] = BASE_COPY.en;
 }
@@ -574,18 +611,19 @@ function countryVars(countrySlug, locale) {
 
 export function licenseTitle(countrySlug, locale = "en") {
   const t = licenseCopy(locale);
-  return fillLicense(countrySlug ? t.countryTitle : t.hubTitle, countryVars(countrySlug, locale));
+  if (countrySlug) return countryEditorial(licenseCountryName(countrySlug, locale), locale, licenseRecordsForCountry(countrySlug), licenseLastmod(countrySlug)).title;
+  return t.hubTitle;
 }
 
 export function licenseAnswer(countrySlug, locale = "en") {
   const t = licenseCopy(locale);
   const summary = fillLicense(countrySlug ? t.countryAnswer : t.hubAnswer, countryVars(countrySlug, locale));
   if (!countrySlug) return summary;
-  const records = licenseRecordsForCountry(countrySlug);
-  const groups = [...new Set(records.map(record => record.status))].map(status =>
-    `${t.statuses[status]}: ${records.filter(record => record.status === status).map(record => venueDisplayName(record.exchange)).join(", ")}`
-  );
-  return `${summary} ${groups.join("; ")}.`;
+  return countryEditorial(licenseCountryName(countrySlug, locale), locale, licenseRecordsForCountry(countrySlug), licenseLastmod(countrySlug)).answer;
+}
+
+export function licenseResearchForCountry(countrySlug) {
+  return licenseResearch[licenseCountry(countrySlug)?.code] || null;
 }
 
 export function licenseSourceUrls(countrySlug) {
@@ -595,7 +633,7 @@ export function licenseSourceUrls(countrySlug) {
 
 export function licenseLastmod(countrySlug) {
   const records = countrySlug ? licenseRecordsForCountry(countrySlug) : licenseRecords;
-  return records.map((record) => record.lastChecked).filter(Boolean).sort().pop() || LAST_CHECKED;
+  return [licenseResearchForCountry(countrySlug)?.checkedDate, ...records.map(record => record.lastChecked)].filter(Boolean).sort().pop() || LAST_CHECKED;
 }
 
 export function licenseSchemas(countrySlug, locale = "en", url) {
@@ -605,7 +643,18 @@ export function licenseSchemas(countrySlug, locale = "en", url) {
   const sourceUrls = licenseSourceUrls(countrySlug);
   const pageUrl = url || `https://nexualpha.com${localizedPath(licensePath(countrySlug), locale)}`;
   const records = countrySlug ? licenseRecordsForCountry(countrySlug) : licenseRecords;
+  const itemList = {
+    "@context": "https://schema.org", "@type": "ItemList", "@id": `${pageUrl}#records`,
+    numberOfItems: records.length,
+    itemListElement: records.map((record, index) => ({
+      "@type": "ListItem", position: index + 1,
+      name: `${venueDisplayName(record.exchange)} ${record.country} ${record.regulator}`,
+      description: `${record.entityName} — ${record.type} — ${t.statuses[record.status] || record.status}${record.number ? ` — ${record.number}` : ''} — ${record.lastChecked}`,
+      url: record.sourceUrl,
+    })),
+  };
   return [
+    itemList,
     {
       "@context": "https://schema.org",
       "@type": "Dataset",
@@ -618,18 +667,9 @@ export function licenseSchemas(countrySlug, locale = "en", url) {
       license: DATA_LICENSE_URL,
       creator: { "@type": "Organization", name: "NexuAlpha", url: "https://nexualpha.com" },
       isBasedOn: sourceUrls,
-      measurementTechnique: "Manual extraction from official regulator register pages already present in NexuAlpha reviewed source data.",
+      measurementTechnique: "Manual extraction from readable official regulator registers; source URL and check date retained per entity.",
       variableMeasured: ["exchange", "entityName", "country", "regulator", "type", "number", "status", "sourceUrl", "lastChecked"],
-      mainEntity: {
-        "@type": "ItemList",
-        numberOfItems: records.length,
-        itemListElement: records.map((record, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: `${venueDisplayName(record.exchange)} ${record.country} ${record.regulator}`,
-          url: record.sourceUrl,
-        })),
-      },
+      mainEntity: itemList,
     },
     {
       "@context": "https://schema.org",

@@ -1,0 +1,129 @@
+{
+  "country": "JP",
+  "checkedDate": "2026-10-14",
+  "replaceLegacy": true,
+  "records": [
+    {
+      "exchange": "okx",
+      "entityName": "オーケーコイン・ジャパン株式会社",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Crypto-asset Exchange Service Provider",
+      "status": "registered",
+      "number": "関東財務局長 第00020号",
+      "sourceUrl": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "lastChecked": "2026-10-14",
+      "evidence": "Register lists OKCoin Japan with supported assets; retain existing local-entity mapping, not an authorisation for OKX global.",
+      "authorised": true,
+      "statusNote": "Register lists OKCoin Japan with supported assets; retain existing local-entity mapping, not an authorisation for OKX global."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "Binance Japan株式会社",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Crypto-asset Exchange Service Provider",
+      "status": "registered",
+      "number": "関東財務局長 第00031号",
+      "sourceUrl": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "lastChecked": "2026-10-14",
+      "evidence": "Register lists Binance Japan with supported assets; local entity only.",
+      "authorised": true,
+      "statusNote": "Register lists Binance Japan with supported assets; local entity only."
+    },
+    {
+      "exchange": "hashkey",
+      "entityName": "HashKey Japan株式会社",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Crypto-asset Exchange Service Provider",
+      "status": "registered",
+      "number": "関東財務局長 第00027号",
+      "sourceUrl": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "lastChecked": "2026-10-14",
+      "evidence": "Register lists HashKey Japan with BTC and ETH.",
+      "authorised": true,
+      "statusNote": "Register lists HashKey Japan with BTC and ETH."
+    },
+    {
+      "exchange": "gate-io",
+      "entityName": "Gate Japan株式会社",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Crypto-asset Exchange Service Provider",
+      "status": "registered",
+      "number": "関東財務局長 第00018号",
+      "sourceUrl": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "lastChecked": "2026-10-14",
+      "evidence": "Registered, but asset column says no assets handled; availability not established.",
+      "authorised": false,
+      "statusNote": "Registered, but asset column says no assets handled; availability not established."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "Coinbase株式会社",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Crypto-asset Exchange Service Provider",
+      "status": "registered",
+      "number": "関東財務局長 第00028号",
+      "sourceUrl": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "lastChecked": "2026-10-14",
+      "evidence": "Registered, but asset column says no assets handled; availability not established.",
+      "authorised": false,
+      "statusNote": "Registered, but asset column says no assets handled; availability not established."
+    },
+    {
+      "exchange": "bybit",
+      "entityName": "Bybit Fintech Limited",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Unregistered overseas operator warning",
+      "status": "warning",
+      "sourceUrl": "https://www.fsa.go.jp/ordinary/chuui/angoushisan_mutouroku.html",
+      "lastChecked": "2026-10-14",
+      "evidence": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations.",
+      "authorised": false,
+      "statusNote": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations."
+    },
+    {
+      "exchange": "bitget",
+      "entityName": "Bitget Limited",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Unregistered overseas operator warning",
+      "status": "warning",
+      "sourceUrl": "https://www.fsa.go.jp/ordinary/chuui/angoushisan_mutouroku.html",
+      "lastChecked": "2026-10-14",
+      "evidence": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations.",
+      "authorised": false,
+      "statusNote": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations."
+    },
+    {
+      "exchange": "mexc",
+      "entityName": "MEXC Global",
+      "country": "JP",
+      "regulator": "Japan FSA",
+      "type": "Unregistered overseas operator warning",
+      "status": "warning",
+      "sourceUrl": "https://www.fsa.go.jp/ordinary/chuui/angoushisan_mutouroku.html",
+      "lastChecked": "2026-10-14",
+      "evidence": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations.",
+      "authorised": false,
+      "statusNote": "FSA warning list records November 2024 notice for unregistered services to Japanese residents. Historical warning does not establish current operations."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.fsa.go.jp/menkyo/menkyoj/kasoutuka.pdf",
+      "result": "read",
+      "reason": "All four PDF pages read; register effective 2026-09-01, 27 operators. Relevant entries matched directly; numbers copied as printed."
+    },
+    {
+      "url": "https://www.fsa.go.jp/ordinary/chuui/angoushisan_mutouroku.html",
+      "result": "read",
+      "reason": "Read warning table and its caveat that entries describe conditions at warning issuance, not necessarily today."
+    }
+  ],
+  "note": "No direct entries matched Kraken or CoinW; BitTrade is listed but HTX brand relationship is not established by this register, so omitted. Gate and Coinbase have registrations but no assets handled: no CTA. OKCoin Japan row preserves existing OKX association; registration belongs solely to the named local entity. Binance Holdings historical warning is separate from Binance Japan registration. No local fiat rail claims verified."
+}

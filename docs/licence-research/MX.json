@@ -1,0 +1,73 @@
+{
+  "country": "MX",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=OKX&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for OKX; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Binance&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Binance; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Bybit&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Bybit; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Bitget&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Bitget; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Kraken&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Kraken; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=HTX&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for HTX; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=CoinW&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for CoinW; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Gate&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name substring search for Gate returned 1 unrelated row: BLK ACCIONES MEGATENDENCIAS INTERNACIONAL, S.A. DE C.V. FONDO DE INVERSIÓN DE RENTA VARIABLE, short name BLKMEGA, CNBV key 053713. It is not evidence for Gate exchange. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=MEXC&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for MEXC; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Coinbase&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Coinbase; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://pes.cnbv.gob.mx/Consulta/ConsultaEntidad?entidad=Payward&nombreCorto=&subsectorName=NULL",
+      "result": "readable",
+      "reason": "HTTP 200; legal-name search for Payward; returned 0 rows. No inference of licence absence from name search."
+    },
+    {
+      "url": "https://www.cnbv.gob.mx/lists/entidadesautorizadas/entidadesautorizadas.aspx",
+      "result": "partial",
+      "reason": "HTTP 200; paginated list returned first 30 banking entities only. Not an exhaustive crypto register; no partner record extracted."
+    },
+    {
+      "url": "https://www.banxico.org.mx/marco-normativo/normativa-emitida-por-el-banco-de-mexico/circular-4-2019/%7B8D7769AF-03F6-701A-68AA-EF25A73AD035%7D.pdf",
+      "result": "readable-context-only",
+      "reason": "Official Circular 4/2019 PDF fetched and read; sections 3 and 5 define internal virtual-asset operations and entity-specific permission, not a partner authorisation register. No licence row extracted."
+    }
+  ],
+  "note": "No partner entity-level crypto authorisation was verified in the bounded official-register checks. CNBV legal-name searches do not establish that partners or affiliates lack authorisation; no licence numbers or authorisation rows are inferred. Banco de México Circular 4/2019 is contextual and does not verify any partner licence."
+}

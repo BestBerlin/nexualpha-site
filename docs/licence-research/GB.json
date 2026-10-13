@@ -1,0 +1,23 @@
+{
+  "country": "GB",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.fca.org.uk/firms/cryptoassets/registered-firms",
+      "result": "skipped",
+      "reason": "Direct curl retrieval returned HTTP 403 and a Cloudflare interactive challenge headed One more step; web retrieval reported the page inaccessible. No register entries were readable."
+    },
+    {
+      "url": "https://register.fca.org.uk/s/search?predefined=CA",
+      "result": "skipped",
+      "reason": "Direct curl retrieval returned HTTP 403; web retrieval showed only Loading / Sorry to interrupt / CSS Error and no register entries."
+    },
+    {
+      "url": "https://register.fca.org.uk/s/",
+      "result": "skipped",
+      "reason": "Web retrieval showed only Loading / Sorry to interrupt / CSS Error and no register entries."
+    }
+  ],
+  "note": "The FCA cryptoasset register was unreadable during this bounded check. No current UK entity-level cryptoasset registration was verified for OKX, Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC or Coinbase, and no numbers or rows are inferred from search snippets, prior knowledge, investment-firm permissions or marketing claims. This evidence gap does not establish that any venue lacks registration or is prohibited. FCA AML cryptoasset registration alone would not be treated as an authorised investment licence or permission to enable a signup CTA."
+}

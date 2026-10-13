@@ -1,0 +1,200 @@
+{
+  "country": "AE",
+  "checkedDate": "2026-10-14",
+  "replaceLegacy": true,
+  "records": [
+    {
+      "exchange": "okx",
+      "entityName": "OKX Middle East Fintech FZE",
+      "country": "AE",
+      "regulator": "Dubai VARA",
+      "type": "VASP Licence (Exchange, Broker-Dealer, Lending and Borrowing, Management and Investment)",
+      "status": "licensed",
+      "number": "VL/23/12/003",
+      "sourceUrl": "https://www.vara.ae/en/licenses-and-register/public-register/okx-middle-east-fintech-fze/",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; issued 2024-09-17. Retail, qualified and institutional investors permitted. Derivatives and margin permissions have specific conditions; collateral optimisation restricted to qualified and institutional investors.",
+      "authorised": true,
+      "statusNote": "Active; issued 2024-09-17. Retail, qualified and institutional investors permitted. Derivatives and margin permissions have specific conditions; collateral optimisation restricted to qualified and institutional investors."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "Binance FZE",
+      "country": "AE",
+      "regulator": "Dubai VARA",
+      "type": "VASP Licence (Exchange, Broker-Dealer, Lending and Borrowing, Management and Investment)",
+      "status": "licensed",
+      "number": "VL/24/04/001",
+      "sourceUrl": "https://www.vara.ae/en/licenses-and-register/public-register/binance-fze/",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; issued 2024-04-15. Retail, qualified and institutional investors permitted; margin and derivatives permissions restricted to qualified and institutional investors.",
+      "authorised": true,
+      "statusNote": "Active; issued 2024-04-15. Retail, qualified and institutional investors permitted; margin and derivatives permissions restricted to qualified and institutional investors."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward FZCO",
+      "country": "AE",
+      "regulator": "Dubai VARA",
+      "type": "VASP Licence (Broker-Dealer, Management and Investment)",
+      "status": "licensed",
+      "number": "VL/26/10/002",
+      "sourceUrl": "https://www.vara.ae/en/licenses-and-register/public-register/payward-fzco/",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; issued 2026-10-06. Register website identifies Kraken; retail, qualified and institutional investors permitted. No exchange-service licence listed.",
+      "authorised": true,
+      "statusNote": "Active; issued 2026-10-06. Register website identifies Kraken; retail, qualified and institutional investors permitted. No exchange-service licence listed."
+    },
+    {
+      "exchange": "gate-io",
+      "entityName": "Gate Technology FZE",
+      "country": "AE",
+      "regulator": "Dubai VARA",
+      "type": "VASP Licence (Exchange Services)",
+      "status": "licensed",
+      "number": "VL/25/04/007",
+      "sourceUrl": "https://www.vara.ae/en/licenses-and-register/public-register/gate-technology-fze/",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; issued 2025-04-25. Retail, qualified and institutional investors permitted; register website identifies Gate Dubai.",
+      "authorised": true,
+      "statusNote": "Active; issued 2025-04-25. Retail, qualified and institutional investors permitted; register website identifies Gate Dubai."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "Nest Exchange Limited",
+      "country": "AE",
+      "regulator": "ADGM FSRA",
+      "type": "Recognised Investment Exchange (Multilateral Trading Facility)",
+      "status": "licensed",
+      "number": "0072",
+      "sourceUrl": "https://www.adgm.com/public-registers/fsra/firms/recognized-bodies/nest-services-limited",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; recognition order dated 2026-01-05; Binance trading name. Stipulation permits operating a multilateral trading facility. Permission is entity and jurisdiction specific.",
+      "authorised": true,
+      "statusNote": "Active; recognition order dated 2026-01-05; Binance trading name. Stipulation permits operating a multilateral trading facility. Permission is entity and jurisdiction specific."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "Nest Clearing and Custody Limited",
+      "country": "AE",
+      "regulator": "ADGM FSRA",
+      "type": "Recognised Clearing House (Custody and Central Securities Depository)",
+      "status": "licensed",
+      "number": "0070",
+      "sourceUrl": "https://www.adgm.com/public-registers/fsra/firms/recognized-bodies/nest-clearing-and-custody-limited",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; recognition order dated 2025-12-08. Former Binance (AD) Limited; Binance trading name. Stipulations include custody and central securities depository.",
+      "authorised": false,
+      "statusNote": "Active; recognition order dated 2025-12-08. Former Binance (AD) Limited; Binance trading name. Stipulations include custody and central securities depository."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "Nest Trading Limited",
+      "country": "AE",
+      "regulator": "ADGM FSRA",
+      "type": "Financial Services Permission",
+      "status": "licensed",
+      "number": "260000",
+      "sourceUrl": "https://www.adgm.com/public-registers/fsra/firms/financial-firms/nest-trading-limited-260000",
+      "lastChecked": "2026-10-14",
+      "evidence": "Active; FSP dated 2026-01-05; register website identifies Binance. Activity table renders no results; do not infer activity scope. Not permitted to hold or control client money.",
+      "authorised": false,
+      "statusNote": "Active; FSP dated 2026-01-05; register website identifies Binance. Activity table renders no results; do not infer activity scope. Not permitted to hold or control client money."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward MENA Holdings Limited",
+      "country": "AE",
+      "regulator": "ADGM FSRA",
+      "type": "Withdrawn Financial Services Permission",
+      "status": "withdrawn",
+      "number": "190008",
+      "sourceUrl": "https://www.adgm.com/public-registers/fsra/firms/financial-firms/payward-mena-holdings-limited-190008",
+      "lastChecked": "2026-10-14",
+      "evidence": "Withdrawn 2025-12-19; virtual-asset multilateral trading facility and custody permissions both withdrawn. This historical ADGM permission is not current authorisation. Separate Payward FZCO VARA record is active.",
+      "authorised": false,
+      "statusNote": "Withdrawn 2025-12-19; virtual-asset multilateral trading facility and custody permissions both withdrawn. This historical ADGM permission is not current authorisation. Separate Payward FZCO VARA record is active."
+    },
+    {
+      "exchange": "mexc",
+      "entityName": "MX Holdings Ltd",
+      "country": "AE",
+      "regulator": "Dubai VARA",
+      "type": "VARA enforcement register — cease-and-desist and penalties (2026-06-17)",
+      "status": "warning",
+      "sourceUrl": "https://www.vara.ae/en/enforcement/",
+      "lastChecked": "2026-10-14",
+      "evidence": "VARA enforcement table lists MX Holdings Ltd (MEXC), cease-and-desist and penalties dated 2026-06-17. Dubai scope; no current authorisation established.",
+      "authorised": false,
+      "statusNote": "VARA enforcement table lists MX Holdings Ltd (MEXC), cease-and-desist and penalties dated 2026-06-17. Dubai scope; no current authorisation established."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/okx-middle-east-fintech-fze/",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/binance-fze/",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/payward-fzco/",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/gate-technology-fze/",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.adgm.com/public-registers/fsra/firms/recognized-bodies/nest-services-limited",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.adgm.com/public-registers/fsra/firms/recognized-bodies/nest-clearing-and-custody-limited",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.adgm.com/public-registers/fsra/firms/financial-firms/nest-trading-limited-260000",
+      "result": "readable",
+      "reason": "Official individual register entry fetched; entity, identifier and current status checked."
+    },
+    {
+      "url": "https://www.adgm.com/public-registers/fsra/firms/financial-firms/payward-mena-holdings-limited-190008",
+      "result": "readable",
+      "reason": "Official withdrawal entry or warning fetched; no CTA eligibility."
+    },
+    {
+      "url": "https://www.vara.ae/en/regulations/regulatory-notices/vara-investor-and-marketplace-alert-mexc-estonia-oue-and-mexc-global-ltd-commercially-advertising-as-mexc/",
+      "result": "readable",
+      "reason": "Official withdrawal entry or warning fetched; no CTA eligibility."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/",
+      "result": "readable",
+      "reason": "58 licensed VASP entries rendered. Original OKX, Binance and Payward FZCO records verified against individual entries. No current partner records identified for Bitget, CoinW, HTX or Coinbase; absence from this rendered list is not a legal prohibition."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/bybit-fintech-fze/",
+      "result": "skipped",
+      "reason": "Individual entry unavailable through web fetch, including trailing-slash variant. IPA toggle did not expose IPA records; historical Bybit claims not revalidated and not added."
+    },
+    {
+      "url": "https://www.vara.ae/en/licenses-and-register/public-register/ht-markets-mena-fze/",
+      "result": "excluded",
+      "reason": "Register links hextrust.com; entity belongs to Hex Trust, not HTX. Do not map by initials."
+    },
+    {
+      "url": "https://www.vara.ae/en/enforcement/",
+      "result": "readable",
+      "reason": "Enforcement table includes MX Holdings Ltd (MEXC), 2026-06-17, cease-and-desist and penalties. Entity wording differs from warning; stored warning row uses its exact named entities."
+    }
+  ],
+  "note": "VARA Dubai excludes DIFC; ADGM permissions are separate entity-specific authorisations. Seven current authorised records across four brands, two non-authorised historical/warning rows. Bybit IPA unverified; no claim of no licence outside checked registers. No sourced fiat rail data added."
+}

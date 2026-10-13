@@ -1,0 +1,23 @@
+{
+  "country": "KR",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.kofiu.go.kr/kor/notification/notice.do",
+      "result": "readable-index-only",
+      "reason": "Live HTML is a JavaScript board shell; the official board JSON API returned the notice titled 가상자산사업자 신고 현황(2026.9.30. 기준). No partner registration rows are inferred from the board shell."
+    },
+    {
+      "url": "https://www.kofiu.go.kr/cmn/board/selectBoardListFile.do?seCd=0007&page=1&size=10",
+      "result": "readable",
+      "reason": "Official board API returned notice 194 and its XLSX attachment metadata, dated 2026-09-30. This is discovery metadata, not entity registration evidence."
+    },
+    {
+      "url": "https://www.kofiu.go.kr/cmn/file/downloadBoard.do?fileId=Z9FCk6wD7t0PcqgaQHJ2nRkhoSoBsIvAHu7tIC2dSIo%3D",
+      "result": "skipped",
+      "reason": "Attachment fetch returned 2072 bytes of HTML titled Page Not Found rather than an XLSX workbook. Register rows could not be read."
+    }
+  ],
+  "note": "KoFIU VASP list attachment was unreadable during this check. Zero partner records verified; no inference of absence, authorisation, or registration number. FIU registration is AML reporting scope and would not itself qualify a partner for an authorised CTA."
+}

@@ -1,0 +1,97 @@
+{
+  "country": "EU",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "bybit",
+      "entityName": "Bybit EU GmbH",
+      "country": "EU",
+      "regulator": "Austrian Financial Market Authority (FMA)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State AT; authorisation/notification date 28/05/2025; authorisation end date blank; register row last update 28/05/2025. Services: a. providing custody and administration of crypto-assets on behalf of clients | c. exchange of crypto-assets for funds | d. exchange of crypto-assets for other crypto-assets | f. placing of crypto-assets | j. providing transfer services for crypto-assets on behalf of clients. Listed service countries: AT|BE|BG|CY|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HU|IE|IS|IT|LI|LT|LU|LV|NL|NO|PL|PT|RO|SE|SI|SK. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "National MiCA authorisation; service and passport scope is entity-specific. See the official register."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward Global Solutions Limited",
+      "country": "EU",
+      "regulator": "Central Bank of Ireland (CBI)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State IE; authorisation/notification date 25/06/2025; authorisation end date blank; register row last update 25/06/2025. Services: b. operation of a trading platform for crypto-assets. Listed service countries: CY | IE. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "Operation of a trading platform only; listed service countries are Cyprus and Ireland."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward Europe Solutions Limited",
+      "country": "EU",
+      "regulator": "Central Bank of Ireland (CBI)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State IE; authorisation/notification date 25/06/2025; authorisation end date blank; register row last update 25/06/2025. Services: a. providing custody and administration of crypto-assets on behalf of clients | c. exchange of crypto-assets for funds | d. exchange of crypto-assets for other crypto-assets | e. execution of orders for crypto-assets on behalf of clients | f. placing of crypto-assets | g. reception and transmission of orders for crypto-assets on behalf of clients | i. providing portfolio management on crypto-assets | j. providing transfer services for crypto-assets on behalf of clients. Listed service countries: AT | BE | BG | CY | CZ | DE | DK | EE | ES | FI | FR | GR | HR | HU | IE | IS | IT | LI | LT | LU | LV | MT | NL | NO | PL | PT | RO | SE | SI | SK. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "National MiCA authorisation; service and passport scope is entity-specific. See the official register."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "Coinbase Luxembourg S.A.",
+      "country": "EU",
+      "regulator": "Commission de Surveillance du Secteur Financier (CSSF)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State LU; authorisation/notification date 20/06/2025; authorisation end date blank; register row last update 22/01/2026. Services: a. providing custody and administration of crypto-assets on behalf of clients | c. exchange of crypto-assets for funds | d. exchange of crypto-assets for other crypto-assets | e. execution of orders for crypto-assets on behalf of clients |  f. placing of crypto-assets | g. reception and transmission of orders for crypto-assets on behalf of clients | j. providing transfer services for crypto-assets on behalf of clients. Listed service countries: AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IS|IE|IT|LV|LI|LT|LU|MT|NL|NO|PL|PT|RO|SK|SI|ES|SE. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "National MiCA authorisation; service and passport scope is entity-specific. See the official register."
+    },
+    {
+      "exchange": "okx",
+      "entityName": "OKX Europe Limited",
+      "country": "EU",
+      "regulator": "Malta Financial Services Authority (MFSA)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State MT; authorisation/notification date 27/01/2025; authorisation end date blank; register row last update 28/11/2025. Services: a.\tproviding custody and administration of crypto-assets on behalf of clients |b. operation of a trading platform for crypto-assets | c. exchange of crypto-assets for funds | d. exchange of crypto-assets for other crypto-assets |e.\texecution of orders for crypto-assets on behalf of clients |f.\tplacing of crypto-assets |g. reception and transmission of orders for crypto-assets on behalf of clients | i.\tproviding portfolio management on crypto-assets | j. providing transfer services for crypto-assets on behalf of clients.. Listed service countries: AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|HR|HU|IE|IS|IT|LI|LT|LU|LV|NL|NO|PL|PT|RO|SE|SI|SK. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "National MiCA authorisation; service and passport scope is entity-specific. See the official register."
+    },
+    {
+      "exchange": "gate-io",
+      "entityName": "Gate Technology Limited",
+      "country": "EU",
+      "regulator": "Malta Financial Services Authority (MFSA)",
+      "type": "MiCA crypto-asset service provider authorisation",
+      "status": "licensed",
+      "sourceUrl": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "lastChecked": "2026-10-14",
+      "evidence": "ESMA authorised CASP CSV: home Member State MT; authorisation/notification date 29/09/2025; authorisation end date blank; register row last update 21/10/2025. Services: a.\tproviding custody and administration of crypto-assets on behalf of clients |b. operation of a trading platform for crypto-assets | c. exchange of crypto-assets for funds | d. exchange of crypto-assets for other crypto-assets |e.\texecution of orders for crypto-assets on behalf of clients | j. providing transfer services for crypto-assets on behalf of clients.. Listed service countries: AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|HR|HU|IE|IS|IT|LI|LT|LU|LV|NL|NO|PL|PT|RO|SE|SI|SK. The identifier is an LEI, not a licence number; no licence number is printed.",
+      "authorised": true,
+      "statusNote": "National MiCA authorisation; service and passport scope is entity-specific. See the official register."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv",
+      "result": "readable",
+      "reason": "Fetched official CSV directly; parsed 370 data rows. Six matching entity records for five requested exchange brands."
+    },
+    {
+      "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
+      "result": "readable",
+      "reason": "Official register page identifies CASP CSV as authorised providers and displays last update 7 October 2026. ESMA warns that register publication can lag national registers."
+    }
+  ],
+  "note": "EU is a regional MiCA register, not a national licence. National authorities grant authorisations; services and passport countries differ by entity. No matching requested-brand rows found for Binance, Bitget, HTX, CoinW or MEXC in this snapshot; absence is not proof of a ban. No fiat rail claims sourced. Preserve the separate Kraken entity service scopes; Payward Global Solutions Limited lists trading platform service only for CY and IE."
+}
