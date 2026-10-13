@@ -13,6 +13,7 @@ test('official captured matching facts verify, unsupported or mirror facts do no
   assert.equal(verifyEvent(event([row({ title: 'Different notice', excerpt: 'Unrelated facts' })])), 'unverified');
   assert.equal(verifyEvent(event([row({ verified_official: false })])), 'unverified');
   assert.equal(verifyEvent(event([row({ source_id: 'nexualpha-official-announcements' })])), 'unverified');
+  assert.equal(verifyEvent(event([row({ source_id: 'telegram-nexualphaclub-preview', url: 'https://t.me/s/NexuAlphaClub/42' })])), 'unverified');
 });
 test('two distinct publishers and origins corroborate; reposts and two outlet URLs do not', () => {
   const media = row({ source_platform: 'media', kind: 'media_report', verified_official: false });

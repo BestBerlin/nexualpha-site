@@ -16,7 +16,7 @@
   "change24h": "24時間",
   "rank": "時価総額ランク",
   "marketCap": "時価総額",
-  "snapshot": "{time} UTC 時点",
+  "snapshot": "{time} 時点",
   "live": "{time}更新",
   "listedOn": "上場先",
   "venuesCount": "{n}社",

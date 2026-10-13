@@ -271,6 +271,33 @@ test('standalone mirrors do not create independent source heat', () => {
   assert.equal(events[0].evidence[0].is_independent, false);
 });
 
+test('own telegram reposts are discovery hints and never independent evidence', () => {
+  const { events } = mergeRawItems([
+    { id: 932, source_id: 'telegram-nexualphaclub-preview', platform: 'telegram', tier: 3, url: 'https://t.me/s/NexuAlphaClub/42', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Repost of the official Bybit notice.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+  ]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].discussion.independent_sources, 0);
+  assert.equal(events[0].evidence[0].is_independent, false);
+});
+
+test('needs-detail exchange rows stay out of the claimable event pool', () => {
+  const { events, irrelevantItems } = mergeRawItems([
+    { id: 933, source_id: 'bybit-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/hidden', title: 'Bybit Will Delist 1 Token(s)', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting', metrics: { detail_status: 'needs-detail' } },
+  ]);
+  assert.equal(events.length, 0);
+  assert.deepEqual(irrelevantItems.map(item => item.id), [933]);
+});
+
+test('identical evidence rows are collapsed even when raw ids differ', () => {
+  const { events } = mergeRawItems([
+    { id: 934, source_id: 'bybit-announcements', external_id: 'a', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/same', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Bybit will delist ABCUSDT on 2026-10-14.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+    { id: 935, source_id: 'bybit-announcements', external_id: 'b', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/same', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Bybit will delist ABCUSDT on 2026-10-14.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+  ]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].raw_items.length, 2);
+  assert.equal(events[0].evidence.length, 1);
+});
+
 test('listing and delisting clustering keeps different symbols and dates apart', () => {
   const base = { source_id: 'bybit-announcements', platform: 'exchange', tier: 1, event_type_guess: 'delisting' };
   const { events } = mergeRawItems([

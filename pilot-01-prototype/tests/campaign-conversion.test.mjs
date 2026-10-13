@@ -26,13 +26,14 @@ test('join blocks use gated routes, omit unknown rebates, and keep neutral local
     assert.match(html, /Open official campaign page/);
   }
 });
-test('monthly strip caps six events newest first and respects timezone boundaries', () => {
+test('monthly strip caps six events newest first and uses Singapore month boundaries for every locale', () => {
   const now = Date.parse('2026-10-01T00:00:00Z');
   const event = { category: 'event', publishedAt: '2026-09-30T20:00:00Z' };
-  assert.equal(monthCampaigns([event], 'en', now).length, 0);
+  assert.equal(monthCampaigns([event], 'en', now).length, 1);
   assert.equal(monthCampaigns([event], 'zh-Hans', now).length, 1);
-  assert.equal(isStartOfMonth('en', Date.parse('2026-10-07T20:00:00Z')), true);
+  assert.equal(isStartOfMonth('en', Date.parse('2026-10-07T20:00:00Z')), false);
   assert.equal(isStartOfMonth('zh-Hans', Date.parse('2026-10-07T20:00:00Z')), false);
+  assert.equal(monthCampaigns([{ category: 'event', publishedAt: '2026-09-30T15:59:00Z' }], 'en', now).length, 0);
   const items = Array.from({length: 10}, (_, i) => ({ category: 'event', id: i, publishedAt: `2026-10-${String(i+1).padStart(2,'0')}T00:00:00Z` }));
   assert.deepEqual(monthCampaigns([...items, {category:'listing',publishedAt:'2026-10-11T00:00:00Z'}], 'en', Date.parse('2026-10-12T00:00:00Z')).map(i=>i.id), [9,8,7,6,5,4]);
 });

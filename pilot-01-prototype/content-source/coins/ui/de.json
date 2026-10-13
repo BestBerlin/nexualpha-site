@@ -16,7 +16,7 @@
   "change24h": "24 Std.",
   "rank": "Rang nach Marktkapitalisierung",
   "marketCap": "Marktkapitalisierung",
-  "snapshot": "Stand {time} UTC",
+  "snapshot": "Stand {time}",
   "live": "Aktualisiert {time}",
   "listedOn": "Gelistet bei",
   "venuesCount": "{n} Börsen",

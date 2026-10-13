@@ -14,6 +14,7 @@ import { contextualHref } from "../../../data/contextual-href.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { DataRule, utcClock, utcStamp } from "../../shared/DataRule.jsx";
+import { formatSgt } from "../../../data/local-time.js";
 import { groupNewsByDay, newsDayCopy, relativeDay } from "./news-day-groups.js";
 import "./news-list-page.css";
 
@@ -518,7 +519,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
                     const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
                     return (
                       <li key={article.slug} className="news-row" data-news-row={article.slug}>
-                        <time className="news-row__time" dateTime={article.publishedAt}>{utcClock(article.publishedAt)}</time>
+                        <time className="news-row__time" dateTime={article.publishedAt}>{formatSgt(article.publishedAt, locale, "clock") || utcClock(article.publishedAt)}</time>
                         <div className="news-row__main">
                           <h3 className="news-row__title"><a href={articleUrl} data-cta-kind="research" data-cta-placement="news-row-read" data-growth-decision={article.slug || article.id} data-growth-placement="news-row-read">{title}</a></h3>
                           <p className="news-row__summary">{summary}</p>

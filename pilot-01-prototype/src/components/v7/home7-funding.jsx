@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FUNDING_PATH, FUNDING_SYMBOLS, FUNDING_VENUES, fundingTable } from "../../data/funding-rates.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatSgt } from "../../data/local-time.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { reduced } from "./home7-shared.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
@@ -65,7 +66,7 @@ export function FundingBoard({ locale }) {
   const [symbol, setSymbol] = useState("BTC");
   const rows = useMemo(() => (feed ? fundingTable(feed, symbol) : []), [feed, symbol]);
   if (!feed && failed) return null;
-  const asOf = feed ? new Date(feed.generatedAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" }) : "—";
+  const asOf = feed ? formatSgt(feed.generatedAt, locale) : "—";
   return (
     <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
       <div className="h7-ih"><h2 id="h7-fr-h">{t.h}</h2><p>{t.sub}</p></div>

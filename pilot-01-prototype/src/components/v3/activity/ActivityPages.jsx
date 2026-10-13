@@ -1,3 +1,4 @@
+import { formatSgt } from "../../../data/local-time.js";
 import { CampaignJoin } from "./CampaignJoin.jsx";
 import { BrandMark } from "../../brand/BrandMark";
 import { visibleOfficialUpdates } from "../../official-updates/official-updates-model";
@@ -50,8 +51,8 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
   const snapshotItems = update ? [
     { label: text.platformType, value: update.platform.name, hint: update.kind, translate: "no", lang: "en" },
     { label: copy.opportunity.source, value: update.officialSource.type, hint: update.officialSource.url, translate: "no", lang: "en" },
-    { label: copy.decisionWorkbench.discovered, value: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(update.discoveredAt)), hint: copy.common.verifiedSource },
-    { label: copy.listings.expired, value: update.expiresAt ? new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(update.expiresAt)) : "—", hint: eligibility?.statusLabel ?? text.sourceState },
+    { label: copy.decisionWorkbench.discovered, value: formatSgt(update.discoveredAt, locale), hint: copy.common.verifiedSource },
+    { label: copy.listings.expired, value: update.expiresAt ? formatSgt(update.expiresAt, locale) : "—", hint: eligibility?.statusLabel ?? text.sourceState },
   ] : [];
   return <main className={`v6 v2-page v3-page v3-activity-detail${update ? "" : " v3-page--empty"}`} id="top" {...sectionEyebrowAttrs(locale, "campaigns")}>
     <section className="v3-page-hero v2-shell">
@@ -93,9 +94,9 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
       <div className="v3-matrix">
         <div><b>{text.platformType}</b><span translate="no" lang="en">{update.platform.name}</span></div>
         <div><b>{copy.opportunity.source}</b><span translate="no" lang="en">{update.officialSource.type}</span></div>
-        <div><b>{copy.decisionWorkbench.discovered}</b><span><time dateTime={update.discoveredAt}>{new Date(update.discoveredAt).toLocaleString(locale)}</time></span></div>
-        <div><b>{copy.common.verifiedSource}</b><span><time dateTime={update.verifiedAt}>{new Date(update.verifiedAt).toLocaleString(locale)}</time></span></div>
-        <div><b>{copy.listings.expired}</b><span>{update.expiresAt ? <time dateTime={update.expiresAt}>{new Date(update.expiresAt).toLocaleString(locale)}</time> : "—"}</span></div>
+        <div><b>{copy.decisionWorkbench.discovered}</b><span><time dateTime={update.discoveredAt}>{formatSgt(update.discoveredAt, locale)}</time></span></div>
+        <div><b>{copy.common.verifiedSource}</b><span><time dateTime={update.verifiedAt}>{formatSgt(update.verifiedAt, locale)}</time></span></div>
+        <div><b>{copy.listings.expired}</b><span>{update.expiresAt ? <time dateTime={update.expiresAt}>{formatSgt(update.expiresAt, locale)}</time> : "—"}</span></div>
         <div><b>{text.sourceState}</b><span><a href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</a></span></div>
       </div>
       {eligibility && <div className="v3-matrix v3-activity-eligibility" aria-label={eligibility.statusLabel}>

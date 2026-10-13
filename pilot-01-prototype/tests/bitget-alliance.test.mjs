@@ -266,12 +266,12 @@ test("campaign brief and archived announcement: valid, localized, free of codes 
 
 test("featured placements: top of the home campaigns block, /activities, /exchanges/bitget and /flash link the campaign page", async () => {
   const home = await harness.render("https://nexualpha.com/?locale=en", {});
-  const firstFeat = home.indexOf('data-featured-campaign="');
-  assert.equal(home.slice(firstFeat, firstFeat + 40), 'data-featured-campaign="bitget-alliance"', "home: Bitget Alliance is the first featured row");
+  // Kraken 5M USDG Challenge (2026-10-13) leads; Bitget Alliance stays featured right after it.
+  const featured = (html) => [...html.matchAll(/data-featured-campaign="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(featured(home).slice(0, 2).includes("bitget-alliance"), "home: Bitget Alliance is among the first two featured rows");
   assert.match(home, /data-featured-campaign="bitget-alliance"[\s\S]*?href="\/activities\/bitget-alliance"/, "home featured row");
   const activities = await harness.render("https://nexualpha.com/activities?locale=zh-Hans", {});
-  const first = activities.indexOf('data-featured-campaign="');
-  assert.equal(activities.slice(first, first + 40), 'data-featured-campaign="bitget-alliance"', "/activities: top spotlight");
+  assert.ok(featured(activities).slice(0, 2).includes("bitget-alliance"), "/activities: among the top two spotlights");
   assert.match(activities, /class="campaign-spotlight" href="\/zh-hans\/activities\/bitget-alliance"/);
   const venue = await harness.render("https://nexualpha.com/exchanges/bitget?locale=en", {});
   assert.match(venue, /class="v3-venue-campaign-banner"[^>]*href="\/activities\/bitget-alliance"/, "Bitget profile banner");

@@ -19,6 +19,7 @@ import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } 
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../../data/bybit-stocks.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../../data/bitget-alliance.js";
 import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
+import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../../data/kraken-usdg.js";
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
@@ -94,6 +95,8 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
 
   // Featured campaign pages (owner 2026-10-12): first items on /activities while they run (links our pages).
   const spotlights = [
+    // Kraken 5M USDG Challenge (owner 2026-10-13, strong push): first, where the challenge may be promoted.
+    krakenUsdgPromotable({ locale, market }) && { id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) },
     // Bitget Alliance (owner 2026-10-13, big push): top spot where Bitget may be promoted.
     bitgetAlliancePromotable({ locale, market }) && { id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) },
     bybitStocksCampaignActive() && { id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) },

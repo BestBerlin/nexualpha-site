@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { COUNTRY_ROUTE_PREFIXES, isLocalePathEligible, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { hreflangAlternates, newsArticleSeoLocales, newsListingIndexableLocales } from "../src/data/news-feed-client.js";
 import { parseNewsListingPath } from "../src/data/news-library.js";
+import { RADAR_PATHS } from "../src/data/radar-seo.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const origin = "https://nexualpha.com";
@@ -103,7 +104,9 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   // (English and Simplified Chinese plus every locale with a native body); without them the two core editions apply.
   if (template === "article") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
   if (template === "newsList") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
+  if (RADAR_PATHS.includes(pathname)) return supportedRouteLocales(route, allLocales);
   if (template === "regionalPreview") return supportedRouteLocales(route, allLocales);
+  if (template === "dataTool") return supportedRouteLocales(route, allLocales);
   if (!isLocalePathEligible(pathname)) return pickSupportedLocales(route, ["en"], allLocales);
   if (SITEMAP_CORE_STATIC_PATHS.has(pathname)) {
     return ["/", "/exchanges", "/activities", "/rates", "/onchain"].includes(pathname)

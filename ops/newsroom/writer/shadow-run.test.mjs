@@ -10,7 +10,7 @@ test('shadow-run claims, writes a review plan, and releases every event', async 
     async cli(args) {
       calls.push(args);
       if (args[0] === 'claim') return JSON.stringify([
-        { id: 1, title_internal: 'A', event_type: 'listing', suggested_format: 'flash', cta_hints: [], entities: [], evidence: [] },
+        { id: 1, title_internal: 'A', event_type: 'listing', suggested_format: 'flash', factual_summary: 'A verified fact. Another verified fact.', summary_source_urls: ['https://source.test'], why_it_matters: 'Check trading access.', story_event_ids: [1, 3], venues: ['bybit', 'kucoin'], cta_hints: [], entities: [], evidence: [] },
         { id: 2, title_internal: 'B', event_type: 'dispute', suggested_format: 'dispute', cta_hints: [], entities: [], evidence: [] },
       ]);
       if (args[0] === 'release') return JSON.stringify([{ id: Number(args[1]) }]);
@@ -30,6 +30,9 @@ test('shadow-run claims, writes a review plan, and releases every event', async 
   ]);
   assert.equal(writes[1][2].publish, false);
   assert.equal(writes[1][2].events.length, 2);
+  assert.equal(writes[1][2].events[0].factual_summary, 'A verified fact. Another verified fact.');
+  assert.equal(writes[1][2].events[0].why_it_matters, 'Check trading access.');
+  assert.deepEqual(writes[1][2].events[0].story_event_ids, [1, 3]);
 });
 
 test('shadow-run releases claims after a plan write failure and reports the failure', async () => {
@@ -88,4 +91,28 @@ test('shadow-run rejects duplicate options and empty release receipts', async ()
     },
     files: { async mkdir() {}, async writeFile() {} },
   }), /release failed for 1/);
+});
+
+test('recorded shadow events expose source age and verification status in the saved plan', async () => {
+  const { readFileSync } = await import('node:fs');
+  const recorded = JSON.parse(readFileSync(new URL('../lib/fixtures/shadow-1110.json', import.meta.url)));
+  const events = recorded.plan.events.map((event, index) => ({
+    ...event,
+    source_published_at: event.evidence[0].published_at,
+    verification_status: index ? 'verified-primary' : 'corroborated',
+  }));
+  events.push({ id: 999 });
+  let saved;
+  const result = await shadowRun(['--start', recorded.plan.shadow_start, '--writer', 'fixture', '--out', '/tmp/fixture-plan.json'], {
+    now: recorded.plan.generated_at,
+    async cli(args) { return JSON.stringify(args[0] === 'claim' ? events : [{ id: Number(args[1]) }]); },
+    files: { async mkdir() {}, async writeFile(file, body) { saved = JSON.parse(body); } },
+  });
+  assert.equal(result.released, events.length);
+  events.slice(0, 4).forEach((event, index) => {
+    assert.equal(saved.events[index].source_published_at, event.source_published_at);
+    assert.equal(saved.events[index].verification_status, event.verification_status);
+  });
+  assert.equal(saved.events[4].source_published_at, null);
+  assert.equal(saved.events[4].verification_status, 'unverified');
 });

@@ -277,6 +277,24 @@ async function pollOwnMarketFeed(source, request, now) {
       provenance: { kind: 'liquidations', window, lower_bound: true, venues: ownMarketVenues(json.liquidations.source), source: json.liquidations.source, coins: topSymbols, largest: row.largest ?? null },
     }));
   }
+  // Preserve the same one-hour measurements used by /flash, independently of
+  // the feed's free-text alerts (which do not establish a measurement window).
+  for (const row of Array.isArray(json.market?.majors) ? json.market.majors : []) {
+    const symbol = String(row.symbol ?? '').toUpperCase().replace(/(?:USDT|USDC|USD)$/, '');
+    const move = number(row.change1hPct);
+    const price = number(row.price);
+    if (!['BTC', 'ETH'].includes(symbol) || move == null || price == null) continue;
+    out.push(item(source, {
+      id: `nexualpha-major-move:${symbol}:${generatedAt.toISOString()}`,
+      url,
+      title: `${symbol} one-hour price move ${move}%`,
+      body: `NexuAlpha market feed measures ${symbol} at $${price} with a ${move}% price change over one hour as of ${generatedAt.toISOString()}. This is a measured price snapshot; it does not establish what caused the move.`,
+      at: generatedAt,
+      event: 'price_move',
+      metrics: { price_move_pct_1h: move, price_usd: price },
+      provenance: { kind: 'major_price_move', window: 'h1', symbol, source: 'NexuAlpha market feed' },
+    }));
+  }
   for (const event of Array.isArray(json.events) ? json.events : []) {
     if (!event?.type || !event?.text) continue;
     out.push(item(source, {

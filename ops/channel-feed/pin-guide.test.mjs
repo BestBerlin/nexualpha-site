@@ -6,7 +6,9 @@ import path from "node:path";
 import {
   GUIDE_LANGS,
   LOCK_FILE,
+  buildGuideMarkup,
   buildGuideMessage,
+  guideHash,
   guidePreview,
   parseChatTargets,
   readState,
@@ -30,20 +32,58 @@ const callsFetch = (responses) => {
   return fetchImpl;
 };
 
-test("guide messages are localized, footer-free, and route exchange links through comparison pages", () => {
+test("guide messages are a short localized start-here menu with tg-pin-<lang> links and no fine print", () => {
   for (const lang of GUIDE_LANGS) {
     const text = buildGuideMessage(lang);
-    assert.match(text, /<b>.+<\/b>/, `${lang} has a title`);
-    assert.match(text, /NexuAlpha/, `${lang} names NexuAlpha`);
-    assert.doesNotMatch(text, /\/go\/|[?&]ref=|inviteCode|NEXUALPHA[0-9]/i, `${lang} has no hardcoded referral route or code`);
-    assert.match(text, new RegExp(`https://nexualpha\\.com${lang === "zh" ? "/zh-hans" : lang === "en" ? "" : `/${lang}`}/exchanges/okx\\?src=tg-guide-${lang}`));
-    assert.doesNotMatch(text, /NexuAlpha 带来|commission|комисси|komisyon|hoa hồng|komisi|comisi|comiss/i, `${lang} carries no commission footer`);
+    const prefix = lang === "zh" ? "/zh-hans" : lang === "en" ? "" : `/${lang}`;
+    assert.match(text, /^<b>👋 NexuAlpha.+<\/b>/, `${lang} has a title`);
+    for (const p of ["/flash", "/calendar", "/liquidations", "/funding-rates/matrix", "/coins/bitcoin", "/convert/btc-to-", "/academy", "/glossary"]) {
+      assert.ok(text.includes(`https://nexualpha.com${prefix}${p}`), `${lang} links ${p}`);
+    }
+    const hrefs = [...text.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+    for (const h of hrefs) assert.match(h, new RegExp(`[?&]src=tg-pin-${lang}$`), `${lang} ${h} is tagged`);
+    assert.ok(text.length < 1500, `${lang} stays short (${text.length})`);
+    assert.doesNotMatch(text, /\/go\/|[?&]ref=|commission|комисси|komisyon|hoa hồng|返佣|disclaimer|not financial advice|風險|风险提示/i, `${lang} no referral route or fine print`);
+    const visible = text.replace(/<a href="[^"]*">/g, "").replace(/<[^>]+>/g, "");
+    assert.doesNotMatch(visible, /\b[a-z0-9-]+\.(com|io|org|net|co|exchange)\b/i, `${lang} no domain-like text`);
+    const markup = buildGuideMarkup(lang);
+    assert.equal(markup.inline_keyboard[0][0].url, `https://t.me/NexuAlphaAssistantBot?start=alerts-${lang}`);
   }
-  assert.match(buildGuideMessage("en"), /invite code is an exchange attribution method/);
-  assert.match(buildGuideMessage("zh"), /邀请码只是交易所注册归因方式/);
-  assert.match(buildGuideMessage("ru"), /инвайт-коды/);
-  assert.match(buildGuideMessage("tr"), /Davet kodları/);
-  assert.match(buildGuideMessage("vi"), /Mã mời/);
+  assert.doesNotMatch(buildGuideMessage("tr") + JSON.stringify(buildGuideMarkup("tr")), /bitget/i, "tr: no Bitget anywhere");
+  assert.match(buildGuideMessage("zh"), /bitget-alliance\?src=tg-pin-zh/);
+  assert.doesNotMatch(buildGuideMessage("ru"), /регистр|зарегистр|sign ?up|бонус/i, "ru: neutral");
+  assert.match(buildGuideMessage("ru"), /\/ru\/activities\?src=tg-pin-ru/);
+});
+
+test("--update edits the pinned message in place; an uneditable one is reposted, pinned and the old one unpinned", async () => {
+  const stateDir = mkdtempSync(path.join(os.tmpdir(), "pin-guide-update-"));
+  const stateFile = path.join(stateDir, "pinned-guides.json");
+  writeFileSync(stateFile, JSON.stringify({ guides: { "en:@NexuAlphaGlobal": { lang: "en", chat: "@NexuAlphaGlobal", messageId: 9, postedAt: "x", pinnedAt: "y" } } }));
+  const edit = callsFetch([{ ok: true, result: true }]);
+  const r = await runPinGuide({ lang: "en", update: true, env, stateDir, fetchImpl: edit, logger: { log() {} }, now: new Date("2026-10-13T00:00:00Z") });
+  assert.deepEqual(edit.calls.map((c) => c.url.split("/").pop()), ["editMessageText"]);
+  assert.equal(edit.calls[0].body.message_id, 9);
+  assert.equal(edit.calls[0].body.text, buildGuideMessage("en"));
+  assert.deepEqual(edit.calls[0].body.reply_markup, buildGuideMarkup("en"));
+  assert.equal(r.messageId, 9);
+  assert.equal(r.hash, guideHash("en"));
+
+  const same = callsFetch([{ ok: false, error_code: 400, description: "Bad Request: message is not modified" }]);
+  await runPinGuide({ lang: "en", update: true, env, stateDir, fetchImpl: same, logger: { log() {} } });
+  assert.equal(same.calls.length, 1);
+
+  const gone = callsFetch([
+    { ok: false, error_code: 400, description: "Bad Request: message to edit not found" },
+    { ok: true, result: { message_id: 50 } },
+    { ok: true, result: true },
+    { ok: true, result: true },
+  ]);
+  const r2 = await runPinGuide({ lang: "en", update: true, env, stateDir, fetchImpl: gone, logger: { log() {} } });
+  assert.deepEqual(gone.calls.map((c) => c.url.split("/").pop()), ["editMessageText", "sendMessage", "pinChatMessage", "unpinChatMessage"]);
+  assert.equal(gone.calls[3].body.message_id, 9);
+  assert.equal(r2.messageId, 50);
+  assert.equal(JSON.parse(readFileSync(stateFile, "utf8")).guides["en:@NexuAlphaGlobal"].messageId, 50);
+  rmSync(stateDir, { recursive: true, force: true });
 });
 
 test("parseChatTargets accepts CHANNEL_FEED_TARGETS first and fills from ALERT_CHANNELS", () => {
