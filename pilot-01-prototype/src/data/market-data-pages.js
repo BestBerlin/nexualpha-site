@@ -29,6 +29,29 @@ export function splitSymbol(symbol) {
   return { base, venue, raw };
 }
 
+const LIQUIDATION_VENUES = Object.freeze(["Binance", "OKX"]);
+const normalizeLiquidationVenue = (venue) => {
+  const v = String(venue || "").trim().toUpperCase();
+  if (v === "BINANCE") return "Binance";
+  if (v === "OKX") return "OKX";
+  return null;
+};
+const liquidationCoverageLabel = (venues) => venues.length ? `${venues.join(" + ")} observed liquidations` : "No observed liquidations";
+const uniqueOrderedVenues = (venues) => {
+  const seen = new Set(venues.map(normalizeLiquidationVenue).filter(Boolean));
+  return LIQUIDATION_VENUES.filter((venue) => seen.has(venue));
+};
+export function readLiquidationCoverage(coverage, fallbackRows = []) {
+  const hasExplicitVenues = Array.isArray(coverage?.venues);
+  const covered = Array.isArray(coverage?.venues) ? uniqueOrderedVenues(coverage.venues) : [];
+  const fallback = Array.isArray(fallbackRows)
+    ? uniqueOrderedVenues(fallbackRows.filter((row) => (num(row?.usd) ?? 0) > 0).map((row) => row?.venue || splitSymbol(row?.symbol || row?.s || row?.raw).venue))
+    : [];
+  const venues = hasExplicitVenues ? covered : fallback;
+  return { venues, venueCount: venues.length, label: liquidationCoverageLabel(venues) };
+}
+const binanceCoverageNote = (coverage) => coverage?.binance?.status === "silent" ? "Binance stream silent" : "";
+
 function readWindow(w) {
   if (!w || typeof w !== "object") return null;
   const longUsd = num(w.longUsd) ?? 0, shortUsd = num(w.shortUsd) ?? 0;
@@ -40,7 +63,8 @@ function readWindow(w) {
   const largest = w.largest && num(w.largest.usd) > 0
     ? { ...splitSymbol(w.largest.symbol), side: w.largest.side === "short" ? "short" : "long", usd: num(w.largest.usd), at: isoOrNull(w.largest.at) }
     : null;
-  return { longUsd, shortUsd, totalUsd, orders: num(w.orders) ?? 0, longShare: totalUsd > 0 ? longUsd / totalUsd : 0.5, topSymbols, largest };
+  const coverage = readLiquidationCoverage(w.coverage, [...topSymbols, ...(largest ? [largest] : [])].filter((row) => (row?.usd ?? 0) > 0));
+  return { longUsd, shortUsd, totalUsd, orders: num(w.orders) ?? 0, longShare: totalUsd > 0 ? longUsd / totalUsd : 0.5, topSymbols, largest, coverage };
 }
 
 // null when the feed has no usable liquidation block (page shows the unavailable state).
@@ -50,7 +74,9 @@ export function readLiquidations(feed) {
   if (!l || !generatedAt) return null;
   const h1 = readWindow(l.h1), h4 = readWindow(l.h4), h24 = readWindow(l.h24);
   if (!h1 && !h4 && !h24) return null;
-  return { generatedAt, source: typeof l.source === "string" ? l.source : "", coverageSince: isoOrNull(l.coverageSince), windows: { h1, h4, h24 } };
+  const primaryCoverage = h24?.coverage || h4?.coverage || h1?.coverage || readLiquidationCoverage(l.coverage);
+  const sourceNote = binanceCoverageNote(l.coverage);
+  return { generatedAt, source: typeof l.source === "string" ? l.source : "", sourceLine: sourceNote ? `${primaryCoverage.label}; ${sourceNote}` : primaryCoverage.label, coverage: primaryCoverage, coverageSince: isoOrNull(l.coverageSince), windows: { h1, h4, h24 } };
 }
 
 export const annualizedFunding = (rate) => (rate == null ? null : rate * FUNDING_PERIODS_PER_YEAR);

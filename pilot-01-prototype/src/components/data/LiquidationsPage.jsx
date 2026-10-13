@@ -21,6 +21,7 @@ function WindowCard({ label, window: w, copy, primary }) {
         <span className="nxd-long" dir="ltr">{copy.longs}: {formatUsdCompact(w.longUsd)}</span>
         <span className="nxd-short" dir="ltr">{copy.shorts}: {formatUsdCompact(w.shortUsd)}</span>
         <span dir="ltr">{copy.orders(w.orders)}</span>
+        <span translate="no">{w.coverage.label}</span>
       </p>
     </article>
   );
@@ -35,7 +36,7 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
   const day = data?.windows.h24 || data?.windows.h4 || data?.windows.h1;
   return (
     <main className="v6 v2-page v3-page nxd nxd--liquidations" id="top" dir={textDirection(locale)} data-testid="liquidations-page">
-      <DataPageHero locale={locale} page={page} pathname={LIQUIDATIONS_PATH} generatedAt={data?.generatedAt} sourceLine={page.sourceLine}>
+      <DataPageHero locale={locale} page={page} pathname={LIQUIDATIONS_PATH} generatedAt={data?.generatedAt} sourceLine={data?.sourceLine || "No observed liquidations"}>
         {data?.coverageSince ? <p className="nxd-coverage"><span>{page.coverage}</span> <time dateTime={data.coverageSince} dir="ltr">{formatUtc(data.coverageSince)}</time></p> : null}
       </DataPageHero>
 

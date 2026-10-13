@@ -68,26 +68,72 @@ export function collectorStatePayload(orders, observations, now = Date.now()) {
 const collectorState = readCollectorState();
 let liq = collectorState.orders;
 let observations = collectorState.observations;
-let liquidationStreamOpen = false;
-function connectLiquidations() {
-  const ws = new WebSocket("wss://fstream.binance.com/ws/!forceOrder@arr");
-  ws.onopen = () => { liquidationStreamOpen = true; };
-  ws.onmessage = (ev) => {
-    try {
-      const o = JSON.parse(ev.data).o;
-      const usd = Number(o.ap || o.p) * Number(o.z || o.q);
-      if (!Number.isFinite(usd) || usd <= 0) return;
-      // side SELL = a long position was liquidated; BUY = a short position was liquidated
-      liq.push({ t: Number(o.T) || Date.now(), s: o.s, side: o.S === "SELL" ? "long" : "short", usd: Math.round(usd) });
-    } catch { /* ignore malformed */ }
-  };
-  ws.onclose = () => { liquidationStreamOpen = false; log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); };
-  ws.onerror = () => { liquidationStreamOpen = false; ws.close(); };
+// forceOrder belongs to /market after Binance's 2026 endpoint migration.
+export const BINANCE_LIQUIDATION_URL = "wss://fstream.binance.com/market/ws/!forceOrder@arr";
+export const BINANCE_SILENCE_TIMEOUT_MS = 10 * MINUTE;
+
+export function parseBinanceForceOrder(payload, now = Date.now()) {
+  const event = payload?.data || payload;
+  const o = event?.o;
+  if (event?.e !== "forceOrder" || !o || !["SELL", "BUY"].includes(o.S)) return null;
+  // The merged stream can include coin-margined contracts: their q/z are contracts,
+  // not base-asset quantities. Keep this collector's USDT-M scope.
+  if ((event.st != null && Number(event.st) !== 1) || !/USDT$/.test(o.s || "")) return null;
+  const price = Number(o.ap) > 0 ? Number(o.ap) : Number(o.p);
+  const quantity = Number(o.z ?? o.q);
+  const usd = Math.round(price * quantity), t = Number(o.T);
+  if (!Number.isFinite(usd) || usd <= 0 || !Number.isFinite(t) || t <= 0 || t > now || t < retentionCutoff(now)) return null;
+  return { t, s: o.s, side: o.S === "SELL" ? "long" : "short", usd, src: "binance" };
 }
 
-function liquidationWindow(ms) {
-  const since = Date.now() - ms;
-  const rows = liq.filter((x) => x.t >= since);
+export function binanceStreamCoverage(state, now = Date.now(), timeoutMs = BINANCE_SILENCE_TIMEOUT_MS) {
+  const anchor = state.lastOrderAt ?? state.connectedAt;
+  const silentMs = anchor == null ? null : Math.max(0, now - anchor);
+  const status = !state.open ? "disconnected" : silentMs >= timeoutMs ? "silent" : state.lastOrderAt == null ? "awaiting-data" : "receiving";
+  return {
+    status, available: status === "receiving", connected: Boolean(state.open),
+    connectedAt: iso(state.connectedAt), lastOrderAt: iso(state.lastOrderAt),
+    silentMs, silenceTimeoutMs: timeoutMs,
+    reason: status === "silent" ? "No accepted Binance force orders within the silence timeout; cause unverified" : null,
+  };
+}
+
+// The runtime and tests use the same handler and storage path.
+export function connectBinanceLiquidations(orders, {
+  WebSocketImpl = WebSocket, now = Date.now, onClose = () => {}, getOrders = () => orders,
+} = {}) {
+  const state = { open: false, connectedAt: null, lastOrderAt: null };
+  const ws = new WebSocketImpl(BINANCE_LIQUIDATION_URL);
+  ws.onopen = () => { state.open = true; state.connectedAt = now(); };
+  ws.onmessage = (ev) => {
+    try {
+      const row = parseBinanceForceOrder(JSON.parse(ev.data), now());
+      if (!row) return;
+      getOrders().push(row);
+      state.lastOrderAt = now();
+    } catch { /* malformed frames do not establish coverage */ }
+  };
+  ws.onclose = () => { state.open = false; onClose(); };
+  ws.onerror = () => { state.open = false; ws.close(); };
+  return { ws, state };
+}
+
+let binanceStream = { state: { open: false, connectedAt: null, lastOrderAt: null } };
+function connectLiquidations() {
+  binanceStream = connectBinanceLiquidations(liq, {
+    getOrders: () => liq,
+    onClose: () => { log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); },
+  });
+}
+
+export function liquidationCoverage(orders) {
+  const venues = ["Binance", "OKX"].filter(venue => orders.some(row => liquidationTimelineVenue(row) === venue && Number(row.usd) > 0));
+  return { venues, venueCount: venues.length, label: venues.length ? `${venues.join(" + ")} observed liquidations` : "No observed liquidations" };
+}
+
+export function liquidationWindow(ms, orders = liq, now = Date.now()) {
+  const since = now - ms;
+  const rows = orders.filter((x) => x.t >= since && x.t <= now);
   const sum = (side) => rows.filter((x) => x.side === side).reduce((a, x) => a + x.usd, 0);
   const bySymbol = {};
   for (const r of rows) bySymbol[r.s] = (bySymbol[r.s] || 0) + r.usd;
@@ -95,6 +141,7 @@ function liquidationWindow(ms) {
   const largest = rows.reduce((m, x) => (x.usd > (m?.usd || 0) ? x : m), null);
   const longUsd = sum("long"), shortUsd = sum("short");
   return { longUsd, shortUsd, totalUsd: longUsd + shortUsd, orders: rows.length, topSymbols: top,
+    coverage: liquidationCoverage(rows),
     largest: largest ? { symbol: largest.s, side: largest.side, usd: largest.usd, at: new Date(largest.t).toISOString() } : null };
 }
 
@@ -128,7 +175,7 @@ export function liquidationTimelineSymbol(row) {
 }
 
 export function liquidationTimelineVenue(row) {
-  return row?.src === "okx" || /^OKX:/i.test(String(row?.s || "")) ? "OKX" : "Binance";
+  return row?.venue === "OKX" || row?.src === "okx" || /^OKX:/i.test(String(row?.s || "")) ? "OKX" : "Binance";
 }
 
 function timelineOrder(row) {
@@ -213,6 +260,7 @@ function buildTimelineWindow(rows, observationsInput, { windowMs, bucketMs }, no
   }
   const symbols = [...bySymbolTotals.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([symbol]) => symbol);
   return {
+    coverage: liquidationCoverage(rows.filter(x => x.t >= startMs && x.t < endMs)),
     windowMs, bucketMs, coverageSince: iso(obs[0] ?? null), start: iso(startMs), end: iso(endMs), symbols, buckets,
     largest: timelineLargest(rows, startMs, endMs),
     largestBySymbol: timelineLargestBySymbol(rows, startMs, endMs),
@@ -232,8 +280,7 @@ export function buildLiquidationTimeline(orders, observationsInput = [], now = D
   const d7 = buildTimelineWindow(rows, observationsInput, LIQUIDATION_TIMELINE_WINDOWS.d7, now);
   return {
     coverage: {
-      label: LIQUIDATION_TIMELINE_SOURCE_LABEL,
-      venueCount: 2,
+      ...liquidationCoverage(rows),
       since: iso(firstObserved),
       until: iso(now),
       observationCount: retainedObs.length,
@@ -387,9 +434,9 @@ function detectEvents(liq1h, liq24h, m) {
     if (Math.abs(x.change1hPct) >= 3) ev.push({ type: "sharp-move", severity: "high", text: `${x.symbol} moved ${x.change1hPct}% in the last hour` });
     else if (Math.abs(x.change24hPct) >= 7) ev.push({ type: "big-day", severity: "medium", text: `${x.symbol} moved ${x.change24hPct}% in 24 hours` });
   }
-  if (liq1h.totalUsd >= 50e6) ev.push({ type: "liquidation-spike", severity: "high", text: `At least ${Math.round(liq1h.totalUsd / 1e6)}M USD liquidated on Binance and OKX futures in 1 hour` });
+  if (liq1h.totalUsd >= 50e6) ev.push({ type: "liquidation-spike", severity: "high", text: `At least ${Math.round(liq1h.totalUsd / 1e6)}M USD liquidated on ${liq1h.coverage.venues.join(" + ")} futures in 1 hour` });
   const minSide = Math.min(liq24h.longUsd, liq24h.shortUsd);
-  if (liq24h.totalUsd >= 100e6 && minSide / liq24h.totalUsd >= 0.35) ev.push({ type: "both-sides-liquidated", severity: "high", text: `Longs and shorts both liquidated in 24h (long ${Math.round(liq24h.longUsd / 1e6)}M / short ${Math.round(liq24h.shortUsd / 1e6)}M USD, Binance+OKX lower bound)` });
+  if (liq24h.totalUsd >= 100e6 && minSide / liq24h.totalUsd >= 0.35) ev.push({ type: "both-sides-liquidated", severity: "high", text: `Longs and shorts both liquidated in 24h (long ${Math.round(liq24h.longUsd / 1e6)}M / short ${Math.round(liq24h.shortUsd / 1e6)}M USD, ${liq24h.coverage.venues.join(" + ")} lower bound)` });
   for (const mv of m.movers.slice(0, 3)) ev.push({ type: "top-mover", severity: "medium", text: `${mv.symbol} ${mv.change24hPct}% in 24h on ${Math.round(mv.quoteVolume24h / 1e6)}M USD volume` });
   for (const oi of m.openInterest) if (Math.abs(oi.change24hPct) >= 8) ev.push({ type: "open-interest", severity: "medium", text: `${oi.symbol} open interest ${oi.change24hPct}% in 24h` });
   return ev;
@@ -401,7 +448,9 @@ async function cycle() {
   seenOkx.clear();
   for (const row of liq.filter(x => x.src === "okx")) seenOkx.add(`${row.s}:${row.t}:${row.usd}`);
   const okxPoll = await pollOkxLiquidations();
-  observations.push({ t: Date.now(), binanceStream: liquidationStreamOpen, okxPoll });
+  const binanceCoverage = binanceStreamCoverage(binanceStream.state);
+  if (binanceCoverage.status === "silent") log("Binance force-order stream unavailable: connected but silent for at least 10 minutes");
+  observations.push({ t: Date.now(), binanceStream: binanceCoverage.available, okxPoll });
   let m = { majors: [], movers: [], openInterest: [] };
   try { m = await markets(); } catch (error) { log(`markets failed: ${error.message}`); }
   const news = await headlines();
@@ -412,7 +461,8 @@ async function cycle() {
   const doc = {
     generatedAt: new Date().toISOString(),
     liquidations: {
-      source: "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market",
+      source: `${l24.coverage.label}; a lower bound, not the whole market. Binance snapshots at most one order per symbol per second; OKX polls BTC/ETH/SOL/XRP/DOGE. Only contributing venues are named above.`,
+      coverage: { ...l24.coverage, binance: binanceCoverage },
       coverageSince: liq[0] ? new Date(liq[0].t).toISOString() : null,
       h1: l1, h4: l4, h24: l24,
       timeline: buildLiquidationTimeline(liq, observations),

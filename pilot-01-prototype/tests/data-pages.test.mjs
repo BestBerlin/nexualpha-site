@@ -130,7 +130,22 @@ test("feed readers normalize the collector document and refuse to invent numbers
   assert.equal(formatUsdCompact(liq.windows.h24.totalUsd), "$6.11M");
   assert.equal(liq.windows.h24.topSymbols[0].base, "SOL");
   assert.equal(liq.windows.h24.topSymbols[0].venue, "OKX");
+  assert.deepEqual(liq.windows.h24.coverage.venues, ["OKX"]);
+  assert.equal(liq.windows.h24.coverage.label, "OKX observed liquidations");
+  assert.equal(liq.sourceLine, "OKX observed liquidations");
   assert.ok(Math.abs(liq.windows.h24.longShare - 1233574 / 6114135) < 1e-9);
+  const withCoverage = readLiquidations({
+    generatedAt: sampleFeed.generatedAt,
+    liquidations: {
+      coverage: { binance: { status: "silent", available: false } },
+      h1: { totalUsd: 1, longUsd: 1, shortUsd: 0, orders: 1, coverage: { label: "Binance + OKX observed liquidations", venues: ["OKX"], venueCount: 1 } },
+      h24: { totalUsd: 2, longUsd: 2, shortUsd: 0, orders: 1, coverage: { venues: ["Binance"], venueCount: 1 } },
+    },
+  });
+  assert.equal(withCoverage.windows.h1.coverage.label, "OKX observed liquidations", "do not trust stale coverage labels over venue fields");
+  assert.equal(withCoverage.sourceLine, "Binance observed liquidations; Binance stream silent", "the hero uses the 24h window coverage and exposes a silent Binance watchdog");
+  const explicitEmpty = readLiquidations({ generatedAt: sampleFeed.generatedAt, liquidations: { h24: { totalUsd: 1, longUsd: 1, shortUsd: 0, orders: 1, coverage: { venues: [], venueCount: 0 }, topSymbols: [{ symbol: "BTCUSDT", usd: 1 }] } } });
+  assert.equal(explicitEmpty.windows.h24.coverage.label, "No observed liquidations", "an explicit empty coverage list is not backfilled from legacy symbols");
   assert.deepEqual(splitSymbol("BTCUSDT"), { base: "BTC", venue: "Binance", raw: "BTCUSDT" });
   assert.equal(readLiquidations(null), null);
   assert.equal(readLiquidations({ generatedAt: "nope", liquidations: { h1: {} } }), null);
@@ -193,7 +208,8 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.match(en, /<th scope="row" translate="no">SOL<\/th><td translate="no">OKX<\/td>/);
   // The explainer keeps the coverage limit as real content; the hero source line carries no caveat suffix (owner 2026-10-12).
   assert.match(en, /lower bound for two exchanges, not the whole market/);
-  assert.match(en, /Binance USDT-M force-order stream \+ OKX liquidation orders</);
+  assert.match(en, /<strong>Source:<\/strong> OKX observed liquidations/);
+  assert.doesNotMatch(en, /<strong>Source:<\/strong> Binance/);
   assert.doesNotMatch(en, /liquidation orders · lower bound/);
   assert.match(en, /t\.me\/NexuAlphaAssistantBot\?start=alerts/, "Telegram alerts line");
   assert.match(en, /class="news-offer news-offer--inline"/, "partner sign-up card");
@@ -217,6 +233,8 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   const without = await renderPages("null");
   assert.match(without.en.liquidations, /data-testid="data-unavailable"/);
   assert.match(without.en.liquidations, /Live data is temporarily unavailable/);
+  assert.match(without.en.liquidations, /<strong>Source:<\/strong> No observed liquidations/);
+  assert.doesNotMatch(without.en.liquidations, /<strong>Source:<\/strong> Binance/);
   assert.ok(!without.en.liquidations.includes("$6.11M"));
   assert.match(without.en.funding, /data-testid="data-unavailable"/);
   assert.match(without.en.funding, /<h1>Crypto funding rates: Binance vs OKX<\/h1>/, "H1, explainer and FAQ still render");

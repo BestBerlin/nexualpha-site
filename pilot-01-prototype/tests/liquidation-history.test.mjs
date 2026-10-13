@@ -190,6 +190,9 @@ test("SSR: the history section renders the chart and facts from the feed; withou
   const without = await renderLiquidations(JSON.stringify(plainFeed), ["en"]);
   assert.ok(!without.en.includes('data-testid="liquidation-history"'), "no history block → no section, nothing invented");
   assert.ok(without.en.includes("$6.11M"), "live numbers still render");
+  assert.match(without.en, /<strong>Source:<\/strong> OKX observed liquidations/);
+  assert.equal((without.en.match(/OKX observed liquidations/g) || []).length, 4, "hero plus 1h/4h/24h cards name only the contributing venue");
+  assert.doesNotMatch(without.en, /<strong>Source:<\/strong> Binance/);
   assert.match(without.en, /data-testid="embed-this-liquidations"/, "embed block does not depend on history");
 
   const oneDay = await renderLiquidations(JSON.stringify(oneDayFeed), ["en", "de"]);
