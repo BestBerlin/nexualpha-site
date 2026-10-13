@@ -31,6 +31,8 @@ import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
+import { ExchangeScorecard, CountryScorecards } from "../compare/ExchangeScorecard.jsx";
+import { compareVenueCta } from "../../data/compare-cta.js";
 import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
@@ -2143,7 +2145,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             const pFeeSummary = buildVenueFeeSummary(pDb, researchForVenue(p.slug, locale) || {});
             const pSpotRate = publishableFeeRate(pFeeSummary, "spot", locale);
             const pFee = pSpotRate?.display || localePending(locale);
-            const pCta = regionalVenueCta(p.slug, locale, market, product, { accountStage, funding });
+            const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
             const pCode = pAccess.inviteCode;
             const pResearch = officialCampaignResearchByVenue[p.slug];
             const pSources = pResearch?.sources ?? [];
@@ -2265,7 +2267,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       <div className="v3-compare-sticky-bar__inner">
         {profiles.slice(0, 3).map((p) => {
           const locName = getLocalizedVenueName(p, locale);
-          const pCta = regionalVenueCta(p.slug, locale, market, product, { accountStage, funding });
+          const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
           return (
             <div key={p.slug} className="v3-compare-sticky-bar__col">
               <BrandMark slug={p.slug} compact />
@@ -2368,6 +2370,8 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
       </div>
     </section>
+
+    <ExchangeScorecard selected={selected} locale={locale} market={market} />
 
     {!isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}
 
@@ -2525,6 +2529,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
         <CompareAnyPicker locale={locale} venues={venues} placement="compare-hub" />
       </div>
     </section>
+    <CountryScorecards locale={locale} />
     <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-curated">
       <h2 id="compare-hub-curated" lang={locale}>{copy.curated}</h2>
       <ul className="v3-compare-hub__list">
