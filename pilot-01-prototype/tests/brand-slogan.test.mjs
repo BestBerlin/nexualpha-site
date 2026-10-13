@@ -128,7 +128,9 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
       for (const venue of locale === "tr" ? ["OKX", "Bybit"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
       assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
     }
-    if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
+    // CTR pass 2026-10-13: the English snippet carries no disclosure line (owner rule 2026-10-12: disclosure lives in the
+    // footer and legal pages); other locales keep their existing copy until their own CTR pass.
+    if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale) && locale !== "en") assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
   }
   // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; ru, ar, ur and uk stay neutral pending local review.
   assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur"]);

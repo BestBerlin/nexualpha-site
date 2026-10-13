@@ -7,6 +7,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
+import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
@@ -324,8 +325,8 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)",
-      "description": "Hyperliquid referral code NEXU888: fees and official sign-up link checked by NexuAlpha.",
+      "title": "Hyperliquid Fees, Code NEXU888 & Funded Accounts (2026)",
+      "description": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -395,8 +396,8 @@ const PRIORITY_VENUE_SEO = {
       "reviewedAt": "2026-09-22"
     },
     "zh-Hans": {
-      "title": "Hyperliquid 邀请码 NEXU888：注册教程、手续费与官方入口（2026）",
-      "description": "Hyperliquid 邀请码 NEXU888：注册入口与手续费。NexuAlpha 核验官方入口。",
+      "title": "Hyperliquid 邀请码 NEXU888（2026）",
+      "description": "Hyperliquid 无需注册账户：在官方 App 连接自己的钱包、存入 USDC，填写邀请码 NEXU888 即可享受交易手续费 4% 折扣。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
@@ -1076,8 +1077,8 @@ const PRIORITY_VENUE_SEO = {
   },
   "deribit": {
     "en": {
-      "title": "Deribit Fees: Options, Futures and 10% User Discount Terms",
-      "description": "Deribit fees for options and futures, the six-month 10% user fee discount, DRB Panama vs FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      "title": "Deribit Fees (2026): Options, Futures and 10% Discount",
+      "description": "Deribit options and futures fees, the six-month 10% discount for referred users, DRB Panama vs FZE limits, margin modes and how liquidation works.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -2783,29 +2784,6 @@ const SEARCH_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "
 const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SEARCH_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
-const SERP_CTR_NEWS_OVERRIDES = {
-  "okx-usd-to-usdc-spot-pair-migration": {
-    title: "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots",
-    description: "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.",
-    question: "What should I check before the OKX USD to USDC spot-pair migration?",
-    answer: "Check the official pair scope first, then inspect open orders, bots, API instrument identifiers, quote-currency handling and account balances before changing a live workflow.",
-  },
-  "hyperliquid-vs-dydx": {
-    title: "Hyperliquid vs dYdX: Fees, Funding and Liquidation",
-    description: "Compare Hyperliquid and dYdX fees, funding, collateral, liquidation, oracle, wallet and recovery mechanics before opening a perpetual position.",
-    question: "Should I choose Hyperliquid or dYdX for perp DEX trading?",
-    answer: "Choose only after comparing fees and funding alongside collateral, liquidation, oracle, wallet recovery and regional access; no single quoted rate settles the decision.",
-  },
-  "tokenized-treasuries-structure-access-risks": {
-    title: "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks",
-    description: "Check what a tokenized Treasury legally represents before comparing yield: issuer, recordkeeper, custodian, redemption path, wallet controls and eligibility.",
-    question: "What should I verify before comparing tokenized Treasury yield?",
-  },
-};
-
-function serpCtrNewsOverride(slug, locale) {
-  return locale === "en" ? SERP_CTR_NEWS_OVERRIDES[slug] || null : null;
-}
 
 const REGIONAL_PREVIEW_SEO = {
   "/mx": ["México: preparación para MXN y SPEI — NexuAlpha", "Ruta de investigación para MXN, SPEI y la preparación de una cuenta de pagos local."],
@@ -6997,7 +6975,7 @@ async function routeMetadataBase(url, env, newsFeed) {
 
       // l10n: needs native review
       uk: ["Довідник криптобірж і порівняння комісій (2026) — NexuAlpha", "Порівнюйте опубліковані комісії, резерви, KYC і регіональні умови CEX та DEX за джерелами."],
-    }[locale] || (isZh ? ["全球核心加密货币交易所黄页与费率评测 (2026) — NexuAlpha", "收录币安、OKX、Bybit、Bitget 等中心化与去中心化平台，整理 PoR 来源、现货与合约公开费率、KYC 要求和地区条件。"] : ["Crypto Exchanges Directory & Fee Comparison (2026) — NexuAlpha", "A source-linked directory of crypto CEXs and DEXs. Compare published spot/futures fees, reserve sources, KYC tiers and regional conditions."]);
+    }[locale] || (isZh ? ["全球核心加密货币交易所黄页与费率评测 (2026) — NexuAlpha", "收录币安、OKX、Bybit、Bitget 等中心化与去中心化平台，整理 PoR 来源、现货与合约公开费率、KYC 要求和地区条件。"] : ["Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha", "Compare 24 crypto exchanges and DEXs on spot and futures fees, KYC, proof of reserves and regions, with the official link for each."]);
     const [title, description] = directoryCopy;
 
     return {
@@ -7044,6 +7022,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       it: "Profilo della piattaforma e commissioni",
     }[requestedLocale] || { "zh-Hant": "平台檔案與手續費" }[locale];
     const venueSeoOverride = {
+      // CTR pass 2026-10-13 (GSC 28 d: position 10.6, 10 impressions, 0 clicks): the generic profile title named no query.
+      curve: {
+        title: "Curve Finance (2026): Swap Fees, Pools and Wallet Checks",
+        description: "How Curve Finance swaps work: pool-set fees, slippage and gas, plus the wallet approvals to check before your first stablecoin swap on the official app.",
+      },
       "gate-io": {
         title: "Gate.io Fees, KYC, Listings and Referral Code Checks — NexuAlpha",
         description: "Check Gate.io spot and futures fee sources, KYC and regional conditions, withdrawal and listing risks, API scope, and whether the referral code appears in the official signup flow.",
@@ -7567,10 +7550,10 @@ async function routeMetadataBase(url, env, newsFeed) {
     const activityLocalized = { ja: { title: "公式暗号資産キャンペーン・上場・エアドロップレーダー — NexuAlpha", description: "確認済みの公式キャンペーン、新規上場、Launchpool、各プラットフォームの新規特典を整理します。" }, ko: { title: "공식 암호화폐 캠페인·상장·에어드롭 레이더 — NexuAlpha", description: "검토된 공식 캠페인, 신규 상장, Launchpool과 플랫폼별 신규 혜택을 정리합니다." }, tr: { title: "Resmî kripto kampanyaları, listelemeler ve airdrop radarı — NexuAlpha", description: "İncelenmiş resmî kampanyaları, yeni listelemeleri, Launchpool ve platforma özel avantajları takip edin." }, es: { title: "Radar de campañas cripto oficiales y airdrops — NexuAlpha", description: "Consulta campañas oficiales, nuevos listados, Launchpool y ventajas para nuevos usuarios." }, "zh-Hant": { title: "官方加密活動、上線與空投雷達 — NexuAlpha", description: "整理已審核的官方活動、新上線、Launchpool 與平台更新。" }, "pt-BR": { title: "Radar de campanhas cripto oficiais e airdrops — NexuAlpha", description: "Consulte campanhas oficiais, novas listagens, Launchpool e atualizações de plataformas." }, fr: { title: "Radar des campagnes crypto officielles et airdrops — NexuAlpha", description: "Consultez les campagnes officielles, nouvelles cotations, Launchpool et mises à jour des plateformes." }, de: { title: "Radar für offizielle Krypto-Kampagnen und Airdrops — NexuAlpha", description: "Prüfen Sie offizielle Kampagnen, neue Listings, Launchpool und Plattform-Updates." }, ar: { title: "رادار حملات العملات المشفرة الرسمية والإسقاطات — NexuAlpha", description: "راجع الحملات الرسمية والإدراجات الجديدة وLaunchpool وتحديثات المنصات." }, ru: { title: "Радар официальных криптокампаний и аирдропов — NexuAlpha", description: "Изучайте официальные кампании, новые листинги, Launchpool и обновления платформ." }, id: { title: "Radar kampanye kripto resmi dan airdrop — NexuAlpha", description: "Tinjau kampanye resmi, listing baru, Launchpool, dan pembaruan platform." }, vi: { title: "Radar chiến dịch crypto chính thức và airdrop — NexuAlpha", description: "Xem các chiến dịch chính thức, niêm yết mới, Launchpool và cập nhật nền tảng." }, it: { title: "Radar delle campagne crypto ufficiali e degli airdrop — NexuAlpha", description: "Consulta campagne ufficiali, nuovi listing, Launchpool e aggiornamenti delle piattaforme." } }[requestedLocale];
     const title = isZh
       ? "官方活动中心：Launchpool 质押、新币空投与迎新福利雷达 — NexuAlpha"
-      : activityLocalized?.title || "Official Crypto Campaigns, Launchpool & Airdrop Radar — NexuAlpha";
+      : activityLocalized?.title || "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha";
     const description = isZh
       ? "实时追踪币安、OKX、Bybit 等官方最新活动，汇集 Launchpool 挖矿年化、空投申领、充值返利与独家新手任务礼包。"
-      : activityLocalized?.description || "Verified exchange campaigns, new token listings, Launchpool staking yields, and platform-specific welcome terms across reviewed venues.";
+      : activityLocalized?.description || "Live campaigns from Binance, OKX, Bybit and Bitget: Launchpool, new listings, airdrops and welcome offers, each with its dates and the official rules page.";
 
     return {
       status: 200,
@@ -8218,8 +8201,8 @@ async function routeMetadataBase(url, env, newsFeed) {
     },
     "/methodology": {
       en: {
-        title: "Research Methodology & Editorial Policy — NexuAlpha",
-        description: "How NexuAlpha verifies sources, separates facts from estimates, and discloses commercial relationships.",
+        title: "How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha",
+        description: "How we verify exchange fees, referral codes and news: official sources only, dated checks, facts kept apart from estimates, and how partner links work.",
       },
       "zh-Hans": {
         title: "研究方法与编辑政策 — NexuAlpha",

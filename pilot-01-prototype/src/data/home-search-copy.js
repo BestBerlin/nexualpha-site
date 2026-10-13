@@ -25,7 +25,8 @@ export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar
 
 // Search keywords of the home title (the patterns pinned in tests/seo-onpage-metadata-length.test.mjs).
 const HOME_TITLE_KEYWORDS = Object.freeze({
-  en: "Crypto Exchange Referral Codes & Fee Rebates",
+  // CTR pass 2026-10-13 (GSC 28 d: home at position 7.7, 45 impressions, 0 clicks): the number leads the benefit.
+  en: "Crypto Referral Codes: Up to 60% Fee Rebates",
   "zh-Hans": "邀请码与手续费返佣",
   "zh-Hant": "邀請碼與手續費返傭",
   es: "Códigos de referido y reembolso de comisiones",
@@ -51,7 +52,7 @@ const TITLE_JOINER = { "zh-Hans": "｜", "zh-Hant": "｜", ja: "｜" };
 
 // Existing home facts (2026-10-10 copy, tightened so slogan + facts fit the snippet budget without a cut).
 const HOME_FACTS = Object.freeze({
-  en: "OKX, Bitget and Binance referral codes, exchange-paid. Partner links disclosed.",
+  en: "Official codes for OKX, Bitget and Binance; the exchange pays the rebate.",
   "zh-Hans": "对比 OKX、Bitget、币安手续费与邀请码，返佣由交易所结算。官方注册入口，合作关系已披露。",
   "zh-Hant": "比較 OKX、Bitget、幣安手續費與邀請碼，返傭由交易所結算。官方註冊入口，合作關係已揭露。",
   es: "OKX, Bitget, Binance: paga el exchange. Enlaces de socio declarados.",

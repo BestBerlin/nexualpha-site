@@ -13,6 +13,7 @@ import "./factbook-page.css";
 import { feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
 import { VenueFeeLedger } from "../v6/InnerLedger.jsx";
 import { discountFact, venueCheckedOn } from "../../data/exchange-facts.js";
+import { factbookProfileAnchor } from "../../data/news-lead-links.js";
 
 const factbookRecordCount = FACTBOOK_SLUGS.length;
 const comparisonDirectoryCount = neutralVenueCatalog.length;
@@ -1449,7 +1450,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               {(venueAnswer?.steps || t.answerSteps).map((step, index) => <li key={step}><i className="factbook-step-node" aria-hidden="true" /><span>{step}</span></li>)}
             </ol>
             <a className="factbook-answer-card__link" href={decisionHref} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-direct-answer" data-growth-decision={venue.slug} data-growth-placement="factbook-direct-answer" data-growth-market={market} data-growth-product={product}>
-              {t.openDecisionPath}
+              {factbookProfileAnchor(venue.slug, locale) || t.openDecisionPath}
             </a>
           </section>
 

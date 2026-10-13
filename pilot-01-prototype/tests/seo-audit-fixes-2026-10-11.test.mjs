@@ -343,7 +343,7 @@ test("Turkish percent dative follows the spoken number: %40'a, %25'e, %50'ye", (
     assert.doesNotMatch(`${seo.title} ${seo.description}`, /%(?:40|60)'e|%25'a|%50'e/, slug);
   }
   const okx = referralSeoFor("okx", "tr");
-  if (okx) assert.match(okx.title, /%40'a varan/);
+  if (okx) assert.match(okx.description, /%40'a varan/); // CTR pass 2026-10-13: the share moved to the description
   const og = readFileSync(path.join(root, "server/og-image.mjs"), "utf8");
   assert.match(og, /rebate: "İade payı \{pct\} kadar"/);
   assert.match(og, /trPercentDative\(pct\)/);
