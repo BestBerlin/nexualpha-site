@@ -1,3 +1,4 @@
+import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
 import { isPartnerPromotableIn, jurisdictionPromotionBan } from "../src/data/partner-geo-policy.js";
@@ -7406,7 +7407,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: "index,follow",
       marker: VENUE_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath),
-      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyPartnerVenueFaqSchema(entry, slug, requestedLocale, url.searchParams.get("market"))),
+      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyExchangeQuickAnswers(applyPartnerVenueFaqSchema(entry, slug, requestedLocale, url.searchParams.get("market")), slug, requestedLocale, url.searchParams.get("market"))),
     };
   }
 

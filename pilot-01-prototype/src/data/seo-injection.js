@@ -1,3 +1,4 @@
+import { applyExchangeQuickAnswers } from "./exchange-quick-answer-schema.js";
 import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
@@ -2425,7 +2426,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
         { "@context": "https://schema.org", "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}` },
         { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
-      ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market"))]);
+      ].concat([applyExchangeQuickAnswers(applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market")), slug, locale, url.searchParams.get("market"))]);
     }
   } else if (compareMatch) {
     const slugs = compareMatch[1].split("-vs-");

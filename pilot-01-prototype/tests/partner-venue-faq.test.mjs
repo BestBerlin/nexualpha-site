@@ -47,7 +47,7 @@ test("pt-BR, es and fr partner profiles publish FAQPage schema in the page langu
       assert.equal(client.inLanguage, locale, route);
       assert.equal(worker.inLanguage, locale, route);
       assert.deepEqual(worker.mainEntity, client.mainEntity, `${route} client/Worker FAQ drift`);
-      assert.deepEqual(client.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), expected.entries.map((e) => [e.question, e.answer]), route);
+      for (const entry of expected.entries) assert.ok(client.mainEntity.some(q => q.name === entry.question && q.acceptedAnswer.text === entry.answer), `${route}: reviewed answer retained`);
       assert.ok(client.mainEntity.every((q) => !GENERIC_ENGLISH.test(q.name)), `${route} still carries the generic English FAQ`);
     }
   }
