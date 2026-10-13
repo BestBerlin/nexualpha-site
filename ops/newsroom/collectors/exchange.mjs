@@ -73,13 +73,14 @@ export async function poll(source, since = null, ctx = {}) {
   assertSource(source);
   const request = requestFromContext(ctx);
   const nowMs = dateFromContext(ctx).getTime();
+  const bodyRequest = budgetedBodyRequest(request, ctx.bodyFetch);
   const sinceMs = since == null ? null : dateMs(since);
   let items;
-  if (source.id === 'binance-announcements') items = await pollBinance(source, request, nowMs);
-  else if (source.id === 'okx-announcements') items = await pollOkx(source, request, nowMs);
-  else if (source.id === 'bybit-announcements') items = await pollBybit(source, request, nowMs);
-  else if (source.id === 'bitget-announcements') items = await pollBitget(source, request, nowMs);
-  else if (source.id === 'kucoin-announcements') items = await pollKucoin(source, request, nowMs);
+  if (source.id === 'binance-announcements') items = await pollBinance(source, request, nowMs, bodyRequest);
+  else if (source.id === 'okx-announcements') items = await pollOkx(source, request, nowMs, bodyRequest);
+  else if (source.id === 'bybit-announcements') items = await pollBybit(source, request, nowMs, bodyRequest);
+  else if (source.id === 'bitget-announcements') items = await pollBitget(source, request, nowMs, bodyRequest);
+  else if (source.id === 'kucoin-announcements') items = await pollKucoin(source, request, nowMs, bodyRequest);
   else if (source.id === 'kraken-announcements') items = mapKrakenAnnouncements(await request(source.url, { format: 'text' }), source, nowMs);
   else if (source.id === 'kraken-status') items = mapKraken(await request(source.url), source, nowMs);
   else if (source.id === 'nexualpha-official-announcements') items = mapMirror(await request(source.url), source, nowMs);
@@ -87,16 +88,16 @@ export async function poll(source, since = null, ctx = {}) {
   return dedupe(items).filter(item => afterSince(item, sinceMs));
 }
 
-async function pollBinance(source, request, nowMs) {
+async function pollBinance(source, request, nowMs, bodyRequest = request) {
   const out = [];
   for (const [catalogId, category] of Object.entries(BINANCE_CATALOGS)) {
     const payload = await request(urlWithParams(source.url, { type: '1', pageNo: '1', pageSize: '20', catalogId }));
-    out.push(...await mapBinance(payload, source, Number(catalogId), category, nowMs, request));
+    out.push(...await mapBinance(payload, source, Number(catalogId), category, nowMs, bodyRequest));
   }
   return out;
 }
 
-async function pollOkx(source, request, nowMs) {
+async function pollOkx(source, request, nowMs, bodyRequest = request) {
   const out = [];
   for (const query of [
     { page: '1' },
@@ -105,28 +106,28 @@ async function pollOkx(source, request, nowMs) {
     { page: '2', annType: 'latest-events' },
     { page: '1', annType: 'announcements-delistings' },
   ]) {
-    out.push(...await mapOkx(await request(urlWithParams(source.url, query)), source, nowMs, request));
+    out.push(...await mapOkx(await request(urlWithParams(source.url, query)), source, nowMs, bodyRequest));
   }
   return out;
 }
 
-async function pollBybit(source, request, nowMs) {
+async function pollBybit(source, request, nowMs, bodyRequest = request) {
   const out = [];
   for (const type of ['new_crypto', 'latest_activities', 'latest_bybit_news', 'product_updates', 'delistings']) {
-    out.push(...await mapBybit(await request(urlWithParams(source.url, { locale: 'en-US', type, limit: '20' })), source, nowMs, request));
+    out.push(...await mapBybit(await request(urlWithParams(source.url, { locale: 'en-US', type, limit: '20' })), source, nowMs, bodyRequest));
   }
   return out;
 }
 
-async function pollBitget(source, request, nowMs) {
+async function pollBitget(source, request, nowMs, bodyRequest = request) {
   const out = [];
   for (const annType of ['coin_listings', 'trading_competitions_promotions', 'latest_news', 'product_updates', 'security', 'symbol_delisting']) {
-    out.push(...await mapBitget(await request(urlWithParams(source.url, { language: 'en_US', annType, limit: '10' })), source, nowMs, request));
+    out.push(...await mapBitget(await request(urlWithParams(source.url, { language: 'en_US', annType, limit: '10' })), source, nowMs, bodyRequest));
   }
   return out;
 }
 
-async function pollKucoin(source, request, nowMs) {
+async function pollKucoin(source, request, nowMs, bodyRequest = request) {
   const out = [];
   for (const type of ['latest-announcements', 'new-listings', 'delistings']) {
     out.push(...await mapKucoin(await request(urlWithParams(source.url, {
@@ -134,7 +135,7 @@ async function pollKucoin(source, request, nowMs) {
       type,
       pageNumber: '1',
       pageSize: '50',
-    })), source, nowMs, request));
+    })), source, nowMs, bodyRequest));
   }
   return out;
 }
@@ -271,6 +272,47 @@ function mapMirror(payload, source, nowMs) {
     event_type_guess: exchangeEventType(row?.category, row?.title),
     metrics: row?.venue ? { venue: row.venue, source_type: row.sourceType ?? null } : undefined,
   }, source)).filter(Boolean);
+}
+
+// Announcement bodies are optional enrichment: cap them per poll so a slow or blocking venue
+// page can never push the list poll past the source timeout. Binance detail pages are
+// client-rendered, so their body comes from the public CMS detail API instead.
+const BODY_FETCH_DEFAULTS = Object.freeze({ maxFetches: 8, budgetMs: 25000, perFetchMs: 6000 });
+
+function budgetedBodyRequest(request, options = {}) {
+  const { maxFetches, budgetMs, perFetchMs } = { ...BODY_FETCH_DEFAULTS, ...(options ?? {}) };
+  let used = 0;
+  const deadline = Date.now() + budgetMs;
+  return async (url, init) => {
+    if (used >= maxFetches || Date.now() > deadline) throw new CollectorError('body fetch budget exhausted');
+    used += 1;
+    const binance = String(url).match(/^https:\/\/www\.binance\.com\/en\/support\/announcement\/detail\/([a-f0-9]{16,64})$/i);
+    const run = binance
+      ? request(`https://www.binance.com/bapi/composite/v1/public/cms/article/detail/query?articleCode=${binance[1]}`, { retry: false }).then(binanceBodyText)
+      : request(url, init);
+    let timer;
+    try {
+      return await Promise.race([run, new Promise((_, reject) => { timer = setTimeout(() => reject(new CollectorError('body fetch timeout')), perFetchMs); })]);
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+}
+
+function binanceBodyText(payload) {
+  let tree;
+  try { tree = JSON.parse(payload?.data?.body ?? ''); } catch { return null; }
+  const parts = [];
+  const walk = node => {
+    if (!node || typeof node !== 'object') return;
+    if (node.node === 'text' && node.text) parts.push(node.text);
+    (Array.isArray(node.child) ? node.child : []).forEach(walk);
+    if (['p', 'li', 'h1', 'h2', 'h3', 'h4', 'tr', 'br'].includes(node.tag)) parts.push(' ');
+  };
+  walk(tree);
+  const text = parts.join('').replace(/\s+/g, ' ').trim()
+    .replace(/^This is a general announcement[^.]*\.(\s*Products and services[^.]*\.)?\s*/i, '');
+  return text || null;
 }
 
 async function mapRows(rows, mapper, concurrency = 4) {
