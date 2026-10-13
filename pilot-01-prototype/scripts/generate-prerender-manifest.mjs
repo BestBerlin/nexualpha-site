@@ -17,7 +17,7 @@ import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERN
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT, brazilDeadlineIndexLocales, isBrazilDeadlineSlug } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { BRAZIL_DEADLINE_REVIEWED_AT } from "../src/data/brazil-vasp-status.js";
 import { BRAND_PAGE_PATHS } from "../src/data/brand-entity.js";
-import { DATA_PAGE_PATHS } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH } from "../src/data/market-data-pages.js";
 import { NEWS_DISPLAY_LOCALES, newsListingIndexableLocales, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, newsArticleSeoLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -30,6 +30,8 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
+import { RADAR_INDEX_LOCALES, RADAR_PATHS } from "../src/data/radar-seo.js";
+import { licenseSitemapEntries } from "../src/data/licenses-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
@@ -86,7 +88,8 @@ function pathSlug(pathname, prefix) {
 
 export function routeTemplate(pathname) {
   if (BRAZIL_PAGES.some((page) => page.path === pathname)) return "brazilDecision";
-  if (pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname)) return "dataTool";
+  if (pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) return "dataTool";
+  if (RADAR_PATHS.includes(pathname)) return "radarTool";
   if (BRAND_PAGE_PATHS.includes(pathname)) return "brandPage";
   if (["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"].includes(pathname)) return "regionalPreview";
   if (["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/hk/comparar", "/hk/costos", "/hk/conta"].includes(pathname)) return pathname.endsWith("/comparar") ? "comparison" : pathname.endsWith("/costos") ? "rateTerminal" : "exchangeDirectory";
@@ -111,7 +114,7 @@ export function routeTemplate(pathname) {
 
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
-  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, ...RADAR_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -165,7 +168,8 @@ export function routeInventory(newsArticles = []) {
     // Search locales need >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); every published
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
-    ...(pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
+    ...(pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
+    ...(RADAR_PATHS.includes(pathname) ? { locales: RADAR_INDEX_LOCALES, prerenderLocales: PRERENDER_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
@@ -231,7 +235,7 @@ function sitemapFileForEntry({ route, locale }) {
   if (template === "article") return `sitemap-articles-${String(locale || "en").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`;
   if (template === "venue" || template === "factbook") return "sitemap-venues.xml";
   if (template === "comparison" && String(route?.pathname || "").startsWith("/compare/")) return "sitemap-compare.xml";
-  if (["topic", "topicCollection", "factbookCollection", "rateTerminal", "onchainBoard", "dataTool", "methodology", "partnerEmbedGuide"].includes(template)) return "sitemap-topics-tools.xml";
+  if (["topic", "topicCollection", "factbookCollection", "rateTerminal", "onchainBoard", "dataTool", "radarTool", "methodology", "partnerEmbedGuide"].includes(template)) return "sitemap-topics-tools.xml";
   return "sitemap-locales.xml";
 }
 
@@ -318,6 +322,8 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-apps.xml", lastmod: apps.lastmod });
   const academy = buildAcademySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
+  const licenses = buildLicensesSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-licenses.xml", lastmod: licenses.lastmod });
   // Where to buy <coin> (2026-10-12): /coins and every coin page in its indexable locales (listed on a covered exchange
   // and described in that language), rendered by the Worker at request time; hreflang sets match the page head.
   const coins = buildCoinsSitemap();
@@ -342,6 +348,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     index: buildSitemapIndex(indexRows),
     files,
     academy,
+    licenses,
     coins,
     dataTools,
     convert,
@@ -362,6 +369,10 @@ export function buildGlossarySitemap() {
 
 export function buildAcademySitemap() {
   return buildDownloadOrAcademySitemap(academySitemapEntries);
+}
+
+export function buildLicensesSitemap() {
+  return buildDownloadOrAcademySitemap(licenseSitemapEntries);
 }
 
 // Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12), Bitget Alliance (2026-10-13).
@@ -571,6 +582,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-convert.xml"), splitSitemaps.convert.xml);
@@ -587,6 +599,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(clientDir, "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(clientDir, "sitemap-convert.xml"), splitSitemaps.convert.xml);

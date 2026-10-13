@@ -1,0 +1,4656 @@
+{
+  "recordedAt": "2026-10-13T01:12:58.670959+00:00",
+  "responses": {
+    "https://contract.mexc.com/api/v1/contract/detail": {
+      "success": true,
+      "code": 0,
+      "data": [
+        {
+          "symbol": "BTC_USDT",
+          "baseCoin": "BTC",
+          "quoteCoin": "USDT",
+          "displayName": "BTC_USDT\u6c38\u7eed",
+          "contractSize": 0.0001,
+          "state": 0
+        },
+        {
+          "symbol": "ETH_USDT",
+          "baseCoin": "ETH",
+          "quoteCoin": "USDT",
+          "displayName": "ETH_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "SOL_USDT",
+          "baseCoin": "SOL",
+          "quoteCoin": "USDT",
+          "displayName": "SOL_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "XRP_USDT",
+          "baseCoin": "XRP",
+          "quoteCoin": "USDT",
+          "displayName": "XRP_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "DOGE_USDT",
+          "baseCoin": "DOGE",
+          "quoteCoin": "USDT",
+          "displayName": "DOGE_USDT\u6c38\u7eed",
+          "contractSize": 100,
+          "state": 0
+        },
+        {
+          "symbol": "BNB_USDT",
+          "baseCoin": "BNB",
+          "quoteCoin": "USDT",
+          "displayName": "BNB_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "ADA_USDT",
+          "baseCoin": "ADA",
+          "quoteCoin": "USDT",
+          "displayName": "ADA_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "TRX_USDT",
+          "baseCoin": "TRX",
+          "quoteCoin": "USDT",
+          "displayName": "TRX_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "LINK_USDT",
+          "baseCoin": "LINK",
+          "quoteCoin": "USDT",
+          "displayName": "LINK_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "AVAX_USDT",
+          "baseCoin": "AVAX",
+          "quoteCoin": "USDT",
+          "displayName": "AVAX_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "SUI_USDT",
+          "baseCoin": "SUI",
+          "quoteCoin": "USDT",
+          "displayName": "SUI_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "LTC_USDT",
+          "baseCoin": "LTC",
+          "quoteCoin": "USDT",
+          "displayName": "LTC_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "BCH_USDT",
+          "baseCoin": "BCH",
+          "quoteCoin": "USDT",
+          "displayName": "BCH_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "DOT_USDT",
+          "baseCoin": "DOT",
+          "quoteCoin": "USDT",
+          "displayName": "DOT_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "UNI_USDT",
+          "baseCoin": "UNI",
+          "quoteCoin": "USDT",
+          "displayName": "UNI_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "AAVE_USDT",
+          "baseCoin": "AAVE",
+          "quoteCoin": "USDT",
+          "displayName": "AAVE_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "APT_USDT",
+          "baseCoin": "APT",
+          "quoteCoin": "USDT",
+          "displayName": "APT_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "NEAR_USDT",
+          "baseCoin": "NEAR",
+          "quoteCoin": "USDT",
+          "displayName": "NEAR_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "ARB_USDT",
+          "baseCoin": "ARB",
+          "quoteCoin": "USDT",
+          "displayName": "ARB_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "OP_USDT",
+          "baseCoin": "OP",
+          "quoteCoin": "USDT",
+          "displayName": "OP_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "INJ_USDT",
+          "baseCoin": "INJ",
+          "quoteCoin": "USDT",
+          "displayName": "INJ_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "SEI_USDT",
+          "baseCoin": "SEI",
+          "quoteCoin": "USDT",
+          "displayName": "SEI_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "TIA_USDT",
+          "baseCoin": "TIA",
+          "quoteCoin": "USDT",
+          "displayName": "TIA_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "ATOM_USDT",
+          "baseCoin": "ATOM",
+          "quoteCoin": "USDT",
+          "displayName": "ATOM_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "ETC_USDT",
+          "baseCoin": "ETC",
+          "quoteCoin": "USDT",
+          "displayName": "ETC_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "WLD_USDT",
+          "baseCoin": "WLD",
+          "quoteCoin": "USDT",
+          "displayName": "WLD_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "PEPE_USDT",
+          "baseCoin": "PEPE",
+          "quoteCoin": "USDT",
+          "displayName": "PEPE_USDT\u6c38\u7eed",
+          "contractSize": 10000000,
+          "state": 0
+        },
+        {
+          "symbol": "SHIB_USDT",
+          "baseCoin": "SHIB",
+          "quoteCoin": "USDT",
+          "displayName": "SHIB_USDT\u6c38\u7eed",
+          "contractSize": 1000,
+          "state": 0
+        },
+        {
+          "symbol": "1000BONK_USDT",
+          "baseCoin": "1000BONK",
+          "quoteCoin": "USDT",
+          "displayName": "1000BONK_USDT\u6c38\u7eed",
+          "contractSize": 10000,
+          "state": 0
+        },
+        {
+          "symbol": "WIF_USDT",
+          "baseCoin": "WIF",
+          "quoteCoin": "USDT",
+          "displayName": "WIF_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "FLOKI_USDT",
+          "baseCoin": "FLOKI",
+          "quoteCoin": "USDT",
+          "displayName": "FLOKI_USDT\u6c38\u7eed",
+          "contractSize": 100000,
+          "state": 0
+        },
+        {
+          "symbol": "JUP_USDT",
+          "baseCoin": "JUP",
+          "quoteCoin": "USDT",
+          "displayName": "JUP_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "PYTH_USDT",
+          "baseCoin": "PYTH",
+          "quoteCoin": "USDT",
+          "displayName": "PYTH_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "ENA_USDT",
+          "baseCoin": "ENA",
+          "quoteCoin": "USDT",
+          "displayName": "ENA_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "PENDLE_USDT",
+          "baseCoin": "PENDLE",
+          "quoteCoin": "USDT",
+          "displayName": "PENDLE_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "ORDI_USDT",
+          "baseCoin": "ORDI",
+          "quoteCoin": "USDT",
+          "displayName": "ORDI_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "STX_USDT",
+          "baseCoin": "STX",
+          "quoteCoin": "USDT",
+          "displayName": "STX_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "RUNE_USDT",
+          "baseCoin": "RUNE",
+          "quoteCoin": "USDT",
+          "displayName": "RUNE_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "GALA_USDT",
+          "baseCoin": "GALA",
+          "quoteCoin": "USDT",
+          "displayName": "GALA_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "SAND_USDT",
+          "baseCoin": "SAND",
+          "quoteCoin": "USDT",
+          "displayName": "SAND_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "MANA_USDT",
+          "baseCoin": "MANA",
+          "quoteCoin": "USDT",
+          "displayName": "MANA_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "APE_USDT",
+          "baseCoin": "APE",
+          "quoteCoin": "USDT",
+          "displayName": "APE_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "LDO_USDT",
+          "baseCoin": "LDO",
+          "quoteCoin": "USDT",
+          "displayName": "LDO_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "CRV_USDT",
+          "baseCoin": "CRV",
+          "quoteCoin": "USDT",
+          "displayName": "CRV_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "COMP_USDT",
+          "baseCoin": "COMP",
+          "quoteCoin": "USDT",
+          "displayName": "COMP_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "SNX_USDT",
+          "baseCoin": "SNX",
+          "quoteCoin": "USDT",
+          "displayName": "SNX_USDT\u6c38\u7eed",
+          "contractSize": 0.1,
+          "state": 0
+        },
+        {
+          "symbol": "DYDX_USDT",
+          "baseCoin": "DYDX",
+          "quoteCoin": "USDT",
+          "displayName": "DYDX_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "STRK_USDT",
+          "baseCoin": "STRK",
+          "quoteCoin": "USDT",
+          "displayName": "STRK_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "BLUR_USDT",
+          "baseCoin": "BLUR",
+          "quoteCoin": "USDT",
+          "displayName": "BLUR_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "ZRO_USDT",
+          "baseCoin": "ZRO",
+          "quoteCoin": "USDT",
+          "displayName": "ZRO_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "JTO_USDT",
+          "baseCoin": "JTO",
+          "quoteCoin": "USDT",
+          "displayName": "JTO_USDT\u6c38\u7eed",
+          "contractSize": 1,
+          "state": 0
+        },
+        {
+          "symbol": "NOT_USDT",
+          "baseCoin": "NOT",
+          "quoteCoin": "USDT",
+          "displayName": "NOT_USDT\u6c38\u7eed",
+          "contractSize": 1000,
+          "state": 0
+        },
+        {
+          "symbol": "ONDO_USDT",
+          "baseCoin": "ONDO",
+          "quoteCoin": "USDT",
+          "displayName": "ONDO_USDT\u6c38\u7eed",
+          "contractSize": 10,
+          "state": 0
+        },
+        {
+          "symbol": "TAO_USDT",
+          "baseCoin": "TAO",
+          "quoteCoin": "USDT",
+          "displayName": "TAO_USDT\u6c38\u7eed",
+          "contractSize": 0.01,
+          "state": 0
+        },
+        {
+          "symbol": "SATS_USDT",
+          "baseCoin": "SATS",
+          "quoteCoin": "USDT",
+          "displayName": "SATS_USDT\u6c38\u7eed",
+          "contractSize": 10000000,
+          "state": 0
+        }
+      ]
+    },
+    "https://fapi.binance.com/fapi/v1/premiumIndex": [
+      {
+        "symbol": "RUNEUSDT",
+        "lastFundingRate": "-0.00009822",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "1000PEPEUSDT",
+        "lastFundingRate": "-0.00010741",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "TRXUSDT",
+        "lastFundingRate": "-0.00053017",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "SOLUSDT",
+        "lastFundingRate": "0.00000272",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "1000SHIBUSDT",
+        "lastFundingRate": "-0.00016360",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "JTOUSDT",
+        "lastFundingRate": "0.00004339",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "ATOMUSDT",
+        "lastFundingRate": "-0.00007852",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ZKUSDT",
+        "lastFundingRate": "0.00005000",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "COMPUSDT",
+        "lastFundingRate": "0.00002407",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "NEARUSDT",
+        "lastFundingRate": "0.00004461",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "BLURUSDT",
+        "lastFundingRate": "-0.00521249",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "1000FLOKIUSDT",
+        "lastFundingRate": "0.00000012",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "APEUSDT",
+        "lastFundingRate": "0.00001530",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "PYTHUSDT",
+        "lastFundingRate": "0.00004293",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "WLDUSDT",
+        "lastFundingRate": "-0.00000888",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "MKRUSDT",
+        "lastFundingRate": "0.00000000",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ORDIUSDT",
+        "lastFundingRate": "-0.00011671",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "APTUSDT",
+        "lastFundingRate": "-0.00010891",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "FILUSDT",
+        "lastFundingRate": "-0.00003833",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ETHUSDT",
+        "lastFundingRate": "-0.00003028",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "STXUSDT",
+        "lastFundingRate": "0.00009773",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ZROUSDT",
+        "lastFundingRate": "0.00005000",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "ARBUSDT",
+        "lastFundingRate": "0.00003911",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "SNXUSDT",
+        "lastFundingRate": "-0.00009917",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "BTCUSDT",
+        "lastFundingRate": "0.00003846",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "TAOUSDT",
+        "lastFundingRate": "-0.00003150",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "NOTUSDT",
+        "lastFundingRate": "0.00005000",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "SUIUSDT",
+        "lastFundingRate": "0.00001490",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "LINKUSDT",
+        "lastFundingRate": "-0.00004966",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "lastFundingRate": "-0.00002848",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ONDOUSDT",
+        "lastFundingRate": "-0.00002677",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "1000SATSUSDT",
+        "lastFundingRate": "0.00002865",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "STRKUSDT",
+        "lastFundingRate": "0.00005000",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "lastFundingRate": "-0.00001719",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "TONUSDT",
+        "lastFundingRate": "0.00000000",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "1000BONKUSDT",
+        "lastFundingRate": "0.00004650",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "SANDUSDT",
+        "lastFundingRate": "-0.00001913",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "CRVUSDT",
+        "lastFundingRate": "0.00010000",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ADAUSDT",
+        "lastFundingRate": "-0.00004678",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "BCHUSDT",
+        "lastFundingRate": "-0.00000583",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "TIAUSDT",
+        "lastFundingRate": "-0.00000837",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "AAVEUSDT",
+        "lastFundingRate": "0.00002476",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "JUPUSDT",
+        "lastFundingRate": "0.00002167",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "MANAUSDT",
+        "lastFundingRate": "0.00001832",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "OPUSDT",
+        "lastFundingRate": "0.00000758",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "WIFUSDT",
+        "lastFundingRate": "-0.00003243",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "DOTUSDT",
+        "lastFundingRate": "0.00010000",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "INJUSDT",
+        "lastFundingRate": "0.00002184",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "LTCUSDT",
+        "lastFundingRate": "-0.00000846",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "DYDXUSDT",
+        "lastFundingRate": "-0.00005924",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "GALAUSDT",
+        "lastFundingRate": "-0.00001311",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "BNBUSDT",
+        "lastFundingRate": "0.00000000",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ETCUSDT",
+        "lastFundingRate": "-0.00004253",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "PENDLEUSDT",
+        "lastFundingRate": "-0.00001416",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "ENAUSDT",
+        "lastFundingRate": "0.00002008",
+        "nextFundingTime": 1791864000000
+      },
+      {
+        "symbol": "XRPUSDT",
+        "lastFundingRate": "-0.00007090",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "LDOUSDT",
+        "lastFundingRate": "-0.00006819",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "SEIUSDT",
+        "lastFundingRate": "-0.00001870",
+        "nextFundingTime": 1791878400000
+      },
+      {
+        "symbol": "UNIUSDT",
+        "lastFundingRate": "0.00000433",
+        "nextFundingTime": 1791878400000
+      }
+    ],
+    "https://fapi.binance.com/fapi/v1/fundingInfo": [
+      {
+        "symbol": "SEIUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "1000FLOKIUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "PENDLEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "STXUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "RUNEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "INJUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "SNXUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "CRVUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "COMPUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "1000PEPEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "BLURUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "TIAUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ORDIUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "1000BONKUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "PYTHUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "JTOUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "1000SATSUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "WIFUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ONDOUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "JUPUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "STRKUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ENAUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "TAOUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "NOTUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ZKUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ZROUSDT",
+        "fundingIntervalHours": 4
+      },
+      {
+        "symbol": "ATOMUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "DYDXUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "MANAUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "APEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "GALAUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "SANDUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "NEARUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "APTUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "ETCUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "WLDUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "FILUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "ARBUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "LDOUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "OPUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "TRXUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "DOTUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "ETHUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "SUIUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "BCHUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "LTCUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "XRPUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "LINKUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "AAVEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "BTCUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "SOLUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "1000SHIBUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "UNIUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "BNBUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "fundingIntervalHours": 8
+      },
+      {
+        "symbol": "ADAUSDT",
+        "fundingIntervalHours": 8
+      }
+    ],
+    "https://api.bybit.com/v5/market/tickers?category=linear": {
+      "retCode": 0,
+      "retMsg": "OK",
+      "result": {
+        "category": "linear",
+        "list": [
+          {
+            "symbol": "1000BONKUSDT",
+            "fundingRate": "-0.00043947",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "1000FLOKIUSDT",
+            "fundingRate": "-0.00029419",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "1000PEPEUSDT",
+            "fundingRate": "-0.00025611",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "AAVEUSDT",
+            "fundingRate": "0.00004922",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ADAUSDT",
+            "fundingRate": "-0.00019085",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "APEUSDT",
+            "fundingRate": "-0.00004165",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "APTUSDT",
+            "fundingRate": "-0.00002496",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ARBUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ATOMUSDT",
+            "fundingRate": "-0.00033352",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "AVAXUSDT",
+            "fundingRate": "-0.00014307",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "BCHUSDT",
+            "fundingRate": "0.00001259",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "BLURUSDT",
+            "fundingRate": "-0.0080895",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "BNBUSDT",
+            "fundingRate": "-0.00000638",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "BTCUSDT",
+            "fundingRate": "-0.0000016",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "COMPUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "CRVUSDT",
+            "fundingRate": "-0.00006208",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "DOGEUSDT",
+            "fundingRate": "-0.00012678",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "DOTUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "DYDXUSDT",
+            "fundingRate": "0.00009579",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ENAUSDT",
+            "fundingRate": "-0.00006453",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "ETCUSDT",
+            "fundingRate": "-0.00014574",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ETHUSDT",
+            "fundingRate": "-0.00008427",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "FILUSDT",
+            "fundingRate": "-0.00037659",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "GALAUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "INJUSDT",
+            "fundingRate": "-0.00006258",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "JTOUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "JUPUSDT",
+            "fundingRate": "-0.00029146",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "LDOUSDT",
+            "fundingRate": "-0.00058229",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "LINKUSDT",
+            "fundingRate": "-0.00012386",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "LTCUSDT",
+            "fundingRate": "-0.00001348",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "MANAUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "NEARUSDT",
+            "fundingRate": "-0.00008923",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "NOTUSDT",
+            "fundingRate": "-0.00019274",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "ONDOUSDT",
+            "fundingRate": "-0.00010636",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "OPUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ORDIUSDT",
+            "fundingRate": "-0.00015831",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "PENDLEUSDT",
+            "fundingRate": "0.00000275",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "PYTHUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "RUNEUSDT",
+            "fundingRate": "-0.00024205",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "SANDUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "SEIUSDT",
+            "fundingRate": "-0.00001915",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "SNXUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "SOLUSDT",
+            "fundingRate": "-0.00009551",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "STRKUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "STXUSDT",
+            "fundingRate": "0.0001",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "SUIUSDT",
+            "fundingRate": "-0.00007593",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "TAOUSDT",
+            "fundingRate": "0.00004108",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "TIAUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "TRXUSDT",
+            "fundingRate": "-0.00057834",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "UNIUSDT",
+            "fundingRate": "0.00003813",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "WIFUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "WLDUSDT",
+            "fundingRate": "-0.00005208",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "XRPUSDT",
+            "fundingRate": "-0.00004635",
+            "fundingIntervalHour": "8",
+            "nextFundingTime": "1791878400000"
+          },
+          {
+            "symbol": "ZKUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          },
+          {
+            "symbol": "ZROUSDT",
+            "fundingRate": "0.00005",
+            "fundingIntervalHour": "4",
+            "nextFundingTime": "1791864000000"
+          }
+        ]
+      },
+      "retExtInfo": {},
+      "time": 1791853967504
+    },
+    "https://api.bitget.com/api/v2/mix/market/current-fund-rate?productType=usdt-futures": {
+      "code": "00000",
+      "msg": "success",
+      "requestTime": 1791853967463,
+      "data": [
+        {
+          "symbol": "BTCUSDT",
+          "fundingRate": "0.000052",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.003",
+          "maxFundingRate": "0.003"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "fundingRate": "-0.000014",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.003",
+          "maxFundingRate": "0.003"
+        },
+        {
+          "symbol": "XRPUSDT",
+          "fundingRate": "-0.000023",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.003",
+          "maxFundingRate": "0.003"
+        },
+        {
+          "symbol": "BCHUSDT",
+          "fundingRate": "0.000017",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "LTCUSDT",
+          "fundingRate": "0.000048",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0033",
+          "maxFundingRate": "0.0033"
+        },
+        {
+          "symbol": "ADAUSDT",
+          "fundingRate": "-0.000288",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "ETCUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "LINKUSDT",
+          "fundingRate": "-0.000025",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0134",
+          "maxFundingRate": "0.0134"
+        },
+        {
+          "symbol": "TRXUSDT",
+          "fundingRate": "-0.000452",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "DOTUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "DOGEUSDT",
+          "fundingRate": "-0.000003",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "SOLUSDT",
+          "fundingRate": "-0.000028",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00375",
+          "maxFundingRate": "0.00375"
+        },
+        {
+          "symbol": "BNBUSDT",
+          "fundingRate": "0.000064",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "UNIUSDT",
+          "fundingRate": "0.00007",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.00495",
+          "maxFundingRate": "0.00495"
+        },
+        {
+          "symbol": "AAVEUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "FILUSDT",
+          "fundingRate": "-0.000055",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "ATOMUSDT",
+          "fundingRate": "0.000032",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "AVAXUSDT",
+          "fundingRate": "-0.000146",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "MANAUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "GALAUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "SANDUSDT",
+          "fundingRate": "-0.000002",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "DYDXUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "CRVUSDT",
+          "fundingRate": "-0.000045",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "NEARUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "APEUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "RUNEUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.015",
+          "maxFundingRate": "0.015"
+        },
+        {
+          "symbol": "APTUSDT",
+          "fundingRate": "0.000094",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "OPUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "SNXUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.01875",
+          "maxFundingRate": "0.01875"
+        },
+        {
+          "symbol": "COMPUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.018",
+          "maxFundingRate": "0.018"
+        },
+        {
+          "symbol": "LDOUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.012",
+          "maxFundingRate": "0.012"
+        },
+        {
+          "symbol": "BLURUSDT",
+          "fundingRate": "-0.00418",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.01875",
+          "maxFundingRate": "0.01875"
+        },
+        {
+          "symbol": "STXUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "INJUSDT",
+          "fundingRate": "0.000031",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "ARBUSDT",
+          "fundingRate": "0.000015",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.01",
+          "maxFundingRate": "0.01"
+        },
+        {
+          "symbol": "FLOKIUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "SUIUSDT",
+          "fundingRate": "-0.000113",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "ORDIUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "1000BONKUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "WLDUSDT",
+          "fundingRate": "-0.000034",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "PENDLEUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "SEIUSDT",
+          "fundingRate": "0.0001",
+          "fundingRateInterval": "8",
+          "nextUpdate": "1791878400000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "TIAUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "PYTHUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.015",
+          "maxFundingRate": "0.015"
+        },
+        {
+          "symbol": "JTOUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.01875",
+          "maxFundingRate": "0.01875"
+        },
+        {
+          "symbol": "1000SATSUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "JUPUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "STRKUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "WIFUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.01875",
+          "maxFundingRate": "0.01875"
+        },
+        {
+          "symbol": "ONDOUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.01875",
+          "maxFundingRate": "0.01875"
+        },
+        {
+          "symbol": "ENAUSDT",
+          "fundingRate": "-0.000009",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        },
+        {
+          "symbol": "TAOUSDT",
+          "fundingRate": "0.000014",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "NOTUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.02",
+          "maxFundingRate": "0.02"
+        },
+        {
+          "symbol": "ZKUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.018",
+          "maxFundingRate": "0.018"
+        },
+        {
+          "symbol": "ZROUSDT",
+          "fundingRate": "0.00005",
+          "fundingRateInterval": "4",
+          "nextUpdate": "1791864000000",
+          "minFundingRate": "-0.0132",
+          "maxFundingRate": "0.0132"
+        }
+      ]
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/BTC_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "BTC_USDT",
+        "fundingRate": 3.8e-05,
+        "maxFundingRate": 0.0018,
+        "minFundingRate": -0.0018,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853967458,
+        "idxPrice": 81840.1,
+        "fairPrice": 81790.4
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=BTC-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000219864541932",
+          "fundingTime": "1791878400000",
+          "impactValue": "20000.0000000000000000",
+          "instId": "BTC-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.00375",
+          "method": "current_period",
+          "minFundingRate": "-0.00375",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005257173596764",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000235736131727",
+          "settState": "settled",
+          "ts": "1791853928209"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/BTC_USDT": {
+      "name": "BTC_USDT",
+      "funding_rate": "-0.000021",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ETH_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ETH_USDT",
+        "fundingRate": -3e-05,
+        "maxFundingRate": 0.0018,
+        "minFundingRate": -0.0018,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853967421,
+        "idxPrice": 2437.4,
+        "fairPrice": 2436.01
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ETH-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000084214124283",
+          "fundingTime": "1791878400000",
+          "impactValue": "20000.0000000000000000",
+          "instId": "ETH-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005007490713567",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000127789830111",
+          "settState": "settled",
+          "ts": "1791853928255"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ETH_USDT": {
+      "name": "ETH_USDT",
+      "funding_rate": "-0.000055",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SOL_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SOL_USDT",
+        "fundingRate": 3e-06,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853967380,
+        "idxPrice": 103.93,
+        "fairPrice": 103.88
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=SOL-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000728943502083",
+          "fundingTime": "1791878400000",
+          "impactValue": "20000.0000000000000000",
+          "instId": "SOL-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005776451333398",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000926753193342",
+          "settState": "settled",
+          "ts": "1791853928276"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/SOL_USDT": {
+      "name": "SOL_USDT",
+      "funding_rate": "-0.000169",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/XRP_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "XRP_USDT",
+        "fundingRate": -7e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853967761,
+        "idxPrice": 1.3358,
+        "fairPrice": 1.335
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=XRP-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000408336188994",
+          "fundingTime": "1791878400000",
+          "impactValue": "20000.0000000000000000",
+          "instId": "XRP-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005242660275614",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000267087215580",
+          "settState": "settled",
+          "ts": "1791853928449"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/XRP_USDT": {
+      "name": "XRP_USDT",
+      "funding_rate": "-0.000051",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/DOGE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "DOGE_USDT",
+        "fundingRate": -1.7e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853967842,
+        "idxPrice": 0.08179,
+        "fairPrice": 0.08175
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=DOGE-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000605251648352",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "DOGE-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005542507365961",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000530083893170",
+          "settState": "settled",
+          "ts": "1791853928789"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/DOGE_USDT": {
+      "name": "DOGE_USDT",
+      "funding_rate": "-0.00011",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/BNB_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "BNB_USDT",
+        "fundingRate": 0,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968012,
+        "idxPrice": 731.6,
+        "fairPrice": 732.2
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=BNB-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000523292482395",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "BNB-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005468963631392",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000779918550716",
+          "settState": "settled",
+          "ts": "1791853928387"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/BNB_USDT": {
+      "name": "BNB_USDT",
+      "funding_rate": "-0.000039",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ADA_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ADA_USDT",
+        "fundingRate": -4.6e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968114,
+        "idxPrice": 0.2301,
+        "fairPrice": 0.2299
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ADA-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000103813972571",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ADA-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0008703220191471",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000466128335367",
+          "settState": "settled",
+          "ts": "1791853928570"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ADA_USDT": {
+      "name": "ADA_USDT",
+      "funding_rate": "-0.000187",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/TRX_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "TRX_USDT",
+        "fundingRate": -0.00053,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968179,
+        "idxPrice": 0.32931,
+        "fairPrice": 0.32905
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=TRX-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0005085424899536",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "TRX-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0009961576030196",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0003813883929606",
+          "settState": "settled",
+          "ts": "1791853928469"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/TRX_USDT": {
+      "name": "TRX_USDT",
+      "funding_rate": "-0.000446",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/LINK_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "LINK_USDT",
+        "fundingRate": -4.9e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968384,
+        "idxPrice": 12.522,
+        "fairPrice": 12.513
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=LINK-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000782141706608",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "LINK-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.0075",
+          "method": "current_period",
+          "minFundingRate": "-0.0075",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0008788750399489",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000800301034613",
+          "settState": "settled",
+          "ts": "1791853928177"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/LINK_USDT": {
+      "name": "LINK_USDT",
+      "funding_rate": "-0.000064",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/AVAX_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "AVAX_USDT",
+        "fundingRate": -2.7e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968496,
+        "idxPrice": 10.042,
+        "fairPrice": 10.034
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=AVAX-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000408529228810",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "AVAX-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0006512018620576",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000251722778176",
+          "settState": "settled",
+          "ts": "1791853928678"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/AVAX_USDT": {
+      "name": "AVAX_USDT",
+      "funding_rate": "-0.000151",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SUI_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SUI_USDT",
+        "fundingRate": 1.6e-05,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968611,
+        "idxPrice": 1.0224,
+        "fairPrice": 1.0217
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=SUI-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "SUI-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005006414739493",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853929609"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/SUI_USDT": {
+      "name": "SUI_USDT",
+      "funding_rate": "-0.000119",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=TON-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/TON_USDT": {
+      "name": "TON_USDT",
+      "funding_rate": "0.00005",
+      "funding_interval": 14400,
+      "funding_next_apply": 1781524800
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/LTC_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "LTC_USDT",
+        "fundingRate": -8e-06,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968875,
+        "idxPrice": 60.52,
+        "fairPrice": 60.48
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=LTC-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000192618883900",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "LTC-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0003308519437552",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000070824458057",
+          "settState": "settled",
+          "ts": "1791853928322"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/LTC_USDT": {
+      "name": "LTC_USDT",
+      "funding_rate": "-0.000091",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/BCH_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "BCH_USDT",
+        "fundingRate": -5e-06,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853968980,
+        "idxPrice": 262.52,
+        "fairPrice": 262.57
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=BCH-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000961163532541",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "BCH-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0007630675314765",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853928367"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/BCH_USDT": {
+      "name": "BCH_USDT",
+      "funding_rate": "0.000042",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/DOT_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "DOT_USDT",
+        "fundingRate": 0.0001,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969113,
+        "idxPrice": 1.1403,
+        "fairPrice": 1.1403
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=DOT-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000318433723083",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "DOT-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0006146041694460",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000039630748614",
+          "settState": "settled",
+          "ts": "1791853928834"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/DOT_USDT": {
+      "name": "DOT_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/UNI_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "UNI_USDT",
+        "fundingRate": 4e-06,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969327,
+        "idxPrice": 6.94,
+        "fairPrice": 6.937
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=UNI-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "UNI-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0008106078220040",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853928402"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/UNI_USDT": {
+      "name": "UNI_USDT",
+      "funding_rate": "-0.000223",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/AAVE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "AAVE_USDT",
+        "fundingRate": 2.3e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969352,
+        "idxPrice": 155.51,
+        "fairPrice": 155.47
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=AAVE-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "AAVE-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005543938554748",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000878438944144",
+          "settState": "settled",
+          "ts": "1791853928613"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/AAVE_USDT": {
+      "name": "AAVE_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/APT_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "APT_USDT",
+        "fundingRate": -0.000109,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969653,
+        "idxPrice": 0.7861,
+        "fairPrice": 0.7853
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=APT-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000211554448972",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "APT-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0002524948923073",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000563598200775",
+          "settState": "settled",
+          "ts": "1791853927358"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/APT_USDT": {
+      "name": "APT_USDT",
+      "funding_rate": "-0.000053",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/NEAR_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "NEAR_USDT",
+        "fundingRate": 4.5e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969723,
+        "idxPrice": 5.118,
+        "fairPrice": 5.118
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=NEAR-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000891614425964",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "NEAR-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0010081498662913",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000883031258957",
+          "settState": "settled",
+          "ts": "1791853928197"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/NEAR_USDT": {
+      "name": "NEAR_USDT",
+      "funding_rate": "-0.000043",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ARB_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ARB_USDT",
+        "fundingRate": 9.2e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853969836,
+        "idxPrice": 0.17929,
+        "fairPrice": 0.17917
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ARB-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000935043549718",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ARB-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0001839724838569",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000914713167595",
+          "settState": "settled",
+          "ts": "1791853929660"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ARB_USDT": {
+      "name": "ARB_USDT",
+      "funding_rate": "-0.000542",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/OP_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "OP_USDT",
+        "fundingRate": 7e-06,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970019,
+        "idxPrice": 0.12919,
+        "fairPrice": 0.12911
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=OP-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000896824036404",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "OP-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853929418"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/OP_USDT": {
+      "name": "OP_USDT",
+      "funding_rate": "-0.000193",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/INJ_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "INJ_USDT",
+        "fundingRate": 0.000215,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970137,
+        "idxPrice": 7.245,
+        "fairPrice": 7.243
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=INJ-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "INJ-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005863962914191",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853927276"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/INJ_USDT": {
+      "name": "INJ_USDT",
+      "funding_rate": "-0.000421",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SEI_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SEI_USDT",
+        "fundingRate": -1.8e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970234,
+        "idxPrice": 0.06208,
+        "fairPrice": 0.06204
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=SEI-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000162589225371",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "SEI-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0008822975839558",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000281215618581",
+          "settState": "settled",
+          "ts": "1791853927495"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/SEI_USDT": {
+      "name": "SEI_USDT",
+      "funding_rate": "-0.000227",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/TIA_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "TIA_USDT",
+        "fundingRate": -8e-06,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853970440,
+        "idxPrice": 0.522,
+        "fairPrice": 0.5215
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=TIA-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "TIA-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0008750682474734",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853927690"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/TIA_USDT": {
+      "name": "TIA_USDT",
+      "funding_rate": "-0.000047",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ATOM_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ATOM_USDT",
+        "fundingRate": -7.8e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970542,
+        "idxPrice": 1.797,
+        "fairPrice": 1.796
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ATOM-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0001042110033609",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ATOM-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0009026129021310",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000056729405813",
+          "settState": "settled",
+          "ts": "1791853928657"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ATOM_USDT": {
+      "name": "ATOM_USDT",
+      "funding_rate": "-0.000381",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ETC_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ETC_USDT",
+        "fundingRate": -4.2e-05,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970616,
+        "idxPrice": 7.93,
+        "fairPrice": 7.928
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ETC-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000832279448872",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ETC-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0004319636058124",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000031626790101",
+          "settState": "settled",
+          "ts": "1791853928409"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ETC_USDT": {
+      "name": "ETC_USDT",
+      "funding_rate": "-0.000239",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=FIL-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000343616391446",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "FIL-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0003862947274952",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000311072984301",
+          "settState": "settled",
+          "ts": "1791853928895"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/FIL_USDT": {
+      "name": "FIL_USDT",
+      "funding_rate": "-0.000229",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/WLD_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "WLD_USDT",
+        "fundingRate": -7e-06,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970852,
+        "idxPrice": 0.4895,
+        "fairPrice": 0.4891
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=WLD-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000648631366993",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "WLD-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0005859305524279",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000760052099291",
+          "settState": "settled",
+          "ts": "1791853930126"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/WLD_USDT": {
+      "name": "WLD_USDT",
+      "funding_rate": "-0.000187",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/PEPE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "PEPE_USDT",
+        "fundingRate": -0.000104,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853970974,
+        "idxPrice": 3.8481e-06,
+        "fairPrice": 3.8437e-06
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=1000PEPE-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/1000PEPE_USDT": {
+      "label": "CONTRACT_NOT_FOUND"
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SHIB_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SHIB_USDT",
+        "fundingRate": -8e-05,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853971187,
+        "idxPrice": 5.128e-06,
+        "fairPrice": 5.12e-06
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=1000SHIB-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/1000SHIB_USDT": {
+      "label": "CONTRACT_NOT_FOUND"
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/1000BONK_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "1000BONK_USDT",
+        "fundingRate": 4.6e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853971343,
+        "idxPrice": 0.003141,
+        "fairPrice": 0.003141
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=1000BONK-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/1000BONK_USDT": {
+      "label": "CONTRACT_NOT_FOUND"
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/WIF_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "WIF_USDT",
+        "fundingRate": -3.2e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853971495,
+        "idxPrice": 0.1998,
+        "fairPrice": 0.1995
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=WIF-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "WIF-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853929756"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/WIF_USDT": {
+      "name": "WIF_USDT",
+      "funding_rate": "-0.000231",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/FLOKI_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "FLOKI_USDT",
+        "fundingRate": 0,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853971559,
+        "idxPrice": 2.51e-05,
+        "fairPrice": 2.501e-05
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=FLOKI-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0002207749777067",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "FLOKI-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0000929913530825",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0001323080297741",
+          "settState": "settled",
+          "ts": "1791853929014"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/FLOKI_USDT": {
+      "name": "FLOKI_USDT",
+      "funding_rate": "-0.000141",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/JUP_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "JUP_USDT",
+        "fundingRate": 2.1e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853971729,
+        "idxPrice": 0.3275,
+        "fairPrice": 0.3273
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=JUP-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000772549077723",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "JUP-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0007892063861079",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000816892291308",
+          "settState": "settled",
+          "ts": "1791853928616"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/JUP_USDT": {
+      "name": "JUP_USDT",
+      "funding_rate": "-0.000049",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/PYTH_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "PYTH_USDT",
+        "fundingRate": 4.2e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853971835,
+        "idxPrice": 0.07981,
+        "fairPrice": 0.07975
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=PYTH-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000514261773449",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "PYTH-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0008505975518849",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000318221919236",
+          "settState": "settled",
+          "ts": "1791853927832"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/PYTH_USDT": {
+      "name": "PYTH_USDT",
+      "funding_rate": "-0.000048",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ENA_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ENA_USDT",
+        "fundingRate": 2e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853971953,
+        "idxPrice": 0.20488,
+        "fairPrice": 0.20473
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ENA-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0001149349522442",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ENA-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0008282066311341",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000799956244857",
+          "settState": "settled",
+          "ts": "1791853930404"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ENA_USDT": {
+      "name": "ENA_USDT",
+      "funding_rate": "-0.000307",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/PENDLE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "PENDLE_USDT",
+        "fundingRate": -1.6e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972045,
+        "idxPrice": 2.0258,
+        "fairPrice": 2.0252
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=PENDLE-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "PENDLE-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853930422"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/PENDLE_USDT": {
+      "name": "PENDLE_USDT",
+      "funding_rate": "-0.000253",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ORDI_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ORDI_USDT",
+        "fundingRate": -0.000116,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853972205,
+        "idxPrice": 3.96,
+        "fairPrice": 3.958
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ORDI-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000101710986691",
+          "fundingTime": "1791864000000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "ORDI-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0005062358311927",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000332506477253",
+          "settState": "settled",
+          "ts": "1791853929324"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ORDI_USDT": {
+      "name": "ORDI_USDT",
+      "funding_rate": "-0.000077",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/STX_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "STX_USDT",
+        "fundingRate": 9.6e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972329,
+        "idxPrice": 0.4125,
+        "fairPrice": 0.4123
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=STX-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "STX-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853929054"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/STX_USDT": {
+      "name": "STX_USDT",
+      "funding_rate": "-0.000182",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/RUNE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "RUNE_USDT",
+        "fundingRate": -9.7e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972363,
+        "idxPrice": 0.6509,
+        "fairPrice": 0.6508
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=RUNE-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/RUNE_USDT": {
+      "name": "RUNE_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/GALA_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "GALA_USDT",
+        "fundingRate": -1.4e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972446,
+        "idxPrice": 0.002136,
+        "fairPrice": 0.002135
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=GALA-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "GALA-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853927715"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/GALA_USDT": {
+      "name": "GALA_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SAND_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SAND_USDT",
+        "fundingRate": -2.1e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972580,
+        "idxPrice": 0.05874,
+        "fairPrice": 0.05872
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=SAND-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "SAND-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0002578300547653",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853929188"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/SAND_USDT": {
+      "name": "SAND_USDT",
+      "funding_rate": "0.000002",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/MANA_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "MANA_USDT",
+        "fundingRate": 1.7e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972722,
+        "idxPrice": 0.08969,
+        "fairPrice": 0.08963
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=MANA-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000790126069718",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "MANA-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0001780450678541",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0001174763675169",
+          "settState": "settled",
+          "ts": "1791853929437"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/MANA_USDT": {
+      "name": "MANA_USDT",
+      "funding_rate": "0.000021",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/APE_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "APE_USDT",
+        "fundingRate": 1.3e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853972867,
+        "idxPrice": 0.1447,
+        "fairPrice": 0.1447
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=APE-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000090356791910",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "APE-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0011809110512356",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000770950287122",
+          "settState": "settled",
+          "ts": "1791853928149"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/APE_USDT": {
+      "name": "APE_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/LDO_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "LDO_USDT",
+        "fundingRate": -6.7e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853973086,
+        "idxPrice": 0.3941,
+        "fairPrice": 0.3938
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=LDO-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000758451530222",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "LDO-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0008431206941454",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000531672205285",
+          "settState": "settled",
+          "ts": "1791853928825"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/LDO_USDT": {
+      "name": "LDO_USDT",
+      "funding_rate": "-0.000298",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/CRV_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "CRV_USDT",
+        "fundingRate": 2e-06,
+        "maxFundingRate": 0.0075,
+        "minFundingRate": -0.0075,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853973153,
+        "idxPrice": 0.3424,
+        "fairPrice": 0.3424
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=CRV-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000028320741155",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "CRV-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0003574788853698",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000007919536254",
+          "settState": "settled",
+          "ts": "1791853928767"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/CRV_USDT": {
+      "name": "CRV_USDT",
+      "funding_rate": "-0.000115",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/COMP_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "COMP_USDT",
+        "fundingRate": 2.3e-05,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853973269,
+        "idxPrice": 23.37,
+        "fairPrice": 23.35
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=COMP-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0001000000000000",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "COMP-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853928745"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/COMP_USDT": {
+      "name": "COMP_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=MKR-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/MKR_USDT": {
+      "name": "MKR_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1775779200
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SNX_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SNX_USDT",
+        "fundingRate": -0.0001,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853973506,
+        "idxPrice": 0.2381,
+        "fairPrice": 0.2378
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=SNX-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000212906357157",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "SNX-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0004344861397372",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000148402870239",
+          "settState": "settled",
+          "ts": "1791853928251"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/SNX_USDT": {
+      "name": "SNX_USDT",
+      "funding_rate": "0.0001",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/DYDX_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "DYDX_USDT",
+        "fundingRate": -5.9e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853973662,
+        "idxPrice": 0.1285,
+        "fairPrice": 0.1284
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=DYDX-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000110807473660",
+          "fundingTime": "1791878400000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "DYDX-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000766941611521",
+          "settState": "settled",
+          "ts": "1791853927451"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/DYDX_USDT": {
+      "name": "DYDX_USDT",
+      "funding_rate": "-0.000026",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/STRK_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "STRK_USDT",
+        "fundingRate": 5e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853973836,
+        "idxPrice": 0.08708,
+        "fairPrice": 0.08701
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=STRK-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "STRK-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853929170"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/STRK_USDT": {
+      "name": "STRK_USDT",
+      "funding_rate": "0.00005",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/BLUR_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "BLUR_USDT",
+        "fundingRate": -0.005212,
+        "maxFundingRate": 0.025,
+        "minFundingRate": -0.025,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853973888,
+        "idxPrice": 0.01357,
+        "fairPrice": 0.01345
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=BLUR-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0048060000137981",
+          "fundingTime": "1791864000000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "BLUR-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0057015597858136",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0079312473607999",
+          "settState": "settled",
+          "ts": "1791853929519"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/BLUR_USDT": {
+      "name": "BLUR_USDT",
+      "funding_rate": "-0.002647",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ZRO_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ZRO_USDT",
+        "fundingRate": 5e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853974057,
+        "idxPrice": 2.034,
+        "fairPrice": 2.0314
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ZRO-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "ZRO-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853929907"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ZRO_USDT": {
+      "name": "ZRO_USDT",
+      "funding_rate": "-0.000001",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ZK-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "ZK-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853929868"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ZK_USDT": {
+      "name": "ZK_USDT",
+      "funding_rate": "-0.000125",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/JTO_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "JTO_USDT",
+        "fundingRate": 4.3e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853974316,
+        "idxPrice": 0.5033,
+        "fairPrice": 0.5031
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=JTO-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0000492676068806",
+          "fundingTime": "1791864000000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "JTO-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "-0.0004994805613280",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000233453715114",
+          "settState": "settled",
+          "ts": "1791853928426"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/JTO_USDT": {
+      "name": "JTO_USDT",
+      "funding_rate": "-0.000184",
+      "funding_interval": 28800,
+      "funding_next_apply": 1791878400
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/NOT_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "NOT_USDT",
+        "fundingRate": 5e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853974430,
+        "idxPrice": 0.0004359,
+        "fairPrice": 0.000436
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=NOT-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000500000000000",
+          "fundingTime": "1791864000000",
+          "impactValue": "4000.0000000000000000",
+          "instId": "NOT-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791878400000",
+          "premium": "0.0000000000000000",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0000500000000000",
+          "settState": "settled",
+          "ts": "1791853930576"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/NOT_USDT": {
+      "name": "NOT_USDT",
+      "funding_rate": "0.00005",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/ONDO_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "ONDO_USDT",
+        "fundingRate": -2.6e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853974644,
+        "idxPrice": 0.4681,
+        "fairPrice": 0.4678
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=ONDO-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "-0.0001344834332763",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "ONDO-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0007627814694752",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "-0.0000650675313452",
+          "settState": "settled",
+          "ts": "1791853927170"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/ONDO_USDT": {
+      "name": "ONDO_USDT",
+      "funding_rate": "-0.000135",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/TAO_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "TAO_USDT",
+        "fundingRate": -3.1e-05,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 4,
+        "nextSettleTime": 1791864000000,
+        "timestamp": 1791853974820,
+        "idxPrice": 268.43,
+        "fairPrice": 268.29
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=TAO-USDT-SWAP": {
+      "code": "0",
+      "data": [
+        {
+          "formulaType": "withRate",
+          "fundingRate": "0.0000927957556268",
+          "fundingTime": "1791878400000",
+          "impactValue": "10000.0000000000000000",
+          "instId": "TAO-USDT-SWAP",
+          "instType": "SWAP",
+          "interestRate": "0.0001000000000000",
+          "maxFundingRate": "0.01",
+          "method": "current_period",
+          "minFundingRate": "-0.01",
+          "nextFundingRate": "",
+          "nextFundingTime": "1791907200000",
+          "premium": "-0.0011177347242921",
+          "prevFundingTime": "1791849600000",
+          "settFundingRate": "0.0001000000000000",
+          "settState": "settled",
+          "ts": "1791853928643"
+        }
+      ],
+      "msg": ""
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/TAO_USDT": {
+      "name": "TAO_USDT",
+      "funding_rate": "-0.000106",
+      "funding_interval": 14400,
+      "funding_next_apply": 1791864000
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=1000FLOKI-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/1000FLOKI_USDT": {
+      "label": "CONTRACT_NOT_FOUND"
+    },
+    "https://contract.mexc.com/api/v1/contract/funding_rate/SATS_USDT": {
+      "success": true,
+      "code": 0,
+      "data": {
+        "symbol": "SATS_USDT",
+        "fundingRate": 0.0001,
+        "maxFundingRate": 0.03,
+        "minFundingRate": -0.03,
+        "collectCycle": 8,
+        "nextSettleTime": 1791878400000,
+        "timestamp": 1791853975099,
+        "idxPrice": 1.114e-08,
+        "fairPrice": 1.115e-08
+      }
+    },
+    "https://www.okx.com/api/v5/public/funding-rate?instId=1000SATS-USDT-SWAP": {
+      "code": "51001",
+      "data": [],
+      "msg": "Instrument ID, Instrument ID code, or Spread ID doesn't exist."
+    },
+    "https://api.gateio.ws/api/v4/futures/usdt/contracts/1000SATS_USDT": {
+      "label": "CONTRACT_NOT_FOUND"
+    },
+    "https://api.hbdm.vn/linear-swap-api/v1/swap_batch_funding_rate": {
+      "status": "ok",
+      "data": [
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "ETC-USDT",
+          "symbol": "ETC",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "BCH-USDT",
+          "symbol": "BCH",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "APT-USDT",
+          "symbol": "APT",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "-0.000279970714783431",
+          "contract_code": "TRX-USDT",
+          "symbol": "TRX",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "SOL-USDT",
+          "symbol": "SOL",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "AAVE-USDT",
+          "symbol": "AAVE",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": null,
+          "contract_code": "BTC-USDT-261016",
+          "symbol": "BTC",
+          "fee_asset": "USDT",
+          "funding_time": null,
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "DOGE-USDT",
+          "symbol": "DOGE",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": null,
+          "contract_code": "BTC-USDT-261023",
+          "symbol": "BTC",
+          "fee_asset": "USDT",
+          "funding_time": null,
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "ENA-USDT",
+          "symbol": "ENA",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "XRP-USDT",
+          "symbol": "XRP",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "BNB-USDT",
+          "symbol": "BNB",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "ARB-USDT",
+          "symbol": "ARB",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000407713098621593",
+          "contract_code": "DOT-USDT",
+          "symbol": "DOT",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": null,
+          "contract_code": "ETH-USDT-261023",
+          "symbol": "ETH",
+          "fee_asset": "USDT",
+          "funding_time": null,
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "STRK-USDT",
+          "symbol": "STRK",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000067224856711049",
+          "contract_code": "BTC-USDT",
+          "symbol": "BTC",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "TIA-USDT",
+          "symbol": "TIA",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "ADA-USDT",
+          "symbol": "ADA",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "UNI-USDT",
+          "symbol": "UNI",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": null,
+          "contract_code": "ETH-USDT-261016",
+          "symbol": "ETH",
+          "fee_asset": "USDT",
+          "funding_time": null,
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "LTC-USDT",
+          "symbol": "LTC",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "LINK-USDT",
+          "symbol": "LINK",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "WLD-USDT",
+          "symbol": "WLD",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "OP-USDT",
+          "symbol": "OP",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "SUI-USDT",
+          "symbol": "SUI",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "FIL-USDT",
+          "symbol": "FIL",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "ONDO-USDT",
+          "symbol": "ONDO",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "-0.000586316522987979",
+          "contract_code": "JUP-USDT",
+          "symbol": "JUP",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "TAO-USDT",
+          "symbol": "TAO",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000020880377494098",
+          "contract_code": "ATOM-USDT",
+          "symbol": "ATOM",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "ORDI-USDT",
+          "symbol": "ORDI",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "ETH-USDT",
+          "symbol": "ETH",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000050000000000000",
+          "contract_code": "WIF-USDT",
+          "symbol": "WIF",
+          "fee_asset": "USDT",
+          "funding_time": "1791864000000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "NEAR-USDT",
+          "symbol": "NEAR",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "-0.000192746562387629",
+          "contract_code": "FLOKI-USDT",
+          "symbol": "FLOKI",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        },
+        {
+          "estimated_rate": null,
+          "funding_rate": "0.000100000000000000",
+          "contract_code": "AVAX-USDT",
+          "symbol": "AVAX",
+          "fee_asset": "USDT",
+          "funding_time": "1791878400000",
+          "next_funding_time": null,
+          "trade_partition": "USDT"
+        }
+      ],
+      "ts": 1791853770355
+    }
+  },
+  "captureNotes": {
+    "binancePremiumIndex": "Premium index and funding info captured by read-only curl on baota-prod because Mac egress received Binance -1003 IP ban; remaining responses captured from Mac.",
+    "projection": "Bulk arrays restricted to matrix symbols; Binance/Bybit/Gate rows and MEXC detail retain fields consumed by collector. Native envelopes, funding values and timestamps preserved."
+  }
+}

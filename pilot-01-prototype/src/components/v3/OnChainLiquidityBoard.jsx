@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 /**
  * /onchain — on-chain liquidity and proof-of-reserves verification guide (audit NX-05, 2026-10-11).
  * The page used to call itself a "board"; it never had a verified live feed. It now teaches how to read an exchange's
@@ -447,7 +448,7 @@ export function OnChainLiquidityBoard({ locale = "en", headingLevel = 2 }) {
             {reserveSources.map((source) => (
               <li key={source.slug}>
                 <span translate="no" lang="en">{source.name}</span>
-                <a href={source.url} target="_blank" rel="noopener noreferrer" data-por-venue={source.slug}>{t.linkLabel}<span aria-hidden="true"> ↗</span></a>
+                <SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer" data-por-venue={source.slug}>{t.linkLabel}<span aria-hidden="true"> ↗</span></SourceLink>
                 <a className="onchain-board__profile-link" href={localizedPath(`/exchanges/${source.slug}`, locale)} aria-label={`${source.name}: NexuAlpha`}>NexuAlpha</a>
               </li>
             ))}
