@@ -20,6 +20,11 @@ GitHub → Actions → **Deploy to production** → Run workflow. Nothing deploy
 
 Undo later with **Rollback production** and the release name from the deploy summary.
 
+Click events (`/api/analytics/cta`) are proxied to a separate container, the newest running `nexualpha-cta-collector-*`,
+which runs its own copy of the site code. The standby check sends it one smoke event with the release's live experiment
+context and stops the deploy if it is rejected: the collector then needs the newer code (a copy of the release
+directory, same env and mounts, new name), and `daily-cta.py`'s crontab entry must name the new container.
+
 ## One-time setup
 
 - Secret `DEPLOY_SSH_KEY`: dedicated key created by `deploy/setup-deploy-key.sh` (run on the Mac).

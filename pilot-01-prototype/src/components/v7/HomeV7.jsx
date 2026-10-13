@@ -238,7 +238,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
 
       <AcademyTeaser locale={locale} />
 
-      <DeferUntilVisible target="#h7-flash" prefetch={loadHomeBelow}>
+      <DeferUntilVisible target="#h7-flash, #h7-calc, #h7-funding, #h7-intel" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       </DeferUntilVisible>
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}

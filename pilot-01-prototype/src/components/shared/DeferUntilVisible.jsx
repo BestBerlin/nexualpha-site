@@ -30,6 +30,33 @@ function Ready({ onReady }) {
 
 export const DEFER_OPEN_EVENTS = Object.freeze(["pointerdown", "keydown", "focusin", "toggle"]);
 
+// Opens the gate when the reader reaches the deferred section. Exported for tests (fake document / observer).
+//
+// Fixed 2026-10-14 (home funding board stuck at "—"): (1) `target` may list several selectors and every match is watched;
+// (2) an element already scrolled past (above the viewport) counts as reached, so a reader who lands below the first
+// matched element (scroll restore, anchor jump, fast scroll before hydration) still gets live content; (3) the
+// pointer/key/focus listeners sit on the document in the capture phase. On the element itself they never fired: React
+// stops a discrete event that targets a dehydrated boundary at the root container (to replay it after hydrating), and
+// this boundary cannot hydrate before the gate opens, so a tap inside the section was swallowed.
+export function watchDeferTarget({ target, rootMargin, interactionOnly, open, doc = document, IntersectionObserver = globalThis.IntersectionObserver }) {
+  const elements = target ? [...doc.querySelectorAll(target)] : [];
+  if (!elements.length || (!interactionOnly && typeof IntersectionObserver === "undefined")) { open(); return undefined; }
+  // Content behind a collapsed <details> (interactionOnly): nothing is visible until the reader opens it, so only the
+  // interaction events below load the chunk. A disclosure the browser already expanded (fragment navigation into it,
+  // find-in-page) hydrates at once.
+  if (elements.some((element) => interactionOnly && element.open)) { open(); return undefined; }
+  const reached = (entry) => entry.isIntersecting || entry.boundingClientRect.bottom < 0;
+  const observer = interactionOnly ? null : new IntersectionObserver((entries) => { if (entries.some(reached)) open(); }, { rootMargin });
+  for (const element of elements) observer?.observe(element);
+  // A reader who reaches the section before the observer fires (anchor jump, keyboard, tap) opens the gate too.
+  const onEvent = (event) => { const node = event.target; if (node && elements.some((element) => element === node || element.contains?.(node))) open(); };
+  for (const type of DEFER_OPEN_EVENTS) doc.addEventListener(type, onEvent, { capture: true, passive: true });
+  return () => {
+    observer?.disconnect();
+    for (const type of DEFER_OPEN_EVENTS) doc.removeEventListener(type, onEvent, { capture: true });
+  };
+}
+
 function ClientGate({ target, rootMargin, prefetch, interactionOnly, children }) {
   const [gate] = useState(createVisibilityGate);
   const [live, setLive] = useState(false);
@@ -37,21 +64,7 @@ function ClientGate({ target, rootMargin, prefetch, interactionOnly, children })
   const onReady = useCallback(() => setLive(true), []);
   useEffect(() => {
     if (gate.open) return undefined;
-    const open = () => { gate.release(); prefetch?.(); };
-    const element = target ? document.querySelector(target) : null;
-    if (!element || (!interactionOnly && typeof IntersectionObserver === "undefined")) { open(); return undefined; }
-    // Content behind a collapsed <details> (interactionOnly): nothing is visible until the reader opens it, so only the
-    // interaction events below load the chunk. A disclosure the browser already expanded (fragment navigation into it,
-    // find-in-page) hydrates at once.
-    if (interactionOnly && element.open) { open(); return undefined; }
-    const observer = interactionOnly ? null : new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) open(); }, { rootMargin });
-    observer?.observe(element);
-    // A reader who reaches the section before the observer fires (anchor jump, keyboard, tap) opens the gate too.
-    for (const type of DEFER_OPEN_EVENTS) element.addEventListener(type, open, { capture: true, passive: true, once: true });
-    return () => {
-      observer?.disconnect();
-      for (const type of DEFER_OPEN_EVENTS) element.removeEventListener(type, open, { capture: true });
-    };
+    return watchDeferTarget({ target, rootMargin, interactionOnly, open: () => { gate.release(); prefetch?.(); } });
   }, [gate, target, rootMargin, prefetch, interactionOnly]);
   if (live) return <Suspense fallback={null}>{children}</Suspense>;
   // Same element reference on every render until hydrated: React bails out, so no update reaches the dehydrated boundary.
@@ -61,7 +74,8 @@ function ClientGate({ target, rootMargin, prefetch, interactionOnly, children })
 
 /**
  * @param {object} props
- * @param {string} props.target CSS selector of the server-rendered element that marks the section (must exist in SSR HTML).
+ * @param {string} props.target CSS selector (a list is allowed) of the server-rendered element(s) that mark the section
+ *   (must exist in SSR HTML). The gate opens when any of them nears the viewport or has been scrolled past.
  * @param {string} [props.rootMargin] IntersectionObserver margin; the default loads half a viewport ahead.
  * @param {() => void} [props.prefetch] Starts the chunk download the moment the gate opens (pass the React.lazy loader).
  * @param {boolean} [props.interactionOnly] No visibility observer: open only on pointer/key/focus/toggle inside the target

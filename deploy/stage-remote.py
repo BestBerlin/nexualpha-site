@@ -242,6 +242,23 @@ def main():
                 'fetch("http://%s:8080/health/cta-ready").then(r=>r.json()).then(j=>process.exit(j.ready?0:3)).catch(()=>process.exit(4))' % collector])
             if probe.returncode != 0:
                 raise RuntimeError('cta collector %s unreachable from standby (%s)' % (collector, probe.returncode))
+            # 2026-10-14: "reachable" is not "accepting". The collector ran R58 code (2026-10-01) whose experiment registry
+            # predates the home hero test (home_hero_copy_v1, 2026-10-11), so every event from a bucketed home visitor,
+            # sign-up clicks included, got 400 for three days. One smoke-mode event (written to the collector's smoke
+            # file, never to production) carrying this release's live experiment context must be accepted.
+            probe = subprocess.run(['docker', 'exec', '-w', '/app', NEW, 'node', '--input-type=module', '-e', '''
+const { homeHeroEventContext } = await import("/app/src/data/home-hero-experiment.js");
+const { resolveExperimentContext } = await import("/app/src/data/experiment-registry.js");
+const hero = homeHeroEventContext({ pathname: "/", cookie: "nx_hero=b" });
+const context = hero.experiment ? resolveExperimentContext({ ...hero, pathname: "/", market: "unknown" }).context : {};
+const event = { version: 2, type: "page_view", eventId: crypto.randomUUID(), session: crypto.randomUUID(), page: "/", locale: "en",
+  source: "deploy-probe", market: "unknown", product: "unknown", device: "unknown", ...context };
+const r = await fetch("http://%s:8080/api/analytics/cta", { method: "POST", body: JSON.stringify(event),
+  headers: { "content-type": "application/json", origin: "https://nexualpha.com", "x-nexualpha-analytics-mode": "smoke" } });
+if (r.status !== 204) { console.error("collector answered", r.status, "for", JSON.stringify(context)); process.exit(5); }
+''' % collector])
+            if probe.returncode != 0:
+                raise RuntimeError('cta collector %s rejects this release\'s events (%s): upgrade the collector first' % (collector, probe.returncode))
         errors = json.loads(get(new_port, '/health/errors-ready', 30, 1)[1] or '{}')
         if not errors.get('ready'):
             raise RuntimeError('error monitor not ready: %s' % errors.get('reasonCode'))
