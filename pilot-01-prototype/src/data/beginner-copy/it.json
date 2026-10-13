@@ -1,0 +1,398 @@
+{
+  "locale": "it",
+  "slug": {
+    "start": "iniziare",
+    "questions": "domande",
+    "check": "verifica"
+  },
+  "labels": {
+    "start": "Iniziare",
+    "questions": "Domande",
+    "check": "Verifica",
+    "newDoor": "Sono nuovo",
+    "traderDoor": "Faccio già trading",
+    "shortAnswer": "Risposta breve",
+    "steps": "Passi",
+    "mistakes": "Errori comuni",
+    "next": "Passo successivo",
+    "why": "Perché questa scelta",
+    "official": "Ingresso ufficiale",
+    "country": "Paese di residenza",
+    "chooseCountry": "Scegli il Paese",
+    "noChoice": "Nessuna opzione idonea; verifica le regole aggiornate prima di aprire un conto.",
+    "backup": "Opzione di riserva",
+    "register": "Registrati",
+    "checkButton": "Verifica link",
+    "urlLabel": "Incolla il link dell'exchange",
+    "valid": "Il dominio corrisponde al registro ufficiale; questo non garantisce che tutta la pagina sia sicura",
+    "invalid": "Non usarlo: il dominio non corrisponde al registro ufficiale",
+    "unknown": "Non possiamo confermarlo con il registro attuale",
+    "progress": "Avanzamento",
+    "complete": "Completato",
+    "reset": "Reimposta"
+  },
+  "intro": "Un percorso semplice per il primo acquisto crypto: scegli una sola piattaforma, entra da un link ufficiale, verifica l'identità, deposita poco, compra spot, proteggi l'account e impara a prelevare.",
+  "why": [
+    "La priorità mostra Bitget dove Paese e regole lo permettono, poi OKX e Binance come alternative.",
+    "Prima di aprire un conto, leggi entità, condizioni locali, commissioni, KYC, depositi, prelievi e prove di riserva."
+  ],
+  "steps": [
+    {
+      "title": "Scegli una sola piattaforma",
+      "answer": "Parti da una piattaforma nota, disponibile nel tuo Paese e con un percorso di deposito e prelievo chiaro. Bitget è la prima scelta di questo percorso quando l'accesso è consentito; se non è adatta, confronta OKX e poi Binance senza trattare la lista come approvazione normativa.",
+      "actions": [
+        "Apri la piattaforma da un ingresso ufficiale, non da messaggi privati o annunci casuali.",
+        "Controlla Paese, prodotti, KYC, commissioni e pagina di prelievo prima di depositare.",
+        "Usa un solo account per il primo test, così segui meglio dove va il denaro."
+      ],
+      "mistakes": [
+        "Scegliere solo in base al bonus più grande.",
+        "Aprire più account prima di sapere quale supporta il tuo Paese e il tuo metodo di pagamento."
+      ]
+    },
+    {
+      "title": "Registrati con il codice",
+      "answer": "Il codice può dare una quota di commissioni indietro o un vantaggio simile solo se le condizioni ufficiali della piattaforma lo prevedono. Non dovrebbe costarti di più, ma beneficio, limiti e durata dipendono sempre dall'exchange.",
+      "actions": [
+        "Apri la pagina di registrazione ufficiale della piattaforma mostrata per il tuo Paese.",
+        "Controlla il dominio finale prima di inserire email, telefono o password.",
+        "Se vedi un codice o un vantaggio, leggilo come condizione della piattaforma, non come promessa garantita."
+      ],
+      "mistakes": [
+        "Pensare che il codice si possa sempre aggiungere dopo la registrazione.",
+        "Copiare un link da Telegram, WhatsApp o X senza controllare il dominio."
+      ]
+    },
+    {
+      "title": "Completa la verifica dell'identità",
+      "answer": "Il KYC serve alla piattaforma per collegare l'account a una persona reale. Può chiedere documento, selfie, indirizzo o altre informazioni; stato ed eventuali tempi vanno letti solo nella piattaforma.",
+      "actions": [
+        "Usa dati reali e verifica che il nome corrisponda al documento.",
+        "Carica documenti solo nell'app o nel sito ufficiale.",
+        "Rispondi a richieste aggiuntive tramite supporto ufficiale, mai via messaggio privato."
+      ],
+      "mistakes": [
+        "Inviare documenti a qualcuno che dice di essere il supporto.",
+        "Usare identità o conto bancario di un'altra persona."
+      ]
+    },
+    {
+      "title": "Deposita una piccola somma",
+      "answer": "Il metodo corretto dipende dal Paese e da ciò che appare nel tuo account. Carta, bonifico, gateway di terze parti e P2P possono avere commissioni, limiti, regole sul nome e procedure di contestazione diverse.",
+      "actions": [
+        "Leggi importo minimo, commissioni, valuta e regola di intestazione prima di pagare.",
+        "Nel P2P resta dentro l'ordine e il sistema escrow della piattaforma.",
+        "Conserva la ricevuta finché il saldo non compare nel conto."
+      ],
+      "mistakes": [
+        "Pagare un conto bancario ricevuto in chat privata.",
+        "Depositare molto prima di aver provato un prelievo."
+      ]
+    },
+    {
+      "title": "Fai il primo acquisto spot",
+      "answer": "Spot significa comprare l'asset stesso, senza leva. Per la prima operazione usa una cifra piccola e leggi l'anteprima: asset, prezzo, commissione o spread, valuta pagata e quantità ricevuta.",
+      "actions": [
+        "Resta su spot o conversione semplice; evita futures, margin e perpetual.",
+        "Inizia con asset facili da riconoscere come BTC, ETH o USDT solo se ne capisci il ruolo.",
+        "Salva prezzo, importo, commissioni e ID dell'ordine dopo l'acquisto."
+      ],
+      "mistakes": [
+        "Aprire una posizione con leva pensando di comprare semplicemente crypto.",
+        "Confermare un ordine senza leggere il costo finale."
+      ]
+    },
+    {
+      "title": "Metti in sicurezza l'account",
+      "answer": "Prima di lasciare più di un piccolo saldo, rendi difficile rubare l'account. Attiva 2FA con app, password unica, codice anti-phishing e, se disponibile, whitelist dei prelievi.",
+      "actions": [
+        "Attiva 2FA con un'app di autenticazione quando possibile.",
+        "Imposta un codice anti-phishing per riconoscere le email ufficiali.",
+        "Aggiungi indirizzi di prelievo lentamente e testa con un importo piccolo."
+      ],
+      "mistakes": [
+        "Riutilizzare la password dell'email.",
+        "Dare codici 2FA a qualcuno che si presenta come supporto."
+      ]
+    },
+    {
+      "title": "Impara a prelevare",
+      "answer": "Prelevare verso la banca spesso significa vendere crypto in valuta fiat e usare una rotta ufficiale di prelievo. Se non è disponibile, carta, terze parti o P2P possono comparire con rischi e costi diversi.",
+      "actions": [
+        "Controlla valuta, minimo, commissione, nome del destinatario e note di elaborazione.",
+        "Fai prima un piccolo test di prelievo.",
+        "Conserva storico, ricevute e report ufficiali per controllo personale e obblighi fiscali."
+      ],
+      "mistakes": [
+        "Inviare USDT sulla rete sbagliata.",
+        "Rilasciare un'operazione P2P prima che il denaro sia davvero arrivato."
+      ]
+    }
+  ],
+  "scams": [
+    {
+      "title": "Finto supporto in chat privata",
+      "answer": "Un truffatore può chiedere password, codice 2FA, documenti o accesso remoto. Apri il supporto solo dall'app o dal sito ufficiale."
+    },
+    {
+      "title": "App false",
+      "answer": "Un'app falsa può copiare il logo e rubare le credenziali. Scarica solo dalla fonte ufficiale indicata dalla piattaforma o da un editore verificato."
+    },
+    {
+      "title": "Falsi airdrop",
+      "answer": "Un falso airdrop promette token gratis per farti collegare un wallet, firmare permessi o rivelare la frase di recupero. Se non è confermato dai canali ufficiali, non collegare nulla."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Quale piattaforma dovrebbe usare un principiante?",
+      "a": "Scegli una sola piattaforma disponibile nel tuo Paese, con dominio ufficiale chiaro, KYC comprensibile e percorso di deposito e prelievo visibile. In questo percorso Bitget viene prima quando consentito, poi OKX e Binance come alternative.",
+      "step": 1
+    },
+    {
+      "q": "Perché partire da una sola piattaforma?",
+      "a": "I primi errori nascono spesso dal passare tra app, reti e conti diversi. Una sola rotta rende più chiari registrazione, deposito, acquisto e prelievo.",
+      "step": 1
+    },
+    {
+      "q": "Bitget è sempre la scelta migliore?",
+      "a": "No. È la prima porta commerciale di questo percorso quando le regole lo permettono, ma disponibilità e prodotti dipendono dal Paese e dall'account.",
+      "step": 1
+    },
+    {
+      "q": "Quando guardare OKX o Binance?",
+      "a": "Guarda OKX o Binance se Bitget non è disponibile, se il metodo di pagamento non va bene o se le condizioni sono più chiare altrove. Verifica ogni piattaforma separatamente.",
+      "step": 1
+    },
+    {
+      "q": "Una piattaforma in lista è approvata nel mio Paese?",
+      "a": "Non necessariamente. La lista è un punto di partenza, non una licenza, un'approvazione personale o una garanzia di apertura conto.",
+      "step": 1
+    },
+    {
+      "q": "Devo scegliere le commissioni più basse?",
+      "a": "Le commissioni contano, ma non bastano. Per un primo acquisto servono anche accesso, sicurezza, depositi, prelievi e chiarezza dell'interfaccia.",
+      "step": 1
+    },
+    {
+      "q": "Exchange e wallet sono la stessa cosa?",
+      "a": "No. Un exchange è un conto gestito da una società per comprare e vendere; un wallet personale ti dà più controllo sulle chiavi ma anche più responsabilità.",
+      "step": 1
+    },
+    {
+      "q": "Un codice referral è una truffa?",
+      "a": "Non per forza. Molte piattaforme hanno programmi ufficiali, ma il rischio nasce da link falsi, promesse esagerate e pagine fuori dal dominio ufficiale.",
+      "step": 2
+    },
+    {
+      "q": "Il codice aumenta i miei costi?",
+      "a": "Un codice normale non dovrebbe aggiungere costi di registrazione. Gli eventuali vantaggi dipendono comunque da condizioni, Paese, prodotto e account.",
+      "step": 2
+    },
+    {
+      "q": "Posso aggiungere il codice dopo la registrazione?",
+      "a": "Non darlo per scontato. Alcune piattaforme accettano il codice solo durante l'iscrizione, quindi leggi la regola ufficiale prima di creare il conto.",
+      "step": 2
+    },
+    {
+      "q": "Perché usare l'ingresso ufficiale?",
+      "a": "Ti porta alla pagina di registrazione verificata e conserva il codice nel link. Non serve copiare codici da chat, screenshot o vecchi post.",
+      "step": 2
+    },
+    {
+      "q": "Cosa faccio se il codice non appare?",
+      "a": "Fermati e verifica se la piattaforma applica il codice automaticamente. Se non è chiaro, consulta il supporto ufficiale prima di completare il conto.",
+      "step": 2
+    },
+    {
+      "q": "Il codice garantisce un bonus?",
+      "a": "No. Bonus, sconti, voucher e attività dipendono dalla campagna corrente e dalle condizioni della piattaforma.",
+      "step": 2
+    },
+    {
+      "q": "Come riconosco un link ufficiale?",
+      "a": "Il dominio deve corrispondere al dominio registrato della piattaforma. Questa corrispondenza è un controllo di base e non garantisce da sola che tutta la pagina sia sicura.",
+      "step": 2
+    },
+    {
+      "q": "Un annuncio dell'exchange è affidabile?",
+      "a": "Un annuncio può portare a una pagina reale o a una copia. Verifica il dominio prima di inserire email, telefono, password o documenti.",
+      "step": 2
+    },
+    {
+      "q": "Perché evitare aiuto in messaggio privato?",
+      "a": "I truffatori si fingono supporto e chiedono codici, documenti o pagamenti. Il supporto vero va aperto dall'app o dal sito ufficiale.",
+      "step": 2
+    },
+    {
+      "q": "Che cos'è il KYC?",
+      "a": "KYC è la verifica dell'identità. La piattaforma controlla chi sei prima di attivare funzioni come deposito, acquisto o prelievo.",
+      "step": 3
+    },
+    {
+      "q": "Quali documenti possono servire?",
+      "a": "Possono servire documento d'identità, selfie, indirizzo o altre informazioni. La lista esatta dipende da Paese, account e piattaforma.",
+      "step": 3
+    },
+    {
+      "q": "Quanto tempo richiede il KYC?",
+      "a": "Non esiste un tempo universale affidabile. Alcuni account passano presto, altri richiedono revisione manuale o documenti aggiuntivi.",
+      "step": 3
+    },
+    {
+      "q": "È sicuro inviare il documento?",
+      "a": "Il rischio zero non esiste, quindi caricalo solo nell'app o nel sito ufficiale. Non inviarlo mai a una persona in chat privata.",
+      "step": 3
+    },
+    {
+      "q": "Posso usare il documento di un'altra persona?",
+      "a": "No. Può bloccare verifica, depositi, prelievi e supporto, oltre a creare problemi legali o fiscali.",
+      "step": 3
+    },
+    {
+      "q": "Perché chiedono la fonte dei fondi?",
+      "a": "La piattaforma può verificare da dove arriva il denaro per controlli interni e conformità. Rispondi solo tramite canali ufficiali con documenti reali.",
+      "step": 3
+    },
+    {
+      "q": "Posso comprare senza KYC?",
+      "a": "Dipende da piattaforma, Paese e prodotto. Se la schermata ufficiale chiede verifica, non provare ad aggirarla con dati falsi.",
+      "step": 3
+    },
+    {
+      "q": "Qual è il minimo per iniziare?",
+      "a": "Il minimo dipende da piattaforma, metodo di pagamento, valuta e asset. Parti con una piccola cifra che rispetti il minimo ufficiale e serva a imparare il percorso.",
+      "step": 4
+    },
+    {
+      "q": "Carta, bonifico o P2P?",
+      "a": "Confronta le opzioni visibili nel conto per commissioni, limiti, intestazione, tempi e possibilità di contestazione. La scelta migliore è quella che capisci davvero.",
+      "step": 4
+    },
+    {
+      "q": "Che cos'è il P2P?",
+      "a": "È uno scambio con un'altra persona mentre la piattaforma trattiene la crypto in escrow. Resta nella schermata dell'ordine e non rilasciare fondi prima di ricevere il pagamento.",
+      "step": 4
+    },
+    {
+      "q": "Perché il deposito è in attesa?",
+      "a": "Può dipendere da banca, controllo del nome, revisione dell'account o manutenzione. Segui lo stato dallo storico ufficiale, non da contatti privati.",
+      "step": 4
+    },
+    {
+      "q": "Posso pagare un conto ricevuto in chat?",
+      "a": "No. Se le coordinate non appaiono nel flusso ufficiale della piattaforma, non pagare.",
+      "step": 4
+    },
+    {
+      "q": "Perché conservare le ricevute?",
+      "a": "Servono a provare deposito, P2P o prelievo se il supporto chiede dettagli. Aiutano anche per il monitoraggio personale e per eventuali obblighi fiscali.",
+      "step": 4
+    },
+    {
+      "q": "Che cos'è un acquisto spot?",
+      "a": "È l'acquisto dell'asset stesso, senza prestito né leva. Per iniziare è più leggibile di futures, margin o derivati.",
+      "step": 5
+    },
+    {
+      "q": "Devo comprare un bitcoin intero?",
+      "a": "No. Spesso puoi comprare una frazione dell'asset se l'importo rispetta il minimo ufficiale.",
+      "step": 5
+    },
+    {
+      "q": "BTC o USDT per iniziare?",
+      "a": "BTC è un asset noto e volatile, mentre USDT mira a seguire il dollaro. Qualunque scelta tu faccia, inizia piccolo e leggi l'anteprima.",
+      "step": 5
+    },
+    {
+      "q": "Che cos'è USDT?",
+      "a": "USDT è una stablecoin progettata per seguire il dollaro statunitense. Esiste su più reti, quindi la rete scelta è importante nei prelievi.",
+      "step": 5
+    },
+    {
+      "q": "Che cos'è lo spread?",
+      "a": "È la differenza tra prezzo di acquisto e prezzo di vendita. Negli strumenti di conversione, il costo può apparire nel prezzo invece che come commissione separata.",
+      "step": 5
+    },
+    {
+      "q": "Perché evitare la leva all'inizio?",
+      "a": "La leva può liquidare una posizione se il prezzo si muove contro di te. Impara prima spot, sicurezza e prelievo.",
+      "step": 5
+    },
+    {
+      "q": "Cosa devo registrare dopo il primo acquisto?",
+      "a": "Data, piattaforma, asset, importo, prezzo, commissioni e ID ordine. Queste informazioni aiutano per supporto, controllo personale e registri fiscali ufficiali.",
+      "step": 5
+    },
+    {
+      "q": "Che cos'è la 2FA?",
+      "a": "È un secondo codice oltre alla password. Un'app di autenticazione è di solito più solida degli SMS.",
+      "step": 6
+    },
+    {
+      "q": "Cos'è il codice anti-phishing?",
+      "a": "È una parola o frase impostata da te che appare nelle email ufficiali. Se non compare, entra dall'app o dal dominio ufficiale invece di cliccare.",
+      "step": 6
+    },
+    {
+      "q": "A cosa serve la whitelist dei prelievi?",
+      "a": "Limita i prelievi agli indirizzi approvati. È una frizione utile se qualcuno ruba l'accesso al conto.",
+      "step": 6
+    },
+    {
+      "q": "Posso tenere crypto sulla piattaforma?",
+      "a": "Un piccolo saldo per imparare può essere pratico, ma dipendi dal conto e dalla piattaforma. Per importi maggiori studia anche i rischi della custodia personale.",
+      "step": 6
+    },
+    {
+      "q": "Devo dare la seed phrase al supporto?",
+      "a": "Mai. La seed phrase dà accesso al wallet; nessun supporto legittimo dovrebbe chiederla.",
+      "step": 6
+    },
+    {
+      "q": "Come riconosco un finto supporto?",
+      "a": "Spesso arriva in messaggio privato e chiede codici, documenti, pagamento o accesso remoto. Apri sempre il ticket dal conto ufficiale.",
+      "step": 6
+    },
+    {
+      "q": "Che succede se una piattaforma va offline?",
+      "a": "Potresti perdere accesso temporaneamente e in casi gravi i prelievi possono essere coinvolti. Per questo servono test di prelievo e saldi non concentrati in un solo posto.",
+      "step": 6
+    },
+    {
+      "q": "Posso prelevare crypto direttamente in banca?",
+      "a": "Di solito la banca riceve valuta fiat, non BTC o USDT. Spesso devi vendere la crypto e poi usare una rotta di prelievo ufficiale.",
+      "step": 7
+    },
+    {
+      "q": "Perché un prelievo fallisce?",
+      "a": "Nome non corrispondente, coordinate errate, minimo non rispettato, manutenzione o revisione conto possono bloccarlo. Leggi il messaggio ufficiale prima di riprovare.",
+      "step": 7
+    },
+    {
+      "q": "Quanto dura un prelievo bancario?",
+      "a": "Non c'è un tempo unico valido per tutti. Piattaforma, banca, valuta, Paese e revisione del conto possono cambiare i tempi.",
+      "step": 7
+    },
+    {
+      "q": "Quali costi può avere un prelievo?",
+      "a": "Possono esserci commissioni di vendita, spread, costi di rete o costi della rotta bancaria. L'anteprima ufficiale del conto è la fonte da leggere al momento.",
+      "step": 7
+    },
+    {
+      "q": "Devo pagare tasse sulle crypto?",
+      "a": "Dipende dal Paese, dall'attività e dalle regole ufficiali. Usa le informazioni dell'autorità fiscale competente o un professionista qualificato.",
+      "step": 7
+    },
+    {
+      "q": "Perché la rete è importante per USDT?",
+      "a": "USDT esiste su più reti. Se rete di uscita e destinatario non corrispondono, i fondi possono essere difficili o impossibili da recuperare.",
+      "step": 7
+    },
+    {
+      "q": "Perché fare un piccolo test di prelievo?",
+      "a": "Verifica indirizzo, rete, banca e processo con un importo limitato. Se c'è un errore, costa meno che con una somma grande.",
+      "step": 7
+    }
+  ]
+}

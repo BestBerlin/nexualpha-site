@@ -1,0 +1,398 @@
+{
+  "locale": "tr",
+  "slug": {
+    "start": "basla",
+    "questions": "sorular",
+    "check": "kontrol"
+  },
+  "labels": {
+    "start": "Başla",
+    "questions": "Sorular",
+    "check": "Kontrol et",
+    "newDoor": "Yeniyim",
+    "traderDoor": "Zaten işlem yapıyorum",
+    "shortAnswer": "Kısa cevap",
+    "steps": "Adımlar",
+    "mistakes": "Yaygın hatalar",
+    "next": "Sonraki adım",
+    "why": "Neden bu seçenek",
+    "official": "Resmi giriş",
+    "country": "İkamet ülkesi",
+    "chooseCountry": "Ülkeni seç",
+    "noChoice": "Uygun seçenek yok; güncel kuralları resmi kaynaktan doğrula.",
+    "backup": "Yedek seçenek",
+    "register": "Kayıt ol",
+    "checkButton": "Bağlantıyı kontrol et",
+    "urlLabel": "Borsa bağlantısını yapıştır",
+    "valid": "Alan adı kayıtlı resmi alanla eşleşiyor; bu, sayfanın güvenli olduğunu tek başına garanti etmez",
+    "invalid": "Kullanma: kayıtlı resmi alan adıyla eşleşmiyor",
+    "unknown": "Mevcut kayıtla doğrulayamıyoruz",
+    "progress": "İlerleme",
+    "complete": "Tamamlandı",
+    "reset": "Sıfırla"
+  },
+  "intro": "İlk kripto alımın için sade bir yol: Türkiye için önce OKX'i, sonra Binance ve Bybit'i kontrol et; resmi girişten kayıt ol, kimlik doğrulamayı tamamla, küçük bir tutarla yatır, spot alım yap, hesabı koru ve para çekmeyi öğren.",
+  "why": [
+    "Türkiye akışında önce OKX gösterilir; yedek olarak yalnızca Binance ve Bybit değerlendirilir.",
+    "Bu liste faaliyet gösterebilen seçenekleri düzenler, lisans onayı veya kişisel hesap uygunluğu garantisi değildir."
+  ],
+  "steps": [
+    {
+      "title": "Tek bir borsa seç",
+      "answer": "Türkiye için önce OKX ile başla; uygun değilse Binance ve Bybit'i sırayla kontrol et. Bu çalışma listesi resmi lisans onayı değildir, bu yüzden kayıt ekranında ülke, ürün, kimlik doğrulama ve para yatırma kurallarını ayrıca doğrula.",
+      "actions": [
+        "Borsayı yalnızca resmi girişten aç ve alan adını kontrol et.",
+        "Türkiye, ürün erişimi, kimlik doğrulama ve para yatırma notlarını hesabın içinde oku.",
+        "İlk alım için tek hesapla ilerle; aynı anda birden fazla uygulamaya para dağıtma."
+      ],
+      "mistakes": [
+        "Bir sosyal medya mesajındaki bağlantıyı resmi giriş sanmak.",
+        "Sadece bonus başlığına bakıp ülke, çekim ve doğrulama kurallarını atlamak."
+      ]
+    },
+    {
+      "title": "Kodla kayıt ol",
+      "answer": "NexuAlpha'nın girişini kullanırsan borsa doğru yönlendirme kodunu alır. Kod, resmi şartlar ve kayıt ekranı destekliyorsa ücret iadesi ya da benzer bir kullanıcı avantajı sağlayabilir; kesin fayda her zaman borsanın güncel koşullarına bağlıdır.",
+      "actions": [
+        "Türkiye akışında önce OKX kayıt girişini, gerekirse Binance veya Bybit yedek girişini kullan.",
+        "E-posta, telefon ya da şifre yazmadan önce alan adının resmi kayıtla eşleştiğini kontrol et.",
+        "Kod veya avantaj görünüyorsa bunu garanti değil, borsanın güncel şartı olarak oku."
+      ],
+      "mistakes": [
+        "Kayıttan sonra kod eklenebileceğini varsaymak.",
+        "Telegram, WhatsApp veya X üzerinden gelen davet bağlantısını kontrol etmeden açmak."
+      ]
+    },
+    {
+      "title": "Kimlik doğrulamayı tamamla",
+      "answer": "KYC, borsanın hesabı gerçek bir kişiyle eşleştirmesidir. Genellikle ad, kimlik belgesi, yüz kontrolü ve bazen ek bilgi ister; süre ve sonuç borsanın kendi incelemesine bağlıdır.",
+      "actions": [
+        "Yalnızca resmi uygulama veya resmi web sitesi içinde belge yükle.",
+        "Kendi adını, kendi telefonunu, kendi e-postanı ve kendi ödeme hesabını kullan.",
+        "Ek bilgi istenirse yanıtı resmi destek kanalından ver."
+      ],
+      "mistakes": [
+        "Kimlik fotoğrafını özel mesajla destek olduğunu söyleyen birine göndermek.",
+        "Başkasının kimliği veya banka hesabıyla ilerleyip çekimde takılmak."
+      ]
+    },
+    {
+      "title": "Küçük bir tutar yatır",
+      "answer": "Para yatırma yöntemi ülkeye ve hesabın ekranına bağlıdır. Türkiye'de görünen resmi seçenekleri oku; kart, üçüncü taraf kanal veya P2P gibi yolların ücret, limit, isim eşleşmesi ve itiraz kuralları farklı olabilir.",
+      "actions": [
+        "Hesap içindeki yatırma ekranında para birimini, minimum tutarı, ücreti ve alıcı bilgisini oku.",
+        "P2P kullanıyorsan yalnızca borsanın emanet sistemi ve sipariş ekranı içinde kal.",
+        "İlk denemeyi küçük tut ve dekontu bakiye gelene kadar sakla."
+      ],
+      "mistakes": [
+        "Özel mesajla gönderilen banka hesabına para yollamak.",
+        "Çekim yolunu anlamadan büyük tutar yatırmak."
+      ]
+    },
+    {
+      "title": "İlk spot alımı yap",
+      "answer": "Spot alım, varlığın kendisini kaldıraç kullanmadan almak demektir. İlk işlemde küçük bir tutarla ilerle, emir önizlemesinde fiyatı, ücreti veya spread'i ve alacağın miktarı görmeden onaylama.",
+      "actions": [
+        "Spot veya dönüştürme ekranını kullan; vadeli, marjin ve perpetual sekmelerinden uzak dur.",
+        "BTC, ETH veya USDT gibi daha kolay araştırılan varlıklarla küçük deneme yap.",
+        "İşlem geçmişinde fiyatı, miktarı ve masrafı kaydet."
+      ],
+      "mistakes": [
+        "İlk işlemde kaldıraç açıp likidasyon riski almak.",
+        "Önizlemeyi okumadan piyasa emrini büyük tutarla göndermek."
+      ]
+    },
+    {
+      "title": "Hesabı güvene al",
+      "answer": "Daha fazla para tutmadan önce hesabın ele geçirilmesini zorlaştır. Uygulama tabanlı 2FA, benzersiz şifre, anti-phishing kodu ve varsa çekim beyaz listesi temel güvenlik katmanlarıdır.",
+      "actions": [
+        "SMS yerine mümkünse kimlik doğrulama uygulamasıyla 2FA kur.",
+        "Anti-phishing kodu belirle ve borsa e-postalarında bu kodu ara.",
+        "Çekim beyaz listesini küçük testlerle ve doğru ağ bilgisiyle kullan."
+      ],
+      "mistakes": [
+        "E-posta şifresiyle aynı şifreyi borsada kullanmak.",
+        "2FA kodunu destek olduğunu söyleyen birine vermek."
+      ]
+    },
+    {
+      "title": "Para çekmeyi öğren",
+      "answer": "Bankaya çekim genellikle kriptoyu yerel para birimine satıp resmi çekim yoluyla göndermek anlamına gelir. Doğrudan banka çekimi yoksa kart, üçüncü taraf veya P2P seçenekleri farklı risk ve ücretlerle görünebilir.",
+      "actions": [
+        "Para birimi, minimum tutar, ücret, alıcı adı ve işlem notlarını resmi çekim ekranında kontrol et.",
+        "Önce küçük bir çekim testi yap ve para gerçekten hesaba geçmeden süreci bitmiş sayma.",
+        "Emir numarası, banka dekontu ve vergi kayıtları için resmi raporları sakla."
+      ],
+      "mistakes": [
+        "USDT'yi yanlış ağdan gönderip kurtarmayı zorlaştırmak.",
+        "P2P işleminde kendi hesabında para görünmeden kriptoyu serbest bırakmak."
+      ]
+    }
+  ],
+  "scams": [
+    {
+      "title": "Sahte destek mesajları",
+      "answer": "Dolandırıcılar borsa görevlisi gibi davranıp şifre, 2FA kodu, kimlik belgesi veya uzaktan erişim isteyebilir. Destek talebini yalnızca resmi uygulama veya resmi web sitesi içinden aç."
+    },
+    {
+      "title": "Sahte uygulamalar",
+      "answer": "Sahte uygulamalar logoyu kopyalar ve giriş bilgilerini çalar. Uygulamayı yalnızca borsanın resmi kaynaklarından veya doğrulanmış mağaza yayıncısından indir."
+    },
+    {
+      "title": "Sahte airdrop'lar",
+      "answer": "Sahte airdrop sayfaları ücretsiz token vaadiyle cüzdan bağlatır, izin imzalatır veya seed phrase ister. Kampanyayı resmi kanaldan doğrulayamıyorsan bağlanma ve imzalama."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Türkiye'de yeni başlayan biri hangi borsayla başlamalı?",
+      "a": "Bu akışta Türkiye için önce OKX, sonra Binance ve Bybit kontrol edilir. Bu sıralama faaliyet gösterebilen seçenekleri düzenler; lisans onayı, hesap kabulü veya ürün erişimi garantisi değildir.",
+      "step": 1
+    },
+    {
+      "q": "Neden Türkiye için Bitget ilk seçenek değil?",
+      "a": "Bu görevde Türkiye akışı OKX, Binance ve Bybit ile sınırlandırılmıştır. Başka bir borsa ancak güncel uygunluk ve ürün kuralları ayrı doğrulanırsa değerlendirilebilir.",
+      "step": 1
+    },
+    {
+      "q": "OKX benim için kesin uygun mu?",
+      "a": "Hayır. Kayıt, kimlik doğrulama, ürün, para yatırma ve çekim uygunluğu hesabın içindeki resmi ekranlarla doğrulanmalıdır.",
+      "step": 1
+    },
+    {
+      "q": "Binance veya Bybit'i ne zaman seçmeliyim?",
+      "a": "OKX hesabında ülke, ürün veya ödeme yöntemi uygun değilse Binance ve Bybit'i yedek olarak kontrol et. Her birinde resmi alan adı, hesap şartı ve çekim yolunu ayrı oku.",
+      "step": 1
+    },
+    {
+      "q": "Borsa listesi lisans onayı anlamına gelir mi?",
+      "a": "Hayır. Liste, başlangıç için bakılacak seçenekleri düzenler; resmi lisans, hesap uygunluğu veya yatırım güvenliği onayı değildir.",
+      "step": 1
+    },
+    {
+      "q": "Tek borsa ile başlamak neden daha iyi?",
+      "a": "İlk hatalar genellikle farklı uygulamalar, ağlar ve hesaplar arasında geçiş yaparken olur. Tek hesapla kayıt, yatırma, spot alım ve çekim sürecini daha net öğrenirsin.",
+      "step": 1
+    },
+    {
+      "q": "Borsa ile cüzdan aynı şey mi?",
+      "a": "Borsa, alım satım ve saklama için şirket hesabıdır. Cüzdan ise özel anahtar veya seed phrase ile varlığı doğrudan kontrol ettiğin yapıdır.",
+      "step": 1
+    },
+    {
+      "q": "Resmi bağlantıyı nasıl kontrol ederim?",
+      "a": "Alan adının kayıtlı resmi alanla eşleşip eşleşmediğine bak. Eşleşme, sayfanın her açıdan güvenli olduğunu garanti etmez; yine de şifre, kod ve belge girmeden önce doğru başlangıç kontrolüdür.",
+      "step": 2
+    },
+    {
+      "q": "Davet kodu dolandırıcılık mı?",
+      "a": "Davet kodu tek başına dolandırıcılık değildir; birçok borsa resmi referans programı kullanır. Risk, sahte alan adı, abartılı vaat veya resmi olmayan sayfada ortaya çıkar.",
+      "step": 2
+    },
+    {
+      "q": "Davet kodu bana ekstra ücret çıkarır mı?",
+      "a": "Normal amaç, kullanıcıya ek maliyet çıkarmadan şartlara bağlı avantaj sağlamaktır. Kesin fayda, oran, süre ve kapsam borsanın güncel şartlarına bağlıdır.",
+      "step": 2
+    },
+    {
+      "q": "Kodu sonradan ekleyebilir miyim?",
+      "a": "Bunu varsayma. Bazı borsalar kodu yalnızca kayıt sırasında kabul eder, bu yüzden hesabı açmadan önce resmi kuralı oku.",
+      "step": 2
+    },
+    {
+      "q": " bağlantısı ne işe yarar?",
+      "a": "NexuAlpha'nın girişi seni kayıtlı borsa yoluna götürmek için kullanılır. Yine de son ekranda alan adını ve görünen kodu kontrol etmelisin.",
+      "step": 2
+    },
+    {
+      "q": "Kod görünmüyorsa kayıt olmalı mıyım?",
+      "a": "Önce dur ve borsanın kodu otomatik uygulayıp uygulamadığını resmi şartlardan kontrol et. Emin değilsen hesap açmadan önce resmi destek kanalına bak.",
+      "step": 2
+    },
+    {
+      "q": "Reklamdaki kayıt bağlantısı güvenli mi?",
+      "a": "Reklam gerçek sayfaya da sahte kopyaya da gidebilir. Alan adını kontrol etmeden e-posta, telefon, şifre veya kimlik bilgisi yazma.",
+      "step": 2
+    },
+    {
+      "q": "KYC nedir?",
+      "a": "KYC, borsanın kim olduğunu doğrulama sürecidir. Genellikle ad, kimlik belgesi, yüz kontrolü ve bazen ek bilgi istenir.",
+      "step": 3
+    },
+    {
+      "q": "KYC ne kadar sürer?",
+      "a": "Tek bir süre söylemek doğru olmaz. Süre belgeye, ülkeye, borsaya ve manuel inceleme gerekip gerekmediğine bağlıdır.",
+      "step": 3
+    },
+    {
+      "q": "Kimlik belgesi yüklemek güvenli mi?",
+      "a": "Sıfır risk yoktur, bu yüzden yalnızca resmi uygulama veya resmi web sitesi içinde yükleme yap. Belgeyi özel mesaj, e-posta eki veya harici forma gönderme.",
+      "step": 3
+    },
+    {
+      "q": "KYC olmadan işlem yapabilir miyim?",
+      "a": "Bu borsaya, ülkeye ve ürüne bağlıdır. Eğer hesap ekranı doğrulama istiyorsa yanlış bilgiyle bunu aşmaya çalışma.",
+      "step": 3
+    },
+    {
+      "q": "Borsa neden ek belge istedi?",
+      "a": "Kimlik, adres, ödeme hesabı veya fon kaynağı hakkında ek kontrol gerekebilir. Yanıtı yalnızca resmi destek veya hesap içi istek üzerinden ver.",
+      "step": 3
+    },
+    {
+      "q": "Başkasının banka hesabını kullanabilir miyim?",
+      "a": "Kullanma. İsim eşleşmesi istenirse yatırma, çekme ve destek süreçleri takılabilir.",
+      "step": 3
+    },
+    {
+      "q": "İlk yatırma tutarı ne olmalı?",
+      "a": "Borsanın minimum tutarını karşılayan küçük bir deneme tutarı seç. Amaç büyük kazanç değil, yatırma ve çekme yolunun çalıştığını görmektir.",
+      "step": 4
+    },
+    {
+      "q": "Kart mı, banka transferi mi, P2P mi?",
+      "a": "Resmi hesap ekranında görünen seçenekleri ücret, limit, isim eşleşmesi ve itiraz süreciyle karşılaştır. En ucuz görünen yol, anlamadığın işlemse iyi seçenek olmayabilir.",
+      "step": 4
+    },
+    {
+      "q": "P2P nedir?",
+      "a": "P2P, başka bir kullanıcıyla işlem yaparken borsanın kriptoyu emanet tuttuğu modeldir. Sipariş ekranı dışına çıkma ve para hesabına geçmeden kriptoyu serbest bırakma.",
+      "step": 4
+    },
+    {
+      "q": "Yatırdığım para neden bekliyor?",
+      "a": "Banka işlemi, hesap incelemesi, isim kontrolü veya borsanın iç kontrolü bekletiyor olabilir. Durumu hesap içindeki resmi kayıt ve destek ekranından takip et.",
+      "step": 4
+    },
+    {
+      "q": "Özel mesajdaki banka hesabına para gönderebilir miyim?",
+      "a": "Hayır. Para yatırma bilgisi resmi borsa ekranında görünmüyorsa o hesaba para göndermek güvenli değildir.",
+      "step": 4
+    },
+    {
+      "q": "Dekont saklamalı mıyım?",
+      "a": "Evet. Yatırma, P2P ve çekim işlemlerinde dekont, emir numarası ve tarih destek veya kayıt ihtiyacında işe yarar.",
+      "step": 4
+    },
+    {
+      "q": "Spot işlem nedir?",
+      "a": "Spot işlem, varlığın kendisini kaldıraç kullanmadan alıp satmaktır. Yeni başlayanlar için vadeli veya marjin işlemden daha anlaşılırdır.",
+      "step": 5
+    },
+    {
+      "q": "İlk alım için BTC mi USDT mi daha iyi?",
+      "a": "İkisi farklı amaçlara hizmet eder: BTC fiyatı daha oynaktır, USDT ise dolar takibi amaçlayan bir stablecoin'dir. Hangisini seçersen seç, önce küçük tutarla emir önizlemesini öğren.",
+      "step": 5
+    },
+    {
+      "q": "USDT nedir?",
+      "a": "USDT, ABD dolarını takip etmek üzere tasarlanan bir stablecoin'dir. Yine de farklı ağlarda bulunur ve yanlış ağla gönderilirse sorun çıkarabilir.",
+      "step": 5
+    },
+    {
+      "q": "Piyasa emri vermek güvenli mi?",
+      "a": "Piyasa emri hızlıdır ama fiyat ve spread değişebilir. İlk denemede küçük tutar kullan ve onay ekranındaki nihai miktarı oku.",
+      "step": 5
+    },
+    {
+      "q": "Vadeli işlem neden yeni başlayan için riskli?",
+      "a": "Vadeli işlem ve kaldıraç, fiyat ters giderse pozisyonun zorla kapanmasına yol açabilir. Önce spot alım, güvenlik ve çekim sürecini öğren.",
+      "step": 5
+    },
+    {
+      "q": "İlk işlem kaydında ne saklamalıyım?",
+      "a": "Tarih, borsa, varlık, miktar, fiyat, ücret ve emir numarasını kaydet. Bu bilgiler destek, kişisel takip ve resmi vergi kayıtları için gerekebilir.",
+      "step": 5
+    },
+    {
+      "q": "2FA nedir?",
+      "a": "2FA, şifrene ek ikinci doğrulama kodudur. Mümkünse SMS yerine kimlik doğrulama uygulaması kullanmak daha sağlam bir seçenektir.",
+      "step": 6
+    },
+    {
+      "q": "Anti-phishing kodu ne işe yarar?",
+      "a": "Borsa e-postalarında sadece senin belirlediğin kodun görünmesini sağlar. Kod yoksa e-postaya tıklamak yerine resmi uygulamadan giriş yap.",
+      "step": 6
+    },
+    {
+      "q": "Çekim beyaz listesi gerekli mi?",
+      "a": "Büyük tutarlar için faydalı bir güvenlik katmanıdır. Sadece önceden onayladığın adreslere çekim yapılmasını sağlar.",
+      "step": 6
+    },
+    {
+      "q": "Şifremi nasıl seçmeliyim?",
+      "a": "E-posta ve diğer sitelerde kullanmadığın güçlü, benzersiz bir şifre seç. Bir parola yöneticisi bu işi daha az hatalı hale getirir.",
+      "step": 6
+    },
+    {
+      "q": "Seed phrase'i borsaya vermeli miyim?",
+      "a": "Hayır. Seed phrase cüzdanın anahtarıdır; borsa desteği, airdrop sayfası veya doğrulama formu bunu istememelidir.",
+      "step": 6
+    },
+    {
+      "q": "Borsa hesabında kripto tutmak güvenli mi?",
+      "a": "Küçük öğrenme bakiyesi pratik olabilir, ama borsa hesabına güvenmiş olursun. Daha büyük ve uzun vadeli tutarlar için saklama riskini ayrıca öğren.",
+      "step": 6
+    },
+    {
+      "q": "Borsa kapanırsa ne olur?",
+      "a": "Geçici kesintide hesaba erişemeyebilirsin; ağır durumda çekimler de etkilenebilir. Bu yüzden küçük testler, güvenlik ayarları ve tek yerde fazla bakiye tutmamak önemlidir.",
+      "step": 6
+    },
+    {
+      "q": "Bankaya doğrudan kripto çekebilir miyim?",
+      "a": "Genellikle bankaya kripto değil, kriptoyu sattıktan sonra yerel para çekilir. Hangi çekim yolunun desteklendiğini resmi hesap ekranı belirler.",
+      "step": 7
+    },
+    {
+      "q": "Çekim neden başarısız olur?",
+      "a": "Yanlış banka bilgisi, isim uyuşmazlığı, limit, bakım, inceleme veya desteklenmeyen yöntem sorun çıkarabilir. Önce resmi hata mesajını ve işlem kaydını oku.",
+      "step": 7
+    },
+    {
+      "q": "Banka çekimi ne kadar sürer?",
+      "a": "Tek bir süre vaat etmek doğru değildir. Borsa, banka, para birimi, ülke ve inceleme durumuna göre değişir.",
+      "step": 7
+    },
+    {
+      "q": "Çekimde hangi ücretleri öderim?",
+      "a": "Satışta işlem ücreti veya spread, çekimde ise rota ücreti olabilir. Güncel tutar için hesap içindeki resmi önizlemeyi esas al.",
+      "step": 7
+    },
+    {
+      "q": "Kripto için vergi ödemem gerekir mi?",
+      "a": "Vergi durumu ülkeye ve işlem türüne bağlıdır. Türkiye için resmi vergi idaresi duyurularını ve yetkin bir vergi uzmanını esas al; borsa yazısı tek başına vergi tavsiyesi değildir.",
+      "step": 7
+    },
+    {
+      "q": "USDT gönderirken ağ neden önemli?",
+      "a": "USDT birden fazla ağda bulunur. Çıkış ağı ile alıcı tarafın desteklediği ağ aynı değilse fonu geri almak zor veya imkansız olabilir.",
+      "step": 7
+    },
+    {
+      "q": "Küçük test çekimi neden önerilir?",
+      "a": "Çünkü adres, ağ, banka bilgisi ve işlem süreci gerçek parayla doğrulanır. Küçük hata, büyük tutarda aynı hatayı yapmaktan daha az zararlıdır.",
+      "step": 7
+    },
+    {
+      "q": "Sahte destek mesajını nasıl tanırım?",
+      "a": "Özel mesajda şifre, 2FA, kimlik, uzaktan erişim veya ödeme isteyen kişi güvenilmezdir. Resmi destek talebini borsa hesabının içinden aç.",
+      "step": 6
+    },
+    {
+      "q": "Sahte uygulamadan nasıl kaçınırım?",
+      "a": "Uygulama adını aramak yerine borsanın resmi app sayfasından veya doğrulanmış yayıncıdan ilerle. APK dosyası ya da sohbet bağlantısı kullanma.",
+      "step": 6
+    },
+    {
+      "q": "Airdrop bağlantısına cüzdan bağlamalı mıyım?",
+      "a": "Resmi kampanyayı doğrulayamıyorsan bağlama. Ücretsiz token vaadiyle imza, onay veya seed phrase isteyen sayfalar özellikle risklidir.",
+      "step": 6
+    },
+    {
+      "q": "İlk alımdan sonra en mantıklı adım nedir?",
+      "a": "Hesabı güvene al, işlem kaydını sakla ve küçük bir çekim testi yap. Bu tamamlanmadan daha büyük tutara geçmek gereksiz risk yaratır.",
+      "step": 7
+    }
+  ]
+}

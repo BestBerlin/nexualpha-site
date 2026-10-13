@@ -1,3 +1,4 @@
+import { GlossaryTooltip } from "../shared/GlossaryTooltip.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 // Venue detail "Sources" hub: account and costs (quick registration, rebate card, metrics, calculator, fee matrix,
 // pre-registration decision notes), sources and security (proof of reserves, anti-phishing, research panel, official
@@ -996,7 +997,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
           </div>
           {db.maxLeverage && db.leverageCheckedAt && (
           <div className="v3-metric-tile">
-              <span className="v3-metric-tile__label">{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</span>
+              <span className="v3-metric-tile__label"><GlossaryTooltip term="leverage" locale={locale}>{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</GlossaryTooltip></span>
               <strong className="v3-metric-tile__val text-gold" translate="no">{maxLev}</strong>
               <span className="v3-metric-tile__sub">{isZhLocale ? "以官方产品条款为准" : runtimeUi.productTerms}</span>
             </div>

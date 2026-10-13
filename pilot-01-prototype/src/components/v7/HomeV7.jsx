@@ -1,3 +1,5 @@
+import { beginnerPath } from "../../data/beginner-routes.js";
+import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
@@ -182,6 +184,10 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
 
   return (
     <div className="h7" data-rendered-at={renderedAt} {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
+      <nav className="h7-in h7-doors" aria-label="NexuAlpha">
+        <a href={localizedHref(beginnerPath("start", locale), { locale })}>{(BEGINNER_DOORS[locale] || BEGINNER_DOORS.en)[0]}</a>
+        <a href={localizedHref("/funding-rates", { locale })}>{(BEGINNER_DOORS[locale] || BEGINNER_DOORS.en)[1]}</a>
+      </nav>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})} {...(banned ? { "data-neutral": "" } : {})}>
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">

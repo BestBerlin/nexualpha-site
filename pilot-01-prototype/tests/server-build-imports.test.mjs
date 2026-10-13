@@ -22,7 +22,7 @@ test("every src/data module the worker imports (transitively) is shipped with th
     for (const m of src.matchAll(/^\s*(?:import|export)[^"'`;]*?from\s*["'](\.{1,2}\/[^"']+)["']/gm)) {
       const target = path.resolve(path.dirname(file), m[1]);
       if (!target.includes(`${path.sep}src${path.sep}data${path.sep}`)) continue;
-      assert.ok(shipped.has(path.basename(target)) || Boolean(shippedByPattern?.test(path.basename(target))), `${path.relative(root, file)} imports ${path.basename(target)}, which prepare-sites-build.mjs does not ship`);
+      assert.ok(shipped.has(path.basename(target)) || Boolean(shippedByPattern?.test(path.basename(target))) || (prepare.includes('cpSync(path.join(root, "src", "data", "beginner-copy")') && path.dirname(target) === path.join(root, "src", "data", "beginner-copy") && /\.json$/.test(target)), `${path.relative(root, file)} imports ${path.basename(target)}, which prepare-sites-build.mjs does not ship`);
       visit(target);
     }
   };

@@ -1,0 +1,17 @@
+.nxb {max-width:960px;padding-block:36px 96px;color:var(--text,#eceef2);line-height:1.7;overflow-wrap:anywhere}
+.nxb header {border-block-end:1px solid #353c46;padding-block:24px;margin-block-end:24px}
+.nxb h1 {font-size:clamp(1.8rem,4vw,3rem);line-height:1.2;letter-spacing:-.03em}
+.nxb h2 {font-size:1.3rem;line-height:1.4;margin-block:22px 12px}
+.nxb-lead {max-width:70ch;font-size:1.1rem}.nxb-eyebrow {color:#98a3ad;font-size:.8rem;letter-spacing:.08em}
+.nxb-nav,.nxb-apps {display:flex;flex-wrap:wrap;gap:16px}.nxb a {color:#73e6cb;text-underline-offset:4px}
+.nxb section,.nxb-path>li,.nxb-faq article {border-block-end:1px solid #353c46;padding-block:12px 24px}
+.nxb-path {padding-inline-start:24px}.nxb-path a {font-size:1.2rem}.nxb li {margin-block:8px}
+.nxb input,.nxb select,.nxb button {font:inherit;color:inherit;background:#141b23;border:1px solid #596776;border-radius:4px;padding:10px 14px;max-width:100%}
+.nxb input {display:block;width:100%;box-sizing:border-box;margin-block:10px}.nxb-country {display:grid;gap:10px;margin-block:24px}
+.nxb-action {display:inline-block;border:1px solid #73e6cb;padding:10px 18px;border-radius:4px;min-height:24px}
+.nxb button {cursor:pointer}.nxb progress {width:100%;accent-color:#73e6cb}.nxb code {font-size:1.1rem}
+.nxb :is(a,input,select,button):focus-visible {outline:2px solid #73e6cb;outline-offset:4px}
+@media(max-width:600px){.nxb{padding-inline:20px}.nxb-nav{gap:12px}.nxb li{padding-inline-start:4px}}
+/* Native select options must not impose their intrinsic width on the mobile grid. */
+.nxb-country{min-width:0;grid-template-columns:minmax(0,1fr)}
+.nxb select{width:100%;min-width:0;box-sizing:border-box}

@@ -1,0 +1,19 @@
+{
+ "en": ["how to buy bitcoin", "is a crypto exchange safe", "can I use Binance in my country", "minimum amount to buy bitcoin", "how to withdraw crypto to my bank", "is a referral code a scam"],
+ "zh-hans": ["怎么买比特币", "交易所安全吗", "我所在国家能用币安吗", "买比特币最低多少钱", "怎么提现到银行卡", "邀请码是骗局吗"],
+ "es": ["cómo comprar bitcoin", "es segura una plataforma cripto", "puedo usar Binance en mi país", "cantidad mínima para comprar bitcoin", "cómo retirar a mi banco", "un código de invitación es una estafa"],
+ "pt-br": ["como comprar bitcoin", "uma corretora cripto é segura", "posso usar Binance no meu país", "valor mínimo para comprar bitcoin", "como sacar para minha conta bancária", "código de indicação é golpe"],
+ "id": ["cara membeli bitcoin", "apakah exchange kripto aman", "bisa pakai Binance di negara saya", "minimum uang untuk membeli bitcoin", "cara menarik dana ke rekening bank", "apakah kode referral penipuan"],
+ "tr": ["bitcoin nasıl alınır", "kripto borsası güvenli mi", "Türkiye'de Binance kullanabilir miyim", "bitcoin almak için minimum tutar", "bankaya nasıl para çekilir", "referans kodu dolandırıcılık mı"],
+ "ko": ["비트코인 사는 방법", "암호화폐 거래소 안전한가요", "한국에서 바이낸스를 쓸 수 있나요", "비트코인 최소 구매 금액", "은행 계좌로 출금하는 방법", "추천 코드 사기인가요"],
+ "ja": ["ビットコインの買い方", "暗号資産取引所は安全か", "日本でBinanceは使えるか", "ビットコインの最低購入額", "銀行口座への出金方法", "紹介コードは詐欺か"],
+ "fr": ["comment acheter du bitcoin", "une plateforme crypto est-elle sûre", "puis-je utiliser Binance dans mon pays", "montant minimum pour acheter du bitcoin", "comment retirer vers ma banque", "un code de parrainage est-il une arnaque"],
+ "de": ["wie kaufe ich Bitcoin", "ist eine Kryptobörse sicher", "kann ich Binance in meinem Land nutzen", "Mindestbetrag für Bitcoin", "wie zahle ich auf mein Bankkonto aus", "ist ein Empfehlungscode Betrug"],
+ "it": ["come comprare bitcoin", "un exchange crypto è sicuro", "posso usare Binance nel mio paese", "importo minimo per comprare bitcoin", "come prelevare sul conto bancario", "un codice invito è una truffa"],
+ "ru": ["как купить биткоин", "безопасна ли криптобиржа", "доступен ли Binance в моей стране", "минимальная сумма покупки биткоина", "как вывести деньги в банк", "как распознать мошеннический код"],
+ "ar": ["كيف أشتري بيتكوين", "هل منصة العملات الرقمية آمنة", "هل Binance متاح في بلدي", "الحد الأدنى لشراء بيتكوين", "كيف أسحب إلى حسابي البنكي", "كيف أكتشف رمزاً احتيالياً"],
+ "zh-hant": ["怎麼買比特幣", "交易所安全嗎", "我的國家能用幣安嗎", "買比特幣最低多少錢", "怎麼提領到銀行帳戶", "如何辨識詐騙代碼"],
+ "ur": ["بٹ کوائن کیسے خریدیں", "کیا کرپٹو ایکسچینج محفوظ ہے", "کیا میرے ملک میں Binance دستیاب ہے", "بٹ کوائن خریدنے کی کم از کم رقم", "بینک میں رقم کیسے نکالیں", "جعلی کوڈ کو کیسے پہچانیں"],
+ "uk": ["як купити біткоїн", "чи безпечна криптобіржа", "чи доступна Binance у моїй країні", "мінімальна сума купівлі біткоїна", "як вивести кошти в банк", "як розпізнати шахрайський код"],
+ "vi": ["cách mua bitcoin", "sàn tiền mã hóa có an toàn không", "Binance có được dùng ở nước tôi không", "số tiền tối thiểu để mua bitcoin", "cách rút tiền về ngân hàng", "cách nhận biết mã lừa đảo"]
+}

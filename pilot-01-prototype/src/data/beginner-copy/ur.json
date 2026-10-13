@@ -1,0 +1,398 @@
+{
+  "locale": "ur",
+  "slug": {
+    "start": "shuru",
+    "questions": "sawal",
+    "check": "jaanch"
+  },
+  "labels": {
+    "start": "یہاں سے شروع کریں",
+    "questions": "سوالات",
+    "check": "لنک کی جانچ",
+    "newDoor": "میں نیا ہوں",
+    "traderDoor": "میں پہلے سے ٹریڈ کرتا ہوں",
+    "shortAnswer": "مختصر جواب",
+    "steps": "مراحل",
+    "mistakes": "عام غلطیاں",
+    "next": "اگلا مرحلہ",
+    "why": "یہ انتخاب کیوں",
+    "official": "سرکاری راستہ",
+    "checkButton": "لنک چیک کریں",
+    "urlLabel": "ایکسچینج لنک پیسٹ کریں",
+    "country": "رہائش کا ملک",
+    "chooseCountry": "ملک منتخب کریں",
+    "noChoice": "موجودہ ریکارڈ میں کوئی اہل venue نہیں ملا۔ اکاؤنٹ کھولنے سے پہلے سرکاری قواعد چیک کریں۔",
+    "backup": "متبادل آپشن",
+    "register": "اکاؤنٹ کی ترتیب کی معلومات",
+    "valid": "ڈومین صرف سرکاری رجسٹری سے میل کھاتا ہے",
+    "invalid": "یہ لنک استعمال نہ کریں",
+    "unknown": "نامعلوم لنک",
+    "progress": "پیش رفت",
+    "complete": "مکمل",
+    "reset": "دوبارہ شروع"
+  },
+  "intro": "پہلی crypto خریداری کے لئے ایک معلوماتی راستہ: ایک قابل تصدیق ایکسچینج منتخب کریں، سرکاری راستہ سمجھیں، اکاؤنٹ کی ضروریات پڑھیں، شناخت، ڈپازٹ، spot خریداری، سیکیورٹی اور withdrawal کو اصل رقم بھیجنے سے پہلے سمجھیں۔",
+  "why": [
+    "یہ اردو راستہ غیر جانبدار اور معلوماتی ہے، اس میں کسی کوڈ، signup offer یا کمیشن کی ترجیح نہیں دی جاتی۔",
+    "عملی انتخاب آپ کے ملک، ایکسچینج کی سرکاری شرائط، اکاؤنٹ اسکرین، اور استعمال کے وقت دکھائی دینے والی پابندیوں پر منحصر ہے۔"
+  ],
+  "scams": [
+    {
+      "title": "نجی پیغام میں جعلی سپورٹ",
+      "answer": "حقیقی سپورٹ ایکسچینج کی سرکاری ایپ یا ویب سائٹ کے اندر سے شروع ہونی چاہیے۔ جو شخص نجی پیغام میں پاس ورڈ، 2FA کوڈ، شناختی دستاویز، ریموٹ ایکسس یا seed phrase مانگے، اسے خطرہ سمجھیں۔"
+    },
+    {
+      "title": "جعلی ایپس",
+      "answer": "جعلی ایپس لوگو اور login page کی نقل بنا کر اکاؤنٹ چوری کر سکتی ہیں۔ ایپ صرف اس ذریعہ سے لیں جسے ایکسچینج سرکاری طور پر بتائے یا verified app-store publisher سے لیں۔"
+    },
+    {
+      "title": "جعلی airdrops",
+      "answer": "جعلی airdrop مفت token کا وعدہ کر کے wallet connect، spending approval، fee payment یا seed phrase مانگتا ہے۔ Campaign کو صرف سرکاری چینلز سے چیک کریں اور secrets مانگنے والا page بند کر دیں۔"
+    }
+  ],
+  "steps": [
+    {
+      "title": "ایک قابل تصدیق ایکسچینج منتخب کریں",
+      "answer": "ایسی ایکسچینج سے شروع کریں جو آپ کے ملک کو قبول کرتی ہو، سرکاری domain دکھاتی ہو، اور KYC، deposit، withdrawal کے بارے میں واضح معلومات دیتی ہو۔ مقصد کئی جگہ اکاؤنٹ بنانا نہیں بلکہ ایک official path کو سمجھنا ہے۔",
+      "actions": [
+        "ایکسچینج کی معلوماتی page پر venue name، official domain، restricted region note، proof of reserves اگر موجود ہو، اور fiat options دیکھیں۔",
+        "Deposit plan بنانے سے پہلے چیک کریں کہ account screen آپ کے ملک یا مطلوبہ product کو reject نہیں کر رہی۔",
+        "اگر service آپ کے market کے لئے unavailable دکھائے تو social media mirror استعمال کرنے کے بجائے رک جائیں اور دوسرا official candidate دیکھیں۔"
+      ],
+      "mistakes": [
+        "یہ جانے بغیر کئی accounts کھولنا کہ کون سی exchange آپ کا ملک اور payment method قبول کرتی ہے۔",
+        "Domain، restrictions، security اور withdrawal پڑھے بغیر advertisement یا reward promise پر انتخاب کرنا۔"
+      ]
+    },
+    {
+      "title": "Account setup اور codes کو سمجھیں",
+      "answer": "یہ step صرف تعلیمی ہے: کچھ exchanges code field یا referral program دکھاتی ہیں، مگر ان کا مطلب، فائدہ اور شرطیں صرف official terms بتاتی ہیں۔ کسی code یا benefit کو fact نہ سمجھیں جب تک official page اور terms اسے واضح نہ کریں۔",
+      "actions": [
+        "Email، phone یا password ڈالنے سے پہلے account creation screen پڑھیں کہ کون سی معلومات مانگی جا رہی ہیں۔",
+        "Personal data لکھنے سے پہلے final domain اور platform name verify کریں۔",
+        "اگر code یا offer دکھے تو اس کی official terms پڑھیں اور chat group کی explanation پر انحصار نہ کریں۔"
+      ],
+      "mistakes": [
+        "Private message سے ملا random code کسی غیر تصدیق شدہ page میں ڈالنا۔",
+        "یہ سمجھنا کہ ہر code ہر ملک یا product میں ایک جیسا discount یا benefit دیتا ہے۔"
+      ]
+    },
+    {
+      "title": "KYC کو آسان الفاظ میں مکمل کریں",
+      "answer": "KYC کا مطلب ہے exchange یہ چیک کرتی ہے کہ account ایک حقیقی قانونی identity سے match کرتا ہے۔ عموما identity document، face check، اور کبھی address یا source of funds کی معلومات مانگی جا سکتی ہیں؛ status اور timing exchange کے مطابق ہوتے ہیں۔",
+      "actions": [
+        "Documents صرف official app یا website میں upload کریں اور پہلے domain چیک کریں۔",
+        "اپنا legal name، اپنی contact method، اور ضرورت ہو تو اپنے نام کا payment method استعمال کریں۔",
+        "اگر extra information مانگی جائے تو صرف account کے اندر official support route سے جواب دیں۔"
+      ],
+      "mistakes": [
+        "Telegram، WhatsApp یا X پر support بننے والے شخص کو passport یا ID photo بھیجنا۔",
+        "کسی اور کی identity یا bank account استعمال کرنا اور بعد میں name match یا withdrawal میں پھنس جانا۔"
+      ]
+    },
+    {
+      "title": "Available deposit routes سمجھیں",
+      "answer": "Safe deposit route آپ کے ملک اور official account screen پر منحصر ہے۔ اگر local bank transfer دکھے تو official instructions پڑھیں، ورنہ card، third-party gateway یا P2P کو fees، limits، name match اور dispute process کے لحاظ سے compare کریں۔",
+      "actions": [
+        "Verified account میں deposit page کھولیں اور local currency اگر دکھے تو اسے منتخب کریں۔",
+        "Payment سے پہلے minimum amount، fee، payment method، processing note، اور sender-name rule پڑھیں۔",
+        "P2P میں exchange escrow screen کے اندر رہیں اور order complete ہونے تک payment proof سنبھال کر رکھیں۔"
+      ],
+      "mistakes": [
+        "Official deposit flow کے بجائے private message میں بھیجے گئے bank account کو پیسے بھیجنا۔",
+        "یہ چیک کئے بغیر cheapest route چننا کہ account name KYC name سے match ہونا چاہیے یا نہیں۔"
+      ]
+    },
+    {
+      "title": "پہلی spot خریداری چھوٹی رکھیں",
+      "answer": "Learning کے لئے spot یا convert میں ایک چھوٹی رقم استعمال کریں جس کا risk آپ سمجھ سکیں۔ Confirm کرنے سے پہلے asset، payment currency، quoted price، fee یا spread، اور final amount نظر آنا چاہیے۔",
+      "actions": [
+        "BTC، ETH یا stablecoin جیسے بڑے assets بھی order preview پڑھنے کے بعد ہی منتخب کریں۔",
+        "Small amount سے شروع کریں، spot یا convert استعمال کریں، اور liquidation سمجھنے تک leverage سے بچیں۔",
+        "Order record محفوظ کریں تاکہ later buy price، fee اور asset balance دیکھ سکیں۔"
+      ],
+      "mistakes": [
+        "First purchase کے طور پر futures، margin، copy trading یا leveraged product کھولنا۔",
+        "یہ دیکھے بغیر buy دبانا کہ quote میں spread، fee یا different currency شامل ہے یا نہیں۔"
+      ]
+    },
+    {
+      "title": "Account secure کریں",
+      "answer": "پہلا security goal یہ ہے کہ account takeover مشکل ہو۔ Authenticator app 2FA، anti-phishing code اگر available ہو، اور withdrawal whitelist استعمال کریں، خاص طور پر meaningful balance رکھنے سے پہلے۔",
+      "actions": [
+        "اگر exchange support کرے تو SMS کے بجائے authenticator app استعمال کریں۔",
+        "Anti-phishing code set کریں تاکہ official emails میں آپ کا منتخب لفظ دکھائی دے۔",
+        "Withdrawal whitelist addresses آہستہ add کریں اور پہلے small transfer سے test کریں۔"
+      ],
+      "mistakes": [
+        "Email password کو exchange password کے طور پر دوبارہ استعمال کرنا۔",
+        "Whitelist اور anti-phishing کو اس وقت تک چھوڑ دینا جب account میں بڑا balance آ جائے۔"
+      ]
+    },
+    {
+      "title": "Bank یا wallet withdrawal سمجھیں",
+      "answer": "Bank withdrawal عام طور پر crypto یا stablecoin کو fiat میں بیچ کر account میں supported bank route سے بھیجنے کا نام ہے۔ اگر direct bank withdrawal نہیں دکھتا تو card، third party یا P2P options مختلف fees اور risks کے ساتھ آ سکتے ہیں۔",
+      "actions": [
+        "Official withdrawal page پر currency، minimum amount، fee، اور recipient-name rule چیک کریں۔",
+        "بڑی رقم منتقل کرنے سے پہلے small withdrawal test کریں۔",
+        "Exchange order ID، bank receipt، اور official statements اپنی record keeping یا qualified adviser کے لئے محفوظ رکھیں۔"
+      ],
+      "mistakes": [
+        "Exchange اور bank processing notes پڑھے بغیر same-day arrival assume کرنا۔",
+        "Platform سے باہر buyer پر اعتماد کرنا جو money clear ہونے سے پہلے crypto release کرنے کو کہے۔"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Beginner پہلے کون سی exchange استعمال کرے؟",
+      "a": "ایک ایسی exchange منتخب کریں جو آپ کے ملک میں available ہو، official domain واضح ہو، اور KYC، deposit، withdrawal سمجھاتی ہو۔ یہ neutral path کسی code یا promotional offer کو recommend نہیں کرتا، صرف checks سکھاتا ہے۔",
+      "step": 1
+    },
+    {
+      "q": "کیا یہاں exchange order commercial priority ہے؟",
+      "a": "نہیں۔ اردو version information-only ہے اور signup codes، referral push یا promotional ranking استعمال نہیں کرتا۔",
+      "step": 1
+    },
+    {
+      "q": "کیا میں اپنے ملک میں Binance یا دوسری exchange استعمال کر سکتا ہوں؟",
+      "a": "Account کھولنے سے پہلے official country اور product notices اپنی location اور account کے مطابق چیک کریں۔ Access، products، fiat routes اور KYC approval ملک کے حساب سے بدل سکتے ہیں۔",
+      "step": 1
+    },
+    {
+      "q": "کیا licence safety guarantee ہے؟",
+      "a": "نہیں۔ Licence یا registration useful context ہو سکتا ہے، مگر account approval، investment safety، product availability یا bank withdrawal success کی guarantee نہیں۔",
+      "step": 1
+    },
+    {
+      "q": "Proof of reserves کیا ہے؟",
+      "a": "یہ exchange کی public report ہے کہ customer balances کے مقابلے میں assets رکھے گئے ہیں۔ یہ ایک trust signal ہے، مگر withdrawal، security، fees اور local eligibility بھی چیک کریں۔",
+      "step": 1
+    },
+    {
+      "q": "کیا شروع میں بہت سے exchange accounts کھولنے چاہئیں؟",
+      "a": "شروع میں نہیں۔ ایک official path منتخب کریں، deposit اور withdrawal سیکھیں، پھر دوسری exchange تب add کریں جب practical reason واضح ہو۔",
+      "step": 1
+    },
+    {
+      "q": "Exchange account اور wallet میں کیا فرق ہے؟",
+      "a": "Exchange account میں crypto company-managed account کے اندر buy، sell اور hold ہوتی ہے۔ Self-custody wallet میں keys آپ کے پاس ہوتی ہیں، مگر protection اور recovery بھی آپ کی responsibility ہوتی ہے۔",
+      "step": 1
+    },
+    {
+      "q": "کیا referral code scam ہے؟",
+      "a": "Referral code خود بخود scam نہیں، کیونکہ کچھ exchanges official referral programs چلاتی ہیں۔ Risk fake link، unofficial page، یا official terms میں نہ لکھے benefit promise سے آتا ہے۔",
+      "step": 2
+    },
+    {
+      "q": "کیا referral code مجھے extra cost کرتا ہے؟",
+      "a": "Normal official referral code کو account پر extra fee نہیں لگانی چاہیے۔ Benefit ہو یا نہ ہو، یہ exchange terms اور official signup screen پر منحصر ہے۔",
+      "step": 2
+    },
+    {
+      "q": "کیا signup کے بعد code add ہو سکتا ہے؟",
+      "a": "Assume کریں کہ code registration کے وقت ہی apply ہوتا ہے جب تک official rules کچھ اور نہ کہیں۔ اگر account بن چکا ہے تو account کے اندر official support سے پوچھیں، stranger workaround پر نہیں۔",
+      "step": 2
+    },
+    {
+      "q": "Account setup سے پہلے official entry کیوں check کریں؟",
+      "a": "Entry check کرنے سے email، phone یا password لکھنے سے پہلے fake pages سے بچنے میں مدد ملتی ہے۔ Domain match ہر چیز prove نہیں کرتا، مگر sensitive data سے پہلے ایک practical check ہے۔",
+      "step": 2
+    },
+    {
+      "q": "App استعمال کروں یا website؟",
+      "a": "دونوں ٹھیک ہو سکتے ہیں اگر source official ہو۔ App صرف exchange کی official source یا verified app-store publisher سے لیں، chat group file سے نہیں۔",
+      "step": 2
+    },
+    {
+      "q": "Final page مختلف لگے تو کیا کروں؟",
+      "a": "رک جائیں اور domain، venue name، اور مانگی گئی information چیک کریں۔ شک رہے تو official exchange site پر واپس جائیں یا link checker استعمال کریں۔",
+      "step": 2
+    },
+    {
+      "q": "KYC کا کیا مطلب ہے؟",
+      "a": "KYC یعنی Know Your Customer، جس میں account owner کی identity verify ہوتی ہے۔ Exchanges اسے compliance، limits اور features کے لئے استعمال کرتی ہیں۔",
+      "step": 3
+    },
+    {
+      "q": "KYC میں کون سی documents لگتی ہیں؟",
+      "a": "عام طور پر legal name، date of birth، identity document اور face check مانگا جاتا ہے۔ Exact requirements exchange اور country کے مطابق ہوتی ہیں، اس لئے official verification screen follow کریں۔",
+      "step": 3
+    },
+    {
+      "q": "KYC کتنا وقت لیتا ہے؟",
+      "a": "ہر account کے لئے ایک fixed time نہیں ہوتا۔ Exchange، queue، document clarity اور additional review اس duration کو بدل سکتے ہیں۔",
+      "step": 3
+    },
+    {
+      "q": "کیا KYC privacy risk ہے؟",
+      "a": "آپ sensitive data share کرتے ہیں، اس لئے صرف official app یا website میں submit کریں اور privacy policy پڑھیں۔ Private-message support کو documents نہ بھیجیں۔",
+      "step": 3
+    },
+    {
+      "q": "کیا family member کی ID استعمال ہو سکتی ہے؟",
+      "a": "ایسا نہ کریں جب تک exchange کسی specific account structure کو officially allow نہ کرے۔ Identity، bank account اور account owner mismatch deposit، withdrawal اور recovery کو مشکل بنا سکتا ہے۔",
+      "step": 3
+    },
+    {
+      "q": "KYC reject ہو جائے تو کیا کریں؟",
+      "a": "Account میں official reason پڑھیں اور photo، data یا documents instructions کے مطابق درست کریں۔ Internal route یا paid bypass offer کرنے والوں سے بچیں۔",
+      "step": 3
+    },
+    {
+      "q": "First deposit کا best method کیا ہے؟",
+      "a": "وہ method استعمال کریں جو آپ کے official account میں واقعی دکھ رہا ہو اور آپ کے country کے مطابق ہو۔ Learning کے لئے small amount اور clear record والا route بہتر ہے۔",
+      "step": 4
+    },
+    {
+      "q": "کیا P2P beginner کے لئے safe ہے؟",
+      "a": "P2P زیادہ safe ہوتا ہے جب آپ exchange escrow اور official chat میں رہیں۔ Platform سے باہر نہ جائیں، money receive ہونے سے پہلے asset release نہ کریں، اور proof محفوظ رکھیں۔",
+      "step": 4
+    },
+    {
+      "q": "Minimum کتنے پیسے سے شروع کر سکتا ہوں؟",
+      "a": "Minimum amount exchange، currency اور payment method کے حساب سے بدلتا ہے۔ Official order page پر number پڑھیں اور learning کے لئے small start کریں۔",
+      "step": 4
+    },
+    {
+      "q": "USDT deposit میں network کیوں چننا پڑتا ہے؟",
+      "a": "USDT کئی networks پر چل سکتا ہے اور sending اور receiving network match ہونے چاہئیں۔ Wrong network delay، loss of access یا difficult support process پیدا کر سکتا ہے۔",
+      "step": 4
+    },
+    {
+      "q": "Card reject ہو جائے تو کیا کروں؟",
+      "a": "Exchange یا bank کا official message پڑھیں کہ card، country یا method supported ہے یا نہیں۔ Private top-up service استعمال نہ کریں، account میں دکھتا official alternative دیکھیں۔",
+      "step": 4
+    },
+    {
+      "q": "Received balance payment سے کم کیوں ہے؟",
+      "a": "فرق fees، spread، exchange rate یا P2P seller price کی وجہ سے ہو سکتا ہے۔ Confirm سے پہلے expected receive، cost، currency اور offered price پڑھیں۔",
+      "step": 4
+    },
+    {
+      "q": "First buy BTC، ETH یا USDT میں ہو؟",
+      "a": "Learning کے لئے چھوٹی رقم کسی major asset یا stablecoin میں سمجھنا آسان ہو سکتا ہے۔ Asset choice profit promise نہیں، اصل مقصد spot order، balance اور fees سمجھنا ہے۔",
+      "step": 5
+    },
+    {
+      "q": "Spot اور futures میں فرق کیا ہے؟",
+      "a": "Spot میں آپ asset buy یا sell کرتے ہیں جو account balance میں دکھتا ہے۔ Futures derivative product ہے جس میں margin اور liquidation risk ہوتا ہے، اس لئے first buy کے لئے ضروری نہیں۔",
+      "step": 5
+    },
+    {
+      "q": "Market order یا limit order؟",
+      "a": "Market order available market price پر fast execution کو prefer کرتا ہے۔ Limit order آپ کی chosen price استعمال کرتا ہے، مگر market وہاں نہ پہنچے تو fill نہیں ہو سکتا۔",
+      "step": 5
+    },
+    {
+      "q": "Trading fees کہاں دیکھوں؟",
+      "a": "Order preview عموما confirmation سے پہلے estimated fee یا spread دکھاتا ہے۔ Execution کے بعد order history اور official fee page پر actual amount دیکھیں۔",
+      "step": 5
+    },
+    {
+      "q": "Buy کے بعد value کیوں بدلتی رہتی ہے؟",
+      "a": "Crypto prices مسلسل move کرتے ہیں، اس لئے fiat یا USDT value بھی بدلتی ہے۔ Coin quantity same رہ سکتی ہے مگر estimated value اوپر نیچے ہو سکتی ہے۔",
+      "step": 5
+    },
+    {
+      "q": "غلط coin خرید لیا تو کیا کروں؟",
+      "a": "اگر spot trade ہے تو عموما sell یا swap کر سکتے ہیں، مگر price movement اور fees apply ہوں گی۔ Stranger recovery links نہ کھولیں، official order history پہلے دیکھیں۔",
+      "step": 5
+    },
+    {
+      "q": "2FA کیا ہے؟",
+      "a": "2FA یعنی two-factor authentication، password کے علاوہ login یا withdrawal میں extra code۔ Authenticator app عموما SMS-only سے بہتر ہے کیونکہ phone number کے اپنے risks ہوتے ہیں۔",
+      "step": 6
+    },
+    {
+      "q": "Anti-phishing code کا فائدہ کیا ہے؟",
+      "a": "Anti-phishing code official exchange emails میں آپ کا chosen word دکھاتا ہے۔ اگر code نہ ہو یا link عجیب لگے تو email button کے بجائے official app یا bookmark سے account کھولیں۔",
+      "step": 6
+    },
+    {
+      "q": "Withdrawal whitelist on کرنی چاہیے؟",
+      "a": "Exchange support کرے تو whitelist withdrawals کو approved addresses تک محدود کرتی ہے۔ Setup میں وقت لگتا ہے مگر stolen account سے فوری asset movement کا risk کم ہو سکتا ہے۔",
+      "step": 6
+    },
+    {
+      "q": "Exchange password کیسے بناؤں؟",
+      "a": "Exchange کے لئے long unique password رکھیں اور email یا social accounts سے reuse نہ کریں۔ Password manager میں save کریں اور email account پر بھی 2FA رکھیں۔",
+      "step": 6
+    },
+    {
+      "q": "کیا support 2FA code مانگ سکتا ہے؟",
+      "a": "Official support کو password، login code، 2FA، seed phrase یا remote access نہیں مانگنا چاہیے۔ Private message میں pressure ڈالنے والا شخص scam attempt سمجھیں۔",
+      "step": 6
+    },
+    {
+      "q": "Exchange email اصلی ہے یا نہیں کیسے جانچوں؟",
+      "a": "Sender domain، anti-phishing code اور link destination چیک کریں۔ زیادہ safe طریقہ یہ ہے کہ app یا official site directly کھول کر account notification پڑھیں۔",
+      "step": 6
+    },
+    {
+      "q": "Bank account میں money کیسے withdraw ہوتی ہے؟",
+      "a": "عام طور پر crypto کو supported fiat میں sell کر کے اپنے country میں available official withdrawal route منتخب کیا جاتا ہے۔ Bank، limits، costs اور processing exchange اور payment provider کے rules کے مطابق ہوتے ہیں۔",
+      "step": 7
+    },
+    {
+      "q": "میرے ملک میں bank withdrawal کیوں نہیں ہے؟",
+      "a": "Fiat routes local partners، country rules اور exchange decision پر depend کرتے ہیں۔ Available نہ ہو تو account کے اندر official P2P یا دوسرے options پڑھیں، private withdrawal service سے بچیں۔",
+      "step": 7
+    },
+    {
+      "q": "Crypto کو wallet میں withdraw کرنا کیا ہے؟",
+      "a": "اس کا مطلب exchange account سے asset کو ایسے wallet address پر بھیجنا ہے جسے آپ control کرتے ہیں۔ Seed phrase، address، network اور gas fee پھر آپ کی responsibility ہوتی ہے۔",
+      "step": 7
+    },
+    {
+      "q": "Small test withdrawal پہلے کیوں؟",
+      "a": "Crypto transfers عموما send ہونے کے بعد reverse نہیں ہوتے۔ Small test address، network، cost اور arrival confirm کر دیتا ہے، پھر بڑی amount move کرنا بہتر ہوتا ہے۔",
+      "step": 7
+    },
+    {
+      "q": "Withdrawal arrive نہ ہو تو کیا کریں؟",
+      "a": "Official withdrawal history میں status، TxID اور network confirmations چیک کریں اگر available ہوں۔ Help چاہیے تو app یا official website سے ticket کھولیں، private message سے نہیں۔",
+      "step": 7
+    },
+    {
+      "q": "Crypto sell کرنے پر tax لگتا ہے؟",
+      "a": "Tax rules آپ کی tax residency اور local law پر depend کرتے ہیں۔ NexuAlpha صرف official authority information پڑھنے اور qualified adviser کے لئے records رکھنے کا کہتا ہے۔",
+      "step": 7
+    },
+    {
+      "q": "USDT کیا ہے؟",
+      "a": "USDT ایک common stablecoin ہے جو US dollar value کو follow کرنے کے لئے design کیا گیا ہے۔ یہ bank deposit یا government money نہیں، اور issuer، network اور exchange risks رہتے ہیں۔",
+      "step": 5
+    },
+    {
+      "q": "Exchange کو problem ہو جائے تو میرے coins کا کیا ہو گا؟",
+      "a": "نتیجہ exchange situation، asset custody structure اور legal process پر depend کرتا ہے۔ Proof of reserves، registration context، balance size اور self-custody options دیکھ کر risk کم کیا جا سکتا ہے۔",
+      "step": 1
+    },
+    {
+      "q": "کیا دوست میرے لئے crypto خرید سکتا ہے؟",
+      "a": "یہ بہتر نہیں۔ Account name، source of funds اور recipient mismatch withdrawal، disputes، recovery اور records کو مشکل بنا سکتا ہے۔",
+      "step": 3
+    },
+    {
+      "q": "Guaranteed profit والا teacher safe ہے؟",
+      "a": "Fixed profit promise، مزید deposit کا pressure، اور external address پر transfer demand high-risk signs ہیں۔ یہ beginner path official entry اور basic spot flow سمجھاتا ہے، profit claims endorse نہیں کرتا۔",
+      "step": 6
+    },
+    {
+      "q": "کیا search result کا پہلا link official ہوتا ہے؟",
+      "a": "نہیں۔ Ads اور clone sites اوپر آ سکتی ہیں، اس لئے official bookmarks، official app sources یا domain check زیادہ safe ہیں۔",
+      "step": 2
+    },
+    {
+      "q": "Order اور withdrawal records کیوں save کروں؟",
+      "a": "Records fees، price، withdrawal status اور administrative needs سمجھنے میں مدد دیتے ہیں۔ Screenshots useful ہیں، مگر official order history اور account export primary source ہیں۔",
+      "step": 7
+    },
+    {
+      "q": "کیا پوری budget ایک ساتھ استعمال کروں؟",
+      "a": "ضرورت نہیں، خاص طور پر volatility اور withdrawal سمجھنے سے پہلے۔ Small start کریں، account setup، deposit، buy، security اور test withdrawal مکمل کریں، پھر اگلا step decide کریں۔",
+      "step": 5
+    }
+  ]
+}

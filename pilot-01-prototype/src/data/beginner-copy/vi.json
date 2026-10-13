@@ -1,0 +1,198 @@
+{
+  "locale": "vi",
+  "slug": {
+    "start": "bat-dau",
+    "questions": "cau-hoi",
+    "check": "kiem-tra"
+  },
+  "labels": {
+    "start": "Bắt đầu",
+    "questions": "Câu hỏi",
+    "check": "Kiểm tra",
+    "newDoor": "Tôi là người mới",
+    "traderDoor": "Tôi đã giao dịch",
+    "shortAnswer": "Trả lời ngắn",
+    "steps": "Các bước",
+    "mistakes": "Lỗi thường gặp",
+    "next": "Bước tiếp theo",
+    "why": "Vì sao cần làm vậy",
+    "official": "Lối vào chính thức",
+    "country": "Quốc gia cư trú",
+    "chooseCountry": "Chọn quốc gia",
+    "noChoice": "Chưa có lựa chọn đủ điều kiện; hãy tự kiểm tra quy định mới nhất trước khi mở tài khoản.",
+    "backup": "Thông tin thay thế",
+    "register": "Thông tin thiết lập tài khoản",
+    "checkButton": "Kiểm tra liên kết",
+    "urlLabel": "Dán liên kết sàn",
+    "valid": "Tên miền khớp với sổ đăng ký chính thức; điều này không đảm bảo toàn bộ trang là an toàn",
+    "invalid": "Không dùng: tên miền không khớp với sổ đăng ký chính thức",
+    "unknown": "Không thể xác nhận bằng sổ đăng ký hiện tại",
+    "progress": "Tiến độ",
+    "complete": "Hoàn tất",
+    "reset": "Đặt lại"
+  },
+  "intro": "Lộ trình trung lập cho người mới: hiểu nền tảng, tên miền chính thức, KYC, nạp tiền, mua spot, bảo mật tài khoản và rút tiền trước khi quyết định mở tài khoản hoặc chuyển tiền.",
+  "why": [
+    "Bản tiếng Việt chỉ cung cấp thông tin, không hiển thị mã ưu đãi, không thúc đẩy đăng ký và không ưu tiên thương mại.",
+    "Trước khi dùng bất kỳ nền tảng nào, hãy đọc điều khoản chính thức, phạm vi quốc gia, phí, KYC, nạp rút và bằng chứng dự trữ."
+  ],
+  "steps": [
+    {
+      "title": "Chọn một nền tảng để tìm hiểu",
+      "answer": "Người mới nên nghiên cứu một nền tảng tại một thời điểm. Hãy bắt đầu với nền tảng có tên miền rõ ràng, điều khoản công khai và hướng dẫn nạp rút dễ đọc; đây không phải là khuyến nghị hay phê duyệt.",
+      "actions": [
+        "Mở từ tên miền chính thức, không từ tin nhắn riêng.",
+        "Đọc phần quốc gia hỗ trợ, sản phẩm, phí, KYC, nạp tiền và rút tiền.",
+        "Chỉ quyết định sau khi hiểu toàn bộ quy trình cơ bản."
+      ],
+      "mistakes": [
+        "Chọn nền tảng chỉ vì quảng cáo phần thưởng.",
+        "Mở nhiều tài khoản cùng lúc rồi không theo dõi được tiền."
+      ]
+    },
+    {
+      "title": "Hiểu cách thiết lập tài khoản",
+      "answer": "Thiết lập tài khoản thường gồm email hoặc điện thoại, mật khẩu, quốc gia, xác minh danh tính và bảo mật. Bản trung lập này không cung cấp mã thực tế và không khuyến khích đăng ký vì ưu đãi.",
+      "actions": [
+        "Đọc điều khoản tài khoản và hạn chế theo quốc gia.",
+        "Kiểm tra nền tảng có yêu cầu KYC trước khi giao dịch, nạp hoặc rút không.",
+        "Không nhập dữ liệu cá nhân trên trang không phải chính thức."
+      ],
+      "mistakes": [
+        "Tin mã hoặc liên kết do người lạ gửi là quy định chính thức.",
+        "Kỳ vọng chắc chắn có lợi ích mà chưa đọc điều khoản."
+      ]
+    },
+    {
+      "title": "Hiểu KYC",
+      "answer": "KYC là quy trình xác minh danh tính người dùng. Nền tảng có thể yêu cầu giấy tờ, khuôn mặt, địa chỉ hoặc nguồn tiền; trạng thái và thời gian chỉ nên lấy từ màn hình chính thức.",
+      "actions": [
+        "Chỉ tải giấy tờ trong ứng dụng hoặc website chính thức.",
+        "Dùng thông tin thật và phương thức thanh toán thuộc về bạn.",
+        "Nếu cần bổ sung, trả lời qua kênh hỗ trợ chính thức."
+      ],
+      "mistakes": [
+        "Gửi ảnh giấy tờ cho người tự xưng là hỗ trợ trong chat riêng.",
+        "Dùng danh tính hoặc tài khoản ngân hàng của người khác."
+      ]
+    },
+    {
+      "title": "Tìm hiểu cách nạp tiền",
+      "answer": "Cách nạp phụ thuộc vào quốc gia và màn hình tài khoản. Thẻ, chuyển khoản, cổng thứ ba hoặc P2P có thể khác nhau về phí, giới hạn, tên người gửi và quy trình khiếu nại.",
+      "actions": [
+        "Đọc số tiền tối thiểu, phí, tiền tệ và quy tắc trùng tên.",
+        "Nếu dùng P2P, chỉ thao tác trong lệnh và cơ chế ký quỹ của nền tảng.",
+        "Thử số tiền nhỏ và giữ biên lai đến khi số dư xuất hiện."
+      ],
+      "mistakes": [
+        "Chuyển tiền vào tài khoản ngân hàng được gửi qua tin nhắn riêng.",
+        "Nạp lớn trước khi hiểu cách rút."
+      ]
+    },
+    {
+      "title": "Hiểu lần mua spot đầu tiên",
+      "answer": "Spot là mua chính tài sản đó, không dùng đòn bẩy. Lần đầu nên dùng số tiền nhỏ và đọc trước tài sản, giá, phí hoặc spread, tiền thanh toán và lượng nhận được.",
+      "actions": [
+        "Dùng spot hoặc chuyển đổi đơn giản, tránh futures, margin và perpetual.",
+        "Bắt đầu nhỏ để học màn hình xem trước và lịch sử lệnh.",
+        "Lưu giá, số lượng, phí và mã lệnh."
+      ],
+      "mistakes": [
+        "Tưởng hợp đồng futures là mua coin bình thường.",
+        "Bấm xác nhận mà chưa đọc chi phí cuối cùng."
+      ]
+    },
+    {
+      "title": "Bảo vệ tài khoản",
+      "answer": "Bảo mật tài khoản quan trọng hơn tốc độ. 2FA bằng ứng dụng, mật khẩu riêng, mã chống phishing và danh sách trắng rút tiền có thể giảm rủi ro khi tài khoản bị chiếm.",
+      "actions": [
+        "Ưu tiên ứng dụng xác thực cho 2FA.",
+        "Đặt mã chống phishing để nhận diện email chính thức.",
+        "Thử địa chỉ và mạng bằng số tiền nhỏ trước khi rút lớn."
+      ],
+      "mistakes": [
+        "Dùng chung mật khẩu với email.",
+        "Đưa mã 2FA cho người tự xưng là hỗ trợ."
+      ]
+    },
+    {
+      "title": "Học cách rút tiền",
+      "answer": "Rút tiền có thể là bán crypto sang tiền pháp định rồi rút về ngân hàng, hoặc rút crypto sang ví hay nền tảng khác. Luôn kiểm tra đồng tiền, mạng, địa chỉ, tên người nhận, phí và mức tối thiểu.",
+      "actions": [
+        "Thử rút số tiền nhỏ trước.",
+        "Khi rút crypto, kiểm tra mạng gửi và mạng nhận giống nhau.",
+        "Lưu lịch sử giao dịch, biên lai và báo cáo chính thức."
+      ],
+      "mistakes": [
+        "Gửi USDT qua sai mạng.",
+        "Nhả crypto trong P2P trước khi tiền thật sự vào tài khoản."
+      ]
+    }
+  ],
+  "scams": [
+    {
+      "title": "Hỗ trợ giả trong tin nhắn riêng",
+      "answer": "Kẻ lừa đảo có thể xin mật khẩu, mã 2FA, giấy tờ hoặc quyền điều khiển từ xa. Hãy mở hỗ trợ từ website hoặc ứng dụng chính thức."
+    },
+    {
+      "title": "Ứng dụng giả",
+      "answer": "Ứng dụng giả có thể sao chép tên và biểu tượng để lấy thông tin đăng nhập. Chỉ tải từ nguồn chính thức hoặc nhà phát hành đã xác minh."
+    },
+    {
+      "title": "Airdrop giả",
+      "answer": "Airdrop giả thường yêu cầu kết nối ví, ký quyền hoặc nhập seed phrase. Nếu không xác nhận được từ kênh chính thức, đừng kết nối hay ký."
+    }
+  ],
+  "faqs": [
+    { "q": "Người mới nên bắt đầu từ đâu?", "a": "Hãy học cách nhận diện tên miền chính thức, quy trình tài khoản, KYC, nạp tiền, mua spot, bảo mật và rút tiền. Đừng mở tài khoản hoặc nạp tiền chỉ vì thấy phần thưởng.", "step": 1 },
+    { "q": "Trang này có khuyến nghị sàn cụ thể không?", "a": "Không. Bản tiếng Việt là thông tin trung lập, không cung cấp mã ưu đãi và không nói nền tảng nào phù hợp với mọi người.", "step": 1 },
+    { "q": "Nền tảng xuất hiện trong nội dung có nghĩa là hợp pháp không?", "a": "Không. Việc xuất hiện trong nội dung chỉ là điểm bắt đầu để nghiên cứu, không phải phê duyệt pháp lý hay bảo đảm an toàn.", "step": 1 },
+    { "q": "Làm sao biết nền tảng hỗ trợ quốc gia của tôi?", "a": "Đọc điều khoản chính thức, màn hình đăng ký và thông tin sản phẩm trong tài khoản. Nếu nền tảng hiển thị hạn chế, đừng dùng dữ liệu giả để vượt qua.", "step": 1 },
+    { "q": "Sàn và ví khác nhau thế nào?", "a": "Sàn là tài khoản do công ty quản lý để mua bán và lưu giữ số dư. Ví tự quản cho bạn giữ khóa nhưng cũng khiến bạn chịu trách nhiệm khôi phục.", "step": 1 },
+    { "q": "Tôi có cần mua cả một bitcoin không?", "a": "Không. Nhiều nền tảng cho phép mua một phần nhỏ nếu số tiền đáp ứng mức tối thiểu chính thức.", "step": 5 },
+    { "q": "Vì sao không nên mở nhiều tài khoản cùng lúc?", "a": "Người mới dễ nhầm giữa nhiều ứng dụng, mạng và tài khoản. Học trọn một quy trình trước sẽ an toàn hơn.", "step": 1 },
+    { "q": "Mã giới thiệu là gì?", "a": "Nó thường thuộc chương trình tiếp thị hoặc giới thiệu của nền tảng. Bản trung lập không cung cấp mã thực tế và không bảo đảm lợi ích nào.", "step": 2 },
+    { "q": "Mã giới thiệu có chắc đem lại lợi ích không?", "a": "Không chắc. Mọi hoàn phí hoặc phần thưởng phụ thuộc vào điều khoản, khu vực, sản phẩm và trạng thái tài khoản hiện tại.", "step": 2 },
+    { "q": "Có thể thêm mã sau khi tạo tài khoản không?", "a": "Đừng mặc định là được. Nếu nền tảng có quy tắc, hãy dựa vào hướng dẫn chính thức và màn hình tài khoản.", "step": 2 },
+    { "q": "Vì sao phải kiểm tra tên miền?", "a": "Tên miền là bước kiểm tra đầu tiên để tránh website giả. Dù tên miền khớp, điều đó vẫn không bảo đảm toàn bộ trang an toàn.", "step": 2 },
+    { "q": "Liên kết rút gọn có an toàn không?", "a": "Liên kết rút gọn che giấu tên miền cuối cùng. Trước khi nhập dữ liệu cá nhân, hãy xem trang cuối có đúng tên miền chính thức không.", "step": 2 },
+    { "q": "Có thể tin liên kết quảng cáo không?", "a": "Không nên tin ngay. Quảng cáo có thể dẫn đến trang thật hoặc trang giả, nên phải kiểm tra tên miền trước.", "step": 2 },
+    { "q": "Hỗ trợ qua tin nhắn riêng có đáng tin không?", "a": "Hầu hết nền tảng không yêu cầu mật khẩu, 2FA hoặc giấy tờ qua tin nhắn riêng. Hãy mở hỗ trợ từ website hoặc app chính thức.", "step": 2 },
+    { "q": "KYC là gì?", "a": "KYC là xác minh danh tính người dùng. Nó có thể gồm giấy tờ, khuôn mặt, địa chỉ hoặc thông tin bổ sung.", "step": 3 },
+    { "q": "KYC thường mất bao lâu?", "a": "Không có thời gian chung đáng tin. Tài liệu, quốc gia, nền tảng và xét duyệt thủ công đều có thể ảnh hưởng.", "step": 3 },
+    { "q": "Tải giấy tờ lên có an toàn không?", "a": "Rủi ro không thể bằng không. Chỉ tải trong website hoặc ứng dụng chính thức và đọc quy tắc dữ liệu của nền tảng.", "step": 3 },
+    { "q": "Có thể mua crypto không cần KYC không?", "a": "Điều này phụ thuộc vào nền tảng, quốc gia và sản phẩm. Nếu quy trình chính thức yêu cầu xác minh, đừng dùng thông tin giả để né.", "step": 3 },
+    { "q": "Vì sao bị hỏi nguồn tiền?", "a": "Nền tảng có thể hỏi vì kiểm soát rủi ro hoặc tuân thủ. Hãy trả lời bằng tài liệu thật qua kênh chính thức.", "step": 3 },
+    { "q": "Có thể dùng tài khoản ngân hàng của người khác không?", "a": "Không nên. Không trùng tên có thể làm nạp, rút hoặc kiểm tra bị giữ lại.", "step": 3 },
+    { "q": "Số tiền nạp tối thiểu là bao nhiêu?", "a": "Mức tối thiểu phụ thuộc vào nền tảng, đồng tiền, phương thức thanh toán và quốc gia. Hãy đọc màn hình chính thức trong tài khoản.", "step": 4 },
+    { "q": "Nên dùng ngân hàng, thẻ hay P2P?", "a": "So sánh phí, giới hạn, tốc độ, quy tắc trùng tên và cách xử lý tranh chấp. Đừng chỉ chọn vì nhìn rẻ.", "step": 4 },
+    { "q": "P2P là gì?", "a": "P2P là giao dịch với người dùng khác, thường có cơ chế ký quỹ của nền tảng. Đừng giao dịch riêng ngoài màn hình lệnh.", "step": 4 },
+    { "q": "Vì sao tiền nạp bị chậm?", "a": "Có thể do ngân hàng, kiểm tra tên, xác nhận blockchain, xét duyệt tài khoản hoặc bảo trì. Hãy xem lịch sử và yêu cầu hỗ trợ chính thức.", "step": 4 },
+    { "q": "Có nên chuyển tiền cho tài khoản trong tin nhắn riêng không?", "a": "Không. Nếu thông tin nhận tiền không nằm trong quy trình nạp chính thức, đừng thanh toán.", "step": 4 },
+    { "q": "Vì sao cần giữ biên lai?", "a": "Biên lai và mã lệnh giúp hỗ trợ kiểm tra sự cố. Chúng cũng hữu ích cho ghi chép cá nhân và thuế.", "step": 4 },
+    { "q": "Giao dịch spot là gì?", "a": "Spot là mua bán chính tài sản đó, không vay và không dùng đòn bẩy. Với người mới, nó dễ hiểu hơn futures hoặc margin.", "step": 5 },
+    { "q": "BTC và USDT khác nhau thế nào?", "a": "BTC là tài sản crypto lớn với biến động giá. USDT là stablecoin cố bám theo USD nhưng vẫn có rủi ro nhà phát hành và mạng.", "step": 5 },
+    { "q": "Spread là gì?", "a": "Spread là chênh lệch giữa giá mua và giá bán. Trong tính năng chuyển đổi nhanh, chi phí đôi khi nằm trong báo giá thay vì hiện thành phí riêng.", "step": 5 },
+    { "q": "Vì sao người mới không nên dùng đòn bẩy?", "a": "Đòn bẩy phóng đại lỗ và có thể dẫn đến thanh lý. Học spot, bảo mật và rút tiền trước sẽ quan trọng hơn.", "step": 5 },
+    { "q": "Sau lần mua đầu tiên nên ghi gì?", "a": "Ghi ngày, nền tảng, tài sản, số tiền, giá, phí và mã lệnh. Những dữ liệu này giúp khi cần hỗ trợ hoặc lập hồ sơ thuế.", "step": 5 },
+    { "q": "2FA là gì?", "a": "2FA là lớp mã thứ hai ngoài mật khẩu. Ứng dụng xác thực thường vững hơn SMS.", "step": 6 },
+    { "q": "Mã chống phishing là gì?", "a": "Đó là cụm từ bạn đặt để email chính thức hiển thị. Nếu email không có mã này, đừng bấm liên kết trong đó.", "step": 6 },
+    { "q": "Danh sách trắng rút tiền dùng để làm gì?", "a": "Nó giới hạn rút tiền tới địa chỉ bạn đã duyệt trước. Thêm một bước nhưng giảm rủi ro nếu tài khoản bị chiếm.", "step": 6 },
+    { "q": "Có nên giữ crypto trên sàn không?", "a": "Số dư nhỏ để học có thể tiện. Với số tiền lớn hoặc nắm giữ lâu dài, hãy học thêm rủi ro tự lưu ký.", "step": 6 },
+    { "q": "Có được đưa seed phrase cho hỗ trợ không?", "a": "Không. Seed phrase là quyền kiểm soát ví, và mọi trang hoặc người yêu cầu nó đều rất nguy hiểm.", "step": 6 },
+    { "q": "Làm sao nhận ra app giả?", "a": "Kiểm tra nguồn tải và nhà phát hành. Biểu tượng giống không chứng minh ứng dụng là thật.", "step": 6 },
+    { "q": "Airdrop giả lừa thế nào?", "a": "Nó thường yêu cầu kết nối ví, ký quyền, trả phí hoặc nhập seed phrase. Nếu không xác nhận được từ kênh chính thức thì đừng thao tác.", "step": 6 },
+    { "q": "Rút về ngân hàng nghĩa là gì?", "a": "Thường là bán crypto sang tiền pháp định rồi dùng tuyến rút được hỗ trợ. Ngân hàng thường không nhận trực tiếp BTC hoặc USDT.", "step": 7 },
+    { "q": "Rút tiền mất bao lâu?", "a": "Không có thời gian cố định. Nền tảng, ngân hàng, đồng tiền, mạng, quốc gia và xét duyệt đều có thể ảnh hưởng.", "step": 7 },
+    { "q": "Vì sao rút tiền thất bại?", "a": "Tên không khớp, thông tin sai, dưới mức tối thiểu, bảo trì, xét duyệt hoặc chọn sai mạng đều có thể gây lỗi. Hãy đọc thông báo chính thức trước.", "step": 7 },
+    { "q": "Vì sao mạng rút tiền quan trọng?", "a": "Một đồng có thể tồn tại trên nhiều mạng. Nếu mạng gửi và mạng nhận không khớp, tiền có thể khó hoặc không thể khôi phục.", "step": 7 },
+    { "q": "Vì sao nên thử rút ít trước?", "a": "Thử ít giúp kiểm tra địa chỉ, mạng, ngân hàng và quy trình. Nếu có lỗi, thiệt hại sẽ nhỏ hơn.", "step": 7 },
+    { "q": "Tôi có phải đóng thuế không?", "a": "Thuế phụ thuộc vào nơi cư trú và hoạt động giao dịch. Hãy xem thông tin từ cơ quan thuế chính thức hoặc chuyên gia đủ điều kiện.", "step": 7 },
+    { "q": "Nếu nền tảng sập thì sao?", "a": "Bạn có thể không đăng nhập hoặc rút tiền được, và trường hợp nặng có thể ảnh hưởng đến tài sản. Đừng để toàn bộ tiền ở một nơi.", "step": 6 },
+    { "q": "Bằng chứng dự trữ là gì?", "a": "Đó là cách nền tảng công bố thông tin tài sản dự trữ. Nó là tín hiệu tham khảo, không phải bảo đảm an toàn tuyệt đối.", "step": 1 },
+    { "q": "Người mới có cần đọc bảng phí không?", "a": "Có, nhưng đừng chỉ nhìn phí giao dịch thấp nhất. Hãy xem cả nạp, rút, spread, phí mạng và cấp tài khoản.", "step": 5 },
+    { "q": "Có nên tin thầy trong nhóm chat không?", "a": "Đừng xem lời khuyên nhóm chat là thông tin chính thức. Ai yêu cầu thao tác hộ, chuyển tiền hoặc giao tài khoản đều nên tránh.", "step": 2 },
+    { "q": "Sau giao dịch đầu tiên nên làm gì?", "a": "Hoàn tất bảo mật, lưu hồ sơ và thử rút số tiền nhỏ. Đừng tăng quy mô trước khi toàn bộ quy trình hoạt động.", "step": 7 },
+    { "q": "Nếu thao tác sai thì làm gì?", "a": "Dừng thao tác thêm và thu thập mã lệnh, ảnh chụp, biên lai hoặc hash giao dịch. Chỉ liên hệ hỗ trợ qua kênh chính thức.", "step": 7 }
+  ]
+}

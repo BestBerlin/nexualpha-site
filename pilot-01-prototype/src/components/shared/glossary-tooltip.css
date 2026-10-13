@@ -1,0 +1,4 @@
+.nx-glossary-tip{position:relative;display:inline;color:inherit}
+.nx-glossary-tip>a{color:inherit;text-decoration:underline dotted;text-underline-offset:4px}
+.nx-glossary-tip__text{display:none;position:absolute;inset-inline-start:0;inset-block-start:100%;width:min(300px,70vw);box-sizing:border-box;padding:12px;background:#141b23;color:#eceef2;border:1px solid #596776;border-radius:4px;font:400 14px/1.5 sans-serif;text-transform:none;letter-spacing:normal;z-index:50}
+.nx-glossary-tip:hover>.nx-glossary-tip__text,.nx-glossary-tip:focus-within>.nx-glossary-tip__text{display:block}

@@ -66,6 +66,17 @@ test('Turkey retains five promoted partners and Brazil and English remain ungate
     assert.equal(isPartnerPromotableIn(slug,{locale:'pt-BR'}), true);
   }
 });
+// Codes are attribution tokens, not substrings of unrelated expiry timestamps.
+function containsCodeToken(html, code) {
+  if (!code) return false;
+  const escaped = String(code).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?<![A-Za-z0-9])${escaped}(?![A-Za-z0-9])`, 'i').test(html);
+}
+test('geo code checks distinguish referral tokens from unrelated timestamps', () => {
+  assert.equal(containsCodeToken('tg_expires=1792533648553', '48553'), false);
+  assert.equal(containsCodeToken('<code>48553</code>', '48553'), true);
+  assert.equal(containsCodeToken('href="/join/48553?src=beginner"', '48553'), true);
+});
 test('SSR venue and registration cards hide gated codes and destinations while retaining neutral facts', () => {
   const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
   const dir = mkdtempSync(path.join(root, 'tests/.tmp-geo-'));
@@ -86,9 +97,9 @@ test('SSR venue and registration cards hide gated codes and destinations while r
       const access=publicCtaForVenue(row.slug,'en');
       for (const html of [row.html,row.card,row.offer]) {
         if (!isPartnerPromotableIn(row.slug,row)) {
-          assert.ok(!html.includes(access.inviteCode), `${row.locale}/${row.slug}: code leaked: ${html.slice(Math.max(0,html.indexOf(access.inviteCode)-100),html.indexOf(access.inviteCode)+150)}`);
+          assert.ok(!containsCodeToken(html, access.inviteCode), `${row.locale}/${row.slug}: code leaked: ${html.slice(Math.max(0,html.indexOf(access.inviteCode)-100),html.indexOf(access.inviteCode)+150)}`);
           assert.ok(!html.includes(access.registrationUrl?.replaceAll('&','&amp;')), `${row.locale}/${row.slug}: referral leaked`);
-        } else assert.ok(html.includes(access.inviteCode), `${row.locale}/${row.slug}: code retained`);
+        } else assert.ok(containsCodeToken(html, access.inviteCode), `${row.locale}/${row.slug}: code retained`);
       }
       assert.ok(row.html.includes(access.officialDomain), `${row.slug}: official facts retained`);
     }

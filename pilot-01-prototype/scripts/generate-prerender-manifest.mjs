@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { beginnerSitemapEntries } from "../src/data/beginner-seo.js";
 import { campaignSitemapEntries } from "../src/data/campaign-autodraft.js";
 import { articleRelatedPool } from '../src/data/article-related-links.js';
 import { applyNewsSearchStateToFeed, newsStrengthRank } from "../src/data/news-search-state.js";
@@ -317,6 +318,8 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-apps.xml", lastmod: apps.lastmod });
   const academy = buildAcademySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
+  const beginner = buildDownloadOrAcademySitemap(beginnerSitemapEntries);
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-beginner.xml", lastmod: beginner.lastmod });
   const licenses = buildLicensesSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-licenses.xml", lastmod: licenses.lastmod });
   // Where to buy <coin> (2026-10-12): /coins and every coin page in its indexable locales (listed on a covered exchange
@@ -340,6 +343,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     index: buildSitemapIndex(indexRows),
     files,
     academy,
+    beginner,
     licenses,
     coins,
     dataTools,
@@ -595,6 +599,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-beginner.xml"), splitSitemaps.beginner.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-data.xml"), splitSitemaps.dataTools.xml);
@@ -612,6 +617,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(clientDir, "sitemap-beginner.xml"), splitSitemaps.beginner.xml);
   writeFileSync(path.join(clientDir, "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "sitemap-data.xml"), splitSitemaps.dataTools.xml);

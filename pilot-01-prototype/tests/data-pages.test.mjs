@@ -200,7 +200,7 @@ async function renderPages(feedJson) {
 test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) and the Telegram line; no feed renders the unavailable state", async () => {
   const withFeed = await renderPages(JSON.stringify(sampleFeed));
   const en = withFeed.en.liquidations;
-  assert.match(en, /<h1>Crypto liquidations today<\/h1>/);
+  assert.match(en, /<h1><span class="nx-glossary-tip"><a[^>]*>Crypto liquidations today<\/a>/);
   assert.ok(en.includes("$6.11M"), "24h total");
   assert.ok(en.includes("$3.34M"), "1h total");
   assert.ok(en.includes("$1,452,978"), "largest single liquidation");
@@ -217,17 +217,17 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.match(en, /data-offer-venue="(okx|bitget|binance)"/);
   assert.ok(!en.includes("data-unavailable"));
   const fr = withFeed.en.funding;
-  assert.match(fr, /<h1>Crypto funding rates: Binance vs OKX<\/h1>/);
+  assert.match(fr, /<h1><span class="nx-glossary-tip"><a[^>]*>Crypto funding rates: Binance vs OKX<\/a>/);
   assert.ok(fr.includes("+0.0033%") && fr.includes("−0.0120%"), "per-period rates with sign");
   assert.ok(fr.includes("+3.6%"), "annualized estimate of BTC Binance rate (0.0000326 × 1095)");
   assert.ok(fr.includes("00:00 SGT"), "next funding time in SGT");
   assert.match(fr, /rate × 3 × 365/);
   assert.match(fr, /<th scope="row" translate="no">1000PEPE<\/th>/);
   assert.match(fr, /class="num neg"/);
-  assert.match(withFeed["zh-Hans"].liquidations, /<h1>今日加密货币爆仓<\/h1>/);
+  assert.match(withFeed["zh-Hans"].liquidations, /<h1><span class="nx-glossary-tip"><a[^>]*>今日加密货币爆仓<\/a>/);
   assert.match(withFeed["zh-Hans"].liquidations, /多空双杀/);
   assert.match(withFeed.ar.funding, /<main[^>]*dir="rtl"/);
-  assert.match(withFeed.tr.funding, /<h1>Kripto fonlama oranları: Binance vs OKX<\/h1>/);
+  assert.match(withFeed.tr.funding, /<h1><span class="nx-glossary-tip"><a[^>]*>Kripto fonlama oranları: Binance vs OKX<\/a>/);
   assert.ok(withFeed.ar.funding.includes("+0.0033%"), "numbers stay identical in RTL");
 
   const without = await renderPages("null");
@@ -237,7 +237,7 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.doesNotMatch(without.en.liquidations, /<strong>Source:<\/strong> Binance/);
   assert.ok(!without.en.liquidations.includes("$6.11M"));
   assert.match(without.en.funding, /data-testid="data-unavailable"/);
-  assert.match(without.en.funding, /<h1>Crypto funding rates: Binance vs OKX<\/h1>/, "H1, explainer and FAQ still render");
+  assert.match(without.en.funding, /<h1><span class="nx-glossary-tip"><a[^>]*>Crypto funding rates: Binance vs OKX<\/a>/, "H1, explainer and FAQ still render");
   assert.match(without.en.funding, /news-offer--inline/);
   const olderCollector = await renderPages(JSON.stringify({ generatedAt: sampleFeed.generatedAt, liquidations: sampleFeed.liquidations }));
   assert.match(olderCollector.en.funding, /data-unavailable/, "no funding block → unavailable, nothing invented");

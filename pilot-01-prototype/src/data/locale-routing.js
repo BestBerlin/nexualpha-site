@@ -1,3 +1,4 @@
+import { BEGINNER_ROOTS, beginnerPath, parseBeginnerPath } from "./beginner-routes.js";
 import { canonicalComparePairSlug, parseComparePair } from "./compare-slug.js";
 import { isTurkeyGated } from "./partner-geo-policy.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
@@ -84,7 +85,7 @@ const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({
   "/int": "en",
 });
 
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS,
   "/exchanges",
   "/compare",
   "/topics",
@@ -320,8 +321,10 @@ export function parsePublicRoute(pathname, searchParams) {
 }
 
 export function localizedPath(pathname, locale = "en") {
-  const normalized = normalizePathname(pathname);
+  let normalized = normalizePathname(pathname);
   if (!isSupportedLocale(locale)) return normalized;
+  const beginner = parseBeginnerPath(normalized);
+  if (beginner && beginner.kind !== "missing") normalized = beginnerPath(beginner.kind, locale, beginner.step);
   const countryPrefix = countryPrefixForPath(normalized);
   if (countryPrefix) return locale === (COUNTRY_LOCALE_BY_PREFIX[countryPrefix] || "en") ? normalized : appendLocaleQuery(normalized, locale);
   if (locale === "en") {
