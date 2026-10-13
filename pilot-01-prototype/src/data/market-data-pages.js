@@ -132,10 +132,14 @@ export function readHistory(feed) {
 }
 
 // What the server embeds for hydration: the data blocks, the history summary and majors, never the 80 headlines.
-export function compactMarketEvents(feed) {
+// `timeline: false` drops liquidations.timeline (the v2 collector's ~1 MB bucket series) for pages that never draw it.
+export function compactMarketEvents(feed, { timeline = true } = {}) {
   if (!feed || typeof feed !== "object") return null;
   const out = { generatedAt: feed.generatedAt ?? null };
-  if (feed.liquidations) out.liquidations = feed.liquidations;
+  if (feed.liquidations && typeof feed.liquidations === "object") {
+    const { timeline: series, ...rest } = feed.liquidations;
+    out.liquidations = timeline && series !== undefined ? { ...rest, timeline: series } : rest;
+  }
   if (feed.funding) out.funding = feed.funding;
   if (feed.history) out.history = feed.history;
   if (Array.isArray(feed.market?.majors)) out.market = { majors: feed.market.majors };
