@@ -181,6 +181,7 @@ function dynamicFamilies(root) {
     { family: 'channel feed article backlinks', values: stringArrayExport(root, 'ops/channel-feed/article-feed.mjs', 'ARTICLE_LANGS').map((locale) => `tg-article-${locale}`), source: 'ops/channel-feed/article-feed.mjs' },
     { family: 'channel feed guide backlinks', values: stringArrayExport(root, 'ops/channel-feed/pin-guide.mjs', 'GUIDE_LANGS').map((locale) => `tg-guide-${locale}`), source: 'ops/channel-feed/pin-guide.mjs' },
     { family: 'morning channel rhythm backlinks', values: stringArrayExport(root, 'ops/alert-sender/channel-rhythm.mjs', 'RHYTHM_LANGS').map((locale) => `tg-morning-${locale}`), source: 'ops/alert-sender/channel-rhythm.mjs' },
+    { family: 'daily social card backlinks', values: ['x-daily', 'tg-daily'], source: 'ops/daily-social-cards/generate.mjs' },
     { family: 'shorts platform backlinks', values: stringArrayExport(root, 'ops/shorts/strings.mjs', 'PLATFORM_KEYS').map((platform) => `${platform}-short`), source: 'ops/shorts/builders.mjs' },
     { family: 'embed widget landing attribution', values: objectKeys(root, 'pilot-01-prototype/src/data/market-data-pages.js', 'EMBED_KINDS').map((kind) => `embed-${kind}`), source: 'pilot-01-prototype/src/data/market-data-pages.js' },
     { family: 'collection hub kinds', values: ['topics-collection-hero-primary', 'topics-collection-hero-secondary', 'factbook-collection-hero-secondary'], source: 'pilot-01-prototype/src/components/v3/CollectionHubPage.jsx' },

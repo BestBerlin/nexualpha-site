@@ -237,13 +237,26 @@ export function xClient(credentials, fetcher = fetch) {
   const request = (method, endpoint, body) => fetcher(`${API}${endpoint}`, { method, redirect: 'error', signal: AbortSignal.timeout(30000),
     headers: { Authorization: oauthHeader(method, `${API}${endpoint}`, credentials), 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
   return {
+    async uploadImage(png) {
+      // Keep media on the scheduler's OAuth1 user credentials. Multipart fields
+      // are excluded from the OAuth signature base (unlike form-urlencoded).
+      const url = 'https://upload.twitter.com/1.1/media/upload.json';
+      const form = new FormData();
+      form.set('media', new Blob([png], { type: 'image/png' }), 'daily.png');
+      form.set('media_category', 'tweet_image');
+      const r = await fetcher(url, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000),
+        headers: { Authorization: oauthHeader('POST', url, credentials) }, body: form });
+      const body = await r.json().catch(() => null);
+      if (!r.ok || !/^\d+$/.test(body?.media_id_string || '')) throw new Error('X image upload failed');
+      return body.media_id_string;
+    },
     async verifyAccount() {
       const r = await request('GET', '/users/me');
       const data = await r.json();
       if (!r.ok || data?.data?.username?.toLowerCase() !== 'nexualpha') throw new Error('X account verification failed; only @NexuAlpha allowed');
     },
-    async send(text) {
-      const r = await request('POST', '/tweets', { text });
+    async send(text, mediaIds = []) {
+      const r = await request('POST', '/tweets', { text, ...(mediaIds.length ? { media: { media_ids: mediaIds } } : {}) });
       let body; try { body = await r.json(); } catch { return { ok: false, status: r.status, ambiguous: r.ok || r.status >= 500 }; }
       const detail = [body.detail, body.title, ...(body.errors || []).map((e) => e.message || e.detail)].join(' ');
       return { ok: r.ok && Boolean(body.data?.id), id: body.data?.id, status: r.status, ambiguous: r.status >= 500 || (r.ok && !body.data?.id),
