@@ -1,7 +1,7 @@
 /**
  * TelegramBotHub — C2. Telegram 官方机器人与社群生态看板
  * 链接本地 Mac mini Telegram 工程资产，将 Web 用户导入 Telegram 私域。
- * 包含极速指令交互卡（/rates, /calc, /alert, /check）与参数化 Deep Link 直达唤起。
+ * 包含极速指令交互卡（/fees, /alert, /checklink）与参数化 Deep Link 直达唤起。
  */
 import React, { useState, useCallback, useEffect } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
