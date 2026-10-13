@@ -57,6 +57,8 @@ import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } f
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
 import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
+import { KRAKEN_USDG_INDEX_LOCALES, KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "../src/data/kraken-usdg.js";
+import { krakenUsdgRouteSeo } from "../src/data/kraken-usdg-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 const COINS_PATH_PATTERN = /(?:^|\/)coins(?:\/|$)/;
@@ -4653,7 +4655,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba "))) {
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba ") || appHtml.includes("class=\"nxku "))) {
           metadata.campaignSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -6541,6 +6543,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
   // Bitget Alliance campaign page: its written editions (src/data/bitget-alliance.js).
   if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
+  // Kraken 5M USDG Challenge page: its written editions (src/data/kraken-usdg.js).
+  if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -7985,6 +7989,16 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, BITGET_ALLIANCE_INDEX_LOCALES), schema: bitgetAllianceSeo.schemas,
     };
   }
+  // Kraken 5M USDG Challenge page (2026-10-13): WebPage + FAQPage + BreadcrumbList from src/data/kraken-usdg-seo.js.
+  const krakenUsdgSeo = krakenUsdgRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (krakenUsdgSeo) {
+    return {
+      status: 200, title: krakenUsdgSeo.title, description: krakenUsdgSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: krakenUsdgSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, KRAKEN_USDG_INDEX_LOCALES), schema: krakenUsdgSeo.schemas,
+    };
+  }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
   // src/data/brand-entity.js; every UI locale is indexable and self-canonical.
   if (isBrandPagePath(canonicalPath)) {
@@ -8457,6 +8471,8 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === BYBIT_STOCKS_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bybit-"];
   // Bitget Alliance has its own route chunk (route-campaign-bitget).
   if (pathname === BITGET_ALLIANCE_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bitget-"];
+  // Kraken 5M USDG Challenge has its own route chunk (route-campaign-kraken).
+  if (pathname === KRAKEN_USDG_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-kraken-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];

@@ -17,6 +17,7 @@ import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
+import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usdg-live.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
@@ -60,6 +61,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // Bitget Alliance live prize pool (2026-10-13): Bitget's public campaign figures, read on demand at most every 10 min.
   const bitgetAlliancePool = createBitgetAlliancePool({
     enabled: env.BITGET_ALLIANCE_POOL !== 'off' && (!suppliedWorker || env.BITGET_ALLIANCE_POOL === 'on'),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
+  // Kraken 5M USDG Challenge live figures (2026-10-13): community volume, tier and top 5 from Kraken's public page, read on
+  // demand at most every 10 min.
+  const krakenUsdgLive = createKrakenUsdgLive({
+    enabled: env.KRAKEN_USDG_LIVE !== 'off' && (!suppliedWorker || env.KRAKEN_USDG_LIVE === 'on'),
     log: (m) => console.log(`[NexuAlpha] ${m}`),
   });
   // Flash market items (2026-10-12): kept next to the announcement archive (FLASH_MEMORY_FILE, default
@@ -226,6 +233,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await funding.respond();
       } else if (requestPath === BITGET_ALLIANCE_POOL_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await bitgetAlliancePool.respond(req.method);
+      } else if (requestPath === KRAKEN_USDG_LIVE_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await krakenUsdgLive.respond(req.method);
       } else if (requestPath === FX_JSON_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await fx.respond(req.method);
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
