@@ -2,6 +2,7 @@
 // Fees come from exchange-facts.js, codes from the partner feed; the table states it is not a ranking.
 // Codes are hidden where the referral-title policy keeps a locale neutral.
 import { localizedHref } from "../../data/locale-routing.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { referralTitleAllowed } from "../../data/referral-seo.js";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
 import {
@@ -61,7 +62,7 @@ export function VenueAlternativesPage({ slug = "bybit-alternatives", locale = "e
         <h2 id="venue-alternatives-notes-title">{copy.notesTitle}</h2>
         <ul className="venue-alternatives-notes">
           {page.notes.map((slugKey) => (
-            <li key={slugKey}>{copy.notes[slugKey]} <a href={page.noteSources[slugKey]} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-alternatives-note-source">↗</a></li>
+            <li key={slugKey}>{copy.notes[slugKey]} <SourceLink locale={locale} href={page.noteSources[slugKey]} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-alternatives-note-source">↗</SourceLink></li>
           ))}
         </ul>
       </section>
@@ -77,7 +78,7 @@ export function VenueAlternativesPage({ slug = "bybit-alternatives", locale = "e
         <h3>{copy.sources}</h3>
         <ul className="venue-alternatives-sources">
           {sourceRows.map((row) => (
-            <li key={row.slug}><a href={row.source} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-alternatives-fee-source"><span translate="no">{row.name}</span> ↗</a></li>
+            <li key={row.slug}><SourceLink locale={locale} href={row.source} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-alternatives-fee-source"><span translate="no">{row.name}</span> ↗</SourceLink></li>
           ))}
         </ul>
       </section>

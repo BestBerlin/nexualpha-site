@@ -3,6 +3,7 @@
 // tablets) a light card that slides in after 15 seconds of reading (never an interstitial; one tap closes it for the session; skipped while the inline card is on screen).
 // Only venues with a real invite route are offered; the commission disclosure lives in the footer only.
 import React, { useEffect, useRef, useState } from "react";
+import { BackupSignupLink } from "../../shared/BackupSignupLink.jsx";
 import { pickNewsOfferVenue } from "../../../data/news-offer.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
@@ -37,7 +38,7 @@ const READ_DELAY_MS = 15000;
 // linkFor / nameFor (academy, 2026-10-12): send the button through our tracked /go/<slug> redirect (it records the click
 // and forwards to the registry link, code included) and show a display name (Bitget as "Bitget.com"). Without them the
 // card keeps the registry link and the site click beacon (data-cta-kind="registration").
-function OfferBody({ slug, cta, locale, t, placement, linkFor, nameFor }) {
+function OfferBody({ slug, cta, locale, market, t, placement, linkFor, nameFor }) {
   const [copied, setCopied] = useState(false);
   const name = (nameFor && nameFor(slug, cta)) || cta.name || slug;
   const href = linkFor ? linkFor(slug, cta) : cta.registrationUrl;
@@ -59,6 +60,7 @@ function OfferBody({ slug, cta, locale, t, placement, linkFor, nameFor }) {
         <a className="news-offer__go" href={href} target="_blank" rel="sponsored noopener noreferrer" {...tracking}>
           {t.go(name)} <span aria-hidden="true">→</span>
         </a>
+        <BackupSignupLink venue={slug} locale={locale} market={market} placement={placement} />
       </div>
     </>
   );
@@ -101,7 +103,7 @@ export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, var
   if (variant !== "timed") {
     return (
       <aside className={`news-offer news-offer--${variant}`} aria-label={label} data-offer-venue={pick.slug}>
-        <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
+        <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} market={market} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
       </aside>
     );
   }
@@ -110,7 +112,7 @@ export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, var
   return (
     <aside className={`news-offer news-offer--timed${shown ? " is-shown" : ""}`} aria-label={label} {...(shown ? {} : { inert: true, "aria-hidden": "true" })} data-offer-venue={pick.slug}>
       <button type="button" className="news-offer__close" onClick={close} aria-label={t.close}>×</button>
-      <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
+      <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} market={market} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
     </aside>
   );
 }

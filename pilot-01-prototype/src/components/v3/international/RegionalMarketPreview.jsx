@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { resolveMarketPolicy } from "../../../data/market-policy.js";
 import { regionalDirectoryHref, regionalToolHref } from "../../../data/regional-directory.js";
 import { marketEntryBrief } from "../../../data/market-entry-brief.js";
@@ -1470,7 +1471,7 @@ function FundingVerificationMatrix({ market, locale = "en" }) {
                 <small>{localizedFundingMatrixValue(entry.market, locale, "cannotPromise", entry.cannotPromise)}</small>
                 <nav aria-label={copy?.sourceLinks?.(copy?.marketNames?.[entry.market] || entry.marketName) || `${entry.marketName} funding source links`}>
                   {entry.officialSources.slice(0, 2).map((item) => (
-                    <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="regional-funding-matrix-source">{localizedRegionalSourceItem({ label: item.label, href: item.url, note: "", role: item.role }, entry.market, locale).label}</a>
+                    <SourceLink locale={locale} market={market} key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="regional-funding-matrix-source">{localizedRegionalSourceItem({ label: item.label, href: item.url, note: "", role: item.role }, entry.market, locale).label}</SourceLink>
                   ))}
                 </nav>
               </article>
@@ -2115,7 +2116,7 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
         </div>
         <p>{pageBoundary}</p>
       </aside>
-      {(copy.sources.length > 0 || registry.sources.length > 0) && <div className="regional-market-preview__sources"><details className="regional-market-preview__sources-disclosure"><summary><strong>{locale === "zh-Hant" ? "官方來源" : locale.startsWith("zh") ? "官方来源" : ui.officialSources}</strong><span>{sourceMeta}</span><b aria-hidden="true">＋</b></summary><div className="regional-market-preview__sources-body"><p className="regional-market-preview__source-meta" data-source-reviewed-at={INTERNATIONAL_SOURCE_REVIEWED_AT}>{sourceMeta}</p>{[...copy.sources.map(([label, href]) => ({ label, href, note: "", role: "editorial-source" })), ...registry.sources.map((item) => localizedRegionalSourceItem({ label: item.label, href: item.url, note: item.note, role: item.role }, policy.targetMarket, locale))].map((item) => <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="regional-official-source" data-growth-decision={`regional_source_${policy.targetMarket}`} data-growth-placement="regional-official-source" data-growth-market={policy.targetMarket} data-growth-product={directoryProduct} data-growth-campaign={campaign}><strong>{item.label}</strong>{item.note && <small>{item.note}</small>}</a>)}</div></details></div>}
+      {(copy.sources.length > 0 || registry.sources.length > 0) && <div className="regional-market-preview__sources"><details className="regional-market-preview__sources-disclosure"><summary><strong>{locale === "zh-Hant" ? "官方來源" : locale.startsWith("zh") ? "官方来源" : ui.officialSources}</strong><span>{sourceMeta}</span><b aria-hidden="true">＋</b></summary><div className="regional-market-preview__sources-body"><p className="regional-market-preview__source-meta" data-source-reviewed-at={INTERNATIONAL_SOURCE_REVIEWED_AT}>{sourceMeta}</p>{[...copy.sources.map(([label, href]) => ({ label, href, note: "", role: "editorial-source" })), ...registry.sources.map((item) => localizedRegionalSourceItem({ label: item.label, href: item.url, note: item.note, role: item.role }, policy.targetMarket, locale))].map((item) => <SourceLink locale={locale} market={market} key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="regional-official-source" data-growth-decision={`regional_source_${policy.targetMarket}`} data-growth-placement="regional-official-source" data-growth-market={policy.targetMarket} data-growth-product={directoryProduct} data-growth-campaign={campaign}><strong>{item.label}</strong>{item.note && <small>{item.note}</small>}</SourceLink>)}</div></details></div>}
   </>;
   return <main className="v6 v2-page v3-page regional-market-preview" id="top" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-mobile-compression={mxMobileCompressionEnabled ? "mx" : undefined}>
     <section className="v2-shell v2-section">

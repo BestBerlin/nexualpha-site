@@ -368,6 +368,9 @@
   border: 0;
   background: none;
 }
+/* Backup sign-up link (owner 2026-10-13) sits directly under the primary button in the reversed column. */
+.v5-detail.v3-profile-page .registration-card--compact .registration-card__action-group > .registration-card__primary-btn { order: 2; }
+.v5-detail.v3-profile-page .registration-card--compact .registration-card__action-group > .nx-backup-signup { order: 1; align-self: center; }
 .v5-detail.v3-profile-page .registration-card__primary-btn {
   display: flex;
   align-items: center;

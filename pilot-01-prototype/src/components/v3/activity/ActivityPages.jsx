@@ -1,4 +1,5 @@
 import { formatSgt } from "../../../data/local-time.js";
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { CampaignJoin } from "./CampaignJoin.jsx";
 import { BrandMark } from "../../brand/BrandMark";
 import { visibleOfficialUpdates } from "../../official-updates/official-updates-model";
@@ -95,7 +96,7 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
         <div><b>{copy.decisionWorkbench.discovered}</b><span><time dateTime={update.discoveredAt}>{formatSgt(update.discoveredAt, locale)}</time></span></div>
         <div><b>{copy.common.verifiedSource}</b><span><time dateTime={update.verifiedAt}>{formatSgt(update.verifiedAt, locale)}</time></span></div>
         <div><b>{copy.listings.expired}</b><span>{update.expiresAt ? <time dateTime={update.expiresAt}>{formatSgt(update.expiresAt, locale)}</time> : "—"}</span></div>
-        <div><b>{text.sourceState}</b><span><a href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</a></span></div>
+        <div><b>{text.sourceState}</b><span><SourceLink locale={locale} market={market} href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink></span></div>
       </div>
       {eligibility && <div className="v3-matrix v3-activity-eligibility" aria-label={eligibility.statusLabel}>
         {eligibility.rows.map((row) => <div key={row.key} data-missing={row.missing ? "true" : undefined}>

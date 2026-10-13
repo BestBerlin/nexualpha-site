@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { rendersSource, renderedSourceHref } from "./helpers/outbound-expect.mjs";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import path from "node:path";
@@ -141,7 +142,11 @@ test("visible profile FAQ renders the same localized questions and answers as th
       for (const e of faq.entries) {
         assert.ok(html.includes(escape(e.question)), `${key} question missing from visible FAQ: ${e.question}`);
         assert.ok(html.includes(escape(e.answer)), `${key} answer missing from visible FAQ: ${e.question}`);
-        for (const href of e.citations) assert.ok(html.includes(escape(href)), `${key} source link missing: ${href}`);
+        for (const href of e.citations) {
+          // Owner 2026-10-13: coded /go route, or a plain label + domain where the venue has no sitewide parameter.
+          const routed = renderedSourceHref(href, { locale });
+          assert.ok(routed ? html.includes(routed) : html.includes(`data-source-plain="${new URL(href).hostname.replace(/^www\./, "")}"`), `${key} source missing: ${href}`);
+        }
       }
       assert.doesNotMatch(html, /commission-disclosure-line|data-disclosure-placement=/, `${key}: no disclosure line in the FAQ section`);
       if (faq.mode === "replace") assert.ok(!GENERIC_ENGLISH.test(html), `${key} visible FAQ still English`);
