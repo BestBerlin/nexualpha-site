@@ -9,6 +9,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_REFRESH_MS, FLASH_TYPES, flashGoHref, flashSignupVenues, flashUiCopy } from "../../data/flash.js";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { chime, notifyImportant, notificationPermission, readFlashPref, requestNotifications, writeFlashPref } from "./flash-alerts.js";
+import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import "./flash.css";
 
 const dirOf = (locale) => (/^(ar|ur)$/.test(locale) ? "rtl" : "ltr");
@@ -222,6 +223,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       </div>
     </div>
     <section className="nxf-stream v2-shell" ref={listRef} aria-label={t.h1}>
+      <FeaturedCampaign locale={locale} market={market} />
       {freshVisible ? <button type="button" className="nxf-pill" onClick={showPending} aria-live="polite"><LiveDot />{freshVisible} {t.fresh} · {t.showNew}</button> : null}
       {groups.length ? groups.map((group) => <div className="nxf-day" key={group.key}>
         <h2 className="nxf-day__label"><time dateTime={group.key}>{dayLabel(`${group.key}T00:00:00Z`, locale)}</time></h2>
@@ -230,6 +232,21 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       {feed?.hasMore && !type && !venue && !importantOnly ? <div className="nxf-more"><button type="button" className="nxf-btn" onClick={loadMore} disabled={loadingMore}>{t.loadMore}</button></div> : null}
     </section>
   </main>;
+}
+
+// Pinned campaign item (owner 2026-10-13: Bitget Alliance, big push): first entry of the stream while the campaign runs,
+// where Bitget may be promoted. It links our campaign page, not the exchange.
+function FeaturedCampaign({ locale, market }) {
+  if (!bitgetAlliancePromotable({ locale, market })) return null;
+  const teaser = bitgetAllianceTeaser(locale);
+  return <a className="nxf-feat" href={hrefFor(BITGET_ALLIANCE_PATH, locale, market)} data-featured-campaign="bitget-alliance"
+    data-cta-kind="research" data-cta-platform="bitget" data-cta-placement="flash-featured-campaign">
+    <span className="nxf-feat__tag" data-hot="true">✦ {teaser.tag}</span>
+    <span className="nxf-feat__brand"><BrandMark slug="bitget" compact /><b>Bitget.com</b></span>
+    <span className="nxf-feat__title">{teaser.title}</span>
+    <span className="nxf-feat__body">{teaser.body}</span>
+    <span className="nxf-feat__go">{teaser.go} <span aria-hidden="true">→</span></span>
+  </a>;
 }
 
 const LINK_LABEL = { update: "update", article: "article", liquidations: "liquidations", funding: "funding", profile: "profile" };

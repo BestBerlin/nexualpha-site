@@ -224,6 +224,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Its route/teaser helper is read by the home stream, /activities and /exchanges/bybit: pinned so none of them
           // pulls another route's chunk.
           if (/\/src\/data\/bybit-stocks(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
+          // Bitget Alliance campaign page (2026-10-13): component, styles and its copy in its own route chunk; its
+          // route/teaser helper joins the shared campaign feature chunk (home stream, /activities, /exchanges/bitget, /flash).
+          if (/\/src\/components\/campaigns\/(?:BitgetAlliancePage\.jsx|bitget-alliance\.css)$/.test(id) || id.includes("/src/data/bitget-alliance-copy.js")) return "route-campaign-bitget";
+          if (/\/src\/data\/bitget-alliance(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
           // Campaign landing pages (2026-10-12: Binance October): component, styles and copy in one route chunk.
           if (id.includes("/src/components/campaigns/") || /\/src\/data\/binance-october-(?:tournament-)?copy\.js$/.test(id)) return "route-campaign-landing";
           // The campaign route/teaser helper is read by the home stream, /activities and /exchanges/binance: pinned so none
