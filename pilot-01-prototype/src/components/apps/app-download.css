@@ -12,3 +12,8 @@
 .nx-app-download pre { overflow-x: auto; padding: 16px; background: var(--surface, #191c21); border-radius: 8px; }
 .nx-app-download__hashes dd { margin-inline-start: 0; overflow-wrap: anywhere; }
 .nx-app-download a { overflow-wrap: anywhere; }
+.nx-app-download__button--apk { flex-direction: column; gap: 2px; text-align: center; }
+.nx-app-download__button--apk small { font-size: 0.8rem; opacity: 0.75; }
+.nx-app-download__copy { margin-inline-start: 8px; min-height: 32px; padding: 4px 12px; border: 1px solid currentColor; border-radius: 6px; background: transparent; color: inherit; font: inherit; font-size: 0.9rem; cursor: pointer; }
+.nx-app-download__copy:focus-visible { outline: 2px solid var(--accent, #d4fa70); outline-offset: 3px; }
+.nx-app-download__apk-code { margin-block: 12px 0; }

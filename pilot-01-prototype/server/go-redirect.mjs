@@ -10,6 +10,8 @@ import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 import { BINANCE_OCTOBER_GO_SLUGS, binanceCampaignActive, binanceCampaignUrl } from '../src/data/binance-october.js';
 import { BITGET_ALLIANCE_GO_SLUG, bitgetAllianceActive, bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
 import { KRAKEN_USDG_GO_SLUG, KRAKEN_USDG_OFFICIAL_URL, krakenUsdgActive } from '../src/data/kraken-usdg.js';
+import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
+import { createApkProbe } from './exchange-apk-probe.mjs';
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
@@ -28,8 +30,10 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, apkTargets = {} } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
+  // venue -> async () => redirect URL (injectable for tests); created lazily so a probe runs only once someone clicks.
+  const apkProbes = { ...apkTargets };
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
 
   return async function handle(request) {
@@ -63,6 +67,15 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       target = KRAKEN_USDG_OFFICIAL_URL;
       campaign = 'usdg-challenge';
       venue = 'kraken';
+    } else if (EXCHANGE_APK_BY_GO_SLUG[slug]) {
+      // Official Android APK (lead 2026-10-13): /go/okx-apk and /go/binance-apk redirect to the exchange's own APK URL
+      // while the cached probe confirms the chain stays on its host and ends in an APK; otherwise its download page.
+      const apk = EXCHANGE_APK_BY_GO_SLUG[slug];
+      if (!apkProbes[apk.venue]) apkProbes[apk.venue] = createApkProbe(apk.venue);
+      try { target = await apkProbes[apk.venue](); } catch { target = apk.fallbackUrl; }
+      if (target !== apk.officialUrl) target = apk.fallbackUrl;
+      campaign = 'android-apk';
+      venue = apk.venue;
     } else if (campaignKey) {
       if (!binanceCampaignActive(campaignKey, now())) {
         return new Response(null, { status: 302, headers: { ...headers, location: `/go/binance?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}` } });
