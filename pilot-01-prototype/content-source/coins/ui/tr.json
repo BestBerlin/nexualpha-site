@@ -16,7 +16,7 @@
   "change24h": "24 sa",
   "rank": "Piyasa değeri sırası",
   "marketCap": "Piyasa değeri",
-  "snapshot": "{time} UTC verisi",
+  "snapshot": "{time} verisi",
   "live": "Güncelleme: {time}",
   "listedOn": "Listelendiği borsalar",
   "venuesCount": "{n} borsa",

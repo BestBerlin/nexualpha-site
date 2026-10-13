@@ -16,7 +16,7 @@
   "change24h": "24 jam",
   "rank": "Peringkat kapitalisasi pasar",
   "marketCap": "Kapitalisasi pasar",
-  "snapshot": "Data {time} UTC",
+  "snapshot": "Data {time}",
   "live": "Diperbarui {time}",
   "listedOn": "Tersedia di",
   "venuesCount": "{n} exchange",

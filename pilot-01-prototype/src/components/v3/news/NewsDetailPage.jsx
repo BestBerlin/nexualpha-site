@@ -30,6 +30,7 @@ import { glossaryTermPath } from "../../../data/glossary-routes.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
+import { formatSgt } from "../../../data/local-time.js";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
 import { detectArticleAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
@@ -846,6 +847,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const leadKind = leadHeading ? (isShortAnswerHeading(leadHeading) ? "short-answer" : "lead") : null;
   const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
   const publishedStamp = utcStamp(article.publishedAt);
+  const publishedDate = formatSgt(article.publishedAt, locale, "date");
   const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
   const categoryLabel = localizedValue(article.categoryName, locale);
   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
@@ -895,7 +897,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           <div className="news-detail__metaline">
             <ArticleByline article={article} locale={locale} />
             <div className="news-detail__meta">
-              <time className="news-detail__date" dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString(locale, { timeZone: "UTC" })}{publishedStamp ? <span className="news-detail__clock"> {publishedStamp.slice(13)}</span> : null}</time>
+              <time className="news-detail__date" dateTime={article.publishedAt}>{publishedDate}{publishedStamp ? <span className="news-detail__clock"> {publishedStamp.slice(13)}</span> : null}</time>
               <span className="news-detail__readtime">{localizeReadTime(content ? formatReadTime(estimateReadMinutes(content, contentLocale)) : newsReadTimeFor(article, contentLocale), t)}</span>
             </div>
           </div>

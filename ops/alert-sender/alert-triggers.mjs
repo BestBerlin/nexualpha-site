@@ -42,12 +42,16 @@ export function saveTriggers(doc, opts) {
 // The /alerts card language is the member's chosen language; a member who never opened it falls back to the language
 // stored with their triggers, then zh (the bot's default). Never throws: it runs inside the poller's error paths.
 export function alertLangFor(userId, opts) {
+  return storedLangFor(userId, opts) || "zh";
+}
+/** The member's chosen language (/alerts card, then their /alert rules), or null when they never chose one. */
+export function storedLangFor(userId, opts) {
   try {
     const subs = JSON.parse(readFileSync(subsFile(opts), "utf8"));
     const l = normLang(subs?.users?.[String(userId)]?.lang);
     if (l) return l;
   } catch { /* no subscriptions file yet */ }
-  try { return normLang(loadTriggers(opts).users[String(userId)]?.lang) || "zh"; } catch { return "zh"; }
+  try { return normLang(loadTriggers(opts).users[String(userId)]?.lang) || null; } catch { return null; }
 }
 export const readSubscriptionLang = alertLangFor;
 

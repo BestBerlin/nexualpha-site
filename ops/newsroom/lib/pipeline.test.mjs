@@ -29,6 +29,67 @@ test('dedupe attaches new items to an existing event with UPDATE instead of INSE
   assert.ok(sql.includes("users'' funds"));
 });
 
+test('dedupe SQL persists story asset/action keys and explicit delisting deadlines', () => {
+  const items = [
+    { ...item(11, 'Bybit Will Delist STG Trading Pairs on 2026-10-14'), source_id: 'bybit-announcements', url: 'https://announcements.bybit.com/stg', body_excerpt: 'Project review happened on 2026-10-12. Bybit will delist STGUSDT spot trading pair at 2026-10-14 08:00 UTC.', event_type_guess: 'delisting' },
+    { ...item(12, 'KuCoin Will Delist STG on 2026-10-15'), source_id: 'kucoin-announcements', url: 'https://www.kucoin.com/announcement/stg', body_excerpt: 'KuCoin will delist STG at 8:00 on October 15, 2026 (UTC).', event_type_guess: 'delisting' },
+  ];
+  const merged = mergeRawItems(items, { watchlist: [
+    { id: 'bybit', kind: 'exchange', display_name: { en: 'Bybit' }, aliases: [], status: 'active' },
+    { id: 'kucoin', kind: 'exchange', display_name: { en: 'KuCoin' }, aliases: [], status: 'active' },
+  ] });
+  assert.equal(merged.events.length, 2);
+  const { sql } = buildDedupeSql(merged, [11, 12]);
+  assert.match(sql, /story_asset/);
+  assert.match(sql, /'STG'/);
+  assert.match(sql, /'delisting'/);
+  assert.match(sql, /'delisting:stg'/);
+  assert.match(sql, /'2026-10-14T08:00:00Z'::timestamptz/);
+  assert.doesNotMatch(sql, /deadline_at='2026-10-12T/);
+  assert.match(sql, /'2026-10-15T08:00:00Z'::timestamptz/);
+  assert.match(sql, /story_venues/);
+  assert.match(sql, /\[\"bybit\"\]/);
+  assert.match(sql, /\[\"kucoin\"\]/);
+});
+
+
+test('dedupe SQL exposes exchange venues even when the asset is the first subject', () => {
+  const rows = [
+    { ...item(31, 'Bybit Will List BTC Pair'), source_id: 'bybit-announcements', title: 'Bybit Will List BTC', body_excerpt: 'Bybit will list BTCUSDT spot trading pair at 2026-10-14 08:00 UTC.', event_type_guess: 'listing', entities: ['BTC'] },
+  ];
+  const { events } = mergeRawItems(rows, { watchlist: [
+    { id: 'BTC', kind: 'asset', display_name: { en: 'Bitcoin' }, aliases: ['BTC'], status: 'active' },
+    { id: 'bybit', kind: 'exchange', display_name: { en: 'Bybit' }, aliases: [], status: 'active' },
+  ] });
+  assert.equal(events[0].subject_entity, 'BTC');
+  const { sql } = buildDedupeSql({ events, irrelevantItems: [] }, [31]);
+  assert.match(sql, /story_venues/);
+  assert.match(sql, /\[\"bybit\"\]/);
+});
+
+test('dedupe SQL normalizes one-hour market metrics without promoting 24h snapshots', () => {
+  const h1 = {
+    ...item(21, 'Crypto futures liquidation lower bound $62M over h1'),
+    source_id: 'nexualpha-market-events',
+    platform: 'market',
+    event_type_guess: 'liquidation_wave',
+    metrics: { total_liquidations_usd: 62_000_000, provenance: { window: 'h1' } },
+  };
+  const h24 = {
+    ...item(22, 'Crypto futures liquidation lower bound $220M over h24'),
+    source_id: 'nexualpha-market-events',
+    platform: 'market',
+    event_type_guess: 'liquidation_wave',
+    metrics: { total_liquidations_usd: 220_000_000, provenance: { window: 'h24' } },
+    url: 'https://nexualpha.com/intel/market-events.json#h24',
+  };
+  const { sql } = buildDedupeSql(mergeRawItems([h1, h24]), [21, 22]);
+  assert.match(sql, /liquidations_usd_1h/);
+  assert.match(sql, /62000000/);
+  assert.match(sql, /liquidations_usd_24h/);
+  assert.match(sql, /220000000/);
+});
+
 test('runDedupe and runScore are no-ops on an empty pool', () => {
   const calls = [];
   const execute = sql => { calls.push(sql); return '[]'; };
@@ -49,6 +110,9 @@ test('status and export queries are read-only and bounded', () => {
   for (const sql of [statusQuery(), exportTopQuery(50)]) assert.doesNotMatch(sql, /\b(INSERT|UPDATE|DELETE|DROP)\b/);
   assert.match(exportTopQuery(50), /LIMIT 50/);
   assert.match(exportTopQuery(50), /verification_status/);
+  assert.match(exportTopQuery(50), /story_event_ids/);
+  assert.match(exportTopQuery(50), /editorial_score \* greatest/);
+  assert.match(exportTopQuery(50), /claim_quality/);
   assert.throws(() => exportTopQuery(0));
   assert.throws(() => exportTopQuery('5;DROP'));
 });

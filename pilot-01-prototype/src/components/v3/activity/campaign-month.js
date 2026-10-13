@@ -1,4 +1,5 @@
-const calendar = (now, locale) => new Intl.DateTimeFormat("en-CA", { timeZone: String(locale).startsWith("zh") ? "Asia/Shanghai" : "UTC", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date(now)).filter(p => p.type !== "literal").reduce((out, p) => ({ ...out, [p.type]: p.value }), {});
+import { readerDayKey } from "../../../data/local-time.js";
+const calendar = (now) => { const [year, month, day] = readerDayKey(now).split("-"); return { year, month, day }; };
 export function monthCampaigns(items, locale, now = Date.now()) {
   const current = calendar(now, locale);
   return items.filter(item => item.category === "event" && Number.isFinite(Date.parse(item.publishedAt)) && Date.parse(item.publishedAt) <= now).filter(item => {

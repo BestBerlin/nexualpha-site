@@ -11,6 +11,7 @@ import { ARCHIVE_PATH, archiveItems } from '../../../data/announcement-archive.j
 import { localizedHref } from '../../../data/locale-routing.js';
 import { publicCtaForVenue, regionalVenueCta } from '../../../data/source-bound-cta.js';
 import { isPartnerPromotableIn } from '../../../data/partner-geo-policy.js';
+import { formatSgt } from '../../../data/local-time.js';
 import './activity-update.css';
 
 // Market gating is a compliance control (blocked countries must not see partner codes), so links between update pages keep
@@ -57,7 +58,7 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
     <article>
       <header className="update-page__header">
         <a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)} ←</a>
-        <div className="update-page__meta"><BrandMark slug={venue} compact /><b>{cta.name || venue}</b><span>{updateCategory(item, locale)}</span>{item.archived ? <span className="update-page__ended">{t.ended}</span> : null}<time dateTime={item.publishedAt}><bdi>{new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(item.publishedAt))}</bdi></time></div>
+        <div className="update-page__meta"><BrandMark slug={venue} compact /><b>{cta.name || venue}</b><span>{updateCategory(item, locale)}</span>{item.archived ? <span className="update-page__ended">{t.ended}</span> : null}<time dateTime={item.publishedAt}><bdi>{formatSgt(item.publishedAt, locale, 'date')}</bdi></time></div>
         <h1 dir="auto">{updateHeadline(item, locale)}</h1>
         <CampaignBriefFacts brief={item.brief} locale={locale} />
       </header>

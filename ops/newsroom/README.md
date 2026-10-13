@@ -45,6 +45,40 @@ invented here. No promotions are enabled or populated.
 
 ## Validation
 
+Writer claims and `export:top` apply claim-quality gates in addition to verification
+and editorial score. The default age limit is 48 hours; `claim_quality` config can
+override it per event type. Ranking uses editorial score multiplied by remaining
+freshness, with priority overrides used only as a later tie-breaker. Passed
+effective dates/deadlines exclude a notice unless it carries a major follow-up.
+Explicit UTC cutoff times are retained. Date-only action notices use UTC end of
+day as the expiry boundary; writers must re-fetch the source to confirm exact
+times and timezones. Historical backfill uses captured timestamp fields rather
+than guessing a cutoff from an announcement's list of dates.
+
+Primary evidence preserves the announcement body/lede and captured asset, date
+and amount fields. NexuAlpha announcement mirrors and our Telegram reposts are
+discovery hints only. Generic listing/delisting headlines require a captured
+asset from the body before verification or claiming.
+
+Matching asset/action notices across venues within seven days form one writer
+story while retaining the individual event links. Automated market snapshots
+require the `/flash` Important thresholds: at least $50 million liquidated in
+one hour or a BTC/ETH move of at least 3% in one hour. Market stories are limited
+to one per six hours, with a single market story allowed in a claim batch or an
+active writer lease. The same magnitude, six-hour freshness and cadence gates apply
+when a market headline is classified as `fx_macro` or `market_headline`. Forecasts
+and opinion headlines cannot qualify on price metrics alone: an exception requires
+a captured hard retail action (`story_action` or `discussion.action`), a concrete
+effective date or deadline, and `verified-primary` or `corroborated` status. A daily
+percentage or dollar price level never substitutes for a one-hour move.
+Corroboration, credibility and source heat count outlet identities rather than
+feed transports; extend `OUTLET_IDENTITIES` in `lib/evidence-quality.mjs` for new
+aliases. Shadow plans include `source_published_at` and `verification_status`
+(explicitly null/unverified when missing).
+Plans include a two- or three-sentence evidence summary, source URLs,
+an editorial angle and retail relevance; summaries remain leads for source
+re-fetching and package review.
+
 ```sh
 node --test ops/newsroom/**/*.test.mjs
 node ops/newsroom/bin/newsroom.mjs --help

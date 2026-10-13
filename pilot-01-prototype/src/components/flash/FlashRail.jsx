@@ -4,6 +4,7 @@
 // as its own chunk when the rail scrolls near (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { ReaderTime } from "../shared/ReaderTime.jsx";
 import { FLASH_PATH } from "../../data/flash-path.js";
 
 // Same values as FLASH_FEED_URL / FLASH_REFRESH_MS in flash.js (not imported: that module carries the page strings).
@@ -55,7 +56,7 @@ export function FlashRail({ locale = "en" }) {
     <ol className="h7-flash-list" aria-busy={items ? undefined : "true"}>
       {rows.map((item, index) => item
         ? <li key={item.id}>
-          <time dateTime={item.time}><bdi>{String(item.time).slice(11, 16)}</bdi></time>
+          <ReaderTime iso={item.time} locale={locale} />
           <span className="h7-flash-tag" data-type={item.type} data-important={item.important ? "true" : undefined}>{item.typeLabel}</span>
           <a href={localizedHref(item.path, { locale })} lang={item.lang !== locale ? item.lang : undefined} dir="auto">{item.headline}</a>
         </li>
