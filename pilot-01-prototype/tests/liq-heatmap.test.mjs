@@ -46,8 +46,11 @@ test('SSR en and zh-hans retain recorded summary, largest order and estimated le
    import {estimateLiquidationLevels} from '../../src/data/liquidation-levels.js';
    const now=Date.parse('2026-10-13T12:00:00Z');
    const feed={generatedAt:new Date(now).toISOString(),liquidations:{timeline:buildLiquidationTimeline([{t:now-300000,s:'BTCUSDT',side:'long',usd:123456},{t:now-600000,s:'ETHUSDT',side:'short',usd:50000}],[],now)}};
+   const legacyFeed={generatedAt:new Date(now).toISOString(),liquidations:{timeline:{symbols:['BTC'],coverage:{label:'Binance + OKX observed liquidations',venueCount:2},h24:{bucketMs:300000,buckets:[{t:now-300000,start:new Date(now-300000).toISOString(),observed:true,longUsd:0,shortUsd:200,symbols:{BTC:{longUsd:0,shortUsd:200}}}],largest:[{symbol:'BTC',venue:'OKX',side:'short',usd:200,at:new Date(now-300000).toISOString()}],largestBySymbol:{BTC:[{symbol:'BTC',venue:'OKX',side:'short',usd:200,at:new Date(now-300000).toISOString()}]}},d7:{bucketMs:3600000,buckets:[],largest:[]}}}};
    const levels={generatedAt:new Date(now).toISOString(),symbols:[estimateLiquidationLevels({symbol:'BTC',price:60000,openInterestUsd:1000000})]};
-   console.log(JSON.stringify(Object.fromEntries(['en','zh-Hans','ja','ar'].map(locale=>[locale,renderToStaticMarkup(React.createElement(LiquidationHeatmapPage,{locale,initialFeed:feed,initialLevels:levels}))]))));
+   const out=Object.fromEntries(['en','zh-Hans','ja','ar'].map(locale=>[locale,renderToStaticMarkup(React.createElement(LiquidationHeatmapPage,{locale,initialFeed:feed,initialLevels:levels}))]));
+   out.legacy=renderToStaticMarkup(React.createElement(LiquidationHeatmapPage,{locale:'en',initialFeed:legacyFeed,initialLevels:levels}));
+   console.log(JSON.stringify(out));
   `);
   execFileSync(path.join(project,'node_modules/.bin/esbuild'),[entry,'--bundle','--platform=node','--format=cjs',`--outfile=${bundle}`,'--loader:.css=empty','--log-level=error']);
   const out = JSON.parse(execFileSync('node',[bundle],{encoding:'utf8'}));
@@ -63,6 +66,8 @@ test('SSR en and zh-hans retain recorded summary, largest order and estimated le
   assert.match(out['zh-Hans'],/清算热力图/);
   assert.match(out.ar,/<main[^>]+dir="rtl"/);
   assert.doesNotMatch(out.ja,/\/go\/okx\?/);
+  assert.match(out.legacy, /OKX observed liquidations/);
+  assert.doesNotMatch(out.legacy, /Binance USDT-M \+ OKX/);
  } finally { await rm(dir,{recursive:true,force:true}); }
 });
 

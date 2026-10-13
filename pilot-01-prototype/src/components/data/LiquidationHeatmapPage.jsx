@@ -3,7 +3,7 @@ import { localizedHref } from '../../data/locale-routing.js';
 import { heatmapCopy } from '../../data/heatmap-copy.js';
 // Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
 import { heatmapPartnerHref, timelineRows } from '../../data/heatmap-view.js';
-import { formatUsdCompact, formatUsdFull, formatUtc } from '../../data/market-data-pages.js';
+import { formatUsdCompact, formatUsdFull, formatUtc, readLiquidationCoverage } from '../../data/market-data-pages.js';
 import { HeatmapCanvas } from './HeatmapCanvas.jsx';
 import { useMarketEvents } from './useMarketEvents.js';
 import { DataUnavailable, textDirection } from './DataPageFrame.jsx';
@@ -21,6 +21,7 @@ export function LiquidationTimeline({ feed, locale = 'en', showSource = true }) 
  const symbols = timeline?.symbols || [];
  const rows = timelineRows(window,symbol);
  const largest = (symbol === 'ALL' ? (window?.largest || []) : (window?.largestBySymbol?.[symbol] || (window?.largest || []).filter(r=>r.symbol===symbol))).slice(0,10);
+ const coverage = readLiquidationCoverage(window?.coverage, window?.largest || []);
  const longUsd = rows.reduce((a,r)=>a+r.longUsd,0), shortUsd = rows.reduce((a,r)=>a+r.shortUsd,0);
  return <section className="nxh-section v2-shell" data-testid="liquidation-timeline">
   <h2>{c.timeline}</h2>
@@ -28,7 +29,7 @@ export function LiquidationTimeline({ feed, locale = 'en', showSource = true }) 
    <label>{c.timeline}<select value={windowKey} onChange={e=>setWindow(e.target.value)}><option value="h24">24h · 5 min</option><option value="d7">7d · 1h</option></select></label>
    <label>{c.all}<select value={symbol} onChange={e=>setSymbol(e.target.value)}><option value="ALL">{c.all}</option>{symbols.map(s=><option key={s} value={s}>{s}</option>)}</select></label>
   </div>
-  <p className="nxh-legend">{showSource ? 'Binance USDT-M + OKX · ' : ''}{c.lowerBound} · {c.longs} / {c.shorts} · USD · SGT</p>
+  <p className="nxh-legend">{showSource ? `${coverage.label} · ` : ''}{c.lowerBound} · {c.longs} / {c.shorts} · USD · SGT</p>
   {rows.length ? <>
    <p className="nxh-summary">{c.longs}: <b>{formatUsdFull(longUsd)}</b> ({longUsd+shortUsd ? Math.round(longUsd/(longUsd+shortUsd)*100):0}%) · {c.shorts}: <b>{formatUsdFull(shortUsd)}</b></p>
    <HeatmapCanvas rows={rows} title={`${c.timeline} · USD / SGT`} longs={c.longs} shorts={c.shorts} />
