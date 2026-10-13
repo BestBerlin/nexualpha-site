@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { campaignSitemapEntries } from "../src/data/campaign-autodraft.js";
 import { articleRelatedPool } from '../src/data/article-related-links.js';
 import { applyNewsSearchStateToFeed, newsStrengthRank } from "../src/data/news-search-state.js";
 import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_EFFECTIVE_DATE } from "../src/data/legal-pages.js";
@@ -379,7 +380,7 @@ export function buildLicensesSitemap() {
 
 // Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12), Bitget Alliance (2026-10-13).
 export function buildCampaignSitemap() {
-  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options), ...bitgetAllianceSitemapEntries(options), ...krakenUsdgSitemapEntries(options)]);
+  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options), ...bitgetAllianceSitemapEntries(options), ...krakenUsdgSitemapEntries(options), ...campaignSitemapEntries(options)]);
 }
 
 function buildDownloadOrAcademySitemap(sitemapEntries) {

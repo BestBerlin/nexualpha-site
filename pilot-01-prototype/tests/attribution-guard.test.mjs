@@ -1,3 +1,5 @@
+import { APPROVED_CAMPAIGNS } from "../src/data/campaign-autodraft.generated.js";
+import { campaignSignup, campaignTarget } from "../src/data/campaign-autodraft.js";
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
@@ -43,8 +45,10 @@ for (const [venue, facts] of Object.entries(EXCHANGE_FACTS)) {
 for (const [host, venue] of Object.entries({ 'gate.io': 'gate-io', 'gate.com': 'gate-io', 'gate.us': 'gate-io', 'bitget.cafe': 'bitget' })) addDomain(host, venue);
 for (const key of Object.keys(BINANCE_OCTOBER_CAMPAIGNS)) targets.push({ venue: 'binance', url: new URL(binanceCampaignUrl(key)) });
 targets.push({ venue: 'bitget', url: new URL(bitgetAllianceUrl()) });
+for (const campaign of APPROVED_CAMPAIGNS) targets.push({ venue: campaign.venue, url: new URL(campaignTarget(campaign)) });
 const goVenues = new Map(Object.keys(partnerRegistry).map(venue => [venue, venue]));
 for (const campaign of Object.values(BINANCE_OCTOBER_CAMPAIGNS)) goVenues.set(campaign.slug, 'binance');
+for (const campaign of APPROVED_CAMPAIGNS) goVenues.set(`campaign-${campaign.id}`, campaign.venue);
 goVenues.set('bitget-alliance', 'bitget');
 goVenues.set(KRAKEN_USDG_GO_SLUG, 'kraken');
 for (const venue of SITEWIDE_PARAM_VENUES) if (sitewideReferral(venue)) goVenues.set(`${venue}-page`, venue);
@@ -191,7 +195,16 @@ test('every /go route in the registries redirects with the venue code or campaig
   const report = [];
   for (const [slug, venue, query] of routes) for (const [label, handle] of [['mirror-up', up], ['mirror-down', down]]) {
     if (label === 'mirror-down' && !slug.endsWith('-alt')) continue;
-    const response = await handle(new Request(`https://nexualpha.com/go/${slug}${query}`, { headers: { 'user-agent': 'Mozilla/5.0' } }));
+    const campaign = APPROVED_CAMPAIGNS.find(c => `campaign-${c.id}` === slug);
+    const candidateMarkets = campaign?.allowedCountries.length ? campaign.allowedCountries : [undefined];
+    const market = campaign ? candidateMarkets.find(market => campaignSignup(campaign, { market, now: Date.parse(campaign.startAt) + 1 })) : undefined;
+    const campaignQuery = market ? `?market=${market}` : query;
+    const routeHandle = campaign ? createGoRedirect({ clientRoot: dir, now: () => new Date(Date.parse(campaign.startAt) + 1) }) : handle;
+    const response = await routeHandle(new Request(`https://nexualpha.com/go/${slug}${campaignQuery}`, { headers: { 'user-agent': 'Mozilla/5.0' } }));
+    if (campaign && !campaignSignup(campaign, { market, now: Date.parse(campaign.startAt) + 1 })) {
+      assert.equal(response.status, 403, `/go/${slug} remains gated when no permitted campaign market exists`);
+      continue;
+    }
     assert.equal(response.status, 302, `/go/${slug} resolves`);
     const location = response.headers.get('location');
     report.push(`/go/${slug}${query} (${label}) -> ${location}`);
@@ -246,7 +259,8 @@ test('built SSR and content/data exchange links retain attribution', async () =>
   const { render } = await import('../dist/ssr/entry-server.js');
   const runtimePaths = ['/academy', ...ACADEMY_EPISODES.map(episode => `/academy/${episode.slug}`),
     ...APP_DOWNLOAD_SLUGS.map(appDownloadPath), '/coins', ...COINS.map(coin => `/coins/${coin.slug}`),
-    '/activities/binance-october-gifts', '/activities/bitget-alliance', '/activities/bybit-stocks'];
+    '/activities/binance-october-gifts', '/activities/bitget-alliance', '/activities/bybit-stocks',
+    ...APPROVED_CAMPAIGNS.map(c => `/activities/${c.id}`)];
   let runtimePages = 0;
   for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) for (const pathname of runtimePaths) {
     const page = localizedPath(pathname, locale);

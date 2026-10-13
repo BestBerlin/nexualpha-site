@@ -1,3 +1,5 @@
+import { APPROVED_CAMPAIGNS } from "../src/data/campaign-autodraft.generated.js";
+import { campaignSignup, campaignTarget } from "../src/data/campaign-autodraft.js";
 // Tracked partner redirect (owner 2026-10-10): /go/<partner>?src=<source> records one click and redirects to the
 // partner's registration URL from the build's partner feed (intel/partners.json), unchanged, so invite codes and
 // links stay exactly what the registry says. Only time, partner, source, referring host and sanitized attribution
@@ -108,7 +110,15 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     // to the regular /go/binance route (which records its own click).
     const campaignKey = BINANCE_OCTOBER_GO_SLUGS[slug];
     let venue = 'binance';
-    if (slug === BITGET_ALLIANCE_GO_SLUG) {
+    const approved = APPROVED_CAMPAIGNS.find(c => `campaign-${c.id}` === slug);
+    if (approved) {
+      const country = request.headers.get('cf-ipcountry');
+      const context = { locale: url.searchParams.get('locale') || 'en', market: /^[A-Z]{2}$/.test(country || '') && !['XX', 'T1'].includes(country) ? country : url.searchParams.get('market') || undefined, now: now() };
+      if (!campaignSignup(approved, context)) return new Response('Unavailable', { status: 403, headers });
+      target = campaignTarget(approved);
+      campaign = approved.id;
+      venue = approved.venue;
+    } else if (slug === BITGET_ALLIANCE_GO_SLUG) {
       // Bitget Alliance (owner 2026-10-13): the official www.bitget.com campaign page with the campaign code (never the
       // mirror domain), in the visitor's language; after 26 Oct 16:00 UTC+8 it falls back to the regular /go/bitget.
       if (!bitgetAllianceActive(now())) {

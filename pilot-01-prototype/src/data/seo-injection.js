@@ -1,3 +1,4 @@
+import { approvedCampaign, campaignRouteSeo } from "./campaign-autodraft.js";
 import { applyExchangeQuickAnswers } from "./exchange-quick-answer-schema.js";
 import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
@@ -2214,6 +2215,13 @@ function computeRouteSeoUnbudgeted(options = {}) {
   } else if (parseBitgetAlliancePath(pathname)) {
     // Bitget Alliance campaign page: same helper as the Worker head (src/data/bitget-alliance-seo.js).
     const campaign = bitgetAllianceRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = campaign.title;
+    description = campaign.description;
+    schemas = campaign.schemas;
+    if (!campaign.indexable) robots = "noindex,follow";
+  } else if (approvedCampaign(pathname)) {
+    const campaign = campaignRouteSeo(pathname, locale, { urlFor: path => canonical(path, locale) });
     accept();
     title = campaign.title;
     description = campaign.description;

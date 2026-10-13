@@ -44,6 +44,7 @@ import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
 import { parseBitgetAlliancePath } from "./data/bitget-alliance-path.js";
+import { approvedCampaign } from "./data/campaign-autodraft.js";
 import { parseKrakenUsdgPath } from "./data/kraken-usdg-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
@@ -116,6 +117,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
+  "./components/campaigns/AutodraftCampaignPage.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -188,6 +190,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
+  "./components/campaigns/AutodraftCampaignPage.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -284,6 +287,7 @@ const BybitStocksPage = deferredComponent(ROUTE_MODULE_PATHS.bybitStocks, "Bybit
 // Bitget Alliance campaign landing page (2026-10-13): its own route chunk (route-campaign-bitget).
 const BitgetAlliancePage = deferredComponent(ROUTE_MODULE_PATHS.bitgetAlliance, "BitgetAlliancePage");
 // Kraken 5M USDG Futures Challenge page (2026-10-13): its own route chunk (route-campaign-kraken).
+const AutodraftCampaignPage = deferredComponent(ROUTE_MODULE_PATHS.autodraftCampaign, "AutodraftCampaignPage");
 const KrakenUsdgPage = deferredComponent(ROUTE_MODULE_PATHS.krakenUsdg, "KrakenUsdgPage");
 function AcademyRoute({ route, locale }) {
   const content = readAcademyContent(locale);
@@ -623,6 +627,8 @@ function routeState(venues, initialUrl) {
   if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   if (parseBybitStocksPath(pathname)) return { name: "bybitStocks", ...contextParams() };
   if (parseBitgetAlliancePath(pathname)) return { name: publicRoute.locale === "tr" ? "activities" : "bitgetAlliance", ...contextParams() };
+  const autodraft = approvedCampaign(pathname);
+  if (autodraft) return { name: "autodraftCampaign", id: autodraft.id, ...contextParams() };
   if (parseKrakenUsdgPath(pathname)) return { name: "krakenUsdg", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
@@ -912,6 +918,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
   if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);
+  if (route.name === "autodraftCampaign") return pageShell(<AutodraftCampaignPage id={route.id} locale={locale} market={route.market} />);
   if (route.name === "krakenUsdg") return pageShell(<KrakenUsdgPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "liquidationHeatmap") return pageShell(<LiquidationHeatmapPage locale={locale} initialFeed={initialMarketEvents} initialLevels={initialLiquidationLevels} />, { deferContent: false });

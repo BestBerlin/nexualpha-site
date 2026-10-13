@@ -82,6 +82,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   // Bitget Alliance campaign page (/activities/bitget-alliance, 2026-10-13): route chunk route-campaign-bitget.
   bitgetAlliance: "./components/campaigns/BitgetAlliancePage.jsx",
   // Kraken 5M USDG Challenge page (/activities/kraken-usdg-challenge, 2026-10-13): route chunk route-campaign-kraken.
+  autodraftCampaign: "./components/campaigns/AutodraftCampaignPage.jsx",
   krakenUsdg: "./components/campaigns/KrakenUsdgPage.jsx",
 });
 
@@ -200,6 +201,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
   if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];
   if (name === "bitgetAlliance") return [ROUTE_MODULE_PATHS.bitgetAlliance];
+  if (name === "autodraftCampaign") return [ROUTE_MODULE_PATHS.autodraftCampaign];
   if (name === "krakenUsdg") return [ROUTE_MODULE_PATHS.krakenUsdg];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
