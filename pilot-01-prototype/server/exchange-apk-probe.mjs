@@ -25,6 +25,10 @@ export async function checkApkChain(venue, fetchImpl = fetch, { timeoutMs = TIME
         try { next = new URL(res.headers.get('location') || '', url).href; } catch { next = null; }
         hops.push({ url, status: res.status });
         if (!next || !res.headers.get('location')) return { healthy: false, hops };
+        if (!apkHostAllowed(venue, next) && apk.channelFile && new URL(next).pathname === apk.channelFile) {
+          // OKX's own host redirected to a regional mirror for our channel file: healthy, mirror not requested.
+          return { healthy: true, hops, mirror: next };
+        }
         url = next;
         continue;
       }
