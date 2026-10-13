@@ -316,7 +316,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     });
   }
   // Official update pages (live feed + archive), rendered by the Worker at request time (2026-10-12).
-  indexRows.push({ loc: "https://nexualpha.com/sitemap-updates.xml", ...(options.newsSitemapLastmod ? { lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10) } : {}) });
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-updates.xml" });
   // NexuAlpha Academy (2026-10-12): hub + 24 lessons in every locale with a localized lesson, rendered by the Worker at
   // request time. Like sitemap-updates.xml it is its own file outside the route inventory's publication budget; its
   // hreflang sets are the page head's (routeAlternates over ACADEMY_INDEX_LOCALES).

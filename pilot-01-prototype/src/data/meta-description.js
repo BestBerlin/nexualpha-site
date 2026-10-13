@@ -173,7 +173,13 @@ function truncateTitleToBudget(title, budget) {
   return `${value.slice(0, cut).replace(/[\s:;,.，、；：\-–—]+$/u, "")}${ELLIPSIS}`;
 }
 export function budgetTitle(title, budget = 60) {
-  const value = String(title || "");
+  // These Chinese API articles share a 33-character English product prefix. Cutting it to the CJK
+  // budget erased the actual subject (JWT reconnect, subscription failover, or user-feed limits).
+  // Keep the product and protocol, then spend the snippet budget on the article's Chinese subject.
+  const raw = String(title || "");
+  const value = budget === 32 && raw.length > budget && /[\u3400-\u9fff]/u.test(raw)
+    ? raw.replace(/^Coinbase Advanced Trade WebSocket\s*/, "Coinbase 进阶交易 WS ")
+    : raw;
   const unbranded = value.endsWith(BRAND_SUFFIX) && titleDisplayWidth(value) > budget
     ? value.slice(0, -BRAND_SUFFIX.length)
     : value;

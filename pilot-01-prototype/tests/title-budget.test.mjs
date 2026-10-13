@@ -25,3 +25,14 @@ test("Worker head and computeRouteSeo apply the same title budget", async () => 
     assert.ok(seo.title.length <= titleBudgetForLocale(seo.locale), `client ${path}: ${seo.title}`);
   }
 });
+
+test("Chinese Coinbase WebSocket titles retain their distinct API subjects", () => {
+  const subjects = ["JWT、用户频道与重连清单", "用户流：故障转移与限频清单", "JWT、订阅与故障切换清单"];
+  const titles = subjects.map((subject) => budgetTitle(`Coinbase Advanced Trade WebSocket ${subject}`, 32));
+  assert.equal(new Set(titles).size, subjects.length);
+  titles.forEach((title, index) => {
+    assert.ok(title.length <= 32);
+    assert.ok(title.includes(subjects[index]), title);
+    assert.match(title, /^Coinbase 进阶交易 WS /);
+  });
+});

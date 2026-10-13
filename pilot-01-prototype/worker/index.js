@@ -8,7 +8,7 @@ import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-top
 import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
 import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
 import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
-import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
@@ -74,7 +74,7 @@ import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLA
 import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { isMoversSnapshot } from "../src/data/movers.js";
 import { spliceMoversHtml } from "../src/data/movers-html.js";
-import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
+import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, parseAnnouncementTitle, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
@@ -3404,21 +3404,10 @@ function localizedArticleText(value, locale) {
   return localized(value, locale) || (typeof value === "string" ? value : "");
 }
 
-function hasExactArticleText(value, locale) {
-  return Boolean(value && typeof value === "object" && typeof value[locale] === "string" && value[locale].trim());
-}
-
 const NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE = "nexualpha-news-route-projection-v1";
 
 function articlePublishedLocales(article) {
-  if (!article || typeof article !== "object") return [];
-  const explicit = Array.isArray(article.availableLocales)
-    ? article.availableLocales.filter((locale) => NEWS_INDEXABLE_LOCALES.includes(locale))
-    : NEWS_INDEXABLE_LOCALES;
-  const locales = explicit.filter((locale) => hasExactArticleText(article.title, locale)
-    && hasExactArticleText(article.summary, locale)
-    && hasExactArticleText(article.content, locale));
-  return withoutNeutralReferralEditions(article, NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale)));
+  return newsArticleAvailableLocales(article);
 }
 
 function articleProjectionLocales(article) {
@@ -3433,12 +3422,7 @@ function articleProjectionLocales(article) {
 }
 
 function articleSeoLocales(article) {
-  const publishedLocales = articlePublishedLocales(article);
-  if (!article || typeof article !== "object") return publishedLocales;
-  if (article.status !== "PUBLISHED" || article.seo?.noindex !== false) return publishedLocales;
-  if (!Array.isArray(article.sources) || article.sources.length === 0) return publishedLocales;
-  const projectedLocales = articleProjectionLocales(article);
-  return projectedLocales.length > publishedLocales.length ? projectedLocales : publishedLocales;
+  return newsArticleSeoLocales(article);
 }
 
 function newsPublishedLocales(articles = []) {
@@ -6255,11 +6239,60 @@ function venueDisplayName(slug) {
   return VENUE_REGISTRY[slug]?.name || String(slug || "").split("-").filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ") || "Exchange";
 }
 
+function activityUpdateRawTitle(item) {
+  const title = item?.headlines?.en || (item?.title && typeof item.title === "object" ? item.title.en : item?.title);
+  return typeof title === "string" ? title.trim() : "";
+}
+
+function activityUpdateSubject(item, locale) {
+  const rawTitle = activityUpdateRawTitle(item);
+  const parsed = parseAnnouncementTitle(rawTitle);
+  const assets = Array.isArray(parsed.assets) ? parsed.assets.slice(0, 4) : [];
+  if (assets.length) {
+    return assets.join(", ");
+  }
+  const briefHeadline = localizedBriefText(item?.brief?.headline, locale);
+  if (briefHeadline) return briefHeadline;
+  if (parsed.prize) return `${parsed.prize.amount} ${parsed.prize.asset}`;
+  const cleaned = rawTitle
+    .replace(/^(?:new listing:\s*)?(?:listing of\s+)?/i, "")
+    .replace(/^(?:world premiere:\s*)/i, "")
+    .replace(/^(?:binance futures will (?:launch|list)\s+)/i, "")
+    .replace(/^(?:kucoin will list\s+)/i, "")
+    .replace(/\s+on\s+(?:Binance|Bybit|Bitget|KuCoin|OKX|Kraken)\b.*$/i, "")
+    .replace(/\s*\((?:20\d{2}-\d{2}-\d{2}|[^)]{1,16})\)\s*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return cleaned || rawTitle;
+}
+
+// ISO-like string shifted to Singapore Time (UTC+8); callers label it SGT.
+function activityUpdateSgtInstant(item) {
+  const ms = Date.parse(item?.publishedAt);
+  return Number.isFinite(ms) ? new Date(ms + 8 * 60 * 60 * 1000).toISOString() : null;
+}
+
+function activityUpdateSeoTitle(item, locale) {
+  const subject = activityUpdateSubject(item, locale);
+  const venueName = venueDisplayName(item.venue);
+  // Retain the announcement's time before budgeting: shared source prefixes must not erase identity.
+  // Site time is Singapore Time (UTC+8), always labelled SGT.
+  const instant = activityUpdateSgtInstant(item);
+  // Minutes are enough to separate announcements; seconds would eat the CJK title budget.
+  const when = instant ? `${instant.slice(5, 16).replace("T", " ")} SGT` : "";
+  const prefix = `${venueName}${when ? ` ${when}` : ""}: `;
+  const budget = titleBudgetForLocale(locale);
+  return `${prefix}${budgetTitle(subject || updateHeadline(item, locale), Math.max(1, budget - prefix.length))}`;
+}
+
 function activityUpdateDescription(item, locale) {
   const briefSummary = localizedBriefText(item?.brief?.summary, locale);
-  if (briefSummary) return clampMetaDescription(briefSummary, locale);
   const venueName = venueDisplayName(item.venue);
-  const headline = updateHeadline(item, locale) || item.title;
+  const rawHeadline = updateHeadline(item, locale) || activityUpdateRawTitle(item);
+  const instant = activityUpdateSgtInstant(item);
+  const headline = `${instant ? `${instant.slice(0, 19).replace("T", " ")} SGT · ` : ""}${rawHeadline}`;
+  if (briefSummary) return clampMetaDescription(`${venueName}: ${headline}. ${briefSummary}`, locale);
+
   const category = updateCategory(item, locale);
   const templates = {
     "zh-Hans": `${venueName} 官方${category}更新：${headline}。NexuAlpha 保留站内解读、账户步骤和官方原文入口。`,
@@ -8609,7 +8642,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         const items = [...(compact?.items || []).filter((row) => row.id !== archived.id), archived];
         return {
           status: 200,
-          title: budgetTitle(`${venueDisplayName(archived.venue)} ${category}: ${headline} | NexuAlpha`, titleBudgetForLocale(requestedLocale)),
+          title: activityUpdateSeoTitle(archived, requestedLocale),
           description: activityUpdateDescription(archived, requestedLocale),
           canonical,
           locale,
@@ -8628,7 +8661,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         const venueName = venueDisplayName(update.venue);
         const canonical = localizedCanonical(updatePath(update), locale);
         const indexable = ["listing", "event"].includes(update.category) && !isUpdateNoindex(update);
-        const title = budgetTitle(`${venueName} ${category}: ${headline} | NexuAlpha`, titleBudgetForLocale(requestedLocale));
+        const title = activityUpdateSeoTitle(update, requestedLocale);
         return {
           status: 200,
           title,
