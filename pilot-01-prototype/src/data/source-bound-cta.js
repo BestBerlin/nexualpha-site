@@ -17,6 +17,14 @@ const SOURCE_REVIEW_GATES = Object.freeze({
   }),
 });
 
+// These locales publish research only; territory inferred from a language must
+// never reopen an account or campaign action on their pages.
+const NEUTRAL_SIGNUP_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const NEUTRAL_SIGNUP_GATE = Object.freeze({ reason: "neutral-locale-signup-disabled" });
+function neutralSignupGate(locale) {
+  return NEUTRAL_SIGNUP_LOCALES.has(locale) ? NEUTRAL_SIGNUP_GATE : null;
+}
+
 export function sourceBoundActionGate(slug) {
   return SOURCE_REVIEW_GATES[String(slug || "").toLowerCase()] || null;
 }
@@ -48,12 +56,12 @@ function failClosedPublicCta(cta, gate) {
 
 export function publicCtaForVenue(slug, locale = "en", market) {
   const cta = basePublicCtaForVenue(slug, locale);
-  return failClosedPublicCta(cta, partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
+  return failClosedPublicCta(cta, neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {
   const cta = baseRegionalVenueCta(slug, locale, market, product);
-  const gate = partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
+  const gate = neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
   const contextSearch = directoryContextSearch({
     market,
     product,

@@ -193,7 +193,12 @@ test("NX-05 /onchain body: guide H1, plain 'not published' status, official repo
     assert.equal((html.match(/<h1/g) || []).length, 1);
     assert.doesNotMatch(h1, /board|dashboard|看板|ボード|보드|panosu|Panel|Painel|Tableau|Pannello|Панель|لوحة|Papan|Bảng/i, `${locale} H1`);
     assert.match(html, /role="status" data-live-metrics="not-published">[^<]{20,}</, `${locale}: status says live metrics are not published`);
-    for (const source of sources) assert.ok(html.includes(`href="${source.url}"`), `${locale}: ${source.slug} official report link`);
+    for (const source of sources) {
+      if (locale === "tr" && source.slug === "bitget") {
+        assert.ok(!html.includes(`href="${source.url}"`), "Türkiye keeps Bitget evidence unlinked");
+        assert.match(html, /<span data-por-venue="bitget">/);
+      } else assert.ok(html.includes(`href="${source.url}"`), `${locale}: ${source.slug} official report link`);
+    }
     assert.doesNotMatch(html, /rel="sponsored|<table/, `${locale}: no partner table or sponsored link`);
     assert.match(html, /class="onchain-board__guarantee"[\s\S]*?<p>[^<]{40,}<\/p>/, `${locale}: visible not-a-guarantee note`);
     assert.match(html, /<ol>(<li>[^<]+<\/li>){5}<\/ol>/, `${locale}: five reading steps`);

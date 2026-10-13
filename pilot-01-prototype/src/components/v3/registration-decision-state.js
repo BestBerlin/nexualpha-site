@@ -1,3 +1,4 @@
+const TRACKED_OFFICIAL_ROUTE_RE = /^\/go\/[a-z0-9-]+(?:\?[^\s#]*)?$/;
 const HTTPS_URL_RE = /^https:\/\//i;
 
 export function buildRegistrationDecisionState({ publicCta = {}, regionalCta = {}, decisionPassport = {}, officialRouteUrl = null } = {}) {
@@ -19,7 +20,7 @@ export function buildRegistrationDecisionState({ publicCta = {}, regionalCta = {
   }
 
   if (!canOpenThirdParty) {
-    if (HTTPS_URL_RE.test(officialRouteUrl || "")) {
+    if (HTTPS_URL_RE.test(officialRouteUrl || "") || TRACKED_OFFICIAL_ROUTE_RE.test(officialRouteUrl || "")) {
       return {
         state: "verify-first",
         canOpenThirdParty: false,

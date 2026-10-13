@@ -5,6 +5,7 @@
 // value, no user id. Crawlers are not counted and the route is noindex.
 import { readFile, appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { partnerRegistry } from '../src/data/partner-registry.js';
 import { clickMetadata } from './click-metadata.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
@@ -23,6 +24,11 @@ export function createPartnerMapLoader(clientRoot) {
     if (!partners || Date.now() - loadedAt > 5 * 60 * 1000) {
       const feed = JSON.parse(await readFile(path.join(clientRoot, 'intel', 'partners.json'), 'utf8'));
       partners = new Map((feed.partners || []).filter((p) => /^https:\/\//.test(p.registrationUrl || '')).map((p) => [p.slug, p.registrationUrl]));
+      // Official-only routes need NexuAlpha click tracking too. Use the unchanged owner URL;
+      // never revive a referral venue omitted by the feed's verification/placeholder gates.
+      for (const [slug, partner] of Object.entries(partnerRegistry)) {
+        if (partner.hasReferral === false && /^https:\/\//.test(partner.registrationUrl || '')) partners.set(slug, partner.registrationUrl);
+      }
       loadedAt = Date.now();
     }
     return partners;

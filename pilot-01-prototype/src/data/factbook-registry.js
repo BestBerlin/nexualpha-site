@@ -332,7 +332,7 @@ export const FACTBOOK_REGISTRY = {
       code: "N/A (Institutional Model)",
       percent: 0,
       welcomeBonus: "$0",
-      url: "https://www.coinbase.com",
+      url: "/go/coinbase?src=factbook",
     },
     tokenDiscount: {
       token: "None",
@@ -844,7 +844,7 @@ export const FACTBOOK_REGISTRY = {
       code: "NEXU_DERIBIT",
       percent: 10,
       welcomeBonus: "10% Fee Discount (6 Months)",
-      url: "https://www.deribit.com/reg-17482.5273",
+      url: "/go/deribit?src=factbook",
     },
     tokenDiscount: {
       token: "None",

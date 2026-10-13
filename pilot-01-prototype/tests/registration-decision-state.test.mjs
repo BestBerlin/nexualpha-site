@@ -58,3 +58,16 @@ test("registration decision state treats official source routes as verify-first"
   assert.equal(decision.canOpenThirdParty, false);
   assert.equal(decision.reason, "official-verify");
 });
+
+test("tracked official routes preserve verification state without opening partner actions", () => {
+  for (const officialRouteUrl of ["/go/coinbase?src=registration-card-official-route", "/go/uniswap"]) {
+    const decision = buildRegistrationDecisionState({ publicCta: { hasPartnerRoute: false }, regionalCta: { ctaState: "verify" }, officialRouteUrl });
+    assert.equal(decision.state, "verify-first");
+    assert.equal(decision.reason, "official-verify");
+    assert.equal(decision.canOpenThirdParty, false);
+  }
+  for (const officialRouteUrl of ["//evil.test/go/coinbase", "/go/../coinbase", "/go/coinbase#anything"]) {
+    assert.equal(buildRegistrationDecisionState({ officialRouteUrl }).state, "blocked");
+  }
+  assert.equal(buildRegistrationDecisionState({ regionalCta: { ctaState: "blocked" }, officialRouteUrl: "/go/coinbase" }).reason, "region-blocked");
+});
