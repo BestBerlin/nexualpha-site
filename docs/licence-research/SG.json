@@ -1,0 +1,51 @@
+{
+  "country": "SG",
+  "checkedDate": "2026-10-14",
+  "replaceLegacy": true,
+  "records": [
+    {
+      "exchange": "okx",
+      "entityName": "OKX SG PTE. LTD.",
+      "country": "SG",
+      "regulator": "MAS",
+      "type": "Major Payment Institution — Digital Payment Token Service",
+      "status": "licensed",
+      "sourceUrl": "https://eservices.mas.gov.sg/fid/institution/detail/422854-OKX-SG-PTE-LTD",
+      "lastChecked": "2026-10-14",
+      "evidence": "MAS institution detail lists Major Payment Institution status with Digital Payment Token Service and Cross-border Money Transfer Service. No licence number is printed; the URL identifier is not a licence number.",
+      "authorised": true,
+      "statusNote": "MAS institution detail lists Major Payment Institution status with Digital Payment Token Service and Cross-border Money Transfer Service. No licence number is printed; the URL identifier is not a licence number."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "COINBASE SINGAPORE PTE. LTD.",
+      "country": "SG",
+      "regulator": "MAS",
+      "type": "Major Payment Institution — Digital Payment Token Service",
+      "status": "licensed",
+      "sourceUrl": "https://eservices.mas.gov.sg/fid/institution/detail/235467-COINBASE-SINGAPORE-PTE-LTD",
+      "lastChecked": "2026-10-14",
+      "evidence": "MAS institution detail lists Major Payment Institution status with Digital Payment Token Service and Cross-border Money Transfer Service. No licence number is printed; the URL identifier is not a licence number.",
+      "authorised": true,
+      "statusNote": "MAS institution detail lists Major Payment Institution status with Digital Payment Token Service and Cross-border Money Transfer Service. No licence number is printed; the URL identifier is not a licence number."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service&category=Major+Payment+Institution&count=100&sector=Payments",
+      "result": "read",
+      "reason": "Official MAS filtered directory returned 38 institutions. OKX SG and Coinbase Singapore are listed; no other requested partner brand was identified in this filtered list. Absence of a brand match does not establish its legal status."
+    },
+    {
+      "url": "https://eservices.mas.gov.sg/fid/institution/detail/422854-OKX-SG-PTE-LTD",
+      "result": "read",
+      "reason": "Official institution detail confirms the named entity, Major Payment Institution status and Digital Payment Token Service."
+    },
+    {
+      "url": "https://eservices.mas.gov.sg/fid/institution/detail/235467-COINBASE-SINGAPORE-PTE-LTD",
+      "result": "read",
+      "reason": "Official institution detail confirms the named entity, Major Payment Institution status and Digital Payment Token Service."
+    }
+  ],
+  "note": "Refreshed both existing OKX and Coinbase rows from readable MAS institution detail entries. Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate and MEXC are omitted because no matching authorised entity was established from the register reviewed. No invented licence numbers or unsupported negative status rows; no sourced local fiat rails added."
+}

@@ -1,0 +1,23 @@
+{
+  "country": "VN",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://mof.gov.vn/",
+      "result": "skipped",
+      "reason": "Direct fetch and web open returned an application shell, not a readable licence-holder register. No partner authorisations or licence numbers inferred."
+    },
+    {
+      "url": "https://mof.gov.vn/tin-tuc-tai-chinh/thoi-su/bo-tai-chinh-ban-hanh-cac-thu-tuc-hanh-chinh-phuc-vu-thi-diem-thi-truong-tai-san-ma-hoa",
+      "result": "skipped",
+      "reason": "Direct fetch returned HTTP 200 with 2003 bytes and an empty app element; web open returned zero lines. Search snippets were not treated as a register."
+    },
+    {
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-nghi-quyet-so-5-2025-nq-cp-ve-trien-khai-thi-diem-thi-truong-tai-san-ma-hoa-tai-viet-nam-119250909184045221.htm",
+      "result": "readable-policy-only",
+      "reason": "Official Government full text of Resolution 05/2025/NQ-CP; Article 4(4) restricts crypto-asset advertising and marketing to organisations licensed by the Ministry of Finance. This is legislation, not a venue register."
+    }
+  ],
+  "note": "No partner venue licence records verified from a readable Ministry of Finance register in this check; this is an evidence gap, not a finding of non-registration. Resolution 05/2025/NQ-CP Article 4(4) permits crypto-asset advertising and marketing only by MoF-licensed organisations. Suppress all promotional CTAs for Vietnam under the brief; do not claim a blanket prohibition on licensed organisations."
+}

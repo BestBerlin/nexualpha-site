@@ -1,0 +1,33 @@
+{
+  "country": "BR",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://bcb.gov.br/meubc/encontreinstituicao",
+      "result": "skipped",
+      "reason": "Direct fetch returned only a JavaScript-required message; no named entity entries could be read."
+    },
+    {
+      "url": "https://dadosabertos.bcb.gov.br/pt_PT/dataset/dados-cadastrais-de-entidades-autorizadas",
+      "result": "readable_catalogue",
+      "reason": "Official catalogue identifies BCBase as the source of authorised institution data and links the BCB OData API; this catalogue does not itself establish any partner venue authorisation."
+    },
+    {
+      "url": "https://olinda.bcb.gov.br/olinda/servico/BcBase/versao/v2/odata/TipoEntidadeSupervisionada?$format=json",
+      "result": "readable_dictionary",
+      "reason": "Official dictionary includes type 50, Sociedade Prestadora de Serviços de Ativos Virtuais. Type definitions alone are not proof of entity authorisation."
+    },
+    {
+      "url": "https://olinda.bcb.gov.br/olinda/servico/BcBase/versao/v2/odata/_EntidadesSupervisionadas?$top=2&$format=json",
+      "result": "skipped",
+      "reason": "Entity data fetch returned HTTP 500. Function endpoint attempts for checked date and previous day also returned HTTP 500, with both ISO and compact date parameters. No entity rows were available to verify."
+    },
+    {
+      "url": "https://sistemas.cvm.gov.br/asp/cvmwww/cadastro/formcad.asp?pag=ciaaberta",
+      "result": "skipped",
+      "reason": "Participant search requires entering a CAPTCHA image. The readable form contains no result rows. A CVM securities registration would not by itself prove a BCB virtual-asset services authorisation."
+    }
+  ],
+  "note": "No authorised Brazil virtual-asset licence row was verified for OKX, Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC or Coinbase in this run. This is an evidence gap, not a claim that these venues are unlicensed. Do not infer a crypto licence from payment, foreign-exchange, securities, company or tax registration; no licence number or local fiat rail is asserted."
+}

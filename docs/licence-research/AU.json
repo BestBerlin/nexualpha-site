@@ -1,0 +1,165 @@
+{
+  "country": "AU",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "okx",
+      "entityName": "OKX AUSTRALIA FINANCIAL PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=OKX&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned registered VASP legal name; ACN 145724509 is a company identifier, not a licence number.",
+      "authorised": false,
+      "statusNote": "Returned registered VASP legal name; ACN 145724509 is a company identifier, not a licence number."
+    },
+    {
+      "exchange": "okx",
+      "entityName": "OKX AUSTRALIA PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=OKX&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned registered VASP legal name; ACN 636269040 is a company identifier, not a licence number.",
+      "authorised": false,
+      "statusNote": "Returned registered VASP legal name; ACN 636269040 is a company identifier, not a licence number."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "INVESTBYBIT PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Binance&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned legal name with trading name BINANCE AUSTRALIA. This is not evidence for the Bybit exchange despite the legal-name substring.",
+      "authorised": false,
+      "statusNote": "Returned legal name with trading name BINANCE AUSTRALIA. This is not evidence for the Bybit exchange despite the legal-name substring."
+    },
+    {
+      "exchange": "bitget",
+      "entityName": "BTGT AUS PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Bitget&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned legal name with trading name Bitget.",
+      "authorised": false,
+      "statusNote": "Returned legal name with trading name Bitget."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "BIT TRADE PTY LIMITED",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Kraken&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned legal name with trading names KRAKEN DIGITAL ASSET EXCHANGE, KRAKEN EXCHANGE and PAYWARD AUSTRALIA.",
+      "authorised": false,
+      "statusNote": "Returned legal name with trading names KRAKEN DIGITAL ASSET EXCHANGE, KRAKEN EXCHANGE and PAYWARD AUSTRALIA."
+    },
+    {
+      "exchange": "coinw",
+      "entityName": "LCT HOLDING AU PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=CoinW&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned legal name with trading name CoinW; unrelated COINWORLD PTY LTD result excluded.",
+      "authorised": false,
+      "statusNote": "Returned legal name with trading name CoinW; unrelated COINWORLD PTY LTD result excluded."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "COINBASE AUSTRALIA PTY LTD",
+      "country": "AU",
+      "regulator": "AUSTRAC",
+      "type": "VASP AML/CTF registration",
+      "status": "registered",
+      "sourceUrl": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Coinbase&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "lastChecked": "2026-10-14",
+      "evidence": "Returned registered VASP legal name.",
+      "authorised": false,
+      "statusNote": "Returned registered VASP legal name."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.austrac.gov.au/news-and-media/article/virtual-asset-service-provider-register-goes-public",
+      "result": "readable",
+      "reason": "AUSTRAC announces the public VASP register; registration concerns AML/CTF oversight."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr",
+      "result": "readable",
+      "reason": "Public JavaScript application; its search endpoint returned official register data using curl. No login required."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=OKX&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "Two matching registered VASP entities."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Binance&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "One matching registered entity with BINANCE AUSTRALIA trading name."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Bybit&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "Only INVESTBYBIT PTY LTD / BINANCE AUSTRALIA returned; excluded as a Bybit match."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=BTGT&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "One matching registered entity with Bitget trading name."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Kraken&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "One matching registered entity with Kraken trading names."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=HTX&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "No matching rows for this brand query; does not prove no registration under another name."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=CoinW&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "LCT HOLDING AU PTY LTD has CoinW trading name; unrelated COINWORLD result excluded."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Gate&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "GATE INFORMATION PTY LTD and SALLIES ON RAMP GATEWAY PTY LTD returned, but no brand-identifying trading name; excluded pending entity mapping."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=MEXC&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "No matching rows for this brand query; does not prove no registration under another name."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Coinbase&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "One matching registered VASP entity."
+    },
+    {
+      "url": "https://online.apps.austrac.gov.au/vaspr/remitters/?searchTerm=Bitget&page=0&orderBy=legalName&pageSize=20&direction=1&vasprSearch=true",
+      "result": "readable",
+      "reason": "One matching registered entity with Bitget trading name."
+    }
+  ],
+  "note": "AUSTRAC public VASP register was read directly on the checked date. Seven rows cover six brands. AML/CTF registration is not a financial-services authorisation or endorsement, so all rows have authorised:false. No registration number was printed in the fetched search data; ABN/ACN and internal record IDs are intentionally not used as licence numbers. Python urllib requests returned application Error 403; curl requests returned the register data. The initial Coinbase query with pageSize=200 returned HTTP 500; the normal application pageSize=20 succeeded. Gate entity mapping is unresolved. No Bybit, HTX or MEXC positive record was established by the checked brand queries. No fiat rails were researched."
+}

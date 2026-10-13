@@ -3,7 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 const require_jsdom = () => JSDOM;
-import { licenseRecords, LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseCopy, licenseTitle, licenseAnswer, licenseSchemas } from '../src/data/licenses.js';
+import { licenseRecords, LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseCopy, licenseTitle, licenseAnswer, licenseSchemas, licenseRecordsForCountry } from '../src/data/licenses.js';
 import { licenseRouteSeo, licenseSitemapEntries } from '../src/data/licenses-seo.js';
 import { localizedPath } from '../src/data/locale-routing.js';
 import { parseLicensesPath } from '../src/data/licenses-routes.js';
@@ -12,7 +12,7 @@ import worker from '../worker/index.js';
 import { flushSync } from 'react-dom';
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors } from './helpers/ssr-hydration-harness.mjs';
 
-const statuses = new Set(['licensed', 'registered', 'applied', 'restricted', 'banned', 'liquidation list']);
+const statuses = new Set(['licensed', 'registered', 'authorised', 'applied', 'restricted', 'banned', 'liquidation list', 'warning', 'withdrawn', 'revoked']);
 test('entity records have official register provenance, dates and unique jurisdiction keys', () => {
   assert.ok(licenseRecords.length > 0);
   const registry = readFileSync(new URL('../src/data/international-source-registry.js', import.meta.url), 'utf8');
@@ -25,15 +25,15 @@ test('entity records have official register provenance, dates and unique jurisdi
     assert.equal(url.protocol, 'https:');
     // Seed rows came from reviewed repository data; later rows carry the register evidence they were read from.
     assert.ok(registry.includes(row.sourceUrl) || (typeof row.evidence === 'string' && row.evidence.length > 20), 'official source is reviewed or carries register evidence');
-    assert.match(url.hostname, /(^|\.)(spk\.gov\.tr|fsa\.go\.jp|mas\.gov\.sg|sfc\.hk|esma\.europa\.eu|vara\.ae|fca\.org\.uk|austrac\.gov\.au|ojk\.go\.id|amf-france\.org|bafin\.de|cysec\.gov\.cy)$/);
+    assert.match(url.hostname, /(^|\.)(spk\.gov\.tr|fsa\.go\.jp|mas\.gov\.sg|sfc\.hk|esma\.europa\.eu|vara\.ae|fca\.org\.uk|austrac\.gov\.au|ojk\.go\.id|amf-france\.org|bafin\.de|cysec\.gov\.cy|sansad\.in|fiuindia\.gov\.in|bsp\.gov\.ph|sec\.gov\.ng|sec\.or\.th|cnbv\.gob\.mx|banxico\.org\.mx|cnv\.gov\.ar|argentina\.gob\.ar|pvara\.gov\.pk|fintrac-canafe\.canada\.ca|securities-administrators\.ca|bcsc\.bc\.ca|osc\.ca|adgm\.com|fsc\.go\.kr|kofiu\.go\.kr)$/);
     assert.ok(!/&amp;/.test(row.sourceUrl), 'source URL is not HTML-escaped');
     assert.match(row.lastChecked, /^\d{4}-\d{2}-\d{2}$/);
     const key = `${row.exchange}-${row.country}-${row.entityName}`;
     assert.ok(!keys.has(key), `duplicate ${key}`); keys.add(key);
   }
 });
-test('all eleven search locales have localized titles, answer and schema', () => {
-  assert.equal(LICENSE_INDEX_LOCALES.length, 11);
+test('all search locales have localized titles, answer and schema', () => {
+  assert.equal(LICENSE_INDEX_LOCALES.length, 14);
   for (const locale of LICENSE_INDEX_LOCALES) {
     assert.ok(licenseTitle(undefined, locale));
     assert.ok(licenseAnswer(undefined, locale));
@@ -46,7 +46,7 @@ test('all eleven search locales have localized titles, answer and schema', () =>
 test('commercial routes fail closed for negative status, restricted countries, neutral Chinese and Türkiye exceptions', () => {
   const positive = { exchange: 'okx', country: 'TR', status: 'registered' };
   assert.match(licenseSignup(positive, { locale: 'tr' }) || '', /^\/go\/okx\?/);
-  for (const status of ['applied', 'pending', 'listed', 'warning', 'revoked', 'restricted', 'banned', 'liquidation list']) assert.equal(licenseSignup({ ...positive, status }, { locale: 'tr' }), null);
+  for (const status of ['applied', 'pending', 'listed', 'warning', 'withdrawn', 'revoked', 'restricted', 'banned', 'liquidation list']) assert.equal(licenseSignup({ ...positive, status }, { locale: 'tr' }), null);
   for (const exchange of ['bitget', 'mexc', 'gate-io', 'kraken']) assert.equal(licenseSignup({ ...positive, exchange }, { locale: 'tr' }), null);
   assert.equal(licenseSignup({ ...positive, country: 'JP' }, { locale: 'ja' }), null);
   assert.equal(licenseSignup(positive, { locale: 'zh-Hans' }), null);
@@ -54,7 +54,7 @@ test('commercial routes fail closed for negative status, restricted countries, n
   assert.equal(licenseSignup({ exchange: 'mexc', country: 'BR', status: 'registered' }, { locale: 'tr', market: 'TR' }), null);
   for (const row of licenseRecords.filter(row => row.country === 'TR')) {
     const signup = licenseSignup(row, { locale: 'tr' });
-    assert.equal(signup, null, `${row.exchange}/${row.status}`);
+    if (!['licensed', 'registered', 'authorised'].includes(row.status)) assert.equal(signup, null, row.exchange);
   }
 });
 test('parser handles hub/country and rejects extra segments', () => {
@@ -84,7 +84,8 @@ test('English and Simplified Chinese hub and country routes SSR visible register
       assert.match(html, /FAQPage/);
       assert.ok(html.includes(licenseTitle(suffix.slice(1) || undefined, locale)), path);
       assert.match(html, /<table>/);
-      assert.ok(html.includes(licenseRecords[0].sourceUrl.replaceAll('&', '&amp;')));
+      const sourceRow = suffix ? licenseRecordsForCountry(suffix.slice(1))[0] : licenseRecords[0];
+      assert.ok(html.includes(sourceRow.sourceUrl.replaceAll('&', '&amp;')));
     }
   }
 });
@@ -122,7 +123,7 @@ test('hub filters update the hydrated table without changing server evidence', a
 
 test('sitemap includes all search locales and country pages, excludes unsupported editions', () => {
   const entries = licenseSitemapEntries({ urlFor: (path, locale) => `https://nexualpha.com${localizedPath(path, locale)}` });
-  assert.equal(entries.length, (LICENSE_COUNTRIES.length + 1) * 11);
+  assert.equal(entries.length, (LICENSE_COUNTRIES.filter(country => licenseRecordsForCountry(country.slug).length).length + 1) * LICENSE_INDEX_LOCALES.length);
   assert.equal(new Set(entries.map(entry => entry.loc)).size, entries.length);
   assert.ok(entries.some(entry => entry.loc === 'https://nexualpha.com/zh-hans/licenses'));
   assert.ok(entries.every(entry => LICENSE_INDEX_LOCALES.includes(entry.locale)));

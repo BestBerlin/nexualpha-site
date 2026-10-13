@@ -1,0 +1,18 @@
+{
+  "country": "NG",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.sec.gov.ng/fintech-and-innovation-hub-finport/registered-fintech-operators/",
+      "result": "read",
+      "reason": "Official SEC FinPort RI and ARIP directory fetched directly on 2026-10-14. Visible ARIP Digital Assets Exchange entries are Busha Digital Limited (Busha) and Quidax Technologies Limited (Quidax). Neither is among the requested partner venues; no partner registration row was added."
+    },
+    {
+      "url": "https://www.sec.gov.ng/for-investors/find-a-registered-operator/",
+      "result": "partial",
+      "reason": "Official general Capital Market Operator directory fetched directly on 2026-10-14, but exposed page 1 of 49. The full paginated register was not retrieved; it is excluded as evidence of a partner licence or of absence from the register."
+    }
+  ],
+  "note": "As of 14 October 2026, no licence row for OKX, Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC or Coinbase was verified from the SEC Nigeria registers retrieved for this check. The readable FinPort directory concerns RI/ARIP incubation participants, which must not be represented as unrestricted final licences. This scoped check does not establish that any venue is unregistered, illegal, eligible to serve Nigerian residents, or safe to use. Do not render an authorised status or a signup CTA from this evidence."
+}

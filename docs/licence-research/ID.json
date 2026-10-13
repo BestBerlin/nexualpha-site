@@ -1,0 +1,33 @@
+{
+  "country": "ID",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/OJK-Terbitkan-Whitelist-Penyelenggara-Perdagangan-Aset-Keuangan-Digital-Dan-Aset-Kripto-Berizin.aspx",
+      "result": "readable",
+      "reason": "OJK whitelist dated 19 December 2025 was fetched. No direct OKX, Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC or Coinbase platform entry was found. Tokocrypto (PT Aset Digital Berkat) is separately listed with S-14/D.07/2025, dated 1 February 2025; the register does not establish a Binance authorization."
+    },
+    {
+      "url": "https://ojk.go.id/id/Fungsi-Utama/ITSK/Perizinan-ITSK-Aset-Keuangan-Digital-Aset-Kripto/Pages/Daftar-Penyelenggara-Perdagangan-Aset-Keuangan-Digital-Posisi-25-Mei-2026.aspx",
+      "result": "readable-index-only",
+      "reason": "The index page, published 26 May 2026, links a provider list as of 25 May 2026; provider rows are in an attachment and cannot be verified from the index alone."
+    },
+    {
+      "url": "https://ojk.go.id/id/Fungsi-Utama/ITSK/Perizinan-ITSK-Aset-Keuangan-Digital-Aset-Kripto/Documents/Daftar%20Penyelenggara%20Perdagangan%20Aset%20Keuangan%20Digital%20Posisi%2025%20Mei%202026.pdf",
+      "result": "skipped",
+      "reason": "Web fetch timed out. A bounded curl retry returned a 247-byte HTML document rather than the PDF. No records inferred from its title or search snippets."
+    },
+    {
+      "url": "https://bappebti.go.id/pedagang_aset_kripto",
+      "result": "readable-empty-table",
+      "reason": "Official trader page was fetched but exposed only table headings and no trader rows. Cannot establish any partner authorization."
+    },
+    {
+      "url": "https://ceklegalitas.bappebti.go.id/",
+      "result": "readable-transition-notice",
+      "reason": "Official legal-status portal states that regulation and supervision of digital financial assets including crypto have transferred from Bappebti to OJK. No usable partner entry was fetched."
+    }
+  ],
+  "note": "No direct partner-brand authorization has been verified for Indonesia from the fetched official registers. This is an evidence limitation, not proof that every partner is prohibited or unlicensed. Do not assign Tokocrypto authorization to Binance or enable a partner CTA from affiliate inference. The readable whitelist is older than the inaccessible May 2026 attachment."
+}

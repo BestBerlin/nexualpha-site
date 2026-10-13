@@ -1,0 +1,23 @@
+{
+  "country": "PH",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.bsp.gov.ph/Lists/Directories/Attachments/19/VASP.pdf",
+      "result": "read",
+      "reason": "Official BSP one-page VASP directory fetched and read directly, dated 15 July 2026 (TRISD Database). Lists Betur/Coins.ph, Maya, Moneybees, PDAX, TopJuan, WIBS PHP, Direct Agent 5/SurgePay, GoTyme and Union Bank. No matched partner venue entity was verified; no licence number is printed. This scoped observation is not a finding that any venue lacks authorisation."
+    },
+    {
+      "url": "https://www.sec.gov.ph/",
+      "result": "skipped",
+      "reason": "Direct web fetch and independent urllib request both returned HTTP 403 Forbidden; unable to read or navigate the official SEC register. No registration status inferred."
+    },
+    {
+      "url": "https://www.sec.gov.ph/wp-content/uploads/2023/11/2023Advisory-against-Binance.pdf",
+      "result": "skipped",
+      "reason": "Official SEC Binance advisory PDF direct web fetch failed and independent urllib request returned HTTP 403 Forbidden. Search snippet not accepted as directly fetched evidence; no warning row added."
+    }
+  ],
+  "note": "Partner-only research scope: OKX, Binance, Bybit, Bitget, Kraken, HTX, CoinW, Gate, MEXC and Coinbase. No directly verified partner authorisation record added for PH. BSP directory readable; SEC evidence inaccessible. Absence of a matched name from this scoped directory is not evidence of absence across all Philippine registrations. Do not show authorised claims or authorised CTAs from this result."
+}

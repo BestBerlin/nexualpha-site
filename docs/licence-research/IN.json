@@ -1,0 +1,58 @@
+{
+  "country": "IN",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "binance",
+      "entityName": "Nest Services Limited (Earlier Binance International Limited)",
+      "country": "IN",
+      "regulator": "FIU-IND",
+      "type": "VDA reporting entity registration (AML/CFT only); official snapshot 2026-03-09",
+      "status": "registered",
+      "sourceUrl": "https://sansad.in/getFile/loksabhaquestions/annex/187/AU5805_lMTYNK.pdf?source=pqals",
+      "lastChecked": "2026-10-14",
+      "evidence": "Ministry of Finance parliamentary answer, Annexure I row 47, lists this Seychelles entity with Binance as trade name. No registration identifier is printed.",
+      "authorised": false,
+      "statusNote": "Registered reporting entity — snapshot 2026-03-09"
+    },
+    {
+      "exchange": "bybit",
+      "entityName": "Bybit Fintech Limited",
+      "country": "IN",
+      "regulator": "FIU-IND",
+      "type": "VDA reporting entity registration (AML/CFT only); official snapshot 2026-03-09",
+      "status": "registered",
+      "sourceUrl": "https://sansad.in/getFile/loksabhaquestions/annex/187/AU5805_lMTYNK.pdf?source=pqals",
+      "lastChecked": "2026-10-14",
+      "evidence": "Annexure I row 48 lists this Seychelles entity with Bybit as trade name. No registration identifier is printed.",
+      "authorised": false,
+      "statusNote": "Registered reporting entity — snapshot 2026-03-09"
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "Coinbase India Private Limited",
+      "country": "IN",
+      "regulator": "FIU-IND",
+      "type": "VDA reporting entity registration (AML/CFT only); official snapshot 2026-03-09",
+      "status": "registered",
+      "sourceUrl": "https://sansad.in/getFile/loksabhaquestions/annex/187/AU5805_lMTYNK.pdf?source=pqals",
+      "lastChecked": "2026-10-14",
+      "evidence": "Annexure I row 49 lists the India entity linked to global Coinbase. No registration identifier is printed.",
+      "authorised": false,
+      "statusNote": "Registered reporting entity — snapshot 2026-03-09"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://sansad.in/getFile/loksabhaquestions/annex/187/AU5805_lMTYNK.pdf?source=pqals",
+      "result": "readable",
+      "reason": "Official March 30, 2026 parliamentary answer contains the FIU-IND list as of March 9, 2026. It explains that registration concerns AML/CFT obligations and is not licensing or government endorsement."
+    },
+    {
+      "url": "https://fiuindia.gov.in/",
+      "result": "readable-no-public-register",
+      "reason": "Official homepage fetched. No searchable public VDA reporting entity register was available; the parliamentary answer confirms that FIU-IND does not publish one."
+    }
+  ],
+  "note": "These are historical official registration observations, not current trading licences. No partner CTA is authorised. The parliamentary answer includes historical takedown directions separately; they cannot establish present registration or prohibition. Other partner statuses remain unverified."
+}

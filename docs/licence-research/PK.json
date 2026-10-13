@@ -1,0 +1,18 @@
+{
+  "country": "PK",
+  "checkedDate": "2026-10-14",
+  "records": [],
+  "sources": [
+    {
+      "url": "https://www.pvara.gov.pk/licensing",
+      "result": "readable; public register not located",
+      "reason": "Official licensing FAQ describes a public licensee register but provides no register entry or link in the fetched page. FAQ distinguishes NOC preliminary approval from permission to provide virtual asset services."
+    },
+    {
+      "url": "https://www.pvara.gov.pk/news",
+      "result": "readable; excluded as non-register",
+      "reason": "Official news page identifies Binance and HTX as NOC recipients on 12 December 2025; this is not a licensee register and publishes no legal entity or certificate number."
+    }
+  ],
+  "note": "No Pakistan licence rows added: a readable PVARA licensee register was not located in bounded official-site searches. PVARA news names Binance and HTX as historical NOC recipients; its licensing FAQ says an NOC does not authorise virtual asset services. Those announcements are not accepted as register evidence. This research does not establish current licence status or absence for any requested venue."
+}

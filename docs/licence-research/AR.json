@@ -1,0 +1,108 @@
+{
+  "country": "AR",
+  "checkedDate": "2026-10-14",
+  "records": [
+    {
+      "exchange": "bybit",
+      "entityName": "LUZPAY S.A.",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "48",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 48, entity LUZPAY S.A., registered 2024-07-02; website www.Bybit.com.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    },
+    {
+      "exchange": "binance",
+      "entityName": "BINANCE SERVICES LATINOAMÉRICA S.A. DE C.V. -S.S.E",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "76",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 76, entity BINANCE SERVICES LATINOAMÉRICA S.A. DE C.V. -S.S.E, registered 2024-09-11; website https://www.binance.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    },
+    {
+      "exchange": "coinbase",
+      "entityName": "Coinbase Bermuda Services Limited",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "104",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 104, entity Coinbase Bermuda Services Limited, registered 2025-01-24; website https://www.coinbase.net.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    },
+    {
+      "exchange": "okx",
+      "entityName": "OKX Fintech, S.A. de C.V. (Sucursal Argentina)",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "141",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 141, entity OKX Fintech, S.A. de C.V. (Sucursal Argentina), registered 2025-04-21; website www.okx.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    },
+    {
+      "exchange": "kraken",
+      "entityName": "Payward Trading Ltd. - SSE",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "155",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 155, entity Payward Trading Ltd. - SSE, registered 2025-05-09; website www.krakenexchange.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    },
+    {
+      "exchange": "bitget",
+      "entityName": "BTGT INNOVACION S.A.",
+      "country": "AR",
+      "regulator": "CNV",
+      "type": "PSAV registration",
+      "status": "registered",
+      "number": "168",
+      "sourceUrl": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "lastChecked": "2026-10-14",
+      "evidence": "CNV workbook lists registration 168, entity BTGT INNOVACION S.A., registered 2026-04-24; website www.bitget.com.ar.",
+      "authorised": false,
+      "statusNote": "Registered in CNV PSAV register; not represented as a full exchange licence."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.cnv.gov.ar/SitioWeb/RegistrosPublicos/Psav",
+      "result": "readable",
+      "reason": "Official CNV register landing page exposes downloadable workbook."
+    },
+    {
+      "url": "https://www.cnv.gov.ar/SitioWeb/Reportes/ListadoRegistrosPsav",
+      "result": "readable",
+      "reason": "Downloaded official XLSX successfully and parsed worksheet entries, including entity, registration number and website."
+    },
+    {
+      "url": "https://www.cnv.gov.ar/SitioWeb/ProveedoresServiciosActivosVirtuales/RegistrosPSAV",
+      "result": "skipped",
+      "reason": "Web reader timed out twice; used official downloadable register instead."
+    }
+  ],
+  "note": "Six target venues matched by official register entity and website. Other target venues did not yield a matched row; this is not a claim of absence or illegality. PSAV registration alone is not treated as an authorised licence or CTA permission. No fiat rail claim is made."
+}
