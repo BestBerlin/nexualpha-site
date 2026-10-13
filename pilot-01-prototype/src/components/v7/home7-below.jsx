@@ -84,6 +84,7 @@ function DataRail({ locale }) {
 import { FlashRail } from "../flash/FlashRail.jsx";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
+import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -190,8 +191,10 @@ function spread(items, limit, perVenue) {
 
 // Featured campaigns (owner 2026-10-12): our own campaign pages are pinned above the exchange notices while they run
 // (Bybit Stocks; Binance October gifts where Binance may be promoted). They link our pages, not the exchanges.
+// Bitget Alliance (owner 2026-10-13, big push) takes the top spot where Bitget may be promoted.
 function featuredCampaigns(locale, market) {
   const rows = [];
+  if (bitgetAlliancePromotable({ locale, market })) rows.push({ id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) });
   if (bybitStocksCampaignActive()) rows.push({ id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) });
   if (binanceOctoberPromotable({ locale, market })) rows.push({ id: "binance-october", venue: "binance", name: "Binance", path: BINANCE_OCTOBER_PATH, teaser: binanceOctoberTeaser(locale) });
   return rows;

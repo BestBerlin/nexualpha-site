@@ -10,7 +10,7 @@ import {
   sourceTier,
 } from './normalization.mjs';
 import { relevanceForItem } from './relevance.mjs';
-import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch, inferNarrativeType } from './facts.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -21,6 +21,8 @@ const COMPATIBLE_EVENT_TYPES = new Map([
   ['withdrawal_halt', new Set(['withdrawal_halt', 'insolvency'])],
   ['bankruptcy_filing', new Set(['bankruptcy_filing', 'insolvency'])],
 ]);
+
+const NARRATIVE_PLATFORMS = new Set(['media', 'google_news', 'telegram', 'x', 'youtube', 'reddit']);
 
 function eventTypeOf(item) {
   return item.event_type ?? item.eventType ?? item.event_type_guess ?? item.eventTypeGuess ?? 'unknown';
@@ -219,7 +221,11 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
 
 function shouldAttach(item, event, config, watchlist, itemsById, duplicateOriginById) {
   const itemSubjects = itemEntities(item, watchlist);
-  if (!compatibleEventType(eventTypeOf(item), event.event_type)) return false;
+  const typeOk = compatibleEventType(eventTypeOf(item), event.event_type);
+  // Media reports of one story often differ only in whether a keyword gave them a type.
+  const narrative = NARRATIVE_PLATFORMS.has(sourcePlatform(item)) && (event.raw_items ?? []).every(row => NARRATIVE_PLATFORMS.has(sourcePlatform(row)));
+  // Narrative topic types are inferred from wording, so they only gate via the stricter fact match below.
+  if (!typeOk && !narrative) return false;
   if (itemSubjects.length && event.subjects?.length && !commonValues(itemSubjects, event.subjects)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
@@ -239,6 +245,10 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
   const contentHash = item.content_hash ?? item.contentHash;
   if (contentHash && event.content_hashes?.includes(contentHash)) return 'content_hash';
   if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return 'simhash';
+  // Stories with no watchlist entity (or a different one detected by one outlet) still cluster when two
+  // narrative reports share a discriminating fact (amount/ticker) plus distinctive words, or many words.
+  if (narrative && (!itemSubjects.length || !event.subjects?.length) && capturedItems.some(row => narrativeStoryMatch(item.title ?? '', row.title ?? row.title_internal ?? '', itemFacts, storyFacts(row, watchlist)))) return 'narrative_facts';
+  if (!typeOk) return false;
   if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
   if (capturedItems.some(row => factsMatch(itemFacts, storyFacts(row, watchlist)))) return 'shared_key_facts';
   return titleSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity ? 'fuzzy_title' : false;
@@ -315,7 +325,10 @@ export function mergeRawItems(items, options = {}) {
       continue;
     }
     const action = storyFacts(item, watchlist).action;
-    const inferredAction = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    const actionType = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+    // Relevant media/social stories without an action verb get a topic type so they can be scored at all.
+    const inferredAction = actionType !== 'unknown' || !NARRATIVE_PLATFORMS.has(sourcePlatform(item)) ? actionType
+      : inferNarrativeType(item.title ?? '') ?? 'unknown';
     const itemForMerge = {
       ...item,
       ...(eventTypeOf(item) === 'unknown' && inferredAction !== 'unknown' ? { event_type_guess: inferredAction } : {}),

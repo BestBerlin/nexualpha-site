@@ -61,6 +61,8 @@ import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctobe
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
+import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
+import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 const COINS_PATH_PATTERN = /(?:^|\/)coins(?:\/|$)/;
@@ -4701,7 +4703,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs "))) {
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba "))) {
           metadata.campaignSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -6549,6 +6551,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page: its written editions (src/data/bybit-stocks.js).
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
+  // Bitget Alliance campaign page: its written editions (src/data/bitget-alliance.js).
+  if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -7997,6 +8001,17 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, BYBIT_STOCKS_INDEX_LOCALES), schema: bybitStocksSeo.schemas,
     };
   }
+  // Bitget Alliance campaign page (2026-10-13): WebPage + FAQPage + BreadcrumbList from src/data/bitget-alliance-seo.js
+  // (same helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
+  const bitgetAllianceSeo = bitgetAllianceRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (bitgetAllianceSeo) {
+    return {
+      status: 200, title: bitgetAllianceSeo.title, description: bitgetAllianceSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: bitgetAllianceSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, BITGET_ALLIANCE_INDEX_LOCALES), schema: bitgetAllianceSeo.schemas,
+    };
+  }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
   // src/data/brand-entity.js; every UI locale is indexable and self-canonical.
   if (isBrandPagePath(canonicalPath)) {
@@ -8467,6 +8482,8 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === BINANCE_OCTOBER_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CAMPAIGN_LANDING_ROUTE_MARKER]];
   // Bybit Stocks has its own route chunk (route-campaign-bybit), separate from the Binance page's.
   if (pathname === BYBIT_STOCKS_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bybit-"];
+  // Bitget Alliance has its own route chunk (route-campaign-bitget).
+  if (pathname === BITGET_ALLIANCE_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bitget-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];

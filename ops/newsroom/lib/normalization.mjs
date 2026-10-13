@@ -149,7 +149,40 @@ export function itemSourcePublishedAt(item) {
   return Number.isFinite(date.getTime()) ? date : null;
 }
 
-export function itemEntities(item, watchlist = []) {
+const NO_ENTITIES = Object.freeze([]);
+const aliasCache = new WeakMap();
+const entitiesCache = new WeakMap();
+
+// Normalized aliases per watchlist array, computed once instead of per (item, event) comparison.
+function watchlistAliases(watchlist) {
+  let compiled = aliasCache.get(watchlist);
+  if (compiled) return compiled;
+  compiled = watchlist.filter(entity => !entity.status || entity.status === 'active').map(entity => ({
+    id: entity.id,
+    aliases: [
+      entity.id,
+      entity.partner_slug,
+      entity.display_name?.en,
+      entity.display_name?.['zh-Hans'],
+      ...(entity.aliases ?? []),
+    ].filter(Boolean).map(alias => normalizeText(alias)).filter(Boolean).map(normalized => ({
+      normalized,
+      token: /^[a-z0-9]+$/i.test(normalized) && !normalized.includes(' '),
+    })),
+  }));
+  aliasCache.set(watchlist, compiled);
+  return compiled;
+}
+
+// Pure function of (item object, watchlist array); dedupe asks once per candidate event, so cache it.
+export function itemEntities(item, watchlist = NO_ENTITIES) {
+  let byWatchlist = entitiesCache.get(item);
+  if (!byWatchlist) entitiesCache.set(item, (byWatchlist = new Map()));
+  if (!byWatchlist.has(watchlist)) byWatchlist.set(watchlist, computeItemEntities(item, watchlist));
+  return [...byWatchlist.get(watchlist)];
+}
+
+function computeItemEntities(item, watchlist) {
   const explicit = new Set([item.subject_entity, item.subjectEntity, ...(item.entities ?? []), ...(item.subjects ?? [])].filter(Boolean));
   if (sourcePlatform(item) === 'exchange' && sourceTier(item) === 1) {
     const venue = String(item.source_id ?? item.sourceId ?? '').match(/^(binance|okx|bybit|bitget|coinbase|kucoin|kraken)-(?:announcements|status)$/)?.[1];
@@ -157,23 +190,10 @@ export function itemEntities(item, watchlist = []) {
   }
   const text = normalizeText([item.title, item.body_excerpt, item.bodyExcerpt, item.author, item.author_account, item.authorAccount].filter(Boolean).join(' '));
   const tokens = new Set(text.split(' ').filter(Boolean));
-  for (const entity of watchlist) {
-    if (entity.status && entity.status !== 'active') continue;
-    const aliases = [
-      entity.id,
-      entity.partner_slug,
-      entity.display_name?.en,
-      entity.display_name?.['zh-Hans'],
-      ...(entity.aliases ?? []),
-    ].filter(Boolean);
-    if (aliases.some(alias => {
-      const normalized = normalizeText(alias);
-      if (!normalized) return false;
-      if (/^[a-z0-9]+$/i.test(normalized) && !normalized.includes(' ')) {
-        return tokens.has(normalized) || tokens.has(`$${normalized}`) || tokens.has(`#${normalized}`);
-      }
-      return text.includes(normalized);
-    })) explicit.add(entity.id);
+  for (const entity of watchlistAliases(watchlist)) {
+    if (entity.aliases.some(({ normalized, token }) => (token
+      ? tokens.has(normalized) || tokens.has(`$${normalized}`) || tokens.has(`#${normalized}`)
+      : text.includes(normalized)))) explicit.add(entity.id);
   }
   return [...explicit].sort();
 }

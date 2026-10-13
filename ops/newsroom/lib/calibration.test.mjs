@@ -12,7 +12,11 @@ test('calibration query is read-only last-72h threshold report', () => {
   assert.match(sql, /e\.state IN \('new','candidate','claimed','published','followup_watch'\)/);
   assert.match(sql, /e\.verified_at >= e\.last_update_at/);
   assert.match(sql, /s\.relevance > 0/);
-  assert.match(sql, /sum\(eligible\)::numeric \/ \(72::numeric \/ 24\)/);
+  // Per-day rates divide by the hours the pool has actually collected (at most the window).
+  assert.match(sql, /least\(72::numeric,/);
+  assert.match(sql, /min\(fetched_at\) FROM raw_items/);
+  assert.match(sql, /sum\(eligible\)::numeric \/ \(\(SELECT hours FROM coverage\) \/ 24\)/);
+  assert.match(sql, /'coverage_hours'/);
   assert.match(sql, /AT TIME ZONE 'UTC'/);
   assert.doesNotMatch(sql, /\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bALTER\b/i);
 });

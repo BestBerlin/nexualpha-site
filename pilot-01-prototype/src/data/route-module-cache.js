@@ -76,6 +76,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   bybitStocks: "./components/campaigns/BybitStocksPage.jsx",
   // Spot ETF flows + crypto calendar (2026-10-13): route chunk route-intel-tools.
   intelTools: "./components/intel-tools/IntelToolPages.jsx",
+  // Bitget Alliance campaign page (/activities/bitget-alliance, 2026-10-13): route chunk route-campaign-bitget.
+  bitgetAlliance: "./components/campaigns/BitgetAlliancePage.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -188,6 +190,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
   if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];
+  if (name === "bitgetAlliance") return [ROUTE_MODULE_PATHS.bitgetAlliance];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

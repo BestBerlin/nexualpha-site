@@ -16,6 +16,7 @@ import { createFundingMatrixReader } from './server/funding-matrix.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
 import { createJsonSnapshotReader } from './server/intel-tools-feed.mjs';
@@ -58,6 +59,11 @@ export async function createProductionServer({ env = process.env, appRoot = root
     enabled: env.FX_REFRESH !== 'off' && (!suppliedWorker || env.FX_REFRESH === 'on'),
     ...(env.FX_SOURCE_URL ? { sourceUrl: env.FX_SOURCE_URL } : {}),
     everyMs: Math.max(60_000, Number.parseInt(env.FX_REFRESH_MS || `${24 * 60 * 60 * 1000}`, 10) || 24 * 60 * 60 * 1000),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
+  // Bitget Alliance live prize pool (2026-10-13): Bitget's public campaign figures, read on demand at most every 10 min.
+  const bitgetAlliancePool = createBitgetAlliancePool({
+    enabled: env.BITGET_ALLIANCE_POOL !== 'off' && (!suppliedWorker || env.BITGET_ALLIANCE_POOL === 'on'),
     log: (m) => console.log(`[NexuAlpha] ${m}`),
   });
   // Flash market items (2026-10-12): kept next to the announcement archive (FLASH_MEMORY_FILE, default
@@ -228,6 +234,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await funding.respond();
       } else if ((requestPath === ETF_FLOWS_JSON_PATH || requestPath === CALENDAR_JSON_PATH) && (req.method === 'GET' || req.method === 'HEAD') && (result = await (requestPath === ETF_FLOWS_JSON_PATH ? etfFlows : calendar).respond(req.method))) {
         // served from ETF_FLOWS_FILE / CALENDAR_FILE (falls through to the static release copy when the file is not usable)
+      } else if (requestPath === BITGET_ALLIANCE_POOL_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await bitgetAlliancePool.respond(req.method);
       } else if (requestPath === FX_JSON_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await fx.respond(req.method);
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
