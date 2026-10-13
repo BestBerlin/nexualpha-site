@@ -83,6 +83,7 @@ function HydrationBootstrap() {
       initialIntelTool={prerenderState?.intelTool}
       initialFx={prerenderState?.fx}
       initialTicker={prerenderState?.ticker}
+      initialMovers={prerenderState?.movers}
       initialRadar={prerenderState?.radar}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}

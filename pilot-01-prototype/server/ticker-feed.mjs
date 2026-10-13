@@ -10,11 +10,13 @@ const UA = 'NexuAlphaTicker/1.0 (+https://nexualpha.com)';
 const BINANCE_URL = 'https://fapi.binance.com/fapi/v1/ticker/24hr';
 
 export function createTickerFeed({ ttlMs = 15 * 1000, staleMs = 10 * 60 * 1000, fetchImpl = fetch, readMarketEvents = null, now = Date.now, log = () => {} } = {}) {
-  let snapshot = null, at = 0, pending = null;
+  let snapshot = null, at = 0, pending = null, raw = null;
   const fromBinance = async () => {
     const res = await fetchImpl(BINANCE_URL, { headers: { accept: 'application/json', 'user-agent': UA }, signal: AbortSignal.timeout(6000) });
     if (!res.ok) throw new Error(`binance HTTP ${res.status}`);
-    return tickerFromBinance(await res.json(), { now: now() });
+    const rows = await res.json();
+    if (Array.isArray(rows)) raw = { rows, at: now() };
+    return tickerFromBinance(rows, { now: now() });
   };
   const fromCollector = async () => (typeof readMarketEvents === 'function' ? tickerFromMarketEvents(await readMarketEvents()) : null);
   const refresh = () => {
@@ -42,5 +44,8 @@ export function createTickerFeed({ ttlMs = 15 * 1000, staleMs = 10 * 60 * 1000, 
     if (!data) return new Response(method === 'HEAD' ? null : JSON.stringify({ status: 'unavailable' }), { status: 503, headers: { ...headers, 'cache-control': 'no-store' } });
     return new Response(method === 'HEAD' ? null : JSON.stringify(data), { status: 200, headers: { ...headers, 'cache-control': 'public, max-age=10, stale-while-revalidate=20' } });
   };
-  return { read, respond, refresh };
+  // The raw Binance 24h rows behind the last good frame (no extra request), for the home movers board
+  // (server/movers-feed.mjs). Null when Binance has not answered within `staleMs`.
+  const readRows = async () => { await read(); return raw && now() - raw.at <= staleMs ? raw.rows : null; };
+  return { read, respond, refresh, readRows };
 }

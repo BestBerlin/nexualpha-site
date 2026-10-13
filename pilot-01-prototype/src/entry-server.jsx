@@ -8,7 +8,7 @@ import { parsePublicRoute } from "./data/locale-routing.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, radar, intelTool } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -41,6 +41,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
         initialFx={fx && typeof fx === "object" ? fx : undefined}
         initialRadar={radar && typeof radar === "object" ? radar : undefined}
         initialTicker={ticker && typeof ticker === "object" ? ticker : undefined}
+        initialMovers={movers && typeof movers === "object" ? movers : undefined}
       />
     </React.StrictMode>,
     heroVariant,

@@ -210,10 +210,12 @@ test("hydration of the hub and coin pages has no mismatch (en, zh-hans, tr)", as
   }
 });
 
-test("internal links: home 'Popular coins' and exchange profile top 20", async () => {
+test("internal links: home 'Today's movers' rows and exchange profile top 20", async () => {
   assert.equal(POPULAR_COINS.length, 20);
-  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", {});
-  assert.match(home, /class="h7-in h7-coins"[\s\S]*href="\/zh-hans\/coins\/bitcoin"/, "home block");
+  const movers = { generatedAt: "2026-10-13T08:00:00Z", source: "binance-usdm", headline: null,
+    up: [{ sym: "BTC", slug: "bitcoin", name: "Bitcoin", price: "$84,000", change: "+1.20%", dir: "up" }], down: [] };
+  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", { movers });
+  assert.match(home, /class="h7-in h7-mv"[\s\S]*href="\/zh-hans\/coins\/bitcoin"/, "home block");
   for (const venue of ["okx", "binance", "bitget"]) assert.equal(POPULAR_COINS_BY_VENUE[venue].length, 20, venue);
   const profile = await harness.render("https://nexualpha.com/exchanges/okx", {});
   assert.match(profile, /class="v2-section v3-venue-coins"[\s\S]*href="\/coins\/bitcoin"/, "exchange profile block");

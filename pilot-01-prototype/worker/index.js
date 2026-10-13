@@ -69,6 +69,8 @@ import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { RADAR_INDEX_LOCALES, RADAR_PATHS, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
 import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
+import { isMoversSnapshot } from "../src/data/movers.js";
+import { spliceMoversHtml } from "../src/data/movers-html.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
@@ -3721,6 +3723,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
     ...(isTickerSnapshot(route.ticker) ? { ticker: route.ticker } : {}),
+    ...(isMoversSnapshot(route.movers) ? { movers: route.movers } : {}),
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
     // /etf-flows and /calendar: the snapshot the page was rendered with ({ kind, data, now }).
@@ -4923,6 +4926,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     const ticker = await readTickerSnapshot(env);
     if (ticker) { appHtml = spliceTickerHtml(appHtml, ticker); routePayload = { ...routePayload, ticker }; }
   }
+  // Home "Today's movers" (2026-10-13): same pattern, the board body is prerendered empty and filled here.
+  if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes('data-mv="body"')) {
+    const movers = await readMoversSnapshot(env);
+    if (movers) { appHtml = spliceMoversHtml(appHtml, movers, routeKey.split("|")[1] || "en"); routePayload = { ...routePayload, movers }; }
+  }
   return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
 }
 
@@ -5152,6 +5160,15 @@ async function readTickerSnapshot(env) {
     if (typeof env?.TICKER_READ === "function") { const snapshot = await env.TICKER_READ(); if (isTickerSnapshot(snapshot)) return snapshot; }
     if (typeof env?.MARKET_EVENTS_READ === "function") { const snapshot = tickerFromMarketEvents(await env.MARKET_EVENTS_READ()); if (isTickerSnapshot(snapshot)) return snapshot; }
   } catch (error) { console.error(`[NexuAlpha] ticker snapshot failed: ${error?.message || error}`); }
+  return null;
+}
+
+// Home movers snapshot (server/movers-feed.mjs, cached 30 s). Null = the board keeps its prerendered empty frame and the
+// browser fills it from /api/movers.json once it is on screen.
+async function readMoversSnapshot(env) {
+  try {
+    if (typeof env?.MOVERS_READ === "function") { const snapshot = await env.MOVERS_READ(); if (isMoversSnapshot(snapshot)) return snapshot; }
+  } catch (error) { console.error(`[NexuAlpha] movers snapshot failed: ${error?.message || error}`); }
   return null;
 }
 

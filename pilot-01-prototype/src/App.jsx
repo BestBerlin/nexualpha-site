@@ -740,7 +740,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar, initialIntelTool } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialMovers, initialRadar, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -1017,7 +1017,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
-    <HomeV7 locale={locale} market={route.market} />
+    <HomeV7 locale={locale} market={route.market} movers={initialMovers} />
     {/* Neutral locales and no-promotion markets (Vietnam) get no legacy research drawer: it holds sign-up links. */}
     <ClosingBand locale={locale} legacy={isNeutralCtaLocale(locale) || jurisdictionPromotionBan({ locale, market: route.market }) ? <CrawlPriorityLinks locale={locale} scope="home" /> : homeSlots.closing} />
     {footer}
