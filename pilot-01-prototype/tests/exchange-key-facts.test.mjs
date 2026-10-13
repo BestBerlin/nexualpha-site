@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { exchangeKeyFacts, EXCHANGE_KEY_FACT_SLUGS } from "../src/data/exchange-key-facts.js";
+import { exchangeKeyFacts, exchangeLastVerifiedDate, EXCHANGE_KEY_FACT_SLUGS } from "../src/data/exchange-key-facts.js";
 import { buildExchangeKeyFacts } from "../src/data/exchange-key-facts-source.js";
 import worker from "../worker/index.js";
 import { readFile, mkdtemp, rm } from "node:fs/promises";
@@ -45,6 +45,26 @@ test("neutral contexts contain no codes; Türkiye excludes Bitget", () => {
   assert.equal(exchangeKeyFacts("bitget", { locale: "tr" }), null);
   assert.equal(exchangeKeyFacts("bitget", { locale: "tr", market: "US" }), null);
   assert.equal(exchangeKeyFacts("bitget", { market: "TR" }), null);
+});
+
+test("page-level last verified date is derived from the newest dated source row", () => {
+  assert.equal(exchangeLastVerifiedDate("okx"), "2026-10-13");
+  assert.equal(exchangeLastVerifiedDate("binance"), "2026-10-13");
+  assert.equal(exchangeLastVerifiedDate("hyperliquid"), "2026-10-10");
+  assert.equal(exchangeLastVerifiedDate("backpack"), null);
+  assert.equal(exchangeLastVerifiedDate("unknown"), null);
+  const relevant = (row) => row.id.endsWith("-fees") || row.id.startsWith("license-") || (/(?:invite|referral|code)/i.test(row.id) && (row.value?.verified === true || ["verified", "source-backed", "confirmed"].includes(String(row.value?.status || "").toLowerCase())));
+  for (const slug of EXCHANGE_KEY_FACT_SLUGS) {
+    const dates = exchangeKeyFacts(slug).rows.filter(relevant).map((row) => {
+      assert.match(row.checkedOn, /^\d{4}-\d{2}-\d{2}$/);
+      const time = Date.parse(`${row.checkedOn}T00:00:00Z`);
+      assert.ok(Number.isFinite(time), `${slug}/${row.id} date parses`);
+      return { day: row.checkedOn, time };
+    }).sort((a, b) => a.time - b.time);
+    const lastVerified = exchangeLastVerifiedDate(slug);
+    assert.equal(lastVerified, dates.at(-1)?.day || null, slug);
+    if (lastVerified) assert.ok(Date.parse(`${lastVerified}T00:00:00Z`) <= Date.parse("2026-10-13T23:59:59Z"), `${slug} must not publish future freshness`);
+  }
 });
 
 test("worker serves cacheable CORS-safe JSON, rejects unknown slugs and mutations", async () => {

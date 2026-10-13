@@ -155,7 +155,7 @@ const wizardCopy = {
       codeLabel: "Partner Referral Code:",
       openBtn: "Open Official Partner Route ↗",
       reviewTerms: "Review official terms first ↗",
-      routeReady: "Partner route configured",
+      routeReady: "Partner route active",
       benefitPending: "User benefit must be confirmed on the official signup page",
       regionPending: "Regional eligibility is confirmed in the official account flow",
       viewDetail: "Read In-Depth Profile",
@@ -514,7 +514,7 @@ export function TraderWizardModal({ isOpen, onClose, locale = "en", market, prod
         topSlug = "bitget";
         reasons = [
           isZh ? "当前答案更偏向合约、跟单与高频执行场景" : "Your answers point to derivatives, copy-trading and faster execution workflows",
-          isZh ? "合作入口已配置，但地区资格与用户优惠仍以官方开户页为准" : "The partner route is configured; eligibility and user benefits are confirmed on the official signup page",
+          isZh ? "合作入口已配置，但地区资格与用户优惠仍以官方开户页为准" : "The partner route is active; eligibility and user benefits are confirmed on the official signup page",
           isZh ? "继续前应核对 KYC、合约权限、费率与出入金条件" : "Check KYC, derivatives permissions, fee terms and funding conditions before continuing",
         ];
       } else if (ans2 === "onchain_dex") {
@@ -546,7 +546,7 @@ export function TraderWizardModal({ isOpen, onClose, locale = "en", market, prod
         reasons = [
           isZh ? "当前答案更偏向海外身份下的衍生品与活跃交易" : "Your answers point to derivatives and active trading under an overseas profile",
           isZh ? "先核对所在地区、合约权限、费率与风险提示" : "Check region, derivatives permissions, fee terms and risk notices first",
-          isZh ? "合作入口已配置，具体优惠与资格以官方页为准" : "The partner route is configured; benefit and eligibility details remain official-page terms",
+          isZh ? "合作入口已配置，具体优惠与资格以官方页为准" : "The partner route is active; benefit and eligibility details remain official-page terms",
         ];
       } else {
         topSlug = "binance";

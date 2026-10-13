@@ -50,7 +50,7 @@ test("finder builds only actionable destinations and keeps locale in every href"
   const results = buildFinderResults({ copy, command, locale: "zh-Hans" });
   assert.ok(results.length > command.venueCatalog.length);
   assert.ok(results.every((result) => result.href.startsWith("/")));
-  assert.ok(results.filter((result) => !result.href.startsWith("/br") && !result.href.startsWith("/jp") && !result.href.startsWith("/kr") && !result.href.startsWith("/markets/turkiye")).every((result) => result.href.startsWith("/zh-hans")));
+  assert.ok(results.filter((result) => !result.href.startsWith("/br") && !result.href.startsWith("/ja") && !result.href.startsWith("/ko") && !result.href.startsWith("/markets/turkiye")).every((result) => result.href.startsWith("/zh-hans")));
   assert.ok(results.every((result) => result.href));
   assert.ok(results.some((result) => result.href === "/zh-hans/exchanges"));
   assert.ok(results.some((result) => result.href === "/zh-hans/activities"));
@@ -120,8 +120,8 @@ test("finder serves high-intent regional and product routes with safe context on
 
   assert.equal(searchFinderResults(results, "pix brl", "pt-BR")[0].href, "/br/pix#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
   assert.equal(searchFinderResults(results, "br cost", "pt-BR")[0].href, "/br/custos#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
-  assert.equal(searchFinderResults(results, "japan", "pt-BR")[0].href, "/jp#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix&locale=pt-BR");
-  assert.equal(searchFinderResults(results, "korea", "pt-BR")[0].href, "/kr#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix&locale=pt-BR");
+  assert.equal(searchFinderResults(results, "japan", "pt-BR")[0].href, "/ja#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
+  assert.equal(searchFinderResults(results, "korea", "pt-BR")[0].href, "/ko#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
   assert.equal(searchFinderResults(results, "turkiye", "pt-BR")[0].href, "/pt-br/markets/turkiye#nxa-context?market=BR&product=spot&account_stage=new_account&funding=Pix");
 
   assert.ok(results.every((entry) => !entry.href.includes("platform=")));

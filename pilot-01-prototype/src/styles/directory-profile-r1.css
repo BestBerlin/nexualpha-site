@@ -795,7 +795,7 @@
 }
 .v3-profile-page .v3-venue-identity__info { gap: 12px; }
 .v3-profile-page .v3-venue-identity__badges { gap: 8px; align-items: center; }
-.v3-profile-page .v3-venue-identity__badges > :is(.v3-category-chip, .v3-trust-metal-badge, .v3-domain-pill) {
+.v3-profile-page .v3-venue-identity__badges > :is(.v3-category-chip, .v3-trust-metal-badge, .v3-domain-pill, .v3-last-verified-pill) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -825,6 +825,15 @@
   border: 1px solid var(--r1-rule-strong);
   background: transparent;
   color: #b9c8e6;
+}
+.v3-profile-page .v3-venue-identity__badges > .v3-last-verified-pill {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: var(--muted);
+}
+.v3-profile-page .v3-last-verified-pill time {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
 }
 .v3-profile-page .v3-venue-identity h1 {
   margin: 0;

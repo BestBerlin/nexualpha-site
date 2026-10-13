@@ -1,9 +1,10 @@
 import { publicCtaForVenue } from './source-bound-cta.js';
 import { isPartnerPromotableIn, promotionCountries } from './partner-geo-policy.js';
 const TURKEY = new Set(['okx', 'binance', 'bybit']);
+const SIGNUP_AUTHORIZED_STATUSES = new Set(['licensed', 'registered', 'authorised', 'authorized']);
 // A register entry never authorizes a commercial route by itself.
 export function licenseSignup(record, { locale = 'en', market } = {}) {
-  if (!['licensed', 'registered', 'applied'].includes(record.status)) return null;
+  if (!SIGNUP_AUTHORIZED_STATUSES.has(String(record.status || '').toLowerCase())) return null;
   // Neutral locales (ru/ar/zh-Hant/ur/uk/vi) and zh-Hans carry no signup CTA.
   if (['zh-Hans', 'zh-Hant', 'ru', 'ar', 'ur', 'uk', 'vi'].includes(locale)) return null;
   const country = record.country;

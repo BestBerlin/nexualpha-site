@@ -8,6 +8,35 @@ export function exchangeKeyFacts(slug, context = {}) {
   return Object.hasOwn(EXCHANGE_KEY_FACT_SHEETS, slug) ? EXCHANGE_KEY_FACT_SHEETS[slug] : null;
 }
 
+const LICENSE_SOURCE_STATUSES = new Set(["licensed", "registered", "applied", "restricted", "banned", "liquidation list", "warning", "revoked"]);
+const CODE_SOURCE_STATUSES = new Set(["verified", "source-backed", "confirmed"]);
+const isoDayTime = (value) => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const time = Date.parse(`${value}T00:00:00Z`);
+  if (!Number.isFinite(time)) return null;
+  return new Date(time).toISOString().startsWith(value) ? time : null;
+};
+const verifiedLastDateRow = (row) => {
+  const id = String(row?.id || "");
+  if (id.endsWith("-fees")) return true;
+  if (id.startsWith("license-")) return LICENSE_SOURCE_STATUSES.has(String(row?.value?.status || "").toLowerCase());
+  if (/(?:invite|referral|code)/i.test(id)) {
+    const status = String(row?.value?.status || "").toLowerCase();
+    return row?.value?.verified === true || CODE_SOURCE_STATUSES.has(status);
+  }
+  return false;
+};
+
+export function exchangeLastVerifiedDate(slug) {
+  const sheet = Object.hasOwn(EXCHANGE_KEY_FACT_SHEETS, slug) ? EXCHANGE_KEY_FACT_SHEETS[slug] : null;
+  const dated = (sheet?.rows || [])
+    .filter(verifiedLastDateRow)
+    .map((row) => ({ day: row.checkedOn, time: isoDayTime(row.checkedOn) }))
+    .filter((row) => row.time !== null)
+    .sort((a, b) => a.time - b.time);
+  return dated.at(-1)?.day || null;
+}
+
 export function exchangeFactsResponse(request) {
   const url = new URL(request.url);
   const match = /^\/api\/exchange-facts\/([a-z0-9-]+)\.json$/.exec(url.pathname);

@@ -64,6 +64,8 @@ export function createFundingFeed({ everyMs = 5 * 60 * 1000, enabled = true, fet
   if (enabled) { refresh(); timer = setInterval(refresh, everyMs); timer.unref?.(); }
   return {
     refresh,
+    // Home SSR reads the same cached snapshot without waiting for a cold network refresh.
+    read: () => feed,
     stop: () => { if (timer) clearInterval(timer); },
     async respond() {
       if (!body && refreshing) await refreshing;

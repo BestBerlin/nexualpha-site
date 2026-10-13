@@ -1,4 +1,5 @@
 import { partnerPromotionGate } from "./partner-geo-policy.js";
+import { partnerRegistry } from "./partner-registry.js";
 // Home v7 only. Rebate shares the owner stated for each venue's partner program (2026-10-09). Share of the fees the user
 // already paid, returned to the user. null = not confirmed yet: shown as "pending" and never counted.
 // Not a source of invite codes or links (those stay in partner-registry.js, untouched).
@@ -7,9 +8,17 @@ export const HOME_REBATE_MAX_PCT = 60; // owner 2026-10-10: Bitget up to 60% is 
 // home shows them as "up to" and estimates with them.
 export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.4, binance: 0.25, bitget: 0.6, bybit: null });
 export const HOME_VENUES = Object.freeze(["okx", "binance", "bitget", "bybit"]);
-// Every partner with a real invite code in partner-registry.js, in home display order. kucoin/deribit/gmx are left out
-// while their codes are placeholders (NEXU_KUCOIN, NEXU_DERIBIT, NEXU_GMX). Codes and links still come only from publicCtaForVenue.
-export const HOME_PARTNERS = Object.freeze(["okx", "bitget", "binance", "bybit", "gate-io", "mexc", "htx", "kraken", "backpack", "hyperliquid", "coinw"]);
+// Display order for registry-derived partner routes. The set and count still come from partnerRegistry: venues with
+// placeholder invite codes or missing HTTPS registration routes fail closed before they can appear on the home page.
+const HOME_PARTNER_ORDER = Object.freeze(["okx", "bitget", "binance", "bybit", "gate-io", "mexc", "htx", "kraken", "backpack", "hyperliquid", "coinw"]);
+const PLACEHOLDER_INVITE_CODE = /^NEXU_[A-Z0-9]+$/;
+const registryPartnerSlugs = Object.freeze(Object.entries(partnerRegistry)
+  .filter(([, partner]) => partner?.hasReferral && /^https:\/\//i.test(partner.registrationUrl || "") && partner.inviteCode && !PLACEHOLDER_INVITE_CODE.test(String(partner.inviteCode)))
+  .map(([slug]) => slug));
+export const HOME_PARTNERS = Object.freeze([
+  ...HOME_PARTNER_ORDER.filter((slug) => registryPartnerSlugs.includes(slug)),
+  ...registryPartnerSlugs.filter((slug) => !HOME_PARTNER_ORDER.includes(slug)),
+]);
 // Owner (2026-10-09): OKX and Bitget are the primary push; the home sign-up desk shows them first, OKX selected.
 export const HOME_PUSH = Object.freeze(["okx", "bitget", "binance"]);
 // Owner (2026-10-09): rebates on these partner programs are settled by the exchange itself ("官方自动结算"); a few

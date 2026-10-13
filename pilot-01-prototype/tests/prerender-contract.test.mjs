@@ -175,9 +175,14 @@ test("worker serves the Mexico decision route set with localized metadata", asyn
   }
 });
 
-test("worker prerenders clean Taiwan and Indonesia country routes with their owner locales", async () => {
+test("worker prerenders Taiwan and redirects the retired Indonesia prefix", async () => {
   for (const [pathname, locale, localizedCopy] of [["/tw", "zh-Hant", />交易所</], ["/id", "id", />Bursa</]]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
+    if (pathname === "/id") {
+      assert.equal(response.status, 301);
+      assert.equal(response.headers.get("location"), "https://nexualpha.com/id-id");
+      continue;
+    }
     const html = await response.text();
     const textHtml = html.replace(/<!--\s*-->/g, "");
     const statePayload = html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
@@ -231,26 +236,11 @@ test("worker prerenders Spanish MX owners and explicit English display documents
   }
 });
 
-test("worker prerenders clean Japan and Korea country routes with their owner locales", async () => {
-  const cases = [
-    ["/jp", "ja", /日本|JPY|本人確認|Japan/],
-    ["/kr", "ko", /한국|KRW|실명|Korea/],
-  ];
-
-  for (const [pathname, locale, localizedText] of cases) {
+test("worker redirects retired Japan and Korea prefixes to canonical locale homes", async () => {
+  for (const [pathname, canonical] of [["/jp", "/ja"], ["/kr", "/ko"]]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
-    const html = await response.text();
-    const statePayload = html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
-
-    assert.equal(response.status, 200, pathname);
-    assert.match(html, new RegExp(`<html lang="${locale}"`), pathname);
-    assert.ok(statePayload, `${pathname}: prerender state`);
-    const state = JSON.parse(statePayload);
-    assert.equal(state.pathname, pathname, pathname);
-    assert.equal(state.locale, locale, pathname);
-    assert.match(html, localizedText, pathname);
-    assert.doesNotMatch(html, /<script type="module"/, pathname);
-    assert.match(html, /data-nexualpha-deferred-hydration/, pathname);
+    assert.equal(response.status, 301, pathname);
+    assert.equal(response.headers.get("location"), `https://nexualpha.com${canonical}`);
   }
 });
 
@@ -269,6 +259,11 @@ test("regional JP KR and Türkiye routes ship full SSR with delayed hydration bu
     assert.equal(parsedRoute.isCountryRoute, expectedRoute.isCountryRoute, `${pathname}: country route classification`);
 
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
+    if (pathname === "/jp" || pathname === "/kr") {
+      assert.equal(response.status, 301, `${pathname}: retired prefix`);
+      assert.equal(response.headers.get("location"), `https://nexualpha.com/${expectedRoute.locale}`);
+      continue;
+    }
     const html = await response.text();
     const statePayload = html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
     const state = statePayload ? JSON.parse(statePayload) : null;
@@ -692,7 +687,7 @@ test("worker filters stylesheets by prerendered route while retaining shared bas
     ["/rates", "/prerender/en/rates.json", "<main><h1>Rates</h1><button data-cta-placement=\"rates-open\">Open</button></main>", ["route-rates-", "route-activity-"]],
     ["/onchain", "/prerender/en/onchain.json", "<main><h1>Onchain</h1><button data-cta-placement=\"onchain-open\">Open</button></main>", ["route-onchain-"]],
     ["/factbook/binance", "/prerender/en/factbook/binance.json", "<main><h1>Factbook</h1><button data-cta-placement=\"factbook-open\">Open</button></main>", ["route-factbook-", "route-activity-"]],
-    ["/jp", "/prerender/ja/jp.json", "<main><h1>Japan regional preview</h1><button data-cta-placement=\"jp-open\">Open</button></main>", ["route-international-"], "ja"],
+    ["/sg", "/prerender/en/sg.json", "<main><h1>Singapore regional preview</h1><button data-cta-placement=\"sg-open\">Open</button></main>", ["route-international-"], "en"],
     ["/br", "/prerender/pt-BR/br.json", "<main><h1>Brasil regional preview</h1><button data-cta-placement=\"br-open\">Open</button></main>", ["route-international-"], "pt-BR"],
     ["/tr/markets/turkiye", "/prerender/tr/markets/turkiye.json", "<main><h1>Türkiye regional preview</h1><button data-cta-placement=\"tr-open\">Open</button></main>", ["route-international-"], "tr"],
     ["/telegram", "/prerender/en/telegram.json", "<main><h1>Telegram</h1><button data-cta-placement=\"telegram-open\">Open</button></main>", ["route-telegram-"]],

@@ -120,5 +120,6 @@ const BODY_RE = /(<div class="h7-mv-body" data-mv="body">)[\s\S]*?<!--mv-end-->/
  */
 export function spliceMoversHtml(html, snapshot, locale = "en") {
   if (typeof html !== "string" || !isMoversSnapshot(snapshot) || !BODY_RE.test(html)) return html;
-  return html.replace(BODY_RE, (_match, open) => `${open}${moversBodyHtml(snapshot, locale)}`);
+  return html.replace(BODY_RE, (_match, open) => `${open}${moversBodyHtml(snapshot, locale)}`)
+    .replace(/(<section\b[^>]*\bid="h7-movers"[^>]*?) hidden=""/, "$1");
 }

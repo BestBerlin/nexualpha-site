@@ -29,6 +29,7 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
       import { venueDatabase } from "../../src/data/venue-database.js";
       import { decisionForVenue } from "../../src/data/venue-decision-content.js";
       import { sanitizePublicText } from "../../src/data/public-copy-sanitizer.js";
+      import { exchangeLastVerifiedDate } from "../../src/data/exchange-key-facts.js";
 
       const pageCopy = {
         common: { dimension: "Dimension" },
@@ -62,6 +63,7 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
               why: sanitizePublicText(decision.why),
               avoid: sanitizePublicText(decision.avoid),
             },
+            lastVerified: exchangeLastVerifiedDate(slug),
           });
         }
       }
@@ -82,7 +84,7 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
 
     const pages = JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 16 * 1024 * 1024 }));
     assert.equal(pages.length, locales.length * slugs.length);
-    for (const { locale, slug, firstScreen, decision } of pages) {
+    for (const { locale, slug, firstScreen, decision, lastVerified } of pages) {
       assert.equal(decision.contentLocale, locale, `${slug}/${locale}: no English decision fallback`);
       assert.equal(decision.editorialReviewed, true, `${slug}/${locale}: reviewed editorial gate`);
       const hasPriorityAnswer = firstScreen.includes('class="v3-venue-direct-answer"') || firstScreen.includes(`data-priority-answer="${slug}"`);
@@ -105,6 +107,14 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
       if (locale === "ja") assert.match(firstScreen, /紹介コード|紹介情報の概要/);
       if (locale === "ko") assert.match(firstScreen, /추천 코드|추천 정보 요약/);
       if (locale === "tr") assert.match(firstScreen, /Referans kodu|Referans özeti/);
+      assert.match(firstScreen, /v3-last-verified-pill/, `${slug}/${locale}: page-level last verified pill`);
+      if (lastVerified) {
+        assert.ok(firstScreen.includes(`<time dateTime="${lastVerified}">${lastVerified}</time> SGT`), `${slug}/${locale}: page-level last verified date`);
+        if (locale === "en") assert.ok(firstScreen.includes("Last verified:"), `${slug}/${locale}: English last verified label`);
+      } else {
+        if (locale === "en") assert.ok(firstScreen.includes("Last verified: Not yet verified"), `${slug}/${locale}: explicit missing verification label`);
+        assert.match(firstScreen, /<span class="v3-last-verified-pill">[^<]*<\/span>/, `${slug}/${locale}: no fabricated date in last verified pill without verified fee/licence/code data`);
+      }
     }
   } finally {
     await rm(tempDir, { recursive: true, force: true });

@@ -317,7 +317,8 @@ test("Mexico hub is published as one clean Spanish country URL while thin region
   assert.ok(!locs.has("https://nexualpha.com/mx?locale=es"));
   assert.ok(locs.has("https://nexualpha.com/tw"));
   assert.ok(!locs.has("https://nexualpha.com/tw?locale=zh-Hant"));
-  assert.ok(locs.has("https://nexualpha.com/id"));
+  assert.ok(!locs.has("https://nexualpha.com/id"));
+  assert.ok(locs.has("https://nexualpha.com/id-id"));
   assert.ok(!locs.has("https://nexualpha.com/id?locale=id"));
   for (const path of ["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/int"]) {
     assert.ok(![...locs].some((loc) => new URL(loc).pathname === path), path);

@@ -36,7 +36,7 @@ test("funding matrix participation is descriptive and never an observed venue co
   for (const item of funding.values) {
     assert.equal(item.value, true);
     assert.equal(item.observedCoverage, null);
-    assert.match(item.display, /Configured funding-monitoring venue/);
+    assert.match(item.display, /Included in funding-rate matrix/);
     assert.deepEqual(item.sources, ["/funding-rates"]);
   }
   assert.match(funding.rule, /no live observed pair count is inferred/);

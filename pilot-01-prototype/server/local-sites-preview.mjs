@@ -8,6 +8,7 @@ import { pathToFileURL } from "node:url";
 import { contentTypeForAssetPath, resolveAssetPath, rewriteLocalRedirectLocation } from "./asset-path.mjs";
 import { createNewsSsrRenderer } from "./news-ssr.mjs";
 import { createFundingMatrixReader } from "./funding-matrix.mjs";
+import { createFundingFeed, FUNDING_PATH } from "./funding-feed.mjs";
 import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
 import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from "./liquidation-levels-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
@@ -21,6 +22,7 @@ const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
 const clientRoot = path.join(distRoot, "client");
 const renderNews = createNewsSsrRenderer(distRoot);
 const fundingMatrix = createFundingMatrixReader({ enabled: process.env.INTEL_REFRESH !== "off" });
+const funding = createFundingFeed({ enabled: process.env.INTEL_REFRESH !== "off" });
 const marketEvents = marketEventsReaderFromEnv(process.env);
 const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => process.stdout.write(`[NexuAlpha] ${m}\n`) });
 const workerPolledJsonCacheScope = {};
@@ -70,6 +72,8 @@ createServer(async (request, response) => {
     const pathname = new URL(workerRequest.url).pathname;
     const workerResponse = pathname === "/api/analytics/cta"
       ? await collectCta(workerRequest, origin)
+      : pathname === FUNDING_PATH && (request.method === "GET" || request.method === "HEAD")
+        ? await funding.respond()
       : pathname === FX_JSON_PATH && (request.method === "GET" || request.method === "HEAD")
         ? await fx.respond(request.method)
         : pathname === LIQUIDATION_LEVELS_PATH && (request.method === "GET" || request.method === "HEAD")
@@ -80,6 +84,7 @@ createServer(async (request, response) => {
       NEWS_SSR_RENDER: renderNews,
       RADAR_READ: radar.read,
       FUNDING_MATRIX_READ: fundingMatrix.read,
+      FUNDING_READ: funding.read,
       MARKET_EVENTS_READ: marketEvents.read,
       LIQUIDATION_LEVELS_READ: liquidationLevels.read,
       FX_SNAPSHOT_READ: fx.read,

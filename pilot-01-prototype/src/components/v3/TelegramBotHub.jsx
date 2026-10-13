@@ -36,7 +36,7 @@ const copy = {
       {
         icon: "",
         title: "官方域名核验入口",
-        desc: "把交易所域名送入核验路径，结果只依据已配置的官方来源，不把入口链接当作安全保证。",
+        desc: "把交易所域名送入核验路径，结果只依据已记录的官方来源，不把入口链接当作安全保证。",
       },
       {
         icon: "",
@@ -106,7 +106,7 @@ const copy = {
       {
         icon: "",
         title: "官方網域核驗入口",
-        desc: "把交易所網域送入核驗路徑，結果只依據已配置的官方來源，不把入口連結當作安全保證。",
+        desc: "把交易所網域送入核驗路徑，結果只依據已記錄的官方來源，不把入口連結當作安全保證。",
       },
       {
         icon: "",
@@ -175,7 +175,7 @@ const copy = {
       {
         icon: "",
         title: "Official-domain review path",
-        desc: "Send a domain into the configured source-review path; an outbound link is never a security guarantee.",
+        desc: "Send a domain into the protected source-review path; an outbound link is never a security guarantee.",
       },
       {
         icon: "",
@@ -246,7 +246,7 @@ const copy = {
       {
         icon: "",
         title: "Caminho de revisão de domínio",
-        desc: "Envie um domínio para a revisão configurada; um link externo nunca é uma garantia de segurança.",
+        desc: "Envie um domínio para a revisão das fontes registadas; um link externo nunca é uma garantia de segurança.",
       },
       {
         icon: "",

@@ -46,7 +46,7 @@ test('all eleven search locales have localized titles, answer and schema', () =>
 test('commercial routes fail closed for negative status, restricted countries, neutral Chinese and Türkiye exceptions', () => {
   const positive = { exchange: 'okx', country: 'TR', status: 'registered' };
   assert.match(licenseSignup(positive, { locale: 'tr' }) || '', /^\/go\/okx\?/);
-  for (const status of ['restricted', 'banned', 'liquidation list']) assert.equal(licenseSignup({ ...positive, status }, { locale: 'tr' }), null);
+  for (const status of ['applied', 'pending', 'listed', 'warning', 'revoked', 'restricted', 'banned', 'liquidation list']) assert.equal(licenseSignup({ ...positive, status }, { locale: 'tr' }), null);
   for (const exchange of ['bitget', 'mexc', 'gate-io', 'kraken']) assert.equal(licenseSignup({ ...positive, exchange }, { locale: 'tr' }), null);
   assert.equal(licenseSignup({ ...positive, country: 'JP' }, { locale: 'ja' }), null);
   assert.equal(licenseSignup(positive, { locale: 'zh-Hans' }), null);
@@ -54,8 +54,7 @@ test('commercial routes fail closed for negative status, restricted countries, n
   assert.equal(licenseSignup({ exchange: 'mexc', country: 'BR', status: 'registered' }, { locale: 'tr', market: 'TR' }), null);
   for (const row of licenseRecords.filter(row => row.country === 'TR')) {
     const signup = licenseSignup(row, { locale: 'tr' });
-    if (['okx', 'binance', 'bybit'].includes(row.exchange)) assert.ok(signup, row.exchange);
-    else assert.equal(signup, null, row.exchange);
+    assert.equal(signup, null, `${row.exchange}/${row.status}`);
   }
 });
 test('parser handles hub/country and rejects extra segments', () => {
@@ -94,6 +93,10 @@ test('exchange detail includes its register section and source link', async () =
   const html = harness.render(`/exchanges/${row.exchange}`);
   assert.match(html, /id="licenses"/);
   assert.ok(html.includes(row.entityName));
+  const doc = new (require_jsdom())(html).window.document;
+  const appliedRow = [...doc.querySelectorAll('.nx-license-table tbody tr')].find(element => element.textContent.includes(row.entityName));
+  assert.ok(appliedRow, 'applied Türkiye row is rendered');
+  assert.equal(appliedRow.querySelector('[data-cta-placement="license-directory"]'), null);
 });
 
 test('hub filters update the hydrated table without changing server evidence', async () => {

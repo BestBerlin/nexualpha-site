@@ -9,7 +9,7 @@ import { rewritePartnerViewHtml } from "./data/partner-view.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -32,6 +32,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
         initialNewsArticles={normalizedNewsArticles}
         initialNewsListing={newsListing && typeof newsListing === "object" ? newsListing : undefined}
         initialFundingMatrix={fundingMatrix}
+        initialFundingFeed={funding && typeof funding === "object" ? funding : undefined}
         initialMarketEvents={marketEvents && typeof marketEvents === "object" ? marketEvents : undefined}
         initialLiquidationLevels={liquidationLevels && typeof liquidationLevels === "object" ? liquidationLevels : undefined}
         initialOfficialAnnouncements={officialAnnouncements && typeof officialAnnouncements === "object" ? officialAnnouncements : undefined}

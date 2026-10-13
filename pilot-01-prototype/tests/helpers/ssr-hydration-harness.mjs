@@ -39,7 +39,7 @@ export function decodeEntities(value) {
 const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Hydrates the SSR document in jsdom exactly like the browser entry: same bootstrap URL, same prerender-state props.
-export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, browserUrlAsWindowUrl = false, fixedNow = null } = {}) {
+export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, browserUrlAsWindowUrl = false, fixedNow = null, fetchImpl, intersectionObserver } = {}) {
   const state = prerenderState(html);
   const bootstrap = buildHydrationBootstrap({ browserUrl: pageUrl, prerenderState: state, hasServerHtml: true, clientRender: false });
   const dom = new JSDOM(html, { url: browserUrlAsWindowUrl ? pageUrl : bootstrap.initialUrl, pretendToBeVisual: true });
@@ -47,10 +47,10 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
   const errors = [];
   const stubs = {
     matchMedia: () => ({ matches: false, media: "", onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false }),
-    IntersectionObserver: class { observe() {} unobserve() {} disconnect() {} takeRecords() { return []; } },
+    IntersectionObserver: intersectionObserver || class { observe() {} unobserve() {} disconnect() {} takeRecords() { return []; } },
     ResizeObserver: class { observe() {} unobserve() {} disconnect() {} },
     scrollTo() {},
-    fetch: async () => new Response("{}", { status: 404, headers: { "content-type": "application/json" } }),
+    fetch: fetchImpl || (async () => new Response("{}", { status: 404, headers: { "content-type": "application/json" } })),
   };
   for (const [key, value] of Object.entries(stubs)) if (!window[key]) window[key] = value;
   const globals = ["window", "document", "navigator", "location", "history", "localStorage", "sessionStorage", "HTMLElement", "Element", "Node", "Text", "Event", "CustomEvent", "MutationObserver", "getComputedStyle", "requestAnimationFrame", "cancelAnimationFrame", "matchMedia", "IntersectionObserver", "ResizeObserver", "scrollTo", "fetch", "CSS"];
@@ -77,6 +77,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialNewsArticles: state?.newsArticles,
       initialNewsListing: state?.newsListing,
       initialMarketEvents: state?.marketEvents,
+      initialFundingFeed: state?.funding,
       initialOfficialAnnouncements: state?.officialAnnouncements,
       initialToolArticles: state?.toolArticles,
       initialFlash: state?.flash,
@@ -84,6 +85,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialIntelTool: state?.intelTool,
       initialFx: state?.fx,
       initialTicker: state?.ticker,
+      initialMovers: state?.movers,
       initialRadar: state?.radar,
     })), heroVariant);
     const root = window.document.getElementById("root");

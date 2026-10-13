@@ -53,6 +53,7 @@ import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.j
 import { exchangeHubToolLinks } from "../../data/exchange-hub-links.js";
 import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
+import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
 import "./venue-popular-coins.css";
 
 const VENUE_COINS_COPY = {
@@ -74,6 +75,42 @@ const VENUE_COINS_COPY = {
   ur: { title: "{venue} پر مقبول کوائنز", all: "تمام کوائنز" },
   uk: { title: "Популярні монети на {venue}", all: "Усі монети" },
 };
+const lastVerifiedLabel = (locale) => ({
+  "zh-Hans": "最后核验",
+  "zh-Hant": "最後核驗",
+  es: "Última verificación",
+  "pt-BR": "Última verificação",
+  fr: "Dernière vérification",
+  de: "Zuletzt geprüft",
+  ja: "最終確認",
+  ko: "최종 확인",
+  tr: "Son doğrulama",
+  id: "Terakhir diverifikasi",
+  vi: "Xác minh lần cuối",
+  it: "Ultima verifica",
+  ru: "Последняя проверка",
+  ar: "آخر تحقق",
+  ur: "آخری تصدیق",
+  uk: "Остання перевірка",
+}[locale] || "Last verified");
+const notYetVerifiedLabel = (locale) => ({
+  "zh-Hans": "尚未核验",
+  "zh-Hant": "尚未核驗",
+  es: "Aún no verificado",
+  "pt-BR": "Ainda não verificado",
+  fr: "Pas encore vérifié",
+  de: "Noch nicht geprüft",
+  ja: "未確認",
+  ko: "아직 확인되지 않음",
+  tr: "Henüz doğrulanmadı",
+  id: "Belum diverifikasi",
+  vi: "Chưa xác minh",
+  it: "Non ancora verificato",
+  ru: "Еще не проверено",
+  ar: "لم يتم التحقق بعد",
+  ur: "ابھی تصدیق نہیں ہوئی",
+  uk: "Ще не перевірено",
+}[locale] || "Not yet verified");
 // Popular coins on this exchange (2026-10-12): the 20 largest coins it lists, linking our "where to buy" pages.
 function VenuePopularCoins({ slug, name, locale }) {
   const coins = POPULAR_COINS_BY_VENUE[slug] || [];
@@ -500,6 +537,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const trustScore = db.trustScore && db.trustScoreSourceReviewedAt ? Number(db.trustScore) : null;
   const trustLabel = trustScore == null ? localePending(locale) : (trustScore >= 9.0 ? `AA+ ${trustScore}` : `AA ${trustScore}`);
   const trustColor = trustScore >= 9.0 ? "#10b981" : "#38bdf8";
+  const lastVerified = exchangeLastVerifiedDate(profile.slug);
 
   const reviewedSpotRate = publishableFeeRate(buildVenueFeeSummary(db, research || {}), "spot", locale);
   const spotFeeDisplay = reviewedSpotRate?.display || localePending(locale);
@@ -743,6 +781,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               )}
               <span className="v3-domain-pill" translate="no">
                 <svg className="d5-lock" aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg> {officialDomain}
+              </span>
+              <span className="v3-last-verified-pill">
+                {lastVerifiedLabel(locale)}: {lastVerified ? <><time dateTime={lastVerified}>{lastVerified}</time> SGT</> : notYetVerifiedLabel(locale)}
               </span>
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>

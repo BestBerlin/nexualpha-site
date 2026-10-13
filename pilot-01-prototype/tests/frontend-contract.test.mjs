@@ -247,7 +247,7 @@ test("regional research previews expose bounded AEO questions and source freshne
 // The active HomeV7 decision desk precedes the research drawer hosted by ClosingBand.
 test("homepage keeps primary decisions above a collapsible research drawer", () => {
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
-  assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} movers=\{initialMovers\} \/>/);
+  assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} movers=\{initialMovers\} fundingFeed=\{initialFundingFeed\} \/>/);
   // A no-promotion market (Vietnam) keeps only the crawl links; every other market keeps the research drawer.
   assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{isNeutralCtaLocale\(locale\) \|\| jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
@@ -1152,7 +1152,7 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
 test("3.0 secondary pages stay visibly independent and keep commercial handoffs explicit", () => {
   assert.match(v3Product, /not an exchange website/);
   assert.match(v3Product, /不是交易所官网/);
-  assert.match(v3Product, /Configured partner routes open|已配置合作链接/);
+  assert.match(v3Product, /Reviewed partner routes open|已配置合作链接/);
   assert.match(v3Pages, /data-cta-kind=\{/);
   assert.match(v3Pages, /"registration"/);
   assert.match(v3Pages, /rel=\{[^}]*sponsored noopener noreferrer/);

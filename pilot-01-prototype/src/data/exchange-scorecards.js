@@ -115,7 +115,7 @@ function coinCountValue(slug, counts) {
 
 function fundingCoverageValue(slug) {
   const supported = FUNDING_MATRIX_VENUES.includes(slug);
-  return value(slug, supported, supported ? "Configured funding-monitoring venue" : "Not configured in funding matrix", {
+  return value(slug, supported, supported ? "Included in funding-rate matrix" : "Outside the reviewed funding matrix", {
     asOf: null,
     sources: ["/funding-rates"],
     meta: { supported, observedCoverage: null, configuredUniverse: FUNDING_MATRIX_SYMBOLS.length },
@@ -171,7 +171,7 @@ function buildRows(slugs, context) {
     row("spotFees", "Lowest checked spot fees", slugs.map((slug) => feeValue(slug, "spot", context.locale)), { direction: "none", rule: "Lowest checked spot taker fee, then maker fee; unchecked rows do not compete." }),
     row("perpFees", "Lowest checked futures fees", slugs.map((slug) => feeValue(slug, "perp", context.locale)), { direction: "none", rule: "Lowest checked futures taker fee, then maker fee; unchecked rows do not compete." }),
     row("top200Coins", "Most top-200 coin availability", slugs.map((slug) => coinCountValue(slug, counts)), { direction: "none", rule: "Counts top-200 coins with spot or perp listing in coins data." }),
-    row("fundingCoverage", "Funding-rate matrix participation", slugs.map(fundingCoverageValue), { direction: "none", rule: "Shows configured participation in the reviewed funding-matrix universe; no live observed pair count is inferred." }),
+    row("fundingCoverage", "Funding-rate matrix participation", slugs.map(fundingCoverageValue), { direction: "none", rule: "Shows participation in the reviewed funding-matrix universe; no live observed pair count is inferred." }),
     row("localFiatRails", `Reviewed ${context.fiat || "local fiat"} funding guide`, slugs.map((slug) => fiatRailValue(slug, context.fiat, context)), { direction: "none", rule: "Only converter funding guides count as local fiat rail evidence." }),
     row("currentPromotion", "Current verified promotion", slugs.map((slug) => promotionValue(slug, context)), { direction: "none", rule: "Promotion must pass existing time, source, locale, market and partner gates." }),
     row("futures", "Futures product evidence", slugs.map((slug) => productValue(slug, "perp")), { direction: "none", rule: "Futures evidence comes from checked futures fee facts." }),
