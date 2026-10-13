@@ -195,10 +195,15 @@ export default defineConfig(({ isSsrBuild = false }) => ({
             || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
-          if (!isSsrBuild && id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
+          if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
+          // Data-page paths/nav are read by route-data, route-coins and the news chunks: pinned (SSR TDZ, 2026-10-13).
+          if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
+          // The partner geo policy is read by locale-routing.js (Türkiye link gate, 2026-10-13) and so by every route: pinned
+          // in its own small chunk so no route chunk absorbs it and becomes a dependency of every other (SSR TDZ cycle).
+          if (/\/src\/data\/partner-geo-policy(?:\.generated)?\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
           if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";

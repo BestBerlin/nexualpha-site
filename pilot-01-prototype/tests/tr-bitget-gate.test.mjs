@@ -15,7 +15,7 @@ const TR_PAGES = [
   "/tr", "/tr/exchanges", "/tr/exchanges/bitget", "/tr/exchanges/okx", "/tr/compare", "/tr/compare/bitget-vs-okx",
   "/tr/compare/binance-vs-bitget", "/tr/coins", "/tr/coins/bitcoin", "/tr/coins/solana", "/tr/coins/dogecoin",
   "/tr/convert/btc-to-try", "/tr/convert/btc-to-usd", "/tr/activities", "/tr/activities/bybit-stocks",
-  "/tr/activities/binance-october-gifts", "/tr/academy", "/tr/academy/first-spot-trade", "/tr/flash", "/tr/rates",
+  "/tr/activities/binance-october-gifts", "/tr/activities/bitget-alliance", "/tr/glossary", "/tr/funding-rates", "/tr/academy", "/tr/academy/first-spot-trade", "/tr/flash", "/tr/rates",
 ];
 
 const bitget = partnerRegistry.bitget;
