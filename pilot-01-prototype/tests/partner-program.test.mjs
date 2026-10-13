@@ -105,7 +105,7 @@ test('rendered program exposes localized application options and neutral edition
     assert.match(html, /<h1>/, locale);
     assert.match(html, /mailto:partners@nexualpha\.com/, locale);
     assert.match(html, /https:\/\/t\.me\/NexuAlphaAssistantBot/, locale);
-    assert.match(html, /\{split\}/, locale);
+    assert.doesNotMatch(html, /\{split\}/, `${locale}: no raw split placeholder on the public page`);
     assert.match(html, /data-cta-kind="partner-application"/, locale);
   }
   for (const locale of ['ru', 'ar', 'zh-Hant', 'ur', 'uk', 'vi']) {
