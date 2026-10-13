@@ -213,6 +213,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
           // Data-page paths/nav are read by route-data, route-coins and the news chunks: pinned (SSR TDZ, 2026-10-13).
           if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
+          // Shared browser polling helper: ticker, flash, movers and radar routes all use it. If Rollup lets a deferred
+          // home chunk absorb it, unrelated route preloads pick up home-below-fold and its data graph.
+          if (!isSsrBuild && id.endsWith("/src/components/shared/json-polling.js")) return "shared-json-polling";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.

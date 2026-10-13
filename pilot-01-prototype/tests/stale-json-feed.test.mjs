@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createStaleJsonFeed } from '../server/stale-json-feed.mjs';
+import { createTickerFeed } from '../server/ticker-feed.mjs';
+import { createMoversFeed } from '../server/movers-feed.mjs';
+
+const CACHE = 'public, max-age=10, stale-while-revalidate=60';
+test('stale payload survives extended errors with original generatedAt, headers and HEAD', async () => {
+  let clock = 0, fail = false, calls = 0;
+  const payload = { generatedAt: '2026-10-13T00:00:00Z', items: [1] };
+  const feed = createStaleJsonFeed({ now: () => clock, load: async () => { calls++; if (fail) throw Error('offline'); return payload; } });
+  assert.deepEqual(await (await feed.respond()).json(), payload);
+  clock += 86400000; fail = true;
+  const res = await feed.respond();
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('cache-control'), CACHE);
+  assert.deepEqual(await res.json(), { ...payload, stale: true });
+  await feed.refresh();
+  const before = calls;
+  await feed.respond(); await feed.respond();
+  assert.equal(calls, before, 'failed refreshes are rate limited');
+  assert.equal(await (await feed.respond('HEAD')).text(), '');
+  fail = false; clock += 15001; await feed.refresh();
+  assert.deepEqual(await feed.read(), payload, 'successful refresh clears stale');
+});
+test('cold requests share one refresh and time out even if the source ignores abort', async () => {
+  let calls = 0, signal, clock = 0;
+  const feed = createStaleJsonFeed({ now: () => clock, timeoutMs: 20, load: async (s) => { calls++; signal = s; return new Promise(() => {}); } });
+  const results = await Promise.all(Array.from({ length: 12 }, () => feed.respond()));
+  assert.equal(calls, 1);
+  assert.equal(signal.aborted, true);
+  clock = 30000; await feed.respond();
+  assert.equal(calls, 1, 'a timed-out source that ignores abort keeps ownership of the flight');
+  for (const res of results) { assert.equal(res.status, 503); assert.equal(res.headers.get('cache-control'), 'no-store'); }
+});
+test('late timed-out payload cannot overwrite a good snapshot', async () => {
+  let clock = 0, resolve;
+  const good = { generatedAt: 'original' };
+  const feed = createStaleJsonFeed({ now: () => clock, timeoutMs: 20, load: async () => clock ? new Promise((r) => { resolve = r; }) : good });
+  await feed.read(); clock = 30000;
+  await feed.refresh(); resolve({ generatedAt: 'late' });
+  await new Promise((r) => setImmediate(r));
+  assert.deepEqual(await feed.read(), { ...good, stale: true });
+});
+test('ticker and movers retain good snapshots past their former ten-minute cutoff', async () => {
+  let clock = 0, fail = false;
+  const market = { generatedAt: '2026-10-13T00:00:00Z', market: { majors: ['BTC', 'ETH', 'SOL'].map((sym) => ({ symbol: `${sym}USDT`, price: 10, change24hPct: 1 })), movers: [] } };
+  const ticker = createTickerFeed({ now: () => clock, fetchImpl: async () => { throw Error('offline'); }, readMarketEvents: async () => fail ? null : market });
+  const movers = createMoversFeed({ now: () => clock, readMarketEvents: async () => fail ? null : market,
+    readCoins: async () => ({ coins: [{ rank: 1, symbol: 'BTC', slug: 'bitcoin', name: 'Bitcoin', price: 10 }] }) });
+  for (const feed of [ticker, movers]) assert.equal((await feed.respond()).status, 200);
+  clock = 86400000; fail = true;
+  for (const feed of [ticker, movers]) {
+    await feed.refresh();
+    const res = await feed.respond(); assert.equal(res.status, 200); assert.equal(res.headers.get('cache-control'), CACHE);
+    assert.equal((await res.json()).stale, true);
+  }
+});
+test('warm requests return stale immediately while sharing one background refresh', async () => {
+  let clock = 0, calls = 0, resolve;
+  const feed = createStaleJsonFeed({ now: () => clock, load: async () => {
+    calls++; return calls === 1 ? { generatedAt: 'first' } : new Promise((r) => { resolve = r; });
+  } });
+  await feed.read(); clock = 16000;
+  const results = await Promise.all(Array.from({ length: 12 }, () => feed.read()));
+  assert.equal(calls, 2);
+  for (const result of results) assert.deepEqual(result, { generatedAt: 'first', stale: true });
+  resolve({ generatedAt: 'second' }); await feed.refresh();
+  assert.deepEqual(await feed.read(), { generatedAt: 'second' });
+});
+test('expired Binance rows cannot be rebuilt as newly generated movers during an outage', async () => {
+  let clock = 0, fail = false;
+  const rows = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'DOGE', 'ADA', 'AVAX', 'LINK', 'DOT'].map((sym) => ({ symbol: `${sym}USDT`, lastPrice: '10', priceChangePercent: '1', quoteVolume: '100000000' }));
+  const ticker = createTickerFeed({ now: () => clock, fetchImpl: async () => {
+    if (fail) throw Error('offline'); return Response.json(rows);
+  } });
+  const movers = createMoversFeed({ now: () => clock, readBinanceRows: ticker.readRows,
+    readCoins: async () => ({ coins: rows.map((row, i) => ({ rank: i + 1, symbol: row.symbol.slice(0, -4), slug: row.symbol.slice(0, -4).toLowerCase(), name: row.symbol, price: 10 })) }) });
+  const good = await movers.read(); assert.ok(good);
+  fail = true; clock = 31000;
+  await ticker.refresh(); await movers.refresh();
+  const stale = await movers.read();
+  assert.equal(stale.stale, true);
+  assert.equal(stale.generatedAt, good.generatedAt);
+});
+test('a cold endpoint can serve the backing reader’s already-stale good frame', async () => {
+  const payload = { generatedAt: 'original', items: [1], stale: true };
+  const feed = createStaleJsonFeed({ load: async () => payload });
+  const response = await feed.respond();
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), payload);
+});

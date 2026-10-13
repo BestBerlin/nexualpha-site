@@ -439,8 +439,26 @@ test("the browser reads the flash JSON from /api/ (nginx serves /content/ static
   for (const path of ["/api/flash.json?locale=en&limit=3", "/content/flash.json?locale=en&limit=3"]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), env());
     assert.equal(response.status, 200, path);
+    assert.equal(response.headers.get("cache-control"), "public, max-age=10, stale-while-revalidate=60", path);
     assert.equal((await response.json()).items.length, 3, path);
   }
+});
+
+test("flash JSON serves the last good payload stale when all runtime sources fail", async () => {
+  const assets = makeAssets();
+  const e = { ASSETS: assets, WORKER_POLLED_JSON_TTL_MS: 0 };
+  const request = new Request("https://nexualpha.com/api/flash.json?limit=3&locale=en&ignored=1");
+  const first = await worker.fetch(request, e);
+  const good = await first.json();
+  assert.equal(first.status, 200);
+  assert.equal(good.items.length, 3);
+  assets.fetch = async () => new Response("missing", { status: 404 });
+  const staleResponse = await worker.fetch(new Request("https://nexualpha.com/api/flash.json?ignored=2&locale=en&limit=3"), e);
+  const stale = await staleResponse.json();
+  assert.equal(staleResponse.status, 200);
+  assert.equal(stale.stale, true);
+  assert.equal(stale.generatedAt, good.generatedAt, "stale response keeps the original generatedAt");
+  assert.deepEqual(stale.items.map((item) => item.id), good.items.map((item) => item.id));
 });
 
 

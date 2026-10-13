@@ -23,6 +23,7 @@ const renderNews = createNewsSsrRenderer(distRoot);
 const fundingMatrix = createFundingMatrixReader({ enabled: process.env.INTEL_REFRESH !== "off" });
 const marketEvents = marketEventsReaderFromEnv(process.env);
 const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => process.stdout.write(`[NexuAlpha] ${m}\n`) });
+const workerPolledJsonCacheScope = {};
 const fx = createFxFeed({
   enabled: process.env.FX_REFRESH !== "off",
   ...(process.env.FX_SOURCE_URL ? { sourceUrl: process.env.FX_SOURCE_URL } : {}),
@@ -75,6 +76,7 @@ createServer(async (request, response) => {
         ? await liquidationLevels.respond(request.method)
         : await worker.fetch(workerRequest, {
       ASSETS: assets,
+      WORKER_POLLED_JSON_CACHE_SCOPE: workerPolledJsonCacheScope,
       NEWS_SSR_RENDER: renderNews,
       RADAR_READ: radar.read,
       FUNDING_MATRIX_READ: fundingMatrix.read,

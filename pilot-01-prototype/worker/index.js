@@ -39,6 +39,7 @@ import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { ARCHIVE_PATH, archiveItems, isArchiveIndexable } from "../src/data/announcement-archive.js";
 import { isUpdateNoindex, normalizeUpdateItem, updateCategory, updateHeadline, updateItems, updatePath } from "../src/data/activity-update.js";
+import { createStaleJsonFeed } from "../server/stale-json-feed.mjs";
 import { attachCampaignBriefs, CAMPAIGN_BRIEFS_URL, campaignBriefItems, localizedBriefText } from "../src/data/campaign-briefs.js";
 import { visibleOfficialUpdates } from "../src/components/official-updates/official-updates-model.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
@@ -150,6 +151,64 @@ function normalizeRadarPayload(kind, payload) {
   };
 }
 
+const POLLED_JSON_TTL_MS = 10 * 1000;
+const POLLED_JSON_TIMEOUT_MS = 3000;
+const MAX_POLLED_JSON_FEEDS_PER_SCOPE = 128;
+const polledJsonFeeds = new WeakMap();
+const hasDynamicPolledJsonReader = (env) => ["RADAR_READ", "FUNDING_MATRIX_READ", "INTEL_READ", "MARKET_EVENTS_READ"].some((key) => typeof env?.[key] === "function");
+const polledJsonScope = (env) => (env?.WORKER_POLLED_JSON_CACHE_SCOPE && typeof env.WORKER_POLLED_JSON_CACHE_SCOPE === "object" ? env.WORKER_POLLED_JSON_CACHE_SCOPE : (env && typeof env === "object" && hasDynamicPolledJsonReader(env) ? env : (env?.ASSETS && typeof env.ASSETS === "object" ? env.ASSETS : (env && typeof env === "object" ? env : polledJsonFeeds))));
+const polledJsonTtl = (env) => Number.isFinite(Number(env?.WORKER_POLLED_JSON_TTL_MS)) ? Math.max(0, Number(env.WORKER_POLLED_JSON_TTL_MS)) : POLLED_JSON_TTL_MS;
+const polledJsonTimeout = (env) => Number.isFinite(Number(env?.WORKER_POLLED_JSON_TIMEOUT_MS)) ? Math.max(1, Number(env.WORKER_POLLED_JSON_TIMEOUT_MS)) : POLLED_JSON_TIMEOUT_MS;
+
+function flashFeedCacheKey(url) {
+  const params = new URLSearchParams();
+  for (const name of ["locale", "limit", "before", "type", "venue"]) {
+    const value = url.searchParams.get(name);
+    if (value) params.set(name, value);
+  }
+  if (url.searchParams.get("important") === "1") params.set("important", "1");
+  return `flash:${url.pathname}?${params}`;
+}
+
+function workerStaleJsonFeed(env, key, load) {
+  const scope = polledJsonScope(env);
+  let byKey = polledJsonFeeds.get(scope);
+  if (!byKey) { byKey = new Map(); polledJsonFeeds.set(scope, byKey); }
+  let entry = byKey.get(key);
+  if (!entry) {
+    entry = { load };
+    entry.feed = createStaleJsonFeed({
+      load: (signal) => entry.load(signal),
+      ttlMs: polledJsonTtl(env),
+      timeoutMs: polledJsonTimeout(env),
+      log: (message) => console.error(`[NexuAlpha] ${key}: ${message}`),
+    });
+    byKey.set(key, entry);
+    if (byKey.size > MAX_POLLED_JSON_FEEDS_PER_SCOPE) byKey.delete(byKey.keys().next().value);
+  } else entry.load = load;
+  return entry.feed;
+}
+
+async function respondWorkerStaleJson(feed, method, fallbackPayload) {
+  const data = await feed.read();
+  return new Response(method === "HEAD" ? null : JSON.stringify(data || fallbackPayload || { status: "unavailable" }), {
+    status: data ? 200 : 503,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff",
+      "x-robots-tag": "noindex",
+      "cache-control": data ? "public, max-age=10, stale-while-revalidate=60" : "no-store",
+    },
+  });
+}
+
+async function loadRadarApiPayload(env, kind) {
+  if (typeof env?.RADAR_READ !== "function") throw new Error("RADAR_READ is not configured");
+  const payload = normalizeRadarPayload(kind, await env.RADAR_READ(kind));
+  if (payload.status === "unavailable") throw new Error(payload.reason || "radar snapshot unavailable");
+  return payload;
+}
+
 async function readRadarPayload(env, kind) {
   try {
     if (typeof env?.RADAR_READ === "function") return normalizeRadarPayload(kind, await env.RADAR_READ(kind));
@@ -195,8 +254,7 @@ export default {
     if (["/api/long-short.json", "/api/whales.json"].includes(url.pathname)) {
       if (!["GET", "HEAD"].includes(request.method)) return new Response(null, { status: 405, headers: { allow: "GET, HEAD" } });
       const kind = url.pathname === "/api/whales.json" ? "whales" : "long-short";
-      const snapshot = await readRadarPayload(env, kind);
-      return new Response(request.method === "HEAD" ? null : JSON.stringify(snapshot), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
+      return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:${kind}`, () => loadRadarApiPayload(env, kind)), request.method, unavailableRadarPayload(kind));
     }
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
@@ -209,10 +267,12 @@ export default {
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
     if (url.pathname === "/intel/funding-matrix.json" && ["GET", "HEAD"].includes(request.method)) {
-      let feed = null;
-      try { feed = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
-      return new Response(request.method === "HEAD" ? null : JSON.stringify(feed || {}), { status: feed ? 200 : 503,
-        headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
+      return respondWorkerStaleJson(workerStaleJsonFeed(env, "funding-matrix", async () => {
+        if (typeof env?.FUNDING_MATRIX_READ !== "function") throw new Error("FUNDING_MATRIX_READ is not configured");
+        const feed = await env.FUNDING_MATRIX_READ();
+        if (!feed || typeof feed !== "object") throw new Error("empty funding matrix snapshot");
+        return feed;
+      }), request.method, {});
     }
     if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
@@ -5204,12 +5264,12 @@ async function readFlashSources(env, url) {
   return { announcements, archive, briefs, market, news: newsFeed?.articles || [] };
 }
 
-async function readFlashItems(env, url) {
+async function readFlashItems(env, url, { force = false } = {}) {
   const key = flashCacheKey(env);
   let cache = flashCaches.get(key);
   if (!cache) { cache = { at: 0, items: null, pending: null, memory: null }; flashCaches.set(key, cache); }
   const now = flashNow(env);
-  if (cache.items && Date.now() - cache.at < FLASH_TTL_MS) return cache.items;
+  if (!force && cache.items && Date.now() - cache.at < FLASH_TTL_MS) return cache.items;
   if (cache.pending) return cache.pending;
   cache.pending = (async () => {
     if (!cache.memory) {
@@ -5217,6 +5277,9 @@ async function readFlashItems(env, url) {
       try { if (typeof env?.FLASH_MEMORY?.load === "function") cache.memory = (await env.FLASH_MEMORY.load()) || []; } catch { cache.memory = []; }
     }
     const sources = await readFlashSources(env, url);
+    if (!sources.announcements && !sources.archive && !(Array.isArray(sources.briefs) && sources.briefs.length) && !sources.market && !(Array.isArray(sources.news) && sources.news.length)) {
+      throw new Error("flash sources unavailable");
+    }
     const { items, marketItems } = buildFlashItems({ ...sources, remembered: cache.memory, now });
     const changed = marketItems.length !== cache.memory.length || marketItems[0]?.id !== cache.memory[0]?.id;
     cache.memory = marketItems;
@@ -5231,20 +5294,23 @@ async function readFlashItems(env, url) {
 async function handleFlashFeedJson(request, env, url) {
   const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" };
   const locale = UI_LOCALES.has(url.searchParams.get("locale")) ? url.searchParams.get("locale") : "en";
+  const key = url.searchParams.get("key");
+  if (!key) {
+    const cacheKey = flashFeedCacheKey(url);
+    return respondWorkerStaleJson(workerStaleJsonFeed(env, cacheKey, async () => {
+      const items = await readFlashItems(env, url, { force: true });
+      return flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
+        type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), important: url.searchParams.get("important") === "1", now: flashNow(env) });
+    }), request.method, { status: "unavailable", generatedAt: null, items: [], hasMore: false, venues: [] });
+  }
+  const now = flashNow(env);
   let items = [];
   try { items = await readFlashItems(env, url); } catch (error) { console.error(`[NexuAlpha] flash feed failed: ${error?.message || error}`); }
-  const now = flashNow(env);
-  const key = url.searchParams.get("key");
   let payload;
-  if (key) {
-    const item = /^[0-9a-z]{10}$/.test(key) ? findFlashItem(items, key) : null;
-    if (!item || !campaignVisibleInLocale(item, locale)) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
-    payload = flashItemPayload(items, item, locale, { now });
-  } else {
-    payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
-      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), important: url.searchParams.get("important") === "1", now });
-  }
-  return new Response(request.method === "HEAD" ? null : JSON.stringify(payload), { status: 200, headers: { ...headers, "cache-control": "public, max-age=30, stale-while-revalidate=60" } });
+  const item = /^[0-9a-z]{10}$/.test(key) ? findFlashItem(items, key) : null;
+  if (!item || !campaignVisibleInLocale(item, locale)) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=10, stale-while-revalidate=60" } });
+  payload = flashItemPayload(items, item, locale, { now });
+  return new Response(request.method === "HEAD" ? null : JSON.stringify(payload), { status: 200, headers: { ...headers, "cache-control": "public, max-age=10, stale-while-revalidate=60" } });
 }
 
 const flashSitemapCaches = new WeakMap();

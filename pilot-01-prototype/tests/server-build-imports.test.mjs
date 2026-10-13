@@ -28,3 +28,13 @@ test("every src/data module the worker imports (transitively) is shipped with th
   };
   visit(path.join(root, "worker/index.js"));
 });
+
+test("every server module the worker imports is shipped with the server build", () => {
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  const prepare = readFileSync(path.join(root, "scripts/prepare-sites-build.mjs"), "utf8");
+  const shipped = new Set([...prepare.matchAll(/"([a-z0-9.-]+\.mjs)"/g)].map((m) => m[1]));
+  const worker = readFileSync(path.join(root, "worker/index.js"), "utf8");
+  for (const m of worker.matchAll(/^\s*(?:import|export)[^"'`;]*?from\s*["']\.\.\/server\/([^"']+\.mjs)["']/gm)) {
+    assert.ok(shipped.has(path.basename(m[1])), `worker/index.js imports ../server/${m[1]}, which prepare-sites-build.mjs does not ship`);
+  }
+});

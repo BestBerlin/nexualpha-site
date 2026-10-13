@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { ReaderTime } from "../shared/ReaderTime.jsx";
 import { FLASH_PATH } from "../../data/flash-path.js";
+import { startJsonPolling } from "../shared/json-polling.js";
 
 // Same values as FLASH_FEED_URL / FLASH_REFRESH_MS in flash.js (not imported: that module carries the page strings).
 const FLASH_FEED_URL = "/api/flash.json";
@@ -31,21 +32,21 @@ export function FlashRail({ locale = "en" }) {
   const [items, setItems] = useState(null);
   const ref = useRef(null);
   useEffect(() => {
-    let off = false, timer = null, observer = null;
-    const load = () => fetch(`${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: String(ROWS) })}`, { headers: { accept: "application/json" } })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => { if (!off && Array.isArray(data?.items)) setItems(data.items.slice(0, ROWS)); })
-      .catch(() => {});
+    let observer = null, stopPolling = null;
     const start = () => {
-      if (timer) return;
-      load();
-      timer = setInterval(() => { if (document.visibilityState !== "hidden") load(); }, FLASH_REFRESH_MS);
+      if (stopPolling) return;
+      stopPolling = startJsonPolling({
+        request: () => `${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: String(ROWS) })}`,
+        intervalMs: FLASH_REFRESH_MS,
+        isData: (data) => Array.isArray(data?.items),
+        onData: (data) => setItems(data.items.slice(0, ROWS)),
+      });
     };
     if (typeof IntersectionObserver === "function" && ref.current) {
       observer = new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) { observer.disconnect(); start(); } }, { rootMargin: "600px 0px" });
       observer.observe(ref.current);
     } else start();
-    return () => { off = true; observer?.disconnect(); if (timer) clearInterval(timer); };
+    return () => { observer?.disconnect(); stopPolling?.(); };
   }, [locale]);
   const rows = items || Array.from({ length: ROWS }, () => null);
   return <section className="h7-in h7-flash" id="h7-flash" aria-labelledby="h7-flash-h" ref={ref}>

@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { moversBodyHtml, moversCopy } from "../../data/movers-html.js";
 import { MOVERS_PATH, isMoversSnapshot } from "../../data/movers.js";
+import { startJsonPolling } from "../shared/json-polling.js";
 
 export const MOVERS_REFRESH_MS = 60 * 1000;
 
@@ -19,30 +20,24 @@ export function MoversBoard({ locale = "en", initial = null }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
-    let off = false, timer = null, visible = false, last = 0;
-    const load = () => {
-      if (off || document.visibilityState === "hidden") return;
-      last = Date.now();
-      fetch(MOVERS_PATH, { headers: { accept: "application/json" } })
-        .then((r) => (r.ok ? r.json() : null))
-        .then((next) => { if (!off && isMoversSnapshot(next)) setData(next); })
-        .catch(() => {});
-    };
-    // At most one request per 60 s; the first one as soon as the board is on screen (the SSR frame may be minutes old).
-    const tick = () => { if (visible && Date.now() - last >= MOVERS_REFRESH_MS - 1000) load(); };
-    const start = () => { if (!timer) { tick(); timer = setInterval(tick, MOVERS_REFRESH_MS); } };
-    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
-    const onVisibility = () => { if (document.visibilityState === "visible" && visible) tick(); };
+    let visible = !(typeof IntersectionObserver === "function" && el);
+    // One scheduler per mount: viewport exits pause it without resetting backoff or allowing overlapping fetches.
+    const stopPolling = startJsonPolling({
+      request: MOVERS_PATH,
+      intervalMs: MOVERS_REFRESH_MS,
+      isData: isMoversSnapshot,
+      shouldPoll: () => visible && document.visibilityState === "visible",
+      onData: setData,
+    });
     let observer = null;
     if (typeof IntersectionObserver === "function" && el) {
       observer = new IntersectionObserver((entries) => {
         visible = entries.some((e) => e.isIntersecting);
-        if (visible) start(); else stop();
+        stopPolling.sync?.();
       });
       observer.observe(el);
-    } else { visible = true; start(); }
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => { off = true; stop(); observer?.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
+    } else stopPolling.sync?.();
+    return () => { stopPolling(); observer?.disconnect(); };
   }, []);
   return <section className="h7-in h7-mv" id="h7-movers" aria-labelledby="h7-mv-h" data-testid="home-movers" ref={ref}>
     <div className="h7-mv-head">

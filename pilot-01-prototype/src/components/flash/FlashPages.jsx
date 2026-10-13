@@ -12,6 +12,7 @@ import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_REFRESH_MS, FLASH_TYPES, flashGo
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
+import { startJsonPolling } from "../shared/json-polling.js";
 import { chime, notifyImportant, notificationPermission, readFlashPref, requestNotifications, writeFlashPref } from "./flash-alerts.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
@@ -105,10 +106,8 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
     return () => clearInterval(tick);
   }, []);
   useEffect(() => {
-    const refresh = async () => {
+    const refresh = (data) => {
       // A hidden tab keeps polling only when the reader asked for notifications (that is their point).
-      if (typeof document !== "undefined" && document.visibilityState === "hidden" && !alertsRef.current.notify) return;
-      const data = await fetchFlash({ locale, limit: 30 }).catch(() => null);
       if (!data?.items) return;
       const fresh = data.items.filter((item) => !known.current.has(item.id));
       if (!fresh.length) return;
@@ -118,8 +117,14 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       if (alertsRef.current.notify) notifyImportant(important, { label: t.important, hrefFor: (item) => hrefFor(item.path, locale, market) });
       if (alertsRef.current.sound) chime();
     };
-    const timer = setInterval(refresh, FLASH_REFRESH_MS);
-    return () => clearInterval(timer);
+    return startJsonPolling({
+      request: () => `${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: "30" })}`,
+      intervalMs: FLASH_REFRESH_MS,
+      immediate: false,
+      isData: (data) => Array.isArray(data?.items),
+      shouldPoll: () => typeof document === "undefined" || document.visibilityState !== "hidden" || alertsRef.current.notify,
+      onData: refresh,
+    });
   }, [locale, market, t.important]);
 
   const toggleNotify = async () => {

@@ -144,13 +144,15 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
   assert.match(barOf(rendered.en), /<ul class="nx-ticker__list" aria-hidden="true">[\s\S]*tabindex="-1"/, "the marquee copy is hidden from assistive tech and the tab order");
   const bar = await readFile(new URL("../src/components/ticker/TickerBar.jsx", import.meta.url), "utf8");
   const live = await readFile(new URL("../src/components/ticker/ticker-live.js", import.meta.url), "utf8");
+  const polling = await readFile(new URL("../src/components/shared/json-polling.js", import.meta.url), "utf8");
   const css = await readFile(new URL("../src/components/ticker/ticker.css", import.meta.url), "utf8");
   assert.match(bar, /import\("\.\/ticker-live\.js"\)/, "polling code is a lazy chunk");
   assert.match(bar, /requestIdleCallback/, "loaded after first paint");
   assert.doesNotMatch(bar + live, /binance\.com|okx\.com|bybit\.com|fapi\./i, "browsers never call an exchange");
   assert.match(live, /"\/api\/ticker\.json"/);
   assert.match(live, /30 \* 1000/);
-  assert.match(live, /visibilityState === "hidden"/);
+  assert.match(live, /startJsonPolling/);
+  assert.match(polling, /visibilityState === "hidden"/);
   assert.match(css, /@media \(max-width: 1020px\) and \(prefers-reduced-motion: no-preference\)[\s\S]*animation: nx-ticker-marquee/, "marquee only when motion is allowed");
   assert.match(css, /block-size: 36px/, "fixed height: no layout shift");
 });
@@ -158,20 +160,46 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
 test("polling module: fetches our endpoint, skips hidden tabs, stops cleanly", async () => {
   const { startTickerPolling } = await import("../src/components/ticker/ticker-live.js");
   const seen = [];
-  const listeners = new Map();
-  const saved = { document: globalThis.document, fetch: globalThis.fetch };
-  globalThis.document = { visibilityState: "visible", addEventListener: (k, f) => listeners.set(k, f), removeEventListener: (k) => listeners.delete(k) };
-  globalThis.fetch = async (url) => { seen.push(url); return Response.json(SNAP); };
-  try {
-    const got = [];
-    const stop = startTickerPolling((d) => got.push(d), { everyMs: 20 });
-    await new Promise((r) => setTimeout(r, 70));
-    globalThis.document.visibilityState = "hidden";
-    const before = seen.length;
-    await new Promise((r) => setTimeout(r, 60));
-    assert.equal(seen.length, before, "no requests while hidden");
-    stop();
-    assert.ok(got.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
-    assert.equal(listeners.size, 0);
-  } finally { globalThis.document = saved.document; globalThis.fetch = saved.fetch; }
+  const listeners = new Set();
+  const doc = {
+    visibilityState: "visible",
+    addEventListener: (type, fn) => { if (type === "visibilitychange") listeners.add(fn); },
+    removeEventListener: (type, fn) => { if (type === "visibilitychange") listeners.delete(fn); },
+    dispatch(state) { doc.visibilityState = state; for (const fn of [...listeners]) fn(); },
+  };
+  let now = 0, timerId = 0;
+  const timers = new Map();
+  const setTimer = (fn, delay) => { const id = ++timerId; timers.set(id, { fn, at: now + delay }); return id; };
+  const clearTimer = (id) => timers.delete(id);
+  const flush = async () => { await Promise.resolve(); await Promise.resolve(); };
+  const advance = async (ms) => {
+    const end = now + ms;
+    for (;;) {
+      const due = [...timers].filter(([, timer]) => timer.at <= end).sort((a, b) => a[1].at - b[1].at)[0];
+      if (!due) break;
+      now = due[1].at;
+      timers.delete(due[0]);
+      due[1].fn();
+      await flush();
+    }
+    now = end;
+    await flush();
+  };
+  const got = [];
+  const stop = startTickerPolling((d) => got.push(d), {
+    everyMs: 20,
+    fetchImpl: async (url) => { seen.push(url); return { ok: true, json: async () => SNAP }; },
+    documentRef: doc,
+    setTimer,
+    clearTimer,
+    now: () => now,
+  });
+  await advance(60);
+  doc.dispatch("hidden");
+  const before = seen.length;
+  await advance(60);
+  assert.equal(seen.length, before, "no requests while hidden");
+  stop();
+  assert.ok(got.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
+  assert.equal(listeners.size, 0);
 });
