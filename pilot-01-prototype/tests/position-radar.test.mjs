@@ -211,6 +211,7 @@ test("default Ethereum whale source reads bounded keyless RPC blocks and token l
     ],
   };
   const log = {
+    address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     transactionHash: "usdc-log",
     blockNumber: "0x64",
     topics: [
@@ -228,7 +229,7 @@ test("default Ethereum whale source reads bounded keyless RPC blocks and token l
     if (body.method === "eth_blockNumber") return { ok: true, json: async () => ({ result: "0x64" }) };
     if (body.method === "eth_getBlockByNumber") return { ok: true, json: async () => ({ result: block }) };
     if (body.method === "eth_getTransactionReceipt") return { ok: true, json: async () => ({ result: { status: "0x1" } }) };
-    if (body.method === "eth_getLogs") return { ok: true, json: async () => ({ result: body.params[0].address.includes("a0b869") ? [log] : [] }) };
+    if (body.method === "eth_getLogs") return { ok: true, json: async () => ({ result: body.params[0].address.includes(log.address) ? [log] : [] }) };
     throw new Error(body.method);
   };
   const feed = await createPositionRadar({ now: () => NOW, fetchImpl, minEth: 20, minUsd: 1_000 }).read("whales");
@@ -312,8 +313,8 @@ test("Ethereum source scans incrementally after the first refresh and keeps a ro
     if (body.method === "eth_getLogs") {
       const { fromBlock, toBlock, topics } = body.params[0];
       if (topics.length === 1) ranges.push([parseInt(fromBlock, 16), parseInt(toBlock, 16)]);
-      if (topics.length === 1 && body.params[0].address.includes("a0b869")) {
-        return ok([{ transactionHash: `tx-${toBlock}`, logIndex: "0x1", blockNumber: toBlock, topics: [topics[0], `0x${"0".repeat(64)}`, `0x${"0".repeat(64)}`], data: "0xe8d4a51000" }]);
+      if (topics.length === 1 && body.params[0].address.includes("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")) {
+        return ok([{ address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", transactionHash: `tx-${toBlock}`, logIndex: "0x1", blockNumber: toBlock, topics: [topics[0], `0x${"0".repeat(64)}`, `0x${"0".repeat(64)}`], data: "0xe8d4a51000" }]);
       }
       return ok([]);
     }
