@@ -15,4 +15,8 @@ alter table events add column if not exists verified_at timestamptz;
 
 -- Existing mirror rows are not independent evidence either.
 update event_evidence v set is_independent=false from raw_items r
-where r.id=v.raw_item_id and r.source_id like 'nexualpha-official%';
+where r.id=v.raw_item_id and (
+  r.source_id like 'nexualpha-official%'
+  or r.source_id='telegram-nexualphaclub-preview'
+  or r.url ~* '^https://t\.me/(s/)?NexuAlphaClub(/|$)'
+);

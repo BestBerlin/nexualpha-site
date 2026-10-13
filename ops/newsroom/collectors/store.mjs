@@ -9,10 +9,41 @@ export function databaseStore(execute, literal) {
     keywords: () => read("SELECT * FROM keywords WHERE status='active' ORDER BY lang,term"),
     config: () => Object.fromEntries(read('SELECT key,value FROM newsroom_config').map(r=>[r.key,r.value])),
     persist(source, items, health) {
-      const insert = items.length ? `INSERT INTO raw_items(${fields.join(',')}) SELECT ${fields.join(',')} FROM jsonb_to_recordset(${json(items)}) AS r(${record}) ON CONFLICT(source_id,external_id) DO UPDATE SET metrics=excluded.metrics,metrics_at=excluded.metrics_at;` : '';
+      const insert = items.length ? `INSERT INTO raw_items(${fields.join(',')}) SELECT ${fields.join(',')} FROM jsonb_to_recordset(${json(items)}) AS r(${record})
+ON CONFLICT(source_id,external_id) DO UPDATE SET
+  url=excluded.url,
+  canonical_url=excluded.canonical_url,
+  author=excluded.author,
+  author_account=excluded.author_account,
+  title=excluded.title,
+  body_excerpt=excluded.body_excerpt,
+  lang=excluded.lang,
+  fetched_at=excluded.fetched_at,
+  metrics=excluded.metrics,
+  metrics_at=excluded.metrics_at,
+  entities=excluded.entities,
+  event_type_guess=excluded.event_type_guess,
+  content_hash=excluded.content_hash,
+  state=case
+    when raw_items.event_id is null and raw_items.body_excerpt is distinct from excluded.body_excerpt then 'pending'
+    else raw_items.state
+  end;` : '';
+      const refresh = items.length ? `WITH incoming AS (
+  SELECT source_id, external_id FROM jsonb_to_recordset(${json(items)}) AS i(source_id text, external_id text)
+), changed_evidence AS (
+  UPDATE event_evidence v
+  SET excerpt=r.body_excerpt
+  FROM raw_items r JOIN incoming i ON i.source_id=r.source_id AND i.external_id=r.external_id
+  WHERE v.raw_item_id=r.id
+    AND r.body_excerpt IS NOT NULL
+    AND v.excerpt IS DISTINCT FROM r.body_excerpt
+  RETURNING v.event_id
+)
+UPDATE events e SET last_update_at=now(), verified_at=NULL
+WHERE e.id IN (SELECT event_id FROM changed_evidence);` : '';
       const success = health.last_success_at ? `last_success_at=${literal(health.last_success_at)}::timestamptz,` : '';
       const origins=source.id==='x-api-v2' && items.length ? `UPDATE raw_items r SET origin_item_id=o.id FROM raw_items o WHERE r.source_id='x-api-v2' AND o.source_id=r.source_id AND r.origin_item_id IS NULL AND r.id<>o.id AND o.external_id=(SELECT ref->>'id' FROM jsonb_array_elements(coalesce(r.metrics->'referenced_tweets','[]'::jsonb)) ref WHERE ref->>'type' IN ('quoted','retweeted') LIMIT 1);` : '';
-      execute(`BEGIN; ${insert} ${origins} UPDATE sources SET status=${literal(health.status)},${success}last_error=${health.last_error ? literal(health.last_error) : 'null'},last_error_at=${health.last_error ? `${literal(health.at)}::timestamptz` : 'null'},consecutive_failures=${health.consecutive_failures} WHERE id=${literal(source.id)}; COMMIT;`);
+      execute(`BEGIN; ${insert} ${refresh} ${origins} UPDATE sources SET status=${literal(health.status)},${success}last_error=${health.last_error ? literal(health.last_error) : 'null'},last_error_at=${health.last_error ? `${literal(health.at)}::timestamptz` : 'null'},consecutive_failures=${health.consecutive_failures} WHERE id=${literal(source.id)}; COMMIT;`);
     },
     reserve(platform, amount, cap, day) {
       if (!Number.isSafeInteger(cap) || cap < 0 || !Number.isSafeInteger(amount) || amount <= 0) return false;

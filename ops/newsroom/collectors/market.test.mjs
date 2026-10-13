@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CollectorError, normalizeItem } from './common.mjs';
 import { poll, supports } from './market.mjs';
+import { marketNoiseState } from '../lib/claim-quality.mjs';
 
 const fixture = name => JSON.parse(readFileSync(new URL(`./fixtures/${name}.json`, import.meta.url), 'utf8'));
 const now = new Date('2026-10-12T00:00:00.000Z');
@@ -15,6 +16,22 @@ const sources = {
   binance: { id: 'binance-futures-24hr', name: 'Binance futures 24h ticker', url: 'https://fapi.binance.com/fapi/v1/ticker/24hr' },
   own: { id: 'nexualpha-market-events', name: 'NexuAlpha market-events feed', url: 'https://nexualpha.com/intel/market-events.json' },
 };
+
+test('own major-price measurements retain the one-hour window used by Important claims', async () => {
+  const payload = { generatedAt: now.toISOString(), market: { majors: [
+    { symbol: 'BTCUSDT', price: 60_000, change1hPct: -3.1 },
+    { symbol: 'ETH', price: 2500, change1hPct: 2.9 },
+    { symbol: 'SOL', price: 100, change1hPct: 10 },
+  ] } };
+  const items = await poll(sources.own, null, { now, request: async () => payload });
+  const moves = items.filter(row => row.metrics.provenance.kind === 'major_price_move');
+  assert.equal(moves.length, 2);
+  assert.equal(moves[0].metrics.price_move_pct_1h, -3.1);
+  assert.equal(moves[0].metrics.provenance.symbol, 'BTC');
+  assert.match(moves[0].body_excerpt, /one hour/);
+  assert.equal(marketNoiseState({ event_type: 'price_move', subjects: [moves[0].metrics.provenance.symbol], metrics: moves[0].metrics }).claimable, true);
+  assert.equal(marketNoiseState({ event_type: 'price_move', subjects: [moves[1].metrics.provenance.symbol], metrics: moves[1].metrics }).claimable, false);
+});
 
 function requestFrom(map, calls = []) {
   return async (url, options = {}) => {
