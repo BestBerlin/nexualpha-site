@@ -60,7 +60,7 @@ export const licenseRecords = Object.freeze([
     country: "JP",
     regulator: "Japan FSA",
     type: "Crypto-asset Exchange Service Provider",
-    number: "Director of the Kanto Finance Bureau No.00028",
+    number: "Director of the Kanto Finance Bureau No.00027",
     status: "registered",
     sourceUrl: FSA_JAPAN_SOURCE,
   }),
@@ -70,7 +70,7 @@ export const licenseRecords = Object.freeze([
     country: "JP",
     regulator: "Japan FSA",
     type: "Crypto-asset Exchange Service Provider",
-    number: "Director of the Kanto Finance Bureau No.00029",
+    number: "Director of the Kanto Finance Bureau No.00028",
     status: "registered",
     sourceUrl: FSA_JAPAN_SOURCE,
   }),
@@ -80,7 +80,7 @@ export const licenseRecords = Object.freeze([
     country: "JP",
     regulator: "Japan FSA",
     type: "Crypto-asset Exchange Service Provider",
-    number: "Director of the Kanto Finance Bureau No.00032",
+    number: "Director of the Kanto Finance Bureau No.00031",
     status: "registered",
     sourceUrl: FSA_JAPAN_SOURCE,
   }),
@@ -116,7 +116,7 @@ const BASE_COPY = {
     open: "Open account",
     empty: "No official-source records match these filters.",
     question: "How to read this directory",
-    answer: "A record means we found a specific exchange entity in an official register source. It does not replace the regulator page or the account screen shown during sign-up, and it does not prove product access, deposits, withdrawals, rebates or suitability.",
+    answer: "A record means we found a specific exchange entity in an official register source.",
     statuses: STATUS_LABELS_EN,
   },
   "zh-Hans": {
@@ -139,7 +139,7 @@ const BASE_COPY = {
     open: "开户注册",
     empty: "没有符合筛选条件的官方来源记录。",
     question: "如何阅读本目录",
-    answer: "一条记录只表示我们在官方登记来源中找到了具体交易所实体；它不能替代监管机构原页面或注册时的账户页面，也不证明产品、入出金、返佣或适当性。",
+    answer: "一条记录只表示我们在官方登记来源中找到了具体交易所实体。",
     statuses: { licensed: "持牌", registered: "已登记", applied: "已申请/列名，非授权", restricted: "受限", banned: "禁止", "liquidation list": "清算名单" },
   },
   es: {
@@ -162,7 +162,7 @@ const BASE_COPY = {
     open: "Abrir cuenta",
     empty: "No hay registros oficiales para estos filtros.",
     question: "Cómo leer este directorio",
-    answer: "Un registro significa que encontramos una entidad concreta en una fuente oficial. No sustituye la página del regulador ni la pantalla de cuenta, ni prueba acceso a productos, depósitos, retiradas, reembolsos o idoneidad.",
+    answer: "Un registro significa que encontramos una entidad concreta en una fuente oficial.",
     statuses: { licensed: "Con licencia", registered: "Registrado", applied: "Solicitado / listado, no autorizado", restricted: "Restringido", banned: "Prohibido", "liquidation list": "Lista de liquidación" },
   },
   "pt-BR": {
@@ -185,7 +185,7 @@ const BASE_COPY = {
     open: "Abrir conta",
     empty: "Não há registros oficiais para estes filtros.",
     question: "Como ler este diretório",
-    answer: "Um registro significa que encontramos uma entidade específica em fonte oficial. Ele não substitui a pagina do regulador nem a tela de conta, e não prova acesso a produtos, depósitos, saques, rebates ou adequação.",
+    answer: "Um registro significa que encontramos uma entidade específica em fonte oficial.",
     statuses: { licensed: "Licenciada", registered: "Registrada", applied: "Pedido/listada, não autorizada", restricted: "Restrita", banned: "Proibida", "liquidation list": "Lista de liquidação" },
   },
   tr: {
@@ -208,7 +208,7 @@ const BASE_COPY = {
     open: "Hesap aç",
     empty: "Bu filtrelerle eşleşen resmi kaynaklı kayıt yok.",
     question: "Bu dizin nasıl okunmalı?",
-    answer: "Bir kayıt, belirli bir borsa şirketini resmi bir kaynakta bulduğumuz anlamına gelir. Düzenleyicinin sayfasının veya hesap ekranının yerine geçmez; ürün, para yatırma, çekme, indirim veya uygunluk kanıtı değildir.",
+    answer: "Bir kayıt, belirli bir borsa şirketini resmi bir kaynakta bulduğumuz anlamına gelir.",
     statuses: { licensed: "Lisanslı", registered: "Kayıtlı", applied: "Başvuruda/listede, yetki değil", restricted: "Kısıtlı", banned: "Yasaklı", "liquidation list": "Tasfiye listesi" },
   },
   vi: {
@@ -246,7 +246,7 @@ const BASE_COPY = {
     open: "Buka akun",
     empty: "Tidak ada catatan sumber resmi untuk filter ini.",
     question: "Cara membaca direktori ini",
-    answer: "Satu catatan berarti kami menemukan entitas tertentu dalam sumber resmi. Ini tidak menggantikan halaman regulator atau layar akun, dan tidak membuktikan akses produk, deposit, penarikan, rebate, atau kesesuaian.",
+    answer: "Satu catatan berarti kami menemukan entitas tertentu dalam sumber resmi.",
     statuses: { licensed: "Berlisensi", registered: "Terdaftar", applied: "Mengajukan/tercantum, bukan izin", restricted: "Dibatasi", banned: "Dilarang", "liquidation list": "Daftar likuidasi" },
   },
   ja: {
@@ -269,7 +269,7 @@ const BASE_COPY = {
     open: "口座を開く",
     empty: "この条件に一致する公式ソース記録はありません。",
     question: "このディレクトリの読み方",
-    answer: "記録は、特定の法人を公式ソースで確認したことを意味します。監督機関ページや口座画面の代替ではなく、商品アクセス、入出金、リベート、適合性を証明しません。",
+    answer: "記録は、特定の法人を公式ソースで確認したことを意味します。",
     statuses: { licensed: "ライセンス取得", registered: "登録済み", applied: "申請/掲載、認可ではない", restricted: "制限あり", banned: "禁止", "liquidation list": "清算リスト" },
   },
   ko: {
@@ -292,7 +292,7 @@ const BASE_COPY = {
     open: "계정 열기",
     empty: "이 필터와 일치하는 공식 출처 기록이 없습니다.",
     question: "이 디렉터리 읽는 법",
-    answer: "기록은 특정 법인을 공식 출처에서 찾았다는 뜻입니다. 감독기관 페이지나 계정 화면을 대체하지 않으며 상품 접근, 입출금, 리베이트, 적합성을 증명하지 않습니다.",
+    answer: "기록은 특정 법인을 공식 출처에서 찾았다는 뜻입니다.",
     statuses: { licensed: "라이선스 보유", registered: "등록됨", applied: "신청/등재, 인가 아님", restricted: "제한", banned: "금지", "liquidation list": "청산 목록" },
   },
   fr: {
@@ -315,7 +315,7 @@ const BASE_COPY = {
     open: "Ouvrir un compte",
     empty: "Aucune source officielle ne correspond à ces filtres.",
     question: "Comment lire ce répertoire",
-    answer: "Un enregistrement signifie que nous avons trouvé une entité précise dans une source officielle. Il ne remplace pas la page du régulateur ni l’écran du compte, et ne prouve pas l’accès aux produits, dépôts, retraits, rebates ou l’adéquation.",
+    answer: "Un enregistrement signifie que nous avons trouvé une entité précise dans une source officielle.",
     statuses: { licensed: "Agréé", registered: "Enregistré", applied: "Demande/liste, non autorisé", restricted: "Restreint", banned: "Interdit", "liquidation list": "Liste de liquidation" },
   },
   de: {
@@ -338,7 +338,7 @@ const BASE_COPY = {
     open: "Konto öffnen",
     empty: "Keine offiziellen Registereinträge fur diese Filter.",
     question: "So liest man dieses Verzeichnis",
-    answer: "Ein Eintrag bedeutet, dass wir eine bestimmte Gesellschaft in einer offiziellen Quelle gefunden haben. Er ersetzt weder Aufsichtsseite noch Kontoanzeige und beweist keinen Produktzugang, keine Einzahlungen, Auszahlungen, Rabatte oder Eignung.",
+    answer: "Ein Eintrag bedeutet, dass wir eine bestimmte Gesellschaft in einer offiziellen Quelle gefunden haben.",
     statuses: { licensed: "Lizenziert", registered: "Registriert", applied: "Beantragt/gelistet, keine Zulassung", restricted: "Beschränkt", banned: "Verboten", "liquidation list": "Liquidationsliste" },
   },
 };
