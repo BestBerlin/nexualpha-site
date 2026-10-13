@@ -60,6 +60,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   appDownload: "./components/apps/AppDownloadPage.jsx",
   // Flash stream + item pages (2026-10-12).
   flash: "./components/flash/FlashPages.jsx",
+  radar: "./components/radar/RadarPages.jsx",
   // Binance October campaigns page (/activities/binance-october-gifts, 2026-10-12): route chunk route-campaign-landing.
   binanceOctober: "./components/campaigns/BinanceOctoberPage.jsx",
   // Bybit Stocks campaign page (/activities/bybit-stocks, 2026-10-12): route chunk route-campaign-bybit.
@@ -149,6 +150,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
+  if (name === "longShort" || name === "whales") return [ROUTE_MODULE_PATHS.radar];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
   if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];

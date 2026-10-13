@@ -207,6 +207,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
+          if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
           // (before the shared campaigns rule, so the Binance page does not load this copy).
@@ -381,6 +382,17 @@ export default defineConfig(({ isSsrBuild = false }) => ({
       name: "nexualpha-dev-market-events",
       apply: "serve",
       configureServer(server) {
+        let radar;
+        server.middlewares.use(async (req, res, next) => {
+          const pathname = new URL(req.url, "http://localhost").pathname;
+          if (!["/api/long-short.json", "/api/whales.json"].includes(pathname)) return next();
+          if (!["GET", "HEAD"].includes(req.method)) { res.statusCode = 405; res.setHeader("allow", "GET, HEAD"); res.end(); return; }
+          radar ||= import("./server/position-radar.mjs").then(({ createPositionRadar }) => createPositionRadar());
+          const snapshot = await (await radar).read(pathname.includes("whales") ? "whales" : "long-short");
+          res.setHeader("content-type", "application/json; charset=utf-8");
+          res.setHeader("cache-control", "no-store");
+          res.end(req.method === "HEAD" ? undefined : JSON.stringify(snapshot));
+        });
         server.middlewares.use("/intel/market-events.json", async (req, res) => {
           try {
             const body = process.env.MARKET_EVENTS_FILE

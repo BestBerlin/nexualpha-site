@@ -94,6 +94,8 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/telegram",
   "/liquidations",
   "/funding-rates",
+  "/long-short",
+  "/whales",
 ]);
 
 const NON_LOCALIZED_PREFIXES = Object.freeze([

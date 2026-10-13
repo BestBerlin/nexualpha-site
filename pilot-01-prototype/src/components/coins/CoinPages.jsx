@@ -1,3 +1,4 @@
+import { radarCopy } from "../../data/radar.js";
 // "Where to buy <coin>" (owner 2026-10-12): /coins hub and /coins/<slug> per locale. The answer comes first (which of the
 // exchanges we cover list the coin and the main pair), then the venue table (pairs, perpetuals, fees, deposit networks,
 // our code and a tracked /go/<venue> link), how-to steps linked to academy lessons, the visitor's country note, FAQ and
@@ -263,6 +264,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
         <PriceCard coin={coin} locale={locale} t={t} live={live} />
       </header>
       <TelegramTriggerCta locale={locale} placement="coin-telegram-alerts" className="nxc-tgcta" />
+        <nav aria-label={radarCopy(locale).longShortTitle}><a href={localizedHref("/long-short", { locale })}>{radarCopy(locale).longShortTitle}</a>{" · "}<a href={localizedHref("/whales", { locale })}>{radarCopy(locale).whalesTitle}</a></nav>
 
       {listed ? <section className="nxc-sec" aria-labelledby="nxc-table-h" id="venues">
         <h2 id="nxc-table-h">{fill(t.tableTitle, vars)}</h2>

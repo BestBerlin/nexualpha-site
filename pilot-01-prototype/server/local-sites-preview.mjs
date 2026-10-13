@@ -11,6 +11,9 @@ import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
 import { createFxFeed, FX_JSON_PATH } from "./fx-feed.mjs";
 
+import { createPositionRadar } from "./position-radar.mjs";
+const radar = createPositionRadar({ ...(process.env.INTEL_REFRESH === "off" ? { fetchImpl: async () => { throw new Error("radar network off"); } } : {}) });
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
 const clientRoot = path.join(distRoot, "client");
@@ -67,6 +70,7 @@ createServer(async (request, response) => {
         : await worker.fetch(workerRequest, {
       ASSETS: assets,
       NEWS_SSR_RENDER: renderNews,
+      RADAR_READ: radar.read,
       MARKET_EVENTS_READ: marketEvents.read,
       FX_SNAPSHOT_READ: fx.read,
       CORE_API_ORIGIN: process.env.CORE_API_ORIGIN,
