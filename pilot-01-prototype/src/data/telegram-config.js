@@ -1187,7 +1187,7 @@ export const TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES = [
   {
     id: "jp-fsa-jpy-account-ja",
     query: "日本 暗号資産 交換業者 登録 日本円 入金",
-    command: "/check",
+    command: "/checklink",
     locale: "ja",
     market: "JP",
     product: "spot",
@@ -1204,7 +1204,7 @@ export const TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES = [
   {
     id: "bybit-bitget-stock-product-boundary-en",
     query: "Bybit vs Bitget stocks tokenized stock perpetual copy trading",
-    command: "/rates",
+    command: "/fees",
     locale: "en",
     market: "GLOBAL",
     product: "perpetuals",
@@ -1221,7 +1221,7 @@ export const TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES = [
   {
     id: "okx-usdc-migration-account-ops-en",
     query: "OKX USD USDC migration open orders API bots",
-    command: "/check",
+    command: "/checklink",
     locale: "en",
     market: "GLOBAL",
     product: "spot",
@@ -1269,7 +1269,7 @@ export const TELEGRAM_WAVE21_GSC_QUERY_ROUTES = [
     clicks: 0,
     impressions: 15,
     sourceEvidence: "docs/evidence/gsc-visible-baseline-20260915-wave21.md",
-    command: "/rates",
+    command: "/fees",
     locale: "en",
     market: "GLOBAL",
     product: "perpetuals",
@@ -1288,7 +1288,7 @@ export const TELEGRAM_WAVE21_GSC_QUERY_ROUTES = [
     clicks: 0,
     impressions: 6,
     sourceEvidence: "docs/evidence/gsc-visible-baseline-20260915-wave21.md",
-    command: "/check",
+    command: "/checklink",
     locale: "en",
     market: "GLOBAL",
     product: "perpetuals",
@@ -1307,7 +1307,7 @@ export const TELEGRAM_WAVE21_GSC_QUERY_ROUTES = [
     clicks: 0,
     impressions: 6,
     sourceEvidence: "docs/evidence/gsc-visible-baseline-20260915-wave21.md",
-    command: "/check",
+    command: "/checklink",
     locale: "en",
     market: "GLOBAL",
     product: "spot",
@@ -1346,7 +1346,7 @@ export const TELEGRAM_WAVE21_GSC_QUERY_ROUTES = [
     clicks: 0,
     impressions: 2,
     sourceEvidence: "docs/evidence/gsc-visible-baseline-20260915-wave21.md",
-    command: "/rates",
+    command: "/fees",
     locale: "en",
     market: "GLOBAL",
     product: "perpetuals",
@@ -1366,7 +1366,7 @@ export const TELEGRAM_WAVE21_GSC_QUERY_ROUTES = [
     clicks: 0,
     impressions: 2,
     sourceEvidence: "docs/evidence/gsc-visible-query-page-pairs-20260915-wave23.json",
-    command: "/check",
+    command: "/checklink",
     locale: "en",
     market: "GLOBAL",
     product: "perpetuals",
@@ -1497,12 +1497,12 @@ function wave22Handoff(routeIds, recommendedCommand, primaryCtaLabel) {
 export const TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS = Object.freeze({
   "/exchanges/hyperliquid": wave22Handoff(
     ["gsc-hyperliquid-fees", "gsc-hyperliquid-funded-account"],
-    "/rates",
+    "/fees",
     "Continue with Hyperliquid fee/account checks in the NexuAlpha Bot"
   ),
   "/exchanges/uniswap": wave22Handoff(
     ["gsc-uniswap-testnet"],
-    "/check",
+    "/checklink",
     "Continue with the Uniswap domain, network and token check in the NexuAlpha Bot"
   ),
   "/topics/tokenized-treasuries": wave22Handoff(
@@ -1512,12 +1512,12 @@ export const TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS = Object.freeze({
   ),
   "/compare/bybit-vs-bitget": wave22Handoff(
     ["gsc-bitget-vs-bybit-stocks"],
-    "/rates",
+    "/fees",
     "Continue with the Bybit vs Bitget product-boundary check in the NexuAlpha Bot"
   ),
   "/topics/derivatives": wave22Handoff(
     ["gsc-crypto-perpetual-platform"],
-    "/check",
+    "/checklink",
     "Continue with the perpetual platform research checklist in the NexuAlpha Bot"
   ),
 });
@@ -2424,7 +2424,7 @@ export function validateTelegramWeek4ContextReturnPackUrls({
 export const TELEGRAM_COMMANDS = [
   {
     id: "rates",
-    command: "/rates",
+    command: "/fees",
     nameZh: "费率资料入口",
     nameHant: "實時費率對比",
     nameEn: "Fee Source Comparison",
@@ -2439,26 +2439,7 @@ export const TELEGRAM_COMMANDS = [
     badgeEn: "Compare",
     badgeJa: "比較", badgeKo: "비교", badgeTr: "Karşılaştır",
     icon: "⚡",
-    sampleUsage: "/rates binance-vs-okx",
-  },
-  {
-    id: "calc",
-    command: "/calc",
-    nameZh: "手续费情景测算",
-    nameHant: "交易回血測算",
-    nameEn: "Fee Scenario Calculator",
-    nameJa: "手数料シナリオ計算", nameKo: "수수료 시나리오 계산기", nameTr: "Ücret senaryosu hesaplayıcı",
-    descZh: "输入交易量与标的，查看公开费率情景；用户权益不能用模型结果代替，需在官方账户核验。",
-    descHant: "輸入交易量與標的，查看公開費率情景；用戶權益不能用模型結果代替，需在官方帳戶核驗。",
-    descEn: "Model a published-fee scenario; user benefits are separate and must be verified in the official account.",
-    descJa: "公開手数料のシナリオを試算します。ユーザー向け特典は別途、公式アカウントで確認してください。", descKo: "공개 수수료 시나리오를 계산합니다. 사용자 혜택은 공식 계정에서 별도로 확인해야 합니다.", descTr: "Yayımlanan ücret senaryosunu modelleyin; kullanıcı avantajları resmî hesapta ayrıca doğrulanmalıdır.",
-    deepLinkAction: { action: "fee_calc", venue: "binance" },
-    badgeZh: "情景测算",
-    badgeHant: "精算回血",
-    badgeEn: "Fee Scenario",
-    badgeJa: "手数料シナリオ", badgeKo: "수수료 시나리오", badgeTr: "Ücret senaryosu",
-    icon: "🧮",
-    sampleUsage: "/calc binance futures 100000",
+    sampleUsage: "/fees",
   },
   {
     id: "alert",
@@ -2481,14 +2462,14 @@ export const TELEGRAM_COMMANDS = [
   },
   {
     id: "check",
-    command: "/check",
+    command: "/checklink",
     nameZh: "防钓鱼真伪验真",
     nameHant: "防釣魚真偽驗真",
     nameEn: "Anti-Phishing Verifier",
     nameJa: "フィッシング対策確認", nameKo: "피싱 방지 검증기", nameTr: "Kimlik avı karşıtı doğrulama",
     descZh: "发送域名进入核验路径；核验结果以已配置的官方来源和当前状态为准。",
     descHant: "發送網域進入核驗路徑；核驗結果以已配置的官方來源和目前狀態為準。",
-    descEn: "Send a domain to enter the verification path; results depend on configured official sources and current status.",
+    descEn: "Paste a link after /checklink to check it against the exchanges' official sources before you open it.",
     descJa: "ドメインを確認ルートへ送ります。結果は設定済みの公式ソースと現在の状態に依存します。", descKo: "도메인을 검증 경로로 보내며 결과는 설정된 공식 출처와 현재 상태에 따라 달라집니다.", descTr: "Bir alan adını doğrulama yoluna gönderin; sonuçlar yapılandırılmış resmî kaynaklara ve güncel duruma bağlıdır.",
     deepLinkAction: { action: "verify_domain", venue: "okx" },
     badgeZh: "安全验真",
@@ -2496,6 +2477,6 @@ export const TELEGRAM_COMMANDS = [
     badgeEn: "Anti-Phishing",
     badgeJa: "安全確認", badgeKo: "피싱 방지", badgeTr: "Kimlik avı karşıtı",
     icon: "🛡️",
-    sampleUsage: "/check okx.com",
+    sampleUsage: "/checklink",
   },
 ];

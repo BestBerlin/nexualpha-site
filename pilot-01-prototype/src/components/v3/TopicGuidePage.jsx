@@ -443,7 +443,7 @@ const TOPIC_LOCALE_COPY = {
       newsBody: "Hyperliquid の最新ニュースや告知を探している場合、このページはアクセス境界の説明です。ニュースハブ、Hyperliquid 記事、プロフィールを開いて公式出典を確認してください。",
       pitfalls: [["ウォレット接続は本人確認リスクをゼロにしません", "フロントエンド、ブリッジ、制裁チェック、出金条件が利用を制限することがあります。"], ["CEX の低摩擦登録は永続条件ではありません", "商品、地域、出金、リスク管理で追加確認が必要になる場合があります。"], ["No-KYC と匿名性は同義ではありません", "オンチェーン履歴、IP、フロントエンド、出金経路は別のリスクを持ちます。"]],
       faqs: [["No-KYC プラットフォームは何を確認すべきですか？", "アクセス方法、地域、出金、制裁チェック、フロントエンド、後日の本人確認、清算リスクを分けて確認します。"], ["ウォレット接続なら本人確認は不要ですか？", "必ずしもそうではありません。フロントエンド、地域、ブリッジ、制裁チェックが制限をかける場合があります。"], ["CEX を No-KYC と見なしてよいですか？", "慎重に扱います。低摩擦登録は地域、商品、限度、出金時の本人確認で変わる可能性があります。"]],
-      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp 経路を比較"], ["/check withdrawal", "出金と本人確認条件を確認"]],
+      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp 経路を比較"], ["/exchange", "出金と本人確認条件を確認"]],
     },
     ko: {
       category: "No-KYC 접근",
@@ -458,7 +458,7 @@ const TOPIC_LOCALE_COPY = {
       newsBody: "Hyperliquid 최신 뉴스나 공지를 찾는 경우, 이 페이지는 접근 경계 안내입니다. 뉴스 허브, Hyperliquid 기사 또는 프로필을 열고 공식 출처를 확인하세요.",
       pitfalls: [["지갑 연결이 본인확인 위험을 없애지 않습니다", "프런트엔드, 브리지, 제재 확인, 출금 조건이 이용을 제한할 수 있습니다."], ["CEX의 간편 가입은 영구 조건이 아닙니다", "상품, 지역, 한도, 출금 시 본인확인이 달라질 수 있습니다."], ["No-KYC와 익명성은 다릅니다", "온체인 기록, IP, 프런트엔드, 출금 경로는 별도 위험입니다."]],
       faqs: [["No-KYC 플랫폼에서 무엇을 확인해야 하나요?", "접근 방식, 지역, 출금, 제재 확인, 프런트엔드, 추후 본인확인, 청산 위험을 분리해 확인합니다."], ["지갑 연결이면 KYC가 전혀 없나요?", "그렇지 않을 수 있습니다. 프런트엔드, 지역, 브리지, 제재 확인이 제한을 만들 수 있습니다."], ["CEX를 No-KYC로 봐도 되나요?", "주의가 필요합니다. 간편 가입은 지역, 상품, 한도, 출금 단계에서 달라질 수 있습니다."]],
-      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp 경로 비교"], ["/check withdrawal", "출금 및 본인확인 조건 확인"]],
+      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp 경로 비교"], ["/exchange", "출금 및 본인확인 조건 확인"]],
     },
     tr: {
       category: "No-KYC erişim",
@@ -473,7 +473,7 @@ const TOPIC_LOCALE_COPY = {
       newsBody: "Hyperliquid son haberleri veya duyurularını arıyorsanız bu sayfa yalnızca erişim sınırını açıklar. Haber merkezi, Hyperliquid yazısı veya profilinden resmi kaynakları doğrulayın.",
       pitfalls: [["Cüzdan bağlantısı kimlik riskini sıfırlamaz", "Arayüz, köprü, yaptırım kontrolü ve çekim koşulları erişimi sınırlayabilir."], ["CEX'te kolay kayıt kalıcı koşul değildir", "Ürün, bölge, limit ve çekim aşamasında kimlik koşulu değişebilir."], ["No-KYC anonimlik demek değildir", "On-chain geçmiş, IP, arayüz ve çekim yolu ayrı riskler taşır."]],
       faqs: [["No-KYC platformunda ne kontrol edilmeli?", "Erişim yöntemi, bölge, çekim, yaptırım kontrolü, arayüz, sonradan kimlik ve likidasyon riski ayrılmalıdır."], ["Cüzdan bağlantısı KYC yok demek mi?", "Her zaman değil. Arayüz, bölge, köprü ve yaptırım kontrolleri sınırlama getirebilir."], ["CEX'i No-KYC sayabilir miyim?", "Dikkatli olun. Kolay kayıt bölge, ürün, limit ve çekimde değişebilir."]],
-      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp rotasını karşılaştır"], ["/check withdrawal", "Çekim ve kimlik koşullarını kontrol et"]],
+      telegramCommands: [["/compare hyperliquid dydx", "No-KYC perp rotasını karşılaştır"], ["/exchange", "Çekim ve kimlik koşullarını kontrol et"]],
     },
     es: {
       category: "Acceso no-KYC",
@@ -488,7 +488,7 @@ const TOPIC_LOCALE_COPY = {
       newsBody: "Si buscas noticias o anuncios de Hyperliquid, esta página solo explica límites de acceso. Abre noticias, el artículo de Hyperliquid o su perfil y verifica fuentes oficiales.",
       pitfalls: [["Conectar wallet no elimina el riesgo de identidad", "Frontend, puente, sanciones y retiro pueden limitar el acceso."], ["El registro ligero en CEX no es permanente", "Producto, región, límites y retiros pueden cambiar el requisito de identidad."], ["No-KYC no significa anonimato", "Historial on-chain, IP, frontend y ruta de retiro tienen riesgos propios."]],
       faqs: [["¿Qué debo revisar en una plataforma no-KYC?", "Método de acceso, región, retiros, sanciones, frontend, KYC posterior y liquidación."], ["¿Con wallet nunca hay KYC?", "No necesariamente. Frontend, región, puente o sanciones pueden limitar el acceso."], ["¿Una CEX puede tratarse como no-KYC?", "Con cautela. El acceso ligero puede cambiar por región, producto, límite o retiro."]],
-      telegramCommands: [["/compare hyperliquid dydx", "Comparar rutas perp no-KYC"], ["/check withdrawal", "Revisar retiros e identidad"]],
+      telegramCommands: [["/compare hyperliquid dydx", "Comparar rutas perp no-KYC"], ["/exchange", "Revisar retiros e identidad"]],
     },
     "pt-BR": {
       category: "Acesso no-KYC",
@@ -503,7 +503,7 @@ const TOPIC_LOCALE_COPY = {
       newsBody: "Se você busca notícias ou anúncios da Hyperliquid, esta página explica apenas limites de acesso. Abra notícias, o artigo da Hyperliquid ou seu perfil e verifique fontes oficiais.",
       pitfalls: [["Conectar carteira não elimina risco de identidade", "Frontend, ponte, sanções e saque podem limitar o acesso."], ["Cadastro leve em CEX não é permanente", "Produto, região, limites e saques podem mudar a exigência de identidade."], ["No-KYC não significa anonimato", "Histórico on-chain, IP, frontend e rota de saque têm riscos próprios."]],
       faqs: [["O que revisar em uma plataforma no-KYC?", "Método de acesso, região, saques, sanções, frontend, KYC posterior e liquidação."], ["Com carteira nunca há KYC?", "Não necessariamente. Frontend, região, ponte ou sanções podem limitar o acesso."], ["Uma CEX pode ser tratada como no-KYC?", "Com cautela. O acesso leve pode mudar por região, produto, limite ou saque."]],
-      telegramCommands: [["/compare hyperliquid dydx", "Comparar rotas perp no-KYC"], ["/check withdrawal", "Revisar saques e identidade"]],
+      telegramCommands: [["/compare hyperliquid dydx", "Comparar rotas perp no-KYC"], ["/exchange", "Revisar saques e identidade"]],
     },
   },
 };
