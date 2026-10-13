@@ -5,6 +5,7 @@ import { normalizeNewsArticlePool, normalizeNewsFeed, normalizeNewsFeedSummaries
 import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
+import { rewritePartnerViewHtml } from "./data/partner-view.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
@@ -22,7 +23,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
   const normalizedNewsArticles = Array.isArray(newsArticles)
     ? (normalizeNewsFeed(newsArticles).length ? normalizeNewsArticlePool(newsArticles) : normalizeNewsFeedSummaries(newsArticles))
     : undefined;
-  return renderToString(withHomeHeroVariant(
+  const html = renderToString(withHomeHeroVariant(
     <React.StrictMode>
       <App
         initialUrl={parsedUrl.pathname + parsedUrl.search + parsedUrl.hash}
@@ -46,4 +47,5 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
     </React.StrictMode>,
     heroVariant,
   ));
+  return rewritePartnerViewHtml(html, parsedUrl.href, { locale: initialLocale });
 }

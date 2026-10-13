@@ -15,6 +15,8 @@ import { createIntelFeed, INTEL_ARCHIVE_PATH, INTEL_PATH } from './server/intel-
 import { createFundingMatrixReader } from './server/funding-matrix.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
+import { rewritePartnerViewHtml } from './src/data/partner-view.js';
+import { createPartnerProgram } from './server/partner-program.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
 import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usdg-live.mjs';
@@ -116,6 +118,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // HOME_HERO_EXPERIMENT_FORCE=off is the kill switch and also works in production (container env, no rebuild).
   const heroForce = env.HOME_HERO_EXPERIMENT_FORCE === 'off' ? 'off' : env.NODE_ENV !== 'production' && ['on', 'a', 'b'].includes(env.HOME_HERO_EXPERIMENT_FORCE) ? env.HOME_HERO_EXPERIMENT_FORCE : undefined;
   // Both click recorders add {experiment, variant} from the visitor's hero cookie while the experiment runs.
+  let partnerTokens = {};
+  try { partnerTokens = JSON.parse(env.PARTNER_STATS_TOKENS || '{}'); } catch { throw new Error('Invalid PARTNER_STATS_TOKENS JSON'); }
+  const partnerProgram = createPartnerProgram({ eventFile: clickEventFile, tokens: partnerTokens });
   const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
   const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce });
@@ -195,7 +200,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
-      if (requestPath === CTA_CLICK_PATH) {
+      if ((result = await partnerProgram(request))) {
+        // Partner landing and private statistics are handled before public SSR/cache.
+      } else if (requestPath === CTA_CLICK_PATH) {
         result = await ctaClick(request, clientKey(req));
       } else if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await goRedirect(request);
@@ -277,6 +284,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });
         result = pageCache ? await pageCache.fetch(request, renderPage) : await renderPage(request);
+      }
+      if (new URL(request.url).searchParams.has('p') && result.headers.get('content-type')?.includes('text/html')) {
+        const html = rewritePartnerViewHtml(await result.text(), request.url);
+        const rewrittenHeaders = new Headers(result.headers);
+        rewrittenHeaders.delete('content-length');
+        rewrittenHeaders.set('cache-control', 'no-store');
+        result = new Response(html, { status: result.status, headers: rewrittenHeaders });
       }
       if (result.status >= 500 && !isHealthCheckPath(requestPath)) await errorMonitor?.record({ requestId, route: requestPath,
         component: requestPath === '/api/analytics/cta' ? 'cta' : 'web',

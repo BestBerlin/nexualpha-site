@@ -687,7 +687,7 @@ test("worker filters stylesheets by prerendered route while retaining shared bas
     ["/news", "/prerender/en/news.json", "<main><h1>Market News</h1><button data-cta-placement=\"news-filter\">Filter</button><a href=\"/news/example\">Example</a></main>", ["route-news-"]],
     [`/news/${articleSlug}`, `/prerender/en/news/${articleSlug}.json`, "<main><h1>News detail</h1><button data-cta-placement=\"news-detail\">Read</button></main>", ["route-news-"]],
     [`/news/${tokenizedTreasuryArticleSlug}`, `/prerender/en/news/${tokenizedTreasuryArticleSlug}.json`, "<main><h1>Tokenized Treasuries detail</h1><button data-cta-placement=\"tokenized-detail\">Read</button></main>", ["route-news-"]],
-    ["/partners", "/prerender/en/partners.json", "<main><h1>Partner Embeds</h1><button data-cta-placement=\"partner-open\">Open</button></main>", ["route-partners-"]],
+    ["/partners", "/prerender/en/partners.json", "<main><h1>Partner Program</h1><button data-cta-placement=\"partner-open\">Open</button></main>", ["route-partners-"]],
     ["/partners/embed-guide", "/prerender/en/partners-guide.json", "<main><h1>Partner Guide</h1><button data-cta-placement=\"partner-guide\">Open</button></main>", ["route-partners-"]],
     ["/rates", "/prerender/en/rates.json", "<main><h1>Rates</h1><button data-cta-placement=\"rates-open\">Open</button></main>", ["route-rates-", "route-activity-"]],
     ["/onchain", "/prerender/en/onchain.json", "<main><h1>Onchain</h1><button data-cta-placement=\"onchain-open\">Open</button></main>", ["route-onchain-"]],
@@ -711,9 +711,7 @@ test("worker filters stylesheets by prerendered route while retaining shared bas
     "route-rates-", "route-market-", "route-onchain-", "route-kol-", "route-telegram-", "route-partners-", "route-topic-guide-",
     "route-factbook-", "route-international-", "route-embed-",
   ];
-  const manifestKeyPath = (pathname) => pathname === "/partners/embed-guide"
-    ? "/partners"
-    : pathname.replace(/^\/tr(?=\/)/, "");
+  const manifestKeyPath = (pathname) => pathname.replace(/^\/tr(?=\/)/, "");
   const manifest = {
     version: "nexualpha-prerender-v1",
     routes: Object.fromEntries(cases.map(([pathname, asset,, , locale = "en"]) => {

@@ -2,10 +2,122 @@ import React, { useEffect, useState } from "react";
 import { TELEGRAM_CONFIG, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { buildBrazilEmbedUrl, buildBrazilEmbedCode } from "../../data/embed-builder.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { partnerEmbedCopy } from "../../data/partner-embed-copy.js";
+import { partnerProgramCopy } from "../../data/partner-program-copy.js";
 import "./partner-embed-guide.css";
 
-export function PartnerEmbedGuide({ locale = "en" }) {
+function currentPathname() {
+  return typeof window !== "undefined" ? window.location.pathname : "";
+}
+
+function PartnerProgramPage({ locale = "en" }) {
+  const copy = partnerProgramCopy(locale);
+  const neutral = isNeutralCtaLocale(locale);
+  const telegramHref = getTelegramDeepLink({
+    action: "partner_desk",
+    locale,
+    product: "partner_program",
+    campaign: "public_partner_program",
+  });
+  const mailHref = "mailto:partners@nexualpha.com?subject=NexuAlpha%20partner%20program";
+
+  return (
+    <main className="v6 v2-page v3-page partner-guide-page partner-program-page" id="top">
+      <div className="v2-shell">
+        <nav className="guide-breadcrumbs" aria-label="Breadcrumb">
+          <a href={localizedHref("/", { locale })}>{copy.home}</a>
+          <span className="guide-breadcrumbs__sep">/</span>
+          <span>{copy.breadcrumb}</span>
+        </nav>
+
+        <section className="partner-program-hero">
+          <p className="partner-program-hero__kicker">{copy.kicker}</p>
+          <h1>{neutral ? copy.neutralTitle : copy.title}</h1>
+          <p>{neutral ? copy.neutralLead : copy.lead}</p>
+          {neutral ? (
+            <a className="partner-program-link" href={localizedHref("/exchanges", { locale })}>
+              {copy.neutralBack}
+            </a>
+          ) : (
+            <div className="partner-program-actions" aria-label="Partner application options">
+              <a
+                className="partner-program-btn partner-program-btn--primary"
+                href={telegramHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta-kind="partner-application"
+                data-cta-placement="partner-program-hero"
+                aria-label={`${copy.primaryCta} @${TELEGRAM_CONFIG.botUsername}`}
+              >
+                {copy.primaryCta}
+              </a>
+              <a
+                className="partner-program-btn partner-program-btn--secondary"
+                href={mailHref}
+                data-cta-kind="partner-application"
+                data-cta-placement="partner-program-hero-email"
+              >
+                {copy.secondaryCta}
+              </a>
+            </div>
+          )}
+        </section>
+
+        {!neutral && (
+          <>
+            <section className="partner-program-section" aria-labelledby="partner-benefits">
+              <div className="partner-program-section__header">
+                <h2 id="partner-benefits">{copy.benefitsTitle}</h2>
+              </div>
+              <div className="partner-program-grid">
+                {copy.benefits.map(([title, body]) => (
+                  <article className="partner-program-card" key={title}>
+                    <h3>{title}</h3>
+                    <p>{body}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="partner-program-section" aria-labelledby="partner-steps">
+              <div className="partner-program-section__header">
+                <h2 id="partner-steps">{copy.stepsTitle}</h2>
+              </div>
+              <ol className="partner-program-steps">
+                {copy.steps.map(([title, body], index) => (
+                  <li className="partner-program-step" key={title}>
+                    <span className="partner-program-step__index">{index + 1}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section className="partner-program-section partner-program-section--faq" aria-labelledby="partner-faq">
+              <div className="partner-program-section__header">
+                <h2 id="partner-faq">{copy.faqTitle}</h2>
+              </div>
+              <div className="partner-program-faq">
+                {copy.faqs.map(([question, answer]) => (
+                  <details key={question}>
+                    <summary>{question}</summary>
+                    <p>{answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+    </main>
+  );
+}
+
+function PartnerEmbedGuideContent({ locale = "en" }) {
   const copy = partnerEmbedCopy(locale);
   const localizedH1 = {
     fr: "Ajoutez les outils de frais NexuAlpha à votre site ou portail de recherche",
@@ -221,6 +333,12 @@ export function PartnerEmbedGuide({ locale = "en" }) {
       </div>
     </main>
   );
+}
+
+export function PartnerEmbedGuide({ locale = "en", pathname }) {
+  const path = pathname || currentPathname();
+  if (path.endsWith("/partners/embed-guide") || isNeutralCtaLocale(locale)) return <PartnerEmbedGuideContent locale={locale} />;
+  return <PartnerProgramPage locale={locale} />;
 }
 
 export default PartnerEmbedGuide;
