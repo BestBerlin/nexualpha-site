@@ -11,8 +11,8 @@ import { getBrazilSeo } from "../src/data/brazil-seo.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const expectedCommercialHashes = {
-  "src/data/partner-registry.js": "c196c615ed47fe40b2ff934f98865b5393f46bffcd4eeb374acf590eb9b7a17e", // owner-authorized Binance primary link change 2026-10-10
-  "src/data/venue-database.js": "d75511cc3f9631c1fb37298fd4162e13b60393dc49dc1404a0b02d141833dc05",
+  "src/data/partner-registry.js": "e622416dde981867f390d31bc34fa7be707d7197b265c20453813f41b5728f79", // owner-authorized HTX 40% rebate + htx.net.in backup link 2026-10-13
+  "src/data/venue-database.js": "09e89df6582641dbaedb73b20e86913f523c401ae2cf4fa80d663aa6ea19d81f", // owner-authorized HTX 40% rebate 2026-10-13
   "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
   "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
 };

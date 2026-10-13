@@ -5,7 +5,7 @@
 // URLs are picked from the partner registry's alternates, never typed here.
 import { partnerRegistry } from "./partner-registry.js";
 
-const MIRROR_HOSTS = Object.freeze({ binance: "www.bsmkweb.cc", okx: "www.topzhjdgxcb.net", bitget: "partner.bitget.com" });
+const MIRROR_HOSTS = Object.freeze({ binance: "www.bsmkweb.cc", okx: "www.topzhjdgxcb.net", bitget: "partner.bitget.com", htx: "www.htx.net.in" });
 
 function pickMirror(venue) {
   const partner = partnerRegistry[venue];
@@ -16,6 +16,7 @@ function pickMirror(venue) {
     .filter((url) => url?.hostname === host);
   if (venue === "binance") return alternates.find((url) => url.searchParams.get("ref") === code && [...url.searchParams.keys()].length === 1)?.href || null;
   if (venue === "bitget") return alternates[0]?.href || null;
+  if (venue === "htx") return alternates.find((url) => url.searchParams.get("invite_code") === code)?.href || null;
   if (venue === "okx") {
     // Owner 2026-10-13: the OKX primary code (registry inviteCode) is valid on the mirror domain too, written upper case.
     const existing = alternates.find((url) => url.pathname.toLowerCase() === `/join/${code.toLowerCase()}`);
