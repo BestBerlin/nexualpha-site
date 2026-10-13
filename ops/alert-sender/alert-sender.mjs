@@ -73,9 +73,20 @@ function readState(file, fallback) {
   }
 }
 function writeJson(file, data) { mkdirSync(path.dirname(file), { recursive: true }); writeFileSync(`${file}.tmp`, JSON.stringify(data)); renameSync(`${file}.tmp`, file); }
-function token() {
-  const line = readFileSync(ENV_FILE, "utf8").split("\n").find((l) => l.startsWith("COMMUNITY_BOT_TOKEN="));
+export function token(file = ENV_FILE) {
+  const line = readFileSync(file, "utf8").split("\n").find((l) => l.startsWith("COMMUNITY_BOT_TOKEN="));
   return line ? line.slice("COMMUNITY_BOT_TOKEN=".length).trim().replace(/^["']|["']$/g, "") : "";
+}
+export async function sendPhoto(tok, chat, png, caption, fetcher = fetch) {
+  const form = new FormData();
+  form.set("chat_id", chat);
+  form.set("caption", caption);
+  form.set("photo", new Blob([png], { type: "image/png" }), "daily.png");
+  const res = await fetcher(`https://api.telegram.org/bot${tok}/sendPhoto`, {
+    method: "POST", redirect: "error", signal: AbortSignal.timeout(15000), body: form,
+  });
+  const body = await res.json().catch(() => null);
+  return { ok: res.ok && body?.ok === true && Boolean(body.result?.message_id), id: body?.result?.message_id };
 }
 async function getJson(url) {
   const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });

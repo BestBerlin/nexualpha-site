@@ -1,0 +1,19 @@
+{
+  "movers": {
+    "generatedAt": "2026-10-13T01:00:00Z",
+    "source": "binance-usdm",
+    "up": [
+      {"sym":"SUI","change":"+12.34%"}, {"sym":"DOGE","change":"+8.20%"},
+      {"sym":"SOL","change":"+6.15%"}, {"sym":"XRP","change":"+4.70%"}, {"sym":"LINK","change":"+2.31%"}
+    ],
+    "down": [
+      {"sym":"AVAX","change":"−9.13%"}, {"sym":"ADA","change":"−7.22%"},
+      {"sym":"ETH","change":"−5.61%"}, {"sym":"BTC","change":"−3.45%"}, {"sym":"PEPE","change":"−1.20%"}
+    ]
+  },
+  "market": {
+    "generatedAt": "2026-10-13T01:00:00Z",
+    "liquidations": {"h24": {"totalUsd": 133400000, "largest": {"symbol":"OKX:BTCUSDT", "side":"long", "usd":2380000}}},
+    "funding": {"generatedAt":"2026-10-13T01:00:00Z", "rows":[{"symbol":"BTC", "binanceRate":0.000085, "okxRate":-0.000012}]}
+  }
+}
