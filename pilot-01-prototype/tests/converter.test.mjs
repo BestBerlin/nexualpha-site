@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { converterCoins, converterCoin, converterPath, converterIndexable, converterVenues, FIATS, unitPrice, convertedAmount, QUICK_AMOUNTS, fiatSpotVenues, converterCopy } from "../src/data/converter.js";
-import { coinSignup } from "../src/data/coins.js";
+import { coinSignup, utcStamp } from "../src/data/coins.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { parsePublicRoute } from "../src/data/locale-routing.js";
 import { modulePathsForRoute, ROUTE_MODULE_PATHS } from "../src/data/route-module-cache.js";
@@ -56,4 +56,8 @@ test("converter route uses one deferred module and fiat notes differ", () => {
     assert.equal(Object.keys(t.methods).length, 12);
     assert.equal(new Set(Object.values(t.methods)).size, 12);
   }
+});
+test("converter timestamps inherit fixed Singapore time from coin stamps", () => {
+  assert.equal(utcStamp("2026-10-10T14:58:12.739Z"), "2026-10-10 · 22:58 SGT");
+  assert.equal(utcStamp("2026-10-10T18:30:00.000Z"), "2026-10-11 · 02:30 SGT");
 });

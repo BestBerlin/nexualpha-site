@@ -33,7 +33,7 @@ test("liquidations embed shows the page's numbers, no script, footer attribution
   assert.match(html, /<i style="width:20\.2%"><\/i>/, "long share bar");
   assert.ok(!/<script/i.test(html), "no script: CSP default-src 'none' friendly");
   assert.ok(!/<link|@import|url\(/i.test(html), "no external resources");
-  assert.match(html, /<footer class="f"><a href="https:\/\/nexualpha\.com\/liquidations\?src=embed-liquidations" target="_blank" rel="noopener" data-embed-source="embed-liquidations">Powered by NexuAlpha<\/a> <span dir="ltr">updated 14:58 UTC<\/span><\/footer>/);
+  assert.match(html, /<footer class="f"><a href="https:\/\/nexualpha\.com\/liquidations\?src=embed-liquidations" target="_blank" rel="noopener" data-embed-source="embed-liquidations">Powered by NexuAlpha<\/a> <span dir="ltr">updated 22:58 SGT<\/span><\/footer>/);
   assert.ok(byteLength(html) <= EMBED_SIZE_BUDGET, `size ${byteLength(html)} > ${EMBED_SIZE_BUDGET}`);
   assert.match(html, new RegExp(`max-height:${EMBED_MAX_HEIGHT}px;overflow:hidden`));
   assert.match(html, /prefers-reduced-motion:no-preference/);

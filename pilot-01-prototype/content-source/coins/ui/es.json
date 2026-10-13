@@ -9,14 +9,14 @@
   "seoDescriptionNone": "Ningún exchange que cubrimos lista {coin} ({symbol}) todavía. Descubre qué es y monedas similares que puedes comprar en OKX, Binance, Bitget y más.",
   "answerListed": "{coin} ({symbol}) cotiza en spot en {venues}. El par más común es {pair}, disponible en {pairCount} de ellos.",
   "answerListedOne": "{coin} ({symbol}) cotiza en spot en {venues}, donde puedes operar el par {pair}.",
-  "answerPerp": "{perpCount} de ellos también ofrecen un contrato perpetuo de {symbol}.",
+  "answerPerp": "Además, hay contrato perpetuo de {symbol} en {perpCount} de esos exchanges.",
   "answerPerpOnly": "{coin} ({symbol}) no tiene mercado spot en los exchanges que cubrimos, pero {venues} ofrecen un contrato perpetuo de {symbol}.",
   "answerNone": "Ningún exchange que cubrimos lista {coin} ({symbol}) en este momento. Abajo puedes ver qué es y elegir una moneda similar que sí cotiza.",
   "price": "Precio de {symbol}",
   "change24h": "24 h",
   "rank": "Ranking por capitalización",
   "marketCap": "Capitalización",
-  "snapshot": "Datos de las {time} UTC",
+  "snapshot": "Datos del {time}",
   "live": "Actualizado {time}",
   "listedOn": "Cotiza en",
   "venuesCount": "{n} exchanges",
@@ -75,7 +75,7 @@
   "faqPerpYes": "Sí. {venues} ofrecen un contrato perpetuo de {symbol}. Los perpetuos usan apalancamiento y pueden liquidarse, así que aprende primero cómo funciona el margen.",
   "faqPerpNo": "No en los exchanges que cubrimos. Aun así, puedes comprar {symbol} en el mercado spot donde cotiza.",
   "faqNetwork": "¿Qué red uso para depositar {symbol}?",
-  "faqNetworkA": "Usa una red que admitan ambos lados. {venue} acepta depósitos de {symbol} en {networks}. Envía primero una cantidad pequeña de prueba.",
+  "faqNetworkA": "Usa una red que admitan ambos lados. Redes que {venue} admite para depositar {symbol}: {networks}. Envía primero una cantidad pequeña de prueba.",
   "faqNetworkNative": "{symbol} funciona en su propia blockchain, así que deposítalo por la red de {coin}. Revisa la página de depósito de tu exchange antes de enviar.",
   "faqWhat": "¿Qué es {coin}?",
   "faqFees": "¿Cuánto cuesta comprar {symbol}?",
@@ -83,7 +83,7 @@
   "relatedTitle": "Monedas similares",
   "relatedNoneLead": "Monedas del mismo grupo que puedes comprar en los exchanges que cubrimos:",
   "allCoins": "Todas las monedas",
-  "hubTitle": "Dónde comprar criptomonedas: {count} monedas y los exchanges que las listan",
+  "hubTitle": "Dónde comprar criptomonedas: compara en qué exchanges cotizan las {count} principales monedas",
   "hubSeoTitle": "Dónde comprar cripto: {count} monedas por exchange",
   "hubSeoDescription": "Descubre qué exchanges listan {count} monedas principales, con pares spot, perpetuos y redes de depósito según los datos públicos de cada uno.",
   "hubLead": "Busca una moneda para ver si cotiza en OKX, Binance, Bitget, Bybit, Gate, MEXC, HTX o Kraken, qué pares puedes operar y cómo comprarla.",
@@ -138,5 +138,6 @@
     "PK": "Pakistán"
   },
   "listJoin": ", ",
-  "listLast": " y "
+  "listLast": " y ",
+  "venuesMore": "{list} y {n} exchanges más"
 }

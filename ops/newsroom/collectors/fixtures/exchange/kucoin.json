@@ -1,0 +1,38 @@
+{
+  "code": "200000",
+  "data": {
+    "totalNumber": 2,
+    "totalPage": 1,
+    "pageNumber": 1,
+    "pageSize": 2,
+    "list": [
+      {
+        "id": 342429,
+        "title": "World Premiere: VAYLA (VAYLA) Listed on KuCoin",
+        "type": ["latest-announcements", "new-listings"],
+        "description": "Trading: 10:00 on October 13, 2026 (UTC).",
+        "releaseTime": 1791799200000,
+        "language": "en_US",
+        "url": "https://www.kucoin.com/announcement/en-world-premiere-vayla-vayla-listed-on-kucoin?lang=en_US"
+      },
+      {
+        "id": 342774,
+        "title": "KuCoin Will Delist VENOM and NFP on 2026-10-14",
+        "type": ["latest-announcements", "delistings"],
+        "description": "In accordance with the Token Delisting Guidelines, KuCoin will delist the following tokens at 8:00 on October 14, 2026 (UTC).",
+        "releaseTime": 1791800340000,
+        "language": "en_US",
+        "url": "https://www.kucoin.com/announcement/en-kucoin-will-delist-venom-and-NFP-on-20261014?lang=en_US"
+      },
+      {
+        "id": 342775,
+        "title": "Ignored foreign host",
+        "type": ["latest-announcements", "new-listings"],
+        "description": "Bad URL host.",
+        "releaseTime": 1791800340000,
+        "language": "en_US",
+        "url": "https://kucoin.evil.example/announcement/nope"
+      }
+    ]
+  }
+}

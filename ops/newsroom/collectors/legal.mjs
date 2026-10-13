@@ -20,6 +20,9 @@ const LEGAL_SOURCES = Object.freeze(new Set([
   'sec-edgar-submissions',
 ]));
 
+const EDGAR_ALLOWED_FORMS = Object.freeze(new Set(['8-K', '10-Q', '10-K', 'S-1', '13F']));
+const EDGAR_CRYPTO_TERMS = Object.freeze(['bitcoin', 'btc', 'ether', 'ethereum', 'stablecoin', 'digital asset', 'crypto', 'cryptocurrency', 'crypto treasury', 'blockchain']);
+
 const ENDPOINTS = Object.freeze({
   'sec-press': { host: 'www.sec.gov', path: '/news/pressreleases.rss' },
   'sec-litigation': { host: 'www.sec.gov', path: '/enforcement-litigation/litigation-releases/rss' },
@@ -44,7 +47,7 @@ export async function poll(source, since = null, ctx = {}) {
   let items;
   if (RSS_SOURCES.has(source.id)) items = mapRss(await request(source.url, requestOptions(source, { format: 'text' })), source);
   else if (source.id === 'courtlistener-search') items = mapCourtListener(await request(courtListenerUrl(source.url, ctx), requestOptions(source)), source);
-  else if (source.id === 'sec-edgar-full-text') items = mapEdgarFullText(await request(source.url, edgarSearchOptions(ctx, since)), source);
+  else if (source.id === 'sec-edgar-full-text') items = mapEdgarFullText(await request(source.url, edgarSearchOptions(ctx, since)), source, ctx);
   else if (source.id === 'sec-edgar-submissions') items = await pollEdgarSubmissions(source, request, ctx);
   else throw new CollectorError(`Unsupported legal source: ${source.id}`);
   return items.filter(item => withinBounds(item, sinceMs, now));
@@ -126,10 +129,13 @@ function mapCourtListener(payload, source) {
   }).filter(Boolean);
 }
 
-function mapEdgarFullText(payload, source) {
+function mapEdgarFullText(payload, source, ctx = {}) {
   const hits = Array.isArray(payload?.hits?.hits) ? payload.hits.hits : Array.isArray(payload?.hits) ? payload.hits : null;
   if (!hits) throw new CollectorError(`${source.id} malformed payload`);
-  return hits.map(hit => {
+  return hits.filter(hit => {
+    const row = hit?._source ?? hit;
+    return allowedEdgarForm(row) && edgarRowInScope(row, ctx);
+  }).map(hit => {
     const row = hit?._source ?? hit;
     const accession = row.adsh ?? row.accession_no ?? row.accessionNumber;
     const cik = firstValue(row.ciks ?? row.cik);
@@ -137,11 +143,11 @@ function mapEdgarFullText(payload, source) {
       external_id: accession ? `edgar-fts:${accession}` : hit?._id,
       url: row.url ?? filingUrl(cik, accession),
       title: [row.form, row.company_name ?? row.display_names?.[0] ?? row.entity, accession].filter(Boolean).join(' '),
-      body_excerpt: row.items ?? row.root_forms ?? row.file_description ?? row.highlight,
+      body_excerpt: edgarExcerpt(row),
       published_at: row.file_date ?? row.filing_date ?? row.period_ending,
       author: row.company_name ?? firstValue(row.display_names) ?? source.name,
       event_type_guess: edgarEventType(row),
-      metrics: hit?._score == null ? undefined : { search_score: hit._score },
+      metrics: { ...(hit?._score == null ? {} : { search_score: hit._score }), form: row.form ?? row.file_type ?? null },
     }, source);
   }).filter(Boolean);
 }
@@ -151,6 +157,7 @@ function mapEdgarSubmissions(payload, source, company) {
   if (!recent || !Array.isArray(recent.accessionNumber)) throw new CollectorError(`${source.id} malformed submissions payload`);
   const out = [];
   for (let i = 0; i < recent.accessionNumber.length; i += 1) {
+    if (!allowedEdgarForm({ form: recent.form?.[i] })) continue;
     const accession = recent.accessionNumber[i];
     out.push(buildItem({
       external_id: accession ? `edgar-submission:${accession}` : null,
@@ -198,12 +205,76 @@ function edgarSearchOptions(ctx, since) {
       q: query,
       dateRange: from ? 'custom' : 'all',
       startdt: from,
-      forms: ['8-K', '10-Q', '10-K', '6-K', 'S-1', '13F-HR'],
+      forms: [...EDGAR_ALLOWED_FORMS],
       from: 0,
       size: 50,
       sort: [{ file_date: { order: 'desc' } }],
     }),
   };
+}
+
+function allowedEdgarForm(row) {
+  const authoritativeForms = [row?.form, row?.file_type].filter(Boolean).map(normalizeEdgarForm);
+  if (authoritativeForms.length) return authoritativeForms.some(form => EDGAR_ALLOWED_FORMS.has(form));
+  const rootForms = (Array.isArray(row?.root_forms) ? row.root_forms : [row?.root_forms]).filter(Boolean).map(normalizeEdgarForm);
+  return rootForms.some(form => EDGAR_ALLOWED_FORMS.has(form));
+}
+
+function normalizeEdgarForm(form) {
+  const value = String(form ?? '').toUpperCase().trim();
+  return value.startsWith('13F') ? '13F' : value;
+}
+
+function edgarRowInScope(row, ctx) {
+  return edgarRowMatchesWatchlistCompany(row, ctx.entities ?? []) || edgarRowMatchesCryptoKeyword(row, ctx.keywords ?? []);
+}
+
+function edgarRowMatchesWatchlistCompany(row, entities) {
+  const ciks = new Set([...(Array.isArray(row?.ciks) ? row.ciks : [row?.ciks ?? row?.cik])]
+    .filter(Boolean)
+    .map(value => String(value).replace(/^0+/, ''))
+    .filter(Boolean));
+  const rowNames = [row?.company_name, firstValue(row?.display_names), row?.entity].filter(Boolean).map(normalizeText);
+  for (const entity of entities ?? []) {
+    if (entity?.status && entity.status !== 'active') continue;
+    const cik = entity?.cik ?? entity?.cik_str ?? entity?.accounts?.sec_cik ?? entity?.accounts?.cik;
+    if (cik && ciks.has(String(cik).replace(/^0+/, ''))) return true;
+    const aliases = entityAliases(entity).map(normalizeText).filter(Boolean);
+    if (rowNames.some(name => aliases.some(alias => name === alias || name.includes(alias)))) return true;
+  }
+  return false;
+}
+
+function edgarRowMatchesCryptoKeyword(row, keywords) {
+  const text = edgarRowText(row).toLowerCase();
+  const terms = new Set(EDGAR_CRYPTO_TERMS);
+  for (const keyword of keywords ?? []) {
+    if (keyword.status && keyword.status !== 'active') continue;
+    const term = String(keyword.term ?? '').trim();
+    if (term && EDGAR_CRYPTO_TERMS.some(cryptoTerm => normalizeText(term).includes(normalizeText(cryptoTerm)))) terms.add(term.toLowerCase());
+  }
+  return [...terms].some(term => text.includes(term));
+}
+
+function edgarRowText(row) {
+  return [
+    row?.form,
+    row?.company_name,
+    firstValue(row?.display_names),
+    row?.entity,
+    ...(Array.isArray(row?.items) ? row.items : [row?.items]),
+    ...(Array.isArray(row?.root_forms) ? row.root_forms : [row?.root_forms]),
+    row?.file_description,
+    row?.highlight,
+  ].filter(Boolean).join(' ');
+}
+
+function edgarExcerpt(row) {
+  return [
+    ...(Array.isArray(row?.items) ? row.items : [row?.items]),
+    row?.file_description,
+    row?.highlight,
+  ].filter(Boolean).join(' ');
 }
 
 function courtListenerUrl(base, ctx) {

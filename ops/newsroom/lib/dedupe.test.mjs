@@ -197,9 +197,32 @@ test('recorded SEC regulator feed rows stay irrelevant without crypto context', 
   assert.deepEqual(result.irrelevantItems.map(item => item.id).sort(), [980, 981]);
 });
 
+test('relevance gate rejects out-of-scope EDGAR structured-note forms', () => {
+  const structuredNote = { id: 990, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '497K Bitcoin structured notes update', body_excerpt: 'bitcoin buffered structured notes', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'crypto_treasury_company', metrics: { form: '497K' } };
+  const holdings = { ...structuredNote, id: 991, title: '13F-HR Bitcoin treasury fund holdings', metrics: { form: '13F-HR' } };
+  assert.equal(relevanceForItem(structuredNote).relevant, false);
+  assert.equal(relevanceForItem(holdings).relevant, true);
+  const merged = mergeRawItems([structuredNote, holdings]);
+  assert.equal(merged.events.length, 1);
+  assert.deepEqual(merged.irrelevantItems.map(item => item.id), [990]);
+});
+
+test('EDGAR relevance requires explicit allowed form and crypto or legal company scope', () => {
+  const allowedButUnrelated = { id: 992, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '10-Q Industrial issuer earnings rise as oil revenue jumps', body_excerpt: 'Oil revenue increased 8% and dollar costs fell.', published_at: '2026-10-12T10:00:00Z', metrics: { form: '10-Q' } };
+  const disallowedAuthoritativeForm = { id: 993, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '424B2 Bitcoin note filed under 8-K root', body_excerpt: 'bitcoin structured note', published_at: '2026-10-12T10:00:00Z', metrics: { form: '424B2' } };
+  const watchlistCompany = { ...allowedButUnrelated, id: 994, title: '10-Q Example Bitcoin Treasury earnings', body_excerpt: 'Quarterly filing update.', metrics: { form: '10-Q', cik: '320193' } };
+  assert.equal(relevanceForItem(allowedButUnrelated).relevant, false);
+  assert.equal(relevanceForItem(disallowedAuthoritativeForm).relevant, false);
+  assert.equal(relevanceForItem(watchlistCompany).relevant, true);
+  const merged = mergeRawItems([allowedButUnrelated, disallowedAuthoritativeForm, watchlistCompany]);
+  assert.equal(merged.events.length, 1);
+  assert.deepEqual(merged.irrelevantItems.map(item => item.id).sort(), [992, 993]);
+});
+
 test('coin universe accepts explicit three-letter uppercase symbols without generic collisions', () => {
   assert.equal(relevanceForItem({ title: 'SUI jumps 12% after exchange listing' }, { coinUniverse: [{ id: 'sui', name: 'Sui', symbol: 'SUI' }] }).relevant, true);
   assert.equal(relevanceForItem({ title: 'ONE analyst opens new coverage' }, { coinUniverse: [{ id: 'harmony', name: 'Harmony', symbol: 'ONE' }] }).relevant, false);
+  assert.equal(relevanceForItem({ title: 'KuCoin lists ABC with USDT trading pair' }).relevant, true);
 });
 
 test('owner cross-asset moves infer event type and market channel without a collector guess', () => {
@@ -248,6 +271,33 @@ test('standalone mirrors do not create independent source heat', () => {
   assert.equal(events[0].evidence[0].is_independent, false);
 });
 
+test('own telegram reposts are discovery hints and never independent evidence', () => {
+  const { events } = mergeRawItems([
+    { id: 932, source_id: 'telegram-nexualphaclub-preview', platform: 'telegram', tier: 3, url: 'https://t.me/s/NexuAlphaClub/42', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Repost of the official Bybit notice.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+  ]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].discussion.independent_sources, 0);
+  assert.equal(events[0].evidence[0].is_independent, false);
+});
+
+test('needs-detail exchange rows stay out of the claimable event pool', () => {
+  const { events, irrelevantItems } = mergeRawItems([
+    { id: 933, source_id: 'bybit-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/hidden', title: 'Bybit Will Delist 1 Token(s)', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting', metrics: { detail_status: 'needs-detail' } },
+  ]);
+  assert.equal(events.length, 0);
+  assert.deepEqual(irrelevantItems.map(item => item.id), [933]);
+});
+
+test('identical evidence rows are collapsed even when raw ids differ', () => {
+  const { events } = mergeRawItems([
+    { id: 934, source_id: 'bybit-announcements', external_id: 'a', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/same', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Bybit will delist ABCUSDT on 2026-10-14.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+    { id: 935, source_id: 'bybit-announcements', external_id: 'b', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/same', title: 'Bybit Will Delist ABC Trading Pairs', body_excerpt: 'Bybit will delist ABCUSDT on 2026-10-14.', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'delisting' },
+  ]);
+  assert.equal(events.length, 1);
+  assert.equal(events[0].raw_items.length, 2);
+  assert.equal(events[0].evidence.length, 1);
+});
+
 test('listing and delisting clustering keeps different symbols and dates apart', () => {
   const base = { source_id: 'bybit-announcements', platform: 'exchange', tier: 1, event_type_guess: 'delisting' };
   const { events } = mergeRawItems([
@@ -263,4 +313,20 @@ test('generic listing headlines do not invent a symbol hard key', () => {
     { id: 951, source_id: 'bybit-announcements', platform: 'exchange', tier: 1, url: 'https://announcements.bybit.com/a', title: 'Bybit Lists New Trading Pairs', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'listing' },
   ]);
   assert.deepEqual(events[0].hard_keys, []);
+});
+
+test('media reports of one story without a watchlist entity cluster on shared amount and distinctive words', () => {
+  const base = { platform: 'media', tier: 2, lang: 'en', body_excerpt: 'Crypto industry report.' };
+  const items = [
+    { ...base, id: 9101, source_id: 'decrypt', url: 'https://decrypt.co/a', title: 'New York AG secures up to $35 million from former Celsius CEO Alex Mashinsky', published_at: '2026-10-12T10:00:00Z', fetched_at: '2026-10-12T10:05:00Z' },
+    { ...base, id: 9102, source_id: 'theblock', url: 'https://www.theblock.co/b', title: 'New York permanently bars Celsius founder Mashinsky in $35M fraud settlement', event_type_guess: 'lawsuit', published_at: '2026-10-12T12:00:00Z', fetched_at: '2026-10-12T12:05:00Z' },
+    { ...base, id: 9103, source_id: 'cointelegraph', url: 'https://cointelegraph.com/c', title: 'Ledger Probes Potential Theft of $87M in User Funds Tied to Crypto Wallet Reseller', published_at: '2026-10-12T12:00:00Z', fetched_at: '2026-10-12T12:05:00Z' },
+    { ...base, id: 9104, source_id: 'theblock', url: 'https://www.theblock.co/d', title: 'Ledger investigates wallet drains involving CryptoBilis buyers; estimate tops $86 million in losses', published_at: '2026-10-12T12:30:00Z', fetched_at: '2026-10-12T12:35:00Z' },
+  ];
+  const { events } = mergeRawItems(items, { watchlist: [], keywords: [{ term: 'crypto', lang: 'en', status: 'active' }, { term: 'Celsius', lang: 'en', status: 'active' }, { term: 'Ledger', lang: 'en', status: 'active' }] });
+  const celsius = events.find(event => event.raw_items.some(item => item.id === 9101));
+  assert.deepEqual(celsius.raw_items.map(item => item.id).sort(), [9101, 9102]);
+  assert.equal(celsius.discussion.merge_provenance.at(-1).method, 'narrative_facts');
+  // Different reported amounts stay separate until a human or a primary source reconciles them.
+  assert.notEqual(events.find(event => event.raw_items.some(item => item.id === 9103)), events.find(event => event.raw_items.some(item => item.id === 9104)));
 });

@@ -2126,7 +2126,8 @@ test("activity center stays compact, source-bound, and fail-closed", () => {
   assert.match(activityCenterV3, /activityCenterCopy\(locale\)/);
   assert.match(activityCenterV3, /href=\{updateHref\(update, locale, \{ market, product \}\)\}/);
   assert.match(activityCenterV3, /detailCopy\.openActivityDetail/);
-  assert.match(activityPages, /toLocaleString\(locale\)/);
+  assert.match(activityPages, /formatSgt\(update\.discoveredAt, locale\)/);
+  assert.doesNotMatch(activityPages, /toLocaleString\(locale\)/);
   assert.doesNotMatch(activityCenterV3, /Tracked official sources|Only six sources|中心已经准备好|正在跟踪|默认只展示|跟蹤中/);
   assert.doesNotMatch(activityCenter, /<SourceList/);
 });

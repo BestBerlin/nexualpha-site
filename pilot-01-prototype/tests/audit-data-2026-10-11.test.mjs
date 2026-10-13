@@ -309,7 +309,7 @@ test("NX-08 home research modules render without editorial/dev instructions in e
     const topics = html.match(/<ul class="tg-public-topics__list">([\s\S]*?)<\/ul>/);
     if (topics) assert.ok((topics[1].match(/<li/g) || []).length <= 4, `${locale}: at most 4 related links`);
   }
-  assert.match(text(out.en), /This research panel does not include referral codes; the sign-up cards on this site do and disclose the commission/);
+  assert.match(text(out.en), /This research panel does not include referral codes; the sign-up cards on this site do\./);
   // SEO audit 2026-10-11 #6 (owner-approved): an unverified welcome benefit renders nothing (was "Welcome campaign
   // status: Pending official-source review" on every card); the radar subtitle carries the account-level caveat.
   assert.match(text(out.en), /Official Exchange Campaigns & Welcome Packs/);

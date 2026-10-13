@@ -1,3 +1,4 @@
+import { formatSgt } from "./local-time.js";
 // NexuAlpha Flash feed (server-only: Worker, sitemap, tests). Builds the 7x24 flash items from feeds we already
 // publish — official exchange announcements (+ archive and localized campaign briefs), the market collector's feed and
 // our published news — and renders each item's headline and 1–2 sentence body from its structured fields with
@@ -8,6 +9,7 @@ import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey
 import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
+import { COIN_ROWS } from "./coins-data.generated.js";
 
 // Search editions (same set as the Worker's INDEXABLE_LOCALES): every one has its own templates below.
 export const FLASH_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
@@ -17,6 +19,39 @@ const NEWS_WINDOW_MS = 60 * 24 * 60 * 60 * 1000;
 const MAX_FUTURE_SKEW_MS = 10 * 60 * 1000;
 const MAX_MARKET_ITEMS = 3000;
 const MAX_ASSETS = 4;
+
+// "Important" level (2026-10-13): rule-based, never editorial. An item is important when it is a large liquidation hour,
+// a sharp BTC/ETH hour, a listing/delisting of a top-20 coin by market cap (stablecoins excluded; ranks from the
+// baked coin table) or an official exchange service notice about an outage or a withdrawal halt. The browser gets a
+// boolean plus the rule name, so the red marker, the "Important only" filter and notifications all agree.
+export const FLASH_IMPORTANT_RULES = Object.freeze({ liquidationHourUsd: 50e6, majorMove1hPct: 3, majorAssets: ["BTC", "ETH"] });
+const rowRank = (row) => (Array.isArray(row) ? row[4] : row?.rank);
+const rowSymbol = (row) => (Array.isArray(row) ? row[3] : row?.symbol);
+const rowCategory = (row) => (Array.isArray(row) ? row[5] : row?.category);
+export const FLASH_TOP_COINS = Object.freeze([...(Array.isArray(COIN_ROWS) ? COIN_ROWS : [])]
+  .filter((row) => Number(rowRank(row)) > 0 && rowCategory(row) !== "stablecoin" && rowSymbol(row))
+  .sort((a, b) => rowRank(a) - rowRank(b)).slice(0, 20).map((row) => String(rowSymbol(row)).toUpperCase()));
+const TOP_COIN_SET = new Set(FLASH_TOP_COINS);
+// Official service notices: suspensions, halts, outages. A notice is an "incident" flash item; it is important when it
+// reads like an outage (system-wide, trading halted) or halts deposits/withdrawals of a top-20 coin or of everything.
+const INCIDENT_RE = /\b(?:suspend(?:s|ed|ing)?|suspension|halt(?:s|ed|ing)?|paus(?:e|es|ed|ing)|cease(?:s|d)?|ceasing|temporarily (?:closed|closes|close|unavailable|disabled)|outage|downtime|disruption|interruption|degraded|unscheduled maintenance)\b|暂停|中断|故障|暫停|中斷/i;
+const OUTAGE_RE = /\b(?:outage|downtime|disruption|interruption|degraded|unscheduled maintenance|(?:all|trading|system|platform|exchange)[\w\s-]{0,24}(?:suspend|halt|paus))|系统|系統|故障/i;
+const FUNDS_RE = /\b(?:deposits?|withdrawals?|withdraw)\b|提现|提币|充值|充提|提現|提幣/i;
+const ALL_FUNDS_RE = /\ball\b[^.]{0,30}\b(?:deposits?|withdrawals?)\b|全部(?:充值|提现|提币|充提)/i;
+export function flashImportance(item) {
+  const d = item?.data || {};
+  const assets = Array.isArray(item?.assets) ? item.assets.map((a) => String(a).toUpperCase().replace(/\/.*$/, "")) : [];
+  if (item?.type === "liquidation-spike" && Number(d.totalUsd) >= FLASH_IMPORTANT_RULES.liquidationHourUsd) return "liquidations";
+  if (item?.type === "sharp-move" && d.kind === "1h" && FLASH_IMPORTANT_RULES.majorAssets.includes(assets[0])
+    && Math.abs(Number(d.change1hPct) || 0) >= FLASH_IMPORTANT_RULES.majorMove1hPct) return "major-move";
+  if ((item?.type === "listing" || item?.type === "delisting") && assets.some((a) => TOP_COIN_SET.has(a))) return "top-coin";
+  if (item?.type === "incident") {
+    const title = String(item.source?.title || "");
+    if (OUTAGE_RE.test(title)) return "outage";
+    if (FUNDS_RE.test(title) && (ALL_FUNDS_RE.test(title) || assets.some((a) => TOP_COIN_SET.has(a)))) return "withdrawals";
+  }
+  return null;
+}
 
 const VENUE_NAMES = { binance: "Binance", okx: "OKX", bitget: "Bitget", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate", mexc: "MEXC", htx: "HTX", hyperliquid: "Hyperliquid", coinbase: "Coinbase" };
 const ZH_VENUE_NAMES = { "zh-Hans": { binance: "币安" }, "zh-Hant": { binance: "幣安" } };
@@ -38,7 +73,7 @@ export function fmtPct(value, digits = 2) {
 }
 export const fmtRate = (rate) => (Number.isFinite(Number(rate)) && rate !== null ? fmtPct(Number(rate) * 100, 4) : "—");
 export const fmtPrice = (value) => `$${Number(value).toLocaleString("en-US", { maximumFractionDigits: 8 })}`;
-export const fmtUtc = (iso) => { const d = new Date(iso); return Number.isFinite(d.getTime()) ? d.toISOString().slice(0, 16).replace("T", " ") : ""; };
+export const fmtUtc = (iso) => formatSgt(iso).replace(" · ", " ").replace(/ SGT$/, "");
 const fmtClock = (iso) => fmtUtc(iso).slice(11);
 const baseSymbol = (symbol) => String(symbol || "").replace(/^[A-Z]+:/, "").replace(/USDT$|USDC$/, "") || String(symbol || "");
 
@@ -49,196 +84,211 @@ const T = {
     listing: "{venue} lists {assets}{market}", listingNotice: "{venue} listing notice: {assets}{market}", listingGeneric: "{venue} posts a new listing notice",
     delisting: "{venue} delists {assets}", delistingNotice: "{venue} delisting notice: {assets}", delistingGeneric: "{venue} posts a delisting notice",
     campaignPrize: "{venue} campaign: {amount} {asset} prize pool", campaignGeneric: "{venue} posts a new event notice",
-    annBody: "{venue} published this in its official announcements on {published} UTC.", whenBody: "Date given in the notice: {when}.",
+    annBody: "{venue} published this in its official announcements on {published} SGT.", whenBody: "Date given in the notice: {when}.",
     mk: { spot: "spot", perp: "perpetual futures", stocks: "tokenized stocks" }, mkWrap: " ({m})",
     liqHead: "Liquidations hit {total} in 1 hour, {share}% {side}", side: { long: "longs", short: "shorts" },
-    liqBody: "NexuAlpha's liquidation tracker (Binance and OKX) recorded {total} in the hour to {hour} UTC: longs {long}, shorts {short}.",
-    moveHead: "{sym} {pct} in 1 hour, now {price}", moveBody: "{sym} traded at {price} on Binance USDT-M perpetuals at {time} UTC, {pct} over 1 hour and {pct24} over 24 hours.",
-    moverHead: "{sym} {pct} in 24 hours", moverBody: "The {sym} perpetual on Binance USDT-M moved {pct} over 24 hours on {vol} of trading volume, as of {time} UTC.",
-    fundHead: "{sym} funding rate at {rate} on {venue}", fundBody: "Funding on the {sym} perpetual: Binance {binance}, OKX {okx}. Next settlement at {next} UTC. {payer}",
+    liqBody: "NexuAlpha's liquidation tracker (Binance and OKX) recorded {total} in the hour to {hour} SGT: longs {long}, shorts {short}.",
+    moveHead: "{sym} {pct} in 1 hour, now {price}", moveBody: "{sym} traded at {price} on Binance USDT-M perpetuals at {time} SGT, {pct} over 1 hour and {pct24} over 24 hours.",
+    moverHead: "{sym} {pct} in 24 hours", moverBody: "The {sym} perpetual on Binance USDT-M moved {pct} over 24 hours on {vol} of trading volume, as of {time} SGT.",
+    fundHead: "{sym} funding rate at {rate} on {venue}", fundBody: "Funding on the {sym} perpetual: Binance {binance}, OKX {okx}. Next settlement at {next} SGT. {payer}",
     payLong: "Longs pay shorts.", payShort: "Shorts pay longs.",
+    incidentHead: "{venue} service notice: {assets}", incidentGeneric: "{venue} posts a service notice", incidentBody: "Deposits, withdrawals or trading may be affected. Check the official notice for the exact scope and timing.",
   },
   "zh-Hans": {
-    listing: "{venue}上线 {assets}{market}", listingNotice: "{venue}上币公告：{assets}{market}", listingGeneric: "{venue}发布新的上币公告",
+    listing: "{venue} 上线 {assets}{market}", listingNotice: "{venue}上币公告：{assets}{market}", listingGeneric: "{venue}发布新的上币公告",
     delisting: "{venue}下架 {assets}", delistingNotice: "{venue}下架公告：{assets}", delistingGeneric: "{venue}发布下架公告",
     campaignPrize: "{venue}活动：奖池 {amount} {asset}", campaignGeneric: "{venue}发布新的活动公告",
-    annBody: "{venue}于 {published} UTC 在官方公告栏发布了这条消息。", whenBody: "公告中给出的时间：{when}。",
+    annBody: "{venue} 于 {published} SGT 发布官方公告。", whenBody: "公告中给出的时间：{when}。",
     mk: { spot: "现货", perp: "永续合约", stocks: "代币化股票" }, mkWrap: "（{m}）",
     liqHead: "1 小时爆仓 {total}，{share}% 为{side}", side: { long: "多单", short: "空单" },
-    liqBody: "NexuAlpha 爆仓追踪（Binance 与 OKX）显示，截至 {hour} UTC 的 1 小时内爆仓 {total}：多单 {long}，空单 {short}。",
-    moveHead: "{sym} 1 小时 {pct}，现报 {price}", moveBody: "{time} UTC，{sym} 在 Binance USDT 本位永续合约报 {price}，1 小时 {pct}，24 小时 {pct24}。",
-    moverHead: "{sym} 24 小时 {pct}", moverBody: "截至 {time} UTC，{sym} 在 Binance USDT 本位永续合约 24 小时变动 {pct}，成交额 {vol}。",
-    fundHead: "{sym} 资金费率 {rate}（{venue}）", fundBody: "{sym} 永续合约资金费率：Binance {binance}，OKX {okx}。下次结算 {next} UTC。{payer}",
+    liqBody: "NexuAlpha 爆仓追踪（Binance 与 OKX）显示，截至 {hour} SGT 的 1 小时内爆仓 {total}：多单 {long}，空单 {short}。",
+    moveHead: "{sym} 1 小时 {pct}，现报 {price}", moveBody: "{time} SGT，{sym} 在 Binance USDT 本位永续合约报 {price}，1 小时 {pct}，24 小时 {pct24}。",
+    moverHead: "{sym} 24 小时 {pct}", moverBody: "截至 {time} SGT，{sym} 在 Binance USDT 本位永续合约 24 小时变动 {pct}，成交额 {vol}。",
+    fundHead: "{sym} 资金费率 {rate}（{venue}）", fundBody: "{sym} 永续合约资金费率：Binance {binance}，OKX {okx}。下次结算 {next} SGT。{payer}",
     payLong: "多头向空头支付。", payShort: "空头向多头支付。",
+    incidentHead: "{venue}服务公告：{assets}", incidentGeneric: "{venue}发布服务状态公告", incidentBody: "充值、提现或交易可能受到影响，具体范围和时间以官方公告为准。",
   },
   "zh-Hant": {
     listing: "{venue}上線 {assets}{market}", listingNotice: "{venue}上幣公告：{assets}{market}", listingGeneric: "{venue}發布新的上幣公告",
     delisting: "{venue}下架 {assets}", delistingNotice: "{venue}下架公告：{assets}", delistingGeneric: "{venue}發布下架公告",
     campaignPrize: "{venue}活動：獎池 {amount} {asset}", campaignGeneric: "{venue}發布新的活動公告",
-    annBody: "{venue}於 {published} UTC 在官方公告欄發布了這則消息。", whenBody: "公告中給出的時間：{when}。",
+    annBody: "{venue}於 {published} SGT 在官方公告欄發布了這則消息。", whenBody: "公告中給出的時間：{when}。",
     mk: { spot: "現貨", perp: "永續合約", stocks: "代幣化股票" }, mkWrap: "（{m}）",
     liqHead: "1 小時爆倉 {total}，{share}% 為{side}", side: { long: "多單", short: "空單" },
-    liqBody: "NexuAlpha 爆倉追蹤（Binance 與 OKX）顯示，截至 {hour} UTC 的 1 小時內爆倉 {total}：多單 {long}，空單 {short}。",
-    moveHead: "{sym} 1 小時 {pct}，現報 {price}", moveBody: "{time} UTC，{sym} 在 Binance USDT 本位永續合約報 {price}，1 小時 {pct}，24 小時 {pct24}。",
-    moverHead: "{sym} 24 小時 {pct}", moverBody: "截至 {time} UTC，{sym} 在 Binance USDT 本位永續合約 24 小時變動 {pct}，成交額 {vol}。",
-    fundHead: "{sym} 資金費率 {rate}（{venue}）", fundBody: "{sym} 永續合約資金費率：Binance {binance}，OKX {okx}。下次結算 {next} UTC。{payer}",
+    liqBody: "NexuAlpha 爆倉追蹤（Binance 與 OKX）顯示，截至 {hour} SGT 的 1 小時內爆倉 {total}：多單 {long}，空單 {short}。",
+    moveHead: "{sym} 1 小時 {pct}，現報 {price}", moveBody: "{time} SGT，{sym} 在 Binance USDT 本位永續合約報 {price}，1 小時 {pct}，24 小時 {pct24}。",
+    moverHead: "{sym} 24 小時 {pct}", moverBody: "截至 {time} SGT，{sym} 在 Binance USDT 本位永續合約 24 小時變動 {pct}，成交額 {vol}。",
+    fundHead: "{sym} 資金費率 {rate}（{venue}）", fundBody: "{sym} 永續合約資金費率：Binance {binance}，OKX {okx}。下次結算 {next} SGT。{payer}",
     payLong: "多頭向空頭支付。", payShort: "空頭向多頭支付。",
+    incidentHead: "{venue}服務公告：{assets}", incidentGeneric: "{venue}發布服務狀態公告", incidentBody: "充值、提現或交易可能受到影響，具體範圍和時間以官方公告為準。",
   },
   es: {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listado de {venue}: {assets}{market}", listingGeneric: "{venue} publica un nuevo aviso de listado",
     delisting: "{venue} retira {assets}", delistingNotice: "Aviso de retirada de {venue}: {assets}", delistingGeneric: "{venue} publica un aviso de retirada",
     campaignPrize: "Campaña de {venue}: bolsa de premios de {amount} {asset}", campaignGeneric: "{venue} publica un nuevo aviso de evento",
-    annBody: "{venue} lo publicó en sus anuncios oficiales el {published} UTC.", whenBody: "Fecha indicada en el aviso: {when}.",
+    annBody: "{venue} lo publicó en sus anuncios oficiales el {published} SGT.", whenBody: "Fecha indicada en el aviso: {when}.",
     mk: { spot: "spot", perp: "futuros perpetuos", stocks: "acciones tokenizadas" }, mkWrap: " ({m})",
     liqHead: "Las liquidaciones llegan a {total} en 1 hora, {share}% {side}", side: { long: "largos", short: "cortos" },
-    liqBody: "El rastreador de liquidaciones de NexuAlpha (Binance y OKX) registró {total} en la hora hasta las {hour} UTC: largos {long}, cortos {short}.",
-    moveHead: "{sym} {pct} en 1 hora, ahora en {price}", moveBody: "{sym} cotizaba a {price} en los perpetuos USDT-M de Binance a las {time} UTC: {pct} en 1 hora y {pct24} en 24 horas.",
-    moverHead: "{sym} {pct} en 24 horas", moverBody: "El perpetuo {sym} de Binance USDT-M se movió {pct} en 24 horas con un volumen de {vol}, a las {time} UTC.",
-    fundHead: "Financiación de {sym} en {rate} en {venue}", fundBody: "Financiación del perpetuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidación a las {next} UTC. {payer}",
+    liqBody: "El rastreador de liquidaciones de NexuAlpha (Binance y OKX) registró {total} en la hora hasta las {hour} SGT: largos {long}, cortos {short}.",
+    moveHead: "{sym} {pct} en 1 hora, ahora en {price}", moveBody: "{sym} cotizaba a {price} en los perpetuos USDT-M de Binance a las {time} SGT: {pct} en 1 hora y {pct24} en 24 horas.",
+    moverHead: "{sym} {pct} en 24 horas", moverBody: "El perpetuo {sym} de Binance USDT-M se movió {pct} en 24 horas con un volumen de {vol}, a las {time} SGT.",
+    fundHead: "Financiación de {sym} en {rate} en {venue}", fundBody: "Financiación del perpetuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidación a las {next} SGT. {payer}",
     payLong: "Los largos pagan a los cortos.", payShort: "Los cortos pagan a los largos.",
+    incidentHead: "{venue}: aviso de servicio sobre {assets}", incidentGeneric: "{venue} publica un aviso de servicio", incidentBody: "Los depósitos, retiros o la operativa pueden verse afectados. Consulta el aviso oficial para el alcance y los horarios exactos.",
   },
   "pt-BR": {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listagem da {venue}: {assets}{market}", listingGeneric: "{venue} publica novo aviso de listagem",
     delisting: "{venue} remove {assets}", delistingNotice: "Aviso de remoção da {venue}: {assets}", delistingGeneric: "{venue} publica aviso de remoção",
     campaignPrize: "Campanha da {venue}: prêmio de {amount} {asset}", campaignGeneric: "{venue} publica novo aviso de evento",
-    annBody: "A {venue} publicou isto nos anúncios oficiais em {published} UTC.", whenBody: "Data informada no aviso: {when}.",
+    annBody: "A {venue} publicou isto nos anúncios oficiais em {published} SGT.", whenBody: "Data informada no aviso: {when}.",
     mk: { spot: "spot", perp: "futuros perpétuos", stocks: "ações tokenizadas" }, mkWrap: " ({m})",
-    liqHead: "Liquidações chegam a {total} em 1 hora, {share}% {side}", side: { long: "compradas", short: "vendidas" },
-    liqBody: "O rastreador de liquidações da NexuAlpha (Binance e OKX) registrou {total} na hora até {hour} UTC: compradas {long}, vendidas {short}.",
-    moveHead: "{sym} {pct} em 1 hora, agora a {price}", moveBody: "{sym} era negociado a {price} nos perpétuos USDT-M da Binance às {time} UTC: {pct} em 1 hora e {pct24} em 24 horas.",
-    moverHead: "{sym} {pct} em 24 horas", moverBody: "O perpétuo {sym} na Binance USDT-M variou {pct} em 24 horas com volume de {vol}, às {time} UTC.",
-    fundHead: "Funding de {sym} em {rate} na {venue}", fundBody: "Funding do perpétuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidação às {next} UTC. {payer}",
+    liqHead: "Liquidações somam {total} em 1 hora; {share}% em posições {side}", side: { long: "compradas (long)", short: "vendidas (short)" },
+    liqBody: "O monitor de liquidações da NexuAlpha (Binance e OKX) registrou {total} na hora até as {hour} SGT: posições compradas {long}, vendidas {short}.",
+    moveHead: "{sym} {pct} em 1 hora, agora a {price}", moveBody: "{sym} era negociado a {price} nos perpétuos USDT-M da Binance às {time} SGT: {pct} em 1 hora e {pct24} em 24 horas.",
+    moverHead: "{sym} {pct} em 24 horas", moverBody: "O perpétuo {sym} na Binance USDT-M variou {pct} em 24 horas com volume de {vol}, às {time} SGT.",
+    fundHead: "Funding de {sym} em {rate} na {venue}", fundBody: "Funding do perpétuo {sym}: Binance {binance}, OKX {okx}. Próxima liquidação às {next} SGT. {payer}",
     payLong: "Comprados pagam os vendidos.", payShort: "Vendidos pagam os comprados.",
+    incidentHead: "{venue}: aviso de serviço sobre {assets}", incidentGeneric: "{venue} publica um aviso de serviço", incidentBody: "Depósitos, saques ou negociações podem ser afetados. Veja o aviso oficial para o escopo e os horários exatos.",
   },
   fr: {
     listing: "{venue} cote {assets}{market}", listingNotice: "Avis de cotation {venue} : {assets}{market}", listingGeneric: "{venue} publie un nouvel avis de cotation",
     delisting: "{venue} retire {assets}", delistingNotice: "Avis de retrait {venue} : {assets}", delistingGeneric: "{venue} publie un avis de retrait",
     campaignPrize: "Campagne {venue} : cagnotte de {amount} {asset}", campaignGeneric: "{venue} publie un nouvel avis d’événement",
-    annBody: "{venue} l’a publié dans ses annonces officielles le {published} UTC.", whenBody: "Date indiquée dans l’avis : {when}.",
+    annBody: "Publié dans les annonces officielles de {venue} le {published} SGT.", whenBody: "Date indiquée dans l’avis : {when}.",
     mk: { spot: "spot", perp: "contrats perpétuels", stocks: "actions tokenisées" }, mkWrap: " ({m})",
-    liqHead: "Les liquidations atteignent {total} en 1 heure, dont {share}% de {side}", side: { long: "longs", short: "shorts" },
-    liqBody: "Le suivi des liquidations de NexuAlpha (Binance et OKX) a enregistré {total} sur l’heure jusqu’à {hour} UTC : longs {long}, shorts {short}.",
-    moveHead: "{sym} {pct} en 1 heure, à {price}", moveBody: "{sym} cotait {price} sur les perpétuels USDT-M de Binance à {time} UTC : {pct} sur 1 heure et {pct24} sur 24 heures.",
-    moverHead: "{sym} {pct} en 24 heures", moverBody: "Le perpétuel {sym} sur Binance USDT-M a varié de {pct} en 24 heures pour un volume de {vol}, à {time} UTC.",
-    fundHead: "Taux de financement de {sym} à {rate} sur {venue}", fundBody: "Financement du perpétuel {sym} : Binance {binance}, OKX {okx}. Prochain règlement à {next} UTC. {payer}",
+    liqHead: "Les liquidations atteignent {total} en 1 heure, dont {share} % de positions {side}", side: { long: "longues", short: "courtes" },
+    liqBody: "Le suivi des liquidations de NexuAlpha (Binance et OKX) a enregistré {total} sur l’heure jusqu’à {hour} SGT : longs {long}, shorts {short}.",
+    moveHead: "{sym} {pct} en 1 heure, à {price}", moveBody: "{sym} cotait {price} sur les perpétuels USDT-M de Binance à {time} SGT : {pct} sur 1 heure et {pct24} sur 24 heures.",
+    moverHead: "{sym} {pct} en 24 heures", moverBody: "Le perpétuel {sym} sur Binance USDT-M a varié de {pct} en 24 heures pour un volume de {vol}, à {time} SGT.",
+    fundHead: "Taux de financement de {sym} à {rate} sur {venue}", fundBody: "Financement du perpétuel {sym} : Binance {binance}, OKX {okx}. Prochain règlement à {next} SGT. {payer}",
     payLong: "Les longs paient les shorts.", payShort: "Les shorts paient les longs.",
+    incidentHead: "{venue} : avis de service sur {assets}", incidentGeneric: "{venue} publie un avis de service", incidentBody: "Les dépôts, retraits ou le trading peuvent être affectés. Consultez l’avis officiel pour le périmètre et le calendrier exacts.",
   },
   de: {
     listing: "{venue} listet {assets}{market}", listingNotice: "{venue}-Listing-Mitteilung: {assets}{market}", listingGeneric: "{venue} veröffentlicht eine neue Listing-Mitteilung",
     delisting: "{venue} delistet {assets}", delistingNotice: "{venue}-Delisting-Mitteilung: {assets}", delistingGeneric: "{venue} veröffentlicht eine Delisting-Mitteilung",
     campaignPrize: "{venue}-Aktion: Preispool von {amount} {asset}", campaignGeneric: "{venue} veröffentlicht eine neue Event-Mitteilung",
-    annBody: "{venue} hat dies am {published} UTC in seinen offiziellen Mitteilungen veröffentlicht.", whenBody: "Zeitpunkt laut Mitteilung: {when}.",
+    annBody: "{venue} hat dies am {published} SGT in seinen offiziellen Mitteilungen veröffentlicht.", whenBody: "Zeitpunkt laut Mitteilung: {when}.",
     mk: { spot: "Spot", perp: "Perpetual Futures", stocks: "tokenisierte Aktien" }, mkWrap: " ({m})",
     liqHead: "Liquidationen erreichen {total} in 1 Stunde, {share}% {side}", side: { long: "Longs", short: "Shorts" },
-    liqBody: "Der Liquidations-Tracker von NexuAlpha (Binance und OKX) erfasste {total} in der Stunde bis {hour} UTC: Longs {long}, Shorts {short}.",
-    moveHead: "{sym} {pct} in 1 Stunde, jetzt {price}", moveBody: "{sym} notierte um {time} UTC bei {price} auf den USDT-M-Perpetuals von Binance: {pct} in 1 Stunde und {pct24} in 24 Stunden.",
-    moverHead: "{sym} {pct} in 24 Stunden", moverBody: "Der {sym}-Perpetual auf Binance USDT-M bewegte sich in 24 Stunden um {pct} bei {vol} Handelsvolumen, Stand {time} UTC.",
-    fundHead: "{sym}-Funding-Rate bei {rate} auf {venue}", fundBody: "Funding des {sym}-Perpetuals: Binance {binance}, OKX {okx}. Nächste Abrechnung um {next} UTC. {payer}",
+    liqBody: "Der Liquidations-Tracker von NexuAlpha (Binance und OKX) erfasste {total} in der Stunde bis {hour} SGT: Longs {long}, Shorts {short}.",
+    moveHead: "{sym} {pct} in 1 Stunde, jetzt {price}", moveBody: "{sym} notierte um {time} SGT bei {price} auf den USDT-M-Perpetuals von Binance: {pct} in 1 Stunde und {pct24} in 24 Stunden.",
+    moverHead: "{sym} {pct} in 24 Stunden", moverBody: "Der {sym}-Perpetual auf Binance USDT-M bewegte sich in 24 Stunden um {pct} bei {vol} Handelsvolumen, Stand {time} SGT.",
+    fundHead: "{sym}-Funding-Rate bei {rate} auf {venue}", fundBody: "Funding des {sym}-Perpetuals: Binance {binance}, OKX {okx}. Nächste Abrechnung um {next} SGT. {payer}",
     payLong: "Longs zahlen an Shorts.", payShort: "Shorts zahlen an Longs.",
+    incidentHead: "{venue}: Servicehinweis zu {assets}", incidentGeneric: "{venue} veröffentlicht einen Servicehinweis", incidentBody: "Ein- und Auszahlungen oder der Handel können betroffen sein. Umfang und Zeitplan stehen in der offiziellen Mitteilung.",
   },
   it: {
     listing: "{venue} quota {assets}{market}", listingNotice: "Avviso di listing {venue}: {assets}{market}", listingGeneric: "{venue} pubblica un nuovo avviso di listing",
     delisting: "{venue} rimuove {assets}", delistingNotice: "Avviso di delisting {venue}: {assets}", delistingGeneric: "{venue} pubblica un avviso di delisting",
     campaignPrize: "Campagna {venue}: montepremi di {amount} {asset}", campaignGeneric: "{venue} pubblica un nuovo avviso di evento",
-    annBody: "{venue} lo ha pubblicato negli annunci ufficiali il {published} UTC.", whenBody: "Data indicata nell’avviso: {when}.",
+    annBody: "{venue} lo ha pubblicato negli annunci ufficiali il {published} SGT.", whenBody: "Data indicata nell’avviso: {when}.",
     mk: { spot: "spot", perp: "futures perpetui", stocks: "azioni tokenizzate" }, mkWrap: " ({m})",
     liqHead: "Liquidazioni a {total} in 1 ora, {share}% {side}", side: { long: "long", short: "short" },
-    liqBody: "Il tracker delle liquidazioni di NexuAlpha (Binance e OKX) ha registrato {total} nell’ora fino alle {hour} UTC: long {long}, short {short}.",
-    moveHead: "{sym} {pct} in 1 ora, ora a {price}", moveBody: "{sym} quotava {price} sui perpetui USDT-M di Binance alle {time} UTC: {pct} in 1 ora e {pct24} in 24 ore.",
-    moverHead: "{sym} {pct} in 24 ore", moverBody: "Il perpetuo {sym} su Binance USDT-M si è mosso del {pct} in 24 ore con {vol} di volume, alle {time} UTC.",
-    fundHead: "Funding di {sym} a {rate} su {venue}", fundBody: "Funding del perpetuo {sym}: Binance {binance}, OKX {okx}. Prossimo regolamento alle {next} UTC. {payer}",
+    liqBody: "Il tracker delle liquidazioni di NexuAlpha (Binance e OKX) ha registrato {total} nell’ora fino alle {hour} SGT: long {long}, short {short}.",
+    moveHead: "{sym} {pct} in 1 ora, ora a {price}", moveBody: "{sym} quotava {price} sui perpetui USDT-M di Binance alle {time} SGT: {pct} in 1 ora e {pct24} in 24 ore.",
+    moverHead: "{sym} {pct} in 24 ore", moverBody: "Il perpetuo {sym} su Binance USDT-M si è mosso del {pct} in 24 ore con {vol} di volume, alle {time} SGT.",
+    fundHead: "Funding di {sym} a {rate} su {venue}", fundBody: "Funding del perpetuo {sym}: Binance {binance}, OKX {okx}. Prossimo regolamento alle {next} SGT. {payer}",
     payLong: "I long pagano gli short.", payShort: "Gli short pagano i long.",
+    incidentHead: "{venue}: avviso di servizio su {assets}", incidentGeneric: "{venue} pubblica un avviso di servizio", incidentBody: "Depositi, prelievi o trading potrebbero essere interessati. Controlla l’avviso ufficiale per portata e orari esatti.",
   },
   ja: {
     listing: "{venue}、{assets}{market}を上場", listingNotice: "{venue} 上場のお知らせ：{assets}{market}", listingGeneric: "{venue}、新規上場のお知らせを公開",
     delisting: "{venue}、{assets}を上場廃止", delistingNotice: "{venue} 上場廃止のお知らせ：{assets}", delistingGeneric: "{venue}、上場廃止のお知らせを公開",
     campaignPrize: "{venue}キャンペーン：賞金総額 {amount} {asset}", campaignGeneric: "{venue}、新しいイベントのお知らせを公開",
-    annBody: "{venue}が {published} UTC に公式のお知らせで公開しました。", whenBody: "お知らせに記載の日時：{when}。",
+    annBody: "{venue}が {published} SGT に公式のお知らせで公開しました。", whenBody: "お知らせに記載の日時：{when}。",
     mk: { spot: "現物", perp: "無期限先物", stocks: "トークン化株式" }, mkWrap: "（{m}）",
-    liqHead: "1時間の清算額が {total} に、{share}% が{side}", side: { long: "ロング", short: "ショート" },
-    liqBody: "NexuAlpha の清算トラッカー（Binance と OKX）によると、{hour} UTC までの1時間の清算額は {total}：ロング {long}、ショート {short}。",
-    moveHead: "{sym} 1時間で {pct}、現在 {price}", moveBody: "{time} UTC 時点で {sym} は Binance USDT-M 無期限先物で {price}。1時間で {pct}、24時間で {pct24}。",
-    moverHead: "{sym} 24時間で {pct}", moverBody: "{time} UTC 時点で、Binance USDT-M の {sym} 無期限先物は24時間で {pct} 変動、出来高は {vol}。",
-    fundHead: "{sym} の資金調達率が {rate}（{venue}）", fundBody: "{sym} 無期限先物の資金調達率：Binance {binance}、OKX {okx}。次回精算は {next} UTC。{payer}",
+    liqHead: "1時間の清算額が {total} に、約{share}%が{side}", side: { long: "ロング", short: "ショート" },
+    liqBody: "NexuAlpha の清算トラッカー（Binance と OKX）によると、{hour} SGT までの1時間の清算額は {total}：ロング {long}、ショート {short}。",
+    moveHead: "{sym} 1時間で {pct}、現在 {price}", moveBody: "{time} SGT 時点で {sym} は Binance USDT-M 無期限先物で {price}。1時間で {pct}、24時間で {pct24}。",
+    moverHead: "{sym} 24時間で {pct}", moverBody: "{time} SGT 時点で、Binance USDT-M の {sym} 無期限先物は24時間で {pct} 変動、出来高は {vol}。",
+    fundHead: "{sym} の資金調達率が {rate}（{venue}）", fundBody: "{sym} 無期限先物の資金調達率：Binance {binance}、OKX {okx}。次回精算は {next} SGT。{payer}",
     payLong: "ロングがショートに支払います。", payShort: "ショートがロングに支払います。",
+    incidentHead: "{venue}のサービスのお知らせ：{assets}", incidentGeneric: "{venue}がサービスに関するお知らせを公開", incidentBody: "入出金や取引に影響が出る可能性があります。対象範囲と時間は公式のお知らせをご確認ください。",
   },
   ko: {
     listing: "{venue}, {assets}{market} 상장", listingNotice: "{venue} 상장 공지: {assets}{market}", listingGeneric: "{venue}, 신규 상장 공지 게시",
     delisting: "{venue}, {assets} 상장 폐지", delistingNotice: "{venue} 상장 폐지 공지: {assets}", delistingGeneric: "{venue}, 상장 폐지 공지 게시",
     campaignPrize: "{venue} 이벤트: 총상금 {amount} {asset}", campaignGeneric: "{venue}, 새 이벤트 공지 게시",
-    annBody: "{venue}가 {published} UTC에 공식 공지로 게시했습니다.", whenBody: "공지에 적힌 일시: {when}.",
+    annBody: "{venue}가 {published} SGT에 공식 공지로 게시했습니다.", whenBody: "공지에 적힌 일시: {when}.",
     mk: { spot: "현물", perp: "무기한 선물", stocks: "토큰화 주식" }, mkWrap: " ({m})",
     liqHead: "1시간 청산 {total}, {share}%가 {side}", side: { long: "롱", short: "숏" },
-    liqBody: "NexuAlpha 청산 트래커(Binance, OKX)에 따르면 {hour} UTC까지 1시간 동안 {total}가 청산됐습니다: 롱 {long}, 숏 {short}.",
-    moveHead: "{sym} 1시간 {pct}, 현재 {price}", moveBody: "{time} UTC 기준 {sym}는 Binance USDT-M 무기한 선물에서 {price}에 거래됐습니다. 1시간 {pct}, 24시간 {pct24}.",
-    moverHead: "{sym} 24시간 {pct}", moverBody: "{time} UTC 기준 Binance USDT-M {sym} 무기한 선물은 24시간 동안 {pct} 움직였고 거래대금은 {vol}입니다.",
-    fundHead: "{sym} 펀딩비 {rate} ({venue})", fundBody: "{sym} 무기한 선물 펀딩비: Binance {binance}, OKX {okx}. 다음 정산 {next} UTC. {payer}",
+    liqBody: "NexuAlpha 청산 트래커(Binance, OKX)에 따르면 {hour} SGT까지 1시간 동안 {total}가 청산됐습니다: 롱 {long}, 숏 {short}.",
+    moveHead: "{sym} 1시간 {pct}, 현재 {price}", moveBody: "{time} SGT 기준 {sym}는 Binance USDT-M 무기한 선물에서 {price}에 거래됐습니다. 1시간 {pct}, 24시간 {pct24}.",
+    moverHead: "{sym} 24시간 {pct}", moverBody: "{time} SGT 기준 Binance USDT-M {sym} 무기한 선물은 24시간 동안 {pct} 움직였고 거래대금은 {vol}입니다.",
+    fundHead: "{sym} 펀딩비 {rate} ({venue})", fundBody: "{sym} 무기한 선물 펀딩비: Binance {binance}, OKX {okx}. 다음 정산 {next} SGT. {payer}",
     payLong: "롱이 숏에게 지급합니다.", payShort: "숏이 롱에게 지급합니다.",
+    incidentHead: "{venue} 서비스 공지: {assets}", incidentGeneric: "{venue}, 서비스 공지 게시", incidentBody: "입출금 또는 거래에 영향이 있을 수 있습니다. 정확한 범위와 시간은 공식 공지를 확인하세요.",
   },
   ru: {
     listing: "{venue} добавляет {assets}{market}", listingNotice: "Объявление о листинге на {venue}: {assets}{market}", listingGeneric: "{venue} опубликовала объявление о листинге",
     delisting: "{venue} проводит делистинг {assets}", delistingNotice: "Объявление о делистинге на {venue}: {assets}", delistingGeneric: "{venue} опубликовала объявление о делистинге",
     campaignPrize: "Акция {venue}: призовой фонд {amount} {asset}", campaignGeneric: "{venue} публикует новое объявление о событии",
-    annBody: "{venue} опубликовала это в официальных объявлениях {published} UTC.", whenBody: "Дата в объявлении: {when}.",
+    annBody: "{venue} опубликовала это в официальных объявлениях {published} SGT.", whenBody: "Дата в объявлении: {when}.",
     mk: { spot: "спот", perp: "бессрочные фьючерсы", stocks: "токенизированные акции" }, mkWrap: " ({m})",
     liqHead: "Ликвидации за 1 час: {total}, {share}% — {side}", side: { long: "лонги", short: "шорты" },
-    liqBody: "Трекер ликвидаций NexuAlpha (Binance и OKX) зафиксировал {total} за час до {hour} UTC: лонги {long}, шорты {short}.",
-    moveHead: "{sym} {pct} за 1 час, сейчас {price}", moveBody: "В {time} UTC {sym} торговался по {price} на бессрочных фьючерсах Binance USDT-M: {pct} за 1 час и {pct24} за 24 часа.",
-    moverHead: "{sym} {pct} за 24 часа", moverBody: "Бессрочный фьючерс {sym} на Binance USDT-M изменился на {pct} за 24 часа при объёме торгов {vol}, данные на {time} UTC.",
-    fundHead: "Ставка финансирования {sym}: {rate} на {venue}", fundBody: "Финансирование бессрочного фьючерса {sym}: Binance {binance}, OKX {okx}. Следующее начисление в {next} UTC. {payer}",
+    liqBody: "Трекер ликвидаций NexuAlpha (Binance и OKX) зафиксировал {total} за час до {hour} SGT: лонги {long}, шорты {short}.",
+    moveHead: "{sym} {pct} за 1 час, сейчас {price}", moveBody: "В {time} SGT {sym} торговался по {price} на бессрочных фьючерсах Binance USDT-M: {pct} за 1 час и {pct24} за 24 часа.",
+    moverHead: "{sym} {pct} за 24 часа", moverBody: "Бессрочный фьючерс {sym} на Binance USDT-M изменился на {pct} за 24 часа при объёме торгов {vol}, данные на {time} SGT.",
+    fundHead: "Ставка финансирования {sym}: {rate} на {venue}", fundBody: "Финансирование бессрочного фьючерса {sym}: Binance {binance}, OKX {okx}. Следующее начисление в {next} SGT. {payer}",
     payLong: "Лонги платят шортам.", payShort: "Шорты платят лонгам.",
+    incidentHead: "{venue}: сервисное уведомление по {assets}", incidentGeneric: "{venue} публикует сервисное уведомление", incidentBody: "Возможны ограничения на ввод, вывод или торговлю. Точный объём и сроки — в официальном уведомлении.",
   },
   tr: {
     listing: "{venue}, {assets}{market} listeliyor", listingNotice: "{venue} listeleme duyurusu: {assets}{market}", listingGeneric: "{venue} yeni bir listeleme duyurusu yayımladı",
     delisting: "{venue}, {assets} varlığını listeden çıkarıyor", delistingNotice: "{venue} listeden çıkarma duyurusu: {assets}", delistingGeneric: "{venue} listeden çıkarma duyurusu yayımladı",
     campaignPrize: "{venue} kampanyası: {amount} {asset} ödül havuzu", campaignGeneric: "{venue} yeni bir etkinlik duyurusu yayımladı",
-    annBody: "{venue} bunu {published} UTC'de resmi duyurularında yayımladı.", whenBody: "Duyuruda belirtilen tarih: {when}.",
+    annBody: "{venue} bunu {published} SGT'de resmi duyurularında yayımladı.", whenBody: "Duyuruda belirtilen tarih: {when}.",
     mk: { spot: "spot", perp: "vadesiz vadeli işlemler", stocks: "tokenize hisseler" }, mkWrap: " ({m})",
-    liqHead: "1 saatte {total} likidasyon, {share}% {side}", side: { long: "long", short: "short" },
-    liqBody: "NexuAlpha likidasyon takipçisi (Binance ve OKX), {hour} UTC'ye kadarki 1 saatte {total} likidasyon kaydetti: long {long}, short {short}.",
-    moveHead: "{sym} 1 saatte {pct}, şu an {price}", moveBody: "{sym}, {time} UTC'de Binance USDT-M vadeli işlemlerinde {price} seviyesindeydi: 1 saatte {pct}, 24 saatte {pct24}.",
-    moverHead: "{sym} 24 saatte {pct}", moverBody: "Binance USDT-M'deki {sym} vadeli kontratı 24 saatte {pct} hareket etti, işlem hacmi {vol} ({time} UTC itibarıyla).",
-    fundHead: "{sym} fonlama oranı: {rate} ({venue})", fundBody: "{sym} vadeli kontratında fonlama: Binance {binance}, OKX {okx}. Bir sonraki ödeme {next} UTC. {payer}",
+    liqHead: "1 saatte {total} likidasyon, %{share} {side}", side: { long: "long", short: "short" },
+    liqBody: "NexuAlpha likidasyon takipçisi (Binance ve OKX), {hour} SGT'ye kadarki 1 saatte {total} likidasyon kaydetti: long {long}, short {short}.",
+    moveHead: "{sym} 1 saatte {pct}, şu an {price}", moveBody: "{sym}, {time} SGT'de Binance USDT-M vadeli işlemlerinde {price} seviyesindeydi: 1 saatte {pct}, 24 saatte {pct24}.",
+    moverHead: "{sym} 24 saatte {pct}", moverBody: "Binance USDT-M'deki {sym} vadeli kontratı 24 saatte {pct} hareket etti, işlem hacmi {vol} ({time} SGT itibarıyla).",
+    fundHead: "{sym} fonlama oranı: {rate} ({venue})", fundBody: "{sym} vadeli kontratında fonlama: Binance {binance}, OKX {okx}. Bir sonraki ödeme {next} SGT. {payer}",
     payLong: "Long pozisyonlar short pozisyonlara öder.", payShort: "Short pozisyonlar long pozisyonlara öder.",
+    incidentHead: "{venue} hizmet duyurusu: {assets}", incidentGeneric: "{venue} bir hizmet duyurusu yayımladı", incidentBody: "Para yatırma, çekme veya işlemler etkilenebilir. Kapsam ve zamanlama için resmi duyuruya bakın.",
   },
   id: {
     listing: "{venue} melisting {assets}{market}", listingNotice: "Pengumuman listing {venue}: {assets}{market}", listingGeneric: "{venue} merilis pengumuman listing baru",
     delisting: "{venue} melakukan delisting {assets}", delistingNotice: "Pengumuman delisting {venue}: {assets}", delistingGeneric: "{venue} merilis pengumuman delisting",
     campaignPrize: "Kampanye {venue}: total hadiah {amount} {asset}", campaignGeneric: "{venue} merilis pengumuman acara baru",
-    annBody: "{venue} memuat ini di pengumuman resminya pada {published} UTC.", whenBody: "Waktu yang tertulis di pengumuman: {when}.",
+    annBody: "{venue} memuat ini di pengumuman resminya pada {published} SGT.", whenBody: "Waktu yang tertulis di pengumuman: {when}.",
     mk: { spot: "spot", perp: "futures perpetual", stocks: "saham ter-tokenisasi" }, mkWrap: " ({m})",
     liqHead: "Likuidasi capai {total} dalam 1 jam, {share}% {side}", side: { long: "posisi long", short: "posisi short" },
-    liqBody: "Pelacak likuidasi NexuAlpha (Binance dan OKX) mencatat {total} dalam satu jam hingga {hour} UTC: long {long}, short {short}.",
-    moveHead: "{sym} {pct} dalam 1 jam, kini {price}", moveBody: "{sym} diperdagangkan di {price} pada perpetual USDT-M Binance pukul {time} UTC: {pct} dalam 1 jam dan {pct24} dalam 24 jam.",
-    moverHead: "{sym} {pct} dalam 24 jam", moverBody: "Perpetual {sym} di Binance USDT-M bergerak {pct} dalam 24 jam dengan volume {vol}, per {time} UTC.",
-    fundHead: "Funding rate {sym} {rate} di {venue}", fundBody: "Funding perpetual {sym}: Binance {binance}, OKX {okx}. Penyelesaian berikutnya pukul {next} UTC. {payer}",
+    liqBody: "Pelacak likuidasi NexuAlpha (Binance dan OKX) mencatat {total} dalam satu jam hingga {hour} SGT: long {long}, short {short}.",
+    moveHead: "{sym} {pct} dalam 1 jam, kini {price}", moveBody: "{sym} diperdagangkan di {price} pada perpetual USDT-M Binance pukul {time} SGT: {pct} dalam 1 jam dan {pct24} dalam 24 jam.",
+    moverHead: "{sym} {pct} dalam 24 jam", moverBody: "Perpetual {sym} di Binance USDT-M bergerak {pct} dalam 24 jam dengan volume {vol}, per {time} SGT.",
+    fundHead: "Funding rate {sym} {rate} di {venue}", fundBody: "Funding perpetual {sym}: Binance {binance}, OKX {okx}. Penyelesaian berikutnya pukul {next} SGT. {payer}",
     payLong: "Posisi long membayar short.", payShort: "Posisi short membayar long.",
+    incidentHead: "Pemberitahuan layanan {venue}: {assets}", incidentGeneric: "{venue} merilis pemberitahuan layanan", incidentBody: "Deposit, penarikan, atau perdagangan dapat terdampak. Cek pengumuman resmi untuk cakupan dan waktu pastinya.",
   },
   vi: {
     listing: "{venue} niêm yết {assets}{market}", listingNotice: "Thông báo niêm yết của {venue}: {assets}{market}", listingGeneric: "{venue} đăng thông báo niêm yết mới",
     delisting: "{venue} hủy niêm yết {assets}", delistingNotice: "Thông báo hủy niêm yết của {venue}: {assets}", delistingGeneric: "{venue} đăng thông báo hủy niêm yết",
     campaignPrize: "Sự kiện {venue}: tổng giải thưởng {amount} {asset}", campaignGeneric: "{venue} đăng thông báo sự kiện mới",
-    annBody: "{venue} đã đăng tin này trên kênh thông báo chính thức lúc {published} UTC.", whenBody: "Thời gian ghi trong thông báo: {when}.",
+    annBody: "{venue} đã đăng tin này trên kênh thông báo chính thức lúc {published} SGT.", whenBody: "Thời gian ghi trong thông báo: {when}.",
     mk: { spot: "giao ngay", perp: "hợp đồng vĩnh cửu", stocks: "cổ phiếu token hóa" }, mkWrap: " ({m})",
     liqHead: "Thanh lý đạt {total} trong 1 giờ, {share}% là {side}", side: { long: "lệnh long", short: "lệnh short" },
-    liqBody: "Bộ theo dõi thanh lý của NexuAlpha (Binance và OKX) ghi nhận {total} trong giờ tính đến {hour} UTC: long {long}, short {short}.",
-    moveHead: "{sym} {pct} trong 1 giờ, hiện ở {price}", moveBody: "Lúc {time} UTC, {sym} giao dịch ở {price} trên hợp đồng vĩnh cửu USDT-M của Binance: {pct} trong 1 giờ và {pct24} trong 24 giờ.",
-    moverHead: "{sym} {pct} trong 24 giờ", moverBody: "Hợp đồng vĩnh cửu {sym} trên Binance USDT-M biến động {pct} trong 24 giờ với khối lượng {vol}, tính đến {time} UTC.",
-    fundHead: "Funding rate của {sym} ở mức {rate} trên {venue}", fundBody: "Funding hợp đồng vĩnh cửu {sym}: Binance {binance}, OKX {okx}. Lần thanh toán tiếp theo lúc {next} UTC. {payer}",
+    liqBody: "Bộ theo dõi thanh lý của NexuAlpha (Binance và OKX) ghi nhận {total} bị thanh lý trong 1 giờ tính đến {hour} SGT: lệnh Long {long}, lệnh Short {short}.",
+    moveHead: "{sym} {pct} trong 1 giờ, hiện ở {price}", moveBody: "Lúc {time} SGT, {sym} giao dịch ở {price} trên hợp đồng vĩnh cửu USDT-M của Binance: {pct} trong 1 giờ và {pct24} trong 24 giờ.",
+    moverHead: "{sym} {pct} trong 24 giờ", moverBody: "Hợp đồng vĩnh cửu {sym} trên Binance USDT-M biến động {pct} trong 24 giờ với khối lượng {vol}, tính đến {time} SGT.",
+    fundHead: "Funding rate của {sym} ở mức {rate} trên {venue}", fundBody: "Funding hợp đồng vĩnh cửu {sym}: Binance {binance}, OKX {okx}. Lần thanh toán tiếp theo lúc {next} SGT. {payer}",
     payLong: "Bên long trả cho bên short.", payShort: "Bên short trả cho bên long.",
+    incidentHead: "Thông báo dịch vụ của {venue}: {assets}", incidentGeneric: "{venue} đăng thông báo dịch vụ", incidentBody: "Nạp, rút hoặc giao dịch có thể bị ảnh hưởng. Xem thông báo chính thức để biết phạm vi và thời gian cụ thể.",
   },
   ar: {
     listing: "{venue} تدرج {assets}{market}", listingNotice: "إعلان إدراج من {venue}: {assets}{market}", listingGeneric: "{venue} تنشر إعلان إدراج جديدًا",
     delisting: "{venue} تلغي إدراج {assets}", delistingNotice: "إعلان إلغاء إدراج من {venue}: {assets}", delistingGeneric: "{venue} تنشر إعلان إلغاء إدراج",
     campaignPrize: "حملة {venue}: مجموع جوائز {amount} {asset}", campaignGeneric: "{venue} تنشر إعلان فعالية جديدًا",
-    annBody: "نشرت {venue} هذا في إعلاناتها الرسمية في {published} UTC.", whenBody: "الموعد المذكور في الإعلان: {when}.",
+    annBody: "نشرت {venue} هذا في إعلاناتها الرسمية في {published} SGT.", whenBody: "الموعد المذكور في الإعلان: {when}.",
     mk: { spot: "فوري", perp: "عقود دائمة", stocks: "أسهم مرمّزة" }, mkWrap: " ({m})",
     liqHead: "التصفيات تبلغ {total} خلال ساعة، {share}% منها {side}", side: { long: "مراكز شراء", short: "مراكز بيع" },
-    liqBody: "سجّل متتبع التصفيات في NexuAlpha (Binance وOKX) تصفيات بقيمة {total} في الساعة المنتهية {hour} UTC: مراكز الشراء {long}، ومراكز البيع {short}.",
-    moveHead: "{sym} {pct} خلال ساعة، والسعر الآن {price}", moveBody: "تداول {sym} عند {price} في العقود الدائمة USDT-M على Binance في {time} UTC: {pct} خلال ساعة و{pct24} خلال 24 ساعة.",
-    moverHead: "{sym} {pct} خلال 24 ساعة", moverBody: "تحرّك العقد الدائم {sym} على Binance USDT-M بنسبة {pct} خلال 24 ساعة بحجم تداول {vol}، حتى {time} UTC.",
-    fundHead: "معدل تمويل {sym} عند {rate} على {venue}", fundBody: "تمويل العقد الدائم {sym}: Binance {binance}، OKX {okx}. التسوية التالية في {next} UTC. {payer}",
+    liqBody: "سجّل متتبع التصفيات في NexuAlpha (Binance وOKX) تصفيات بقيمة {total} في الساعة المنتهية {hour} SGT: مراكز الشراء {long}، ومراكز البيع {short}.",
+    moveHead: "{sym} {pct} خلال ساعة، والسعر الآن {price}", moveBody: "تداول {sym} عند {price} في العقود الدائمة USDT-M على Binance في {time} SGT: {pct} خلال ساعة و{pct24} خلال 24 ساعة.",
+    moverHead: "{sym} {pct} خلال 24 ساعة", moverBody: "تحرّك العقد الدائم {sym} على Binance USDT-M بنسبة {pct} خلال 24 ساعة بحجم تداول {vol}، حتى {time} SGT.",
+    fundHead: "معدل تمويل {sym} عند {rate} على {venue}", fundBody: "تمويل العقد الدائم {sym}: Binance {binance}، OKX {okx}. التسوية التالية في {next} SGT. {payer}",
     payLong: "مراكز الشراء تدفع لمراكز البيع.", payShort: "مراكز البيع تدفع لمراكز الشراء.",
+    incidentHead: "إشعار خدمة من {venue}: {assets}", incidentGeneric: "{venue} تنشر إشعار خدمة", incidentBody: "قد تتأثر الإيداعات أو السحوبات أو التداول. راجع الإشعار الرسمي لمعرفة النطاق والتوقيت بدقة.",
   },
 };
 export const FLASH_TEMPLATE_LOCALES = Object.freeze(Object.keys(T));
@@ -307,7 +357,8 @@ const withIdentity = (item, enHeadline) => {
 
 function announcementItem(row, brief) {
   if (!row || typeof row.id !== "string" || !row.title || !row.url || !Number.isFinite(Date.parse(row.publishedAt))) return null;
-  const type = brief ? "campaign" : ({ listing: "listing", delisting: "delisting", event: "campaign" })[row.category];
+  const incident = !brief && ["news", "product"].includes(row.category) && INCIDENT_RE.test(String(row.title));
+  const type = brief ? "campaign" : incident ? "incident" : ({ listing: "listing", delisting: "delisting", event: "campaign" })[row.category];
   if (!type) return null;
   const parsed = parseAnnouncementTitle(row.title);
   const item = {
@@ -425,10 +476,17 @@ export function renderText(item, locale = "en") {
   const facts = [];
   const f = (value) => { facts.push(value); return value; };
   let headline = "", body = "", generic = false;
-  if (item.type === "listing" || item.type === "delisting" || item.type === "campaign") {
+  if (item.type === "incident") {
+    const published = f(fmtUtc(item.time));
+    const assets = item.assets.length ? f(assetsText(item.assets)) : "";
+    generic = !assets;
+    headline = assets ? fill(tt.incidentHead, { venue, assets }) : fill(tt.incidentGeneric, { venue });
+    const lead = fill(tt.annBody, { venue, published });
+    body = `${lead}${/[。！？]$/.test(lead) ? "" : " "}${tt.incidentBody}`;
+  } else if (item.type === "listing" || item.type === "delisting" || item.type === "campaign") {
     const published = f(fmtUtc(item.time));
     body = fill(tt.annBody, { venue, published });
-    if (d.when) body += ` ${fill(tt.whenBody, { when: f(d.when) })}`;
+    if (d.when) body += ` ${fill(tt.whenBody, { when: f(/\d{4}-\d\d-\d\d \d\d:\d\d UTC$/.test(d.when) ? formatSgt(d.when.replace(" ", "T").replace(" UTC", ":00Z")) : d.when) })}`;
     if (item.type === "campaign") {
       generic = !d.prize;
       headline = d.prize ? fill(tt.campaignPrize, { venue, amount: f(d.prize.amount), asset: f(d.prize.asset) }) : fill(tt.campaignGeneric, { venue });
@@ -487,7 +545,9 @@ export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
 /** Compact, locale-rendered row the browser receives (no templates ship to the client). */
 export function flashView(item, locale = "en", { now = Date.now() } = {}) {
   const text = renderText(item, locale);
+  const importance = flashImportance(item);
   return {
+    ...(importance ? { important: true, importance } : {}),
     id: item.id, key: item.key, path: flashItemPath(item), type: item.type, typeLabel: flashUiCopy(locale).types[item.type], time: item.time, venue: item.venue || null,
     venueName: item.venue ? flashVenueName(item.venue, text.lang) : null, assets: item.assets || [],
     headline: text.headline, body: text.body, lang: text.lang, ...(text.generic ? { generic: true } : {}),
@@ -499,9 +559,10 @@ export function flashView(item, locale = "en", { now = Date.now() } = {}) {
 export const findFlashItem = (items, key) => (Array.isArray(items) ? items : []).find((item) => item.key === key) || null;
 
 /** Stream page / JSON payload: newest first, optional type, venue and `before` cursor. */
-export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, now = Date.now(), generatedAt = null } = {}) {
+export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, important = false, now = Date.now(), generatedAt = null } = {}) {
   const all = Array.isArray(items) ? items : [];
   let rows = all;
+  if (important) rows = rows.filter((item) => flashImportance(item));
   if (type && FLASH_TYPES.includes(type)) rows = rows.filter((item) => item.type === type);
   if (venue) rows = rows.filter((item) => item.venue === venue);
   if (before && Number.isFinite(Date.parse(before))) rows = rows.filter((item) => Date.parse(item.time) < Date.parse(before));
@@ -559,7 +620,7 @@ export function flashStreamSeo(payload, locale, { urlFor }) {
 export function flashItemSeo(view, locale, { urlFor }) {
   const t = flashUiCopy(locale);
   const url = urlFor(view.path);
-  const headline = view.generic ? `${view.headline} · ${fmtUtc(view.time)} UTC` : view.headline;
+  const headline = view.generic ? `${view.headline} · ${fmtUtc(view.time)} SGT` : view.headline;
   return {
     title: fitTitle([`${headline} | NexuAlpha`, headline], locale),
     description: view.body || view.headline,

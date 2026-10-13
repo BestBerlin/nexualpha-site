@@ -335,6 +335,42 @@
     "verified_at": "2026-10-12"
   },
   {
+    "id": "kucoin-announcements",
+    "platform": "exchange",
+    "name": "KuCoin UTA announcements API",
+    "url": "https://api.kucoin.com/api/ua/v2/market/announcement",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Free official API; live probe 2026-10-13 returned latest-announcements, new-listings and delistings.",
+    "verified_official": true,
+    "verified_via": "KuCoin official API docs and live probe 2026-10-13",
+    "verified_at": "2026-10-13"
+  },
+  {
+    "id": "kraken-announcements",
+    "platform": "exchange",
+    "name": "Kraken asset listings RSS",
+    "url": "https://blog.kraken.com/category/product/asset-listings/feed",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free official Kraken Blog RSS; live probe 2026-10-13 returned asset listing posts.",
+    "verified_official": true,
+    "verified_via": "Kraken Blog RSS live probe 2026-10-13",
+    "verified_at": "2026-10-13"
+  },
+  {
     "id": "coinbase-status",
     "platform": "exchange",
     "name": "Coinbase status RSS",

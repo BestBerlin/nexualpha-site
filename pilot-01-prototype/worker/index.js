@@ -22,6 +22,7 @@ import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIn
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
@@ -44,15 +45,28 @@ import { parseLicensesPath } from "../src/data/licenses-routes.js";
 import { licenseRouteSeo } from "../src/data/licenses-seo.js";
 import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
+import { CALENDAR_ICS_PATH, INTEL_TOOL_INDEX_LOCALES, INTEL_TOOL_PATHS, intelToolKey, isIntelToolLive } from "../src/data/intel-tools-routes.js";
+import { intelToolRouteSeo } from "../src/data/intel-tools-seo.js";
+import { calendarEventLabel } from "../src/data/intel-tools-labels.js";
+import { intelToolsCopy } from "../src/data/intel-tools-copy.js";
+import { compactEtfFlows, readEtfFlows } from "../src/data/etf-flows.js";
+import { CALENDAR_TYPES, compactCalendar, filterEvents, readCalendar, renderIcs } from "../src/data/crypto-calendar.js";
+import { GLOSSARY_PATH, parseGlossaryPath } from "../src/data/glossary-routes.js";
+import { glossaryRouteSeo } from "../src/data/glossary-seo.js";
 import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
-import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
+import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
+import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
+import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
+import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
+import { KRAKEN_USDG_INDEX_LOCALES, KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "../src/data/kraken-usdg.js";
+import { krakenUsdgRouteSeo } from "../src/data/kraken-usdg-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 const COINS_PATH_PATTERN = /(?:^|\/)coins(?:\/|$)/;
@@ -70,6 +84,31 @@ async function refreshCoinOverlay(env) {
   }
 }
 
+// Runtime snapshots of /etf-flows and /calendar (server.mjs: ETF_FLOWS_READ / CALENDAR_READ, refreshed on the host).
+async function readIntelToolSnapshot(env, key) {
+  const read = key === "etf" ? env?.ETF_FLOWS_READ : env?.CALENDAR_READ;
+  if (typeof read !== "function") return null;
+  try { return await read(); } catch (error) { console.error(`[NexuAlpha] ${key} snapshot read failed: ${error?.message || error}`); return null; }
+}
+const ICS_LOCALES = new Set(INTEL_TOOL_INDEX_LOCALES);
+async function handleCalendarIcs(request, env, url) {
+  const data = readCalendar(await readIntelToolSnapshot(env, "calendar"));
+  if (!data) return new Response("Calendar temporarily unavailable", { status: 503, headers: { "content-type": "text/plain; charset=utf-8", "retry-after": "600", "cache-control": "no-store" } });
+  const type = CALENDAR_TYPES.includes(url.searchParams.get("type")) ? url.searchParams.get("type") : null;
+  const locale = ICS_LOCALES.has(url.searchParams.get("locale")) ? url.searchParams.get("locale") : "en";
+  const t = intelToolsCopy(locale).calendar;
+  const from = Date.now() - 31 * 864e5;
+  const events = filterEvents(data.events, type).filter((e) => Date.parse(e.start) >= from);
+  const body = renderIcs(events, {
+    name: `NexuAlpha · ${t.h1}${type ? ` · ${t.types[type]}` : ""}`, generatedAt: data.generatedAt,
+    describe: (e) => ({ summary: `[${t.types[e.type]}] ${calendarEventLabel(e, locale)}`, description: `${t.source}: ${e.sourceName || ""} ${e.sourceUrl}` }),
+    urlFor: (e) => (e.pagePath ? localizedCanonical(e.pagePath, locale) : e.sourceUrl),
+  });
+  return new Response(request.method === "HEAD" ? null : body, { status: 200, headers: {
+    "content-type": "text/calendar; charset=utf-8", "cache-control": "public, max-age=1800",
+    "content-disposition": `inline; filename="nexualpha-calendar${type ? `-${type}` : ""}.ics"`, "x-content-type-options": "nosniff",
+  } });
+}
 async function refreshFxSnapshot(env) {
   if (typeof env?.FX_SNAPSHOT_READ !== "function") return null;
   try {
@@ -97,13 +136,21 @@ export default {
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
-    if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return handleSitemapIndex(request, env, url);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    // Crypto calendar iCal export (2026-10-13): every event of the runtime snapshot, optionally one type, in one locale.
+    if (url.pathname === CALENDAR_ICS_PATH && ["GET", "HEAD"].includes(request.method)) return handleCalendarIcs(request, env, url);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert|glossary|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
-    if (url.pathname === FLASH_FEED_URL && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
+    if (url.pathname === "/intel/funding-matrix.json" && ["GET", "HEAD"].includes(request.method)) {
+      let feed = null;
+      try { feed = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      return new Response(request.method === "HEAD" ? null : JSON.stringify(feed || {}), { status: feed ? 200 : 503,
+        headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
+    }
+    if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
@@ -2580,7 +2627,9 @@ const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
+const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
 const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
+const GLOSSARY_ROUTE_MARKER = "NEXUALPHA_GLOSSARY_ROUTE_V1";
 const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
@@ -2607,7 +2656,11 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [LICENSES_ROUTE_MARKER]: ["route-licenses-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
+  // Spot ETF flows + crypto calendar: own chunk only.
+  [INTEL_TOOLS_ROUTE_MARKER]: ["route-intel-tools-"],
   [CONVERTER_ROUTE_MARKER]: ["route-converter-"],
+  // Crypto glossary (hub + terms): own chunk only.
+  [GLOSSARY_ROUTE_MARKER]: ["route-glossary-"],
   // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [FLASH_ROUTE_MARKER]: ["route-flash-", "route-news-"],
   // Campaign landing pages (/activities/binance-october-gifts): own chunk only.
@@ -2623,6 +2676,7 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/embed/calculator": ["route-embed-", "route-international-"],
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
+  "/funding-rates/matrix": ["route-funding-matrix-", "route-data-"],
   "/funding-rates": ["route-data-", "route-news-"],
   // Brand pages (/about, /editorial-policy): own chunk.
   "/privacy": ["route-brand-pages-"],
@@ -2658,15 +2712,15 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
 const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -3604,6 +3658,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
+    ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
@@ -3612,8 +3667,11 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
+    ...(isTickerSnapshot(route.ticker) ? { ticker: route.ticker } : {}),
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
+    // /etf-flows and /calendar: the snapshot the page was rendered with ({ kind, data, now }).
+    ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
@@ -4527,6 +4585,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     }
     // Data pages are rendered at request time from the collector feed (60 s server cache in server/market-events-feed.mjs).
     // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
+    if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
+      let fundingMatrix = null;
+      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { fundingMatrix });
+        if (typeof appHtml === "string" && appHtml.includes('data-testid="funding-matrix-page"')) {
+          metadata.dataSsrMode = fundingMatrix ? "runtime" : "runtime-no-feed";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { fundingMatrix }, url);
+        }
+      } catch { /* portable assets-only fallback */ }
+    }
     if (isDataPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
       try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
@@ -4593,6 +4662,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
+    // Spot ETF flows + crypto calendar: rendered at request time from the runtime snapshot the head was built from.
+    if (metadata.marker === INTEL_TOOLS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const intelTool = metadata.intelTool || null;
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), intelTool ? { intelTool } : {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"v6 v2-page v3-page nxd nxi ")) {
+          metadata.intelToolSsrMode = intelTool?.data ? "runtime" : "runtime-no-data";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, intelTool ? { intelTool } : {}, url);
+        }
+        console.error(`[NexuAlpha] intel tool SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] intel tool SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
     if (metadata.marker === CONVERTER_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const overlay = await refreshCoinOverlay(env);
@@ -4606,16 +4687,28 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         console.error(`[NexuAlpha] converter SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] converter SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
+    // Crypto glossary (hub + terms): static copy rendered at request time with the component the browser hydrates.
+    if (metadata.marker === GLOSSARY_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxg ")) {
+          metadata.glossarySsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+        console.error(`[NexuAlpha] glossary SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] glossary SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
     // Flash stream and item pages: the payload resolved for the head (metadata.flashPayload) is rendered with the
     // component the browser hydrates and shipped as prerender state "flash".
     if (metadata.marker === FLASH_ROUTE_MARKER && metadata.flashPayload && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const flash = metadata.flashPayload;
+        const ticker = await readTickerSnapshot(env);
         const renderUrl = new URL(hydrationRenderUrl(url, pathname, publicRoute.locale));
-        const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash });
+        const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash, ...(ticker ? { ticker } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxf ")) {
           metadata.flashSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash, ...(ticker ? { ticker } : {}) }, url);
         }
         console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4626,7 +4719,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs "))) {
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba ") || appHtml.includes("class=\"nxku "))) {
           metadata.campaignSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -4658,6 +4751,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   };
   if (typeof env?.NEWS_SSR_RENDER === "function") {
     const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
+    if (contentPath === "/funding-rates/matrix") return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
@@ -4722,6 +4816,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if (heroServed) {
     metadata.heroServed = heroServed;
     routePayload = { ...routePayload, heroVariant: heroServed };
+  }
+  // Live ticker bar (2026-10-13): the home page is prerendered with an empty bar; write the cached snapshot into it and
+  // ship the same snapshot as state "ticker" so the browser hydrates the identical frame.
+  if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes("nx-ticker")) {
+    const ticker = await readTickerSnapshot(env);
+    if (ticker) { appHtml = spliceTickerHtml(appHtml, ticker); routePayload = { ...routePayload, ticker }; }
   }
   return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
 }
@@ -4898,7 +4998,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
@@ -4941,6 +5041,18 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
   }
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...rows, "</urlset>", ""].join("\n");
 }
+// ---------------------------------------------------------------------------------------------------------- Ticker
+// Live ticker bar snapshot (2026-10-13): the Node server's 15 s Binance cache (TICKER_READ, server/ticker-feed.mjs),
+// else the market collector feed it already reads for /liquidations. Never blocks a page for long: the reader waits at
+// most ~2.5 s on a cold start and answers from cache afterwards. Null = the bar keeps its empty frame.
+async function readTickerSnapshot(env) {
+  try {
+    if (typeof env?.TICKER_READ === "function") { const snapshot = await env.TICKER_READ(); if (isTickerSnapshot(snapshot)) return snapshot; }
+    if (typeof env?.MARKET_EVENTS_READ === "function") { const snapshot = tickerFromMarketEvents(await env.MARKET_EVENTS_READ()); if (isTickerSnapshot(snapshot)) return snapshot; }
+  } catch (error) { console.error(`[NexuAlpha] ticker snapshot failed: ${error?.message || error}`); }
+  return null;
+}
+
 // ---------------------------------------------------------------------------------------------------------- Flash
 // The flash items are rebuilt at most once per 60 s per host from the feeds the server already holds (announcement
 // feed + archive, campaign briefs, the market collector's feed, the published news feed): no external call per request.
@@ -5010,7 +5122,7 @@ async function handleFlashFeedJson(request, env, url) {
     payload = flashItemPayload(items, item, locale, { now });
   } else {
     payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
-      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), now });
+      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), important: url.searchParams.get("important") === "1", now });
   }
   return new Response(request.method === "HEAD" ? null : JSON.stringify(payload), { status: 200, headers: { ...headers, "cache-control": "public, max-age=30, stale-while-revalidate=60" } });
 }
@@ -5109,6 +5221,46 @@ export function renderArticleSitemap(articles, locale = "en") {
     "</urlset>",
     "",
   ].join("\n");
+}
+
+// Sitemap index (2026-10-13). nginx used to serve the content publisher's own /sitemap.xml, a stale copy that missed
+// every child sitemap added after 10-12; it now proxies here. The index is the release's build-time file (every child
+// the release serves); only the lastmod of the feed-driven children (sitemap-articles-*, news-sitemap) is refreshed
+// from the mounted live feed, since the build checkout's bundled feed is days older than the published one, and empty
+// article locales are dropped.
+export function refreshSitemapIndexLastmods(indexXml, articles, now = Date.now()) {
+  const day = (ms) => new Date(ms).toISOString().slice(0, 10);
+  const newest = new Map();
+  const bump = (file, ms) => { if (Number.isFinite(ms) && ms <= now && ms > (newest.get(file) || 0)) newest.set(file, ms); };
+  const publishedSlugs = selectReviewedNewsSearchSlugs(articles);
+  for (const article of Array.isArray(articles) ? articles : []) {
+    if (!publishedSlugs.has(article?.slug) || article?.seo?.noindex !== false) continue;
+    const modified = Date.parse(article.updatedAt || article.publishedAt);
+    for (const locale of newsArticleSeoLocales(article)) bump(`sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`, modified);
+  }
+  for (const article of Array.isArray(articles) ? articles : []) {
+    const published = Date.parse(article?.publishedAt);
+    if (isReviewedNewsSearchArticle(article) && now - published <= LIVE_NEWS_SITEMAP_WINDOW_MS) bump("news-sitemap.xml", published);
+  }
+  const feedLoaded = newest.size > 0;
+  return String(indexXml).replace(/\n?[ \t]*<sitemap>([\s\S]*?)<\/sitemap>/g, (block, inner) => {
+    const file = inner.match(/<loc>https:\/\/nexualpha\.com\/([^<]+)<\/loc>/)?.[1];
+    // A locale with no search-published article renders an empty urlset; leave it out of the index until it has one.
+    if (feedLoaded && /^sitemap-articles-[a-z0-9-]+\.xml$/.test(file || "") && !newest.has(file)) return "";
+    if (!file || !newest.has(file)) return block;
+    const lastmod = `<lastmod>${day(newest.get(file))}</lastmod>`;
+    return /<lastmod>[^<]*<\/lastmod>/.test(inner)
+      ? block.replace(/<lastmod>[^<]*<\/lastmod>/, lastmod)
+      : block.replace(/(<loc>[^<]*<\/loc>)/, `$1\n    ${lastmod}`);
+  });
+}
+
+async function handleSitemapIndex(request, env, url) {
+  const response = await env.ASSETS.fetch(new Request(new URL("/sitemap.xml", url), { headers: { accept: "application/xml" } }));
+  if (!response.ok) return response;
+  let xml = await response.text();
+  try { xml = refreshSitemapIndexLastmods(xml, (await loadNewsFeed(env, url)).articles); } catch { /* serve the build-time index */ }
+  return new Response(request.method === "HEAD" ? null : xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600", "x-content-type-options": "nosniff" } });
 }
 
 async function handleArticleSitemap(env, url) {
@@ -6442,9 +6594,13 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy hub and lessons: the locales with a localized lesson (src/data/academy.js).
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
   if (parseLicensesPath(pathname) && parseLicensesPath(pathname).kind !== "missing") return licenseRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Spot ETF flows + crypto calendar: their nine written editions.
+  if (INTEL_TOOL_PATHS.includes(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Crypto glossary: the hub's written editions; a term page lists the locales its entry is written in.
+  if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
   if (parseFlashPath(pathname)?.kind === "stream") return FLASH_INDEX_LOCALES;
   if (parseFlashPath(pathname)?.kind === "item") return options.flashIndexLocales || FLASH_INDEX_LOCALES;
@@ -6452,6 +6608,10 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page: its written editions (src/data/bybit-stocks.js).
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
+  // Bitget Alliance campaign page: its written editions (src/data/bitget-alliance.js).
+  if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
+  // Kraken 5M USDG Challenge page: its written editions (src/data/kraken-usdg.js).
+  if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -7747,6 +7907,11 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   // Public data pages (owner 2026-10-10): titles, descriptions and Dataset/FAQ/Breadcrumb JSON-LD come from one
   // shared copy table; every UI locale is indexable and self-canonical.
+  if (canonicalPath === "/funding-rates/matrix") {
+    const meta = fundingMatrixSeo(locale);
+    return { status: 200, ...meta, canonical: localizedCanonical(canonicalPath, locale), locale,
+      robots: "index,follow", marker: STATIC_ROUTE_MARKER, alternates: routeAlternates(canonicalPath) };
+  }
   if (isDataPagePath(canonicalPath)) {
     const meta = dataPageMeta(canonicalPath, locale);
     // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
@@ -7831,6 +7996,21 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, licensesSeo.alternatesLocales), schema: licensesSeo.schemas,
     };
   }
+  // Spot ETF flows + crypto calendar (2026-10-13): Dataset (+ Event list) + FAQPage + BreadcrumbList from
+  // src/data/intel-tools-seo.js (same helper as seo-injection.js), built from the runtime snapshot the body renders.
+  const intelKey = intelToolKey(canonicalPath);
+  if (intelKey) {
+    const now = Date.now();
+    const raw = await readIntelToolSnapshot(env, intelKey);
+    const data = raw ? (intelKey === "etf" ? readEtfFlows(raw) : readCalendar(raw)) : null;
+    const seo = intelToolRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), data, now });
+    return {
+      status: 200, title: seo.title, description: seo.description, canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: seo.indexable ? "index,follow" : "noindex,follow", marker: INTEL_TOOLS_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, seo.alternatesLocales), schema: seo.schemas,
+      intelTool: { kind: intelKey, data: data ? (intelKey === "etf" ? compactEtfFlows(raw) : compactCalendar(raw, now)) : null, now },
+    };
+  }
   // Where to buy <coin> (2026-10-12): WebPage + venue ItemList + FAQPage + BreadcrumbList from src/data/coins-seo.js (same
   // helper as seo-injection.js). Unlisted coins, coins without our description in the locale and non-index locales are
   // noindex,follow; hreflang lists only the coin's indexable editions.
@@ -7856,6 +8036,18 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(converterFx ? { converterFx } : {}),
     };
   }
+  // Crypto glossary (2026-10-13): DefinedTermSet / DefinedTerm + FAQPage + BreadcrumbList from src/data/glossary-seo.js (same
+  // helper as seo-injection.js). English fallbacks and non-index locales are noindex,follow; hreflang lists written editions.
+  const glossarySeo = glossaryRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  if (glossarySeo) {
+    if (glossarySeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return {
+      status: 200, title: glossarySeo.title, description: glossarySeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: glossarySeo.indexable ? "index,follow" : "noindex,follow", marker: GLOSSARY_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, glossarySeo.alternatesLocales), schema: glossarySeo.schemas,
+    };
+  }
   // Binance October campaigns page (2026-10-12): WebPage + FAQPage + BreadcrumbList from src/data/binance-october-seo.js
   // (same helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
   const binanceOctoberSeo = binanceOctoberRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
@@ -7876,6 +8068,27 @@ async function routeMetadataBase(url, env, newsFeed) {
       canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
       robots: bybitStocksSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath, BYBIT_STOCKS_INDEX_LOCALES), schema: bybitStocksSeo.schemas,
+    };
+  }
+  // Bitget Alliance campaign page (2026-10-13): WebPage + FAQPage + BreadcrumbList from src/data/bitget-alliance-seo.js
+  // (same helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
+  const bitgetAllianceSeo = bitgetAllianceRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (bitgetAllianceSeo) {
+    return {
+      status: 200, title: bitgetAllianceSeo.title, description: bitgetAllianceSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: bitgetAllianceSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, BITGET_ALLIANCE_INDEX_LOCALES), schema: bitgetAllianceSeo.schemas,
+    };
+  }
+  // Kraken 5M USDG Challenge page (2026-10-13): WebPage + FAQPage + BreadcrumbList from src/data/kraken-usdg-seo.js.
+  const krakenUsdgSeo = krakenUsdgRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (krakenUsdgSeo) {
+    return {
+      status: 200, title: krakenUsdgSeo.title, description: krakenUsdgSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: krakenUsdgSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, KRAKEN_USDG_INDEX_LOCALES), schema: krakenUsdgSeo.schemas,
     };
   }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
@@ -8244,6 +8457,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
   // Iframe widgets carry noindex in the header too, as the server-rendered /embed/liquidations widgets do (SEO audit
   // 2026-10-11 #13); HEAD already mirrors metadata.robots above.
   if (/^\/embed(?:\/|$)/.test(url.pathname)) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
+  if (parsePublicRoute(url.pathname, url.searchParams).contentPathname === "/funding-rates/matrix") headers.set("cache-control", "no-store");
   headers.delete("content-length");
   return withHomeHeroHeaders(htmlSecurityResponse(new Response(html, {
     status: metadata.status,
@@ -8347,11 +8561,17 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === BINANCE_OCTOBER_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CAMPAIGN_LANDING_ROUTE_MARKER]];
   // Bybit Stocks has its own route chunk (route-campaign-bybit), separate from the Binance page's.
   if (pathname === BYBIT_STOCKS_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bybit-"];
+  // Bitget Alliance has its own route chunk (route-campaign-bitget).
+  if (pathname === BITGET_ALLIANCE_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-bitget-"];
+  // Kraken 5M USDG Challenge has its own route chunk (route-campaign-kraken).
+  if (pathname === KRAKEN_USDG_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-kraken-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
+  if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
   if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];
+  if (pathname === GLOSSARY_PATH || pathname.startsWith(`${GLOSSARY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[GLOSSARY_ROUTE_MARKER]];
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.

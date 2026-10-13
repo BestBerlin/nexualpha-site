@@ -12,6 +12,7 @@ import { formatFee } from "../../data/format-fee.js";
 import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/decision-return.js";
 import { updateHref } from "../../data/activity-update.js";
 import { readIntelFeed } from "../../data/announcement-intel.js";
+import { formatSgt } from "../../data/local-time.js";
 import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
@@ -19,6 +20,9 @@ import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
 import { POPULAR_COINS } from "../../data/coins-links.generated.js";
+import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
+import { intelToolLinks } from "../../data/intel-tools-links.js";
+import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "../../data/market-data-pages-nav.js";
 
 // Popular coins (2026-10-12): internal links to the "where to buy" pages of the 20 largest listed coins. Lives in the
 // below-the-fold chunk (SSR HTML stays complete) so the browser entry stays inside its budget.
@@ -55,9 +59,34 @@ function PopularCoins({ locale }) {
     </ul>
   </section>;
 }
+// Daily market data (2026-10-13): links to the data pages people come back to every day. Same pill look as Popular
+// coins; below the fold, so the entry stays inside its budget.
+const DATA_RAIL_COPY = {
+  en: { title: "Daily market data", lead: "This week's macro dates and exchange deadlines, plus liquidations and funding — each with its source." },
+  "zh-Hans": { title: "每日市场数据", lead: "本周宏观日程与交易所截止日期，以及爆仓与资金费率，每项都附来源。" },
+  es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de la semana, más liquidaciones y funding, cada uno con su fuente." },
+  "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras da semana, além de liquidações e funding, cada um com a fonte." },
+  tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri ve borsa son tarihleri, ayrıca tasfiyeler ve fonlama; hepsi kaynağıyla." },
+  vi: { title: "Dữ liệu thị trường hằng ngày", lead: "Lịch vĩ mô và hạn chót của sàn trong tuần, cùng thanh lý và funding, kèm nguồn." },
+  id: { title: "Data pasar harian", lead: "Jadwal makro dan tenggat bursa minggu ini, plus likuidasi dan funding, masing-masing dengan sumbernya." },
+  ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標と取引所の締切日に加え、清算と資金調達率。すべて出典付き。" },
+  ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 거래소 마감일과 청산·펀딩비. 모두 출처 포함." },
+};
+function DataRail({ locale }) {
+  const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);
+  const links = intelToolLinks(locale), nav = dataPageCopy(locale).nav;
+  const items = [...(ETF_FLOWS_LIVE ? [[ETF_FLOWS_PATH, links.etf]] : []), [CALENDAR_PATH, links.calendar], [LIQUIDATIONS_PATH, nav.liquidations], [FUNDING_RATES_PATH, nav.funding]];
+  return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail">
+    <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
+    <p className="h7-coins-lead">{c.lead}</p>
+    <ul className="h7-coins-list">{items.map(([path, label]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b></a></li>)}</ul>
+  </section>;
+}
 import { FlashRail } from "../flash/FlashRail.jsx";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
+import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
+import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -130,7 +159,7 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
   );
 }
 
-const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
 
 // Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
 function useNow(stepMs = 60 * 1000) {
@@ -164,8 +193,12 @@ function spread(items, limit, perVenue) {
 
 // Featured campaigns (owner 2026-10-12): our own campaign pages are pinned above the exchange notices while they run
 // (Bybit Stocks; Binance October gifts where Binance may be promoted). They link our pages, not the exchanges.
+// Bitget Alliance (owner 2026-10-13, big push) takes the top spot where Bitget may be promoted.
 function featuredCampaigns(locale, market) {
   const rows = [];
+  // Kraken 5M USDG Challenge (owner 2026-10-13, strong push) first, Bitget Alliance right after it: both stay featured.
+  if (krakenUsdgPromotable({ locale, market })) rows.push({ id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) });
+  if (bitgetAlliancePromotable({ locale, market })) rows.push({ id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) });
   if (bybitStocksCampaignActive()) rows.push({ id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) });
   if (binanceOctoberPromotable({ locale, market })) rows.push({ id: "binance-october", venue: "binance", name: "Binance", path: BINANCE_OCTOBER_PATH, teaser: binanceOctoberTeaser(locale) });
   return rows;
@@ -247,6 +280,7 @@ export function HomeBelowFold({ t, locale, market, vol, setVol, mode, setMode, p
       {/* Flash rail (2026-10-12): the latest 5 items of the 7x24 stream, first block of the deferred home section (its
           id is the hydration target, so the chunk loads as the rail approaches). */}
       <FlashRail locale={locale} />
+      <DataRail locale={locale} />
       <PopularCoins locale={locale} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>

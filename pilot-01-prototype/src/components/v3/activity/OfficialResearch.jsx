@@ -61,7 +61,6 @@ export function OfficialResearchIndex({ locale = 'en', market, product, venues =
     <div className="official-research__heading">{!embedded && <div><h2 id="official-research-title">{text.title}</h2><p>{text.intro}</p></div>}
       <label className="official-research__filter">{text.filterVenue}<select name="researchVenue" value={selected} onChange={(event) => selectVenue(event.target.value)}><option value="">{text.allVenues}</option>{venues.filter((venue) => officialCampaignResearchByVenue[venue.slug]).map((venue) => <option key={venue.slug} value={venue.slug}>{venue.name}</option>)}</select></label>
     </div>
-    <p className="official-research__provenance">{text.provenance}</p>
     {!["en", "zh-Hans", "zh-Hant"].includes(locale) && <p className="official-research__fallback">{text.fallback}</p>}
     <div className="official-research__list">{visibleEntries.map(({ venue, view }) => <article key={venue.slug} className="official-research__row">
       <div className="official-research__identity"><BrandMark slug={venue.slug} compact /><h3 translate="no" lang="en" dir="ltr">{venue.name}</h3></div>
@@ -69,7 +68,6 @@ export function OfficialResearchIndex({ locale = 'en', market, product, venues =
       <div className="official-research__actions"><a href={contextualHref(`/activities/research/${venue.slug}`, { locale, market, product })}>{text.openResearch}</a><a href={contextualHref(`/exchanges/${venue.slug}`, { locale, market, product })}>{nav.openDetail}</a></div>
     </article>)}</div>
     {!selected && entries.length > 6 && <button className="official-research__expand" type="button" aria-expanded={expanded} onClick={() => setExpanded((value) => !value)}>{expanded ? text.showFewer : text.showAll}</button>}
-    <p className="official-research__policy">{text.recheckPolicy}</p>
   </section>;
 }
 
@@ -85,7 +83,7 @@ export function OfficialResearchPage({ locale = 'en', market, product, venue, ve
   return <main className="v6 v2-page v3-page official-research-page" id="top" {...sectionEyebrowAttrs(locale, "campaigns")} dir={['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr'}>
     <div className="v2-shell official-research-page__inner">
       <nav className="official-research__actions" aria-label={nav.activities}><a href={withContext('/activities')}>{nav.activities}</a>{venue && <a href={withContext(`/exchanges/${venue.slug}`)}>{nav.openDetail}</a>}{comparison && <a href={withContext(`/compare/${comparison}`)}>{nav.compareTitle}</a>}</nav>
-      <header className="official-research-page__hero"><div className="official-research__identity">{venue && <BrandMark slug={venue.slug} />}<h1><span translate="no" lang="en" dir="ltr">{venue?.name}</span><span>{text.detailTitle}</span></h1></div><p>{text.provenance}</p>{view?.usedFallback && <p className="official-research__fallback">{text.fallback}</p>}</header>
+      <header className="official-research-page__hero"><div className="official-research__identity">{venue && <BrandMark slug={venue.slug} />}<h1><span translate="no" lang="en" dir="ltr">{venue?.name}</span><span>{text.detailTitle}</span></h1></div>{view?.usedFallback && <p className="official-research__fallback">{text.fallback}</p>}</header>
       {!view ? <p role="status">{text.notFound}</p> : <>
         <ResearchBody view={view}><p className="official-research-page__intro">{view.summary}</p></ResearchBody>
         <div className="official-research-page__meta"><RewardState view={view} text={text} /><span>{text.checked}: <SourceDate value={view.checkedAt} locale={locale} unknown={text.recheck} /></span></div>
@@ -119,7 +117,6 @@ export function OfficialResearchTeaser({ locale = 'en', market, product, venue, 
     <h2>{text.title}</h2><RewardState view={view} text={text} />
     {view.usedFallback && <p className="official-research__fallback">{text.fallback}</p>}
     <ResearchBody view={view}><p>{view.summary}</p></ResearchBody>
-    <p className="official-research__provenance">{text.provenance}</p>
     <div className="official-research__actions"><a href={contextualHref(`/activities/research/${venue.slug}`, { locale, market, product })}>{text.openResearch}</a><span>{text.checked}: <SourceDate value={view.signupReward.checkedAt || view.checkedAt} locale={locale} unknown={text.recheck} /></span></div>
   </section>;
 }

@@ -6,6 +6,8 @@ import { buildSeedSql, defaultNewsroomConfig, readSourceRegistry } from '../db/g
 
 const migrationPath = fileURLToPath(new URL('../db/migrations/001_core.sql', import.meta.url));
 const feedHealthMigrationPath = fileURLToPath(new URL('../db/migrations/092_source_feed_health.sql', import.meta.url));
+const claimQualityMigrationPath = fileURLToPath(new URL('../db/migrations/094_claim_quality.sql', import.meta.url));
+const claimQualityBackfillPath = fileURLToPath(new URL('../db/migrations/095_claim_quality_backfill.sql', import.meta.url));
 const seedPath = fileURLToPath(new URL('../db/seeds/001_sources.sql', import.meta.url));
 const registryPath = new URL('../db/source-registry.json', import.meta.url);
 
@@ -28,6 +30,8 @@ const expectedSourceStatuses = {
   'okx-announcements': 'connected',
   'bybit-announcements': 'connected',
   'bitget-announcements': 'connected',
+  'kucoin-announcements': 'connected',
+  'kraken-announcements': 'connected',
   'coinbase-status': 'partial',
   'kraken-status': 'connected',
   'nexualpha-official-announcements': 'connected',
@@ -181,6 +185,32 @@ test('source feed-health migration upgrades stale media feed URLs without overwr
   assert.match(sql, /fallback_source_id = null/);
   assert.match(sql, /last_success_at is null or last_success_at < '2026-10-12T14:47:57Z'::timestamptz/);
   assert.doesNotMatch(sql, /last_success_at\s*=\s*null/i);
+});
+
+test('claim-quality migration adds additive freshness and story grouping fields', () => {
+  const sql = readFileSync(claimQualityMigrationPath, 'utf8');
+  const statements = splitSqlStatements(stripLineComments(sql)).map(statement => statement.toLowerCase());
+  for (const column of ['effective_at', 'deadline_at', 'major_followup_at', 'story_asset', 'story_action', 'story_group_key']) {
+    assert.ok(statements.some(statement => statement.includes(`alter table events add column if not exists ${column}`)), `${column} migration missing`);
+  }
+  for (const indexName of ['idx_events_claim_deadline', 'idx_events_story_group']) {
+    assert.ok(statements.some(statement => statement.includes(`create index if not exists ${indexName}`)), `${indexName} is missing`);
+  }
+  assert.match(sql, /'claim_quality'/);
+  assert.match(sql, /"default_freshness_hours": 48/);
+  assert.match(sql, /"liquidation_usd_1h_min": 50000000/);
+});
+
+
+test('claim-quality backfill populates story metadata without arbitrary date fallback', () => {
+  const sql = readFileSync(claimQualityBackfillPath, 'utf8');
+  const statements = splitSqlStatements(stripLineComments(sql)).map(statement => statement.toLowerCase());
+  assert.equal(statements.length, 2);
+  for (const text of ['story_asset', 'story_action', 'story_group_key', 'campaign_end_at', 'story_venues', 'liquidations_usd_1h', 'price_move_pct_1h']) assert.match(sql, new RegExp(text));
+  assert.doesNotMatch(sql, /campaign_start_at'\)::timestamptz as effective_at/);
+  assert.doesNotMatch(sql, /metrics->'dates'/);
+  assert.match(sql, /coalesce\(e\.discussion->'market', '\{\}'::jsonb\) \|\| jsonb_strip_nulls/);
+  assert.match(sql, /verification_status='needs-review'/);
 });
 
 test('generated seed SQL is checked in, parseable, and preserves health/admin fields on reseed', () => {

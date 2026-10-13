@@ -40,5 +40,6 @@ node ops/newsroom/bin/newsroom.mjs events:top --limit 2 | node -e 'let s=""; pro
 node ops/newsroom/bin/newsroom.mjs event:show 1 | node -e 'let s=""; process.stdin.on("data",d=>s+=d).on("end",()=>{if(JSON.parse(s)[0].evidence.length!==1)process.exit(1)})'
 node ops/newsroom/bin/newsroom.mjs review:list | node -e 'let s=""; process.stdin.on("data",d=>s+=d).on("end",()=>{if(JSON.parse(s).length!==1)process.exit(1)})'
 node ops/newsroom/scripts/pipeline-smoke.mjs
+node ops/newsroom/scripts/writer-smoke.mjs
 node --test ops/newsroom/**/*.test.mjs
 echo 'Postgres migrations twice, seed twice, CLI roundtrip and pure tests passed.'

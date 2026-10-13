@@ -56,7 +56,8 @@ test("episode index: 24 lessons, unique slugs, every content locale has every le
 });
 
 test("numbers and codes in localized lessons match English", () => {
-  const numbers = (text) => (String(text).match(/\d[\d,.]*(?:\s?%)?/g) || []).map((n) => n.replace(/\s/g, "").replace(/[.,]$/, "")).sort().join("|");
+  // Separators are compared out (QA 2026-10-13: "0,002" in pt-BR/de/fr is the same figure as "0.002").
+  const numbers = (text) => (String(text).match(/\d(?:[\d,.]|[\u202f\u00a0](?=\d))*(?:\s?%)?/g) || []).map((n) => n.replace(/[.,]$/, "").replace(/[\s.,\u202f\u00a0]/g, "")).sort().join("|");
   const en = ACADEMY_CONTENT_BY_LOCALE.en.lessons;
   for (const locale of ACADEMY_INDEX_LOCALES.filter((l) => l !== "en")) {
     ACADEMY_CONTENT_BY_LOCALE[locale].lessons.forEach((lesson, i) => {

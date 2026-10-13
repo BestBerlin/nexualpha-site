@@ -16,7 +16,7 @@
   "change24h": "24h",
   "rank": "Market cap rank",
   "marketCap": "Market cap",
-  "snapshot": "Snapshot {time} UTC",
+  "snapshot": "Snapshot {time}",
   "live": "Updated {time}",
   "listedOn": "Listed on",
   "venuesCount": "{n} exchanges",
@@ -138,5 +138,6 @@
     "PK": "Pakistan"
   },
   "listJoin": ", ",
-  "listLast": " and "
+  "listLast": " and ",
+  "venuesMore": "{list} and {n} more exchanges"
 }

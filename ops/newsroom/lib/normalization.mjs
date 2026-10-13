@@ -104,7 +104,7 @@ function exchangeAnnouncementKey(item) {
     item.metrics?.venue,
     item.metrics?.provenance?.venue,
   ].filter(Boolean).join(' '));
-  const venue = ['binance', 'okx', 'bybit', 'bitget', 'kraken', 'coinbase', 'gate', 'mexc', 'htx']
+  const venue = ['binance', 'okx', 'bybit', 'bitget', 'kraken', 'coinbase', 'kucoin', 'gate', 'mexc', 'htx']
     .find(name => text.includes(name) || String(item.source_id ?? item.sourceId ?? '').toLowerCase().includes(name));
   const symbol = extractAnnouncementSymbol([item.metrics?.symbol, item.metrics?.provenance?.symbol, item.title, item.body_excerpt, item.bodyExcerpt].filter(Boolean).join(' '));
   const published = itemSourcePublishedAt(item);
@@ -149,27 +149,51 @@ export function itemSourcePublishedAt(item) {
   return Number.isFinite(date.getTime()) ? date : null;
 }
 
-export function itemEntities(item, watchlist = []) {
-  const explicit = new Set([item.subject_entity, item.subjectEntity, ...(item.entities ?? []), ...(item.subjects ?? [])].filter(Boolean));
-  const text = normalizeText([item.title, item.body_excerpt, item.bodyExcerpt, item.author, item.author_account, item.authorAccount].filter(Boolean).join(' '));
-  const tokens = new Set(text.split(' ').filter(Boolean));
-  for (const entity of watchlist) {
-    if (entity.status && entity.status !== 'active') continue;
-    const aliases = [
+const NO_ENTITIES = Object.freeze([]);
+const aliasCache = new WeakMap();
+const entitiesCache = new WeakMap();
+
+// Normalized aliases per watchlist array, computed once instead of per (item, event) comparison.
+function watchlistAliases(watchlist) {
+  let compiled = aliasCache.get(watchlist);
+  if (compiled) return compiled;
+  compiled = watchlist.filter(entity => !entity.status || entity.status === 'active').map(entity => ({
+    id: entity.id,
+    aliases: [
       entity.id,
       entity.partner_slug,
       entity.display_name?.en,
       entity.display_name?.['zh-Hans'],
       ...(entity.aliases ?? []),
-    ].filter(Boolean);
-    if (aliases.some(alias => {
-      const normalized = normalizeText(alias);
-      if (!normalized) return false;
-      if (/^[a-z0-9]+$/i.test(normalized) && !normalized.includes(' ')) {
-        return tokens.has(normalized) || tokens.has(`$${normalized}`) || tokens.has(`#${normalized}`);
-      }
-      return text.includes(normalized);
-    })) explicit.add(entity.id);
+    ].filter(Boolean).map(alias => normalizeText(alias)).filter(Boolean).map(normalized => ({
+      normalized,
+      token: /^[a-z0-9]+$/i.test(normalized) && !normalized.includes(' '),
+    })),
+  }));
+  aliasCache.set(watchlist, compiled);
+  return compiled;
+}
+
+// Pure function of (item object, watchlist array); dedupe asks once per candidate event, so cache it.
+export function itemEntities(item, watchlist = NO_ENTITIES) {
+  let byWatchlist = entitiesCache.get(item);
+  if (!byWatchlist) entitiesCache.set(item, (byWatchlist = new Map()));
+  if (!byWatchlist.has(watchlist)) byWatchlist.set(watchlist, computeItemEntities(item, watchlist));
+  return [...byWatchlist.get(watchlist)];
+}
+
+function computeItemEntities(item, watchlist) {
+  const explicit = new Set([item.subject_entity, item.subjectEntity, ...(item.entities ?? []), ...(item.subjects ?? [])].filter(Boolean));
+  if (sourcePlatform(item) === 'exchange' && sourceTier(item) === 1) {
+    const venue = String(item.source_id ?? item.sourceId ?? '').match(/^(binance|okx|bybit|bitget|coinbase|kucoin|kraken)-(?:announcements|status)$/)?.[1];
+    if (venue) explicit.add(venue);
+  }
+  const text = normalizeText([item.title, item.body_excerpt, item.bodyExcerpt, item.author, item.author_account, item.authorAccount].filter(Boolean).join(' '));
+  const tokens = new Set(text.split(' ').filter(Boolean));
+  for (const entity of watchlistAliases(watchlist)) {
+    if (entity.aliases.some(({ normalized, token }) => (token
+      ? tokens.has(normalized) || tokens.has(`$${normalized}`) || tokens.has(`#${normalized}`)
+      : text.includes(normalized)))) explicit.add(entity.id);
   }
   return [...explicit].sort();
 }
@@ -181,7 +205,7 @@ export function originKey(item) {
   if (item.origin_item_id || item.originItemId) return `origin-item:${item.origin_item_id ?? item.originItemId}`;
   const referenced = item.referenced_tweet_id ?? item.referencedTweetId ?? item.referenced_tweets?.[0]?.id ?? item.referencedTweets?.[0]?.id;
   if (referenced) return `x:${referenced}`;
-  const hardKey = extractHardKeys(item)[0];
+  const hardKey = extractHardKeys(item).find(key => !key.startsWith('exchange-action:') || !['media', 'google_news'].includes(sourcePlatform(item)));
   if (hardKey) return hardKey;
   const original = item.original_url ?? item.originalUrl ?? item.cited_original_url ?? item.citedOriginalUrl;
   if (original) {
