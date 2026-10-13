@@ -74,6 +74,7 @@ function HydrationBootstrap() {
       initialNewsArticles={prerenderState?.newsArticles}
       initialNewsListing={prerenderState?.newsListing}
       initialMarketEvents={prerenderState?.marketEvents}
+      initialLiquidationLevels={prerenderState?.liquidationLevels}
       initialOfficialAnnouncements={prerenderState?.officialAnnouncements}
       initialToolArticles={prerenderState?.toolArticles}
       initialFlash={prerenderState?.flash}

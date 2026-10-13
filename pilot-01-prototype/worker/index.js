@@ -22,7 +22,9 @@ import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIn
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
-import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
+import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
+import { LIQUIDATION_LEVELS_PATH } from "../server/liquidation-levels-feed.mjs";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
@@ -93,6 +95,25 @@ export default {
     }
     // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
     if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
+    if (url.pathname === LIQUIDATION_LEVELS_PATH && ["GET", "HEAD"].includes(request.method)) {
+      if (typeof env?.LIQUIDATION_LEVELS_READ !== "function") return new Response(request.method === "HEAD" ? null : JSON.stringify({ status: "unavailable" }), {
+        status: 503,
+        headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+      });
+      try {
+        const snapshot = await env.LIQUIDATION_LEVELS_READ();
+        if (!snapshot || typeof snapshot !== "object") throw new Error("empty levels snapshot");
+        return new Response(request.method === "HEAD" ? null : JSON.stringify(snapshot), {
+          status: 200,
+          headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+        });
+      } catch {
+        return new Response(request.method === "HEAD" ? null : JSON.stringify({ status: "unavailable" }), {
+          status: 503,
+          headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+        });
+      }
+    }
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
@@ -2656,14 +2677,14 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash", "/coins", "/convert"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", LIQUIDATION_HEATMAP_PATH, ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
 const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", LIQUIDATION_HEATMAP_PATH, ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -3602,6 +3623,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
+    ...(route.liquidationLevels && typeof route.liquidationLevels === "object" ? { liquidationLevels: route.liquidationLevels } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
@@ -4525,15 +4547,19 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     }
     // Data pages are rendered at request time from the collector feed (60 s server cache in server/market-events-feed.mjs).
     // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
-    if (isDataPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
+    if ((isDataPagePath(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
+      let liquidationLevels = null;
       try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
+      if (pathname === LIQUIDATION_HEATMAP_PATH) {
+        try { liquidationLevels = typeof env?.LIQUIDATION_LEVELS_READ === "function" ? await env.LIQUIDATION_LEVELS_READ() : null; } catch { liquidationLevels = null; }
+      }
       try {
         const toolArticles = await toolArticlesForRequest(env, url, pathname, publicRoute.locale);
-        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, toolArticles });
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, liquidationLevels, toolArticles });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxd-hero")) {
           metadata.dataSsrMode = marketEvents ? "runtime" : "runtime-no-feed";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, toolArticles }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, liquidationLevels, toolArticles }, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4893,7 +4919,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", LIQUIDATION_HEATMAP_PATH, ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
@@ -7753,6 +7779,20 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   // Public data pages (owner 2026-10-10): titles, descriptions and Dataset/FAQ/Breadcrumb JSON-LD come from one
   // shared copy table; every UI locale is indexable and self-canonical.
+  if (canonicalPath === LIQUIDATION_HEATMAP_PATH) {
+    const meta = heatmapCopy(locale);
+    return {
+      status: 200,
+      title: `${meta.title} — NexuAlpha`,
+      description: meta.description,
+      canonical: localizedCanonical(canonicalPath, locale),
+      locale,
+      robots: "index,follow",
+      marker: STATIC_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath),
+      schema: heatmapSchemas(locale),
+    };
+  }
   if (isDataPagePath(canonicalPath)) {
     const meta = dataPageMeta(canonicalPath, locale);
     // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
@@ -8720,6 +8760,7 @@ function isPrivateHtmlContext(url) {
 
 function htmlCacheControl(url, publicEmbed) {
   if (isPrivateHtmlContext(url)) return "private, no-store, max-age=0";
+  if (normalizePathname(parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams()).contentPathname) === LIQUIDATION_HEATMAP_PATH) return "no-store";
   if (publicEmbed) return "public, max-age=60";
   return "public, max-age=300, stale-while-revalidate=600";
 }

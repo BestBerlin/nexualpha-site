@@ -16,6 +16,7 @@ import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
+import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from './server/liquidation-levels-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
@@ -66,6 +67,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const flashMemory = createFlashMemory({ file: flashMemoryFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /coins pages + /intel/coins.json: the host's refreshed snapshot (COINS_FILE, read-only for the server); unset = baked table.
   // Live ticker bar (home, /flash): Binance 24h tickers cached 15 s server-side, the collector feed as fallback. A supplied
   // worker (tests) or INTEL_REFRESH=off never calls out; the bar then renders from the collector feed alone.
@@ -218,6 +220,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await funding.respond();
       } else if (requestPath === FX_JSON_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await fx.respond(req.method);
+      } else if (requestPath === LIQUIDATION_LEVELS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await liquidationLevels.respond(req.method);
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
         // served from COINS_FILE (falls through to the static copy below when the file is not usable)
       } else if (requestPath === '/api/analytics/cta' && collector) {
@@ -228,7 +232,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

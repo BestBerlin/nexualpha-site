@@ -93,6 +93,7 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/partners",
   "/telegram",
   "/liquidations",
+  "/liquidations/heatmap",
   "/funding-rates",
 ]);
 

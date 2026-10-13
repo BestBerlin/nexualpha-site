@@ -30,7 +30,7 @@ import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
-import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
+import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
 import { parseConverterPath } from "./data/converter-routes.js";
@@ -88,6 +88,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/PlatformMatcher.jsx",
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
+  "./components/data/LiquidationHeatmapPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
@@ -143,6 +144,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/PlatformMatcher.jsx",
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
+  "./components/data/LiquidationHeatmapPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/shared/CrawlPriorityLinks.jsx",
@@ -192,6 +194,7 @@ const VenueYellowPages = deferredComponent("./components/v3/VenueYellowPages.jsx
 const CrossroadsCompare = deferredComponent("./components/v3/CrossroadsCompare.jsx", "CrossroadsCompare");
 const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx", "PlatformMatcher");
 const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
+const LiquidationHeatmapPage = deferredComponent(ROUTE_MODULE_PATHS.liquidationHeatmap, "LiquidationHeatmapPage");
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
@@ -237,7 +240,7 @@ const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage
 // browser entry; tests/crosslinks.test.mjs pins that both agree).
 // T10 (2026-10-12): the /news hub, exchange profiles and topic hubs list their strongest related articles too.
 const TOPIC_TOOL_KEYS = { "tokenized-treasuries": "topic:tokenized-treasuries", "tokenized-stocks-vs-perpetuals": "topic:tokenized-stocks", "meme-coins": "topic:meme-coins", derivatives: "topic:derivatives", "brazil-crypto-exchange-deadline-2026": "topic:brazil-vasp-deadline" };
-const toolKeyOf = (route) => ({ liquidations: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
+const toolKeyOf = (route) => ({ liquidations: "liquidations", liquidationHeatmap: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
   || (route?.name === "compare" && Array.isArray(route.slugs) && route.slugs.length >= 2 ? `compare:${route.slugs.join("-vs-")}` : null)
   || (route?.name === "newsList" && !route.category && (!route.page || Number(route.page) === 1) ? "news-hub" : null)
   || (route?.name === "venue" && typeof route.slug === "string" && route.slug ? `venue:${route.slug}` : null)
@@ -330,7 +333,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -375,6 +378,12 @@ const homeNavigationCopy = (locale) => {
   if (localized[locale]) return localized[locale];
   return { label: "On this page", compare: "Compare", analyzer: "Fee check", venues: "Platforms", research: "Research tools" };
 };
+
+const liquidationHeatmapNavLabel = (locale) => (
+  locale === "zh-Hant" || locale === "zh-TW" ? "清算熱力圖"
+    : locale.startsWith("zh") ? "清算热力图"
+      : ({ ja: "清算ヒートマップ", ko: "청산 히트맵", tr: "Likidasyon haritası", ru: "Карта ликвидаций", de: "Liquidationskarte", fr: "Carte des liquidations", es: "Mapa de liquidaciones", "pt-BR": "Mapa de liquidações", it: "Mappa delle liquidazioni", id: "Peta likuidasi", vi: "Bản đồ thanh lý", ar: "خريطة التصفية" }[locale] || "Liquidation heatmap")
+);
 
 function HomeSectionNav({ locale }) {
   const text = homeNavigationCopy(locale);
@@ -509,6 +518,7 @@ function routeState(venues, initialUrl) {
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
+  if (pathname === LIQUIDATION_HEATMAP_PATH) return { name: "liquidationHeatmap" };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
@@ -632,6 +642,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         // l10n: needs native review
         uk: "Тематичні посібники", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
+    [liquidationHeatmapNavLabel(locale), withLocale(locale, LIQUIDATION_HEATMAP_PATH)],
     [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
         // l10n: needs native review
         ur: "Telegram تحقیق",
@@ -655,7 +666,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -821,6 +832,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
+  if (route.name === "liquidationHeatmap") return pageShell(<LiquidationHeatmapPage locale={locale} initialFeed={initialMarketEvents} initialLevels={initialLiquidationLevels} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);

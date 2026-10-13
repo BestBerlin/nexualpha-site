@@ -8,6 +8,7 @@ import { pathToFileURL } from "node:url";
 import { contentTypeForAssetPath, resolveAssetPath, rewriteLocalRedirectLocation } from "./asset-path.mjs";
 import { createNewsSsrRenderer } from "./news-ssr.mjs";
 import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
+import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from "./liquidation-levels-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
 import { createFxFeed, FX_JSON_PATH } from "./fx-feed.mjs";
 
@@ -16,6 +17,7 @@ const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
 const clientRoot = path.join(distRoot, "client");
 const renderNews = createNewsSsrRenderer(distRoot);
 const marketEvents = marketEventsReaderFromEnv(process.env);
+const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => process.stdout.write(`[NexuAlpha] ${m}\n`) });
 const fx = createFxFeed({
   enabled: process.env.FX_REFRESH !== "off",
   ...(process.env.FX_SOURCE_URL ? { sourceUrl: process.env.FX_SOURCE_URL } : {}),
@@ -64,10 +66,13 @@ createServer(async (request, response) => {
       ? await collectCta(workerRequest, origin)
       : pathname === FX_JSON_PATH && (request.method === "GET" || request.method === "HEAD")
         ? await fx.respond(request.method)
+        : pathname === LIQUIDATION_LEVELS_PATH && (request.method === "GET" || request.method === "HEAD")
+        ? await liquidationLevels.respond(request.method)
         : await worker.fetch(workerRequest, {
       ASSETS: assets,
       NEWS_SSR_RENDER: renderNews,
       MARKET_EVENTS_READ: marketEvents.read,
+      LIQUIDATION_LEVELS_READ: liquidationLevels.read,
       FX_SNAPSHOT_READ: fx.read,
       CORE_API_ORIGIN: process.env.CORE_API_ORIGIN,
       CORE_API_BASE_URL: process.env.CORE_API_BASE_URL,

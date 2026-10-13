@@ -17,7 +17,7 @@ import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERN
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT, brazilDeadlineIndexLocales, isBrazilDeadlineSlug } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { BRAZIL_DEADLINE_REVIEWED_AT } from "../src/data/brazil-vasp-status.js";
 import { BRAND_PAGE_PATHS } from "../src/data/brand-entity.js";
-import { DATA_PAGE_PATHS } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH } from "../src/data/market-data-pages.js";
 import { NEWS_DISPLAY_LOCALES, newsListingIndexableLocales, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, newsArticleSeoLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -82,7 +82,7 @@ function pathSlug(pathname, prefix) {
 
 export function routeTemplate(pathname) {
   if (BRAZIL_PAGES.some((page) => page.path === pathname)) return "brazilDecision";
-  if (DATA_PAGE_PATHS.includes(pathname)) return "dataTool";
+  if (DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) return "dataTool";
   if (BRAND_PAGE_PATHS.includes(pathname)) return "brandPage";
   if (["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"].includes(pathname)) return "regionalPreview";
   if (["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/hk/comparar", "/hk/costos", "/hk/conta"].includes(pathname)) return pathname.endsWith("/comparar") ? "comparison" : pathname.endsWith("/costos") ? "rateTerminal" : "exchangeDirectory";
@@ -107,7 +107,7 @@ export function routeTemplate(pathname) {
 
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
-  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -161,7 +161,7 @@ export function routeInventory(newsArticles = []) {
     // Search locales need >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); every published
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
-    ...(DATA_PAGE_PATHS.includes(pathname) || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
+    ...(DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),

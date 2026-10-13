@@ -46,6 +46,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   platformMatcher: "./components/v3/PlatformMatcher.jsx",
   newsList: "./components/v3/news/NewsListPage.jsx",
   liquidations: "./components/data/LiquidationsPage.jsx",
+  liquidationHeatmap: "./components/data/LiquidationHeatmapPage.jsx",
   fundingRates: "./components/data/FundingRatesPage.jsx",
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
   // boundary below the tool, so React keeps the server HTML until the chunk arrives and then hydrates it.
@@ -144,6 +145,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "directory") return [ROUTE_MODULE_PATHS.directory];
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
+  if (name === "liquidationHeatmap") return [ROUTE_MODULE_PATHS.liquidationHeatmap];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
   if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
