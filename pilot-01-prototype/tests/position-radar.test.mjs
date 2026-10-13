@@ -4,6 +4,7 @@ import {
   EXCHANGE_ADDRESS_LABELS,
   POSITION_RADAR_LONG_SHORT_SOURCES,
   POSITION_RADAR_SOURCE_LIMITATIONS,
+  POSITION_RADAR_WHALE_SOURCES,
   createPositionRadar,
 } from "../server/position-radar.mjs";
 
@@ -148,7 +149,7 @@ test("long-short cache is capped at sixty seconds even when a larger ttl is pass
 });
 
 test("whale reader emits output-level BTC rows and never guesses labels or sale intent", async () => {
-  assert.deepEqual(EXCHANGE_ADDRESS_LABELS.btc, {});
+  assert.ok(!EXCHANGE_ADDRESS_LABELS.btc.bc1qinputa && !EXCHANGE_ADDRESS_LABELS.btc.bc1qlarge, "fixture addresses are unlabelled");
   const radar = createPositionRadar({
     now: () => NOW,
     minBtc: 10,
@@ -176,7 +177,9 @@ test("whale reader emits output-level BTC rows and never guesses labels or sale 
   assert.equal(feed.kind, "whales");
   assert.equal(feed.status, "ok");
   assert.equal(feed.updatedAt, "2026-10-13T01:00:00.000Z");
-  assert.deepEqual(feed.labelSources, ["https://github.com/DefiLlama/DefiLlama-Adapters/blob/main/cex/index.js"]);
+  assert.ok(feed.labelSources.includes("https://www.binance.com/en/proof-of-reserves"));
+  assert.ok(feed.labelSources.includes("https://www.okx.com/proof-of-reserves/download"));
+  assert.ok(feed.labelSources.includes("https://www.bybit.com/app/user/proof-of-reserve"));
   assert.ok(feed.limitations.some((line) => line.includes("not evidence of a sale")));
   assert.deepEqual(feed.rows.map((row) => row.txid), ["usdt-tx", "eth-tx", "btc-tx"]);
 
@@ -263,8 +266,8 @@ test("sourced exchange labels describe direction without implying a sale", async
     ethereumNative: async () => [{ asset: "ETH", hash: "labeled", value: 300, from: "0xunknown", to: address, timestamp: 1791853200 }],
   } });
   const snapshot = await radar.read("whales");
-  assert.equal(snapshot.rows[0].to.label, "Binance.US");
-  assert.match(snapshot.rows[0].to.source, /DefiLlama/);
+  assert.equal(snapshot.rows[0].to.label, EXCHANGE_ADDRESS_LABELS.ethereum[address].label);
+  assert.match(snapshot.rows[0].to.source, /^https:\/\//);
   assert.equal(snapshot.rows[0].direction, "to-exchange");
   assert.match(snapshot.rows[0].ownerRule, /not a sale/);
 });
@@ -281,4 +284,55 @@ test('selection falls back to a public turnover source when Binance access fails
   assert.equal(feed.symbols.length, 1);
   assert.equal(feed.rows.find(row => row.venue === 'bybit').openInterestUnit, 'BTC');
   assert.equal(feed.rows.find(row => row.venue === 'binance').accountLongShortRatio, null);
+});
+
+test("exchange label list carries one official source per well-formed address", async () => {
+  const { EXCHANGE_ADDRESS_LABEL_ROWS } = await import("../server/exchange-address-labels.mjs");
+  assert.ok(EXCHANGE_ADDRESS_LABEL_ROWS.ethereum.length >= 100);
+  const owners = new Set();
+  for (const entry of EXCHANGE_ADDRESS_LABEL_ROWS.ethereum) {
+    assert.match(entry.address, /^0x[0-9a-f]{40}$/);
+    assert.match(entry.source, /^https:\/\//);
+    owners.add(entry.owner);
+  }
+  for (const owner of ["binance", "okx", "bybit"]) assert.ok(owners.has(owner), owner);
+  for (const entry of EXCHANGE_ADDRESS_LABEL_ROWS.btc) assert.match(entry.address, /^(bc1|[13])[0-9A-Za-z]{20,}$/);
+  const all = [...EXCHANGE_ADDRESS_LABEL_ROWS.ethereum, ...EXCHANGE_ADDRESS_LABEL_ROWS.btc].map((e) => e.address);
+  assert.equal(new Set(all).size, all.length, "no address is labelled twice");
+});
+
+test("Ethereum source scans incrementally after the first refresh and keeps a rolling window", async () => {
+  let head = 1000;
+  const ranges = [];
+  const fetchImpl = async (_url, init) => {
+    const body = JSON.parse(init.body);
+    const ok = (result) => ({ ok: true, json: async () => ({ result }) });
+    if (body.method === "eth_blockNumber") return ok(`0x${head.toString(16)}`);
+    if (body.method === "eth_getBlockByNumber") return ok({ timestamp: "0x6ac0fc74", transactions: [] });
+    if (body.method === "eth_getLogs") {
+      const { fromBlock, toBlock, topics } = body.params[0];
+      if (topics.length === 1) ranges.push([parseInt(fromBlock, 16), parseInt(toBlock, 16)]);
+      if (topics.length === 1 && body.params[0].address.includes("a0b869")) {
+        return ok([{ transactionHash: `tx-${toBlock}`, logIndex: "0x1", blockNumber: toBlock, topics: [topics[0], `0x${"0".repeat(64)}`, `0x${"0".repeat(64)}`], data: "0xe8d4a51000" }]);
+      }
+      return ok([]);
+    }
+    throw new Error(body.method);
+  };
+  let clock = NOW;
+  const radar = createPositionRadar({ now: () => clock, fetchImpl, whaleSources: { ethereumRpc: POSITION_RADAR_WHALE_SOURCES.ethereumRpc } });
+  const first = await radar.refresh("whales");
+  const firstCount = first.rows.length;
+  assert.ok(firstCount >= 1);
+  assert.equal(Math.min(...ranges.map(([from]) => from)), 998 - 50, "cold start reads the bounded log lookback");
+  ranges.length = 0;
+  head = 1005;
+  clock += 61_000;
+  const second = await radar.refresh("whales");
+  assert.deepEqual(ranges.map(([from, to]) => [from, to]).slice(0, 1), [[999, 1003]], "warm refresh reads only new blocks");
+  assert.equal(second.rows.length, firstCount + 1, "rows from the previous refresh are kept");
+  clock += 4 * 60 * 60 * 1000;
+  head = 1010;
+  const third = await radar.refresh("whales");
+  assert.equal(third.rows.length, 1, "rows first seen more than 3h ago drop out");
 });

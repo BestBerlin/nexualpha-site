@@ -1,3 +1,4 @@
+import { licenseRecords } from "../src/data/licenses.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 
@@ -21,9 +22,10 @@ test("buildScorecard exposes deterministic pair rows without synthetic facts or 
 
   const licenses = rowByKey(card, "licenses");
   assert.deepEqual(licenses.winners, []);
-  assert.equal(valueFor(licenses, "binance").value, 2);
+  const binanceLicenses = licenseRecords.filter((record) => record.exchange === "binance");
+  assert.equal(valueFor(licenses, "binance").value, binanceLicenses.length);
   assert.match(valueFor(licenses, "binance").display, /SPK \(TR\): applied; Japan FSA \(JP\): registered/);
-  assert.ok(valueFor(licenses, "binance").sources.every((url) => /^https:\/\/(spk\.gov\.tr|www\.fsa\.go\.jp)\//.test(url)));
+  assert.ok(valueFor(licenses, "binance").sources.every((url) => /^https:\/\/(spk\.gov\.tr|www\.fsa\.go\.jp|www\.vara\.ae)\//.test(url)));
   assert.equal(valueFor(licenses, "unknown").value, null);
 });
 
