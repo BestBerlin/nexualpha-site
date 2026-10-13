@@ -54,6 +54,8 @@ import { exchangeHubToolLinks } from "../../data/exchange-hub-links.js";
 import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
+import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
+import { updatePath } from "../../data/activity-update-path.js";
 import "./venue-popular-coins.css";
 
 const VENUE_COINS_COPY = {
@@ -448,20 +450,43 @@ function SourceList({ text, profile, locale }) {
   </div>;
 }
 
+function activityPlatform(update) {
+  const slug = eventVenueSlug(update);
+  return update.platform || { slug, name: slug ? slug.toUpperCase() : "Official source" };
+}
+
+function activityKind(update) {
+  return update.kind || update.category || update.sourceType || "notice";
+}
+
+function activityDate(update, field) {
+  return update[field] || update.publishedAt;
+}
+
+function activityUrl(update) {
+  return update.officialSource?.url || update.url || update.sourceUrl;
+}
+
 function ActivityCards({ copy, text, locale, updates }) {
   if (!updates.length) return <div className="v3-empty" role="status"><b>{text.noReviewedActivity}</b><p>{text.activityEmpty}</p></div>;
-  return <div className="v3-activity-list">{updates.map((update) => <article key={update.id}>
-    <span>{update.platform.name} · {update.kind}</span>
-    <h3>{update.title}</h3>
-    <dl>
-      <div><dt>{copy.decisionWorkbench.discovered}</dt><dd><time dateTime={update.discoveredAt}>{new Date(update.discoveredAt).toLocaleDateString(locale)}</time></dd></div>
-      <div><dt>{copy.common.verifiedSource}</dt><dd><time dateTime={update.verifiedAt}>{new Date(update.verifiedAt).toLocaleDateString(locale)}</time></dd></div>
-    </dl>
-    <div className="v3-activity-actions">
-      <LocalLink locale={locale} href={`/activities/${encodeURIComponent(update.id)}`}>{text.openActivityDetail}</LocalLink>
-      <SourceLink locale={locale} href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink>
-    </div>
-  </article>)}</div>;
+  return <div className="v3-activity-list">{updates.map((update) => {
+    const platform = activityPlatform(update);
+    const discoveredAt = activityDate(update, "discoveredAt");
+    const verifiedAt = update.verifiedAt;
+    const sourceUrl = activityUrl(update);
+    return <article key={update.id}>
+      <span>{platform.name} · {activityKind(update)}</span>
+      <h3>{update.title}</h3>
+      <dl>
+        <div><dt>{copy.decisionWorkbench.discovered}</dt><dd><time dateTime={discoveredAt}>{new Date(discoveredAt).toLocaleDateString(locale)}</time></dd></div>
+        {verifiedAt ? <div><dt>{copy.common.verifiedSource}</dt><dd><time dateTime={verifiedAt}>{new Date(verifiedAt).toLocaleDateString(locale)}</time></dd></div> : null}
+      </dl>
+      <div className="v3-activity-actions">
+        <LocalLink locale={locale} href={update.platform ? `/activities/${encodeURIComponent(update.id)}` : updatePath(update)}>{text.openActivityDetail}</LocalLink>
+        {sourceUrl ? <SourceLink locale={locale} href={sourceUrl} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink> : null}
+      </div>
+    </article>;
+  })}</div>;
 }
 
 // `researchComponent` renders the body of the collapsed "Sources" hub (VenueDetailResearch). App.jsx passes the static
@@ -487,7 +512,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const profile = venueProfile(venue, locale);
   const runtimeUi = detailRuntimeUi(locale, text, profile.name);
   const research = researchForVenue(venue.slug, locale);
-  const related = updates.filter((update) => update.platform.slug === venue.slug);
+  const relatedEventView = visibleEventSourceItems(updates, { locale, venue: venue.slug, now: Date.now() });
+  const related = relatedEventView.items;
+  const relatedEmptyLabel = eventSourceStateLabel(relatedEventView.state, locale);
+  const relatedAreReviewed = related.length > 0 && related.every((item) => Boolean(item.verifiedAt));
   const latestNews = exchangeHubNewsItems(initialNewsArticles, { slug: venue.slug, name: venue.name, locale });
   const hubTools = exchangeHubToolLinks(venue.slug, locale);
   const suggested = profile.suggestedComparisons?.map((slug) => venues.find((candidate) => candidate.slug === slug)).filter(Boolean) ?? [];
@@ -936,9 +964,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />
-      <div className="section-lead"><h2>{text.reviewedActivity}</h2>{related.length > 0 && <span>{text.verifiedOnly}</span>}</div>
+      <div className="section-lead"><h2>{relatedAreReviewed ? text.reviewedActivity : text.activityState}</h2>{relatedAreReviewed && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
-      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{String(text.activityEmpty || "").split(/(?<=[.。])\s*/)[0]} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
+      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
       {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 

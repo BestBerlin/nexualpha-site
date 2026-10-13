@@ -2,7 +2,6 @@ import { useState } from "react";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { venueKycLevel, venueKycSummary } from "../../data/venue-kyc-corrections.js";
-import { v3Copy } from "../../data/v3-product";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { researchForVenue } from "../../data/exchange-research";
 import { buildVenueFeeSummary } from "../../data/venue-fee-summary.js";
@@ -12,6 +11,7 @@ import { matrixCopy } from "./exchange-matrix-copy.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
 import { partnerVenueFaqFor } from "../../data/partner-venue-faq.js";
+import { venueFallbackFaqEntries } from "../../data/venue-faq-fallback.js";
 
 const localeKey = (locale) => {
   const value = String(locale || "");
@@ -89,9 +89,9 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
   const rebate = benefitVerified ? access.rebatePercent : null;
   const inviteCode = access.inviteCode;
   const porRatio = db.porVerifiedAt && db.porAuditUrl ? (db.porCoverageRatio || (db.proofOfReserves ? "100%+" : (isZh ? zh("智能合约透明托管", "智能合約透明託管") : "Smart Contract Custody"))) : localePending(locale);
-  const porUrl = db.porAuditUrl || `https://${db.officialDomain || `${venue.slug}.com`}/proof-of-reserves`;
+  const porUrl = db.porAuditUrl;
   const securityFund = db.securityFund || (isZh ? zh("投资者风险保护基金", "投資者風險保護基金") : "Risk Protection Fund");
-  const officialDomain = partner.officialDomain || db.officialDomain || `${venue.slug}.com`;
+  const officialDomain = partner.officialDomain || db.officialDomain || null;
   // Sourced KYC corrections (venue-kyc-corrections.js) win over the hash-pinned registry values.
   const kycDb = { ...db, kycLevel: venueKycLevel(venue.slug, db), kycSummary: venueKycSummary(venue.slug, db) };
   const kycSummary = isZh
@@ -109,76 +109,15 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
       uk: "Стандартна перевірка особи" }[localeKey(locale)] || "Standard Identity Verification")));
 
   // Historical FAQ copy contains operational and commercial assertions that
-  // cannot be published without a dedicated, dated review record. Keep the
-  // public answer set neutral until that evidence exists.
+  // cannot be published without a dedicated, dated review record. The public
+  // fallback uses direct recorded fields only, and shares its source with schema.
   if (!db.faqSourceReviewedAt) {
-    if (locale === "zh-Hant") return [
-      {
-        q: `${locName} 的費率、產品和地區資格在哪裡核對？`,
-        a: <p><strong>註冊前請固定產品、地區、帳戶等級和 Maker/Taker 口徑。</strong>本頁只記錄待核對的公開欄位；最終費率、產品範圍和資格條件以平台目前官方頁面為準。</p>,
-      },
-      {
-        q: `${locName} 的儲備金和安全資訊如何驗證？`,
-        a: <p><strong>只有帶有目前官方來源和日期的記錄才可作為核驗依據。</strong>如果本頁沒有可複核連結，就不把儲備比例、償付能力或保險能力寫成保證。</p>,
-      },
-      {
-        q: `${locName} 的 KYC 和法幣出入金條件是什麼？`,
-        a: <p><strong>認證材料、處理時間、產品範圍和法幣管道會因地區與帳戶等級變化。</strong>請在官方頁面確認目前要求，並遵守平台、銀行及所在地區規則。</p>,
-      },
-      {
-        q: `如何核對 ${locName} 的官方網域並防範釣魚？`,
-        a: <p><strong>NexuAlpha 目前登記的網域是 <code>{officialDomain}</code>。</strong>跳轉前請在官方來源和瀏覽器網址列再次核對，不要根據私訊、群聊或搜尋廣告判斷客服身分，也不要交出私鑰或 2FA 驗證碼。</p>,
-      },
-    ];
-    return isZh ? ([
-      {
-        q: `${locName} 的费率、产品和地区资格在哪里核对？`,
-        a: <p><strong>注册前请固定产品、地区、账户等级和 Maker/Taker 口径。</strong>本页只记录待核对的公开字段；最终费率、产品范围和资格条件以平台当前官方页面为准。</p>,
-      },
-      {
-        q: `${locName} 的储备金和安全信息如何验证？`,
-        a: <p><strong>只有带有当前官方来源和日期的记录才可作为核验依据。</strong>如果本页没有可复核链接，就不把储备比例、偿付能力或保险能力写成保证。</p>,
-      },
-      {
-        q: `${locName} 的 KYC 和法币出入金条件是什么？`,
-        a: <p><strong>认证材料、处理时间、产品范围和法币渠道会因地区与账户等级变化。</strong>请在官方页面确认当前要求，并遵守平台、银行及所在地区规则。</p>,
-      },
-      {
-        q: `如何核对 ${locName} 的官方域名并防范钓鱼？`,
-        a: <p><strong>NexuAlpha 当前登记的域名是 <code>{officialDomain}</code>。</strong>跳转前请在官方来源和浏览器地址栏再次核对，不要根据私信、群聊或搜索广告判断客服身份，也不要交出私钥或 2FA 验证码。</p>,
-      },
-    ]) : (() => {
-      // Keep the neutral boundary explicit: current official requirements are
-      // always confirmed on the venue's official page before any handoff; never
-      // Safety rule: never share seed phrases or 2FA codes.
-      const localized = v3Copy(locale);
-      const review = localized.pendingReview || localePending(locale);
-      const verify = localized.verifyBefore || localePending(locale);
-      const official = localized.openOfficialSource || localized.sourceIntake || review;
-      const compare = localized.compareIntro || localized.compareTitle || verify;
-      const source = localized.researchScope || localized.sourceIntake || review;
-      // FAQ titles read as questions (English); other locales keep their reviewed labels.
-      const enQ = (question) => (String(locale || "").startsWith("en") ? question : "");
-      return [
-      {
-        q: enQ(`How does ${name} compare with similar platforms?`) || `${name}: ${localized.compareTitle || compare}`,
-        a: <p><strong>{compare}</strong>。{source}。{verify}。</p>,
-      },
-      {
-        q: enQ(`Which official ${name} sources has NexuAlpha marked?`) || `${name}: ${localized.sourceIntake || review}`,
-        // Answer with what is marked (the official domain), never the internal review state (SEO audit 2026-10-11 #6).
-        a: <p><strong>{localized.sourceIntake || official}：<code>{officialDomain}</code></strong>。{source}。{verify}。</p>,
-      },
-      {
-        q: enQ(`How is a ${name} account accessed?`) || `${name}: ${localized.accessModel || verify}`,
-        a: <p><strong>{localized.accessModel || verify}</strong>。{localized.checksByCategory?.CEX?.join(" · ") || verify}。</p>,
-      },
-      {
-        q: enQ(`What is the official ${name} domain?`) || `${name}: ${localized.officialDomain || official}`,
-        a: <p><strong>{official}：<code>{officialDomain}</code></strong>。{verify}。</p>,
-      },
-      ];
-    })();
+    return venueFallbackFaqEntries({
+      venue: db,
+      name,
+      locale,
+      officialDomain,
+    }).map((entry) => ({ q: entry.question, a: <p>{entry.answer}</p> }));
   }
 
   if (isZh) {

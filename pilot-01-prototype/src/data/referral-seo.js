@@ -28,7 +28,7 @@ const COPY = {
       (n, c, y) => `Sign Up for ${n} (${y}): Steps, KYC, Code ${c}`,
       (n, c, y) => `${n} Sign-Up (${y}): KYC and Code ${c}`,
     ],
-    describe: (n, c, p, s) => `Sign up for ${n} on the official site or app, pass KYC, then enter code ${c}${p ? `: up to ${p}% of trading fees back, paid by ${n}${CADENCE.en[s] || ""}.` : ". Steps, documents and fees on one page."}`,
+    describe: (n, c, p, s) => `Register for ${n} with code ${c} on the official site or app, then complete KYC${p ? `: up to ${p}% of trading fees back, paid by ${n}${CADENCE.en[s] || ""}.` : ". Steps, documents and fees on one page."}`,
   },
   "zh-Hans": {
     titles: [
@@ -36,14 +36,14 @@ const COPY = {
       (n, c, y) => `${n} 注册邀请码 ${c}（${y}）`,
       (n, c) => `${n} 注册邀请码 ${c}`,
     ],
-    describe: (n, c, p, s) => `${n} 注册步骤：从官网或 App 注册、完成 KYC，填写邀请码 ${c}${p ? `，手续费最高返还 ${p}%，由 ${n} ${CADENCE["zh-Hans"][s] || ""}结算` : "，附所需证件与手续费"}。`,
+    describe: (n, c, p, s) => `${n} 注册步骤：先在官网或 App 填写邀请码 ${c} 并注册，再完成 KYC${p ? `，手续费最高返还 ${p}%，由 ${n} ${CADENCE["zh-Hans"][s] || ""}结算` : "，附所需证件与手续费"}。`,
   },
   es: {
     titles: [
       (n, c, y) => `Registro en ${n} (${y}): pasos, KYC y código ${c}`,
       (n, c, y) => `Registro en ${n} (${y}): KYC y código ${c}`,
     ],
-    describe: (n, c, p) => `Regístrate en ${n} desde la web o la app oficial, completa el KYC e introduce el código ${c}${p ? `: hasta ${p}% de comisiones de vuelta, pagado por ${n}.` : ". Pasos, documentos y comisiones."}`,
+    describe: (n, c, p) => `Regístrate en ${n} con el código ${c} en la web o app oficial; después completa el KYC${p ? `: hasta ${p}% de comisiones de vuelta, pagado por ${n}.` : ". Pasos, documentos y comisiones."}`,
   },
   // Exchange keyword map 2026-10-11: Brazilians type "código de convite" more often than "código de indicação"
   // (Google autocomplete 16 vs 6), so the title keeps convite and the description keeps indicação as well.
@@ -53,28 +53,28 @@ const COPY = {
       (n, c, y) => `Código de convite ${n} ${c}: cadastro (${y})`,
       (n, c) => `Código de convite ${n} ${c}`,
     ],
-    describe: (n, c, p) => `Cadastre-se na ${n} pelo site ou app oficial, faça o KYC e use o código de convite (indicação) ${c}${p ? `: até ${p}% das taxas de volta, pago pela ${n}.` : ". Passos, documentos e taxas."}`,
+    describe: (n, c, p) => `Cadastre-se na ${n} com o código de convite (indicação) ${c} no site/app oficial; depois faça o KYC${p ? `: até ${p}% das taxas de volta, pago pela ${n}.` : ". Passos, documentos e taxas."}`,
   },
   fr: {
     titles: [
       (n, c, y) => `Inscription ${n} (${y}) : étapes, KYC et code ${c}`,
       (n, c, y) => `Inscription ${n} (${y}) : KYC et code ${c}`,
     ],
-    describe: (n, c, p) => `Inscrivez-vous sur ${n} via le site ou l’app officiels, validez le KYC et saisissez le code ${c}${p ? ` : jusqu’à ${p} % des frais remboursés par ${n}.` : ". Étapes, documents et frais."}`,
+    describe: (n, c, p) => `Inscrivez-vous sur ${n} avec le code ${c} via le site ou l’app officiels, puis validez le KYC${p ? ` : jusqu’à ${p} % des frais remboursés par ${n}.` : ". Étapes, documents et frais."}`,
   },
   de: {
     titles: [
       (n, c, y) => `${n} Anmeldung (${y}): Schritte, KYC und Code ${c}`,
       (n, c, y) => `${n} Anmeldung (${y}): KYC und Code ${c}`,
     ],
-    describe: (n, c, p) => `Bei ${n} über die offizielle Website oder App anmelden, KYC abschließen, Code ${c} eingeben${p ? `: bis zu ${p} % der Gebühren zurück, gezahlt von ${n}.` : ". Schritte, Dokumente und Gebühren."}`,
+    describe: (n, c, p) => `Bei ${n} mit Code ${c} auf der offiziellen Website oder App anmelden, danach KYC abschließen${p ? `: bis zu ${p} % der Gebühren zurück, gezahlt von ${n}.` : ". Schritte, Dokumente und Gebühren."}`,
   },
   it: {
     titles: [
       (n, c, y) => `Iscrizione a ${n} (${y}): passi, KYC e codice ${c}`,
       (n, c, y) => `Iscrizione a ${n} (${y}): KYC e codice ${c}`,
     ],
-    describe: (n, c, p) => `Iscriviti a ${n} dal sito o dall’app ufficiale, completa il KYC e inserisci il codice ${c}${p ? `: fino al ${p}% delle commissioni rimborsate da ${n}.` : ". Passi, documenti e commissioni."}`,
+    describe: (n, c, p) => `Iscriviti a ${n} con il codice ${c} dal sito o dall’app ufficiale, poi completa il KYC${p ? `: fino al ${p}% delle commissioni rimborsate da ${n}.` : ". Passi, documenti e commissioni."}`,
   },
   ja: {
     titles: [
@@ -82,7 +82,7 @@ const COPY = {
       (n, c, y) => `${n} 招待コード ${c}（${y}）`,
       (n, c) => `${n} 招待コード ${c}`,
     ],
-    describe: (n, c, p) => `${n} の登録手順：公式サイトかアプリで登録し本人確認（KYC）を完了、招待コード ${c} を入力${p ? `。取引手数料の最大${p}%を ${n} が還元` : "。必要書類と手数料も確認"}。`,
+    describe: (n, c, p) => `${n} の登録手順：公式サイトかアプリで招待コード ${c} を入力して登録し、その後に本人確認（KYC）を完了${p ? `。取引手数料の最大${p}%を ${n} が還元` : "。必要書類と手数料も確認"}。`,
   },
   ko: {
     titles: [
@@ -90,21 +90,21 @@ const COPY = {
       (n, c, y) => `${n} 가입 추천 코드 ${c} (${y})`,
       (n, c) => `${n} 가입 추천 코드 ${c}`,
     ],
-    describe: (n, c, p) => `${n} 가입 절차: 공식 사이트나 앱에서 가입하고 KYC를 마친 뒤 추천 코드 ${c} 입력${p ? `. 거래 수수료 최대 ${p}%를 ${n}에서 페이백` : ". 필요 서류와 수수료 안내"}.`,
+    describe: (n, c, p) => `${n} 가입 절차: 공식 사이트나 앱에서 추천 코드 ${c} 입력 후 가입하고 KYC 완료${p ? `. 거래 수수료 최대 ${p}%를 ${n}에서 페이백` : ". 필요 서류와 수수료 안내"}.`,
   },
   tr: {
     titles: [
       (n, c, y) => `${n} nasıl kayıt olunur? KYC ve kod ${c} (${y})`,
       (n, c, y) => `${n} kayıt: KYC ve kod ${c} (${y})`,
     ],
-    describe: (n, c, p) => `${n} hesabını resmî site veya uygulamadan açın, KYC'yi tamamlayın ve ${c} kodunu girin${p ? `; ücretlerin ${trPercentDative(p)} varan kısmını ${n} iade eder.` : ". Adımlar, belgeler ve ücretler."}`,
+    describe: (n, c, p) => `${n} hesabını resmî site veya uygulamada ${c} koduyla açın, ardından KYC’yi tamamlayın${p ? `; ücretlerin ${trPercentDative(p)} varan kısmını ${n} iade eder.` : ". Adımlar, belgeler ve ücretler."}`,
   },
   id: {
     titles: [
       (n, c, y) => `Cara daftar ${n} (${y}): langkah, KYC, kode ${c}`,
       (n, c, y) => `Cara daftar ${n} (${y}): KYC, kode ${c}`,
     ],
-    describe: (n, c, p) => `Daftar ${n} lewat situs atau aplikasi resmi, selesaikan KYC, lalu masukkan kode ${c}${p ? `; hingga ${p}% biaya kembali, dibayar ${n}.` : ". Langkah, dokumen, dan biaya."}`,
+    describe: (n, c, p) => `Daftar ${n} dengan kode ${c} di situs atau aplikasi resmi, lalu selesaikan KYC${p ? `; hingga ${p}% biaya kembali, dibayar ${n}.` : ". Langkah, dokumen, dan biaya."}`,
   },
 };
 

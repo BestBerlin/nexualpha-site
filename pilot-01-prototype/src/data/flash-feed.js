@@ -86,7 +86,7 @@ const T = {
   en: {
     listing: "{venue} lists {assets}{market}", listingNotice: "{venue} listing notice: {assets}{market}", listingGeneric: "{venue} posts a new listing notice",
     delisting: "{venue} delists {assets}", delistingNotice: "{venue} delisting notice: {assets}", delistingGeneric: "{venue} posts a delisting notice",
-    campaignPrize: "{venue} campaign: {amount} {asset} prize pool", campaignGeneric: "{venue} posts a new event notice",
+    campaignPrize: "{venue} campaign: {amount} {asset} prize pool", campaignMaxReward: "{venue} campaign: up to {amount} {asset} per user", campaignVoucher: "{venue} campaign: {amount} {asset} voucher", campaignGeneric: "{venue} posts a new event notice",
     annBody: "{venue} published this in its official announcements on {published} SGT.", whenBody: "Date given in the notice: {when}.",
     mk: { spot: "spot", perp: "perpetual futures", stocks: "tokenized stocks" }, mkWrap: " ({m})",
     liqHead: "Liquidations hit {total} in 1 hour, {share}% {side}", side: { long: "longs", short: "shorts" },
@@ -100,7 +100,7 @@ const T = {
   "zh-Hans": {
     listing: "{venue} 上线 {assets}{market}", listingNotice: "{venue}上币公告：{assets}{market}", listingGeneric: "{venue}发布新的上币公告",
     delisting: "{venue}下架 {assets}", delistingNotice: "{venue}下架公告：{assets}", delistingGeneric: "{venue}发布下架公告",
-    campaignPrize: "{venue}活动：奖池 {amount} {asset}", campaignGeneric: "{venue}发布新的活动公告",
+    campaignPrize: "{venue}活动：奖池 {amount} {asset}", campaignMaxReward: "{venue}活动：每位用户最高 {amount} {asset}", campaignVoucher: "{venue}活动：{amount} {asset} 卡券", campaignGeneric: "{venue}发布新的活动公告",
     annBody: "{venue} 于 {published} SGT 发布官方公告。", whenBody: "公告中给出的时间：{when}。",
     mk: { spot: "现货", perp: "永续合约", stocks: "代币化股票" }, mkWrap: "（{m}）",
     liqHead: "1 小时爆仓 {total}，{share}% 为{side}", side: { long: "多单", short: "空单" },
@@ -114,7 +114,7 @@ const T = {
   "zh-Hant": {
     listing: "{venue}上線 {assets}{market}", listingNotice: "{venue}上幣公告：{assets}{market}", listingGeneric: "{venue}發布新的上幣公告",
     delisting: "{venue}下架 {assets}", delistingNotice: "{venue}下架公告：{assets}", delistingGeneric: "{venue}發布下架公告",
-    campaignPrize: "{venue}活動：獎池 {amount} {asset}", campaignGeneric: "{venue}發布新的活動公告",
+    campaignPrize: "{venue}活動：獎池 {amount} {asset}", campaignMaxReward: "{venue}活動：每位用戶最高 {amount} {asset}", campaignVoucher: "{venue}活動：{amount} {asset} 卡券", campaignGeneric: "{venue}發布新的活動公告",
     annBody: "{venue}於 {published} SGT 在官方公告欄發布了這則消息。", whenBody: "公告中給出的時間：{when}。",
     mk: { spot: "現貨", perp: "永續合約", stocks: "代幣化股票" }, mkWrap: "（{m}）",
     liqHead: "1 小時爆倉 {total}，{share}% 為{side}", side: { long: "多單", short: "空單" },
@@ -128,7 +128,7 @@ const T = {
   es: {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listado de {venue}: {assets}{market}", listingGeneric: "{venue} publica un nuevo aviso de listado",
     delisting: "{venue} retira {assets}", delistingNotice: "Aviso de retirada de {venue}: {assets}", delistingGeneric: "{venue} publica un aviso de retirada",
-    campaignPrize: "Campaña de {venue}: bolsa de premios de {amount} {asset}", campaignGeneric: "{venue} publica un nuevo aviso de evento",
+    campaignPrize: "Campaña de {venue}: bolsa de premios de {amount} {asset}", campaignMaxReward: "Campaña de {venue}: hasta {amount} {asset} por usuario", campaignVoucher: "Campaña de {venue}: cupón de {amount} {asset}", campaignGeneric: "{venue} publica un nuevo aviso de evento",
     annBody: "{venue} lo publicó en sus anuncios oficiales el {published} SGT.", whenBody: "Fecha indicada en el aviso: {when}.",
     mk: { spot: "spot", perp: "futuros perpetuos", stocks: "acciones tokenizadas" }, mkWrap: " ({m})",
     liqHead: "Las liquidaciones llegan a {total} en 1 hora, {share}% {side}", side: { long: "largos", short: "cortos" },
@@ -142,7 +142,7 @@ const T = {
   "pt-BR": {
     listing: "{venue} lista {assets}{market}", listingNotice: "Aviso de listagem da {venue}: {assets}{market}", listingGeneric: "{venue} publica novo aviso de listagem",
     delisting: "{venue} remove {assets}", delistingNotice: "Aviso de remoção da {venue}: {assets}", delistingGeneric: "{venue} publica aviso de remoção",
-    campaignPrize: "Campanha da {venue}: prêmio de {amount} {asset}", campaignGeneric: "{venue} publica novo aviso de evento",
+    campaignPrize: "Campanha da {venue}: prêmio total de {amount} {asset}", campaignMaxReward: "Campanha da {venue}: até {amount} {asset} por usuário", campaignVoucher: "Campanha da {venue}: voucher de {amount} {asset}", campaignGeneric: "{venue} publica novo aviso de evento",
     annBody: "A {venue} publicou isto nos anúncios oficiais em {published} SGT.", whenBody: "Data informada no aviso: {when}.",
     mk: { spot: "spot", perp: "futuros perpétuos", stocks: "ações tokenizadas" }, mkWrap: " ({m})",
     liqHead: "Liquidações somam {total} em 1 hora; {share}% em posições {side}", side: { long: "compradas (long)", short: "vendidas (short)" },
@@ -156,7 +156,7 @@ const T = {
   fr: {
     listing: "{venue} cote {assets}{market}", listingNotice: "Avis de cotation {venue} : {assets}{market}", listingGeneric: "{venue} publie un nouvel avis de cotation",
     delisting: "{venue} retire {assets}", delistingNotice: "Avis de retrait {venue} : {assets}", delistingGeneric: "{venue} publie un avis de retrait",
-    campaignPrize: "Campagne {venue} : cagnotte de {amount} {asset}", campaignGeneric: "{venue} publie un nouvel avis d’événement",
+    campaignPrize: "Campagne {venue} : cagnotte de {amount} {asset}", campaignMaxReward: "Campagne {venue} : jusqu’à {amount} {asset} par utilisateur", campaignVoucher: "Campagne {venue} : bon de {amount} {asset}", campaignGeneric: "{venue} publie un nouvel avis d’événement",
     annBody: "Publié dans les annonces officielles de {venue} le {published} SGT.", whenBody: "Date indiquée dans l’avis : {when}.",
     mk: { spot: "spot", perp: "contrats perpétuels", stocks: "actions tokenisées" }, mkWrap: " ({m})",
     liqHead: "Les liquidations atteignent {total} en 1 heure, dont {share} % de positions {side}", side: { long: "longues", short: "courtes" },
@@ -170,7 +170,7 @@ const T = {
   de: {
     listing: "{venue} listet {assets}{market}", listingNotice: "{venue}-Listing-Mitteilung: {assets}{market}", listingGeneric: "{venue} veröffentlicht eine neue Listing-Mitteilung",
     delisting: "{venue} delistet {assets}", delistingNotice: "{venue}-Delisting-Mitteilung: {assets}", delistingGeneric: "{venue} veröffentlicht eine Delisting-Mitteilung",
-    campaignPrize: "{venue}-Aktion: Preispool von {amount} {asset}", campaignGeneric: "{venue} veröffentlicht eine neue Event-Mitteilung",
+    campaignPrize: "{venue}-Aktion: Preispool von {amount} {asset}", campaignMaxReward: "{venue}-Aktion: bis zu {amount} {asset} pro Nutzer", campaignVoucher: "{venue}-Aktion: Gutschein über {amount} {asset}", campaignGeneric: "{venue} veröffentlicht eine neue Event-Mitteilung",
     annBody: "{venue} hat dies am {published} SGT in seinen offiziellen Mitteilungen veröffentlicht.", whenBody: "Zeitpunkt laut Mitteilung: {when}.",
     mk: { spot: "Spot", perp: "Perpetual Futures", stocks: "tokenisierte Aktien" }, mkWrap: " ({m})",
     liqHead: "Liquidationen erreichen {total} in 1 Stunde, {share}% {side}", side: { long: "Longs", short: "Shorts" },
@@ -184,7 +184,7 @@ const T = {
   it: {
     listing: "{venue} quota {assets}{market}", listingNotice: "Avviso di listing {venue}: {assets}{market}", listingGeneric: "{venue} pubblica un nuovo avviso di listing",
     delisting: "{venue} rimuove {assets}", delistingNotice: "Avviso di delisting {venue}: {assets}", delistingGeneric: "{venue} pubblica un avviso di delisting",
-    campaignPrize: "Campagna {venue}: montepremi di {amount} {asset}", campaignGeneric: "{venue} pubblica un nuovo avviso di evento",
+    campaignPrize: "Campagna {venue}: montepremi di {amount} {asset}", campaignMaxReward: "Campagna {venue}: fino a {amount} {asset} per utente", campaignVoucher: "Campagna {venue}: voucher da {amount} {asset}", campaignGeneric: "{venue} pubblica un nuovo avviso di evento",
     annBody: "{venue} lo ha pubblicato negli annunci ufficiali il {published} SGT.", whenBody: "Data indicata nell’avviso: {when}.",
     mk: { spot: "spot", perp: "futures perpetui", stocks: "azioni tokenizzate" }, mkWrap: " ({m})",
     liqHead: "Liquidazioni a {total} in 1 ora, {share}% {side}", side: { long: "long", short: "short" },
@@ -198,7 +198,7 @@ const T = {
   ja: {
     listing: "{venue}、{assets}{market}を上場", listingNotice: "{venue} 上場のお知らせ：{assets}{market}", listingGeneric: "{venue}、新規上場のお知らせを公開",
     delisting: "{venue}、{assets}を上場廃止", delistingNotice: "{venue} 上場廃止のお知らせ：{assets}", delistingGeneric: "{venue}、上場廃止のお知らせを公開",
-    campaignPrize: "{venue}キャンペーン：賞金総額 {amount} {asset}", campaignGeneric: "{venue}、新しいイベントのお知らせを公開",
+    campaignPrize: "{venue}キャンペーン：賞金総額 {amount} {asset}", campaignMaxReward: "{venue}キャンペーン：1ユーザーあたり最大 {amount} {asset}", campaignVoucher: "{venue}キャンペーン：{amount} {asset} バウチャー", campaignGeneric: "{venue}、新しいイベントのお知らせを公開",
     annBody: "{venue}が {published} SGT に公式のお知らせで公開しました。", whenBody: "お知らせに記載の日時：{when}。",
     mk: { spot: "現物", perp: "無期限先物", stocks: "トークン化株式" }, mkWrap: "（{m}）",
     liqHead: "1時間の清算額が {total} に、約{share}%が{side}", side: { long: "ロング", short: "ショート" },
@@ -212,7 +212,7 @@ const T = {
   ko: {
     listing: "{venue}, {assets}{market} 상장", listingNotice: "{venue} 상장 공지: {assets}{market}", listingGeneric: "{venue}, 신규 상장 공지 게시",
     delisting: "{venue}, {assets} 상장 폐지", delistingNotice: "{venue} 상장 폐지 공지: {assets}", delistingGeneric: "{venue}, 상장 폐지 공지 게시",
-    campaignPrize: "{venue} 이벤트: 총상금 {amount} {asset}", campaignGeneric: "{venue}, 새 이벤트 공지 게시",
+    campaignPrize: "{venue} 이벤트: 총상금 {amount} {asset}", campaignMaxReward: "{venue} 이벤트: 사용자당 최대 {amount} {asset}", campaignVoucher: "{venue} 이벤트: {amount} {asset} 바우처", campaignGeneric: "{venue}, 새 이벤트 공지 게시",
     annBody: "{venue}가 {published} SGT에 공식 공지로 게시했습니다.", whenBody: "공지에 적힌 일시: {when}.",
     mk: { spot: "현물", perp: "무기한 선물", stocks: "토큰화 주식" }, mkWrap: " ({m})",
     liqHead: "1시간 청산 {total}, {share}%가 {side}", side: { long: "롱", short: "숏" },
@@ -226,7 +226,7 @@ const T = {
   ru: {
     listing: "{venue} добавляет {assets}{market}", listingNotice: "Объявление о листинге на {venue}: {assets}{market}", listingGeneric: "{venue} опубликовала объявление о листинге",
     delisting: "{venue} проводит делистинг {assets}", delistingNotice: "Объявление о делистинге на {venue}: {assets}", delistingGeneric: "{venue} опубликовала объявление о делистинге",
-    campaignPrize: "Акция {venue}: призовой фонд {amount} {asset}", campaignGeneric: "{venue} публикует новое объявление о событии",
+    campaignPrize: "Акция {venue}: призовой фонд {amount} {asset}", campaignMaxReward: "Акция {venue}: до {amount} {asset} на пользователя", campaignVoucher: "Акция {venue}: ваучер на {amount} {asset}", campaignGeneric: "{venue} публикует новое объявление о событии",
     annBody: "{venue} опубликовала это в официальных объявлениях {published} SGT.", whenBody: "Дата в объявлении: {when}.",
     mk: { spot: "спот", perp: "бессрочные фьючерсы", stocks: "токенизированные акции" }, mkWrap: " ({m})",
     liqHead: "Ликвидации за 1 час: {total}, {share}% — {side}", side: { long: "лонги", short: "шорты" },
@@ -240,7 +240,7 @@ const T = {
   tr: {
     listing: "{venue}, {assets}{market} listeliyor", listingNotice: "{venue} listeleme duyurusu: {assets}{market}", listingGeneric: "{venue} yeni bir listeleme duyurusu yayımladı",
     delisting: "{venue}, {assets} varlığını listeden çıkarıyor", delistingNotice: "{venue} listeden çıkarma duyurusu: {assets}", delistingGeneric: "{venue} listeden çıkarma duyurusu yayımladı",
-    campaignPrize: "{venue} kampanyası: {amount} {asset} ödül havuzu", campaignGeneric: "{venue} yeni bir etkinlik duyurusu yayımladı",
+    campaignPrize: "{venue} kampanyası: {amount} {asset} ödül havuzu", campaignMaxReward: "{venue} kampanyası: kullanıcı başına en fazla {amount} {asset}", campaignVoucher: "{venue} kampanyası: {amount} {asset} kupon", campaignGeneric: "{venue} yeni bir etkinlik duyurusu yayımladı",
     annBody: "{venue} bunu {published} SGT'de resmi duyurularında yayımladı.", whenBody: "Duyuruda belirtilen tarih: {when}.",
     mk: { spot: "spot", perp: "vadesiz vadeli işlemler", stocks: "tokenize hisseler" }, mkWrap: " ({m})",
     liqHead: "1 saatte {total} likidasyon, %{share} {side}", side: { long: "long", short: "short" },
@@ -254,7 +254,7 @@ const T = {
   id: {
     listing: "{venue} melisting {assets}{market}", listingNotice: "Pengumuman listing {venue}: {assets}{market}", listingGeneric: "{venue} merilis pengumuman listing baru",
     delisting: "{venue} melakukan delisting {assets}", delistingNotice: "Pengumuman delisting {venue}: {assets}", delistingGeneric: "{venue} merilis pengumuman delisting",
-    campaignPrize: "Kampanye {venue}: total hadiah {amount} {asset}", campaignGeneric: "{venue} merilis pengumuman acara baru",
+    campaignPrize: "Kampanye {venue}: total hadiah {amount} {asset}", campaignMaxReward: "Kampanye {venue}: hingga {amount} {asset} per pengguna", campaignVoucher: "Kampanye {venue}: voucher {amount} {asset}", campaignGeneric: "{venue} merilis pengumuman acara baru",
     annBody: "{venue} memuat ini di pengumuman resminya pada {published} SGT.", whenBody: "Waktu yang tertulis di pengumuman: {when}.",
     mk: { spot: "spot", perp: "futures perpetual", stocks: "saham ter-tokenisasi" }, mkWrap: " ({m})",
     liqHead: "Likuidasi capai {total} dalam 1 jam, {share}% {side}", side: { long: "posisi long", short: "posisi short" },
@@ -268,7 +268,7 @@ const T = {
   vi: {
     listing: "{venue} niêm yết {assets}{market}", listingNotice: "Thông báo niêm yết của {venue}: {assets}{market}", listingGeneric: "{venue} đăng thông báo niêm yết mới",
     delisting: "{venue} hủy niêm yết {assets}", delistingNotice: "Thông báo hủy niêm yết của {venue}: {assets}", delistingGeneric: "{venue} đăng thông báo hủy niêm yết",
-    campaignPrize: "Sự kiện {venue}: tổng giải thưởng {amount} {asset}", campaignGeneric: "{venue} đăng thông báo sự kiện mới",
+    campaignPrize: "Sự kiện {venue}: tổng giải thưởng {amount} {asset}", campaignMaxReward: "Sự kiện {venue}: tối đa {amount} {asset} cho mỗi người dùng", campaignVoucher: "Sự kiện {venue}: voucher {amount} {asset}", campaignGeneric: "{venue} đăng thông báo sự kiện mới",
     annBody: "{venue} đã đăng tin này trên kênh thông báo chính thức lúc {published} SGT.", whenBody: "Thời gian ghi trong thông báo: {when}.",
     mk: { spot: "giao ngay", perp: "hợp đồng vĩnh cửu", stocks: "cổ phiếu token hóa" }, mkWrap: " ({m})",
     liqHead: "Thanh lý đạt {total} trong 1 giờ, {share}% là {side}", side: { long: "lệnh long", short: "lệnh short" },
@@ -282,7 +282,7 @@ const T = {
   ar: {
     listing: "{venue} تدرج {assets}{market}", listingNotice: "إعلان إدراج من {venue}: {assets}{market}", listingGeneric: "{venue} تنشر إعلان إدراج جديدًا",
     delisting: "{venue} تلغي إدراج {assets}", delistingNotice: "إعلان إلغاء إدراج من {venue}: {assets}", delistingGeneric: "{venue} تنشر إعلان إلغاء إدراج",
-    campaignPrize: "حملة {venue}: مجموع جوائز {amount} {asset}", campaignGeneric: "{venue} تنشر إعلان فعالية جديدًا",
+    campaignPrize: "حملة {venue}: مجموع جوائز {amount} {asset}", campaignMaxReward: "حملة {venue}: حتى {amount} {asset} لكل مستخدم", campaignVoucher: "حملة {venue}: قسيمة {amount} {asset}", campaignGeneric: "{venue} تنشر إعلان فعالية جديدًا",
     annBody: "نشرت {venue} هذا في إعلاناتها الرسمية في {published} SGT.", whenBody: "الموعد المذكور في الإعلان: {when}.",
     mk: { spot: "فوري", perp: "عقود دائمة", stocks: "أسهم مرمّزة" }, mkWrap: " ({m})",
     liqHead: "التصفيات تبلغ {total} خلال ساعة، {share}% منها {side}", side: { long: "مراكز شراء", short: "مراكز بيع" },
@@ -303,7 +303,7 @@ const STOP = new Set(["OKX", "BINANCE", "BITGET", "BYBIT", "KUCOIN", "KRAKEN", "
 const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
 const pad2 = (n) => String(n).padStart(2, "0");
 
-/** Structured fields of an official announcement title: assets, market kind, effective time, prize pool. */
+/** Structured fields of an official announcement title: assets, market kind, effective time, reward semantics. */
 export function parseAnnouncementTitle(title = "") {
   const text = String(title);
   const assets = [];
@@ -322,11 +322,24 @@ export function parseAnnouncementTitle(title = "") {
     const iso = text.match(/\b(?:on|from|at) (\d{4}-\d{2}-\d{2})\b/i);
     if (iso) when = iso[1];
   }
-  const prize = text.match(/([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b[^.]{0,30}?(?:prize pool|in rewards|rewards|airdrop)/i)
-    || text.match(/(?:prize pool|share|win|up to)[^\d]{0,24}([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b/i);
+  const rewardToken = (match, kind) => {
+    if (!match) return null;
+    const amount = match[1];
+    const asset = String(match[2] || "").toUpperCase();
+    if (!amount || !asset || (!["USDT", "USDC", "USD"].includes(asset) && STOP.has(asset))) return null;
+    return { kind, amount, asset };
+  };
+  const perUserMax = rewardToken(text.match(/(?:earn|get|receive|claim|win|grab)[^\d.]{0,24}?(?:up to|max(?:imum)?|as much as)[^\d]{0,16}([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b/i)
+    || text.match(/(?:up to|max(?:imum)?|as much as)[^\d]{0,16}([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b[^.]{0,24}?(?:per user|each|for every|for each)/i), "perUserMax");
+  const voucher = rewardToken(text.match(/([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b[^.]{0,36}?(?:voucher|coupon|bonus voucher|trial fund|trading bonus)/i)
+    || text.match(/(?:voucher|coupon|bonus voucher|trial fund|trading bonus)[^\d]{0,36}([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b/i), "voucherFaceValue");
+  const totalPrizePool = rewardToken(text.match(/([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b[^.]{0,36}?(?:total prize pool|prize pool|reward pool|total rewards)/i)
+    || text.match(/(?:total prize pool|prize pool|reward pool|total rewards)[^\d]{0,36}([\d][\d,]*(?:\.\d+)?)\s*([A-Z][A-Z0-9]{1,9})\b/i), "totalPrizePool");
+  const reward = voucher || perUserMax || totalPrizePool;
   return {
     assets: assets.slice(0, 12), market, when,
-    prize: prize && (["USDT", "USDC"].includes(prize[2].toUpperCase()) || !STOP.has(prize[2].toUpperCase())) ? { amount: prize[1], asset: prize[2].toUpperCase() } : null,
+    reward,
+    prize: reward?.kind === "totalPrizePool" ? { amount: reward.amount, asset: reward.asset } : null,
     verb: /\b(will list|to list|will launch|new listing|initial listing|listed|lists|launch(?:es)?|available for trading|will add)\b/i.test(text),
     delistVerb: /\bdelist/i.test(text),
   };
@@ -366,7 +379,7 @@ function announcementItem(row, brief) {
   const parsed = parseAnnouncementTitle(row.title);
   const item = {
     id: `a:${row.id}`, type, time: new Date(Date.parse(row.publishedAt)).toISOString(), venue: row.venue || null,
-    assets: type === "campaign" ? [] : parsed.assets, data: { market: parsed.market, when: parsed.when, prize: parsed.prize, verb: parsed.verb, delistVerb: parsed.delistVerb, category: row.category },
+    assets: type === "campaign" ? [] : parsed.assets, data: { market: parsed.market, when: parsed.when, prize: parsed.prize, reward: parsed.reward, verb: parsed.verb, delistVerb: parsed.delistVerb, category: row.category },
     source: { kind: "official", url: row.url, title: row.title }, updatePath: updatePath(row),
     ...(brief ? { brief: { headline: brief.headline || null, summary: brief.summary || null } } : {}),
   };
@@ -491,8 +504,18 @@ export function renderText(item, locale = "en") {
     body = fill(tt.annBody, { venue, published });
     if (d.when) body += ` ${fill(tt.whenBody, { when: f(/\d{4}-\d\d-\d\d \d\d:\d\d UTC$/.test(d.when) ? formatSgt(d.when.replace(" ", "T").replace(" UTC", ":00Z")) : d.when) })}`;
     if (item.type === "campaign") {
-      generic = !d.prize;
-      headline = d.prize ? fill(tt.campaignPrize, { venue, amount: f(d.prize.amount), asset: f(d.prize.asset) }) : fill(tt.campaignGeneric, { venue });
+      const reward = d.reward || (d.prize ? { ...d.prize, kind: "totalPrizePool" } : null);
+      generic = !reward;
+      if (reward?.kind === "totalPrizePool") {
+        headline = fill(tt.campaignPrize || T.en.campaignPrize, { venue, amount: f(reward.amount), asset: f(reward.asset) });
+      } else if (reward?.kind === "perUserMax") {
+        headline = fill(tt.campaignMaxReward || T.en.campaignMaxReward, { venue, amount: f(reward.amount), asset: f(reward.asset) });
+      } else if (reward?.kind === "voucherFaceValue") {
+        headline = fill(tt.campaignVoucher || T.en.campaignVoucher, { venue, amount: f(reward.amount), asset: f(reward.asset) });
+      } else {
+        headline = fill(tt.campaignGeneric, { venue });
+      }
+      if (reward) body += ` ${headline}.`;
     } else {
       const assets = item.assets.length ? f(assetsText(item.assets)) : "";
       const market = item.type === "listing" && d.market ? fill(tt.mkWrap, { m: tt.mk[d.market] }) : "";
@@ -501,6 +524,7 @@ export function renderText(item, locale = "en") {
         : (assets ? (d.delistVerb ? "delisting" : "delistingNotice") : "delistingGeneric");
       generic = !assets;
       headline = fill(tt[key], { venue, assets, market });
+      if (assets) body += ` ${headline}.`;
     }
   } else if (item.type === "liquidation-spike") {
     const longSide = d.longUsd >= d.shortUsd;
@@ -537,8 +561,17 @@ export function flashLinks(item) {
   return links;
 }
 
+export function flashItemHasIndexableFacts(item, locale = "en") {
+  if (!item || item.type === "news") return false;
+  const d = item.data || {};
+  if (item.source?.kind !== "official") return true;
+  const hasBriefBody = Boolean(String(item.brief?.summary?.[locale] || "").trim());
+  if (item.type === "campaign") return hasBriefBody || Boolean(d.reward || d.prize || d.when);
+  return Boolean((Array.isArray(item.assets) && item.assets.length) || d.when);
+}
+
 export const isFlashIndexable = (item, locale, { now = Date.now(), localized = true } = {}) => item.type !== "news" && localized
-  && FLASH_INDEX_LOCALES.includes(locale) && now - Date.parse(item.time) <= FLASH_INDEX_WINDOW_MS;
+  && flashItemHasIndexableFacts(item, locale) && FLASH_INDEX_LOCALES.includes(locale) && now - Date.parse(item.time) <= FLASH_INDEX_WINDOW_MS;
 
 /** Locales whose edition of this item is indexable (hreflang set and sitemap). */
 export function flashItemIndexLocales(item, { now = Date.now() } = {}) {

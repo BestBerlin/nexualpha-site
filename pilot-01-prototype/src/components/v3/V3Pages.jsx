@@ -33,6 +33,7 @@ import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
 import { ExchangeScorecard, CountryScorecards } from "../compare/ExchangeScorecard.jsx";
 import { compareVenueCta } from "../../data/compare-cta.js";
+import { eventSourceStateLabel, visibleEventSourceItems } from "../../data/event-source.js";
 import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
@@ -2019,6 +2020,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
   const ui = interfaceText(locale);
   const [stickyCtaActive, setStickyCtaActive] = useState(false);
   const profiles = selected.map((slug) => venues.find((venue) => venue.slug === slug)).filter(Boolean).map((venue) => venueProfile(venue, locale));
+  const eventViewForProfile = (profile) => visibleEventSourceItems(updates, { locale, venue: profile.slug, now: Date.now() });
   const isZhLoc = locale.startsWith("zh");
   const isHantLoc = locale === "zh-Hant" || locale === "zh-TW";
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
@@ -2057,7 +2059,12 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
     [text.detailWhyChoose, (profile) => <DecisionComparisonValue slug={profile.slug} locale={locale} field="why" fallback={profile.strengths[0]} />],
     [text.detailNotFor, (profile) => <DecisionComparisonValue slug={profile.slug} locale={locale} field="avoid" fallback={profile.limitations[0]} />],
     [text.officialDomain, (profile) => profile.officialDomain || text.pendingReview],
-    [text.activityState, (profile) => updates.filter((update) => update.platform.slug === profile.slug).length || text.noReviewedActivity],
+    [text.activityState, (profile) => {
+      const eventView = eventViewForProfile(profile);
+      if (eventView.items.length === 1) return eventView.items[0].title;
+      if (eventView.items.length > 1) return `${eventView.items.length} · ${eventView.items[0].title}`;
+      return eventSourceStateLabel(eventView.state, locale);
+    }],
   ];
   const compareSlugKey = selected.slice(0, 3).join("-vs-");
   const directAnswer = compareDirectAnswerFor(compareSlugKey, locale) || (locale === "en" ? compareDirectAnswerOverrides[compareSlugKey] : null);

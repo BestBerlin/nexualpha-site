@@ -247,7 +247,7 @@ test("regional research previews expose bounded AEO questions and source freshne
 // The active HomeV7 decision desk precedes the research drawer hosted by ClosingBand.
 test("homepage keeps primary decisions above a collapsible research drawer", () => {
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
-  assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} movers=\{initialMovers\} fundingFeed=\{initialFundingFeed\} \/>/);
+  assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} movers=\{initialMovers\} fundingFeed=\{initialFundingFeed\} initialOfficialAnnouncements=\{initialOfficialAnnouncements\} \/>/);
   // A no-promotion market (Vietnam) keeps only the crawl links; every other market keeps the research drawer.
   assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{isNeutralCtaLocale\(locale\) \|\| jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
@@ -1171,8 +1171,10 @@ test("3.0 secondary pages stay visibly independent and keep commercial handoffs 
 
 test("venue FAQ stays neutral until a dated source review is present", () => {
   assert.match(venueFaqSection, /if \(!db\.faqSourceReviewedAt\)/);
-  assert.match(venueFaqSection, /current official requirements/);
-  assert.match(venueFaqSection, /never share seed phrases or 2FA codes/);
+  assert.match(venueFaqSection, /venueFallbackFaqEntries/);
+  assert.match(venueFaqSection, /spotFee/);
+  assert.match(venueFaqSection, /officialDomain/);
+  assert.match(venueFaqSection, /kycSummary/);
   assert.match(v3Pages, /decisionSourceReviewedAt/);
 });
 

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 import { localizedHref, localizedLanguageHref } from '../src/data/locale-routing.js';
 const root = fileURLToPath(new URL('..', import.meta.url));
-test('language listbox and footer render native links for all 15 published locales', () => {
+test('language listbox and footer render native links for all 17 supported locales', () => {
   const temp = mkdtempSync(path.join(root, 'tests/.tmp-language-'));
   try {
     const entry = path.join(temp, 'entry.jsx');
@@ -36,8 +36,8 @@ test('language listbox and footer render native links for all 15 published local
     }
     const footer = new JSDOM(result.footer).window.document;
     const links = [...footer.querySelectorAll('.nx-ftr__locales a')];
-    assert.equal(links.length,15);
-    assert.equal(new Set(links.map(a=>a.href)).size,15);
+    assert.equal(links.length,17);
+    assert.equal(new Set(links.map(a=>a.href)).size,17);
     for (const link of links) assert.equal(link.getAttribute('href'),localizedHref('/',{locale:link.hreflang}));
   } finally {rmSync(temp,{recursive:true,force:true});}
 });

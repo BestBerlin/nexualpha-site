@@ -130,6 +130,17 @@ test("compare FAQ, sticky aria and badge stay aligned for support-owner and gene
   }
 });
 
+test("generic compare FAQ answers stay specific enough for public FAQ schema", () => {
+  const genericBoilerplate = /research independently|verify before signing up|do your own research|DYOR/i;
+  for (const locale of uiLocales) {
+    const entries = compareFaqEntries(locale, { nameA: "Binance", nameB: "OKX" });
+    for (const entry of entries) {
+      assert.doesNotMatch(entry.q, genericBoilerplate, `${locale}: ${entry.q}`);
+      assert.doesNotMatch(entry.a, genericBoilerplate, `${locale}: ${entry.a}`);
+    }
+  }
+});
+
 test("Bybit vs Bitget priority FAQ is visible and matches schema for en and Chinese locales", async () => {
   for (const locale of ["en", "zh-Hans", "zh-Hant"]) {
     const html = decodeHtml(await renderComparePage(locale, ["bybit", "bitget"]));

@@ -537,6 +537,8 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   const newsArticles = normalizeNewsFeed(rawFeed);
   const newsArticleSummaries = normalizeNewsFeedSummaries(rawFeed);
   const newsFeedFingerprint = createHash("sha256").update(feedText).digest("hex");
+  const announcementFile = path.join(projectRoot, "public", "intel", "official-announcements.json");
+  const officialAnnouncements = existsSync(announcementFile) ? JSON.parse(readFileSync(announcementFile, "utf8")) : { items: [] };
   const inventory = routeInventory(newsArticles);
   const publication = selectSitemapPublicationEntries(inventory, newsArticles, { allLocales: INDEXABLE_LOCALES });
   const publishedRouteLocales = new Set(publication.urls.map(({ route, locale }) => `${route.pathname}|${locale}`));
@@ -556,12 +558,17 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
       const toolKey = toolKeyForPath(pathname);
       const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale, { rank: newsStrengthRank }) || undefined : undefined;
-      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles }));
+      const noticeSlugs = pathname.startsWith("/exchanges/") ? [pathname.split("/")[2]] : pathname.startsWith("/compare/") ? pathname.split("/")[2].split("-vs-") : null;
+      const noticeState = pathname === "/" || noticeSlugs ? { officialAnnouncements: {
+        generatedAt: officialAnnouncements.generatedAt,
+        items: (officialAnnouncements.items || []).filter((item) => !noticeSlugs || noticeSlugs.includes(item.venue)).slice(0, 40),
+      } } : {};
+      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles, ...noticeState }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;
       const assetPath = path.join(clientDir, asset);
       mkdirSync(path.dirname(assetPath), { recursive: true });
-      const assetPayload = { html,
+      const assetPayload = { html, ...noticeState,
         ...(initialArticles?.length ? { newsArticles: projectNewsFeedForRoute(pathname.startsWith("/news/") ? pathname : "/news", initialArticles, locale), newsFeedFingerprint } : {}),
         ...(toolArticles ? { toolArticles } : {}),
       };
@@ -571,10 +578,10 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // client swap). Only the worker's assignment (experimentRegistry.home_hero_copy_v1.enabled) ever serves it.
       let heroVariants;
       if (pathname === "/") {
-        const htmlB = stripReactResourceHints(await render(url, { heroVariant: "b" }));
+        const htmlB = stripReactResourceHints(await render(url, { heroVariant: "b", ...noticeState }));
         if (!/<h1\b/i.test(htmlB) || !htmlB.includes('data-hero-variant="b"')) throw new Error(`Missing hero variant B prerender: ${url}`);
         const assetB = `/prerender/${locale}/home-hero-b.json`;
-        writeFileSync(path.join(clientDir, assetB), `${JSON.stringify({ html: htmlB })}\n`);
+        writeFileSync(path.join(clientDir, assetB), `${JSON.stringify({ html: htmlB, ...noticeState })}\n`);
         heroVariants = { b: assetB };
       }
       routes[`${pathname}|${locale}`] = { pathname, locale, asset,

@@ -50,8 +50,9 @@ export function ExchangeScorecard({ selected, locale = 'en', market }) {
 }
 
 function CountryRankingTable({ market, locale }) {
-  const metrics = ['spotFees', 'perpFees', 'top200Coins', 'localFiatRails'].map((key) => market.rows.find((row) => row.key === key));
-  const fee = (slug) => metrics[0]?.values.find((cell) => cell.slug === slug);
+  const metrics = ['spotFees', 'perpFees', 'top200Coins', 'localFiatRails'].map((key) => market.rows.find((row) => row.key === key)).filter(Boolean);
+  const spotFees = market.rows.find((row) => row.key === "spotFees");
+  const fee = (slug) => spotFees?.values.find((cell) => cell.slug === slug);
   const ordered = [...market.venues].sort((a, b) => {
     const x = fee(a.slug), y = fee(b.slug);
     return (x?.taker ?? Infinity) - (y?.taker ?? Infinity) || (x?.maker ?? Infinity) - (y?.maker ?? Infinity) || a.slug.localeCompare(b.slug);

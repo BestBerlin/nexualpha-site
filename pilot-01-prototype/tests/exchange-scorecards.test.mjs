@@ -13,6 +13,7 @@ test("buildScorecard exposes deterministic pair rows without synthetic facts or 
   const card = buildScorecard(["binance", "okx", "unknown"], { locale: "en", market: "br", now: NOW });
   assert.deepEqual(card.venues.map((venue) => venue.slug), ["binance", "okx", "unknown"]);
   assert.equal("ctas" in card, false);
+  assert.equal(rowByKey(card, "appRatings"), undefined);
 
   const counts = rowByKey(card, "top200Coins");
   assert.equal(valueFor(counts, "binance").value, 135);
@@ -27,6 +28,20 @@ test("buildScorecard exposes deterministic pair rows without synthetic facts or 
   assert.match(valueFor(licenses, "binance").display, /SPK \(TR\): applied; Japan FSA \(JP\): registered/);
   assert.ok(valueFor(licenses, "binance").sources.every((url) => /^https:\/\/(spk\.gov\.tr|www\.fsa\.go\.jp|www\.vara\.ae)\//.test(url)));
   assert.equal(valueFor(licenses, "unknown").value, null);
+});
+
+test("scorecards omit missing public dimensions and debug wording", () => {
+  const card = buildScorecard(["binance", "okx"], { locale: "en", market: "br", now: NOW });
+  const publicText = JSON.stringify(card);
+  assert.equal(card.rows.some((row) => row.key === "appRatings"), false);
+  assert.doesNotMatch(publicText, /repo slice|Not in repo|app-rating data file/i);
+  assert.ok(card.verdicts.every((verdict) => !verdict.winners.includes("appRatings")));
+});
+
+test("scorecards hide any dimension with no public values", () => {
+  const card = buildScorecard(["unknown-a", "unknown-b"], { locale: "en", market: "br", now: NOW });
+  assert.equal(card.rows.some((row) => row.key === "appRatings"), false);
+  assert.equal(card.rows.some((row) => row.values.every((item) => item.value == null)), false);
 });
 
 test("funding matrix participation is descriptive and never an observed venue coverage count", () => {
@@ -47,7 +62,7 @@ test("campaign row requires a current campaign, not a registry signup promotion"
   const campaigns = rowByKey(card, "currentPromotion");
   assert.deepEqual(campaigns.winners, []);
   assert.equal(valueFor(campaigns, "binance").value, false);
-  assert.equal(valueFor(campaigns, "binance").display, "No current verified promotion");
+  assert.equal(valueFor(campaigns, "binance").display, "No reviewed campaign offer");
   assert.deepEqual(valueFor(campaigns, "binance").sources, ["/activities"]);
 });
 
@@ -67,7 +82,7 @@ test("Türkiye rankings exclude promotion-gated venues while descriptive pair da
   const tr = countryRankings({ locale: "tr", now: NOW }).find((market) => market.key === "tr");
   assert.ok(tr);
   assert.equal(tr.venues.some((venue) => venue.slug === "bitget"), false);
-  assert.equal(tr.rows.length >= 8, true);
+  assert.equal(tr.rows.some((row) => row.values.every((item) => item.value == null)), false);
   for (const verdict of tr.verdicts) assert.equal(verdict.winners.some((venue) => venue.slug === "bitget"), false);
 });
 

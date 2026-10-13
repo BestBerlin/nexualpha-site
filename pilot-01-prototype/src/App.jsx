@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { localeManifest, supportedLocales } from "./content/locale-manifest";
 import { intlLocale, v2Copy } from "./content/v2-copy";
 import { getTextDirection, localStorageKey, setLocale as setParaglideLocale } from "./paraglide/runtime.js";
@@ -28,6 +28,8 @@ import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
+import { sharedOfficialEventItems } from "./data/event-source.js";
+import { startJsonPolling } from "./components/shared/json-polling.js";
 import { jurisdictionPromotionBan } from "./data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "./data/locale-policy.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
@@ -841,8 +843,18 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   }, []);
 
   const model = presentationModel(siteView, region, copy);
+  const [noticeFeed, setNoticeFeed] = useState(initialOfficialAnnouncements);
+  useEffect(() => { setNoticeFeed(initialOfficialAnnouncements); }, [initialOfficialAnnouncements]);
+  const sharedOfficialEvents = useMemo(() => {
+    return Array.isArray(noticeFeed?.items) ? sharedOfficialEventItems(noticeFeed) : (model.officialUpdates ?? []);
+  }, [noticeFeed, model.officialUpdates]);
   const command = useMemo(() => marketCommand(copy, model.venues), [copy, model.venues]);
   const route = routeState(command.venueCatalog, initialUrl);
+  useEffect(() => {
+    if (route.name !== "venue" && route.name !== "compare") return;
+    return startJsonPolling({ request: "/intel/official-announcements.json", intervalMs: 5 * 60 * 1000,
+      isData: (feed) => Array.isArray(feed?.items), onData: setNoticeFeed });
+  }, [route.name]);
   useEffect(() => {
     if (route.name === "newsDetail") {
       // The article component owns metadata after its feed resolves, including
@@ -856,7 +868,9 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   }, [locale, route]);
 
   const [liveDecisionContextSearch, setLiveDecisionContextSearch] = useState(null);
-  useEffect(() => {
+  // Apply fragment-based geographic gates before passive feed refresh effects.
+  const useDecisionContextEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+  useDecisionContextEffect(() => {
     if (typeof window === "undefined") return undefined;
     const update = () => setLiveDecisionContextSearch(decisionContextSearchFromUrl(window.location.href));
     update();
@@ -956,10 +970,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} glossaryLinks={readGlossaryLinks(locale)} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} initialNewsArticles={initialNewsArticles} />);
+  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} initialNewsArticles={initialNewsArticles} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
+  if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "research") return pageShell(<OfficialResearchPage locale={locale} market={route.market} product={route.product} venue={command.venueCatalog.find((venue) => venue.slug === route.slug)} venues={command.venueCatalog} />);
   if (route.name === "activity") return pageShell(<ActivityDetailPage copy={copy} locale={locale} market={route.market} product={route.product} update={(model.officialUpdates ?? []).find((update) => update.id === route.id)} venues={command.venueCatalog} />);
   if (route.name === "activityUpdate") return pageShell(<ActivityUpdatePage venue={route.venue} slug={route.slug} locale={locale} market={route.market} initialFeed={initialOfficialAnnouncements} />);
@@ -1024,7 +1038,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
-    <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} />
+    <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} />
     {/* Neutral locales and no-promotion markets (Vietnam) get no legacy research drawer: it holds sign-up links. */}
     <ClosingBand locale={locale} legacy={isNeutralCtaLocale(locale) || jurisdictionPromotionBan({ locale, market: route.market }) ? <CrawlPriorityLinks locale={locale} scope="home" /> : homeSlots.closing} />
     {footer}
