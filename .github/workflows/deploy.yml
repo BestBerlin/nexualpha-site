@@ -3,7 +3,7 @@ name: Deploy to production
 # Manual only: Actions -> "Deploy to production" -> Run workflow.
 # build -> upload -> standby container + preflight + CTA-link gate -> Nginx cutover
 #       -> public checks -> automatic rollback if any public check fails.
-# The previous container keeps running, so a rollback is one Nginx switch.
+# The previous container is retained; rollback starts and validates it before switching nginx.
 
 on:
   workflow_dispatch:
@@ -121,7 +121,7 @@ jobs:
           {
             echo "### Deployed $BUILD_ID"
             echo "- release: \`$RELEASE\`"
-            echo "- previous container keeps running; to roll back run the **Rollback production** workflow with release \`$RELEASE\`"
+            echo "- previous container is retained; to roll back run the **Rollback production** workflow with release \`$RELEASE\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Remove key
