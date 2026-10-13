@@ -1,3 +1,4 @@
+import { newsArticleGeoPool, newsMetadataAllowed } from "../../../data/news-geo-policy.js";
 import { articleRelatedLinks, recentEntityArticles } from '../../../data/article-related-links.js';
 import { SourceLink } from "../../shared/SourceLink.jsx";
 import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
@@ -687,7 +688,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   // Scroll-spy for the desktop section index; null on the server and the first client render (no hydration drift).
   const [activeSection, setActiveSection] = useState(null);
   const articleDisclosureContextRef = useRef(null);
-  const article = getNewsArticleBySlug(slug, articles);
+  const visibleArticles = newsArticleGeoPool(articles, { locale, market }, slug);
+  const article = getNewsArticleBySlug(slug, visibleArticles);
   const hasRequestedLanguageBody = Boolean(article?.content?.[locale]);
 
   useEffect(() => {
@@ -829,10 +831,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     if (inlineIndex <= leadBlockCount) leadNodes.splice(inlineIndex, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
     else deepNodes.splice(inlineIndex - leadBlockCount, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
   }
-  const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
+  const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs().filter(slug => newsMetadataAllowed(slug, { locale, market })) });
   // Topic hubs & tools (links-l10n lane 2026-10-11, scorecard C5/D4): the main page of every query family this article
   // belongs to and the data tools on its subject, from the mapping in src/data/topic-clusters.js.
-  const clusterLinks = articleClusterLinks(article, locale);
+  const clusterLinks = articleClusterLinks(article, locale).filter(link => newsMetadataAllowed(link, { locale, market }));
   // CTR pass 2026-10-13: registration tutorials open with the exchange profile (and app page) built for that search
   // intent; an article that splits a query with a stronger article links to the query owner. See news-lead-links.js.
   const signupBridge = newsSignupBridge({ articleSlug: article.slug, locale, market, hasVenue: (venueSlug) => Boolean(venueDatabase[venueSlug]), venueName: (venueSlug) => venueDatabase[venueSlug]?.name });
@@ -845,7 +847,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
       if (window.location.hash !== `#${id}`) window.history.pushState(null, "", `#${id}`);
     }
   };
-  const relatedLinks = articleRelatedLinks(article, locale, t);
+  const relatedLinks = articleRelatedLinks(article, locale, t).filter(link => newsMetadataAllowed(link, { locale, market }));
   const newsBotVenue = article.relatedVenues?.find((venueSlug) =>
     typeof venueSlug === "string" && venueDatabase[venueSlug]?.slug === venueSlug
   );
@@ -1065,10 +1067,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           />
         )}
 
-        {newsReadingNeighbors(article, articles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
-          {newsReadingNeighbors(article, articles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}>{localizedNewsTitle(item, locale)}</a>)}
+        {newsReadingNeighbors(article, visibleArticles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
+          {newsReadingNeighbors(article, visibleArticles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}>{localizedNewsTitle(item, locale)}</a>)}
         </nav>}
-        <RelatedResearch links={relatedLinks} relatedArticles={recentEntityArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
+        <RelatedResearch links={relatedLinks} relatedArticles={recentEntityArticles(article, visibleArticles)} locale={locale} t={t} withContext={withContext} article={article} />
 
 
 

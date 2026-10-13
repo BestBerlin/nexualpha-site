@@ -71,7 +71,7 @@ export function partnerExchangePageLinks(locale = "en", { includeCodes = true, m
       const name = cta.name || venue.name || slug;
       if (!partnerRegistry[slug]?.hasReferral || !venueDatabase[slug]) return null;
       // Türkiye pages never link a partner outside the Türkiye list (Bitget, CoinW), not even informationally.
-      if (isTurkeyGated(slug, { locale, market })) return null;
+      if (isTurkeyGated(slug, { locale, market }) || isTurkeyGated(slug, { locale })) return null;
       const promotable = !neutral && cta.hasPartnerRoute && !cta.actionGate && isPartnerPromotableIn(slug, { locale, market });
       const hasCode = includeCodes && promotable && cta.inviteCode;
       return {

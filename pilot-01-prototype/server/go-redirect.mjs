@@ -22,7 +22,7 @@ import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
 import { createApkProbe } from './exchange-apk-probe.mjs';
 
 // Older campaign route names some pages, posts or bots used; they resolve to the live tracked route (same code).
-export const GO_ALIASES = Object.freeze({ 'bybit-stocks': 'bybit', 'binance-october-gifts': 'binance-gifts', 'binance-october': 'binance-gifts' });
+export const GO_ALIASES = Object.freeze({ gate: 'gate-io', 'bybit-stocks': 'bybit', 'binance-october-gifts': 'binance-gifts', 'binance-october': 'binance-gifts' });
 
 /**
  * /go/<venue>-page?to=<path>: an official page of a venue whose referral parameter works sitewide (Binance, Bybit,
