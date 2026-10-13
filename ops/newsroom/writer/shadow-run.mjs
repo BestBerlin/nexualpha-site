@@ -39,6 +39,8 @@ function planFor(events, { writer, start, now }) {
       id: event.id,
       title_internal: event.title_internal,
       event_type: event.event_type,
+      source_published_at: event.source_published_at ?? null,
+      verification_status: event.verification_status ?? 'unverified',
       suggested_format: event.suggested_format,
       suggested_angle: event.suggested_angle,
       main_question: event.main_question,
