@@ -1,11 +1,17 @@
 // Server-only long/short and whale-transfer radar reader.
 //
 // Terms/source notes checked 2026-10-13:
-// - mempool.space exposes keyless public REST endpoints, but rate limits are not a product contract. This module only
-//   reads it through the server cache and returns an explicit unavailable snapshot on HTTP/rate-limit failure.
-// - PublicNode advertises free public Ethereum RPC endpoints. This module uses read-only eth_getBlockByNumber and
-//   eth_getLogs. A cold start reads a 40-block lookback; later refreshes only scan blocks added since the last cursor
-//   (capped catch-up), and qualifying rows are kept in a rolling 3-hour window. Failures produce an unavailable snapshot.
+// - mempool.space: https://mempool.space/terms-of-service and https://mempool.space/docs/api/rest.
+//   Published terms reviewed via the official repository's terms-of-service component; no redistribution restriction
+//   identified. Public API limits are unspecified; HTTP 429 can lead to a ban. BTC remains bounded and cached.
+// - PublicNode: https://www.publicnode.com/terms section B grants RPC access but also restricts redistribution and
+//   extraction. Commercial display permission remains unresolved. Retained under the brief's explicit fallback.
+// - Blockscout was NOT enabled: https://eaas.blockscout.com/terms-and-conditions sections 3/18 grant intended-purpose
+//   access, not an explicit commercial redistribution licence. https://docs.blockscout.com/devs/apis/requests-and-limits
+//   announces per-instance API deprecation July 1; archived default keyless limit is 300 req/min/IP (not a guarantee).
+//   https://mail.blockscout.com/p/news-july-1-is-pro-api-day confirms July 1, 2026 migration to the keyed PRO API.
+// - RPC fallback: combined USDT/USDC filters, non-overlapping general/exchange ranges, incremental cursor, and
+//   rolling 3-hour retention. See docs/whales-source-review.md for before/after payload counts and promotion options.
 // - Label rule: exact addresses from exchanges' own published proof-of-reserves wallet lists (see
 //   exchange-address-labels.mjs, one source URL per address). Unknown addresses stay "unknown"; exchange-transfer
 //   direction never means sale.
@@ -51,7 +57,7 @@ const ETH_NATIVE_LOOKBACK = 10;
 const ETH_LOG_LOOKBACK = 50;
 const ETH_EXCHANGE_LOG_LOOKBACK = 300;
 const ETH_MAX_CATCH_UP = 50;
-const LOG_CHUNK_BLOCKS = 50;
+const LOG_CHUNK_BLOCKS = 100;
 const EXCHANGE_LOG_CHUNK_BLOCKS = 300;
 const EXCHANGE_TOPIC_BATCH = 100;
 
@@ -470,26 +476,28 @@ async function ethereumRpcTransfers(fetchImpl, {
   const exchangeTopics = [...new Set(exchangeAddresses.map((a) => String(a).toLowerCase()).filter((a) => /^0x[0-9a-f]{40}$/.test(a)))].map(addressTopic);
   const seen = new Set();
   const qualifying = [];
-  for (const [asset, address, decimals] of [["USDT", USDT_CONTRACT, 6], ["USDC", USDC_CONTRACT, 6]]) {
-    const logs = [];
-    for (const [start, end] of blockRanges(logFrom, latest, LOG_CHUNK_BLOCKS)) logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address, topics: [TRANSFER_TOPIC] }]) || []));
-    // Exchange flows: Transfer logs whose sender or recipient topic is a labelled exchange address.
-    for (let i = 0; i < exchangeTopics.length; i += EXCHANGE_TOPIC_BATCH) {
-      const batch = exchangeTopics.slice(i, i + EXCHANGE_TOPIC_BATCH);
-      for (const [start, end] of blockRanges(exchangeFrom, latest, EXCHANGE_LOG_CHUNK_BLOCKS)) {
-        for (const topics of [[TRANSFER_TOPIC, batch], [TRANSFER_TOPIC, null, batch]]) {
-          logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address, topics }]) || []));
-        }
+  const contracts = [USDT_CONTRACT, USDC_CONTRACT];
+  const logs = [];
+  for (const [start, end] of blockRanges(logFrom, latest, LOG_CHUNK_BLOCKS)) logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address: contracts, topics: [TRANSFER_TOPIC] }]) || []));
+  // The general scan already includes every exchange flow in its range. Only request older exchange logs.
+  // On warm refreshes these ranges coincide, so no labelled-address request is necessary.
+  const exchangeEnd = Math.min(latest, logFrom - 1);
+  for (let i = 0; i < exchangeTopics.length && exchangeFrom <= exchangeEnd; i += EXCHANGE_TOPIC_BATCH) {
+    const batch = exchangeTopics.slice(i, i + EXCHANGE_TOPIC_BATCH);
+    for (const [start, end] of blockRanges(exchangeFrom, exchangeEnd, EXCHANGE_LOG_CHUNK_BLOCKS)) {
+      for (const topics of [[TRANSFER_TOPIC, batch], [TRANSFER_TOPIC, null, batch]]) {
+        logs.push(...(await rpc(fetchImpl, "eth_getLogs", [{ fromBlock: hex(start), toBlock: hex(end), address: contracts, topics }]) || []));
       }
     }
-    for (const entry of logs) {
-      if (entry.removed) continue;
-      const eventKey = `${entry.transactionHash}:${entry.logIndex || "0x0"}`;
-      if (seen.has(eventKey)) continue;
-      seen.add(eventKey);
-      if (hexBigInt(entry.data) < minRaw) continue;
-      qualifying.push({ asset, decimals, entry, eventKey });
-    }
+  }
+  for (const entry of logs) {
+    const address = String(entry.address || "").toLowerCase();
+    if (entry.removed || !contracts.includes(address) || entry.topics?.[0] !== TRANSFER_TOPIC) continue;
+    const eventKey = `${entry.transactionHash}:${entry.logIndex || "0x0"}`;
+    if (seen.has(eventKey)) continue;
+    seen.add(eventKey);
+    if (hexBigInt(entry.data) < minRaw) continue;
+    qualifying.push({ asset: address === USDT_CONTRACT ? "USDT" : "USDC", decimals: 6, entry, eventKey });
   }
   // Keep only the newest events before reading block headers, so a cold start stays bounded.
   qualifying.sort((a, b) => hexNumber(b.entry.blockNumber) - hexNumber(a.entry.blockNumber));
