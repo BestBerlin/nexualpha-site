@@ -181,8 +181,9 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
   const h1 = (html) => text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]);
   assert.match(h1(pages["okx:tr"]), /^OKX referans kodu nexu888, ücretler ve iade \(\d{4}\)$/);
   assert.match(h1(pages["bybit:tr"]), /^Bybit referans kodu 48553 ve ücretler \(\d{4}\)$/, "no rebate word without a confirmed share");
-  assert.match(h1(pages["okx:vi"]), /^Mã giới thiệu OKX nexu888, phí và hoàn phí \(\d{4}\)$/);
-  assert.match(h1(pages["bitget:vi"]), /^Mã giới thiệu Bitget nexu888/);
+  // vi is neutral since 2026-10-13 (owner decision): no code or referral wording in the H1.
+  assert.doesNotMatch(h1(pages["okx:vi"]), /nexu888|Mã giới thiệu/);
+  assert.doesNotMatch(h1(pages["bitget:vi"]), /nexu888|Mã giới thiệu/);
   assert.match(h1(pages["bybit:id"]), /^Kode referral Bybit 48553 dan biaya \(\d{4}\)$/);
   assert.match(h1(pages["binance:pt-BR"]), /^Código de convite Binance 11350287, taxas e cashback \(\d{4}\)$/);
 
