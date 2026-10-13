@@ -1,3 +1,4 @@
+import { articleRelatedLinks, recentEntityArticles } from '../../../data/article-related-links.js';
 import { SourceLink } from "../../shared/SourceLink.jsx";
 import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
@@ -13,7 +14,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
 import { venueDatabase } from "../../../data/venue-database.js";
 import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, newsHumanReview, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
-import { isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsListingPath, relatedNewsArticles } from "../../../data/news-library.js";
+import { isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsReadingNeighbors, newsListingPath } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
 import { applyNotFoundSeo, syncRouteSeo } from "../../../data/route-seo-client.js";
@@ -196,48 +197,12 @@ for (const [locale, tableScrollHint] of Object.entries(tableScrollHints)) {
   copy[locale].tableHintLocale = locale;
 }
 
-function humanizePathSegment(value) {
-  return String(value || "")
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part.length <= 4 ? part.toUpperCase() : `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
-    .join(" ");
-}
 
 function localizeReadTime(value, t) {
   const minutes = String(value || "").match(/\d+/)?.[0];
   return minutes ? `${minutes} ${t.minuteUnit}` : value;
 }
 
-function relatedResearchLinks(article, articles, locale, t) {
-  const targets = Array.isArray(article?.seo?.internalLinkTargets) ? article.seo.internalLinkTargets : [];
-  const seen = new Set();
-  return targets.flatMap((target) => {
-    const href = typeof target === "string" ? target.trim() : "";
-    if (!href || !href.startsWith("/") || href === `/news/${article.slug}` || seen.has(href)) return [];
-    seen.add(href);
-    const newsSlug = href.match(/^\/news\/([a-z0-9-]+)$/)?.[1];
-    const exchangeSlug = href.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
-    const factbookSlug = href.match(/^\/factbook\/([a-z0-9-]+)$/)?.[1];
-    const compareSlug = href.match(/^\/compare\/([a-z0-9-]+)$/)?.[1];
-    const topicSlug = href.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
-    const linkedArticle = newsSlug ? getNewsArticleBySlug(newsSlug, articles) : null;
-    const label = linkedArticle
-      ? localizedNewsTitle(linkedArticle, locale)
-      : exchangeSlug
-        ? `${venueDatabase[exchangeSlug]?.name || humanizePathSegment(exchangeSlug)} ${t.profileSuffix}`
-      : factbookSlug
-        ? `${venueDatabase[factbookSlug]?.name || humanizePathSegment(factbookSlug)} ${t.factbookSuffix}`
-      : compareSlug
-        ? `${t.comparePrefix} ${humanizePathSegment(compareSlug).replace(" VS ", " vs ")}`
-      : topicSlug
-        ? `${humanizePathSegment(topicSlug)} ${t.topicSuffix}`
-      : href === "/methodology"
-        ? t.methodologyLabel
-      : humanizePathSegment(href.replace(/^\//, ""));
-    return [{ href, label }];
-  }).slice(0, 5);
-}
 
 const priorityNewsDecisionSummaries = {
   "bybit-vs-bitget-passkey-withdrawal-control-boundary": {
@@ -467,8 +432,8 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
   return <TopDecisionBox locale={locale} className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
 }
 
-// Related research (2026-10-10): up to six articles from the same category and shared platforms (server-rendered from
-// the article's related summaries), followed by the article's own internal research links.
+// Related research: two recent shared-entity/category articles plus 3–5 informational resource links.
+// Separate chronological category links keep older research discoverable.
 function relatedArticleCategory(item, locale) {
   const own = item.categoryName && typeof item.categoryName === "object" ? item.categoryName[locale] : null;
   return own || newsCategoryCopy(item.category, locale)?.label || localizedValue(item.categoryName, locale) || item.category;
@@ -880,7 +845,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
       if (window.location.hash !== `#${id}`) window.history.pushState(null, "", `#${id}`);
     }
   };
-  const relatedLinks = relatedResearchLinks(article, articles, locale, t);
+  const relatedLinks = articleRelatedLinks(article, locale, t);
   const newsBotVenue = article.relatedVenues?.find((venueSlug) =>
     typeof venueSlug === "string" && venueDatabase[venueSlug]?.slug === venueSlug
   );
@@ -1100,7 +1065,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           />
         )}
 
-        <RelatedResearch links={relatedLinks} relatedArticles={relatedNewsArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
+        {newsReadingNeighbors(article, articles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
+          {newsReadingNeighbors(article, articles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}>{localizedNewsTitle(item, locale)}</a>)}
+        </nav>}
+        <RelatedResearch links={relatedLinks} relatedArticles={recentEntityArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
 
 
 

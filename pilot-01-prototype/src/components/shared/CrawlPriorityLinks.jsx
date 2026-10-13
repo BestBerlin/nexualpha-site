@@ -108,7 +108,11 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
         {groups.map((group) => (
           <div className="crawl-priority-links__group" key={group}>
             <span>{copy[group]}</span>
-            {crawlPriorityLinks[group].map(([href, label]) => (
+            {[...crawlPriorityLinks[group], ...(group === "compare" && locale === "en" ? [
+              ["/us", "US exchange research"], ["/id", "Indonesia exchange research"], ["/tw", "Taiwan exchange research"],
+              ["/topics/bybit-alternatives", "Bybit alternatives"],
+              ["/topics/brazil-crypto-exchange-deadline-2026", "Brazil exchange authorization deadline"],
+            ] : [])].map(([href, label]) => (
               <a key={href} href={href.startsWith("/br") ? href : localizedHref(href, { locale })}>{labelOverrides.get(href) || label}</a>
             ))}
           </div>

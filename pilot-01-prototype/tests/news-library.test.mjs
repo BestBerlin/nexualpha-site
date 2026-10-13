@@ -252,7 +252,8 @@ test("React news pages render the same pagination, category links and related re
     assert.doesNotMatch(out.localPool, /article-47"/);
 
     const related = [...out.detail.matchAll(/data-cta-placement="news-detail-related-article"/g)].length;
-    assert.ok(related >= 4 && related <= 6, `detail related ${related}`);
+    assert.equal(related, 2, "two recent related articles");
+    assert.match(out.detail, /data-news-reading-neighbors/, "older research remains discoverable");
     assert.match(out.detail, /<h2>Related research<\/h2>/);
   } finally {
     await rm(temporary, { recursive: true, force: true });

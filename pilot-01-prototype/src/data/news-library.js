@@ -150,6 +150,17 @@ export function relatedNewsArticles(article, articles, { limit = 6, minimum = 4 
   return picked;
 }
 
+// Chronological reading links preserve discovery of older research within its own category.
+// Wrap at the archive boundary so even the oldest article has referring peers.
+export function newsReadingNeighbors(article, articles, limit = 3) {
+  if (!article?.slug) return [];
+  const seen = new Set();
+  const peers = sortNewsArticles(articles).filter(item => (!item.status || item.status === "PUBLISHED") && item.category === article.category && !seen.has(item.slug) && seen.add(item.slug));
+  const index = peers.findIndex(item => item.slug === article.slug);
+  if (index < 0) return [];
+  return Array.from({ length: Math.min(limit, peers.length - 1) }, (_, offset) => peers[(index + offset + 1) % peers.length]);
+}
+
 // ---------------------------------------------------------------------------------------------------------------
 // Copy (15 locales). Category labels double as archive H1s; intros are one sentence.
 const CATEGORY_COPY = {

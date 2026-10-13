@@ -48,6 +48,9 @@ import { BYBIT_STOCKS_PATH, BYBIT_STOCKS_VENUE, bybitStocksCampaignActive, bybit
 import { BITGET_ALLIANCE_PATH, BITGET_ALLIANCE_VENUE, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import { KRAKEN_USDG_PATH, KRAKEN_USDG_VENUE, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
+import { exchangeHubToolLinks } from "../../data/exchange-hub-links.js";
+import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
+import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import "./venue-popular-coins.css";
 
 const VENUE_COINS_COPY = {
@@ -426,7 +429,7 @@ function ActivityCards({ copy, text, locale, updates }) {
 // module on the server and the route-module-cache wrapper in the browser, where its chunk (route-v3-venue-research)
 // loads when the reader opens the disclosure; `prefetchResearch` starts that download the moment the gate opens.
 // Tests that render the page directly use VenueDetailPageStatic.jsx, which wires the static component.
-export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch }) {
+export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch, initialNewsArticles = [] }) {
   const codeFeedback = useCopyFeedback(`${venue.slug}:code`);
   const copied = codeFeedback.state === "success";
   const [tradeVolume, setTradeVolume] = useState(50000);
@@ -446,6 +449,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const runtimeUi = detailRuntimeUi(locale, text, profile.name);
   const research = researchForVenue(venue.slug, locale);
   const related = updates.filter((update) => update.platform.slug === venue.slug);
+  const latestNews = exchangeHubNewsItems(initialNewsArticles, { slug: venue.slug, name: venue.name, locale });
+  const hubTools = exchangeHubToolLinks(venue.slug, locale);
   const suggested = profile.suggestedComparisons?.map((slug) => venues.find((candidate) => candidate.slug === slug)).filter(Boolean) ?? [];
   const similar = (suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category)).slice(0, 4);
 
@@ -861,6 +866,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={market} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
+    <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub">
