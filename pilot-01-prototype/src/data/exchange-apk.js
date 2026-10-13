@@ -21,6 +21,10 @@ export const EXCHANGE_APKS = Object.freeze({
     officialUrl: "https://www.okx.com/affiliatedownload/apk?channelId=NEXU888",
     fallbackUrl: "https://www.okx.com/download",
     hostAllowed: okxHost,
+    // okx.com itself may hand the channel file to a regional CDN mirror (seen from our server 2026-10-13:
+    // www.okx.com -> exgglyfor.mpwrs.cn/.../android_41620026.apk). That redirect comes from OKX's own host, so it
+    // counts as healthy when it names our channel file; we never request the mirror.
+    channelFile: "/upgradeapp/growth/channel/apk/android_41620026.apk",
   }),
   binance: Object.freeze({
     venue: "binance", goSlug: "binance-apk", sizeMb: 322, codeBuiltIn: false,
