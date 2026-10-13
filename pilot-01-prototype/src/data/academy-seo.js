@@ -92,7 +92,7 @@ export function academySchemas(pathname, locale, { urlFor }) {
     timeRequired: isoDuration(ACADEMY_TOTAL_SECONDS),
     numberOfLessons: ACADEMY_EPISODES.length,
     offers: { "@type": "Offer", price: 0, priceCurrency: "USD", category: "Free" },
-    hasCourseInstance: { "@type": "CourseInstance", courseMode: "Online", courseWorkload: isoDuration(ACADEMY_TOTAL_SECONDS), inLanguage: "en" },
+    hasCourseInstance: { "@type": "CourseInstance", courseMode: "Online", courseWorkload: isoDuration(ACADEMY_TOTAL_SECONDS), inLanguage: contentLocale },
   };
   const crumbs = (items) => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([name, item], index) => ({ "@type": "ListItem", position: index + 1, name, item })) });
   if (route.kind === "hub") {
@@ -121,7 +121,7 @@ export function academySchemas(pathname, locale, { urlFor }) {
       duration: isoDuration(episode.duration),
       contentUrl: media.landscape,
       embedUrl: pageUrl,
-      inLanguage: "en",
+      inLanguage: contentLocale,
       isFamilyFriendly: true,
       isAccessibleForFree: true,
       transcript: transcriptText(lesson),

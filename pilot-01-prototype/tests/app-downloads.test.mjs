@@ -45,9 +45,13 @@ test("four app routes SSR in English and Simplified Chinese with matching client
     const ld = schemas(html);
     const software = ld.find((row) => row["@type"] === "SoftwareApplication");
     assert.equal(software.operatingSystem, "iOS, Android");
+    assert.equal(software.applicationCategory, "FinanceApplication");
+    assert.equal(software.dateModified, content.app.lastChecked);
     assert.deepEqual(software.downloadUrl, [content.app.appStore, content.app.googlePlay]);
+    assert.deepEqual(software.sameAs, content.app.sources);
     const faq = ld.find((row) => row["@type"] === "FAQPage");
     assert.equal(faq.mainEntity.length, 3);
+    assert.ok(ld.some((row) => row["@type"] === "BreadcrumbList"));
     for (const row of faq.mainEntity) { assert.ok(main(html).includes(row.name)); assert.ok(main(html).includes(row.acceptedAnswer.text)); }
     assert.doesNotMatch(main(html), /data-app-apk|Android APK<\/a>/);
     assert.ok(main(html).includes(`/go/${slug}?src=app-${encodeURIComponent(locale)}`));
@@ -104,7 +108,7 @@ test("APK data fails closed and a reviewed separate-host build exposes its metad
     assert.match(html, /data-app-apk/);
     assert.ok(html.includes(apk.sha256) && html.includes(apk.signerSha256) && html.includes(apk.version));
     const seo = appDownloadRouteSeo("/exchanges/okx/app", "en", { urlFor: (path) => `https://nexualpha.com${path}` });
-    assert.ok(seo.schemas[0].downloadUrl.includes(apk.url));
+    assert.ok(!seo.schemas[0].downloadUrl.includes(apk.url), "downloadUrl stays limited to official store listings");
   } finally { APP_DOWNLOADS.okx.apk = null; ssrData.APP_DOWNLOADS.okx.apk = null; }
 });
 

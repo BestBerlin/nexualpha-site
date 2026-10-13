@@ -4,8 +4,8 @@ const TURKEY = new Set(['okx', 'binance', 'bybit']);
 // A register entry never authorizes a commercial route by itself.
 export function licenseSignup(record, { locale = 'en', market } = {}) {
   if (!['licensed', 'registered', 'applied'].includes(record.status)) return null;
-  // Neutral locales (ru/ar/zh-Hant/ur/uk) and zh-Hans carry no signup CTA.
-  if (['zh-Hans', 'zh-Hant', 'ru', 'ar', 'ur', 'uk'].includes(locale)) return null;
+  // Neutral locales (ru/ar/zh-Hant/ur/uk/vi) and zh-Hans carry no signup CTA.
+  if (['zh-Hans', 'zh-Hant', 'ru', 'ar', 'ur', 'uk', 'vi'].includes(locale)) return null;
   const country = record.country;
   if (!country || (country === 'TR' && !TURKEY.has(record.exchange))) return null;
   if (promotionCountries({ locale, market }).includes('TR') && !TURKEY.has(record.exchange)) return null;

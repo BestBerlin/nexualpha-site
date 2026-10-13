@@ -108,18 +108,18 @@ test("Deribit: fees-first title within budget, H1 names fees, Worker and client 
   const server = await routeMetadata(new URL("https://nexualpha.com/exchanges/deribit"), { ASSETS: assets() });
   assert.equal(client.title, server.title);
   assert.equal(client.description, server.description);
-  assert.match(server.title, /^Deribit Fees: Options, Futures and 10% User Discount Terms/);
+  assert.match(server.title, /^Deribit Fees \(2026\): Options, Futures and 10% Discount/);
 });
 
 test("Backpack: fees-first referral title keeps the partner-feed code and fits 60 characters", () => {
   const partner = REFERRAL_PARTNERS.find((p) => p.slug === "backpack");
   const seo = referralSeoFor("backpack", "en");
-  assert.ok(seo.title.startsWith("Backpack Fees & Referral Code "));
+  assert.ok(seo.title.startsWith("Backpack Exchange Fees ("), seo.title);
   assert.ok(seo.title.includes(partner.inviteCode), "code comes from the partner feed");
   assert.ok(titleDisplayWidth(seo.title) <= 60, seo.title);
   // Other locales and other partners keep the shared templates.
-  assert.ok(!referralSeoFor("backpack", "es").title.startsWith("Backpack Fees"));
-  assert.match(referralSeoFor("kraken", "en").title, /Referral Code .*: Sign-up, Fees & Official Route/);
+  assert.ok(!referralSeoFor("backpack", "es").title.startsWith("Backpack Exchange Fees"));
+  assert.match(referralSeoFor("kraken", "en").title, /^How to Sign Up for Kraken \(\d{4}\): Steps, KYC, Code /);
 });
 
 test("/topics/no-kyc answers 'does hyperliquid require kyc' from existing data with an official source", () => {

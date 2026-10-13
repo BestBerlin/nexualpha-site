@@ -21,11 +21,19 @@ import {
   normalizeWhales,
   radarCopy,
   sortRows,
+  venueDisplayName,
   venueGoHref,
 } from "../../data/radar.js";
 import "./radar.css";
 
 const directionFor = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
+
+// Neutral locales (ru/ar/zh-Hant/ur/uk/vi) carry no partner offer or sponsored row links.
+const NEUTRAL_CTA_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+const SOURCE_DISPLAY = { btcMempool: "mempool.space", ethereumRpc: "PublicNode Ethereum RPC", "publicnode-ethereum-rpc": "PublicNode" };
+const chainDisplay = (chain) => (chain ? `${chain.charAt(0).toUpperCase()}${chain.slice(1)}` : "");
+const sourceDisplay = (value) => SOURCE_DISPLAY[value] || venueDisplayName(value);
+const isUnknownLabel = (label) => !label || String(label).toLowerCase() === "unknown";
 
 function useRadarFeed(kind, initial) {
   const apiPath = kind === "longShort" ? LONG_SHORT_API_PATH : WHALES_API_PATH;
@@ -54,7 +62,8 @@ function useRadarFeed(kind, initial) {
 
 function RadarHero({ locale, page, pathname, feed, apiPath }) {
   const copy = radarCopy(locale);
-  const sourceLine = feed.sources.length ? feed.sources.join(" · ") : page.sourceLine;
+  const sourceLine = feed.sources.length ? feed.sources.map(sourceDisplay).join(" · ") : page.sourceNames;
+  const statusLabel = copy.statuses?.[feed.status] || feed.status;
   return (
     <header className="nxradar-hero v2-shell">
       <nav className="nxradar-crumbs" aria-label="Breadcrumb">
@@ -68,11 +77,8 @@ function RadarHero({ locale, page, pathname, feed, apiPath }) {
       <p className="nxradar-lead">{page.lead}</p>
       <p className="nxradar-updated">
         {feed.updatedAt ? <><span className="nxradar-dot" aria-hidden="true" /><strong>{copy.updated}</strong> <time dateTime={feed.updatedAt} dir="ltr">{formatUtc(feed.updatedAt)}</time> · </> : null}
-        <strong>{copy.source}:</strong> {sourceLine} <span className={`nxradar-status nxradar-status--${feed.status}`}>{feed.status}</span>
+        <strong>{copy.source}:</strong> <span translate="no">{sourceLine}</span> <span className={`nxradar-status nxradar-status--${feed.status}`}>{statusLabel}</span>
       </p>
-      <p className="nxradar-summary">{page.summary}</p>
-      {feed.limitations?.length ? <ul className="nxradar-summary">{feed.limitations.map(line => <li key={line}>{line}</li>)}</ul> : null}
-      <p className="nxradar-json"><a href={apiPath} rel="nofollow" dir="ltr">{copy.openData}</a></p>
     </header>
   );
 }
@@ -111,19 +117,26 @@ function Sparkline({ values, label }) {
   );
 }
 
-function VenueAction({ venue, locale, market, src, label }) {
+function VenueAction({ venue, locale, market, src }) {
+  const copy = radarCopy(locale);
   const slug = String(venue || "").toLowerCase().replace(/\s+/g, "-").replace(".", "-");
-  const href = venueGoHref(slug, src, locale, market);
-  return href ? <a className="nxradar-go" href={href} rel="sponsored">{label}</a> : null;
+  if (!slug) return null;
+  const label = copy.viewVenueNamed.replace("{venue}", venueDisplayName(slug));
+  // Partner locales keep the attributed /go route; neutral locales link to the exchange profile instead.
+  const href = NEUTRAL_CTA_LOCALES.has(locale) ? null : venueGoHref(slug, src, locale, market);
+  if (href) return <a className="nxradar-go" href={href} rel="sponsored">{label}</a>;
+  return <a className="nxradar-go nxradar-go--profile" href={localizedHref(`/exchanges/${slug}`, { locale })}>{label}</a>;
 }
 
-function AddressLine({ label, address, source, labelSource }) {
+function AddressLine({ label, address, source, labelSource, unknownLabel }) {
   const short = address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "";
+  const known = !isUnknownLabel(label);
+  const text = known ? venueDisplayName(label) : unknownLabel;
   return (
-    <span className="nxradar-address">
-      {labelSource ? <a href={labelSource} target="_blank" rel="noopener noreferrer">{label}</a> : <span>{label}</span>}
+    <span className={`nxradar-address${known ? " is-labelled" : ""}`}>
+      {known && labelSource ? <a href={labelSource} target="_blank" rel="noopener noreferrer">{text}</a> : <span>{text}</span>}
       {short ? <small translate="no">{short}</small> : null}
-      {source ? <small>{source}</small> : null}
+      {source ? <small>{sourceDisplay(source)}</small> : null}
     </span>
   );
 }
@@ -158,13 +171,13 @@ function LongShortTable({ rows, locale, market }) {
               <tr key={row.id}>
                 <td data-label={copy.columns.rank}>{index + 1}</td>
                 <th scope="row" data-label={copy.columns.symbol} translate="no">{row.symbol}</th>
-                <td data-label={copy.columns.venue} translate="no"><span>{row.venue}</span>{row.source ? <small>{row.source}</small> : null}</td>
+                <td data-label={copy.columns.venue} translate="no"><span>{venueDisplayName(row.venue)}</span>{row.source ? <small>{row.source}</small> : null}</td>
                 <td className="num" data-label={copy.columns.accountRatio}>{formatRatio(row.accountRatio)}</td>
                 <td className="num" data-label={copy.columns.topTraderRatio}>{formatRatio(row.topTraderRatio)}</td>
                 <td className="num" data-label={copy.columns.oi}>{formatOpenInterest(row)}</td>
                 <td className={`num${row.openInterestChange24hPct > 0 ? " pos" : row.openInterestChange24hPct < 0 ? " neg" : ""}`} data-label={copy.columns.oiChange}>{formatPct(row.openInterestChange24hPct)}</td>
                 <td data-label={copy.columns.spark}><Sparkline values={row.sparkline24h} label={`${row.symbol} ${copy.columns.spark}`} /></td>
-                <td><VenueAction venue={row.venue} locale={locale} market={market} src="long-short" label={copy.verifyVenue} /></td>
+                <td><VenueAction venue={row.venue} locale={locale} market={market} src="long-short" /></td>
               </tr>
             ))}
           </tbody>
@@ -199,13 +212,13 @@ function WhalesTable({ rows, locale }) {
           <tbody>
             {sorted.map((row) => (
               <tr key={row.id}>
-                <th scope="row" data-label={copy.columns.asset} translate="no">{row.asset}{row.chain ? <small>{row.chain}</small> : null}</th>
+                <th scope="row" data-label={copy.columns.asset} translate="no">{row.asset}{row.chain ? <small>{chainDisplay(row.chain)}</small> : null}</th>
                 <td className="num" data-label={copy.columns.amount}>
                   <span>{formatAmount(row.amount, row.asset)}</span>
                   <small>{formatUsd(row.amountUsd)}</small>
                 </td>
-                <td data-label={copy.columns.from}><AddressLine label={row.fromLabel || copy.unknown} address={row.fromAddress} source={row.source} labelSource={row.fromLabelSource} /></td>
-                <td data-label={copy.columns.to}><AddressLine label={row.toLabel || copy.unknown} address={row.toAddress} labelSource={row.toLabelSource} /></td>
+                <td data-label={copy.columns.from}><AddressLine label={row.fromLabel} address={row.fromAddress} source={row.source} labelSource={row.fromLabelSource} unknownLabel={copy.unknown} /></td>
+                <td data-label={copy.columns.to}><AddressLine label={row.toLabel} address={row.toAddress} labelSource={row.toLabelSource} unknownLabel={copy.unknown} /></td>
                 <td data-label={copy.columns.direction}><span className={`nxradar-dir nxradar-dir--${row.direction}`}>{copy.directions[row.direction] || copy.directions.unknown}</span></td>
                 <td data-label={copy.columns.time}>{row.explorerUrl ? <a href={row.explorerUrl} rel="nofollow noopener noreferrer" target="_blank">{formatUtc(row.time)}</a> : formatUtc(row.time)}</td>
               </tr>
@@ -217,18 +230,26 @@ function WhalesTable({ rows, locale }) {
   );
 }
 
-// Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
-const NEUTRAL_CTA_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+function RadarMethod({ locale, page, apiPath, src }) {
+  const copy = radarCopy(locale);
+  return (
+    <details className="nxradar-method v2-shell" data-testid={`radar-method-${src}`}>
+      <summary>{copy.methodTitle}</summary>
+      <div className="nxradar-method-body">
+        <p>{page.summary}</p>
+        {page.explainer.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <p>{page.methodExtra}</p>
+        <p><strong>{copy.sourcesLabel}:</strong> {page.sourceLine}</p>
+        <p className="nxradar-json"><a href={apiPath} rel="nofollow" dir="ltr">{copy.openData}</a></p>
+      </div>
+    </details>
+  );
+}
 
-function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
+function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPath }) {
   const copy = radarCopy(locale);
   return (
     <>
-      <section className="nxradar-explainer v2-shell" aria-labelledby={`nxradar-${src}-explainer`}>
-        <SectionRule />
-        <h2 id={`nxradar-${src}-explainer`}>{page.title}</h2>
-        {page.explainer.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-      </section>
       {NEUTRAL_CTA_LOCALES.has(locale) ? null : (
       <div className="v2-shell nxradar-offer">
         <NewsVenueOffer
@@ -245,6 +266,7 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
       <footer className="nxradar-foot v2-shell">
         <p><span>{copy.related}:</span> <a href={localizedHref(relatedPath, { locale })}>{relatedLabel}</a></p>
       </footer>
+      <RadarMethod locale={locale} page={page} apiPath={apiPath} src={src} />
     </>
   );
 }
@@ -252,12 +274,12 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src }) {
 export function LongShortPage({ locale = "en", market, initial }) {
   const copy = radarCopy(locale);
   const feed = useRadarFeed("longShort", initial);
-  const page = { title: copy.longShortTitle, lead: copy.longShortLead, sourceLine: copy.longShortSourceLine, summary: copy.longShortSummary, explainer: copy.longShortExplainer };
+  const page = { title: copy.longShortTitle, lead: copy.longShortLead, sourceLine: copy.longShortSourceLine, sourceNames: "Binance · OKX · Bybit", summary: copy.longShortSummary, explainer: copy.longShortExplainer, methodExtra: copy.longShortMethodExtra };
   return (
     <main className="v6 v2-page v3-page nxradar nxradar--long-short" id="top" dir={directionFor(locale)} data-market={market || "global"} data-testid="long-short-page">
       <RadarHero locale={locale} page={page} pathname={LONG_SHORT_PATH} feed={feed} apiPath={LONG_SHORT_API_PATH} />
       {feed.rows.length ? <LongShortTable rows={feed.rows} locale={locale} market={market} /> : <RadarUnavailable locale={locale} />}
-      <RadarTail locale={locale} market={market} page={page} relatedPath={WHALES_PATH} relatedLabel={copy.whalesTitle} src="long-short" />
+      <RadarTail locale={locale} market={market} page={page} relatedPath={WHALES_PATH} relatedLabel={copy.whalesTitle} src="long-short" apiPath={LONG_SHORT_API_PATH} />
     </main>
   );
 }
@@ -265,12 +287,12 @@ export function LongShortPage({ locale = "en", market, initial }) {
 export function WhalesPage({ locale = "en", market, initial }) {
   const copy = radarCopy(locale);
   const feed = useRadarFeed("whales", initial);
-  const page = { title: copy.whalesTitle, lead: copy.whalesLead, sourceLine: copy.whalesSourceLine, summary: copy.whalesSummary, explainer: copy.whalesExplainer };
+  const page = { title: copy.whalesTitle, lead: copy.whalesLead, sourceLine: copy.whalesSourceLine, sourceNames: "mempool.space · PublicNode Ethereum RPC", summary: copy.whalesSummary, explainer: copy.whalesExplainer, methodExtra: copy.whalesMethodExtra };
   return (
     <main className="v6 v2-page v3-page nxradar nxradar--whales" id="top" dir={directionFor(locale)} data-market={market || "global"} data-testid="whales-page">
       <RadarHero locale={locale} page={page} pathname={WHALES_PATH} feed={feed} apiPath={WHALES_API_PATH} />
       {feed.rows.length ? <WhalesTable rows={feed.rows} locale={locale} /> : <RadarUnavailable locale={locale} />}
-      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" />
+      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} />
     </main>
   );
 }

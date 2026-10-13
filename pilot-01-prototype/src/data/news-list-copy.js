@@ -27,8 +27,9 @@ const HERO_COPY = Object.freeze({
 
 // English search head of the /news hub (Worker routeMetadata and the SSR seo-injection share it).
 export const NEWS_HUB_SEO_EN = Object.freeze({
-  title: "Crypto Exchange News & Research — NexuAlpha",
-  description: "Exchange news and research on Binance, OKX, Coinbase, Kraken and Bybit: API and product changes, account guides and regulation, linked to official sources.",
+  // CTR pass 2026-10-13 (GSC 28 d: /news at position 10.2, 95 impressions, 0 clicks).
+  title: "Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha",
+  description: "Exchange news in Singapore time: listings, delistings, API changes and account rules from Binance, OKX, Bybit, Coinbase and Kraken, linked to the notices.",
 });
 
 export const NEWS_LIST_COPY_LOCALES = Object.freeze(Object.keys(HERO_COPY));

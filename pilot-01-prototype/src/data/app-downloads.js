@@ -37,6 +37,8 @@ export const APP_DOWNLOADS = {
 };
 
 const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+const crumbs = (items) => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([name, item], index) => ({ "@type": "ListItem", position: index + 1, name, item })) });
+
 export function appDownloadSignupAllowed(slug, { locale = "en", market } = {}) {
   if (!APP_DOWNLOAD_SLUGS.includes(slug) || NEUTRAL_LOCALES.has(locale) || !isPartnerPromotableIn(slug, { locale, market })) return false;
   const cta = publicCtaForVenue(slug, locale, market);
@@ -63,13 +65,15 @@ export function appDownloadRouteSeo(pathname, locale, { urlFor }) {
   const route = parseAppDownloadPath(pathname);
   if (!route) return null;
   if (!route.valid) return { status: 404 };
-  const { app, partner, copy, text, apk } = appDownloadContent(route.slug, locale);
+  const { app, partner, copy, text } = appDownloadContent(route.slug, locale);
   const canonical = urlFor(pathname);
+  const officialDownloadUrls = [app.appStore, app.googlePlay];
   return {
     status: 200, title: text("shortTitle"), description: text("answer"),
     schemas: [
-      { "@context": "https://schema.org", "@type": "SoftwareApplication", "@id": `${canonical}#app`, name: `${partner.name} App`, applicationCategory: "FinanceApplication", operatingSystem: "iOS, Android", url: canonical, inLanguage: locale, downloadUrl: [app.appStore, app.googlePlay, ...(apk ? [apk.url] : [])], publisher: { "@type": "Organization", name: partner.name, url: `https://${partner.officialDomain}` } },
+      { "@context": "https://schema.org", "@type": "SoftwareApplication", "@id": `${canonical}#app`, name: `${partner.name} App`, applicationCategory: "FinanceApplication", operatingSystem: "iOS, Android", url: canonical, inLanguage: locale, dateModified: app.lastChecked, downloadUrl: officialDownloadUrls, sameAs: [...app.sources], publisher: { "@type": "Organization", name: partner.name, url: `https://${partner.officialDomain}` } },
       { "@context": "https://schema.org", "@type": "FAQPage", "@id": `${canonical}#faq`, inLanguage: locale, mainEntity: copy.faqs.map(({ q: question, a: answer }) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
+      crumbs([["NexuAlpha", urlFor("/")], [partner.name, urlFor(`/exchanges/${route.slug}`)], [text("shortTitle"), canonical]]),
     ],
   };
 }
