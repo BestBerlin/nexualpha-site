@@ -1,0 +1,374 @@
+.nxradar {
+  --radar-bg: var(--bg, #05080e);
+  --radar-panel: var(--panel, #0b111d);
+  --radar-panel-2: var(--panel-2, #101827);
+  --radar-line: var(--line, rgba(148, 163, 184, 0.22));
+  --radar-ink: var(--ink, #eef4ff);
+  --radar-muted: var(--muted, #9aa8ba);
+  --radar-soft: var(--soft, #cbd7e8);
+  --radar-accent: var(--accent, #68e0b2);
+  --radar-warn: var(--warn, #f6c667);
+  --radar-neg: var(--danger, #ff7b8a);
+  color: var(--radar-ink);
+  background:
+    linear-gradient(180deg, rgba(8, 18, 31, 0.94) 0%, rgba(5, 8, 14, 1) 34%),
+    var(--radar-bg);
+  min-height: 100vh;
+  padding: 42px 0 56px;
+}
+
+.nxradar :is(a) { color: inherit; }
+
+.nxradar-hero,
+.nxradar-panel,
+.nxradar-empty,
+.nxradar-explainer,
+.nxradar-offer,
+.nxradar-foot {
+  max-width: 1180px;
+}
+
+.nxradar-hero {
+  padding-block: 18px 28px;
+}
+
+.nxradar-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--radar-muted);
+  font-size: 0.875rem;
+  margin-bottom: 18px;
+}
+
+.nxradar-crumbs a,
+.nxradar-json a,
+.nxradar-foot a {
+  color: var(--radar-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.nxradar h1 {
+  max-width: 880px;
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.nxradar-lead {
+  max-width: 860px;
+  margin: 18px 0 0;
+  color: var(--radar-soft);
+  font-size: clamp(1.02rem, 2vw, 1.28rem);
+  line-height: 1.6;
+}
+
+.nxradar-updated,
+.nxradar-summary,
+.nxradar-json {
+  color: var(--radar-muted);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.nxradar-updated {
+  margin: 18px 0 0;
+}
+
+.nxradar-status {
+  display: inline-flex;
+  margin-inline-start: 8px;
+  padding: 1px 7px;
+  border: 1px solid var(--radar-line);
+  border-radius: 999px;
+  color: var(--radar-muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.nxradar-status--ok {
+  color: var(--radar-accent);
+  border-color: rgba(104, 224, 178, 0.35);
+}
+
+.nxradar-summary {
+  max-width: 900px;
+  margin: 14px 0 0;
+  color: var(--radar-soft);
+}
+
+.nxradar-json {
+  margin: 12px 0 0;
+}
+
+.nxradar-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-inline-end: 8px;
+  border-radius: 50%;
+  background: var(--radar-accent);
+  box-shadow: 0 0 16px rgba(104, 224, 178, 0.55);
+}
+
+.nxradar-panel,
+.nxradar-empty,
+.nxradar-explainer {
+  margin-top: 22px;
+  border: 1px solid var(--radar-line);
+  border-radius: 8px;
+  background: rgba(11, 17, 29, 0.78);
+  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.28);
+}
+
+.nxradar-panel {
+  padding: 18px;
+}
+
+.nxradar-empty,
+.nxradar-explainer {
+  padding: 24px;
+}
+
+.nxradar-empty h2,
+.nxradar-explainer h2 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+}
+
+.nxradar-empty p,
+.nxradar-explainer p,
+.nxradar-foot p {
+  margin: 0;
+  color: var(--radar-soft);
+  line-height: 1.65;
+}
+
+.nxradar-explainer p + p {
+  margin-top: 10px;
+}
+
+.nxradar-tablewrap {
+  overflow-x: auto;
+  scrollbar-color: rgba(104, 224, 178, 0.5) transparent;
+}
+
+.nxradar-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.nxradar-table th,
+.nxradar-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--radar-line);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.nxradar-table thead th {
+  color: var(--radar-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.nxradar-table tbody th {
+  color: #fff;
+  font-weight: 720;
+}
+
+.nxradar-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.nxradar-table small {
+  display: block;
+  color: var(--radar-muted);
+  font-size: 0.76rem;
+  margin-top: 3px;
+}
+
+.nxradar-address {
+  display: grid;
+  gap: 3px;
+}
+
+.nxradar-table .num {
+  text-align: end;
+  white-space: nowrap;
+}
+
+.nxradar-sort {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nxradar-sort:focus-visible,
+.nxradar-go:focus-visible,
+.nxradar :is(a, button):focus-visible {
+  outline: 2px solid var(--radar-accent);
+  outline-offset: 3px;
+}
+
+.nxradar-sort.is-active {
+  color: var(--radar-accent);
+}
+
+.nxradar-spark {
+  display: block;
+  width: 112px;
+  height: 36px;
+  color: var(--radar-accent);
+}
+
+.nxradar-muted {
+  color: var(--radar-muted);
+}
+
+.nxradar .pos {
+  color: var(--radar-accent);
+}
+
+.nxradar .neg {
+  color: var(--radar-neg);
+}
+
+.nxradar-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid rgba(104, 224, 178, 0.45);
+  border-radius: 6px;
+  color: var(--radar-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nxradar-dir {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--radar-line);
+  color: var(--radar-soft);
+  background: rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+}
+
+.nxradar-dir--to_exchange {
+  color: var(--radar-warn);
+  border-color: rgba(246, 198, 103, 0.35);
+}
+
+.nxradar-dir--from_exchange {
+  color: var(--radar-accent);
+  border-color: rgba(104, 224, 178, 0.35);
+}
+
+.nxradar-offer {
+  margin-top: 22px;
+}
+
+.nxradar-foot {
+  margin-top: 18px;
+  color: var(--radar-muted);
+}
+
+@media (max-width: 760px) {
+  .nxradar {
+    padding-top: 24px;
+  }
+
+  .nxradar h1 {
+    font-size: clamp(2rem, 12vw, 3.2rem);
+  }
+
+  .nxradar-panel {
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .nxradar-table {
+    min-width: 0;
+  }
+
+  .nxradar-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .nxradar-table,
+  .nxradar-table tbody,
+  .nxradar-table tr,
+  .nxradar-table th,
+  .nxradar-table td {
+    display: block;
+  }
+
+  .nxradar-table tr {
+    padding: 14px;
+    border-bottom: 1px solid var(--radar-line);
+  }
+
+  .nxradar-table th,
+  .nxradar-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 7px 0;
+    border: 0;
+    text-align: end;
+  }
+
+  .nxradar-table th::before,
+  .nxradar-table td::before {
+    content: attr(data-label);
+    color: var(--radar-muted);
+    font-weight: 650;
+    text-align: start;
+  }
+
+  .nxradar-table tbody th {
+    font-size: 1.05rem;
+  }
+
+  .nxradar-table .num {
+    text-align: end;
+  }
+
+  .nxradar-spark {
+    width: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nxradar * {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}
+
