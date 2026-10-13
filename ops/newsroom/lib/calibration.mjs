@@ -55,8 +55,14 @@ counts AS (
   LEFT JOIN calibration_events c ON c.event_day=d.event_day
   GROUP BY d.event_day, t.threshold
 ),
+coverage AS (
+  -- A pool younger than the window would otherwise be averaged over days it never collected.
+  SELECT greatest(1, least(${windowHours}::numeric,
+    extract(epoch FROM now() - coalesce((SELECT min(fetched_at) FROM raw_items), now() - interval '${windowHours} hours')) / 3600))::numeric AS hours
+),
 threshold_summary AS (
-  SELECT threshold, sum(eligible) AS eligible_total, round((sum(eligible)::numeric / (${windowHours}::numeric / 24)), 2) AS eligible_per_day
+  SELECT threshold, sum(eligible) AS eligible_total,
+    round((sum(eligible)::numeric / ((SELECT hours FROM coverage) / 24)), 2) AS eligible_per_day
   FROM counts
   GROUP BY threshold
 ),
@@ -69,6 +75,7 @@ SELECT jsonb_build_object(
   'schema', 'newsroom.calibration.v1',
   'generated_at', now(),
   'window_hours', ${windowHours},
+  'coverage_hours', (SELECT round(hours, 1) FROM coverage),
   'target_per_day', ${targetPerDay},
   'thresholds', (SELECT jsonb_agg(threshold ORDER BY threshold) FROM threshold_values),
   'summary', (SELECT jsonb_object_agg(threshold::text, jsonb_build_object(

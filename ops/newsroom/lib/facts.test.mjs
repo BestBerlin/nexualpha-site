@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { mergeRawItems } from './dedupe.mjs';
-import { storyFacts, conflictingFacts, factsMatch } from './facts.mjs';
+import { storyFacts, conflictingFacts, factsMatch, inferNarrativeType } from './facts.mjs';
 import { matchingFacts, verifyEvent } from './verification.mjs';
 const watchlist = [{ id: 'binance', aliases: ['Binance', '币安'], status: 'active' }];
 const item = (id, title, extra = {}) => ({ id, title, source_id: `outlet-${id}`, platform: 'media', tier: 2, url: `https://outlet${id}.example/story`, published_at: '2026-10-12T10:00:00Z', ...extra });
@@ -87,4 +87,22 @@ test('media reports with an extra percentage or coin still corroborate, differen
   const c = storyFacts({ title: 'Bybit hacker moves $200 million in ETH' });
   assert.equal(conflictingFacts(a, b), false);
   assert.equal(conflictingFacts(a, c), true);
+});
+
+test('narrative topic types are inferred only from wording that names the topic', () => {
+  assert.equal(inferNarrativeType('Evernorth names former Coinbase exec to steer 473 million XRP treasury'), 'crypto_treasury_company');
+  assert.equal(inferNarrativeType('Ether ETFs extend outflow streak to nine days'), 'flows');
+  assert.equal(inferNarrativeType('Blockchain.com seeks CFTC approval for prediction markets'), 'regulation');
+  assert.equal(inferNarrativeType('South Korean bank launches Bitcoin-backed business loans'), 'product_launch');
+  assert.equal(inferNarrativeType('Bitcoin Bleeds in Uptober'), null);
+});
+
+test('a paraphrased report corroborates without repeating every number, a contradicting one does not', () => {
+  const event = { title_internal: 'Sam Altman-backed bitcoin life insurer Meanwhile raises $37.5 million round led by Bain Capital Crypto', source_published_at: '2026-10-12T10:00:00Z' };
+  const paraphrase = { title: 'This Sam Altman-Backed Life Insurer Runs Entirely on Bitcoin, and Just Raised $37.5 Million', published_at: '2026-10-12T12:00:00Z' };
+  const noNumber = { title: 'Sam Altman-backed Bitcoin life insurer, Meanwhile, raises more funds', published_at: '2026-10-12T12:00:00Z' };
+  const contradicting = { title: 'Sam Altman-backed bitcoin life insurer Meanwhile raises $20 million', published_at: '2026-10-12T12:00:00Z' };
+  assert.equal(matchingFacts(event, paraphrase), true);
+  assert.equal(matchingFacts(event, noNumber), true);
+  assert.equal(matchingFacts(event, contradicting), false);
 });
