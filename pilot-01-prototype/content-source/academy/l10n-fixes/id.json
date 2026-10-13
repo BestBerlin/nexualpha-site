@@ -15,5 +15,17 @@
   "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "Menaruh 100 di kotak kecil, apakah 900 lainnya aman selamanya? Berikutnya: margin terisolasi.",
   "If I put 100 in isolated, the other 900 can never be touched?": "Jika saya menaruh 100 di margin terisolasi, apakah 900 lainnya tidak akan pernah tersentuh?",
   "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "Ini memudahkan memisahkan ruang lingkup margin antarposisi. Namun 100 ini tetap bisa hilang; margin terisolasi tidak melenyapkan kerugian, juga bukan pesanan stop-loss.",
-  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Jangan hanya melihat kata 'terisolasi' lalu berasumsi kerugian maksimal selamanya sama dengan 100 pertama itu. Periksa pengaturan penambahan, biaya, dan aturan produk."
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Jangan hanya melihat kata 'terisolasi' lalu berasumsi kerugian maksimal selamanya sama dengan 100 pertama itu. Periksa pengaturan penambahan, biaya, dan aturan produk.",
+  "One bitcoin costs that much. Can I still buy some?": "Harga satu bitcoin mahal. Apakah saya masih bisa beli sedikit?",
+  "Tell the number of coins apart from the amount you spend, and know bitcoin can be bought in fractions.": "Membedakan jumlah koin dari nominal uang yang dibelanjakan, serta memahami bahwa bitcoin bisa dibeli dalam pecahan desimal.",
+  "Your first spot trade: from 100 to 0.002 BTC": "Trading spot pertamamu: dari 100 USDT jadi 0,002 BTC",
+  "When you're ready for a real first trade, open Bitget through our partner link. Code nexu888 gets part of your trading fees back. Same five checks, every time.": "Saat siap untuk trading riil pertama, buka Bitget lewat tautan mitra kami. Kode nexu888 memberikan rabat sebagian biaya trading. Lakukan lima pengecekan yang sama setiap kali bertransaksi.",
+  "Market, limit, cancel: what does each one solve?": "Order market, limit, dan pembatalan: apa fungsi masing-masing?",
+  "One candle: what four things does it tell you?": "Satu candle: empat hal apa yang diceritakannya kepadamu?",
+  "Decide how much you could lose before you decide how much to buy": "Tentukan batas kerugian sebelum memutuskan berapa banyak yang dibeli",
+  "Spot vs futures: you're not buying the same thing": "Spot vs futures: kamu tidak membeli hal yang sama",
+  "Why you can be closed out before your margin hits zero": "Mengapa posisimu bisa ditutup sebelum marginmu menyentuh nol?",
+  "Isolated margin: putting one trade in its own box": "Margin terisolasi (isolated): membatasi risiko pada satu posisi",
+  "Cross margin: why one loss can hit your other positions": "Margin silang (cross): mengapa satu posisi rugi bisa menggerus posisimu yang lain",
+  "Price flat, balance down? Finish the last level with costs in mind": "Harga stagnan tapi saldo turun? Hitung biayanya di level terakhir"
 }

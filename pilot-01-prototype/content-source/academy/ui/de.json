@@ -1,7 +1,7 @@
 {
   "brand": "NexuAlpha Akademie",
   "season": "Staffel 1",
-  "series": "Sams erste Krypto-Lektion",
+  "series": "Krypto-Grundkurs mit Sam",
   "tagline": "Erst verstehen, dann handeln.",
   "hubLead": "24 kurze Animationslektionen – vom ersten Bruchteil eines Bitcoins bis zu den echten Risiken des Hebels. Kostenlos ansehen, ohne Anmeldung.",
   "start": "Mit Folge 1 beginnen",
@@ -23,7 +23,7 @@
   "lessonOf": "Lektion {n} von {total}",
   "watched": "Angesehen",
   "markWatched": "Als angesehen markieren",
-  "goal": "In dieser Lektion",
+  "goal": "Lernziel:",
   "takeaways": "Das Wichtigste",
   "check": "Kurzer Check",
   "correct": "Richtig.",

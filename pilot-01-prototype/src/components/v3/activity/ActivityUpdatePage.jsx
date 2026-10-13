@@ -11,6 +11,7 @@ import { ARCHIVE_PATH, archiveItems } from '../../../data/announcement-archive.j
 import { localizedHref } from '../../../data/locale-routing.js';
 import { publicCtaForVenue, regionalVenueCta } from '../../../data/source-bound-cta.js';
 import { isPartnerPromotableIn } from '../../../data/partner-geo-policy.js';
+import { campaignVisibleInLocale } from '../../../data/campaign-locale-policy.js';
 import './activity-update.css';
 
 // Market gating is a compliance control (blocked countries must not see partner codes), so links between update pages keep
@@ -47,12 +48,13 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
   const item = findUpdate(briefFeed, venue, slug) || archivedItem;
   const t = updateCopy(locale);
   if (!item) return <main className="update-page"><h1>{t.missing}</h1><a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)}</a></main>;
+  if (!campaignVisibleInLocale(item, locale)) return <main className="update-page"><h1>{t.missing}</h1><a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)}</a></main>;
   const cta = publicCtaForVenue(venue, locale, market);
   const regional = regionalVenueCta(venue, locale, market);
   const neutral = /^(ru|ar|ur|uk)(-|$)|^zh-(Hant|TW|HK)(-|$)/i.test(locale);
   const promotable = !neutral && regional.ctaState !== 'blocked' && isPartnerPromotableIn(venue, { locale, market });
   const officialEntry = cta.officialDomain ? `https://${cta.officialDomain}` : null;
-  const related = updateItems(briefFeed).filter(row => row.venue === venue && row.id !== item.id && !row.archived).slice(0, 5);
+  const related = updateItems(briefFeed).filter(row => row.venue === venue && row.id !== item.id && !row.archived && campaignVisibleInLocale(row, locale)).slice(0, 5);
   return <main className="update-page" id="top" dir={/^(ar|ur)$/.test(locale) ? 'rtl' : undefined}>
     <article>
       <header className="update-page__header">

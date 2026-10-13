@@ -4,6 +4,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 import { updateHref } from "../src/data/activity-update.js";
+import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { monthCampaigns, isStartOfMonth } from "../src/components/v3/activity/campaign-month.js";
 let harness, CampaignJoin;
 test.before(async () => { harness = await createSsrHarness(); ({ CampaignJoin } = await harness.vite.ssrLoadModule('/src/components/v3/activity/CampaignJoin.jsx')); });
@@ -37,17 +38,47 @@ test('monthly strip caps six events newest first and respects timezone boundarie
 });
 test('live campaign cards and monthly strip preserve official facts and explicit market gates', async () => {
   const { LiveCampaigns } = await harness.vite.ssrLoadModule('/src/components/v3/activity/LiveCampaigns.jsx');
-  const initialFeed = { items: [{ id: 'okx:test', venue: 'okx', category: 'event', title: 'Official campaign title', url: 'https://www.okx.com/help/test', publishedAt: new Date().toISOString() }] };
+  const initialFeed = { items: [
+    { id: 'okx:test', venue: 'okx', category: 'event', title: 'Official campaign title', url: 'https://www.okx.com/help/test', publishedAt: new Date().toISOString() },
+    { id: 'bitget:test', venue: 'bitget', category: 'event', title: 'Bitget campaign title', url: 'https://www.bitget.com/support/articles/test', publishedAt: new Date().toISOString() },
+  ] };
   const html = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'en', market: 'JP', initialFeed }));
   assert.ok(html.includes(updateHref(initialFeed.items[0], 'en', { market: 'JP' })), 'detail links preserve the blocked market');
   assert.match(html, /This month/);
   assert.match(html, /Official campaign title/);
+  assert.match(html, /Bitget campaign title/);
   assert.match(html, /href="\/activities\/updates\/okx\//);
   assert.doesNotMatch(html, /href="https:\/\/www.okx.com\/help\/test"/);
   assert.doesNotMatch(html, /data-cta-kind="registration"/);
   const allowed = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'en', initialFeed }));
   assert.match(allowed, /data-cta-placement="activities-month-campaign"/);
   assert.match(allowed, /data-cta-placement="activities-live-campaign"/);
+  const tr = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'tr', initialFeed }));
+  assert.match(tr, /Official campaign title/);
+  assert.doesNotMatch(tr, /Bitget campaign title/);
+});
+test('Türkiye Bitget campaign policy hides campaigns and platform activities but keeps listings', () => {
+  assert.equal(campaignVisibleInLocale({ venue: 'bitget', category: 'event' }, 'tr'), false);
+  assert.equal(campaignVisibleInLocale({ platform: { slug: 'bitget' }, kind: 'PLATFORM_ACTIVITY' }, 'tr'), false);
+  assert.equal(campaignVisibleInLocale({ venue: 'bitget', category: 'listing' }, 'tr'), true);
+  assert.equal(campaignVisibleInLocale({ venue: 'okx', category: 'event' }, 'tr'), true);
+  assert.equal(campaignVisibleInLocale({ venue: 'bitget', category: 'event' }, 'en'), true);
+});
+test('legacy activity detail route also hides Turkish Bitget platform activities', async () => {
+  const { ActivityDetailPage } = await harness.vite.ssrLoadModule('/src/components/v3/activity/ActivityPages.jsx');
+  const update = {
+    id: 'bitget-platform-activity',
+    kind: 'PLATFORM_ACTIVITY',
+    title: 'Bitget platform activity title',
+    platform: { slug: 'bitget', name: 'Bitget' },
+    officialSource: { type: 'official', url: 'https://www.bitget.com/support/articles/activity' },
+    discoveredAt: new Date().toISOString(),
+    verifiedAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 86400000).toISOString(),
+  };
+  const html = renderToStaticMarkup(React.createElement(ActivityDetailPage, { copy: {}, locale: 'tr', update, venues: [{ slug: 'bitget', name: 'Bitget' }] }));
+  assert.doesNotMatch(html, /Bitget platform activity title/);
+  assert.match(html, /v3-page--empty/);
 });
 test('campaign copy is complete in every locale and unknown shares never create fee claims', async () => {
   const { campaignJoinCopyByLocale } = await import('../src/components/v3/activity/campaign-join-copy.js');

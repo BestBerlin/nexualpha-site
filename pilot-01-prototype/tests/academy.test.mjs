@@ -2,8 +2,12 @@
 // component the browser hydrates, Course / VideoObject / LearningResource JSON-LD, the academy sitemap, sign-up gating
 // (partner registry + geo policy, neutral locales get no sign-up), the owner's no-fine-print rule, and /starter -> /academy.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import worker from "../worker/index.js";
 import { ACADEMY_EPISODES, ACADEMY_INDEX_LOCALES, academyEpisodePath, academySignupVenues, parseAcademyPath } from "../src/data/academy.js";
 import { ACADEMY_CONTENT_BY_LOCALE } from "../src/data/academy-content-all.js";
@@ -28,6 +32,7 @@ const fetchPage = (path, e = env()) => worker.fetch(new Request(`https://nexualp
 const ldJson = (html) => [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap((m) => { const v = JSON.parse(m[1]); return Array.isArray(v) ? v : (v["@graph"] || [v]); });
 const mainHtml = (html) => (html.match(/<main\b[\s\S]*<\/main>/) || [""])[0];
 const E05 = ACADEMY_EPISODES[4];
+const PROJECT_ROOT = new URL("../", import.meta.url);
 
 // Defensive fine print the owner removed from the academy (2026-10-12): it may live in the footer and legal pages only.
 const FINE_PRINT = [
@@ -65,6 +70,30 @@ test("numbers and codes in localized lessons match English", () => {
       lesson.takeaways.forEach((item, k) => assert.equal(numbers(item), numbers(en[i].takeaways[k]), `${locale} E${i + 1} takeaway ${k}`));
       assert.equal(lesson.quiz.answer, en[i].quiz.answer, `${locale} E${i + 1} quiz answer index`);
     });
+  }
+});
+
+test("academy data generator reproduces checked-in generated files", () => {
+  const out = mkdtempSync(`${tmpdir()}/nxa-academy-build-`);
+  const dataFiles = [
+    "src/data/academy-season1.js",
+    "src/data/academy-copy.js",
+    "src/data/academy-content-all.js",
+    ...readdirSync(new URL("src/data", PROJECT_ROOT)).filter((file) => /^academy-content-[a-z]{2}(?:-[a-z]+)?\.js$/i.test(file)).map((file) => `src/data/${file}`),
+    ...readdirSync(new URL("public/captions/academy/s1", PROJECT_ROOT)).filter((file) => file.endsWith(".vtt")).map((file) => `public/captions/academy/s1/${file}`),
+  ].sort();
+  try {
+    execFileSync(process.execPath, ["scripts/build-academy-data.mjs", "--output-root", out], { cwd: fileURLToPath(PROJECT_ROOT), encoding: "utf8" });
+    const generatedFiles = [
+      ...readdirSync(`${out}/src/data`).map((file) => `src/data/${file}`),
+      ...readdirSync(`${out}/public/captions/academy/s1`).map((file) => `public/captions/academy/s1/${file}`),
+    ].sort();
+    assert.deepEqual(generatedFiles, dataFiles, "academy regeneration added or removed output files");
+    for (const file of dataFiles) {
+      assert.equal(readFileSync(new URL(file, `file://${out}/`), "utf8"), readFileSync(new URL(file, PROJECT_ROOT), "utf8"), `${file} changed after academy regeneration`);
+    }
+  } finally {
+    rmSync(out, { recursive: true, force: true });
   }
 });
 

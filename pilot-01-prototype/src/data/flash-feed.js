@@ -7,6 +7,7 @@
 import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey, flashSlug } from "./flash.js";
 import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
+import { campaignVisibleInLocale } from "./campaign-locale-policy.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
 import { COIN_ROWS } from "./coins-data.generated.js";
 
@@ -538,7 +539,7 @@ export const isFlashIndexable = (item, locale, { now = Date.now(), localized = t
 
 /** Locales whose edition of this item is indexable (hreflang set and sitemap). */
 export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
-  return FLASH_INDEX_LOCALES.filter((locale) => isFlashIndexable(item, locale, { now, localized: renderText(item, locale).localized }));
+  return FLASH_INDEX_LOCALES.filter((locale) => campaignVisibleInLocale(item, locale) && isFlashIndexable(item, locale, { now, localized: renderText(item, locale).localized }));
 }
 
 /** Compact, locale-rendered row the browser receives (no templates ship to the client). */
@@ -560,14 +561,14 @@ export const findFlashItem = (items, key) => (Array.isArray(items) ? items : [])
 /** Stream page / JSON payload: newest first, optional type, venue and `before` cursor. */
 export function flashStreamPayload(items, locale = "en", { limit = 40, before = null, type = null, venue = null, important = false, now = Date.now(), generatedAt = null } = {}) {
   const all = Array.isArray(items) ? items : [];
-  let rows = all;
+  let rows = all.filter((item) => campaignVisibleInLocale(item, locale));
   if (important) rows = rows.filter((item) => flashImportance(item));
   if (type && FLASH_TYPES.includes(type)) rows = rows.filter((item) => item.type === type);
   if (venue) rows = rows.filter((item) => item.venue === venue);
   if (before && Number.isFinite(Date.parse(before))) rows = rows.filter((item) => Date.parse(item.time) < Date.parse(before));
   const page = rows.slice(0, Math.max(1, Math.min(100, Number(limit) || 40)));
   const counts = new Map();
-  for (const item of all.slice(0, 400)) if (item.venue && VENUE_PROFILES.has(item.venue)) counts.set(item.venue, (counts.get(item.venue) || 0) + 1);
+  for (const item of all.filter((row) => campaignVisibleInLocale(row, locale)).slice(0, 400)) if (item.venue && VENUE_PROFILES.has(item.venue)) counts.set(item.venue, (counts.get(item.venue) || 0) + 1);
   return {
     generatedAt: generatedAt || new Date(now).toISOString(), locale,
     items: page.map((item) => flashView(item, locale, { now })),
@@ -581,7 +582,7 @@ export function flashItemPayload(items, item, locale = "en", { now = Date.now() 
   const others = (Array.isArray(items) ? items : []).filter((row) => row.key !== item.key);
   const sameVenue = item.venue ? others.filter((row) => row.venue === item.venue) : [];
   const sameType = others.filter((row) => row.type === item.type);
-  const related = [...new Map([...sameVenue.slice(0, 3), ...sameType.slice(0, 6), ...others.slice(0, 6)].map((row) => [row.key, row])).values()].slice(0, 6);
+  const related = [...new Map([...sameVenue.slice(0, 3), ...sameType.slice(0, 6), ...others.slice(0, 6)].filter((row) => campaignVisibleInLocale(row, locale)).map((row) => [row.key, row])).values()].slice(0, 6);
   return { item: flashView(item, locale, { now }), related: related.map((row) => flashView(row, locale, { now })) };
 }
 

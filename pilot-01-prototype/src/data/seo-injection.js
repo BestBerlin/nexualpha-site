@@ -2096,6 +2096,12 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const isZh = locale === "zh-Hans";
   let pathname = aliases(contentPathname);
   const route = options.route || {};
+  if (rawLocale === "tr" && parseBitgetAlliancePath(pathname)) {
+    const target = new URL(canonical("/activities", "tr"));
+    const market = url.searchParams.get("market");
+    if (market) target.searchParams.set("market", market);
+    return { status: 301, redirect: target.href, canonical: target.href, locale: "tr", htmlLocale: "tr", title: "", description: "", robots: "noindex,follow", ogType: "website", schemas: [], alternates: [] };
+  }
   const ref = url.searchParams.get("ref") || (route.name === "kolLanding" ? route.kol : null);
   let title = isZh ? "页面不存在 — NexuAlpha" : "Page Not Found — NexuAlpha";
   let description = isZh ? "请求的页面不存在或未发布。" : "The requested page does not exist or is not published.";

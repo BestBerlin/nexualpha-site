@@ -18,6 +18,7 @@ import { localizedHref } from "../../../data/locale-routing.js";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../../data/binance-october.js";
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../../data/bybit-stocks.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../../data/bitget-alliance.js";
+import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
@@ -78,8 +79,12 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
   const rtf = useMemo(() => new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" }), [locale]);
   const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 60 ? rtf.format(-m, "minute") : m < 1440 ? rtf.format(-Math.round(m / 60), "hour") : rtf.format(-Math.round(m / 1440), "day"); };
 
-  const featured = activeOwnerCampaigns().map((c) => applyCampaignBriefs({ id: c.id, venue: c.venue, title: pick(c.title, locale), summary: pick(c.summary, locale), url: c.url, publishedAt: c.startAt || c.checkedAt, endAt: c.endAt, featured: true }, briefFeed, locale));
-  const events = readIntelFeed({ items: items || [] }).filter((i) => i.category === "event" && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5).map((i) => applyCampaignBriefs(i, briefFeed, locale));
+  const featured = activeOwnerCampaigns()
+    .filter((c) => campaignVisibleInLocale({ ...c, category: "campaign" }, locale))
+    .map((c) => applyCampaignBriefs({ id: c.id, venue: c.venue, title: pick(c.title, locale), summary: pick(c.summary, locale), url: c.url, publishedAt: c.startAt || c.checkedAt, endAt: c.endAt, category: "campaign", featured: true }, briefFeed, locale));
+  const events = readIntelFeed({ items: items || [] })
+    .filter((i) => i.category === "event" && campaignVisibleInLocale(i, locale) && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5)
+    .map((i) => applyCampaignBriefs(i, briefFeed, locale));
   const all = [...featured, ...events];
   const venues = [...new Set(all.map((c) => c.venue))];
   // Grouped by exchange (owner 2026-10-10): every card is rendered; a group shows three and folds the rest behind
