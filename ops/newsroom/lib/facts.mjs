@@ -127,3 +127,18 @@ export function narrativeStoryMatch(leftTitle, rightTitle, left, right) {
   if ((sharedAmount || sharedTicker) && sharedWords >= 2 && similarity >= 0.2) return true;
   return sharedWords >= 3 && similarity >= 0.35;
 }
+
+// Topic types for narrative (media/social) stories that carry no exchange/legal action verb. Kept apart from
+// storyFacts().action so different wording of one story never "conflicts" on topic.
+const narrativeTypes = [
+  ['crypto_treasury_company', /\b(?:treasury|treasuries)\b|\b(?:buys?|bought|adds?|added|acquires?|acquired|purchases?|purchased)\s+(?:about\s+|another\s+)?[\d,.]+\s*(?:k\s+)?(?:btc|bitcoin|eth|ether|sol|xrp|bnb)\b|财库|財庫|增持/iu],
+  ['flows', /\b(?:inflows?|outflows?|net flows?)\b|净流入|淨流入|净流出|淨流出/iu],
+  ['regulation', /\b(?:regulat\w*|approv\w*|licen[cs]\w*|bill|legislat\w*|lawmakers?|senate|congress|parliament|rules?|framework|sanction\w*|bans?|banned|bars|barred|settle\w*|tax(?:es)?|guidance|stablecoin act|clarity act|genius act)\b|监管|監管|牌照|法案|批准|制裁/iu],
+  ['institutional_trade', /\b(?:raises?|raised|funding round|series [a-e]|seed round|acquires?|acquired|acquisition|merges?|merger|stake in|invests?|invested|ipo)\b|融资|融資|收购|收購|并购|併購/iu],
+  ['product_launch', /\b(?:launch\w*|unveil\w*|debut\w*|rolls? out|rolled out|introduc\w*|mainnet|testnet|upgrade\w*|integrat\w*|partners? with|partnership)\b|推出|发布|發布|上线主网|主网|主網/iu],
+  ['key_person_statement', /\b(?:says|said|warns?|predicts?|calls? for|argues?|urges?|interview)\b|表示|称|稱|警告/iu],
+];
+export function inferNarrativeType(text) {
+  const value = String(text ?? '').normalize('NFKC');
+  return narrativeTypes.find(([, re]) => re.test(value))?.[0] ?? null;
+}

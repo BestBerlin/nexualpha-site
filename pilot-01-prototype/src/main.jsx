@@ -79,6 +79,7 @@ function HydrationBootstrap() {
       initialToolArticles={prerenderState?.toolArticles}
       initialFlash={prerenderState?.flash}
       initialCoins={prerenderState?.coins}
+      initialIntelTool={prerenderState?.intelTool}
       initialFx={prerenderState?.fx}
       initialTicker={prerenderState?.ticker}
     />

@@ -30,6 +30,8 @@ import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
+import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./intel-tools-routes.js";
+import { intelToolRouteSeo } from "./intel-tools-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
 import { parseGlossaryPath } from "./glossary-routes.js";
@@ -38,6 +40,8 @@ import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binanc
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
 import { bybitStocksRouteSeo } from "./bybit-stocks-seo.js";
+import { BITGET_ALLIANCE_INDEX_LOCALES, parseBitgetAlliancePath } from "./bitget-alliance.js";
+import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -346,6 +350,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  // Spot ETF flows + crypto calendar (mirror of the Worker).
+  if (isIntelToolPath(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
@@ -355,6 +361,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
+  // Bitget Alliance campaign page (mirror of the Worker): its written editions.
+  if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
@@ -2132,6 +2140,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (isIntelToolPath(pathname)) {
+    // Spot ETF flows + crypto calendar: same helper as the Worker head (without the live snapshot: no Event list).
+    const tool = intelToolRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = tool.title;
+    description = tool.description;
+    schemas = tool.schemas;
+    ogType = "website";
+    if (!tool.indexable) robots = "noindex,follow";
   } else if (parseCoinsPath(pathname) && coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
     // Where to buy <coin>: same helper as the Worker head (src/data/coins-seo.js).
     const coins = coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
@@ -2169,6 +2186,14 @@ function computeRouteSeoUnbudgeted(options = {}) {
   } else if (parseBybitStocksPath(pathname)) {
     // Bybit Stocks campaign page: same helper as the Worker head (src/data/bybit-stocks-seo.js).
     const campaign = bybitStocksRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = campaign.title;
+    description = campaign.description;
+    schemas = campaign.schemas;
+    if (!campaign.indexable) robots = "noindex,follow";
+  } else if (parseBitgetAlliancePath(pathname)) {
+    // Bitget Alliance campaign page: same helper as the Worker head (src/data/bitget-alliance-seo.js).
+    const campaign = bitgetAllianceRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
     accept();
     title = campaign.title;
     description = campaign.description;

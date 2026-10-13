@@ -15,7 +15,9 @@ export const converterCopy = (locale) => CONVERTER_COPY[locale] || CONVERTER_COP
 export const converterTitle = (coin, fiat, locale) => fill(converterCopy(locale).title, { coin: coin.name, symbol: coin.symbol, fiat });
 export function converterFaq(coin, fiat, locale) {
   const t = converterCopy(locale), vars = { coin: coin.name, symbol: coin.symbol, fiat };
-  return [{ question: fill(t.faqRate, vars), answer: fill(t.faqRateA, vars) }, { question: fill(t.faqBuy, vars), answer: fill(t.faqBuyA, vars) }];
+  // USD needs no exchange-rate step (QA 2026-10-13: "multiply by the USD exchange rate" on /convert/btc-to-usd).
+  const rateAnswer = fiat === "USD" ? (t.faqRateUsdA || converterCopy("en").faqRateUsdA) : t.faqRateA;
+  return [{ question: fill(t.faqRate, vars), answer: fill(rateAnswer, vars) }, { question: fill(t.faqBuy, vars), answer: fill(t.faqBuyA, vars) }];
 }
 export const QUICK_AMOUNTS = Object.freeze([0.01, 0.1, 1, 5, 10, 25, 50, 100]);
 export function unitPrice(usd, fiat, snapshot) {
@@ -34,6 +36,16 @@ export function convertedAmount(input, price, reverse = false) {
 export function formatAmount(value, locale) {
   if (!Number.isFinite(value)) return "–";
   try { return new Intl.NumberFormat(locale, { maximumFractionDigits: 8 }).format(value); } catch { return String(value); }
+}
+// Fiat amounts (QA 2026-10-13: "1 BTC = 13,172,339.614544 JPY"): whole units for currencies without minor units in
+// everyday use, cents for the rest; amounts below 1 keep four significant digits so cheap coins stay readable.
+const WHOLE_UNIT_FIATS = new Set(["JPY", "KRW", "VND", "IDR"]);
+export function formatFiatAmount(value, locale, fiat) {
+  if (!Number.isFinite(value)) return "–";
+  const options = Math.abs(value) >= 1 || value === 0
+    ? { maximumFractionDigits: WHOLE_UNIT_FIATS.has(fiat) ? 0 : 2, minimumFractionDigits: WHOLE_UNIT_FIATS.has(fiat) ? 0 : 2 }
+    : { maximumSignificantDigits: 4 };
+  try { return new Intl.NumberFormat(locale, options).format(value); } catch { return String(value); }
 }
 // A quote currency is evidence of a spot pair only. Funding support is kept separate.
 export const fiatSpotVenues = (coin, fiat) => spotVenues(coin).filter((venue) => venue.spot.includes(fiat));

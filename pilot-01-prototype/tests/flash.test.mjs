@@ -321,7 +321,7 @@ test("incident items: localized headline and body in every template locale, tick
     assert.doesNotMatch(text.headline + text.body, /\{\w+\}|undefined/, locale);
     assert.equal(flashUiCopy(locale).types.incident.length > 0, true, locale);
   }
-  assert.match(renderText(item, "zh-Hans").body, /消息。充值/);
+  assert.match(renderText(item, "zh-Hans").body, /公告。充值/);
   assert.match(renderText(impBy("a:kucoin:pix"), "en").headline, /^KuCoin posts a service notice$/);
 });
 
@@ -363,7 +363,7 @@ test("/flash: red Important marker, 'Important only' chip, opt-in notification a
   assert.ok(html.indexOf("nx-ticker") < html.indexOf("<main"), "the bar sits under the header, above the page");
   const zh = mainHtml(await (await fetchPage("/zh-hans/flash", impEnv())).text());
   assert.match(zh, /只看重要/);
-  assert.match(zh, /start=alerts-zh"[^>]*>在 Telegram 接收提醒/);
+  assert.match(zh, /start=alerts-zh"[^>]*>订阅 Telegram 实时提醒/);
   for (const pattern of FINE_PRINT) assert.doesNotMatch(main, pattern);
 });
 

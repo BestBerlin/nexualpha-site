@@ -42,7 +42,8 @@ const REBATE_PERCENT = /(?:rebate|返佣|返還|返还|cashback|reembolso|rabatt
 
 test("copy: 14 written editions, same structure and the same figures as English", () => {
   assert.deepEqual(Object.keys(BYBIT_STOCKS_COPY).sort(), [...BYBIT_STOCKS_INDEX_LOCALES].sort());
-  const numbers = (value) => (JSON.stringify(value).match(/\d[\d,.]*/g) || []).map((n) => n.replace(/[.,]$/, ""));
+  // Separators are compared out (QA 2026-10-13: localized "2.000" / "2 000" is the same figure as "2,000").
+  const numbers = (value) => (JSON.stringify(value).match(/\d(?:[\d,.]|[\u202f\u00a0](?=\d))*/g) || []).map((n) => n.replace(/[.,]$/, "").replace(/[\s.,\u202f\u00a0]/g, ""));
   const en = BYBIT_STOCKS_COPY.en;
   for (const locale of BYBIT_STOCKS_INDEX_LOCALES) {
     const t = BYBIT_STOCKS_COPY[locale];

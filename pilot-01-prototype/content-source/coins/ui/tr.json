@@ -16,7 +16,7 @@
   "change24h": "24 sa",
   "rank": "Piyasa değeri sırası",
   "marketCap": "Piyasa değeri",
-  "snapshot": "{time} UTC verisi",
+  "snapshot": "{time} verisi",
   "live": "Güncelleme: {time}",
   "listedOn": "Listelendiği borsalar",
   "venuesCount": "{n} borsa",
@@ -39,7 +39,7 @@
   "feesUnchecked": "Henüz kontrol edilmedi",
   "networksUnpublished": "Yatırma sayfasına bakın",
   "openProfile": "Profil",
-  "go": "{venue} sitesini aç",
+  "go": "{venue} üzerinden satın alın",
   "aboutTitle": "{coin} nedir?",
   "factCategory": "Kategori",
   "factRank": "Sıra",
@@ -138,5 +138,6 @@
     "PK": "Pakistan"
   },
   "listJoin": ", ",
-  "listLast": " ve "
+  "listLast": " ve ",
+  "venuesMore": "{list} ve {n} borsa daha"
 }

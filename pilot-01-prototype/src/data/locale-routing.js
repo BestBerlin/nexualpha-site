@@ -1,4 +1,5 @@
 import { canonicalComparePairSlug, parseComparePair } from "./compare-slug.js";
+import { isTurkeyGated } from "./partner-geo-policy.js";
 
 export const LOCALE_PREFIX_BY_CODE = Object.freeze({
   en: "",
@@ -95,6 +96,8 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/telegram",
   "/liquidations",
   "/funding-rates",
+  "/etf-flows",
+  "/calendar",
   "/funding-rates/matrix",
 ]);
 
@@ -312,6 +315,14 @@ export function localizedPath(pathname, locale = "en") {
   return normalized === "/" ? `/${prefix}` : `/${prefix}${normalized}`;
 }
 
+// Owner 2026-10-13 (legal): Türkiye pages never link into the registration section of a partner that may not be promoted
+// there (Bitget); every such link lands on the neutral platform facts instead.
+function turkeySafeHash(pathname, hash, locale) {
+  if (locale !== "tr" || !/^#registration-path\b/.test(hash || "")) return hash;
+  const slug = /\/exchanges\/([^/?#]+)$/.exec(pathname)?.[1];
+  return slug && isTurkeyGated(slug, { locale: "tr" }) ? hash.replace(/^#registration-path/, "#platform-facts") : hash;
+}
+
 export function localizedHref(href, { locale = "en", ...extra } = {}) {
   const rawHref = String(href || "/");
   const parsed = new URL(rawHref, "https://nexualpha.com");
@@ -342,7 +353,7 @@ export function localizedHref(href, { locale = "en", ...extra } = {}) {
       if (key in extra) fragmentContext[key] = extra[key];
     }
   }
-  return appendFragmentContextParams(`${target.pathname}${target.search}${parsed.hash}`, fragmentContext);
+  return appendFragmentContextParams(`${target.pathname}${target.search}${turkeySafeHash(target.pathname, parsed.hash, targetLocale)}`, fragmentContext);
 }
 
 export function localizedLanguageHref(href, { locale = "en" } = {}) {
