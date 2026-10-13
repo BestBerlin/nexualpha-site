@@ -1,12 +1,12 @@
 {
   "One practice sum. Say one bitcoin is 50,000 USDT and you spend 100. Ignoring fees, that's 0.002 bitcoin. This is not today's market price.": "只做一道假设题：一枚值50,000单位泰达币，成交金额是100，忽略费用，就对应0.002枚比特币。这不是今天的市场报价。",
   "Say the fill price is 50,000 and you spend 100. You get 0.002 bitcoin. Now assume a 0.1% fee taken separately from your USDT. You spend 100.10 in total. Real rules depend on the platform.": "假设成交价是50,000，成交金额100，就买到0.002枚。再假设手续费0.1%、从报价余额另扣，你总共支出100.10。真实规则以平台为准。",
-  "With a virtual balance of 1,000, buy 0.002 BTC. Check the remaining USDT balance of 899.90 and the trade record.": "用虚拟1,000余额买入0.002 BTC，核对剩余报价余额899.90及成交记录。",
+  "With a virtual balance of 1,000, buy 0.002 BTC. Check the remaining USDT balance of 899.90 and the trade record.": "用 1,000 USDT 虚拟资金买入 0.002 BTC，核对剩余 USDT 余额 899.90 及成交记录。",
   "Same teaching example. You sell 0.002 bitcoin at 55,000. That's 110. Take off an assumed fee of 0.11, and 109.89 lands in your account.": "沿用教学例子，0.002枚按55,000卖出，成交金额110；扣假设费用0.11，到账109.89。",
   "Take off the costs. Here it's 9.79, before any currency conversion or withdrawal fees. A price going up isn't the same as your final net gain.": "还要扣成本。这里是9.79，尚未计算法币兑换、提现等可能的费用。币价涨跌并不等于最终净收益。",
   "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.": "看完十一集，是不是该充值了？第1季结课，答案可能出乎你意料。",
   "Season 2: the price on your screen isn't always the price you pay. Find out why.": "第2季：你看到的价格，不一定是你付的价格。下一季揭晓。",
-  "Season 1 finale: you can do it, and you can choose not to": "第1季结课：你能完成，也能选择不做",
+  "Season 1 finale: you can do it, and you can choose not to": "第一部分小结：你能完成，也能选择不做",
   "Say you buy 0.002 bitcoin. The first level only has half. The other half fills at a higher price. Together, the average is 50,050, not 50,000.": "假设你买0.002枚，第一档只有一半，另一半只能在更高价位成交。两笔合起来，平均是50,050，而不是50,000。",
   "High 51,000. Close 50,500.": "最高51,000，收盘50,500。",
   "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.": "\"我有1,000，只想亏20，那就全买进去？\"下一集：先想能亏多少。",
@@ -27,5 +27,7 @@
   "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "别只看\"逐仓\"两个字就假定最大损失永远等于最初那100。具体还要核对追加设置、费用和产品规则。",
   "Cross margin shares margin across positions, within what the rules allow. Here, say one margin pool holds 1,000. Several positions may depend on it, not just on what each was first assigned.": "全仓会在规则允许的范围内共享保证金支持仓位。这里假设同一保证金池里有1,000，多个仓位都可能依赖它，不是只盯各自最初分了多少。",
   "Liquidation usually means this forced-close risk event, not your phone's button breaking. The real trigger depends on fees, maintenance margin, margin mode and more. 10x doesn't mean exactly a 10% drop.": "爆仓通常指这种强制平仓风险事件，不是简单的手机按钮失灵。实际触发还受到费用、维持保证金、仓位模式等影响，不是10倍一定正好跌10%。",
-  "Say the position value at settlement is 1,000 and the rate is 0.01%. This fee is 0.10. It's based on the position value, not your first 100 of margin.": "假设结算时仓位价值是1,000，费率是0.01%，本次费用是0.10；按仓位价值计算，不是按最初的100保证金算。"
+  "Say the position value at settlement is 1,000 and the rate is 0.01%. This fee is 0.10. It's based on the position value, not your first 100 of margin.": "假设结算时仓位价值是1,000，费率是0.01%，本次费用是0.10；按仓位价值计算，不是按最初的100保证金算。",
+  "In the practice panel, convert a spend of 100 into a coin amount. No real order is created.": "试着算一算：价格为 50,000 USDT 时，花 100 USDT 能买到多少 BTC？只在模拟页面计算，不创建真实订单。",
+  "Your first spot trade: from 100 to 0.002 BTC": "第一笔现货交易：用 100 USDT 买到 0.002 枚 BTC"
 }

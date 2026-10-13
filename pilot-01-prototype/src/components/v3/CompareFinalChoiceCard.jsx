@@ -3,7 +3,7 @@ import { CodeChip } from "../v6/CodeChip.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
-import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { compareVenueCta } from "../../data/compare-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { decisionForVenue } from "../../data/venue-decision-content.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -150,7 +150,7 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
   const ctas = profiles.slice(0, 2).map((profile) => ({
     profile,
     access: publicVenueAccess(profile.slug, locale, market),
-    cta: regionalVenueCta(profile.slug, locale, market, product, { accountStage, funding }),
+    cta: compareVenueCta(profile.slug, profiles.map((p) => p.slug), locale, market, product, { accountStage, funding }),
     decision: decisionForVenue(profile.slug, locale),
   }));
   return { pageContext, detailHref, ctas };
