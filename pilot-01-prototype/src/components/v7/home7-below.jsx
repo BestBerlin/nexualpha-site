@@ -55,15 +55,15 @@ import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } 
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
-function intelView(feed, locale) {
+function intelView(feed, locale, now = Date.parse(feed?.renderedAt || feed?.generatedAt) || 0) {
   const sourceItems = sharedOfficialEventItems(feed);
   if (!Array.isArray(feed?.items)) return null;
-  const view = visibleEventSourceItems(sourceItems, { locale });
-  return { ...view, items: view.items.slice(0, 40), generatedAt: feed.generatedAt };
+  const view = visibleEventSourceItems(sourceItems, { locale, now });
+  return { ...view, items: view.items.slice(0, 40), generatedAt: feed.generatedAt, renderedAt: feed.renderedAt };
 }
 
-function useIntel(venues, locale, initialOfficialAnnouncements) {
-  const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale));
+function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
+  const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale, Date.parse(renderedAt || initialOfficialAnnouncements?.renderedAt || initialOfficialAnnouncements?.generatedAt) || 0));
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
     let alive = true;
@@ -71,7 +71,7 @@ function useIntel(venues, locale, initialOfficialAnnouncements) {
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!alive) return;
-        const next = intelView(j, locale);
+        const next = intelView(j, locale, Date.now());
         // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
         if (next) setFeed(next);
         else if (first) setFeed((current) => current || false);
@@ -134,9 +134,10 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
 const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
 
 // Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
-function useNow(stepMs = 60 * 1000) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => { const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
+function useNow(snapshot, stepMs = 60 * 1000) {
+  // Deferred hydration may happen minutes after SSR. Reuse the serialized feed clock first.
+  const [now, setNow] = useState(() => Number.isFinite(Date.parse(snapshot)) ? Date.parse(snapshot) : null);
+  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
   return now;
 }
 function timeAgo(ms, locale) {
@@ -166,17 +167,19 @@ function spread(items, limit, perVenue) {
 // Featured campaigns (owner 2026-10-12): our own campaign pages are pinned above the exchange notices while they run
 // (Bybit Stocks; Binance October gifts where Binance may be promoted). They link our pages, not the exchanges.
 // Bitget Alliance (owner 2026-10-13, big push) takes the top spot where Bitget may be promoted.
-function featuredCampaigns(locale, market) {
+function featuredCampaigns(locale, market, now) {
+  // Without a serialized clock, wait for mount before making deadline-dependent claims.
+  if (now === null) return [];
   const rows = [];
   // Kraken 5M USDG Challenge (owner 2026-10-13, strong push) first, Bitget Alliance right after it: both stay featured.
-  if (krakenUsdgPromotable({ locale, market })) rows.push({ id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) });
-  if (bitgetAlliancePromotable({ locale, market })) rows.push({ id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) });
-  if (bybitStocksCampaignActive()) rows.push({ id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) });
-  if (binanceOctoberPromotable({ locale, market })) rows.push({ id: "binance-october", venue: "binance", name: "Binance", path: BINANCE_OCTOBER_PATH, teaser: binanceOctoberTeaser(locale) });
+  if (krakenUsdgPromotable({ locale, market, now })) rows.push({ id: "kraken-usdg", venue: "kraken", name: "Kraken", path: KRAKEN_USDG_PATH, teaser: krakenUsdgTeaser(locale) });
+  if (bitgetAlliancePromotable({ locale, market, now })) rows.push({ id: "bitget-alliance", venue: "bitget", name: "Bitget.com", path: BITGET_ALLIANCE_PATH, teaser: bitgetAllianceTeaser(locale) });
+  if (bybitStocksCampaignActive(now)) rows.push({ id: "bybit-stocks", venue: "bybit", name: "Bybit", path: BYBIT_STOCKS_PATH, teaser: bybitStocksTeaser(locale) });
+  if (binanceOctoberPromotable({ locale, market, now })) rows.push({ id: "binance-october", venue: "binance", name: "Binance", path: BINANCE_OCTOBER_PATH, teaser: binanceOctoberTeaser(locale) });
   return rows;
 }
-function FeaturedCampaignRows({ locale, market }) {
-  return featuredCampaigns(locale, market).map(({ id, venue, name, path, teaser }) => {
+function FeaturedCampaignRows({ locale, market, now }) {
+  return featuredCampaigns(locale, market, now).map(({ id, venue, name, path, teaser }) => {
     const href = localizedHref(path, { locale, market });
     return (
       <li key={id} className="h7-feat" data-featured-campaign={id}>
@@ -192,16 +195,16 @@ function FeaturedCampaignRows({ locale, market }) {
   });
 }
 
-function IntelBlock({ intel, t, locale, market, venues }) {
+function IntelBlock({ intel, t, locale, market, venues, renderedAt }) {
   const [open, setOpen] = useState(null);
-  const now = useNow();
+  const now = useNow(renderedAt || intel?.renderedAt || intel?.generatedAt);
   if (!intel) {
     // Feed still loading or unavailable: the featured campaign still shows (fail closed for exchange notices only).
-    if (!featuredCampaigns(locale, market).length) return null;
+    if (!featuredCampaigns(locale, market, now).length) return null;
     return (
       <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
         <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
-        <ul className="h7-il"><FeaturedCampaignRows locale={locale} market={market} /></ul>
+        <ul className="h7-il"><FeaturedCampaignRows locale={locale} market={market} now={now} /></ul>
       </section>
     );
   }
@@ -210,7 +213,7 @@ function IntelBlock({ intel, t, locale, market, venues }) {
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
-        <FeaturedCampaignRows locale={locale} market={market} />
+        <FeaturedCampaignRows locale={locale} market={market} now={now} />
         {spread(intel.items, 10, 2).map((raw) => {
           const i = applyCampaignBriefs(raw, intel, locale);
           return (
@@ -224,7 +227,7 @@ function IntelBlock({ intel, t, locale, market, venues }) {
               <CampaignBriefFacts brief={i.brief} locale={locale} />
               <span className="h7-sr"> ({t.inOpen})</span>
             </a>
-            <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
+            <time dateTime={i.publishedAt}>{now === null ? formatSgt(i.publishedAt, locale) : timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
           </li>
           );
@@ -237,15 +240,15 @@ function IntelBlock({ intel, t, locale, market, venues }) {
   );
 }
 
-function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements }) {
-  const intel = useIntel(venues, locale, initialOfficialAnnouncements);
+function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements, renderedAt }) {
+  const intel = useIntel(venues, locale, initialOfficialAnnouncements, renderedAt);
   const briefFeed = useCampaignBriefs(intel && typeof intel === "object" ? intel : { items: [] });
-  return <IntelBlock intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
+  return <IntelBlock renderedAt={renderedAt} intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
 }
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
-export function HomeBelowFold({ t, locale, market, movers, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
+export function HomeBelowFold({ renderedAt, t, locale, market, movers, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
   const rowsRef = useRef(null), rowEls = useRef([]);
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
   return (
@@ -283,7 +286,7 @@ export function HomeBelowFold({ t, locale, market, movers, fundingFeed, vol, set
         </div>
       </section>
       <FundingBoard locale={locale} initialFeed={fundingFeed} />
-      <IntelSection t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
+      <IntelSection renderedAt={renderedAt} t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       <TelegramBlock locale={locale} />
       <LocalMarketBrief locale={locale} />
     </>

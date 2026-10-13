@@ -69,7 +69,9 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
   assert.match(funding, /formatCountdown\(remaining, \{ seconds: !prefersReducedMotion\(\) \}\)/);
   const home = await read("src/components/v7/home7-funding.jsx");
   assert.match(home, /reduced\(\) \? 60 \* 1000 : 1000/);
-  assert.match(home, /countdown\(Date\.parse\(r\.nextAt\) - now, !reduced\(\)\)/);
+  assert.match(home, /countdown\(now === null \? null : Date\.parse\(r\.nextAt\) - now, showSeconds\)/);
+
+  assert.match(home, /useEffect\(\(\) => \{ setShowSeconds\(!reduced\(\)\); \}, \[\]\)/, "motion preference is read after hydration");
 
   // SEO trust: the home funding board only renders after real SSR/client rows exist; no dash placeholder table.
   assert.match(home, /if \(!feed \|\| !selectedSymbol \|\| rows\.length === 0\) return null;/);
