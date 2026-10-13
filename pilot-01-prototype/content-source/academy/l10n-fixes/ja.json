@@ -49,5 +49,11 @@
   "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.": "徴収間隔や料率は通貨ペア、取引所、市況によって異なります。「どの契約も八時間ごと、永久に」と思い込まないでください。資金調達料の受け取りをノーリスクの収入と考えるのも禁物です。",
   "The last level is practice only. First explain what you're trading and which direction. Then check the mode, size, margin, auto-add, exit plan and costs. If you don't understand one item, pause. Don't guess your way through the buttons.": "最終関門は演習専用です。まず何をどの方向に取引しているのか説明し、次にモード、規模、証拠金、自動追加、決済計画、コストを確認してください。一つでも分からない項目があれば立ち止まりましょう。当てずっぽうでボタンを押してはいけません。",
   "You've finished both seasons. Pick the episode that felt hardest, and rewatch it before you ever trade.": "両シーズンを修了しました。最も難しく感じた回を選び、取引する前にもう一度見直してください。",
-  "Calculate one period's fee of 0.10 and complete the virtual futures order checklist. Real order APIs must not be called.": "一期分の手数料 0.10 を計算し、仮想先物注文チェックリストを完了させてください。実際の注文APIは呼び出さないこと。"
+  "Calculate one period's fee of 0.10 and complete the virtual futures order checklist. Real order APIs must not be called.": "一期分の手数料 0.10 を計算し、仮想先物注文チェックリストを完了させてください。実際の注文APIは呼び出さないこと。",
+  "In the practice panel, convert a spend of 100 into a coin amount. No real order is created.": "練習パネルで、購入金額（100 USDT）をコイン数量（BTC）に換算してみましょう。実際の注文は作成されません。",
+  "Your first spot trade: from 100 to 0.002 BTC": "初めての現物取引：100 USDTから0.002 BTCへ",
+  "Decide how much you could lose before you decide how much to buy": "いくら買うか決める前に、許容できる損失額を決めよう",
+  "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "100を小箱に入れれば、残りの900はずっと安全？次回：分離マージン（アイソレート）。",
+  "Isolated margin: putting one trade in its own box": "分離マージン（アイソレート）：1つの取引を独立した箱に分ける",
+  "Price flat, balance down? Finish the last level with costs in mind": "価格は横ばいでも残高が減る？コストを意識して最終関門をクリアしよう"
 }

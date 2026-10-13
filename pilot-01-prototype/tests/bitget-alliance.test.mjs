@@ -160,7 +160,7 @@ test("/activities/bitget-alliance renders at request time in en and zh-hans with
     assert.match(main, /href="(?:\/[a-z-]+)?\/exchanges\/bitget"/, `${p}: related profile`);
     assert.match(main, /\/activities\/updates\/bitget\//, `${p}: our summary of the announcement`);
   }
-  for (const p of [`/it${BITGET_ALLIANCE_PATH}`, `/tr${BITGET_ALLIANCE_PATH}`, `/ru${BITGET_ALLIANCE_PATH}`]) {
+  for (const p of [`/it${BITGET_ALLIANCE_PATH}`, `/ru${BITGET_ALLIANCE_PATH}`]) {
     assert.match(await (await fetchPage(p)).text(), /<meta name="robots" content="noindex,follow"/, `${p}: unwritten locale is noindex`);
   }
 });
@@ -195,7 +195,7 @@ test("every CTA uses /go/bitget-alliance with the code and a copy button next to
 });
 
 test("no CTA in Türkiye, the US, restricted markets or neutral/restricted editions; informational page instead", async () => {
-  for (const p of [`/tr${BITGET_ALLIANCE_PATH}`, `${BITGET_ALLIANCE_PATH}?market=US`, `${BITGET_ALLIANCE_PATH}?market=TR`, `/ru${BITGET_ALLIANCE_PATH}`, `/ar${BITGET_ALLIANCE_PATH}`,
+  for (const p of [`${BITGET_ALLIANCE_PATH}?market=US`, `${BITGET_ALLIANCE_PATH}?market=TR`, `/ru${BITGET_ALLIANCE_PATH}`, `/ar${BITGET_ALLIANCE_PATH}`,
     `/zh-hant${BITGET_ALLIANCE_PATH}`, `/ur${BITGET_ALLIANCE_PATH}`, `/fr${BITGET_ALLIANCE_PATH}`, `/de${BITGET_ALLIANCE_PATH}`, `/ja${BITGET_ALLIANCE_PATH}`]) {
     const response = await fetchPage(p);
     assert.equal(response.status, 200, p);

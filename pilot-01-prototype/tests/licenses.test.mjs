@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
+import { JSDOM } from 'jsdom';
+const require_jsdom = () => JSDOM;
 import { licenseRecords, LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseCopy, licenseTitle, licenseAnswer, licenseSchemas } from '../src/data/licenses.js';
 import { licenseRouteSeo, licenseSitemapEntries } from '../src/data/licenses-seo.js';
 import { localizedPath } from '../src/data/locale-routing.js';
@@ -21,10 +23,12 @@ test('entity records have official register provenance, dates and unique jurisdi
     assert.ok(LICENSE_COUNTRIES.some(country => country.code === row.country));
     const url = new URL(row.sourceUrl);
     assert.equal(url.protocol, 'https:');
-    assert.ok(registry.includes(row.sourceUrl), 'seed source already exists in reviewed repository data');
-    assert.match(url.hostname, /(^|\.)(spk\.gov\.tr|fsa\.go\.jp|mas\.gov\.sg|sfc\.hk|esma\.europa\.eu|vara\.ae|fca\.org\.uk|austrac\.gov\.au|ojk\.go\.id)$/);
+    // Seed rows came from reviewed repository data; later rows carry the register evidence they were read from.
+    assert.ok(registry.includes(row.sourceUrl) || (typeof row.evidence === 'string' && row.evidence.length > 20), 'official source is reviewed or carries register evidence');
+    assert.match(url.hostname, /(^|\.)(spk\.gov\.tr|fsa\.go\.jp|mas\.gov\.sg|sfc\.hk|esma\.europa\.eu|vara\.ae|fca\.org\.uk|austrac\.gov\.au|ojk\.go\.id|amf-france\.org|bafin\.de|cysec\.gov\.cy)$/);
+    assert.ok(!/&amp;/.test(row.sourceUrl), 'source URL is not HTML-escaped');
     assert.match(row.lastChecked, /^\d{4}-\d{2}-\d{2}$/);
-    const key = `${row.exchange}-${row.country}`;
+    const key = `${row.exchange}-${row.country}-${row.entityName}`;
     assert.ok(!keys.has(key), `duplicate ${key}`); keys.add(key);
   }
 });
@@ -102,7 +106,7 @@ test('hub filters update the hydrated table without changing server evidence', a
     select(exchange, licenseRecords[0].exchange);
     assert.equal(window.document.querySelectorAll('.nx-license-table tbody tr').length, licenseRecords.filter(row => row.exchange === licenseRecords[0].exchange).length);
     select(country, licenseRecords[0].country);
-    assert.equal(window.document.querySelectorAll('.nx-license-table tbody tr').length, 1);
+    assert.equal(window.document.querySelectorAll('.nx-license-table tbody tr').length, licenseRecords.filter(row => row.exchange === licenseRecords[0].exchange && row.country === licenseRecords[0].country).length);
     select(status, licenseRecords[0].status);
     assert.equal(window.document.querySelectorAll('.nx-license-table tbody tr').length, 1);
     select(exchange, ''); select(country, ''); select(status, '');
@@ -121,4 +125,21 @@ test('sitemap includes all search locales and country pages, excludes unsupporte
   assert.ok(entries.every(entry => LICENSE_INDEX_LOCALES.includes(entry.locale)));
   assert.equal(licenseRouteSeo('/licenses/not-a-country', 'en').status, 404);
   assert.equal(licenseRouteSeo('/licenses', 'ar').indexable, false);
+});
+
+test('mobile cards mirror table rows with display names, jurisdiction, entity, type, status and source', async () => {
+  const html = await harness.render('/licenses');
+  const doc = new (require_jsdom())(html).window.document;
+  const cards = doc.querySelectorAll('.nx-license-cards .nx-license-card');
+  assert.equal(cards.length, licenseRecords.length);
+  assert.equal(doc.querySelectorAll('.nx-license-table tbody tr').length, licenseRecords.length);
+  const text = doc.querySelector('.nx-license-cards').textContent;
+  for (const name of ['Binance', 'OKX', 'Bybit']) assert.ok(text.includes(name), name);
+  assert.ok(!/>(binance|okx|bybit|gate-io)</.test(doc.querySelector('.nx-license-cards').innerHTML), 'no lowercase slugs as visible names');
+  for (const card of cards) {
+    assert.ok(card.querySelector('dl dd'), 'card has register fields');
+    assert.ok(card.querySelector('a[target="_blank"][href^="https://"]'), 'card links the official source');
+  }
+  const css = readFileSync(new URL('../src/components/licenses/licenses.css', import.meta.url), 'utf8');
+  assert.match(css, /@media \(max-width:639\.98px\)\{[^]*\.nx-license-table table\{display:none\}[^]*\.nx-license-cards\{display:grid/);
 });

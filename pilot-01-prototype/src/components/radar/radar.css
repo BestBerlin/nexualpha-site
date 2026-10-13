@@ -372,3 +372,40 @@
   }
 }
 
+
+/* Methodology lives in a collapsed block at the very bottom of the page. */
+.nxradar-method {
+  max-width: 1180px;
+  margin-top: 28px;
+  border-top: 1px solid var(--radar-line);
+  color: var(--radar-muted);
+}
+
+.nxradar-method summary {
+  cursor: pointer;
+  padding: 14px 0;
+  font-size: 0.94rem;
+  font-weight: 650;
+  color: var(--radar-soft);
+}
+
+.nxradar-method summary:focus-visible {
+  outline: 2px solid var(--radar-accent);
+  outline-offset: 3px;
+}
+
+.nxradar-method-body {
+  max-width: 880px;
+  padding-bottom: 8px;
+}
+
+.nxradar-method-body p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.nxradar-address.is-labelled > :first-child {
+  color: var(--radar-accent);
+  font-weight: 650;
+}

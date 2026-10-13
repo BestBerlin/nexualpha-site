@@ -10,6 +10,7 @@ import { ActivityCenterV3 } from "./ActivityCenterV3";
 import { useActivityNow } from "./useActivityNow";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
+import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 
 function DecisionBrief({ text, eyebrow, title, body, facts = [] }) {
   return <aside className="v3-decision-brief" aria-label={eyebrow}>
@@ -38,7 +39,8 @@ export function ActivityCenterPage({ copy, locale, market, product, venues, upda
 
 export function ActivityDetailPage({ copy, locale, market, product, update: candidateUpdate, venues }) {
   const now = useActivityNow([candidateUpdate?.expiresAt]);
-  const update = visibleOfficialUpdates(candidateUpdate ? [candidateUpdate] : [], now)[0];
+  const visibleCandidate = candidateUpdate && campaignVisibleInLocale(candidateUpdate, locale) ? candidateUpdate : null;
+  const update = visibleOfficialUpdates(visibleCandidate ? [visibleCandidate] : [], now)[0];
   const text = v3Copy(locale);
   const venue = update ? venues.find((candidate) => candidate.slug === update.platform.slug) : null;
   const profile = venue ? venueProfile(venue, locale) : null;

@@ -67,8 +67,9 @@ test("/activities is rendered at request time from the announcement feed: campai
     assert.doesNotMatch(html, /Prerendered activities/, `${path}: not the build-time manifest body`);
     assert.doesNotMatch(html, /live-campaigns__group--skeleton/, `${path}: no placeholder when the feed is readable`);
     const cards = (html.match(/class="live-campaigns__card(?:\s[^"]*)?"/g) || []).length;
-    assert.equal(cards, 6, `${path}: every current event is a card (${cards})`);
-    for (const venue of ["okx", "binance", "bitget"]) assert.match(html, new RegExp(`data-campaign-group="${venue}"`), `${path}: ${venue} group`);
+    assert.equal(cards, locale === "tr" ? 5 : 6, `${path}: every visible current event is a card (${cards})`);
+    for (const venue of locale === "tr" ? ["okx", "binance"] : ["okx", "binance", "bitget"]) assert.match(html, new RegExp(`data-campaign-group="${venue}"`), `${path}: ${venue} group`);
+    if (locale === "tr") assert.doesNotMatch(html, /data-campaign-group="bitget"/, `${path}: Bitget campaigns are hidden in Turkish`);
     assert.match(html, /data-group-overflow="true"/, `${path}: the fourth OKX card folds behind "Show all"`);
     const expectedUpdateHref = updateHref(intelFeed.items[0], locale);
     assert.match(html, new RegExp(`href="${expectedUpdateHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), `${path}: campaign details link stays on NexuAlpha`);

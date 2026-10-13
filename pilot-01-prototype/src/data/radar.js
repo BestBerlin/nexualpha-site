@@ -1,6 +1,9 @@
 import { formatSgt } from "./local-time.js";
 import { localizedHref } from "./locale-routing.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
+import { RADAR_UI_COPY } from "./radar-ui-copy.js";
+
+export { venueDisplayName } from "./radar-ui-copy.js";
 
 export const LONG_SHORT_PATH = "/long-short";
 export const WHALES_PATH = "/whales";
@@ -34,11 +37,11 @@ const COPY = Object.freeze({
       "Open interest is shown with its explicit venue unit and a 24h path. Compare rows within the same source context before treating a change as meaningful.",
     ],
     whalesTitle: "Whale transfer radar",
-    whalesLead: "Large-transfer radar for BTC, ETH, USDT and USDC from public chain sources, with exchange labels only when the label source supports them.",
-    whalesSourceLine: "Public BTC and EVM chain sources plus maintained exchange-label lists. BTC mempool rows can change before confirmation; unknown counterparties stay unknown.",
+    whalesLead: "Live large transfers of BTC, ETH, USDT and USDC on public chains, with exchange wallets labelled from published address lists.",
+    whalesSourceLine: "mempool.space Bitcoin mempool, PublicNode Ethereum RPC and exchanges' published proof-of-reserves wallet lists.",
     whalesSummary: "A transfer to an exchange is custody movement, not proof of a sale or owner intent. Direction labels describe the observed address path only.",
     whalesExplainer: [
-      "The radar never guesses wallet owners. If the label list does not identify an address, the UI keeps it as unknown.",
+      "Only addresses on an exchange's published wallet list get an exchange name; every other address is shown as an unlabelled wallet.",
       "Use direction as a review prompt: to exchange, from exchange and wallet-to-wallet are operational categories, not intent, wealth or execution claims.",
     ],
     columns: {
@@ -60,14 +63,14 @@ const COPY = Object.freeze({
     directions: { to_exchange: "to exchange", from_exchange: "from exchange", wallet_to_wallet: "wallet-to-wallet", unknown: "unknown" },
   },
   "zh-Hans": {
-    home: "首页", data: "数据", updated: "更新", source: "来源", unavailableTitle: "雷达暂不可用", unavailable: "实时缓存还没有产出可用行。页面保持可读，并会在下一次公共快照到达后刷新。", openData: "打开 JSON", related: "相关数据", viewVenue: "查看平台", verifyVenue: "核验平台访问", unknown: "unknown",
-    longShortTitle: "多空比雷达", longShortLead: "按账户多空比、顶级交易员多空比、未平仓量和 24 小时 OI 变化观察头部永续市场。", longShortSourceLine: "Binance futures data、OKX Rubik stats、Bybit account ratios 与平台未平仓量端点。", longShortSummary: "多空比反映各平台公布的仓位压力。未平仓量会明确标出单位，因为不同平台会发布张数、币本位或美元视图。", longShortExplainer: ["账户多空比比较多头与空头账户数；币安顶级交易员持仓多空比比较持仓规模。不同平台统计范围不同，比率不能证明价格方向。", "未平仓量带单位和 24 小时迷你走势，便于区分新建仓与滞后的比率。"],
-    whalesTitle: "巨鲸转账雷达", whalesLead: "展示 BTC、ETH、USDT、USDC 大额链上转账；只有公共标签来源支持时才标注交易所。", whalesSourceLine: "公共 BTC 与 EVM 链源，以及维护中的交易所地址标签列表；未知对手方保持 unknown。", whalesSummary: "转入交易所只是托管路径变化，不等于卖出。方向标签只描述可观察地址路径。", whalesExplainer: ["雷达不会猜测钱包所有者。标签列表没有识别的地址会继续显示 unknown。", "方向可作为风险提示：to exchange、from exchange 和 wallet-to-wallet 是操作类别，不是意图或成交声明。"],
+    home: "首页", data: "数据", updated: "更新", source: "来源", unavailableTitle: "雷达暂不可用", unavailable: "实时缓存还没有产出可用行。页面保持可读，并会在下一次公共快照到达后刷新。", openData: "打开 JSON", related: "相关数据", viewVenue: "查看平台", verifyVenue: "查看平台", unknown: "未标注钱包",
+    longShortTitle: "多空比雷达", longShortLead: "按账户多空比、顶级交易员多空比、未平仓量和 24 小时 OI 变化观察头部永续市场。", longShortSourceLine: "币安合约数据、OKX Rubik 统计、Bybit 账户多空比及各平台未平仓量接口。", longShortSummary: "多空比反映各平台公布的仓位压力。未平仓量会明确标出单位，因为不同平台会发布张数、币本位或美元视图。", longShortExplainer: ["账户多空比比较多头与空头账户数；币安顶级交易员持仓多空比比较持仓规模。不同平台统计范围不同，比率不能证明价格方向。", "未平仓量带单位和 24 小时迷你走势，便于区分新建仓与滞后的比率。"],
+    whalesTitle: "巨鲸转账雷达", whalesLead: "实时追踪 BTC、ETH、USDT、USDC 大额链上转账，并标出交易所钱包。", whalesSourceLine: "mempool.space 比特币内存池、PublicNode 以太坊 RPC，以及各交易所公布的储备金证明钱包地址列表。", whalesSummary: "转入交易所只是托管路径变化，不等于卖出。方向标签只描述可观察地址路径。", whalesExplainer: ["只有出现在交易所公开地址列表中的地址才会标注交易所名称，其余地址显示为“未标注钱包”。", "“转入交易所”“转出交易所”“钱包间转账”只描述资金路径，不代表买卖意图或成交。"],
   },
   "zh-Hant": {
-    home: "首頁", data: "數據", updated: "更新", source: "來源", unavailableTitle: "雷達暫不可用", unavailable: "即時快取尚未產出可用資料列。頁面保持可讀，並會在下一次公共快照抵達後刷新。", openData: "開啟 JSON", related: "相關數據", viewVenue: "查看平台", verifyVenue: "核驗平台訪問", unknown: "unknown",
-    longShortTitle: "多空比雷達", longShortLead: "按帳戶多空比、頂級交易員多空比、未平倉量與 24 小時 OI 變化觀察頭部永續市場。", longShortSourceLine: "Binance futures data、OKX Rubik stats、Bybit account ratios 與平台未平倉量端點。", longShortSummary: "多空比反映各平台公布的倉位壓力。未平倉量會明確標出單位，因為不同平台會發布張數、幣本位或美元視圖。", longShortExplainer: ["帳戶多空比比較多頭與空頭帳戶數；幣安頂級交易員持倉多空比比較持倉規模。不同平台統計範圍不同，比率不能證明價格方向。", "未平倉量帶單位和 24 小時迷你走勢，便於區分新建倉與滯後比率。"],
-    whalesTitle: "巨鯨轉帳雷達", whalesLead: "展示 BTC、ETH、USDT、USDC 大額鏈上轉帳；只有公共標籤來源支持時才標註交易所。", whalesSourceLine: "公共 BTC 與 EVM 鏈源，以及維護中的交易所地址標籤列表；未知對手方保持 unknown。", whalesSummary: "轉入交易所只是託管路徑變化，不等於賣出。方向標籤只描述可觀察地址路徑。", whalesExplainer: ["雷達不會猜測錢包所有者。標籤列表沒有識別的地址會繼續顯示 unknown。", "方向可作為風險提示：to exchange、from exchange 和 wallet-to-wallet 是操作類別，不是意圖或成交聲明。"],
+    home: "首頁", data: "數據", updated: "更新", source: "來源", unavailableTitle: "雷達暫不可用", unavailable: "即時快取尚未產出可用資料列。頁面保持可讀，並會在下一次公共快照抵達後刷新。", openData: "開啟 JSON", related: "相關數據", viewVenue: "查看平台", verifyVenue: "查看平台", unknown: "未標註錢包",
+    longShortTitle: "多空比雷達", longShortLead: "按帳戶多空比、頂級交易員多空比、未平倉量與 24 小時 OI 變化觀察頭部永續市場。", longShortSourceLine: "幣安合約數據、OKX Rubik 統計、Bybit 帳戶多空比及各平台未平倉量介面。", longShortSummary: "多空比反映各平台公布的倉位壓力。未平倉量會明確標出單位，因為不同平台會發布張數、幣本位或美元視圖。", longShortExplainer: ["帳戶多空比比較多頭與空頭帳戶數；幣安頂級交易員持倉多空比比較持倉規模。不同平台統計範圍不同，比率不能證明價格方向。", "未平倉量帶單位和 24 小時迷你走勢，便於區分新建倉與滯後比率。"],
+    whalesTitle: "巨鯨轉帳雷達", whalesLead: "即時追蹤 BTC、ETH、USDT、USDC 大額鏈上轉帳，並標出交易所錢包。", whalesSourceLine: "mempool.space 比特幣記憶體池、PublicNode 以太坊 RPC，以及各交易所公布的儲備金證明錢包地址列表。", whalesSummary: "轉入交易所只是託管路徑變化，不等於賣出。方向標籤只描述可觀察地址路徑。", whalesExplainer: ["只有出現在交易所公開地址列表中的地址才會標註交易所名稱，其餘地址顯示為「未標註錢包」。", "「轉入交易所」「轉出交易所」「錢包間轉帳」只描述資金路徑，不代表買賣意圖或成交。"],
   },
   es: {
     home: "Inicio", data: "Datos", updated: "Actualizado", source: "Fuente", unavailableTitle: "Radar no disponible", unavailable: "La caché en vivo aún no generó filas utilizables. La página se mantiene legible y se actualizará con la próxima instantánea pública.", openData: "Abrir JSON", related: "Datos relacionados", viewVenue: "Revisar venue", verifyVenue: "Verificar acceso", unknown: "unknown",
@@ -147,11 +150,15 @@ const FALLBACK_DIRECTIONS = COPY.en.directions;
 export function radarCopy(locale = "en") {
   const key = COPY[locale] ? locale : String(locale || "").startsWith("zh") ? "zh-Hans" : "en";
   const local = COPY[key] || COPY.en;
+  const ui = RADAR_UI_COPY[key] || RADAR_UI_COPY.en;
   return {
     ...COPY.en,
+    ...RADAR_UI_COPY.en,
     ...local,
-    columns: { ...FALLBACK_COLUMNS, ...(local.columns || {}) },
-    directions: { ...FALLBACK_DIRECTIONS, ...(local.directions || {}) },
+    ...ui,
+    columns: { ...FALLBACK_COLUMNS, ...(local.columns || {}), ...(ui.columns || {}) },
+    directions: { ...FALLBACK_DIRECTIONS, ...(local.directions || {}), ...(ui.directions || {}) },
+    statuses: { ...RADAR_UI_COPY.en.statuses, ...(ui.statuses || {}) },
   };
 }
 
@@ -346,6 +353,9 @@ export function formatUtc(iso) {
 export function venueGoHref(slug, src, locale = "en", market) {
   const cta = publicCtaForVenue(slug, locale, market);
   if (!cta?.hasReferral || !cta.routeAvailable) return null;
-  return `${localizedHref(`/go/${slug}`, { locale })}?src=${encodeURIComponent(src)}`;
+  // /go is locale-neutral: keep src (and the display locale) in the query so the click is attributed.
+  const params = new URLSearchParams({ src });
+  if (locale && locale !== "en") params.set("locale", locale);
+  return `/go/${encodeURIComponent(slug)}?${params.toString()}`;
 }
 

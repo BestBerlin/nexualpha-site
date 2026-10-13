@@ -29,6 +29,7 @@ import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink
 import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
 import { glossaryTermPath } from "../../../data/glossary-routes.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
+import { newsQueryOwnerLink, newsSignupBridge } from "../../../data/news-lead-links.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
@@ -864,6 +865,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   // Topic hubs & tools (links-l10n lane 2026-10-11, scorecard C5/D4): the main page of every query family this article
   // belongs to and the data tools on its subject, from the mapping in src/data/topic-clusters.js.
   const clusterLinks = articleClusterLinks(article, locale);
+  // CTR pass 2026-10-13: registration tutorials open with the exchange profile (and app page) built for that search
+  // intent; an article that splits a query with a stronger article links to the query owner. See news-lead-links.js.
+  const signupBridge = newsSignupBridge({ articleSlug: article.slug, locale, market, hasVenue: (venueSlug) => Boolean(venueDatabase[venueSlug]), venueName: (venueSlug) => venueDatabase[venueSlug]?.name });
+  const queryOwner = newsQueryOwnerLink(article.slug, locale);
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
   const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], article.sources.length > 0, leadBlockCount, t.sourcesTitle);
   const jumpToSection = (id) => {
@@ -911,6 +916,14 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         {/* 文章正文 */}
         <section className="news-detail__content" lang={contentLocale} dir={["ar", "ur"].includes(contentLocale) ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
+          {(signupBridge || queryOwner) && (
+            <nav className={`news-detail__lead-links${signupBridge && !signupBridge.neutral ? " news-detail__lead-links--signup" : ""}`} aria-label={signupBridge?.eyebrow || queryOwner?.label} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-lead-links="">
+              {signupBridge?.links.map((link) => (
+                <a key={link.kind} href={withContext(link.href)} data-lead-link={link.kind} data-cta-kind="research" data-cta-platform={signupBridge.venue} data-cta-placement={`news-detail-lead-${link.kind}`}>{link.label} <span aria-hidden="true">→</span></a>
+              ))}
+              {queryOwner && <a href={withContext(queryOwner.href)} data-lead-link="query-owner" data-cta-kind="research" data-cta-placement="news-detail-lead-query-owner">{queryOwner.label} <span aria-hidden="true">→</span></a>}
+            </nav>
+          )}
           {showsOriginalLanguage && (
             <aside className="news-detail__local-brief" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <span className="news-detail__local-brief-eyebrow">{t.sourceBodyTitle}</span>

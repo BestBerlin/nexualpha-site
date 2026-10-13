@@ -5,6 +5,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./re
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "./referral-seo.js";
+import { serpCtrNewsOverride } from "./serp-ctr-news-overrides.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlineSlug } from "./brazil-vasp-deadline-slugs.js";
@@ -48,6 +49,7 @@ import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, parseKrakenUsdgPath } from "./kraken-usdg.js";
 import { krakenUsdgRouteSeo } from "./kraken-usdg-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
+import { completePageSchemas } from "./page-schemas.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
@@ -403,13 +405,13 @@ function searchPublicationLocales(pathname, options = {}) {
 export { HOME_SEARCH_COPY };
 const STATIC_COPY = {
   "/": [HOME_SEARCH_COPY.en[0], HOME_SEARCH_COPY["zh-Hans"][0]],
-  "/exchanges": ["Crypto Exchanges Directory & Fee Comparison — NexuAlpha", "交易平台黄页与手续费对比 — NexuAlpha"],
+  "/exchanges": ["Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha", "交易平台黄页与手续费对比 — NexuAlpha"],
   "/compare": [compareIndexCopy("en").title, compareIndexCopy("zh-Hans").title],
-  "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
+  "/activities": ["Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha", "官方活动中心 — NexuAlpha"],
   "/news": [NEWS_HUB_SEO_EN.title, "市场新闻与研究 — NexuAlpha"],
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
   "/onchain": [onchainGuideSeo("en").title, onchainGuideSeo("zh-Hans").title],
-  "/methodology": ["Research Methodology & Editorial Policy — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
+  "/methodology": ["How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
   [ABOUT_PATH]: [BRAND_PAGE_SEO[ABOUT_PATH].en[0], BRAND_PAGE_SEO[ABOUT_PATH]["zh-Hans"][0]],
   [EDITORIAL_POLICY_PATH]: [BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH].en[0], BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH]["zh-Hans"][0]],
   "/embed/calculator": ["Embeddable Trading Fee Calculator — NexuAlpha", "可嵌入交易手续费计算器 — NexuAlpha"],
@@ -566,31 +568,13 @@ const COMPARE_DESCRIPTION_LOCALIZED = {
   uk: (name) => `Порівняйте ${name} за торговими комісіями, продуктами, вимогами до акаунта й відмінностями платформ.`,
 };
 
-const SERP_CTR_NEWS_OVERRIDES = {
-  "okx-usd-to-usdc-spot-pair-migration": {
-    title: "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots",
-    description: "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.",
-    question: "What should I check before the OKX USD to USDC spot-pair migration?",
-    answer: "Check the official pair scope first, then inspect open orders, bots, API instrument identifiers, quote-currency handling and account balances before changing a live workflow.",
-  },
-  "hyperliquid-vs-dydx": {
-    title: "Hyperliquid vs dYdX: Fees, Funding and Liquidation",
-    description: "Compare Hyperliquid and dYdX fees, funding, collateral, liquidation, oracle, wallet and recovery mechanics before opening a perpetual position.",
-    question: "Should I choose Hyperliquid or dYdX for perp DEX trading?",
-    answer: "Choose only after comparing fees and funding alongside collateral, liquidation, oracle, wallet recovery and regional access; no single quoted rate settles the decision.",
-  },
-  "tokenized-treasuries-structure-access-risks": {
-    title: "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks",
-    description: "Check what a tokenized Treasury legally represents before comparing yield: issuer, recordkeeper, custodian, redemption path, wallet controls and eligibility.",
-    question: "What should I verify before comparing tokenized Treasury yield?",
-  },
-};
-
-function serpCtrNewsOverride(slug, locale) {
-  return locale === "en" ? SERP_CTR_NEWS_OVERRIDES[slug] || null : null;
-}
 
 const VENUE_SEO_OVERRIDES = {
+  // CTR pass 2026-10-13: same copy as the Worker head (worker/index.js venueSeoOverride.curve).
+  curve: {
+    title: "Curve Finance (2026): Swap Fees, Pools and Wallet Checks",
+    description: "How Curve Finance swaps work: pool-set fees, slippage and gas, plus the wallet approvals to check before your first stablecoin swap on the official app.",
+  },
   "gate-io": {
     title: "Gate.io Fees, KYC, Listings and Referral Code Checks — NexuAlpha",
     description: "Check Gate.io spot and futures fee sources, KYC and regional conditions, withdrawal and listing risks, API scope, and whether the referral code appears in the official signup flow.",
@@ -2086,12 +2070,16 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
 export function computeRouteSeo(options = {}) {
   const legalUrl = new URL(options.url || options.pathname || "/", PUBLIC_ORIGIN);
   const legalRoute = parsePublicRoute(legalUrl.pathname, legalUrl.searchParams);
-  if (isLegalPagePath(legalRoute.contentPathname)) return legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
+  if (isLegalPagePath(legalRoute.contentPathname)) {
+    const seo = legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
+    return { ...seo, schemas: completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo }) };
+  }
   const seo = computeRouteSeoUnbudgeted(options);
   if (!seo) return seo;
   const title = typeof seo.title === "string" ? budgetTitle(seo.title, titleBudgetForLocale(seo.locale)) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
-  return { ...seo, title, description };
+  const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
+  return { ...seo, title, description, schemas };
 }
 
 function computeRouteSeoUnbudgeted(options = {}) {
@@ -2105,6 +2093,12 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const isZh = locale === "zh-Hans";
   let pathname = aliases(contentPathname);
   const route = options.route || {};
+  if (rawLocale === "tr" && parseBitgetAlliancePath(pathname)) {
+    const target = new URL(canonical("/activities", "tr"));
+    const market = url.searchParams.get("market");
+    if (market) target.searchParams.set("market", market);
+    return { status: 301, redirect: target.href, canonical: target.href, locale: "tr", htmlLocale: "tr", title: "", description: "", robots: "noindex,follow", ogType: "website", schemas: [], alternates: [] };
+  }
   const ref = url.searchParams.get("ref") || (route.name === "kolLanding" ? route.kol : null);
   let title = isZh ? "页面不存在 — NexuAlpha" : "Page Not Found — NexuAlpha";
   let description = isZh ? "请求的页面不存在或未发布。" : "The requested page does not exist or is not published.";
@@ -2426,6 +2420,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       const directAnswerSchema = venueDirectAnswerSchema(venue, venueSeoOverride, locale);
       schemas = type === "factbook" ? buildFactbookSchemas(venue, locale, canonical(pathname, locale)) : [
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
+        { "@context": "https://schema.org", "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}` },
         { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
       ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market"))]);
     }
