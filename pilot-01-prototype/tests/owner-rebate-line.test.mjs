@@ -25,7 +25,9 @@ test("the headline maximum is the highest declared share", () => {
 
 test("the line renders in every home locale without placeholders", () => {
   for (const locale of Object.keys(H7_COPY)) {
-    const line = ownerRebateLine("bitget", locale, "Bitget");
+    // Türkiye: no Bitget rebate line at all (SPK list, owner 2026-10-13); OKX stands in for the placeholder check.
+    const [slug, name] = locale === "tr" ? ["okx", "OKX"] : ["bitget", "Bitget"];
+    const line = ownerRebateLine(slug, locale, name);
     assert.ok(line && !/undefined|\{/.test(line), `${locale}: ${line}`);
   }
 });

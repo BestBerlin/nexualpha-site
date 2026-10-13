@@ -2,10 +2,10 @@
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
 import { lazy, useEffect, useMemo, useRef, useState } from "react";
-import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
+import { feeFact } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE, HOME_SETTLE } from "../../data/home-rebate-tiers.js";
+import { HOME_AUTO_SETTLE, HOME_SETTLE, homePartnersFor, homePushFor, homeRebateMaxPctFor } from "../../data/home-rebate-tiers.js";
 import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
@@ -42,8 +42,9 @@ function AcademyTeaser({ locale }) {
 }
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
-function useVenues(locale, product) {
-  return useMemo(() => HOME_PARTNERS.map((slug) => {
+// Partners a market may not be offered (Türkiye: Bitget, SPK list) are left out of the whole home, not just unlinked.
+function useVenues(locale, product, market) {
+  return useMemo(() => homePartnersFor(locale, market).map((slug) => {
     const f = feeFact(slug, product);
     const cta = publicCtaForVenue(slug, locale);
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
@@ -52,7 +53,7 @@ function useVenues(locale, product) {
       share: partnerRebateShare(slug), code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
-  }), [locale, product]);
+  }), [locale, product, market]);
 }
 
 function CopyCode({ code, t }) {
@@ -91,7 +92,8 @@ export function HomeV7({ locale, market, venues: _catalog }) {
   const heroVariant = useHomeHeroVariant();
   const heroText = heroCopyFor(t, locale, heroVariant);
   const [product, setProduct] = useState("perp");
-  const venues = useVenues(locale, product);
+  const venues = useVenues(locale, product, market);
+  const maxPct = homeRebateMaxPctFor(locale, market);
   const [vol, setVol] = useState(100000);
   const [mode, setMode] = useState("taker");
 
@@ -118,7 +120,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
   }, [calc]);
 
   // Ledger: venues with a disclosed rebate share; the pick drives the ledger and the hero CTA.
-  const rebated = useMemo(() => HOME_PUSH.map((slug) => calc.rows.find((r) => r.slug === slug && r.share)).filter(Boolean), [calc]);
+  const rebated = useMemo(() => homePushFor(locale, market).map((slug) => calc.rows.find((r) => r.slug === slug && r.share)).filter(Boolean), [calc, locale, market]);
   const [pickSlug, setPick] = useState(null);
   const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
   const auto = HOME_AUTO_SETTLE.includes(sel.slug);
@@ -166,7 +168,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, HOME_REBATE_MAX_PCT)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
+          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, maxPct)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
           <p className="h7-sub">{heroText.sub}</p>
           <div className="h7-cta">
             <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>
@@ -193,7 +195,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
         </aside>
 
         <div className="h7-strip">
-          <p className="h7-strip-h">{replaceMaxPercent(t.cap(venues.length), locale, HOME_REBATE_MAX_PCT)}</p>
+          <p className="h7-strip-h">{replaceMaxPercent(t.cap(venues.length), locale, maxPct)}</p>
           <ul className="h7-pw" aria-label={t.pw(venues.length)}>
             {venues.map((v, i) => (
               <li key={v.slug}>
@@ -223,7 +225,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
       <DeferUntilVisible target="#h7-flash" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
       </DeferUntilVisible>
-      <div className="h7-in h7-foot">{replaceMaxPercent(t.foot(FACTS_AS_OF), locale, HOME_REBATE_MAX_PCT).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
+      {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>
   );

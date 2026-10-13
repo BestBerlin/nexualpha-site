@@ -332,92 +332,11 @@ export function articleMetaDescription(article, locale, seed = "") {
   return finalDescription;
 }
 
+// Route meta descriptions are written per page family (coins, convert, academy, flash, activities, …). A short one is
+// served as written: the old generic padding ("Use this NexuAlpha page to understand the route…" and its translations)
+// was removed after the 2026-10-13 native-speaker QA — it read as machine boilerplate and wasted the snippet.
 export function routeMetaDescription(title, description, locale) {
   const raw = plainMetaText(description);
-  if (raw.length >= META_DESCRIPTION_MIN && raw.length <= META_DESCRIPTION_MAX && !endsWithDanglingWord(raw)) return raw;
-  const value = clampMetaDescription(raw, locale);
-  if (value.length >= 110) return value;
-  const additionsByLocale = {
-    en: [
-      "Use this NexuAlpha page to understand the route, what it covers, and what to check before taking action.",
-      "It keeps the page scope, source boundary and next verification step visible.",
-    ],
-    "zh-Hans": [
-      "用这一页了解 NexuAlpha 当前页面覆盖什么、边界在哪里，以及行动前还需要核验什么。",
-      "页面只整理公开来源和站内研究路径，不替用户承诺账户结果。",
-      "需要时再进入相应政策、工具或联系方式页面核对细节。",
-    ],
-    "zh-Hant": [
-      "用這一頁了解 NexuAlpha 目前頁面涵蓋什麼、邊界在哪裡，以及行動前還需要核驗什麼。",
-      "頁面只整理公開來源和站內研究路徑，不替使用者承諾帳戶結果。",
-      "需要時再進入相應政策、工具或聯絡頁面核對細節。",
-    ],
-    es: [
-      "Usa esta página de NexuAlpha para entender la ruta, qué cubre y qué conviene revisar antes de actuar.",
-      "Mantiene visibles el alcance, los límites de fuente y la siguiente verificación.",
-    ],
-    "pt-BR": [
-      "Use esta página da NexuAlpha para entender a rota, o que ela cobre e o que revisar antes de agir.",
-      "Ela mantém visíveis o escopo, os limites das fontes e a próxima verificação.",
-    ],
-    fr: [
-      "Utilisez cette page NexuAlpha pour comprendre le parcours, ce qu'il couvre et les points à vérifier avant d'agir.",
-      "Elle garde visibles le périmètre, les limites de source et la prochaine vérification.",
-    ],
-    de: [
-      "Nutzen Sie diese NexuAlpha-Seite, um Route, Umfang und nächste Prüfungen vor einer Handlung zu verstehen.",
-      "Sie hält Umfang, Quellgrenzen und den nächsten Prüfschritt sichtbar.",
-    ],
-    it: [
-      "Usa questa pagina NexuAlpha per capire il percorso, cosa copre e cosa controllare prima di agire.",
-      "Mantiene visibili ambito, limiti delle fonti e prossimo controllo.",
-    ],
-    ja: [
-      "このNexuAlphaページで、対象範囲、境界、行動前に確認すべき点を把握します。",
-      "公開ソースとサイト内の確認経路だけを整理し、口座結果は約束しません。",
-    ],
-    ko: [
-      "이 NexuAlpha 페이지에서 다루는 범위와 경계, 행동 전에 확인할 항목을 파악합니다.",
-      "공개 출처와 사이트 내 확인 경로만 정리하며 계정 결과를 약속하지 않습니다.",
-    ],
-    ru: [
-      "Используйте эту страницу NexuAlpha, чтобы понять маршрут, охват и проверки перед действием.",
-      "Она сохраняет видимыми рамки страницы, границы источников и следующий шаг проверки.",
-    ],
-    tr: [
-      "Bu NexuAlpha sayfası, rotayı, kapsamı ve işlemden önce kontrol edilecek noktaları anlamak içindir.",
-      "Sayfa kapsamı, kaynak sınırlarını ve sonraki doğrulama adımını görünür tutar.",
-    ],
-    id: [
-      "Gunakan halaman NexuAlpha ini untuk memahami rute, cakupan, dan hal yang perlu dicek sebelum bertindak.",
-      "Halaman ini menjaga cakupan, batas sumber, dan langkah verifikasi berikutnya tetap jelas.",
-    ],
-    vi: [
-      "Dùng trang NexuAlpha này để hiểu lộ trình, phạm vi và những điểm cần kiểm tra trước khi hành động.",
-      "Trang giữ rõ phạm vi, ranh giới nguồn và bước xác minh tiếp theo.",
-    ],
-    ar: [
-      "استخدم صفحة NexuAlpha هذه لفهم المسار وما يغطيه وما يجب التحقق منه قبل أي إجراء.",
-      "تُبقي الصفحة النطاق وحدود المصادر وخطوة التحقق التالية واضحة.",
-    ],
-  };
-  const additions = additionsByLocale[locale] || additionsByLocale.en;
-  let out = value;
-  const applyCandidate = (candidate) => {
-    if (candidate.length <= META_DESCRIPTION_MAX) {
-      out = candidate;
-      return out.length >= META_DESCRIPTION_MIN;
-    }
-    const fragment = descriptionFragment(candidate);
-    if (fragment.length > out.length) out = `${fragment}${ELLIPSIS}`;
-    return out.length >= META_DESCRIPTION_MIN;
-  };
-  for (const addition of additions) {
-    if (applyCandidate(`${out} ${addition}`.trim())) break;
-  }
-  if (out.length < META_DESCRIPTION_MIN && title) {
-    const titleText = plainMetaText(title).replace(/\s+—\s*NexuAlpha$/u, "").replace(/…$/u, "");
-    applyCandidate(`${out} ${titleText}`.trim());
-  }
-  return out.length > META_DESCRIPTION_MAX ? clampMetaDescription(out, locale) : out;
+  if (raw.length <= META_DESCRIPTION_MAX && !endsWithDanglingWord(raw)) return raw;
+  return clampMetaDescription(raw, locale);
 }
