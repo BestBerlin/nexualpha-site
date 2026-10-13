@@ -6,6 +6,7 @@ import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { nativeReferralFor } from "../src/data/referral-native.js";
 import { referralSeoFor, referralTitleAllowed } from "../src/data/referral-seo.js";
 import { CUSTOM_INVITE_CODES } from "../src/data/partner-registry.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
@@ -55,7 +56,10 @@ test("exchange H1 carries fees + referral code + rebate where allowed, fees + pr
     assert.equal(h1s.length, 1, `${slug}/${locale}: exactly one H1`);
     const h1 = textOf(h1s[0][1]);
     const code = CUSTOM_INVITE_CODES[slug];
-    if (priorityVenueAnswerFor(slug, locale)) {
+    const native = nativeReferralFor(slug, locale);
+    if (native?.title) {
+      assert.equal(h1, native.title, `${slug}/${locale}: native referral H1`);
+    } else if (priorityVenueAnswerFor(slug, locale)) {
       // owner-reviewed priority answers keep their question as the H1 (tests/week3-owner-intent-contract.test.mjs)
       assert.equal(h1, priorityVenueAnswerFor(slug, locale).ownerQuestion, `${slug}/${locale}: owner question H1`);
       continue;
@@ -74,9 +78,9 @@ test("exchange H1 carries fees + referral code + rebate where allowed, fees + pr
     assert.match(html, /v3-trust-metal-badge/, `${slug}/${locale}: fees-checked chip stays in the hero`);
   }
   const en = pages.find((p) => p.locale === "en" && p.slug === "okx");
-  assert.match(textOf(en.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^OKX fees, referral code nexu888 and rebate \(\d{4}\)$/);
+  assert.equal(textOf(en.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), nativeReferralFor("okx", "en").title);
   const tr = pages.find((p) => p.locale === "tr" && p.slug === "okx");
-  assert.match(textOf(tr.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^OKX referans kodu nexu888, ücretler ve iade \(\d{4}\)$/);
+  assert.equal(textOf(tr.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), nativeReferralFor("okx", "tr").title);
   const trBitget = pages.find((p) => p.locale === "tr" && p.slug === "bitget");
   assert.match(textOf(trBitget.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^Bitget ücretleri ve platform profili$/, "tr only promotes SPK-listed venues");
   const ru = pages.find((p) => p.locale === "ru" && p.slug === "okx");

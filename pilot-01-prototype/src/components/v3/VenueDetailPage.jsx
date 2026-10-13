@@ -1,3 +1,5 @@
+import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
+import { nativeReferralFor } from '../../data/referral-native.js';
 import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
@@ -519,7 +521,11 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const latestNews = exchangeHubNewsItems(initialNewsArticles, { slug: venue.slug, name: venue.name, locale });
   const hubTools = exchangeHubToolLinks(venue.slug, locale);
   const suggested = profile.suggestedComparisons?.map((slug) => venues.find((candidate) => candidate.slug === slug)).filter(Boolean) ?? [];
-  const similar = (suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category)).slice(0, 4);
+  const similar = (suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category)).sort((a, b) => {
+    const order = locale === "tr" || market === "TR" ? ["okx", "binance", "bybit"] : ["bitget", "okx", "binance"];
+    const rank = slug => order.includes(slug) ? order.indexOf(slug) : order.length;
+    return rank(a.slug) - rank(b.slug);
+  }).slice(0, 4);
 
   const isZhLocale = locale && (locale.startsWith("zh") || locale === "zh-Hans" || locale === "zh-Hant" || locale === "zh-CN" || locale === "zh-TW");
   const telegramDetailUi = telegramLocaleUi[locale] || telegramLocaleUi[String(locale || "").split("-")[0]] || {};
@@ -554,9 +560,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   // referral-title policy as the <title> (referral-seo.js: ru, ar and zh-Hant stay neutral; tr only for SPK-listed
   // venues). The invite code is the data-bound one from the CTA, never typed here.
   const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale, market) ? inviteCode : null;
-  const detailTitleStr = referralHeadlineCode
+  const nativeReferral = nativeReferralFor(venue.slug, locale, market);
+  const detailTitleStr = nativeReferral?.title || (referralHeadlineCode
     ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear(), referralSharePercent(venue.slug))
-    : text.detailFeesTitle(localizedVenueName);
+    : text.detailFeesTitle(localizedVenueName));
   const [titleBefore, titleAfter] = detailTitleStr.includes(localizedVenueName)
     ? detailTitleStr.split(localizedVenueName)
     : [detailTitleStr, ""];
@@ -731,25 +738,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </div>
   );
 
-  return <main className="v6 v2-page v3-page v3-profile-page v5 v5-detail" id="top" {...sectionEyebrowAttrs(locale, "exchanges")}>
-    <section className="v3-page-hero v2-shell">
-      <TelegramReturnBanner
-        expectedKind="venue"
-        expectedId={profile.slug}
-        objectLabel={localizedVenueName}
-        locale={locale}
-        market={market}
-        product={product}
-        accountStage={accountStage}
-        funding={funding}
-        continueHash="#registration-checklist"
-      />
-      <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
-        ← {isZhLocale ? zhText(locale, "返回交易所黄页目录", "返回交易所黃頁目錄") : text.backToDirectory}
-      </LocalLink>
-
-      {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
-
+  const venueCampaignBanners = <>
       {/* Binance October gifts (owner 2026-10-12): banner on the Binance profile while the campaign runs. */}
       {profile.slug === BINANCE_OCTOBER_VENUE && binanceOctoberPromotable({ locale, market }) && (() => {
         const teaser = binanceOctoberTeaser(locale);
@@ -790,8 +779,30 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
         </LocalLink>;
       })()}
+  </>;
+
+  return <main className="v6 v2-page v3-page v3-profile-page v5 v5-detail" id="top" {...sectionEyebrowAttrs(locale, "exchanges")}>
+    <section className="v3-page-hero v2-shell">
+      <TelegramReturnBanner
+        expectedKind="venue"
+        expectedId={profile.slug}
+        objectLabel={localizedVenueName}
+        locale={locale}
+        market={market}
+        product={product}
+        accountStage={accountStage}
+        funding={funding}
+        continueHash="#registration-checklist"
+      />
+      <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
+        ← {isZhLocale ? zhText(locale, "返回交易所黄页目录", "返回交易所黃頁目錄") : text.backToDirectory}
+      </LocalLink>
+
+      {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
+
+      {!nativeReferral && venueCampaignBanners}
       <div className="v3-venue-hero">
-        <div className="v3-venue-identity enter" style={{ "--i": 0 }}>
+        <div className="v3-venue-identity enter" data-native-referral={nativeReferral ? true : undefined} style={{ "--i": 0 }}>
           <BrandMark slug={profile.slug} priority />
           <div className="v3-venue-identity__info">
             <div className="v3-venue-identity__badges">
@@ -815,13 +826,15 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               </span>
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>
-              {ownerQuestionTitle ? (
+              {nativeReferral?.title ? nativeReferral.title : ownerQuestionTitle ? (
                 ownerQuestionTitle
               ) : (
                 <>{titleBefore}{detailTitleStr.includes(localizedVenueName) && <bdi translate="no" lang={isZhLocale ? "zh-Hans" : "en"}>{localizedVenueName}</bdi>}{titleAfter && <>{titleSuffixGap}<span className="v3-venue-title__suffix">{titleAfter.trim()}</span></>}</>
               )}
             </h1>
           </div>
+          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={market} />
+          {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
 
         <div className="v3-profile-reading-layout">

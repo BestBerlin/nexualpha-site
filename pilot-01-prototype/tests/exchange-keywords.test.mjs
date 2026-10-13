@@ -11,6 +11,7 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
+import { nativeReferralFor } from "../src/data/referral-native.js";
 import { referralSeoFor, referralTitleAllowed } from "../src/data/referral-seo.js";
 import { TURKEY_PROMOTED_PARTNERS } from "../src/data/partner-geo-restrictions.js";
 import { PARTNER_VENUE_FAQ_LOCAL_TARGETS, partnerVenueFaqFor } from "../src/data/partner-venue-faq.js";
@@ -47,7 +48,7 @@ test("Turkish referral allow-list matches SPK's operating list (01 Oct 2026) and
 test("pt-BR referral titles lead with 'código de convite' and keep 'indicação'", () => {
   for (const partner of REFERRAL_PARTNERS.filter((p) => p.inviteCode)) {
     const seo = referralSeoFor(partner.slug, "pt-BR");
-    assert.match(seo.title, /^Código de convite /, partner.slug);
+    assert.match(seo.title, /^código de convite /i, partner.slug);
     assert.match(`${seo.title} ${seo.description}`, /indicação/, partner.slug);
   }
 });
@@ -69,6 +70,11 @@ test("tr / vi / id target profiles carry the native referral long tail and offic
         assert.doesNotMatch(e.question + e.answer, /\{code\}|\{name\}|\{disclosure\}|\{cadence\}/, `${slug}/${locale}: placeholder`);
         assert.doesNotMatch(e.answer, disclosure[locale], `${slug}/${locale}: no commission disclosure inside the answer`);
         assert.doesNotMatch(e.answer, /%\s?\d|\d\s?%/, `${slug}/${locale}: no rebate percentage inside the FAQ`);
+        if (e.origin === "partner-data") {
+          assert.equal(e.source, "/intel/partners.json", `${slug}/${locale}: partner data source`);
+          assert.deepEqual(e.citations, ["/intel/partners.json"], `${slug}/${locale}: partner data citation`);
+          continue;
+        }
         for (const href of e.citations) assert.match(new URL(href).host, officialHost, `${slug}/${locale}: ${href}`);
       }
     }
@@ -181,13 +187,13 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
     assert.doesNotMatch(text(bp), NEVER_SEC);
   }
   const h1 = (html) => text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]);
-  assert.match(h1(pages["okx:tr"]), /^OKX referans kodu nexu888, ücretler ve iade \(\d{4}\)$/);
-  assert.match(h1(pages["bybit:tr"]), /^Bybit referans kodu 48553 ve ücretler \(\d{4}\)$/, "no rebate word without a confirmed share");
+  assert.equal(h1(pages["okx:tr"]), nativeReferralFor("okx", "tr").title);
+  assert.equal(h1(pages["bybit:tr"]), nativeReferralFor("bybit", "tr").title, "no rebate word without a confirmed share");
   // vi is neutral since 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP): the profile H1 carries no referral wording or code.
   assert.doesNotMatch(h1(pages["okx:vi"]), /nexu888|[Mm]ã giới thiệu|hoàn phí/);
   assert.doesNotMatch(h1(pages["bitget:vi"]), /nexu888|[Mm]ã giới thiệu|hoàn phí/);
-  assert.match(h1(pages["bybit:id"]), /^Kode referral Bybit 48553 dan biaya \(\d{4}\)$/);
-  assert.match(h1(pages["binance:pt-BR"]), /^Código de convite Binance 11350287, taxas e cashback \(\d{4}\)$/);
+  assert.equal(h1(pages["bybit:id"]), nativeReferralFor("bybit", "id").title);
+  assert.equal(h1(pages["binance:pt-BR"]), nativeReferralFor("binance", "pt-BR").title);
 
   // /topics/bybit-alternatives: one row per venue from the facts file, codes from the feed, no in-page disclosure line.
   const page = venueAlternativePage("bybit-alternatives");

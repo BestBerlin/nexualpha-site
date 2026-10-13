@@ -5,76 +5,87 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "name": "Bitget",
     "inviteCode": "nexu888",
     "share": 0.6,
-    "settle": "daily"
+    "settle": "daily",
+    "termsConfirmedOn": "2026-10-10"
   },
   {
     "slug": "okx",
     "name": "OKX",
     "inviteCode": "nexu888",
     "share": 0.4,
-    "settle": "hourly"
+    "settle": "hourly",
+    "termsConfirmedOn": "2026-10-10"
   },
   {
     "slug": "binance",
     "name": "Binance",
     "inviteCode": "11350287",
     "share": 0.25,
-    "settle": "hourly"
+    "settle": "hourly",
+    "termsConfirmedOn": "2026-10-10"
   },
   {
     "slug": "bybit",
     "name": "Bybit",
     "inviteCode": "48553",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "gate-io",
     "name": "Gate.io",
     "inviteCode": "nexubest",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "mexc",
     "name": "MEXC",
     "inviteCode": "4BRhe",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "htx",
     "name": "HTX",
     "inviteCode": "nexu888",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "kraken",
     "name": "Kraken",
     "inviteCode": "7f97gkqw",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "backpack",
     "name": "Backpack",
     "inviteCode": "luckybitcoin",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "hyperliquid",
     "name": "Hyperliquid",
     "inviteCode": "NEXU888",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   },
   {
     "slug": "coinw",
     "name": "CoinW",
     "inviteCode": "2296057",
     "share": null,
-    "settle": null
+    "settle": null,
+    "termsConfirmedOn": null
   }
 ]);

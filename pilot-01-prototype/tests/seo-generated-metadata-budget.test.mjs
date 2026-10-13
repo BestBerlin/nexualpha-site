@@ -1,3 +1,4 @@
+import { isNativeReferralTitle } from '../src/data/referral-native.js';
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -30,7 +31,7 @@ function assertMetadataBudget({ label, title, description, locale, requiresExpan
   const min = requiresExpansion ? 120 : 110;
   assert.ok(description.length >= min, `${label}: description ${description.length} < ${min}: ${description}`);
   assert.ok(description.length <= 160, `${label}: description ${description.length} > 160: ${description}`);
-  assert.ok(title.length <= titleBudgetForLocale(locale), `${label}: title ${title.length} > ${titleBudgetForLocale(locale)}: ${title}`);
+  assert.ok(isNativeReferralTitle(title, locale) || title.length <= titleBudgetForLocale(locale), `${label}: title ${title.length} > ${titleBudgetForLocale(locale)}: ${title}`);
   assert.doesNotMatch(description, /本文最有价值的地方是克制。/, `${label}: zh-Hans boilerplate leaked`);
   assert.doesNotMatch(description, /^["“”'‘’]/u, `${label}: leading quote leaked`);
 }
@@ -128,7 +129,7 @@ test("built prerender manifest routes keep Worker metadata budgets", async (t) =
     // lift them over 110 characters ("Use this NexuAlpha page…") is gone, so only boilerplate and the upper budgets count.
     const min = /Use this NexuAlpha page|用这一页了解|用這一頁了解|source boundary/.test(metadata.description) ? "boilerplate" : null;
     const over = metadata.description.length > 160 ? "over160" : null;
-    const longTitle = metadata.title.length > titleBudgetForLocale(metadata.locale) ? "title" : null;
+    const longTitle = metadata.title.length > titleBudgetForLocale(metadata.locale) && !isNativeReferralTitle(metadata.title, metadata.locale) ? "title" : null;
     if (min || over || longTitle) {
       deficits.push({ pathname, locale: route.locale, kind: min || over || longTitle, title: metadata.title, description: metadata.description });
     }

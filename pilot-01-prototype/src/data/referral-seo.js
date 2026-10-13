@@ -1,3 +1,4 @@
+import { nativeReferralFor } from './referral-native.js';
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Search titles for partner exchange profiles (owner 2026-10-10: grow search traffic). People who are about to open
 // an account search for "<exchange> referral code" / "<交易所> 邀请码" / "código de indicação <exchange>", so the
@@ -160,6 +161,8 @@ export function referralSharePercent(slug) {
 export function referralSeoFor(slug, locale = "en", market) {
   const p = partnersBySlug()[slug];
   if (!p?.inviteCode || !referralTitleAllowed(slug, locale, market)) return null;
+  const native = nativeReferralFor(slug, locale, market);
+  if (native?.title) return { title: native.title, description: locale === "tr" && p.share != null ? `${native.copy.query(p.name)}: ${p.inviteCode}. ${trPercentDative(Math.round(p.share * 100))} varan ücret iadesi.` : `${native.copy.query(p.name)}${locale === "pt-BR" ? " (indicação)" : ""}: ${p.inviteCode}. ${native.benefit}.` };
   const pct = p.share != null ? Math.round(p.share * 100) : null;
   if (WALLET_VENUES.has(slug)) {
     const copy = WALLET_COPY[locale] || WALLET_COPY.en;

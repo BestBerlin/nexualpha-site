@@ -11,7 +11,7 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 export function referralPartnerRows() {
   return buildPartnersFeed({ generatedAt: "static" }).partners
     .filter((p) => p.inviteCode)
-    .map(({ slug, name, inviteCode, share, settle }) => ({ slug, name, inviteCode, share, settle }));
+    .map(({ slug, name, inviteCode, share, settle, termsConfirmedOn }) => ({ slug, name, inviteCode, share, settle, termsConfirmedOn }));
 }
 
 export function renderReferralPartners(rows = referralPartnerRows()) {

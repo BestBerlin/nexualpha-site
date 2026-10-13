@@ -1,58 +1,6 @@
 {
   "promotions": [
     {
-      "id": "okx-signup",
-      "partner": "okx",
-      "kind": "signup",
-      "name": "OKX",
-      "officialSource": "https://www.okx.com",
-      "regions": {
-        "allow": [],
-        "deny": []
-      },
-      "locales": {
-        "allow": [],
-        "neutral": [
-          "ru",
-          "ar",
-          "zh-Hant",
-          "ur",
-          "uk",
-          "vi"
-        ]
-      },
-      "validFrom": "2026-10-10",
-      "validTo": null,
-      "conditions": {
-        "en": "Check regional eligibility and account terms",
-        "zh-Hans": "核对地区资格与账户条款",
-        "zh-Hant": "核對地區資格與帳戶條款",
-        "ja": "地域の利用資格と口座条件を確認",
-        "ko": "지역 자격과 계정 조건 확인",
-        "tr": "Bölgesel uygunluk ve hesap koşullarını kontrol edin",
-        "es": "Consulta la elegibilidad regional y las condiciones de cuenta",
-        "pt-BR": "Confira a elegibilidade regional e os termos da conta",
-        "fr": "Vérifiez l’éligibilité régionale et les conditions du compte",
-        "de": "Regionale Berechtigung und Kontobedingungen prüfen",
-        "ru": "Проверьте региональные ограничения и условия счёта",
-        "ar": "تحقق من الأهلية الإقليمية وشروط الحساب",
-        "id": "Periksa kelayakan wilayah dan ketentuan akun",
-        "vi": "Kiểm tra điều kiện khu vực và tài khoản",
-        "it": "Verifica idoneità regionale e condizioni del conto",
-        "ur": "علاقائی اہلیت اور اکاؤنٹ کی شرائط چیک کریں",
-        "uk": "Перевірте регіональні обмеження та умови рахунку"
-      },
-      "link": "/go/okx?src=news-sponsored",
-      "lastVerified": "2026-10-10",
-      "enabled": true,
-      "inviteCode": "nexu888",
-      "share": 0.4,
-      "topicTags": [
-        "okx"
-      ],
-      "notes": "Registry-confirmed signup terms; no bonus claim."
-    },
-    {
       "id": "bitget-signup",
       "partner": "bitget",
       "kind": "signup",
@@ -101,6 +49,58 @@
       "share": 0.6,
       "topicTags": [
         "bitget"
+      ],
+      "notes": "Registry-confirmed signup terms; no bonus claim."
+    },
+    {
+      "id": "okx-signup",
+      "partner": "okx",
+      "kind": "signup",
+      "name": "OKX",
+      "officialSource": "https://www.okx.com",
+      "regions": {
+        "allow": [],
+        "deny": []
+      },
+      "locales": {
+        "allow": [],
+        "neutral": [
+          "ru",
+          "ar",
+          "zh-Hant",
+          "ur",
+          "uk",
+          "vi"
+        ]
+      },
+      "validFrom": "2026-10-10",
+      "validTo": null,
+      "conditions": {
+        "en": "Check regional eligibility and account terms",
+        "zh-Hans": "核对地区资格与账户条款",
+        "zh-Hant": "核對地區資格與帳戶條款",
+        "ja": "地域の利用資格と口座条件を確認",
+        "ko": "지역 자격과 계정 조건 확인",
+        "tr": "Bölgesel uygunluk ve hesap koşullarını kontrol edin",
+        "es": "Consulta la elegibilidad regional y las condiciones de cuenta",
+        "pt-BR": "Confira a elegibilidade regional e os termos da conta",
+        "fr": "Vérifiez l’éligibilité régionale et les conditions du compte",
+        "de": "Regionale Berechtigung und Kontobedingungen prüfen",
+        "ru": "Проверьте региональные ограничения и условия счёта",
+        "ar": "تحقق من الأهلية الإقليمية وشروط الحساب",
+        "id": "Periksa kelayakan wilayah dan ketentuan akun",
+        "vi": "Kiểm tra điều kiện khu vực và tài khoản",
+        "it": "Verifica idoneità regionale e condizioni del conto",
+        "ur": "علاقائی اہلیت اور اکاؤنٹ کی شرائط چیک کریں",
+        "uk": "Перевірте регіональні обмеження та умови рахунку"
+      },
+      "link": "/go/okx?src=news-sponsored",
+      "lastVerified": "2026-10-10",
+      "enabled": true,
+      "inviteCode": "nexu888",
+      "share": 0.4,
+      "topicTags": [
+        "okx"
       ],
       "notes": "Registry-confirmed signup terms; no bonus claim."
     },
