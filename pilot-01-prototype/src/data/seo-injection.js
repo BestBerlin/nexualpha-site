@@ -45,6 +45,7 @@ import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, parseKrakenUsdgPath } from "./kraken-usdg.js";
 import { krakenUsdgRouteSeo } from "./kraken-usdg-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
+import { completePageSchemas } from "./page-schemas.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
@@ -2081,12 +2082,16 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
 export function computeRouteSeo(options = {}) {
   const legalUrl = new URL(options.url || options.pathname || "/", PUBLIC_ORIGIN);
   const legalRoute = parsePublicRoute(legalUrl.pathname, legalUrl.searchParams);
-  if (isLegalPagePath(legalRoute.contentPathname)) return legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
+  if (isLegalPagePath(legalRoute.contentPathname)) {
+    const seo = legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
+    return { ...seo, schemas: completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo }) };
+  }
   const seo = computeRouteSeoUnbudgeted(options);
   if (!seo) return seo;
   const title = typeof seo.title === "string" ? budgetTitle(seo.title, titleBudgetForLocale(seo.locale)) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
-  return { ...seo, title, description };
+  const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
+  return { ...seo, title, description, schemas };
 }
 
 function computeRouteSeoUnbudgeted(options = {}) {
@@ -2405,6 +2410,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       const directAnswerSchema = venueDirectAnswerSchema(venue, venueSeoOverride, locale);
       schemas = type === "factbook" ? buildFactbookSchemas(venue, locale, canonical(pathname, locale)) : [
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
+        { "@context": "https://schema.org", "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}` },
         { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
       ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market"))]);
     }

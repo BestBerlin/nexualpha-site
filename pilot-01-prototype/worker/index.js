@@ -25,6 +25,7 @@ import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attributio
 import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
+import { completePageSchemas } from "../src/data/page-schemas.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { ARCHIVE_PATH, archiveItems, isArchiveIndexable } from "../src/data/announcement-archive.js";
@@ -3482,7 +3483,11 @@ function routeTrustPairs(metadata) {
   ].filter(([, content]) => Boolean(content));
 }
 
-function routeSchemaPayload(schema) {
+function routeSchemaPayload(schema, metadata) {
+  if (metadata?.status === 200) {
+    const pathname = parsePublicRoute(new URL(metadata.canonical).pathname).contentPathname;
+    schema = completePageSchemas(schema, { pathname, canonical: metadata.canonical, title: metadata.title, description: metadata.description, locale: metadata.locale });
+  }
   if (!schema) return null;
   return Array.isArray(schema)
     ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
@@ -3523,7 +3528,7 @@ export function routeSeoPayload(metadata, url) {
     openGraph: routeOpenGraphPairs(metadata),
     twitter: routeTwitterPairs(metadata),
     trust: routeTrustPairs(metadata),
-    schema: routeSchemaPayload(metadata.schema),
+    schema: routeSchemaPayload(metadata.schema, { ...metadata, locale: documentLocaleFor(metadata, url) }),
   };
 }
 
@@ -3620,7 +3625,7 @@ function injectRouteMetadata(html, metadata) {
     );
   }
   output = output.replace(/\s*<script\b[^>]*id=["']nexualpha-route-schema["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
-  const schemaPayload = routeSchemaPayload(metadata.schema);
+  const schemaPayload = routeSchemaPayload(metadata.schema, metadata);
   if (schemaPayload) {
     output = output.replace(
       /<\/head>/i,
@@ -5831,6 +5836,8 @@ function pageBreadcrumb(name, canonicalUrl, parentName, parentPath, locale) {
 function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null) {
   const sourceUrls = seoOverride?.sourceUrls || [];
   const schemas = [pageBreadcrumb(venue.name, canonicalUrl, "Exchanges", "/exchanges", locale), {
+    "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}`,
+  }, {
     "@type": "WebPage", name: `${venue.name} Exchange Profile`, url: canonicalUrl, inLanguage: locale, dateModified: seoOverride?.reviewedAt || (seoOverride ? "2026-09-15" : "2026-09-08"),
     ...researchAttribution([`https://${venue.officialDomain}`, ...sourceUrls]),
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -6092,19 +6099,24 @@ function buildWorkerActivityUpdateSchema(item, locale, canonicalUrl) {
       ...(publishedAt ? { datePublished: publishedAt, dateModified: publishedAt } : {}),
       author: RESEARCH_DESK,
       publisher: NEXUALPHA_PUBLISHER,
+      image: ["https://nexualpha.com/brand/nexualpha/nexualpha-square.png"],
       isAccessibleForFree: true,
       about: { "@type": "Organization", name: venueDisplayName(item.venue) },
       citation: item.url,
     },
   ];
-  const deadline = Number.isFinite(Date.parse(item?.brief?.deadline)) ? new Date(item.brief.deadline).toISOString() : null;
-  if (item.category === "event" && deadline) {
+  const startDate = Number.isFinite(Date.parse(item.startAt)) ? new Date(item.startAt).toISOString() : null;
+  const end = item.endAt || item?.brief?.deadline;
+  const deadline = Number.isFinite(Date.parse(end)) ? new Date(end).toISOString() : null;
+  // An announcement/publication date is not an event start. Keep the article alternative when dates are unknown.
+  if (item.category === "event" && startDate && deadline && startDate <= deadline) {
     schemas.push({
       "@type": "Event",
       name: headline,
       description,
       url: canonicalUrl,
       inLanguage: locale,
+      startDate,
       endDate: deadline,
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
