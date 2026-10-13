@@ -10,6 +10,7 @@ import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-top
 import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
 import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
 import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
+import { fundingTable, FUNDING_SYMBOLS } from "../src/data/funding-rates.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
@@ -30,7 +31,7 @@ import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlinePath } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
-import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
+import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS, localeAliasRedirect } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
@@ -363,7 +364,7 @@ export default {
     }
     const localeRedirect = legacyLocaleRedirect(url);
     if (localeRedirect && ["GET", "HEAD"].includes(request.method)) {
-      return Response.redirect(new URL(localeRedirect, PUBLIC_ORIGIN).href, 308);
+      return Response.redirect(new URL(localeRedirect, PUBLIC_ORIGIN).href, localeAliasRedirect(url) ? 301 : 308);
     }
     // /news/page/1 and /news/category/<key>/page/1 are the same documents as their first page.
     const newsListingRedirect = parseNewsListingPath(parsedRoute.contentPathname)?.redirect;
@@ -3261,14 +3262,8 @@ function preservedRedirectSearch(searchParams) {
 }
 
 function legacyLocaleRedirect(url) {
-  const chinesePathMatch = String(url.pathname || "").match(/^\/(zh-cn)(\/.*)?$/i);
-  if (chinesePathMatch) {
-    const suffix = chinesePathMatch[2] || "/";
-    const contentPathname = normalizePathname(suffix);
-    if (contentPathname !== "/" && !isLocalePathEligible(contentPathname)) return null;
-    const preserved = preservedRedirectSearch(url.searchParams);
-    return `${localizedPath(contentPathname, "zh-Hans")}${preserved}`;
-  }
+  const alias = localeAliasRedirect(url);
+  if (alias) return alias;
   const route = parsePublicRoute(url.pathname, url.searchParams);
   const queryLocale = url.searchParams.get("locale");
   if (route.localeSource === "path" && queryLocale) return `${route.canonicalPathname}${preservedRedirectSearch(url.searchParams)}`;
@@ -3765,9 +3760,11 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }).map((article) => (isNeutralCtaLocale(locale) ? neutralArticleView(article, locale) : article)) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
+    ...(route.funding && typeof route.funding === "object" ? { funding: route.funding } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.liquidationLevels && typeof route.liquidationLevels === "object" ? { liquidationLevels: route.liquidationLevels } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
+    ...(route.homeContext && typeof route.homeContext === "object" ? { homeContext: route.homeContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
     // Home hero copy experiment (X5): the variant this HTML was rendered with; the browser hydrates the same one.
@@ -4664,7 +4661,16 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
       const value = url.searchParams.get(key);
       if (value) renderUrl.searchParams.set(key, value);
     }
-    const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, {});
+    if (pathname === "/") {
+      hydrationData = { ...hydrationData, homeContext: activityRequestContext(renderUrl) };
+      const funding = await readHomeFundingSnapshot(env);
+      if (funding) hydrationData = { ...hydrationData, funding };
+      if (metadata.heroAssignment?.active) {
+        hydrationData = { ...hydrationData, heroVariant: metadata.heroAssignment.variant };
+        metadata.heroServed = metadata.heroAssignment.variant;
+      }
+    }
+    const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, hydrationData);
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
       return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, hydrationData, url);
@@ -4975,6 +4981,23 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.heroServed = heroServed;
     routePayload = { ...routePayload, heroVariant: heroServed };
   }
+  // Use the existing React renderer and funding cache for identical SSR and hydration values.
+  if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
+    const funding = await readHomeFundingSnapshot(env);
+    if (funding) {
+      try {
+        const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), {
+          funding, heroVariant: routePayload.heroVariant,
+        });
+        if (typeof rendered === "string" && rendered.includes('id="h7-funding"')) {
+          appHtml = rendered;
+          routePayload = { ...routePayload, funding, homeContext: activityRequestContext(url) };
+        }
+      } catch (error) {
+        console.error(`[NexuAlpha] home funding SSR failed: ${error?.message || error}`);
+      }
+    }
+  }
   // Live ticker bar (2026-10-13): the home page is prerendered with an empty bar; write the cached snapshot into it and
   // ship the same snapshot as state "ticker" so the browser hydrates the identical frame.
   if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes("nx-ticker")) {
@@ -5210,6 +5233,14 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
 // Live ticker bar snapshot (2026-10-13): the Node server's 15 s Binance cache (TICKER_READ, server/ticker-feed.mjs),
 // else the market collector feed it already reads for /liquidations. Never blocks a page for long: the reader waits at
 // most ~2.5 s on a cold start and answers from cache afterwards. Null = the bar keeps its empty frame.
+async function readHomeFundingSnapshot(env) {
+  try {
+    const snapshot = typeof env?.FUNDING_READ === "function" ? await env.FUNDING_READ() : null;
+    return snapshot && FUNDING_SYMBOLS.some((symbol) => fundingTable(snapshot, symbol).length)
+      ? { ...snapshot, renderedAt: new Date().toISOString() } : null;
+  } catch { return null; }
+}
+
 async function readTickerSnapshot(env) {
   try {
     if (typeof env?.TICKER_READ === "function") { const snapshot = await env.TICKER_READ(); if (isTickerSnapshot(snapshot)) return snapshot; }

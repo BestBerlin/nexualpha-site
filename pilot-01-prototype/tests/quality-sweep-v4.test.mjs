@@ -71,10 +71,11 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
   assert.match(home, /reduced\(\) \? 60 \* 1000 : 1000/);
   assert.match(home, /countdown\(Date\.parse\(r\.nextAt\) - now, !reduced\(\)\)/);
 
-  // T2: the funding board holds its place while the feed loads (it used to insert itself and push the home down).
-  assert.match(home, /if \(!feed && failed\) return null;/);
-  assert.match(home, /\{!feed && FUNDING_VENUES\.map\(\(venue\) => \(/);
-  assert.ok(!home.includes("if (!feed) return null;"));
+  // SEO trust: the home funding board only renders after real SSR/client rows exist; no dash placeholder table.
+  assert.match(home, /if \(!feed \|\| !selectedSymbol \|\| rows\.length === 0\) return null;/);
+  assert.match(home, /availableSymbols\.map\(\(s\) => <button/);
+  assert.doesNotMatch(home, /FUNDING_VENUES\.map/);
+  assert.doesNotMatch(home, /h7-fr-row--wait|aria-busy/);
 
   assert.equal(formatCountdown(3 * 3600e3 + 7 * 60e3 + 9e3), "03:07:09");
   assert.equal(formatCountdown(3 * 3600e3 + 7 * 60e3 + 9e3, { seconds: false }), "03:07");

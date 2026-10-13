@@ -680,12 +680,12 @@ export function getUi(locale) {
       sourceReviewed: text.sourceIntake || "Source reviewed", sourcePending: text.pendingReview || "Source review pending",
       openApp: text.openOfficialSource || uiText.en.openApp,
       verifyEligibility: text.registrationLocked || uiText.en.verifyEligibility,
-      profilePending: text.notConfigured || "Profile pending", officialFlow: text.verifyBefore || "Verify in official flow",
+      profilePending: text.notConfigured || "Needs review", officialFlow: text.verifyBefore || "Verify in official flow",
       resultSummary: (count) => text.resultVenues?.(count) || ({ ja: `${count}サービス`, ko: `플랫폼 ${count}개`, tr: `${count} platform`, ar: `${count} منصة`, "pt-BR": `${count} plataformas`, es: `${count} plataformas`, fr: `${count} plateformes`, de: `${count} Plattformen` }[locale] || `${count} platforms`),
       ...(categoryLabels[locale] ? { tabAll: categoryLabels[locale][0], tabCex: categoryLabels[locale][1], tabDex: categoryLabels[locale][2], tabPerp: categoryLabels[locale][3] } : {}),
     };
   }
-  return { ...uiText.en, ...directoryCopyForLocale, ...searchCopy, sourceReviewed: "Source reviewed", sourcePending: "Source review pending", profilePending: "Profile pending", officialFlow: "Verify in official flow", resultSummary: (count) => `${count} platforms` };
+  return { ...uiText.en, ...directoryCopyForLocale, ...searchCopy, sourceReviewed: "Source reviewed", sourcePending: "Source review pending", profilePending: "Needs review", officialFlow: "Verify in official flow", resultSummary: (count) => `${count} platforms` };
 }
 
 const copyFeedbackLocales = {
@@ -1007,7 +1007,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                 <article className={`yellow-pages__decision-card${index > 0 && !regionalDecisionOpen ? " yellow-pages__decision-card--mobile-collapsed" : ""}`} key={item.venue.slug}>
                   <span className="yellow-pages__decision-label">{index === 0 ? decisionUi.primary : decisionUi.alternative}</span>
                   <strong>{item.venue.name}</strong>
-                  <small>{item.venue.category} · {item.evidence.hasReferral ? (locale.startsWith("zh") ? "合作入口已配置" : (dc.partnerRoute || "Partner route configured")) : (locale.startsWith("zh") ? "官方入口" : (dc.officialRoute || "Official route"))}</small>
+                  <small>{item.venue.category} · {item.evidence.hasReferral ? (locale.startsWith("zh") ? "合作入口已配置" : (dc.partnerRoute || "Partner route active")) : (locale.startsWith("zh") ? "官方入口" : (dc.officialRoute || "Official route"))}</small>
                   <a
                     href={localizedHref(`/exchanges/${item.venue.slug}?${contextSearch}`, { locale })}
                     data-cta-kind="research"

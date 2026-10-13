@@ -1411,7 +1411,7 @@ test("TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES maps high-intent topics to real onsite
 
   const commandIds = new Set(TELEGRAM_COMMANDS.map((command) => command.command));
   const expectedCanonicals = new Map([
-    ["jp-fsa-jpy-account-ja", { pathname: "/jp", locale: "ja", command: "/checklink" }],
+    ["jp-fsa-jpy-account-ja", { pathname: "/ja", locale: "ja", command: "/checklink" }],
     ["bybit-bitget-stock-product-boundary-en", { pathname: "/compare/bybit-vs-bitget", locale: null, command: "/fees" }],
     ["okx-usdc-migration-account-ops-en", { pathname: "/news/okx-usd-to-usdc-spot-pair-migration", locale: null, command: "/checklink" }],
     ["tokenized-treasury-custody-redemption-en", { pathname: "/topics/tokenized-treasuries", locale: null, command: "/alert" }],
@@ -2197,7 +2197,7 @@ test("non-English Telegram backlinks pin landing-page language independent of pr
 
   for (const id of ["korea-regulatory-context-ko", "korea-krw-funding-ko"]) {
     const url = new URL(byId[id].canonicalBacklink);
-    assert.equal(url.pathname, "/kr");
+    assert.equal(url.pathname, "/ko");
     assert.equal(url.searchParams.get("locale"), null);
     assert.equal(url.searchParams.get("tg_market"), "kr");
     assert.equal(url.searchParams.get("tg_locale"), "ko");

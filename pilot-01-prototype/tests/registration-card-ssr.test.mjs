@@ -46,7 +46,7 @@ test("Arabic research-only card suppresses partner code and outbound signup whil
   assert.doesNotMatch(html, /https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF/);
   assert.match(html, /data-registration-decision-state="blocked"/);
   assert.match(html, /مسار الشراكة/);
-  assert.match(html, /مهيأ/);
+  assert.match(html, /تحتاج مراجعة/);
   // Audit NX-02 (2026-10-11): a partner venue states its share from the single benefit record, with the account-level
   // eligibility confirmed by the exchange (previously a generic "confirm on the official page" row).
   assert.match(html, /نسبة استرداد الشريك/);
@@ -70,14 +70,14 @@ test("Japanese research-first state keeps unavailable route distinct from config
   const html = await renderRegistrationCard({ venueSlug: "unknown-venue", fallbackDomain: "", locale: "ja", market: "BR", product: "spot" });
 
   assert.match(html, /パートナー導線/);
-  assert.match(html, /未設定/);
+  assert.match(html, /要確認/);
   assert.match(html, /続行前の確認/);
   assert.match(html, /地域条件と公式条件を先に確認/);
   assert.match(html, /比較を続ける/);
   assert.match(html, /data-registration-decision-state="blocked"/);
   assert.doesNotMatch(html, /target="_blank"/);
   assert.doesNotMatch(html, /https:\/\/t\.me\/NexuAlphaAssistantBot/);
-  assert.doesNotMatch(html, /設定済み/);
+  assert.doesNotMatch(html, /設定済み|未設定/);
   assert.doesNotMatch(html, /Before you continue|This opens|Official route pending/);
 });
 
@@ -112,7 +112,7 @@ test("configured partner route with unverified regional eligibility does not cla
 
   assert.match(html, /11350287/);
   assert.match(html, /Ruta de socio/);
-  assert.match(html, /Configurada · 11350287/);
+  assert.match(html, /Ruta de socio activa · 11350287/);
   assert.match(html, /Confirma en el flujo oficial|No se recomienda el registro directo para esta región/);
   assert.doesNotMatch(html, /Esta plataforma aún no tiene una ruta de socio registrada/);
   assert.doesNotMatch(html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287/);
@@ -131,6 +131,9 @@ test("Bitget registration card shows the next-step code confirmation before hand
   assert.match(html, /data-r37-platform="bitget"/);
   assert.match(html, /data-r37-has-code="true"/);
   assert.match(html, /confirm referral code nexu888/i);
+  assert.match(html, /Partner route active/);
+  assert.match(html, /Check eligibility in the official account flow/);
+  assert.doesNotMatch(html, /Configured|Available to confirm in official flow|Pending configuration/);
   assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
   assert.match(html, /data-cta-placement="registration-card-primary"/);
   assert.match(html, /class="registration-card__primary-btn"/);

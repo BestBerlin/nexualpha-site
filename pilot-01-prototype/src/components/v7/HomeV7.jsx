@@ -93,7 +93,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 }
 
 
-export function HomeV7({ locale, market, movers, venues: _catalog }) {
+export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -239,7 +239,7 @@ export function HomeV7({ locale, market, movers, venues: _catalog }) {
       <AcademyTeaser locale={locale} />
 
       <DeferUntilVisible target="#h7-flash" prefetch={loadHomeBelow}>
-        <HomeBelowFold t={t} locale={locale} market={market} movers={movers} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
+        <HomeBelowFold t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
       </DeferUntilVisible>
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />

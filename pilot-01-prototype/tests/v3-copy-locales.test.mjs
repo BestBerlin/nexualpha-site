@@ -208,6 +208,27 @@ test("Korean and Turkish high-intent CTA copy speaks in local signup decisions",
   assert.doesNotMatch([tr.registrationPrepHint, tr.compareVerdictLead, interfaceCopyByLocale.tr.handoffBody].join(" "), /\bKYC\b|funding/i);
 });
 
+
+test("venue shared and Telegram command copy avoid localized configured placeholders", async () => {
+  const venueShared = await readFile(new URL("../src/components/v3/venue-detail-shared.jsx", import.meta.url), "utf8");
+  const telegram = await readFile(new URL("../src/data/telegram-config.js", import.meta.url), "utf8");
+  assert.doesNotMatch(venueShared, /non configuré|nicht konfiguriert|未設定|미설정|yapılandırılmadı|dikonfigurasi|non configurato|已配置|待配置|не настроен|chưa cấu hình|لم يضبط/i);
+  assert.doesNotMatch(telegram, /設定済みの公式ソース|설정된 공식 출처|yapılandırılmış resmî kaynak|已配置的官方来源|已配置的官方來源/i);
+  assert.match(venueShared, /コード不要または記録なし/);
+  assert.match(venueShared, /코드 불필요 또는 기록 없음/);
+  assert.match(venueShared, /Kein Code nötig oder verzeichnet/);
+  assert.match(telegram, /記録済みの公式ソース/);
+  assert.match(telegram, /기록된 공식 출처/);
+  assert.match(telegram, /kayıtlı resmî kaynaklara/);
+});
+
+test("v3 notConfigured labels avoid internal configured-state wording", () => {
+  const internalConfiguredPhrases = /待配置|待設定|Pending configuration|Pendiente|Pendente|En attente|Ausstehend|条件確認中|조건 확인 중|قيد الاعداد|Ожидает настройки|Menunggu|Đang chờ|In attesa|کنفیگریشن زیر التوا|Очікує налаштування/i;
+  for (const locale of supportedLocales) {
+    assert.doesNotMatch(runtimeCopy(locale).notConfigured, internalConfiguredPhrases, `${locale}.notConfigured`);
+  }
+});
+
 test("Japanese, Korean, and Turkish registration copy verifies official signup conditions without stale launch states", () => {
   const ja = runtimeCopy("ja");
   assert.equal(ja.registrationLocked, "公式登録条件を確認");

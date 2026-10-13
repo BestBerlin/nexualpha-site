@@ -21,13 +21,14 @@ export function MoversBoard({ locale = "en", initial = null }) {
   useEffect(() => {
     const el = ref.current;
     let visible = !(typeof IntersectionObserver === "function" && el);
+    let hasData = isMoversSnapshot(initial);
     // One scheduler per mount: viewport exits pause it without resetting backoff or allowing overlapping fetches.
     const stopPolling = startJsonPolling({
       request: MOVERS_PATH,
       intervalMs: MOVERS_REFRESH_MS,
       isData: isMoversSnapshot,
-      shouldPoll: () => visible && document.visibilityState === "visible",
-      onData: setData,
+      shouldPoll: () => (!hasData || visible) && document.visibilityState === "visible",
+      onData: (snapshot) => { hasData = true; setData(snapshot); },
     });
     let observer = null;
     if (typeof IntersectionObserver === "function" && el) {
@@ -36,10 +37,11 @@ export function MoversBoard({ locale = "en", initial = null }) {
         stopPolling.sync?.();
       });
       observer.observe(el);
+      stopPolling.sync?.();
     } else stopPolling.sync?.();
     return () => { stopPolling(); observer?.disconnect(); };
   }, []);
-  return <section className="h7-in h7-mv" id="h7-movers" aria-labelledby="h7-mv-h" data-testid="home-movers" ref={ref}>
+  return <section className="h7-in h7-mv" id="h7-movers" aria-labelledby="h7-mv-h" data-testid="home-movers" hidden={!data} ref={ref}>
     <div className="h7-mv-head">
       <h2 id="h7-mv-h"><span className="h7-mv-dot" aria-hidden="true" />{c.title}</h2>
       <a className="h7-mv-all" href={localizedHref("/coins", { locale })}>{c.all}<span aria-hidden="true" className="h7-mv-arrow">→</span></a>

@@ -24,7 +24,7 @@ const EN = Object.freeze({
   faqTitle: "FAQ",
   faqs: [
     ["Do partners need exchange codes first?", "No. You can apply first; available venue codes are confirmed during setup."],
-    ["Can followers receive fee rebates?", "Yes, where the configured official venue offer supports them and the follower qualifies under the platform terms."],
+    ["Can followers receive fee rebates?", "Yes, where the reviewed official venue offer supports them and the follower qualifies under the platform terms."],
     ["Is the revenue share the same for every partner?", "No. Set per partner."],
     ["Are stats public?", "No. Stats are shared only through the partner's protected view."],
   ],
@@ -60,7 +60,7 @@ const COPY = Object.freeze({
     stepsTitle: "Cómo funciona",
     steps: [["Solicita", "Abre Telegram o escribe a partners@nexualpha.com con audiencia, idiomas y venues principales."], ["Configura", "NexuAlpha prepara la ruta de socio, la página de campaña y los códigos disponibles."], ["Lanza", "Comparte la página, revisa estadísticas en vivo y ajusta campañas cuando cambien ofertas o necesidades."]],
     faqTitle: "Preguntas frecuentes",
-    faqs: [["¿Necesito códigos de exchange primero?", "No. Puedes solicitar primero; los códigos disponibles se confirman durante la configuración."], ["¿Los seguidores pueden recibir rebajas?", "Sí, cuando la oferta oficial configurada lo permite y el seguidor cumple los términos de la plataforma."], ["¿El reparto es igual para todos?", "No. Se define por socio."], ["¿Las estadísticas son públicas?", "No. Se comparten solo en la vista protegida del socio."]],
+    faqs: [["¿Necesito códigos de exchange primero?", "No. Puedes solicitar primero; los códigos disponibles se confirman durante la configuración."], ["¿Los seguidores pueden recibir rebajas?", "Sí, cuando la oferta oficial lo permite y el seguidor cumple los términos de la plataforma."], ["¿El reparto es igual para todos?", "No. Se define por socio."], ["¿Las estadísticas son públicas?", "No. Se comparten solo en la vista protegida del socio."]],
   }),
   "pt-BR": Object.freeze({
     home: "Início",
@@ -75,7 +75,7 @@ const COPY = Object.freeze({
     stepsTitle: "Como funciona",
     steps: [["Solicite", "Abra o Telegram ou envie email para partners@nexualpha.com com audiência, idiomas e venues principais."], ["Configure", "A NexuAlpha prepara a rota de parceiro, a página de campanha e os códigos disponíveis."], ["Lance", "Compartilhe a página, revise estatísticas ao vivo e ajuste campanhas quando ofertas ou necessidades mudarem."]],
     faqTitle: "Perguntas frequentes",
-    faqs: [["Preciso ter códigos de exchange primeiro?", "Não. Você pode solicitar primeiro; os códigos disponíveis são confirmados durante a configuração."], ["Seguidores podem receber rebate?", "Sim, quando a oferta oficial configurada permite e o seguidor atende aos termos da plataforma."], ["A divisão é igual para todos?", "Não. Definida por parceiro."], ["As estatísticas são públicas?", "Não. Elas são compartilhadas apenas na visão protegida do parceiro."]],
+    faqs: [["Preciso ter códigos de exchange primeiro?", "Não. Você pode solicitar primeiro; os códigos disponíveis são confirmados durante a configuração."], ["Seguidores podem receber rebate?", "Sim, quando a oferta oficial permite e o seguidor atende aos termos da plataforma."], ["A divisão é igual para todos?", "Não. Definida por parceiro."], ["As estatísticas são públicas?", "Não. Elas são compartilhadas apenas na visão protegida do parceiro."]],
   }),
   fr: Object.freeze({
     home: "Accueil",
@@ -90,7 +90,7 @@ const COPY = Object.freeze({
     stepsTitle: "Comment ça marche",
     steps: [["Postuler", "Ouvrez Telegram ou écrivez à partners@nexualpha.com avec votre audience, vos langues et vos venues principaux."], ["Configurer", "NexuAlpha prépare le parcours partenaire, la page de campagne et les codes disponibles."], ["Lancer", "Partagez la page, consultez les statistiques et ajustez les campagnes quand les offres ou besoins changent."]],
     faqTitle: "FAQ",
-    faqs: [["Faut-il déjà des codes d'exchange ?", "Non. Vous pouvez postuler d'abord ; les codes disponibles sont confirmés pendant la configuration."], ["Les abonnés peuvent-ils recevoir une réduction ?", "Oui, lorsque l'offre officielle configurée le permet et que l'abonné remplit les conditions de la plateforme."], ["Le partage est-il identique pour tous ?", "Non. Défini par partenaire."], ["Les statistiques sont-elles publiques ?", "Non. Elles ne sont partagées que dans la vue protégée du partenaire."]],
+    faqs: [["Faut-il déjà des codes d'exchange ?", "Non. Vous pouvez postuler d'abord ; les codes disponibles sont confirmés pendant la configuration."], ["Les abonnés peuvent-ils recevoir une réduction ?", "Oui, lorsque l'offre officielle le permet et que l'abonné remplit les conditions de la plateforme."], ["Le partage est-il identique pour tous ?", "Non. Défini par partenaire."], ["Les statistiques sont-elles publiques ?", "Non. Elles ne sont partagées que dans la vue protégée du partenaire."]],
   }),
   de: Object.freeze({
     home: "Startseite",
@@ -105,7 +105,7 @@ const COPY = Object.freeze({
     stepsTitle: "So funktioniert es",
     steps: [["Bewerben", "Öffnen Sie Telegram oder schreiben Sie an partners@nexualpha.com mit Audience, Sprachen und wichtigsten Venues."], ["Konfigurieren", "NexuAlpha bereitet Partnerroute, Kampagnenseite und verfügbare Venue-Codes vor."], ["Starten", "Teilen Sie die Seite, prüfen Sie Live-Statistiken und passen Sie Kampagnen bei neuen Angeboten oder Bedürfnissen an."]],
     faqTitle: "FAQ",
-    faqs: [["Brauche ich zuerst Exchange-Codes?", "Nein. Sie können sich zuerst bewerben; verfügbare Codes werden während der Einrichtung bestätigt."], ["Können Follower Gebührenrabatte erhalten?", "Ja, wenn das konfigurierte offizielle Angebot dies unterstützt und der Follower die Plattformbedingungen erfüllt."], ["Ist die Beteiligung für alle gleich?", "Nein. Pro Partner festgelegt."], ["Sind Statistiken öffentlich?", "Nein. Sie werden nur in der geschützten Partneransicht geteilt."]],
+    faqs: [["Brauche ich zuerst Exchange-Codes?", "Nein. Sie können sich zuerst bewerben; verfügbare Codes werden während der Einrichtung bestätigt."], ["Können Follower Gebührenrabatte erhalten?", "Ja, wenn das offizielle Angebot dies unterstützt und der Follower die Plattformbedingungen erfüllt."], ["Ist die Beteiligung für alle gleich?", "Nein. Pro Partner festgelegt."], ["Sind Statistiken öffentlich?", "Nein. Sie werden nur in der geschützten Partneransicht geteilt."]],
   }),
   ja: Object.freeze({
     home: "ホーム",
@@ -120,7 +120,7 @@ const COPY = Object.freeze({
     stepsTitle: "流れ",
     steps: [["申請", "Telegram または partners@nexualpha.com へ、読者層、言語、主要 venue を送ります。"], ["設定", "NexuAlpha がパートナールート、キャンペーンページ、利用可能な venue コードを準備します。"], ["公開", "ページを共有し、ライブ統計を確認しながらオファーや読者ニーズに合わせて調整します。"]],
     faqTitle: "FAQ",
-    faqs: [["先に取引所コードが必要ですか？", "いいえ。先に申請できます。利用可能なコードは設定時に確認します。"], ["フォロワーは手数料リベートを受けられますか？", "設定された公式オファーが対応し、フォロワーがプラットフォーム条件を満たす場合は可能です。"], ["収益シェアは全員同じですか？", "いいえ。パートナーごとに設定。"], ["統計は公開されますか？", "いいえ。パートナーの保護されたビューでのみ共有されます。"]],
+    faqs: [["先に取引所コードが必要ですか？", "いいえ。先に申請できます。利用可能なコードは設定時に確認します。"], ["フォロワーは手数料リベートを受けられますか？", "公式オファーが対応し、フォロワーがプラットフォーム条件を満たす場合は可能です。"], ["収益シェアは全員同じですか？", "いいえ。パートナーごとに設定。"], ["統計は公開されますか？", "いいえ。パートナーの保護されたビューでのみ共有されます。"]],
   }),
   ko: Object.freeze({
     home: "홈",
@@ -135,7 +135,7 @@ const COPY = Object.freeze({
     stepsTitle: "진행 방식",
     steps: [["신청", "Telegram을 열거나 partners@nexualpha.com으로 대상 독자, 언어, 주요 venue를 보냅니다."], ["설정", "NexuAlpha가 파트너 경로, 캠페인 페이지, 사용 가능한 venue 코드를 준비합니다."], ["출시", "페이지를 공유하고 라이브 통계를 보며 오퍼나 독자 니즈 변화에 맞춰 조정합니다."]],
     faqTitle: "FAQ",
-    faqs: [["거래소 코드가 먼저 필요합니까?", "아니요. 먼저 신청할 수 있으며 사용 가능한 코드는 설정 중 확인합니다."], ["팔로워가 수수료 리베이트를 받을 수 있나요?", "설정된 공식 오퍼가 지원하고 팔로워가 플랫폼 조건을 충족하면 가능합니다."], ["수익 배분은 모두 같나요?", "아니요. 파트너별 설정."], ["통계는 공개인가요?", "아니요. 파트너의 보호된 보기에서만 공유됩니다."]],
+    faqs: [["거래소 코드가 먼저 필요합니까?", "아니요. 먼저 신청할 수 있으며 사용 가능한 코드는 설정 중 확인합니다."], ["팔로워가 수수료 리베이트를 받을 수 있나요?", "공식 오퍼가 지원하고 팔로워가 플랫폼 조건을 충족하면 가능합니다."], ["수익 배분은 모두 같나요?", "아니요. 파트너별 설정."], ["통계는 공개인가요?", "아니요. 파트너의 보호된 보기에서만 공유됩니다."]],
   }),
   tr: Object.freeze({
     home: "Ana sayfa",
@@ -150,7 +150,7 @@ const COPY = Object.freeze({
     stepsTitle: "Nasıl çalışır",
     steps: [["Başvur", "Telegram'ı açın veya audience, diller ve ana venue bilgileriyle partners@nexualpha.com'a yazın."], ["Yapılandır", "NexuAlpha partner rotasını, kampanya sayfasını ve mevcut venue kodlarını hazırlar."], ["Yayınla", "Sayfayı paylaşın, canlı istatistikleri inceleyin ve teklifler ya da kitle ihtiyaçları değiştikçe ayarlayın."]],
     faqTitle: "SSS",
-    faqs: [["Önce borsa kodu gerekir mi?", "Hayır. Önce başvurabilirsiniz; mevcut venue kodları kurulum sırasında onaylanır."], ["Takipçiler ücret iadesi alabilir mi?", "Yapılandırılmış resmi teklif destekliyorsa ve takipçi platform koşullarını karşılıyorsa evet."], ["Paylaşım herkes için aynı mı?", "Hayır. Iş ortağına göre belirlenir."], ["İstatistikler herkese açık mı?", "Hayır. Yalnızca iş ortağının korumalı görünümünde paylaşılır."]],
+    faqs: [["Önce borsa kodu gerekir mi?", "Hayır. Önce başvurabilirsiniz; mevcut venue kodları kurulum sırasında onaylanır."], ["Takipçiler ücret iadesi alabilir mi?", "Resmi teklif destekliyorsa ve takipçi platform koşullarını karşılıyorsa evet."], ["Paylaşım herkes için aynı mı?", "Hayır. Iş ortağına göre belirlenir."], ["İstatistikler herkese açık mı?", "Hayır. Yalnızca iş ortağının korumalı görünümünde paylaşılır."]],
   }),
   id: Object.freeze({
     home: "Beranda",
@@ -165,7 +165,7 @@ const COPY = Object.freeze({
     stepsTitle: "Cara kerja",
     steps: [["Ajukan", "Buka Telegram atau email partners@nexualpha.com dengan audiens, bahasa, dan venue utama."], ["Konfigurasi", "NexuAlpha menyiapkan rute partner, halaman kampanye, dan kode venue yang tersedia."], ["Luncurkan", "Bagikan halaman, tinjau statistik live, dan sesuaikan kampanye saat penawaran atau kebutuhan berubah."]],
     faqTitle: "FAQ",
-    faqs: [["Harus punya kode exchange dulu?", "Tidak. Anda bisa mengajukan lebih dulu; kode yang tersedia dikonfirmasi saat konfigurasi."], ["Apakah pengikut bisa menerima rebate biaya?", "Ya, jika penawaran resmi yang dikonfigurasi mendukung dan pengikut memenuhi syarat platform."], ["Apakah bagi hasil sama untuk semua?", "Tidak. Ditetapkan per partner."], ["Apakah statistik publik?", "Tidak. Statistik hanya dibagikan melalui tampilan terlindungi milik partner."]],
+    faqs: [["Harus punya kode exchange dulu?", "Tidak. Anda bisa mengajukan lebih dulu; kode yang tersedia dikonfirmasi saat konfigurasi."], ["Apakah pengikut bisa menerima rebate biaya?", "Ya, jika penawaran resmi mendukung dan pengikut memenuhi syarat platform."], ["Apakah bagi hasil sama untuk semua?", "Tidak. Ditetapkan per partner."], ["Apakah statistik publik?", "Tidak. Statistik hanya dibagikan melalui tampilan terlindungi milik partner."]],
   }),
   it: Object.freeze({
     home: "Home",
@@ -180,7 +180,7 @@ const COPY = Object.freeze({
     stepsTitle: "Come funziona",
     steps: [["Candidati", "Apri Telegram o scrivi a partners@nexualpha.com con audience, lingue e venue principali."], ["Configura", "NexuAlpha prepara il percorso partner, la pagina campagna e i codici venue disponibili."], ["Lancia", "Condividi la pagina, controlla le statistiche live e modifica le campagne quando cambiano offerte o bisogni."]],
     faqTitle: "FAQ",
-    faqs: [["Servono prima codici exchange?", "No. Puoi candidarti prima; i codici disponibili vengono confermati durante la configurazione."], ["I follower possono ricevere rebate?", "Sì, quando l'offerta ufficiale configurata lo supporta e il follower soddisfa i termini della piattaforma."], ["La quota è uguale per tutti?", "No. Definita per partner."], ["Le statistiche sono pubbliche?", "No. Sono condivise solo nella vista protetta del partner."]],
+    faqs: [["Servono prima codici exchange?", "No. Puoi candidarti prima; i codici disponibili vengono confermati durante la configurazione."], ["I follower possono ricevere rebate?", "Sì, quando l'offerta ufficiale lo supporta e il follower soddisfa i termini della piattaforma."], ["La quota è uguale per tutti?", "No. Definita per partner."], ["Le statistiche sono pubbliche?", "No. Sono condivise solo nella vista protetta del partner."]],
   }),
 });
 

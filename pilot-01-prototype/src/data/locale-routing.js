@@ -38,6 +38,20 @@ export const MIGRATED_PATH_LOCALES = new Set(
   Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"),
 );
 
+// Retired public prefixes resolve to the same locale URLs used by hreflang.
+export const LOCALE_PATH_ALIASES = Object.freeze({
+  id: "id-id", jp: "ja", kr: "ko", "zh-cn": "zh-hans",
+});
+
+export function localeAliasRedirect(url) {
+  const parsed = url instanceof URL ? url : new URL(String(url), "https://nexualpha.com");
+  const match = parsed.pathname.match(/^\/([^/]+)(\/.*)?$/);
+  const prefix = match && LOCALE_PATH_ALIASES[match[1].toLowerCase()];
+  if (!prefix) return null;
+  const suffix = match[2] && match[2] !== "/" ? match[2] : "";
+  return `/${prefix}${suffix}${preservedRedirectSearch(parsed.searchParams)}`;
+}
+
 export const COUNTRY_ROUTE_PREFIXES = Object.freeze([
   "/br",
   "/mx",
@@ -333,8 +347,11 @@ export function localizedHref(href, { locale = "en", ...extra } = {}) {
   const rawHref = String(href || "/");
   const parsed = new URL(rawHref, "https://nexualpha.com");
   if (parsed.origin !== "https://nexualpha.com") return rawHref;
+  const retiredCountryRoot = /^\/(?:id|jp|kr)\/?$/i.test(parsed.pathname);
+  const alias = localeAliasRedirect(parsed);
+  if (alias) parsed.pathname = new URL(alias, parsed.origin).pathname;
   const publicRoute = parsePublicRoute(parsed.pathname, parsed.searchParams);
-  const targetLocale = normalizeLinkLocale(locale);
+  const targetLocale = retiredCountryRoot ? publicRoute.locale : normalizeLinkLocale(locale);
   const target = new URL(localizedPath(canonicalContentPathname(publicRoute.contentPathname), targetLocale), "https://nexualpha.com");
   const fragmentContext = {};
   if (extra.preserveQuery) {
@@ -394,15 +411,8 @@ function preservedRedirectSearch(searchParams) {
 
 export function legacyLocaleRedirect(url) {
   const parsed = url instanceof URL ? new URL(url) : new URL(String(url), "https://nexualpha.com");
-  const chinesePathMatch = String(parsed.pathname || "").match(/^\/(zh-cn)(\/.*)?$/i);
-  if (chinesePathMatch) {
-    const suffix = chinesePathMatch[2] || "/";
-    const contentPathname = normalizePathname(suffix);
-    if (contentPathname === "/" || isLocalePathEligible(contentPathname)) {
-    const preserved = preservedRedirectSearch(parsed.searchParams);
-      return `${localizedPath(contentPathname, "zh-Hans")}${preserved}`;
-    }
-  }
+  const alias = localeAliasRedirect(parsed);
+  if (alias) return alias;
   const route = parsePublicRoute(parsed.pathname, parsed.searchParams);
   const queryLocale = parsed.searchParams.get("locale");
 

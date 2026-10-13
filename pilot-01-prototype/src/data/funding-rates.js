@@ -55,7 +55,9 @@ export function fundingTable(feed, symbol) {
   const out = [];
   for (const venue of FUNDING_VENUES) {
     const r = feed?.venues?.[venue]?.rows?.find((x) => x.symbol === symbol);
-    if (r) out.push({ venue, ...r, apr: fundingApr(r) });
+    if (r && Number.isFinite(r.rate) && Math.abs(r.rate) <= 0.05 && Number.isFinite(r.intervalH) && r.intervalH > 0 && r.intervalH <= 24) {
+      out.push({ venue, ...r, apr: fundingApr(r) });
+    }
   }
   return out.sort((a, b) => a.apr - b.apr);
 }
