@@ -4,6 +4,7 @@ import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
@@ -142,7 +143,14 @@ test("v3 detail and comparison labels are localized in server-rendered 17-locale
       // localized "pending" placeholder.
       if (locale === "es") assert.ok(!/v3-metric-tile__val[^>]*>Pendiente de verificación de la fuente/.test(detailHtml), `${locale}: no max-leverage pending tile`);
       if (locale === "pt-BR") assert.ok(!/v3-metric-tile__val[^>]*>Aguardando verificação da fonte/.test(detailHtml), `${locale}: no max-leverage pending tile`);
-      assert.ok(compareHtml.includes(escapeHtml(expectedCodeLabel[locale])), `${locale}: localized code label appears in compare CTA cells`);
+      if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) {
+        for (const html of [detailHtml, compareHtml]) {
+          assert.doesNotMatch(html, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${locale}: neutral signup and codes absent`);
+          assert.doesNotMatch(html, /nexu888|affiliate_id=48553/, `${locale}: venue invite code absent`);
+        }
+      } else {
+        assert.ok(compareHtml.includes(escapeHtml(expectedCodeLabel[locale])), `${locale}: localized code label appears in compare CTA cells`);
+      }
       assert.ok(compareHtml.includes(escapeHtml(expectedDecisionGuideNeedle[locale])), `${locale}: localized pre-signup decision guide copy appears`);
     }
   } finally {

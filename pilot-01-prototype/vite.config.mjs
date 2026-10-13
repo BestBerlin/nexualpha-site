@@ -194,7 +194,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
             || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
-            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
+            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule") || id.includes("/src/components/shared/SourceLink"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
           if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
@@ -206,6 +206,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // The partner geo policy is read by locale-routing.js (Türkiye link gate, 2026-10-13) and so by every route: pinned
           // in its own small chunk so no route chunk absorbs it and becomes a dependency of every other (SSR TDZ cycle).
           if (/\/src\/data\/partner-geo-policy(?:\.generated)?\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
+          // The neutral-locale list (locale-policy.js, vi neutral 2026-10-13) and its tiny helpers are read by the campaign,
+          // academy, news and data chunks: same pin, same reason.
+          if (/\/src\/data\/(?:locale-policy|neutral-referral-topic|campaign-codes)\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
           if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
@@ -227,6 +230,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
           if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
+          if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
           // (before the shared campaigns rule, so the Binance page does not load this copy).
@@ -408,6 +412,17 @@ export default defineConfig(({ isSsrBuild = false }) => ({
       name: "nexualpha-dev-market-events",
       apply: "serve",
       configureServer(server) {
+        let radar;
+        server.middlewares.use(async (req, res, next) => {
+          const pathname = new URL(req.url, "http://localhost").pathname;
+          if (!["/api/long-short.json", "/api/whales.json"].includes(pathname)) return next();
+          if (!["GET", "HEAD"].includes(req.method)) { res.statusCode = 405; res.setHeader("allow", "GET, HEAD"); res.end(); return; }
+          radar ||= import("./server/position-radar.mjs").then(({ createPositionRadar }) => createPositionRadar());
+          const snapshot = await (await radar).read(pathname.includes("whales") ? "whales" : "long-short");
+          res.setHeader("content-type", "application/json; charset=utf-8");
+          res.setHeader("cache-control", "no-store");
+          res.end(req.method === "HEAD" ? undefined : JSON.stringify(snapshot));
+        });
         const matrix = createFundingMatrixReader();
         server.middlewares.use("/intel/funding-matrix.json", async (req, res) => {
           const response = await matrix.respond(req.method);

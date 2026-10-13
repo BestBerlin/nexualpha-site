@@ -26,6 +26,7 @@
 import { isPartnerPromotableIn, promotionCountries } from "./partner-geo-policy.js";
 import { partnerRegistry } from "./partner-registry.js";
 import { KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "./kraken-usdg-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { KRAKEN_USDG_PATH, parseKrakenUsdgPath };
 export const KRAKEN_USDG_ORIGIN = "https://nexualpha.com";
@@ -37,6 +38,12 @@ export const KRAKEN_USDG_LIVE_JSON = "/intel/kraken-usdg.json";
 export const KRAKEN_USDG_OFFICIAL_URL = "https://www.kraken.com/competitions/futures-5m-usdg-challenge-10-26";
 export const KRAKEN_USDG_TERMS_URL = "https://www.kraken.com/legal/futures-5m-usdg-challenge-terms";
 export const KRAKEN_USDG_ANNOUNCEMENT_ID = `kraken:${KRAKEN_USDG_OFFICIAL_URL}`;
+/** Redirect target of /go/kraken-usdg-challenge: the official challenge page with our registry Kraken code (owner
+ * 2026-10-13: every exchange click carries the code; kraken.com honours ref= on any page, the URL returns 200). */
+export const krakenUsdgRegisterUrl = () => {
+  const code = partnerRegistry.kraken?.hasReferral ? partnerRegistry.kraken.inviteCode : null;
+  return code ? `${KRAKEN_USDG_OFFICIAL_URL}?ref=${encodeURIComponent(code)}` : KRAKEN_USDG_OFFICIAL_URL;
+};
 
 export const KRAKEN_USDG_CAMPAIGN = Object.freeze({
   name: "The $5,000,000 USDG Kraken Futures Challenge",
@@ -102,7 +109,7 @@ export function krakenUsdgActive(now = Date.now()) {
 // Locales with a written edition of the page (indexable, in the sitemap). Other UI locales read English, noindex.
 export const KRAKEN_USDG_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "vi", "id", "ja", "ko", "fr", "de"]);
 // Same neutral set as the academy and the other campaign pages: informational, no sign-up wording, no CTA.
-export const KRAKEN_USDG_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const KRAKEN_USDG_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // French, German and Italian editions are read mostly from the EEA and Switzerland, which the challenge excludes; without
 // an explicit market they stay informational.
 const EXCLUDED_FIRST_LOCALES = new Set(["fr", "de", "it"]);

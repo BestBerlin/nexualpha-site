@@ -1,3 +1,4 @@
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { useCampaignBriefs } from '../../shared/useCampaignBriefs.js';
 import { CampaignBriefFacts } from '../../shared/CampaignBriefFacts.jsx';
 import { applyCampaignBriefs, localizedBriefText } from '../../../data/campaign-briefs.js';
@@ -16,6 +17,7 @@ import { TELEGRAM_CONFIG } from "../../../data/telegram-config.js";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { contextualHref as addContext } from "../../../data/contextual-href.js";
 import { updateHref } from "../../../data/activity-update.js";
+import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
@@ -187,9 +189,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     () => {
       const liveUpdates = visibleOfficialUpdates(publicUpdates, now);
       const finalUpdates = liveUpdates.length > 0 ? liveUpdates : visibleOfficialUpdates(OFFICIAL_EXCHANGE_ACTIVITIES, now);
-      return finalUpdates.map((update) => normalizeUpdate(update, now));
+      return finalUpdates.filter((update) => campaignVisibleInLocale(update, locale)).map((update) => normalizeUpdate(update, now));
     },
-    [publicUpdates, now],
+    [publicUpdates, now, locale],
   );
   const publishableUpdates = useMemo(() => normalizedUpdates.filter((update) => update.publishable), [normalizedUpdates]);
   const researchItemList = useMemo(
@@ -380,7 +382,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           <div className="activity-center-v3__source-actions">
             <a href={contextualHref(`/exchanges/${encodeURIComponent(record.platform.slug)}`)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-venue-profile" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-venue-profile">{detailCopy.openDetail}</a>
             <a href={contextualHref(record.detailHref)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-research" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-research">{rewardsText.openResearch}</a>
-            {firstReadableSource(record) && <a href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{r9Text(locale).page} ↗</a>}
+            {firstReadableSource(record) && <SourceLink locale={locale} href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{r9Text(locale).page} ↗</SourceLink>}
           </div>
           </div>
         </article>)}

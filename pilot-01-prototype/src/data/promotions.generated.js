@@ -17,7 +17,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -66,7 +67,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -115,7 +117,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -164,7 +167,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -213,7 +217,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -262,7 +267,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -311,7 +317,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -360,7 +367,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -409,7 +417,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -458,7 +467,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -507,7 +517,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -556,7 +567,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -605,7 +617,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -654,7 +667,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -703,7 +717,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -752,7 +767,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -801,7 +817,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -850,7 +867,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -899,7 +917,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -948,7 +967,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,
@@ -997,7 +1017,8 @@ export const CAMPAIGN_PROMOTIONS = Object.freeze([
         "ar",
         "zh-Hant",
         "ur",
-        "uk"
+        "uk",
+        "vi"
       ]
     },
     "validFrom": null,

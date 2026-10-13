@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { rendersSource, renderedSourceHref } from './helpers/outbound-expect.mjs';
 import { execFileSync } from 'node:child_process';
 import { access, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -121,7 +122,8 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   const okx = cost.match(/<article><h3>OKX<\/h3>[\s\S]*?<\/article>/);
   assert.ok(okx, 'OKX card should render');
   // OKX spot became an official reviewed record on 2026-10-10.
-  assert.match(okx[0], /href="https:\/\/www\.okx\.com\/fees"/);
+  // Owner 2026-10-13: OKX fee pages take no referral parameter, so the reviewed source is a plain label + domain.
+  assert.ok(rendersSource(okx[0], 'https://www.okx.com/fees'), 'OKX fee source is a plain label');
   assert.match(okx[0], /View fee source/);
   assert.doesNotMatch(okx[0], /Pending source review/);
 });
@@ -135,7 +137,7 @@ test('TradingBleedAnalyzer SSR has native visible copy across all supported loca
     import { tradingBleedCopy, tradingBleedLocales } from '../../src/data/trading-bleed-copy.js';
     import { isPartnerPromotableIn } from '../../src/data/partner-geo-restrictions.js';
     import { publicCtaForVenue } from '../../src/data/source-bound-cta.js';
-    const result = Object.fromEntries(tradingBleedLocales.map((locale) => [locale, { copy: tradingBleedCopy(locale), promotable: isPartnerPromotableIn('okx', { locale }), cta: publicCtaForVenue('okx', 'en'), html: renderToStaticMarkup(React.createElement(TradingBleedAnalyzer, { locale, headingLevel: 2 })) }]));
+    const result = Object.fromEntries(tradingBleedLocales.map((locale) => [locale, { copy: tradingBleedCopy(locale), promotable: Boolean(publicCtaForVenue('okx', locale).registrationUrl), cta: publicCtaForVenue('okx', 'en'), html: renderToStaticMarkup(React.createElement(TradingBleedAnalyzer, { locale, headingLevel: 2 })) }]));
     console.log(JSON.stringify(result));
   `);
   const result = JSON.parse(output);
@@ -169,6 +171,7 @@ test('TradingBleedAnalyzer SSR has native visible copy across all supported loca
     } else {
       assert.doesNotMatch(visible, /nexu888/);
       assert.ok(!visible.includes(cta.registrationUrl), `${locale} leaked gated registration URL`);
+      assert.doesNotMatch(html, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${locale}: no gated signup or codes`);
     }
     if (locale !== 'en') {
       for (const sentinel of englishSentinels) assert.doesNotMatch(visible, new RegExp(escapeRegex(sentinel)), `${locale} leaked ${sentinel}`);

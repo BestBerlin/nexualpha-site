@@ -16,5 +16,15 @@
   "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "Sind die restlichen 900 für immer sicher, wenn man 100 in ein Fach legt? Als Nächstes: Isolated Margin.",
   "If I put 100 in isolated, the other 900 can never be touched?": "Wenn ich 100 in Isolated Margin stecke, sind die restlichen 900 für immer unantastbar?",
   "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "Sie grenzt die Margin verschiedener Positionen ab. Doch diese 100 können verloren gehen; Isolated Margin lässt Verluste nicht verschwinden und ist kein Stop-Loss.",
-  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Glauben Sie nicht, der Maximalverlust sei für immer auf die ersten 100 begrenzt, nur weil dort 'isoliert' steht. Prüfen Sie Nachschussoptionen, Gebühren und Produktregeln."
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Glauben Sie nicht, der Maximalverlust sei für immer auf die ersten 100 begrenzt, nur weil dort 'isoliert' steht. Prüfen Sie Nachschussoptionen, Gebühren und Produktregeln.",
+  "One coin costs that much? I can't even afford a ticket in.": "Ein ganzer Coin kostet so viel? Mein Geld reicht wohl nicht mal für den Einstieg.",
+  "That's the price of one whole coin. It's not what you have to pay each time. Bitcoin is a digital asset, and you can hold it in decimal amounts. You usually don't buy a whole one.": "Das ist der Preis für einen ganzen Bitcoin, nicht der Mindestbetrag pro Kauf. Bitcoin ist ein digitaler Vermögenswert und kann in Dezimalbruchteilen gehalten werden. Meistens kauft man keine ganze.",
+  "Do you have to buy a whole bitcoin? No. Remember: the price of one coin is not the price of getting started.": "Musst du einen ganzen Bitcoin kaufen? Nein. Merk dir: Der Preis eines ganzen Coins ist nicht die Einstiegshürde.",
+  "This slash. Do I have to buy both coins?": "Dieser Schrägstrich – muss ich etwa beide Coins kaufen?",
+  "One candle: what four things does it tell you?": "Eine Kerze: Welche vier Dinge verrät sie dir?",
+  "Decide how much you could lose before you decide how much to buy": "Leg deinen maximalen Verlust fest, bevor du entscheidest, wie viel du kaufst",
+  "Spot vs futures: you're not buying the same thing": "Spot vs. Futures: Du kaufst nicht dasselbe",
+  "Why you can be closed out before your margin hits zero": "Warum du ausgestoppt werden kannst, bevor deine Margin null erreicht",
+  "Cross margin: why one loss can hit your other positions": "Cross Margin: Warum ein Verlust deine anderen Positionen treffen kann",
+  "Price flat, balance down? Finish the last level with costs in mind": "Kurs unverändert, Guthaben sinkt? Meistere das letzte Level mit Blick auf die Kosten"
 }

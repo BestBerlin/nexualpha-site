@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { rendersSource, renderedSourceHref } from './helpers/outbound-expect.mjs';
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -78,7 +79,13 @@ test("fee benchmark uses reviewed spot records and localized reviewed copy", asy
     for (const slug of reviewedSlugs) {
       for (const rate of buildVenueFeeSummary({ slug }).rates) {
         const copy = reviewedFeeCopy(rate, locale);
-        assert.ok(section.includes(`href="${escapeHtml(rate.sourceUrl)}"`), `${locale}/${slug}: reviewed source URL`);
+        if (locale === 'tr' && slug === 'bitget') {
+          assert.ok(!section.includes(`href="${escapeHtml(rate.sourceUrl)}"`), `${locale}/${slug}: outbound source blocked`);
+          assert.match(section, /class="ft-src"><span[^>]*>[^<]+/, `${locale}/${slug}: nonlinked citation label retained`);
+        } else {
+          assert.ok(rendersSource(section, rate.sourceUrl, { locale }) || section.includes(`data-source-plain="${new URL(rate.sourceUrl).hostname.replace(/^www\./, '')}"`), `${locale}/${slug}: reviewed source (coded route or plain label)`);
+          assert.ok(!section.includes(`href="${escapeHtml(rate.sourceUrl)}"`) || renderedSourceHref(rate.sourceUrl, { locale }) === escapeHtml(rate.sourceUrl), `${locale}/${slug}: no uncoded exchange link`);
+        }
         assert.ok(section.includes(rate.checkedAt), `${locale}/${slug}: reviewed date`);
         assert.ok(section.includes(escapeHtml(copy.tier)), `${locale}/${slug}: reviewed tier`);
         assert.ok(section.includes(escapeHtml(copy.scope)), `${locale}/${slug}: reviewed scope`);

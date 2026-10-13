@@ -2,6 +2,7 @@
 // mid-sentence), NX-05 (/onchain promised a live board), NX-07 (English payment labels, "1 plateformes", repeated
 // eligibility entries). 4.6 (Compare nav -> /compare hub) is covered in tests/ux-polish-review.test.mjs.
 import assert from "node:assert/strict";
+import { outboundLink } from "../src/data/exchange-outbound.js";
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -113,7 +114,9 @@ test("NX-10 SSR article: no raw Markdown link survives in paragraphs, lists, tab
   assert.match(html, /<em>the <a href="\/exchanges\/okx">OKX profile<\/a><\/em>/);
   assert.doesNotMatch(html, /javascript:|\/admin\/tools/);
   assert.match(html, /Unknown target internal tool and script x/);
-  assert.match(html, /<a href="https:\/\/www\.okx\.com\/help\/x" target="_blank" rel="noopener noreferrer">OKX announcement<\/a>/);
+  // Owner 2026-10-13: an exchange page without a sitewide referral parameter renders as its plain label.
+  assert.doesNotMatch(html, /href="https:\/\/www\.okx\.com\/help\/x"/);
+  assert.match(html, /Official source: [^<]*(?:<a [^>]*>OKX<\/a>)? ?announcement/);
   // Partner autolink: first plain-text mention only, never inside an existing link.
   const partner = [...html.matchAll(/data-partner-link="([a-z0-9-]+)"[^>]*>([^<]+)</g)].map((m) => m[1]);
   assert.equal(partner.filter((slug) => slug === "okx").length, 1, "OKX autolinked once");
@@ -193,8 +196,15 @@ test("NX-05 /onchain body: guide H1, plain 'not published' status, official repo
     assert.equal((html.match(/<h1/g) || []).length, 1);
     assert.doesNotMatch(h1, /board|dashboard|看板|ボード|보드|panosu|Panel|Painel|Tableau|Pannello|Панель|لوحة|Papan|Bảng/i, `${locale} H1`);
     assert.match(html, /role="status" data-live-metrics="not-published">[^<]{20,}</, `${locale}: status says live metrics are not published`);
-    for (const source of sources) assert.ok(html.includes(`href="${source.url}"`), `${locale}: ${source.slug} official report link`);
-    assert.doesNotMatch(html, /rel="sponsored|<table/, `${locale}: no partner table or sponsored link`);
+    for (const source of sources) {
+      // Owner 2026-10-13: exchange evidence carries our code (/go/<venue>-page) or is a plain label + domain.
+      const link = outboundLink(source.url, { locale });
+      assert.ok(!html.includes(`href="${source.url}"`) || link?.href === source.url, `${locale}: ${source.slug} no uncoded exchange link`);
+      if (!link) assert.match(html, new RegExp(`<span data-por-venue="${source.slug}"`), `${locale}: ${source.slug} evidence stays as a label`);
+      else assert.ok(html.includes(`href="${link.href.replaceAll("&", "&amp;")}"`), `${locale}: ${source.slug} official report link`);
+    }
+    assert.doesNotMatch(html, /<table/, `${locale}: no partner table`);
+    assert.doesNotMatch(html.replace(/<a [^>]*href="\/go\/[a-z]+-page\?[^"]*"[^>]*>/g, ""), /rel="[^"]*sponsored/, `${locale}: no sponsored link besides coded evidence routes`);
     assert.match(html, /class="onchain-board__guarantee"[\s\S]*?<p>[^<]{40,}<\/p>/, `${locale}: visible not-a-guarantee note`);
     assert.match(html, /<ol>(<li>[^<]+<\/li>){5}<\/ol>/, `${locale}: five reading steps`);
   }

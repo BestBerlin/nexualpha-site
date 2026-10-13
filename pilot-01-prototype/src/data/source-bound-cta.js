@@ -6,6 +6,7 @@ import {
 import { regionalVenueCta as baseRegionalVenueCta } from "./regional-cta.js";
 import { directoryContextSearch } from "./directory-context.js";
 import { localizedHref } from "./locale-routing.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 // This projection never edits or replaces protected referral records. It only
 // prevents the UI from opening a commercial route while current venue-owned
@@ -16,6 +17,14 @@ const SOURCE_REVIEW_GATES = Object.freeze({
     reviewedAt: "2026-09-29",
   }),
 });
+
+// These locales publish research only; territory inferred from a language must
+// never reopen an account or campaign action on their pages.
+const NEUTRAL_SIGNUP_LOCALES = NEUTRAL_CTA_LOCALES; // src/data/locale-policy.js (vi since 2026-10-13)
+const NEUTRAL_SIGNUP_GATE = Object.freeze({ reason: "neutral-locale-signup-disabled" });
+function neutralSignupGate(locale) {
+  return NEUTRAL_SIGNUP_LOCALES.has(locale) ? NEUTRAL_SIGNUP_GATE : null;
+}
 
 export function sourceBoundActionGate(slug) {
   return SOURCE_REVIEW_GATES[String(slug || "").toLowerCase()] || null;
@@ -48,12 +57,12 @@ function failClosedPublicCta(cta, gate) {
 
 export function publicCtaForVenue(slug, locale = "en", market) {
   const cta = basePublicCtaForVenue(slug, locale);
-  return failClosedPublicCta(cta, partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
+  return failClosedPublicCta(cta, neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {
   const cta = baseRegionalVenueCta(slug, locale, market, product);
-  const gate = partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
+  const gate = neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
   const contextSearch = directoryContextSearch({
     market,
     product,

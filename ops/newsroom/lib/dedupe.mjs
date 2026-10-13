@@ -11,7 +11,7 @@ import {
 } from './normalization.mjs';
 import { relevanceForItem } from './relevance.mjs';
 import { storyFacts, conflictingFacts, factsMatch, titleSimilarity, narrativeStoryMatch, inferNarrativeType } from './facts.mjs';
-import { dedupeEvidenceRows, isMirrorEvidence, isMirrorItem } from './evidence-quality.mjs';
+import { dedupeEvidenceRows, independentEvidenceRows, isMirrorEvidence, isMirrorItem } from './evidence-quality.mjs';
 export { dedupeEvidenceRows, isMirrorEvidence, isMirrorItem, isDiscoveryHint, qualityEvidence } from './evidence-quality.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
@@ -356,8 +356,5 @@ export function mergeRawItems(items, options = {}) {
 }
 
 export function countIndependentSources(evidence = []) {
-  return new Set(evidence
-    .filter(row => row.is_independent !== false && !isMirrorEvidence(row))
-    .map(row => row.origin_key ?? row.originKey)
-    .filter(Boolean)).size;
+  return independentEvidenceRows(evidence).length;
 }

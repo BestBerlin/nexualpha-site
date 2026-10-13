@@ -286,7 +286,7 @@ test("#8 every crawler-specific robots group repeats the * group's Disallow line
   const groups = robots.split(/\n\s*\n/).filter((group) => /^User-agent:/m.test(group));
   const star = groups.find((group) => /^User-agent: \*$/m.test(group));
   const disallows = star.match(/^Disallow: .+$/gm);
-  assert.deepEqual(disallows, ["Disallow: /go/"]);
+  assert.deepEqual(disallows, ["Disallow: /go/", "Disallow: /insights/"]);
   assert.ok(groups.length >= 12);
   for (const group of groups) for (const line of disallows) assert.ok(group.includes(line), `${group.split("\n").find((l) => l.startsWith("User-agent"))} lacks ${line}`);
 });
@@ -343,7 +343,7 @@ test("Turkish percent dative follows the spoken number: %40'a, %25'e, %50'ye", (
     assert.doesNotMatch(`${seo.title} ${seo.description}`, /%(?:40|60)'e|%25'a|%50'e/, slug);
   }
   const okx = referralSeoFor("okx", "tr");
-  if (okx) assert.match(okx.title, /%40'a varan/);
+  if (okx) assert.match(okx.description, /%40'a varan/); // CTR pass 2026-10-13: the share moved to the description
   const og = readFileSync(path.join(root, "server/og-image.mjs"), "utf8");
   assert.match(og, /rebate: "İade payı \{pct\} kadar"/);
   assert.match(og, /trPercentDative\(pct\)/);

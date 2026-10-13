@@ -1,0 +1,15 @@
+.exchange-scorecard { margin-block: 2rem; }
+.exchange-scorecard h2 { margin-block: 0 1rem; }
+.exchange-scorecard__scroll { overflow-x: auto; }
+.exchange-scorecard table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.exchange-scorecard caption { text-align: start; padding-block: .75rem; }
+.exchange-scorecard th, .exchange-scorecard td { text-align: start; vertical-align: top; padding: 1rem; border-bottom: 1px solid var(--line, #394150); min-width: 10rem; }
+.exchange-scorecard th:first-child { min-width: 12rem; }
+.exchange-scorecard__badge { display: inline-block; margin-inline-start: .5rem; color: #8de1b4; font-size: .9rem; font-weight: 600; }
+.exchange-scorecard__date, .exchange-scorecard__sources { display: block; margin-block-start: .5rem; line-height: 1.5; font-size: 1rem; }
+.exchange-scorecard__sources a { text-decoration: underline; margin-inline-end: .75rem; }
+.exchange-scorecard__verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1.25rem; margin-block: 1.5rem; }
+.exchange-scorecard__verdicts div { border-inline-start: 2px solid var(--line, #394150); padding-inline-start: 1rem; }
+.exchange-scorecard__verdicts dt { font-weight: 600; }
+.exchange-scorecard__verdicts dd { margin: .5rem 0 0; line-height: 1.6; }
+.exchange-scorecard__rules { line-height: 1.6; }

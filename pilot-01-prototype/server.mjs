@@ -30,6 +30,7 @@ import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-cl
 import { createSsrPageCache } from './server/ssr-page-cache.mjs';
 import { createEmbedRoute } from './server/embed-widgets.mjs';
 import { createFlashMemory } from './server/flash-memory.mjs';
+import { createPositionRadar } from './server/position-radar.mjs';
 import { createTickerFeed, TICKER_PATH } from './server/ticker-feed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
@@ -91,6 +92,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // Live ticker bar (home, /flash): Binance 24h tickers cached 15 s server-side, the collector feed as fallback. A supplied
   // worker (tests) or INTEL_REFRESH=off never calls out; the bar then renders from the collector feed alone.
   const ticker = createTickerFeed({ readMarketEvents: marketEvents.read, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('ticker network off'); } } : {}), log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const radar = createPositionRadar({ ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /etf-flows + /calendar (2026-10-13): host-refreshed snapshots (ETF_FLOWS_FILE / CALENDAR_FILE, read-only); the release's
   // public/intel copies answer until the host has written one.
@@ -261,7 +263,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

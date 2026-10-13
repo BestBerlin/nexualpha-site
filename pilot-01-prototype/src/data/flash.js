@@ -5,6 +5,7 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 
 export * from "./flash-path.js";
 import { FLASH_PATH } from "./flash-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 // The browser reads the flash JSON from /api/flash.json. nginx serves /content/ from the publisher's static directory
 // (2026-10-12), so /content/flash.json never reached the server there (404: no refresh, empty home rail). The Worker
@@ -38,7 +39,7 @@ export const flashSlug = (text) => String(text || "").normalize("NFKD").replace(
 export const flashItemPath = (item) => `${FLASH_PATH}/${item.key}-${item.slug}`;
 
 // Same neutral set as the campaign join block and the academy: no sign-up wording in these locales.
-export const FLASH_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const FLASH_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 const FALLBACK_VENUES = ["okx", "bitget", "binance", "bybit"];
 
 /**

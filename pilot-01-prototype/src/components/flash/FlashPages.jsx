@@ -1,3 +1,5 @@
+import { radarCopy } from "../../data/radar.js";
+import { SourceLink } from "../shared/SourceLink.jsx";
 // NexuAlpha Flash (/flash, /flash/<key>-<slug>): the 7x24 stream and one page per item. The Worker renders both at
 // request time with these components and the same payload the browser hydrates (state "flash"); headline and body
 // arrive already localized, so no templates ship to the browser. The stream refreshes every 60 s and shows a
@@ -190,6 +192,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
           <a href={hrefFor(CALENDAR_PATH, locale, market)}>{intelToolLinks(locale).calendar}<span aria-hidden="true"> →</span></a>
         </p>
         <TelegramTriggerCta locale={locale} placement="flash-telegram-alerts" />
+        <nav aria-label={radarCopy(locale).longShortTitle}><a href={localizedHref("/long-short", { locale })}>{radarCopy(locale).longShortTitle}</a>{" · "}<a href={localizedHref("/whales", { locale })}>{radarCopy(locale).whalesTitle}</a></nav>
         <div className="nxf-alerts" role="group" aria-label={t.notifyHint}>
           <button type="button" className="nxf-toggle" aria-pressed={notify} aria-describedby="nxf-alerts-hint" disabled={blocked} title={blocked ? t.notifyBlocked : t.notifyHint} onClick={toggleNotify}>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
@@ -271,7 +274,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
         <div className="nxf-source">
           <span className="nxf-source__label">{t.source}</span>
           {item.source.kind === "official"
-            ? <a href={item.source.url} target="_blank" rel="nofollow noopener noreferrer" lang="en" dir="ltr">{t.official}: {item.source.title} <span aria-hidden="true">↗</span></a>
+            ? <SourceLink locale={locale} market={market} href={item.source.url} target="_blank" rel="nofollow noopener noreferrer" lang="en" dir="ltr">{t.official}: {item.source.title} <span aria-hidden="true">↗</span></SourceLink>
             : item.source.kind === "news"
               ? <a href={hrefFor(item.source.url, locale, market)}>{t.article}</a>
               : <a href={hrefFor(item.source.url, locale, market)}>{t.data}</a>}

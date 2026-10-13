@@ -175,14 +175,17 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
     const bp = pages[`backpack:${locale}`].match(/<section class="v3-kw" data-keyword-section="backpack-stocks"[\s\S]*?<\/section>/)?.[0];
     assert.ok(bp, `backpack/${locale}: stocks section`);
     assert.match(bp, /Solana/);
-    assert.match(bp, /learn\.backpack\.exchange\/articles\/what-is-backpack-securities/);
+    // Owner 2026-10-13: Backpack pages take no sitewide referral parameter, so the source is a plain label + domain.
+    assert.doesNotMatch(bp, /href="https:\/\/learn\.backpack\.exchange/);
+    assert.match(bp, /data-source-plain="learn\.backpack\.exchange"/);
     assert.doesNotMatch(text(bp), NEVER_SEC);
   }
   const h1 = (html) => text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]);
   assert.match(h1(pages["okx:tr"]), /^OKX referans kodu nexu888, ücretler ve iade \(\d{4}\)$/);
   assert.match(h1(pages["bybit:tr"]), /^Bybit referans kodu 48553 ve ücretler \(\d{4}\)$/, "no rebate word without a confirmed share");
-  assert.match(h1(pages["okx:vi"]), /^Mã giới thiệu OKX nexu888, phí và hoàn phí \(\d{4}\)$/);
-  assert.match(h1(pages["bitget:vi"]), /^Mã giới thiệu Bitget nexu888/);
+  // vi is neutral since 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP): the profile H1 carries no referral wording or code.
+  assert.doesNotMatch(h1(pages["okx:vi"]), /nexu888|[Mm]ã giới thiệu|hoàn phí/);
+  assert.doesNotMatch(h1(pages["bitget:vi"]), /nexu888|[Mm]ã giới thiệu|hoàn phí/);
   assert.match(h1(pages["bybit:id"]), /^Kode referral Bybit 48553 dan biaya \(\d{4}\)$/);
   assert.match(h1(pages["binance:pt-BR"]), /^Código de convite Binance 11350287, taxas e cashback \(\d{4}\)$/);
 

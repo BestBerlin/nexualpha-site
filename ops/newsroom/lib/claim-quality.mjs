@@ -4,6 +4,8 @@ export const DEFAULT_CLAIM_QUALITY = {
     flash: 12,
     liquidation_wave: 6,
     price_move: 6,
+    fx_macro: 6,
+    market_headline: 6,
     listing: 48,
     delisting: 48,
   },
@@ -14,7 +16,26 @@ export const DEFAULT_CLAIM_QUALITY = {
 };
 
 const MAJOR_PRICE_SUBJECTS = new Set(['BTC', 'BITCOIN', 'ETH', 'ETHEREUM']);
-const MARKET_NOISE_TYPES = new Set(['liquidation_wave', 'price_move']);
+const MARKET_NOISE_TYPES = new Set(['liquidation_wave', 'price_move', 'fx_macro', 'market_headline']);
+
+const OPINION_PATTERN = '(^|[^a-z])(sees|expects?|predicts?|forecasts?|opinions?|outlook)([^a-z]|$)|wealth transfer';
+const HARD_RETAIL_ACTIONS = ['listing', 'delisting', 'withdrawal_halt', 'regulation', 'enforcement'];
+
+function hasHardRetailAction(event) {
+  return HARD_RETAIL_ACTIONS.includes(event.story_action ?? event.discussion?.action)
+    && ['verified-primary', 'corroborated'].includes(event.verification_status)
+    && Boolean(dateOrNull(event.effective_at) || dateOrNull(event.deadline_at));
+}
+
+export function marketNoiseEventSql({ eventAlias = 'e' } = {}) {
+  const e = eventAlias;
+  const actions = HARD_RETAIL_ACTIONS.map(value => `'${value}'`).join(',');
+  return `(${e}.event_type IN ('liquidation_wave','price_move','fx_macro','market_headline')
+    AND NOT (${e}.event_type IN ('fx_macro','market_headline')
+      AND coalesce(${e}.story_action, ${e}.discussion->>'action', '') IN (${actions})
+      AND coalesce(${e}.verification_status, '') IN ('verified-primary','corroborated')
+      AND (${e}.effective_at IS NOT NULL OR ${e}.deadline_at IS NOT NULL)))`;
+}
 
 const num = value => (Number.isFinite(Number(value)) ? Number(value) : null);
 const text = value => String(value ?? '').trim();
@@ -118,7 +139,11 @@ export function claimFreshnessState(event, { now = Date.now(), config = {} } = {
 
 export function marketNoiseState(event, { now = Date.now(), config = {} } = {}) {
   const type = event.event_type ?? event.eventType;
-  if (!MARKET_NOISE_TYPES.has(type)) return { noise_type: null, claimable: true, reason: 'not_market_noise' };
+  if (!MARKET_NOISE_TYPES.has(type) || (['fx_macro', 'market_headline'].includes(type) && hasHardRetailAction(event))) return { noise_type: null, claimable: true, reason: 'not_market_noise' };
+  if (['fx_macro', 'market_headline'].includes(type)
+    && new RegExp(OPINION_PATTERN, 'i').test([event.title_internal, event.fact_summary, event.factual_summary].filter(Boolean).join(' '))) {
+    return { noise_type: type, claimable: false, reason: 'opinion_without_hard_retail_action' };
+  }
   const cfg = normalizeClaimQualityConfig(config);
   const lastMarketStoryAt = event.last_market_story_at ?? event.lastMarketStoryAt ?? event.discussion?.last_market_story_at ?? event.discussion?.lastMarketStoryAt;
   if (lastMarketStoryAt) {
@@ -165,6 +190,7 @@ export function claimFreshnessEligibilitySql({ eventAlias = 'e' } = {}) {
   const freshnessHours = `coalesce(
       (SELECT (value->'freshness_hours_by_type'->>${e}.event_type)::int FROM newsroom_config WHERE key='claim_quality'),
       (SELECT (value->'freshnessHoursByType'->>${e}.event_type)::int FROM newsroom_config WHERE key='claim_quality'),
+      CASE WHEN ${e}.event_type IN ('fx_macro','market_headline') THEN ${DEFAULT_CLAIM_QUALITY.freshnessHoursByType.price_move} END,
       (SELECT (value->>'default_freshness_hours')::int FROM newsroom_config WHERE key='claim_quality'),
       (SELECT (value->>'defaultFreshnessHours')::int FROM newsroom_config WHERE key='claim_quality'),
       CASE WHEN ${e}.event_type IN ('liquidation_wave','price_move') THEN ${DEFAULT_CLAIM_QUALITY.freshnessHoursByType.price_move} ELSE ${DEFAULT_CLAIM_QUALITY.defaultFreshnessHours} END)`;
@@ -189,25 +215,26 @@ export function claimMarketNoiseEligibilitySql({ eventAlias = 'e' } = {}) {
       CASE WHEN coalesce(${e}.discussion->'provenance'->>'window', ${e}.discussion->'metrics'->'provenance'->>'window', ${e}.discussion->'market'->'provenance'->>'window')='h1'
         THEN (${e}.discussion->>'total_liquidations_usd')::numeric END,
       0) >= coalesce((SELECT (value->>'liquidation_usd_1h_min')::numeric FROM newsroom_config WHERE key='claim_quality'), ${DEFAULT_CLAIM_QUALITY.liquidationUsd1hMin})`;
-  const price = `upper(coalesce(${e}.story_asset, ${e}.subject_entity, ${e}.subjects[1], '')) = ANY(ARRAY['BTC','BITCOIN','ETH','ETHEREUM'])
+  const opinion = `(${e}.event_type IN ('fx_macro','market_headline') AND concat_ws(' ', ${e}.title_internal, ${e}.fact_summary) ~* '${OPINION_PATTERN}')`;
+  const price = `NOT ${opinion} AND upper(coalesce(${e}.story_asset, ${e}.subject_entity, ${e}.subjects[1], '')) = ANY(ARRAY['BTC','BITCOIN','ETH','ETHEREUM'])
       AND abs(coalesce(
         (${e}.discussion->>'price_move_pct_1h')::numeric,
         (${e}.discussion->'metrics'->>'price_move_pct_1h')::numeric,
         (${e}.discussion->'market'->>'price_move_pct_1h')::numeric,
         (${e}.discussion->>'change_pct_1h')::numeric,
         0)) >= coalesce((SELECT (value->>'major_coin_price_move_pct_1h_min')::numeric FROM newsroom_config WHERE key='claim_quality'), ${DEFAULT_CLAIM_QUALITY.majorCoinPriceMovePct1hMin})`;
-  return `(${e}.event_type NOT IN ('liquidation_wave','price_move')
+  return `(NOT ${marketNoiseEventSql({ eventAlias: e })}
     OR ((${e}.event_type='liquidation_wave' AND ${liquidation})
-      OR (${e}.event_type='price_move' AND ${price}))
+      OR (${e}.event_type IN ('price_move','fx_macro','market_headline') AND ${price}))
       AND NOT EXISTS (
         SELECT 1 FROM events active_market
         WHERE active_market.state='claimed'
-          AND active_market.event_type IN ('liquidation_wave','price_move')
+          AND ${marketNoiseEventSql({ eventAlias: 'active_market' })}
       )
       AND NOT EXISTS (
         SELECT 1 FROM articles recent_article
         JOIN events recent_event ON recent_event.id=recent_article.event_id
-        WHERE recent_event.event_type IN ('liquidation_wave','price_move')
+        WHERE ${marketNoiseEventSql({ eventAlias: 'recent_event' })}
           AND recent_article.published_at > now() - make_interval(hours => coalesce((SELECT (value->>'market_story_cadence_hours')::int FROM newsroom_config WHERE key='claim_quality'), ${DEFAULT_CLAIM_QUALITY.marketStoryCadenceHours}))
       ))`;
 }
@@ -236,6 +263,7 @@ export function claimFreshnessRankSql({ eventAlias = 'e', scoreAlias = 's' } = {
   return `(${s}.editorial_score * greatest(0.05, least(1, 1 - (extract(epoch from (now() - coalesce(${e}.source_published_at, ${e}.occurred_at, ${e}.first_seen_at))) / 3600) / coalesce(
       (SELECT (value->'freshness_hours_by_type'->>${e}.event_type)::numeric FROM newsroom_config WHERE key='claim_quality'),
       (SELECT (value->'freshnessHoursByType'->>${e}.event_type)::numeric FROM newsroom_config WHERE key='claim_quality'),
+      CASE WHEN ${e}.event_type IN ('fx_macro','market_headline') THEN ${DEFAULT_CLAIM_QUALITY.freshnessHoursByType.price_move} END,
       (SELECT (value->>'default_freshness_hours')::numeric FROM newsroom_config WHERE key='claim_quality'),
       (SELECT (value->>'defaultFreshnessHours')::numeric FROM newsroom_config WHERE key='claim_quality'),
       CASE WHEN ${e}.event_type IN ('liquidation_wave','price_move') THEN ${DEFAULT_CLAIM_QUALITY.freshnessHoursByType.price_move} ELSE ${DEFAULT_CLAIM_QUALITY.defaultFreshnessHours} END))))`;

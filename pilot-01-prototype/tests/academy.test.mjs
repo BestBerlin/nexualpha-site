@@ -2,8 +2,12 @@
 // component the browser hydrates, Course / VideoObject / LearningResource JSON-LD, the academy sitemap, sign-up gating
 // (partner registry + geo policy, neutral locales get no sign-up), the owner's no-fine-print rule, and /starter -> /academy.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import worker from "../worker/index.js";
 import { ACADEMY_EPISODES, ACADEMY_INDEX_LOCALES, academyEpisodePath, academySignupVenues, parseAcademyPath } from "../src/data/academy.js";
 import { ACADEMY_CONTENT_BY_LOCALE } from "../src/data/academy-content-all.js";
@@ -13,6 +17,8 @@ import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { titleBudgetForLocale } from "../src/data/meta-description.js";
 import { buildAcademySitemap, buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -28,6 +34,7 @@ const fetchPage = (path, e = env()) => worker.fetch(new Request(`https://nexualp
 const ldJson = (html) => [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap((m) => { const v = JSON.parse(m[1]); return Array.isArray(v) ? v : (v["@graph"] || [v]); });
 const mainHtml = (html) => (html.match(/<main\b[\s\S]*<\/main>/) || [""])[0];
 const E05 = ACADEMY_EPISODES[4];
+const PROJECT_ROOT = new URL("../", import.meta.url);
 
 // Defensive fine print the owner removed from the academy (2026-10-12): it may live in the footer and legal pages only.
 const FINE_PRINT = [
@@ -68,6 +75,30 @@ test("numbers and codes in localized lessons match English", () => {
   }
 });
 
+test("academy data generator reproduces checked-in generated files", () => {
+  const out = mkdtempSync(`${tmpdir()}/nxa-academy-build-`);
+  const dataFiles = [
+    "src/data/academy-season1.js",
+    "src/data/academy-copy.js",
+    "src/data/academy-content-all.js",
+    ...readdirSync(new URL("src/data", PROJECT_ROOT)).filter((file) => /^academy-content-[a-z]{2}(?:-[a-z]+)?\.js$/i.test(file)).map((file) => `src/data/${file}`),
+    ...readdirSync(new URL("public/captions/academy/s1", PROJECT_ROOT)).filter((file) => file.endsWith(".vtt")).map((file) => `public/captions/academy/s1/${file}`),
+  ].sort();
+  try {
+    execFileSync(process.execPath, ["scripts/build-academy-data.mjs", "--output-root", out], { cwd: fileURLToPath(PROJECT_ROOT), encoding: "utf8" });
+    const generatedFiles = [
+      ...readdirSync(`${out}/src/data`).map((file) => `src/data/${file}`),
+      ...readdirSync(`${out}/public/captions/academy/s1`).map((file) => `public/captions/academy/s1/${file}`),
+    ].sort();
+    assert.deepEqual(generatedFiles, dataFiles, "academy regeneration added or removed output files");
+    for (const file of dataFiles) {
+      assert.equal(readFileSync(new URL(file, `file://${out}/`), "utf8"), readFileSync(new URL(file, PROJECT_ROOT), "utf8"), `${file} changed after academy regeneration`);
+    }
+  } finally {
+    rmSync(out, { recursive: true, force: true });
+  }
+});
+
 test("/academy and a lesson render at request time in en and zh-hans with the hydrated component, canonical and hreflang", async () => {
   for (const [path, locale, h1] of [
     ["/academy", "en", ACADEMY_COPY.en.series],
@@ -105,6 +136,7 @@ test("JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson", a
   assert.deepEqual(video.thumbnailUrl, ["https://nexualpha.com/media/academy/s1/en/E05-landscape.jpg", "https://nexualpha.com/media/academy/s1/en/E05-portrait.jpg"]);
   assert.equal(video.uploadDate, "2026-10-12");
   assert.equal(video.duration, "PT2M17S");
+  assert.equal(video.inLanguage, "en");
   assert.ok(video.transcript.length > 400, "transcript text");
   const resource = lesson.find((item) => item["@type"] === "LearningResource");
   assert.equal(resource.position, 5);
@@ -113,7 +145,8 @@ test("JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson", a
   // The client head helper agrees with the Worker.
   const seo = computeRouteSeo({ url: `/zh-hans/academy/${E05.slug}` });
   assert.equal(seo.status, 200);
-  assert.ok(seo.schemas.some((item) => item["@type"] === "VideoObject"));
+  assert.equal(seo.schemas.find((item) => item["@type"] === "VideoObject").inLanguage, "zh-Hans");
+  assert.equal(seo.schemas.find((item) => item["@type"] === "LearningResource").inLanguage, "zh-Hans");
 });
 
 test("locales without a localized lesson are noindex; unknown lessons are 404", async () => {
@@ -147,7 +180,7 @@ test("sign-up CTA: conversion lessons only, registry codes via /go/, geo-gated, 
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[6], { locale: "en" }), ["bitget"]);
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[6], { locale: "tr" }), ["okx"], "Bitget is not promoted in Türkiye; OKX instead");
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[11], { locale: "en" }), ["okx", "bitget", "binance"]);
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) assert.deepEqual(academySignupVenues(E05, { locale }), [], locale);
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) assert.deepEqual(academySignupVenues(E05, { locale }), [], locale);
   assert.deepEqual(academySignupVenues(ACADEMY_EPISODES[0], { locale: "en" }), [], "non-conversion lesson");
 
   const bitget = mainHtml(await (await fetchPage(`/academy/${ACADEMY_EPISODES[6].slug}`)).text());

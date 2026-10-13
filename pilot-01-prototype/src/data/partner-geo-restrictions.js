@@ -19,6 +19,12 @@ export const PARTNER_GEO_RESTRICTIONS = Object.freeze({
   binance: Object.freeze(rows("CA NL", "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng", "Secondary list; official terms did not render a list", false)),
   htx: Object.freeze(rows("BD VE BO EC ES", "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/", "Secondary list; official page empty and sources conflict", false)),
 });
+// Countries where NO partner may be promoted, whatever the partner's own terms allow. The page stays informational
+// (news, market data, tools) but carries no sign-up CTA, invite code, /go/ partner button or campaign join button,
+// both for a VN market/country context and for the locale mapped to the country (vi), whatever market it names.
+export const JURISDICTION_PROMOTION_BANS = Object.freeze([
+  Object.freeze({ country: "VN", basis: "Vietnam Government Resolution 05/2025/NQ-CP: only Ministry-of-Finance-licensed platforms may offer or advertise crypto-asset services", decided: "2026-10-13", reason: "Owner decision 2026-10-13 (legal): Vietnam is information-only" }),
+]);
 // Terms with non-enumerated territories remain explicit rather than inventing a country list.
 const territory = (scope, source, reason, verified = true) => Object.freeze({ scope, source, checked, reason, verified });
 export const PARTNER_TERRITORIAL_RESTRICTIONS = Object.freeze({
@@ -39,5 +45,5 @@ export function unverifiedPartnerRestrictions() {
   return Object.entries(PARTNER_GEO_RESTRICTIONS).flatMap(([slug, entries]) => entries.filter(row => !row.verified).map(row => ({ slug, ...row }))).concat(Object.entries(PARTNER_TERRITORIAL_RESTRICTIONS).flatMap(([slug, entries]) => entries.filter(row => !row.verified).map(row => ({ slug, ...row }))));
 }
 export function buildPartnerGeoRestrictionsFeed() {
-  return { version: 1, checked, restrictions: PARTNER_GEO_RESTRICTIONS, territorialRestrictions: PARTNER_TERRITORIAL_RESTRICTIONS, countryByLocale: COUNTRY_BY_LOCALE, countryByMarket: COUNTRY_BY_MARKET, turkeyPromotedPartners: TURKEY_PROMOTED_PARTNERS, turkeyPromotionPolicy: TURKEY_PROMOTION_POLICY, unverified: unverifiedPartnerRestrictions() };
+  return { version: 1, checked, restrictions: PARTNER_GEO_RESTRICTIONS, territorialRestrictions: PARTNER_TERRITORIAL_RESTRICTIONS, promotionBannedCountries: JURISDICTION_PROMOTION_BANS, countryByLocale: COUNTRY_BY_LOCALE, countryByMarket: COUNTRY_BY_MARKET, turkeyPromotedPartners: TURKEY_PROMOTED_PARTNERS, turkeyPromotionPolicy: TURKEY_PROMOTION_POLICY, unverified: unverifiedPartnerRestrictions() };
 }

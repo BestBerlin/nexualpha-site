@@ -1002,6 +1002,14 @@
       }
     ]
   },
+  "promotionBannedCountries": [
+    {
+      "country": "VN",
+      "basis": "Vietnam Government Resolution 05/2025/NQ-CP: only Ministry-of-Finance-licensed platforms may offer or advertise crypto-asset services",
+      "decided": "2026-10-13",
+      "reason": "Owner decision 2026-10-13 (legal): Vietnam is information-only"
+    }
+  ],
   "countryByLocale": {
     "tr": "TR",
     "vi": "VN",

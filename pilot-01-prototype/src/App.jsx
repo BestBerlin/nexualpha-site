@@ -28,6 +28,8 @@ import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
+import { jurisdictionPromotionBan } from "./data/partner-geo-policy.js";
+import { isNeutralCtaLocale } from "./data/locale-policy.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
@@ -108,6 +110,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/converter/ConverterPage.jsx",
   "./components/glossary/GlossaryPages.jsx",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -179,6 +182,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/glossary-shard-*.js",
   "./data/glossary-links-*.js",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -287,6 +291,8 @@ function AcademyRoute({ route, locale }) {
   return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} glossaryLinks={readGlossaryLinks(locale)} />;
 }
 // Flash (2026-10-12): the 7x24 stream and item pages share one route chunk (route-flash).
+const LongShortPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "LongShortPage");
+const WhalesPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "WhalesPage");
 const FlashStreamPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashStreamPage");
 const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage");
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
@@ -575,6 +581,8 @@ function routeState(venues, initialUrl) {
   if (glossary?.kind === "term") return { name: "glossaryTerm", slug: glossary.slug, ...contextParams() };
   if (glossary?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
+  if (pathname === "/long-short") return { name: "longShort", ...contextParams() };
+  if (pathname === "/whales") return { name: "whales", ...contextParams() };
   if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
@@ -614,7 +622,7 @@ function routeState(venues, initialUrl) {
   if (officialResearch) return { ...officialResearch, ...contextParams() };
   if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   if (parseBybitStocksPath(pathname)) return { name: "bybitStocks", ...contextParams() };
-  if (parseBitgetAlliancePath(pathname)) return { name: "bitgetAlliance", ...contextParams() };
+  if (parseBitgetAlliancePath(pathname)) return { name: publicRoute.locale === "tr" ? "activities" : "bitgetAlliance", ...contextParams() };
   if (parseKrakenUsdgPath(pathname)) return { name: "krakenUsdg", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
@@ -623,7 +631,7 @@ function routeState(venues, initialUrl) {
       try { return { name: "activity", id: decodeURIComponent(activityMatch[1]), ...contextParams() }; } catch { return { name: "notFound" }; }
   }
   if (pathname === "/activities") return { name: "activities", ...contextParams() };
-  return pathname === "/" || pathname === "/index.html" ? { name: "home" } : { name: "notFound" };
+  return pathname === "/" || pathname === "/index.html" ? { name: "home", ...contextParams() } : { name: "notFound" };
 }
 
 export async function preloadCurrentRouteModulesForUrl(initialUrl, options = {}) {
@@ -732,7 +740,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialIntelTool } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -895,6 +903,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} initialNewsArticles={initialNewsArticles} />);
   if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
   // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
+  if (route.name === "longShort") return pageShell(<LongShortPage locale={locale} market={route.market} initial={initialRadar} />);
+  if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} initial={initialRadar} />);
   if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
@@ -1008,7 +1018,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} />
-    <ClosingBand locale={locale} legacy={homeSlots.closing} />
+    {/* Neutral locales and no-promotion markets (Vietnam) get no legacy research drawer: it holds sign-up links. */}
+    <ClosingBand locale={locale} legacy={isNeutralCtaLocale(locale) || jurisdictionPromotionBan({ locale, market: route.market }) ? <CrawlPriorityLinks locale={locale} scope="home" /> : homeSlots.closing} />
     {footer}
     {searchDialog}
   </main>;

@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
 // Venue detail route (/exchanges/<slug>): its own route module and chunk (route-v3-venue) since the venue-graph perf
 // lane (2026-10-11). Before, it lived inside V3Pages.jsx, so every venue page downloaded the compare, activity and
@@ -397,14 +398,14 @@ function VenueDecisionStrip({ text, profile, decision, locale }) {
   </div>;
 }
 
-function SourceList({ text, profile }) {
+function SourceList({ text, profile, locale }) {
   return <div className="v3-source-list">
     <h3>{text.sourceIntake}</h3>
     <div className="v3-source-list__meta">
       <p><span>{text.officialDomain}</span><strong translate="no" lang="en" dir="ltr">{profile.officialDomain || text.pendingReview}</strong></p>
       <p><span>{text.sourceHost}</span><strong translate="no" lang="en" dir="ltr">{profile.sourceHost || text.pendingReview}</strong></p>
     </div>
-    {profile.sourceHubs.length ? profile.sourceHubs.map((source) => <a key={source.url} href={source.url} rel="noopener noreferrer" target="_blank"><span translate="no" lang="en" dir="ltr">{source.label}</span><small translate="no" lang="en" dir="ltr">{new URL(source.url).host}</small></a>) : <p>{text.pendingReview}</p>}
+    {profile.sourceHubs.length ? profile.sourceHubs.map((source) => <SourceLink locale={locale} key={source.url} href={source.url} rel="noopener noreferrer" target="_blank"><span translate="no" lang="en" dir="ltr">{source.label}</span><small translate="no" lang="en" dir="ltr">{new URL(source.url).host}</small></SourceLink>) : <p>{text.pendingReview}</p>}
   </div>;
 }
 
@@ -419,7 +420,7 @@ function ActivityCards({ copy, text, locale, updates }) {
     </dl>
     <div className="v3-activity-actions">
       <LocalLink locale={locale} href={`/activities/${encodeURIComponent(update.id)}`}>{text.openActivityDetail}</LocalLink>
-      <a href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</a>
+      <SourceLink locale={locale} href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink>
     </div>
   </article>)}</div>;
 }
@@ -790,7 +791,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               {venueDirectAnswerDetails}
               <div className="v3-venue-direct-answer__links">
                 {priorityAnswer.sources.map(([label, href]) => (
-                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
+                  <SourceLink locale={locale} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</SourceLink>
                 ))}
                 {priorityAnswer.internalLinks?.slice(1).map(([label, href]) => (
                   <LocalLink key={href} locale={locale} href={venueDirectAnswerInternalHref(href)} data-cta-kind="research" data-cta-placement="venue-direct-answer-internal">{label}</LocalLink>
@@ -801,7 +802,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {(venueDirectAnswer.sources?.length || venueDirectAnswer.internalLinks?.length) && (
               <div className="v3-venue-direct-answer__links">
                 {!priorityAnswer && venueDirectAnswer.sources?.map(([label, href]) => (
-                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
+                  <SourceLink locale={locale} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</SourceLink>
                 ))}
                 {(priorityAnswer ? venueDirectAnswer.internalLinks?.slice(0, 1) : venueDirectAnswer.internalLinks)?.map(([label, href]) => (
                   <LocalLink key={href} locale={locale} href={venueDirectAnswerInternalHref(href)} data-cta-kind="research" data-cta-placement="venue-direct-answer-internal">{label}</LocalLink>
@@ -893,7 +894,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <div className="section-lead"><h2>{text.reviewedActivity}</h2>{related.length > 0 && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
       {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{String(text.activityEmpty || "").split(/(?<=[.。])\s*/)[0]} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
-      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} /></details></div>}
+      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 
     <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>

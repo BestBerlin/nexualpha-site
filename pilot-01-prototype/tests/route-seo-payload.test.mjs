@@ -157,7 +157,10 @@ test("/api/route-seo honours an explicit locale, the 404 head is noindex, and of
   assert.equal(head.status, 200);
   assert.equal(await head.text(), "");
   const payload = routeSeoPayload({ status: 200, title: "T", description: "D", canonical: "https://nexualpha.com/", locale: "en", schema: [{ "@context": "https://schema.org", "@type": "WebPage" }] }, new URL(`${ORIGIN}/`));
-  assert.deepEqual(payload.schema, { "@context": "https://schema.org", "@graph": [{ "@type": "WebPage" }] }, "array schemas collapse into one @graph like the SSR head");
+  assert.equal(payload.schema["@context"], "https://schema.org");
+  assert.deepEqual(payload.schema["@graph"][0], { "@type": "WebPage" }, "array schemas collapse into one @graph like the SSR head");
+  assert.ok(payload.schema["@graph"].some((node) => node["@id"] === "https://nexualpha.com/#organization"));
+  assert.ok(payload.schema["@graph"].some((node) => node["@id"] === "https://nexualpha.com/#website"));
 });
 
 // Minimal DOM: enough of document/head/element for the injector's selectors (attribute, prefix, id, tag).

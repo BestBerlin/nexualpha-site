@@ -11,6 +11,8 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { buildAppsSitemap, buildSplitSitemaps } from "../scripts/generate-prerender-manifest.mjs";
 import { modulePathsForRoute } from "../src/data/route-module-cache.js";
 import { createSsrHarness, SHELL_HTML, h1Texts, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const path = new URL(request.url).pathname;
@@ -45,9 +47,13 @@ test("four app routes SSR in English and Simplified Chinese with matching client
     const ld = schemas(html);
     const software = ld.find((row) => row["@type"] === "SoftwareApplication");
     assert.equal(software.operatingSystem, "iOS, Android");
+    assert.equal(software.applicationCategory, "FinanceApplication");
+    assert.equal(software.dateModified, content.app.lastChecked);
     assert.deepEqual(software.downloadUrl, [content.app.appStore, content.app.googlePlay]);
+    assert.deepEqual(software.sameAs, content.app.sources);
     const faq = ld.find((row) => row["@type"] === "FAQPage");
     assert.equal(faq.mainEntity.length, 3);
+    assert.ok(ld.some((row) => row["@type"] === "BreadcrumbList"));
     for (const row of faq.mainEntity) { assert.ok(main(html).includes(row.name)); assert.ok(main(html).includes(row.acceptedAnswer.text)); }
     assert.doesNotMatch(main(html), /data-app-apk|Android APK<\/a>/);
     assert.ok(main(html).includes(`/go/${slug}?src=app-${encodeURIComponent(locale)}`));
@@ -71,7 +77,7 @@ test("all locale editions are localized and indexable, neutral locales never con
     assert.ok(APP_DOWNLOAD_COPY[locale].answer);
     assert.equal(APP_DOWNLOAD_COPY[locale].steps.length, 3);
     if (locale !== "en") assert.notEqual(APP_DOWNLOAD_COPY[locale].answer, APP_DOWNLOAD_COPY.en.answer);
-    if (["ru", "ar", "zh-Hant", "ur", "uk"].includes(locale)) assert.doesNotMatch(main(html), /data-app-registration|href="\/go\//);
+    if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(main(html), /data-app-registration|href="\/go\//);
     assert.doesNotMatch(main(html), /not (?:investment|financial) advice|affiliate commission|pays our commission|terms (?:and conditions )?apply|非投资建议|非投資建議|佣金|傭金/i);
   }
 });
@@ -104,7 +110,7 @@ test("APK data fails closed and a reviewed separate-host build exposes its metad
     assert.match(html, /data-app-apk/);
     assert.ok(html.includes(apk.sha256) && html.includes(apk.signerSha256) && html.includes(apk.version));
     const seo = appDownloadRouteSeo("/exchanges/okx/app", "en", { urlFor: (path) => `https://nexualpha.com${path}` });
-    assert.ok(seo.schemas[0].downloadUrl.includes(apk.url));
+    assert.ok(!seo.schemas[0].downloadUrl.includes(apk.url), "downloadUrl stays limited to official store listings");
   } finally { APP_DOWNLOADS.okx.apk = null; ssrData.APP_DOWNLOADS.okx.apk = null; }
 });
 
