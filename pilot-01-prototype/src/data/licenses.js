@@ -1,4 +1,7 @@
 import { localizedPath } from "./locale-routing.js";
+import { venueDisplayName } from "./venue-display-names.js";
+
+export { venueDisplayName };
 
 export const LICENSE_PATH = "/licenses";
 export const LICENSE_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "tr", "vi", "id", "ja", "ko", "fr", "de"]);
@@ -7,12 +10,22 @@ export const LICENSE_COUNTRIES = Object.freeze([
   Object.freeze({ slug: "turkey", code: "TR", name: "Türkiye" }),
   Object.freeze({ slug: "singapore", code: "SG", name: "Singapore" }),
   Object.freeze({ slug: "japan", code: "JP", name: "Japan" }),
+  Object.freeze({ slug: "united-arab-emirates", code: "AE", name: "United Arab Emirates" }),
+  Object.freeze({ slug: "france", code: "FR", name: "France" }),
+  Object.freeze({ slug: "germany", code: "DE", name: "Germany" }),
+  Object.freeze({ slug: "cyprus", code: "CY", name: "Cyprus" }),
+  Object.freeze({ slug: "malta", code: "MT", name: "Malta" }),
+  Object.freeze({ slug: "austria", code: "AT", name: "Austria" }),
+  Object.freeze({ slug: "ireland", code: "IE", name: "Ireland" }),
+  Object.freeze({ slug: "luxembourg", code: "LU", name: "Luxembourg" }),
 ]);
 
 const SPK_OPERATING_SOURCE = "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi";
 const SPK_LIQUIDATION_SOURCE = "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi";
 const MAS_DPT_SOURCE = "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service";
 const FSA_JAPAN_SOURCE = "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf";
+const ESMA_CASP_SOURCE = "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv";
+const VARA_REGISTER_SOURCE = "https://www.vara.ae/en/licenses-and-register/public-register/";
 const DATA_LICENSE_URL = "https://nexualpha.com/methodology#data-license";
 const LAST_CHECKED = "2026-10-13";
 
@@ -83,6 +96,174 @@ export const licenseRecords = Object.freeze([
     number: "Director of the Kanto Finance Bureau No.00031",
     status: "registered",
     sourceUrl: FSA_JAPAN_SOURCE,
+  }),
+  // Added 2026-10-13: each row read directly from the official register named in sourceUrl; `evidence` records what
+  // the register showed. Numbers appear only when the register prints one.
+  row({
+    exchange: "okx",
+    entityName: "OKCoin Japan K.K.",
+    country: "JP",
+    regulator: "Japan FSA",
+    type: "Crypto-asset Exchange Service Provider",
+    number: "Director of the Kanto Finance Bureau No.00020",
+    status: "registered",
+    sourceUrl: FSA_JAPAN_SOURCE,
+    evidence: "Japan FSA list (as of 1 September 2026) shows OKCoin Japan K.K. as a registered crypto-asset exchange service provider.",
+  }),
+  row({
+    exchange: "okx",
+    entityName: "OKX SG PTE. LTD.",
+    country: "SG",
+    regulator: "MAS",
+    type: "Major Payment Institution - Digital Payment Token Service",
+    status: "licensed",
+    sourceUrl: "https://eservices.mas.gov.sg/fid/institution/detail/422854-OKX-SG-PTE-LTD",
+    evidence: "MAS Financial Institutions Directory lists OKX SG PTE. LTD. as a Major Payment Institution with Digital Payment Token Service.",
+  }),
+  row({
+    exchange: "okx",
+    entityName: "OKX Middle East Fintech FZE",
+    country: "AE",
+    regulator: "Dubai VARA",
+    type: "VASP Licence (Exchange, Broker-Dealer, Lending and Borrowing, Management and Investment)",
+    number: "VL/23/12/003",
+    status: "licensed",
+    sourceUrl: VARA_REGISTER_SOURCE,
+    evidence: "VARA public register: VASP Licence VL/23/12/003, issued 2024-09-17, status Active.",
+  }),
+  row({
+    exchange: "binance",
+    entityName: "Binance FZE",
+    country: "AE",
+    regulator: "Dubai VARA",
+    type: "VASP Licence (Exchange, Broker-Dealer, Lending and Borrowing, Management and Investment)",
+    number: "VL/24/04/001",
+    status: "licensed",
+    sourceUrl: VARA_REGISTER_SOURCE,
+    evidence: "VARA public register: VASP Licence VL/24/04/001, issued 2024-04-15, status Active.",
+  }),
+  row({
+    exchange: "kraken",
+    entityName: "Payward FZCO",
+    country: "AE",
+    regulator: "Dubai VARA",
+    type: "VASP Licence (Broker-Dealer, Management and Investment)",
+    number: "VL/26/10/002",
+    status: "licensed",
+    sourceUrl: VARA_REGISTER_SOURCE,
+    evidence: "VARA public register: VASP Licence VL/26/10/002, issued 2026-10-06, status Active.",
+  }),
+  row({
+    exchange: "bybit",
+    entityName: "Bybit EU GmbH",
+    country: "FR",
+    regulator: "AMF",
+    type: "MiCA CASP (PSCA) - passported authorisation",
+    status: "licensed",
+    sourceUrl: "https://www.amf-france.org/fr/espace-epargnants/proteger-son-epargne/listes-blanches/psca/bybit-eu-gmbh",
+    evidence: "AMF white list: PSCA 'Agréé MICA' via passport from 2025-05-28; home authority FMA (Austria).",
+  }),
+  row({
+    exchange: "coinbase",
+    entityName: "Coinbase Luxembourg S.A.",
+    country: "FR",
+    regulator: "AMF",
+    type: "MiCA CASP (PSCA) - passported authorisation",
+    status: "licensed",
+    sourceUrl: "https://www.amf-france.org/fr/espace-epargnants/proteger-son-epargne/listes-blanches/psca/coinbase-luxembourg-sa",
+    evidence: "AMF white list: PSCA 'Agréé MICA' via passport from 2025-06-20; home authority CSSF (Luxembourg).",
+  }),
+  row({
+    exchange: "kraken",
+    entityName: "Payward Europe Solutions Limited (Kraken Digital Asset Exchange)",
+    country: "FR",
+    regulator: "AMF",
+    type: "MiCA CASP (PSCA) - passported authorisation",
+    status: "licensed",
+    sourceUrl: "https://www.amf-france.org/fr/espace-epargnants/proteger-son-epargne/listes-blanches/psca/payward-europe-solutions-limited-kraken-digital-asset-exchange-kraken",
+    evidence: "AMF white list: PSCA 'Agréé MICA' via passport from 2025-06-25; home authority Central Bank of Ireland.",
+  }),
+  row({
+    exchange: "bybit",
+    entityName: "Bybit EU GmbH",
+    country: "DE",
+    regulator: "BaFin",
+    type: "Cross-border MiCA CASP services (Art. 65 MiCA)",
+    status: "licensed",
+    sourceUrl: "https://portal.mvp.bafin.de/database/InstInfo/institutDetails.do?cmd=loadInstitutAction&institutId=164511",
+    evidence: "BaFin company database (BaFin-ID 10164511) lists incoming MiCA services from 2025-05-28; supervised in Austria.",
+  }),
+  row({
+    exchange: "coinbase",
+    entityName: "Coinbase Financial Services Europe Ltd",
+    country: "CY",
+    regulator: "CySEC",
+    type: "Cyprus Investment Firm (MiFID investment services)",
+    number: "374/19",
+    status: "licensed",
+    sourceUrl: "https://www.cysec.gov.cy/en-GB/entities/investment-firms/cypriot/84044/",
+    evidence: "CySEC Investment Firms register: licence 374/19 dated 2019-04-15.",
+  }),
+  row({
+    exchange: "kraken",
+    entityName: "Payward Europe Digital Solutions (CY) Limited",
+    country: "CY",
+    regulator: "CySEC",
+    type: "Cyprus Investment Firm (MiFID investment services)",
+    number: "342/17",
+    status: "licensed",
+    sourceUrl: "https://www.cysec.gov.cy/en-GB/entities/investment-firms/cypriot/45914/",
+    evidence: "CySEC Investment Firms register: licence 342/17 dated 2017-11-13 (formerly I.F. Greenfields Wealth Ltd).",
+  }),
+  row({
+    exchange: "okx",
+    entityName: "OKX Europe Limited",
+    country: "MT",
+    regulator: "MFSA",
+    type: "MiCA CASP authorisation",
+    status: "licensed",
+    sourceUrl: ESMA_CASP_SOURCE,
+    evidence: "ESMA interim MiCA CASP register: authorised 2025-01-27 by the Malta Financial Services Authority (LEI 54930069NLWEIGLHXU42).",
+  }),
+  row({
+    exchange: "bybit",
+    entityName: "Bybit EU GmbH",
+    country: "AT",
+    regulator: "FMA",
+    type: "MiCA CASP authorisation",
+    status: "licensed",
+    sourceUrl: ESMA_CASP_SOURCE,
+    evidence: "ESMA interim MiCA CASP register: authorised 2025-05-28 by the Austrian FMA (LEI 5299005V5GBSN2A4C303).",
+  }),
+  row({
+    exchange: "kraken",
+    entityName: "Payward Europe Solutions Limited",
+    country: "IE",
+    regulator: "Central Bank of Ireland",
+    type: "MiCA CASP authorisation",
+    status: "licensed",
+    sourceUrl: ESMA_CASP_SOURCE,
+    evidence: "ESMA interim MiCA CASP register: authorised 2025-06-25 by the Central Bank of Ireland (LEI 254900641D8KNHUZYX24).",
+  }),
+  row({
+    exchange: "kraken",
+    entityName: "Payward Global Solutions Limited",
+    country: "IE",
+    regulator: "Central Bank of Ireland",
+    type: "MiCA CASP authorisation (operation of a trading platform)",
+    status: "licensed",
+    sourceUrl: ESMA_CASP_SOURCE,
+    evidence: "ESMA interim MiCA CASP register: authorised 2025-06-25 by the Central Bank of Ireland (LEI 9845003D98SCC2851458).",
+  }),
+  row({
+    exchange: "coinbase",
+    entityName: "Coinbase Luxembourg S.A.",
+    country: "LU",
+    regulator: "CSSF",
+    type: "MiCA CASP authorisation",
+    status: "licensed",
+    sourceUrl: ESMA_CASP_SOURCE,
+    evidence: "ESMA interim MiCA CASP register: authorised 2025-06-20 by the CSSF (LEI 984500F14CA4571AAC11).",
   }),
 ]);
 
@@ -381,7 +562,7 @@ export function fillLicense(template, vars = {}) {
 
 function countryVars(countrySlug, locale) {
   const records = countrySlug ? licenseRecordsForCountry(countrySlug) : licenseRecords;
-  const exchanges = [...new Set(records.map((record) => record.exchange.toUpperCase()))].join(", ");
+  const exchanges = [...new Set(records.map((record) => venueDisplayName(record.exchange)))].join(", ");
   const regulators = [...new Set(records.map((record) => record.regulator))].join(", ");
   return {
     country: countrySlug ? licenseCountryName(countrySlug, locale) : "all jurisdictions",
@@ -402,7 +583,7 @@ export function licenseAnswer(countrySlug, locale = "en") {
   if (!countrySlug) return summary;
   const records = licenseRecordsForCountry(countrySlug);
   const groups = [...new Set(records.map(record => record.status))].map(status =>
-    `${t.statuses[status]}: ${records.filter(record => record.status === status).map(record => record.exchange.toUpperCase()).join(", ")}`
+    `${t.statuses[status]}: ${records.filter(record => record.status === status).map(record => venueDisplayName(record.exchange)).join(", ")}`
   );
   return `${summary} ${groups.join("; ")}.`;
 }
@@ -445,7 +626,7 @@ export function licenseSchemas(countrySlug, locale = "en", url) {
         itemListElement: records.map((record, index) => ({
           "@type": "ListItem",
           position: index + 1,
-          name: `${record.exchange.toUpperCase()} ${record.country} ${record.regulator}`,
+          name: `${venueDisplayName(record.exchange)} ${record.country} ${record.regulator}`,
           url: record.sourceUrl,
         })),
       },

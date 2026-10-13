@@ -18,7 +18,8 @@ test("referral titles carry the real invite code and owner share in every locale
       if (!referralTitleAllowed(p.slug, locale)) { assert.equal(seo, null, `${p.slug}/${locale} must stay neutral`); continue; }
       assert.ok(seo.title.includes(p.inviteCode), `${p.slug}/${locale}`);
       assert.ok(seo.description.includes(p.inviteCode), `${p.slug}/${locale}`);
-      if (p.share != null) assert.ok(seo.title.includes(String(Math.round(p.share * 100))), `${p.slug}/${locale} share`);
+      // CTR pass 2026-10-13: the title answers the sign-up query; the owner share lives in the description.
+      if (p.share != null && p.slug !== "hyperliquid") assert.ok(seo.description.includes(String(Math.round(p.share * 100))), `${p.slug}/${locale} share`);
       else assert.ok(!/%/.test(seo.title), `${p.slug}/${locale} no invented share`);
     }
   }
