@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
-import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, flashItemIndexLocales, marketFlashItems, parseAnnouncementTitle, renderText } from "../src/data/flash-feed.js";
+import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, flashItemIndexLocales, marketFlashItems, parseAnnouncementTitle, renderText, flashItemSeo } from "../src/data/flash-feed.js";
 import { flashItemPath, flashSignupVenues, flashUiCopy, parseFlashPath } from "../src/data/flash.js";
 import { buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts, decodeEntities } from "./helpers/ssr-hydration-harness.mjs";
@@ -507,5 +507,21 @@ test("flash SSR and hydration retain SGT clocks in different host timezones", as
     }
   } finally {
     if (previous === undefined) delete process.env.TZ; else process.env.TZ = previous;
+  }
+});
+
+test("generic Flash titles retain different publication times inside every locale budget", () => {
+  const announcements = { items: [1, 2].map((hour) => ({ id: `binance:generic-${hour}`, venue: "binance", category: "event", title: "Binance publishes an event notice", url: `https://www.binance.com/en/support/announcement/detail/generic-${hour}`, publishedAt: ago(hour * H), sourceType: "official_api" })) };
+  const { items } = buildFlashItems({ announcements, now: NOW });
+  assert.equal(items.length, 2);
+  for (const locale of FLASH_INDEX_LOCALES) {
+    const titles = items.map((item) => {
+      const view = flashView(item, locale, { now: NOW });
+      assert.equal(view.generic, true);
+      const seo = flashItemSeo(view, locale, { urlFor: (pathname) => `https://nexualpha.com${pathname}` });
+      assert.ok(seo.title.length <= (/^(zh|ja|ko)/.test(locale) ? 32 : 60));
+      return seo.title;
+    });
+    assert.equal(new Set(titles).size, 2, locale);
   }
 });

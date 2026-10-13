@@ -634,11 +634,15 @@ export function flashItemSeo(view, locale, { urlFor }) {
   const t = flashUiCopy(locale);
   const url = urlFor(view.path);
   const headline = view.generic ? `${view.headline} · ${fmtUtc(view.time)} SGT` : view.headline;
+  const titleHeadline = view.generic ? `${fmtUtc(view.time).slice(5)} SGT · ${view.headline}` : headline;
+  const description = view.body && view.body !== view.headline
+    ? `${fmtUtc(view.time)} SGT · ${view.headline}. ${view.body}`
+    : `${fmtUtc(view.time)} SGT · ${view.headline}`;
   return {
-    title: fitTitle([`${headline} | NexuAlpha`, headline], locale),
-    description: view.body || view.headline,
+    title: fitTitle([`${titleHeadline} | NexuAlpha`, titleHeadline], locale),
+    description,
     schemas: [
-      { "@context": "https://schema.org", "@type": "NewsArticle", "@id": `${url}#article`, headline: headline.slice(0, 110), description: view.body || view.headline,
+      { "@context": "https://schema.org", "@type": "NewsArticle", "@id": `${url}#article`, headline: headline.slice(0, 110), description,
         url, mainEntityOfPage: url, inLanguage: view.lang, datePublished: view.time, dateModified: view.time, image: [SOCIAL_IMAGE],
         author: ORGANIZATION, publisher: ORGANIZATION, isAccessibleForFree: true, articleSection: view.typeLabel,
         ...(view.source?.url ? { isBasedOn: absolute(view.source.url) } : {}),

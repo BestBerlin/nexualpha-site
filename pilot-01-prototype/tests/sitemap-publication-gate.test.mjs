@@ -170,6 +170,13 @@ test("sitemap index splits indexable canonical routes by template", async () => 
     assert.match(split.index, new RegExp(`<loc>https://nexualpha\\.com/${file}</loc>`), file);
   }
   assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>/);
+  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>\n {4}<lastmod>2026-10-12<\/lastmod>/);
+  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>\n {2}<\/sitemap>/);
+  assert.doesNotMatch(
+    split.index,
+    /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>\n {4}<lastmod>2026-10-12<\/lastmod>/,
+    "runtime update sitemap index row must not inherit the unrelated news-feed timestamp",
+  );
 
   const compareLocs = locsFromSitemap(split.files.get("sitemap-compare.xml").xml);
   assert.equal(compareLocs.length, 234);

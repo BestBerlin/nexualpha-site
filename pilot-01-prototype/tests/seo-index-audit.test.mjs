@@ -1,0 +1,242 @@
+import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import { buildSitemap } from "../scripts/generate-prerender-manifest.mjs";
+
+import {
+  auditUrlKey,
+  headerRobotsFlags,
+  parseHeadMetadata,
+  parseSitemapXml,
+  readBuiltSitemapTree,
+  runSeoIndexAudit,
+  validateIndexConsistency,
+} from "../scripts/audit-seo-index.mjs";
+
+async function tempRoot() {
+  return mkdtemp(path.join(os.tmpdir(), "nexu-seo-index-"));
+}
+
+const projectRoot = fileURLToPath(new URL("..", import.meta.url));
+
+test("sitemap parser decodes URLsets, alternates, and lastmod while rejecting external paths", () => {
+  const parsed = parseSitemapXml(`<?xml version="1.0"?><urlset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+      <loc>https://nexualpha.com/news/a%20b</loc>
+      <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/a%20b" />
+      <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/a%20b" />
+      <xhtml:link rel="alternate" hreflang="evil" href="https://evil.example/news/a" />
+      <lastmod>2026-10-12</lastmod>
+    </url>
+  </urlset>`);
+  assert.equal(parsed.kind, "urlset");
+  assert.equal(parsed.urls[0].path, "/news/a%20b");
+  assert.equal(parsed.urls[0].lastmod, "2026-10-12");
+  assert.deepEqual(parsed.urls[0].alternates.map((alternate) => [alternate.hreflang, alternate.path]), [
+    ["en", "/news/a%20b"],
+    ["x-default", "/news/a%20b"],
+    ["evil", null],
+  ]);
+});
+
+test("head parser uses exact robots tokens and extracts canonical plus hreflang metadata", () => {
+  const meta = parseHeadMetadata(`<!doctype html><head>
+    <title>Safe &amp; Sound</title>
+    <meta name="description" content="A useful description.">
+    <meta name="robots" content="noindex,follow">
+    <link rel="canonical" href="https://nexualpha.com/news/a">
+    <link rel="alternate" hreflang="en" href="https://nexualpha.com/news/a">
+    <link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/a">
+  </head>`);
+  assert.equal(meta.title, "Safe & Sound");
+  assert.equal(meta.description, "A useful description.");
+  assert.equal(meta.noindex, true);
+  assert.equal(meta.indexFollow, false);
+  assert.equal(meta.canonicalPath, "/news/a");
+  assert.deepEqual(meta.alternates.map((alternate) => alternate.hreflang), ["en", "x-default"]);
+});
+
+test("built sitemap tree reports missing child sitemap files as hard audit input failures", async () => {
+  const root = await tempRoot();
+  try {
+    await mkdir(path.join(root, "dist", "client"), { recursive: true });
+    await writeFile(path.join(root, "dist", "client", "sitemap.xml"), `<sitemapindex><sitemap><loc>https://nexualpha.com/sitemap-pages.xml</loc></sitemap></sitemapindex>`);
+    const tree = readBuiltSitemapTree(path.join(root, "dist", "client", "sitemap.xml"));
+    assert.deepEqual(tree.urls, []);
+    assert.equal(tree.missingSitemaps.length, 1);
+    assert.equal(path.basename(tree.missingSitemaps[0]), "sitemap-pages.xml");
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("audit fails closed when the built site is absent", async () => {
+  const root = await tempRoot();
+  try {
+    const report = await runSeoIndexAudit({
+      root,
+      baseUrl: "https://nexualpha.com",
+      sitemap: path.join(root, "dist", "client", "sitemap.xml"),
+      concurrency: 1,
+      sampleLimit: 5,
+    });
+    assert.equal(report.ok, false);
+    assert.equal(report.failures[0].kind, "missing-built-site");
+    assert.equal(report.stats.failures, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("index consistency validator catches adversarial SEO graph violations", () => {
+  const page = (path, overrides = {}) => ({
+    path,
+    canonicalPath: path,
+    canonicalHref: `https://nexualpha.com${path}`,
+    responseStatus: 200,
+    responseUrl: `https://nexualpha.com${path}`,
+    noindex: false,
+    indexFollow: true,
+    robots: "index,follow",
+    alternates: [],
+    title: `Title ${path}`,
+    description: `Description ${path}`,
+    lang: "en",
+    ...overrides,
+  });
+  const pages = [
+    page("/a", {
+      title: "Duplicate",
+      description: "Duplicate description",
+      alternates: [
+        { hreflang: "en", href: "https://nexualpha.com/a", path: "/a" },
+        { hreflang: "es", href: "https://nexualpha.com/es/a", path: "/es/a" },
+        { hreflang: "de", href: "https://nexualpha.com/de/a", path: "/de/a" },
+        { hreflang: "x-default", href: "https://nexualpha.com/a", path: "/a" },
+      ],
+    }),
+    page("/es/a", {
+      lang: "es",
+      alternates: [
+        { hreflang: "en", href: "https://nexualpha.com/a", path: "/a" },
+        { hreflang: "es", href: "https://nexualpha.com/es/a", path: "/es/a" },
+        { hreflang: "fr", href: "https://nexualpha.com/fr/a", path: "/fr/a" },
+        { hreflang: "x-default", href: "https://nexualpha.com/a", path: "/a" },
+      ],
+    }),
+    page("/fr/a", { lang: "fr" }),
+    page("/blocked", { title: "Duplicate", description: "Duplicate description" }),
+    page("/query", { canonicalHref: "https://nexualpha.com/query", responseUrl: "https://nexualpha.com/query?ref=1" }),
+    page("/redirect", { responseUrl: "https://nexualpha.com/redirected" }),
+    page("/header-noindex", { noindex: true, indexFollow: false, robots: "googlebot: noindex" }),
+    page("/noindex", { noindex: true, indexFollow: false, robots: "noindex,follow", alternates: [{ hreflang: "en", href: "https://nexualpha.com/noindex", path: "/noindex" }] }),
+    page("/chain-a", { canonicalPath: "/chain-b", canonicalHref: "https://nexualpha.com/chain-b" }),
+    page("/chain-b", { canonicalPath: "/chain-c", canonicalHref: "https://nexualpha.com/chain-c" }),
+  ];
+  const sitemap = {
+    urls: [
+      { path: "/a", loc: "https://nexualpha.com/a", lastmod: "2026-10-12", alternates: [{ hreflang: "en", href: "https://nexualpha.com/a" }] },
+      { path: "/blocked", loc: "https://nexualpha.com/blocked", lastmod: "2026-10-12" },
+      { path: "/query", loc: "https://nexualpha.com/query?ref=1", lastmod: "2026-10-12" },
+      { path: "/redirect", loc: "https://nexualpha.com/redirect", lastmod: "2026-10-12" },
+      { path: "/noindex", loc: "https://nexualpha.com/noindex", lastmod: "2026-10-12" },
+    ],
+    missingSitemaps: [],
+  };
+  const report = validateIndexConsistency({
+    pages,
+    sitemap,
+    robotsContent: "User-agent: Googlebot\nUser-agent: Googlebot-News\nDisallow: /blocked$\n\nUser-agent: *\nDisallow: /\nAllow: /allowed",
+    baseUrl: "https://nexualpha.com",
+  });
+  for (const kind of [
+    "hreflang-not-reciprocal",
+    "hreflang-cluster-incomplete",
+    "hreflang-target-not-rendered",
+    "sitemap-head-hreflang-mismatch",
+    "robots-blocks-indexable",
+    "robots-blocks-indexable-corpus",
+    "canonical-not-self",
+    "sitemap-url-redirected",
+    "sitemap-url-not-index-follow",
+    "noindex-in-sitemap",
+    "noindex-has-hreflang",
+    "canonical-chain",
+    "duplicate-title",
+    "duplicate-description",
+  ]) {
+    assert.ok(report.failuresByKind[kind] > 0, kind);
+  }
+});
+
+
+test("built public sitemap, canonical, hreflang, robots and metadata stay index-consistent", { timeout: 600_000 }, async () => {
+  assert.equal(existsSync(path.join(projectRoot, "dist", "client", "sitemap.xml")), true, "build output missing: run npm run build before the built SEO index audit");
+  const report = await runSeoIndexAudit({
+    root: projectRoot,
+    baseUrl: "https://nexualpha.com",
+    concurrency: Number(process.env.SEO_INDEX_AUDIT_CONCURRENCY || 8),
+    sampleLimit: 5,
+  });
+  if (process.env.SEO_INDEX_AUDIT_REPORT) {
+    await writeFile(process.env.SEO_INDEX_AUDIT_REPORT, `${JSON.stringify(report, null, 2)}\n`);
+  }
+  assert.equal(report.ok, true, JSON.stringify({ stats: report.stats, failuresByKind: report.failuresByKind, samples: report.samples }, null, 2));
+});
+
+test("request keys preserve query strings, slashes, and encoding", () => {
+  assert.equal(auditUrlKey("https://nexualpha.com/a%20b/?page=2&amp;x=3"), "/a%20b/?page=2&x=3");
+  assert.equal(auditUrlKey(""), null);
+  assert.equal(auditUrlKey("https://evil.example/a"), null);
+  assert.equal(auditUrlKey("/a#fragment"), null);
+});
+
+test("Google robot header restrictions respect scopes and restrictive directives", () => {
+  assert.deepEqual(headerRobotsFlags("googlebot: noindex, nofollow"), { noindex: true, nofollow: true });
+  assert.deepEqual(headerRobotsFlags("bingbot: noindex, nofollow"), { noindex: false, nofollow: false });
+  assert.deepEqual(headerRobotsFlags("nofollow, googlebot: noindex"), { noindex: true, nofollow: true });
+  assert.deepEqual(headerRobotsFlags("none"), { noindex: true, nofollow: true });
+  const meta = parseHeadMetadata('<head><meta name="robots" content="index,follow"><meta name="googlebot" content="nofollow"></head>');
+  assert.equal(meta.indexFollow, false);
+  assert.equal(meta.canonicalPath, null);
+});
+
+test("malformed sitemap content fails closed", () => {
+  assert.throws(() => parseSitemapXml("<html>upstream error</html>"), /Invalid sitemap XML/);
+  assert.throws(() => parseSitemapXml("<urlset><url>"), /Invalid sitemap XML/);
+});
+
+test("content dates reject a build timestamp and accept omitted optional lastmod", () => {
+  const page = { path: '/a', canonicalPath: '/a', canonicalHref: 'https://nexualpha.com/a', responseUrl: 'https://nexualpha.com/a', responseStatus: 200, lang: 'en', noindex: false, indexFollow: true, title: 'A', description: 'A description', alternates: [{ hreflang: 'en', href: 'https://nexualpha.com/a', path: '/a' }, { hreflang: 'x-default', href: 'https://nexualpha.com/a', path: '/a' }] };
+  const entry = { path: '/a', loc: page.canonicalHref, lastmod: '2026-10-13' };
+  const options = { pages: [page], sitemap: { urls: [entry] }, expectedLastmod: () => '2026-09-20' };
+  assert.equal(validateIndexConsistency(options).failuresByKind['content-lastmod-mismatch'], 1);
+  assert.equal(validateIndexConsistency({ ...options, sitemap: { urls: [{ ...entry, lastmod: null }] } }).ok, true);
+});
+
+test("translated slugs form one complete reciprocal cluster", () => {
+  const alternates = [{ hreflang: 'en', href: 'https://nexualpha.com/topics/english', path: '/topics/english' }, { hreflang: 'pt-BR', href: 'https://nexualpha.com/pt-br/topics/portuguese', path: '/pt-br/topics/portuguese' }, { hreflang: 'x-default', href: 'https://nexualpha.com/topics/english', path: '/topics/english' }];
+  const pages = alternates.filter((row) => row.hreflang !== 'x-default').map((row) => ({ path: row.path, canonicalPath: row.path, canonicalHref: row.href, responseStatus: 200, lang: row.hreflang, indexFollow: true, noindex: false, title: row.hreflang, description: row.hreflang, alternates }));
+  assert.equal(validateIndexConsistency({ pages }).ok, true);
+});
+
+test("unchanged sitemap content keeps its dates across build clocks", () => {
+  const RealDate = globalThis.Date;
+  const inventory = [{ pathname: "/exchanges/okx", template: "venue", index: true, locales: ["en"] }];
+  const renderAt = (stamp) => {
+    const instant = RealDate.parse(stamp);
+    globalThis.Date = class extends RealDate {
+      constructor(...args) { super(...(args.length ? args : [instant])); }
+      static now() { return instant; }
+    };
+    try { return buildSitemap(inventory, []); } finally { globalThis.Date = RealDate; }
+  };
+  const earlier = renderAt("2026-10-13T00:00:00Z");
+  const later = renderAt("2028-11-20T00:00:00Z");
+  assert.equal(earlier, later);
+  assert.match(earlier, /<lastmod>2026-09-15<\/lastmod>/);
+});

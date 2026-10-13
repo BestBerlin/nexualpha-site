@@ -319,19 +319,21 @@ async function pool(items, limit, worker) {
   return results;
 }
 
-export async function renderSitemapPagesWithWorker({ paths, root = projectRoot, baseUrl = defaultSiteOrigin, concurrency = 8 } = {}) {
+export async function createBuiltWorkerHarness({ root = projectRoot } = {}) {
   const distRoot = path.join(root, "dist");
   const clientRoot = path.join(distRoot, "client");
   const workerPath = path.join(distRoot, "server", "index.js");
   if (!existsSync(workerPath) || !existsSync(clientRoot)) {
-    return { pages: [], errors: paths.map((pathname) => ({ path: pathname, status: 0, error: "built-worker-unavailable" })) };
+    return null;
   }
 
   const { default: worker } = await import(pathToFileURL(workerPath));
   const renderNews = createNewsSsrRenderer(distRoot);
   const fundingMatrix = createFundingMatrixReader({ enabled: false });
-  const marketEvents = marketEventsReaderFromEnv({});
-  const liquidationLevels = createLiquidationLevelsFeed({ log: () => {} });
+  const marketEvents = marketEventsReaderFromEnv({}, {
+    fetchImpl: async () => new Response("{}", { status: 503, headers: { "content-type": "application/json" } }),
+  });
+  const liquidationLevels = createLiquidationLevelsFeed({ fetchImpl: async () => new Response("{}", { status: 503 }), sources: {}, log: () => {} });
   const fx = createFxFeed({ enabled: false, log: () => {} });
   const assets = {
     async fetch(request) {
@@ -345,42 +347,74 @@ export async function renderSitemapPagesWithWorker({ paths, root = projectRoot, 
     },
   };
 
+  return {
+    clientRoot,
+    close() {
+      fx.stop?.();
+      liquidationLevels.stop?.();
+      fundingMatrix.stop?.();
+      marketEvents.stop?.();
+    },
+    async fetch(request) {
+      const url = new URL(request.url);
+      if (url.pathname === FX_JSON_PATH) return fx.respond(request.method);
+      if (url.pathname === LIQUIDATION_LEVELS_PATH) return liquidationLevels.respond(request.method);
+      return worker.fetch(request, {
+        ASSETS: assets,
+        NEWS_SSR_RENDER: renderNews,
+        FUNDING_MATRIX_READ: fundingMatrix.read,
+        MARKET_EVENTS_READ: marketEvents.read,
+        LIQUIDATION_LEVELS_READ: liquidationLevels.read,
+        FX_SNAPSHOT_READ: fx.read,
+      });
+    },
+  };
+}
+
+export async function renderSitemapPagesWithWorker({ paths, root = projectRoot, baseUrl = defaultSiteOrigin, concurrency = 8, inspectPage = null, includeLinks = true } = {}) {
+  const harness = await createBuiltWorkerHarness({ root });
+  if (!harness) {
+    return { pages: [], errors: paths.map((pathname) => ({ path: pathname, status: 0, error: "built-worker-unavailable" })) };
+  }
+
   const pages = [];
   const errors = [];
-  await pool(paths, concurrency, async (pathname) => {
-    try {
-      const request = new Request(new URL(pathname, baseUrl), { headers: { accept: "text/html", "user-agent": "NexuAlpha-Internal-Inlink-Audit" } });
-      const url = new URL(request.url);
-      const response = url.pathname === FX_JSON_PATH
-        ? await fx.respond("GET")
-        : url.pathname === LIQUIDATION_LEVELS_PATH
-          ? await liquidationLevels.respond("GET")
-          : await worker.fetch(request, {
-            ASSETS: assets,
-            NEWS_SSR_RENDER: renderNews,
-            FUNDING_MATRIX_READ: fundingMatrix.read,
-            MARKET_EVENTS_READ: marketEvents.read,
-            LIQUIDATION_LEVELS_READ: liquidationLevels.read,
-            FX_SNAPSHOT_READ: fx.read,
-          });
-      const contentType = response.headers.get("content-type") || "";
-      if (response.status !== 200 || !/text\/html/i.test(contentType)) {
-        errors.push({ path: pathname, status: response.status, contentType });
-        return;
+  try {
+    await pool(paths, concurrency, async (pathname) => {
+      try {
+        const request = new Request(new URL(pathname, baseUrl), { headers: { accept: "text/html", "user-agent": "NexuAlpha-Internal-Inlink-Audit" } });
+        const response = await harness.fetch(request);
+        const contentType = response.headers.get("content-type") || "";
+        if (response.status !== 200 || !/text\/html/i.test(contentType)) {
+          errors.push({ path: pathname, status: response.status, contentType });
+          return;
+        }
+        const html = await response.text();
+        const inspected = typeof inspectPage === "function"
+          ? await inspectPage({
+              path: pathname,
+              html,
+              status: response.status,
+              headers: response.headers,
+              url: response.url || request.url,
+            })
+          : null;
+        pages.push({
+          canonicalPath: normalizeCanonicalPath(pathname, { baseUrl }),
+          file: `worker:${pathname}`,
+          noindex: hasNoindex(html),
+          routeType: routeType(pathname),
+          links: includeLinks ? extractPlainInternalAnchors(html, { baseUrl }) : [],
+          ...(inspected && typeof inspected === "object" ? inspected : {}),
+        });
+      } catch (error) {
+        errors.push({ path: pathname, status: 0, error: String(error?.message || error) });
       }
-      const html = await response.text();
-      pages.push({
-        canonicalPath: normalizeCanonicalPath(pathname, { baseUrl }),
-        file: `worker:${pathname}`,
-        noindex: hasNoindex(html),
-        routeType: routeType(pathname),
-        links: extractPlainInternalAnchors(html, { baseUrl }),
-      });
-    } catch (error) {
-      errors.push({ path: pathname, status: 0, error: String(error?.message || error) });
-    }
-  });
-  return { pages: pages.sort((a, b) => a.canonicalPath.localeCompare(b.canonicalPath)), errors: errors.sort((a, b) => a.path.localeCompare(b.path)) };
+    });
+  } finally {
+    harness.close?.();
+  }
+  return { pages: pages.sort((a, b) => (a.path || a.canonicalPath || "").localeCompare(b.path || b.canonicalPath || "")), errors: errors.sort((a, b) => a.path.localeCompare(b.path)) };
 }
 
 export function defaultHtmlRoot(root = projectRoot) {

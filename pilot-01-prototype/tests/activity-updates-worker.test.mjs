@@ -98,6 +98,7 @@ const fetchPage = (pathname, env) => worker.fetch(new Request(`https://nexualpha
 const prerenderState = (html) => JSON.parse(html.match(/<script type="application\/json" id="nexualpha-prerender-state">([\s\S]*?)<\/script>/)?.[1] || "null");
 const schemaPayload = (html) => JSON.parse(html.match(/<script id="nexualpha-route-schema" type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] || "null");
 const robots = (html) => html.match(/<meta name="robots" content="([^"]+)"/)?.[1] || "";
+const metaDescription = (html) => html.match(/<meta name="description" content="([^"]+)"/)?.[1] || "";
 const routePath = (item) => updatePath(item);
 
 test("activity update pages SSR from INTEL_READ with all validated feed categories in the hydration payload", async () => {
@@ -182,8 +183,11 @@ test("activity update route SEO and hydration state use campaign briefs from ASS
   });
   const html = await response.text();
   assert.equal(response.status, 200);
-  assert.match(html, /<title[^>]*>Bybit Kampanya: İncelenmiş Bybit kampanyası/);
+  assert.match(html, /<title[^>]*>Bybit \d{2}-\d{2} \d{2}:\d{2} SGT: İncelenmiş Bybit kampanyası/);
   assert.match(html, /Reviewed summary for account eligibility/);
+  const description = metaDescription(html);
+  assert.match(description, /^Bybit: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} SGT · İncelenmiş Bybit kampanyası/);
+  assert.doesNotMatch(description, /official activity page|published/);
   const state = prerenderState(html);
   assert.equal(state.officialAnnouncements.items.find((row) => row.id === event.id).brief.headline.tr, "İncelenmiş Bybit kampanyası");
   assert.equal(state.officialAnnouncements.campaignBriefs[0].id, event.id);
@@ -196,8 +200,8 @@ test("localized activity update routes keep internal canonical, hreflang, and tr
   const response = await fetchPage(`/zh-hans${path}`, env);
   const html = await response.text();
   assert.equal(response.status, 200);
-  // SEO title budget (PR seo-crawl-fixes) may truncate the brand suffix; the translated headline must lead the title.
-  assert.match(html, /<title[^>]*>Binance 上币: 币安将上线 TESTCOIN/);
+  // The compact title retains the SGT announcement time and leads with the token; the visible headline stays localized.
+  assert.match(html, /<title[^>]*>Binance \d{2}-\d{2} \d{2}:\d{2} SGT: TESTCO/);
   assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com/zh-hans${path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   assert.match(html, /hreflang="zh-Hans"/);
 });

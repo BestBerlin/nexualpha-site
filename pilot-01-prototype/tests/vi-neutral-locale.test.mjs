@@ -23,6 +23,7 @@ import { bitgetAllianceSignupGate, BITGET_ALLIANCE_CODE } from "../src/data/bitg
 import { krakenUsdgSignupGate } from "../src/data/kraken-usdg.js";
 import { bybitStocksSignupGate } from "../src/data/bybit-stocks.js";
 import { binanceOctoberSignupGate } from "../src/data/binance-october.js";
+import { routeMetadata, renderArticleSitemap, renderLiveNewsSitemap } from "../worker/index.js";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const repo = path.resolve(root, "..");
@@ -123,6 +124,50 @@ test("an article whose whole topic is a referral code has no neutral-locale edit
   const fees = editions("binance-vs-bybit-fees-2026-spot-futures-after-rebate", "Binance vs Bybit Fees in 2026");
   assert.equal(isReferralTopicArticle(fees), false);
   assert.ok(newsArticleAvailableLocales(fees).includes("vi"));
+});
+
+test("Worker metadata and article sitemaps exclude neutral referral-topic editions from clusters", async () => {
+  const article = {
+    slug: "hyperliquid-referral-code-2026-where-to-enter-4-percent-discount",
+    status: "PUBLISHED",
+    publishedAt: "2026-10-13T00:00:00Z",
+    updatedAt: "2026-10-13T01:00:00Z",
+    seo: { noindex: false },
+    sources: [{ url: "https://app.hyperliquid.xyz", title: "Hyperliquid", publisher: "Hyperliquid" }],
+    availableLocales: ["en", "vi", "id"],
+    title: { en: "Hyperliquid Referral Code 2026", vi: "Mã giới thiệu Hyperliquid 2026", id: "Kode Referral Hyperliquid 2026" },
+    summary: { en: "Where to enter the code.", vi: "Nơi nhập mã.", id: "Tempat memasukkan kode." },
+    content: { en: "Use the official app.", vi: "Dùng ứng dụng chính thức.", id: "Gunakan aplikasi resmi." },
+  };
+  const feedBody = JSON.stringify({ articles: [article] });
+  const env = { ASSETS: { fetch: async (request) => {
+    const pathname = new URL(request.url).pathname;
+    return pathname === "/content/news-feed.json"
+      ? new Response(feedBody, { headers: { "content-type": "application/json" } })
+      : new Response("missing", { status: 404 });
+  } } };
+
+  const viMetadata = await routeMetadata(new URL(`https://nexualpha.com/vi/news/${article.slug}`), env);
+  assert.equal(viMetadata.robots, "noindex,follow");
+  assert.equal(viMetadata.canonical, `https://nexualpha.com/news/${article.slug}`);
+  assert.deepEqual(viMetadata.alternates, []);
+
+  const idMetadata = await routeMetadata(new URL(`https://nexualpha.com${localizedPath(`/news/${article.slug}`, "id")}`), env);
+  assert.equal(idMetadata.robots, "index,follow");
+  assert.deepEqual(idMetadata.alternates.map((alt) => alt.hreflang), ["en", "id", "x-default"]);
+
+  const viArticleSitemap = renderArticleSitemap([article], "vi");
+  assert.doesNotMatch(viArticleSitemap, /\/vi\/news\/hyperliquid-referral-code-2026-where-to-enter-4-percent-discount/);
+  assert.doesNotMatch(viArticleSitemap, /hreflang="vi"/);
+
+  for (const xml of [
+    renderArticleSitemap([article], "id"),
+    renderLiveNewsSitemap([article], Date.parse("2026-10-13T02:00:00Z")),
+  ]) {
+    assert.doesNotMatch(xml, /\/vi\/news\/hyperliquid-referral-code-2026-where-to-enter-4-percent-discount/);
+    assert.doesNotMatch(xml, /hreflang="vi"/);
+    assert.match(xml, /\/id-id\/news\/hyperliquid-referral-code-2026-where-to-enter-4-percent-discount/);
+  }
 });
 
 test("funding matrix payload for neutral pages carries no /go/ trade routes", () => {
