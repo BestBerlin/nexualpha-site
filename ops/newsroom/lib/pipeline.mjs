@@ -2,6 +2,8 @@
 // `dedupe` assigns unassigned raw_items to events; `score` appends event_scores rows.
 // `status` and `exportTop` are read-only JSON views for operators and the Mac-side writer.
 // Every function takes `execute(sql) -> stdout` (runPsql in production, a fake in tests).
+import { relevanceForItem } from './relevance.mjs';
+import { verifyEvent } from './verification.mjs';
 import { mergeRawItems } from './dedupe.mjs';
 import { configFromNewsroomRows, credibilityScore, scoreEvent } from './scoring.mjs';
 
@@ -15,24 +17,26 @@ const EVIDENCE_KINDS = new Set(['official_notice', 'original_statement', 'filing
 
 const ITEM_COLUMNS = `r.id, r.source_id, r.external_id, r.url, r.canonical_url, r.origin_item_id, r.author, r.author_account,
   r.title, r.body_excerpt, r.lang, r.published_at, r.fetched_at, r.metrics, r.metrics_at, r.entities, r.event_type_guess,
-  r.simhash::text AS simhash, r.content_hash, s.platform, s.tier`;
+  r.simhash::text AS simhash, r.content_hash, s.platform, s.tier, s.verified_official`;
 
 export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {}) {
   const watchlist = parse(execute(rows(`SELECT id, kind, display_name, aliases, partner_slug, priority, status FROM watchlist_entities WHERE status='active'`)));
+  const keywords = parse(execute(rows(`SELECT term, lang, event_type, entity_id, weight, status FROM keywords WHERE status='active'`)));
   const items = parse(execute(rows(`SELECT ${ITEM_COLUMNS} FROM raw_items r JOIN sources s ON s.id=r.source_id
-    WHERE r.event_id IS NULL AND r.fetched_at > now() - interval '${Number(windowHours)} hours'
-    ORDER BY coalesce(r.published_at, r.fetched_at), r.id LIMIT ${Number(limit)}`)));
+    WHERE r.event_id IS NULL AND r.state='pending'
+    ORDER BY r.id LIMIT ${Number(limit)}`)));
+  if (!items.length) return { watchlist, keywords, items, existingEvents: [] };
   const existingEvents = parse(execute(rows(`SELECT e.id, e.subject_entity, e.subjects, e.event_type, e.title_internal, e.occurred_at,
-      e.source_published_at, e.original_links,
+      e.source_published_at, e.original_links, e.discussion,
       coalesce((SELECT jsonb_agg(jsonb_build_object('raw_item_id', v.raw_item_id, 'url', v.url, 'kind', v.kind, 'origin_key', v.origin_key,
         'is_independent', v.is_independent, 'published_at', v.published_at, 'source_platform', s.platform, 'source_tier', s.tier,
-        'metrics', r.metrics) ORDER BY v.id)
+        'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id
         WHERE v.event_id=e.id), '[]'::jsonb) AS evidence,
       coalesce((SELECT jsonb_agg(jsonb_build_object('id', r.id, 'content_hash', r.content_hash, 'simhash', r.simhash::text,
-        'published_at', r.published_at, 'fetched_at', r.fetched_at)) FROM raw_items r WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
+        'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'url', r.url, 'canonical_url', r.canonical_url)) FROM raw_items r WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
     FROM events e WHERE e.state NOT IN ('rejected','expired') AND e.last_update_at > now() - interval '${Number(windowHours)} hours'`)));
-  return { watchlist, items, existingEvents };
+  return { watchlist, keywords, items, existingEvents };
 }
 
 function evidenceValues(row) {
@@ -40,23 +44,21 @@ function evidenceValues(row) {
   return `(${row.raw_item_id == null ? 'NULL' : Number(row.raw_item_id)}, ${lit(row.url || '')}, ${lit(kind)}, ${row.is_independent === false ? 'false' : 'true'}, ${lit(row.origin_key)}, ${lit(row.excerpt)}, ${lit(row.author_account)}, ${ts(row.published_at)})`;
 }
 
-// Builds one transaction. New events are only created for items that name a watchlist entity or carry an
-// event-type guess; anything else stays unassigned and ages out of the 48 h window.
-export function buildDedupeSql({ events }, batchItemIds) {
+// Builds one transaction. The pure relevance gate supplies irrelevantItems; those rows are marked
+// terminally irrelevant so the incremental queue does not reread them forever.
+export function buildDedupeSql({ events, irrelevantItems = [] }, batchItemIds) {
   const batch = new Set(batchItemIds.map(Number));
   const statements = [];
+  const assignedIds = new Set();
   const stats = { created: 0, updated: 0, assigned: 0, skipped_items: 0 };
   for (const event of events) {
     const newItems = (event.raw_items ?? []).filter(item => batch.has(Number(item.id)));
     if (!newItems.length) continue;
     const newIds = newItems.map(item => Number(item.id));
+    for (const id of newIds) assignedIds.add(id);
     const newEvidence = event.evidence.filter(row => row.raw_item_id != null && batch.has(Number(row.raw_item_id)));
     const credibility = credibilityScore(event);
     const isExisting = /^\d+$/.test(String(event.id));
-    if (!isExisting && !event.subject_entity && !(event.subjects ?? []).length && (!event.event_type || event.event_type === 'unknown')) {
-      stats.skipped_items += newIds.length;
-      continue;
-    }
     const evidenceInsert = newEvidence.length
       ? `INSERT INTO event_evidence(event_id, raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at) SELECT target.id, v.raw_item_id::bigint, v.url, v.kind, v.is_independent, v.origin_key, v.excerpt, v.author_account, v.published_at::timestamptz FROM target, (VALUES ${newEvidence.map(evidenceValues).join(', ')}) AS v(raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at)`
       : null;
@@ -68,9 +70,14 @@ export function buildDedupeSql({ events }, batchItemIds) {
           VALUES (${lit(event.subject_entity)}, ${textArray(event.subjects)}, ${lit(event.event_type || 'unknown')}, ${lit(String(event.title_internal || 'Untitled newsroom event').slice(0, 600))},
           ${ts(event.occurred_at)}, ${ts(event.source_published_at)}, ${textArray(event.original_links)}, ${jsonb(event.discussion)}, ${credibility}) RETURNING id`;
     statements.push(`WITH target AS (${target})${evidenceInsert ? `, ev AS (${evidenceInsert} RETURNING 1)` : ''}
-      UPDATE raw_items SET event_id=(SELECT id FROM target) WHERE id IN (${newIds.join(',')}) AND event_id IS NULL;`);
+      UPDATE raw_items SET event_id=(SELECT id FROM target), state='processed' WHERE id IN (${newIds.join(',')}) AND event_id IS NULL;`);
     stats[isExisting ? 'updated' : 'created'] += 1;
     stats.assigned += newIds.length;
+  }
+  const irrelevantIds = [...new Set([...irrelevantItems.map(item => Number(item.id)), ...batchItemIds.filter(id => !assignedIds.has(Number(id)))])];
+  if (irrelevantIds.length) {
+    statements.push(`UPDATE raw_items SET state='irrelevant' WHERE event_id IS NULL AND id IN (${irrelevantIds.join(',')});`);
+    stats.skipped_items += irrelevantIds.length;
   }
   const sql = statements.length ? `BEGIN;\nSELECT pg_advisory_xact_lock(20261012,2);\n${statements.join('\n')}\nCOMMIT;` : null;
   return { sql, stats };
@@ -78,9 +85,9 @@ export function buildDedupeSql({ events }, batchItemIds) {
 
 export function runDedupe(execute, options = {}) {
   const config = Object.fromEntries(parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key='dedupe'`))).map(row => [row.key, row.value]));
-  const { watchlist, items, existingEvents } = loadDedupeInputs(execute, options);
+  const { watchlist, keywords, items, existingEvents } = loadDedupeInputs(execute, options);
   if (!items.length) return { items: 0, created: 0, updated: 0, assigned: 0, skipped_items: 0 };
-  const result = mergeRawItems(items, { watchlist, existingEvents, config: config.dedupe ?? {} });
+  const result = mergeRawItems(items, { watchlist, keywords, existingEvents, config: config.dedupe ?? {} });
   const { sql, stats } = buildDedupeSql(result, items.map(item => item.id));
   if (sql) execute(sql);
   return { items: items.length, ...stats };
@@ -90,7 +97,7 @@ export function loadScoreInputs(execute, { limit = 500, rescoreMinutes = 30 } = 
   const configRows = parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key IN ('weights','thresholds','scoring_thresholds')`)));
   const entities = parse(execute(rows(`SELECT id, priority FROM watchlist_entities`)));
   const events = parse(execute(rows(`SELECT e.*, coalesce((SELECT jsonb_agg(jsonb_build_object('kind', v.kind, 'origin_key', v.origin_key, 'is_independent', v.is_independent,
-        'source_platform', s.platform, 'source_tier', s.tier, 'metrics', r.metrics) ORDER BY v.id)
+        'source_platform', s.platform, 'source_tier', s.tier, 'verified_official', s.verified_official, 'url', v.url, 'title', r.title, 'excerpt', v.excerpt, 'published_at', v.published_at, 'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id WHERE v.event_id=e.id), '[]'::jsonb) AS evidence
     FROM events e
     LEFT JOIN LATERAL (SELECT max(scored_at) AS last_scored FROM event_scores WHERE event_id=e.id) ls ON true
@@ -142,11 +149,22 @@ export function statusQuery() {
 );`;
 }
 
+// Shared by the read-only export and atomic writer claim.
+export function publishEligibilitySql() {
+  return `e.state IN ('new','candidate') AND e.verification_status IN ('verified-primary','corroborated')
+    AND e.verified_at >= e.last_update_at
+    AND s.scored_at >= e.last_update_at
+    AND s.editorial_score >= coalesce(
+      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='scoring_thresholds'),
+      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='thresholds'),55)
+    AND NOT EXISTS (SELECT 1 FROM review_queue q WHERE q.event_id=e.id AND q.resolved_at IS NULL)`;
+}
+
 export function exportTopQuery(limit = 50) {
   const n = Number(limit);
   if (!Number.isInteger(n) || n < 1 || n > 500) throw new Error('Invalid limit');
   return `SELECT jsonb_build_object('schema', 'newsroom.top-events.v1', 'generated_at', now(), 'limit', ${n},
-  'note', 'Unclaimed new/candidate events ranked like events:top. Ranking is not verification: check verification_status, credibility and evidence before writing.',
+  'note', 'Verified, score-eligible event leads. Article claim/package gates still required before publication.',
   'events', coalesce(jsonb_agg(x.doc ORDER BY x.rank), '[]'::jsonb))
 FROM (
   SELECT row_number() OVER (ORDER BY (s.priority_override='official_major') DESC NULLS LAST, s.editorial_score DESC, e.source_published_at DESC NULLS LAST, e.id) AS rank,
@@ -161,7 +179,30 @@ FROM (
           'source_id', r.source_id, 'source_tier', so.tier, 'source_status', so.status) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources so ON so.id=r.source_id WHERE v.event_id=e.id), '[]'::jsonb)) AS doc
   FROM events e JOIN LATERAL (SELECT * FROM event_scores WHERE event_id=e.id ORDER BY scored_at DESC LIMIT 1) s ON true
-  WHERE e.state IN ('new','candidate')
+  WHERE ${publishEligibilitySql()}
   ORDER BY rank LIMIT ${n}
 ) x;`;
+}
+
+export function runVerify(execute) {
+  const events = parse(execute(rows(`SELECT e.*, coalesce((SELECT jsonb_agg(jsonb_build_object(
+      'url', v.url, 'kind', v.kind, 'origin_key', v.origin_key, 'is_independent', v.is_independent,
+      'excerpt', v.excerpt, 'title', r.title, 'published_at', v.published_at, 'metrics', r.metrics, 'source_id', r.source_id, 'source_platform', s.platform,
+      'source_tier', s.tier, 'verified_official', s.verified_official))
+      FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id
+      WHERE v.event_id=e.id), '[]'::jsonb) AS evidence
+    FROM events e WHERE e.state IN ('new','candidate') AND (e.verified_at IS NULL OR e.verified_at < e.last_update_at)`)));
+  if (!events.length) return { verified: 0 };
+  const watchlist = parse(execute(rows(`SELECT id, kind, display_name, aliases, status FROM watchlist_entities WHERE status='active'`)));
+  const keywords = parse(execute(rows(`SELECT term, lang, entity_id, status FROM keywords WHERE status='active'`)));
+  const statements = events.map(event => {
+    const relevant = relevanceForItem({ ...event, title: event.title_internal, body_excerpt: [event.fact_summary, ...event.evidence.map(row => row.excerpt)].filter(Boolean).join(' '), entities: event.subjects }, { watchlist, keywords }).relevant;
+    const status = relevant ? verifyEvent(event, { watchlist }) : 'unverified';
+    const update = `UPDATE events SET verification_status=${lit(status)}, verified_at=now() WHERE id=${Number(event.id)} AND last_update_at=${ts(event.last_update_at)} RETURNING id`;
+    return status === 'needs-review'
+      ? `WITH target AS (${update}) INSERT INTO review_queue(event_id,reason,rule_ids) SELECT id, 'Event evidence needs review', ARRAY['EVENT_VERIFICATION'] FROM target WHERE NOT EXISTS (SELECT 1 FROM review_queue WHERE event_id=target.id AND resolved_at IS NULL AND rule_ids @> ARRAY['EVENT_VERIFICATION']);`
+      : `${update};`;
+  });
+  execute(`BEGIN; SELECT pg_advisory_xact_lock(20261012,4); ${statements.join('\n')} COMMIT;`);
+  return { verified: events.length };
 }

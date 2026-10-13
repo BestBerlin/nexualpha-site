@@ -61,15 +61,15 @@ function PopularCoins({ locale }) {
 // Daily market data (2026-10-13): links to the data pages people come back to every day. Same pill look as Popular
 // coins; below the fold, so the entry stays inside its budget.
 const DATA_RAIL_COPY = {
-  en: { title: "Daily market data", lead: "This week's macro dates, token unlocks and exchange deadlines, plus liquidations and funding — each with its source." },
-  "zh-Hans": { title: "每日市场数据", lead: "本周宏观日程、代币解锁与交易所截止日期，以及爆仓与资金费率，每项都附来源。" },
-  es: { title: "Datos de mercado diarios", lead: "Fechas macro, desbloqueos y plazos de exchanges de la semana, más liquidaciones y funding, cada uno con su fuente." },
-  "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro, desbloqueios e prazos de corretoras da semana, além de liquidações e funding, cada um com a fonte." },
-  tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri, token kilit açılımları ve borsa son tarihleri, ayrıca tasfiyeler ve fonlama; hepsi kaynağıyla." },
-  vi: { title: "Dữ liệu thị trường hằng ngày", lead: "Lịch vĩ mô, mở khóa token và hạn chót của sàn trong tuần, cùng thanh lý và funding, kèm nguồn." },
-  id: { title: "Data pasar harian", lead: "Jadwal makro, unlock token, dan tenggat bursa minggu ini, plus likuidasi dan funding, masing-masing dengan sumbernya." },
-  ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標、トークンアンロック、取引所の締切日に加え、清算と資金調達率。すべて出典付き。" },
-  ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 토큰 언락, 거래소 마감일과 청산·펀딩비. 모두 출처 포함." },
+  en: { title: "Daily market data", lead: "This week's macro dates and exchange deadlines, plus liquidations and funding — each with its source." },
+  "zh-Hans": { title: "每日市场数据", lead: "本周宏观日程与交易所截止日期，以及爆仓与资金费率，每项都附来源。" },
+  es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de la semana, más liquidaciones y funding, cada uno con su fuente." },
+  "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras da semana, além de liquidações e funding, cada um com a fonte." },
+  tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri ve borsa son tarihleri, ayrıca tasfiyeler ve fonlama; hepsi kaynağıyla." },
+  vi: { title: "Dữ liệu thị trường hằng ngày", lead: "Lịch vĩ mô và hạn chót của sàn trong tuần, cùng thanh lý và funding, kèm nguồn." },
+  id: { title: "Data pasar harian", lead: "Jadwal makro dan tenggat bursa minggu ini, plus likuidasi dan funding, masing-masing dengan sumbernya." },
+  ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標と取引所の締切日に加え、清算と資金調達率。すべて出典付き。" },
+  ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 거래소 마감일과 청산·펀딩비. 모두 출처 포함." },
 };
 function DataRail({ locale }) {
   const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);

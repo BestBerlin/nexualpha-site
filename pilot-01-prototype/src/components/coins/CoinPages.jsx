@@ -10,9 +10,11 @@ import {
   coinSignup, fill, formatChange, formatCompactUsd, formatUsd, isCoinListed, joinList, mainPair, perpVenues, primarySignup, relatedCoins,
   spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale, applyCoinOverlay, coinOverlayFromSnapshot,
 } from "../../data/coins.js";
+import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./coins.css";
+import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 
 const RTL = new Set(["ar", "ur"]);
 const dirOf = (locale) => (RTL.has(locale) ? "rtl" : "ltr");
@@ -72,7 +74,7 @@ function tickerSources(coin) {
   }
   return sources.slice(0, 2);
 }
-function useLivePrice(coin) {
+export function useLivePrice(coin) {
   const [live, setLive] = useState(null);
   const slug = coin?.slug;
   useEffect(() => {
@@ -214,7 +216,7 @@ function CoinLink({ coin, locale, market }) {
 // before the first render so hydration matches). After a client-side navigation there is none: read the runtime
 // /intel/coins.json once and re-render if it is newer than the table in the bundle.
 let runtimeFetch = null;
-function useCoinData(overlay) {
+export function useCoinData(overlay) {
   applyCoinOverlay(overlay);
   const [version, setVersion] = useState(0);
   useEffect(() => {
@@ -250,6 +252,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
           <p className="nxc-overline"><CoinMark coin={coin} size={28} /><span translate="no">{coin.symbol}</span><span aria-hidden="true">·</span><span>{t.categories[coin.category] || t.categories.other}</span></p>
           <h1 className="nxc-title">{fill(t.h1, vars)}</h1>
           <p className="nxc-answer" data-coin-answer>{coinAnswer(coin, locale)}</p>
+          <p><a href={hrefFor(`/funding-rates/matrix#symbol-${encodeURIComponent(coin.symbol)}`, locale, market)}>{coin.symbol} · {(DATA_PAGE_NAV[locale] || DATA_PAGE_NAV.en).funding}</a></p>
           {listed ? <div className="nxc-listed">
             <span className="nxc-listed__label">{t.listedOn}</span>
             <ul>{coin.venues.map((venue) => <li key={venue.slug}><a href={`#venue-${venue.slug}`} title={venue.name}><BrandMark slug={venue.slug} compact /><span className="nxc-visually-hidden">{venue.name}</span></a></li>)}</ul>
@@ -261,6 +264,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
         </div>
         <PriceCard coin={coin} locale={locale} t={t} live={live} />
       </header>
+      <TelegramTriggerCta locale={locale} placement="coin-telegram-alerts" className="nxc-tgcta" />
 
       {listed ? <section className="nxc-sec" aria-labelledby="nxc-table-h" id="venues">
         <h2 id="nxc-table-h">{fill(t.tableTitle, vars)}</h2>

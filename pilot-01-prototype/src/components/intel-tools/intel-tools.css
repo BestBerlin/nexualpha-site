@@ -61,7 +61,6 @@
 .nxi-wev__time { display: block; font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .nxi-wev__label { display: block; }
 .nxi-wev--macro, .nxi-ev--macro .nxi-kind { border-color: #f59e0b; }
-.nxi-wev--unlock, .nxi-ev--unlock .nxi-kind { border-color: #a78bfa; }
 .nxi-wev--exchange, .nxi-ev--exchange .nxi-kind { border-color: #38bdf8; }
 .nxi-wev--campaign, .nxi-ev--campaign .nxi-kind { border-color: #22c88a; }
 

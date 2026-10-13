@@ -1,0 +1,70 @@
+.nxdm { color: var(--ink); padding-bottom: clamp(2rem, 5vw, 4rem); }
+.nxdm .v2-shell { width: min(var(--content), 100% - 2 * var(--page-pad)); margin-inline: auto; }
+.nxdm-hero { padding-top: clamp(1.25rem, 3vw, 2.25rem); }
+.nxdm-section { margin-top: 1.5rem; }
+.nxdm-section__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem; }
+.nxdm-section__head p { color: var(--muted); max-width: 70ch; }
+.nxdm-sort { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; padding: 0.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-1); }
+.nxdm-sort__button { min-height: 2rem; border: 0; border-radius: 8px; padding: 0.4rem 0.65rem; background: transparent; color: var(--muted); font: 600 0.8rem/1 var(--font-ui); cursor: pointer; }
+.nxdm-sort__button[aria-pressed="true"] { background: var(--surface-2); color: var(--ink); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+.nxdm-tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxdm-table { width: 100%; min-width: 960px; border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.nxdm-table th, .nxdm-table td { padding: 0.68rem 0.75rem; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; }
+.nxdm-table thead th { background: var(--surface-2); color: var(--muted); font-size: 0.72rem; font-weight: 650; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+.nxdm-table thead small { display: block; margin-top: 0.16rem; font-size: 0.66rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.nxdm-thbutton { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+.nxdm-thbutton[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 0.18em; }
+.nxdm-table tbody th { font-weight: 700; }
+.nxdm-table tbody tr:last-child th, .nxdm-table tbody tr:last-child td { border-bottom: 0; }
+.nxdm-table .num { text-align: right; white-space: nowrap; }
+.nxdm-spread { color: var(--positive); font-weight: 700; }
+.nxdm-venue { min-width: 11rem; }
+.nxdm-venue--edge { background: rgba(34, 200, 138, 0.08); box-shadow: inset 3px 0 0 rgba(34, 200, 138, 0.65); }
+.nxdm-rate { display: flex; flex-direction: column; gap: 0.12rem; text-decoration: none; }
+.nxdm-rate strong { color: var(--ink); }
+.nxdm-rate span, .nxdm-next, .nxdm-actions { color: var(--muted); font-size: 0.76rem; }
+.nxdm-actions { display: flex; flex-wrap: wrap; gap: 0.35rem 0.55rem; margin-top: 0.35rem; }
+.nxdm-actions a { font-weight: 600; text-decoration: none; }
+.nxdm-actions a:hover { text-decoration: underline; }
+.nxdm-empty { color: var(--muted); text-align: center; }
+.nxdm-calc { padding: 1rem 1.1rem 1.15rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxdm-calc__grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.75rem; }
+.nxdm-calc label { display: flex; flex-direction: column; gap: 0.35rem; color: var(--muted); font-size: 0.78rem; font-weight: 650; }
+.nxdm-calc select, .nxdm-calc input { width: 100%; min-height: 2.55rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--ink); padding: 0.45rem 0.55rem; font: 600 0.92rem/1.2 var(--font-ui); }
+.nxdm-calc label span { margin-top: -0.2rem; font-weight: 500; }
+.nxdm-result { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.7rem; margin-top: 1rem; }
+.nxdm-result div { min-width: 0; padding: 0.75rem; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); }
+.nxdm-result dt { color: var(--muted); font-size: 0.76rem; font-weight: 650; }
+.nxdm-result dd { margin: 0.22rem 0 0; font: 700 1.05rem/1.2 var(--font-display); letter-spacing: 0; }
+.nxdm-result small { display: block; margin-top: 0.2rem; color: var(--muted); font: 500 0.72rem/1.25 var(--font-body); }
+.nxdm-result__plain { grid-column: 1 / -1; color: var(--muted); font-size: 0.86rem; }
+.nxdm-result__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.nxdm-result__cta { display: inline-flex; align-items: center; min-height: 2.2rem; padding: 0.35rem 0.7rem; border-radius: 8px; background: var(--blue-text); color: #fff; font-weight: 700; text-decoration: none; }
+.nxdm-result__neutral { color: var(--muted); font-size: 0.84rem; }
+.nxdm-fees, .nxdm-muted { margin-top: 0.75rem; color: var(--muted); font-size: 0.84rem; }
+.nxdm .pos { color: var(--positive); }
+.nxdm .neg { color: var(--danger); }
+
+@media (max-width: 900px) {
+  .nxdm-section__head { display: block; }
+  .nxdm-sort { margin-top: 0.75rem; }
+  .nxdm-calc__grid, .nxdm-result { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 639px) {
+  .nxdm-table { min-width: 0; }
+  .nxdm-table, .nxdm-table thead, .nxdm-table tbody, .nxdm-table tr, .nxdm-table th, .nxdm-table td { display: block; }
+  .nxdm-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .nxdm-table tbody tr { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border-subtle); }
+  .nxdm-table tbody tr:last-child { border-bottom: 0; }
+  .nxdm-table tbody th { padding: 0 0 0.45rem; border: 0; font-size: 1.05rem; }
+  .nxdm-table tbody td { display: flex; justify-content: space-between; gap: 1rem; padding: 0.34rem 0; border: 0; text-align: right; white-space: normal; }
+  .nxdm-table tbody td::before { content: attr(data-label); color: var(--muted); font-size: 0.78rem; text-align: left; flex: 0 0 auto; }
+  .nxdm-venue { min-width: 0; display: block !important; text-align: left !important; }
+  .nxdm-venue::before { display: block; margin-bottom: 0.25rem; }
+  .nxdm-venue--edge { box-shadow: inset 2px 0 0 rgba(34, 200, 138, 0.65); padding-inline-start: 0.55rem !important; }
+  .nxdm-calc__grid, .nxdm-result { grid-template-columns: 1fr; }
+}
+
+.nxdm[dir="rtl"] .nxdm-table .num { text-align: left; }
+.nxdm[dir="rtl"] .nxdm-table tbody td::before { text-align: right; }

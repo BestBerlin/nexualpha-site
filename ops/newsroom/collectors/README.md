@@ -35,7 +35,7 @@ Covered families:
 
 | Module | Sources |
 | --- | --- |
-| `exchange.mjs` | Binance, OKX, Bybit, Bitget announcements (limit 10), Kraken incidents, NexuAlpha announcement mirror |
+| `exchange.mjs` | Binance, OKX, Bybit, Bitget and KuCoin announcements, Kraken asset-listing RSS and incidents, NexuAlpha announcement mirror |
 | `legal.mjs` | SEC press/litigation, CFTC, ESMA, Japan FSA, Fed, anonymous CourtListener RECAP search, EDGAR full-text and watchlist company filings |
 | `feeds.mjs` | Media RSS, Bloomberg crypto headlines/links only, multilingual Google News entity/event queries, watchlist-matching Google Trends, verified Telegram via local RSSHub |
 | `market.mjs` | mempool.space, Blockchair, DefiLlama USD pegs/supply and hacks, Hyperliquid OI/funding, Binance futures movers/OI/funding, own market events |
@@ -56,6 +56,13 @@ attempted once. Failures, partial coverage, missing credentials, timeouts and
 database write failures do not stop other sources. Unsupported/disabled sources
 do not become falsely connected. API/transport errors omit credentials, request
 URLs and response bodies.
+
+RSSHub Telegram channels that return HTTP 503 on three consecutive collector
+poll failures are marked `missing-authorization` with an explicit note and
+skipped by later collector runs until their authorization/feed path is changed.
+The counter is source health state, not individual transport retries inside one
+poll, and it resets on non-503 failures or success. Public working Telegram
+channels continue through the local RSSHub path unchanged.
 
 Rows have a 600-character excerpt limit, canonical URL, content hash, entity
 matches, known source time or null, and platform-native metrics. Market

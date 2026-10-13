@@ -1,4 +1,4 @@
-// /calendar — macro releases, token unlocks, dated exchange listings/delistings and campaign deadlines
+// /calendar — macro releases, dated exchange listings/delistings and campaign deadlines
 // (src/data/crypto-calendar.js). Week view + upcoming list, one type filter for both, iCal export per filter.
 // `now` comes from the server render (hydration state) so the first client render matches; the clock moves to the
 // browser's time after mount.
@@ -7,8 +7,8 @@ import { SectionRule } from "../shared/DataRule.jsx";
 import { CALENDAR_ICS_PATH, CALENDAR_JSON_PATH } from "../../data/intel-tools-routes.js";
 import { fill, intelToolsCopy } from "../../data/intel-tools-copy.js";
 import { calendarEventLabel } from "../../data/intel-tools-labels.js";
-import { CALENDAR_TYPES, filterEvents, formatEventTime, readCalendar, recentEvents, typeCounts, upcomingGroups, utcDay, weekModel } from "../../data/crypto-calendar.js";
-import { formatAmount, formatUsdShort } from "../../data/etf-flows.js";
+import { CALENDAR_TYPES, filterEvents, formatEventTime, readCalendar, recentEvents, sgtToday, typeCounts, upcomingGroups, weekModel } from "../../data/crypto-calendar.js";
+import { sgtParts } from "../../data/sgt-time.js";
 import { SourcesList, ToolHero, ToolTail, ToolUnavailable, hrefFor, textDirection, useSnapshot } from "./shared.jsx";
 
 const WEEKDAYS = {
@@ -22,27 +22,19 @@ const VENUE_NAMES = { binance: "Binance", okx: "OKX", bitget: "Bitget", bybit: "
 const venueName = (slug) => VENUE_NAMES[slug] || (slug ? slug[0].toUpperCase() + slug.slice(1) : "");
 // Week cells stay short: exchange and campaign events show the venue and what happens; the list below has the title.
 const chipLabel = (e, locale, t) => (e.type === "exchange" || e.type === "campaign" ? `${venueName(e.venue)} · ${t.kinds[e.kind]}` : calendarEventLabel(e, locale));
-const pct = (v) => (v == null ? null : v >= 10 ? v.toFixed(1) : v.toFixed(2));
 
-function EventMeta({ event, t, generatedAt }) {
-  const parts = [];
-  if (event.type === "unlock") {
-    if (event.amount != null) parts.push(fill(t.unlockAmount, { amount: formatAmount(event.amount), symbol: event.asset || "" }));
-    if (event.pctSupply != null) parts.push(fill(t.unlockPct, { pct: pct(event.pctSupply) }));
-    if (event.usdValue != null) parts.push(fill(t.unlockValue, { usd: formatUsdShort(event.usdValue), date: utcDay(generatedAt) }));
-  }
-  if ((event.type === "exchange" || event.type === "campaign") && event.venue) parts.unshift(venueName(event.venue));
-  return parts.length ? <p className="nxi-ev__meta" dir="auto">{parts.join(" · ")}</p> : null;
+function EventMeta({ event }) {
+  return (event.type === "exchange" || event.type === "campaign") && event.venue ? <p className="nxi-ev__meta" dir="auto">{venueName(event.venue)}</p> : null;
 }
 
-function EventRow({ event, locale, market, t, generatedAt }) {
-  const time = formatEventTime(event);
+function EventRow({ event, locale, market, t }) {
+  const time = formatEventTime(event, locale);
   return (
     <li className={`nxi-ev nxi-ev--${event.type}`} data-type={event.type}>
       <span className="nxi-ev__time" dir="ltr">{time || t.allDay}</span>
       <div className="nxi-ev__body">
         <p className="nxi-ev__title"><span className={`nxi-kind nxi-kind--${event.type}`}>{event.kind === "listing" || event.kind === "delisting" || event.kind === "campaign-end" ? t.kinds[event.kind] : t.types[event.type]}</span> <span>{calendarEventLabel(event, locale)}</span></p>
-        <EventMeta event={event} t={t} generatedAt={generatedAt} />
+        <EventMeta event={event} />
         <p className="nxi-ev__links">
           {event.pagePath ? <><a href={hrefFor(event.pagePath, locale, market)}>{t.details}</a><span aria-hidden="true"> · </span></> : null}
           <a href={event.sourceUrl} target="_blank" rel="noopener nofollow">{t.source}: {event.sourceName || new URL(event.sourceUrl).hostname}</a>
@@ -64,7 +56,7 @@ export function CalendarPage({ locale = "en", market, initial, now: serverNow })
   const events = data ? filterEvents(data.events, type) : [];
   const counts = data ? typeCounts(data.events) : {};
   const week = weekModel(events, now, weekOffset);
-  const today = new Date(now).toISOString().slice(0, 10);
+  const today = sgtToday(now);
   const groups = upcomingGroups(events, now);
   const recent = recentEvents(events, now);
   const icsHref = (filter) => `${CALENDAR_ICS_PATH}?${filter !== "all" ? `type=${filter}&` : ""}locale=${encodeURIComponent(locale)}`;
@@ -98,7 +90,7 @@ export function CalendarPage({ locale = "en", market, initial, now: serverNow })
                   {d.events.length ? (
                     <ul>{d.events.slice(0, 4).map((e) => (
                       <li key={e.id} className={`nxi-wev nxi-wev--${e.type}`} title={calendarEventLabel(e, locale)}>
-                        <span className="nxi-wev__time" dir="ltr">{formatEventTime(e)?.replace(" UTC", "") || t.allDay}</span>
+                        <span className="nxi-wev__time" dir="ltr">{e.allDay ? t.allDay : sgtParts(e.start)?.time}</span>
                         <span className="nxi-wev__label">{chipLabel(e, locale, t)}</span>
                       </li>
                     ))}{d.events.length > 4 ? <li className="nxi-wev nxi-wev--more" dir="ltr">+{d.events.length - 4}</li> : null}</ul>
@@ -114,13 +106,13 @@ export function CalendarPage({ locale = "en", market, initial, now: serverNow })
             {groups.length ? groups.map((g) => (
               <div key={g.day} className="nxi-group">
                 <h3><span dir="ltr">{g.day}</span> · {weekdayOf(g.day, locale)}</h3>
-                <ul>{g.events.map((e) => <EventRow key={e.id} event={e} locale={locale} market={market} t={t} generatedAt={data.generatedAt} />)}</ul>
+                <ul>{g.events.map((e) => <EventRow key={e.id} event={e} locale={locale} market={market} t={t} />)}</ul>
               </div>
             )) : <p className="nxd-muted">{t.empty}</p>}
             {recent.length ? (
               <details className="nxi-recent">
                 <summary>{t.recentTitle} <span className="nxi-count" dir="ltr">{recent.length}</span></summary>
-                <ul>{recent.map((e) => <EventRow key={e.id} event={e} locale={locale} market={market} t={t} generatedAt={data.generatedAt} />)}</ul>
+                <ul>{recent.map((e) => <EventRow key={e.id} event={e} locale={locale} market={market} t={t} />)}</ul>
               </details>
             ) : null}
           </section>

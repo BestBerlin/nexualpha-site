@@ -8,7 +8,7 @@ import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { FLASH_PATH, flashNavLabel } from "../../data/flash-path.js";
-import { formatUtcStamp } from "../../data/etf-flows.js";
+import { formatSgtStamp } from "../../data/sgt-time.js";
 import { intelToolsCopy } from "../../data/intel-tools-copy.js";
 import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
 import "../data/data-pages.css";
@@ -50,7 +50,7 @@ export function ToolHero({ locale, market, page, generatedAt, children }) {
       <p className="nxd-lead">{page.lead}</p>
       {generatedAt ? (
         <p className="nxd-updated" data-testid="intel-tool-updated">
-          <span className="nxd-dot" aria-hidden="true" /><strong>{common.updated}</strong> <time dateTime={generatedAt} dir="ltr">{formatUtcStamp(generatedAt)}</time>
+          <span className="nxd-dot" aria-hidden="true" /><strong>{common.updated}</strong> <time dateTime={generatedAt} dir="ltr">{formatSgtStamp(generatedAt, locale)}</time>
         </p>
       ) : null}
       {children}

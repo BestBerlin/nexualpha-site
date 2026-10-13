@@ -1,0 +1,59 @@
+{
+  "id": 43,
+  "slug": "bybit-custody-launch-tr",
+  "lane": "event",
+  "event_type": "product_launch",
+  "format": "flash",
+  "credibility": 2,
+  "subject": {
+    "en": "Bybit",
+    "zh-Hans": "Bybit",
+    "tr": "Bybit"
+  },
+  "title": {
+    "en": "Bybit launched custody accounts",
+    "zh-Hans": "Bybit 推出托管账户",
+    "tr": "Bybit saklama hesaplarını başlattı"
+  },
+  "title_event_terms": {
+    "en": ["launched"],
+    "zh-Hans": ["推出"],
+    "tr": ["başlattı"]
+  },
+  "primaryQuery": "Bybit custody launch",
+  "entities": ["Bybit"],
+  "topic_tags": ["venue_support"],
+  "claims": [{
+    "id": "c1",
+    "key": true,
+    "kind": "fact",
+    "texts": {
+      "en": "Bybit launched 2 custody accounts on 2026-10-12.",
+      "zh-Hans": "Bybit 于 2026 年 10 月 12 日推出 2 个托管账户。",
+      "tr": "Bybit 2026-10-12 tarihinde 2 saklama hesabı başlattı."
+    },
+    "evidence_ids": ["e1"],
+    "metadata": {}
+  }, {
+    "id": "c2",
+    "key": false,
+    "kind": "source_check",
+    "texts": {
+      "en": "Official source check confirms the launch details.",
+      "zh-Hans": "来源核查说明公告细节完整且口径一致，适合自动发布前复核。",
+      "tr": "Resmi kaynak kontrolü lansman ayrıntılarını doğruluyor."
+    },
+    "evidence_ids": ["e1"],
+    "metadata": {}
+  }],
+  "evidence": [{
+    "id": "e1",
+    "url": "https://example.com/bybit-custody-launch",
+    "kind": "official_notice",
+    "excerpt": "Bybit launched 2 custody accounts on 2026-10-12.",
+    "author_account": "Bybit",
+    "published_at": "2026-10-12T12:00:00Z",
+    "confidence": "high",
+    "origin_key": "bybit"
+  }]
+}

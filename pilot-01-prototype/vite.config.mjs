@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { createFundingMatrixReader } from "./server/funding-matrix.mjs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
@@ -192,18 +193,31 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
             || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
             || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
+          // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
+          // none of them absorbs it and drags the others in.
+          if (!isSsrBuild && id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
+          if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
           if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
+          if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
           // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
           if (id.includes("/src/components/intel-tools/") || /\/src\/data\/(?:intel-tools-copy|intel-tools-labels|etf-flows|crypto-calendar)\.js/.test(id)) return "route-intel-tools";
+          // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules
+          // (glossary-index/shard/links-<locale>.js) stay lazy chunks of their own via glossary-content-loader.js.
+          if (id.includes("/src/components/glossary/") || /\/src\/data\/glossary(?:-copy|-terms)?\.js$/.test(id)) return "route-glossary";
+          // The promotions resolver (SponsoredSlot) is read by the news article and glossary chunks: pinned with the
+          // partner status it evaluates at load, so neither route chunk imports the other (SSR build: TDZ cycle).
+          if (/\/src\/data\/(?:promotions|promotions\.generated|promotion-copy|partner-benefit-status)\.js$/.test(id)) return "data-promotions";
+          // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
+          if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
@@ -379,6 +393,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
       name: "nexualpha-dev-market-events",
       apply: "serve",
       configureServer(server) {
+        const matrix = createFundingMatrixReader();
+        server.middlewares.use("/intel/funding-matrix.json", async (req, res) => {
+          const response = await matrix.respond(req.method);
+          res.statusCode = response.status;
+          for (const [key, value] of response.headers) res.setHeader(key, value);
+          res.end(await response.text());
+        });
         server.middlewares.use("/intel/market-events.json", async (req, res) => {
           try {
             const body = process.env.MARKET_EVENTS_FILE

@@ -7,7 +7,7 @@ export const fill = (template, vars = {}) => String(template ?? "").replace(/\{(
 const EN = {
   common: {
     home: "Home", updated: "Updated", sources: "Sources", method: "How the numbers are made", faq: "Frequently asked questions",
-    related: "More data", json: "Raw JSON", timesUtc: "Times are UTC.", unavailableTitle: "Data is temporarily unavailable",
+    related: "More data", json: "Raw JSON", timesUtc: "Times are Singapore time (SGT).", unavailableTitle: "Data is temporarily unavailable",
     unavailable: "Nothing is estimated while the data is missing.",
   },
   etf: {
@@ -26,7 +26,7 @@ const EN = {
     methodBody: [
       "Each issuer publishes its fund's shares outstanding and net asset value (NAV) per share every trading day. A fund's net flow for a day is the change in shares outstanding from the previous trading day multiplied by that day's NAV per share: new shares are created when money comes in and redeemed when it leaves.",
       "The total for a day adds the funds that have reported it. When a fund has not published yet, its cell shows a dash and the total says how many funds reported; it is completed on the next run. Nothing is estimated.",
-      "Figures are refreshed every day after the US market close and again the next morning. Times are UTC.",
+      "Figures are refreshed every day after the US market close and again the next morning. Times are Singapore time (SGT).",
     ],
     ctaTitle: "Rather hold {asset} itself?", ctaBody: "An ETF gives price exposure through a brokerage account. On a crypto exchange you hold the coin and can withdraw it to your own wallet.", ctaButton: "Buy {asset} on {venue}",
     faq: [
@@ -38,34 +38,32 @@ const EN = {
     datasetName: "US spot crypto ETF daily net flows", datasetDescription: "Daily net flow per US spot Bitcoin, Ether and other crypto ETF in US dollars, derived from issuer-published shares outstanding and NAV per share, with total net assets and coin holdings.",
   },
   calendar: {
-    title: "Crypto Calendar: Macro, Token Unlocks, Listings | NexuAlpha",
+    title: "Crypto Calendar: FOMC, CPI, Listings, Deadlines | NexuAlpha",
     titleShort: "Crypto Calendar | NexuAlpha",
-    description: "This week's key dates for crypto traders: FOMC, CPI and jobs reports, large token unlocks, exchange listings and delistings, campaign deadlines.",
+    description: "This week's key dates for crypto traders: FOMC, CPI, jobs, GDP and PCE releases, exchange listings and delistings, and campaign deadlines. Each with its source.",
     h1: "Crypto calendar",
-    lead: "The dates crypto traders plan around: US macro releases, large token unlocks, exchange listings and delistings, and campaign deadlines. Every event links its official source.",
-    filters: "Show", types: { all: "All", macro: "Macro", unlock: "Token unlocks", exchange: "Exchanges", campaign: "Campaigns" },
+    lead: "The dates crypto traders plan around: US macro releases, exchange listings and delistings, and campaign deadlines. Every event links its official source.",
+    filters: "Show", types: { all: "All", macro: "Macro", exchange: "Exchanges", campaign: "Campaigns" },
     weekTitle: "This week", weekOf: "Week of {date}", prevWeek: "Previous week", nextWeek: "Next week", today: "Today", noEvents: "No events",
     listTitle: "Upcoming", recentTitle: "Past 7 days", empty: "No upcoming events for this filter.",
-    kinds: { fomc: "FOMC interest rate decision", cpi: "US CPI inflation ({period})", nfp: "US jobs report ({period})", pce: "US PCE inflation ({period})", gdp: "US GDP ({period})", unlock: "{name} ({symbol}) token unlock", listing: "Listing", delisting: "Delisting", "campaign-end": "Campaign ends" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "{pct}% of supply", unlockValue: "{usd} at the price on {date}", allDay: "All day",
+    kinds: { fomc: "FOMC interest rate decision", cpi: "US CPI inflation ({period})", nfp: "US jobs report ({period})", pce: "US PCE inflation ({period})", gdp: "US GDP ({period})", listing: "Listing", delisting: "Delisting", "campaign-end": "Campaign ends" },
+    allDay: "All day",
     source: "Source", details: "Details", ics: "Add to your calendar (iCal)", icsFiltered: "Subscribe to {type} only", icsHint: "Paste the link into Google Calendar, Apple Calendar or Outlook as a subscription; it refreshes every six hours.",
     methodBody: [
       "Macro dates come from the official US release schedules: the Federal Reserve's FOMC calendar, and the Bureau of Labor Statistics schedule for CPI and the Employment Situation report.",
-      "Token unlocks are scheduled releases of locked supply published in each project's vesting schedule; we list unlocks worth at least $5 million at the latest price.",
       "Exchange events are listings and delistings whose official announcement names a date. Campaign deadlines are the end dates written in the official rules of the campaigns we cover.",
     ],
     faq: [
-      ["What is a token unlock?", "Many projects release team, investor or ecosystem tokens on a fixed schedule. An unlock adds that amount to the tradable supply on the scheduled date."],
       ["Which macro events matter for crypto?", "The FOMC interest rate decision, US CPI inflation and the monthly US jobs report move rate expectations and the dollar, and crypto prices often react around their release times."],
       ["Can I add these dates to my own calendar?", "Yes. Use the iCal link on this page as a calendar subscription in Google Calendar, Apple Calendar or Outlook; it can be limited to one event type."],
-      ["Are the times in my time zone?", "Times are shown in UTC. Calendar apps convert the iCal subscription to your own time zone."],
+      ["Which time zone are the times in?", "Times on this page are Singapore time (SGT, UTC+8). Calendar apps convert the iCal subscription to your own time zone."],
     ],
-    datasetName: "Crypto market calendar", datasetDescription: "Scheduled US macro releases (FOMC, CPI, jobs report), token unlocks, dated exchange listings and delistings and campaign deadlines, each with its official source.",
+    datasetName: "Crypto market calendar", datasetDescription: "Scheduled US macro releases (FOMC, CPI, jobs report, GDP, PCE), dated exchange listings and delistings, and campaign deadlines, each with its official source.",
   },
 };
 
 const ZH = {
-  common: { home: "首页", updated: "更新于", sources: "数据来源", method: "数据如何计算", faq: "常见问题", related: "更多数据", json: "原始 JSON", timesUtc: "时间均为 UTC。", unavailableTitle: "数据暂时不可用", unavailable: "数据缺失时不做任何估算。" },
+  common: { home: "首页", updated: "更新于", sources: "数据来源", method: "数据如何计算", faq: "常见问题", related: "更多数据", json: "原始 JSON", timesUtc: "时间均为新加坡时间。", unavailableTitle: "数据暂时不可用", unavailable: "数据缺失时不做任何估算。" },
   etf: {
     title: "比特币/以太坊现货 ETF 资金流 | NexuAlpha", titleShort: "现货 ETF 资金流 | NexuAlpha",
     description: "美国全部现货比特币与以太坊 ETF（IBIT、FBTC、GBTC 等）每日净流入与净流出，含合计、资产管理规模和发行商来源。",
@@ -81,7 +79,7 @@ const ZH = {
     methodBody: [
       "每家发行商每个交易日公布基金的流通份额和每份额资产净值（NAV）。某只基金当日的净流量 = 当日流通份额相对上一交易日的变化 × 当日每份额净值：资金流入时新增份额，资金流出时赎回份额。",
       "当日合计只加总已经公布的基金。基金尚未公布时显示“—”，合计会注明有几只基金已公布，下次运行时补齐。不做任何估算。",
-      "数据每天在美股收盘后更新，次日早上再补一次。时间均为 UTC。",
+      "数据每天在美股收盘后更新，次日早上再补一次。时间均为新加坡时间。",
     ],
     ctaTitle: "想直接持有 {asset}？", ctaBody: "ETF 通过证券账户获得价格敞口；在加密交易所买入，你持有的是币本身，可以提到自己的钱包。", ctaButton: "在 {venue} 购买 {asset}",
     faq: [
@@ -93,33 +91,31 @@ const ZH = {
     datasetName: "美国现货加密 ETF 每日净流量", datasetDescription: "美国现货比特币、以太坊等加密 ETF 每日净流量（美元），由发行商公布的流通份额和每份额净值计算，并附资产净值总额和持币量。",
   },
   calendar: {
-    title: "加密日历：宏观、代币解锁、上币 | NexuAlpha", titleShort: "加密日历 | NexuAlpha",
-    description: "加密交易者本周要关注的日期：FOMC、CPI、非农，大额代币解锁，交易所上币与下架，活动截止时间。每条都附来源。",
+    title: "加密日历：FOMC、CPI、上币与截止 | NexuAlpha", titleShort: "加密日历 | NexuAlpha",
+    description: "加密交易者本周要关注的日期：FOMC、CPI、非农、GDP 与 PCE 发布，交易所上币与下架，活动截止时间。每条都附来源。",
     h1: "加密日历",
-    lead: "加密交易者安排计划的关键日期：美国宏观数据、大额代币解锁、交易所上币与下架、活动截止。每条事件都链接官方来源。",
-    filters: "显示", types: { all: "全部", macro: "宏观", unlock: "代币解锁", exchange: "交易所", campaign: "活动" },
+    lead: "加密交易者安排计划的关键日期：美国宏观数据、交易所上币与下架、活动截止。每条事件都链接官方来源。",
+    filters: "显示", types: { all: "全部", macro: "宏观", exchange: "交易所", campaign: "活动" },
     weekTitle: "本周", weekOf: "{date} 当周", prevWeek: "上一周", nextWeek: "下一周", today: "今天", noEvents: "无事件",
     listTitle: "即将发生", recentTitle: "过去 7 天", empty: "该筛选下暂无即将发生的事件。",
-    kinds: { fomc: "FOMC 利率决议", cpi: "美国 CPI 通胀（{period}）", nfp: "美国非农就业报告（{period}）", pce: "美国 PCE 通胀（{period}）", gdp: "美国 GDP（{period}）", unlock: "{name}（{symbol}）代币解锁", listing: "上币", delisting: "下架", "campaign-end": "活动截止" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "占供应量 {pct}%", unlockValue: "按 {date} 价格约 {usd}", allDay: "全天",
+    kinds: { fomc: "FOMC 利率决议", cpi: "美国 CPI 通胀（{period}）", nfp: "美国非农就业报告（{period}）", pce: "美国 PCE 通胀（{period}）", gdp: "美国 GDP（{period}）", listing: "上币", delisting: "下架", "campaign-end": "活动截止" },
+    allDay: "全天",
     source: "来源", details: "详情", ics: "添加到日历（iCal）", icsFiltered: "只订阅{type}", icsHint: "把链接作为订阅添加到 Google 日历、Apple 日历或 Outlook，每六小时自动刷新。",
     methodBody: [
       "宏观日期来自美国官方发布日程：美联储 FOMC 会议日历，以及美国劳工统计局（BLS）的 CPI 和就业报告发布日程。",
-      "代币解锁是项目方在其归属（vesting）计划中公布的锁仓释放；我们只列出按最新价格价值至少 500 万美元的解锁。",
       "交易所事件是官方公告中写明日期的上币和下架。活动截止时间来自我们报道的活动官方规则中写明的结束日期。",
     ],
     faq: [
-      ["什么是代币解锁？", "很多项目按固定时间表释放团队、投资人或生态的代币。解锁当天，这部分代币会进入可流通供应量。"],
       ["哪些宏观事件会影响加密市场？", "FOMC 利率决议、美国 CPI 通胀和每月非农就业报告会改变利率预期和美元走势，加密价格常在发布前后出现波动。"],
       ["可以把这些日期加到自己的日历吗？", "可以。把本页的 iCal 链接作为订阅添加到 Google 日历、Apple 日历或 Outlook，也可以只订阅某一类事件。"],
-      ["时间是我所在的时区吗？", "页面时间为 UTC。日历应用会把 iCal 订阅自动换算成你的时区。"],
+      ["页面时间是哪个时区？", "本页时间均为新加坡时间（UTC+8）。日历应用会把 iCal 订阅自动换算成你的时区。"],
     ],
-    datasetName: "加密市场日历", datasetDescription: "美国宏观数据发布（FOMC、CPI、非农）、代币解锁、交易所上币与下架日期以及活动截止时间，每条附官方来源。",
+    datasetName: "加密市场日历", datasetDescription: "美国宏观数据发布（FOMC、CPI、非农、GDP、PCE）、写明日期的交易所上币与下架以及活动截止时间，每条附官方来源。",
   },
 };
 
 const ES = {
-  common: { home: "Inicio", updated: "Actualizado", sources: "Fuentes", method: "Cómo se calculan las cifras", faq: "Preguntas frecuentes", related: "Más datos", json: "JSON sin procesar", timesUtc: "Horas en UTC.", unavailableTitle: "Datos no disponibles por el momento", unavailable: "Mientras faltan datos no se estima nada." },
+  common: { home: "Inicio", updated: "Actualizado", sources: "Fuentes", method: "Cómo se calculan las cifras", faq: "Preguntas frecuentes", related: "Más datos", json: "JSON sin procesar", timesUtc: "Horas en hora de Singapur (SGT).", unavailableTitle: "Datos no disponibles por el momento", unavailable: "Mientras faltan datos no se estima nada." },
   etf: {
     title: "Flujos de ETF de Bitcoin y Ether al contado | NexuAlpha", titleShort: "Flujos de ETF cripto | NexuAlpha",
     description: "Entradas y salidas netas diarias de cada ETF al contado de Bitcoin y Ether en EE. UU. (IBIT, FBTC, GBTC…), con totales, activos y fuente del emisor.",
@@ -135,7 +131,7 @@ const ES = {
     methodBody: [
       "Cada emisor publica cada sesión las participaciones en circulación de su fondo y el valor liquidativo (VL) por participación. El flujo neto de un fondo en un día es la variación de participaciones respecto a la sesión anterior multiplicada por el VL de ese día: se crean participaciones cuando entra dinero y se reembolsan cuando sale.",
       "El total del día suma los fondos que ya lo han publicado. Si un fondo aún no ha publicado, su celda muestra un guion y el total indica cuántos fondos han publicado; se completa en la siguiente ejecución. No se estima nada.",
-      "Las cifras se actualizan cada día tras el cierre del mercado de EE. UU. y de nuevo a la mañana siguiente. Horas en UTC.",
+      "Las cifras se actualizan cada día tras el cierre del mercado de EE. UU. y de nuevo a la mañana siguiente. Horas en hora de Singapur (SGT).",
     ],
     ctaTitle: "¿Prefieres tener {asset} directamente?", ctaBody: "Un ETF da exposición al precio a través de una cuenta de bolsa. En un exchange cripto tienes la moneda y puedes retirarla a tu propia wallet.", ctaButton: "Comprar {asset} en {venue}",
     faq: [
@@ -147,33 +143,31 @@ const ES = {
     datasetName: "Flujos netos diarios de ETF cripto al contado en EE. UU.", datasetDescription: "Flujo neto diario por ETF al contado de Bitcoin, Ether y otras criptomonedas en EE. UU., en dólares, calculado con las participaciones en circulación y el VL publicados por cada emisor, con patrimonio total y tenencias.",
   },
   calendar: {
-    title: "Calendario cripto: macro, desbloqueos y listados | NexuAlpha", titleShort: "Calendario cripto | NexuAlpha",
-    description: "Fechas clave de la semana para traders cripto: FOMC, IPC y empleo, grandes desbloqueos de tokens, listados y retiradas, y fin de campañas.",
+    title: "Calendario cripto: FOMC, IPC, listados y plazos | NexuAlpha", titleShort: "Calendario cripto | NexuAlpha",
+    description: "Fechas clave de la semana para traders cripto: FOMC, IPC, empleo, PIB y PCE, listados y retiradas en exchanges y fin de campañas. Cada una con su fuente.",
     h1: "Calendario cripto",
-    lead: "Las fechas que marcan la agenda de un trader cripto: datos macro de EE. UU., grandes desbloqueos de tokens, listados y retiradas en exchanges y fin de campañas. Cada evento enlaza su fuente oficial.",
-    filters: "Mostrar", types: { all: "Todo", macro: "Macro", unlock: "Desbloqueos", exchange: "Exchanges", campaign: "Campañas" },
+    lead: "Las fechas que marcan la agenda de un trader cripto: datos macro de EE. UU., listados y retiradas en exchanges y fin de campañas. Cada evento enlaza su fuente oficial.",
+    filters: "Mostrar", types: { all: "Todo", macro: "Macro", exchange: "Exchanges", campaign: "Campañas" },
     weekTitle: "Esta semana", weekOf: "Semana del {date}", prevWeek: "Semana anterior", nextWeek: "Semana siguiente", today: "Hoy", noEvents: "Sin eventos",
     listTitle: "Próximos", recentTitle: "Últimos 7 días", empty: "No hay próximos eventos con este filtro.",
-    kinds: { fomc: "Decisión de tipos del FOMC", cpi: "IPC de EE. UU. ({period})", nfp: "Informe de empleo de EE. UU. ({period})", pce: "Inflación PCE de EE. UU. ({period})", gdp: "PIB de EE. UU. ({period})", unlock: "Desbloqueo de {name} ({symbol})", listing: "Listado", delisting: "Retirada", "campaign-end": "Fin de campaña" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "{pct}% del suministro", unlockValue: "{usd} al precio del {date}", allDay: "Todo el día",
+    kinds: { fomc: "Decisión de tipos del FOMC", cpi: "IPC de EE. UU. ({period})", nfp: "Informe de empleo de EE. UU. ({period})", pce: "Inflación PCE de EE. UU. ({period})", gdp: "PIB de EE. UU. ({period})", listing: "Listado", delisting: "Retirada", "campaign-end": "Fin de campaña" },
+    allDay: "Todo el día",
     source: "Fuente", details: "Detalles", ics: "Añadir a tu calendario (iCal)", icsFiltered: "Suscribirse solo a {type}", icsHint: "Pega el enlace en Google Calendar, Apple Calendar u Outlook como suscripción; se actualiza cada seis horas.",
     methodBody: [
       "Las fechas macro proceden de los calendarios oficiales de EE. UU.: el calendario del FOMC de la Reserva Federal y el calendario de la Oficina de Estadísticas Laborales (BLS) para el IPC y el informe de empleo.",
-      "Los desbloqueos son liberaciones programadas de suministro bloqueado que cada proyecto publica en su calendario de vesting; mostramos los que valen al menos 5 millones de dólares al último precio.",
       "Los eventos de exchanges son listados y retiradas cuyo anuncio oficial indica una fecha. El fin de campaña es la fecha escrita en las reglas oficiales de las campañas que cubrimos.",
     ],
     faq: [
-      ["¿Qué es un desbloqueo de tokens?", "Muchos proyectos liberan tokens del equipo, inversores o ecosistema según un calendario fijo. El desbloqueo añade esa cantidad al suministro negociable en la fecha prevista."],
       ["¿Qué eventos macro importan para cripto?", "La decisión de tipos del FOMC, el IPC de EE. UU. y el informe mensual de empleo mueven las expectativas de tipos y el dólar, y los precios cripto suelen reaccionar en torno a su publicación."],
       ["¿Puedo añadir estas fechas a mi calendario?", "Sí. Usa el enlace iCal de esta página como suscripción en Google Calendar, Apple Calendar u Outlook; puedes limitarlo a un tipo de evento."],
-      ["¿Las horas están en mi zona horaria?", "Las horas se muestran en UTC. Las apps de calendario convierten la suscripción iCal a tu zona horaria."],
+      ["¿En qué zona horaria están las horas?", "Las horas de esta página están en hora de Singapur (SGT, UTC+8). Las apps de calendario convierten la suscripción iCal a tu zona horaria."],
     ],
-    datasetName: "Calendario del mercado cripto", datasetDescription: "Publicaciones macro de EE. UU. (FOMC, IPC, empleo), desbloqueos de tokens, listados y retiradas con fecha y fin de campañas, cada uno con su fuente oficial.",
+    datasetName: "Calendario del mercado cripto", datasetDescription: "Publicaciones macro de EE. UU. (FOMC, IPC, empleo, PIB, PCE), listados y retiradas con fecha y fin de campañas, cada uno con su fuente oficial.",
   },
 };
 
 const PT = {
-  common: { home: "Início", updated: "Atualizado", sources: "Fontes", method: "Como os números são feitos", faq: "Perguntas frequentes", related: "Mais dados", json: "JSON bruto", timesUtc: "Horários em UTC.", unavailableTitle: "Dados temporariamente indisponíveis", unavailable: "Nada é estimado enquanto os dados faltam." },
+  common: { home: "Início", updated: "Atualizado", sources: "Fontes", method: "Como os números são feitos", faq: "Perguntas frequentes", related: "Mais dados", json: "JSON bruto", timesUtc: "Horários de Singapura (SGT).", unavailableTitle: "Dados temporariamente indisponíveis", unavailable: "Nada é estimado enquanto os dados faltam." },
   etf: {
     title: "Fluxos de ETFs à vista de Bitcoin e Ether hoje | NexuAlpha", titleShort: "Fluxos de ETFs cripto | NexuAlpha",
     description: "Entradas e saídas líquidas diárias de cada ETF à vista de Bitcoin e Ether dos EUA (IBIT, FBTC, GBTC e outros), com totais, patrimônio e a fonte do emissor.",
@@ -189,7 +183,7 @@ const PT = {
     methodBody: [
       "Cada emissor publica a cada pregão as cotas em circulação do fundo e o valor patrimonial (NAV) por cota. O fluxo líquido de um fundo no dia é a variação das cotas em relação ao pregão anterior multiplicada pelo NAV do dia: cotas são criadas quando entra dinheiro e resgatadas quando sai.",
       "O total do dia soma os fundos que já publicaram. Se um fundo ainda não publicou, a célula mostra um traço e o total informa quantos fundos publicaram; ele é completado na próxima execução. Nada é estimado.",
-      "Os números são atualizados todos os dias após o fechamento do mercado americano e de novo na manhã seguinte. Horários em UTC.",
+      "Os números são atualizados todos os dias após o fechamento do mercado americano e de novo na manhã seguinte. Horários de Singapura (SGT).",
     ],
     ctaTitle: "Prefere ter {asset} de verdade?", ctaBody: "Um ETF dá exposição ao preço por uma conta de corretora. Numa corretora de cripto você tem a moeda e pode sacá-la para a sua própria carteira.", ctaButton: "Comprar {asset} na {venue}",
     faq: [
@@ -201,33 +195,31 @@ const PT = {
     datasetName: "Fluxos líquidos diários de ETFs cripto à vista dos EUA", datasetDescription: "Fluxo líquido diário por ETF à vista de Bitcoin, Ether e outras criptos dos EUA, em dólares, calculado com as cotas em circulação e o NAV por cota publicados pelos emissores, com patrimônio total e posição em moedas.",
   },
   calendar: {
-    title: "Calendário cripto: macro, desbloqueios e listagens | NexuAlpha", titleShort: "Calendário cripto | NexuAlpha",
-    description: "As datas da semana que movem o mercado cripto: FOMC, CPI e payroll, grandes desbloqueios de tokens, listagens e remoções, fim de campanhas.",
+    title: "Calendário cripto: FOMC, CPI, listagens e prazos | NexuAlpha", titleShort: "Calendário cripto | NexuAlpha",
+    description: "As datas da semana que movem o mercado cripto: FOMC, CPI, payroll, PIB e PCE, listagens e remoções em corretoras, fim de campanhas. Cada uma com a fonte.",
     h1: "Calendário cripto",
-    lead: "As datas que organizam a agenda de quem opera cripto: dados macro dos EUA, grandes desbloqueios de tokens, listagens e remoções em corretoras e fim de campanhas. Cada evento tem link para a fonte oficial.",
-    filters: "Mostrar", types: { all: "Tudo", macro: "Macro", unlock: "Desbloqueios", exchange: "Corretoras", campaign: "Campanhas" },
+    lead: "As datas que organizam a agenda de quem opera cripto: dados macro dos EUA, listagens e remoções em corretoras e fim de campanhas. Cada evento tem link para a fonte oficial.",
+    filters: "Mostrar", types: { all: "Tudo", macro: "Macro", exchange: "Corretoras", campaign: "Campanhas" },
     weekTitle: "Esta semana", weekOf: "Semana de {date}", prevWeek: "Semana anterior", nextWeek: "Próxima semana", today: "Hoje", noEvents: "Sem eventos",
     listTitle: "Próximos", recentTitle: "Últimos 7 dias", empty: "Nenhum evento próximo neste filtro.",
-    kinds: { fomc: "Decisão de juros do FOMC", cpi: "CPI dos EUA ({period})", nfp: "Relatório de emprego dos EUA ({period})", pce: "Inflação PCE dos EUA ({period})", gdp: "PIB dos EUA ({period})", unlock: "Desbloqueio de {name} ({symbol})", listing: "Listagem", delisting: "Remoção", "campaign-end": "Fim da campanha" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "{pct}% da oferta", unlockValue: "{usd} pelo preço de {date}", allDay: "Dia inteiro",
+    kinds: { fomc: "Decisão de juros do FOMC", cpi: "CPI dos EUA ({period})", nfp: "Relatório de emprego dos EUA ({period})", pce: "Inflação PCE dos EUA ({period})", gdp: "PIB dos EUA ({period})", listing: "Listagem", delisting: "Remoção", "campaign-end": "Fim da campanha" },
+    allDay: "Dia inteiro",
     source: "Fonte", details: "Detalhes", ics: "Adicionar ao seu calendário (iCal)", icsFiltered: "Assinar só {type}", icsHint: "Cole o link no Google Agenda, Apple Calendário ou Outlook como assinatura; ele se atualiza a cada seis horas.",
     methodBody: [
       "As datas macro vêm dos calendários oficiais dos EUA: o calendário do FOMC do Federal Reserve e o calendário do Bureau of Labor Statistics (BLS) para o CPI e o relatório de emprego.",
-      "Desbloqueios são liberações programadas de oferta travada publicadas no cronograma de vesting de cada projeto; listamos os que valem pelo menos US$ 5 milhões ao último preço.",
       "Eventos de corretoras são listagens e remoções cujo anúncio oficial informa uma data. O fim de campanha é a data escrita nas regras oficiais das campanhas que cobrimos.",
     ],
     faq: [
-      ["O que é um desbloqueio de tokens?", "Muitos projetos liberam tokens da equipe, de investidores ou do ecossistema em um cronograma fixo. O desbloqueio acrescenta essa quantidade à oferta negociável na data prevista."],
       ["Quais eventos macro importam para cripto?", "A decisão de juros do FOMC, o CPI dos EUA e o relatório mensal de emprego mexem com as expectativas de juros e com o dólar, e os preços cripto costumam reagir perto da divulgação."],
       ["Posso adicionar essas datas ao meu calendário?", "Sim. Use o link iCal desta página como assinatura no Google Agenda, Apple Calendário ou Outlook; dá para limitar a um tipo de evento."],
-      ["Os horários estão no meu fuso?", "Os horários aparecem em UTC. Os apps de calendário convertem a assinatura iCal para o seu fuso."],
+      ["Em que fuso estão os horários?", "Os horários desta página estão no horário de Singapura (SGT, UTC+8). Os apps de calendário convertem a assinatura iCal para o seu fuso."],
     ],
-    datasetName: "Calendário do mercado cripto", datasetDescription: "Divulgações macro dos EUA (FOMC, CPI, emprego), desbloqueios de tokens, listagens e remoções com data e fim de campanhas, cada um com a fonte oficial.",
+    datasetName: "Calendário do mercado cripto", datasetDescription: "Divulgações macro dos EUA (FOMC, CPI, emprego, PIB, PCE), listagens e remoções com data e fim de campanhas, cada um com a fonte oficial.",
   },
 };
 
 const TR = {
-  common: { home: "Ana sayfa", updated: "Güncellendi", sources: "Kaynaklar", method: "Rakamlar nasıl hesaplanıyor", faq: "Sık sorulan sorular", related: "Diğer veriler", json: "Ham JSON", timesUtc: "Saatler UTC'dir.", unavailableTitle: "Veriler geçici olarak kullanılamıyor", unavailable: "Veri eksikken hiçbir tahmin yapılmaz." },
+  common: { home: "Ana sayfa", updated: "Güncellendi", sources: "Kaynaklar", method: "Rakamlar nasıl hesaplanıyor", faq: "Sık sorulan sorular", related: "Diğer veriler", json: "Ham JSON", timesUtc: "Saatler Singapur saatidir (SGT).", unavailableTitle: "Veriler geçici olarak kullanılamıyor", unavailable: "Veri eksikken hiçbir tahmin yapılmaz." },
   etf: {
     title: "Spot Bitcoin ve Ether ETF akışları bugün | NexuAlpha", titleShort: "Spot kripto ETF akışları | NexuAlpha",
     description: "ABD spot Bitcoin ve Ether ETF'lerinin (IBIT, FBTC, GBTC…) günlük net giriş ve çıkışları; toplamlar, yönetilen varlıklar ve ihraççı kaynağıyla.",
@@ -243,7 +235,7 @@ const TR = {
     methodBody: [
       "Her ihraççı her işlem günü fonunun dolaşımdaki pay sayısını ve pay başına net aktif değerini (NAV) yayımlar. Bir fonun günlük net akışı, dolaşımdaki payların önceki işlem gününe göre değişimi ile o günün pay başına NAV'ının çarpımıdır: para girdiğinde yeni pay oluşturulur, çıktığında pay itfa edilir.",
       "Günün toplamı, o günü yayımlamış fonları toplar. Henüz yayımlamamış bir fonun hücresinde tire görünür ve toplam kaç fonun yayımladığını belirtir; bir sonraki çalıştırmada tamamlanır. Hiçbir şey tahmin edilmez.",
-      "Rakamlar her gün ABD piyasası kapandıktan sonra ve ertesi sabah tekrar güncellenir. Saatler UTC'dir.",
+      "Rakamlar her gün ABD piyasası kapandıktan sonra ve ertesi sabah tekrar güncellenir. Saatler Singapur saatidir (SGT).",
     ],
     ctaTitle: "{asset} varlığının kendisini mi tutmak istersiniz?", ctaBody: "ETF, aracı kurum hesabı üzerinden fiyata maruziyet sağlar. Kripto borsasında coinin kendisine sahip olursunuz ve kendi cüzdanınıza çekebilirsiniz.", ctaButton: "{venue} üzerinde {asset} al",
     faq: [
@@ -255,33 +247,31 @@ const TR = {
     datasetName: "ABD spot kripto ETF günlük net akışları", datasetDescription: "ABD spot Bitcoin, Ether ve diğer kripto ETF'lerinin dolar cinsinden günlük net akışı; ihraççıların yayımladığı dolaşımdaki pay ve pay başına NAV'dan hesaplanır, toplam net varlık ve coin miktarıyla.",
   },
   calendar: {
-    title: "Kripto takvimi: makro, token kilit açılımı, listeleme | NexuAlpha", titleShort: "Kripto takvimi | NexuAlpha",
-    description: "Haftanın önemli kripto tarihleri: FOMC, TÜFE ve istihdam raporları, büyük token kilit açılımları, borsa listeleme ve delistleri, kampanya bitişleri.",
+    title: "Kripto takvimi: FOMC, TÜFE, listeleme | NexuAlpha", titleShort: "Kripto takvimi | NexuAlpha",
+    description: "Haftanın önemli kripto tarihleri: FOMC, TÜFE, istihdam, GSYİH ve PCE verileri, borsa listeleme ve delistleri, kampanya bitişleri. Hepsi kaynağıyla.",
     h1: "Kripto takvimi",
-    lead: "Kripto yatırımcılarının plan yaptığı tarihler: ABD makro verileri, büyük token kilit açılımları, borsa listeleme ve delistleri ve kampanya bitişleri. Her etkinlik resmi kaynağına bağlanır.",
-    filters: "Göster", types: { all: "Tümü", macro: "Makro", unlock: "Kilit açılımları", exchange: "Borsalar", campaign: "Kampanyalar" },
+    lead: "Kripto yatırımcılarının plan yaptığı tarihler: ABD makro verileri, borsa listeleme ve delistleri ve kampanya bitişleri. Her etkinlik resmi kaynağına bağlanır.",
+    filters: "Göster", types: { all: "Tümü", macro: "Makro", exchange: "Borsalar", campaign: "Kampanyalar" },
     weekTitle: "Bu hafta", weekOf: "{date} haftası", prevWeek: "Önceki hafta", nextWeek: "Sonraki hafta", today: "Bugün", noEvents: "Etkinlik yok",
     listTitle: "Yaklaşanlar", recentTitle: "Son 7 gün", empty: "Bu filtrede yaklaşan etkinlik yok.",
-    kinds: { fomc: "FOMC faiz kararı", cpi: "ABD TÜFE enflasyonu ({period})", nfp: "ABD istihdam raporu ({period})", pce: "ABD PCE enflasyonu ({period})", gdp: "ABD GSYİH ({period})", unlock: "{name} ({symbol}) token kilit açılımı", listing: "Listeleme", delisting: "Delist", "campaign-end": "Kampanya bitişi" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "arzın %{pct}'i", unlockValue: "{date} fiyatıyla {usd}", allDay: "Tüm gün",
+    kinds: { fomc: "FOMC faiz kararı", cpi: "ABD TÜFE enflasyonu ({period})", nfp: "ABD istihdam raporu ({period})", pce: "ABD PCE enflasyonu ({period})", gdp: "ABD GSYİH ({period})", listing: "Listeleme", delisting: "Delist", "campaign-end": "Kampanya bitişi" },
+    allDay: "Tüm gün",
     source: "Kaynak", details: "Ayrıntılar", ics: "Takviminize ekleyin (iCal)", icsFiltered: "Yalnızca {type} aboneliği", icsHint: "Bağlantıyı Google Takvim, Apple Takvim veya Outlook'a abonelik olarak yapıştırın; altı saatte bir yenilenir.",
     methodBody: [
       "Makro tarihler ABD'nin resmi yayın takvimlerinden gelir: Federal Reserve'ün FOMC takvimi ve TÜFE ile istihdam raporu için Çalışma İstatistikleri Bürosu (BLS) takvimi.",
-      "Token kilit açılımları, her projenin vesting takviminde yayımladığı kilitli arzın planlı serbest bırakılmasıdır; son fiyatla en az 5 milyon dolar değerindekileri listeliyoruz.",
       "Borsa etkinlikleri, resmi duyurusunda tarih belirtilen listeleme ve delistlerdir. Kampanya bitişleri, takip ettiğimiz kampanyaların resmi kurallarında yazan bitiş tarihleridir.",
     ],
     faq: [
-      ["Token kilit açılımı nedir?", "Birçok proje ekip, yatırımcı veya ekosistem tokenlarını sabit bir takvimle serbest bırakır. Kilit açılımı, planlanan tarihte bu miktarı işlem gören arza ekler."],
       ["Hangi makro etkinlikler kripto için önemli?", "FOMC faiz kararı, ABD TÜFE enflasyonu ve aylık istihdam raporu faiz beklentilerini ve doları etkiler; kripto fiyatları genellikle yayın saatleri civarında tepki verir."],
       ["Bu tarihleri kendi takvimime ekleyebilir miyim?", "Evet. Bu sayfadaki iCal bağlantısını Google Takvim, Apple Takvim veya Outlook'ta abonelik olarak kullanın; tek bir etkinlik türüyle sınırlayabilirsiniz."],
-      ["Saatler benim saat dilimimde mi?", "Saatler UTC olarak gösterilir. Takvim uygulamaları iCal aboneliğini kendi saat diliminize çevirir."],
+      ["Saatler hangi saat diliminde?", "Bu sayfadaki saatler Singapur saatidir (SGT, UTC+8). Takvim uygulamaları iCal aboneliğini kendi saat diliminize çevirir."],
     ],
-    datasetName: "Kripto piyasası takvimi", datasetDescription: "ABD makro yayınları (FOMC, TÜFE, istihdam), token kilit açılımları, tarihli borsa listeleme ve delistleri ve kampanya bitişleri; her biri resmi kaynağıyla.",
+    datasetName: "Kripto piyasası takvimi", datasetDescription: "ABD makro yayınları (FOMC, TÜFE, istihdam, GSYİH, PCE), tarihli borsa listeleme ve delistleri ve kampanya bitişleri; her biri resmi kaynağıyla.",
   },
 };
 
 const VI = {
-  common: { home: "Trang chủ", updated: "Cập nhật", sources: "Nguồn dữ liệu", method: "Cách tính các con số", faq: "Câu hỏi thường gặp", related: "Dữ liệu khác", json: "JSON gốc", timesUtc: "Giờ theo UTC.", unavailableTitle: "Dữ liệu tạm thời không khả dụng", unavailable: "Không ước tính gì khi thiếu dữ liệu." },
+  common: { home: "Trang chủ", updated: "Cập nhật", sources: "Nguồn dữ liệu", method: "Cách tính các con số", faq: "Câu hỏi thường gặp", related: "Dữ liệu khác", json: "JSON gốc", timesUtc: "Giờ theo giờ Singapore (SGT).", unavailableTitle: "Dữ liệu tạm thời không khả dụng", unavailable: "Không ước tính gì khi thiếu dữ liệu." },
   etf: {
     title: "Dòng tiền ETF Bitcoin và Ether giao ngay hôm nay | NexuAlpha", titleShort: "Dòng tiền ETF crypto | NexuAlpha",
     description: "Dòng tiền vào và ra ròng mỗi ngày của từng ETF Bitcoin và Ether giao ngay tại Mỹ (IBIT, FBTC, GBTC…), kèm tổng, tài sản quản lý và nguồn từ tổ chức phát hành.",
@@ -297,7 +287,7 @@ const VI = {
     methodBody: [
       "Mỗi tổ chức phát hành công bố số chứng chỉ quỹ đang lưu hành và giá trị tài sản ròng (NAV) trên mỗi chứng chỉ vào mỗi phiên. Dòng tiền ròng của một quỹ trong ngày bằng thay đổi số chứng chỉ so với phiên trước nhân với NAV của ngày đó: chứng chỉ mới được tạo khi tiền vào và được mua lại khi tiền ra.",
       "Tổng của ngày cộng các quỹ đã công bố. Khi một quỹ chưa công bố, ô của quỹ đó hiện dấu gạch và tổng ghi rõ bao nhiêu quỹ đã công bố; số liệu được bổ sung ở lần chạy tiếp theo. Không ước tính.",
-      "Số liệu được cập nhật mỗi ngày sau khi thị trường Mỹ đóng cửa và lần nữa vào sáng hôm sau. Giờ theo UTC.",
+      "Số liệu được cập nhật mỗi ngày sau khi thị trường Mỹ đóng cửa và lần nữa vào sáng hôm sau. Giờ theo giờ Singapore (SGT).",
     ],
     ctaTitle: "Muốn nắm giữ {asset} thật?", ctaBody: "ETF cho bạn tiếp xúc với giá qua tài khoản chứng khoán. Trên sàn crypto, bạn sở hữu chính đồng coin và có thể rút về ví của mình.", ctaButton: "Mua {asset} trên {venue}",
     faq: [
@@ -309,33 +299,31 @@ const VI = {
     datasetName: "Dòng tiền ròng hằng ngày của ETF crypto giao ngay tại Mỹ", datasetDescription: "Dòng tiền ròng hằng ngày của từng ETF Bitcoin, Ether và crypto khác giao ngay tại Mỹ, tính bằng đô la từ số chứng chỉ lưu hành và NAV do tổ chức phát hành công bố, kèm tổng tài sản ròng và lượng coin nắm giữ.",
   },
   calendar: {
-    title: "Lịch crypto: vĩ mô, mở khóa token, niêm yết | NexuAlpha", titleShort: "Lịch crypto | NexuAlpha",
-    description: "Các mốc quan trọng trong tuần cho nhà giao dịch crypto: FOMC, CPI, báo cáo việc làm, mở khóa token lớn, niêm yết và hủy niêm yết, hạn chót sự kiện.",
+    title: "Lịch crypto: FOMC, CPI, niêm yết, hạn chót | NexuAlpha", titleShort: "Lịch crypto | NexuAlpha",
+    description: "Các mốc quan trọng trong tuần cho nhà giao dịch crypto: FOMC, CPI, việc làm, GDP và PCE, niêm yết và hủy niêm yết, hạn chót sự kiện. Kèm nguồn.",
     h1: "Lịch crypto",
-    lead: "Những ngày nhà giao dịch crypto cần lên kế hoạch: dữ liệu vĩ mô Mỹ, các đợt mở khóa token lớn, niêm yết và hủy niêm yết trên sàn, hạn chót sự kiện. Mỗi sự kiện đều có liên kết tới nguồn chính thức.",
-    filters: "Hiển thị", types: { all: "Tất cả", macro: "Vĩ mô", unlock: "Mở khóa token", exchange: "Sàn giao dịch", campaign: "Sự kiện sàn" },
+    lead: "Những ngày nhà giao dịch crypto cần lên kế hoạch: dữ liệu vĩ mô Mỹ, niêm yết và hủy niêm yết trên sàn, hạn chót sự kiện. Mỗi sự kiện đều có liên kết tới nguồn chính thức.",
+    filters: "Hiển thị", types: { all: "Tất cả", macro: "Vĩ mô", exchange: "Sàn giao dịch", campaign: "Sự kiện sàn" },
     weekTitle: "Tuần này", weekOf: "Tuần bắt đầu {date}", prevWeek: "Tuần trước", nextWeek: "Tuần sau", today: "Hôm nay", noEvents: "Không có sự kiện",
     listTitle: "Sắp diễn ra", recentTitle: "7 ngày qua", empty: "Không có sự kiện sắp tới cho bộ lọc này.",
-    kinds: { fomc: "Quyết định lãi suất FOMC", cpi: "Lạm phát CPI Mỹ ({period})", nfp: "Báo cáo việc làm Mỹ ({period})", pce: "Lạm phát PCE Mỹ ({period})", gdp: "GDP Mỹ ({period})", unlock: "Mở khóa token {name} ({symbol})", listing: "Niêm yết", delisting: "Hủy niêm yết", "campaign-end": "Kết thúc sự kiện" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "{pct}% nguồn cung", unlockValue: "{usd} theo giá ngày {date}", allDay: "Cả ngày",
+    kinds: { fomc: "Quyết định lãi suất FOMC", cpi: "Lạm phát CPI Mỹ ({period})", nfp: "Báo cáo việc làm Mỹ ({period})", pce: "Lạm phát PCE Mỹ ({period})", gdp: "GDP Mỹ ({period})", listing: "Niêm yết", delisting: "Hủy niêm yết", "campaign-end": "Kết thúc sự kiện" },
+    allDay: "Cả ngày",
     source: "Nguồn", details: "Chi tiết", ics: "Thêm vào lịch của bạn (iCal)", icsFiltered: "Chỉ đăng ký {type}", icsHint: "Dán liên kết vào Google Calendar, Apple Calendar hoặc Outlook dưới dạng lịch đăng ký; lịch tự làm mới mỗi sáu giờ.",
     methodBody: [
       "Các mốc vĩ mô lấy từ lịch công bố chính thức của Mỹ: lịch họp FOMC của Cục Dự trữ Liên bang và lịch của Cục Thống kê Lao động (BLS) cho CPI và báo cáo việc làm.",
-      "Mở khóa token là các đợt giải phóng nguồn cung bị khóa theo lịch vesting mà từng dự án công bố; chúng tôi liệt kê các đợt trị giá ít nhất 5 triệu USD theo giá mới nhất.",
       "Sự kiện sàn là các đợt niêm yết và hủy niêm yết có ghi ngày trong thông báo chính thức. Hạn chót sự kiện là ngày kết thúc ghi trong thể lệ chính thức của các sự kiện chúng tôi theo dõi.",
     ],
     faq: [
-      ["Mở khóa token là gì?", "Nhiều dự án giải phóng token của đội ngũ, nhà đầu tư hoặc hệ sinh thái theo lịch cố định. Đợt mở khóa đưa lượng token đó vào nguồn cung có thể giao dịch vào ngày dự kiến."],
       ["Sự kiện vĩ mô nào ảnh hưởng đến crypto?", "Quyết định lãi suất FOMC, lạm phát CPI Mỹ và báo cáo việc làm hằng tháng tác động đến kỳ vọng lãi suất và đồng đô la, giá crypto thường biến động quanh thời điểm công bố."],
       ["Tôi có thể thêm các ngày này vào lịch riêng không?", "Có. Dùng liên kết iCal trên trang này làm lịch đăng ký trong Google Calendar, Apple Calendar hoặc Outlook; có thể giới hạn theo một loại sự kiện."],
-      ["Giờ hiển thị theo múi giờ của tôi?", "Giờ hiển thị theo UTC. Ứng dụng lịch sẽ tự đổi lịch iCal sang múi giờ của bạn."],
+      ["Giờ hiển thị theo múi giờ nào?", "Giờ trên trang này là giờ Singapore (SGT, UTC+8). Ứng dụng lịch sẽ tự đổi lịch iCal sang múi giờ của bạn."],
     ],
-    datasetName: "Lịch thị trường crypto", datasetDescription: "Các đợt công bố vĩ mô của Mỹ (FOMC, CPI, việc làm), mở khóa token, niêm yết và hủy niêm yết có ngày và hạn chót sự kiện, mỗi mục kèm nguồn chính thức.",
+    datasetName: "Lịch thị trường crypto", datasetDescription: "Các đợt công bố vĩ mô của Mỹ (FOMC, CPI, việc làm, GDP, PCE), niêm yết và hủy niêm yết có ngày và hạn chót sự kiện, mỗi mục kèm nguồn chính thức.",
   },
 };
 
 const ID = {
-  common: { home: "Beranda", updated: "Diperbarui", sources: "Sumber", method: "Cara angka dihitung", faq: "Pertanyaan umum", related: "Data lainnya", json: "JSON mentah", timesUtc: "Waktu dalam UTC.", unavailableTitle: "Data sementara tidak tersedia", unavailable: "Tidak ada yang diperkirakan selama data belum ada." },
+  common: { home: "Beranda", updated: "Diperbarui", sources: "Sumber", method: "Cara angka dihitung", faq: "Pertanyaan umum", related: "Data lainnya", json: "JSON mentah", timesUtc: "Waktu Singapura (SGT).", unavailableTitle: "Data sementara tidak tersedia", unavailable: "Tidak ada yang diperkirakan selama data belum ada." },
   etf: {
     title: "Arus dana ETF spot Bitcoin & Ether hari ini | NexuAlpha", titleShort: "Arus dana ETF kripto | NexuAlpha",
     description: "Arus masuk dan keluar bersih harian setiap ETF spot Bitcoin dan Ether AS (IBIT, FBTC, GBTC…), dengan total, dana kelolaan, dan sumber penerbit.",
@@ -351,7 +339,7 @@ const ID = {
     methodBody: [
       "Setiap penerbit memublikasikan jumlah unit beredar dan nilai aktiva bersih (NAB) per unit dananya setiap hari bursa. Arus bersih sebuah dana pada suatu hari adalah perubahan unit beredar dari hari bursa sebelumnya dikali NAB per unit hari itu: unit baru diterbitkan saat dana masuk dan ditebus saat dana keluar.",
       "Total harian menjumlahkan dana yang sudah melapor. Jika sebuah dana belum melapor, selnya menampilkan tanda strip dan total menyebutkan berapa dana yang sudah melapor; dilengkapi pada proses berikutnya. Tidak ada yang diperkirakan.",
-      "Angka diperbarui setiap hari setelah pasar AS tutup dan sekali lagi keesokan paginya. Waktu dalam UTC.",
+      "Angka diperbarui setiap hari setelah pasar AS tutup dan sekali lagi keesokan paginya. Waktu Singapura (SGT).",
     ],
     ctaTitle: "Ingin memegang {asset} langsung?", ctaBody: "ETF memberi eksposur harga lewat rekening sekuritas. Di bursa kripto Anda memegang koinnya dan bisa menariknya ke dompet sendiri.", ctaButton: "Beli {asset} di {venue}",
     faq: [
@@ -363,33 +351,31 @@ const ID = {
     datasetName: "Arus bersih harian ETF kripto spot AS", datasetDescription: "Arus bersih harian per ETF spot Bitcoin, Ether, dan kripto lain di AS dalam dolar, dihitung dari unit beredar dan NAB per unit yang dipublikasikan penerbit, beserta total aset bersih dan kepemilikan koin.",
   },
   calendar: {
-    title: "Kalender kripto: makro, unlock token, listing | NexuAlpha", titleShort: "Kalender kripto | NexuAlpha",
-    description: "Tanggal penting minggu ini bagi trader kripto: FOMC, CPI dan data tenaga kerja, unlock token besar, listing dan delisting bursa, serta akhir kampanye.",
+    title: "Kalender kripto: FOMC, CPI, listing, tenggat | NexuAlpha", titleShort: "Kalender kripto | NexuAlpha",
+    description: "Tanggal penting minggu ini bagi trader kripto: FOMC, CPI, tenaga kerja, PDB dan PCE, listing dan delisting bursa, serta akhir kampanye. Dengan sumbernya.",
     h1: "Kalender kripto",
-    lead: "Tanggal yang jadi patokan trader kripto: rilis makro AS, unlock token besar, listing dan delisting bursa, serta batas akhir kampanye. Setiap acara tertaut ke sumber resminya.",
-    filters: "Tampilkan", types: { all: "Semua", macro: "Makro", unlock: "Unlock token", exchange: "Bursa", campaign: "Kampanye" },
+    lead: "Tanggal yang jadi patokan trader kripto: rilis makro AS, listing dan delisting bursa, serta batas akhir kampanye. Setiap acara tertaut ke sumber resminya.",
+    filters: "Tampilkan", types: { all: "Semua", macro: "Makro", exchange: "Bursa", campaign: "Kampanye" },
     weekTitle: "Minggu ini", weekOf: "Minggu mulai {date}", prevWeek: "Minggu sebelumnya", nextWeek: "Minggu berikutnya", today: "Hari ini", noEvents: "Tidak ada acara",
     listTitle: "Akan datang", recentTitle: "7 hari terakhir", empty: "Tidak ada acara mendatang untuk filter ini.",
-    kinds: { fomc: "Keputusan suku bunga FOMC", cpi: "Inflasi CPI AS ({period})", nfp: "Laporan tenaga kerja AS ({period})", pce: "Inflasi PCE AS ({period})", gdp: "PDB AS ({period})", unlock: "Unlock token {name} ({symbol})", listing: "Listing", delisting: "Delisting", "campaign-end": "Kampanye berakhir" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "{pct}% pasokan", unlockValue: "{usd} pada harga {date}", allDay: "Sepanjang hari",
+    kinds: { fomc: "Keputusan suku bunga FOMC", cpi: "Inflasi CPI AS ({period})", nfp: "Laporan tenaga kerja AS ({period})", pce: "Inflasi PCE AS ({period})", gdp: "PDB AS ({period})", listing: "Listing", delisting: "Delisting", "campaign-end": "Kampanye berakhir" },
+    allDay: "Sepanjang hari",
     source: "Sumber", details: "Detail", ics: "Tambahkan ke kalender Anda (iCal)", icsFiltered: "Langganan {type} saja", icsHint: "Tempel tautan ke Google Calendar, Apple Calendar, atau Outlook sebagai langganan; diperbarui setiap enam jam.",
     methodBody: [
       "Tanggal makro berasal dari jadwal rilis resmi AS: kalender FOMC dari Federal Reserve dan jadwal Bureau of Labor Statistics (BLS) untuk CPI dan laporan tenaga kerja.",
-      "Unlock token adalah pelepasan pasokan terkunci terjadwal yang dipublikasikan dalam jadwal vesting tiap proyek; kami mencantumkan unlock bernilai minimal 5 juta dolar pada harga terbaru.",
       "Acara bursa adalah listing dan delisting yang pengumuman resminya menyebutkan tanggal. Batas akhir kampanye adalah tanggal berakhir yang tertulis di aturan resmi kampanye yang kami liput.",
     ],
     faq: [
-      ["Apa itu unlock token?", "Banyak proyek melepas token tim, investor, atau ekosistem dengan jadwal tetap. Unlock menambah jumlah tersebut ke pasokan yang dapat diperdagangkan pada tanggal yang dijadwalkan."],
       ["Acara makro apa yang penting bagi kripto?", "Keputusan suku bunga FOMC, inflasi CPI AS, dan laporan tenaga kerja bulanan menggerakkan ekspektasi suku bunga dan dolar, dan harga kripto sering bereaksi di sekitar waktu rilisnya."],
       ["Bisakah saya menambahkan tanggal ini ke kalender sendiri?", "Bisa. Gunakan tautan iCal di halaman ini sebagai langganan di Google Calendar, Apple Calendar, atau Outlook; bisa dibatasi ke satu jenis acara."],
-      ["Apakah waktunya sesuai zona waktu saya?", "Waktu ditampilkan dalam UTC. Aplikasi kalender mengonversi langganan iCal ke zona waktu Anda."],
+      ["Waktu di halaman ini zona waktu apa?", "Waktu di halaman ini adalah waktu Singapura (SGT, UTC+8). Aplikasi kalender mengonversi langganan iCal ke zona waktu Anda."],
     ],
-    datasetName: "Kalender pasar kripto", datasetDescription: "Rilis makro AS terjadwal (FOMC, CPI, tenaga kerja), unlock token, listing dan delisting bertanggal, serta batas akhir kampanye, masing-masing dengan sumber resmi.",
+    datasetName: "Kalender pasar kripto", datasetDescription: "Rilis makro AS terjadwal (FOMC, CPI, tenaga kerja, PDB, PCE), listing dan delisting bertanggal, serta batas akhir kampanye, masing-masing dengan sumber resmi.",
   },
 };
 
 const JA = {
-  common: { home: "ホーム", updated: "更新", sources: "出典", method: "数値の算出方法", faq: "よくある質問", related: "その他のデータ", json: "JSONデータ", timesUtc: "時刻はUTCです。", unavailableTitle: "データを一時的に表示できません", unavailable: "データがない間は推計を行いません。" },
+  common: { home: "ホーム", updated: "更新", sources: "出典", method: "数値の算出方法", faq: "よくある質問", related: "その他のデータ", json: "JSONデータ", timesUtc: "時刻はシンガポール時間（SGT）です。", unavailableTitle: "データを一時的に表示できません", unavailable: "データがない間は推計を行いません。" },
   etf: {
     title: "ビットコイン現物ETF資金フロー | NexuAlpha", titleShort: "現物ETF資金フロー | NexuAlpha",
     description: "米国のビットコイン・イーサ現物ETF（IBIT、FBTC、GBTCなど）全銘柄の日次純流入・純流出。合計、運用資産残高、発行会社の出典付き。",
@@ -405,7 +391,7 @@ const JA = {
     methodBody: [
       "各発行会社は営業日ごとにファンドの発行済口数と1口あたり純資産価値（NAV）を公表します。ある日の純フローは、前営業日からの発行済口数の変化にその日のNAVを掛けたものです。資金が入ると口数が設定され、出ていくと解約されます。",
       "日次合計は公表済みのファンドを合算します。未公表のファンドは「—」と表示し、合計には公表済みのファンド数を併記します。次回の実行で補完し、推計は行いません。",
-      "数値は毎日米国市場の取引終了後に更新し、翌朝にも再取得します。時刻はUTCです。",
+      "数値は毎日米国市場の取引終了後に更新し、翌朝にも再取得します。時刻はシンガポール時間（SGT）です。",
     ],
     ctaTitle: "{asset}そのものを保有したい場合は", ctaBody: "ETFは証券口座を通じて価格に連動する投資です。暗号資産取引所ではコインそのものを保有し、自分のウォレットに出金できます。", ctaButton: "{venue}で{asset}を買う",
     faq: [
@@ -417,33 +403,31 @@ const JA = {
     datasetName: "米国暗号資産現物ETFの日次純フロー", datasetDescription: "米国のビットコイン、イーサなどの現物ETFごとの日次純フロー（米ドル）。発行会社が公表する発行済口数と1口あたりNAVから算出し、純資産総額とコイン保有量も掲載。",
   },
   calendar: {
-    title: "暗号資産カレンダー：指標・アンロック | NexuAlpha", titleShort: "暗号資産カレンダー | NexuAlpha",
-    description: "暗号資産トレーダーが押さえるべき今週の日程：FOMC、CPI、雇用統計、大型トークンアンロック、取引所の上場・上場廃止、キャンペーン締切。すべて出典付き。",
+    title: "暗号資産カレンダー：FOMC・CPI・上場 | NexuAlpha", titleShort: "暗号資産カレンダー | NexuAlpha",
+    description: "暗号資産トレーダーが押さえるべき今週の日程：FOMC、CPI、雇用統計、GDP・PCE、取引所の上場・上場廃止、キャンペーン締切。すべて出典付き。",
     h1: "暗号資産カレンダー",
-    lead: "暗号資産トレーダーが予定を立てる日程：米国の経済指標、大型トークンアンロック、取引所の上場・上場廃止、キャンペーン締切。各イベントは公式の出典にリンクしています。",
-    filters: "表示", types: { all: "すべて", macro: "経済指標", unlock: "アンロック", exchange: "取引所", campaign: "キャンペーン" },
+    lead: "暗号資産トレーダーが予定を立てる日程：米国の経済指標、取引所の上場・上場廃止、キャンペーン締切。各イベントは公式の出典にリンクしています。",
+    filters: "表示", types: { all: "すべて", macro: "経済指標", exchange: "取引所", campaign: "キャンペーン" },
     weekTitle: "今週", weekOf: "{date}の週", prevWeek: "前の週", nextWeek: "次の週", today: "今日", noEvents: "予定なし",
     listTitle: "今後の予定", recentTitle: "過去7日間", empty: "この条件の今後の予定はありません。",
-    kinds: { fomc: "FOMC政策金利発表", cpi: "米国CPI（{period}）", nfp: "米国雇用統計（{period}）", pce: "米国PCE物価指数（{period}）", gdp: "米国GDP（{period}）", unlock: "{name}（{symbol}）トークンアンロック", listing: "上場", delisting: "上場廃止", "campaign-end": "キャンペーン終了" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "供給量の{pct}%", unlockValue: "{date}時点の価格で{usd}", allDay: "終日",
+    kinds: { fomc: "FOMC政策金利発表", cpi: "米国CPI（{period}）", nfp: "米国雇用統計（{period}）", pce: "米国PCE物価指数（{period}）", gdp: "米国GDP（{period}）", listing: "上場", delisting: "上場廃止", "campaign-end": "キャンペーン終了" },
+    allDay: "終日",
     source: "出典", details: "詳細", ics: "カレンダーに追加（iCal）", icsFiltered: "{type}のみ購読", icsHint: "リンクをGoogleカレンダー、Appleカレンダー、Outlookに購読として追加すると、6時間ごとに更新されます。",
     methodBody: [
       "経済指標の日程は米国の公式発表スケジュールに基づきます。連邦準備制度理事会（FRB）のFOMC日程と、CPIおよび雇用統計についての米労働統計局（BLS）の公表予定です。",
-      "トークンアンロックは各プロジェクトがベスティング計画で公表しているロック済み供給の予定解放です。最新価格で500万ドル以上のものを掲載しています。",
       "取引所イベントは、公式告知に日付が明記された上場と上場廃止です。キャンペーン締切は、当サイトが取り上げるキャンペーンの公式ルールに記載された終了日です。",
     ],
     faq: [
-      ["トークンアンロックとは？", "多くのプロジェクトはチーム、投資家、エコシステム向けのトークンを決まったスケジュールで解放します。アンロック日に、その数量が取引可能な供給に加わります。"],
       ["暗号資産に影響する経済指標は？", "FOMCの政策金利発表、米国CPI、毎月の雇用統計は金利見通しとドルを動かし、暗号資産の価格も発表前後に反応しやすくなります。"],
       ["自分のカレンダーに追加できますか？", "はい。このページのiCalリンクをGoogleカレンダー、Appleカレンダー、Outlookで購読として追加できます。イベントの種類を絞ることもできます。"],
-      ["時刻は自分のタイムゾーンですか？", "ページ上の時刻はUTCです。カレンダーアプリはiCal購読をお使いのタイムゾーンに変換します。"],
+      ["時刻はどのタイムゾーンですか？", "このページの時刻はシンガポール時間（SGT、UTC+8）です。カレンダーアプリはiCal購読をお使いのタイムゾーンに変換します。"],
     ],
-    datasetName: "暗号資産マーケットカレンダー", datasetDescription: "米国の経済指標発表（FOMC、CPI、雇用統計）、トークンアンロック、日付付きの取引所上場・上場廃止、キャンペーン締切。各項目に公式の出典付き。",
+    datasetName: "暗号資産マーケットカレンダー", datasetDescription: "米国の経済指標発表（FOMC、CPI、雇用統計、GDP、PCE）、日付付きの取引所上場・上場廃止、キャンペーン締切。各項目に公式の出典付き。",
   },
 };
 
 const KO = {
-  common: { home: "홈", updated: "업데이트", sources: "출처", method: "수치 산출 방법", faq: "자주 묻는 질문", related: "다른 데이터", json: "원본 JSON", timesUtc: "시간은 UTC 기준입니다.", unavailableTitle: "데이터를 일시적으로 불러올 수 없습니다", unavailable: "데이터가 없을 때는 추정하지 않습니다." },
+  common: { home: "홈", updated: "업데이트", sources: "출처", method: "수치 산출 방법", faq: "자주 묻는 질문", related: "다른 데이터", json: "원본 JSON", timesUtc: "시간은 싱가포르 시간(SGT) 기준입니다.", unavailableTitle: "데이터를 일시적으로 불러올 수 없습니다", unavailable: "데이터가 없을 때는 추정하지 않습니다." },
   etf: {
     title: "비트코인·이더 현물 ETF 자금 흐름 | NexuAlpha", titleShort: "현물 ETF 자금 흐름 | NexuAlpha",
     description: "미국 비트코인·이더 현물 ETF(IBIT, FBTC, GBTC 등) 전체의 일별 순유입·순유출. 합계, 운용자산, 발행사 출처 포함.",
@@ -459,7 +443,7 @@ const KO = {
     methodBody: [
       "각 발행사는 거래일마다 펀드의 발행 주식 수와 주당 순자산가치(NAV)를 공시합니다. 펀드의 하루 순유입은 전 거래일 대비 발행 주식 수 변화에 그날의 주당 NAV를 곱한 값입니다. 자금이 들어오면 주식이 설정되고, 나가면 환매됩니다.",
       "일별 합계는 공시한 펀드만 더합니다. 아직 공시하지 않은 펀드는 '—'로 표시하고 합계에 공시한 펀드 수를 함께 적습니다. 다음 실행 때 채워지며 추정하지 않습니다.",
-      "수치는 매일 미국 장 마감 후 업데이트하고 다음 날 아침에 한 번 더 확인합니다. 시간은 UTC 기준입니다.",
+      "수치는 매일 미국 장 마감 후 업데이트하고 다음 날 아침에 한 번 더 확인합니다. 시간은 싱가포르 시간(SGT) 기준입니다.",
     ],
     ctaTitle: "{asset}을(를) 직접 보유하고 싶다면", ctaBody: "ETF는 증권 계좌를 통해 가격에 투자하는 상품입니다. 가상자산 거래소에서는 코인 자체를 보유하고 내 지갑으로 출금할 수 있습니다.", ctaButton: "{venue}에서 {asset} 구매",
     faq: [
@@ -471,28 +455,26 @@ const KO = {
     datasetName: "미국 가상자산 현물 ETF 일별 순유입", datasetDescription: "미국 비트코인, 이더 등 가상자산 현물 ETF별 일별 순유입(달러). 발행사가 공시한 발행 주식 수와 주당 NAV로 계산하며 총순자산과 코인 보유량을 함께 제공합니다.",
   },
   calendar: {
-    title: "크립토 캘린더: 경제지표·토큰 언락 | NexuAlpha", titleShort: "크립토 캘린더 | NexuAlpha",
-    description: "가상자산 트레이더가 챙겨야 할 이번 주 일정: FOMC, CPI, 고용보고서, 대규모 토큰 언락, 거래소 상장·상장폐지, 이벤트 마감. 모두 출처 포함.",
+    title: "크립토 캘린더: FOMC·CPI·상장 | NexuAlpha", titleShort: "크립토 캘린더 | NexuAlpha",
+    description: "가상자산 트레이더가 챙겨야 할 이번 주 일정: FOMC, CPI, 고용보고서, GDP·PCE, 거래소 상장·상장폐지, 이벤트 마감. 모두 출처 포함.",
     h1: "크립토 캘린더",
-    lead: "가상자산 트레이더가 일정을 세우는 날짜: 미국 경제지표, 대규모 토큰 언락, 거래소 상장·상장폐지, 이벤트 마감. 모든 일정은 공식 출처로 연결됩니다.",
-    filters: "보기", types: { all: "전체", macro: "경제지표", unlock: "토큰 언락", exchange: "거래소", campaign: "이벤트" },
+    lead: "가상자산 트레이더가 일정을 세우는 날짜: 미국 경제지표, 거래소 상장·상장폐지, 이벤트 마감. 모든 일정은 공식 출처로 연결됩니다.",
+    filters: "보기", types: { all: "전체", macro: "경제지표", exchange: "거래소", campaign: "이벤트" },
     weekTitle: "이번 주", weekOf: "{date} 주간", prevWeek: "이전 주", nextWeek: "다음 주", today: "오늘", noEvents: "일정 없음",
     listTitle: "다가오는 일정", recentTitle: "지난 7일", empty: "이 필터에 해당하는 다가오는 일정이 없습니다.",
-    kinds: { fomc: "FOMC 기준금리 결정", cpi: "미국 CPI({period})", nfp: "미국 고용보고서({period})", pce: "미국 PCE 물가({period})", gdp: "미국 GDP({period})", unlock: "{name}({symbol}) 토큰 언락", listing: "상장", delisting: "상장폐지", "campaign-end": "이벤트 마감" },
-    unlockAmount: "{amount} {symbol}", unlockPct: "공급량의 {pct}%", unlockValue: "{date} 가격 기준 {usd}", allDay: "종일",
+    kinds: { fomc: "FOMC 기준금리 결정", cpi: "미국 CPI({period})", nfp: "미국 고용보고서({period})", pce: "미국 PCE 물가({period})", gdp: "미국 GDP({period})", listing: "상장", delisting: "상장폐지", "campaign-end": "이벤트 마감" },
+    allDay: "종일",
     source: "출처", details: "상세", ics: "내 캘린더에 추가(iCal)", icsFiltered: "{type}만 구독", icsHint: "링크를 Google 캘린더, Apple 캘린더, Outlook에 구독으로 추가하면 6시간마다 새로 고쳐집니다.",
     methodBody: [
       "경제지표 일정은 미국 공식 발표 일정에서 가져옵니다. 연방준비제도(Fed)의 FOMC 일정과 CPI·고용보고서에 대한 미 노동통계국(BLS) 발표 일정입니다.",
-      "토큰 언락은 각 프로젝트가 베스팅 일정으로 공개한 잠금 물량의 예정된 해제입니다. 최신 가격 기준 500만 달러 이상인 언락만 표시합니다.",
       "거래소 일정은 공식 공지에 날짜가 명시된 상장과 상장폐지입니다. 이벤트 마감은 저희가 다루는 이벤트의 공식 규정에 적힌 종료일입니다.",
     ],
     faq: [
-      ["토큰 언락이란?", "많은 프로젝트가 팀, 투자자, 생태계 물량을 정해진 일정에 따라 해제합니다. 언락일에 그 물량이 거래 가능한 공급량에 더해집니다."],
       ["가상자산에 중요한 경제지표는?", "FOMC 기준금리 결정, 미국 CPI, 월간 고용보고서는 금리 전망과 달러를 움직이며, 가상자산 가격도 발표 전후로 반응하는 경우가 많습니다."],
       ["이 일정을 내 캘린더에 추가할 수 있나요?", "네. 이 페이지의 iCal 링크를 Google 캘린더, Apple 캘린더, Outlook에서 구독으로 추가하세요. 일정 유형별로 구독할 수도 있습니다."],
-      ["시간이 내 시간대 기준인가요?", "페이지의 시간은 UTC 기준입니다. 캘린더 앱은 iCal 구독을 사용자의 시간대로 변환합니다."],
+      ["시간은 어느 시간대 기준인가요?", "이 페이지의 시간은 싱가포르 시간(SGT, UTC+8) 기준입니다. 캘린더 앱은 iCal 구독을 사용자의 시간대로 변환합니다."],
     ],
-    datasetName: "크립토 마켓 캘린더", datasetDescription: "미국 경제지표 발표(FOMC, CPI, 고용), 토큰 언락, 날짜가 명시된 거래소 상장·상장폐지, 이벤트 마감 일정. 각 항목에 공식 출처 포함.",
+    datasetName: "크립토 마켓 캘린더", datasetDescription: "미국 경제지표 발표(FOMC, CPI, 고용, GDP, PCE), 날짜가 명시된 거래소 상장·상장폐지, 이벤트 마감 일정. 각 항목에 공식 출처 포함.",
   },
 };
 

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { buildSeedSql, defaultNewsroomConfig, readSourceRegistry } from '../db/generate-seed-sql.mjs';
 
 const migrationPath = fileURLToPath(new URL('../db/migrations/001_core.sql', import.meta.url));
+const feedHealthMigrationPath = fileURLToPath(new URL('../db/migrations/092_source_feed_health.sql', import.meta.url));
 const seedPath = fileURLToPath(new URL('../db/seeds/001_sources.sql', import.meta.url));
 const registryPath = new URL('../db/source-registry.json', import.meta.url);
 
@@ -27,6 +28,8 @@ const expectedSourceStatuses = {
   'okx-announcements': 'connected',
   'bybit-announcements': 'connected',
   'bitget-announcements': 'connected',
+  'kucoin-announcements': 'connected',
+  'kraken-announcements': 'connected',
   'coinbase-status': 'partial',
   'kraken-status': 'connected',
   'nexualpha-official-announcements': 'connected',
@@ -164,6 +167,22 @@ test('source registry covers every SOURCES.md row with explicit status expectati
   assert.equal(byId.get('hyperliquid-medium-dropped')?.enabled, false);
   assert.equal(byId.get('hyperliquid-info')?.status, 'connected');
   assert.equal(byId.get('x-api-v2')?.quota_per_day, undefined);
+});
+
+test('source feed-health migration upgrades stale media feed URLs without overwriting newer live success', () => {
+  const sql = readFileSync(feedHealthMigrationPath, 'utf8');
+  const statements = splitSqlStatements(stripLineComments(sql));
+  assert.equal(statements.length, 2);
+  assert.match(sql, /id = 'panews-rss'/);
+  assert.match(sql, /https:\/\/www\.panewslab\.com\/rss\/index\.xml/);
+  assert.match(sql, /https:\/\/www\.panewslab\.com\/rss\.xml\?lang=en&type=NEWS/);
+  assert.match(sql, /id = 'odaily-newsflash-rss'/);
+  assert.match(sql, /https:\/\/www\.odaily\.news\/rss\/newsflash/);
+  assert.match(sql, /https:\/\/rss\.odaily\.news\/rss\/newsflash/);
+  assert.match(sql, /then 'connected'/);
+  assert.match(sql, /fallback_source_id = null/);
+  assert.match(sql, /last_success_at is null or last_success_at < '2026-10-12T14:47:57Z'::timestamptz/);
+  assert.doesNotMatch(sql, /last_success_at\s*=\s*null/i);
 });
 
 test('generated seed SQL is checked in, parseable, and preserves health/admin fields on reseed', () => {

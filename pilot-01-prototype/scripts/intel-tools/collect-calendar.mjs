@@ -11,7 +11,6 @@ import { fileURLToPath } from "node:url";
 import { CALENDAR_SCHEMA, readCalendar } from "../../src/data/crypto-calendar.js";
 import { updatePath } from "../../src/data/activity-update-path.js";
 import { MACRO_SOURCES, collectMacro } from "./macro-schedule.mjs";
-import { UNLOCK_SOURCE, collectUnlocks } from "./token-unlocks.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const args = process.argv.slice(2);
@@ -122,12 +121,11 @@ async function main() {
     }
   };
   await run("macro", ["macro"], async () => ({ macro: await collectMacro({ fetchText, fetchJson, window: WINDOW }) }));
-  await run("unlocks", ["unlock"], async () => ({ unlock: await collectUnlocks({ fetchText, fetchJson, window: WINDOW, now }) }));
   await run("exchanges", ["exchange", "campaign"], collectExchangeAndCampaigns);
-  const events = [...groups.macro, ...groups.unlock, ...groups.exchange, ...groups.campaign].sort((a, b) => a.start.localeCompare(b.start));
+  const events = [...groups.macro, ...groups.exchange, ...groups.campaign].sort((a, b) => a.start.localeCompare(b.start));
   const snapshot = {
     schema: CALENDAR_SCHEMA, generatedAt: new Date(now).toISOString(), status,
-    sources: [...MACRO_SOURCES, UNLOCK_SOURCE, { name: "Official exchange announcements (NexuAlpha feed)", url: `${SITE}/intel/official-announcements.json` }],
+    sources: [...MACRO_SOURCES, { name: "Official exchange announcements (NexuAlpha feed)", url: `${SITE}/intel/official-announcements.json` }],
     events,
   };
   const parsed = readCalendar(snapshot);

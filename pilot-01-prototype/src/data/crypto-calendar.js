@@ -1,15 +1,17 @@
-// Crypto calendar (/calendar, 2026-10-13): US macro releases, token unlocks, dated exchange listings/delistings and
-// the deadlines of the campaigns we cover. Pure and dependency-free (Worker head + ICS, SSR, browser, host collector
+// Crypto calendar (/calendar, 2026-10-13): US macro releases, dated exchange listings/delistings and
+// the deadlines of the campaigns we cover. Pure (Worker head + ICS, SSR, browser, host collector
 // ops/intel-tools/collect-calendar.mjs). Every event carries the official source it was read from.
 //
 // Snapshot shape (schema nexualpha.calendar.v1):
 // { schema, generatedAt, sources: [{ name, url }],
-//   events: [{ id, type: "macro"|"unlock"|"exchange"|"campaign", kind, start: ISO, allDay, title, titles?: { locale: text },
+//   events: [{ id, type: "macro"|"exchange"|"campaign", kind, start: ISO, allDay, title, titles?: { locale: text },
 //              asset?, venue?, amount?, pctSupply?, usdValue?, period?, sourceUrl, sourceName, pagePath? }] }
 
+import { sgtLabel, sgtParts } from "./sgt-time.js";
+
 export const CALENDAR_SCHEMA = "nexualpha.calendar.v1";
-export const CALENDAR_TYPES = Object.freeze(["macro", "unlock", "exchange", "campaign"]);
-export const CALENDAR_KINDS = Object.freeze(["fomc", "cpi", "nfp", "pce", "gdp", "unlock", "listing", "delisting", "campaign-end"]);
+export const CALENDAR_TYPES = Object.freeze(["macro", "exchange", "campaign"]);
+export const CALENDAR_KINDS = Object.freeze(["fomc", "cpi", "nfp", "pce", "gdp", "listing", "delisting", "campaign-end"]);
 const DAY_MS = 864e5;
 
 const num = (v) => { const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : NaN; return Number.isFinite(n) ? n : null; };
@@ -46,30 +48,32 @@ export function readCalendar(json) {
 export const filterEvents = (events, type) => (CALENDAR_TYPES.includes(type) ? events.filter((e) => e.type === type) : events);
 export const eventTitle = (event, locale) => event.titles?.[locale] || (String(locale).startsWith("zh") ? event.titles?.["zh-Hans"] : null) || event.title;
 export const utcDay = (iso) => String(iso).slice(0, 10);
+const addDays = (day, n) => new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY_MS).toISOString().slice(0, 10);
+/** Calendar day of an event in Singapore time (all-day events keep their own date). */
+export const eventDay = (event) => (event.allDay ? utcDay(event.start) : sgtParts(event.start)?.day || utcDay(event.start));
+export const sgtToday = (now) => sgtParts(now)?.day;
 
-/** Monday 00:00 UTC of the week containing `now`, shifted by `offset` weeks. */
+/** Monday (YYYY-MM-DD, Singapore time) of the week containing `now`, shifted by `offset` weeks. */
 export function weekStart(now, offset = 0) {
-  const d = new Date(now);
-  const day = (d.getUTCDay() + 6) % 7;
-  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day + offset * 7);
+  const today = sgtToday(now);
+  const weekday = (new Date(`${today}T00:00:00Z`).getUTCDay() + 6) % 7;
+  return addDays(today, -weekday + offset * 7);
 }
-/** Seven UTC days ({ day: "YYYY-MM-DD", events }) of one week. */
+/** Seven Singapore-time days ({ day: "YYYY-MM-DD", events }) of one week. */
 export function weekModel(events, now, offset = 0) {
   const start = weekStart(now, offset);
   return Array.from({ length: 7 }, (_, i) => {
-    const day = new Date(start + i * DAY_MS).toISOString().slice(0, 10);
-    return { day, events: events.filter((e) => utcDay(e.start) === day) };
+    const day = addDays(start, i);
+    return { day, events: events.filter((e) => eventDay(e) === day) };
   });
 }
-/** Upcoming events (from the start of today UTC) grouped by day, at most `days` days ahead. */
+/** Upcoming events (from today, Singapore time) grouped by day, at most `days` days ahead. */
 export function upcomingGroups(events, now, { days = 120, limit = 400 } = {}) {
-  const from = Date.UTC(new Date(now).getUTCFullYear(), new Date(now).getUTCMonth(), new Date(now).getUTCDate());
-  const to = from + days * DAY_MS;
+  const from = sgtToday(now), to = addDays(from, days);
   const groups = new Map();
   for (const e of events) {
-    const t = Date.parse(e.start);
-    if (t < from || t >= to) continue;
-    const day = utcDay(e.start);
+    const day = eventDay(e);
+    if (day < from || day >= to) continue;
     if (!groups.has(day)) groups.set(day, []);
     groups.get(day).push(e);
     if (--limit <= 0) break;
@@ -77,15 +81,16 @@ export function upcomingGroups(events, now, { days = 120, limit = 400 } = {}) {
   return [...groups.entries()].map(([day, list]) => ({ day, events: list }));
 }
 export function recentEvents(events, now, days = 7) {
-  const today = Date.UTC(new Date(now).getUTCFullYear(), new Date(now).getUTCMonth(), new Date(now).getUTCDate());
-  return events.filter((e) => { const t = Date.parse(e.start); return t < today && t >= today - days * DAY_MS; }).reverse();
+  const today = sgtToday(now), from = addDays(today, -days);
+  return events.filter((e) => { const day = eventDay(e); return day < today && day >= from; }).reverse();
 }
 export const typeCounts = (events) => Object.fromEntries(CALENDAR_TYPES.map((type) => [type, events.filter((e) => e.type === type).length]));
 
-export function formatEventTime(event) {
+/** "21:30 SGT" (zh: "21:30 新加坡时间"); null for all-day events. */
+export function formatEventTime(event, locale = "en") {
   if (event.allDay) return null;
-  const d = new Date(event.start), p = (x) => String(x).padStart(2, "0");
-  return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+  const p = sgtParts(event.start);
+  return p ? `${p.time} ${sgtLabel(locale)}` : null;
 }
 
 // ------------------------------------------------------------------ iCalendar export (RFC 5545)

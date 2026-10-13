@@ -49,7 +49,7 @@ function calendarSchemas(locale, url, homeUrl, data, now) {
       "@context": "https://schema.org", "@type": "Dataset", name: page.datasetName, description: page.datasetDescription, url, inLanguage: locale,
       isAccessibleForFree: true, license: `${ORIGIN}/methodology#data-license`, creator: RESEARCH_DESK, publisher: NEXUALPHA_PUBLISHER,
       temporalCoverage: `${INTEL_TOOLS_LAUNCH_DAY}/..`, ...(data ? { dateModified: data.generatedAt } : {}),
-      keywords: ["crypto calendar", "token unlocks", "FOMC", "CPI", "exchange listings", "delistings"],
+      keywords: ["crypto calendar", "FOMC", "CPI", "jobs report", "exchange listings", "delistings"],
       distribution: [
         { "@type": "DataDownload", encodingFormat: "application/json", contentUrl: `${ORIGIN}${CALENDAR_JSON_PATH}` },
         { "@type": "DataDownload", encodingFormat: "text/calendar", contentUrl: `${ORIGIN}${CALENDAR_ICS_PATH}` },

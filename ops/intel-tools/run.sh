@@ -2,7 +2,7 @@
 # Crypto calendar refresh on the BaoTa host (2026-10-13). Rewrites the runtime snapshot the web containers read
 # (CALENDAR_FILE = host /data/private/nexualpha/intel/calendar.json); /calendar, /calendar.ics and /intel/calendar.json
 # pick it up within 5 minutes, no redeploy.
-#   run.sh calendar  macro schedules, token unlocks, exchange dates, campaign deadlines -> calendar.json
+#   run.sh calendar  macro schedules, exchange dates, campaign deadlines -> calendar.json
 # /etf-flows has no collector until a data source we may republish is approved (see docs/etf-calendar-refresh.md).
 # Install: pilot-01-prototype/docs/etf-calendar-refresh.md (host copy in /data/agent/srv/intel-tools).
 set -euo pipefail

@@ -51,8 +51,9 @@ write_json() { # target file, from stdin; atomic replace, private perms
 
 job_pipeline() {
   local rc=0
-  "${CLI[@]}" dedupe || rc=1
-  "${CLI[@]}" score || rc=1
+  "${CLI[@]}" dedupe || return 1
+  "${CLI[@]}" score || return 1
+  "${CLI[@]}" verify || return 1
   "${CLI[@]}" export:top --limit "$EXPORT_LIMIT" | write_json "$OUT/top-events.json" && echo "exported top-events.json" || rc=1
   "${CLI[@]}" status | write_json "$OUT/status-latest.json" || rc=1
   return $rc
@@ -97,7 +98,7 @@ if [ "${1:-}" = run ]; then
   case "${2:-}" in collect|pipeline|daily) run_job "$2"; exit $? ;; *) echo "usage: $0 run collect|pipeline|daily" >&2; exit 2 ;; esac
 fi
 
-log scheduler "start: collect every 10 min, pipeline (dedupe+score+export) every 10 min offset 5 min, daily status after ${SNAPSHOT_HOUR}:00"
+log scheduler "start: collect every 10 min, pipeline (dedupe+score+verify+export) every 10 min offset 5 min, daily status after ${SNAPSHOT_HOUR}:00"
 touch "$STATE/heartbeat"
 loop collect 30 600 570
 loop pipeline 330 600 300

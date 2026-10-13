@@ -19,6 +19,38 @@ test('event bundle contains evidence, score history and linked articles', () => 
   for (const table of ['event_evidence', 'event_scores', 'articles']) assert.ok(sql.includes(table));
   assert.match(sql, /e.id=12/);
 });
+test('writer claim, release and complete SQL is bounded and validated', () => {
+  const claim = buildQuery(['claim', '--limit', '2', '--writer', 'writer-a']);
+  assert.match(claim, /FOR UPDATE OF e SKIP LOCKED/);
+  assert.match(claim, /shortfall_log/);
+  assert.match(claim, /state='claimed'/);
+  assert.match(buildQuery(['release', '12', '--writer', 'writer-a']), /claimed_by='writer-a'/);
+  assert.match(buildQuery(['complete', '12', '--writer', 'writer-a', '--article', 'bybit-lists-test', '--url', 'https://nexualpha.com/news/bybit-lists-test']), /published_url/);
+  assert.throws(() => buildQuery(['claim', '--limit', '0', '--writer', 'writer-a']));
+  assert.throws(() => buildQuery(['claim', '--limit', '2']));
+  assert.throws(() => buildQuery(['release', 'bad']));
+  assert.throws(() => buildQuery(['complete', '12', '--article', 'Bad Slug', '--url', 'https://nexualpha.com/news/x']));
+  assert.throws(() => buildQuery(['complete', '12', '--article', 'ok-slug', '--url', 'javascript:alert(1)']));
+});
+test('claim command enriches database events for the writer without publishing', async () => {
+  let query;
+  const output = await main(['claim', '--limit', '1', '--writer', 'writer-a'], sql => {
+    query = sql;
+    return JSON.stringify([{
+      id: 99,
+      event_type: 'listing',
+      title_internal: 'Bybit lists TEST',
+      subject_entity: 'bybit',
+      subjects: ['TEST'],
+      evidence: [{ id: 'ev1', url: 'https://example.com', kind: 'official_notice', excerpt: 'Bybit lists TEST' }],
+      entities: [{ id: 'bybit', kind: 'exchange', display_name: { en: 'Bybit' }, partner_slug: 'bybit' }],
+    }]);
+  });
+  const events = JSON.parse(output);
+  assert.match(query, /FOR UPDATE OF e SKIP LOCKED/);
+  assert.equal(events[0].suggested_format, 'flash');
+  assert.ok(events[0].cta_hints.length);
+});
 test('invalid options, ids and JSON are rejected before database execution', async () => {
   for (const args of [['events:top', '--limit', '0'], ['events:top', '--limit', '1;DROP'], ['events:top', '--bad', '2'], ['event:show', '-1'], ['review:list', 'extra'], ['config:set', 'key', 'bad'], ['config:set', 'weights', '{}']]) {
     let calls = 0;
@@ -35,13 +67,17 @@ test('shortfall upsert uses a data-modifying CTE and explicit slot', () => {
 });
 test('config JSON roundtrips and review query selects unresolved entries', async () => {
   assert.match(buildQuery(['config:set', 'weights', '{"relevance":25,"heat":20,"timeliness":20,"new_info":20,"impact":15}']), /::jsonb/);
+  assert.match(buildQuery(['config:set', 'thresholds', '{"publish":45,"publish_credibility_min":2}']), /::jsonb/);
+  assert.throws(() => buildQuery(['config:set', 'thresholds', '{"publish":101}']), /invalid threshold/);
   assert.match(buildQuery(['review:list']), /resolved_at IS NULL/);
   let query;
   assert.equal(await main(['config:get', 'weights'], sql => { query = sql; return '[{"key":"weights"}]'; }), '[{"key":"weights"}]');
   assert.ok(query.includes("key='weights'"));
 });
 test('help does not connect', async () => {
-  assert.match(await main(['--help'], () => assert.fail('unexpected DB access')), /PGDATABASE/);
+  const help = await main(['--help'], () => assert.fail('unexpected DB access'));
+  assert.match(help, /PGDATABASE/);
+  assert.match(help, /calibrate/);
 });
 test('migrate and seed submit atomic serialized batches and reject unexpected options', async () => {
   for (const command of ['migrate', 'seed']) {
@@ -64,4 +100,15 @@ test('seed:watchlist imports the bundled verified snapshot atomically without ap
   assert.match(calls[0],/'x_daily_read_budget','0'/);
   assert.match(calls[0],/defillama-hacks/);
   assert.match(calls[0],/COMMIT;$/);
+});
+
+test('calibrate command is read-only and fixed to the owner calibration window', async () => {
+  const calls = [];
+  const result = await main(['calibrate'], sql => { calls.push(sql); return '{"schema":"newsroom.calibration.v1"}'; });
+  assert.equal(result, '{"schema":"newsroom.calibration.v1"}');
+  assert.equal(calls.length, 1);
+  assert.match(calls[0], /\(40\), \(45\), \(50\), \(55\)/);
+  assert.match(calls[0], /interval '72 hours'/);
+  assert.doesNotMatch(calls[0], /\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bALTER\b/i);
+  await assert.rejects(main(['calibrate', '--threshold', '45'], () => assert.fail('unexpected DB access')));
 });

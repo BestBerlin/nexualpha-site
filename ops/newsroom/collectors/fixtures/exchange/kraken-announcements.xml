@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Asset Listings Archives - Kraken Blog</title>
+    <link>https://blog.kraken.com/category/product/asset-listings</link>
+    <item>
+      <title>ZCHF is available for trading!</title>
+      <link>https://blog.kraken.com/product/asset-listings/zchf-is-available-for-trading</link>
+      <dc:creator><![CDATA[KrakenFX]]></dc:creator>
+      <pubDate>Thu, 08 Oct 2026 15:53:48 +0000</pubDate>
+      <category><![CDATA[Asset Listings]]></category>
+      <guid isPermaLink="false">https://blog.kraken.com/?p=36775</guid>
+      <description><![CDATA[We're thrilled to announce that ZCHF is available for trading on Kraken! Funding and trading ZCHF trading is live as of October 8, 2026.]]></description>
+    </item>
+  </channel>
+</rss>

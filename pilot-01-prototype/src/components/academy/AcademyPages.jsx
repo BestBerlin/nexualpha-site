@@ -11,6 +11,8 @@ import {
 import { ACADEMY_COPY } from "../../data/academy-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
+import { createGlossaryLinker } from "../../data/glossary-autolink.js";
+import { GLOSSARY_INDEX_LOCALES, glossaryNavLabel, glossaryTermPath } from "../../data/glossary-routes.js";
 import "./academy.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -116,6 +118,7 @@ export function AcademyHubPage({ locale = "en", content, market }) {
           <div className="nxa-actions">
             <a className="nxa-btn nxa-btn--primary" href={hrefFor(academyEpisodePath(startEpisode), locale, market)} data-academy-start={startEpisode.ep}><Play />{startLabel}</a>
             <a className="nxa-btn nxa-btn--ghost" href="#lessons">{t.browse}</a>
+            {GLOSSARY_INDEX_LOCALES.includes(locale) ? <a className="nxa-btn nxa-btn--ghost" href={hrefFor("/glossary", locale, market)} data-academy-glossary>{glossaryNavLabel(locale)}</a> : null}
           </div>
           <ul className="nxa-stats">
             <li>{figures(t.statLessons)}</li>
@@ -215,13 +218,19 @@ function QuickCheck({ quiz, t }) {
   </div>;
 }
 
-function Transcript({ rows, t, onSeek }) {
+// Glossary (2026-10-13): the first mentions of up to 5 glossary terms in the transcript link to their definitions.
+// glossaryLinks is the locale's glossary-links module (null outside the glossary's written locales); the linker state
+// lives for one render, so server and client output match.
+function Transcript({ rows, t, onSeek, locale, market, glossaryLinks }) {
+  const linker = glossaryLinks ? createGlossaryLinker(glossaryLinks, { max: 5 }) : null;
+  const linked = (text) => (linker ? linker.linkText(text).map((part, index) => (typeof part === "string" ? part
+    : <a key={`g${index}`} className="nxa-glossary-link" href={hrefFor(glossaryTermPath(part.slug), locale, market)} data-glossary-link={part.slug}>{part.text}</a>)) : text);
   return <ol className="nxa-transcript">
     {rows.map((row, index) => {
       const time = clockDuration(row.t);
       return <li key={index} className="nxa-transcript__row" data-who={row.who}>
         <button type="button" className="nxa-transcript__time" onClick={() => onSeek(row.t)} aria-label={fill(t.playFrom, { time })}><bdi dir="ltr">{time}</bdi></button>
-        <div className="nxa-transcript__line"><span className="nxa-transcript__who">{t[row.who] || row.who}</span><p>{row.text}</p></div>
+        <div className="nxa-transcript__line"><span className="nxa-transcript__who">{t[row.who] || row.who}</span><p>{linked(row.text)}</p></div>
       </li>;
     })}
   </ol>;
@@ -278,7 +287,7 @@ function LessonList({ current, lessons, watched, locale, market, t }) {
   </nav>;
 }
 
-export function AcademyEpisodePage({ locale = "en", content, slug, market }) {
+export function AcademyEpisodePage({ locale = "en", content, slug, market, glossaryLinks = null }) {
   const t = academyUiCopy(locale);
   const episode = ACADEMY_EPISODES.find((item) => item.slug === slug) || ACADEMY_EPISODES[0];
   const lessons = content.lessons;
@@ -344,7 +353,7 @@ export function AcademyEpisodePage({ locale = "en", content, slug, market }) {
 
           <section className="nxa-sec" aria-labelledby="nxa-transcript">
             <h2 id="nxa-transcript">{t.transcript}</h2>
-            <div {...langProps}><Transcript rows={lesson.transcript} t={t} onSeek={seek} /></div>
+            <div {...langProps}><Transcript rows={lesson.transcript} t={t} onSeek={seek} locale={locale} market={market} glossaryLinks={contentLang === locale ? glossaryLinks : null} /></div>
           </section>
 
           <nav className="nxa-pager" aria-label={t.allLessons}>

@@ -1,5 +1,5 @@
-// Daily-return data pages (2026-10-13): /etf-flows (US spot crypto ETF flows) and /calendar (macro events, token
-// unlocks, exchange dates, campaign deadlines). Entry-safe: the router, header/footer links, /flash and the data pages
+// Daily-return data pages (2026-10-13): /etf-flows (US spot crypto ETF flows) and /calendar (macro events,
+// exchange dates, campaign deadlines). Entry-safe: the router, header/footer links, /flash and the data pages
 // import this file, so it carries only paths (link labels: intel-tools-links.js; page copy: intel-tools-copy.js).
 
 export const ETF_FLOWS_PATH = "/etf-flows";

@@ -1,7 +1,14 @@
 import { academyContentModulePath } from "./academy.js";
 import { parsePublicRoute } from "./locale-routing.js";
+import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./glossary-routes.js";
 
 const routeModuleEntries = new Map();
+// Path patterns whose loaders are created on first use (glossary content: 160+ small modules whose loader table lives in
+// the glossary content-loader chunk, not in the browser entry). resolver(path) returns a loader or null.
+const routeModuleResolvers = [];
+export function registerRouteModuleResolver(resolver) {
+  if (typeof resolver === "function" && !routeModuleResolvers.includes(resolver)) routeModuleResolvers.push(resolver);
+}
 
 export const ROUTE_MODULE_PATHS = Object.freeze({
   finder: "./components/finder/CommandFinder.jsx",
@@ -46,6 +53,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   platformMatcher: "./components/v3/PlatformMatcher.jsx",
   newsList: "./components/v3/news/NewsListPage.jsx",
   liquidations: "./components/data/LiquidationsPage.jsx",
+  fundingMatrix: "./components/data/FundingMatrixPage.jsx",
   fundingRates: "./components/data/FundingRatesPage.jsx",
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
   // boundary below the tool, so React keeps the server HTML until the chunk arrives and then hydrates it.
@@ -55,7 +63,10 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
+  converter: "./components/converter/ConverterPage.jsx",
   coins: "./components/coins/CoinPages.jsx",
+  // Crypto glossary (2026-10-13): hub + term pages; content is the locale's index or the term's shard module.
+  glossary: "./components/glossary/GlossaryPages.jsx",
   appDownload: "./components/apps/AppDownloadPage.jsx",
   // Flash stream + item pages (2026-10-12).
   flash: "./components/flash/FlashPages.jsx",
@@ -77,6 +88,18 @@ function urlLocale(sourceUrl) {
   } catch { return "en"; }
 }
 
+function glossaryLinkPaths(sourceUrl) {
+  const locale = urlLocale(sourceUrl);
+  return GLOSSARY_INDEX_LOCALES.includes(locale) ? [glossaryLinksModulePath(locale)] : [];
+}
+function glossarySlugFromUrl(sourceUrl) {
+  try {
+    const url = new URL(sourceUrl || "/", "https://nexualpha.com");
+    const route = parsePublicRoute(url.pathname, url.searchParams);
+    return parseGlossaryPath(route.pathname || url.pathname)?.slug || "";
+  } catch { return ""; }
+}
+
 export function registerRouteModuleLoaders(loaders = {}) {
   for (const [path, loader] of Object.entries(loaders)) {
     if (typeof loader !== "function") continue;
@@ -90,6 +113,12 @@ export function registerRouteModuleLoaders(loaders = {}) {
 }
 
 function entryFor(path) {
+  if (!routeModuleEntries.has(path)) {
+    for (const resolve of routeModuleResolvers) {
+      const loader = resolve(path);
+      if (typeof loader === "function") { routeModuleEntries.set(path, { status: "idle", loader, promise: null, module: null, error: null }); break; }
+    }
+  }
   const entry = routeModuleEntries.get(path);
   if (!entry?.loader) throw new Error(`Missing deferred component loader for ${path}`);
   return entry;
@@ -146,9 +175,15 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "etfFlows" || name === "calendar") return [ROUTE_MODULE_PATHS.intelTools];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
+  if (name === "fundingMatrix") return [ROUTE_MODULE_PATHS.fundingMatrix];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
-  if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  if (name === "academyHub") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  // Lesson transcripts and news articles link their first glossary terms (glossary-links-<locale>.js, index locales only).
+  if (name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl)), ...glossaryLinkPaths(sourceUrl)];
+  if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
+  if (name === "glossaryHub") return [ROUTE_MODULE_PATHS.glossary, glossaryIndexModulePath(urlLocale(sourceUrl))];
+  if (name === "glossaryTerm") return [ROUTE_MODULE_PATHS.glossary, glossaryShardModulePath(urlLocale(sourceUrl), route.slug || glossarySlugFromUrl(sourceUrl))];
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
@@ -157,7 +192,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
-  if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail];
+  if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail, ...glossaryLinkPaths(sourceUrl)];
   if (name === "rateTerminal") return [ROUTE_MODULE_PATHS.feeBenchmark];
   if (name === "onchainBoard") return [ROUTE_MODULE_PATHS.onchain];
   if (name === "kolLanding") return [ROUTE_MODULE_PATHS.kolLanding];

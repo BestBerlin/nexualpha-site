@@ -78,6 +78,8 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([
   "/markets",
   "/academy",
   "/coins",
+  "/convert",
+  "/glossary",
   "/flash",
 ]);
 
@@ -95,6 +97,7 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/funding-rates",
   "/etf-flows",
   "/calendar",
+  "/funding-rates/matrix",
 ]);
 
 const NON_LOCALIZED_PREFIXES = Object.freeze([

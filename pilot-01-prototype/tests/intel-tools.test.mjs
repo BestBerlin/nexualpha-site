@@ -7,7 +7,7 @@ import path from "node:path";
 import test from "node:test";
 import worker from "../worker/index.js";
 import { compactEtfFlows, etfAssetView, etfAssets, etfChartModel, etfWindowSum, formatSignedMillions, formatSignedUsd, formatUsdShort, readEtfFlows } from "../src/data/etf-flows.js";
-import { compactCalendar, filterEvents, readCalendar, renderIcs, upcomingGroups, weekModel, weekStart } from "../src/data/crypto-calendar.js";
+import { compactCalendar, filterEvents, formatEventTime, readCalendar, renderIcs, upcomingGroups, weekModel, weekStart } from "../src/data/crypto-calendar.js";
 import { ETF_FLOWS_LIVE, INTEL_TOOL_INDEX_LOCALES, isIntelToolPath } from "../src/data/intel-tools-routes.js";
 import { intelToolRouteSeo, intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
 import { intelToolsCopy, intelToolsCopyLocales } from "../src/data/intel-tools-copy.js";
@@ -43,7 +43,7 @@ export function calendarFixture() {
     events: [
       ev("fomc-2026-10-28", "macro", "fomc", "2026-10-28T18:00:00Z"),
       ev("cpi-2026-10", "macro", "cpi", "2026-10-15T12:30:00Z", { period: "Sep 2026" }),
-      ev("unlock-arb", "unlock", "unlock", "2026-10-16T13:00:00Z", { asset: "ARB", assetName: "Arbitrum", amount: 92650000, pctSupply: 0.93, usdValue: 31500000 }),
+      ev("nfp-2026-11", "macro", "nfp", "2026-10-15T20:30:00Z"),
       ev("exchange:binance:1", "exchange", "delisting", "2026-10-17T03:00:00Z", { venue: "binance", title: "Binance Will Delist X on 2026-10-17", pagePath: "/activities/updates/binance/x-1" }),
       ev("campaign:okx:1", "campaign", "campaign-end", "2026-10-20T23:59:00Z", { venue: "okx", title: "OKX campaign ends", titles: { "zh-Hans": "OKX 活动截止" } }),
       ev("old", "macro", "nfp", "2026-10-02T12:30:00Z", { period: "Sep 2026" }),
@@ -88,14 +88,16 @@ test("ETF formatting is exact and deterministic", () => {
 
 test("calendar reader drops events without a date or an https source; week and list views", () => {
   const data = readCalendar(calendarFixture());
-  assert.deepEqual(data.events.map((e) => e.id), ["old", "cpi-2026-10", "unlock-arb", "exchange:binance:1", "campaign:okx:1", "fomc-2026-10-28"]);
-  assert.equal(new Date(weekStart(NOW)).toISOString(), "2026-10-12T00:00:00.000Z", "weeks start on Monday UTC");
+  assert.deepEqual(data.events.map((e) => e.id), ["old", "cpi-2026-10", "nfp-2026-11", "exchange:binance:1", "campaign:okx:1", "fomc-2026-10-28"]);
+  assert.equal(weekStart(NOW), "2026-10-12", "weeks start on Monday, Singapore time");
+  assert.equal(weekStart(Date.parse("2026-10-18T17:00:00Z")), "2026-10-19", "Sunday 17:00 UTC is Monday 01:00 SGT");
   const week = weekModel(data.events, NOW);
-  assert.deepEqual(week.map((d) => d.events.length), [0, 0, 0, 1, 1, 1, 0]);
-  assert.equal(weekModel(data.events, NOW, 2)[2].events[0].id, "fomc-2026-10-28");
-  assert.deepEqual(upcomingGroups(filterEvents(data.events, "macro"), NOW).map((g) => g.day), ["2026-10-15", "2026-10-28"]);
-  assert.equal(calendarEventLabel(data.events.find((e) => e.kind === "unlock"), "en"), "Arbitrum (ARB) token unlock");
-  assert.equal(calendarEventLabel(data.events.find((e) => e.kind === "cpi"), "zh-Hans"), "美国 CPI 通胀（Sep 2026）");
+  assert.deepEqual(week.map((d) => d.events.length), [0, 0, 0, 1, 1, 1, 0], "20:30 UTC on the 15th is the 16th in Singapore");
+  assert.equal(weekModel(data.events, NOW, 2)[3].events[0].id, "fomc-2026-10-28", "18:00 UTC Wednesday is 02:00 SGT Thursday");
+  assert.deepEqual(upcomingGroups(filterEvents(data.events, "macro"), NOW).map((g) => g.day), ["2026-10-15", "2026-10-16", "2026-10-29"]);
+  assert.equal(formatEventTime(data.events.find((e) => e.kind === "fomc"), "en"), "02:00 SGT");
+  assert.equal(formatEventTime(data.events.find((e) => e.kind === "fomc"), "zh-Hans"), "02:00 新加坡时间");
+    assert.equal(calendarEventLabel(data.events.find((e) => e.kind === "cpi"), "zh-Hans"), "美国 CPI 通胀（Sep 2026）");
   assert.equal(calendarEventLabel(data.events.find((e) => e.type === "campaign"), "zh-Hans"), "OKX 活动截止");
   assert.equal(calendarEventLabel(data.events.find((e) => e.type === "campaign"), "ja"), "OKX campaign ends");
   assert.equal(compactCalendar(calendarFixture(), NOW).events.some((e) => e.id === "old"), false);
@@ -167,7 +169,7 @@ test("SEO: nine indexable editions, titles inside the budget, sitemap with hrefl
       assert.ok(seo.schemas.some((s) => s["@type"] === "FAQPage"));
     }
     const copy = intelToolsCopy(locale);
-    assert.equal(Object.keys(copy.calendar.kinds).length, 9);
+    assert.equal(Object.keys(copy.calendar.kinds).length, 8);
   }
   const cal = intelToolRouteSeo("/calendar", "en", { urlFor: (p) => p, data: readCalendar(calendarFixture()), now: NOW });
   const list = cal.schemas.find((s) => s["@type"] === "ItemList");
@@ -218,7 +220,9 @@ test("worker renders /zh-hans/calendar with Event schema; no snapshot shows the 
   const html = await page("https://nexualpha.com/zh-hans/calendar");
   assert.deepEqual(h1Texts(html), ["加密日历"]);
   assert.match(html, /"@type":"Event"/);
-  assert.match(html, /Arbitrum（ARB）代币解锁/);
+  assert.match(html, /美国 CPI 通胀/);
+  assert.match(html, /新加坡时间/);
+  assert.doesNotMatch(html, /代币解锁/);
   assert.match(html, /href="\/calendar\.ics\?locale=zh-Hans"/);
   const state = prerenderState(html).intelTool;
   assert.equal(state.kind, "calendar");
@@ -239,7 +243,7 @@ test("/calendar.ics serves the snapshot as iCalendar, optionally one type", asyn
   assert.match(res.headers.get("content-type"), /^text\/calendar/);
   const body = await res.text();
   assert.match(body, /SUMMARY:\[経済指標\] FOMC政策金利発表/);
-  assert.doesNotMatch(body, /token unlock|トークンアンロック/);
+  assert.doesNotMatch(body, /\[(取引所|キャンペーン)\]/);
   const none = await worker.fetch(new Request("https://nexualpha.com/calendar.ics"), envWith({ CALENDAR_READ: async () => null }));
   assert.equal(none.status, 503);
 });
@@ -252,9 +256,8 @@ test("the shipped calendar.json is a usable snapshot with official sources", asy
   assert.ok(data.events.some((e) => e.kind === "fomc"));
 });
 
-test("macro and unlock parsers: FOMC page, BEA iCal, DST conversion, monthly unlocks", async () => {
+test("macro parsers: FOMC page, BEA iCal, DST conversion", async () => {
   const { parseFomcCalendar, parseBeaIcs, usLocalToUtc, blsEvents } = await import("../scripts/intel-tools/macro-schedule.mjs");
-  const { scheduleDates } = await import("../scripts/intel-tools/token-unlocks.mjs");
   const html = '<h4><a>2026 FOMC Meetings</a></h4><div class="fomc-meeting--shaded row fomc-meeting"><div class="fomc-meeting--shaded fomc-meeting__month col"><strong>October</strong></div><div class="fomc-meeting__date col">27-28</div></div><div class="row fomc-meeting"><div class="fomc-meeting__month"><strong>December</strong></div><div class="fomc-meeting__date">8-9*</div></div><div class="row fomc-meeting"><div class="fomc-meeting__month"><strong>August</strong></div><div class="fomc-meeting__date">22 (notation vote)</div></div>';
   assert.deepEqual(parseFomcCalendar(html).map((e) => e.start), ["2026-10-28T18:00:00.000Z", "2026-12-09T19:00:00.000Z"]);
   assert.equal(usLocalToUtc(2026, 2, 7, 8, 30), "2026-03-07T13:30:00.000Z", "before DST");
@@ -263,6 +266,4 @@ test("macro and unlock parsers: FOMC page, BEA iCal, DST conversion, monthly unl
   const ics = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nSUMMARY:Personal Income and Outlays\\, Septem\r\n ber 2026\r\nDTSTART;VALUE=DATE-TIME:20261029T123000Z\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nSUMMARY:U.S. International Trade\r\nDTSTART;VALUE=DATE-TIME:20261105T133000Z\r\nEND:VEVENT\r\n";
   assert.deepEqual(parseBeaIcs(ics).map((e) => [e.kind, e.start, e.title]), [["pce", "2026-10-29T12:30:00.000Z", "Personal Income and Outlays, September 2026"]]);
   assert.ok(blsEvents().some((e) => e.id === "macro:cpi:2026-10-14" && e.start === "2026-10-14T12:30:00.000Z"));
-  const s = { cadence: "monthly", firstDate: "2024-04-16", lastDate: "2027-03-16" };
-  assert.deepEqual(scheduleDates(s, Date.parse("2027-01-01"), Date.parse("2027-12-31")), ["2027-01-16", "2027-02-16", "2027-03-16"]);
 });

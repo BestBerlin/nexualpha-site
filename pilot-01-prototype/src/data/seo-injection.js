@@ -1,3 +1,4 @@
+import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
@@ -31,6 +32,10 @@ import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
 import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./intel-tools-routes.js";
 import { intelToolRouteSeo } from "./intel-tools-seo.js";
+import { parseConverterPath } from "./converter-routes.js";
+import { converterRouteSeo } from "./converter-seo.js";
+import { parseGlossaryPath } from "./glossary-routes.js";
+import { glossaryRouteSeo } from "./glossary-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
@@ -287,7 +292,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -347,6 +352,9 @@ function searchPublicationLocales(pathname, options = {}) {
   if (isIntelToolPath(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
+  if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
@@ -2146,6 +2154,23 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = coins.schemas;
     ogType = "website";
     if (!coins.indexable) robots = "noindex,follow";
+  } else if (parseConverterPath(pathname) && converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    const converter = converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = converter.title;
+    description = converter.description;
+    schemas = converter.schemas;
+    ogType = "website";
+    if (!converter.indexable) robots = "noindex,follow";
+  } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Crypto glossary: same helper as the Worker head (src/data/glossary-seo.js).
+    const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = glossary.title;
+    description = glossary.description;
+    schemas = glossary.schemas;
+    ogType = pathname === "/glossary" ? "website" : "article";
+    if (!glossary.indexable) robots = "noindex,follow";
   } else if (parseBinanceOctoberPath(pathname)) {
     // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
     const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
@@ -2274,6 +2299,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
       "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: mxFaq.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })),
     }];
+  } else if (pathname === "/funding-rates/matrix") {
+    accept();
+    const matrix = fundingMatrixSeo(locale);
+    title = matrix.title; description = matrix.description; schemas = matrix.schema;
   } else if (STATIC_COPY[pathname]) {
     accept();
     const staticPageCopy = STATIC_PAGE_COPY_LOCALIZED[pathname]?.[rawLocale] || STATIC_PAGE_COPY_LOCALIZED[pathname]?.[locale];

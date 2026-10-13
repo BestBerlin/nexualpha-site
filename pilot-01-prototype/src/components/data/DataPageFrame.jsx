@@ -6,7 +6,7 @@ import React from "react";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH, dataPageCopy, formatUtc } from "../../data/market-data-pages.js";
-import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
+import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { EmbedThisBlock } from "./EmbedThisBlock.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
@@ -50,7 +50,8 @@ export function DataPageTail({ locale, page, pathname }) {
   const other = pathname === LIQUIDATIONS_PATH ? [FUNDING_RATES_PATH, copy.nav.funding] : [LIQUIDATIONS_PATH, copy.nav.liquidations];
   return (
     <>
-      <div className="v2-shell nxd-alerts" data-rv="1"><NewsTelegramAlerts locale={locale} /></div>
+      {/* 2026-10-13: the bot now takes personal triggers (liquidation spike, funding extreme, price, 1h move, listing). */}
+      <div className="v2-shell nxd-alerts" data-rv="1"><TelegramTriggerCta locale={locale} placement={pathname === LIQUIDATIONS_PATH ? "liquidations-telegram-alerts" : "funding-telegram-alerts"} /></div>
       <section className="nxd-explainer v2-shell" data-rv="1" aria-labelledby="nxd-explainer-h">
         <SectionRule />
         <h2 id="nxd-explainer-h">{copy.common.explainer}</h2>
