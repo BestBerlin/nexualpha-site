@@ -10,7 +10,7 @@ test('shadow-run claims, writes a review plan, and releases every event', async 
     async cli(args) {
       calls.push(args);
       if (args[0] === 'claim') return JSON.stringify([
-        { id: 1, title_internal: 'A', event_type: 'listing', suggested_format: 'flash', cta_hints: [], entities: [], evidence: [] },
+        { id: 1, title_internal: 'A', event_type: 'listing', suggested_format: 'flash', factual_summary: 'A verified fact. Another verified fact.', summary_source_urls: ['https://source.test'], why_it_matters: 'Check trading access.', story_event_ids: [1, 3], venues: ['bybit', 'kucoin'], cta_hints: [], entities: [], evidence: [] },
         { id: 2, title_internal: 'B', event_type: 'dispute', suggested_format: 'dispute', cta_hints: [], entities: [], evidence: [] },
       ]);
       if (args[0] === 'release') return JSON.stringify([{ id: Number(args[1]) }]);
@@ -30,6 +30,9 @@ test('shadow-run claims, writes a review plan, and releases every event', async 
   ]);
   assert.equal(writes[1][2].publish, false);
   assert.equal(writes[1][2].events.length, 2);
+  assert.equal(writes[1][2].events[0].factual_summary, 'A verified fact. Another verified fact.');
+  assert.equal(writes[1][2].events[0].why_it_matters, 'Check trading access.');
+  assert.deepEqual(writes[1][2].events[0].story_event_ids, [1, 3]);
 });
 
 test('shadow-run releases claims after a plan write failure and reports the failure', async () => {

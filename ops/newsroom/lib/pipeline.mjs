@@ -6,6 +6,9 @@ import { relevanceForItem } from './relevance.mjs';
 import { verifyEvent } from './verification.mjs';
 import { mergeRawItems } from './dedupe.mjs';
 import { configFromNewsroomRows, credibilityScore, scoreEvent } from './scoring.mjs';
+import { dedupeEvidenceRows, isMirrorEvidence } from './evidence-quality.mjs';
+import { claimFreshnessEligibilitySql, claimMarketNoiseEligibilitySql, claimRankOrderSql, claimStoryGroupKeySql, claimStoryVenueJsonSql, claimStoryWindowSql } from './claim-quality.mjs';
+import { storyFacts } from './facts.mjs';
 
 const lit = value => (value == null ? 'NULL' : `'${String(value).replaceAll("'", "''")}'`);
 const jsonb = value => (value == null ? 'NULL' : `${lit(JSON.stringify(value))}::jsonb`);
@@ -27,14 +30,15 @@ export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {
     ORDER BY r.id LIMIT ${Number(limit)}`)));
   if (!items.length) return { watchlist, keywords, items, existingEvents: [] };
   const existingEvents = parse(execute(rows(`SELECT e.id, e.subject_entity, e.subjects, e.event_type, e.title_internal, e.occurred_at,
-      e.source_published_at, e.original_links, e.discussion,
+      e.source_published_at, e.original_links, e.discussion, e.effective_at, e.deadline_at, e.major_followup_at,
+      e.story_asset, e.story_action, e.story_group_key,
       coalesce((SELECT jsonb_agg(jsonb_build_object('raw_item_id', v.raw_item_id, 'url', v.url, 'kind', v.kind, 'origin_key', v.origin_key,
-        'is_independent', v.is_independent, 'published_at', v.published_at, 'source_platform', s.platform, 'source_tier', s.tier,
+        'is_independent', v.is_independent, 'excerpt', v.excerpt, 'author_account', v.author_account, 'published_at', v.published_at, 'source_platform', s.platform, 'source_tier', s.tier,
         'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id
         WHERE v.event_id=e.id), '[]'::jsonb) AS evidence,
       coalesce((SELECT jsonb_agg(jsonb_build_object('id', r.id, 'content_hash', r.content_hash, 'simhash', r.simhash::text,
-        'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'url', r.url, 'canonical_url', r.canonical_url, 'platform', s2.platform, 'tier', s2.tier)) FROM raw_items r LEFT JOIN sources s2 ON s2.id=r.source_id WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
+        'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'metrics', r.metrics, 'url', r.url, 'canonical_url', r.canonical_url, 'platform', s2.platform, 'tier', s2.tier)) FROM raw_items r LEFT JOIN sources s2 ON s2.id=r.source_id WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
     FROM events e WHERE e.state NOT IN ('rejected','expired') AND e.last_update_at > now() - interval '${Number(windowHours)} hours'`)));
   return { watchlist, keywords, items, existingEvents };
 }
@@ -42,6 +46,150 @@ export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {
 function evidenceValues(row) {
   const kind = EVIDENCE_KINDS.has(row.kind) ? row.kind : 'media_report';
   return `(${row.raw_item_id == null ? 'NULL' : Number(row.raw_item_id)}, ${lit(row.url || '')}, ${lit(kind)}, ${row.is_independent === false ? 'false' : 'true'}, ${lit(row.origin_key)}, ${lit(row.excerpt)}, ${lit(row.author_account)}, ${ts(row.published_at)})`;
+}
+
+function eventClaimMetadata(event) {
+  const sourceRows = (event.raw_items?.length ? event.raw_items : event.evidence ?? []).map(row => ({ ...row, body_excerpt: row.body_excerpt ?? row.excerpt }));
+  const facts = sourceRows.map(item => storyFacts(item));
+  const metrics = sourceRows.map(item => item.metrics).filter(value => value && typeof value === 'object');
+  const action = storyAction(event, facts);
+  const asset = storyAsset(event, facts, metrics);
+  const explicitDate = storyExplicitDate(event, facts, action, sourceRows);
+  const metricDates = metricDateFields(metrics);
+  const market = normalizedMarketMetrics(event, metrics);
+  const venues = storyVenues(event, facts, metrics, sourceRows);
+  const discussion = { ...(event.discussion ?? {}) };
+  if (asset && !discussion.asset) discussion.asset = asset;
+  if (action && !discussion.action) discussion.action = action;
+  if (Object.keys(market).length) discussion.market = { ...(discussion.market ?? {}), ...market };
+  if (venues.length) discussion.story_venues = venues;
+  const storyGroupKey = asset && action ? `${action}:${asset.toLowerCase()}` : event.story_group_key ?? event.storyGroupKey ?? null;
+  return {
+    discussion,
+    story_asset: asset,
+    story_action: action,
+    story_group_key: storyGroupKey,
+    effective_at: (event.effective_at ?? event.effectiveAt) || metricDates.effective_at || (action === 'listing' ? explicitDate : null),
+    deadline_at: (event.deadline_at ?? event.deadlineAt) || metricDates.deadline_at || (action === 'delisting' ? explicitDate : null),
+    major_followup_at: event.major_followup_at ?? event.majorFollowupAt ?? null,
+  };
+}
+
+function storyAction(event, facts) {
+  const action = event.story_action ?? event.storyAction ?? null;
+  if (action) return action;
+  const type = event.event_type ?? event.eventType;
+  if (type === 'listing' || type === 'delisting') return type;
+  return facts.find(row => row.action && row.action !== 'unknown')?.action ?? null;
+}
+
+function storyAsset(event, facts, metrics) {
+  const explicit = event.story_asset ?? event.storyAsset ?? null;
+  if (explicit) return String(explicit).toUpperCase();
+  const metricTicker = metrics.flatMap(row => row.tickers ?? row.assets ?? row.asset_symbols ?? []).find(Boolean);
+  if (metricTicker) return normalizeAsset(metricTicker);
+  const ticker = facts.flatMap(row => row.tickers ?? []).find(Boolean);
+  if (ticker) return normalizeAsset(ticker);
+  return null;
+}
+
+function storyVenues(event, facts, metrics, sourceRows) {
+  const known = new Set(['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kucoin', 'kraken']);
+  const values = [
+    ...(Array.isArray(event.discussion?.story_venues) ? event.discussion.story_venues : []),
+    ...(event.story_venues ?? event.storyVenues ?? []),
+    ...metrics.flatMap(row => [row.venue, row.provenance?.venue, row.exchange]).filter(Boolean),
+    ...sourceRows.flatMap(row => [row.source_id, row.sourceId]).filter(Boolean).map(value => String(value).match(/^(binance|okx|bybit|bitget|coinbase|kucoin|kraken)-(?:announcements|status)$/)?.[1]).filter(Boolean),
+    ...facts.flatMap(row => row.venues ?? []),
+  ];
+  return [...new Set(values.map(value => String(value).toLowerCase()).filter(value => known.has(value)))].sort();
+}
+
+function normalizeAsset(value) {
+  const upper = String(value ?? '').toUpperCase();
+  const quote = upper.match(/(USDT|USDC|USD)$/u)?.[1];
+  return quote && upper.length > quote.length + 1 ? upper.slice(0, -quote.length) : upper;
+}
+
+function storyExplicitDate(event, facts, action = event.event_type ?? event.eventType, sourceRows = event.raw_items ?? []) {
+  const sourceMs = Date.parse(event.source_published_at ?? event.sourcePublishedAt ?? event.raw_items?.[0]?.published_at ?? event.raw_items?.[0]?.publishedAt ?? '');
+  const candidates = [];
+  for (const item of sourceRows) {
+    const text = [item.title, item.body_excerpt, item.bodyExcerpt].filter(Boolean).join(' ').normalize('NFKC');
+    candidates.push(...eventTimeCandidates(text, action));
+  }
+  const valid = candidates
+    .map(candidate => ({ ...candidate, ms: Date.parse(candidate.iso) }))
+    .filter(candidate => Number.isFinite(candidate.ms) && (!Number.isFinite(sourceMs) || candidate.ms >= sourceMs - 24 * 36e5))
+    .sort((a, b) => b.score - a.score || a.ms - b.ms);
+  return valid[0]?.iso ?? null;
+}
+
+function eventTimeCandidates(text, action) {
+  const out = [];
+  const actionRe = action === 'delisting'
+    ? /\bdelist|remove|trading pair|cease|stop trading|下架|退市/iu
+    : /\blist|trading starts|trading opens|available for trading|上线|上線/iu;
+  const sentences = text.split(/(?<=[.!?。；;])\s+/u).filter(Boolean);
+  for (const sentence of sentences) {
+    if (!actionRe.test(sentence)) continue;
+    if (/\breview|published|announcement|updated\b/i.test(sentence) && !/\bdelist|list|trading|下架|上线|上線/iu.test(sentence)) continue;
+    for (const match of sentence.matchAll(/\b(20\d{2})[-/.](\d{1,2})[-/.](\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::\d{2})?\s*(UTC|GMT|Z)?)?/gi)) {
+      const date = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+      const timezone = match[6] || /\b(?:UTC|GMT|Z)\b/i.test(sentence);
+      const iso = match[4] && timezone ? `${date}T${match[4].padStart(2, '0')}:${match[5]}:00Z` : `${date}T23:59:59Z`;
+      out.push({ iso, score: match[4] && timezone ? 3 : 2 });
+    }
+    for (const match of sentence.matchAll(/\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\s+(\d{1,2}),?\s+(20\d{2})(?:\s+at\s+(\d{1,2}):(\d{2})\s*(UTC|GMT|Z)?)?/gi)) {
+      const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'].findIndex(value => match[1].toLowerCase().startsWith(value)) + 1;
+      const date = `${match[3]}-${String(month).padStart(2, '0')}-${match[2].padStart(2, '0')}`;
+      const timezone = match[6] || /\b(?:UTC|GMT|Z)\b/i.test(sentence);
+      const iso = match[4] && timezone ? `${date}T${match[4].padStart(2, '0')}:${match[5]}:00Z` : `${date}T23:59:59Z`;
+      out.push({ iso, score: match[4] && timezone ? 3 : 2 });
+    }
+    for (const match of sentence.matchAll(/\bat\s+(\d{1,2}):(\d{2})\s+(?:on\s+)?(20\d{2})[-/.](\d{1,2})[-/.](\d{1,2})(?:[^.?!;。；]*?\b(UTC|GMT|Z)\b)?/gi)) {
+      if (!match[6] && !/\b(?:UTC|GMT|Z)\b/i.test(sentence)) continue;
+      const date = `${match[3]}-${match[4].padStart(2, '0')}-${match[5].padStart(2, '0')}`;
+      out.push({ iso: `${date}T${match[1].padStart(2, '0')}:${match[2]}:00Z`, score: 3 });
+    }
+    for (const match of sentence.matchAll(/\bat\s+(\d{1,2}):(\d{2})\s+(?:on\s+)?(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\s*(\d{1,2}),?\s*(20\d{2})(?:[^.?!;。；]*?\b(UTC|GMT|Z)\b)?/gi)) {
+      const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'].findIndex(value => match[3].toLowerCase().startsWith(value)) + 1;
+      const date = `${match[5]}-${String(month).padStart(2, '0')}-${match[4].padStart(2, '0')}`;
+      if (!match[6] && !/\b(?:UTC|GMT|Z)\b/i.test(sentence)) continue;
+      out.push({ iso: `${date}T${match[1].padStart(2, '0')}:${match[2]}:00Z`, score: 3 });
+    }
+  }
+  return out;
+}
+
+function firstValidIso(values) {
+  for (const value of values) {
+    if (!value) continue;
+    const date = new Date(value);
+    if (Number.isFinite(date.getTime())) return date.toISOString();
+  }
+  return null;
+}
+
+function metricDateFields(metrics) {
+  return {
+    effective_at: firstValidIso(metrics.map(row => row.effective_at ?? row.effectiveAt)),
+    deadline_at: firstValidIso(metrics.map(row => row.deadline_at ?? row.deadlineAt ?? row.campaign_end_at ?? row.campaignEndAt)),
+  };
+}
+
+function normalizedMarketMetrics(event, metrics) {
+  const out = {};
+  for (const row of metrics) {
+    const window = String(row.provenance?.window ?? row.window ?? '').toLowerCase();
+    if ((event.event_type ?? event.eventType) === 'liquidation_wave') {
+      if (window === 'h1' && Number.isFinite(Number(row.total_liquidations_usd))) out.liquidations_usd_1h = Number(row.total_liquidations_usd);
+      if (window === 'h24' && Number.isFinite(Number(row.total_liquidations_usd))) out.liquidations_usd_24h = Number(row.total_liquidations_usd);
+    }
+    const move = row.price_move_pct_1h ?? row.price_change_pct_1h ?? row.change_pct_1h;
+    if (Number.isFinite(Number(move))) out.price_move_pct_1h = Number(move);
+  }
+  return out;
 }
 
 // Builds one transaction. The pure relevance gate supplies irrelevantItems; those rows are marked
@@ -52,23 +200,37 @@ export function buildDedupeSql({ events, irrelevantItems = [] }, batchItemIds) {
   const assignedIds = new Set();
   const stats = { created: 0, updated: 0, assigned: 0, skipped_items: 0 };
   for (const event of events) {
+    const meta = eventClaimMetadata(event);
     const newItems = (event.raw_items ?? []).filter(item => batch.has(Number(item.id)));
     if (!newItems.length) continue;
     const newIds = newItems.map(item => Number(item.id));
     for (const id of newIds) assignedIds.add(id);
-    const newEvidence = event.evidence.filter(row => row.raw_item_id != null && batch.has(Number(row.raw_item_id)));
+    const newEvidence = dedupeEvidenceRows(event.evidence.filter(row => row.raw_item_id != null && batch.has(Number(row.raw_item_id)) && !isMirrorEvidence(row)));
     const credibility = credibilityScore(event);
     const isExisting = /^\d+$/.test(String(event.id));
     const evidenceInsert = newEvidence.length
-      ? `INSERT INTO event_evidence(event_id, raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at) SELECT target.id, v.raw_item_id::bigint, v.url, v.kind, v.is_independent, v.origin_key, v.excerpt, v.author_account, v.published_at::timestamptz FROM target, (VALUES ${newEvidence.map(evidenceValues).join(', ')}) AS v(raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at)`
+      ? `INSERT INTO event_evidence(event_id, raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at) SELECT target.id, v.raw_item_id::bigint, v.url, v.kind, v.is_independent, v.origin_key, v.excerpt, v.author_account, v.published_at::timestamptz FROM target, (VALUES ${newEvidence.map(evidenceValues).join(', ')}) AS v(raw_item_id, url, kind, is_independent, origin_key, excerpt, author_account, published_at)
+        WHERE NOT EXISTS (
+          SELECT 1 FROM event_evidence existing
+          WHERE existing.event_id=target.id
+            AND existing.url=v.url
+            AND existing.kind=v.kind
+            AND existing.origin_key IS NOT DISTINCT FROM v.origin_key
+            AND existing.excerpt IS NOT DISTINCT FROM v.excerpt
+            AND existing.author_account IS NOT DISTINCT FROM v.author_account
+            AND existing.published_at IS NOT DISTINCT FROM v.published_at::timestamptz
+        )`
       : null;
     const target = isExisting
       ? `UPDATE events SET last_update_at=now(), subjects=${textArray(event.subjects)}, original_links=${textArray(event.original_links)},
-          source_published_at=${ts(event.source_published_at)}, discussion=${jsonb(event.discussion)}, credibility=${credibility}
+          source_published_at=${ts(event.source_published_at)}, discussion=${jsonb(meta.discussion)}, credibility=${credibility},
+          effective_at=${ts(meta.effective_at)}, deadline_at=${ts(meta.deadline_at)}, major_followup_at=${ts(meta.major_followup_at)},
+          story_asset=${lit(meta.story_asset)}, story_action=${lit(meta.story_action)}, story_group_key=${lit(meta.story_group_key)}
           WHERE id=${Number(event.id)} RETURNING id`
-      : `INSERT INTO events(subject_entity, subjects, event_type, title_internal, occurred_at, source_published_at, original_links, discussion, credibility)
+      : `INSERT INTO events(subject_entity, subjects, event_type, title_internal, occurred_at, source_published_at, original_links, discussion, credibility, effective_at, deadline_at, major_followup_at, story_asset, story_action, story_group_key)
           VALUES (${lit(event.subject_entity)}, ${textArray(event.subjects)}, ${lit(event.event_type || 'unknown')}, ${lit(String(event.title_internal || 'Untitled newsroom event').slice(0, 600))},
-          ${ts(event.occurred_at)}, ${ts(event.source_published_at)}, ${textArray(event.original_links)}, ${jsonb(event.discussion)}, ${credibility}) RETURNING id`;
+          ${ts(event.occurred_at)}, ${ts(event.source_published_at)}, ${textArray(event.original_links)}, ${jsonb(meta.discussion)}, ${credibility},
+          ${ts(meta.effective_at)}, ${ts(meta.deadline_at)}, ${ts(meta.major_followup_at)}, ${lit(meta.story_asset)}, ${lit(meta.story_action)}, ${lit(meta.story_group_key)}) RETURNING id`;
     statements.push(`WITH target AS (${target})${evidenceInsert ? `, ev AS (${evidenceInsert} RETURNING 1)` : ''}
       UPDATE raw_items SET event_id=(SELECT id FROM target), state='processed' WHERE id IN (${newIds.join(',')}) AND event_id IS NULL;`);
     stats[isExisting ? 'updated' : 'created'] += 1;
@@ -94,7 +256,7 @@ export function runDedupe(execute, options = {}) {
 }
 
 export function loadScoreInputs(execute, { limit = 500, rescoreMinutes = 30 } = {}) {
-  const configRows = parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key IN ('weights','thresholds','scoring_thresholds')`)));
+  const configRows = parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key IN ('weights','thresholds','scoring_thresholds','claim_quality')`)));
   const entities = parse(execute(rows(`SELECT id, priority FROM watchlist_entities`)));
   const events = parse(execute(rows(`SELECT e.*, coalesce((SELECT jsonb_agg(jsonb_build_object('kind', v.kind, 'origin_key', v.origin_key, 'is_independent', v.is_independent,
         'source_platform', s.platform, 'source_tier', s.tier, 'verified_official', s.verified_official, 'url', v.url, 'title', r.title, 'excerpt', v.excerpt, 'published_at', v.published_at, 'metrics', r.metrics, 'source_id', r.source_id) ORDER BY v.id)
@@ -160,6 +322,49 @@ export function publishEligibilitySql() {
     AND NOT EXISTS (SELECT 1 FROM review_queue q WHERE q.event_id=e.id AND q.resolved_at IS NULL)`;
 }
 
+export function claimEligibilitySql() {
+  return `${publishEligibilitySql()}
+    AND ${claimFreshnessEligibilitySql()}
+    AND ${claimMarketNoiseEligibilitySql()}
+    AND EXISTS (
+      SELECT 1 FROM event_evidence claim_evidence
+      LEFT JOIN raw_items claim_raw ON claim_raw.id=claim_evidence.raw_item_id
+      WHERE claim_evidence.event_id=e.id
+        AND claim_evidence.is_independent IS NOT FALSE
+        AND (claim_evidence.kind='market_data' OR length(regexp_replace(coalesce(claim_evidence.excerpt,''), '\\s+', ' ', 'g')) >= 120)
+        AND coalesce(claim_raw.source_id, claim_evidence.origin_key, '') NOT LIKE 'nexualpha-official%'
+        AND coalesce(claim_raw.source_id, claim_evidence.origin_key, '') <> 'telegram-nexualphaclub-preview'
+    )
+    AND (e.event_type NOT IN ('listing','delisting')
+      OR e.story_asset IS NOT NULL
+      OR e.discussion ? 'asset'
+      OR e.discussion ? 'assets')`;
+}
+
+export function claimRankSql() {
+  return claimRankOrderSql();
+}
+
+export function claimStoryJsonSql(groupAlias = 'x') {
+  const storyKey = claimStoryGroupKeySql({ eventAlias: 'related_event' });
+  const anchorKey = claimStoryGroupKeySql({ eventAlias: groupAlias });
+  const window = claimStoryWindowSql();
+  return `jsonb_build_object(
+        'story_group_key', ${anchorKey},
+        'story_event_ids', coalesce((SELECT jsonb_agg(related_event.id ORDER BY related_event.source_published_at, related_event.id)
+          FROM events related_event
+          WHERE ${storyKey}=${anchorKey}
+            AND abs(extract(epoch from (coalesce(related_event.source_published_at, related_event.occurred_at, related_event.first_seen_at) - coalesce(${groupAlias}.source_published_at, ${groupAlias}.occurred_at, ${groupAlias}.first_seen_at)))) <= extract(epoch from ${window})
+        ), '[]'::jsonb),
+        'venues', coalesce((SELECT jsonb_agg(DISTINCT story_venue.name)
+          FROM events related_event
+          CROSS JOIN LATERAL jsonb_array_elements_text(${claimStoryVenueJsonSql({ eventAlias: 'related_event' })}) AS story_venue(name)
+          WHERE ${storyKey}=${anchorKey}
+            AND story_venue.name IS NOT NULL AND story_venue.name <> ''
+            AND abs(extract(epoch from (coalesce(related_event.source_published_at, related_event.occurred_at, related_event.first_seen_at) - coalesce(${groupAlias}.source_published_at, ${groupAlias}.occurred_at, ${groupAlias}.first_seen_at)))) <= extract(epoch from ${window})
+        ), '[]'::jsonb))`;
+}
+
 export function exportTopQuery(limit = 50) {
   const n = Number(limit);
   if (!Number.isInteger(n) || n < 1 || n > 500) throw new Error('Invalid limit');
@@ -167,19 +372,23 @@ export function exportTopQuery(limit = 50) {
   'note', 'Verified, score-eligible event leads. Article claim/package gates still required before publication.',
   'events', coalesce(jsonb_agg(x.doc ORDER BY x.rank), '[]'::jsonb))
 FROM (
-  SELECT row_number() OVER (ORDER BY (s.priority_override='official_major') DESC NULLS LAST, s.editorial_score DESC, e.source_published_at DESC NULLS LAST, e.id) AS rank,
+  SELECT row_number() OVER (ORDER BY ${claimRankSql()}) AS rank,
+    ${claimStoryGroupKeySql()} AS story_group_key,
     jsonb_build_object('id', e.id, 'title_internal', e.title_internal, 'event_type', e.event_type, 'subject_entity', e.subject_entity, 'subjects', e.subjects,
       'state', e.state, 'verification_status', e.verification_status, 'credibility', e.credibility, 'occurred_at', e.occurred_at,
       'source_published_at', e.source_published_at, 'first_seen_at', e.first_seen_at, 'last_update_at', e.last_update_at,
+      'effective_at', e.effective_at, 'deadline_at', e.deadline_at, 'major_followup_at', e.major_followup_at,
+      'story_asset', e.story_asset, 'story_action', e.story_action, 'story_group_key', ${claimStoryGroupKeySql()},
       'original_links', e.original_links, 'fact_summary', e.fact_summary, 'discussion', e.discussion,
       'score', jsonb_build_object('scored_at', s.scored_at, 'editorial_score', s.editorial_score, 'credibility', s.credibility, 'priority_override', s.priority_override,
         'relevance', s.relevance, 'heat', s.heat, 'timeliness', s.timeliness, 'new_info', s.new_info, 'impact', s.impact, 'explain', s.explain),
+      'story', ${claimStoryJsonSql('e')},
       'evidence', coalesce((SELECT jsonb_agg(jsonb_build_object('url', v.url, 'kind', v.kind, 'is_independent', v.is_independent, 'origin_key', v.origin_key,
           'excerpt', v.excerpt, 'author_account', v.author_account, 'published_at', v.published_at, 'confidence', v.confidence,
           'source_id', r.source_id, 'source_tier', so.tier, 'source_status', so.status) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources so ON so.id=r.source_id WHERE v.event_id=e.id), '[]'::jsonb)) AS doc
   FROM events e JOIN LATERAL (SELECT * FROM event_scores WHERE event_id=e.id ORDER BY scored_at DESC LIMIT 1) s ON true
-  WHERE ${publishEligibilitySql()}
+  WHERE ${claimEligibilitySql()}
   ORDER BY rank LIMIT ${n}
 ) x;`;
 }
@@ -198,7 +407,12 @@ export function runVerify(execute) {
   const statements = events.map(event => {
     const relevant = relevanceForItem({ ...event, title: event.title_internal, body_excerpt: [event.fact_summary, ...event.evidence.map(row => row.excerpt)].filter(Boolean).join(' '), entities: event.subjects }, { watchlist, keywords }).relevant;
     const status = relevant ? verifyEvent(event, { watchlist }) : 'unverified';
-    const update = `UPDATE events SET verification_status=${lit(status)}, verified_at=now() WHERE id=${Number(event.id)} AND last_update_at=${ts(event.last_update_at)} RETURNING id`;
+    const meta = eventClaimMetadata(event);
+    const update = `UPDATE events SET verification_status=${lit(status)}, verified_at=now(),
+      discussion=${jsonb(meta.discussion)},
+      effective_at=${ts(meta.effective_at)}, deadline_at=${ts(meta.deadline_at)}, major_followup_at=${ts(meta.major_followup_at)},
+      story_asset=${lit(meta.story_asset)}, story_action=${lit(meta.story_action)}, story_group_key=${lit(meta.story_group_key)}
+      WHERE id=${Number(event.id)} AND last_update_at=${ts(event.last_update_at)} RETURNING id`;
     return status === 'needs-review'
       ? `WITH target AS (${update}) INSERT INTO review_queue(event_id,reason,rule_ids) SELECT id, 'Event evidence needs review', ARRAY['EVENT_VERIFICATION'] FROM target WHERE NOT EXISTS (SELECT 1 FROM review_queue WHERE event_id=target.id AND resolved_at IS NULL AND rule_ids @> ARRAY['EVENT_VERIFICATION']);`
       : `${update};`;
