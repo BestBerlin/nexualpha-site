@@ -1,1 +1,22 @@
 .nx-licenses{padding-block:2.5rem;min-width:0}.nx-licenses header{max-width:56rem}.nx-licenses h1{font-size:clamp(1.8rem,4vw,3rem);line-height:1.2}.nx-licenses p{line-height:1.65}.nx-license-filters{display:flex;flex-wrap:wrap;gap:1rem;margin-block:2rem}.nx-license-filters label{display:grid;gap:.5rem;min-width:12rem}.nx-license-filters select{padding:.65rem;background:var(--surface,#171b23);color:inherit;border:1px solid var(--line,#414650);border-radius:.4rem}.nx-license-table{overflow-x:auto;max-width:100%}.nx-license-table table{border-collapse:collapse;width:100%;text-align:start}.nx-license-table th,.nx-license-table td{padding:1rem .75rem;border-bottom:1px solid var(--line,#414650);text-align:start;vertical-align:top;min-width:7rem}.nx-license-table thead th{font-size:.85rem}.nx-license-cta{display:block;margin-top:.75rem}.nx-licenses nav{display:flex;flex-wrap:wrap;gap:1rem;margin-block:2rem}.nx-licenses a{color:var(--accent,#e7c56b)}.nx-license-filters select:focus-visible,.nx-licenses a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.nx-license-cards{display:none;list-style:none;margin:0;padding:0}
+@media (max-width:639.98px){
+.nx-license-table{overflow:visible}
+.nx-license-table table{display:none}
+.nx-license-cards{display:grid;gap:.85rem}
+.nx-license-card{border:1px solid var(--line,#414650);border-radius:.6rem;padding:1rem;background:var(--surface,#171b23);min-width:0}
+.nx-license-card__head{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem;margin-bottom:.6rem}
+.nx-license-card__head strong{font-size:1.1rem}
+.nx-license-card__status{font-size:.8rem;padding:.15rem .55rem;border:1px solid var(--line,#414650);border-radius:999px;white-space:nowrap}
+.nx-license-card--licensed .nx-license-card__status,.nx-license-card--registered .nx-license-card__status{color:var(--accent,#e7c56b);border-color:currentColor}
+.nx-license-card dl{display:grid;gap:.5rem;margin:0}
+.nx-license-card dl div{display:grid;gap:.1rem}
+.nx-license-card dt{font-size:.78rem;opacity:.7}
+.nx-license-card dd{margin:0;line-height:1.5;overflow-wrap:anywhere}
+.nx-license-card__foot{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:.75rem;font-size:.85rem}
+.nx-license-card__foot time{opacity:.7}
+.nx-license-card__foot .nx-license-cta{display:inline-block;margin:0 0 0 auto}
+.nx-license-filters{gap:.75rem}
+.nx-license-filters label{min-width:0;flex:1 1 9rem}
+.nx-license-filters select{width:100%;min-width:0}
+}
