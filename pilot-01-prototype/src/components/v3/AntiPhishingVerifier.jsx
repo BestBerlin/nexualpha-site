@@ -3,6 +3,7 @@
  * 用户输入任意域名，核对是否匹配 NexuAlpha 已记录的来源线索。
  */
 import { useState, useCallback, useMemo } from "react";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { venueDatabase } from "../../data/venue-database.js";
 import "./anti-phishing-verifier.css";
 
@@ -192,9 +193,9 @@ export function AntiPhishingVerifier({ locale = "en" }) {
                 </div>
                 {result.venue.officialVerifyUrl && (
                   <div className="apv__result-row">
-                    <a href={result.venue.officialVerifyUrl} target="_blank" rel="noopener noreferrer" className="apv__verify-link">
+                    <SourceLink locale={locale} href={result.venue.officialVerifyUrl} target="_blank" rel="noopener noreferrer" className="apv__verify-link">
                       {locale.startsWith("zh") ? "查看平台官方核验页面 →" : "View official verification page →"}
-                    </a>
+                    </SourceLink>
                   </div>
                 )}
               </div>

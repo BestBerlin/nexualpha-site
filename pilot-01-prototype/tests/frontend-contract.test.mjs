@@ -2204,8 +2204,8 @@ test("Brazil decision CTAs require a verified public claim before registration",
 });
 
 test("Brazil decision renders AEO answers inside the collapsed evidence area", () => {
-  assert.match(brazilDecisionPage, /function BrazilAeoAnswers\(\{ answers = \[\], sources \}\)/);
-  assert.match(brazilDecisionPage, /<BrazilAeoAnswers answers=\{page\.aeoAnswers\} sources=\{sources\} \/>/);
+  assert.match(brazilDecisionPage, /function BrazilAeoAnswers\(\{ answers = \[\], sources(?:, locale = "pt-BR")? \}\)/);
+  assert.match(brazilDecisionPage, /<BrazilAeoAnswers answers=\{page\.aeoAnswers\} sources=\{sources\}(?: locale=\{locale\})? \/>/);
   assert.match(brazilDecisionPage, /<details className="br-aeo-answer" key=\{item\.id \|\| item\.question\}>/);
   assert.match(brazilDecisionPage, /<summary>\{item\.question\}<\/summary>/);
   assert.match(brazilDecisionPage, /item\.steps\.slice\(0, 5\)\.map/);

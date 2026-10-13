@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { rendersSource, renderedSourceHref } from './helpers/outbound-expect.mjs';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -62,9 +63,9 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
       }
       if (locale === 'tr' && slug === 'bitget') {
         assert.ok(!feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: prohibited external source absent`);
-        assert.match(feeHtml, /<span>[^<]+ ↗<\/span>/, `${slug}/${locale}: source label remains visible`);
+        assert.match(feeHtml, /<span[^>]*data-source-plain="[^"]+"[^>]*>[^<]+/, `${slug}/${locale}: source label remains visible`);
       } else {
-        assert.ok(feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: exact reviewed source`);
+        assert.ok(rendersSource(feeHtml, rate.sourceUrl, { locale }), `${slug}/${locale}: reviewed source (coded route or plain label)`);
       }
       if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(feeHtml, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${slug}/${locale}: neutral signup absent`);
       assert.ok(feeHtml.includes(`dateTime="${rate.checkedAt}"`), `${slug}/${locale}: review date`);

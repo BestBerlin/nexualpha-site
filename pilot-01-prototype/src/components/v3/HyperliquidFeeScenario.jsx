@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { calculateHyperliquidFeeScenario, formatHyperliquidFee, hyperliquidFeeScenarioCopy, hyperliquidFeeSnapshot } from '../../data/hyperliquid-fee-scenario.js';
 import { contextualHref } from '../../data/contextual-href.js';
 import './HyperliquidFeeScenario.css';
@@ -26,7 +27,7 @@ export function HyperliquidFeeScenario({ locale, market, snapshot = hyperliquidF
       </div>
       <p>{text.boundary}</p>
       <p>{text.privacy}</p>
-      {result.status !== 'unavailable' && <p><a href={snapshot.sourceHref} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="hyperliquid-fee-scenario-source">{text.source}</a> <time dateTime={snapshot.reviewedAt}>{snapshot.reviewedAt}</time><br />{text.dateNote}</p>}
+      {result.status !== 'unavailable' && <p><SourceLink locale={locale} market={market} href={snapshot.sourceHref} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="hyperliquid-fee-scenario-source">{text.source}</SourceLink> <time dateTime={snapshot.reviewedAt}>{snapshot.reviewedAt}</time><br />{text.dateNote}</p>}
       <a href={contextualHref('/compare/hyperliquid-vs-dydx', { locale, market, product: 'perpetuals' })} data-cta-kind="research" data-cta-placement="hyperliquid-fee-scenario-compare" data-growth-decision="compare_hyperliquid_dydx" data-growth-placement="hyperliquid-fee-scenario-compare" data-growth-market={market || "unknown"} data-growth-product="perpetuals">{text.compare}</a>
     </div>
   </details>;

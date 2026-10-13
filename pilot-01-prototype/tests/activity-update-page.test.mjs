@@ -30,7 +30,9 @@ test('update routes render all categories and translated template guidance in ev
   // The starter guide (新手村) is NexuAlpha Academy (/academy); /starter never existed and 404ed (crawl 2026-10-12).
   assert.match(html,/href="(?:\/[a-z-]+)?\/academy(?:[?#][^"]*)?"/);
   assert.doesNotMatch(html,/href="[^"]*\/starter/);
-  assert.equal((html.match(/href="https:\/\/www.okx.com\/help\//g)||[]).length,1,'original source only at bottom');
+  // Owner 2026-10-13: OKX help pages take no referral parameter, so the original source is a plain label + domain.
+  assert.doesNotMatch(html,/href="https:\/\/www\.okx\.com\/help\//,'no uncoded exchange link');
+  assert.equal((html.match(/data-source-plain="okx\.com"/g)||[]).length,1,'original source only at bottom');
  }
 });
 test('neutral locales and blocked markets have no commercial CTA inside update article', () => {

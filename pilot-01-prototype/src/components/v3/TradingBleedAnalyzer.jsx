@@ -3,6 +3,7 @@
  * 击中人性：损失厌恶（Loss Aversion）与立即可挽回利益，促使用户立即换绑或新开专属账户。
  */
 import React, { useState, useMemo, useEffect } from "react";
+import { SourceLink } from "../shared/SourceLink.jsx";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
@@ -299,7 +300,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                 <summary>{feeText.checked}: {reviewedBaseFee.checkedAt} · {formattedRate} · {reviewedBaseFeeCopy.tier}</summary>
                 <p>{reviewedBaseFeeCopy.scope}</p>
                 <p>{ui.monthlyVol} {currentVol.toLocaleString()} {ui.unit} × {formattedRate} × 12</p>
-                <a href={reviewedBaseFee.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a>
+                <SourceLink locale={locale} market={market} href={reviewedBaseFee.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</SourceLink>
               </details>
             )}
 

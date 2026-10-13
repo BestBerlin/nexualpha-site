@@ -1,4 +1,5 @@
 import React from "react";
+import { outboundLink } from "../../data/exchange-outbound.js";
 import "./top-decision-box.css";
 
 function normalizeActions(actions, limit) {
@@ -21,6 +22,7 @@ export function TopDecisionBox({
   growthProduct,
   withContext = (href) => href,
   aeoDirectAnswer = false,
+  locale = "en",
 }) {
   const internalActions = normalizeActions(actions, 2);
   const sourceActions = normalizeActions(sourceAction ? [sourceAction] : [], 1);
@@ -34,14 +36,20 @@ export function TopDecisionBox({
     ? visibleActions[0] : null;
   const trailingActions = leadingAction ? visibleActions.slice(1) : visibleActions;
   const renderAction = (action) => {
-    const external = /^https?:\/\//i.test(action.href);
-    const href = external || action.href.startsWith("#") ? action.href : withContext(action.href);
+    let external = /^https?:\/\//i.test(action.href);
+    // Exchange sources carry our code (/go/<venue>-page) or are not linked at all (exchange-outbound.js).
+    const outbound = external ? outboundLink(action.href, { locale, market: growthMarket }) : null;
+    if (external && !outbound) return null;
+    const sponsored = Boolean(outbound?.sponsored);
+    if (outbound && !outbound.external) external = false;
+    const href = outbound ? outbound.href : action.href.startsWith("#") ? action.href : withContext(action.href);
+    const newTab = external || sponsored;
     return (
       <a
         key={`${action.kind || "research"}-${action.href}`}
         href={href}
-        target={external ? "_blank" : undefined}
-        rel={external ? "noopener noreferrer" : undefined}
+        target={newTab ? "_blank" : undefined}
+        rel={sponsored ? "nofollow sponsored noopener" : external ? "noopener noreferrer" : undefined}
         data-cta-kind={action.kind || "research"}
         data-cta-placement={ctaPlacement}
         data-growth-decision={growthDecision}
@@ -49,7 +57,7 @@ export function TopDecisionBox({
         data-growth-market={growthMarket}
         data-growth-product={growthProduct}
       >
-        <span>{action.label}</span><span aria-hidden="true">{external ? "↗" : "→"}</span>
+        <span>{action.label}</span><span aria-hidden="true">{newTab ? "↗" : "→"}</span>
       </a>
     );
   };
