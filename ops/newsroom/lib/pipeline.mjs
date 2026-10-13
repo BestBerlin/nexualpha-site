@@ -8,7 +8,7 @@ import { mergeRawItems } from './dedupe.mjs';
 import { configFromNewsroomRows, credibilityScore, scoreEvent } from './scoring.mjs';
 import { dedupeEvidenceRows, isMirrorEvidence } from './evidence-quality.mjs';
 import { claimFreshnessEligibilitySql, claimMarketNoiseEligibilitySql, claimRankOrderSql, claimStoryGroupKeySql, claimStoryVenueJsonSql, claimStoryWindowSql } from './claim-quality.mjs';
-import { storyFacts } from './facts.mjs';
+import { KNOWN_VENUES, inferNarrativeType, storyFacts } from './facts.mjs';
 
 const lit = value => (value == null ? 'NULL' : `'${String(value).replaceAll("'", "''")}'`);
 const jsonb = value => (value == null ? 'NULL' : `${lit(JSON.stringify(value))}::jsonb`);
@@ -58,6 +58,7 @@ function eventClaimMetadata(event) {
   const metricDates = metricDateFields(metrics);
   const market = normalizedMarketMetrics(event, metrics);
   const venues = storyVenues(event, facts, metrics, sourceRows);
+  const eventType = storyEventType(event, action, sourceRows);
   const discussion = { ...(event.discussion ?? {}) };
   if (asset && !discussion.asset) discussion.asset = asset;
   if (action && !discussion.action) discussion.action = action;
@@ -69,6 +70,7 @@ function eventClaimMetadata(event) {
     story_asset: asset,
     story_action: action,
     story_group_key: storyGroupKey,
+    event_type: eventType,
     effective_at: (event.effective_at ?? event.effectiveAt) || metricDates.effective_at || (action === 'listing' ? explicitDate : null),
     deadline_at: (event.deadline_at ?? event.deadlineAt) || metricDates.deadline_at || (action === 'delisting' ? explicitDate : null),
     major_followup_at: event.major_followup_at ?? event.majorFollowupAt ?? null,
@@ -83,6 +85,15 @@ function storyAction(event, facts) {
   return facts.find(row => row.action && row.action !== 'unknown')?.action ?? null;
 }
 
+function storyEventType(event, action, sourceRows) {
+  const current = event.event_type ?? event.eventType ?? null;
+  if (current && current !== 'unknown') return current;
+  const actionType = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
+  if (actionType && actionType !== 'unknown') return actionType;
+  const text = [event.title_internal, event.titleInternal, event.fact_summary, event.factSummary, ...sourceRows.flatMap(row => [row.title, row.body_excerpt, row.bodyExcerpt, row.excerpt])].filter(Boolean).join(' ');
+  return inferNarrativeType(text) ?? current ?? 'unknown';
+}
+
 function storyAsset(event, facts, metrics) {
   const explicit = event.story_asset ?? event.storyAsset ?? null;
   if (explicit) return String(explicit).toUpperCase();
@@ -94,12 +105,13 @@ function storyAsset(event, facts, metrics) {
 }
 
 function storyVenues(event, facts, metrics, sourceRows) {
-  const known = new Set(['binance', 'okx', 'bybit', 'bitget', 'coinbase', 'kucoin', 'kraken']);
+  const known = new Set(KNOWN_VENUES);
+  const sourceVenueRe = new RegExp(`^(${KNOWN_VENUES.join('|')})-(?:announcements|status)$`, 'u');
   const values = [
     ...(Array.isArray(event.discussion?.story_venues) ? event.discussion.story_venues : []),
     ...(event.story_venues ?? event.storyVenues ?? []),
     ...metrics.flatMap(row => [row.venue, row.provenance?.venue, row.exchange]).filter(Boolean),
-    ...sourceRows.flatMap(row => [row.source_id, row.sourceId]).filter(Boolean).map(value => String(value).match(/^(binance|okx|bybit|bitget|coinbase|kucoin|kraken)-(?:announcements|status)$/)?.[1]).filter(Boolean),
+    ...sourceRows.flatMap(row => [row.source_id, row.sourceId]).filter(Boolean).map(value => String(value).match(sourceVenueRe)?.[1]).filter(Boolean),
     ...facts.flatMap(row => row.venues ?? []),
   ];
   return [...new Set(values.map(value => String(value).toLowerCase()).filter(value => known.has(value)))].sort();
@@ -224,11 +236,12 @@ export function buildDedupeSql({ events, irrelevantItems = [] }, batchItemIds) {
     const target = isExisting
       ? `UPDATE events SET last_update_at=now(), subjects=${textArray(event.subjects)}, original_links=${textArray(event.original_links)},
           source_published_at=${ts(event.source_published_at)}, discussion=${jsonb(meta.discussion)}, credibility=${credibility},
+          event_type=${lit(meta.event_type)},
           effective_at=${ts(meta.effective_at)}, deadline_at=${ts(meta.deadline_at)}, major_followup_at=${ts(meta.major_followup_at)},
           story_asset=${lit(meta.story_asset)}, story_action=${lit(meta.story_action)}, story_group_key=${lit(meta.story_group_key)}
           WHERE id=${Number(event.id)} RETURNING id`
       : `INSERT INTO events(subject_entity, subjects, event_type, title_internal, occurred_at, source_published_at, original_links, discussion, credibility, effective_at, deadline_at, major_followup_at, story_asset, story_action, story_group_key)
-          VALUES (${lit(event.subject_entity)}, ${textArray(event.subjects)}, ${lit(event.event_type || 'unknown')}, ${lit(String(event.title_internal || 'Untitled newsroom event').slice(0, 600))},
+          VALUES (${lit(event.subject_entity)}, ${textArray(event.subjects)}, ${lit(meta.event_type || event.event_type || 'unknown')}, ${lit(String(event.title_internal || 'Untitled newsroom event').slice(0, 600))},
           ${ts(event.occurred_at)}, ${ts(event.source_published_at)}, ${textArray(event.original_links)}, ${jsonb(meta.discussion)}, ${credibility},
           ${ts(meta.effective_at)}, ${ts(meta.deadline_at)}, ${ts(meta.major_followup_at)}, ${lit(meta.story_asset)}, ${lit(meta.story_action)}, ${lit(meta.story_group_key)}) RETURNING id`;
     statements.push(`WITH target AS (${target})${evidenceInsert ? `, ev AS (${evidenceInsert} RETURNING 1)` : ''}
@@ -409,6 +422,7 @@ export function runVerify(execute) {
     const status = relevant ? verifyEvent(event, { watchlist }) : 'unverified';
     const meta = eventClaimMetadata(event);
     const update = `UPDATE events SET verification_status=${lit(status)}, verified_at=now(),
+      event_type=${lit(meta.event_type)},
       discussion=${jsonb(meta.discussion)},
       effective_at=${ts(meta.effective_at)}, deadline_at=${ts(meta.deadline_at)}, major_followup_at=${ts(meta.major_followup_at)},
       story_asset=${lit(meta.story_asset)}, story_action=${lit(meta.story_action)}, story_group_key=${lit(meta.story_group_key)}

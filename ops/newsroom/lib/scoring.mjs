@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { countIndependentSources } from './dedupe.mjs';
-import { isMirrorEvidence } from './evidence-quality.mjs';
+import { isMirrorEvidence, publisherIdentity, independentEvidenceRows } from './evidence-quality.mjs';
 import { claimQualityState, normalizeClaimQualityConfig } from './claim-quality.mjs';
 import { trigramSimilarity } from './normalization.mjs';
 import { verifyEvent } from './verification.mjs';
@@ -117,15 +117,7 @@ function independentSourceHeat(event, now) {
   };
 }
 
-function publisherKey(row) {
-  try {
-    const hostname = new URL(row.url).hostname.toLowerCase().replace(/^www\./, '');
-    if (hostname) return hostname;
-  } catch {
-    // Fall back to registry/account identity when evidence has no usable URL.
-  }
-  return row.source_id ?? row.sourceId ?? row.author_account ?? row.authorAccount ?? row.source_name ?? row.sourceName ?? row.source_platform ?? row.sourcePlatform ?? null;
-}
+const publisherKey = publisherIdentity;
 
 function scoreHeat(event, now) {
   const discussion = event.discussion ?? {};
@@ -263,7 +255,7 @@ export function credibilityScore(event) {
   if (evidence.some(row => OFFICIAL_KINDS.has(row.kind))) return 3;
   if (evidence.some(row => row.kind === 'market_data')) return 2;
   const reputableReports = evidence.filter(row => row.kind === 'media_report' && Number(row.source_tier ?? row.sourceTier ?? 2) <= 2);
-  if (new Set(reputableReports.map(row => row.origin_key ?? row.originKey).filter(Boolean)).size >= 2) return 2;
+  if (independentEvidenceRows(reputableReports).length >= 2) return 2;
   if (reputableReports.length >= 1) return 1;
   return 0;
 }
