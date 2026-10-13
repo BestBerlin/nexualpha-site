@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 import { JSDOM } from "jsdom";
 
-import { extractCriticalCss, matchableSelector, requiredTokens, splitSelectorList, stylesheetHrefs, subjectTokens } from "../scripts/build-critical-css.mjs";
+import { extractCriticalCss, homeCriticalSubjects, matchableSelector, requiredTokens, splitSelectorList, stylesheetHrefs, subjectTokens } from "../scripts/build-critical-css.mjs";
 import { homeRouteStylePrefixes, inlineCriticalStylesheets } from "../worker/index.js";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
@@ -46,6 +46,17 @@ test("extraction keeps matching rules in cascade order, their at-rule wrappers, 
   ].join("\n"));
   assert.equal(stats.rules, 10);
   assert.equal(stats.kept, 6);
+});
+
+test("first-screen extraction uses full DOM context while deferring below-hero subjects", () => {
+  const dom = new JSDOM(`<html><body><div id="root"><main><header class="header">Nav</header><div class="h7"><section class="h7-hero"><p class="h7-num">40%</p><details class="faq"><summary>Help</summary></details></section><section class="lower">More</section></div><footer class="footer">End</footer></main></div></body></html>`);
+  const doc = dom.window.document;
+  const { css } = extractCriticalCss([
+    `.header{height:48px}body:has(.footer) .h7-num{font-size:44px}.faq[open] summary{color:red}.h7-hero:last-child{padding:20px}.lower{height:500px}.footer{padding:40px}`,
+  ], [doc], { subjects: homeCriticalSubjects(doc) });
+  assert.equal(css, `.header{height:48px}body:has(.footer) .h7-num{font-size:44px}.faq[open] summary{color:red}`);
+  assert.throws(() => homeCriticalSubjects(new JSDOM("<main></main>").window.document), /missing home hero\/LCP/);
+  dom.window.close();
 });
 
 test("a selector list Chrome may reject as a whole is kept as written", () => {
@@ -94,7 +105,8 @@ test("the build step runs after the prerender and before the Sites bundle; the W
   const worker = read("../worker/index.js");
   assert.match(worker, /if \(isCriticalCssHomeRoute\(html, metadata, url\)\) \{\n\s+html = inlineCriticalStylesheets\(html, \(await loadCriticalCss\(env, url\)\)\?\.routes\?\.home\);/);
   assert.match(worker, /return normalizePathname\(publicRoute\.contentPathname \|\| url\.pathname\) === "\/";/);
-  for (const prefix of ["index-", "core-", "page-home-", "route-v3-home-"]) assert.ok(homeRouteStylePrefixes().includes(prefix), prefix);
+  for (const prefix of ["index-", "core-b-", "page-home-", "route-v3-home-"]) assert.ok(homeRouteStylePrefixes().includes(prefix), prefix);
+  assert.ok(!homeRouteStylePrefixes().some((prefix) => "core-c-full.css".startsWith(prefix)), "home excludes the full inner v6 cascade");
 });
 
 const dist = new URL("../dist/client/", import.meta.url);

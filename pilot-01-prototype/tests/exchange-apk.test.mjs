@@ -97,6 +97,14 @@ test("probe: healthy chains, off-host targets never fetched, non-APK, missing fi
     ["binance", { [`HEAD ${BINANCE.officialUrl}`]: { status: 404 }, [`GET ${BINANCE.officialUrl}`]: { status: 404 } }],
   ]) assert.equal((await checkApkChain(venue, stubFetch(routes).impl)).healthy, false);
 
+  // okx.com handing OUR channel file to a regional mirror is healthy; the mirror itself is never requested.
+  s = stubFetch({ [OKX.officialUrl]: { status: 302, headers: { location: `https://exgglyfor.mpwrs.cn${OKX.channelFile}` } } });
+  assert.equal((await checkApkChain("okx", s.impl)).healthy, true);
+  assert.equal(s.calls.length, 1, "the regional mirror is never requested");
+  // A mirror redirect naming any other file stays unhealthy.
+  s = stubFetch({ [OKX.officialUrl]: { status: 302, headers: { location: "https://exgglyfor.mpwrs.cn/upgradeapp/growth/channel/apk/android_99999999.apk" } } });
+  assert.equal((await checkApkChain("okx", s.impl)).healthy, false);
+
   s = stubFetch({ [OKX.officialUrl]: okxHealthy[OKX.officialUrl], [`HEAD ${OKX_CDN}`]: { status: 405 }, [`GET ${OKX_CDN}`]: { status: 206, headers: { "content-type": APK_TYPE } } });
   assert.equal((await checkApkChain("okx", s.impl)).healthy, true);
   // A redirect loop on the right host gives up instead of following forever.
