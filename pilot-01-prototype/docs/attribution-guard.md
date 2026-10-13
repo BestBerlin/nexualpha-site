@@ -67,3 +67,6 @@ Sign-up/campaign CTA attributes override every exception. Identity homepages req
 | 51 | `www.mexc.com` | `/^\/zh-MY\/campaigns\/TradingPapa8$/` | Expired campaign terms retained as historical evidence, not an active conversion destination. |
 | 52 | `hyperliquid.gitbook.io` | `/^\/hyperliquid-docs(?:\/&#124;$)/` | Official protocol fee, risk, referral and API documentation hosted on GitBook. |
 | 53 | `www.bitget.com`, `hyperliquid.xyz`, `www.kraken.com` | `/^\/(?:baseasset\/favicon4\.png&#124;micro-runtime\/images\/logo-light\.svg&#124;apple-touch-icon\.png&#124;_assets\/icons\/apple-touch-icon\.png)$/` | Exact official brand-image acquisition URLs; source metadata only, not outbound conversion links. |
+| 54 | `fapi.binance.com` | `/^\/(?:futures\/data&#124;fapi\/v1)\//` | Official public USDT-M futures statistics API used as a /long-short data source. |
+| 55 | `api.bybit.com` | `/^\/v5\/market\//` | Official public v5 market-data API used as a /long-short data source. |
+| 56 | `www.kraken.com` | `/^\/competitions\//` | Official Kraken competition terms cited as the campaign source (source context only); conversion buttons use /go. |
