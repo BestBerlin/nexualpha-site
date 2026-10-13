@@ -5,7 +5,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · October Referral Tournament",
     tH: "Up to 1,000 USDC in token vouchers: invite your friends and climb the leaderboard",
     tLead: "Join Binance with this link, then enter the October Referral Tournament yourself. Every friend you invite earns you Referral Points as they complete simple tasks.",
-    tEndsAt: "Ends 31 Oct 2026, 23:59 UTC",
+    tEndsAt: "Ends 1 Nov 2026, 07:59 SGT",
     tRewards: [
       ["Up to 1,000 USDC", "Leaderboard: 1st 1,000 USDC, 2nd 800, 3rd 600, 4th–10th 300 each, 11th–20th 150 each."],
       ["Up to 80 USDC", "No ranking needed: 80 USDC at 80 points (first 100 people), 30 USDC at 30 points (first 300), 10 USDC at 10 points (first 1,000)."],
@@ -23,7 +23,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "币安 · 十月邀请积分赛",
     tH: "最高 1,000 USDC 代币券奖池：邀请你的朋友，冲排行榜",
     tLead: "用这个链接注册币安，然后自己报名十月邀请积分赛。你邀请的每位朋友完成简单任务，你就拿到邀请积分。",
-    tEndsAt: "2026 年 10 月 31 日 23:59（UTC）结束",
+    tEndsAt: "2026 年 11 月 1 日 07:59（新加坡时间）结束",
     tRewards: [
       ["最高 1,000 USDC", "排行榜：第 1 名 1,000 USDC，第 2 名 800，第 3 名 600，第 4–10 名各 300，第 11–20 名各 150。"],
       ["最高 80 USDC", "不用排名：80 积分得 80 USDC（前 100 人），30 积分得 30 USDC（前 300 人），10 积分得 10 USDC（前 1,000 人）。"],
@@ -41,7 +41,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Torneo de Referidos de Octubre",
     tH: "Hasta 1,000 USDC en cupones de tokens: invita a tus amigos y escala en la clasificación",
     tLead: "Únete a Binance con este enlace y luego inscríbete tú mismo en el Torneo de Referidos de Octubre. Cada amigo que invitas te suma Puntos de Referido a medida que completa tareas sencillas.",
-    tEndsAt: "Termina el 31 oct 2026, 23:59 UTC",
+    tEndsAt: "Termina el 1 nov 2026, 07:59 SGT",
     tRewards: [
       ["Hasta 1,000 USDC", "Clasificación: 1.º 1,000 USDC, 2.º 800, 3.º 600, 4.º–10.º 300 cada uno, 11.º–20.º 150 cada uno."],
       ["Hasta 80 USDC", "Sin necesidad de clasificar: 80 USDC con 80 puntos (primeras 100 personas), 30 USDC con 30 puntos (primeras 300), 10 USDC con 10 puntos (primeras 1,000)."],
@@ -59,7 +59,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Torneio de Indicações de Outubro",
     tH: "Até 1,000 USDC em vouchers de tokens: convide seus amigos e suba no ranking",
     tLead: "Entre na Binance por este link e depois inscreva-se você mesmo no Torneio de Indicações de Outubro. Cada amigo que você convida rende Pontos de Indicação para você conforme conclui tarefas simples.",
-    tEndsAt: "Termina em 31 out 2026, 23:59 UTC",
+    tEndsAt: "Termina em 1 nov 2026, 07:59 SGT",
     tRewards: [
       ["Até 1,000 USDC", "Ranking: 1º 1,000 USDC, 2º 800, 3º 600, 4º–10º 300 cada, 11º–20º 150 cada."],
       ["Até 80 USDC", "Sem precisar de ranking: 80 USDC com 80 pontos (primeiras 100 pessoas), 30 USDC com 30 pontos (primeiras 300), 10 USDC com 10 pontos (primeiras 1,000)."],
@@ -77,7 +77,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Ekim Referans Turnuvası",
     tH: "1,000 USDC'ye varan token kuponları: arkadaşlarınızı davet edin, sıralamada yükselin",
     tLead: "Bu bağlantıyla Binance'e katılın, ardından Ekim Referans Turnuvası'na kendiniz kaydolun. Davet ettiğiniz her arkadaş basit görevleri tamamladıkça size Referans Puanı kazandırır.",
-    tEndsAt: "31 Ekim 2026, 23:59 UTC'de biter",
+    tEndsAt: "1 Kasım 2026, 07:59 SGT'de biter",
     tRewards: [
       ["1,000 USDC'ye kadar", "Sıralama: 1. 1,000 USDC, 2. 800, 3. 600, 4.–10. her biri 300, 11.–20. her biri 150."],
       ["80 USDC'ye kadar", "Sıralama gerekmez: 80 puanda 80 USDC (ilk 100 kişi), 30 puanda 30 USDC (ilk 300), 10 puanda 10 USDC (ilk 1,000)."],
@@ -95,7 +95,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Giải đấu Giới thiệu tháng 10",
     tH: "Đến 1,000 USDC voucher token: mời bạn bè và leo bảng xếp hạng",
     tLead: "Tham gia Binance qua link này, rồi tự đăng ký Giải đấu Giới thiệu tháng 10. Mỗi người bạn bạn mời hoàn thành nhiệm vụ đơn giản sẽ mang về cho bạn Điểm Giới thiệu.",
-    tEndsAt: "Kết thúc 31/10/2026, 23:59 UTC",
+    tEndsAt: "Kết thúc 01/11/2026, 07:59 SGT",
     tRewards: [
       ["Đến 1,000 USDC", "Bảng xếp hạng: hạng 1 1,000 USDC, hạng 2 800, hạng 3 600, hạng 4–10 mỗi người 300, hạng 11–20 mỗi người 150."],
       ["Đến 80 USDC", "Không cần xếp hạng: 80 USDC khi đạt 80 điểm (100 người đầu tiên), 30 USDC khi đạt 30 điểm (300 người đầu), 10 USDC khi đạt 10 điểm (1,000 người đầu)."],
@@ -113,7 +113,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Turnamen Referral Oktober",
     tH: "Hingga 1,000 USDC voucher token: undang teman dan naik di papan peringkat",
     tLead: "Gabung Binance lewat link ini, lalu daftar sendiri ke Turnamen Referral Oktober. Setiap teman yang kamu undang memberimu Poin Referral saat mereka menyelesaikan tugas sederhana.",
-    tEndsAt: "Berakhir 31 Okt 2026, 23:59 UTC",
+    tEndsAt: "Berakhir 1 Nov 2026, 07:59 SGT",
     tRewards: [
       ["Hingga 1,000 USDC", "Papan peringkat: ke-1 1,000 USDC, ke-2 800, ke-3 600, ke-4–10 masing-masing 300, ke-11–20 masing-masing 150."],
       ["Hingga 80 USDC", "Tanpa perlu peringkat: 80 USDC di 80 poin (100 orang pertama), 30 USDC di 30 poin (300 pertama), 10 USDC di 10 poin (1,000 pertama)."],
@@ -131,7 +131,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · 10月紹介トーナメント",
     tH: "最大1,000 USDCのトークンバウチャー：友達を招待してランキング上位へ",
     tLead: "このリンクからBinanceに登録し、あなた自身が10月紹介トーナメントに参加しましょう。招待した友達が簡単なタスクを完了するたびに、あなたに紹介ポイントが貯まります。",
-    tEndsAt: "2026年10月31日 23:59（UTC）終了",
+    tEndsAt: "2026年11月1日 07:59（SGT）終了",
     tRewards: [
       ["最大1,000 USDC", "ランキング：1位 1,000 USDC、2位 800、3位 600、4〜10位 各300、11〜20位 各150。"],
       ["最大80 USDC", "ランキング不要：80ポイントで80 USDC（先着100名）、30ポイントで30 USDC（先着300名）、10ポイントで10 USDC（先着1,000名）。"],
@@ -149,7 +149,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · 10월 추천 토너먼트",
     tH: "최대 1,000 USDC 토큰 바우처: 친구를 초대하고 순위표 정상에 도전하세요",
     tLead: "이 링크로 바이낸스에 가입한 뒤 직접 10월 추천 토너먼트에 참가하세요. 초대한 친구가 간단한 미션을 완료할 때마다 추천 포인트가 쌓입니다.",
-    tEndsAt: "2026년 10월 31일 23:59 (UTC) 종료",
+    tEndsAt: "2026년 11월 1일 07:59 (SGT) 종료",
     tRewards: [
       ["최대 1,000 USDC", "순위표: 1위 1,000 USDC, 2위 800, 3위 600, 4–10위 각 300, 11–20위 각 150."],
       ["최대 80 USDC", "순위 없이도: 80포인트에 80 USDC(선착순 100명), 30포인트에 30 USDC(선착순 300명), 10포인트에 10 USDC(선착순 1,000명)."],
@@ -167,7 +167,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Tournoi de parrainage d’octobre",
     tH: "Jusqu’à 1,000 USDC en bons de tokens : invitez vos amis et grimpez au classement",
     tLead: "Rejoignez Binance via ce lien, puis inscrivez-vous vous-même au tournoi de parrainage d’octobre. Chaque ami que vous invitez vous rapporte des points de parrainage à mesure qu’il accomplit des tâches simples.",
-    tEndsAt: "Se termine le 31 oct. 2026 à 23:59 UTC",
+    tEndsAt: "Se termine le 1 nov. 2026 à 07:59 SGT",
     tRewards: [
       ["Jusqu’à 1,000 USDC", "Classement : 1er 1,000 USDC, 2e 800, 3e 600, 4e–10e 300 chacun, 11e–20e 150 chacun."],
       ["Jusqu’à 80 USDC", "Sans classement : 80 USDC à 80 points (100 premières personnes), 30 USDC à 30 points (300 premières), 10 USDC à 10 points (1,000 premières)."],
@@ -185,7 +185,7 @@ export const BINANCE_TOURNAMENT_COPY = {
     tKicker: "Binance · Oktober-Empfehlungsturnier",
     tH: "Bis zu 1,000 USDC in Token-Gutscheinen: Freunde einladen und in der Rangliste aufsteigen",
     tLead: "Registrieren Sie sich über diesen Link bei Binance und melden Sie sich dann selbst zum Oktober-Empfehlungsturnier an. Jeder eingeladene Freund bringt Ihnen Empfehlungspunkte, sobald er einfache Aufgaben erledigt.",
-    tEndsAt: "Endet am 31. Okt. 2026, 23:59 UTC",
+    tEndsAt: "Endet am 1. Nov. 2026, 07:59 SGT",
     tRewards: [
       ["Bis zu 1,000 USDC", "Rangliste: Platz 1 1,000 USDC, Platz 2 800, Platz 3 600, Platz 4–10 je 300, Platz 11–20 je 150."],
       ["Bis zu 80 USDC", "Ganz ohne Platzierung: 80 USDC bei 80 Punkten (erste 100 Personen), 30 USDC bei 30 Punkten (erste 300), 10 USDC bei 10 Punkten (erste 1,000)."],

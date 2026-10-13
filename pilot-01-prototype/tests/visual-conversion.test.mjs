@@ -112,10 +112,10 @@ test("Telegram page leads with the alerts product: sample message, four topics, 
     assert.match(html, /BTCUSDT/, locale);
     assert.match(html, /\$1\.28M/, locale);
     assert.match(html, /Binance USDT-M/, locale);
-    assert.match(html, /14:32 UTC/, locale);
+    assert.match(html, /22:32 SGT/, locale);
     assert.match(html, /Binance \+ OKX|Binance وOKX|Binance と OKX|Binance와 OKX|Binance e OKX|Binance et OKX|Binance und OKX|Binance ve OKX|Binance dan OKX|Binance và OKX|Binance y OKX|Binance 与 OKX|Binance 與 OKX|Binance \+ OKX/, `${locale}: source line names Binance + OKX`);
     assert.match(html, /21:00/, `${locale}: daily brief time`);
-    assert.match(html, /13:00 UTC/, locale);
+    assert.match(html, /21:00 SGT|21:00 新加坡时间|21:00 新加坡時間/, locale);
     assert.match(html, /href="https:\/\/app\.nexualpha\.com\/"/, `${locale}: Mini App`);
     assert.match(html, /data-cta-placement="telegram-alerts-channel-zh"/, locale);
     assert.match(html, /data-cta-placement="telegram-alerts-channel-en"/, locale);

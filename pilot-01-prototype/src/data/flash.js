@@ -77,3 +77,5 @@ const UI = {
 export function flashUiCopy(locale) {
   return UI[locale] || (String(locale || "").startsWith("zh") ? UI["zh-Hans"] : UI.en);
 }
+
+export { formatReaderTime } from "./local-time.js";

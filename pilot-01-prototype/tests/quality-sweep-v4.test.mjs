@@ -108,7 +108,7 @@ test("V3 data rule: section rules on venue, compare, activities and data pages; 
   assert.ok(!home.includes("SectionRule"), "not on the home hero");
 });
 
-test("V3 SectionRule markup: decorative, label from the counter, UTC stamp drops its date on phones", async () => {
+test("V3 SectionRule markup: decorative, label from the counter, SGT stamp drops its date on phones", async () => {
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-quality-sweep-"));
   try {
     const entryPath = path.join(tempDir, "entry.mjs");
@@ -129,7 +129,7 @@ test("V3 SectionRule markup: decorative, label from the counter, UTC stamp drops
     const out = JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8" }));
     assert.equal(out.plain, '<div class="nx-rule nx-rule--section" aria-hidden="true"><span class="nx-rule__label nx-rule__index"></span><span class="nx-rule__line"></span></div>');
     assert.match(out.count, /<span class="nx-rule__stamp">5<\/span><\/div>$/);
-    assert.match(out.utc, /<time class="nx-rule__stamp" dateTime="2026-10-11T09:08:31Z"><span class="nx-rule__date">2026-10-11 · <\/span>09:08 UTC<\/time>/);
+    assert.match(out.utc, /<time class="nx-rule__stamp" dateTime="2026-10-11T09:08:31Z"><span class="nx-rule__date">2026-10-11 · <\/span>17:08 SGT<\/time>/);
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }

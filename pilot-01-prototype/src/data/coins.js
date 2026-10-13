@@ -5,6 +5,7 @@ import { COIN_ROWS, COIN_VENUE_SLUGS, COIN_VENUE_STATUS as BAKED_VENUE_STATUS, C
 import { coinRowFromSnapshotCoin, coinVenueStatusFromSnapshot, isUsableCoinSnapshot } from "./coins-snapshot.js";
 import { COIN_COPY } from "./coins-copy.js";
 import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
+import { formatSgt } from "./local-time.js";
 
 // Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
 export const COIN_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
@@ -170,8 +171,8 @@ export function formatChange(value, locale = "en") {
   if (!Number.isFinite(value)) return "–";
   try { return new Intl.NumberFormat(locale, { style: "percent", signDisplay: "exceptZero", maximumFractionDigits: 2, minimumFractionDigits: 2 }).format(value / 100); } catch { return `${value > 0 ? "+" : ""}${value.toFixed(2)}%`; }
 }
-/** "2026-10-12 11:05" (UTC), identical in every runtime. */
-export const utcStamp = (iso) => { const t = Date.parse(iso); return Number.isFinite(t) ? new Date(t).toISOString().slice(0, 16).replace("T", " ") : ""; };
+/** Singapore-time stamp, identical in every runtime. Kept as utcStamp for existing call-site compatibility. */
+export const utcStamp = (iso, locale = "en") => formatSgt(iso, locale);
 
 // ---------------------------------------------------------------- answer text (page + meta + FAQ)
 export function coinAnswer(coin, locale) {

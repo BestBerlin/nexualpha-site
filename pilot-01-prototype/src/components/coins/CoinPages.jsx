@@ -57,7 +57,7 @@ function CoinMark({ coin, size = 44 }) {
 }
 
 // ---------------------------------------------------------------- live price (after mount only)
-// The server HTML shows the snapshot price with its UTC time. After mount, the page asks one exchange that lists the
+// The server HTML shows the snapshot price with its SGT time. After mount, the page asks one exchange that lists the
 // coin against USDT/USDC for its public ticker (CORS-enabled endpoints, no key) and shows that price with its source.
 const TICKERS = {
   okx: { url: (s, q) => `https://www.okx.com/api/v5/market/ticker?instId=${s}-${q}`, read: (j) => { const r = j?.data?.[0]; const last = Number(r?.last), open = Number(r?.open24h); return { price: last, change24h: open > 0 ? (last / open - 1) * 100 : null }; } },
@@ -131,7 +131,7 @@ function PriceCard({ coin, locale, t, live }) {
       <div><dt>{t.rank}</dt><dd><LTR>#{coin.rank}</LTR></dd></div>
       <div><dt>{t.marketCap}</dt><dd><LTR>{formatCompactUsd(coin.marketCap, locale)}</LTR></dd></div>
     </dl>
-    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: `${utcStamp(live.at)} UTC` })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: utcStamp(live.at, locale) })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
   </div>;
 }
 
@@ -327,7 +327,7 @@ export function CoinsHubPage({ locale = "en", market, overlay }) {
       <header className="nxc-hubhead">
         <h1 className="nxc-title">{fill(t.hubTitle, { count: COINS.length })}</h1>
         <p className="nxc-lead">{t.hubLead}</p>
-        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
       </header>
       <div className="nxc-tools" role="search">
         <label className="nxc-search">

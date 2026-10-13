@@ -1,3 +1,4 @@
+import { formatSgt } from "../../data/local-time.js";
 import { useMemo, useState } from "react";
 import { intlLocale } from "../../content/v2-copy";
 import { track } from "../../data/market-command";
@@ -13,7 +14,6 @@ export function ListingsStream({ copy, locale, listings, availability, reasonCod
   const [opened, setOpened] = useState(null);
   const [saved, setSaved] = useState(new Set());
   const visible = useMemo(() => filter === filters[0] ? listings : listings.filter((item) => listingSummary(item, copy).toLocaleLowerCase(copy.locale).includes(filter.toLocaleLowerCase(copy.locale))), [copy, filter, filters, listings]);
-  const timeFormatter = new Intl.DateTimeFormat(intlLocale(locale), { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
   const sourcePending = availability === "unavailable";
 
   return <section id="listings" className="v2-section listings-section">
@@ -24,7 +24,7 @@ export function ListingsStream({ copy, locale, listings, availability, reasonCod
         <div className="listing-stream__head"><span>{copy.common.time}</span><span>{copy.finder.listing}</span><span>{copy.nav.exchanges}</span><span>{copy.common.product}</span><span>{copy.common.action}</span></div>
         {visible.length ? visible.map((listing) => {
           const isSaved = saved.has(listing.slug);
-          return <article key={listing.slug} className={opened === listing.slug ? "is-open" : ""}><time>{timeFormatter.format(new Date(listing.updatedAt))} UTC</time><b>{listing.title}</b><span>{listing.venue || copy.compare.checkTerms}</span><p>{opened === listing.slug ? copy.opportunity.condition : listingSummary(listing, copy)}</p><div className="listing-actions"><button type="button" aria-pressed={isSaved} onClick={() => setSaved((current) => { const next = new Set(current); if (next.has(listing.slug)) next.delete(listing.slug); else next.add(listing.slug); return next; })}>{isSaved ? copy.common.savedState : copy.common.save}</button><button type="button" aria-expanded={opened === listing.slug} onClick={() => { setOpened((current) => current === listing.slug ? null : listing.slug); track("listing_open", { slug: listing.slug }); }}>{opened === listing.slug ? copy.actions.close : `${copy.listings.details} →`}</button></div></article>;
+          return <article key={listing.slug} className={opened === listing.slug ? "is-open" : ""}><time dateTime={listing.updatedAt}>{formatSgt(listing.updatedAt, intlLocale(locale), "clock")}</time><b>{listing.title}</b><span>{listing.venue || copy.compare.checkTerms}</span><p>{opened === listing.slug ? copy.opportunity.condition : listingSummary(listing, copy)}</p><div className="listing-actions"><button type="button" aria-pressed={isSaved} onClick={() => setSaved((current) => { const next = new Set(current); if (next.has(listing.slug)) next.delete(listing.slug); else next.add(listing.slug); return next; })}>{isSaved ? copy.common.savedState : copy.common.save}</button><button type="button" aria-expanded={opened === listing.slug} onClick={() => { setOpened((current) => current === listing.slug ? null : listing.slug); track("listing_open", { slug: listing.slug }); }}>{opened === listing.slug ? copy.actions.close : `${copy.listings.details} →`}</button></div></article>;
         }) : <p className="empty-row">{copy.finder.empty}</p>}
       </div>
     </>}
