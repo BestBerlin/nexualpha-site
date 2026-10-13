@@ -78,6 +78,7 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([
   "/news",
   "/markets",
   "/academy",
+  "/licenses",
   "/coins",
   "/convert",
   "/glossary",
