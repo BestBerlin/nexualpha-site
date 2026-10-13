@@ -28,6 +28,8 @@ import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
 import { appDownloadRouteSeo } from "./app-downloads.js";
 import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
+import { parseLicensesPath } from "./licenses-routes.js";
+import { licenseRouteSeo } from "./licenses-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
 import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./intel-tools-routes.js";
@@ -352,6 +354,7 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  if (parseLicensesPath(pathname) && parseLicensesPath(pathname).kind !== "missing") return licenseRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Spot ETF flows + crypto calendar (mirror of the Worker).
   if (isIntelToolPath(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
@@ -2144,6 +2147,14 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (parseLicensesPath(pathname) && licenseRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    const licenses = licenseRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = licenses.title;
+    description = licenses.description;
+    schemas = licenses.schemas;
+    ogType = "website";
+    if (!licenses.indexable) robots = "noindex,follow";
   } else if (isIntelToolPath(pathname)) {
     // Spot ETF flows + crypto calendar: same helper as the Worker head (without the live snapshot: no Event list).
     const tool = intelToolRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });

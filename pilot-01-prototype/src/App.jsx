@@ -33,6 +33,7 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { parseLicensesPath } from "./data/licenses-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
@@ -101,6 +102,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
   "./components/glossary/GlossaryPages.jsx",
@@ -166,6 +168,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
   "./data/coin-content-*.js",
@@ -232,6 +235,7 @@ function readAcademyContent(locale) {
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
 }
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
+const LicenseDirectoryPage = deferredComponent("./components/licenses/LicensePages.jsx", "LicenseDirectoryPage");
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
 const ConverterPage = deferredComponent(ROUTE_MODULE_PATHS.converter, "ConverterPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
@@ -380,7 +384,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -546,6 +550,10 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  const licenses = parseLicensesPath(pathname);
+  if (licenses?.kind === "hub") return { name: "licenses", ...contextParams() };
+  if (licenses?.kind === "country") return { name: "licenses", country: licenses.country, ...contextParams() };
+  if (licenses) return { name: "notFound" };
   const converter = parseConverterPath(pathname);
   if (converter?.kind === "pair") return { name: "converter", symbol: converter.symbol, fiat: converter.fiat, ...contextParams() };
   if (converter) return { name: "notFound" };
@@ -871,6 +879,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "licenses") return pageShell(<LicenseDirectoryPage locale={locale} country={route.country} market={route.market} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
   if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
