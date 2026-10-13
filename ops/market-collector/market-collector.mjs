@@ -2,6 +2,10 @@
 // NexuAlpha market-event collector (2026-10-10). Finds what crypto traders want to read about today, from public
 // exchange data and public news feeds, so articles and Telegram posts start from real events:
 //   - liquidations: Binance USDT-M force orders over 1h / 4h / 24h, split long vs short ("both sides wiped out");
+//   - liquidation timeline: real observed orders kept for 7 days, rolled into compact 24h 5-minute and 7d hourly
+//     buckets for the heat timeline UI. Observation buckets are collector observation points: the route can distinguish
+//     "this bucket had a collector cycle/order and zero liquidation value" from gaps, without claiming continuous
+//     venue coverage for every millisecond inside the bucket.
 //   - big moves: 1h and 24h moves of the most traded perpetuals; open-interest change for BTC and ETH;
 //   - headline radar: titles from public RSS feeds (SEC, crypto press), tagged (tokenization, ETF, hack, listing...);
 //   - funding rates (2026-10-10, feeds /funding-rates): Binance USDT-M premiumIndex and OKX funding-rate for the
@@ -20,14 +24,54 @@ const STATE_FILE = process.env.STATE_FILE || path.join(path.dirname(OUT_FILE), "
 // Hourly liquidation history (2026-10-11): JSON lines, 90 days, one row per UTC hour; see market-history.mjs.
 const HISTORY_FILE = process.env.MARKET_HISTORY_FILE || defaultHistoryFile(OUT_FILE);
 const UA = "NexuAlphaMarketCollector/1.0 (+https://nexualpha.com)";
-const H24 = 24 * 3600e3;
+const MINUTE = 60e3;
+const HOUR = 60 * MINUTE;
+const H24 = 24 * HOUR;
+const H7 = 7 * H24;
+export const LIQUIDATION_ORDER_RETENTION_MS = H7;
+export const LIQUIDATION_TIMELINE_SOURCE_LABEL = "Binance + OKX observed liquidations";
+export const LIQUIDATION_TIMELINE_WINDOWS = Object.freeze({
+  h24: Object.freeze({ windowMs: H24, bucketMs: 5 * MINUTE }),
+  d7: Object.freeze({ windowMs: H7, bucketMs: HOUR }),
+});
+export const LIQUIDATION_TIMELINE_LARGEST_LIMIT = 20;
 const log = (m) => console.log(`[market] ${new Date().toISOString()} ${m}`);
 
 // ---------- liquidations (Binance force-order stream) ----------
-let liq = [];
-try { liq = JSON.parse(readFileSync(STATE_FILE, "utf8")).filter((x) => Date.now() - x.t < H24); } catch { /* fresh start */ }
+const lnum = (v) => { const n = typeof v === "number" ? v : Number.parseFloat(v); return Number.isFinite(n) ? n : null; };
+const nonNegativeUsd = (v) => Math.max(0, Math.round(lnum(v) ?? 0));
+const iso = (t) => Number.isFinite(t) ? new Date(t).toISOString() : null;
+const retentionCutoff = (now = Date.now(), retentionMs = LIQUIDATION_ORDER_RETENTION_MS) => now - retentionMs;
+const withinRetention = (row, now = Date.now(), retentionMs = LIQUIDATION_ORDER_RETENTION_MS) => {
+  const t = lnum(row?.t);
+  return t != null && t >= retentionCutoff(now, retentionMs) && t <= now + HOUR;
+};
+const retainedOrders = (orders, now = Date.now()) => (Array.isArray(orders) ? orders : []).filter((x) => withinRetention(x, now));
+const retainedObservations = (observations, now = Date.now()) => (Array.isArray(observations) ? observations : [])
+  .filter((x) => withinRetention(x, now)).map((x) => ({ t: lnum(x.t), binanceStream: Boolean(x.binanceStream), okxPoll: Boolean(x.okxPoll) }));
+
+export function readCollectorStatePayload(payload, now = Date.now()) {
+  if (Array.isArray(payload)) return { orders: retainedOrders(payload, now), observations: [] };
+  if (!payload || typeof payload !== "object") return { orders: [], observations: [] };
+  return { orders: retainedOrders(payload.orders, now), observations: retainedObservations(payload.observations, now) };
+}
+
+export function readCollectorState(file = STATE_FILE, now = Date.now()) {
+  try { return readCollectorStatePayload(JSON.parse(readFileSync(file, "utf8")), now); }
+  catch { return { orders: [], observations: [] }; }
+}
+
+export function collectorStatePayload(orders, observations, now = Date.now()) {
+  return { version: 2, retainedMs: LIQUIDATION_ORDER_RETENTION_MS, orders: retainedOrders(orders, now), observations: retainedObservations(observations, now) };
+}
+
+const collectorState = readCollectorState();
+let liq = collectorState.orders;
+let observations = collectorState.observations;
+let liquidationStreamOpen = false;
 function connectLiquidations() {
   const ws = new WebSocket("wss://fstream.binance.com/ws/!forceOrder@arr");
+  ws.onopen = () => { liquidationStreamOpen = true; };
   ws.onmessage = (ev) => {
     try {
       const o = JSON.parse(ev.data).o;
@@ -37,8 +81,8 @@ function connectLiquidations() {
       liq.push({ t: Number(o.T) || Date.now(), s: o.s, side: o.S === "SELL" ? "long" : "short", usd: Math.round(usd) });
     } catch { /* ignore malformed */ }
   };
-  ws.onclose = () => { log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); };
-  ws.onerror = () => ws.close();
+  ws.onclose = () => { liquidationStreamOpen = false; log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); };
+  ws.onerror = () => { liquidationStreamOpen = false; ws.close(); };
 }
 
 function liquidationWindow(ms) {
@@ -59,20 +103,146 @@ const OKX_FAMILIES = ["BTC-USDT", "ETH-USDT", "SOL-USDT", "XRP-USDT", "DOGE-USDT
 const okxCtVal = {};
 const seenOkx = new Set(liq.filter((x) => x.src === "okx").map((x) => `${x.s}:${x.t}:${x.usd}`));
 async function pollOkxLiquidations() {
+  let okxPoll = false;
   for (const fam of OKX_FAMILIES) {
     try {
       const inst = `${fam}-SWAP`;
       if (!okxCtVal[inst]) okxCtVal[inst] = Number((await getJson(`https://www.okx.com/api/v5/public/instruments?instType=SWAP&instId=${inst}`)).data?.[0]?.ctVal);
       const rows = (await getJson(`https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&instFamily=${fam}&state=filled&limit=100`)).data?.[0]?.details || [];
+      okxPoll = true;
       for (const d of rows) {
         const usd = Math.round(Number(d.bkPx) * Number(d.sz) * okxCtVal[inst]);
         const t = Number(d.ts), key = `${inst}:${t}:${usd}`;
-        if (!Number.isFinite(usd) || usd <= 0 || seenOkx.has(key) || Date.now() - t > H24) continue;
+        if (!Number.isFinite(usd) || usd <= 0 || seenOkx.has(key) || Date.now() - t > H7) continue;
         seenOkx.add(key);
         liq.push({ t, s: `OKX:${fam.replace("-", "")}`, side: d.posSide === "short" ? "short" : "long", usd, src: "okx" });
       }
     } catch (error) { log(`okx liquidations ${fam} failed: ${error.message}`); }
   }
+  return okxPoll;
+}
+
+export function liquidationTimelineSymbol(row) {
+  const raw = String(row?.s || row?.symbol || "").toUpperCase().replace(/^OKX:/, "").replace(/-SWAP$/, "").replace(/-/g, "");
+  return raw.replace(/USDT$/, "") || "UNKNOWN";
+}
+
+export function liquidationTimelineVenue(row) {
+  return row?.src === "okx" || /^OKX:/i.test(String(row?.s || "")) ? "OKX" : "Binance";
+}
+
+function timelineOrder(row) {
+  const t = lnum(row?.t), usd = nonNegativeUsd(row?.usd);
+  if (t == null || usd <= 0) return null;
+  const side = row?.side === "short" ? "short" : "long";
+  return { t, symbol: liquidationTimelineSymbol(row), side, usd, venue: liquidationTimelineVenue(row) };
+}
+
+function timelineLargest(rows, start, end, limit = LIQUIDATION_TIMELINE_LARGEST_LIMIT) {
+  return rows.filter((x) => x.t >= start && x.t < end)
+    .sort((a, b) => b.usd - a.usd || b.t - a.t).slice(0, limit)
+    .map((x) => ({ t: x.t, symbol: x.symbol, side: x.side, usd: x.usd, at: iso(x.t), venue: x.venue }));
+}
+
+function timelineLargestBySymbol(rows, start, end, perSymbolLimit = 5) {
+  const by = new Map();
+  for (const row of rows.filter((x) => x.t >= start && x.t < end)) {
+    if (!by.has(row.symbol)) by.set(row.symbol, []);
+    by.get(row.symbol).push(row);
+  }
+  return Object.fromEntries([...by.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([symbol, symbolRows]) => [
+    symbol,
+    symbolRows.sort((a, b) => b.usd - a.usd || b.t - a.t).slice(0, perSymbolLimit)
+      .map((x) => ({ t: x.t, symbol: x.symbol, side: x.side, usd: x.usd, at: iso(x.t), venue: x.venue })),
+  ]));
+}
+
+function observationTimes(observationsInput, now) {
+  // A failed poll and a closed stream do not establish observation coverage.
+  return retainedObservations(observationsInput, now)
+    .filter(x => x.binanceStream || x.okxPoll).map(x => x.t).sort((a,b) => a-b);
+}
+
+function compactGaps(buckets, limit = 12) {
+  const gaps = [];
+  let start = null, end = null, count = 0;
+  for (const b of buckets) {
+    if (!b.observed) {
+      start ??= b.start;
+      end = b.end;
+      count += 1;
+    } else if (start) {
+      gaps.push({ start, end, buckets: count });
+      start = null; end = null; count = 0;
+    }
+  }
+  if (start) gaps.push({ start, end, buckets: count });
+  return gaps.slice(0, limit);
+}
+
+function buildTimelineWindow(rows, observationsInput, { windowMs, bucketMs }, now) {
+  const endMs = Math.ceil(now / bucketMs) * bucketMs;
+  const startMs = endMs - windowMs;
+  const buckets = [];
+  const obs = observationTimes(observationsInput, now);
+  const bySymbolTotals = new Map();
+  for (let t = startMs; t < endMs; t += bucketMs) {
+    const bucketEnd = t + bucketMs;
+    const bucketRows = rows.filter((x) => x.t >= t && x.t < bucketEnd);
+    const symbolMap = new Map();
+    for (const row of bucketRows) {
+      const current = symbolMap.get(row.symbol) || { symbol: row.symbol, longUsd: 0, shortUsd: 0, totalUsd: 0, orders: 0 };
+      current[`${row.side}Usd`] += row.usd;
+      current.totalUsd += row.usd;
+      current.orders += 1;
+      symbolMap.set(row.symbol, current);
+      const total = bySymbolTotals.get(row.symbol) || 0;
+      bySymbolTotals.set(row.symbol, total + row.usd);
+    }
+    const longUsd = bucketRows.filter((x) => x.side === "long").reduce((a, x) => a + x.usd, 0);
+    const shortUsd = bucketRows.filter((x) => x.side === "short").reduce((a, x) => a + x.usd, 0);
+    const observed = bucketRows.length > 0 || obs.some((ot) => ot >= t && ot < bucketEnd);
+    const symbols = Object.fromEntries([...symbolMap.values()].sort((a, b) => b.totalUsd - a.totalUsd || a.symbol.localeCompare(b.symbol)).map((s) => [s.symbol, {
+      longUsd: s.longUsd, shortUsd: s.shortUsd, totalUsd: s.totalUsd, orders: s.orders,
+    }]));
+    buckets.push({
+      t, start: iso(t), end: iso(bucketEnd), observed,
+      totalUsd: longUsd + shortUsd, longUsd, shortUsd, orders: bucketRows.length,
+      symbols,
+    });
+  }
+  const symbols = [...bySymbolTotals.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([symbol]) => symbol);
+  return {
+    windowMs, bucketMs, coverageSince: iso(obs[0] ?? null), start: iso(startMs), end: iso(endMs), symbols, buckets,
+    largest: timelineLargest(rows, startMs, endMs),
+    largestBySymbol: timelineLargestBySymbol(rows, startMs, endMs),
+    observedBuckets: buckets.filter((b) => b.observed).length,
+    unobservedBuckets: buckets.filter((b) => !b.observed).length,
+    gaps: compactGaps(buckets),
+  };
+}
+
+export function buildLiquidationTimeline(orders, observationsInput = [], now = Date.now()) {
+  const rows = retainedOrders(orders, now).map(timelineOrder).filter(row => row && row.t <= now);
+  const symbols = [...new Set(rows.map((x) => x.symbol))].sort();
+  const retainedObs = retainedObservations(observationsInput, now).filter(x => (x.binanceStream || x.okxPoll) && x.t <= now);
+  const knownTimes = [...retainedObs.map(x => x.t), ...rows.map(x => x.t)];
+  const firstObserved = knownTimes.length ? Math.min(...knownTimes) : null;
+  const h24 = buildTimelineWindow(rows, observationsInput, LIQUIDATION_TIMELINE_WINDOWS.h24, now);
+  const d7 = buildTimelineWindow(rows, observationsInput, LIQUIDATION_TIMELINE_WINDOWS.d7, now);
+  return {
+    coverage: {
+      label: LIQUIDATION_TIMELINE_SOURCE_LABEL,
+      venueCount: 2,
+      since: iso(firstObserved),
+      until: iso(now),
+      observationCount: retainedObs.length,
+      observationModel: "collector-cycle-or-order-inside-bucket",
+    },
+    symbols,
+    h24,
+    d7,
+  };
 }
 
 // ---------- prices, moves, open interest ----------
@@ -226,8 +396,12 @@ function detectEvents(liq1h, liq24h, m) {
 }
 
 async function cycle() {
-  liq = liq.filter((x) => Date.now() - x.t < H24);
-  await pollOkxLiquidations();
+  liq = retainedOrders(liq);
+  observations = retainedObservations(observations);
+  seenOkx.clear();
+  for (const row of liq.filter(x => x.src === "okx")) seenOkx.add(`${row.s}:${row.t}:${row.usd}`);
+  const okxPoll = await pollOkxLiquidations();
+  observations.push({ t: Date.now(), binanceStream: liquidationStreamOpen, okxPoll });
   let m = { majors: [], movers: [], openInterest: [] };
   try { m = await markets(); } catch (error) { log(`markets failed: ${error.message}`); }
   const news = await headlines();
@@ -237,7 +411,12 @@ async function cycle() {
   const l1 = liquidationWindow(3600e3), l4 = liquidationWindow(4 * 3600e3), l24 = liquidationWindow(H24);
   const doc = {
     generatedAt: new Date().toISOString(),
-    liquidations: { source: "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market", coverageSince: liq[0] ? new Date(liq[0].t).toISOString() : null, h1: l1, h4: l4, h24: l24 },
+    liquidations: {
+      source: "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market",
+      coverageSince: liq[0] ? new Date(liq[0].t).toISOString() : null,
+      h1: l1, h4: l4, h24: l24,
+      timeline: buildLiquidationTimeline(liq, observations),
+    },
     market: m,
     ...(lastFunding ? { funding: lastFunding } : {}),
     events: detectEvents(l1, l24, m),
@@ -255,7 +434,7 @@ async function cycle() {
   } catch (error) { log(`history failed: ${error.message}`); }
   mkdirSync(path.dirname(OUT_FILE), { recursive: true });
   writeFileSync(`${OUT_FILE}.tmp`, JSON.stringify(doc)); renameSync(`${OUT_FILE}.tmp`, OUT_FILE);
-  writeFileSync(`${STATE_FILE}.tmp`, JSON.stringify(liq)); renameSync(`${STATE_FILE}.tmp`, STATE_FILE);
+  writeFileSync(`${STATE_FILE}.tmp`, JSON.stringify(collectorStatePayload(liq, observations))); renameSync(`${STATE_FILE}.tmp`, STATE_FILE);
   log(`events=${doc.events.length} headlines=${news.length} liq24h=${Math.round(l24.totalUsd / 1e6)}M funding=${lastFunding ? lastFunding.rows.length : 0}`);
 }
 

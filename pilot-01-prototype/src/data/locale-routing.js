@@ -78,6 +78,7 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([
   "/news",
   "/markets",
   "/academy",
+  "/licenses",
   "/coins",
   "/convert",
   "/glossary",
@@ -95,7 +96,10 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/partners",
   "/telegram",
   "/liquidations",
+  "/liquidations/heatmap",
   "/funding-rates",
+  "/long-short",
+  "/whales",
   "/etf-flows",
   "/calendar",
   "/funding-rates/matrix",
@@ -317,7 +321,8 @@ export function localizedPath(pathname, locale = "en") {
 
 // Owner 2026-10-13 (legal): Türkiye pages never link into the registration section of a partner that may not be promoted
 // there (Bitget); every such link lands on the neutral platform facts instead.
-function turkeySafeHash(pathname, hash, locale) {
+function registrationSafeHash(pathname, hash, locale) {
+  if (["ru", "ar", "zh-Hant", "ur", "uk"].includes(locale) && /^#registration-path\b/.test(hash || "")) return hash.replace(/^#registration-path/, "#platform-facts");
   if (locale !== "tr" || !/^#registration-path\b/.test(hash || "")) return hash;
   const slug = /\/exchanges\/([^/?#]+)$/.exec(pathname)?.[1];
   return slug && isTurkeyGated(slug, { locale: "tr" }) ? hash.replace(/^#registration-path/, "#platform-facts") : hash;
@@ -353,7 +358,7 @@ export function localizedHref(href, { locale = "en", ...extra } = {}) {
       if (key in extra) fragmentContext[key] = extra[key];
     }
   }
-  return appendFragmentContextParams(`${target.pathname}${target.search}${turkeySafeHash(target.pathname, parsed.hash, targetLocale)}`, fragmentContext);
+  return appendFragmentContextParams(`${target.pathname}${target.search}${registrationSafeHash(target.pathname, parsed.hash, targetLocale)}`, fragmentContext);
 }
 
 export function localizedLanguageHref(href, { locale = "en" } = {}) {

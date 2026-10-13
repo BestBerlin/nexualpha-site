@@ -1,5 +1,5 @@
 import { claimEligibilitySql, claimRankSql } from '../lib/pipeline.mjs';
-import { claimFreshnessRankSql, claimStoryGroupKeySql, claimStoryVenueJsonSql, claimStoryWindowSql } from '../lib/claim-quality.mjs';
+import { marketNoiseEventSql, claimFreshnessRankSql, claimStoryGroupKeySql, claimStoryVenueJsonSql, claimStoryWindowSql } from '../lib/claim-quality.mjs';
 
 const lit = value => `'${String(value).replaceAll("'", "''")}'`;
 const rank = claimRankSql();
@@ -13,7 +13,7 @@ SELECT pg_advisory_xact_lock(20261012,5);
 UPDATE events SET state='new', claimed_by=NULL, claimed_at=NULL
 WHERE state='claimed' AND claimed_at < now() - interval '90 minutes';
 WITH eligible AS (
-  SELECT e.id, e.event_type, e.source_published_at, e.occurred_at, e.first_seen_at, ${groupKey} AS story_group_key, ${freshnessRank} AS freshness_rank,
+  SELECT e.id, e.event_type, e.story_action, e.discussion, e.verification_status, e.effective_at, e.deadline_at, e.source_published_at, e.occurred_at, e.first_seen_at, ${groupKey} AS story_group_key, ${freshnessRank} AS freshness_rank,
     s.editorial_score, s.priority_override
   FROM events e
   JOIN LATERAL (SELECT * FROM event_scores WHERE event_id=e.id ORDER BY scored_at DESC LIMIT 1) s ON true
@@ -43,7 +43,7 @@ WITH eligible AS (
   )
 ), throttled_heads AS (
   SELECT *, row_number() OVER (
-    PARTITION BY CASE WHEN event_type IN ('liquidation_wave','price_move') THEN 'market-story' ELSE 'head:' || id::text END
+    PARTITION BY CASE WHEN ${marketNoiseEventSql({ eventAlias: 'story_heads' })} THEN 'market-story' ELSE 'head:' || id::text END
     ORDER BY freshness_rank DESC, editorial_score DESC, coalesce((priority_override='official_major')::int,0) DESC, source_published_at DESC NULLS LAST, id
   ) AS cadence_rank
   FROM story_heads

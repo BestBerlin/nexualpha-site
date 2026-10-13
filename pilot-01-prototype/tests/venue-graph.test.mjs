@@ -74,8 +74,12 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
 test("the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>)", () => {
   const worker = read("../worker/index.js");
   const venueList = worker.match(/\[VENUE_ROUTE_MARKER\]: \[([^\]]*)\]/)?.[1] ?? "";
-  for (const prefix of ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"]) assert.ok(venueList.includes(`"${prefix}"`), prefix);
-  assert.match(worker, /if \(pathname\.startsWith\("\/exchanges\/"\)\) return \[\.\.\.SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"\];/);
+  const venuePathList = worker.match(/if \(pathname\.startsWith\("\/exchanges\/"\)\) return \[([^\]]*)\]/)?.[1] ?? "";
+  assert.ok(venuePathList.includes("...SHARED_ROUTE_STYLE_PREFIXES"));
+  for (const prefix of ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-", "route-licenses-"]) {
+    assert.ok(venueList.includes(`"${prefix}"`), `marker includes ${prefix}`);
+    assert.ok(venuePathList.includes(`"${prefix}"`), `venue path includes ${prefix}`);
+  }
   for (const name of ["route-v3-pages-detail", "route-v3-pages-growth", "route-v3-pages-return-banner", "route-v3-pages-shared"]) assert.ok(name.startsWith("route-v3-pages-"), name);
 });
 

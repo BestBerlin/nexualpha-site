@@ -67,7 +67,7 @@ export const venueDatabase = {
     foundedYear: 2017,
     headquarters: "Seychelles / Dubai",
     hasReferral: true,
-    inviteCode: "LUCKX",
+    inviteCode: "nexu888",
     inviteCodes: ["LUCKX", "CANDY007", "INS898", "1836370407", "NEXU888"],
     registrationUrl: PARTNER_REGISTRATION_URLS.okx[0],
     alternateRegistrationUrls: PARTNER_REGISTRATION_URLS.okx.slice(1),

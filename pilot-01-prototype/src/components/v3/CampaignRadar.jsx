@@ -1,3 +1,4 @@
+import { SourceLink } from "../shared/SourceLink.jsx";
 /**
  * CampaignRadar — 主流交易所实时活动与迎新礼包雷达
  * 替代首页多此一举的反钓鱼核验，直接呈现各大交易所最新官方活动、迎新奖励与空投福利
@@ -532,7 +533,7 @@ export function CampaignRadar({ locale = "en" }) {
               {item.sources.length > 0 && (
                 <div className="campaign-card__sources">
                   {item.sources.slice(0, 1).map((src) => (
-                    <a
+                    <SourceLink locale={locale}
                       key={src.id}
                       href={src.url}
                       target="_blank"
@@ -545,7 +546,7 @@ export function CampaignRadar({ locale = "en" }) {
                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                       </svg>
                       {src.title || t.directHub}
-                    </a>
+                    </SourceLink>
                   ))}
                 </div>
               )}
