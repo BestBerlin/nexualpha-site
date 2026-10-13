@@ -6,6 +6,10 @@
 //   ACADEMY_L10N_DIR    the same scripts localized into 12 more locales (dialogue, titles, goals, exercise)
 //   ops/academy-v3/episodes/E##.json   aligned narration timings of the rendered English videos (in this repo)
 //   content-source/academy/            study notes (takeaways + quiz) and UI strings per locale (in this repo)
+//   content-source/academy/l10n-fixes/   reviewed lesson-text overrides keyed by the English source line
+//   content-source/academy/shell-overrides.json   reviewed shell strings that differ from full-page UI copy
+//   content-source/academy/vtt-fixes/    caption-only overrides preserving the published subtitle wording
+//   content-source/academy/vtt-snapshots/ reviewed subtitle bytes preserving published cue timing/segmentation
 // Outputs (committed):
 //   src/data/academy-season1.js         episode index shared by the client, the Worker and the SEO head
 //   src/data/academy-content-<locale>.js  per-locale lesson content (one lazy chunk per locale in the browser)
@@ -28,8 +32,12 @@ const V3_DIR = process.env.ACADEMY_V3_DIR || "/Volumes/致态2TB/nx-agents/educa
 const L10N_DIR = process.env.ACADEMY_L10N_DIR || "/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out";
 const TIMING_DIR = path.join(repo, "ops", "academy-v3", "episodes");
 const NOTES_DIR = path.join(root, "content-source", "academy");
-const DATA_DIR = path.join(root, "src", "data");
-const VTT_DIR = path.join(root, "public", "captions", "academy", "s1");
+const outputRootIndex = process.argv.indexOf("--output-root");
+const outputRoot = outputRootIndex >= 0 ? path.resolve(process.argv[outputRootIndex + 1] || "") : root;
+if (outputRootIndex >= 0 && !process.argv[outputRootIndex + 1]) throw new Error("--output-root requires a directory");
+const DATA_DIR = path.join(outputRoot, "src", "data");
+const VTT_DIR = path.join(outputRoot, "public", "captions", "academy", "s1");
+const VTT_SNAPSHOT_DIR = path.join(root, "content-source", "academy", "vtt-snapshots");
 
 // Rendered English video lengths (seconds), measured on the 720p web encodes.
 const DURATIONS = [96.3, 95.9, 125.5, 138.2, 136.6, 126.2, 150.6, 141.7, 155.4, 126.2, 126.9, 166.8, 136.2, 124.8, 126.1, 141.5, 126.9, 125.0, 140.8, 141.7, 124.9, 156.3, 141.1, 182.4];
@@ -50,14 +58,23 @@ const numbersOf = (text) => (String(text || "").match(NUMBER) || []).map((n) => 
 
 const problems = [];
 const warn = (message) => problems.push(message);
-// Reviewed corrections of localized lines (numbers written as digits exactly as in English), keyed by English text.
+// Reviewed corrections of localized lesson lines (numbers written as digits exactly as in English), keyed by English text.
 // content-source/academy/l10n-fixes/<locale>.json: { "<English text>": "<localized text>" }. A listed line is trusted
 // as reviewed (e.g. "P2P" keeps its digit although the English line has none).
 const FIXES_DIR = path.join(root, "content-source", "academy", "l10n-fixes");
-const FIXES = Object.fromEntries(CONTENT_LOCALES_FOR_FIXES().map((locale) => {
-  const file = path.join(FIXES_DIR, `${locale}.json`);
-  return [locale, existsSync(file) ? Object.fromEntries(Object.entries(JSON.parse(readFileSync(file, "utf8"))).map(([en, text]) => [norm(en), text])) : {}];
-}));
+const FIXES = loadFixDirectory(FIXES_DIR);
+// Caption tracks are generated from the same dialogue, but they can intentionally lag a lesson-text review until captions
+// receive their own QA. Keep those overrides separate so rebuilding does not rewrite already-published subtitle bytes.
+const VTT_FIXES_DIR = path.join(root, "content-source", "academy", "vtt-fixes");
+const VTT_FIXES = loadFixDirectory(VTT_FIXES_DIR);
+const SHELL_OVERRIDES_FILE = path.join(root, "content-source", "academy", "shell-overrides.json");
+const SHELL_OVERRIDES = existsSync(SHELL_OVERRIDES_FILE) ? readJson(SHELL_OVERRIDES_FILE) : {};
+function loadFixDirectory(dir) {
+  return Object.fromEntries(CONTENT_LOCALES_FOR_FIXES().map((locale) => {
+    const file = path.join(dir, `${locale}.json`);
+    return [locale, existsSync(file) ? Object.fromEntries(Object.entries(JSON.parse(readFileSync(file, "utf8"))).map(([en, text]) => [norm(en), text])) : {}];
+  }));
+}
 function CONTENT_LOCALES_FOR_FIXES() { return ["zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ru", "tr", "id", "vi", "ar"]; }
 const mismatches = [];
 function localizedText(locale, english, value, where) {
@@ -68,6 +85,9 @@ function localizedText(locale, english, value, where) {
     warn(`${where} ${locale}: numbers differ from English (${numbersOf(text)} vs ${numbersOf(english)})`);
   }
   return text;
+}
+function fixedText(fixes, locale, english, value) {
+  return fixes[locale]?.[norm(english)] || value;
 }
 
 function loadSources(ep) {
@@ -127,8 +147,17 @@ function transcriptFor(locale, { v3, l10n, timed, map, id }) {
       if (!text) { warn(`${id} ${locale}: no localized line for "${en.slice(0, 60)}"`); text = null; }
     }
     if (!text) continue;
-    text = localizedText(locale, en, text, `${id} dialogue`);
-    rows.push({ t: Math.round(line.start * 100) / 100, e: Math.round(line.end * 100) / 100, who: line.speaker, text: norm(text), words: locale === "en" ? line.words : null });
+    const fixedLessonText = Boolean(FIXES[locale]?.[norm(en)]);
+    const lessonText = localizedText(locale, en, text, `${id} dialogue`);
+    const captionText = fixedText(VTT_FIXES, locale, en, fixedText(FIXES, locale, en, text));
+    rows.push({
+      t: Math.round(line.start * 100) / 100,
+      e: Math.round(line.end * 100) / 100,
+      who: line.speaker,
+      text: fixedLessonText ? String(lessonText).trim() : norm(lessonText),
+      captionText: norm(captionText),
+      words: locale === "en" ? line.words : null,
+    });
   }
   return rows;
 }
@@ -167,7 +196,7 @@ const vttText = (text) => String(text).replaceAll("&", "&amp;").replaceAll("<", 
 function buildVtt(rows, locale) {
   const cues = [];
   for (const row of rows) {
-    const chunks = splitCaption(row.text, locale);
+    const chunks = splitCaption(row.captionText || row.text, locale);
     const total = chunks.reduce((sum, chunk) => sum + [...chunk].length, 0) || 1;
     let cursor = row.t;
     const span = Math.max(0.5, row.e - row.t);
@@ -229,14 +258,16 @@ function main() {
       const fields = { title: [localizedField(v3, l10n, "title", locale), v3.title_en], goal: [localizedField(v3, l10n, "goal", locale), v3.goal_en], task: [exercise.task, ex.task_en], answer: [exercise.answer, ex.answer_en] };
       for (const [field, [value, english]] of Object.entries(fields)) {
         if (!value) { warn(`${id} ${locale}: missing ${field}`); continue; }
-        fields[field][0] = localizedText(locale, english, value, `${id} ${field}`);
+        const fixedField = Boolean(FIXES[locale]?.[norm(english)]);
+        const text = localizedText(locale, english, value, `${id} ${field}`);
+        fields[field][0] = fixedField ? String(text).trim() : norm(text);
       }
       const title = fields.title[0], goal = fields.goal[0];
       exercise.task = fields.task[0]; exercise.answer = fields.answer[0];
       return {
         ep: index + 1,
-        title: norm(title), goal: norm(goal),
-        task: norm(exercise.task), answer: norm(exercise.answer),
+        title, goal,
+        task: exercise.task, answer: exercise.answer,
         takeaways: note.takeaways, quiz: note.quiz,
         transcript: transcript.map(({ t, who, text }) => ({ t, who, text })),
         _rows: transcript,
@@ -246,6 +277,7 @@ function main() {
 
 
   // Per-locale content modules + subtitle tracks
+  mkdirSync(DATA_DIR, { recursive: true });
   for (const file of readdirSync(DATA_DIR)) if (/^academy-content-[a-z]{2}(?:-[a-z]+)?\.js$/i.test(file) && file !== "academy-content-all.js") rmSync(path.join(DATA_DIR, file));
   rmSync(VTT_DIR, { recursive: true, force: true });
   mkdirSync(VTT_DIR, { recursive: true });
@@ -253,7 +285,9 @@ function main() {
     const lessons = content[locale].map(({ _rows, ...lesson }) => lesson);
     writeFileSync(path.join(DATA_DIR, `academy-content-${locale.toLowerCase()}.js`), `${HEADER}export const ACADEMY_CONTENT = Object.freeze(${JSON.stringify({ locale, lessons })});\n`);
     content[locale].forEach((lesson, index) => {
-      writeFileSync(path.join(VTT_DIR, `E${pad(index + 1)}.${locale}.vtt`), buildVtt(lesson._rows, locale));
+      const vttName = `E${pad(index + 1)}.${locale}.vtt`;
+      const vttSnapshot = path.join(VTT_SNAPSHOT_DIR, vttName);
+      writeFileSync(path.join(VTT_DIR, vttName), existsSync(vttSnapshot) ? readFileSync(vttSnapshot, "utf8") : buildVtt(lesson._rows, locale));
     });
   }
   const ident = (locale) => locale.replace(/-/g, "_");
@@ -274,7 +308,10 @@ function main() {
 
   // Episode index + the few shell strings (header/footer label, home teaser) every page needs.
   const SHELL_KEYS = ["nav", "brand", "homeTitle", "homeBody", "homeCta"];
-  const shell = Object.fromEntries(UI_LOCALES.map((locale) => [locale, Object.fromEntries(SHELL_KEYS.map((key) => [key, copy[locale][key]]))]));
+  const shell = Object.fromEntries(UI_LOCALES.map((locale) => [locale, {
+    ...Object.fromEntries(SHELL_KEYS.map((key) => [key, copy[locale][key]])),
+    ...(SHELL_OVERRIDES[locale] || {}),
+  }]));
   writeFileSync(path.join(DATA_DIR, "academy-season1.js"), `${HEADER}// Episode index of NexuAlpha Academy Season 1. Lesson content lives in academy-content-<locale>.js.\n`
     + `export const ACADEMY_CONTENT_LOCALES = Object.freeze(${JSON.stringify(CONTENT_LOCALES)});\n`
     + `export const ACADEMY_EPISODES = Object.freeze([\n${episodes.map((e) => `  ${js(e)},`).join("\n")}\n]);\n`
