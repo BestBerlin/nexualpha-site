@@ -76,49 +76,71 @@ export function postText(data, locale, platform) {
   if (weightedLength(text) > 280) throw new Error('Text exceeds X weighted limit');
   return text;
 }
+// Card labels. zh-Hans glyphs come from the bundled Noto Sans SC subset (fonts/); symbols, numbers and venue names stay Inter.
+export const CARD_LABELS = Object.freeze({
+  en: { title: "Today's movers", gainers: (n) => n ? `TOP ${n} GAINERS · 24H` : 'GAINERS · 24H', losers: (n) => n ? `TOP ${n} LOSERS · 24H` : 'LOSERS · 24H',
+    none: 'None in the tracked set', liquidations: (v) => `24h observed liquidations ≥${v}`, largest: (v) => `Largest single: ${v}`, noneObserved: 'None observed',
+    side: { long: 'long', short: 'short' }, funding: (v) => `BTC funding / period: ${v}`, unavailable: 'unavailable' },
+  'zh-Hans': { title: '今日异动', gainers: (n) => n ? `涨幅前 ${n} · 24H` : '涨幅 · 24H', losers: (n) => n ? `跌幅前 ${n} · 24H` : '跌幅 · 24H',
+    none: '追踪范围内暂无', liquidations: (v) => `24 小时已观测爆仓 ≥${v}`, largest: (v) => `最大单笔：${v}`, noneObserved: '暂无',
+    side: { long: '多单', short: '空单' }, funding: (v) => `BTC 资金费率 / 周期：${v}`, unavailable: '暂无' },
+});
+export const CJK_FONT = path.join(HERE, 'fonts/NotoSansSC-daily-subset.ttf');
 const esc = (s) => String(s).replace(/[<>&"']/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' }[c]));
-export function cardSvg(data) {
+export function cardSvg(data, locale = 'en') {
+  channelFor(locale);
+  const L = CARD_LABELS[locale];
   const css = readFileSync(path.join(ROOT, 'pilot-01-prototype/src/styles/tokens.css'), 'utf8');
   const color = (key) => { const value = css.match(new RegExp(`--${key}:(#[0-9a-fA-F]{3,8})(?:;|})`))?.[1]; if (!value) throw new Error(`Missing brand token ${key}`); return value; };
   const logo = readFileSync(path.join(ROOT, 'pilot-01-prototype/public/brand/nexualpha/nexualpha-round.svg')).toString('base64');
   const text = (x, y, label, size = 26, fill = color('ink'), anchor = 'start') => `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" text-anchor="${anchor}">${esc(label)}</text>`;
-  const columns = [[data.up, 56, 'GAINERS', 'positive'], [data.down, 648, 'LOSERS', 'danger']].map(([rows, x, title, key]) =>
-    text(x, 209, rows.length ? `TOP ${rows.length} ${title} · 24H` : `${title} · 24H`, 18, color('muted')) +
-    (rows.length ? '' : text(x, 255, 'None in the tracked set', 24, color('muted'))) + rows.map((r, i) => text(x, 255 + i * 49, `${i + 1}  ${r.sym}`, 28) + text(x + 490, 255 + i * 49, pct(r.change), 28, color(key), 'end')).join('')).join('');
-  const largest = data.largest ? `${data.largest.sym} ${data.largest.side} ${money(data.largest.usd)}` : 'None observed';
-  const funding = data.funding.map((n, i) => `${['Binance', 'OKX'][i]} ${n === null ? 'unavailable' : rate(n)}`).join(' / ');
+  const columns = [[data.up, 56, L.gainers, 'positive'], [data.down, 648, L.losers, 'danger']].map(([rows, x, title, key]) =>
+    text(x, 209, title(rows.length), 18, color('muted')) +
+    (rows.length ? '' : text(x, 255, L.none, 24, color('muted'))) + rows.map((r, i) => text(x, 255 + i * 49, `${i + 1}  ${r.sym}`, 28) + text(x + 490, 255 + i * 49, pct(r.change), 28, color(key), 'end')).join('')).join('');
+  const largest = data.largest ? `${data.largest.sym} ${L.side[data.largest.side]} ${money(data.largest.usd)}` : L.noneObserved;
+  const funding = data.funding.map((n, i) => `${['Binance', 'OKX'][i]} ${n === null ? L.unavailable : rate(n)}`).join(' / ');
   return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="675" viewBox="0 0 1200 675">
   <rect width="1200" height="675" fill="${color('market')}"/>
-  <g font-family="Inter" font-weight="500"><image x="48" y="34" width="60" height="60" xlink:href="data:image/svg+xml;base64,${logo}"/>
+  <g font-family="Inter, Noto Sans SC" font-weight="500"><image x="48" y="34" width="60" height="60" xlink:href="data:image/svg+xml;base64,${logo}"/>
   ${text(124, 73, 'NexuAlpha', 29)}${text(1144, 73, `${data.day} · SGT`, 22, color('muted'), 'end')}
-  ${text(56, 150, "Today's movers", 44)}
+  ${text(56, 150, L.title, 44)}
   <path d="M56 174H1144M608 199V470" stroke="${color('surface-3')}" stroke-width="2"/>${columns}
   <rect x="40" y="502" width="1120" height="137" rx="12" fill="${color('surface-2')}"/>
-  ${text(56, 541, `24h observed liquidations ≥${money(data.total)}`, 28)}
-  ${text(56, 579, `Largest single: ${largest}`, 22, color('muted'))}
-  ${text(56, 615, `BTC funding / period: ${funding}`, 22, color('muted'))}
+  ${text(56, 541, L.liquidations(money(data.total)), 28)}
+  ${text(56, 579, L.largest(largest), 22, color('muted'))}
+  ${text(56, 615, L.funding(funding), 22, color('muted'))}
   </g></svg>`;
 }
-export function renderCard(data) {
+export function renderCard(data, locale = 'en') {
   const { Resvg } = require('@resvg/resvg-js');
-  return new Resvg(cardSvg(data), { font: { loadSystemFonts: false, fontFiles: [path.join(ROOT, 'ops/shorts/fonts/InterVariable.ttf')], defaultFontFamily: 'Inter' } }).render().asPng();
+  return new Resvg(cardSvg(data, locale), { font: { loadSystemFonts: false, fontFiles: [path.join(ROOT, 'ops/shorts/fonts/InterVariable.ttf'), CJK_FONT], defaultFontFamily: 'Inter' } }).render().asPng();
 }
+const CARD_FILES = Object.freeze({ en: 'card.png', 'zh-Hans': 'card-zh-Hans.png' });
 export function generate({ movers, market, now, out }) {
   const data = normalize(movers, market, now), dir = path.join(out, data.day);
   mkdirSync(dir, { recursive: true, mode: 0o700 });
-  const png = renderCard(data), texts = {};
-  writeFileSync(path.join(dir, 'card.png'), png);
+  const pngs = Object.fromEntries(Object.keys(CHANNELS).map((locale) => [locale, renderCard(data, locale)])), texts = {};
+  for (const [locale, png] of Object.entries(pngs)) writeFileSync(path.join(dir, CARD_FILES[locale]), png);
   for (const locale of Object.keys(CHANNELS)) for (const platform of ['x', 'tg']) {
     const name = `${platform}-${locale}.txt`;
     texts[name] = postText(data, locale, platform);
     writeFileSync(path.join(dir, name), texts[name] + '\n');
   }
-  const summary = { day: data.day, mode: 'dry-run', directory: dir, card: path.join(dir, 'card.png'), width: 1200, height: 675,
+  const summary = { day: data.day, mode: 'dry-run', directory: dir, card: path.join(dir, CARD_FILES.en), width: 1200, height: 675,
+    cards: Object.fromEntries(Object.entries(CARD_FILES).map(([locale, name]) => [locale, path.join(dir, name)])),
     texts: Object.fromEntries(Object.entries(texts).map(([name, text]) => [name, { file: path.join(dir, name), weightedLength: weightedLength(text) }])), sourceTimes: data.sourceTimes };
   writeFileSync(path.join(dir, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
-  return { summary, png, texts };
+  return { summary, png: pngs.en, pngs, texts };
 }
-export async function postDaily({ bundle, stateDir, xLocale = 'en', client, telegramSend }) {
+// Error text for logs: message plus the low-level cause (e.g. ECONNRESET), with tokens/OAuth values removed.
+const describe = (e) => [e?.message ?? String(e), e?.cause?.code || e?.cause?.message].filter(Boolean).join(' / cause: ');
+export function redact(message, secrets = []) {
+  let out = String(message ?? '');
+  for (const v of secrets) if (typeof v === 'string' && v.length >= 6) out = out.split(v).join('<redacted>');
+  return out.replace(/(?<!\d)\d{5,}:[A-Za-z0-9_-]{25,}/g, '<redacted>')
+    .replace(/(oauth_[a-z_]+=)"[^"]*"/g, '$1"<redacted>"').replace(/\bBearer\s+[^\s,;]+/gi, 'Bearer <redacted>').slice(0, 600);
+}
+export async function postDaily({ bundle, stateDir, xLocale = 'en', client, telegramSend, secrets = [] }) {
   channelFor(xLocale);
   mkdirSync(stateDir, { recursive: true, mode: 0o700 });
   const lockPath = path.join(stateDir, 'run.lock');
@@ -133,20 +155,27 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
     const send = async (key, operation) => {
       if (state[key]) return; // Never retry a potentially delivered post.
       state[key] = { status: 'pending', at: new Date().toISOString() }; save();
-      try {
-        const result = await operation();
-        if (!result?.ok || !result.id) throw new Error('Send not confirmed');
-        state[key] = { ...state[key], status: 'sent', id: result.id }; save();
-      } catch { state[key].status = 'unknown'; save(); throw new Error(`Daily ${key} delivery unconfirmed; inspect journal before retry`); }
+      // Any failure stays 'unknown' (never auto-retried) but the journal and the error carry the redacted cause.
+      const fail = (cause) => {
+        const why = redact(cause, secrets);
+        state[key] = { ...state[key], status: 'unknown', error: why }; save();
+        throw new Error(`Daily ${key} delivery unconfirmed (${why}); inspect journal before retry`);
+      };
+      let result;
+      try { result = await operation(); } catch (e) { fail(describe(e)); }
+      if (!result?.ok || !result.id) fail(`send not confirmed: HTTP ${result?.status ?? 'n/a'}${result?.error ? ` ${result.error}` : ''}`);
+      state[key] = { ...state[key], status: 'sent', id: result.id }; save();
     };
+    const pngFor = (locale) => bundle.pngs?.[locale] ?? bundle.png;
     if (!state.x) {
       await client.verifyAccount();
-      await send('x', async () => client.send(bundle.texts[`x-${xLocale}.txt`], [await client.uploadImage(bundle.png)]));
+      await send('x', async () => client.send(bundle.texts[`x-${xLocale}.txt`], [await client.uploadImage(pngFor(xLocale))]));
     }
-    for (const locale of Object.keys(CHANNELS)) await send(locale, () => telegramSend(channelFor(locale), bundle.png, bundle.texts[`tg-${locale}.txt`]));
+    for (const locale of Object.keys(CHANNELS)) await send(locale, () => telegramSend(channelFor(locale), pngFor(locale), bundle.texts[`tg-${locale}.txt`]));
     return state;
   } finally { closeSync(lock); unlinkSync(lockPath); }
 }
+const SECRETS = []; // filled only when --post loads credentials; used to scrub logged errors
 export async function main(args = process.argv.slice(2), env = process.env) {
   const opts = { out: path.join(HERE, 'output'), xLocale: 'en' };
   for (let i = 0; i < args.length; i++) {
@@ -173,8 +202,10 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     if (!env.DAILY_SOCIAL_STATE_DIR) throw new Error('DAILY_SOCIAL_STATE_DIR required for --post');
     const botToken = token(env.BOT_ENV_FILE);
     if (!botToken) throw new Error('Community bot token missing');
-    const client = xClient(loadCredentials(env.X_ENV_FILE));
-    const deliveries = await postDaily({ bundle, stateDir: env.DAILY_SOCIAL_STATE_DIR, xLocale: opts.xLocale, client,
+    const credentials = loadCredentials(env.X_ENV_FILE);
+    SECRETS.push(botToken, ...Object.values(credentials));
+    const client = xClient(credentials);
+    const deliveries = await postDaily({ bundle, stateDir: env.DAILY_SOCIAL_STATE_DIR, xLocale: opts.xLocale, client, secrets: SECRETS,
       telegramSend: (chat, png, caption) => sendPhoto(botToken, chat, png, caption) });
     bundle.summary.mode = 'post'; bundle.summary.deliveries = deliveries;
     writeFileSync(path.join(bundle.summary.directory, 'summary.json'), JSON.stringify(bundle.summary, null, 2) + '\n');
@@ -182,6 +213,9 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   console.log(JSON.stringify(bundle.summary));
   return bundle.summary;
 }
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch(() => {
-  console.error('Daily social generation/post failed; inspect feeds, configuration and private journal. No automatic retry.'); process.exitCode = 1;
+export function failureLine(e, secrets = SECRETS, at = new Date()) {
+  return `${at.toISOString()} Daily social generation/post failed: ${redact(describe(e), secrets)}. Inspect feeds, configuration and private journal. No automatic retry.`;
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch((e) => {
+  console.error(failureLine(e)); process.exitCode = 1;
 });

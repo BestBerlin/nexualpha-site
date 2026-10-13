@@ -86,7 +86,9 @@ export async function sendPhoto(tok, chat, png, caption, fetcher = fetch) {
     method: "POST", redirect: "error", signal: AbortSignal.timeout(15000), body: form,
   });
   const body = await res.json().catch(() => null);
-  return { ok: res.ok && body?.ok === true && Boolean(body.result?.message_id), id: body?.result?.message_id };
+  const ok = res.ok && body?.ok === true && Boolean(body.result?.message_id);
+  // On failure keep the HTTP status and Telegram's description (never the request URL, which contains the token).
+  return ok ? { ok, id: body.result.message_id } : { ok, id: body?.result?.message_id, status: res.status, error: String(body?.description || 'no message id returned').slice(0, 300) };
 }
 async function getJson(url) {
   const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });

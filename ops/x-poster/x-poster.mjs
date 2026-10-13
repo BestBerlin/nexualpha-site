@@ -233,6 +233,9 @@ export function loadCredentials(file) {
   if (Object.values(credentials).some((v) => !v)) throw new Error('OAuth credentials missing in X_ENV_FILE');
   return credentials;
 }
+// Human-readable X API error (status text, detail, error messages) for logs. Never includes request headers.
+export const apiDetail = (body) => [body?.title, body?.detail, ...(Array.isArray(body?.errors) ? body.errors.map((e) => e?.message || e?.detail) : [])]
+  .filter((v) => typeof v === 'string' && v).join('; ').slice(0, 300);
 export function xClient(credentials, fetcher = fetch) {
   const request = (method, endpoint, body) => fetcher(`${API}${endpoint}`, { method, redirect: 'error', signal: AbortSignal.timeout(30000),
     headers: { Authorization: oauthHeader(method, `${API}${endpoint}`, credentials), 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
@@ -247,19 +250,21 @@ export function xClient(credentials, fetcher = fetch) {
       const r = await fetcher(url, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000),
         headers: { Authorization: oauthHeader('POST', url, credentials) }, body: form });
       const body = await r.json().catch(() => null);
-      if (!r.ok || !/^\d+$/.test(body?.media_id_string || '')) throw new Error('X image upload failed');
+      if (!r.ok || !/^\d+$/.test(body?.media_id_string || '')) throw new Error(`X image upload failed: HTTP ${r.status}${apiDetail(body) ? ` ${apiDetail(body)}` : ''}`);
       return body.media_id_string;
     },
     async verifyAccount() {
       const r = await request('GET', '/users/me');
-      const data = await r.json();
-      if (!r.ok || data?.data?.username?.toLowerCase() !== 'nexualpha') throw new Error('X account verification failed; only @NexuAlpha allowed');
+      const data = await r.json().catch(() => null);
+      if (!r.ok) throw new Error(`X account verification failed: HTTP ${r.status}${apiDetail(data) ? ` ${apiDetail(data)}` : ''}`);
+      if (data?.data?.username?.toLowerCase() !== 'nexualpha') throw new Error('X account verification failed; only @NexuAlpha allowed');
     },
     async send(text, mediaIds = []) {
       const r = await request('POST', '/tweets', { text, ...(mediaIds.length ? { media: { media_ids: mediaIds } } : {}) });
       let body; try { body = await r.json(); } catch { return { ok: false, status: r.status, ambiguous: r.ok || r.status >= 500 }; }
       const detail = [body.detail, body.title, ...(body.errors || []).map((e) => e.message || e.detail)].join(' ');
       return { ok: r.ok && Boolean(body.data?.id), id: body.data?.id, status: r.status, ambiguous: r.status >= 500 || (r.ok && !body.data?.id),
+        ...(r.ok && body.data?.id ? {} : { error: apiDetail(body) || 'no post id returned' }),
         lengthRejected: r.status === 403 && /(?:text|tweet|post).*(?:too long|exceeds|length)|(?:too long|length).*(?:text|tweet|post)/i.test(detail) };
     },
   };
