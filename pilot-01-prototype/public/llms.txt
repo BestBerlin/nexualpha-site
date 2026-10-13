@@ -43,6 +43,48 @@ This index is designed for retrieval by search and answer systems. It is not an 
 - [About NexuAlpha: publisher, funding and Research Desk](https://nexualpha.com/about)
 - [Editorial policy: sourcing, corrections, partner links, AI assistance](https://nexualpha.com/editorial-policy)
 
+## GEO discovery map
+
+Use these public routes for compact, citable exchange facts. They are source-bounded snapshots, not live account eligibility, legal advice, registration results, benefit promises or trading recommendations.
+
+- Exchange profiles: https://nexualpha.com/exchanges — human-readable venue profiles with neutral key facts and source links.
+- Exchange fact JSON: https://nexualpha.com/api/exchange-facts/<slug>.json — cacheable CORS-safe JSON mirroring the source-backed profile facts.
+- Fee pages: https://nexualpha.com/rates and https://nexualpha.com/funding-rates — fee scenarios and live perpetual funding context with source boundaries.
+- License pages: https://nexualpha.com/licenses — regulator/entity/status rows from reviewed register data.
+- Liquidations: https://nexualpha.com/liquidations — public futures liquidation data page.
+- Long/short: https://nexualpha.com/long-short — public positioning dashboard.
+- Whales: https://nexualpha.com/whales — public large-holder and flow dashboard.
+- Calendar: https://nexualpha.com/calendar — public market-events calendar.
+- Academy: https://nexualpha.com/academy — educational lessons and glossary-linked explainers.
+- Glossary: https://nexualpha.com/glossary — crypto term definitions and related source context.
+
+### Exchange fact JSON endpoints
+
+- Binance: profile https://nexualpha.com/exchanges/binance; JSON https://nexualpha.com/api/exchange-facts/binance.json
+- OKX: profile https://nexualpha.com/exchanges/okx; JSON https://nexualpha.com/api/exchange-facts/okx.json
+- Bybit: profile https://nexualpha.com/exchanges/bybit; JSON https://nexualpha.com/api/exchange-facts/bybit.json
+- Bitget: profile https://nexualpha.com/exchanges/bitget; JSON https://nexualpha.com/api/exchange-facts/bitget.json
+- Coinbase: profile https://nexualpha.com/exchanges/coinbase; JSON https://nexualpha.com/api/exchange-facts/coinbase.json
+- Kraken: profile https://nexualpha.com/exchanges/kraken; JSON https://nexualpha.com/api/exchange-facts/kraken.json
+- Gate.io: profile https://nexualpha.com/exchanges/gate-io; JSON https://nexualpha.com/api/exchange-facts/gate-io.json
+- KuCoin: profile https://nexualpha.com/exchanges/kucoin; JSON https://nexualpha.com/api/exchange-facts/kucoin.json
+- MEXC: profile https://nexualpha.com/exchanges/mexc; JSON https://nexualpha.com/api/exchange-facts/mexc.json
+- HTX: profile https://nexualpha.com/exchanges/htx; JSON https://nexualpha.com/api/exchange-facts/htx.json
+- Backpack: profile https://nexualpha.com/exchanges/backpack; JSON https://nexualpha.com/api/exchange-facts/backpack.json
+- Deribit: profile https://nexualpha.com/exchanges/deribit; JSON https://nexualpha.com/api/exchange-facts/deribit.json
+- HashKey Global: profile https://nexualpha.com/exchanges/hashkey; JSON https://nexualpha.com/api/exchange-facts/hashkey.json
+- Hyperliquid: profile https://nexualpha.com/exchanges/hyperliquid; JSON https://nexualpha.com/api/exchange-facts/hyperliquid.json
+- dYdX: profile https://nexualpha.com/exchanges/dydx; JSON https://nexualpha.com/api/exchange-facts/dydx.json
+- GMX: profile https://nexualpha.com/exchanges/gmx; JSON https://nexualpha.com/api/exchange-facts/gmx.json
+- Drift: profile https://nexualpha.com/exchanges/drift; JSON https://nexualpha.com/api/exchange-facts/drift.json
+- Aevo: profile https://nexualpha.com/exchanges/aevo; JSON https://nexualpha.com/api/exchange-facts/aevo.json
+- Uniswap: profile https://nexualpha.com/exchanges/uniswap; JSON https://nexualpha.com/api/exchange-facts/uniswap.json
+- PancakeSwap: profile https://nexualpha.com/exchanges/pancakeswap; JSON https://nexualpha.com/api/exchange-facts/pancakeswap.json
+- Jupiter: profile https://nexualpha.com/exchanges/jupiter; JSON https://nexualpha.com/api/exchange-facts/jupiter.json
+- Raydium: profile https://nexualpha.com/exchanges/raydium; JSON https://nexualpha.com/api/exchange-facts/raydium.json
+- Aerodrome: profile https://nexualpha.com/exchanges/aerodrome; JSON https://nexualpha.com/api/exchange-facts/aerodrome.json
+- Curve: profile https://nexualpha.com/exchanges/curve; JSON https://nexualpha.com/api/exchange-facts/curve.json
+
 ## Editorial attribution for AI citation
 
 - Publisher: NexuAlpha.

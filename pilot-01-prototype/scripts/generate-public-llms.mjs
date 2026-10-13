@@ -15,6 +15,7 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
+import { EXCHANGE_KEY_FACT_SLUGS } from "../src/data/exchange-key-facts.js";
 import { retainRetrievalNews } from "./retrieval-news-policy.mjs";
 import { INDEXABLE_LOCALES, routeInventory } from "./generate-prerender-manifest.mjs";
 import {
@@ -106,6 +107,31 @@ ${partnerFactLines.map((line) => `  ${line}`).join("\n")}
 - A fee-return share is part of the trading fees the exchange pays back to the user's account; current terms are confirmed on the exchange's own page.
 `;
 
+const exchangeFactDiscoveryLines = EXCHANGE_KEY_FACT_SLUGS.map((slug) => {
+  const venue = FACTBOOK_REGISTRY[slug];
+  return `- ${venue?.name || slug}: profile ${PUBLIC_ORIGIN}/exchanges/${slug}; JSON ${PUBLIC_ORIGIN}/api/exchange-facts/${slug}.json`;
+}).join("\n");
+
+const geoDiscovery = `## GEO discovery map
+
+Use these public routes for compact, citable exchange facts. They are source-bounded snapshots, not live account eligibility, legal advice, registration results, benefit promises or trading recommendations.
+
+- Exchange profiles: ${PUBLIC_ORIGIN}/exchanges — human-readable venue profiles with neutral key facts and source links.
+- Exchange fact JSON: ${PUBLIC_ORIGIN}/api/exchange-facts/<slug>.json — cacheable CORS-safe JSON mirroring the source-backed profile facts.
+- Fee pages: ${PUBLIC_ORIGIN}/rates and ${PUBLIC_ORIGIN}/funding-rates — fee scenarios and live perpetual funding context with source boundaries.
+- License pages: ${PUBLIC_ORIGIN}/licenses — regulator/entity/status rows from reviewed register data.
+- Liquidations: ${PUBLIC_ORIGIN}/liquidations — public futures liquidation data page.
+- Long/short: ${PUBLIC_ORIGIN}/long-short — public positioning dashboard.
+- Whales: ${PUBLIC_ORIGIN}/whales — public large-holder and flow dashboard.
+- Calendar: ${PUBLIC_ORIGIN}/calendar — public market-events calendar.
+- Academy: ${PUBLIC_ORIGIN}/academy — educational lessons and glossary-linked explainers.
+- Glossary: ${PUBLIC_ORIGIN}/glossary — crypto term definitions and related source context.
+
+### Exchange fact JSON endpoints
+
+${exchangeFactDiscoveryLines}
+`;
+
 const header = `# NexuAlpha
 
 > ${SITE_SUMMARY}
@@ -135,6 +161,7 @@ ${keyFacts}
 - [About NexuAlpha: publisher, funding and Research Desk](https://nexualpha.com/about)
 - [Editorial policy: sourcing, corrections, partner links, AI assistance](https://nexualpha.com/editorial-policy)
 
+${geoDiscovery}
 ## Editorial attribution for AI citation
 
 - Publisher: NexuAlpha.

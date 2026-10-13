@@ -1,0 +1,9 @@
+
+.exchange-key-facts table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.exchange-key-facts caption { text-align: start; padding-block: .5rem; }
+.exchange-key-facts th, .exchange-key-facts td { text-align: start; vertical-align: top; padding: .6rem; border-bottom: 1px solid var(--line, #333); overflow-wrap: anywhere; }
+.exchange-key-facts th { width: 18%; }
+.exchange-key-facts td { max-width: 28rem; }
+@media (max-width: 640px) { .exchange-key-facts tr { display: grid; grid-template-columns: 1fr; } .exchange-key-facts th { width: auto; } }
+
+.exchange-key-facts__source { display: block; overflow-wrap: anywhere; }
