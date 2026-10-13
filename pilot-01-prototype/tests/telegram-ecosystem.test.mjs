@@ -532,9 +532,10 @@ test("website Telegram funnel compresses long metadata while keeping Bot-parsed 
   assert.equal(restored.locale, "pt-BR");
 });
 
-test("TELEGRAM_COMMANDS covers all four instant commands with multilingual support", () => {
+test("TELEGRAM_COMMANDS lists only commands the bot registers (/fees, /alert, /checklink) with multilingual support", () => {
   const ids = TELEGRAM_COMMANDS.map((c) => c.id);
-  assert.deepEqual(ids, ["rates", "calc", "alert", "check"]);
+  assert.deepEqual(ids, ["rates", "alert", "check"]);
+  assert.deepEqual(TELEGRAM_COMMANDS.map((c) => c.command), ["/fees", "/alert", "/checklink"]);
 
   for (const cmd of TELEGRAM_COMMANDS) {
     assert.ok(cmd.command.startsWith("/"));
@@ -1410,9 +1411,9 @@ test("TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES maps high-intent topics to real onsite
 
   const commandIds = new Set(TELEGRAM_COMMANDS.map((command) => command.command));
   const expectedCanonicals = new Map([
-    ["jp-fsa-jpy-account-ja", { pathname: "/jp", locale: "ja", command: "/check" }],
-    ["bybit-bitget-stock-product-boundary-en", { pathname: "/compare/bybit-vs-bitget", locale: null, command: "/rates" }],
-    ["okx-usdc-migration-account-ops-en", { pathname: "/news/okx-usd-to-usdc-spot-pair-migration", locale: null, command: "/check" }],
+    ["jp-fsa-jpy-account-ja", { pathname: "/jp", locale: "ja", command: "/checklink" }],
+    ["bybit-bitget-stock-product-boundary-en", { pathname: "/compare/bybit-vs-bitget", locale: null, command: "/fees" }],
+    ["okx-usdc-migration-account-ops-en", { pathname: "/news/okx-usd-to-usdc-spot-pair-migration", locale: null, command: "/checklink" }],
     ["tokenized-treasury-custody-redemption-en", { pathname: "/topics/tokenized-treasuries", locale: null, command: "/alert" }],
   ]);
 
@@ -1439,8 +1440,8 @@ test("TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES maps high-intent topics to real onsite
     assert.doesNotMatch(deepLink, /accounts\.binance\.com|partner\.bitget|topzhjdgxcb|backpack\.exchange/i);
   }
 
-  assert.deepEqual(TELEGRAM_WAVE20_COMMAND_ROUTE_MAP["/check"], ["jp-fsa-jpy-account-ja", "okx-usdc-migration-account-ops-en"]);
-  assert.deepEqual(TELEGRAM_WAVE20_COMMAND_ROUTE_MAP["/rates"], ["bybit-bitget-stock-product-boundary-en"]);
+  assert.deepEqual(TELEGRAM_WAVE20_COMMAND_ROUTE_MAP["/checklink"], ["jp-fsa-jpy-account-ja", "okx-usdc-migration-account-ops-en"]);
+  assert.deepEqual(TELEGRAM_WAVE20_COMMAND_ROUTE_MAP["/fees"], ["bybit-bitget-stock-product-boundary-en"]);
   assert.deepEqual(TELEGRAM_WAVE20_COMMAND_ROUTE_MAP["/alert"], ["tokenized-treasury-custody-redemption-en"]);
 });
 
@@ -1459,12 +1460,12 @@ test("TELEGRAM_WAVE21_GSC_QUERY_ROUTES maps visible GSC queries without duplicat
   const searchTopicIds = new Set(TELEGRAM_SEARCH_TOPIC_QUEUE.map((topic) => topic.id));
   const broadcastIds = new Set(generateTelegramBroadcasts({ nowIso: "2026-09-14T00:00:00.000Z" }).map((item) => item.id));
   const expected = new Map([
-    ["gsc-hyperliquid-fees", { pathname: "/exchanges/hyperliquid", command: "/rates" }],
-    ["gsc-hyperliquid-funded-account", { pathname: "/exchanges/hyperliquid", command: "/check" }],
-    ["gsc-uniswap-testnet", { pathname: "/exchanges/uniswap", command: "/check" }],
+    ["gsc-hyperliquid-fees", { pathname: "/exchanges/hyperliquid", command: "/fees" }],
+    ["gsc-hyperliquid-funded-account", { pathname: "/exchanges/hyperliquid", command: "/checklink" }],
+    ["gsc-uniswap-testnet", { pathname: "/exchanges/uniswap", command: "/checklink" }],
     ["gsc-tokenized-treasury", { pathname: "/topics/tokenized-treasuries", command: "/alert", extendsWave20RouteId: "tokenized-treasury-custody-redemption-en" }],
-    ["gsc-bitget-vs-bybit-stocks", { pathname: "/compare/bybit-vs-bitget", command: "/rates", extendsWave20RouteId: "bybit-bitget-stock-product-boundary-en" }],
-    ["gsc-crypto-perpetual-platform", { pathname: "/topics/derivatives", command: "/check" }],
+    ["gsc-bitget-vs-bybit-stocks", { pathname: "/compare/bybit-vs-bitget", command: "/fees", extendsWave20RouteId: "bybit-bitget-stock-product-boundary-en" }],
+    ["gsc-crypto-perpetual-platform", { pathname: "/topics/derivatives", command: "/checklink" }],
   ]);
 
   for (const route of TELEGRAM_WAVE21_GSC_QUERY_ROUTES) {
@@ -1497,8 +1498,8 @@ test("TELEGRAM_WAVE21_GSC_QUERY_ROUTES maps visible GSC queries without duplicat
     assert.doesNotMatch(deepLink, /accounts\.binance\.com|partner\.bitget|topzhjdgxcb|backpack\.exchange/i);
   }
 
-  assert.deepEqual(TELEGRAM_WAVE21_COMMAND_ROUTE_MAP["/rates"], ["gsc-hyperliquid-fees", "gsc-bitget-vs-bybit-stocks"]);
-  assert.deepEqual(TELEGRAM_WAVE21_COMMAND_ROUTE_MAP["/check"], ["gsc-hyperliquid-funded-account", "gsc-uniswap-testnet", "gsc-crypto-perpetual-platform"]);
+  assert.deepEqual(TELEGRAM_WAVE21_COMMAND_ROUTE_MAP["/fees"], ["gsc-hyperliquid-fees", "gsc-bitget-vs-bybit-stocks"]);
+  assert.deepEqual(TELEGRAM_WAVE21_COMMAND_ROUTE_MAP["/checklink"], ["gsc-hyperliquid-funded-account", "gsc-uniswap-testnet", "gsc-crypto-perpetual-platform"]);
   assert.deepEqual(TELEGRAM_WAVE21_COMMAND_ROUTE_MAP["/alert"], ["gsc-tokenized-treasury"]);
 });
 

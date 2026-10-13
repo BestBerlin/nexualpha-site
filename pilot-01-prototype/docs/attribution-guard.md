@@ -70,3 +70,5 @@ Sign-up/campaign CTA attributes override every exception. Identity homepages req
 | 54 | `fapi.binance.com` | `/^\/(?:futures\/data&#124;fapi\/v1)\//` | Official public USDT-M futures statistics API used as a /long-short data source. |
 | 55 | `api.bybit.com` | `/^\/v5\/market\//` | Official public v5 market-data API used as a /long-short data source. |
 | 56 | `www.kraken.com` | `/^\/competitions\//` | Official Kraken competition terms cited as the campaign source (source context only); conversion buttons use /go. |
+| 57 | `www.okx.com` | `/^\/affiliatedownload\/apk$/` | Official OKX channel-APK URL (channelId NEXU888 binds the invite), source literal for the /go/okx-apk redirect only. |
+| 58 | `download.binance.com` | `/^\/pack\/[A-Za-z0-9_]+\.apk$/` | Official Binance channel APK, source literal for the /go/binance-apk redirect only; the page shows the code beside the button. |
