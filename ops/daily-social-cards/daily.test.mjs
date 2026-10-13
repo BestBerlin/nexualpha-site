@@ -4,7 +4,8 @@ import { readFileSync, mkdtempSync, rmSync, writeFileSync, existsSync } from 'no
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generate, normalize, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main } from './generate.mjs';
+import { createRequire } from 'node:module';
+import { generate, normalize, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
 import { weightedLength, xClient } from '../x-poster/x-poster.mjs';
 import { sendPhoto, token } from '../alert-sender/alert-sender.mjs';
 
@@ -154,4 +155,40 @@ test('one-sided market (one gainer, five losers) still renders truthfully', () =
       assert.equal(/Top gainer|领涨/.test(text), up > 0); assert.equal(/Top loser|领跌/.test(text), down > 0);
     }
   }
+});
+test('zh-Hans card uses Chinese labels with bundled glyphs and goes to @NexuAlphaClub and zh-Hans X', async (t) => {
+  const svg = cardSvg(data(), 'zh-Hans');
+  for (const label of ['今日异动', '涨幅前 5 · 24H', '跌幅前 5 · 24H', '24 小时已观测爆仓 ≥$133.4M', '最大单笔：BTC 多单 $2.38M', 'BTC 资金费率 / 周期：Binance']) assert.ok(svg.includes(label), label);
+  assert.doesNotMatch(svg, /Today's movers|GAINERS|Largest single/);
+  const zh = renderCard(data(), 'zh-Hans'); assert.equal(zh.readUInt32BE(16), 1200); assert.ok(!zh.equals(renderCard(data())));
+  // Every CJK glyph in the labels must exist in the subset font (no system fonts on the scheduler).
+  const { Resvg } = createRequire(new URL('../../pilot-01-prototype/package.json', import.meta.url))('@resvg/resvg-js');
+  const L = CARD_LABELS['zh-Hans'], all = [L.title, L.gainers(1), L.gainers(0), L.losers(1), L.losers(0), L.none, L.liquidations(''), L.largest(''), L.noneObserved, L.side.long, L.side.short, L.funding(''), L.unavailable].join('');
+  const glyph = (c) => new Resvg(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><text x="10" y="60" font-size="40" font-family="Noto Sans SC">${c}</text></svg>`, { font: { loadSystemFonts: false, fontFiles: [CJK_FONT] } }).render().asPng();
+  const notdef = glyph('\ue000'); assert.ok(glyph('龙').equals(notdef)); // a glyph outside the subset renders as .notdef
+  for (const c of new Set([...all].filter((ch) => /[\u3000-\u9fff\uff00-\uffef]/.test(ch)))) assert.ok(!glyph(c).equals(notdef), `missing glyph ${c}`);
+  const out = temp(t), b = generate({ ...structuredClone(fixture), now, out });
+  assert.ok(existsSync(b.summary.cards['zh-Hans'])); assert.equal(b.png, b.pngs.en);
+  const sent = [], client = { verifyAccount: async () => {}, uploadImage: async (png) => { sent.push(['x', png]); return '5'; }, send: async () => ({ ok: true, id: '9' }) };
+  await postDaily({ bundle: b, stateDir: temp(t), xLocale: 'zh-Hans', client, telegramSend: async (chat, png) => { sent.push([chat, png]); return { ok: true, id: 1 }; } });
+  assert.deepEqual(sent.map(([k, png]) => [k, png === b.pngs['zh-Hans'] ? 'zh-Hans' : png === b.pngs.en ? 'en' : '?']), [['x', 'zh-Hans'], ['@NexuAlphaClub', 'zh-Hans'], ['@NexuAlphaGlobal', 'en']]);
+});
+test('failed deliveries log HTTP status and API message with secrets redacted', async (t) => {
+  const stateDir = temp(t), b = bundle(), tok = '123456789:AAHexampleexampleexampleexampleexample';
+  const credentials = { consumerKey: 'ckey-example', consumerSecret: 'csecret-example', accessToken: 'atoken-example', accessSecret: 'asecret-example' };
+  const client = xClient(credentials, async (url) => url.includes('/users/me') ? Response.json({ data: { username: 'NexuAlpha' } })
+    : Response.json({ errors: [{ message: 'Your app is not permitted to access ckey-example' }] }, { status: 403 }));
+  await assert.rejects(client.uploadImage(Buffer.from('png')), /upload failed: HTTP 403 Your app is not permitted/);
+  const telegramSend = (chat, png, caption) => sendPhoto(tok, chat, png, caption, async () => Response.json({ ok: false, description: `Bad Request: chat not found bot${tok}` }, { status: 400 }));
+  const err = await postDaily({ bundle: b, stateDir, client, telegramSend, secrets: [tok, ...Object.values(credentials)] }).catch((e) => e);
+  assert.match(err.message, /Daily x delivery unconfirmed \(X image upload failed: HTTP 403 Your app is not permitted to access <redacted>\)/);
+  const journal = JSON.parse(readFileSync(path.join(stateDir, `${b.summary.day}.json`)));
+  assert.equal(journal.x.status, 'unknown'); assert.match(journal.x.error, /HTTP 403/);
+  const tgOnly = { ...client, verifyAccount: async () => {} };
+  const err2 = await postDaily({ bundle: b, stateDir, client: tgOnly, telegramSend, secrets: [] }).catch((e) => e);
+  assert.match(err2.message, /zh-Hans delivery unconfirmed \(send not confirmed: HTTP 400 Bad Request: chat not found bot<redacted>\)/);
+  assert.doesNotMatch(readFileSync(path.join(stateDir, `${b.summary.day}.json`), 'utf8'), /AAHexample|ckey-example/);
+  const line = failureLine(Object.assign(new Error('fetch failed'), { cause: { code: 'ECONNRESET' } }), [], new Date(0));
+  assert.equal(line.split('. ')[0], '1970-01-01T00:00:00.000Z Daily social generation/post failed: fetch failed / cause: ECONNRESET');
+  assert.equal(redact('OAuth oauth_signature="abc", oauth_token="xyz" Bearer qq'), 'OAuth oauth_signature="<redacted>", oauth_token="<redacted>" Bearer <redacted>');
 });

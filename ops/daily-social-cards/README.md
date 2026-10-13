@@ -1,6 +1,6 @@
 # Daily social cards
 
-Node 22+; uses the existing pilot `@resvg/resvg-js`, bundled Inter font, site logo and `src/styles/tokens.css`. No new dependencies. The default run reads the two production JSON feeds and writes a dated `output/YYYY-MM-DD/` directory with `card.png` (1200×675), four plain text files and `summary.json`; stdout is one JSON summary. Date is Singapore time. The shared English image contains up to five gainers and up to five losers, observed 24h liquidations, the largest observed single liquidation and BTC funding per venue/period; captions are independently Chinese and English. Partial/missing funding is labelled unavailable; one-sided markets show only the rows that exist (0–5 per side, at least five in total); stale data or fewer than five movers overall aborts rather than inventing numbers. All three source timestamps must be within 15 minutes and not in the future.
+Node 22+; uses the existing pilot `@resvg/resvg-js`, bundled Inter font, site logo and `src/styles/tokens.css`. No new dependencies. The default run reads the two production JSON feeds and writes a dated `output/YYYY-MM-DD/` directory with `card.png` (English, 1200×675), `card-zh-Hans.png` (Chinese labels: 今日异动 / 涨幅 / 跌幅 / 24 小时已观测爆仓 / 最大单笔 / 资金费率), four plain text files and `summary.json`; stdout is one JSON summary. Date is Singapore time. The shared English image contains up to five gainers and up to five losers, observed 24h liquidations, the largest observed single liquidation and BTC funding per venue/period; captions are independently Chinese and English. Partial/missing funding is labelled unavailable; one-sided markets show only the rows that exist (0–5 per side, at least five in total); stale data or fewer than five movers overall aborts rather than inventing numbers. All three source timestamps must be within 15 minutes and not in the future.
 
 From the repository root:
 
@@ -25,6 +25,10 @@ CRON_TZ=Asia/Singapore
 ```
 
 Alternatively use `0 1 * * *` on a scheduler explicitly configured in UTC. Set environment via the existing scheduler's private configuration. Invoke with `sh` if checkout permissions do not preserve executable bits. Disable by removing this cron entry; do not delete the journal.
+
+Card images per target: @NexuAlphaClub gets `card-zh-Hans.png`, @NexuAlphaGlobal gets `card.png`, and X gets the card matching `--x-locale`. Chinese glyphs come from `fonts/NotoSansSC-daily-subset.ttf` (Noto Sans SC 500, SIL OFL 1.1, see `fonts/OFL.txt`) containing only the card's fixed labels; symbols and numbers stay Inter. If a label changes, regenerate the subset with the new characters (the test fails on a missing glyph).
+
+A failed run prints one stderr line with the cause: the HTTP status and the X/Telegram API message (e.g. `X image upload failed: HTTP 403 …`, `send not confirmed: HTTP 400 Bad Request: chat not found`) or the network cause (`fetch failed / cause: ECONNRESET`). Bot tokens, OAuth values and loaded credential values are redacted. The same cause is stored as `error` on the journal entry marked `unknown`.
 
 Posting acquires an exclusive `run.lock` and persists a per-SGT-day record **before** each outbound delivery. Recorded pending/sent/unknown targets are skipped on later runs, including when changing X language. Errors stop the run without retries. A later run can finish unattempted channels. Inspect actual account/channel state before resolving unknown entries or a crash-left lock; never blindly remove a record to resend. Preview success and mocked transports do not prove live delivery.
 
