@@ -3,6 +3,7 @@
 // locales (~40 KB compressed) that market-data-pages.js carries for /liquidations and /funding-rates themselves.
 export const MARKET_EVENTS_PATH = "/intel/market-events.json";
 export const LIQUIDATIONS_PATH = "/liquidations";
+export const LIQUIDATION_HEATMAP_PATH = "/liquidations/heatmap";
 export const FUNDING_RATES_PATH = "/funding-rates";
 export const DATA_PAGE_PATHS = Object.freeze([LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
 

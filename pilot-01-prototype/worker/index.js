@@ -22,8 +22,10 @@ import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIn
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
+import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
+import { LIQUIDATION_LEVELS_PATH } from "../server/liquidation-levels-feed.mjs";
 import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
-import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
@@ -41,6 +43,8 @@ import { ACADEMY_INDEX_LOCALES, ACADEMY_PATH, parseAcademyPath } from "../src/da
 import { appDownloadRouteSeo } from "../src/data/app-downloads.js";
 import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
+import { parseLicensesPath } from "../src/data/licenses-routes.js";
+import { licenseRouteSeo } from "../src/data/licenses-seo.js";
 import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
 import { CALENDAR_ICS_PATH, INTEL_TOOL_INDEX_LOCALES, INTEL_TOOL_PATHS, intelToolKey, isIntelToolLive } from "../src/data/intel-tools-routes.js";
@@ -54,6 +58,7 @@ import { glossaryRouteSeo } from "../src/data/glossary-seo.js";
 import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
+import { RADAR_INDEX_LOCALES, RADAR_PATHS, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
 import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
@@ -118,6 +123,31 @@ async function refreshFxSnapshot(env) {
   }
 }
 
+function unavailableRadarPayload(kind) {
+  return { kind, status: "unavailable", rows: [], updatedAt: null, sources: [] };
+}
+
+function normalizeRadarPayload(kind, payload) {
+  if (!payload || typeof payload !== "object") return unavailableRadarPayload(kind);
+  return {
+    ...payload,
+    kind,
+    status: typeof payload.status === "string" ? payload.status : "unavailable",
+    rows: Array.isArray(payload.rows) ? payload.rows : [],
+    updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : null,
+    sources: Array.isArray(payload.sources) ? payload.sources : [],
+  };
+}
+
+async function readRadarPayload(env, kind) {
+  try {
+    if (typeof env?.RADAR_READ === "function") return normalizeRadarPayload(kind, await env.RADAR_READ(kind));
+  } catch {
+    // Keep page and API payloads explicit: unavailable, never synthetic rows.
+  }
+  return unavailableRadarPayload(kind);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -131,14 +161,39 @@ export default {
     }
     // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
     if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
+    if (url.pathname === LIQUIDATION_LEVELS_PATH && ["GET", "HEAD"].includes(request.method)) {
+      if (typeof env?.LIQUIDATION_LEVELS_READ !== "function") return new Response(request.method === "HEAD" ? null : JSON.stringify({ status: "unavailable" }), {
+        status: 503,
+        headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+      });
+      try {
+        const snapshot = await env.LIQUIDATION_LEVELS_READ();
+        if (!snapshot || typeof snapshot !== "object") throw new Error("empty levels snapshot");
+        return new Response(request.method === "HEAD" ? null : JSON.stringify(snapshot), {
+          status: 200,
+          headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+        });
+      } catch {
+        return new Response(request.method === "HEAD" ? null : JSON.stringify({ status: "unavailable" }), {
+          status: 503,
+          headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" },
+        });
+      }
+    }
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
+    if (["/api/long-short.json", "/api/whales.json"].includes(url.pathname)) {
+      if (!["GET", "HEAD"].includes(request.method)) return new Response(null, { status: 405, headers: { allow: "GET, HEAD" } });
+      const kind = url.pathname === "/api/whales.json" ? "whales" : "long-short";
+      const snapshot = await readRadarPayload(env, kind);
+      return new Response(request.method === "HEAD" ? null : JSON.stringify(snapshot), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
+    }
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return handleSitemapIndex(request, env, url);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     // Crypto calendar iCal export (2026-10-13): every event of the runtime snapshot, optionally one type, in one locale.
     if (url.pathname === CALENDAR_ICS_PATH && ["GET", "HEAD"].includes(request.method)) return handleCalendarIcs(request, env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|coins|convert|glossary|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert|glossary|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
@@ -2623,9 +2678,11 @@ const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
+const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
 const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
+const RADAR_ROUTE_MARKER = "NEXUALPHA_RADAR_ROUTE_V1";
 const GLOSSARY_ROUTE_MARKER = "NEXUALPHA_GLOSSARY_ROUTE_V1";
 const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
@@ -2639,7 +2696,7 @@ const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-dire
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
   [EXCHANGES_ROUTE_MARKER]: DIRECTORY_PAGE_STYLE_PREFIXES,
-  [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"],
+  [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-", "route-licenses-"],
   [COMPARE_ROUTE_MARKER]: COMPARE_PAGE_STYLE_PREFIXES,
   [ACTIVITIES_ROUTE_MARKER]: ["route-activity-"],
   [ACTIVITY_UPDATE_ROUTE_MARKER]: ["route-activity-"],
@@ -2650,11 +2707,13 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
+  [LICENSES_ROUTE_MARKER]: ["route-licenses-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
   // Spot ETF flows + crypto calendar: own chunk only.
   [INTEL_TOOLS_ROUTE_MARKER]: ["route-intel-tools-"],
   [CONVERTER_ROUTE_MARKER]: ["route-converter-"],
+  [RADAR_ROUTE_MARKER]: ["route-radar-"],
   // Crypto glossary (hub + terms): own chunk only.
   [GLOSSARY_ROUTE_MARKER]: ["route-glossary-"],
   // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
@@ -2708,15 +2767,15 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash", "/coins", "/convert", "/glossary"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
 const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -3656,6 +3715,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
+    ...(route.liquidationLevels && typeof route.liquidationLevels === "object" ? { liquidationLevels: route.liquidationLevels } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
@@ -3669,6 +3729,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     // /etf-flows and /calendar: the snapshot the page was rendered with ({ kind, data, now }).
     ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
+    ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4592,15 +4653,19 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* portable assets-only fallback */ }
     }
-    if (isDataPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
+    if ((isDataPagePath(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
+      let liquidationLevels = null;
       try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
+      if (pathname === LIQUIDATION_HEATMAP_PATH) {
+        try { liquidationLevels = typeof env?.LIQUIDATION_LEVELS_READ === "function" ? await env.LIQUIDATION_LEVELS_READ() : null; } catch { liquidationLevels = null; }
+      }
       try {
         const toolArticles = await toolArticlesForRequest(env, url, pathname, publicRoute.locale);
-        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, toolArticles });
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, liquidationLevels, toolArticles });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxd-hero")) {
           metadata.dataSsrMode = marketEvents ? "runtime" : "runtime-no-feed";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, toolArticles }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, liquidationLevels, toolArticles }, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4633,6 +4698,16 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] academy SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] academy SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    if (metadata.marker === LICENSES_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"v2-shell nx-licenses")) {
+          metadata.licensesSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+        console.error(`[NexuAlpha] licenses SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] licenses SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     // Where to buy <coin> (hub + coin pages): rendered at request time with the component the browser hydrates.
     if (metadata.marker === COINS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -4672,6 +4747,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] converter SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] converter SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    if (metadata.marker === RADAR_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const kind = parseRadarPath(pathname)?.kind || "long-short";
+        const radar = metadata.radarPayload || await readRadarPayload(env, kind);
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { radar });
+        if (typeof appHtml === "string" && (appHtml.includes("class=\"nxr ") || hasMainWithHeading(appHtml))) {
+          metadata.radarSsrMode = radar.status === "unavailable" ? "runtime-unavailable" : "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { radar }, url);
+        }
+        console.error(`[NexuAlpha] radar SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] radar SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     // Crypto glossary (hub + terms): static copy rendered at request time with the component the browser hydrates.
     if (metadata.marker === GLOSSARY_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -4984,7 +5071,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...RADAR_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
@@ -6579,11 +6666,13 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   // Academy hub and lessons: the locales with a localized lesson (src/data/academy.js).
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  if (parseLicensesPath(pathname) && parseLicensesPath(pathname).kind !== "missing") return licenseRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Spot ETF flows + crypto calendar: their nine written editions.
   if (INTEL_TOOL_PATHS.includes(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
   // Crypto glossary: the hub's written editions; a term page lists the locales its entry is written in.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
@@ -7892,6 +7981,20 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   // Public data pages (owner 2026-10-10): titles, descriptions and Dataset/FAQ/Breadcrumb JSON-LD come from one
   // shared copy table; every UI locale is indexable and self-canonical.
+  if (canonicalPath === LIQUIDATION_HEATMAP_PATH) {
+    const meta = heatmapCopy(locale);
+    return {
+      status: 200,
+      title: `${meta.title} — NexuAlpha`,
+      description: meta.description,
+      canonical: localizedCanonical(canonicalPath, locale),
+      locale,
+      robots: "index,follow",
+      marker: STATIC_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath),
+      schema: heatmapSchemas(locale),
+    };
+  }
   if (canonicalPath === "/funding-rates/matrix") {
     const meta = fundingMatrixSeo(locale);
     return { status: 200, ...meta, canonical: localizedCanonical(canonicalPath, locale), locale,
@@ -7971,6 +8074,16 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(academySeo.image ? { image: academySeo.image } : {}),
     };
   }
+  const licensesSeo = licenseRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  if (licensesSeo) {
+    if (licensesSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return {
+      status: 200, title: licensesSeo.title, description: licensesSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: licensesSeo.indexable ? "index,follow" : "noindex,follow", marker: LICENSES_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, licensesSeo.alternatesLocales), schema: licensesSeo.schemas,
+    };
+  }
   // Spot ETF flows + crypto calendar (2026-10-13): Dataset (+ Event list) + FAQPage + BreadcrumbList from
   // src/data/intel-tools-seo.js (same helper as seo-injection.js), built from the runtime snapshot the body renders.
   const intelKey = intelToolKey(canonicalPath);
@@ -8009,6 +8122,17 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: converterSeo.indexable ? "index,follow" : "noindex,follow", marker: CONVERTER_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath, converterSeo.alternatesLocales), schema: converterSeo.schemas,
       ...(converterFx ? { converterFx } : {}),
+    };
+  }
+  const radarSeo = radarRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  if (radarSeo) {
+    const radarPayload = await readRadarPayload(env, radarSeo.kind);
+    return {
+      status: 200, title: radarSeo.title, description: radarSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: radarSeo.indexable ? "index,follow" : "noindex,follow", marker: RADAR_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, radarSeo.alternatesLocales), schema: radarSeo.schemas,
+      radarPayload,
     };
   }
   // Crypto glossary (2026-10-13): DefinedTermSet / DefinedTerm + FAQPage + BreadcrumbList from src/data/glossary-seo.js (same
@@ -8531,7 +8655,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
   if (pathname === "/compare") return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES, "shared-compare-picker-"];
   if (parseAppDownloadPath(pathname)?.valid) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-apps-"];
-  if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
+  if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-", "route-licenses-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
   if (pathname === BINANCE_OCTOBER_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CAMPAIGN_LANDING_ROUTE_MARKER]];
   // Bybit Stocks has its own route chunk (route-campaign-bybit), separate from the Binance page's.
@@ -8542,9 +8666,11 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === KRAKEN_USDG_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-kraken-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
+  if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
   if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];
+  if (RADAR_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[RADAR_ROUTE_MARKER]];
   if (pathname === GLOSSARY_PATH || pathname.startsWith(`${GLOSSARY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[GLOSSARY_ROUTE_MARKER]];
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
@@ -8918,7 +9044,9 @@ function isPrivateHtmlContext(url) {
 }
 
 function htmlCacheControl(url, publicEmbed) {
+  if (url && RADAR_PATHS.includes(parsePublicRoute(url.pathname, url.searchParams).contentPathname)) return "no-store";
   if (isPrivateHtmlContext(url)) return "private, no-store, max-age=0";
+  if (normalizePathname(parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams()).contentPathname) === LIQUIDATION_HEATMAP_PATH) return "no-store";
   if (publicEmbed) return "public, max-age=60";
   return "public, max-age=300, stale-while-revalidate=600";
 }

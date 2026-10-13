@@ -75,6 +75,7 @@ function HydrationBootstrap() {
       initialNewsListing={prerenderState?.newsListing}
       initialFundingMatrix={prerenderState?.fundingMatrix}
       initialMarketEvents={prerenderState?.marketEvents}
+      initialLiquidationLevels={prerenderState?.liquidationLevels}
       initialOfficialAnnouncements={prerenderState?.officialAnnouncements}
       initialToolArticles={prerenderState?.toolArticles}
       initialFlash={prerenderState?.flash}
@@ -82,6 +83,7 @@ function HydrationBootstrap() {
       initialIntelTool={prerenderState?.intelTool}
       initialFx={prerenderState?.fx}
       initialTicker={prerenderState?.ticker}
+      initialRadar={prerenderState?.radar}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
   </>;

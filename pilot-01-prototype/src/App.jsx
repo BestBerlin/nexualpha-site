@@ -30,9 +30,10 @@ import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
-import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
+import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { parseLicensesPath } from "./data/licenses-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
@@ -93,6 +94,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/PlatformMatcher.jsx",
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
+  "./components/data/LiquidationHeatmapPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
@@ -101,10 +103,12 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
   "./components/glossary/GlossaryPages.jsx",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -158,6 +162,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/PlatformMatcher.jsx",
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
+  "./components/data/LiquidationHeatmapPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/data/FundingMatrixPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
@@ -166,6 +171,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/licenses/LicensePages.jsx",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
   "./data/coin-content-*.js",
@@ -174,6 +180,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/glossary-shard-*.js",
   "./data/glossary-links-*.js",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -215,6 +222,7 @@ const VenueYellowPages = deferredComponent("./components/v3/VenueYellowPages.jsx
 const CrossroadsCompare = deferredComponent("./components/v3/CrossroadsCompare.jsx", "CrossroadsCompare");
 const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx", "PlatformMatcher");
 const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
+const LiquidationHeatmapPage = deferredComponent(ROUTE_MODULE_PATHS.liquidationHeatmap, "LiquidationHeatmapPage");
 const FundingMatrixPage = deferredComponent("./components/data/FundingMatrixPage.jsx", "FundingMatrixPage");
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
@@ -232,6 +240,7 @@ function readAcademyContent(locale) {
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
 }
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
+const LicenseDirectoryPage = deferredComponent("./components/licenses/LicensePages.jsx", "LicenseDirectoryPage");
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
 const ConverterPage = deferredComponent(ROUTE_MODULE_PATHS.converter, "ConverterPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
@@ -280,13 +289,15 @@ function AcademyRoute({ route, locale }) {
   return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} glossaryLinks={readGlossaryLinks(locale)} />;
 }
 // Flash (2026-10-12): the 7x24 stream and item pages share one route chunk (route-flash).
+const LongShortPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "LongShortPage");
+const WhalesPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "WhalesPage");
 const FlashStreamPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashStreamPage");
 const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage");
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
 // browser entry; tests/crosslinks.test.mjs pins that both agree).
 // T10 (2026-10-12): the /news hub, exchange profiles and topic hubs list their strongest related articles too.
 const TOPIC_TOOL_KEYS = { "tokenized-treasuries": "topic:tokenized-treasuries", "tokenized-stocks-vs-perpetuals": "topic:tokenized-stocks", "meme-coins": "topic:meme-coins", derivatives: "topic:derivatives", "brazil-crypto-exchange-deadline-2026": "topic:brazil-vasp-deadline" };
-const toolKeyOf = (route) => ({ liquidations: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
+const toolKeyOf = (route) => ({ liquidations: "liquidations", liquidationHeatmap: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
   || (route?.name === "compare" && Array.isArray(route.slugs) && route.slugs.length >= 2 ? `compare:${route.slugs.join("-vs-")}` : null)
   || (route?.name === "newsList" && !route.category && (!route.page || Number(route.page) === 1) ? "news-hub" : null)
   || (route?.name === "venue" && typeof route.slug === "string" && route.slug ? `venue:${route.slug}` : null)
@@ -379,8 +390,8 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary"];
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -424,6 +435,12 @@ const homeNavigationCopy = (locale) => {
   if (localized[locale]) return localized[locale];
   return { label: "On this page", compare: "Compare", analyzer: "Fee check", venues: "Platforms", research: "Research tools" };
 };
+
+const liquidationHeatmapNavLabel = (locale) => (
+  locale === "zh-Hant" || locale === "zh-TW" ? "清算熱力圖"
+    : locale.startsWith("zh") ? "清算热力图"
+      : ({ ja: "清算ヒートマップ", ko: "청산 히트맵", tr: "Likidasyon haritası", ru: "Карта ликвидаций", de: "Liquidationskarte", fr: "Carte des liquidations", es: "Mapa de liquidaciones", "pt-BR": "Mapa de liquidações", it: "Mappa delle liquidazioni", id: "Peta likuidasi", vi: "Bản đồ thanh lý", ar: "خريطة التصفية" }[locale] || "Liquidation heatmap")
+);
 
 function HomeSectionNav({ locale }) {
   const text = homeNavigationCopy(locale);
@@ -546,6 +563,10 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  const licenses = parseLicensesPath(pathname);
+  if (licenses?.kind === "hub") return { name: "licenses", ...contextParams() };
+  if (licenses?.kind === "country") return { name: "licenses", country: licenses.country, ...contextParams() };
+  if (licenses) return { name: "notFound" };
   const converter = parseConverterPath(pathname);
   if (converter?.kind === "pair") return { name: "converter", symbol: converter.symbol, fiat: converter.fiat, ...contextParams() };
   if (converter) return { name: "notFound" };
@@ -558,10 +579,13 @@ function routeState(venues, initialUrl) {
   if (glossary?.kind === "term") return { name: "glossaryTerm", slug: glossary.slug, ...contextParams() };
   if (glossary?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
+  if (pathname === "/long-short") return { name: "longShort", ...contextParams() };
+  if (pathname === "/whales") return { name: "whales", ...contextParams() };
   if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
+  if (pathname === LIQUIDATION_HEATMAP_PATH) return { name: "liquidationHeatmap" };
   if (pathname === ETF_FLOWS_PATH) return { name: "etfFlows", ...contextParams() };
   if (pathname === CALENDAR_PATH) return { name: "calendar", ...contextParams() };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
@@ -690,6 +714,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         // l10n: needs native review
         uk: "Тематичні посібники", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
+    [liquidationHeatmapNavLabel(locale), withLocale(locale, LIQUIDATION_HEATMAP_PATH)],
     [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Analyses Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
         // l10n: needs native review
         ur: "Telegram تحقیق",
@@ -713,7 +738,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialIntelTool } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -871,10 +896,13 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "licenses") return pageShell(<LicenseDirectoryPage locale={locale} country={route.country} market={route.market} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
   if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
   // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
+  if (route.name === "longShort") return pageShell(<LongShortPage locale={locale} market={route.market} initial={initialRadar} />);
+  if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} initial={initialRadar} />);
   if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
@@ -884,6 +912,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);
   if (route.name === "krakenUsdg") return pageShell(<KrakenUsdgPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
+  if (route.name === "liquidationHeatmap") return pageShell(<LiquidationHeatmapPage locale={locale} initialFeed={initialMarketEvents} initialLevels={initialLiquidationLevels} />, { deferContent: false });
   if (route.name === "fundingMatrix") return pageShell(<FundingMatrixPage locale={locale} initialFeed={initialFundingMatrix} market={route.market} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);

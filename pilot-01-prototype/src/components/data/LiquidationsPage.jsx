@@ -1,6 +1,8 @@
 // /liquidations — today's crypto liquidations from the market collector feed (see src/data/market-data-pages.js).
 import React from "react";
+import { LiquidationTimeline } from "./LiquidationHeatmapPage.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
+import { heatmapCopy } from "../../data/heatmap-copy.js";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { LIQUIDATIONS_PATH, dataPageCopy, formatUsdCompact, formatUsdFull, formatUtc, formatUtcTime, readHistory, readLiquidations } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
@@ -100,6 +102,8 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
         </>
       )}
 
+      <LiquidationTimeline feed={feed} locale={locale} showSource={false} />
+      <p className="v2-shell"><a href={localizedHref("/liquidations/heatmap", { locale })}>{heatmapCopy(locale).title} →</a></p>
       <DataPageTail locale={locale} page={page} pathname={LIQUIDATIONS_PATH} />
     </main>
   );
