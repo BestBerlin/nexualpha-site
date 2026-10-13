@@ -22,3 +22,6 @@ export function partnerPromotionGate(slug, context = {}) {
   return country ? { country, reason: "partner-geo-restricted" } : null;
 }
 export function isPartnerPromotableIn(slug, context = {}) { return !partnerPromotionGate(slug, context); }
+// Owner 2026-10-13 (legal): on Türkiye pages a partner outside TURKEY_PROMOTED_PARTNERS (Bitget: SPK list) may be named
+// informationally only — no sign-up card, no rebate share, no link into its registration section.
+export function isTurkeyGated(slug, context = {}) { return partnerPromotionGate(slug, context)?.country === "TR"; }

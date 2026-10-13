@@ -195,10 +195,15 @@ export default defineConfig(({ isSsrBuild = false }) => ({
             || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
-          if (!isSsrBuild && id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
+          if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
+          // Data-page paths/nav are read by route-data, route-coins and the news chunks: pinned (SSR TDZ, 2026-10-13).
+          if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
+          // The partner geo policy is read by locale-routing.js (Türkiye link gate, 2026-10-13) and so by every route: pinned
+          // in its own small chunk so no route chunk absorbs it and becomes a dependency of every other (SSR TDZ cycle).
+          if (/\/src\/data\/partner-geo-policy(?:\.generated)?\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
           if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
@@ -208,6 +213,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
+          // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
+          if (id.includes("/src/components/intel-tools/") || /\/src\/data\/(?:intel-tools-copy|intel-tools-labels|etf-flows|crypto-calendar)\.js/.test(id)) return "route-intel-tools";
           // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules
           // (glossary-index/shard/links-<locale>.js) stay lazy chunks of their own via glossary-content-loader.js.
           if (id.includes("/src/components/glossary/") || /\/src\/data\/glossary(?:-copy|-terms)?\.js$/.test(id)) return "route-glossary";
@@ -224,6 +231,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Its route/teaser helper is read by the home stream, /activities and /exchanges/bybit: pinned so none of them
           // pulls another route's chunk.
           if (/\/src\/data\/bybit-stocks(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
+          // Bitget Alliance campaign page (2026-10-13): component, styles and its copy in its own route chunk; its
+          // route/teaser helper joins the shared campaign feature chunk (home stream, /activities, /exchanges/bitget, /flash).
+          if (/\/src\/components\/campaigns\/(?:BitgetAlliancePage\.jsx|bitget-alliance\.css)$/.test(id) || id.includes("/src/data/bitget-alliance-copy.js")) return "route-campaign-bitget";
+          if (/\/src\/data\/bitget-alliance(?:-path)?\.js$/.test(id)) return "shared-campaign-feature";
           // Campaign landing pages (2026-10-12: Binance October): component, styles and copy in one route chunk.
           if (id.includes("/src/components/campaigns/") || /\/src\/data\/binance-october-(?:tournament-)?copy\.js$/.test(id)) return "route-campaign-landing";
           // The campaign route/teaser helper is read by the home stream, /activities and /exchanges/binance: pinned so none

@@ -7,9 +7,9 @@
   "seoTitleShort": "{coin}（{symbol}）はどこで買える？【{year}年】",
   "seoDescription": "{coin}（{symbol}）は{venues}に上場しています。取引ペア、無期限先物、手数料、入金ネットワークを比較し、手順に沿って購入できます。",
   "seoDescriptionNone": "掲載中の取引所には{coin}（{symbol}）はまだ上場していません。概要と、OKX・Binance・Bitgetなどで買える似た銘柄を紹介します。",
-  "answerListed": "{coin}（{symbol}）は{venues}で現物取引できます。最も一般的なペアは{pair}で、そのうち{pairCount}社が扱っています。",
+  "answerListed": "{coin}（{symbol}）は{venues}で現物取引できます。最も一般的なペアは{pair}で、{pairCount}社が扱っています。",
   "answerListedOne": "{coin}（{symbol}）は{venues}で現物取引でき、{pair}ペアで売買できます。",
-  "answerPerp": "うち{perpCount}社は{symbol}の無期限先物も提供しています。",
+  "answerPerp": "また、{perpCount}社が{symbol}の無期限先物にも対応しています。",
   "answerPerpOnly": "掲載中の取引所に{coin}（{symbol}）の現物市場はありませんが、{venues}が{symbol}の無期限先物を提供しています。",
   "answerNone": "掲載中の取引所には現在{coin}（{symbol}）は上場していません。下で概要を確認し、上場済みの似た銘柄を選べます。",
   "price": "{symbol}価格",
@@ -19,8 +19,8 @@
   "snapshot": "{time} UTC 時点",
   "live": "{time}更新",
   "listedOn": "上場先",
-  "venuesCount": "{n}取引所",
-  "venuesCountOne": "1取引所",
+  "venuesCount": "{n}社",
+  "venuesCountOne": "1社",
   "buyOn": "{venue}で{symbol}を買う",
   "codeLabel": "招待コード",
   "copy": "コピー",
@@ -47,7 +47,7 @@
   "factNative": "独自ブロックチェーン",
   "howTitle": "{coin}の買い方：ステップごとに解説",
   "steps": [
-    ["{symbol}を扱う取引所を選ぶ", "上の表を参考にしてください。{venue}では{pair}を取引できます。当サイトのリンクから公式サイトを開けば、本物のドメインにアクセスできます。"],
+    ["{symbol}を扱う取引所を選ぶ", "上の比較表から利用する取引所を選びます（例：{venue}では{pair}を取引できます）。当サイトのリンクから公式ドメインへ直接アクセスできます。"],
     ["口座を作り本人確認をする", "メールまたは電話番号で登録し、本人確認（KYC）を完了します。通常は数分で終わります。"],
     ["資金を入れる", "カードや現地の決済手段でUSDTを購入するか、別の口座からUSDTを送金します。送金前に、送る側と受け取る側で同じネットワークを選んでください。"],
     ["{symbol}の現物注文を出す", "現物市場で{pair}を開きます。成行注文はその時の最良価格ですぐに約定し、指値注文は指定した価格まで待ちます。"],
@@ -75,7 +75,7 @@
   "faqPerpYes": "はい。{venues}が{symbol}の無期限先物を提供しています。無期限先物はレバレッジを使い、強制ロスカットされることがあるため、先に証拠金の仕組みを学びましょう。",
   "faqPerpNo": "掲載中の取引所では提供されていません。上場している現物市場で{symbol}を購入することはできます。",
   "faqNetwork": "{symbol}の入金にはどのネットワークを使えばいいですか？",
-  "faqNetworkA": "送金元と送金先の両方が対応するネットワークを使ってください。{venue}は{networks}で{symbol}の入金に対応しています。まず少額でテストしましょう。",
+  "faqNetworkA": "送金元と送金先の両方が対応するネットワークを使ってください。{venue}は{networks}ネットワークでの{symbol}入金に対応しています。まず少額でテストしましょう。",
   "faqNetworkNative": "{symbol}は独自のブロックチェーンで動いているため、{coin}ネットワークで入金します。送金前に取引所の入金ページを確認してください。",
   "faqWhat": "{coin}とは何ですか？",
   "faqFees": "{symbol}の購入にかかる費用は？",
@@ -83,7 +83,7 @@
   "relatedTitle": "似た銘柄",
   "relatedNoneLead": "同じカテゴリーで、掲載中の取引所で買える銘柄：",
   "allCoins": "すべての銘柄",
-  "hubTitle": "仮想通貨はどこで買える？{count}銘柄と上場先の取引所",
+  "hubTitle": "暗号資産（仮想通貨）はどこで買える？主要{count}銘柄の上場取引所・取引ペア比較",
   "hubSeoTitle": "仮想通貨はどこで買える？{count}銘柄の取引所一覧",
   "hubSeoDescription": "主要{count}銘柄がどの取引所に上場しているかを確認。現物ペア、無期限先物、入金ネットワークを各取引所の公開データから掲載しています。",
   "hubLead": "銘柄を検索すると、OKX、Binance、Bitget、Bybit、Gate、MEXC、HTX、Krakenのどこに上場しているか、取引できるペア、買い方がわかります。",
@@ -138,5 +138,6 @@
     "PK": "パキスタン"
   },
   "listJoin": "、",
-  "listLast": "、"
+  "listLast": "、",
+  "venuesMore": "{list}ほか{n}社"
 }

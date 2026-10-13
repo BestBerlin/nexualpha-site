@@ -14,6 +14,7 @@ import { officialCampaignResearchByVenue } from "../../data/official-campaign-re
 import { campaignResearchLocalizedText } from "../../data/official-campaign-localizations.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { isTurkeyGated } from "../../data/partner-geo-policy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { formatDate } from "../../data/format-date.js";
 import { enAttrs } from "../../utils/fallback-lang.js";
@@ -372,7 +373,8 @@ export function CampaignRadar({ locale = "en" }) {
   ], []);
 
   const campaigns = useMemo(() => {
-    return radarSlugs.map((slug) => {
+    // Türkiye: a partner that may not be promoted there gets no campaign card (owner 2026-10-13, legal).
+    return radarSlugs.filter((slug) => !isTurkeyGated(slug, { locale })).map((slug) => {
       const research = officialCampaignResearchByVenue[slug];
       const db = venueDatabase[slug] || {};
       const partner = partnerRegistry[slug] || {};

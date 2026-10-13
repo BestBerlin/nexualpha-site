@@ -12,6 +12,7 @@ import {
 } from "../../data/coins.js";
 import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./coins.css";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
@@ -174,7 +175,9 @@ function VenueTable({ coin, locale, market, t }) {
 
 function HowTo({ coin, locale, market, t }) {
   const main = mainPair(coin);
-  const first = spotVenues(coin)[0] || coin.venues[0];
+  // The example venue is one the reader's market may use (QA 2026-10-13: /ja told Japanese readers to use OKX).
+  const spot = spotVenues(coin, locale);
+  const first = spot.find((venue) => isPartnerPromotableIn(venue.slug, { locale, market })) || spot[0] || coin.venues[0];
   const vars = { coin: coin.name, symbol: coin.symbol, venue: first?.name || "", pair: main?.pair || `${coin.symbol}/USDT` };
   const lessons = [["E04"], ["E05"], ["E06", "E09"], ["E07"], ["E03"]];
   return <ol className="nxc-steps">

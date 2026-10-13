@@ -4,9 +4,11 @@
 import { partnerBenefitStatus, partnerBenefitCopy } from "./partner-benefit-status.js";
 import { h7Copy } from "../components/v7/home7-copy.js";
 import { formatPercent } from "./format-percent.js";
+import { isTurkeyGated } from "./partner-geo-policy.js";
 
 export function ownerRebateLine(slug, locale = "en", name = slug) {
-  const status = partnerBenefitStatus(slug);
+  // Türkiye: no rebate share for a partner that may not be promoted there (owner 2026-10-13, legal).
+  const status = isTurkeyGated(slug, { locale }) ? null : partnerBenefitStatus(slug);
   if (!status) return null;
   const t = h7Copy(locale);
   const parts = [`${t.lgShare(name)} ${formatPercent(locale, status.sharePct)}`];
@@ -18,7 +20,8 @@ export function ownerRebateLine(slug, locale = "en", name = slug) {
 // Factbook / evidence wording (NX-02): "Partner rebate share: up to 40% — partner terms confirmed 2026-10-10; your
 // account's eligibility is confirmed by the exchange after sign-up". Null without a partner record ("pending" stays).
 export function partnerBenefitParts(slug, locale = "en") {
-  const status = partnerBenefitStatus(slug);
+  // Türkiye: no rebate share for a partner that may not be promoted there (owner 2026-10-13, legal).
+  const status = isTurkeyGated(slug, { locale }) ? null : partnerBenefitStatus(slug);
   if (!status) return null;
   const t = h7Copy(locale);
   const c = partnerBenefitCopy(locale);

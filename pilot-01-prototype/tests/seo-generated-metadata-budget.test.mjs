@@ -124,7 +124,9 @@ test("built prerender manifest routes keep Worker metadata budgets", async (t) =
     const pathname = localizedPath(route.pathname, route.locale);
     const metadata = await routeMetadata(new URL(`https://nexualpha.com${pathname}`), distEnv);
     if (metadata.status !== 200) continue;
-    const min = metadata.description.length < 110 ? "under110" : null;
+    // Owner 2026-10-13 (native-speaker QA): short descriptions are served as written; the generic padding that used to
+    // lift them over 110 characters ("Use this NexuAlpha page…") is gone, so only boilerplate and the upper budgets count.
+    const min = /Use this NexuAlpha page|用这一页了解|用這一頁了解|source boundary/.test(metadata.description) ? "boilerplate" : null;
     const over = metadata.description.length > 160 ? "over160" : null;
     const longTitle = metadata.title.length > titleBudgetForLocale(metadata.locale) ? "title" : null;
     if (min || over || longTitle) {
