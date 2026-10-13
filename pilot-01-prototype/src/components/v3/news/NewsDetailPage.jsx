@@ -1,3 +1,4 @@
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { EDITORIAL_POLICY_PATH, RESEARCH_DESK_ANCHOR, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
@@ -995,10 +996,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
                   return (
                     <li key={source.id || source.url} id={`article-source-${index + 1}`}>
                       <span className="news-detail__footnote-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                      <a href={source.url} target="_blank" rel="noopener noreferrer">
+                      <SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer">
                         <span className="news-detail__source-meta"><span translate="no" lang="en">{source.publisher}</span>{sourceDate ? <time dateTime={sourceDate}>{sourceDate}</time> : null}</span>
                         <span className="news-detail__source-title">{source.title}</span>
-                      </a>
+                      </SourceLink>
                     </li>
                   );
                 })}

@@ -59,7 +59,13 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
       for (const key of ['tier', 'scope', 'conditions']) {
         assert.ok(feeHtml.includes(escaped(copy[key])), `${slug}/${locale}: visible ${key}`);
       }
-      assert.ok(feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: exact reviewed source`);
+      if (locale === 'tr' && slug === 'bitget') {
+        assert.ok(!feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: prohibited external source absent`);
+        assert.match(feeHtml, /<span>[^<]+ ↗<\/span>/, `${slug}/${locale}: source label remains visible`);
+      } else {
+        assert.ok(feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: exact reviewed source`);
+      }
+      if (new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']).has(locale)) assert.doesNotMatch(feeHtml, /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${slug}/${locale}: neutral signup absent`);
       assert.ok(feeHtml.includes(`dateTime="${rate.checkedAt}"`), `${slug}/${locale}: review date`);
       assert.ok(feeHtml.includes('data-fee-product="spot"'));
       // Futures rows are allowed only when the venue carries a reviewed futures record (data update 2026-10-08).

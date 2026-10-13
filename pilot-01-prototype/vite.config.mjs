@@ -192,7 +192,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
             || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
-            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
+            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule") || id.includes("/src/components/shared/SourceLink"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
           if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";

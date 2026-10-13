@@ -1,3 +1,4 @@
+import { SourceLink } from "../../shared/SourceLink.jsx";
 import { useState } from 'react';
 import { BrandMark } from '../../brand/BrandMark';
 import { officialCampaignResearchByVenue } from '../../../data/official-campaign-research';
@@ -95,7 +96,7 @@ export function OfficialResearchPage({ locale = 'en', market, product, venue, ve
           </details>
         </section>
         <section className="official-research-page__sources" aria-labelledby="research-sources-title"><h2 id="research-sources-title">{text.sources}</h2>{view.sources.map((source) => <article key={source.id} className="official-research__source" data-source-state={source.access}>
-          <div className="official-research__source-head"><h3 translate="no" lang="en" dir="ltr"><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></h3><div><span className="official-research__state">{source.access === 'READ' ? text.readSource : text.failedSource}</span>{source.freshness === 'NEEDS_RECHECK' && <strong className="official-research__recheck">{text.recheck}</strong>}</div></div>
+          <div className="official-research__source-head"><h3 translate="no" lang="en" dir="ltr"><SourceLink locale={locale} href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</SourceLink></h3><div><span className="official-research__state">{source.access === 'READ' ? text.readSource : text.failedSource}</span>{source.freshness === 'NEEDS_RECHECK' && <strong className="official-research__recheck">{text.recheck}</strong>}</div></div>
           <span className="official-research__host" translate="no" lang="en" dir="ltr">{source.host}</span><ResearchBody view={view}><p>{source.summary}</p></ResearchBody>
           <dl className="official-research__source-dates"><div><dt>{text.checked}</dt><dd><SourceDate value={source.checkedAt} locale={locale} unknown={text.recheck} /></dd></div><div><dt>{text.published}</dt><dd><SourceDate value={source.publishedAt} displayedDate={source.publishedDate} locale={locale} unknown={researchUnknown(locale)} /></dd></div>{(source.startAt || source.endAt || source.period === 'ENDED') && <><div><dt>{text.starts}</dt><dd><SourceDate value={source.startAt} locale={locale} unknown={text.unknownPeriod} /></dd></div><div><dt>{text.ends}</dt><dd><SourceDate value={source.endAt} locale={locale} unknown={text.unknownPeriod} /></dd></div></>}</dl>
           {source.period !== 'UNKNOWN' && <p className="official-research__state" data-period={source.period}>{text[periodKey[source.period]]}</p>}
