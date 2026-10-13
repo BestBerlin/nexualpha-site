@@ -17,6 +17,7 @@ import { updatePath } from "./activity-update-path.js";
 import { partnerRegistry } from "./partner-registry.js";
 
 import { BYBIT_STOCKS_PATH, parseBybitStocksPath } from "./bybit-stocks-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { BYBIT_STOCKS_PATH, parseBybitStocksPath };
 export const BYBIT_STOCKS_ORIGIN = "https://nexualpha.com";
@@ -39,7 +40,7 @@ export const BYBIT_STOCKS_CAMPAIGN = Object.freeze({
 // Locales with a written edition of the page (indexable, in the sitemap). Other UI locales show English, noindex.
 export const BYBIT_STOCKS_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "tr", "vi", "id", "ja", "ko", "fr", "de", "ar", "ru"]);
 // Same neutral set as the academy and the campaign join block: informational page, no sign-up wording.
-export const BYBIT_STOCKS_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const BYBIT_STOCKS_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // Bybit Stocks is a service-restricted product in the EEA (Help Center, 2026-10-08). French, German and Italian editions
 // are read mostly from EEA countries, so they stay informational too.
 const EEA_FIRST_LOCALES = new Set(["fr", "de", "it"]);

@@ -4,8 +4,9 @@ import { partnerRegistry } from '../src/data/partner-registry.js';
 import { publicCtaForVenue, regionalVenueCta, publicCtaForTopicPlatform } from '../src/data/source-bound-cta.js';
 import { pickNewsOfferVenue } from '../src/data/news-offer.js';
 import { DATA_PAGE_SIGNUP_VENUES } from '../src/data/market-data-pages.js';
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
-const neutralLocales = ['ru', 'ar', 'zh-Hant', 'ur', 'uk'];
+const neutralLocales = [...NEUTRAL_CTA_LOCALE_LIST];
 
 test('neutral locale projection closes every venue signup even with a promotable explicit market', () => {
   for (const locale of neutralLocales) for (const slug of Object.keys(partnerRegistry)) {

@@ -125,6 +125,18 @@ export function buildFundingMatrix(quotes, { generatedAt = new Date().toISOStrin
   });
 }
 
+/** The matrix without /go/ trade routes, for neutral-locale and no-promotion-market pages (locale-policy.js). */
+export function withoutFundingTradeHrefs(matrix) {
+  if (!matrix || typeof matrix !== "object") return matrix;
+  const strip = (row) => { if (!row || typeof row !== "object") return row; const { tradeHref: _drop, ...rest } = row; return rest; };
+  return {
+    ...matrix,
+    ...(Array.isArray(matrix.venues) ? { venues: matrix.venues.map(strip) } : {}),
+    ...(Array.isArray(matrix.rows) ? { rows: matrix.rows.map((row) => ({ ...row, venues: Object.fromEntries(Object.entries(row?.venues || {}).map(([slug, cell]) => [slug, strip(cell)])) })) } : {}),
+    ...(Array.isArray(matrix.quotes) ? { quotes: matrix.quotes.map(strip) } : {}),
+  };
+}
+
 export function fundingMatrixCell(matrix, symbol, venue) {
   const row = matrix?.rows?.find((item) => item.symbol === String(symbol || "").toUpperCase());
   return row?.venues?.[venueSlug(venue)] || null;

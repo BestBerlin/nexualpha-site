@@ -134,7 +134,7 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
     assert.ok(description.length <= 155, `${locale}: description ${description.length} > 155`);
   }
   // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; ru, ar, ur and uk stay neutral pending local review.
-  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur"]);
+  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur", "vi"]);
   // Turkey promotes OKX/Binance/Bybit only (owner 2026-10-11), so slogan B uses the best of those shares (OKX 40%).
   assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %40."), "tr description carries slogan B with the Turkish percent");
   assert.doesNotMatch(HOME_SEARCH_COPY.tr[1], /Bitget/);

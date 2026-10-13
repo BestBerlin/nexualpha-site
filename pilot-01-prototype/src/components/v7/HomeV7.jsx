@@ -11,6 +11,8 @@ import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
+import { h7NeutralCopy } from "./home7-neutral-copy.js";
+import { jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { academyShellCopy } from "../../data/academy.js";
@@ -43,17 +45,21 @@ function AcademyTeaser({ locale }) {
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
 // Partners a market may not be offered (Türkiye: Bitget, SPK list) are left out of the whole home, not just unlinked.
-function useVenues(locale, product, market) {
+// In a no-promotion market (Vietnam) every venue keeps its fees but carries no rebate share, code or sign-up link.
+function useVenues(locale, product, market, banned) {
   return useMemo(() => homePartnersFor(locale, market).map((slug) => {
     const f = feeFact(slug, product);
-    const cta = publicCtaForVenue(slug, locale);
+    const cta = publicCtaForVenue(slug, locale, market);
+    if (banned) {
+      return { slug, name: nameOf(slug), maker: f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker) ? f.maker : null, taker: f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker) ? f.taker : null, share: null, code: null, url: null, open: false };
+    }
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
     return {
       slug, name: nameOf(slug), maker: checked ? f.maker : null, taker: checked ? f.taker : null,
       share: partnerRebateShare(slug), code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
-  }), [locale, product, market]);
+  }), [locale, product, market, banned]);
 }
 
 function CopyCode({ code, t }) {
@@ -87,12 +93,14 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 
 
 export function HomeV7({ locale, market, venues: _catalog }) {
-  const t = h7Copy(locale);
+  // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
+  const banned = Boolean(jurisdictionPromotionBan({ locale, market }));
+  const t = banned ? { ...h7Copy(locale), ...h7NeutralCopy(locale) } : h7Copy(locale);
   // Hero copy experiment (X5): the variant comes from the SSR/hydration context, never from a client-side swap.
   const heroVariant = useHomeHeroVariant();
-  const heroText = heroCopyFor(t, locale, heroVariant);
+  const heroText = banned ? t : heroCopyFor(t, locale, heroVariant);
   const [product, setProduct] = useState("perp");
-  const venues = useVenues(locale, product, market);
+  const venues = useVenues(locale, product, market, banned);
   const maxPct = homeRebateMaxPctFor(locale, market);
   const [vol, setVol] = useState(100000);
   const [mode, setMode] = useState("taker");
@@ -164,18 +172,21 @@ export function HomeV7({ locale, market, venues: _catalog }) {
 
   return (
     <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
-      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})}>
+      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})} {...(banned ? { "data-neutral": "" } : {})}>
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, maxPct)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
+          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{banned ? heroText.h1b : heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, maxPct)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
           <p className="h7-sub">{heroText.sub}</p>
           <div className="h7-cta">
-            <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>
+            {banned
+              ? <a className="h7-btn h7-hero-go" href={localizedHref("/exchanges", { locale })}>{t.heroGo}</a>
+              : <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>}
             <a className="h7-ln h7-ln-down" href="#h7-calc">{t.calcLink}</a>
           </div>
         </div>
 
+        {!banned && (
         <aside className="h7-lg" id="h7-desk" aria-label={t.lgTitle} onPointerMove={spot} data-pick={sel.slug}>
           <div className="h7-lg-tabs" role="group" aria-label={t.lgPick} style={{ "--n": rebated.length }}>
             {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
@@ -193,13 +204,14 @@ export function HomeV7({ locale, market, venues: _catalog }) {
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span>{sel.open ? <small className="h7-go-disclosure">{t.lgBuilt}</small> : null}</Cta>
         </aside>
+        )}
 
         <div className="h7-strip">
           <p className="h7-strip-h">{replaceMaxPercent(t.cap(venues.length), locale, maxPct)}</p>
           <ul className="h7-pw" aria-label={t.pw(venues.length)}>
             {venues.map((v, i) => (
               <li key={v.slug}>
-                <a href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} ref={(e) => { srcRefs.current[i] = e; }} className={v.share ? "on" : undefined}>
+                <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} ref={(e) => { srcRefs.current[i] = e; }} className={v.share ? "on" : undefined}>
                   <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small>{t.upTo} {formatPercent(locale, Math.round(v.share * 100))}</small> : null}
                 </a>
               </li>

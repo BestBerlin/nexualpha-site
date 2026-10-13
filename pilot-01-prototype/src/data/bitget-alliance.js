@@ -23,6 +23,8 @@
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { updatePath } from "./activity-update-path.js";
 import { BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "./bitget-alliance-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
+import { BITGET_ALLIANCE_CODE } from "./campaign-codes.js";
 
 export { BITGET_ALLIANCE_PATH, parseBitgetAlliancePath };
 export const BITGET_ALLIANCE_ORIGIN = "https://nexualpha.com";
@@ -30,7 +32,7 @@ export const BITGET_ALLIANCE_PUBLISHED = "2026-10-13";
 export const BITGET_ALLIANCE_CHECKED = "2026-10-13";
 export const BITGET_ALLIANCE_VENUE = "bitget";
 export const BITGET_ALLIANCE_GO_SLUG = "bitget-alliance";
-export const BITGET_ALLIANCE_CODE = "DPRWSXAS";
+export { BITGET_ALLIANCE_CODE };
 export const BITGET_ALLIANCE_POOL_JSON = "/intel/bitget-alliance.json";
 
 export const BITGET_ALLIANCE_CAMPAIGN = Object.freeze({
@@ -94,7 +96,7 @@ export function bitgetAllianceActive(now = Date.now()) {
 // Locales with a written edition of the page (indexable, in the sitemap). Other UI locales read English, noindex.
 export const BITGET_ALLIANCE_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "es", "pt-BR", "vi", "id", "ja", "ko", "fr", "de"]);
 // Same neutral set as the academy and the other campaign pages: informational, no sign-up wording, no CTA.
-export const BITGET_ALLIANCE_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const BITGET_ALLIANCE_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // Bitget is restricted in France, Germany and Austria (partner-geo-restrictions.js); the French and German editions are
 // read mostly there, so without an explicit market they stay informational.
 const RESTRICTED_FIRST_LOCALES = new Set(["fr", "de"]);

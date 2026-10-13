@@ -2,17 +2,18 @@
 // the SSR/client router (seo-injection.js computeRouteSeo) and therefore /api/route-seo, so all three stay identical.
 //
 // Owner 2026-10-10 (GSC CTR work): the title carries the commercial search intent (referral code / fee rebate; ja/ko
-// informational; ru/ar/ur/uk neutral, matching src/data/referral-seo.js).
+// informational; ru/ar/ur/uk/vi neutral, matching src/data/referral-seo.js).
 // Owner 2026-10-11 (brand slogans, src/data/brand-slogan.js):
 //   - title = search keywords + slogan A + " — NexuAlpha" when that fits the 60-wide budget (budgetTitle,
 //     titleDisplayWidth: CJK counts double); otherwise keywords + " — NexuAlpha" and slogan A leads the description;
 //   - description = [slogan A when not in the title] + slogan B + the facts (OKX/Bitget/Binance codes, settled by the
 //     exchange; no disclosure line since 2026-10-13), clamped with clampMetaDescription.
 // Slogan B (a rebate share) is left out where the home copy is neutral pending local review: ru (advertising
-// rules), ar (Egypt CBE law 194/2020), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
+// rules), ar (Egypt CBE law 194/2020), vi (Vietnam Resolution 05/2025/NQ-CP, owner 2026-10-13), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
 import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
+import { NEUTRAL_CTA_LOCALE_LIST } from "./locale-policy.js";
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";
 import { clampMetaDescription, titleDisplayWidth } from "./meta-description.js";
 
@@ -21,7 +22,8 @@ export const TR_REBATE_MAX_PCT = Math.round(Math.max(...TR_PROMOTED.map((slug) =
 
 export const HOME_TITLE_BUDGET = 60;
 const BRAND_SUFFIX = " — NexuAlpha";
-export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar", "ur", "uk"]));
+// Same as the shared neutral list except zh-Hant, whose home description keeps slogan B (existing owner copy).
+export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(NEUTRAL_CTA_LOCALE_LIST.filter((locale) => locale !== "zh-Hant")));
 
 // Search keywords of the home title (the patterns pinned in tests/seo-onpage-metadata-length.test.mjs).
 const HOME_TITLE_KEYWORDS = Object.freeze({
@@ -39,7 +41,7 @@ const HOME_TITLE_KEYWORDS = Object.freeze({
   ru: "Комиссии криптобирж: OKX, Bitget и Binance",
   tr: "Kripto borsası komisyon iadesi ve referans kodu",
   id: "Kode referral dan rabat biaya exchange kripto",
-  vi: "Mã giới thiệu và hoàn phí sàn giao dịch crypto",
+  vi: "Phí sàn giao dịch crypto: OKX, Bitget và Binance",
   ar: "رسوم منصات العملات الرقمية: OKX وBitget وBinance",
 
   // l10n: needs native review
@@ -67,7 +69,7 @@ const HOME_FACTS = Object.freeze({
   ru: "Комиссии OKX, Bitget и Binance по официальным тарифам и официальные ссылки.",
   tr: "OKX, Binance, Bybit referans kodları; iadeyi borsa öder.",
   id: "Kode referral OKX, Bitget dan Binance; rabat dibayar oleh exchange.",
-  vi: "Phí OKX, Bitget, Binance; khoản hoàn do sàn chi trả.",
+  vi: "So sánh phí OKX, Bitget và Binance theo biểu phí chính thức, kèm liên kết chính thức.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية.",
 
   // l10n: needs native review

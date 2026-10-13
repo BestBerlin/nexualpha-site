@@ -11,8 +11,9 @@
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { APP_DOWNLOAD_SLUGS, appDownloadPath } from "./app-download-path.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
-const NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+const NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // Wallet venues have no exchange KYC: their bridge keeps the plain profile wording.
 const WALLET_VENUES = new Set(["hyperliquid"]);
 const VENUE_ALIASES = Object.freeze({ gate: "gate-io", "backpack-exchange": "backpack", "hashkey-global": "hashkey" });

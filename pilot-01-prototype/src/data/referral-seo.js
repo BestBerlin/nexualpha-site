@@ -7,6 +7,7 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // exchange without a real invite route gets no referral title.
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { trPercentDative } from "./tr-percent.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 const YEAR = () => new Date().getUTCFullYear();
 
@@ -142,8 +143,7 @@ const partnersBySlug = () => BY_SLUG;
 // ru (Russia advertising rules), ar (Egypt CBE law 194/2020), zh-Hant (Hong Kong SFC Part 5B). In Turkish, Law 7518
 // treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
 // entity is on the SPK list keep a referral title.
-// vi joined 2026-10-13 (owner decision: Vietnamese pages are news/market/tools only, no codes or sign-up wording).
-const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk", "vi"]);
+const NEUTRAL_TITLE_LOCALES = NEUTRAL_CTA_LOCALES;
 // Turkey SPK allow-list and every other country restriction live in partner-geo-restrictions.js (sourced, dated).
 export function referralTitleAllowed(slug, locale, market) {
   if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;

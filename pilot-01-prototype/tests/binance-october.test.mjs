@@ -19,6 +19,8 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { titleBudgetForLocale } from "../src/data/meta-description.js";
 import { buildCampaignSitemap } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
@@ -119,7 +121,7 @@ test("geo gating follows the site's Binance rules: neutral locales and restricte
   const now = Date.parse("2026-10-13T00:00:00Z");
   assert.equal(binanceCampaignHref("gifts", { locale: "en", placement: "gifts-hero", now }), "/go/binance-gifts?src=gifts-hero&lang=en");
   assert.equal(binanceCampaignHref("gifts", { locale: "tr", now }), "/go/binance-gifts?src=page&lang=tr");
-  for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk"]) {
+  for (const locale of NEUTRAL_CTA_LOCALE_LIST) {
     assert.equal(binanceOctoberSignupGate({ locale }), "neutral-locale", locale);
     assert.equal(binanceCampaignHref("gifts", { locale, now }), null, locale);
     assert.equal(binanceOctoberPromotable({ locale, now }), false, `${locale}: no teaser`);

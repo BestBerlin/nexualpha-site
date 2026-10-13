@@ -4,6 +4,8 @@ import { createSsrHarness } from './helpers/ssr-hydration-harness.mjs';
 import { updatePath, updateHref, updateHeadline, updateItems, normalizeUpdateItem } from '../src/data/activity-update.js';
 import { LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 import { updateCopy } from '../src/components/v3/activity/update-copy.js';
+// Shared neutral list (ru, ar, zh-Hant, ur, uk and, since 2026-10-13, vi): src/data/locale-policy.js.
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 const items = ['listing','event','delisting'].map(category => ({ id: `okx:${category}`, venue: 'okx', category, title: category === 'listing' ? 'OKX Will List TEST' : `OKX ${category}`, url: `https://www.okx.com/help/${category}`, publishedAt: new Date(Date.now()-3600000).toISOString() }));
 let harness;
 test.before(async () => { harness = await createSsrHarness(); });
@@ -32,7 +34,7 @@ test('update routes render all categories and translated template guidance in ev
  }
 });
 test('neutral locales and blocked markets have no commercial CTA inside update article', () => {
- for (const context of [...['ru','ar','zh-Hant','ur','uk'].map(locale=>({locale})),{locale:'en',market:'JP'}]) {
+ for (const context of [...NEUTRAL_CTA_LOCALE_LIST.map(locale=>({locale})),{locale:'en',market:'JP'}]) {
   const path = updateHref(items[1],context.locale) + (context.market ? `?market=${context.market}` : '');
   const html = harness.render(`https://nexualpha.com${path}`,{officialAnnouncements:{items}});
   const article = html.match(/<article>([\s\S]*?)<\/article>/)?.[1];

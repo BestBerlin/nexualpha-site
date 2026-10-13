@@ -3,6 +3,7 @@
 // lesson content is one module per locale (academy-content-<locale>.js), loaded lazily in the browser.
 import { ACADEMY_CONTENT_LOCALES, ACADEMY_EPISODES, ACADEMY_SHELL_COPY } from "./academy-season1.js";
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
+import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
 export { ACADEMY_CONTENT_LOCALES, ACADEMY_EPISODES, ACADEMY_SHELL_COPY };
 
@@ -17,7 +18,7 @@ export const ACADEMY_PROGRESS_KEY = "nexu.academy.s1.watched";
 // English lesson inside their own interface, served noindex,follow.
 export const ACADEMY_INDEX_LOCALES = Object.freeze([...ACADEMY_CONTENT_LOCALES]);
 // Same neutral set as the campaign join block (src/components/v3/activity/CampaignJoin.jsx): no sign-up wording.
-export const ACADEMY_NEUTRAL_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
+export const ACADEMY_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // Owner rule (DECISIONS 2026-10-12 #3): Bitget is named by its domain on academy cards and pages.
 export const ACADEMY_DISPLAY_NAMES = Object.freeze({ bitget: "Bitget.com" });
 // When an episode's own partners are not promotable in a market (e.g. Bitget in Türkiye), the card falls back to these.

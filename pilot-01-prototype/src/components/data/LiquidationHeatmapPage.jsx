@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { localizedHref } from '../../data/locale-routing.js';
 import { heatmapCopy } from '../../data/heatmap-copy.js';
 // Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
-const NEUTRAL_CTA_LOCALES = new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']);
 import { heatmapPartnerHref, timelineRows } from '../../data/heatmap-view.js';
 import { formatUsdCompact, formatUsdFull, formatUtc } from '../../data/market-data-pages.js';
 import { HeatmapCanvas } from './HeatmapCanvas.jsx';
@@ -10,6 +9,7 @@ import { useMarketEvents } from './useMarketEvents.js';
 import { DataUnavailable, textDirection } from './DataPageFrame.jsx';
 import { NewsVenueOffer } from '../v3/news/NewsVenueOffer.jsx';
 import './heatmap.css';
+import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
 // This component accepts only collector buckets, never sums overlapping h24
 // snapshots into a timeline. Absent timeline data remains unavailable.

@@ -66,7 +66,7 @@ test("home title carries the commercial search intent per locale and stays withi
     de: [/Empfehlungscodes/, /Gebührenrabatte/],
     it: [/referral/, /commissioni/],
     id: [/referral/, /biaya/],
-    vi: [/giới thiệu/, /hoàn phí/],
+    vi: [/Phí/, /OKX/],
     ru: [/Комиссии/, /OKX/],
     ar: [/رسوم/, /OKX/],
   };
@@ -77,8 +77,8 @@ test("home title carries the commercial search intent per locale and stays withi
     if (!["zh-Hans", "zh-Hant", "ja", "ko"].includes(locale)) assert.match(metadata.title, /NexuAlpha/, `${locale} brand`);
     // ja/ko keep an informational tone; ru/ar stay neutral like the referral-title policy
     if (["ja", "ko"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /登録して|会員登録|가입하세요|회원가입/);
-    if (["ru", "ar"].includes(locale)) assert.doesNotMatch(metadata.title, /реферальн|промокод|إحالة/i);
-    if (locale !== "ru" && locale !== "ar" && locale !== "tr") assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
+    if (["ru", "ar", "vi"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /реферальн|промокод|إحالة|giới thiệu|hoàn phí|đăng ký/i);
+    if (!["ru", "ar", "tr", "vi"].includes(locale)) assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
     // the Worker mirror and the client router share one copy table
     const client = computeRouteSeo({ url: `https://nexualpha.com${localizedPath("/", locale)}`, locale });
     assert.equal(metadata.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} worker title`);

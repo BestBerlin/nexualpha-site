@@ -2,7 +2,7 @@ import { COINS, COINS_GENERATED_AT, COIN_VENUE_SLUGS, coinVenueStatus } from "./
 import { FUNDING_GUIDES } from "./converter.js";
 import { FACTS_AS_OF, factsForVenue, feeFact, feePair, primarySourceUrl } from "./exchange-facts.js";
 import { FUNDING_MATRIX_SYMBOLS, FUNDING_MATRIX_VENUES, venueName as fundingVenueName, venueSlug } from "./funding-matrix.js";
-import { isPartnerPromotableIn, isTurkeyGated, promotionCountries } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyGated, promotionCountries, jurisdictionPromotionBan } from "./partner-geo-policy.js";
 import { resolvePromotions } from "./promotions.js";
 import { venueDatabase } from "./venue-database.js";
 import { licenseRecords } from "./licenses.js";
@@ -257,7 +257,8 @@ export function buildScorecard(slugs, { locale = "en", market, fiat, now = Date.
 }
 
 export function countryRankings({ locale = "en", market, now = Date.now() } = {}) {
-  return Object.freeze(SCORECARD_MARKETS.filter((item) => !market || item.key === market).map((item) => {
+  // A no-promotion jurisdiction (Vietnam, owner 2026-10-13: Resolution 05/2025/NQ-CP) gets no "best exchange" table.
+  return Object.freeze(SCORECARD_MARKETS.filter((item) => (!market || item.key === market) && !jurisdictionPromotionBan({ market: item.country })).map((item) => {
     // Geo policy is keyed by ISO country; Türkiye is further limited to OKX / Binance / Bybit (owner rule).
     const slugs = unique(COIN_VENUE_SLUGS.filter((slug) => isPartnerPromotableIn(slug, { locale: item.locale, market: item.country })
       && (item.country !== "TR" || TURKEY_VENUES.has(normalizeSlug(slug)))));

@@ -11,9 +11,10 @@ import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { NEWS_HUB_SEO_EN } from "../src/data/news-list-copy.js";
 import { NEWS_CANONICAL_TARGETS } from "../src/data/news-search-state.generated.js";
 import { routeMetadata } from "../worker/index.js";
+import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 
 const PROMOTABLE = ["en", "zh-Hans", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "tr", "id"];
-const NEUTRAL = ["ru", "ar", "zh-Hant", "ur", "uk", "vi"];
+const NEUTRAL = [...NEUTRAL_CTA_LOCALE_LIST];
 const budget = (locale) => (/^(zh|ja|ko)/.test(locale) ? 32 : 60);
 const env = { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } };
 const HYPE = /\b(best ever|guaranteed?|risk-free|100% safe|moon)\b/i;

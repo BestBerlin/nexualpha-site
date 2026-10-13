@@ -28,6 +28,7 @@ import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
+import { jurisdictionPromotionBan } from "./data/partner-geo-policy.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
@@ -629,7 +630,7 @@ function routeState(venues, initialUrl) {
       try { return { name: "activity", id: decodeURIComponent(activityMatch[1]), ...contextParams() }; } catch { return { name: "notFound" }; }
   }
   if (pathname === "/activities") return { name: "activities", ...contextParams() };
-  return pathname === "/" || pathname === "/index.html" ? { name: "home" } : { name: "notFound" };
+  return pathname === "/" || pathname === "/index.html" ? { name: "home", ...contextParams() } : { name: "notFound" };
 }
 
 export async function preloadCurrentRouteModulesForUrl(initialUrl, options = {}) {
@@ -1016,7 +1017,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} />
-    <ClosingBand locale={locale} legacy={homeSlots.closing} />
+    {/* A no-promotion market (Vietnam, owner 2026-10-13) gets no legacy research drawer: it holds sign-up links. */}
+    <ClosingBand locale={locale} legacy={jurisdictionPromotionBan({ locale, market: route.market }) ? <CrawlPriorityLinks locale={locale} scope="home" /> : homeSlots.closing} />
     {footer}
     {searchDialog}
   </main>;

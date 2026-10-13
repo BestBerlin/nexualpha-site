@@ -73,8 +73,9 @@ test("Türkiye rankings exclude promotion-gated venues while descriptive pair da
 
 test("countryRankings returns the main market tables with numeric rows", () => {
   const markets = countryRankings({ locale: "en", now: NOW });
-  assert.deepEqual(markets.map((market) => market.key), ["tr", "vi", "id", "br", "mx", "latam"]);
-  for (const market of ["tr", "vi", "id", "br", "mx"]) {
+  // Vietnam is a no-promotion market since 2026-10-13 (Resolution 05/2025/NQ-CP): no ranking table.
+  assert.deepEqual(markets.map((market) => market.key), ["tr", "id", "br", "mx", "latam"]);
+  for (const market of ["tr", "id", "br", "mx"]) {
     const table = markets.find((item) => item.key === market);
     assert.ok(table?.venues?.length, market);
     assert.ok(table.rows.some((row) => row.key === "spotFees"), market);
