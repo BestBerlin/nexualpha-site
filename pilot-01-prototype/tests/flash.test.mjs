@@ -183,18 +183,15 @@ test("/flash renders at request time in en and zh-hans with canonical, hreflang 
   assert.equal(robots(await (await fetchPage("/ur/flash")).text()), "noindex,follow", "a locale without templates is noindex");
 });
 
-test("item pages: H1, NewsArticle schema, related links, 301 for old slugs and unknown keys, 404 for junk", async () => {
+test("item pages: H1, noindex head, related links, 301 for old slugs and unknown keys, 404 for junk", async () => {
   for (const [prefix, locale] of [["", "en"], ["/zh-hans", "zh-Hans"]]) {
     const path = `${prefix}${flashItemPath(OKX)}`;
     const response = await fetchPage(path);
     const html = await response.text();
     assert.equal(response.status, 200, path);
     assert.deepEqual(h1Texts(html), [renderText(OKX, locale).headline]);
-    assert.equal(robots(html), "index,follow");
-    const article = ldJson(html).find((item) => item["@type"] === "NewsArticle");
-    assert.equal(article.headline, renderText(OKX, locale).headline);
-    assert.equal(article.datePublished, OKX.time);
-    assert.equal(article.isBasedOn, "https://www.okx.com/help/okx-to-list-ct-usdt");
+    assert.equal(robots(html), "noindex,follow");
+    assert.equal(ldJson(html).some((item) => item["@type"] === "NewsArticle"), false);
     assert.ok(ldJson(html).some((item) => item["@type"] === "BreadcrumbList"));
     const main = mainHtml(html);
     assert.match(main, new RegExp(`href="${prefix}/exchanges/okx"`), "venue profile link");
@@ -202,7 +199,7 @@ test("item pages: H1, NewsArticle schema, related links, 301 for old slugs and u
     // Owner 2026-10-13: OKX help pages take no referral parameter, so the official source is a plain label + domain.
     assert.doesNotMatch(main, /href="https:\/\/www\.okx\.com/, "no uncoded OKX link");
     assert.match(main, /data-source-plain="okx\.com"/, "official source");
-    assert.ok((html.match(/rel="alternate" hreflang=/g) || []).length > 2, "hreflang for indexable editions");
+    assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 0, "no hreflang for noindex editions");
   }
   const liq = mainHtml(await (await fetchPage(flashItemPath(LIQ))).text());
   assert.match(liq, /href="\/liquidations"/, "liquidation items link the dashboard");
@@ -226,7 +223,7 @@ test("item pages: Turkish Bitget campaign flash routes redirect to activities wh
   const en = await fetchPage(flashItemPath(BITGET));
   const html = await en.text();
   assert.equal(en.status, 200);
-  assert.equal(robots(html), "index,follow");
+  assert.equal(robots(html), "noindex,follow");
   assert.deepEqual(h1Texts(html), [renderText(BITGET, "en").headline]);
   assert.doesNotMatch(html, /hreflang="tr"/);
 });
@@ -250,7 +247,7 @@ test("indexable campaign rewards appear as concrete facts in the detail body", (
   for (const locale of FLASH_INDEX_LOCALES) assert.match(renderText(item, locale).body, /27 USDT/);
 });
 
-test("thin flash details: announcement-only pages stay noindex until concrete rendered facts or a brief exists", async () => {
+test("thin flash details: detail pages stay noindex even when concrete rendered facts or a brief exists", async () => {
   const announcements = { items: [
     { id: "bybit:thin", venue: "bybit", category: "event", title: "Bybit publishes a new campaign announcement", url: "https://announcements.bybit.com/en-US/article/thin", publishedAt: ago(H), sourceType: "official_api" },
     { id: "bybit:rewarded", venue: "bybit", category: "event", title: "Bybit Odds: Earn Up to 27 USDT", url: "https://announcements.bybit.com/en-US/article/rewarded", publishedAt: ago(H + 60 * 1000), sourceType: "official_api" },
@@ -281,15 +278,15 @@ test("thin flash details: announcement-only pages stay noindex until concrete re
   assert.equal(flashItemHasIndexableFacts(thinListing, "en"), false);
   assert.match(renderText(thin, "en").body, /^Bybit published this in its official announcements on .+ SGT\.$/);
   assert.equal(robots(await (await fetchPage(flashItemPath(thin), e)).text()), "noindex,follow");
-  assert.equal(robots(await (await fetchPage(flashItemPath(rewarded), e)).text()), "index,follow");
-  assert.equal(robots(await (await fetchPage(flashItemPath(briefEnOnly), e)).text()), "index,follow");
+  assert.equal(robots(await (await fetchPage(flashItemPath(rewarded), e)).text()), "noindex,follow");
+  assert.equal(robots(await (await fetchPage(flashItemPath(briefEnOnly), e)).text()), "noindex,follow");
   assert.equal(robots(await (await fetchPage(`/zh-hans${flashItemPath(briefEnOnly)}`, e)).text()), "noindex,follow");
   assert.equal(robots(await (await fetchPage(flashItemPath(thinListing), e)).text()), "noindex,follow");
   const sitemap = await (await worker.fetch(new Request("https://nexualpha.com/sitemap-flash.xml"), e)).text();
   assert.doesNotMatch(sitemap, new RegExp(thin.key), "thin campaign details are kept out of the flash sitemap");
   assert.doesNotMatch(sitemap, new RegExp(thinListing.key), "thin non-campaign details are kept out of the flash sitemap");
-  assert.match(sitemap, new RegExp(rewarded.key), "rewarded campaign details remain eligible for sitemap publication");
-  assert.match(sitemap, new RegExp(`<loc>https://nexualpha\\.com${flashItemPath(briefEnOnly)}</loc>`), "English brief summary can index English");
+  assert.doesNotMatch(sitemap, new RegExp(rewarded.key), "rewarded campaign details stay out of the flash sitemap");
+  assert.doesNotMatch(sitemap, new RegExp(`<loc>https://nexualpha\\.com${flashItemPath(briefEnOnly)}</loc>`), "English brief summary stays out of the flash sitemap");
   assert.doesNotMatch(sitemap, new RegExp(`/zh-hans${flashItemPath(briefEnOnly)}`), "missing localized summary blocks zh-Hans sitemap entry");
 });
 
@@ -310,20 +307,14 @@ test("sign-up block: the item's exchange or highest-priority fallback via /go/<v
   }
 });
 
-test("sitemap-flash.xml: last 7 days, indexable editions with hreflang and Google News tags; listed in the index and robots", async () => {
+test("sitemap-flash.xml stays empty and is not advertised", async () => {
   const response = await worker.fetch(new Request("https://nexualpha.com/sitemap-flash.xml"), env());
   const xml = await response.text();
   assert.equal(response.status, 200);
-  assert.match(xml, new RegExp(`<loc>https://nexualpha\\.com${flashItemPath(OKX)}</loc>`));
-  assert.match(xml, new RegExp(`<loc>https://nexualpha\\.com/zh-hans${flashItemPath(OKX)}</loc>`));
-  assert.doesNotMatch(xml, new RegExp(OLD.key), "older than 7 days");
-  assert.doesNotMatch(xml, new RegExp(NEWS_ITEM.key), "news items are listed by the news sitemaps");
-  assert.doesNotMatch(xml, /\/ur\/flash|\/uk-ua\/flash/);
-  assert.match(xml, /<news:news>[\s\S]*?<news:language>zh-cn<\/news:language>/);
-  assert.match(xml, /hreflang="x-default" href="https:\/\/nexualpha\.com\/flash\//);
+  assert.equal((xml.match(/<url>/g) || []).length, 0);
   const split = buildSplitSitemaps(routeInventory([]), []);
-  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-flash\.xml<\/loc>/);
-  assert.match(await readFile(new URL("../public/robots.txt", import.meta.url), "utf8"), /Sitemap: https:\/\/nexualpha\.com\/sitemap-flash\.xml/);
+  assert.doesNotMatch(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-flash\.xml<\/loc>/);
+  assert.doesNotMatch(await readFile(new URL("../public/robots.txt", import.meta.url), "utf8"), /Sitemap: https:\/\/nexualpha\.com\/sitemap-flash\.xml/);
 });
 
 test("JSON feed: localized rows, cursor and single-item lookup; no templates needed in the browser", async () => {
@@ -466,7 +457,7 @@ test("stream payload: Turkish Bitget campaigns are excluded, but Bitget listings
   assert.deepEqual(withListing.items.map((row) => row.id), ["a:bitget:listing"]);
   assert.equal(withListing.venues.some((row) => row.slug === "bitget"), true);
   assert.equal(flashItemIndexLocales(BITGET, { now: NOW }).includes("tr"), false, "no Turkish hreflang/sitemap for Bitget campaign flash item");
-  assert.equal(flashItemIndexLocales(listing, { now: NOW }).includes("tr"), true, "Turkish Bitget listing flash item remains indexable");
+  assert.equal(flashItemIndexLocales(listing, { now: NOW }).includes("tr"), false, "Turkish Bitget listing flash item remains visible but noindex");
 });
 
 const TICKER = { generatedAt: ago(10 * 1000), source: "binance-usdm", items: [

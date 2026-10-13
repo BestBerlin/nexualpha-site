@@ -18,10 +18,16 @@ test("fixed top 30 coins and 12 fiat routes with strict syntax", () => {
     assert.equal(parsePublicRoute(`/${prefix}/convert/btc-to-usd`).contentPathname, "/convert/btc-to-usd");
   }
 });
-test("only relevant locale markets index; unsupported market editions stay noindex", () => {
-  const coin = converterCoin("btc");
-  for (const [fiat, locale] of [["USD", "en"], ["EUR", "de"], ["BRL", "pt-BR"], ["TRY", "tr"], ["IDR", "id"], ["VND", "vi"], ["MXN", "es"], ["JPY", "ja"], ["KRW", "ko"], ["CNY", "zh-Hans"], ["GBP", "en"]]) assert.ok(converterIndexable(coin, fiat, locale));
-  for (const [fiat, locale] of [["TRY", "en"], ["BRL", "es"], ["INR", "en"], ["USD", "ar"]]) assert.equal(converterIndexable(coin, fiat, locale), false);
+test("only the 12 English high-demand converter routes index; unsupported market editions stay noindex", () => {
+  const indexedSymbols = ["btc", "eth", "sol", "usdt"];
+  for (const symbol of indexedSymbols) {
+    const coin = converterCoin(symbol);
+    for (const fiat of ["USD", "EUR", "GBP"]) assert.ok(converterIndexable(coin, fiat, "en"), `${symbol}/${fiat}/en`);
+    for (const [fiat, locale] of [["USD", "es"], ["EUR", "de"], ["GBP", "ar"], ["BRL", "pt-BR"], ["TRY", "tr"], ["IDR", "id"], ["VND", "vi"], ["MXN", "es"], ["JPY", "ja"], ["KRW", "ko"], ["CNY", "zh-Hans"], ["INR", "en"]]) {
+      assert.equal(converterIndexable(coin, fiat, locale), false, `${symbol}/${fiat}/${locale}`);
+    }
+  }
+  assert.equal(converterIndexable(converterCoin("xrp"), "USD", "en"), false);
   assert.equal(converterIndexable({ venues: [] }, "USD", "en"), false);
 });
 test("bidirectional conversion rejects invalid inputs and missing rates", () => {

@@ -5,6 +5,21 @@ export const COINS_PATH = "/coins";
 // Search editions with natural template copy and our own coin descriptions. Other UI locales render the same page
 // (English descriptions) as noindex,follow.
 export const COIN_INDEX_LOCALES = Object.freeze(["en", "es", "pt-BR", "tr", "vi", "id", "zh-Hans", "ja", "ko", "fr", "de"]);
+export const COIN_DETAIL_INDEX_LOCALE_ENABLED = Object.freeze({
+  en: true,
+  es: true,
+  "pt-BR": true,
+  tr: true,
+  vi: true,
+  id: true,
+  "zh-Hans": true,
+  // Re-enable these per locale only after EN coin/glossary indexation is >60%.
+  ja: false,
+  ko: false,
+  fr: false,
+  de: false,
+});
+export const COIN_DETAIL_INDEX_LOCALES = Object.freeze(COIN_INDEX_LOCALES.filter((locale) => COIN_DETAIL_INDEX_LOCALE_ENABLED[locale]));
 
 export const coinContentLocale = (locale) => (COIN_INDEX_LOCALES.includes(locale) ? locale : "en");
 export const coinContentModulePath = (locale) => `./data/coin-content-${coinContentLocale(locale).toLowerCase()}.js`;

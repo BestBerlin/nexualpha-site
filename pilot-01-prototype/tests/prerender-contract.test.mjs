@@ -306,7 +306,6 @@ test("worker prerenders path-locale high-intent routes with market and product c
     ["/es/compare/binance-vs-okx?market=MX&product=spot", /<h1[^>]*>[\s\S]*Binance[\s\S]*OKX[\s\S]*<\/h1>/, /data-cta-placement|www\.bsmkweb\.cc|okx\.com\/join/],
     ["/tr/compare/bybit-vs-bitget?market=TR&product=spot", /<h1[^>]*>[\s\S]*Bybit[\s\S]*Bitget[\s\S]*<\/h1>/, /data-cta-placement|bybit\.com\/register|partner\.bitget\.cafe/],
     ["/pt-br/rates?market=BR&product=spot", /<h1[^>]*>[\s\S]*Painel de referência de taxas[\s\S]*<\/h1>/, /data-cta-placement|partner\.bitget\.cafe|backpack\.exchange\/join/],
-    ["/es/factbook/binance?market=MX&product=spot", /<h1[^>]*>[\s\S]*Binance[\s\S]*Factbook[\s\S]*<\/h1>/, /data-cta-placement|www\.bsmkweb\.cc|registration-path/],
   ];
 
   for (const [path, h1Pattern, ctaPattern] of cases) {
@@ -667,6 +666,18 @@ test("homepage SSR retains registration card CSS before deferred hydration in it
   }
 });
 
+
+test("worker redirects factbook detail routes to exchange profiles before prerender/style filtering", async () => {
+  for (const [from, to] of [
+    ["/factbook/binance", "https://nexualpha.com/exchanges/binance#sources"],
+    ["/es/factbook/binance?market=MX&product=spot", "https://nexualpha.com/es/exchanges/binance?market=MX&product=spot#sources"],
+  ]) {
+    const response = await worker.fetch(new Request(`https://nexualpha.com${from}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
+    assert.equal(response.status, 301, from);
+    assert.equal(response.headers.get("location"), to, from);
+  }
+});
+
 test("worker filters stylesheets by prerendered route while retaining shared base CSS", async () => {
   const articleSlug = articles[0].slug;
   const tokenizedTreasuryArticleSlug = articles.find((article) => String(article.slug).startsWith("tokenized-treasuries"))?.slug || articleSlug;
@@ -686,7 +697,6 @@ test("worker filters stylesheets by prerendered route while retaining shared bas
     ["/partners/embed-guide", "/prerender/en/partners-guide.json", "<main><h1>Partner Guide</h1><button data-cta-placement=\"partner-guide\">Open</button></main>", ["route-partners-"]],
     ["/rates", "/prerender/en/rates.json", "<main><h1>Rates</h1><button data-cta-placement=\"rates-open\">Open</button></main>", ["route-rates-", "route-activity-"]],
     ["/onchain", "/prerender/en/onchain.json", "<main><h1>Onchain</h1><button data-cta-placement=\"onchain-open\">Open</button></main>", ["route-onchain-"]],
-    ["/factbook/binance", "/prerender/en/factbook/binance.json", "<main><h1>Factbook</h1><button data-cta-placement=\"factbook-open\">Open</button></main>", ["route-factbook-", "route-activity-"]],
     ["/sg", "/prerender/en/sg.json", "<main><h1>Singapore regional preview</h1><button data-cta-placement=\"sg-open\">Open</button></main>", ["route-international-"], "en"],
     ["/br", "/prerender/pt-BR/br.json", "<main><h1>Brasil regional preview</h1><button data-cta-placement=\"br-open\">Open</button></main>", ["route-international-"], "pt-BR"],
     ["/tr/markets/turkiye", "/prerender/tr/markets/turkiye.json", "<main><h1>Türkiye regional preview</h1><button data-cta-placement=\"tr-open\">Open</button></main>", ["route-international-"], "tr"],

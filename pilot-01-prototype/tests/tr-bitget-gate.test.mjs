@@ -111,7 +111,7 @@ test("Türkiye redirects live and archived Bitget campaign routes, while informa
     const env = { ASSETS: assets, INTEL_READ: async () => ({ items: archived ? [listing] : [campaign, listing] }), INTEL_ARCHIVE_READ: async () => ({ items: [campaign] }) };
     const sitemap = await renderUpdateSitemap(env);
     assert.ok(!sitemap.includes(`/tr${updatePath(campaign)}</loc>`), "no Turkish campaign sitemap URL");
-    assert.ok(sitemap.includes(`${updatePath(campaign)}</loc>`), "English campaign sitemap URL retained");
+    assert.ok(!sitemap.includes(`${updatePath(campaign)}</loc>`), "English campaign sitemap URL is also removed");
     const tr = new URL(`https://nexualpha.com/tr${updatePath(campaign)}?market=US`);
     const metadata = await routeMetadata(tr, env);
     assert.equal(metadata.status, 301, `archived=${archived}`);
@@ -121,10 +121,12 @@ test("Türkiye redirects live and archived Bitget campaign routes, while informa
     assert.equal(response.headers.get("location"), metadata.redirect);
     const en = await routeMetadata(new URL(`https://nexualpha.com${updatePath(campaign)}`), env);
     assert.equal(en.status, 200, "English campaign remains available");
-    assert.ok(en.alternates.every((alt) => alt.hreflang !== "tr"));
+    assert.equal(en.robots, "noindex,follow");
+    assert.deepEqual(en.alternates, []);
     const info = await routeMetadata(new URL(`https://nexualpha.com/tr${updatePath(listing)}`), env);
     assert.equal(info.status, 200, "Turkish listing remains informational");
-    assert.ok(info.alternates.some((alt) => alt.hreflang === "tr"));
+    assert.equal(info.robots, "noindex,follow");
+    assert.deepEqual(info.alternates, []);
   }
 });
 

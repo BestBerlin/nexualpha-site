@@ -8,9 +8,27 @@ const SLUGS = COIN_ROWS.slice().sort((a, b) => a[4] - b[4]).slice(0, 30).map((ro
 export const converterCoins = () => SLUGS.map(coinBySlug);
 export const converterCoin = (symbol) => converterCoins().find((coin) => coin.symbol.toLowerCase() === String(symbol).toLowerCase()) || null;
 export const converterPath = (coin, fiat) => `/convert/${coin.symbol.toLowerCase()}-to-${fiat.toLowerCase()}`;
+export const CONVERTER_INDEXABLE_SYMBOLS = Object.freeze(["BTC", "ETH", "SOL", "USDT"]);
+export const CONVERTER_INDEXABLE_FIATS = Object.freeze(["USD", "EUR", "GBP"]);
+export const CONVERTER_INDEXABLE_LOCALES = Object.freeze(["en"]);
 const MARKETS = Object.freeze({ USD: ["en", "es", "fr", "de"], EUR: ["en", "es", "fr", "de"], BRL: ["pt-BR"], TRY: ["tr"], IDR: ["id"], VND: ["vi"], MXN: ["es"], JPY: ["ja"], KRW: ["ko"], CNY: ["zh-Hans"], GBP: ["en"], INR: [] });
 export const converterLocales = (fiat) => MARKETS[fiat] || [];
-export const converterIndexable = (coin, fiat, locale) => FIATS.includes(fiat) && converterLocales(fiat).includes(locale) && Boolean(coin?.venues.length);
+export const converterIndexable = (coin, fiat, locale) => Boolean(coin?.venues.length)
+  && CONVERTER_INDEXABLE_SYMBOLS.includes(String(coin.symbol || "").toUpperCase())
+  && CONVERTER_INDEXABLE_FIATS.includes(fiat)
+  && CONVERTER_INDEXABLE_LOCALES.includes(locale);
+export const converterIndexableCoins = () => converterCoins().filter((coin) => CONVERTER_INDEXABLE_SYMBOLS.includes(String(coin?.symbol || "").toUpperCase()));
+export function converterRelatedTargets(coin, fiat, locale, { fiatLimit = 4, peerLimit = 4 } = {}) {
+  const relatedFiats = FIATS
+    .filter((code) => code !== fiat)
+    .map((code) => ({ code, locale: converterLocales(code).find((candidate) => converterIndexable(coin, code, candidate)) }))
+    .filter((item) => item.locale)
+    .slice(0, fiatLimit);
+  const peers = converterIndexableCoins()
+    .filter((row) => row && row.slug !== coin?.slug && converterIndexable(row, fiat, locale))
+    .slice(0, peerLimit);
+  return { relatedFiats, peers };
+}
 export const converterCopy = (locale) => CONVERTER_COPY[locale] || CONVERTER_COPY.en;
 export const converterTitle = (coin, fiat, locale) => fill(converterCopy(locale).title, { coin: coin.name, symbol: coin.symbol, fiat });
 export function converterFaq(coin, fiat, locale) {

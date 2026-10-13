@@ -4,7 +4,7 @@
 import { COIN_ROWS, COIN_VENUE_SLUGS, COIN_VENUE_STATUS as BAKED_VENUE_STATUS, COINS_GENERATED_AT as BAKED_GENERATED_AT } from "./coins-data.generated.js";
 import { coinRowFromSnapshotCoin, coinVenueStatusFromSnapshot, isUsableCoinSnapshot } from "./coins-snapshot.js";
 import { COIN_COPY } from "./coins-copy.js";
-import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
+import { COIN_DETAIL_INDEX_LOCALES, COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
 import { formatSgt } from "./local-time.js";
 
 // Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
@@ -16,7 +16,7 @@ import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
-export { COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
+export { COIN_DETAIL_INDEX_LOCALES, COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
 
 export const COIN_VENUE_NAMES = Object.freeze({ okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit", "gate-io": "Gate", mexc: "MEXC", htx: "HTX", kraken: "Kraken" });
 // Owner rule (academy, DECISIONS 2026-10-12 #3): Bitget's sign-up button names the domain.

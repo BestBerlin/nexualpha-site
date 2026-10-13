@@ -15,7 +15,7 @@ import { COIN_DESCRIPTIONS as TR } from "./coin-content-tr.js";
 import { COIN_DESCRIPTIONS as VI } from "./coin-content-vi.js";
 import { COIN_DESCRIPTIONS as ID } from "./coin-content-id.js";
 import {
-  COINS, COINS_GENERATED_AT, COIN_INDEX_LOCALES, COINS_PATH, COIN_YEAR, coinAnswer, coinBySlug, coinCopy, coinFaq, coinPath,
+  COINS, COINS_GENERATED_AT, COIN_DETAIL_INDEX_LOCALES, COIN_INDEX_LOCALES, COINS_PATH, COIN_YEAR, coinAnswer, coinBySlug, coinCopy, coinFaq, coinPath,
   fill, isCoinListed, joinList, spotVenues, perpVenues,
 } from "./coins.js";
 import { parseCoinsPath } from "./coins-routes.js";
@@ -33,9 +33,9 @@ export function coinDescription(coin, locale) {
   return en ? { text: en, locale: "en" } : null;
 }
 export const coinHasDescription = (coin, locale) => Boolean(COIN_DESCRIPTIONS_BY_LOCALE[locale]?.[coin.id]);
-export const coinIndexable = (coin, locale) => Boolean(coin) && COIN_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale);
+export const coinIndexable = (coin, locale) => Boolean(coin) && COIN_DETAIL_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale);
 /** Locales in which this coin's page is indexable (its hreflang set). */
-export const coinIndexLocales = (coin) => COIN_INDEX_LOCALES.filter((locale) => coinIndexable(coin, locale));
+export const coinIndexLocales = (coin) => COIN_DETAIL_INDEX_LOCALES.filter((locale) => coinIndexable(coin, locale));
 export const coinsHubCount = () => COINS.length;
 
 function fitTitle(candidates, locale) {

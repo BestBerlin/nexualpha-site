@@ -5,7 +5,7 @@ import { formatSgt } from "./local-time.js";
 // per-locale templates. Numbers and tickers are formatted once, the same way in every language; free text is never
 // machine-translated (announcement titles are quoted as the official source, campaign briefs and news use the
 // localized text they were published with). No external calls happen here.
-import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey, flashSlug } from "./flash.js";
+import { FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey, flashSlug } from "./flash.js";
 import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
 import { campaignVisibleInLocale } from "./campaign-locale-policy.js";
@@ -570,8 +570,7 @@ export function flashItemHasIndexableFacts(item, locale = "en") {
   return Boolean((Array.isArray(item.assets) && item.assets.length) || d.when);
 }
 
-export const isFlashIndexable = (item, locale, { now = Date.now(), localized = true } = {}) => item.type !== "news" && localized
-  && flashItemHasIndexableFacts(item, locale) && FLASH_INDEX_LOCALES.includes(locale) && now - Date.parse(item.time) <= FLASH_INDEX_WINDOW_MS;
+export const isFlashIndexable = () => false;
 
 /** Locales whose edition of this item is indexable (hreflang set and sitemap). */
 export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
@@ -662,7 +661,7 @@ export function flashStreamSeo(payload, locale, { urlFor }) {
   };
 }
 
-/** Head of one flash item: NewsArticle + breadcrumbs. Generic headlines carry their time so titles stay distinct. */
+/** Head of one flash item. Generic headlines carry their time so titles stay distinct. */
 export function flashItemSeo(view, locale, { urlFor }) {
   const t = flashUiCopy(locale);
   const url = urlFor(view.path);
@@ -674,14 +673,7 @@ export function flashItemSeo(view, locale, { urlFor }) {
   return {
     title: fitTitle([`${titleHeadline} | NexuAlpha`, titleHeadline], locale),
     description,
-    schemas: [
-      { "@context": "https://schema.org", "@type": "NewsArticle", "@id": `${url}#article`, headline: headline.slice(0, 110), description,
-        url, mainEntityOfPage: url, inLanguage: view.lang, datePublished: view.time, dateModified: view.time, image: [SOCIAL_IMAGE],
-        author: ORGANIZATION, publisher: ORGANIZATION, isAccessibleForFree: true, articleSection: view.typeLabel,
-        ...(view.source?.url ? { isBasedOn: absolute(view.source.url) } : {}),
-        ...(view.assets?.length ? { about: view.assets.slice(0, 6).map((name) => ({ "@type": "Thing", name })) } : {}) },
-      crumbs([["NexuAlpha", urlFor("/")], [t.nav, urlFor(FLASH_PATH)], [headline.slice(0, 110), url]]),
-    ],
+    schemas: [crumbs([["NexuAlpha", urlFor("/")], [t.nav, urlFor(FLASH_PATH)], [headline.slice(0, 110), url]])],
   };
 }
 

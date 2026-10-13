@@ -461,6 +461,7 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 /* Footer v8: links flow inline; the statement + risk disclaimer fold into one summary row (still in the DOM). */
 .nx-ftr .nx-ftr__list--inline ul { display: flex; flex-wrap: wrap; gap: 0 20px; }
 .nx-ftr .nx-ftr__list--inline a { display: inline-flex; align-items: center; min-block-size: 44px; min-inline-size: 44px; font-size: 14px; }
+.nx-ftr__group-label { display: block; margin-block-end: 4px; color: var(--nx-n12); font-size: 14px; font-weight: 700; }
 .nx-ftr .nx-ftr__fold { display: block; border-block: 1px solid var(--nx-hair); padding-block: 0; }
 .nx-ftr .nx-ftr__fold > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-block-size: 48px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 500; color: var(--nx-n11); }
 .nx-ftr .nx-ftr__fold > summary::-webkit-details-marker { display: none; }

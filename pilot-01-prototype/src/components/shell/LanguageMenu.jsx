@@ -25,17 +25,18 @@ export function LanguageMenu({ locale, options, label, disabled = false, onSelec
   const listRef = useRef(null);
   const typeRef = useRef({ text: "", timer: 0 });
   const currentIndex = Math.max(0, options.findIndex((o) => o.code === locale));
-  const current = options[currentIndex] || options[0];
+  const current = options[currentIndex] || options[0] || { code: locale || "en", label: String(locale || "en").toUpperCase() };
+  const menuDisabled = disabled || options.length <= 1;
 
   const close = useCallback((restore = true) => {
     setOpen(false);
     if (restore) buttonRef.current?.focus({ preventScroll: true });
   }, []);
   const openMenu = useCallback((index = currentIndex) => {
-    if (disabled) return;
+    if (menuDisabled) return;
     setActive(index);
     setOpen(true);
-  }, [currentIndex, disabled]);
+  }, [currentIndex, menuDisabled]);
 
   useEffect(() => {
     if (!open) return;
@@ -86,7 +87,7 @@ export function LanguageMenu({ locale, options, label, disabled = false, onSelec
   };
 
   return <div className={`nx-lang${inline ? " nx-lang--inline" : ""}`} ref={rootRef} data-open={open ? "true" : undefined}>
-    <button ref={buttonRef} type="button" className="nx-lang__btn" disabled={disabled}
+    <button ref={buttonRef} type="button" className="nx-lang__btn" disabled={menuDisabled}
       aria-haspopup="listbox" aria-expanded={open} aria-controls={listId}
       aria-label={`${label}: ${current?.label}`}
       onClick={() => (open ? close(false) : openMenu())} onKeyDown={onButtonKeyDown}>

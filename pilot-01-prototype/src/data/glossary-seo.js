@@ -9,10 +9,15 @@ import { GLOSSARY_INDEX_LOCALES, GLOSSARY_PATH, glossaryContentLocale, glossaryT
 import { GLOSSARY_TERMS, glossaryTermBySlug } from "./glossary-terms.js";
 import { glossaryCopy, fill } from "./glossary-copy.js";
 import { titleBudgetForLocale } from "./meta-description.js";
+import { ACADEMY_INDEX_LOCALES } from "./academy.js";
 
 export const GLOSSARY_REVIEWED_AT = "2026-10-13";
 const ORIGIN = "https://nexualpha.com";
 const ORGANIZATION = Object.freeze({ "@type": "Organization", "@id": `${ORIGIN}/#organization`, name: "NexuAlpha", url: `${ORIGIN}/` });
+export const GLOSSARY_CANONICAL_DISPOSITIONS = Object.freeze({
+  "cross-margin": { targetPath: "/academy/cross-margin", kind: "academy", reason: "academy_lesson_is_stronger_course_page" },
+  "isolated-margin": { targetPath: "/academy/isolated-margin", kind: "academy", reason: "academy_lesson_is_stronger_course_page" },
+});
 
 const contentFor = (locale) => GLOSSARY_CONTENT_BY_LOCALE[glossaryContentLocale(locale)];
 /** The term page data in this locale (written entry or the English fallback, see contentLocale). */
@@ -22,6 +27,17 @@ export const glossaryWrittenIn = (slug, locale) => GLOSSARY_INDEX_LOCALES.includ
 export const glossaryTermLocales = (slug) => GLOSSARY_INDEX_LOCALES.filter((locale) => glossaryWrittenIn(slug, locale));
 /** Hub editions: index locales with at least half of the terms written natively. */
 export const glossaryHubLocales = () => GLOSSARY_INDEX_LOCALES.filter((locale) => GLOSSARY_TERMS.filter((t) => glossaryWrittenIn(t.slug, locale)).length * 2 >= GLOSSARY_TERMS.length);
+
+export function glossaryCanonicalDisposition(slug, locale, { urlFor }) {
+  const disposition = GLOSSARY_CANONICAL_DISPOSITIONS[slug];
+  if (!disposition) return null;
+  const targetLocale = ACADEMY_INDEX_LOCALES.includes(locale) ? locale : "en";
+  return {
+    ...disposition,
+    targetLocale,
+    canonical: urlFor(disposition.targetPath, targetLocale),
+  };
+}
 
 function fitTitle(candidates, locale) {
   const budget = titleBudgetForLocale(locale);
@@ -112,17 +128,22 @@ export function glossaryRouteSeo(pathname, locale, { urlFor }) {
   }
   const entry = glossaryEntry(route.slug, locale);
   if (!entry) return { status: 404 };
+  const canonicalDisposition = glossaryCanonicalDisposition(route.slug, locale, { urlFor });
   return {
     status: 200, ...glossaryTermMeta(entry, locale),
     indexable: glossaryWrittenIn(route.slug, locale),
-    alternatesLocales: glossaryTermLocales(route.slug),
+    alternatesLocales: canonicalDisposition ? [] : glossaryTermLocales(route.slug),
+    canonical: canonicalDisposition?.canonical || null,
+    canonicalDisposition,
     schemas: glossarySchemas(pathname, locale, { urlFor }),
   };
 }
 
 /** Every indexable glossary URL with its hreflang set (sitemap-glossary.xml). */
 export function glossarySitemapEntries({ urlFor }) {
-  const pages = [[GLOSSARY_PATH, glossaryHubLocales()], ...GLOSSARY_TERMS.map((term) => [glossaryTermPath(term.slug), glossaryTermLocales(term.slug)])];
+  const pages = [[GLOSSARY_PATH, glossaryHubLocales()], ...GLOSSARY_TERMS
+    .filter((term) => !GLOSSARY_CANONICAL_DISPOSITIONS[term.slug])
+    .map((term) => [glossaryTermPath(term.slug), glossaryTermLocales(term.slug)])];
   return pages.flatMap(([pathname, locales]) => locales.map((locale) => ({
     pathname, locale, loc: urlFor(pathname, locale),
     alternates: [...locales.map((hreflang) => ({ hreflang, href: urlFor(pathname, hreflang) })), ...(locales.includes("en") ? [{ hreflang: "x-default", href: urlFor(pathname, "en") }] : [])],

@@ -4,12 +4,11 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
-import { localeManifest, supportedLocales } from "../../content/locale-manifest";
+import { localeManifest } from "../../content/locale-manifest";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
-import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
-import { REFERRAL_PARTNERS } from "../../data/referral-partners.generated.js";
-import { orderVenues } from "../../data/venue-priority.js";
+import { INDEXABLE_HOME_LOCALES } from "../../data/page-hreflang-links.js";
+import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "../../data/partner-page-links.js";
 
 const copyDict = {
   "zh-Hans": {
@@ -463,10 +462,8 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
   const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
-  const referralCodeLabel = { en: "Referral codes", "zh-Hans": "邀请码", "zh-Hant": "邀請碼", es: "Códigos de referido", "pt-BR": "Códigos de indicação", fr: "Codes de parrainage", de: "Referral-Codes", ja: "紹介コード", ko: "추천 코드", tr: "Referans kodları", id: "Kode referral", it: "Codici referral" }[locale] || "Referral codes";
-  const referralPartners = isNeutralCtaLocale(locale)
-    ? []
-    : orderVenues(REFERRAL_PARTNERS, locale).filter((partner) => isPartnerPromotableIn(partner.slug, { locale, market }));
+  const partnerLinks = partnerExchangePageLinks(locale, { market });
+  const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
 
   return (
     <footer className="nx-ftr" id="policy">
@@ -501,14 +498,15 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           </ul>
         </nav>
 
-        {referralPartners.length > 0 && <nav className="clean-footer__nav clean-footer__nav--referrals nx-ftr__list nx-ftr__list--inline" aria-label={referralCodeLabel}>
+        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__list--inline" aria-label={partnerGroupLabel} data-footer-partner-links>
+          <b className="nx-ftr__group-label">{partnerGroupLabel}</b>
           <ul>
-            {referralPartners.map((partner) => <li key={partner.slug}><a href={href(`/exchanges/${partner.slug}`)}>{partner.name} {referralCodeLabel}</a></li>)}
+            {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug}>{link.label}</a></li>)}
           </ul>
-        </nav>}
+        </nav> : null}
 
         <div className="nx-ftr__list nx-ftr__list--inline nx-ftr__locales"><ul>
-          {supportedLocales.map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
+	          {INDEXABLE_HOME_LOCALES.map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
         </ul></div>
 
         {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}

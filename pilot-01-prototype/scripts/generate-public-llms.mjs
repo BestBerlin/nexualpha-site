@@ -121,7 +121,8 @@ Use these public routes for compact, citable exchange facts. They are source-bou
 - Exchange profiles: ${PUBLIC_ORIGIN}/exchanges — human-readable venue profiles with neutral key facts and source links.
 - Exchange fact JSON: ${PUBLIC_ORIGIN}/api/exchange-facts/<slug>.json — cacheable CORS-safe JSON mirroring the source-backed profile facts.
 - Fee pages: ${PUBLIC_ORIGIN}/rates and ${PUBLIC_ORIGIN}/funding-rates — fee scenarios and live perpetual funding context with source boundaries.
-- License pages: ${PUBLIC_ORIGIN}/licenses — regulator/entity/status rows from reviewed register data.
+- License directory: ${PUBLIC_ORIGIN}/licenses — regulator/entity/status rows from reviewed register data.
+- Fee benchmark: ${PUBLIC_ORIGIN}/rates — published maker and taker fees with checked sources; account-specific terms still require confirmation.
 - Liquidations: ${PUBLIC_ORIGIN}/liquidations — public futures liquidation data page.
 - Long/short: ${PUBLIC_ORIGIN}/long-short — public positioning dashboard.
 - Whales: ${PUBLIC_ORIGIN}/whales — public large-holder and flow dashboard.
@@ -149,7 +150,7 @@ ${keyFacts}
 - Partner invite codes and fee-return shares are listed under Key facts with the commission disclosure; welcome offers and campaign amounts are not asserted here.
 - Fee values, reserve figures, security scores, licensing conclusions and regional availability are not asserted unless an item-level official source and date are shown.
 - If a source or date is missing, report the field as pending source review instead of inferring a value.
-- The canonical human-readable context is each linked Factbook page; time-sensitive claims must be checked against the operator or regulator source.
+- The canonical human-readable context is each linked exchange profile; time-sensitive claims must be checked against the operator or regulator source.
 
 ## Core links
 
@@ -206,7 +207,7 @@ ${PUBLIC_LOCALES.map((locale) => `- [${locale} homepage](https://nexualpha.com${
 
 const venueLinks = orderVenues(FACTBOOK_SLUGS).map((slug) => {
   const venue = FACTBOOK_REGISTRY[slug];
-  return `- [${venue.name} source review](https://nexualpha.com/factbook/${slug}) — ${venue.category}; official discovery domain: https://${venue.officialDomain}`;
+  return `- [${venue.name} source review](https://nexualpha.com/exchanges/${slug}) — ${venue.category}; official discovery domain: https://${venue.officialDomain}`;
 }).join("\n");
 
 const canonicalVenueDetailSlugs = orderVenues(["binance", "okx", "bybit", "bitget", "hyperliquid", "uniswap", "gmx"]);
@@ -365,7 +366,7 @@ ${keyFactsCompact}
 
 ## Canonical content clusters
 
-- Factbook source reviews: https://nexualpha.com/factbook/binance, https://nexualpha.com/factbook/okx, https://nexualpha.com/factbook/bybit, https://nexualpha.com/factbook/bitget, https://nexualpha.com/factbook/hyperliquid, https://nexualpha.com/factbook/gmx, https://nexualpha.com/factbook/uniswap
+- Exchange source reviews: https://nexualpha.com/exchanges/binance, https://nexualpha.com/exchanges/okx, https://nexualpha.com/exchanges/bybit, https://nexualpha.com/exchanges/bitget, https://nexualpha.com/exchanges/hyperliquid, https://nexualpha.com/exchanges/gmx, https://nexualpha.com/exchanges/uniswap
 - Source-backed venue detail canonicals: ${canonicalVenueDetailSlugs.map((slug) => `https://nexualpha.com/exchanges/${slug}`).join(", ")}
 - Research assets: https://nexualpha.com/research/perp-dex-cost-field-dictionary.json, https://nexualpha.com/research/wave48-perp-dex-cost-citations.json, https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json, https://nexualpha.com/research/regional-funding-verification-matrix.json
 - Reviewed news answers are indexed in https://nexualpha.com/llms.txt with source records expanded in https://nexualpha.com/llms-full.txt.

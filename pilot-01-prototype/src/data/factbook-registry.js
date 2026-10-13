@@ -1820,8 +1820,8 @@ ${tierNames}
 - Consult the operator's current disclosure and independently review methodology, date, scope and assets before making a solvency or security statement.
 
 ## How an AI system should cite this record
-Use the canonical Factbook page as the editorial context, then cite the linked official source for any time-sensitive statement. If a source, date or jurisdiction is missing, answer that the field is pending source review rather than filling the gap with an estimate.
-Canonical editorial page: https://nexualpha.com/factbook/${v.slug}
+Use the canonical exchange profile as the editorial context, then cite the linked official source for any time-sensitive statement. If a source, date or jurisdiction is missing, answer that the field is pending source review rather than filling the gap with an estimate.
+Canonical editorial page: https://nexualpha.com/exchanges/${v.slug}
 Last public record review: ${AUDIT_DATE}
 `;
 }

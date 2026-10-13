@@ -129,7 +129,7 @@ test("activity update pages SSR from INTEL_READ with all validated feed categori
   assert.ok(state.officialAnnouncements.items.some((item) => item.id === datedEvent.id && item.startAt && item.endAt), "real event dates survive compacting");
 });
 
-test("activity update SEO indexes listings and campaigns, noindexes delistings, and never invents Event dates", async () => {
+test("activity update SEO noindexes listings, campaigns and delistings, and never invents Event dates", async () => {
   const env = { ASSETS: assets, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" };
   for (const item of [listing, datedEvent, delisting]) {
     const response = await fetchPage(routePath(item), env);
@@ -140,7 +140,7 @@ test("activity update SEO indexes listings and campaigns, noindexes delistings, 
     const eventSchema = graph.find((entry) => entry["@type"] === "Event");
     assert.equal(response.status, 200, item.id);
     assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com${routePath(item).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), item.id);
-    assert.equal(robots(html), item.category === "delisting" ? "noindex,follow" : "index,follow", item.id);
+    assert.equal(robots(html), "noindex,follow", item.id);
     assert.ok(article, `${item.id}: NewsArticle schema is present`);
     assert.equal(article.citation, item.url, `${item.id}: schema cites the original announcement`);
     assert.ok(article.image?.length, "announcement article includes the publisher image");
@@ -194,7 +194,7 @@ test("activity update route SEO and hydration state use campaign briefs from ASS
   assert.equal(calls[0].props.officialAnnouncements.items.find((row) => row.id === event.id).brief.deadline, campaignBriefs.items[0].deadline);
 });
 
-test("localized activity update routes keep internal canonical, hreflang, and translated common listing headline", async () => {
+test("localized activity update routes keep internal canonical and translated common listing headline while noindex", async () => {
   const env = { ASSETS: assets, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" };
   const path = routePath(listing);
   const response = await fetchPage(`/zh-hans${path}`, env);
@@ -203,7 +203,8 @@ test("localized activity update routes keep internal canonical, hreflang, and tr
   // The compact title retains the SGT announcement time and leads with the token; the visible headline stays localized.
   assert.match(html, /<title[^>]*>Binance \d{2}-\d{2} \d{2}:\d{2} SGT: TESTCO/);
   assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com/zh-hans${path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
-  assert.match(html, /hreflang="zh-Hans"/);
+  assert.equal(robots(html), "noindex,follow");
+  assert.doesNotMatch(html, /hreflang="zh-Hans"/);
 });
 
 // GSC "Not found (404)", 2026-10-12: update pages whose item rotated out of the live feed returned 404 although Telegram,
@@ -254,7 +255,7 @@ test("archived activity updates stay 200 with the ended label, CTA and related l
       });
       const html = await response.text();
       assert.equal(response.status, 200, prefix);
-      assert.equal(robots(html), "index,follow", `${prefix}: archived campaign inside 180 days stays indexable`);
+      assert.equal(robots(html), "noindex,follow", `${prefix}: archived campaign mirrors stay noindex`);
       assert.match(html, new RegExp(`<link rel="canonical" href="https://nexualpha\\.com${prefix}${updatePath(archivedEvent).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
       const article = html.match(/<article>([\s\S]*?)<\/article>/)[1];
       assert.ok(article.includes(`class="update-page__ended">${label}<`), `${prefix}: ended label`);
@@ -279,7 +280,7 @@ test("archived activity updates older than 180 days are noindex but still 200; l
   const live = await fetchPage(updatePath(listing), env);
   const liveHtml = await live.text();
   assert.equal(live.status, 200);
-  assert.equal(robots(liveHtml), "index,follow");
+  assert.equal(robots(liveHtml), "noindex,follow");
   assert.equal(prerenderState(liveHtml).officialAnnouncements.items.some((row) => row.archived), false, "a live item is never served as archived");
 });
 
@@ -300,17 +301,11 @@ test("retired /starter links 301 to the localized academy (新手村 is NexuAlph
   assert.equal(zh.headers.get("location"), "https://nexualpha.com/zh-hans/academy");
 });
 
-test("/sitemap-updates.xml lists live and archived-within-180-days indexable updates only", async () => {
+test("/sitemap-updates.xml stays empty for noindex update detail pages", async () => {
   const { renderUpdateSitemap } = await import("../worker/index.js");
   const xml = await renderUpdateSitemap({ ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive }, new URL("https://nexualpha.com/"), NOW);
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  const has = (item, prefix = "") => locs.includes(`https://nexualpha.com${prefix}${updatePath(item)}`);
-  assert.ok(has(listing) && has(listing, "/zh-hans"), "live listing in every indexable locale");
-  assert.ok(has(event), "live campaign");
-  assert.ok(has(archivedEvent) && has(archivedEvent, "/ja"), "archived campaign within 180 days");
-  assert.equal(has(oldArchivedListing), false, "archived longer than 180 days: noindex page, not in the sitemap");
-  assert.equal(has(delisting), false, "noindex delisting stays out");
-  assert.equal(has(staleNews), false, "news category is noindex and stays out");
+  assert.deepEqual(locs, []);
   assert.equal(new Set(locs).size, locs.length, "no duplicate URLs");
   const response = await worker.fetch(new Request("https://nexualpha.com/sitemap-updates.xml"), { ASSETS: assets, INTEL_READ: async () => feed, INTEL_ARCHIVE_READ: async () => archive });
   assert.equal(response.status, 200);
@@ -341,7 +336,7 @@ test("activity update routes merge approved non-fixture core official-updates ro
     });
     const html = await response.text();
     assert.equal(response.status, 200);
-    assert.equal(robots(html), "index,follow");
+    assert.equal(robots(html), "noindex,follow");
     const stateItems = prerenderState(html).officialAnnouncements.items;
     assert.ok(stateItems.some((item) => item.id === coreListing.id && item.category === "listing"), "approved core listing is merged");
     assert.equal(stateItems.some((item) => item.id === "core-listing-draft"), false, "draft core updates stay out");

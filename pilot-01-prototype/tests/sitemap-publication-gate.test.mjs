@@ -99,7 +99,9 @@ test("sitemap publication gate stays inside reviewed locale and URL budgets", ()
   assert.equal(publication.stats.urlsByTemplate.comparison, 234);
   assert.equal(publication.stats.urlsByTemplate.venue, 260); // + /exchanges/coinw (en, zh-Hans) 2026-10-13
   assert.equal(publication.stats.urlsByTemplate.home, 15);
-  assert.ok(publication.stats.urlsByTemplate.factbook <= policy.maxUrlsByTemplate.factbook);
+  assert.equal(publication.stats.urlsByTemplate.factbook || 0, 0);
+  assert.equal(publication.stats.routesByTemplate.venue, 22);
+  assert.equal(publication.stats.urlsByTemplate.venue, 260);
   assert.ok(publication.stats.lowDifferentiationUrlCount <= policy.maxLowDifferentiationUrls);
   assert.equal(
     publication.stats.cleanOrPathUrls,
@@ -171,11 +173,10 @@ test("sitemap index splits indexable canonical routes by template", async () => 
   }
   assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>/);
   assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>\n {4}<lastmod>2026-10-12<\/lastmod>/);
-  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>\n {2}<\/sitemap>/);
   assert.doesNotMatch(
     split.index,
-    /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>\n {4}<lastmod>2026-10-12<\/lastmod>/,
-    "runtime update sitemap index row must not inherit the unrelated news-feed timestamp",
+    /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>/,
+    "thin update detail pages stay out of the sitemap index",
   );
 
   const compareLocs = locsFromSitemap(split.files.get("sitemap-compare.xml").xml);
@@ -197,8 +198,16 @@ test("sitemap index splits indexable canonical routes by template", async () => 
   }
 
   const legacyLocaleLocs = locsFromSitemap(await renderLocaleSitemap({}));
-  const missingFromSplit = legacyLocaleLocs.filter((loc) => !allLocs.includes(loc));
-  assert.deepEqual(missingFromSplit, [], "split sitemap children must preserve the old locale sitemap indexable URL union");
+  const legacyRedirectLocs = new Set([
+    "https://nexualpha.com/exchanges/htx",
+    "https://nexualpha.com/zh-hans/exchanges/htx",
+    "https://nexualpha.com/exchanges/hashkey",
+    "https://nexualpha.com/zh-hans/exchanges/hashkey",
+    "https://nexualpha.com/exchanges/aevo",
+    "https://nexualpha.com/zh-hans/exchanges/aevo",
+  ]);
+  const missingFromSplit = legacyLocaleLocs.filter((loc) => !allLocs.includes(loc) && !legacyRedirectLocs.has(loc));
+  assert.deepEqual(missingFromSplit, [], "split sitemap children must preserve the old locale sitemap indexable URL union except redirected legacy exchange aliases");
 
   for (const loc of allLocs) {
     const metadata = await routeMetadata(new URL(loc), newsEnv);
@@ -239,9 +248,9 @@ test("protected indexable pages remain in sitemap through canonical URLs while r
   for (const { url } of publication.stats.excludedIndexedMissing) assert.ok(!locs.has(url), url);
   assert.ok(locs.has("https://nexualpha.com/compare/bybit-vs-bitget"));
   assert.ok(locs.has("https://nexualpha.com/compare/binance-vs-kraken"));
-  assert.ok(locs.has("https://nexualpha.com/factbook/htx"));
-  assert.ok(locs.has("https://nexualpha.com/factbook/aevo"));
-  assert.ok(locs.has("https://nexualpha.com/factbook/hashkey"));
+  assert.ok(!locs.has("https://nexualpha.com/factbook/htx"));
+  assert.ok(!locs.has("https://nexualpha.com/factbook/aevo"));
+  assert.ok(!locs.has("https://nexualpha.com/factbook/hashkey"));
   assert.ok(locs.has("https://nexualpha.com/methodology"));
   assert.ok(locs.has("https://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration"));
   assert.ok(!locs.has("https://nexualpha.com/compare/kraken-vs-binance?locale=en"));
@@ -275,12 +284,13 @@ test("sitemap XML and search publication report are generated from the same URL 
   assert.equal(locs.filter((loc) => loc.includes("locale=en")).length, 0);
 });
 
-test("Factbook sitemap lastmod uses the source-review audit date", () => {
+test("Exchange sitemap lastmod uses the exchange profile review date after factbook detail consolidation", () => {
   const sitemap = buildSitemap(inventory, articles, { policy });
   assert.match(
     sitemap,
-    /<loc>https:\/\/nexualpha\.com\/factbook\/binance<\/loc>[\s\S]*?<lastmod>2026-09-08<\/lastmod>/,
+    /<loc>https:\/\/nexualpha\.com\/exchanges\/binance<\/loc>[\s\S]*?<lastmod>2026-09-15<\/lastmod>/,
   );
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/nexualpha\.com\/factbook\/binance<\/loc>/);
 });
 
 test("Brazil original pages and cautious international routes are still discoverable", () => {

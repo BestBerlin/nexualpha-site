@@ -346,7 +346,16 @@ export default {
     }
     const legacyFactbookSlug = LEGACY_VENUE_FACTBOOK_REDIRECTS[parsedRoute.contentPathname];
     if (legacyFactbookSlug && ["GET", "HEAD"].includes(request.method)) {
-      const destination = new URL(localizedPath(`/factbook/${legacyFactbookSlug}`, parsedRoute.locale), PUBLIC_ORIGIN);
+      const destination = new URL(localizedPath(`/exchanges/${legacyFactbookSlug}`, parsedRoute.locale), PUBLIC_ORIGIN);
+      destination.hash = "sources";
+      const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+      for (const [key, value] of preserved) destination.searchParams.append(key, value);
+      return Response.redirect(destination.href, 301);
+    }
+    const factbookDetailSlug = parsedRoute.contentPathname.match(/^\/factbook\/([a-z0-9-]+)$/)?.[1];
+    if (factbookDetailSlug && VENUE_REGISTRY[factbookDetailSlug] && ["GET", "HEAD"].includes(request.method)) {
+      const destination = new URL(localizedPath(`/exchanges/${factbookDetailSlug}`, parsedRoute.locale), PUBLIC_ORIGIN);
+      destination.hash = "sources";
       const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
       for (const [key, value] of preserved) destination.searchParams.append(key, value);
       return Response.redirect(destination.href, 301);
@@ -2441,11 +2450,7 @@ const WORKER_COMPARE_FAQ = {
   ]
 };
 // END GENERATED PRIORITY VENUE SEO
-const LEGACY_VENUE_FACTBOOK_REDIRECTS = Object.freeze({
-  "/exchanges/htx": "htx",
-  "/exchanges/hashkey": "hashkey",
-  "/exchanges/aevo": "aevo",
-});
+const LEGACY_VENUE_FACTBOOK_REDIRECTS = Object.freeze({});
 const LEGACY_COMPARE_REDIRECTS = Object.freeze({
   "/compare/aevo-vs-binance": "/exchanges",
   "/compare/hashkey-vs-binance": "/exchanges",
@@ -3180,7 +3185,7 @@ const REGIONAL_PREVIEW_SEO_LOCALIZED = {
     tr: ["Türkiye kripto platformu araştırması: SPK, TRY ve hesap kapsamı — NexuAlpha", "SPK geçici listesi, tasfiye listesi, Paribu hesap doğrulaması ve TRY yatırma kaynaklarını ayrı ayrı kontrol edin."],
   },
 };
-const ACTIVE_VENUE_SLUGS = new Set(ACTIVE_COMPARE_VENUE_SLUGS);
+const ACTIVE_VENUE_SLUGS = new Set([...ACTIVE_COMPARE_VENUE_SLUGS, "htx", "hashkey", "aevo"]);
 const SEARCH_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const prerenderManifests = new WeakMap();
 const brazilCatalogs = new WeakMap();
@@ -3664,6 +3669,24 @@ async function handleRouteSeoJson(request, env, url) {
 
 const ARABIC_FONT_PRELOAD_HREF = "/fonts/ar-400.woff2";
 
+function injectPrerenderSeoAlternates(html, alternates) {
+  if (!Array.isArray(alternates)) return html;
+  return html.replace(
+    /(<script type="application\/json" id="nexualpha-prerender-state">)([^<]*)(<\/script>)/i,
+    (_match, open, payload, close) => {
+      try {
+        const state = JSON.parse(payload);
+        // Clear stale alternate state on noindex pages, while keeping unseeded fallback payloads minimal.
+        if (!alternates.length && !Object.hasOwn(state, "seoAlternates")) return _match;
+        state.seoAlternates = alternates.map(({ hreflang, href }) => ({ hreflang, href }));
+        return `${open}${safeJson(state)}${close}`;
+      } catch {
+        return _match;
+      }
+    },
+  );
+}
+
 function injectRouteMetadata(html, metadata) {
   const pageLocale = metadata.locale || "en";
   const pageDirection = ["ar", "ur"].includes(String(pageLocale).toLowerCase().split("-")[0]) ? "rtl" : "ltr";
@@ -3732,6 +3755,7 @@ function injectRouteMetadata(html, metadata) {
       () => `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
     );
   }
+  output = injectPrerenderSeoAlternates(output, metadata.alternates);
   return output;
 }
 
@@ -3780,6 +3804,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
     ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
+    ...(Array.isArray(route.seoAlternates) ? { seoAlternates: route.seoAlternates } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4435,7 +4460,7 @@ async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRo
     const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
       metadata.newsSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles, newsListing, ...(toolArticles ? { toolArticles } : {}) }, url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles, newsListing, ...(toolArticles ? { toolArticles } : {}) }), url);
     }
     console.error(`[NexuAlpha] news listing SSR returned no listing body for ${pathname} (${locale}); serving the fallback template`);
   } catch (error) {
@@ -4685,12 +4710,38 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
 
 const hasMainWithHeading = (appHtml) => /<main\b/i.test(appHtml) && /<h1\b/i.test(appHtml);
 const REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS = new Set([NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER, HOME_ROUTE_MARKER, EXCHANGES_ROUTE_MARKER, VENUE_ROUTE_MARKER, COMPARE_ROUTE_MARKER, ACTIVITIES_ROUTE_MARKER, ACTIVITY_UPDATE_ROUTE_MARKER]);
+
+function routeSeoAlternatesForState(metadata) {
+  return Array.isArray(metadata?.alternates) ? metadata.alternates.map(({ hreflang, href }) => ({ hreflang, href })) : null;
+}
+
+function routeSeoNeedsEmptyState(metadata) {
+  return metadata?.marker === NEWS_ROUTE_MARKER || metadata?.marker === ARTICLE_ROUTE_MARKER;
+}
+
+function routeSeoState(metadata, state = {}) {
+  const seoAlternates = routeSeoAlternatesForState(metadata);
+  if (!seoAlternates || (!seoAlternates.length && !routeSeoNeedsEmptyState(metadata))) return state;
+  return { ...state, seoAlternates };
+}
+
+function routeSeoRenderEnv(env, metadata) {
+  if (typeof env?.NEWS_SSR_RENDER !== "function") return env;
+  const seoAlternates = routeSeoAlternatesForState(metadata);
+  const shouldPassEmpty = routeSeoNeedsEmptyState(metadata);
+  if (!seoAlternates || (!seoAlternates.length && !shouldPassEmpty)) return env;
+  return {
+    ...env,
+    NEWS_SSR_RENDER: (renderUrl, state = {}) => env.NEWS_SSR_RENDER(renderUrl, { ...state, seoAlternates }),
+  };
+}
 // NotFoundPage (V3Pages.jsx): `/ja/br` and other legacy market paths resolve to a different client page, so only the
 // 404 component itself is accepted; anything else keeps the shell.
 const isNotFoundPage = (appHtml) => appHtml.includes("v3-page--empty") && /<h1\b[^>]*>404<\/h1>/.test(appHtml);
 
 async function injectPrerenderedRoute(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
+  env = routeSeoRenderEnv(env, metadata);
   if (metadata.status === 404) {
     return (await renderRouteAtRequestTime(html, metadata, url, env, { accept: isNotFoundPage, label: "not-found" })) || html;
   }
@@ -4717,7 +4768,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
           const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
             metadata.newsSsrMode = "runtime";
-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }, url);
+            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }), url);
           }
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
@@ -5231,22 +5282,7 @@ export async function renderLocaleSitemap(env = {}) {
 // categories the page itself marks index,follow. One <loc> per indexable locale; the page head carries the hreflang set.
 export const UPDATE_SITEMAP_PATH = "/sitemap-updates.xml";
 export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN), now = Date.now()) {
-  const live = compactActivityUpdateItems(await readActivityUpdateFeed(env, url))?.items || [];
-  const archived = archiveItems(await readActivityUpdateArchive(env, url), { now }).map(normalizeUpdateItem);
-  const byPath = new Map();
-  for (const item of live) byPath.set(updatePath(item), item);
-  // Same rule as the archived page's robots tag: index,follow for ARCHIVE_INDEXABLE_MS after publication.
-  for (const item of archived) if (!byPath.has(updatePath(item)) && isArchiveIndexable(item, now)) byPath.set(updatePath(item), item);
-  const rows = [];
-  for (const [pathname, item] of byPath) {
-    if (!["listing", "event"].includes(item.category) || isUpdateNoindex(item)) continue;
-    const lastmod = new Date(Date.parse(item.publishedAt)).toISOString().slice(0, 10);
-    for (const locale of INDEXABLE_LOCALES) {
-      if (!campaignVisibleInLocale(item, locale)) continue;
-      rows.push(`  <url>\n    <loc>${xmlText(localizedCanonical(pathname, locale))}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
-    }
-  }
-  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...rows, "</urlset>", ""].join("\n");
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', "</urlset>", ""].join("\n");
 }
 // ---------------------------------------------------------------------------------------------------------- Ticker
 // Live ticker bar snapshot (2026-10-13): the Node server's 15 s Binance cache (TICKER_READ, server/ticker-feed.mjs),
@@ -6947,6 +6983,7 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   if (!metadata || metadata.status !== 200) return metadata;
   // T10 canonicalized duplicate: index,follow + cross-article canonical, outside the search-published set by design.
   if (metadata.newsCanonicalTarget) { metadata.alternates = []; return metadata; }
+  if (metadata.canonicalDisposition) { metadata.alternates = []; return metadata; }
   // Flash items: indexable editions are the item's localized ones within 30 days (src/data/flash-feed.js).
   if (Array.isArray(metadata.flashIndexLocales)) {
     if (metadata.robots === "index,follow" && !metadata.flashIndexLocales.includes(locale)) metadata.robots = "noindex,follow";
@@ -6958,6 +6995,10 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
     metadata.robots = "noindex,follow";
   }
   if (/^\/activities\/updates\/[^/]+\/[^/]+$/.test(pathname)) {
+    if (metadata.robots !== "index,follow") {
+      metadata.alternates = [];
+      return metadata;
+    }
     const item = metadata.activityUpdateFeed?.items?.find((entry) => updatePath(entry) === pathname);
     const locales = (publishedLocales.length ? publishedLocales : INDEXABLE_LOCALES).filter((lang) => campaignVisibleInLocale(item, lang));
     metadata.alternates = routeAlternates(pathname, locales);
@@ -7060,10 +7101,9 @@ async function resolveRouteMetadata(url, env) {
   // Keep the requested Traditional Chinese document distinct from Simplified
   // Chinese in canonical URLs and structured data.
   const schemaLocale = String(requestedLocale).startsWith("zh") ? requestedLocale : locale;
-  const ref = contentUrl.searchParams.get("ref");
   const refMatch = contentUrl.pathname.match(/^\/ref\/([a-z0-9-]+)$/);
-  if (ref || refMatch) {
-    const slug = cleanSlug(ref || refMatch[1]);
+  if (refMatch) {
+    const slug = cleanSlug(refMatch[1]);
     return { status: 200, title: "NexuAlpha Partner Page", description: "Platform choices for this partner entry.", canonical: localizedCanonical(slug ? `/ref/${slug}` : "/", locale), locale, robots: "noindex,follow", marker: STATIC_ROUTE_MARKER };
   }
   const isNewsRoute = contentUrl.pathname === "/news" || contentUrl.pathname.startsWith("/news/");
@@ -7195,7 +7235,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       status: 200,
       title: copy[0],
       description: copy[1],
-      canonical: mx ? `${PUBLIC_ORIGIN}${canonicalPath}` : localizedCanonical(canonicalPath, locale),
+      canonical: `${PUBLIC_ORIGIN}${canonicalPath}`,
       locale: mx ? (locale === "en" ? "en" : "es") : locale,
       robots: "noindex,follow",
       alternates: [],
@@ -8380,14 +8420,15 @@ async function routeMetadataBase(url, env, newsFeed) {
   }
   // Crypto glossary (2026-10-13): DefinedTermSet / DefinedTerm + FAQPage + BreadcrumbList from src/data/glossary-seo.js (same
   // helper as seo-injection.js). English fallbacks and non-index locales are noindex,follow; hreflang lists written editions.
-  const glossarySeo = glossaryRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  const glossarySeo = glossaryRouteSeo(canonicalPath, requestedLocale, { urlFor: (path, targetLocale = requestedLocale) => localizedCanonical(path, targetLocale) });
   if (glossarySeo) {
     if (glossarySeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
     return {
       status: 200, title: glossarySeo.title, description: glossarySeo.description,
-      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      canonical: glossarySeo.canonical || localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
       robots: glossarySeo.indexable ? "index,follow" : "noindex,follow", marker: GLOSSARY_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath, glossarySeo.alternatesLocales), schema: glossarySeo.schemas,
+      canonicalDisposition: glossarySeo.canonicalDisposition,
     };
   }
   // Binance October campaigns page (2026-10-12): WebPage + FAQPage + BreadcrumbList from src/data/binance-october-seo.js
@@ -8705,7 +8746,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         const category = updateCategory(archived, requestedLocale);
         const headline = updateHeadline(archived, requestedLocale) || archived.title;
         const canonical = localizedCanonical(updatePath(archived), locale);
-        const indexable = ["listing", "event"].includes(archived.category) && !isUpdateNoindex(archived) && isArchiveIndexable(archived);
+        const indexable = false;
         const items = [...(compact?.items || []).filter((row) => row.id !== archived.id), archived];
         return {
           status: 200,
@@ -8727,7 +8768,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         const headline = updateHeadline(update, requestedLocale) || update.title;
         const venueName = venueDisplayName(update.venue);
         const canonical = localizedCanonical(updatePath(update), locale);
-        const indexable = ["listing", "event"].includes(update.category) && !isUpdateNoindex(update);
+        const indexable = false;
         const title = activityUpdateSeoTitle(update, requestedLocale);
         return {
           status: 200,

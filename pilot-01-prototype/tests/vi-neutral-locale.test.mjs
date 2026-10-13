@@ -23,7 +23,7 @@ import { bitgetAllianceSignupGate, BITGET_ALLIANCE_CODE } from "../src/data/bitg
 import { krakenUsdgSignupGate } from "../src/data/kraken-usdg.js";
 import { bybitStocksSignupGate } from "../src/data/bybit-stocks.js";
 import { binanceOctoberSignupGate } from "../src/data/binance-october.js";
-import { routeMetadata, renderArticleSitemap, renderLiveNewsSitemap } from "../worker/index.js";
+import worker, { routeMetadata, renderArticleSitemap, renderLiveNewsSitemap } from "../worker/index.js";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const repo = path.resolve(root, "..");
@@ -231,7 +231,7 @@ test("served vi pages and VN-market pages carry no /go/ route, invite code, regi
     "/vi/exchanges/okx/app", "/vi/exchanges/binance/app", "/exchanges/okx?market=VN",
     "/vi/activities", "/vi/activities/bitget-alliance", "/vi/activities/bybit-stocks",
     "/vi/rates", "/vi/compare/binance-vs-okx", "/vi/funding-rates", "/vi/funding-rates/matrix", "/vi/liquidations", "/vi/liquidations/heatmap", "/vi/long-short", "/vi/whales", "/vi/coins/bitcoin", "/vi/glossary", "/vi/academy", "/vi/flash", "/vi/telegram",
-    "/vi/news", `/vi/news/${VI_ARTICLE.slug}`, "/vi/topics/bybit-alternatives", "/vi/factbook/okx",
+    "/vi/news", `/vi/news/${VI_ARTICLE.slug}`, "/vi/topics/bybit-alternatives", "/vi/exchanges/okx",
   ]);
   const failures = [];
   for (const { path: p, status, html } of pages) {
@@ -256,6 +256,10 @@ test("served vi pages and VN-market pages carry no /go/ route, invite code, regi
     const meta = [...page.html.matchAll(/<title[^>]*>([^<]*)<\/title>|<meta [^>]*(?:name="description"|property="og:(?:title|description)")[^>]*content="([^"]*)"/g)].map((m) => m[1] || m[2]).join("\n");
     assert.doesNotMatch(meta, /referral|rebate|\b60\s?%|Lên đến|hoàn phí|mã giới thiệu|邀請碼|返傭|реферал|промокод|إحالة/i, `${path}: neutral title and meta: ${meta}`);
   }
+  const factbookRedirect = await worker.fetch(new Request("https://nexualpha.com/vi/factbook/okx", { headers: { accept: "text/html" } }), { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } });
+  assert.equal(factbookRedirect.status, 301, "/vi/factbook/okx redirects before neutral-page assertions");
+  assert.equal(factbookRedirect.headers.get("location"), "https://nexualpha.com/vi/exchanges/okx#sources");
+
   const article = pages.find((row) => row.path === `/vi/news/${VI_ARTICLE.slug}`);
   if (article?.status === 200) {
     assert.match(article.html, /Funding chuyển âm trước dữ liệu CPI/, "the article's facts stay");

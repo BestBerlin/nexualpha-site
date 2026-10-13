@@ -6,6 +6,7 @@ import { BYBIT_STOCKS_PATH, BYBIT_STOCKS_VENUE } from "./bybit-stocks.js";
 import { KRAKEN_USDG_PATH, KRAKEN_USDG_VENUE } from "./kraken-usdg.js";
 import { localizedHref } from "./locale-routing.js";
 import { licenseRecords } from "./licenses.js";
+import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "./partner-page-links.js";
 
 const LABELS = {
   en: { fees: "Fee tools", app: "App guide", licenses: "License records", campaigns: "Campaign research" },
@@ -34,13 +35,15 @@ const CAMPAIGN_PATHS = Object.freeze({
   [KRAKEN_USDG_VENUE]: KRAKEN_USDG_PATH,
 });
 
-export function exchangeHubToolLinks(slug, locale = "en") {
+export function exchangeHubToolLinks(slug, locale = "en", { market } = {}) {
   const labels = LABELS[locale] || (String(locale || "").startsWith("zh") ? LABELS["zh-Hans"] : LABELS.en);
   const links = [
     { key: "fees", label: labels.fees, href: localizedHref("/rates", { locale }) },
   ];
   if (APP_DOWNLOAD_SLUGS.includes(slug)) links.push({ key: "app", label: labels.app, href: localizedHref(appDownloadPath(slug), { locale }) });
   if (licenseRecords.some((record) => record.exchange === slug)) links.push({ key: "licenses", label: labels.licenses, href: localizedHref("/licenses", { locale }) });
-  if (CAMPAIGN_PATHS[slug] && isPartnerPromotableIn(slug, { locale })) links.push({ key: "campaigns", label: labels.campaigns, href: localizedHref(CAMPAIGN_PATHS[slug], { locale }) });
+  if (CAMPAIGN_PATHS[slug] && isPartnerPromotableIn(slug, { locale, market })) links.push({ key: "campaigns", label: labels.campaigns, href: localizedHref(CAMPAIGN_PATHS[slug], { locale }) });
+  const partnerLinks = partnerExchangePageLinks(locale, { includeCodes: false, market }).filter((link) => link.slug !== slug);
+  if (partnerLinks.length) links.push({ key: "partner-links", label: partnerExchangeLinkGroupLabel(locale, { market }), href: localizedHref("/exchanges", { locale }) }, ...partnerLinks);
   return links;
 }

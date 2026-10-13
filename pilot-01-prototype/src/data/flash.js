@@ -15,9 +15,9 @@ export const FLASH_FEED_URL = "/api/flash.json";
 export const FLASH_FEED_LEGACY_URL = "/content/flash.json";
 export const FLASH_SITEMAP_PATH = "/sitemap-flash.xml";
 export const FLASH_TYPES = Object.freeze(["listing", "delisting", "incident", "campaign", "liquidation-spike", "sharp-move", "funding-extreme", "news"]);
-// Items older than this stay reachable (200) but are served noindex,follow.
-export const FLASH_INDEX_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
-export const FLASH_SITEMAP_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+// Flash detail pages are thin live-update mirrors: keep them reachable for readers, but keep them out of search.
+export const FLASH_INDEX_WINDOW_MS = 0;
+export const FLASH_SITEMAP_WINDOW_MS = 0;
 export const FLASH_REFRESH_MS = 60 * 1000;
 export const FLASH_PAGE_SIZE = 40;
 
