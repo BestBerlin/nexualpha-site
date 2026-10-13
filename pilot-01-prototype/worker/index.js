@@ -2699,6 +2699,9 @@ const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
 const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": ACADEMY_PATH });
+const HOME_SHARED_STYLE_PREFIXES = Object.freeze(["index-", "core-b-", "shared-decision-rail-", "shared-decision-return-"]);
+// The build rejoins the ordered v6 segments into full core-c (inner routes) and
+// shared-only page-home-v6. The decorative inner-motion rail skips home too.
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
 const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-"]);
 // The exchange directory renders the "compare any two" picker in SSR. Its stylesheet used to arrive with its chunk at
@@ -2713,8 +2716,8 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACTIVITY_UPDATE_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
-  [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
-  [ARTICLE_ROUTE_MARKER]: ["route-news-"],
+  [NEWS_ROUTE_MARKER]: ["route-news-", "page-news-", "route-activity-"],
+  [ARTICLE_ROUTE_MARKER]: ["route-news-", "page-news-"],
   [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
@@ -2736,7 +2739,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
 const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/methodology": ["route-methodology-"],
   "/partners": ["route-partners-"],
-  "/rates": ["page-rates-", "route-rates-", "route-activity-"],
+  "/rates": ["page-rates-", "page-profile-signature-", "route-rates-", "route-activity-"],
   "/onchain": ["route-onchain-"],
   "/telegram": ["page-telegram-", "route-telegram-"],
   "/embed/calculator": ["route-embed-", "route-international-"],
@@ -8656,6 +8659,11 @@ function optimizeRouteResourceHints(html, metadata, url) {
   const hasDecisionState = Boolean(url?.searchParams?.get("account_stage") || url?.searchParams?.get("funding"));
   const isClientRenderedNews = !hasPrerenderState
     && [NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER].includes(metadata?.marker);
+  // Fallback and eager embed shells retain the full cascade; never append the
+  // shared-only home v6 asset to it, which would also reorder shared overrides.
+  if (!hasPrerenderState || url?.pathname === "/embed/calculator") {
+    html = html.replace(/\s*<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi, (tag) => shouldKeepStylesheet(tag, null) ? tag : "");
+  }
   if (metadata?.status !== 200) return html;
   // Embedded calculators must load immediately to restore saved query inputs.
   // Protect their already-visible SSR controls without delaying the module.
@@ -8691,10 +8699,10 @@ function routeStylePrefixesForPath(url, metadata) {
   const publicRoute = parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams());
   const pathname = normalizePathname(publicRoute.contentPathname || url?.pathname || "/");
   if (/^\/(mx|tw|hk)\/(?:comparar|conta)$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
-  if (/^\/(mx|tw|hk)\/costos$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-rates-", "route-rates-", "route-activity-"];
+  if (/^\/(mx|tw|hk)\/costos$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-rates-", "page-profile-signature-", "route-rates-", "route-activity-"];
   if (brazilPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-br-", "route-international-"];
   if (REGIONAL_ROUTE_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-international-"];
-  if (pathname === "/") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
+  if (pathname === "/") return homeRouteStylePrefixes();
   if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
   if (pathname === "/compare") return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES, "shared-compare-picker-"];
   if (parseAppDownloadPath(pathname)?.valid) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-apps-"];
@@ -8718,9 +8726,9 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.
-  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "route-v3-pages-strip-"];
-  if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
-  if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
+  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-", "route-v3-pages-strip-"];
+  if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-"];
+  if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) || isBrazilDeadlinePath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
@@ -8738,7 +8746,7 @@ function routeStylePrefixesForPath(url, metadata) {
 }
 
 // Home critical CSS (mobile-perf lane 2026-10-11, scorecard T4). scripts/build-critical-css.mjs writes
-// /critical-css.json: the rules of the home stylesheets that can match the prerendered home markup (15 locales), in
+// /critical-css.json: the rules of the home stylesheets that can match the prerendered shell and hero (17 locales), in
 // cascade order, plus the exact stylesheet list they were extracted from. The home HTML then carries that CSS inline
 // and loads the full stylesheets without blocking the first paint, in their original order; a small script switches
 // them on together once all have arrived (one style recalculation instead of one per file). When the linked list does
@@ -8747,7 +8755,7 @@ const CRITICAL_CSS_PATH = "/critical-css.json";
 const criticalCssPayloads = new WeakMap();
 
 export function homeRouteStylePrefixes() {
-  return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
+  return [...HOME_SHARED_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
 }
 
 async function loadCriticalCss(env, requestUrl) {
@@ -8796,7 +8804,6 @@ export function inlineCriticalStylesheets(html, critical) {
 }
 
 function shouldKeepStylesheet(tag, allowedPrefixes) {
-  if (!allowedPrefixes) return true;
   const match = tag.match(/\bhref=["']([^"']+)["']/i);
   if (!match) return true;
   const pathname = (() => {
@@ -8805,6 +8812,8 @@ function shouldKeepStylesheet(tag, allowedPrefixes) {
   })();
   const filename = pathname.split("/").pop() || "";
   if (!pathname.startsWith("/assets/") || !filename.endsWith(".css")) return true;
+  // Unknown/fallback routes retain the full cascade without a second v6 copy.
+  if (!allowedPrefixes) return !filename.startsWith("page-home-v6-");
   return allowedPrefixes.some((prefix) => filename.startsWith(prefix));
 }
 

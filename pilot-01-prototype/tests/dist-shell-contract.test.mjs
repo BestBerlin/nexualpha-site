@@ -80,7 +80,7 @@ test("dist CSS keeps the shell and key v6 component selectors, linked in cascade
   // The former single entry stylesheet is a sequence: [*-early] index [*-mid1] core-b [*-mid2] core-c [*-late].
   // Every route links index + core-*; the worker adds the page-* chunks the route uses. Order = cascade order.
   const slot = (f) => /^index-/.test(f) ? 1 : /-early-/.test(f) ? 0 : /-mid1-/.test(f) ? 2 : /^core-b-/.test(f) ? 3
-    : /-mid2-/.test(f) ? 4 : /^core-c-/.test(f) ? 5 : /-late-/.test(f) ? 6 : -1;
+    : /-mid2-/.test(f) ? 4 : /^(?:core-c-|page-home-v6-)/.test(f) ? 5 : /-late-/.test(f) ? 6 : -1;
   const ordered = linked.filter((f) => slot(f) >= 0);
   assert.equal(ordered.filter((f) => /^index-/.test(f)).length, 1, `one entry stylesheet linked, got ${ordered.join(",")}`);
   for (const name of ["core-b", "core-c"]) assert.ok(ordered.some((f) => f.startsWith(`${name}-`)), `${name} chunk linked`);
