@@ -134,6 +134,7 @@ test("JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson", a
   assert.deepEqual(video.thumbnailUrl, ["https://nexualpha.com/media/academy/s1/en/E05-landscape.jpg", "https://nexualpha.com/media/academy/s1/en/E05-portrait.jpg"]);
   assert.equal(video.uploadDate, "2026-10-12");
   assert.equal(video.duration, "PT2M17S");
+  assert.equal(video.inLanguage, "en");
   assert.ok(video.transcript.length > 400, "transcript text");
   const resource = lesson.find((item) => item["@type"] === "LearningResource");
   assert.equal(resource.position, 5);
@@ -142,7 +143,8 @@ test("JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson", a
   // The client head helper agrees with the Worker.
   const seo = computeRouteSeo({ url: `/zh-hans/academy/${E05.slug}` });
   assert.equal(seo.status, 200);
-  assert.ok(seo.schemas.some((item) => item["@type"] === "VideoObject"));
+  assert.equal(seo.schemas.find((item) => item["@type"] === "VideoObject").inLanguage, "zh-Hans");
+  assert.equal(seo.schemas.find((item) => item["@type"] === "LearningResource").inLanguage, "zh-Hans");
 });
 
 test("locales without a localized lesson are noindex; unknown lessons are 404", async () => {

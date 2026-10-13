@@ -46,7 +46,8 @@ test("radar metadata is canonical, indexable and schema stays visible-page truth
       assert.equal(metadata.radarPayload.kind, kind, href);
       assert.equal(metadata.radarPayload.status, "unavailable", href);
       assert.deepEqual(schemaTypes(metadata.schema), ["BreadcrumbList", "WebPage"], href);
-      assert.deepEqual(schemaTypes(seo.schemas), ["BreadcrumbList", "WebPage"], href);
+      // Navigation payload adds only the site-wide Organization/WebSite entities (completePageSchemas), no page facts.
+      assert.deepEqual(schemaTypes(seo.schemas), ["BreadcrumbList", "WebPage", "Organization", "WebSite"], href);
       assert.equal(routeSeoPayload(metadata, new URL(`${ORIGIN}${href}`)).schema["@graph"].some((entry) => entry["@type"] === "FAQPage"), false, href);
     }
   }
