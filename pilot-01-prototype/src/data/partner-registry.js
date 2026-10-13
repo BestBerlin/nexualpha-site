@@ -261,10 +261,13 @@ export const partnerRegistry = {
     hasReferral: true,
     inviteCode: CUSTOM_INVITE_CODES.htx,
     registrationUrl: `https://www.htx.com/invite/en-us/1h?invite_code=${CUSTOM_INVITE_CODES.htx}`,
+    // Owner 2026-10-13: HTX mirror domain for regions where htx.com does not open; same invite code.
+    alternateRegistrationUrls: [`https://www.htx.net.in/invite/zh-cn/1h?invite_code=${CUSTOM_INVITE_CODES.htx}`],
+    // Owner 2026-10-13: code nexu888 gives users up to 40% fee rebate on HTX.
     benefit: {
-      en: "20% Exclusive fee rebate & welcome mystery rewards",
-      "zh-Hans": "享 20% 专属手续费减免与新人迎新礼包",
-      "zh-Hant": "享 20% 專屬手續費減免與新人迎新禮包",
+      en: "Up to 40% fee rebate & welcome rewards",
+      "zh-Hans": "最高返还 40% 手续费，另享新人迎新礼包",
+      "zh-Hant": "最高返還 40% 手續費，另享新人迎新禮包",
     },
     kycRequired: true,
     accountType: {
