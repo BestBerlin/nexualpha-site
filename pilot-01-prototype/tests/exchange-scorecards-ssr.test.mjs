@@ -24,6 +24,7 @@ test('curated and generated pairs have server-rendered dated numeric tables and 
     assert.match(html, /SGT/);
     assert.match(html, /ItemList/);
     assert.doesNotMatch(html, /AggregateRating|ratingValue|radar/i);
+    assert.doesNotMatch(html, /repo slice|Not in repo|app rating/i);
     assert.match(html, /Missing data cannot win/);
   }
 });

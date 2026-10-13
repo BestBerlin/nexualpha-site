@@ -25,6 +25,21 @@ test("commercial disclosures describe existing partner links, not a future launc
   }
 });
 
+test("locale UI labels do not leak wrong-script labels or Chinese punctuation into English", () => {
+  const expectedAccessModel = {
+    en: "Access model",
+    ur: "رسائی ماڈل",
+    uk: "Модель доступу",
+  };
+  for (const [locale, expected] of Object.entries(expectedAccessModel)) {
+    assert.equal(runtimeCopy(locale).accessModel, expected, `${locale}.accessModel`);
+  }
+  for (const value of flattenStrings(runtimeCopy("en"))) {
+    assert.doesNotMatch(value, /[\u0400-\u04ff]/u, `English UI label leaked Cyrillic: ${value}`);
+    assert.doesNotMatch(value, /。/u, `English UI label leaked Chinese full stop: ${value}`);
+  }
+});
+
 const decisionStringKeys = [
   "registrationPrepCta", "registrationPrepHint", "compareVerdictEyebrow",
   "compareVerdictTitle", "compareVerdictLead", "verdictBestFor",

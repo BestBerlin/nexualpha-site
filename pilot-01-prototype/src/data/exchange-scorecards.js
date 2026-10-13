@@ -79,6 +79,10 @@ function row(key, label, values, { direction = "max", rule, reason } = {}) {
   return Object.freeze({ key, label, values: Object.freeze(values), winners: Object.freeze(winners), rule, reason });
 }
 
+function rowHasPublicData(rowData) {
+  return (rowData?.values || []).some((item) => item.value !== null && item.value !== undefined);
+}
+
 function withWinners(rowData, winners) {
   return Object.freeze({ ...rowData, winners: Object.freeze(unique(winners)) });
 }
@@ -125,7 +129,7 @@ function fundingCoverageValue(slug) {
 function promotionValue(slug, context) {
   const selected = resolvePromotions({ ...context, venue: slug, topicTags: [slug] }).filter((item) => item.kind === "campaign" && item.partner === slug);
   const active = selected.length > 0;
-  return value(slug, active, active ? "Current verified promotion" : "No current verified promotion", {
+  return value(slug, active, active ? "Reviewed campaign offer" : "No reviewed campaign offer", {
     asOf: asSgtDay(context.now),
     sources: active ? selected.map((item) => item.officialSource) : ["/activities"],
     meta: { promotions: selected.map((item) => ({ id: item.id, kind: item.kind, link: item.link, lastVerified: item.lastVerified || null })) },
@@ -153,10 +157,6 @@ function productValue(slug, product) {
   });
 }
 
-function nullFactValue(slug, label) {
-  return value(slug, null, "Not in repo data", { asOf: null, sources: [], meta: { fact: label } });
-}
-
 function licenseValue(slug) {
   const records = licenseRecords.filter((record) => record.exchange === slug);
   if (!records.length) return value(slug, null, "No official register entry recorded", { asOf: null, sources: [], meta: { fact: "licenses" } });
@@ -173,19 +173,18 @@ function buildRows(slugs, context) {
     row("top200Coins", "Most top-200 coin availability", slugs.map((slug) => coinCountValue(slug, counts)), { direction: "none", rule: "Counts top-200 coins with spot or perp listing in coins data." }),
     row("fundingCoverage", "Funding-rate matrix participation", slugs.map(fundingCoverageValue), { direction: "none", rule: "Shows participation in the reviewed funding-matrix universe; no live observed pair count is inferred." }),
     row("localFiatRails", `Reviewed ${context.fiat || "local fiat"} funding guide`, slugs.map((slug) => fiatRailValue(slug, context.fiat, context)), { direction: "none", rule: "Only converter funding guides count as local fiat rail evidence." }),
-    row("currentPromotion", "Current verified promotion", slugs.map((slug) => promotionValue(slug, context)), { direction: "none", rule: "Promotion must pass existing time, source, locale, market and partner gates." }),
+    row("currentPromotion", "Reviewed campaign offer", slugs.map((slug) => promotionValue(slug, context)), { direction: "none", rule: "Promotion must pass existing time, source, locale, market and partner gates." }),
     row("futures", "Futures product evidence", slugs.map((slug) => productValue(slug, "perp")), { direction: "none", rule: "Futures evidence comes from checked futures fee facts." }),
     row("licenses", "Official register entries", slugs.map(licenseValue), { direction: "none", rule: "Entries from the official-register directory (/licenses); statuses differ by regulator, so no venue wins this row." }),
-    row("appRatings", "App rating facts", slugs.map((slug) => nullFactValue(slug, "appRatings")), { direction: "max", rule: "No app-rating data file is present in this repo slice, so no venue competes." }),
   ];
-  return Object.freeze(rows.map((item) => {
+  return Object.freeze(rows.filter(rowHasPublicData).map((item) => {
     if (item.key === "spotFees") return withWinners(item, lowestBy(item, context, ["taker", "maker"]));
     if (item.key === "perpFees") return withWinners(item, lowestBy(item, context, ["taker", "maker"]));
     if (item.key === "top200Coins") return withWinners(item, highestBy(item, context));
     if (item.key === "localFiatRails") return withWinners(item, firstAvailable(item, context));
     if (item.key === "currentPromotion") return withWinners(item, firstAvailable(item, context));
     if (item.key === "futures") return withWinners(item, firstAvailable(item, context));
-    if (item.key === "licenses" || item.key === "appRatings") return withWinners(item, []);
+    if (item.key === "licenses") return withWinners(item, []);
     return item;
   }));
 }

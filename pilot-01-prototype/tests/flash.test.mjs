@@ -6,8 +6,9 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
-import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, flashItemIndexLocales, marketFlashItems, parseAnnouncementTitle, renderText, flashItemSeo } from "../src/data/flash-feed.js";
+import { FLASH_INDEX_LOCALES, FLASH_TEMPLATE_LOCALES, buildFlashItems, flashItemHasIndexableFacts, flashItemIndexLocales, marketFlashItems, parseAnnouncementTitle, renderText, flashItemSeo } from "../src/data/flash-feed.js";
 import { flashItemPath, flashSignupVenues, flashUiCopy, parseFlashPath } from "../src/data/flash.js";
+import { localizedHref } from "../src/data/locale-routing.js";
 import { buildSplitSitemaps, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors, h1Texts, decodeEntities } from "./helpers/ssr-hydration-harness.mjs";
 
@@ -90,14 +91,58 @@ test("feed: every source type becomes a flash item with a stable key and path", 
   assert.equal(later.items.find((item) => item.type === "funding-extreme").time, FUND.time);
 });
 
-test("announcement titles: assets, market kind, effective time and prize pool are parsed, never invented", () => {
+test("announcement titles: assets, market kind, effective time and reward semantics are parsed, never invented", () => {
   const bybit = parseAnnouncementTitle("New listing: Listing of YPFUSDT on Bybit TradFi Perpetual on Oct 12, 2026, 11:05AM UTC");
   assert.deepEqual([bybit.assets, bybit.market, bybit.when], [["YPFUSDT"], "perp", "2026-10-12 11:05 UTC"]);
   assert.deepEqual(parseAnnouncementTitle("Binance Will List Hyperliquid (HYPE) with Seed Tag Applied").assets, ["HYPE"]);
   assert.deepEqual(parseAnnouncementTitle("OKX to list Unified Tokenized Stocks xLUNR, xOSCR and more for spot trading").assets, ["xLUNR", "xOSCR"]);
-  assert.deepEqual(parseAnnouncementTitle("KII Alpha Token Splash— Grab a share of the 2,000,000 KII prize pool .").prize, { amount: "2,000,000", asset: "KII" });
+  assert.deepEqual(parseAnnouncementTitle("KII Alpha Token Splash— Grab a share of the 2,000,000 KII prize pool .").reward, { kind: "totalPrizePool", amount: "2,000,000", asset: "KII" });
+  assert.deepEqual(parseAnnouncementTitle("Bybit Odds: Earn Up to 27 USDT").reward, { kind: "perUserMax", amount: "27", asset: "USDT" });
+  assert.deepEqual(parseAnnouncementTitle("Bybit Odds: Earn up to 27 USDT in rewards").reward, { kind: "perUserMax", amount: "27", asset: "USDT" });
+  assert.deepEqual(parseAnnouncementTitle("Claim a 10 USDT voucher after your first trade").reward, { kind: "voucherFaceValue", amount: "10", asset: "USDT" });
+  assert.equal(parseAnnouncementTitle("Bybit posts a 27 USDT campaign notice").reward, null, "an unclear amount stays out of the title");
+  assert.equal(parseAnnouncementTitle("Join Bybit City Edition and share 100,000 USDT").reward, null, "share/win without an explicit prize pool stays neutral");
   assert.deepEqual(parseAnnouncementTitle("Binance Futures Will Launch Multiple TradFi USDⓈ-Margined Perpetual Contracts (2026-10-12)").assets, []);
   assert.equal(renderText({ ...OKX, assets: [], data: { ...OKX.data } }, "en").headline, "OKX posts a new listing notice", "no assets found: a generic, still true headline");
+});
+
+test("campaign flash titles distinguish prize pools, per-user maximums and vouchers; stale amount slugs 301", async () => {
+  const announcements = { items: [
+    { id: "bybit:per-user-27", venue: "bybit", category: "event", title: "Bybit Odds: Earn Up to 27 USDT", url: "https://announcements.bybit.com/en-US/article/bybit-odds-view-to-victory-official-product-launch-with-a-17-000-usdt-total-prize-pool--art2b5b075abe36/", publishedAt: ago(90 * 60 * 1000), sourceType: "official_api" },
+    { id: "bybit:unclear-27", venue: "bybit", category: "event", title: "Bybit publishes a 27 USDT campaign notice", url: "https://announcements.bybit.com/en-US/article/unclear-27", publishedAt: ago(91 * 60 * 1000), sourceType: "official_api" },
+    { id: "gate:voucher-10", venue: "gate-io", category: "event", title: "Claim a 10 USDT voucher after your first trade", url: "https://www.gate.com/article/voucher-10", publishedAt: ago(92 * 60 * 1000), sourceType: "official_api" },
+  ] };
+  const scopedAssets = makeAssets();
+  scopedAssets.fetch = async (request) => {
+    const pathname = new URL(request.url).pathname;
+    if (pathname === "/intel/official-announcements.json") return Response.json(announcements);
+    if (pathname === "/intel/official-announcements-archive.json") return Response.json({ items: [] });
+    return sharedAssets.fetch(request);
+  };
+  const e = { ASSETS: scopedAssets, NEWS_SSR_RENDER: (href, options) => harness.render(href, options) };
+  const scoped = buildFlashItems({ announcements, now: NOW }).items;
+  const perUser = scoped.find((item) => item.id === "a:bybit:per-user-27");
+  const unclear = scoped.find((item) => item.id === "a:bybit:unclear-27");
+  const voucher = scoped.find((item) => item.id === "a:gate:voucher-10");
+  assert.equal(renderText(perUser, "en").headline, "Bybit campaign: up to 27 USDT per user");
+  assert.equal(renderText(unclear, "en").headline, "Bybit posts a new event notice");
+  assert.equal(renderText(voucher, "en").headline, "Gate campaign: 10 USDT voucher");
+  assert.doesNotMatch(renderText(perUser, "en").headline, /prize pool/i);
+  for (const locale of FLASH_TEMPLATE_LOCALES) {
+    const localized = renderText(perUser, locale);
+    assert.equal(localized.localized, true, locale);
+    assert.ok(localized.headline.includes("27") && localized.headline.includes("USDT"), `${locale}: ${localized.headline}`);
+    if (locale !== "en") assert.notEqual(localized.headline, renderText(perUser, "en").headline, `${locale}: localized max reward template`);
+    assert.ok(renderText(voucher, locale).headline.includes("10"), `${locale}: voucher amount`);
+  }
+  assert.equal(flashItemPath(perUser), `/flash/${perUser.key}-bybit-campaign-up-to-27-usdt-per-user`);
+  for (const locale of FLASH_INDEX_LOCALES) {
+    const stalePath = localizedHref(`/flash/${perUser.key}-bybit-campaign-27-usdt-prize-pool`, { locale });
+    const expected = localizedHref(flashItemPath(perUser), { locale });
+    const stale = await fetchPage(stalePath, e);
+    assert.equal(stale.status, 301, locale);
+    assert.equal(stale.headers.get("location"), `https://nexualpha.com${expected}`, locale);
+  }
 });
 
 test("localized templates keep every number and ticker identical to English", () => {
@@ -196,6 +241,56 @@ test("noindex rule: items older than 30 days, news items and fallback-language e
   assert.equal(robots(news), "noindex,follow", "the article itself is the search page");
   assert.match(mainHtml(news), /href="\/news\/why-is-rsr-up-today"/);
   assert.equal(robots(await (await fetchPage(`/uk-ua${flashItemPath(OKX)}`)).text()), "noindex,follow", "Ukrainian edition falls back to English text");
+});
+
+test("indexable campaign rewards appear as concrete facts in the detail body", () => {
+  const row = { id: "bybit:body-facts", venue: "bybit", category: "event", title: "Earn up to 27 USDT", url: "https://announcements.bybit.com/en-US/article/body-facts", publishedAt: ago(H), sourceType: "official_api" };
+  const item = buildFlashItems({ announcements: { items: [row] }, now: NOW }).items.find((entry) => entry.id === "a:bybit:body-facts");
+  assert.ok(item);
+  for (const locale of FLASH_INDEX_LOCALES) assert.match(renderText(item, locale).body, /27 USDT/);
+});
+
+test("thin flash details: announcement-only pages stay noindex until concrete rendered facts or a brief exists", async () => {
+  const announcements = { items: [
+    { id: "bybit:thin", venue: "bybit", category: "event", title: "Bybit publishes a new campaign announcement", url: "https://announcements.bybit.com/en-US/article/thin", publishedAt: ago(H), sourceType: "official_api" },
+    { id: "bybit:rewarded", venue: "bybit", category: "event", title: "Bybit Odds: Earn Up to 27 USDT", url: "https://announcements.bybit.com/en-US/article/rewarded", publishedAt: ago(H + 60 * 1000), sourceType: "official_api" },
+    { id: "bybit:brief-en-only", venue: "bybit", category: "event", title: "Bybit publishes campaign terms", url: "https://announcements.bybit.com/en-US/article/brief-en-only", publishedAt: ago(H + 90 * 1000), sourceType: "official_api" },
+    { id: "binance:thin-listing", venue: "binance", category: "listing", title: "Binance publishes a new listing announcement", url: "https://www.binance.com/en/support/announcement/thin-listing", publishedAt: ago(H + 120 * 1000), sourceType: "official_api" },
+  ] };
+  const briefs = { items: [{ id: "bybit:brief-en-only", updated: ago(H + 90 * 1000),
+    headline: { en: "Bybit campaign terms now available", "zh-Hans": "Bybit 活动条款已发布" },
+    summary: { en: "Eligible users can review the task list and deadline in the official announcement before joining." } }] };
+  const scopedAssets = makeAssets();
+  scopedAssets.fetch = async (request) => {
+    const pathname = new URL(request.url).pathname;
+    if (pathname === "/intel/official-announcements.json") return Response.json(announcements);
+    if (pathname === "/intel/official-announcements-archive.json") return Response.json({ items: [] });
+    if (pathname === "/content/campaign-briefs.json") return Response.json(briefs);
+    return sharedAssets.fetch(request);
+  };
+  const e = { ASSETS: scopedAssets, NEWS_SSR_RENDER: (href, options) => harness.render(href, options) };
+  const scoped = buildFlashItems({ announcements, briefs: briefs.items, now: NOW }).items;
+  const thin = scoped.find((item) => item.id === "a:bybit:thin");
+  const rewarded = scoped.find((item) => item.id === "a:bybit:rewarded");
+  const briefEnOnly = scoped.find((item) => item.id === "a:bybit:brief-en-only");
+  const thinListing = scoped.find((item) => item.id === "a:binance:thin-listing");
+  assert.equal(flashItemHasIndexableFacts(thin, "en"), false);
+  assert.equal(flashItemHasIndexableFacts(rewarded, "zh-Hans"), true);
+  assert.equal(flashItemHasIndexableFacts(briefEnOnly, "en"), true);
+  assert.equal(flashItemHasIndexableFacts(briefEnOnly, "zh-Hans"), false, "English-only summary does not index every localized edition");
+  assert.equal(flashItemHasIndexableFacts(thinListing, "en"), false);
+  assert.match(renderText(thin, "en").body, /^Bybit published this in its official announcements on .+ SGT\.$/);
+  assert.equal(robots(await (await fetchPage(flashItemPath(thin), e)).text()), "noindex,follow");
+  assert.equal(robots(await (await fetchPage(flashItemPath(rewarded), e)).text()), "index,follow");
+  assert.equal(robots(await (await fetchPage(flashItemPath(briefEnOnly), e)).text()), "index,follow");
+  assert.equal(robots(await (await fetchPage(`/zh-hans${flashItemPath(briefEnOnly)}`, e)).text()), "noindex,follow");
+  assert.equal(robots(await (await fetchPage(flashItemPath(thinListing), e)).text()), "noindex,follow");
+  const sitemap = await (await worker.fetch(new Request("https://nexualpha.com/sitemap-flash.xml"), e)).text();
+  assert.doesNotMatch(sitemap, new RegExp(thin.key), "thin campaign details are kept out of the flash sitemap");
+  assert.doesNotMatch(sitemap, new RegExp(thinListing.key), "thin non-campaign details are kept out of the flash sitemap");
+  assert.match(sitemap, new RegExp(rewarded.key), "rewarded campaign details remain eligible for sitemap publication");
+  assert.match(sitemap, new RegExp(`<loc>https://nexualpha\\.com${flashItemPath(briefEnOnly)}</loc>`), "English brief summary can index English");
+  assert.doesNotMatch(sitemap, new RegExp(`/zh-hans${flashItemPath(briefEnOnly)}`), "missing localized summary blocks zh-Hans sitemap entry");
 });
 
 test("sign-up block: the item's exchange via /go/<venue>?src=flash-<type>, geo-gated, none in neutral locales", async () => {

@@ -9,6 +9,7 @@ import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "./referral-seo.js";
 import { serpCtrNewsOverride } from "./serp-ctr-news-overrides.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
+import { venueFallbackFaqSchema } from "./venue-faq-fallback.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlineSlug } from "./brazil-vasp-deadline-slugs.js";
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "./brazil-vasp-deadline.js";
@@ -1836,12 +1837,7 @@ function routeQuestion(question, answer, citations = []) {
   };
 }
 function venueProfileFaq(venue, locale) {
-  const name = venue.name;
-  const official = `https://${venue.officialDomain}`;
-  const copy = locale === "zh-Hans"
-    ? [[`${name} 的最终手续费和账户条件在哪里确认？`, `应在 ${name} 官方账户流程中确认最终手续费、身份验证、地区可用性、产品和账户条件。NexuAlpha 页面只整理公开资料。`], [`NexuAlpha 是否保证 ${name} 的优惠或邀请权益？`, `不保证。优惠、邀请权益和账户条件会随地区、账户、产品和官方当前条款变化，必须以官方页面为准。`]]
-    : [[`Where should ${name} fees and account terms be confirmed?`, `Confirm final fees, identity checks, regional availability, products and account terms in the ${name} official account flow. NexuAlpha only organizes published sources.`], [`Does NexuAlpha guarantee a ${name} benefit or referral entitlement?`, `No. Benefits, referral terms and account conditions can vary by region, account, product and current official terms. Verify them on the official platform.`]];
-  return { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: schemaLocale(locale), mainEntity: copy.map(([question, answer]) => routeQuestion(question, answer, [official])) };
+  return venueFallbackFaqSchema(venue, schemaLocale(locale));
 }
 function ratesRouteSchemas(title, description, canonicalUrl, locale) {
   const feeSources = neutralVenueCatalog

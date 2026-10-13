@@ -30,7 +30,7 @@ export function Roll({ value, prefix = "", fmt = usd, nudge, animateNudge = true
 
 export function Cta({ v, locale, children, className, placement }) {
   if (v.open) {
-    return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}</a>;
+    return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>;
   }
   return <a className={className} href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} data-cta-placement={`${placement}-eligibility`}>{children}</a>;
 }

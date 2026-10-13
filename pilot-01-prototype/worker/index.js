@@ -28,6 +28,7 @@ import { newsReadTimes } from "../src/data/news-read-time.js";
 import { dropEmptyArticleHeadings } from "../src/data/article-empty-headings.js";
 import { socialImageObject, socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
+import { venueFallbackFaqSchema } from "../src/data/venue-faq-fallback.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlinePath } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
@@ -4939,6 +4940,24 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates" || publicRoute.contentPathname === "/";
   const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
     !isPartnerPromotableIn(slug, { locale: publicRoute.locale, market }) && isPartnerPromotableIn(slug, { locale: publicRoute.locale }));
+  // Venue and comparison notices use the same official feed as the homepage.
+  // Supply the identical snapshot to hydration rather than a second empty update source.
+  if ((metadata.marker === VENUE_ROUTE_MARKER || metadata.marker === COMPARE_ROUTE_MARKER)
+    && typeof env?.NEWS_SSR_RENDER === "function") {
+    try {
+      const officialAnnouncements = typeof env?.INTEL_READ === "function"
+        ? await env.INTEL_READ()
+        : await readJsonAsset(env, url, "/intel/official-announcements.json");
+      if (officialAnnouncements) {
+        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
+        if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
+          return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url);
+        }
+      }
+    } catch (error) {
+      console.error(`[NexuAlpha] shared notice SSR failed: ${error?.message || error}`);
+    }
+  }
   if (policyChanges) {
     const rendered = await renderRouteAtRequestTime(html, metadata, url, env, { accept: hasMainWithHeading, label: "country promotion policy", preserveContext: true });
     // Fail closed if the host cannot render country context; do not fall back to an ungated snapshot.
@@ -6105,33 +6124,9 @@ function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null)
       about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
     });
   } else {
-    const official = `https://${venue.officialDomain}`;
-    // Same localized fallback as venueProfileFaq() in src/data/seo-injection.js (client/Worker parity).
-    const zhFallback = locale === "zh-Hans" ? [[`${venue.name} 的最终手续费和账户条件在哪里确认？`, `应在 ${venue.name} 官方账户流程中确认最终手续费、身份验证、地区可用性、产品和账户条件。NexuAlpha 页面只整理公开资料。`], [`NexuAlpha 是否保证 ${venue.name} 的优惠或邀请权益？`, "不保证。优惠、邀请权益和账户条件会随地区、账户、产品和官方当前条款变化，必须以官方页面为准。"]] : null;
     schemas.push({
-      "@type": "FAQPage",
-      inLanguage: locale,
-      mainEntity: zhFallback ? zhFallback.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text, citation: [official] } })) : [
-        {
-          "@type": "Question",
-          name: `Where should ${venue.name} fees and account terms be confirmed?`,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: `Confirm final fees, identity checks, regional availability, products and account terms in the ${venue.name} official account flow. NexuAlpha only organizes published sources.`,
-            citation: [official],
-          },
-        },
-        {
-          "@type": "Question",
-          name: `Does NexuAlpha guarantee a ${venue.name} benefit or referral entitlement?`,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "No. Benefits, referral terms and account conditions can vary by region, account, product and current official terms. Verify them on the official platform.",
-            citation: [official],
-          },
-        },
-      ],
-      about: { "@type": "Organization", name: venue.name, url: official },
+      ...venueFallbackFaqSchema(venue, locale),
+      about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
     });
   }
   return schemas;

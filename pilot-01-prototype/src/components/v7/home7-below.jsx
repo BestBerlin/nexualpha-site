@@ -11,7 +11,8 @@ import { formatPercent } from "../../data/format-percent.js";
 import { formatFee } from "../../data/format-fee.js";
 import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/decision-return.js";
 import { updateHref } from "../../data/activity-update.js";
-import { readIntelFeed } from "../../data/announcement-intel.js";
+import { eventSourceStateLabel, sharedOfficialEventItems, visibleEventSourceItems } from "../../data/event-source.js";
+import { homeSignupLabel } from "../../data/home-cta-label.js";
 import { formatSgt } from "../../data/local-time.js";
 import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -54,9 +55,15 @@ import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } 
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
-const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
-function useIntel(venues) {
-  const [feed, setFeed] = useState(null);
+function intelView(feed, locale) {
+  const sourceItems = sharedOfficialEventItems(feed);
+  if (!Array.isArray(feed?.items)) return null;
+  const view = visibleEventSourceItems(sourceItems, { locale });
+  return { ...view, items: view.items.slice(0, 40), generatedAt: feed.generatedAt };
+}
+
+function useIntel(venues, locale, initialOfficialAnnouncements) {
+  const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale));
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
     let alive = true;
@@ -64,17 +71,17 @@ function useIntel(venues) {
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!alive) return;
-        const items = j ? readIntelFeed(j).filter((i) => INTEL_SHOW.includes(i.category)) : [];
+        const next = intelView(j, locale);
         // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
-        if (items.length) setFeed({ items: items.slice(0, 40), generatedAt: j.generatedAt });
-        else if (first) setFeed(false);
+        if (next) setFeed(next);
+        else if (first) setFeed((current) => current || false);
       })
-      .catch(() => { if (alive && first) setFeed(false); });
+      .catch(() => { if (alive && first) setFeed((current) => current || false); });
     load(true);
     // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
     const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
     return () => { alive = false; clearInterval(timer); };
-  }, [slugs]);
+  }, [slugs, locale]);
   return feed;
 }
 
@@ -113,7 +120,7 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
             <li key={r.slug}>
               <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
               <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {formatFee(r.maker, locale)} / {t.taker} {formatFee(r.taker, locale)}{r.share ? <small>{t.shAfter} {formatFee(r.mk, locale)} / {formatFee(r.tk, locale)}</small> : null}</> : t.unchecked}</div>
-              <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
+              <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{homeSignupLabel(t, r)}</span><span className="h7-sr"> {r.name}</span></Cta>
             </li>
           ))}
         </ul>
@@ -223,21 +230,22 @@ function IntelBlock({ intel, t, locale, market, venues }) {
           );
         })}
       </ul>
+      {!intel.items.length ? <p className="h7-ia" role="status">{eventSourceStateLabel(intel.state, locale)}</p> : null}
       <p className="h7-ia">{t.inAsOf(asOf)}</p>
       {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} market={market} onClose={() => setOpen(null)} />}
     </section>
   );
 }
 
-function IntelSection({ t, locale, market, venues }) {
-  const intel = useIntel(venues);
+function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements }) {
+  const intel = useIntel(venues, locale, initialOfficialAnnouncements);
   const briefFeed = useCampaignBriefs(intel && typeof intel === "object" ? intel : { items: [] });
   return <IntelBlock intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
 }
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
-export function HomeBelowFold({ t, locale, market, movers, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced }) {
+export function HomeBelowFold({ t, locale, market, movers, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
   const rowsRef = useRef(null), rowEls = useRef([]);
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
   return (
@@ -268,14 +276,14 @@ export function HomeBelowFold({ t, locale, market, movers, fundingFeed, vol, set
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${formatPercent(locale, Math.round(r.share * 100))}` : t.pending}</span></p>
               <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /><small className="h7-basis" data-basis={r.share ? "rebate" : "base"}>{r.share ? t.basisNet : t.basisBase}</small></>}</div>
               <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${formatFee(r.maker, locale)} / ${formatFee(r.taker, locale)}` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
-              <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
+              <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{homeSignupLabel(t, r)}</span><span className="h7-sr"> {r.name}</span></Cta>
               <a className="h7-dt" href={vol > 0 ? appendCostScenarioQuery(localizedHref(`/exchanges/${r.slug}`, { locale, product: product === "spot" ? "spot" : "perpetuals" }), { instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: r.share ? "rebate" : "base" }) : localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>
             </div>
           ))}
         </div>
       </section>
       <FundingBoard locale={locale} initialFeed={fundingFeed} />
-      <IntelSection t={t} locale={locale} market={market} venues={priced} />
+      <IntelSection t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       <TelegramBlock locale={locale} />
       <LocalMarketBrief locale={locale} />
     </>

@@ -495,7 +495,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
         </nav>
 
         <div className="nx-ftr__list nx-ftr__list--inline nx-ftr__locales"><ul>
-          {supportedLocales.filter((code) => !["ur", "uk"].includes(code)).map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
+          {supportedLocales.map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
         </ul></div>
 
         {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
