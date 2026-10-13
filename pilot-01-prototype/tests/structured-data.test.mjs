@@ -229,6 +229,7 @@ function assertRequiredByType(graph, label, sample) {
     }
     if (types.includes("VideoObject")) {
       for (const key of ["name", "description", "thumbnailUrl", "uploadDate"]) assert.ok(node[key], `${label}: VideoObject.${key}`);
+      assert.match(String(node.uploadDate), /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?([+-]\d{2}:\d{2}|Z)$/, `${label}: VideoObject.uploadDate needs a datetime with time zone`);
       assert.ok(node.contentUrl || node.embedUrl, `${label}: VideoObject contentUrl or embedUrl`);
     }
     if (types.includes("LearningResource")) {
