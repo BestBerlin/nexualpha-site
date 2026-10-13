@@ -389,6 +389,8 @@
 .h7:not(#_):not(#_) .h7-num{background:linear-gradient(180deg,#FFFFFF 30%,rgb(255 255 255/.68) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none;filter:drop-shadow(0 0 28px rgb(31 224 192/.28))}
 /* figures nudge up on change */
 .h7:not(#_):not(#_) .h7-roll{display:inline-block;animation:h7up .55s cubic-bezier(.34,1.56,.64,1)}
+/* Preserve the final gradient/geometry and critical-CSS keyframes; only user picks play the hero's spring. */
+.h7:not(#_):not(#_) .h7-roll[data-roll-static]{animation:none}
 @keyframes h7up{from{transform:translateY(.32em);opacity:.4}to{transform:none;opacity:1}}
 /* exchange tabs: brand-tinted when picked, clearer as tappable choices */
 .h7:not(#_):not(#_) .h7-lg-tabs button{flex-direction:column;gap:2px;min-height:64px;border:1px solid transparent}
