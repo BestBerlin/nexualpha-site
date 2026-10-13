@@ -90,13 +90,13 @@ test('English and Simplified Chinese hub and country routes SSR visible register
   }
 });
 test('exchange detail includes its register section and source link', async () => {
-  const row = licenseRecords[0];
+  const row = licenseRecords.find(record => !['licensed', 'registered', 'authorised', 'authorized'].includes(String(record.status).toLowerCase()));
   const html = harness.render(`/exchanges/${row.exchange}`);
   assert.match(html, /id="licenses"/);
   assert.ok(html.includes(row.entityName));
   const doc = new (require_jsdom())(html).window.document;
   const appliedRow = [...doc.querySelectorAll('.nx-license-table tbody tr')].find(element => element.textContent.includes(row.entityName));
-  assert.ok(appliedRow, 'applied Türkiye row is rendered');
+  assert.ok(appliedRow, 'non-authorised register row is rendered');
   assert.equal(appliedRow.querySelector('[data-cta-placement="license-directory"]'), null);
 });
 
@@ -128,7 +128,7 @@ test('sitemap includes all search locales and country pages, excludes unsupporte
   assert.ok(entries.some(entry => entry.loc === 'https://nexualpha.com/zh-hans/licenses'));
   assert.ok(entries.every(entry => LICENSE_INDEX_LOCALES.includes(entry.locale)));
   assert.equal(licenseRouteSeo('/licenses/not-a-country', 'en').status, 404);
-  assert.equal(licenseRouteSeo('/licenses', 'ar').indexable, false);
+  assert.equal(licenseRouteSeo('/licenses', 'ru').indexable, false);
 });
 
 test('mobile cards mirror table rows with display names, jurisdiction, entity, type, status and source', async () => {
