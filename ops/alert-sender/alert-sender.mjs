@@ -16,6 +16,7 @@ import { pathToFileURL } from "node:url";
 import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
+import { todayBlock, todayTitle } from "./site-features.mjs";
 
 const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
@@ -38,6 +39,7 @@ export const msgLang = (u) => (LANGS.includes(u?.lang) ? u.lang : "en");
 // Site locale path per message language (en is the unprefixed root) and the news-feed locale key for article editions.
 export const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi", id: "/id-id", es: "/es", pt: "/pt-br" };
 export const ARTICLE_LOCALE = { zh: "zh-Hans", en: "en", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", pt: "pt-BR" };
+const FLASH_LOCALE = { zh: "zh-Hans", pt: "pt-BR" };
 const INTL = { ru: "ru-RU", tr: "tr-TR", vi: "vi-VN", id: "id-ID", es: "es-ES", pt: "pt-BR" };
 const DRY = process.argv.includes("--dry-run");
 const ONCE = process.argv.includes("--once");
@@ -140,7 +142,7 @@ const TEXTS = {
     digestTitle: "<b>🗞 Ежедневная сводка NexuAlpha</b>", digestLiq: (l, s) => `Ликвидации за 24 ч (нижняя оценка): лонги ${l} / шорты ${s}`, movers: "Лидеры движения: ",
     todayOn: "<b>Сегодня на NexuAlpha</b>", campaigns: "<b>Акции бирж</b>", cat: { listing: "Листинг", event: "Акция" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Официальное объявление",
-    signUp: (name) => `Регистрация на ${name}`, signUpListing: (name) => `Регистрация на ${name}`, getAlerts: "🔔 Получать оповещения", fundingRates: "📊 Ставки финансирования", readMore: "Подробнее →",
+    signUp: (name) => name, signUpListing: (name) => name, getAlerts: "🔔 Получать оповещения", fundingRates: "📊 Ставки финансирования", readMore: "Подробнее →",
   },
   tr: {
     head: { "liquidation-spike": "💥 Likidasyon patlaması", "both-sides-liquidated": "⚔️ Long ve short pozisyonlar birlikte likide edildi", "sharp-move": "⚡ Sert hareket" },
@@ -243,14 +245,25 @@ export function articleLink(a, lang) {
   return `• <a href="${SITE}${localized ? LOCALE_PATH[lang] : ""}/news/${a.slug}">${esc(title)}</a>`;
 }
 
-export function digestMessage(mk, partners, articles, campaigns, lang) {
+// Türkiye: no Bitget anywhere (titles, venues). Applies to digest articles and campaigns.
+const noBitget = (lang, ...texts) => !(lang === "tr" && texts.some((s) => /bitget/i.test(String(s || ""))));
+
+// `today` (owner 2026-10-13) = { now, flash, calendar }: adds the "today on NexuAlpha" block (1–2 rotating site
+// features, top Important flash items of the last 24 h, today's calendar events in SGT) and caps articles at 2.
+// Without it the digest is the original layout (fixtures/zh-en-baseline.json).
+export function digestMessage(mk, partners, articles, campaigns, lang, today = null) {
   const t = T(lang);
   const L = mk.liquidations.h24;
   const lines = [t.digestTitle, ""];
+  articles = articles.filter((a) => noBitget(lang, a.title?.[ARTICLE_LOCALE[lang]], a.title?.en, a.slug));
+  campaigns = campaigns.filter((c) => noBitget(lang, c.venue, c.title));
   for (const m of mk.market.majors.slice(0, 4)) lines.push(`${m.symbol.replace("USDT", "")} ${fmt.num(lang, m.price)}  ${fmt.pct(lang, m.change24hPct, true)}`);
   lines.push("", t.digestLiq(fmt.usd(lang, L.longUsd), fmt.usd(lang, L.shortUsd)));
   if (mk.market.movers.length) lines.push(t.movers + mk.market.movers.slice(0, 3).map((m) => `${m.symbol.replace("USDT", "")} ${fmt.pct(lang, m.change24hPct, true)}`).join(" · "));
-  if (articles.length) {
+  if (today) {
+    lines.push("", todayTitle(lang), ...todayBlock({ ...today, lang }));
+    for (const a of articles.slice(0, 2)) lines.push(articleLink(a, lang));
+  } else if (articles.length) {
     lines.push("", t.todayOn);
     for (const a of articles.slice(0, 4)) lines.push(articleLink(a, lang));
   }
@@ -404,8 +417,14 @@ async function cycle(tok) {
     const feed = await getJson(`${SITE}/content/news-feed-summary.json`).catch(() => ({ articles: [] }));
     const articles = (feed.articles || []).filter((a) => Date.now() - Date.parse(a.publishedAt) < 24 * 3600e3).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     const campaigns = (ann.items || []).filter((i) => i.category === "event" && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 48 * 3600e3);
-    for (const [lang, chat] of Object.entries(CHANNELS)) { const d = digestMessage(mk, partners, articles, campaigns, lang); await send(tok, chat, d.text, d.buttons); }
-    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
+    const calendar = await getJson(`${SITE}/intel/calendar.json`).catch((e) => { log(`calendar.json: ${e.message}`); return { events: [] }; });
+    const flashByLang = {};
+    const todayFor = async (lang) => {
+      if (!(lang in flashByLang)) flashByLang[lang] = await getJson(`${SITE}/api/flash.json?important=1&limit=20&locale=${FLASH_LOCALE[lang] || lang}`).catch((e) => { log(`flash ${lang}: ${e.message}`); return { items: [] }; });
+      return { now: Date.now(), flash: flashByLang[lang], calendar };
+    };
+    for (const [lang, chat] of Object.entries(CHANNELS)) { const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await send(tok, chat, d.text, d.buttons); }
+    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await dm(uid, d.text, d.buttons); }
     state.digestDates = [...state.digestDates.slice(-30), today];
     log("daily brief sent");
   }

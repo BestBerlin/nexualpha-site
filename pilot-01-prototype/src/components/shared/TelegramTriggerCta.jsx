@@ -12,7 +12,7 @@ export const telegramTriggerUrl = (locale = "en") => (CARD_LANG[locale] ? `${TEL
 // [line, button]
 const COPY = {
   en: ["Price levels, 1-hour moves, liquidation spikes, funding extremes and new listings, sent to you in Telegram.", "Get alerts on Telegram"],
-  "zh-Hans": ["价格到位、1 小时异动、爆仓激增、资金费率极值和新币上线，在 Telegram 私信提醒你。", "在 Telegram 接收提醒"],
+  "zh-Hans": ["价格到价、1 小时大幅异动、爆仓激增、资金费率极值与新币上线，通过 Telegram 机器人私信实时提醒你。", "订阅 Telegram 实时提醒"],
   "zh-Hant": ["價格到位、1 小時異動、爆倉激增、資金費率極值和新幣上線，在 Telegram 私訊提醒你。", "在 Telegram 接收提醒"],
   es: ["Niveles de precio, movimientos en 1 hora, picos de liquidaciones, financiación extrema y nuevos listados, directo a tu Telegram.", "Recibe alertas en Telegram"],
   "pt-BR": ["Níveis de preço, movimentos em 1 hora, picos de liquidação, financiamento extremo e novas listagens, direto no seu Telegram.", "Receba alertas no Telegram"],
@@ -20,7 +20,7 @@ const COPY = {
   de: ["Kursmarken, 1-Stunden-Bewegungen, Liquidationsspitzen, extremes Funding und neue Listings, direkt in Telegram.", "Alerts auf Telegram erhalten"],
   it: ["Livelli di prezzo, movimenti a 1 ora, picchi di liquidazioni, funding estremi e nuovi listing, direttamente su Telegram.", "Ricevi gli avvisi su Telegram"],
   ja: ["価格到達、1時間の急変、清算の急増、極端な資金調達率、新規上場をTelegramでお知らせします。", "Telegramでアラートを受け取る"],
-  ko: ["가격 도달, 1시간 급변, 청산 급증, 극단적 펀딩비, 신규 상장을 텔레그램으로 알려드립니다.", "텔레그램으로 알림 받기"],
+  ko: ["목표가 도달, 1시간 급등락, 대규모 청산, 이상 펀딩비, 신규 상장 소식을 텔레그램으로 받아 보세요.", "텔레그램 실시간 알림 받기"],
   ru: ["Ценовые уровни, движения за 1 час, всплески ликвидаций, экстремальное финансирование и новые листинги — в Telegram.", "Получать оповещения в Telegram"],
   tr: ["Fiyat seviyeleri, 1 saatlik hareketler, likidasyon sıçramaları, uç fonlama oranları ve yeni listelemeler Telegram'da.", "Uyarıları Telegram'da al"],
   id: ["Level harga, pergerakan 1 jam, lonjakan likuidasi, funding ekstrem, dan listing baru, langsung ke Telegram Anda.", "Dapatkan peringatan di Telegram"],

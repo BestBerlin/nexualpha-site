@@ -9,6 +9,8 @@ import { clickMetadata } from './click-metadata.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 import { BINANCE_OCTOBER_GO_SLUGS, binanceCampaignActive, binanceCampaignUrl } from '../src/data/binance-october.js';
+import { BITGET_ALLIANCE_GO_SLUG, bitgetAllianceActive, bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
+import { KRAKEN_USDG_GO_SLUG, KRAKEN_USDG_OFFICIAL_URL, krakenUsdgActive } from '../src/data/kraken-usdg.js';
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
@@ -51,7 +53,27 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     // open the official binance.com campaign page in the visitor's language; after the campaign end date they fall back
     // to the regular /go/binance route (which records its own click).
     const campaignKey = BINANCE_OCTOBER_GO_SLUGS[slug];
-    if (campaignKey) {
+    let venue = 'binance';
+    if (slug === BITGET_ALLIANCE_GO_SLUG) {
+      // Bitget Alliance (owner 2026-10-13): the official www.bitget.com campaign page with the campaign code (never the
+      // mirror domain), in the visitor's language; after 26 Oct 16:00 UTC+8 it falls back to the regular /go/bitget.
+      if (!bitgetAllianceActive(now())) {
+        return new Response(null, { status: 302, headers: { ...headers, location: `/go/bitget?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}` } });
+      }
+      target = bitgetAllianceUrl(url.searchParams.get('lang') || 'en');
+      campaign = 'alliance';
+      venue = 'bitget';
+    } else if (slug === KRAKEN_USDG_GO_SLUG) {
+      // Kraken 5M USDG Challenge (owner 2026-10-13): step 2 of the funnel, Kraken's official challenge page (it carries no
+      // referral parameter; the sign-up with our code is /go/kraken). Counted so step-2 clicks can be measured; after the
+      // end (11 Dec 07:59:59 SGT) it falls back to our Kraken profile.
+      if (!krakenUsdgActive(now())) {
+        return new Response(null, { status: 302, headers: { ...headers, location: '/exchanges/kraken' } });
+      }
+      target = KRAKEN_USDG_OFFICIAL_URL;
+      campaign = 'usdg-challenge';
+      venue = 'kraken';
+    } else if (campaignKey) {
       if (!binanceCampaignActive(campaignKey, now())) {
         return new Response(null, { status: 302, headers: { ...headers, location: `/go/binance?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}` } });
       }
@@ -69,7 +91,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       const metadata = clickMetadata({ ref: referer, src });
       // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost, ...(campaign ? { venue: 'binance', campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
+      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
     }
     return new Response(null, { status: 302, headers: { ...headers, location: target } });
   };

@@ -23,18 +23,18 @@ export function marketCommand(copy, venueCatalog = []) {
       sources: [common.verifiedSource, compare.checkTerms, common.all],
     },
     marketRail: [
-      { time: "UTC", type: rail.listing, asset: copy.listings.title, venue: common.verifiedSource, value: rail.conditions },
-      { time: "UTC", type: rail.venue, asset: "CEX / DEX", venue: compare.checkTerms, value: copy.ui.marketRegion },
-      { time: "UTC", type: rail.route, asset: markets.tokenized, venue: compare.checkTerms, value: copy.compare.cta },
-      { time: "UTC", type: rail.market, asset: markets.title, venue: compare.source, value: rail.conditions },
+      { time: "SGT", type: rail.listing, asset: copy.listings.title, venue: common.verifiedSource, value: rail.conditions },
+      { time: "SGT", type: rail.venue, asset: "CEX / DEX", venue: compare.checkTerms, value: copy.ui.marketRegion },
+      { time: "SGT", type: rail.route, asset: markets.tokenized, venue: compare.checkTerms, value: copy.compare.cta },
+      { time: "SGT", type: rail.market, asset: markets.title, venue: compare.source, value: rail.conditions },
     ],
     venueCatalog: mergeVenueCatalog(venueCatalog),
     listingFilters: [common.all, "Spot", "Perpetuals", "Launchpool", "Airdrops", copy.listings.expired],
     venueFilters: [common.all, "CEX", "DEX", "Perp DEX", copy.listings.title, markets.title, "API"],
     tradfiRoutes: [
-      { id: "equity", label: markets.equity, ownership: compare.evidence, venue: common.route, hours: "UTC", settlement: compare.checkTerms },
-      { id: "tokenized", label: markets.tokenized, ownership: compare.evidence, venue: compare.checkTerms, hours: "UTC", settlement: compare.checkTerms },
-      { id: "perpetual", label: markets.perpetual, ownership: compare.evidence, venue: "Perp DEX", hours: "UTC", settlement: compare.checkTerms },
+      { id: "equity", label: markets.equity, ownership: compare.evidence, venue: common.route, hours: "SGT", settlement: compare.checkTerms },
+      { id: "tokenized", label: markets.tokenized, ownership: compare.evidence, venue: compare.checkTerms, hours: "SGT", settlement: compare.checkTerms },
+      { id: "perpetual", label: markets.perpetual, ownership: compare.evidence, venue: "Perp DEX", hours: "SGT", settlement: compare.checkTerms },
     ],
   };
 }

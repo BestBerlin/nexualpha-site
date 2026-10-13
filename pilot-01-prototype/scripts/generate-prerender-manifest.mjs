@@ -31,9 +31,13 @@ import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
+import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
+import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 import { bybitStocksSitemapEntries } from "../src/data/bybit-stocks-seo.js";
+import { bitgetAllianceSitemapEntries } from "../src/data/bitget-alliance-seo.js";
+import { krakenUsdgSitemapEntries } from "../src/data/kraken-usdg-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -82,7 +86,7 @@ function pathSlug(pathname, prefix) {
 
 export function routeTemplate(pathname) {
   if (BRAZIL_PAGES.some((page) => page.path === pathname)) return "brazilDecision";
-  if (DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) return "dataTool";
+  if (pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) return "dataTool";
   if (BRAND_PAGE_PATHS.includes(pathname)) return "brandPage";
   if (["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"].includes(pathname)) return "regionalPreview";
   if (["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/hk/comparar", "/hk/costos", "/hk/conta"].includes(pathname)) return pathname.endsWith("/comparar") ? "comparison" : pathname.endsWith("/costos") ? "rateTerminal" : "exchangeDirectory";
@@ -107,7 +111,7 @@ export function routeTemplate(pathname) {
 
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
-  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -161,7 +165,7 @@ export function routeInventory(newsArticles = []) {
     // Search locales need >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); every published
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
-    ...(DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
+    ...(pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
@@ -318,8 +322,15 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // and described in that language), rendered by the Worker at request time; hreflang sets match the page head.
   const coins = buildCoinsSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-coins.xml", lastmod: coins.lastmod });
+  // Spot ETF flows + crypto calendar (2026-10-13): refreshed daily on the host, so no build-time lastmod in the index.
+  const dataTools = buildIntelToolsSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-data.xml" });
   const convert = buildConvertSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-convert.xml", lastmod: convert.lastmod });
+  // Crypto glossary (2026-10-13): /glossary and every term page in the locales it is written in, rendered by the Worker
+  // at request time; hreflang sets match the page head.
+  const glossary = buildGlossarySitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-glossary.xml", lastmod: glossary.lastmod });
   // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
   // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
@@ -332,7 +343,9 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     files,
     academy,
     coins,
+    dataTools,
     convert,
+    glossary,
     apps,
     campaigns,
     publication,
@@ -343,13 +356,17 @@ export function buildAppsSitemap() {
   return buildDownloadOrAcademySitemap(appDownloadSitemapEntries);
 }
 
+export function buildGlossarySitemap() {
+  return buildDownloadOrAcademySitemap(glossarySitemapEntries);
+}
+
 export function buildAcademySitemap() {
   return buildDownloadOrAcademySitemap(academySitemapEntries);
 }
 
-// Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12).
+// Campaign landing pages share one sitemap: Binance October gifts and Bybit Stocks (2026-10-12), Bitget Alliance (2026-10-13).
 export function buildCampaignSitemap() {
-  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options)]);
+  return buildDownloadOrAcademySitemap((options) => [...binanceOctoberSitemapEntries(options), ...bybitStocksSitemapEntries(options), ...bitgetAllianceSitemapEntries(options), ...krakenUsdgSitemapEntries(options)]);
 }
 
 function buildDownloadOrAcademySitemap(sitemapEntries) {
@@ -363,6 +380,18 @@ function buildDownloadOrAcademySitemap(sitemapEntries) {
   }
   const lastmod = entries.map((entry) => entry.lastmod).sort().pop() || null;
   return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length, lastmod };
+}
+
+export function buildIntelToolsSitemap() {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const entries = intelToolsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const entry of entries) {
+    lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
+    for (const alternate of entry.alternates) lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
+    lines.push("    <changefreq>daily</changefreq>", "  </url>");
+  }
+  return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length };
 }
 
 export function buildCoinsSitemap() {
@@ -405,6 +434,7 @@ function latestDate(values, fallback = SITE_CONTENT_REVIEW_DATE) {
 // home and news listings, venue/factbook/topic review dates from data. Shared with scripts/update-news-seo.mjs so the
 // publisher never stamps the publish date on pages that did not change. Returns null when the route has no date.
 export function routeLastmod(route, article, locale = "en", { newsArticles = [] } = {}) {
+  if (route.pathname === "/funding-rates/matrix") return "2026-10-13";
   if (LEGAL_PAGE_PATHS.includes(route.pathname)) return LEGAL_EFFECTIVE_DATE;
   if (article) return article.updatedAt || article.publishedAt || null;
   if (route.pathname === "/" || route.template === "newsList" || route.pathname === "/news") {
@@ -542,7 +572,9 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-convert.xml"), splitSitemaps.convert.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
@@ -556,7 +588,9 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
+  writeFileSync(path.join(clientDir, "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(clientDir, "sitemap-convert.xml"), splitSitemaps.convert.xml);
+  writeFileSync(path.join(clientDir, "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(clientDir, "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);

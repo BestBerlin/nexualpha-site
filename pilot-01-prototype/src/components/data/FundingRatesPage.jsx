@@ -1,5 +1,6 @@
 // /funding-rates — Binance vs OKX perpetual funding for the top symbols, from the market collector feed.
 import React from "react";
+import { localizedHref } from "../../data/locale-routing.js";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { FUNDING_RATES_PATH, dataPageCopy, formatCountdown, formatRatePct, formatUtcTime, readFunding } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
@@ -27,6 +28,8 @@ export function FundingRatesPage({ locale = "en", initialFeed }) {
   return (
     <main className="v6 v2-page v3-page nxd nxd--funding" id="top" dir={textDirection(locale)} data-testid="funding-rates-page">
       <DataPageHero locale={locale} page={page} pathname={FUNDING_RATES_PATH} generatedAt={data?.generatedAt} sourceLine={page.sourceLine} />
+
+      <nav className="v2-shell nxd-legend"><a href={localizedHref("/funding-rates/matrix", { locale })}>{copy.nav.funding} · {locale === "zh-Hans" ? "跨所矩阵与计算器" : locale === "zh-Hant" ? "跨所矩陣與計算器" : "Matrix"}</a></nav>
 
       {!data ? <DataUnavailable locale={locale} /> : (
         <section className="nxd-funding v2-shell" data-rv="1" aria-label={page.h1}>

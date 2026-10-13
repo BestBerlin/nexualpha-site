@@ -10,7 +10,9 @@ import {
   coinSignup, fill, formatChange, formatCompactUsd, formatUsd, isCoinListed, joinList, mainPair, perpVenues, primarySignup, relatedCoins,
   spotFeeText, spotVenues, utcStamp, COINS_GENERATED_AT, COIN_NEUTRAL_LOCALES, coinContentLocale, applyCoinOverlay, coinOverlayFromSnapshot,
 } from "../../data/coins.js";
+import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./coins.css";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
@@ -56,7 +58,7 @@ function CoinMark({ coin, size = 44 }) {
 }
 
 // ---------------------------------------------------------------- live price (after mount only)
-// The server HTML shows the snapshot price with its UTC time. After mount, the page asks one exchange that lists the
+// The server HTML shows the snapshot price with its SGT time. After mount, the page asks one exchange that lists the
 // coin against USDT/USDC for its public ticker (CORS-enabled endpoints, no key) and shows that price with its source.
 const TICKERS = {
   okx: { url: (s, q) => `https://www.okx.com/api/v5/market/ticker?instId=${s}-${q}`, read: (j) => { const r = j?.data?.[0]; const last = Number(r?.last), open = Number(r?.open24h); return { price: last, change24h: open > 0 ? (last / open - 1) * 100 : null }; } },
@@ -130,7 +132,7 @@ function PriceCard({ coin, locale, t, live }) {
       <div><dt>{t.rank}</dt><dd><LTR>#{coin.rank}</LTR></dd></div>
       <div><dt>{t.marketCap}</dt><dd><LTR>{formatCompactUsd(coin.marketCap, locale)}</LTR></dd></div>
     </dl>
-    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: `${utcStamp(live.at)} UTC` })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+    <p className="nxc-price__time">{isLive ? <>{fill(t.live, { time: utcStamp(live.at, locale) })} · <span translate="no">{live.source}</span></> : fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
   </div>;
 }
 
@@ -173,7 +175,9 @@ function VenueTable({ coin, locale, market, t }) {
 
 function HowTo({ coin, locale, market, t }) {
   const main = mainPair(coin);
-  const first = spotVenues(coin)[0] || coin.venues[0];
+  // The example venue is one the reader's market may use (QA 2026-10-13: /ja told Japanese readers to use OKX).
+  const spot = spotVenues(coin, locale);
+  const first = spot.find((venue) => isPartnerPromotableIn(venue.slug, { locale, market })) || spot[0] || coin.venues[0];
   const vars = { coin: coin.name, symbol: coin.symbol, venue: first?.name || "", pair: main?.pair || `${coin.symbol}/USDT` };
   const lessons = [["E04"], ["E05"], ["E06", "E09"], ["E07"], ["E03"]];
   return <ol className="nxc-steps">
@@ -251,6 +255,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay }) {
           <p className="nxc-overline"><CoinMark coin={coin} size={28} /><span translate="no">{coin.symbol}</span><span aria-hidden="true">·</span><span>{t.categories[coin.category] || t.categories.other}</span></p>
           <h1 className="nxc-title">{fill(t.h1, vars)}</h1>
           <p className="nxc-answer" data-coin-answer>{coinAnswer(coin, locale)}</p>
+          <p><a href={hrefFor(`/funding-rates/matrix#symbol-${encodeURIComponent(coin.symbol)}`, locale, market)}>{coin.symbol} · {(DATA_PAGE_NAV[locale] || DATA_PAGE_NAV.en).funding}</a></p>
           {listed ? <div className="nxc-listed">
             <span className="nxc-listed__label">{t.listedOn}</span>
             <ul>{coin.venues.map((venue) => <li key={venue.slug}><a href={`#venue-${venue.slug}`} title={venue.name}><BrandMark slug={venue.slug} compact /><span className="nxc-visually-hidden">{venue.name}</span></a></li>)}</ul>
@@ -325,7 +330,7 @@ export function CoinsHubPage({ locale = "en", market, overlay }) {
       <header className="nxc-hubhead">
         <h1 className="nxc-title">{fill(t.hubTitle, { count: COINS.length })}</h1>
         <p className="nxc-lead">{t.hubLead}</p>
-        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT) })}</p>
+        <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
       </header>
       <div className="nxc-tools" role="search">
         <label className="nxc-search">

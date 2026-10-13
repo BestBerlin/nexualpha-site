@@ -43,6 +43,8 @@ import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE, binanceOctoberPromotable, 
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { BYBIT_STOCKS_PATH, BYBIT_STOCKS_VENUE, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
+import { BITGET_ALLIANCE_PATH, BITGET_ALLIANCE_VENUE, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
+import { KRAKEN_USDG_PATH, KRAKEN_USDG_VENUE, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
 import "./venue-popular-coins.css";
 
@@ -678,6 +680,26 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         const teaser = binanceOctoberTeaser(locale);
         return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
           data-cta-kind="research" data-cta-platform="binance" data-cta-placement="venue-campaign-banner">
+          <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
+          <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
+          <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
+        </LocalLink>;
+      })()}
+      {/* Kraken 5M USDG Challenge page (owner 2026-10-13): banner on the Kraken profile while it runs, where it may be promoted. */}
+      {profile.slug === KRAKEN_USDG_VENUE && krakenUsdgPromotable({ locale, market }) && (() => {
+        const teaser = krakenUsdgTeaser(locale);
+        return <LocalLink locale={locale} href={`${KRAKEN_USDG_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="kraken-usdg"
+          data-cta-kind="research" data-cta-platform="kraken" data-cta-placement="venue-campaign-banner">
+          <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
+          <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
+          <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
+        </LocalLink>;
+      })()}
+      {/* Bitget Alliance campaign page (owner 2026-10-13): banner on the Bitget profile while the campaign runs, where Bitget may be promoted. */}
+      {profile.slug === BITGET_ALLIANCE_VENUE && bitgetAlliancePromotable({ locale, market }) && (() => {
+        const teaser = bitgetAllianceTeaser(locale);
+        return <LocalLink locale={locale} href={`${BITGET_ALLIANCE_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bitget-alliance"
+          data-cta-kind="research" data-cta-platform="bitget" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
           <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>

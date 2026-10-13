@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { localizedHref } from '../../data/locale-routing.js';
 import { heatmapCopy } from '../../data/heatmap-copy.js';
+// Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
+const NEUTRAL_CTA_LOCALES = new Set(['ru', 'ar', 'zh-Hant', 'ur', 'uk']);
 import { heatmapPartnerHref, timelineRows } from '../../data/heatmap-view.js';
 import { formatUsdCompact, formatUsdFull, formatUtc } from '../../data/market-data-pages.js';
 import { HeatmapCanvas } from './HeatmapCanvas.jsx';
@@ -26,13 +28,13 @@ export function LiquidationTimeline({ feed, locale = 'en', showSource = true }) 
    <label>{c.timeline}<select value={windowKey} onChange={e=>setWindow(e.target.value)}><option value="h24">24h · 5 min</option><option value="d7">7d · 1h</option></select></label>
    <label>{c.all}<select value={symbol} onChange={e=>setSymbol(e.target.value)}><option value="ALL">{c.all}</option>{symbols.map(s=><option key={s} value={s}>{s}</option>)}</select></label>
   </div>
-  <p className="nxh-legend">{showSource ? 'Binance USDT-M + OKX · ' : ''}{c.lowerBound} · {c.longs} / {c.shorts} · USD · UTC</p>
+  <p className="nxh-legend">{showSource ? 'Binance USDT-M + OKX · ' : ''}{c.lowerBound} · {c.longs} / {c.shorts} · USD · SGT</p>
   {rows.length ? <>
    <p className="nxh-summary">{c.longs}: <b>{formatUsdFull(longUsd)}</b> ({longUsd+shortUsd ? Math.round(longUsd/(longUsd+shortUsd)*100):0}%) · {c.shorts}: <b>{formatUsdFull(shortUsd)}</b></p>
-   <HeatmapCanvas rows={rows} title={`${c.timeline} · USD / UTC`} longs={c.longs} shorts={c.shorts} />
+   <HeatmapCanvas rows={rows} title={`${c.timeline} · USD / SGT`} longs={c.longs} shorts={c.shorts} />
    {timeline.coverage?.since ? <p className="nxd-muted">{c.updated}: {formatUtc(timeline.coverage.since)} → {formatUtc(feed.generatedAt)}</p>:null}
    <p className="nxd-muted">{c.gaps}: {window.unobservedBuckets} / {rows.length}</p><h3>{c.biggest}</h3>
-   {largest.length ? <div className="nxh-scroll"><table className="nxd-table" dir="ltr"><thead><tr><th>{c.all}</th><th>{c.longs} / {c.shorts}</th><th>USD</th><th>UTC</th></tr></thead><tbody>{largest.map((r,i)=><tr key={`${r.at}-${r.symbol}-${i}`}><th scope="row">{r.symbol} <small>{r.venue}</small></th><td>{r.side==='short'?c.shorts:c.longs}</td><td>{formatUsdFull(r.usd)}</td><td>{formatUtc(r.at)}</td></tr>)}</tbody></table></div>:<p>—</p>}
+   {largest.length ? <div className="nxh-scroll"><table className="nxd-table" dir="ltr"><thead><tr><th>{c.all}</th><th>{c.longs} / {c.shorts}</th><th>USD</th><th>SGT</th></tr></thead><tbody>{largest.map((r,i)=><tr key={`${r.at}-${r.symbol}-${i}`}><th scope="row">{r.symbol} <small>{r.venue}</small></th><td>{r.side==='short'?c.shorts:c.longs}</td><td>{formatUsdFull(r.usd)}</td><td>{formatUtc(r.at)}</td></tr>)}</tbody></table></div>:<p>—</p>}
   </>:<p role="status">{c.unavailable}</p>}
  </section>;
 }
@@ -61,6 +63,6 @@ export function LiquidationHeatmapPage({ locale='en', initialFeed, initialLevels
    {rows.length ? <><p className="nxh-summary">{symbol} · {formatUsdFull(market.price)} · OI {formatUsdCompact(market.openInterestUsd)}</p><p className="nxd-muted">{c.updated}: {formatUtc(levels.generatedAt)} · {(market.exchanges || []).map(r=>r.venue).join(' + ')}</p><HeatmapCanvas rows={rows} kind="levels" marketPrice={market.price} title={`${c.levels} · USD`} longs={c.sideLong} shorts={c.sideShort} /><details><summary>{c.levels}</summary><div className="nxh-scroll"><table className="nxd-table" dir="ltr"><thead><tr><th>{c.levels} · USD</th><th>{c.longs} / {c.shorts}</th><th>USD</th></tr></thead><tbody>{rows.map((r,i)=><tr key={i}><td>{formatUsdFull(r.price)}</td><td>{r.side==='long'?c.sideLong:c.sideShort} · {r.leverage}×</td><td>{formatUsdCompact(r.usd)}</td></tr>)}</tbody></table></div></details></>:<DataUnavailable locale={locale} />}
   </section>
   <nav className="nxh-lessons v2-shell"><a href={localizedHref('/academy/what-leverage-does',{locale})}>{c.leverage}</a><a href={localizedHref('/academy/liquidation-mark-price',{locale})}>{c.liquidation}</a></nav>
-  <div className="v2-shell"><NewsVenueOffer venues={['okx','bybit','binance']} locale={locale} articleSlug="liq-heatmap" placementPrefix="liq-heatmap" variant="inline" linkFor={slug=>heatmapPartnerHref(slug,locale)} /></div>
+  {NEUTRAL_CTA_LOCALES.has(locale) ? null : <div className="v2-shell"><NewsVenueOffer venues={['okx','bybit','binance']} locale={locale} articleSlug="liq-heatmap" placementPrefix="liq-heatmap" variant="inline" linkFor={slug=>heatmapPartnerHref(slug,locale)} /></div>}
  </main>;
 }

@@ -74,7 +74,7 @@ test('symbol filtering keeps recorded sides and leaves absent symbols at zero', 
  assert.equal(timelineRows(w,'ETH')[0].shortUsd,20);
  assert.equal(timelineRows(w)[0].shortUsd,20);
  assert.equal(timelineRows(w,'SOL')[0].longUsd,0);
- assert.equal(timelineRows(w)[0].label,'12:00');
+ assert.equal(timelineRows(w)[0].label,'20:00'); // 12:00 UTC is 20:00 SGT
 });
 
 test('worker routes heatmap SEO, SSR hydration, API, and sitemap through cached feed readers', async () => {

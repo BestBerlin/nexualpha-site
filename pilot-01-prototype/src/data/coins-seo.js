@@ -52,8 +52,11 @@ function clip(text, max = 160) {
 export function coinMeta(coin, locale) {
   const t = coinCopy(locale);
   const vars = { coin: coin.name, symbol: coin.symbol, year: COIN_YEAR };
-  const listedOn = (spotVenues(coin).length ? spotVenues(coin) : perpVenues(coin)).map((venue) => venue.name);
-  const venues = joinList(listedOn.length > 4 ? [...listedOn.slice(0, 3), fill(t.venuesCount, { n: listedOn.length - 3 })] : listedOn, locale);
+  const listedOn = (spotVenues(coin, locale).length ? spotVenues(coin, locale) : perpVenues(coin, locale)).map((venue) => venue.name);
+  // "OKX, Binance, Bybit and 5 more exchanges" (QA 2026-10-13: the old "... and 5 exchanges" read as a total).
+  const venues = listedOn.length > 4
+    ? fill(t.venuesMore || "{list} and {n} more exchanges", { list: listedOn.slice(0, 3).join(t.listJoin), n: listedOn.length - 3 })
+    : joinList(listedOn, locale);
   return {
     title: fitTitle([`${fill(t.seoTitle, vars)}`, `${fill(t.seoTitleShort, vars)} — NexuAlpha`, fill(t.seoTitleShort, vars), `${coin.name} (${coin.symbol})`], locale),
     description: clip(isCoinListed(coin) ? fill(t.seoDescription, { ...vars, venues }) : fill(t.seoDescriptionNone, vars)),

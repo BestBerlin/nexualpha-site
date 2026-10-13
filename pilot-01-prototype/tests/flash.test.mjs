@@ -79,7 +79,7 @@ test("feed: every source type becomes a flash item with a stable key and path", 
   assert.equal(renderText(BITGET, "en").headline, "Bitget campaign: 280,000 USDT prize pool");
   assert.equal(renderText(BRIEF, "zh-Hans").headline, "币安 KGST/USDT 三个月零手续费", "campaign briefs keep their localized text");
   assert.equal(renderText(LIQ, "en").headline, "Liquidations hit $10.27M in 1 hour, 100% shorts");
-  assert.match(renderText(FUND, "en").body, /Binance −0\.1140%, OKX −0\.1354%\. Next settlement at \d\d:\d\d UTC\. Shorts pay longs\./);
+  assert.match(renderText(FUND, "en").body, /Binance −0\.1140%, OKX −0\.1354%\. Next settlement at \d\d:\d\d SGT\. Shorts pay longs\./);
   const path = flashItemPath(OKX);
   assert.match(path, /^\/flash\/[0-9a-z]{10}-okx-lists-ct-usdt-spot$/);
   assert.deepEqual(parseFlashPath(path), { kind: "item", key: OKX.key, segment: path.slice(7) });
@@ -321,7 +321,7 @@ test("incident items: localized headline and body in every template locale, tick
     assert.doesNotMatch(text.headline + text.body, /\{\w+\}|undefined/, locale);
     assert.equal(flashUiCopy(locale).types.incident.length > 0, true, locale);
   }
-  assert.match(renderText(item, "zh-Hans").body, /消息。充值/);
+  assert.match(renderText(item, "zh-Hans").body, /公告。充值/);
   assert.match(renderText(impBy("a:kucoin:pix"), "en").headline, /^KuCoin posts a service notice$/);
 });
 
@@ -363,7 +363,7 @@ test("/flash: red Important marker, 'Important only' chip, opt-in notification a
   assert.ok(html.indexOf("nx-ticker") < html.indexOf("<main"), "the bar sits under the header, above the page");
   const zh = mainHtml(await (await fetchPage("/zh-hans/flash", impEnv())).text());
   assert.match(zh, /只看重要/);
-  assert.match(zh, /start=alerts-zh"[^>]*>在 Telegram 接收提醒/);
+  assert.match(zh, /start=alerts-zh"[^>]*>订阅 Telegram 实时提醒/);
   for (const pattern of FINE_PRINT) assert.doesNotMatch(main, pattern);
 });
 
@@ -401,5 +401,54 @@ test("the browser reads the flash JSON from /api/ (nginx serves /content/ static
     const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), env());
     assert.equal(response.status, 200, path);
     assert.equal((await response.json()).items.length, 3, path);
+  }
+});
+
+
+test("SGT formatter rolls dates over and keeps the clock when adding relative labels", async () => {
+  const { formatSgt, formatReaderTime, readerDayKey } = await import("../src/data/local-time.js");
+  const iso = "2026-10-12T23:42:00Z";
+  assert.equal(formatSgt(iso, "en", "clock"), "07:42 SGT");
+  assert.equal(formatSgt(iso, "en"), "2026-10-13 · 07:42 SGT");
+  assert.equal(readerDayKey(iso), "2026-10-13");
+  assert.equal(formatSgt("2026-10-31T15:59:00Z", "en-GB", "end"), "31 Oct 23:59 SGT");
+  assert.equal(formatSgt("2026-12-31T16:00:00Z"), "2027-01-01 · 00:00 SGT");
+  assert.equal(formatSgt("2026-10-12T23:42:00+02:00", "en", "clock"), "05:42 SGT");
+  assert.equal(formatSgt("invalid"), "");
+  assert.equal(formatSgt(null), "");
+  const fresh = formatReaderTime(iso, "en", Date.parse(iso) + 180000);
+  assert.equal(fresh.label, "07:42 SGT");
+  assert.equal(fresh.relative, "3 min. ago");
+  assert.equal(formatReaderTime(iso, "zh-Hans", Date.parse(iso) + 180000).relative, "3分钟前");
+  assert.equal(formatReaderTime(iso).relative, "");
+  assert.equal(formatReaderTime(iso, "en", Date.parse(iso) + 3600000).relative, "");
+  assert.equal(formatReaderTime(iso, "en", Date.parse(iso) - 60000).relative, "");
+});
+
+test("flash SSR and hydration retain SGT clocks in different host timezones", async () => {
+  const previous = process.env.TZ;
+  try {
+    for (const tz of ["Asia/Shanghai", "America/New_York"]) {
+      process.env.TZ = tz;
+      for (const path of ["/flash", `/zh-hans${flashItemPath(OKX)}`]) {
+        const html = await (await fetchPage(path)).text();
+        assert.match(html, /<time[^>]+title="[^"]*SGT"/);
+        const result = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`, {
+          fixedNow: NOW, timeoutMs: 2000,
+          inspect: (window) => [...window.document.querySelectorAll(".nxf-row__time time, .nxf-article__meta time")].map((el) => ({ iso: el.dateTime, clock: el.querySelector("bdi").textContent, title: el.title })),
+        });
+        assert.deepEqual(hydrationErrors(result.errors), []);
+        assert.ok(result.inspected.length);
+        const { formatSgt } = await import("../src/data/local-time.js");
+        for (const time of result.inspected) {
+          const locale = path.startsWith("/zh-hans") ? "zh-Hans" : "en";
+          assert.equal(time.clock, formatSgt(time.iso, locale, path === "/flash" ? "clock" : "stamp"));
+          assert.equal(time.title, formatSgt(time.iso, locale));
+          assert.ok(html.includes(time.iso), "machine timestamp stays ISO");
+        }
+      }
+    }
+  } finally {
+    if (previous === undefined) delete process.env.TZ; else process.env.TZ = previous;
   }
 });

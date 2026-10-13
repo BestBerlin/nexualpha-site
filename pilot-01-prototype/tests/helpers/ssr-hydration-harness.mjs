@@ -81,6 +81,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialToolArticles: state?.toolArticles,
       initialFlash: state?.flash,
       initialCoins: state?.coins,
+      initialIntelTool: state?.intelTool,
       initialFx: state?.fx,
       initialTicker: state?.ticker,
     })), heroVariant);

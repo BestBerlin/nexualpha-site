@@ -121,6 +121,10 @@
   .nxf-pill { inset-block-start: calc(var(--nx-header-h, 56px) + 104px); }
 }
 
+/* links to the daily data pages (/etf-flows, /calendar), 2026-10-13 */
+.nxf-tools { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.7rem; font-size: 0.92rem; }
+.nxf-tools a { font-weight: 600; text-decoration: none; }
+.nxf-tools a:hover { text-decoration: underline; }
 /* "Get alerts on Telegram" line (TelegramTriggerCta, 2026-10-13): CSS-free component, styled per route. */
 .nxf .nx-tgcta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; margin: 0; padding: 10px 14px; border: 1px solid rgb(255 255 255 / .1); border-radius: 10px; background: rgb(255 255 255 / .025); color: #cbd5e1; font-size: .9rem; line-height: 1.45; }
 .nxf .nx-tgcta__icon { display: inline-flex; flex: none; color: #94a3b8; }
@@ -152,3 +156,13 @@
 .nxf-toggle:focus-visible { outline: 2px solid var(--f-accent); outline-offset: 3px; }
 .nxf-alerts__hint { flex: 1 1 100%; min-inline-size: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; line-height: 20px; block-size: 20px; color: var(--f-ink3); }
 @media (prefers-reduced-motion: reduce) { .nxf-toggle { transition: none; } }
+/* Pinned campaign item (2026-10-13, Bitget Alliance): campaign gold, first entry of the stream. */
+.nxf-feat { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tag brand go" "title title title" "body body body"; gap: 6px 12px; align-items: center; margin-block: 18px 6px; padding: 16px 18px; border: 1px solid rgb(245 197 66 / .42); border-radius: 16px; text-decoration: none; color: inherit; background: radial-gradient(70% 140% at 100% 0%, rgb(245 197 66 / .12), transparent 70%), rgb(255 255 255 / .02); transition: background-color .2s ease; }
+.nxf-feat:hover { background: radial-gradient(70% 140% at 100% 0%, rgb(245 197 66 / .18), transparent 70%), rgb(255 255 255 / .04); }
+.nxf-feat__tag { grid-area: tag; padding: 3px 10px; border-radius: 999px; background: rgb(245 197 66 / .10); color: #ffe27a; font-size: 12px; font-weight: 700; }
+.nxf-feat__brand { grid-area: brand; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.nxf-feat__brand :is(svg, img, .brand-mark) { inline-size: 20px; block-size: 20px; }
+.nxf-feat__title { grid-area: title; font-weight: 700; font-size: 1.08rem; line-height: 1.35; }
+.nxf-feat__body { grid-area: body; color: var(--ink2, #B4BAC2); font-size: .95rem; line-height: 1.5; }
+.nxf-feat__go { grid-area: go; color: #ffe27a; font-size: 13px; font-weight: 600; white-space: nowrap; min-block-size: 44px; display: inline-flex; align-items: center; }
+@media (max-width: 520px) { .nxf-feat { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "tag brand" "title title" "body body" "go go"; } }

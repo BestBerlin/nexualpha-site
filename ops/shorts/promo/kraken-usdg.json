@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "id": "kraken-usdg",
+  "source": "Kraken official terms and conditions for the 5M USDG Futures Challenge (verified 2026-10-13). Facts only; no added claims. Times in SGT.",
+  "qr": "https://nexualpha.com/activities/kraken-usdg-challenge?src=short",
+  "url": "nexualpha.com/activities/kraken-usdg-challenge",
+  "code": "7f97gkqw",
+  "pool_weights": [3, 2],
+  "narration_locale": "en",
+  "lead_in": 0.3,
+  "scenes": [
+    { "id": "pool", "duration": 4.5, "pose": "rest", "expression": "surprised", "antenna": "amber",
+      "narration": "Up to five million USDG, in Kraken's futures challenge." },
+    { "id": "box", "duration": 6.7, "pose": "hold-phone", "expression": "celebrating", "antenna": "amber",
+      "narration": "Hit fifty thousand dollars in futures volume and you get paid. Number one wins up to seven hundred fifty thousand." },
+    { "id": "split", "duration": 3.5, "pose": "point", "expression": "happy", "antenna": "blue",
+      "narration": "Boosts count your volume up to three times." },
+    { "id": "qualify", "duration": 5.0, "pose": "thumbs-up", "expression": "happy", "antenna": "green",
+      "narration": "Sign up on Kraken with our code, register first, then trade." },
+    { "id": "cta", "duration": 10.3, "pose": "wave", "expression": "happy", "antenna": "blue",
+      "narration": "Join with code 7, f, 9, 7, g, k, q, w. Scan the code, or visit nexualpha dot com." }
+  ],
+  "copy": {
+    "en": {
+      "pool_lead": "Kraken futures challenge: prize pool up to", "pool": "5,000,000", "pool_unit": "USDG", "pool_tail": "Grows in 8 tiers from 25,000 USDG as everyone trades",
+      "box_title": "Every qualifying trader gets a share",
+      "box_sub": "Reach 50,000 USD futures volume",
+      "prizes": ["#1 wins up to 750,000 USDG", "Top 50: fixed prizes", "Rank 51+: share the rest equally"],
+      "split_title": "Volume boosts: up to 3x",
+      "pools": ["Gold perps: 3x", "xStocks, forex, oil, US100: 2x"],
+      "split_sub": "Reach 50,000 USD faster",
+      "qualify_title": "3 steps to win",
+      "qualify": ["Create a Kraken account with code 7f97gkqw", "Register for the challenge before you trade", "Trade 50,000 USD in futures"],
+      "cta_sub": "Ends 11 Dec 2026, 07:59 SGT",
+      "cta": "Join on Kraken with code"
+    },
+    "zh-Hans": {
+      "pool_lead": "Kraken 合约交易挑战赛 奖池最高", "pool": "5,000,000", "pool_unit": "USDG", "pool_tail": "奖池分 8 档，从 25,000 USDG 起 随全员交易量上涨",
+      "box_title": "每位达标交易者 都能分奖金",
+      "box_sub": "合约交易量达到 50,000 USD",
+      "prizes": ["第 1 名最高 750,000 USDG", "前 50 名 固定奖金", "第 51 名起 平分剩余奖池"],
+      "split_title": "交易量加速 最高 3 倍",
+      "pools": ["黄金永续合约 3 倍", "xStocks、外汇、原油、US100 2 倍"],
+      "split_sub": "更快冲到 50,000 USD",
+      "qualify_title": "三步参赛",
+      "qualify": ["用邀请码 7f97gkqw 注册 Kraken", "交易前 先报名挑战赛", "合约交易满 50,000 USD"],
+      "cta_sub": "2026 年 12 月 11 日 07:59 (SGT) 截止",
+      "cta": "在 Kraken 注册 填写邀请码"
+    }
+  }
+}

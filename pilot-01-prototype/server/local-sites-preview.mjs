@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { pathToFileURL } from "node:url";
 import { contentTypeForAssetPath, resolveAssetPath, rewriteLocalRedirectLocation } from "./asset-path.mjs";
 import { createNewsSsrRenderer } from "./news-ssr.mjs";
+import { createFundingMatrixReader } from "./funding-matrix.mjs";
 import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
 import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from "./liquidation-levels-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
@@ -16,6 +17,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
 const clientRoot = path.join(distRoot, "client");
 const renderNews = createNewsSsrRenderer(distRoot);
+const fundingMatrix = createFundingMatrixReader({ enabled: process.env.INTEL_REFRESH !== "off" });
 const marketEvents = marketEventsReaderFromEnv(process.env);
 const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => process.stdout.write(`[NexuAlpha] ${m}\n`) });
 const fx = createFxFeed({
@@ -71,6 +73,7 @@ createServer(async (request, response) => {
         : await worker.fetch(workerRequest, {
       ASSETS: assets,
       NEWS_SSR_RENDER: renderNews,
+      FUNDING_MATRIX_READ: fundingMatrix.read,
       MARKET_EVENTS_READ: marketEvents.read,
       LIQUIDATION_LEVELS_READ: liquidationLevels.read,
       FX_SNAPSHOT_READ: fx.read,

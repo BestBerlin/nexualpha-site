@@ -38,18 +38,32 @@ export function schedule(spec) {
   return { scenes, total: frames(t) };
 }
 
+const tick = '<span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+const tickList = items => `<ul class="facts">${items.map(f => `<li class="fact">${tick}<span class="fit fact-text" data-max="2">${esc(f)}</span></li>`).join('')}</ul>`;
+const giftBox = '<svg class="gift" viewBox="0 0 120 120" aria-hidden="true"><g class="gift-lid"><rect x="14" y="34" width="92" height="22" rx="6" fill="#4f7cff"/><rect x="53" y="34" width="14" height="22" fill="#f8bb6a"/><path d="M60 34c-10-16-30-16-28-4 2 9 18 6 28 4zm0 0c10-16 30-16 28-4-2 9-18 6-28 4z" fill="#f8bb6a"/></g><rect x="20" y="56" width="80" height="54" rx="6" fill="#2f5ce0"/><rect x="53" y="56" width="14" height="54" fill="#f8bb6a"/><text x="60" y="94" text-anchor="middle" font-size="26" font-weight="900" fill="#fff" font-family="Inter Promo,Inter,Arial">?</text></svg>';
+
+// Campaign-generic scenes: pool (hook with a counting prize pool), split (where the pool comes from, two pools),
+// (bar lengths from spec.pool_weights, never printed), qualify (title + three ticked steps), box (mystery-box bonus with prize pills). cta takes an optional cta_sub line.
 function sceneContent(scene, copy, spec) {
   switch (scene.id) {
+    case 'pool':
+      return `<p class="fit lead" data-max="2">${esc(copy.pool_lead)}</p><div class="fit count pool-num" data-max="1">${esc(copy.pool)}</div><p class="fit what" data-max="2">${esc(copy.pool_unit)}</p><p class="fit tail" data-max="2">${esc(copy.pool_tail)}</p>`;
+    case 'split':
+      return `<h1 class="fit split-title" data-max="3">${esc(copy.split_title)}</h1><div class="pools">${copy.pools.map((name, i) => `<div class="pool-row"><span class="pool-name">${esc(name)}</span><span class="pool-bar pool-bar-${i}" style="width:${Math.round(100 * (spec.pool_weights?.[i] ?? 1) / Math.max(...(spec.pool_weights ?? [1])))}%"></span></div>`).join('')}</div><p class="fit split-sub" data-max="2">${esc(copy.split_sub)}</p>`;
+    case 'qualify':
+      return `<h1 class="fit qualify-title" data-max="1">${esc(copy.qualify_title)}</h1>${tickList(copy.qualify)}`;
+    case 'box':
+      return `${giftBox}<h1 class="fit box-title" data-max="2">${esc(copy.box_title)}</h1><p class="fit box-sub" data-max="1">${esc(copy.box_sub)}</p><div class="prizes">${copy.prizes.map(p => `<span class="prize">${esc(p)}</span>`).join('')}</div>`;
     case 'hook':
       return `<h1 class="fit hook-title" data-max="3">${esc(copy.hook)}</h1><div class="hook-q" aria-hidden="true">?</div>`;
     case 'product':
       return `<p class="fit lead" data-max="2">${esc(copy.lead)}</p><div class="fit count" data-max="1">${esc(copy.count)}</div><p class="fit what" data-max="2">${esc(copy.what)}</p><p class="fit tail" data-max="1">${esc(copy.tail)}</p><div class="chips">${spec.tickers.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>`;
     case 'facts':
-      return `<ul class="facts">${copy.facts.map((f, i) => `<li class="fact"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="fit fact-text" data-max="2">${esc(f)}</span></li>`).join('')}</ul>`;
+      return tickList(copy.facts);
     case 'shares':
       return `<h1 class="fit real" data-max="2">${esc(copy.real)}</h1><div class="share-card"><div class="share-row"><span class="chip">AAPL</span><span class="bar"></span></div><p class="fit real-sub" data-max="2">${esc(copy.real_sub)}</p></div>`;
     case 'cta':
-      return `<p class="fit cta-line" data-max="2">${esc(copy.cta)}</p><div class="code">${esc(spec.code)}</div><div class="qr-card"><img src="assets/qr.svg" alt=""></div><p class="fit url" data-max="1">${esc(spec.url)}</p>`;
+      return `${copy.cta_sub ? `<p class="fit cta-sub" data-max="2">${esc(copy.cta_sub)}</p>` : ''}<p class="fit cta-line" data-max="2">${esc(copy.cta)}</p><div class="code${String(spec.code).length > 6 ? ' code-long' : ''}">${esc(spec.code)}</div><div class="qr-card"><img src="assets/qr.svg" alt=""></div><p class="fit url" data-max="1">${esc(spec.url)}</p>`;
     default:
       throw new Error(`Unknown scene id: ${scene.id}`);
   }

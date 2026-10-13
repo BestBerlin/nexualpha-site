@@ -39,6 +39,8 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
         {data?.coverageSince ? <p className="nxd-coverage"><span>{page.coverage}</span> <time dateTime={data.coverageSince} dir="ltr">{formatUtc(data.coverageSince)}</time></p> : null}
       </DataPageHero>
 
+      <nav className="v2-shell nxd-legend"><a href={localizedHref("/funding-rates/matrix", { locale })}>{copy.nav.funding} · {locale === "zh-Hans" ? "跨所矩阵与计算器" : locale === "zh-Hant" ? "跨所矩陣與計算器" : "Matrix"}</a></nav>
+
       {!data ? <DataUnavailable locale={locale} /> : (
         <>
           <section className="nxd-stats v2-shell" data-rv="1" aria-label={page.total}>

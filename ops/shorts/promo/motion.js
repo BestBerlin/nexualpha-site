@@ -34,8 +34,29 @@ SCENES.forEach((s,i)=>{
     timeline.from(p+' .count',{scale:.6,duration:.55,ease:'back.out(1.8)',immediateRender:false},at+.2);
     timeline.from(p+' .chip',{scale:0,opacity:0,duration:.35,stagger:.18,ease:'back.out(2)',immediateRender:false},at+1.4);
   }
-  if(s.id==='facts'){
-    const beats=[.3,1.6,3.4];
+  if(s.id==='pool'){
+    // Count the pool up to the exact on-screen figure ("4.8M+", "近 500 万"); the final frame keeps the original text.
+    const el=document.querySelector(p+' .pool-num'), m=el&&el.textContent.match(/^(\D*?)([\d][\d.,]*)(.*)$/);
+    if(m){
+      const raw=m[2], target=Number(raw.replace(/,/g,'')), dec=(raw.split('.')[1]||'').length, commas=raw.includes(',');
+      const fmt=v=>commas?v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}):v.toFixed(dec);
+      const box={v:0};
+      timeline.to(box,{v:target,duration:1.5,ease:'power2.out',immediateRender:false,onUpdate:()=>{el.textContent=box.v>=target?m[0]:m[1]+fmt(box.v)+m[3];}},at+.25);
+    }
+    timeline.from(p+' .count',{scale:.6,duration:.55,ease:'back.out(1.8)',immediateRender:false},at+.2);
+    timeline.to(p+' .count',{scale:1.05,duration:.3,repeat:1,yoyo:true,ease:'sine.inOut'},at+1.85);
+  }
+  if(s.id==='split'){
+    timeline.from(p+' .pool-bar',{scaleX:0,duration:.9,stagger:.35,ease:'power2.out',immediateRender:false},at+.7);
+  }
+  if(s.id==='box'){
+    timeline.from(p+' .gift',{scale:0,rotation:-20,duration:.5,ease:'back.out(2.2)',immediateRender:false},at+.1);
+    timeline.to(p+' .gift',{rotation:6,duration:.07,repeat:7,yoyo:true,ease:'sine.inOut'},at+.8);
+    timeline.to(p+' .gift-lid',{y:-14,duration:.25,repeat:1,yoyo:true,ease:'power2.out'},at+1.45);
+    timeline.from(p+' .prize',{scale:0,opacity:0,duration:.35,stagger:.3,ease:'back.out(2)',immediateRender:false},at+1.6);
+  }
+  if(s.id==='facts'||s.id==='qualify'){
+    const beats=s.id==='facts'?[.3,1.6,3.4]:[.6,1.9,3.4];
     document.querySelectorAll(p+' .fact').forEach((f,j)=>{
       timeline.from(f,{x:-60,opacity:0,duration:.4,ease:'power3.out',immediateRender:false},at+beats[j]);
       timeline.from(f.querySelector('.tick'),{scale:0,duration:.35,ease:'back.out(2.2)',immediateRender:false},at+beats[j]+.2);

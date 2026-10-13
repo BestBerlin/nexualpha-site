@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { countIndependentSources } from './dedupe.mjs';
+import { isMirrorEvidence } from './evidence-quality.mjs';
+import { claimQualityState, normalizeClaimQualityConfig } from './claim-quality.mjs';
 import { trigramSimilarity } from './normalization.mjs';
 import { verifyEvent } from './verification.mjs';
 import { storyFacts } from './facts.mjs';
@@ -83,7 +85,7 @@ function heatDecayWeight(hours) {
 function independentSourceHeat(event, now) {
   const seenOrigins = new Set();
   const seenPublishers = new Set();
-  const rows = (event.evidence ?? []).filter(row => row.is_independent !== false && ((row.origin_key ?? row.originKey) || publisherKey(row)));
+  const rows = (event.evidence ?? []).filter(row => !isMirrorEvidence(row) && row.is_independent !== false && ((row.origin_key ?? row.originKey) || publisherKey(row)));
   let weighted = 0;
   let count = 0;
   let oldestHours = null;
@@ -103,7 +105,9 @@ function independentSourceHeat(event, now) {
     weighted += heatDecayWeight(hours);
   }
   if (count) return { count, weighted, oldestHours, newestHours, decayed: true };
-  const fallback = Number(event.discussion?.independent_sources ?? countIndependentSources(event.evidence ?? []));
+  const fallback = (event.evidence ?? []).some(isMirrorEvidence)
+    ? countIndependentSources(rows)
+    : Number(event.discussion?.independent_sources ?? countIndependentSources(event.evidence ?? []));
   return {
     count: Number.isFinite(fallback) ? fallback : 0,
     weighted: Number.isFinite(fallback) ? fallback : 0,
@@ -128,8 +132,14 @@ function scoreHeat(event, now) {
   const byPlatform = discussion.by_platform ?? discussion.byPlatform ?? {};
   const sourceHeat = independentSourceHeat(event, now);
   const independentSources = sourceHeat.count;
-  const platformsWithIndependentItems = discussion.platforms_with_independent_items ?? Object.values(byPlatform).filter(value => value.independent_posts > 0).length;
-  const growthScores = Object.entries(byPlatform).map(([platform, value]) => {
+  const containsMirrors = (event.evidence ?? []).some(isMirrorEvidence);
+  const independentPlatforms = new Set((event.evidence ?? [])
+    .filter(row => !isMirrorEvidence(row) && row.is_independent !== false)
+    .map(row => row.source_platform ?? row.sourcePlatform).filter(Boolean));
+  const platformsWithIndependentItems = containsMirrors ? independentPlatforms.size : discussion.platforms_with_independent_items ?? Object.values(byPlatform).filter(value => value.independent_posts > 0).length;
+  // Cached platform aggregates cannot attribute growth to individual sources.
+  // Re-score mixed mirror bundles from captured independent origins only.
+  const growthScores = Object.entries(containsMirrors ? {} : byPlatform).map(([platform, value]) => {
     const computedGrowth = Number.isFinite(value.metric_now) && Number.isFinite(value.baseline) && value.baseline > 0
       ? value.metric_now / value.baseline
       : null;
@@ -233,6 +243,7 @@ function listedAssetTokens(event) {
 }
 
 function hasOfficialPrimaryEvidence(event) {
+  if ((event.evidence ?? []).length && event.evidence.every(isMirrorEvidence)) return false;
   if (event.verification_status === 'verified-primary' || event.verificationStatus === 'verified-primary') return true;
   return verifyEvent(event) === 'verified-primary';
 }
@@ -248,7 +259,7 @@ export function notableExchangeListing(event) {
 }
 
 export function credibilityScore(event) {
-  const evidence = event.evidence ?? [];
+  const evidence = (event.evidence ?? []).filter(row => !isMirrorEvidence(row));
   if (evidence.some(row => OFFICIAL_KINDS.has(row.kind))) return 3;
   if (evidence.some(row => row.kind === 'market_data')) return 2;
   const reputableReports = evidence.filter(row => row.kind === 'media_report' && Number(row.source_tier ?? row.sourceTier ?? 2) <= 2);
@@ -259,7 +270,7 @@ export function credibilityScore(event) {
 
 export function officialMajorOverride(event) {
   if (!OFFICIAL_MAJOR_TYPES.has(event.event_type)) return null;
-  const evidence = event.evidence ?? [];
+  const evidence = (event.evidence ?? []).filter(row => !isMirrorEvidence(row));
   const hasTierOneOfficial = evidence.some(row => row.kind === 'official_notice' && Number(row.source_tier ?? row.sourceTier ?? 3) === 1);
   return hasTierOneOfficial ? 'official_major' : null;
 }
@@ -271,6 +282,7 @@ export function configFromNewsroomRows(rows = []) {
     const value = typeof row.value === 'string' ? JSON.parse(row.value) : row.value;
     if (key === 'weights') config.weights = { ...config.weights, ...value };
     if (key === 'thresholds' || key === 'scoring_thresholds') config.thresholds = normalizeThresholdConfig(value, config.thresholds);
+    if (key === 'claim_quality') config.claim_quality = normalizeClaimQualityConfig(value);
   }
   validateWeights(config.weights);
   validateThresholds(config.thresholds);
@@ -313,6 +325,7 @@ export function scoreEvent(event, options = {}) {
   validateWeights(config.weights);
   validateThresholds(config.thresholds);
   const now = new Date(options.now ?? Date.now());
+  const claimQuality = claimQualityState(event, { now, config: options.config?.claim_quality ?? {} });
   const relevance = scoreRelevance(event, options.entitiesById ?? {});
   const heat = scoreHeat(event, now);
   const timeliness = scoreTimeliness(event, now);
@@ -332,7 +345,7 @@ export function scoreEvent(event, options = {}) {
   const credibility = credibilityScore(event);
   const priorityOverride = officialMajorOverride(event);
   const requiredCredibility = (event.format === 'flash' || event.lane_format === 'flash') ? config.thresholds.flashCredibilityMin : config.thresholds.publishCredibilityMin;
-  const eligible = relevance > 0 && editorialScore >= config.thresholds.publish && credibility >= requiredCredibility;
+  const eligible = claimQuality.claimable && relevance > 0 && editorialScore >= config.thresholds.publish && credibility >= requiredCredibility;
   const review = relevance > 0 && !eligible && credibility >= config.thresholds.reviewCredibilityMin && editorialScore >= config.thresholds.review;
   return {
     relevance: factors.relevance,
@@ -347,6 +360,7 @@ export function scoreEvent(event, options = {}) {
     publish_eligible: eligible,
     review_eligible: review,
     explain: {
+      claim_quality: claimQuality,
       heat: heat.explain,
       timeliness: { hours_since_source: timeliness.hours == null ? null : Number(timeliness.hours.toFixed(2)), unknown_source_time: timeliness.unknown === true },
       new_info: newInfo,

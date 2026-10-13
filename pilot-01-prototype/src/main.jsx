@@ -73,12 +73,14 @@ function HydrationBootstrap() {
       initialCompareSelection={prerenderState ? ["binance", "okx"] : undefined}
       initialNewsArticles={prerenderState?.newsArticles}
       initialNewsListing={prerenderState?.newsListing}
+      initialFundingMatrix={prerenderState?.fundingMatrix}
       initialMarketEvents={prerenderState?.marketEvents}
       initialLiquidationLevels={prerenderState?.liquidationLevels}
       initialOfficialAnnouncements={prerenderState?.officialAnnouncements}
       initialToolArticles={prerenderState?.toolArticles}
       initialFlash={prerenderState?.flash}
       initialCoins={prerenderState?.coins}
+      initialIntelTool={prerenderState?.intelTool}
       initialFx={prerenderState?.fx}
       initialTicker={prerenderState?.ticker}
     />

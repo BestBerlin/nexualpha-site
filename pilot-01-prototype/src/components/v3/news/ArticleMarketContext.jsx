@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { DATA_PAGE_NAV, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "../../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../../data/locale-routing.js";
 import { DataRule, utcClock } from "../../shared/DataRule.jsx";
+import { formatSgt } from "../../../data/local-time.js";
 import { formatFunding, formatPrice, formatSignedPct, formatUsdShort, marketContextCopy, marketContextSnapshot } from "./article-market-context.js";
 
 export function ArticleMarketContext({ assets = [], locale = "en" }) {
@@ -23,7 +24,7 @@ export function ArticleMarketContext({ assets = [], locale = "en" }) {
   const nav = DATA_PAGE_NAV[locale] || (String(locale).startsWith("zh") ? DATA_PAGE_NAV["zh-Hans"] : DATA_PAGE_NAV.en);
   return (
     <aside className="news-market-context" aria-labelledby="news-market-context-title" data-market-context={key}>
-      <DataRule label={t.title} labelId="news-market-context-title" stamp={`${utcClock(snapshot.generatedAt)} UTC`} dateTime={snapshot.generatedAt} />
+      <DataRule label={t.title} labelId="news-market-context-title" stamp={formatSgt(snapshot.generatedAt, locale, "clock") || utcClock(snapshot.generatedAt)} dateTime={snapshot.generatedAt} />
       <dl className="news-market-context__rows">
         {snapshot.rows.map((row) => (
           <div className="news-market-context__asset" key={row.symbol}>
