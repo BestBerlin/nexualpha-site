@@ -115,7 +115,7 @@ test("/go/kraken-usdg-challenge 302s to Kraken's challenge page and logs the cli
   const ua = { "user-agent": "Mozilla/5.0" };
   let res = await handle(new Request("https://nexualpha.com/go/kraken-usdg-challenge?src=kraken-usdg-hero", { headers: ua }));
   assert.equal(res.status, 302);
-  assert.equal(res.headers.get("location"), KRAKEN_USDG_OFFICIAL_URL);
+  assert.equal(res.headers.get("location"), `${KRAKEN_USDG_OFFICIAL_URL}?ref=7f97gkqw`, "official challenge page with our Kraken code (owner 2026-10-13)");
   assert.match(res.headers.get("x-robots-tag"), /noindex/);
   res = await handle(new Request("https://nexualpha.com/go/kraken?src=kraken-usdg-hero", { headers: ua }));
   assert.equal(res.headers.get("location"), `https://www.kraken.com/sign-up?ref=${CODE}`);
@@ -132,7 +132,7 @@ test("/go/kraken-usdg-challenge falls back to /exchanges/kraken after 11 Dec 07:
   assert.equal(res.headers.get("location"), "/exchanges/kraken");
   const early = await goSetup("2026-12-10T23:59:58Z");
   const live = await early.handle(new Request("https://nexualpha.com/go/kraken-usdg-challenge", { headers: { "user-agent": "Mozilla/5.0" } }));
-  assert.equal(live.headers.get("location"), KRAKEN_USDG_OFFICIAL_URL);
+  assert.equal(live.headers.get("location"), `${KRAKEN_USDG_OFFICIAL_URL}?ref=7f97gkqw`);
 });
 
 test("page renders at request time with canonical, hreflang, tiers, prizes, worked example, countdown", async () => {

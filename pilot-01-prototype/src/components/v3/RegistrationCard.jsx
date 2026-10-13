@@ -1,4 +1,5 @@
 import { registrationEntryContext } from "./registration-entry-context.js";
+import { BackupSignupLink } from "../shared/BackupSignupLink.jsx";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getPartner } from "../../data/partner-registry";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
@@ -925,6 +926,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
   );
   const primaryAction = (
     primaryRegistrationHref ? (
+      <>
       <a
         href={primaryRegistrationHref}
         target="_blank"
@@ -945,6 +947,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       >
         {compactInviteTask ? (compactSignupLabel || compactInviteTask.action) : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}
       </a>
+      {visiblePartner.hasReferral ? <BackupSignupLink venue={venueSlug} locale={locale} market={context.market} placement="registration-card-primary" /> : null}
+      </>
     ) : officialRouteUrl ? (
       <a
         href={officialRouteUrl}

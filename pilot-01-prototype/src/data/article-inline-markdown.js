@@ -4,6 +4,7 @@
 // and `code`; links may sit inside bold/italic, list items, table cells or parentheses. Before this module only
 // absolute http(s) links were recognised, so every internal "[label](/news/...)" link stayed raw text.
 import { localizedHref, parsePublicRoute } from "./locale-routing.js";
+import { outboundLink } from "./exchange-outbound.js";
 
 /** Site paths an article may link to. A link to any other relative path renders as its plain label. */
 export const ARTICLE_INTERNAL_LINK_PREFIXES = Object.freeze([
@@ -24,7 +25,11 @@ function internalPathAllowed(pathname) {
  */
 export function resolveArticleLinkHref(href, locale = "en") {
   const raw = String(href || "").trim();
-  if (/^https?:\/\/[^\s/]+/i.test(raw)) return { href: raw, external: true };
+  if (/^https?:\/\/[^\s/]+/i.test(raw)) {
+    // Exchange pages carry our code via /go/<venue>-page or render as their plain label (exchange-outbound.js).
+    const link = outboundLink(raw, { locale, src: "article" });
+    return link ? { href: link.href, external: true, ...(link.sponsored ? { sponsored: true } : {}) } : null;
+  }
   if (!raw.startsWith("/") || raw.startsWith("//")) return null;
   let parsed;
   try { parsed = new URL(raw, "https://nexualpha.com"); } catch { return null; }
@@ -66,7 +71,7 @@ export function tokenizeInlineMarkdown(text, { locale = "en", allowLinks = true 
     else if (label !== undefined) {
       const children = tokenizeInlineMarkdown(label, { locale, allowLinks: false });
       const target = resolveArticleLinkHref(href, locale);
-      if (target) tokens.push({ type: "link", href: target.href, external: target.external, children });
+      if (target) tokens.push({ type: "link", href: target.href, external: target.external, ...(target.sponsored ? { sponsored: true } : {}), children });
       else for (const child of children) child.type === "text" ? pushText(child.text) : tokens.push(child);
     } else if (strongA !== undefined || strongB !== undefined) {
       tokens.push({ type: "strong", children: tokenizeInlineMarkdown(strongA ?? strongB, { locale, allowLinks }) });
@@ -96,7 +101,7 @@ export function inlineMarkdownHtml(text, { locale = "en" } = {}) {
     if (token.type === "code") return `<code>${escapeHtml(token.text)}</code>`;
     if (token.type === "strong") return `<strong>${render(token.children)}</strong>`;
     if (token.type === "em") return `<em>${render(token.children)}</em>`;
-    const attrs = token.external ? ' target="_blank" rel="noopener noreferrer"' : "";
+    const attrs = token.external ? (token.sponsored ? ' target="_blank" rel="nofollow sponsored noopener"' : ' target="_blank" rel="noopener noreferrer"') : "";
     return `<a href="${escapeHtml(token.href)}"${attrs}>${render(token.children)}</a>`;
   }).join("");
   return render(tokenizeInlineMarkdown(text, { locale }));

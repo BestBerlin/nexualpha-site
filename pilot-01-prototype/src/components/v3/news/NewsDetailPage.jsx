@@ -463,7 +463,7 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
     ? { label: originalSource.publisher || t.sourcesTitle || fallbackCopy.sourcesTitle, href: originalSource.url, kind: "source" }
     : null;
 
-  return <TopDecisionBox className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
+  return <TopDecisionBox locale={locale} className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
 }
 
 // Related research (2026-10-10): up to six articles from the same category and shared platforms (server-rendered from
@@ -564,7 +564,7 @@ function renderInlineTokens(tokens, keyPrefix, linker) {
     if (token.type === "strong") return [<strong key={key}>{renderInlineTokens(token.children, key, null)}</strong>];
     if (token.type === "em") return [<em key={key}>{renderInlineTokens(token.children, key, null)}</em>];
     return [token.external
-      ? <a key={key} href={token.href} target="_blank" rel="noopener noreferrer">{renderInlineTokens(token.children, key, null)}</a>
+      ? <a key={key} href={token.href} target="_blank" rel={token.sponsored ? "nofollow sponsored noopener" : "noopener noreferrer"}>{renderInlineTokens(token.children, key, null)}</a>
       : <a key={key} href={token.href}>{renderInlineTokens(token.children, key, null)}</a>];
   });
 }

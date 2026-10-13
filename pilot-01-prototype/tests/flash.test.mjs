@@ -154,7 +154,9 @@ test("item pages: H1, NewsArticle schema, related links, 301 for old slugs and u
     const main = mainHtml(html);
     assert.match(main, new RegExp(`href="${prefix}/exchanges/okx"`), "venue profile link");
     assert.match(main, new RegExp(`href="${prefix}/activities/updates/okx/`), "announcement update page link");
-    assert.match(main, /href="https:\/\/www\.okx\.com\/help\/okx-to-list-ct-usdt"[^>]*rel="nofollow noopener noreferrer"|rel="nofollow noopener noreferrer"[^>]*href="https:\/\/www\.okx\.com/, "official source");
+    // Owner 2026-10-13: OKX help pages take no referral parameter, so the official source is a plain label + domain.
+    assert.doesNotMatch(main, /href="https:\/\/www\.okx\.com/, "no uncoded OKX link");
+    assert.match(main, /data-source-plain="okx\.com"/, "official source");
     assert.ok((html.match(/rel="alternate" hreflang=/g) || []).length > 2, "hreflang for indexable editions");
   }
   const liq = mainHtml(await (await fetchPage(flashItemPath(LIQ))).text());

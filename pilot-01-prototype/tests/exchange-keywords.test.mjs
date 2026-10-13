@@ -175,7 +175,9 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
     const bp = pages[`backpack:${locale}`].match(/<section class="v3-kw" data-keyword-section="backpack-stocks"[\s\S]*?<\/section>/)?.[0];
     assert.ok(bp, `backpack/${locale}: stocks section`);
     assert.match(bp, /Solana/);
-    assert.match(bp, /learn\.backpack\.exchange\/articles\/what-is-backpack-securities/);
+    // Owner 2026-10-13: Backpack pages take no sitewide referral parameter, so the source is a plain label + domain.
+    assert.doesNotMatch(bp, /href="https:\/\/learn\.backpack\.exchange/);
+    assert.match(bp, /data-source-plain="learn\.backpack\.exchange"/);
     assert.doesNotMatch(text(bp), NEVER_SEC);
   }
   const h1 = (html) => text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]);

@@ -37,6 +37,12 @@ export const KRAKEN_USDG_LIVE_JSON = "/intel/kraken-usdg.json";
 export const KRAKEN_USDG_OFFICIAL_URL = "https://www.kraken.com/competitions/futures-5m-usdg-challenge-10-26";
 export const KRAKEN_USDG_TERMS_URL = "https://www.kraken.com/legal/futures-5m-usdg-challenge-terms";
 export const KRAKEN_USDG_ANNOUNCEMENT_ID = `kraken:${KRAKEN_USDG_OFFICIAL_URL}`;
+/** Redirect target of /go/kraken-usdg-challenge: the official challenge page with our registry Kraken code (owner
+ * 2026-10-13: every exchange click carries the code; kraken.com honours ref= on any page, the URL returns 200). */
+export const krakenUsdgRegisterUrl = () => {
+  const code = partnerRegistry.kraken?.hasReferral ? partnerRegistry.kraken.inviteCode : null;
+  return code ? `${KRAKEN_USDG_OFFICIAL_URL}?ref=${encodeURIComponent(code)}` : KRAKEN_USDG_OFFICIAL_URL;
+};
 
 export const KRAKEN_USDG_CAMPAIGN = Object.freeze({
   name: "The $5,000,000 USDG Kraken Futures Challenge",
