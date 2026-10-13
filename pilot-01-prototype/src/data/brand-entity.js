@@ -35,7 +35,7 @@ export const BRAND = Object.freeze({
   }),
   // Other public profiles. twitter.com/NexuAlpha was already emitted by the Worker's home Organization block;
   // the owner confirms or removes it here. Add X / GitHub / Medium / LinkedIn URLs to this list only.
-  profiles: Object.freeze(["https://twitter.com/NexuAlpha"]),
+  profiles: Object.freeze(["https://twitter.com/NexuAlpha", "https://www.youtube.com/@NexuAlphaCN", "https://www.youtube.com/@NexuAlphaGlobal"]),
 });
 
 export const BRAND_SAME_AS = Object.freeze([

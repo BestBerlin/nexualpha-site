@@ -142,7 +142,13 @@ test("activity update SEO indexes listings and campaigns, noindexes delistings, 
     assert.equal(robots(html), item.category === "delisting" ? "noindex,follow" : "index,follow", item.id);
     assert.ok(article, `${item.id}: NewsArticle schema is present`);
     assert.equal(article.citation, item.url, `${item.id}: schema cites the original announcement`);
-    assert.equal(eventSchema, undefined, `${item.id}: Event schema is omitted without a brief deadline`);
+    assert.ok(article.image?.length, "announcement article includes the publisher image");
+    if (item === datedEvent) {
+      assert.equal(eventSchema.startDate, item.startAt);
+      assert.equal(eventSchema.endDate, item.endAt);
+      assert.equal(eventSchema.organizer.name, "Bybit");
+      assert.equal(eventSchema.eventAttendanceMode, "https://schema.org/OnlineEventAttendanceMode");
+    } else assert.equal(eventSchema, undefined, `${item.id}: unknown event dates are not inferred`);
   }
 });
 
@@ -154,14 +160,13 @@ test("activity update routes fall back to the cached official-announcements asse
   assert.equal(prerenderState(html).officialAnnouncements.items.some((item) => item.id === listing.id), true);
 });
 
-test("activity update SEO emits Event schema only when the brief provides a deadline", async () => {
+test("activity update SEO keeps the article alternative when only a deadline is known", async () => {
   const env = { ASSETS: assets, INTEL_READ: async () => feed, NEWS_SSR_RENDER: async () => "<main><h1>Update</h1></main>" };
   const html = await (await fetchPage(routePath(event), env)).text();
   const graph = schemaPayload(html)?.["@graph"] || [];
   const eventSchema = graph.find((entry) => entry["@type"] === "Event");
-  assert.ok(eventSchema, "brief deadline carries Event schema");
-  assert.equal(eventSchema.startDate, undefined);
-  assert.equal(eventSchema.endDate, campaignBriefs.items[0].deadline);
+  assert.equal(eventSchema, undefined, "a deadline does not supply a real start date");
+  assert.ok(graph.some((entry) => entry["@type"] === "NewsArticle"));
 });
 
 test("activity update route SEO and hydration state use campaign briefs from ASSETS", async () => {
