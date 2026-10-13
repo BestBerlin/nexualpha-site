@@ -232,6 +232,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
+          if (id.includes("/src/components/beginner/") || id.endsWith("/src/data/beginner.js")) return "route-beginner";
           if (id.includes("/src/components/licenses/") || /\/src\/data\/licenses(?:-copy|-cta)?\.js/.test(id)) return "route-licenses";
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
@@ -244,6 +245,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // partner status it evaluates at load, so neither route chunk imports the other (SSR build: TDZ cycle).
           if (/\/src\/data\/(?:promotions|promotions\.generated|promotion-copy|partner-benefit-status)\.js$/.test(id)) return "data-promotions";
           // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
+          if (id.includes("/src/components/shared/GlossaryTooltip.jsx") || id.includes("/src/components/shared/glossary-tooltip.css") || id.endsWith("/src/data/glossary-tooltip-copy.js")) return "shared-glossary-tooltip";
           if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
           if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";

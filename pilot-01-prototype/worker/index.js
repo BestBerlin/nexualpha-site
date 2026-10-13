@@ -1,4 +1,6 @@
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
+import { beginnerRouteSeo } from "../src/data/beginner-seo.js";
+import { BEGINNER_ROOTS, BEGINNER_LOCALES, parseBeginnerPath } from "../src/data/beginner-routes.js";
 import { partnerProgramCopy } from "../src/data/partner-program-copy.js";
 import { approvedCampaign, campaignRouteSeo, CAMPAIGN_LOCALES } from "../src/data/campaign-autodraft.js";
 import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
@@ -269,7 +271,7 @@ export default {
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     // Crypto calendar iCal export (2026-10-13): every event of the runtime snapshot, optionally one type, in one locale.
     if (url.pathname === CALENDAR_ICS_PATH && ["GET", "HEAD"].includes(request.method)) return handleCalendarIcs(request, env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert|glossary|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert|glossary|beginner|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
@@ -2765,6 +2767,7 @@ const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
+const BEGINNER_ROUTE_MARKER = "NEXUALPHA_BEGINNER_ROUTE_V1";
 const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
@@ -2775,7 +2778,7 @@ const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
 const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": ACADEMY_PATH });
-const HOME_SHARED_STYLE_PREFIXES = Object.freeze(["index-", "core-b-", "shared-decision-rail-", "shared-decision-return-"]);
+const HOME_SHARED_STYLE_PREFIXES = Object.freeze(["index-", "core-b-", "shared-decision-rail-", "shared-decision-return-", "shared-glossary-tooltip-"]);
 // The build rejoins the ordered v6 segments into full core-c (inner routes) and
 // shared-only page-home-v6. The decorative inner-motion rail skips home too.
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
@@ -2797,6 +2800,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
+  [BEGINNER_ROUTE_MARKER]: ["route-beginner-"],
   [LICENSES_ROUTE_MARKER]: ["route-licenses-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
@@ -2857,7 +2861,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -3789,6 +3793,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.funding && typeof route.funding === "object" ? { funding: route.funding } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.liquidationLevels && typeof route.liquidationLevels === "object" ? { liquidationLevels: route.liquidationLevels } : {}),
+    ...(route.beginnerContext && typeof route.beginnerContext === "object" ? { beginnerContext: route.beginnerContext } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.homeContext && typeof route.homeContext === "object" ? { homeContext: route.homeContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
@@ -4900,6 +4905,15 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] radar SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] radar SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    if (metadata.marker === BEGINNER_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml !== "string" || !appHtml.includes('class="nxb ')) throw new Error("Beginner SSR returned no page body");
+        return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { beginnerContext: activityRequestContext(url) }, url);
+      } catch (error) {
+        console.error(`[NexuAlpha] beginner SSR failed for ${pathname} (${publicRoute.locale}); serving the app shell: ${error?.message || error}`);
+      }
     }
     // Crypto glossary (hub + terms): static copy rendered at request time with the component the browser hydrates.
     if (metadata.marker === GLOSSARY_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -6924,6 +6938,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
+  if (parseBeginnerPath(pathname) && parseBeginnerPath(pathname).kind !== "missing") return BEGINNER_LOCALES;
   // Crypto glossary: the hub's written editions; a term page lists the locales its entry is written in.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
@@ -6989,6 +7004,8 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   if (!metadata || metadata.status !== 200) return metadata;
   // T10 canonicalized duplicate: index,follow + cross-article canonical, outside the search-published set by design.
   if (metadata.newsCanonicalTarget) { metadata.alternates = []; return metadata; }
+  // Beginner editions have localized slugs; their helper validates the locale and builds reciprocal URLs.
+  if (metadata.marker === BEGINNER_ROUTE_MARKER) return metadata;
   if (metadata.canonicalDisposition) { metadata.alternates = []; return metadata; }
   // Flash items: indexable editions are the item's localized ones within 30 days (src/data/flash-feed.js).
   if (Array.isArray(metadata.flashIndexLocales)) {
@@ -8366,6 +8383,13 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(academySeo.image ? { image: academySeo.image } : {}),
     };
   }
+  const beginnerSeo = beginnerRouteSeo(canonicalPath, requestedLocale);
+  if (beginnerSeo) {
+    if (beginnerSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return { status: 200, title: beginnerSeo.title, description: beginnerSeo.description,
+      canonical: beginnerSeo.canonical, locale: requestedLocale, robots: "index,follow", marker: BEGINNER_ROUTE_MARKER,
+      alternates: beginnerSeo.alternates, schema: beginnerSeo.schemas };
+  }
   const licensesSeo = licenseRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
   if (licensesSeo) {
     if (licensesSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
@@ -8979,6 +9003,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === KRAKEN_USDG_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-kraken-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
+  if (parseBeginnerPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[BEGINNER_ROUTE_MARKER]];
   if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];

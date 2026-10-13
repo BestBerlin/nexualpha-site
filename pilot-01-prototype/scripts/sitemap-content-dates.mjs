@@ -26,7 +26,7 @@ export function sitemapContentDates(clientRoot) {
     }
   };
   for (const { xml } of split.files.values()) addXml(xml);
-  for (const key of ['academy', 'licenses', 'coins', 'dataTools', 'convert', 'glossary', 'apps', 'campaigns']) addXml(split[key].xml);
+  for (const key of ['beginner', 'academy', 'licenses', 'coins', 'dataTools', 'convert', 'glossary', 'apps', 'campaigns']) addXml(split[key].xml);
   addXml(buildNewsSitemap(articles));
 
   const announcements = read(clientRoot, 'intel/official-announcements.json');

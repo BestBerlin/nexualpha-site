@@ -1,0 +1,398 @@
+{
+  "locale": "es",
+  "slug": {
+    "start": "empezar",
+    "questions": "preguntas",
+    "check": "comprobar"
+  },
+  "labels": {
+    "start": "Empezar",
+    "questions": "Preguntas",
+    "check": "Comprobar",
+    "newDoor": "Soy nuevo",
+    "traderDoor": "Ya hago trading",
+    "shortAnswer": "Respuesta corta",
+    "steps": "Pasos",
+    "mistakes": "Errores comunes",
+    "next": "Siguiente",
+    "why": "Por qué este paso importa",
+    "official": "Entrada oficial",
+    "country": "País",
+    "chooseCountry": "Elige tu país",
+    "noChoice": "Sin recomendación disponible",
+    "backup": "Opción alternativa",
+    "register": "Registrarse",
+    "checkButton": "Comprobar enlace",
+    "urlLabel": "Pega el enlace",
+    "valid": "El dominio coincide con el registro oficial; comprueba también la página",
+    "invalid": "No lo uses: no coincide con un dominio oficial registrado",
+    "unknown": "No podemos confirmarlo con el registro actual",
+    "progress": "Progreso",
+    "complete": "Completado",
+    "reset": "Reiniciar"
+  },
+  "intro": "Una ruta simple para comprar tu primera cripto sin saltar entre veinte pestañas: elige una sola plataforma, abre la entrada oficial, verifica tu cuenta, deposita poco, compra en spot, protege el acceso y aprende a retirar.",
+  "why": [
+    "Esta ruta propone una sola entrada oficial para que puedas dar el primer paso sin saltar entre varias plataformas.",
+    "Antes de abrir cuenta, revisa la entidad local, licencia o condiciones aplicables en la plataforma oficial."
+  ],
+  "steps": [
+    {
+      "title": "Elige una sola plataforma",
+      "answer": "Para empezar, abre Bitget primero y compáralo con OKX y Binance solo si necesitas una alternativa. En Turquía, empieza por OKX y revisa también Binance y Bybit; en cualquier país, la disponibilidad final depende de las condiciones vigentes de cada plataforma.",
+      "actions": [
+        "Abre la página de la plataforma desde una entrada oficial, no desde mensajes privados ni anuncios sueltos.",
+        "Comprueba que tu país aparece permitido o que la plataforma te deja continuar antes de crear expectativas.",
+        "Quédate con una sola cuenta para tu primera compra; cambiar entre apps aumenta los errores."
+      ],
+      "mistakes": [
+        "Elegir la plataforma solo porque alguien promete un bono sin leer las condiciones.",
+        "Abrir varias cuentas a la vez y perder de vista donde quedó el dinero."
+      ]
+    },
+    {
+      "title": "Regístrate con el código",
+      "answer": "El código puede darte una parte de las comisiones de vuelta o una ventaja similar, siempre según las condiciones de la plataforma. No debería costarte más usarlo, pero los beneficios exactos, límites y cambios dependen del venue.",
+      "actions": [
+        "Abre la entrada oficial de registro de la plataforma mostrada para tu país.",
+        "Verifica que el dominio final sea oficial antes de escribir correo, teléfono o contraseña.",
+        "Si la pantalla muestra un código o beneficio, léelo como una condición de la plataforma, no como una promesa garantizada."
+      ],
+      "mistakes": [
+        "Creer que un código siempre se puede añadir después; algunas plataformas no lo permiten.",
+        "Copiar un enlace de Telegram, WhatsApp o X sin comprobar el dominio."
+      ]
+    },
+    {
+      "title": "Completa la verificación de identidad",
+      "answer": "KYC significa que la plataforma confirma quién eres antes de habilitar ciertas funciones. Normalmente te pedirá datos personales y documentos; el estado y cualquier tiempo de revisión deben leerse dentro de la propia plataforma.",
+      "actions": [
+        "Usa tus datos reales y revisa que el nombre coincida con tu documento.",
+        "Sube documentos solo dentro de la app o web oficial de la plataforma.",
+        "Espera a que la plataforma confirme el estado antes de depositar más de lo que puedas permitirte revisar con calma."
+      ],
+      "mistakes": [
+        "Enviar fotos de documentos por chat a alguien que dice ser soporte.",
+        "Usar datos de otra persona y bloquear retiros o revisiones posteriores."
+      ]
+    },
+    {
+      "title": "Deposita de forma sencilla",
+      "answer": "Elige el método disponible en tu país dentro de la plataforma: tarjeta, transferencia bancaria, P2P u otro canal local si aparece oficialmente. Si no hay una ruta clara, empieza con una cantidad pequeña y evita cualquier pago fuera de la pantalla oficial.",
+      "actions": [
+        "Revisa el importe final, comisiones, moneda y vendedor antes de confirmar.",
+        "En P2P, usa solo el chat y el sistema de custodia de la plataforma.",
+        "Guarda el comprobante del pago hasta que el saldo aparezca en la cuenta."
+      ],
+      "mistakes": [
+        "Pagar a una cuenta enviada por un supuesto agente fuera de la plataforma.",
+        "Depositar mucho dinero antes de entender límites, comisiones y retiros."
+      ]
+    },
+    {
+      "title": "Haz tu primera compra spot",
+      "answer": "Spot significa comprar la moneda real dentro de la plataforma, sin apalancamiento. Para una primera compra, BTC o USDT suelen ser más fáciles de entender que tokens pequeños o futuros.",
+      "actions": [
+        "Entra en el mercado spot y evita pestañas llamadas futuros, margen o perpetual.",
+        "Compra una cantidad pequeña para aprender como se ve la operación completada.",
+        "Revisa saldo, historial y comisión después de la compra."
+      ],
+      "mistakes": [
+        "Abrir futuros por accidente y exponerse a liquidación.",
+        "Usar una orden grande de mercado en una moneda con poca liquidez."
+      ]
+    },
+    {
+      "title": "Protege la cuenta",
+      "answer": "Antes de meter más dinero, activa seguridad básica: autenticador 2FA, contraseña única, código anti-phishing y, si la plataforma lo ofrece, lista blanca de retiros. La seguridad reduce el riesgo de que un enlace falso o una cuenta robada termine en una retirada no autorizada.",
+      "actions": [
+        "Activa 2FA con una app autenticadora y guarda los códigos de respaldo en un lugar seguro.",
+        "Configura el código anti-phishing para reconocer correos oficiales.",
+        "Añade lista blanca de direcciones solo cuando entiendas a qué red y cartera retiras."
+      ],
+      "mistakes": [
+        "Usar la misma contraseña que en el correo.",
+        "Dar códigos 2FA a alguien que dice ser soporte."
+      ]
+    },
+    {
+      "title": "Aprende a retirar",
+      "answer": "Retirar a tu banco o a otra cuenta depende de los canales disponibles en tu país y de las reglas de la plataforma. Haz una prueba pequeña, confirma red, moneda, cuenta bancaria o contraparte y no des por terminado el proceso hasta que el dinero llegue.",
+      "actions": [
+        "Si retiras cripto, confirma que la red de salida y la red de entrada sean la misma.",
+        "Si vendes por fiat o P2P, espera la confirmación completa antes de liberar fondos.",
+        "Guarda historial, recibos y referencias por si necesitas soporte o registros fiscales."
+      ],
+      "mistakes": [
+        "Enviar USDT por una red que la otra plataforma o cartera no admite.",
+        "Liberar una operación P2P antes de ver el dinero en tu propia cuenta."
+      ]
+    }
+  ],
+  "scams": [
+    {
+      "title": "Soporte falso por mensajes privados",
+      "answer": "Un supuesto agente puede pedir códigos 2FA, documentos o acceso remoto. El soporte real debe abrirse desde la app o web oficial, no desde un mensaje inesperado."
+    },
+    {
+      "title": "Apps falsas",
+      "answer": "Las copias pueden parecer idénticas y robar credenciales. Descarga apps solo desde fuentes oficiales enlazadas por la plataforma o desde tiendas verificadas."
+    },
+    {
+      "title": "Airdrops falsos",
+      "answer": "Prometen tokens gratis para que conectes una wallet o firmes una autorización peligrosa. Si no puedes confirmar la campaña en canales oficiales, no conectes ni firmes."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Cuál es la forma más simple de comprar mi primera cripto?",
+      "a": "Elige una sola plataforma, abre su entrada oficial y compra una cantidad pequeña en spot. Para esta ruta en español, empieza por Bitget y revisa OKX o Binance solo si Bitget no encaja con tu país o método de pago.",
+      "step": 1
+    },
+    {
+      "q": "Por qué recomiendan empezar con una sola plataforma?",
+      "a": "Porque los primeros errores suelen venir de cambiar entre apps, redes y pantallas parecidas. Una sola cuenta te ayuda a entender registro, depósito, compra y retiro sin duplicar riesgos.",
+      "step": 1
+    },
+    {
+      "q": "Bitget es siempre la mejor opción?",
+      "a": "No siempre; es la primera puerta de esta ruta por prioridad del sitio, pero la disponibilidad depende de tu país y de las condiciones de la plataforma. Si no puedes usarla o no te convence, compara OKX y Binance antes de seguir.",
+      "step": 1
+    },
+    {
+      "q": "Qué pasa si vivo en Turquía?",
+      "a": "Para Turquía, la ruta empieza por OKX y luego revisa Binance y Bybit. Aun así, confirma dentro de cada plataforma que tu cuenta, moneda local y método de pago estén disponibles.",
+      "step": 1
+    },
+    {
+      "q": "Cómo se si una plataforma acepta usuarios de mi país?",
+      "a": "Mira la página oficial de términos, las pantallas de registro y los avisos dentro de la app. Si la plataforma no te deja continuar o muestra una restricción, no intentes rodearla con datos falsos.",
+      "step": 1
+    },
+    {
+      "q": "Debo elegir la plataforma con la comisión más baja?",
+      "a": "La comisión importa, pero para una primera compra también importan claridad, métodos de depósito, seguridad y retiro. Una comisión baja no compensa usar una ruta que no entiendes.",
+      "step": 1
+    },
+    {
+      "q": "Exchange y wallet son lo mismo?",
+      "a": "No. Un exchange te permite comprar, vender y mantener saldo dentro de una cuenta; una wallet propia guarda claves para mover cripto en una red blockchain.",
+      "step": 1
+    },
+    {
+      "q": "Tengo que comprar un bitcoin entero?",
+      "a": "No. Puedes comprar una fracción pequeña de BTC o de otra moneda si la plataforma permite ese importe mínimo.",
+      "step": 5
+    },
+    {
+      "q": "Qué moneda conviene para empezar?",
+      "a": "BTC y USDT suelen ser más fáciles de reconocer que tokens pequeños, aunque tienen riesgos distintos. Evita empezar con monedas de moda si no sabes para qué sirven ni donde se negocian.",
+      "step": 5
+    },
+    {
+      "q": "Qué es un código de referido?",
+      "a": "Es un código asociado a una entrada de registro. Puede darte una parte de comisiones de vuelta u otro beneficio, pero siempre depende de los términos vigentes de la plataforma.",
+      "step": 2
+    },
+    {
+      "q": "Usar un código de referido es una estafa?",
+      "a": "No por sí mismo; muchas plataformas tienen programas oficiales de referido. El riesgo aparece cuando el enlace no es oficial, promete beneficios imposibles o te pide datos fuera de la plataforma.",
+      "step": 2
+    },
+    {
+      "q": "El código me cuesta dinero?",
+      "a": "La idea normal del código es que no aumente tu coste de registro. Aun así, lee las condiciones mostradas por la plataforma porque beneficios, límites y cambios dependen del venue.",
+      "step": 2
+    },
+    {
+      "q": "Puedo añadir el código después de registrarme?",
+      "a": "No lo asumas. Algunas plataformas solo aceptan el código durante el registro, así que revisa la regla oficial antes de crear la cuenta.",
+      "step": 2
+    },
+    {
+      "q": "Cómo reconozco un enlace oficial?",
+      "a": "Debe coincidir con el dominio oficial registrado y no venir de un acortador sospechoso o una copia con letras cambiadas. Usa la página de comprobación antes de escribir correo, teléfono o contraseña.",
+      "step": 2
+    },
+    {
+      "q": "Es seguro registrarme desde un anuncio?",
+      "a": "Un anuncio puede llevar a una página real o a una imitación. Antes de registrarte, abre la entrada oficial desde NexuAlpha o comprueba el dominio con el verificador.",
+      "step": 2
+    },
+    {
+      "q": "Por qué no debo aceptar ayuda por mensaje privado?",
+      "a": "Los estafadores suelen hacerse pasar por soporte y pedir códigos, documentos o pagos. El soporte real debe estar dentro de la app o web oficial, no en un chat inesperado.",
+      "step": 2
+    },
+    {
+      "q": "Qué es KYC?",
+      "a": "KYC es la verificación de identidad que muchas plataformas usan antes de habilitar funciones completas. Puede pedir datos personales y documentos, según la plataforma y tu país.",
+      "step": 3
+    },
+    {
+      "q": "Por qué una plataforma pide mi documento?",
+      "a": "Lo pide para verificar identidad y cumplir sus propias reglas operativas y regulatorias. Sube documentos solo dentro del dominio o app oficial.",
+      "step": 3
+    },
+    {
+      "q": "Cuanto tarda el KYC?",
+      "a": "No hay una respuesta única: depende de la plataforma, el país, el documento y la revisión. Toma como fuente el estado que muestra la propia plataforma.",
+      "step": 3
+    },
+    {
+      "q": "Puedo comprar sin KYC?",
+      "a": "Depende de la plataforma, el país y el producto, y las reglas pueden cambiar. Si la plataforma te pide verificación para depositar, comprar o retirar, no intentes saltarla con datos falsos.",
+      "step": 3
+    },
+    {
+      "q": "Es seguro subir mi documento?",
+      "a": "El riesgo nunca es cero, por eso debes usar solo la app o web oficial y revisar la política de privacidad de la plataforma. Nunca envíes documentos por chat, correo no verificado o formularios externos.",
+      "step": 3
+    },
+    {
+      "q": "Qué pasa si mi KYC falla?",
+      "a": "Lee el motivo dentro de la plataforma y corrige solo por el canal oficial. Si el problema afecta depósitos o retiros, evita ingresar más dinero hasta resolverlo.",
+      "step": 3
+    },
+    {
+      "q": "Puedo usar el documento de otra persona?",
+      "a": "No. Usar datos de otra persona puede bloquear revisiones, retiros y soporte, ademas de crear problemas legales o fiscales.",
+      "step": 3
+    },
+    {
+      "q": "Cuál es el depósito mínimo?",
+      "a": "El mínimo depende del método, moneda, país y plataforma. Mira el importe mínimo en la pantalla oficial antes de pagar.",
+      "step": 4
+    },
+    {
+      "q": "Puedo empezar con poco dinero?",
+      "a": "Si el mínimo de la plataforma lo permite, empezar pequeno es lo más sensato para aprender. La primera operacion debe ensenarte el flujo, no ponerte bajo presion.",
+      "step": 4
+    },
+    {
+      "q": "Qué método de depósito debo usar?",
+      "a": "Usa un método que aparezca dentro de la plataforma para tu país, como tarjeta, transferencia o P2P si está disponible. Evita pagos por fuera aunque alguien prometa hacerlo más rapido.",
+      "step": 4
+    },
+    {
+      "q": "Qué es P2P?",
+      "a": "P2P es comprar o vender con otra persona usando el sistema de la plataforma como intermediario. Revisa reputacion, importe, instrucciones y confirmaciones antes de liberar fondos.",
+      "step": 4
+    },
+    {
+      "q": "Es seguro pagar por P2P?",
+      "a": "Puede ser útil si usas solo el flujo oficial y no aceptas acuerdos externos. Nunca liberes cripto ni marques pagado hasta que el dinero esté confirmado en tu cuenta.",
+      "step": 4
+    },
+    {
+      "q": "Por qué mi depósito no aparece?",
+      "a": "Puede estar pendiente, rechazado, enviado con datos incorrectos o retenido por revisión de la plataforma. Guarda comprobantes y abre soporte desde la app oficial.",
+      "step": 4
+    },
+    {
+      "q": "Qué debo revisar antes de pagar?",
+      "a": "Revisa importe, moneda, comisión, destinatario, método y condiciones. Si algo no coincide con lo que esperabas, detente antes de confirmar.",
+      "step": 4
+    },
+    {
+      "q": "Qué es USDT?",
+      "a": "USDT es una stablecoin que intenta seguir el valor del dólar estadounidense. No es una cuenta bancaria ni está libre de riesgos, pero se usa mucho como moneda de cotización en exchanges.",
+      "step": 5
+    },
+    {
+      "q": "Qué significa comprar en spot?",
+      "a": "Spot significa comprar o vender la moneda directamente, sin usar un contrato apalancado. Para principiantes, es más simple que futuros o margen.",
+      "step": 5
+    },
+    {
+      "q": "Qué diferencia hay entre spot y futuros?",
+      "a": "En spot compras la moneda; en futuros operas un contrato que puede usar apalancamiento y puede liquidarse. Si eres nuevo, evita futuros hasta entender margen y liquidación.",
+      "step": 5
+    },
+    {
+      "q": "Qué es una orden de mercado?",
+      "a": "Es una orden que compra o vende al mejor precio disponible en ese momento. Es fácil de usar, pero el precio final puede moverse si el mercado tiene poca liquidez.",
+      "step": 5
+    },
+    {
+      "q": "Qué es una orden limite?",
+      "a": "Es una orden que solo se ejecuta al precio que marcas o mejor. Puede no ejecutarse si el mercado no llega a ese precio.",
+      "step": 5
+    },
+    {
+      "q": "Por qué mi compra final no coincide exactamente con el precio de pantalla?",
+      "a": "El precio de pantalla puede cambiar y la orden puede incluir comisión, spread o deslizamiento. Revisa el resumen antes y el historial después de comprar.",
+      "step": 5
+    },
+    {
+      "q": "Puedo perder dinero comprando spot?",
+      "a": "Sí, si el precio baja después de comprar. En spot no deberías perder más que lo que compras, pero el valor puede caer mucho.",
+      "step": 5
+    },
+    {
+      "q": "Qué es 2FA?",
+      "a": "2FA es una segunda comprobación para entrar o retirar, normalmente con una app autenticadora. Es una capa basica de seguridad y conviene activarla antes de mover más dinero.",
+      "step": 6
+    },
+    {
+      "q": "SMS es suficiente como 2FA?",
+      "a": "SMS es mejor que nada, pero una app autenticadora suele ser más resistente a ataques de número telefónico. Usa la opción más segura que la plataforma permita y guarda códigos de respaldo.",
+      "step": 6
+    },
+    {
+      "q": "Qué es un código anti-phishing?",
+      "a": "Es una palabra o frase que aparece en correos oficiales de la plataforma para ayudarte a detectar imitaciónes. Si un correo no muestra tu código, trátalo con cuidado.",
+      "step": 6
+    },
+    {
+      "q": "Qué es una lista blanca de retiros?",
+      "a": "Es una función que permite retirar solo a direcciones previamente aprobadas. Puede evitar retiros a direcciones nuevas si alguien entra en tu cuenta.",
+      "step": 6
+    },
+    {
+      "q": "Debo guardar mi cripto en el exchange?",
+      "a": "Para aprender y operar cantidades pequenas, mantener saldo en el exchange puede ser práctico. Para custodia propia necesitas entender wallets, redes, frases semilla y pruebas pequenas.",
+      "step": 6
+    },
+    {
+      "q": "Qué es una frase semilla?",
+      "a": "Es la lista de palabras que controla una wallet propia. No la escribas en páginas web, no la envíes por chat y no la guardes en capturas conectadas a internet.",
+      "step": 6
+    },
+    {
+      "q": "Qué hago si recibo un mensaje de soporte?",
+      "a": "Desconfia si no lo iniciaste tu. Entra manualmente a la app oficial y abre soporte desde alli; no entregues códigos, documentos ni acceso remoto.",
+      "step": 6
+    },
+    {
+      "q": "Cómo retiro dinero a mi banco?",
+      "a": "Vende cripto a la moneda disponible en tu plataforma y usa un canal de retiro oficial si existe para tu país. Revisa comisiones, límites, nombre de cuenta y estado antes de darlo por terminado.",
+      "step": 7
+    },
+    {
+      "q": "Por qué no veo retiro bancario en mi cuenta?",
+      "a": "Puede depender de país, moneda, verificación, método disponible o condiciones actuales de la plataforma. Usa el centro de ayuda oficial para confirmar alternativas.",
+      "step": 7
+    },
+    {
+      "q": "Qué red debo elegir para retirar USDT?",
+      "a": "Elige una red que tanto la plataforma de salida como la cartera o plataforma de llegada acepten para USDT. Si las redes no coinciden, puedes perder fondos.",
+      "step": 7
+    },
+    {
+      "q": "Qué hago si un retiro queda pendiente?",
+      "a": "Revisa el estado dentro de la plataforma y guarda el ID de retiro o transaccion. Contacta soporte solo desde canales oficiales y no aceptes ayuda de mensajes privados.",
+      "step": 7
+    },
+    {
+      "q": "Tengo que pagar impuestos por cripto?",
+      "a": "Depende de tu país y situacion personal. Usa informacion oficial de la autoridad tributaria de tu país o un asesor cualificado; no tomes una guia de exchange como regla fiscal definitiva.",
+      "step": 7
+    },
+    {
+      "q": "Qué registros debo guardar?",
+      "a": "Guarda depósitos, compras, ventas, retiros, comisiones y comprobantes bancarios. Esos registros ayudan si necesitas soporte, conciliacion o informacion fiscal oficial.",
+      "step": 7
+    }
+  ]
+}

@@ -1,0 +1,398 @@
+{
+  "locale": "en",
+  "slug": {
+    "start": "start",
+    "questions": "questions",
+    "check": "check"
+  },
+  "labels": {
+    "start": "Start here",
+    "questions": "Questions",
+    "check": "Check a link",
+    "newDoor": "I'm new",
+    "traderDoor": "I already trade",
+    "shortAnswer": "Short answer",
+    "steps": "Steps",
+    "mistakes": "Common mistakes",
+    "next": "Next step",
+    "why": "Why this one",
+    "official": "Official entry",
+    "checkButton": "Check link",
+    "urlLabel": "Paste the exchange link",
+    "country": "Country of residence",
+    "chooseCountry": "Choose your country",
+    "noChoice": "No eligible venue found. Verify current rules before opening an account.",
+    "backup": "Backup option",
+    "register": "Register",
+    "valid": "Domain matches the approved registry; page safety still needs checking",
+    "invalid": "Do not use this link",
+    "unknown": "Unknown link",
+    "progress": "Progress",
+    "complete": "Complete",
+    "reset": "Reset"
+  },
+  "intro": "Start with one exchange allowed in your country, verify the link, use the code only if the official page shows the benefit, and make a small first purchase before moving larger amounts.",
+  "why": [
+    "Priority follows eligible country rules first; Bitget is the default where the route is allowed, and Turkiye starts with OKX.",
+    "Read the entity, licence, fee, KYC, fiat, and proof-of-reserves record before opening the account."
+  ],
+  "scams": [
+    {
+      "title": "Fake support DMs",
+      "answer": "Real exchange support should be reached from the official app or website. Anyone in a private message asking for your password, 2FA code, ID file, payment proof, or seed phrase is unsafe."
+    },
+    {
+      "title": "Fake apps",
+      "answer": "Use only the official app source listed by the exchange or the verified app-store publisher. Search ads, APK files, and links in chat groups can copy the logo while sending you to a fake login."
+    },
+    {
+      "title": "Fake airdrops",
+      "answer": "Airdrop scams promise free tokens so you connect a wallet, approve spending, pay a fee, or reveal a seed phrase. Verify campaigns from official channels and ignore any page that asks for secrets."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Pick one exchange",
+      "answer": "Start with Bitget unless your country, product need, or local rules point elsewhere; in Turkiye, start with OKX, then Binance or Bybit. The reason is simple: choose one official account path first, then compare fees, licence context, fiat route, and proof-of-reserves before sending money.",
+      "actions": [
+        "Use the country or locale recommendation on NexuAlpha, then open the exchange's official profile page.",
+        "Check the venue name, official domain, restricted-region note, proof-of-reserves page, and fiat options before you register.",
+        "If the page says the exchange is unavailable for your market, stop and choose the next eligible venue instead of using a mirror from social media."
+      ],
+      "mistakes": [
+        "Opening three exchange accounts at once before knowing which one accepts your country and payment method.",
+        "Choosing only by a bonus headline without checking region, KYC, withdrawal route, and official domain."
+      ]
+    },
+    {
+      "title": "Register with the code",
+      "answer": "Use the NexuAlpha entry so the exchange receives the correct referral code. A code can give you part of your trading fees back or another venue-defined benefit when the official terms and signup screen confirm it; it should not cost extra.",
+      "actions": [
+        "Open the official registration entry for the exchange shown for your country.",
+        "Confirm the code shown on the exchange screen matches the venue page before you create the account.",
+        "If the exchange screen does not show the code or benefit, finish only after reading that venue's current referral terms."
+      ],
+      "mistakes": [
+        "Typing a random code from a chat group after leaving the official registration page.",
+        "Assuming every code gives the same benefit in every country or product category."
+      ]
+    },
+    {
+      "title": "Complete KYC in plain words",
+      "answer": "KYC means the exchange checks that you are a real person and that your account matches your legal identity. Expect an identity document, a selfie or face check, and sometimes address or source-of-funds questions; timing depends on the venue and your account review.",
+      "actions": [
+        "Upload documents only inside the official exchange app or website after checking the domain.",
+        "Use your own legal name, your own phone or email, and a payment method that belongs to you.",
+        "If review asks for extra information, answer inside official support instead of a social-media direct message."
+      ],
+      "mistakes": [
+        "Sending passport photos to someone who claims to be exchange support on Telegram, WhatsApp, or X.",
+        "Using another person's bank account or ID, then getting stuck when withdrawals need a name match."
+      ]
+    },
+    {
+      "title": "Deposit with local rails",
+      "answer": "Your safe deposit route depends on your country and the exchange account screen. If local bank transfer is available, use the official instructions; otherwise compare card, third-party gateway, and P2P routes with fees, limits, name matching, and dispute process in mind.",
+      "actions": [
+        "Open the deposit page inside your verified account and select your local currency if it is listed.",
+        "Read the minimum amount, fee, supported bank name, processing note, and sender-name rule before paying.",
+        "For P2P, trade only inside the exchange escrow screen and keep payment proof until the order is complete."
+      ],
+      "mistakes": [
+        "Sending money to a bank account received in a private message instead of the exchange deposit flow.",
+        "Choosing the cheapest route without checking whether the account name must match your KYC name."
+      ]
+    },
+    {
+      "title": "Make the first small spot purchase",
+      "answer": "For a first buy, use spot or convert with a small amount you can afford to learn with. You should see the coin, the currency you pay with, the quoted price, the fee or spread, and the final amount before confirming.",
+      "actions": [
+        "Choose a major asset such as BTC, ETH, or a stablecoin only after reading the order preview.",
+        "Start small, use spot or convert, and avoid leverage until you understand liquidation.",
+        "Save the order record so you know the buy price, fee, and asset balance later."
+      ],
+      "mistakes": [
+        "Opening futures, margin, copy trading, or leveraged products for the first purchase.",
+        "Pressing buy without checking whether the quote includes a spread, fee, or different currency."
+      ]
+    },
+    {
+      "title": "Secure the account",
+      "answer": "Your first security goal is to make account takeover hard. Turn on authenticator-app 2FA, set an anti-phishing code if the exchange supports it, and add a withdrawal whitelist before holding meaningful balances.",
+      "actions": [
+        "Use an authenticator app rather than SMS when the venue supports it.",
+        "Set an anti-phishing code so real exchange emails show a word only you chose.",
+        "Add withdrawal whitelist addresses slowly and test them with a small transfer first."
+      ],
+      "mistakes": [
+        "Reusing your email password as the exchange password.",
+        "Ignoring whitelist and anti-phishing tools until after the account holds a large balance."
+      ]
+    },
+    {
+      "title": "Withdraw to your bank",
+      "answer": "Bank withdrawal means selling crypto or stablecoins for fiat, then sending that fiat to a verified bank route that the exchange supports in your account. If direct bank withdrawal is unavailable, the page may show card, third-party, or P2P options with different risks and fees.",
+      "actions": [
+        "Check the official withdrawal page for your currency, minimum amount, fee, and recipient-name rule.",
+        "Sell a small amount first, then test a small withdrawal before moving larger funds.",
+        "Keep the exchange order ID, bank receipt, and tax records from official statements."
+      ],
+      "mistakes": [
+        "Promising yourself a same-day bank arrival before reading the exchange and bank processing notes.",
+        "Accepting an off-platform buyer who asks you to release crypto before money has cleared."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Which exchange should a beginner use first?",
+      "a": "Use one exchange that is available in your country, has a clear official domain, supports your payment route, and explains KYC and withdrawals before you deposit. NexuAlpha starts with Bitget for most promotable English flows, while Turkiye uses OKX first, then Binance or Bybit.",
+      "step": 1
+    },
+    {
+      "q": "Why does NexuAlpha show Bitget first?",
+      "a": "The current owner priority is Bitget first, then OKX, then Binance, unless country rules or locale policy say otherwise. You still need to check the official account screen because a public recommendation does not prove eligibility for your specific account.",
+      "step": 1
+    },
+    {
+      "q": "Can I use Binance in my country?",
+      "a": "Check Binance's official country and product notices from your own location before opening an account. Access, products, fiat routes, and KYC approval can differ by country and may change.",
+      "step": 1
+    },
+    {
+      "q": "Is an exchange licence the same as a guarantee?",
+      "a": "No. A licence or registration is useful context, but it does not guarantee account approval, investment safety, product availability, or bank withdrawal success.",
+      "step": 1
+    },
+    {
+      "q": "What is proof of reserves?",
+      "a": "Proof of reserves is a public exchange report about assets held against customer balances. It is one trust signal, but you should still check withdrawals, security tools, fees, and local eligibility.",
+      "step": 1
+    },
+    {
+      "q": "Should I open accounts on many exchanges?",
+      "a": "Not at the start. Pick one official path, learn deposits and withdrawals, then add another exchange only when you know why you need it.",
+      "step": 1
+    },
+    {
+      "q": "What is the difference between an exchange and a wallet?",
+      "a": "An exchange account lets you buy, sell, and hold crypto inside a company-managed account. A self-custody wallet lets you control the keys yourself, which gives more control but also makes recovery your responsibility.",
+      "step": 1
+    },
+    {
+      "q": "Is a referral code a scam?",
+      "a": "A referral code is not automatically a scam; many official exchanges support them. It becomes unsafe when the link is fake, the code is typed on an unofficial page, or someone promises benefits the official terms do not show.",
+      "step": 2
+    },
+    {
+      "q": "Does a referral code cost me extra?",
+      "a": "A normal exchange referral code should not add an extra fee to your account. The benefit, if any, depends on the venue's current terms and what the official signup page confirms.",
+      "step": 2
+    },
+    {
+      "q": "Can I add the referral code after signup?",
+      "a": "Usually you should assume the code must be applied during registration unless the exchange's official rules say otherwise. If you already signed up, ask official support from inside the account rather than trusting a stranger's workaround.",
+      "step": 2
+    },
+    {
+      "q": "Why use the official entry?",
+      "a": "It takes you to the checked registration page and keeps the referral code with the link. You do not need to copy codes from chats, screenshots, or old posts.",
+      "step": 2
+    },
+    {
+      "q": "What if the code field is blank on the exchange page?",
+      "a": "Do not assume the benefit was applied. Go back through the official entry, check whether the venue auto-applies codes, or read the current referral terms before creating the account.",
+      "step": 2
+    },
+    {
+      "q": "Can a referral code guarantee a bonus?",
+      "a": "No. Bonuses, fee shares, vouchers, and tasks depend on the exchange's current campaign terms, country, product, deposit status, and account checks.",
+      "step": 2
+    },
+    {
+      "q": "What information does KYC usually ask for?",
+      "a": "KYC usually asks for your legal name, date of birth, identity document, selfie or face check, and sometimes address or source-of-funds details. The exact list depends on the venue and your country.",
+      "step": 3
+    },
+    {
+      "q": "How long does KYC take?",
+      "a": "There is no safe universal timing. Some accounts pass quickly, while others need manual review or extra documents, so rely on the exchange's official status screen.",
+      "step": 3
+    },
+    {
+      "q": "Is it safe to upload my ID?",
+      "a": "Only upload ID inside the official app or website after checking the domain. Never send documents to social-media support, a private chat, or a link someone pasted into a group.",
+      "step": 3
+    },
+    {
+      "q": "Can I trade without KYC?",
+      "a": "Many major centralized exchanges require identity checks for trading, fiat routes, or withdrawals. If a service promises no checks at all, read the risk, limits, and legal context carefully before using it.",
+      "step": 3
+    },
+    {
+      "q": "Why did the exchange ask for source of funds?",
+      "a": "Exchanges may ask where money came from as part of anti-money-laundering checks. Use official support and provide real records such as bank statements, salary documents, or sale records when requested.",
+      "step": 3
+    },
+    {
+      "q": "Can I use someone else's bank account?",
+      "a": "Avoid it. Exchange fiat deposits and withdrawals often need the bank account name to match the KYC name, and mismatches can delay or block funds.",
+      "step": 3
+    },
+    {
+      "q": "What is the minimum money to start?",
+      "a": "The minimum depends on the exchange, coin, payment route, and country. Start with a small amount that clears the official minimum and is enough to learn the full buy and withdrawal flow.",
+      "step": 4
+    },
+    {
+      "q": "Should I deposit by card or bank transfer?",
+      "a": "Compare the official fee, speed, limits, name-matching rule, and refund or dispute process. Bank transfer can be cheaper in some places, while card or gateway routes can be faster but may cost more.",
+      "step": 4
+    },
+    {
+      "q": "What is P2P trading?",
+      "a": "P2P means you trade with another person while the exchange holds the crypto in escrow during the order. Stay inside the exchange order screen and never release crypto until the payment is truly received.",
+      "step": 4
+    },
+    {
+      "q": "Why is my deposit pending?",
+      "a": "A deposit can be pending because of bank processing, blockchain confirmations, name checks, network congestion, or manual review. Use the exchange's official deposit status and support ticket rather than a private support contact.",
+      "step": 4
+    },
+    {
+      "q": "Can I deposit cash directly?",
+      "a": "Use only deposit methods shown inside your verified exchange account. If cash deposit is not listed there, do not send money to a person who claims they can load your account manually.",
+      "step": 4
+    },
+    {
+      "q": "What is USDT?",
+      "a": "USDT is a stablecoin designed to track the US dollar and is widely used as a trading currency on exchanges. It is still a crypto asset, so check network, issuer, exchange support, and withdrawal fees before moving it.",
+      "step": 5
+    },
+    {
+      "q": "Should my first buy be Bitcoin?",
+      "a": "Bitcoin is a common first asset because it is widely listed and easy to research, but it can still move sharply. The safer habit is to start small, use spot, and understand the order preview before choosing any coin.",
+      "step": 5
+    },
+    {
+      "q": "What is spot trading?",
+      "a": "Spot trading means buying or selling the asset itself at the market or limit price. For beginners, it is easier to understand than futures or margin because there is no liquidation from borrowed leverage.",
+      "step": 5
+    },
+    {
+      "q": "What is convert or quick buy?",
+      "a": "Convert or quick buy is a simplified flow where the exchange quotes one all-in price. It can be convenient, but check the preview because the cost may appear as a spread rather than a separate trading fee.",
+      "step": 5
+    },
+    {
+      "q": "What is a maker or taker fee?",
+      "a": "A taker order trades immediately against the order book, while a maker order waits and adds liquidity. Beginners can simply check the fee shown in the order preview and learn fee tiers later.",
+      "step": 5
+    },
+    {
+      "q": "Why should I avoid leverage first?",
+      "a": "Leverage can force-close your position if price moves against you, even before the market returns. Learn spot buying, security, and withdrawals before touching futures, margin, or copy trading.",
+      "step": 5
+    },
+    {
+      "q": "What is 2FA?",
+      "a": "2FA means a second login code in addition to your password. An authenticator app is usually safer than SMS because phone numbers can be stolen or redirected.",
+      "step": 6
+    },
+    {
+      "q": "What is an anti-phishing code?",
+      "a": "It is a word or phrase you set inside the exchange so official emails include it. If an email does not show your code, treat it as suspicious and log in from the official app or domain instead.",
+      "step": 6
+    },
+    {
+      "q": "What is a withdrawal whitelist?",
+      "a": "A whitelist lets withdrawals go only to addresses or accounts you approved in advance. It adds friction, but that friction can protect you if your login is compromised.",
+      "step": 6
+    },
+    {
+      "q": "Should I keep crypto on an exchange?",
+      "a": "Keeping a small learning balance on a major exchange can be practical, but it means trusting the exchange account and controls. For larger long-term holdings, learn self-custody carefully before moving funds.",
+      "step": 6
+    },
+    {
+      "q": "What happens if an exchange goes down?",
+      "a": "You may lose access temporarily, and in a severe failure withdrawals could be delayed or worse. That is why proof-of-reserves, withdrawal tests, account security, and not keeping all funds in one place matter.",
+      "step": 6
+    },
+    {
+      "q": "How do fake support scams work?",
+      "a": "Scammers pretend to be exchange staff and ask for your password, 2FA code, seed phrase, or ID in a private message. Real support should be reached from the official app or website, not through a stranger's DM.",
+      "step": 6
+    },
+    {
+      "q": "Can I withdraw crypto to my bank?",
+      "a": "Banks receive fiat money, not BTC or USDT directly in normal exchange flows. You usually sell crypto for local currency first, then withdraw the fiat through an official bank route.",
+      "step": 7
+    },
+    {
+      "q": "Why did my withdrawal fail?",
+      "a": "Common reasons include name mismatch, wrong bank details, unsupported currency, account review, minimum amount, or maintenance. Check the official withdrawal record and support ticket before retrying.",
+      "step": 7
+    },
+    {
+      "q": "How long does a bank withdrawal take?",
+      "a": "Timing depends on the exchange, bank, country, currency, and review status. Read the official withdrawal page and treat any fixed promise from a stranger as unreliable.",
+      "step": 7
+    },
+    {
+      "q": "What fee do I pay when withdrawing?",
+      "a": "You may pay trading fees or spread when selling, plus withdrawal or bank route fees. The current account screen is the source to trust because fees can vary by route and time.",
+      "step": 7
+    },
+    {
+      "q": "Do I need to pay taxes on crypto?",
+      "a": "Tax rules depend on your country and your activity. Use your official tax authority's guidance or a qualified local tax professional, and keep exchange statements and transaction records.",
+      "step": 7
+    },
+    {
+      "q": "Can a bank block a crypto withdrawal?",
+      "a": "A bank or payment provider may review, delay, or reject transfers depending on its rules and local regulation. Use official exchange records and contact your bank through its official channels if a transfer is held.",
+      "step": 7
+    },
+    {
+      "q": "How do I check whether a link is official?",
+      "a": "Use the NexuAlpha link checker, compare the domain with the venue registry, and avoid lookalike spellings or extra words. When in doubt, type the official domain yourself and navigate from inside the site.",
+      "step": 1
+    },
+    {
+      "q": "Are exchange apps in app stores always safe?",
+      "a": "Use the official app sources linked from the exchange profile, not ads or files shared in chats. App-store search results can include clones, regional variants, or promoted results that need verification.",
+      "step": 1
+    },
+    {
+      "q": "What is a fake airdrop?",
+      "a": "A fake airdrop promises free tokens so you connect a wallet, approve a token, pay a fee, or reveal a seed phrase. Beginners should ignore free-money links unless they can verify the campaign from official exchange or project channels.",
+      "step": 6
+    },
+    {
+      "q": "What is a seed phrase?",
+      "a": "A seed phrase is the recovery secret for a self-custody wallet. Never type it into an exchange support form, a giveaway page, or a direct message because anyone with it can take the wallet funds.",
+      "step": 6
+    },
+    {
+      "q": "What is a network fee?",
+      "a": "A network fee is paid to move crypto on a blockchain, and it differs by network and congestion. Before withdrawing crypto, match the network on both sides and check the fee shown by the exchange.",
+      "step": 7
+    },
+    {
+      "q": "Can I send USDT on any network?",
+      "a": "No. USDT exists on multiple networks, and sending it to an address on the wrong network can cause loss or a difficult recovery process.",
+      "step": 7
+    },
+    {
+      "q": "What should I record for my first purchase?",
+      "a": "Save the date, exchange, asset, amount, price, fee, deposit route, and withdrawal records. These records help with troubleshooting, personal tracking, and official tax reporting.",
+      "step": 5
+    },
+    {
+      "q": "What if I made a mistake in my first transaction?",
+      "a": "Stop and collect the official order ID, transaction hash, screenshots from inside the exchange, and bank receipt if relevant. Contact official support only, and do not pay a stranger who claims they can reverse blockchain or bank records instantly.",
+      "step": 7
+    }
+  ]
+}

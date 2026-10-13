@@ -606,3 +606,8 @@
 .h7:not(#_):not(#_) .h7-local-foot{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin:24px 0 0;font-size:13px;color:var(--ink3)}
 @media(min-width:641px){.h7:not(#_):not(#_) .h7-local h2{font-size:2.25rem}}
 @media(max-width:900px){.h7:not(#_):not(#_) .h7-local-grid{grid-template-columns:minmax(0,1fr)}.h7:not(#_):not(#_) .h7-local-col{padding:20px}}
+
+/* Newcomer/trader doors: two ordinary links, no new hydration or feed. */
+.h7 .h7-doors{display:flex;flex-wrap:wrap;gap:12px 28px;padding-block:16px;border-block-end:1px solid #353c46}
+.h7 .h7-doors a{color:#73e6cb;font-size:14px;min-height:44px;display:flex;align-items:center;text-underline-offset:4px}
+.h7 .h7-doors a:focus-visible{outline:2px solid #73e6cb;outline-offset:4px}

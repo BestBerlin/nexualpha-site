@@ -63,6 +63,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   crawlLinks: "./components/shared/CrawlPriorityLinks.jsx",
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
+  beginner: "./components/beginner/BeginnerPages.jsx",
   licenses: "./components/licenses/LicensePages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
   converter: "./components/converter/ConverterPage.jsx",
@@ -190,6 +191,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   // Lesson transcripts and news articles link their first glossary terms (glossary-links-<locale>.js, index locales only).
   if (name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl)), ...glossaryLinkPaths(sourceUrl)];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  if (name === "beginner") return [ROUTE_MODULE_PATHS.beginner, `./data/beginner-copy/${urlLocale(sourceUrl)}.json`];
   if (name === "licenses") return [ROUTE_MODULE_PATHS.licenses];
   if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];

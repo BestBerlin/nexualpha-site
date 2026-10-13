@@ -1,3 +1,4 @@
+import { GlossaryTooltip } from "../shared/GlossaryTooltip.jsx";
 // Shared chrome of the public data pages (/liquidations, /funding-rates): breadcrumb, H1, "updated · source" line,
 // unavailable state, explainer, Telegram alerts line, one partner sign-up block (same component and data as the news
 // pages, so invite codes and links are identical and the commission disclosure sits inside the card), the FAQ and the
@@ -24,7 +25,7 @@ export function DataPageHero({ locale, page, pathname, generatedAt, sourceLine, 
         <span aria-hidden="true">›</span>
         <span aria-current="page">{page.h1}</span>
       </nav>
-      <h1>{page.h1}</h1>
+      <h1><GlossaryTooltip term={pathname === LIQUIDATIONS_PATH ? "liquidation" : "funding-rate"} locale={locale}>{page.h1}</GlossaryTooltip></h1>
       <p className="nxd-lead">{page.lead}</p>
       <p className="nxd-updated" data-testid={`${pathname.slice(1)}-updated`}>
         {generatedAt ? <><span className="nxd-dot" aria-hidden="true" /><strong>{copy.common.updated}</strong> <time dateTime={generatedAt} dir="ltr">{formatUtc(generatedAt)}</time> · </> : null}

@@ -1,0 +1,19 @@
+// Server only: never import into a browser entry.
+import L0 from "./beginner-copy/en.json" with { type: "json" };
+import L1 from "./beginner-copy/zh-Hans.json" with { type: "json" };
+import L2 from "./beginner-copy/es.json" with { type: "json" };
+import L3 from "./beginner-copy/pt-BR.json" with { type: "json" };
+import L4 from "./beginner-copy/id.json" with { type: "json" };
+import L5 from "./beginner-copy/tr.json" with { type: "json" };
+import L6 from "./beginner-copy/ko.json" with { type: "json" };
+import L7 from "./beginner-copy/ja.json" with { type: "json" };
+import L8 from "./beginner-copy/fr.json" with { type: "json" };
+import L9 from "./beginner-copy/de.json" with { type: "json" };
+import L10 from "./beginner-copy/it.json" with { type: "json" };
+import L11 from "./beginner-copy/ru.json" with { type: "json" };
+import L12 from "./beginner-copy/ar.json" with { type: "json" };
+import L13 from "./beginner-copy/zh-Hant.json" with { type: "json" };
+import L14 from "./beginner-copy/ur.json" with { type: "json" };
+import L15 from "./beginner-copy/uk.json" with { type: "json" };
+import L16 from "./beginner-copy/vi.json" with { type: "json" };
+export const BEGINNER_COPY = Object.freeze({"en":L0,"zh-Hans":L1,"es":L2,"pt-BR":L3,"id":L4,"tr":L5,"ko":L6,"ja":L7,"fr":L8,"de":L9,"it":L10,"ru":L11,"ar":L12,"zh-Hant":L13,"ur":L14,"uk":L15,"vi":L16});

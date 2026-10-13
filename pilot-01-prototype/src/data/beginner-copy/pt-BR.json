@@ -1,0 +1,398 @@
+{
+  "locale": "pt-BR",
+  "slug": {
+    "start": "comecar",
+    "questions": "perguntas",
+    "check": "verificar"
+  },
+  "labels": {
+    "start": "Comece aqui",
+    "questions": "Perguntas",
+    "check": "Verificar link",
+    "newDoor": "Sou iniciante",
+    "traderDoor": "Já opero",
+    "shortAnswer": "Resposta curta",
+    "steps": "Passos",
+    "mistakes": "Erros comuns",
+    "next": "Próximo passo",
+    "why": "Por que esta escolha",
+    "official": "Entrada oficial",
+    "checkButton": "Verificar link",
+    "urlLabel": "Cole o link da exchange",
+    "country": "País de residência",
+    "chooseCountry": "Escolha seu país",
+    "noChoice": "Nenhuma venue elegível encontrada. Verifique as regras atuais antes de abrir conta.",
+    "backup": "Opção alternativa",
+    "register": "Registrar",
+    "valid": "Domínio corresponde ao registro oficial",
+    "invalid": "Não use este link",
+    "unknown": "Link desconhecido",
+    "progress": "Progresso",
+    "complete": "Concluído",
+    "reset": "Reiniciar"
+  },
+  "intro": "Um caminho simples para comprar sua primeira cripto sem pular entre vinte abas: escolha uma única exchange, abra a entrada oficial, verifique a conta, deposite pouco, compre no spot, proteja o acesso e aprenda a sacar.",
+  "why": [
+    "A prioridade mostra primeiro a venue elegível para seu contexto: Bitget por padrão, depois OKX e Binance; para Turquia, OKX aparece primeiro.",
+    "Antes de abrir conta, confira no registro e na própria venue a entidade, regras locais, taxas, KYC, rota fiat e prova de reservas disponíveis."
+  ],
+  "scams": [
+    {
+      "title": "Suporte falso por mensagem privada",
+      "answer": "Suporte real deve ser acessado pelo app ou site oficial da exchange. Desconfie de qualquer pessoa que peça senha, código 2FA, documento, comprovante, acesso remoto ou seed phrase por chat."
+    },
+    {
+      "title": "Apps falsos",
+      "answer": "Cópias de app podem usar o mesmo logo e roubar seu login. Baixe apenas pela fonte indicada pela exchange ou pela loja com publicador verificado, nunca por APK ou link solto em grupo."
+    },
+    {
+      "title": "Airdrops falsos",
+      "answer": "Golpes prometem tokens grátis para você conectar uma carteira, assinar uma permissão ou pagar uma taxa. Confirme campanhas em canais oficiais e ignore páginas que peçam segredo, seed phrase ou aprovação ampla."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Escolha uma única exchange",
+      "answer": "Comece pela Bitget quando ela estiver disponível para seu país e para o produto que você pretende usar; se não servir, compare OKX e Binance. Na Turquia, comece por OKX e veja Binance ou Bybit como alternativas; a decisão final depende das regras e telas atuais da própria venue.",
+      "actions": [
+        "Abra a recomendação do seu país ou idioma na NexuAlpha e confira a página de perfil da venue antes de criar conta.",
+        "Verifique nome da venue, domínio oficial, aviso de regiões restritas, prova de reservas e opções fiat visíveis para sua conta.",
+        "Se a venue mostrar indisponibilidade para seu mercado, pare e escolha a próxima opção elegível em vez de usar espelho vindo de rede social."
+      ],
+      "mistakes": [
+        "Abrir três contas ao mesmo tempo antes de saber qual aceita seu país e seu método de pagamento.",
+        "Escolher só pelo bônus anunciado, sem checar região, KYC, saque e domínio oficial."
+      ]
+    },
+    {
+      "title": "Cadastre-se com o código",
+      "answer": "Use a entrada da NexuAlpha para levar o código correto até a tela oficial da venue. O código pode dar cashback de taxas ou outro benefício definido pela exchange quando os termos atuais e a tela de cadastro confirmarem; ele não deve aumentar seu custo.",
+      "actions": [
+        "Abra a entrada oficial de cadastro da plataforma indicada para seu país.",
+        "Confirme que o código mostrado na tela da exchange bate com a página da venue antes de criar a conta.",
+        "Se a tela não mostrar código ou benefício, continue apenas depois de ler os termos atuais de indicação daquela venue."
+      ],
+      "mistakes": [
+        "Digitar um código aleatório de grupo depois de sair da página oficial de cadastro.",
+        "Assumir que todo código dá o mesmo benefício em todos os países, produtos ou campanhas."
+      ]
+    },
+    {
+      "title": "Complete o KYC em linguagem simples",
+      "answer": "KYC é a verificação de que você é uma pessoa real e que a conta combina com sua identidade legal. A venue pode pedir documento, selfie ou checagem facial e, em alguns casos, endereço ou origem dos recursos; o prazo depende da própria revisão.",
+      "actions": [
+        "Envie documentos somente dentro do app ou site oficial depois de conferir o domínio.",
+        "Use seu nome legal, seu próprio email ou telefone e um meio de pagamento que pertence a você.",
+        "Se pedirem informações extras, responda pelo suporte oficial dentro da conta, não por mensagem em rede social."
+      ],
+      "mistakes": [
+        "Mandar foto de passaporte ou RG para alguém que diz ser suporte no Telegram, WhatsApp ou X.",
+        "Usar documento ou conta bancária de outra pessoa e travar o saque quando os nomes precisarem bater."
+      ]
+    },
+    {
+      "title": "Deposite com uma rota simples",
+      "answer": "A rota de depósito depende do seu país e do que aparece dentro da sua conta. Se transferência bancária local estiver disponível, siga as instruções oficiais; se não estiver, compare cartão, gateway e P2P olhando taxas, limites, nome do pagador e processo de disputa.",
+      "actions": [
+        "Abra a página de depósito dentro da conta verificada e selecione sua moeda local se ela aparecer.",
+        "Leia valor mínimo, taxa, banco ou provedor, observação de processamento e regra de nome antes de pagar.",
+        "No P2P, negocie somente na tela de escrow da exchange e guarde o comprovante até a ordem terminar."
+      ],
+      "mistakes": [
+        "Enviar dinheiro para uma conta bancária recebida por mensagem privada em vez de seguir o fluxo da exchange.",
+        "Escolher a rota mais barata sem verificar se o nome da conta precisa bater com seu KYC."
+      ]
+    },
+    {
+      "title": "Faça a primeira compra pequena no spot",
+      "answer": "Para a primeira compra, use spot ou converter com um valor pequeno que você possa usar para aprender. Antes de confirmar, você deve ver a moeda, a moeda de pagamento, preço cotado, taxa ou spread e quantidade final.",
+      "actions": [
+        "Escolha um ativo conhecido, como BTC, ETH ou stablecoin, somente depois de ler a prévia da ordem.",
+        "Comece pequeno, use spot ou converter e evite alavancagem até entender liquidação.",
+        "Salve o histórico da ordem para saber depois preço de compra, taxa e saldo do ativo."
+      ],
+      "mistakes": [
+        "Abrir futuros, margem, copy trading ou produtos alavancados na primeira compra.",
+        "Confirmar compra sem ver se a cotação inclui spread, taxa ou uma moeda diferente."
+      ]
+    },
+    {
+      "title": "Proteja a conta",
+      "answer": "Seu primeiro objetivo de segurança é dificultar o roubo da conta. Ative 2FA por app autenticador, configure código anti-phishing se a exchange oferecer e use lista branca de saque antes de manter saldos relevantes.",
+      "actions": [
+        "Use um app autenticador em vez de SMS quando a venue permitir.",
+        "Defina um código anti-phishing para que emails reais da exchange mostrem uma palavra escolhida por você.",
+        "Adicione endereços na lista branca com calma e teste com uma transferência pequena primeiro."
+      ],
+      "mistakes": [
+        "Repetir a senha do email como senha da exchange.",
+        "Ignorar lista branca e anti-phishing até a conta já ter um saldo grande."
+      ]
+    },
+    {
+      "title": "Aprenda a sacar para o banco",
+      "answer": "Sacar para o banco normalmente envolve vender cripto ou stablecoin por moeda fiat e enviar esse saldo para uma rota bancária verificada que a exchange suporta na sua conta. Se saque bancário direto não estiver disponível, a página pode mostrar cartão, gateway ou P2P com riscos e taxas diferentes.",
+      "actions": [
+        "Confira na página oficial de saque a moeda, valor mínimo, taxa e regra de nome do destinatário.",
+        "Venda pouco primeiro e teste um saque pequeno antes de movimentar valores maiores.",
+        "Guarde ID da ordem, comprovante bancário e registros oficiais para suporte ou declarações."
+      ],
+      "mistakes": [
+        "Prometer a si mesmo um prazo específico antes de ler as observações da exchange e do banco.",
+        "Aceitar comprador fora da plataforma que pede liberação da cripto antes do dinheiro estar confirmado."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Qual exchange um iniciante deve usar primeiro?",
+      "a": "Use uma exchange disponível no seu país, com domínio oficial claro, rota de pagamento compreensível e explicação de KYC e saque antes do depósito. A NexuAlpha mostra Bitget primeiro na maioria dos fluxos promocionais, mas você ainda deve confirmar a elegibilidade na tela oficial da venue.",
+      "step": 1
+    },
+    {
+      "q": "Por que a NexuAlpha mostra Bitget primeiro?",
+      "a": "A prioridade atual do site é Bitget primeiro, depois OKX e Binance, salvo quando regras de país ou idioma indicarem outra ordem. Essa prioridade não prova que sua conta será aprovada nem que todos os produtos estarão disponíveis.",
+      "step": 1
+    },
+    {
+      "q": "Bitget é sempre a melhor escolha?",
+      "a": "Não necessariamente. Ela é a primeira porta deste caminho quando elegível, mas sua decisão deve considerar disponibilidade local, taxas, KYC, depósito, saque e as condições atuais da própria venue.",
+      "step": 1
+    },
+    {
+      "q": "Posso usar Binance no meu país?",
+      "a": "Verifique os avisos oficiais da Binance a partir da sua localização antes de abrir conta. Acesso, produtos, rotas fiat e aprovação de KYC podem variar por país e mudar com o tempo.",
+      "step": 1
+    },
+    {
+      "q": "Licença ou registro garantem segurança?",
+      "a": "Não. Licença, registro ou entidade local são contexto útil, mas não garantem aprovação de conta, segurança de investimento, disponibilidade de produto ou sucesso no saque bancário.",
+      "step": 1
+    },
+    {
+      "q": "O que é prova de reservas?",
+      "a": "Prova de reservas é um relatório público da exchange sobre ativos mantidos contra saldos de clientes. Ela ajuda a comparar transparência, mas não substitui checar saque, segurança, taxas e elegibilidade local.",
+      "step": 1
+    },
+    {
+      "q": "Devo abrir conta em várias exchanges?",
+      "a": "No começo, não. Escolha um caminho oficial, aprenda depósito, compra e saque, e só depois adicione outra exchange se souber por que precisa dela.",
+      "step": 1
+    },
+    {
+      "q": "Exchange e carteira são a mesma coisa?",
+      "a": "Não. A exchange permite comprar, vender e manter saldo em uma conta gerenciada por uma empresa; a carteira própria dá controle das chaves a você e também coloca a recuperação sob sua responsabilidade.",
+      "step": 1
+    },
+    {
+      "q": "Preciso comprar um bitcoin inteiro?",
+      "a": "Não. Muitas exchanges permitem comprar frações pequenas, desde que o valor passe pelo mínimo oficial da moeda e do método de pagamento.",
+      "step": 1
+    },
+    {
+      "q": "Código de indicação é golpe?",
+      "a": "Um código de indicação não é golpe por si só; muitas exchanges têm programas oficiais. O risco aparece quando o link é falso, o código é digitado em página não oficial ou alguém promete benefício que os termos da venue não mostram.",
+      "step": 2
+    },
+    {
+      "q": "O código de indicação custa mais caro?",
+      "a": "Um código normal de exchange não deve adicionar taxa extra ao cadastro. O benefício, se existir, depende dos termos atuais da venue e do que a tela oficial confirmar.",
+      "step": 2
+    },
+    {
+      "q": "Posso adicionar o código depois do cadastro?",
+      "a": "Assuma que o código precisa ser aplicado durante o cadastro, a menos que as regras oficiais digam outra coisa. Se você já criou a conta, fale com o suporte oficial dentro da conta em vez de confiar em atalhos de desconhecidos.",
+      "step": 2
+    },
+    {
+      "q": "Por que usar a entrada oficial?",
+      "a": "Ela leva à página de cadastro verificada e mantém o código junto do link. Assim você não precisa copiar códigos de chats, prints ou posts antigos.",
+      "step": 2
+    },
+    {
+      "q": "E se o campo do código estiver vazio?",
+      "a": "Não presuma que o benefício foi aplicado. Volte pela entrada oficial, veja se a venue aplica código automaticamente ou leia os termos atuais antes de criar a conta.",
+      "step": 2
+    },
+    {
+      "q": "Um código pode garantir bônus?",
+      "a": "Não. Bônus, cashback, vouchers e tarefas dependem da campanha atual da exchange, país, produto, depósito e verificações da conta.",
+      "step": 2
+    },
+    {
+      "q": "Como reconheço um link oficial?",
+      "a": "O domínio precisa corresponder ao registro oficial conhecido, sem letras trocadas, encurtadores suspeitos ou subdomínios estranhos. Mesmo um domínio correspondente deve ser tratado como correspondência de registro, não como garantia de segurança da página.",
+      "step": 2
+    },
+    {
+      "q": "Que informações o KYC costuma pedir?",
+      "a": "KYC costuma pedir nome legal, data de nascimento, documento, selfie ou verificação facial e, às vezes, endereço ou origem dos recursos. A lista exata depende da venue e do seu país.",
+      "step": 3
+    },
+    {
+      "q": "Quanto tempo o KYC demora?",
+      "a": "Não existe prazo universal seguro. Algumas contas passam rápido e outras entram em revisão manual, então acompanhe apenas a tela oficial de status da exchange.",
+      "step": 3
+    },
+    {
+      "q": "É seguro enviar meu documento?",
+      "a": "Envie documento somente dentro do app ou site oficial depois de conferir o domínio. Nunca mande documentos por suporte em rede social, conversa privada ou link colado em grupo.",
+      "step": 3
+    },
+    {
+      "q": "Posso operar sem KYC?",
+      "a": "Muitas exchanges centralizadas exigem verificação de identidade para trading, rotas fiat ou saques. Se um serviço promete zero verificação, leia limites, riscos e contexto legal com cuidado antes de usar.",
+      "step": 3
+    },
+    {
+      "q": "Por que a exchange pediu origem dos recursos?",
+      "a": "Exchanges podem perguntar de onde veio o dinheiro como parte de controles contra lavagem de dinheiro. Responda pelo suporte oficial e use registros reais quando a venue solicitar.",
+      "step": 3
+    },
+    {
+      "q": "Posso usar conta bancária de outra pessoa?",
+      "a": "Evite. Depósitos e saques fiat muitas vezes exigem que o nome da conta bancária corresponda ao nome do KYC, e divergências podem atrasar ou bloquear valores.",
+      "step": 3
+    },
+    {
+      "q": "O que faço se meu KYC for recusado?",
+      "a": "Leia o motivo dentro da própria exchange e envie somente os documentos pedidos pelo fluxo oficial. Não pague terceiros que prometem aprovar sua conta por fora.",
+      "step": 3
+    },
+    {
+      "q": "Qual o valor mínimo para começar?",
+      "a": "O mínimo depende da exchange, moeda, método de pagamento e país. Comece com um valor pequeno que passe pelo mínimo oficial e permita aprender compra e saque sem pressa.",
+      "step": 4
+    },
+    {
+      "q": "Devo depositar por cartão ou transferência?",
+      "a": "Compare taxa oficial, velocidade informada, limites, regra de nome e processo de reembolso ou disputa. Transferência pode ser mais barata em alguns lugares, enquanto cartão ou gateway pode custar mais.",
+      "step": 4
+    },
+    {
+      "q": "O que é P2P?",
+      "a": "P2P é uma negociação com outra pessoa enquanto a exchange segura a cripto em escrow durante a ordem. Fique dentro da tela da ordem e nunca libere cripto antes de confirmar o dinheiro na sua própria conta.",
+      "step": 4
+    },
+    {
+      "q": "Posso pagar alguém fora da plataforma?",
+      "a": "Não para um primeiro depósito. Pagamento fora do fluxo oficial tira a proteção da ordem e dificulta provar o que aconteceu se houver disputa.",
+      "step": 4
+    },
+    {
+      "q": "Por que o nome do pagador importa?",
+      "a": "A exchange pode exigir que o nome do banco ou provedor de pagamento corresponda ao nome verificado no KYC. Se os nomes não baterem, o depósito ou saque pode ficar preso em revisão.",
+      "step": 4
+    },
+    {
+      "q": "O que é USDT?",
+      "a": "USDT é uma stablecoin que tenta acompanhar o dólar americano, mas ainda depende de emissor, rede e liquidez. Ela pode ser útil para aprender cotações, mas você deve conferir rede e taxas antes de mover.",
+      "step": 5
+    },
+    {
+      "q": "Qual moeda devo comprar primeiro?",
+      "a": "Para aprender, muitos iniciantes escolhem ativos mais conhecidos como BTC, ETH ou uma stablecoin, sempre com valor pequeno. Evite tokens de moda se você não entende utilidade, liquidez e onde consegue vender.",
+      "step": 5
+    },
+    {
+      "q": "O que significa comprar no spot?",
+      "a": "Spot significa comprar ou vender o ativo sem usar empréstimo ou alavancagem. Para a primeira compra, ele é mais simples do que futuros, margem ou produtos perpétuos.",
+      "step": 5
+    },
+    {
+      "q": "O que é spread?",
+      "a": "Spread é a diferença entre preço de compra e preço de venda, ou entre a cotação mostrada e o mercado usado pela venue. Em compras simples, ele pode aparecer junto com ou no lugar de uma taxa explícita.",
+      "step": 5
+    },
+    {
+      "q": "Posso usar futuros na primeira compra?",
+      "a": "Não é uma boa primeira etapa. Futuros e alavancagem podem causar liquidação, que é a perda forçada de posição quando o mercado se move contra você.",
+      "step": 5
+    },
+    {
+      "q": "O que é ordem de mercado?",
+      "a": "Uma ordem de mercado compra ou vende pelo preço disponível no momento. Ela é simples, mas em moeda com pouca liquidez pode sair pior do que a prévia sugeria.",
+      "step": 5
+    },
+    {
+      "q": "Devo guardar o comprovante da compra?",
+      "a": "Sim. Guarde histórico da ordem, taxa, preço e saldo porque isso ajuda no suporte, no controle pessoal e em registros que você precise preparar depois.",
+      "step": 5
+    },
+    {
+      "q": "O que é 2FA?",
+      "a": "2FA é uma segunda verificação além da senha, geralmente por app autenticador ou SMS. Prefira app autenticador quando a exchange oferecer, porque SMS pode depender da operadora.",
+      "step": 6
+    },
+    {
+      "q": "O que é código anti-phishing?",
+      "a": "É uma palavra ou frase escolhida por você que aparece em emails reais da exchange quando a ferramenta existe. Se o email não mostra o código esperado, trate como suspeito.",
+      "step": 6
+    },
+    {
+      "q": "O que é lista branca de saque?",
+      "a": "É uma lista de destinos aprovados para onde a conta pode sacar. Ela reduz o risco de um invasor mudar o destino rapidamente, mas você precisa cadastrar rede e endereço com cuidado.",
+      "step": 6
+    },
+    {
+      "q": "Posso usar a mesma senha do email?",
+      "a": "Não. Use senha única para a exchange, porque quem controla seu email pode tentar redefinir acesso e confirmar operações.",
+      "step": 6
+    },
+    {
+      "q": "Suporte pode pedir meu código 2FA?",
+      "a": "Não trate isso como normal. Suporte real não precisa que você entregue código 2FA, senha, seed phrase ou acesso remoto por chat.",
+      "step": 6
+    },
+    {
+      "q": "Devo deixar cripto na exchange?",
+      "a": "Para aprender com valor pequeno, muitas pessoas deixam saldo na exchange por simplicidade. Para valores maiores, compare risco de custódia, saque para carteira própria e sua capacidade de guardar chaves com segurança.",
+      "step": 6
+    },
+    {
+      "q": "O que acontece se a exchange sair do ar?",
+      "a": "Você pode perder acesso temporário a saldo, ordens ou saques enquanto o serviço estiver indisponível. Por isso, acompanhe status oficial, segurança, provas de reservas, histórico de saque e alternativas antes de manter valores relevantes.",
+      "step": 6
+    },
+    {
+      "q": "Como saco para minha conta bancária?",
+      "a": "Normalmente você vende cripto por moeda fiat e usa a rota de saque bancário ou P2P mostrada na sua conta. Leia mínimo, taxa, nome do destinatário e instruções oficiais antes de confirmar.",
+      "step": 7
+    },
+    {
+      "q": "Quanto tempo leva o saque bancário?",
+      "a": "Não existe prazo universal seguro. Use apenas o prazo exibido pela exchange, pelo provedor de pagamento e pelo banco no momento da operação.",
+      "step": 7
+    },
+    {
+      "q": "O que faço se o saque não chegou?",
+      "a": "Confira status da ordem, comprovante, nome do destinatário e qualquer pedido de revisão dentro da exchange. Se precisar de ajuda, abra suporte pelo app ou site oficial e informe IDs da ordem, nunca senhas ou 2FA.",
+      "step": 7
+    },
+    {
+      "q": "Posso sacar cripto para outra carteira?",
+      "a": "Sim, se a exchange e a carteira suportarem a mesma moeda e a mesma rede. Teste com valor pequeno porque envio em rede errada pode ser irreversível.",
+      "step": 7
+    },
+    {
+      "q": "Tenho que pagar imposto?",
+      "a": "Regras fiscais dependem do seu país e da sua situação. Use informações oficiais da autoridade local ou um profissional qualificado, e mantenha registros de compras, vendas, saques e taxas.",
+      "step": 7
+    },
+    {
+      "q": "P2P serve para sacar para o banco?",
+      "a": "Pode servir quando a exchange oferece escrow e regras claras para sua conta. Confirme o dinheiro na sua própria conta antes de liberar cripto e evite qualquer pedido para conversar ou pagar por fora.",
+      "step": 7
+    },
+    {
+      "q": "Posso confiar em prints de pagamento?",
+      "a": "Não confie apenas em print. Confira o saldo no seu banco ou provedor, porque imagens podem ser falsas ou canceladas antes da compensação final.",
+      "step": 7
+    },
+    {
+      "q": "Que registros devo guardar?",
+      "a": "Guarde histórico de ordens, comprovantes de depósito e saque, taxas, IDs e extratos oficiais. Esses registros ajudam em suporte, controle pessoal e eventuais obrigações locais.",
+      "step": 7
+    }
+  ]
+}

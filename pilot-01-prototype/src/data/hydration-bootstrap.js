@@ -1,3 +1,4 @@
+import { parseBeginnerPath } from "./beginner-routes.js";
 // Use the exact public prerender URL for the first React pass. Browser context
 // is captured by the entrypoint before child effects and restored after mount.
 import { appendFragmentContextParams } from "./locale-routing.js";
@@ -21,6 +22,10 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
     // Explicit English prevents a saved browser language changing neutral SSR.
     url.searchParams.set("locale", prerenderState.locale || "en");
     // Runtime home funding is rendered with the requested market and product context.
+    if (parseBeginnerPath(pathname)) {
+      const market = prerenderState.beginnerContext?.market;
+      if (typeof market === "string" && market && market.length <= 64) url.searchParams.set("market", market);
+    }
     if (pathname === "/" && prerenderState.homeContext) {
       for (const key of ["market", "product", "account_stage", "funding"]) {
         const value = prerenderState.homeContext[key];

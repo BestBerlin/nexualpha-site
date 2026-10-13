@@ -1,0 +1,398 @@
+{
+  "locale": "de",
+  "slug": {
+    "start": "starten",
+    "questions": "fragen",
+    "check": "pruefen"
+  },
+  "labels": {
+    "start": "Hier starten",
+    "questions": "Fragen",
+    "check": "Link pruefen",
+    "newDoor": "Ich bin neu",
+    "traderDoor": "Ich trade schon",
+    "shortAnswer": "Kurzantwort",
+    "steps": "Schritte",
+    "mistakes": "Haeufige Fehler",
+    "next": "Naechster Schritt",
+    "why": "Warum diese Wahl",
+    "official": "Offizieller Einstieg",
+    "checkButton": "Link pruefen",
+    "urlLabel": "Boersenlink einfuegen",
+    "country": "Wohnsitzland",
+    "chooseCountry": "Land waehlen",
+    "noChoice": "Kein passender Venue gefunden. Pruefe die aktuellen Regeln, bevor du ein Konto eroeffnest.",
+    "backup": "Ersatzoption",
+    "register": "Registrieren",
+    "valid": "Domain stimmt mit dem offiziellen Register ueberein",
+    "invalid": "Diesen Link nicht verwenden",
+    "unknown": "Unbekannter Link",
+    "progress": "Fortschritt",
+    "complete": "Abgeschlossen",
+    "reset": "Zuruecksetzen"
+  },
+  "intro": "Ein einfacher Weg fuer den ersten Kryptokauf ohne Raten: eine Boerse waehlen, den offiziellen Einstieg pruefen, das Konto verifizieren, klein einzahlen, spot kaufen, das Konto absichern und dann den Auszahlungsweg lernen.",
+  "why": [
+    "Die erste Reihenfolge folgt Landeseignung und aktueller Prioritaet: zuerst Bitget, danach OKX und Binance, wenn sie passen.",
+    "In der Tuerkei beginnt der Pfad mit OKX. In jedem Land gelten am Ende die offiziellen Bedingungen und die Anzeige im eigenen Konto."
+  ],
+  "scams": [
+    {
+      "title": "Falscher Support per Direktnachricht",
+      "answer": "Offizieller Support sollte aus der App oder Website der Boerse geoeffnet werden. Wer per Direktnachricht Passwort, 2FA-Code, Ausweis, Fernzugriff oder Seed Phrase verlangt, ist ein Risiko."
+    },
+    {
+      "title": "Gefaehrte Apps",
+      "answer": "Gefaehrte Apps koennen Logo und Login nachbauen, um Zugangsdaten zu stehlen. Lade Apps nur ueber die von der Boerse genannten offiziellen Quellen oder einen verifizierten App-Store-Publisher."
+    },
+    {
+      "title": "Gefaehrte Airdrops",
+      "answer": "Airdrop-Betrug verspricht kostenlose Tokens, damit du eine Wallet verbindest, Freigaben erteilst, Gebuehren zahlst oder eine Seed Phrase eingibst. Pruefe Kampagnen ueber offizielle Kanaele und schliesse Seiten, die Geheimnisse verlangen."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Eine Boerse auswaehlen",
+      "answer": "Starte mit Bitget, wenn Land und Produkt fuer dich passen; in der Tuerkei startest du mit OKX und vergleichst Binance oder Bybit nur bei Bedarf. Ziel ist nicht der groesste Bonus, sondern ein offizieller Kontopfad, den du verstehst, bevor du Geld sendest.",
+      "actions": [
+        "Oeffne das Boersenprofil ueber NexuAlpha und pruefe Venue-Name, offizielle Domain, Hinweise zu gesperrten Regionen, Proof of Reserves und Fiat-Optionen.",
+        "Stelle sicher, dass die Kontooberflaeche dein Land nicht ablehnt, bevor du eine Einzahlung planst.",
+        "Wenn der Venue deinen Markt als nicht verfuegbar anzeigt, stoppe und waehle den naechsten geeigneten Kandidaten."
+      ],
+      "mistakes": [
+        "Mehrere Konten gleichzeitig eroeffnen, bevor klar ist, welche Boerse dein Land und deine Zahlungsmethode akzeptiert.",
+        "Nur wegen einer Bonuszeile waehlen, ohne Region, KYC, Gebuehren, Auszahlung und offizielle Domain zu pruefen."
+      ]
+    },
+    {
+      "title": "Mit dem Code registrieren",
+      "answer": "Nutze den NexuAlpha-Einstieg, damit die Boerse den richtigen Referral-Code erhaelt. Ein Code kann nur dann einen Teil der Gebuehren zurueckgeben oder einen anderen Vorteil bringen, wenn die offiziellen Venue-Bedingungen und die Anmeldeseite das anzeigen; er sollte nichts extra kosten.",
+      "actions": [
+        "Oeffne den offiziellen Registrierungseinstieg der fuer dein Land angezeigten Plattform.",
+        "Pruefe die finale Domain und den im Boersenfenster angezeigten Code, bevor du das Konto erstellst.",
+        "Wenn die Boersenseite keinen Code oder Vorteil zeigt, fahre erst nach Lesen der aktuellen Referral-Bedingungen dieses Venue fort."
+      ],
+      "mistakes": [
+        "Einen Code aus einer Chatgruppe kopieren, nachdem du die offizielle Registrierungsseite verlassen hast.",
+        "Annehmen, dass jeder Code in jedem Land, Produkt und Aktionszeitraum denselben Vorteil hat."
+      ]
+    },
+    {
+      "title": "KYC in einfachen Worten abschliessen",
+      "answer": "KYC bedeutet, dass die Boerse prueft, ob das Konto zu deiner rechtlichen Identitaet gehoert. Meist brauchst du ein Ausweisdokument, ein Selfie oder Gesichtspruefung und manchmal Angaben zu Adresse oder Mittelherkunft; Status und Dauer haengen vom Venue ab.",
+      "actions": [
+        "Lade Dokumente nur in der offiziellen App oder Website der Boerse hoch, nachdem du die Domain geprueft hast.",
+        "Nutze deinen rechtlichen Namen, deine eigene E-Mail oder Telefonnummer und eine Zahlungsmethode auf deinen Namen.",
+        "Wenn weitere Informationen verlangt werden, antworte nur ueber den offiziellen Support im Konto."
+      ],
+      "mistakes": [
+        "Pass- oder Ausweisfotos an jemanden senden, der sich auf Telegram, WhatsApp oder X als Support ausgibt.",
+        "Bankkonto oder Ausweis einer anderen Person nutzen und spaeter bei Namensabgleich oder Auszahlung feststecken."
+      ]
+    },
+    {
+      "title": "Ueber verfuegbare Wege einzahlen",
+      "answer": "Der sichere Einzahlungsweg haengt von deinem Land und deiner Kontoanzeige ab. Wenn lokale Bankueberweisung angeboten wird, folge der offiziellen Anleitung; sonst vergleiche Karte, Drittanbieter-Gateway und P2P nach Gebuehren, Limits, Namensabgleich und Streitfallprozess.",
+      "actions": [
+        "Oeffne die Einzahlungsseite in deinem verifizierten Konto und waehle deine lokale Waehrung, falls sie angezeigt wird.",
+        "Lies Mindestbetrag, Gebuehr, Zahlungsmethode, Verarbeitungshinweis und Regel zum Absendernamen, bevor du zahlst.",
+        "Bleibe bei P2P im Escrow-Bildschirm der Boerse und bewahre Zahlungsnachweise bis zum Abschluss der Order auf."
+      ],
+      "mistakes": [
+        "Geld an ein Konto senden, das per Direktnachricht kam, statt dem Einzahlungsfluss der Boerse zu folgen.",
+        "Den billigsten Weg waehlen, ohne zu pruefen, ob der Kontoname mit dem KYC-Namen uebereinstimmen muss."
+      ]
+    },
+    {
+      "title": "Den ersten Spot-Kauf klein halten",
+      "answer": "Nutze fuer den ersten Kauf Spot oder Convert mit einem kleinen Betrag, den du zum Lernen verwenden kannst. Vor der Bestaetigung solltest du Asset, Zahlungswaehrung, Angebotspreis, Gebuehr oder Spread und Endbetrag sehen.",
+      "actions": [
+        "Waehle grosse Assets wie BTC, ETH oder einen Stablecoin erst, nachdem du die Ordervorschau gelesen hast.",
+        "Starte klein, nutze Spot oder Convert und vermeide Leverage, bis du Liquidation verstehst.",
+        "Speichere die Order, damit du Kaufpreis, Gebuehr und Asset-Saldo spaeter nachvollziehen kannst."
+      ],
+      "mistakes": [
+        "Futures, Margin, Copy Trading oder gehebelte Produkte als ersten Kauf oeffnen.",
+        "Auf Kaufen druecken, ohne zu pruefen, ob Spread, Gebuehr oder eine andere Waehrung enthalten ist."
+      ]
+    },
+    {
+      "title": "Das Konto absichern",
+      "answer": "Das erste Sicherheitsziel ist, eine Kontouebernahme schwer zu machen. Aktiviere 2FA per Authenticator-App, setze einen Anti-Phishing-Code, wenn der Venue ihn anbietet, und nutze eine Auszahlungs-Whitelist, bevor du relevante Guthaben haeltst.",
+      "actions": [
+        "Nutze eine Authenticator-App statt SMS, wenn der Venue das unterstuetzt.",
+        "Setze einen Anti-Phishing-Code, damit echte Boersenmails ein Wort zeigen, das nur du gewaehlt hast.",
+        "Fuege Auszahlungsadressen langsam zur Whitelist hinzu und teste sie zuerst mit einem kleinen Transfer."
+      ],
+      "mistakes": [
+        "Das E-Mail-Passwort als Boersenpasswort wiederverwenden.",
+        "Whitelist und Anti-Phishing erst einrichten, nachdem das Konto schon ein grosses Guthaben haelt."
+      ]
+    },
+    {
+      "title": "Zur Bank auszahlen",
+      "answer": "Auszahlung zur Bank bedeutet meist, Crypto oder Stablecoins in Fiat zu verkaufen und dieses Fiat dann ueber einen im Konto unterstuetzten Bankweg zu senden. Wenn direkte Bankauszahlung nicht angeboten wird, kann die Seite Karte, Drittanbieter oder P2P mit unterschiedlichen Kosten und Risiken zeigen.",
+      "actions": [
+        "Pruefe auf der offiziellen Auszahlungsseite Waehrung, Mindestbetrag, Gebuehr und Regel zum Empfaengernamen.",
+        "Verkaufe zuerst wenig und teste eine kleine Auszahlung, bevor du groessere Betraege bewegst.",
+        "Bewahre Boersen-Order-ID, Bankbeleg und offizielle Kontoauszuege fuer eigene Verwaltung oder Fachberatung auf."
+      ],
+      "mistakes": [
+        "Geldeingang am selben Tag erwarten, ohne die Hinweise von Boerse und Bank zur Verarbeitung zu lesen.",
+        "Einen ausserhalb der Plattform auftretenden Kaeufer akzeptieren, der Crypto freigegeben haben will, bevor das Geld sicher eingegangen ist."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Welche Boerse sollte ein Anfaenger zuerst nutzen?",
+      "a": "Waehle eine Boerse, die in deinem Land verfuegbar ist, eine klare offizielle Domain hat, deinen Zahlungsweg unterstuetzt und KYC sowie Auszahlungen vor der Einzahlung erklaert. NexuAlpha beginnt in geeigneten Flows mit Bitget, waehrend die Tuerkei mit OKX startet.",
+      "step": 1
+    },
+    {
+      "q": "Warum zeigt NexuAlpha Bitget zuerst?",
+      "a": "Die aktuelle Prioritaet ist Bitget zuerst, danach OKX und Binance, ausser Landesregeln oder Locale-Policy verlangen etwas anderes. Du musst trotzdem die offizielle Kontoanzeige pruefen, weil eine oeffentliche Empfehlung keine persoenliche Berechtigung beweist.",
+      "step": 1
+    },
+    {
+      "q": "Kann ich Binance in meinem Land nutzen?",
+      "a": "Pruefe vor der Kontoeroeffnung die offiziellen Hinweise von Binance aus deiner eigenen Position und deinem Konto heraus. Zugriff, Produkte, Fiat-Wege und KYC-Freigabe koennen je nach Land unterschiedlich sein und sich aendern.",
+      "step": 1
+    },
+    {
+      "q": "Ist eine Boersenlizenz dasselbe wie eine Sicherheitsgarantie?",
+      "a": "Nein. Eine Lizenz oder Registrierung ist nuetzlicher Kontext, garantiert aber keine Kontoannahme, Investitionssicherheit, Produktverfuegbarkeit oder erfolgreiche Bankauszahlung.",
+      "step": 1
+    },
+    {
+      "q": "Was ist Proof of Reserves?",
+      "a": "Proof of Reserves ist ein oeffentlicher Bericht einer Boerse ueber gehaltene Assets gegenueber Kundenguthaben. Er ist ein Vertrauenssignal, aber du solltest weiterhin Auszahlungen, Kontosicherheit, Gebuehren und lokale Eignung pruefen.",
+      "step": 1
+    },
+    {
+      "q": "Sollte ich viele Boersenkonten eroeffnen?",
+      "a": "Nicht am Anfang. Waehle einen offiziellen Pfad, lerne Einzahlungen und Auszahlungen und fuege eine zweite Boerse erst hinzu, wenn du einen klaren Grund hast.",
+      "step": 1
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Boersenkonto und Wallet?",
+      "a": "Ein Boersenkonto laesst dich Crypto in einem von der Firma verwalteten Konto kaufen, verkaufen und halten. Eine Self-Custody-Wallet gibt dir die Kontrolle ueber die Schluessel, macht aber auch Wiederherstellung und Schutz zu deiner Verantwortung.",
+      "step": 1
+    },
+    {
+      "q": "Ist ein Referral-Code Betrug?",
+      "a": "Ein Referral-Code ist nicht automatisch Betrug, weil viele offizielle Boersen solche Codes unterstuetzen. Unsicher wird es bei falschen Links, Codeeingabe auf inoffiziellen Seiten oder versprochenen Vorteilen, die nicht in offiziellen Bedingungen stehen.",
+      "step": 2
+    },
+    {
+      "q": "Kostet mich ein Referral-Code extra?",
+      "a": "Ein normaler Boersen-Referral-Code sollte deinem Konto keine Zusatzgebuehr auferlegen. Ein Vorteil, falls vorhanden, richtet sich nach den aktuellen Venue-Bedingungen und der Bestaetigung auf der offiziellen Anmeldeseite.",
+      "step": 2
+    },
+    {
+      "q": "Kann ich den Code nach der Anmeldung hinzufuegen?",
+      "a": "Gehe davon aus, dass der Code bei der Registrierung verwendet werden muss, sofern die offiziellen Regeln nichts anderes sagen. Wenn du schon registriert bist, frage den offiziellen Support im Konto statt einer fremden Abkuerzung zu vertrauen.",
+      "step": 2
+    },
+    {
+      "q": "Warum sollte ich den NexuAlpha-Einstieg nutzen?",
+      "a": "Der NexuAlpha-Einstieg hilft, die Uebergabe zur offiziellen Domain und zum vorgesehenen Code geordnet zu halten. Du musst trotzdem die Boersenseite pruefen, weil die endgueltigen Vorteile den Venue-Bedingungen folgen.",
+      "step": 2
+    },
+    {
+      "q": "Soll ich mich per App oder Website registrieren?",
+      "a": "Beides kann passen, wenn die Quelle offiziell ist. Apps solltest du nur ueber die von der Boerse verlinkte Quelle oder einen verifizierten App-Store-Publisher beziehen, nicht aus Chatgruppen.",
+      "step": 2
+    },
+    {
+      "q": "Was mache ich, wenn die Zielseite anders aussieht?",
+      "a": "Stoppe und pruefe Domain, Venue-Name und ob die Seite ungewoehnliche Daten verlangt. Wenn du unsicher bist, gehe zur offiziellen Boersenseite zurueck oder nutze den NexuAlpha-Linkcheck, bevor du persoenliche Daten eingibst.",
+      "step": 2
+    },
+    {
+      "q": "Was bedeutet KYC?",
+      "a": "KYC steht fuer Know Your Customer und ist die Identitaetspruefung des Kontoinhabers. Die Boerse nutzt sie, um Regeln einzuhalten und Kontolimits oder Funktionen festzulegen.",
+      "step": 3
+    },
+    {
+      "q": "Welche Unterlagen braucht KYC normalerweise?",
+      "a": "Oft werden rechtlicher Name, Geburtsdatum, Ausweisdokument und Gesichtspruefung verlangt. Die genauen Anforderungen haengen von Venue und Land ab, daher gilt die offizielle Verifizierungsseite im Konto.",
+      "step": 3
+    },
+    {
+      "q": "Wie lange dauert KYC?",
+      "a": "Es gibt keine einheitliche Dauer fuer alle Konten. Sie haengt von Boerse, Warteschlange, Dokumentqualitaet und moeglichen Zusatzpruefungen ab.",
+      "step": 3
+    },
+    {
+      "q": "Ist KYC ein Datenschutzrisiko?",
+      "a": "Du teilst sensible Daten, daher solltest du sie nur ueber die offizielle App oder Website senden und die Datenschutzhinweise der Boerse lesen. Sende keine Dokumente an Supportpersonen, die dich per Direktnachricht kontaktieren.",
+      "step": 3
+    },
+    {
+      "q": "Darf ich den Ausweis eines Familienmitglieds nutzen?",
+      "a": "Vermeide das, ausser die Boerse erlaubt eine bestimmte Kontostruktur offiziell. Abweichende Identitaet, Bankkonto und Kontoinhaber koennen Einzahlungen, Auszahlungen und Wiederherstellung erschweren.",
+      "step": 3
+    },
+    {
+      "q": "Was tue ich, wenn KYC abgelehnt wird?",
+      "a": "Lies den offiziellen Grund im Konto und korrigiere Foto, Daten oder Dokumente entsprechend. Meide Personen, die einen internen Weg oder bezahlte Umgehung der Pruefung anbieten.",
+      "step": 3
+    },
+    {
+      "q": "Sollte die erste Einzahlung per Karte, Bank, P2P oder USDT laufen?",
+      "a": "Nutze den Weg, der in deinem offiziellen Konto wirklich angezeigt wird und zu deinem Land passt. Zum Lernen ist ein kleiner Betrag mit vollstaendiger Aufzeichnung besser, damit du Kosten und Status verfolgen kannst.",
+      "step": 4
+    },
+    {
+      "q": "Ist P2P fuer Anfaenger sicher?",
+      "a": "P2P ist sicherer, wenn du im Escrow und Chat der Boerse bleibst. Verlasse die Plattform nicht, gib keine Assets frei, bevor Geld eingegangen ist, und bewahre Zahlungsnachweise auf.",
+      "step": 4
+    },
+    {
+      "q": "Mit wie viel Geld kann ich anfangen?",
+      "a": "Mindestbetraege unterscheiden sich nach Boerse, Waehrung und Zahlungsweg. Lies die Zahl auf der offiziellen Orderseite und beginne klein, damit du den Ablauf ohne Druck lernst.",
+      "step": 4
+    },
+    {
+      "q": "Warum muss ich bei USDT eine Netzwerk waehlen?",
+      "a": "USDT kann auf mehreren Netzwerken laufen, und Sende- sowie Empfangsnetzwerk muessen zusammenpassen. Ein falsches Netzwerk kann zu Verzoegerung, Zugriffsverlust oder schwierigen Supportprozessen fuehren.",
+      "step": 4
+    },
+    {
+      "q": "Was mache ich, wenn meine Karte abgelehnt wird?",
+      "a": "Lies die offizielle Meldung von Boerse oder Bank, um zu sehen, ob Karte, Land oder Zahlungsweg unterstuetzt werden. Nutze keinen privaten Top-up-Service, sondern waehle einen anderen offiziellen Weg im Konto.",
+      "step": 4
+    },
+    {
+      "q": "Warum ist der gutgeschriebene Betrag kleiner als die Zahlung?",
+      "a": "Der Unterschied kann aus Gebuehren, Spread, Wechselkurs oder P2P-Preis entstehen. Lies vor der Bestaetigung erwarteten Eingang, Kosten, Waehrung und angebotenen Preis.",
+      "step": 4
+    },
+    {
+      "q": "Sollte der erste Kauf BTC, ETH oder USDT sein?",
+      "a": "Zum Lernen ist ein kleiner Betrag in einem grossen Asset oder Stablecoin oft leichter zu verstehen als ein kleiner Token. Die Asset-Wahl ist kein Gewinnversprechen, sondern der Fokus liegt auf Spot-Order, Saldo und Gebuehren.",
+      "step": 5
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Spot und Futures?",
+      "a": "Spot bedeutet, dass du ein Asset kaufst oder verkaufst, das im Kontosaldo erscheint. Futures sind Derivate mit Margin und Liquidationsrisiko, die ein Anfaenger fuer den ersten Kauf nicht braucht.",
+      "step": 5
+    },
+    {
+      "q": "Soll ich Market Order oder Limit Order nutzen?",
+      "a": "Eine Market Order priorisiert schnelle Ausfuehrung zum verfuegbaren Marktpreis. Eine Limit Order nutzt deinen festgelegten Preis, kann aber ungefuellt bleiben, wenn der Markt diesen Preis nicht erreicht.",
+      "step": 5
+    },
+    {
+      "q": "Wo sehe ich Trading-Gebuehren?",
+      "a": "Die Ordervorschau zeigt vor der Bestaetigung oft geschaetzte Gebuehren oder Spread. Nach der Ausfuehrung pruefst du die Orderhistorie und die offizielle Gebuehrenseite fuer den tatsaechlichen Betrag.",
+      "step": 5
+    },
+    {
+      "q": "Warum aendert sich der Wert nach dem Kauf staendig?",
+      "a": "Crypto-Preise bewegen sich laufend, daher schwankt auch der Wert in Fiat oder USDT. Die Anzahl der Coins kann gleich bleiben, waehrend der geschaetzte Wert steigt oder faellt.",
+      "step": 5
+    },
+    {
+      "q": "Was mache ich, wenn ich den falschen Coin gekauft habe?",
+      "a": "Bei Spot kannst du meist wieder verkaufen oder tauschen, aber Preisbewegung und Gebuehren gelten weiter. Klicke keine Wiederherstellungslinks von Fremden, sondern pruefe zuerst die offizielle Orderhistorie.",
+      "step": 5
+    },
+    {
+      "q": "Was ist 2FA?",
+      "a": "2FA ist Zwei-Faktor-Authentifizierung, also ein zusaetzlicher Code neben dem Passwort beim Login oder bei Auszahlungen. Eine Authenticator-App ist oft stabiler als nur SMS, weil Telefonnummern eigene Risiken haben.",
+      "step": 6
+    },
+    {
+      "q": "Wozu dient ein Anti-Phishing-Code?",
+      "a": "Ein Anti-Phishing-Code zeigt in offiziellen Boersenmails ein von dir gewaehltes Wort. Fehlt der Code oder wirkt ein Link seltsam, oeffne das Konto ueber Bookmark oder offiziellen Einstieg statt ueber die Mail.",
+      "step": 6
+    },
+    {
+      "q": "Soll ich eine Auszahlungs-Whitelist aktivieren?",
+      "a": "Wenn der Venue sie unterstuetzt, beschraenkt eine Whitelist Auszahlungen auf vorher genehmigte Adressen. Das kostet etwas Einrichtung, kann aber verhindern, dass ein uebernommenes Konto sofort Assets wegschickt.",
+      "step": 6
+    },
+    {
+      "q": "Wie sollte mein Boersenpasswort aussehen?",
+      "a": "Nutze ein langes, einzigartiges Passwort fuer die Boerse und verwende es nicht fuer E-Mail oder Social Media. Speichere es in einem Passwortmanager und sichere auch dein E-Mail-Konto mit 2FA.",
+      "step": 6
+    },
+    {
+      "q": "Darf Support nach meinem 2FA-Code fragen?",
+      "a": "Offizieller Support sollte niemals Passwort, Login-Code, 2FA, Seed Phrase oder Fernzugriff verlangen. Wenn dich jemand per Direktnachricht draengt, behandle es als Betrugsversuch.",
+      "step": 6
+    },
+    {
+      "q": "Wie erkenne ich echte Boersenmails?",
+      "a": "Pruefe Absenderdomain, Anti-Phishing-Code und Ziel des Links. Sicherer ist es, App oder offizielle Website direkt zu oeffnen und die Kontobenachrichtigung dort zu lesen.",
+      "step": 6
+    },
+    {
+      "q": "Wie zahle ich Geld auf mein Bankkonto aus?",
+      "a": "Meist verkaufst du Crypto in unterstuetztes Fiat und waehlst dann einen offiziellen Auszahlungsweg, der in deinem Land angezeigt wird. Bank, Limits, Kosten und Verarbeitung richten sich nach Venue und Zahlungsanbieter.",
+      "step": 7
+    },
+    {
+      "q": "Warum gibt es in meinem Land keine Bankauszahlung?",
+      "a": "Fiat-Wege haengen von lokalen Partnern, Landesregeln und Boersenentscheidung ab. Wenn nichts verfuegbar ist, lies offizielle Optionen wie P2P im Konto und vermeide private Auszahlungsdienste.",
+      "step": 7
+    },
+    {
+      "q": "Was bedeutet Auszahlung von Crypto in eine Wallet?",
+      "a": "Du bewegst Assets aus dem Boersenkonto an eine Wallet-Adresse, die du kontrollierst. Seed Phrase, Adresse, Netzwerk und Gas-Gebuehren liegen dann in deiner Verantwortung.",
+      "step": 7
+    },
+    {
+      "q": "Warum zuerst eine kleine Testauszahlung?",
+      "a": "Crypto-Transfers lassen sich nach dem Senden meist nicht rueckgaengig machen. Ein kleiner Test bestaetigt Adresse, Netzwerk, Kosten und Ankunft, bevor du mehr bewegst.",
+      "step": 7
+    },
+    {
+      "q": "Was tun, wenn eine Auszahlung nicht ankommt?",
+      "a": "Pruefe in der offiziellen Auszahlungshistorie Status, TxID und Netzwerkbestaetigungen, falls vorhanden. Wenn du Hilfe brauchst, eroeffne ein Ticket in App oder offizieller Website, nicht per Direktnachricht.",
+      "step": 7
+    },
+    {
+      "q": "Muss ich Steuern zahlen, wenn ich Crypto verkaufe?",
+      "a": "Steuerregeln haengen von deinem steuerlichen Wohnsitz und lokalem Recht ab. NexuAlpha verweist nur darauf, offizielle Behoerdeninformationen zu lesen und Unterlagen fuer qualifizierte Beratung aufzubewahren.",
+      "step": 7
+    },
+    {
+      "q": "Was ist USDT?",
+      "a": "USDT ist ein verbreiteter Stablecoin, der dem Wert des US-Dollars folgen soll. Er ist keine Bankeinlage und kein staatliches Geld, und es bleiben Risiken rund um Emittent, Netzwerk und Boerse.",
+      "step": 5
+    },
+    {
+      "q": "Was passiert, wenn eine Boerse Probleme bekommt?",
+      "a": "Das Ergebnis haengt von Lage der Boerse, Asset-Verwahrung und rechtlichen Verfahren ab. Du kannst Risiko senken, indem du Proof of Reserves, Lizenz- oder Registrierungskontext, Guthabenhoehe und Self-Custody-Optionen pruefst.",
+      "step": 1
+    },
+    {
+      "q": "Kann ein Freund Crypto fuer mich kaufen?",
+      "a": "Das ist nicht empfehlenswert. Unterschiedliche Namen bei Konto, Geldquelle und Empfaenger koennen Auszahlungen, Streitfaelle, Wiederherstellung und Verwaltungsunterlagen erschweren.",
+      "step": 3
+    },
+    {
+      "q": "Sind Lehrer mit Gewinnversprechen sicher?",
+      "a": "Feste Gewinnversprechen, Druck zu mehr Einzahlung und Forderungen nach Ueberweisung an externe Adressen sind hohe Warnsignale. Dieser Anfaengerpfad hilft beim offiziellen Einstieg und einfachen Spot-Ablauf, nicht bei Gewinnversprechen.",
+      "step": 6
+    },
+    {
+      "q": "Ist das erste Suchergebnis immer die offizielle Seite?",
+      "a": "Nein. Anzeigen und Nachahmerseiten koennen oben erscheinen, daher sind offizielle Bookmarks, offizielle App-Quellen oder ein von NexuAlpha gepruefter Einstieg sicherer.",
+      "step": 2
+    },
+    {
+      "q": "Warum sollte ich Order- und Auszahlungsdaten speichern?",
+      "a": "Aufzeichnungen helfen bei Gebuehren, Preis, Auszahlungsstatus und Verwaltungsbedarf. Screenshots sind nuetzlich, aber offizielle Orderhistorie und Kontoexporte bleiben die Hauptquelle.",
+      "step": 7
+    },
+    {
+      "q": "Soll ich mein ganzes Budget auf einmal einsetzen?",
+      "a": "Das ist nicht noetig, besonders bevor du Volatilitaet und Auszahlung verstanden hast. Starte klein, erledige Registrierung, Einzahlung, Kauf, Sicherheit und Testauszahlung, bevor du den naechsten Betrag festlegst.",
+      "step": 5
+    }
+  ]
+}

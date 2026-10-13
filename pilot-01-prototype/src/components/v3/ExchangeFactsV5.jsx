@@ -1,3 +1,4 @@
+import { GlossaryTooltip } from "../shared/GlossaryTooltip.jsx";
 import { factsForVenue, feeFact, venueCheckedOn, feePct } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { venueDatabase } from "../../data/venue-database.js";
@@ -82,10 +83,10 @@ export function FactsStrip({ slug, locale }) {
   const rows = [[l.spot, l.spotSub, spot], [l.perp, l.perpSub, perp]];
   return (
     <section className={`d5-strip enter${rows.every(([, , r]) => r?.maker == null && r?.taker == null) ? " d5-strip--empty" : ""}`} style={{ "--i": 1 }} aria-label={l.fees}>
-      <div className="d5-strip__head" aria-hidden="true"><span /><span>{l.maker}</span><span>{l.taker}</span></div>
+      <div className="d5-strip__head"><span /><span><GlossaryTooltip term="maker-taker-fees" locale={locale}>{l.maker} / {l.taker}</GlossaryTooltip></span><span>{l.taker}</span></div>
       {rows.map(([title, sub, row]) => (
         <div className="d5-strip__row" key={title}>
-          <div className="d5-strip__name"><b>{title}</b><small>{sub}</small></div>
+          <div className="d5-strip__name"><b>{title === l.perp ? <GlossaryTooltip term="perpetual-futures" locale={locale}>{title}</GlossaryTooltip> : title}</b><small>{sub}</small></div>
           <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} locale={locale} none={row?.state === "none"} /></div>
           <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} locale={locale} none={row?.state === "none"} /></div>
         </div>

@@ -1,0 +1,398 @@
+{
+  "locale": "id",
+  "slug": {
+    "start": "mulai",
+    "questions": "pertanyaan",
+    "check": "periksa"
+  },
+  "labels": {
+    "start": "Mulai di sini",
+    "questions": "Pertanyaan",
+    "check": "Periksa tautan",
+    "newDoor": "Saya baru mulai",
+    "traderDoor": "Saya sudah trading",
+    "shortAnswer": "Jawaban singkat",
+    "steps": "Langkah",
+    "mistakes": "Kesalahan umum",
+    "next": "Langkah berikutnya",
+    "why": "Kenapa yang ini",
+    "official": "Pintu masuk resmi",
+    "checkButton": "Periksa tautan",
+    "urlLabel": "Tempel tautan bursa",
+    "country": "Negara tempat tinggal",
+    "chooseCountry": "Pilih negara",
+    "noChoice": "Belum ada venue yang memenuhi syarat. Periksa aturan terbaru sebelum membuka akun.",
+    "backup": "Opsi cadangan",
+    "register": "Daftar",
+    "valid": "Domain cocok dengan registri resmi",
+    "invalid": "Jangan gunakan tautan ini",
+    "unknown": "Tautan belum dikenal",
+    "progress": "Progres",
+    "complete": "Selesai",
+    "reset": "Atur ulang"
+  },
+  "intro": "Jalur sederhana untuk membeli kripto pertama tanpa menebak: pilih satu bursa, buka pintu masuk resmi, verifikasi akun, setor sedikit, beli spot, kunci keamanan, lalu pelajari cara menarik dana.",
+  "why": [
+    "Urutan awal mengikuti kelayakan negara dan prioritas saat ini: Bitget lebih dulu, lalu OKX dan Binance bila sesuai.",
+    "Di Turki, mulai dari OKX; untuk semua negara, keputusan akhir tetap mengikuti syarat resmi venue dan layar akun Anda."
+  ],
+  "scams": [
+    {
+      "title": "Dukungan palsu lewat pesan pribadi",
+      "answer": "Dukungan resmi harus dibuka dari aplikasi atau situs resmi bursa. Siapa pun yang meminta kata sandi, kode 2FA, dokumen identitas, akses layar, atau seed phrase lewat pesan pribadi harus dianggap berisiko."
+    },
+    {
+      "title": "Aplikasi palsu",
+      "answer": "Aplikasi palsu bisa meniru logo dan halaman login untuk mencuri akun. Unduh hanya dari sumber aplikasi resmi yang disebutkan oleh bursa atau dari penerbit toko aplikasi yang terverifikasi."
+    },
+    {
+      "title": "Airdrop palsu",
+      "answer": "Airdrop palsu biasanya menjanjikan token gratis agar Anda menghubungkan wallet, memberi izin belanja, membayar biaya, atau membuka seed phrase. Periksa kampanye dari kanal resmi dan abaikan halaman yang meminta rahasia akun."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Pilih satu bursa",
+      "answer": "Mulai dari Bitget bila negara dan produk Anda memenuhi syarat; di Turki, mulai dari OKX, lalu bandingkan Binance atau Bybit bila perlu. Tujuannya bukan mengejar bonus terbanyak, melainkan memilih satu jalur akun resmi yang bisa Anda pahami sebelum mengirim uang.",
+      "actions": [
+        "Buka profil bursa dari NexuAlpha, lalu periksa nama venue, domain resmi, catatan wilayah terbatas, bukti cadangan, dan opsi fiat.",
+        "Pastikan layar akun tidak menolak negara Anda sebelum Anda membuat rencana deposit.",
+        "Jika venue menyatakan tidak tersedia untuk pasar Anda, berhenti dan pilih kandidat berikutnya yang memenuhi syarat."
+      ],
+      "mistakes": [
+        "Membuka beberapa akun sekaligus sebelum tahu bursa mana yang menerima negara dan metode pembayaran Anda.",
+        "Memilih hanya karena judul bonus tanpa membaca wilayah, KYC, biaya, penarikan, dan domain resmi."
+      ]
+    },
+    {
+      "title": "Daftar dengan kode",
+      "answer": "Gunakan pintu masuk NexuAlpha agar bursa menerima kode rujukan yang benar. Kode dapat memberi pengembalian sebagian biaya atau manfaat lain hanya jika syarat resmi venue dan layar pendaftaran menampilkannya; penggunaannya tidak seharusnya menambah biaya.",
+      "actions": [
+        "Buka pintu pendaftaran resmi platform yang ditampilkan untuk negara Anda.",
+        "Periksa domain akhir dan kode yang terlihat di layar bursa sebelum membuat akun.",
+        "Jika layar bursa tidak menampilkan kode atau manfaat, lanjutkan hanya setelah membaca syarat rujukan resmi venue tersebut."
+      ],
+      "mistakes": [
+        "Menyalin kode dari grup chat setelah keluar dari halaman pendaftaran resmi.",
+        "Menganggap semua kode memberi manfaat yang sama di semua negara, produk, dan periode promosi."
+      ]
+    },
+    {
+      "title": "Selesaikan KYC dengan bahasa sederhana",
+      "answer": "KYC berarti bursa memeriksa bahwa akun tersebut milik orang yang sesuai dengan identitas hukum. Biasanya Anda akan diminta dokumen identitas, foto wajah atau pemeriksaan wajah, dan kadang informasi alamat atau sumber dana; status dan waktu tinjauan mengikuti venue.",
+      "actions": [
+        "Unggah dokumen hanya di aplikasi atau situs resmi bursa setelah memeriksa domain.",
+        "Gunakan nama legal, email atau telepon sendiri, dan metode pembayaran atas nama Anda sendiri.",
+        "Jika tinjauan meminta informasi tambahan, jawab melalui dukungan resmi di dalam akun."
+      ],
+      "mistakes": [
+        "Mengirim foto paspor atau KTP kepada seseorang yang mengaku sebagai dukungan di Telegram, WhatsApp, atau X.",
+        "Memakai rekening atau identitas orang lain lalu tersangkut saat penarikan membutuhkan kecocokan nama."
+      ]
+    },
+    {
+      "title": "Setor melalui jalur yang tersedia",
+      "answer": "Rute deposit aman bergantung pada negara dan layar akun bursa Anda. Jika transfer bank lokal tersedia, ikuti instruksi resmi; jika tidak, bandingkan kartu, gateway pihak ketiga, atau P2P dengan memperhatikan biaya, batas, kecocokan nama, dan proses sengketa.",
+      "actions": [
+        "Buka halaman deposit di akun yang sudah diverifikasi dan pilih mata uang lokal jika tersedia.",
+        "Baca jumlah minimum, biaya, metode pembayaran, catatan pemrosesan, dan aturan nama pengirim sebelum membayar.",
+        "Untuk P2P, tetap di layar escrow bursa dan simpan bukti pembayaran sampai pesanan selesai."
+      ],
+      "mistakes": [
+        "Mengirim uang ke rekening yang diberikan lewat pesan pribadi, bukan lewat alur deposit bursa.",
+        "Memilih rute termurah tanpa memeriksa apakah nama rekening harus cocok dengan nama KYC."
+      ]
+    },
+    {
+      "title": "Lakukan pembelian spot kecil pertama",
+      "answer": "Untuk pembelian pertama, gunakan spot atau convert dengan jumlah kecil yang sanggup Anda pakai untuk belajar. Sebelum konfirmasi, Anda harus melihat aset, mata uang pembayaran, harga kutipan, biaya atau spread, dan jumlah akhir.",
+      "actions": [
+        "Pilih aset besar seperti BTC, ETH, atau stablecoin hanya setelah membaca pratinjau order.",
+        "Mulai kecil, gunakan spot atau convert, dan hindari leverage sampai Anda memahami likuidasi.",
+        "Simpan catatan order agar Anda tahu harga beli, biaya, dan saldo aset."
+      ],
+      "mistakes": [
+        "Membuka futures, margin, copy trading, atau produk leverage sebagai pembelian pertama.",
+        "Menekan beli tanpa memeriksa apakah kutipan menyertakan spread, biaya, atau mata uang berbeda."
+      ]
+    },
+    {
+      "title": "Amankan akun",
+      "answer": "Tujuan keamanan pertama adalah membuat pengambilalihan akun menjadi sulit. Aktifkan 2FA aplikasi autentikator, buat kode anti-phishing bila venue mendukungnya, dan gunakan whitelist penarikan sebelum menyimpan saldo berarti.",
+      "actions": [
+        "Gunakan aplikasi autentikator daripada SMS bila venue mendukungnya.",
+        "Atur kode anti-phishing agar email resmi menampilkan kata yang hanya Anda pilih.",
+        "Tambahkan alamat whitelist penarikan secara perlahan dan uji dengan transfer kecil terlebih dahulu."
+      ],
+      "mistakes": [
+        "Menggunakan ulang kata sandi email sebagai kata sandi bursa.",
+        "Menunda whitelist dan anti-phishing sampai akun sudah menyimpan saldo besar."
+      ]
+    },
+    {
+      "title": "Tarik dana ke bank",
+      "answer": "Penarikan ke bank biasanya berarti menjual kripto atau stablecoin menjadi fiat, lalu mengirim fiat itu ke jalur bank terverifikasi yang didukung akun Anda. Jika penarikan bank langsung tidak tersedia, halaman akun dapat menampilkan opsi kartu, pihak ketiga, atau P2P dengan biaya dan risiko berbeda.",
+      "actions": [
+        "Periksa halaman penarikan resmi untuk mata uang, jumlah minimum, biaya, dan aturan nama penerima.",
+        "Jual sedikit lebih dulu, lalu uji penarikan kecil sebelum memindahkan dana lebih besar.",
+        "Simpan ID order bursa, bukti bank, dan catatan resmi untuk administrasi pribadi atau kebutuhan profesional."
+      ],
+      "mistakes": [
+        "Mengharapkan dana masuk pada hari yang sama sebelum membaca catatan pemrosesan bursa dan bank.",
+        "Menerima pembeli di luar platform yang meminta Anda melepas kripto sebelum uang benar-benar diterima."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Bursa mana yang sebaiknya dipakai pemula lebih dulu?",
+      "a": "Pilih satu bursa yang tersedia di negara Anda, punya domain resmi jelas, mendukung rute pembayaran Anda, dan menjelaskan KYC serta penarikan sebelum deposit. NexuAlpha menempatkan Bitget lebih dulu untuk alur yang memenuhi syarat, sedangkan Turki mulai dari OKX.",
+      "step": 1
+    },
+    {
+      "q": "Kenapa NexuAlpha menampilkan Bitget dulu?",
+      "a": "Prioritas saat ini adalah Bitget lebih dulu, lalu OKX dan Binance, kecuali aturan negara atau kebijakan locale mengatakan lain. Anda tetap perlu memeriksa layar akun resmi karena rekomendasi publik tidak membuktikan kelayakan akun pribadi.",
+      "step": 1
+    },
+    {
+      "q": "Apakah saya bisa memakai Binance di negara saya?",
+      "a": "Periksa pemberitahuan resmi Binance dari lokasi dan akun Anda sendiri sebelum membuka akun. Akses, produk, rute fiat, dan persetujuan KYC dapat berbeda menurut negara dan bisa berubah.",
+      "step": 1
+    },
+    {
+      "q": "Apakah lisensi bursa sama dengan jaminan aman?",
+      "a": "Tidak. Lisensi atau registrasi adalah konteks yang berguna, tetapi tidak menjamin persetujuan akun, keamanan investasi, ketersediaan produk, atau kelancaran penarikan bank.",
+      "step": 1
+    },
+    {
+      "q": "Apa itu proof of reserves?",
+      "a": "Proof of reserves adalah laporan publik bursa tentang aset yang dipegang terhadap saldo pelanggan. Itu satu sinyal kepercayaan, tetapi Anda tetap perlu memeriksa penarikan, keamanan akun, biaya, dan kelayakan lokal.",
+      "step": 1
+    },
+    {
+      "q": "Apakah saya harus membuka banyak akun bursa?",
+      "a": "Tidak untuk awal. Pilih satu jalur resmi, pelajari deposit dan penarikan, lalu tambah bursa lain hanya saat Anda tahu alasan praktisnya.",
+      "step": 1
+    },
+    {
+      "q": "Apa bedanya akun bursa dan wallet?",
+      "a": "Akun bursa memungkinkan Anda membeli, menjual, dan menyimpan kripto di akun yang dikelola perusahaan. Wallet self-custody memberi Anda kendali kunci sendiri, tetapi pemulihan juga menjadi tanggung jawab Anda.",
+      "step": 1
+    },
+    {
+      "q": "Apakah kode rujukan itu penipuan?",
+      "a": "Kode rujukan tidak otomatis penipuan karena banyak bursa resmi mendukungnya. Risikonya muncul saat tautan palsu, kode diketik di halaman tidak resmi, atau seseorang menjanjikan manfaat yang tidak tertulis di syarat resmi.",
+      "step": 2
+    },
+    {
+      "q": "Apakah kode rujukan membuat biaya saya lebih mahal?",
+      "a": "Kode rujukan bursa yang normal tidak seharusnya menambah biaya akun. Manfaatnya, bila ada, mengikuti syarat venue terbaru dan apa yang dikonfirmasi layar pendaftaran resmi.",
+      "step": 2
+    },
+    {
+      "q": "Bisakah saya menambahkan kode setelah mendaftar?",
+      "a": "Anggap kode harus dipakai saat pendaftaran kecuali aturan resmi bursa mengatakan sebaliknya. Jika Anda sudah mendaftar, tanyakan dukungan resmi dari dalam akun dan jangan percaya jalan pintas orang asing.",
+      "step": 2
+    },
+    {
+      "q": "Kenapa sebaiknya memakai pintu masuk NexuAlpha?",
+      "a": "Pintu masuk NexuAlpha membantu menjaga handoff ke domain resmi dan kode yang dimaksud. Anda tetap harus memeriksa layar bursa karena manfaat akhir mengikuti syarat venue.",
+      "step": 2
+    },
+    {
+      "q": "Apakah saya harus memakai aplikasi atau web untuk daftar?",
+      "a": "Keduanya bisa digunakan jika sumbernya resmi. Untuk aplikasi, gunakan tautan dari situs bursa atau penerbit toko aplikasi yang terverifikasi, bukan berkas instalasi dari grup chat.",
+      "step": 2
+    },
+    {
+      "q": "Apa yang harus dilakukan jika halaman akhir tampak berbeda?",
+      "a": "Berhenti dan periksa domain, nama venue, dan apakah halaman meminta data yang tidak wajar. Jika ragu, kembali ke halaman resmi bursa atau gunakan pemeriksa tautan NexuAlpha sebelum memasukkan informasi pribadi.",
+      "step": 2
+    },
+    {
+      "q": "Apa arti KYC?",
+      "a": "KYC berarti Know Your Customer, yaitu proses bursa mengenali pemilik akun. Proses ini membantu bursa memenuhi aturan dan menentukan batas atau fitur akun.",
+      "step": 3
+    },
+    {
+      "q": "Dokumen apa yang biasanya diminta KYC?",
+      "a": "Umumnya bursa meminta nama legal, tanggal lahir, dokumen identitas, dan pemeriksaan wajah. Persyaratan tepatnya bergantung pada venue dan negara, jadi ikuti halaman resmi di akun.",
+      "step": 3
+    },
+    {
+      "q": "Berapa lama proses KYC?",
+      "a": "Tidak ada waktu yang berlaku untuk semua akun. Durasi bergantung pada bursa, antrean, kejelasan dokumen, dan pemeriksaan tambahan yang mungkin diminta.",
+      "step": 3
+    },
+    {
+      "q": "Apakah KYC berisiko untuk privasi?",
+      "a": "Anda membagikan data sensitif, jadi kirim hanya lewat aplikasi atau situs resmi dan baca kebijakan privasi bursa. Jangan kirim dokumen ke dukungan yang menghubungi lewat pesan pribadi.",
+      "step": 3
+    },
+    {
+      "q": "Bolehkah memakai identitas anggota keluarga?",
+      "a": "Jangan lakukan itu kecuali bursa secara resmi mengizinkan struktur akun tertentu. Ketidakcocokan identitas, rekening, dan pemilik akun dapat membuat deposit, penarikan, dan pemulihan akun bermasalah.",
+      "step": 3
+    },
+    {
+      "q": "Apa yang harus dilakukan jika KYC ditolak?",
+      "a": "Baca alasan resmi di akun, lalu perbaiki foto, data, atau dokumen sesuai instruksi. Hindari orang yang menawarkan jalur internal atau layanan berbayar untuk melewati tinjauan.",
+      "step": 3
+    },
+    {
+      "q": "Deposit pertama sebaiknya memakai kartu, bank, P2P, atau USDT?",
+      "a": "Gunakan rute yang benar-benar muncul di akun resmi Anda dan sesuai negara Anda. Untuk belajar, pilih jumlah kecil dengan catatan lengkap agar mudah melacak biaya dan status.",
+      "step": 4
+    },
+    {
+      "q": "Apakah P2P aman untuk pemula?",
+      "a": "P2P lebih aman bila tetap berada di escrow dan chat resmi bursa. Jangan lanjutkan transaksi di luar platform, jangan melepas aset sebelum dana diterima, dan simpan bukti pembayaran.",
+      "step": 4
+    },
+    {
+      "q": "Berapa uang minimum untuk mulai?",
+      "a": "Jumlah minimum berbeda menurut bursa, mata uang, dan metode pembayaran. Lihat angka di halaman order resmi dan mulai kecil agar Anda belajar alurnya tanpa tekanan.",
+      "step": 4
+    },
+    {
+      "q": "Kenapa deposit USDT harus memilih jaringan?",
+      "a": "USDT dapat berjalan di beberapa jaringan, dan jaringan kirim serta terima harus cocok. Jika jaringan salah, dana bisa tertunda, hilang akses, atau memerlukan proses dukungan yang sulit.",
+      "step": 4
+    },
+    {
+      "q": "Apa yang harus dilakukan jika kartu ditolak?",
+      "a": "Baca pesan resmi dari bursa atau bank untuk mengetahui apakah kartu, negara, atau metode itu didukung. Jangan memakai jasa top-up pribadi; pilih rute resmi lain yang tampil di akun.",
+      "step": 4
+    },
+    {
+      "q": "Kenapa saldo masuk lebih kecil dari pembayaran?",
+      "a": "Selisih bisa berasal dari biaya, spread, kurs, atau harga penjual P2P. Sebelum konfirmasi, baca estimasi diterima, biaya, mata uang, dan harga yang ditawarkan.",
+      "step": 4
+    },
+    {
+      "q": "Pembelian pertama sebaiknya BTC, ETH, atau USDT?",
+      "a": "Untuk belajar alur, aset besar atau stablecoin kecil biasanya lebih mudah dipahami daripada token kecil. Pilihan aset bukan janji keuntungan; fokusnya adalah memahami order spot, saldo, dan biaya.",
+      "step": 5
+    },
+    {
+      "q": "Apa bedanya spot dan futures?",
+      "a": "Spot berarti Anda membeli atau menjual aset yang muncul di saldo akun. Futures adalah produk derivatif dengan margin dan risiko likuidasi, jadi pemula tidak memerlukannya untuk pembelian pertama.",
+      "step": 5
+    },
+    {
+      "q": "Market order atau limit order, mana yang dipilih?",
+      "a": "Market order mengejar eksekusi cepat pada harga pasar yang tersedia. Limit order memakai harga yang Anda tentukan, tetapi bisa tidak terisi jika pasar tidak menyentuh harga itu.",
+      "step": 5
+    },
+    {
+      "q": "Di mana melihat biaya trading?",
+      "a": "Pratinjau order biasanya menampilkan estimasi biaya atau spread sebelum konfirmasi. Setelah order selesai, cek riwayat order dan halaman biaya resmi untuk angka aktual.",
+      "step": 5
+    },
+    {
+      "q": "Kenapa nilai aset berubah setelah saya membeli?",
+      "a": "Harga kripto bergerak terus, sehingga nilai dalam fiat atau USDT ikut berubah. Jumlah koin bisa sama, tetapi estimasi nilainya dapat naik atau turun.",
+      "step": 5
+    },
+    {
+      "q": "Apa yang harus dilakukan jika salah membeli koin?",
+      "a": "Jika itu spot, biasanya Anda bisa menjual atau menukar kembali, tetapi harga dan biaya tetap berlaku. Jangan klik tautan pemulihan dari orang asing; cek riwayat order resmi lebih dulu.",
+      "step": 5
+    },
+    {
+      "q": "Apa itu 2FA?",
+      "a": "2FA adalah verifikasi dua faktor, yaitu kode tambahan selain kata sandi saat login atau menarik dana. Aplikasi autentikator biasanya lebih kuat daripada SMS saja karena nomor telepon bisa bermasalah.",
+      "step": 6
+    },
+    {
+      "q": "Apa guna kode anti-phishing?",
+      "a": "Kode anti-phishing menampilkan kata pilihan Anda di email resmi bursa. Jika email tidak menampilkan kode itu atau tautannya terasa aneh, buka akun dari bookmark atau pintu masuk resmi, bukan dari email.",
+      "step": 6
+    },
+    {
+      "q": "Apakah whitelist penarikan perlu diaktifkan?",
+      "a": "Jika venue mendukungnya, whitelist membatasi penarikan hanya ke alamat yang sudah Anda setujui. Pengaturannya butuh waktu, tetapi dapat mengurangi risiko akun yang diambil alih langsung mengirim aset keluar.",
+      "step": 6
+    },
+    {
+      "q": "Bagaimana membuat kata sandi bursa?",
+      "a": "Gunakan kata sandi panjang yang unik untuk bursa dan jangan pakai ulang dari email atau media sosial. Simpan di pengelola kata sandi dan amankan email Anda dengan 2FA juga.",
+      "step": 6
+    },
+    {
+      "q": "Apakah dukungan pelanggan akan meminta kode 2FA?",
+      "a": "Dukungan resmi tidak seharusnya meminta kata sandi, kode login, 2FA, seed phrase, atau akses jarak jauh. Jika seseorang memaksa lewat pesan pribadi, anggap itu upaya penipuan.",
+      "step": 6
+    },
+    {
+      "q": "Bagaimana menilai email bursa itu asli?",
+      "a": "Periksa domain pengirim, kode anti-phishing, dan tujuan tautan sebelum mengeklik apa pun. Cara lebih aman adalah membuka aplikasi atau situs resmi langsung lalu melihat notifikasi di akun.",
+      "step": 6
+    },
+    {
+      "q": "Bagaimana menarik uang ke rekening bank?",
+      "a": "Biasanya Anda menjual kripto menjadi fiat yang didukung, lalu memilih jalur penarikan resmi yang tersedia di negara Anda. Bank, batas, biaya, dan waktu pemrosesan mengikuti venue dan penyedia pembayaran.",
+      "step": 7
+    },
+    {
+      "q": "Kenapa negara saya tidak punya penarikan bank?",
+      "a": "Rute fiat bergantung pada mitra lokal, aturan negara, dan keputusan bursa. Jika tidak tersedia, baca opsi resmi seperti P2P atau kanal lain di akun, dan hindari jasa penarikan pribadi.",
+      "step": 7
+    },
+    {
+      "q": "Apa arti menarik kripto ke wallet?",
+      "a": "Itu berarti memindahkan aset dari akun bursa ke alamat wallet yang Anda kendalikan. Anda bertanggung jawab atas seed phrase, alamat, jaringan, dan biaya gas.",
+      "step": 7
+    },
+    {
+      "q": "Kenapa harus uji penarikan kecil dulu?",
+      "a": "Transfer kripto biasanya tidak bisa dibatalkan setelah dikirim. Uji kecil membantu memastikan alamat, jaringan, biaya, dan waktu tiba sebelum Anda memindahkan jumlah lebih besar.",
+      "step": 7
+    },
+    {
+      "q": "Apa yang dilakukan jika penarikan belum masuk?",
+      "a": "Cek status di riwayat penarikan resmi, termasuk TxID dan konfirmasi jaringan bila ada. Jika perlu bantuan, buka tiket dari aplikasi atau situs resmi, bukan dari pesan pribadi.",
+      "step": 7
+    },
+    {
+      "q": "Apakah menjual kripto kena pajak?",
+      "a": "Aturan pajak bergantung pada tempat tinggal pajak dan hukum setempat. NexuAlpha hanya menyarankan Anda membaca informasi dari otoritas resmi dan menyimpan catatan untuk penasihat yang berwenang.",
+      "step": 7
+    },
+    {
+      "q": "Apa itu USDT?",
+      "a": "USDT adalah stablecoin yang umum dipakai dan bertujuan mengikuti nilai dolar AS. Itu bukan simpanan bank atau uang pemerintah, dan tetap punya risiko penerbit, jaringan, serta bursa.",
+      "step": 5
+    },
+    {
+      "q": "Apa yang terjadi jika bursa bermasalah?",
+      "a": "Hasilnya bergantung pada keadaan bursa, struktur penyimpanan aset, dan proses hukum yang berlaku. Anda bisa mengurangi risiko dengan memeriksa bukti cadangan, lisensi atau registrasi, batas saldo, dan opsi self-custody.",
+      "step": 1
+    },
+    {
+      "q": "Bolehkah teman membelikan kripto untuk saya?",
+      "a": "Lebih baik tidak. Ketidaksesuaian nama akun, sumber dana, dan penerima bisa membuat penarikan, sengketa, pemulihan, dan catatan administrasi menjadi rumit.",
+      "step": 3
+    },
+    {
+      "q": "Apakah guru yang menjanjikan profit pasti aman?",
+      "a": "Janji profit tetap, tekanan untuk menambah dana, dan permintaan transfer ke alamat luar adalah tanda risiko tinggi. Jalur pemula ini hanya membantu Anda memakai pintu resmi dan memahami spot dasar, bukan mendukung klaim keuntungan.",
+      "step": 6
+    },
+    {
+      "q": "Apakah hasil pencarian pertama selalu situs resmi?",
+      "a": "Tidak. Iklan dan situs tiruan bisa muncul di posisi atas, jadi lebih aman memakai bookmark resmi, sumber aplikasi resmi, atau pintu masuk NexuAlpha yang sudah dicek domainnya.",
+      "step": 2
+    },
+    {
+      "q": "Kenapa harus menyimpan riwayat order dan penarikan?",
+      "a": "Catatan membantu Anda memeriksa biaya, harga, status penarikan, dan kebutuhan administrasi. Tangkapan layar berguna, tetapi riwayat order resmi dan ekspor akun tetap menjadi sumber utama.",
+      "step": 7
+    },
+    {
+      "q": "Apakah saya harus memakai seluruh anggaran sekaligus?",
+      "a": "Tidak perlu, terutama sebelum Anda memahami volatilitas dan penarikan. Mulai kecil, selesaikan registrasi, deposit, pembelian, keamanan, dan uji penarikan sebelum menentukan langkah berikutnya.",
+      "step": 5
+    }
+  ]
+}
