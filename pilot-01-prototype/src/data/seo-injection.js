@@ -36,6 +36,7 @@ import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./in
 import { intelToolRouteSeo } from "./intel-tools-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
+import { RADAR_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "./radar-seo.js";
 import { parseGlossaryPath } from "./glossary-routes.js";
 import { glossaryRouteSeo } from "./glossary-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
@@ -360,6 +361,7 @@ function searchPublicationLocales(pathname, options = {}) {
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
   // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
@@ -2181,6 +2183,14 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = converter.schemas;
     ogType = "website";
     if (!converter.indexable) robots = "noindex,follow";
+  } else if (parseRadarPath(pathname) && radarRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    const radar = radarRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = radar.title;
+    description = radar.description;
+    schemas = radar.schemas;
+    if (!radar.indexable) robots = "noindex,follow";
+    ogType = "website";
   } else if (parseGlossaryPath(pathname) && glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
     // Crypto glossary: same helper as the Worker head (src/data/glossary-seo.js).
     const glossary = glossaryRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });

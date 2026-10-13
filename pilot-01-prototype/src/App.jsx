@@ -108,6 +108,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/converter/ConverterPage.jsx",
   "./components/glossary/GlossaryPages.jsx",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -179,6 +180,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/glossary-shard-*.js",
   "./data/glossary-links-*.js",
   "./components/flash/FlashPages.jsx",
+  "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
@@ -287,6 +289,8 @@ function AcademyRoute({ route, locale }) {
   return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} glossaryLinks={readGlossaryLinks(locale)} />;
 }
 // Flash (2026-10-12): the 7x24 stream and item pages share one route chunk (route-flash).
+const LongShortPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "LongShortPage");
+const WhalesPage = deferredComponent(ROUTE_MODULE_PATHS.radar, "WhalesPage");
 const FlashStreamPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashStreamPage");
 const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage");
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
@@ -575,6 +579,8 @@ function routeState(venues, initialUrl) {
   if (glossary?.kind === "term") return { name: "glossaryTerm", slug: glossary.slug, ...contextParams() };
   if (glossary?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
+  if (pathname === "/long-short") return { name: "longShort", ...contextParams() };
+  if (pathname === "/whales") return { name: "whales", ...contextParams() };
   if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
@@ -732,7 +738,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialIntelTool } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialRadar, initialIntelTool } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -895,6 +901,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
   if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
   // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
+  if (route.name === "longShort") return pageShell(<LongShortPage locale={locale} market={route.market} initial={initialRadar} />);
+  if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} initial={initialRadar} />);
   if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);

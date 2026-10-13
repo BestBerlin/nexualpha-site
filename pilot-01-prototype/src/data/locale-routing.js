@@ -98,6 +98,8 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/liquidations",
   "/liquidations/heatmap",
   "/funding-rates",
+  "/long-short",
+  "/whales",
   "/etf-flows",
   "/calendar",
   "/funding-rates/matrix",
