@@ -108,3 +108,15 @@ test("shared filters are scoped to Türkiye pages", () => {
   assert.deepEqual(withoutTurkeyUnlistedSchema(schema, { locale: "tr" }).itemListElement.map((item) => [item.position, item.url.split("/").pop()]), [[1, "okx"], [2, "bybit"]]);
   assert.equal(withoutTurkeyUnlistedSchema(schema, { locale: "en" }), schema);
 });
+
+test("coin meta descriptions on Türkiye pages name the same venues as the page body (no Bitget)", async () => {
+  const { coinMeta } = await import("../src/data/coins-seo.js");
+  const { COINS, coinBySlug } = await import("../src/data/coins.js");
+  const bgb = coinBySlug("bitget-token");
+  assert.ok(bgb, "fixture: BGB is a covered coin");
+  assert.match(coinMeta(bgb, "en").description, /Bitget(?! Token)/, "control: English names Bitget as a listing venue");
+  for (const coin of COINS) {
+    const description = coinMeta(coin, "tr").description.replaceAll(coin.name, "");
+    assert.doesNotMatch(description, /bitget/i, `/tr/coins/${coin.slug} meta description`);
+  }
+});

@@ -59,7 +59,7 @@ export function coinMeta(coin, locale) {
     : joinList(listedOn, locale);
   return {
     title: fitTitle([`${fill(t.seoTitle, vars)}`, `${fill(t.seoTitleShort, vars)} — NexuAlpha`, fill(t.seoTitleShort, vars), `${coin.name} (${coin.symbol})`], locale),
-    description: clip(isCoinListed(coin) ? fill(t.seoDescription, { ...vars, venues }) : fill(t.seoDescriptionNone, vars)),
+    description: clip(isCoinListed(coin) && listedOn.length ? fill(t.seoDescription, { ...vars, venues }) : fill(t.seoDescriptionNone, vars)),
   };
 }
 export function coinsHubMeta(locale) {

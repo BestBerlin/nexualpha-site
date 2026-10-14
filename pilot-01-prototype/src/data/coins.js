@@ -10,7 +10,7 @@ import { formatSgt } from "./local-time.js";
 // Same neutral set as the academy and the campaign join block: no sign-up wording or partner code.
 export const COIN_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 import { feeFact, feePair } from "./exchange-facts.js";
-import { isPartnerPromotableIn, isTurkeyGated, promotionCountries } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyGated, isTurkeyUnlistedVenue, promotionCountries } from "./partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES } from "./partner-geo-policy.generated.js";
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
@@ -71,7 +71,13 @@ export const coinBySlug = (slug) => BY_SLUG.get(String(slug || "").toLowerCase()
 
 // Türkiye (owner 2026-10-13, legal): a partner that may not be promoted there is still named where it lists the coin,
 // but after every other exchange, never as the example venue or among the headline names.
-const localeOrder = (venues, locale) => (locale ? [...venues.filter((v) => !isTurkeyGated(v.slug, { locale })), ...venues.filter((v) => isTurkeyGated(v.slug, { locale }))] : venues);
+// tr-bitget-sweep (owner 2026-10-14): an SPK-listed venue (Bitget) is not named at all on Türkiye pages, so the meta
+// description and quick answer list the same venues as the page body (CoinPages.jsx coinForPage).
+const localeOrder = (venues, locale) => {
+  if (!locale) return venues;
+  const shown = venues.filter((v) => !isTurkeyUnlistedVenue(v.slug, { locale }));
+  return [...shown.filter((v) => !isTurkeyGated(v.slug, { locale })), ...shown.filter((v) => isTurkeyGated(v.slug, { locale }))];
+};
 export const spotVenues = (coin, locale) => localeOrder(coin.venues.filter((venue) => venue.spot.length), locale);
 export const perpVenues = (coin, locale) => localeOrder(coin.venues.filter((venue) => venue.perp.length), locale);
 export const isCoinListed = (coin) => Boolean(coin && coin.venues.length);
