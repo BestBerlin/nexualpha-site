@@ -5,13 +5,19 @@
 // Fees and speeds are normalized into small codes the pages localize; anything that cannot be normalized faithfully is
 // dropped (shown as nothing), never guessed.
 //
-// Usage: node scripts/generate-fiat-rails.mjs [researchDir]
+// Inputs live in the repo (data/research/fiat-rails/, copied from the research run) so builds never read outside it.
+// Usage: node scripts/generate-fiat-rails.mjs [--check] [researchDir]
+//   --check  regenerate in memory and exit 1 if the committed generated files differ (tests/deposit-hub.test.mjs).
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const researchDir = process.argv[2] || "/Volumes/致态2TB/nx-agents/research/fiat-rails";
+const args = process.argv.slice(2);
+const check = args.includes("--check");
+const researchDir = args.find((arg) => !arg.startsWith("--")) || path.join(root, "data/research/fiat-rails");
+const outputs = new Map();
+const emit = (relative, body) => outputs.set(path.join(root, relative), body);
 const rails = JSON.parse(readFileSync(path.join(researchDir, "rails.json"), "utf8"));
 const cardsDoc = JSON.parse(readFileSync(path.join(researchDir, "cards.json"), "utf8"));
 
@@ -208,7 +214,7 @@ export const CRYPTO_CARDS = ${JSON.stringify(CARDS)};
 export const CN_NOTICE = ${JSON.stringify(CN_NOTICE)};
 export const CN_EXCLUDED = ${JSON.stringify(cnExcluded)};
 `;
-writeFileSync(path.join(root, "src/data/fiat-rails.generated.js"), body);
+emit("src/data/fiat-rails.generated.js", body);
 
 // Per-exchange summary for the directory badges and the venue profile block (small; no sources table). Countries whose
 // partner terms restrict the exchange are left out, like on the country pages.
@@ -232,5 +238,12 @@ for (const item of CARDS) {
   if (!entry.k.includes("cryptoCard")) entry.k.push("cryptoCard");
   (entry.cards ||= []).push(item.name);
 }
-writeFileSync(path.join(root, "src/data/fiat-rails-summary.generated.js"), `${header}export const FIAT_SUMMARY_CHECKED = ${JSON.stringify(rails.researched_at)};\nexport const FIAT_SUMMARY = ${JSON.stringify(summary)};\n`);
+emit("src/data/fiat-rails-summary.generated.js", `${header}export const FIAT_SUMMARY_CHECKED = ${JSON.stringify(rails.researched_at)};\nexport const FIAT_SUMMARY = ${JSON.stringify(summary)};\n`);
+if (check) {
+  const stale = [...outputs].filter(([file, text]) => { try { return readFileSync(file, "utf8") !== text; } catch { return true; } }).map(([file]) => path.relative(root, file));
+  if (stale.length) { console.error(`fiat rails: generated files differ from data/research/fiat-rails inputs: ${stale.join(", ")}`); process.exit(1); }
+  console.log("fiat rails: generated files match the research inputs");
+  process.exit(0);
+}
+for (const [file, text] of outputs) writeFileSync(file, text);
 console.log(`fiat rails: ${rows.length} rows, ${NEGATIVES.length} negatives, ${CARDS.length} cards, ${usedSources.size} sources`);
