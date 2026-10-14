@@ -1,3 +1,4 @@
+import { whaleSentence, whaleStealthLabel } from "../../pilot-01-prototype/src/data/whales-home.js";
 const ALERT_THRESHOLD_USD = 20_000_000;
 const SITE = "https://nexualpha.com";
 const SAFE_EXPLORER_HOSTS = new Set([
@@ -151,8 +152,35 @@ function buildDetailLines(event) {
   ].filter(Boolean).map(escapeHtml);
 }
 
+// 秘密建仓 / 秘密出货 (owner 2026-10-15): repeated buying/selling of a non-major coin by one whale is alert-worthy from
+// $500k, highlighted first, written with the same sentence as the site, always with the explorer link to verify.
+export const STEALTH_ALERT_THRESHOLD_USD = 500_000;
+function buildStealthAlert(event, usd, href, locale) {
+  const label = whaleStealthLabel(event, locale);
+  const explorer = safeExplorerUrl(event?.explorerUrl);
+  const lines = [
+    `<b>${escapeHtml(label.badge)}</b>${label.meta ? ` · ${escapeHtml(label.meta)}` : ""}`,
+    escapeHtml(whaleSentence(event, locale)),
+    explorer ? `<a href="${escapeHtml(explorer)}">${locale === "en" ? "Verify on the explorer" : "在区块浏览器核对"}</a>` : null,
+    "",
+    `<a href="${href}">${locale === "en" ? "Full whale watch" : "查看完整巨鲸动向"}</a>`,
+  ];
+  return {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    text: lines.filter((line) => line !== null).join("\n").trim(),
+    metadata: { thresholdUsd: STEALTH_ALERT_THRESHOLD_USD, eventId: event?.id || null, kind: `stealth-${label.kind}`, amountUsd: usd, sendPolicy: "template-only; caller must explicitly post, this module does not call Telegram APIs" },
+  };
+}
+
 export function buildWhaleChannelAlert(event, options = {}) {
   const usd = whaleEventUsd(event);
+  const stealthLocale = options.locale === "en" ? "en" : options.locale === "zh-Hant" ? "zh-Hant" : "zh-Hans";
+  if (whaleStealthLabel(event, stealthLocale)) {
+    if (usd < STEALTH_ALERT_THRESHOLD_USD) return null;
+    const path = stealthLocale === "en" ? "/en" : stealthLocale === "zh-Hant" ? "/zh-hant" : "/zh-hans";
+    return buildStealthAlert(event, usd, `${SITE}${path}/whales?src=tg-whale-alert`, stealthLocale);
+  }
   if (usd < ALERT_THRESHOLD_USD) return null;
   const localePath = options.locale === "zh-Hant" ? "/zh-hant" : options.locale && options.locale !== "zh-Hans" && options.locale !== "zh" ? `/${options.locale}` : "/zh-hans";
   const href = `${SITE}${localePath}/whales?src=tg-whale-alert`;

@@ -109,8 +109,8 @@ test("whale normalizer splits rows-only signals, positions and transfers with st
     rows: [
       { id: "sig", kind: "signal", coin: "SOL", signalType: "coordinated_short", walletsCount: 4, totalUsd: 8200000, periodHours: 24, platform: "hyperliquid", explorerUrl: "https://app.hyperliquid.xyz/register" },
       { id: "pos", kind: "position", platform: "hyperliquid", address: "0xabc", coin: "BTC", side: "short", sizeUsd: 12400000, leverage: 20, entryPx: 84000, eventType: "increase", explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xabc" },
-      { id: "tx", asset: "ETH", amount: 3000, amountUsd: 9000000, txHash: "0x1", explorerUrl: "https://etherscan.io/tx/0x1" },
-      { id: "bad", asset: "BTC", amountUsd: 9000000, explorerUrl: "https://evil.hyperliquid.xyz/go/register" },
+      { id: "tx", asset: "ETH", amount: 3000, amountUsd: 9000000, txHash: "0x1", explorerUrl: "https://etherscan.io/tx/0x1", to: { label: "Binance", owner: "binance", type: "exchange" } },
+      { id: "bad", asset: "BTC", amountUsd: 9000000, explorerUrl: "https://evil.hyperliquid.xyz/go/register", from: { label: "OKX", owner: "okx", type: "exchange" } },
     ],
   });
   assert.deepEqual(whales.rows.map((row) => row.kind), ["signal", "position", "transfer", "transfer"]);

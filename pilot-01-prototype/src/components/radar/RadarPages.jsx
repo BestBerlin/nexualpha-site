@@ -25,7 +25,7 @@ import {
   venueDisplayName,
   venueGoHref,
 } from "../../data/radar.js";
-import { whaleExplorerHref, whaleSentenceParts, whalesCopy } from "../../data/whales-home.js";
+import { whaleExplorerHref, whaleSentenceParts, whaleStealthLabel, whalesCopy } from "../../data/whales-home.js";
 import { formatSgt } from "../../data/local-time.js";
 import "./radar.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
@@ -236,7 +236,11 @@ function WhalesTable({ rows, locale }) {
 
 function WhaleSentence({ row, locale }) {
   const [before, amount, after] = whaleSentenceParts(row, locale);
-  return <span>{before.trimStart()}<strong dir="ltr">{amount}</strong>{after.trimEnd()}</span>;
+  const stealth = whaleStealthLabel(row, locale);
+  return <>
+    {stealth ? <em className="nxradar-whale-tag" data-stealth={stealth.kind}>{stealth.badge}{stealth.meta ? <small>{stealth.meta}</small> : null}</em> : null}
+    <span>{before.trimStart()}<strong dir="ltr">{amount}</strong>{after.trimEnd()}</span>
+  </>;
 }
 
 function whaleBucket(row) {
@@ -250,7 +254,8 @@ function WhalesTabs({ feed, locale }) {
   const c = whalesCopy(locale);
   const priority = (row) => ({ signals: 0, positions: 1, transfers: 2 })[whaleBucket(row)] ?? 2;
   // Signals and positions keep the collector ranking; transfers are newest first.
-  const baseRows = [...feed.rows].sort((a, b) => priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(b.time || b.updatedAt || 0) - Date.parse(a.time || a.updatedAt || 0) : 0)).slice(0, 50);
+  const lead = (row) => (row.stealth === "buy" || row.stealth === "sell" ? 0 : 1);
+  const baseRows = [...feed.rows].sort((a, b) => lead(a) - lead(b) || priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(b.time || b.updatedAt || 0) - Date.parse(a.time || a.updatedAt || 0) : 0)).slice(0, 50);
   const defaultFilter = baseRows.some((row) => whaleBucket(row) === "signals") ? "signals"
     : baseRows.some((row) => whaleBucket(row) === "positions" || /hyperliquid/i.test(String(row.venue || row.source || ""))) ? "hyperliquid"
       : "transfers";
@@ -303,7 +308,7 @@ function WhalesTabs({ feed, locale }) {
                   </>
                 );
                 return (
-                  <li key={row.id} data-kind={key}>
+                  <li key={row.id} data-kind={key} {...(row.stealth ? { "data-stealth": row.stealth } : {})}>
                     {href ? <a href={href} target="_blank" rel="nofollow noopener noreferrer">{content}</a> : content}
                   </li>
                 );

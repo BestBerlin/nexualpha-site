@@ -146,3 +146,13 @@ test("whale alert template is template-only and never posts to Telegram", () => 
   assert.doesNotMatch(src, /api\.telegram\.org|sendMessage|fetch\s*\(/);
   assert.match(src, /template-only/);
 });
+
+test("秘密建仓 alerts lead with the badge, the site sentence and the explorer link (template only)", async () => {
+  const { buildWhaleChannelAlert } = await import("./whale-alert-template.mjs");
+  const event = { id: "s", category: "signal", signalType: "accumulation", mode: "add", stealth: "buy", side: "spot", days: 4, fills: 12, coin: "XYZ", address: "0x7a00000000000000000000000000000000000a3f", totalUsd: 2_100_000, avgEntry: 0.084, explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0x7a00000000000000000000000000000000000a3f" };
+  const alert = buildWhaleChannelAlert(event);
+  assert.match(alert.text, /^<b>🔺 秘密建仓<\/b> · 4 天 · 12 笔\n巨鲸 0x7a00…0a3f 连续 4 天悄悄买入 XYZ，累计 \$2\.10M，均价 \$0\.084/);
+  assert.match(alert.text, /app\.hyperliquid\.xyz\/explorer\/address/);
+  assert.equal(alert.metadata.kind, "stealth-buy");
+  assert.equal(buildWhaleChannelAlert({ ...event, totalUsd: 400_000 }), null);
+});

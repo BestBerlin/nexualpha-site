@@ -8,7 +8,7 @@ import test from "node:test";
 import worker from "../worker/index.js";
 import { buildMoversSnapshot, fmtUsdCompact, isMoversSnapshot, moversFromBinance, moversHeadline, moversUniverse } from "../src/data/movers.js";
 import { MOVERS_COPY_LOCALES, moversBodyHtml, spliceMoversHtml } from "../src/data/movers-html.js";
-import { isWhalesSnapshot, spliceWhalesHtml, whalesCopy } from "../src/data/whales-home.js";
+import { isWhalesSnapshot, spliceWhalesHtml, whaleRowsForHome, whalesBodyHtml, whalesCopy } from "../src/data/whales-home.js";
 import { createMoversFeed, MOVERS_PATH } from "../server/movers-feed.mjs";
 import { localizedHref } from "../src/data/locale-routing.js";
 import { NEUTRAL_CTA_LOCALES } from "../src/data/locale-policy.js";
@@ -216,4 +216,29 @@ test("server and client wiring: /api/whales.json route, refresh every 60 s while
   assert.doesNotMatch(below, /POPULAR_COINS|PopularCoins/);
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
   assert.doesNotMatch(home, /home7-movers|movers-html/, "only the lazy below-the-fold chunk imports the board");
+});
+
+test("home whale board: accumulation first, never unknown→unknown or same-exchange transfers, no padding", () => {
+  const unknown = { label: "unknown", owner: "unknown", type: "unknown" };
+  const binance = { label: "Binance", owner: "binance", type: "exchange" };
+  const snapshot = {
+    kind: "whales", status: "ok", updatedAt: "2026-10-15T00:00:00Z",
+    signals: [{ id: "s1", category: "signal", signalType: "accumulation", mode: "add", side: "long", days: 3, coin: "NEAR", address: "0xb5810000000000000000000000000000000f6f4f", totalUsd: 18_700_000, avgEntry: 5.19, time: "2026-10-14T14:28:06Z" }],
+    positions: [{ id: "p1", category: "position", platform: "hyperliquid", eventType: "increase", side: "long", coin: "BTC", address: "0xf5170000000000000000000000000000000c032", sizeUsd: 4_280_000, notionalUsd: 4_280_000, entryPx: 82067, leverage: 40, time: "2026-10-14T15:00:00Z" }],
+    transfers: [
+      { id: "t-unknown", asset: "USDC", amount: 50_000_000, from: unknown, to: unknown, txHash: "a", time: "2026-10-14T15:01:00Z" },
+      { id: "t-internal", asset: "USDT", amount: 42_500_000, from: binance, to: binance, txHash: "b", time: "2026-10-14T15:02:00Z" },
+      { id: "t-small", asset: "BTC", amount: 100, amountUsd: 8_000_000, from: unknown, to: binance, txHash: "c", time: "2026-10-14T15:03:00Z" },
+      { id: "t-in", asset: "BTC", amount: 300, amountUsd: 25_000_000, from: unknown, to: binance, txHash: "d", time: "2026-10-14T15:04:00Z" },
+    ],
+  };
+  const rows = whaleRowsForHome(snapshot);
+  assert.deepEqual(rows.map((row) => row.id), ["s1", "p1", "t-in"], "signal, position, one $20M+ exchange inflow; nothing padded");
+  for (const locale of ["zh-Hans", "en"]) {
+    const html = whalesBodyHtml(snapshot, locale);
+    assert.doesNotMatch(html, /未知钱包转入未知钱包|unknown wallet to an unknown wallet/);
+    assert.doesNotMatch(html, /Binance\s*转入\s*Binance|from Binance to Binance/);
+  }
+  assert.match(whalesBodyHtml(snapshot, "zh-Hans"), /巨鲸 0xb581…6f4f 连续 3 天加仓 NEAR 多单，累计 <b[^>]*>\$18\.7M<\/b>，均价 \$5\.19/);
+  assert.equal(isWhalesSnapshot({ transfers: snapshot.transfers.slice(0, 2) }), false, "only junk transfers = no board");
 });

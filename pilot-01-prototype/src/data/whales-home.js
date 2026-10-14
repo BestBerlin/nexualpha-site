@@ -138,6 +138,12 @@ function signalParts(row, pack) {
   const amount = formatUsd(row.totalUsd ?? row.sizeUsd ?? row.amountUsd ?? row.usd);
   const type = String(row.signalType || row.type || "").toLowerCase();
   const mode = String(row.mode || "").toLowerCase();
+  const stealth = stealthOf(row);
+  if (stealth && pack.stealth && p.n <= 1) {
+    const st = pack.stealth;
+    const verb = stealth === "buy" ? (p.days >= 2 ? st.buyDays : st.buy24) : (p.days >= 2 ? st.sellDays : st.sell24);
+    return [`${verb(p)}${pack.total}`, amount, pricePart(pack, stealth === "buy" ? (row.avgEntry ?? row.entryPx) : row.avgExit, stealth === "buy" ? "avg" : "exit")];
+  }
   if (type.startsWith("coordinated") || mode === "cluster" || p.n > 1) return [`${pack.cluster({ ...p, side: /short/.test(type) ? "short" : side })}${pack.sum}`, amount, pricePart(pack, row.avgEntry ?? row.entryPx)];
   if (type === "exchange-withdrawal-accumulation") return [`${pack.withdraw({ ...p, who: pack.wallet(p.who.split(" ").pop()) })}${pack.total}`, amount, ""];
   if (type === "new-position" || mode === "new") return [pack.fresh(p), amount, `${levPart(pack, row.leverage)}${pricePart(pack, row.avgEntry)}`];
@@ -187,6 +193,10 @@ function iconFor(row) {
 }
 
 function toneFor(row) {
+  const stealth = stealthOf(row);
+  if (stealth) return stealth === "buy" ? "in" : "out";
+  if (String(row.mode || "") === "reduce") return "out";
+  if (String(row.mode || "") === "add" && String(row.side || "") !== "short") return "in";
   const direction = String(row.direction || row.side || row.signalType || row.type || row.signal || "").toLowerCase();
   if (/short|to_exchange|distribution|sell|out|reduce|减|減/.test(direction)) return "out";
   if (/long|from_exchange|accumulation|buy|add|加/.test(direction)) return "in";
@@ -208,6 +218,10 @@ function normalizeHomeRows(snapshot) {
     amountUsd: number(row.amountUsd ?? row.usd ?? row.valueUsd),
     fromLabel: row.fromLabel || row.from?.label || "unknown",
     toLabel: row.toLabel || row.to?.label || "unknown",
+    fromExchange: row.from?.type === "exchange" || Boolean(row.fromLabel && row.fromLabel !== "unknown") || Boolean(row.from?.label && row.from.label !== "unknown"),
+    toExchange: row.to?.type === "exchange" || Boolean(row.toLabel && row.toLabel !== "unknown") || Boolean(row.to?.label && row.to.label !== "unknown"),
+    fromOwner: String(row.from?.owner || row.fromLabel || row.from?.label || "").toLowerCase(),
+    toOwner: String(row.to?.owner || row.toLabel || row.to?.label || "").toLowerCase(),
     fromAddress: row.fromAddress || row.from?.address || "",
     toAddress: row.toAddress || row.to?.address || "",
     direction: String(row.direction || "unknown").replaceAll("-", "_"),
@@ -215,7 +229,7 @@ function normalizeHomeRows(snapshot) {
     txHash: row.txHash || row.hash,
     explorerUrl: row.explorerUrl || row.url,
     source: row.source,
-  })).filter((row) => row.asset);
+  })).filter((row) => row.asset && isMeaningfulWhaleTransfer(row));
   const normalizedTransfers = normalizeTransferRows(fallbackRows.filter((row) => !isSignal(row) && !isPosition(row)));
   const transfers = Array.isArray(snapshot?.transfers)
     ? normalizeTransferRows(snapshot.transfers)
@@ -226,7 +240,7 @@ function normalizeHomeRows(snapshot) {
     if (isSignal(row)) return amount != null && amount >= 1_000_000 && Boolean(symbol);
     if (isPosition(row)) return amount != null && amount >= 1_000_000 && Boolean(symbol);
     const value = amount ?? (STABLES.has(upper(row.asset || row.symbol)) ? number(row.amount) : null);
-    return value != null && value >= 5_000_000 && Boolean(row.asset || row.symbol) && Boolean(row.fromAddress || row.toAddress || row.txHash || row.explorerUrl);
+    return value != null && value >= HOME_TRANSFER_MIN_USD && Boolean(row.asset || row.symbol) && Boolean(row.fromAddress || row.toAddress || row.txHash || row.explorerUrl);
   };
   const priority = (row) => isSignal(row) ? 0 : isPosition(row) ? 1 : 2;
   return [...signals, ...positions, ...transfers]
@@ -235,26 +249,38 @@ function normalizeHomeRows(snapshot) {
     .sort((a, b) => priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(eventTime(b, snapshot) || 0) - Date.parse(eventTime(a, snapshot) || 0) : 0));
 }
 
+// Owner 2026-10-15: a transfer only matters when money enters or leaves an exchange. Unknown→unknown wallet moves and an
+// exchange shuffling between its own wallets are noise and never shown (home or /whales).
+export const HOME_TRANSFER_MIN_USD = 20_000_000;
+export function isMeaningfulWhaleTransfer(row) {
+  if (!row) return false;
+  const fromEx = Boolean(row.fromExchange), toEx = Boolean(row.toExchange);
+  if (!fromEx && !toEx) return false;
+  if (fromEx && toEx && row.fromOwner && row.fromOwner === row.toOwner) return false;
+  return true;
+}
+
 export function isWhalesSnapshot(value) {
   if (!value || typeof value !== "object") return false;
   return normalizeHomeRows(value).length > 0;
 }
 
-// Home mix: accumulation signals lead, then big positions / liquidations, then exchange transfers. With 8 rows the
-// desktop shows 4 / 2 / 2 and phones (first 6) show 4 / 2; a missing group hands its slots to the others in order.
-const HOME_QUOTA = Object.freeze([["signal", 4], ["position", 2], ["transfer", 2]]);
+// Home order is strict: accumulation/distribution signals, then big positions and liquidations, then at most two
+// exchange in/outflows of $20M+. Free slots go to more signals/positions only; with less real data the board is shorter.
+const HOME_QUOTA = Object.freeze([["signal", 5], ["position", 3], ["transfer", 2]]);
 export function whaleRowsForHome(snapshot, limit = WHALES_HOME_ROWS_DESKTOP) {
   if (!isWhalesSnapshot(snapshot)) return [];
   const rows = normalizeHomeRows(snapshot);
   const group = (row) => (isSignal(row) ? "signal" : isPosition(row) ? "position" : "transfer");
   const picked = [];
   for (const [name, quota] of HOME_QUOTA) picked.push(...rows.filter((row) => group(row) === name).slice(0, quota));
+  const lead = (row) => (stealthOf(row) ? 0 : 1);
   for (const row of rows) {
     if (picked.length >= limit) break;
-    if (!picked.includes(row)) picked.push(row);
+    if (group(row) !== "transfer" && !picked.includes(row)) picked.push(row);
   }
   const order = { signal: 0, position: 1, transfer: 2 };
-  return picked.slice(0, limit).sort((a, b) => order[group(a)] - order[group(b)] || rows.indexOf(a) - rows.indexOf(b));
+  return picked.slice(0, limit).sort((a, b) => lead(a) - lead(b) || order[group(a)] - order[group(b)] || rows.indexOf(a) - rows.indexOf(b));
 }
 
 // The home page embeds only what its board renders (≤8 rows), not the whole collector feed.
@@ -272,6 +298,18 @@ export function homeWhalesSnapshot(snapshot) {
   return isWhalesSnapshot(out) ? out : snapshot;
 }
 
+// 秘密建仓 / 秘密出货 highlight for repeated buying/selling of a non-major coin (collector field `stealth`).
+export const stealthOf = (row) => (row && (row.stealth === "buy" || row.stealth === "sell") ? row.stealth : null);
+export function whaleStealthLabel(row, locale = "en") {
+  const kind = stealthOf(row);
+  const st = sentencePack(locale).stealth;
+  if (!kind || !st) return null;
+  const days = number(row.days) || 0;
+  const fills = number(row.fills);
+  const meta = fills ? (days >= 2 ? st.metaDays(days, fills) : st.meta24(fills)) : "";
+  return { kind, badge: kind === "buy" ? st.buyBadge : st.sellBadge, meta };
+}
+
 export function whaleSentenceParts(row, locale = "en") {
   const pack = sentencePack(locale);
   const value = row || {};
@@ -283,7 +321,7 @@ export function whaleSentenceParts(row, locale = "en") {
 export function withWhaleText(snapshot, locale = "en") {
   const out = { ...snapshot, locale };
   const add = (list, group, view = (row) => row) => (Array.isArray(list) ? list.map((row) => ({ ...row, group, text: whaleSentenceParts(view(row), locale) })) : list);
-  out.signals = add(snapshot.signals, "signal");
+  out.signals = Array.isArray(snapshot.signals) ? add(snapshot.signals, "signal").map((row) => { const st = whaleStealthLabel(row, locale); return st ? { ...row, highlight: st } : row; }) : snapshot.signals;
   out.positions = add(snapshot.positions, "position");
   out.transfers = add(snapshot.transfers, "transfer", (row) => ({ ...row, homeKind: "transfer", fromLabel: row.fromLabel || row.from?.label, toLabel: row.toLabel || row.to?.label }));
   return out;
@@ -310,8 +348,11 @@ function rowHtml(row, snapshot, locale) {
   const at = eventTime(row, snapshot);
   const href = explorerUrl(row.explorerUrl || row.url) || localizedHref("/whales", { locale });
   const [before, amount, after] = whaleSentenceParts(row, locale);
-  return `<li data-kind="${esc(rowKind(row))}"><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="nofollow noopener noreferrer"' : ""} data-mv-key="${esc(row.id)}">`
+  const stealth = whaleStealthLabel(row, locale);
+  const tag = stealth ? `<span class="h7-wh-tag" data-stealth="${stealth.kind}">${esc(stealth.badge)}${stealth.meta ? `<small>${esc(stealth.meta)}</small>` : ""}</span>` : "";
+  return `<li data-kind="${esc(rowKind(row))}"${stealth ? ` data-stealth="${stealth.kind}"` : ""}><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="nofollow noopener noreferrer"' : ""} data-mv-key="${esc(row.id)}">`
     + `<span class="h7-mv-mk" aria-hidden="true">${esc(iconFor(row))}</span>`
+    + tag
     + `<span class="h7-wh-text">${esc(before.trimStart())}<b class="h7-wh-amt" data-tone="${esc(toneFor(row))}" dir="ltr">${esc(amount)}</b>${esc(after.trimEnd())}</span>`
     + (at ? `<time datetime="${esc(at)}" title="${esc(formatSgt(at, locale))}">${esc(formatSgt(at, locale, sameSgtDay(at, snapshot?.updatedAt) ? "clock" : "end"))}</time>` : "")
     + `</a></li>`;

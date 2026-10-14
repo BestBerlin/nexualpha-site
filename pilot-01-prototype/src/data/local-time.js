@@ -5,10 +5,18 @@ const validDate = (iso) => {
   const date = new Date(iso);
   return Number.isFinite(date.getTime()) ? date : null;
 };
+// Intl formatter construction is the expensive part (ms each); reuse one instance per locale + options.
+const FORMATTERS = new Map();
+const dtf = (locale, options) => {
+  const key = `${locale}|${JSON.stringify(options)}`;
+  let formatter = FORMATTERS.get(key);
+  if (!formatter) { formatter = new Intl.DateTimeFormat(locale, options); FORMATTERS.set(key, formatter); }
+  return formatter;
+};
 export function readerDayKey(iso) {
   const date = validDate(iso);
   if (!date) return "";
-  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: SITE_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
+  const parts = dtf("en-CA", { timeZone: SITE_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
   const value = (type) => parts.find((part) => part.type === type).value;
   return `${value("year")}-${value("month")}-${value("day")}`;
 }
@@ -16,10 +24,10 @@ export function formatSgt(iso, locale = "en", style = "stamp") {
   const date = validDate(iso);
   if (!date) return "";
   const options = { timeZone: SITE_TIME_ZONE };
-  const clock = new Intl.DateTimeFormat(locale, { ...options, hour: "2-digit", minute: "2-digit", ...(style === "seconds" ? { second: "2-digit" } : {}), hourCycle: "h23" }).format(date);
+  const clock = dtf(locale, { ...options, hour: "2-digit", minute: "2-digit", ...(style === "seconds" ? { second: "2-digit" } : {}), hourCycle: "h23" }).format(date);
   if (style === "clock") return `${clock} SGT`;
-  if (style === "date") return new Intl.DateTimeFormat(locale, { ...options, dateStyle: "medium" }).format(date);
-  if (style === "end") return `${new Intl.DateTimeFormat(locale, { ...options, day: "numeric", month: "short" }).format(date)} ${clock} SGT`;
+  if (style === "date") return dtf(locale, { ...options, dateStyle: "medium" }).format(date);
+  if (style === "end") return `${dtf(locale, { ...options, day: "numeric", month: "short" }).format(date)} ${clock} SGT`;
   return `${readerDayKey(iso)} · ${clock} SGT`;
 }
 export function formatReaderTime(iso, locale = "en", now = null) {
