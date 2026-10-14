@@ -13,7 +13,7 @@ export const LEGAL_COPY = {
       "sections": [
         {
           "title": "Operator and scope",
-          "body": "NexuAlpha operates nexualpha.com. Contact Bestberlin@nexualpha.com with privacy questions. The public website has no visitor accounts, accepts no payments or deposits, and does not collect payment details or custody funds."
+          "body": "NexuAlpha operates nexualpha.com. Contact contact@nexualpha.com with privacy questions. The public website has no visitor accounts, accepts no payments or deposits, and does not collect payment details or custody funds."
         },
         {
           "title": "Click attribution and first-party analytics",
@@ -37,7 +37,7 @@ export const LEGAL_COPY = {
         },
         {
           "title": "Retention and your choices",
-          "body": "Browser cookies expire as stated above; local storage remains until cleared, and session storage normally lasts for the tab session. Server event and access logs follow operational rotation; the code does not establish a fixed deletion schedule. The collector’s 30-day duplicate-event lookback is not a deletion period. Email Bestberlin@nexualpha.com to request access, correction or deletion of information we can identify, or ask about retention. We may need enough information to verify the request. Records without identifying information may not be traceable to you. You can clear browser storage and avoid third-party features. The first-party analytics module respects Do Not Track and Global Privacy Control; these controls do not disable all separate click or infrastructure logs."
+          "body": "Browser cookies expire as stated above; local storage remains until cleared, and session storage normally lasts for the tab session. Server event and access logs follow operational rotation; the code does not establish a fixed deletion schedule. The collector’s 30-day duplicate-event lookback is not a deletion period. Email contact@nexualpha.com to request access, correction or deletion of information we can identify, or ask about retention. We may need enough information to verify the request. Records without identifying information may not be traceable to you. You can clear browser storage and avoid third-party features. The first-party analytics module respects Do Not Track and Global Privacy Control; these controls do not disable all separate click or infrastructure logs."
         },
         {
           "title": "Children and changes",
@@ -51,7 +51,7 @@ export const LEGAL_COPY = {
       "sections": [
         {
           "title": "运营方与范围",
-          "body": "NexuAlpha 运营 nexualpha.com。如有隐私问题，请联系 Bestberlin@nexualpha.com。公开网站不提供访客账户，不接受付款或存款，不收集支付资料，也不托管资产。"
+          "body": "NexuAlpha 运营 nexualpha.com。如有隐私问题，请联系 contact@nexualpha.com。公开网站不提供访客账户，不接受付款或存款，不收集支付资料，也不托管资产。"
         },
         {
           "title": "点击归因与第一方分析",
@@ -75,7 +75,7 @@ export const LEGAL_COPY = {
         },
         {
           "title": "保留期限与您的选择",
-          "body": "浏览器 Cookie 按上述期限到期；本地存储保留至您清除，会话存储通常持续至标签页会话结束。服务器事件与访问日志按运维轮转处理；代码未规定固定删除周期。分析收集器回看 30 天以去重，并不代表 30 天后删除。您可通过 Bestberlin@nexualpha.com 请求访问、更正或删除我们能识别的信息，或询问保留期限。我们可能需要必要信息核验请求。无身份信息的记录可能无法关联到您。您可清除浏览器存储并避免使用第三方功能。第一方分析模块尊重 Do Not Track 与 Global Privacy Control，但这些设置不会关闭所有独立点击记录或基础设施日志。"
+          "body": "浏览器 Cookie 按上述期限到期；本地存储保留至您清除，会话存储通常持续至标签页会话结束。服务器事件与访问日志按运维轮转处理；代码未规定固定删除周期。分析收集器回看 30 天以去重，并不代表 30 天后删除。您可通过 contact@nexualpha.com 请求访问、更正或删除我们能识别的信息，或询问保留期限。我们可能需要必要信息核验请求。无身份信息的记录可能无法关联到您。您可清除浏览器存储并避免使用第三方功能。第一方分析模块尊重 Do Not Track 与 Global Privacy Control，但这些设置不会关闭所有独立点击记录或基础设施日志。"
         },
         {
           "title": "未成年人及政策变更",
@@ -107,7 +107,7 @@ export const LEGAL_COPY = {
         },
         {
           "title": "Questions and changes",
-          "body": "Contact Bestberlin@nexualpha.com about these terms or disputes. Applicable mandatory law remains in force; no specific governing jurisdiction is designated here. Updated terms will appear on this page. The service is intended for adults aged 18 or older. Effective date: 2026-10-12."
+          "body": "Contact contact@nexualpha.com about these terms or disputes. Applicable mandatory law remains in force; no specific governing jurisdiction is designated here. Updated terms will appear on this page. The service is intended for adults aged 18 or older. Effective date: 2026-10-12."
         }
       ]
     },
@@ -133,7 +133,7 @@ export const LEGAL_COPY = {
         },
         {
           "title": "联系与变更",
-          "body": "有关条款或争议，请联系 Bestberlin@nexualpha.com。适用的强制性法律仍然有效；本条款未指定特定管辖地区。更新条款将在本页公布。服务面向年满 18 岁的成年人。生效日期：2026-10-12。"
+          "body": "有关条款或争议，请联系 contact@nexualpha.com。适用的强制性法律仍然有效；本条款未指定特定管辖地区。更新条款将在本页公布。服务面向年满 18 岁的成年人。生效日期：2026-10-12。"
         }
       ]
     }

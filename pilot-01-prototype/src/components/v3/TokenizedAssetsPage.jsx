@@ -161,7 +161,7 @@ export function TokenizedAssetsPage({ slug = "tokenized-assets", locale = "en" }
             <nav className="tokenized-assets-factbook" aria-label={copy.researchAssetTitle}>
               <a href={TOKENIZED_TREASURY_RIGHTS_OPS_ASSET}>{copy.openDataset}</a>
               <a href={localizedHref("/methodology", { locale: resolvedLocale })}>{copy.openMethodology}</a>
-              <a href="mailto:Bestberlin@nexualpha.com?subject=NexuAlpha%20tokenized%20Treasury%20dataset%20correction">{copy.reportCorrection}</a>
+              <a href="mailto:contact@nexualpha.com?subject=NexuAlpha%20tokenized%20Treasury%20dataset%20correction">{copy.reportCorrection}</a>
             </nav>
           </div>
         </section>

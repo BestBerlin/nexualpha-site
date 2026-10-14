@@ -314,17 +314,17 @@
   "publisher": {
     "name": "NexuAlpha",
     "url": "https://nexualpha.com/",
-    "contactPoint": "mailto:Bestberlin@nexualpha.com"
+    "contactPoint": "mailto:contact@nexualpha.com"
   },
   "author": {
     "name": "NexuAlpha Editorial Research",
     "type": "Organization",
     "url": "https://nexualpha.com/methodology"
   },
-  "contact": "mailto:Bestberlin@nexualpha.com",
-  "correctionsContact": "mailto:Bestberlin@nexualpha.com",
+  "contact": "mailto:contact@nexualpha.com",
+  "correctionsContact": "mailto:contact@nexualpha.com",
   "license": "https://nexualpha.com/methodology#data-license",
-  "licenseScope": "Access does not grant redistribution rights. NexuAlpha reserves rights in the original compilation, field definitions, normalized values and limitation notes in this dataset. Third-party source documents, names, trademarks and linked source materials remain subject to their own owners and terms. Contact Bestberlin@nexualpha.com for reuse, republication or licensing requests.",
+  "licenseScope": "Access does not grant redistribution rights. NexuAlpha reserves rights in the original compilation, field definitions, normalized values and limitation notes in this dataset. Third-party source documents, names, trademarks and linked source materials remain subject to their own owners and terms. Contact contact@nexualpha.com for reuse, republication or licensing requests.",
   "methodologyUrl": "https://nexualpha.com/methodology#data-license",
   "createdAt": "2026-09-15T22:43:11+08:00",
   "updatedAt": "2026-09-16T01:24:05+08:00",

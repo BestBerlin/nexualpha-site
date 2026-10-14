@@ -52,7 +52,7 @@ test('legal SSR through worker: 200, headings, canonical, hreflang, footer and e
       assert.doesNotMatch(html, /href="#nx-ftr-policy-details"/);
       if (pathname !== '/contact') for (const link of ['https://www.youtube.com/t/terms', 'http://www.google.com/policies/privacy', 'https://security.google.com/settings/security/permissions']) assert.ok(html.includes(link), `${url} ${link}`);
       if (pathname === '/privacy') assert.match(html, /nx_hero/);
-      if (pathname === '/contact') for (const handle of ['Bestberlin@nexualpha.com', '@NexuAlphaClub', '@NexuAlpha', '@NexuAlphaCN']) assert.ok(html.includes(handle), handle);
+      if (pathname === '/contact') for (const handle of ['contact@nexualpha.com', '@NexuAlphaClub', '@NexuAlpha', '@NexuAlphaCN']) assert.ok(html.includes(handle), handle);
     }
   } finally {await rm(temp, {recursive: true, force: true});}
 });

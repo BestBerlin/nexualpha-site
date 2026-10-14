@@ -9,7 +9,7 @@ const youtubeLinks = [
   ["Google security settings", "https://security.google.com/settings/security/permissions"],
 ];
 const contacts = [
-  ["Email", "mailto:Bestberlin@nexualpha.com", "Bestberlin@nexualpha.com"],
+  ["Email", "mailto:contact@nexualpha.com", "contact@nexualpha.com"],
   ["Telegram", "https://t.me/NexuAlphaClub", "@NexuAlphaClub"],
   ["X", "https://x.com/NexuAlpha", "@NexuAlpha"],
   ["YouTube", "https://www.youtube.com/@NexuAlphaCN", "@NexuAlphaCN"],
@@ -37,7 +37,7 @@ export function LegalPage({ locale = "en", pathname = "/privacy" }) {
         </section>
       ))}
       <section className="nxb-section v2-shell" aria-label={code === "zh-Hans" ? "联系方式" : "Contact details"}>
-        {pathname === "/contact" ? <ul className="nxb-contacts">{contacts.map(([label, url, handle]) => <li key={url}><span className="nxb-contacts__label">{code === "zh-Hans" && label === "Email" ? "邮箱" : label}</span><a href={url} dir="ltr">{handle}</a></li>)}</ul> : <p><a href="mailto:Bestberlin@nexualpha.com">Bestberlin@nexualpha.com</a></p>}
+        {pathname === "/contact" ? <ul className="nxb-contacts">{contacts.map(([label, url, handle]) => <li key={url}><span className="nxb-contacts__label">{code === "zh-Hans" && label === "Email" ? "邮箱" : label}</span><a href={url} dir="ltr">{handle}</a></li>)}</ul> : <p><a href="mailto:contact@nexualpha.com">contact@nexualpha.com</a></p>}
         <nav className="nxb-links" aria-label={code === "zh-Hans" ? "政策页面" : "Policy pages"}>
           <ul className="nxb-bullets">{LEGAL_PAGE_PATHS.map((path) => <li key={path}><a href={href(path)} aria-current={path === pathname ? "page" : undefined}>{LEGAL_COPY[path][code].title}</a></li>)}</ul>
         </nav>
