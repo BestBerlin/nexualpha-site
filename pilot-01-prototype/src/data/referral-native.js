@@ -40,7 +40,9 @@ export function nativeReferralFor(slug, locale = 'en', market) {
   const benefit = !neutral && partner.share != null && partner.termsConfirmedOn ? copy.share(Math.round(partner.share * 100)) : copy.noBenefit;
   const verifiedAt = !neutral ? partner.termsConfirmedOn || help.reviewedAt : help.reviewedAt;
   const code = neutral ? null : partner.inviteCode;
-  const title = code && verifiedAt ? copy.verifiedTitle(partner.name, code, benefit, verifiedAt) : code ? `${copy.query(partner.name)}: ${code} — ${copy.pending}` : null;
+  // SEO audit 2026-10-14: keep native referral titles short and code-only. Dates and benefit wording stay in the
+  // description/body, so search titles do not confuse a verification year with the invite code.
+  const title = code ? `${copy.query(partner.name)}: ${code}` : null;
   const later = help.reviewedAt ? (copy[`later${help.later}`] || copy.laterUnknown) : copy.pending;
   const entry = help.reviewedAt && help.entry ? (copy.entryByVenue?.[slug] || copy.entryText) : copy.pending;
   const payout = !neutral && partner.termsConfirmedOn && partner.settle ? copy.payoutText(partner.name, copy.cadence[partner.settle]) : copy.noPayout;

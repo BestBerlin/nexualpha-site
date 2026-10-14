@@ -1,0 +1,21 @@
+# Area 5 SEO Audit
+
+| Finding | File:line | Severity | Fixed? | Evidence / command | Coverage gap |
+| --- | --- | --- | --- | --- | --- |
+| Built SEO index audit did not validate JSON-LD parse/type safety, title/description budget regressions, invite-code/year title ambiguity, or llms route/static references. Added those checks to the existing sitemap worker audit so sitemap URLs, manifest URLs, hreflang alternates, and llms page references are rendered through the local built-worker harness. | `pilot-01-prototype/scripts/audit-seo-index.mjs:245`, `pilot-01-prototype/scripts/audit-seo-index.mjs:455`, `pilot-01-prototype/scripts/audit-seo-index.mjs:613` | P1 | Yes | `node --check scripts/audit-seo-index.mjs` -> exit 0; direct validator probe -> `{"ok":true,...}` with the new failure kinds present. | Full built audit still depends on a fresh root-owned build; current `dist/server/index.js` was stale for this lane after source edits. |
+| Native referral SEO titles mixed invite-code labels, benefit text, and verification dates, causing over-budget titles and `邀请码 + year` ambiguity in rendered metadata. Kept title text to query + real code; benefit/date remain in page body/description. | `pilot-01-prototype/src/data/referral-native.js:43` | P1 | Yes | `node --input-type=module` source-worker probe -> `/zh-hans/exchanges/okx | OKX 邀请码: nexu888 | 16`, `/es/exchanges/bybit | código de referido Bybit: 48553 | 31`. | Rebuild required before built-worker metadata matches the source-worker probe. |
+| Regression coverage for the SEO index validator did not lock the new JSON-LD, metadata budget, invite-code/year, and llms consistency rules. Added adversarial cases to the existing SEO audit test. | `pilot-01-prototype/tests/seo-index-audit.test.mjs:25`, `pilot-01-prototype/tests/seo-index-audit.test.mjs:96` | P2 | Yes | Direct validator probe -> confirms `invite-code-year-title`, `jsonld-parse-error`, `jsonld-missing`, `jsonld-invalid-node`, `description-over-budget`, `jsonld-page-type-mismatch`, `llms-file-missing`, `llms-static-ref-missing`, and `llms-page-ref-not-rendered`. | `node --test tests/seo-index-audit.test.mjs` runs the built-site test too; full pass waits for the shared rebuild/packaging lane. |
+| Intentional publication exceptions: neutral/noindex regional or locale variants referenced by llms should stay visible for retrieval context without expanding sitemap/indexing authority. The audit now checks llms page references for renderability/non-200 and static-file existence, not for indexability. | `pilot-01-prototype/scripts/audit-seo-index.mjs:613` | P2 | Yes | Earlier built audit sample showed `llms-page-ref-not-indexable` for `/eu?locale=de`, `/eu?locale=es`, `/eu?locale=fr`, `/eu?locale=ja`, `/eu?locale=ko`; rule was narrowed to non-200/missing only. | If product policy changes to make these routes indexable, sitemap/publisher authority should be changed separately rather than through the llms audit. |
+
+## Exact commands and results
+
+- `node --check scripts/audit-seo-index.mjs` -> exit 0.
+- `node --input-type=module - <<'NODE' ... parseHeadMetadata/validateIndexConsistency probe ... NODE` -> exit 0, output included `{"ok":true,"checked":["description-over-budget","hreflang-cluster-incomplete","invite-code-year-title","jsonld-invalid-node","jsonld-missing","jsonld-page-type-mismatch","jsonld-parse-error","llms-file-missing","llms-page-ref-not-rendered","llms-static-ref-missing"]}`.
+- `zsh /Volumes/致态2TB/nx-agents/load-gate.sh && node --test tests/referral-native.test.mjs tests/referral-seo.test.mjs tests/ctr-titles-2026-10-13.test.mjs` -> exit 0; 18 tests passed.
+- `node --input-type=module - <<'NODE' ... source worker routeMetadata probe ... NODE` -> exit 0; source worker titles were `OKX 邀请码: nexu888` (16 chars) and `código de referido Bybit: 48553` (31 chars).
+
+## Open coverage gaps
+
+- I did not run `npm run build` or the full `test:sites` suite because the root lane owns full rebuild/suite execution for this shared deep-audit branch.
+- The existing built audit failure log included packaging/build preconditions and routing/duplicate country-query failures owned by other lanes; I did not edit those areas.
+- Current built `dist/server/index.js` still reflects the pre-fix referral title copy until the shared build lane rebuilds after this source change.

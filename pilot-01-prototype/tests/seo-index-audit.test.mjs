@@ -22,6 +22,7 @@ async function tempRoot() {
 }
 
 const projectRoot = fileURLToPath(new URL("..", import.meta.url));
+const jsonLdFor = (path) => [{ index: 1, value: { "@context": "https://schema.org", "@type": "WebPage", url: `https://nexualpha.com${path}` } }];
 
 test("sitemap parser decodes URLsets, alternates, and lastmod while rejecting external paths", () => {
   const parsed = parseSitemapXml(`<?xml version="1.0"?><urlset xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -106,6 +107,8 @@ test("index consistency validator catches adversarial SEO graph violations", () 
     title: `Title ${path}`,
     description: `Description ${path}`,
     lang: "en",
+    jsonLdSchemas: jsonLdFor(path),
+    jsonLdErrors: [],
     ...overrides,
   });
   const pages = [
@@ -136,6 +139,10 @@ test("index consistency validator catches adversarial SEO graph violations", () 
     page("/noindex", { noindex: true, indexFollow: false, robots: "noindex,follow", alternates: [{ hreflang: "en", href: "https://nexualpha.com/noindex", path: "/noindex" }] }),
     page("/chain-a", { canonicalPath: "/chain-b", canonicalHref: "https://nexualpha.com/chain-b" }),
     page("/chain-b", { canonicalPath: "/chain-c", canonicalHref: "https://nexualpha.com/chain-c" }),
+    page("/bad-title", { title: "2026 最新 OKX 邀请码与交易手续费核验指南", jsonLdErrors: [{ index: 1, error: "Unexpected token" }], jsonLdSchemas: [] }),
+    page("/bad-jsonld", { jsonLdSchemas: [{ index: 1, value: { "@context": "https://schema.org", name: "Missing type" } }] }),
+    page("/bad-description", { description: "x".repeat(161) }),
+    page("/news/bad-schema", { jsonLdSchemas: [{ index: 1, value: { "@context": "https://schema.org", "@type": "WebPage", url: "https://nexualpha.com/news/bad-schema" } }] }),
   ];
   const sitemap = {
     urls: [
@@ -168,9 +175,18 @@ test("index consistency validator catches adversarial SEO graph violations", () 
     "canonical-chain",
     "duplicate-title",
     "duplicate-description",
+    "invite-code-year-title",
+    "jsonld-parse-error",
+    "jsonld-invalid-node",
+    "jsonld-page-type-mismatch",
+    "description-over-budget",
   ]) {
     assert.ok(report.failuresByKind[kind] > 0, kind);
   }
+  const llmsReport = validateIndexConsistency({ pages: [page("/llms-target")], llms: { missingFiles: ["llms.txt"], missingStaticRefs: [{ path: "/missing.json" }], pageRefs: ["/llms-target", "/llms-missing"] } });
+  assert.equal(llmsReport.failuresByKind["llms-file-missing"], 1);
+  assert.equal(llmsReport.failuresByKind["llms-static-ref-missing"], 1);
+  assert.equal(llmsReport.failuresByKind["llms-page-ref-not-rendered"], 1);
 });
 
 
@@ -211,7 +227,7 @@ test("malformed sitemap content fails closed", () => {
 });
 
 test("content dates reject a build timestamp and accept omitted optional lastmod", () => {
-  const page = { path: '/a', canonicalPath: '/a', canonicalHref: 'https://nexualpha.com/a', responseUrl: 'https://nexualpha.com/a', responseStatus: 200, lang: 'en', noindex: false, indexFollow: true, title: 'A', description: 'A description', alternates: [{ hreflang: 'en', href: 'https://nexualpha.com/a', path: '/a' }, { hreflang: 'x-default', href: 'https://nexualpha.com/a', path: '/a' }] };
+  const page = { path: '/a', canonicalPath: '/a', canonicalHref: 'https://nexualpha.com/a', responseUrl: 'https://nexualpha.com/a', responseStatus: 200, lang: 'en', noindex: false, indexFollow: true, title: 'A', description: 'A description', alternates: [{ hreflang: 'en', href: 'https://nexualpha.com/a', path: '/a' }, { hreflang: 'x-default', href: 'https://nexualpha.com/a', path: '/a' }], jsonLdSchemas: jsonLdFor('/a'), jsonLdErrors: [] };
   const entry = { path: '/a', loc: page.canonicalHref, lastmod: '2026-10-13' };
   const options = { pages: [page], sitemap: { urls: [entry] }, expectedLastmod: () => '2026-09-20' };
   assert.equal(validateIndexConsistency(options).failuresByKind['content-lastmod-mismatch'], 1);
@@ -220,7 +236,7 @@ test("content dates reject a build timestamp and accept omitted optional lastmod
 
 test("translated slugs form one complete reciprocal cluster", () => {
   const alternates = [{ hreflang: 'en', href: 'https://nexualpha.com/topics/english', path: '/topics/english' }, { hreflang: 'pt-BR', href: 'https://nexualpha.com/pt-br/topics/portuguese', path: '/pt-br/topics/portuguese' }, { hreflang: 'x-default', href: 'https://nexualpha.com/topics/english', path: '/topics/english' }];
-  const pages = alternates.filter((row) => row.hreflang !== 'x-default').map((row) => ({ path: row.path, canonicalPath: row.path, canonicalHref: row.href, responseStatus: 200, lang: row.hreflang, indexFollow: true, noindex: false, title: row.hreflang, description: row.hreflang, alternates }));
+  const pages = alternates.filter((row) => row.hreflang !== 'x-default').map((row) => ({ path: row.path, canonicalPath: row.path, canonicalHref: row.href, responseStatus: 200, lang: row.hreflang, indexFollow: true, noindex: false, title: row.hreflang, description: row.hreflang, alternates, jsonLdSchemas: jsonLdFor(row.path), jsonLdErrors: [] }));
   assert.equal(validateIndexConsistency({ pages }).ok, true);
 });
 

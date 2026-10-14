@@ -11,6 +11,7 @@ import {
   renderSitemapPagesWithWorker,
 } from "./audit-internal-inlinks.mjs";
 import { parsePublicRoute } from "../src/data/locale-routing.js";
+import { metaDescriptionLimit, titleDisplayWidth } from "../src/data/meta-description.js";
 import { sitemapContentDates } from "./sitemap-content-dates.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -18,6 +19,9 @@ const defaultBaseUrl = "https://nexualpha.com";
 
 const unique = (values) => [...new Set(values.filter(Boolean))];
 const sample = (values, limit = 25) => values.slice(0, limit);
+const STATIC_LLMS_EXTENSIONS = new Set([".txt", ".json", ".csv", ".xml"]);
+const LATIN_TITLE_WIDTH_LIMIT = 70;
+const CJK_TITLE_WIDTH_LIMIT = 72;
 
 // Preserve the request URL: stripping a query, slash, or escape can hide a redirect.
 export function auditUrlKey(value, { baseUrl = defaultBaseUrl } = {}) {
@@ -238,6 +242,92 @@ function robotsBlocks(groups, pathname, agent = "googlebot") {
   return rules[0].type === "disallow" ? rules[0].rule : null;
 }
 
+function parseJsonLdSchemas(head) {
+  const schemas = [];
+  const errors = [];
+  let index = 0;
+  for (const match of String(head || "").matchAll(/<script\b[^>]*\btype\s*=\s*(?:"application\/ld\+json"|'application\/ld\+json'|application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/gi)) {
+    index += 1;
+    const raw = String(match[1] || "").trim();
+    if (!raw) {
+      errors.push({ index, error: "empty-jsonld" });
+      continue;
+    }
+    try {
+      schemas.push({ index, value: JSON.parse(raw) });
+    } catch (error) {
+      errors.push({ index, error: String(error?.message || error) });
+    }
+  }
+  return { schemas, errors };
+}
+
+function flattenJsonLd(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.flatMap(flattenJsonLd);
+  if (typeof value !== "object") return [];
+  const graph = Array.isArray(value["@graph"]) ? value["@graph"].flatMap(flattenJsonLd) : [];
+  const self = value["@type"] || !Array.isArray(value["@graph"]) ? [value] : [];
+  return [...self, ...graph];
+}
+
+function schemaTypes(page) {
+  return flattenJsonLd((page.jsonLdSchemas || []).map((entry) => entry.value))
+    .flatMap((schema) => Array.isArray(schema?.["@type"]) ? schema["@type"] : [schema?.["@type"]])
+    .filter(Boolean)
+    .map(String);
+}
+
+function isCjkLocale(locale) {
+  return /^(zh|ja|ko)(?:[-_]|$)/i.test(String(locale || ""));
+}
+
+function isInviteCodeYearTitle(title) {
+  return /(邀请码|邀請碼).*(?:20\d{2}|202\d)|(?:20\d{2}|202\d).*(邀请码|邀請碼)/u.test(String(title || ""));
+}
+
+function llmsUrlKey(value, { baseUrl = defaultBaseUrl } = {}) {
+  try {
+    const url = new URL(decodeHtml(value), baseUrl);
+    if (url.origin !== new URL(baseUrl).origin) return null;
+    return `${url.pathname}${url.search}`;
+  } catch {
+    return null;
+  }
+}
+
+function readLlmsIndex(clientRoot, { baseUrl = defaultBaseUrl } = {}) {
+  const files = ["llms-small.txt", "llms.txt", "llms-full.txt"];
+  const missingFiles = [];
+  const refs = [];
+  const staticRefs = [];
+  const pageRefs = [];
+  for (const file of files) {
+    const full = path.join(clientRoot, file);
+    if (!existsSync(full)) {
+      missingFiles.push(file);
+      continue;
+    }
+    const text = readFileSync(full, "utf8");
+    for (const match of text.matchAll(/https:\/\/nexualpha\.com[^\s)\]<>"']+/g)) {
+      const raw = match[0].replace(/[.,;:]+$/u, "");
+      const key = llmsUrlKey(raw, { baseUrl });
+      if (!key) continue;
+      const pathname = new URL(raw, baseUrl).pathname;
+      const extension = path.extname(pathname).toLowerCase();
+      const row = { file, url: raw, path: key };
+      refs.push(row);
+      if (pathname.startsWith("/api/")) continue;
+      if (STATIC_LLMS_EXTENSIONS.has(extension)) staticRefs.push(row);
+      else pageRefs.push(row);
+    }
+  }
+  const missingStaticRefs = unique(staticRefs.map((row) => row.path.split("?")[0]))
+    .filter((pathname) => !existsSync(path.join(clientRoot, pathname.slice(1))))
+    .map((pathname) => ({ path: pathname }));
+  return { files, missingFiles, refs, pageRefs: unique(pageRefs.map((row) => row.path)).sort(), staticRefs, missingStaticRefs };
+}
+
 export function parseHeadMetadata(html, { baseUrl = defaultBaseUrl } = {}) {
   const head = String(html || "").match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || String(html || "");
   const lang = attr(String(html || "").match(/<html\b[^>]*>/i)?.[0] || "", "lang");
@@ -260,6 +350,7 @@ export function parseHeadMetadata(html, { baseUrl = defaultBaseUrl } = {}) {
     ...entry,
     path: auditUrlKey(entry.href, { baseUrl }),
   }));
+  const jsonLd = parseJsonLdSchemas(head);
   const languageLinks = [...String(html || "").matchAll(/<a\b[^>]*>/gi)]
     .map((match) => match[0])
     .filter((tag) => attr(tag, "class").split(/\s+/).includes("nx-lang__opt"))
@@ -285,6 +376,8 @@ export function parseHeadMetadata(html, { baseUrl = defaultBaseUrl } = {}) {
     canonicalHref: decodeHtml(canonicalHref),
     canonicalPath: auditUrlKey(canonicalHref, { baseUrl }),
     alternates,
+    jsonLdSchemas: jsonLd.schemas,
+    jsonLdErrors: jsonLd.errors,
   };
 }
 
@@ -359,7 +452,7 @@ function readManifestPaths(clientRoot) {
   return unique(Object.values(manifest.routes || {}).map((route) => manifestRouteCanonicalPath(route))).sort();
 }
 
-export function validateIndexConsistency({ pages = [], sitemap = { urls: [], missingSitemaps: [], files: [] }, robotsContent = "", baseUrl = defaultBaseUrl, sampleLimit = 10, expectedLastmod = null } = {}) {
+export function validateIndexConsistency({ pages = [], sitemap = { urls: [], missingSitemaps: [], files: [] }, robotsContent = "", baseUrl = defaultBaseUrl, sampleLimit = 10, expectedLastmod = null, llms = null } = {}) {
   const pageByPath = new Map(pages.map((page) => [page.path || page.canonicalPath, page]));
   const failures = [...(sitemap.missingSitemaps || []).map((loc) => ({ kind: "missing-sitemap-child", loc }))];
   const robotsGroups = parseRobots(robotsContent);
@@ -410,13 +503,42 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
     if (page.noindex && page.alternates?.length) failures.push({ kind: "noindex-has-hreflang", path: pagePath, alternates: page.alternates.length });
     if (!page.noindex && !page.canonicalHref) failures.push({ kind: "missing-canonical", path: pagePath });
     if (!page.noindex && (!page.title || !page.description)) failures.push({ kind: "missing-search-metadata", path: pagePath });
+    if (!page.noindex && page.title) {
+      const locale = page.lang || localeFromPath(pagePath);
+      const titleLimit = isCjkLocale(locale) ? CJK_TITLE_WIDTH_LIMIT : LATIN_TITLE_WIDTH_LIMIT;
+      const width = titleDisplayWidth(page.title);
+      if (width > titleLimit) failures.push({ kind: "title-over-budget", path: pagePath, locale, width, limit: titleLimit, title: page.title });
+      if (isInviteCodeYearTitle(page.title)) failures.push({ kind: "invite-code-year-title", path: pagePath, locale, title: page.title });
+    }
+    if (!page.noindex && page.description) {
+      const locale = page.lang || localeFromPath(pagePath);
+      const limit = metaDescriptionLimit(locale, page.description);
+      if (page.description.length > limit) failures.push({ kind: "description-over-budget", path: pagePath, locale, length: page.description.length, limit });
+    }
+    if (!page.noindex) {
+      for (const error of page.jsonLdErrors || []) failures.push({ kind: "jsonld-parse-error", path: pagePath, ...error });
+      const schemas = page.jsonLdSchemas || [];
+      if (!schemas.length) failures.push({ kind: "jsonld-missing", path: pagePath });
+      const nodes = flattenJsonLd(schemas.map((entry) => entry.value));
+      for (const [index, schema] of nodes.entries()) {
+        if (!schema || typeof schema !== "object") failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "not-object" });
+        else if (!schema["@type"]) failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "missing-type" });
+        else if (!schema["@context"] && !schema["@id"] && !schema.url && !schema.itemListElement && !schema.mainEntity) {
+          failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "missing-context-or-identity" });
+        }
+      }
+      const types = new Set(schemaTypes(page));
+      if (/^\/(?:[a-z]{2}(?:-[a-z]+)?\/)?news\//i.test(pagePath) && ![...types].some((type) => ["NewsArticle", "Article", "BlogPosting"].includes(type))) {
+        failures.push({ kind: "jsonld-page-type-mismatch", path: pagePath, expected: "NewsArticle", types: [...types] });
+      }
+    }
     const languageTargets = new Set((page.alternates || []).filter((entry) => entry.hreflang !== "x-default").map((entry) => `${entry.hreflang}|${entry.path}`));
     for (const link of page.languageLinks || []) {
       if (!link.path || !languageTargets.has(`${link.hreflang}|${link.path}`)) {
         failures.push({ kind: "language-link-not-in-hreflang", path: pagePath, href: link.href, hreflang: link.hreflang });
       }
     }
-    if (page.canonicalPath && page.canonicalPath !== pagePath) {
+    if (!page.noindex && page.canonicalPath && page.canonicalPath !== pagePath) {
       const target = pageByPath.get(page.canonicalPath);
       if (!target) failures.push({ kind: "canonical-target-not-rendered", path: pagePath, canonicalPath: page.canonicalPath });
       else if (target.noindex) failures.push({ kind: "canonical-target-noindex", path: pagePath, canonicalPath: page.canonicalPath });
@@ -487,6 +609,16 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
   })).filter((page) => !page.noindex);
   for (const row of duplicateRows(indexableCorpus, "title")) failures.push({ kind: "duplicate-title", ...row });
   for (const row of duplicateRows(indexableCorpus, "description")) failures.push({ kind: "duplicate-description", ...row });
+
+  if (llms) {
+    for (const file of llms.missingFiles || []) failures.push({ kind: "llms-file-missing", file });
+    for (const ref of llms.missingStaticRefs || []) failures.push({ kind: "llms-static-ref-missing", path: ref.path });
+    for (const pathname of llms.pageRefs || []) {
+      const page = pageByPath.get(pathname);
+      if (!page) failures.push({ kind: "llms-page-ref-not-rendered", path: pathname });
+      else if (page.responseStatus !== 200) failures.push({ kind: "llms-page-ref-non-200", path: pathname, status: page.responseStatus });
+    }
+  }
 
   const byKind = {};
   for (const failure of failures) byKind[failure.kind] = (byKind[failure.kind] || 0) + 1;
@@ -574,7 +706,8 @@ export async function runSeoIndexAudit(options) {
   const sitemapPaths = unique(sitemap.urls.map((entry) => entry.path)).sort();
   const manifestPaths = readManifestPaths(clientRoot);
   const alternatePaths = unique(sitemap.urls.flatMap((entry) => entry.alternates.map((alternate) => alternate.path))).sort();
-  const pathsToRender = unique([...sitemapPaths, ...manifestPaths, ...alternatePaths]).sort();
+  const llms = readLlmsIndex(clientRoot, { baseUrl: options.baseUrl });
+  const pathsToRender = unique([...sitemapPaths, ...manifestPaths, ...alternatePaths, ...llms.pageRefs]).sort();
   const rendered = await renderSeoPages({
     paths: pathsToRender,
     root: options.root,
@@ -594,6 +727,7 @@ export async function runSeoIndexAudit(options) {
     robotsContent,
     baseUrl: options.baseUrl,
     sampleLimit: options.sampleLimit,
+    llms,
   });
   for (const error of rendered.errors) validation.failures.push({ kind: "worker-render-error", ...error });
   for (const pathname of rendered.pending) validation.failures.push({ kind: "render-target-not-reached", path: pathname });
@@ -609,6 +743,8 @@ export async function runSeoIndexAudit(options) {
       manifestRoutes: manifestPaths.length,
       hreflangTargets: alternatePaths.length,
       renderedPages: rendered.pages.length,
+      llmsPageRefs: llms.pageRefs.length,
+      llmsStaticRefs: llms.staticRefs.length,
       renderErrors: rendered.errors.length,
       failures: validation.failures.length,
     },
