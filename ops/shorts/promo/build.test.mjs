@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { schedule, assertPromoCopy, build } from './build.mjs';
+import { schedule, assertPromoCopy, build, narrationFor, voicedLocales } from './build.mjs';
 
 const spec = JSON.parse(await readFile(new URL('./bybit-stocks.json', import.meta.url), 'utf8'));
 
@@ -104,4 +104,27 @@ test('kraken-usdg builds with the code, our QR and no printed percentages', asyn
   assert.doesNotMatch(visible, /%/);
   assert.doesNotMatch(visible, /kraken\.com/i);
   assert.match(visible, /5,000,000/);
+});
+
+// Owner rule 2026-10-14: no silent videos. A locale is publishable only with a narration line for every scene.
+test('narration falls back to the English master only for the narration locale', () => {
+  const s = { narration_locale: 'en', scenes: [{ id: 'a', narration: 'Hi' }], narration_i18n: { 'zh-Hans': { a: '你好' } }, copy: { en: {}, 'zh-Hans': {}, tr: {} } };
+  assert.equal(narrationFor(s, s.scenes[0], 'en'), 'Hi');
+  assert.equal(narrationFor(s, s.scenes[0], 'zh-Hans'), '你好');
+  assert.equal(narrationFor(s, s.scenes[0], 'tr'), null);
+  assert.deepEqual(voicedLocales(s), ['en', 'zh-Hans']);
+});
+
+test('campaign specs published in Chinese have Chinese narration for every scene', () => {
+  for (const s of [bitget, kraken]) {
+    assert.deepEqual(voicedLocales(s), ['en', 'zh-Hans'], s.id);
+    for (const scene of s.scenes) assert.doesNotThrow(() => assertPromoCopy(narrationFor(s, scene, 'zh-Hans'), `${s.id}.${scene.id}`));
+  }
+});
+
+test('make-promo has no silent-track path and gates every output', async () => {
+  const src = await readFile(new URL('./make-promo.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(src, /anullsrc/);
+  assert.match(src, /assertAudible\(target/);
+  assert.match(src, /sidechaincompress/);
 });

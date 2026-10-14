@@ -241,6 +241,10 @@ export function xClient(credentials, fetcher = fetch) {
     headers: { Authorization: oauthHeader(method, `${API}${endpoint}`, credentials), 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
   return {
     async uploadImage(png) {
+      // Images only. Video must never use this path: any video upload has to pass ops/shorts/audio-gate.mjs
+      // (assertAudible) first — owner rule 2026-10-14, no silent videos on any platform.
+      if (!Buffer.isBuffer(png) && !(png instanceof Uint8Array)) throw new Error('X media upload refused: expected PNG bytes');
+      if (!(png[0] === 0x89 && png[1] === 0x50 && png[2] === 0x4e && png[3] === 0x47)) throw new Error('X media upload refused: only PNG images go through uploadImage; videos need the audio gate');
       // Keep media on the scheduler's OAuth1 user credentials. Multipart fields
       // are excluded from the OAuth signature base (unlike form-urlencoded).
       const url = 'https://upload.twitter.com/1.1/media/upload.json';

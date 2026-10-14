@@ -20,6 +20,15 @@
     { "id": "cta", "duration": 10.3, "pose": "wave", "expression": "happy", "antenna": "blue",
       "narration": "Join with code 7, f, 9, 7, g, k, q, w. Scan the code, or visit nexualpha dot com." }
   ],
+  "narration_i18n": {
+    "zh-Hans": {
+      "pool": "Kraken 合约挑战赛，奖池最高五百万！",
+      "box": "合约交易量满五万美元就能分奖金，第一名最高七十五万 USDG。",
+      "split": "交易量加速，最高三倍。",
+      "qualify": "用邀请码注册，先报名，再交易。",
+      "cta": "注册时填写邀请码 7、f、9、7、g、k、q、w，扫码或访问 NexuAlpha 看参与方式。"
+    }
+  },
   "copy": {
     "en": {
       "pool_lead": "Kraken futures challenge: prize pool up to", "pool": "5,000,000", "pool_unit": "USDG", "pool_tail": "Grows in 8 tiers from 25,000 USDG as everyone trades",

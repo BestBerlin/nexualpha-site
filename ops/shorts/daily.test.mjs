@@ -7,11 +7,14 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import {buildPackage,sgtDay,validateData} from './builders.mjs';
-test('daily CLI defaults to eight locales; rejects typos, duplicate locales and voice without English',()=>{
+test('daily CLI defaults to eight voiced locales; rejects typos and duplicate locales',()=>{
+  assert.equal(parseDailyArgs([]).voice,true);
+  assert.equal(parseDailyArgs(['--no-voice']).voice,false);
+  assert.equal(parseDailyArgs(['--locales','vi','--voice']).voice,true);
   assert.deepEqual(parseDailyArgs([]).locales,['en','es','pt-BR','vi','id','tr','ru','zh-Hans']);
   assert.deepEqual(parseDailyArgs(['--locales','en,vi','--out','ops/shorts/samples/test']).locales,['en','vi']);
   assert.deepEqual(parseDailyArgs(['--locales','ar']).locales,['ar']);
-  for(const args of [['--locales','en,en'],['--locales','xx'],['--out'],['--wat'],['--locales','vi','--voice']]) assert.throws(()=>parseDailyArgs(args));
+  for(const args of [['--locales','en,en'],['--locales','xx'],['--out'],['--wat']]) assert.throws(()=>parseDailyArgs(args));
 });
 test('offline preview exposes seekable GSAP timeline with portrait/square frame metadata',async()=>{
   const dir=await mkdtemp(path.join(os.tmpdir(),'shorts-preview-'));

@@ -20,6 +20,15 @@
     { "id": "cta", "duration": 8.0, "pose": "wave", "expression": "happy", "antenna": "blue",
       "narration": "Join with code D, P, R, W, S, X, A, S. Scan the code, or visit nexualpha dot com." }
   ],
+  "narration_i18n": {
+    "zh-Hans": {
+      "pool": "近五百万 USDT 奖池，每天瓜分！",
+      "split": "Bitget 拿出平台手续费，每天分给用户。",
+      "qualify": "每天交易或持仓满一百 USDT，无需报名，自动计入。",
+      "box": "每三天领一次奖，还能开必中盲盒。",
+      "cta": "注册时填写邀请码 D、P、R、W、S、X、A、S，扫码看参与方式。"
+    }
+  },
   "copy": {
     "en": {
       "pool_lead": "Bitget.com prize pool", "pool": "4.8M+", "pool_unit": "USDT up for grabs", "pool_tail": "Shared out every day",

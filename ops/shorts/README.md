@@ -22,13 +22,15 @@ Nexubo reuses the academy rig with scene-specific poses and expressions below th
 
 Each locale also has portrait/square HTML previews with the existing local GSAP runtime, a paused seekable `window.__timelines.shorts` timeline, and Hyperframes scene metadata. Open with `?at=12` to review a settled frame. These previews show settled numbers; the MP4 renderer independently applies deterministic 0.8s count-up/host entrance and 0.25s crossfades. Poster images use the settled first slide; SRT timestamps follow actual slide/audio durations.
 
-## Optional English clone narration
+## Voiceover and music (every locale, default on)
 
 ```sh
-./ops/shorts/make-daily.sh --locales en,vi --voice --out ops/shorts/samples/voiced
+./ops/shorts/make-daily.sh --locales en,vi --out ops/shorts/samples/voiced
+./ops/shorts/make-daily.sh --no-voice --out /tmp/layout-draft     # layout drafts only: silent, marked publishable:false
+node ops/shorts/audio-gate.mjs <file.mp4> --platform youtube        # exit 3 = blocked
 ```
 
-Only English is voiced. Uses the owner's installed Qwen3-TTS Base 8bit model in clone mode and `/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav`, with the exact reference transcript from OWNER-NOTE.txt. No macOS voice substitution or downloads. `SHORTS_TTS_PYTHON` selects an already provisioned Python; missing module, local model, reference, or oversized narration fails clearly. Full voiced output must stay within 25–35 seconds; narration is measured rather than silently accelerated. Clone playback and consistency require review on the provisioned voice environment.
+Owner rule 2026-10-14: every published video has a natural voiceover in its locale plus light background music, and passes the audio gate (audio stream, mean volume >= -30 dB, <= 40% silent via silencedetect). English uses the owner's Qwen3-TTS Base 8bit clone of `/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav`; other locales use `ops/shorts/voice/voice.py` (Qwen3-TTS CustomVoice "Serena" for zh-Hans, VoxCPM2 locale clones for es, pt-BR, vi, id, tr, ru, ar). The music bed (`ops/shorts/voice/music_bed.py`, self-synthesised, royalty-free) is ducked under the voice and the mix is normalised to -16 LUFS. No macOS voice substitution or downloads. `SHORTS_TTS_PYTHON` / `SHORTS_LOCALE_TTS_PYTHON` select provisioned Pythons; missing modules, models, references, or oversized narration fail clearly. Voiced output must stay within 25–35 seconds; narration is measured rather than silently accelerated.
 
 For deterministic offline samples, clearly marked as fixtures:
 

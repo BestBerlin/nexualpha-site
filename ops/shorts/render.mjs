@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {slideToSvg, captionLines, FONT_OPTIONS, FORMATS} from './layout.mjs';
+import { assertAudible } from './audio-gate.mjs';
 export {slideToSvg, captionLines} from './layout.mjs';
 
 const FPS = 30;
@@ -16,6 +17,11 @@ const DEFAULT_FFMPEG = '/opt/homebrew/bin/ffmpeg';
 const DEFAULT_FFPROBE = '/opt/homebrew/bin/ffprobe';
 const LOCAL_DYLD_LIBRARY_PATH = '/opt/homebrew/Cellar/x265/4.2/lib';
 const DEFAULT_TTS_PYTHON = '/opt/homebrew/bin/python3';
+const LOCALE_TTS_PYTHON = process.env.SHORTS_LOCALE_TTS_PYTHON || '/Volumes/致态2TB/nx-agents/education/v2/.venv/bin/python';
+const VOICE_PY = fileURLToPath(new URL('./voice/voice.py', import.meta.url));
+const MUSIC_PY = fileURLToPath(new URL('./voice/music_bed.py', import.meta.url));
+const MEDIA_DIR = process.env.NX_MEDIA_DIR || '/Volumes/致态2TB/nx-agents/media';
+const MUSIC_GAIN = Number(process.env.SHORTS_MUSIC_GAIN || 0.2);
 const QWEN_MODEL = 'mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit';
 const OWNER_REF_AUDIO = '/Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav';
 const OWNER_REF_TEXT = "Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.";
@@ -81,6 +87,7 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en', 
   }
   const videoPath = path.join(outDir,'short.mp4');
   await renderVideo(clips,durations,voiceResult?.audioPath,videoPath);
+  if (voiceResult) await assertAudible(videoPath, { platform: 'render' });
   const posterPath = path.join(outDir, 'poster.png');
   await fs.copyFile(framePaths[0], posterPath);
   const srtPath = path.join(outDir, 'captions.srt');
@@ -92,6 +99,7 @@ export async function renderShort(slides, outDir, { voice = false, lang = 'en', 
     duration: totalDuration,
     durations,
     voice: Boolean(voiceResult),
+    publishable: Boolean(voiceResult),
     voiceName: voiceResult?.voiceName ?? null,
     voiceConfig: voiceResult?.config ?? null,
     speechDurations: voiceResult?.speechDurations ?? [],
@@ -136,17 +144,21 @@ function normalizeSlides(slides, lang) {
 }
 
 async function renderVoiceTrack(slides, audioDir, lang) {
+  // English keeps the owner clone; every other locale uses ./voice/voice.py (Qwen3-TTS zh, VoxCPM2 others).
+  if (lang === 'en') await ensureOwnerVoicePrerequisites();
+  const voiceName = lang === 'en' ? 'Qwen3-TTS owner English clone' : `voice.py ${lang}`;
   if (lang !== 'en') {
-    throw new Error(`voice narration is English-only for now; got ${lang}`);
+    const all = slides.flatMap((slide, index) => captionLines(slide.narration, lang).map((text, i) => ({ id: `segment-${index}-${i}`, text })));
+    const list = path.join(audioDir, 'lines.json');
+    await fs.writeFile(list, JSON.stringify(all));
+    await run(LOCALE_TTS_PYTHON, ['-I', VOICE_PY, '--locale', lang, '--out', audioDir, '--lines', list], { env: offlineTtsEnv(process.env) });
   }
-  await ensureOwnerVoicePrerequisites();
-  const voiceName = 'Qwen3-TTS owner English clone';
   const clips = [], durations = [], speechDurations = [], captions = [];
   for (let index=0;index<slides.length;index++) {
     const lines = captionLines(slides[index].narration,lang);
     const segments = [];
     for (let i=0;i<lines.length;i++) {
-      const file = await synthesizeSpeech(lines[i], audioDir, `segment-${index}-${i}`);
+      const file = lang === 'en' ? await synthesizeSpeech(lines[i], audioDir, `segment-${index}-${i}`) : path.join(audioDir, `segment-${index}-${i}.wav`);
       segments.push({file,text:lines[i],duration:await mediaDuration(file)});
     }
     const length = sum(segments.map(s=>s.duration));
@@ -191,11 +203,21 @@ async function synthesizeSpeech(text, outputDir, filePrefix) {
   return path.join(outputDir, created[0]);
 }
 
+async function musicBed(style = 'bright') {
+  const file = path.join(MEDIA_DIR, 'music', `${style}.wav`);
+  try { await fs.access(file); } catch {
+    await fs.mkdir(path.dirname(file), { recursive: true });
+    await run(LOCALE_TTS_PYTHON, ['-I', MUSIC_PY, file, '--style', style, '--seconds', '64']);
+  }
+  return file;
+}
+
 async function renderVideo(clips, durations, audioPath, videoPath) {
   const args=['-hide_banner','-y'];
   clips.forEach(clip=>args.push('-i',clip));
-  if(audioPath) args.push('-i',audioPath);
-  else args.push('-f','lavfi','-t',String(sum(durations)),'-i','anullsrc=channel_layout=stereo:sample_rate=48000');
+  const total=sum(durations);
+  if(audioPath) args.push('-i',audioPath,'-stream_loop','-1','-i',await musicBed());
+  else args.push('-f','lavfi','-t',String(total),'-i','anullsrc=channel_layout=stereo:sample_rate=48000'); // --no-voice layout drafts only; never publishable
   const filters=clips.map((_,i)=>`[${i}:v]fps=${FPS},settb=AVTB,setpts=PTS-STARTPTS[v${i}]`);
   let last='v0', offset=0;
   for(let i=1;i<clips.length;i++) {
@@ -204,7 +226,16 @@ async function renderVideo(clips, durations, audioPath, videoPath) {
     filters.push(`[${last}][v${i}]xfade=transition=fade:duration=${FADE_SECONDS}:offset=${offset}[${next}]`);
     last=next;
   }
-  args.push('-filter_complex',filters.join(';'),'-map',`[${last}]`,'-map',`${clips.length}:a`,
+  let audioMap=`${clips.length}:a`;
+  if(audioPath) {
+    // Light music bed ducked under the narration, then loudness-normalised for Shorts.
+    filters.push(`[${clips.length}:a]aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${total},asplit=2[voice][key]`);
+    filters.push(`[${clips.length+1}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:${total},volume=${MUSIC_GAIN},afade=t=in:d=0.6,afade=t=out:st=${Math.max(0,total-1.8)}:d=1.8[bed]`);
+    filters.push(`[bed][key]sidechaincompress=threshold=0.03:ratio=6:attack=15:release=350[ducked]`);
+    filters.push(`[voice][ducked]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[aout]`);
+    audioMap='[aout]';
+  }
+  args.push('-filter_complex',filters.join(';'),'-map',`[${last}]`,'-map',audioMap,
     '-t',String(sum(durations)),'-c:v','libx264','-preset','veryfast','-crf','20','-profile:v','high',
     '-pix_fmt','yuv420p','-r',String(FPS),'-c:a','aac','-b:a','128k','-movflags','+faststart',videoPath);
   await run(ffmpegPath(),args);

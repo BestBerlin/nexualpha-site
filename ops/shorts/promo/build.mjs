@@ -28,6 +28,16 @@ export function assertPromoCopy(text, where) {
 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const frames = s => Math.round(s * FPS) / FPS;
 
+// Narration text for a scene in a locale: spec.narration_i18n[locale][sceneId], or scene.narration for the
+// spec's narration_locale (English master). Every published locale must have a line for every scene.
+export function narrationFor(spec, scene, locale) {
+  const line = spec.narration_i18n?.[locale]?.[scene.id] ?? (locale === (spec.narration_locale ?? 'en') ? scene.narration : undefined);
+  return line ? String(line) : null;
+}
+export function voicedLocales(spec) {
+  return Object.keys(spec.copy).filter(locale => spec.scenes.every(s => narrationFor(spec, s, locale)));
+}
+
 export function schedule(spec) {
   let t = 0;
   const scenes = spec.scenes.map(s => {
@@ -73,6 +83,7 @@ export async function build(spec, locale, formats = Object.keys(FORMATS), { spee
   const copy = spec.copy[locale];
   if (!copy) throw new Error(`Spec has no copy for locale ${locale}`);
   for (const [k, v] of Object.entries(copy)) assertPromoCopy([].concat(v).join(' '), `${locale}.${k}`);
+  for (const s of spec.scenes) { const line = narrationFor(spec, s, locale); if (line) assertPromoCopy(line, `${locale}.narration.${s.id}`); }
   const { scenes, total } = schedule(spec);
   const css = await readFile(join(root, 'style.css'), 'utf8');
   const runtime = await readFile(join(root, 'motion.js'), 'utf8');
@@ -93,11 +104,12 @@ export async function build(spec, locale, formats = Object.keys(FORMATS), { spee
       const host = await nexubo({ id: `promo-${s.id}`, pose: s.pose, expression: s.expression, antenna: s.antenna });
       sections.push(`<section id="scene-${i}" class="scene scene-${s.id}" data-scene="${s.id}"><div class="copy">${sceneContent(s, copy, spec)}</div><div class="host" data-pose="${s.pose}">${host}</div></section>`);
     }
-    const voiced = spec.narration_locale === locale && Object.keys(speech).length > 0;
-    const timeline = scenes.map(({ id, start, duration, pose, narration }) => {
+    const voiced = Object.keys(speech).length > 0;
+    const timeline = scenes.map(scene => {
+      const { id, start, duration, pose } = scene;
       const speechDuration = voiced ? speech[id] ?? null : null;
-      if (speechDuration && (spec.lead_in ?? 0.3) + speechDuration > duration - 0.15) throw new Error(`Narration for ${id} (${speechDuration}s) does not fit scene ${duration}s`);
-      return { id, start, duration, pose, speech: speechDuration ? narration : null, speechDuration };
+      if (speechDuration && (spec.lead_in ?? 0.3) + speechDuration > duration - 0.15) throw new Error(`Narration for ${locale} ${id} (${speechDuration}s) does not fit scene ${duration}s`);
+      return { id, start, duration, pose, speech: speechDuration ? narrationFor(spec, scene, locale) : null, speechDuration };
     });
     const serialized = JSON.stringify(timeline).replace(/</g, '\\u003c');
     const html = `<!doctype html><html lang="${locale}"><head><meta charset="utf-8"><title>NexuAlpha promo ${spec.id} ${locale} ${format}</title><style>@font-face{font-family:'Inter Promo';src:url(assets/InterVariable.ttf) format('truetype');font-weight:100 900}${css}</style></head><body><main id="promo" class="${format}" data-composition-id="promo" data-start="0" data-duration="${total}" data-width="${width}" data-height="${height}" data-fps="${FPS}" style="width:${width}px;height:${height}px"><div class="progress-track"><div class="progress"></div></div><div class="brand"><img id="brand-corner" data-start="0" data-duration="${total}" src="assets/logo.svg" alt="NexuAlpha logo"><span>NexuAlpha</span></div>${sections.join('')}</main><script src="assets/gsap.min.js"></script><script>const SCENES=${serialized};const TOTAL=${total};const LEAD_IN=${spec.lead_in ?? 0.3};${runtime}</script></body></html>`;
