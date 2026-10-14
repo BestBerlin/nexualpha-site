@@ -48,9 +48,15 @@ def _write(path, audio, sr):
     audio_write(path, np.array(audio), sr, format="wav")
 
 def _model(repo):
+    # Load straight from the local HF cache snapshot (offline; README/.gitattributes may be absent, which is fine).
+    import glob
     from mlx_audio.tts.utils import load_model
-    from huggingface_hub import snapshot_download
-    return load_model(snapshot_download(repo, local_files_only=True))
+    hub = os.path.join(os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface")), "hub")
+    snaps = sorted(glob.glob(os.path.join(hub, "models--" + repo.replace("/", "--"), "snapshots", "*")))
+    snaps = [d for d in snaps if glob.glob(os.path.join(d, "*.safetensors"))]
+    if not snaps: raise SystemExit(f"model {repo} is not in the local cache; downloads are disabled (ask before > 1 GB)")
+    from pathlib import Path
+    return load_model(Path(snaps[-1]))
 
 def _collect(gen):
     import numpy as np
