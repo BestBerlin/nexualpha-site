@@ -79,7 +79,7 @@ test("/activities is rendered at request time from the announcement feed: campai
     else assert.match(html, /data-cta-placement="activities-live-campaign"[^>]*data-cta-code=/, `${path}: sign-up link with the invite code`);
     // Owner rule 2026-10-12: commission disclosure only in the footer and legal pages, never with the list.
     assert.doesNotMatch(html, /data-disclosure-placement=/, `${path}: no in-section commission disclosure`);
-    assert.match(html, /class="clean-footer__statement"/, `${path}: the footer keeps the disclosure statement`);
+    assert.match(html, /class="clean-footer__summary"/, `${path}: the footer keeps the single disclosure statement`);
     assert.match(html, /href="[^"]*\/methodology#disclosure"/, `${path}: the footer links the disclosure`);
     assert.doesNotMatch(html, /okx\.example\.com|Expired campaign|OKX lists ABC/, `${path}: non-event, expired and unofficial rows stay out`);
     const state = prerenderState(html);

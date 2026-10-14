@@ -57,9 +57,9 @@ test("built v6 assets preserve every declaration and the original inner order", 
   assert.ok(linked.every((href) => !/^\/assets\/(?:page-inner-c|core-c[234]-)/.test(href)), "no segment requests in the final shell");
   const critical = JSON.parse(read("../dist/client/critical-css.json")).routes.home;
   assert.ok(critical.sheets.includes(home) && !critical.sheets.includes(full));
-  assert.match(critical.css, /\.h7-num/);
-  assert.match(critical.css, /\.h7-roll\[data-roll-static\]\{animation:none\}/, "initial number stays static before full CSS loads");
-  assert.match(critical.css, /@keyframes h7up\{/, "venue-pick keyframes remain available in critical CSS");
+  assert.match(critical.css, /\.hx-rate-num/);
+  assert.match(critical.css, /\.hx-rate-n:after/, "initial number prints from SSR before full CSS loads");
+  assert.match(read("../src/styles/v7/home7.css"), /@keyframes hx-count\{/, "venue-pick count keyframes remain available in full home CSS");
   assert.ok(Buffer.byteLength(critical.css) < 120_000, "inline CSS covers shell/hero, not the full home page");
   assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:swap/);
   assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2"/);

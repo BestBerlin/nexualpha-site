@@ -28,7 +28,10 @@ export const HOME_SETTLE = Object.freeze({ okx: "hourly", binance: "hourly", bit
 // TURKEY_PROMOTED_PARTNERS; Bitget is on the SPK list) is left out of the home desk, calculator and strip entirely —
 // no card, no "sign up" button, no eligibility link. Other markets keep the full list (their gated CTAs already fall
 // back to the eligibility page).
-const turkeyGated = (slug, locale, market) => partnerPromotionGate(slug, { locale, market })?.country === "TR";
+// The Turkish edition keeps its restriction even when a query supplies a different market.
+const turkeyGated = (slug, locale, market) => partnerPromotionGate(slug, {
+  locale, market: /^tr(?:-|$)/i.test(String(locale || "")) ? "TR" : market,
+})?.country === "TR";
 export const homePartnersFor = (locale, market) => HOME_PARTNERS.filter((slug) => !turkeyGated(slug, locale, market));
 export const homePushFor = (locale, market) => HOME_PUSH.filter((slug) => !turkeyGated(slug, locale, market));
 /** Headline "up to X%": the top share among the partners this market's home actually shows. */

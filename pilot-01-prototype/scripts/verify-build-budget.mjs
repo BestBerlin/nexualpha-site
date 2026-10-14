@@ -79,6 +79,28 @@ checks.push({
   chunks: closureRows,
   pass: closureGzip <= HOME_INITIAL_JS_GZIP_MAX,
 });
+const HERO_TERMINAL_GZIP_MAX = 25_000;
+const heroTerminalJs = assetFiles.filter((name) => /^(?:HeroTerminal|hero-terminal)-[\w-]+\.js$/.test(name));
+const heroTerminalJsRows = await Promise.all(heroTerminalJs.map(async (name) => {
+  const body = await readFile(path.join(assetsDir, name));
+  return { name, gzipBytes: gzipSync(body, { level: 6 }).length };
+}));
+const heroTerminalCssPath = path.join(root, "src", "styles", "v7", "terminal-owner.css");
+let heroTerminalCssGzip = null;
+try {
+  heroTerminalCssGzip = gzipSync(await readFile(heroTerminalCssPath), { level: 6 }).length;
+} catch {
+  heroTerminalCssGzip = null;
+}
+const heroTerminalGzip = heroTerminalJsRows.reduce((sum, row) => sum + row.gzipBytes, 0) + (heroTerminalCssGzip ?? 0);
+checks.push({
+  label: "hero terminal JS+CSS hard cap (gzip)",
+  asset: [...heroTerminalJsRows.map((row) => row.name), "src/styles/v7/terminal-owner.css"].join(" "),
+  bytes: heroTerminalGzip,
+  maxBytes: HERO_TERMINAL_GZIP_MAX,
+  chunks: [...heroTerminalJsRows, { name: "src/styles/v7/terminal-owner.css", gzipBytes: heroTerminalCssGzip }],
+  pass: heroTerminalJsRows.length >= 1 && heroTerminalCssGzip != null && heroTerminalGzip <= HERO_TERMINAL_GZIP_MAX,
+});
 const result = {
   status: checks.every((check) => check.pass) ? "PASS" : "FAIL",
   strict,

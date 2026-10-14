@@ -1,29 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { startJsonPolling } from "../shared/json-polling.js";
+import { useEffect, useMemo, useRef } from "react";
 import { usd } from "./home7-shared.jsx";
 
-const TICKER_URL = "/api/ticker.json";
-const TERMINAL_REFRESH_MS = 45 * 1000;
-const SYMBOLS = Object.freeze(["BTC", "ETH", "SOL"]);
+const SYMBOLS = Object.freeze(["BTC", "ETH", "SOL", "BNB", "XRP"]);
+const PHONE_SYMBOLS = new Set(["BTC", "ETH", "SOL"]);
 
 const COPY = Object.freeze({
-  en: { title: "Market terminal", ticker: "Price ticker", estimate: "Estimate", route: "Fee route" },
-  "zh-Hans": { title: "行情终端", ticker: "价格行情", estimate: "估算", route: "费用路径" },
-  "zh-Hant": { title: "行情終端", ticker: "價格行情", estimate: "估算", route: "費用路徑" },
-  es: { title: "Terminal de mercado", ticker: "Precios", estimate: "Estimación", route: "Ruta de comisiones" },
-  "pt-BR": { title: "Terminal de mercado", ticker: "Preços", estimate: "Estimativa", route: "Rota de taxas" },
-  fr: { title: "Terminal de marché", ticker: "Cours", estimate: "Estimation", route: "Trajet des frais" },
-  de: { title: "Marktterminal", ticker: "Kurse", estimate: "Schätzung", route: "Gebührenpfad" },
-  it: { title: "Terminale mercato", ticker: "Prezzi", estimate: "Stima", route: "Percorso fee" },
-  ja: { title: "マーケット端末", ticker: "価格", estimate: "推定", route: "手数料経路" },
-  ko: { title: "마켓 터미널", ticker: "가격", estimate: "추정", route: "수수료 경로" },
-  tr: { title: "Piyasa terminali", ticker: "Fiyatlar", estimate: "Tahmin", route: "Ücret yolu" },
-  ar: { title: "طرفية السوق", ticker: "الأسعار", estimate: "تقدير", route: "مسار الرسوم" },
-  ru: { title: "Рыночный терминал", ticker: "Цены", estimate: "Оценка", route: "Маршрут комиссий" },
-  id: { title: "Terminal pasar", ticker: "Harga", estimate: "Estimasi", route: "Jalur biaya" },
-  vi: { title: "Bảng thị trường", ticker: "Giá", estimate: "Ước tính", route: "Luồng phí" },
-  ur: { title: "مارکیٹ ٹرمینل", ticker: "قیمتیں", estimate: "اندازہ", route: "فیس راستہ" },
-  uk: { title: "Ринковий термінал", ticker: "Ціни", estimate: "Оцінка", route: "Маршрут комісій" },
+  en: { title: "Market terminal", rebate: "Max yearly return", basis: "100K monthly volume · perpetual taker", pair: "BTC/USDT perpetual" },
+  "zh-Hans": { title: "行情终端", rebate: "一年最高返还", basis: "月成交 $100K · 合约吃单", pair: "BTC/USDT 永续" },
+  "zh-Hant": { title: "行情終端", rebate: "一年最高返還", basis: "月成交 $100K · 合約吃單", pair: "BTC/USDT 永續" },
+  es: { title: "Terminal de mercado", rebate: "Devolución anual máxima", basis: "Volumen mensual $100K · taker perp", pair: "BTC/USDT perpetuo" },
+  "pt-BR": { title: "Terminal de mercado", rebate: "Retorno anual máximo", basis: "Volume mensal de $100K · taker perp", pair: "BTC/USDT perpétuo" },
+  fr: { title: "Terminal de marché", rebate: "Retour annuel maximal", basis: "Volume mensuel 100K $ · taker perp", pair: "BTC/USDT perpétuel" },
+  de: { title: "Marktterminal", rebate: "Max. jährliche Rückzahlung", basis: "100K $ Monatsvolumen · Perp-Taker", pair: "BTC/USDT Perpetual" },
+  it: { title: "Terminale mercato", rebate: "Ritorno annuo massimo", basis: "Volume mensile $100K · taker perp", pair: "BTC/USDT perpetuo" },
+  ja: { title: "マーケット端末", rebate: "年間最大還元", basis: "月間出来高 $100K · perp taker", pair: "BTC/USDT 無期限" },
+  ko: { title: "마켓 터미널", rebate: "연간 최대 환급", basis: "월 거래량 $100K · 무기한 taker", pair: "BTC/USDT 무기한" },
+  tr: { title: "Piyasa terminali", rebate: "Azami yıllık iade", basis: "Aylık hacim $100K · perp taker", pair: "BTC/USDT sürekli" },
+  ar: { title: "طرفية السوق", rebate: "أعلى استرداد سنوي", basis: "حجم شهري 100 ألف دولار · آخذ عقود دائمة", pair: "BTC/USDT دائم" },
+  ru: { title: "Рыночный терминал", rebate: "Максимальный возврат за год", basis: "Объем $100K в месяц · perp taker", pair: "BTC/USDT бессрочный" },
+  id: { title: "Terminal pasar", rebate: "Pengembalian tahunan maksimum", basis: "Volume bulanan $100K · taker perp", pair: "BTC/USDT perpetual" },
+  vi: { title: "Bảng thị trường", rebate: "Hoàn lại tối đa mỗi năm", basis: "Khối lượng tháng $100K · taker perp", pair: "BTC/USDT vĩnh cửu" },
+  ur: { title: "مارکیٹ ٹرمینل", rebate: "سالانہ زیادہ سے زیادہ واپسی", basis: "ماہانہ حجم $100K · perp taker", pair: "BTC/USDT perpetual" },
+  uk: { title: "Ринковий термінал", rebate: "Максимальне річне повернення", basis: "Місячний обсяг $100K · perp taker", pair: "BTC/USDT безстроковий" },
 });
 
 function copyFor(locale) {
@@ -40,96 +38,166 @@ function isSnapshot(value) {
   )));
 }
 
-function useElementVisibility(ref) {
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    const element = ref.current;
-    if (!element || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(([entry]) => setVisible(Boolean(entry?.isIntersecting)), { threshold: 0.05 });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [ref]);
-  return visible;
+function numberFromPrice(price) {
+  const parsed = Number(String(price || "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
-function MiniTicker({ data }) {
-  const rows = SYMBOLS.map((sym) => data?.items?.find((item) => item?.sym === sym && typeof item.price === "string" && typeof item.change === "string") || { sym, price: "—", change: "—", dir: "flat" });
+function chartPath(values, actualSamples = values.length) {
+  const points = values.length ? values.slice(-48) : [0];
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+  const pad = Math.max((max - min) * 0.08, max ? Math.abs(max) * 0.002 : 1);
+  const low = min - pad;
+  const high = max + pad;
+  const span = high - low || 1;
+  const step = points.length > 1 ? 400 / (points.length - 1) : 400;
+  const coords = points.map((value, index) => {
+    const x = Math.round(index * step * 100) / 100;
+    const y = Math.round((150 - ((value - low) / span) * 150) * 100) / 100;
+    return [x, y];
+  });
+  const line = coords.map(([x, y], index) => `${index ? "L" : "M"}${x} ${y}`).join("");
+  const last = coords[coords.length - 1] || [400, 75];
+  return {
+    line,
+    area: `${line}L400 150L0 150Z`,
+    tip: last,
+    mature: actualSamples >= 6,
+  };
+}
+
+function tickerRows(data) {
+  return SYMBOLS.map((sym) => data?.items?.find((item) => item?.sym === sym && typeof item.price === "string" && typeof item.change === "string") || { sym, price: "—", change: "—", dir: "flat" });
+}
+
+function Chart({ btc }) {
+  const price = numberFromPrice(btc?.price) || 0;
+  const spark = Array.isArray(btc?.spark) ? btc.spark.map(Number).filter(Number.isFinite) : [];
+  const actualSamples = spark.length;
+  const series = spark.length ? spark : [price, price];
+  const path = chartPath(series, actualSamples);
   return (
-    <ul className="h7-terminal__ticker" dir="ltr">
-      {rows.map((item) => (
-        <li key={item.sym} data-dir={item.dir || "flat"}>
-          <b>{item.sym}</b>
-          <span>{item.price || "—"}</span>
-          <i>{item.change || "—"}</i>
-        </li>
-      ))}
-    </ul>
+    <svg className="ht-chart" viewBox="0 0 400 150" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <linearGradient id="ht-fill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#315CFF" stopOpacity=".28" />
+          <stop offset="1" stopColor="#315CFF" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <g className="ht-grid"><path d="M0 37.5H400M0 75H400M0 112.5H400" /></g>
+      <g className="ht-series" data-samples={actualSamples} data-mature={path.mature ? "true" : "false"}>
+        <path className="ht-area" d={path.area} />
+        <path className="ht-line" d={path.line} />
+      </g>
+      <circle className="ht-ring" cx={path.tip[0]} cy={path.tip[1]} r="3.5" />
+      <circle className="ht-tip" cx={path.tip[0]} cy={path.tip[1]} r="3.5" />
+    </svg>
   );
 }
 
-function DecorativeFlow() {
-  const bars = [36, 54, 28, 68, 42, 58, 34, 72, 46, 62, 38, 52];
+function DepthBars() {
+  const asks = [0.42, 0.68, 0.34, 0.9, 0.56, 0.75];
+  const bids = [0.62, 0.38, 0.82, 0.48, 0.7, 0.52];
   return (
-    <div className="h7-terminal__flow" aria-hidden="true">
-      <svg viewBox="0 0 280 92" role="presentation" focusable="false">
-        <defs>
-          <linearGradient id="h7-terminal-line" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stopColor="#315CFF" />
-            <stop offset="58%" stopColor="#3FA9FF" />
-            <stop offset="100%" stopColor="#1FE0C0" />
-          </linearGradient>
-        </defs>
-        <path className="h7-terminal__grid" d="M0 18H280M0 46H280M0 74H280M34 0V92M88 0V92M142 0V92M196 0V92M250 0V92" />
-        <path className="h7-terminal__line" d="M6 64C28 40 42 54 58 42C78 27 92 29 112 48C132 66 150 35 166 28C190 18 198 48 218 42C238 36 248 22 274 31" />
-        <circle className="h7-terminal__pulse" cx="218" cy="42" r="4" />
-      </svg>
-      <div className="h7-terminal__bars">
-        {bars.map((height, index) => <span key={index} style={{ "--h": `${height}%`, "--d": `${index * 80}ms` }} />)}
-      </div>
+    <div className="ht-depth" aria-hidden="true">
+      <div className="ht-depth__side ht-depth__side--asks">{asks.map((w, i) => <i key={i} style={{ "--w": w }} />)}</div>
+      <hr />
+      <div className="ht-depth__side ht-depth__side--bids">{bids.map((w, i) => <i key={i} style={{ "--w": w }} />)}</div>
     </div>
   );
 }
 
-export function HeroTerminal({ locale = "en", selected, estimate, estimateLabel, initialTicker, neutral = false }) {
+export function HeroTerminal({ locale = "en", selected, estimate, initialTicker, neutral = false }) {
   const copy = copyFor(locale);
   const ref = useRef(null);
-  const visible = useElementVisibility(ref);
-  const [ticker, setTicker] = useState(() => (isSnapshot(initialTicker) ? initialTicker : null));
-  const estimateText = useMemo(() => (Number.isFinite(Number(estimate)) ? usd(Number(estimate)) : "—"), [estimate]);
+  const ticker = isSnapshot(initialTicker) ? initialTicker : null;
+  const rows = useMemo(() => tickerRows(ticker), [ticker]);
+  const btc = rows.find((item) => item.sym === "BTC") || rows[0];
+  const estimateValue = Number.isFinite(Number(estimate)) ? Math.max(0, Math.round(Number(estimate))) : null;
+  const estimateText = estimateValue != null ? usd(estimateValue) : "—";
+  const estimateNumber = estimateValue != null ? String(estimateValue) : "—";
+  const previousEstimate = useRef(0);
+  const fromEstimate = previousEstimate.current;
+  useEffect(() => { previousEstimate.current = estimateValue || 0; }, [estimateValue]);
 
   useEffect(() => {
-    const stop = startJsonPolling({
-      request: TICKER_URL,
-      intervalMs: TERMINAL_REFRESH_MS,
-      onData: (next) => setTicker(next),
-      isData: isSnapshot,
-      shouldPoll: () => visible && (typeof document === "undefined" || document.visibilityState !== "hidden"),
-      cache: "no-cache",
-    });
-    return stop;
-  }, [visible]);
+    const element = ref.current;
+    if (!element) return undefined;
+    let cancelled = false;
+    let idleId = null;
+    let idleHandle = false;
+    let controller = null;
+    const run = () => {
+      if (cancelled) return;
+      import("./hero-terminal.js")
+        .then(({ initHeroTerminal }) => { if (!cancelled) controller = initHeroTerminal(element); })
+        .catch(() => {});
+    };
+    const schedule = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        idleHandle = true;
+        idleId = window.requestIdleCallback(run, { timeout: 2500 });
+      } else {
+        idleId = setTimeout(run, 1200);
+      }
+    };
+    const observer = typeof IntersectionObserver === "function"
+      ? new IntersectionObserver(([entry]) => {
+        if (entry?.isIntersecting) {
+          observer.disconnect();
+          schedule();
+        }
+      }, { rootMargin: "200px 0px", threshold: 0 })
+      : null;
+    if (observer) observer.observe(element); else schedule();
+    return () => {
+      cancelled = true;
+      controller?.destroy?.();
+      observer?.disconnect();
+      if (idleId != null) {
+        if (idleHandle && typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      }
+    };
+  }, []);
 
   return (
-    <article ref={ref} className={`h7-terminal${neutral ? " h7-terminal--neutral" : ""}`} aria-label={copy.title} data-brand={selected?.slug || "none"} data-visible={visible ? "true" : "false"}>
-      <div className="h7-terminal__chrome" aria-hidden="true">
-        <span />
-      </div>
-      <div className="h7-terminal__head">
-        <span>{copy.ticker}</span>
-        <b>{selected?.name || "NexuAlpha"}</b>
-      </div>
-      <MiniTicker data={ticker} />
-      <DecorativeFlow />
-      {!neutral ? <dl className="h7-terminal__estimate">
-        <div>
-          <dt>{estimateLabel ? `${estimateLabel} · ${copy.estimate}` : copy.estimate}</dt>
-          <dd>{estimateText}</dd>
+    <figure
+      ref={ref}
+      className={`h7-terminal ht${neutral ? " h7-terminal--neutral ht--neutral" : ""}`}
+      aria-hidden="true"
+      data-brand={selected?.slug || "none"}
+    >
+      <div className="ht-frame">
+        <div className="ht-screen">
+          <ul className="ht-tick" data-compat="h7-terminal__ticker" dir="ltr">
+            {rows.map((item) => (
+              <li key={item.sym} data-sym={item.sym} data-dir={item.dir || "flat"} data-phone={PHONE_SYMBOLS.has(item.sym) ? "true" : "false"}>
+                <b>{item.sym}</b>
+                <span className="ht-p" data-ht={`${item.sym}-p`}>{item.price || "—"}</span>
+                <span className="ht-c" data-ht={`${item.sym}-c`}>{item.change || "—"}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="ht-head" dir="ltr">
+            <b>{copy.pair}</b>
+            <span className="ht-big" data-ht="BTC-p">{btc?.price || "—"}</span>
+            <span className="ht-badge" data-ht="BTC-c" data-dir={btc?.dir || "flat"}>{btc?.change || "—"}</span>
+          </div>
+          <div className="ht-body">
+            <Chart btc={btc} />
+            <DepthBars />
+          </div>
+          {!neutral ? (
+            <div className="ht-ret" data-venue={selected?.slug || "none"}>
+              <span className="ht-ret-l">{copy.rebate} · {selected?.name || "NexuAlpha"}</span>
+              <span className="ht-ret-v" aria-label={`+${estimateText}`}>+<span className="ht-ret-currency">$</span><span className="ht-ret-n" key={selected?.slug || "none"} style={{ "--from": fromEstimate, "--to": estimateValue || 0 }} data-v={estimateNumber} data-unavailable={estimateValue == null || undefined} /></span>
+              <span className="ht-ret-a">{copy.basis}</span>
+            </div>
+          ) : null}
         </div>
-        <div>
-          <dt>{copy.route}</dt>
-          <dd>{selected?.share ? `${Math.round(selected.share * 100)}%` : "—"}</dd>
-        </div>
-      </dl> : null}
-    </article>
+      </div>
+    </figure>
   );
 }

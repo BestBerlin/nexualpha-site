@@ -252,9 +252,10 @@ test("homepage keeps decisions above the compact closing band", () => {
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"));
   assert.doesNotMatch(activeHome, /HomeResearchDrawer|CrawlPriorityLinks|legacy=/);
   assert.doesNotMatch(closingBand, /v6-close__index|ClosingIndexGroups/);
-  assert.match(homeV7, /<HeroExchangeSelector[^>]*onPick=\{setPick\}/);
+  assert.match(homeV7, /<HeroExchangeSwitcher[^>]*onPick=\{setPick\}/);
+  assert.match(homeV7, /<HeroRebate[^>]*venue=\{sel\}/);
   assert.match(homeV7, /<Cta v=\{sel\} locale=\{locale\}[^>]*placement="home-v7-hero"/);
-  assert.match(homeV7, /href="#h7-calc"/);
+  assert.match(homeV7, /<StableHomeBelowFold[^>]*calc=\{calc\}/);
 });
 
 // Class d retarget: the removed public manual-review queue is now an answer-first topic gateway plus collapsed ops pack.
@@ -1096,9 +1097,11 @@ test("Japanese homepage gives the JP AEO page a compact internal entry", () => {
   assert.match(leanHero, /heroPills\.map\(\(pill\)/);
 });
 
-test("homepage decision desk links to the calculator and exchange directory", () => {
-  assert.match(homeV7, /href="#h7-calc"/);
-  assert.match(homeV7, /localizedHref\("\/exchanges", \{ locale \}\)/);
+test("homepage hero keeps registration primary and leaves research paths below the fold", () => {
+  assert.match(homeV7, /<HeroExchangeSwitcher[^>]*venues=\{venues\}/);
+  assert.match(homeV7, /placement="home-v7-hero"/);
+  assert.match(homeV7, /<StableHomeBelowFold[^>]*priced=\{priced\}/);
+  assert.doesNotMatch(homeV7, /href="#h7-calc"/);
   assert.match(app, /<HomeV7/);
   assert.match(app, /<VenueYellowPages[^>]*headingLevel=\{1\}/);
   assert.doesNotMatch(app, /<ScenarioRouter/);

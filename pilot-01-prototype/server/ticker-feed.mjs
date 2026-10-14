@@ -18,11 +18,16 @@ export function createTickerFeed({ ttlMs = 15 * 1000, staleMs = 10 * 60 * 1000, 
       if (!res.ok) throw new Error(`binance HTTP ${res.status}`);
       const rows = await res.json();
       const next = tickerFromBinance(rows, { now: now() });
-      if (next && !signal.aborted) { raw = { rows, at: now() }; return next; }
+      if (next && !signal.aborted) {
+        const at = now();
+        // Preserve the source clock when movers reuses a stale wide universe.
+        Object.defineProperty(rows, 'snapshotAt', { value: at, configurable: true });
+        raw = { rows, at }; return next;
+      }
     } catch (error) { log(`ticker: ${error?.message || error}; using the collector feed`); }
     return typeof readMarketEvents === 'function' ? tickerFromMarketEvents(await readMarketEvents()) : null;
   } });
-  // Do not rebuild movers with expired raw rows and stamp them as newly generated.
-  const readRows = async () => { await feed.read(); return raw && now() - raw.at < Math.min(ttlMs, staleMs) ? raw.rows : null; };
+  // SWR uses the last wide snapshot for ten minutes; the consumer retains its original clock.
+  const readRows = async () => { await feed.read(); return raw && now() - raw.at < staleMs ? raw.rows : null; };
   return { ...feed, readRows };
 }

@@ -90,3 +90,35 @@ test('a cold endpoint can serve the backing reader’s already-stale good frame'
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), payload);
 });
+
+test('wide ticker rows survive the 15s TTL without a forged movers clock', async () => {
+  let clock = 1000, fail = false;
+  const rows = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'DOGE', 'ADA', 'AVAX', 'LINK', 'DOT'].map((sym, i) => ({ symbol: `${sym}USDT`, lastPrice: '10', priceChangePercent: String(i < 5 ? i + 1 : -i), quoteVolume: '100000000' }));
+  const ticker = createTickerFeed({ now: () => clock, fetchImpl: async () => { if (fail) throw Error('offline'); return Response.json(rows); } });
+  const coins = { coins: rows.map((row, i) => ({ rank: i + 1, symbol: row.symbol.slice(0, -4), slug: row.symbol.slice(0, -4).toLowerCase(), price: 10 })) };
+  const movers = createMoversFeed({ now: () => clock, readBinanceRows: ticker.readRows, readCoins: async () => coins });
+  const good = await movers.read();
+  assert.equal(good.up.length, 5); assert.equal(good.down.length, 5);
+  fail = true; clock = 32000;
+  await ticker.refresh();
+  assert.equal((await ticker.readRows()).length, 10);
+  await movers.refresh();
+  const stale = await movers.read();
+  assert.equal(stale.generatedAt, good.generatedAt); assert.equal(stale.stale, true);
+  assert.equal(stale.down.length, 5);
+  clock = 602000;
+  assert.equal(await ticker.readRows(), null);
+  await movers.refresh();
+  assert.equal((await movers.read()).down.length, 5);
+});
+
+test('a degraded one-sided refresh cannot erase a last good losers list', async () => {
+  let clock = 1000, degraded = false;
+  const rows = ['BTC', 'ETH'].map((sym, i) => ({ symbol: `${sym}USDT`, lastPrice: '10', priceChangePercent: i ? '-2' : '2', quoteVolume: '100000000' }));
+  const feed = createMoversFeed({ now: () => clock, readBinanceRows: async () => degraded ? rows.slice(0, 1) : rows,
+    readCoins: async () => ({ coins: rows.map((r, i) => ({ rank: i + 1, symbol: r.symbol.slice(0, -4), slug: r.symbol.slice(0, -4).toLowerCase(), price: 10 })) }) });
+  const good = await feed.read(); degraded = true; clock = 32000;
+  await feed.refresh();
+  const next = await feed.read();
+  assert.equal(next.down.length, 1); assert.equal(next.generatedAt, good.generatedAt); assert.equal(next.stale, true);
+});

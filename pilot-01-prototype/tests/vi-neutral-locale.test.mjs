@@ -269,6 +269,6 @@ test("served vi pages and VN-market pages carry no /go/ route, invite code, regi
 
 test("other locales keep their partner routes (the gate is scoped to vi / VN)", { skip: !distReady && "run npm run build first" }, async () => {
   const [en, okx] = await servedHtml(["/", "/exchanges/okx"]);
-  assert.ok(/data-cta-kind="registration"/.test(en.html), "en home keeps its sign-up desk");
+  assert.ok(/data-cta-kind="registration"/.test(en.html) && /class="[^"]*h7-lg[^"]*hx-hero-panel/.test(en.html), "en home keeps its sign-up desk");
   assert.ok(codePattern.test(okx.html), "en OKX profile keeps its code");
 });

@@ -2,8 +2,8 @@
 //  - the client build drops the SSR-only eager globs (they used to make every route chunk a static import);
 //  - route-matching slug lists mirror their heavy data sources without importing them;
 //  - every emitted stylesheet is re-linked in index.html in the historical cascade order;
-//  - DeferUntilVisible renders its children on the server and gates them in the browser;
-//  - the SSR home still contains the calculator, Telegram block and compact footer without restoring the old research/closing link walls.
+//  - DeferUntilVisible renders its children on the server for non-home deferred routes;
+//  - the SSR home still contains the lower-half text through StableHomeBelowFold without restoring the old research/closing link walls.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -176,7 +176,7 @@ test("SSR home keeps the scroll-deferred sections' text for crawlers and no-JS r
     assert.match(html, /<footer class="nx-ftr" id="policy">/, `${locale}: compact footer`);
     assert.match(html, /data-footer-partner-links/, `${locale}: compact referral codes row`);
     assert.doesNotMatch(html, /crawl-priority-links__groups|data-testid="brazil-entry-link"/, `${locale}: old closing link wall stays removed`);
-    assert.ok((html.match(/<!--\$-->/g) || []).length >= 1, `${locale}: Suspense boundary for below-fold content`);
+    assert.match(html, /id="h7-below-root"/, `${locale}: stable lower-home hydration root`);
     assert.doesNotMatch(html, /<template data-nexualpha-scope-start="home-research">/, `${locale}: old research scope is not emitted`);
   }
 });

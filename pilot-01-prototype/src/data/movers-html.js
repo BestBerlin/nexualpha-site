@@ -73,7 +73,7 @@ const UNAVAILABLE = {
 export const MOVERS_COPY_LOCALES = Object.freeze(Object.keys(COPY));
 function relativeAge(locale, seconds) {
   try {
-    return new Intl.RelativeTimeFormat(locale || "en", { numeric: "always" }).format(-seconds, "second");
+    return new Intl.RelativeTimeFormat(locale || "en", { numeric: "always" }).format(seconds < 60 ? -seconds : -Math.floor(seconds / 60), seconds < 60 ? "second" : "minute");
   } catch {
     return new Intl.RelativeTimeFormat("en", { numeric: "always" }).format(-seconds, "second");
   }
@@ -82,7 +82,7 @@ export const moversCopy = (locale) => {
   const copy = COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
   return {
     ...copy,
-    age: copy.age || ((seconds) => relativeAge(locale, seconds)),
+    age: (seconds) => seconds >= 3600 ? copy.updated(formatSgt(Date.now() - seconds * 1000, locale, "clock")) : seconds < 60 && copy.age ? copy.age(seconds) : copy.updated(relativeAge(locale, seconds)),
     unavailable: UNAVAILABLE[locale] || UNAVAILABLE.en,
   };
 };
@@ -96,24 +96,25 @@ export function markHue(sym) {
 }
 
 function sparklineHtml(row) {
-  if (!Array.isArray(row.sparkline) || row.sparkline.length < 2) return "";
-  const values = row.sparkline.map(Number).filter(Number.isFinite);
+  const spark = row.spark || row.sparkline;
+  if (!Array.isArray(spark) || spark.length < 2) return "";
+  const values = spark.map(Number).filter(Number.isFinite);
   if (values.length < 2) return "";
   const min = Math.min(...values);
   const max = Math.max(...values);
   const span = max - min || 1;
   const points = values.map((value, index) => {
-    const x = values.length === 1 ? 0 : (index / (values.length - 1)) * 38;
-    const y = 14 - ((value - min) / span) * 12;
+    const x = values.length === 1 ? 0 : (index / (values.length - 1)) * 64;
+    const y = 20 - ((value - min) / span) * 18;
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(" ");
-  return `<svg class="h7-mv-sp" viewBox="0 0 40 16" role="img" aria-hidden="true" focusable="false"><polyline points="${esc(points)}"></polyline></svg>`;
+  return `<svg class="h7-mv-sp" viewBox="0 0 64 22" role="img" aria-hidden="true" focusable="false"><polyline points="${esc(points)}"></polyline><circle r="2" cx="64" cy="${points.split(" ").at(-1).split(",")[1]}" fill="currentColor" /></svg>`;
 }
 
 function rowHtml(row, locale) {
   const sym = esc(row.sym);
   return `<li><a href="${esc(localizedHref(`/coins/${row.slug}`, { locale }))}" data-mv-key="${sym}"><span class="h7-mv-mk" style="--h:${markHue(row.sym)}" aria-hidden="true">${esc(String(row.sym).slice(0, 1))}</span>`
-    + `<b translate="no">${sym}</b>${sparklineHtml(row)}<span class="h7-mv-p" dir="ltr">${esc(row.price)}</span><span class="h7-mv-c" data-dir="${esc(row.dir || "flat")}" dir="ltr">${esc(row.change)}</span></a></li>`;
+    + `<b translate="no">${sym}</b>${sparklineHtml(row)}<span class="h7-mv-p" dir="ltr">${esc(row.price)}</span><span class="h7-mv-c" data-dir="${esc(row.dir || "flat")}" dir="ltr">${esc(row.change.replace(/^-/, "−"))}</span></a></li>`;
 }
 const PAD = '<li class="h7-mv-pad" aria-hidden="true"></li>';
 function listHtml(rows, locale) {
@@ -140,9 +141,7 @@ function headlineHtml(snapshot, locale, c) {
     const parts = [h.binance ? `Binance ${ltr(h.binance)}` : null, h.okx ? `OKX ${ltr(h.okx)}` : null].filter(Boolean).join(" · ");
     lead = `<a href="${esc(localizedHref(FUNDING_RATES_PATH, { locale }))}">${esc(c.funding(h.base || "BTC", parts))}<span class="h7-mv-arrow" aria-hidden="true">→</span></a>`;
   }
-  const clock = formatSgt(snapshot.generatedAt, locale, "clock");
-  const updated = clock ? c.updated(clock) : "";
-  return `<p class="h7-mv-hl">${lead}${clock ? `<span class="h7-mv-times"><time datetime="${esc(snapshot.generatedAt)}" data-mv-age="1" title="${esc(updated)}">${esc(updated)}</time></span>` : ""}</p>`;
+  return `<p class="h7-mv-hl">${lead}</p>`;
 }
 
 /** Inner HTML of `.h7-mv-body`: headline line, both lists and the end marker the Worker splice looks for. */
@@ -151,7 +150,7 @@ export function moversBodyHtml(snapshot, locale = "en") {
   const data = isMoversSnapshot(snapshot) ? snapshot : null;
   return headlineHtml(data, locale, c)
     + `<div class="h7-mv-cols"><div class="h7-mv-col h7-mv-up"><h3>${esc(c.up)}${countHtml(data?.up)}</h3>${listHtml(data?.up, locale)}</div>`
-    + `<div class="h7-mv-col h7-mv-dn"><h3>${esc(c.down)}${countHtml(data?.down)}</h3>${listHtml(data?.down, locale)}</div></div><!--mv-end-->`;
+    + `<div class="h7-mv-col h7-mv-dn"><h3>${esc(c.down)}${countHtml(data?.down)}</h3>${listHtml(data?.down, locale)}</div></div>${data ? `<p class="h7-mv-times"><span class="h7-mv-dot" aria-hidden="true"></span><time datetime="${esc(data.generatedAt)}" data-mv-age="1" title="${esc(formatSgt(data.generatedAt, locale, "clock"))}">${esc(c.updated(formatSgt(data.generatedAt, locale, "clock")))}</time></p>` : ""}<!--mv-end-->`;
 }
 
 const BODY_RE = /(<div class="h7-mv-body" data-mv="body">)[\s\S]*?<!--mv-end-->/;

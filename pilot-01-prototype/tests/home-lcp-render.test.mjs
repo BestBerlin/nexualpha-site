@@ -16,22 +16,20 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
     for (const heroVariant of ["a", "b"]) {
       const html = await harness.render(`https://nexualpha.com${pathname}`, { heroVariant });
       const dom = new JSDOM(html);
-      const number = dom.window.document.querySelector(".h7-num");
+      const number = dom.window.document.querySelector(".hx-rate-num");
       assert.ok(number, `${pathname}:${heroVariant}`);
-      assert.equal(number.querySelector(".h7-rebate-digits").textContent, "60");
-      assert.equal(number.getAttribute("data-final-value"), "60");
-      assert.ok(number.querySelector(".h7-rebate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
-      assert.equal(number.querySelector(".h7-roll"), null, "hero number is not the shared ledger roller");
-      assert.ok(number.querySelector(".h7-rebate-percent"), "the % sign is rendered next to the digits");
+      assert.equal(number.querySelector(".hx-rate-n").getAttribute("data-v"), "60");
+      assert.equal(number.querySelector(".hx-rate-pct").textContent, "%");
+      assert.ok(dom.window.document.querySelector(".hx-rate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
+      assert.equal(number.querySelector(".h7-roll"), null, "hero number owns its count-up instead of the shared ledger roller");
       dom.window.close();
     }
   }
-  const css = readFileSync(new URL("../src/styles/v7/rebate-owner.css", import.meta.url), "utf8");
-  assert.match(css, /\.h7-rebate-figure/);
-  assert.match(css, /linear-gradient\(100deg, #ffffff 0%, #7fe7ff 55%, #39e1c8 100%\)/, "owner 2026-10-14: high-luminance stops only (no dark blue)");
-  assert.doesNotMatch(css, /var\(--blue\) 0%/, "the dark-blue gradient stop that blended into the background is gone");
-  assert.match(css, /prefers-reduced-motion: reduce/);
-  assert.match(css, /letter-spacing: 0/);
+  const css = readFileSync(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
+  assert.match(css, /@ \.hx-rate-num/);
+  assert.match(css, /background:var\(--hx-rate-grad\)/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /letter-spacing:-\.055em/);
 });
 
 test("shared Roll still hydrates unchanged for non-hero ledger figures", async () => {

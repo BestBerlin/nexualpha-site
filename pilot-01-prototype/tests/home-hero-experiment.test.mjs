@@ -217,7 +217,7 @@ for (const variant of ["a", "b"]) {
       });
       assert.deepEqual(hydrationErrors(errors), [], errors.join("\n"));
       const copy = variant === "b" ? HOME_HERO_B[locale] : H7_COPY[locale];
-      assert.equal(inspected.sub, copy.sub, `${locale}: hydrated subline is variant ${variant}`);
+      assert.equal(inspected.sub, undefined, `${locale}: the design removes the hero subtitle in every variant`);
       assert.ok(inspected.h1.startsWith(copy.h1a), `${locale}: hydrated headline is variant ${variant}`);
       assert.equal(inspected.marker, variant === "b" ? "b" : null);
     }

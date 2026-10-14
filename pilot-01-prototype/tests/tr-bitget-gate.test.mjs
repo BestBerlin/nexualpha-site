@@ -64,6 +64,9 @@ test("the gate is Türkiye-only: the English home still offers Bitget", async ()
 
 test("home desk, headline share and rebate lines leave Bitget out on /tr", () => {
   assert.ok(!homePartnersFor("tr").includes("bitget"));
+  assert.ok(!homePartnersFor("tr", "SG").includes("bitget"));
+  assert.ok(!homePartnersFor("tr", "VN").includes("bitget"));
+  assert.equal(homeRebateMaxPctFor("tr", "SG"), 40);
   assert.ok(homePartnersFor("en").includes("bitget"));
   assert.equal(homeRebateMaxPctFor("tr"), 40);
   assert.equal(homeRebateMaxPctFor("en"), HOME_REBATE_MAX_PCT);
