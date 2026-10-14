@@ -74,7 +74,7 @@ test("home: the required locales, widths and section lists", () => {
     sectionList(list, `home.localeSections.${locale}`);
   }
   const ids = H.sections.map((s) => s.id);
-  for (const required of ["hero", "partner-strip", "how", "movers", "calculator", "funding", "intel", "footer"]) assert.ok(ids.includes(required), `home.sections includes ${required}`);
+  for (const required of ["hero", "partner-strip", "how", "whales", "calculator", "funding", "intel", "footer"]) assert.ok(ids.includes(required), `home.sections includes ${required}`);
   for (const required of ["desk", "rebate-figure", "invite-code", "hero-cta"]) assert.ok(H.fullSections.some((s) => s.id === required), `home.fullSections includes ${required}`);
   for (const key of ["desk", "tabs", "rebateDigits", "rebatePercentSign", "code", "heroCta", "headline", "stripVenue", "stripVenueShare", "brandSlugAttr"]) assert.ok(isSelector(H.selectors[key]), `home.selectors.${key}`);
   assert.ok(Object.values(HOME_REBATE_SHARE).some(Boolean), "registry declares at least one rebate share for the figure check");

@@ -70,7 +70,7 @@ export const QA_MANIFEST = Object.freeze({
       { id: "how", selector: ".h7-how" },
       { id: "academy", selector: ".h7-academy" },
       { id: "data-rail", selector: '[data-testid="home-data-rail"]' },
-      { id: "movers", selector: "#h7-movers" },
+      { id: "whales", selector: "#h7-whales" },
       { id: "calculator", selector: "#h7-calc" },
       { id: "funding", selector: "#h7-funding" },
       { id: "intel", selector: "#h7-intel" },
