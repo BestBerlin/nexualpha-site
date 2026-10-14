@@ -1213,3 +1213,6 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 #top.news-detail-page .news-embed__caption a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   color: var(--ed-ac); text-decoration: underline; text-underline-offset: 3px;
 }
+
+/* RTL (ar, ur): the alerts arrow points the reading direction (2026-10-15). */
+.news-tg-alerts__arr:dir(rtl) { display: inline-block; transform: scaleX(-1); }

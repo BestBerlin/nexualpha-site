@@ -229,7 +229,8 @@ test("regression: the hydrated bar re-fetches /api/ticker.json and updates the D
   const { inspected, errors } = await hydrateInJsdom(harness.vite, html, "https://nexualpha.com/", {
     timeoutMs: 6000,
     fetchImpl: async (url) => { const u = String(url); if (u.includes("/api/ticker.json")) { fetched.push(u); return Response.json(NEXT); } return new Response("{}", { status: 404 }); },
-    until: (w) => { before ??= read(w); return read(w).every((v) => v.startsWith("$83,001")); },
+    // The flash is set in a passive effect after the commit: wait for it too, not just for the new text.
+    until: (w) => { before ??= read(w); return read(w).every((v) => v === "$83,001|up"); },
     inspect: (w) => ({ btc: read(w), eth: ethFlash(w) }),
   });
   assert.deepEqual(hydrationErrors(errors), []);

@@ -21,7 +21,7 @@ export function TelegramAlertsStrip({ locale = "en", placement, className = "" }
     <aside className={`tg-signal-strip${className ? ` ${className}` : ""}`} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-telegram-alerts-strip={placement}>
       <span className="tg-signal-strip__icon"><PlaneIcon /></span>
       <span className="tg-signal-strip__text">{text}</span>
-      <a className="tg-signal-strip__btn" href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-kind="telegram" data-cta-placement={placement}>{action} →</a>
+      <a className="tg-signal-strip__btn" href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-kind="telegram" data-cta-placement={placement}>{action} <span className="tg-signal-strip__arr" aria-hidden="true">→</span></a>
     </aside>
   );
 }
