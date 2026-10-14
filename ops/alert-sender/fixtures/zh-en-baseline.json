@@ -10,12 +10,12 @@
       "buttons": [
         [
           {
-            "text": "注册 OKX（返佣）",
-            "url": "https://nexualpha.com/go/okx?src=tg-digest-zh"
-          },
-          {
             "text": "注册 Bitget（返佣）",
             "url": "https://nexualpha.com/go/bitget?src=tg-digest-zh"
+          },
+          {
+            "text": "注册 OKX（返佣）",
+            "url": "https://nexualpha.com/go/okx?src=tg-digest-zh"
           }
         ],
         [
@@ -73,12 +73,12 @@
       "buttons": [
         [
           {
-            "text": "Sign up on OKX",
-            "url": "https://nexualpha.com/go/okx?src=tg-digest-en"
-          },
-          {
             "text": "Sign up on Bitget",
             "url": "https://nexualpha.com/go/bitget?src=tg-digest-en"
+          },
+          {
+            "text": "Sign up on OKX",
+            "url": "https://nexualpha.com/go/okx?src=tg-digest-en"
           }
         ],
         [

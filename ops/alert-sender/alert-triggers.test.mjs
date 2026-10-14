@@ -325,6 +325,46 @@ test("runTriggerAlerts fetches prices once, klines only for move coins, and DMs 
   assert.deepEqual(await runTriggerAlerts({ doc: { users: {} }, state: st, dm, fetchBinance: () => assert.fail("no fetch without rules") }), st);
 });
 
+test("runTriggerAlerts persists pending deliveries before send and resumes only unfinished ones", async () => {
+  const doc = { version: 1, users: { 1: { lang: "en", triggers: [
+    { id: "a", type: "price", coin: "BTC", op: "above", value: 70000 },
+    { id: "b", type: "liquidation", minUsd: 50e6 },
+  ] } } };
+  let disk;
+  const checkpoints = [];
+  const checkpoint = async (state) => { disk = structuredClone(state); checkpoints.push(structuredClone(state)); };
+  const sent = [];
+  await assert.rejects(runTriggerAlerts({
+    doc, state: { byId: { "1:a": { side: "below" } } }, subs: { users: {} }, market: market(), announcements: [], now: T0,
+    fetchBinance: async () => [{ symbol: "BTCUSDT", lastPrice: "71000", priceChangePercent: "1" }], fetchSite: async () => ({ coins: [] }), checkpoint,
+    sendDelivery: async (delivery) => { sent.push(delivery.triggerId); if (delivery.triggerId === "b") throw new Error("timeout after possible accept"); },
+  }), /timeout after possible accept/);
+  assert.deepEqual(sent, ["a", "b"]);
+  assert.deepEqual(Object.values(disk.pendingDeliveries).map((d) => d.triggerId), ["b"]);
+  assert.equal(disk.counts["1"], 2, "cooldown/count state was checkpointed before delivery");
+
+  await runTriggerAlerts({
+    doc, state: structuredClone(disk), subs: { users: {} }, market: market(), announcements: [], now: T0 + 1000,
+    fetchBinance: async () => [], fetchSite: async () => ({ coins: [] }), checkpoint,
+    sendDelivery: async (delivery) => { sent.push(`retry:${delivery.triggerId}`); },
+  });
+  assert.deepEqual(sent, ["a", "b", "retry:b"]);
+  assert.deepEqual(disk.pendingDeliveries, {});
+});
+
+test("runTriggerAlerts keeps explicit rejected pending delivery and drops canceled rule outbox", async () => {
+  const doc = { version: 1, users: { 1: { lang: "en", triggers: [{ id: "a", type: "liquidation", minUsd: 50e6 }] } } };
+  let disk;
+  const checkpoint = async (state) => { disk = structuredClone(state); };
+  await assert.rejects(runTriggerAlerts({
+    doc, state: {}, subs: { users: {} }, market: market(), announcements: [], now: T0, checkpoint,
+    sendDelivery: async () => { throw new Error("429 retry after 10"); },
+  }), /429 retry after 10/);
+  assert.deepEqual(Object.values(disk.pendingDeliveries).map((d) => d.triggerId), ["a"]);
+  await runTriggerAlerts({ doc: { version: 1, users: { 1: { lang: "en", triggers: [] } } }, state: disk, subs: { users: {} }, market: market(), announcements: [], now: T0 + 1000, checkpoint, sendDelivery: async () => assert.fail("canceled rule must not send") });
+  assert.deepEqual(disk.pendingDeliveries, {});
+});
+
 test("fetchTriggerPrices dedupes and caps kline calls; coinSlugs survives a failed fetch", async () => {
   const urls = [];
   const coins = Array.from({ length: 50 }, (_, i) => `C${i}`);

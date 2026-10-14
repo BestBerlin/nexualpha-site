@@ -10,6 +10,11 @@ import {
 export const MARKET_URL = 'https://nexualpha.com/intel/market-events.json';
 export const FUNDING_URL = 'https://nexualpha.com/intel/funding-rates.json';
 const HOUR = 3600000;
+export function sgtDay(value) {
+  const at = Date.parse(value);
+  requireValue(Number.isFinite(at), `Invalid SGT date source: ${value}`);
+  return new Date(at + 8 * HOUR).toISOString().slice(0, 10);
+}
 const HOSTS = {
   hero: {pose: 'rest', expression: 'surprised'},
   split: {pose: 'point', expression: 'thinking'},
@@ -251,5 +256,5 @@ export function buildPackage(data, lang) {
   const platforms = Object.fromEntries(PLATFORM_KEYS.map(platform => [platform, platformMeta(strings, values, lang, platform)]));
   const primary = platforms.youtube;
   requireValue([...primary.title].length <= 70, 'Title exceeds 70 characters');
-  return {slides, meta: {lang, locale: lang, dir: strings.dir, rtl: RTL_LOCALES.includes(lang), title: primary.title, description: primary.description, hashtags: primary.hashtags, cta: primary.cta, platforms, generatedAt: data.generatedAt, fundingAt: data.fundingAt, source: data.source, sourceUrls: [MARKET_URL, ...(data.fundingSourceUrl ? [data.fundingSourceUrl] : [])], date: data.generatedAt.slice(0,10), reactionThresholdUsd: LIQUIDATION_REACTION_THRESHOLD_USD}};
+  return {slides, meta: {lang, locale: lang, dir: strings.dir, rtl: RTL_LOCALES.includes(lang), title: primary.title, description: primary.description, hashtags: primary.hashtags, cta: primary.cta, platforms, generatedAt: data.generatedAt, fundingAt: data.fundingAt, source: data.source, sourceUrls: [MARKET_URL, ...(data.fundingSourceUrl ? [data.fundingSourceUrl] : [])], date: sgtDay(data.generatedAt), reactionThresholdUsd: LIQUIDATION_REACTION_THRESHOLD_USD}};
 }

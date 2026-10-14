@@ -1,6 +1,7 @@
 // NexuAlpha site features surfaced in Telegram (owner 2026-10-13): pinned "start here" menu, the daily digest's
 // "today on NexuAlpha" block, the weekly "tool of the week" post and the bot's /start menu.
 import { orderVenues } from "../../pilot-01-prototype/src/data/venue-priority.js";
+export { orderVenues };
 
 // The runtime patch copies this file into the compiled bot release; tests keep this import path honest in the repo.
 // Rules baked in here and pinned by tests:

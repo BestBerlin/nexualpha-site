@@ -15,6 +15,7 @@ import {
   itemComplete,
   itemSentToChannel,
   markItemChannelSent,
+  parseChannelTargets,
   pruneState,
 } from './channel-feed.mjs';
 import { officialSourceCta, officialSourceRoute } from './official-source.mjs';
@@ -72,6 +73,18 @@ test('announcement feed buttons send readers to NexuAlpha update pages first', (
   assert.match(msg.text, /Official source: okx\.com/);
   assert.doesNotMatch(msg.text, /https:\/\/www\.okx\.com\/help\/okx-trading-festival/);
   assert.equal(msg.reply_markup.inline_keyboard[0][1].url, 'https://nexualpha.com/go/okx?src=tg-channel-en');
+});
+
+test('channel target parsing drops unsupported languages and malformed entries', () => {
+  assert.deepEqual(parseChannelTargets('zh:@NexuAlphaClub, en:@NexuAlphaGlobal,ru:@ru,tr:-100123,vi:@vi'), [
+    { lang: 'zh', chat: '@NexuAlphaClub' },
+    { lang: 'en', chat: '@NexuAlphaGlobal' },
+    { lang: 'ru', chat: '@ru' },
+    { lang: 'tr', chat: '-100123' },
+    { lang: 'vi', chat: '@vi' },
+  ]);
+  assert.deepEqual(parseChannelTargets('id:@id,es:@es,xx:@xx,zh:,missing-colon,en:@en:with-colon'), []);
+  assert.deepEqual(parseChannelTargets('en:@channel,en:@CHANNEL'), [{ lang: 'en', chat: '@channel' }]);
 });
 
 test('sitewide official source buttons use /go/<venue>-page only on main domains', () => {

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildDedupeSql, buildScoreSql, exportTopQuery, runDedupe, runScore, statusQuery } from './pipeline.mjs';
+import { buildDedupeSql, buildScoreSql, exportTopQuery, loadDedupeInputs, runDedupe, runScore, statusQuery } from './pipeline.mjs';
 import { mergeRawItems } from './dedupe.mjs';
 
 const watchlist = [{ id: 'okx', kind: 'exchange', display_name: { en: 'OKX' }, aliases: [], priority: 1, status: 'active' }];
@@ -96,6 +96,69 @@ test('runDedupe and runScore are no-ops on an empty pool', () => {
   assert.deepEqual(runDedupe(execute), { items: 0, created: 0, updated: 0, assigned: 0, skipped_items: 0 });
   assert.deepEqual(runScore(execute), { scored: 0, publish_eligible: 0, review_eligible: 0 });
   assert.ok(calls.every(sql => !/INSERT|UPDATE|DELETE/.test(sql)));
+});
+
+test('dedupe loads recent event context in bounded pages', () => {
+  const calls = [];
+  const eventPages = [[{ id: 7 }], [{ id: 8 }], []];
+  const execute = sql => {
+    calls.push(sql);
+    if (sql.includes('FROM watchlist_entities')) return '[]';
+    if (sql.includes('FROM keywords')) return '[]';
+    if (sql.includes('FROM raw_items r JOIN sources')) return JSON.stringify([item(1, 'OKX suspends withdrawals')]);
+    if (sql.includes('FROM events e')) return JSON.stringify(eventPages.shift());
+    throw new Error(`unexpected SQL: ${sql}`);
+  };
+  const inputs = loadDedupeInputs(execute, { existingEventLimit: 1 });
+  assert.deepEqual(inputs.existingEvents.map(row => row.id), [7, 8]);
+  const eventQueries = calls.filter(sql => sql.includes('FROM events e'));
+  assert.equal(eventQueries.length, 3);
+  assert.match(eventQueries[0], /AND e\.id > 0/);
+  assert.match(eventQueries[1], /AND e\.id > 7/);
+  assert.doesNotMatch(eventQueries.join('\n'), /OFFSET/);
+});
+
+test('runDedupe defaults to one pending batch per run', () => {
+  const pending = [
+    [item(1, 'OKX suspends withdrawals for maintenance', { event_type_guess: 'withdrawal_halt' })],
+    [item(2, 'OKX suspends withdrawals again', { event_type_guess: 'withdrawal_halt' })],
+  ];
+  const writes = [];
+  const execute = sql => {
+    if (/\b(INSERT|UPDATE|DELETE)\b/.test(sql)) writes.push(sql);
+    if (sql.includes("FROM newsroom_config WHERE key='dedupe'")) return '[]';
+    if (sql.includes('FROM watchlist_entities')) return JSON.stringify(watchlist);
+    if (sql.includes('FROM keywords')) return '[]';
+    if (sql.includes('FROM raw_items r JOIN sources')) return JSON.stringify(pending.shift() ?? []);
+    if (sql.includes('FROM events e')) return '[]';
+    return '';
+  };
+  const result = runDedupe(execute, { limit: 1, existingEventLimit: 1 });
+  assert.equal(result.items, 1);
+  assert.equal(result.created, 1);
+  assert.equal(writes.length, 1);
+});
+
+test('runDedupe drains multiple pending batches when explicitly requested', () => {
+  const pending = [
+    [item(1, 'OKX suspends withdrawals for maintenance', { event_type_guess: 'withdrawal_halt' })],
+    [item(2, 'OKX suspends withdrawals again', { event_type_guess: 'withdrawal_halt' })],
+    [],
+  ];
+  const writes = [];
+  const execute = sql => {
+    if (/\b(INSERT|UPDATE|DELETE)\b/.test(sql)) writes.push(sql);
+    if (sql.includes("FROM newsroom_config WHERE key='dedupe'")) return '[]';
+    if (sql.includes('FROM watchlist_entities')) return JSON.stringify(watchlist);
+    if (sql.includes('FROM keywords')) return '[]';
+    if (sql.includes('FROM raw_items r JOIN sources')) return JSON.stringify(pending.shift());
+    if (sql.includes('FROM events e')) return '[]';
+    return '';
+  };
+  const result = runDedupe(execute, { limit: 1, existingEventLimit: 1, maxBatches: 3 });
+  assert.equal(result.items, 2);
+  assert.equal(result.created, 2);
+  assert.equal(writes.length, 2);
 });
 
 test('score SQL appends rows and prunes only superseded history', () => {
