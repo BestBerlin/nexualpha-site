@@ -21,13 +21,15 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
       assert.equal(number.querySelector(".h7-rebate-digits").textContent, "60");
       assert.equal(number.getAttribute("data-final-value"), "60");
       assert.ok(number.querySelector(".h7-rebate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
-      assert.equal(number.querySelector(".h7-roll"), null, "hero number owns its count-up instead of the shared ledger roller");
+      assert.equal(number.querySelector(".h7-roll"), null, "hero number is not the shared ledger roller");
+      assert.ok(number.querySelector(".h7-rebate-percent"), "the % sign is rendered next to the digits");
       dom.window.close();
     }
   }
   const css = readFileSync(new URL("../src/styles/v7/rebate-owner.css", import.meta.url), "utf8");
   assert.match(css, /\.h7-rebate-figure/);
-  assert.match(css, /linear-gradient\(100deg, var\(--blue\) 0%, var\(--blue-text\) 42%, var\(--ac\) 100%\)/);
+  assert.match(css, /linear-gradient\(100deg, #ffffff 0%, #7fe7ff 55%, #39e1c8 100%\)/, "owner 2026-10-14: high-luminance stops only (no dark blue)");
+  assert.doesNotMatch(css, /var\(--blue\) 0%/, "the dark-blue gradient stop that blended into the background is gone");
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /letter-spacing: 0/);
 });
@@ -100,11 +102,9 @@ test("Roll hydrates unchanged with zero RAFs, then animates a real value change 
   }
 });
 
-test("RebateNumber owns a reduced-motion-safe count-up path after SSR", async () => {
+test("RebateNumber renders the final value statically (owner 2026-10-14: Android count-up stalled at 56)", async () => {
   const source = readFileSync(new URL("../src/components/v7/RebateNumber.jsx", import.meta.url), "utf8");
-  assert.match(source, /useState\(target\)/, "SSR and hydration start from the final value");
-  assert.match(source, /mounted\.current \? lastTarget\.current : 0/, "first hydration pass can count from zero after the final SSR value exists");
-  assert.match(source, /requestAnimationFrame\(step\)/, "count-up uses a local RAF loop");
-  assert.match(source, /reduced\(\)/, "motion preference can skip the RAF loop");
-  assert.match(source, /lastTarget\.current = target/, "exchange switches animate from the previous final value");
+  assert.doesNotMatch(source, /requestAnimationFrame/, "no RAF count-up that can stall mid-way");
+  assert.match(source, /const rounded = String\(target\)/, "digits always equal the registry share");
+  assert.doesNotMatch(source, /useState|useEffect/, "no client state can diverge from the SSR value");
 });
