@@ -9,6 +9,7 @@ import worker from "../worker/index.js";
 import { fmtTickerChange, fmtTickerPrice, isTickerSnapshot, spliceTickerHtml, tickerDir, tickerFromBinance, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { createTickerFeed, TICKER_PATH } from "../server/ticker-feed.mjs";
 import { localizedHref } from "../src/data/locale-routing.js";
+import { tickerChanges } from "../src/components/ticker/ticker-changes.js";
 import { createSsrHarness, hydrateInJsdom, hydrationErrors, prerenderState } from "./helpers/ssr-hydration-harness.mjs";
 
 const binanceRow = (symbol, lastPrice, priceChangePercent, quoteVolume) => ({ symbol, lastPrice: String(lastPrice), priceChangePercent: String(priceChangePercent), quoteVolume: String(quoteVolume) });
@@ -51,21 +52,21 @@ test("fallback snapshot from the market collector feed", () => {
   assert.equal(tickerFromMarketEvents({ market: { majors: [] } }), null);
 });
 
-test("server feed: one Binance call per 15 s window, collector fallback, 503 with nothing to show", async () => {
+test("server feed: one Binance call per 6 s window, collector fallback, 503 with nothing to show", async () => {
   let clock = 1_000_000, calls = 0;
   const ok = async () => { calls += 1; return Response.json(BINANCE); };
   const feed = createTickerFeed({ fetchImpl: ok, now: () => clock });
   const first = await feed.read();
   assert.equal(first.items[0].price, "$82,576");
   await feed.read(); await feed.read();
-  assert.equal(calls, 1, "cached for 15 s");
-  clock += 16_000;
+  assert.equal(calls, 1, "cached for 6 s");
+  clock += 7_000;
   await feed.read();
   await new Promise((r) => setTimeout(r, 5));
   assert.equal(calls, 2, "refreshed in the background after the window");
   const response = await feed.respond();
   assert.equal(response.status, 200);
-  assert.match(response.headers.get("cache-control"), /max-age=10/);
+  assert.equal(response.headers.get("cache-control"), "public, max-age=4, stale-while-revalidate=8", "nginx honours this: short so the served frame stays fresh");
   assert.equal((await response.json()).items.length, 5);
 
   const down = createTickerFeed({ fetchImpl: async () => new Response("no", { status: 451 }), readMarketEvents: async () => ({ generatedAt: "2026-10-12T22:52:03Z", market: { majors: [{ symbol: "BTCUSDT", price: 1, change24hPct: 1 }, { symbol: "ETHUSDT", price: 1, change24hPct: 1 }, { symbol: "XRPUSDT", price: 1, change24hPct: 1 }] } }) });
@@ -150,7 +151,7 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
   assert.match(bar, /requestIdleCallback/, "loaded after first paint");
   assert.doesNotMatch(bar + live, /binance\.com|okx\.com|bybit\.com|fapi\./i, "browsers never call an exchange");
   assert.match(live, /"\/api\/ticker\.json"/);
-  assert.match(live, /15 \* 1000/);
+  assert.match(live, /TICKER_REFRESH_MS = 12 \* 1000/, "10-15 s refresh");
   assert.match(live, /export function subscribe/);
   assert.match(live, /startJsonPolling/);
   assert.match(polling, /visibilityState === "hidden"/);
@@ -213,4 +214,41 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   stop();
   assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
   assert.equal(listeners.size, 0);
+});
+
+// Regression (owner 2026-10-15, "the top ticker never changes"): after hydration the bar re-fetches /api/ticker.json and
+// writes the new numbers into the DOM (both marquee copies), and marks each changed value for its up/down flash.
+test("regression: the hydrated bar re-fetches /api/ticker.json and updates the DOM with a direction flash", async () => {
+  const NEXT = tickerFromBinance(BINANCE.map((r) => (r.symbol === "BTCUSDT" ? { ...r, lastPrice: "83001.2" } : r.symbol === "ETHUSDT" ? { ...r, lastPrice: "2401.10" } : r)), { now: Date.parse("2026-10-13T00:00:12Z") });
+  const response = await worker.fetch(new Request("https://nexualpha.com/", { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets, TICKER_READ: async () => SNAP });
+  const html = await response.text();
+  const fetched = [];
+  const read = (w) => [...w.document.querySelectorAll('[data-tk="BTC-p"]')].map((el) => `${el.textContent}|${el.getAttribute("data-flash") || ""}`);
+  const ethFlash = (w) => [...w.document.querySelectorAll('[data-tk="ETH-p"]')].map((el) => el.getAttribute("data-flash"));
+  let before = null;
+  const { inspected, errors } = await hydrateInJsdom(harness.vite, html, "https://nexualpha.com/", {
+    timeoutMs: 6000,
+    fetchImpl: async (url) => { const u = String(url); if (u.includes("/api/ticker.json")) { fetched.push(u); return Response.json(NEXT); } return new Response("{}", { status: 404 }); },
+    until: (w) => { before ??= read(w); return read(w).every((v) => v.startsWith("$83,001")); },
+    inspect: (w) => ({ btc: read(w), eth: ethFlash(w) }),
+  });
+  assert.deepEqual(hydrationErrors(errors), []);
+  assert.deepEqual(before, ["$82,576|", "$82,576|"], "server first frame");
+  assert.ok(fetched.length >= 1 && fetched.every((u) => u.endsWith("/api/ticker.json")), "polled our endpoint");
+  assert.deepEqual(inspected.btc, ["$83,001|up", "$83,001|up"], "both copies updated and flagged up");
+  assert.deepEqual(inspected.eth, ["down", "down"]);
+  const css = await readFile(new URL("../src/components/ticker/ticker.css", import.meta.url), "utf8");
+  assert.match(css, /animation: nx-ticker-flash-a 1100ms ease-out 1;/, "finite flash");
+  assert.doesNotMatch(css.match(/@keyframes nx-ticker-flash-a[^}]*}[^}]*}[^}]*}/)?.[0] || "", /color|width|height|top|left/, "opacity only");
+  assert.match(css, /prefers-reduced-motion: reduce\) \{ \.nx-ticker \[data-tk\]::after \{ animation: none/);
+});
+
+test("tickerChanges: direction per value, unchanged values ignored, mover symbol change follows the mover direction", () => {
+  const next = { ...SNAP, items: SNAP.items.map((i) => (i.sym === "SOL" ? { ...i, price: "$150.00", change: "+2.90%" } : i)), mover: { sym: "RSR", change: "−31.90%", dir: "down" } };
+  const changes = tickerChanges(SNAP, next);
+  assert.equal(changes.get("SOL-p"), "down");
+  assert.equal(changes.get("SOL-c"), "down");
+  assert.equal(changes.get("mover-sym"), "down");
+  assert.equal(changes.has("BTC-p"), false);
+  assert.equal(tickerChanges(SNAP, SNAP).size, 0);
 });

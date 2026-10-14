@@ -1,45 +1,63 @@
 /* Site-wide Telegram alerts strip (2026-10-10): one quiet line, same voice as the article-footer alerts line and the
    header's outline Telegram control. Specificity lifted with :not(#_) so the v6 / .h7 page stacks cannot recolour it. */
+/* 2026-10-15 layout fix ("排版完全是错误的，错位的"): a three-column grid instead of a wrapping flex row. Desktop: icon,
+   text and a real 44px button share one centre line. Phone (≤560px): icon + text on the first row, the button full width
+   underneath, so it never floats alone at the far edge. Text uses text-wrap:pretty (no one-character orphan line). */
 .tg-signal-strip:not(#_):not(#_) {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px 12px;
+  gap: 10px 14px;
   box-sizing: border-box;
   inline-size: 100%;
   min-inline-size: 0;
   margin: 0;
-  padding: 10px 14px;
-  border: 1px solid rgb(255 255 255 / .1);
-  border-radius: 10px;
-  background: rgb(255 255 255 / .025);
-  color: #cbd5e1;
-  font-size: .9rem;
+  padding: 12px;
+  padding-inline-start: 14px;
+  border: 1px solid var(--line, rgb(255 255 255 / .1));
+  border-radius: 14px;
+  background: var(--sf, rgb(255 255 255 / .025));
+  color: var(--ink2, #cbd5e1);
+  font-size: .9375rem;
   line-height: 1.45;
 }
-.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__icon { display: inline-flex; flex: none; color: #94a3b8; }
-.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__text { flex: 1 1 14rem; min-inline-size: 0; color: inherit; }
+.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__icon {
+  display: grid; place-items: center; inline-size: 36px; block-size: 36px; border-radius: 50%;
+  background: rgb(34 158 217 / .14); color: #4FB8EA;
+}
+.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__text { min-inline-size: 0; color: var(--ink, #e5e7eb); text-wrap: pretty; }
 .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn {
-  flex: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   min-block-size: 44px;
-  margin-inline-start: auto;
-  padding: 0 4px;
-  color: #67e8f9;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid rgb(79 184 234 / .4);
+  border-radius: 10px;
+  background: rgb(34 158 217 / .1);
+  color: #4FB8EA;
   font-weight: 600;
+  line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
+  transition: background-color .2s, border-color .2s;
 }
-.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:hover,
-.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:focus-visible { text-decoration: underline; }
-.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; border-radius: 4px; }
+.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:hover { background: rgb(34 158 217 / .18); border-color: rgb(79 184 234 / .65); }
+.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:focus-visible { outline: 2px solid #4FB8EA; outline-offset: 2px; }
 
 /* Placements */
-.tg-signal-strip--home:not(#_):not(#_) { margin: 12px auto 0; max-inline-size: 1248px; inline-size: calc(100% - 2 * var(--pad, 24px)); }
+.tg-signal-strip--home:not(#_):not(#_) {
+  margin: clamp(24px, 3vw, 40px) auto 0;
+  inline-size: calc(100% - 2 * var(--pad, 24px));
+  max-inline-size: calc(1248px - 2 * var(--pad, 24px)); /* same column as .h7-in (1248 minus its padding) */
+}
 .tg-signal-strip--venue:not(#_):not(#_) { margin: 0; }
 .tg-signal-strip--news:not(#_):not(#_) { margin: 16px 0 0; }
-@media (max-width: 480px) {
-  .tg-signal-strip:not(#_):not(#_) { padding: 8px 12px; font-size: .875rem; }
-  .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn { min-block-size: 40px; }
+@media (max-width: 560px) {
+  .tg-signal-strip:not(#_):not(#_) { grid-template-columns: auto minmax(0, 1fr); padding: 12px; font-size: .875rem; }
+  .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__icon { inline-size: 32px; block-size: 32px; }
+  .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn { grid-column: 1 / -1; inline-size: 100%; }
 }
+@media (prefers-reduced-motion: reduce) { .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn { transition: none; } }

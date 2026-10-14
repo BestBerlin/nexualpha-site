@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createStaleJsonFeed } from '../server/stale-json-feed.mjs';
-import { createTickerFeed } from '../server/ticker-feed.mjs';
+import { createTickerFeed, TICKER_CACHE_CONTROL } from '../server/ticker-feed.mjs';
 import { createMoversFeed } from '../server/movers-feed.mjs';
 
 const CACHE = 'public, max-age=10, stale-while-revalidate=60';
@@ -52,7 +52,7 @@ test('ticker and movers retain good snapshots past their former ten-minute cutof
   clock = 86400000; fail = true;
   for (const feed of [ticker, movers]) {
     await feed.refresh();
-    const res = await feed.respond(); assert.equal(res.status, 200); assert.equal(res.headers.get('cache-control'), CACHE);
+    const res = await feed.respond(); assert.equal(res.status, 200); assert.equal(res.headers.get('cache-control'), feed === ticker ? TICKER_CACHE_CONTROL : CACHE);
     assert.equal((await res.json()).stale, true);
   }
 });

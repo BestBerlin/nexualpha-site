@@ -23,6 +23,15 @@
 .nx-ticker__c { min-inline-size: 7ch; }
 .nx-ticker__item[data-dir="up"] .nx-ticker__c { color: var(--tk-up); }
 .nx-ticker__item[data-dir="down"] .nx-ticker__c { color: var(--tk-down); }
+/* Refresh cue: a changed value gets one short tint behind its digits. Opacity only (compositor), finite, 1.1 s. */
+.nx-ticker [data-tk] { position: relative; }
+.nx-ticker [data-tk]::after { content: ""; position: absolute; inset: 6px -4px; border-radius: 4px; background: var(--tk-up); opacity: 0; pointer-events: none; z-index: -1; }
+.nx-ticker [data-flash^="down"]::after { background: var(--tk-down); }
+.nx-ticker [data-flash="up"]::after, .nx-ticker [data-flash="down"]::after { animation: nx-ticker-flash-a 1100ms ease-out 1; }
+.nx-ticker [data-flash="up-b"]::after, .nx-ticker [data-flash="down-b"]::after { animation: nx-ticker-flash-b 1100ms ease-out 1; }
+@keyframes nx-ticker-flash-a { 0% { opacity: 0; } 20% { opacity: .22; } 100% { opacity: 0; } }
+@keyframes nx-ticker-flash-b { 0% { opacity: 0; } 20% { opacity: .22; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .nx-ticker [data-tk]::after { animation: none !important; } }
 .nx-ticker__l { font-size: 12px; color: var(--tk-ink3); }
 .nx-ticker__item--mover b { min-inline-size: 5ch; }
 

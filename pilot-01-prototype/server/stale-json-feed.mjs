@@ -1,5 +1,6 @@
 // A single refresh per TTL, with a bounded wait and an indefinitely retained last good payload.
-export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now = Date.now, log = () => {} }) {
+export const STALE_JSON_CACHE_CONTROL = 'public, max-age=10, stale-while-revalidate=60';
+export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now = Date.now, log = () => {}, cacheControl = STALE_JSON_CACHE_CONTROL }) {
   let snapshot = null, goodAt = 0, attemptedAt = null, pending = null, failed = false;
   const refresh = () => {
     if (pending) return pending;
@@ -35,7 +36,7 @@ export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now
   const respond = async (method = 'GET') => {
     const data = await read();
     const headers = { 'content-type': 'application/json; charset=utf-8', 'x-content-type-options': 'nosniff', 'x-robots-tag': 'noindex',
-      'cache-control': data ? 'public, max-age=10, stale-while-revalidate=60' : 'no-store' };
+      'cache-control': data ? cacheControl : 'no-store' };
     return new Response(method === 'HEAD' ? null : JSON.stringify(data || { status: 'unavailable' }), { status: data ? 200 : 503, headers });
   };
   return { read, respond, refresh };

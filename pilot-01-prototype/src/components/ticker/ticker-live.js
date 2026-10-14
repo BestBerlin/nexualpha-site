@@ -3,7 +3,8 @@
 import { startJsonPolling } from "../shared/json-polling.js";
 
 const TICKER_URL = "/api/ticker.json";
-export const TICKER_REFRESH_MS = 15 * 1000;
+// 12 s: the server frame is at most ~15 s old (server/ticker-feed.mjs), so almost every poll brings new numbers.
+export const TICKER_REFRESH_MS = 12 * 1000;
 
 const validSnapshot = (value) => Boolean(value && Array.isArray(value.items) && value.items.length);
 const listeners = new Set();
