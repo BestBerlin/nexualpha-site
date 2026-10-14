@@ -42,6 +42,7 @@ import { BEGINNER_ROOTS, parseBeginnerPath } from "./data/beginner-routes.js";
 import { parseLicensesPath } from "./data/licenses-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
+import { turkeyListingAllowed } from "./data/partner-geo-policy.js";
 import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
@@ -610,7 +611,8 @@ function routeState(venues, initialUrl) {
   if (converter) return { name: "notFound" };
   const coins = parseCoinsPath(pathname);
   if (coins?.kind === "hub") return { name: "coinsHub", ...contextParams() };
-  if (coins?.kind === "coin") return { name: "coinPage", slug: coins.slug, ...contextParams() };
+  // Türkiye pages (tr-market-gaps): an SPK-listed venue's own token (BGB) has no page there, like the Bitget guide.
+  if (coins?.kind === "coin") return turkeyListingAllowed(coins.slug, { locale: publicRoute.locale, market: searchParams.get("market") || undefined }) ? { name: "coinPage", slug: coins.slug, ...contextParams() } : { name: "notFound" };
   if (coins?.kind === "missing") return { name: "notFound" };
   const glossary = parseGlossaryPath(pathname);
   if (glossary?.kind === "hub") return { name: "glossaryHub", ...contextParams() };

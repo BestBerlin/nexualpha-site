@@ -10,7 +10,7 @@ import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
 import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
-import { isPartnerPromotableIn, jurisdictionPromotionBan, isTurkeyPage, isTurkeyUnlistedVenue, turkeyListingAllowed, withoutTurkeyUnlistedVenueFeed, withoutTurkeyUnlistedSchema } from "../src/data/partner-geo-policy.js";
+import { isPartnerPromotableIn, jurisdictionPromotionBan, isTurkeyPage, withRequestMarket, isTurkeyUnlistedVenue, turkeyListingAllowed, withoutTurkeyUnlistedVenueFeed, withoutTurkeyUnlistedSchema } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
 import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-topic.js";
 import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
@@ -3608,7 +3608,8 @@ function routeSchemaPayload(schema, metadata) {
   if (!schema) return null;
   // Türkiye pages (tr-bitget-sweep): structured data never lists an SPK-listed venue. A page about that venue itself
   // (its profile or comparison) keeps its own schema.
-  if (turkeyListingAllowed(metadata?.canonical || "", { locale: metadata?.locale })) schema = withoutTurkeyUnlistedSchema(schema, { locale: metadata?.locale });
+  const turkeyContext = { locale: metadata?.locale, market: metadata?.market || undefined };
+  if (turkeyListingAllowed(metadata?.canonical || "", turkeyContext)) schema = withoutTurkeyUnlistedSchema(schema, turkeyContext);
   return Array.isArray(schema)
     ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
     : schema;
@@ -3821,6 +3822,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
     ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
     ...(Array.isArray(route.seoAlternates) ? { seoAlternates: route.seoAlternates } : {}),
+    // Türkiye market on another edition (tr-market-gaps): the body was rendered with it, so the first client pass uses it too.
+    ...(url && turkeyRequestMarket(url) ? { marketContext: { market: turkeyRequestMarket(url) } } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4472,7 +4475,7 @@ async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRo
     };
     // T10: the hub (page 1, all categories) links the strongest articles by Google impressions.
     const toolArticles = toolKeyForPath(pathname) === NEWS_HUB_TOOL_KEY && metadata.newsFeedFingerprint
-      ? cachedToolArticleLinks({ articles: metadata.newsArticles, fingerprint: metadata.newsFeedFingerprint }, NEWS_HUB_TOOL_KEY, UI_LOCALES.has(locale) ? locale : "en") || undefined
+      ? turkeyToolArticles(cachedToolArticleLinks({ articles: metadata.newsArticles, fingerprint: metadata.newsFeedFingerprint }, NEWS_HUB_TOOL_KEY, UI_LOCALES.has(locale) ? locale : "en"), locale, url.searchParams.get("market")) || undefined
       : undefined;
     const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
@@ -4518,6 +4521,23 @@ function turkeyAnnouncementFeed(feed, publicRoute, market) {
     ...feed,
     ...(Array.isArray(feed.items) ? { items: feed.items.filter((item) => !isTurkeyUnlistedVenue(item?.venue, context) && turkeyListingAllowed([item?.title, item?.url], context)) } : {}),
     ...(feed.sources && typeof feed.sources === "object" ? { sources: Object.fromEntries(Object.entries(feed.sources).filter(([slug]) => !isTurkeyUnlistedVenue(slug, context))) } : {}),
+    // Campaign briefs ride in the hydration state even when no row renders them (tr-market-gaps).
+    ...(Array.isArray(feed.campaignBriefs) ? { campaignBriefs: feed.campaignBriefs.filter((brief) => !isTurkeyUnlistedVenue(brief?.venue || String(brief?.id || "").split(":")[0], context) && turkeyListingAllowed(brief, context)) } : {}),
+  };
+}
+
+// Türkiye pages (tr-market-gaps): the runtime coins snapshot carries no SPK-listed venue (venue status, per-venue pair
+// maps) and no row for that venue's own token, so the hydration state matches the rendered page.
+function turkeyCoinsOverlay(coins, locale, market) {
+  const context = { locale, market: market || undefined };
+  if (!coins || typeof coins !== "object" || !isTurkeyPage(context)) return coins;
+  const withoutUnlisted = (map) => Object.fromEntries(Object.entries(map).filter(([slug]) => !isTurkeyUnlistedVenue(slug, context)));
+  return {
+    ...coins,
+    ...(coins.venueStatus && typeof coins.venueStatus === "object" ? { venueStatus: withoutUnlisted(coins.venueStatus) } : {}),
+    ...(Array.isArray(coins.rows) ? { rows: coins.rows
+      .filter((row) => turkeyListingAllowed(Array.isArray(row) ? row.slice(0, 2) : row?.slug, context))
+      .map((row) => (Array.isArray(row) ? row.map((cell) => (cell && typeof cell === "object" && !Array.isArray(cell) ? withoutUnlisted(cell) : cell)) : row)) } : {}),
   };
 }
 
@@ -4718,7 +4738,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
     }
     if (pathname === "/") {
       hydrationData = { ...hydrationData, homeContext: activityRequestContext(renderUrl) };
-      const funding = await readHomeFundingSnapshot(env);
+      const funding = withoutTurkeyUnlistedVenueFeed(await readHomeFundingSnapshot(env), { locale, market: renderUrl.searchParams.get("market") || undefined });
       if (funding) hydrationData = { ...hydrationData, funding };
       if (metadata.heroAssignment?.active) {
         hydrationData = { ...hydrationData, heroVariant: metadata.heroAssignment.variant };
@@ -4768,9 +4788,30 @@ function routeSeoRenderEnv(env, metadata) {
 // 404 component itself is accepted; anything else keeps the shell.
 const isNotFoundPage = (appHtml) => appHtml.includes("v3-page--empty") && /<h1\b[^>]*>404<\/h1>/.test(appHtml);
 
+// Türkiye rule (tr-market-gaps): an explicit Türkiye market read in another edition (/?market=TR). Returns the market to
+// carry into every request-time render and the hydration state, or null.
+function turkeyRequestMarket(url) {
+  const market = url.searchParams.get("market")?.slice(0, 64);
+  if (!market || parsePublicRoute(url.pathname, url.searchParams).locale === "tr") return null;
+  return isTurkeyPage({ market }) ? market : null;
+}
+
+function turkeyMarketRenderEnv(env, url) {
+  const market = turkeyRequestMarket(url);
+  if (!market || typeof env?.NEWS_SSR_RENDER !== "function") return env;
+  return {
+    ...env,
+    NEWS_SSR_RENDER: (renderUrl, state) => {
+      const target = new URL(renderUrl, url);
+      target.searchParams.set("market", market);
+      return env.NEWS_SSR_RENDER(target.href, state);
+    },
+  };
+}
+
 async function injectPrerenderedRoute(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
-  env = routeSeoRenderEnv(env, metadata);
+  env = turkeyMarketRenderEnv(routeSeoRenderEnv(env, metadata), url);
   if (metadata.status === 404) {
     const guide = isBitgetGuidePath(parsePublicRoute(url.pathname, url.searchParams).contentPathname);
     return (await renderRouteAtRequestTime(html, metadata, url, env, {
@@ -4882,7 +4923,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // No newer runtime snapshot: an empty overlay still tells the browser this page was server-rendered (no refetch).
         const overlay = await refreshCoinOverlay(env);
-        const coins = overlay || { generatedAt: COINS_GENERATED_AT, rows: [] };
+        const coins = turkeyCoinsOverlay(overlay || { generatedAt: COINS_GENERATED_AT, rows: [] }, publicRoute.locale, url.searchParams.get("market"));
         const coinsRoute = parseCoinsPath(pathname);
         const coin = coinsRoute?.kind === "coin" ? coinBySlug(coinsRoute.slug) : null;
         const feed = coin ? await loadNewsFeed(env, url) : null;
@@ -5035,7 +5076,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   const market = url.searchParams.get("market");
   // The home is a promotion page too: a no-promotion market (Vietnam) renders it without the rebate desk.
   const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates" || publicRoute.contentPathname === "/";
-  const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
+  // Türkiye rule (tr-market-gaps): an explicit Türkiye market on another edition (/?market=TR, /exchanges?market=TR) is
+  // rendered at request time on every route, so locale-only prerenders that list Bitget are never served for it.
+  const turkeyMarket = Boolean(market) && publicRoute.locale !== "tr" && isTurkeyPage({ market });
+  const policyChanges = turkeyMarket || market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
     !isPartnerPromotableIn(slug, { locale: publicRoute.locale, market }) && isPartnerPromotableIn(slug, { locale: publicRoute.locale }));
   // Venue and comparison notices use the same official feed as the homepage.
   // Supply the identical snapshot to hydration rather than a second empty update source.
@@ -5102,7 +5146,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
     // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
     const [funding, flash, ticker, movers] = await Promise.all([
-      readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale })),
+      readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale, market: market || undefined })),
       readFlashItems(env, url).then((items) => flashStreamPayload(items, publicRoute.locale || "en", { limit: 5, now: flashNow(env) })).catch((error) => {
         console.error(`[NexuAlpha] home flash SSR failed: ${error?.message || error}`);
         return null;
@@ -5241,13 +5285,20 @@ function cachedToolArticleLinks(feed, toolKey, locale) {
   }
   return toolArticlesCache.get(key);
 }
+// Türkiye pages (tr locale or ?market=TR, tr-market-gaps): related-article rows never name an SPK-listed venue.
+function turkeyToolArticles(payload, locale, market) {
+  const context = { locale, market: market || undefined };
+  if (!payload || !Array.isArray(payload.items) || !isTurkeyPage(context)) return payload;
+  const items = payload.items.filter((item) => turkeyListingAllowed([item?.slug, item?.title, item?.href], context));
+  return items.length === payload.items.length ? payload : { ...payload, items };
+}
 async function toolArticlesForRequest(env, url, pathname, locale) {
   const toolKey = toolKeyForPath(pathname);
   if (!toolKey || !env?.ASSETS) return undefined;
   try {
     const feed = await loadNewsFeed(env, url);
     if (!feed?.fingerprint || !feed.articles.length) return undefined;
-    return cachedToolArticleLinks(feed, toolKey, UI_LOCALES.has(locale) ? locale : "en") || undefined;
+    return turkeyToolArticles(cachedToolArticleLinks(feed, toolKey, UI_LOCALES.has(locale) ? locale : "en"), locale, url.searchParams.get("market")) || undefined;
   } catch { return undefined; }
 }
 async function handleToolArticlesJson(env, url) {
@@ -5259,7 +5310,7 @@ async function handleToolArticlesJson(env, url) {
   if (!toolKey) return new Response(JSON.stringify({ version: 1, status: "invalid", items: [] }), { status: 400, headers: { ...headers, "cache-control": "no-store" } });
   const feed = await loadNewsFeed(env, url);
   if (!feed.fingerprint) return new Response(JSON.stringify({ version: 1, status: "unavailable", items: [] }), { status: 503, headers: { ...headers, "cache-control": "no-store" } });
-  const payload = cachedToolArticleLinks(feed, toolKey, locale) || { tool: toolKey, locale, items: [] };
+  const payload = turkeyToolArticles(cachedToolArticleLinks(feed, toolKey, locale), locale, url.searchParams.get("market")) || { tool: toolKey, locale, items: [] };
   return new Response(JSON.stringify({ version: 1, status: "ok", ...payload }), { status: 200, headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
 
@@ -7178,6 +7229,9 @@ export async function routeMetadata(url, env) {
   const route = parsePublicRoute(url.pathname, url.searchParams);
   if (isLegalPagePath(route.contentPathname)) return applyServedMetadataBudget({ ...legalPageSeo(route.contentPathname, route.locale), marker: STATIC_ROUTE_MARKER });
   const metadata = await resolveRouteMetadata(url, env);
+  // Türkiye market on another edition (tr-market-gaps): structured data is pruned for it like a /tr page.
+  const turkeyMarket = turkeyRequestMarket(url);
+  if (turkeyMarket && metadata && typeof metadata === "object") metadata.market = turkeyMarket;
   return applyServedMetadataBudget(metadata);
 }
 
@@ -7948,7 +8002,9 @@ async function routeMetadataBase(url, env, newsFeed) {
       : activityLocalized?.title || "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha";
     const description = isZh
       ? "实时追踪币安、OKX、Bybit 等官方最新活动，汇集 Launchpool 挖矿年化、空投申领、充值返利与独家新手任务礼包。"
-      : activityLocalized?.description || "Live campaigns from Binance, OKX, Bybit and Bitget: Launchpool, new listings, airdrops and welcome offers, each with its dates and the official rules page.";
+      : activityLocalized?.description || (isTurkeyPage({ locale: requestedLocale, market: url.searchParams.get("market") || undefined })
+        ? "Live campaigns from OKX, Binance and Bybit: Launchpool, new listings, airdrops and welcome offers, each with its dates and the official rules page."
+        : "Live campaigns from Binance, OKX, Bybit and Bitget: Launchpool, new listings, airdrops and welcome offers, each with its dates and the official rules page.");
 
     return {
       status: 200,
@@ -8488,7 +8544,8 @@ async function routeMetadataBase(url, env, newsFeed) {
   // Where to buy <coin> (2026-10-12): WebPage + venue ItemList + FAQPage + BreadcrumbList from src/data/coins-seo.js (same
   // helper as seo-injection.js). Unlisted coins, coins without our description in the locale and non-index locales are
   // noindex,follow; hreflang lists only the coin's indexable editions.
-  const coinsSeo = coinsRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  // Türkiye market (tr-market-gaps): the coin helpers read the request market like the SSR render does.
+  const coinsSeo = withRequestMarket(turkeyRequestMarket(url), () => coinsRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) }));
   if (coinsSeo) {
     if (coinsSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
     return {

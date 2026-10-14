@@ -1,6 +1,26 @@
 // Runtime policy compiled from the provenance table by the build; do not duplicate country lists here.
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES, PROMOTION_BANNED_COUNTRIES, TURKEY_PROMOTED_PARTNERS, COUNTRY_BY_LOCALE, COUNTRY_BY_MARKET } from "./partner-geo-policy.generated.js";
-export function promotionCountries({ locale = "en", market } = {}) {
+// Request market for callers that only pass a locale (tr-market-gaps): the SSR entry sets it for one synchronous render
+// from the request URL; in the browser it is read from the address bar. An explicit context.market always wins.
+let renderMarket;
+export function withRequestMarket(market, render) {
+  const previous = renderMarket;
+  renderMarket = market || null;
+  try { return render(); } finally { renderMarket = previous; }
+}
+function requestMarket() {
+  if (renderMarket !== undefined) return renderMarket || undefined;
+  if (typeof window === "undefined") return undefined;
+  try { return new URLSearchParams(window.location?.search || "").get("market") || undefined; } catch { return undefined; }
+}
+// Only a Türkiye request market is applied implicitly; other markets keep needing an explicit context.market.
+function requestTurkeyMarket() {
+  const market = requestMarket();
+  if (!market) return undefined;
+  const key = String(market).replace(/^\//, "").split(/[/?#]/)[0].toUpperCase();
+  return COUNTRY_BY_MARKET[key] === "TR" || key === "TR" ? market : undefined;
+}
+export function promotionCountries({ locale = "en", market = requestTurkeyMarket() } = {}) {
   // Explicit markets take precedence: /uk is Britain, while locale uk is Ukrainian.
   if (market && !["GLOBAL", "GLOBAL_OTHER", "OTHER", "UNKNOWN"].includes(String(market).toUpperCase())) {
     const key = String(market).replace(/^\//, "").split(/[/?#]/)[0].toUpperCase();
@@ -43,7 +63,8 @@ export function isTurkeyGated(slug, context = {}) { return partnerPromotionGate(
 export const TURKEY_UNLISTED_VENUES = Object.freeze(["bitget"]);
 const TURKEY_UNLISTED_PATTERN = new RegExp(TURKEY_UNLISTED_VENUES.join("|"), "i");
 export function isTurkeyPage({ locale, market } = {}) {
-  return String(locale || "").toLowerCase() === "tr" || (market ? promotionCountries({ market }).includes("TR") : false);
+  const effectiveMarket = market || requestTurkeyMarket();
+  return String(locale || "").toLowerCase() === "tr" || (effectiveMarket ? promotionCountries({ market: effectiveMarket }).includes("TR") : false);
 }
 export function isTurkeyUnlistedVenue(slug, context = {}) {
   return TURKEY_UNLISTED_VENUES.includes(String(slug || "").toLowerCase()) && isTurkeyPage(context);

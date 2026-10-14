@@ -7,8 +7,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import worker from "../worker/index.js";
-import { createSsrHarness, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
-import { isTurkeyPage, withoutTurkeyUnlisted, withoutTurkeyUnlistedSchema, withoutTurkeyUnlistedVenueFeed } from "../src/data/partner-geo-policy.js";
+import { createSsrHarness, prerenderState, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
+import { isTurkeyPage, withRequestMarket, withoutTurkeyUnlisted, withoutTurkeyUnlistedSchema, withoutTurkeyUnlistedVenueFeed } from "../src/data/partner-geo-policy.js";
+import { buildHydrationBootstrap } from "../src/data/hydration-bootstrap.js";
 
 const json = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 const funding = json("./fixtures/funding-rates-live-2026-10-14.json");
@@ -25,6 +26,9 @@ const rewards = { slug: rewardsSlug, status: "PUBLISHED", publishedAt: "2026-10-
   relatedVenues: ["bitget", "okx"], seo: { noindex: false, internalLinkTargets: ["/exchanges/bitget", "/compare/bitget-vs-okx", "/exchanges/okx"] },
   internalLinks: ["/tr/exchanges/bitget", "/tr/exchanges/okx"], cta: { venue: "bitget" } };
 const newsFeed = { articles: [rewards, { ...rewards, slug: "bitget-rewards", title: { en: "Bitget rewards", tr: "Bitget ödülleri" } }] };
+// Live campaign briefs (Bitget Alliance brief included) and a runtime coins snapshot newer than the baked table.
+const campaignBriefs = json("../public/content/campaign-briefs.json");
+const coinsSnapshot = { ...json("../public/intel/coins.json"), generatedAt: new Date().toISOString() };
 
 const SWEPT = ["/tr", "/tr/exchanges", "/tr/compare", "/tr/funding-rates", "/tr/rates", "/tr/sorular", `/tr/news/${rewardsSlug}`];
 const LICENSE = "/tr/licenses/turkey";
@@ -35,22 +39,26 @@ test.after(async () => { await harness?.close(); });
 
 /** Full response HTML through the worker: prerendered body (home with the build-time notice feed, as the build renders
  * it) from the manifest plus every request-time feed. */
-async function serve(path) {
+async function serve(path, { status = 200 } = {}) {
   const url = new URL(`https://nexualpha.com${path}`);
-  const locale = path.startsWith("/tr") ? "tr" : "en";
-  const pathname = path.replace(/^\/tr(?=\/|$)/, "") || "/";
-  const routes = { [`${pathname}|${locale}`]: { pathname, locale, html: harness.render(url.href, pathname === "/" ? { officialAnnouncements: intel } : {}), searchPublished: true } };
+  const prefix = url.pathname.match(/^\/(tr|de|ja)(?=\/|$)/)?.[1];
+  const locale = prefix || "en";
+  const pathname = (prefix ? url.pathname.slice(prefix.length + 1) : url.pathname) || "/";
+  // The manifest holds the locale-only build (no query), as in production; coin pages are never in it (request-time).
+  const routes = pathname.startsWith("/coins") ? {} : { [`${pathname}|${locale}`]: { pathname, locale, html: harness.render(`${url.origin}${url.pathname}`, pathname === "/" ? { officialAnnouncements: intel } : {}), searchPublished: true } };
   const assets = { fetch: async (request) => {
     const asset = new URL(request.url).pathname;
     if (asset === "/prerender-manifest.json") return Response.json({ version: "nexualpha-prerender-v1", routes });
     if (asset === "/index.html") return new Response(SHELL_HTML, { headers: { "content-type": "text/html" } });
     if (asset === "/content/news-feed.json") return Response.json(newsFeed);
     if (asset === "/intel/official-announcements.json") return Response.json(intel);
+    if (asset === "/content/campaign-briefs.json") return Response.json(campaignBriefs);
     return new Response("missing", { status: 404 });
   } };
   const response = await worker.fetch(new Request(url), { ASSETS: assets, NEWS_SSR_RENDER: harness.render,
-    FUNDING_READ: async () => funding, MARKET_EVENTS_READ: async () => marketEvents, INTEL_READ: async () => intel });
-  assert.equal(response.status, 200, path);
+    FUNDING_READ: async () => funding, MARKET_EVENTS_READ: async () => marketEvents, INTEL_READ: async () => intel,
+    COINS_SNAPSHOT_READ: async () => coinsSnapshot });
+  assert.equal(response.status, status, path);
   const html = await response.text();
   assert.ok(html.length > 10000, `${path} rendered`);
   return html;
@@ -119,4 +127,73 @@ test("coin meta descriptions on Türkiye pages name the same venues as the page 
     const description = coinMeta(coin, "tr").description.replaceAll(coin.name, "");
     assert.doesNotMatch(description, /bitget/i, `/tr/coins/${coin.slug} meta description`);
   }
+});
+
+// tr-market-gaps (2026-10-14 production QA): an explicit ?market=TR on another edition is a Türkiye page too. The worker
+// renders it at request time (never the locale-only prerender), with the market in the render URL and the hydration
+// state, so the head, body, JSON-LD and hydration payload carry no Bitget.
+const MARKET_TR = ["/?market=TR", "/exchanges?market=TR", "/compare?market=TR", "/rates?market=TR", "/funding-rates?market=TR",
+  "/coins?market=TR", "/coins/bitcoin?market=TR", "/activities?market=TR", "/exchanges/okx?market=TR", "/compare/binance-vs-okx?market=TR",
+  "/de?market=TR", "/ja/exchanges?market=TR"];
+
+test("English (and other) editions with ?market=TR carry no Bitget anywhere in the served HTML", async () => {
+  for (const path of MARKET_TR) {
+    const html = await serve(path);
+    assert.deepEqual(hits(html), [], `${path} still names Bitget`);
+  }
+});
+
+test("?market=TR home: Türkiye head copy, no Bitget funding row, market carried into hydration", async () => {
+  const html = await serve("/?market=TR");
+  const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1] || "";
+  assert.match(description, /OKX, Binance and Bybit/);
+  assert.match(html, /class="h7-fr-row"/, "funding board still renders");
+  const state = prerenderState(html);
+  assert.equal(state.marketContext?.market, "TR");
+  assert.equal(Object.keys(state.funding?.venues || {}).includes("bitget"), false, "hydration funding has no Bitget");
+  const bootstrap = buildHydrationBootstrap({ browserUrl: "https://nexualpha.com/?market=TR", prerenderState: state, hasServerHtml: true });
+  assert.equal(new URL(bootstrap.initialUrl).searchParams.get("market"), "TR", "first client pass renders the same market");
+  // Control: the plain English home keeps Bitget, and its state carries no market context.
+  const en = await serve("/");
+  assert.ok(hits(en).length > 0);
+  assert.equal(prerenderState(en).marketContext, undefined);
+});
+
+test("/tr hydration payloads drop Bitget campaign briefs and coin venue status", async () => {
+  assert.ok(campaignBriefs.items.some((brief) => brief.id.startsWith("bitget:")), "fixture: a Bitget brief exists");
+  assert.ok("bitget" in (coinsSnapshot.venueStatus || {}), "fixture: the coins snapshot reads Bitget");
+  for (const path of ["/tr/activities", "/activities?market=TR", "/tr/coins", "/coins?market=TR", "/tr/coins/bitcoin"]) {
+    const html = await serve(path);
+    const state = JSON.stringify(prerenderState(html));
+    assert.doesNotMatch(state, /bitget/i, `${path} hydration state names Bitget`);
+    assert.deepEqual(hits(html), [], `${path} still names Bitget`);
+  }
+  // Control: English pages keep the Bitget brief and venue status.
+  assert.match(JSON.stringify(prerenderState(await serve("/activities"))), /bitget:12560603896118/);
+  assert.match(JSON.stringify(prerenderState(await serve("/coins"))), /"bitget":\{"ok"/);
+});
+
+test("BGB (Bitget's own token) has no Türkiye page and is left out of the Türkiye coin hub", async () => {
+  for (const path of ["/tr/coins/bitget-token", "/coins/bitget-token?market=TR"]) {
+    const html = await serve(path, { status: 404 });
+    assert.match(html, /<meta name="robots" content="noindex/);
+    // Only the requested URL itself (canonical, og:url, language switcher) may contain the slug.
+    const body = html.replace(/(?:href|content)="[^"]*\/coins\/bitget-token[^"]*"/g, "").replace(/"pathname":"\/coins\/bitget-token"/g, "");
+    assert.deepEqual(hits(body), [], `${path} body`);
+  }
+  for (const path of ["/tr/coins", "/coins?market=TR"]) assert.doesNotMatch(await serve(path), /data-coin-row="bitget-token"/);
+  assert.match(await serve("/coins/bitget-token"), /<h1[^>]*>[^<]*Bitget Token/, "control: English BGB page");
+  assert.match(await serve("/coins"), /data-coin-row="bitget-token"/, "control: English hub lists BGB");
+  const { coinsSitemapEntries } = await import("../src/data/coins-seo.js");
+  const bgb = coinsSitemapEntries({ urlFor: (pathname, locale) => `${locale}:${pathname}` }).filter((entry) => entry.pathname === "/coins/bitget-token");
+  assert.equal(bgb.some((entry) => entry.locale === "tr" || entry.alternates.some((alt) => alt.hreflang === "tr")), false, "no tr sitemap/hreflang entry");
+});
+
+test("the request market applies to locale-only policy checks during one render, and only a Türkiye market", () => {
+  assert.equal(isTurkeyPage({ locale: "en" }), false);
+  assert.equal(withRequestMarket("TR", () => isTurkeyPage({ locale: "en" })), true);
+  assert.equal(withRequestMarket("BR", () => isTurkeyPage({ locale: "en" })), false);
+  assert.equal(withRequestMarket(null, () => isTurkeyPage({ locale: "en" })), false);
+  assert.equal(isTurkeyPage({ locale: "en" }), false, "restored after the render");
+  assert.equal(withRequestMarket("TR", () => isTurkeyPage({ locale: "en", market: "BR" })), false, "an explicit market wins");
 });

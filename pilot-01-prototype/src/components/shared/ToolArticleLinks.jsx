@@ -5,6 +5,7 @@
 // /api/news/tool-articles. This module carries only its copy; the cluster mapping stays on the server.
 import React, { useEffect, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 // T10 (2026-10-12): lists are ordered most-read first (Google impressions), then newest.
 const COPY = {
@@ -78,6 +79,9 @@ export function ToolArticleLinks({ tool, locale = "en", initial = null }) {
     return () => { active = false; controller?.abort(); };
   }, [tool, locale, initial]);
   if (!matches(data, tool, locale)) return null;
+  // Türkiye pages (tr-market-gaps): no row names an SPK-listed venue, whatever the feed or API returned.
+  const items = withoutTurkeyUnlisted(data.items, { locale }, (item) => [item.slug, item.title, item.href]);
+  if (!items.length) return null;
   const copy = toolArticleCopy(locale, tool);
   const headingId = `tool-articles-${String(tool).replace(/[^a-z0-9-]/gi, "-")}`;
   return (
@@ -88,7 +92,7 @@ export function ToolArticleLinks({ tool, locale = "en", initial = null }) {
         {tool === "news-hub" ? null : <a className="nx-tool-articles__all" href={localizedHref("/news", { locale })}>{copy.all} <span aria-hidden="true">{["ar", "ur"].includes(locale) ? "←" : "→"}</span></a>}
       </div>
       <ol className="nx-tool-articles__list">
-        {data.items.map((item) => (
+        {items.map((item) => (
           <li key={item.slug}>
             <a href={item.href} data-tool-article={item.slug} data-cta-kind="research" data-cta-placement="tool-related-article">
               <time dateTime={item.publishedAt}>{item.publishedAt}</time>

@@ -103,5 +103,31 @@ export const H7_COPY = {
 };
 // Missing keys fall back to English so a new key never breaks a locale before its translation lands.
 export const h7Copy = (locale) => ({ ...H7_COPY.en, ...(H7_COPY[locale] || (String(locale || "").startsWith("zh") ? H7_COPY["zh-Hans"] : {})) });
+// Türkiye pages (tr locale or ?market=TR, tr-market-gaps): Bitget is on the SPK liquidation list, so step 3 names only the
+// automatic payers promoted there and the footnote's share examples leave Bitget out.
+const H7_PAYOUT_TURKEY = Object.freeze({
+  "zh-Hans": "OKX、币安每小时由交易所官方自动结算，其余按各家规则发放。",
+  "zh-Hant": "OKX、幣安每小時由交易所官方自動結算，其餘依各家規則發放。",
+  en: "OKX and Binance pay out hourly, automatically; others follow their own rules.",
+  es: "OKX y Binance pagan cada hora, de forma automática; las demás siguen sus propias reglas.",
+  "pt-BR": "OKX e Binance pagam a cada hora, de forma automática; as demais seguem as próprias regras.",
+  fr: "OKX et Binance versent chaque heure, automatiquement ; les autres suivent leurs propres règles.",
+  de: "OKX und Binance zahlen stündlich automatisch aus; andere Börsen folgen ihren eigenen Regeln.",
+  it: "OKX e Binance pagano ogni ora, in automatico; le altre seguono le proprie regole.",
+  ja: "OKX・Binance は1時間ごとに取引所が自動で精算し、その他は各取引所の規定に従って付与されます。",
+  ko: "OKX와 Binance는 매시간 거래소가 자동으로 정산하며, 나머지는 각 거래소 규정에 따라 지급됩니다.",
+  ru: "OKX и Binance начисляют возврат автоматически каждый час; остальные биржи — по своим правилам.",
+  id: "OKX dan Binance membayar tiap jam secara otomatis; bursa lain mengikuti aturannya masing-masing.",
+  vi: "OKX và Binance chi trả mỗi giờ, tự động; các sàn khác theo quy định riêng.",
+  ar: "تدفع OKX وBinance كل ساعة بشكل تلقائي، وتتبع المنصات الأخرى قواعدها الخاصة.",
+  ur: "OKX/Binance ہر گھنٹے؛ باقی اپنے قواعد کے مطابق۔",
+  uk: "OKX і Binance виплачують щогодини, автоматично; інші біржі дотримуються власних правил.",
+});
+export function h7TurkeyCopy(t, locale) {
+  const payout = H7_PAYOUT_TURKEY[locale] || (String(locale || "").startsWith("zh") ? H7_PAYOUT_TURKEY["zh-Hans"] : null);
+  const how = Array.isArray(t.how) ? t.how.map((step, index) => (index === 2 && /bitget/i.test(step[1]) ? [step[0], payout || H7_PAYOUT_TURKEY.en] : step)) : t.how;
+  const foot = typeof t.foot === "function" ? (...args) => t.foot(...args).replace(/\s*[,،、]\s*Bitget\s*%?\d+%?/g, "") : t.foot;
+  return { ...t, how, foot };
+}
 // True when this locale renders the English fallback; the home block then declares lang="en" dir="ltr" so RTL shells do not mirror English prose.
 export const h7IsFallback = (locale) => !H7_COPY[locale] && !String(locale || "").startsWith("zh");

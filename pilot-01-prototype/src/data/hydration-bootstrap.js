@@ -46,6 +46,9 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
         if (typeof value === "string" && value && value.length <= 64) url.searchParams.set(key, value);
       }
     }
+    // Türkiye market on another edition (worker turkeyRequestMarket): the server rendered the body with this market.
+    const contextMarket = prerenderState.marketContext?.market;
+    if (typeof contextMarket === "string" && contextMarket && contextMarket.length <= 64) url.searchParams.set("market", contextMarket);
     if (/^\/br(?:\/|$)/i.test(pathname)) {
       const attribution = validBrAttributionPayload(prerenderState.brAttribution);
       if (attribution) {

@@ -14,11 +14,19 @@ import {
 import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { coinHubNewsItems } from "../../data/hub-entity-news.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { isPartnerPromotableIn, isTurkeyPage, isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyPage, isTurkeyUnlistedVenue, turkeyListingAllowed } from "../../data/partner-geo-policy.js";
 
 // Türkiye pages list no SPK-listed venue among a coin's venues (tr-bitget-sweep); other editions get the coin unchanged.
-const coinForPage = (coin, locale, market) => (coin && isTurkeyPage({ locale, market })
-  ? { ...coin, venues: coin.venues.filter((venue) => !isTurkeyUnlistedVenue(venue.slug, { locale, market })) } : coin);
+// That venue's own token (BGB, slug bitget-token) has no Türkiye page at all (tr-market-gaps): the page renders the 404
+// view and the hub leaves it out, like the Bitget first-trade guide.
+const coinForPage = (coin, locale, market) => {
+  if (!coin || !isTurkeyPage({ locale, market })) return coin;
+  if (!turkeyListingAllowed(coin.slug, { locale, market })) return null;
+  return { ...coin, venues: coin.venues.filter((venue) => !isTurkeyUnlistedVenue(venue.slug, { locale, market })) };
+};
+const coinsForPage = (locale, market) => (isTurkeyPage({ locale, market }) ? COINS.filter((coin) => turkeyListingAllowed(coin.slug, { locale, market })) : COINS);
+// The hub lead lists the covered exchanges; Türkiye pages read it without the SPK-listed one (tr copy is already clean).
+const hubLeadForPage = (lead, locale, market) => (isTurkeyPage({ locale, market }) ? String(lead).replace(/Bitget\s*[,،、]\s*/g, "") : lead);
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import "./coins.css";
@@ -327,20 +335,21 @@ export function CoinsHubPage({ locale = "en", market, overlay }) {
   const t = coinCopy(locale);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
+  const listed = coinsForPage(locale, market);
   const categories = useMemo(() => {
     const counts = new Map();
-    for (const coin of COINS) counts.set(coin.category, (counts.get(coin.category) || 0) + 1);
+    for (const coin of listed) counts.set(coin.category, (counts.get(coin.category) || 0) + 1);
     return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([key]) => key);
-  }, [dataVersion]);
+  }, [dataVersion, listed]);
   const q = query.trim().toLowerCase();
-  const visible = COINS.filter((coin) => (category === "all" || coin.category === category)
+  const visible = listed.filter((coin) => (category === "all" || coin.category === category)
     && (!q || coin.name.toLowerCase().includes(q) || coin.symbol.toLowerCase().includes(q) || coin.slug.includes(q)));
   return <main className="nxc nxc--hub" id="top" dir={dirOf(locale)}>
     <div className="nxc-shell">
       <Crumbs locale={locale} market={market} t={t} />
       <header className="nxc-hubhead">
-        <h1 className="nxc-title">{fill(t.hubTitle, { count: COINS.length })}</h1>
-        <p className="nxc-lead">{t.hubLead}</p>
+        <h1 className="nxc-title">{fill(t.hubTitle, { count: listed.length })}</h1>
+        <p className="nxc-lead">{hubLeadForPage(t.hubLead, locale, market)}</p>
         <p className="nxc-muted nxc-hubhead__meta">{fill(t.updated, { date: coinDataCheckedOn() })} · {fill(t.snapshot, { time: utcStamp(COINS_GENERATED_AT, locale) })}</p>
       </header>
       <div className="nxc-tools" role="search">
