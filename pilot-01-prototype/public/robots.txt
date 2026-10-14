@@ -71,3 +71,4 @@ Sitemap: https://nexualpha.com/sitemap-data.xml
 Sitemap: https://nexualpha.com/sitemap-convert.xml
 Sitemap: https://nexualpha.com/sitemap-glossary.xml
 Sitemap: https://nexualpha.com/sitemap-campaigns.xml
+Sitemap: https://nexualpha.com/sitemap-tokenized-stocks.xml

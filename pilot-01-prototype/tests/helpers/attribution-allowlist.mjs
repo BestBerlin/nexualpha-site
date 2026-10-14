@@ -83,4 +83,14 @@ export const ATTRIBUTION_ALLOWLIST = [
     || ['v3-expand-tiers-btn', 'v3-por-audit-btn', 'v3-open-verifier-btn', 'v3-por-audit-link', 'factbook-merkle-link'].includes(attrs.class)),
   rule(['hyperliquid.gitbook.io'], /^\/hyperliquid-docs(?:\/|$)/, 'Official protocol fee, risk, referral and API documentation hosted on GitBook.'),
   rule(['www.bitget.com', 'hyperliquid.xyz', 'www.kraken.com'], /^\/(?:baseasset\/favicon4\.png|micro-runtime\/images\/logo-light\.svg|apple-touch-icon\.png|_assets\/icons\/apple-touch-icon\.png)$/, 'Exact official brand-image acquisition URLs; source metadata only, not outbound conversion links.', attrs => attrs.sourceLiteral && attrs.sourceKey === 'directUrl'),
+  // Tokenized US stocks research sources (src/data/tokenized-stocks-facts.js, 2026-10-15): official product, FAQ and listing
+  // pages cited next to each fact. Rendered pages print them as plain text unless outboundLink can route them through /go.
+  rule(['www.bitget.com'], /^\/(?:campaigns\/bitget-rtoken|asia\/academy\/bitget-rtoken-faq)$/, 'Bitget rToken product page and FAQ: tokenized-stock ticker, hours and KYC evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['www.okx.com'], /^\/ru\/campaigns\/xstocks-equity-trading$/, 'OKX xStocks listing evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['www.bybit.com'], /^\/en\/learn\/bybit-tradfi\//, 'Bybit TradFi perpetuals and xStocks guides: product evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['www.kraken.com'], /^\/pro\/perps\/xstocks-perpetuals$/, 'Kraken xStocks perpetuals product page: leverage and availability evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['www.gate.com'], /^\/ja\/blog\/gate-pre-ipos-updates-how-retail-users-can-participate$/, 'Gate pre-IPO perpetuals evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['square.htx.com'], /^\/(?:htx-|popular-tradfi-assets)/, 'HTX official research and product posts: TradFi perpetuals evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['www.coinw.com'], /^\/academy\/articles\//, 'CoinW TradFi academy article: stock perpetuals evidence (source literal only).', attrs => attrs.sourceLiteral),
+  rule(['backpack.exchange'], /^\/markets$/, 'Backpack public markets list: equity perpetuals evidence (source literal only).', attrs => attrs.sourceLiteral),
 ];

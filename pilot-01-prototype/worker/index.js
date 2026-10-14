@@ -90,6 +90,8 @@ import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctobe
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
+import { TS_PATH, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
+import { tokenizedStocksRouteSeo } from "../src/data/tokenized-stocks-seo.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
 import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "../src/data/kraken-usdg.js";
@@ -2794,6 +2796,7 @@ const BEGINNER_ROUTE_MARKER = "NEXUALPHA_BEGINNER_ROUTE_V1";
 const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
 const DEPOSIT_ROUTE_MARKER = "NEXUALPHA_DEPOSIT_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
+const TOKENIZED_STOCKS_ROUTE_MARKER = "NEXUALPHA_TOKENIZED_STOCKS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
 const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
 const RADAR_ROUTE_MARKER = "NEXUALPHA_RADAR_ROUTE_V1";
@@ -2829,6 +2832,8 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [DEPOSIT_ROUTE_MARKER]: ["route-deposit-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
+  // Tokenized US stocks hub + ticker pages: own chunk only.
+  [TOKENIZED_STOCKS_ROUTE_MARKER]: ["route-tokenized-stocks-"],
   // Spot ETF flows + crypto calendar: own chunk only.
   [INTEL_TOOLS_ROUTE_MARKER]: ["route-intel-tools-"],
   [CONVERTER_ROUTE_MARKER]: ["route-converter-"],
@@ -2886,7 +2891,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary", "/tokenized-stocks"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -4974,6 +4979,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    // Tokenized US stocks (hub + ticker pages): static sourced data, rendered at request time with the hydrated component.
+    if (metadata.marker === TOKENIZED_STOCKS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
+        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxts")) {
+          metadata.tokenizedStocksSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+        console.error(`[NexuAlpha] tokenized-stocks SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] tokenized-stocks SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     // Spot ETF flows + crypto calendar: rendered at request time from the runtime snapshot the head was built from.
     if (metadata.marker === INTEL_TOOLS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -7095,6 +7112,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (INTEL_TOOL_PATHS.includes(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Tokenized US stocks: every written edition (src/data/tokenized-stocks.js).
+  if (parseTokenizedStocksPath(pathname) && parseTokenizedStocksPath(pathname).kind !== "missing") return tokenizedStocksRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   const radarRoute = parseRadarPath(pathname);
   if (radarRoute) return radarRoute.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
@@ -8616,6 +8635,18 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, coinsSeo.alternatesLocales), schema: coinsSeo.schemas,
     };
   }
+  // Tokenized US stocks (2026-10-15): CollectionPage/WebPage + ItemList + FAQPage + BreadcrumbList from
+  // src/data/tokenized-stocks-seo.js (same helper as seo-injection.js); unknown tickers are 404.
+  const tokenizedStocksSeo = tokenizedStocksRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (tokenizedStocksSeo) {
+    if (tokenizedStocksSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return {
+      status: 200, title: tokenizedStocksSeo.title, description: tokenizedStocksSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: tokenizedStocksSeo.indexable ? "index,follow" : "noindex,follow", marker: TOKENIZED_STOCKS_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, tokenizedStocksSeo.alternatesLocales), schema: tokenizedStocksSeo.schemas,
+    };
+  }
   const converterFx = parseConverterPath(canonicalPath)?.kind === "pair" ? await refreshFxSnapshot(env) : null;
   const converterSeo = converterRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined, fx: converterFx });
   if (converterSeo) {
@@ -9200,6 +9231,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (parseDepositPath(pathname) && parseDepositPath(pathname).kind !== "missing") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[DEPOSIT_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
+  if (pathname === TS_PATH || pathname.startsWith(`${TS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[TOKENIZED_STOCKS_ROUTE_MARKER]];
   if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];
   if (RADAR_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[RADAR_ROUTE_MARKER]];
   if (pathname === GLOSSARY_PATH || pathname.startsWith(`${GLOSSARY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[GLOSSARY_ROUTE_MARKER]];

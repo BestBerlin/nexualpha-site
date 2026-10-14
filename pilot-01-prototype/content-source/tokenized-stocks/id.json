@@ -1,0 +1,230 @@
+{
+  "seoTitle": "Saham tokenisasi: exchange untuk beli saham AS pakai USDT",
+  "seoDescription": "Exchange dengan token saham AS dan perpetual saham: Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken. Ticker, jam, leverage, biaya dari situs resmi.",
+  "tickerSeoTitle": "Token saham {name} ({ticker}): tempat trading pakai USDT",
+  "tickerSeoDescription": "{n} exchange listing {name} ({ticker}) sebagai token saham atau perpetual: {list}. Simbol, jam trading dan leverage dari halaman resmi tiap exchange.",
+  "breadcrumb": "Saham tokenisasi",
+  "home": "Beranda",
+  "kicker": "Saham AS tokenisasi",
+  "h1": "Trading saham AS pakai USDT",
+  "lead": "Nvidia, Tesla, Apple dan S&P 500 kini diperdagangkan di exchange kripto sebagai token saham dan perpetual saham. Berikut siapa listing apa, dalam bentuk apa, dan kapan bisa ditradingkan.",
+  "answerLabel": "Jawaban singkat",
+  "answer": "Saat ini ada {n} exchange untuk trading saham AS pakai USDT: {list}.",
+  "answerOther": "{list} juga punya token saham atau perpetual saham, diselesaikan dalam {assets}.",
+  "answerForms": "Bentuknya berbeda: token saham mengikuti satu saham 1:1 tanpa leverage, perpetual saham adalah kontrak bermargin USDT dengan leverage, dan kontrak pre-IPO mengikuti perusahaan sebelum melantai.",
+  "checked": "Dicek pada {date} dengan halaman resmi tiap exchange.",
+  "lanes": {
+    "spot": "Token saham",
+    "perp": "Perpetual saham",
+    "preipo": "Pre-IPO"
+  },
+  "laneHint": {
+    "spot": "Token yang mengikuti satu saham. Beli dan simpan seperti kripto spot.",
+    "perp": "Kontrak bermargin USDT atas harga saham, long atau short, dengan leverage.",
+    "preipo": "Kontrak atas perusahaan swasta sebelum IPO, seperti OpenAI atau SpaceX."
+  },
+  "tableH": "Perbandingan exchange",
+  "tableLead": "Setiap nilai tertaut ke halaman exchange asalnya. Tanda strip berarti exchange belum memublikasikannya.",
+  "cols": {
+    "exchange": "Exchange",
+    "count": "Jumlah ticker",
+    "tickers": "Ticker populer",
+    "hours": "Jam trading",
+    "lev": "Leverage maks",
+    "fees": "Biaya",
+    "excluded": "Tidak tersedia di",
+    "promo": "Sedang berlangsung",
+    "settle": "Diselesaikan dalam"
+  },
+  "hours": {
+    "24/7": "24/7",
+    "24/5": "24/5",
+    "24/5+": "24/5, saham utama 24/7"
+  },
+  "levUpTo": "hingga {x}x",
+  "asOf": "{date}",
+  "feeMakerTaker": "{maker} maker / {taker} taker",
+  "feeFlat": "{flat} USD per order, {pct} di atas 340 USD",
+  "feeZero": "Tanpa biaya trading saat beli dengan USD atau USDG",
+  "more": "+{n} lainnya",
+  "listed": "{n} listing",
+  "notListed": "Belum listing",
+  "source": "Sumber",
+  "sourcesH": "Sumber",
+  "codeLabel": "Kode",
+  "copy": "Salin",
+  "copied": "Tersalin",
+  "cta": "Buka {name}",
+  "ctaFull": "Daftar di {name} dengan kode {code}",
+  "profile": "Profil {name}",
+  "promoEnds": "hingga {date}",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance: trading saham dihitung untuk hadiah",
+    "binanceWalletBstocks": "Kompetisi trading bStocks, hadiah 50,000 USDC"
+  },
+  "pickH": "Mana yang cocok",
+  "picks": [
+    [
+      "Token saham terbanyak",
+      "Bitget punya 1,700+ saham dan ETF rToken (Agustus 2026), Kraken 131 xStocks."
+    ],
+    [
+      "Leverage tertinggi",
+      "Perpetual saham Bitget hingga 100x; Hyperliquid, Kraken, Binance, Gate dan MEXC hingga 20x."
+    ],
+    [
+      "Bisa trading akhir pekan",
+      "OKX xStocks serta perpetual saham Bitget, OKX, Binance dan Bybit diperdagangkan 24/7."
+    ],
+    [
+      "Nama pre-IPO",
+      "OpenAI dan Anthropic di OKX dan Bybit, JIO di Bitget, SpaceX dan OpenAI di Gate."
+    ]
+  ],
+  "howH": "Cara beli Tesla atau Nvidia pakai USDT",
+  "howLead": "Lima langkah, sama di setiap exchange dalam tabel.",
+  "steps": [
+    [
+      "Pilih exchange",
+      "Token saham dan perpetual dalam satu akun: Bitget, OKX, Bybit, Gate atau Kraken. Perpetual saham dengan USDT: juga HTX dan CoinW."
+    ],
+    [
+      "Buka akun",
+      "Daftar dengan kode undangan di sini dan selesaikan verifikasi identitas. Bitget rToken meminta KYC dasar."
+    ],
+    [
+      "Deposit USDT",
+      "Kirim USDT ke akun spot. Bitget rToken, OKX xStocks, Bybit xStocks serta perpetual saham Bitget, OKX, Binance dan Bybit diselesaikan dalam USDT."
+    ],
+    [
+      "Cari ticker",
+      "Tesla adalah rTSLA di Bitget, xTSLA di OKX, TSLAX di Gate dan TSLAUSDT sebagai perpetual Bitget."
+    ],
+    [
+      "Beli atau buka long",
+      "Token saham adalah pembelian spot biasa. Perpetual membuka posisi long atau short dengan leverage yang kamu atur."
+    ]
+  ],
+  "stepTwoNeutral": [
+    "Buka akun",
+    "Daftar di situs resmi exchange dan selesaikan verifikasi identitas. Bitget rToken meminta KYC dasar."
+  ],
+  "pathsH": "Letaknya di aplikasi",
+  "tickersH": "Ticker populer",
+  "tickersLead": "Exchange mana yang listing tiap saham, dan dalam bentuk apa.",
+  "tickerVenues": "{n} exchange",
+  "faqH": "Pertanyaan",
+  "faq": [
+    [
+      "Apa itu saham tokenisasi?",
+      "Token yang mengikuti satu saham tercatat secara 1:1, diperdagangkan di exchange kripto dengan USDT. Keluarga utamanya xStocks (OKX, Bybit, Kraken, Gate), rToken (Bitget), bStocks (Binance) dan token Ondo (MEXC). OKX dan Bitget menyebutnya eksposur ekonomi terhadap saham, tanpa pendaftaran kepemilikan saham langsung atau hak suara.",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Apa beda token saham dan perpetual saham?",
+      "Token saham dibeli dan disimpan seperti kripto spot. Perpetual saham adalah kontrak bermargin USDT tanpa jatuh tempo untuk long atau short dengan leverage: hingga 100x di Bitget, hingga 20x di Kraken. Perpetual tidak memberi saham.",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "Bisakah trading saham AS di akhir pekan?",
+      "Ya, di banyak exchange. OKX xStocks diperdagangkan 24/7. Perpetual saham Bitget, OKX, Binance dan Bybit diperdagangkan 24/7. Bitget rToken diperdagangkan 24/5, dengan 90 saham utama buka 24/7 sejak Agustus 2026.",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "Apakah token saham membagikan dividen?",
+      "Tergantung tokennya. Bitget rToken mengkreditkan dividen tunai bersih dalam USDT setelah potongan default 30%. OKX xStocks dan Binance bStocks menginvestasikan kembali dividen bersih ke saldo token, bukan membayar tunai.",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Bisakah penduduk AS membeli saham tokenisasi?",
+      "Tidak. Bitget rToken, saham tokenisasi OKX, Binance bStocks dan Kraken xStocks semuanya mengecualikan Amerika Serikat dan warga AS.",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Apa itu kontrak pre-IPO?",
+      "Kontrak atas perusahaan swasta sebelum melantai, seperti OpenAI dan Anthropic di OKX dan Bybit atau JIO di Bitget (hingga 20x). Tidak memberi saham, jatah IPO, maupun hak pemegang saham.",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "Berapa biayanya?",
+      "Perpetual saham Bitget mengenakan 0.02% maker dan 0.06% taker. Spot Bybit xStocks mengenakan 0.2%. Kraken tidak mengenakan biaya trading saat kamu membeli xStocks dengan USD atau USDG.",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "Baca juga",
+  "related": {
+    "topic": "Token saham vs perpetual",
+    "bybitStocks": "Bybit Stocks: saham AS asli dengan USDC",
+    "exchanges": "Semua exchange",
+    "academy": "Akademi kripto gratis"
+  },
+  "tickerH1": "Trading {name} ({ticker}) pakai USDT",
+  "tickerLead": "Semua exchange yang listing {name} sebagai token saham atau perpetual, lengkap dengan simbol dan jam trading.",
+  "tickerAnswer": "{n} exchange listing {ticker}: {list}.",
+  "tickerAnswerSpot": "Sebagai token saham: {list}.",
+  "tickerAnswerPerp": "Sebagai perpetual: {list}.",
+  "tickerCols": {
+    "exchange": "Exchange",
+    "form": "Bentuk",
+    "symbol": "Simbol",
+    "hours": "Jam trading",
+    "lev": "Leverage maks"
+  },
+  "tickerHow": "Untuk beli {ticker} pakai USDT, deposit USDT lalu cari {symbol} di {exchange}.",
+  "tickerBack": "Semua saham tokenisasi",
+  "tickerOther": "Ticker lain",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "Nvidia",
+    "TSLA": "Tesla",
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "COIN": "Coinbase",
+    "MSTR": "Strategy",
+    "HOOD": "Robinhood",
+    "CRCL": "Circle",
+    "GOOGL": "Alphabet",
+    "AMZN": "Amazon",
+    "SPY": "ETF S&P 500",
+    "QQQ": "ETF Nasdaq-100"
+  },
+  "homeKicker": "Saham AS tokenisasi",
+  "homeTitle": "Trading saham AS pakai USDT · 24/7",
+  "homeBody": "Nvidia, Tesla dan Apple sebagai token saham dan perpetual di exchange yang sudah kamu pakai.",
+  "homeAll": "Lihat semua",
+  "homeTickers": "{n} ticker",
+  "venueH": "Saham AS tokenisasi di {name}",
+  "venueLink": "Bandingkan semua exchange"
+}

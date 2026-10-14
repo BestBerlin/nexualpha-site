@@ -1,7 +1,7 @@
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { feeFact } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -17,6 +17,7 @@ import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { academyShellCopy } from "../../data/academy.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import "../../styles/v7/home7.css";
 import "../../styles/v7/selector-owner.css";
 import "../../styles/v7/movers-owner.css";
@@ -25,6 +26,13 @@ const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-bel
 const ServerHomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : null;
 let homeBelowChunk;
 const loadHomeBelow = () => (homeBelowChunk ??= Promise.all([import("./home7-below.jsx"), import("react-dom/client")]));
+
+// Tokenized US stocks strip (owner 2026-10-15): server-rendered with the page, its chunk loads when it nears the viewport.
+const ssrTsStripModules = import.meta.env.SSR ? import.meta.glob(["../tokenized-stocks/HomeTokenizedStrip.jsx"], { eager: true }) : {};
+const loadTsStrip = () => import("../tokenized-stocks/HomeTokenizedStrip.jsx");
+const TokenizedStrip = import.meta.env.SSR
+  ? ssrTsStripModules["../tokenized-stocks/HomeTokenizedStrip.jsx"].HomeTokenizedStrip
+  : React.lazy(() => loadTsStrip().then((mod) => ({ default: mod.HomeTokenizedStrip })));
 
 const PRIMARY_DEFAULT = Object.freeze(["bitget", "okx", "binance"]);
 const PRIMARY_TR = Object.freeze(["okx", "binance", "bybit"]);
@@ -577,6 +585,8 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           ))}
         </ul>
       </section>
+
+      <DeferUntilVisible target=".h7-ts" prefetch={loadTsStrip}><TokenizedStrip locale={locale} market={market} /></DeferUntilVisible>
 
       <TelegramAlertsStrip locale={locale} placement="home-telegram-alerts" className="tg-signal-strip--home" />
 

@@ -3,7 +3,8 @@ import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { LanguageMenu } from "./LanguageMenu.jsx";
 import { shellCopy } from "./shell-copy.js";
 
-const PRIMARY_COUNT = 5; // owner 2026-10-12: exchanges, compare, academy, campaigns, news stay visible
+// owner 2026-10-12: exchanges, compare, academy, campaigns, news stay visible; 2026-10-15: tokenized stocks joins them.
+const PRIMARY_COUNT = 6;
 
 function Chevron() {
   return <svg className="nx-ico nx-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>;

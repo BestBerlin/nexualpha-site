@@ -115,6 +115,7 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS
   "/convert",
   "/glossary",
   "/flash",
+  "/tokenized-stocks",
 ]);
 
 const GLOBAL_EXACT_ROUTES = new Set([

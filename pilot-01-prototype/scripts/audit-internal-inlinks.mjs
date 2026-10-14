@@ -33,7 +33,7 @@ const localePrefixByCode = Object.freeze({
 });
 const localePrefixes = new Set(Object.values(localePrefixByCode).filter(Boolean));
 const countryRoutePrefixes = ["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"];
-const globalRoutePrefixes = [...DEPOSIT_ROOTS, "/crypto-cards", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"];
+const globalRoutePrefixes = [...DEPOSIT_ROOTS, "/crypto-cards", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary", "/tokenized-stocks"];
 const globalExactRoutes = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", "/liquidations", "/liquidations/heatmap", "/funding-rates", "/etf-flows", "/calendar", "/funding-rates/matrix"]);
 
 export function decodeHtml(value) {

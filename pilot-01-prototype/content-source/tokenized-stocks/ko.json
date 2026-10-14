@@ -1,0 +1,230 @@
+{
+  "seoTitle": "토큰화 주식: USDT로 미국 주식 사는 거래소 (2026)",
+  "seoDescription": "미국 주식 토큰·무기한 선물 거래소: Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken 등. 종목·시간·레버리지·수수료는 공식 페이지 기준.",
+  "tickerSeoTitle": "{name}({ticker}) 주식 토큰: USDT로 거래하는 곳",
+  "tickerSeoDescription": "{n}개 거래소가 {name}({ticker})를 주식 토큰이나 무기한 선물로 상장: {list}. 심볼, 거래 시간, 레버리지는 각 거래소 공식 페이지 기준.",
+  "breadcrumb": "토큰화 주식",
+  "home": "홈",
+  "kicker": "토큰화 미국 주식",
+  "h1": "USDT로 미국 주식 거래",
+  "lead": "엔비디아, 테슬라, 애플, S&P 500을 이제 암호화폐 거래소에서 주식 토큰과 주식 무기한 선물로 거래할 수 있습니다. 어디서 무엇을, 어떤 형태로, 언제 거래할 수 있는지 정리했습니다.",
+  "answerLabel": "핵심 답변",
+  "answer": "지금 USDT로 미국 주식을 거래할 수 있는 거래소는 {n}곳입니다: {list}.",
+  "answerOther": "{list}도 주식 토큰이나 주식 무기한 선물을 제공하며, {assets}로 정산합니다.",
+  "answerForms": "형태가 다릅니다. 주식 토큰은 1주를 1:1로 추종하며 레버리지가 없고, 주식 무기한 선물은 USDT 증거금 계약으로 레버리지가 있으며, Pre-IPO 계약은 상장 전 기업을 추종합니다.",
+  "checked": "{date} 각 거래소 공식 페이지 기준으로 확인.",
+  "lanes": {
+    "spot": "주식 토큰",
+    "perp": "주식 무기한 선물",
+    "preipo": "Pre-IPO"
+  },
+  "laneHint": {
+    "spot": "1주를 추종하는 토큰. 현물 코인처럼 사서 보유합니다.",
+    "perp": "주가에 대한 USDT 증거금 계약. 롱·숏 모두 가능하고 레버리지를 씁니다.",
+    "preipo": "IPO 전 비상장 기업에 대한 계약. 예: OpenAI, SpaceX."
+  },
+  "tableH": "거래소 비교",
+  "tableLead": "각 값은 출처가 된 거래소 페이지로 연결됩니다. 대시는 거래소가 공개하지 않았다는 뜻입니다.",
+  "cols": {
+    "exchange": "거래소",
+    "count": "종목 수",
+    "tickers": "인기 종목",
+    "hours": "거래 시간",
+    "lev": "최대 레버리지",
+    "fees": "수수료",
+    "excluded": "이용 불가 지역",
+    "promo": "진행 중",
+    "settle": "정산 통화"
+  },
+  "hours": {
+    "24/7": "24/7",
+    "24/5": "24/5",
+    "24/5+": "24/5, 주요 종목 24/7"
+  },
+  "levUpTo": "최대 {x}배",
+  "asOf": "{date}",
+  "feeMakerTaker": "메이커 {maker} / 테이커 {taker}",
+  "feeFlat": "주문당 {flat} USD, 340 USD 초과 시 {pct}",
+  "feeZero": "USD 또는 USDG로 매수 시 거래 수수료 없음",
+  "more": "외 {n}개",
+  "listed": "{n}개 상장",
+  "notListed": "미상장",
+  "source": "출처",
+  "sourcesH": "출처",
+  "codeLabel": "초대 코드",
+  "copy": "복사",
+  "copied": "복사됨",
+  "cta": "{name} 열기",
+  "ctaFull": "초대 코드 {code}로 {name} 가입",
+  "profile": "{name} 상세",
+  "promoEnds": "{date}까지",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance: 주식 거래도 보상에 반영",
+    "binanceWalletBstocks": "bStocks 트레이딩 대회, 총 보상 50,000 USDC"
+  },
+  "pickH": "나에게 맞는 곳",
+  "picks": [
+    [
+      "주식 토큰이 가장 많은 곳",
+      "Bitget은 rToken 주식·ETF 1,700개 이상(2026년 8월), Kraken은 xStocks 131개."
+    ],
+    [
+      "레버리지가 가장 높은 곳",
+      "Bitget 주식 무기한 선물은 최대 100배, Hyperliquid·Kraken·Binance·Gate·MEXC는 최대 20배."
+    ],
+    [
+      "주말에도 거래",
+      "OKX xStocks와 Bitget·OKX·Binance·Bybit의 주식 무기한 선물은 24/7 거래됩니다."
+    ],
+    [
+      "Pre-IPO 종목",
+      "OKX와 Bybit에 OpenAI와 Anthropic, Bitget에 JIO, Gate에 SpaceX와 OpenAI."
+    ]
+  ],
+  "howH": "USDT로 테슬라·엔비디아 사는 법",
+  "howLead": "5단계, 표에 있는 모든 거래소에서 동일합니다.",
+  "steps": [
+    [
+      "거래소 선택",
+      "주식 토큰과 무기한 선물을 한 계정에서: Bitget, OKX, Bybit, Gate, Kraken. USDT 주식 무기한 선물은 HTX와 CoinW도 있습니다."
+    ],
+    [
+      "계정 개설",
+      "여기 표시된 초대 코드로 가입하고 본인 인증을 완료하세요. Bitget rToken은 기본 KYC가 필요합니다."
+    ],
+    [
+      "USDT 입금",
+      "USDT를 현물 계정으로 보내세요. Bitget rToken, OKX xStocks, Bybit xStocks, 그리고 Bitget·OKX·Binance·Bybit의 주식 무기한 선물은 USDT로 정산됩니다."
+    ],
+    [
+      "종목 검색",
+      "테슬라는 Bitget에서 rTSLA, OKX에서 xTSLA, Gate에서 TSLAX, Bitget 무기한 선물에서는 TSLAUSDT입니다."
+    ],
+    [
+      "매수 또는 롱",
+      "주식 토큰은 일반 현물 매수입니다. 무기한 선물은 설정한 레버리지로 롱이나 숏 포지션을 엽니다."
+    ]
+  ],
+  "stepTwoNeutral": [
+    "계정 개설",
+    "거래소 공식 사이트에서 가입하고 본인 인증을 완료하세요. Bitget rToken은 기본 KYC가 필요합니다."
+  ],
+  "pathsH": "앱에서 찾는 위치",
+  "tickersH": "인기 종목",
+  "tickersLead": "종목별로 어느 거래소가, 어떤 형태로 상장했는지.",
+  "tickerVenues": "거래소 {n}곳",
+  "faqH": "자주 묻는 질문",
+  "faq": [
+    [
+      "토큰화 주식이란?",
+      "상장 주식 1주를 1:1로 추종하며 암호화폐 거래소에서 USDT로 거래하는 토큰입니다. 주요 계열은 xStocks(OKX, Bybit, Kraken, Gate), rToken(Bitget), bStocks(Binance), Ondo 토큰(MEXC)입니다. OKX와 Bitget은 이를 주식에 대한 경제적 노출이며, 주주 직접 등록이나 의결권은 없다고 설명합니다.",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "주식 토큰과 주식 무기한 선물의 차이는?",
+      "주식 토큰은 현물 코인처럼 사서 보유합니다. 주식 무기한 선물은 만기가 없는 USDT 증거금 계약으로, 레버리지를 걸어 롱이나 숏을 할 수 있습니다. Bitget은 최대 100배, Kraken은 최대 20배. 무기한 선물로는 주식을 받지 않습니다.",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "주말에도 미국 주식을 거래할 수 있나요?",
+      "네, 많은 거래소에서 가능합니다. OKX xStocks는 24/7 거래됩니다. Bitget·OKX·Binance·Bybit의 주식 무기한 선물도 24/7입니다. Bitget rToken은 24/5이며, 2026년 8월부터 주요 90개 종목은 24/7 열려 있습니다.",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "주식 토큰도 배당을 주나요?",
+      "토큰마다 다릅니다. Bitget rToken은 기본 30% 원천징수 후 순현금배당을 USDT로 지급합니다. OKX xStocks와 Binance bStocks는 현금 대신 순배당을 토큰 잔고에 재투자합니다.",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "미국 거주자도 토큰화 주식을 살 수 있나요?",
+      "아니요. Bitget rToken, OKX 토큰화 주식, Binance bStocks, Kraken xStocks 모두 미국과 미국인을 제외합니다.",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Pre-IPO 계약이란?",
+      "상장 전 비상장 기업에 대한 계약입니다. 예: OKX와 Bybit의 OpenAI·Anthropic, Bitget의 JIO(최대 20배). 주식도, IPO 배정도, 주주 권리도 없습니다.",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "수수료는 얼마인가요?",
+      "Bitget 주식 무기한 선물은 메이커 0.02%, 테이커 0.06%. Bybit xStocks 현물은 0.2%. Kraken은 USD나 USDG로 xStocks를 사면 거래 수수료가 없습니다.",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "더 읽어보기",
+  "related": {
+    "topic": "주식 토큰 vs 무기한 선물",
+    "bybitStocks": "Bybit Stocks: USDC로 실제 미국 주식",
+    "exchanges": "전체 거래소",
+    "academy": "무료 크립토 아카데미"
+  },
+  "tickerH1": "USDT로 {name}({ticker}) 거래",
+  "tickerLead": "{name}를 주식 토큰이나 무기한 선물로 상장한 모든 거래소와 심볼, 거래 시간.",
+  "tickerAnswer": "{ticker}를 상장한 거래소는 {n}곳입니다: {list}.",
+  "tickerAnswerSpot": "주식 토큰: {list}.",
+  "tickerAnswerPerp": "무기한 선물: {list}.",
+  "tickerCols": {
+    "exchange": "거래소",
+    "form": "형태",
+    "symbol": "심볼",
+    "hours": "거래 시간",
+    "lev": "최대 레버리지"
+  },
+  "tickerHow": "USDT로 {ticker}를 사려면 USDT를 입금하고 {exchange}에서 {symbol}를 검색하세요.",
+  "tickerBack": "전체 토큰화 주식",
+  "tickerOther": "다른 종목",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "엔비디아",
+    "TSLA": "테슬라",
+    "AAPL": "애플",
+    "MSFT": "마이크로소프트",
+    "COIN": "코인베이스",
+    "MSTR": "스트래티지",
+    "HOOD": "로빈후드",
+    "CRCL": "써클",
+    "GOOGL": "알파벳",
+    "AMZN": "아마존",
+    "SPY": "S&P 500 ETF",
+    "QQQ": "나스닥 100 ETF"
+  },
+  "homeKicker": "토큰화 미국 주식",
+  "homeTitle": "USDT로 미국 주식 거래 · 24/7",
+  "homeBody": "엔비디아, 테슬라, 애플을 이미 쓰는 거래소에서 주식 토큰과 무기한 선물로.",
+  "homeAll": "전체 보기",
+  "homeTickers": "{n}개 종목",
+  "venueH": "{name}의 토큰화 미국 주식",
+  "venueLink": "모든 거래소 비교"
+}

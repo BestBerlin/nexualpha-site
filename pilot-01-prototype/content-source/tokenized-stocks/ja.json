@@ -1,0 +1,230 @@
+{
+  "seoTitle": "トークン化株式：USDTで米国株を買える取引所（2026）",
+  "seoDescription": "米国株トークンと株式先物の取引所：Bitget、OKX、Binance、Bybit、Gate、MEXC、Krakenなど。銘柄・時間・倍率・手数料は公式より。",
+  "tickerSeoTitle": "{name}（{ticker}）株式トークン：USDTで取引できる取引所",
+  "tickerSeoDescription": "{n}社の取引所が{name}（{ticker}）を株式トークンまたは無期限先物で上場：{list}。シンボル、取引時間、レバレッジは各取引所の公式ページから。",
+  "breadcrumb": "トークン化株式",
+  "home": "ホーム",
+  "kicker": "トークン化米国株",
+  "h1": "USDTで米国株を取引",
+  "lead": "エヌビディア、テスラ、アップル、S&P 500が、暗号資産取引所で株式トークンや株式無期限先物として取引できます。どこが何を、どの形で、いつ取引できるかをまとめました。",
+  "answerLabel": "結論",
+  "answer": "いまUSDTで米国株を取引できる取引所は{n}社：{list}。",
+  "answerOther": "{list}も株式トークンや株式無期限先物を扱っており、{assets}で決済します。",
+  "answerForms": "形は3つ。株式トークンは1株に1:1で連動しレバレッジなし。株式無期限先物はUSDT証拠金の契約でレバレッジあり。Pre-IPO契約は上場前の企業に連動します。",
+  "checked": "{date}に各取引所の公式ページで確認済み。",
+  "lanes": {
+    "spot": "株式トークン",
+    "perp": "株式無期限先物",
+    "preipo": "Pre-IPO"
+  },
+  "laneHint": {
+    "spot": "1株に連動するトークン。現物の暗号資産と同じように買って保有します。",
+    "perp": "株価に連動するUSDT証拠金の契約。ロングもショートも、レバレッジも使えます。",
+    "preipo": "IPO前の非上場企業に連動する契約。例：OpenAI、SpaceX。"
+  },
+  "tableH": "取引所の比較",
+  "tableLead": "各数値は出典となる取引所のページにリンクしています。ダッシュは取引所が公表していないことを示します。",
+  "cols": {
+    "exchange": "取引所",
+    "count": "銘柄数",
+    "tickers": "人気銘柄",
+    "hours": "取引時間",
+    "lev": "最大レバレッジ",
+    "fees": "手数料",
+    "excluded": "利用できない地域",
+    "promo": "開催中",
+    "settle": "決済通貨"
+  },
+  "hours": {
+    "24/7": "24時間365日",
+    "24/5": "平日24時間",
+    "24/5+": "平日24時間、主要銘柄は24時間365日"
+  },
+  "levUpTo": "最大{x}倍",
+  "asOf": "{date}",
+  "feeMakerTaker": "メイカー {maker} / テイカー {taker}",
+  "feeFlat": "1注文 {flat} USD、340 USD超は {pct}",
+  "feeZero": "USDまたはUSDGでの購入は取引手数料無料",
+  "more": "ほか{n}件",
+  "listed": "{n}銘柄",
+  "notListed": "未上場",
+  "source": "出典",
+  "sourcesH": "出典",
+  "codeLabel": "招待コード",
+  "copy": "コピー",
+  "copied": "コピーしました",
+  "cta": "{name}を開く",
+  "ctaFull": "招待コード {code} で{name}に登録",
+  "profile": "{name}の詳細",
+  "promoEnds": "{date}まで",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance：株式取引も報酬の対象",
+    "binanceWalletBstocks": "bStocks取引コンテスト、報酬総額50,000 USDC"
+  },
+  "pickH": "選び方",
+  "picks": [
+    [
+      "株式トークンが最も多い",
+      "Bitgetは1,700以上のrToken株式・ETF（2026年8月）、Krakenは131のxStocks。"
+    ],
+    [
+      "レバレッジが最も高い",
+      "Bitgetの株式無期限先物は最大100倍。Hyperliquid、Kraken、Binance、Gate、MEXCは最大20倍。"
+    ],
+    [
+      "週末も取引できる",
+      "OKX xStocksと、Bitget・OKX・Binance・Bybitの株式無期限先物は24時間365日取引できます。"
+    ],
+    [
+      "Pre-IPO銘柄",
+      "OKXとBybitにOpenAIとAnthropic、BitgetにJIO、GateにSpaceXとOpenAI。"
+    ]
+  ],
+  "howH": "USDTでテスラやエヌビディアを買う方法",
+  "howLead": "5ステップ。表のどの取引所でも同じです。",
+  "steps": [
+    [
+      "取引所を選ぶ",
+      "株式トークンと無期限先物を1つの口座で：Bitget、OKX、Bybit、Gate、Kraken。USDTでの株式無期限先物はHTXとCoinWも。"
+    ],
+    [
+      "口座を開く",
+      "ここに表示された招待コードで登録し、本人確認を済ませます。Bitget rTokenは基本的なKYCが必要です。"
+    ],
+    [
+      "USDTを入金",
+      "USDTを現物口座に送ります。Bitget rToken、OKX xStocks、Bybit xStocks、そしてBitget・OKX・Binance・Bybitの株式無期限先物はUSDTで決済されます。"
+    ],
+    [
+      "銘柄を検索",
+      "テスラはBitgetでrTSLA、OKXでxTSLA、GateでTSLAX、Bitgetの無期限先物ではTSLAUSDTです。"
+    ],
+    [
+      "買う、またはロング",
+      "株式トークンは普通の現物買い。無期限先物は設定したレバレッジでロングかショートを建てます。"
+    ]
+  ],
+  "stepTwoNeutral": [
+    "口座を開く",
+    "取引所の公式サイトで登録し、本人確認を済ませます。Bitget rTokenは基本的なKYCが必要です。"
+  ],
+  "pathsH": "アプリのどこにあるか",
+  "tickersH": "人気銘柄",
+  "tickersLead": "各銘柄をどの取引所が、どの形で扱っているか。",
+  "tickerVenues": "{n}社",
+  "faqH": "よくある質問",
+  "faq": [
+    [
+      "トークン化株式とは？",
+      "上場株式1株に1:1で連動し、暗号資産取引所でUSDTで取引されるトークンです。主な種類はxStocks（OKX、Bybit、Kraken、Gate）、rToken（Bitget）、bStocks（Binance）、Ondoトークン（MEXC）。OKXとBitgetは、株式の経済的なエクスポージャーであり、株主としての直接登録や議決権はないと説明しています。",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "株式トークンと株式無期限先物の違いは？",
+      "株式トークンは現物の暗号資産のように買って保有します。株式無期限先物は満期のないUSDT証拠金の契約で、レバレッジをかけてロングもショートもできます。Bitgetは最大100倍、Krakenは最大20倍。無期限先物では株式は受け取れません。",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "週末に米国株を取引できますか？",
+      "多くの取引所でできます。OKX xStocksは24時間365日。Bitget・OKX・Binance・Bybitの株式無期限先物も24時間365日。Bitget rTokenは平日24時間で、2026年8月から主要90銘柄が24時間365日取引できます。",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "株式トークンに配当はありますか？",
+      "トークンによります。Bitget rTokenは標準30%の源泉徴収後、税引後の現金配当をUSDTで付与します。OKX xStocksとBinance bStocksは現金で払わず、税引後の配当をトークン残高に再投資します。",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "米国居住者はトークン化株式を買えますか？",
+      "いいえ。Bitget rToken、OKXのトークン化株式、Binance bStocks、Kraken xStocksはいずれも米国と米国人を対象外としています。",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Pre-IPO契約とは？",
+      "上場前の非上場企業に連動する契約です。例：OKXとBybitのOpenAIとAnthropic、BitgetのJIO（最大20倍）。株式もIPO割当も株主の権利もありません。",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "手数料はいくら？",
+      "Bitgetの株式無期限先物はメイカー0.02%、テイカー0.06%。Bybit xStocksの現物は0.2%。KrakenはUSDまたはUSDGでxStocksを買うと取引手数料無料です。",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "あわせて読む",
+  "related": {
+    "topic": "株式トークンと無期限先物の比較",
+    "bybitStocks": "Bybit Stocks：USDCで本物の米国株",
+    "exchanges": "すべての取引所",
+    "academy": "無料の暗号資産アカデミー"
+  },
+  "tickerH1": "USDTで{name}（{ticker}）を取引",
+  "tickerLead": "{name}を株式トークンまたは無期限先物で扱うすべての取引所と、そのシンボル・取引時間。",
+  "tickerAnswer": "{ticker}を扱う取引所は{n}社：{list}。",
+  "tickerAnswerSpot": "株式トークン：{list}。",
+  "tickerAnswerPerp": "無期限先物：{list}。",
+  "tickerCols": {
+    "exchange": "取引所",
+    "form": "形式",
+    "symbol": "シンボル",
+    "hours": "取引時間",
+    "lev": "最大レバレッジ"
+  },
+  "tickerHow": "USDTで{ticker}を買うには、USDTを入金して{exchange}で{symbol}を検索します。",
+  "tickerBack": "すべてのトークン化株式",
+  "tickerOther": "ほかの銘柄",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "エヌビディア",
+    "TSLA": "テスラ",
+    "AAPL": "アップル",
+    "MSFT": "マイクロソフト",
+    "COIN": "コインベース",
+    "MSTR": "ストラテジー",
+    "HOOD": "ロビンフッド",
+    "CRCL": "サークル",
+    "GOOGL": "アルファベット",
+    "AMZN": "アマゾン",
+    "SPY": "S&P 500 ETF",
+    "QQQ": "ナスダック100 ETF"
+  },
+  "homeKicker": "トークン化米国株",
+  "homeTitle": "USDTで米国株を取引 · 24時間365日",
+  "homeBody": "エヌビディア、テスラ、アップルを、いつもの取引所で株式トークンや無期限先物として。",
+  "homeAll": "すべて見る",
+  "homeTickers": "{n}銘柄",
+  "venueH": "{name}のトークン化米国株",
+  "venueLink": "すべての取引所を比較"
+}

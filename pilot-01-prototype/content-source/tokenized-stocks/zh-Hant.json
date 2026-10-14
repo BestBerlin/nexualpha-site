@@ -1,0 +1,230 @@
+{
+  "seoTitle": "代幣化美股：哪些交易所能用 USDT 買美股（2026）",
+  "seoDescription": "能交易美股代幣和股票合約的交易所：Bitget、OKX、Binance、Bybit、Gate、MEXC、Kraken 等。代碼、時間、槓桿和手續費來自官方頁面。",
+  "tickerSeoTitle": "{name}（{ticker}）美股代幣：哪些交易所能用 USDT 交易",
+  "tickerSeoDescription": "{n} 家交易所上線了 {name}（{ticker}）的股票代幣或永續合約：{list}。交易代碼、交易時間和槓桿來自交易所官方頁面。",
+  "breadcrumb": "代幣化美股",
+  "home": "首頁",
+  "kicker": "代幣化美股",
+  "h1": "用 USDT 交易美股",
+  "lead": "輝達、特斯拉、蘋果和標普 500，現在都能在加密交易所以股票代幣或股票合約的形式交易。哪家上了什麼、以什麼形式、什麼時間能交易，一張表看清。",
+  "answerLabel": "簡短回答",
+  "answer": "現在能用 USDT 交易美股的交易所有 {n} 家：{list}。",
+  "answerOther": "{list} 也提供股票代幣或股票合約，以 {assets} 結算。",
+  "answerForms": "形式不同：股票代幣 1:1 追蹤一股、不帶槓桿；股票永續合約以 USDT 作保證金、可開槓桿；Pre-IPO 合約追蹤尚未上市的公司。",
+  "checked": "{date} 已依各交易所官方頁面核對。",
+  "lanes": {
+    "spot": "股票代幣",
+    "perp": "股票永續合約",
+    "preipo": "Pre-IPO 合約"
+  },
+  "laneHint": {
+    "spot": "追蹤一股的代幣，像現貨一樣買入持有。",
+    "perp": "以 USDT 作保證金的股價合約，可做多做空、可開槓桿。",
+    "preipo": "IPO 之前的私人公司合約，例如 OpenAI、SpaceX。"
+  },
+  "tableH": "交易所比較",
+  "tableLead": "每個數值都連結到它出自的交易所頁面。橫線表示交易所沒有公布。",
+  "cols": {
+    "exchange": "交易所",
+    "count": "標的數",
+    "tickers": "熱門代碼",
+    "hours": "交易時間",
+    "lev": "最高槓桿",
+    "fees": "手續費",
+    "excluded": "不支援地區",
+    "promo": "正在進行",
+    "settle": "結算幣種"
+  },
+  "hours": {
+    "24/7": "7×24",
+    "24/5": "5×24",
+    "24/5+": "5×24，熱門標的 7×24"
+  },
+  "levUpTo": "最高 {x} 倍",
+  "asOf": "{date}",
+  "feeMakerTaker": "掛單 {maker} / 吃單 {taker}",
+  "feeFlat": "每筆 {flat} 美元，340 美元以上 {pct}",
+  "feeZero": "用 USD 或 USDG 買入免交易手續費",
+  "more": "另 {n} 個",
+  "listed": "{n} 檔",
+  "notListed": "未上線",
+  "source": "來源",
+  "sourcesH": "來源",
+  "codeLabel": "邀請碼",
+  "copy": "複製",
+  "copied": "已複製",
+  "cta": "前往 {name}",
+  "ctaFull": "用邀請碼 {code} 註冊 {name}",
+  "profile": "{name} 詳情",
+  "promoEnds": "至 {date}",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance：美股交易計入活動獎勵",
+    "binanceWalletBstocks": "bStocks 交易賽，獎池 50,000 USDC"
+  },
+  "pickH": "怎麼選",
+  "picks": [
+    [
+      "股票代幣最多",
+      "Bitget 的 rToken 美股和 ETF 超過 1,700 檔（2026 年 8 月），Kraken xStocks 共 131 檔。"
+    ],
+    [
+      "槓桿最高",
+      "Bitget 股票永續最高 100 倍；Hyperliquid、Kraken、Binance、Gate、MEXC 最高 20 倍。"
+    ],
+    [
+      "週末也能交易",
+      "OKX xStocks，以及 Bitget、OKX、Binance、Bybit 的股票永續合約都是 7×24 交易。"
+    ],
+    [
+      "想買 Pre-IPO",
+      "OKX 和 Bybit 有 OpenAI、Anthropic，Bitget 有 JIO，Gate 有 SpaceX、OpenAI。"
+    ]
+  ],
+  "howH": "怎麼用 USDT 買特斯拉、輝達",
+  "howLead": "五個步驟，表中每家交易所都一樣。",
+  "steps": [
+    [
+      "選交易所",
+      "一個帳戶裡股票代幣和合約都有：Bitget、OKX、Bybit、Gate、Kraken。用 USDT 交易股票永續的還有 HTX、CoinW。"
+    ],
+    [
+      "開戶",
+      "用這裡的邀請碼註冊，並完成身分驗證。Bitget rToken 需要基礎 KYC。"
+    ],
+    [
+      "入金 USDT",
+      "把 USDT 轉入現貨帳戶。Bitget rToken、OKX xStocks、Bybit xStocks，以及 Bitget、OKX、Binance、Bybit 的股票永續都以 USDT 結算。"
+    ],
+    [
+      "搜尋代碼",
+      "特斯拉在 Bitget 是 rTSLA，在 OKX 是 xTSLA，在 Gate 是 TSLAX，Bitget 永續合約是 TSLAUSDT。"
+    ],
+    [
+      "買入或做多",
+      "股票代幣就是一般的現貨買入；永續合約依你設定的槓桿做多或做空。"
+    ]
+  ],
+  "stepTwoNeutral": [
+    "開戶",
+    "在交易所官網註冊並完成身分驗證。Bitget rToken 需要基礎 KYC。"
+  ],
+  "pathsH": "在 App 裡哪裡找",
+  "tickersH": "熱門美股",
+  "tickersLead": "每檔股票在哪些交易所上線、以什麼形式。",
+  "tickerVenues": "{n} 家交易所",
+  "faqH": "常見問題",
+  "faq": [
+    [
+      "什麼是代幣化股票？",
+      "在加密交易所用 USDT 交易、1:1 追蹤一檔上市股票的代幣。主要有 xStocks（OKX、Bybit、Kraken、Gate）、rToken（Bitget）、bStocks（Binance）和 Ondo 代幣（MEXC）。OKX 和 Bitget 都說明它提供的是股票的經濟收益，不是直接登記的股東身分，也沒有投票權。",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "股票代幣和股票永續合約有什麼差別？",
+      "股票代幣像現貨一樣買入持有。股票永續合約是沒有到期日、以 USDT 作保證金的合約，可以做多做空並開槓桿：Bitget 最高 100 倍，Kraken 最高 20 倍。永續合約不會給你股票。",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "週末能交易美股嗎？",
+      "很多交易所可以。OKX xStocks 是 7×24。Bitget、OKX、Binance、Bybit 的股票永續合約是 7×24。Bitget rToken 是 5×24，自 2026 年 8 月起有 90 檔熱門標的 7×24 開放。",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "股票代幣有配息嗎？",
+      "看代幣。Bitget rToken 把稅後現金股利以 USDT 發到帳戶（預設預扣 30%）。OKX xStocks 和 Binance bStocks 不發現金，而是把淨股利再投入，反映在代幣餘額裡。",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "美國居民能買代幣化股票嗎？",
+      "不能。Bitget rToken、OKX 代幣化股票、Binance bStocks 和 Kraken xStocks 都不對美國及美國人士開放。",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Pre-IPO 合約是什麼？",
+      "追蹤尚未上市公司的合約，例如 OKX 和 Bybit 的 OpenAI、Anthropic，Bitget 的 JIO（最高 20 倍）。它不給股票、不給 IPO 配售，也沒有股東權利。",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "手續費多少？",
+      "Bitget 股票永續掛單 0.02%、吃單 0.06%。Bybit xStocks 現貨 0.2%。Kraken 用 USD 或 USDG 買 xStocks 免交易手續費。",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "繼續閱讀",
+  "related": {
+    "topic": "股票代幣和永續合約怎麼選",
+    "bybitStocks": "Bybit 美股：用 USDC 買真實股票",
+    "exchanges": "全部交易所",
+    "academy": "免費新手課程"
+  },
+  "tickerH1": "用 USDT 交易{name}（{ticker}）",
+  "tickerLead": "所有上線{name}股票代幣或永續合約的交易所，附交易代碼和交易時間。",
+  "tickerAnswer": "{n} 家交易所上線了 {ticker}：{list}。",
+  "tickerAnswerSpot": "股票代幣：{list}。",
+  "tickerAnswerPerp": "永續合約：{list}。",
+  "tickerCols": {
+    "exchange": "交易所",
+    "form": "形式",
+    "symbol": "交易代碼",
+    "hours": "交易時間",
+    "lev": "最高槓桿"
+  },
+  "tickerHow": "想用 USDT 買 {ticker}：入金 USDT，在 {exchange} 搜尋 {symbol}。",
+  "tickerBack": "全部代幣化美股",
+  "tickerOther": "其他美股",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "輝達",
+    "TSLA": "特斯拉",
+    "AAPL": "蘋果",
+    "MSFT": "微軟",
+    "COIN": "Coinbase",
+    "MSTR": "Strategy",
+    "HOOD": "Robinhood",
+    "CRCL": "Circle",
+    "GOOGL": "Google",
+    "AMZN": "亞馬遜",
+    "SPY": "標普 500 ETF",
+    "QQQ": "那斯達克 100 ETF"
+  },
+  "homeKicker": "代幣化美股",
+  "homeTitle": "用 USDT 交易美股 · 7×24",
+  "homeBody": "輝達、特斯拉、蘋果，在你常用的交易所就能以股票代幣或永續合約交易。",
+  "homeAll": "查看全部",
+  "homeTickers": "{n} 檔",
+  "venueH": "{name} 代幣化美股",
+  "venueLink": "比較全部交易所"
+}

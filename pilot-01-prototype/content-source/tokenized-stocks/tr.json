@@ -1,0 +1,223 @@
+{
+  "seoTitle": "Tokenize hisseler: ABD hisseleri USDT ile nerede? (2026)",
+  "seoDescription": "Tokenize ABD hisseleri ve hisse vadeli sürekli kontratları listeleyen borsalar: OKX, Binance, Bybit, Gate, MEXC, Kraken ve fazlası. Sembol, saat, kaldıraç, ücret.",
+  "tickerSeoTitle": "{name} ({ticker}) hisse tokenı: USDT ile nerede alınır",
+  "tickerSeoDescription": "{n} borsa {name} ({ticker}) için hisse tokenı veya sürekli kontrat sunuyor: {list}. Semboller, işlem saatleri ve kaldıraç borsaların kendi sayfalarından.",
+  "breadcrumb": "Tokenize hisseler",
+  "home": "Ana sayfa",
+  "kicker": "Tokenize ABD hisseleri",
+  "h1": "ABD hisselerini USDT ile alın",
+  "lead": "Nvidia, Tesla, Apple ve S&P 500 artık kripto borsalarında hisse tokenı ve hisse sürekli kontratı olarak işlem görüyor. Hangi borsa neyi, hangi biçimde ve ne zaman sunuyor, burada.",
+  "answerLabel": "Kısa cevap",
+  "answer": "Şu anda {n} borsada ABD hisselerini USDT ile alıp satabilirsiniz: {list}.",
+  "answerOther": "{list} da hisse tokenı veya hisse sürekli kontratı sunuyor; ödeme {assets} ile.",
+  "answerForms": "Biçimler farklı: hisse tokenı bir hisseyi 1:1 takip eder ve kaldıraç yoktur; hisse sürekli kontratı USDT teminatlı, kaldıraçlı bir kontrattır; halka arz öncesi kontrat ise bir şirketi borsaya açılmadan önce takip eder.",
+  "checked": "{date} tarihinde her borsanın resmi sayfalarıyla kontrol edildi.",
+  "lanes": {
+    "spot": "Hisse tokenları",
+    "perp": "Hisse sürekli kontratları",
+    "preipo": "Halka arz öncesi"
+  },
+  "laneHint": {
+    "spot": "Bir hisseyi takip eden token. Spot kripto gibi alıp tutarsınız.",
+    "perp": "Hisse fiyatı üzerine USDT teminatlı kontrat; long veya short, kaldıraçlı.",
+    "preipo": "Halka arz öncesi özel bir şirket üzerine kontrat, örneğin OpenAI veya SpaceX."
+  },
+  "tableH": "Borsaların karşılaştırması",
+  "tableLead": "Her değer, geldiği borsa sayfasına bağlantılıdır. Tire, borsanın bu bilgiyi yayımlamadığı anlamına gelir.",
+  "cols": {
+    "exchange": "Borsa",
+    "count": "Sembol",
+    "tickers": "Popüler semboller",
+    "hours": "Saatler",
+    "lev": "Maks. kaldıraç",
+    "fees": "Ücretler",
+    "excluded": "Erişilemeyen yerler",
+    "promo": "Şu anda",
+    "settle": "Ödeme birimi"
+  },
+  "hours": {
+    "24/7": "24/7",
+    "24/5": "24/5",
+    "24/5+": "24/5, popüler hisseler 24/7"
+  },
+  "levUpTo": "{x}x'e kadar",
+  "asOf": "{date}",
+  "feeMakerTaker": "{maker} maker / {taker} taker",
+  "feeFlat": "Emir başına {flat} USD, 340 USD üzerinde {pct}",
+  "feeZero": "USD veya USDG ile alımda işlem ücreti yok",
+  "more": "+{n} daha",
+  "listed": "{n} listeli",
+  "notListed": "Listede yok",
+  "source": "Kaynak",
+  "sourcesH": "Kaynaklar",
+  "codeLabel": "Kod",
+  "copy": "Kopyala",
+  "copied": "Kopyalandı",
+  "cta": "{name} aç",
+  "ctaFull": "{name} üzerinde {code} koduyla kaydolun",
+  "profile": "{name} profili",
+  "promoEnds": "{date} tarihine kadar",
+  "promos": {
+    "bitgetAlliance": "Alliance: hisse işlemleri ödüllere sayılır",
+    "binanceWalletBstocks": "bStocks işlem yarışması, 50,000 USDC ödül"
+  },
+  "pickH": "Hangisi size uygun",
+  "picks": [
+    [
+      "En çok hisse tokenı",
+      "Kraken 131 xStocks listeliyor."
+    ],
+    [
+      "En yüksek kaldıraç",
+      "Hyperliquid, Kraken, Binance, Gate ve MEXC hisse sürekli kontratlarında 20x'e kadar."
+    ],
+    [
+      "Hafta sonu işlem",
+      "OKX xStocks ile OKX, Binance ve Bybit hisse sürekli kontratları 24/7 işlem görüyor."
+    ],
+    [
+      "Halka arz öncesi şirketler",
+      "OKX ve Bybit'te OpenAI ve Anthropic, Gate'te SpaceX ve OpenAI."
+    ]
+  ],
+  "howH": "Tesla veya Nvidia USDT ile nasıl alınır",
+  "howLead": "Beş adım, tablodaki her borsada aynı.",
+  "steps": [
+    [
+      "Bir borsa seçin",
+      "Hisse tokenları ve sürekli kontratlar tek hesapta: OKX, Bybit, Gate veya Kraken. USDT ile hisse sürekli kontratları: ayrıca HTX ve CoinW."
+    ],
+    [
+      "Hesap açın",
+      "Burada gösterilen davet koduyla kaydolun ve kimlik doğrulamasını tamamlayın."
+    ],
+    [
+      "USDT yatırın",
+      "USDT'yi spot hesabınıza gönderin. OKX xStocks, Bybit xStocks ile OKX, Binance ve Bybit hisse sürekli kontratları USDT ile ödenir."
+    ],
+    [
+      "Sembolü arayın",
+      "Tesla, OKX'te xTSLA, Gate'te TSLAX olarak geçer."
+    ],
+    [
+      "Alın veya long açın",
+      "Hisse tokenı basit bir spot alımdır. Sürekli kontrat, belirlediğiniz kaldıraçla long veya short pozisyon açar."
+    ]
+  ],
+  "stepTwoNeutral": [
+    "Hesap açın",
+    "Borsanın resmi sitesinde kaydolun ve kimlik doğrulamasını tamamlayın."
+  ],
+  "pathsH": "Uygulamada nerede bulunur",
+  "tickersH": "Popüler semboller",
+  "tickersLead": "Her hisseyi hangi borsalar, hangi biçimde listeliyor.",
+  "tickerVenues": "{n} borsa",
+  "faqH": "Sorular",
+  "faq": [
+    [
+      "Tokenize hisseler nedir?",
+      "Borsada işlem gören bir hisseyi 1:1 takip eden ve kripto borsalarında USDT ile alınıp satılan tokenlardır. Başlıca aileler xStocks (OKX, Bybit, Kraken, Gate), bStocks (Binance) ve Ondo tokenlarıdır (MEXC). OKX bunları, doğrudan hisse sahipliği veya oy hakkı olmadan hisseye ekonomik maruziyet olarak tanımlar.",
+      [
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Hisse tokenı ile hisse sürekli kontratı arasındaki fark nedir?",
+      "Hisse tokenı spot kripto gibi alınıp tutulur. Hisse sürekli kontratı, vadesi olmayan USDT teminatlı bir kontrattır; kaldıraçla long veya short açmanızı sağlar: Kraken'de 20x'e kadar. Sürekli kontrat hisse vermez.",
+      [
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "ABD hisselerini hafta sonu alıp satabilir miyim?",
+      "Evet, birçok borsada. OKX xStocks 24/7 işlem görür. OKX, Binance ve Bybit hisse sürekli kontratları 24/7 işlem görür.",
+      [
+        "okx-unified",
+        "binance-stock-perps",
+        "bybit-perps-guide"
+      ]
+    ],
+    [
+      "Hisse tokenları temettü öder mi?",
+      "Tokena göre değişir. OKX xStocks ve Binance bStocks net temettüyü nakit ödemek yerine token bakiyesine yeniden yatırır.",
+      [
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "ABD'de yaşayanlar tokenize hisse alabilir mi?",
+      "Hayır. OKX tokenize hisseleri, Binance bStocks ve Kraken xStocks, Amerika Birleşik Devletleri'ni ve ABD'li kişileri kapsam dışında tutar.",
+      [
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Halka arz öncesi kontratlar nedir?",
+      "Özel şirketler borsaya açılmadan önce onlar üzerine yapılan kontratlardır, örneğin OKX ve Bybit'te OpenAI ve Anthropic. Hisse, halka arz tahsisi veya ortaklık hakkı vermezler.",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "Maliyeti ne kadar?",
+      "Bybit xStocks spot işlemlerde 0.2% alır. Kraken, xStocks'u USD veya USDG ile aldığınızda işlem ücreti almaz. Hyperliquid trade[XYZ] hisse sürekli kontratlarında maker 0.03%, taker 0.09%.",
+      [
+        "bybit-xstocks",
+        "kraken-faq",
+        "hl-xyz-fees"
+      ]
+    ]
+  ],
+  "relatedH": "Okumaya devam edin",
+  "related": {
+    "topic": "Tokenize hisseler ve sürekli kontratlar",
+    "bybitStocks": "Bybit Stocks: USDC ile gerçek ABD hisseleri",
+    "exchanges": "Tüm borsalar",
+    "academy": "Ücretsiz kripto akademisi"
+  },
+  "tickerH1": "{name} ({ticker}) USDT ile alın",
+  "tickerLead": "{name} hissesini hisse tokenı veya sürekli kontrat olarak listeleyen tüm borsalar, sembolleri ve işlem saatleriyle.",
+  "tickerAnswer": "{n} borsa {ticker} listeliyor: {list}.",
+  "tickerAnswerSpot": "Hisse tokenı olarak: {list}.",
+  "tickerAnswerPerp": "Sürekli kontrat olarak: {list}.",
+  "tickerCols": {
+    "exchange": "Borsa",
+    "form": "Biçim",
+    "symbol": "Sembol",
+    "hours": "Saatler",
+    "lev": "Maks. kaldıraç"
+  },
+  "tickerHow": "{ticker} hissesini USDT ile almak için USDT yatırın ve {exchange} üzerinde {symbol} arayın.",
+  "tickerBack": "Tüm tokenize hisseler",
+  "tickerOther": "Diğer semboller",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "Nvidia",
+    "TSLA": "Tesla",
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "COIN": "Coinbase",
+    "MSTR": "Strategy",
+    "HOOD": "Robinhood",
+    "CRCL": "Circle",
+    "GOOGL": "Alphabet",
+    "AMZN": "Amazon",
+    "SPY": "S&P 500 ETF",
+    "QQQ": "Nasdaq-100 ETF"
+  },
+  "homeKicker": "Tokenize ABD hisseleri",
+  "homeTitle": "ABD hisselerini USDT ile alın · 24/7",
+  "homeBody": "Nvidia, Tesla ve Apple, zaten kullandığınız borsalarda hisse tokenı ve sürekli kontrat olarak.",
+  "homeAll": "Tümünü gör",
+  "homeTickers": "{n} sembol",
+  "venueH": "{name} üzerinde tokenize ABD hisseleri",
+  "venueLink": "Tüm borsaları karşılaştır"
+}

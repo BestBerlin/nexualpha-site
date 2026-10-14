@@ -62,6 +62,7 @@ import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
 import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
 import { updatePath } from "../../data/activity-update-path.js";
 import "./venue-popular-coins.css";
+import { VenueTokenizedStocks } from "../tokenized-stocks/VenueTokenizedStocks.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 const VENUE_COINS_COPY = {
@@ -970,6 +971,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </section>
 
     <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <VenueTokenizedStocks slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFiatSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />

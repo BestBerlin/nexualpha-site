@@ -54,6 +54,8 @@ import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binanc
 import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, parseBybitStocksPath } from "./bybit-stocks.js";
 import { bybitStocksRouteSeo } from "./bybit-stocks-seo.js";
+import { parseTokenizedStocksPath } from "./tokenized-stocks-routes.js";
+import { tokenizedStocksRouteSeo } from "./tokenized-stocks-seo.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, parseBitgetAlliancePath } from "./bitget-alliance.js";
 import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, parseKrakenUsdgPath } from "./kraken-usdg.js";
@@ -384,6 +386,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // Bybit Stocks campaign page (mirror of the Worker): its written editions.
   if (parseBybitStocksPath(pathname)) return BYBIT_STOCKS_INDEX_LOCALES;
+  // Tokenized US stocks (mirror of the Worker): every written edition.
+  if (parseTokenizedStocksPath(pathname) && parseTokenizedStocksPath(pathname).kind !== "missing") return tokenizedStocksRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Bitget Alliance campaign page (mirror of the Worker): its written editions.
   if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
   // Kraken 5M USDG Challenge page (mirror of the Worker): its written editions.
@@ -2185,6 +2189,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = coins.schemas;
     ogType = "website";
     if (!coins.indexable) robots = "noindex,follow";
+  } else if (parseTokenizedStocksPath(pathname) && tokenizedStocksRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Tokenized US stocks: same helper as the Worker head (src/data/tokenized-stocks-seo.js).
+    const stocks = tokenizedStocksRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = stocks.title;
+    description = stocks.description;
+    schemas = stocks.schemas;
+    ogType = "website";
+    if (!stocks.indexable) robots = "noindex,follow";
   } else if (parseConverterPath(pathname) && converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
     const converter = converterRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
     accept();

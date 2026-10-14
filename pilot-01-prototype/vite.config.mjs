@@ -266,6 +266,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/whales-home.js")) return "shared-whales";
           if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
+          // Tokenized US stocks hub + ticker pages (2026-10-15): pages, styles and the 17-locale copy in one route chunk;
+          // the sourced facts, teaser strings and helpers are read by the home strip and /exchanges/<slug> too, so they are
+          // pinned in their own small chunk (no route chunk pulls another).
+          if (/\/src\/components\/tokenized-stocks\/(?:TokenizedStocksPages\.jsx|tokenized-stocks\.css)$/.test(id) || id.includes("/src/data/tokenized-stocks-copy.js")) return "route-tokenized-stocks";
+          if (/\/src\/data\/tokenized-stocks(?:-facts|-teaser)?\.js$/.test(id)) return "shared-tokenized-stocks";
+          // The exchange-profile block: its stylesheet must be linked in the /exchanges/<slug> head (route-v3-pages- prefix).
+          if (/\/src\/components\/tokenized-stocks\/(?:VenueTokenizedStocks\.jsx|venue-tokenized-stocks\.css)$/.test(id)) return "route-v3-pages-detail-stocks";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk
           // (before the shared campaigns rule, so the Binance page does not load this copy).
           if (/\/src\/components\/campaigns\/(?:BybitStocksPage\.jsx|bybit-stocks\.css)$/.test(id) || id.includes("/src/data/bybit-stocks-copy.js")) return "route-campaign-bybit";
