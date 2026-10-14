@@ -422,7 +422,7 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid Fees, Code NEXU888 & Funded Accounts (2026)",
+      "title": "Hyperliquid Fees, Code NEXU888 & Funded Accounts",
       "description": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
@@ -493,7 +493,7 @@ const PRIORITY_VENUE_SEO = {
       "reviewedAt": "2026-09-22"
     },
     "zh-Hans": {
-      "title": "Hyperliquid 邀请码 NEXU888（2026）",
+      "title": "Hyperliquid 邀请码 NEXU888",
       "description": "Hyperliquid 无需注册账户：在官方 App 连接自己的钱包、存入 USDC，填写邀请码 NEXU888 即可享受交易手续费 4% 折扣。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [

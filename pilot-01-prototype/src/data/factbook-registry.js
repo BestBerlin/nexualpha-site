@@ -1232,7 +1232,7 @@ export const FACTBOOK_REGISTRY = {
     },
     vipTiers: [
       { tier: "Base", vol30d: "All Tiers", spotM: "0.0500%", spotT: "0.2500%", netSpotM: "0.0450%", netSpotT: "0.2250%", futM: "0.0500%", futT: "0.0700%", netFutM: "0.0450%", netFutT: "0.0630%" },
-      { tier: "Tier 1 (Affiliate)", vol30d: "NEXU_GMX Active", spotM: "0.0450%", spotT: "0.2250%", netSpotM: "0.0450%", netSpotT: "0.2250%", futM: "0.0450%", futT: "0.0630%", netFutM: "0.0450%", netFutT: "0.0630%" },
+      { tier: "Tier 1 (Affiliate)", vol30d: "Referral active", spotM: "0.0450%", spotT: "0.2250%", netSpotM: "0.0450%", netSpotT: "0.2250%", futM: "0.0450%", futT: "0.0630%", netFutM: "0.0450%", netFutT: "0.0630%" },
       { tier: "VIP 1", vol30d: "≥ $5M", spotM: "0.0400%", spotT: "0.2000%", netSpotM: "0.0360%", netSpotT: "0.1800%", futM: "0.0400%", futT: "0.0550%", netFutM: "0.0360%", netFutT: "0.0495%" },
       { tier: "VIP 2", vol30d: "≥ $15M", spotM: "0.0350%", spotT: "0.1800%", netSpotM: "0.0315%", netSpotT: "0.1620%", futM: "0.0350%", futT: "0.0500%", netFutM: "0.0315%", netFutT: "0.0450%" },
       { tier: "VIP 3", vol30d: "≥ $50M", spotM: "0.0300%", spotT: "0.1500%", netSpotM: "0.0270%", netSpotT: "0.1350%", futM: "0.0300%", futT: "0.0450%", netFutM: "0.0270%", netFutT: "0.0405%" },
