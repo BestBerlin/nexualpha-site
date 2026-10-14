@@ -43,7 +43,7 @@ test("Telegram block CSS has the requested responsive grid and bottom-aligned ac
 
 test("activity/event hot chip reuses the nav shimmer names and respects reduced motion", async () => {
   const css = await read("src/styles/v7/home7.src.css");
-  assert.match(css, /\.h7-ic-event\[data-hot\][^}]*animation:nx-gold-sweep 2\.6s linear infinite,nx-chip-glow 2\.6s ease-out infinite/, "event chip uses the same gold sweep/glow keyframes");
-  assert.match(css, /\.h7-ic-event\[data-hot\]::after[^}]*animation:nx-twinkle 1\.3s ease-in-out infinite/, "event chip includes the same twinkle treatment");
+  assert.match(css, /\.h7-ic-event\[data-hot\][^}]*animation:nx-gold-sweep 2\.6s linear 2,nx-chip-glow 2\.6s ease-out 2/, "event chip uses the same gold sweep/glow keyframes, two cycles then static (owner 2026-10-15: no idle work)");
+  assert.match(css, /\.h7-ic-event\[data-hot\]::after[^}]*animation:nx-twinkle 1\.3s ease-in-out 4/, "event chip includes the same twinkle treatment, finite");
   assert.ok(css.includes("@media(prefers-reduced-motion:reduce){@ .h7-tg-card{transition:none}@ .h7-ic-event[data-hot],@ .h7-ic-event[data-hot]::after{animation:none}}"), "event hot motion is disabled for reduced-motion users");
 });

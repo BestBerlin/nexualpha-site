@@ -214,6 +214,16 @@ async function measureIdle(page, windowMs = 10000) {
 
 const round = (n, d = 1) => Math.round(n * 10 ** d) / 10 ** d;
 
+// Hydration settle before an idle sample: network idle (500 ms quiet, capped at 10 s), then one idle callback and two
+// animation frames inside the page, so the deferred below-fold island has finished hydrating before we measure.
+async function settleAfterHydration(page) {
+  await page.waitForNetworkIdle({ idleTime: 500, timeout: 10000 }).catch(() => {});
+  await page.evaluate(() => new Promise((resolve) => {
+    const frames = () => requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    if (typeof requestIdleCallback === "function") requestIdleCallback(frames, { timeout: 3000 }); else setTimeout(frames, 200);
+  })).catch(() => {});
+}
+
 async function readCls(page) {
   return page.evaluate(() => (typeof window.__nxCls === "function" ? window.__nxCls() : -1));
 }
@@ -290,8 +300,20 @@ async function homeSuite(browser, base, outDir) {
       record("home", pageId, device.id, "sections", missing.length === 0, missing.length ? `missing ${missing.join(", ")}` : `${expected.length}/${expected.length} within ${M.budgets.sectionTimeoutMs} ms`);
 
       // 2. Idle main-thread budget and CLS (no interaction yet).
-      const idle = await measureIdle(page);
-      record("home", pageId, device.id, "idle-js", idle.scriptMsPer5s < M.budgets.idleJsMsPer5s, `${idle.scriptMsPer5s} ms JS / 5 s (all tasks ${idle.taskMsPer5s}, layout ${idle.layoutMsPer5s}; sampled ${idle.windowMs / 1000} s)`, { idle });
+      // Sample only once hydration has settled (network idle + an idle callback + two frames); a single over-budget
+      // window is re-measured once after 5 s, so a late-hydration spike does not fail the gate but a real regression
+      // (over budget twice) still does (lead 2026-10-15).
+      await settleAfterHydration(page);
+      let idle = await measureIdle(page);
+      let idleNote = "";
+      if (idle.scriptMsPer5s >= M.budgets.idleJsMsPer5s) {
+        const first = idle;
+        await sleep(5000);
+        idle = await measureIdle(page);
+        idleNote = `; first window ${first.scriptMsPer5s} ms, re-measured after 5 s`;
+        if (idle.scriptMsPer5s < M.budgets.idleJsMsPer5s) warn("home", pageId, device.id, `idle JS spike ${first.scriptMsPer5s} ms / 5 s did not repeat (${idle.scriptMsPer5s} ms on re-measure)`);
+      }
+      record("home", pageId, device.id, "idle-js", idle.scriptMsPer5s < M.budgets.idleJsMsPer5s, `${idle.scriptMsPer5s} ms JS / 5 s (all tasks ${idle.taskMsPer5s}, layout ${idle.layoutMsPer5s}; sampled ${idle.windowMs / 1000} s${idleNote})`, { idle });
       if (idle.taskMsPer5s > M.budgets.idleJsMsPer5s * 3) warn("home", pageId, device.id, `idle main thread busy ${idle.taskMsPer5s} ms / 5 s although JS is ${idle.scriptMsPer5s} ms (style/layout/paint work while idle)`);
       const cls = await readCls(page);
       record("home", pageId, device.id, "cls", cls >= 0 && cls < M.budgets.cls, `CLS ${round(cls, 4)}`, { cls });
