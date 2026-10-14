@@ -18,7 +18,8 @@ import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
-import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
+import { Cta, nameOf } from "./home7-shared.jsx";
+import { CALC_CHIPS, CALC_SCALE, CALC_VMAX, CALC_VMIN, calcSay, calcToPos, calcToVol, fillCalc, heroMoneyText, heroVolumeShort, heroVolumeText } from "./home7-hero-volume.js";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
 import { MoversBoard } from "./home7-movers.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
@@ -253,7 +254,11 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
 // product and maker/taker choice), so the controls arrive as props.
 export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
   const rowsRef = useRef(null), rowEls = useRef([]);
-  const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
+  const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, CALC_VMAX)); };
+  // Volume framing (owner 2026-10-14): a traded volume in, what each exchange returns out; no month or year.
+  const c = calcSay(locale);
+  const neutral = !calc.rows.some((r) => r.share);
+  const money = (v) => heroMoneyText(v, locale);
   return (
     <>
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
@@ -261,24 +266,27 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <MoversBoard locale={locale} initial={whales} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
-          <h2>{t.calcH}</h2>
-          <label className="h7-vin"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={t.volLabel} /><small>{t.perMonth}</small></label>
-          <input className="h7-range" type="range" min="0" max="1000" step="1" value={toPos(vol || VMIN)} style={{ "--p": `${toPos(vol || VMIN) / 10}%` }} onChange={(e) => setVol(toVol(Number(e.target.value)))} aria-label={t.volLabel} aria-valuetext={`${usd(vol)} ${t.perMonth}`} />
-          <div className="h7-range-scale" aria-hidden="true">{[[1e4, "$10K"], [1e5, "$100K"], [1e6, "$1M"], [5e6, "$5M"]].map(([v, l]) => <span key={l} style={{ "--x": `${toPos(v) / 10}%` }}>{l}</span>)}</div>
+          <h2>{neutral ? c.nh : c.h}</h2>
+          <label className="h7-vin"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={c.label} />{vol > 0 ? <small>{heroVolumeText(vol, locale)}</small> : null}</label>
+          <input className="h7-range" type="range" min="0" max="1000" step="1" value={calcToPos(vol)} style={{ "--p": `${calcToPos(vol) / 10}%` }} onChange={(e) => setVol(calcToVol(Number(e.target.value)))} aria-label={c.label} aria-valuetext={heroVolumeText(vol || CALC_VMIN, locale)} />
+          <div className="h7-range-scale" aria-hidden="true">{CALC_SCALE.map((v) => <span key={v} style={{ "--x": `${calcToPos(v) / 10}%` }}>{heroVolumeShort(v, locale)}</span>)}</div>
           <div className="h7-ctl">
-            {CHIPS.map((c) => <button key={c} type="button" aria-pressed={vol === c} onClick={() => setVol(c)}>${c / 1000}K</button>)}
+            {CALC_CHIPS.map((chip) => <button key={chip} type="button" aria-pressed={vol === chip} onClick={() => setVol(chip)}>{heroVolumeShort(chip, locale)}</button>)}
             <div className="h7-seg" role="group" aria-label={`${t.perpL} / ${t.spotL}`}><button type="button" aria-pressed={product === "perp"} onClick={() => setProduct("perp")}>{t.perpL}</button><button type="button" aria-pressed={product === "spot"} onClick={() => setProduct("spot")}>{t.spotL}</button></div>
             <div className="h7-seg" role="group" aria-label="maker / taker"><button type="button" aria-pressed={mode === "maker"} onClick={() => setMode("maker")}>{t.maker}</button><button type="button" aria-pressed={mode === "taker"} onClick={() => setMode("taker")}>{t.taker}</button></div>
           </div>
-          <p className="h7-vd" aria-live="polite">{!vol ? t.calcEmpty : <>{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</>}</p>
+          <p className="h7-vd" aria-live="polite">{!vol ? c.empty : neutral ? (calc.best ? fillCalc(c.low, calc.best.name, money(calc.best.gross)) : null) : (calc.most && calc.most.save > 0 ? fillCalc(c.most, calc.most.name, money(calc.most.save)) : null)}</p>
           <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
-          {vol > 0 && <a className="h7-ln h7-all h7-rates" href={buildDecisionReturnHref({ kind: "cost", locale, instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: "rebate" }) || localizedHref("/rates", { locale })}>{t.ratesGo}</a>}
+          {vol > 0 && <a className="h7-ln h7-all h7-rates" href={buildDecisionReturnHref({ kind: "cost", locale, instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: "rebate" }) || localizedHref("/rates", { locale })}>{c.rates}</a>}
         </div>
         <div className="h7-rows" ref={rowsRef}>
           {calc.rows.map((r, i) => (
-            <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
+            <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${(neutral ? calc.best : calc.most)?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${formatPercent(locale, Math.round(r.share * 100))}` : t.pending}</span></p>
-              <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /><small className="h7-basis" data-basis={r.share ? "rebate" : "base"}>{r.share ? t.basisNet : t.basisBase}</small></>}</div>
+              {/* Real text, no count-up: rebate venues show what comes back for this volume; others show the fee it costs. */}
+              <div className="h7-am">{r.net == null ? "–" : r.share
+                ? <><span className="h7-back">{money(r.save)}</span><small className="h7-basis" data-basis="rebate">{c.back}</small><small className="h7-fee">{c.fee} {money(r.gross)}</small></>
+                : <><span>{money(r.gross)}</span><small className="h7-basis" data-basis="base">{c.fee}</small></>}</div>
               <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${formatFee(r.maker, locale)} / ${formatFee(r.taker, locale)}` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{homeSignupLabel(t, r)}</span><span className="h7-sr"> {r.name}</span></Cta>
               <a className="h7-dt" href={vol > 0 ? appendCostScenarioQuery(localizedHref(`/exchanges/${r.slug}`, { locale, product: product === "spot" ? "spot" : "perpetuals" }), { instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: r.share ? "rebate" : "base" }) : localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>

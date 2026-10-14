@@ -7,6 +7,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { calcSay } from "../src/components/v7/home7-hero-volume.js";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { createServer as createViteServer } from "vite";
@@ -169,7 +170,8 @@ test("SSR home keeps the scroll-deferred sections' text for crawlers and no-JS r
     const text = textOf(html);
     const t = h7Copy(locale);
     assert.match(html, /<section class="h7-in h7-calc" id="h7-calc">/, `${locale}: calculator section`);
-    assert.ok(text.includes(t.calcH), `${locale}: calculator heading "${t.calcH}"`);
+    const calcHeading = calcSay(locale).h; // volume framing (owner 2026-10-14)
+    assert.ok(text.includes(calcHeading), `${locale}: calculator heading "${calcHeading}"`);
     assert.ok(text.includes(t.all), `${locale}: directory link`);
     assert.ok(text.includes(telegramCopy(locale).h), `${locale}: Telegram block heading`);
     assert.doesNotMatch(html, /id="research-tools"|home-research-drawer/, `${locale}: old research-tools wall stays removed`);

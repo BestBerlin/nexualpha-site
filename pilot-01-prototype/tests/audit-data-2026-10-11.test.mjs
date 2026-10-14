@@ -113,7 +113,7 @@ test("NX-01 no fee call site rounds to two fixed decimals or prints its own perc
   assert.match(og, /feeDisplay\(slug, "spot", locale\)/);
 });
 
-test("NX-01 home calculator rows print the exact rate next to a reproducible yearly figure", async () => {
+test("NX-01 home calculator rows print the exact rate next to a reproducible figure for the entered volume", async () => {
   const out = await ssr(`
     import { HomeBelowFold } from "../../src/components/v7/home7-below.jsx";
     import { h7Copy } from "../../src/components/v7/home7-copy.js";
@@ -122,7 +122,7 @@ test("NX-01 home calculator rows print the exact rate next to a reproducible yea
     const vol = 100000;
     const rows = ["okx", "bybit", "hyperliquid"].map((slug) => {
       const f = feeFact(slug, "perp"); const share = partnerRebateShare(slug);
-      const gross = vol * 12 * f.taker / 100; const net = gross * (1 - (share || 0));
+      const gross = vol * f.taker / 100; const net = gross * (1 - (share || 0));
       return { slug, name: slug, maker: f.maker, taker: f.taker, share, gross, net, save: gross - net, code: null, url: "https://example.invalid", open: false };
     });
     const calc = { rows, best: rows[0], most: rows[0], maxGross: 1 };
@@ -133,11 +133,14 @@ test("NX-01 home calculator rows print the exact rate next to a reproducible yea
   const t = text(out.html);
   assert.match(t, /0\.02% \/ 0\.055%/);
   assert.match(t, /0\.015% \/ 0\.045%/);
-  assert.match(t, /\$660/);
-  assert.match(t, /\$540/);
+  // Volume framing (owner 2026-10-14): $100K traded on Bybit at 0.055% taker is $55 of fees; Hyperliquid 0.045% is $45.
+  assert.match(t, /\$55\b/);
+  assert.match(t, /\$45\b/);
   assert.doesNotMatch(t, /0\.06%|0\.04%|0\.01% /);
-  assert.match(t, /per year · base fees/);
-  assert.match(t, /per year · after max rebate/);
+  assert.match(t, /Back to you/);
+  assert.match(t, /\$20\b/, "OKX: $100K × 0.05% taker = $50 of fees, 40% of it ($20) comes back");
+  assert.match(t, /Fees \$50\b/, "the fee for that volume is shown next to what comes back");
+  assert.doesNotMatch(t, /per year|a year|per month|\/ month/i, "no time framing in the calculator");
   assert.match(out.html, /href="\/rates#cost-scenario\?(?=[^"]*scenario=cost)(?=[^"]*volume=100000)(?=[^"]*basis=rebate)[^"]*"/);
   assert.match(text(out.fr), /0,02\s%\s\/\s0,055\s%/u);
 });

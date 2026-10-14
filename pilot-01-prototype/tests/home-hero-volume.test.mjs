@@ -121,3 +121,17 @@ test("SSR neutral locales: information headline only, no figure, dial, code or /
     close();
   }
 });
+
+test("calculator: same volume framing in 17 locales, 1万U → 10亿U range, no time words", async () => {
+  const { CALC_SAY, CALC_VMIN, CALC_VMAX, calcToPos, calcToVol } = await import("../src/components/v7/home7-hero-volume.js");
+  assert.deepEqual(Object.keys(CALC_SAY).sort(), [...LOCALES].sort());
+  for (const locale of LOCALES) {
+    const c = CALC_SAY[locale];
+    for (const key of ["h", "empty", "label", "back", "fee", "most", "rates", "nh", "low"]) assert.ok(c[key], `${locale}.${key}`);
+    assert.ok(c.most.includes("{n}") && c.most.includes("{v}") && c.low.includes("{n}") && c.low.includes("{v}"), locale);
+    assert.doesNotMatch(Object.values(c).join(" "), /年|月|year|month|annual|\baño\b|\bmes\b|\bano\b|\bmês\b|par an\b|Jahr|Monat|\banno\b|\bmese\b|년|월|год|месяц|\byıl\b|\btahun\b|\bbulan\b|\bnăm\b|tháng|سنة|شهر|سال|مہینہ|рік|місяць/i, `${locale}: no time unit`);
+  }
+  assert.equal(calcToVol(0), CALC_VMIN);
+  assert.equal(calcToVol(1000), CALC_VMAX);
+  assert.equal(calcToVol(calcToPos(1e7)), 1e7);
+});

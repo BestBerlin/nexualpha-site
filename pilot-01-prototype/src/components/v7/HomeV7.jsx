@@ -466,7 +466,8 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const [product, setProduct] = useState("perp");
   const venues = useVenues(locale, product, market, banned);
   const maxPct = homeRebateMaxPctFor(locale, market);
-  const [vol, setVol] = useState(100000);
+  // Calculator volume (owner 2026-10-14: volume framing, no per-month / per-year): the traded volume, default 1000万U.
+  const [vol, setVol] = useState(1e7);
   const [mode, setMode] = useState("taker");
 
   const priced = useMemo(() => venues.filter((v) => v.maker != null), [venues]);
@@ -474,7 +475,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
     const rows = priced.map((v) => {
       const rate = mode === "maker" ? v.maker : v.taker;
       if (rate == null || !vol) return { ...v, gross: null, net: null, save: null };
-      const gross = (vol * 12 * rate) / 100;
+      const gross = (vol * rate) / 100;
       const net = gross * (1 - (v.share || 0));
       return { ...v, gross, net, save: gross - net };
     });
