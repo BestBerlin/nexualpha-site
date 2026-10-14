@@ -14,7 +14,7 @@
   --section-pad: clamp(72px, 9vw, 128px);
   --v6-gap: clamp(48px, 4.5vw, 64px);
   --v6-container: 1200px; --v6-gutter: 24px;
-  --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+  --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif;
   --v6-mono: "Geist Mono V5", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --v6-hair: var(--hairline, rgba(180, 196, 211, 0.16));
   font-family: var(--v6-sans);
@@ -22,6 +22,12 @@
   line-height: var(--lh-body, 1.55);
   font-weight: 400;
 }
+
+:is(main, .factbook-page).v6:not(.home-refinement):lang(zh-Hant) { --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", sans-serif; }
+:is(main, .factbook-page).v6:not(.home-refinement):lang(ja) { --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto JP", "Hiragino Sans", "Yu Gothic UI", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+:is(main, .factbook-page).v6:not(.home-refinement):lang(ko) { --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+:is(main, .factbook-page).v6:not(.home-refinement):is(:lang(ar), :lang(ur)) { --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto Arabic", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", Tahoma, sans-serif; }
+
 main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
 
 /* ---------- 1. flatten: legacy sizes/families/line-heights collapse to the page default ---------- */
@@ -96,7 +102,7 @@ body:has(> #root > main.v6:not(.home-refinement)) {
 }
 body:has(> #root > main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: 0; }
 body:has(> #root > main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0 48px; border-block-start: 0; }
-body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: var(--v6-sans); }
 body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: var(--lh-body, 1.55); }
 body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr__title, .crawl-priority-links strong, .crawl-priority-links__intro strong):not(#_):not(#_) { font-weight: 600; }
 body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: var(--lh-body, 1.55); }

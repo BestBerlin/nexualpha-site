@@ -593,7 +593,7 @@ test("worker trims route assets and defers hydration for localized news fallback
 });
 
 test("worker defers broad JavaScript hints on the prerendered homepage while retaining styles", async () => {
-  const shell = '<!doctype html><html><head><link rel="modulepreload" href="/assets/route-news.js"><link rel="modulepreload" href="/assets/route-v3-pages.js"><link rel="stylesheet" href="/assets/route-news-test.css"><link rel="stylesheet" href="/assets/route-v3-home-test.css"><link rel="stylesheet" href="/assets/index-test.css"><script type="module" src="/assets/index.js"></script></head><body><div id="root"></div></body></html>';
+  const shell = '<!doctype html><html><head><link rel="modulepreload" href="/assets/route-news.js"><link rel="modulepreload" href="/assets/route-v3-pages.js"><link rel="stylesheet" href="/assets/route-news-test.css"><link rel="stylesheet" href="/assets/route-v3-home-test.css"><link rel="stylesheet" href="/assets/index-test.css"><script type="module" src="/assets/index.js"></script></head><body><div id="root"></div><script src="/motion/inner-motion.js" defer></script></body></html>';
   const manifest = { version: "nexualpha-prerender-v1", routes: { "/|en": {
     pathname: "/", locale: "en", asset: "/prerender/en/home.json",
   } } };
@@ -611,12 +611,15 @@ test("worker defers broad JavaScript hints on the prerendered homepage while ret
   assert.equal(response.status, 200);
   assert.match(body, /Independent platform comparison/);
   assert.match(body, /id="nexualpha-prerender-state"/);
+  const state = JSON.parse(body.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1] || "null");
+  assert.equal(state.coreApi, "unavailable");
   assert.doesNotMatch(body, /rel="modulepreload"/);
   assert.doesNotMatch(body, /route-news-test\.css/);
   assert.match(body, /route-v3-home-test\.css/);
   assert.match(body, /index-test\.css/);
   assert.doesNotMatch(body, /<script type="module"/);
   assert.match(body, /data-nexualpha-deferred-hydration/);
+  assert.doesNotMatch(body, /\/motion\/inner-motion\.js/);
 });
 
 test("worker applies homepage resource deferral to migrated locale paths", async () => {
@@ -641,7 +644,7 @@ test("worker applies homepage resource deferral to migrated locale paths", async
   assert.match(body, /data-nexualpha-deferred-hydration/);
 });
 
-test("homepage SSR retains registration card CSS before deferred hydration in its content languages", async () => {
+test("homepage SSR keeps only home route CSS before deferred hydration in its content languages", async () => {
   for (const locale of ["en", "ja", "ko", "tr", "ar"]) {
     const asset = `/prerender/${locale}/home.json`;
     const manifest = { version: "nexualpha-prerender-v1", routes: { [`/|${locale}`]: {
@@ -650,7 +653,7 @@ test("homepage SSR retains registration card CSS before deferred hydration in it
     const ASSETS = { async fetch(request) {
       const pathname = new URL(request.url).pathname;
       if (pathname === "/prerender-manifest.json") return Response.json(manifest);
-      if (pathname === asset) return Response.json({ html: '<main><h1>Platform comparison</h1><div class="registration-card registration-card--compact"><span class="registration-card__code-value">11350287</span></div></main>' });
+      if (pathname === asset) return Response.json({ html: '<main><h1>Platform comparison</h1><section class="h7"><div class="h7-hero"><p>Compare venues</p></div></section></main>' });
       if (pathname === "/index.html") return new Response(representativeStylesheetShell, { headers: { "content-type": "text/html; charset=utf-8" } });
       return new Response("missing", { status: 404 });
     } };
@@ -658,8 +661,9 @@ test("homepage SSR retains registration card CSS before deferred hydration in it
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS });
     const html = await response.text();
     assert.equal(response.status, 200, pathname);
-    assert.match(html, /<link rel="stylesheet" href="\/assets\/route-v3-registration-test\.css">/, `${pathname}: registration styles precede hydration`);
-    assert.match(html, /registration-card__code-value/);
+    assert.match(html, /<link rel="stylesheet" href="\/assets\/route-v3-home-test\.css">/, `${pathname}: home styles precede hydration`);
+    assert.doesNotMatch(html, /route-v3-registration-test\.css/, `${pathname}: zero-coverage registration CSS is not linked on home`);
+    assert.doesNotMatch(html, /route-v3-pages-test\.css/, `${pathname}: zero-coverage v3 page CSS is not linked on home`);
     assert.match(html, /data-nexualpha-deferred-hydration/);
     assert.doesNotMatch(html, /<script type="module"|rel="modulepreload"/);
     assert.doesNotMatch(html, /route-news-test\.css/);
@@ -682,7 +686,7 @@ test("worker filters stylesheets by prerendered route while retaining shared bas
   const articleSlug = articles[0].slug;
   const tokenizedTreasuryArticleSlug = articles.find((article) => String(article.slug).startsWith("tokenized-treasuries"))?.slug || articleSlug;
   const cases = [
-    ["/", "/prerender/en/home.json", "<main><h1>Independent platform comparison</h1><button data-cta-placement=\"home-open\">Open</button></main>", ["route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"]],
+    ["/", "/prerender/en/home.json", "<main><h1>Independent platform comparison</h1><button data-cta-placement=\"home-open\">Open</button></main>", ["route-v3-home-"]],
     ["/exchanges", "/prerender/en/exchanges.json", "<main><h1>Exchange directory</h1><button data-cta-placement=\"directory-open\">Open</button></main>", ["route-v3-pages-"]],
     ["/exchanges/binance", "/prerender/en/binance.json", "<main><h1>Binance review</h1><button data-cta-placement=\"venue-register\">Register</button><a href=\"/methodology\">Methodology</a></main>", ["route-v3-pages-", "route-v3-registration-", "route-activity-"]],
     ["/compare/binance-vs-okx", "/prerender/en/compare.json", "<main><h1>Binance vs OKX</h1><button data-cta-placement=\"compare-open\">Compare</button></main>", ["route-v3-pages-"]],

@@ -11,9 +11,14 @@
   --t-20: 1.25rem; --t-28: 1.75rem; --t-44: 2.75rem; --t-72: 4.5rem;
   --lh-tight: 1.05; --lh-head: 1.15; --lh-snug: 1.15; --lh-body: 1.55;
   /* legacy v3 family tokens still point at Inter on :root; Geist is the only UI family */
-  --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+  --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif;
   --font-display: var(--font-body);
 }
+
+:root:lang(zh-Hant) { --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", sans-serif; }
+:root:lang(ja) { --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto JP", "Hiragino Sans", "Yu Gothic UI", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+:root:lang(ko) { --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+:root:is(:lang(ar), :lang(ur)) { --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto Arabic", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", Tahoma, sans-serif; }
 @media (max-width: 40rem) {
   :root { --t-20: 1.125rem; --t-28: 1.5rem; --t-44: 2rem; --t-72: 2.75rem; }
 }

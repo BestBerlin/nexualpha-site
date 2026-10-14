@@ -529,7 +529,10 @@ test("the browser reads the flash JSON from /api/ (nginx serves /content/ static
   const { FLASH_FEED_URL } = await import("../src/data/flash.js");
   assert.equal(FLASH_FEED_URL, "/api/flash.json");
   const rail = await readFile(new URL("../src/components/flash/FlashRail.jsx", import.meta.url), "utf8");
-  assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
+  assert.match(rail, /subscribeLiveHub\("flash"/);
+  const hub = await readFile(new URL("../src/components/shared/live-hub.js", import.meta.url), "utf8");
+  assert.match(hub, /\/api\/live\.json/);
+  assert.doesNotMatch(rail, /startJsonPolling|setInterval/);
   for (const path of ["/api/flash.json?locale=en&limit=3", "/content/flash.json?locale=en&limit=3"]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), env());
     assert.equal(response.status, 200, path);

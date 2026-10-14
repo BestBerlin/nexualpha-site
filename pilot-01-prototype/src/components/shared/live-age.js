@@ -3,7 +3,7 @@ const listeners = new Set();
 let timer = null;
 function sync() {
   const active = listeners.size && document.visibilityState === 'visible';
-  if (active && timer === null) timer = setInterval(() => { const now = Date.now(); for (const fn of listeners) fn(now); }, 1000);
+  if (active && timer === null) timer = setInterval(() => { const now = Date.now(); for (const fn of listeners) fn(now); }, 30 * 1000);
   if (!active && timer !== null) { clearInterval(timer); timer = null; }
 }
 export function subscribeLiveAge(fn) {

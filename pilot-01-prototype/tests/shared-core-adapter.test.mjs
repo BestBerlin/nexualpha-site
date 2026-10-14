@@ -4,25 +4,28 @@ import test from "node:test";
 
 const adapter = await readFile(new URL("../src/data/site-data.ts", import.meta.url), "utf8");
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+const main = await readFile(new URL("../src/main.jsx", import.meta.url), "utf8");
 const featured = await readFile(new URL("../src/components/opportunity/FeaturedOpportunity.jsx", import.meta.url), "utf8");
 const marketCommand = await readFile(new URL("../src/data/market-command.js", import.meta.url), "utf8");
 const listings = await readFile(new URL("../src/components/listings/ListingsStream.jsx", import.meta.url), "utf8");
 
-test("Shared Core adapter uses the existing SDK and all required v1 endpoints", () => {
+test("Shared Core adapter uses the existing SDK and keeps initial Core loading to bootstrap", () => {
   assert.match(adapter, /import \{ CoreClient \} from "\.\.\/\.\.\/\.\.\/backend\/src\/sdk\/core-client\.ts"/);
-  for (const method of ["client.bootstrap(locale)", "client.opportunities()", "client.venues()", "client.listings()", "client.officialUpdates()", "client.assetPulse()", "client.exchangeSnapshots()", "client.resolveCommercial("]) assert.match(adapter, new RegExp(method.replace(/[()]/g, "\\$&")));
+  assert.match(adapter, /const bootstrap = await client\.bootstrap\(locale\)/);
+  assert.match(adapter, /export async function loadCoreSiteDataDemand/);
+  assert.match(adapter, /wanted\.has\("venues"\) \? client\.venues\(\)/);
+  assert.match(adapter, /wanted\.has\("officialUpdates"\) \? client\.officialUpdates\(\)/);
+  for (const method of ["client.opportunities()", "client.listings()", "client.assetPulse()", "client.exchangeSnapshots()", "client.resolveCommercial("]) assert.doesNotMatch(adapter, new RegExp(method.replace(/[()]/g, "\\$&")));
   assert.doesNotMatch(adapter, /client\.venue\(/, "the list already includes complete Venue records");
   assert.match(adapter, /item\.reviewStatus === "APPROVED" && item\.fixture === false/);
-  assert.match(adapter, /resolveCommercial\(opportunityResponse\.data\[0\]!\.slug\)\.then\(\(response\) => response\.data\)/);
   assert.match(adapter, /const corePrefix = "\/api\/v1"/);
   assert.match(adapter, /type CoreVenue = Awaited<ReturnType<CoreClient\["venue"\]>>\["data"\]/);
   assert.match(adapter, /verifiedBrandKey: venue\.verifiedBrandKey/);
   assert.match(adapter, /capability\.reviewStatus === "VERIFIED" && capability\.fixture === false/);
   assert.match(adapter, /assetCapabilities: venue\.assetCapabilities\.filter/);
   assert.match(adapter, /listingsAvailability: listings\.availability/);
-  assert.match(adapter, /normalizeMarketIntelligence/);
-  assert.match(adapter, /assetPulse\(\)\.then\(\(response\) => response\.data\)\.catch\(\(\) => undefined\)/);
-  assert.match(adapter, /exchangeSnapshots\(\)\.then\(\(response\) => response\.data\)\.catch\(\(\) => undefined\)/);
+  assert.match(adapter, /unavailableMarketIntelligence\(\)/);
+  assert.match(adapter, /bootstrapOnlyView\(bootstrap\)/);
 });
 
 test("production cannot silently select mock data", () => {
@@ -34,6 +37,8 @@ test("production cannot silently select mock data", () => {
 test("site data keeps no durable browser cache and fails closed when Core is unavailable", () => {
   assert.doesNotMatch(adapter, /localStorage|sessionStorage|document\.cookie|cacheKey|function persist|function restore/);
   assert.match(adapter, /catch \{\s*return \{ status: "error" \};\s*\}/);
+  assert.match(adapter, /coreApi === "unavailable" \|\| coreApi === "not_configured"/);
+  assert.match(adapter, /if \(coreApiUnavailable\(options\.coreApi\)\) return \{ status: "error" \}/);
   assert.match(adapter, /commercial && commercial\.decision\.outcome === "ALLOW" && commercial\.cta/);
   assert.match(adapter, /return closed\("No offer"\)/);
   assert.doesNotMatch(adapter, /kind: "external"|href: commercial\.cta\.href/);
@@ -42,6 +47,9 @@ test("site data keeps no durable browser cache and fails closed when Core is una
 test("the React surface clears failed data and delegates commercial eligibility to the view model", () => {
   assert.match(app, /catch\(\(\) => \{\s*if \(!alive\) return;\s*setSiteView\(null\);\s*setDataStatus\("error"\)/);
   assert.match(app, /dataset\.dataSource = siteView\?\.source \?\? "local-research"/);
+  assert.match(app, /loadSiteView\(locale, \{ coreApi: initialCoreApi \}\)/);
+  assert.match(app, /loadSiteDataDemand\(locale, coreRouteDemands, \{ coreApi: initialCoreApi \}\)/);
+  assert.match(main, /initialCoreApi=\{prerenderState\?\.coreApi\}/);
   assert.match(app, /setDataStatus\("error"\)/);
   assert.match(app, /presentationModel\(siteView, region, copy\)/);
   assert.doesNotMatch(featured, /href=|partner_link_click|opportunity_cta_click/);

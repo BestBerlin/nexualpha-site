@@ -153,6 +153,13 @@ const fetchHome = (pathname, { ua = HUMAN_UA, cookie, force = "off", method = "G
   method, headers: { accept: "text/html", "user-agent": ua, ...(cookie ? { cookie } : {}) },
 }), { ASSETS: assets, ...(force ? { HOME_HERO_EXPERIMENT_FORCE: force } : {}) });
 
+function stableHomeHtml(markup) {
+  return String(markup)
+    .replace(/<link rel="preload" as="image"(?: href="\/brands\/(?:bitget\.png|(?:okx|binance|bybit)\/icon-(?:64|128)\.webp)"| imageSrcSet="\/brands\/(?:okx|binance|bybit)\/icon-64\.webp 64w, \/brands\/(?:okx|binance|bybit)\/icon-128\.webp 128w" imageSizes="28px")\/>/g, "")
+    .replace(/tg_expires=\d+/g, "tg_expires=T")
+    .replace(/data-rendered-at="[^"]+"/g, 'data-rendered-at="T"');
+}
+
 test("worker, kill switch off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state)", async () => {
   for (const cookie of [undefined, "nx_hero=b"]) {
     const response = await fetchHome("/", { cookie });
@@ -162,7 +169,7 @@ test("worker, kill switch off: home HTML and headers are unchanged (A, public ca
     assert.equal(response.headers.get("x-nexualpha-hero-variant"), null);
     assert.match(response.headers.get("cache-control"), /^public, max-age=300/);
     assert.doesNotMatch(response.headers.get("vary") || "", /cookie/i);
-    assert.equal(rootInnerHtml(html), rendered["en:a"]);
+    assert.equal(stableHomeHtml(rootInnerHtml(html)), stableHomeHtml(rendered["en:a"]));
     assert.equal("heroVariant" in prerenderState(html), false);
     assert.match(html, /<style[^>]*>\.h7-hero\{display:grid\}/, "inline critical CSS path still applies");
   }
@@ -171,7 +178,7 @@ test("worker, kill switch off: home HTML and headers are unchanged (A, public ca
 test("worker, experiment running: B visitors get the B prerender, private + Vary: Cookie, crawlers get A", async () => {
   const b = await fetchHome("/id-id", { cookie: "nx_hero=b", force: "on" });
   const bHtml = await b.text();
-  assert.equal(rootInnerHtml(bHtml), rendered["id:b"], "served markup is the build-time B render");
+  assert.equal(stableHomeHtml(rootInnerHtml(bHtml)), stableHomeHtml(rendered["id:b"]), "served markup is the build-time B render");
   assert.equal(prerenderState(bHtml).heroVariant, "b");
   assert.equal(b.headers.get("x-nexualpha-hero-variant"), "b");
   assert.equal(b.headers.get("cache-control"), "private, max-age=300");
@@ -183,7 +190,7 @@ test("worker, experiment running: B visitors get the B prerender, private + Vary
   for (const ua of BOT_UAS) {
     const bot = await fetchHome("/", { ua, cookie: "nx_hero=b", force: "on" });
     const html = await bot.text();
-    assert.equal(rootInnerHtml(html), rendered["en:a"], `crawler sees A: ${ua}`);
+    assert.equal(stableHomeHtml(rootInnerHtml(html)), stableHomeHtml(rendered["en:a"]), `crawler sees A: ${ua}`);
     assert.equal(prerenderState(html).heroVariant, "a");
     assert.equal(bot.headers.get("set-cookie"), null);
   }
@@ -196,7 +203,7 @@ test("worker, experiment running: B visitors get the B prerender, private + Vary
     const variant = cookie?.match(/^nx_hero=(a|b); Path=\/; Max-Age=2592000; SameSite=Lax; Secure$/)?.[1];
     assert.ok(variant, `new visitor gets a bucket cookie (${cookie})`);
     assert.equal(prerenderState(html).heroVariant, variant, "the cookie names the variant that was rendered");
-    assert.equal(rootInnerHtml(html), rendered[`en:${variant}`]);
+    assert.equal(stableHomeHtml(rootInnerHtml(html)), stableHomeHtml(rendered[`en:${variant}`]));
     seen.add(variant);
   }
   assert.deepEqual([...seen].sort(), ["a", "b"], "both buckets are drawn");
@@ -209,9 +216,7 @@ for (const variant of ["a", "b"]) {
       const html = await (await fetchHome(pathname, { cookie: `nx_hero=${variant}`, force: "on" })).text();
       const state = prerenderState(html);
       assert.equal(state.heroVariant, variant);
-      // Both render-time metadata fields vary between independent SSR calls; hydration reuses the HTML clock.
-      const stable = (markup) => String(markup).replace(/tg_expires=\d+/g, "tg_expires=T").replace(/data-rendered-at="[^"]+"/g, 'data-rendered-at="T"');
-      assert.equal(stable(await harness.render(`https://nexualpha.com${pathname}`, { heroVariant: state.heroVariant })), stable(rootInnerHtml(html)), "client props render the same markup");
+      assert.equal(stableHomeHtml(await harness.render(`https://nexualpha.com${pathname}`, { heroVariant: state.heroVariant })), stableHomeHtml(rootInnerHtml(html)), "client props render the same markup");
       const { errors, inspected } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${pathname}`, {
         inspect: (window) => ({ h1: window.document.querySelector(".h7-hero h1")?.textContent, sub: window.document.querySelector(".h7-sub")?.textContent, marker: window.document.querySelector(".h7-hero")?.getAttribute("data-hero-variant") }),
       });

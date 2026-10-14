@@ -294,7 +294,7 @@ export default {
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
-    if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
+    if ((url.pathname === "/content/news-feed-summary.json" || /^\/content\/news-feed-page-1\.[A-Za-z-]+\.json$/.test(url.pathname)) && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
       const headers = new Headers(response.headers);
@@ -2794,7 +2794,7 @@ const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pa
 // hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390). Linked up front, the first paint already has the hydrated look.
 const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "shared-compare-picker-"]);
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
-  [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
+  [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-"],
   [EXCHANGES_ROUTE_MARKER]: DIRECTORY_PAGE_STYLE_PREFIXES,
   [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-", "route-licenses-"],
   [COMPARE_ROUTE_MARKER]: COMPARE_PAGE_STYLE_PREFIXES,
@@ -2802,8 +2802,8 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACTIVITY_UPDATE_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
-  [NEWS_ROUTE_MARKER]: ["route-news-", "page-news-", "route-activity-"],
-  [ARTICLE_ROUTE_MARKER]: ["route-news-", "page-news-"],
+  [NEWS_ROUTE_MARKER]: ["news-list-page-", "route-news-", "page-news-", "route-activity-"],
+  [ARTICLE_ROUTE_MARKER]: ["news-detail-page-", "route-news-", "page-news-"],
   [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
@@ -3355,6 +3355,17 @@ function safeJson(value) {
   return JSON.stringify(value).replaceAll("<", "\\u003c");
 }
 
+function coreApiPrerenderState(env) {
+  return env?.CORE_API_ORIGIN || env?.CORE_API_BASE_URL ? "ready" : "unavailable";
+}
+
+function withCoreApiPrerenderState(route = {}, env) {
+  return {
+    ...route,
+    coreApi: route.coreApi ?? coreApiPrerenderState(env),
+  };
+}
+
 function replaceOrInsert(html, expression, replacement) {
   // Function replacers: page text may contain "$'" or "$&", which String.replace would otherwise expand (QA 2026-10-11:
   // a Turkish research summary with "200$'a" truncated the SSR body and broke hydration on /tr/activities).
@@ -3682,7 +3693,18 @@ async function handleRouteSeoJson(request, env, url) {
   });
 }
 
-const ARABIC_FONT_PRELOAD_HREF = "/fonts/ar-400.woff2";
+const LOCALE_FONT_PRELOAD_HREFS = Object.freeze({
+  "zh-Hans": "/fonts/zh-Hans-400.woff2",
+  "zh-Hant": "/fonts/zh-Hant-400.woff2",
+  ja: "/fonts/ja-400.woff2",
+  ar: "/fonts/ar-400.woff2",
+  ur: "/fonts/ar-400.woff2",
+});
+
+function localeFontPreloadHref(locale) {
+  const value = String(locale || "en");
+  return LOCALE_FONT_PRELOAD_HREFS[value] || LOCALE_FONT_PRELOAD_HREFS[value.split("-")[0]] || null;
+}
 
 function injectPrerenderSeoAlternates(html, alternates) {
   if (!Array.isArray(alternates)) return html;
@@ -3711,10 +3733,11 @@ function injectRouteMetadata(html, metadata) {
       .replace(/\s+dir=["'][^"']*["']/gi, "");
     return `<html${preserved} lang="${pageLocale}" dir="${pageDirection}">`;
   });
-  // Arabic pages: fetch the Arabic face with the Geist preloads. Without it the font arrived 1-3 s after first paint and the
-  // wider glyphs re-wrapped the /ar/news intro, shifting everything below it (CLS 0.35 at 768 px, 2026-10-11).
-  if (pageDirection === "rtl" && !output.includes(ARABIC_FONT_PRELOAD_HREF)) {
-    output = output.replace(/(<link\b[^>]*rel=["']preload["'][^>]*geist-mono-latin\.woff2[^>]*>)/i, (tag) => `${tag}\n    <link rel="preload" href="${ARABIC_FONT_PRELOAD_HREF}" as="font" type="font/woff2" crossorigin />`);
+  // Locale CJK/Arabic faces are subset files. Preload only the active script next to the Geist face; otherwise the first
+  // paint falls back to wider system glyphs and then re-wraps the home hero/header after the subset arrives.
+  const localeFontPreloadHrefValue = localeFontPreloadHref(pageLocale);
+  if (localeFontPreloadHrefValue && !output.includes(localeFontPreloadHrefValue)) {
+    output = output.replace(/(<link\b[^>]*rel=["']preload["'][^>]*geist-mono-latin\.woff2[^>]*>)/i, (tag) => `${tag}\n    <link rel="preload" href="${localeFontPreloadHrefValue}" as="font" type="font/woff2" crossorigin />`);
   }
   output = replaceOrInsert(
     output,
@@ -3789,11 +3812,13 @@ async function loadPrerenderManifest(env, requestUrl) {
   return manifest;
 }
 
-function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
+function injectPrerenderedBody(html, appHtml, routeKey, route, url, env) {
   if (!appHtml || typeof appHtml !== "string") return html;
   const [pathname, locale] = routeKey.split("|");
+  route = withCoreApiPrerenderState(route, env);
   const brProjection = projectBrazilAttributionHtml(appHtml, pathname, url);
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
+    ...(route.coreApi ? { coreApi: route.coreApi } : {}),
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
     // Neutral locales (locale-policy.js): the state carries the same sign-up-free text the page renders.
@@ -4395,7 +4420,7 @@ function articleVenueTargets(article) {
     .map((slug) => `/exchanges/${slug}`);
 }
 
-function injectFallbackBody(html, metadata, url) {
+function injectFallbackBody(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const contentUrl = new URL(url);
@@ -4426,6 +4451,7 @@ function injectFallbackBody(html, metadata, url) {
     pathname: contentUrl.pathname,
     locale,
     version: "nexualpha-prerender-v1",
+    coreApi: coreApiPrerenderState(env),
     newsArticles: hydrationArticles,
     ...(newsListing ? { newsListing } : {}),
     ...(metadata.newsFeedFingerprint ? { newsFeedFingerprint: metadata.newsFeedFingerprint } : {}),
@@ -4477,7 +4503,7 @@ async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRo
     const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
       metadata.newsSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles, newsListing, ...(toolArticles ? { toolArticles } : {}) }), url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles, newsListing, ...(toolArticles ? { toolArticles } : {}) }), url, env);
     }
     console.error(`[NexuAlpha] news listing SSR returned no listing body for ${pathname} (${locale}); serving the fallback template`);
   } catch (error) {
@@ -4669,7 +4695,7 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
     const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="live-campaigns')) {
       metadata.activitiesSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements, toolArticles, activityContext: activityRequestContext(url) }, url);
+      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements, toolArticles, activityContext: activityRequestContext(url) }, url, env);
     }
     console.error(`[NexuAlpha] activities SSR returned no campaign body (${publicRoute.locale}); serving the prerendered page`);
   } catch (error) {
@@ -4690,7 +4716,7 @@ async function renderActivityUpdateAtRequestTime(html, metadata, url, env) {
     const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
     if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
       metadata.activitiesSsrMode = "runtime-update";
-      return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url);
+      return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url, env);
     }
     console.error(`[NexuAlpha] activity update SSR returned no page body for ${publicRoute.contentPathname} (${publicRoute.locale}); serving the app shell`);
   } catch (error) {
@@ -4728,7 +4754,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
     const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, hydrationData);
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, hydrationData, url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, hydrationData, url, env);
     }
     console.error(`[NexuAlpha] ${label} SSR returned no page body for ${pathname} (${locale}); serving the app shell`);
   } catch (error) {
@@ -4801,7 +4827,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
           const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
             metadata.newsSsrMode = "runtime";
-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }), url);
+            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }), url, env);
           }
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
@@ -4817,7 +4843,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { fundingMatrix });
         if (typeof appHtml === "string" && appHtml.includes('data-testid="funding-matrix-page"')) {
           metadata.dataSsrMode = fundingMatrix ? "runtime" : "runtime-no-feed";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { fundingMatrix }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { fundingMatrix }, url, env);
         }
       } catch { /* portable assets-only fallback */ }
     }
@@ -4833,7 +4859,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, liquidationLevels, toolArticles });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxd-hero")) {
           metadata.dataSsrMode = marketEvents ? "runtime" : "runtime-no-feed";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, liquidationLevels, toolArticles }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, liquidationLevels, toolArticles }, url, env);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4845,7 +4871,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { toolArticles });
         if (typeof appHtml === "string" && (appHtml.includes("v3-compare-page") || appHtml.includes("v3-compare-hub"))) {
           metadata.compareSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { toolArticles }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { toolArticles }, url, env);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4862,7 +4888,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxa ")) {
           metadata.academySsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url, env);
         }
         console.error(`[NexuAlpha] academy SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] academy SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4872,7 +4898,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"v2-shell nx-licenses")) {
           metadata.licensesSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url, env);
         }
         console.error(`[NexuAlpha] licenses SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] licenses SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4890,7 +4916,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, ...(newsArticles.length ? { newsArticles } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxc ")) {
           metadata.coinsSsrMode = overlay ? "runtime-snapshot" : "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, ...(newsArticles.length ? { newsArticles } : {}) }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, ...(newsArticles.length ? { newsArticles } : {}) }, url, env);
         }
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4902,7 +4928,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), intelTool ? { intelTool } : {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"v6 v2-page v3-page nxd nxi ")) {
           metadata.intelToolSsrMode = intelTool?.data ? "runtime" : "runtime-no-data";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, intelTool ? { intelTool } : {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, intelTool ? { intelTool } : {}, url, env);
         }
         console.error(`[NexuAlpha] intel tool SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] intel tool SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4915,7 +4941,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, fx });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxconvert")) {
           metadata.converterSsrMode = fx ? "runtime" : "runtime-no-fx";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, fx }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, fx }, url, env);
         }
         console.error(`[NexuAlpha] converter SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] converter SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4927,7 +4953,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { radar });
         if (typeof appHtml === "string" && (appHtml.includes("class=\"nxr ") || hasMainWithHeading(appHtml))) {
           metadata.radarSsrMode = radar.status === "unavailable" ? "runtime-unavailable" : "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { radar }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { radar }, url, env);
         }
         console.error(`[NexuAlpha] radar SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] radar SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4936,7 +4962,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
         if (typeof appHtml !== "string" || !appHtml.includes('class="nxb ')) throw new Error("Beginner SSR returned no page body");
-        return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { beginnerContext: activityRequestContext(url) }, url);
+        return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { beginnerContext: activityRequestContext(url) }, url, env);
       } catch (error) {
         console.error(`[NexuAlpha] beginner SSR failed for ${pathname} (${publicRoute.locale}); serving the app shell: ${error?.message || error}`);
       }
@@ -4947,7 +4973,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxg ")) {
           metadata.glossarySsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url, env);
         }
         console.error(`[NexuAlpha] glossary SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] glossary SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4962,7 +4988,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash, ...(ticker ? { ticker } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxf ")) {
           metadata.flashSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash, ...(ticker ? { ticker } : {}) }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash, ...(ticker ? { ticker } : {}) }, url, env);
         }
         console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4975,7 +5001,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
         if (typeof appHtml === "string" && (appHtml.includes("class=\"nxbg ") || appHtml.includes("class=\"nxbs ") || appHtml.includes("class=\"nxba ") || appHtml.includes("class=\"nxku ") || appHtml.includes("class=\"nxad "))) {
           metadata.campaignSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url, env);
         }
         console.error(`[NexuAlpha] campaign SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] campaign SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4987,7 +5013,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxb-hero")) {
           metadata.brandSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url, env);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -5001,7 +5027,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       if (rendered) return rendered;
     }
     metadata.newsSsrMode = "fallback";
-    return injectFallbackBody(html, metadata, url);
+    return injectFallbackBody(html, metadata, url, env);
   };
   // Locale-only prerenders predate request-market filtering. Restricted article editions
   // must use the filtered feed for their body and hydration, as well as the head.
@@ -5048,7 +5074,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       if (officialAnnouncements) {
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
         if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
-          return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url);
+          return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url, env);
         }
       }
     } catch (error) {
@@ -5137,7 +5163,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     const movers = await readMoversSnapshot(env);
     if (movers) { appHtml = spliceMoversHtml(appHtml, movers, routeKey.split("|")[1] || "en"); routePayload = { ...routePayload, movers }; }
   }
-  return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
+  return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url, env);
 }
 
 function sanitizeRawNewsFeedArticle(article) {
@@ -9005,9 +9031,39 @@ function protectPrerenderInteraction(html, eager = false) {
   return html.replace(/<script\b(?=[^>]*type=["']module["'])(?=[^>]*src=["']([^"']+)["'])[^>]*><\/script>/i, (tag, src) => {
     // If hydration retains a native details state, assigning the same open value
     // emits no toggle. Notify the attached state listener once; never replay a click.
-    const bridge = `<script data-nexualpha-deferred-hydration>/* Prerendered content is already visible. */(()=>{let p;const s=${safeJson(src)};const x=v=>CSS.escape(v);const r=e=>{for(let n=e;n&&n!==document;n=n.parentElement){for(let m=n;m=m.previousSibling;){if(m.nodeType===1){if(m.dataset?.nexualphaScopeEnd)break;if(m.dataset?.nexualphaScopeStart)return m.dataset.nexualphaScopeStart}}}return""};const y=a=>a?!!document.querySelector('[data-nexualpha-scope-start="'+x(a)+'"][data-nexualpha-interaction-ready="true"]'):document.documentElement.dataset.nexualphaHydrated==="true";const l=()=>p||(p=import(s).then(()=>true,()=>{p=null;return false}));const G=a=>new Promise(o=>{let t,d,v,D=false;const c=b=>{if(D)return;D=true;clearTimeout(t);if(v&&d)removeEventListener(v,d);o(b)};t=setTimeout(()=>c(false),8000);l().then(b=>{if(D)return;if(!b)return c(false);if(y(a))return c(true);v=a?"nexualpha:interaction-ready":"nexualpha:hydrated";d=()=>{if(y(a))c(true)};addEventListener(v,d)},()=>c(false))});const B=e=>{const C=t=>(t||"").replace(/\\s+/g," ").trim();let q="";if(e.id){const L=document.querySelector('label[for="'+x(e.id)+'"]');if(L)q=C(L.innerText||L.textContent)}if(!q){for(let n=e.parentElement;n&&n!==document;n=n.parentElement){if(n.tagName==="LABEL"){q=C(n.innerText||n.textContent);break}}}return q};const H=e=>(e.querySelector?.("summary")||e.tagName==="SUMMARY"&&e)?.textContent?.replace(/\\s+/g," ").trim()||"";const k=e=>({e,g:r(e),q:e.dataset?.ctaPlacement||"",d:e.dataset?.testid||"",i:e.id||"",c:e.getAttribute?.("aria-controls")||"",n:e.getAttribute?.("name")||"",a:e.getAttribute?.("aria-label")||"",b:B(e),h:H(e),t:(e.innerText||e.textContent||"").replace(/\\s+/g," ").trim()});const u=(a,e)=>!a.g||r(e)===a.g;const m=(a,z)=>[...document.querySelectorAll(z)].find(e=>u(a,e));const f=(a,z)=>{if(a.q){const n=m(a,'[data-cta-placement="'+x(a.q)+'"]');if(n)return n}if(a.d){const n=m(a,z+'[data-testid="'+x(a.d)+'"]');if(n)return n}if(a.i){const n=document.getElementById(a.i);if(n&&u(a,n))return n}if(a.c){const n=m(a,z+'[aria-controls="'+x(a.c)+'"]');if(n)return n}if(a.n){const n=m(a,z+'[name="'+x(a.n)+'"]');if(n)return n}if(a.a){const n=m(a,z+'[aria-label="'+x(a.a)+'"]');if(n)return n}if(a.b){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&B(e)===a.b);if(n.length===1)return n[0]}if(a.h){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&H(e)===a.h);if(n.length===1)return n[0]}if(a.t){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&(e.innerText||e.textContent||"").replace(/\\s+/g," ").trim()===a.t);if(n.length===1)return n[0]}return a.e?.isConnected?a.e:null};const R=/^(|text|search|number|range)$/;const I=e=>typeof HTMLInputElement!=="undefined"&&e instanceof HTMLInputElement&&R.test((e.getAttribute("type")||e.type||"text").toLowerCase());const W=new Map,T=new Map,WK=new WeakMap;let WC=0;const O=a=>[a.q,a.d,a.i,a.c,a.n,a.a,a.b,a.h,a.t].some(Boolean)?[a.g,a.q,a.d,a.i,a.c,a.n,a.a,a.b,a.h,a.t].join("|"):(WK.has(a.e)?WK.get(a.e):(WK.set(a.e,"@"+(++WC)),WK.get(a.e)));const E=(a,b)=>a.g===b.g&&["q","d","c","n","a","b","h","t"].some(h=>a[h]&&a[h]===b[h]);const Z=a=>{for(const [K,S]of W){if(E(S.a,a))W.delete(K)}for(const [K,S]of T){if(E(S.a,a))T.delete(K)}};const V=(e,v)=>{const p=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(e),"value"),o=Object.getOwnPropertyDescriptor(e,"value");if(o?.set&&p?.set&&e.value===v){const b=e.defaultValue??e.getAttribute?.("value")??"";if(b!==v)o.set.call(e,b)}p?.set?p.set.call(e,v):e.value=v};const A=c=>requestAnimationFrame(()=>requestAnimationFrame(c));const J=()=>{let o,t,d=false;const j=()=>{if(d)return;d=true;clearTimeout(t);if(o)o.disconnect();typeof requestIdleCallback==="function"?requestIdleCallback(()=>{l()},{timeout:3000}):setTimeout(()=>{l()},2500)};const f=()=>typeof performance!=="undefined"&&typeof performance.getEntriesByType==="function"&&performance.getEntriesByType("paint").some(e=>e.name==="first-contentful-paint");const b=()=>{t=setTimeout(j,3000);typeof requestAnimationFrame==="function"?A(j):j()};if(document.querySelector("#root")?.dataset?.nexualphaClientRender==="true")return j();try{if(f())return j();if(typeof PerformanceObserver!=="function"||!PerformanceObserver.supportedEntryTypes?.includes("paint"))return b();o=new PerformanceObserver(e=>{if(e.getEntries().some(e=>e.name==="first-contentful-paint"))j()});o.observe({type:"paint",buffered:true});t=setTimeout(j,3000);if(f())j()}catch{b()}};document.readyState==="complete"?J():addEventListener("load",J,{once:true});addEventListener("pointerdown",()=>{l()},{once:true,passive:true,capture:true});addEventListener("keydown",()=>{l()},{once:true,capture:true});addEventListener("touchstart",()=>{l()},{once:true,passive:true,capture:true});addEventListener("wheel",()=>{l()},{once:true,passive:true});document.addEventListener("input",async e=>{if(!I(e.target))return;const a=k(e.target);if(y(a.g)){Z(a);return}const K=O(a),S={v:e.target.value,a};W.set(K,S);e.stopImmediatePropagation();if(!await G(a.g)){if(W.get(K)===S)W.delete(K);return}if(W.get(K)!==S)return;A(()=>{if(W.get(K)!==S)return;const n=f(a,"input");if(I(n)){V(n,S.v);n.dispatchEvent(new Event("input",{bubbles:true}))}if(W.get(K)===S)W.delete(K)})},true);document.addEventListener("click",e=>{const q=e.target?.closest?.("summary"),d=q?.closest?.("details");if(!d)return;const a=k(d);if(y(a.g)){Z(a);return}const K=O(a),S={o:!!d.open,a};T.set(K,S);setTimeout(async()=>{if(T.get(K)!==S)return;S.o=!!d.open;if(!y(a.g)&&!await G(a.g)){if(T.get(K)===S)T.delete(K);return}if(T.get(K)!==S)return;requestAnimationFrame(()=>{if(T.get(K)!==S)return;const n=f(a,"details");if(n?.tagName==="DETAILS"){if(n.open===S.o)n.dispatchEvent(new Event("toggle"));else n.open=S.o}if(T.get(K)===S)T.delete(K)})},0)},true);document.addEventListener("change",async e=>{if(!(e.target instanceof HTMLSelectElement))return;const a=k(e.target);if(y(a.g))return;const v=e.target.value;e.stopImmediatePropagation();if(!await G(a.g))return;requestAnimationFrame(()=>{const n=f(a,"select");if(n instanceof HTMLSelectElement){n.value=v;n.dispatchEvent(new Event("change",{bubbles:true}))}})},true);document.addEventListener("click",async e=>{const b=e.target?.closest?.("button");if(!b)return;const a=k(b);if(y(a.g))return;e.preventDefault();e.stopImmediatePropagation();if(!await G(a.g))return;requestAnimationFrame(()=>f(a,"button")?.click())},true)})();</script>`;
+    const bridge = `<script data-nexualpha-deferred-hydration>/* Prerendered content is already visible. */(()=>{let p;const s=${safeJson(src)};const x=v=>CSS.escape(v);const r=e=>{for(let n=e;n&&n!==document;n=n.parentElement){for(let m=n;m=m.previousSibling;){if(m.nodeType===1){if(m.dataset?.nexualphaScopeEnd)break;if(m.dataset?.nexualphaScopeStart)return m.dataset.nexualphaScopeStart}}}return""};const y=a=>a?!!document.querySelector('[data-nexualpha-scope-start="'+x(a)+'"][data-nexualpha-interaction-ready="true"]'):document.documentElement.dataset.nexualphaHydrated==="true";const l=()=>p||(p=import(s).then(()=>true,()=>{p=null;return false}));const G=a=>new Promise(o=>{let t,d,v,D=false;const c=b=>{if(D)return;D=true;clearTimeout(t);if(v&&d)removeEventListener(v,d);o(b)};t=setTimeout(()=>c(false),8000);l().then(b=>{if(D)return;if(!b)return c(false);if(y(a))return c(true);v=a?"nexualpha:interaction-ready":"nexualpha:hydrated";d=()=>{if(y(a))c(true)};addEventListener(v,d)},()=>c(false))});const B=e=>{const C=t=>(t||"").replace(/\\s+/g," ").trim();let q="";if(e.id){const L=document.querySelector('label[for="'+x(e.id)+'"]');if(L)q=C(L.innerText||L.textContent)}if(!q){for(let n=e.parentElement;n&&n!==document;n=n.parentElement){if(n.tagName==="LABEL"){q=C(n.innerText||n.textContent);break}}}return q};const H=e=>(e.querySelector?.("summary")||e.tagName==="SUMMARY"&&e)?.textContent?.replace(/\\s+/g," ").trim()||"";const k=e=>({e,g:r(e),q:e.dataset?.ctaPlacement||"",d:e.dataset?.testid||"",i:e.id||"",c:e.getAttribute?.("aria-controls")||"",n:e.getAttribute?.("name")||"",a:e.getAttribute?.("aria-label")||"",b:B(e),h:H(e),t:(e.innerText||e.textContent||"").replace(/\\s+/g," ").trim()});const u=(a,e)=>!a.g||r(e)===a.g;const m=(a,z)=>[...document.querySelectorAll(z)].find(e=>u(a,e));const f=(a,z)=>{if(a.q){const n=m(a,'[data-cta-placement="'+x(a.q)+'"]');if(n)return n}if(a.d){const n=m(a,z+'[data-testid="'+x(a.d)+'"]');if(n)return n}if(a.i){const n=document.getElementById(a.i);if(n&&u(a,n))return n}if(a.c){const n=m(a,z+'[aria-controls="'+x(a.c)+'"]');if(n)return n}if(a.n){const n=m(a,z+'[name="'+x(a.n)+'"]');if(n)return n}if(a.a){const n=m(a,z+'[aria-label="'+x(a.a)+'"]');if(n)return n}if(a.b){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&B(e)===a.b);if(n.length===1)return n[0]}if(a.h){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&H(e)===a.h);if(n.length===1)return n[0]}if(a.t){const n=[...document.querySelectorAll(z)].filter(e=>u(a,e)&&(e.innerText||e.textContent||"").replace(/\\s+/g," ").trim()===a.t);if(n.length===1)return n[0]}return a.e?.isConnected?a.e:null};const R=/^(|text|search|number|range)$/;const I=e=>typeof HTMLInputElement!=="undefined"&&e instanceof HTMLInputElement&&R.test((e.getAttribute("type")||e.type||"text").toLowerCase());const W=new Map,T=new Map,WK=new WeakMap;let WC=0;const O=a=>[a.q,a.d,a.i,a.c,a.n,a.a,a.b,a.h,a.t].some(Boolean)?[a.g,a.q,a.d,a.i,a.c,a.n,a.a,a.b,a.h,a.t].join("|"):(WK.has(a.e)?WK.get(a.e):(WK.set(a.e,"@"+(++WC)),WK.get(a.e)));const E=(a,b)=>a.g===b.g&&["q","d","c","n","a","b","h","t"].some(h=>a[h]&&a[h]===b[h]);const Z=a=>{for(const [K,S]of W){if(E(S.a,a))W.delete(K)}for(const [K,S]of T){if(E(S.a,a))T.delete(K)}};const V=(e,v)=>{const p=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(e),"value"),o=Object.getOwnPropertyDescriptor(e,"value");if(o?.set&&p?.set&&e.value===v){const b=e.defaultValue??e.getAttribute?.("value")??"";if(b!==v)o.set.call(e,b)}p?.set?p.set.call(e,v):e.value=v};const A=c=>requestAnimationFrame(()=>requestAnimationFrame(c));const J=()=>{let d=false;const j=()=>{if(d)return;d=true;typeof requestIdleCallback==="function"?requestIdleCallback(()=>{l()},{timeout:1000}):setTimeout(()=>{l()},0)};j()};document.readyState==="loading"?addEventListener("DOMContentLoaded",J,{once:true}):J();addEventListener("pointerdown",()=>{l()},{once:true,passive:true,capture:true});addEventListener("keydown",()=>{l()},{once:true,capture:true});addEventListener("touchstart",()=>{l()},{once:true,passive:true,capture:true});addEventListener("wheel",()=>{l()},{once:true,passive:true});document.addEventListener("input",async e=>{if(!I(e.target))return;const a=k(e.target);if(y(a.g)){Z(a);return}const K=O(a),S={v:e.target.value,a};W.set(K,S);e.stopImmediatePropagation();if(!await G(a.g)){if(W.get(K)===S)W.delete(K);return}if(W.get(K)!==S)return;A(()=>{if(W.get(K)!==S)return;const n=f(a,"input");if(I(n)){V(n,S.v);n.dispatchEvent(new Event("input",{bubbles:true}))}if(W.get(K)===S)W.delete(K)})},true);document.addEventListener("click",e=>{const q=e.target?.closest?.("summary"),d=q?.closest?.("details");if(!d)return;const a=k(d);if(y(a.g)){Z(a);return}const K=O(a),S={o:!!d.open,a};T.set(K,S);setTimeout(async()=>{if(T.get(K)!==S)return;S.o=!!d.open;if(!y(a.g)&&!await G(a.g)){if(T.get(K)===S)T.delete(K);return}if(T.get(K)!==S)return;requestAnimationFrame(()=>{if(T.get(K)!==S)return;const n=f(a,"details");if(n?.tagName==="DETAILS"){if(n.open===S.o)n.dispatchEvent(new Event("toggle"));else n.open=S.o}if(T.get(K)===S)T.delete(K)})},0)},true);document.addEventListener("change",async e=>{if(!(e.target instanceof HTMLSelectElement))return;const a=k(e.target);if(y(a.g))return;const v=e.target.value;e.stopImmediatePropagation();if(!await G(a.g))return;requestAnimationFrame(()=>{const n=f(a,"select");if(n instanceof HTMLSelectElement){n.value=v;n.dispatchEvent(new Event("change",{bubbles:true}))}})},true);document.addEventListener("click",async e=>{const b=e.target?.closest?.("button");if(!b)return;const a=k(b);if(y(a.g))return;e.preventDefault();e.stopImmediatePropagation();if(!await G(a.g))return;requestAnimationFrame(()=>f(a,"button")?.click())},true)})();</script>`;
     return eager ? bridge + tag : bridge;
   });
+}
+
+const INNER_MOTION_SCRIPT_RE = /\s*<script\b[^>]*src=["\'](?:\/motion\/inner-motion\.js|\/assets\/inner-motion-[\w-]+\.js)["\'][^>]*><\/script>/i;
+const INNER_MOTION_SCRIPT_GLOBAL_RE = /\s*<script\b[^>]*src=["\'](?:\/motion\/inner-motion\.js|\/assets\/inner-motion-[\w-]+\.js)["\'][^>]*><\/script>/gi;
+const INNER_MOTION_SCRIPT = '<script src="/motion/inner-motion.js" defer></script>';
+
+function stripInnerMotionScript(html) {
+  return html.replace(INNER_MOTION_SCRIPT_GLOBAL_RE, "");
+}
+
+function innerMotionScriptTag(html) {
+  return INNER_MOTION_SCRIPT_RE.exec(html)?.[0]?.trim() || INNER_MOTION_SCRIPT;
+}
+
+function withInnerMotionScript(html, metadata) {
+  const home = metadata?.marker === HOME_ROUTE_MARKER;
+  const hasInnerMain = /<main\b[^>]*class=["\'][^"\']*\bv6\b(?![^"\']*\bhome-refinement\b)/i.test(html);
+  if (home || !hasInnerMain) return stripInnerMotionScript(html);
+  const script = innerMotionScriptTag(html);
+  return stripInnerMotionScript(html).replace(/<\/body>/i, `    ${script}\n  </body>`);
+}
+
+const HOME_BRAND_IMAGE_PRELOAD_RE = /\s*<link\b(?=[^>]*\brel=["']preload["'])(?=[^>]*\bas=["']image["'])(?=[^>]*(?:\bhref|\bimagesrcset)=["'][^"']*\/brands\/(?:bitget|okx|binance|bybit)(?:\.png|\/icon-(?:64|128)\.webp)(?:["'\s,]|[^"']*["']))[^>]*>/gi;
+
+function stripHomeBrandImagePreloads(html, metadata, url) {
+  const publicRoute = parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams());
+  const pathname = normalizePathname(publicRoute.contentPathname || url?.pathname || "/");
+  return metadata?.marker === HOME_ROUTE_MARKER || pathname === "/"
+    ? html.replace(HOME_BRAND_IMAGE_PRELOAD_RE, "")
+    : html;
 }
 
 function optimizeRouteResourceHints(html, metadata, url) {
@@ -9036,19 +9092,24 @@ function optimizeRouteResourceHints(html, metadata, url) {
   const styled = hasPrerenderState || isClientRenderedNews
     ? optimized.replace(/\s*<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi, (tag) => shouldKeepStylesheet(tag, allowedStylePrefixes) ? tag : "")
     : optimized;
-  const newsSummaryPreload = metadata?.marker === NEWS_ROUTE_MARKER || url?.pathname === "/news"
-    ? '<link rel="preload" href="/content/news-feed-summary.json" as="fetch" crossorigin />'
+  const newsPreloadHref = metadata?.marker === NEWS_ROUTE_MARKER || parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams()).contentPathname === "/news"
+    ? `/content/news-feed-page-1.${parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams()).locale || "en"}.json`
     : "";
-  const withNewsPreload = newsSummaryPreload && !/news-feed-summary\.json/.test(styled)
+  const newsSummaryPreload = newsPreloadHref
+    ? `<link rel="preload" href="${newsPreloadHref}" as="fetch" crossorigin />`
+    : "";
+  const withNewsPreload = newsSummaryPreload && !styled.includes(newsPreloadHref)
     ? styled.replace(/<\/head>/i, `${newsSummaryPreload}</head>`)
     : styled;
+  const withoutHomeBrandPreloads = stripHomeBrandImagePreloads(withNewsPreload, metadata, url);
+  const motionScoped = withInnerMotionScript(withoutHomeBrandPreloads, metadata);
   // Non-indexable locale news shells need immediate hydration to load their
   // summarized feed, but they do not need every route chunk or stylesheet.
-  if (!hasPrerenderState) return withNewsPreload;
+  if (!hasPrerenderState) return motionScoped;
   // Static prerender HTML cannot contain query-scoped decision state. Load the
   // application immediately for decision-passport URLs so the visible handoff
   // reflects account stage and funding without requiring an unrelated click.
-  return protectPrerenderInteraction(withNewsPreload, hasDecisionState);
+  return protectPrerenderInteraction(motionScoped, hasDecisionState);
 }
 
 function routeStylePrefixesForPath(url, metadata) {
@@ -9083,9 +9144,9 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.
-  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-", "route-v3-pages-strip-"];
-  if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-"];
-  if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "page-news-"];
+  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "news-list-page-", "route-news-", "page-news-", "route-v3-pages-strip-"];
+  if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "news-detail-page-", "route-news-", "page-news-"];
+  if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "news-detail-page-", "route-news-", "page-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) || isBrazilDeadlinePath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
@@ -9137,7 +9198,7 @@ function isCriticalCssHomeRoute(html, metadata, url) {
 }
 
 const DEFERRED_CSS_ATTR = "data-nexualpha-deferred-css";
-const DEFERRED_CSS_SWITCH = `<script>(()=>{const l=[...document.querySelectorAll("link[${DEFERRED_CSS_ATTR}]")];let n=l.length;const on=()=>{for(const e of l)e.media="all"};const d=()=>{if(--n===0)on()};for(const e of l){if(e.sheet)d();else{e.addEventListener("load",d,{once:true});e.addEventListener("error",d,{once:true})}}setTimeout(on,15000)})()</script>`;
+const DEFERRED_CSS_SWITCH = `<script>(()=>{for(const e of document.querySelectorAll("link[${DEFERRED_CSS_ATTR}]")){const on=()=>{e.media="all"};if(e.sheet)on();else{e.addEventListener("load",on,{once:true});e.addEventListener("error",on,{once:true});setTimeout(on,15000)}}})()</script>`;
 
 export function inlineCriticalStylesheets(html, critical) {
   if (!critical || typeof critical.css !== "string" || !critical.css || !Array.isArray(critical.sheets) || !critical.sheets.length) return html;
@@ -9148,6 +9209,15 @@ export function inlineCriticalStylesheets(html, critical) {
   if (tags.some((tag) => /\bmedia=/i.test(tag))) return html;
   const style = `<style data-nexualpha-critical="home">${critical.css.replace(/<\/style/gi, "<\\/style")}</style>`;
   const noscript = `<noscript>${tags.join("")}</noscript>`;
+  if (/^\/assets\/home-styles-[a-f0-9]{8}\.css$/.test(critical.deferredHref || "")) {
+    let emitted = false;
+    return html.replace(linkPattern, () => {
+      if (emitted) return "";
+      emitted = true;
+      return `${style}<link rel="stylesheet" crossorigin href="${critical.deferredHref}" media="print" ${DEFERRED_CSS_ATTR}>${DEFERRED_CSS_SWITCH}${noscript}`;
+    });
+  }
+
   let index = 0;
   // Function replacer: the CSS text may contain "$" sequences.
   return html.replace(linkPattern, (tag) => {

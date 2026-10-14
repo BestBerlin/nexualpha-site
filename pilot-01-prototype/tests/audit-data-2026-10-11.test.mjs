@@ -173,7 +173,7 @@ test("NX-02 benefit wording exists in all 15 locales and the factbook line match
 
 test("NX-02 home, factbook, registration card, /rates and the OG card read the single record", async () => {
   const reads = {
-    "src/components/v7/HomeV7.jsx": /partnerRebateShare\(slug\)/,
+    "src/components/v7/HomeV7.jsx": /HOME_REBATE_SHARE\[slug\]/,
     "src/components/v3/FactbookPage.jsx": /partnerBenefitParts\(venue\.slug, locale\)/,
     "src/components/v3/RegistrationCard.jsx": /partnerBenefitParts\(publicCta\.slug, locale\)/,
     "src/components/v3/CostDecision.jsx": /partnerRebateShare\(slug\)/,
@@ -182,6 +182,8 @@ test("NX-02 home, factbook, registration card, /rates and the OG card read the s
     "server/og-image.mjs": /partnerRebateShare\(slug\)/,
   };
   for (const [file, re] of Object.entries(reads)) assert.match(await readFile(path.join(projectRoot, file), "utf8"), re, file);
+  const generator = await readFile(path.join(projectRoot, "scripts/generate-home-rebate-runtime.mjs"), "utf8");
+  assert.match(generator, /home-rebate-tiers\.js/);
 });
 
 test("NX-02 /factbook/okx states the partner share with its basis instead of a bare pending; non-partners stay pending", async () => {

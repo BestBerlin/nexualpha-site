@@ -31,13 +31,15 @@ for (const pathname of ["/", "/zh-hans", "/exchanges/okx", "/compare/binance-vs-
   const html = await response.text();
   const dom = new JSDOM(html);
   const document = dom.window.document;
+  document.querySelectorAll("noscript").forEach((node) => node.remove());
   const sheets = [...new Set([...document.querySelectorAll('link[rel="stylesheet"]')].map((link) => link.getAttribute("href")))];
   const css = await Promise.all(sheets.map((href) => readFile(path.join(cssRoot, href))));
   const root = document.getElementById("root");
   if (!root?.querySelector("main") || !document.getElementById("nexualpha-prerender-state")) throw new Error(`${pathname}: missing SSR`);
   const inline = document.querySelector('[data-nexualpha-critical="home"]')?.textContent || "";
   rows.push({ pathname, sheets: sheets.length, cssBytes: css.reduce((n, value) => n + value.length, 0),
-    cssGzipBytes: css.reduce((n, value) => n + gzipSync(value).length, 0), inlineBytes: Buffer.byteLength(inline),
+    cssGzipBytes: css.reduce((n, value) => n + gzipSync(value).length, 0), inlineBytes: Buffer.byteLength(inline), inlineGzipBytes: gzipSync(inline).length,
+    totalCssGzipBytes: css.reduce((n, value) => n + gzipSync(value).length, 0) + gzipSync(inline).length,
     ssrSha256: createHash("sha256").update(root.innerHTML).digest("hex") });
   dom.window.close();
 }

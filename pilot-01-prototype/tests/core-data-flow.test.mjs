@@ -44,20 +44,43 @@ function clientFor({ updates = [], bootstrapFails = false, venues = coreVenueSee
   return client;
 }
 
-test("empty opportunities do not discard connected venue data or call commercial resolution", async () => {
+test("initial Core load only bootstraps the content version", async () => {
   const client = clientFor();
   const result = await adapter.loadCoreSiteView("zh-Hans", client);
 
   assert.equal(result.status, "ready");
   assert.equal(result.view.source, "core");
-  assert.equal(result.view.venues.length, 25);
-  assert.equal(result.view.venues.some((venue) => venue.slug === "drift"), true);
+  assert.equal(result.view.venues.length, 0);
   assert.equal(result.view.contentVersion, "integration-test-only");
   assert.deepEqual(result.view.listings, []);
   assert.equal(result.view.featured.action.kind, "closed");
   assert.equal(result.view.market.status, "unavailable");
+  assert.equal(client.calls.bootstrap, 1);
+  assert.equal(client.calls.opportunities, 0);
+  assert.equal(client.calls.venues, 0);
+  assert.equal(client.calls.listings, 0);
+  assert.equal(client.calls.officialUpdates, 0);
+  assert.equal(client.calls.assetPulse, 0);
+  assert.equal(client.calls.exchangeSnapshots, 0);
   assert.equal(client.calls.resolveCommercial, 0);
   assert.equal(client.calls.venue, 0);
+});
+
+test("configured route demand loads only the slices used by the active route", async () => {
+  const client = clientFor();
+  const result = await adapter.loadCoreSiteDataDemand(["venues", "officialUpdates"], client);
+
+  assert.equal(result.venues.length, 25);
+  assert.equal(result.venues.some((venue) => venue.slug === "drift"), true);
+  assert.deepEqual(result.officialUpdates, []);
+  assert.equal(client.calls.bootstrap, 0);
+  assert.equal(client.calls.opportunities, 0);
+  assert.equal(client.calls.venues, 1);
+  assert.equal(client.calls.listings, 0);
+  assert.equal(client.calls.officialUpdates, 1);
+  assert.equal(client.calls.assetPulse, 0);
+  assert.equal(client.calls.exchangeSnapshots, 0);
+  assert.equal(client.calls.resolveCommercial, 0);
 });
 
 test("a genuinely unavailable backend stays unavailable, not a successful local mock", async () => {
@@ -67,14 +90,23 @@ test("a genuinely unavailable backend stays unavailable, not a successful local 
   assert.equal(result.view, undefined);
 });
 
-test("required feeds with unavailable envelopes stay unavailable, not connected", async () => {
-  const result = await adapter.loadCoreSiteView("en", clientFor({ feedsUnavailable: true }));
+test("the prerender unavailable signal skips Core requests", async () => {
+  const client = clientFor();
+  const result = await adapter.loadSiteView("en", { coreApi: "unavailable" });
+
+  assert.equal(result.status, "error");
+  assert.equal(result.view, undefined);
+  assert.equal(client.calls.bootstrap, 0);
+});
+
+test("not_configured also skips Core requests before the browser adapter fetches", async () => {
+  const result = await adapter.loadSiteView("en", { coreApi: "not_configured" });
 
   assert.equal(result.status, "error");
   assert.equal(result.view, undefined);
 });
 
-test("fixture, unreviewed and expired updates cannot appear through a connected empty-opportunity feed", async () => {
+test("fixture, unreviewed and expired updates cannot appear through a bootstrap-only initial load", async () => {
   const published = {
     id: "test-only-current",
     title: "Test only",
@@ -95,5 +127,5 @@ test("fixture, unreviewed and expired updates cannot appear through a connected 
   const result = await adapter.loadCoreSiteView("en", clientFor({ updates }));
 
   assert.equal(result.status, "ready");
-  assert.deepEqual(result.view.officialUpdates.map((update) => update.id), ["test-only-current"]);
+  assert.deepEqual(result.view.officialUpdates.map((update) => update.id), []);
 });

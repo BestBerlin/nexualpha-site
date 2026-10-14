@@ -56,7 +56,7 @@ test("locale fallback editions are server-rendered with the client component: ma
     assert.deepEqual(headings, h1Texts(clientHtml), `${path}: SSR H1 equals the client H1`);
     assert.ok(linkCount(body) >= minLinks, `${path}: ${linkCount(body)} links in the SSR body (>= ${minLinks})`);
     const state = prerenderState(html);
-    assert.deepEqual(state, { pathname: content, locale, version: "nexualpha-prerender-v1" }, `${path}: minimal hydration payload`);
+    assert.deepEqual(state, { pathname: content, locale, version: "nexualpha-prerender-v1", coreApi: "unavailable" }, `${path}: minimal hydration payload`);
     assert.doesNotMatch(html, /rel="modulepreload"/, `${path}: speculative module preloads removed`);
   }
 });

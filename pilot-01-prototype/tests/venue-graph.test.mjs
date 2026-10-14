@@ -23,19 +23,25 @@ test("the venue route preloads its own module; compare, activities and 404 keep 
   assert.equal(ROUTE_MODULE_PATHS.venueDetail, "./components/v3/VenueDetailPage.jsx");
   assert.equal(ROUTE_MODULE_PATHS.venueResearch, "./components/v3/VenueDetailResearch.jsx");
   assert.deepEqual(modulePathsForRoute({ name: "venue" }), [ROUTE_MODULE_PATHS.venueDetail]);
-  for (const name of ["compare", "compareHub", "activity", "activities", "notFound"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.v3Pages], name);
+  for (const name of ["compare", "compareHub", "notFound"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.v3Pages], name);
+  for (const name of ["activity", "activities"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.activityPages], name);
   const app = read("../src/App.jsx");
   for (const path of ["./components/v3/VenueDetailPage.jsx", "./components/v3/VenueDetailResearch.jsx"]) {
     assert.equal(app.match(new RegExp(`^  "${path.replace(/[./]/g, "\\$&")}",$`, "gm"))?.length, 2, `${path} is listed in the browser and the SSR glob`);
   }
   assert.match(app, /deferredComponent\("\.\/components\/v3\/VenueDetailPage\.jsx", "VenueDetailPage"\)/);
   assert.match(app, /researchComponent=\{VenueDetailResearch\} prefetchResearch=\{prefetchVenueResearch\}/);
-  // The venue module itself must stay free of import.meta.env / import.meta.glob: server-side tests bundle it with esbuild.
-  for (const file of ["../src/components/v3/VenueDetailPage.jsx", "../src/components/v3/VenueDetailResearch.jsx", "../src/components/v3/venue-detail-shared.jsx", "../src/components/v3/v3-pages-shared.jsx"]) {
+  // Browser-only support islands use the same SSR eager-glob/lazy-client pattern as compare pages; source SSR tests load
+  // the page through Vite so the server branch keeps full HTML while the browser branch can defer chunk fetches.
+  for (const file of ["../src/components/v3/VenueDetailResearch.jsx", "../src/components/v3/venue-detail-shared.jsx", "../src/components/v3/v3-pages-shared.jsx"]) {
     assert.doesNotMatch(read(file), /import\.meta/, file);
   }
   const venue = read("../src/components/v3/VenueDetailPage.jsx");
+  assert.match(venue, /const venueSupportSsr = Boolean\(import\.meta\.env\?\.SSR\)/);
+  assert.match(venue, /import\.meta\.glob\(\[/);
   assert.match(venue, /<DeferUntilVisible target="\.v3-profile-sources-group" interactionOnly prefetch=\{prefetchResearch\}>/);
+  assert.match(venue, /<VenueLazyBoundary target="#quick-answers" prefetch=\{loadExchangeQuickAnswers\}>/);
+  assert.match(venue, /<VenueLazyBoundary target="\.v3-venue-coins" prefetch=\{loadVenuePopularCoins\}>/);
   assert.doesNotMatch(venue, /from "\.\/VenueDetailResearch\.jsx"/, "the first screen never imports the research hub statically");
   assert.doesNotMatch(venue, /official-campaign|compare-generated|compare-direct-answers|TopicGuide|FactbookPage|activity\/ActivityPages/);
   assert.doesNotMatch(read("../src/components/v3/V3Pages.jsx"), /export function VenueDetailPage/);
@@ -59,9 +65,13 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
   assert.equal(chunk("/src/components/v3/growth-conversion.css"), "route-v3-pages-growth");
   assert.equal(chunk("/src/components/v3/activity/campaign-copy.js"), "data-campaign-copy");
   assert.equal(chunk("/src/components/v3/activity/ActivityPages.jsx"), "route-activity");
-  for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/public-copy-sanitizer.js", "/src/data/contextual-href.js", "/src/data/plural-copy.js", "/src/utils/fallback-lang.js", "/src/utils/venue-name-helper.js", "/src/components/v3/exchange-matrix-copy.js"]) {
+  for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/contextual-href.js", "/src/data/plural-copy.js", "/src/utils/fallback-lang.js"]) {
     assert.equal(chunk(id), "shared-venue-copy", id);
   }
+  for (const id of ["/src/data/public-copy-sanitizer.js", "/src/utils/venue-name-helper.js"]) assert.equal(chunk(id), "shared-directory-tiny", id);
+  assert.equal(chunk("/src/components/v3/exchange-matrix-copy.js"), "route-exchange-matrix-copy");
+  assert.equal(chunk("/src/components/v3/BrazilDeadlineNotice.jsx"), "route-directory-support");
+  assert.equal(chunk("/src/data/venue-kyc-corrections.js"), "route-directory-support");
   assert.equal(chunk("/src/data/trading-bleed-feedback.js"), "shared-copy-feedback");
   for (const id of ["/src/components/v3/ExchangeFactsV5.jsx", "/src/components/v6/InnerLedger.jsx", "/src/components/v6/inner-r9-copy.js", "/src/lib/v5/Reveal.jsx"]) assert.equal(chunk(id), "shared-exchange-facts", id);
   // Cascade: the split stylesheets sit where their rules used to be (growth after route-v3-home; detail and the return
@@ -98,7 +108,8 @@ export function routePreloadList(entrySource, modulePath) {
 
 test("built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs", { skip: !built && "run after `npm run build`" }, () => {
   const assets = readdirSync(new URL("assets/", dist));
-  const entry = assets.find((name) => /^index-[\w-]+\.js$/.test(name));
+  const entry = assets.find((name) => /^index-[\w-]+\.js$/.test(name) && readFileSync(new URL(`assets/${name}`, dist), "utf8").includes("./components/v3/VenueDetailPage.jsx"));
+  assert.ok(entry, "built entry with the venue route map exists");
   const source = readFileSync(new URL(`assets/${entry}`, dist), "utf8");
   const venue = routePreloadList(source, "./components/v3/VenueDetailPage.jsx");
   const chunkNames = venue.map((file) => file.replace(/-[\w-]{8}\.(?:js|css)$/, ""));
@@ -115,8 +126,8 @@ test("built entry: the venue route's preload list excludes the compare, activity
   assert.doesNotMatch(source, /import"\.\/route-(?:v3-venue|activity|factbook|topic-guide)-[\w-]+\.js"/);
   const html = readFileSync(new URL("index.html", dist), "utf8");
   const linked = [...html.matchAll(/rel="stylesheet" crossorigin href="\/assets\/([\w-]+)-[\w-]{8}\.css"/g)].map((m) => m[1]);
-  for (const name of ["route-v3-pages", "route-v3-pages-detail", "route-v3-pages-growth", "route-v3-pages-return-banner", "route-v3-pages-directory"]) assert.ok(linked.includes(name), `${name} stylesheet linked in index.html`);
-  assert.ok(linked.indexOf("route-v3-pages-growth") < linked.indexOf("route-v3-pages"), "growth styles keep their early (route-v3-home) slot");
+  for (const name of ["route-v3-pages-detail", "route-v3-pages-growth", "route-v3-pages-return-banner", "route-v3-pages-directory", "route-v3-pages-strip"]) assert.ok(linked.includes(name), `${name} stylesheet linked in index.html`);
+  assert.ok(linked.indexOf("route-v3-pages-growth") < linked.indexOf("route-v3-pages-detail"), "growth styles keep their early slot before detail styles");
 });
 
 let harness;

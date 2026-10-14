@@ -4,13 +4,38 @@ import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { BrandMark } from "../brand/BrandMark";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
-import { academyShellCopy } from "../../data/academy.js";
+import { academyShellCopy } from "../../data/academy-shell.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
-import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
-import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "../../data/partner-page-links.js";
-import { venueDatabase } from "../../data/venue-database.js";
+import { homePartnersFor, homePushFor } from "../../data/home-rebate-runtime.js";
+import { publicCtaForVenue } from "../../data/source-bound-public-cta.js";
+import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
+
+const PARTNER_GROUP_LABEL = {
+  en: { referral: "Referral codes", info: "Partner exchange info" },
+  "zh-Hans": { referral: "邀请码", info: "合作平台开户信息" },
+  "zh-Hant": { referral: "邀請碼", info: "合作平台資訊" },
+  es: { referral: "Códigos de referido", info: "Información de plataformas" },
+  "pt-BR": { referral: "Códigos de indicação", info: "Informações das corretoras" },
+  fr: { referral: "Codes de parrainage", info: "Infos plateformes partenaires" },
+  de: { referral: "Empfehlungscodes", info: "Partnerbörsen-Infos" },
+  ja: { referral: "紹介コード", info: "提携取引所情報" },
+  ko: { referral: "추천 코드", info: "파트너 거래소 정보" },
+  tr: { referral: "Referans kodları", info: "Platform bilgileri" },
+  id: { referral: "Kode referral", info: "Info bursa partner" },
+  it: { referral: "Codici referral", info: "Info piattaforme partner" },
+};
+
+const FOOTER_PARTNER_NAMES = Object.freeze({
+  binance: "Binance", okx: "OKX", bybit: "Bybit", bitget: "Bitget", kraken: "Kraken", htx: "HTX", coinw: "CoinW", "gate-io": "Gate.io", mexc: "MEXC", backpack: "Backpack", hyperliquid: "Hyperliquid",
+});
+
+function partnerGroupLabel(locale = "en", hasPromotablePartner = false) {
+  const key = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
+  const copy = PARTNER_GROUP_LABEL[key] || PARTNER_GROUP_LABEL.en;
+  return hasPromotablePartner ? copy.referral : copy.info;
+}
 
 
 const footerLabelByLocale = {
@@ -477,16 +502,21 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
   const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
-  const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
   const columnLabels = getColumnLabels(locale);
   const turkeyRoute = locale === "tr" || market === "TR";
   const neutralLocale = isNeutralCtaLocale(locale);
-  const hasPromotablePartner = partnerExchangePageLinks(locale, { market }).some((link) => link.href.includes("#registration-path"));
-  const partnerSlugs = neutralLocale || !hasPromotablePartner ? [] : [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].slice(0, 6);
+  const partnerCandidates = homePartnersFor(locale, market);
+  const promotable = (slug) => {
+    const cta = publicCtaForVenue(slug, locale, market);
+    return !neutralLocale && cta.hasPartnerRoute && !cta.actionGate && isPartnerPromotableIn(slug, { locale, market });
+  };
+  const hasPromotablePartner = partnerCandidates.some(promotable);
+  const partnerGroupLabelText = partnerGroupLabel(locale, hasPromotablePartner);
+  const partnerSlugs = hasPromotablePartner ? [...new Set([...homePushFor(locale, market), ...partnerCandidates])].slice(0, 6) : [];
   const partnerLinks = partnerSlugs.map((slug) => ({
     key: `partner-${slug}`,
     slug,
-    name: venueDatabase[slug]?.name || slug,
+    name: FOOTER_PARTNER_NAMES[slug] || slug,
     href: href(`/exchanges/${slug}#registration-path`),
   }));
   const primaryColumns = [
@@ -584,8 +614,8 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           </details>)}
         </nav>
 
-        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__partner-row" aria-label={partnerGroupLabel} data-footer-partner-links>
-          <b className="nx-ftr__group-label">{partnerGroupLabel}</b>
+        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__partner-row" aria-label={partnerGroupLabelText} data-footer-partner-links>
+          <b className="nx-ftr__group-label">{partnerGroupLabelText}</b>
           <ul>
             {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug} className="nx-ftr__partner-link"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
           </ul>

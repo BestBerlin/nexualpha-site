@@ -2,6 +2,7 @@
 // /intel/market-events.json every 60 s while the tab is visible. A failed read keeps the last good feed on screen.
 import { useEffect, useState } from "react";
 import { DATA_PAGE_REFRESH_MS, MARKET_EVENTS_PATH } from "../../data/market-data-pages.js";
+import { useVisibleClock } from "../shared/visible-clock.js";
 
 export function useMarketEvents(initialFeed) {
   const [feed, setFeed] = useState(initialFeed ?? null);
@@ -24,12 +25,6 @@ export const prefersReducedMotion = () => typeof window !== "undefined" && typeo
 // Second ticker that only runs after mount, so SSR and the first client render agree (no countdown on the server).
 // With prefers-reduced-motion the clock ticks once a minute (countdowns show hh:mm), so no digits change every second.
 export function useClientNow(enabled = true) {
-  const [now, setNow] = useState(null);
-  useEffect(() => {
-    if (!enabled) return undefined;
-    setNow(Date.now());
-    const id = setInterval(() => setNow(Date.now()), prefersReducedMotion() ? 60 * 1000 : 1000);
-    return () => clearInterval(id);
-  }, [enabled]);
-  return now;
+  const now = useVisibleClock(null, { everyMs: prefersReducedMotion() ? 60 * 1000 : 30 * 1000 });
+  return enabled ? now : null;
 }

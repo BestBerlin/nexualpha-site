@@ -248,6 +248,12 @@ test("browser news summary loader keeps list runtime free of article bodies and 
     async json() { return feed; },
   }));
   assert.deepEqual(loaded, [summary]);
+  const requests = [];
+  await loadNewsArticleSummaries(async (url) => {
+    requests.push(url);
+    return { ok: true, async json() { return feed; } };
+  }, { locale: "zh-Hans" });
+  assert.deepEqual(requests, ["/content/news-feed-page-1.zh-Hans.json"]);
 
   const [directSummary] = normalizeNewsFeedSummaries({
     articles: [{
@@ -267,7 +273,12 @@ test("browser news summary loader keeps list runtime free of article bodies and 
   assert.equal("content" in directSummary, false);
   assert.equal("sources" in directSummary, false);
 
-  assert.deepEqual(await loadNewsArticleSummaries(async () => ({ ok: false })), []);
+  const fallbackRequests = [];
+  assert.deepEqual(await loadNewsArticleSummaries(async (url) => {
+    fallbackRequests.push(url);
+    return { ok: false };
+  }), []);
+  assert.deepEqual(fallbackRequests, ["/content/news-feed-page-1.en.json", "/content/news-feed-summary.json", "/content/news-feed.json"]);
   assert.deepEqual(await loadNewsArticleSummaries(async () => { throw new Error("network"); }), []);
 });
 
@@ -411,6 +422,11 @@ test("news route projection keeps hydration payload compact for list and detail 
   assert.equal(listProjection.title.ja, "日本語タイトル");
   assert.equal("content" in listProjection, false);
   assert.equal("sources" in listProjection, false);
+
+
+  const listRows = Array.from({ length: 30 }, (_, index) => ({ ...fullArticle[0], slug: `localized-projection-${index}`, publishedAt: new Date(Date.UTC(2026, 8, 18, 0, 0, index)).toISOString() }));
+  assert.equal(projectNewsFeedForRoute("/news", listRows, "ja").length, 24);
+  assert.equal(projectNewsFeedForRoute("/news/category/research/page/2", listRows, "ja")[0].content, undefined);
 
   const [detailProjection] = projectNewsFeedForRoute("/news/localized-projection", fullArticle, "ja");
   assert.equal(detailProjection.content.en, "Long verified English body that should stay off the list payload.");

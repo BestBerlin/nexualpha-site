@@ -6,7 +6,7 @@ import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
 import { rewritePartnerViewHtml } from "./data/partner-view.js";
-import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
+import { withHomeHeroVariant } from "./components/v7/home7-hero-context.js";
 import { computeRouteSeo } from "./data/seo-injection.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.

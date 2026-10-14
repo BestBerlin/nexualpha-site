@@ -3,17 +3,15 @@ import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
 import { nativeReferralFor } from '../../data/referral-native.js';
 import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
-import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
-import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
 // Venue detail route (/exchanges/<slug>): its own route module and chunk (route-v3-venue) since the venue-graph perf
 // lane (2026-10-11). Before, it lived inside V3Pages.jsx, so every venue page downloaded the compare, activity and
 // topic-guide graphs (39 chunks, 1.3 MB) after hydration. The stylesheets it relies on keep their "route-v3-pages-"
 // chunk names (profile-density, growth-conversion, Hyperliquid scenario) so the Worker links them exactly as before.
 import "./profile-density.css";
 import { APP_DOWNLOAD_SLUGS, appDownloadLabel, appDownloadPath } from "../../data/app-download-path.js";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
-import { TelegramAlertsStrip } from "./TelegramAlertsStrip.jsx";
+import { decisionWorkbenchCopy, routeCommonCopy } from "../../content/v2-route-copy.js";
 import { BrandMark } from "../brand/BrandMark";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
@@ -30,7 +28,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { buildTelegramWebsiteFunnelContext, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
-import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
+import { venueGoHref, publicCtaForVenue } from "../../data/source-bound-public-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
@@ -44,42 +42,61 @@ import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, isoDates, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
-import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
-import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { BYBIT_STOCKS_PATH, BYBIT_STOCKS_VENUE, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
 import { BITGET_ALLIANCE_PATH, BITGET_ALLIANCE_VENUE, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import { KRAKEN_USDG_PATH, KRAKEN_USDG_VENUE, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
-import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
 import { exchangeHubToolLinks } from "../../data/exchange-hub-links.js";
 import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
-import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
 import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
 import { updatePath } from "../../data/activity-update-path.js";
-import "./venue-popular-coins.css";
 
-const VENUE_COINS_COPY = {
-  en: { title: "Popular coins on {venue}", all: "All coins" },
-  "zh-Hans": { title: "{venue} 上的热门币种", all: "全部币种" },
-  "zh-Hant": { title: "{venue} 上的熱門幣種", all: "全部幣種" },
-  es: { title: "Monedas populares en {venue}", all: "Todas las monedas" },
-  "pt-BR": { title: "Moedas populares na {venue}", all: "Todas as moedas" },
-  fr: { title: "Cryptos populaires sur {venue}", all: "Toutes les cryptos" },
-  de: { title: "Beliebte Coins auf {venue}", all: "Alle Coins" },
-  ja: { title: "{venue}で人気の銘柄", all: "すべての銘柄" },
-  ko: { title: "{venue} 인기 코인", all: "전체 코인" },
-  tr: { title: "{venue} üzerindeki popüler coinler", all: "Tüm coinler" },
-  vi: { title: "Coin phổ biến trên {venue}", all: "Tất cả coin" },
-  id: { title: "Koin populer di {venue}", all: "Semua koin" },
-  ru: { title: "Популярные монеты на {venue}", all: "Все монеты" },
-  ar: { title: "عملات شائعة على {venue}", all: "كل العملات" },
-  it: { title: "Monete popolari su {venue}", all: "Tutte le monete" },
-  ur: { title: "{venue} پر مقبول کوائنز", all: "تمام کوائنز" },
-  uk: { title: "Популярні монети на {venue}", all: "Усі монети" },
-};
+const venueSupportSsr = Boolean(import.meta.env?.SSR);
+const ssrVenueSupportModules = venueSupportSsr ? import.meta.glob([
+  "./VenuePopularCoins.jsx",
+  "../licenses/LicensePages.jsx",
+  "./ExchangeQuickAnswers.jsx",
+  "../shared/HubNewsLinks.jsx",
+  "./VenueKeywordSections.jsx",
+  "./BrazilDeadlineNotice.jsx",
+  "./TelegramAlertsStrip.jsx",
+], { eager: true }) : {};
+const loadVenuePopularCoins = () => import("./VenuePopularCoins.jsx");
+const loadExchangeLicenses = () => import("../licenses/LicensePages.jsx");
+const loadExchangeQuickAnswers = () => import("./ExchangeQuickAnswers.jsx");
+const loadHubNewsLinks = () => import("../shared/HubNewsLinks.jsx");
+const loadVenueKeywordSections = () => import("./VenueKeywordSections.jsx");
+const loadBrazilDeadlineNotice = () => import("./BrazilDeadlineNotice.jsx");
+const loadTelegramAlertsStrip = () => import("./TelegramAlertsStrip.jsx");
+
+const VenuePopularCoins = venueSupportSsr
+  ? ssrVenueSupportModules["./VenuePopularCoins.jsx"].VenuePopularCoins
+  : lazy(() => loadVenuePopularCoins().then((module) => ({ default: module.VenuePopularCoins })));
+const ExchangeLicenseSection = venueSupportSsr
+  ? ssrVenueSupportModules["../licenses/LicensePages.jsx"].ExchangeLicenseSection
+  : lazy(() => loadExchangeLicenses().then((module) => ({ default: module.ExchangeLicenseSection })));
+const ExchangeQuickAnswers = venueSupportSsr
+  ? ssrVenueSupportModules["./ExchangeQuickAnswers.jsx"].ExchangeQuickAnswers
+  : lazy(() => loadExchangeQuickAnswers().then((module) => ({ default: module.ExchangeQuickAnswers })));
+const HubNewsLinks = venueSupportSsr
+  ? ssrVenueSupportModules["../shared/HubNewsLinks.jsx"].HubNewsLinks
+  : lazy(() => loadHubNewsLinks().then((module) => ({ default: module.HubNewsLinks })));
+const VenueKeywordSections = venueSupportSsr
+  ? ssrVenueSupportModules["./VenueKeywordSections.jsx"].VenueKeywordSections
+  : lazy(() => loadVenueKeywordSections().then((module) => ({ default: module.VenueKeywordSections })));
+const BrazilDeadlineNotice = venueSupportSsr
+  ? ssrVenueSupportModules["./BrazilDeadlineNotice.jsx"].BrazilDeadlineNotice
+  : lazy(() => loadBrazilDeadlineNotice().then((module) => ({ default: module.BrazilDeadlineNotice })));
+const TelegramAlertsStrip = venueSupportSsr
+  ? ssrVenueSupportModules["./TelegramAlertsStrip.jsx"].TelegramAlertsStrip
+  : lazy(() => loadTelegramAlertsStrip().then((module) => ({ default: module.TelegramAlertsStrip })));
+function VenueLazyBoundary({ target, prefetch, interactionOnly = false, rootMargin = "50% 0px", children }) {
+  return <DeferUntilVisible target={target} rootMargin={rootMargin} prefetch={prefetch} interactionOnly={interactionOnly}>{children}</DeferUntilVisible>;
+}
+
 const lastVerifiedLabel = (locale) => ({
   "zh-Hans": "最后核验",
   "zh-Hant": "最後核驗",
@@ -116,19 +133,7 @@ const notYetVerifiedLabel = (locale) => ({
   ur: "ابھی تصدیق نہیں ہوئی",
   uk: "Ще не перевірено",
 }[locale] || "Not yet verified");
-// Popular coins on this exchange (2026-10-12): the 20 largest coins it lists, linking our "where to buy" pages.
-function VenuePopularCoins({ slug, name, locale }) {
-  const coins = POPULAR_COINS_BY_VENUE[slug] || [];
-  if (!coins.length) return null;
-  const c = VENUE_COINS_COPY[locale] || (String(locale || "").startsWith("zh") ? VENUE_COINS_COPY["zh-Hans"] : VENUE_COINS_COPY.en);
-  return <section className="v2-section v3-venue-coins" aria-labelledby={`coins-${slug}`}>
-    <div className="section-lead"><h2 id={`coins-${slug}`}>{c.title.replace("{venue}", name)}</h2></div>
-    <ul className="v3-venue-coins__list">
-      {coins.map(([coin, coinName, symbol]) => <li key={coin}><LocalLink locale={locale} href={`/coins/${coin}`}><b>{coinName}</b><span translate="no">{symbol}</span></LocalLink></li>)}
-    </ul>
-    <p className="v3-venue-coins__all"><LocalLink locale={locale} href="/coins">{c.all} →</LocalLink></p>
-  </section>;
-}
+
 
 
 const invitationSummaryByLocale = {
@@ -470,7 +475,9 @@ function activityUrl(update) {
   return update.officialSource?.url || update.url || update.sourceUrl;
 }
 
-function ActivityCards({ copy, text, locale, updates }) {
+function ActivityCards({ text, locale, updates }) {
+  const workbench = decisionWorkbenchCopy(locale);
+  const common = routeCommonCopy(locale);
   if (!updates.length) return <div className="v3-empty" role="status"><b>{text.noReviewedActivity}</b><p>{text.activityEmpty}</p></div>;
   return <div className="v3-activity-list">{updates.map((update) => {
     const platform = activityPlatform(update);
@@ -481,8 +488,8 @@ function ActivityCards({ copy, text, locale, updates }) {
       <span>{platform.name} · {activityKind(update)}</span>
       <h3>{update.title}</h3>
       <dl>
-        <div><dt>{copy.decisionWorkbench.discovered}</dt><dd><time dateTime={discoveredAt}>{new Date(discoveredAt).toLocaleDateString(locale)}</time></dd></div>
-        {verifiedAt ? <div><dt>{copy.common.verifiedSource}</dt><dd><time dateTime={verifiedAt}>{new Date(verifiedAt).toLocaleDateString(locale)}</time></dd></div> : null}
+        <div><dt>{workbench.discovered}</dt><dd><time dateTime={discoveredAt}>{new Date(discoveredAt).toLocaleDateString(locale)}</time></dd></div>
+        {verifiedAt ? <div><dt>{common.verifiedSource}</dt><dd><time dateTime={verifiedAt}>{new Date(verifiedAt).toLocaleDateString(locale)}</time></dd></div> : null}
       </dl>
       <div className="v3-activity-actions">
         <LocalLink locale={locale} href={update.platform ? `/activities/${encodeURIComponent(update.id)}` : updatePath(update)}>{text.openActivityDetail}</LocalLink>
@@ -496,7 +503,7 @@ function ActivityCards({ copy, text, locale, updates }) {
 // module on the server and the route-module-cache wrapper in the browser, where its chunk (route-v3-venue-research)
 // loads when the reader opens the disclosure; `prefetchResearch` starts that download the moment the gate opens.
 // Tests that render the page directly use VenueDetailPageStatic.jsx, which wires the static component.
-export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch, initialNewsArticles = [] }) {
+export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch, initialNewsArticles = [], supportComponents = {} }) {
   const codeFeedback = useCopyFeedback(`${venue.slug}:code`);
   const copied = codeFeedback.state === "success";
   const [tradeVolume, setTradeVolume] = useState(50000);
@@ -531,6 +538,15 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const detailLabels = detailUi(locale);
   const invitationSummary = invitationSummaryByLocale[textLocaleKey(locale)] || invitationSummaryByLocale.en;
   const profile = venueProfile(venue, locale);
+  const hasVenueKeywordSections = profile.slug === "hyperliquid" || profile.slug === "backpack";
+  const mayRenderBrazilDeadline = String(locale || "").toLowerCase() === "pt-br";
+  const SupportVenuePopularCoins = supportComponents.VenuePopularCoins || VenuePopularCoins;
+  const SupportExchangeLicenseSection = supportComponents.ExchangeLicenseSection || ExchangeLicenseSection;
+  const SupportExchangeQuickAnswers = supportComponents.ExchangeQuickAnswers || ExchangeQuickAnswers;
+  const SupportHubNewsLinks = supportComponents.HubNewsLinks || HubNewsLinks;
+  const SupportVenueKeywordSections = supportComponents.VenueKeywordSections || VenueKeywordSections;
+  const SupportBrazilDeadlineNotice = supportComponents.BrazilDeadlineNotice || BrazilDeadlineNotice;
+  const SupportTelegramAlertsStrip = supportComponents.TelegramAlertsStrip || TelegramAlertsStrip;
   const runtimeUi = detailRuntimeUi(locale, text, profile.name);
   const research = researchForVenue(venue.slug, locale);
   const relatedEventView = visibleEventSourceItems(updates, { locale, venue: venue.slug, now: Date.now() });
@@ -876,7 +892,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <article className="v3-detail-grid__handoff">
           <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={effectiveMarket} product={effectiveProduct} accountStage={effectiveAccountStage} funding={effectiveFunding} />
         </article>
-        <TelegramAlertsStrip locale={locale} placement="venue-telegram-alerts" className="tg-signal-strip--venue" />
+        <VenueLazyBoundary target=".tg-signal-strip--venue" prefetch={loadTelegramAlertsStrip}><SupportTelegramAlertsStrip locale={locale} placement="venue-telegram-alerts" className="tg-signal-strip--venue" /></VenueLazyBoundary>
         </div>
 
         </div>
@@ -888,8 +904,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
-        <VenueKeywordSections slug={profile.slug} locale={locale} market={effectiveMarket} inviteCode={hasReferral ? inviteCode : null} />
-        <BrazilDeadlineNotice locale={locale} slug={profile.slug} placement="venue" />
+        {hasVenueKeywordSections && <VenueLazyBoundary target="[data-keyword-section]" prefetch={loadVenueKeywordSections}><SupportVenueKeywordSections slug={profile.slug} locale={locale} market={effectiveMarket} inviteCode={hasReferral ? inviteCode : null} /></VenueLazyBoundary>}
+        {mayRenderBrazilDeadline && <VenueLazyBoundary target={'[data-brazil-deadline-notice="venue"]'} prefetch={loadBrazilDeadlineNotice}><SupportBrazilDeadlineNotice locale={locale} slug={profile.slug} placement="venue" /></VenueLazyBoundary>}
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>
@@ -981,11 +997,11 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     </section>
 
-    <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} />
-    <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <VenueLazyBoundary target="#quick-answers" prefetch={loadExchangeQuickAnswers}><SupportExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} /></VenueLazyBoundary>
+    <VenueLazyBoundary target="#licenses" prefetch={loadExchangeLicenses}><SupportExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} /></VenueLazyBoundary>
     <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
-    <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
+    {(latestNews.length > 0 || hubTools.length > 0) && <VenueLazyBoundary target={`[data-hub-news-links="latest-${profile.slug}"]`} prefetch={loadHubNewsLinks}><SupportHubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} /></VenueLazyBoundary>}
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub" id="sources">
@@ -1006,13 +1022,13 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
     <VenueFaqSection venue={venue} profile={profile} locale={locale} market={effectiveMarket} db={db} partner={partner} />
 
-    <VenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} />
+    <VenueLazyBoundary target=".v3-venue-coins" prefetch={loadVenuePopularCoins}><SupportVenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} /></VenueLazyBoundary>
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />
       <div className="section-lead"><h2>{relatedAreReviewed ? text.reviewedActivity : text.activityState}</h2>{relatedAreReviewed && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
-      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
+      {related.length ? <ActivityCards text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
       {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 

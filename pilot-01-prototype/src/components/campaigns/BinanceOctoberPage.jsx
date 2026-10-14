@@ -4,7 +4,7 @@
 // promoted (binanceOctoberSignupGate + the source-bound CTA gate); neutral and restricted editions are informational.
 // Owner rules: the reader's reward leads, NexuAlpha only passes the offer on; no fine print on this page.
 // SSR renders every word; the countdown ticks after mount so the first client render matches the server HTML.
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BINANCE_OCTOBER_CAMPAIGNS, binanceCampaignActive, binanceCampaignHref } from "../../data/binance-october.js";
 import { BINANCE_OCTOBER_COPY } from "../../data/binance-october-copy.js";
 import { BINANCE_TOURNAMENT_COPY } from "../../data/binance-october-tournament-copy.js";
@@ -13,6 +13,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
 import { formatSgt } from "../../data/local-time.js";
+import { useVisibleClock } from "../shared/visible-clock.js";
 import "./binance-october.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -26,13 +27,8 @@ const hrefFor = (path, locale, market) => {
 };
 
 function useClock() {
-  const [now, setNow] = useState(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return now;
+  const now = useVisibleClock(null, { everyMs: 30 * 1000 });
+  return now ? new Date(now) : null;
 }
 
 function Cta({ href, campaign, children, ghost = false }) {

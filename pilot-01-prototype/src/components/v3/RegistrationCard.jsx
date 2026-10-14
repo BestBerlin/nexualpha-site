@@ -6,7 +6,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { directoryContext, directoryContextSearch } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
+import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-website-funnel.js";
 import { v3Copy } from "../../data/v3-product.js";
 import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/decision-passport.js";
 import { regionalShortlistAccountStageOptions, regionalShortlistCopy } from "../../data/regional-shortlist.js";

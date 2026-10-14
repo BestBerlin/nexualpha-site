@@ -11,7 +11,7 @@ import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { regionalVenueCta, venueGoHref } from "../../data/source-bound-cta.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
-import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
+import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-website-funnel.js";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { tradingBleedCopy } from "../../data/trading-bleed-copy.js";

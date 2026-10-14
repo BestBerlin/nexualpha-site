@@ -10,6 +10,30 @@ if (requestedBuildId && !/^3\.0-[0-9A-Za-z._-]{6,64}$/.test(requestedBuildId)) {
   throw new Error("BUILD_ID must use the 3.0- prefix and contain only letters, numbers, dots, underscores or hyphens");
 }
 const buildId = requestedBuildId || generatedBuildId;
+
+const INNER_MOTION_PUBLIC_PATH = new URL("./public/motion/inner-motion.js", import.meta.url);
+export function hashedInnerMotionPlugin() {
+  let referenceId;
+  let emittedFileName = null;
+  return {
+    name: "nexualpha-hashed-inner-motion",
+    apply: "build",
+    async buildStart() {
+      referenceId = this.emitFile({ type: "asset", name: "inner-motion.js", source: await readFile(INNER_MOTION_PUBLIC_PATH, "utf8") });
+    },
+    generateBundle() {
+      emittedFileName = referenceId ? this.getFileName(referenceId) : null;
+    },
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        const emitted = Object.values(ctx?.bundle || {}).find((item) => item.type === "asset" && item.name === "inner-motion.js")?.fileName;
+        const src = "/" + (emitted || emittedFileName || "motion/inner-motion.js");
+        return html.replace(/<script\b([^>]*)src=["']\/motion\/inner-motion\.js["']([^>]*)><\/script>/i, (_tag, before, after) => `<script${before}src="${src}"${after}></script>`);
+      },
+    },
+  };
+}
 const ssrLazyChunkWarningModules = [
   "/src/components/finder/CommandFinder.jsx",
   "/src/components/finder/SearchDialog.jsx",
@@ -25,14 +49,20 @@ const ssrLazyChunkWarningModules = [
 const SSR_EAGER_GLOB_PATTERN = /import\.meta\.env\.SSR\s*\?\s*import\.meta\.glob\((?:\[[^\]]*\]|"[^"]*")\s*,\s*\{\s*eager:\s*true\s*\}\)\s*:\s*\{\}/g;
 export function dropSsrEagerGlobForClient(code) {
   if (!code.includes("eager: true")) return null;
-  const next = code.replace(SSR_EAGER_GLOB_PATTERN, "import.meta.env.SSR ? {} : {}");
+  let next = code.replace(SSR_EAGER_GLOB_PATTERN, "import.meta.env.SSR ? {} : {}");
+  // Some source-only SSR fixtures use an optional env access. Recognize only
+  // aliases explicitly initialized from the SSR flag, never arbitrary booleans.
+  for (const match of code.matchAll(/const\s+([A-Za-z_]\w*)\s*=\s*Boolean\(import\.meta\.env\?\.SSR\)\s*;/g)) {
+    const pattern = new RegExp(`${match[1]}\\s*\\?\\s*import\\.meta\\.glob\\((?:\\[[^\\]]*\\]|"[^"]*")\\s*,\\s*\\{\\s*eager:\\s*true\\s*\\}\\)\\s*:\\s*\\{\\}`, "g");
+    next = next.replace(pattern, "import.meta.env.SSR ? {} : {}");
+  }
   return next === code ? null : next;
 }
-export const clientDropsSsrEagerGlobPlugin = () => ({
+export const clientDropsSsrEagerGlobPlugin = ({ isSsrBuild = false } = {}) => ({
   name: "nexualpha-client-drops-ssr-eager-glob",
   enforce: "pre",
   transform(code, id, options) {
-    if (options?.ssr || !/\.[jt]sx?(?:\?|$)/.test(id)) return null;
+    if (isSsrBuild || options?.ssr || !/\.[jt]sx?(?:\?|$)/.test(id)) return null;
     const next = dropSsrEagerGlobForClient(code);
     return next === null ? null : { code: next, map: null };
   },
@@ -130,6 +160,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         warn(warning);
       },
       output: {
+        // Keep dependencies in their own explicit manual chunks instead of letting Rollup fold unassigned shared
+        // modules into the first route chunk that touches them. That absorption created route -> home-below and
+        // route -> route imports that made every page download unrelated JS (perf lane 2026-10-14).
+        onlyExplicitManualChunks: !isSsrBuild,
         // Keep the large route/editorial surface cacheable independently from
         // the app shell. This reduces repeat navigation cost without changing
         // SSR output or hiding indexable content behind a client-only loader.
@@ -175,14 +209,41 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.endsWith("/src/components/v3/decision-return-link.css")) return "shared-decision-return";
           if (id.includes("/node_modules/react/") || id.includes("/node_modules/react-dom/")) return "vendor-react";
           if (id.includes("/node_modules/@inlang/") || id.includes("/node_modules/@paraglide/")) return "vendor-i18n";
+          if (!isSsrBuild) {
+            // Route data gets a stable chunk before the broad app-shell grouping below. Without this, any route table that
+            // the shell can name for matching is swallowed by core-shared and becomes part of every route closure.
+            if (id.endsWith("/src/data/news-feed-client.js")) return "shared-news-feed-client";
+            if (id.endsWith("/src/data/news-read-time.js")) return "shared-news-read-time";
+            if (id.endsWith("/src/data/news-library.js")) return "data-news-library";
+            if (id.endsWith("/src/data/brazil-market.js")) return "data-brazil-market";
+            if (id.includes("/src/data/aeo-question-registry.js") || id.includes("/src/data/topic-reviewed-faqs.js") || id.includes("/src/data/international-source-registry.js")) return "data-aeo-questions";
+            if (id.includes("/src/data/topic-guides-data.js")) return "data-topic-guides";
+            if (id.includes("/src/data/factbook-registry.js")) return "data-factbook";
+            if (id.includes("/src/data/venue-database.js")) return "data-venue";
+            if (id.includes("/src/data/exchange-research.js")) return "data-research";
+            if (id.includes("/src/data/official-campaign-research.js")) return "data-official-research";
+            if (id.includes("/src/data/venue-decision-content.js")) return "data-decision-content";
+            if (id.includes("/src/data/priority-venue-answers.js")) return "data-priority-venue-answers";
+            if (id.includes("/src/data/compare-pairs/") || id.includes("/src/data/compare-pair-answers.js")) return "data-compare-pair-answers";
+            if (id.includes("/src/data/compare-generated.js")) return "data-compare-generated";
+            if (id.includes("/src/data/compare-direct-answers.js") || id.includes("/src/data/compare-direct-answer-drafts.js")) return "data-compare-direct-answers";
+            if (id.includes("/src/data/compare-faq-locales.js")) return "data-compare-faq-locales";
+            if (id.includes("/src/data/telegram-config.js")) return "data-telegram";
+            if (id.includes("/src/data/v3-product.js")) return "data-v3-product";
+            if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
+            if (id.endsWith("/src/data/event-source.js")) return "data-event-source";
+            if (/\/src\/data\/(?:funding-rates|movers|movers-html)\.js$/.test(id)) return "data-live-market";
+            if (/\/src\/components\/shared\/(?:live-hub|live-age|visible-clock)\.js$/.test(id)) return "shared-live-hub";
+          }
           // Rollup folds the unassigned static dependencies of a manual chunk into that chunk. Before 2026-10-11 that
           // dragged data every page needs (locale routing, CTA copy, exchange facts...) into route chunks, so the
           // browser entry pulled route-international, route-activity, data-telegram and more on every page. Data,
           // content and helper modules that the browser entry reaches through static imports now share one chunk that
           // is always loaded first; components keep their place so their stylesheets keep their link position.
           if (!isSsrBuild && /\/src\/(?:data|content|lib|hooks|utils|paraglide)\//.test(id) && isStaticallyReachableFromClientEntry(id, getModuleInfo)) return "core-shared";
-          // Home copy is read by the first screen and by the registration card: keep it with the always-loaded data.
-          if (!isSsrBuild && id.includes("/src/components/v7/home7-copy")) return "core-shared";
+          // Home copy belongs to the home route. Keeping all locales in core-shared made every route pay for the home hero.
+          if (!isSsrBuild && id.includes("/src/components/v7/home7-hero-variants")) return "home-hero-variant";
+            if (!isSsrBuild && (id.includes("/src/components/v7/HomeV7") || id.includes("/src/components/v7/home7-copy") || id.includes("/src/components/v7/home7-neutral-copy"))) return "route-home-v7";
           // Home first screen: the alerts strip (and the alerts copy it shares with article footers) must not drag the V3
           // page or news chunks in. Its stylesheet keeps the "route-v3-pages-" prefix it had inside the V3 page chunk, so
           // the worker links it on the same routes as before.
@@ -206,7 +267,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           }
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
-            || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
+            || id.includes("/src/components/v7/home7-shared")
             || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule") || id.includes("/src/components/shared/SourceLink"))) return "core-ui";
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
@@ -241,8 +302,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules
           // (glossary-index/shard/links-<locale>.js) stay lazy chunks of their own via glossary-content-loader.js.
           if (id.includes("/src/components/glossary/") || /\/src\/data\/glossary(?:-copy|-terms)?\.js$/.test(id)) return "route-glossary";
+          // Venue ordering is shared by directory, promotions, home and app-download code. Keep it out of the
+          // directory chunk; otherwise the SSR graph can cycle through data-promotions before directory-context finishes
+          // initializing its exported comparator.
+          if (id.endsWith("/src/data/venue-priority.js")) return "shared-venue-priority";
           // The promotions resolver (SponsoredSlot) is read by the news article and glossary chunks: pinned with the
           // partner status it evaluates at load, so neither route chunk imports the other (SSR build: TDZ cycle).
+          if (!isSsrBuild && id.endsWith("/src/data/partner-benefit-status.js")) return "data-partner-benefit";
           if (/\/src\/data\/(?:promotions|promotions\.generated|promotion-copy|partner-benefit-status)\.js$/.test(id)) return "data-promotions";
           // Its auto-linker is read by the news article and academy lesson chunks: pinned so neither pulls the other.
           if (id.includes("/src/components/shared/GlossaryTooltip.jsx") || id.includes("/src/components/shared/glossary-tooltip.css") || id.endsWith("/src/data/glossary-tooltip-copy.js")) return "shared-glossary-tooltip";
@@ -279,7 +345,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/international/")) return "route-international";
           // campaignCopy labels the venue page's activity panel too; alone in its chunk it no longer drags route-activity
           // (official-campaign-localizations, 750 KB) onto venue pages (venue-graph lane 2026-10-11).
+          if (!isSsrBuild && id.endsWith("/src/components/v3/activity/ActivityCenterV3.jsx")) return "deferred-activity-center";
+          if (!isSsrBuild && id.endsWith("/src/components/v3/activity/ActivityDetailPage.jsx")) return "deferred-activity-detail";
+          if (!isSsrBuild && id.endsWith("/src/components/v3/VenuePopularCoins.jsx")) return "deferred-venue-coins";
+          if (!isSsrBuild && id.endsWith("/src/components/v3/CleanFooter.jsx")) return "deferred-clean-footer";
           if (id.includes("/src/components/v3/activity/campaign-copy")) return "data-campaign-copy";
+          if (!isSsrBuild && id.endsWith("/src/components/v3/activity/ActivityPages.jsx")) return "route-activity";
+          if (!isSsrBuild && /\/src\/components\/v3\/activity\/.*\.[jt]sx?$/.test(id)) return "deferred-activity-shared";
           if (id.includes("/src/components/v3/activity/")) return "route-activity";
           if (id.includes("/src/components/v3/news/NewsListPage")) return "route-news-list";
           if (id.includes("/src/components/v3/news/NewsDetailPage")) return "route-news-detail";
@@ -332,9 +404,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // (reviewed-fee-copy, venue-fee-summary, venue-name-helper), route-v3-home (reviewed-base-fees) and route-activity
           // (campaign-copy) and dragged those graphs onto every venue page; after the audit merge plural-copy sat inside
           // route-rates and pulled the rates, factbook and calculator graphs back in. Pin them to small shared chunks.
-          if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/public-copy-sanitizer|data\/contextual-href|data\/plural-copy|utils\/fallback-lang|utils\/venue-name-helper|components\/v3\/exchange-matrix-copy)\.js$/.test(id)) return "shared-venue-copy";
-          // Brazil BCB deadline notice: shared by the directory, venue and Brazil topic chunks (no stylesheet of its own).
-          if (/\/src\/(?:data\/brazil-vasp-status\.js|data\/venue-kyc-corrections\.js|components\/v3\/BrazilDeadlineNotice\.jsx)$/.test(id)) return "shared-venue-copy";
+          if (/\/src\/(?:data\/public-copy-sanitizer|utils\/venue-name-helper)\.js$/.test(id)) return "shared-directory-tiny";
+          if (/\/src\/components\/v3\/exchange-matrix-copy\.js$/.test(id)) return "route-exchange-matrix-copy";
+          if (/\/src\/(?:data\/brazil-vasp-status\.js|data\/venue-kyc-corrections\.js|components\/v3\/BrazilDeadlineNotice\.jsx)$/.test(id)) return "route-directory-support";
+          if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/contextual-href|data\/plural-copy|utils\/fallback-lang)\.js$/.test(id)) return "shared-venue-copy";
           if (id.includes("/src/components/v3/ExchangeFactsV5") || id.includes("/src/components/v6/InnerLedger") || id.includes("/src/components/v6/inner-r9-copy") || id.includes("/src/lib/v5/")) return "shared-exchange-facts";
           // CSS-only chunks keep the "route-v3-pages-" prefix the Worker allow-lists on the venue, compare and home routes.
           if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css")) return "route-v3-pages-detail";
@@ -467,7 +540,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         });
       },
     },
-    clientDropsSsrEagerGlobPlugin(),
+    hashedInnerMotionPlugin(),
+    clientDropsSsrEagerGlobPlugin({ isSsrBuild }),
     react(),
     paraglideVitePlugin({
       project: "./project.inlang",

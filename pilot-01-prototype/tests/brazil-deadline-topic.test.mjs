@@ -39,7 +39,7 @@ function render(entries) {
       for (const [kind, locale, slug] of ${JSON.stringify(entries)}) {
         out[kind + ":" + locale + ":" + (slug || "")] = kind === "page"
           ? renderToStaticMarkup(React.createElement(BrazilDeadlinePage, { locale }))
-          : renderToStaticMarkup(React.createElement(BrazilDeadlineNotice, { locale, slug, placement: "venue" }));
+          : renderToStaticMarkup(React.createElement(BrazilDeadlineNotice, { locale, slug, placement: slug ? "venue" : "directory" }));
       }
       console.log(JSON.stringify(out));
     `);
@@ -166,9 +166,12 @@ test("exchanges notice: pt-BR only, links the Portuguese edition, names the exch
   assert.match(pages["notice:pt-BR:"], /30 de outubro de 2026/);
   assert.ok(brazilDeadlineNotice("pt-BR", "kraken")?.venue);
   const venue = readFileSync(path.join(root, "src/components/v3/VenueDetailPage.jsx"), "utf8");
-  const directory = readFileSync(path.join(root, "src/components/v3/VenueYellowPages.jsx"), "utf8");
-  assert.match(venue, /<BrazilDeadlineNotice locale=\{locale\} slug=\{profile\.slug\}/);
-  assert.match(directory, /<BrazilDeadlineNotice locale=\{locale\} placement="directory"/);
+  const staticVenue = readFileSync(path.join(root, "src/components/v3/VenueDetailPageStatic.jsx"), "utf8");
+  const notice = readFileSync(path.join(root, "src/components/v3/BrazilDeadlineNotice.jsx"), "utf8");
+  assert.match(venue, /<SupportBrazilDeadlineNotice locale=\{locale\} slug=\{profile\.slug\}/);
+  assert.match(venue, /<VenueLazyBoundary target=\{'\[data-brazil-deadline-notice="venue"\]'\} prefetch=\{loadBrazilDeadlineNotice\}>/);
+  assert.match(staticVenue, /BrazilDeadlineNotice,/, "source SSR wrapper keeps the Brazil notice component wired statically");
+  assert.match(notice, /placement = "directory"/);
 });
 
 test("MEXC KYC copy: identity verification is required, no numeric no-KYC limit anywhere outside articles", () => {

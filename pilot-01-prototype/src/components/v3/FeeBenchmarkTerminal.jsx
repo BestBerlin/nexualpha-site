@@ -12,25 +12,52 @@ import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import "./fee-benchmark-terminal.css";
-import { CostDecision } from "./CostDecision.jsx";
-import { regionalVenueCta, venueGoHref } from "../../data/source-bound-cta.js";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { venueGoHref } from "../../data/source-bound-public-cta.js";
 import { isTurkeyGated, isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
-import { matrixCopy } from "./exchange-matrix-copy.js";
+import { matrixCopy } from "../../data/rates-matrix-copy.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
-import { partnerBenefitStatus } from "../../data/partner-benefit-status.js";
-import { costBasisCopy } from "../../data/cost-decision-copy.js";
-import { h7Copy } from "../v7/home7-copy.js";
+import { partnerBenefitStatus } from "../../data/partner-benefit-record.js";
+import { costBasisCopy } from "../../data/rates-matrix-copy.js";
+
+const ssrCostModules = import.meta.env.SSR ? import.meta.glob(["./CostDecision.jsx"], { eager: true }) : {};
+const CostDecision = import.meta.env.SSR
+  ? ssrCostModules["./CostDecision.jsx"].CostDecision
+  : React.lazy(() => import("./CostDecision.jsx").then((module) => ({ default: module.CostDecision })));
 
 // Scope and conditions are two sentences: the scope gets its own full stop ("…USDC columns. Uses…").
 const sentence = (t) => { const v = String(t || "").trim(); return !v || /[.!?。！？:：]$/.test(v) ? v : `${v}.`; };
+
+
+const upToCopy = Object.freeze({
+  en: "Up to",
+  "zh-Hans": "最高",
+  "zh-Hant": "最高",
+  ja: "最大",
+  ko: "최대",
+  tr: "En fazla",
+  es: "Hasta",
+  "pt-BR": "Até",
+  fr: "Jusqu’à",
+  de: "Bis zu",
+  ru: "До",
+  ar: "حتى",
+  id: "Hingga",
+  vi: "Tối đa",
+  it: "Fino a",
+  ur: "تک",
+  uk: "До",
+});
+const upToLabel = (locale) => upToCopy[locale] || (String(locale || "").startsWith("zh") ? upToCopy["zh-Hans"] : upToCopy.en);
 
 const MONITOR_SLUGS = Object.keys(venueDatabase);
 const MONITOR_VENUE_COUNT = MONITOR_SLUGS.length;
@@ -510,52 +537,52 @@ const copy = {
     eyebrow: "TERMINAL / RATE BENCHMARK",
     title: "CEX vs DEX 公开费率基准台",
     subtitle: "对比各平台公开的现货与永续合约基础费率；用户权益和净费率仅在官方来源核验后展示。",
-    filterAll: `全部 ${MONITOR_VENUE_COUNT} 家`,
-    filterCex: "中心化 (CEX)",
-    filterDex: "链上 (Perp DEX)",
+
+
+
     colVenue: "交易平台",
-    colCategory: "类别",
-    colSpotTaker: "现货 Taker",
-    colFuturesTaker: "合约 Taker",
+
+
+
     colRebate: "专属返佣",
     colNetTaker: "折后净 Taker",
     colTrend: "7日费率趋势",
     colAction: "快捷开户",
-    cta: "开户 ↗",
+
   },
   "zh-Hant": {
     eyebrow: "TERMINAL / RATE BENCHMARK",
     title: "CEX vs DEX 公開費率基準台",
     subtitle: "對比各平台公開的現貨與永續合約基礎費率；用戶權益與淨費率僅在官方來源核驗後展示。",
-    filterAll: `全部 ${MONITOR_VENUE_COUNT} 家`,
-    filterCex: "中心化 (CEX)",
-    filterDex: "鏈上 (Perp DEX)",
+
+
+
     colVenue: "交易平台",
-    colCategory: "類別",
-    colSpotTaker: "現貨 Taker",
-    colFuturesTaker: "合約 Taker",
+
+
+
     colRebate: "專屬返傭",
     colNetTaker: "折後淨 Taker",
     colTrend: "7日費率趨勢",
     colAction: "快捷開戶",
-    cta: "查看官方条款 ↗",
+
   },
   en: {
     eyebrow: "TERMINAL / RATE BENCHMARK",
     title: "Published exchange fee benchmark",
     subtitle: "Compare published spot and futures base rates. User benefits and net rates appear only after official-source verification.",
-    filterAll: `All ${MONITOR_VENUE_COUNT} Venues`,
-    filterCex: "CEX",
-    filterDex: "Perp DEX",
+
+
+
     colVenue: "Exchange",
-    colCategory: "Category",
-    colSpotTaker: "Spot Taker",
-    colFuturesTaker: "Futures Taker",
+
+
+
     colRebate: "Rebate",
     colNetTaker: "Net Rate",
     colTrend: "7D Trend",
     colAction: "Sign Up",
-    cta: "Official terms ↗",
+
   },
 };
 
@@ -606,7 +633,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     // the home calculator's formula (base × (1 − top share)), labelled "after max rebate".
     const partner_ = rebatePercent > 0 || isTurkeyGated(slug, { locale, market }) ? null : partnerBenefitStatus(slug);
     const sharePct = rebatePercent > 0 ? rebatePercent : partner_?.sharePct || 0;
-    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : partner_ ? `${h7Copy(locale).upTo} ${formatPercent(locale, partner_.sharePct)}` : null;
+    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : partner_ ? `${upToLabel(locale)} ${formatPercent(locale, partner_.sharePct)}` : null;
     const productRate = product === "futures" || product === "perp" || product === "perpetuals" ? futuresRate : spotRate;
     const netDisplay = sharePct > 0 && Number.isFinite(productRate?.takerRate)
       ? feePctOfRate(productRate.takerRate * (1 - sharePct / 100), locale)
@@ -729,7 +756,9 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
               </div>
             </div>
         {/* Owner 2026-10-10: show perpetual fees by default (same as the home calculator); an explicit ?product=spot still wins. */}
-        <CostDecision locale={locale} regionMarket={market} product={productParam || "perpetuals"} accountStage={safeAccountStage} funding={safeFunding} />
+        <DeferUntilVisible target="#cost-scenario" rootMargin="0px" prefetch={() => import("./CostDecision.jsx")}>
+          <CostDecision locale={locale} regionMarket={market} product={productParam || "perpetuals"} accountStage={safeAccountStage} funding={safeFunding} />
+        </DeferUntilVisible>
         <DecisionPathRail locale={locale} market={market} product={product} accountStage={safeAccountStage} funding={safeFunding} current="rates" />
       </div>
       <header className="fee-terminal__header">

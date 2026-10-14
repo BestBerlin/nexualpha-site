@@ -63,12 +63,12 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
   assert.ok(tokens.includes("@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-iteration-count:1!important}}"));
 
   const hook = await read("src/components/data/useMarketEvents.js");
-  assert.match(hook, /setInterval\(\(\) => setNow\(Date\.now\(\)\), prefersReducedMotion\(\) \? 60 \* 1000 : 1000\)/,
-    "funding countdown clock ticks once a minute under reduce (was a per-second ticker)");
+  assert.match(hook, /useVisibleClock\(null, \{ everyMs: prefersReducedMotion\(\) \? 60 \* 1000 : 30 \* 1000 \}\)/,
+    "funding countdown clock uses the shared visible clock instead of a per-page second ticker");
   const funding = await read("src/components/data/FundingRatesPage.jsx");
   assert.match(funding, /formatCountdown\(remaining, \{ seconds: !prefersReducedMotion\(\) \}\)/);
   const home = await read("src/components/v7/home7-funding.jsx");
-  assert.match(home, /reduced\(\) \? 60 \* 1000 : 1000/);
+  assert.match(home, /useVisibleClock\(renderedAt\)/);
   assert.match(home, /countdown\(now === null \? null : Date\.parse\(r\.nextAt\) - now, showSeconds\)/);
 
   assert.match(home, /useEffect\(\(\) => \{ setShowSeconds\(!reduced\(\)\); \}, \[\]\)/, "motion preference is read after hydration");

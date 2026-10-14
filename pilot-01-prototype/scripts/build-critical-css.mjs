@@ -18,6 +18,8 @@
 //   node scripts/build-critical-css.mjs [--dist dist]
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { gzipSync } from "node:zlib";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -34,6 +36,8 @@ function loadPostcss() {
 
 export const CRITICAL_CSS_FILE = "critical-css.json";
 export const CRITICAL_CSS_VERSION = 1;
+const INLINE_CRITICAL_EXCLUDED_PREFIXES = ["page-home-mid1-", "page-home-mid2-", "page-home-v6-", "page-home-late-"];
+const INLINE_CRITICAL_GZIP_BUDGET = 14_000;
 
 // Pseudo-classes that describe document structure: kept for matching. Everything else (user-action, form-state,
 // element-state pseudo-classes and all pseudo-elements) is removed before matching.
@@ -89,9 +93,13 @@ export function matchableSelector(selector, { relative = false } = {}) {
       const attribute = selector.slice(i, j + 1);
       i = j;
       // <details open> is toggled natively, before any script runs: treat [open] like a state pseudo-class.
-      if (/^\[\s*open\s*\]$/i.test(attribute)) { changed = true; continue; }
+      if (/^\[\s*(?:open|aria-expanded|aria-selected|aria-current|data-open|data-state|data-visible|data-active)(?:\s*\]|\s*[$^*|~]?=)/i.test(attribute)) { changed = true; continue; }
       out += attribute;
       continue;
+    }
+    if (ch === ".") {
+      const state = /^\.(?:is-)?(?:visible|active|open|selected|expanded)(?![\w-])/.exec(selector.slice(i));
+      if (state) { changed = true; i += state[0].length - 1; continue; }
     }
     if (ch !== ":") { out += ch; continue; }
     const isElement = selector[i + 1] === ":";
@@ -342,7 +350,14 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
     });
   };
   roots.forEach(prune);
-  // Keep the keyframes referenced by a kept declaration.
+  removeUnreferencedKeyframes(roots);
+  const css = roots.map((root) => root.toString().trim()).filter(Boolean).join("\n").trim();
+  stats.outputBytes = Buffer.byteLength(css);
+  return { css, stats };
+}
+
+
+function removeUnreferencedKeyframes(roots) {
   const referenced = new Set();
   for (const root of roots) {
     root.walkDecls(/^(?:-webkit-)?animation(?:-name)?$/i, (decl) => {
@@ -354,9 +369,39 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
       if (!referenced.has(node.params.trim().replace(/^["']|["']$/g, ""))) node.remove();
     });
   }
-  const css = roots.map((root) => root.toString().trim()).filter(Boolean).join("\n");
-  stats.outputBytes = Buffer.byteLength(css);
-  return { css, stats };
+}
+
+function pruneEmptyContainers(root) {
+  root.walkAtRules((node) => {
+    if (node.nodes && !node.nodes.length && !KEEP_AT_RULES.has(node.name.toLowerCase())) node.remove();
+  });
+}
+
+function selectorListHasPhoneDemo(selector) {
+  return splitSelectorList(selector).some((part) => /(^|[\s>+~,(])\.ht(?:[\w-])*(?=[\s.#:[>{,+~)]|$)/.test(part));
+}
+
+export function trimInlineCriticalCss(css, { maxGzipBytes = INLINE_CRITICAL_GZIP_BUDGET, postcss = loadPostcss() } = {}) {
+  if (gzipSync(css).length <= maxGzipBytes) return css;
+  const root = postcss.parse(css);
+
+  // Font faces also live in the deferred home stylesheet and are preloaded by
+  // the document. Keep the Latin Geist face inline for first-paint text metrics,
+  // but drop duplicate locale/fallback faces before trimming visual hero CSS.
+  root.walkAtRules("font-face", (node) => {
+    if (!/font-family:Geist V5;/.test(node.toString())) node.remove();
+  });
+  if (gzipSync(root.toString()).length <= maxGzipBytes) return root.toString().trim();
+
+  // The decorative phone mockup is inside the hero DOM, but it is not the text
+  // LCP/CTA layout that regressed to browser defaults. Defer only these .ht*
+  // rules when the inline budget would otherwise be exceeded.
+  root.walkRules((node) => {
+    if (selectorListHasPhoneDemo(node.selector)) node.remove();
+  });
+  pruneEmptyContainers(root);
+  removeUnreferencedKeyframes([root]);
+  return root.toString().trim();
 }
 
 const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
@@ -370,12 +415,37 @@ export function homeCriticalSubjects(document) {
   if (!hero) throw new Error("critical css: missing home hero/LCP element");
   const subjects = new Set();
   let reachedHero = false;
+  const deferredChrome = ".nx-more__panel,.nx-lang__list,.nx-sheet,.mobile-bottom-nav";
   for (const element of document.getElementsByTagName("*")) {
     if (reachedHero && !hero.contains(element)) break;
-    subjects.add(element);
+    if (!element.closest(deferredChrome)) subjects.add(element);
     if (element === hero) reachedHero = true;
   }
   return subjects;
+}
+
+
+const HOME_V7_SELECTOR_RE = /\.(?:h7|hx|ht)(?:[\w-])*(?=[\s.#:[>{,+~)]|$)/;
+
+export function homeStylesheetPlan(indexHtml, { prefixes, cssByHref = new Map(), documents = [], postcss = loadPostcss() } = {}) {
+  const linked = stylesheetHrefs(indexHtml);
+  const sheets = linked.filter((href) => prefixes.some((prefix) => href.split("/").pop().startsWith(prefix)));
+  const sheetSet = new Set(sheets);
+  const extraSheets = [];
+  for (const href of linked) {
+    if (sheetSet.has(href)) continue;
+    const css = cssByHref.get(href);
+    if (!css || !HOME_V7_SELECTOR_RE.test(css)) continue;
+    const extracted = documents.length ? extractCriticalCss([css], documents, { postcss }).css : css;
+    if (HOME_V7_SELECTOR_RE.test(extracted)) extraSheets.push(href);
+  }
+  const extraSet = new Set(extraSheets);
+  const extractionSheets = linked.filter((href) => sheetSet.has(href) || extraSet.has(href));
+  return { linked, sheets, extraSheets, extractionSheets };
+}
+
+function extractionHrefsForInline(extractionSheets) {
+  return extractionSheets.filter((href) => !INLINE_CRITICAL_EXCLUDED_PREFIXES.some((prefix) => href.split("/").pop().startsWith(prefix)));
 }
 
 export function stylesheetHrefs(indexHtml) {
@@ -393,9 +463,8 @@ async function main() {
   const { JSDOM } = require("jsdom");
   const indexHtml = await readFile(path.join(clientRoot, "index.html"), "utf8");
   const prefixes = homeRouteStylePrefixes();
-  const sheets = stylesheetHrefs(indexHtml).filter((href) => prefixes.some((prefix) => href.split("/").pop().startsWith(prefix)));
-  if (!sheets.length) throw new Error("critical css: no home stylesheets found in index.html");
-  const cssTexts = await Promise.all(sheets.map((href) => readFile(path.join(clientRoot, href), "utf8")));
+  const linkedStylesheets = stylesheetHrefs(indexHtml);
+  const cssByHref = new Map(await Promise.all(linkedStylesheets.map(async (href) => [href, await readFile(path.join(clientRoot, href), "utf8")])));
   const documents = [];
   for (const locale of HOME_LOCALES) {
     const asset = path.join(clientRoot, "prerender", locale, "home.json");
@@ -404,9 +473,31 @@ async function main() {
     const dir = ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
     documents.push(new JSDOM(`<!doctype html><html lang="${locale}" dir="${dir}"><head></head><body><div id="root">${html}</div></body></html>`).window.document);
   }
+  const { sheets, extraSheets, extractionSheets } = homeStylesheetPlan(indexHtml, { prefixes, cssByHref, documents });
+  if (!sheets.length) throw new Error("critical css: no home stylesheets found in index.html");
+  const inlineSheets = extractionHrefsForInline(extractionSheets);
+  const cssTexts = inlineSheets.map((href) => cssByHref.get(href));
   const subjects = new Set(documents.flatMap((document) => [...homeCriticalSubjects(document)]));
-  const { css, stats } = extractCriticalCss(cssTexts, documents, { subjects });
-  const payload = { version: CRITICAL_CSS_VERSION, routes: { home: { sheets, css } } };
+  const extractedInline = extractCriticalCss(cssTexts, documents, { subjects });
+  const css = trimInlineCriticalCss(extractedInline.css);
+  const { stats } = extractedInline;
+  // Keep the existing cascade order, but ship only rules used by the complete
+  // HomeV7 documents (including interaction states) as one deferred stylesheet.
+  // Some Vite CSS assets can receive a non-route filename from their owning
+  // JS chunk (for example terminal-owner-*); if their real selectors match
+  // HomeV7 SSR DOM, fold them into this generated home sheet because the
+  // Worker filters their original link out before replacing the home sheets.
+  const fullCssTexts = extractionSheets.map((href) => cssByHref.get(href));
+  const deferredCss = extractCriticalCss(fullCssTexts, documents).css;
+  const deferredHash = createHash("sha256").update(deferredCss).digest("hex").slice(0, 8);
+  const deferredHref = `/assets/home-styles-${deferredHash}.css`;
+  await writeFile(path.join(clientRoot, deferredHref), deferredCss);
+  const inlineGzipBytes = gzipSync(css).length;
+  const totalGzipBytes = inlineGzipBytes + gzipSync(deferredCss).length;
+  if (inlineGzipBytes > INLINE_CRITICAL_GZIP_BUDGET) throw new Error(`critical CSS gzip ${inlineGzipBytes} exceeds ${INLINE_CRITICAL_GZIP_BUDGET}`);
+  if (totalGzipBytes >= 120_000) throw new Error(`home CSS total gzip ${totalGzipBytes} exceeds 120000`);
+  console.log(`Home CSS: inline ${inlineGzipBytes} gzip bytes + one deferred sheet = ${totalGzipBytes} total gzip bytes${extraSheets.length ? ` (${extraSheets.length} discovered HomeV7 CSS asset${extraSheets.length === 1 ? "" : "s"})` : ""}`);
+  const payload = { version: CRITICAL_CSS_VERSION, routes: { home: { sheets, css, deferredHref, inlineGzipBytes, totalGzipBytes, extraSheets } } };
   await writeFile(path.join(clientRoot, CRITICAL_CSS_FILE), `${JSON.stringify(payload)}\n`);
   process.stdout.write(`Critical CSS (home): ${sheets.length} stylesheets, ${stats.kept}/${stats.rules} rules kept, ${Math.round(stats.inputBytes / 1024)} KB -> ${Math.round(stats.outputBytes / 1024)} KB (${stats.unevaluable} selectors kept unevaluated)\n`);
 }

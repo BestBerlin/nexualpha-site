@@ -67,8 +67,9 @@ test("alerts strip reuses the article alerts copy and sits under the home hero, 
   const home = await read("src/components/v7/HomeV7.jsx");
   const stripStart = home.indexOf('className="h7-strip"');
   assert.ok(stripStart > home.indexOf('className="h7-hero"'), "partner strip follows the hero section");
-  assert.ok(home.indexOf('placement="home-telegram-alerts"') > stripStart, "alerts strip follows the partner strip");
-  assert.ok(home.indexOf('placement="home-telegram-alerts"') < home.indexOf('className="h7-in h7-how"'), "strip precedes the next home block");
+  const homeAlert = home.indexOf("<HomeTelegramAlertsStrip locale={locale} />");
+  assert.ok(homeAlert > stripStart, "alerts strip follows the partner strip");
+  assert.ok(homeAlert < home.indexOf('className="h7-in h7-how"'), "strip precedes the next home block");
   const v3 = await read("src/components/v3/VenueDetailPage.jsx"); // venue detail route module (venue-graph lane)
   const handoff = v3.indexOf("<OutboundHandoff compact locale={locale} venueSlug={profile.slug}");
   const venueStrip = v3.indexOf('placement="venue-telegram-alerts"');

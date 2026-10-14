@@ -2,7 +2,7 @@
 // (price + 24h change) and the biggest 24h mover. The server renders a real first frame (the Worker reads the cached
 // snapshot from server/ticker-feed.mjs, splices it into the prerendered home HTML with spliceTickerHtml and ships the
 // same snapshot as prerender state "ticker"), so the first paint already shows prices. After first paint the browser
-// lazy-loads ticker-live.js (own chunk) and polls our /api/ticker.json every 30 s while the tab is visible.
+// lazy-loads ticker-live.js (own chunk), which subscribes to the shared /api/live.json hub while the tab is visible.
 // Fixed height and tabular digits: no layout shift. On narrow screens the strip scrolls as a slow marquee, never with
 // prefers-reduced-motion (then it is a plain horizontal scroller). Values are pre-formatted strings from the server.
 import React, { useEffect, useState } from "react";
@@ -50,7 +50,7 @@ export function TickerBar({ locale = "en", initial = null }) {
   useEffect(() => {
     let off = false, stop = null, handle = null;
     const start = () => import("./ticker-live.js")
-      .then(({ startTickerPolling }) => { if (!off) stop = startTickerPolling((next) => { if (validSnapshot(next)) setData(next); }); })
+      .then(({ startTickerPolling }) => { if (!off) stop = startTickerPolling((next) => { if (validSnapshot(next)) setData(next); }, { locale }); })
       .catch(() => {});
     // After first paint, off the critical path.
     if (typeof window.requestIdleCallback === "function") handle = window.requestIdleCallback(start, { timeout: 2500 });
@@ -60,7 +60,7 @@ export function TickerBar({ locale = "en", initial = null }) {
       if (typeof window.cancelIdleCallback === "function" && typeof window.requestIdleCallback === "function") window.cancelIdleCallback(handle); else clearTimeout(handle);
       stop?.();
     };
-  }, []);
+  }, [locale]);
   const [label, moverLabel] = copyFor(locale);
   const items = TICKER_BAR_SYMBOLS.map((sym) => data?.items?.find((item) => item?.sym === sym) || { sym, price: EMPTY, change: EMPTY, dir: "flat" });
   return <div className="nx-ticker" role="region" aria-label={label} dir="ltr" data-ticker-source={data?.source || "none"}>

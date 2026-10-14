@@ -1,8 +1,7 @@
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
-import { enAttrs } from "../../utils/fallback-lang.js";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { buildDecisionReturnHref } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
@@ -14,14 +13,9 @@ import { feesStatusLabel } from "./ExchangeFactsV5.jsx";
 import { CompareFeeLedger } from "../v6/InnerLedger.jsx";
 import { feePctOfRate } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
-import { ResearchComparison } from "./ResearchPanels";
-import { VenueFaqSection } from "./VenueFaqSection.jsx";
 import { decisionCopy, decisionForVenue, hasReviewedEditorialDecision } from "../../data/venue-decision-content.js";
-import { campaignCopy } from "./activity/campaign-copy";
 import { researchForVenue } from "../../data/exchange-research";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
-import { officialCampaignResearchByVenue } from "../../data/official-campaign-research.js";
-import { campaignResearchLocalizedText } from "../../data/official-campaign-localizations.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { directoryContextSearch } from "../../data/directory-context.js";
@@ -29,23 +23,60 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
+import { assetCapabilityNoneCopy, routeCommonCopy } from "../../content/v2-route-copy.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
-import { ExchangeScorecard, CountryScorecards } from "../compare/ExchangeScorecard.jsx";
 import { compareVenueCta } from "../../data/compare-cta.js";
 import { eventSourceStateLabel, visibleEventSourceItems } from "../../data/event-source.js";
-import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
-import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
+import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
-export { ActivityCenterPage, ActivityDetailPage } from "./activity/ActivityPages";
-export { VenueFaqSection } from "./VenueFaqSection.jsx";
+const compareSupportSsr = Boolean(import.meta.env?.SSR);
+const ssrCompareSupportModules = compareSupportSsr ? import.meta.glob([
+  "./ResearchPanels.jsx",
+  "./VenueFaqSection.jsx",
+  "../compare/ExchangeScorecard.jsx",
+  "../compare/CompareAnyPicker.jsx",
+  "./CompareVersusSources.jsx",
+], { eager: true }) : {};
+
+const loadResearchComparison = () => import("./ResearchPanels.jsx");
+const loadVenueFaqSection = () => import("./VenueFaqSection.jsx");
+const loadExchangeScorecards = () => import("../compare/ExchangeScorecard.jsx");
+const loadCompareAnyPicker = () => import("../compare/CompareAnyPicker.jsx");
+const loadCompareVersusSources = () => import("./CompareVersusSources.jsx");
+
+const ResearchComparison = compareSupportSsr
+  ? ssrCompareSupportModules["./ResearchPanels.jsx"].ResearchComparison
+  : lazy(() => loadResearchComparison().then((module) => ({ default: module.ResearchComparison })));
+const VenueFaqSection = compareSupportSsr
+  ? ssrCompareSupportModules["./VenueFaqSection.jsx"].VenueFaqSection
+  : lazy(() => loadVenueFaqSection().then((module) => ({ default: module.VenueFaqSection })));
+const ExchangeScorecard = compareSupportSsr
+  ? ssrCompareSupportModules["../compare/ExchangeScorecard.jsx"].ExchangeScorecard
+  : lazy(() => loadExchangeScorecards().then((module) => ({ default: module.ExchangeScorecard })));
+const CountryScorecards = compareSupportSsr
+  ? ssrCompareSupportModules["../compare/ExchangeScorecard.jsx"].CountryScorecards
+  : lazy(() => loadExchangeScorecards().then((module) => ({ default: module.CountryScorecards })));
+const CompareAnyPicker = compareSupportSsr
+  ? ssrCompareSupportModules["../compare/CompareAnyPicker.jsx"].CompareAnyPicker
+  : lazy(() => loadCompareAnyPicker().then((module) => ({ default: module.CompareAnyPicker })));
+const CompareVersusSources = compareSupportSsr
+  ? ssrCompareSupportModules["./CompareVersusSources.jsx"].CompareVersusSources
+  : lazy(() => loadCompareVersusSources().then((module) => ({ default: module.CompareVersusSources })));
+
+function CompareLazyBoundary({ target, prefetch, interactionOnly = false, rootMargin = "50% 0px", children }) {
+  return <DeferUntilVisible target={target} rootMargin={rootMargin} prefetch={prefetch} interactionOnly={interactionOnly}>{children}</DeferUntilVisible>;
+}
+
+export { VenueFaqSection };
 
 const sourceStatusLabel = (text, venue) => venue.sourceHubs?.length ? text.openOfficialSource : text.pendingReview;
 const linkedNotReviewed = (locale) => {
@@ -926,9 +957,10 @@ function ActivitySourceTypes({ ui }) {
 }
 
 function firstTradeReadiness(copy, text, profile) {
+  const routeCommon = routeCommonCopy(copy?.locale || "en");
   return [
-    { label: copy.common.feeSignal, value: profile.category === "DEX" ? profile.limitations[1] : profile.checks.find((item) => /费|fee|comiss|frais|Gebühr|수수료/i.test(item)) || profile.checks[0] },
-    { label: copy.common.regionAvailability, value: profile.checks.find((item) => /地区|region|regional|eligib|região|région|地域|지역/i.test(item)) || profile.limitations[0] },
+    { label: routeCommon.feeSignal, value: profile.category === "DEX" ? profile.limitations[1] : profile.checks.find((item) => /费|fee|comiss|frais|Gebühr|수수료/i.test(item)) || profile.checks[0] },
+    { label: routeCommon.regionAvailability, value: profile.checks.find((item) => /地区|region|regional|eligib|região|région|地域|지역/i.test(item)) || profile.limitations[0] },
     { label: text.activityState, value: text.noReviewedActivity },
   ];
 }
@@ -2051,10 +2083,12 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       hint: text.ctaLocked,
     },
   ];
+  const routeCommon = routeCommonCopy(locale);
+  const noVerifiedCoverage = assetCapabilityNoneCopy(locale);
   const rows = [
     [text.platformType, (profile) => profile.category],
     [text.accessModel, (profile) => profile.accessModel],
-    [text.productFamily, (profile) => profile.products || copy.assetCapabilities.none],
+    [text.productFamily, (profile) => profile.products || noVerifiedCoverage],
     [text.verifyBefore, (profile) => profile.checks.slice(0, 3).join(" / ")],
     [text.detailBestFit, (profile) => <DecisionComparisonValue slug={profile.slug} locale={locale} field="fit" fallback={profile.useCases[0]} />],
     [text.detailWhyChoose, (profile) => <DecisionComparisonValue slug={profile.slug} locale={locale} field="why" fallback={profile.strengths[0]} />],
@@ -2077,6 +2111,18 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
   const generatedCopy = generatedPolicy?.generated
     ? generatedCompareCopy(locale, { nameA: getLocalizedVenueName(profiles[0], locale), nameB: getLocalizedVenueName(profiles[1], locale), date: generatedCompareDataDate(selected) })
     : null;
+  const generatedRegistrationOpen = !(generatedPolicy?.generated && generatedPolicy.anyPartner === false);
+  const compareCtaForProfile = (profile) => {
+    const cta = compareVenueCta(profile.slug, selected, locale, market, product, { accountStage, funding });
+    if (generatedRegistrationOpen || !cta.direct) return cta;
+    return {
+      ...cta,
+      ctaHref: `/exchanges/${profile.slug}${contextSearch ? `?${contextSearch}` : ""}`,
+      direct: false,
+      hasReferral: false,
+      inviteCode: null,
+    };
+  };
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const updateStickyState = () => {
@@ -2153,11 +2199,8 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             const pFeeSummary = buildVenueFeeSummary(pDb, researchForVenue(p.slug, locale) || {});
             const pSpotRate = publishableFeeRate(pFeeSummary, "spot", locale);
             const pFee = pSpotRate?.display || localePending(locale);
-            const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
-            const pCode = pAccess.inviteCode;
-            const pResearch = officialCampaignResearchByVenue[p.slug];
-            const pSources = pResearch?.sources ?? [];
-            const pConditions = pResearch?.signupReward?.conditions ?? [];
+            const pCta = compareCtaForProfile(p);
+            const pCode = generatedRegistrationOpen ? pAccess.inviteCode : null;
             const locName = getLocalizedVenueName(p, locale);
 
             return (
@@ -2211,50 +2254,9 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                 </div>
 
                 {/* 来源证据保留，但按需展开，避免首屏与后续研究模块重复占据滚动路径。 */}
-                <details className="v3-versus-sources-disclosure" data-testid={`compare-versus-sources-${p.slug}`}>
-                  <summary>
-                    <span>{isZhLoc ? `${p.name} ${zhText(locale, "官方参考与条款来源", "官方參考與條款來源")}` : `${p.name} ${compareLabels.sources || "Official References & Sources"}`}</span>
-                    <b aria-hidden="true">＋</b>
-                  </summary>
-                  <div className="v3-versus-side__sources">
-                    <div className="v3-versus-sources__header">
-                      <span className="v3-versus-sources__title">
-                        {isZhLoc ? `${p.name} ${zhText(locale, "官方参考与条款来源", "官方參考與條款來源")}` : `${p.name} ${compareLabels.sources || "Official References & Sources"}`}
-                      </span>
-                      <LocalLink locale={locale} href={`/activities/research/${p.slug}`} className="v3-versus-sources__more">
-                        {campaignCopy(locale).openResearch} →
-                      </LocalLink>
-                    </div>
-
-                    {pConditions.length > 0 && (
-                      <ul className="v3-versus-sources__list">
-                        {pConditions.slice(0, 2).map((cond, cIdx) => (
-                          <li key={cIdx} className="v3-versus-sources__item">
-                            <span>•</span>
-                            {(() => {
-                              // l10n 2026-10-11: read the 15-locale edition; before, non-zh locales fell through to zh-Hans and ar was forced to English.
-                              const localizedCond = campaignResearchLocalizedText(p.slug, ["signupReward", "conditions", String(cIdx)], locale) || cond[locale] || cond[textLocaleKey(locale)] || cond.en;
-                              return <span {...(localizedCond === cond.en ? enAttrs(locale) : undefined)}>{localizedCond}</span>;
-                            })()}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <div className="v3-versus-sources__links">
-                      {pSources.slice(0, 2).map((src) => (
-                        <SourceLink locale={locale} key={src.id || src.url} href={src.url} target="_blank" rel="noopener noreferrer" className="v3-versus-source-link">
-                          <span className="v3-versus-source-bullet"></span>
-                          <span className="v3-versus-source-name">{src.title}</span>
-                          <span aria-hidden="true">↗</span>
-                        </SourceLink>
-                      ))}
-                      <LocalLink locale={locale} href={`/exchanges/${p.slug}?${contextSearch}`} className="v3-versus-detail-link" data-cta-kind="research" data-cta-platform={p.slug} data-cta-placement="compare-source-detail" data-growth-decision={p.slug} data-growth-placement="compare-source-detail" data-growth-market={market} data-growth-product={product} data-growth-campaign={growthCampaign}>
-                        {text.openDetail} ({p.name}) →
-                      </LocalLink>
-                    </div>
-                  </div>
-                </details>
+                <CompareLazyBoundary target="#compare-versus-card" interactionOnly={isPriorityTwoVenueDirectAnswer} prefetch={loadCompareVersusSources}>
+                  <CompareVersusSources profile={p} locale={locale} isZhLocale={isZhLoc} compareLabels={compareLabels} contextSearch={contextSearch} text={text} market={market} product={product} growthCampaign={growthCampaign} />
+                </CompareLazyBoundary>
               </div>
             );
           })}
@@ -2275,7 +2277,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       <div className="v3-compare-sticky-bar__inner">
         {profiles.slice(0, 3).map((p) => {
           const locName = getLocalizedVenueName(p, locale);
-          const pCta = compareVenueCta(p.slug, selected, locale, market, product, { accountStage, funding });
+          const pCta = compareCtaForProfile(p);
           return (
             <div key={p.slug} className="v3-compare-sticky-bar__col">
               <BrandMark slug={p.slug} compact />
@@ -2333,7 +2335,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           </span>)}
         </h1>
         {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
-        {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
+        {profiles.length === 2 && generatedRegistrationOpen && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
         {!isPriorityTwoVenueDirectAnswer && comparisonBanner}
@@ -2362,9 +2364,9 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                   <strong translate="no" lang="en">{locName}</strong>
                 </span>
                 <span className="v3-compare-quick-actions__meta">
-                  {pAccess.inviteCode
+                  {generatedRegistrationOpen && pAccess.inviteCode
                     ? `${codeLabelByLocale[textLocaleKey(locale)] || codeLabelByLocale.en}: ${pAccess.inviteCode}`
-                    : detailCtaLabel(locale, { direct: false, hasReferral: pAccess.hasReferral })}
+                    : detailCtaLabel(locale, { direct: false, hasReferral: generatedRegistrationOpen && pAccess.hasReferral })}
                 </span>
                 <span className="v3-compare-quick-actions__cta">
                   {compareReviewChoiceByLocale[textLocaleKey(locale)] || compareReviewChoiceByLocale.en} ↓
@@ -2379,7 +2381,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       </div>
     </section>
 
-    <ExchangeScorecard selected={selected} locale={locale} market={market} />
+    <CompareLazyBoundary target="#exchange-scorecard" prefetch={loadExchangeScorecards}><ExchangeScorecard selected={selected} locale={locale} market={market} /></CompareLazyBoundary>
 
     {!isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}
 
@@ -2422,16 +2424,16 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
     </details>}
 
     {/* 高频对决 SEO 关键词 FAQ 问答 */}
-    <CompareFaqSection profiles={profiles} locale={locale} />
+    <CompareLazyBoundary target="#compare-faq" prefetch={loadVenueFaqSection}><CompareFaqSection profiles={profiles} locale={locale} /></CompareLazyBoundary>
 
     <CompareNotesGroup kind="before" locale={locale} enabled={isPriorityTwoVenueDirectAnswer}>
     <section className="v2-section v3-compare-disclosure-section">
       <details className="research-references">
         <summary id="compare-sources">{text.verifyBefore}</summary>
-            <ResearchComparison profiles={profiles} locale={locale} />
+            <CompareLazyBoundary target=".v3-compare-disclosure-section .research-references" interactionOnly prefetch={loadResearchComparison}><ResearchComparison profiles={profiles} locale={locale} /></CompareLazyBoundary>
         <div className="v3-deep-compare" style={{ "--compare-columns": profiles.length }}>
           <div className="v3-deep-compare__head">
-            <span>{copy.common.dimension}</span>
+            <span>{routeCommon.dimension}</span>
             {profiles.map((profile) => (
               <span key={profile.slug} translate="no" lang={isZhLoc ? "zh-Hans" : "en"}>
                 <BrandMark slug={profile.slug} compact />{getLocalizedVenueName(profile, locale)}
@@ -2534,10 +2536,10 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
         <span className="v3-independent-badge">{text.compareTitle}</span>
         <h1 lang={locale}>{copy.h1}</h1>
         <p lang={locale}>{copy.intro}</p>
-        <CompareAnyPicker locale={locale} venues={venues} placement="compare-hub" />
+        <CompareLazyBoundary target=".compare-any" prefetch={loadCompareAnyPicker}><CompareAnyPicker locale={locale} venues={venues} placement="compare-hub" /></CompareLazyBoundary>
       </div>
     </section>
-    <CountryScorecards locale={locale} />
+    <CompareLazyBoundary target="#country-scorecards" prefetch={loadExchangeScorecards}><CountryScorecards locale={locale} /></CompareLazyBoundary>
     <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-curated">
       <h2 id="compare-hub-curated" lang={locale}>{copy.curated}</h2>
       <ul className="v3-compare-hub__list">

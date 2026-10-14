@@ -8,6 +8,8 @@ import { withoutTurkeyUnlistedVenueFeed } from "../../data/partner-geo-policy.js
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { reduced } from "./home7-shared.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
+import { subscribeLiveHub } from "../shared/live-hub.js";
+import { useVisibleClock } from "../shared/visible-clock.js";
 
 const COPY = {
   en: { h: "Live funding rates", sub: "Perpetual funding across six exchanges, refreshed every 5 minutes. Lower is cheaper for longs.", venue: "Exchange", rate: "Rate / period", apr: "Annualised", next: "Next funding", every: (h) => `every ${h}h`, note: "Positive: longs pay shorts. Negative: shorts pay longs. Annualised = rate × periods per year, for comparison only.", asOf: (d) => `Read from the exchanges' public APIs at ${d}` },
@@ -37,26 +39,23 @@ const countdown = (ms, seconds = true) => { if (!(ms > 0)) return "—"; const s
 
 // SEO trust lane (2026-10-13): the board is server-seeded when prerender funding data exists. It hides until at least
 // one selected symbol has a valid exchange row, so the home never ships an empty live table or placeholder dash rows.
-function useFunding(initialFeed) {
+function useFunding(initialFeed, locale) {
   const [feed, setFeed] = useState(() => (initialFeed?.venues ? initialFeed : null));
   useEffect(() => {
     let alive = true;
-    const load = () => fetch(FUNDING_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
+    const accept = (j) => { if (!alive) return; if (j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)) setFeed(j); };
+    if (!initialFeed) fetch(FUNDING_PATH, { headers: { accept: "application/json" }, cache: "default" })
       .then((r) => (r.ok ? r.json() : null))
-      // A refresh with no usable rows keeps the board on screen (the section used to vanish on a transient empty read).
-      .then((j) => { if (!alive) return; if (j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)) setFeed(j); })
+      .then(accept)
       .catch(() => {});
-    load();
-    const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(id); };
-  }, []);
+    const stopHub = subscribeLiveHub("funding", accept, { locale });
+    return () => { alive = false; stopHub(); };
+  }, [initialFeed, locale]);
   return feed;
 }
 
 function useTick(renderedAt) {
-  const [now, setNow] = useState(() => Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
-  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), reduced() ? 60 * 1000 : 1000); return () => clearInterval(id); }, []);
-  return now;
+  return useVisibleClock(renderedAt);
 }
 
 export function FundingBoard({ locale, initialFeed }) {
@@ -64,7 +63,7 @@ export function FundingBoard({ locale, initialFeed }) {
   // SSR has no media query. Adopt the reader preference only after hydration.
   const [showSeconds, setShowSeconds] = useState(true);
   useEffect(() => { setShowSeconds(!reduced()); }, []);
-  const liveFeed = useFunding(initialFeed);
+  const liveFeed = useFunding(initialFeed, locale);
   const feed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
   const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);

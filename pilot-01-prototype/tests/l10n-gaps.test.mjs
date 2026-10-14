@@ -11,6 +11,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { buildSync } from "esbuild";
 
+import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 import { partnerEmbedCopy, PARTNER_EMBED_LOCALIZED_LOCALES } from "../src/data/partner-embed-copy.js";
 import { formatDate, formatMonthYear, intlLocale } from "../src/data/format-date.js";
 
@@ -235,15 +236,24 @@ test("compare decision lead is localized for every locale", () => {
   assertCompleteCopy(mod.compareDecisionLeadCopyByLocale, "compareDecisionLeadCopyByLocale");
 });
 
-test("compare versus block shows the localized campaign conditions instead of zh-Hans or forced English", () => {
-  const pageCopy = { common: { dimension: "Dimension" }, assetCapabilities: { none: "Pending source review" } };
-  const renderCompare = (locale) => render(mod.CompareDeepPage, { copy: pageCopy, locale, selected: ["binance", "okx"], venues: Object.values(mod.venueDatabase), updates: [], market: "unknown", product: "unknown" });
-  const de = renderCompare("de");
-  assert.match(de, /Öffnen Sie die dem berechtigten Konto zugewiesene Aufgabe, bevor Sie handeln\./, "de reads the German condition");
-  assert.doesNotMatch(de, /操作前查看合资格账户实际获得的任务/, "de no longer falls through to zh-Hans");
-  const ar = renderCompare("ar");
-  assert.match(ar, /افتح المهمة المخصصة للحساب المؤهل قبل التصرف\./, "ar reads the Arabic condition");
-  assert.doesNotMatch(ar, /Open the task assigned to the eligible account before acting\./, "ar is no longer forced to English");
+test("compare versus block shows the localized campaign conditions instead of zh-Hans or forced English", async () => {
+  const harness = await createSsrHarness();
+  try {
+    const [{ CompareDeepPage }, { venueDatabase }] = await Promise.all([
+      harness.vite.ssrLoadModule("/src/components/v3/V3Pages.jsx"),
+      harness.vite.ssrLoadModule("/src/data/venue-database.js"),
+    ]);
+    const pageCopy = { common: { dimension: "Dimension" }, assetCapabilities: { none: "Pending source review" } };
+    const renderCompare = (locale) => render(CompareDeepPage, { copy: pageCopy, locale, selected: ["binance", "okx"], venues: Object.values(venueDatabase), updates: [], market: "unknown", product: "unknown" });
+    const de = renderCompare("de");
+    assert.match(de, /Öffnen Sie die dem berechtigten Konto zugewiesene Aufgabe, bevor Sie handeln\./, "de reads the German condition");
+    assert.doesNotMatch(de, /操作前查看合资格账户实际获得的任务/, "de no longer falls through to zh-Hans");
+    const ar = renderCompare("ar");
+    assert.match(ar, /افتح المهمة المخصصة للحساب المؤهل قبل التصرف\./, "ar reads the Arabic condition");
+    assert.doesNotMatch(ar, /Open the task assigned to the eligible account before acting\./, "ar is no longer forced to English");
+  } finally {
+    await harness.close();
+  }
 });
 
 test("partner embed guide copy exists for every locale", () => {
