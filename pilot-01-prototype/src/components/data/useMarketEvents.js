@@ -1,7 +1,9 @@
 // Shared client behaviour of the data pages: start from the server-rendered feed (hydration state), then re-read
 // /intel/market-events.json every 60 s while the tab is visible. A failed read keeps the last good feed on screen.
 import { useEffect, useState } from "react";
-import { DATA_PAGE_REFRESH_MS, MARKET_EVENTS_PATH } from "../../data/market-data-pages.js";
+// The light nav module, not market-data-pages.js: home7-funding imports this hook, and the full data-page module
+// would add ~55 KB gz to the home JS (release captain 2026-10-15).
+import { DATA_PAGE_REFRESH_MS, MARKET_EVENTS_PATH } from "../../data/market-data-pages-nav.js";
 import { startJsonPolling } from "../shared/json-polling.js";
 
 export function useMarketEvents(initialFeed) {

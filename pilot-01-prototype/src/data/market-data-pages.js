@@ -7,11 +7,10 @@ import { localizedPath } from "./locale-routing.js";
 import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from "./brand-entity.js";
 import { formatSgt } from "./local-time.js";
 
-import { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
+import { DATA_PAGE_NAV, DATA_PAGE_PATHS, DATA_PAGE_REFRESH_MS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
 
-export { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH };
+export { DATA_PAGE_NAV, DATA_PAGE_PATHS, DATA_PAGE_REFRESH_MS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, MARKET_EVENTS_PATH };
 export const DATA_PAGE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
-export const DATA_PAGE_REFRESH_MS = 60 * 1000;
 // Annualised estimate: the current 8-hour rate repeated 3 times a day for 365 days (labelled as an estimate in the UI).
 export const FUNDING_PERIODS_PER_YEAR = 3 * 365;
 export const DATA_PAGE_SIGNUP_VENUES = Object.freeze(["okx", "bitget", "binance"]);
