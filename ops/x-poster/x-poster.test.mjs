@@ -209,3 +209,11 @@ test('daily link groups timestamps by UTC day rather than written offset date', 
   const a = article('offset-news', { publishedAt: '2026-10-13T00:00:00+12:00' });
   assert.ok(planPosts(opts(ready(), { feed: { articles: [a] } })).posts.some((p) => p.kind === 'link'));
 });
+
+test('uploadImage refuses non-PNG bytes so a video can never bypass the audio gate', async () => {
+  const { xClient } = await import('./x-poster.mjs');
+  let called = false;
+  const client = xClient({ consumerKey: 'k', consumerSecret: 's', token: 't', tokenSecret: 'ts' }, async () => { called = true; return new Response('{}'); });
+  await assert.rejects(client.uploadImage(Buffer.from('\x00\x00\x00\x18ftypmp42')), /only PNG/);
+  assert.equal(called, false);
+});

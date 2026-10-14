@@ -8,10 +8,12 @@ import {renderShort,renderContactSheet} from './render.mjs';
 import {writePreview} from './preview.mjs';
 
 export function parseDailyArgs(args) {
-  const options={locales:Object.keys(STRINGS).filter(lang=>lang!=='ar'),voice:false,out:'ops/shorts/samples/v3'};
+  const options={locales:Object.keys(STRINGS).filter(lang=>lang!=='ar'),voice:true,out:'ops/shorts/samples/v3'};
   for(let i=0;i<args.length;i++) {
     const arg=args[i];
+    // Voice is on for every locale (owner rule 2026-10-14). --no-voice renders layout drafts that are not publishable.
     if(arg==='--voice') options.voice=true;
+    else if(arg==='--no-voice') options.voice=false;
     else if(['--locales','--out','--fixture'].includes(arg)) {
       const value=args[++i];
       if(!value || value.startsWith('--')) throw new Error(`Missing value for ${arg}`);
@@ -20,7 +22,6 @@ export function parseDailyArgs(args) {
     } else throw new Error(`Unknown argument: ${arg}`);
   }
   if(!options.locales.length || options.locales.some(lang=>!STRINGS[lang]) || new Set(options.locales).size!==options.locales.length) throw new Error('Unsupported or duplicate locales');
-  if(options.voice&&!options.locales.includes('en')) throw new Error('--voice requires en in --locales');
   return options;
 }
 export function dailyDestination(root, data, fixture = false) {
@@ -66,7 +67,7 @@ export async function main(args=process.argv.slice(2), deps = {}) {
       await mkdir(dir,{recursive:true});
       const renders={};
       for(const format of ['portrait','square']) {
-        const result=await renderShort(slides,path.join(dir,format),{lang,format,voice:options.voice&&lang==='en'});
+        const result=await renderShort(slides,path.join(dir,format),{lang,format,voice:options.voice});
         if(result.duration<25 || result.duration>35) throw new Error(`Daily short outside 25–35s: ${result.duration}`);
         const contactSheetPath=path.join(dir,format,'contact-sheet.png');
         await renderContactSheet(result.videoPath,contactSheetPath);

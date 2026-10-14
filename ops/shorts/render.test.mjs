@@ -84,13 +84,15 @@ test('renderShort creates square MP4, poster, and absolute SRT output', async ()
   }
 });
 
-test('voice narration is rejected for non-English locales before synthesis', async () => {
+// Owner rule 2026-10-14: every locale is voiced. A one-slide Vietnamese take synthesises locally and is then
+// rejected only by the 25-35 s production-length rule (no English-only refusal any more).
+test('non-English locales are voiced locally and still held to the production length', async () => {
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'nexu-shorts-voice-reject-'));
   try {
     const slides = await fixtureSlides(1);
     await assert.rejects(
       () => renderShort(slides, tempDir, { voice: true, lang: 'vi', format: 'portrait' }),
-      /English-only/,
+      /voice production duration must be 25-35 seconds/,
     );
   } finally {
     await fs.rm(tempDir, { recursive: true, force: true });
