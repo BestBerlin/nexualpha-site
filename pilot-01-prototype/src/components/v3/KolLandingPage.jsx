@@ -2,6 +2,7 @@
  * KolLandingPage — C3. KOL 专属落地页系统
  * 路由：/ref/:kol
  */
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import React from "react";
 import { venueDatabase } from "../../data/venue-database.js";
 import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
@@ -94,7 +95,7 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
         </h2>
 
         <div className="kol-venues__grid">
-          {kol.topVenues.map((slug) => {
+          {withoutTurkeyUnlisted(kol.topVenues, { locale, market }).map((slug) => {
             const db = venueDatabase[slug] || {};
             const cta = publicCtaForVenue(slug, locale, market);
             const inviteCode = cta.inviteCode;

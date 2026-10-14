@@ -3,6 +3,7 @@
 // the server HTML until the chunk arrives (same pattern as ToolArticleLinks). Moved unchanged from App.jsx.
 import React from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 const crawlPriorityLinks = Object.freeze({
   brazil: [
@@ -108,11 +109,11 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
         {groups.map((group) => (
           <div className="crawl-priority-links__group" key={group}>
             <span>{copy[group]}</span>
-            {[...crawlPriorityLinks[group], ...(group === "compare" && locale === "en" ? [
+            {withoutTurkeyUnlisted([...crawlPriorityLinks[group], ...(group === "compare" && locale === "en" ? [
               ["/us", "US exchange research"], ["/id", "Indonesia exchange research"], ["/tw", "Taiwan exchange research"],
               ["/topics/bybit-alternatives", "Bybit alternatives"],
               ["/topics/brazil-crypto-exchange-deadline-2026", "Brazil exchange authorization deadline"],
-            ] : [])].map(([href, label]) => (
+            ] : [])], { locale }, ([href]) => href).map(([href, label]) => (
               <a key={href} href={href.startsWith("/br") ? href : localizedHref(href, { locale })}>{labelOverrides.get(href) || label}</a>
             ))}
           </div>

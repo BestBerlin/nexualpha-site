@@ -86,7 +86,7 @@
   "hubTitle": "Kripto nereden alınır: {count} coin ve listelendiği borsalar",
   "hubSeoTitle": "Kripto Nereden Alınır? {count} Coin ve Borsaları",
   "hubSeoDescription": "{count} popüler coinin hangi borsalarda listelendiğini görün; spot pariteler, vadeli kontratlar ve yatırma ağları her borsanın açık verisinden.",
-  "hubLead": "Bir coin arayın; OKX, Binance, Bitget, Bybit, Gate, MEXC, HTX ve Kraken arasında hangilerinde listelendiğini, işlem yapılabilen pariteleri ve nasıl alınacağını görün.",
+  "hubLead": "Bir coin arayın; OKX, Binance, Bybit, Gate, MEXC, HTX ve Kraken arasında hangilerinde listelendiğini, işlem yapılabilen pariteleri ve nasıl alınacağını görün.",
   "searchLabel": "Coin ara",
   "searchPlaceholder": "Ad veya sembol, örn. Solana ya da SOL",
   "filterAll": "Tümü",

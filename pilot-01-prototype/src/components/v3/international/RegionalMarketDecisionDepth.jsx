@@ -212,7 +212,7 @@ const DEPTH_DISPLAY_COPY = {
     },
     accountScreenChecks: {
       "Confirm the current SPK operation and liquidation lists before treating a Turkish platform route as available.": "Bir Türkiye platform rotasını kullanılabilir saymadan önce güncel SPK faaliyet ve tasfiye listelerini kontrol edin.",
-      "Treat a name on the SPK liquidation list, including Bitget Teknoloji AŞ while it appears there, as a stop-and-review signal rather than a usable Türkiye funding route.": "SPK tasfiye listesinde görünen bir adı, Bitget Teknoloji AŞ dahil, kullanılabilir Türkiye fonlama rotası yerine durup inceleme sinyali olarak ele alın.",
+      "Treat a name on the SPK liquidation list, including Bitget Teknoloji AŞ while it appears there, as a stop-and-review signal rather than a usable Türkiye funding route.": "SPK tasfiye listesinde görünen bir adı kullanılabilir Türkiye fonlama rotası yerine durup inceleme sinyali olarak ele alın.",
       "Check identity, face, investor-profile, address and account-verification steps inside the official platform flow.": "Kimlik, yüz doğrulama, yatırımcı profili, adres ve hesap doğrulama adımlarını resmi platform akışında kontrol edin.",
       "Verify whether TRY deposit, crypto transfer and the intended product are visible for the current account before acting.": "İşlemden önce TRY yatırma, kripto transferi ve hedef ürünün mevcut hesapta görünüp görünmediğini doğrulayın.",
     },

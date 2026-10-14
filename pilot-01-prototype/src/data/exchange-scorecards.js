@@ -2,7 +2,7 @@ import { COINS, COINS_GENERATED_AT, COIN_VENUE_SLUGS, coinVenueStatus } from "./
 import { FUNDING_GUIDES } from "./converter.js";
 import { FACTS_AS_OF, factsForVenue, feeFact, feePair, primarySourceUrl } from "./exchange-facts.js";
 import { FUNDING_MATRIX_SYMBOLS, FUNDING_MATRIX_VENUES, venueName as fundingVenueName, venueSlug } from "./funding-matrix.js";
-import { isPartnerPromotableIn, isTurkeyGated, promotionCountries, jurisdictionPromotionBan } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyGated, isTurkeyUnlistedVenue, promotionCountries, jurisdictionPromotionBan } from "./partner-geo-policy.js";
 import { resolvePromotions } from "./promotions.js";
 import { venueDatabase } from "./venue-database.js";
 import { licenseRecords } from "./licenses.js";
@@ -260,7 +260,9 @@ export function countryRankings({ locale = "en", market, now = Date.now() } = {}
   return Object.freeze(SCORECARD_MARKETS.filter((item) => (!market || item.key === market) && !jurisdictionPromotionBan({ market: item.country })).map((item) => {
     // Geo policy is keyed by ISO country; Türkiye is further limited to OKX / Binance / Bybit (owner rule).
     const slugs = unique(COIN_VENUE_SLUGS.filter((slug) => isPartnerPromotableIn(slug, { locale: item.locale, market: item.country })
-      && (item.country !== "TR" || TURKEY_VENUES.has(normalizeSlug(slug)))));
+      && (item.country !== "TR" || TURKEY_VENUES.has(normalizeSlug(slug)))
+      // Türkiye pages list no SPK-listed venue in any country's ranking (tr-bitget-sweep).
+      && !isTurkeyUnlistedVenue(normalizeSlug(slug), { locale })));
     const card = buildScorecard(slugs, { locale: locale || item.locale, market: item.country, fiat: item.fiat, now: scorecardNow(now) });
     return Object.freeze({
       key: item.key,

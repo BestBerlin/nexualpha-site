@@ -84,7 +84,9 @@ test('actual Turkish home, activities, venue and comparison SSR retain facts wit
     for (const path of ['/tr/', '/tr/activities', '/tr/exchanges/bitget', '/tr/compare/bitget-vs-mexc', '/tr/compare/bybit-vs-bitget']) {
       const html = await render(path);
       assert.match(html, /<h1\b/, `${path} renders a complete page`);
-      assert.match(html, /Bitget/, `${path} retains informational venue labels`);
+      // tr-bitget-sweep: Bitget's own pages keep their facts; other Türkiye pages no longer name it at all.
+      if (/bitget/.test(path)) assert.match(html, /Bitget/, `${path} retains informational venue labels`);
+      else assert.doesNotMatch(html, /bitget/i, `${path} names no SPK-listed venue`);
       const failures = [];
       const walk = node => {
         if (node.tagName === 'a') {

@@ -1,4 +1,5 @@
 import { nextDecisionBridgeCopy } from "../../data/next-decision-bridge.js";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import { TOPIC_GUIDES, TOPIC_SLUGS } from "../../data/topic-guides-data.js";
@@ -3312,7 +3313,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                       <a href={localizedRouteHref("/topics/derivatives#perp-cost-field-dictionary", { locale, market, product })} data-cta-kind="research" data-cta-placement="topic-derivatives-route-evidence" data-growth-decision="perp_cost_dictionary" data-growth-placement="topic-derivatives-route-evidence" data-growth-market={market} data-growth-product={product}>{derivativesTaskCopy.costDictionary} →</a>
                     </div>
                     {route.links.length > 1 && <nav className="topic-nav-strip topic-nav-strip--intent" aria-label={`${routeText.title} ${derivativesRouteCopy.links}`}>
-                      {route.links.slice(1).map((link) => (
+                      {withoutTurkeyUnlisted(route.links.slice(1), { locale, market }, (link) => link.href).map((link) => (
                         <a key={`${route.id}-${link.href}`} className="topic-nav-btn" href={localizedRouteHref(link.href, { locale, market, product })} data-cta-kind="research" data-cta-placement="topic-derivatives-route-more" data-growth-decision={link.decision} data-growth-placement="topic-derivatives-route-more" data-growth-market={market} data-growth-product={product}>{derivativesLinkLabel(link, derivativesRouteCopy)} →</a>
                       ))}
                     </nav>}

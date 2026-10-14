@@ -3,6 +3,7 @@
  * 击中人性：损失厌恶（Loss Aversion）与立即可挽回利益，促使用户立即换绑或新开专属账户。
  */
 import React, { useState, useMemo, useEffect } from "react";
+import { isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
@@ -225,7 +226,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             <div className="bleed-control-group">
               <label className="bleed-label">{ui.currentVenue}</label>
               <div className="bleed-venue-selector">
-                {SELECTABLE_VENUES.map((slug) => {
+                {SELECTABLE_VENUES.filter((slug) => !isTurkeyUnlistedVenue(slug, { locale, market })).map((slug) => {
                   const vDb = venueDatabase[slug] || {};
                   return (
                     <button

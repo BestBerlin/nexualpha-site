@@ -584,24 +584,8 @@ export function buildRegionalShortlist({
     .filter(Boolean);
 
   const dedupedPlatforms = Array.from(new Map(platformCandidates.map((candidate) => [candidate.id, candidate])).values());
-  const stopReviewText = [
-    ...(row?.accountScreenChecks || []),
-    ...(row?.unknowns || []),
-    row?.cannotPromise,
-  ].join(" ");
-  if (targetMarket === "TR" && /Bitget Teknoloji|Bitget/i.test(stopReviewText) && !dedupedPlatforms.some((candidate) => candidate.name === "Bitget")) {
-    dedupedPlatforms.push({
-      id: "TR-bitget-stop-review",
-      name: "Bitget",
-      slug: "bitget",
-      market: targetMarket,
-      status: REGIONAL_SHORTLIST_STATES.PAUSED,
-      sourceLabel: "SPK operation and liquidation list context",
-      sourceUrl: row?.officialSources?.find((source) => /liquidation|tasfiye/i.test(`${source.label} ${source.url}`))?.url || "",
-      note: notes.paused,
-      directHref: "",
-    });
-  }
+  // Owner 2026-10-14 (tr-bitget-sweep): the Türkiye shortlist no longer adds a paused card naming the SPK-listed venue;
+  // the SPK liquidation-list check stays in the market copy and the licence page carries the register fact.
   const fundingCandidate = row ? {
     id: `${targetMarket}-funding-${resolvedFunding || row.fiatCurrency}`.toLowerCase().replace(/[^a-z0-9-]+/g, "-"),
     name: notes.fundingName(row.fiatCurrency),

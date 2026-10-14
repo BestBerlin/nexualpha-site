@@ -9,6 +9,7 @@ import { SourceLink } from "../shared/SourceLink.jsx";
 import React from "react";
 import { ONCHAIN_GUIDE_LINKS_CHECKED_AT, onchainGuideReserveSources } from "../../data/onchain-guide.js";
 import { localizedPath } from "../../data/locale-routing.js";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import "./on-chain-liquidity-board.css";
 
 const SOURCE_REVIEWED_AT = "2026-09-15";
@@ -413,7 +414,7 @@ export function OnChainLiquidityBoard({ locale = "en", headingLevel = 2 }) {
   const t = resolveCopy(locale);
   const HeadingTag = headingLevel === 1 ? "h1" : "h2";
   const SectionTag = headingLevel === 1 ? "h2" : "h3";
-  const reserveSources = onchainGuideReserveSources();
+  const reserveSources = withoutTurkeyUnlisted(onchainGuideReserveSources(), { locale }, (source) => source.slug);
   const checkedAt = new Intl.DateTimeFormat(locale === "zh-TW" ? "zh-Hant" : locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(`${ONCHAIN_GUIDE_LINKS_CHECKED_AT}T00:00:00Z`));
 
   return (

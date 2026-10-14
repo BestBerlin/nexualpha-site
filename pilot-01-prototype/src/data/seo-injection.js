@@ -1555,7 +1555,7 @@ const REGIONAL_PREVIEW_FAQ = {
   TR: {
     tr: {
       question: aeoQuestionText("tr-spk-register"),
-      answer: "SPK'nın geçici faaliyet listesi ve tasfiye listesi ayrı okunmalıdır. Tasfiye listesinde görünen bir ad, Bitget Teknoloji AŞ dahil, kullanılabilir Türkiye kayıt veya TRY fonlama yolu sayılmaz. Bir adın listede görünmesi hesap uygunluğu, ürün erişimi, kayıt sonucu veya kullanıcı faydası anlamına gelmez; kimlik, TRY yatırma ve ürün kapsamı resmi hesap akışında doğrulanmalıdır.",
+      answer: "SPK'nın geçici faaliyet listesi ve tasfiye listesi ayrı okunmalıdır. Tasfiye listesinde görünen bir ad kullanılabilir Türkiye kayıt veya TRY fonlama yolu sayılmaz. Bir adın listede görünmesi hesap uygunluğu, ürün erişimi, kayıt sonucu veya kullanıcı faydası anlamına gelmez; kimlik, TRY yatırma ve ürün kapsamı resmi hesap akışında doğrulanmalıdır.",
     },
   },
 };

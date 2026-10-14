@@ -528,7 +528,8 @@ test('Türkiye preview graduates into a Turkish source-backed SPK research path'
   assert.ok(seo.schemas.some((item) => item['@type'] === 'FAQPage'));
   assert.ok(seo.schemas.some((item) => item['@type'] === 'BreadcrumbList'));
   assert.match(JSON.stringify(seo.schemas), /SPK/);
-  assert.match(JSON.stringify(seo.schemas), /Bitget Teknoloji AŞ/);
+  // tr-bitget-sweep: the Türkiye market page keeps the SPK liquidation-list check without naming a venue.
+  assert.doesNotMatch(JSON.stringify(seo.schemas), /Bitget/i);
   assert.doesNotMatch(JSON.stringify(seo.schemas), /kayıt bonusu|sabit komisyon|özel komisyon/i);
 
   const registry = internationalSourcesFor('TR');
@@ -541,7 +542,7 @@ test('Türkiye preview graduates into a Turkish source-backed SPK research path'
   const trStart = source.indexOf('  TR: {');
   const trEnd = source.indexOf('  OTHER: {', trStart);
   const trBlock = source.slice(trStart, trEnd);
-  assert.match(trBlock, /Bitget Teknoloji AŞ/);
+  assert.match(trBlock, /tasfiye listesi/);
   assert.match(trBlock, /stop-and-review/);
   assert.doesNotMatch(trBlock, /kayıt bonusu|sabit komisyon|özel komisyon|private commission|invite code|referral link|nexu888|11350287/i);
 });
@@ -824,7 +825,7 @@ test('regional research tools preserve market context into rates and comparison 
   }
 });
 
-test('regional shortlist uses reviewed matrix states and keeps stop-review platforms without direct CTA', () => {
+test('regional shortlist uses reviewed matrix states and lists no SPK-listed venue for Türkiye', () => {
   const tr = buildRegionalShortlist({
     market: 'TR',
     locale: 'tr',
@@ -838,10 +839,8 @@ test('regional shortlist uses reviewed matrix states and keeps stop-review platf
   assert.equal(tr.accountStage, 'existing_account');
   assert.ok(tr.candidates.some((candidate) => candidate.status === REGIONAL_SHORTLIST_STATES.RESEARCHABLE), 'researchable candidate');
   assert.ok(tr.candidates.some((candidate) => candidate.status === REGIONAL_SHORTLIST_STATES.ACCOUNT_CONFIRM), 'account-confirm candidate');
-  const bitget = tr.candidates.find((candidate) => candidate.name === 'Bitget');
-  assert.equal(bitget.status, REGIONAL_SHORTLIST_STATES.PAUSED);
-  assert.equal(bitget.directHref, '');
-  assert.match(bitget.note, /Durdurup inceleme/);
+  // tr-bitget-sweep: Türkiye pages no longer carry a paused Bitget card.
+  assert.equal(tr.candidates.find((candidate) => /bitget/i.test(`${candidate.name} ${candidate.slug}`)), undefined);
 });
 
 test('Japan Korea Türkiye and Indonesia shortlists localize decision controls without changing handoff destinations', () => {

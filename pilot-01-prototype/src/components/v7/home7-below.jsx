@@ -54,12 +54,16 @@ import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from 
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../data/kraken-usdg.js";
 
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
+
 const INTEL_URL = "/intel/official-announcements.json";
 function intelView(feed, locale, now = Date.parse(feed?.renderedAt || feed?.generatedAt) || 0) {
   const sourceItems = sharedOfficialEventItems(feed);
   if (!Array.isArray(feed?.items)) return null;
   const view = visibleEventSourceItems(sourceItems, { locale, now });
-  return { ...view, items: view.items.slice(0, 40), generatedAt: feed.generatedAt, renderedAt: feed.renderedAt };
+  // Türkiye pages show no notice from an SPK-listed venue (tr-bitget-sweep).
+  const items = withoutTurkeyUnlisted(view.items, { locale }, (item) => [item.venue, item.rawTitle || item.title, item.url]);
+  return { ...view, items: items.slice(0, 40), generatedAt: feed.generatedAt, renderedAt: feed.renderedAt };
 }
 
 function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {

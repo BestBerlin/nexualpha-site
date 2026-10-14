@@ -508,8 +508,8 @@ const COPY = {
     summary: "SPK geçici listesi, tasfiye listesi, Paribu hesap doğrulaması ve TRY yatırma rehberiyle Türkiye araştırmasını kaynaklara bağlayan karar yolu.",
     directAnswer: {
       heading: "Türkiye'de platform seçmeden önce kontrol edilecekler",
-      text: "Türkiye araştırmasında önce SPK'nın geçici faaliyet listesini ve tasfiye listesini ayırın. SPK'nın güncel tasfiye listesinde görünen bir ad, Bitget Teknoloji AŞ dahil, NexuAlpha üzerinde kullanılabilir Türkiye kayıt veya TRY fonlama yolu sayılmaz; kimlik, TRY yatırma ve ürün kapsamı yine resmi hesap akışında doğrulanmalıdır.",
-      bullets: ["SPK geçici faaliyet listesi", "SPK tasfiye listesi ve Bitget Teknoloji AŞ kontrolü", "Kimlik, yüz, yatırımcı profili ve adres doğrulaması", "TRY yatırma ve ürün kapsamı"],
+      text: "Türkiye araştırmasında önce SPK'nın geçici faaliyet listesini ve tasfiye listesini ayırın. SPK'nın güncel tasfiye listesinde görünen bir ad NexuAlpha üzerinde kullanılabilir Türkiye kayıt veya TRY fonlama yolu sayılmaz; kimlik, TRY yatırma ve ürün kapsamı yine resmi hesap akışında doğrulanmalıdır.",
+      bullets: ["SPK geçici faaliyet listesi", "SPK tasfiye listesi kontrolü", "Kimlik, yüz, yatırımcı profili ve adres doğrulaması", "TRY yatırma ve ürün kapsamı"],
     },
     preSignupChecks: {
       heading: "Kayıt öncesi 4 adımlı kontrol",
@@ -538,7 +538,7 @@ const COPY = {
     ],
     questions: [aeoQuestionText("tr-spk-register"), aeoQuestionText("tr-account-verification"), aeoQuestionText("tr-try-funding")],
     answers: [
-      "SPK geçici faaliyet listesi güncel bağlam sağlar, fakat tek başına yetki veya hesap uygunluğu sonucu değildir; tasfiye listesi ayrıca kontrol edilmelidir ve Bitget Teknoloji AŞ listede kaldığı sürece stop-and-review sinyali olarak ele alınır.",
+      "SPK geçici faaliyet listesi güncel bağlam sağlar, fakat tek başına yetki veya hesap uygunluğu sonucu değildir; tasfiye listesi ayrıca kontrol edilmelidir ve orada görünen bir ad listede kaldığı sürece stop-and-review sinyali olarak ele alınır.",
       "Paribu rehberi kimlik, yüz doğrulama, yatırımcı profili ve adres adımlarını uygulama içinde tamamlamayı açıklar; sonuç yine kullanıcıya ve hesaba bağlıdır.",
       "TRY yatırma yolu, banka hesabı eşleşmesi, ürün kapsamı ve fayda koşulları resmi hesap akışında doğrulanmalıdır.",
     ],
@@ -1346,7 +1346,7 @@ const FUNDING_MATRIX_VALUE_COPY = {
     tr: {
       accountScreenChecks: {
         "Confirm the current SPK operation and liquidation lists before treating a Turkish platform route as available.": "Bir Türkiye platform rotasını kullanılabilir saymadan önce güncel SPK faaliyet ve tasfiye listelerini kontrol edin.",
-        "Treat a name on the SPK liquidation list, including Bitget Teknoloji AŞ while it appears there, as a stop-and-review signal rather than a usable Türkiye funding route.": "SPK tasfiye listesinde görünen bir adı, Bitget Teknoloji AŞ dahil, kullanılabilir Türkiye fonlama rotası yerine durup inceleme sinyali olarak ele alın.",
+        "Treat a name on the SPK liquidation list, including Bitget Teknoloji AŞ while it appears there, as a stop-and-review signal rather than a usable Türkiye funding route.": "SPK tasfiye listesinde görünen bir adı kullanılabilir Türkiye fonlama rotası yerine durup inceleme sinyali olarak ele alın.",
         "Check identity, face, investor-profile, address and account-verification steps inside the official platform flow.": "Kimlik, yüz doğrulama, yatırımcı profili, adres ve hesap doğrulama adımlarını resmi platform akışında kontrol edin.",
         "Verify whether TRY deposit, crypto transfer and the intended product are visible for the current account before acting.": "İşlemden önce TRY yatırma, kripto transferi ve hedef ürünün mevcut hesapta görünüp görünmediğini doğrulayın.",
       },

@@ -85,7 +85,9 @@ test("/activities is rendered at request time from the announcement feed: campai
     const state = prerenderState(html);
     assert.equal(state.pathname, "/activities");
     assert.equal(state.locale, locale);
-    assert.equal(state.officialAnnouncements.items.length, 6);
+    // tr-bitget-sweep: the Türkiye hydration state carries no SPK-listed venue's notice either.
+    assert.equal(state.officialAnnouncements.items.length, locale === "tr" ? 5 : 6);
+    if (locale === "tr") assert.doesNotMatch(JSON.stringify(state.officialAnnouncements), /bitget/i);
     assert.ok(state.officialAnnouncements.items.every((item) => !("extra" in item) && !("sourceType" in item)), "payload is compact");
     const replay = await harness.render(`https://nexualpha.com/activities?locale=${locale}`, { officialAnnouncements: state.officialAnnouncements });
     assert.equal(replay, rootInnerHtml(html), `${path}: hydration props reproduce the SSR body`);
