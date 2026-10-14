@@ -50,6 +50,7 @@ export function localeAliasRedirect(url) {
   const prefix = match && LOCALE_PATH_ALIASES[match[1].toLowerCase()];
   if (!prefix) return null;
   const suffix = match[2] && match[2] !== "/" ? match[2] : "";
+  if (!suffix && COUNTRY_ROUTE_PREFIXES.includes(`/${match[1].toLowerCase()}`)) return null;
   return `/${prefix}${suffix}${preservedRedirectSearch(parsed.searchParams)}`;
 }
 

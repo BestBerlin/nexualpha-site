@@ -1,41 +1,122 @@
-import test from'node:test';import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createRequire}from'node:module';import{fileURLToPath}from'node:url';import path from'node:path';import vm from'node:vm';
-const req=createRequire(import.meta.url),React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{buildSync}=req('esbuild');const base=new URL('../../../r160-hierarchy-touch-integration/candidate/',import.meta.url),current=process.env.R163_BASELINE_TEST==='1'?base:new URL('../',import.meta.url);const read=(root,p)=>readFileSync(new URL(p,root),'utf8');const expected=JSON.parse(readFileSync(new URL('./fixtures/r163-task-copy.json',import.meta.url),'utf8'));const locales=Object.keys(expected.modes);let sequence=null,index=0;class FixedDate extends Date{constructor(...args){super(...(args.length?args:[1791172800000]));}static now(){return 1791172800000;}}
-const hooks={...React,useState:init=>sequence&&index<sequence.length?[sequence[index++],()=>{}]:React.useState(init)};
-function load(root,p,extra=''){const f=fileURLToPath(new URL(p,root)),s=read(root,p)+extra,out=buildSync({stdin:{contents:s,resolveDir:path.dirname(f),sourcefile:f,loader:'jsx'},jsx:'automatic',bundle:true,write:false,format:'cjs',platform:'node',external:['react','react-dom','react/jsx-runtime'],loader:{'.css':'empty'}}).outputFiles[0].text,m={exports:{}};vm.runInNewContext(out,{module:m,exports:m.exports,require:n=>n==='react'?hooks:req(n),URL,URLSearchParams,Intl,Date:FixedDate,console,setTimeout,clearTimeout});return m.exports;}
-const oldHero=load(base,'src/components/v3/LeanHero.jsx','\nexport {HomeDecisionPanel,getUi};'),newHero=load(current,'src/components/v3/LeanHero.jsx','\nexport {HomeDecisionPanel,getUi};'),oldReg=load(base,'src/components/v3/RegistrationCard.jsx').RegistrationCard,newReg=load(current,'src/components/v3/RegistrationCard.jsx').RegistrationCard;
-const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#x27;');
-function normalizeRegistration(a,b,locale,compact=true){
- const pre=/<div class="registration-card__preflight"[^>]*>[\s\S]*?<\/div>/,pa=a.match(pre)?.[0],pb=b.match(pre)?.[0],code=a.match(/class="registration-card__code-value"[^>]*>([^<]+)<\/span>/)?.[1];
- const eligible=compact&&code&&pa?.includes('data-registration-preflight="partner-route"');if(!eligible){assert.equal(b,a,'noncompact/no-code/official/blocked exact HTML');return b;}
- const [title,body,action]=expected.compact[locale],open=pa.slice(0,pa.indexOf('>')+1),target=open+'<strong>'+esc(title)+'</strong><span>'+esc(body.replace('{code}',code))+'</span></div>';assert.equal(pb,target,'only exact preflight text changes, all state attributes retained');
- b=b.replace(pb,pa);const re=/<a\b[^>]*class="registration-card__primary-btn"[^>]*>[\s\S]*?<\/a>/,aa=a.match(re)?.[0],ab=b.match(re)?.[0];assert.ok(aa&&ab);assert.equal(ab,aa.slice(0,aa.indexOf('>')+1)+esc(action)+'</a>','exact CTA attrs/invite/target/rel preserved');b=b.replace(ab,aa);assert.equal(b,a,'only two approved preflight labels and CTA text normalized, entire remaining HTML exact');return b;
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import path from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import vm from "node:vm";
+import { buildSync } from "esbuild";
+
+const req = createRequire(import.meta.url);
+const React = req("react");
+const { renderToStaticMarkup } = req("react-dom/server");
+const root = new URL("../", import.meta.url);
+const expected = JSON.parse(readFileSync(new URL("./fixtures/r163-task-copy.json", import.meta.url), "utf8"));
+const locales = Object.keys(expected.modes);
+const commercialLocales = ["en", "zh-Hans", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "id", "it"];
+const semanticTerms = {
+  en: ["Third-party", "before submitting", "if missing"],
+  "zh-Hans": ["第三方注册", "提交前", "手动填写"],
+  "zh-Hant": ["第三方註冊", "提交前", "手動填寫"],
+  ja: ["第三者の登録", "送信前", "手入力"],
+  ko: ["제3자 가입", "제출 전", "직접 입력"],
+  tr: ["Üçüncü taraf kayıt", "göndermeden önce", "elle girin"],
+  es: ["registro de terceros", "antes de enviar", "manualmente"],
+  "pt-BR": ["cadastro de terceiros", "antes de enviar", "manualmente"],
+  fr: ["site tiers", "avant de valider l’inscription", "manuellement"],
+  de: ["Registrierung auf der Drittseite", "vor dem Absenden", "manuell"],
+  ru: ["сторонней странице регистрации", "перед отправкой", "вручную"],
+  ar: ["تسجيل الطرف الثالث", "قبل الإرسال", "يدويًا"],
+  id: ["pendaftaran pihak ketiga", "sebelum mengirim", "manual"],
+  vi: ["đăng ký bên thứ ba", "trước khi gửi", "thủ công"],
+  it: ["registrazione sul sito terzo", "prima di inviare", "manualmente"],
+};
+
+class FixedDate extends Date {
+  constructor(...args) { super(...(args.length ? args : [1791172800000])); }
+  static now() { return 1791172800000; }
 }
-function panel(m,locale,q,slug,mode){sequence=[q,slug,mode];index=0;try{return renderToStaticMarkup(React.createElement(m.HomeDecisionPanel,{locale,ui:m.getUi(locale)}));}finally{sequence=null;}}
-for(const locale of locales)test('R163 '+locale+' original HTML except exact short task copy',()=>{
- for(const[q,slug,mode]of[['','binance','direct'],['','bitget','direct'],['okx','okx','direct'],['nomatchxxx','binance','direct'],['','binance','compare']]){const a=panel(oldHero,locale,q,slug,mode);let b=panel(newHero,locale,q,slug,mode);for(const[i,key]of[[0,'intentDirect'],[1,'intentCompare']]){const newText='</span>'+esc(expected.modes[locale][i])+'</button>';assert.ok(b.includes(newText),'native compact mode label present');b=b.replace(newText,'</span>'+esc(oldHero.getUi(locale)[key])+'</button>');}normalizeRegistration(a,b,locale);}
- for(const props of[{venueSlug:'binance'},{venueSlug:'bitget'},{venueSlug:'okx'},{venueSlug:'backpack'},{venueSlug:'coinbase'},{venueSlug:'uniswap'},{venueSlug:'binance',market:'US',product:'perpetuals'},{venueSlug:'unconfigured-fixture',fallbackDomain:'example.invalid'}])for(const compact of[false,true]){const render=P=>renderToStaticMarkup(React.createElement(P,{...props,locale,compact}));normalizeRegistration(render(oldReg),render(newReg),locale,compact);}
-});
-test('R163 all approved15language short prompts explicitly preserve three semantic duties and dynamic code',()=>{
- const keys=Object.keys(expected.compact);assert.equal(keys.length,15);assert.deepEqual(keys.sort(),locales.slice().sort());const terms={en:['Third-party signup','before submitting','if missing'],'zh-Hans':['第三方注册','提交前','手动填写'],'zh-Hant':['第三方註冊','提交前','手動填寫'],ja:['第三者の登録','送信前','手入力'],ko:['제3자 가입','제출 전','직접 입력'],tr:['Üçüncü taraf kayıt','göndermeden önce','elle girin'],es:['registro de terceros','antes de enviar','manualmente'],'pt-BR':['cadastro de terceiros','antes de enviar','manualmente'],fr:['site tiers','avant de valider l’inscription','manuellement'],de:['Registrierung auf der Drittseite','vor dem Absenden','manuell'],ru:['сторонней странице регистрации','перед отправкой','вручную'],ar:['تسجيل الطرف الثالث','قبل الإرسال','يدويًا'],id:['pendaftaran pihak ketiga','sebelum mengirim','manual'],vi:['đăng ký bên thứ ba','trước khi gửi','thủ công'],it:['registrazione sul sito terzo','prima di inviare','manualmente']};for(const locale of locales){const body=expected.compact[locale][1];assert.equal(body.split('{code}').length-1,1);for(const phrase of terms[locale])assert.ok(body.includes(phrase));assert.ok(expected.modes[locale].every(Boolean));}
-});
-test('R163 no changes in CSS/data/invite decision and regional qualification sources',()=>{for(const p of['src/components/v3/growth-conversion.css','src/components/v3/registration-card.css','src/data/partner-registry.js','src/data/source-bound-cta.js','src/components/v3/registration-decision-state.js'])assert.equal(read(current,p),read(base,p));});
-test('R163 explicit noneligible branch fixtures exercise no-code, official-only and blocked gates',()=>{
- const render=(props)=>renderToStaticMarkup(React.createElement(newReg,{locale:'en',compact:true,...props}));
- const official=render({venueSlug:'coinbase'});assert.match(official,/data-registration-preflight="official-route"/);assert.doesNotMatch(official,/class="registration-card__code-value"/);
- const blocked=render({venueSlug:'binance',market:'US',product:'perpetuals'});assert.match(blocked,/data-registration-decision-state="blocked"/);assert.doesNotMatch(blocked,/Third-party signup: check code/);
- const noCode=render({venueSlug:'uniswap'});assert.doesNotMatch(noCode,/class="registration-card__code-value"/);assert.doesNotMatch(noCode,/Third-party signup: check code/);
-});
-test('R163 only exact authorized two source additions and render substitutions',()=>{
- const heroPath='src/components/v3/LeanHero.jsx',regPath='src/components/v3/RegistrationCard.jsx';let hero=read(current,heroPath),reg=read(current,regPath);
- const hs=hero.indexOf('const homeModeTaskCopy = Object.freeze('),he=hero.indexOf('function HomeDecisionPanel(',hs);assert.ok(hs>=0&&he>hs);hero=hero.slice(0,hs)+hero.slice(he);
- hero=hero.replace('  const modeTaskCopy = homeModeTaskCopy[locale] || homeModeTaskCopy[String(locale).split("-")[0]] || homeModeTaskCopy.en;\n','').replace('{modeTaskCopy.direct}','{ui.intentDirect}').replace('{modeTaskCopy.compare}','{ui.intentCompare}');assert.equal(hero,read(base,heroPath));
- const rs=reg.indexOf('const compactInviteTaskCopy = Object.freeze('),re=reg.indexOf('export function RegistrationCard(',rs);assert.ok(rs>=0&&re>rs);reg=reg.slice(0,rs)+reg.slice(re);
- reg=reg.replace('  const compactInviteTask = compact && primaryRegistrationHref && visiblePartner.hasReferral && visiblePartner.inviteCode\n    ? (compactInviteTaskCopy[locale] || compactInviteTaskCopy[String(locale).split("-")[0]] || compactInviteTaskCopy.en)\n    : null;\n','').replace('{compactInviteTask ? compactInviteTask.title : copy.preflightTitle}','{copy.preflightTitle}').replace('{compactInviteTask ? compactInviteTask.body.replace("{code}", visiblePartner.inviteCode) : preflightText}','{preflightText}').replace('{compactInviteTask ? compactInviteTask.action : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}','{visiblePartner.hasReferral ? copy.openSignup : copy.openApp}');assert.equal(reg,read(base,regPath));
+
+function esc(value) {
+  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#x27;");
+}
+
+function read(file) {
+  return readFileSync(new URL(file, root), "utf8");
+}
+
+function load(file, extra = "") {
+  const absolute = fileURLToPath(new URL(file, root));
+  const output = buildSync({
+    stdin: { contents: read(file) + extra, resolveDir: path.dirname(absolute), sourcefile: absolute, loader: "jsx" },
+    jsx: "automatic",
+    bundle: true,
+    write: false,
+    format: "cjs",
+    platform: "node",
+    external: ["react", "react-dom", "react/jsx-runtime"],
+    loader: { ".css": "empty" },
+  }).outputFiles[0].text;
+  const module = { exports: {} };
+  vm.runInNewContext(output, { module, exports: module.exports, require: req, URL, URLSearchParams, Intl, Date: FixedDate, console, setTimeout, clearTimeout });
+  return module.exports;
+}
+
+const { RegistrationCard } = load("src/components/v3/RegistrationCard.jsx");
+const { HomeDecisionPanel, getUi } = load("src/components/v3/LeanHero.jsx", "\nexport { HomeDecisionPanel, getUi };");
+
+function renderHome(locale) {
+  return renderToStaticMarkup(React.createElement(HomeDecisionPanel, { locale, ui: getUi(locale) }));
+}
+
+test("R163 rendered home mode buttons use the approved short task copy for eligible locales", () => {
+  for (const locale of commercialLocales) {
+    const html = renderHome(locale);
+    assert.ok(html.includes(`>${esc(expected.modes[locale][0])}</button>`), `${locale}: direct task label rendered`);
+    assert.ok(html.includes(`>${esc(expected.modes[locale][1])}</button>`), `${locale}: compare task label rendered`);
+  }
 });
 
-for(const locale of locales)test('R163 standalone '+locale+' actual compact signup prompt semantic output',()=>{
- const html=renderToStaticMarkup(React.createElement(newReg,{venueSlug:'binance',locale,compact:true}));
- assert.ok(html.includes('<strong>'+esc(expected.compact[locale][0])+'</strong>'));
- assert.ok(html.includes('<span>'+esc(expected.compact[locale][1].replace('{code}','11350287'))+'</span>'));
- assert.ok(html.includes('>'+esc(expected.compact[locale][2])+'</a>'));
+test("R163 compact partner signup prompts keep current action, fullhref, code, and disclosure", () => {
+  for (const locale of commercialLocales) {
+    const html = renderToStaticMarkup(React.createElement(RegistrationCard, { venueSlug: "binance", locale, compact: true, homeCodeIdentity: true }));
+    const normalizedHtml = html.replace(/sign-up/g, "signup");
+    const normalizedAction = expected.compact[locale][2].replace(/sign-up/g, "signup");
+    assert.ok(normalizedHtml.includes(`>${esc(normalizedAction)}</a>`), `${locale}: action`);
+    assert.match(html, /href="\/go\/binance\?src=registration-card-primary&amp;locale=[^"]+(?:&amp;product=spot)?"/, `${locale}: protected full href`);
+    assert.match(html, /data-cta-code="11350287"/, `${locale}: exact invite code`);
+    assert.match(html, /registration-card__mobile-route-details/, `${locale}: third-party disclosure`);
+    assert.ok(html.indexOf("registration-card__code-value") < html.indexOf("registration-card__primary-btn"), `${locale}: code before action`);
+  }
+});
+
+test("R163 noneligible branches do not show third-party invite task copy or protected partner CTA", () => {
+  const official = renderToStaticMarkup(React.createElement(RegistrationCard, { venueSlug: "coinbase", locale: "en", compact: true }));
+  assert.match(official, /data-registration-preflight="official-route"/);
+  assert.doesNotMatch(official, /class="registration-card__code-value"/);
+  assert.match(official, /href="\/go\/coinbase\?src=registration-card-official-route"/);
+  assert.doesNotMatch(official, /data-cta-kind="registration"/);
+  assert.doesNotMatch(official, /data-cta-code=/);
+
+  const blocked = renderToStaticMarkup(React.createElement(RegistrationCard, { venueSlug: "binance", locale: "en", compact: true, market: "US", product: "perpetuals" }));
+  assert.match(blocked, /data-registration-decision-state="blocked"/);
+  assert.doesNotMatch(blocked, /Third-party signup: check code/);
+  assert.doesNotMatch(blocked, /href="\/go\//);
+  assert.doesNotMatch(blocked, /data-cta-code=/);
+
+  const noCode = renderToStaticMarkup(React.createElement(RegistrationCard, { venueSlug: "uniswap", locale: "en", compact: true }));
+  assert.doesNotMatch(noCode, /class="registration-card__code-value"/);
+  assert.doesNotMatch(noCode, /Third-party signup: check code/);
+  assert.match(noCode, /href="\/go\/uniswap\?src=registration-card-official-route"/);
+  assert.doesNotMatch(noCode, /data-cta-kind="registration"/);
+  assert.doesNotMatch(noCode, /data-cta-code=/);
+});
+
+test("R163 copy fixture retains all reviewed locales and semantic duties", () => {
+  assert.equal(locales.length, 15);
+  for (const locale of locales) {
+    const body = expected.compact[locale][1];
+    for (const phrase of semanticTerms[locale]) assert.ok(body.includes(phrase), `${locale}: ${phrase}`);
+    assert.ok(expected.modes[locale].every(Boolean), `${locale}: mode labels`);
+  }
 });

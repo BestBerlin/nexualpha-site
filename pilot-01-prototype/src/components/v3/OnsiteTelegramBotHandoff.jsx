@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { buildTelegramWebsiteFunnelContext, TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS } from "../../data/telegram-config.js";
 
 const safeContext = (value, fallback) => String(value || fallback || "").trim();
@@ -56,6 +57,10 @@ export function OnsiteTelegramBotHandoff({
   queries,
   compact = true,
 }) {
+  const [returnNow, setReturnNow] = useState(null);
+  useEffect(() => {
+    setReturnNow(Date.now());
+  }, []);
   const handoff = TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS[canonicalPath];
   const inferred = contextFromCanonicalPath(canonicalPath);
   const explicitContext = Boolean(intent || venue || pair || returnRoute || campaign || queries?.length);
@@ -80,7 +85,9 @@ export function OnsiteTelegramBotHandoff({
     locale: context.locale,
     product: context.product,
     campaign: campaign || (handoff ? "wave23-onsite-visible-handoff" : "r40-contextual-telegram-return"),
+    now: returnNow ?? 0,
   });
+  const telegramReturnHref = returnNow === null ? undefined : funnel.returnHref;
   const visibleQueries = (queries || handoff?.queries || []).slice(0, 2);
   const copy = copyForLocale(context.locale);
 
@@ -100,7 +107,7 @@ export function OnsiteTelegramBotHandoff({
       data-telegram-locale={context.locale}
       data-telegram-product={context.product}
       data-telegram-return-route={resolvedRoute}
-      data-telegram-return-href={funnel.returnHref}
+      data-telegram-return-href={telegramReturnHref}
       data-telegram-web-only-fallback="false"
       data-telegram-review-cadence="24h-7d"
       data-telegram-anonymous-metrics={handoff?.measurement?.policy || "anonymous onsite Telegram handoff clicks only; no partner conversion, KYC, account, payout or message-send evidence"}
@@ -127,7 +134,7 @@ export function OnsiteTelegramBotHandoff({
         data-growth-market={context.market}
         data-growth-product={context.product}
         data-telegram-start={funnel.startPayload}
-        data-telegram-return-href={funnel.returnHref}
+        data-telegram-return-href={telegramReturnHref}
         data-telegram-web-only-fallback="false"
         data-r40-contextual-telegram="true"
       >

@@ -4833,6 +4833,15 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       hydrationData: guide ? { beginnerContext: activityRequestContext(url) } : {},
     })) || html;
   }
+  if (metadata.status === 503 && metadata.marker === FLASH_ROUTE_MARKER && metadata.flashPayload && typeof env?.NEWS_SSR_RENDER === "function") {
+    try {
+      const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+      const pathname = publicRoute.contentPathname;
+      const renderUrl = new URL(hydrationRenderUrl(url, pathname, publicRoute.locale));
+      const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash: metadata.flashPayload });
+      if (typeof appHtml === "string" && appHtml.includes("class=\"nxf ")) return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash: metadata.flashPayload }, url);
+    } catch { /* keep the 503 shell if the renderer is unavailable too. */ }
+  }
   if (metadata.status !== 200) return html;
   // Latest article body must use the same component as hydration. Keep the
   // existing content fingerprint gate; never admit an obsolete prerender.
@@ -8478,8 +8487,21 @@ async function routeMetadataBase(url, env, newsFeed) {
   if (flashRoute) {
     if (flashRoute.kind === "missing") return notFoundMetadata(canonicalPath, locale);
     const now = flashNow(env);
-    const items = await readFlashItems(env, url);
     const urlFor = (path) => localizedCanonical(path, requestedLocale);
+    let items;
+    try {
+      items = await readFlashItems(env, url);
+    } catch {
+      const payload = { generatedAt: null, locale: requestedLocale, items: [], hasMore: false, venues: [], unavailable: true };
+      const seo = flashStreamSeo(payload, requestedLocale, { urlFor });
+      const canonical = flashRoute.kind === "stream" ? urlFor(FLASH_PATH) : urlFor(canonicalPath);
+      return {
+        status: 503, title: seo.title, description: seo.description, canonical, locale: requestedLocale,
+        robots: "noindex,follow", marker: FLASH_ROUTE_MARKER, alternates: [], schema: [],
+        flashPayload: flashRoute.kind === "item" ? { kind: "item", itemKey: flashRoute.key, item: null, related: [], unavailable: true } : { kind: "stream", ...payload },
+        cacheControl: "no-store", retryAfter: "300",
+      };
+    }
     if (flashRoute.kind === "stream") {
       const payload = flashStreamPayload(items, requestedLocale, { limit: FLASH_PAGE_SIZE, now });
       const seo = flashStreamSeo(payload, requestedLocale, { urlFor });
@@ -9027,6 +9049,9 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
   if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
+  if (metadata.cacheControl) headers.set("cache-control", metadata.cacheControl);
+  if (metadata.retryAfter) headers.set("retry-after", metadata.retryAfter);
+  if (metadata.status >= 400) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
   // Iframe widgets carry noindex in the header too, as the server-rendered /embed/liquidations widgets do (SEO audit
   // 2026-10-11 #13); HEAD already mirrors metadata.robots above.
   if (/^\/embed(?:\/|$)/.test(url.pathname)) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
@@ -9480,6 +9505,8 @@ const HTML_PRIVATE_CONTEXT_PARAMS = new Set([
   "campaign_id",
   "partner",
   "partner_id",
+  "src",
+  "p",
   "account_stage",
   "decision",
   "decision_state",
@@ -9554,7 +9581,8 @@ function htmlSecurityResponse(response, forceHtml = false, publicEmbed = false, 
   if (!publicEmbed) headers.set("x-frame-options", "SAMEORIGIN");
   for (const header of EDGE_OWNED_HTML_SECURITY_HEADERS) headers.delete(header);
   headers.set("permissions-policy", HTML_PERMISSIONS_POLICY);
-  const cacheControl = htmlCacheControl(url, publicEmbed);
+  const existingCacheControl = headers.get("cache-control");
+  const cacheControl = existingCacheControl?.includes("no-store") ? existingCacheControl : htmlCacheControl(url, publicEmbed);
   if (cacheControl) headers.set("cache-control", cacheControl);
   if (cacheControl?.includes("no-store")) {
     headers.delete("etag");

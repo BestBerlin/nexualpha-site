@@ -8,6 +8,7 @@ import { HeatmapCanvas } from './HeatmapCanvas.jsx';
 import { useMarketEvents } from './useMarketEvents.js';
 import { DataUnavailable, textDirection } from './DataPageFrame.jsx';
 import { NewsVenueOffer } from '../v3/news/NewsVenueOffer.jsx';
+import { startJsonPolling } from '../shared/json-polling.js';
 import './heatmap.css';
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
@@ -43,11 +44,15 @@ export function LiquidationTimeline({ feed, locale = 'en', showSource = true }) 
 function useLevels(initialLevels) {
  const [levels,setLevels] = useState(initialLevels || null);
  useEffect(()=>{
-  let alive=true;
-  const load=()=>fetch('/api/liquidation-levels',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(next=>{if(alive) setLevels(next);}).catch(()=>{if(alive)setLevels(null);});
-  if(!initialLevels) load();
-  const id=setInterval(()=>{if(document.visibilityState==='visible')load();},60000);
-  return ()=>{alive=false;clearInterval(id);};
+  return startJsonPolling({
+   request:'/api/liquidation-levels',
+   intervalMs:60000,
+   immediate:!initialLevels,
+   cache:'no-store',
+   isData:(next)=>Boolean(next),
+   onData:setLevels,
+   onError:()=>setLevels((current)=>current || null),
+  });
  },[]);
  return levels;
 }

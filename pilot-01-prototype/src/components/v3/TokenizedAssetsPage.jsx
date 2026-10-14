@@ -90,7 +90,7 @@ export function TokenizedAssetsPage({ slug = "tokenized-assets", locale = "en" }
             <span className="tokenized-assets-route-nav__label">{copy.routeNav}</span>
             <ol>
               {page.decisionRows.filter((row) => row.route).map((row, index) => (
-                <li key={row.route}>
+                <li key={`${row.route}:${tokenizedAssetLocalized(row.label, "en")}`}>
                   <a href={localizedHref(row.route, { locale: resolvedLocale })}>
                     <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                     <strong>{tokenizedAssetLocalized(row.label, resolvedLocale)}</strong>

@@ -5,7 +5,7 @@ import {
   loadAnonymousDecisionResumeSnapshot,
   saveAnonymousDecisionResumeSnapshot,
 } from "../../data/decision-passport.js";
-import { localizedHref } from "../../data/locale-routing.js";
+import { appendFragmentContextParams, localizedHref } from "../../data/locale-routing.js";
 import { resolveTelegramReturnBannerState } from "../../data/telegram-decision-return.js";
 import "./telegram-return-banner.css";
 
@@ -375,7 +375,7 @@ function resumeHrefFor(snapshot, locale, fallbackHash) {
   const path = state.pair ? `/compare/${state.pair}` : state.venue ? `/exchanges/${state.venue}` : "/rates";
   const params = Object.fromEntries(buildAnonymousDecisionResumeQuery(state));
   const hash = fallbackHash || "";
-  return `${localizedHref(path, { locale, ...params })}${hash}`;
+  return appendFragmentContextParams(`${localizedHref(path, { locale })}${hash}`, params);
 }
 
 function cleanHrefFor(state, fallbackHash) {

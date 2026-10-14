@@ -1,4 +1,4 @@
-// Owner 2026-10-10: the exchange profile H1 carries the search intent (fees, referral code, rebate) under the same
+// The exchange profile H1 carries the search intent under the same
 // referral-title policy as the <title>, stays a single H1, keeps the data-bound invite code and the fees-checked chip.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -47,10 +47,9 @@ async function renderHeroes() {
   }
 }
 
-test("exchange H1 carries fees + referral code + rebate where allowed, fees + profile elsewhere, as a single H1", async () => {
+test("exchange H1 carries the exact referral code where allowed, neutral profile elsewhere, and no year", async () => {
   const pages = await renderHeroes();
   assert.equal(pages.length, locales.length * slugs.length);
-  const year = String(new Date().getUTCFullYear());
   for (const { locale, slug, html } of pages) {
     const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
     assert.equal(h1s.length, 1, `${slug}/${locale}: exactly one H1`);
@@ -68,7 +67,7 @@ test("exchange H1 carries fees + referral code + rebate where allowed, fees + pr
     assert.doesNotMatch(h1, /independent profile|独立研究|獨立研究|bağımsız profili|Независимый профиль/i, `${slug}/${locale}: old H1 wording`);
     if (referral) {
       assert.ok(h1.includes(code), `${slug}/${locale}: H1 "${h1}" must carry the data-bound invite code ${code}`);
-      assert.ok(h1.includes(year), `${slug}/${locale}: H1 "${h1}" carries the year`);
+      assert.doesNotMatch(h1, /20\d{2}/, `${slug}/${locale}: referral H1 must not mix the code with a year`);
     } else {
       assert.ok(!/nexu888|11350287|48553/.test(h1), `${slug}/${locale}: neutral H1 "${h1}" must not promote a code`);
     }

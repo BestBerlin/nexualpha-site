@@ -7,6 +7,7 @@ import { BRAZIL_DECISION_CHAIN, BRAZIL_EVIDENCE_CHAIN, BRAZIL_SOURCES, BRAZIL_VE
 import { trackGrowthDecision as trackGrowthDecisionEvent } from "../../../data/cta-analytics.js";
 import { buildTelegramWebsiteFunnelContext } from "../../../data/telegram-config.js";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
+import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "../telegram-return-hydration.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { brazilControlsCopyExtra } from "../../../data/brazil-controls-copy.js";
 import { appendFragmentContextParams } from "../../../data/locale-routing.js";
@@ -319,7 +320,7 @@ function BrazilAeoAnswers({ answers = [], sources, locale = "pt-BR" }) {
   );
 }
 
-function resolveBrazilNextStep(step, state, pageLocale) {
+function resolveBrazilNextStep(step, state, pageLocale, telegramReturnNow = null) {
   if (!step || typeof step !== "object") return null;
   if (step.href === "telegram:fees") {
     const funnel = buildTelegramWebsiteFunnelContext({
@@ -330,8 +331,9 @@ function resolveBrazilNextStep(step, state, pageLocale) {
       product: "spot",
       amount: state.amount,
       campaign: "br_pix_brl_fee_return",
+      ...telegramReturnClockOption(telegramReturnNow),
     });
-    return { ...step, href: funnel.deepLink, target: "_blank", telegramStart: funnel.startPayload, telegramReturnHref: funnel.returnHref };
+    return { ...step, href: funnel.deepLink, target: "_blank", telegramStart: funnel.startPayload, telegramReturnHref: hydratedTelegramReturnHref(funnel.returnHref, telegramReturnNow) };
   }
   if (step.href === "telegram:compare") {
     const funnel = buildTelegramWebsiteFunnelContext({
@@ -341,8 +343,9 @@ function resolveBrazilNextStep(step, state, pageLocale) {
       locale: pageLocale,
       product: "spot",
       campaign: "br_pix_brl_compare_return",
+      ...telegramReturnClockOption(telegramReturnNow),
     });
-    return { ...step, href: funnel.deepLink, target: "_blank", telegramStart: funnel.startPayload, telegramReturnHref: funnel.returnHref };
+    return { ...step, href: funnel.deepLink, target: "_blank", telegramStart: funnel.startPayload, telegramReturnHref: hydratedTelegramReturnHref(funnel.returnHref, telegramReturnNow) };
   }
   if (typeof step.href === "string" && step.href.startsWith("/br")) {
     return { ...step, href: withBrazilState(step.href, state, pageLocale) };
@@ -351,7 +354,8 @@ function resolveBrazilNextStep(step, state, pageLocale) {
 }
 
 function BrazilNextSteps({ steps = [], state, pageLocale, onDecision }) {
-  const resolved = steps.map((step) => resolveBrazilNextStep(step, state, pageLocale)).filter(Boolean);
+  const telegramReturnNow = useHydratedTelegramReturnNow();
+  const resolved = steps.map((step) => resolveBrazilNextStep(step, state, pageLocale, telegramReturnNow)).filter(Boolean);
   if (!resolved.length) return null;
   return (
     <nav className="br-next-steps v2-shell" aria-label="Próximos passos Brasil">
@@ -432,6 +436,7 @@ function withBrazilState(href, state, pageLocale = BRAZIL_PAGE_LOCALE, platform 
 }
 
 function BrazilDecisionChain({ page, state, pageLocale, onDecision }) {
+  const telegramReturnNow = useHydratedTelegramReturnNow();
   const items = BRAZIL_DECISION_CHAIN.map((item) => ({
     ...item,
     page: getBrazilPage(item.path),
@@ -439,7 +444,7 @@ function BrazilDecisionChain({ page, state, pageLocale, onDecision }) {
   const currentIndex = Math.max(0, items.findIndex((item) => item.path === page.path));
   const previous = currentIndex > 0 ? items[currentIndex - 1] : null;
   const next = currentIndex < items.length - 1 ? items[currentIndex + 1] : null;
-  const telegram = resolveBrazilNextStep({ label: "Continuar no Telegram", href: "telegram:compare", kind: "telegram" }, state, pageLocale);
+  const telegram = resolveBrazilNextStep({ label: "Continuar no Telegram", href: "telegram:compare", kind: "telegram" }, state, pageLocale, telegramReturnNow);
   const platformReturnHref = `#br-shortlist-title`;
   const primaryHref = next ? withBrazilState(next.path, state, pageLocale) : platformReturnHref;
   const primaryLabel = next ? `Próximo: ${next.label}` : "Voltar à escolha de plataforma";

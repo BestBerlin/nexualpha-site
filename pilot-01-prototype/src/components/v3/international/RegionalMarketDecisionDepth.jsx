@@ -3,6 +3,7 @@ import { contextualHref } from "../../../data/contextual-href.js";
 import { internationalSourcesFor, INTERNATIONAL_SOURCE_REVIEWED_AT } from "../../../data/international-source-registry.js";
 import { regionalFundingRowsForMarket } from "../../../data/regional-funding-verification-matrix.js";
 import { buildTelegramWebsiteFunnelContext } from "../../../data/telegram-config.js";
+import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "../telegram-return-hydration.js";
 import { UK_MARKET_DECISION } from "../../../data/uk-market-decision.js";
 import "./regional-market-decision-depth.css";
 
@@ -243,6 +244,7 @@ function depthDisplay(market, group, value) {
 }
 
 function ResearchHandoffLinks({ copy, market, locale }) {
+  const telegramReturnNow = useHydratedTelegramReturnNow();
   if (!copy.researchHandoff?.length) return null;
   const product = copy.product || "spot";
   const telegramFunnel = buildTelegramWebsiteFunnelContext({
@@ -253,7 +255,9 @@ function ResearchHandoffLinks({ copy, market, locale }) {
     product,
     campaign: `${market.toLowerCase()}_decision_depth_research`,
     returnRoute: copy.returnRoute,
+    ...telegramReturnClockOption(telegramReturnNow),
   });
+  const telegramReturnHref = hydratedTelegramReturnHref(telegramFunnel.returnHref, telegramReturnNow);
 
   return (
     <div className="regional-decision-depth__handoff" role="group" aria-label={`${market} research handoff`}>
@@ -270,7 +274,7 @@ function ResearchHandoffLinks({ copy, market, locale }) {
               data-growth-market={market}
               data-growth-product={product}
               data-telegram-start={telegramFunnel.startPayload}
-              data-telegram-return-href={telegramFunnel.returnHref}
+              data-telegram-return-href={telegramReturnHref}
               data-telegram-market-context={market}
             >
               {item.label}

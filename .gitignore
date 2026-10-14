@@ -16,3 +16,6 @@ __pycache__/
 # Local beginner-path verification evidence and out-of-scope radar preview.
 .beginner-evidence/
 ops/beginner-path/radar.preview.mjs
+.audit/
+/audit-*.log
+/audit-area-5-seo-index-report.json

@@ -12,6 +12,7 @@ import { FLASH_PATH, flashNavLabel } from "../../data/flash-path.js";
 import { formatSgtStamp } from "../../data/sgt-time.js";
 import { intelToolsCopy } from "../../data/intel-tools-copy.js";
 import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
+import { startJsonPolling } from "../shared/json-polling.js";
 import "../data/data-pages.css";
 import "./intel-tools.css";
 
@@ -26,14 +27,14 @@ export const hrefFor = (path, locale, market) => {
 export function useSnapshot(path, initial) {
   const [json, setJson] = useState(initial ?? null);
   useEffect(() => {
-    let alive = true;
-    const load = () => fetch(path, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((next) => { if (alive && next && typeof next === "object" && next.generatedAt) setJson(next); })
-      .catch(() => {});
-    if (!initial) load();
-    const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, REFRESH_MS);
-    return () => { alive = false; clearInterval(id); };
+    return startJsonPolling({
+      request: path,
+      intervalMs: REFRESH_MS,
+      immediate: !initial,
+      cache: "no-cache",
+      isData: (next) => Boolean(next && typeof next === "object" && next.generatedAt),
+      onData: setJson,
+    });
   }, [path]); // eslint-disable-line react-hooks/exhaustive-deps -- initial is the hydration seed only
   return json;
 }

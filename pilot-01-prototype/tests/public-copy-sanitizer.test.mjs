@@ -33,3 +33,20 @@ test("Chinese venue cards do not publish absolute safety, ranking, or fee claims
   assert.doesNotMatch(output, /全球第二大|绝对顶级|费率低至|极速抗压|极其成熟/);
   assert.match(output, /来源研究|公开费率|市场条件/);
 });
+
+
+test("directory missing-fee cells show an official-source action without verification placeholders or invented rates", async () => {
+  const { createSsrHarness } = await import("./helpers/ssr-hydration-harness.mjs");
+  const { feeFact } = await import("../src/data/exchange-facts.js");
+  const harness = await createSsrHarness();
+  try {
+    for (const locale of ["zh-Hans", "zh-Hant"]) {
+      const html = await harness.render(`https://nexualpha.com/exchanges?locale=${locale}`, {});
+      assert.doesNotMatch(html, /尚未核验|尚未核驗|\bN\/A\b|>placeholder</i);
+      assert.match(html, /请查官方费率|請查官方費率/);
+    }
+    assert.equal(feeFact("aevo", "spot").state, "unchecked");
+    assert.equal(feeFact("aevo", "spot").maker, null);
+    assert.equal(feeFact("aevo", "spot").taker, null);
+  } finally { await harness.close(); }
+});

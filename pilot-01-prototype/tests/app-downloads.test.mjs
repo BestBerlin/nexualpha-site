@@ -6,6 +6,7 @@ import { APP_DOWNLOADS, APP_DOWNLOAD_YEAR, appDownloadContent, appDownloadRouteS
 import { APP_DOWNLOAD_SLUGS, appDownloadPath, appDownloadSlugsFor, parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { APP_DOWNLOAD_COPY } from "../src/data/app-download-copy.js";
+import { formatDate } from "../src/data/format-date.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath } from "../src/data/locale-routing.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { buildAppsSitemap, buildSplitSitemaps } from "../scripts/generate-prerender-manifest.mjs";
@@ -87,6 +88,17 @@ test("all locale editions are localized and indexable, neutral locales never con
     if (locale !== "en") assert.notEqual(APP_DOWNLOAD_COPY[locale].answer, APP_DOWNLOAD_COPY.en.answer);
     if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) assert.doesNotMatch(main(html), /data-app-registration|href="\/go\//);
     assert.doesNotMatch(main(html), /not (?:investment|financial) advice|affiliate commission|pays our commission|terms (?:and conditions )?apply|非投资建议|非投資建議|佣金|傭金/i);
+  }
+});
+
+test("all app download locales render the source check date with locale-aware UI text", async () => {
+  for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) {
+    const content = appDownloadContent("okx", locale);
+    const html = await (await fetchPage(localizedPath(appDownloadPath("okx"), locale))).text();
+    const sourceSection = main(html).match(/<section aria-labelledby="app-sources"[\s\S]*?<\/section>/)?.[0] || "";
+    assert.match(sourceSection, new RegExp(`<time dateTime="${content.app.lastChecked}">`), locale);
+    assert.ok(sourceSection.includes(formatDate(locale, content.app.lastChecked)), `${locale} formats the checked date`);
+    if (!["en", "zh-Hans", "zh-Hant", "ja", "ko"].includes(locale)) assert.doesNotMatch(sourceSection, />2026-10-13</, `${locale} must not print the raw ISO date`);
   }
 });
 

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from "react";
+import { localeManifest } from "../../content/locale-manifest";
 
 function Globe() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false">
@@ -24,8 +25,11 @@ export function LanguageMenu({ locale, options, label, disabled = false, onSelec
   const buttonRef = useRef(null);
   const listRef = useRef(null);
   const typeRef = useRef({ text: "", timer: 0 });
-  const currentIndex = Math.max(0, options.findIndex((o) => o.code === locale));
-  const current = options[currentIndex] || options[0] || { code: locale || "en", label: String(locale || "en").toUpperCase() };
+  const selectedIndex = options.findIndex((o) => o.code === locale);
+  const currentIndex = selectedIndex >= 0 ? selectedIndex : 0;
+  const current = selectedIndex >= 0
+    ? options[selectedIndex]
+    : { code: locale || "en", label: localeManifest[locale]?.language || String(locale || "en").toUpperCase() };
   const menuDisabled = disabled || options.length <= 1;
 
   const close = useCallback((restore = true) => {

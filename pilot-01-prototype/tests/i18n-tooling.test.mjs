@@ -45,14 +45,17 @@ test("selector locales, catalog locales, and compiled runtime locales remain ali
   assert.deepEqual(runtime.locales, settings.locales);
   assert.match(manifest, /export const localeManifest/);
   assert.doesNotMatch(manifest, /import .*\.\/locales\/|localeCatalogs/);
-  assert.match(app, /supportedLocales\.map/);
+  assert.match(app, /supportedLocales\.includes/);
+  assert.match(app, /languageOptionsFromHreflang\(pageAlternates\)/);
+  assert.match(app, /<LanguageMenu locale=\{locale\} options=\{localeOptions\}/);
   for (const locale of settings.locales) await readFile(new URL(`../locales/${locale}.json`, import.meta.url), "utf8");
 });
 
 test("V2 has one locale synchronisation path and routes visible copy through Paraglide", async () => {
   const source = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
   const copy = await readFile(new URL("../src/content/v2-copy.js", import.meta.url), "utf8");
-  assert.match(source, /supportedLocales\.map/);
+  assert.match(source, /supportedLocales\.includes/);
+  assert.match(source, /languageOptionsFromHreflang\(pageAlternates\)/);
   assert.match(source, /document\.documentElement\.lang = intlLocale\(locale\)/);
   assert.match(source, /setParaglideLocale\(locale, \{ reload: false \}\)/);
   assert.match(source, /window\.history\.replaceState/);

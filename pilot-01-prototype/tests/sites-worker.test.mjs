@@ -154,6 +154,8 @@ test("referral and campaign HTML routes are private and not shared cached", asyn
   for (const path of [
     "/exchanges/bitget?ref=nexu888",
     "/exchanges/binance?utm_source=telegram",
+    "/exchanges/okx?src=telegram",
+    "/compare/binance-vs-okx?p=launch",
     "/compare/binance-vs-okx?campaign=signup",
     "/exchanges/okx?account_stage=kyc",
     "/exchanges/bitget?market=HK&product=spot&account_stage=new_account&funding=HKD%20bank%20transfer",
@@ -386,6 +388,28 @@ test("redirects redundant English locale URLs to their parameter-free canonical"
   });
   assert.equal(response.status, 308);
   assert.equal(response.headers.get("location"), "https://nexualpha.com/exchanges/okx?utm_source=telegram");
+});
+
+test("redirected locale URLs preserve src attribution without making the target shared-cacheable", async () => {
+  const redirect = await worker.fetch(new Request("https://example.test/exchanges/okx?locale=tr&src=telegram&x=drop"), {
+    ASSETS: { fetch: async () => new Response("should not fetch", { status: 500 }) },
+  });
+  assert.equal(redirect.status, 308);
+  assert.equal(redirect.headers.get("location"), "https://nexualpha.com/tr/exchanges/okx?src=telegram");
+
+  const target = await worker.fetch(new Request("https://example.test/tr/exchanges/okx?src=telegram", {
+    headers: { accept: "text/html" },
+  }), {
+    ASSETS: {
+      fetch: async () => new Response("<!doctype html><main>attributed</main>", {
+        status: 200,
+        headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=600" },
+      }),
+    },
+  });
+
+  assert.equal(target.status, 200);
+  assert.equal(target.headers.get("cache-control"), "private, no-store, max-age=0");
 });
 
 test("redirects common sitemap index aliases to the canonical sitemap", async () => {

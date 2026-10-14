@@ -895,3 +895,23 @@ test('adding release provenance leaves historical records untouched and labels o
     assert.equal(rows[1].collectorRelease, 'R58');
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
+
+test('collector expires runtime idempotency keys using the same 30-day recovery window', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-cta-retention-'));
+  try {
+    const file = path.join(dir, 'events.jsonl');
+    let clock = Date.parse('2026-10-14T00:00:00Z');
+    const collect = createCtaCollector(file, { now: () => clock });
+    const data = event();
+    assert.equal((await collect(request(data), 'http://localhost:4199')).status, 204);
+    clock += 29 * 86400000;
+    assert.equal((await collect(request(data), 'http://localhost:4199')).status, 204);
+    assert.equal((await readFile(file, 'utf8')).trim().split('\n').length, 1);
+    clock += 2 * 86400000;
+    assert.equal((await collect(request(data), 'http://localhost:4199')).status, 204);
+    assert.equal((await readFile(file, 'utf8')).trim().split('\n').length, 2);
+    const restarted = createCtaCollector(file, { now: () => clock });
+    assert.equal((await restarted(request(data), 'http://localhost:4199')).status, 204);
+    assert.equal((await readFile(file, 'utf8')).trim().split('\n').length, 2);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});

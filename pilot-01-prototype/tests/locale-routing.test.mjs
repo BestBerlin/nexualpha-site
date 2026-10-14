@@ -120,6 +120,10 @@ test("path locale parsing has priority over conflicting query locale for future 
 });
 
 test("country directory takes precedence over the Indonesian locale prefix collision", () => {
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/id?locale=id"), null);
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/id/"), null);
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/id/exchanges/binance?src=legacy"), "/id-id/exchanges/binance?src=legacy");
+
   assert.deepEqual(parsePublicRoute("/id", new URLSearchParams()), {
     publicPathname: "/id",
     contentPathname: "/id",
@@ -169,6 +173,10 @@ test("Vietnam country directory defaults to Vietnamese without becoming a locale
 });
 
 test("Japanese path routes are limited to eligible global content", () => {
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/jp?locale=ja"), null);
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/kr?locale=ko"), null);
+  assert.equal(legacyLocaleRedirect("https://nexualpha.com/jp/exchanges/binance?src=legacy"), "/ja/exchanges/binance?src=legacy");
+
   assert.deepEqual(parsePublicRoute("/ja/exchanges/binance", new URLSearchParams()), {
     publicPathname: "/ja/exchanges/binance",
     contentPathname: "/exchanges/binance",

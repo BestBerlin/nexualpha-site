@@ -59,8 +59,10 @@ test("Factbook titles carry no stale date and schemas use the latest real review
   assert.ok(latest >= AUDIT_DATE);
   assert.equal(redirect.status, 301);
   assert.equal(redirect.headers.get("location"), "https://nexualpha.com/exchanges/binance#sources");
-  // Native referral title (referral-pages-native): its date is the partner terms confirmation, not a stale review stamp.
-  assert.match(exchangeHtml, /<title[^>]*>Binance referral code: 11350287 — Up to 25% of fees back \(verified 2026-10-10\)<\/title>/);
+  // Referral titles keep the registry code; benefit terms and review dates belong in body/schema evidence.
+  assert.match(exchangeHtml, /<title[^>]*>Binance referral code: 11350287<\/title>/);
+  assert.doesNotMatch(exchangeHtml.match(/<title[^>]*>(.*?)<\/title>/)?.[1] || "", /20\d{2}|verified|fees back/i);
+  assert.match(exchangeHtml, /Up to 25% of fees back/);
 
   assert.equal(directDataset.dateModified, latest);
 

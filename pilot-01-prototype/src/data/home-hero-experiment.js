@@ -86,7 +86,10 @@ export function assignHomeHeroVariant({ cookieHeader = "", userAgent = "", metho
   if (force === "off") return { active: false, variant: HOME_HERO_CONTROL, setCookie: null };
   const forced = force === "on" || isHomeHeroVariant(force) ? force : null;
   if (!homeHeroEnabled(registry) && !forced) return { active: false, variant: HOME_HERO_CONTROL, setCookie: null };
-  if (isHomeHeroBot(userAgent) || (method !== "GET" && method !== "HEAD")) return { active: true, variant: HOME_HERO_CONTROL, setCookie: null, crawler: isHomeHeroBot(userAgent) };
+  // HeadlessChrome is a browser execution mode: render the same experiment context as Chrome.
+  // Keep the original UA for click/analytics filtering so audit visits do not become conversions.
+  const renderBot = isHomeHeroBot(String(userAgent).replace(/HeadlessChrome\//gi, "Chrome/"));
+  if (renderBot || (method !== "GET" && method !== "HEAD")) return { active: true, variant: HOME_HERO_CONTROL, setCookie: null, crawler: renderBot };
   if (isHomeHeroVariant(forced)) return { active: true, variant: forced, setCookie: null, forced: true };
   const existing = readHomeHeroCookie(cookieHeader);
   if (existing) return { active: true, variant: existing, setCookie: null };

@@ -13,6 +13,27 @@ const sourceWithoutCodes = (value) => {
   } catch { return null; }
 };
 
+const slugPart = (value) => String(value || "")
+  .normalize("NFKD")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-+|-+$/g, "")
+  .slice(0, 80);
+
+function licenseRecordKey(record) {
+  const text = [record.number, record.evidence, record.statusNote, record.entityName]
+    .filter(Boolean)
+    .join(" ");
+  const identifier = text.match(/\b(ACN|ABN)\s*[:#-]?\s*([0-9][0-9 ]{2,20})\b/i)
+    || text.match(/\b(AFSL|FSP|FRN|FIN|MSB|NMLS|LEI|CRD)\s*[:#-]?\s*([A-Z0-9][A-Z0-9 ./_-]{2,40})\b/i);
+  if (identifier) return slugPart(`${identifier[1]}-${identifier[2]}`);
+  return slugPart(record.entityName || record.sourceUrl || "record");
+}
+
+function licenseFactId(record) {
+  return ["license", record.country, record.regulator, licenseRecordKey(record)].map(slugPart).filter(Boolean).join("-");
+}
+
 // A dated extraction, never a live eligibility or reserve-ratio assertion. Fields without item-level evidence are omitted.
 export function buildExchangeKeyFacts(slug) {
   if (!EXCHANGE_KEY_FACT_SLUGS.includes(slug)) return null;
@@ -30,7 +51,7 @@ export function buildExchangeKeyFacts(slug) {
     }, fees.sourceUrls, fee.checkedOn);
   }
   for (const record of licenseRecords.filter(record => record.exchange === slug)) {
-    add(`license-${record.country}-${record.regulator}`, {
+    add(licenseFactId(record), {
       jurisdiction: record.country, regulator: record.regulator, status: record.status,
       entity: record.entityName, type: record.type, note: record.statusNote || record.evidence || "",
     }, [record.sourceUrl], record.lastChecked);

@@ -183,6 +183,43 @@ test("/flash renders at request time in en and zh-hans with canonical, hreflang 
   assert.equal(robots(await (await fetchPage("/ur/flash")).text()), "noindex,follow", "a locale without templates is noindex");
 });
 
+test("/flash returns 503 noindex when all flash sources are unavailable and no stale snapshot exists", async () => {
+  const emptyAssets = { fetch: async (request) => {
+    const pathname = new URL(request.url).pathname;
+    if (pathname === "/prerender-manifest.json") return Response.json({ version: "nexualpha-prerender-v1", routes: {} });
+    if (pathname === "/index.html") return new Response(SHELL_HTML, { headers: { "content-type": "text/html; charset=utf-8" } });
+    return new Response("missing", { status: 404 });
+  } };
+  const e = { ASSETS: emptyAssets, NEWS_SSR_RENDER: (href, options) => harness.render(href, options) };
+
+  for (const path of ["/flash", flashItemPath(OKX)]) {
+    const response = await fetchPage(path, e);
+    const html = await response.text();
+    const main = mainHtml(html);
+    const isItem = path !== "/flash";
+    assert.equal(response.status, 503, path);
+    assert.equal(response.headers.get("cache-control"), "no-store", path);
+    assert.equal(response.headers.get("retry-after"), "300", path);
+    assert.equal(response.headers.get("x-robots-tag"), "noindex,follow", path);
+    assert.deepEqual(h1Texts(html), [flashUiCopy("en").h1], path);
+    assert.equal(robots(html), "noindex,follow", path);
+    assert.equal(response.headers.get("location"), null, path);
+    assert.match(main, isItem ? /class="nxf nxf--item"/ : /class="nxf nxf--stream"/, `${path}: same route component`);
+    assert.match(main, isItem ? /This flash update is temporarily unavailable/ : /Flash updates are temporarily unavailable/, `${path}: explicit failure copy`);
+    assert.doesNotMatch(main, /Nothing here yet for this filter/, `${path}: not normal empty state`);
+    assert.doesNotMatch(main, /flash sources unavailable|reasonCode/i, path);
+    assert.match(html, new RegExp(`id="nexualpha-prerender-state">[^<]*"flash":\{"kind":"${isItem ? "item" : "stream"}"`), path);
+    assert.match(html, /id="nexualpha-prerender-state">[^<]*"unavailable":true/, path);
+    if (isItem) assert.match(html, /id="nexualpha-prerender-state">[^<]*"itemKey":"[^"<]+"/, path);
+    else {
+      assert.match(html, /id="nexualpha-prerender-state">[^<]*"items":\[\]/, path);
+      assert.doesNotMatch(html, /id="nexualpha-prerender-state">[^<]*"generatedAt":"\d{4}-\d{2}-\d{2}T/, path);
+    }
+    const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
+    assert.deepEqual(hydrationErrors(errors), [], `${path}: ${errors.join("\n")}`);
+  }
+});
+
 test("item pages: H1, noindex head, related links, 301 for old slugs and unknown keys, 404 for junk", async () => {
   for (const [prefix, locale] of [["", "en"], ["/zh-hans", "zh-Hans"]]) {
     const path = `${prefix}${flashItemPath(OKX)}`;
