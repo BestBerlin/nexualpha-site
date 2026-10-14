@@ -60,6 +60,7 @@ import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
 import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
 import { updatePath } from "../../data/activity-update-path.js";
 import "./venue-popular-coins.css";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 const VENUE_COINS_COPY = {
   en: { title: "Popular coins on {venue}", all: "All coins" },
@@ -540,7 +541,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const latestNews = exchangeHubNewsItems(initialNewsArticles, { slug: venue.slug, name: venue.name, locale });
   const hubTools = exchangeHubToolLinks(venue.slug, locale);
   const suggested = profile.suggestedComparisons?.map((slug) => venues.find((candidate) => candidate.slug === slug)).filter(Boolean) ?? [];
-  const similar = (suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category)).sort((a, b) => {
+  // Türkiye pages (tr locale or ?market=TR, tr-market-gaps): no alternative card for an SPK-listed venue.
+  const similar = withoutTurkeyUnlisted(suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category), { locale, market: effectiveMarket }, (candidate) => candidate.slug).sort((a, b) => {
     const order = locale === "tr" || effectiveMarket === "TR" ? ["okx", "binance", "bybit"] : ["bitget", "okx", "binance"];
     const rank = slug => order.includes(slug) ? order.indexOf(slug) : order.length;
     return rank(a.slug) - rank(b.slug);

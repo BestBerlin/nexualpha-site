@@ -12,9 +12,9 @@
 // rules), ar (Egypt CBE law 194/2020), vi (Vietnam Resolution 05/2025/NQ-CP, owner 2026-10-13), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
-import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
 import { NEUTRAL_CTA_LOCALE_LIST, isNeutralCtaLocale } from "./locale-policy.js";
-import { jurisdictionPromotionBan } from "./partner-geo-policy.js";
+import { isTurkeyPage, jurisdictionPromotionBan } from "./partner-geo-policy.js";
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";
 import { clampMetaDescription, titleDisplayWidth } from "./meta-description.js";
 
@@ -93,14 +93,21 @@ export function homeTitleCarriesSlogan(locale) {
   return homeTitle(locale).includes(sloganTitleFragment(brandSlogan(locale)));
 }
 
+// Türkiye pages (tr-market-gaps): the venue trio "OKX, Bitget, Binance" becomes "OKX, Binance, Bybit" in every locale's
+// wording (Bitget is on the SPK liquidation list; OKX > Binance > Bybit is the Türkiye order).
+export function turkeyVenueTrio(text) {
+  return String(text).replace(/Bitget(.{1,6}?)(Binance|币安|幣安)/gu, "$2$1Bybit");
+}
+
 /** Home meta description: [slogan A] + [slogan B] + facts, clamped to the locale snippet budget. */
-export function homeDescription(locale) {
+export function homeDescription(locale, { turkey = locale === "tr" } = {}) {
   const parts = [];
   if (!homeTitleCarriesSlogan(locale)) parts.push(sloganSentence(brandSlogan(locale), locale));
   // Turkey (owner 2026-10-11): Bitget is not promoted (its Turkish entity is on the SPK liquidation list), so the share in
   // slogan B is the best confirmed share among the partners promoted in Turkey (OKX 40%), not the Bitget headline.
-  if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) parts.push(sloganSentence(brandSloganSecondary(locale, locale === "tr" ? TR_REBATE_MAX_PCT : undefined), locale));
-  parts.push(HOME_FACTS[locale] || HOME_FACTS.en);
+  if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) parts.push(sloganSentence(brandSloganSecondary(locale, turkey ? TR_REBATE_MAX_PCT : undefined), locale));
+  const facts = HOME_FACTS[locale] || HOME_FACTS.en;
+  parts.push(turkey ? turkeyVenueTrio(facts) : facts);
   return clampMetaDescription(parts.join(CJK_JOIN.has(locale) ? "" : " "), locale);
 }
 
@@ -117,5 +124,11 @@ export const HOME_NEUTRAL_SEARCH_COPY_EN = Object.freeze([
 /** Home title and description for a locale and (optional) market. */
 export function homeSearchCopyFor(locale, market) {
   if (market && !isNeutralCtaLocale(locale) && jurisdictionPromotionBan({ locale, market })) return HOME_NEUTRAL_SEARCH_COPY_EN;
+  // Türkiye market on another edition (tr-market-gaps): no Bitget, and slogan B carries the share promoted in Türkiye.
+  if (market && locale !== "tr" && isTurkeyPage({ locale, market })) {
+    const copyLocale = HOME_SEARCH_COPY[locale] ? locale : "en";
+    const title = turkeyVenueTrio(homeTitle(copyLocale)).replace(`${HOME_REBATE_MAX_PCT}%`, `${TR_REBATE_MAX_PCT}%`);
+    return [title, homeDescription(copyLocale, { turkey: true })];
+  }
   return HOME_SEARCH_COPY[locale] || HOME_SEARCH_COPY.en;
 }

@@ -8,6 +8,7 @@ import { parsePublicRoute } from "./data/locale-routing.js";
 import { rewritePartnerViewHtml } from "./data/partner-view.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 import { computeRouteSeo } from "./data/seo-injection.js";
+import { withRequestMarket } from "./data/partner-geo-policy.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
 export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, movers, radar, intelTool, seoAlternates } = {}) {
@@ -36,7 +37,9 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
     route: newsSlug ? { name: "newsDetail", slug: newsSlug } : undefined,
   });
   const routeSeoAlternates = Array.isArray(seoAlternates) ? seoAlternates : (initialSeo?.alternates || []);
-  const html = renderToString(withHomeHeroVariant(
+  // Türkiye rule (tr-market-gaps): an explicit ?market=TR applies to every policy check of this render, including the
+  // components that only pass their locale.
+  const html = withRequestMarket(parsedUrl.searchParams.get("market"), () => renderToString(withHomeHeroVariant(
     <React.StrictMode>
       <App
         initialUrl={parsedUrl.pathname + parsedUrl.search + parsedUrl.hash}
@@ -61,6 +64,6 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
       />
     </React.StrictMode>,
     heroVariant,
-  ));
+  )));
   return rewritePartnerViewHtml(html, parsedUrl.href, { locale: initialLocale });
 }

@@ -21,6 +21,7 @@ import {
 import { parseCoinsPath } from "./coins-routes.js";
 import { titleBudgetForLocale } from "./meta-description.js";
 import { hreflangAlternates } from "./news-feed-client.js";
+import { turkeyListingAllowed } from "./partner-geo-policy.js";
 
 export const COIN_DESCRIPTIONS_BY_LOCALE = Object.freeze({ en: EN, "zh-Hans": ZH_HANS, es: ES, "pt-BR": PT_BR, fr: FR, de: DE, ja: JA, ko: KO, tr: TR, vi: VI, id: ID });
 const ORGANIZATION = Object.freeze({ "@type": "Organization", "@id": "https://nexualpha.com/#organization", name: "NexuAlpha", url: "https://nexualpha.com/" });
@@ -33,7 +34,11 @@ export function coinDescription(coin, locale) {
   return en ? { text: en, locale: "en" } : null;
 }
 export const coinHasDescription = (coin, locale) => Boolean(COIN_DESCRIPTIONS_BY_LOCALE[locale]?.[coin.id]);
-export const coinIndexable = (coin, locale) => Boolean(coin) && COIN_DETAIL_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale);
+// Türkiye pages (tr locale or ?market=TR, tr-market-gaps): an SPK-listed venue's own token (BGB) has no page and is left
+// out of the hub, its schema, the count and the tr sitemap/hreflang.
+export const coinOnPage = (coin, locale) => Boolean(coin) && turkeyListingAllowed(coin.slug, { locale });
+const coinsOnPage = (locale) => COINS.filter((coin) => coinOnPage(coin, locale));
+export const coinIndexable = (coin, locale) => Boolean(coin) && COIN_DETAIL_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale) && coinOnPage(coin, locale);
 /** Locales in which this coin's page is indexable (its hreflang set). */
 export const coinIndexLocales = (coin) => COIN_DETAIL_INDEX_LOCALES.filter((locale) => coinIndexable(coin, locale));
 export const coinsHubCount = () => COINS.length;
@@ -64,7 +69,7 @@ export function coinMeta(coin, locale) {
 }
 export function coinsHubMeta(locale) {
   const t = coinCopy(locale);
-  const vars = { count: COINS.length };
+  const vars = { count: coinsOnPage(locale).length };
   return {
     title: fitTitle([`${fill(t.hubSeoTitle, vars)} — NexuAlpha`, fill(t.hubSeoTitle, vars)], locale),
     description: clip(fill(t.hubSeoDescription, vars)),
@@ -99,7 +104,7 @@ export function coinsHubSchemas(locale, { urlFor }) {
   const meta = coinsHubMeta(locale);
   return [
     { "@context": "https://schema.org", "@type": "CollectionPage", "@id": `${url}#webpage`, url, name: meta.title.replace(/ — NexuAlpha$/, ""), description: meta.description, inLanguage: locale, publisher: ORGANIZATION,
-      mainEntity: { "@type": "ItemList", numberOfItems: COINS.length, itemListElement: COINS.slice(0, 100).map((coin, index) => ({ "@type": "ListItem", position: index + 1, name: `${coin.name} (${coin.symbol})`, url: urlFor(coinPath(coin.slug)) })) } },
+      mainEntity: { "@type": "ItemList", numberOfItems: coinsOnPage(locale).length, itemListElement: coinsOnPage(locale).slice(0, 100).map((coin, index) => ({ "@type": "ListItem", position: index + 1, name: `${coin.name} (${coin.symbol})`, url: urlFor(coinPath(coin.slug)) })) } },
     crumbs([["NexuAlpha", urlFor("/")], [t.hubName, url]]),
   ];
 }
@@ -114,7 +119,7 @@ export function coinsRouteSeo(pathname, locale, { urlFor }) {
     return { status: 200, ...meta, indexable: COIN_INDEX_LOCALES.includes(locale), alternatesLocales: COIN_INDEX_LOCALES, schemas: coinsHubSchemas(locale, { urlFor }) };
   }
   const coin = coinBySlug(route.slug);
-  if (!coin) return { status: 404 };
+  if (!coin || !coinOnPage(coin, locale)) return { status: 404 };
   const meta = coinMeta(coin, locale);
   return { status: 200, ...meta, indexable: coinIndexable(coin, locale), alternatesLocales: coinIndexLocales(coin), schemas: coinSchemas(coin, locale, { urlFor }) };
 }
