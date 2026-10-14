@@ -85,7 +85,7 @@ test("compare hero actions: SSR markup and hydrated markup are identical (no lay
     // Scoped to this block: an unrelated attribute mismatch on the Telegram handoff (data-telegram-return-href) is
     // logged separately and does not move layout.
     assert.deepEqual(hydrationErrors(errors).filter((message) => /v3-compare-hero-actions|CompareHeroActions/.test(message)), [], `${path}: ${errors.join("\n")}`);
-    const normalize = (markup) => markup.replace(/<!--[\s\S]*?-->/g, "").replace(/=""/g, "").replace(/\s*\/>/g, ">");
+    const normalize = (markup) => markup.replace(/<!--[\s\S]*?-->/g, "").replace(/=""/g, "").replace(/\s*\/>/g, ">").replace(/\bsrcSet=/g, "srcset="); // HTML attribute names are case-insensitive
     assert.equal(normalize(inspected), normalize(ssr), `${path}: hydrated hero actions differ from SSR`);
   }
 });
