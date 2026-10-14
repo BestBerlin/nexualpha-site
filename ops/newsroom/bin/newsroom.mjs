@@ -92,12 +92,21 @@ export function buildQuery(argv) {
   }
   throw new Error('Unknown command');
 }
-export function runPsql(sql, env = process.env) {
-  const result = spawnSync('psql', ['-X', '--quiet', '--no-password', '--set=ON_ERROR_STOP=1', '--tuples-only', '--no-align'], {
-    input: `SET standard_conforming_strings=on;\n${sql}\n`, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
+// psql output buffer. The dedupe step reads every event of the last 48 h with its evidence and raw items as one JSON
+// value; that passed 16 MB on 2026-10-14 (5,244 events, 18.2 MB) and every pipeline run failed with ENOBUFS.
+export const PSQL_MAX_BUFFER_MB_DEFAULT = 128;
+export function psqlMaxBuffer(env = process.env) {
+  const mb = Number(env.NEWSROOM_PSQL_MAX_BUFFER_MB);
+  return (Number.isFinite(mb) && mb > 0 ? mb : PSQL_MAX_BUFFER_MB_DEFAULT) * 1024 * 1024;
+}
+export function runPsql(sql, env = process.env, spawn = spawnSync) {
+  const maxBuffer = psqlMaxBuffer(env);
+  const result = spawn('psql', ['-X', '--quiet', '--no-password', '--set=ON_ERROR_STOP=1', '--tuples-only', '--no-align'], {
+    input: `SET standard_conforming_strings=on;\n${sql}\n`, encoding: 'utf8', maxBuffer,
     env: { ...env, PGDATABASE: env.PGDATABASE || 'newsroom' },
   });
   if (result.error?.code === 'ENOENT') throw new Error('psql is required; install a PostgreSQL client or use the throwaway Docker test script');
+  if (result.error?.code === 'ENOBUFS') throw new Error(`PostgreSQL result exceeded the ${maxBuffer / 1048576} MB output buffer (set NEWSROOM_PSQL_MAX_BUFFER_MB)`);
   if (result.error || result.status !== 0) throw new Error('PostgreSQL command failed; inspect database connectivity, permissions and SQL locally (connection details suppressed)');
   return result.stdout.trim();
 }
