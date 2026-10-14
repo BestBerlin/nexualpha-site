@@ -117,9 +117,6 @@ export function HeroTerminal({ locale = "en", selected, estimate, initialTicker,
   const estimateValue = Number.isFinite(Number(estimate)) ? Math.max(0, Math.round(Number(estimate))) : null;
   const estimateText = estimateValue != null ? usd(estimateValue) : "—";
   const estimateNumber = estimateValue != null ? String(estimateValue) : "—";
-  const previousEstimate = useRef(0);
-  const fromEstimate = previousEstimate.current;
-  useEffect(() => { previousEstimate.current = estimateValue || 0; }, [estimateValue]);
 
   useEffect(() => {
     const element = ref.current;
@@ -192,7 +189,7 @@ export function HeroTerminal({ locale = "en", selected, estimate, initialTicker,
           {!neutral ? (
             <div className="ht-ret" data-venue={selected?.slug || "none"}>
               <span className="ht-ret-l">{copy.rebate} · {selected?.name || "NexuAlpha"}</span>
-              <span className="ht-ret-v" aria-label={`+${estimateText}`}>+<span className="ht-ret-currency">$</span><span className="ht-ret-n" key={selected?.slug || "none"} style={{ "--from": fromEstimate, "--to": estimateValue || 0 }} data-v={estimateNumber} data-unavailable={estimateValue == null || undefined} /></span>
+              <span className="ht-ret-v" aria-label={`+${estimateText}`}>+<span className="ht-ret-currency">$</span><span className="ht-ret-n" data-v={estimateNumber}>{estimateNumber}</span></span>
               <span className="ht-ret-a">{copy.basis}</span>
             </div>
           ) : null}

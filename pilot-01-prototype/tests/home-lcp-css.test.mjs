@@ -58,8 +58,8 @@ test("built v6 assets preserve every declaration and the original inner order", 
   const critical = JSON.parse(read("../dist/client/critical-css.json")).routes.home;
   assert.ok(critical.sheets.includes(home) && !critical.sheets.includes(full));
   assert.match(critical.css, /\.hx-rate-num/);
-  assert.match(critical.css, /\.hx-rate-n:after/, "initial number prints from SSR before full CSS loads");
-  assert.match(read("../src/styles/v7/home7.css"), /@keyframes hx-count\{/, "venue-pick count keyframes remain available in full home CSS");
+  assert.match(critical.css, /\.hx-rate-n/, "the static figure is styled from the inline CSS");
+  assert.doesNotMatch(read("../src/styles/v7/home7.css"), /@keyframes hx-count\{/, "no count-up keyframes (owner 2026-10-14)");
   assert.ok(Buffer.byteLength(critical.css) < 120_000, "inline CSS covers shell/hero, not the full home page");
   assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:swap/);
   assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2"/);

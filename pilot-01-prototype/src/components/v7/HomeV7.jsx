@@ -213,30 +213,21 @@ function CopyCode({ code, t }) {
   return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
 }
 
-function useHxCounterSupport() {
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.CSS?.registerProperty) {
-      document.documentElement.classList.add("hx-cnt");
-    }
-  }, []);
-}
-
-function HeroRebate({ locale, venue, switched, autoLabel, t }) {
+function HeroRebate({ locale, venue, autoLabel, t }) {
+  // Static final value (owner 2026-10-14, hotfix #231): no count-up of any kind; the digits are real text so the
+  // figure reads "60%" everywhere, and the gradient sits on each glyph run (never on the parent) so iPhone Safari keeps the %.
   const target = Math.max(0, Math.round((venue?.share || 0) * 100));
-  const prev = useRef(Math.max(10, Math.round(target * 0.4)));
-  const from = prev.current;
-  useEffect(() => { prev.current = target; }, [target]);
   const percentBefore = formatPercent(locale, 1).startsWith("%");
   const feeLabel = locale === "zh-Hans" ? `${venue.name} 最高返还手续费`
     : locale === "zh-Hant" ? `${venue.name} 最高返還手續費` : t.lgShare(venue.name);
   const label = `${feeLabel} ${formatPercent(locale, target)}`;
 
   return (
-    <div className="hx-rate" data-pick={venue?.slug || "none"} {...(switched ? { "data-switched": "" } : {})}>
+    <div className="hx-rate" data-pick={venue?.slug || "none"}>
       <span className="hx-rate-logo" aria-hidden="true"><BrandMark slug={venue?.slug} compact priority /></span>
-      <p className="hx-rate-num" aria-label={label} key={venue?.slug || "none"}>
+      <p className="hx-rate-num h7-rebate-value" aria-label={label} data-final-value={target}>
         {percentBefore && <span className="hx-rate-pct" aria-hidden="true">%</span>}
-        <span className="hx-rate-n" style={{ "--from": from, "--to": target }} data-v={target} aria-hidden="true" />
+        <span className="hx-rate-n" aria-hidden="true">{String(target)}</span>
         {!percentBefore && <span className="hx-rate-pct" aria-hidden="true">%</span>}
       </p>
       <p className="hx-rate-label">{feeLabel}{autoLabel ? <span className="hx-chip">{autoLabel}</span> : null}</p>
@@ -384,7 +375,6 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 
 
 export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, initialOfficialAnnouncements, initialFlash, initialTicker }) {
-  useHxCounterSupport();
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -449,7 +439,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
         {!banned && (
         <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={rebated} selectedSlug={sel.slug} onPick={setPick} t={t} />
-          <HeroRebate locale={locale} venue={sel} switched={pickSlug !== null} autoLabel={auto ? t.lgAuto : ""} t={t} />
+          <HeroRebate locale={locale} venue={sel} autoLabel={auto ? t.lgAuto : ""} t={t} />
           {sel.code && <p className="hx-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
         </aside>

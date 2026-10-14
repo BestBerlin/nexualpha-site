@@ -29,7 +29,7 @@ test("home hero terminal SSR uses the real ticker snapshot and existing selected
   assert.equal(terminal.querySelector('.ht-tick [data-dir="down"] .ht-p')?.textContent, "$82,576");
   assert.equal(terminal.querySelector('.ht-tick [data-dir="up"] b')?.textContent, "ETH");
   assert.match(terminal.querySelector(".ht-ret-l")?.textContent || "", /Max yearly return.*Bitget/i);
-  assert.equal(terminal.querySelector(".ht-ret-n")?.getAttribute("data-v"), "432");
+  assert.equal(terminal.querySelector(".ht-ret-n")?.textContent, "432", "static amount as real text (owner 2026-10-14: no count-up)");
   assert.equal(terminal.querySelector(".ht-series")?.getAttribute("data-samples"), "0");
   assert.equal(terminal.hasAttribute("data-paused"), false, "SSR visible hero terminal does not unpause at idle and nudge after mount");
   assert.equal(terminal.querySelector(".ht-series")?.getAttribute("data-mature"), "false");
@@ -71,8 +71,7 @@ test("home terminal stays lazy, subscribes to the shared ticker store, and keeps
   assert.match(css, /aspect-ratio: 9 \/ 19\.5/);
   assert.match(css, /aspect-ratio: 4 \/ 3/);
   assert.match(css, /mask-image: linear-gradient\(#000 72%, transparent\)/);
-  assert.match(css, /@property --ht-ret-n/);
-  assert.match(css, /@keyframes ht-ret-count/);
+  assert.doesNotMatch(css, /@property --ht-ret-n|@keyframes ht-ret-count/, "no count-up (owner 2026-10-14)");
   assert.doesNotMatch(css, /stroke-dash(?:array|offset)|box-shadow[^;]*animation/);
   assert.match(css, /animation-play-state: paused/);
   assert.match(css, /will-change: transform/);

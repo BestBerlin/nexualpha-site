@@ -1,8 +1,3 @@
-@property --ht-ret-n {
-  syntax: "<integer>";
-  inherits: false;
-  initial-value: 0;
-}
 
 .h7:not(#_):not(#_) .ht {
   --ht-ink: var(--hx-ink, var(--ink));
@@ -42,7 +37,7 @@
 .h7:not(#_):not(#_) .ht-screen {
   position: relative;
   display: grid;
-  grid-template-rows: 34px 50px 150px 66px 72px;
+  grid-template-rows: 54px 50px 130px 66px 72px; /* ticker cards are three lines (~53px): a 34px row let them overlap the pair label */
   gap: 10px;
   overflow: hidden;
   padding: 42px 14px 14px;
@@ -280,21 +275,9 @@
   line-height: 1;
 }
 
+/* Static amount (owner 2026-10-14, #231): no count-up; the digits are real text. */
 .h7:not(#_):not(#_) .ht-ret-n {
-  --ht-ret-n: var(--to);
-  counter-reset: ht-ret-n var(--ht-ret-n);
-}
-
-.h7:not(#_):not(#_) .ht-ret-n::after {
-  content: attr(data-v);
-}
-
-.hx-cnt .h7:not(#_):not(#_) .ht-ret-n::after {
-  content: counter(ht-ret-n);
-}
-
-.hx-cnt .h7:not(#_):not(#_) .ht-ret-n {
-  animation: ht-ret-count 1400ms var(--ease-out, cubic-bezier(.16, 1, .3, 1)) 120ms both;
+  font-variant-numeric: tabular-nums;
 }
 
 .h7:not(#_):not(#_) .ht[data-paused] .ht-ring,
@@ -312,10 +295,6 @@
   to { opacity: 0; transform: scale(2.4); }
 }
 
-@keyframes ht-ret-count {
-  from { --ht-ret-n: var(--from); }
-  to { --ht-ret-n: var(--to); }
-}
 
 @media (max-width: 374px) {
   .h7:not(#_):not(#_) .ht { inline-size: 248px; max-block-size: 300px; }
@@ -349,7 +328,7 @@
   }
 
   .h7:not(#_):not(#_) .ht-screen {
-    grid-template-rows: 36px 56px 1fr 64px;
+    grid-template-rows: 54px 56px 1fr 64px;
     grid-template-columns: 1fr 120px;
     gap: 12px;
     padding: 16px;
@@ -418,5 +397,3 @@
     animation: none;
   }
 }
-.hx-cnt .h7:not(#_):not(#_) .ht-ret-n[data-unavailable]{animation:none}
-.hx-cnt .h7:not(#_):not(#_) .ht-ret-n[data-unavailable]::after{content:attr(data-v)}

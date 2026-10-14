@@ -18,16 +18,21 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
       const dom = new JSDOM(html);
       const number = dom.window.document.querySelector(".hx-rate-num");
       assert.ok(number, `${pathname}:${heroVariant}`);
-      assert.equal(number.querySelector(".hx-rate-n").getAttribute("data-v"), "60");
+      assert.equal(number.textContent, "60%", "owner 2026-10-14 (#231): the figure is static real text, 60 and %");
+      assert.equal(number.querySelector(".hx-rate-n").textContent, "60");
       assert.equal(number.querySelector(".hx-rate-pct").textContent, "%");
       assert.ok(dom.window.document.querySelector(".hx-rate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
-      assert.equal(number.querySelector(".h7-roll"), null, "hero number owns its count-up instead of the shared ledger roller");
+      assert.equal(number.querySelector(".h7-roll"), null, "hero number is static, not the shared ledger roller");
       dom.window.close();
     }
   }
   const css = readFileSync(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
   assert.match(css, /@ \.hx-rate-num/);
-  assert.match(css, /background:var\(--hx-rate-grad\)/);
+  assert.match(css, /@ :is\(\.hx-rate-n,\.hx-rate-pct\)\{[^}]*background:var\(--hx-rate-grad\)[^}]*background-clip:text/, "gradient sits on each glyph run (#231: WebKit hid the % on a clipped parent)");
+  assert.doesNotMatch(css, /@ \.hx-rate-num\{[^}]*background-clip/, "no background-clip:text on the parent of the glyph runs");
+  assert.doesNotMatch(css, /hx-count|counter\(n\)/, "no count-up (owner 2026-10-14)");
+  const tokens = readFileSync(new URL("../src/styles/tokens.css", import.meta.url), "utf8");
+  assert.match(tokens, /--hx-rate-grad:linear-gradient\(100deg,#FFFFFF 0%,#7FE7FF 55%,#39E1C8 100%\)/, "addendum: high-luminance stops only");
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.match(css, /letter-spacing:-\.055em/);
 });

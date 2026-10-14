@@ -614,11 +614,27 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 .nx-ftr .nx-ftr__legal-row a:not(#_) { min-block-size: 32px; color: var(--hx-ink-3, #8A909E); font: inherit; text-decoration: none; }
 .nx-ftr .nx-ftr__legal-row a:hover:not(#_) { color: var(--hx-ink, #EDEEF0); }
 .nx-ftr .clean-footer__copyright:not(#_):not(#_), .nx-ftr .nx-ftr__legal-row .clean-footer__summary:not(#_) { margin: 0; color: var(--hx-ink-3, #8A909E); font: inherit; text-align: start; }
+/* v10 brand column and legal row are start-aligned (older v9/site-signature rules centred them with higher specificity). */
+.nx-ftr .nx-ftr__brand .nx-ftr__slogan:not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; text-align: start; }
+.nx-ftr .nx-ftr__legal-row .clean-footer__copyright:not(#_):not(#_):not(#_):not(#_) { text-align: start; }
+/* Home phones: the fixed sign-up dock must not cover the legal row at the end of the page. */
+@media (max-width: 767px) { body:has(.h7-dock) .nx-ftr .nx-ftr__inner:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: calc(84px + env(safe-area-inset-bottom)); } }
 @media (min-width: 768px) and (max-width: 1023px) { .nx-ftr .nx-ftr__inner:not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); inline-size: min(1200px, calc(100% - 64px)); } .nx-ftr .clean-footer__nav--desktop:not(#_):not(#_):not(#_) { grid-column: 1; gap: 20px; } }
 @media (max-width: 767px) {
   .nx-ftr .nx-ftr__inner:not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); gap: 20px; inline-size: min(100%, calc(100% - 32px)); padding: 40px 0 calc(24px + var(--mobile-bottom-nav-height, 0px) + env(safe-area-inset-bottom)); }
-  .nx-ftr .clean-footer__nav--desktop:not(#_) { display: none; }
-  .nx-ftr .clean-footer__nav--mobile:not(#_) { display: grid; inline-size: 100%; border-block: 1px solid var(--hx-line, rgb(255 255 255 / .08)); }
+  /* Owner 2026-10-14: the phone footer was tall and single-column (accordions). Two compact link columns instead. */
+  .nx-ftr .clean-footer__nav--desktop:not(#_):not(#_):not(#_) { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
+  .nx-ftr .clean-footer__nav--columns .nx-ftr__column-title:not(#_):not(#_) { margin-block-end: 4px; }
+  .nx-ftr .clean-footer__nav--columns a:not(#_):not(#_):not(#_) { display: flex; align-items: center; justify-content: flex-start; min-block-size: 32px; font-size: 14px; line-height: 18px; text-align: start; }
+  .nx-ftr .clean-footer__nav--columns :is(ul, li):not(#_):not(#_) { text-align: start; justify-items: start; }
+  /* Brand block on one row: mark + socials, slogan underneath, all start-aligned. */
+  .nx-ftr .nx-ftr__brand:not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; justify-items: start; gap: 4px 12px; text-align: start; }
+  .nx-ftr .nx-ftr__brand .nx-ftr__slogan:not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 2; text-align: start; margin: 0; }
+  .nx-ftr .nx-ftr__socials:not(#_):not(#_) { grid-column: 2; grid-row: 1; gap: 0; }
+  .nx-ftr .nx-ftr__inner:not(#_):not(#_):not(#_):not(#_) { gap: 16px; padding-block-start: 28px; }
+  .nx-ftr .nx-ftr__partner-row:not(#_):not(#_):not(#_) { padding-block: 12px; }
+  .nx-ftr .nx-ftr__legal-row:not(#_):not(#_):not(#_) { gap: 4px; }
+  .nx-ftr .clean-footer__nav--mobile:not(#_):not(#_) { display: none; }
   .nx-ftr .clean-footer__mobile-column:not(#_) { border-block-end: 1px solid var(--hx-line, rgb(255 255 255 / .08)); }
   .nx-ftr .clean-footer__mobile-column:last-child:not(#_) { border-block-end: 0; }
   .nx-ftr .clean-footer__mobile-column summary:not(#_) { display: flex; align-items: center; justify-content: space-between; min-block-size: 52px; color: var(--hx-ink, #EDEEF0); font: 600 15px/20px var(--hx-font, var(--nx-font)); cursor: pointer; list-style: none; }

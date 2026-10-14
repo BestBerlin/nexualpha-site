@@ -42,7 +42,8 @@ function useFunding(initialFeed) {
     let alive = true;
     const load = () => fetch(FUNDING_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
       .then((r) => (r.ok ? r.json() : null))
-      .then((j) => { if (!alive) return; if (j?.venues) setFeed(j); })
+      // A refresh with no usable rows keeps the board on screen (the section used to vanish on a transient empty read).
+      .then((j) => { if (!alive) return; if (j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)) setFeed(j); })
       .catch(() => {});
     load();
     const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);

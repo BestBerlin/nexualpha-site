@@ -94,7 +94,6 @@ function randomWalkDepth(root) {
 
 export function initHeroTerminal(root) {
   if (!root || root.__heroTerminal) return root?.__heroTerminal;
-  if (typeof CSS !== "undefined" && typeof CSS.registerProperty === "function") document.documentElement.classList.add("hx-cnt");
   const reducedQuery = typeof window.matchMedia === "function" ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
   const state = {
     visible: true,

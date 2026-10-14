@@ -57,7 +57,6 @@ function ClosingBandImpl({ locale = "en" }) {
         <GoForm href={localizedHref("/exchanges", { locale })} className="btn btn-primary v6-close__cta">{t.dir}<i className="v6-arrow" aria-hidden="true" /></GoForm>
         <GoForm href={localizedHref("/compare/binance-vs-okx", { locale })} className="v6-close__alt"><span>{t.cmp}</span><i className="v6-arrow" aria-hidden="true" /></GoForm>
       </div>
-      <p className="v6-small v6-close__note">{t.note}</p>
     </div>
     <RailSeg dest /><RailDock i={3} kind="dest" locale={locale} />
     </div>

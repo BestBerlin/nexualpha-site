@@ -5089,7 +5089,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       readMoversSnapshot(env),
     ]);
     if (funding || flash || ticker || movers) {
-      const state = { heroVariant: routePayload.heroVariant, ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
+      // The prerendered announcement feed rides along: the client hydrates the below-fold island from the same state, so
+      // rendering without it SSR'd an empty notice list and threw React #418 on every home load.
+      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
         if (typeof rendered === "string" && rendered.includes('id="h7-flash"')) {
