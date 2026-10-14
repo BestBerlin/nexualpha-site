@@ -1,4 +1,6 @@
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
+import { bitgetGuideSeo } from "../src/data/bitget-guide-seo.js";
+import { isBitgetGuidePath } from "../src/data/bitget-guide-routes.js";
 import { beginnerRouteSeo } from "../src/data/beginner-seo.js";
 import { BEGINNER_ROOTS, BEGINNER_LOCALES, parseBeginnerPath } from "../src/data/beginner-routes.js";
 import { isNativeReferralTitle } from '../src/data/referral-native.js';
@@ -2866,7 +2868,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -4755,7 +4757,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
   env = routeSeoRenderEnv(env, metadata);
   if (metadata.status === 404) {
-    return (await renderRouteAtRequestTime(html, metadata, url, env, { accept: isNotFoundPage, label: "not-found" })) || html;
+    const guide = isBitgetGuidePath(parsePublicRoute(url.pathname, url.searchParams).contentPathname);
+    return (await renderRouteAtRequestTime(html, metadata, url, env, {
+      accept: isNotFoundPage, label: "not-found", preserveContext: guide,
+      hydrationData: guide ? { beginnerContext: activityRequestContext(url) } : {},
+    })) || html;
   }
   if (metadata.status !== 200) return html;
   // Latest article body must use the same component as hydration. Keep the
@@ -8431,7 +8437,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(academySeo.image ? { image: academySeo.image } : {}),
     };
   }
-  const beginnerSeo = beginnerRouteSeo(canonicalPath, requestedLocale);
+  const beginnerSeo = bitgetGuideSeo(canonicalPath, requestedLocale, new URL(url, PUBLIC_ORIGIN).searchParams.get("market")) || beginnerRouteSeo(canonicalPath, requestedLocale);
   if (beginnerSeo) {
     if (beginnerSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
     return { status: 200, title: beginnerSeo.title, description: beginnerSeo.description,
@@ -9051,7 +9057,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === KRAKEN_USDG_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-campaign-kraken-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
-  if (parseBeginnerPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[BEGINNER_ROUTE_MARKER]];
+  if (isBitgetGuidePath(pathname) || parseBeginnerPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[BEGINNER_ROUTE_MARKER]];
   if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];

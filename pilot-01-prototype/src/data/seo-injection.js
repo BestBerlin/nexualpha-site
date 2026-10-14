@@ -1,3 +1,5 @@
+import { bitgetGuideSeo } from "./bitget-guide-seo.js";
+import { isBitgetGuidePath, BITGET_GUIDE_LOCALES } from "./bitget-guide-routes.js";
 import { beginnerRouteSeo } from "./beginner-seo.js";
 import { BEGINNER_LOCALES, parseBeginnerPath } from "./beginner-routes.js";
 import { isNativeReferralTitle } from './referral-native.js';
@@ -370,6 +372,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
+  if (isBitgetGuidePath(pathname)) return BITGET_GUIDE_LOCALES;
   if (parseBeginnerPath(pathname)?.kind !== "missing" && parseBeginnerPath(pathname)) return BEGINNER_LOCALES;
   // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
@@ -2092,7 +2095,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   if (brazil && options.route?.name !== "notFound") return brazil;
   const rawLocale = options.locale || (publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale")) || "en";
   const locale = contentLocale(rawLocale, contentPathname);
-  const beginner = beginnerRouteSeo(contentPathname, rawLocale);
+  const beginner = bitgetGuideSeo(contentPathname, rawLocale, url.searchParams.get("market")) || beginnerRouteSeo(contentPathname, rawLocale);
   if (beginner) return beginner.status === 200
     ? { ...beginner, locale: rawLocale, htmlLocale: rawLocale, robots: "index,follow", ogType: "website", schemas: beginner.schemas, alternates: beginner.alternates }
     : { status: 404, locale: rawLocale, title: "Page not found — NexuAlpha", description: "", robots: "noindex,follow", canonical: canonical(contentPathname, rawLocale), schemas: [], alternates: [] };

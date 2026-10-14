@@ -1,3 +1,4 @@
+import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
 import { nativeReferralFor } from '../../data/referral-native.js';
 import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
@@ -864,6 +865,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               )}
             </h1>
           </div>
+          {venue.slug === "bitget" && bitgetGuideAvailable(locale, effectiveMarket) ? <p><LocalLink locale={locale} href={BITGET_GUIDE_PATH}>{bitgetGuideLabel(locale)}</LocalLink></p> : null}
           <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} />
           {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
