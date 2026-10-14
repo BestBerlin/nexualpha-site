@@ -26,6 +26,31 @@ test("go redirect sends the exact partner registration URL and records one anony
   assert.doesNotMatch(JSON.stringify(rows[0]), /utm_source|Mozilla|203\.0\.113/, "click rows keep only sanitized metadata");
 });
 
+test("go redirect resolves tracked partner-feed links without redirecting back to /go", async () => {
+  const { handle, eventFile } = await setup();
+  await writeFile(path.join(path.dirname(eventFile), "..", "client", "intel", "partners.json"), JSON.stringify({
+    partners: [{ slug: "okx", registrationUrl: "https://nexualpha.com/go/okx?src=tg-partners-feed" }],
+  }));
+  const res = await handle(new Request("https://nexualpha.com/go/okx?src=tg-miniapp-card", { headers: { "user-agent": "Mozilla/5.0" } }));
+  assert.equal(res.status, 302);
+  assert.equal(res.headers.get("location"), "https://www.okx.com/join/nexu888");
+});
+
+test("go redirect resolves every generated tracked partner-feed slug to the current CTA target", async () => {
+  const { buildPartnersFeed } = await import("../src/data/partners-feed.js");
+  const { publicCtaForVenue } = await import("../src/data/source-bound-cta.js");
+  const { handle, eventFile } = await setup();
+  const feed = buildPartnersFeed({ generatedAt: "test" });
+  await writeFile(path.join(path.dirname(eventFile), "..", "client", "intel", "partners.json"), JSON.stringify(feed));
+  for (const partner of feed.partners) {
+    const expected = publicCtaForVenue(partner.slug, "en").registrationUrl;
+    const res = await handle(new Request(`https://nexualpha.com/go/${partner.slug}?src=tg-miniapp-feed`, { headers: { "user-agent": "Mozilla/5.0" } }));
+    assert.equal(res.status, 302, partner.slug);
+    assert.equal(res.headers.get("location"), expected, partner.slug);
+    assert.notEqual(res.headers.get("location"), partner.registrationUrl, `${partner.slug} must not loop to the public /go feed URL`);
+  }
+});
+
 test("go redirect rejects unknown or unsafe partners, sanitizes src and does not count crawlers", async () => {
   const { handle, eventFile } = await setup();
   assert.equal((await handle(new Request("https://nexualpha.com/go/nope"))).status, 404);

@@ -37,7 +37,7 @@ const CLICKS = process.env.CLICK_EVENT_FILE || "";
 // Channels follow ALERT_CHANNELS (one channel per language); DMs follow state.lang from alert-subscriptions.json.
 export const LANGS = ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"];
 const CHANNELS = parseChannels(CHANNELS_SPEC);
-export const msgLang = (u) => (LANGS.includes(u?.lang) ? u.lang : "en");
+export const msgLang = (u) => (isNeutralCtaLocale(u?.lang) ? u.lang : LANGS.includes(u?.lang) ? u.lang : "en");
 // Site locale path per message language (en is the unprefixed root) and the news-feed locale key for article editions.
 export const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi", id: "/id-id", es: "/es", pt: "/pt-br" };
 export const ARTICLE_LOCALE = { zh: "zh-Hans", en: "en", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", pt: "pt-BR" };

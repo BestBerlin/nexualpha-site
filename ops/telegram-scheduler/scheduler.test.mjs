@@ -34,6 +34,20 @@ for (const [name, variables] of [
   });
 }
 
+test('scheduler defaults runtime timestamps to Singapore time', () => {
+  const result = run('bash -c \'printf "%s" "$TZ"\'');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, 'Asia/Singapore');
+  assert.equal(result.stderr, '');
+});
+
+test('scheduler forces Singapore time even when inherited environment says UTC', () => {
+  const result = run('bash -c \'printf "%s" "$TZ"\'', { TZ: 'UTC' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, 'Asia/Singapore');
+  assert.equal(result.stderr, '');
+});
+
 test('discussion-close child loads override with spaces and exports credentials to the command', () => {
   const temp = mkdtempSync(join(directory, '.test-env-'));
   try {

@@ -5,6 +5,7 @@
 # Each job holds a flock under $NEWSROOM_STATE/locks so loops and manual runs never overlap.
 # Every run is recorded in the job_runs table and appended to $NEWSROOM_STATE/logs/<job>.log.
 set -uo pipefail
+export TZ=Asia/Singapore
 APP=/srv/newsroom/app
 CLI=(node "$APP/bin/newsroom.mjs")
 OUT=${NEWSROOM_OUT:-/out}
@@ -12,7 +13,7 @@ STATE=${NEWSROOM_STATE:-/state}
 COLLECT_MODE=${COLLECT_MODE:-all}          # all = `collect --all`; per-source = one process per enabled source
 COLLECT_SOURCE_TIMEOUT=${COLLECT_SOURCE_TIMEOUT:-120}
 EXPORT_LIMIT=${EXPORT_LIMIT:-50}
-SNAPSHOT_HOUR=${SNAPSHOT_HOUR:-9}          # daily status snapshot after 09:00 Asia/Shanghai
+SNAPSHOT_HOUR=${SNAPSHOT_HOUR:-9}          # daily status snapshot after 09:00 Asia/Singapore
 mkdir -p "$STATE/locks" "$STATE/logs" "$OUT/status"
 
 log() { printf '%s [%s] %s\n' "$(date -Is)" "$1" "$2"; }
@@ -31,8 +32,9 @@ has_command() { "${CLI[@]}" --help 2>/dev/null | head -1 | grep -qE "(^|[| ])$1(
 job_collect() {
   if ! has_command collect; then echo "skipped: collect is not in this release yet (T2 collectors pending)"; return 0; fi
   if [ "$COLLECT_MODE" = per-source ]; then
-    local failed=0 total=0 id
-    for id in $(psql -X -At --no-password -c "SELECT id FROM sources WHERE enabled AND status IN ('connected','partial') ORDER BY id"); do
+    local failed=0 total=0 id source_ids
+    source_ids=$(psql -X -At --no-password -v ON_ERROR_STOP=1 -c "SELECT id FROM sources WHERE enabled AND status IN ('connected','partial') ORDER BY id") || return $?
+    for id in $source_ids; do
       total=$((total+1))
       timeout "$COLLECT_SOURCE_TIMEOUT" "${CLI[@]}" collect --source "$id"; local rc=$?
       [ "$rc" -eq 0 ] || { failed=$((failed+1)); echo "source $id failed (exit $rc)"; }

@@ -23,9 +23,14 @@ test("partner feed lists real invite routes with owner shares and cadence", () =
   assert.equal(by.htx.inviteCode, "nexu888");
   assert.equal(by.coinw.inviteCode, "2296057");
   for (const p of f.partners) {
-    assert.match(p.registrationUrl, /^https:\/\//);
+    assert.match(p.registrationUrl, new RegExp(`^https://nexualpha\\.com/go/${p.slug}\\?src=tg-partners-feed$`));
     assert.doesNotMatch(String(p.inviteCode), /^NEXU_/);
   }
+  assert.doesNotMatch(
+    JSON.stringify(f.partners.map((p) => p.registrationUrl)),
+    /(accounts\.binance\.com|binance\.com\/join|bsmkweb\.cc|partner\.bitget|bitget\.com\/expressly|okx\.com\/join|topzhjdgxcb\.net|backpack\.exchange\/join)/i,
+    "Telegram partner feed exposes only tracked NexuAlpha /go links",
+  );
   assert.ok(!by.kucoin && !by.deribit && !by.gmx, "placeholder-code venues are not offered");
   assert.equal(f.maxSharePct, 60);
 });

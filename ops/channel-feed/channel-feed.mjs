@@ -47,7 +47,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `最高返佣 ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "官方自动结算" : null, p.settle === "hourly" ? "每小时到账" : p.settle === "daily" ? "每天到账" : null, p.inviteCode ? `邀请码 ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `通过 NexuAlpha 注册 ${n}：`,
     listingGroup: (n) => `【上币】${n} 条新上币`,
-    official: "查看官方公告", readExplainer: "阅读解读", riskAction: "查看风险说明", source: "官方来源", sourceText: (url) => `官方来源：${url}`, signUp: (n) => `注册 ${n} 拿返佣`, more: "费率对比",
+    official: "查看官方公告", readExplainer: "阅读解读", riskAction: "查看风险说明", source: "官方来源", sourceText: (domain) => `官方来源：${domain}`, signUp: (n) => `注册 ${n} 拿返佣`, more: "费率对比",
     time: (iso) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Singapore", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) + "（新加坡时间 SGT）",
   },
   en: {
@@ -55,7 +55,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `up to ${Math.round(p.share * 100)}% back` : null, p.autoSettle ? "settled by the exchange" : null, p.settle === "hourly" ? "paid hourly" : p.settle === "daily" ? "paid daily" : null, p.inviteCode ? `code ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Sign up on ${n} via NexuAlpha: `,
     listingGroup: (n) => `[Listing] ${n} new listing notices`,
-    official: "Official notice", readExplainer: "Read the explainer", riskAction: "Read the risk explainer", source: "Official source", sourceText: (url) => `Official source: ${url}`, signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
+    official: "Official notice", readExplainer: "Read the explainer", riskAction: "Read the risk explainer", source: "Official source", sourceText: (domain) => `Official source: ${domain}`, signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
     time: (iso) => new Date(iso).toLocaleString("en-GB", { timeZone: "Asia/Singapore", weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).replace(/,/g, "") + " SGT",
   },
   // ru/tr/vi channels (2026-10-11): same facts, local wording; time in SGT (site time, 2026-10-13) with the local date format.
@@ -64,7 +64,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `до ${Math.round(p.share * 100)}% возврата` : null, p.autoSettle ? "начисляет биржа" : null, p.settle === "hourly" ? "выплата каждый час" : p.settle === "daily" ? "выплата ежедневно" : null, p.inviteCode ? `код ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Регистрация на ${n} через NexuAlpha: `,
     listingGroup: (n) => `[Листинг] ${n} новых уведомлений`,
-    official: "Официальное объявление", readExplainer: "Прочитать разбор", riskAction: "Читать разбор риска", source: "Официальный источник", sourceText: (url) => `Официальный источник: ${url}`, signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
+    official: "Официальное объявление", readExplainer: "Прочитать разбор", riskAction: "Читать разбор риска", source: "Официальный источник", sourceText: (domain) => `Официальный источник: ${domain}`, signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
     time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   tr: {
@@ -72,7 +72,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `en fazla %${Math.round(p.share * 100)} iade` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `NexuAlpha üzerinden ${n} kaydı: `,
     listingGroup: (n) => `[Listeleme] ${n} yeni listeleme duyurusu`,
-    official: "Resmî duyuru", readExplainer: "Açıklamayı oku", riskAction: "Risk açıklamasını oku", source: "Resmî kaynak", sourceText: (url) => `Resmî kaynak: ${url}`, signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
+    official: "Resmî duyuru", readExplainer: "Açıklamayı oku", riskAction: "Risk açıklamasını oku", source: "Resmî kaynak", sourceText: (domain) => `Resmî kaynak: ${domain}`, signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
     time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   vi: {
@@ -80,7 +80,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `hoàn tới ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "sàn tự động thanh toán" : null, p.settle === "hourly" ? "trả mỗi giờ" : p.settle === "daily" ? "trả mỗi ngày" : null, p.inviteCode ? `mã ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Đăng ký ${n} qua NexuAlpha: `,
     listingGroup: (n) => `[Niêm yết] ${n} thông báo niêm yết mới`,
-    official: "Thông báo chính thức", readExplainer: "Đọc phần giải thích", riskAction: "Đọc giải thích rủi ro", source: "Nguồn chính thức", sourceText: (url) => `Nguồn chính thức: ${url}`, signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
+    official: "Thông báo chính thức", readExplainer: "Đọc phần giải thích", riskAction: "Đọc giải thích rủi ro", source: "Nguồn chính thức", sourceText: (domain) => `Nguồn chính thức: ${domain}`, signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
     time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "Asia/Singapore", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
 };
@@ -95,8 +95,9 @@ async function getJson(url) {
   return res.json();
 }
 
-// Turkey (owner 2026-10-11): no sign-up route for partners without an SPK "operating" listing (Bitget Teknoloji AŞ is on
-// the liquidation list); the announcement itself still posts with its official link.
+// Turkey (owner 2026-10-14): no Bitget channel item in Turkish. Other non-SPK partners still publish as information
+// notices, but without sign-up routes.
+const BLOCKED_CHANNEL_VENUES = { tr: new Set(["bitget"]) };
 const NO_SIGNUP = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
 // Neutral (information-only) locales (owner 2026-10-13; vi: Vietnam Resolution 05/2025/NQ-CP): listings and notices
 // post without any sign-up route; exchange campaigns ("event") are not posted at all (null). Kept local so this file
@@ -108,6 +109,7 @@ export const isNeutralCtaLocale = (lang) => /^(ru|ar|ur|uk|vi)(-|$)|^zh-(Hant|TW
 export const CAMPAIGN_TITLE = /\b(campaign|challenge|giveaway|airdrop|cashback|promotion|promo|bonus|rewards?|prize|leaderboard|competition|tournament|launchpool|launchpad|share\s+[\d,.]+|earn\s+up\s+to|win\s+up\s+to)\b/i;
 export const isCampaignLike = (item) => item?.category === "event" || CAMPAIGN_TITLE.test(String(item?.title || ""));
 export function buildMessage(item, partnerIn, lang) {
+  if (BLOCKED_CHANNEL_VENUES[lang]?.has(item?.venue)) return null;
   const neutral = isNeutralCtaLocale(lang);
   if (neutral && isCampaignLike(item)) return null;
   const risk = isRiskNotice(item);
@@ -122,7 +124,7 @@ export function buildMessage(item, partnerIn, lang) {
     if (terms) lines.push("", `${esc(c.via(name))}${esc(terms)}`);
   }
   const source = officialSourceCta(item.officialSource?.url || item.url, item.venue, { lang, src: `tg-channel-${lang}`, neutral });
-  if (source?.textOnly) lines.push("", esc(c.sourceText(source.url)));
+  if (source?.textOnly) lines.push("", esc(c.sourceText(source.domain)));
   const row1 = [{ text: risk ? c.riskAction : (c.readExplainer || c.official), url: `${SITE}${LOCALE_PATH[lang] ?? ""}${updatePath(item)}` }];
   if (source?.buttonUrl) row1.push({ text: c.source, url: source.buttonUrl });
   // tracked redirect (2026-10-10): lands on the same registration URL, attributes the click to this channel
@@ -167,7 +169,7 @@ export function groupRunItems(items) {
 
 export function buildListingGroupMessage(items, partnersByVenue, lang, detailLimit = 5) {
   const neutral = isNeutralCtaLocale(lang);
-  items = items.filter((item) => !(neutral && isCampaignLike(item)));
+  items = items.filter((item) => !(neutral && isCampaignLike(item)) && !BLOCKED_CHANNEL_VENUES[lang]?.has(item?.venue));
   if (!items.length) return null;
   if (items.length === 1) return buildMessage(items[0], partnersByVenue[items[0].venue], lang);
   const c = COPY[lang] || COPY.en;

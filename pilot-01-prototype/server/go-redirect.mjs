@@ -62,6 +62,7 @@ export function createMirrorHealth({ fetchImpl = globalThis.fetch, ttlMs = 10 * 
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
+const TRACKED_GO_TARGET = /^https:\/\/nexualpha\.com\/go\//i;
 
 // Shared by /go/<partner> and the site click beacon (/api/cta-click): slug -> https registration URL, refreshed every 5 min.
 export function createPartnerMapLoader(clientRoot) {
@@ -70,7 +71,11 @@ export function createPartnerMapLoader(clientRoot) {
   return async () => {
     if (!partners || Date.now() - loadedAt > 5 * 60 * 1000) {
       const feed = JSON.parse(await readFile(path.join(clientRoot, 'intel', 'partners.json'), 'utf8'));
-      partners = new Map((feed.partners || []).filter((p) => /^https:\/\//.test(p.registrationUrl || '')).map((p) => [p.slug, p.registrationUrl]));
+      partners = new Map(
+        (feed.partners || [])
+          .filter((p) => /^https:\/\//.test(p.registrationUrl || '') && !TRACKED_GO_TARGET.test(p.registrationUrl))
+          .map((p) => [p.slug, p.registrationUrl]),
+      );
       // Official-only routes need NexuAlpha click tracking too. Use the unchanged owner URL;
       // never revive a referral venue omitted by the feed's verification/placeholder gates.
       for (const [slug, partner] of Object.entries(partnerRegistry)) {
@@ -82,6 +87,13 @@ export function createPartnerMapLoader(clientRoot) {
         const cta = publicCtaForVenue(slug, 'en');
         if (cta.hasReferral && cta.inviteCode && /^https:\/\//.test(cta.registrationUrl || '') && cta.registrationUrl.includes(encodeURIComponent(cta.inviteCode))) {
           partners.set(slug, cta.registrationUrl);
+        }
+      }
+      for (const p of feed.partners || []) {
+        if (partners.has(p.slug) || !TRACKED_GO_TARGET.test(p.registrationUrl || '')) continue;
+        const cta = publicCtaForVenue(p.slug, 'en');
+        if (cta.hasReferral && cta.inviteCode && cta.routeAvailable !== false && !cta.actionGate && /^https:\/\//.test(cta.registrationUrl || '')) {
+          partners.set(p.slug, cta.registrationUrl);
         }
       }
       loadedAt = Date.now();
