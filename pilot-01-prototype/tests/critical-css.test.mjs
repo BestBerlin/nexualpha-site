@@ -59,6 +59,14 @@ test("first-screen extraction uses full DOM context while deferring below-hero s
   dom.window.close();
 });
 
+test("the partner logo strip right after the hero is first-screen content (hero v3: above the fold at 1440×900)", () => {
+  const dom = new JSDOM(`<html><body><div id="root"><main><div class="h7"><section class="h7-hero"><p class="h7-num">$3,600</p></section><section class="h7-strip"><ul class="h7-pw"><li><a>Bitget</a></li></ul></section><section class="lower">More</section></div></main></div></body></html>`);
+  const doc = dom.window.document;
+  const { css } = extractCriticalCss([`.h7-num{font-size:44px}.h7-pw a{display:grid}.lower{height:500px}`], [doc], { subjects: homeCriticalSubjects(doc) });
+  assert.equal(css, `.h7-num{font-size:44px}.h7-pw a{display:grid}`);
+  dom.window.close();
+});
+
 test("a selector list Chrome may reject as a whole is kept as written", () => {
   const doc = new JSDOM(`<!doctype html><html><body><input class="field"></body></html>`).window.document;
   const { css } = extractCriticalCss([`.field::-webkit-inner-spin-button,.other{margin:0}.field,.gone{color:red}`], [doc]);

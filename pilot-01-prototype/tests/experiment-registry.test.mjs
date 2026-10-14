@@ -7,7 +7,8 @@ const experiments = Object.values(experimentRegistry);
 test("registered onsite experiments retain approved status and first-party outcomes", () => {
   for (const experiment of experiments) {
     // Class b: PR #79 activated only the owner-approved home hero experiment.
-    assert.equal(experiment.status, experiment.id === "home_hero_copy_v1" ? "ACTIVE" : "DESIGNED");
+    // home_hero_copy_v1 ran 2026-10-11 → 2026-10-14 and is retired (one live hero sentence for everyone).
+    assert.equal(experiment.status, "DESIGNED");
     assert.equal(experiment.outcomeClass, "first_party_behavior");
     assert.notEqual(experiment.control.id, experiment.treatment.id);
     assert.ok(experiment.requiredEvidence.includes("persistent_cta_events"));

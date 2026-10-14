@@ -361,19 +361,23 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
 
 const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
-// Keep the complete shell before the hero, the hero itself, and their ancestors.
+// Keep the complete shell before the hero, the hero itself, and their ancestors — plus the partner logo strip when it
+// directly follows the hero: since hero v3 (owner 2026-10-14) the strip sits above the fold at 1440×900, so painting it
+// unstyled and restyling it when the deferred sheets land would shift the first screen (CLS).
 // Do not remove below-fold DOM: :has(), siblings and positional selectors still
 // need the real document structure to decide which first-screen rules apply.
 export function homeCriticalSubjects(document) {
   const hero = document.querySelector(".h7-hero");
   // Neutral locales (no rebate desk) have no .h7-num; the hero heading is their first-screen content.
   if (!hero) throw new Error("critical css: missing home hero/LCP element");
+  const strip = hero.nextElementSibling?.classList?.contains("h7-strip") ? hero.nextElementSibling : null;
+  const last = strip || hero;
   const subjects = new Set();
-  let reachedHero = false;
+  let reached = false;
   for (const element of document.getElementsByTagName("*")) {
-    if (reachedHero && !hero.contains(element)) break;
+    if (reached && !last.contains(element)) break;
     subjects.add(element);
-    if (element === hero) reachedHero = true;
+    if (element === last) reached = true;
   }
   return subjects;
 }

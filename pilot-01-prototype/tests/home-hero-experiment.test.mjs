@@ -1,7 +1,7 @@
-// Home hero copy A/B (scorecard X5, 2026-10-11). Pins: the registry flag ships off (everyone A, no cookie, headers
-// unchanged), server-side stable 50/50 cookie assignment, crawlers always A, variant B prerendered and served from the
-// same fast path with SSR markup == hydrated markup for both variants, and every partner click (beacon, /go, v2 events)
-// carrying the experiment id and variant while it runs.
+// Home hero copy A/B (scorecard X5, 2026-10-11 → retired 2026-10-14). Pins: the registry flag is off (everyone A, no
+// cookie, headers unchanged); the plumbing still works when forced (stable 50/50 cookie, crawlers always A, SSR markup ==
+// hydrated markup, clicks carry the variant) so a future hero test can reuse it; and the hero headline is the single live
+// volume sentence whatever the variant.
 import assert from "node:assert/strict";
 import test from "node:test";
 import { mkdtemp, readFile, mkdir, writeFile, rm } from "node:fs/promises";
@@ -13,11 +13,8 @@ import {
   HOME_HERO_COOKIE, HOME_HERO_EXPERIMENT_ID, assignHomeHeroVariant, clientHomeHeroVariant, homeHeroClickContext, homeHeroEventContext,
   isHomeHeroBot, isHomeHeroRoute, readHomeHeroCookie, homeHeroSetCookie,
 } from "../src/data/home-hero-experiment.js";
-import { HOME_HERO_B, heroCopyFor } from "../src/components/v7/home7-hero-variants.js";
-import { H7_COPY } from "../src/components/v7/home7-copy.js";
+import { heroSayText, heroVolumeText, HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP } from "../src/components/v7/home7-hero-volume.js";
 import { localizedHref } from "../src/data/locale-routing.js";
-import { formatPercent } from "../src/data/format-percent.js";
-import { HOME_REBATE_MAX_PCT } from "../src/data/home-rebate-tiers.js";
 import { getExperimentContext } from "../src/data/cta-analytics.js";
 import { createGoRedirect } from "../server/go-redirect.mjs";
 import { createCtaClickBeacon } from "../server/cta-click.mjs";
@@ -38,10 +35,10 @@ const BOT_UAS = [
 const disabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: false, status: "DESIGNED" } };
 const enabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: true, status: "ACTIVE" } };
 
-test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid, on the 17 localized home routes", () => {
+test("registry: home_hero_copy_v1 is retired (2026-10-14), still valid, on the 17 localized home routes", () => {
   const definition = experimentRegistry[HOME_HERO_EXPERIMENT_ID];
-  assert.equal(definition.enabled, true, "owner approved variant B and started the test on 2026-10-11");
-  assert.equal(definition.status, "ACTIVE");
+  assert.equal(definition.enabled, false, "retired 2026-10-14: the hero headline is the live volume sentence for everyone");
+  assert.equal(definition.status, "DESIGNED");
   assert.deepEqual(validateExperimentDefinition(definition), { ok: true });
   assert.deepEqual([...HOME_HERO_ROUTES], LOCALES.map((locale) => localizedHref("/", { locale })));
   assert.equal(definition.control.id, "a");
@@ -50,24 +47,15 @@ test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid,
   assert.equal(isHomeHeroRoute("/exchanges"), false);
   // While disabled, the collector rejects any event claiming the experiment.
   assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown", registry: disabledRegistry }).ok, false);
-  assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown" }).ok, true);
+  assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown" }).ok, false, "the live registry no longer accepts the experiment");
   assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/ar", market: "unknown", registry: enabledRegistry }).ok, true);
 });
 
-test("variant B copy: 17 locales, headline keeps {max}%, no new numbers, differs from A", () => {
-  assert.deepEqual(Object.keys(HOME_HERO_B).sort(), [...LOCALES].sort());
-  for (const locale of LOCALES) {
-    const b = HOME_HERO_B[locale];
-    assert.deepEqual(Object.keys(b).sort(), ["h1a", "h1b", "sub"], locale);
-    assert.ok(b.h1b.includes("{max}%"), `${locale} h1b keeps the headline share placeholder`);
-    assert.doesNotMatch(`${b.h1a} ${b.h1b.replace("{max}%", "")} ${b.sub}`, /\d/, `${locale}: no figures beyond the headline share`);
-    assert.match(b.sub, /NexuAlpha/, `${locale}: names the partner invite link`);
-    assert.notEqual(b.h1a, H7_COPY[locale].h1a, `${locale}: B headline differs from A`);
-    const t = H7_COPY[locale];
-    assert.equal(heroCopyFor(t, locale, "a"), t, "A is the live copy object, untouched");
-    assert.equal(heroCopyFor(t, locale, "b").h1a, b.h1a);
-    assert.equal(heroCopyFor(t, locale, "b").kick, t.kick, "only headline and subline change");
-  }
+test("one hero headline for every variant: the live volume sentence", () => {
+  const volume = HERO_VOLUME_STEPS[HERO_VOLUME_DEFAULT_STEP];
+  assert.equal(volume, 1e7, "default 1000万U");
+  assert.equal(heroSayText("zh-Hans", { vol: heroVolumeText(volume, "zh-Hans"), venue: "Bitget", auto: true }), "交易 1000万U，Bitget 自动返还你");
+  assert.equal(heroSayText("en", { vol: heroVolumeText(volume, "en"), venue: "Bitget", auto: true }), "Trade $10M on Bitget, get back automatically");
 });
 
 test("assignment: flag off (or kill switch) = inactive for everyone, no cookie", () => {
@@ -178,7 +166,7 @@ test("worker, experiment running: B visitors get the B prerender, private + Vary
   assert.match(b.headers.get("vary"), /cookie/i);
   assert.equal(b.headers.get("set-cookie"), null, "an assigned visitor is not re-assigned");
   assert.match(bHtml, /<style[^>]*>\.h7-hero\{display:grid\}/, "critical CSS inlined for B too");
-  assert.deepEqual(h1Texts(rootInnerHtml(bHtml)).slice(0, 1).map((text) => text.replace(/\u00a0/g, " ")), [`${HOME_HERO_B.id.h1a}${HOME_HERO_B.id.h1b.replace("{max}%", formatPercent("id", HOME_REBATE_MAX_PCT))}`]);
+  assert.deepEqual(h1Texts(rootInnerHtml(bHtml)).slice(0, 1), h1Texts(rendered["id:a"]).slice(0, 1), "retired: B renders the same single hero headline as A");
 
   for (const ua of BOT_UAS) {
     const bot = await fetchHome("/", { ua, cookie: "nx_hero=b", force: "on" });
@@ -217,10 +205,11 @@ for (const variant of ["a", "b"]) {
         inspect: (window) => ({ h1: window.document.querySelector(".h7-hero h1")?.textContent, sub: window.document.querySelector(".h7-sub")?.textContent, marker: window.document.querySelector(".h7-hero")?.getAttribute("data-hero-variant") }),
       });
       assert.deepEqual(hydrationErrors(errors), [], errors.join("\n"));
-      const copy = variant === "b" ? HOME_HERO_B[locale] : H7_COPY[locale];
+      const volume = HERO_VOLUME_STEPS[HERO_VOLUME_DEFAULT_STEP];
+      const sentence = heroSayText(locale, { vol: heroVolumeText(volume, locale), venue: "Bitget", auto: true });
       assert.equal(inspected.sub, undefined, `${locale}: the design removes the hero subtitle in every variant`);
-      assert.ok(inspected.h1.startsWith(copy.h1a), `${locale}: hydrated headline is variant ${variant}`);
-      assert.equal(inspected.marker, variant === "b" ? "b" : null);
+      assert.equal(inspected.h1.replace(/\s+/g, " ").trim(), sentence.replace(/\s+/g, " "), `${locale}: hydrated headline is the live volume sentence (variant ${variant})`);
+      assert.equal(inspected.marker, null, "retired: no variant marker");
     }
   });
 }

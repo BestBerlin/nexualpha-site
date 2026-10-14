@@ -15,7 +15,8 @@ test("every declared share appears on the profile line with its percentage and c
 });
 
 test("undeclared venues get no rebate line", () => {
-  for (const slug of ["kraken", "mexc", "htx", "hyperliquid"]) assert.equal(ownerRebateLine(slug, "en", slug), null);
+  // HTX moved to the declared list on 2026-10-14 (owner confirmed up to 40%); the first test now covers it.
+  for (const slug of ["kraken", "mexc", "hyperliquid"]) assert.equal(ownerRebateLine(slug, "en", slug), null);
 });
 
 test("the headline maximum is the highest declared share", () => {

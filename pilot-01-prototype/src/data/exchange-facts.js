@@ -338,24 +338,24 @@ const raw = {
    "type": "cex",
    "fees": {
     "spot": {
-     "maker": null,
-     "taker": null,
-     "note": "unverifiable: fee page and support articles did not load (timeout/empty)"
+     "maker": 0.2,
+     "taker": 0.2,
+     "note": "Prime0 spot maker/taker 0.2000%/0.2000%. Official fee page htx.com/en-us/fee (Spot Fee Rates tab), read 2026-10-14."
     },
     "perp": {
-     "maker": null,
-     "taker": null,
-     "note": "unverifiable: same"
+     "maker": 0.02,
+     "taker": 0.06,
+     "note": "Prime0 USDT-margined futures maker/taker 0.0200%/0.0600% (Group 1, the page's default tab). Official fee page htx.com/en-us/fee (Futures Fee Rates tab), read 2026-10-14."
     }
    },
    "discount": {},
    "kyc": null,
    "restricted_regions": [],
    "source_urls": [
-    "https://www.htx.com/fee/"
+    "https://www.htx.com/en-us/fee/"
    ],
-   "verified_on": "2026-10-08",
-   "status": "unverifiable"
+   "verified_on": "2026-10-14",
+   "status": "verified"
   },
   {
    "slug": "dydx",

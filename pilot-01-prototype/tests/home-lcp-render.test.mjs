@@ -12,15 +12,16 @@ test.before(async () => { harness = await createSsrHarness(); });
 test.after(async () => { await harness?.close(); });
 
 test("both English and Chinese hero variants keep the SSR number fully visible without a mount nudge", async () => {
-  for (const pathname of ["/", "/zh-hans"]) {
+  // Hero v3 (owner 2026-10-14): the figure is the dollar rebate for the default 1000万U on Bitget, as static real text.
+  for (const [pathname, text, num] of [["/", "$3,600", "3,600"], ["/zh-hans", "$3,600", "3,600"]]) {
     for (const heroVariant of ["a", "b"]) {
       const html = await harness.render(`https://nexualpha.com${pathname}`, { heroVariant });
       const dom = new JSDOM(html);
       const number = dom.window.document.querySelector(".hx-rate-num");
       assert.ok(number, `${pathname}:${heroVariant}`);
-      assert.equal(number.textContent, "60%", "owner 2026-10-14 (#231): the figure is static real text, 60 and %");
-      assert.equal(number.querySelector(".hx-rate-n").textContent, "60");
-      assert.equal(number.querySelector(".hx-rate-pct").textContent, "%");
+      assert.equal(number.textContent, text, "owner 2026-10-14 (#231): the figure is static real text in the HTML");
+      assert.equal(number.querySelector(".hx-rate-n").textContent, num);
+      assert.equal(number.querySelector(".hx-rate-pct").textContent, "$");
       assert.ok(dom.window.document.querySelector(".hx-rate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
       assert.equal(number.querySelector(".h7-roll"), null, "hero number is static, not the shared ledger roller");
       dom.window.close();
@@ -29,6 +30,7 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
   const css = readFileSync(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
   assert.match(css, /@ \.hx-rate-num/);
   assert.match(css, /@ :is\(\.hx-rate-n,\.hx-rate-pct\)\{[^}]*background:var\(--hx-rate-grad\)[^}]*background-clip:text/, "gradient sits on each glyph run (#231: WebKit hid the % on a clipped parent)");
+  assert.match(css, /@ \.hx-rate-u\{[^}]*background:var\(--hx-rate-grad\)[^}]*background-clip:text/, "the 万/亿/K unit is its own glyph run too");
   assert.doesNotMatch(css, /@ \.hx-rate-num\{[^}]*background-clip/, "no background-clip:text on the parent of the glyph runs");
   assert.doesNotMatch(css, /hx-count|counter\(n\)/, "no count-up (owner 2026-10-14)");
   const tokens = readFileSync(new URL("../src/styles/tokens.css", import.meta.url), "utf8");

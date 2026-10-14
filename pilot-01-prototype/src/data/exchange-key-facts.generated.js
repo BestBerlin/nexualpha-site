@@ -1497,6 +1497,32 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
+        "id": "spot-fees",
+        "value": {
+          "maker": 0.2,
+          "taker": 0.2,
+          "units": "percent",
+          "scope": "Prime0 spot maker/taker 0.2000%/0.2000%. Official fee page htx.com/en-us/fee (Spot Fee Rates tab), read 2026-10-14."
+        },
+        "sourceUrls": [
+          "https://www.htx.com/en-us/fee/"
+        ],
+        "checkedOn": "2026-10-14"
+      },
+      {
+        "id": "perp-fees",
+        "value": {
+          "maker": 0.02,
+          "taker": 0.06,
+          "units": "percent",
+          "scope": "Prime0 USDT-margined futures maker/taker 0.0200%/0.0600% (Group 1, the page's default tab). Official fee page htx.com/en-us/fee (Futures Fee Rates tab), read 2026-10-14."
+        },
+        "sourceUrls": [
+          "https://www.htx.com/en-us/fee/"
+        ],
+        "checkedOn": "2026-10-14"
+      },
+      {
         "id": "license-hk-sfc-hbgl-hong-kong-limited",
         "value": {
           "jurisdiction": "HK",

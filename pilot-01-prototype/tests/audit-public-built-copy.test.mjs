@@ -108,9 +108,8 @@ test("built SSR UI labels stay inside the locale script family", async () => {
 });
 
 
-test("both built home hero variants carry the same official notice hydration snapshot", async () => {
+test("the built home carries the official notice hydration snapshot; no hero B prerender while the experiment is retired", async () => {
   const home = JSON.parse(await readFile(path.join(projectRoot, "dist/client/prerender/en/home.json"), "utf8"));
-  const variantB = JSON.parse(await readFile(path.join(projectRoot, "dist/client/prerender/en/home-hero-b.json"), "utf8"));
   assert.ok(Array.isArray(home.officialAnnouncements?.items));
-  assert.deepEqual(variantB.officialAnnouncements, home.officialAnnouncements);
+  await assert.rejects(readFile(path.join(projectRoot, "dist/client/prerender/en/home-hero-b.json"), "utf8"), { code: "ENOENT" });
 });

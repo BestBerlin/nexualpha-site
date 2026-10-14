@@ -155,6 +155,9 @@ test("NX-02 partner benefit status is derived from home-rebate-tiers (no new num
   assert.equal(partnerBenefitStatus("okx").sharePct, 40);
   assert.equal(partnerBenefitStatus("bitget").sharePct, 60);
   assert.equal(partnerBenefitStatus("binance").sharePct, 25);
+  assert.equal(partnerBenefitStatus("htx").sharePct, 40);
+  assert.equal(partnerBenefitStatus("htx").confirmedOn, "2026-10-14", "HTX terms were confirmed later than the first batch");
+  assert.equal(partnerBenefitStatus("htx").autoSettle, false, "HTX is not on the auto-settle list");
   for (const slug of ["bybit", "kraken", "hyperliquid", "gate-io"]) assert.equal(partnerBenefitStatus(slug), null, slug);
 });
 
@@ -275,7 +278,9 @@ test("NX-06 factbook dates are layered and dateModified is the latest real revie
     const d = factbookDates(slug);
     const real = [d.feesCheckedOn, d.benefitConfirmedOn, d.dossierCompiledOn].filter(Boolean).sort().at(-1);
     assert.equal(d.latestReviewOn, real, slug);
-    if (today > "2026-10-10") assert.notEqual(d.latestReviewOn, today, `${slug} must not be dated today mechanically`);
+    // A date equal to today is allowed only when it is the venue's own recorded review (e.g. HTX fees re-read 2026-10-14).
+    const recorded = new Set([venueCheckedOn(slug), partnerBenefitStatus(slug)?.confirmedOn].filter(Boolean));
+    if (today > "2026-10-10" && !recorded.has(today)) assert.notEqual(d.latestReviewOn, today, `${slug} must not be dated today mechanically`);
     const schema = buildFactbookSchemas(FACTBOOK_REGISTRY[slug], "en").find((s) => s["@type"] === "Dataset");
     assert.equal(schema.dateModified, d.latestReviewOn, slug);
   }
