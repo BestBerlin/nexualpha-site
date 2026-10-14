@@ -120,8 +120,9 @@ test("HTML asset responses preserve existing CSP while adding frame protection",
   assert.equal(response.headers.get("referrer-policy"), null);
   assert.equal(response.headers.get("x-content-type-options"), null);
   assert.equal(response.headers.get("permissions-policy"), EXPECTED_HTML_PERMISSIONS_POLICY);
-  // Class b: PR #79 makes personalized home experiment responses private.
-  assert.equal(response.headers.get("cache-control"), "private, max-age=300");
+  // Class b: PR #79 made personalized home experiment responses private; with the hero experiment retired
+  // (2026-10-14) the home is the same for everyone, so it keeps the public HTML cache policy.
+  assert.equal(response.headers.get("cache-control"), "public, max-age=300, stale-while-revalidate=600");
 });
 
 test("HTML asset responses remove edge-owned security headers and keep app-owned headers", async () => {

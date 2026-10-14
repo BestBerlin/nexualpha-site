@@ -677,3 +677,104 @@
 .hx-popover .h7:not(#_):not(#_) .hx-more-pop[popover]:popover-open{display:grid}
 
 .h7:not(#_):not(#_) .hx-terminal-host{display:contents}
+
+/* Hero v3 (owner 2026-10-14): "交易 1000万U，Bitget 自动返还你" + dollar figure + log volume dial (1万U → 10亿U).
+   Same hx vocabulary as the live hero; motion is transform/opacity (WAAPI in HomeV7.jsx), no loops, no count-up. */
+.h7:not(#_):not(#_) .hx-say .hx-say-vol{display:inline-block;color:#7FE7FF;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_) .hx-say .hx-say-venue{display:inline-block}
+.h7:not(#_):not(#_) .hx-rate{position:relative;container-type:inline-size;isolation:isolate;--hx-logo-w:58px}
+.h7:not(#_):not(#_) .hx-rate-glow{position:absolute;inset:-34% -12% -44% -12%;z-index:-1;pointer-events:none}
+.h7:not(#_):not(#_) .hx-rate-glow i{position:absolute;inset:0;opacity:0;transition:opacity .42s var(--ease-out);background:radial-gradient(closest-side at 30% 55%,rgb(var(--g)/.08),transparent)}
+.h7:not(#_):not(#_) .hx-rate-glow i[data-on]{opacity:1}
+/* Fit rule: never wider than the column (longest figure "$12.5万" / "$360K"); the box keeps its height so nothing below moves. */
+.h7:not(#_):not(#_) .hx-amt{display:flex;align-items:baseline;min-block-size:calc(var(--rate-fs) * .9);font-size:min(var(--rate-fs),calc((100cqw - var(--hx-logo-w)) / var(--wem,2.2)))}
+.h7:not(#_):not(#_) .hx-amt .hx-rate-pct{align-self:flex-start;margin-block-start:.12em;vertical-align:baseline}
+.h7:not(#_):not(#_) .hx-rate-u{display:inline-block;padding-inline-end:.08em;margin-inline:.04em -.08em;font-size:.52em;font-weight:600;letter-spacing:0;background:var(--hx-rate-grad);-webkit-background-clip:text;background-clip:text;color:#7fe7ff;-webkit-text-fill-color:transparent}
+.h7:not(#_):not(#_) .hx-tab-ind{background:var(--hx-surface-3);box-shadow:inset 0 0 0 1px rgb(var(--hx-tint,31 224 192)/.34)}
+.h7:not(#_):not(#_) .hx-dial{position:relative;min-width:0}
+.h7:not(#_):not(#_) .hx-dial-track{position:relative;display:flex;align-items:center;block-size:44px}
+.h7:not(#_):not(#_) .hx-dial-input{position:relative;z-index:1;inline-size:100%;block-size:44px;margin:0;padding:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;touch-action:pan-y}
+.h7:not(#_):not(#_) .hx-dial-input::-webkit-slider-runnable-track{block-size:8px;border-radius:999px;background:linear-gradient(90deg,#39E1C8,#7FE7FF) 0 0/calc(14px + (100% - 28px) * var(--f,.6)) 100% no-repeat,var(--hx-surface-3);box-shadow:inset 0 0 0 1px var(--hx-line)}
+.h7:not(#_):not(#_) .hx-dial-input::-moz-range-track{block-size:8px;border-radius:999px;background:var(--hx-surface-3)}
+.h7:not(#_):not(#_) .hx-dial-input::-moz-range-progress{block-size:8px;border-radius:999px;background:linear-gradient(90deg,#39E1C8,#7FE7FF)}
+.h7:not(#_):not(#_) .hx-dial-input::-webkit-slider-thumb{-webkit-appearance:none;inline-size:28px;block-size:28px;margin-block-start:-10px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgb(var(--hx-tint,31 224 192)/.2),0 4px 14px rgb(0 0 0/.5);transition:transform var(--d-press) var(--ease-press),box-shadow .32s var(--ease-out)}
+.h7:not(#_):not(#_) .hx-dial-input::-moz-range-thumb{inline-size:28px;block-size:28px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgb(var(--hx-tint,31 224 192)/.2),0 4px 14px rgb(0 0 0/.5)}
+.h7:not(#_):not(#_) .hx-dial-input:active::-webkit-slider-thumb{transform:scale(1.12)}
+.h7:not(#_):not(#_) .hx-dial-input:focus-visible{outline:0}
+.h7:not(#_):not(#_) .hx-dial-input:focus-visible::-webkit-slider-thumb{box-shadow:var(--hx-focus)}
+.h7:not(#_):not(#_) .hx-dial-input:focus-visible::-moz-range-thumb{box-shadow:var(--hx-focus)}
+.h7:not(#_):not(#_) .hx-dial-halo{position:absolute;inset-block-start:50%;left:calc(14px + (100% - 28px) * var(--f,.6));inline-size:28px;block-size:28px;margin:-14px 0 0 -14px;border-radius:50%;background:rgb(var(--hx-tint,31 224 192)/.45);opacity:0;pointer-events:none}
+.h7:not(#_):not(#_) .hx-dial-ticks{position:relative;block-size:44px}
+.h7:not(#_):not(#_) .hx-dial-ticks button{position:absolute;inset-block-start:0;left:calc(14px + (100% - 28px) * var(--t));transform:translateX(-50%);min-block-size:44px;min-inline-size:44px;padding:0 2px;border:0;background:none;color:var(--hx-ink-3);font:500 13px/1 var(--hx-mono);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer;transition:color var(--d-hover) var(--ease-out)}
+.h7:not(#_):not(#_) .hx-dial-ticks button:last-child{transform:translateX(calc(-100% + 16px));text-align:end}
+.h7:not(#_):not(#_) .hx-dial-ticks button:hover,.h7:not(#_):not(#_) .hx-dial-ticks button[data-on]{color:var(--hx-ink)}
+.h7:not(#_):not(#_) .hx-dial-ticks button:focus-visible{outline:0;box-shadow:var(--hx-focus);border-radius:6px}
+.h7:not(#_):not(#_) .hx-hero-panel.h7-lg{gap:16px}
+.h7:not(#_):not(#_) .hx-dial{margin-block:-4px -8px}
+@media(min-width:768px){.h7:not(#_):not(#_) .hx-rate{--hx-logo-w:70px}.h7:not(#_):not(#_) .hx-hero-panel.h7-lg{gap:20px}}
+@media(min-width:1024px){.h7:not(#_):not(#_) .hx-rate{--hx-logo-w:78px}}
+@media(min-width:1440px){.h7:not(#_):not(#_) .hx-rate{--hx-logo-w:86px}}
+@media(max-width:374px){.h7:not(#_):not(#_) .hx-rate{--hx-logo-w:54px}.h7:not(#_):not(#_) .hx-dial-ticks button{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .hx-rate-glow i,.h7:not(#_):not(#_) .hx-dial-input::-webkit-slider-thumb{transition:none}}
+
+/* De-AI pass (owner 2026-10-14): no decorative blobs or neon halos; colour only where it carries meaning (the selected
+   exchange's brand tint, teal = money back, blue = action). Hairlines and solid surfaces instead of glass. */
+.h7:not(#_):not(#_) .h7-hero::before{display:none}
+.h7:not(#_):not(#_) .hx-amt{filter:none}
+.h7:not(#_):not(#_) .hx-amt::before{display:none}
+.h7:not(#_):not(#_) .hx-go.h7-lg-go{box-shadow:inset 0 1px 0 rgb(255 255 255/.16),0 8px 20px -12px rgb(49 92 255/.55)}
+
+/* Desktop device (≥1024): a laptop showing the real /rates screen for the visitor's volume. Hidden on phones/tablets. */
+.h7:not(#_):not(#_) .hx-screen{display:none;grid-area:device;margin:0;min-width:0}
+.h7:not(#_):not(#_) .hx-mac{position:relative;inline-size:100%;max-inline-size:640px;margin-inline:auto}
+.h7:not(#_):not(#_) .hx-mac-lid{position:relative;padding:12px 12px 14px;border-radius:18px 18px 4px 4px;background:#16181D;box-shadow:inset 0 0 0 1px #2A2E36,0 40px 70px -40px rgb(0 0 0/.9)}
+.h7:not(#_):not(#_) .hx-mac-lid::before{content:"";position:absolute;top:5px;left:50%;inline-size:4px;block-size:4px;margin-left:-2px;border-radius:50%;background:#2E323A}
+.h7:not(#_):not(#_) .hx-mac-display{display:flex;flex-direction:column;overflow:hidden;aspect-ratio:16/9.4;border-radius:6px;background:#0B0D11;box-shadow:inset 0 0 0 1px #1E2128}
+.h7:not(#_):not(#_) .hx-mac-base{position:relative;block-size:13px;margin-inline:-4%;border-radius:2px 2px 16px 16px;background:linear-gradient(#2B2E35,#17191E 70%);box-shadow:inset 0 1px 0 #3B3F47}
+.h7:not(#_):not(#_) .hx-mac-base i{position:absolute;top:0;left:50%;inline-size:16%;block-size:5px;transform:translateX(-50%);border-radius:0 0 6px 6px;background:#101115}
+.h7:not(#_):not(#_) .hx-scr-bar{display:flex;align-items:center;gap:12px;block-size:30px;padding-inline:12px;border-bottom:1px solid #1C1F25;background:#101217}
+.h7:not(#_):not(#_) .hx-scr-dots{display:flex;gap:6px}
+.h7:not(#_):not(#_) .hx-scr-dots i{inline-size:9px;block-size:9px;border-radius:50%;background:#2A2E36}
+.h7:not(#_):not(#_) .hx-scr-url{flex:0 1 46%;margin-inline:auto;padding:5px 10px;border-radius:6px;background:#171A20;color:var(--hx-ink-3);font:500 11px/1 var(--hx-mono);text-align:center}
+.h7:not(#_):not(#_) .hx-scr-body{display:flex;flex:1;flex-direction:column;gap:12px;padding:18px 20px 14px}
+.h7:not(#_):not(#_) .hx-scr-title{margin:0;font:600 15px/1.35 var(--hx-font);color:var(--hx-ink)}
+.h7:not(#_):not(#_) .hx-scr-vol{display:inline-block;color:#7FE7FF;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_) .hx-scr-head,.h7:not(#_):not(#_) .hx-scr-rows button{display:grid;grid-template-columns:minmax(0,1fr) 76px minmax(0,1.55fr);gap:14px;align-items:center}
+.h7:not(#_):not(#_) .hx-scr-head{padding-inline:12px;font:500 11px/1 var(--hx-font);color:var(--hx-ink-4);letter-spacing:.02em}
+.h7:not(#_):not(#_) .hx-scr-head span:nth-child(2){text-align:end}
+.h7:not(#_):not(#_) .hx-scr-rows{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+.h7:not(#_):not(#_) .hx-scr-rows button{inline-size:100%;min-block-size:46px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--hx-ink-2);font:500 13px/1 var(--hx-font);text-align:start;cursor:pointer;transition:background-color .3s var(--ease-out),box-shadow .3s var(--ease-out)}
+.h7:not(#_):not(#_) .hx-scr-rows li[data-on] button{background:rgb(var(--g)/.07);box-shadow:inset 0 0 0 1px rgb(var(--g)/.26)}
+.h7:not(#_):not(#_) .hx-scr-name{display:flex;align-items:center;gap:9px;min-width:0}
+.h7:not(#_):not(#_) .hx-scr-name img,.h7:not(#_):not(#_) .hx-scr-name [data-brand-fallback]{inline-size:22px;block-size:22px;border-radius:6px}
+.h7:not(#_):not(#_) .hx-scr-name b{overflow:hidden;color:var(--hx-ink);font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.h7:not(#_):not(#_) .hx-scr-fee{display:inline-block;color:var(--hx-ink-3);text-align:end;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_) .hx-scr-back{display:flex;align-items:center;gap:12px;min-width:0}
+.h7:not(#_):not(#_) .hx-scr-bar-fill{position:relative;flex:1;block-size:6px;overflow:hidden;border-radius:3px;background:#181B21}
+.h7:not(#_):not(#_) .hx-scr-bar-fill::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgb(var(--g));transform:scaleX(var(--w,1));transform-origin:left center;transition:transform .5s var(--ease-out);animation:hx-grow .9s var(--ease-out) .25s backwards}
+@keyframes hx-grow{from{transform:scaleX(0)}}
+.h7:not(#_):not(#_) .hx-scr-amt{display:inline-block;min-inline-size:62px;color:var(--hx-ink);font-weight:600;text-align:end;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_) .hx-scr-rows li[data-on] .hx-scr-amt{color:#7FE7FF}
+.h7:not(#_):not(#_) .hx-scr-code{display:flex;align-items:center;justify-content:space-between;margin:auto 0 0;padding:10px 12px 0;border-top:1px solid #1C1F25;color:var(--hx-ink-3);font:500 12px/1 var(--hx-font)}
+.h7:not(#_):not(#_) .hx-scr-code code{color:var(--hx-ink);font:600 13px/1 var(--hx-mono);letter-spacing:.04em}
+
+/* Below 1024 the CTA hero is one column (headline, then controls); the device is desktop-only. */
+@media(max-width:1023px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "panel"}}
+@media(min-width:768px) and (max-width:1023px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){max-inline-size:640px;margin-inline:auto}}
+@media(min-width:1024px){
+  .h7:not(#_):not(#_) .h7-hero:not([data-neutral]){--rate-fs:150px;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);grid-template-areas:"head device" "panel device";align-items:start;column-gap:56px;row-gap:16px;min-block-size:0;padding-top:24px;padding-bottom:20px}
+  .h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .hx-hero-panel.h7-lg{gap:14px}
+  .h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .h7-hc{align-self:start;padding-top:0}
+  .h7:not(#_):not(#_) .hx-screen{display:block;align-self:center}
+  /* One row of partner logos, even gaps, no tile boxes (owner 2026-10-14). */
+  .h7:not(#_):not(#_) .h7-strip{padding-top:8px;padding-bottom:40px}
+  .h7:not(#_):not(#_) .h7-pw{display:flex;flex-wrap:nowrap;justify-content:space-between;gap:8px;overflow:visible;padding:0}
+  .h7:not(#_):not(#_) .h7-pw li{flex:0 0 auto;min-width:0}
+  .h7:not(#_):not(#_) .h7-pw a{min-height:76px;padding:8px 4px;border:0;border-radius:10px;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .h7:not(#_):not(#_) .h7-pw a:hover{background:rgb(255 255 255/.03);transform:none}
+}
+@media(min-width:1440px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){grid-template-columns:minmax(0,540px) minmax(0,620px);column-gap:40px;min-block-size:0;padding-top:28px}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .hx-scr-bar-fill::after{animation:none;transition:none}.h7:not(#_):not(#_) .hx-scr-rows button{transition:none}}
+.h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .hx-go.h7-lg-go{margin-top:0}
+@media(min-width:1024px){.h7:not(#_):not(#_) .h7-pw a{align-content:start}}
+@media(min-width:1024px){.h7:not(#_):not(#_) .h7-hc h1.hx-say:not(:lang(zh)):not(:lang(ja)):not(:lang(ko)){font-size:44px;line-height:50px}}

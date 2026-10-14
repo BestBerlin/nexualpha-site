@@ -3,8 +3,8 @@
 // and the BTC→USD FAQ has no exchange-rate step.
 import assert from "node:assert/strict";
 import test from "node:test";
+import { HERO_SAY } from "../src/components/v7/home7-hero-volume.js";
 import { H7_COPY } from "../src/components/v7/home7-copy.js";
-import { HOME_HERO_B } from "../src/components/v7/home7-hero-variants.js";
 import { routeMetaDescription } from "../src/data/meta-description.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { converterFaq, converterCoin, formatFiatAmount } from "../src/data/converter.js";
@@ -28,7 +28,7 @@ test("home copy (both hero variants) has no commission claim in any locale", () 
     const texts = flatten({ ...copy, foot: undefined });
     for (const re of COMMISSION_CLAIMS) for (const text of texts) assert.doesNotMatch(text, re, `${locale}: ${text}`);
   }
-  for (const [locale, copy] of Object.entries(HOME_HERO_B)) for (const re of COMMISSION_CLAIMS) assert.doesNotMatch(copy.sub, re, `${locale} hero B`);
+  for (const [locale, copy] of Object.entries(HERO_SAY)) for (const re of COMMISSION_CLAIMS) assert.doesNotMatch(Object.values(copy).join(" "), re, `${locale} hero sentence`);
 });
 
 test("offer-card rebate line shows the user benefit, not who pays", () => {

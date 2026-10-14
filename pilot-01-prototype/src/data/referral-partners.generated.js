@@ -52,9 +52,9 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "slug": "htx",
     "name": "HTX",
     "inviteCode": "nexu888",
-    "share": null,
+    "share": 0.4,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-14"
   },
   {
     "slug": "kraken",

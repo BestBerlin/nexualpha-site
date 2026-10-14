@@ -20,7 +20,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { QA_MANIFEST, deviceForWidth } from "./qa-regression-manifest.mjs";
-import { HOME_REBATE_SHARE, homeRebateMaxPctFor } from "../src/data/home-rebate-tiers.js";
+import { HOME_REBATE_SHARE } from "../src/data/home-rebate-tiers.js";
+import { feeFact } from "../src/data/exchange-facts.js";
+import { partnerRebateShare } from "../src/data/partner-benefit-status.js";
+import { HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP, heroMoneyParts, heroRebateAmount, heroVolumeText } from "../src/components/v7/home7-hero-volume.js";
 import { formatPercent } from "../src/data/format-percent.js";
 import { partnerRegistry } from "../src/data/partner-registry.js";
 import { BACKUP_SIGNUP_URLS } from "../src/data/backup-signup.js";
@@ -306,10 +309,10 @@ async function homeSuite(browser, base, outDir) {
       const footerHits = H.finePrint.filter((s) => footerText.includes(s.toLowerCase()));
       if (footerHits.length) warn("home", pageId, device.id, `footer disclosure present (allowed): ${footerHits.join(" / ")}`);
 
-      // 5. Headline "up to X%" matches the registry maximum for this market.
-      const maxPct = homeRebateMaxPctFor(loc.code);
+      // 5. Hero v3 (owner 2026-10-14): the headline is the live sentence for the default volume ("交易 1000万U，…").
+      const heroVolume = HERO_VOLUME_STEPS[HERO_VOLUME_DEFAULT_STEP];
       const h1 = await page.$eval(H.selectors.headline, (el) => el.textContent).catch(() => "");
-      if (loc.mode === "full") record("home", pageId, device.id, "headline-max-rebate", h1.includes(formatPercent(loc.code, maxPct)), `h1 "${trim(h1, 80)}" expects ${formatPercent(loc.code, maxPct)}`);
+      if (loc.mode === "full") record("home", pageId, device.id, "headline-volume-sentence", h1.includes(heroVolumeText(heroVolume, loc.code)), `h1 "${trim(h1, 80)}" expects ${heroVolumeText(heroVolume, loc.code)}`);
 
       if (loc.mode === "full") {
         // 6. Rebate figure + code for every selectable venue (click each tab).
@@ -338,9 +341,11 @@ async function homeSuite(browser, base, outDir) {
           }), H.selectors);
           const slug = state.pick;
           seen.push(slug);
-          const share = HOME_REBATE_SHARE[slug];
-          const expectedDigits = share ? String(Math.round(share * 100)) : null;
-          record("home", pageId, device.id, `rebate-figure:${slug}`, Boolean(expectedDigits) && state.digits === expectedDigits && state.pct === "%", `shows ${state.digits}${state.pct ?? ""}, registry ${expectedDigits ?? "none"}%`);
+          // Figure = default volume × perpetual taker fee × partner share, from the same sources the page renders from.
+          const fee = feeFact(slug, "perp");
+          const amount = fee.state === "checked" ? heroRebateAmount(heroVolume, fee.taker, partnerRebateShare(slug)) : null;
+          const expected = amount == null ? null : heroMoneyParts(amount, loc.code);
+          record("home", pageId, device.id, `rebate-figure:${slug}`, Boolean(expected) && state.digits === expected.num && state.pct === expected.cur, `shows ${state.pct ?? ""}${state.digits}, expected ${expected ? `${expected.cur}${expected.num}${expected.unit}` : "none"} (${heroVolumeText(heroVolume, loc.code)} × ${fee.taker}% × ${partnerRebateShare(slug)})`);
           const expectedCode = partnerRegistry[slug]?.inviteCode ? String(partnerRegistry[slug].inviteCode) : null;
           record("home", pageId, device.id, `invite-code:${slug}`, Boolean(expectedCode) && sameCode(state.code, expectedCode), `shows ${state.code}, registry ${expectedCode}`);
           if (expectedCode && state.code !== expectedCode && sameCode(state.code, expectedCode)) warn("home", pageId, device.id, `invite code case differs: page "${state.code}" vs registry "${expectedCode}"`);

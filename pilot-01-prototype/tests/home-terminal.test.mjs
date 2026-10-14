@@ -29,6 +29,19 @@ for (const path of ["/", "/zh-hans", "/ru"]) {
   });
 }
 
+test("CTA home has no price terminal: the desktop device shows the /rates screen instead (owner 2026-10-14)", async () => {
+  const html = await harness.render("https://nexualpha.com/", { ticker: SNAP });
+  const dom = new JSDOM(html);
+  const doc = dom.window.document;
+  assert.equal(doc.querySelector(".h7-hero .h7-terminal"), null, "no BTC price terminal on the CTA hero");
+  const screen = doc.querySelector(".h7-hero .hx-screen");
+  assert.ok(screen, "desktop device screen is in the SSR hero");
+  assert.equal(screen.getAttribute("aria-hidden"), "true");
+  assert.match(screen.textContent, /nexualpha\.com\/rates/);
+  assert.doesNotMatch(screen.textContent, /BTC|\$82,576/, "no market prices on the device");
+  dom.window.close();
+});
+
 test("terminal component, runtime, stylesheet and budget entry are gone", () => {
   const home = readFileSync(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
   const budget = readFileSync(new URL("../scripts/verify-build-budget.mjs", import.meta.url), "utf8");

@@ -15,7 +15,7 @@ This index is designed for retrieval by search and answer systems. It is not an 
   - Bybit: invite code 48553; no fee-return share published; profile https://nexualpha.com/exchanges/bybit
   - Gate.io: invite code nexubest; no fee-return share published; profile https://nexualpha.com/exchanges/gate-io
   - MEXC: invite code 4BRhe; no fee-return share published; profile https://nexualpha.com/exchanges/mexc
-  - HTX: invite code nexu888; no fee-return share published; profile https://nexualpha.com/exchanges/htx
+  - HTX: invite code nexu888; up to 40% of trading fees returned (terms confirmed 2026-10-14); profile https://nexualpha.com/exchanges/htx
   - Kraken: invite code 7f97gkqw; no fee-return share published; profile https://nexualpha.com/exchanges/kraken
   - Backpack: invite code LuckyBitcoin; no fee-return share published; profile https://nexualpha.com/exchanges/backpack
   - Hyperliquid: invite code NEXU888; no fee-return share published; profile https://nexualpha.com/exchanges/hyperliquid
@@ -923,7 +923,7 @@ These high-intent question routes help answer systems choose the canonical NexuA
 
 These public articles expose a direct answer, editorial attribution, publication dates and item-level source links. They remain dated research and do not prove current account eligibility, live fees, user benefits or outcomes.
 
-- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 1218; query-locale URLs: 0; published article canonicals: 224.
+- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 1220; query-locale URLs: 0; published article canonicals: 224.
 
 - [Binance Spot API WebSocket Reconnect and CancelReplace Checklist](https://nexualpha.com/news/binance-spot-api-websocket-reconnect-checklist) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: Binance published a Spot API update notice on June 25, 2026 for an infrastructure upgrade scheduled for July 9, 2026 at 07:00 UTC with an expected one-hour duration.; official/source citations: 4.
 - [Binance vs Kraken Order Failover and Cancel-Control Checklist](https://nexualpha.com/news/binance-vs-kraken-order-failover-cancel-controls) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: Binance and Kraken expose different order-failover controls, so the comparison should start with the failure mode rather than the brand.; official/source citations: 4.

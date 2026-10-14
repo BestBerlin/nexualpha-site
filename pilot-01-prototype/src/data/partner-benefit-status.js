@@ -9,6 +9,8 @@ import { HOME_REBATE_SHARE, HOME_AUTO_SETTLE, HOME_SETTLE } from "./home-rebate-
 
 /** Date the site owner confirmed the partner programme terms (shares + settlement) — the "benefit terms confirmed" date. */
 export const PARTNER_TERMS_CONFIRMED_ON = "2026-10-10";
+/** Venues whose terms were confirmed later than the first batch (owner 2026-10-14: HTX up to 40%). */
+const CONFIRMED_ON_BY_VENUE = Object.freeze({ htx: "2026-10-14" });
 
 /** What the exchange still confirms per account after sign-up (the share is each programme's maximum). */
 export const ACCOUNT_LEVEL_CHECKS = Object.freeze(["product-scope", "region", "account-tier", "promotion-stacking"]);
@@ -28,7 +30,7 @@ export function partnerBenefitStatus(slug) {
     share,
     sharePct: Math.round(share * 100),
     basis: "partner-terms-confirmed-by-site-owner",
-    confirmedOn: PARTNER_TERMS_CONFIRMED_ON,
+    confirmedOn: CONFIRMED_ON_BY_VENUE[s] || PARTNER_TERMS_CONFIRMED_ON,
     autoSettle: HOME_AUTO_SETTLE.includes(s),
     settle: HOME_SETTLE[s] || null,
     accountChecks: ACCOUNT_LEVEL_CHECKS,

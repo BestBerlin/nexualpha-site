@@ -29,6 +29,7 @@ import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import { FACTS_AS_OF } from "../src/data/exchange-facts.js";
+import { homeHeroEnabled } from "../src/data/home-hero-experiment.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
@@ -585,7 +586,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // so a visitor the worker assigns to B gets complete SSR HTML from the same fast path (no request-time render, no
       // client swap). Only the worker's assignment (experimentRegistry.home_hero_copy_v1.enabled) ever serves it.
       let heroVariants;
-      if (pathname === "/") {
+      if (pathname === "/" && homeHeroEnabled()) {
         const htmlB = stripReactResourceHints(await render(url, { heroVariant: "b", ...noticeState }));
         if (!/<h1\b/i.test(htmlB) || !htmlB.includes('data-hero-variant="b"')) throw new Error(`Missing hero variant B prerender: ${url}`);
         const assetB = `/prerender/${locale}/home-hero-b.json`;

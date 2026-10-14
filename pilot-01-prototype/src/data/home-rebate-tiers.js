@@ -7,7 +7,8 @@ import { partnerRegistry } from "./partner-registry.js";
 export const HOME_REBATE_MAX_PCT = 60; // owner 2026-10-10: Bitget up to 60% is the top partner tier; per-venue shares differ and are disclosed per row
 // Owner 2026-10-10: these are each program's MAXIMUM shares (OKX up to 40%, Binance up to 25%, Bitget up to 60%); the
 // home shows them as "up to" and estimates with them.
-export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.4, binance: 0.25, bitget: 0.6, bybit: null });
+// Owner 2026-10-14: HTX up to 40% confirmed (code nexu888, partner-registry.js). Not auto-settled: no HOME_AUTO_SETTLE entry.
+export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.4, binance: 0.25, bitget: 0.6, htx: 0.4, bybit: null });
 export const HOME_VENUES = Object.freeze(orderVenues(Object.keys(HOME_REBATE_SHARE)));
 // Display order for registry-derived partner routes. The set and count still come from partnerRegistry: venues with
 // placeholder invite codes or missing HTTPS registration routes fail closed before they can appear on the home page.

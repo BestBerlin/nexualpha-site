@@ -94,7 +94,7 @@ export const QA_MANIFEST = Object.freeze({
       desk: "#h7-desk",
       tabs: "#h7-desk .hx-tab",
       rebateDigits: "#h7-desk .hx-rate-n",
-      rebatePercentSign: "#h7-desk .hx-rate-pct",
+      rebatePercentSign: "#h7-desk .hx-rate-pct", // hero v3: the currency glyph ("$") of the dollar figure
       code: "#h7-desk .hx-code code",
       heroCta: "#h7-desk a.h7-lg-go",
       headline: ".h7-hero h1",
