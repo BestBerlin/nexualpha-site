@@ -3,6 +3,8 @@ dist/
 .private/
 .context-excluded/
 .openai/
+!pilot-01-prototype/.openai/
+!pilot-01-prototype/.openai/hosting.json
 .env
 .env.*
 *.env
@@ -16,3 +18,6 @@ __pycache__/
 # Local beginner-path verification evidence and out-of-scope radar preview.
 .beginner-evidence/
 ops/beginner-path/radar.preview.mjs
+.audit/
+/audit-*.log
+/audit-area-5-seo-index-report.json

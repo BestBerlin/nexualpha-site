@@ -100,7 +100,7 @@ test("assignment: stable cookie, 50/50 draw, crawlers always A without a cookie"
   for (const userAgent of BOT_UAS) {
     assert.ok(isHomeHeroBot(userAgent), userAgent);
     const result = assignHomeHeroVariant({ ...on, userAgent, cookieHeader: `${HOME_HERO_COOKIE}=b`, random: () => 0.9 });
-    assert.equal(result.variant, "a", `crawler gets control: ${userAgent}`);
+    assert.equal(result.variant, /HeadlessChrome/.test(userAgent) ? "b" : "a", `browser mode preserves the cookie; named crawlers get control: ${userAgent}`);
     assert.equal(result.setCookie, null);
     assert.equal(homeHeroClickContext({ ...on, userAgent, cookieHeader: `${HOME_HERO_COOKIE}=b` }), null);
   }
@@ -183,8 +183,9 @@ test("worker, experiment running: B visitors get the B prerender, private + Vary
   for (const ua of BOT_UAS) {
     const bot = await fetchHome("/", { ua, cookie: "nx_hero=b", force: "on" });
     const html = await bot.text();
-    assert.equal(rootInnerHtml(html), rendered["en:a"], `crawler sees A: ${ua}`);
-    assert.equal(prerenderState(html).heroVariant, "a");
+    const variant = /HeadlessChrome/.test(ua) ? "b" : "a";
+    assert.equal(rootInnerHtml(html), rendered[`en:${variant}`], `browser context / named crawler: ${ua}`);
+    assert.equal(prerenderState(html).heroVariant, variant);
     assert.equal(bot.headers.get("set-cookie"), null);
   }
 
@@ -292,4 +293,17 @@ test("v2 analytics events on home routes carry the variant (collector-valid) and
   const report = summarize(rows);
   const split = Object.fromEntries(report.byExperiment.filter((row) => row.experiment === HOME_HERO_EXPERIMENT_ID).map((row) => [row.variant, row.referralClicks]));
   assert.deepEqual(split, { a: 0, b: 1 });
+});
+
+test("HeadlessChrome and Chrome serve byte-identical home HTML for the same experiment context", async () => {
+  const headless = HUMAN_UA.replace("Chrome/", "HeadlessChrome/");
+  for (const pathname of ["/", "/id-id"]) for (const variant of ["a", "b"]) {
+    for (const options of [{ cookie: `nx_hero=${variant}`, force: "on" }, { force: variant }]) {
+      const human = await fetchHome(pathname, { ua: HUMAN_UA, ...options });
+      const automated = await fetchHome(pathname, { ua: headless, ...options });
+      assert.equal(await automated.text(), await human.text(), `${pathname} ${JSON.stringify(options)}`);
+      assert.equal(automated.headers.get("x-nexualpha-hero-variant"), variant);
+    }
+  }
+  assert.equal(homeHeroClickContext({ userAgent: headless, cookieHeader: "nx_hero=b", force: "on" }), null, "browser audit visits remain excluded from analytics");
 });

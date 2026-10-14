@@ -21,6 +21,7 @@ import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import { localeKey, zhText, localePending, LocalLink } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
+import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
 
 const porUi = (locale, venueName) => ({
   ja: {
@@ -870,7 +871,9 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
 function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePercent, localizedVenueName, claimsVerified = false }) {
   const isZh = locale && (locale.startsWith("zh") || locale === "zh-Hans" || locale === "zh-Hant");
   const telegramUi = telegramLocaleUi[locale] || telegramLocaleUi[String(locale || "").split("-")[0]] || {};
-  const telegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market, locale, product, campaign: "venue_monitor" });
+  const telegramReturnNow = useHydratedTelegramReturnNow();
+  const telegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market, locale, product, campaign: "venue_monitor", ...telegramReturnClockOption(telegramReturnNow) });
+  const telegramReturnHref = hydratedTelegramReturnHref(telegramFunnel.returnHref, telegramReturnNow);
 
   return (
     <section className="v2-section v3-tg-monitor-section" id="telegram-monitor">
@@ -909,7 +912,7 @@ function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePer
             data-growth-market={market}
             data-growth-product={product}
             data-telegram-start={telegramFunnel.startPayload}
-            data-telegram-return-href={telegramFunnel.returnHref}
+            data-telegram-return-href={telegramReturnHref}
           >
             <span className="v3-tg-paperplane">✈</span>
             <span>{isZh ? zhText(locale, "在 Telegram 中监控此交易所费率与返佣 ↗", "在 Telegram 中監控此交易所費率與返傭 ↗") : (telegramUi.monitor || "Monitor Venue on Telegram ↗")}</span>
@@ -930,7 +933,7 @@ function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePer
 }
 
 
-export function VenueDetailResearch({ annualSavings, codeFeedback, commercialClaim, copy, db, detailLabels, handleCopyCode, heroTelegramFunnel, invitationSummary, inviteCode, isZhLocale, kycSummary, locale, localizedVenueName, market, maxLev, metricText, nonCexResearchActions, officialDomain, partner, porRatio, porVerified, priorityAnswer, product, profile, profileChapters, quickRegistration, rebatePercent, reviewedSpotRate, routeUi, runtimeUi, setTradeVolume, spotFeeDisplay, telegramDetailUi, text, tradeVolume, venue, venueCta, venueDirectAnswer, venueDirectAnswerDetails, visibleBenefitText }) {
+export function VenueDetailResearch({ annualSavings, codeFeedback, commercialClaim, copy, db, detailLabels, handleCopyCode, heroTelegramFunnel, heroTelegramReturnHref, invitationSummary, inviteCode, isZhLocale, kycSummary, locale, localizedVenueName, market, maxLev, metricText, nonCexResearchActions, officialDomain, partner, porRatio, porVerified, priorityAnswer, product, profile, profileChapters, quickRegistration, rebatePercent, reviewedSpotRate, routeUi, runtimeUi, setTradeVolume, spotFeeDisplay, telegramDetailUi, text, tradeVolume, venue, venueCta, venueDirectAnswer, venueDirectAnswerDetails, visibleBenefitText }) {
   return <>
   {!priorityAnswer && venueDirectAnswer && (
     <section className="v3-profile-research-chapter v3-profile-answer-conditions" data-profile-task="conditions">
@@ -1025,7 +1028,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
         />
         <div className="v3-detail-calc__result">
           <span>{annualSavings != null ? (isZhLocale ? `使用 ${inviteCode} 专属码开户，每年可额外节省约` : runtimeUi.calculatorBenefit(inviteCode)) : (isZhLocale ? "费率或用户权益尚未完成来源核验，最终条件以平台官方账户显示为准" : runtimeUi.calculatorPending)}</span>
-          <strong className="text-green" translate="no">{annualSavings == null ? "N/A" : `+${annualSavings} USDT`}</strong>
+          {annualSavings != null && <strong className="text-green" translate="no">{`+${annualSavings} USDT`}</strong>}
         </div>
       </div>
       <VenueTieredFeeMatrix
@@ -1114,7 +1117,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
         data-growth-market={market}
         data-growth-product={product}
         data-telegram-start={heroTelegramFunnel.startPayload}
-        data-telegram-return-href={heroTelegramFunnel.returnHref}
+        data-telegram-return-href={heroTelegramReturnHref}
       >
         <span className="v3-tg-icon-mini">✈</span>
         <span>{isZhLocale ? zhText(locale, "在 Telegram 监控此交易所 ↗", "在 Telegram 監控此交易所 ↗") : (telegramDetailUi.monitor || "Monitor on Telegram ↗")}</span>

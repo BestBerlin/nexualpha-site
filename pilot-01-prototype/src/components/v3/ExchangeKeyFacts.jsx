@@ -3,6 +3,7 @@ import { exchangeKeyFacts } from "../../data/exchange-key-facts.js";
 import { feePair } from "../../data/exchange-facts.js";
 import { licenseCopy } from "../../data/licenses.js";
 import { outboundLink } from "../../data/exchange-outbound.js";
+import { exchangeKeyFactLabels } from "../../data/exchange-key-facts-copy.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 
 const titles = { en: "Key facts", "zh-Hans": "关键事实", "zh-Hant": "關鍵事實", es: "Datos clave", "pt-BR": "Dados essenciais", fr: "Faits clés", de: "Wichtige Fakten", ja: "主な事実", ko: "주요 정보", tr: "Temel bilgiler", ru: "Основные сведения", ar: "حقائق أساسية", id: "Fakta utama", vi: "Thông tin chính", it: "Dati principali", ur: "اہم حقائق", uk: "Основні факти" };
@@ -11,7 +12,7 @@ export function ExchangeKeyFacts({ slug, locale = "en", market }) {
   if (!sheet?.rows.length) return null;
   const licenses = licenseCopy(locale);
   const matrix = matrixCopy(locale);
-  const labels = { "source-context": matrix.platform, "product-scope": matrix.products, "spot-fees": `${matrix.spot} (${matrix.maker})`, "perp-fees": `${matrix.perp} (${matrix.maker})`, apps: "iOS / Android", "proof-of-reserves": "Proof of reserves", "kyc-reference": "KYC / eligibility", "deposit-methods": "Deposit methods" };
+  const labels = { "source-context": matrix.platform, "product-scope": matrix.products, "spot-fees": `${matrix.spot} (${matrix.maker})`, "perp-fees": `${matrix.perp} (${matrix.maker})`, apps: "iOS / Android", ...exchangeKeyFactLabels(locale) };
   const display = (row) => {
     const v = row.value;
     if (row.id.endsWith("-fees")) return `${feePair(v.maker, v.taker, locale)} — ${v.scope}`;

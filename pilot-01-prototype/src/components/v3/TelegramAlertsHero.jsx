@@ -1,9 +1,5 @@
-// /telegram first screen (owner 2026-10-10): the page sells the bot's alerts, not a research hub. One static sample
-// message (clearly labelled as a sample, same structure as the bot's liquidation card), four subscriber benefits
-// (custom /alert rules, /alerts topics, 21:00 SGT digest, campaigns + Monday tool of the week), the live commands
-// (syntax accepted by ops/alert-sender/alert-triggers.mjs), one primary "Open the bot" deep link (?start=alerts-<lang>)
-// and the channels (zh / en / ru) and Mini App as secondary routes. All times are SGT.
-// Honest by construction: no subscriber counts, no invented metrics; the sample names its Binance + OKX public source.
+// /telegram leads with the bot's actual command syntax, topics, opt-in links and SGT schedule.
+// The deep audit forbids placeholder figures, so this guide does not invent a liquidation record.
 import { TELEGRAM_ALERTS_URL, telegramAlertsUrl } from "./news/NewsTelegramAlerts.jsx";
 import { TELEGRAM_ENTRIES, telegramCopy } from "../v7/home7-telegram.jsx";
 
@@ -12,16 +8,11 @@ export const MINI_APP_URL = "https://app.nexualpha.com/";
 // Live bot commands, in the order of each locale's `cmds` labels. Syntax must stay parseable by alert-triggers.mjs.
 export const TELEGRAM_ALERT_COMMANDS = Object.freeze(["/alert btc > 70000", "/alert eth < 2500", "/alert sol 5%", "/alert liq 50m", "/alert funding btc 0.1%", "/alert listing binance", "/alert list", "/alerts", "/stop"]);
 
-// The sample is one fixed, invented-but-plausible event. Figures are placeholders and are labelled as a sample.
-export const SAMPLE_ALERT = Object.freeze({ symbol: "BTCUSDT", amount: "$1.28M", exchange: "Binance USDT-M", time: "22:32 SGT", window: 15 });
 
 const COPY = {
   en: {
     h1: "Your own crypto alerts, a daily digest and exchange campaigns, in Telegram",
     sub: "Tell the bot what to watch: a price level, a fast move, a liquidation wave, extreme funding or a new listing. It messages you the moment it happens and sends a daily digest at 21:00 SGT.",
-    sampleLabel: "Sample message",
-    sampleNote: "Static example of the message format. Figures are placeholders.",
-    card: { title: "Liquidation flush", asset: "Asset", side: "Side", long: "Longs liquidated", amount: "Liquidated", exchange: "Venue", window: (m) => `Last ${m} min`, time: "Time", source: "Source: Binance + OKX public data" },
     topicsTitle: "What the bot sends",
     topics: [
       ["Custom alerts", "Up to 10 rules of your own with /alert: price levels, 1h moves, liquidations, funding and new listings."],
@@ -40,9 +31,6 @@ const COPY = {
   "zh-Hans": {
     h1: "自定义行情提醒、每日简报和交易所活动，都在 Telegram",
     sub: "告诉机器人你要盯什么：价格关口、急涨急跌、爆仓、资金费率极值或新币上线，触发时立刻私信你。每日简报 21:00 SGT 送达。",
-    sampleLabel: "示例消息",
-    sampleNote: "消息格式的静态示例，数字为占位。",
-    card: { title: "合约大额爆仓", asset: "标的", side: "方向", long: "多头爆仓", amount: "清算金额", exchange: "平台", window: (m) => `近 ${m} 分钟`, time: "时间", source: "数据源：Binance + OKX 公开数据" },
     topicsTitle: "机器人会推送什么",
     topics: [
       ["自定义提醒", "用 /alert 设置最多 10 条自己的规则：价格关口、1 小时波动、爆仓、资金费率和新币上线。"],
@@ -61,9 +49,6 @@ const COPY = {
   "zh-Hant": {
     h1: "自訂行情提醒、每日簡報和交易所活動，都在 Telegram",
     sub: "告訴機器人你要盯什麼：價格關口、急漲急跌、爆倉、資金費率極值或新幣上線，觸發時立刻私訊你。每日簡報 21:00 SGT 送達。",
-    sampleLabel: "示例訊息",
-    sampleNote: "訊息格式的靜態示例，數字為佔位。",
-    card: { title: "合約大額爆倉", asset: "標的", side: "方向", long: "多頭爆倉", amount: "清算金額", exchange: "平台", window: (m) => `近 ${m} 分鐘`, time: "時間", source: "資料來源：Binance + OKX 公開資料" },
     topicsTitle: "機器人會推送什麼",
     topics: [
       ["自訂提醒", "用 /alert 設定最多 10 條自己的規則：價格關口、1 小時波動、爆倉、資金費率和新幣上線。"],
@@ -82,9 +67,6 @@ const COPY = {
   es: {
     h1: "Tus propias alertas cripto, un resumen diario y campañas de exchanges, en Telegram",
     sub: "Dile al bot qué vigilar: un nivel de precio, un movimiento rápido, una ola de liquidaciones, funding extremo o un nuevo listado. Te escribe en cuanto ocurre y envía un resumen diario a las 21:00 SGT.",
-    sampleLabel: "Mensaje de ejemplo",
-    sampleNote: "Ejemplo estático del formato. Las cifras son de muestra.",
-    card: { title: "Liquidación masiva", asset: "Activo", side: "Lado", long: "Largos liquidados", amount: "Liquidado", exchange: "Exchange", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fuente: datos públicos de Binance + OKX" },
     topicsTitle: "Qué envía el bot",
     topics: [
       ["Alertas a tu medida", "Hasta 10 reglas propias con /alert: niveles de precio, movimientos en 1 h, liquidaciones, funding y nuevos listados."],
@@ -103,9 +85,6 @@ const COPY = {
   "pt-BR": {
     h1: "Seus próprios alertas cripto, um resumo diário e campanhas de corretoras, no Telegram",
     sub: "Diga ao bot o que acompanhar: um nível de preço, um movimento rápido, uma onda de liquidações, funding extremo ou uma nova listagem. Ele avisa na hora e envia um resumo diário às 21:00 SGT.",
-    sampleLabel: "Mensagem de exemplo",
-    sampleNote: "Exemplo estático do formato. Os números são ilustrativos.",
-    card: { title: "Liquidação em massa", asset: "Ativo", side: "Lado", long: "Longs liquidados", amount: "Liquidado", exchange: "Corretora", window: (m) => `Últimos ${m} min`, time: "Hora", source: "Fonte: dados públicos da Binance + OKX" },
     topicsTitle: "O que o bot envia",
     topics: [
       ["Alertas personalizados", "Até 10 regras suas com /alert: níveis de preço, movimentos em 1 h, liquidações, funding e novas listagens."],
@@ -124,9 +103,6 @@ const COPY = {
   fr: {
     h1: "Vos propres alertes crypto, un point quotidien et les campagnes des plateformes, sur Telegram",
     sub: "Dites au bot quoi surveiller : un niveau de prix, un mouvement rapide, une vague de liquidations, un funding extrême ou un nouveau listing. Il vous écrit dès que ça arrive et envoie un point quotidien à 21:00 SGT.",
-    sampleLabel: "Exemple de message",
-    sampleNote: "Exemple statique du format. Les chiffres sont fictifs.",
-    card: { title: "Vague de liquidations", asset: "Actif", side: "Sens", long: "Longs liquidés", amount: "Liquidé", exchange: "Plateforme", window: (m) => `${m} dernières min`, time: "Heure", source: "Source : données publiques Binance + OKX" },
     topicsTitle: "Ce que le bot envoie",
     topics: [
       ["Alertes sur mesure", "Jusqu’à 10 règles à vous avec /alert : niveaux de prix, mouvements sur 1 h, liquidations, funding et nouveaux listings."],
@@ -145,9 +121,6 @@ const COPY = {
   de: {
     h1: "Eigene Krypto-Alarme, ein tägliches Briefing und Börsenaktionen in Telegram",
     sub: "Sagen Sie dem Bot, was er beobachten soll: eine Preismarke, eine schnelle Bewegung, eine Liquidationswelle, extremes Funding oder ein neues Listing. Er meldet sich sofort und schickt um 21:00 SGT ein tägliches Briefing.",
-    sampleLabel: "Beispielnachricht",
-    sampleNote: "Statisches Beispiel des Formats. Zahlen sind Platzhalter.",
-    card: { title: "Liquidationswelle", asset: "Asset", side: "Seite", long: "Longs liquidiert", amount: "Liquidiert", exchange: "Börse", window: (m) => `Letzte ${m} Min`, time: "Zeit", source: "Quelle: öffentliche Daten von Binance + OKX" },
     topicsTitle: "Was der Bot sendet",
     topics: [
       ["Eigene Alarme", "Bis zu 10 eigene Regeln mit /alert: Preismarken, 1h-Bewegungen, Liquidationen, Funding und neue Listings."],
@@ -166,9 +139,6 @@ const COPY = {
   it: {
     h1: "I tuoi avvisi cripto, un riepilogo giornaliero e le campagne degli exchange, su Telegram",
     sub: "Di’ al bot cosa tenere d’occhio: un livello di prezzo, un movimento rapido, un’ondata di liquidazioni, funding estremo o un nuovo listing. Ti scrive appena succede e invia un riepilogo giornaliero alle 21:00 SGT.",
-    sampleLabel: "Messaggio di esempio",
-    sampleNote: "Esempio statico del formato. Le cifre sono segnaposto.",
-    card: { title: "Ondata di liquidazioni", asset: "Asset", side: "Lato", long: "Long liquidati", amount: "Liquidato", exchange: "Exchange", window: (m) => `Ultimi ${m} min`, time: "Ora", source: "Fonte: dati pubblici Binance + OKX" },
     topicsTitle: "Cosa invia il bot",
     topics: [
       ["Avvisi personalizzati", "Fino a 10 regole tue con /alert: livelli di prezzo, movimenti in 1 h, liquidazioni, funding e nuovi listing."],
@@ -187,9 +157,6 @@ const COPY = {
   ja: {
     h1: "自分だけの価格アラート、毎日のダイジェスト、取引所キャンペーンを Telegram で",
     sub: "見張りたいものをボットに伝えるだけ：価格ライン、急変動、清算の波、資金調達率の極値、新規上場。起きた瞬間にお知らせし、毎日 21:00 SGT にダイジェストを届けます。",
-    sampleLabel: "サンプルメッセージ",
-    sampleNote: "メッセージ形式の静的な例です。数値はダミーです。",
-    card: { title: "大口清算", asset: "銘柄", side: "方向", long: "ロング清算", amount: "清算額", exchange: "取引所", window: (m) => `直近 ${m} 分`, time: "時刻", source: "データ：Binance + OKX 公開データ" },
     topicsTitle: "ボットが送るもの",
     topics: [
       ["カスタムアラート", "/alert で最大 10 件の自分のルール：価格ライン、1 時間の変動、清算、資金調達率、新規上場。"],
@@ -208,9 +175,6 @@ const COPY = {
   ko: {
     h1: "나만의 코인 알림, 데일리 다이제스트, 거래소 이벤트를 텔레그램으로",
     sub: "봇에게 지켜볼 것을 알려 주세요: 가격대, 급등락, 청산 물결, 극단적 펀딩비, 신규 상장. 발생하는 즉시 알려 드리고 매일 21:00 SGT에 다이제스트를 보냅니다.",
-    sampleLabel: "샘플 메시지",
-    sampleNote: "메시지 형식의 정적 예시입니다. 숫자는 예시값입니다.",
-    card: { title: "대량 청산", asset: "자산", side: "방향", long: "롱 청산", amount: "청산 금액", exchange: "거래소", window: (m) => `최근 ${m}분`, time: "시간", source: "출처: Binance + OKX 공개 데이터" },
     topicsTitle: "봇이 보내는 것",
     topics: [
       ["맞춤 알림", "/alert로 최대 10개의 나만의 규칙: 가격대, 1시간 변동, 청산, 펀딩비, 신규 상장."],
@@ -229,9 +193,6 @@ const COPY = {
   ru: {
     h1: "Свои уведомления по крипторынку, ежедневная сводка и акции бирж в Telegram",
     sub: "Скажите боту, за чем следить: уровень цены, резкое движение, волна ликвидаций, экстремальный фандинг или новый листинг. Он напишет сразу, как это произойдёт, а в 21:00 SGT пришлёт ежедневную сводку.",
-    sampleLabel: "Пример сообщения",
-    sampleNote: "Статический пример формата. Цифры условные.",
-    card: { title: "Волна ликвидаций", asset: "Актив", side: "Сторона", long: "Ликвидированы лонги", amount: "Ликвидировано", exchange: "Биржа", window: (m) => `Последние ${m} мин`, time: "Время", source: "Источник: открытые данные Binance + OKX" },
     topicsTitle: "Что присылает бот",
     topics: [
       ["Свои уведомления", "До 10 собственных правил через /alert: уровни цены, движения за 1 ч, ликвидации, фандинг и новые листинги."],
@@ -250,9 +211,6 @@ const COPY = {
   tr: {
     h1: "Kendi kripto uyarıların, günlük özet ve borsa kampanyaları Telegram'da",
     sub: "Bota neyi izleyeceğini söyle: bir fiyat seviyesi, hızlı bir hareket, tasfiye dalgası, aşırı fonlama ya da yeni listeleme. Olduğu anda sana yazar ve her gün 21:00 SGT'de özet gönderir.",
-    sampleLabel: "Örnek mesaj",
-    sampleNote: "Biçimin statik örneği. Rakamlar temsilidir.",
-    card: { title: "Tasfiye dalgası", asset: "Varlık", side: "Yön", long: "Longlar tasfiye edildi", amount: "Tasfiye", exchange: "Borsa", window: (m) => `Son ${m} dk`, time: "Saat", source: "Kaynak: Binance + OKX açık verisi" },
     topicsTitle: "Bot ne gönderir",
     topics: [
       ["Kişisel uyarılar", "/alert ile en fazla 10 kendi kuralın: fiyat seviyeleri, 1 saatlik hareketler, tasfiyeler, fonlama ve yeni listelemeler."],
@@ -271,9 +229,6 @@ const COPY = {
   id: {
     h1: "Peringatan kripto versimu, ringkasan harian, dan kampanye bursa di Telegram",
     sub: "Beri tahu bot apa yang perlu dipantau: level harga, pergerakan cepat, gelombang likuidasi, funding ekstrem, atau listing baru. Bot langsung mengabarimu dan mengirim ringkasan harian pukul 21:00 SGT.",
-    sampleLabel: "Contoh pesan",
-    sampleNote: "Contoh statis format pesan. Angka hanya ilustrasi.",
-    card: { title: "Likuidasi massal", asset: "Aset", side: "Sisi", long: "Long dilikuidasi", amount: "Dilikuidasi", exchange: "Bursa", window: (m) => `${m} menit terakhir`, time: "Waktu", source: "Sumber: data publik Binance + OKX" },
     topicsTitle: "Apa yang dikirim bot",
     topics: [
       ["Peringatan kustom", "Hingga 10 aturanmu sendiri lewat /alert: level harga, pergerakan 1 jam, likuidasi, funding, dan listing baru."],
@@ -292,9 +247,6 @@ const COPY = {
   vi: {
     h1: "Cảnh báo crypto theo ý bạn, bản tin hằng ngày và sự kiện sàn trên Telegram",
     sub: "Cho bot biết cần theo dõi gì: mốc giá, biến động nhanh, làn sóng thanh lý, funding cực trị hay niêm yết mới. Bot báo ngay khi xảy ra và gửi bản tin hằng ngày lúc 21:00 SGT.",
-    sampleLabel: "Tin nhắn mẫu",
-    sampleNote: "Ví dụ tĩnh về định dạng tin nhắn. Số liệu chỉ để minh họa.",
-    card: { title: "Thanh lý hàng loạt", asset: "Tài sản", side: "Chiều", long: "Long bị thanh lý", amount: "Giá trị thanh lý", exchange: "Sàn", window: (m) => `${m} phút qua`, time: "Thời gian", source: "Nguồn: dữ liệu công khai Binance + OKX" },
     topicsTitle: "Bot gửi gì",
     topics: [
       ["Cảnh báo tùy chỉnh", "Tối đa 10 quy tắc của riêng bạn với /alert: mốc giá, biến động 1 giờ, thanh lý, funding và niêm yết mới."],
@@ -313,9 +265,6 @@ const COPY = {
   ar: {
     h1: "تنبيهات كريبتو خاصة بك، وموجز يومي، وحملات المنصات على تيليجرام",
     sub: "أخبر البوت بما يراقبه: مستوى سعر، أو تحرك سريع، أو موجة تصفية، أو تمويل متطرف، أو إدراج جديد. يراسلك فور حدوثه ويرسل موجزًا يوميًا في 21:00 SGT.",
-    sampleLabel: "رسالة نموذجية",
-    sampleNote: "مثال ثابت على شكل الرسالة. الأرقام توضيحية.",
-    card: { title: "موجة تصفية", asset: "الأصل", side: "الاتجاه", long: "تصفية مراكز شراء", amount: "قيمة التصفية", exchange: "المنصة", window: (m) => `آخر ${m} دقيقة`, time: "الوقت", source: "المصدر: بيانات عامة من Binance وOKX" },
     topicsTitle: "ما يرسله البوت",
     topics: [
       ["تنبيهات مخصصة", "حتى 10 قواعد خاصة بك عبر /alert: مستويات الأسعار، وتحركات ساعة، والتصفيات، والتمويل، والإدراجات الجديدة."],
@@ -338,9 +287,6 @@ COPY.ur = {
   ...COPY.en,
   h1: "اپنے کرپٹو الرٹس، روزانہ خلاصہ اور ایکسچینج مہمات Telegram میں",
   sub: "بوٹ کو بتائیں کس چیز پر نظر رکھنی ہے: قیمت کی سطح، تیز حرکت، لیکویڈیشن کی لہر، انتہائی فنڈنگ یا نئی لسٹنگ۔ ہوتے ہی پیغام بھیجتا ہے اور روزانہ 21:00 SGT پر خلاصہ بھیجتا ہے۔",
-  sampleLabel: "نمونہ پیغام",
-  sampleNote: "پیغام کے فارمیٹ کی جامد مثال۔ اعداد صرف جگہ رکھنے کے لیے ہیں۔",
-  card: { ...COPY.en.card, title: "لیکویڈیشن کی لہر", asset: "اثاثہ", side: "سمت", long: "لیکویڈ لانگ پوزیشنز", amount: "لیکویڈ رقم", exchange: "پلیٹ فارم", window: (m) => `گزشتہ ${m} منٹ`, time: "وقت", source: "ماخذ: Binance + OKX عوامی ڈیٹا" },
   topicsTitle: "بوٹ کیا بھیجتا ہے",
   topics: [
     ["اپنے الرٹس", "/alert سے اپنے 10 تک اصول: قیمت کی سطحیں، 1 گھنٹے کی حرکت، لیکویڈیشنز، فنڈنگ اور نئی لسٹنگز۔"],
@@ -361,9 +307,6 @@ COPY.uk = {
   ...COPY.en,
   h1: "Власні криптосповіщення, щоденний дайджест і кампанії бірж у Telegram",
   sub: "Скажіть боту, за чим стежити: рівень ціни, швидкий рух, хвиля ліквідацій, екстремальне фінансування чи новий лістинг. Він напише одразу, щойно це станеться, і надсилає щоденний дайджест о 21:00 SGT.",
-  sampleLabel: "Приклад повідомлення",
-  sampleNote: "Статичний приклад формату повідомлення. Числа є заповнювачами.",
-  card: { ...COPY.en.card, title: "Хвиля ліквідацій", asset: "Актив", side: "Сторона", long: "Ліквідовано довгі позиції", amount: "Ліквідовано", exchange: "Платформа", window: (m) => `Останні ${m} хв`, time: "Час", source: "Джерело: публічні дані Binance + OKX" },
   topicsTitle: "Що надсилає бот",
   topics: [
     ["Власні сповіщення", "До 10 власних правил через /alert: рівні ціни, рухи за 1 год, ліквідації, фінансування й нові лістинги."],
@@ -417,25 +360,14 @@ export function TelegramAlertsHero({ locale = "en", headingLevel = 1, heading = 
         <ol className="tg-signal-hero__topics">
           {t.topics.map(([name, desc]) => <li key={name}><strong>{name}</strong><span>{desc}</span></li>)}
         </ol>
-        <Sub className="tg-signal-hero__topics-title tg-signal-hero__cmds-title">{t.cmdTitle}</Sub>
-        <ul className="tg-signal-hero__cmds">
-          {TELEGRAM_ALERT_COMMANDS.map((cmd, i) => <li key={cmd}><code translate="no" dir="ltr">{cmd}</code><span>{t.cmds[i]}</span></li>)}
-        </ul>
       </div>
 
-      <figure className="tg-signal-sample" aria-label={t.sampleLabel}>
-        <figcaption className="tg-signal-sample__label"><span>{t.sampleLabel}</span><small>{t.sampleNote}</small></figcaption>
+      <figure className="tg-signal-sample" aria-label={t.cmdTitle}>
+        <figcaption className="tg-signal-sample__label"><span>{t.cmdTitle}</span><small>{t.primaryHint}</small></figcaption>
         <div className="tg-signal-sample__bubble" dir="auto">
-          <p className="tg-signal-sample__head"><span className="tg-signal-sample__sender">NexuAlpha Assistant</span><time>{SAMPLE_ALERT.time}</time></p>
-          <p className="tg-signal-sample__title">💥 {t.card.title}</p>
-          <dl className="tg-signal-sample__rows">
-            <div><dt>{t.card.asset}</dt><dd translate="no" lang="en" dir="ltr">{SAMPLE_ALERT.symbol}</dd></div>
-            <div><dt>{t.card.side}</dt><dd><span className="tg-signal-sample__side tg-signal-sample__side--long">{t.card.long}</span></dd></div>
-            <div><dt>{t.card.amount}</dt><dd translate="no" lang="en" dir="ltr">{SAMPLE_ALERT.amount}</dd></div>
-            <div><dt>{t.card.exchange}</dt><dd translate="no" lang="en" dir="ltr">{SAMPLE_ALERT.exchange}</dd></div>
-            <div><dt>{t.card.time}</dt><dd>{t.card.window(SAMPLE_ALERT.window)}</dd></div>
-          </dl>
-          <p className="tg-signal-sample__source">{t.card.source}</p>
+          <ul className="tg-signal-hero__cmds">
+            {TELEGRAM_ALERT_COMMANDS.map((cmd, i) => <li key={cmd}><code translate="no" dir="ltr">{cmd}</code><span>{t.cmds[i]}</span></li>)}
+          </ul>
         </div>
         <ul className="tg-signal-hero__secondary" aria-label={t.secondaryLabel}>
           {secondary.map((item) => (

@@ -13,6 +13,7 @@ import { applyCampaignBriefs } from "../../../data/campaign-briefs.js";
 import { activeOwnerCampaigns } from "../../../data/owner-campaigns.js";
 import { CampaignBriefFacts } from "../../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../../shared/useCampaignBriefs.js";
+import { startJsonPolling } from "../../shared/json-polling.js";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 import { localizedHref } from "../../../data/locale-routing.js";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../../data/binance-october.js";
@@ -57,13 +58,14 @@ const pick = (v, locale) => (v && typeof v === "object" ? v[locale] || (String(l
 function useCampaignFeed(initialFeed) {
   const [state, setState] = useState(() => ({ items: Array.isArray(initialFeed?.items) ? initialFeed.items : null, failed: false }));
   useEffect(() => {
-    let alive = true;
-    const load = () => fetch(FEED, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => { if (alive) setState({ items: Array.isArray(j?.items) ? j.items : [], failed: false }); })
-      .catch(() => { if (alive) setState((s) => ({ items: s.items, failed: !s.items })); });
-    load();
-    const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(id); };
+    return startJsonPolling({
+      request: FEED,
+      intervalMs: 5 * 60 * 1000,
+      cache: "no-cache",
+      isData: (j) => Boolean(j && typeof j === "object"),
+      onData: (j) => setState({ items: Array.isArray(j?.items) ? j.items : [], failed: false }),
+      onError: () => setState((s) => ({ items: s.items, failed: !s.items })),
+    });
   }, []);
   return state;
 }

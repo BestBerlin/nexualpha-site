@@ -38,8 +38,9 @@ import { ctaUiCopy, trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { formatPercent } from "../../data/format-percent.js";
-import { referralSeoFor, referralSharePercent } from "../../data/referral-seo.js";
+import { referralSeoFor } from "../../data/referral-seo.js";
 import { showFewerPlatforms, showMorePlatforms } from "../../data/plural-copy.js";
+import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
 import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, isoDates, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
@@ -99,24 +100,6 @@ const lastVerifiedLabel = (locale) => ({
   ur: "آخری تصدیق",
   uk: "Остання перевірка",
 }[locale] || "Last verified");
-const notYetVerifiedLabel = (locale) => ({
-  "zh-Hans": "尚未核验",
-  "zh-Hant": "尚未核驗",
-  es: "Aún no verificado",
-  "pt-BR": "Ainda não verificado",
-  fr: "Pas encore vérifié",
-  de: "Noch nicht geprüft",
-  ja: "未確認",
-  ko: "아직 확인되지 않음",
-  tr: "Henüz doğrulanmadı",
-  id: "Belum diverifikasi",
-  vi: "Chưa xác minh",
-  it: "Non ancora verificato",
-  ru: "Еще не проверено",
-  ar: "لم يتم التحقق بعد",
-  ur: "ابھی تصدیق نہیں ہوئی",
-  uk: "Ще не перевірено",
-}[locale] || "Not yet verified");
 // Popular coins on this exchange (2026-10-12): the 20 largest coins it lists, linking our "where to buy" pages.
 function VenuePopularCoins({ slug, name, locale }) {
   const coins = POPULAR_COINS_BY_VENUE[slug] || [];
@@ -580,10 +563,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   // Owner 2026-10-10 (GSC: exchange pages earn impressions, no clicks): the H1 carries the search intent, under the same
   // referral-title policy as the <title> (referral-seo.js: ru, ar and zh-Hant stay neutral; tr only for SPK-listed
   // venues). The invite code is the data-bound one from the CTA, never typed here.
-  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale, effectiveMarket) ? inviteCode : null;
+  const referralHeadline = hasReferral && inviteCode ? referralSeoFor(venue.slug, locale, effectiveMarket) : null;
   const nativeReferral = nativeReferralFor(venue.slug, locale, effectiveMarket);
-  const detailTitleStr = nativeReferral?.title || (referralHeadlineCode
-    ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear(), referralSharePercent(venue.slug))
+  const detailTitleStr = nativeReferral?.title || (referralHeadline
+    ? referralHeadline.title
     : text.detailFeesTitle(localizedVenueName));
   const [titleBefore, titleAfter] = detailTitleStr.includes(localizedVenueName)
     ? detailTitleStr.split(localizedVenueName)
@@ -658,7 +641,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const venueDirectAnswerCta = venueDirectAnswer?.registrationSlug
     ? regionalVenueCta(venueDirectAnswer.registrationSlug, locale, effectiveMarket, effectiveProduct, { accountStage: effectiveAccountStage, funding: effectiveFunding })
     : null;
-  const heroTelegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market: effectiveMarket, locale, product: effectiveProduct, campaign: "venue_hero_monitor" });
+  const telegramReturnNow = useHydratedTelegramReturnNow();
+  const heroTelegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market: effectiveMarket, locale, product: effectiveProduct, campaign: "venue_hero_monitor", ...telegramReturnClockOption(telegramReturnNow) });
+  const heroTelegramReturnHref = hydratedTelegramReturnHref(heroTelegramFunnel.returnHref, telegramReturnNow);
   const nonCexResearchActions = String(profile.category || venue.category || "").toUpperCase() === "CEX" ? [] : [
     similar[0] && {
       label: text.viewCompare,
@@ -855,9 +840,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               <span className="v3-domain-pill" translate="no">
                 <svg className="d5-lock" aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg> {officialDomain}
               </span>
-              <span className="v3-last-verified-pill">
-                {lastVerifiedLabel(locale)}: {lastVerified ? <><time dateTime={lastVerified}>{lastVerified}</time> SGT</> : notYetVerifiedLabel(locale)}
-              </span>
+              {lastVerified && <span className="v3-last-verified-pill">
+                {lastVerifiedLabel(locale)}: <time dateTime={lastVerified}>{lastVerified}</time> SGT
+              </span>}
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>
               {nativeReferral?.title ? nativeReferral.title : ownerQuestionTitle ? (
@@ -999,7 +984,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </summary>
         <div className="v3-profile-sources-group__body">
           {ResearchHub && <DeferUntilVisible target=".v3-profile-sources-group" interactionOnly prefetch={prefetchResearch}>
-            <ResearchHub annualSavings={annualSavings} codeFeedback={codeFeedback} commercialClaim={commercialClaim} copy={copy} db={db} detailLabels={detailLabels} handleCopyCode={handleCopyCode} heroTelegramFunnel={heroTelegramFunnel} invitationSummary={invitationSummary} inviteCode={inviteCode} isZhLocale={isZhLocale} kycSummary={kycSummary} locale={locale} localizedVenueName={localizedVenueName} market={effectiveMarket} maxLev={maxLev} metricText={metricText} nonCexResearchActions={nonCexResearchActions} officialDomain={officialDomain} partner={partner} porRatio={porRatio} porVerified={porVerified} priorityAnswer={priorityAnswer} product={effectiveProduct} profile={profile} profileChapters={profileChapters} quickRegistration={quickRegistration} rebatePercent={rebatePercent} reviewedSpotRate={reviewedSpotRate} routeUi={routeUi} runtimeUi={runtimeUi} setTradeVolume={setTradeVolume} spotFeeDisplay={spotFeeDisplay} telegramDetailUi={telegramDetailUi} text={text} tradeVolume={tradeVolume} venue={venue} venueCta={venueCta} venueDirectAnswer={venueDirectAnswer} venueDirectAnswerDetails={venueDirectAnswerDetails} visibleBenefitText={visibleBenefitText} />
+            <ResearchHub annualSavings={annualSavings} codeFeedback={codeFeedback} commercialClaim={commercialClaim} copy={copy} db={db} detailLabels={detailLabels} handleCopyCode={handleCopyCode} heroTelegramFunnel={heroTelegramFunnel} heroTelegramReturnHref={heroTelegramReturnHref} invitationSummary={invitationSummary} inviteCode={inviteCode} isZhLocale={isZhLocale} kycSummary={kycSummary} locale={locale} localizedVenueName={localizedVenueName} market={effectiveMarket} maxLev={maxLev} metricText={metricText} nonCexResearchActions={nonCexResearchActions} officialDomain={officialDomain} partner={partner} porRatio={porRatio} porVerified={porVerified} priorityAnswer={priorityAnswer} product={effectiveProduct} profile={profile} profileChapters={profileChapters} quickRegistration={quickRegistration} rebatePercent={rebatePercent} reviewedSpotRate={reviewedSpotRate} routeUi={routeUi} runtimeUi={runtimeUi} setTradeVolume={setTradeVolume} spotFeeDisplay={spotFeeDisplay} telegramDetailUi={telegramDetailUi} text={text} tradeVolume={tradeVolume} venue={venue} venueCta={venueCta} venueDirectAnswer={venueDirectAnswer} venueDirectAnswerDetails={venueDirectAnswerDetails} visibleBenefitText={visibleBenefitText} />
           </DeferUntilVisible>}
         </div>
       </details>

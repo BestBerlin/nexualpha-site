@@ -41,7 +41,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-AE-Dubai VARA",
+        "id": "license-ae-dubai-vara-binance-fze",
         "value": {
           "jurisdiction": "AE",
           "regulator": "Dubai VARA",
@@ -56,7 +56,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AE-ADGM FSRA",
+        "id": "license-ae-adgm-fsra-nest-exchange-limited",
         "value": {
           "jurisdiction": "AE",
           "regulator": "ADGM FSRA",
@@ -71,7 +71,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AE-ADGM FSRA",
+        "id": "license-ae-adgm-fsra-nest-clearing-and-custody-limited",
         "value": {
           "jurisdiction": "AE",
           "regulator": "ADGM FSRA",
@@ -86,7 +86,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AE-ADGM FSRA",
+        "id": "license-ae-adgm-fsra-fsp-dated-2026-01-05",
         "value": {
           "jurisdiction": "AE",
           "regulator": "ADGM FSRA",
@@ -101,7 +101,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-binance-services-latinoame-rica-s-a-de-c-v-s-s-e",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -116,7 +116,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-investbybit-pty-ltd",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -131,7 +131,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-IN-FIU-IND",
+        "id": "license-in-fiu-ind-fin-ance-parliamentary-answer",
         "value": {
           "jurisdiction": "IN",
           "regulator": "FIU-IND",
@@ -146,7 +146,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-binance-japan",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -161,7 +161,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TH-Securities and Exchange Commission Thailand",
+        "id": "license-th-securities-and-exchange-commission-thailand-gulf-binance-company-limited-binance-th-only",
         "value": {
           "jurisdiction": "TH",
           "regulator": "Securities and Exchange Commission Thailand",
@@ -176,7 +176,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-binance-turkey-kripto-varl-k-al-m-sat-m-platformu-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -267,7 +267,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-MT-MFSA",
+        "id": "license-mt-mfsa-fin-ancial-services-authority",
         "value": {
           "jurisdiction": "MT",
           "regulator": "MFSA",
@@ -282,7 +282,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-AE-Dubai VARA",
+        "id": "license-ae-dubai-vara-fin-tech-fze",
         "value": {
           "jurisdiction": "AE",
           "regulator": "Dubai VARA",
@@ -297,7 +297,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-fin-tech",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -312,7 +312,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-acn-145724509",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -327,7 +327,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-acn-636269040",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -342,7 +342,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Malta Financial Services Authority (MFSA)",
+        "id": "license-eu-malta-financial-services-authority-mfsa-okx-europe-limited",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Malta Financial Services Authority (MFSA)",
@@ -357,7 +357,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-HK-SFC",
+        "id": "license-hk-sfc-fin-tech-company-limited",
         "value": {
           "jurisdiction": "HK",
           "regulator": "SFC",
@@ -372,7 +372,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -387,7 +387,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-SG-MAS",
+        "id": "license-sg-mas-okx-sg-pte-ltd",
         "value": {
           "jurisdiction": "SG",
           "regulator": "MAS",
@@ -402,7 +402,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-okx-tr-kripto-varl-k-al-m-sat-m-platformu-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -492,7 +492,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-FR-AMF",
+        "id": "license-fr-amf-bybit-eu-gmbh",
         "value": {
           "jurisdiction": "FR",
           "regulator": "AMF",
@@ -507,7 +507,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-DE-BaFin",
+        "id": "license-de-bafin-bybit-eu-gmbh",
         "value": {
           "jurisdiction": "DE",
           "regulator": "BaFin",
@@ -522,7 +522,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-AT-FMA",
+        "id": "license-at-fma-lei-5299005v5gbsn2a4c303",
         "value": {
           "jurisdiction": "AT",
           "regulator": "FMA",
@@ -537,7 +537,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-luzpay-s-a",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -552,7 +552,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Austrian Financial Market Authority (FMA)",
+        "id": "license-eu-austrian-financial-market-authority-fma-bybit-eu-gmbh",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Austrian Financial Market Authority (FMA)",
@@ -567,7 +567,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-HK-SFC",
+        "id": "license-hk-sfc-fin-tech-limited",
         "value": {
           "jurisdiction": "HK",
           "regulator": "SFC",
@@ -582,7 +582,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-IN-FIU-IND",
+        "id": "license-in-fiu-ind-fin-tech-limited",
         "value": {
           "jurisdiction": "IN",
           "regulator": "FIU-IND",
@@ -597,7 +597,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-fin-tech-limited",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -612,7 +612,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-bybit-kripto-varl-k-al-m-sat-m-platformu-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -696,7 +696,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-btgt-innovacion-s-a",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -711,7 +711,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-btgt-aus-pty-ltd",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -726,7 +726,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-bitget-limited",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -741,7 +741,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-bitget-teknoloji-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -797,7 +797,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "license-FR-AMF",
+        "id": "license-fr-amf-coinbase-luxembourg-s-a",
         "value": {
           "jurisdiction": "FR",
           "regulator": "AMF",
@@ -812,7 +812,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-CY-CySEC",
+        "id": "license-cy-cysec-fin-ancial-services-europe-ltd",
         "value": {
           "jurisdiction": "CY",
           "regulator": "CySEC",
@@ -827,7 +827,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-LU-CSSF",
+        "id": "license-lu-cssf-lei-984500f14ca4571aac11",
         "value": {
           "jurisdiction": "LU",
           "regulator": "CSSF",
@@ -842,7 +842,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-coinbase-bermuda-services-limited",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -857,7 +857,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-coinbase-australia-pty-ltd",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -872,7 +872,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-CA-Canadian Securities Administrators (CSA)",
+        "id": "license-ca-canadian-securities-administrators-csa-coinbase-canada-inc",
         "value": {
           "jurisdiction": "CA",
           "regulator": "Canadian Securities Administrators (CSA)",
@@ -887,7 +887,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Commission de Surveillance du Secteur Financier (CSSF)",
+        "id": "license-eu-commission-de-surveillance-du-secteur-financier-cssf-coinbase-luxembourg-s-a",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Commission de Surveillance du Secteur Financier (CSSF)",
@@ -902,7 +902,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-IN-FIU-IND",
+        "id": "license-in-fiu-ind-coinbase-india-private-limited",
         "value": {
           "jurisdiction": "IN",
           "regulator": "FIU-IND",
@@ -917,7 +917,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-coinbase",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -932,7 +932,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-SG-MAS",
+        "id": "license-sg-mas-coinbase-singapore-pte-ltd",
         "value": {
           "jurisdiction": "SG",
           "regulator": "MAS",
@@ -947,7 +947,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-tasfiye-halinde-coinbase-turkey-yaz-l-m-teknolojileri-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -1031,7 +1031,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-FR-AMF",
+        "id": "license-fr-amf-payward-europe-solutions-limited-kraken-digital-asset-exchange",
         "value": {
           "jurisdiction": "FR",
           "regulator": "AMF",
@@ -1046,7 +1046,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-CY-CySEC",
+        "id": "license-cy-cysec-payward-europe-digital-solutions-cy-limited",
         "value": {
           "jurisdiction": "CY",
           "regulator": "CySEC",
@@ -1061,7 +1061,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-IE-Central Bank of Ireland",
+        "id": "license-ie-central-bank-of-ireland-lei-254900641d8knhuzyx24",
         "value": {
           "jurisdiction": "IE",
           "regulator": "Central Bank of Ireland",
@@ -1076,7 +1076,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-IE-Central Bank of Ireland",
+        "id": "license-ie-central-bank-of-ireland-lei-9845003d98scc2851458",
         "value": {
           "jurisdiction": "IE",
           "regulator": "Central Bank of Ireland",
@@ -1091,7 +1091,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-13"
       },
       {
-        "id": "license-AE-Dubai VARA",
+        "id": "license-ae-dubai-vara-payward-fzco",
         "value": {
           "jurisdiction": "AE",
           "regulator": "Dubai VARA",
@@ -1106,7 +1106,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AE-ADGM FSRA",
+        "id": "license-ae-adgm-fsra-payward-mena-holdings-limited",
         "value": {
           "jurisdiction": "AE",
           "regulator": "ADGM FSRA",
@@ -1121,7 +1121,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AR-CNV",
+        "id": "license-ar-cnv-payward-trading-ltd-sse",
         "value": {
           "jurisdiction": "AR",
           "regulator": "CNV",
@@ -1136,7 +1136,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-bit-trade-pty-limited",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -1151,7 +1151,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-CA-Canadian Securities Administrators (CSA)",
+        "id": "license-ca-canadian-securities-administrators-csa-payward-canada-inc-kraken",
         "value": {
           "jurisdiction": "CA",
           "regulator": "Canadian Securities Administrators (CSA)",
@@ -1166,7 +1166,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Central Bank of Ireland (CBI)",
+        "id": "license-eu-central-bank-of-ireland-cbi-payward-global-solutions-limited",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Central Bank of Ireland (CBI)",
@@ -1181,7 +1181,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Central Bank of Ireland (CBI)",
+        "id": "license-eu-central-bank-of-ireland-cbi-payward-europe-solutions-limited",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Central Bank of Ireland (CBI)",
@@ -1259,7 +1259,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-10"
       },
       {
-        "id": "license-AE-Dubai VARA",
+        "id": "license-ae-dubai-vara-gate-technology-fze",
         "value": {
           "jurisdiction": "AE",
           "regulator": "Dubai VARA",
@@ -1274,7 +1274,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-EU-Malta Financial Services Authority (MFSA)",
+        "id": "license-eu-malta-financial-services-authority-mfsa-gate-technology-limited",
         "value": {
           "jurisdiction": "EU",
           "regulator": "Malta Financial Services Authority (MFSA)",
@@ -1289,7 +1289,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-HK-SFC",
+        "id": "license-hk-sfc-gate-digital-limited",
         "value": {
           "jurisdiction": "HK",
           "regulator": "SFC",
@@ -1304,7 +1304,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-gate-japan",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -1319,7 +1319,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-gate-kripto-varl-k-al-m-sat-m-platformu-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -1415,7 +1415,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "license-AE-Dubai VARA",
+        "id": "license-ae-dubai-vara-mx-holdings-ltd",
         "value": {
           "jurisdiction": "AE",
           "regulator": "Dubai VARA",
@@ -1430,7 +1430,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-mexc-global",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",
@@ -1445,7 +1445,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
         "checkedOn": "2026-10-14"
       },
       {
-        "id": "license-TR-SPK",
+        "id": "license-tr-spk-mexc-kripto-varl-k-al-m-sat-m-platformu-as",
         "value": {
           "jurisdiction": "TR",
           "regulator": "SPK",
@@ -1497,7 +1497,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "license-HK-SFC",
+        "id": "license-hk-sfc-hbgl-hong-kong-limited",
         "value": {
           "jurisdiction": "HK",
           "regulator": "SFC",
@@ -1567,7 +1567,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "license-AU-AUSTRAC",
+        "id": "license-au-austrac-lct-holding-au-pty-ltd",
         "value": {
           "jurisdiction": "AU",
           "regulator": "AUSTRAC",
@@ -1683,7 +1683,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
-        "id": "license-JP-Japan FSA",
+        "id": "license-jp-japan-fsa-hashkey-japan",
         "value": {
           "jurisdiction": "JP",
           "regulator": "Japan FSA",

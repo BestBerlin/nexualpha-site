@@ -397,8 +397,9 @@ test("Telegram hub SSR does not expose transient return context as crawlable ons
   const { html } = JSON.parse(output);
   const onsiteHrefs = renderedHrefValues(html).filter((href) => href.startsWith("/"));
   assert.ok(onsiteHrefs.length > 10, "Telegram hub should render internal research links");
-  assert.ok(onsiteHrefs.some((href) => href.startsWith("/exchanges?")), "web-only return context should fall back to the clean directory");
-  assert.equal(onsiteHrefs.filter((href) => /(?:^|[?&])tg_[^=&]+=/.test(href)).length, 0);
+  assert.ok(onsiteHrefs.some((href) => href.startsWith("/exchanges#nxa-context?")), "research links should keep a clean platform-directory fallback with public fragment context");
+  assert.equal(onsiteHrefs.filter((href) => /(?:^|[?&])tg_[^=&]+=/.test(href)).length, 0, "SSR must not expose transient Telegram return params as crawlable onsite hrefs");
+  assert.equal((html.match(/data-telegram-return-href=/g) || []).length, 0, "SSR must not publish transient Telegram return href attributes before hydration");
 
   const botHrefs = renderedHrefValues(html).filter((href) => href.startsWith("https://t.me/NexuAlphaAssistantBot"));
   assert.ok(botHrefs.length >= 2, "Bot deep links should keep working");
@@ -486,18 +487,19 @@ test("anonymous resume renders localized five-key copy and preserves onsite cont
 
     assert.equal((html.match(/data-cta-placement="anonymous-decision-resume"/g)||[]).length,1,locale);
     if(locale!=="en") assert.doesNotMatch(html,/Continue later|Continue your last anonymous decision|Only market, product, scenario and route fields are restored|Continue last decision|Forget saved decision/,`${locale}: all five copy fields must avoid English fallback`);
-    const href = renderedHrefValues(html)[0].replaceAll("&amp;","&");
+    const href = renderedHrefValues(html).find((value) => value.includes("/exchanges/bitget")).replaceAll("&amp;","&");
     const url = new URL(href,"https://nexualpha.com");
     assert.match(url.pathname,/\/exchanges\/bitget$/,locale);
     const prefixes = {en:"", "zh-Hans":"/zh-hans", "zh-Hant":"/zh-hant", "pt-BR":"/pt-br", id:"/id-id"};
     assert.equal(url.pathname, `${prefixes[locale] ?? `/${locale}`}/exchanges/bitget`, locale);
     assert.match(html, /class="v3-telegram-return-banner__eyebrow">[^<]+<\/span>/, locale);
     assert.match(html, /<p>[^<]+<\/p>/, locale);
-    assert.equal(url.searchParams.get("market"),"BR",locale);
-    assert.equal(url.searchParams.get("product"),"spot",locale);
-    assert.equal(url.searchParams.get("account_stage"),"new_account",locale);
-    assert.equal(url.searchParams.get("funding"),"Pix",locale);
-    assert.equal(url.hash,"#registration-checklist",locale);
+    const resumeParams = new URLSearchParams(url.hash.split("?")[1] || "");
+    assert.equal(resumeParams.get("market"),"BR",locale);
+    assert.equal(resumeParams.get("product"),"spot",locale);
+    assert.equal(resumeParams.get("account_stage"),"new_account",locale);
+    assert.equal(resumeParams.get("funding"),"Pix",locale);
+    assert.equal(url.hash.startsWith("#registration-checklist"), true, locale);
     assert.doesNotMatch(href,/https?:|tg_|invite|referral|nexu888/,locale);
     assert.match(html,/<button[^>]*type="button"[^>]*class="v3-telegram-return-banner__clear"/,locale);
   }
@@ -518,9 +520,13 @@ test("inbound Telegram expiry cannot renew an overlong or fractional return wind
     assert.equal(result.status, "fallback", String(expiry));
     assert.equal(result.reason, "invalid_expiry");
     assert.equal(result.webOnly, true);
-    assert.match(result.href, /^\/ja\/exchanges\?/);
     const fallbackUrl = new URL(result.href, "https://nexualpha.com");
-    assert.equal(fallbackUrl.searchParams.get("market"), "JP");
+    assert.equal(fallbackUrl.pathname, "/ja/exchanges");
+    assert.equal(fallbackUrl.hash.startsWith("#nxa-context"), true);
+    const fallbackParams = new URLSearchParams(fallbackUrl.hash.split("?")[1] || "");
+    assert.equal(fallbackParams.get("market"), "JP");
+    assert.equal(fallbackParams.get("product"), "spot");
+    for (const key of fallbackParams.keys()) assert.equal(key.startsWith("tg_"), false);
     for (const key of fallbackUrl.searchParams.keys()) assert.equal(key.startsWith("tg_"), false);
     assert.equal(fallbackUrl.searchParams.has("utm_source"), false);
     assert.equal(fallbackUrl.searchParams.has("ref"), false);

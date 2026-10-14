@@ -117,6 +117,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       if (alertsRef.current.notify) notifyImportant(important, { label: t.important, hrefFor: (item) => hrefFor(item.path, locale, market) });
       if (alertsRef.current.sound) chime();
     };
+    if (feed?.unavailable) return undefined;
     return startJsonPolling({
       request: () => `${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: "30" })}`,
       intervalMs: FLASH_REFRESH_MS,
@@ -125,7 +126,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       shouldPoll: () => typeof document === "undefined" || document.visibilityState !== "hidden" || alertsRef.current.notify,
       onData: refresh,
     });
-  }, [locale, market, t.important]);
+  }, [feed?.unavailable, locale, market, t.important]);
 
   const toggleNotify = async () => {
     if (notify) { setNotify(false); writeFlashPref("notify", false); return; }
@@ -144,7 +145,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   const toggleImportant = async () => {
     const on = !importantOnly;
     setImportantOnly(on);
-    if (!on) return;
+    if (!on || feed?.unavailable) return;
     // Older important items may sit beyond the loaded page: fetch them once and merge (newest first, no duplicates).
     const data = await fetchFlash({ locale, limit: FLASH_PAGE_SIZE, important: 1 }).catch(() => null);
     if (!data?.items?.length) return;
@@ -163,6 +164,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
     listRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [pending]);
   const loadMore = async () => {
+    if (feed?.unavailable) return;
     const last = feed?.items?.[feed.items.length - 1];
     if (!last || loadingMore) return;
     setLoadingMore(true);
@@ -185,6 +187,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   }
   const freshVisible = pending.filter(matches).length;
   const blocked = permission === "denied" || permission === "unsupported";
+  const isUnavailable = Boolean(feed?.unavailable);
 
   return <main className="nxf nxf--stream" id="top" dir={dirOf(locale)}>
     <header className="nxf-hero">
@@ -230,7 +233,7 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       {groups.length ? groups.map((group) => <div className="nxf-day" key={group.key}>
         <h2 className="nxf-day__label"><time dateTime={group.key}>{dayLabel(group.key, locale)}</time></h2>
         <ol className="nxf-list">{group.items.map((item) => <StreamItem key={item.id} item={item} locale={locale} market={market} t={t} />)}</ol>
-      </div>) : <p className="nxf-empty">{feed ? t.empty : "…"}</p>}
+      </div>) : <p className="nxf-empty" data-status={isUnavailable ? "unavailable" : undefined}>{isUnavailable ? t.unavailable : feed ? t.empty : "…"}</p>}
       {feed?.hasMore && !type && !venue && !importantOnly ? <div className="nxf-more"><button type="button" className="nxf-btn" onClick={loadMore} disabled={loadingMore}>{t.loadMore}</button></div> : null}
     </section>
   </main>;
@@ -257,14 +260,23 @@ const LINK_LABEL = { update: "update", article: "article", liquidations: "liquid
 
 export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
   const t = flashUiCopy(locale);
-  const [data, setData] = useState(() => (initial?.kind === "item" && initial.item?.key === itemKey ? initial : null));
+  const [data, setData] = useState(() => (initial?.kind === "item" && (initial.item?.key === itemKey || (initial.unavailable && initial.itemKey === itemKey)) ? initial : null));
   useEffect(() => {
-    if (data?.item?.key === itemKey) return undefined;
+    if (data?.item?.key === itemKey || (data?.unavailable && data?.itemKey === itemKey)) return undefined;
     let off = false;
     fetchFlash({ locale, key: itemKey }).then((payload) => { if (!off && payload?.item) setData({ kind: "item", ...payload }); }).catch(() => {});
     return () => { off = true; };
   }, [data, itemKey, locale]);
   if (!data) return <main className="nxf nxf--item" id="top" dir={dirOf(locale)}><div className="v2-shell nxf-article"><p className="nxf-empty">…</p></div></main>;
+  if (data.unavailable && data.itemKey === itemKey) return <main className="nxf nxf--item" id="top" dir={dirOf(locale)}>
+    <div className="v2-shell nxf-layout">
+      <article className="nxf-article">
+        <a className="nxf-back" href={hrefFor("/flash", locale, market)}><span aria-hidden="true" className="nxf-back__arrow">←</span>{t.back}</a>
+        <h1 className="nxf-article__title">{t.h1}</h1>
+        <p className="nxf-empty" data-status="unavailable">{t.unavailableItem}</p>
+      </article>
+    </div>
+  </main>;
   const { item, related = [] } = data;
   const offerVenues = flashSignupVenues(item, { locale, market });
   const lang = item.lang !== locale ? item.lang : undefined;

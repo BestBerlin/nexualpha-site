@@ -5,6 +5,8 @@
 import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, appendFile, realpath, chmod, readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createCtaCollector } from './server/cta-collector.mjs';
@@ -186,7 +188,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } });
     },
   };
-  return createServer({ requestTimeout: 15000, headersTimeout: 10000 }, async (req, res) => {
+  const server = createServer({ requestTimeout: 15000, headersTimeout: 10000 }, async (req, res) => {
     const requestId = safeRequestId(req.headers['x-request-id']);
     let requestPath = '/site-page';
     try {
@@ -308,8 +310,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
       responseHeaders['x-request-id'] = requestId;
       res.writeHead(result.status, responseHeaders);
       if (req.method === 'HEAD' || !result.body) { res.end(); return; }
-      for await (const chunk of result.body) res.write(chunk);
-      res.end();
+      // Respect socket backpressure and cancel upstream work when the client disconnects.
+      await pipeline(Readable.fromWeb(result.body), res);
     } catch {
       await errorMonitor?.record({ requestId, route: requestPath,
         component: requestPath === '/api/analytics/cta' ? 'cta' : 'web',
@@ -320,6 +322,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } else res.destroy();
     }
   });
+  server.once('close', () => {
+    intel.stop();
+    funding.stop();
+    fx.stop();
+    pageCache?.clear();
+  });
+  return server;
 }
 
 // Re-reads a small fingerprint file at most every few seconds; missing file = empty fingerprint (cache still works).

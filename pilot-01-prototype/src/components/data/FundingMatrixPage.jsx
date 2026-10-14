@@ -9,6 +9,8 @@ import { fundingMatrixCopy } from "../../data/funding-matrix-copy.js";
 import { textDirection } from "./DataPageFrame.jsx";
 import "./funding-matrix.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
+import { startJsonPolling } from "../shared/json-polling.js";
+import { useClientNow } from "./useMarketEvents.js";
 
 export const FUNDING_MATRIX_PATH = "/funding-rates/matrix";
 const TURKEY_CTA_ALLOWLIST = new Set(["binance", "okx", "bybit"]);
@@ -226,24 +228,17 @@ export function FundingMatrixPage({ locale = "en", initialFeed, market }) {
   const dataCopy = dataPageCopy(locale);
   const initialMatrix = useMemo(() => normalizeFundingMatrixFeed(initialFeed), [initialFeed]);
   const [remoteMatrix, setRemoteMatrix] = useState(null);
-  const [clientNow, setClientNow] = useState(null);
+  const clientNow = useClientNow(true, 5 * 1000);
   useEffect(() => {
-    let stopped = false;
-    async function readMatrix() {
-      setClientNow(Date.now());
-      try {
-        const response = await fetch(FUNDING_MATRIX_FEED_PATH, { cache: "no-store" });
-        if (!response.ok) return;
-        const next = normalizeFundingMatrixFeed(await response.json());
-        if (!stopped) setRemoteMatrix(next);
-      } catch {
-        // Keep the server-rendered matrix until its TTL expires.
-      }
-    }
-    readMatrix();
-    const fetchId = setInterval(readMatrix, 60 * 1000);
-    const clockId = setInterval(() => setClientNow(Date.now()), 5 * 1000);
-    return () => { stopped = true; clearInterval(fetchId); clearInterval(clockId); };
+    return startJsonPolling({
+      request: FUNDING_MATRIX_FEED_PATH,
+      intervalMs: 60 * 1000,
+      immediate: true,
+      cache: "no-store",
+      isData: (value) => Boolean(normalizeFundingMatrixFeed(value)),
+      onData: (value) => setRemoteMatrix(normalizeFundingMatrixFeed(value)),
+      onError: () => { /* Keep the server-rendered matrix until its TTL expires. */ },
+    });
   }, []);
   const matrix = remoteMatrix || initialMatrix;
   const generatedMs = matrix?.generatedAt ? Date.parse(matrix.generatedAt) : NaN;

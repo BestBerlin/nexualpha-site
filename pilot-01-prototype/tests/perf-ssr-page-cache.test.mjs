@@ -155,3 +155,58 @@ test("the cache is bounded: the oldest entry is evicted past maxEntries", async 
   assert.equal(cache.has("https://nexualpha.com/exchanges?a=1"), false);
   assert.equal(cache.has("https://nexualpha.com/exchanges?a=3"), true);
 });
+
+
+test("private, no-store, cookie-setting and varying responses never enter the shared cache", async () => {
+  for (const extra of [{ 'cache-control': 'private, max-age=60' }, { 'cache-control': 'no-store' }, { 'cache-control': 'no-cache' }, { 'set-cookie': 'session=private' }, { vary: 'Cookie' }, { vary: '*' }]) {
+    const cache = createSsrPageCache();
+    let calls = 0;
+    const render = async () => new Response(`private-${++calls}`, { headers: { 'content-type': 'text/html', ...extra } });
+    const request = new Request('https://nexualpha.com/exchanges');
+    assert.equal(await (await cache.fetch(request, render)).text(), 'private-1');
+    assert.equal(await (await cache.fetch(request, render)).text(), 'private-2');
+    assert.equal(cache.stats().size, 0);
+  }
+});
+
+test("duplicate query values keep their order and different origins never share HTML", async () => {
+  assert.notEqual(ssrCacheKey(new URL('https://nexualpha.com/exchanges?locale=tr&locale=en')), ssrCacheKey(new URL('https://nexualpha.com/exchanges?locale=en&locale=tr')));
+  const { get, renders } = harness();
+  await get('https://nexualpha.com/exchanges');
+  await get('https://preview.example/exchanges');
+  assert.equal(renders.length, 2);
+});
+
+test("cache retention is bounded by bytes as well as entry count", async () => {
+  const cache = createSsrPageCache({ maxBytes: 10 });
+  const render = async () => html('123456');
+  for (let i = 0; i < 3; i++) await (await cache.fetch(new Request(`https://nexualpha.com/exchanges?i=${i}`), render)).text();
+  assert.equal(cache.stats().size, 1);
+  assert.equal(cache.stats().bytes, 6);
+  await (await cache.fetch(new Request('https://nexualpha.com/exchanges?large=1'), async () => html('12345678901'))).text();
+  assert.equal(cache.stats().bytes, 6);
+  cache.clear();
+  assert.equal(cache.stats().bytes, 0);
+});
+
+test("concurrent cookie-less crawler requests share one public render", async () => {
+  const cache = createSsrPageCache();
+  let renders = 0;
+  const render = async () => { renders++; await new Promise(resolve => setTimeout(resolve, 10)); return html('shared'); };
+  const responses = await Promise.all(Array.from({ length: 20 }, () => cache.fetch(new Request('https://nexualpha.com/exchanges'), render)));
+  assert.deepEqual(await Promise.all(responses.map(response => response.text())), Array(20).fill('shared'));
+  assert.equal(renders, 1);
+  assert.equal(cache.stats().pending, 0);
+});
+
+test("a failed concurrent render clears its pending slot for recovery", async () => {
+  const cache = createSsrPageCache();
+  const request = new Request('https://nexualpha.com/exchanges');
+  await assert.rejects(cache.fetch(request, async () => { throw new Error('render failed'); }), /render failed/);
+  assert.equal(cache.stats().pending, 0);
+  assert.equal(await (await cache.fetch(request, async () => html('recovered'))).text(), 'recovered');
+});
+
+test("partner-specific queries bypass the cache before HTML rewriting", async () => {
+  assert.equal(shouldBypassSsrCache(new Request('https://nexualpha.com/exchanges?p=partner')), true);
+});

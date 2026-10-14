@@ -216,6 +216,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Shared browser polling helper: ticker, flash, movers and radar routes all use it. If Rollup lets a deferred
           // home chunk absorb it, unrelated route preloads pick up home-below-fold and its data graph.
           if (!isSsrBuild && id.endsWith("/src/components/shared/json-polling.js")) return "shared-json-polling";
+          // These CSS-free hooks serve unrelated route graphs. Keep a consuming route from absorbing them and
+          // forcing calculator or deferred-home code into venue preloads.
+          if (!isSsrBuild && id.endsWith("/src/components/v3/telegram-return-hydration.js")) return "shared-telegram-return";
+          if (!isSsrBuild && id.endsWith("/src/components/data/useMarketEvents.js")) return "shared-market-events-client";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { appDownloadContent, appDownloadSignupAllowed } from "../../data/app-downloads.js";
 import { EXCHANGE_APKS, codeCopyLabels, exchangeApkCopy, exchangeApkHref } from "../../data/exchange-apk.js";
+import { formatDate } from "../../data/format-date.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import "./app-download.css";
 
@@ -19,6 +20,7 @@ export function AppDownloadPage({ slug, locale = "en", market, contextSearch = "
   if (!content) return null;
   const { app, partner, cta, copy, text, apk } = content;
   const signupAllowed = appDownloadSignupAllowed(slug, { locale, market });
+  const lastChecked = formatDate(locale, app.lastChecked);
   // Official channel APK through /go/<venue>-apk (OKX: binding built in; Binance: enter the code): only where sign-up CTAs show.
   const officialApk = EXCHANGE_APKS[slug] && signupAllowed ? exchangeApkCopy(slug, locale, cta.inviteCode) : null;
   return <main className="nx-app-download v2-page" dir={locale === "ar" || locale === "ur" ? "rtl" : "ltr"}>
@@ -45,6 +47,6 @@ export function AppDownloadPage({ slug, locale = "en", market, contextSearch = "
     </section>
     <section aria-labelledby="app-install"><h2 id="app-install">{copy.install}</h2><ol>{copy.steps.map((step) => <li key={step}>{step}</li>)}</ol></section>
     <section aria-labelledby="app-faq"><h2 id="app-faq">{copy.faq}</h2>{copy.faqs.map(({ q: question, a: answer }) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</section>
-    <section aria-labelledby="app-sources"><h2 id="app-sources">{copy.sources}</h2><ul>{app.sources.map((url) => <li key={url}><SourceLink locale={locale} href={url} rel="noopener noreferrer" target="_blank" dir="ltr">{url}</SourceLink></li>)}</ul><p>{copy.checked}: <time dateTime={app.lastChecked}>{app.lastChecked}</time></p></section>
+    <section aria-labelledby="app-sources"><h2 id="app-sources">{copy.sources}</h2><ul>{app.sources.map((url) => <li key={url}><SourceLink locale={locale} href={url} rel="noopener noreferrer" target="_blank" dir="ltr">{url}</SourceLink></li>)}</ul><p>{copy.checked}: <time dateTime={app.lastChecked}>{lastChecked || app.lastChecked}</time></p></section>
   </main>;
 }

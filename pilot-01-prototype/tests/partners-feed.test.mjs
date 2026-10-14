@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { HOME_PARTNERS } from "../src/data/home-rebate-tiers.js";
 import { partnerRegistry } from "../src/data/partner-registry.js";
+import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
+import { venueDatabase } from "../src/data/venue-database.js";
 import { VENUE_PRIORITY } from "../src/data/venue-priority.js";
 
 test("partner feed lists real invite routes with owner shares and cadence", () => {
@@ -33,4 +35,16 @@ test("partner feed lists real invite routes with owner shares and cadence", () =
   );
   assert.ok(!by.kucoin && !by.deribit && !by.gmx, "placeholder-code venues are not offered");
   assert.equal(f.maxSharePct, 60);
+});
+
+test("active referral venue rows stay aligned to the protected partner registry", () => {
+  for (const [slug, partner] of Object.entries(partnerRegistry)) {
+    const venue = venueDatabase[slug];
+    assert.ok(venue, `${slug} exists in venue database`);
+    const cta = publicCtaForVenue(slug, "en");
+    if (!partner.hasReferral || cta.actionGate || !cta.routeAvailable) continue;
+    assert.equal(venue.inviteCode ?? null, partner.inviteCode ?? null, `${slug} invite code`);
+    assert.equal(venue.registrationUrl ?? null, partner.registrationUrl ?? null, `${slug} registration URL`);
+    assert.equal(venue.officialDomain ?? null, partner.officialDomain ?? null, `${slug} official domain`);
+  }
 });

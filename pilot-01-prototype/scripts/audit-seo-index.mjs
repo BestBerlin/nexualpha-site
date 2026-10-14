@@ -11,7 +11,7 @@ import {
   renderSitemapPagesWithWorker,
 } from "./audit-internal-inlinks.mjs";
 import { parsePublicRoute } from "../src/data/locale-routing.js";
-import { metaDescriptionLimit, titleDisplayWidth } from "../src/data/meta-description.js";
+import { metaDescriptionLimit, titleBudgetForLocale, titleDisplayWidth } from "../src/data/meta-description.js";
 import { sitemapContentDates } from "./sitemap-content-dates.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -20,8 +20,6 @@ const defaultBaseUrl = "https://nexualpha.com";
 const unique = (values) => [...new Set(values.filter(Boolean))];
 const sample = (values, limit = 25) => values.slice(0, limit);
 const STATIC_LLMS_EXTENSIONS = new Set([".txt", ".json", ".csv", ".xml"]);
-const LATIN_TITLE_WIDTH_LIMIT = 70;
-const CJK_TITLE_WIDTH_LIMIT = 72;
 
 // Preserve the request URL: stripping a query, slash, or escape can hide a redirect.
 export function auditUrlKey(value, { baseUrl = defaultBaseUrl } = {}) {
@@ -278,8 +276,26 @@ function schemaTypes(page) {
     .map(String);
 }
 
-function isCjkLocale(locale) {
-  return /^(zh|ja|ko)(?:[-_]|$)/i.test(String(locale || ""));
+function jsonLdNodeHasDescriptiveShape(schema) {
+  if (!schema || typeof schema !== "object") return false;
+  return Boolean(
+    schema["@context"] ||
+    schema["@id"] ||
+    schema.url ||
+    schema.mainEntity ||
+    schema.mainEntityOfPage ||
+    schema.itemListElement ||
+    schema.headline ||
+    schema.name ||
+    schema.publisher ||
+    schema.author ||
+    schema.acceptedAnswer ||
+    schema.text ||
+    schema.image ||
+    schema.logo ||
+    schema.contentUrl ||
+    schema.distribution
+  );
 }
 
 function isInviteCodeYearTitle(title) {
@@ -398,6 +414,19 @@ function localeFromPath(pathname) {
   }[first] || (["es", "fr", "de", "ja", "ko", "ar", "tr", "ru", "vi", "it", "ur"].includes(first) ? first : "en");
 }
 
+function isCanonicalOwnerPage(page) {
+  const pagePath = page.path || page.canonicalPath;
+  return Boolean(
+    pagePath &&
+    page.responseStatus === 200 &&
+    !page.noindex &&
+    page.indexFollow !== false &&
+    page.canonicalPath === pagePath &&
+    page.canonicalHref &&
+    auditUrlKey(page.canonicalHref) === pagePath
+  );
+}
+
 function duplicateRows(pages, field) {
   const groups = new Map();
   for (const page of pages) {
@@ -505,9 +534,10 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
     if (!page.noindex && (!page.title || !page.description)) failures.push({ kind: "missing-search-metadata", path: pagePath });
     if (!page.noindex && page.title) {
       const locale = page.lang || localeFromPath(pagePath);
-      const titleLimit = isCjkLocale(locale) ? CJK_TITLE_WIDTH_LIMIT : LATIN_TITLE_WIDTH_LIMIT;
+      const titleLimit = titleBudgetForLocale(locale);
+      const length = page.title.length;
       const width = titleDisplayWidth(page.title);
-      if (width > titleLimit) failures.push({ kind: "title-over-budget", path: pagePath, locale, width, limit: titleLimit, title: page.title });
+      if (length > titleLimit) failures.push({ kind: "title-over-budget", path: pagePath, locale, length, width, limit: titleLimit, title: page.title });
       if (isInviteCodeYearTitle(page.title)) failures.push({ kind: "invite-code-year-title", path: pagePath, locale, title: page.title });
     }
     if (!page.noindex && page.description) {
@@ -523,8 +553,8 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
       for (const [index, schema] of nodes.entries()) {
         if (!schema || typeof schema !== "object") failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "not-object" });
         else if (!schema["@type"]) failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "missing-type" });
-        else if (!schema["@context"] && !schema["@id"] && !schema.url && !schema.itemListElement && !schema.mainEntity) {
-          failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "missing-context-or-identity" });
+        else if (!jsonLdNodeHasDescriptiveShape(schema)) {
+          failures.push({ kind: "jsonld-invalid-node", path: pagePath, index, reason: "missing-descriptive-shape" });
         }
       }
       const types = new Set(schemaTypes(page));
@@ -606,7 +636,7 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
   const indexableCorpus = pages.map((page) => ({
     ...page,
     locale: page.lang || localeFromPath(page.path || page.canonicalPath),
-  })).filter((page) => !page.noindex);
+  })).filter(isCanonicalOwnerPage);
   for (const row of duplicateRows(indexableCorpus, "title")) failures.push({ kind: "duplicate-title", ...row });
   for (const row of duplicateRows(indexableCorpus, "description")) failures.push({ kind: "duplicate-description", ...row });
 

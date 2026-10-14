@@ -140,6 +140,8 @@ test("index consistency validator catches adversarial SEO graph violations", () 
     page("/chain-a", { canonicalPath: "/chain-b", canonicalHref: "https://nexualpha.com/chain-b" }),
     page("/chain-b", { canonicalPath: "/chain-c", canonicalHref: "https://nexualpha.com/chain-c" }),
     page("/bad-title", { title: "2026 最新 OKX 邀请码与交易手续费核验指南", jsonLdErrors: [{ index: 1, error: "Unexpected token" }], jsonLdSchemas: [] }),
+    page("/bad-title-en-length", { title: "x".repeat(61) }),
+    page("/bad-title-cjk-length", { title: "日".repeat(33), lang: "ja" }),
     page("/bad-jsonld", { jsonLdSchemas: [{ index: 1, value: { "@context": "https://schema.org", name: "Missing type" } }] }),
     page("/bad-description", { description: "x".repeat(161) }),
     page("/news/bad-schema", { jsonLdSchemas: [{ index: 1, value: { "@context": "https://schema.org", "@type": "WebPage", url: "https://nexualpha.com/news/bad-schema" } }] }),
@@ -183,10 +185,48 @@ test("index consistency validator catches adversarial SEO graph violations", () 
   ]) {
     assert.ok(report.failuresByKind[kind] > 0, kind);
   }
+  const titleBudgetFailures = report.failures.filter((failure) => failure.kind === "title-over-budget");
+  assert.deepEqual(titleBudgetFailures.map((failure) => [failure.path, failure.length, failure.limit]), [
+    ["/bad-title-en-length", 61, 60],
+    ["/bad-title-cjk-length", 33, 32],
+  ]);
   const llmsReport = validateIndexConsistency({ pages: [page("/llms-target")], llms: { missingFiles: ["llms.txt"], missingStaticRefs: [{ path: "/missing.json" }], pageRefs: ["/llms-target", "/llms-missing"] } });
   assert.equal(llmsReport.failuresByKind["llms-file-missing"], 1);
   assert.equal(llmsReport.failuresByKind["llms-static-ref-missing"], 1);
   assert.equal(llmsReport.failuresByKind["llms-page-ref-not-rendered"], 1);
+});
+
+
+test("canonical aliases do not create duplicate metadata findings", () => {
+  const page = (path, overrides = {}) => ({
+    path,
+    canonicalPath: path,
+    canonicalHref: `https://nexualpha.com${path}`,
+    responseStatus: 200,
+    responseUrl: `https://nexualpha.com${path}`,
+    noindex: false,
+    indexFollow: true,
+    robots: "index,follow",
+    alternates: [],
+    title: `Title ${path}`,
+    description: `Description ${path}`,
+    lang: "en",
+    jsonLdSchemas: jsonLdFor(path),
+    jsonLdErrors: [],
+    ...overrides,
+  });
+  const report = validateIndexConsistency({
+    pages: [
+      page("/alias", { title: "Canonical alias title", description: "Canonical alias description" }),
+      page("/alias?locale=en", { canonicalPath: "/alias", canonicalHref: "https://nexualpha.com/alias", title: "Canonical alias title", description: "Canonical alias description" }),
+      page("/owner-a", { title: "True duplicate owner", description: "True duplicate owner description" }),
+      page("/owner-b", { title: "True duplicate owner", description: "True duplicate owner description" }),
+    ],
+  });
+  assert.equal(report.failuresByKind["duplicate-title"], 1);
+  assert.equal(report.failuresByKind["duplicate-description"], 1);
+  assert.deepEqual(report.samples["duplicate-title"][0].paths, ["/owner-a", "/owner-b"]);
+  assert.deepEqual(report.samples["duplicate-description"][0].paths, ["/owner-a", "/owner-b"]);
 });
 
 

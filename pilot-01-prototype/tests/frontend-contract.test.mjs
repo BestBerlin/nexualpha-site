@@ -325,10 +325,11 @@ test("venue Telegram handoff preserves market context and records distinct place
   assert.match(v3Pages, /data-cta-placement="venue-hero-telegram"/);
   assert.match(v3Pages, /data-cta-placement="venue-telegram-monitor"/);
   assert.match(v3Pages, /data-growth-placement="venue-telegram"/);
-  assert.match(v3Pages, /data-telegram-return-href=\{heroTelegramFunnel\.returnHref\}/);
+  assert.match(v3Pages, /data-telegram-return-href=\{heroTelegramReturnHref\}/);
   assert.match(v3Pages, /<VenueTelegramMonitorSection[\s\S]*market=\{market\}/);
   assert.match(v3Pages, /<VenueTelegramMonitorSection[\s\S]*product=\{product\}/);
-  assert.match(v3Pages, /data-telegram-return-href=\{telegramFunnel\.returnHref\}/);
+  assert.match(v3Pages, /data-telegram-return-href=\{telegramReturnHref\}/);
+  assert.match(v3Pages, /useHydratedTelegramReturnNow/);
   const profileSummaryRule = v3Css.match(/\.v3-profile-page \.v3-venue-summary \{([^}]*)\}/)?.[1];
   assert.ok(profileSummaryRule, "existing precise mobile profile summary rule remains");
   assert.match(profileSummaryRule, /display: block;/);
@@ -355,7 +356,8 @@ test("Wave23 onsite Bot handoff is visible on priority pages without registratio
   assert.match(onsiteTelegramHandoff, /data-telegram-market=\{context\.market\}/);
   assert.match(onsiteTelegramHandoff, /data-telegram-locale=\{context\.locale\}/);
   assert.match(onsiteTelegramHandoff, /data-telegram-product=\{context\.product\}/);
-  assert.match(onsiteTelegramHandoff, /data-telegram-return-href=\{funnel\.returnHref\}/);
+  assert.match(onsiteTelegramHandoff, /data-telegram-return-href=\{telegramReturnHref\}/);
+  assert.match(onsiteTelegramHandoff, /const telegramReturnHref = returnNow === null \? undefined : funnel\.returnHref/);
   assert.match(onsiteTelegramHandoff, /data-growth-decision="onsite_bot_handoff_launch"/);
   assert.match(onsiteTelegramHandoff, /data-telegram-review-cadence="24h-7d"/);
   assert.match(onsiteTelegramHandoff, /data-telegram-anonymous-metrics=\{handoff\?\.measurement\?\.policy \|\| "anonymous onsite Telegram handoff clicks only;/);

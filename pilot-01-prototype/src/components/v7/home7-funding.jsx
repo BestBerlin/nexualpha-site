@@ -8,6 +8,8 @@ import { withoutTurkeyUnlistedVenueFeed } from "../../data/partner-geo-policy.js
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { reduced } from "./home7-shared.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
+import { startJsonPolling } from "../shared/json-polling.js";
+import { useClientNow } from "../data/useMarketEvents.js";
 
 const COPY = {
   en: { h: "Live funding rates", sub: "Perpetual funding across six exchanges, refreshed every 5 minutes. Lower is cheaper for longs.", venue: "Exchange", rate: "Rate / period", apr: "Annualised", next: "Next funding", every: (h) => `every ${h}h`, note: "Positive: longs pay shorts. Negative: shorts pay longs. Annualised = rate × periods per year, for comparison only.", asOf: (d) => `Read from the exchanges' public APIs at ${d}` },
@@ -40,23 +42,21 @@ const countdown = (ms, seconds = true) => { if (!(ms > 0)) return "—"; const s
 function useFunding(initialFeed) {
   const [feed, setFeed] = useState(() => (initialFeed?.venues ? initialFeed : null));
   useEffect(() => {
-    let alive = true;
-    const load = () => fetch(FUNDING_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : null))
-      // A refresh with no usable rows keeps the board on screen (the section used to vanish on a transient empty read).
-      .then((j) => { if (!alive) return; if (j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)) setFeed(j); })
-      .catch(() => {});
-    load();
-    const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(id); };
+    return startJsonPolling({
+      request: FUNDING_PATH,
+      intervalMs: 5 * 60 * 1000,
+      cache: "no-cache",
+      // An empty refresh keeps the last board on screen.
+      isData: (j) => Boolean(j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)),
+      onData: setFeed,
+    });
   }, []);
   return feed;
 }
 
 function useTick(renderedAt) {
-  const [now, setNow] = useState(() => Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
-  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), reduced() ? 60 * 1000 : 1000); return () => clearInterval(id); }, []);
-  return now;
+  const now = useClientNow();
+  return now ?? (Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
 }
 
 export function FundingBoard({ locale, initialFeed }) {

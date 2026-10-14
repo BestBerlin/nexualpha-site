@@ -537,7 +537,7 @@ function HomeResearchDrawer({ locale }) {
   </details>;
 }
 
-function routeState(venues, initialUrl) {
+export function routeState(venues, initialUrl) {
   const sourceUrl = initialUrl
     ? new URL(initialUrl, "https://nexualpha.com")
     : (typeof window !== "undefined" ? new URL(window.location.href) : null);

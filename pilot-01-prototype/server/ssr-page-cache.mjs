@@ -20,23 +20,27 @@ export function isDirectoryPath(pathname) {
 }
 
 export function ssrCacheKey(url) {
-  const params = [...url.searchParams.entries()].sort(([a, va], [b, vb]) => (a === b ? va.localeCompare(vb) : a.localeCompare(b)));
+  const params = [...url.searchParams.entries()].sort(([a], [b]) => a.localeCompare(b));
   return `${url.pathname}?${params.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("&")}`;
 }
 
 export function shouldBypassSsrCache(request) {
   if (request.method !== "GET" && request.method !== "HEAD") return true;
+  if (new URL(request.url).searchParams.has("p")) return true;
   return BYPASS_HEADERS.some((name) => request.headers.has(name));
 }
 
 export function createSsrPageCache({
   ttlMs = DEFAULT_SSR_CACHE_TTL_MS,
   maxEntries = 256,
+  maxBytes = 32 * 1024 * 1024,
   now = Date.now,
   shouldCache = isDirectoryPath,
   fingerprint = () => "",
 } = {}) {
   const entries = new Map();
+  const pending = new Map();
+  let bytes = 0;
   const stats = { hits: 0, misses: 0, bypasses: 0, stores: 0, evictions: 0 };
 
   const withHeader = (response, state) => {
@@ -45,15 +49,22 @@ export function createSsrPageCache({
     return new Response(response.body, { status: response.status, headers });
   };
 
+  const remove = (key) => {
+    const entry = entries.get(key);
+    if (entry) bytes -= entry.body.byteLength;
+    entries.delete(key);
+  };
   const prune = () => {
     const limit = now();
-    for (const [key, entry] of entries) if (entry.expiresAt <= limit) entries.delete(key);
-    while (entries.size > maxEntries) {
-      // Map iteration is insertion-ordered: the oldest entry goes first.
-      entries.delete(entries.keys().next().value);
+    for (const [key, entry] of entries) if (entry.expiresAt <= limit) remove(key);
+    while (entries.size > maxEntries || bytes > maxBytes) {
+      remove(entries.keys().next().value);
       stats.evictions += 1;
     }
   };
+  const fromEntry = (entry, method, state) => withHeader(new Response(method === "HEAD" ? null : entry.body, {
+    status: 200, headers: entry.headers,
+  }), state);
 
   /**
    * @param {Request} request
@@ -66,34 +77,57 @@ export function createSsrPageCache({
       stats.bypasses += 1;
       return render(request);
     }
-    const version = String(await fingerprint());
-    const key = ssrCacheKey(url);
-    const cached = entries.get(key);
-    const current = now();
-    if (cached && cached.expiresAt > current && cached.version === version) {
-      stats.hits += 1;
-      return withHeader(new Response(request.method === "HEAD" ? null : cached.body, { status: 200, headers: cached.headers }), "hit");
-    }
-    if (cached) entries.delete(key);
-    stats.misses += 1;
-    const response = await render(request);
-    const contentType = response.headers.get("content-type") || "";
-    // HEAD answers have no body to keep; GET pages are stored only when they are successful HTML documents.
-    if (request.method !== "GET" || response.status !== 200 || !contentType.includes("text/html")) return response;
-    const body = new Uint8Array(await response.arrayBuffer());
-    const headers = new Headers(response.headers);
-    headers.delete("content-length");
-    headers.delete(SSR_CACHE_HEADER);
-    entries.set(key, { body, headers, version, expiresAt: current + ttlMs });
-    stats.stores += 1;
     prune();
-    return withHeader(new Response(body, { status: 200, headers }), "miss");
+    const version = String(await fingerprint());
+    const key = `${url.origin}|${ssrCacheKey(url)}`;
+    const cached = entries.get(key);
+    if (cached && cached.version === version) {
+      stats.hits += 1;
+      return fromEntry(cached, request.method, "hit");
+    }
+    if (cached) remove(key);
+    // Wait only for a response proven public. Private responses and render failures are never shared.
+    const flightKey = `${key}|${version}`;
+    const flight = pending.get(flightKey);
+    if (flight) {
+      const entry = await flight;
+      if (entry) { stats.hits += 1; return fromEntry(entry, request.method, "hit"); }
+      return fetch(request, render);
+    }
+    if (request.method === "HEAD" || pending.size >= maxEntries) return render(request);
+    stats.misses += 1;
+    let finish;
+    pending.set(flightKey, new Promise(resolve => { finish = resolve; }));
+    try {
+      const response = await render(request);
+      const contentType = response.headers.get("content-type") || "";
+      const control = response.headers.get("cache-control") || "";
+      if (response.status !== 200 || !contentType.includes("text/html")
+        || /(?:^|,)\s*(?:private|no-store|no-cache)(?:\s*(?:=|,|$))/i.test(control)
+        || response.headers.has("set-cookie") || response.headers.has("vary")) return response;
+      const body = new Uint8Array(await response.arrayBuffer());
+      const headers = new Headers(response.headers);
+      headers.delete("content-length");
+      headers.delete(SSR_CACHE_HEADER);
+      if (body.byteLength > maxBytes) return new Response(body, { status: 200, headers });
+      const entry = { body, headers, version, expiresAt: now() + ttlMs };
+      remove(key);
+      entries.set(key, entry);
+      bytes += body.byteLength;
+      stats.stores += 1;
+      prune();
+      finish(entry);
+      return fromEntry(entry, request.method, "miss");
+    } finally {
+      pending.delete(flightKey);
+      finish(null);
+    }
   }
 
   return {
     fetch,
-    stats: () => ({ ...stats, size: entries.size }),
-    clear: () => entries.clear(),
-    has: (url) => { const entry = entries.get(ssrCacheKey(new URL(url))); return Boolean(entry && entry.expiresAt > now()); },
+    stats: () => ({ ...stats, size: entries.size, bytes, pending: pending.size }),
+    clear: () => { entries.clear(); bytes = 0; },
+    has: (url) => { const entry = entries.get(`${new URL(url).origin}|${ssrCacheKey(new URL(url))}`); return Boolean(entry && entry.expiresAt > now()); },
   };
 }

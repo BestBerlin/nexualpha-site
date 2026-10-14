@@ -1,0 +1,13 @@
+{
+  "name": "nexualpha-site",
+  "description": "NexuAlpha static assets with the bundled Sites worker entrypoint.",
+  "build": {
+    "command": "npm run build",
+    "output": "dist"
+  },
+  "worker": {
+    "entrypoint": "server/index.js"
+  },
+  "secrets": [],
+  "environment": {}
+}

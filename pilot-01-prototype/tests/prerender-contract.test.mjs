@@ -10,6 +10,7 @@ import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { parsePublicRoute } from "../src/data/locale-routing.js";
+import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const indexHtml = await readFile(path.join(root, "dist", "client", "index.html"), "utf8");
@@ -22,6 +23,12 @@ const prerenderManifest = await readFile(path.join(root, "dist", "client", "prer
 const newsFeed = await readFile(path.join(root, "dist", "client", "content", "news-feed.json"), "utf8");
 const articles = normalizeNewsFeed(JSON.parse(newsFeed));
 const newsFeedFingerprint = createHash("sha256").update(newsFeed).digest("hex");
+
+
+let harness;
+test.before(async () => { harness = await createSsrHarness(); });
+test.after(async () => { await harness?.close(); });
+const runtimeEnv = () => ({ ASSETS: assets, NEWS_SSR_RENDER: (href, options) => harness.render(href, options) });
 
 const assets = {
   fetch: async (request) => {
@@ -175,14 +182,9 @@ test("worker serves the Mexico decision route set with localized metadata", asyn
   }
 });
 
-test("worker prerenders Taiwan and redirects the retired Indonesia prefix", async () => {
+test("worker prerenders Taiwan and Indonesia country roots", async () => {
   for (const [pathname, locale, localizedCopy] of [["/tw", "zh-Hant", />交易所</], ["/id", "id", />Bursa</]]) {
-    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
-    if (pathname === "/id") {
-      assert.equal(response.status, 301);
-      assert.equal(response.headers.get("location"), "https://nexualpha.com/id-id");
-      continue;
-    }
+    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), runtimeEnv());
     const html = await response.text();
     const textHtml = html.replace(/<!--\s*-->/g, "");
     const statePayload = html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
@@ -236,11 +238,11 @@ test("worker prerenders Spanish MX owners and explicit English display documents
   }
 });
 
-test("worker redirects retired Japan and Korea prefixes to canonical locale homes", async () => {
-  for (const [pathname, canonical] of [["/jp", "/ja"], ["/kr", "/ko"]]) {
-    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
+test("worker keeps country roots renderable and redirects deeper retired aliases", async () => {
+  for (const [pathname, canonical] of [["/id/exchanges/binance", "/id-id/exchanges/binance"], ["/jp/exchanges/binance", "/ja/exchanges/binance"], ["/kr/exchanges/binance", "/ko/exchanges/binance"]]) {
+    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}?src=legacy`, { headers: { accept: "text/html" } }), { ASSETS: assets });
     assert.equal(response.status, 301, pathname);
-    assert.equal(response.headers.get("location"), `https://nexualpha.com${canonical}`);
+    assert.equal(response.headers.get("location"), `https://nexualpha.com${canonical}?src=legacy`);
   }
 });
 
@@ -258,12 +260,7 @@ test("regional JP KR and Türkiye routes ship full SSR with delayed hydration bu
     assert.equal(parsedRoute.localeSource, expectedRoute.localeSource, `${pathname}: locale source`);
     assert.equal(parsedRoute.isCountryRoute, expectedRoute.isCountryRoute, `${pathname}: country route classification`);
 
-    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets });
-    if (pathname === "/jp" || pathname === "/kr") {
-      assert.equal(response.status, 301, `${pathname}: retired prefix`);
-      assert.equal(response.headers.get("location"), `https://nexualpha.com/${expectedRoute.locale}`);
-      continue;
-    }
+    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), runtimeEnv());
     const html = await response.text();
     const statePayload = html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
     const state = statePayload ? JSON.parse(statePayload) : null;

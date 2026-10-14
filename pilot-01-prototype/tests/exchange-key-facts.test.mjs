@@ -17,6 +17,7 @@ test("sheets reuse checked fees and regulator records and omit unknown fields", 
     const sheet = exchangeKeyFacts(slug);
     assert.deepEqual(sheet, buildExchangeKeyFacts(slug), "snapshot matches existing source data");
     assert.ok(sheet.rows.length, `${slug} needs at least one sourced row`);
+    assert.equal(new Set(sheet.rows.map(row => row.id)).size, sheet.rows.length, `${slug} row ids must be unique for React hydration`);
     for (const row of sheet.rows) {
       assert.ok(row.sourceUrls.length);
       assert.match(row.checkedOn, /^\d{4}-\d{2}-\d{2}$/);
@@ -33,6 +34,11 @@ test("sheets reuse checked fees and regulator records and omit unknown fields", 
     }
   }
   assert.ok(!exchangeKeyFacts("mexc").rows.some(row => row.id.endsWith("-fees")));
+  const okxAustracLicenseIds = exchangeKeyFacts("okx").rows
+    .filter(row => row.id.startsWith("license-au-austrac"))
+    .map(row => row.id)
+    .sort();
+  assert.deepEqual(okxAustracLicenseIds, ["license-au-austrac-acn-145724509", "license-au-austrac-acn-636269040"]);
   assert.ok(exchangeKeyFacts("backpack").rows.some(row => row.id === "product-scope"));
   assert.equal(exchangeKeyFacts("unknown"), null);
 });
@@ -142,4 +148,19 @@ test("SSR table includes citations and dated values, respects locale attribution
     for (const locale of ["ru", "ar", "zh-Hant", "ur", "uk", "vi"]) assert.doesNotMatch(pages[locale], /href=|\/go\//);
     assert.equal(pages.bitgetTr, "");
   } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+
+test('key-fact interface labels cover all site locales without leaking English fallbacks', async () => {
+  const { exchangeKeyFactLabels } = await import('../src/data/exchange-key-facts-copy.js');
+  const { LOCALE_PREFIX_BY_CODE } = await import('../src/data/locale-routing.js');
+  const en = exchangeKeyFactLabels('en');
+  for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) {
+    const labels = exchangeKeyFactLabels(locale);
+    assert.deepEqual(Object.keys(labels), Object.keys(en), locale);
+    for (const key of Object.keys(en)) {
+      assert.ok(labels[key], `${locale}/${key}`);
+      if (locale !== 'en') assert.notEqual(labels[key], en[key], `${locale}/${key}`);
+    }
+  }
 });

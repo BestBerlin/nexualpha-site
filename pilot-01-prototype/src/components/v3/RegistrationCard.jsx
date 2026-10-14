@@ -14,6 +14,7 @@ import { bleedCopyFeedback } from "../../data/trading-bleed-feedback.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
 import { trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { ownerRebateLine, partnerBenefitParts } from "../../data/owner-rebate-line.js";
+import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
 import "./registration-card.css";
 
 const passportLabels = Object.freeze({
@@ -825,8 +826,10 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
     ? `/go/${venueSlug}?src=registration-card-official-route`
     : null;
   const compareHref = localizedHref(`/exchanges?${directoryContextSearch({ market, product, locale, accountStage, funding })}`, { locale });
-  const telegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venueSlug, market, locale, product, campaign: "registration_card_monitor" });
+  const telegramReturnNow = useHydratedTelegramReturnNow();
+  const telegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venueSlug, market, locale, product, campaign: "registration_card_monitor", ...telegramReturnClockOption(telegramReturnNow) });
   const telegramHref = telegramFunnel.deepLink;
+  const telegramReturnHref = hydratedTelegramReturnHref(telegramFunnel.returnHref, telegramReturnNow);
   const visiblePartner = {
     ...partner,
     officialDomain: partner.officialDomain || publicCta.officialDomain || fallbackDomain || "",
@@ -1093,7 +1096,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                   <a href={compareHref} data-cta-kind="research" data-cta-placement="registration-card-compare">
                     {copy.continueCompare || "Continue comparison"}
                   </a>
-                  {registrationDecision.state !== "blocked" && <a href={telegramHref} target="_blank" rel="noopener noreferrer" data-cta-kind="telegram" data-cta-placement="registration-card-telegram-research" data-growth-market={market} data-growth-product={product} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramFunnel.returnHref}>
+                  {registrationDecision.state !== "blocked" && <a href={telegramHref} target="_blank" rel="noopener noreferrer" data-cta-kind="telegram" data-cta-placement="registration-card-telegram-research" data-growth-market={market} data-growth-product={product} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramReturnHref}>
                     {copy.telegramResearch || "Ask Telegram research bot ↗"}
                   </a>}
                 </div>

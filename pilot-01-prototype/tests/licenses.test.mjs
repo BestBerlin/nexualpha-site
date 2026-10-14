@@ -3,7 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 const require_jsdom = () => JSDOM;
-import { licenseRecords, LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseCopy, licenseTitle, licenseAnswer, licenseSchemas, licenseRecordsForCountry } from '../src/data/licenses.js';
+import { licenseRecords, LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseCopy, licenseTitle, licenseAnswer, licenseSchemas, licenseRecordsForCountry, licenseCountryName } from '../src/data/licenses.js';
 import { licenseRouteSeo, licenseSitemapEntries } from '../src/data/licenses-seo.js';
 import { localizedPath } from '../src/data/locale-routing.js';
 import { parseLicensesPath } from '../src/data/licenses-routes.js';
@@ -41,6 +41,20 @@ test('all search locales have localized titles, answer and schema', () => {
     const schemas = licenseSchemas(undefined, locale, 'https://nexualpha.com/licenses');
     assert.ok(schemas.some(schema => schema['@type'] === 'Dataset'));
     assert.ok(schemas.some(schema => schema['@type'] === 'FAQPage'));
+  }
+});
+
+test('Hong Kong license country labels do not depend on runtime Intl.DisplayNames wording', () => {
+  const OriginalDisplayNames = Intl.DisplayNames;
+  try {
+    Intl.DisplayNames = class {
+      of(code) { return code === 'HK' ? 'DIVERGENT_RUNTIME_HK_LABEL' : code; }
+    };
+    assert.equal(licenseCountryName('hong-kong', 'ar'), 'هونغ كونغ');
+    assert.equal(licenseCountryName('hong-kong', 'ur'), 'ہانگ کانگ');
+    assert.equal(licenseCountryName('hong-kong', 'en'), 'Hong Kong');
+  } finally {
+    Intl.DisplayNames = OriginalDisplayNames;
   }
 });
 test('commercial routes fail closed for negative status, restricted countries, neutral Chinese and Türkiye exceptions', () => {

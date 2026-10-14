@@ -78,8 +78,29 @@ const UI = {
   // l10n: needs native review
   uk: { nav: "Флеш", live: "Наживо", h1: "Крипто-флеш: новини бірж і ринку наживо", lead: "Лістинги, делістинги, акції бірж, сплески ліквідацій, різкі рухи ціни та екстремальні ставки фінансування щойно вони стаються. Кожна новина має посилання на офіційне джерело або наші ринкові дані.", all: "Усі", allVenues: "Усі біржі", types: { listing: "Лістинги", delisting: "Делістинги", incident: "Статус бірж", campaign: "Акції", "liquidation-spike": "Ліквідації", "sharp-move": "Рухи ціни", "funding-extreme": "Фінансування", news: "Новини" }, fresh: "нових", showNew: "Показати", loadMore: "Показати ще", empty: "За цим фільтром поки нічого немає.", back: "Усі флеш-новини", source: "Джерело", official: "Офіційне оголошення", data: "Ринкові дані NexuAlpha", related: "Пов’язане", profile: "Профіль біржі", update: "Деталі оголошення", liquidations: "Панель ліквідацій", funding: "Ставки фінансування", article: "Читати повний аналіз", more: "Більше флеш-новин", viewAll: "Дивитися всі", rail: "Флеш · наживо", important: "Важливо", importantOnly: "Лише важливі", notify: "Сповіщати", notifyOn: "Сповіщення увімкнено", notifyBlocked: "Браузер блокує сповіщення", notifyHint: "Лише важливі, поки сторінка відкрита", sound: "Звук" },
 };
+const UNAVAILABLE_UI = {
+  en: { unavailable: "Flash updates are temporarily unavailable. Please try again shortly.", unavailableItem: "This flash update is temporarily unavailable. Please try again shortly." },
+  "zh-Hans": { unavailable: "快讯源暂时不可用，请稍后再试。", unavailableItem: "这条快讯暂时不可用，请稍后再试。" },
+  "zh-Hant": { unavailable: "快訊來源暫時不可用，請稍後再試。", unavailableItem: "這則快訊暫時不可用，請稍後再試。" },
+  es: { unavailable: "Las noticias flash no están disponibles temporalmente. Inténtalo de nuevo en breve.", unavailableItem: "Esta noticia flash no está disponible temporalmente. Inténtalo de nuevo en breve." },
+  "pt-BR": { unavailable: "As notícias flash estão temporariamente indisponíveis. Tente novamente em instantes.", unavailableItem: "Esta notícia flash está temporariamente indisponível. Tente novamente em instantes." },
+  fr: { unavailable: "Les infos flash sont momentanément indisponibles. Réessayez dans quelques instants.", unavailableItem: "Cette info flash est momentanément indisponible. Réessayez dans quelques instants." },
+  de: { unavailable: "Flash-Meldungen sind vorübergehend nicht verfügbar. Bitte versuchen Sie es gleich erneut.", unavailableItem: "Diese Flash-Meldung ist vorübergehend nicht verfügbar. Bitte versuchen Sie es gleich erneut." },
+  it: { unavailable: "Le notizie flash sono temporaneamente non disponibili. Riprova tra poco.", unavailableItem: "Questa notizia flash è temporaneamente non disponibile. Riprova tra poco." },
+  ja: { unavailable: "速報は一時的に利用できません。しばらくしてからもう一度お試しください。", unavailableItem: "この速報は一時的に利用できません。しばらくしてからもう一度お試しください。" },
+  ko: { unavailable: "속보를 일시적으로 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.", unavailableItem: "이 속보를 일시적으로 불러올 수 없습니다. 잠시 후 다시 시도해 주세요." },
+  ru: { unavailable: "Флеш-новости временно недоступны. Попробуйте ещё раз чуть позже.", unavailableItem: "Эта флеш-новость временно недоступна. Попробуйте ещё раз чуть позже." },
+  tr: { unavailable: "Flaş haberler geçici olarak kullanılamıyor. Lütfen kısa süre sonra tekrar deneyin.", unavailableItem: "Bu flaş haber geçici olarak kullanılamıyor. Lütfen kısa süre sonra tekrar deneyin." },
+  id: { unavailable: "Kabar flash sementara tidak tersedia. Coba lagi sebentar lagi.", unavailableItem: "Kabar flash ini sementara tidak tersedia. Coba lagi sebentar lagi." },
+  vi: { unavailable: "Tin nhanh tạm thời chưa khả dụng. Vui lòng thử lại sau ít phút.", unavailableItem: "Tin nhanh này tạm thời chưa khả dụng. Vui lòng thử lại sau ít phút." },
+  ar: { unavailable: "الأخبار العاجلة غير متاحة مؤقتًا. يُرجى المحاولة بعد قليل.", unavailableItem: "هذا الخبر العاجل غير متاح مؤقتًا. يُرجى المحاولة بعد قليل." },
+  ur: { unavailable: "فلیش خبریں عارضی طور پر دستیاب نہیں۔ کچھ دیر بعد دوبارہ کوشش کریں۔", unavailableItem: "یہ فلیش خبر عارضی طور پر دستیاب نہیں۔ کچھ دیر بعد دوبارہ کوشش کریں۔" },
+  uk: { unavailable: "Флеш-новини тимчасово недоступні. Спробуйте ще раз трохи згодом.", unavailableItem: "Ця флеш-новина тимчасово недоступна. Спробуйте ще раз трохи згодом." },
+};
+
 export function flashUiCopy(locale) {
-  return UI[locale] || (String(locale || "").startsWith("zh") ? UI["zh-Hans"] : UI.en);
+  const key = UI[locale] ? locale : (String(locale || "").startsWith("zh") ? "zh-Hans" : "en");
+  return { ...UI[key], ...(UNAVAILABLE_UI[key] || UNAVAILABLE_UI.en) };
 }
 
 export { formatReaderTime } from "./local-time.js";

@@ -8,6 +8,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_RESEARCH_PATHS, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { buildTelegramReturnContext, readTelegramReturnContext, telegramReturnDataAttrs } from "../../data/telegram-decision-return.js";
 import { TelegramAlertsHero, telegramAlertsHeroCopy } from "./TelegramAlertsHero.jsx";
+import { hydratedTelegramReturnAttrs, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
 import "./telegram-bot-hub.css";
 
 const copy = {
@@ -675,6 +676,7 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
     "data-growth-product": telegramContext.product,
     ...(campaign ? { "data-growth-campaign": campaign } : {}),
   });
+  const telegramReturnNow = useHydratedTelegramReturnNow();
   const returnContextFor = (target = {}, campaign) => buildTelegramReturnContext({
     venue: target.venue,
     pair: target.pair,
@@ -683,8 +685,9 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
     locale: target.locale || telegramContext.locale,
     product: target.product || telegramContext.product,
     campaign: target.campaign || campaign,
+    ...telegramReturnClockOption(telegramReturnNow),
   });
-  const returnAttrs = (target, campaign) => telegramReturnDataAttrs(returnContextFor(target, campaign));
+  const returnAttrs = (target, campaign) => hydratedTelegramReturnAttrs(telegramReturnDataAttrs(returnContextFor(target, campaign)), telegramReturnNow);
   const webOnlyReturnContext = {
     status: "fallback",
     reason: "missing",
@@ -747,7 +750,7 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
           locale={locale}
           headingLevel={headingLevel}
           heading={headingLevel === 1 ? <h1 className="tg-hub__title">{t.title}</h1> : <h2 className="tg-hub__title">{t.title}</h2>}
-          primaryAttrs={{ ...growthContextAttrs("telegram_alerts"), ...telegramReturnDataAttrs(hubReturnContext) }}
+          primaryAttrs={{ ...growthContextAttrs("telegram_alerts"), ...hydratedTelegramReturnAttrs(telegramReturnDataAttrs(hubReturnContext), telegramReturnNow) }}
         />
 
 

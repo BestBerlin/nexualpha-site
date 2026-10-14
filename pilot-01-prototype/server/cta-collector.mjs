@@ -1,4 +1,6 @@
-import { appendFile, mkdir, readFile } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { createInterface } from 'node:readline';
+import { appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { partnerRegistry } from '../src/data/partner-registry.js';
 import { sanitizeAccountStage, sanitizeFunding, sanitizeGrowthSlug, sanitizeMarket, sanitizeProduct } from '../src/data/growth-context.js';
@@ -51,7 +53,7 @@ export function validateCta(value, registry = experimentRegistry) {
     && exactKeys(value, [...BASE_KEYS, 'platform', 'placement']);
 }
 
-export function createCtaCollector(file, { environment = 'local-preview', origin: configuredOrigin, registry = experimentRegistry, env = process.env } = {}) {
+export function createCtaCollector(file, { environment = 'local-preview', origin: configuredOrigin, registry = experimentRegistry, env = process.env, now = Date.now } = {}) {
   if (!CTA_ENVIRONMENTS.has(environment)) throw new Error('CTA_ENVIRONMENT_INVALID');
   if (environment !== 'local-preview' && (!path.isAbsolute(file || '') || !configuredOrigin)) throw new Error('CTA_EXPLICIT_CONFIG_REQUIRED');
   if (configuredOrigin) {
@@ -64,26 +66,46 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
   if (collectorRelease !== null && (typeof collectorRelease !== 'string'
     || collectorRelease.length < 1 || collectorRelease.length > 120
     || /[^A-Za-z0-9._-]/.test(collectorRelease))) throw new Error('CTA_COLLECTOR_RELEASE_INVALID');
-  const keys = new Set();
-  const eventIds = new Set();
+  const keys = new Map();
+  const eventIds = new Map();
   const experimentAssignments = new Map();
-  // Restore recent idempotency keys. Log retention/rotation is an ops policy.
-  const cutoff = Date.now() - 30 * 86400000;
-  const ready = readFile(file, 'utf8').then(async (text) => {
-    for (const line of text.split('\n')) {
-      let row;
-      try { row = JSON.parse(line); } catch { continue; }
-      if ((row.environment || 'local-preview') !== environment) throw new Error('CTA_ENVIRONMENT_FILE_MISMATCH');
-      if (Date.parse(row.receivedAt) >= cutoff) {
-        keys.add(dedupeKey(row));
-        eventIds.add(row.eventId);
-        if (row.experiment && row.variant) experimentAssignments.set(`${row.session}:${row.experiment}`, row.variant);
+  const retentionMs = 30 * 86400000;
+  let pruneAt = 0;
+  const prune = () => {
+    const current = now();
+    if (current < pruneAt) return;
+    const cutoff = current - retentionMs;
+    for (const [key, at] of keys) if (at < cutoff) keys.delete(key);
+    for (const [id, at] of eventIds) if (at < cutoff) eventIds.delete(id);
+    for (const [key, assignment] of experimentAssignments) if (assignment.at < cutoff) experimentAssignments.delete(key);
+    pruneAt = current + 60000;
+  };
+  // Stream recovery rather than retaining the entire historical log and its split lines at startup.
+  const ready = (async () => {
+    const stream = createReadStream(file, { encoding: 'utf8' });
+    let lastCharacter = '';
+    stream.on('data', chunk => { if (chunk.length) lastCharacter = chunk.slice(-1); });
+    const lines = createInterface({ input: stream, crlfDelay: Infinity });
+    try {
+      for await (const line of lines) {
+        let row;
+        try { row = JSON.parse(line); } catch { continue; }
+        if ((row.environment || 'local-preview') !== environment) throw new Error('CTA_ENVIRONMENT_FILE_MISMATCH');
+        const at = Date.parse(row.receivedAt);
+        if (at >= now() - retentionMs) {
+          keys.set(dedupeKey(row), at);
+          eventIds.set(row.eventId, at);
+          if (row.experiment && row.variant) experimentAssignments.set(`${row.session}:${row.experiment}`, { variant: row.variant, at });
+        }
       }
+      if (lastCharacter && lastCharacter !== '\n') await appendFile(file, '\n', { mode: 0o600 });
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    } finally {
+      lines.close();
+      stream.destroy();
     }
-    // A crash may leave an incomplete last record. Start the next append on a
-    // new line so recovery never swallows the first subsequent valid event.
-    if (text && !text.endsWith('\n')) await appendFile(file, '\n', { mode: 0o600 });
-  }).catch((error) => { if (error.code !== 'ENOENT') throw error; });
+  })();
   // Expose startup readiness without an unhandled rejection for legacy callers.
   ready.catch(() => {});
   let serial = Promise.resolve();
@@ -117,14 +139,16 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
     if (!validateCta(data, registry)) return new Response(null, { status: 400 });
     const key = dedupeKey(data);
     const operation = serial.then(async () => {
+      prune();
       const assignmentKey = data.experiment ? `${data.session}:${data.experiment}` : null;
-      if (assignmentKey && experimentAssignments.has(assignmentKey) && experimentAssignments.get(assignmentKey) !== data.variant) return 'variant_conflict';
+      if (assignmentKey && experimentAssignments.has(assignmentKey) && experimentAssignments.get(assignmentKey).variant !== data.variant) return 'variant_conflict';
       if (keys.has(key) || eventIds.has(data.eventId)) return 'duplicate';
       await mkdir(path.dirname(file), { recursive: true, mode: 0o700 });
-      await appendFile(file, JSON.stringify({ ...data, receivedAt: new Date().toISOString(), environment, collectorRelease }) + '\n', { mode: 0o600 });
-      keys.add(key);
-      eventIds.add(data.eventId);
-      if (assignmentKey) experimentAssignments.set(assignmentKey, data.variant);
+      await appendFile(file, JSON.stringify({ ...data, receivedAt: new Date(now()).toISOString(), environment, collectorRelease }) + '\n', { mode: 0o600 });
+      const at = now();
+      keys.set(key, at);
+      eventIds.set(data.eventId, at);
+      if (assignmentKey) experimentAssignments.set(assignmentKey, { variant: data.variant, at });
       return 'written';
     });
     serial = operation.catch(() => {});

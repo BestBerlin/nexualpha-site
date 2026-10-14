@@ -1,6 +1,7 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { App } from "./App.jsx";
+import { App, routeState } from "./App.jsx";
+import { neutralVenueCatalog } from "./data/market-command";
 import { normalizeNewsArticlePool, normalizeNewsFeed, normalizeNewsFeedSummaries } from "./data/news-feed-client.js";
 import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
@@ -34,7 +35,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
     locale: initialLocale,
     newsArticles: normalizedNewsArticles || [],
     article: initialArticle,
-    route: newsSlug ? { name: "newsDetail", slug: newsSlug } : undefined,
+    route: routeState(neutralVenueCatalog, parsedUrl.href),
   });
   const routeSeoAlternates = Array.isArray(seoAlternates) ? seoAlternates : (initialSeo?.alternates || []);
   // Türkiye rule (tr-market-gaps): an explicit ?market=TR applies to every policy check of this render, including the
