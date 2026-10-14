@@ -68,6 +68,10 @@
 }
 
 .h7:not(#_):not(#_) .h7-whales .h7-mv-mk {
+  /* pinned to the first column: rows with a 秘密建仓 tag have three lines, auto-placement pushed the badge right */
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: start;
   display: grid;
   place-items: center;
   font: 700 11px/1 var(--hx-mono, var(--mono));
