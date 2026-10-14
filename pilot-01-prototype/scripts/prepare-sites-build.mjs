@@ -22,7 +22,7 @@ const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.j
 // "Today's movers" board (movers.js, movers-html.js) and the whale-watch replacement (whales-home.js).
 const flashData = ["flash.js", "flash-path.js", "flash-feed.js", "local-time.js", "ticker.js", "movers.js", "movers-html.js", "whales-home.js", "whale-sentences.js"];
 // License directory (2026-10-13): Worker head imports the route parser, data table and SEO helper.
-const licenseData = ["licenses-routes.js", "licenses.js", "licenses-seo.js", "licenses-research.js", "licenses-editorial.js", "venue-display-names.js"];
+const licenseData = ["licenses-routes.js", "licenses.js", "licenses-seo.js", "licenses-research.js", "licenses-editorial.js", "venue-display-names.js", "license-region-names.js"];
 // Where to buy <coin> (2026-10-12): the Worker head imports the coin table, copy, SEO helper and every locale's descriptions.
 const coinData = ["coins-routes.js", "coins.js", "coins-snapshot.js", "coins-seo.js", "coins-copy.js", "coins-data.generated.js", "coins-links.generated.js", "coins-venue-links.generated.js",
   "coin-content-en.js", "coin-content-zh-hans.js", "coin-content-es.js", "coin-content-pt-br.js", "coin-content-fr.js", "coin-content-de.js",

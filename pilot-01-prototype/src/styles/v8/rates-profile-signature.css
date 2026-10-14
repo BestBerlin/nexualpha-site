@@ -168,3 +168,7 @@ main.r1-rates-page .ft-venue__name a:not(#_):not(#_):not(#_):not(#_):not(#_):not
 
 /* The pending-venues expander drew a text "+" and a gradient plus at once ("+|"); keep the text glyph only. */
 #top#top#top#top#top#top#top#top#top#top#top#top#top.r1-rates-page .ft-pending summary::after { background: none; background-image: none; inline-size: auto; block-size: auto; }
+
+/* Venue names wrap only at spaces ("HashKey / Global"), never mid-word or letter by letter (release gate, 2026-10-14). */
+main.r1-rates-page .ft-venue__name:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+main.r1-rates-page .ft-venue__name a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { word-break: normal; overflow-wrap: normal; hyphens: none; -webkit-hyphens: none; min-inline-size: min-content; }
