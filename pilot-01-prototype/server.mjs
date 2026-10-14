@@ -11,7 +11,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createCtaCollector } from './server/cta-collector.mjs';
 import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
-import { resolveAssetPath } from './server/asset-path.mjs';
+import { resolveAssetPath, sameSiteRequestTarget, trailingSlashRedirectTarget } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_ARCHIVE_PATH, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingMatrixReader } from './server/funding-matrix.mjs';
@@ -194,7 +194,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
     try {
       const origin = env.CTA_ALLOWED_ORIGIN || `http://${req.headers.host || 'localhost'}`;
       const body = ['GET', 'HEAD'].includes(req.method) ? undefined : req;
-      const request = new Request(new URL(req.url || '/', origin), { method: req.method, headers: req.headers, body, duplex: body ? 'half' : undefined });
+      const request = new Request(new URL(sameSiteRequestTarget(req.url), origin), { method: req.method, headers: req.headers, body, duplex: body ? 'half' : undefined });
       let result;
       requestPath = new URL(request.url).pathname;
       const beginnerRedirect = ['GET', 'HEAD'].includes(req.method) ? beginnerAliasRedirect(request.url) : null;
@@ -206,7 +206,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
       // QA 2026-10-10: '/exchanges/okx/' was a 404. Page URLs have no trailing slash: redirect permanently, keep the query.
       if ((req.method === 'GET' || req.method === 'HEAD') && requestPath.length > 1 && requestPath.endsWith('/') && !requestPath.startsWith('/api/')) {
         const u = new URL(request.url);
-        const target = u.pathname.replace(/\/+$/, '') + u.search;
+        const target = trailingSlashRedirectTarget(u.pathname, u.search);
         res.writeHead(301, { location: target, 'cache-control': 'public, max-age=3600', 'x-request-id': requestId });
         res.end();
         return;

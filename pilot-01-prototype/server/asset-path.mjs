@@ -53,3 +53,16 @@ export function rewriteLocalRedirectLocation(location, localOrigin, publicOrigin
     return location;
   }
 }
+
+// Security audit 2026-10-15. Node's request target is raw: "//evil.com/x" parsed against an origin becomes host
+// evil.com, and "/.//evil.com/" normalises to the pathname "//evil.com/". Both must stay same-site paths.
+export function sameSiteRequestTarget(rawTarget) {
+  const target = typeof rawTarget === "string" && rawTarget ? rawTarget : "/";
+  return "/" + target.replace(/^[/\\]+/, "");
+}
+
+// Trailing-slash redirect target (QA 2026-10-10): always a single-slash, same-site path, query kept.
+export function trailingSlashRedirectTarget(pathname, search = "") {
+  const clean = String(pathname || "/").replace(/\\/g, "/").replace(/^\/+/, "").replace(/\/+$/, "");
+  return "/" + clean + (search || "");
+}
