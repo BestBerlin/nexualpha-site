@@ -269,11 +269,16 @@ export default {
       // &locale=xx adds ready-made sentence parts ([before, amount, after]) for clients without the site copy (Mini App).
       if (kind === "whales" && url.searchParams.get("view") === "home") {
         const textLocale = WHALES_COPY_LOCALES.includes(url.searchParams.get("locale")) ? url.searchParams.get("locale") : null;
-        return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:whales:home:${textLocale || "-"}`, async () => {
+        // No rows yet = 200 {status:"unavailable"}: the board simply stays hidden, the browser logs no failed request.
+        const data = await workerStaleJsonFeed(env, `radar:whales:home:${textLocale || "-"}`, async () => {
           const feed = homeWhalesSnapshot(await loadRadarApiPayload(env, kind));
           if (!feed) throw new Error("no whale rows for home");
           return textLocale ? withWhaleText(feed, textLocale) : feed;
-        }), request.method, unavailableRadarPayload(kind));
+        }).read();
+        return new Response(request.method === "HEAD" ? null : JSON.stringify(data || { kind: "whales", status: "unavailable" }), {
+          status: 200,
+          headers: { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff", "x-robots-tag": "noindex", "cache-control": data ? "public, max-age=10, stale-while-revalidate=60" : "no-store" },
+        });
       }
       return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:${kind}`, () => loadRadarApiPayload(env, kind)), request.method, unavailableRadarPayload(kind));
     }

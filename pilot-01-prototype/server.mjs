@@ -97,7 +97,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // Live ticker bar (home, /flash): Binance 24h tickers cached 15 s server-side, the collector feed as fallback. A supplied
   // worker (tests) or INTEL_REFRESH=off never calls out; the bar then renders from the collector feed alone.
   const ticker = createTickerFeed({ readMarketEvents: marketEvents.read, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('ticker network off'); } } : {}), log: (m) => console.log(`[NexuAlpha] ${m}`) });
-  const radar = createPositionRadar({ ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
+  // Whales come only from the collector's file (WHALES_FILE, default /market/whales.json); the web server never polls
+  // Hyperliquid or chain sources itself, so a missing file answers "unavailable" at once instead of timing out.
+  const radar = createPositionRadar({ whaleFileOnly: true, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // Home "Today's movers": the ticker's Binance rows + the coin universe (runtime snapshot, else the release copy) + the
   // collector feed. No extra upstream request.
