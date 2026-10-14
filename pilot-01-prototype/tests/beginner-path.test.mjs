@@ -42,7 +42,7 @@ test('home doors and footer link directly to localized beginner canonicals in ev
     for (const locale of BEGINNER_LOCALES) {
       const html = harness.render('https://nexualpha.com' + localizedPath('/', locale));
       const canonical = localizedPath(beginnerPath('start', locale), locale);
-      assert.ok(html.match(/<nav class="h7-in h7-doors"[\s\S]*?<\/nav>/)?.[0].includes(`href="${canonical}"`), locale);
+      assert.ok(!html.includes('h7-doors'), `${locale}: no two-door strip above the hero (owner 2026-10-14)`);
       assert.ok(html.match(/<footer[\s\S]*?<\/footer>/)?.[0].includes(`href="${canonical}"`), locale);
     }
   } finally { await harness.close(); }
