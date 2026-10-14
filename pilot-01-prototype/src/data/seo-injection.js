@@ -38,6 +38,8 @@ import { appDownloadRouteSeo } from "./app-downloads.js";
 import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
 import { parseLicensesPath } from "./licenses-routes.js";
+import { parseDepositPath } from "./deposit-routes.js";
+import { depositPublicationLocales, depositRouteSeo } from "./deposit-seo.js";
 import { licenseRouteSeo } from "./licenses-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
@@ -375,6 +377,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (radarRoute) return radarRoute.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
   if (isBitgetGuidePath(pathname)) return BITGET_GUIDE_LOCALES;
   if (parseBeginnerPath(pathname)?.kind !== "missing" && parseBeginnerPath(pathname)) return BEGINNER_LOCALES;
+  if (parseDepositPath(pathname) && parseDepositPath(pathname).kind !== "missing") return depositPublicationLocales(pathname);
   // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Binance October campaigns page (mirror of the Worker): its written editions.
@@ -2096,6 +2099,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
   if (brazil && options.route?.name !== "notFound") return brazil;
   const rawLocale = options.locale || (publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale")) || "en";
   const locale = contentLocale(rawLocale, contentPathname);
+  const deposit = depositRouteSeo(contentPathname, rawLocale);
+  if (deposit) return deposit.status === 200
+    ? { ...deposit, locale: rawLocale, htmlLocale: rawLocale, robots: deposit.indexable ? "index,follow" : "noindex,follow", ogType: "website" }
+    : { status: 404, locale: rawLocale, title: "Page not found — NexuAlpha", description: "", robots: "noindex,follow", canonical: canonical(contentPathname, rawLocale), schemas: [], alternates: [] };
   const beginner = bitgetGuideSeo(contentPathname, rawLocale, url.searchParams.get("market")) || beginnerRouteSeo(contentPathname, rawLocale);
   if (beginner) return beginner.status === 200
     ? { ...beginner, locale: rawLocale, htmlLocale: rawLocale, robots: "index,follow", ogType: "website", schemas: beginner.schemas, alternates: beginner.alternates }

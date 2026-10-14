@@ -46,6 +46,14 @@ export const ATTRIBUTION_ALLOWLIST = [
     || ['v3-expand-tiers-btn', 'v3-por-audit-btn', 'v3-open-verifier-btn', 'v3-por-audit-link', 'factbook-merkle-link'].includes(attrs.class)),
   rule(['app.uniswap.org', 'uniswap.org', 'pancakeswap.finance', 'curve.finance', 'aerodrome.finance', 'dydx.trade', 'raydium.io', 'jup.ag', 'info.uniswap.org'], /^\/(?:info|liquidity|perps|$)(?:\/|$)/, 'Non-sign-up protocol identity, public pool data and app verification references; these venues have no registered referral route.'),
   rule(['www.binance.com', 'www.okx.com', 'www.bitget.com', 'www.bybit.com'], /^\/(?:[a-z]{2}\/)?(?:download|learn\/how-to-download-and-install-binance)(?:\/|$)/, 'Official app-download and installation verification pages; sign-up CTAs use /go separately.'),
+  // Fiat-rails research (deposit hub, 2026-10-15): exact official product/help pages cited as plain-text sources on
+  // /deposit and /crypto-cards (src/data/fiat-rails.generated.js); rendered pages never link them directly.
+  rule(['web3.bitget.com', 'www.gate.com'], /^\/card$/, 'Official crypto-card product descriptions cited as plain-text fiat sources.'),
+  rule(['www.bitget.com'], /^\/news\/detail\/\d+$/, 'Official Bitget announcement cited as a dated fiat-rail source.'),
+  rule(['www.coinw.com'], /^\/crypto-card$/, 'Official CoinW card page and FAQ cited as plain-text sources.'),
+  rule(['www.gate.tr'], /^\/en\/help\/guidetr\/deposit_withdraw_tr\/\d+$/, 'Gate TR (separate Turkish entity) TRY deposit/withdrawal guides cited as plain-text sources.'),
+  rule(['square.htx.com'], /^\/purchasing-crypto-with-fiat\/$/, 'Official HTX fiat-purchase guide cited as a plain-text source.'),
+  rule(['blog.mexc.com'], /^\/press-release\/[a-z0-9-]+\/$/, 'Official MEXC press release cited as a dated card source.'),
   rule(['www.htx.com'], /^\/en-us\/finance\/proof-of-reserves\/?$/, 'Official HTX reserve disclosure.'),
   rule(['www.binance.com'], /^\/en\/futures\/trading-parameters$/, 'Official trading-parameter/fee evidence.'),
   rule(['www.binance.com'], /^\/en\/markets\/opportunity$/, 'Official market-discovery evidence cited by news.'),

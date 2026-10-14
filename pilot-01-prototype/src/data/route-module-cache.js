@@ -65,6 +65,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   academy: "./components/academy/AcademyPages.jsx",
   beginner: "./components/beginner/BeginnerPages.jsx",
   licenses: "./components/licenses/LicensePages.jsx",
+  deposit: "./components/deposit/DepositPages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
   converter: "./components/converter/ConverterPage.jsx",
   coins: "./components/coins/CoinPages.jsx",
@@ -194,6 +195,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "bitgetGuide") return ["./components/beginner/BitgetGuidePage.jsx"];
   if (name === "beginner") return [ROUTE_MODULE_PATHS.beginner, `./data/beginner-copy/${urlLocale(sourceUrl)}.json`];
   if (name === "licenses") return [ROUTE_MODULE_PATHS.licenses];
+  if (name === "deposit") return [ROUTE_MODULE_PATHS.deposit];
   if (name === "converter") return [ROUTE_MODULE_PATHS.converter];
   if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
   if (name === "glossaryHub") return [ROUTE_MODULE_PATHS.glossary, glossaryIndexModulePath(urlLocale(sourceUrl))];

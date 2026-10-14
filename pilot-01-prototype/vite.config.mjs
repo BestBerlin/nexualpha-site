@@ -240,6 +240,13 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/beginner/") || id.endsWith("/src/data/beginner.js")) return "route-beginner";
+          // Deposit-method badges and the venue "deposits" block (2026-10-15): own stylesheets on the routes that link them
+          // (directory: page-directory-, profile: page-profile-); shared labels/summary pinned so neither route absorbs them.
+          if (id.endsWith("/src/styles/v8/fiat-directory.css")) return "page-directory-fiat";
+          if (id.endsWith("/src/styles/v8/fiat-venue.css")) return "page-profile-fiat";
+          if (!isSsrBuild && (id.includes("/src/components/deposit/FiatBadges") || /\/src\/data\/(?:fiat-labels|fiat-rails-summary\.generated)\.js$/.test(id))) return "shared-fiat";
+          // Deposit & withdraw hub (2026-10-15): pages, styles, model, copy and the generated fiat table.
+          if (id.includes("/src/components/deposit/DepositPages") || id.includes("/src/components/deposit/deposit.css") || /\/src\/data\/(?:deposit|deposit-copy|deposit-seo|fiat-rails\.generated)\.js$/.test(id)) return "route-deposit";
           if (id.includes("/src/components/licenses/") || /\/src\/data\/licenses(?:-copy|-cta)?\.js/.test(id)) return "route-licenses";
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";

@@ -6,6 +6,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
+import { DEPOSIT_ROOTS, depositNavLabel } from "../../data/deposit-routes.js";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
@@ -401,11 +402,13 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           { href: href("/exchanges"), label: labels.directory },
           { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
           { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
+          { href: href(DEPOSIT_ROOTS[0]), label: depositNavLabel(locale) },
         ]
         : [
           { href: href("/exchanges"), label: labels.directory },
           { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
           { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
+          { href: href(DEPOSIT_ROOTS[0]), label: depositNavLabel(locale) },
         ],
     },
     {

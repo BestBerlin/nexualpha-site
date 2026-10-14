@@ -1,4 +1,5 @@
 import { BEGINNER_ROOTS, beginnerPath, parseBeginnerPath } from "./beginner-routes.js";
+import { CRYPTO_CARDS_PATH, DEPOSIT_ROOTS, depositPath, parseDepositPath } from "./deposit-routes.js";
 import { canonicalComparePairSlug, parseComparePair } from "./compare-slug.js";
 import { isTurkeyGated } from "./partner-geo-policy.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
@@ -99,7 +100,7 @@ const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({
   "/int": "en",
 });
 
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS,
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH,
   "/guides",
   "/exchanges",
   "/compare",
@@ -340,6 +341,9 @@ export function localizedPath(pathname, locale = "en") {
   if (!isSupportedLocale(locale)) return normalized;
   const beginner = parseBeginnerPath(normalized);
   if (beginner && beginner.kind !== "missing") normalized = beginnerPath(beginner.kind, locale, beginner.step);
+  // Deposit hub (出入金): each locale has its own slug; country pages keep their English country slug.
+  const deposit = parseDepositPath(normalized);
+  if (deposit?.kind === "hub" || deposit?.kind === "country") normalized = depositPath(locale, deposit.country);
   const countryPrefix = countryPrefixForPath(normalized);
   if (countryPrefix) return locale === (COUNTRY_LOCALE_BY_PREFIX[countryPrefix] || "en") ? normalized : appendLocaleQuery(normalized, locale);
   if (locale === "en") {

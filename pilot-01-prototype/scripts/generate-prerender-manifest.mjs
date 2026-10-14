@@ -38,6 +38,7 @@ import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES } from "../src/data/radar-seo.js";
 import { licenseSitemapEntries } from "../src/data/licenses-seo.js";
+import { depositSitemapEntries } from "../src/data/deposit-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { exchangeHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
@@ -325,6 +326,9 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-beginner.xml", lastmod: beginner.lastmod });
   const licenses = buildLicensesSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-licenses.xml", lastmod: licenses.lastmod });
+  // Deposit & withdraw hub, its indexable country editions and /crypto-cards (2026-10-15), rendered by the Worker.
+  const deposit = buildDepositSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-deposit.xml", lastmod: deposit.lastmod });
   // Where to buy <coin> (2026-10-12): /coins and every coin page in its indexable locales (listed on a covered exchange
   // and described in that language), rendered by the Worker at request time; hreflang sets match the page head.
   const coins = buildCoinsSitemap();
@@ -348,6 +352,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     academy,
     beginner,
     licenses,
+    deposit,
     coins,
     dataTools,
     convert,
@@ -368,6 +373,10 @@ export function buildGlossarySitemap() {
 
 export function buildAcademySitemap() {
   return buildDownloadOrAcademySitemap(academySitemapEntries);
+}
+
+export function buildDepositSitemap() {
+  return buildDownloadOrAcademySitemap(depositSitemapEntries);
 }
 
 export function buildLicensesSitemap() {
@@ -614,6 +623,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-beginner.xml"), splitSitemaps.beginner.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-deposit.xml"), splitSitemaps.deposit.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-convert.xml"), splitSitemaps.convert.xml);
@@ -632,6 +642,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-beginner.xml"), splitSitemaps.beginner.xml);
   writeFileSync(path.join(clientDir, "sitemap-licenses.xml"), splitSitemaps.licenses.xml);
+  writeFileSync(path.join(clientDir, "sitemap-deposit.xml"), splitSitemaps.deposit.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "sitemap-data.xml"), splitSitemaps.dataTools.xml);
   writeFileSync(path.join(clientDir, "sitemap-convert.xml"), splitSitemaps.convert.xml);

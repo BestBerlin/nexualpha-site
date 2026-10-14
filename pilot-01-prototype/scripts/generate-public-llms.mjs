@@ -1,4 +1,5 @@
 import { turkeyListingAllowed } from "../src/data/partner-geo-policy.js";
+import { DEPOSIT_COUNTRIES, FIAT_CHECKED, depositCountryLabel, depositPath } from "../src/data/deposit.js";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { pathToFileURL } from "node:url";
@@ -124,6 +125,8 @@ Use these public routes for compact, citable exchange facts. They are source-bou
 - Exchange fact JSON: ${PUBLIC_ORIGIN}/api/exchange-facts/<slug>.json — cacheable CORS-safe JSON mirroring the source-backed profile facts.
 - Fee pages: ${PUBLIC_ORIGIN}/rates and ${PUBLIC_ORIGIN}/funding-rates — fee scenarios and live perpetual funding context with source boundaries.
 - License directory: ${PUBLIC_ORIGIN}/licenses — regulator/entity/status rows from reviewed register data.
+- Deposit and withdrawal hub: ${PUBLIC_ORIGIN}/deposit — per-country fiat on-ramp and off-ramp methods (card, local bank rails, P2P) by exchange, with fees, arrival times and the official help page for each.
+- Crypto card comparison: ${PUBLIC_ORIGIN}/crypto-cards — exchange-issued Visa/Mastercard spending cards: regions, rewards, fees and how to apply.
 - Fee benchmark: ${PUBLIC_ORIGIN}/rates — published maker and taker fees with checked sources; account-specific terms still require confirmation.
 - Liquidations: ${PUBLIC_ORIGIN}/liquidations — public futures liquidation data page.
 - Long/short: ${PUBLIC_ORIGIN}/long-short — public positioning dashboard.
@@ -158,6 +161,9 @@ const focusClusters = `## Focus clusters
 
 ### Deposits and withdrawals (fiat on-ramp and off-ramp by country)
 
+- [Deposit and withdraw crypto by country](${PUBLIC_ORIGIN}/deposit): which exchanges publish card purchases, local bank rails (PIX, SEPA, FPS, FAST, PayNow, SPEI, UPI, Havale/EFT) and P2P in each country, with fees, arrival times and official sources (checked ${FIAT_CHECKED}).
+- Country pages: ${DEPOSIT_COUNTRIES.map((country) => `[${depositCountryLabel(country, "en")}](${PUBLIC_ORIGIN}${depositPath("en", country.slug)})`).join(", ")}.
+- [Crypto cards compared](${PUBLIC_ORIGIN}/crypto-cards): Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken and CoinW cards: network, regions, cashback, FX and conversion fees, application steps.
 - [Regional funding verification matrix](${PUBLIC_ORIGIN}/br/pix#regional-funding-verification-matrix): reviewed deposit and withdrawal rails for BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR.
 - [Brazil: BRL and Pix](${PUBLIC_ORIGIN}/br/pix), [Mexico](${PUBLIC_ORIGIN}/mx), [Taiwan](${PUBLIC_ORIGIN}/tw), [Indonesia](${PUBLIC_ORIGIN}/id), [EU](${PUBLIC_ORIGIN}/eu), [UK](${PUBLIC_ORIGIN}/uk), [US](${PUBLIC_ORIGIN}/us): country pages with local rails, regulator and account checks.
 - [What is a fiat on-ramp?](${PUBLIC_ORIGIN}/glossary/fiat-on-ramp): definition and how exchange deposits work.
