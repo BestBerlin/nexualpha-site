@@ -86,12 +86,9 @@ export function usd(value) {
 export const percent = value => `${(value * 100).toFixed(1)}%`;
 export const fundingPercent = value => `${value > 0 ? '+' : ''}${(value * 100).toFixed(5)}%`;
 const spokenUsdZh = value => value >= 10000 ? `${(Math.floor(value / 10000 * 100) / 100).toFixed(2)}万美元` : `${Math.floor(value)}美元`;
-function timestampLabel(value, lang) {
+function timestampLabel(value) {
   const at = new Date(value);
-  if (lang === 'zh-Hans') {
-    return `${new Date(at.getTime() + 8 * HOUR).toISOString().slice(0, 19).replace('T', ' ')} UTC+8`;
-  }
-  return `${at.toISOString().slice(0, 19).replace('T', ' ')} UTC`;
+  return `${new Date(at.getTime() + 8 * HOUR).toISOString().slice(0, 19).replace('T', ' ')} SGT`;
 }
 export function captionLines(value, lang) {
   const parts = [];
@@ -142,7 +139,7 @@ export function buildPackage(data, lang) {
   const dominantShare = Math.max(longShare, shortShare);
   const dominantSide = shortShare >= longShare ? 'short' : 'long';
   const side = big.side === 'long' ? strings.labels.long : strings.labels.short;
-  const time = timestampLabel(big.at, lang);
+  const time = timestampLabel(big.at);
   const rateRows = data.rates.map(r => ({
     venue: r.venue,
     symbol: r.symbol,

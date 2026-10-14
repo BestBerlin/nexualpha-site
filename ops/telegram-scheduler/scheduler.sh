@@ -4,6 +4,7 @@
 NODE=/srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node
 REL=/srv/agent/releases/crypto-telegram-news
 STACK=/srv/agent/stacks/crypto-telegram-ops
+export TZ="Asia/Singapore"
 export COMMUNITY_POLLER_ENV_FILE="${COMMUNITY_POLLER_ENV_FILE:-$STACK/community-poller.env}"
 
 job() { # name first-delay interval timeout cwd -- command...

@@ -121,8 +121,7 @@ test('5-slide global package preserves numbers, explanatory copy and no fine pri
     assert.equal(slides[2].hero.value, 2528150);
     assert.equal(slides[2].hero.format, 'usd');
     assert.deepEqual(Object.keys(slides[2].receipt), ['venue','symbol','side','time']);
-    if (lang === 'zh-Hans') assert.match(slides[2].receipt.time,/2026-10-11 23:40:26 UTC\+8/);
-    else assert.match(slides[2].receipt.time,/2026-10-11 15:40:26 UTC/);
+    assert.match(slides[2].receipt.time,/2026-10-11 23:40:26 SGT/);
     assert.ok(slides[2].lines.some(line => line.includes(slides[2].receipt.time)));
     assert.equal(slides[3].hero.value, -.00276609);
     assert.equal(slides[3].hero.format, 'funding');

@@ -41,6 +41,7 @@ test("zh and en match the approved message baseline (fixtures/zh-en-baseline.jso
 test("msgLang returns the subscriber's language when supported and falls back to en", () => {
   assert.deepEqual(LANGS, ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"]);
   for (const lang of LANGS) assert.equal(msgLang({ lang }), lang);
+  for (const lang of ["ar", "zh-Hant", "zh-TW", "ur", "uk"]) assert.equal(msgLang({ lang }), lang);
   assert.equal(msgLang({ lang: "de" }), "en");
   assert.equal(msgLang({ lang: "pt-BR" }), "en", "state.lang stores short codes only");
   assert.equal(msgLang({}), "en");
@@ -51,6 +52,17 @@ test("unknown languages render English, never a blank or half-rendered message",
   assert.equal(eventMessage({ type: "sharp-move" }, mk, "de"), eventMessage({ type: "sharp-move" }, mk, "en"));
   assert.equal(sitePath("de", "/liquidations", "tg-alert"), "https://nexualpha.com/liquidations?src=tg-alert");
   assert.deepEqual(partnerButtons(partners, "xx", "tg-x"), partnerButtons(partners, "en", "tg-x"));
+});
+
+test("unsupported neutral subscription languages never receive signup routes", () => {
+  for (const lang of ["ar", "zh-Hant", "ur", "uk"]) {
+    const d = digestMessage(mk, partners, articles, campaigns, msgLang({ lang }));
+    assert.doesNotMatch(JSON.stringify(d), /\/go\//, lang);
+    assert.ok(d.buttons.flat().some((b) => b.url.includes("/exchanges/")), lang);
+    assert.equal(listingMessage(campaignItem, partners[1], msgLang({ lang })), null, `${lang} campaign DM`);
+    const listing = listingMessage(listingItem, partners[0], msgLang({ lang }));
+    assert.doesNotMatch(JSON.stringify(listing), /\/go\//, `${lang} listing`);
+  }
 });
 
 test("site backlinks use the locale path of each language", () => {

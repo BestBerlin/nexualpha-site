@@ -119,6 +119,6 @@ test("app route heads carry the new English titles", async () => {
   assert.equal((await head("/exchanges/deribit")).title, "Deribit Fees (2026): Options, Futures and 10% Discount");
   assert.equal((await head("/exchanges/curve")).title, "Curve Finance (2026): Swap Fees, Pools and Wallet Checks");
   assert.equal((await head("/exchanges/okx")).title, nativeReferralFor("okx", "en").title);
-  assert.equal((await head("/fr/exchanges/backpack")).title, `Backpack Exchange avis (${new Date().getUTCFullYear()}) : frais et code luckybitcoin`);
+  assert.equal((await head("/fr/exchanges/backpack")).title, `Backpack Exchange avis (${new Date().getUTCFullYear()}) : frais et code LuckyBitcoin`);
   assert.doesNotMatch((await head("/vi/exchanges/okx")).title, /nexu888|giới thiệu/);
 });

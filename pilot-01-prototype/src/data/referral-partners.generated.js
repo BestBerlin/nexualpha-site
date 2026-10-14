@@ -67,7 +67,7 @@ export const REFERRAL_PARTNERS = Object.freeze([
   {
     "slug": "backpack",
     "name": "Backpack",
-    "inviteCode": "luckybitcoin",
+    "inviteCode": "LuckyBitcoin",
     "share": null,
     "settle": null,
     "termsConfirmedOn": null

@@ -17,7 +17,7 @@ import {
   markItemChannelSent,
   pruneState,
 } from './channel-feed.mjs';
-import { officialSourceRoute } from './official-source.mjs';
+import { officialSourceCta, officialSourceRoute } from './official-source.mjs';
 import { updatePath as siteUpdatePath } from '../../pilot-01-prototype/src/data/activity-update-path.js';
 const script = fileURLToPath(new URL('./channel-feed.mjs', import.meta.url));
 const article = slug => ({ slug, publishedAt: new Date().toISOString(), title: {en: slug, 'zh-Hans': '标题'}, summary: {en: 'A summary.', 'zh-Hans': '摘要。'}, availableLocales: ['en', 'zh-Hans'] });
@@ -64,11 +64,13 @@ test('announcement feed buttons send readers to NexuAlpha update pages first', (
     publishedAt: new Date().toISOString(),
   };
   const msg = buildMessage(item, { slug: 'okx', share: 0.4, autoSettle: true, settle: 'hourly', inviteCode: 'NXA' }, 'en');
+  assert.equal(officialSourceCta(item.url, item.venue, { src: 'tg-channel-en' }).domain, 'okx.com');
   const official = msg.reply_markup.inline_keyboard[0][0].url;
   assert.equal(official, `https://nexualpha.com${siteUpdatePath(item)}`);
   assert.notEqual(official, item.url);
   assert.equal(msg.reply_markup.inline_keyboard[0][0].text, 'Read the explainer');
-  assert.match(msg.text, /Official source: https:\/\/www\.okx\.com\/help\/okx-trading-festival/);
+  assert.match(msg.text, /Official source: okx\.com/);
+  assert.doesNotMatch(msg.text, /https:\/\/www\.okx\.com\/help\/okx-trading-festival/);
   assert.equal(msg.reply_markup.inline_keyboard[0][1].url, 'https://nexualpha.com/go/okx?src=tg-channel-en');
 });
 
@@ -87,7 +89,8 @@ test('sitewide official source buttons use /go/<venue>-page only on main domains
 
   const subdomain = buildMessage({ ...item, url: 'https://announcements.bybit.com/en-US/article/test/', venue: 'bybit', title: 'Bybit lists ABC' }, { slug: 'bybit', share: 0.2 }, 'en');
   assert.equal(subdomain.reply_markup.inline_keyboard[0].length, 2);
-  assert.match(subdomain.text, /Official source: https:\/\/announcements\.bybit\.com\/en-US\/article\/test\//);
+  assert.match(subdomain.text, /Official source: announcements\.bybit\.com/);
+  assert.doesNotMatch(subdomain.text, /https:\/\/announcements\.bybit\.com\/en-US\/article\/test\//);
   assert.equal(officialSourceRoute('https://announcements.bybit.com/en-US/article/test/', 'bybit', { src: 'x' }), null);
 });
 
@@ -297,6 +300,12 @@ test('neutral locales get no campaign posts; other channels still do', () => {
   for (const title of ['OKX to list WUSD, BLURUSD X-Perps', 'Notice on the Closure of Binance Pool Services', 'KuCoin Will Delist VENOM and NFP on 2026-10-14']) {
     assert.ok(buildMessage({ id: `x:${title}`, venue: 'okx', category: 'listing', title, publishedAt: new Date().toISOString() }, partner, 'vi'), `vi keeps: ${title}`);
   }
+});
+
+test('Turkish channel suppresses Bitget notices completely', () => {
+  const item = { id: 'bitget:tr', venue: 'bitget', category: 'news', title: 'Bitget support update', publishedAt: new Date().toISOString(), url: 'https://www.bitget.com/support/articles/123' };
+  assert.equal(buildMessage(item, { slug: 'bitget', inviteCode: 'nexu888' }, 'tr'), null);
+  assert.equal(buildListingGroupMessage([{ ...item, category: 'listing' }], { bitget: { slug: 'bitget' } }, 'tr'), null);
 });
 
 test('risk notices use one risk action plus official source and no signup buttons', () => {

@@ -8,6 +8,7 @@ import { venueDatabase } from "./venue-database.js";
 import { partnerBenefitStatus } from "./partner-benefit-status.js";
 
 export const PARTNERS_PATH = "/intel/partners.json";
+export const PUBLIC_ORIGIN = "https://nexualpha.com";
 
 const pair = (slug, product) => {
   const f = feeFact(slug, product);
@@ -24,7 +25,7 @@ export function buildPartnersFeed({ generatedAt = new Date().toISOString() } = {
       slug,
       name: venueDatabase[slug]?.name || cta.name || slug,
       inviteCode: cta.inviteCode || null,
-      registrationUrl: cta.registrationUrl,
+      registrationUrl: `${PUBLIC_ORIGIN}/go/${encodeURIComponent(slug)}?src=tg-partners-feed`,
       share: HOME_REBATE_SHARE[slug] ?? null,
       autoSettle: HOME_AUTO_SETTLE.includes(slug),
       settle: HOME_SETTLE[slug] ?? null,
