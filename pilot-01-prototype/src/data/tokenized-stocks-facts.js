@@ -1,6 +1,6 @@
 // Tokenized US stocks (代币化美股, owner 2026-10-15): which exchanges list stock tokens, stock perpetuals and pre-IPO
-// perpetuals. Every value below is copied from the research packet /Volumes/致态2TB/nx-agents/research/tokenized-stocks
-// (exchanges.json, as of 2026-10-15) and carries the ids of the official pages it comes from (TS_SOURCES: URL, title,
+// perpetuals. Every value below is copied from the research packet vendored at research/tokenized-stocks/exchanges.json
+// (as of 2026-10-15; tests/tokenized-stocks.test.mjs checks sources, dates and tickers against it) and carries the ids of the official pages it comes from (TS_SOURCES: URL, title,
 // publication date or, when the page shows none, the date it was read). Unknown values are absent, never guessed:
 // a lane, count, fee or leverage that the packet leaves null is simply not in this file, and the page shows nothing.
 // Count, leverage and fee values that the packet dates to a launch or a guide keep that date in `asOf`.
