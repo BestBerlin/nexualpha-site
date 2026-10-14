@@ -311,7 +311,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
       res.writeHead(result.status, responseHeaders);
       if (req.method === 'HEAD' || !result.body) { res.end(); return; }
       // Respect socket backpressure and cancel upstream work when the client disconnects.
-      await pipeline(Readable.fromWeb(result.body), res);
+      try {
+        await pipeline(Readable.fromWeb(result.body), res);
+      } catch (error) {
+        // A visitor closing the tab mid-response is not a site failure: do not page the error monitor for it.
+        if (res.destroyed || req.destroyed || error?.code === 'ERR_STREAM_PREMATURE_CLOSE' || error?.name === 'AbortError') return;
+        throw error;
+      }
     } catch {
       await errorMonitor?.record({ requestId, route: requestPath,
         component: requestPath === '/api/analytics/cta' ? 'cta' : 'web',

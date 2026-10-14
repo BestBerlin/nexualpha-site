@@ -92,7 +92,8 @@ export function createSsrPageCache({
     if (flight) {
       const entry = await flight;
       if (entry) { stats.hits += 1; return fromEntry(entry, request.method, "hit"); }
-      return fetch(request, render);
+      // The leader's response was private or failed: render independently instead of queueing behind another leader.
+      return render(request);
     }
     if (request.method === "HEAD" || pending.size >= maxEntries) return render(request);
     stats.misses += 1;

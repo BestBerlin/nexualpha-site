@@ -88,7 +88,7 @@ test("alerts strip reuses the article alerts copy and sits under the home hero, 
   assert.match(en, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts-en"/);
 });
 
-test("Telegram page leads with the alerts product: command guide, four topics, Open the bot, channels and Mini App, all 17 locales", async () => {
+test("Telegram page leads with the alerts product: sample message, four topics, Open the bot, channels and Mini App, all 17 locales", async () => {
   const pages = await render(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
@@ -110,8 +110,11 @@ test("Telegram page leads with the alerts product: command guide, four topics, O
     assert.equal((html.match(/class="tg-signal-hero__topics"/g) || []).length, 1, locale);
     assert.equal((html.match(/<ol class="tg-signal-hero__topics">(?:<li>.*?<\/li>){4}<\/ol>/s) || []).length, 1, `${locale}: four topics`);
     assert.match(html, /class="tg-signal-sample__bubble"/, locale);
-    assert.doesNotMatch(html, /BTCUSDT|\$1\.28M|Binance USDT-M|22:32 SGT|Figures are placeholders|数字为占位|數字為占位/, `${locale}: no invented alert record or placeholder figures`);
-    assert.equal((html.match(/class="tg-signal-hero__cmds"/g) || []).length, 1, `${locale}: one actionable command guide`);
+    assert.match(html, /BTCUSDT/, locale);
+    assert.match(html, /\$1\.28M/, locale);
+    assert.match(html, /Binance USDT-M/, locale);
+    assert.match(html, /22:32 SGT/, locale);
+    assert.match(html, /Binance \+ OKX|Binance وOKX|Binance と OKX|Binance와 OKX|Binance e OKX|Binance et OKX|Binance und OKX|Binance ve OKX|Binance dan OKX|Binance và OKX|Binance y OKX|Binance 与 OKX|Binance 與 OKX|Binance \+ OKX/, `${locale}: source line names Binance + OKX`);
     assert.match(html, /21:00 SGT/, `${locale}: daily digest time in SGT`);
     assert.match(html, /20:00 SGT/, `${locale}: Monday tool of the week in SGT`);
     assert.doesNotMatch(html, /Beijing|北京时间|UTC\)/, `${locale}: times are labelled SGT`);

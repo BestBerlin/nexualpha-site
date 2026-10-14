@@ -3,8 +3,6 @@ dist/
 .private/
 .context-excluded/
 .openai/
-!pilot-01-prototype/.openai/
-!pilot-01-prototype/.openai/hosting.json
 .env
 .env.*
 *.env

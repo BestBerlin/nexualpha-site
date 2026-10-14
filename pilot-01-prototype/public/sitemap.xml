@@ -61,27 +61,27 @@
   </sitemap>
   <sitemap>
     <loc>https://nexualpha.com/sitemap-venues.xml</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-10</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://nexualpha.com/news-sitemap.xml</loc>
     <lastmod>2026-10-04</lastmod>
   </sitemap>
   <sitemap>
+    <loc>https://nexualpha.com/sitemap-updates.xml</loc>
+    <lastmod>2026-10-04</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://nexualpha.com/sitemap-apps.xml</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-10-12</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://nexualpha.com/sitemap-academy.xml</loc>
     <lastmod>2026-10-12</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://nexualpha.com/sitemap-beginner.xml</loc>
-    <lastmod>2026-10-14</lastmod>
-  </sitemap>
-  <sitemap>
     <loc>https://nexualpha.com/sitemap-licenses.xml</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-13</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://nexualpha.com/sitemap-coins.xml</loc>
@@ -97,6 +97,9 @@
   <sitemap>
     <loc>https://nexualpha.com/sitemap-glossary.xml</loc>
     <lastmod>2026-10-13</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nexualpha.com/sitemap-flash.xml</loc>
   </sitemap>
   <sitemap>
     <loc>https://nexualpha.com/sitemap-campaigns.xml</loc>

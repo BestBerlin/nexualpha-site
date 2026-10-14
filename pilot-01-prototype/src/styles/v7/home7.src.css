@@ -676,7 +676,3 @@
 .hx-popover .h7:not(#_):not(#_) .hx-more-pop[popover]:popover-open{display:grid}
 
 @ .hx-terminal-host{display:contents}
-
-/* The neutral Traditional Chinese line is twelve full-width characters. Preserve its phrase while fitting
-   the actual text column; later fixed-size owner rules otherwise override the earlier CJK container sizing. */
-@ .h7-hc h1:is(:lang(zh-Hant),:lang(zh-TW)){font-size:min(clamp(28px,4vw,52px),calc(100cqi / 12));line-height:1.12}
