@@ -48,7 +48,7 @@ export const PARTNER_REGISTRATION_URLS = {
   okx: [
     "https://www.okx.com/join/nexu888",
     "https://www.topzhjdgxcb.net/join/CANDY007",
-    "https://www.topzhjdgxcb.net/join/BESTBERLIN2024",
+    "https://www.topzhjdgxcb.net/join/NEXU888",
     "https://www.topzhjdgxcb.net/join/INS898",
     "https://www.topzhjdgxcb.net/join/1836370407",
     "https://www.topzhjdgxcb.net/join/QICYQ",
