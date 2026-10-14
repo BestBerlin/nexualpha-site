@@ -14,6 +14,8 @@ import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from "./liquidat
 import { createCtaCollector } from "./cta-collector.mjs";
 import { createFxFeed, FX_JSON_PATH } from "./fx-feed.mjs";
 
+import { beginnerAliasRedirect } from "../src/data/locale-routing.js";
+
 import { createPositionRadar } from "./position-radar.mjs";
 const radar = createPositionRadar({ ...(process.env.INTEL_REFRESH === "off" ? { fetchImpl: async () => { throw new Error("radar network off"); } } : {}) });
 
@@ -70,7 +72,10 @@ createServer(async (request, response) => {
       duplex: body ? "half" : undefined,
     });
     const pathname = new URL(workerRequest.url).pathname;
-    const workerResponse = pathname === "/api/analytics/cta"
+    const beginnerRedirect = ["GET", "HEAD"].includes(request.method) ? beginnerAliasRedirect(workerRequest.url) : null;
+    const workerResponse = beginnerRedirect
+      ? Response.redirect(new URL(beginnerRedirect, origin).href, 301)
+      : pathname === "/api/analytics/cta"
       ? await collectCta(workerRequest, origin)
       : pathname === FUNDING_PATH && (request.method === "GET" || request.method === "HEAD")
         ? await funding.respond()

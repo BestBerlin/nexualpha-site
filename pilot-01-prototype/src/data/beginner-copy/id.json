@@ -31,7 +31,7 @@
     "complete": "Selesai",
     "reset": "Atur ulang"
   },
-  "intro": "Jalur sederhana untuk membeli kripto pertama tanpa menebak: pilih satu bursa, buka pintu masuk resmi, verifikasi akun, setor sedikit, beli spot, kunci keamanan, lalu pelajari cara menarik dana.",
+  "intro": "Mulai dari satu bursa, cek domain, selesaikan KYC, setor sedikit, beli spot, amankan akun, lalu pelajari penarikan.",
   "why": [
     "Urutan awal mengikuti kelayakan negara dan prioritas saat ini: Bitget lebih dulu, lalu OKX dan Binance bila sesuai.",
     "Di Turki, mulai dari OKX; untuk semua negara, keputusan akhir tetap mengikuti syarat resmi venue dan layar akun Anda."
@@ -394,5 +394,49 @@
       "a": "Tidak perlu, terutama sebelum Anda memahami volatilitas dan penarikan. Mulai kecil, selesaikan registrasi, deposit, pembelian, keamanan, dan uji penarikan sebelum menentukan langkah berikutnya.",
       "step": 5
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Cara membeli crypto untuk pemula: 7 langkah (2026)",
+      "description": "Mulai dari satu bursa, cek domain, selesaikan KYC, setor sedikit, beli spot, amankan akun, lalu pelajari penarikan."
+    },
+    "questions": {
+      "title": "Pertanyaan pemula tentang membeli crypto",
+      "description": "Jawaban praktis tentang bursa, pendaftaran, KYC, deposit, pembelian spot, keamanan, penipuan, dan penarikan dana."
+    },
+    "check": {
+      "title": "Cek link exchange crypto sebelum daftar",
+      "description": "Tempel link exchange dan bandingkan dengan domain resmi yang dikenal sebelum memasukkan email, sandi, atau data pribadi."
+    },
+    "steps": [
+      {
+        "title": "Langkah 1: pilih exchange crypto",
+        "description": "Pilih satu bursa yang tersedia untuk negara Anda, lalu cek domain, KYC, biaya, metode setor, dan jalur penarikan."
+      },
+      {
+        "title": "Langkah 2: cara daftar di exchange",
+        "description": "Buka pintu resmi, cek domain, dan isi data yang diminta tanpa menganggap kode, bonus, atau manfaat berlaku sama di semua wilayah."
+      },
+      {
+        "title": "Langkah 3: arti KYC dalam crypto",
+        "description": "KYC memeriksa identitas Anda; gunakan data asli, unggah dokumen hanya di situs atau aplikasi resmi, lalu tunggu statusnya."
+      },
+      {
+        "title": "Langkah 4: cara deposit uang ke crypto",
+        "description": "Setor jumlah kecil lewat metode di akun Anda dan cek mata uang, biaya, batas, nama pembayar, waktu proses, dan bukti."
+      },
+      {
+        "title": "Langkah 5: beli spot pertama kali",
+        "description": "Beli jumlah kecil di spot atau convert sambil memeriksa aset, mata uang bayar, harga, biaya, spread, dan saldo akhir."
+      },
+      {
+        "title": "Langkah 6: amankan akun crypto",
+        "description": "Aktifkan 2FA aplikasi, pakai sandi unik, pasang kode anti-phishing, dan gunakan whitelist penarikan saat jaringan sudah jelas."
+      },
+      {
+        "title": "Langkah 7: tarik crypto atau uang",
+        "description": "Uji dengan nominal kecil dan cek jaringan, aset, rekening bank, lawan transaksi, biaya, serta riwayat sebelum menarik lebih besar."
+      }
+    ]
+  }
 }

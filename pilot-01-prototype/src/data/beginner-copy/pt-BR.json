@@ -31,7 +31,7 @@
     "complete": "Concluído",
     "reset": "Reiniciar"
   },
-  "intro": "Um caminho simples para comprar sua primeira cripto sem pular entre vinte abas: escolha uma única exchange, abra a entrada oficial, verifique a conta, deposite pouco, compre no spot, proteja o acesso e aprenda a sacar.",
+  "intro": "Comece por uma exchange, confira o domínio, faça KYC, deposite pouco, compre no spot, proteja a conta e aprenda a sacar.",
   "why": [
     "A prioridade mostra primeiro a venue elegível para seu contexto: Bitget por padrão, depois OKX e Binance; para Turquia, OKX aparece primeiro.",
     "Antes de abrir conta, confira no registro e na própria venue a entidade, regras locais, taxas, KYC, rota fiat e prova de reservas disponíveis."
@@ -394,5 +394,49 @@
       "a": "Guarde histórico de ordens, comprovantes de depósito e saque, taxas, IDs e extratos oficiais. Esses registros ajudam em suporte, controle pessoal e eventuais obrigações locais.",
       "step": 7
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Como comprar cripto para iniciantes: 7 passos (2026)",
+      "description": "Comece por uma exchange, confira o domínio, faça KYC, deposite pouco, compre no spot, proteja a conta e aprenda a sacar."
+    },
+    "questions": {
+      "title": "Dúvidas de iniciantes sobre comprar cripto",
+      "description": "Respostas diretas sobre exchange, cadastro, KYC, depósito, compra spot, golpes, segurança e saque para quem vai começar."
+    },
+    "check": {
+      "title": "Verificador de links de exchanges cripto",
+      "description": "Cole um link de exchange e compare com domínios oficiais conhecidos antes de informar email, senha ou dados pessoais."
+    },
+    "steps": [
+      {
+        "title": "Passo 1: qual exchange cripto escolher",
+        "description": "Escolha uma exchange disponível no seu país e veja domínio, KYC, taxas, métodos de depósito e saque antes de criar conta."
+      },
+      {
+        "title": "Passo 2: como se cadastrar na exchange",
+        "description": "Abra a entrada oficial, confirme o domínio e preencha os dados pedidos sem presumir códigos, bônus ou vantagens iguais para todos."
+      },
+      {
+        "title": "Passo 3: o que é KYC em cripto",
+        "description": "KYC confirma sua identidade; use seus dados reais, envie documentos só no app ou site oficial e acompanhe o status da revisão."
+      },
+      {
+        "title": "Passo 4: como depositar dinheiro em cripto",
+        "description": "Deposite pouco pelo método exibido na conta e revise moeda, taxa, limite, nome do pagador, prazo e comprovante."
+      },
+      {
+        "title": "Passo 5: como fazer a primeira compra spot",
+        "description": "Compre uma quantia pequena no spot ou converter, conferindo ativo, moeda de pagamento, preço, taxa, spread e saldo final."
+      },
+      {
+        "title": "Passo 6: como proteger sua conta cripto",
+        "description": "Ative 2FA por app, use senha única, configure código anti-phishing e só libere saques para endereços que você entende."
+      },
+      {
+        "title": "Passo 7: como sacar cripto ou dinheiro",
+        "description": "Teste com valor pequeno e confira rede, moeda, conta bancária, contraparte, taxa e histórico antes de mover saldo maior."
+      }
+    ]
+  }
 }

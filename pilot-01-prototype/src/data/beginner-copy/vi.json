@@ -31,7 +31,51 @@
     "complete": "Hoàn tất",
     "reset": "Đặt lại"
   },
-  "intro": "Lộ trình trung lập cho người mới: hiểu nền tảng, tên miền chính thức, KYC, nạp tiền, mua spot, bảo mật tài khoản và rút tiền trước khi quyết định mở tài khoản hoặc chuyển tiền.",
+  "seo": {
+    "start": {
+      "title": "Cách mua crypto cho người mới: 7 bước 2026",
+      "description": "Lần đầu mua crypto, hãy chọn sàn, đăng ký, xác minh KYC, nạp thử số nhỏ, mua spot, bật bảo mật tài khoản rồi kiểm tra cách rút tiền."
+    },
+    "questions": {
+      "title": "Crypto cho người mới: 50 câu hỏi thường gặp",
+      "description": "Câu trả lời ngắn về sàn giao dịch, KYC, nạp tiền, mua spot, phí, bảo mật, rút tiền và link lừa đảo trước khi mở tài khoản."
+    },
+    "check": {
+      "title": "Cách kiểm tra link sàn crypto chính thức",
+      "description": "Trước khi đăng nhập hoặc nạp tiền, hãy kiểm tra domain, cách viết và đường dẫn của link sàn để giảm rủi ro trang giả mạo."
+    },
+    "steps": [
+      {
+        "title": "Bước 1 cách chọn sàn crypto",
+        "description": "Chọn một sàn phù hợp với quốc gia, cách thanh toán, KYC, phí và điều kiện rút tiền của bạn, rồi mở từ domain chính thức."
+      },
+      {
+        "title": "Bước 2 đăng ký tài khoản sàn",
+        "description": "Dùng màn hình đăng ký chính thức mở được ở quốc gia của bạn, sau đó kiểm tra email, điện thoại và yêu cầu giấy tờ."
+      },
+      {
+        "title": "Bước 3 chuẩn bị xác minh KYC",
+        "description": "Xem trước giấy tờ, địa chỉ và bước nhận diện khuôn mặt cần dùng; nhập tên và ngày sinh đúng như trên giấy tờ."
+      },
+      {
+        "title": "Bước 4 nạp tiền vào sàn crypto",
+        "description": "Chọn tuyến nạp đang dùng được như thẻ, ngân hàng, P2P hoặc chuyển on-chain, rồi thử trước bằng số tiền nhỏ."
+      },
+      {
+        "title": "Bước 5 mua spot lần đầu",
+        "description": "Hiểu khác biệt giữa lệnh market và limit, rồi đặt một lệnh spot nhỏ để xem khớp lệnh, số dư và phí hiển thị."
+      },
+      {
+        "title": "Bước 6 bảo mật tài khoản sàn",
+        "description": "Bật mật khẩu mạnh, 2FA bằng app, xác nhận địa chỉ rút tiền và mã chống phishing; lưu thông tin khôi phục cẩn thận."
+      },
+      {
+        "title": "Bước 7 kiểm tra trước khi rút tiền",
+        "description": "Trước khi rút về ngân hàng hoặc ví, kiểm tra mạng, địa chỉ, memo, số tiền tối thiểu và phí; hãy thử bằng khoản nhỏ trước."
+      }
+    ]
+  },
+  "intro": "Lần đầu mua crypto, hãy chọn sàn, đăng ký, xác minh KYC, nạp thử số nhỏ, mua spot, bật bảo mật tài khoản rồi kiểm tra cách rút tiền.",
   "why": [
     "Bản tiếng Việt chỉ cung cấp thông tin, không hiển thị mã ưu đãi, không thúc đẩy đăng ký và không ưu tiên thương mại.",
     "Trước khi dùng bất kỳ nền tảng nào, hãy đọc điều khoản chính thức, phạm vi quốc gia, phí, KYC, nạp rút và bằng chứng dự trữ."

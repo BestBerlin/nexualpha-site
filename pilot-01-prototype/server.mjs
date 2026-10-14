@@ -18,6 +18,7 @@ import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { rewritePartnerViewHtml } from './src/data/partner-view.js';
 import { createPartnerProgram } from './server/partner-program.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { beginnerAliasRedirect } from './src/data/locale-routing.js';
 import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
 import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usdg-live.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
@@ -192,6 +193,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
       const request = new Request(new URL(req.url || '/', origin), { method: req.method, headers: req.headers, body, duplex: body ? 'half' : undefined });
       let result;
       requestPath = new URL(request.url).pathname;
+      const beginnerRedirect = ['GET', 'HEAD'].includes(req.method) ? beginnerAliasRedirect(request.url) : null;
+      if (beginnerRedirect) {
+        res.writeHead(301, { location: beginnerRedirect, 'cache-control': 'public, max-age=3600', 'x-request-id': requestId });
+        res.end();
+        return;
+      }
       // QA 2026-10-10: '/exchanges/okx/' was a 404. Page URLs have no trailing slash: redirect permanently, keep the query.
       if ((req.method === 'GET' || req.method === 'HEAD') && requestPath.length > 1 && requestPath.endsWith('/') && !requestPath.startsWith('/api/')) {
         const u = new URL(request.url);
