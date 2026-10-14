@@ -11,6 +11,7 @@ export function ReferralNativeAnswers({ slug, locale, market }) {
   const terms = partnerBenefitCopy(locale);
   const source = (href) => <SourceLink locale={locale} market={market} href={href} data-cta-kind="source" data-cta-placement="referral-verification-source">{data.slug} · {copy.labels.source}</SourceLink>;
   return <section className="referral-native-answers" id="referral-answer" aria-label={copy.labels.log}>
+    {data.shortAnswer && <p className="referral-native-answers__short" data-short-answer=""><strong>{data.shortAnswer.label}</strong> {data.shortAnswer.text}</p>}
     <dl>
       {data.code && <div><dt>{copy.labels.code}</dt><dd><bdi translate="no">{data.code}</bdi></dd></div>}
       {!data.neutral && <div><dt>{copy.labels.benefit}</dt><dd>{data.benefit}{data.partnerDate && <> · {terms.confirmed.replace('{date}', data.partnerDate)}</>}</dd></div>}

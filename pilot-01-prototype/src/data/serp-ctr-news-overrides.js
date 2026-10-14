@@ -11,6 +11,24 @@
 // Shape: { [slug]: { title, description, question?, answer?, locales?: { [locale]: { title, description } } } }.
 // The top-level title/description apply to the English edition; `locales` carries native snippets for other editions.
 export const SERP_CTR_NEWS_OVERRIDES = Object.freeze({
+  // Striking-distance pass 2026-10-15 (GSC 28 days to 2026-10-12): queries at positions 8-30 whose page still showed a
+  // truncated title or the "source-mapped decision brief" template description.
+  "optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls": {
+    title: "OPUSDTE vs USDT0 on Optimism: Binance's 1:1 USDT Swap",
+    description: "After Binance's Optimism USDT swap, the new token is USDT0 and the old contract trades as OPUSDTE. Check the contract and network before you deposit.",
+  },
+  "how-to-register-mexc-account-complete-primary-kyc-and-secure-first-deposit": {
+    title: "MEXC KYC Verification (2026): Register and Pass Primary KYC",
+    description: "Does MEXC require KYC? Primary KYC asks for your ID-issuing country, an accepted ID type and clear photos. Register on the official domain, then verify.",
+  },
+  "how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection": {
+    title: "Gemini Identity Verification (2026): ID, Face Scan and 2FA",
+    description: "Gemini verifies identity with a photo ID and may ask for a face scan. 2FA is required, and Withdrawal Protection holds new addresses for 7 days.",
+  },
+  "how-to-secure-a-kraken-account-passkeys-funding-2fa-verification": {
+    title: "Kraken 2FA: Sign-in vs Funding 2FA, Passkeys and GSL",
+    description: "Kraken separates sign-in 2FA from funding 2FA. Add a passkey or security key, turn on funding 2FA and Global Settings Lock before your first transfer.",
+  },
   "okx-usd-to-usdc-spot-pair-migration": {
     title: "OKX USD to USDC Spot Pairs (2026): Orders, Bots, API Fixes",
     description: "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. See which orders, bots, API instId and tradeQuoteCcy settings to update.",

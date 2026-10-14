@@ -24,6 +24,18 @@ export const REFERRAL_HELP = Object.freeze({
   kraken: { reviewedAt: '2026-10-14', official: 'https://support.kraken.com/articles/kraken-app-referral-program', entry: 'app' },
 });
 
+// Answer-first lead (SEO/GEO pass 2026-10-15): one self-contained sentence an answer engine can quote verbatim —
+// code, user benefit, payout cadence and the date the partner terms were confirmed. Values come from the partner
+// registry; nothing is hand-typed. Neutral editions (zh-Hant, vi) get no lead because they show no code.
+const SHORT_ANSWER = {
+  en: { label: 'The short answer:', text: (name, code, benefit, cadence, date) => `Use ${name} referral code ${code} when you sign up. ${benefit}${cadence ? `, paid ${cadence}` : ''} (partner terms confirmed ${date}).` },
+  'zh-Hans': { label: '简短回答：', text: (name, code, benefit, cadence, date) => `注册 ${name} 时填写邀请码 ${code}。${benefit}${cadence ? `，按${cadence}发放` : ''}（合作条款确认于 ${date}）。` },
+  es: { label: 'Respuesta corta:', text: (name, code, benefit, cadence, date) => `Usa el código de referido de ${name} ${code} al registrarte. ${benefit}${cadence ? `, pagado ${cadence}` : ''} (condiciones del partner confirmadas el ${date}).` },
+  'pt-BR': { label: 'Resposta curta:', text: (name, code, benefit, cadence, date) => `Use o código de indicação da ${name} ${code} no cadastro. ${benefit}${cadence ? `, pago ${cadence}` : ''} (termos do parceiro confirmados em ${date}).` },
+  id: { label: 'Jawaban singkat:', text: (name, code, benefit, cadence, date) => `Gunakan kode referral ${name} ${code} saat mendaftar. ${benefit}${cadence ? `, dibayar ${cadence}` : ''} (ketentuan mitra dikonfirmasi ${date}).` },
+  tr: { label: 'Kısa cevap:', text: (name, code, benefit, cadence, date) => `Kayıt olurken ${name} referans kodu ${code} kodunu girin. ${benefit}${cadence ? `, ödeme ${cadence}` : ''} (iş ortağı koşulları ${date} tarihinde doğrulandı).` },
+};
+
 export function nativeReferralFor(slug, locale = 'en', market) {
   const raw = String(locale || 'en').toLowerCase().replaceAll('_', '-');
   if (/^zh-(hant|tw|hk|mo)(-|$)/.test(raw)) locale = 'zh-Hant';
@@ -49,7 +61,11 @@ export function nativeReferralFor(slug, locale = 'en', market) {
   // Owner 2026-10-14: the Binance code is a Pro-mode code, so its sign-up answer starts with that step.
   const entryWithStep = slug === 'binance' && code ? `${binanceProStep(locale)} ${entry}` : entry;
   const payout = !neutral && partner.termsConfirmedOn && partner.settle ? copy.payoutText(partner.name, copy.cadence[partner.settle]) : copy.noPayout;
-  return { slug, locale, copy, neutral, code, benefit, verifiedAt, title, help, entry: entryWithStep, later, payout, partnerDate: neutral ? null : partner.termsConfirmedOn,
+  const lead = SHORT_ANSWER[locale];
+  const shortAnswer = !neutral && code && lead && partner.share != null && partner.termsConfirmedOn
+    ? { label: lead.label, text: lead.text(partner.name, code, benefit, partner.settle ? copy.cadence?.[partner.settle] : '', partner.termsConfirmedOn) }
+    : null;
+  return { slug, locale, copy, neutral, code, benefit, verifiedAt, title, help, entry: entryWithStep, later, payout, shortAnswer, partnerDate: neutral ? null : partner.termsConfirmedOn,
     faq: [ { question: copy.faqEntry(partner.name), answer: entryWithStep, source: help.entryHref }, { question: copy.faqLater(partner.name), answer: later, source: help.href }, { question: copy.faqPayout(partner.name), answer: payout, source: '/intel/partners.json', origin: 'partner-data' } ],
   };
 }

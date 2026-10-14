@@ -16,7 +16,7 @@ export const RESEARCH_DESK_ANCHOR = `${ABOUT_PATH}#research-desk`;
 export const RESEARCH_DESK_ID = `${PUBLIC_ORIGIN}${RESEARCH_DESK_ANCHOR}`;
 export const BRAND_PAGE_PATHS = Object.freeze([ABOUT_PATH, EDITORIAL_POLICY_PATH]);
 // Date the entity facts and the two brand pages were last reviewed (rendered on both pages and as dateModified).
-export const ENTITY_REVIEWED_AT = "2026-10-11";
+export const ENTITY_REVIEWED_AT = "2026-10-15";
 
 export const BRAND_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
 
@@ -35,7 +35,7 @@ export const BRAND = Object.freeze({
   }),
   // Other public profiles. twitter.com/NexuAlpha was already emitted by the Worker's home Organization block;
   // the owner confirms or removes it here. Add X / GitHub / Medium / LinkedIn URLs to this list only.
-  profiles: Object.freeze(["https://twitter.com/NexuAlpha", "https://www.youtube.com/@NexuAlphaCN", "https://www.youtube.com/@NexuAlphaGlobal"]),
+  profiles: Object.freeze(["https://x.com/NexuAlpha", "https://www.youtube.com/@NexuAlphaCN", "https://www.youtube.com/@NexuAlphaGlobal"]),
 });
 
 export const BRAND_SAME_AS = Object.freeze([
@@ -59,6 +59,37 @@ export const BRAND_KNOWS_ABOUT = Object.freeze([
 ]);
 
 export const RESEARCH_DESK_NAME = "NexuAlpha Research Desk";
+
+// Brand disambiguation (SEO/GEO pass 2026-10-15). Search engines and answer engines confuse "NexuAlpha" with older,
+// similarly named brands (Nexus, NEXO). One sentence per locale, used as Organization.disambiguatingDescription and
+// as the visible "at a glance" block on /about. vi stays information-only (no rebate wording, owner rule 2026-10-13).
+export const BRAND_ALTERNATE_NAMES = Object.freeze(["Nexu Alpha", "NexuAlpha.com", "nexualpha.com"]);
+export const ENTITY_AT_A_GLANCE = Object.freeze({
+  en: ["NexuAlpha at a glance", "NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus or NEXO. The only official channels are the ones listed on this page.", "Official profiles"],
+  "zh-Hans": ["NexuAlpha 一览", "NexuAlpha（也写作 Nexu Alpha）是位于 nexualpha.com 的加密交易所研究与手续费返还网站。它不是交易所、代币或交易 App，也与使用相近名称的其他公司、代币或项目（例如 Nexus、NEXO）没有关联。官方渠道仅以本页列出的为准。", "官方账号"],
+  "zh-Hant": ["NexuAlpha 一覽", "NexuAlpha（也寫作 Nexu Alpha）是位於 nexualpha.com 的加密交易所研究與手續費返還網站。它不是交易所、代幣或交易 App，也與使用相近名稱的其他公司、代幣或專案（例如 Nexus、NEXO）沒有關聯。官方管道僅以本頁列出的為準。", "官方帳號"],
+  es: ["NexuAlpha en breve", "NexuAlpha (también escrito Nexu Alpha) es el sitio de análisis de exchanges cripto y devolución de comisiones en nexualpha.com. No es un exchange, un token ni una app de trading, y no está vinculado con otras empresas, tokens o proyectos de nombre parecido, como Nexus o NEXO. Los únicos canales oficiales son los que figuran en esta página.", "Perfiles oficiales"],
+  "pt-BR": ["NexuAlpha em resumo", "A NexuAlpha (também escrita Nexu Alpha) é o site de análise de exchanges cripto e devolução de taxas em nexualpha.com. Não é uma exchange, um token nem um app de trading, e não tem relação com outras empresas, tokens ou projetos de nome parecido, como Nexus ou NEXO. Os únicos canais oficiais são os listados nesta página.", "Perfis oficiais"],
+  fr: ["NexuAlpha en bref", "NexuAlpha (aussi écrit Nexu Alpha) est le site d’analyse des plateformes crypto et de remboursement de frais publié sur nexualpha.com. Ce n’est ni une plateforme d’échange, ni un jeton, ni une application de trading, et il n’est lié à aucune société, aucun jeton ni aucun projet au nom proche, comme Nexus ou NEXO. Seuls les canaux listés sur cette page sont officiels.", "Profils officiels"],
+  de: ["NexuAlpha auf einen Blick", "NexuAlpha (auch Nexu Alpha geschrieben) ist die Recherche- und Gebührenrückerstattungsseite zu Kryptobörsen unter nexualpha.com. NexuAlpha ist keine Börse, kein Token und keine Trading-App und steht in keiner Verbindung zu Unternehmen, Token oder Projekten mit ähnlichem Namen wie Nexus oder NEXO. Offiziell sind nur die auf dieser Seite genannten Kanäle.", "Offizielle Profile"],
+  it: ["NexuAlpha in breve", "NexuAlpha (scritto anche Nexu Alpha) è il sito di analisi degli exchange crypto e rimborso commissioni su nexualpha.com. Non è un exchange, un token né un’app di trading e non è collegato ad altre società, token o progetti con nomi simili, come Nexus o NEXO. Gli unici canali ufficiali sono quelli elencati in questa pagina.", "Profili ufficiali"],
+  ja: ["NexuAlpha の概要", "NexuAlpha（Nexu Alpha とも表記）は、nexualpha.com で運営する暗号資産取引所のリサーチと手数料還元のサイトです。取引所、トークン、取引アプリではなく、Nexus や NEXO など似た名前の企業・トークン・プロジェクトとは関係ありません。公式チャンネルはこのページに掲載したものだけです。", "公式アカウント"],
+  ko: ["NexuAlpha 한눈에 보기", "NexuAlpha(Nexu Alpha로도 표기)는 nexualpha.com에서 운영하는 암호화폐 거래소 리서치 및 수수료 환급 사이트입니다. 거래소, 토큰, 트레이딩 앱이 아니며 Nexus, NEXO 등 비슷한 이름의 다른 회사·토큰·프로젝트와 관련이 없습니다. 공식 채널은 이 페이지에 적힌 것뿐입니다.", "공식 계정"],
+  ru: ["NexuAlpha кратко", "NexuAlpha (также пишется Nexu Alpha) — сайт с исследованиями криптобирж и возвратом комиссий по адресу nexualpha.com. Это не биржа, не токен и не торговое приложение; NexuAlpha не связан с компаниями, токенами или проектами с похожими названиями, например Nexus или NEXO. Официальные каналы — только те, что перечислены на этой странице.", "Официальные профили"],
+  tr: ["Kısaca NexuAlpha", "NexuAlpha (Nexu Alpha olarak da yazılır), nexualpha.com adresindeki kripto borsa araştırma ve komisyon iadesi sitesidir. Bir borsa, token ya da alım satım uygulaması değildir; Nexus veya NEXO gibi benzer adlı şirket, token ya da projelerle bağlantısı yoktur. Resmî kanallar yalnızca bu sayfada listelenenlerdir.", "Resmî hesaplar"],
+  id: ["Sekilas tentang NexuAlpha", "NexuAlpha (juga ditulis Nexu Alpha) adalah situs riset bursa kripto dan pengembalian biaya di nexualpha.com. NexuAlpha bukan bursa, token, atau aplikasi trading, dan tidak terkait dengan perusahaan, token, atau proyek lain bernama mirip seperti Nexus atau NEXO. Kanal resmi hanya yang tercantum di halaman ini.", "Profil resmi"],
+  vi: ["Tóm tắt về NexuAlpha", "NexuAlpha (còn viết là Nexu Alpha) là trang nghiên cứu sàn tiền mã hóa tại nexualpha.com. NexuAlpha không phải sàn giao dịch, token hay ứng dụng giao dịch, và không liên quan đến các công ty, token hay dự án có tên gần giống như Nexus hoặc NEXO. Kênh chính thức chỉ gồm những kênh được liệt kê trên trang này.", "Tài khoản chính thức"],
+  ar: ["لمحة عن NexuAlpha", "NexuAlpha (وتُكتب أيضًا Nexu Alpha) هو موقع أبحاث منصات تداول العملات المشفرة واسترداد الرسوم على nexualpha.com. ليس منصة تداول ولا رمزًا مميزًا ولا تطبيق تداول، ولا يرتبط بشركات أو رموز أو مشاريع أخرى تحمل أسماء مشابهة مثل Nexus أو NEXO. القنوات الرسمية هي المدرجة في هذه الصفحة فقط.", "الحسابات الرسمية"],
+  // l10n: needs native review
+  ur: ["NexuAlpha ایک نظر میں", "NexuAlpha (جسے Nexu Alpha بھی لکھا جاتا ہے) nexualpha.com پر کرپٹو ایکسچینج تحقیق اور فیس واپسی کی ویب سائٹ ہے۔ یہ کوئی ایکسچینج، ٹوکن یا ٹریڈنگ ایپ نہیں، اور Nexus یا NEXO جیسے ملتے جلتے ناموں والی کمپنیوں، ٹوکنز یا منصوبوں سے اس کا کوئی تعلق نہیں۔ سرکاری چینل صرف وہی ہیں جو اس صفحے پر درج ہیں۔", "سرکاری اکاؤنٹس"],
+  // l10n: needs native review
+  uk: ["Коротко про NexuAlpha", "NexuAlpha (також пишеться Nexu Alpha) — сайт із дослідженнями криптобірж і поверненням комісій за адресою nexualpha.com. Це не біржа, не токен і не торговий застосунок; NexuAlpha не пов’язаний з компаніями, токенами чи проєктами зі схожими назвами, як-от Nexus або NEXO. Офіційні канали — лише ті, що наведені на цій сторінці.", "Офіційні профілі"],
+});
+
+export function entityAtAGlance(locale = "en") {
+  const [title, body, profilesLabel] = ENTITY_AT_A_GLANCE[brandLocale(locale)] || ENTITY_AT_A_GLANCE.en;
+  return { title, body, profilesLabel };
+}
 
 const ORGANIZATION_DESCRIPTION = Object.freeze({
   en: "Independent, source-backed crypto platform research: published fees, referral terms, regional conditions and reserve disclosures, each with its official source and review date.",
@@ -162,12 +193,14 @@ export function organizationSchema(locale = "en") {
     "@type": "Organization",
     "@id": ORGANIZATION_ID,
     name: BRAND.name,
+    alternateName: [...BRAND_ALTERNATE_NAMES],
     url: BRAND.url,
     logo: logoImage(),
     image: BRAND.image,
     // Owner 2026-10-11: slogan A (src/data/brand-slogan.js) is the Organization slogan and leads its description.
     slogan: brandSlogan(code),
     description: organizationDescription(code),
+    disambiguatingDescription: entityAtAGlance(code).body,
     email: BRAND.email,
     sameAs: [...BRAND_SAME_AS],
     knowsAbout: [...BRAND_KNOWS_ABOUT],
@@ -289,6 +322,7 @@ export function websiteSchema(locale = "en", { url = BRAND.url, dateModified = "
     "@type": "WebSite",
     "@id": WEBSITE_ID,
     name: BRAND.name,
+    alternateName: [...BRAND_ALTERNATE_NAMES],
     url,
     inLanguage: code,
     dateModified,

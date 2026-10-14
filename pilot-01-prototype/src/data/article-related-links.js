@@ -7,7 +7,10 @@ import { compareNewestFirst, newsReadingNeighbors } from './news-library.js';
 import { fundingMatrixCopy } from './funding-matrix-copy.js';
 import { DATA_PAGE_NAV } from './market-data-pages-nav.js';
 import { localizedHref } from './locale-routing.js';
+import { isPartnerPromotableIn } from './partner-geo-policy.js';
+import { isNeutralCtaLocale } from './locale-policy.js';
 
+const PRIORITY_PROFILE_FALLBACK = ['bitget', 'okx', 'binance'];
 const COIN_ENTITIES = COIN_ROWS.map(([, slug, name, symbol]) => [slug, name, symbol]);
 const escape = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const patterns = new Map();
@@ -52,6 +55,14 @@ export function articleRelatedLinks(article, locale, { profileSuffix = '', compa
   ];
   // Specific tools precede extra exchanges; labels remain informational.
   for (const [pattern, path, label] of tools) if (pattern.test(text) && links.length < 5) add(path, label);
+  // SEO/GEO pass 2026-10-15: 28% of sampled articles (mostly tokenization and regulation) linked no exchange profile,
+  // so the news -> exchange profile -> official sign-up path stopped at the article. Venue-free articles now link the
+  // first priority partner allowed in this edition (owner order Bitget > OKX > Binance; Türkiye skips Bitget).
+  // Neutral editions (vi, ru) keep informational hubs only.
+  if (!venues.length && !isNeutralCtaLocale(locale) && links.length < 5) {
+    const slug = PRIORITY_PROFILE_FALLBACK.find((candidate) => venueDatabase[candidate] && isPartnerPromotableIn(candidate, { locale }));
+    if (slug) add(`/exchanges/${slug}`, `${venueDatabase[slug].name} ${profileSuffix}`.trim());
+  }
   for (const slug of venues.slice(1)) if (links.length < 5) add(`/exchanges/${slug}`, `${venueDatabase[slug].name} ${profileSuffix}`.trim());
   for (const coin of coins.slice(1)) if (links.length < 5) add(`/coins/${coin[0]}`, `${coin[1]} (${coin[2]})`);
   // General informational hubs keep even entity-free articles connected.

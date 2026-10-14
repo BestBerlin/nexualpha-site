@@ -22,6 +22,30 @@ This index is designed for retrieval by search and answer systems. It is not an 
   - CoinW: invite code 2296057; no fee-return share published; profile https://nexualpha.com/exchanges/coinw
 - A fee-return share is part of the trading fees the exchange pays back to the user's account; current terms are confirmed on the exchange's own page.
 
+## Brand identity
+
+- Name: NexuAlpha. Also written: Nexu Alpha, NexuAlpha.com, nexualpha.com.
+- NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus or NEXO. The only official channels are the ones listed on this page.
+- Official profiles (schema.org sameAs): https://t.me/NexuAlphaClub, https://t.me/NexuAlphaGlobal, https://t.me/NexuAlphaAssistantBot, https://app.nexualpha.com/, https://t.me/NexuAlphaWorld, https://x.com/NexuAlpha, https://www.youtube.com/@NexuAlphaCN, https://www.youtube.com/@NexuAlphaGlobal.
+- Entity page: https://nexualpha.com/about#entity.
+
+## Focus clusters
+
+### Tokenized stocks (US stock tokens on crypto exchanges)
+
+- [Tokenized stocks vs stock perpetuals](https://nexualpha.com/topics/tokenized-stocks-vs-perpetuals): how a stock token (backed claim on a share) differs from a stock perpetual (derivative with funding and liquidation), and what to check first.
+- [Tokenized assets hub](https://nexualpha.com/topics/tokenized-assets): issuer, custody, redemption and access checks for tokenized stocks, Treasuries and gold.
+- [What are tokenized stocks?](https://nexualpha.com/glossary/tokenized-stocks): plain-language definition with related terms.
+- [Bybit stock-token campaign](https://nexualpha.com/activities/bybit-stocks): official campaign terms with dates and the official source.
+- [Tokenized stocks vs stock perpetuals (research article)](https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals).
+
+### Deposits and withdrawals (fiat on-ramp and off-ramp by country)
+
+- [Regional funding verification matrix](https://nexualpha.com/br/pix#regional-funding-verification-matrix): reviewed deposit and withdrawal rails for BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR.
+- [Brazil: BRL and Pix](https://nexualpha.com/br/pix), [Mexico](https://nexualpha.com/mx), [Taiwan](https://nexualpha.com/tw), [Indonesia](https://nexualpha.com/id), [EU](https://nexualpha.com/eu), [UK](https://nexualpha.com/uk), [US](https://nexualpha.com/us): country pages with local rails, regulator and account checks.
+- [What is a fiat on-ramp?](https://nexualpha.com/glossary/fiat-on-ramp): definition and how exchange deposits work.
+- [Exchange licences by country](https://nexualpha.com/licenses): regulator, entity and status rows from reviewed register data.
+
 ## Public data boundary
 
 - Factbook source review date: 2026-09-08

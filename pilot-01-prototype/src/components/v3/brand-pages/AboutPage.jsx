@@ -2,7 +2,7 @@
 // Facts come from src/data/brand-entity.js (one entity for the whole site); wording from about-copy.js (15 locales).
 import React from "react";
 import { localizedHref } from "../../../data/locale-routing.js";
-import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
+import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale, entityAtAGlance } from "../../../data/brand-entity.js";
 import { ABOUT_COPY } from "./about-copy.js";
 import "./brand-pages.css";
 
@@ -31,6 +31,8 @@ export function AboutPage({ locale = "en" }) {
   const code = brandLocale(locale);
   const t = ABOUT_COPY[code] || ABOUT_COPY.en;
   const href = (target) => localizedHref(target, { locale: code });
+  const entity = entityAtAGlance(code);
+  const profiles = BRAND.profiles.map((url) => [url, url.replace(/^https:\/\/(?:www\.)?/, "")]);
   const contacts = [
     [t.contactChannelZh, BRAND.telegram.channelZh, "@NexuAlphaClub"],
     [t.contactChannelEn, BRAND.telegram.channelEn, "@NexuAlphaGlobal"],
@@ -41,6 +43,20 @@ export function AboutPage({ locale = "en" }) {
   return (
     <main className="v6 v2-page v3-page nxb nxb--about" id="top" lang={code} dir={textDirection(code)} data-testid="about-page">
       <BrandPageHeader locale={code} copy={t} pathname={ABOUT_PATH} />
+
+      <section className="nxb-section nxb-section--card v2-shell" id="entity" aria-labelledby="nxb-entity-h" data-rv="1">
+        <h2 id="nxb-entity-h">{entity.title}</h2>
+        <p>{entity.body}</p>
+        <p className="nxb-links">
+          <strong>{entity.profilesLabel}{/^(zh|ja)/.test(code) ? "：" : ":"}</strong>{" "}
+          {profiles.map(([url, label], index) => (
+            <React.Fragment key={url}>
+              {index ? " · " : ""}
+              <a href={url} dir="ltr" target="_blank" rel="noopener noreferrer me">{label}</a>
+            </React.Fragment>
+          ))}
+        </p>
+      </section>
 
       <section className="nxb-section v2-shell" id="publisher" aria-labelledby="nxb-publisher-h" data-rv="1">
         <h2 id="nxb-publisher-h">{t.publisherTitle}</h2>
