@@ -2,11 +2,14 @@
 // (price + 24h change) and the biggest 24h mover. The server renders a real first frame (the Worker reads the cached
 // snapshot from server/ticker-feed.mjs, splices it into the prerendered home HTML with spliceTickerHtml and ships the
 // same snapshot as prerender state "ticker"), so the first paint already shows prices. After first paint the browser
-// lazy-loads ticker-live.js (own chunk) and polls our /api/ticker.json every 30 s while the tab is visible.
+// lazy-loads ticker-live.js (own chunk) and polls our /api/ticker.json every 12 s while the tab is visible (paused when
+// hidden). Only this component re-renders on a refresh. A value that changed gets one short up/down tint (opacity of a
+// pseudo-element, compositor only; none under prefers-reduced-motion) so a refresh is visible.
 // Fixed height and tabular digits: no layout shift. On narrow screens the strip scrolls as a slow marquee, never with
 // prefers-reduced-motion (then it is a plain horizontal scroller). Values are pre-formatted strings from the server.
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { tickerChanges } from "./ticker-changes.js";
 import "./ticker.css";
 
 export const TICKER_BAR_SYMBOLS = ["BTC", "ETH", "SOL", "BNB", "XRP"];
@@ -23,6 +26,7 @@ const COPY = {
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const validSnapshot = (value) => Boolean(value && Array.isArray(value.items) && value.items.length);
 const EMPTY = "—";
+
 
 function Row({ item, locale, hidden }) {
   return <li className="nx-ticker__item" data-sym={item.sym} data-dir={item.dir || "flat"}>
@@ -47,6 +51,22 @@ function List({ items, mover, label, locale, hidden }) {
 
 export function TickerBar({ locale = "en", initial = null }) {
   const [data, setData] = useState(() => (validSnapshot(initial) ? initial : null));
+  const rootRef = useRef(null);
+  const prevRef = useRef(data);
+  // Flash the digits that changed (both marquee copies). The attribute alternates between two names so a second change
+  // of the same value restarts the animation; React never owns data-flash, so a re-render leaves it alone.
+  useEffect(() => {
+    const prev = prevRef.current;
+    prevRef.current = data;
+    const root = rootRef.current;
+    if (!root || !prev || !data || prev === data) return;
+    const changes = tickerChanges(prev, data);
+    if (!changes.size) return;
+    for (const el of root.querySelectorAll("[data-tk]")) {
+      const dir = changes.get(el.getAttribute("data-tk"));
+      if (dir) el.setAttribute("data-flash", el.getAttribute("data-flash") === dir ? `${dir}-b` : dir);
+    }
+  }, [data]);
   useEffect(() => {
     let off = false, stop = null, handle = null;
     const start = () => import("./ticker-live.js")
@@ -63,7 +83,7 @@ export function TickerBar({ locale = "en", initial = null }) {
   }, []);
   const [label, moverLabel] = copyFor(locale);
   const items = TICKER_BAR_SYMBOLS.map((sym) => data?.items?.find((item) => item?.sym === sym) || { sym, price: EMPTY, change: EMPTY, dir: "flat" });
-  return <div className="nx-ticker" role="region" aria-label={label} dir="ltr" data-ticker-source={data?.source || "none"}>
+  return <div ref={rootRef} className="nx-ticker" role="region" aria-label={label} dir="ltr" data-ticker-source={data?.source || "none"}>
     <div className="nx-ticker__viewport">
       <div className="nx-ticker__track">
         <List items={items} mover={data?.mover} label={moverLabel} locale={locale} />
