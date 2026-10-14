@@ -778,3 +778,11 @@
 .h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .hx-go.h7-lg-go{margin-top:0}
 @media(min-width:1024px){.h7:not(#_):not(#_) .h7-pw a{align-content:start}}
 @media(min-width:1024px){.h7:not(#_):not(#_) .h7-hc h1.hx-say:not(:lang(zh)):not(:lang(ja)):not(:lang(ko)){font-size:44px;line-height:50px}}
+
+/* Calculator (owner 2026-10-14): what comes back for the entered volume is the headline number of each row (teal = money back). */
+.h7:not(#_):not(#_) .h7-am .h7-back{color:var(--ac)}
+.h7:not(#_):not(#_) .h7-am .h7-fee{display:block;margin-top:2px;font:400 12px/1.3 var(--mono);letter-spacing:0;color:var(--ink3);white-space:nowrap}
+/* Volumes reach 10亿 (13 digits): the readout sits on its own line and the figure scales with the viewport. */
+.h7:not(#_):not(#_) .h7-calc .h7-vin{flex-wrap:wrap}
+.h7:not(#_):not(#_) .h7-calc .h7-vin input{flex:1 1 0;width:auto;min-width:0;font-size:clamp(1.75rem,8.6vw,3.5rem)}
+.h7:not(#_):not(#_) .h7-calc .h7-vin small{flex-basis:100%;margin-top:6px;text-align:start}
