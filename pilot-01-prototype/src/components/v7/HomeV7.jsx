@@ -246,7 +246,59 @@ function HeroRebate({ locale, venue, amount, sentence, quickRef }) {
 // Desktop device (≥1024 only, owner 2026-10-14): a laptop showing a real NexuAlpha screen, /rates, for the visitor's own
 // volume. Each partner row: the fee that volume pays (volume × perpetual taker) and what comes back (× partner share).
 // Same numbers as the figure, so the screen is proof, not decoration. Rows follow the dial and the exchange switch.
-function HeroScreen({ locale, picks, sel, volume, onPick, quickRef, live }) {
+// Demo (owner 2026-10-15; lead: motion stays, the demo is one short intro): while nobody has touched the hero, the screen
+// steps 1000万 → 1亿 → 100万 → back to the visitor's volume, 4 s apart, starting after an idle callback + 2 s (≈ 12–16 s
+// in all), then stops for good. Desktop only, never with reduced motion, paused offscreen or in a hidden tab. Each step
+// re-renders only this screen (digits slide, bars regrow on the compositor without remounting, the highlight glides).
+// The figure carries data-demo = pending | running | done | off so the release gate samples idle only once it is over.
+const DEMO_STEPS = [1e8, 1e6];
+function useScreenDemo(rootRef, enabled) {
+  const [step, setStep] = useState(null);
+  const [phase, setPhase] = useState("pending");
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!enabled) { setStep(null); setPhase((p) => (p === "off" ? p : "done")); return undefined; }
+    if (!root || reducedMotion() || !window.matchMedia?.("(min-width: 1024px)").matches || typeof IntersectionObserver !== "function") { setPhase("off"); return undefined; }
+    const seq = DEMO_STEPS.map((v) => HERO_VOLUME_STEPS.indexOf(v));
+    let at = 0, timer = null, idle = null, started = false, visible = false, cancelled = false;
+    const stop = () => { clearTimeout(timer); timer = null; };
+    const schedule = () => {
+      if (cancelled || timer || !started || !visible || document.visibilityState !== "visible") return;
+      timer = setTimeout(() => {
+        timer = null;
+        if (at < seq.length) { setStep(seq[at]); at += 1; schedule(); }
+        else { setStep(null); setPhase("done"); cancelled = true; }
+      }, 4000);
+    };
+    const begin = () => { idle = null; if (cancelled) return; timer = setTimeout(() => { timer = null; started = true; setPhase("running"); schedule(); }, 2000); };
+    idle = window.requestIdleCallback ? window.requestIdleCallback(begin, { timeout: 4000 }) : window.setTimeout(begin, 1500);
+    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) schedule(); else stop(); }, { threshold: 0.25 });
+    const onVisibility = () => (document.visibilityState === "visible" ? schedule() : stop());
+    io.observe(root);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      cancelled = true; stop(); io.disconnect(); document.removeEventListener("visibilitychange", onVisibility);
+      if (idle !== null) { window.cancelIdleCallback?.(idle); window.clearTimeout(idle); }
+    };
+  }, [enabled, rootRef]);
+  return { step, phase, running: phase === "running" && enabled };
+}
+
+function HeroScreen({ locale, picks, sel, volume: heroVolume, onPick, quickRef, demo }) {
+  const rootRef = useRef(null), bars = useRef([]);
+  const { step, phase, running } = useScreenDemo(rootRef, demo);
+  const volume = step == null ? heroVolume : HERO_VOLUME_STEPS[step];
+  const prevVolume = useRef(volume);
+  useLayoutEffect(() => {
+    if (prevVolume.current === volume) return;
+    prevVolume.current = volume;
+    if (reducedMotion()) return;
+    bars.current.forEach((bar, index) => {
+      if (!bar?.animate) return;
+      const w = Number(bar.dataset.w) || 1;
+      bar.animate([{ transform: `scaleX(${(w * 0.35).toFixed(3)})` }, { transform: `scaleX(${w})` }], { duration: 600, delay: index * 70, easing: HERO_EASE, fill: "backwards" });
+    });
+  }, [volume]);
   const say = heroSay(locale);
   const rows = picks.map((venue) => {
     const fact = feeFact(venue.slug, "perp");
@@ -256,11 +308,11 @@ function HeroScreen({ locale, picks, sel, volume, onPick, quickRef, live }) {
   const top = Math.max(1, ...rows.map((row) => row.back));
   const vol = heroVolumeText(volume, locale);
   return (
-    <figure className="hx-screen" aria-hidden="true">
+    <figure className="hx-screen" aria-hidden="true" ref={rootRef} data-demo={phase}>
       <div className="hx-mac">
         <div className="hx-mac-lid">
           <div className="hx-mac-display">
-            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={live ? "" : undefined}><i /></span></div>
+            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={running ? "" : undefined}><i /></span></div>
             <div className="hx-scr-body">
               <p className="hx-scr-title">{say.screen.split("{vol}").map((part, i) => i ? <span key={i}><HeroWord className="hx-scr-vol" text={vol} quickRef={quickRef} />{part}</span> : <span key={i}>{part}</span>)}</p>
               <div className="hx-scr-head"><span /><span>{say.fee}</span><span>{say.back}</span></div>
@@ -271,8 +323,8 @@ function HeroScreen({ locale, picks, sel, volume, onPick, quickRef, live }) {
                   <li key={venue.slug} data-on={venue.slug === sel.slug ? "" : undefined} style={{ "--g": heroTint(venue.slug), "--w": (back / top).toFixed(3), "--d": `${index * 70}ms` }}>
                     <button type="button" tabIndex={-1} onClick={() => onPick(venue.slug)}>
                       <span className="hx-scr-name"><BrandMark slug={venue.slug} compact /><b>{venue.name}</b></span>
-                      <HeroWord className="hx-scr-fee" text={heroMoneyText(fee, locale)} quickRef={quickRef} />
-                      <span className="hx-scr-back"><i className="hx-scr-bar-fill" key={volume} /><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
+                      <span className="hx-scr-fee">{heroMoneyText(fee, locale)}</span>
+                      <span className="hx-scr-back"><i className="hx-scr-bar-fill"><b ref={(el) => { bars.current[index] = el; }} data-w={(back / top).toFixed(3)} /></i><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
                     </button>
                   </li>
                 ))}
@@ -519,38 +571,12 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const dragRef = useRef(false);
 
   const heroRef = useRef(null);
-  // Desktop life (owner 2026-10-15): while nobody touches the hero, the laptop screen (only the screen: the headline and
-  // the figure keep the visitor's volume, so nothing above shifts) steps 1000万 → 1亿 → 100万 → 1000万 every 4 s, two
-  // rounds, then follows the dial again. Any touch of the dial, tabs or screen stops it for good. Paused offscreen or in a
-  // hidden tab; never starts on phones or with reduced motion. One React update per step, no loops in between.
-  const touchedRef = useRef(false);
-  const [heroCycling, setHeroCycling] = useState(false);
-  const [screenStep, setScreenStep] = useState(null);
-  const stopCycle = () => { touchedRef.current = true; setHeroCycling(false); setScreenStep(null); };
+  // The laptop screen runs its own short demo (HeroScreen); the first touch of the dial, tabs or screen ends it for good.
+  // One state flip, once: the demo itself never re-renders anything outside the screen.
+  const [touched, setTouched] = useState(false);
+  const stopCycle = () => { if (!touched) setTouched(true); };
   const pickVenue = (slug) => { stopCycle(); setPick(slug); };
   const pickStep = (step) => { stopCycle(); setHeroStep(step); };
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (banned || !hero || reducedMotion() || !window.matchMedia?.("(min-width: 1024px)").matches || typeof IntersectionObserver !== "function") return undefined;
-    const seq = [1e8, 1e6, 1e7].map((v) => HERO_VOLUME_STEPS.indexOf(v));
-    let at = 0, done = 0, timer = null, visible = false;
-    const stop = () => { clearTimeout(timer); timer = null; };
-    const schedule = () => {
-      if (timer || touchedRef.current || done >= seq.length * 2 || !visible || document.visibilityState !== "visible") return;
-      timer = setTimeout(() => {
-        timer = null;
-        if (touchedRef.current) return;
-        setScreenStep(seq[at]); at = (at + 1) % seq.length; done += 1;
-        if (done >= seq.length * 2) { setHeroCycling(false); setScreenStep(null); } else schedule();
-      }, 4000);
-    };
-    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) schedule(); else stop(); }, { threshold: 0.25 });
-    const onVisibility = () => (document.visibilityState === "visible" ? schedule() : stop());
-    io.observe(hero);
-    document.addEventListener("visibilitychange", onVisibility);
-    setHeroCycling(true);
-    return () => { stop(); io.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
-  }, [banned]);
   const h1b = heroText.h1b.replace("{max}%", formatPercent(locale, maxPct));
 
   return (
@@ -571,7 +597,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
         </aside>
         )}
-        {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={screenStep == null ? heroVolume : HERO_VOLUME_STEPS[screenStep]} onPick={pickVenue} quickRef={dragRef} live={heroCycling && !touchedRef.current} />}
+        {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} onPick={pickVenue} quickRef={dragRef} demo={!touched} />}
       </section>
 
       <section className="h7-strip" aria-label={t.pw(venues.length)}>

@@ -20,6 +20,13 @@ function SearchIcon() {
 // Owner 2026-10-12: campaigns are where sign-ups happen, so the campaigns link sparkles (gold shimmer + twinkle,
 // static under prefers-reduced-motion) and phones get a compact campaigns chip next to the Telegram icon.
 const isCampaignHref = (href) => /\/activities(?:$|[/?#])/.test(href);
+// Lead 2026-10-15: phones also get a compact tokenized-stocks (美股) pill beside the campaigns chip. Short labels: the
+// full nav label (TS_NAV_LABELS) is too long for a 344-390 px header. Shown in every market incl. tr (no Bitget there).
+const isStocksHref = (href) => /\/tokenized-stocks(?:$|[/?#])/.test(href);
+// Fit tiers (measured 2026-10-15 at 390 px: wordmark + campaigns chip + pill + Telegram + burger): the 2-glyph CJK pill fits
+// from 380 px; Latin/ja labels need ≥ 480 px beside the campaigns chip (the hub also stays in the burger sheet's nav).
+const STOCKS_CHIP_FIT = { "zh-Hans": "narrow", "zh-Hant": "narrow" };
+const STOCKS_CHIP = { "zh-Hans": "美股", "zh-Hant": "美股", en: "Stocks", es: "Acciones", "pt-BR": "Ações", fr: "Actions", de: "Aktien", it: "Azioni", ja: "米国株", ko: "미국주식", ru: "Акции", tr: "Hisseler", id: "Saham", vi: "Cổ phiếu", ar: "أسهم", ur: "اسٹاکس", uk: "Акції" };
 const CAMPAIGN_CHIP = { "zh-Hans": "活动", "zh-Hant": "活動", en: "Campaigns", es: "Promos", "pt-BR": "Promoções", fr: "Promos", de: "Aktionen", it: "Promo", ja: "キャンペーン", ko: "이벤트", ru: "Акции", tr: "Kampanyalar", id: "Promo", vi: "Sự kiện", ar: "العروض", ur: "مہمات", uk: "Акції" };
 
 function linkProps(href, state, placement) {
@@ -57,6 +64,7 @@ export function SiteHeader({
   // Owner 2026-10-10: Telegram is a first-class entry beside search, not an item under "More".
   const telegramItem = nav.find(([, href]) => href.includes("/telegram"));
   const campaignItem = nav.find(([, href]) => isCampaignHref(href));
+  const stocksItem = nav.find(([, href]) => isStocksHref(href));
   const pages = nav.filter((item) => item !== telegramItem);
   const primary = pages.slice(0, PRIMARY_COUNT);
   const secondary = pages.slice(PRIMARY_COUNT);
@@ -108,6 +116,7 @@ export function SiteHeader({
           </ul>
         </nav>
         {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__star" aria-hidden="true">✦</span>{CAMPAIGN_CHIP[locale] || campaignItem[0]}</a>}
+        {stocksItem && <a className="nx-hot-chip nx-hot-chip--stocks" data-fit={STOCKS_CHIP_FIT[locale] || "wide"} href={stocksItem[1]} aria-current={navState(stocksItem[1]).current} aria-label={stocksItem[0]}>{STOCKS_CHIP[locale] || stocksItem[0]}</a>}
         {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
           {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramIcon /><span className="nx-tg__label">Telegram</span></a>}

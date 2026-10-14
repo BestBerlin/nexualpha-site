@@ -867,3 +867,13 @@
   @ .h7-pw{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));overflow:visible;padding:0}
   @ .h7-pw li{min-inline-size:0}
 }
+/* Demo cost (lead 2026-10-15, production showed 90–160 ms / 5 s during the screen demo): the bar is a real element so a
+   step animates it on the compositor (scaleX) instead of remounting it; layout and paint stay inside the laptop display. */
+@ .hx-mac-display{contain:layout paint}
+@ .hx-scr-bar-fill::after{content:none}
+@ .hx-scr-bar-fill b{position:absolute;inset:0;border-radius:inherit;background:rgb(var(--g));transform:scaleX(var(--w,1));transform-origin:left center;animation:hx-grow .9s var(--ease-out) var(--d,0ms) backwards}
+@media(prefers-reduced-motion:reduce){@ .hx-scr-bar-fill b{animation:none}}
+/* RTL arrows (ar/ur): the calculator's rates link is a block, so its flipped arrow needs its own logical spacing; the
+   whale board's "view all" arrow points the reading direction. */
+@ .h7-rates::after{margin-inline-start:6px}
+.h7:not(#_):not(#_):dir(rtl) .h7-mv-arrow{display:inline-block;transform:scaleX(-1)}

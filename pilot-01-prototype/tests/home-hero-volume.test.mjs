@@ -148,17 +148,41 @@ test("Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, s
 test("hero life stays finite: desktop-only screen cycle, two rounds, stops on touch, pauses offscreen/hidden, no reduced motion", async () => {
   const { readFile } = await import("node:fs/promises");
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
-  const cycle = home.slice(home.indexOf("const touchedRef"), home.indexOf("}, [banned]);"));
-  for (const guard of ["reducedMotion()", "(min-width: 1024px)", "IntersectionObserver", "visibilitychange", "touchedRef.current", "seq.length * 2", "4000"]) assert.ok(cycle.includes(guard), guard);
-  assert.ok(cycle.includes("setScreenStep(seq[at])") && !cycle.includes("setHeroStep(seq"), "only the laptop screen cycles: the headline and figure never change on their own (no CLS)");
+  const cycle = home.slice(home.indexOf("function useScreenDemo"), home.indexOf("function HeroScreen"));
+  for (const guard of ["reducedMotion()", "(min-width: 1024px)", "IntersectionObserver", "visibilitychange", "requestIdleCallback", "2000", "setPhase(\"done\")", "4000"]) assert.ok(cycle.includes(guard), guard);
+  // Cheap demo (lead 2026-10-15): its state lives in the screen, so a step re-renders only the screen; the hero headline
+  // and figure never change on their own (no CLS), and bars are animated in place instead of remounted.
+  assert.doesNotMatch(home, /setHeroStep\(seq/);
+  assert.doesNotMatch(home, /hx-scr-bar-fill" key=/, "bars are not remounted per step");
+  assert.match(home, /bar\.animate\(\[\{ transform: `scaleX/, "bars regrow with one transform animation each");
   const css = await readFile(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
-  assert.match(css, /@ \.hx-scr-live\[data-on\] i\{[^}]*animation:hx-live/, "the live dot pulses only while cycling");
+  assert.match(css, /@ \.hx-scr-live\[data-on\] i\{[^}]*animation:hx-live/, "the live dot pulses only while the demo runs, so it ends with it");
+  assert.match(home, /const DEMO_STEPS = \[1e8, 1e6\];/, "one round: 1亿, 100万, then back to the visitor's volume");
+  assert.match(home, /data-demo=\{phase\}/, "the screen reports pending / running / done / off");
+  const gate = await readFile(new URL("../scripts/qa-regression.mjs", import.meta.url), "utf8");
+  assert.match(gate, /screen\.dataset\.demo === "done" \|\| screen\.dataset\.demo === "off"/, "the release gate samples idle only after the demo");
   assert.match(css, /@ \.hx-scr-hl\{[^}]*transform:translateY\(calc\(var\(--i,0\) \* 50px\)\)/, "row highlight glides by transform");
   assert.match(css, /@ \.hx-amt \.hx-rate-logo\{[^}]*inline-size:\.58em/, "brand mark is em-sized to the figure");
+  assert.match(css, /@ \.hx-mac-display\{contain:layout paint\}/, "layout and paint stay inside the laptop display");
 });
 
 test("SSR: the brand mark sits inside the figure's line box", async () => {
   const { doc, close } = await hero("/zh-hans");
   assert.ok(doc.querySelector(".hx-amt > .hx-rate-logo [data-brand-slug=bitget]"));
   close();
+});
+
+test("phone header: a compact 美股 pill beside 活动 links to the tokenized-stocks hub (tr too)", async () => {
+  for (const [pathname, label, href] of [["/zh-hans", "美股", "/zh-hans/tokenized-stocks"], ["/", "Stocks", "/tokenized-stocks"], ["/tr", "Hisseler", "/tr/tokenized-stocks"]]) {
+    const { doc, close } = await hero(pathname);
+    const pill = doc.querySelector(".nx-hot-chip--stocks");
+    assert.ok(pill, `${pathname}: stocks pill`);
+    assert.equal(pill.textContent.trim(), label, pathname);
+    assert.equal(pill.getAttribute("href"), href, pathname);
+    assert.ok(doc.querySelector(".nx-hot-chip[data-hot=campaigns]"), `${pathname}: campaigns chip still first`);
+    assert.equal(pill.getAttribute("data-fit"), pathname === "/zh-hans" ? "narrow" : "wide", `${pathname}: fit tier (CJK pill from 380 px, others from 480 px)`);
+    // The burger sheet renders client-side from the same nav list, so the SSR nav link is the guarantee the hub stays reachable.
+    assert.ok(doc.querySelector(`.nx-nav a[href="${href}"]`), `${pathname}: the hub stays in the nav (and so in the burger sheet)`);
+    close();
+  }
 });

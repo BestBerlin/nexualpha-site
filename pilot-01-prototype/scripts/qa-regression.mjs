@@ -218,6 +218,12 @@ const round = (n, d = 1) => Math.round(n * 10 ** d) / 10 ** d;
 // animation frames inside the page, so the deferred below-fold island has finished hydrating before we measure.
 async function settleAfterHydration(page) {
   await page.waitForNetworkIdle({ idleTime: 500, timeout: 10000 }).catch(() => {});
+  // The home's laptop demo is a one-round intro (≈ 12–16 s, desktop only). The idle budget protects the page once it is
+  // truly idle, so wait until the screen reports data-demo="done" or "off" (phones, reduced motion), or has no screen.
+  await page.waitForFunction(() => {
+    const screen = document.querySelector(".hx-screen[data-demo]");
+    return !screen || screen.dataset.demo === "done" || screen.dataset.demo === "off";
+  }, { timeout: 30000, polling: 500 }).catch(() => {});
   await page.evaluate(() => new Promise((resolve) => {
     const frames = () => requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
     if (typeof requestIdleCallback === "function") requestIdleCallback(frames, { timeout: 3000 }); else setTimeout(frames, 200);
