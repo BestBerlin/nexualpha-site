@@ -23,12 +23,12 @@ test("Wave52 citation assets expose stable citation metadata without personal-au
     assert.ok(asset.description.length > 80, `${path} needs a substantive description`);
     assert.equal(asset.publisher.name, "NexuAlpha");
     assert.equal(asset.publisher.url, "https://nexualpha.com/");
-    assert.equal(asset.publisher.contactPoint, "mailto:Bestberlin@nexualpha.com");
+    assert.equal(asset.publisher.contactPoint, "mailto:contact@nexualpha.com");
     assert.equal(asset.author.name, "NexuAlpha Editorial Research");
     assert.equal(asset.author.type, "Organization");
     assert.equal(asset.author.url, "https://nexualpha.com/methodology");
-    assert.equal(asset.contact, "mailto:Bestberlin@nexualpha.com");
-    assert.equal(asset.correctionsContact, "mailto:Bestberlin@nexualpha.com");
+    assert.equal(asset.contact, "mailto:contact@nexualpha.com");
+    assert.equal(asset.correctionsContact, "mailto:contact@nexualpha.com");
     assert.equal(asset.license, "https://nexualpha.com/methodology#data-license");
     assert.match(asset.licenseScope, /original compilation/i);
     assert.match(asset.licenseScope, /Access does not grant redistribution rights/i);
