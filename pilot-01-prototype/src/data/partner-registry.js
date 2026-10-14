@@ -312,7 +312,7 @@ export const partnerRegistry = {
     category: "CEX",
     officialDomain: "backpack.exchange",
     hasReferral: true,
-    inviteCode: CUSTOM_INVITE_CODES.backpack,
+    inviteCode: "luckybitcoin",
     registrationUrl: PARTNER_REGISTRATION_URLS.backpack[0],
     alternateRegistrationUrls: PARTNER_REGISTRATION_URLS.backpack.slice(1),
     benefit: {

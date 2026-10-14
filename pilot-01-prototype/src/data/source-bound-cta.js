@@ -7,6 +7,7 @@ import { regionalVenueCta as baseRegionalVenueCta } from "./regional-cta.js";
 import { directoryContextSearch } from "./directory-context.js";
 import { localizedHref } from "./locale-routing.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
+import { CUSTOM_INVITE_CODES } from "./partner-registry.js";
 
 // This projection never edits or replaces protected referral records. It only
 // prevents the UI from opening a commercial route while current venue-owned
@@ -55,13 +56,26 @@ function failClosedPublicCta(cta, gate) {
   };
 }
 
+// The code a reader types must match the registry value exactly. Registration URLs and older venue records may carry
+// the same code in another case (Backpack: backpack.exchange/join/luckybitcoin vs registry LuckyBitcoin), so a
+// case-only difference is displayed as the registry value. Different codes are never rewritten.
+function registryCasedInviteCode(slug, cta) {
+  const registry = CUSTOM_INVITE_CODES[slug];
+  if (!cta || typeof registry !== "string") return cta;
+  const cased = (code) => (typeof code === "string" && code !== registry && code.toLowerCase() === registry.toLowerCase() ? registry : code);
+  const inviteCode = cased(cta.inviteCode);
+  const configuredInviteCode = cased(cta.configuredInviteCode);
+  if (inviteCode === cta.inviteCode && configuredInviteCode === cta.configuredInviteCode) return cta;
+  return { ...cta, inviteCode, configuredInviteCode };
+}
+
 export function publicCtaForVenue(slug, locale = "en", market) {
-  const cta = basePublicCtaForVenue(slug, locale);
+  const cta = registryCasedInviteCode(slug, basePublicCtaForVenue(slug, locale));
   return failClosedPublicCta(cta, neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {
-  const cta = baseRegionalVenueCta(slug, locale, market, product);
+  const cta = registryCasedInviteCode(slug, baseRegionalVenueCta(slug, locale, market, product));
   const gate = neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
   const contextSearch = directoryContextSearch({
     market,

@@ -139,7 +139,7 @@ test("Telegram event contract preserves conversion attribution boundaries", () =
 test("Telegram operating rules forbid raw referral material and require opt-in alerts", () => {
   const serialized = JSON.stringify(TELEGRAM_GROWTH_OPERATING_SYSTEM);
   assert.doesNotMatch(serialized, /(accounts\.binance\.com|binance\.com\/join|bsmkweb\.cc|partner\.bitget|bitget\.com\/expressly|okx\.com\/join|topzhjdgxcb\.net|backpack\.exchange\/join)/i);
-  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
+  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LuckyBitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
 
   assert.equal(TELEGRAM_GROWTH_OPERATING_SYSTEM.optInAndUnsubscribe.defaultAlertState, "off");
   assert.equal(TELEGRAM_GROWTH_OPERATING_SYSTEM.optInAndUnsubscribe.optInRequired, true);
@@ -193,7 +193,7 @@ test("Week1 Telegram retention loop maps Bot entry to onsite return without acti
 
   const serialized = JSON.stringify(TELEGRAM_WEEK1_RETENTION_LOOP);
   assert.doesNotMatch(serialized, /(accounts\.binance\.com|bsmkweb\.cc|partner\.bitget|bitget\.com\/(?:expressly|register|referral|signup)|okx\.com\/(?:join|register|referral)|topzhjdgxcb|backpack\.exchange\/join)/i);
-  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
+  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LuckyBitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
 });
 
 test("Week1 Telegram return review keeps subscription and return metrics anonymous", () => {
@@ -236,7 +236,7 @@ test("Week1 Telegram manual acceptance artifacts are local-only and protect invi
   }
 
   assert.doesNotMatch(serialized, /(accounts\.binance\.com|bsmkweb\.cc|partner\.bitget|bitget\.com\/(?:expressly|register|referral|signup)|okx\.com\/(?:join|register|referral)|topzhjdgxcb|backpack\.exchange\/join)/i);
-  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
+  assert.doesNotMatch(serialized, /11350287|nexu888|luckybitcoin|LuckyBitcoin|LUCKX|CANDY007|INS898|1836370407|NEXU888/);
   assert.doesNotMatch(serialized, /guaranteed signup|guaranteed rebate|commission payout|commission rate/i);
 });
 

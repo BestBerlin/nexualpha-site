@@ -107,3 +107,15 @@ test('built public JSON feeds never expose placeholder or mismatched invite code
   }
   assert.equal(issues.length, 0, JSON.stringify(issues.slice(0, 30), null, 2));
 });
+
+test('public CTA shows the registry casing when the route URL carries the same code in another case', async () => {
+  const { publicCtaForVenue } = await import('../src/data/source-bound-cta.js');
+  for (const [venue, code] of Object.entries(CUSTOM_INVITE_CODES)) {
+    const cta = publicCtaForVenue(venue, 'en');
+    if (!cta.inviteCode) continue;
+    if (cta.inviteCode.toLowerCase() === code.toLowerCase()) assert.equal(cta.inviteCode, code, venue);
+  }
+  const backpack = publicCtaForVenue('backpack', 'en');
+  assert.equal(backpack.inviteCode, 'LuckyBitcoin');
+  assert.equal(backpack.registrationUrl, 'https://backpack.exchange/join/luckybitcoin', 'registration URLs are not rewritten');
+});
