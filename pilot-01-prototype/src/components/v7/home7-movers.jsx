@@ -31,12 +31,21 @@ export function MoversBoard({ locale = "en", initial = null }) {
     const el = ref.current;
     let visible = !(typeof IntersectionObserver === "function" && el);
     let hasData = isWhalesSnapshot(initial);
+    // The SSR snapshot is fresh: no request on mount, first refresh after one interval. Identical boards are not re-rendered.
+    let shownHtml = hasData ? whalesBodyHtml(initial, locale) : "";
     const stopPolling = startJsonPolling({
       request: `${WHALES_API_PATH}?view=home`,
       intervalMs: MOVERS_REFRESH_MS,
+      immediate: !hasData,
       isData: isWhalesSnapshot,
       shouldPoll: () => (!hasData || visible) && document.visibilityState === "visible",
-      onData: (snapshot) => { hasData = true; setData(snapshot); },
+      onData: (snapshot) => {
+        hasData = true;
+        const html = whalesBodyHtml(snapshot, locale);
+        if (html === shownHtml) return;
+        shownHtml = html;
+        setData(snapshot);
+      },
     });
     let observer = null;
     if (typeof IntersectionObserver === "function" && el) {

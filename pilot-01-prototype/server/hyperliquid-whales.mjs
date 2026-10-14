@@ -25,7 +25,9 @@ const HL_TIMEOUT_MS = 10_000;
 const MIN_ACCOUNT_USD = 2_000_000;
 const MAX_MONTH_TURNOVER = 60;
 const MIN_MONTH_TURNOVER = 0.2;
-const MAJORS = new Set(["BTC", "ETH"]);
+// Majors never get the "秘密建仓/出货" highlight (owner 2026-10-15); everything else is a small/mid cap ("空气币").
+const MAJORS = new Set(["BTC", "ETH", "SOL", "BNB", "XRP"]);
+const STEALTH_MIN_USD = 500_000;
 
 const finite = (value) => {
   const n = Number(value);
@@ -346,18 +348,24 @@ export function buildHyperliquidFillSignals(hl, { now = Date.now(), positions = 
         if (!run) {
           if (net < MIN_DAY_USD) break;
           if (today - b.d > 1) break; // the most recent move must be today or yesterday (SGT)
-          run = { days: 0, net: 0, oU: 0, oS: 0, cU: 0, cS: 0, hours: new Set(), t0: b.t0, t1: b.t1, last: b.d, liqU: 0, pnl: 0 };
+          run = { days: 0, fills: 0, net: 0, oU: 0, oS: 0, cU: 0, cS: 0, hours: new Set(), t0: b.t0, t1: b.t1, last: b.d, liqU: 0, pnl: 0 };
         } else if (net < 0 && -net > Math.max(MIN_DAY_USD, run.net * 0.1)) break;
         else if (run.last - b.d > 2) break; // allow a single quiet day inside a streak, not longer gaps
         if (net >= MIN_DAY_USD) run.days += 1;
         run.net += net;
-        run.oU += b.oU; run.oS += b.oS; run.cU += b.cU; run.cS += b.cS;
+        run.oU += b.oU; run.oS += b.oS; run.cU += b.cU; run.cS += b.cS; run.fills += b.n || 0;
         run.liqU += b.liqU; run.pnl += b.pnl;
         for (const h of b.h) run.hours.add(h);
         run.t0 = Math.min(run.t0, b.t0); run.t1 = Math.max(run.t1, b.t1); run.last = b.d;
       }
-      if (!run || run.net < minUsd) continue;
-      if (run.days < 2 && run.hours.size < 3) continue;
+      if (!run) continue;
+      // 秘密建仓 / 秘密出货: one wallet repeatedly buying (or selling) a non-major coin — ≥3 fills over ≥2 days, or ≥5
+      // fills inside 24h — for at least $500k net. Long/spot only; adding shorts is not a quiet build-up.
+      const smallCoin = !MAJORS.has(coin) && side !== "short";
+      const stealth = smallCoin && run.net >= STEALTH_MIN_USD
+        && ((run.days >= 2 && run.fills >= 3) || (run.fills >= 5 && run.t1 - run.t0 <= DAY));
+      if (!stealth && run.net < minUsd) continue;
+      if (!stealth && run.days < 2 && run.hours.size < 3) continue;
       const position = side === "spot" ? null : positionFor(address, coin, side);
       if (mode === "add" && side !== "spot" && stateKnown(address) && !position) continue; // already closed again
       if (mode === "reduce" && run.liqU > run.cU * 0.5) continue; // forced closes are liquidations, shown elsewhere
@@ -382,6 +390,8 @@ export function buildHyperliquidFillSignals(hl, { now = Date.now(), positions = 
         days: run.days,
         streak: run.days >= 2 ? "days" : "hours",
         activeHours: run.hours.size,
+        fills: run.fills,
+        ...(stealth ? { stealth: mode === "add" ? "buy" : "sell" } : {}),
         totalUsd: run.net,
         sizeUsd: run.net,
         periodHours: Math.max(1, Math.round((run.t1 - run.t0) / HOUR)),
@@ -454,7 +464,10 @@ export function buildHyperliquidFillSignals(hl, { now = Date.now(), positions = 
     const oU = adders.reduce((sum, [, row]) => sum + row.oU, 0);
     const oS = adders.reduce((sum, [, row]) => sum + row.oS, 0);
     const type = side === "short" ? "coordinated-short" : "coordinated-long";
+    const fills = [...perWallet.keys()].length ? Object.values(hl?.buckets || {}).filter((b) => b.c === coin && now - b.t1 <= DAY && adders.some(([a]) => a === b.a) && (side === "short" ? b.s === "short" : b.s !== "short")).reduce((sum, b) => sum + (b.n || 0), 0) : 0;
     signals.push({
+      fills,
+      ...(side !== "short" && !MAJORS.has(coin) && total >= STEALTH_MIN_USD ? { stealth: "buy" } : {}),
       id: `signal:hl:${coin}:${side}:cluster`,
       category: "signal",
       type,
@@ -487,7 +500,8 @@ export function buildHyperliquidFillSignals(hl, { now = Date.now(), positions = 
     : 0.6);
   const recency = (s) => Math.max(0.3, 1 - (now - Date.parse(s.time)) / (3 * DAY));
   const size = (s) => 1 + Math.log10(Math.max(1, (finite(s.totalUsd) || 0) / 1_000_000));
-  const ranked = signals.map((s) => ({ s, score: weight(s) * recency(s) * size(s) })).sort((a, b) => b.score - a.score);
+  // Highlighted 秘密建仓/出货 rows always lead.
+  const ranked = signals.map((s) => ({ s, score: (s.stealth ? 100 : 0) + weight(s) * recency(s) * size(s) })).sort((a, b) => b.score - a.score);
   const perWallet = new Map();
   const out = [];
   for (const { s } of ranked) {

@@ -333,7 +333,7 @@
           "vi"
         ]
       },
-      "validFrom": null,
+      "validFrom": "2026-10-14",
       "validTo": null,
       "conditions": {
         "en": "Check regional eligibility and account terms",
@@ -355,14 +355,14 @@
         "uk": "Перевірте регіональні обмеження та умови рахунку"
       },
       "link": "/go/htx?src=news-sponsored",
-      "lastVerified": null,
-      "enabled": false,
+      "lastVerified": "2026-10-14",
+      "enabled": true,
       "inviteCode": "nexu888",
-      "share": null,
+      "share": 0.4,
       "topicTags": [
         "htx"
       ],
-      "notes": "Disabled: dated terms verification missing."
+      "notes": "Registry-confirmed signup terms; no bonus claim."
     },
     {
       "id": "kraken-signup",

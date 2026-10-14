@@ -85,17 +85,17 @@ function accumulate(hl, address, { days = 3, coin = "HYPE", px = 41, sz = 70_000
 
 test("a wallet adding to the same coin on several days is a 连续加仓 signal with total, average entry and live PnL", () => {
   const hl = emptyHyperliquidState();
-  accumulate(hl, A, { days: 3 });
+  accumulate(hl, A, { days: 3, coin: "SOL", px: 41 });
   hl.stateAt[A] = NOW;
-  const positions = new Map([[`${A}:HYPE:long`, { notionalUsd: 9_000_000, leverage: 5, unrealizedPnlUsd: 120_000 }]]);
+  const positions = new Map([[`${A}:SOL:long`, { notionalUsd: 9_000_000, leverage: 5, unrealizedPnlUsd: 120_000 }]]);
   const [signal] = buildHyperliquidFillSignals(hl, { now: NOW, positions });
   assert.equal(signal.signalType, "accumulation");
   assert.equal(signal.days, 3);
   assert.equal(Math.round(signal.totalUsd), 3 * 41 * 70_000);
   assert.equal(Number(signal.avgEntry.toFixed(1)), 41);
   assert.equal(signal.pnlUsd, 120_000);
-  assert.equal(whaleSentence(signal, "zh-Hans"), "巨鲸 0x7a00…0a3f 连续 3 天加仓 HYPE 多单，累计 $8.61M，均价 $41");
-  assert.equal(whaleSentence(signal, "en"), "Whale 0x7a00…0a3f added to a HYPE long 3 days in a row, total $8.61M, avg $41");
+  assert.equal(whaleSentence(signal, "zh-Hans"), "巨鲸 0x7a00…0a3f 连续 3 天加仓 SOL 多单，累计 $8.61M，均价 $41");
+  assert.equal(whaleSentence(signal, "en"), "Whale 0x7a00…0a3f added to a SOL long 3 days in a row, total $8.61M, avg $41");
 });
 
 test("a closed position or a single quiet buy is not an accumulation signal", () => {
@@ -115,7 +115,8 @@ test("a sell-off after the buys breaks the streak; repeated spot selling is 出�
   const [signal] = buildHyperliquidFillSignals(hl, { now: NOW });
   assert.equal(signal.signalType, "distribution");
   assert.equal(signal.side, "spot");
-  assert.match(whaleSentence(signal, "zh-Hans"), /连续 3 天卖出 HYPE 现货，累计 \$8\.61M/);
+  assert.equal(signal.stealth, "sell", "repeated selling of a non-major coin is 秘密出货");
+  assert.match(whaleSentence(signal, "zh-Hans"), /连续 3 天悄悄卖出 HYPE，累计 \$8\.61M/);
   const broken = emptyHyperliquidState();
   accumulate(broken, A, { days: 3 });
   foldHyperliquidFills(broken, [{ address: A, fills: [fill({ dir: "Close Long", sz: "200000", time: NOW - 60_000 })] }], NOW);
@@ -170,4 +171,30 @@ test("the polling source stays inside its weight budget, rotates wallets and pau
   const down = async (_url, init) => { failing.push(JSON.parse(init.body).type); throw new Error("timeout"); };
   await createHyperliquidWhaleSource({ pauseMs: 0 })(down, { wallets, now: NOW, state: {} });
   assert.ok(failing.length <= 4, `stops after three failures in a row (made ${failing.length} calls)`);
+});
+
+test("秘密建仓: repeated buying of a non-major coin is highlighted, majors and one-off buys are not", async () => {
+  const { whaleStealthLabel, whalesBodyHtml } = await import("../src/data/whales-home.js");
+  const hl = emptyHyperliquidState();
+  hl.spot.names = { "@200": "XYZ" };
+  const buys = [];
+  for (let d = 3; d >= 0; d -= 1) for (let k = 2; k >= 0; k -= 1) buys.push(fill({ coin: "@200", dir: "Buy", px: "0.084", sz: "2100000", time: NOW - d * DAY - (k + 1) * 3_600_000 }));
+  foldHyperliquidFills(hl, [{ address: A, fills: buys }], NOW);
+  foldHyperliquidFills(hl, [{ address: B, fills: [3, 2, 1, 0].map((d) => fill({ coin: "BTC", px: "80000", sz: "5", time: NOW - d * DAY - 3_600_000 })) }], NOW);
+  const signals = buildHyperliquidFillSignals(hl, { now: NOW, positions: new Map([[`${B}:BTC:long`, { notionalUsd: 2_000_000 }]]) });
+  hl.stateAt[B] = NOW;
+  const xyz = signals.find((s) => s.coin === "XYZ");
+  assert.equal(xyz.stealth, "buy");
+  assert.equal(xyz.days, 4);
+  assert.equal(xyz.fills, 12);
+  assert.equal(signals[0].coin, "XYZ", "highlighted rows lead");
+  assert.ok(!signals.some((s) => s.coin === "BTC" && s.stealth), "majors never get the badge");
+  assert.equal(whaleSentence(xyz, "zh-Hans"), "巨鲸 0x7a00…0a3f 连续 4 天悄悄买入 XYZ，累计 $2.12M，均价 $0.084");
+  assert.deepEqual(whaleStealthLabel(xyz, "zh-Hans"), { kind: "buy", badge: "🔺 秘密建仓", meta: "4 天 · 12 笔" });
+  const html = whalesBodyHtml({ status: "ok", updatedAt: new Date(NOW).toISOString(), signals }, "zh-Hans");
+  assert.match(html, /^<ol class="h7-wh-list"><li data-kind="signal" data-stealth="buy"><a href="https:\/\/app\.hyperliquid\.xyz\/explorer\/address\//, "first row is highlighted and links to the explorer");
+  assert.doesNotMatch(html, /animation/);
+  const single = emptyHyperliquidState();
+  foldHyperliquidFills(single, [{ address: A, fills: [fill({ coin: "XYZ", px: "1", sz: "900000", time: NOW - 3_600_000 })] }], NOW);
+  assert.ok(!buildHyperliquidFillSignals(single, { now: NOW }).some((s) => s.stealth), "one fill is not a quiet build-up");
 });

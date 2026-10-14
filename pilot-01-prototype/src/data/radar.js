@@ -290,6 +290,8 @@ export function normalizeWhales(input) {
     days: firstNumber(row.days),
     periodHours: firstNumber(row.periodHours),
     avgExit: firstNumber(row.avgExit),
+    fills: firstNumber(row.fills),
+    ...(row.stealth === "buy" || row.stealth === "sell" ? { stealth: row.stealth } : {}),
     leverage: firstNumber(row.leverage),
     time: isoOrNull(row.time) || isoOrNull(row.at) || envelope.updatedAt,
     venue: textOr(row.venue, textOr(row.platform, "")),
@@ -317,7 +319,17 @@ export function normalizeWhales(input) {
     explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
     source: sourceLabel(row.source),
   })).filter((row) => row.coin && row.sizeUsd != null);
-  const transfers = transferInput.map((row, index) => {
+  // Only exchange in/outflows: unknown→unknown moves and same-exchange internal shuffles are dropped (owner 2026-10-15).
+  const isExchangeSide = (side, label) => side?.type === "exchange" || Boolean(label && label !== "unknown");
+  const meaningful = (row) => {
+    const fromLabel = textOr(row.fromLabel, textOr(row.from?.label, "unknown"));
+    const toLabel = textOr(row.toLabel, textOr(row.to?.label, "unknown"));
+    const fromEx = isExchangeSide(row.from, fromLabel), toEx = isExchangeSide(row.to, toLabel);
+    if (!fromEx && !toEx) return false;
+    const owner = (side, label) => String(side?.owner || label || "").toLowerCase();
+    return !(fromEx && toEx && owner(row.from, fromLabel) === owner(row.to, toLabel));
+  };
+  const transfers = transferInput.filter(meaningful).map((row, index) => {
     const direction = textOr(row.direction, "unknown").replaceAll("-", "_");
     return {
       id: textOr(row.id, textOr(row.txHash, `whale-${index}`)),
