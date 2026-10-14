@@ -43,7 +43,7 @@ export function NewsTelegramAlerts({ locale = "en" }) {
     <aside className="news-tg-alerts" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2m12-9-4 16-8-7m12-9L9 13" /></svg>
       <span>{text}</span>
-      <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} →</a>
+      <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} <span className="news-tg-alerts__arr" aria-hidden="true">→</span></a>
     </aside>
   );
 }

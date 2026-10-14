@@ -44,7 +44,7 @@
 .h7:not(#_):not(#_) .h7-lg{grid-area:l;position:relative;z-index:2;padding:24px;border-radius:16px;background:rgb(14 16 20/.62);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border:1px solid rgb(255 255 255/.1);box-shadow:inset 0 1px 0 rgb(255 255 255/.06),0 40px 80px -40px rgb(0 0 0/.9)}
 .h7:not(#_):not(#_) .h7-lg::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(240px circle at var(--mx,70%) var(--my,0%),rgb(31 224 192/.55),transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;transition:opacity .3s}
 .h7:not(#_):not(#_) .h7-lg-top{display:flex;align-items:center;gap:8px;margin:0;padding-top:12px;border-top:1px solid var(--line);font:500 12px/1.4 var(--mono);color:var(--ink3);letter-spacing:.02em}
-.h7:not(#_):not(#_) .h7-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 0 rgb(31 224 192/.6);animation:h7pulse 2.4s var(--ease) infinite}
+.h7:not(#_):not(#_) .h7-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 0 rgb(31 224 192/.6);animation:h7pulse 2.4s var(--ease) 3}
 @keyframes h7pulse{0%{box-shadow:0 0 0 0 rgb(31 224 192/.55)}70%{box-shadow:0 0 0 8px rgb(31 224 192/0)}100%{box-shadow:0 0 0 0 rgb(31 224 192/0)}}
 .h7:not(#_):not(#_) .h7-lg-vol{margin-inline-start:auto;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap}
 .h7:not(#_):not(#_) .h7-lg-max{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 16px}
@@ -145,6 +145,7 @@
 .h7:not(#_):not(#_) .h7-mv-all:hover{text-decoration:underline}
 .h7:not(#_):not(#_) .h7-mv-arrow{margin-inline-start:6px}
 .h7:not(#_):not(#_) .h7-mv-arrow:dir(rtl){display:inline-block;transform:scaleX(-1)}
+.h7:not(#_):not(#_) .h7-tg-arrow:dir(rtl){display:inline-block;transform:scaleX(-1)}
 .h7:not(#_):not(#_) .h7-mv-r{position:absolute;inline-size:1px;block-size:1px;margin:0;opacity:0;pointer-events:none}
 .h7:not(#_):not(#_) .h7-mv-tabs{display:none}
 .h7:not(#_):not(#_) .h7-mv-hl{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:16px;row-gap:4px;min-block-size:28px;margin:0 0 14px;font-size:15px;line-height:1.5}
@@ -371,7 +372,7 @@
 .h7:not(#_):not(#_) .h7-lg-go.h7-go--okx,.h7:not(#_):not(#_) .h7-dock-go.h7-go--okx{background:linear-gradient(100deg,#FFFFFF,#D9DEE5);color:#0A0B0D;box-shadow:0 12px 32px -12px rgb(255 255 255/.35)}
 .h7:not(#_):not(#_) .h7-lg-go:hover{filter:brightness(1.06)}
 /* left hero CTA group */
-.h7:not(#_):not(#_) .h7-hero-go{min-height:56px;padding:0 28px;font-size:18px;box-shadow:0 0 0 0 rgb(31 224 192/.35),0 0 24px rgb(31 224 192/.3);animation:h7breathe 3.2s ease-in-out infinite}
+.h7:not(#_):not(#_) .h7-hero-go{min-height:56px;padding:0 28px;font-size:18px;box-shadow:0 0 0 0 rgb(31 224 192/.35),0 0 24px rgb(31 224 192/.3);animation:h7breathe 3.2s ease-in-out 2}
 @keyframes h7breathe{50%{box-shadow:0 0 0 6px rgb(31 224 192/0),0 0 36px rgb(31 224 192/.45)}}
 .h7:not(#_):not(#_) .h7-ln-down::after{content:"↓"}
 /* copy capsule: press feedback and a short pulse */
@@ -474,13 +475,15 @@
 @media(min-width:1100px){.h7:not(#_):not(#_) .h7-tg-list{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:1023px){.h7:not(#_):not(#_) .h7-tg .h7-ih{grid-template-columns:minmax(0,1fr);align-items:start}}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-tg-card{transition:none}.h7:not(#_):not(#_) .h7-ic-event[data-hot],.h7:not(#_):not(#_) .h7-ic-event[data-hot]::after{animation:none}}
+/* 2026-10-15: no infinite animation anywhere on home (idle main-thread budget); reduced motion = fully static. */
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) *,.h7:not(#_):not(#_) *::before,.h7:not(#_):not(#_) *::after{animation:none!important}}
 .h7:not(#_):not(#_) .h7-tg{padding-block:clamp(56px,8vw,96px) clamp(48px,6vw,80px)}
 /* Phone: one card per row, so no stretched empty row above the button (2026-10-15 Telegram layout fix). */
 @media(max-width:699px){.h7:not(#_):not(#_) .h7-tg-card{min-height:0;grid-template-rows:auto auto;gap:8px 14px}}
 
 /* Live stream marker (owner 2026-10-10) */
 .h7:not(#_):not(#_) .h7-live{display:inline-flex;align-items:center;gap:6px;margin-inline-start:10px;padding:3px 10px;border-radius:999px;vertical-align:middle;font:600 12px/1.4 var(--mono);letter-spacing:.04em;color:var(--ac);background:rgb(31 224 192/.08);border:1px solid rgb(31 224 192/.3);white-space:nowrap}
-.h7:not(#_):not(#_) .h7-live i{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:h7pulse 2.4s var(--ease) infinite}
+.h7:not(#_):not(#_) .h7-live i{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:h7pulse 2.4s var(--ease) 3}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-live i{animation:none}}
 
 /* Live funding board (owner 2026-10-10) */
@@ -624,8 +627,8 @@
 .h7:not(#_):not(#_) .h7-hero-go{animation:none;box-shadow:none}
 .h7:not(#_):not(#_) .h7-ic-event[data-hot]{box-shadow:none;animation:none}
 .h7:not(#_):not(#_) .h7-ic-event[data-hot]::after{animation:none}
-.h7:not(#_):not(#_) .h7-dot,.h7:not(#_):not(#_) .h7-live i{position:relative;color:var(--hx-accent);box-shadow:none;animation:h7pulse 2.4s var(--ease-out) infinite}
-.h7:not(#_):not(#_) .h7-dot::after,.h7:not(#_):not(#_) .h7-live i::after{content:"";position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:.45;animation:h7pulse-ring 2.4s var(--ease-out) infinite}
+.h7:not(#_):not(#_) .h7-dot,.h7:not(#_):not(#_) .h7-live i{position:relative;color:var(--hx-accent);box-shadow:none;animation:h7pulse 2.4s var(--ease-out) 3}
+.h7:not(#_):not(#_) .h7-dot::after,.h7:not(#_):not(#_) .h7-live i::after{content:"";position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:.45;animation:h7pulse-ring 2.4s var(--ease-out) 3}
 @keyframes h7pulse{0%,100%{opacity:1;transform:none}70%{opacity:.8;transform:none}}
 @keyframes h7pulse-ring{0%{opacity:.45;transform:scale(1)}70%,100%{opacity:0;transform:scale(2.2)}}
 @keyframes h7ring{from{opacity:.6;transform:scale(1)}to{opacity:0;transform:scale(1.8)}}
@@ -811,6 +814,6 @@
 .h7:not(#_):not(#_) .hx-scr-bar-fill::after{animation-delay:var(--d,0ms)}
 .h7:not(#_):not(#_) .hx-scr-live{display:inline-grid;place-items:center;inline-size:16px;block-size:16px;margin-inline-start:auto}
 .h7:not(#_):not(#_) .hx-scr-live i{inline-size:6px;block-size:6px;border-radius:50%;background:#22C88A;opacity:.55}
-.h7:not(#_):not(#_) .hx-scr-live[data-on] i{opacity:1;animation:hx-live 1.6s var(--ease-out) infinite}
+.h7:not(#_):not(#_) .hx-scr-live[data-on] i{opacity:1;animation:hx-live 1.6s var(--ease-out) 6}
 @keyframes hx-live{0%{transform:scale(1);opacity:1}60%{transform:scale(1.9);opacity:.35}100%{transform:scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .hx-scr-hl{transition:none}.h7:not(#_):not(#_) .hx-scr-live[data-on] i{animation:none}}

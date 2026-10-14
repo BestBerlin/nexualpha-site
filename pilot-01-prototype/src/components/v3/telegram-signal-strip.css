@@ -44,6 +44,8 @@
   white-space: nowrap;
   transition: background-color .2s, border-color .2s;
 }
+/* RTL (ar, ur): the arrow points the reading direction. */
+.tg-signal-strip:not(#_):not(#_) .tg-signal-strip__arr:dir(rtl) { display: inline-block; transform: scaleX(-1); }
 .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:hover { background: rgb(34 158 217 / .18); border-color: rgb(79 184 234 / .65); }
 .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn:focus-visible { outline: 2px solid #4FB8EA; outline-offset: 2px; }
 

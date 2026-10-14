@@ -1,5 +1,5 @@
 /* Live ticker bar (2026-10-13). Fixed 36px strip under the header placeholder; tabular digits and fixed minimum widths
-   so a refresh never moves anything. Marquee only on narrow screens and only without prefers-reduced-motion. */
+   so a refresh never moves anything. A finite marquee (three passes) only on narrow screens and only without prefers-reduced-motion. */
 .nx-ticker {
   --tk-ink: #EDEEF0; --tk-ink2: #B0B4BA; --tk-ink3: #8A919B; --tk-up: #3DDC97; --tk-down: #FF6B6B; --tk-line: rgb(255 255 255 / .08);
   position: relative; z-index: 2; box-sizing: border-box; block-size: 36px; overflow: hidden;
@@ -14,9 +14,11 @@
 .nx-ticker__list[aria-hidden="true"] { display: none; }
 .nx-ticker__item { display: flex; align-items: center; block-size: 100%; white-space: nowrap; }
 .nx-ticker__item + .nx-ticker__item { border-inline-start: 1px solid var(--tk-line); }
-.nx-ticker__item > a, .nx-ticker__item--mover { display: inline-flex; align-items: center; gap: 8px; block-size: 100%; padding-inline: 14px; color: inherit; text-decoration: none; }
-.nx-ticker__item > a:hover b { text-decoration: underline; text-underline-offset: 3px; }
-.nx-ticker__item > a:focus-visible { outline: 2px solid #1FE0C0; outline-offset: -4px; border-radius: 6px; }
+.nx-ticker .nx-ticker__item > a, .nx-ticker__item--mover { display: inline-flex; align-items: center; gap: 8px; block-size: 100%; padding-inline: 14px; color: inherit; text-decoration: none; }
+/* No underline (the page's `.v5 a` rule underlined every symbol and price); hover brightens, focus keeps the outline. */
+.nx-ticker .nx-ticker__item > a, .nx-ticker .nx-ticker__item > a:hover { text-decoration: none; }
+.nx-ticker .nx-ticker__item > a:hover b, .nx-ticker .nx-ticker__item > a:hover .nx-ticker__p { color: #fff; }
+.nx-ticker .nx-ticker__item > a:focus-visible { outline: 2px solid #1FE0C0; outline-offset: -4px; border-radius: 6px; }
 .nx-ticker__item b { font-weight: 700; color: var(--tk-ink); letter-spacing: .01em; }
 .nx-ticker__p, .nx-ticker__c { font-family: var(--font-code, ui-monospace, SFMono-Regular, Menlo, monospace); font-variant-numeric: tabular-nums; }
 .nx-ticker__p { min-inline-size: 9ch; color: var(--tk-ink); text-align: end; }
@@ -37,8 +39,8 @@
 
 /* Narrow screens: a slow marquee (two copies of the list, the second aria-hidden) unless motion is reduced. */
 @media (max-width: 1020px) and (prefers-reduced-motion: no-preference) {
-  .nx-ticker__viewport { overflow: hidden; }
-  .nx-ticker__track { margin-inline: 0; animation: nx-ticker-marquee 48s linear infinite; }
+  /* Three passes (2.4 min), then the strip rests and stays swipeable: no infinite animation on home. */
+  .nx-ticker__track { margin-inline: 0; animation: nx-ticker-marquee 48s linear 3; }
   .nx-ticker__list[aria-hidden="true"] { display: flex; }
   .nx-ticker:hover .nx-ticker__track, .nx-ticker:focus-within .nx-ticker__track { animation-play-state: paused; }
 }

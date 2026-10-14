@@ -164,3 +164,6 @@
 .nxd .nx-tgcta__btn:hover, .nxd .nx-tgcta__btn:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .nxd .nx-tgcta__btn:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; border-radius: 4px; }
 .nxd .nx-tgcta[dir="rtl"] .nx-tgcta__btn > span { display: inline-block; transform: scaleX(-1); }
+
+/* RTL (ar, ur): the alerts arrow points the reading direction (2026-10-15). */
+.news-tg-alerts__arr:dir(rtl) { display: inline-block; transform: scaleX(-1); }

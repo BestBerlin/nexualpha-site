@@ -60,7 +60,7 @@ export function TelegramBlock({ locale }) {
             <a className="h7-tg-card" href={c.href} target="_blank" rel="noopener noreferrer" data-cta-kind="telegram" data-cta-placement={`home-v7-telegram-${c.key}`}>
               <span className="h7-tg-ico"><PlaneIcon /></span>
               <span className="h7-tg-txt"><b>{c.name}</b><small>{c.desc}</small><span className="h7-tg-handle" translate="no" dir="ltr">{c.handle}</span></span>
-              <span className="h7-tg-go">{t.go} →</span>
+              <span className="h7-tg-go">{t.go} <span className="h7-tg-arrow" aria-hidden="true">→</span></span>
             </a>
           </li>
         ))}
