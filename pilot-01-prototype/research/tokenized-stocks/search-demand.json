@@ -1,0 +1,1784 @@
+{
+  "as_of": "2026-10-15",
+  "method": "Autocomplete order is a suggestion order, not search volume. Local GSC exports are historical unrefreshed snapshots; separate windows and query-page rows must not be summed as unique demand. Seeds are editorial hypotheses, not observed queries.",
+  "live_autocomplete": [
+    {
+      "language": "zh",
+      "hl": "zh-CN",
+      "gl": "SG",
+      "seed": "代币化股票",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=zh-CN&gl=SG&q=%E4%BB%A3%E5%B8%81%E5%8C%96%E8%82%A1%E7%A5%A8",
+      "retrieved_at": "2026-10-14T16:47:48.092207+00:00",
+      "suggestions": [
+        "代币化股票",
+        "代币化股票 ptt",
+        "ondo 代币化股票",
+        "coinbase 代币化股票",
+        "币安 代币化股票",
+        "robinhood 代币化股票"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"代币化股票\",[\"代币化股票\",\"代币化股票 ptt\",\"ondo 代币化股票\",\"coinbase 代币化股票\",\"币安 代币化股票\",\"robinhood 代币化股票\"],[],{\"google:suggestsubtypes\":[[512],[30],[5,30],[5,30],[5,30],[5,30]]}]"
+    },
+    {
+      "language": "zh",
+      "hl": "zh-CN",
+      "gl": "SG",
+      "seed": "美股代币",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=zh-CN&gl=SG&q=%E7%BE%8E%E8%82%A1%E4%BB%A3%E5%B8%81",
+      "retrieved_at": "2026-10-14T16:47:48.092559+00:00",
+      "suggestions": [
+        "美股代币化",
+        "美股代币",
+        "美股代币化交易所",
+        "美股代币风险",
+        "美股代币ptt",
+        "美股代币有哪些",
+        "美股代币化平台",
+        "美股代币是什么",
+        "美股代币股息",
+        "美股代币化 风险"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"美股代币\",[\"美股代币化\",\"美股代币\",\"美股代币化交易所\",\"美股代币风险\",\"美股代币ptt\",\"美股代币有哪些\",\"美股代币化平台\",\"美股代币是什么\",\"美股代币股息\",\"美股代币化 风险\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512],[30]]}]"
+    },
+    {
+      "language": "zh",
+      "hl": "zh-CN",
+      "gl": "SG",
+      "seed": "股票合约",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=zh-CN&gl=SG&q=%E8%82%A1%E7%A5%A8%E5%90%88%E7%BA%A6",
+      "retrieved_at": "2026-10-14T16:47:48.092722+00:00",
+      "suggestions": [
+        "股票合约",
+        "股票 合约不允许建立部位",
+        "股票 合约负债",
+        "股票合约交易所排名",
+        "bitget 股票合约",
+        "币安 股票合约"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"股票合约\",[\"股票合约\",\"股票 合约不允许建立部位\",\"股票 合约负债\",\"股票合约交易所排名\",\"bitget 股票合约\",\"币安 股票合约\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[5,30],[5,30]]}]"
+    },
+    {
+      "language": "zh",
+      "hl": "zh-CN",
+      "gl": "SG",
+      "seed": "用USDT买美股",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=zh-CN&gl=SG&q=%E7%94%A8USDT%E4%B9%B0%E7%BE%8E%E8%82%A1",
+      "retrieved_at": "2026-10-14T16:47:48.092871+00:00",
+      "suggestions": [
+        "用usdt买美股"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"用USDT买美股\",[\"用usdt买美股\"],[],{\"google:suggestsubtypes\":[[512]]}]"
+    },
+    {
+      "language": "zh",
+      "hl": "zh-CN",
+      "gl": "SG",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=zh-CN&gl=SG&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:48.093006+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks bridge",
+        "xstocks是什么",
+        "xstocks 官网",
+        "xstocks api",
+        "xstocks okx",
+        "xstocks logo",
+        "xstocks ondo",
+        "xstocks 股息",
+        "xstocks points"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks bridge\",\"xstocks是什么\",\"xstocks 官网\",\"xstocks api\",\"xstocks okx\",\"xstocks logo\",\"xstocks ondo\",\"xstocks 股息\",\"xstocks points\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512],[512]]}]"
+    },
+    {
+      "language": "en",
+      "hl": "en",
+      "gl": "US",
+      "seed": "tokenized stocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&gl=US&q=tokenized+stocks",
+      "retrieved_at": "2026-10-14T16:47:48.093158+00:00",
+      "suggestions": [
+        "tokenized stocks",
+        "tokenized stocks list",
+        "tokenized stocks robinhood",
+        "tokenized stocks meaning",
+        "tokenized stocks on solana",
+        "tokenized stocks on coinbase",
+        "tokenized stocks platform",
+        "tokenized stocks reddit",
+        "tokenized stocks vs traditional stocks",
+        "tokenized stocks crypto"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"tokenized stocks\",[\"tokenized stocks\",\"tokenized stocks list\",\"tokenized stocks robinhood\",\"tokenized stocks meaning\",\"tokenized stocks on solana\",\"tokenized stocks on coinbase\",\"tokenized stocks platform\",\"tokenized stocks reddit\",\"tokenized stocks vs traditional stocks\",\"tokenized stocks crypto\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512],[512]]}]"
+    },
+    {
+      "language": "en",
+      "hl": "en",
+      "gl": "US",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&gl=US&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:48.721140+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks price",
+        "xstocks crypto",
+        "xstocks token",
+        "xstocks kraken",
+        "xstocks shoes",
+        "xstocks solana",
+        "xstocks list",
+        "xstocks dividends",
+        "xstocksfi"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks price\",\"xstocks crypto\",\"xstocks token\",\"xstocks kraken\",\"xstocks shoes\",\"xstocks solana\",\"xstocks list\",\"xstocks dividends\",\"xstocksfi\"],[],{\"google:suggestsubtypes\":[[512,433],[512],[512],[512],[512],[512],[512],[512],[512],[512]]}]"
+    },
+    {
+      "language": "en",
+      "hl": "en",
+      "gl": "US",
+      "seed": "buy Tesla with USDT",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&gl=US&q=buy+Tesla+with+USDT",
+      "retrieved_at": "2026-10-14T16:47:48.721521+00:00",
+      "suggestions": [
+        "buy tesla with usdt",
+        "can you buy a tesla with bitcoin",
+        "can you buy a tesla with crypto"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"buy Tesla with USDT\",[\"buy tesla with usdt\",\"can you buy a tesla with bitcoin\",\"can you buy a tesla with crypto\"],[],{\"google:suggestsubtypes\":[[22,30],[512,650,390],[512,650,390]]}]"
+    },
+    {
+      "language": "en",
+      "hl": "en",
+      "gl": "US",
+      "seed": "stock perpetuals",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&gl=US&q=stock+perpetuals",
+      "retrieved_at": "2026-10-14T16:47:48.892467+00:00",
+      "suggestions": [
+        "stock perpetuals",
+        "stock perpetuals okx",
+        "perpetuals stock price",
+        "coinbase stock perpetuals",
+        "trade stock perpetuals",
+        "binance stock perpetuals",
+        "single stock perpetuals",
+        "stock market perpetuals",
+        "stock vs stockpile"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"stock perpetuals\",[\"stock perpetuals\",\"stock perpetuals okx\",\"perpetuals stock price\",\"coinbase stock perpetuals\",\"trade stock perpetuals\",\"binance stock perpetuals\",\"single stock perpetuals\",\"stock market perpetuals\",\"stock vs stockpile\"],[],{\"google:suggestsubtypes\":[[512],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[512,650,390]]}]"
+    },
+    {
+      "language": "en",
+      "hl": "en",
+      "gl": "US",
+      "seed": "tokenized stocks fees",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&gl=US&q=tokenized+stocks+fees",
+      "retrieved_at": "2026-10-14T16:47:48.895985+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"tokenized stocks fees\",[]]"
+    },
+    {
+      "language": "id",
+      "hl": "id",
+      "gl": "ID",
+      "seed": "saham tokenisasi",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=id&gl=ID&q=saham+tokenisasi",
+      "retrieved_at": "2026-10-14T16:47:48.903498+00:00",
+      "suggestions": [
+        "saham tokenisasi",
+        "tokenisasi saham us",
+        "tokenisasi saham adalah",
+        "tokenisasi saham indonesia",
+        "saham di tokenisasi"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"saham tokenisasi\",[\"saham tokenisasi\",\"tokenisasi saham us\",\"tokenisasi saham adalah\",\"tokenisasi saham indonesia\",\"saham di tokenisasi\"],[],{\"google:suggestsubtypes\":[[512],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "id",
+      "hl": "id",
+      "gl": "ID",
+      "seed": "token saham",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=id&gl=ID&q=token+saham",
+      "retrieved_at": "2026-10-14T16:47:49.245223+00:00",
+      "suggestions": [
+        "token saham us",
+        "token saham adalah",
+        "token saham",
+        "sahamati token"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"token saham\",[\"token saham us\",\"token saham adalah\",\"token saham\",\"sahamati token\"],[],{\"google:suggestsubtypes\":[[512],[512],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "id",
+      "hl": "id",
+      "gl": "ID",
+      "seed": "beli saham Tesla dengan USDT",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=id&gl=ID&q=beli+saham+Tesla+dengan+USDT",
+      "retrieved_at": "2026-10-14T16:47:49.248583+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"beli saham Tesla dengan USDT\",[]]"
+    },
+    {
+      "language": "id",
+      "hl": "id",
+      "gl": "ID",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=id&gl=ID&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:49.486245+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks airdrop",
+        "xstocks crypto",
+        "xstocks points",
+        "xstocks tvl",
+        "xstocks vs indo",
+        "xstocks kraken",
+        "xstocks olx",
+        "stocks price",
+        "xstocks exchange"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks airdrop\",\"xstocks crypto\",\"xstocks points\",\"xstocks tvl\",\"xstocks vs indo\",\"xstocks kraken\",\"xstocks olx\",\"stocks price\",\"xstocks exchange\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512,10],[512]]}]"
+    },
+    {
+      "language": "es",
+      "hl": "es",
+      "gl": "MX",
+      "seed": "acciones tokenizadas",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=es&gl=MX&q=acciones+tokenizadas",
+      "retrieved_at": "2026-10-14T16:47:49.491211+00:00",
+      "suggestions": [
+        "acciones tokenizadas",
+        "acciones tokenizadas binance",
+        "acciones tokenizadas sec",
+        "acciones tokenizadas solana",
+        "acciones tokenizadas bitget",
+        "acciones tokenizadas ondo",
+        "acciones tokenizadas donde comprar",
+        "acciones tokenizadas kraken",
+        "acciones tokenizadas de chevron",
+        "acciones tokenizadas btcc"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"acciones tokenizadas\",[\"acciones tokenizadas\",\"acciones tokenizadas binance\",\"acciones tokenizadas sec\",\"acciones tokenizadas solana\",\"acciones tokenizadas bitget\",\"acciones tokenizadas ondo\",\"acciones tokenizadas donde comprar\",\"acciones tokenizadas kraken\",\"acciones tokenizadas de chevron\",\"acciones tokenizadas btcc\"],[],{\"google:suggestsubtypes\":[[512],[512],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "es",
+      "hl": "es",
+      "gl": "MX",
+      "seed": "comprar Tesla con USDT",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=es&gl=MX&q=comprar+Tesla+con+USDT",
+      "retrieved_at": "2026-10-14T16:47:49.657018+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"comprar Tesla con USDT\",[]]"
+    },
+    {
+      "language": "es",
+      "hl": "es",
+      "gl": "MX",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=es&gl=MX&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:49.769895+00:00",
+      "suggestions": [
+        "xstocks",
+        "stocks",
+        "stocksur",
+        "stocks en español",
+        "stocksur mexico",
+        "stocksy",
+        "stonks meme",
+        "stocks que es",
+        "stocksnap",
+        "stocks meaning"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"stocks\",\"stocksur\",\"stocks en español\",\"stocksur mexico\",\"stocksy\",\"stonks meme\",\"stocks que es\",\"stocksnap\",\"stocks meaning\"],[],{\"google:suggestsubtypes\":[[512],[512,10,11,433],[512,10,11,433,131],[512,10,11],[512,10,11],[512,10,11],[512,10,11],[512,10,11],[512,10,11],[512,10,11]]}]"
+    },
+    {
+      "language": "es",
+      "hl": "es",
+      "gl": "MX",
+      "seed": "futuros de acciones",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=es&gl=MX&q=futuros+de+acciones",
+      "retrieved_at": "2026-10-14T16:47:49.770805+00:00",
+      "suggestions": [
+        "futuros de acciones",
+        "futuros de acciones argentinas",
+        "futuros de las acciones del ibex",
+        "hay futuros de acciones",
+        "futuros perpetuos de acciones",
+        "operar futuros de acciones",
+        "futuros acciones nyse",
+        "futuros acciones canaan",
+        "futuros acciones sabadell",
+        "futuros acciones santander"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"futuros de acciones\",[\"futuros de acciones\",\"futuros de acciones argentinas\",\"futuros de las acciones del ibex\",\"hay futuros de acciones\",\"futuros perpetuos de acciones\",\"operar futuros de acciones\",\"futuros acciones nyse\",\"futuros acciones canaan\",\"futuros acciones sabadell\",\"futuros acciones santander\"],[],{\"google:suggestsubtypes\":[[512],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "pt-BR",
+      "hl": "pt-BR",
+      "gl": "BR",
+      "seed": "ações tokenizadas",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=pt-BR&gl=BR&q=a%C3%A7%C3%B5es+tokenizadas",
+      "retrieved_at": "2026-10-14T16:47:49.777086+00:00",
+      "suggestions": [
+        "ações tokenizadas",
+        "ações tokenizadas binance",
+        "ações tokenizadas solana",
+        "ações tokenizadas pagam dividendos",
+        "ações americanas tokenizadas",
+        "b3 ações tokenizadas",
+        "como comprar ações tokenizadas",
+        "mercado bitcoin ações tokenizadas"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"ações tokenizadas\",[\"ações tokenizadas\",\"ações tokenizadas binance\",\"ações tokenizadas solana\",\"ações tokenizadas pagam dividendos\",\"ações americanas tokenizadas\",\"b3 ações tokenizadas\",\"como comprar ações tokenizadas\",\"mercado bitcoin ações tokenizadas\"],[],{\"google:suggestsubtypes\":[[512],[512],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "pt-BR",
+      "hl": "pt-BR",
+      "gl": "BR",
+      "seed": "comprar Tesla com USDT",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=pt-BR&gl=BR&q=comprar+Tesla+com+USDT",
+      "retrieved_at": "2026-10-14T16:47:50.006767+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"comprar Tesla com USDT\",[]]"
+    },
+    {
+      "language": "pt-BR",
+      "hl": "pt-BR",
+      "gl": "BR",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=pt-BR&gl=BR&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:50.020490+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks solana",
+        "xstocks points",
+        "xstocks kraken",
+        "stocks",
+        "stocks tradução",
+        "stocks o que é",
+        "stocksbridge",
+        "stocksy",
+        "stocksnap"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks solana\",\"xstocks points\",\"xstocks kraken\",\"stocks\",\"stocks tradução\",\"stocks o que é\",\"stocksbridge\",\"stocksy\",\"stocksnap\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512,10,11,433],[512,10,11],[512,10,11],[512,10,11],[512,10,11],[512,10,11]]}]"
+    },
+    {
+      "language": "pt-BR",
+      "hl": "pt-BR",
+      "gl": "BR",
+      "seed": "futuros de ações",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=pt-BR&gl=BR&q=futuros+de+a%C3%A7%C3%B5es",
+      "retrieved_at": "2026-10-14T16:47:50.292263+00:00",
+      "suggestions": [
+        "futuros de ações",
+        "futuros de ações b3",
+        "contratos futuros de ações",
+        "contratos futuros de ações da b3",
+        "futuros ações eua",
+        "os contratos futuros de ações da b3 sao padronizados",
+        "futuros ações eua trump china",
+        "o que são futuros de ações"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"futuros de ações\",[\"futuros de ações\",\"futuros de ações b3\",\"contratos futuros de ações\",\"contratos futuros de ações da b3\",\"futuros ações eua\",\"os contratos futuros de ações da b3 sao padronizados\",\"futuros ações eua trump china\",\"o que são futuros de ações\"],[],{\"google:suggestsubtypes\":[[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "vi",
+      "hl": "vi",
+      "gl": "VN",
+      "seed": "cổ phiếu token hóa",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=VN&q=c%E1%BB%95+phi%E1%BA%BFu+token+h%C3%B3a",
+      "retrieved_at": "2026-10-14T16:47:50.296583+00:00",
+      "suggestions": [
+        "cổ phiếu token hóa"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"cổ phiếu token hóa\",[\"cổ phiếu token hóa\"],[],{\"google:suggestsubtypes\":[[22,30]]}]"
+    },
+    {
+      "language": "vi",
+      "hl": "vi",
+      "gl": "VN",
+      "seed": "mua cổ phiếu bằng USDT",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=VN&q=mua+c%E1%BB%95+phi%E1%BA%BFu+b%E1%BA%B1ng+USDT",
+      "retrieved_at": "2026-10-14T16:47:50.296984+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"mua cổ phiếu bằng USDT\",[]]"
+    },
+    {
+      "language": "vi",
+      "hl": "vi",
+      "gl": "VN",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=VN&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:50.425154+00:00",
+      "suggestions": [
+        "xstocks",
+        "kraken stockx",
+        "xstocks token",
+        "stocks logo",
+        "stockx solana",
+        "stocks reddit",
+        "stocks crypto",
+        "xstocks fi",
+        "xstocks bybit",
+        "xstocks defi"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"kraken stockx\",\"xstocks token\",\"stocks logo\",\"stockx solana\",\"stocks reddit\",\"stocks crypto\",\"xstocks fi\",\"xstocks bybit\",\"xstocks defi\"],[],{\"google:suggestsubtypes\":[[512],[30,10],[30],[30,10],[30,10],[30,10],[30,10],[30],[30],[30]]}]"
+    },
+    {
+      "language": "vi",
+      "hl": "vi",
+      "gl": "VN",
+      "seed": "hợp đồng cổ phiếu",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=VN&q=h%E1%BB%A3p+%C4%91%E1%BB%93ng+c%E1%BB%95+phi%E1%BA%BFu",
+      "retrieved_at": "2026-10-14T16:47:50.530697+00:00",
+      "suggestions": [
+        "hợp đồng repo cổ phiếu",
+        "hợp đồng mua cổ phiếu",
+        "hợp đồng mua bán cổ phiếu",
+        "hợp đồng chuyển nhượng cổ phiếu",
+        "hợp đồng thế chấp cổ phiếu",
+        "hợp đồng cầm cố cổ phiếu",
+        "hợp đồng tương lai cổ phiếu",
+        "mẫu hợp đồng mua bán cổ phiếu",
+        "mẫu hợp đồng chuyển nhượng cổ phiếu",
+        "hợp đồng tương lai chỉ số cổ phiếu"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"hợp đồng cổ phiếu\",[\"hợp đồng repo cổ phiếu\",\"hợp đồng mua cổ phiếu\",\"hợp đồng mua bán cổ phiếu\",\"hợp đồng chuyển nhượng cổ phiếu\",\"hợp đồng thế chấp cổ phiếu\",\"hợp đồng cầm cố cổ phiếu\",\"hợp đồng tương lai cổ phiếu\",\"mẫu hợp đồng mua bán cổ phiếu\",\"mẫu hợp đồng chuyển nhượng cổ phiếu\",\"hợp đồng tương lai chỉ số cổ phiếu\"],[],{\"google:suggestsubtypes\":[[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30],[22,30]]}]"
+    },
+    {
+      "language": "tr",
+      "hl": "tr",
+      "gl": "TR",
+      "seed": "tokenize hisseler",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=tr&gl=TR&q=tokenize+hisseler",
+      "retrieved_at": "2026-10-14T16:47:50.534133+00:00",
+      "suggestions": [
+        "tokenize hisseler",
+        "tokenize edilmiş hisseler"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"tokenize hisseler\",[\"tokenize hisseler\",\"tokenize edilmiş hisseler\"],[],{\"google:suggestsubtypes\":[[512],[22,30]]}]"
+    },
+    {
+      "language": "tr",
+      "hl": "tr",
+      "gl": "TR",
+      "seed": "USDT ile Tesla almak",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=tr&gl=TR&q=USDT+ile+Tesla+almak",
+      "retrieved_at": "2026-10-14T16:47:50.823445+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"USDT ile Tesla almak\",[]]"
+    },
+    {
+      "language": "tr",
+      "hl": "tr",
+      "gl": "TR",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=tr&gl=TR&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:50.938034+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks coin",
+        "xstocks nedir",
+        "xstocks kraken",
+        "solana stocks",
+        "bybit stocks",
+        "xstocks airdrop",
+        "xstocks fi",
+        "xstocks okx",
+        "x stocks price"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks coin\",\"xstocks nedir\",\"xstocks kraken\",\"solana stocks\",\"bybit stocks\",\"xstocks airdrop\",\"xstocks fi\",\"xstocks okx\",\"x stocks price\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[30],[30,10],[30,10],[30],[30],[30],[30,10]]}]"
+    },
+    {
+      "language": "tr",
+      "hl": "tr",
+      "gl": "TR",
+      "seed": "hisse vadeli işlemleri",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=tr&gl=TR&q=hisse+vadeli+i%C5%9Flemleri",
+      "retrieved_at": "2026-10-14T16:47:51.037965+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"hisse vadeli işlemleri\",[]]"
+    },
+    {
+      "language": "ja",
+      "hl": "ja",
+      "gl": "JP",
+      "seed": "トークン化株式",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ja&gl=JP&q=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E5%8C%96%E6%A0%AA%E5%BC%8F",
+      "retrieved_at": "2026-10-14T16:47:51.042615+00:00",
+      "suggestions": [
+        "トークン化株式",
+        "トークン化株式とは",
+        "トークン化株式 ソラナ",
+        "トークン化株式 progmat",
+        "sbi トークン化株式",
+        "コインベース トークン化株式"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"トークン化株式\",[\"トークン化株式\",\"トークン化株式とは\",\"トークン化株式 ソラナ\",\"トークン化株式 progmat\",\"sbi トークン化株式\",\"コインベース トークン化株式\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[30],[5,30],[5,30]]}]"
+    },
+    {
+      "language": "ja",
+      "hl": "ja",
+      "gl": "JP",
+      "seed": "USDTで米国株",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ja&gl=JP&q=USDT%E3%81%A7%E7%B1%B3%E5%9B%BD%E6%A0%AA",
+      "retrieved_at": "2026-10-14T16:47:51.062826+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"USDTで米国株\",[]]"
+    },
+    {
+      "language": "ja",
+      "hl": "ja",
+      "gl": "JP",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ja&gl=JP&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:51.068857+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks solana",
+        "xstocks kraken",
+        "xstocks xpoint",
+        "xstocks token",
+        "xstocks spacex",
+        "xstocks ethereum",
+        "xstocks bybit",
+        "xstocks 温度",
+        "stocks crypto"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks solana\",\"xstocks kraken\",\"xstocks xpoint\",\"xstocks token\",\"xstocks spacex\",\"xstocks ethereum\",\"xstocks bybit\",\"xstocks 温度\",\"stocks crypto\"],[],{\"google:suggestsubtypes\":[[512],[512],[30],[30],[30],[30],[30],[30],[30],[30,10]]}]"
+    },
+    {
+      "language": "ja",
+      "hl": "ja",
+      "gl": "JP",
+      "seed": "株式先物",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ja&gl=JP&q=%E6%A0%AA%E5%BC%8F%E5%85%88%E7%89%A9",
+      "retrieved_at": "2026-10-14T16:47:51.339832+00:00",
+      "suggestions": [
+        "株式先物",
+        "株式先物とは",
+        "株式先物取引",
+        "株式先物リアルタイム",
+        "株式先物市場",
+        "株式先物価格",
+        "株式先物取引とは",
+        "株式先物指数",
+        "株式先物相場",
+        "株式先物 取引時間"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"株式先物\",[\"株式先物\",\"株式先物とは\",\"株式先物取引\",\"株式先物リアルタイム\",\"株式先物市場\",\"株式先物価格\",\"株式先物取引とは\",\"株式先物指数\",\"株式先物相場\",\"株式先物 取引時間\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512],[512]]}]"
+    },
+    {
+      "language": "ko",
+      "hl": "ko",
+      "gl": "KR",
+      "seed": "토큰화 주식",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ko&gl=KR&q=%ED%86%A0%ED%81%B0%ED%99%94+%EC%A3%BC%EC%8B%9D",
+      "retrieved_at": "2026-10-14T16:47:51.458592+00:00",
+      "suggestions": [
+        "토큰화 주식",
+        "토큰화 주식 디시",
+        "토큰화 주식 거래소",
+        "토큰화 주식 세금",
+        "토큰화 주식 과세",
+        "토큰화 주식 세금 디시",
+        "토큰화 주식 관련주",
+        "토큰화 주식 선물",
+        "토큰화 주식 거래",
+        "토큰화 주식 배당"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"토큰화 주식\",[\"토큰화 주식\",\"토큰화 주식 디시\",\"토큰화 주식 거래소\",\"토큰화 주식 세금\",\"토큰화 주식 과세\",\"토큰화 주식 세금 디시\",\"토큰화 주식 관련주\",\"토큰화 주식 선물\",\"토큰화 주식 거래\",\"토큰화 주식 배당\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[30],[30],[30],[30]]}]"
+    },
+    {
+      "language": "ko",
+      "hl": "ko",
+      "gl": "KR",
+      "seed": "USDT로 미국 주식",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ko&gl=KR&q=USDT%EB%A1%9C+%EB%AF%B8%EA%B5%AD+%EC%A3%BC%EC%8B%9D",
+      "retrieved_at": "2026-10-14T16:47:51.555989+00:00",
+      "suggestions": [],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"USDT로 미국 주식\",[]]"
+    },
+    {
+      "language": "ko",
+      "hl": "ko",
+      "gl": "KR",
+      "seed": "xStocks",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ko&gl=KR&q=xStocks",
+      "retrieved_at": "2026-10-14T16:47:51.556455+00:00",
+      "suggestions": [
+        "xstocks",
+        "xstocks coin",
+        "xstocks kraken",
+        "xstocks vs ondo",
+        "xstocks tokenization",
+        "xstocks ondo",
+        "xstocksfi",
+        "xstocks point",
+        "xstocks defillama",
+        "stockx career"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"xStocks\",[\"xstocks\",\"xstocks coin\",\"xstocks kraken\",\"xstocks vs ondo\",\"xstocks tokenization\",\"xstocks ondo\",\"xstocksfi\",\"xstocks point\",\"xstocks defillama\",\"stockx career\"],[],{\"google:suggestsubtypes\":[[512],[512],[512],[512],[512],[512],[512],[512],[512],[512,10]]}]"
+    },
+    {
+      "language": "ko",
+      "hl": "ko",
+      "gl": "KR",
+      "seed": "주식 무기한 선물",
+      "source_url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=ko&gl=KR&q=%EC%A3%BC%EC%8B%9D+%EB%AC%B4%EA%B8%B0%ED%95%9C+%EC%84%A0%EB%AC%BC",
+      "retrieved_at": "2026-10-14T16:47:51.561610+00:00",
+      "suggestions": [
+        "주식 무기한 선물"
+      ],
+      "error": null,
+      "http_status": 200,
+      "raw_response": "[\"주식 무기한 선물\",[\"주식 무기한 선물\"],[],{\"google:suggestsubtypes\":[[30]]}]"
+    }
+  ],
+  "local_keyword_matches": [
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/keywords-zh-hant.csv",
+      "row": {
+        "market": "zh-hant",
+        "language": "zh-Hant",
+        "query": "bitget 美股 手續費",
+        "intent": "fees",
+        "exchange": "bitget",
+        "evidence": "autocomplete hl=zh-TW gl=TW",
+        "priority": "2",
+        "target page type": "exchange-profile FAQ",
+        "suggested NexuAlpha URL": "https://nexualpha.com/zh-hant/exchanges/bitget"
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/keywords-radar-2026-10-13.csv",
+      "row": {
+        "market": "zh-hans",
+        "language": "zh-Hans",
+        "query": "okx怎么买美股",
+        "intent": "buy",
+        "exchange": "okx",
+        "evidence": "autocomplete hl=zh-CN gl=SG",
+        "priority": "1",
+        "target page type": "exchange-profile FAQ",
+        "suggested NexuAlpha URL": "https://nexualpha.com/zh-hans/exchanges/okx",
+        "rank": "129",
+        "score": "78",
+        "commercial": "35",
+        "freshness": "25",
+        "ability": "18",
+        "lanes": "aeo",
+        "source": "autocomplete",
+        "action": "refresh existing page (add section/FAQ)",
+        "answer_format": "short answer (2 sentences) + table + FAQ",
+        "data_source": "",
+        "impressions_7d": "",
+        "impressions_28d": "",
+        "position": "",
+        "clicks_28d": "",
+        "top_country": "",
+        "used": ""
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/keywords-radar-2026-10-13.csv",
+      "row": {
+        "market": "zh-hans",
+        "language": "zh-Hans",
+        "query": "bitget 美股 手续费",
+        "intent": "fees",
+        "exchange": "bitget",
+        "evidence": "autocomplete hl=zh-CN gl=SG",
+        "priority": "1",
+        "target page type": "exchange-profile FAQ",
+        "suggested NexuAlpha URL": "https://nexualpha.com/zh-hans/exchanges/bitget",
+        "rank": "1249",
+        "score": "73",
+        "commercial": "30",
+        "freshness": "25",
+        "ability": "18",
+        "lanes": "geo",
+        "source": "autocomplete",
+        "action": "refresh existing page (add section/FAQ)",
+        "answer_format": "dated fact table with official source links (citable)",
+        "data_source": "/rates (fee benchmark)",
+        "impressions_7d": "",
+        "impressions_28d": "",
+        "position": "",
+        "clicks_28d": "",
+        "top_country": "",
+        "used": ""
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/keywords-radar-2026-10-13.csv",
+      "row": {
+        "market": "zh-hans",
+        "language": "zh-Hans",
+        "query": "binance 怎么 买 美股",
+        "intent": "info",
+        "exchange": "binance",
+        "evidence": "autocomplete hl=zh-CN gl=SG",
+        "priority": "2",
+        "target page type": "exchange-profile FAQ",
+        "suggested NexuAlpha URL": "https://nexualpha.com/zh-hans/exchanges/binance",
+        "rank": "1549",
+        "score": "60",
+        "commercial": "17",
+        "freshness": "25",
+        "ability": "18",
+        "lanes": "aeo",
+        "source": "autocomplete",
+        "action": "refresh existing page (add section/FAQ)",
+        "answer_format": "short answer (2 sentences) + table + FAQ",
+        "data_source": "",
+        "impressions_7d": "",
+        "impressions_28d": "",
+        "position": "",
+        "clicks_28d": "",
+        "top_country": "",
+        "used": ""
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/keywords-radar-2026-10-13.csv",
+      "row": {
+        "market": "en",
+        "language": "en",
+        "query": "bybit tokenized stocks",
+        "intent": "info",
+        "exchange": "bybit",
+        "evidence": "autocomplete hl=en gl=US",
+        "priority": "2",
+        "target page type": "campaign page",
+        "suggested NexuAlpha URL": "https://nexualpha.com/activities/bybit-stocks",
+        "rank": "1828",
+        "score": "60",
+        "commercial": "17",
+        "freshness": "25",
+        "ability": "18",
+        "lanes": "seo",
+        "source": "autocomplete",
+        "action": "refresh existing page (add section/FAQ)",
+        "answer_format": "H1/title = query; answer in first 2 sentences; FAQ",
+        "data_source": "",
+        "impressions_7d": "",
+        "impressions_28d": "",
+        "position": "",
+        "clicks_28d": "",
+        "top_country": "",
+        "used": ""
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/keywords-radar-2026-10-13.csv",
+      "row": {
+        "market": "en",
+        "language": "en",
+        "query": "bybit tokenized stocks list",
+        "intent": "info",
+        "exchange": "bybit",
+        "evidence": "autocomplete hl=en gl=US",
+        "priority": "2",
+        "target page type": "campaign page",
+        "suggested NexuAlpha URL": "https://nexualpha.com/activities/bybit-stocks",
+        "rank": "1918",
+        "score": "60",
+        "commercial": "17",
+        "freshness": "25",
+        "ability": "18",
+        "lanes": "seo",
+        "source": "autocomplete",
+        "action": "refresh existing page (add section/FAQ)",
+        "answer_format": "H1/title = query; answer in first 2 sentences; FAQ",
+        "data_source": "",
+        "impressions_7d": "",
+        "impressions_28d": "",
+        "position": "",
+        "clicks_28d": "",
+        "top_country": "",
+        "used": ""
+      }
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/autocomplete-raw.jsonl",
+      "language": "zh-hant-tw",
+      "seed": "bitget 手續費",
+      "observed_at": null,
+      "suggestions": [
+        "bitget 美股 手續費"
+      ]
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/autocomplete-raw.jsonl",
+      "language": "zh-hant-hk",
+      "seed": "bitget 手續費",
+      "observed_at": null,
+      "suggestions": [
+        "bitget 美股 手續費"
+      ]
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/raw/autocomplete-2026-10-13.jsonl",
+      "language": "zh-hans",
+      "seed": "okx 怎么",
+      "observed_at": "2026-10-13T04:11:39.380Z",
+      "suggestions": [
+        "okx怎么买美股"
+      ]
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/raw/autocomplete-2026-10-13.jsonl",
+      "language": "zh-hans",
+      "seed": "binance 怎么",
+      "observed_at": "2026-10-13T04:12:14.246Z",
+      "suggestions": [
+        "binance 怎么 买 美股"
+      ]
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/raw/autocomplete-2026-10-13.jsonl",
+      "language": "zh-hans",
+      "seed": "bitget 手续费",
+      "observed_at": "2026-10-13T04:13:15.468Z",
+      "suggestions": [
+        "bitget 美股 手续费"
+      ]
+    },
+    {
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/radar/raw/autocomplete-2026-10-13.jsonl",
+      "language": "en",
+      "seed": "bybit stocks",
+      "observed_at": "2026-10-13T04:14:56.761Z",
+      "suggestions": [
+        "bybit tokenized stocks",
+        "bybit tokenized stocks list"
+      ]
+    }
+  ],
+  "gsc_90d_matches": [
+    {
+      "query": "bitget stock perps 资金费率",
+      "country": "chn",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 81.0,
+      "page": "/zh-hant",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "coinbase tokenization",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 72.0,
+      "page": "/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "hkma project ensemble tokenised deposits hong kong",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 62.0,
+      "page": "/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasuries",
+      "country": "bra",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 86.0,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasuries",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 83.3,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasury",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 10,
+      "position": 82.0,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasury bills",
+      "country": "pol",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 81.0,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasury bills",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 2,
+      "position": 79.0,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "tokenized treasury funds",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 2,
+      "position": 83.0,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "what are tokenized treasuries",
+      "country": "usa",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 87.3,
+      "page": "/news/tokenized-treasuries-structure-access-risks",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    },
+    {
+      "query": "代币化股票保证金",
+      "country": "chn",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 31.0,
+      "page": "/news/tokenized-stocks-vs-stock-perpetuals?locale=zh-Hans",
+      "source_file": "/Volumes/致态2TB/nx-agents/keywords/raw/gsc-query-country-page-90d.tsv"
+    }
+  ],
+  "gsc_radar_matches": {
+    "qp7": [
+      {
+        "keys": [
+          "bitget tokenized stocks vs competitors",
+          "https://nexualpha.com/compare/bybit-vs-bitget"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 38
+      },
+      {
+        "keys": [
+          "bitget vs bybit 美股",
+          "https://nexualpha.com/zh-hans/compare/bybit-vs-bitget"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 40
+      }
+    ],
+    "qp28": [
+      {
+        "keys": [
+          "bitget stock perps 资金费率",
+          "https://nexualpha.com/zh-hant"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 81
+      },
+      {
+        "keys": [
+          "bitget tokenized stocks vs competitors",
+          "https://nexualpha.com/compare/bybit-vs-bitget"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 38
+      },
+      {
+        "keys": [
+          "bitget vs bybit 美股",
+          "https://nexualpha.com/zh-hans/compare/bybit-vs-bitget"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 40
+      },
+      {
+        "keys": [
+          "coinbase tokenization",
+          "https://nexualpha.com/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 72
+      },
+      {
+        "keys": [
+          "hkma project ensemble tokenised deposits hong kong",
+          "https://nexualpha.com/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 62
+      },
+      {
+        "keys": [
+          "tokenized treasuries",
+          "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 82.5
+      },
+      {
+        "keys": [
+          "tokenized treasury",
+          "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 80.33333333333333
+      }
+    ],
+    "qc28": [
+      {
+        "keys": [
+          "bitget stock perps 资金费率",
+          "chn"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 81
+      },
+      {
+        "keys": [
+          "bitget tokenized stocks vs competitors",
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 38
+      },
+      {
+        "keys": [
+          "bitget vs bybit 美股",
+          "chn"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 40
+      },
+      {
+        "keys": [
+          "coinbase tokenization",
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 72
+      },
+      {
+        "keys": [
+          "hkma project ensemble tokenised deposits hong kong",
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 62
+      },
+      {
+        "keys": [
+          "tokenized treasuries",
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 82.5
+      },
+      {
+        "keys": [
+          "tokenized treasury",
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 80.33333333333333
+      }
+    ],
+    "p28": [
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison"
+        ],
+        "clicks": 2,
+        "impressions": 26,
+        "ctr": 0.07692307692307693,
+        "position": 15
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary"
+        ],
+        "clicks": 1,
+        "impressions": 4,
+        "ctr": 0.25,
+        "position": 6.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 9.333333333333334
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 7.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls"
+        ],
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 4.125
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/bis-project-agora-tokenized-cross-border-payments-settlement-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 5.2
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/bis-stablecoin-tokenisation-trust-in-money-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 3.25
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/bstocks-tokenized-security-collateral-eligibility-index-haircut-liquidation-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 7.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping"
+        ],
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 4.666666666666666
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/cftc-tokenized-collateral-customer-funds-recordkeeping-checklist"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 8.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 18
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 7.75
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/crypto-platform-stock-access-disclosure-radar-brokerage-tokenized-perp-boundaries"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/custodial-vs-synthetic-tokenized-stocks-shareholder-rights-framework"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 7
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/direct-stock-brokerage-vs-tokenized-equities-vs-tradfi-perps-rights-map"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 6.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtc-tokenization-service-wallet-registration-lifecycle-operational-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 4
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-digital-assets-lifecycle-governance-and-tokenization-controls"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 3
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-live-production-trades-tokenized-dtc-assets-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 4.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenization-interoperability-collateral-appchain-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenization-service-eligible-networks-wallet-registration-controls"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 28
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenization-service-same-cusip-approved-network-control-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 3
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map"
+        ],
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 2.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenized-dtc-assets-live-pilot-ownership-settlement-controls"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/dtcc-tokenized-dtc-assets-rights-controls-readiness-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 7
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/gprob-rddtb-bstocks-tokenized-equity-collateral-eligibility-and-risk-boundaries"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 3.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 20
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/iosco-financial-asset-tokenization-interoperability-settlement-risks"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/iosco-tokenization-financial-assets-investor-protection-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 13.75
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/ondo-stocks-tokenized-equity-economic-exposure-vs-shareholder-rights"
+        ],
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 4
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/permissioned-vs-permissionless-tokenization-settlement-architecture"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 1
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/sec-tokenized-nms-stock-amm-exemption-conditions-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 4.333333333333334
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap"
+        ],
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 10.875
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-rights-controls-and-limits"
+        ],
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 51.125
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/stablecoins-vs-tokenised-deposits-bis-imf-settlement-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 3.5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/superstate-ustb-tokenized-treasury-recordkeeping-boundary"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 5.333333333333333
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/swift-tokenised-deposit-ledger-24-7-cross-border-payment-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 4.75
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-asset-disclosure-completeness-rights-custody-redemption-radar"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 4
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist?locale=zh-Hans"
+        ],
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 6.666666666666667
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals"
+        ],
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 6.7
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+        ],
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 41.30769230769231
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks?locale=zh-Hans"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/bis-project-agora-real-value-testing-wholesale-tokenization-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 3
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/cftc-tokenized-collateral-customer-funds-recordkeeping-checklist"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 3
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map"
+        ],
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 6.2
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/iosco-financial-asset-tokenization-interoperability-settlement-risks"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 12
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/nasdaq-tokenized-securities-approval-same-cusip-dtc-settlement"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 24
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/robinhood-stock-tokens-debt-security-rights-boundary-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 9
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/sec-tokenized-nms-stock-amm-exemption-conditions-risk-map"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "keys": [
+          "https://nexualpha.com/zh-hans/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 1
+      }
+    ],
+    "c28": [],
+    "q28": [
+      {
+        "keys": [
+          "bitget stock perps 资金费率"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 81
+      },
+      {
+        "keys": [
+          "bitget tokenized stocks vs competitors"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 38
+      },
+      {
+        "keys": [
+          "bitget vs bybit 美股"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 40
+      },
+      {
+        "keys": [
+          "coinbase tokenization"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 72
+      },
+      {
+        "keys": [
+          "hkma project ensemble tokenised deposits hong kong"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 62
+      },
+      {
+        "keys": [
+          "tokenized treasuries"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 82.5
+      },
+      {
+        "keys": [
+          "tokenized treasury"
+        ],
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 80.33333333333333
+      }
+    ],
+    "q7": [
+      {
+        "keys": [
+          "bitget tokenized stocks vs competitors"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 38
+      },
+      {
+        "keys": [
+          "bitget vs bybit 美股"
+        ],
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 40
+      }
+    ]
+  }
+}

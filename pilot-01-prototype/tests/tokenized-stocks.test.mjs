@@ -5,7 +5,7 @@
 // (ItemList + FAQPage + BreadcrumbList), hreflang, sitemap, header/footer links, home placement before the whale board,
 // and no fine print.
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import worker from "../worker/index.js";
 import { TS_EXCHANGES, TS_SOURCES, TS_TICKERS, tsAllSourceIds, tsListings, tsPromo } from "../src/data/tokenized-stocks-facts.js";
@@ -18,7 +18,8 @@ import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 import { buildSplitSitemaps, buildTokenizedStocksSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { createSsrHarness, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
 
-const RESEARCH = "/Volumes/致态2TB/nx-agents/research/tokenized-stocks/exchanges.json";
+// Research packet vendored into the repo (copied from /Volumes/致态2TB/nx-agents/research/tokenized-stocks, as of 2026-10-15).
+const RESEARCH = new URL("../research/tokenized-stocks/exchanges.json", import.meta.url);
 const assets = { fetch: async (request) => {
   const pathname = new URL(request.url).pathname;
   if (pathname === "/prerender-manifest.json") return Response.json({ version: "nexualpha-prerender-v1", routes: {} });
@@ -55,7 +56,7 @@ test("facts: every value cites known official sources with a date", () => {
   for (const ex of TS_EXCHANGES) if (ex.promo) assert.ok(ex.promo.s.length && ex.promo.s.every((id) => TS_SOURCES[id]) && Date.parse(ex.promo.endAt), ex.slug);
 });
 
-test("facts: sources, dates and ticker lists match the research packet", { skip: !existsSync(RESEARCH) && "research packet not mounted" }, () => {
+test("facts: sources, dates and ticker lists match the research packet", () => {
   const packet = JSON.parse(readFileSync(RESEARCH, "utf8"));
   const sources = new Map(packet.exchanges.flatMap((ex) => ex.sources.map((src) => [src.url, src])));
   for (const src of Object.values(TS_SOURCES)) {
