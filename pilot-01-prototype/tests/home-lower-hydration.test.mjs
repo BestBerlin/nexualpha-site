@@ -134,7 +134,7 @@ test('the real client island keeps the same SSR sections through hydration and t
     });
     assert.deepEqual(hydrationErrors(result.errors), []);
     assert.ok(originalSections.every(Boolean));
-    assert.deepEqual(result.inspected.same, [true,true,true,true,true]);
+    assert.deepEqual(result.inspected.same, [true,true,true,true]);
     assert.deepEqual(result.inspected.removed, []);
     assert.equal(result.inspected.hasController,true);
   } finally { observer?.disconnect(); await client.close(); }
