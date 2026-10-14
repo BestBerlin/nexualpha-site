@@ -1,3 +1,5 @@
+import { beginnerPath } from "../../data/beginner-routes.js";
+import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -478,6 +480,7 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list nx-ftr__list--inline" aria-label={labels.navAria}>
           <ul>
             <li><a href={href("/exchanges")}>{labels.directory}</a></li>
+            <li><a href={href(beginnerPath("start", locale))}>{(BEGINNER_DOORS[locale] || BEGINNER_DOORS.en)[0]}</a></li>
             <li><a href={href("/academy")}>{academyShellCopy(locale).nav}</a></li>
             <li><a href={href("/glossary")}>{glossaryNavLabel(locale)}</a></li>
             <li><a href={href("/topics")}>{labels.topics}</a></li>

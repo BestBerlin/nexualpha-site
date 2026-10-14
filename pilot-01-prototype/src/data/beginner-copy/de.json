@@ -31,7 +31,7 @@
     "complete": "Abgeschlossen",
     "reset": "Zuruecksetzen"
   },
-  "intro": "Ein einfacher Weg fuer den ersten Kryptokauf ohne Raten: eine Boerse waehlen, den offiziellen Einstieg pruefen, das Konto verifizieren, klein einzahlen, spot kaufen, das Konto absichern und dann den Auszahlungsweg lernen.",
+  "intro": "Starte mit einer Boerse, pruefe die Domain, erledige KYC, zahle klein ein, kaufe Spot, sichere das Konto und lerne Auszahlung.",
   "why": [
     "Die erste Reihenfolge folgt Landeseignung und aktueller Prioritaet: zuerst Bitget, danach OKX und Binance, wenn sie passen.",
     "In der Tuerkei beginnt der Pfad mit OKX. In jedem Land gelten am Ende die offiziellen Bedingungen und die Anzeige im eigenen Konto."
@@ -394,5 +394,49 @@
       "a": "Das ist nicht noetig, besonders bevor du Volatilitaet und Auszahlung verstanden hast. Starte klein, erledige Registrierung, Einzahlung, Kauf, Sicherheit und Testauszahlung, bevor du den naechsten Betrag festlegst.",
       "step": 5
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Krypto kaufen für Anfänger: 7 Schritte (2026)",
+      "description": "Starte mit einer Boerse, pruefe die Domain, erledige KYC, zahle klein ein, kaufe Spot, sichere das Konto und lerne Auszahlung."
+    },
+    "questions": {
+      "title": "Anfängerfragen zum Krypto kaufen",
+      "description": "Kurze Antworten zu Boerse, Registrierung, KYC, Einzahlung, Spot-Kauf, Sicherheit, Betrug und Auszahlung fuer den Einstieg."
+    },
+    "check": {
+      "title": "Krypto-Boersen-Link pruefen",
+      "description": "Fuege einen Boersen-Link ein und vergleiche ihn mit bekannten offiziellen Domains, bevor du Login- oder Personendaten eingibst."
+    },
+    "steps": [
+      {
+        "title": "Schritt 1: welche Krypto-Boerse waehlen",
+        "description": "Waehle eine Boerse, die in deinem Land funktioniert, und pruefe Domain, KYC, Gebuehren, Einzahlung und Auszahlung."
+      },
+      {
+        "title": "Schritt 2: Konto bei Boerse eroeffnen",
+        "description": "Oeffne den offiziellen Einstieg, pruefe die Domain und gib Daten ein, ohne gleiche Codes, Boni oder Vorteile fuer alle Laender anzunehmen."
+      },
+      {
+        "title": "Schritt 3: was KYC bei Krypto bedeutet",
+        "description": "KYC prueft deine Identitaet; nutze echte Daten, lade Dokumente nur in offizieller App oder Website hoch und warte auf den Status."
+      },
+      {
+        "title": "Schritt 4: Geld auf Krypto-Konto einzahlen",
+        "description": "Zahle klein ueber die angezeigte Methode ein und pruefe Waehrung, Gebuehr, Limit, Zahlername, Dauer und Beleg."
+      },
+      {
+        "title": "Schritt 5: erster Spot-Kauf einfach",
+        "description": "Kaufe klein per Spot oder Convert und lies vorher Asset, Zahlungswaehrung, Preis, Gebuehr, Spread und Endsaldo."
+      },
+      {
+        "title": "Schritt 6: Krypto-Konto absichern",
+        "description": "Aktiviere App-2FA, nutze ein eigenes Passwort, setze Anti-Phishing und verwende Auszahlungslisten erst bei verstandener Chain."
+      },
+      {
+        "title": "Schritt 7: Krypto oder Geld auszahlen",
+        "description": "Teste klein und pruefe Netzwerk, Asset, Bankkonto, Gegenpartei, Gebuehr und Historie, bevor du groessere Betraege bewegst."
+      }
+    ]
+  }
 }

@@ -31,7 +31,7 @@
     "complete": "Completato",
     "reset": "Reimposta"
   },
-  "intro": "Un percorso semplice per il primo acquisto crypto: scegli una sola piattaforma, entra da un link ufficiale, verifica l'identità, deposita poco, compra spot, proteggi l'account e impara a prelevare.",
+  "intro": "Parti da una piattaforma, verifica il dominio, completa il KYC, deposita poco, compra spot, proteggi l’account e impara il prelievo.",
   "why": [
     "La priorità mostra Bitget dove Paese e regole lo permettono, poi OKX e Binance come alternative.",
     "Prima di aprire un conto, leggi entità, condizioni locali, commissioni, KYC, depositi, prelievi e prove di riserva."
@@ -394,5 +394,49 @@
       "a": "Verifica indirizzo, rete, banca e processo con un importo limitato. Se c'è un errore, costa meno che con una somma grande.",
       "step": 7
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Comprare crypto per principianti: 7 passi (2026)",
+      "description": "Parti da una piattaforma, verifica il dominio, completa il KYC, deposita poco, compra spot, proteggi l’account e impara il prelievo."
+    },
+    "questions": {
+      "title": "Domande da principianti per comprare crypto",
+      "description": "Risposte pratiche su piattaforma, registrazione, KYC, deposito, acquisto spot, sicurezza, truffe e prelievo."
+    },
+    "check": {
+      "title": "Verificare un link exchange crypto",
+      "description": "Incolla un link di exchange e confrontalo con domini ufficiali noti prima di inserire email, password o dati personali."
+    },
+    "steps": [
+      {
+        "title": "Passo 1: quale exchange crypto scegliere",
+        "description": "Scegli una piattaforma disponibile nel tuo Paese e controlla dominio, KYC, commissioni, deposito e prelievo prima dell’account."
+      },
+      {
+        "title": "Passo 2: come registrarsi su un exchange",
+        "description": "Apri l’ingresso ufficiale, verifica il dominio e compila i dati senza presumere codici, bonus o vantaggi uguali in ogni area."
+      },
+      {
+        "title": "Passo 3: cosa significa KYC in crypto",
+        "description": "Il KYC verifica la tua identità; usa dati reali, carica documenti solo su sito o app ufficiale e attendi lo stato."
+      },
+      {
+        "title": "Passo 4: come depositare denaro in crypto",
+        "description": "Deposita poco con il metodo mostrato nell’account e controlla valuta, commissione, limite, nome pagatore, tempi e ricevuta."
+      },
+      {
+        "title": "Passo 5: primo acquisto spot crypto",
+        "description": "Compra una piccola somma in spot o convertendo e leggi asset, valuta di pagamento, prezzo, commissione, spread e saldo finale."
+      },
+      {
+        "title": "Passo 6: proteggere l’account crypto",
+        "description": "Attiva 2FA con app, usa una password unica, imposta anti-phishing e abilita whitelist prelievi quando capisci la rete."
+      },
+      {
+        "title": "Passo 7: prelevare crypto o denaro",
+        "description": "Fai una prova piccola e controlla rete, asset, conto bancario, controparte, commissioni e storico prima di spostare più saldo."
+      }
+    ]
+  }
 }

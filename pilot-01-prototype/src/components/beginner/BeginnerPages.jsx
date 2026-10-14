@@ -44,7 +44,8 @@ export function BeginnerPage({ locale = 'en', market, route, copy }) {
   const choice = country ? beginnerChoice(locale, country) : null;
   const l = copy.labels;
   const step = route.step ? copy.steps[route.step - 1] : null;
-  const title = step ? `${route.step}. ${step.title}` : l[route.kind];
+  const pageSeo = step ? copy.seo.steps[route.step - 1] : copy.seo[route.kind];
+  const title = pageSeo.title;
   const names = BEGINNER_COUNTRY_LABELS[locale] || BEGINNER_COUNTRY_LABELS.en;
   function markDone() {
     const next = [...new Set([...completed, route.step])].sort();
@@ -54,7 +55,7 @@ export function BeginnerPage({ locale = 'en', market, route, copy }) {
     <nav className="nxb-nav" aria-label={l.start}>
       {['start', 'questions', 'check'].map(kind => <a key={kind} href={href(kind)} aria-current={route.kind === kind ? 'page' : undefined}>{l[kind]}</a>)}
     </nav>
-    <header><p className="nxb-eyebrow">NexuAlpha · {route.kind === 'start' ? '01—07' : route.kind === 'questions' ? copy.faqs.length : 'HTTPS'}</p><h1>{title}</h1><p className="nxb-lead">{step ? step.answer : (typeof copy.intro === "string" ? copy.intro : copy.intro.answer)}</p></header>
+    <header><p className="nxb-eyebrow">NexuAlpha · {route.kind === 'start' ? '01—07' : route.kind === 'questions' ? copy.faqs.length : 'HTTPS'}</p><h1>{title}</h1><p className="nxb-lead">{pageSeo.description}</p></header>
     {["start", "check"].includes(route.kind) ? <label className="nxb-country">{l.country}<select value={country} onChange={e => setCountry(e.target.value)}><option value="">{l.chooseCountry}</option>{COUNTRIES.map(code => <option key={code} value={code}>{names[code]}</option>)}</select></label> : null}
     {route.kind === 'start' ? <>
       <p>{l.progress}: {completed.length}/7</p><progress value={completed.length} max="7" aria-label={l.progress} />

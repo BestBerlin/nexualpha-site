@@ -4,19 +4,62 @@ import { BEGINNER_LOCALES, beginnerPath, parseBeginnerPath } from '../src/data/b
 import { BEGINNER_COPY } from '../src/data/beginner-content-all.js';
 import { beginnerChoice, checkBeginnerLink } from '../src/data/beginner.js';
 import { beginnerRouteSeo, beginnerSitemapEntries } from '../src/data/beginner-seo.js';
-import { localizedPath, localizedLanguageHref, parsePublicRoute } from '../src/data/locale-routing.js';
+import { beginnerAliasRedirect, LOCALE_PREFIX_BY_CODE, LOCALE_PATH_ALIASES, localizedPath, localizedLanguageHref, parsePublicRoute } from '../src/data/locale-routing.js';
 import { NEUTRAL_CTA_LOCALE_LIST } from '../src/data/locale-policy.js';
 import { routeMetadata } from '../worker/index.js';
 import worker from '../worker/index.js';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
 import { modulePathsForRoute } from '../src/data/route-module-cache.js';
-import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors } from './helpers/ssr-hydration-harness.mjs';
+import { createSsrHarness, SHELL_HTML, decodeEntities, hydrateInJsdom, hydrationErrors } from './helpers/ssr-hydration-harness.mjs';
+
+test('English beginner aliases 301 directly to canonical 200 pages and preserve queries', async () => {
+  const assets = { fetch: async () => new Response(SHELL_HTML, { headers: { 'content-type': 'text/html' } }) };
+  const prefixes = [...Object.entries(LOCALE_PREFIX_BY_CODE).map(([locale, prefix]) => [prefix || 'en', locale]),
+    ...Object.entries(LOCALE_PATH_ALIASES).map(([alias, prefix]) => [alias, Object.keys(LOCALE_PREFIX_BY_CODE).find(code => LOCALE_PREFIX_BY_CODE[code] === prefix)])];
+  for (const [prefix, locale] of prefixes) {
+    for (const [kind, step] of [['start', null], ['questions', null], ['check', null], ...Array.from({ length: 7 }, (_, i) => ['start', i + 1])]) {
+      const alias = `/${prefix}/${kind}${step ? `/${step}` : ''}`;
+      const canonical = localizedPath(beginnerPath(kind, locale, step), locale);
+      const search = '?market=TR&tag=a%2Fb&tag=two';
+      if (alias === canonical) { assert.equal(beginnerAliasRedirect(alias + search), null); continue; }
+      for (const method of ['GET', 'HEAD']) {
+        const response = await worker.fetch(new Request('https://nexualpha.com' + alias + search, { method }), { ASSETS: assets });
+        assert.equal(response.status, 301, alias);
+        assert.equal(response.headers.get('location'), 'https://nexualpha.com' + canonical + search, alias);
+      }
+      const response = await worker.fetch(new Request('https://nexualpha.com' + canonical + search), { ASSETS: assets });
+      assert.equal(response.status, 200, canonical);
+      assert.equal(beginnerAliasRedirect(canonical + search), null, canonical);
+    }
+  }
+  for (const pathname of ['/tr/start/8', '/tr/start/1/extra', '/tr/questions/1', '/tr/check/2', '/unknown/start']) assert.equal(beginnerAliasRedirect(pathname), null, pathname);
+  assert.equal(beginnerAliasRedirect('/tr/start/'), '/tr/basla');
+});
+
+test('home doors and footer link directly to localized beginner canonicals in every locale', async () => {
+  const harness = await createSsrHarness();
+  try {
+    for (const locale of BEGINNER_LOCALES) {
+      const html = harness.render('https://nexualpha.com' + localizedPath('/', locale));
+      const canonical = localizedPath(beginnerPath('start', locale), locale);
+      assert.ok(html.match(/<nav class="h7-in h7-doors"[\s\S]*?<\/nav>/)?.[0].includes(`href="${canonical}"`), locale);
+      assert.ok(html.match(/<footer[\s\S]*?<\/footer>/)?.[0].includes(`href="${canonical}"`), locale);
+    }
+  } finally { await harness.close(); }
+});
 
 test('each locale has 7 actionable steps, 50 distinct answers and localized route round trips', () => {
   assert.equal(BEGINNER_LOCALES.length, 17);
   for (const locale of BEGINNER_LOCALES) {
     const copy = BEGINNER_COPY[locale];
     assert.equal(copy.locale, locale);
+    assert.equal(copy.seo.steps.length, 7, locale);
+    const seoPages = [copy.seo.start, copy.seo.questions, copy.seo.check, ...copy.seo.steps];
+    assert.equal(new Set(seoPages.map(page => page.title)).size, 10, locale);
+    for (const page of seoPages) {
+      assert.ok(page.title.length > 0 && page.title.length <= 60, `${locale}: ${page.title}`);
+      assert.ok(page.description.length > 0 && page.description.length <= 155, `${locale}: ${page.description}`);
+    }
     assert.equal(copy.steps.length, 7);
     assert.equal(copy.faqs.length, 50);
     assert.equal(new Set(copy.faqs.map(f => f.q)).size, 50);
@@ -69,12 +112,16 @@ test('all 170 sitemap pages have matching Worker and app metadata, full reciproc
   const entries = beginnerSitemapEntries(); assert.equal(entries.length, 170);
   assert.equal(new Set(entries.map(e => e.loc)).size, 170);
   for (const entry of entries) {
+    assert.equal(beginnerAliasRedirect(entry.loc), null, entry.loc);
     const metadata = await routeMetadata(new URL(entry.loc), {});
     assert.equal(metadata.status, 200, entry.loc);
     assert.equal(metadata.robots, 'index,follow', entry.loc);
     assert.equal(metadata.canonical, entry.loc);
     assert.equal(metadata.alternates.length, 18);
     assert.deepEqual(metadata.alternates, entry.alternates);
+    assert.ok(metadata.title.length <= 60, `${entry.loc}: ${metadata.title}`);
+    assert.ok(metadata.description.length <= 155, `${entry.loc}: ${metadata.description}`);
+    assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /promotable|official terms|terms apply|subject to|可推广|以.*为准|官方条款|平台条款|以.*為準|官方條款|平台條款/i);
     const app = computeRouteSeo({ url: entry.loc });
     assert.equal(app.canonical, entry.loc);
     assert.equal(app.locale, entry.locale);
@@ -82,6 +129,7 @@ test('all 170 sitemap pages have matching Worker and app metadata, full reciproc
     const route = parseBeginnerPath(entry.pathname, entry.locale);
     if (route.kind === 'questions') assert.equal(metadata.schema.find(s => s['@type'] === 'FAQPage').mainEntity.length, 50);
     for (const alt of entry.alternates.filter(a => a.hreflang !== 'x-default')) {
+      assert.equal(beginnerAliasRedirect(alt.href), null, alt.href);
       const altUrl = new URL(alt.href); const parsed = parsePublicRoute(altUrl.pathname, altUrl.searchParams);
       assert.ok(beginnerRouteSeo(parsed.contentPathname, parsed.locale)?.indexable, alt.href);
     }
@@ -95,12 +143,16 @@ test('real SSR pages contain the steps and FAQ, neutral bodies have zero commerc
   try {
     const assets = { fetch: async request => new URL(request.url).pathname === '/prerender-manifest.json' ? Response.json({ routes: {} }) : new Response(SHELL_HTML, { headers: { 'content-type': 'text/html' } }) };
     for (const locale of BEGINNER_LOCALES) {
-      for (const [kind, step] of [['start', null], ['start', 2], ['questions', null], ['check', null]]) {
+      for (const [kind, step] of [['start', null], ['questions', null], ['check', null], ...Array.from({ length: 7 }, (_, i) => ['start', i + 1])]) {
         const path = localizedPath(beginnerPath(kind, locale, step), locale);
         const url = `https://nexualpha.com${path}?market=${locale === 'tr' ? 'TR' : 'BR'}`;
         const res = await worker.fetch(new Request(url, { headers: { accept: 'text/html' } }), { ASSETS: assets, NEWS_SSR_RENDER: harness.render });
         assert.equal(res.status, 200, path);const html = await res.text();
         assert.match(html, /class="nxb /, path);
+        const seo = beginnerRouteSeo(beginnerPath(kind, locale, step), locale);
+        const hero = decodeEntities(html.match(/<p class="nxb-lead">([\s\S]*?)<\/p>/)?.[1] || '');
+        assert.equal(hero, seo.description, path);
+        if (kind !== 'questions') assert.match(html, /class="nxb-country"/, path);
         if (kind === 'questions') assert.equal((html.match(/id="q-\d+"/g) || []).length, 50, path);
         const body = html.match(/<main class="nxb[\s\S]*?<\/main>/)?.[0] || '';
         if (NEUTRAL_CTA_LOCALE_LIST.includes(locale)) { assert.doesNotMatch(body, /href="\/go\//, path); assert.doesNotMatch(body, /<code>/, path); }

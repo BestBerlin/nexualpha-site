@@ -31,7 +31,7 @@
     "complete": "Complete",
     "reset": "Reset"
   },
-  "intro": "Start with one exchange allowed in your country, verify the link, use the code only if the official page shows the benefit, and make a small first purchase before moving larger amounts.",
+  "intro": "Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw.",
   "why": [
     "Priority follows eligible country rules first; Bitget is the default where the route is allowed, and Turkiye starts with OKX.",
     "Read the entity, licence, fee, KYC, fiat, and proof-of-reserves record before opening the account."
@@ -394,5 +394,49 @@
       "a": "Stop and collect the official order ID, transaction hash, screenshots from inside the exchange, and bank receipt if relevant. Contact official support only, and do not pay a stranger who claims they can reverse blockchain or bank records instantly.",
       "step": 7
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "How to buy crypto for beginners: 7 steps (2026)",
+      "description": "Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw."
+    },
+    "questions": {
+      "title": "Crypto for beginners: 50 questions answered",
+      "description": "Find 50 answers about buying crypto, accounts, identity checks, deposits, trading fees, account security and withdrawals."
+    },
+    "check": {
+      "title": "How to check a crypto exchange link for scams",
+      "description": "Check a crypto exchange URL against approved domains. Spot fake login pages, lookalike links and requests for passwords or wallet secrets."
+    },
+    "steps": [
+      {
+        "title": "Step 1: How to choose your first crypto exchange",
+        "description": "Choose an exchange for your country. Compare official domains, identity checks, deposit methods and trading fees before opening an account."
+      },
+      {
+        "title": "Step 2: How to register with a crypto referral code",
+        "description": "Open the official signup page, create your account and check the referral code and any displayed fee benefit before completing registration."
+      },
+      {
+        "title": "Step 3: What you need for crypto exchange KYC",
+        "description": "Prepare your identity document and complete the exchange’s identity and face checks. Submit clear images through the official account page."
+      },
+      {
+        "title": "Step 4: How to deposit money on a crypto exchange",
+        "description": "Compare bank transfer, card and P2P deposit methods. Check fees, limits and recipient details, then test the chosen route with a small amount."
+      },
+      {
+        "title": "Step 5: How to buy your first crypto on spot",
+        "description": "Make a small spot purchase. Check the coin, payment currency, price, fees and amount you will receive before confirming the order."
+      },
+      {
+        "title": "Step 6: How to secure your crypto exchange account",
+        "description": "Use a unique password, turn on authenticator 2FA and set up withdrawal protection to reduce the risk of someone taking over your account."
+      },
+      {
+        "title": "Step 7: How to withdraw crypto or cash to your bank",
+        "description": "Sell crypto for fiat to withdraw to a bank, or send crypto to your wallet. Check the network, address and fees, then make a small test withdrawal."
+      }
+    ]
+  }
 }

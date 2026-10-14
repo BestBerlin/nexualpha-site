@@ -31,7 +31,7 @@
     "complete": "Terminé",
     "reset": "Réinitialiser"
   },
-  "intro": "Un chemin simple pour ton premier achat crypto: choisir une seule plateforme, passer par une entrée officielle, vérifier ton identité, déposer une petite somme, acheter au comptant, sécuriser le compte et apprendre à retirer.",
+  "intro": "Commence par une plateforme, vérifie le domaine, fais le KYC, dépose peu, achète en spot, sécurise le compte et apprends le retrait.",
   "why": [
     "La priorité commence par Bitget quand le pays et les règles de la plateforme le permettent, puis OKX et Binance comme alternatives.",
     "Avant d'ouvrir un compte, lis l'entité, les conditions locales, les frais, la vérification d'identité, les dépôts et les preuves de réserves."
@@ -394,5 +394,49 @@
       "a": "Il vérifie l'adresse, le réseau, la banque et le processus avec un montant limité. Si une erreur existe, elle coûte moins cher qu'avec une grosse somme.",
       "step": 7
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Acheter crypto débutant: 7 étapes (2026)",
+      "description": "Commence par une plateforme, vérifie le domaine, fais le KYC, dépose peu, achète en spot, sécurise le compte et apprends le retrait."
+    },
+    "questions": {
+      "title": "Questions débutant pour acheter crypto",
+      "description": "Réponses courtes sur plateforme, inscription, KYC, dépôt, achat spot, sécurité, arnaques et retrait pour commencer."
+    },
+    "check": {
+      "title": "Vérifier un lien exchange crypto",
+      "description": "Colle un lien de plateforme et compare-le aux domaines officiels connus avant de saisir email, mot de passe ou données personnelles."
+    },
+    "steps": [
+      {
+        "title": "Étape 1: quel exchange crypto choisir",
+        "description": "Choisis une plateforme disponible dans ton pays et vérifie domaine, KYC, frais, méthodes de dépôt et retrait avant le compte."
+      },
+      {
+        "title": "Étape 2: comment créer un compte crypto",
+        "description": "Ouvre l’entrée officielle, vérifie le domaine et remplis les champs sans supposer que codes, bonus ou avantages sont partout identiques."
+      },
+      {
+        "title": "Étape 3: que veut dire KYC en crypto",
+        "description": "Le KYC vérifie ton identité; utilise tes vraies données, envoie les documents seulement sur le site ou l’app officielle."
+      },
+      {
+        "title": "Étape 4: comment déposer de l’argent crypto",
+        "description": "Dépose une petite somme par la méthode affichée et vérifie devise, frais, limites, nom du payeur, délai et justificatif."
+      },
+      {
+        "title": "Étape 5: faire son premier achat spot",
+        "description": "Achète un petit montant en spot ou conversion après lecture de l’actif, devise de paiement, prix, frais, spread et solde final."
+      },
+      {
+        "title": "Étape 6: sécuriser son compte crypto",
+        "description": "Active une app 2FA, utilise un mot de passe unique, ajoute un code anti-phishing et limite les retraits aux adresses comprises."
+      },
+      {
+        "title": "Étape 7: retirer crypto ou argent",
+        "description": "Teste avec un petit montant et vérifie réseau, actif, compte bancaire, contrepartie, frais et historique avant un retrait plus grand."
+      }
+    ]
+  }
 }

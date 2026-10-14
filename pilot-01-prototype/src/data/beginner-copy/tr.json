@@ -31,7 +31,7 @@
     "complete": "Tamamlandı",
     "reset": "Sıfırla"
   },
-  "intro": "İlk kripto alımın için sade bir yol: Türkiye için önce OKX'i, sonra Binance ve Bybit'i kontrol et; resmi girişten kayıt ol, kimlik doğrulamayı tamamla, küçük bir tutarla yatır, spot alım yap, hesabı koru ve para çekmeyi öğren.",
+  "intro": "Tek borsa seç, alan adını doğrula, KYC tamamla, küçük yatır, spot al, hesabı koru ve para çekmeyi öğren.",
   "why": [
     "Türkiye akışında önce OKX gösterilir; yedek olarak yalnızca Binance ve Bybit değerlendirilir.",
     "Bu liste faaliyet gösterebilen seçenekleri düzenler, lisans onayı veya kişisel hesap uygunluğu garantisi değildir."
@@ -394,5 +394,49 @@
       "a": "Hesabı güvene al, işlem kaydını sakla ve küçük bir çekim testi yap. Bu tamamlanmadan daha büyük tutara geçmek gereksiz risk yaratır.",
       "step": 7
     }
-  ]
+  ],
+  "seo": {
+    "start": {
+      "title": "Yeni başlayanlar için kripto alma: 7 adım (2026)",
+      "description": "Tek borsa seç, alan adını doğrula, KYC tamamla, küçük yatır, spot al, hesabı koru ve para çekmeyi öğren."
+    },
+    "questions": {
+      "title": "Yeni başlayan kripto alma soruları",
+      "description": "Borsa seçimi, kayıt, KYC, para yatırma, spot alım, güvenlik, dolandırıcılıklar ve çekim için kısa cevaplar."
+    },
+    "check": {
+      "title": "Kripto borsa linki kontrol et",
+      "description": "E-posta, şifre veya kimlik bilgisi yazmadan önce borsa linkini bilinen resmi alan adlarıyla karşılaştır."
+    },
+    "steps": [
+      {
+        "title": "Adım 1: hangi kripto borsası seçilir",
+        "description": "Ülkende çalışan tek bir borsa seç; alan adı, KYC, ücretler, yatırma seçenekleri ve çekim yolunu kontrol et."
+      },
+      {
+        "title": "Adım 2: borsada hesap nasıl açılır",
+        "description": "Resmi girişten ilerle, alan adını doğrula ve her ülkede aynı kod, bonus veya avantaj varmış gibi davranmadan bilgileri gir."
+      },
+      {
+        "title": "Adım 3: kriptoda KYC nedir",
+        "description": "KYC kimliğini doğrular; gerçek bilgilerini kullan, belgeleri yalnızca resmi site veya uygulamaya yükle ve inceleme durumunu bekle."
+      },
+      {
+        "title": "Adım 4: kripto hesabına para yatırma",
+        "description": "Hesabında görünen yöntemle küçük tutar yatır; para birimi, ücret, limit, gönderen adı, süre ve dekontu kontrol et."
+      },
+      {
+        "title": "Adım 5: ilk spot kripto alımı",
+        "description": "Spot veya convert ekranında küçük alım yap; varlık, ödeme para birimi, fiyat, ücret, spread ve son bakiyeyi oku."
+      },
+      {
+        "title": "Adım 6: kripto hesabını koruma",
+        "description": "Uygulama 2FA aç, benzersiz şifre kullan, anti-phishing kodu ekle ve ağı anladığında çekim beyaz listesi kur."
+      },
+      {
+        "title": "Adım 7: kripto veya para çekme",
+        "description": "Önce küçük test yap; ağ, varlık, banka hesabı, karşı taraf, ücret ve işlem geçmişini kontrol etmeden büyük tutar çıkarma."
+      }
+    ]
+  }
 }

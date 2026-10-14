@@ -36,7 +36,7 @@ import { venueFallbackFaqSchema } from "../src/data/venue-faq-fallback.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlinePath } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
-import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS, localeAliasRedirect } from "../src/data/locale-routing.js";
+import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS, beginnerAliasRedirect, localeAliasRedirect } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATION_HEATMAP_PATH, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
@@ -375,6 +375,10 @@ export default {
       const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
       for (const [key, value] of preserved) destination.searchParams.append(key, value);
       return Response.redirect(destination.href, 301);
+    }
+    const beginnerRedirect = beginnerAliasRedirect(url);
+    if (beginnerRedirect && ["GET", "HEAD"].includes(request.method)) {
+      return Response.redirect(new URL(beginnerRedirect, PUBLIC_ORIGIN).href, 301);
     }
     const localeRedirect = legacyLocaleRedirect(url);
     if (localeRedirect && ["GET", "HEAD"].includes(request.method)) {

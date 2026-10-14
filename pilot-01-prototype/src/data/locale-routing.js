@@ -53,6 +53,19 @@ export function localeAliasRedirect(url) {
   return `/${prefix}${suffix}${preservedRedirectSearch(parsed.searchParams)}`;
 }
 
+// English beginner aliases are redirects; localized slugs remain the only indexable URLs.
+export function beginnerAliasRedirect(url) {
+  const parsed = url instanceof URL ? url : new URL(String(url), "https://nexualpha.com");
+  const match = parsed.pathname.match(/^\/([^/]+)\/(start|questions|check)(?:\/([1-7]))?\/?$/);
+  if (!match || (match[3] && match[2] !== "start")) return null;
+  const prefix = LOCALE_PATH_ALIASES[match[1]] || match[1];
+  const locale = LOCALE_CODE_BY_PREFIX[prefix] || (prefix === "en" ? "en" : null);
+  if (!locale) return null;
+  const target = localizedPath(beginnerPath(match[2], locale, match[3]), locale);
+  if (parsed.pathname === target) return null;
+  return `${target}${parsed.search}`;
+}
+
 export const COUNTRY_ROUTE_PREFIXES = Object.freeze([
   "/br",
   "/mx",
