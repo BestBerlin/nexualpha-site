@@ -103,25 +103,25 @@ function cleanArticleBody(markdown) {
   return dedupeRepeatedLongSentences(bodyLines.join("\n"));
 }
 
-function completeSentenceExcerpt(value, maxLength = 230) {
+export function completeSentenceExcerpt(value, maxLength = 230) {
   const text = cleanString(value).replace(/\s+/g, " ");
   if (!text) return "";
   if (text.length <= maxLength && /[.!?。！？]$/.test(text)) return text;
-  const protectedText = text
-    .replaceAll("U.S.", "U<S>")
-    .replaceAll("U.K.", "U<K>")
-    .replaceAll("e.g.", "e<g>")
-    .replaceAll("i.e.", "i<e>")
-    .replace(/(\d)\.(\d)/g, "$1<D>$2");
-  const restore = (sentence) => sentence
-    .replaceAll("U<S>", "U.S.")
-    .replaceAll("U<K>", "U.K.")
-    .replaceAll("e<g>", "e.g.")
-    .replaceAll("i<e>", "i.e.")
-    .replaceAll("<D>", ".");
+  // Mask punctuation at its original offsets, so sentence boundaries cannot land inside
+  // URLs, emails, dotted hostnames, decimal amounts or multi-part version numbers.
+  // Slice the original text afterwards: no sentinel strings can leak into a summary.
+  const protectedText = text.replace(
+    /U\.S\.|U\.K\.|e\.g\.|i\.e\.|(?:https?|ftp):\/\/[^\s。！？<>"“”]+|[A-Za-z0-9_%+-]+(?:\.[A-Za-z0-9_%+-]+)*@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+|\.\d+|[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+(?:[/?#][^\s。！？<>"“”]*)?/gi,
+    (token) => {
+      // A prose full stop following a URL belongs to the sentence, not the URL.
+      if (/^(?:U\.S\.|U\.K\.|e\.g\.|i\.e\.)$/i.test(token)) return token.replaceAll(".", " ");
+      const trailing = token.match(/[.!;,]+$/)?.[0] || "";
+      const body = trailing ? token.slice(0, -trailing.length) : token;
+      return body.replace(/[.!?:;]/g, " ") + trailing;
+    },
+  );
   const candidates = [...protectedText.matchAll(/[^.!?。！？]+[.!?。！？]/gu)]
-    .map((match) => match[0].trim())
-    .map(restore)
+    .map((match) => text.slice(match.index, match.index + match[0].length).trim())
     .filter(Boolean);
   let excerpt = "";
   for (const sentence of candidates) {
@@ -131,13 +131,13 @@ function completeSentenceExcerpt(value, maxLength = 230) {
   }
   if (excerpt) return excerpt;
 
-  const boundedText = (candidates[0] || text).slice(0, maxLength + 1);
+  const boundedText = protectedText.slice(0, Math.min(candidates[0]?.length || text.length, maxLength + 1));
   const clauseBoundary = Math.max(
     boundedText.lastIndexOf(";"),
     boundedText.lastIndexOf(":"),
   );
   if (clauseBoundary >= 40) {
-    return `${boundedText.slice(0, clauseBoundary).trim()}.`;
+    return `${text.slice(0, clauseBoundary).trim()}.`;
   }
 
   return "";
