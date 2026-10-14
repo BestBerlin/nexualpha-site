@@ -123,3 +123,11 @@ test('failed observations do not turn gaps into covered empty buckets', () => {
  assert.equal(t.h24.observedBuckets,0);
  assert.equal(t.h24.unobservedBuckets,288);
 });
+
+test("timeline handles a large 7-day retention without overflowing the stack (2026-10-14 crash loop)", () => {
+  const n = 300_000;
+  const orders = Array.from({ length: n }, (_, i) => order(1 + (i % (6 * 24 * 60)), "BTCUSDT", i % 2 ? "long" : "short", 10));
+  const timeline = buildLiquidationTimeline(orders, [observation(3)], T);
+  assert.equal(timeline.coverage.since, new Date(T - 6 * 24 * 60 * 60_000).toISOString());
+  assert.equal(timeline.coverage.observationCount, 1);
+});

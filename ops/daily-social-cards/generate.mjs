@@ -20,9 +20,12 @@ const money = (n) => '$' + new Intl.NumberFormat('en-US', { notation: 'compact',
 const pct = (n) => `${n >= 0 ? '+' : '−'}${Math.abs(n).toFixed(2)}%`;
 const rate = (n) => `${n >= 0 ? '+' : '−'}${Math.abs(n * 100).toFixed(4)}%`;
 const numeric = (v, name) => { if (typeof v !== 'number' || !Number.isFinite(v) || v < 0) throw new Error(`Invalid ${name}`); return v; };
+// The market collector rewrites its feed every 5 minutes; 20 minutes tolerates a slow or skipped cycle, not a dead one.
+export const MAX_SOURCE_AGE_MS = 20 * 60000;
 function fresh(at, now, name) {
   const t = Date.parse(at);
-  if (!Number.isFinite(t) || t > now || now - t > 15 * 60000) throw new Error(`Missing, future or stale ${name}`);
+  const why = !Number.isFinite(t) ? 'missing' : t > now ? 'in the future' : now - t > MAX_SOURCE_AGE_MS ? `stale (${Math.round((now - t) / 60000)} min old)` : null;
+  if (why) throw new Error(`Missing, future or stale ${name}: generatedAt ${at ?? 'absent'} is ${why}`);
 }
 export function normalize(movers, market, now) {
   fresh(movers?.generatedAt, now, 'movers');
@@ -175,6 +178,11 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
     return state;
   } finally { closeSync(lock); unlinkSync(lockPath); }
 }
+export function feedSources(env = {}) {
+  const movers = env.DAILY_SOCIAL_MOVERS_URL || `${SITE}/api/movers.json`;
+  if (!/^https?:\/\/[^/]+\/api\/movers\.json$/.test(movers)) throw new Error('DAILY_SOCIAL_MOVERS_URL must end in /api/movers.json');
+  return { movers, market: `${SITE}/intel/market-events.json`, marketFile: env.DAILY_SOCIAL_MARKET_FILE || null };
+}
 const SECRETS = []; // filled only when --post loads credentials; used to scrub logged errors
 export async function main(args = process.argv.slice(2), env = process.env) {
   const opts = { out: path.join(HERE, 'output'), xLocale: 'en' };
@@ -193,8 +201,11 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   const fixtureClock = opts.at ? Date.parse(opts.at) : null;
   if (fixtureClock !== null && !Number.isFinite(fixtureClock)) throw new Error('Invalid clock');
   const get = async (url) => { const r = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(15000) }); if (!r.ok) throw new Error(`Feed fetch failed: ${new URL(url).pathname} HTTP ${r.status}`); return r.json(); };
+  // Production reads the local origin (no public DNS/CDN cache): DAILY_SOCIAL_MARKET_FILE is the collector's state
+  // file, DAILY_SOCIAL_MOVERS_URL the web container's loopback /api/movers.json. Unset = public site URLs.
+  const sources = feedSources(env);
   const [movers, market] = opts.fixture ? (() => { const f = JSON.parse(readFileSync(opts.fixture, 'utf8')); return [f.movers, f.market]; })()
-    : await Promise.all([get(`${SITE}/api/movers.json`), get(`${SITE}/intel/market-events.json`)]);
+    : await Promise.all([get(sources.movers), sources.marketFile ? JSON.parse(readFileSync(sources.marketFile, 'utf8')) : get(sources.market)]);
   // A snapshot can be generated while its HTTP request is in flight. Compare
   // against the completion clock, not a time captured before the requests.
   const bundle = generate({ movers, market, now: fixtureClock ?? Date.now(), out: opts.out });

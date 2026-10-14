@@ -274,8 +274,11 @@ export function buildLiquidationTimeline(orders, observationsInput = [], now = D
   const rows = retainedOrders(orders, now).map(timelineOrder).filter(row => row && row.t <= now);
   const symbols = [...new Set(rows.map((x) => x.symbol))].sort();
   const retainedObs = retainedObservations(observationsInput, now).filter(x => (x.binanceStream || x.okxPoll) && x.t <= now);
-  const knownTimes = [...retainedObs.map(x => x.t), ...rows.map(x => x.t)];
-  const firstObserved = knownTimes.length ? Math.min(...knownTimes) : null;
+  // Loop, not Math.min(...array): a busy 7-day retention holds >100k orders and spreading them as call
+  // arguments overflowed the stack (RangeError crash loop 2026-10-13 23:52 UTC, feeds froze ~3 h).
+  let firstObserved = null;
+  for (const x of retainedObs) if (firstObserved === null || x.t < firstObserved) firstObserved = x.t;
+  for (const x of rows) if (firstObserved === null || x.t < firstObserved) firstObserved = x.t;
   const h24 = buildTimelineWindow(rows, observationsInput, LIQUIDATION_TIMELINE_WINDOWS.h24, now);
   const d7 = buildTimelineWindow(rows, observationsInput, LIQUIDATION_TIMELINE_WINDOWS.d7, now);
   return {
