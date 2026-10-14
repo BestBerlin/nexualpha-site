@@ -17,7 +17,7 @@ import { createFxFeed, FX_JSON_PATH } from "./fx-feed.mjs";
 import { beginnerAliasRedirect } from "../src/data/locale-routing.js";
 
 import { createPositionRadar } from "./position-radar.mjs";
-const radar = createPositionRadar({ ...(process.env.INTEL_REFRESH === "off" ? { fetchImpl: async () => { throw new Error("radar network off"); } } : {}) });
+const radar = createPositionRadar({ whaleFileOnly: true, ...(process.env.INTEL_REFRESH === "off" ? { fetchImpl: async () => { throw new Error("radar network off"); } } : {}) });
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
