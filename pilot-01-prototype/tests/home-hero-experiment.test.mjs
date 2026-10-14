@@ -54,7 +54,7 @@ test("registry: home_hero_copy_v1 is retired (2026-10-14), still valid, on the 1
 test("one hero headline for every variant: the live volume sentence", () => {
   const volume = HERO_VOLUME_STEPS[HERO_VOLUME_DEFAULT_STEP];
   assert.equal(volume, 1e7, "default 1000万U");
-  assert.equal(heroSayText("zh-Hans", { vol: heroVolumeText(volume, "zh-Hans"), venue: "Bitget", auto: true }), "交易 1000万U，Bitget 自动返还你");
+  assert.equal(heroSayText("zh-Hans", { vol: heroVolumeText(volume, "zh-Hans"), venue: "Bitget", auto: true }), "在 Bitget 交易 1000万U，自动返还你");
   assert.equal(heroSayText("en", { vol: heroVolumeText(volume, "en"), venue: "Bitget", auto: true }), "Trade $10M on Bitget, get back automatically");
 });
 

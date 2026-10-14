@@ -252,7 +252,7 @@ test("homepage keeps decisions above the compact closing band", () => {
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"));
   assert.doesNotMatch(activeHome, /HomeResearchDrawer|CrawlPriorityLinks|legacy=/);
   assert.doesNotMatch(closingBand, /v6-close__index|ClosingIndexGroups/);
-  assert.match(homeV7, /<HeroExchangeSwitcher[^>]*onPick=\{setPick\}/);
+  assert.match(homeV7, /<HeroExchangeSwitcher[^>]*onPick=\{pickVenue\}/);
   assert.match(homeV7, /<HeroRebate[^>]*venue=\{sel\}/);
   assert.match(homeV7, /<Cta v=\{sel\} locale=\{locale\}[^>]*placement="home-v7-hero"/);
   assert.match(homeV7, /<StableHomeBelowFold[^>]*calc=\{calc\}/);

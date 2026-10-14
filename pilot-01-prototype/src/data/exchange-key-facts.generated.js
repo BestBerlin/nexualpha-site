@@ -1251,7 +1251,7 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
           "maker": 0.02,
           "taker": 0.05,
           "units": "percent",
-          "scope": "VIP0 USDT perpetuals 0.02%/0.05%. Official fee page gate.com/fee, read 2026-10-10."
+          "scope": "VIP0 USDT perpetuals 0.02%/0.05% (all groups). Official fee page gate.com/fee (合约费率 › USDT 永续), read 2026-10-10, re-read 2026-10-15."
         },
         "sourceUrls": [
           "https://www.gate.com/fee"

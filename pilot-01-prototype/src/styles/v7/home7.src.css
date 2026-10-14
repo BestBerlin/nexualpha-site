@@ -787,3 +787,29 @@
 @ .h7-calc .h7-vin{flex-wrap:wrap}
 @ .h7-calc .h7-vin input{flex:1 1 0;width:auto;min-width:0;font-size:clamp(1.75rem,8.6vw,3.5rem)}
 @ .h7-calc .h7-vin small{flex-basis:100%;margin-top:6px;text-align:start}
+
+/* Hero polish (owner 2026-10-15) -------------------------------------------------------------------------------------
+   1. Brand mark in the figure's line box: em-sized (.58em) and centred on the digits' cap band (Geist cap ≈ .7em),
+      no extra tile, ring or background around the exchange's own icon. */
+@ .hx-rate{grid-template-columns:minmax(0,1fr)}
+@ .hx-hero-panel .hx-rate{--hx-logo-w:0px}
+@ .hx-amt .hx-rate-logo{flex:none;align-self:baseline;display:block;inline-size:.58em;block-size:.58em;margin:0 .16em 0 0;padding:0;border-radius:.17em;background:none;box-shadow:none;overflow:hidden;transform:translateY(-.06em)}
+@ .hx-amt .hx-rate-logo :is(img,.v2-brand,.v2-brand-fallback){display:block;inline-size:100%;block-size:100%;border-radius:inherit;object-fit:contain}
+/* 2. CJK headline: no tracking on CJK, CJK line-height, matched 600 weights, end punctuation may hang, and the CJK
+      system face per script (Geist carries the Latin and the digits). */
+@ .h7-hc h1.hx-say:is(:lang(zh),:lang(ja),:lang(ko)){letter-spacing:0;line-height:1.26;hanging-punctuation:allow-end;font-size:clamp(25px,7.6vw,32px)}
+@ .h7-hc h1.hx-say:is(:lang(zh),:lang(ja),:lang(ko)) :is(.hx-say-vol,.hx-say-venue){letter-spacing:-.01em}
+@ :lang(ko) .hx-say,@ .hx-say:lang(ko){font-family:"Geist V5","Geist V5 Fallback",ui-sans-serif,system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+@media(min-width:768px){@ .h7-hc h1.hx-say:is(:lang(zh),:lang(ja),:lang(ko)){font-size:40px}}
+@media(min-width:1024px){@ .h7-hc h1.hx-say:is(:lang(zh),:lang(ja),:lang(ko)){font-size:44px;line-height:1.24}}
+/* 3. Laptop screen life: one highlight glides between rows, bars regrow (staggered) when the volume changes, and a live
+      dot pulses only while the screen is cycling. All transform/opacity; nothing runs once the cycle has ended. */
+@ .hx-scr-rows{position:relative;isolation:isolate}
+@ .hx-scr-rows li[data-on] button{background:transparent;box-shadow:none}
+@ .hx-scr-hl{position:absolute;inset-inline:0;top:0;z-index:-1;block-size:46px;border-radius:10px;background:rgb(var(--g)/.07);box-shadow:inset 0 0 0 1px rgb(var(--g)/.26);transform:translateY(calc(var(--i,0) * 50px));transition:transform .45s var(--ease-out),background-color .3s,box-shadow .3s;pointer-events:none}
+@ .hx-scr-bar-fill::after{animation-delay:var(--d,0ms)}
+@ .hx-scr-live{display:inline-grid;place-items:center;inline-size:16px;block-size:16px;margin-inline-start:auto}
+@ .hx-scr-live i{inline-size:6px;block-size:6px;border-radius:50%;background:#22C88A;opacity:.55}
+@ .hx-scr-live[data-on] i{opacity:1;animation:hx-live 1.6s var(--ease-out) infinite}
+@keyframes hx-live{0%{transform:scale(1);opacity:1}60%{transform:scale(1.9);opacity:.35}100%{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){@ .hx-scr-hl{transition:none}@ .hx-scr-live[data-on] i{animation:none}}

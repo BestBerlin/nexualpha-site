@@ -13,7 +13,7 @@ This index is designed for retrieval by search and answer systems. It is not an 
   - OKX: invite code nexu888; up to 40% of trading fees returned, settled hourly (terms confirmed 2026-10-10); profile https://nexualpha.com/exchanges/okx
   - Binance: invite code 11350287; up to 25% of trading fees returned, settled hourly (terms confirmed 2026-10-10); profile https://nexualpha.com/exchanges/binance
   - Bybit: invite code 48553; no fee-return share published; profile https://nexualpha.com/exchanges/bybit
-  - Gate.io: invite code nexubest; no fee-return share published; profile https://nexualpha.com/exchanges/gate-io
+  - Gate.io: invite code nexubest; up to 40% of trading fees returned (terms confirmed 2026-10-15); profile https://nexualpha.com/exchanges/gate-io
   - MEXC: invite code 4BRhe; no fee-return share published; profile https://nexualpha.com/exchanges/mexc
   - HTX: invite code nexu888; up to 40% of trading fees returned (terms confirmed 2026-10-14); profile https://nexualpha.com/exchanges/htx
   - Kraken: invite code 7f97gkqw; no fee-return share published; profile https://nexualpha.com/exchanges/kraken

@@ -1,4 +1,4 @@
-// Home hero v3 (owner 2026-10-14): "交易 1000万U，Bitget 自动返还你 $3,600". Pins the honest sum (volume × perpetual taker
+// Home hero v3 (owner 2026-10-14): "在 Bitget 交易 1000万U，自动返还你 $3,600". Pins the honest sum (volume × perpetual taker
 // fee × partner share, read from the sources, never typed here), the Chinese/Latin money format, the log dial stops,
 // the 17-locale sentence, and the SSR hero per market: CTA locales show sentence + figure + dial + code + CTA; Türkiye
 // shows no Bitget; neutral locales show no figure, dial, code or /go link.
@@ -70,8 +70,8 @@ test("sentence: 17 locales, both placeholders, no time unit, no commission or fi
     assert.doesNotMatch(text, /年|月|year|month|annual|\baño\b|\bmes\b|\bano\b|\bmês\b|par an\b|Jahr|Monat|\banno\b|\bmese\b|년|월|год|месяц|\byıl\b|\btahun\b|\bbulan\b|\bnăm\b|tháng|سنة|شهر|سال|مہینہ|рік|місяць/i, `${locale}: no time unit`);
     assert.doesNotMatch(text, /佣金|返佣|not (financial )?advice|免责|disclaimer|\*/i, `${locale}: no commission wording or fine print (the 'our commission' phrases are pinned in l10n-qa-2026-10-13)`);
   }
-  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "Bitget", auto: true }), "交易 1000万U，Bitget 自动返还你");
-  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "HTX", auto: false }), "交易 1000万U，HTX 返还你");
+  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "Bitget", auto: true }), "在 Bitget 交易 1000万U，自动返还你");
+  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "HTX", auto: false }), "在 HTX 交易 1000万U，返还给你");
 });
 
 let harness;
@@ -85,7 +85,7 @@ const hero = async (pathname, market) => {
 
 test("SSR /zh-hans: live sentence, $3,600, dial at 1000万U, code and /go CTA, desktop device screen", async () => {
   const { doc, close } = await hero("/zh-hans");
-  assert.equal(doc.querySelector(".h7-hero h1").textContent, "交易 1000万U，Bitget 自动返还你");
+  assert.equal(doc.querySelector(".h7-hero h1").textContent, "在 Bitget 交易 1000万U，自动返还你");
   const figure = doc.querySelector(".hx-amt");
   assert.equal(figure.getAttribute("data-final-value"), "3600");
   assert.equal(figure.textContent, "$3,600", "real text, final value in the HTML");
@@ -134,4 +134,31 @@ test("calculator: same volume framing in 17 locales, 1万U → 10亿U range, no 
   assert.equal(calcToVol(0), CALC_VMIN);
   assert.equal(calcToVol(1000), CALC_VMAX);
   assert.equal(calcToVol(calcToPos(1e7)), 1e7);
+});
+
+test("Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, so it has a hero amount", () => {
+  const fee = feeFact("gate-io", "perp");
+  assert.equal(fee.state, "checked");
+  assert.deepEqual([fee.maker, fee.taker], [0.02, 0.05]);
+  assert.equal(partnerRebateShare("gate-io"), 0.4);
+  assert.equal(HOME_AUTO_SETTLE.includes("gate-io"), false, "not on the auto-settle list: its sentence has no 自动");
+  assert.equal(heroMoneyText(amountFor("gate-io", 1e7), "zh-Hans"), "$2,000");
+});
+
+test("hero life stays finite: desktop-only screen cycle, two rounds, stops on touch, pauses offscreen/hidden, no reduced motion", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
+  const cycle = home.slice(home.indexOf("const touchedRef"), home.indexOf("}, [banned]);"));
+  for (const guard of ["reducedMotion()", "(min-width: 1024px)", "IntersectionObserver", "visibilitychange", "touchedRef.current", "seq.length * 2", "4000"]) assert.ok(cycle.includes(guard), guard);
+  assert.ok(cycle.includes("setScreenStep(seq[at])") && !cycle.includes("setHeroStep(seq"), "only the laptop screen cycles: the headline and figure never change on their own (no CLS)");
+  const css = await readFile(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
+  assert.match(css, /@ \.hx-scr-live\[data-on\] i\{[^}]*animation:hx-live/, "the live dot pulses only while cycling");
+  assert.match(css, /@ \.hx-scr-hl\{[^}]*transform:translateY\(calc\(var\(--i,0\) \* 50px\)\)/, "row highlight glides by transform");
+  assert.match(css, /@ \.hx-amt \.hx-rate-logo\{[^}]*inline-size:\.58em/, "brand mark is em-sized to the figure");
+});
+
+test("SSR: the brand mark sits inside the figure's line box", async () => {
+  const { doc, close } = await hero("/zh-hans");
+  assert.ok(doc.querySelector(".hx-amt > .hx-rate-logo [data-brand-slug=bitget]"));
+  close();
 });

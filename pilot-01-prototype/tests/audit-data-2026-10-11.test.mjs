@@ -161,7 +161,9 @@ test("NX-02 partner benefit status is derived from home-rebate-tiers (no new num
   assert.equal(partnerBenefitStatus("htx").sharePct, 40);
   assert.equal(partnerBenefitStatus("htx").confirmedOn, "2026-10-14", "HTX terms were confirmed later than the first batch");
   assert.equal(partnerBenefitStatus("htx").autoSettle, false, "HTX is not on the auto-settle list");
-  for (const slug of ["bybit", "kraken", "hyperliquid", "gate-io"]) assert.equal(partnerBenefitStatus(slug), null, slug);
+  assert.equal(partnerBenefitStatus("gate-io").sharePct, 40, "Gate.io up to 40% (owner confirmed 2026-10-15)");
+  assert.equal(partnerBenefitStatus("gate-io").confirmedOn, "2026-10-15");
+  for (const slug of ["bybit", "kraken", "hyperliquid"]) assert.equal(partnerBenefitStatus(slug), null, slug);
 });
 
 test("NX-02 benefit wording exists in all 15 locales and the factbook line matches the audit wording", () => {
