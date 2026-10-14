@@ -248,6 +248,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/shared/GlossaryTooltip.jsx") || id.includes("/src/components/shared/glossary-tooltip.css") || id.endsWith("/src/data/glossary-tooltip-copy.js")) return "shared-glossary-tooltip";
           if (id.includes("/src/data/glossary-autolink.js")) return "shared-glossary-link";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
+          // Shared whale copy must not make radar/venue routes preload the home board graph.
+          if (id.includes("/src/data/whales-home.js")) return "shared-whales";
           if (id.includes("/src/components/radar/") || id.includes("/src/data/radar.js")) return "route-radar";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           // Bybit Stocks campaign page (2026-10-12): component, styles and its 14-locale copy in its own route chunk

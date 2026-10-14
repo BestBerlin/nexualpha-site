@@ -35,7 +35,7 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
-import { RADAR_INDEX_LOCALES, RADAR_PATHS } from "../src/data/radar-seo.js";
+import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES } from "../src/data/radar-seo.js";
 import { licenseSitemapEntries } from "../src/data/licenses-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { exchangeHubNewsArticles } from "../src/data/hub-entity-news.js";
@@ -169,7 +169,7 @@ export function routeInventory(newsArticles = []) {
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
     ...(pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
-    ...(RADAR_PATHS.includes(pathname) ? { locales: RADAR_INDEX_LOCALES, prerenderLocales: PRERENDER_LOCALES } : {}),
+    ...(RADAR_PATHS.includes(pathname) ? { locales: pathname === "/whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES, prerenderLocales: PRERENDER_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),

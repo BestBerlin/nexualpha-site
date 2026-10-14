@@ -1,10 +1,13 @@
-import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy } from "./radar.js";
+import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy, normalizeWhales } from "./radar.js";
+import { whaleExplorerHref, whaleSentence, whalesCopy } from "./whales-home.js";
 import { localizedPath } from "./locale-routing.js";
 
 const PUBLIC_ORIGIN = "https://nexualpha.com";
 
 export const RADAR_PATHS = Object.freeze([LONG_SHORT_PATH, WHALES_PATH]);
-export const RADAR_INDEX_LOCALES = Object.freeze(RADAR_LOCALES.filter(locale => !["ur", "uk"].includes(locale)));
+export const LONG_SHORT_INDEX_LOCALES = Object.freeze(RADAR_LOCALES.filter((locale) => !["ur", "uk"].includes(locale)));
+export const WHALES_INDEX_LOCALES = RADAR_LOCALES;
+export const RADAR_INDEX_LOCALES = LONG_SHORT_INDEX_LOCALES;
 
 const LONG_SHORT_SOURCE_URLS = Object.freeze([
   "https://fapi.binance.com/futures/data/globalLongShortAccountRatio",
@@ -41,15 +44,21 @@ function pageCopy(kind, locale) {
     };
   }
   return {
-    title: `${copy.whalesTitle} — NexuAlpha`,
-    headline: copy.whalesTitle,
-    description: `${copy.whalesLead} ${copy.whalesSummary}`,
-    section: copy.whalesTitle,
+    title: resolvedWhalesTitle(locale),
+    headline: whalesCopy(locale).title,
+    description: `${whalesCopy(locale).tabs.signals} · Hyperliquid · ${whalesCopy(locale).tabs.positions} · ${whalesCopy(locale).tabs.transfers}`,
+    section: whalesCopy(locale).title,
     relatedLabel: copy.longShortTitle,
     relatedPath: LONG_SHORT_PATH,
-    about: ["public-chain whale transfer monitoring", "exchange address labels", "stablecoin and BTC transfer direction"],
+    about: ["smart-money accumulation", "Hyperliquid whale positions", "public-chain whale transfer monitoring", "exchange address labels"],
     isBasedOn: [],
   };
+}
+
+function resolvedWhalesTitle(locale) {
+  if (locale === "zh-Hans") return "巨鲸动向：Hyperliquid 巨鲸持仓与大额转账实时追踪 — NexuAlpha";
+  if (locale === "zh-Hant") return "巨鯨動向：Hyperliquid 巨鯨持倉與大額轉帳即時追蹤 — NexuAlpha";
+  return `${whalesCopy(locale).title} · Hyperliquid — NexuAlpha`;
 }
 
 function breadcrumbs(copy, canonicalUrl, locale) {
@@ -86,11 +95,44 @@ function webPageSchema(copy, canonicalUrl, locale) {
   };
 }
 
+function whalesDatasetSchema(copy, canonicalUrl, locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: copy.headline,
+    description: copy.description,
+    url: canonicalUrl,
+    inLanguage: schemaLocale(locale),
+    isAccessibleForFree: true,
+    creator: { "@type": "Organization", name: "NexuAlpha", url: PUBLIC_ORIGIN },
+    variableMeasured: ["accumulation signal", "position notional", "transfer amount"],
+  };
+}
+
+function whalesItemListSchema(copy, canonicalUrl, locale, snapshot) {
+  const rows = normalizeWhales(snapshot).rows.slice(0, 50);
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: copy.headline,
+    url: canonicalUrl,
+    inLanguage: schemaLocale(locale),
+    numberOfItems: rows.length,
+    itemListElement: rows.map((row, index) => ({
+      "@type": "ListItem", position: index + 1,
+      name: whaleSentence(row, locale),
+      url: whaleExplorerHref(row) || canonicalUrl,
+    })),
+  };
+}
+
 export function radarRouteSeo(pathname, locale = "en", options = {}) {
   const route = parseRadarPath(pathname);
   if (!route) return null;
   const resolvedLocale = RADAR_LOCALES.includes(locale) ? locale : "en";
   const copy = pageCopy(route.kind, resolvedLocale);
+  const indexLocales = route.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
+  const indexable = indexLocales.includes(resolvedLocale);
   const urlFor = typeof options.urlFor === "function" ? options.urlFor : (path) => publicUrl(path, resolvedLocale);
   const canonical = urlFor(route.path);
   return {
@@ -98,11 +140,12 @@ export function radarRouteSeo(pathname, locale = "en", options = {}) {
     kind: route.kind,
     title: copy.title,
     description: copy.description,
-    indexable: RADAR_INDEX_LOCALES.includes(resolvedLocale),
-    alternatesLocales: RADAR_INDEX_LOCALES.includes(resolvedLocale) ? RADAR_INDEX_LOCALES : [],
+    indexable,
+    alternatesLocales: indexable ? indexLocales : [],
     schemas: [
       breadcrumbs(copy, canonical, resolvedLocale),
       webPageSchema(copy, canonical, resolvedLocale),
+      ...(route.kind === "whales" ? [whalesDatasetSchema(copy, canonical, resolvedLocale), whalesItemListSchema(copy, canonical, resolvedLocale, options.snapshot)] : []),
     ],
   };
 }

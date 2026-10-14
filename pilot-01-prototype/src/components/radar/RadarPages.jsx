@@ -25,6 +25,8 @@ import {
   venueDisplayName,
   venueGoHref,
 } from "../../data/radar.js";
+import { whaleExplorerHref, whaleSentenceParts, whalesCopy } from "../../data/whales-home.js";
+import { formatSgt } from "../../data/local-time.js";
 import "./radar.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
@@ -192,7 +194,7 @@ function LongShortTable({ rows, locale, market }) {
 function WhalesTable({ rows, locale }) {
   const copy = radarCopy(locale);
   const [sort, setSort] = useState({ key: "time", direction: "desc" });
-  const sorted = useMemo(() => sortRows(rows, sort.key, sort.direction).slice(0, 30), [rows, sort]);
+  const sorted = useMemo(() => sortRows(rows, sort.key, sort.direction).slice(0, 50), [rows, sort]);
   const toggle = (key) => setSort((current) => ({ key, direction: current.key === key && current.direction === "desc" ? "asc" : "desc" }));
   const ariaSort = (key) => (sort.key === key ? (sort.direction === "asc" ? "ascending" : "descending") : "none");
 
@@ -232,6 +234,88 @@ function WhalesTable({ rows, locale }) {
   );
 }
 
+function WhaleSentence({ row, locale }) {
+  const [before, amount, after] = whaleSentenceParts(row, locale);
+  return <span>{before.trimStart()}<strong dir="ltr">{amount}</strong>{after.trimEnd()}</span>;
+}
+
+function whaleBucket(row) {
+  const kind = String(row.homeKind || row.kind || row.eventKind || row.category || "").toLowerCase();
+  if (["signal", "accumulation", "distribution", "smart_money"].includes(kind)) return "signals";
+  if (["position", "hyperliquid_position", "liquidation"].includes(kind)) return "positions";
+  return "transfers";
+}
+
+function WhalesTabs({ feed, locale }) {
+  const c = whalesCopy(locale);
+  const priority = (row) => ({ signals: 0, positions: 1, transfers: 2 })[whaleBucket(row)] ?? 2;
+  // Signals and positions keep the collector ranking; transfers are newest first.
+  const baseRows = [...feed.rows].sort((a, b) => priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(b.time || b.updatedAt || 0) - Date.parse(a.time || a.updatedAt || 0) : 0)).slice(0, 50);
+  const defaultFilter = baseRows.some((row) => whaleBucket(row) === "signals") ? "signals"
+    : baseRows.some((row) => whaleBucket(row) === "positions" || /hyperliquid/i.test(String(row.venue || row.source || ""))) ? "hyperliquid"
+      : "transfers";
+  const [filter, setFilter] = useState(defaultFilter);
+  const FILTERS = [
+    ["signals", c.tabs.signals],
+    ["hyperliquid", "Hyperliquid"],
+    ["transfers", c.tabs.transfers],
+    ["btc", "BTC"],
+    ["eth", "ETH"],
+    ["stablecoins", "USDT / USDC"],
+  ];
+  const buckets = { signals: [], positions: [], transfers: [] };
+  const matches = (row) => {
+    const bucket = whaleBucket(row);
+    const asset = String(row.coin || row.asset || row.symbol || "").toUpperCase();
+    if (filter === "signals") return bucket === "signals";
+    if (filter === "hyperliquid") return bucket === "positions" || /hyperliquid/i.test(String(row.platform || row.venue || row.source || ""));
+    if (filter === "transfers") return bucket === "transfers";
+    if (filter === "btc") return asset === "BTC";
+    if (filter === "eth") return asset === "ETH";
+    if (filter === "stablecoins") return asset === "USDT" || asset === "USDC";
+    return true;
+  };
+  const rows = baseRows.filter(matches);
+  for (const row of rows) buckets[whaleBucket(row)].push(row);
+  const sections = [
+    ["signals", buckets.signals],
+    ["positions", buckets.positions],
+    ["transfers", buckets.transfers],
+  ].filter(([, rows]) => rows.length);
+  return (
+    <section className="nxradar-panel nxradar-whales-tabs v2-shell" aria-label={c.title}>
+      <div className="nxradar-tabbar" role="tablist" aria-label={c.title}>
+        {FILTERS.map(([key, label]) => <button type="button" key={key} data-whale-filter={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}
+      </div>
+      {!sections.length ? <p className="nxradar-empty-line" role="status">{radarCopy(locale).unavailableTitle}</p> : null}
+      {sections.map(([key, rows]) => (
+        <section key={key} className={`nxradar-whale-section nxradar-whale-section--${key}`} data-whale-section={key} aria-labelledby={`whales-${key}-h`}>
+          <h2 id={`whales-${key}-h`}>{c.tabs[key]}</h2>
+          {key === "transfers" ? <WhalesTable rows={rows} locale={locale} /> : (
+            <ul className="nxradar-whale-cards">
+              {rows.slice(0, 50).map((row) => {
+                const href = whaleExplorerHref(row);
+                const content = (
+                  <>
+                    <b translate="no">{row.coin || row.asset || row.symbol}</b>
+                    <WhaleSentence row={row} locale={locale} />
+                    {row.time ? <time dateTime={row.time} dir="ltr">{formatSgt(row.time, locale, "end")}</time> : null}
+                  </>
+                );
+                return (
+                  <li key={row.id} data-kind={key}>
+                    {href ? <a href={href} target="_blank" rel="nofollow noopener noreferrer">{content}</a> : content}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      ))}
+    </section>
+  );
+}
+
 function RadarMethod({ locale, page, apiPath, src }) {
   const copy = radarCopy(locale);
   return (
@@ -248,11 +332,11 @@ function RadarMethod({ locale, page, apiPath, src }) {
   );
 }
 
-function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPath }) {
+function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPath, offer = true }) {
   const copy = radarCopy(locale);
   return (
     <>
-      {NEUTRAL_CTA_LOCALES.has(locale) ? null : (
+      {offer && !NEUTRAL_CTA_LOCALES.has(locale) ? (
       <div className="v2-shell nxradar-offer">
         <NewsVenueOffer
           venues={RADAR_SIGNUP_VENUES}
@@ -264,7 +348,7 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPa
           linkFor={(slug) => venueGoHref(slug, src, locale, market)}
         />
       </div>
-      )}
+      ) : null}
       <footer className="nxradar-foot v2-shell">
         <p><span>{copy.related}:</span> <a href={localizedHref(relatedPath, { locale })}>{relatedLabel}</a></p>
       </footer>
@@ -288,13 +372,14 @@ export function LongShortPage({ locale = "en", market, initial }) {
 
 export function WhalesPage({ locale = "en", market, initial }) {
   const copy = radarCopy(locale);
+  const whaleCopy = whalesCopy(locale);
   const feed = useRadarFeed("whales", initial);
-  const page = { title: copy.whalesTitle, lead: copy.whalesLead, sourceLine: copy.whalesSourceLine, sourceNames: "mempool.space · PublicNode Ethereum RPC", summary: copy.whalesSummary, explainer: copy.whalesExplainer, methodExtra: copy.whalesMethodExtra };
+  const page = { title: whaleCopy.title, lead: `${whaleCopy.tabs.signals} · Hyperliquid · ${whaleCopy.tabs.positions} · ${whaleCopy.tabs.transfers}`, sourceLine: copy.whalesSourceLine, sourceNames: "Hyperliquid · mempool.space · Ethereum RPC · Tronscan", summary: copy.whalesSummary, explainer: copy.whalesExplainer, methodExtra: copy.whalesMethodExtra };
   return (
-    <main className="v6 v2-page v3-page nxradar nxradar--whales" id="top" dir={directionFor(locale)} data-market={market || "global"} data-testid="whales-page">
+    <main className="v6 v2-page v3-page nxradar nxradar--whales whales-page" id="top" dir={directionFor(locale)} data-market={market || "global"} data-testid="whales-page">
       <RadarHero locale={locale} page={page} pathname={WHALES_PATH} feed={feed} apiPath={WHALES_API_PATH} />
-      {feed.rows.length ? <WhalesTable rows={feed.rows} locale={locale} /> : <RadarUnavailable locale={locale} />}
-      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} />
+      {feed.rows.length ? <WhalesTabs feed={feed} locale={locale} /> : <RadarUnavailable locale={locale} />}
+      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} offer={false} />
     </main>
   );
 }

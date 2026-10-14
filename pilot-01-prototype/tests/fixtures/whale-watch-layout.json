@@ -1,0 +1,297 @@
+{
+  "kind": "whales",
+  "status": "ok",
+  "schemaVersion": 2,
+  "updatedAt": "2026-10-14T08:42:00Z",
+  "sources": [
+    "synthetic layout fixture"
+  ],
+  "signals": [
+    {
+      "id": "signal-0",
+      "category": "signal",
+      "type": "accumulation",
+      "signalType": "accumulation",
+      "coin": "HYPE",
+      "side": "long",
+      "walletsCount": 1,
+      "totalUsd": 8200000,
+      "periodHours": 72,
+      "avgEntry": 41.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "signal-1",
+      "category": "signal",
+      "type": "coordinated_long",
+      "signalType": "coordinated_long",
+      "coin": "SOL",
+      "side": "long",
+      "walletsCount": 2,
+      "totalUsd": 19200000,
+      "periodHours": 72,
+      "avgEntry": 53.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "signal-2",
+      "category": "signal",
+      "type": "coordinated_short",
+      "signalType": "coordinated_short",
+      "coin": "ETH",
+      "side": "short",
+      "walletsCount": 3,
+      "totalUsd": 30200000,
+      "periodHours": 72,
+      "avgEntry": 65.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    }
+  ],
+  "positions": [
+    {
+      "id": "position-0",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "BTC",
+      "side": "long",
+      "eventType": "open",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 12400000,
+      "notionalUsd": 12400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "position-1",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "ETH",
+      "side": "short",
+      "eventType": "increase",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 23400000,
+      "notionalUsd": 23400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "position-2",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "HYPE",
+      "side": "long",
+      "eventType": "decrease",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 34400000,
+      "notionalUsd": 34400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    }
+  ],
+  "transfers": [
+    {
+      "id": "transfer-0",
+      "category": "transfer",
+      "chain": "btc",
+      "asset": "BTC",
+      "amount": 2000,
+      "amountUsd": 167000000,
+      "fromLabel": "unknown",
+      "toLabel": "Binance",
+      "from": {
+        "label": "unknown",
+        "address": "bc1qtest"
+      },
+      "to": {
+        "label": "Binance",
+        "address": "bc1qexchange"
+      },
+      "direction": "to_exchange",
+      "time": "2026-10-14T08:42:00Z",
+      "txHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "explorerUrl": "https://mempool.space/tx/1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "id": "transfer-1",
+      "category": "transfer",
+      "chain": "ethereum",
+      "asset": "USDT",
+      "amount": 5000000,
+      "amountUsd": 5000000,
+      "fromLabel": "unknown",
+      "toLabel": "Binance",
+      "from": {
+        "label": "unknown",
+        "address": "bc1qtest"
+      },
+      "to": {
+        "label": "Binance",
+        "address": "bc1qexchange"
+      },
+      "direction": "to_exchange",
+      "time": "2026-10-14T08:42:00Z",
+      "txHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "explorerUrl": "https://etherscan.io/tx/2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ],
+  "rows": [
+    {
+      "id": "signal-0",
+      "category": "signal",
+      "type": "accumulation",
+      "signalType": "accumulation",
+      "coin": "HYPE",
+      "side": "long",
+      "walletsCount": 1,
+      "totalUsd": 8200000,
+      "periodHours": 72,
+      "avgEntry": 41.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "signal-1",
+      "category": "signal",
+      "type": "coordinated_long",
+      "signalType": "coordinated_long",
+      "coin": "SOL",
+      "side": "long",
+      "walletsCount": 2,
+      "totalUsd": 19200000,
+      "periodHours": 72,
+      "avgEntry": 53.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "signal-2",
+      "category": "signal",
+      "type": "coordinated_short",
+      "signalType": "coordinated_short",
+      "coin": "ETH",
+      "side": "short",
+      "walletsCount": 3,
+      "totalUsd": 30200000,
+      "periodHours": 72,
+      "avgEntry": 65.2,
+      "time": "2026-10-14T08:42:00Z",
+      "addresses": [
+        "0x2222222222222222222222222222222222222222"
+      ],
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "position-0",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "BTC",
+      "side": "long",
+      "eventType": "open",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 12400000,
+      "notionalUsd": 12400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "position-1",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "ETH",
+      "side": "short",
+      "eventType": "increase",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 23400000,
+      "notionalUsd": 23400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "position-2",
+      "category": "position",
+      "platform": "hyperliquid",
+      "coin": "HYPE",
+      "side": "long",
+      "eventType": "decrease",
+      "address": "0x2222222222222222222222222222222222222222",
+      "sizeUsd": 34400000,
+      "notionalUsd": 34400000,
+      "entryPx": 84000,
+      "leverage": 20,
+      "time": "2026-10-14T08:42:00Z",
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0x2222222222222222222222222222222222222222"
+    },
+    {
+      "id": "transfer-0",
+      "category": "transfer",
+      "chain": "btc",
+      "asset": "BTC",
+      "amount": 2000,
+      "amountUsd": 167000000,
+      "fromLabel": "unknown",
+      "toLabel": "Binance",
+      "from": {
+        "label": "unknown",
+        "address": "bc1qtest"
+      },
+      "to": {
+        "label": "Binance",
+        "address": "bc1qexchange"
+      },
+      "direction": "to_exchange",
+      "time": "2026-10-14T08:42:00Z",
+      "txHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "explorerUrl": "https://mempool.space/tx/1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "id": "transfer-1",
+      "category": "transfer",
+      "chain": "ethereum",
+      "asset": "USDT",
+      "amount": 5000000,
+      "amountUsd": 5000000,
+      "fromLabel": "unknown",
+      "toLabel": "Binance",
+      "from": {
+        "label": "unknown",
+        "address": "bc1qtest"
+      },
+      "to": {
+        "label": "Binance",
+        "address": "bc1qexchange"
+      },
+      "direction": "to_exchange",
+      "time": "2026-10-14T08:42:00Z",
+      "txHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "explorerUrl": "https://etherscan.io/tx/2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ]
+}

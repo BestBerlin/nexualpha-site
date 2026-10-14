@@ -79,11 +79,10 @@ import { applyCoinOverlay, coinBySlug, coinOverlayFromSnapshot, COINS_GENERATED_
 import { coinHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
-import { RADAR_INDEX_LOCALES, RADAR_PATHS, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
+import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
 import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
-import { isMoversSnapshot } from "../src/data/movers.js";
-import { spliceMoversHtml } from "../src/data/movers-html.js";
+import { WHALES_COPY_LOCALES, homeWhalesSnapshot, isWhalesSnapshot, spliceWhalesHtml, withWhaleText } from "../src/data/whales-home.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, parseAnnouncementTitle, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
@@ -266,6 +265,16 @@ export default {
     if (["/api/long-short.json", "/api/whales.json"].includes(url.pathname)) {
       if (!["GET", "HEAD"].includes(request.method)) return new Response(null, { status: 405, headers: { allow: "GET, HEAD" } });
       const kind = url.pathname === "/api/whales.json" ? "whales" : "long-short";
+      // ?view=home: the ≤8 rows the home board shows (~7 KB instead of the full feed) for its 60 s refresh.
+      // &locale=xx adds ready-made sentence parts ([before, amount, after]) for clients without the site copy (Mini App).
+      if (kind === "whales" && url.searchParams.get("view") === "home") {
+        const textLocale = WHALES_COPY_LOCALES.includes(url.searchParams.get("locale")) ? url.searchParams.get("locale") : null;
+        return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:whales:home:${textLocale || "-"}`, async () => {
+          const feed = homeWhalesSnapshot(await loadRadarApiPayload(env, kind));
+          if (!feed) throw new Error("no whale rows for home");
+          return textLocale ? withWhaleText(feed, textLocale) : feed;
+        }), request.method, unavailableRadarPayload(kind));
+      }
       return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:${kind}`, () => loadRadarApiPayload(env, kind)), request.method, unavailableRadarPayload(kind));
     }
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
@@ -3814,7 +3823,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
     ...(isTickerSnapshot(route.ticker) ? { ticker: route.ticker } : {}),
-    ...(isMoversSnapshot(route.movers) ? { movers: route.movers } : {}),
+    ...(isWhalesSnapshot(route.whales) ? { whales: route.whales } : {}),
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
     // /etf-flows and /calendar: the snapshot the page was rendered with ({ kind, data, now }).
@@ -5142,19 +5151,19 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     routePayload = { ...routePayload, heroVariant: heroServed };
   }
   let renderedLiveHome = false;
-  // Use one live snapshot for the header ticker, funding board and movers, then hydrate with those same values.
+  // Use one live snapshot for the header ticker, funding board and whales board, then hydrate with those same values.
   // Owner 2026-10-14: the home page has no flash rail any more, so home SSR no longer reads the flash stream.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
     // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
-    const [funding, ticker, movers] = await Promise.all([
+    const [funding, ticker, whales] = await Promise.all([
       readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale, market: market || undefined })),
       readTickerSnapshot(env),
-      readMoversSnapshot(env),
+      readWhalesSnapshot(env),
     ]);
-    if (funding || ticker || movers) {
+    if (funding || ticker || whales) {
       // The prerendered announcement feed rides along: the client hydrates the below-fold island from the same state, so
       // rendering without it SSR'd an empty notice list and threw React #418 on every home load.
-      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
+      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(whales ? { whales } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
         if (typeof rendered === "string" && rendered.includes('id="h7-calc"')) {
@@ -5173,10 +5182,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     const ticker = await readTickerSnapshot(env);
     if (ticker) { appHtml = spliceTickerHtml(appHtml, ticker); routePayload = { ...routePayload, ticker }; }
   }
-  // Home "Today's movers" (2026-10-13): same pattern, the board body is prerendered empty and filled here.
+  // Home whale watch: same pattern, the board body is prerendered empty and filled here.
   if (contentPathname === "/" && !renderedLiveHome && typeof appHtml === "string" && appHtml.includes('data-mv="body"')) {
-    const movers = await readMoversSnapshot(env);
-    if (movers) { appHtml = spliceMoversHtml(appHtml, movers, routeKey.split("|")[1] || "en"); routePayload = { ...routePayload, movers }; }
+    const whales = await readWhalesSnapshot(env);
+    if (whales) { appHtml = spliceWhalesHtml(appHtml, whales, routeKey.split("|")[1] || "en"); routePayload = { ...routePayload, whales }; }
   }
   return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
 }
@@ -5410,20 +5419,22 @@ async function readTickerSnapshot(env) {
   return null;
 }
 
-// Home movers snapshot (server/movers-feed.mjs, cached 30 s). Null = the board keeps its prerendered empty frame and the
-// browser fills it from /api/movers.json once it is on screen.
-async function readMoversSnapshot(env) {
+// Home whale snapshot (server/position-radar.mjs, cached 60 s). Null = the board keeps its prerendered empty frame and the
+// browser fills it from /api/whales.json once it is on screen.
+async function readWhalesSnapshot(env) {
   try {
-    if (typeof env?.MOVERS_READ === "function") {
-      const snapshot = await env.MOVERS_READ();
-      if (isMoversSnapshot(snapshot)) {
-        if (!snapshot.stale && snapshot.up.length && snapshot.down.length) await retainHomeSnapshot(env, "movers:last", snapshot);
-        return snapshot;
+    if (typeof env?.RADAR_READ === "function") {
+      const snapshot = await env.RADAR_READ("whales");
+      if (isWhalesSnapshot(snapshot)) {
+        const home = homeWhalesSnapshot(snapshot);
+        if (!snapshot.stale) await retainHomeSnapshot(env, "whales:last", home);
+        return home;
       }
     }
-  } catch (error) { console.error(`[NexuAlpha] movers snapshot failed: ${error?.message || error}`); }
-  const saved = await restoreHomeSnapshot(env, "movers:last");
-  if (isMoversSnapshot(saved)) return { ...saved, stale: true };
+  } catch (error) { console.error(`[NexuAlpha] whales snapshot failed: ${error?.message || error}`); }
+  // Feed down: keep the last good board (marked stale) rather than an empty one.
+  const saved = await restoreHomeSnapshot(env, "whales:last");
+  if (isWhalesSnapshot(saved)) return { ...saved, stale: true };
   return null;
 }
 
@@ -7055,7 +7066,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
-  if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
+  const radarRoute = parseRadarPath(pathname);
+  if (radarRoute) return radarRoute.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
   if (parseBeginnerPath(pathname) && parseBeginnerPath(pathname).kind !== "missing") return BEGINNER_LOCALES;
   // Crypto glossary: the hub's written editions; a term page lists the locales its entry is written in.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
@@ -8567,11 +8579,12 @@ async function routeMetadataBase(url, env, newsFeed) {
   const radarSeo = radarRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
   if (radarSeo) {
     const radarPayload = await readRadarPayload(env, radarSeo.kind);
+    const liveRadarSeo = radarRouteSeo(canonicalPath, requestedLocale, { snapshot: radarPayload, urlFor: (path) => localizedCanonical(path, requestedLocale) });
     return {
       status: 200, title: radarSeo.title, description: radarSeo.description,
       canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
       robots: radarSeo.indexable ? "index,follow" : "noindex,follow", marker: RADAR_ROUTE_MARKER,
-      alternates: routeAlternates(canonicalPath, radarSeo.alternatesLocales), schema: radarSeo.schemas,
+      alternates: routeAlternates(canonicalPath, radarSeo.alternatesLocales), schema: liveRadarSeo.schemas,
       radarPayload,
     };
   }

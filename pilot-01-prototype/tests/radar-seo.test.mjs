@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import worker, { routeMetadata, routeSeoPayload } from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
-import { RADAR_INDEX_LOCALES } from "../src/data/radar-seo.js";
+import { LONG_SHORT_INDEX_LOCALES, RADAR_INDEX_LOCALES, WHALES_INDEX_LOCALES } from "../src/data/radar-seo.js";
 import { buildSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 
 const ORIGIN = "https://nexualpha.com";
@@ -39,15 +39,16 @@ test("radar metadata is canonical, indexable and schema stays visible-page truth
       const metadata = await routeMetadata(new URL(`${ORIGIN}${href}`), {});
       assert.equal(seo.status, 200, href);
       assert.equal(metadata.status, 200, href);
-      assert.equal(metadata.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", href);
-      if (["ur", "uk"].includes(locale)) assert.deepEqual(metadata.alternates, [], href);
+      const routeLocales = kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
+      const indexable = routeLocales.includes(locale);
+      assert.equal(metadata.robots, indexable ? "index,follow" : "noindex,follow", href);
       assert.equal(metadata.canonical, `${ORIGIN}${href}`, href);
       assert.equal(metadata.marker, "NEXUALPHA_RADAR_ROUTE_V1", href);
       assert.equal(metadata.radarPayload.kind, kind, href);
       assert.equal(metadata.radarPayload.status, "unavailable", href);
-      assert.deepEqual(schemaTypes(metadata.schema), ["BreadcrumbList", "WebPage"], href);
+      assert.deepEqual(schemaTypes(metadata.schema), kind === "whales" ? ["BreadcrumbList", "WebPage", "Dataset", "ItemList"] : ["BreadcrumbList", "WebPage"], href);
       // Navigation payload adds only the site-wide Organization/WebSite entities (completePageSchemas), no page facts.
-      assert.deepEqual(schemaTypes(seo.schemas), ["BreadcrumbList", "WebPage", "Organization", "WebSite"], href);
+      assert.deepEqual(schemaTypes(seo.schemas), kind === "whales" ? ["BreadcrumbList", "WebPage", "Dataset", "ItemList", "Organization", "WebSite"] : ["BreadcrumbList", "WebPage", "Organization", "WebSite"], href);
       assert.equal(routeSeoPayload(metadata, new URL(`${ORIGIN}${href}`)).schema["@graph"].some((entry) => entry["@type"] === "FAQPage"), false, href);
     }
   }
@@ -83,16 +84,32 @@ test("radar pages SSR with empty or unavailable data and hydrate through the rad
 
 test("radar inventory and sitemap cover every locale prefix", () => {
   const inventory = routeInventory();
-  for (const pathname of ["/long-short", "/whales"]) {
+  for (const [pathname, locales] of [["/long-short", LONG_SHORT_INDEX_LOCALES], ["/whales", WHALES_INDEX_LOCALES]]) {
     const route = inventory.find((item) => item.pathname === pathname);
     assert.ok(route, pathname);
     assert.equal(route.index, true, pathname);
     assert.equal(route.template, "radarTool", pathname);
-    assert.deepEqual(route.locales, RADAR_INDEX_LOCALES, pathname);
+    assert.deepEqual(route.locales, locales, pathname);
   }
   const sitemap = buildSitemap(inventory, []);
   for (const locale of RADAR_INDEX_LOCALES) {
     assert.match(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", locale)}</loc>`), locale);
+  }
+  for (const locale of WHALES_INDEX_LOCALES) {
     assert.match(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/whales", locale)}</loc>`), locale);
   }
+  assert.doesNotMatch(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", "ur")}</loc>`));
+  assert.doesNotMatch(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", "uk")}</loc>`));
+});
+
+
+test("whale ItemList describes the available feed instead of a fixed 50-item count", async () => {
+  const snapshot = { kind: "whales", status: "ok", updatedAt: "2026-10-14T08:42:00Z", rows: [],
+    signals: [{ id: "s1", category: "signal", coin: "HYPE", type: "accumulation", walletsCount: 1, totalUsd: 8200000, time: "2026-10-14T08:42:00Z" }], positions: [], transfers: [] };
+  const metadata = await routeMetadata(new URL("https://nexualpha.com/whales"), { RADAR_READ: async () => snapshot });
+  const list = metadata.schema.find(item => item["@type"] === "ItemList");
+  assert.equal(list.numberOfItems, 1);
+  assert.equal(list.itemListElement.length, 1);
+  assert.match(list.itemListElement[0].name, /HYPE/);
+  assert.equal(list.itemListElement[0].position, 1);
 });

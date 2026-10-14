@@ -211,12 +211,14 @@ test("hydration of the hub and coin pages has no mismatch (en, zh-hans, tr)", as
   }
 });
 
-test("internal links: home 'Today's movers' rows and exchange profile top 20", async () => {
+test("internal links: home whale page and exchange profile top 20", async () => {
   assert.equal(POPULAR_COINS.length, 20);
-  const movers = { generatedAt: "2026-10-13T08:00:00Z", source: "binance-usdm", headline: null,
-    up: [{ sym: "BTC", slug: "bitcoin", name: "Bitcoin", price: "$84,000", change: "+1.20%", dir: "up" }], down: [] };
-  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", { movers });
-  assert.match(home, /class="[^"]*\bh7-mv\b[^"]*\bh7-mv-owner\b[^"]*"[\s\S]*href="\/zh-hans\/coins\/bitcoin"/, "home owner movers block");
+  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", {});
+  const board = home.match(/<section class="[^"]*\bh7-whales\b[\s\S]*?<!--whales-end-->/)?.[0];
+  assert.ok(board, "home whale module remains SSR-visible");
+  assert.match(board, /href="\/zh-hans\/whales"/, "home links the whale page");
+  assert.doesNotMatch(board, /\/coins\/|<li/, "home has no coin movers or invented whale rows");
+  assert.match(home, /class="nx-ticker[\s\S]*href="\/zh-hans\/coins\/bitcoin"/, "top ticker keeps coin discovery");
   for (const venue of ["okx", "binance", "bitget"]) assert.equal(POPULAR_COINS_BY_VENUE[venue].length, 20, venue);
   const profile = await harness.render("https://nexualpha.com/exchanges/okx", {});
   assert.match(profile, /class="v2-section v3-venue-coins"[\s\S]*href="\/coins\/bitcoin"/, "exchange profile block");

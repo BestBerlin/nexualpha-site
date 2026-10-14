@@ -220,8 +220,8 @@ def main():
     args += ['-e', 'COINS_FILE=/intel-state/coins.json']
     # Spot ETF flows + crypto calendar (2026-10-13): ops/intel-tools rewrites them on the host daily; the pages read them without a redeploy.
     args += ['-e', 'ETF_FLOWS_FILE=/intel-state/etf-flows.json', '-e', 'CALENDAR_FILE=/intel-state/calendar.json']
-    # Live market feed (written by the market-collector; nginx serves it as /intel/market-events.json) for the liquidation card and data pages
-    args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json']
+    # Live market feeds (written by collectors; nginx serves market-events as /intel/market-events.json) for data pages and whale watch.
+    args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json', '-e', 'WHALES_FILE=/market/whales.json']
     args += [info['Config']['Image'], 'node', 'server.mjs']
     sh(*args, stdout=subprocess.DEVNULL)
     nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}

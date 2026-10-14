@@ -102,6 +102,24 @@ test("normalizers keep per-venue open-interest units, unknown labels and sortabl
   assert.deepEqual(sortRows(whales.rows, "amountUsd", "desc").map((row) => row.asset), ["BTC", "USDT"]);
 });
 
+test("whale normalizer splits rows-only signals, positions and transfers with strict explorer links", () => {
+  const whales = normalizeWhales({
+    status: "ok",
+    updatedAt: "2026-10-13T01:02:00Z",
+    rows: [
+      { id: "sig", kind: "signal", coin: "SOL", signalType: "coordinated_short", walletsCount: 4, totalUsd: 8200000, periodHours: 24, platform: "hyperliquid", explorerUrl: "https://app.hyperliquid.xyz/register" },
+      { id: "pos", kind: "position", platform: "hyperliquid", address: "0xabc", coin: "BTC", side: "short", sizeUsd: 12400000, leverage: 20, entryPx: 84000, eventType: "increase", explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xabc" },
+      { id: "tx", asset: "ETH", amount: 3000, amountUsd: 9000000, txHash: "0x1", explorerUrl: "https://etherscan.io/tx/0x1" },
+      { id: "bad", asset: "BTC", amountUsd: 9000000, explorerUrl: "https://evil.hyperliquid.xyz/go/register" },
+    ],
+  });
+  assert.deepEqual(whales.rows.map((row) => row.kind), ["signal", "position", "transfer", "transfer"]);
+  assert.equal(whales.rows[0].platform, "hyperliquid");
+  assert.equal(whales.rows[0].explorerUrl, "", "non-explorer Hyperliquid app URLs are stripped");
+  assert.equal(whales.rows[1].explorerUrl, "https://app.hyperliquid.xyz/explorer/address/0xabc");
+  assert.equal(whales.rows[3].explorerUrl, "", "arbitrary Hyperliquid subdomains are stripped");
+});
+
 test("route SSR renders populated long/short and whales pages with CTA, sparkline and transfer caveat", async () => {
   const longHtml = await harness.render("https://nexualpha.com/long-short", { radar: SAMPLE_RADAR });
   assert.deepEqual(h1Texts(longHtml), ["Long/short radar"]);
@@ -116,7 +134,7 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   assert.ok(doc.querySelector(".news-offer--inline"), "partner CTA block renders through the existing offer component");
 
   const whalesHtml = await harness.render("https://nexualpha.com/whales", { radar: SAMPLE_RADAR });
-  assert.deepEqual(h1Texts(whalesHtml), ["Whale transfer radar"]);
+  assert.deepEqual(h1Texts(whalesHtml), ["Whale watch"]);
   doc = new JSDOM(whalesHtml).window.document;
   assert.equal(doc.querySelectorAll(".nxradar-table tbody tr").length, 2);
   assert.ok(doc.body.textContent.includes("Unlabelled wallet"), "unknown counterparties render as an unlabelled wallet");
@@ -125,7 +143,32 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   assert.ok(method.textContent.includes("not proof of a sale"), "exchange-transfer note lives in the collapsed methodology");
   assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("not proof of a sale"), false, "no caveat above the fold");
   assert.ok(doc.querySelector('a[href="https://mempool.space/tx/example"]'), "explorer link is preserved as the source action");
-  assert.ok(doc.querySelector('a[href="/go/bitget?src=whales"]'), "whales CTA uses its own src attribution");
+  assert.equal(doc.querySelectorAll('a[href^="/go/"]').length, 0, "whales page is information-only");
+  assert.equal(doc.querySelectorAll(".news-offer--inline").length, 0, "whales page has no partner CTA block");
+
+  const signalWhales = await harness.render("https://nexualpha.com/zh-hans/whales", { radar: {
+    whales: {
+      status: "ok",
+      rows: [
+        { id: "sig", kind: "signal", coin: "SOL", signalType: "coordinated_long", walletsCount: 4, totalUsd: 8200000, periodHours: 24, platform: "hyperliquid" },
+      ],
+    },
+  } });
+  doc = new JSDOM(signalWhales).window.document;
+  assert.ok(doc.body.textContent.includes("同步做多"), "signal card uses localized coordinated-long sentence");
+
+  const semanticWhales = await harness.render("https://nexualpha.com/zh-hans/whales", { radar: {
+    whales: {
+      status: "ok",
+      rows: [
+        { id: "pos", kind: "position", platform: "hyperliquid", address: "0x7abc00000000000000000000000000000000123f", coin: "BTC", side: "short", sizeUsd: 12400000, leverage: 20, entryPx: 84000, eventType: "increase", explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0x7abc00000000000000000000000000000000123f" },
+      ],
+    },
+  } });
+  doc = new JSDOM(semanticWhales).window.document;
+  assert.ok(doc.body.textContent.includes("Hyperliquid") && doc.body.textContent.includes("加仓") && doc.body.textContent.includes("做空") && doc.body.textContent.includes("均价"), "position card states venue, event, side and average entry");
+  assert.ok(doc.querySelector('a[href^="https://app.hyperliquid.xyz/explorer/address/"]'), "position card keeps explorer-only link");
+  assert.equal(doc.querySelectorAll('a[href*="/register"],a[href^="/go/"]').length, 0, "semantic cards do not introduce exchange CTAs");
 });
 
 test("route SSR keeps readable unavailable states and RTL direction", async () => {
