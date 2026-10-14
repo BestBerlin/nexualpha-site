@@ -37,6 +37,7 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { isBitgetGuidePath, bitgetGuideAvailable } from "./data/bitget-guide-routes.js";
 import { BEGINNER_ROOTS, parseBeginnerPath } from "./data/beginner-routes.js";
 import { parseLicensesPath } from "./data/licenses-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
@@ -111,6 +112,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "!./data/academy-content-all.js",
   "./components/licenses/LicensePages.jsx",
   "./components/beginner/BeginnerPages.jsx",
+  "./components/beginner/BitgetGuidePage.jsx",
   "./data/beginner-copy/*.json",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
@@ -197,6 +199,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "!./data/academy-content-all.js",
   "./components/licenses/LicensePages.jsx",
   "./components/beginner/BeginnerPages.jsx",
+  "./components/beginner/BitgetGuidePage.jsx",
   "./data/beginner-copy/*.json",
   "./components/coins/CoinPages.jsx",
   "./components/converter/ConverterPage.jsx",
@@ -267,6 +270,7 @@ function readAcademyContent(locale) {
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
 }
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
+const BitgetGuidePage = deferredComponent("./components/beginner/BitgetGuidePage.jsx", "BitgetGuidePage");
 const BeginnerPage = deferredComponent("./components/beginner/BeginnerPages.jsx", "BeginnerPage");
 function BeginnerRoute({ route, locale, market }) {
   const path = `./data/beginner-copy/${locale}.json`;
@@ -425,7 +429,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -594,6 +598,7 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  if (isBitgetGuidePath(pathname)) return bitgetGuideAvailable(publicRoute.locale, searchParams.get("market")) ? { name: "bitgetGuide" } : { name: "notFound" };
   const beginner = parseBeginnerPath(pathname, publicRoute.locale);
   if (beginner) return beginner.kind === "missing" ? { name: "notFound" } : { name: "beginner", beginner, ...contextParams() };
   const licenses = parseLicensesPath(pathname);
@@ -987,6 +992,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "bitgetGuide") return pageShell(<BitgetGuidePage locale={locale} />);
   if (route.name === "beginner") return pageShell(<BeginnerRoute route={route} locale={locale} market={new URLSearchParams(sourceSearch).get("market") || route.market} />);
   if (route.name === "licenses") return pageShell(<LicenseDirectoryPage locale={locale} country={route.country} market={route.market} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);

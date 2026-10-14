@@ -99,6 +99,7 @@ const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({
 });
 
 const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS,
+  "/guides",
   "/exchanges",
   "/compare",
   "/topics",

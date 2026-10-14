@@ -22,7 +22,7 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
     // Explicit English prevents a saved browser language changing neutral SSR.
     url.searchParams.set("locale", prerenderState.locale || "en");
     // Runtime home funding is rendered with the requested market and product context.
-    if (parseBeginnerPath(pathname)) {
+    if (parseBeginnerPath(pathname) || pathname === "/guides/bitget-first-trade") {
       const market = prerenderState.beginnerContext?.market;
       if (typeof market === "string" && market && market.length <= 64) url.searchParams.set("market", market);
     }

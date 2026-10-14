@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { bitgetGuideSitemapEntries } from "../src/data/bitget-guide-seo.js";
 import { beginnerSitemapEntries } from "../src/data/beginner-seo.js";
 import { campaignSitemapEntries } from "../src/data/campaign-autodraft.js";
 import { articleRelatedPool } from '../src/data/article-related-links.js';
@@ -318,7 +319,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-apps.xml", lastmod: apps.lastmod });
   const academy = buildAcademySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
-  const beginner = buildDownloadOrAcademySitemap(beginnerSitemapEntries);
+  const beginner = buildDownloadOrAcademySitemap(() => [...beginnerSitemapEntries(), ...bitgetGuideSitemapEntries()]);
   indexRows.push({ loc: "https://nexualpha.com/sitemap-beginner.xml", lastmod: beginner.lastmod });
   const licenses = buildLicensesSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-licenses.xml", lastmod: licenses.lastmod });

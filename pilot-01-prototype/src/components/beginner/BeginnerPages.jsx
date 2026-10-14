@@ -1,3 +1,4 @@
+import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { BEGINNER_COUNTRIES as COUNTRIES, BEGINNER_COUNTRY_LABELS } from "../../data/beginner-countries.js";
 import { BEGINNER_SOURCE_NOTES, isTaxQuestion } from "../../data/beginner-source-notes.js";
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -66,7 +67,7 @@ export function BeginnerPage({ locale = 'en', market, route, copy }) {
         </> : <p>{l.noChoice}</p>}
       </section> : null}
       {!step ? <ol className="nxb-path">{copy.steps.map((item, i) => <li key={item.title}><a href={href('start', i + 1)}>{item.title} {completed.includes(i + 1) ? '✓' : '→'}</a><p>{item.answer}</p></li>)}</ol> : <>
-        {route.step === 2 ? <><Signup choice={choice} locale={locale} market={country} copy={copy} /><section><h2>{l.official} · OKX</h2><p>{BEGINNER_SOURCE_NOTES[locale]}</p><SourceLink href={BEGINNER_SOURCE_NOTES.source} locale={locale} market={country}>OKX · FAQ</SourceLink></section></> : null}
+        {route.step === 2 ? <>{bitgetGuideAvailable(locale, country) ? <p><a href={localizedHref(BITGET_GUIDE_PATH, { locale, market: country })}>{bitgetGuideLabel(locale)}</a></p> : null}<Signup choice={choice} locale={locale} market={country} copy={copy} /><section><h2>{l.official} · OKX</h2><p>{BEGINNER_SOURCE_NOTES[locale]}</p><SourceLink href={BEGINNER_SOURCE_NOTES.source} locale={locale} market={country}>OKX · FAQ</SourceLink></section></> : null}
         <section><h2>{l.steps}</h2><ol>{step.actions.map(item => <li key={item}>{item}</li>)}</ol></section>
         <section><h2>{l.mistakes}</h2><ul>{step.mistakes.map(item => <li key={item}>{item}</li>)}</ul></section>
         <button type="button" onClick={markDone}>{l.complete} {completed.includes(route.step) ? '✓' : ''}</button>
