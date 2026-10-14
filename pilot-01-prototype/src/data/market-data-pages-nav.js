@@ -35,3 +35,5 @@ export function dataPageCopy(locale) {
   const nav = DATA_PAGE_NAV[locale] || (String(locale || "").startsWith("zh") ? DATA_PAGE_NAV["zh-Hans"] : DATA_PAGE_NAV.en);
   return { nav };
 }
+// Client re-read interval of the data pages (lives here so the shared polling hook stays out of the data-page graph).
+export const DATA_PAGE_REFRESH_MS = 60 * 1000;

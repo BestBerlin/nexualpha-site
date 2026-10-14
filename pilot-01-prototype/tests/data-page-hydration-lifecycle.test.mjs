@@ -204,3 +204,13 @@ test("onsite Telegram handoff adds a fresh return expiry after hydration without
     dom.window.close();
   }
 });
+
+test("the shared market-events hook stays light: home7-funding imports it, so it must not pull market-data-pages.js", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const hook = await readFile(new URL("../src/components/data/useMarketEvents.js", import.meta.url), "utf8");
+  assert.doesNotMatch(hook, /from "\.\.\/\.\.\/data\/market-data-pages\.js"/);
+  const { DATA_PAGE_REFRESH_MS: fromPages } = await import("../src/data/market-data-pages.js");
+  const { DATA_PAGE_REFRESH_MS: fromNav } = await import("../src/data/market-data-pages-nav.js");
+  assert.equal(fromPages, 60 * 1000);
+  assert.equal(fromNav, fromPages);
+});
