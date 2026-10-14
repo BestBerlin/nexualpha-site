@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { binanceProStep } from "../../data/binance-pro-step.js";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { appDownloadContent, appDownloadSignupAllowed } from "../../data/app-downloads.js";
 import { EXCHANGE_APKS, codeCopyLabels, exchangeApkCopy, exchangeApkHref } from "../../data/exchange-apk.js";
@@ -45,7 +46,7 @@ export function AppDownloadPage({ slug, locale = "en", market, contextSearch = "
       <ol><li>{text("domain")}</li><li>{text("developer")}</li><li>{copy.signature}</li></ol>
       <pre dir="ltr"><code>apksigner verify --print-certs app.apk</code></pre>
     </section>
-    <section aria-labelledby="app-install"><h2 id="app-install">{copy.install}</h2><ol>{copy.steps.map((step) => <li key={step}>{step}</li>)}</ol></section>
+    <section aria-labelledby="app-install"><h2 id="app-install">{copy.install}</h2><ol>{[...copy.steps, ...(slug === "binance" && signupAllowed ? [binanceProStep(locale)] : [])].map((step) => <li key={step}>{step}</li>)}</ol></section>
     <section aria-labelledby="app-faq"><h2 id="app-faq">{copy.faq}</h2>{copy.faqs.map(({ q: question, a: answer }) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</section>
     <section aria-labelledby="app-sources"><h2 id="app-sources">{copy.sources}</h2><ul>{app.sources.map((url) => <li key={url}><SourceLink locale={locale} href={url} rel="noopener noreferrer" target="_blank" dir="ltr">{url}</SourceLink></li>)}</ul><p>{copy.checked}: <time dateTime={app.lastChecked}>{lastChecked || app.lastChecked}</time></p></section>
   </main>;
