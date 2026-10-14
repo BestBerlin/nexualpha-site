@@ -100,6 +100,19 @@ test("Factbook keeps HTX partner route visible without claiming unverified user 
   assert.doesNotMatch(source, /venue\.rebate\?\.percent > 0 && \(/);
 });
 
+test("Factbook keeps unregistered HashKey and Aevo rebates as no-code official routes", () => {
+  for (const [slug, url] of Object.entries({
+    hashkey: "https://global.hashkey.com",
+    aevo: "https://app.aevo.xyz",
+  })) {
+    const venue = FACTBOOK_REGISTRY[slug];
+    assert.equal(venue.rebate.code, null, `${slug} factbook code`);
+    assert.equal(venue.rebate.percent, 0, `${slug} factbook rebate percent`);
+    assert.equal(venue.rebate.welcomeBonus, null, `${slug} factbook welcome bonus`);
+    assert.equal(venue.rebate.url, url, `${slug} factbook official route`);
+  }
+});
+
 test("Factbook decision links hand off to exchange profile source sections", async () => {
   const source = await readFile(new URL("../src/components/v3/FactbookPage.jsx", import.meta.url), "utf8");
 

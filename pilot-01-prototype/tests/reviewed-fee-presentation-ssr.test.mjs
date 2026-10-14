@@ -47,7 +47,8 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
     for (const { locale, slug, feeHtml } of pages) {
       const cta = publicCtaForVenue(slug, locale);
       if (cta.hasReferral) {
-        assert.ok(feeHtml.includes(`href="${escaped(cta.registrationUrl)}"`), `${slug}/${locale}: original invitation URL`);
+        const goHref = `/go/${slug}?src=fee-summary${locale === "en" ? "" : `&locale=${encodeURIComponent(locale)}`}&market=unknown`;
+        assert.ok(feeHtml.includes(`href="${escaped(goHref)}"`), `${slug}/${locale}: tracked invitation route`);
         assert.ok(feeHtml.includes(escaped(cta.inviteCode)), `${slug}/${locale}: original invitation code`);
       } else {
         assert.ok(!feeHtml.includes('rel="sponsored noopener noreferrer"'), `${slug}/${locale}: gated profile fee section has no sponsored route`);

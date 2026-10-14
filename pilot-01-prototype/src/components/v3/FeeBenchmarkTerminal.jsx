@@ -13,7 +13,7 @@ import { BrandMark } from "../brand/BrandMark.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import "./fee-benchmark-terminal.css";
 import { CostDecision } from "./CostDecision.jsx";
-import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { regionalVenueCta, venueGoHref } from "../../data/source-bound-cta.js";
 import { isTurkeyGated } from "../../data/partner-geo-policy.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -618,7 +618,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
       futuresRate,
       rebateDisplay,
       netDisplay,
-      ctaHref: cta.ctaHref,
+      ctaHref: cta.direct ? venueGoHref(slug, "rate-benchmark-row", locale, market) : cta.ctaHref,
       ctaDirect: cta.direct,
       inviteCode: cta.hasReferral ? cta.inviteCode : null,
       trend: rebatePercent > 0 ? `↓ -${formatPercent(locale, rebatePercent)}` : null,

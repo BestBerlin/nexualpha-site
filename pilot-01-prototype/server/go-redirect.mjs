@@ -87,6 +87,9 @@ export function createPartnerMapLoader(clientRoot) {
         const cta = publicCtaForVenue(slug, 'en');
         if (cta.hasReferral && cta.inviteCode && /^https:\/\//.test(cta.registrationUrl || '') && cta.registrationUrl.includes(encodeURIComponent(cta.inviteCode))) {
           partners.set(slug, cta.registrationUrl);
+        } else if (cta.hasReferral === false && !cta.inviteCode && /^https:\/\//.test(cta.registrationUrl || '')) {
+          const official = new URL(cta.registrationUrl);
+          if (official.hostname === cta.officialDomain && !official.username && !official.password) partners.set(slug, official.href);
         }
       }
       for (const p of feed.partners || []) {

@@ -8,7 +8,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatFeeParts } from "../../data/format-fee.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
@@ -399,12 +399,14 @@ export function ExchangeMatrix({
                     <td role="cell" className={`mx-td mx-td--region${r.region ? " mx-td--has" : ""}`} data-label={mc.region}>
                       {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: {mc.unchecked}</span></>)}
                     </td>
-                    <td role="cell" className="mx-td mx-td--code" data-label={mc.code}>
+                    <td role="cell" className="mx-td mx-td--code" data-label={mc.code} data-row-slug={r.slug} data-row-invite-code={r.inviteCode || ""}>
                       {r.hasReferral && r.inviteCode ? (
                         <>
                           <button
                             type="button"
                             className="mx-code"
+                            data-code-for={r.slug}
+                            data-invite-code={r.inviteCode}
                             data-done={copiedToast === r.inviteCode || undefined}
                             title={mc.copy}
                             aria-label={`${mc.copy}: ${r.inviteCode}`}
@@ -423,7 +425,7 @@ export function ExchangeMatrix({
                     <td role="cell" className="mx-td mx-td--cta">
                       {r.canOpenRegistration ? (
                         <a
-                          href={r.registrationUrl}
+                          href={venueGoHref(r.slug, "directory-card", locale, context.market)}
                           target="_blank"
                           rel="sponsored noopener noreferrer"
                           className="mx-cta"

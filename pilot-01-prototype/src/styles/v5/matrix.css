@@ -514,8 +514,25 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
 }
 
 @media (min-width: 48rem) and (max-width: 60rem) {
-  .mx-col--code { inline-size: 8.5rem; }
-  .mx-col--cta { inline-size: 8.5rem; }
+  .mx-row {
+    grid-template-columns: 2.5rem minmax(13rem, 1.35fr) minmax(7.5rem, 0.8fr) minmax(8rem, 0.65fr);
+    grid-template-areas:
+      "pick name code cta"
+      "pick spot perp cta"
+      "pick region region cta";
+    align-items: center;
+  }
+  .mx-row > .mx-td--region.mx-td--has { grid-column: 2 / 4; grid-row: 3; }
+  .mx-td--code { justify-self: start; align-self: center; }
+  .mx-td--cta { justify-self: end; align-self: center; max-inline-size: none; }
+  .mx-td--nofee { grid-column: 2 / 4; grid-row: 2; }
   .mx-cta { white-space: normal; padding-inline: var(--s-2); line-height: var(--lh-head, 1.15); }
   .mx-code strong { font-size: var(--t-xs); }
+
+  main.v6:not(.home-refinement) .mx .mx-table tbody tr.mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    block-size: auto;
+  }
+  main.v6:not(.home-refinement) .mx .mx-row > :is(td, th).mx-td:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    padding-block: 0;
+  }
 }

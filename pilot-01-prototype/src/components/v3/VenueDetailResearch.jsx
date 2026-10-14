@@ -15,6 +15,7 @@ import { OfficialResearchTeaser } from "./activity/OfficialResearch";
 import { researchForVenue } from "../../data/exchange-research";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
+import { venueGoHref } from "../../data/source-bound-cta.js";
 import { buildTelegramWebsiteFunnelContext, TELEGRAM_CONFIG } from "../../data/telegram-config.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { formatPercent } from "../../data/format-percent.js";
@@ -1034,7 +1035,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
         rebatePercent={rebatePercent}
         claimsVerified={commercialClaim.status === "verified"}
         inviteCode={inviteCode}
-        registrationUrl={venueCta.ctaHref}
+        registrationUrl={venueCta.direct ? venueGoHref(venue.slug, "fee-summary", locale, market) : venueCta.ctaHref}
         registrationDirect={venueCta.direct}
         localizedVenueName={localizedVenueName}
         researchActions={nonCexResearchActions}

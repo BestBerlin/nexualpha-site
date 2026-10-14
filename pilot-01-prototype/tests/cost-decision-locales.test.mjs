@@ -28,14 +28,15 @@ test('cost decision localizes the whole rendered tool and keeps decimal input pl
       // Locale routes use canonical public prefixes such as zh-hans/pt-br/id-id, not raw locale codes.
       const neutral = NEUTRAL_CTA_LOCALE_LIST.includes(locale);
       const localePrefix = locale === 'en' ? '' : `/${LOCALE_PREFIX_BY_CODE[locale]}`;
+      const goLocale = locale === 'en' ? '' : `&amp;locale=${encodeURIComponent(locale)}`;
       const binanceOfferHref = new RegExp(`href="${localePrefix}/exchanges/binance#${neutral ? 'platform-facts' : 'registration-path'}\\?(?=[^\"]*product=spot)(?=[^\"]*scenario=cost)(?=[^\"]*instrument=spot)(?=[^\"]*order=taker)(?=[^\"]*volume=100000)(?=[^\"]*basis=base)[^\"]*"`);
       assert.match(html[locale], binanceOfferHref, `${locale}: exact onsite calculator eligibility href`);
-      assert.equal(html[locale].includes('href="https://www.binance.com?ref=11350287"'), !neutral, `${locale}: exact Binance protected registration href`);
-      assert.equal(html[locale].includes('href="https://www.bybit.com/register?affiliate_id=48553"'), !neutral, `${locale}: exact Bybit protected registration href`);
+      assert.equal(html[locale].includes(`href="/go/binance?src=cost-calculator${goLocale}"`), !neutral, `${locale}: exact Binance protected registration route`);
+      assert.equal(html[locale].includes(`href="/go/bybit?src=cost-calculator${goLocale}"`), !neutral, `${locale}: exact Bybit protected registration route`);
       if (!neutral && isPartnerPromotableIn('bitget', { locale })) {
-        assert.ok(html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: exact Bitget protected registration href`);
+        assert.ok(html[locale].includes(`href="/go/bitget?src=cost-calculator${goLocale}"`), `${locale}: exact Bitget protected registration route`);
       } else {
-        assert.ok(!html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: gated Bitget route stays onsite`);
+        assert.ok(!html[locale].includes('href="/go/bitget?src=cost-calculator'), `${locale}: gated Bitget route stays onsite`);
       }
       if (neutral) assert.doesNotMatch(html[locale], /data-cta-kind="registration"|data-cta-code=|href="\/go\//, `${locale}: neutral signup and codes absent`);
       assert.ok(html[locale].includes('data-cta-placement="cost-calculator-eligibility"'), `${locale}: eligibility action placement`);

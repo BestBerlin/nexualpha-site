@@ -501,7 +501,8 @@ test("Wave31 priority Binance and Binance vs OKX pages expose compact decision a
   assert.match(v3Pages, /binance:[\s\S]*Binance decision check: verify fees, KYC, fiat route and product scope before registration/);
   assert.match(v3Pages, /Fees: published spot, futures and account-tier schedule/);
   assert.match(v3Pages, /Compare Binance vs OKX/);
-  assert.match(detail, /const venueDirectAnswerCta = venueDirectAnswer\?\.registrationSlug[\s\S]*regionalVenueCta\(venueDirectAnswer\.registrationSlug, locale, market, product, \{ accountStage, funding \}\)/);
+  assert.match(detail, /const venueDirectAnswerCta = venueDirectAnswer\?\.registrationSlug[\s\S]*regionalVenueCta\(venueDirectAnswer\.registrationSlug, locale, effectiveMarket, effectiveProduct, \{ accountStage: effectiveAccountStage, funding: effectiveFunding \}\)/);
+  assert.match(detail, /href=\{venueDirectAnswerCta\.direct \? venueGoHref\(venueDirectAnswer\.registrationSlug, "venue-direct-answer-protected-cta", locale, effectiveMarket\) : venueDirectAnswerCta\.ctaHref\}/);
   assert.match(detail, /data-cta-placement="venue-direct-answer-protected-cta"/);
   assert.match(detail, /data-cta-kind=\{venueDirectAnswerCta\.direct \? "registration" : "research"\}/);
 
@@ -1015,7 +1016,7 @@ test("homepage fee analyzer describes a base-rate scenario and uses the source-b
 
 test("campaign radar uses the public CTA projection for activity handoffs", () => {
   assert.match(campaignRadar, /publicCtaForVenue/);
-  assert.match(campaignRadar, /registrationUrl: publicCta\.registrationUrl/);
+  assert.match(campaignRadar, /registrationUrl: venueGoHref\(slug, "campaign-radar", locale\)/);
   assert.match(campaignRadar, /item\.hasReferral/);
   assert.match(campaignRadar, /item\.registrationUrl/);
   assert.match(campaignRadar, /data-cta-placement="campaign-radar"/);
@@ -2066,7 +2067,7 @@ test("SSR build keeps eager route loading separate from client lazy chunks", () 
 });
 
 test("Vite does not force CTA projection into a separate manual chunk from route components", () => {
-  assert.match(campaignRadar, /import \{ publicCtaForVenue \} from "\.\.\/\.\.\/data\/source-bound-cta\.js"/);
+  assert.match(campaignRadar, /import \{ publicCtaForVenue, venueGoHref \} from "\.\.\/\.\.\/data\/source-bound-cta\.js"/);
   assert.doesNotMatch(viteConfig, /CampaignRadar[^]*return "route-v3-campaigns"/);
   assert.doesNotMatch(viteConfig, /route-v3-campaigns/);
   assert.doesNotMatch(viteConfig, /public-cta\.js[^]*return "data-commercial-cta"/);
@@ -2149,7 +2150,10 @@ test("focus and touch stability layer is loaded for the V3 surface", () => {
 test("KOL landing routes unresolved partner terms through research first", () => {
   assert.doesNotMatch(app, /searchParams\.get\("ref"\)[\s\S]*name: "kolLanding"/);
   assert.match(app, /name: "kolLanding", kol: refMatch\[1\], \.\.\.contextParams\(\)/);
-  assert.match(kolLandingPage, /const directRoute = cta\.hasReferral/);
+  assert.match(kolLandingPage, /import \{ publicCtaForVenue, venueGoHref \} from "\.\.\/\.\.\/data\/source-bound-cta\.js"/);
+  assert.match(kolLandingPage, /const registrationHref = venueGoHref\(slug, "kol-venue-card", locale, market\)/);
+  assert.match(kolLandingPage, /const directRoute = Boolean\(registrationHref\)/);
+  assert.doesNotMatch(kolLandingPage, /cta\.registrationUrl/);
   assert.match(kolLandingPage, /contextualHref\(`\/exchanges\/\$\{slug\}#registration-path`/);
   assert.match(kolLandingPage, /data-cta-kind=\{directRoute \? "registration" : "research"\}/);
   assert.match(kolLandingPage, /Review official terms first/);
@@ -2164,8 +2168,8 @@ test("campaign radar does not classify unverified partner terms as registration"
 
 test("fee bleed analyzer routes unresolved benefits through research first", () => {
   assert.match(tradingBleedAnalyzer, /regionalVenueCta\(selectedSlug, locale, market, product\)/);
-  assert.match(tradingBleedAnalyzer, /const directRoute = Boolean\(regionalCta\.direct && \/\^https:/);
-  assert.match(tradingBleedAnalyzer, /const regUrl = regionalCta\.ctaHref/);
+  assert.match(tradingBleedAnalyzer, /const directRoute = Boolean\(regionalCta\.direct\)/);
+  assert.match(tradingBleedAnalyzer, /const regUrl = directRoute \? venueGoHref\(selectedSlug, "bleed-analyzer", locale, market\) : regionalCta\.ctaHref/);
   assert.match(tradingBleedAnalyzer, /data-cta-kind=\{directRoute \? "registration" : "research"\}/);
   assert.match(tradingBleedAnalyzer, /data-growth-market=\{market\}/);
   assert.match(tradingBleedAnalyzer, /data-growth-product=\{product\}/);

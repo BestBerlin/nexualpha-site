@@ -42,6 +42,12 @@ export function decodeEntities(value) {
 }
 
 const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+const immediate = () => new Promise((resolve) => setImmediate(resolve));
+const flushScheduledDomWork = async () => {
+  await Promise.resolve();
+  await immediate();
+  await tick();
+};
 
 // Hydrates the SSR document in jsdom exactly like the browser entry: same bootstrap URL, same prerender-state props.
 export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, until = null, settleMs = 50, browserUrlAsWindowUrl = false, fixedNow = null, fetchImpl, intersectionObserver } = {}) {
@@ -102,8 +108,10 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     // Optional: read the hydrated DOM (e.g. markup of one block) before unmounting.
     const inspected = typeof inspect === "function" ? inspect(window) : undefined;
     reactRoot.unmount();
-    // Let React flush its unmount work and effect cleanups while the DOM globals are still installed.
+    // Let React scheduler, microtasks, and unmount effect cleanups observe the jsdom globals before teardown.
+    await flushScheduledDomWork();
     await tick(settleMs);
+    await flushScheduledDomWork();
     return { errors, text, state, bootstrap, inspected };
   } finally {
     Date.now = originalDateNow;
