@@ -1,0 +1,46 @@
+diff --git a/apps/miniapp/app/api/site/[feed]/route.ts b/apps/miniapp/app/api/site/[feed]/route.ts
+--- a/apps/miniapp/app/api/site/[feed]/route.ts
++++ b/apps/miniapp/app/api/site/[feed]/route.ts
+@@ -1,4 +1,4 @@
+-// Read-only proxy for the public NexuAlpha site feeds (partners, announcements, funding, calendar, movers, flash). Server-side so the
++// Read-only proxy for the public NexuAlpha site feeds (partners, announcements, funding, calendar, movers, flash, whales). Server-side so the
+ // Mini App needs no cross-origin request; cached briefly. Nothing is written, nothing user-specific is sent.
+ const FEEDS: Record<string, string> = {
+   partners: "https://nexualpha.com/intel/partners.json",
+@@ -8,6 +8,7 @@ const FEEDS: Record<string, string> = {
+   calendar: "https://nexualpha.com/intel/calendar.json",
+   movers: "https://nexualpha.com/api/movers.json",
+   flash: "https://nexualpha.com/api/flash.json",
++  whales: "https://nexualpha.com/api/whales.json",
+ };
+ 
+ export const revalidate = 60;
+diff --git a/apps/miniapp/app/native-app.tsx b/apps/miniapp/app/native-app.tsx
+--- a/apps/miniapp/app/native-app.tsx
++++ b/apps/miniapp/app/native-app.tsx
+@@ -17,6 +17,6 @@ import {
+ import { OFFICIAL_RESOURCES, officialChannelForLocale } from "../../../packages/contracts/src/official-resources.js";
+ import { RebateHero } from "./rebate-hero";
+-import { MoversBoard } from "./movers-board";
++import { WhaleBoard } from "./whale-board";
+ import { FlashRail } from "./flash-rail";
+ 
+ type Partner = { slug: string; name: string; inviteCode: string | null; registrationUrl: string; share: number | null; autoSettle: boolean; settle: "hourly" | "daily" | null; featured: boolean; fees: { spot: Fee | null; perp: Fee | null }; profile: string };
+@@ -89,6 +89,6 @@ function RebateTab({
+         partners={partners}
+       />
+-      <MoversBoard locale={locale} />
++      <WhaleBoard locale={locale} />
+       <FlashRail
+         locale={locale}
+         onSelectTab={() => onSelectNewsTab()}
+diff --git a/apps/miniapp/app/native.css b/apps/miniapp/app/native.css
+--- a/apps/miniapp/app/native.css
++++ b/apps/miniapp/app/native.css
+@@ -1,5 +1,5 @@
+ @import "./rebate-hero.css";
+-@import "./movers-board.css";
++@import "./whale-board.css";
+ @import "./flash-rail.css";
+ 
+ /* NexuAlpha Mini App, native style. Colours come from Telegram's theme (--tg-theme-*), so the app follows the user's

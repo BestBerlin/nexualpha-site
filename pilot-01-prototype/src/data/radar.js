@@ -198,6 +198,21 @@ export function safeHttpsUrl(value) {
   }
 }
 
+export function safeExplorerUrl(value) {
+  const url = safeHttpsUrl(value);
+  if (!url) return "";
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    if (host === "app.hyperliquid.xyz" && /^\/explorer\/(address|tx)\//.test(parsed.pathname)) return url;
+    if (host === "hypurrscan.io") return url;
+    if (["mempool.space", "etherscan.io", "tronscan.org"].includes(host)) return url;
+    return "";
+  } catch {
+    return "";
+  }
+}
+
 export function normalizeRadarEnvelope(input) {
   if (!input || typeof input !== "object") return { rows: [], updatedAt: null, status: "unavailable", sources: [] };
   const rows = Array.isArray(input.rows) ? input.rows : [];
@@ -242,10 +257,71 @@ export function normalizeLongShort(input) {
 
 export function normalizeWhales(input) {
   const envelope = normalizeRadarEnvelope(input);
-  const rows = envelope.rows.map((row, index) => {
+  const rowInput = Array.isArray(input?.rows) ? input.rows : [];
+  const whaleKind = (row) => textOr(row?.homeKind, textOr(row?.kind, textOr(row?.eventKind, textOr(row?.category, "")))).toLowerCase();
+  const whaleSignalRow = (row) => ["signal", "accumulation", "distribution", "smart_money"].includes(whaleKind(row)) || Boolean(row?.signalType);
+  const whalePositionRow = (row) => ["position", "hyperliquid_position", "liquidation"].includes(whaleKind(row)) || /hyperliquid/i.test(textOr(row?.platform, textOr(row?.venue, "")));
+  const signalInput = Array.isArray(input?.signals)
+    ? input.signals
+    : rowInput.filter(whaleSignalRow);
+  const positionInput = Array.isArray(input?.positions)
+    ? input.positions
+    : rowInput.filter((row) => !whaleSignalRow(row) && whalePositionRow(row));
+  const transferInput = Array.isArray(input?.transfers)
+    ? input.transfers
+    : rowInput.filter((row) => !signalInput.includes(row) && !positionInput.includes(row));
+  const signals = signalInput.map((row, index) => ({
+    id: textOr(row.id, `signal-${index}`),
+    kind: textOr(row.kind, "signal"),
+    coin: textOr(row.coin, textOr(row.asset, textOr(row.symbol, ""))).toUpperCase(),
+    label: textOr(row.label, textOr(row.signalType, textOr(row.type, textOr(row.action, "")))),
+    type: textOr(row.signalType, textOr(row.type, textOr(row.signal, ""))),
+    walletsCount: firstNumber(row.walletsCount, row.walletCount, row.wallets),
+    totalUsd: firstNumber(row.totalUsd, row.amountUsd, row.usd),
+    period: textOr(row.period, row.periodHours ? `${row.periodHours}h` : ""),
+    avgEntry: firstNumber(row.avgEntry, row.entryPx, row.entry),
+    currentPnl: firstNumber(row.currentPnl, row.pnlUsd),
+    // Fields the plain-language sentence needs (who, side, streak, exit price, leverage).
+    signalType: textOr(row.signalType, textOr(row.type, "")),
+    mode: textOr(row.mode, ""),
+    address: textOr(row.address, Array.isArray(row.addresses) ? textOr(row.addresses[0], "") : ""),
+    side: textOr(row.side, ""),
+    market: textOr(row.market, ""),
+    days: firstNumber(row.days),
+    periodHours: firstNumber(row.periodHours),
+    avgExit: firstNumber(row.avgExit),
+    leverage: firstNumber(row.leverage),
+    time: isoOrNull(row.time) || isoOrNull(row.at) || envelope.updatedAt,
+    venue: textOr(row.venue, textOr(row.platform, "")),
+    platform: textOr(row.platform, textOr(row.venue, "")),
+    explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
+    source: sourceLabel(row.source),
+  })).filter((row) => row.coin && row.totalUsd != null);
+  const positions = positionInput.map((row, index) => ({
+    id: textOr(row.id, `position-${index}`),
+    kind: textOr(row.kind, "position"),
+    venue: textOr(row.venue, textOr(row.platform, "hyperliquid")),
+    platform: textOr(row.platform, textOr(row.venue, "hyperliquid")),
+    address: textOr(row.address, textOr(row.wallet, textOr(row.account, ""))),
+    coin: textOr(row.coin, textOr(row.asset, textOr(row.symbol, ""))).toUpperCase(),
+    side: textOr(row.side, ""),
+    sizeUsd: firstNumber(row.sizeUsd, row.notionalUsd, row.amountUsd, row.usd),
+    leverage: firstNumber(row.leverage),
+    entry: firstNumber(row.entry, row.entryPx, row.avgEntry),
+    eventType: textOr(row.eventType, textOr(row.type, "")),
+    pnlUsd: firstNumber(row.pnlUsd, row.currentPnl),
+    notionalUsd: firstNumber(row.notionalUsd),
+    previousNotionalUsd: firstNumber(row.previousNotionalUsd),
+    closedPnlUsd: firstNumber(row.closedPnlUsd, row.realizedPnlUsd),
+    time: isoOrNull(row.time) || isoOrNull(row.at) || envelope.updatedAt,
+    explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
+    source: sourceLabel(row.source),
+  })).filter((row) => row.coin && row.sizeUsd != null);
+  const transfers = transferInput.map((row, index) => {
     const direction = textOr(row.direction, "unknown").replaceAll("-", "_");
     return {
       id: textOr(row.id, textOr(row.txHash, `whale-${index}`)),
+      kind: "transfer",
       asset: textOr(row.asset, textOr(row.symbol, "—")).toUpperCase(),
       chain: textOr(row.chain, ""),
       amount: firstNumber(row.amount, row.value, row.tokenAmount),
@@ -259,11 +335,11 @@ export function normalizeWhales(input) {
       direction: ["to_exchange", "from_exchange", "wallet_to_wallet"].includes(direction) ? direction : "unknown",
       time: isoOrNull(row.time) || isoOrNull(row.at) || isoOrNull(row.timestamp),
       txHash: textOr(row.txHash, textOr(row.hash, "")),
-      explorerUrl: safeHttpsUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
+      explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
       source: sourceLabel(row.source),
     };
   }).filter((row) => row.asset !== "—");
-  return { ...envelope, rows };
+  return { ...envelope, rows: [...signals, ...positions, ...transfers] };
 }
 
 export function extractInitialRadar(initial, kind) {

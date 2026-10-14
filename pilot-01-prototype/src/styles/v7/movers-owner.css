@@ -34,3 +34,86 @@
 @media(max-width:374px){.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-col{padding-inline:10px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-col a b{font-size:14px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-c{min-width:58px;font-size:12px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-head{flex-wrap:wrap}}
 @media(min-width:768px){.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-head h2{font-size:26px;line-height:32px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-cols{gap:16px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-col li{height:56px;min-height:56px}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-col a{grid-template-areas:"mark sym spark price badge";grid-template-columns:24px minmax(0,1fr) 64px auto 76px;gap:12px;align-items:center}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-mk{display:grid;place-items:center;grid-area:mark;width:24px;height:24px;background:var(--hx-surface-3);border-radius:50%;font:600 11px/1 var(--hx-font)}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-sp{display:block;grid-area:spark;width:64px;height:22px;color:var(--hx-up)}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-dn .h7-mv-sp{color:var(--hx-down)}.h7-mv-sp polyline{stroke:currentColor;stroke-width:1.5;fill:none;vector-effect:non-scaling-stroke}.h7:not(#_):not(#_) .h7-mv-owner .h7-mv-c{min-width:76px}}
 @media(prefers-reduced-motion:reduce){.h7-mv-flash::after{animation:none}}
+
+/* Whale watch rows (2026-10-14, replaces the coin movers lists on home). */
+.h7:not(#_):not(#_) .h7-whales .h7-wh-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.h7:not(#_):not(#_) .h7-whales .h7-wh-list:empty {
+  display: none;
+}
+
+.h7:not(#_):not(#_) .h7-whales .h7-wh-list li a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 2px 12px;
+  min-block-size: 58px;
+  padding: 12px 14px;
+  border: 1px solid var(--hx-line, var(--line));
+  border-radius: 16px;
+  color: var(--hx-ink, var(--ink));
+  background: var(--hx-surface, rgb(255 255 255 / .03));
+  text-decoration: none;
+}
+
+.h7:not(#_):not(#_) .h7-whales .h7-mv-mk {
+  display: grid;
+  place-items: center;
+  font: 700 11px/1 var(--hx-mono, var(--mono));
+  letter-spacing: .02em;
+  grid-row: 1 / 3;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: 9px;
+  color: #E8FBFF;
+  background: rgb(57 225 200 / .16);
+}
+
+/* One plain sentence per row; it wraps instead of truncating and the dollar amount sits inside it, bright and bold. */
+.h7:not(#_):not(#_) .h7-whales .h7-wh-text {
+  grid-column: 2 / 4;
+  min-inline-size: 0;
+  color: #C9D6DE;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.h7:not(#_):not(#_) .h7-whales .h7-wh-amt {
+  color: #E8FBFF;
+  font: 800 14px/1.2 var(--mono);
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.h7:not(#_):not(#_) .h7-whales .h7-wh-amt[data-tone=in] { color: #39E1C8; }
+.h7:not(#_):not(#_) .h7-whales .h7-wh-amt[data-tone=out] { color: #FF6B6B; }
+
+.h7:not(#_):not(#_) .h7-whales time {
+  grid-column: 2 / 4;
+  color: var(--ink3);
+  font: 500 12px/1.4 var(--mono);
+}
+
+@media (max-width:760px) {
+  .h7:not(#_):not(#_) .h7-whales .h7-wh-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .h7:not(#_):not(#_) .h7-whales .h7-wh-list li:nth-child(n+7) {
+    display: none;
+  }
+
+  .h7:not(#_):not(#_) .h7-whales .h7-wh-list li a {
+    min-block-size: 56px;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    padding: 10px 12px;
+  }
+}

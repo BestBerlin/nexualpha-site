@@ -251,14 +251,14 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
-export function HomeBelowFold({ renderedAt, t, locale, market, movers, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
+export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
   const rowsRef = useRef(null), rowEls = useRef([]);
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
   return (
     <>
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
       <DataRail locale={locale} />
-      <MoversBoard locale={locale} initial={movers} />
+      <MoversBoard locale={locale} initial={whales} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
           <h2>{t.calcH}</h2>

@@ -12,10 +12,17 @@
 //   https://mail.blockscout.com/p/news-july-1-is-pro-api-day confirms July 1, 2026 migration to the keyed PRO API.
 // - RPC fallback: combined USDT/USDC filters, non-overlapping general/exchange ranges, incremental cursor, and
 //   rolling 3-hour retention. See docs/whales-source-review.md for before/after payload counts and promotion options.
+// - Hyperliquid: https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint documents the
+//   public `POST https://api.hyperliquid.xyz/info` endpoint, including `clearinghouseState` for account positions and
+//   `userFillsByTime`/`userFills`. Only explicitly configured tracked addresses are queried; no synthetic leaderboard
+//   addresses are invented when the Gemini input files are absent.
 // - Label rule: exact addresses from exchanges' own published proof-of-reserves wallet lists (see
 //   exchange-address-labels.mjs, one source URL per address). Unknown addresses stay "unknown"; exchange-transfer
 //   direction never means sale.
+import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import { EXCHANGE_ADDRESS_LABEL_ROWS } from "./exchange-address-labels.mjs";
+import { buildHyperliquidFillSignals, createHyperliquidWhaleSource, foldHyperliquidFills, hyperliquidLiquidationEvents, isLiquidationOf, normalizeHyperliquidState } from "./hyperliquid-whales.mjs";
 
 const UA = "NexuAlphaPositionRadar/1.0 (+https://nexualpha.com)";
 const MAX_TTL_MS = 60_000;
@@ -31,6 +38,10 @@ export const POSITION_RADAR_SOURCE_LIMITATIONS = Object.freeze({
     "Top symbols are selected by Binance USDT-M 24h turnover, falling back to Bybit linear USDT turnover when Binance is unavailable; per-venue ratios remain separate.",
   ],
   whales: [
+    "Hyperliquid rows come only from configured tracked wallet addresses; when the address loader has no entries, the feed reports the gap instead of fabricating whale activity.",
+    "Hyperliquid closed PnL is emitted only from documented fill.closedPnl rows returned by userFillsByTime; unrealized PnL is never re-labelled as realized PnL.",
+    "Hyperliquid liquidation rows are skipped unless a public fill payload carries an explicit liquidation field; REST fill direction text alone is not treated as proof of liquidation.",
+    "Accumulation and distribution signals are computed from this process's persisted observations and bounded Hyperliquid fill backfill, so a fresh collector starts with transfer/position facts before multi-day intent signals mature.",
     "BTC rows are output-level samples from bounded transaction-detail lookups; a whole transaction total is not treated as one transfer.",
     "ETH/USDT/USDC rows are sampled from a bounded keyless Ethereum RPC lookback, not a complete chain index.",
     "Only exact addresses from the maintained sourced label list receive labels; all others remain unknown.",
@@ -49,7 +60,11 @@ export const EXCHANGE_ADDRESS_LABELS = Object.freeze({
 });
 
 const WHALE_RETENTION_MS = 3 * 60 * 60 * 1000;
+const WHALE_HISTORY_RETENTION_MS = 14 * 24 * 60 * 60 * 1000;
 const WHALE_MAX_ROWS = 60;
+const WHALE_MAX_HISTORY_ROWS = 5000;
+const WHALE_MAX_SIGNALS = 24;
+const WHALE_MAX_POSITIONS = 60;
 // Cold start: native ETH reads full blocks (heavy), so it keeps a short lookback; all USDT/USDC Transfer logs use a
 // medium lookback; logs touching a labelled exchange address are topic-filtered server side, so they are cheap and
 // use a long lookback. Later refreshes only scan blocks after the cursor.
@@ -333,12 +348,15 @@ function normalizeBtcMempool(payload, { btcUsd, minBtc }) {
       const to = labelAddress("btc", out.scriptpubkey_address || tx.to);
       return {
         id: `${tx.txid || tx.hash}:${outputIndex}`,
+        category: "transfer",
+        type: "transfer",
         explorerUrl: `https://mempool.space/tx/${tx.txid || tx.hash}`,
         chain: "bitcoin",
         asset: "BTC",
         txid: tx.txid || tx.hash || null,
         amount: btc,
         amountUsd: btc != null && btcUsd ? btc * btcUsd : null,
+        sizeUsd: btc != null && btcUsd ? btc * btcUsd : null,
         from,
         to,
         time: isoFromTime(tx.status?.block_time ?? tx.firstSeen ?? tx.time),
@@ -350,7 +368,7 @@ function normalizeBtcMempool(payload, { btcUsd, minBtc }) {
   }).filter((row) => row.amount != null && row.amount >= minBtc);
 }
 
-function normalizeEthTransfers(payload, { minEth, minUsd }) {
+function normalizeEthTransfers(payload, { minEth, minUsd, ethUsd = null }) {
   const records = asList(payload);
   return records.map((tx) => {
     const rawAsset = String(tx.asset || tx.token_symbol || tx.tokenSymbol || (tx.contract === "native" ? "ETH" : "")).toUpperCase();
@@ -358,12 +376,16 @@ function normalizeEthTransfers(payload, { minEth, minUsd }) {
     const decimals = finite(tx.decimals ?? tx.token_decimals) ?? (asset === "USDT" || asset === "USDC" ? 6 : 18);
     const declaredRaw = finite(tx.rawValue ?? tx.raw_value);
     const amount = declaredRaw != null ? declaredRaw / 10 ** decimals : finite(tx.value ?? tx.amount ?? tx.quantity);
-    const amountUsd = finite(tx.amountUsd ?? tx.valueUsd ?? tx.usd);
+    const declaredUsd = finite(tx.amountUsd ?? tx.valueUsd ?? tx.usd);
+    // ETH uses the collector's public ETH/USD mid. Stablecoins keep their face amount only (no USD price is claimed).
+    const amountUsd = declaredUsd ?? (amount != null && asset === "ETH" && finite(ethUsd) ? amount * ethUsd : null);
     const from = labelAddress("ethereum", tx.sender || tx.from || tx.from_address);
     const to = labelAddress("ethereum", tx.recipient || tx.to || tx.to_address);
     const txid = tx.transaction_hash || tx.hash || tx.txid || null;
     return {
       id: tx.eventId || txid,
+      category: "transfer",
+      type: "transfer",
       explorerUrl: `https://etherscan.io/tx/${tx.transaction_hash || tx.hash || tx.txid}`,
       chain: "ethereum",
       asset,
@@ -371,6 +393,7 @@ function normalizeEthTransfers(payload, { minEth, minUsd }) {
       eventId: tx.eventId || null,
       amount,
       amountUsd,
+      sizeUsd: amountUsd,
       from,
       to,
       time: isoFromTime(tx.time ?? tx.timestamp ?? tx.block_time),
@@ -384,6 +407,489 @@ function normalizeEthTransfers(payload, { minEth, minUsd }) {
     if (row.asset === "USDT" || row.asset === "USDC") return row.amount >= minUsd;
     return row.amountUsd != null && row.amountUsd >= minUsd;
   });
+}
+
+function normalizeTronTransfers(payload, { minUsd }) {
+  const records = Array.isArray(payload) ? payload : Array.isArray(payload?.token_transfers) ? payload.token_transfers : [];
+  return records.map((tx) => {
+    const token = tx.tokenInfo || {};
+    const asset = String(token.tokenAbbr || tx.token_abbr || tx.asset || "USDT").toUpperCase();
+    const decimals = finite(token.tokenDecimal ?? tx.tokenDecimal) ?? 6;
+    const amount = finite(tx.amount ?? tx.value) ?? (tx.quant != null ? Number(BigInt(String(tx.quant))) / 10 ** decimals : null);
+    const amountUsd = finite(tx.amountUsd ?? tx.valueUsd ?? tx.usd) ?? ((asset === "USDT" || asset === "USDC") && amount != null ? amount : null);
+    const fromTag = tx.from_address_tag?.from_address_tag || tx.from_address_tag?.from_address_tag_name || tx.from_address_tag?.name || null;
+    const toTag = tx.to_address_tag?.to_address_tag || tx.to_address_tag?.to_address_tag_name || tx.to_address_tag?.name || null;
+    const from = { address: tx.from_address || tx.from || null, label: fromTag || "unknown", owner: fromTag || "unknown", type: fromTag ? "exchange" : "unknown", source: fromTag ? "tronscan-address-tag" : null };
+    const to = { address: tx.to_address || tx.to || null, label: toTag || "unknown", owner: toTag || "unknown", type: toTag ? "exchange" : "unknown", source: toTag ? "tronscan-address-tag" : null };
+    const txid = tx.transaction_id || tx.hash || tx.txid || null;
+    return {
+      id: txid,
+      category: "transfer",
+      type: "transfer",
+      explorerUrl: txid ? `https://tronscan.org/#/transaction/${txid}` : null,
+      chain: "tron",
+      asset,
+      txid,
+      amount,
+      amountUsd,
+      sizeUsd: amountUsd,
+      from,
+      to,
+      time: isoFromTime(tx.block_ts ?? tx.timestamp ?? tx.time),
+      direction: direction(from, to),
+      ownerRule: "transfer to an exchange is not a sale",
+      source: tx.source || "tronscan",
+    };
+  }).filter((row) => row.txid && row.amountUsd != null && row.amountUsd >= minUsd);
+}
+
+const isEthAddress = (value) => /^0x[0-9a-fA-F]{40}$/.test(String(value || ""));
+const sideFromSize = (value) => {
+  const n = finite(value);
+  if (n == null || n === 0) return null;
+  return n > 0 ? "long" : "short";
+};
+const posKey = (row) => `${String(row.address || "").toLowerCase()}:${String(row.coin || "").toUpperCase()}:${row.side}`;
+const observedAt = (row) => {
+  const t = Date.parse(row?.observedAt || row?.time || row?.seenAt || "");
+  return Number.isFinite(t) ? t : 0;
+};
+const compactAddress = (address) => {
+  const raw = String(address || "");
+  return raw.length > 12 ? `${raw.slice(0, 6)}…${raw.slice(-4)}` : raw;
+};
+
+function emptyWhaleState() {
+  return {
+    ethCursor: null,
+    rows: new Map(),
+    positions: new Map(),
+    positionHistory: [],
+    positionFillIds: new Set(),
+    observedPositionWallets: new Set(),
+    transferHistory: [],
+    hl: normalizeHyperliquidState(null),
+  };
+}
+
+function normalizeWhaleState(state = {}) {
+  return {
+    ethCursor: Number.isFinite(state.ethCursor) ? state.ethCursor : null,
+    rows: state.rows instanceof Map ? state.rows : new Map(Object.entries(state.rows || {})),
+    positions: state.positions instanceof Map ? state.positions : new Map(Object.entries(state.positions || {})),
+    positionHistory: Array.isArray(state.positionHistory) ? state.positionHistory : [],
+    positionFillIds: state.positionFillIds instanceof Set ? state.positionFillIds : new Set(Array.isArray(state.positionFillIds) ? state.positionFillIds : []),
+    observedPositionWallets: state.observedPositionWallets instanceof Set ? state.observedPositionWallets : new Set(Array.isArray(state.observedPositionWallets) ? state.observedPositionWallets : []),
+    transferHistory: Array.isArray(state.transferHistory) ? state.transferHistory : [],
+    hl: normalizeHyperliquidState(state.hl),
+  };
+}
+
+function serializeWhaleState(state) {
+  return {
+    ethCursor: Number.isFinite(state?.ethCursor) ? state.ethCursor : null,
+    rows: Object.fromEntries(state?.rows instanceof Map ? state.rows : []),
+    positions: Object.fromEntries(state?.positions instanceof Map ? state.positions : []),
+    positionHistory: (Array.isArray(state?.positionHistory) ? state.positionHistory : []).slice(-WHALE_MAX_HISTORY_ROWS),
+    positionFillIds: [...(state?.positionFillIds instanceof Set ? state.positionFillIds : new Set())].slice(-WHALE_MAX_HISTORY_ROWS),
+    observedPositionWallets: [...(state?.observedPositionWallets instanceof Set ? state.observedPositionWallets : new Set())].slice(-WHALE_MAX_HISTORY_ROWS),
+    transferHistory: (Array.isArray(state?.transferHistory) ? state.transferHistory : []).slice(-WHALE_MAX_HISTORY_ROWS),
+    hl: normalizeHyperliquidState(state?.hl),
+  };
+}
+
+function readWhaleStateFile(file) {
+  if (!file) return emptyWhaleState();
+  try {
+    return normalizeWhaleState(JSON.parse(readFileSync(file, "utf8")));
+  } catch {
+    return emptyWhaleState();
+  }
+}
+
+function writeWhaleStateFile(file, state, log) {
+  if (!file) return;
+  try {
+    mkdirSync(path.dirname(file), { recursive: true });
+    const tmp = `${file}.${process.pid}.${Date.now()}.tmp`;
+    writeFileSync(tmp, `${JSON.stringify(serializeWhaleState(state))}\n`);
+    renameSync(tmp, file);
+  } catch (error) {
+    log(`whale history: ${error?.message || error}`);
+  }
+}
+
+function readWhaleSnapshotFile(file, now = Date.now()) {
+  if (!file) return null;
+  try {
+    const payload = JSON.parse(readFileSync(file, "utf8"));
+    if (!payload || typeof payload !== "object" || payload.status === "unavailable") return null;
+    const rows = Array.isArray(payload.rows) ? payload.rows : [];
+    const signals = Array.isArray(payload.signals) ? payload.signals : rows.filter((row) => row?.category === "signal");
+    const positions = Array.isArray(payload.positions) ? payload.positions : rows.filter((row) => row?.category === "position");
+    const transfers = Array.isArray(payload.transfers) ? payload.transfers : rows.filter((row) => row?.chain || row?.category === "transfer");
+    if (!signals.length && !positions.length && !transfers.length && !rows.length) return null;
+    const updatedAt = typeof payload.updatedAt === "string" ? payload.updatedAt : null;
+    const updatedMs = Date.parse(updatedAt || "");
+    const stale = !Number.isFinite(updatedMs) || now - updatedMs > MAX_TTL_MS;
+    return {
+      kind: "whales",
+      status: "ok",
+      ttlSeconds: Math.floor(MAX_TTL_MS / 1000),
+      updatedAt,
+      ...(stale ? { stale: true } : {}),
+      schemaVersion: Number.isFinite(Number(payload.schemaVersion)) ? Number(payload.schemaVersion) : 2,
+      rows: rows.length ? rows.slice(0, WHALE_MAX_ROWS) : [...signals, ...positions, ...transfers].slice(0, WHALE_MAX_ROWS),
+      signals: signals.slice(0, WHALE_MAX_SIGNALS),
+      positions: positions.slice(0, WHALE_MAX_POSITIONS),
+      transfers: transfers.slice(0, WHALE_MAX_ROWS),
+      labelSources: Array.isArray(payload.labelSources) ? payload.labelSources : [],
+      sourceDocs: Array.isArray(payload.sourceDocs) ? payload.sourceDocs : [],
+      sources: Array.isArray(payload.sources) ? payload.sources : ["WHALES_FILE"],
+      limitations: Array.isArray(payload.limitations) ? payload.limitations : POSITION_RADAR_SOURCE_LIMITATIONS.whales,
+      errors: Array.isArray(payload.errors) ? payload.errors : [],
+      fileSource: file,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function normalizeHyperliquidPositionRows(payload, { now, minNotional = 1_000_000, includeBelowThreshold = false }) {
+  const wallets = Array.isArray(payload) ? payload : payload?.wallets || payload?.rows || [];
+  return wallets.flatMap((wallet) => {
+    const address = String(wallet.user || wallet.address || wallet.account || "").toLowerCase();
+    if (!isEthAddress(address)) return [];
+    const state = wallet.clearinghouseState || wallet.state || (Array.isArray(wallet.positions) ? wallet : null);
+    if (!state) return [];
+    const positions = Array.isArray(state?.assetPositions) ? state.assetPositions : Array.isArray(wallet.positions) ? wallet.positions : [];
+    return positions.map((entry) => {
+      const position = entry?.position || entry;
+      const coin = String(position.coin || entry?.coin || "").toUpperCase();
+      const signedSize = finite(position.szi ?? position.size ?? position.positionSize);
+      const side = sideFromSize(signedSize);
+      const notionalUsd = Math.abs(finite(position.positionValue ?? position.notionalUsd ?? position.notional) || 0);
+      // Builder-deployed perp dexs ("xyz:NVDA") reuse tickers outside the main market; only main perps are shown.
+      if (!coin || coin.includes(":") || !side || (!includeBelowThreshold && notionalUsd < minNotional)) return null;
+      const leverage = typeof position.leverage === "object" ? finite(position.leverage.value) : finite(position.leverage);
+      const observedIso = isoFromTime(wallet.observedAt || wallet.time || now) || new Date(now).toISOString();
+      return {
+        id: `hl:${address}:${coin}:${side}`,
+        category: "position",
+        type: "position",
+        platform: "hyperliquid",
+        source: wallet.source || "hyperliquid-info",
+        explorerUrl: `https://app.hyperliquid.xyz/explorer/address/${address}`,
+        time: observedIso,
+        observedAt: observedIso,
+        address,
+        label: wallet.label || compactAddress(address),
+        coin,
+        side,
+        size: Math.abs(signedSize),
+        notionalUsd,
+        sizeUsd: notionalUsd,
+        leverage,
+        entryPx: finite(position.entryPx ?? position.entryPrice),
+        markPx: finite(position.markPx ?? position.oraclePx),
+        unrealizedPnlUsd: finite(position.unrealizedPnl ?? position.uPnl ?? position.pnl),
+      };
+    }).filter(Boolean);
+  });
+}
+
+function classifyPositionEvent(current, previous, walletPreviouslyObserved = false) {
+  if (!previous) return walletPreviouslyObserved ? "open" : "position";
+  const prev = Math.abs(finite(previous.size) || 0);
+  const next = Math.abs(finite(current.size) || 0);
+  if (next > prev * 1.05) return "increase";
+  if (next < prev * 0.95) return "decrease";
+  return "unchanged";
+}
+
+function pruneHistory(state, now) {
+  const cutoff = now - WHALE_HISTORY_RETENTION_MS;
+  state.positionHistory = (state.positionHistory || []).filter((row) => observedAt(row) >= cutoff).slice(-WHALE_MAX_HISTORY_ROWS);
+  state.positionFillIds = new Set((state.positionHistory || []).map((row) => row.fillId).filter(Boolean));
+  state.transferHistory = (state.transferHistory || []).filter((row) => observedAt(row) >= cutoff).slice(-WHALE_MAX_HISTORY_ROWS);
+}
+
+function appendPositionHistory(state, positions, now, completeAddresses = []) {
+  const nowIso = new Date(now).toISOString();
+  const events = [];
+  const observedWallets = state.observedPositionWallets || (state.observedPositionWallets = new Set());
+  for (const current of positions) {
+    const key = posKey(current);
+    const address = String(current.address || "").toLowerCase();
+    const previous = state.positions.get(key) || null;
+    const eventType = classifyPositionEvent(current, previous, observedWallets.has(address));
+    const row = { ...current, type: eventType, eventType, sizeUsd: current.sizeUsd ?? current.notionalUsd, previousNotionalUsd: previous?.notionalUsd ?? null, observedAt: current.observedAt || nowIso };
+    if (eventType === "unchanged") {
+      state.positions.set(key, { ...previous, ...current, type: "position", eventType: "position", lastEventType: previous?.eventType || previous?.lastEventType || null, sizeUsd: current.sizeUsd ?? current.notionalUsd, previousNotionalUsd: previous?.previousNotionalUsd ?? null, observedAt: current.observedAt || nowIso });
+      continue;
+    }
+    state.positions.set(key, row);
+    state.positionHistory.push(row);
+    events.push(row);
+  }
+  for (const address of completeAddresses || []) {
+    const normalized = String(address || "").toLowerCase();
+    if (isEthAddress(normalized)) observedWallets.add(normalized);
+  }
+  pruneHistory(state, now);
+  return events;
+}
+
+function hyperliquidFillId(address, fill) {
+  return ["hlfill", address, fill?.tid ?? "", fill?.hash ?? "", fill?.oid ?? "", fill?.time ?? ""].join(":");
+}
+
+function explicitLiquidationField(fill, address) {
+  // Hyperliquid fills carry `liquidation: { liquidatedUser, markPx, method }`; only the liquidated wallet's own fill counts.
+  return isLiquidationOf(fill, address) || fill?.isLiquidation === true || fill?.liquidated === true || fill?.eventType === "liquidation" || fill?.type === "liquidation";
+}
+
+function normalizeHyperliquidFillEvents(payload, { minNotional = 1_000_000 } = {}) {
+  const wallets = Array.isArray(payload) ? payload : payload?.wallets || payload?.rows || [];
+  const out = [];
+  for (const wallet of wallets) {
+    const address = String(wallet.user || wallet.address || wallet.account || "").toLowerCase();
+    if (!isEthAddress(address)) continue;
+    const fills = Array.isArray(wallet.fills) ? wallet.fills : [];
+    for (const fill of fills) {
+      const rawCoin = String(fill?.coin || "");
+      if (!rawCoin || rawCoin.startsWith("@") || rawCoin.includes(":") || rawCoin.includes("/")) continue;
+      const dir = String(fill?.dir || "").toLowerCase();
+      const coin = rawCoin.toUpperCase();
+      const side = dir.includes("short") ? "short" : dir.includes("long") ? "long" : null;
+      if (!side) continue;
+      const px = finite(fill?.px);
+      const fillSize = Math.abs(finite(fill?.sz) || 0);
+      const startSize = Math.abs(finite(fill?.startPosition) || 0);
+      if (!px || !fillSize) continue;
+      const fillNotionalUsd = Math.abs(px * fillSize);
+      if (fillNotionalUsd < minNotional) continue;
+      const opens = dir.includes("open");
+      const closes = dir.includes("close");
+      const liquidation = explicitLiquidationField(fill, address);
+      if (!opens && !closes && !liquidation) continue;
+      const nextSize = opens ? startSize + fillSize : Math.max(0, startSize - fillSize);
+      const eventType = liquidation ? "liquidation" : opens ? (startSize > 0 ? "increase" : "open") : (nextSize <= 0 ? "close" : "decrease");
+      const closedPnlUsd = (closes || liquidation) ? finite(fill?.closedPnl) : null;
+      const time = isoFromTime(fill?.time) || new Date().toISOString();
+      const fillId = hyperliquidFillId(address, fill);
+      out.push({
+        id: fillId,
+        fillId,
+        category: "position",
+        type: eventType,
+        eventType,
+        platform: "hyperliquid",
+        source: "hyperliquid-userFillsByTime",
+        explorerUrl: `https://app.hyperliquid.xyz/explorer/address/${address}`,
+        time,
+        observedAt: time,
+        address,
+        label: compactAddress(address),
+        coin,
+        side,
+        size: nextSize,
+        fillSize,
+        notionalUsd: Math.abs(nextSize * px),
+        sizeUsd: fillNotionalUsd,
+        fillSizeUsd: fillNotionalUsd,
+        previousNotionalUsd: Math.abs(startSize * px),
+        entryPx: px,
+        markPx: px,
+        closedPnlUsd,
+        realizedPnlUsd: closedPnlUsd,
+        liquidation,
+        txHash: fill?.hash || null,
+        orderId: fill?.oid ?? null,
+        tradeId: fill?.tid ?? null,
+      });
+    }
+  }
+  return out.sort((a, b) => observedAt(a) - observedAt(b));
+}
+
+function appendPositionFillHistory(state, walletPayloads, now, { minNotional = 1_000_000 } = {}) {
+  const events = [];
+  const seen = state.positionFillIds || (state.positionFillIds = new Set());
+  for (const row of normalizeHyperliquidFillEvents(walletPayloads, { minNotional })) {
+    if (row.fillId && seen.has(row.fillId)) continue;
+    if (row.fillId) seen.add(row.fillId);
+    const key = posKey(row);
+    state.positionHistory.push(row);
+    if (row.eventType === "close" || row.eventType === "liquidation" || Math.abs(finite(row.size) || 0) === 0) {
+      state.positions.delete(key);
+    } else {
+      state.positions.set(key, row);
+    }
+    events.push(row);
+  }
+  pruneHistory(state, now);
+  return events;
+}
+
+function appendClosedPositionEvents(state, currentPositions, completeAddresses, now) {
+  const currentKeys = new Set(currentPositions.map(posKey));
+  const complete = new Set((completeAddresses || []).map((address) => String(address).toLowerCase()).filter(isEthAddress));
+  const nowIso = new Date(now).toISOString();
+  const events = [];
+  for (const [key, previous] of state.positions) {
+    if (!complete.has(String(previous.address || "").toLowerCase()) || currentKeys.has(key)) continue;
+    const closed = { ...previous, type: "close", eventType: "close", size: 0, notionalUsd: 0, sizeUsd: previous.sizeUsd ?? previous.notionalUsd, previousNotionalUsd: previous.notionalUsd, observedAt: nowIso, time: nowIso };
+    state.positions.delete(key);
+    state.positionHistory.push(closed);
+    events.push(closed);
+  }
+  pruneHistory(state, now);
+  return events;
+}
+
+function appendTransferHistory(state, transfers, now) {
+  const nowIso = new Date(now).toISOString();
+  const seen = new Set(state.transferHistory.map((row) => row.eventId || row.id || row.txid).filter(Boolean));
+  for (const row of transfers) {
+    const key = row.eventId || row.id || row.txid;
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    state.transferHistory.push({ ...row, observedAt: row.seenAt || row.time || nowIso });
+  }
+  pruneHistory(state, now);
+}
+
+function buildPositionSignals(state, now, { minNotional = 1_000_000 } = {}) {
+  const signals = [];
+  const byWallet = new Map();
+  for (const row of state.positionHistory || []) {
+    const key = posKey(row);
+    if (!byWallet.has(key)) byWallet.set(key, []);
+    byWallet.get(key).push(row);
+  }
+  for (const [key, rows] of byWallet) {
+    const sorted = rows.sort((a, b) => observedAt(a) - observedAt(b));
+    const interruptedAt = sorted.findLastIndex((row) => row.eventType === "decrease" || row.eventType === "close");
+    const inc = sorted.slice(interruptedAt + 1).filter((row) => row.eventType === "position" || row.eventType === "open" || row.eventType === "increase");
+    if (inc.length < 3) continue;
+    const first = inc[0], last = inc.at(-1);
+    const deltaSize = Math.abs(finite(last.size) || 0) - Math.abs(finite(first.size) || 0);
+    const lastUnitUsd = Math.abs(finite(last.size) || 0) > 0 ? (finite(last.notionalUsd) || 0) / Math.abs(finite(last.size) || 0) : (finite(last.entryPx) || 0);
+    const deltaUsd = Math.abs(deltaSize * lastUnitUsd);
+    if (deltaSize <= 0 || deltaUsd < minNotional) continue;
+    const periodHours = Math.max(1, Math.round((observedAt(last) - observedAt(first)) / 3_600_000));
+    signals.push({
+      id: `signal:${key}:accumulation`,
+      category: "signal",
+      type: last.side === "long" ? "accumulation" : "increase_short",
+      signalType: last.side === "long" ? "accumulation" : "increase_short",
+      label: last.side === "long" ? "加仓" : "加仓空单",
+      source: "hyperliquid-history",
+      platform: "hyperliquid",
+      time: last.observedAt || new Date(now).toISOString(),
+      coin: last.coin,
+      side: last.side,
+      walletsCount: 1,
+      addresses: [last.address],
+      address: last.address,
+      totalUsd: deltaUsd,
+      sizeUsd: deltaUsd,
+      deltaSize,
+      periodHours,
+      period: `${periodHours}h`,
+      avgEntry: finite(last.entryPx),
+      pnlUsd: finite(last.unrealizedPnlUsd),
+      explorerUrl: `https://app.hyperliquid.xyz/explorer/address/${last.address}`,
+      explanation: `${compactAddress(last.address)} ${periodHours}h ${last.side === "long" ? "added" : "increased short"} ${last.coin} by $${Math.round(deltaUsd).toLocaleString("en-US")}.`,
+    });
+  }
+  const recentCutoff = now - 24 * 60 * 60 * 1000;
+  const current = (state.positionHistory || [])
+    .filter((row) => row.eventType === "increase" && observedAt(row) >= recentCutoff && (finite(row.notionalUsd) || 0) >= minNotional);
+  const byCoinSide = new Map();
+  for (const row of current) {
+    const key = `${row.coin}:${row.side}`;
+    if (!byCoinSide.has(key)) byCoinSide.set(key, []);
+    byCoinSide.get(key).push(row);
+  }
+  for (const [key, rows] of byCoinSide) {
+    const unique = [...new Map(rows.map((row) => [row.address, row])).values()];
+    if (unique.length < 2) continue;
+    const totalUsd = unique.reduce((sum, row) => sum + (finite(row.notionalUsd) || 0), 0);
+    if (totalUsd < minNotional * 2) continue;
+    const [coin, side] = key.split(":");
+    signals.push({
+      id: `signal:${coin}:${side}:cluster`,
+      category: "signal",
+      type: side === "long" ? "coordinated-long" : "coordinated-short",
+      signalType: side === "long" ? "coordinated-long" : "coordinated-short",
+      label: side === "long" ? "同步做多" : "同步做空",
+      source: "hyperliquid-history",
+      platform: "hyperliquid",
+      time: new Date(Math.max(...unique.map(observedAt))).toISOString(),
+      coin,
+      side,
+      walletsCount: unique.length,
+      addresses: unique.map((row) => row.address),
+      address: unique[0]?.address || null,
+      totalUsd,
+      sizeUsd: totalUsd,
+      periodHours: 24,
+      period: "24h",
+      avgEntry: null,
+      pnlUsd: unique.every((row) => finite(row.unrealizedPnlUsd) != null)
+        ? unique.reduce((sum, row) => sum + finite(row.unrealizedPnlUsd), 0) : null,
+      explorerUrl: unique[0]?.address ? `https://app.hyperliquid.xyz/explorer/address/${unique[0].address}` : null,
+      explanation: `${unique.length} tracked Hyperliquid wallets are ${side} ${coin}, total $${Math.round(totalUsd).toLocaleString("en-US")}.`,
+    });
+  }
+  return signals.sort((a, b) => (finite(b.totalUsd) || 0) - (finite(a.totalUsd) || 0)).slice(0, WHALE_MAX_SIGNALS);
+}
+
+function buildTransferSignals(state, { minUsd = 5_000_000 } = {}) {
+  const groups = new Map();
+  for (const row of state.transferHistory || []) {
+    if (row.direction !== "from-exchange" || row.to?.type === "exchange") continue;
+    if (!row.to?.address) continue;
+    const usd = finite(row.amountUsd);
+    if (usd == null || usd < minUsd) continue;
+    const toAddress = row.to?.address || "unknown";
+    const key = `${row.asset}:${toAddress}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
+  }
+  const out = [];
+  for (const [key, rows] of groups) {
+    rows.sort((a, b) => observedAt(a) - observedAt(b));
+    const distinctTx = new Set(rows.map((row) => row.txid || row.eventId || row.id).filter(Boolean));
+    if (distinctTx.size < 2 || observedAt(rows.at(-1)) - observedAt(rows[0]) < 30 * 60 * 1000) continue;
+    const totalUsd = rows.reduce((sum, row) => sum + (finite(row.amountUsd) || 0), 0);
+    const last = rows.at(-1);
+    const periodHours = Math.max(1, Math.round((observedAt(last) - observedAt(rows[0])) / 3_600_000));
+    out.push({
+      id: `signal:${key}:exchange-withdrawal`,
+      category: "signal",
+      type: "accumulation",
+      signalType: "exchange-withdrawal-accumulation",
+      label: "建仓",
+      source: "transfer-history",
+      platform: last.chain,
+      time: last.observedAt || last.time,
+      coin: last.asset,
+      walletsCount: 1,
+      addresses: [last.to?.address].filter(Boolean),
+      address: last.to?.address || null,
+      totalUsd,
+      sizeUsd: totalUsd,
+      periodHours,
+      period: `${periodHours}h`,
+      avgEntry: null,
+      explorerUrl: last.explorerUrl || null,
+      explanation: `${rows.length} large ${last.asset} withdrawals from exchange labels to the same non-exchange wallet, total $${Math.round(totalUsd).toLocaleString("en-US")}.`,
+    });
+  }
+  return out.sort((a, b) => (finite(b.totalUsd) || 0) - (finite(a.totalUsd) || 0)).slice(0, WHALE_MAX_SIGNALS);
 }
 
 const ETH_RPC_URL = "https://ethereum-rpc.publicnode.com";
@@ -522,6 +1028,7 @@ async function ethereumRpcTransfers(fetchImpl, {
 }
 
 export const POSITION_RADAR_WHALE_SOURCES = Object.freeze({
+  hyperliquid: createHyperliquidWhaleSource(),
   btcMempool: async (fetchImpl, { minBtc = 50, maxTxDetails = 10 } = {}) => {
     const recent = await getJson("https://mempool.space/api/mempool/recent", fetchImpl);
     const candidates = (Array.isArray(recent) ? recent : [])
@@ -530,30 +1037,69 @@ export const POSITION_RADAR_WHALE_SOURCES = Object.freeze({
     return Promise.all(candidates.map((tx) => getJson(`https://mempool.space/api/tx/${encodeURIComponent(tx.txid)}`, fetchImpl)));
   },
   ethereumRpc: ethereumRpcTransfers,
+  tronTronscan: async (fetchImpl, { minUsd = 5_000_000 } = {}) => {
+    const url = new URL("https://apilist.tronscanapi.com/api/token_trc20/transfers");
+    url.searchParams.set("contract_address", "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
+    url.searchParams.set("start", "0");
+    url.searchParams.set("limit", "50");
+    url.searchParams.set("confirm", "0");
+    const rows = await getJson(url.href, fetchImpl);
+    return { ...rows, source: "tronscan", minUsd };
+  },
 });
 
-async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, btcUsd, state }) {
-  const rows = [];
+async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, minPositionUsd, btcUsd, ethUsd = null, state, hyperliquidWallets, whaleSnapshotFile, log }) {
+  const fileSnapshot = readWhaleSnapshotFile(whaleSnapshotFile, now);
+  if (fileSnapshot) return fileSnapshot;
+  const transfers = [];
+  const positionEvents = [];
   const errors = [];
   try {
-    if (typeof sources.btcMempool === "function") rows.push(...normalizeBtcMempool(await sources.btcMempool(fetchImpl, { minBtc }), { btcUsd, minBtc }));
+    if (typeof sources.hyperliquid === "function") {
+      const rawWallets = await sources.hyperliquid(fetchImpl, { wallets: hyperliquidWallets, minNotional: minPositionUsd, now, state });
+      positionEvents.push(...appendPositionFillHistory(state, rawWallets, now, { minNotional: minPositionUsd }));
+      foldHyperliquidFills(state.hl || (state.hl = normalizeHyperliquidState(null)), Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [], now);
+      const allPositions = normalizeHyperliquidPositionRows(rawWallets, { now, minNotional: minPositionUsd, includeBelowThreshold: true });
+      // Only wallets whose clearinghouseState came back this cycle are complete; fills-only entries never imply a close.
+      const completeAddresses = [...new Set((Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [])
+        .filter((wallet) => wallet && (wallet.clearinghouseState || wallet.state || Array.isArray(wallet.positions)))
+        .map((wallet) => String(wallet?.user || wallet?.address || wallet?.account || "").toLowerCase()).filter(isEthAddress))];
+      positionEvents.push(...appendPositionHistory(state, allPositions, now, completeAddresses));
+      positionEvents.push(...appendClosedPositionEvents(state, allPositions, completeAddresses, now));
+    }
+  } catch (error) {
+    errors.push(`hyperliquid: ${error?.message || error}`);
+  }
+  try {
+    if (typeof sources.btcMempool === "function") transfers.push(...normalizeBtcMempool(await sources.btcMempool(fetchImpl, { minBtc }), { btcUsd, minBtc }));
   } catch (error) {
     errors.push(`btc: ${error?.message || error}`);
   }
   try {
     for (const [name, source] of Object.entries(sources)) {
       if (!name.startsWith("ethereum") || typeof source !== "function") continue;
-      rows.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd }));
+      transfers.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd, ethUsd }));
     }
   } catch (error) {
     errors.push(`ethereum: ${error?.message || error}`);
   }
-  const sourceNames = Object.keys(sources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name);
+  try {
+    for (const [name, source] of Object.entries(sources)) {
+      if (!name.startsWith("tron") || typeof source !== "function") continue;
+      transfers.push(...normalizeTronTransfers(await source(fetchImpl, { minUsd, state }), { minUsd }));
+    }
+  } catch (error) {
+    errors.push(`tron: ${error?.message || error}`);
+  }
+  // An exchange moving coins between its own wallets is housekeeping, not a whale move.
+  const internal = (row) => row.from?.type === "exchange" && row.to?.type === "exchange" && row.from?.owner && row.from.owner === row.to?.owner;
+  for (let i = transfers.length - 1; i >= 0; i -= 1) if (internal(transfers[i])) transfers.splice(i, 1);
+  const sourceNames = Object.keys(sources).map(name => name === "hyperliquid" ? "Hyperliquid info" : name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name === "tronTronscan" ? "Tronscan" : name);
   if (state) {
     // Rolling window: merge this refresh's rows with earlier ones (dedupe by event id) and drop rows first seen more than 3h ago.
     const history = state.rows || (state.rows = new Map());
     const nowIso = new Date(now).toISOString();
-    for (const row of rows) {
+    for (const row of transfers) {
       const key = row.eventId || row.id;
       history.set(key, { ...row, seenAt: history.get(key)?.seenAt || nowIso });
     }
@@ -561,25 +1107,73 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, bt
     // Retention uses first-seen time so a lagging chain timestamp never evicts a row we just read.
     const at = (row) => { const t = Date.parse(row.seenAt || row.time || ""); return Number.isFinite(t) ? t : 0; };
     for (const [key, row] of history) if (at(row) < cutoff) history.delete(key);
-    rows.splice(0, rows.length, ...history.values());
     if (history.size > WHALE_MAX_ROWS * 3) {
       const keep = [...history.entries()].sort((a, b) => at(b[1]) - at(a[1])).slice(0, WHALE_MAX_ROWS * 3);
       history.clear();
       for (const [key, row] of keep) history.set(key, row);
     }
+    transfers.splice(0, transfers.length, ...history.values());
+    appendTransferHistory(state, transfers, now);
   }
-  if (!rows.length) return unavailableFeed("whales", sourceNames, errors.length ? errors.join("; ") : "no-large-transfers-or-eth-source-unavailable");
+  const fillSignals = buildHyperliquidFillSignals(state.hl, { now, positions: state.positions || new Map(), minUsd: minPositionUsd });
+  const fillKeys = new Set(fillSignals.map((row) => `${row.address}:${row.coin}:${row.side}`));
+  // Snapshot-diff signals are only a fallback for wallets whose fills are not available: fills say exactly what was
+  // added and when, snapshots only that the position grew.
+  const fillsSeen = (address) => Boolean(state.hl?.fillsAt?.[String(address || "").toLowerCase()]);
+  const anyFills = Object.keys(state.hl?.fillsAt || {}).length > 0;
+  const snapshotSignals = buildPositionSignals(state, now, { minNotional: minPositionUsd })
+    .filter((row) => !(row.walletsCount === 1 && (fillKeys.has(`${row.address}:${row.coin}:${row.side}`) || fillsSeen(row.address))))
+    .filter((row) => !(row.walletsCount > 1 && (anyFills || fillSignals.some((fill) => fill.walletsCount > 1 && fill.coin === row.coin && fill.side === row.side))));
+  const signals = [...fillSignals, ...snapshotSignals.sort((a, b) => (finite(b.totalUsd) || 0) - (finite(a.totalUsd) || 0)), ...buildTransferSignals(state, { minUsd })]
+    .slice(0, WHALE_MAX_SIGNALS);
+  positionEvents.push(...hyperliquidLiquidationEvents(state.hl, { now, minUsd: minPositionUsd }));
+  const currentPositions = [...(state.positions?.values?.() || [])].filter((row) => (finite(row.notionalUsd) || 0) >= minPositionUsd);
+  // Keep the last 24h of position changes across cycles: wallets are polled in rotation, so an event must outlive the
+  // cycle that detected it. The latest change per wallet/coin/side wins.
+  const recentChanges = (state.positionHistory || []).filter((row) => row.eventType && row.eventType !== "position" && row.eventType !== "unchanged" && now - observedAt(row) <= 24 * 60 * 60 * 1000);
+  const qualifyingPositionEvents = [...recentChanges, ...positionEvents]
+    .filter((row) => row.eventType !== "liquidation" || !String(row.id || "").startsWith("hl-liq:"))
+    .filter((row) => (finite(row.sizeUsd ?? row.notionalUsd) || 0) >= minPositionUsd)
+    .sort((a, b) => observedAt(a) - observedAt(b));
+  if (!signals.length && !currentPositions.length && !qualifyingPositionEvents.length && !transfers.length) {
+    return unavailableFeed("whales", sourceNames, errors.length ? errors.join("; ") : "no-whale-data");
+  }
   const sortAt = (row) => { const t = Date.parse(row.time || row.seenAt || ""); return Number.isFinite(t) ? t : 0; };
-  rows.sort((a, b) => sortAt(b) - sortAt(a));
-  const limitedRows = rows.slice(0, WHALE_MAX_ROWS);
+  transfers.sort((a, b) => sortAt(b) - sortAt(a));
+  // The same transfer can arrive twice (overlapping scans); keep one row per tx/asset/amount/route.
+  const transferKey = (row) => [row.txid || row.id, row.asset, row.amount, row.from?.address, row.to?.address].join("|");
+  const seenTransfers = new Set();
+  for (let i = 0; i < transfers.length; i += 1) {
+    const key = transferKey(transfers[i]);
+    if (seenTransfers.has(key)) { transfers.splice(i, 1); i -= 1; } else seenTransfers.add(key);
+  }
+  const positionByKey = new Map(currentPositions.map((row) => [posKey(row), row]));
+  for (const event of qualifyingPositionEvents) positionByKey.set(posKey(event), event);
+  for (const event of positionEvents) if (event.eventType === "liquidation" && (finite(event.sizeUsd) || 0) >= minPositionUsd) positionByKey.set(event.id, event);
+  // Recent changes (open / add / reduce / close / liquidation) first, newest first; then the largest held positions.
+  const isChange = (row) => row.eventType && row.eventType !== "position" && row.eventType !== "unchanged" && now - sortAt(row) <= 24 * 60 * 60 * 1000;
+  const positions = [...positionByKey.values()]
+    .sort((a, b) => (isChange(b) - isChange(a)) || (isChange(a) ? sortAt(b) - sortAt(a) : (finite(b.notionalUsd ?? b.sizeUsd) || 0) - (finite(a.notionalUsd ?? a.sizeUsd) || 0)))
+    .slice(0, WHALE_MAX_POSITIONS);
+  const limitedTransfers = transfers.slice(0, WHALE_MAX_ROWS);
+  const rows = [...signals, ...positions, ...limitedTransfers].slice(0, WHALE_MAX_ROWS);
+  if (typeof log === "function" && errors.length) log(`whales: ${errors.join("; ")}`);
   return {
     kind: "whales",
     status: "ok",
     updatedAt: new Date(now).toISOString(),
     ttlSeconds: Math.floor(MAX_TTL_MS / 1000),
-    rows: limitedRows,
-    transfers: limitedRows,
+    schemaVersion: 2,
+    rows,
+    signals,
+    positions,
+    transfers: limitedTransfers,
     labelSources: Object.values(EXCHANGE_ADDRESS_LABELS).flatMap((map) => Object.values(map).map((entry) => entry.source)).filter((value, index, arr) => value && arr.indexOf(value) === index),
+    sourceDocs: [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint",
+      "https://mempool.space/docs/api/rest",
+      "https://docs.tronscan.org/en/api/transactions-and-transfers/token-trc20-transfers",
+    ],
     sources: sourceNames,
     limitations: POSITION_RADAR_SOURCE_LIMITATIONS.whales,
     errors,
@@ -596,17 +1190,26 @@ export function createPositionRadar({
   btcUsd = null,
   minBtc = 50,
   minEth = 250,
-  minUsd = 1_000_000,
+  ethUsd = null,
+  minUsd = 5_000_000,
+  minPositionUsd = 1_000_000,
+  hyperliquidWallets = [],
+  whaleSnapshotFile = process.env.WHALES_FILE || "/market/whales.json",
+  whaleHistoryFile = process.env.WHALE_HISTORY_FILE || null,
+  // The web server only reads the collector's file (WHALES_FILE); it never polls whale sources itself.
+  whaleFileOnly = Boolean(process.env.WHALES_FILE) && !process.env.WHALE_HISTORY_FILE,
   interSymbolDelayMs = 0,
   log = () => {},
 } = {}) {
   const cache = new Map();
   const cappedTtlMs = Math.min(Math.max(0, ttlMs), MAX_TTL_MS);
   const pending = new Map();
-  const whaleState = { ethCursor: null, rows: new Map() };
+  const whaleState = readWhaleStateFile(whaleHistoryFile);
   const builders = {
     "long-short": () => buildLongShort({ fetchImpl, now: now(), limit, sources: longShortSources, interSymbolDelayMs }),
-    whales: () => buildWhales({ fetchImpl, now: now(), sources: whaleSources, minBtc, minEth, minUsd, btcUsd, state: whaleState }),
+    whales: () => whaleFileOnly
+      ? Promise.resolve(readWhaleSnapshotFile(whaleSnapshotFile, now()) || unavailableFeed("whales", ["WHALES_FILE"], "collector-file-missing"))
+      : buildWhales({ fetchImpl, now: now(), sources: whaleSources, minBtc, minEth, minUsd, minPositionUsd, btcUsd, ethUsd, state: whaleState, hyperliquidWallets, whaleSnapshotFile, log }),
   };
   const refresh = (kind) => {
     if (!POSITION_RADAR_KINDS.includes(kind)) throw new RangeError(`unknown radar kind: ${kind}`);
@@ -614,12 +1217,14 @@ export function createPositionRadar({
     const run = builders[kind]()
       .then((next) => {
         if (next) {
-          if (next.status === "ok") next.updatedAt = new Date(now()).toISOString();
-          else {
+          if (next.status === "ok") {
+            if (!next.updatedAt && !next.fileSource) next.updatedAt = new Date(now()).toISOString();
+          } else {
             const hit = cache.get(kind);
             if (hit?.data?.status === "ok") return { ...hit.data, stale: true };
           }
           cache.set(kind, { at: now(), data: next });
+          if (kind === "whales") writeWhaleStateFile(whaleHistoryFile, whaleState, log);
         }
         return next;
       })

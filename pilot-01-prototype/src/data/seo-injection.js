@@ -45,7 +45,7 @@ import { INTEL_TOOL_INDEX_LOCALES, isIntelToolLive, isIntelToolPath } from "./in
 import { intelToolRouteSeo } from "./intel-tools-seo.js";
 import { parseConverterPath } from "./converter-routes.js";
 import { converterRouteSeo } from "./converter-seo.js";
-import { RADAR_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "./radar-seo.js";
+import { LONG_SHORT_INDEX_LOCALES, WHALES_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "./radar-seo.js";
 import { parseGlossaryPath } from "./glossary-routes.js";
 import { glossaryRouteSeo } from "./glossary-seo.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
@@ -371,7 +371,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
-  if (parseRadarPath(pathname)) return RADAR_INDEX_LOCALES;
+  const radarRoute = parseRadarPath(pathname);
+  if (radarRoute) return radarRoute.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
   if (isBitgetGuidePath(pathname)) return BITGET_GUIDE_LOCALES;
   if (parseBeginnerPath(pathname)?.kind !== "missing" && parseBeginnerPath(pathname)) return BEGINNER_LOCALES;
   // Crypto glossary (mirror of the Worker): the hub's and each term's written editions.

@@ -96,7 +96,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialIntelTool: state?.intelTool,
       initialFx: state?.fx,
       initialTicker: state?.ticker,
-      initialMovers: state?.movers,
+      initialWhales: state?.whales,
       initialRadar: state?.radar,
       initialSeoAlternates: state?.seoAlternates,
     })), heroVariant);

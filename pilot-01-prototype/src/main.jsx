@@ -82,7 +82,7 @@ function HydrationBootstrap() {
       initialIntelTool={prerenderState?.intelTool}
       initialFx={prerenderState?.fx}
       initialTicker={prerenderState?.ticker}
-      initialMovers={prerenderState?.movers}
+      initialWhales={prerenderState?.whales}
       initialRadar={prerenderState?.radar}
       initialSeoAlternates={prerenderState?.seoAlternates}
     />;

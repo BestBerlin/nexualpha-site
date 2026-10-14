@@ -357,7 +357,7 @@ test("Ethereum source scans incrementally after the first refresh and keeps a ro
     throw new Error(body.method);
   };
   let clock = NOW;
-  const radar = createPositionRadar({ now: () => clock, fetchImpl, whaleSources: { ethereumRpc: POSITION_RADAR_WHALE_SOURCES.ethereumRpc } });
+  const radar = createPositionRadar({ now: () => clock, fetchImpl, whaleSources: { ethereumRpc: POSITION_RADAR_WHALE_SOURCES.ethereumRpc }, minUsd: 1_000_000 });
   const first = await radar.refresh("whales");
   const firstCount = first.rows.length;
   assert.ok(firstCount >= 1);

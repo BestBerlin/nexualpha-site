@@ -49,9 +49,17 @@ test('17 UI locales use collision-free, round-trip public routes', () => {
   }
 });
 
-test('native-review locales are noindex and absent from sitemap and hreflang clusters', async () => {
+test('native-review locales remain gated outside the approved whale information page', async () => {
   const sitemap = await renderLocaleSitemap({});
-  assert.doesNotMatch(sitemap, /https:\/\/nexualpha\.com\/(?:ur|uk-ua)(?:[<\/])/);
+  const nativeUrls = [...sitemap.matchAll(/<loc>(https:\/\/nexualpha\.com\/(?:ur|uk-ua)(?:[^<]*))<\/loc>/g)].map(match => match[1]);
+  assert.deepEqual(nativeUrls, [], 'general locale sitemap retains the review gate');
+  const toolsSitemap = readFileSync(new URL('../public/sitemap-topics-tools.xml', import.meta.url), 'utf8');
+  for (const prefix of ['ur', 'uk-ua']) assert.ok(toolsSitemap.includes(`<loc>https://nexualpha.com/${prefix}/whales</loc>`));
+  for (const locale of ['ur', 'uk']) {
+    const whale = await routeMetadata(new URL(`https://nexualpha.com${localizedPath('/whales', locale)}`), {});
+    assert.equal(whale.robots, 'index,follow', locale);
+    assert.equal(whale.alternates.filter(a => ['ur', 'uk'].includes(a.locale || a.hreflang)).length, 2, locale);
+  }
   for (const locale of ['ur', 'uk']) for (const path of paths) {
     const metadata = await routeMetadata(new URL(`https://nexualpha.com${localizedPath(path, locale)}`), {});
     assert.equal(metadata.robots, 'noindex,follow', `${locale}${path}`);

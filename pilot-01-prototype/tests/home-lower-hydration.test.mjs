@@ -114,7 +114,7 @@ test('the real client island keeps the same SSR sections through hydration and t
   const observingIntersection = class {
     observe() {
       if (originalSections) return;
-      originalSections = ['h7-movers','h7-intel','h7-calc','h7-funding'].map(id => window.document.getElementById(id));
+      originalSections = ['h7-whales','h7-intel','h7-calc','h7-funding'].map(id => window.document.getElementById(id));
       observer = new window.MutationObserver(records => {
         for (const record of records) for (const node of record.removedNodes) {
           if (node.nodeType === 1 && originalSections.some(section => node === section || node.contains(section))) removed.push(node.id || node.className);

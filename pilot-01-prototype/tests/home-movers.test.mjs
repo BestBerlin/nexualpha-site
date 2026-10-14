@@ -8,6 +8,7 @@ import test from "node:test";
 import worker from "../worker/index.js";
 import { buildMoversSnapshot, fmtUsdCompact, isMoversSnapshot, moversFromBinance, moversHeadline, moversUniverse } from "../src/data/movers.js";
 import { MOVERS_COPY_LOCALES, moversBodyHtml, spliceMoversHtml } from "../src/data/movers-html.js";
+import { isWhalesSnapshot, spliceWhalesHtml, whalesCopy } from "../src/data/whales-home.js";
 import { createMoversFeed, MOVERS_PATH } from "../server/movers-feed.mjs";
 import { localizedHref } from "../src/data/locale-routing.js";
 import { NEUTRAL_CTA_LOCALES } from "../src/data/locale-policy.js";
@@ -108,7 +109,16 @@ test("feed: /api/movers.json serves the cached snapshot, 503 without data", asyn
 
 // ------------------------------------------------------------------------------------ rendering and the home page
 const SHELL = "<!doctype html><html lang=\"en\"><head><title>Shell</title></head><body><div id=\"root\"></div></body></html>";
-const boardOf = (html) => html.match(/<section class="[^"]*\bh7-mv\b[^"]*"[\s\S]*?<!--mv-end--><\/div><\/section>/)?.[0] || "";
+const WHALES = {
+  kind: "whales",
+  status: "ok",
+  updatedAt: "2026-10-13T08:08:00Z",
+  sources: ["hyperliquid", "mempool.space"],
+  signals: [{ id: "sig-sol", coin: "SOL", signalType: "accumulation", walletsCount: 4, totalUsd: 8200000, periodHours: 24, entryPx: 189.2, time: "2026-10-13T08:06:00Z" }],
+  positions: [{ id: "hl-btc", venue: "hyperliquid", address: "0x7abc00000000000000000000000000000000123f", coin: "BTC", side: "long", sizeUsd: 12400000, leverage: 20, entryPx: 84000, time: "2026-10-13T08:04:00Z", explorerUrl: "https://hypurrscan.io/address/0x7abc00000000000000000000000000000000123f" }],
+  transfers: [{ id: "btc-binance", asset: "BTC", chain: "btc", amount: 2000, amountUsd: 167000000, from: { label: "unknown", address: "bc1qfrom" }, to: { label: "binance", address: "bc1qto" }, direction: "to_exchange", time: "2026-10-13T08:02:00Z", txHash: "abc", explorerUrl: "https://mempool.space/tx/abc" }],
+};
+const boardOf = (html) => html.match(/<section class="[^"]*\bh7-mv\b[^"]*"[\s\S]*?<!--whales-end--><\/div><\/section>/)?.[0] || "";
 let harness;
 let assets;
 const rendered = {};
@@ -131,46 +141,78 @@ test.before(async () => {
 });
 test.after(async () => { await harness?.close(); });
 
-test("the old 'Popular coins' block is gone; the prerendered home has the empty movers frame; splice == render", async () => {
+test("the old coin movers block is gone; the prerendered home has the empty whale frame; splice == render", async () => {
   for (const locale of ["en", "zh-Hans", "ar"]) {
-    assert.doesNotMatch(rendered[locale], /h7-coins-list"><li><a href="[^"]*\/coins\/bitcoin"|热门币种|Popular coins/, `${locale}: no chip wall`);
+    assert.doesNotMatch(rendered[locale], /今日异动|Today's movers|Top gainers|Top losers|h7-coins-list"><li><a href="[^"]*\/coins\/bitcoin"|热门币种|Popular coins/, `${locale}: no coin movers`);
     const empty = boardOf(rendered[locale]);
     assert.ok(empty, locale);
-    assert.match(empty, new RegExp(`class="h7-mv-all" href="${localizedHref("/coins", { locale })}"`), "all coins link");
-    assert.equal((empty.match(/class="h7-mv-empty"/g) || []).length, 2, "both sides show honest unavailable states");
-    const withData = boardOf(await harness.render(`https://nexualpha.com${localizedHref("/", { locale })}`, { movers: SNAP }));
-    assert.equal(spliceMoversHtml(empty, SNAP, locale), withData, `${locale}: splice == render`);
+    assert.match(empty, new RegExp(`class="h7-mv-all" href="${localizedHref("/whales", { locale })}"`), "all whales link");
+    assert.equal((empty.match(/<li/g) || []).length, 0, "empty frame has no placeholders");
+    const withData = boardOf(await harness.render(`https://nexualpha.com${localizedHref("/", { locale })}`, { whales: WHALES }));
+    assert.equal(spliceWhalesHtml(empty, WHALES, locale), withData, `${locale}: splice == render`);
   }
-  assert.equal(spliceMoversHtml("<p>no board</p>", SNAP), "<p>no board</p>");
-  assert.equal(spliceMoversHtml(rendered.en, { up: [], down: [] }), rendered.en, "invalid snapshot leaves the HTML alone");
+  assert.ok(isWhalesSnapshot(WHALES));
+  assert.equal(spliceWhalesHtml("<p>no board</p>", WHALES), "<p>no board</p>");
+  assert.equal(spliceWhalesHtml(rendered.en, { signals: [{ coin: "SOL" }] }), rendered.en, "malformed snapshot leaves the HTML alone");
+  assert.equal(isWhalesSnapshot({ rows: null }), false, "null rows are rejected safely");
+  assert.equal(isWhalesSnapshot({ positions: [{ coin: "BTC", sizeUsd: null, venue: "hyperliquid" }] }), false, "missing numeric position size is not coerced to zero");
+  assert.equal(isWhalesSnapshot({ positions: [{ coin: "BTC", sizeUsd: 999999, venue: "hyperliquid" }] }), false, "positions below $1M are rejected");
+  assert.equal(isWhalesSnapshot({ transfers: [{ asset: "ETH", amountUsd: 4999999, txHash: "x" }] }), false, "transfers below $5M are rejected");
+  assert.ok(isWhalesSnapshot({ rows: [{ kind: "signal", coin: "SOL", totalUsd: 2000000, signalType: "coordinated_short", walletsCount: 4 }] }), "rows-only signal fallback is accepted");
+  assert.ok(isWhalesSnapshot({ rows: [{ kind: "position", coin: "BTC", side: "long", sizeUsd: 2000000, venue: "hyperliquid" }] }), "rows-only position fallback is accepted");
+  const strictLinks = boardOf(await harness.render("https://nexualpha.com/", { whales: {
+    ...WHALES,
+    positions: [{ ...WHALES.positions[0], explorerUrl: "https://evil.hyperliquid.xyz/go/register" }],
+    transfers: [{ ...WHALES.transfers[0], explorerUrl: "https://app.hyperliquid.xyz/register" }],
+  } }));
+  assert.equal(strictLinks.includes("evil.hyperliquid.xyz"), false, "home rejects arbitrary Hyperliquid subdomains");
+  assert.equal(strictLinks.includes("app.hyperliquid.xyz/register"), false, "home rejects non-explorer Hyperliquid URLs");
+  assert.match(boardOf(await harness.render("https://nexualpha.com/zh-hans", { whales: {
+    ...WHALES,
+    signals: [{ ...WHALES.signals[0], signalType: "coordinated_long" }],
+  } })), /同步做多/, "coordinated long is rendered as localized natural copy");
 });
 
-test("worker: home HTML carries the movers frame and state \"movers\"; it hydrates without mismatch", async () => {
+test("whale event action copy stays in the intended locale", () => {
+  assert.equal(whalesCopy("pt-BR").actions.open, "abrem");
+  assert.equal(whalesCopy("pt-BR").actions.coordinatedShort, "short coordenado");
+  assert.equal(whalesCopy("tr").actions.open, "açıyor");
+  assert.equal(whalesCopy("tr").actions.coordinatedLong, "eşzamanlı long");
+  assert.equal(whalesCopy("id").actions.open, "membuka");
+  assert.equal(whalesCopy("id").actions.coordinatedShort, "short serempak");
+  assert.equal(whalesCopy("vi").actions.open, "mở");
+  assert.equal(whalesCopy("vi").actions.coordinatedLong, "cùng long");
+});
+
+test("worker: home HTML carries the whale frame and state \"whales\"; it hydrates without mismatch", async () => {
   for (const [path, locale] of [["/", "en"], ["/zh-hans", "zh-Hans"], ["/ar", "ar"]]) {
-    const response = await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets, MOVERS_READ: async () => SNAP });
+    const response = await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets, RADAR_READ: async (kind) => kind === "whales" ? WHALES : null });
     const html = await response.text();
     assert.equal(response.status, 200);
-    assert.match(boardOf(html), new RegExp(`href="${localizedHref("/coins/pepe", { locale })}"`), `${locale}: live rows`);
-    assert.deepEqual(prerenderState(html).movers, SNAP);
+    assert.match(boardOf(html), /data-kind="signal"[\s\S]*SOL[\s\S]*\$8\.20M/, `${locale}: accumulation row first`);
+    assert.match(boardOf(html), /data-kind="position"[\s\S]*HL[\s\S]*\$12\.4M/, `${locale}: Hyperliquid position row`);
+    assert.match(boardOf(html), /data-kind="transfer"[\s\S]*BTC[\s\S]*\$167M/, `${locale}: transfer row`);
+    assert.deepEqual(prerenderState(html).whales, WHALES);
     const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
     assert.deepEqual(hydrationErrors(errors), [], `${path}: ${errors.join("\n")}`);
   }
   const bare = await (await worker.fetch(new Request("https://nexualpha.com/", { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets })).text();
-  assert.equal((boardOf(bare).match(/class="h7-mv-empty"/g) || []).length, 2, "no reader: each side has a visible unavailable state");
-  assert.equal(prerenderState(bare).movers, undefined);
+  assert.equal((boardOf(bare).match(/<li/g) || []).length, 0, "no reader: no placeholders");
+  assert.equal(prerenderState(bare).whales, undefined);
 });
 
-test("server and client wiring: /api/movers.json route, refresh every 30 s while visible, lazy chunk only", async () => {
-  const server = await readFile(new URL("../server.mjs", import.meta.url), "utf8");
-  assert.match(server, /requestPath === MOVERS_PATH/);
-  assert.match(server, /MOVERS_READ: movers\.read/);
+test("server and client wiring: /api/whales.json route, refresh every 60 s while visible, lazy chunk only", async () => {
+  const workerSource = await readFile(new URL("../worker/index.js", import.meta.url), "utf8");
+  assert.match(workerSource, /RADAR_READ\("whales"\)/);
+  assert.match(workerSource, /whales: route\.whales/);
   const board = await readFile(new URL("../src/components/v7/home7-movers.jsx", import.meta.url), "utf8");
-  assert.match(board, /MOVERS_REFRESH_MS = 30 \* 1000/);
+  assert.match(board, /WHALES_API_PATH/);
+  assert.match(board, /MOVERS_REFRESH_MS = 60 \* 1000/);
   assert.match(board, /IntersectionObserver/);
   assert.match(board, /movers-owner\.css/);
   assert.doesNotMatch(board, /h7-mv-tabs|h7-mv-t-up|h7-mv-t-dn/);
   const below = await readFile(new URL("../src/components/v7/home7-below.jsx", import.meta.url), "utf8");
-  assert.match(below, /<MoversBoard locale=\{locale\} initial=\{movers\} \/>/);
+  assert.match(below, /<MoversBoard locale=\{locale\} initial=\{whales\} \/>/);
   assert.doesNotMatch(below, /POPULAR_COINS|PopularCoins/);
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
   assert.doesNotMatch(home, /home7-movers|movers-html/, "only the lazy below-the-fold chunk imports the board");
