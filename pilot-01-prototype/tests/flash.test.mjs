@@ -443,7 +443,7 @@ test("stream payload and JSON feed: important=1 keeps only important items", asy
   assert.ok(data.items.every((row) => row.important === true), "worker honours important=1");
 });
 
-test("stream payload: Turkish Bitget campaigns are excluded, but Bitget listings remain", () => {
+test("stream payload: Turkish feeds carry no Bitget row or venue chip (tr-bitget-sweep), other editions keep Bitget listings", () => {
   const tr = flashStreamPayload(items, "tr", { now: NOW, limit: 100 });
   assert.ok(tr.items.some((row) => row.id === OKX.id), "other venue campaign/listing rows remain");
   assert.ok(!tr.items.some((row) => row.id === BITGET.id), "Bitget event campaign hidden in /tr flash");
@@ -457,8 +457,13 @@ test("stream payload: Turkish Bitget campaigns are excluded, but Bitget listings
     slug: "bitget-lists-test",
   };
   const withListing = flashStreamPayload([BITGET, listing], "tr", { now: NOW, limit: 100 });
-  assert.deepEqual(withListing.items.map((row) => row.id), ["a:bitget:listing"]);
-  assert.equal(withListing.venues.some((row) => row.slug === "bitget"), true);
+  // tr-bitget-sweep (owner 2026-10-14): Türkiye pages name no SPK-listed venue at all, listings included.
+  assert.deepEqual(withListing.items.map((row) => row.id), []);
+  assert.equal(withListing.venues.some((row) => row.slug === "bitget"), false);
+  assert.doesNotMatch(JSON.stringify(flashStreamPayload([...items, listing], "tr", { now: NOW, limit: 100 })), /bitget/i);
+  const en = flashStreamPayload([BITGET, listing], "en", { now: NOW, limit: 100 });
+  assert.ok(en.items.some((row) => row.id === "a:bitget:listing"), "English keeps the Bitget listing");
+  assert.equal(en.venues.some((row) => row.slug === "bitget"), true);
   assert.equal(flashItemIndexLocales(BITGET, { now: NOW }).includes("tr"), false, "no Turkish hreflang/sitemap for Bitget campaign flash item");
   assert.equal(flashItemIndexLocales(listing, { now: NOW }).includes("tr"), false, "Turkish Bitget listing flash item remains visible but noindex");
 });
