@@ -7,17 +7,17 @@ import { formatSgt } from "./local-time.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH } from "./market-data-pages-nav.js";
 import { MOVERS_ROWS, isMoversSnapshot } from "./movers.js";
 
-// liq(total, largest|null, side label), funding(base, "Binance … · OKX …"), updated("16:08 SGT")
+// liq(total, largest|null, side label), funding(base, "Binance … · OKX …"), updated("16:08 SGT"), age(12)
 const COPY = {
   en: { title: "Today's movers", up: "Top gainers", down: "Top losers", all: "All coins", long: "long", short: "short",
     liq: (t, l, s) => `Futures liquidations, last 24h: ${t}${l ? ` · largest single order: ${l.venue} ${l.base} ${s} ${l.usd}` : ""}`,
-    funding: (b, p) => `${b} funding rate now: ${p}`, updated: (c) => `Updated ${c}` },
+    funding: (b, p) => `${b} funding rate now: ${p}`, updated: (c) => `Updated ${c}`, unavailable: "Movers unavailable right now" },
   "zh-Hans": { title: "今日异动", up: "涨幅榜", down: "跌幅榜", all: "查看全部币种", long: "多单", short: "空单",
     liq: (t, l, s) => `过去 24 小时合约爆仓 ${t}${l ? `，最大单笔 ${l.venue} ${l.base} ${s} ${l.usd}` : ""}`,
-    funding: (b, p) => `${b} 当前资金费率 ${p}`, updated: (c) => `更新于 ${c}` },
+    funding: (b, p) => `${b} 当前资金费率 ${p}`, updated: (c) => `更新于 ${c}`, age: (s) => `更新于 ${s} 秒前`, unavailable: "今日异动暂不可用" },
   "zh-Hant": { title: "今日異動", up: "漲幅榜", down: "跌幅榜", all: "查看全部幣種", long: "多單", short: "空單",
     liq: (t, l, s) => `過去 24 小時合約爆倉 ${t}${l ? `，最大單筆 ${l.venue} ${l.base} ${s} ${l.usd}` : ""}`,
-    funding: (b, p) => `${b} 當前資金費率 ${p}`, updated: (c) => `更新於 ${c}` },
+    funding: (b, p) => `${b} 當前資金費率 ${p}`, updated: (c) => `更新於 ${c}`, age: (s) => `更新於 ${s} 秒前`, unavailable: "今日異動暫不可用" },
   es: { title: "Los movimientos de hoy", up: "Más suben", down: "Más bajan", all: "Ver todas las monedas", long: "largo", short: "corto",
     liq: (t, l, s) => `Liquidaciones de futuros en 24 h: ${t}${l ? ` · mayor orden: ${l.venue} ${l.base} ${s} ${l.usd}` : ""}`,
     funding: (b, p) => `Funding de ${b} ahora: ${p}`, updated: (c) => `Actualizado ${c}` },
@@ -63,8 +63,29 @@ const COPY = {
     liq: (t, l, s) => `Ліквідації ф'ючерсів за 24 год: ${t}${l ? ` · найбільша: ${l.venue} ${l.base} ${s} ${l.usd}` : ""}`,
     funding: (b, p) => `Фандинг ${b} зараз: ${p}`, updated: (c) => `Оновлено ${c}` },
 };
+const UNAVAILABLE = {
+  en: "Data unavailable", "zh-Hans": "数据暂不可用", "zh-Hant": "資料暫不可用",
+  es: "Datos no disponibles", "pt-BR": "Dados indisponíveis", fr: "Données indisponibles",
+  de: "Keine Daten verfügbar", it: "Dati non disponibili", ja: "データ取得不可", ko: "데이터 없음",
+  tr: "Veri yok", ar: "البيانات غير متاحة", ru: "Данные недоступны", id: "Data belum tersedia",
+  vi: "Chưa có dữ liệu", ur: "ڈیٹا دستیاب نہیں", uk: "Дані недоступні",
+};
 export const MOVERS_COPY_LOCALES = Object.freeze(Object.keys(COPY));
-export const moversCopy = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
+function relativeAge(locale, seconds) {
+  try {
+    return new Intl.RelativeTimeFormat(locale || "en", { numeric: "always" }).format(-seconds, "second");
+  } catch {
+    return new Intl.RelativeTimeFormat("en", { numeric: "always" }).format(-seconds, "second");
+  }
+}
+export const moversCopy = (locale) => {
+  const copy = COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
+  return {
+    ...copy,
+    age: copy.age || ((seconds) => relativeAge(locale, seconds)),
+    unavailable: UNAVAILABLE[locale] || UNAVAILABLE.en,
+  };
+};
 
 const esc = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 // Letter mark tinted from the symbol (same idea as the coin pages: no third-party logo hotlinking).
@@ -74,23 +95,42 @@ export function markHue(sym) {
   return hash;
 }
 
+function sparklineHtml(row) {
+  if (!Array.isArray(row.sparkline) || row.sparkline.length < 2) return "";
+  const values = row.sparkline.map(Number).filter(Number.isFinite);
+  if (values.length < 2) return "";
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min || 1;
+  const points = values.map((value, index) => {
+    const x = values.length === 1 ? 0 : (index / (values.length - 1)) * 38;
+    const y = 14 - ((value - min) / span) * 12;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+  return `<svg class="h7-mv-sp" viewBox="0 0 40 16" role="img" aria-hidden="true" focusable="false"><polyline points="${esc(points)}"></polyline></svg>`;
+}
+
 function rowHtml(row, locale) {
   const sym = esc(row.sym);
-  return `<li><a href="${esc(localizedHref(`/coins/${row.slug}`, { locale }))}"><span class="h7-mv-mk" style="--h:${markHue(row.sym)}" aria-hidden="true">${esc(String(row.sym).slice(0, 1))}</span>`
-    + `<b translate="no">${sym}</b><span class="h7-mv-p" dir="ltr">${esc(row.price)}</span><span class="h7-mv-c" data-dir="${esc(row.dir || "flat")}" dir="ltr">${esc(row.change)}</span></a></li>`;
+  return `<li><a href="${esc(localizedHref(`/coins/${row.slug}`, { locale }))}" data-mv-key="${sym}"><span class="h7-mv-mk" style="--h:${markHue(row.sym)}" aria-hidden="true">${esc(String(row.sym).slice(0, 1))}</span>`
+    + `<b translate="no">${sym}</b>${sparklineHtml(row)}<span class="h7-mv-p" dir="ltr">${esc(row.price)}</span><span class="h7-mv-c" data-dir="${esc(row.dir || "flat")}" dir="ltr">${esc(row.change)}</span></a></li>`;
 }
-const SKELETON = '<li class="h7-mv-sk" aria-hidden="true"><span></span><span></span><span></span></li>';
 const PAD = '<li class="h7-mv-pad" aria-hidden="true"></li>';
-function listHtml(rows, locale, loading) {
+function listHtml(rows, locale) {
   const out = (rows || []).slice(0, MOVERS_ROWS).map((row) => rowHtml(row, locale));
-  while (out.length < MOVERS_ROWS) out.push(loading ? SKELETON : PAD);
+  if (!out.length) out.push(`<li class="h7-mv-empty" role="status">${esc(moversCopy(locale).unavailable)}</li>`);
+  while (out.length < MOVERS_ROWS) out.push(PAD);
   return `<ol>${out.join("")}</ol>`;
+}
+function countHtml(rows) {
+  if (!rows || rows.length >= MOVERS_ROWS) return "";
+  return `<span class="h7-mv-count">${rows.length}/${MOVERS_ROWS}</span>`;
 }
 
 // "$156.0M" inside Arabic/Urdu text: an LTR isolate keeps the dollar sign in front of the number.
 const ltr = (value) => `\u2066${value}\u2069`;
 function headlineHtml(snapshot, locale, c) {
-  if (!snapshot) return '<p class="h7-mv-hl"><span class="h7-mv-hl-sk" aria-hidden="true"></span></p>';
+  if (!snapshot) return `<p class="h7-mv-hl h7-mv-hl-unavailable">${esc(c.unavailable)}</p>`;
   const h = snapshot.headline;
   let lead = "";
   if (h?.kind === "liquidations" && typeof h.total === "string") {
@@ -101,7 +141,8 @@ function headlineHtml(snapshot, locale, c) {
     lead = `<a href="${esc(localizedHref(FUNDING_RATES_PATH, { locale }))}">${esc(c.funding(h.base || "BTC", parts))}<span class="h7-mv-arrow" aria-hidden="true">→</span></a>`;
   }
   const clock = formatSgt(snapshot.generatedAt, locale, "clock");
-  return `<p class="h7-mv-hl">${lead}${clock ? `<time datetime="${esc(snapshot.generatedAt)}">${esc(c.updated(clock))}</time>` : ""}</p>`;
+  const updated = clock ? c.updated(clock) : "";
+  return `<p class="h7-mv-hl">${lead}${clock ? `<span class="h7-mv-times"><time datetime="${esc(snapshot.generatedAt)}" data-mv-age="1" title="${esc(updated)}">${esc(updated)}</time></span>` : ""}</p>`;
 }
 
 /** Inner HTML of `.h7-mv-body`: headline line, both lists and the end marker the Worker splice looks for. */
@@ -109,8 +150,8 @@ export function moversBodyHtml(snapshot, locale = "en") {
   const c = moversCopy(locale);
   const data = isMoversSnapshot(snapshot) ? snapshot : null;
   return headlineHtml(data, locale, c)
-    + `<div class="h7-mv-cols"><div class="h7-mv-col h7-mv-up"><h3>${esc(c.up)}</h3>${listHtml(data?.up, locale, !data)}</div>`
-    + `<div class="h7-mv-col h7-mv-dn"><h3>${esc(c.down)}</h3>${listHtml(data?.down, locale, !data)}</div></div><!--mv-end-->`;
+    + `<div class="h7-mv-cols"><div class="h7-mv-col h7-mv-up"><h3>${esc(c.up)}${countHtml(data?.up)}</h3>${listHtml(data?.up, locale)}</div>`
+    + `<div class="h7-mv-col h7-mv-dn"><h3>${esc(c.down)}${countHtml(data?.down)}</h3>${listHtml(data?.down, locale)}</div></div><!--mv-end-->`;
 }
 
 const BODY_RE = /(<div class="h7-mv-body" data-mv="body">)[\s\S]*?<!--mv-end-->/;

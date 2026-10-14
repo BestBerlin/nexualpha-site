@@ -1,15 +1,14 @@
 import { beginnerPath } from "../../data/beginner-routes.js";
 import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
+import { BrandMark } from "../brand/BrandMark";
 import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
-import { localeManifest } from "../../content/locale-manifest";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
-import { INDEXABLE_HOME_LOCALES } from "../../data/page-hreflang-links.js";
 import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "../../data/partner-page-links.js";
 
 const copyDict = {
@@ -432,6 +431,32 @@ const compactFooterCopy = {
   }
 };
 
+const footerColumnLabels = {
+  en: { product: "Product", exchanges: "Exchanges", learn: "Learn", about: "About" },
+  "zh-Hans": { product: "产品", exchanges: "交易所", learn: "学习", about: "关于" },
+  "zh-Hant": { product: "產品", exchanges: "交易所", learn: "學習", about: "關於" },
+  ja: { product: "プロダクト", exchanges: "取引所", learn: "学ぶ", about: "運営" },
+  ko: { product: "제품", exchanges: "거래소", learn: "학습", about: "소개" },
+  tr: { product: "Ürün", exchanges: "Borsalar", learn: "Öğren", about: "Hakkında" },
+  es: { product: "Producto", exchanges: "Exchanges", learn: "Aprender", about: "Acerca de" },
+  "pt-BR": { product: "Produto", exchanges: "Corretoras", learn: "Aprender", about: "Sobre" },
+  fr: { product: "Produit", exchanges: "Plateformes", learn: "Apprendre", about: "À propos" },
+  de: { product: "Produkt", exchanges: "Börsen", learn: "Lernen", about: "Über" },
+  ru: { product: "Продукт", exchanges: "Биржи", learn: "Обучение", about: "О проекте" },
+  ar: { product: "المنتج", exchanges: "المنصات", learn: "التعلم", about: "حول" },
+  ur: { product: "پروڈکٹ", exchanges: "ایکسچینجز", learn: "سیکھیں", about: "تعارف" },
+  uk: { product: "Продукт", exchanges: "Біржі", learn: "Навчання", about: "Про нас" },
+  id: { product: "Produk", exchanges: "Bursa", learn: "Belajar", about: "Tentang" },
+  vi: { product: "Sản phẩm", exchanges: "Sàn giao dịch", learn: "Học", about: "Giới thiệu" },
+  it: { product: "Prodotto", exchanges: "Exchange", learn: "Impara", about: "Chi siamo" },
+};
+
+function getColumnLabels(locale) {
+  if (locale === "zh-CN") return footerColumnLabels["zh-Hans"];
+  if (locale === "zh-TW") return footerColumnLabels["zh-Hant"];
+  return footerColumnLabels[locale] || footerColumnLabels.en;
+}
+
 function getFooterLabels(locale) {
   if (locale === "zh-CN") return { ...footerLabelByLocale.en, ...footerLabelByLocale["zh-Hans"] };
   if (locale === "zh-TW") return { ...footerLabelByLocale.en, ...footerLabelByLocale["zh-Hant"] };
@@ -466,6 +491,68 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
   const partnerLinks = partnerExchangePageLinks(locale, { market });
   const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
+  const columnLabels = getColumnLabels(locale);
+  const turkeyRoute = locale === "tr" || market === "TR";
+  const primaryColumns = [
+    {
+      key: "product",
+      title: columnLabels.product,
+      links: [
+        { href: href("/exchanges"), label: labels.directory },
+        { href: brazil ? "/br/custos" : href("/embed/calculator"), label: labels.calculator },
+        { href: href("/onchain"), label: labels.onchain },
+        { href: href("/liquidations"), label: dataNav.liquidations },
+        { href: href("/funding-rates"), label: dataNav.funding },
+        { href: href("/partners/embed-guide"), label: labels.embedGuide },
+      ],
+    },
+    {
+      key: "exchanges",
+      title: columnLabels.exchanges,
+      links: turkeyRoute
+        ? [
+          { href: href("/compare/binance-vs-okx"), label: "Binance / OKX" },
+          { href: href("/compare/binance-vs-bybit"), label: "Binance / Bybit" },
+          { href: href("/exchanges/okx"), label: "OKX" },
+          { href: href("/exchanges/binance"), label: "Binance" },
+          { href: href("/exchanges/bybit"), label: "Bybit" },
+        ]
+        : [
+          { href: href("/compare/binance-vs-okx"), label: "Binance / OKX" },
+          { href: href("/compare/bitget-vs-okx"), label: "Bitget / OKX" },
+          { href: href("/exchanges/bitget"), label: "Bitget" },
+          { href: href("/exchanges/okx"), label: "OKX" },
+          { href: href("/exchanges/binance"), label: "Binance" },
+        ],
+    },
+    {
+      key: "learn",
+      title: columnLabels.learn,
+      links: [
+        { href: href(beginnerPath("start", locale)), label: (BEGINNER_DOORS[locale] || BEGINNER_DOORS.en)[0] },
+        { href: href("/academy"), label: academyShellCopy(locale).nav },
+        { href: href("/glossary"), label: glossaryNavLabel(locale) },
+        { href: href("/topics"), label: labels.topics },
+        { href: href("/factbook"), label: labels.factbook },
+      ],
+    },
+    {
+      key: "about",
+      title: columnLabels.about,
+      links: [
+        { href: href("/about"), label: labels.about },
+        { href: href("/editorial-policy"), label: labels.editorial },
+        { href: href("/methodology"), label: labels.methodology },
+        ...(!isNeutralCtaLocale(locale) ? [{ href: href("/partners"), label: partnerProgramLabel }] : []),
+      ],
+    },
+  ];
+  const legalLinks = [
+    { href: href("/methodology#disclosure"), label: labels.disclosure },
+    { href: href("/privacy"), label: labels.privacy },
+    { href: href("/terms"), label: labels.terms },
+    { href: href("/contact"), label: labels.contact },
+  ];
 
   return (
     <footer className="nx-ftr" id="policy">
@@ -474,43 +561,30 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
-          <p className="clean-footer__summary" data-nosnippet="">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
         </div>
 
-        <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list nx-ftr__list--inline" aria-label={labels.navAria}>
-          <ul>
-            <li><a href={href("/exchanges")}>{labels.directory}</a></li>
-            <li><a href={href(beginnerPath("start", locale))}>{(BEGINNER_DOORS[locale] || BEGINNER_DOORS.en)[0]}</a></li>
-            <li><a href={href("/academy")}>{academyShellCopy(locale).nav}</a></li>
-            <li><a href={href("/glossary")}>{glossaryNavLabel(locale)}</a></li>
-            <li><a href={href("/topics")}>{labels.topics}</a></li>
-            <li><a href={href("/factbook")}>{labels.factbook}</a></li>
-            <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
-            <li><a href={href("/onchain")}>{labels.onchain}</a></li>
-            <li><a href={href("/liquidations")}>{dataNav.liquidations}</a></li>
-            <li><a href={href("/funding-rates")}>{dataNav.funding}</a></li>
-            <li><a href={href("/about")}>{labels.about}</a></li>
-            <li><a href={href("/editorial-policy")}>{labels.editorial}</a></li>
-            <li><a href={href("/methodology")}>{labels.methodology}</a></li>
-            <li><a href={href("/partners/embed-guide")}>{labels.embedGuide}</a></li>
-            {!isNeutralCtaLocale(locale) && <li><a href={href("/partners")}>{partnerProgramLabel}</a></li>}
-            <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>
-            <li><a href={href("/privacy")}>{labels.privacy}</a></li>
-            <li><a href={href("/terms")}>{labels.terms}</a></li>
-            <li><a href={href("/contact")}>{labels.contact}</a></li>
-          </ul>
+        <nav className="clean-footer__nav clean-footer__nav--primary clean-footer__nav--columns nx-ftr__list" aria-label={labels.navAria}>
+          {primaryColumns.map((column) => <section className="clean-footer__column" aria-labelledby={`nx-ftr-${column.key}`} key={column.key}>
+            <h2 className="nx-ftr__column-title" id={`nx-ftr-${column.key}`}>{column.title}</h2>
+            <ul>
+              {column.links.map((link) => <li key={`${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
+            </ul>
+          </section>)}
         </nav>
 
-        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__list--inline" aria-label={partnerGroupLabel} data-footer-partner-links>
+        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__partner-row" aria-label={partnerGroupLabel} data-footer-partner-links>
           <b className="nx-ftr__group-label">{partnerGroupLabel}</b>
           <ul>
-            {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug}>{link.label}</a></li>)}
+            {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug} className="nx-ftr__partner-link"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
           </ul>
         </nav> : null}
 
-        <div className="nx-ftr__list nx-ftr__list--inline nx-ftr__locales"><ul>
-	          {INDEXABLE_HOME_LOCALES.map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
-        </ul></div>
+        <nav className="clean-footer__nav clean-footer__nav--legal nx-ftr__list nx-ftr__legal-row" aria-label={compact.policies}>
+          <ul>
+            {legalLinks.map((link) => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}
+          </ul>
+          <p className="clean-footer__summary" data-nosnippet="">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
+        </nav>
 
         {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
         <details className="clean-footer__policies nx-ftr__policies nx-ftr__fold" id="nx-ftr-policy-details">

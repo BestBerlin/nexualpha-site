@@ -26,7 +26,7 @@ test("editorial identity stays separate from the functional heading and controls
   assert.match(leanHero, /className="hx__trust-line"/);
   assert.match(leanHero, /<h1 className="hx__title enter"/);
   assert.match(leanHero, /<p className="hx__subtitle">/);
-  assert.match(app, /<LeanHero/);
+  assert.match(app, /<HomeV7/);
 });
 
 test("brand artwork is local, lightweight and separate from trusted exchange marks", async () => {

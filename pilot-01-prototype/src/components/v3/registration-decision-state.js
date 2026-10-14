@@ -4,7 +4,7 @@ const HTTPS_URL_RE = /^https:\/\//i;
 export function buildRegistrationDecisionState({ publicCta = {}, regionalCta = {}, decisionPassport = {}, officialRouteUrl = null } = {}) {
   const hasPartnerRoute = Boolean(publicCta.hasPartnerRoute);
   const hasDirectRegionalRoute = Boolean(regionalCta.direct);
-  const hasProtectedHref = HTTPS_URL_RE.test(regionalCta.ctaHref || "");
+  const hasProtectedHref = HTTPS_URL_RE.test(regionalCta.ctaHref || "") || TRACKED_OFFICIAL_ROUTE_RE.test(regionalCta.ctaHref || "");
   const regionState = regionalCta.ctaState || "verify";
   const hasPassportContext = Boolean(decisionPassport.market || decisionPassport.product || decisionPassport.accountStage || decisionPassport.funding);
   const canOpenThirdParty = hasPartnerRoute && hasDirectRegionalRoute && hasProtectedHref && regionState !== "blocked";

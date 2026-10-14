@@ -13,6 +13,8 @@ import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { h7NeutralCopy } from "./home7-neutral-copy.js";
+import { HeroExchangeSelector } from "./HeroExchangeSelector.jsx";
+import { RebateNumber } from "./RebateNumber.jsx";
 import { jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -20,14 +22,21 @@ import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { academyShellCopy } from "../../data/academy.js";
 import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
+import "../../styles/v7/selector-owner.css";
+import "../../styles/v7/terminal-owner.css";
+import "../../styles/v7/movers-owner.css";
 
 // Below the first viewport (calculator, funding board, announcement stream, Telegram): the server renders the module
 // inline; the browser fetches its chunk only when the calculator scrolls near (perf lane 2026-10-11). The eager glob is
 // dropped from browser builds by vite.config.mjs (nexualpha-client-drops-ssr-eager-glob).
 const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-below.jsx"], { eager: true }) : {};
+const ssrHeroTerminalModules = import.meta.env.SSR ? import.meta.glob(["./HeroTerminal.jsx"], { eager: true }) : {};
 let homeBelowChunk;
+let heroTerminalChunk;
 const loadHomeBelow = () => (homeBelowChunk ??= import("./home7-below.jsx"));
+const loadHeroTerminal = () => (heroTerminalChunk ??= import("./HeroTerminal.jsx"));
 const HomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : lazy(() => loadHomeBelow().then((m) => ({ default: m.HomeBelowFold })));
+const HeroTerminal = import.meta.env.SSR ? ssrHeroTerminalModules["./HeroTerminal.jsx"].HeroTerminal : lazy(() => loadHeroTerminal().then((m) => ({ default: m.HeroTerminal })));
 
 // Academy teaser (owner 2026-10-12): one compact row that sends newcomers to the 24-lesson course on our own site.
 function AcademyTeaser({ locale }) {
@@ -94,7 +103,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 }
 
 
-export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, initialOfficialAnnouncements }) {
+export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, initialOfficialAnnouncements, initialFlash, initialTicker }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -146,45 +155,11 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
   const topShare = Math.max(0, ...rebated.map((r) => r.share || 0));
   const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
 
-  /* ---------- hero: rebate flow into the number ---------- */
-  const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]), pillRefs = useRef([]);
-  useEffect(() => {
-    const hero = heroRef.current, cv = cvRef.current, num = numRef.current;
-    if (!hero || !cv || !num) return undefined;
-    const cx = cv.getContext("2d"); if (!cx) return undefined;
-    let W = 0, H = 0, src = [], P = [], raf = 0, stopped = false, phone = false;
-    const geo = () => {
-      const r = hero.getBoundingClientRect(); W = r.width; H = r.height;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = num.getBoundingClientRect(); const tx = n.left - r.left + n.width * 0.46, ty = n.top - r.top + n.height * 0.5;
-      // Phones: the stream starts at the exchange pills right under the figure (inside the ledger, no text in between).
-      phone = window.matchMedia("(max-width: 900px)").matches;
-      src = (phone ? pillRefs : srcRefs).current.filter(Boolean).map((e) => {
-        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = phone ? b.bottom - r.top - 2 : b.top - r.top + 2; // tiles: top edge; phone tabs sit above the figure: bottom edge
-        // Run along the strip first, then rise into the ledger figure: never across the headline column.
-        return { x, y, tx, ty, cx: tx, cy: phone ? y + 8 : y - 8 };
-      });
-    };
-    const bez = (s, k) => { const u = 1 - k; return [u * u * s.x + 2 * u * k * s.cx + k * k * s.tx, u * u * s.y + 2 * u * k * s.cy + k * k * s.ty]; };
-    const draw = () => {
-      cx.clearRect(0, 0, W, H);
-      const lit = (i) => phone || venues[i]?.share;
-      src.forEach((s, i) => { cx.strokeStyle = lit(i) ? "rgba(31,224,192,.22)" : "rgba(237,238,240,.08)"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.cx, s.cy, s.tx, s.ty); cx.stroke(); });
-      P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = lit(p.i) ? `rgba(31,224,192,${a * 0.9})` : `rgba(237,238,240,${a * 0.25})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
-    };
-    const frame = () => { if (stopped) return; P.forEach((p) => { p.t += p.v; if (p.t >= 1) { p.t = 0; p.v = 0.003 + Math.random() * 0.004; } }); draw(); raf = requestAnimationFrame(frame); };
-    const init = () => { geo(); P = []; for (let i = 0; i < src.length; i++) { const k = phone || venues[i]?.share ? 7 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
-    const onResize = () => { const was = phone; geo(); if (was !== phone) init(); else draw(); };
-    init(); window.addEventListener("resize", onResize);
-    document.fonts?.ready?.then(() => { if (!stopped) { geo(); draw(); } });
-    let io; if (!reduced()) { io = new IntersectionObserver((es) => { cancelAnimationFrame(raf); if (es[0].isIntersecting) raf = requestAnimationFrame(frame); }, { threshold: 0.05 }); io.observe(hero); }
-    return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
-  }, [venues]);
+  const heroRef = useRef(null), pillRefs = useRef([]);
 
   return (
     <div className="h7" data-rendered-at={renderedAt} {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})} {...(banned ? { "data-neutral": "" } : {})}>
-        <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
           <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{banned ? heroText.h1b : heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, maxPct)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
@@ -195,15 +170,18 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
               : <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>}
             <a className="h7-ln h7-ln-down" href="#h7-calc">{t.calcLink}</a>
           </div>
+          {banned ? (
+            <DeferUntilVisible target=".h7-terminal--neutral" rootMargin="20% 0px" prefetch={loadHeroTerminal}>
+              <HeroTerminal locale={locale} selected={{ slug: "nexualpha", name: "NexuAlpha" }} initialTicker={initialTicker} neutral />
+            </DeferUntilVisible>
+          ) : null}
         </div>
 
         {!banned && (
         <aside className="h7-lg" id="h7-desk" aria-label={t.lgTitle} onPointerMove={spot} data-pick={sel.slug}>
-          <div className="h7-lg-tabs" role="group" aria-label={t.lgPick} style={{ "--n": rebated.length }}>
-            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
-          </div>
+          <HeroExchangeSelector locale={locale} market={market} venues={venues} rebated={rebated} selectedSlug={sel.slug} topShare={topShare} onPick={setPick} t={t} pillRefs={pillRefs} />
           <div className="h7-lg-max">
-            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span>{formatPercent(locale, 1).startsWith("%") && <span>%</span>}<Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} animateNudge={animateLedgerNudge} />{!formatPercent(locale, 1).startsWith("%") && <span>%</span>}</p>
+            <RebateNumber locale={locale} venue={sel} />
             <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}{auto && HOME_SETTLE[sel.slug] && <span className="h7-auto h7-auto--cad">{HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}</span>}</div>
           </div>
           <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
@@ -213,7 +191,10 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
             <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
           </dl>
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
-          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span>{sel.open ? <small className="h7-go-disclosure">{t.lgBuilt}</small> : null}</Cta>
+          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
+          <DeferUntilVisible target=".h7-terminal" rootMargin="20% 0px" prefetch={loadHeroTerminal}>
+            <HeroTerminal locale={locale} selected={sel} estimate={sel.save} estimateLabel={t.lgBack} initialTicker={initialTicker} />
+          </DeferUntilVisible>
         </aside>
         )}
 
@@ -222,7 +203,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
           <ul className="h7-pw" aria-label={t.pw(venues.length)}>
             {venues.map((v, i) => (
               <li key={v.slug}>
-                <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} ref={(e) => { srcRefs.current[i] = e; }} className={v.share ? "on" : undefined}>
+                <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} className={v.share ? "on" : undefined}>
                   <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small>{t.upTo} {formatPercent(locale, Math.round(v.share * 100))}</small> : null}
                 </a>
               </li>
@@ -246,7 +227,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
       <AcademyTeaser locale={locale} />
 
       <DeferUntilVisible target="#h7-flash, #h7-calc, #h7-funding, #h7-intel" prefetch={loadHomeBelow}>
-        <HomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
+        <HomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} />
       </DeferUntilVisible>
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />

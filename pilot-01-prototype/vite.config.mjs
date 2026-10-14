@@ -292,6 +292,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (!isSsrBuild && id.includes("/src/data/seo-injection.js")) throw new Error("seo-injection.js reached the client bundle: " + id);
           // Scroll-loaded home sections (DeferUntilVisible): own chunks, so a route module that shares a helper with them
           // cannot absorb them into its chunk.
+          // Shared first-paint movers CSS must not adopt the deferred home JS graph.
+          if (id.includes("/src/styles/v7/movers-owner.css")) return "page-home-movers";
           if (!isSsrBuild && /\/src\/components\/v7\/home7-(?:below|funding|telegram)\.jsx$/.test(id)) return "home-below-fold";
           if (!isSsrBuild && id.includes("/src/components/v6/closing-index")) return "home-closing-index";
           if (id.includes("/src/components/v3/FeeBenchmarkTerminal")) return "route-rates";
@@ -351,6 +353,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/directory-context.js")) return "data-directory-context";
           if (id.includes("/src/data/partner-registry.js")) return "data-partner-registry";
           if (id.includes("/src/data/v3-product.js")) return "data-v3-product";
+          if (id.endsWith("/src/data/trading-bleed-feedback.js")) return "shared-copy-feedback";
           if (id.includes("/src/content/v3-interface-copy.js")) return "data-v3-interface-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-copy.js")) return "route-v3-pages-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-state.js")) return "route-v3-pages-state";

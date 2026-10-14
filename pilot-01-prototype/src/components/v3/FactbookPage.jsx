@@ -7,7 +7,7 @@ import { formatPercent } from "../../data/format-percent.js";
 import { factbookDates, factbookDatesCopy } from "../../data/factbook-dates.js";
 import { partnerBenefitParts } from "../../data/owner-rebate-line.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
-import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
+import { bleedCopyFeedback } from "../../data/trading-bleed-feedback.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import "./factbook-page.css";

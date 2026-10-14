@@ -154,7 +154,7 @@ test("RegistrationCard (OutboundHandoff) provides complete link, copyable code, 
   assert.match(component, /getPartner\(venueSlug\)/);
   assert.match(component, /publicCtaForVenue/);
   assert.match(component, /visiblePartner\.officialDomain/);
-  assert.match(component, /visiblePartner\.registrationUrl/);
+  assert.match(component, /registrationCardGoHref\(venueSlug/);
   assert.match(component, /visiblePartner\.inviteCode/);
   assert.match(component, /Raw partner/);
   assert.match(component, /handleCopy/);
@@ -174,7 +174,7 @@ test("detail-page registration handoff supports a compact repeated decision poin
   assert.match(component, /registration-card__mobile-route-details/);
   assert.match(component, /setMobileRouteOpen\(!compact\)/);
   assert.doesNotMatch(component, /window\.matchMedia/);
-  assert.match(component, /!compact && <>\{preflight\}\{primaryAction\}<\/>/);
+  assert.match(component, /!compact && <>\{guardedPreflight\}\{primaryAction\}<\/>/);
   assert.match(registrationCardCss, /registration-card--compact \.registration-card__url-row/);
   assert.match(registrationCardCss, /registration-card--compact \.registration-card__mobile-route-details:not\(\[open\]\) \.registration-card__mobile-route-body/);
 });

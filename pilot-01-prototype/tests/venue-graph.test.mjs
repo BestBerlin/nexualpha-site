@@ -62,6 +62,7 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
   for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/public-copy-sanitizer.js", "/src/data/contextual-href.js", "/src/data/plural-copy.js", "/src/utils/fallback-lang.js", "/src/utils/venue-name-helper.js", "/src/components/v3/exchange-matrix-copy.js"]) {
     assert.equal(chunk(id), "shared-venue-copy", id);
   }
+  assert.equal(chunk("/src/data/trading-bleed-feedback.js"), "shared-copy-feedback");
   for (const id of ["/src/components/v3/ExchangeFactsV5.jsx", "/src/components/v6/InnerLedger.jsx", "/src/components/v6/inner-r9-copy.js", "/src/lib/v5/Reveal.jsx"]) assert.equal(chunk(id), "shared-exchange-facts", id);
   // Cascade: the split stylesheets sit where their rules used to be (growth after route-v3-home; detail and the return
   // banner right after route-v3-pages, before the directory chunk).

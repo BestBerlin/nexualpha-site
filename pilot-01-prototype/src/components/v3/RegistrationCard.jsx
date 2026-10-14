@@ -10,7 +10,7 @@ import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js
 import { v3Copy } from "../../data/v3-product.js";
 import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/decision-passport.js";
 import { regionalShortlistAccountStageOptions, regionalShortlistCopy } from "../../data/regional-shortlist.js";
-import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
+import { bleedCopyFeedback } from "../../data/trading-bleed-feedback.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
 import { trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { ownerRebateLine, partnerBenefitParts } from "../../data/owner-rebate-line.js";
@@ -40,6 +40,18 @@ function passportCopy(locale) {
 function marketResearchPath(market) {
   const paths = { BR: "/br", MX: "/mx", TW: "/tw", HK: "/hk", ID: "/id", VN: "/vn", EU: "/eu", UK: "/uk", JP: "/jp", KR: "/kr", SG: "/sg", TR: "/tr/markets/turkiye" };
   return paths[market] || "/exchanges";
+}
+
+function registrationCardGoHref(slug, { locale, market, product, accountStage, funding, placement = "registration-card-primary" } = {}) {
+  const query = new URLSearchParams();
+  query.set("src", placement);
+  if (locale) query.set("locale", locale);
+  if (market) query.set("market", market);
+  if (product) query.set("product", product);
+  if (accountStage) query.set("accountStage", accountStage);
+  if (funding) query.set("funding", funding);
+  const search = query.toString();
+  return `/go/${encodeURIComponent(slug)}${search ? `?${search}` : ""}`;
 }
 
 const copyDict = {
@@ -885,19 +897,24 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
     : regionalCta.ctaState === "verify"
       ? copy.regionVerify
       : copy.regionReady;
-  const registrationDecision = buildRegistrationDecisionState({ publicCta, regionalCta, decisionPassport, officialRouteUrl });
+  const protectedRegionalCta = regionalCta.direct
+    ? {
+      ...regionalCta,
+      ctaHref: registrationCardGoHref(venueSlug, {
+        locale,
+        market: context.market,
+        product: context.product,
+        accountStage: decisionPassport.accountStage,
+        funding: decisionPassport.funding,
+      }),
+    }
+    : regionalCta;
+  const registrationDecision = buildRegistrationDecisionState({ publicCta, regionalCta: protectedRegionalCta, decisionPassport, officialRouteUrl });
   const primaryRegistrationHref = registrationDecision.canOpenThirdParty ? registrationDecision.protectedHref : null;
   const compactInviteTask = compact && primaryRegistrationHref && visiblePartner.hasReferral && visiblePartner.inviteCode
     ? (compactInviteTaskCopy[locale] || compactInviteTaskCopy[String(locale).split("-")[0]] || compactInviteTaskCopy.en)
     : null;
-  const preflightText = primaryRegistrationHref
-    ? (visiblePartner.inviteCode
-      ? copy.preflightWithCode.replace("{code}", visiblePartner.inviteCode)
-      : copy.preflightNoCode)
-    : officialRouteUrl
-      ? copy.preflightOfficial
-      : copy.preflightBlocked;
-  const nextStep = getRegistrationNextStep(locale, { inviteCode: visiblePartner.inviteCode, primaryRegistrationHref, officialRouteUrl });
+  const preflightText = officialRouteUrl ? copy.preflightOfficial : copy.preflightBlocked;
   const [mobileRouteOpen, setMobileRouteOpen] = useState(() => !compact);
   const disabledActionLabel = publicCta.hasPartnerRoute ? regionStateText : copy.unavailable;
   const showHomeCodeIdentity = Boolean(homeCodeIdentity && compactInviteTask);
@@ -913,15 +930,15 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
     setMobileRouteOpen(!compact);
   }, [compact]);
 
-  const preflight = (
+  const guardedPreflight = primaryRegistrationHref ? null : (
     <div
       className="registration-card__preflight"
-      data-registration-preflight={primaryRegistrationHref ? "partner-route" : (officialRouteUrl ? "official-route" : "research-first")}
+      data-registration-preflight={officialRouteUrl ? "official-route" : "research-first"}
       data-registration-decision-state={registrationDecision.state}
       data-registration-decision-reason={registrationDecision.reason}
     >
-      <strong>{compactInviteTask ? compactInviteTask.title : copy.preflightTitle}</strong>
-      <span>{compactInviteTask ? compactInviteTask.body.replace("{code}", visiblePartner.inviteCode) : preflightText}</span>
+      <strong>{copy.preflightTitle}</strong>
+      <span>{preflightText}</span>
     </div>
   );
   const primaryAction = (
@@ -982,10 +999,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
             {copy.officialDomain}
           </span>
         </div>
-        <small className="registration-card__domain-hint">
-          {copy.antiPhishingTip}
-        </small>
-        {regionalContext && <small className="registration-card__regional-context" data-registration-context={context.market}>
+        {!primaryRegistrationHref && regionalContext && <small className="registration-card__regional-context" data-registration-context={context.market}>
           {regionalContext}
         </small>}
         {showDecisionPassport && <div className="registration-card__passport" data-decision-passport={decisionPassport.market || "unknown"}>
@@ -1048,7 +1062,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         )}
 
         {compact && <div className="registration-card__action-group">
-          {preflight}
+          {guardedPreflight}
           {primaryAction}
         </div>}
 
@@ -1061,20 +1075,10 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
           <summary className="registration-card__mobile-route-summary">
             <span>
               <strong>{copy.routeDetailsTitle}</strong>
-              <small>{publicCta.hasPartnerRoute ? (visiblePartner.inviteCode && !compact ? `${copy.routeReady} · ${visiblePartner.inviteCode}` : copy.routeReady) : (officialRouteUrl ? copy.openOfficial : copy.routePending)}</small>
             </span>
             <b aria-hidden="true">＋</b>
           </summary>
           <div className="registration-card__mobile-route-body">
-            <div
-              className="registration-card__next-step"
-              data-r37-cro="registration-card-next-step"
-              data-r37-platform={venueSlug}
-              data-r37-has-code={visiblePartner.inviteCode ? "true" : "false"}
-            >
-              <span>{nextStep.label}</span>
-              <b>{nextStep.body}</b>
-            </div>
             <div className="registration-card__action-group">
               <div className="registration-card__state-list" role="group" aria-label={locale.startsWith("zh") ? "合作入口、优惠和地区状态" : (copy.stateListLabel || "Partner route, benefit and regional states")}>
                 <p><span>{publicCta.hasPartnerRoute ? copy.routeState : (copy.officialRouteState || copy.officialDomain)}</span><b>{publicCta.hasPartnerRoute ? copy.routeReady : (officialRouteUrl ? copy.regionVerify : copy.routePending)}</b></p>
@@ -1083,16 +1087,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                   : <p><span>{showProtocolContext && !publicCta.benefitVerified ? entryContext.title : copy.benefitState}</span><b>{publicCta.benefitVerified ? copy.benefitVerified : showProtocolContext ? entryContext.body : copy.benefitPending}</b></p>}
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
-              {!compact && <>{preflight}{primaryAction}</>}
-
-              {(visiblePartner.registrationUrl || officialRouteUrl) && (
-                <div className="registration-card__url-row">
-                  <span>{copy.fullUrl}:</span>
-                  <span className="registration-card__url-text" translate="no" lang="en" dir="ltr">
-                    {visiblePartner.registrationUrl || officialRouteUrl}
-                  </span>
-                </div>
-              )}
+              {!compact && <>{guardedPreflight}{primaryAction}</>}
               {!publicCta.hasPartnerRoute && (
                 <div className="registration-card__research-actions" role="group" aria-label={locale.startsWith("zh") ? "继续研究" : "Continue research"}>
                   <a href={compareHref} data-cta-kind="research" data-cta-placement="registration-card-compare">

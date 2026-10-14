@@ -18,15 +18,37 @@ test("both English and Chinese hero variants keep the SSR number fully visible w
       const dom = new JSDOM(html);
       const number = dom.window.document.querySelector(".h7-num");
       assert.ok(number, `${pathname}:${heroVariant}`);
-      assert.equal(number.querySelector(".h7-roll").textContent, "60");
-      assert.equal(number.querySelector(".h7-roll").hasAttribute("data-roll-static"), true);
+      assert.equal(number.querySelector(".h7-rebate-digits").textContent, "60");
+      assert.equal(number.getAttribute("data-final-value"), "60");
+      assert.ok(number.querySelector(".h7-rebate-logo [data-brand-slug]"), "selected exchange logo is paired with the hero number");
+      assert.equal(number.querySelector(".h7-roll"), null, "hero number owns its count-up instead of the shared ledger roller");
       dom.window.close();
     }
   }
+  const css = readFileSync(new URL("../src/styles/v7/rebate-owner.css", import.meta.url), "utf8");
+  assert.match(css, /\.h7-rebate-figure/);
+  assert.match(css, /linear-gradient\(100deg, var\(--blue\) 0%, var\(--blue-text\) 42%, var\(--ac\) 100%\)/);
+  assert.match(css, /prefers-reduced-motion: reduce/);
+  assert.match(css, /letter-spacing: 0/);
+});
+
+test("shared Roll still hydrates unchanged for non-hero ledger figures", async () => {
   const css = readFileSync(new URL("../src/styles/v7/home7.css", import.meta.url), "utf8");
   assert.match(css, /\.h7-roll\{display:inline-block;animation:h7up/);
   assert.match(css, /\.h7-roll\[data-roll-static\]\{animation:none\}/);
-  assert.match(css, /\.h7-num>span:not\(\.h7-sr\):not\(\.h7-roll\)/, "preserve the number/percent gradient split");
+  assert.doesNotMatch(css, /\.h7-num\s*\{[^}]*font-size:/, "legacy sizing cannot override the dedicated figure component");
+});
+
+test("home hero does not render the decorative canvas flow or a per-frame canvas loop", async () => {
+  const html = await harness.render("https://nexualpha.com/");
+  const dom = new JSDOM(html);
+  assert.equal(dom.window.document.querySelector(".h7-hero canvas, .h7-fl"), null);
+  dom.window.close();
+
+  const source = readFileSync(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
+  assert.equal(source.includes("getContext(\"2d\")"), false);
+  assert.equal(source.includes("requestAnimationFrame(frame)"), false);
+  assert.equal(source.includes("cancelAnimationFrame(raf)"), false);
 });
 
 test("Roll hydrates unchanged with zero RAFs, then animates a real value change and cancels on unmount", async () => {
@@ -76,4 +98,13 @@ test("Roll hydrates unchanged with zero RAFs, then animates a real value change 
     }
     dom.window.close();
   }
+});
+
+test("RebateNumber owns a reduced-motion-safe count-up path after SSR", async () => {
+  const source = readFileSync(new URL("../src/components/v7/RebateNumber.jsx", import.meta.url), "utf8");
+  assert.match(source, /useState\(target\)/, "SSR and hydration start from the final value");
+  assert.match(source, /mounted\.current \? lastTarget\.current : 0/, "first hydration pass can count from zero after the final SSR value exists");
+  assert.match(source, /requestAnimationFrame\(step\)/, "count-up uses a local RAF loop");
+  assert.match(source, /reduced\(\)/, "motion preference can skip the RAF loop");
+  assert.match(source, /lastTarget\.current = target/, "exchange switches animate from the previous final value");
 });

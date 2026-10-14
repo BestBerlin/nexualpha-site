@@ -105,6 +105,6 @@ test("RegistrationCard localized preflight copy does not mutate outbound href or
   assert.match(decisionStateSource, /protectedHref: regionalCta\.ctaHref/);
   assert.match(source, /const primaryRegistrationHref = registrationDecision\.canOpenThirdParty \? registrationDecision\.protectedHref : null/);
   assert.match(source, /href=\{primaryRegistrationHref\}/);
-  assert.match(source, /copy\.preflightWithCode\.replace\("\{code\}", visiblePartner\.inviteCode\)/);
+  assert.match(source, /data-cta-code=\{visiblePartner\.hasReferral && visiblePartner\.inviteCode \? visiblePartner\.inviteCode : undefined\}/);
   assert.doesNotMatch(source, /registrationUrl\s*=\s*|inviteCode\s*=/);
 });

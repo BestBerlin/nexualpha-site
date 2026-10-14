@@ -193,7 +193,7 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
   assert.match(bleed, /data-growth-product=\{product\}/);
   const app = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8');
   const embed = await readFile(new URL('../src/components/v3/EmbedCalculator.jsx', import.meta.url), 'utf8');
-  assert.match(app, /<TradingBleedAnalyzer locale=\{locale\} market=\{decisionPassport\.market\} product=\{decisionPassport\.product\}/);
+  assert.doesNotMatch(app, /<TradingBleedAnalyzer locale=\{locale\}/, "the legacy home analyzer slot stays removed");
   assert.match(app, /<EmbedCalculator locale=\{locale\} market=\{embedUrl\.searchParams\.get\("market"\)\} product=\{embedUrl\.searchParams\.get\("product"\)\}/);
   assert.match(embed, /<TradingBleedAnalyzer locale=\{locale\} market=\{market\} product=\{product\}/);
   assert.match(bleed, /buildVenueFeeSummary\(db\)/);

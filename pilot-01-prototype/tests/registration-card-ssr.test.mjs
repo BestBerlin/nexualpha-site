@@ -112,13 +112,13 @@ test("configured partner route with unverified regional eligibility does not cla
 
   assert.match(html, /11350287/);
   assert.match(html, /Ruta de socio/);
-  assert.match(html, /Ruta de socio activa · 11350287/);
+  assert.match(html, /<p><span>Ruta de socio<\/span><b>Ruta de socio activa<\/b><\/p>/);
   assert.match(html, /Confirma en el flujo oficial|No se recomienda el registro directo para esta región/);
   assert.doesNotMatch(html, /Esta plataforma aún no tiene una ruta de socio registrada/);
   assert.doesNotMatch(html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287/);
 });
 
-test("Bitget registration card shows the next-step code confirmation before handoff", async () => {
+test("Bitget registration card keeps attributed signup without reassurance copy before handoff", async () => {
   const html = await renderRegistrationCard({
     venueSlug: "bitget",
     fallbackDomain: "www.bitget.com",
@@ -127,17 +127,16 @@ test("Bitget registration card shows the next-step code confirmation before hand
     product: "spot",
   });
 
-  assert.match(html, /data-r37-cro="registration-card-next-step"/);
-  assert.match(html, /data-r37-platform="bitget"/);
-  assert.match(html, /data-r37-has-code="true"/);
-  assert.match(html, /confirm referral code nexu888/i);
+  assert.doesNotMatch(html, /data-r37-cro="registration-card-next-step"|confirm referral code nexu888/i);
   assert.match(html, /Partner route active/);
   assert.match(html, /Check eligibility in the official account flow/);
   assert.doesNotMatch(html, /Configured|Available to confirm in official flow|Pending configuration/);
-  assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(html, /href="\/go\/bitget\?src=registration-card-primary&amp;locale=en&amp;product=spot"/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
   assert.match(html, /data-cta-placement="registration-card-primary"/);
   assert.match(html, /class="registration-card__primary-btn"/);
-  assert.doesNotMatch(html, /data-registration-confirmation/);
+  assert.doesNotMatch(html, /data-registration-confirmation|data-registration-preflight="partner-route"|Full Official Link|partner\.bitget\.cafe/);
+  assert.doesNotMatch(html, /Verify that your browser address bar exactly matches/);
   assert.doesNotMatch(html, /aria-disabled="true"[\s\S]*data-cta-placement="registration-card-primary"/);
   assert.doesNotMatch(html, /15-second registration review|registration-card__primary-btn--waiting/i);
 });
@@ -189,29 +188,30 @@ test("compact partner card keeps its sole attributed CTA and referral copy outsi
   assert.ok(details);
   assert.doesNotMatch(details.split(">", 1)[0], /open=/);
   assert.doesNotMatch(details, /registration-card__primary-btn|registration-card__copy-btn|registration-card__code-value|data-registration-preflight=/);
-  assert.match(details, /registration-card__next-step/);
+  assert.doesNotMatch(details, /registration-card__next-step|data-r37-cro|Full Official Link/);
   assert.match(html, /class="registration-card__code-value"[^>]*>nexu888</);
   assert.match(html, /registration-card__copy-btn/);
   assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
-  assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(html, /href="\/go\/bitget\?src=registration-card-primary&amp;locale=en&amp;product=spot"/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
   assert.match(html, /rel="sponsored noopener noreferrer"/);
   assert.match(html, /data-growth-placement="registration-card-primary"/);
   assert.doesNotMatch(html, /data-growth-market=/);
   assert.match(html, /data-growth-product="spot"/);
 });
 
-test("full partner card preserves its expanded detailed handoff", async () => {
+test("full partner card preserves attributed handoff without preflight clutter", async () => {
   const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "en", market: "unknown", product: "spot" });
   const details = routeDisclosure(html);
   assert.match(details, /^<details[^>]*open=""/);
-  assert.match(details, /data-registration-preflight="partner-route"/);
+  assert.doesNotMatch(details, /data-registration-preflight="partner-route"|registration-card__next-step|Full Official Link/);
   assert.match(details, /data-cta-placement="registration-card-primary"/);
   assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
   const compactHtml = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "en", market: "unknown", product: "spot", compact: true });
   const primaryAnchor = (markup) => markup.match(/<a[^>]*data-cta-placement="registration-card-primary"[^>]*>[\s\S]*?<\/a>/)?.[0];
   const compactAnchor = primaryAnchor(compactHtml);
   const fullAnchor = primaryAnchor(html);
-  assert.equal(compactAnchor.match(/^<a[^>]*>/)[0], fullAnchor.match(/^<a[^>]*>/)[0], "compact placement preserves the exact protected href and all attribution attributes");
+  assert.equal(compactAnchor.match(/^<a[^>]*>/)[0], fullAnchor.match(/^<a[^>]*>/)[0], "compact placement preserves the same tracked protected href and all attribution attributes");
   assert.match(compactAnchor, />Official sign-up ↗<\/a>$/, "authorized compact English action stays concise");
   assert.match(fullAnchor, />Go to Official Registration ↗<\/a>$/, "full English action retains its original wording");
 });

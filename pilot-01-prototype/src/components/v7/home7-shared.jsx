@@ -28,9 +28,17 @@ export function Roll({ value, prefix = "", fmt = usd, nudge, animateNudge = true
   return <span className={nudge == null ? undefined : "h7-roll"} data-roll-static={nudge != null && !animateNudge ? "" : undefined} key={nudge ?? "v"}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
 }
 
+function homeGoHref(slug, locale, placement) {
+  const query = new URLSearchParams();
+  if (placement) query.set("src", placement);
+  if (locale) query.set("locale", locale);
+  const search = query.toString();
+  return `/go/${encodeURIComponent(slug)}${search ? `?${search}` : ""}`;
+}
+
 export function Cta({ v, locale, children, className, placement }) {
   if (v.open) {
-    return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>;
+    return <a className={className} href={homeGoHref(v.slug, locale, placement)} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>;
   }
   return <a className={className} href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} data-cta-placement={`${placement}-eligibility`}>{children}</a>;
 }
