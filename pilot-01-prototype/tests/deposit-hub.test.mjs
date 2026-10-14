@@ -2,6 +2,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { JSDOM } from "jsdom";
+import { spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { FIAT_CHECKED, FIAT_SOURCES, FIAT_ROWS, FIAT_NEGATIVES, CRYPTO_CARDS } from "../src/data/fiat-rails.generated.js";
 import { FIAT_SUMMARY } from "../src/data/fiat-rails-summary.generated.js";
 import { FIAT_LABELS } from "../src/data/fiat-labels.js";
@@ -34,6 +37,15 @@ test("every fiat fact has an official https source with a check date", () => {
     if (row.f) assert.ok(["free", "pct", "flat"].includes(row.f.t));
     if (row.f?.t === "pct") assert.equal(typeof row.f.v, "number");
   }
+});
+
+test("generated fiat tables match the in-repo research inputs; the generator reads nothing outside the repo", () => {
+  const script = new URL("../scripts/generate-fiat-rails.mjs", import.meta.url);
+  const run = spawnSync(process.execPath, [fileURLToPath(script), "--check"], { encoding: "utf8" });
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  assert.doesNotMatch(readFileSync(script, "utf8"), /\/Volumes\/|\/Users\/|nx-agents/);
+  const rails = JSON.parse(readFileSync(new URL("../data/research/fiat-rails/rails.json", import.meta.url), "utf8"));
+  assert.equal(rails.researched_at, FIAT_CHECKED);
 });
 
 test("routes: localized hub slugs, English country slugs, cards path, wrong-locale slug is missing", () => {

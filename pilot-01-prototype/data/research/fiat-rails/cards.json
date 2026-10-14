@@ -1,0 +1,1940 @@
+{
+  "schema_version": 1,
+  "researched_at": "2026-10-15",
+  "markets": [
+    "China mainland",
+    "Hong Kong",
+    "Taiwan",
+    "Singapore",
+    "Malaysia",
+    "Indonesia",
+    "Philippines",
+    "Vietnam",
+    "Thailand",
+    "India",
+    "Türkiye",
+    "Brazil",
+    "Argentina",
+    "Mexico",
+    "Nigeria",
+    "EU/SEPA",
+    "UK",
+    "Japan",
+    "Korea",
+    "Russia"
+  ],
+  "exchanges": [
+    "Bitget",
+    "OKX",
+    "Binance",
+    "Bybit",
+    "Gate.io",
+    "MEXC",
+    "HTX",
+    "CoinW",
+    "Kraken",
+    "Backpack",
+    "Coinbase"
+  ],
+  "unknown_policy": "null means not established by collected official evidence; false requires explicit evidence. Currency support does not establish residence eligibility.",
+  "verification_scope": "Public official documentation only; no logged-in quote, completed deposit, withdrawal, KYC, or card application was tested.",
+  "regulatory_context": [
+    {
+      "market": "China mainland",
+      "document": "银发〔2026〕42号",
+      "published_at": "2026-02-06",
+      "accessed_at": "2026-10-15",
+      "url": "https://www.csrc.gov.cn/csrc/c100028/c7614318/content.shtml",
+      "notes": "Replaces the 2021 notice; prohibits domestic fiat/virtual-currency exchange business and related bank/payment settlement services. No mainland exchange recommendation or assumed P2P access."
+    }
+  ],
+  "sources": [
+    {
+      "exchange": "Backpack",
+      "id": "backpack-1",
+      "url": "https://support.backpack.exchange/exchange/deposit-and-withdraw/fiat",
+      "title": "Fiat",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-2",
+      "url": "https://support.backpack.exchange/exchange/deposit-and-withdraw/fiat/how-to-deposit-via-wire",
+      "title": "How to Deposit via Wire",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Live page contains updated tier-based fee table; search snippet still showed obsolete zero-fee language."
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-3",
+      "url": "https://support.backpack.exchange/exchange/deposit-and-withdraw/fiat/how-to-withdraw-via-wire",
+      "title": "How to Withdraw via Wire",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Live updated tier schedule takes precedence over stale zero-fee search snippet."
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-4",
+      "url": "https://learn.backpack.exchange/articles/buy-sol-credit-card-backpack-exchange",
+      "title": "How to Buy SOL with a Credit Card on Backpack Exchange",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-09-03",
+      "notes": "Page says updated July 16, 2026."
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-5",
+      "url": "https://support.backpack.exchange/wallet/actions/how-to-buy-and-sell-crypto-with-moonpay/buy-crypto-in-backpack-wallet-with-moonpay",
+      "title": "Buy Crypto in Backpack Wallet with MoonPay",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Wallet documentation only; not evidence of Exchange integration."
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-6",
+      "url": "https://support.backpack.exchange/exchange/exchange-account/identity-verification/supported-regions",
+      "title": "Supported Regions",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-7",
+      "url": "https://learn.backpack.exchange/articles/how-to-claim-bp",
+      "title": "How to Claim Your BP Allocation on Backpack Exchange",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-03-23",
+      "notes": "Updated May 26, 2026; describes Backpack card early access as upcoming, not current public availability."
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-8",
+      "url": "https://support.backpack.exchange/exchange/deposit-and-withdraw/fiat/bank-guides/za-bank/how-to-deposit-via-wire-transfer-za-bank",
+      "title": "How to Deposit via Wire Transfer — ZA Bank",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Backpack",
+      "id": "backpack-9",
+      "url": "https://support.backpack.exchange/exchange/deposit-and-withdraw/fiat/bank-guides/za-bank/how-to-withdraw-via-wire-transfer-za-bank",
+      "title": "How to Withdraw via Wire Transfer — ZA Bank",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-card-buy",
+      "url": "https://www.binance.com/en-AE/support/faq/detail/8df758a570ba4d18941f38423f63aae5",
+      "title": "How to Buy Crypto with Credit/Debit Card on Binance Website?",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-wallet-pay",
+      "url": "https://www.binance.com/en-AE/support/faq/detail/7e6749400a1049aaa5430f1451d82a95",
+      "title": "How to Buy Crypto with Apple Pay and Google Pay on Binance?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2022-11-07",
+      "notes": "Updated 2025-04-01. Currency support is not residence eligibility."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-sepa",
+      "url": "https://www.binance.com/en/support/faq/detail/360044359251",
+      "title": "Frequently Asked Questions on EUR Bank Transfer via SEPA",
+      "accessed_at": "2026-10-15",
+      "published_at": "2020-06-10",
+      "notes": "Updated 2026-07-10. Prefer this country list over older overview excluding Switzerland."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-fps",
+      "url": "https://www.binance.com/en/support/faq/detail/809cfd1fc1a54704a5806f5c0235d6fe",
+      "title": "GBP Bank Transfer via Faster Payments Service (FPS) - Common Issues & Resolutions",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-04-12",
+      "notes": "Updated 2026-03-05. Table and prose have inconsistent processing times."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-brl-in",
+      "url": "https://www.binance.com/pt/support/faq/detail/53636607eebc42dbb513863b49bba98f",
+      "title": "How to Deposit BRL on Binance",
+      "accessed_at": "2026-10-15",
+      "published_at": "2020-09-29",
+      "notes": null
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-brl-out",
+      "url": "https://www.binance.com/pt/support/faq/detail/08722a3b5ad7465e8c74ddc0240cec4c",
+      "title": "How to Withdraw BRL from Binance",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-01-22",
+      "notes": "Updated 2025-12-09."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-ngn",
+      "url": "https://www.binance.com/en/support/announcement/detail/f9857dc2fea4448ba1fb8815d87d8144",
+      "title": "Binance to Discontinue All Nigerian Naira (NGN) Services",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-03-05",
+      "notes": "Amended 2024-06-18: account access itself is not directly impacted."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-ars-in",
+      "url": "https://www.binance.com/en/support/faq/detail/ab6e7e1b950e4c76aa365be9f792c078",
+      "title": "How to Deposit ARS on Binance (Argentine pesos)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-03-20",
+      "notes": "Updated 2026-05-22."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-ars-out",
+      "url": "https://www.binance.com/en/support/faq/detail/c0f32ecb63b147c9ac8de757e224922f",
+      "title": "How to Withdraw ARS (Argentine pesos) on Binance?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-03-20",
+      "notes": "Updated 2026-09-09."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-global-card",
+      "url": "https://www.binance.com/en/support/faq/detail/2e19d71d1e58467198df49f814ee8629",
+      "title": "An Overview of the Binance Card - Global Program (Mexico)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-02-05",
+      "notes": "Live page updated 2026-09-21 supersedes indexed virtual-only snippet."
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-global-card-apply",
+      "url": "https://www.binance.com/en/support/faq/detail/623369dc7552459487c606e13b439bc0",
+      "title": "Binance Card - Global Program: Eligibility and How to Order It?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-02-05",
+      "notes": null
+    },
+    {
+      "exchange": "Binance",
+      "id": "binance-global-card-fees",
+      "url": "https://www.binance.com/en/support/faq/detail/2c6e12b2a39744eda759b8e3d7e146ce",
+      "title": "Binance Card - Global Program: Fees and Limits (Mexico)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-02-05",
+      "notes": "Updated 2026-09-21; current fee table labelled applied as of 01-06-2026 follows earlier table."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-1",
+      "url": "https://www.bitget.com/support/articles/12560603823032",
+      "title": "Which Countries or Regions Support Bank Deposits on Bitget?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-02-20",
+      "notes": "KYC required. Currency/region list is not universal country eligibility."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-2",
+      "url": "https://www.bitget.com/support/articles/12560603785944",
+      "title": "Bank Deposit and Withdrawal: Limits, Fees, and Processing Times",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-08-29",
+      "notes": "Public page contents retrieved on research date; table publication date may not reflect subsequent revisions. SEPA identity requirements conflict with deposit guide."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-3",
+      "url": "https://www.bitget.com/en-CA/support/articles/12560603809099",
+      "title": "How to Perform Bank Deposit (EUR) on Bitget? - Website Guide",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-05-03",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-4",
+      "url": "https://www.bitget.com/support/articles/12560603809120",
+      "title": "How to Perform Bank Withdrawal (EUR) on Bitget? - Website Guide",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-05-04",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-5",
+      "url": "https://www.bitget.com/support/articles/12560603817316",
+      "title": "How to Withdraw VND on Bitget?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-11-19",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-6",
+      "url": "https://www.bitget.com/news/detail/12560604380221",
+      "title": "About credit/debit card channels on Bitget",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-05-10",
+      "notes": "Broad global marketing/currency coverage is not national eligibility evidence."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-7",
+      "url": "https://www.bitget.com/support/articles/12560603814574",
+      "title": "Seamlessly Buy Crypto with Google Pay & Apple Pay on Bitget",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-08-20",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-8",
+      "url": "https://www.bitget.com/en-CA/support/articles/12560603777338",
+      "title": "What Currencies Are Supported on Bitget P2P?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-10-30",
+      "notes": "Explicit country/currency mapping. No country-specific payment method counts or fees supplied."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-9",
+      "url": "https://www.bitget.com/support/articles/12560603815017",
+      "title": "Service restriction of Visa cards in India",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-08-29",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-10",
+      "url": "https://www.bitget.com/support/articles/12560603826305",
+      "title": "Notice: Suspension of THB On-Ramp Services",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-04-25",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-11",
+      "url": "https://www.bitget.com/support/articles/12560603889935",
+      "title": "Bitget Card Applications are Moving to Bitget Wallet",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-07-22",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-12",
+      "url": "https://www.bitget.com/support/articles/12560603803519",
+      "title": "Bitget Card Fee Schedule and Spending Limit",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-12-23",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-13",
+      "url": "https://web3.bitget.com/card",
+      "title": "Bitget Wallet Card – Your everyday spending card",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Separate wallet product; issuing partners vary by region, exact supported-country list absent from retrieved text."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-14",
+      "url": "https://www.bitget.com/support/articles/12560603827800",
+      "title": "Credit/debit card success rate: Local banks in Indonesia",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-05-21",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-15",
+      "url": "https://www.bitget.com/support/articles/12560603827801",
+      "title": "Credit/debit card success rate: Local banks in Philippines",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-05-21",
+      "notes": null
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-16",
+      "url": "https://www.bitget.com/support/articles/12560603830275",
+      "title": "Product Update: Bitget Launches Credit/Debit Card Payout Feature",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-06-26",
+      "notes": "Visa payout exists; currency list does not establish any target country eligibility."
+    },
+    {
+      "exchange": "Bitget",
+      "id": "bitget-17",
+      "url": "https://www.bitget.com/support/articles/12560603883009",
+      "title": "Notice on the Discontinuation of Malaysian Ringgit (MYR) Support on Bitget Buy & Sell Crypto Service",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-04-22",
+      "notes": "Search result reported discontinuation from 2026-05-03, but direct and en-CA fetch failed. Not used to assert availability or unavailability."
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-1",
+      "url": "https://www.bybit.com/en/help-center/article/Service-Restricted-Countries",
+      "title": "Service Restricted Countries",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-10-13. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-2",
+      "url": "https://www.bybit.com/en/help-center/article/FAQ-Bank-Card-Payments",
+      "title": "FAQ — Bank Card Payments",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-10-13. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-3",
+      "url": "https://www.bybit.com/en/help-center/article/Supported-Countries-Regions-for-Bank-Card-Payment",
+      "title": "Supported Countries/Regions for One-Click Buy",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-06-26. List refers to card issuing countries; it includes Hong Kong despite newer platform exclusion. Platform restriction takes precedence."
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-4",
+      "url": "https://www.bybit.com/en/help-center/article/How-to-Deposit-Fiat-Currencies-on-Bybit",
+      "title": "How to Deposit Fiat Currencies on Bybit",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-5",
+      "url": "https://www.bybit.com/en/help-center/article/How-to-Withdraw-Fiat-Currencies-on-Bybit",
+      "title": "How to Withdraw Fiat Currencies on Bybit",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-06-14. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-6",
+      "url": "https://www.bybit.com/en/help-center/article/FAQ-Bybit-Card-General-Inquiries",
+      "title": "FAQ — Bybit Card General Inquiries",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-09-03. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-7",
+      "url": "https://www.bybit.com/en/help-center/article/Fees-and-Spending-Limits-Bybit-Card",
+      "title": "Fees and Limits (Bybit Card)",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-09-10. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-8",
+      "url": "https://www.bybit.com/en/help-center/article/How-to-Apply-for-Bybit-Card",
+      "title": "How to Get Started with Bybit Card",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-06-10. Official search-result text accessible; the alternate How-to-Get-Started URL returned redirect-loop fetch failure."
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-9",
+      "url": "https://www.bybit.eu/en-EU/help-center/article/FAQ-Bybit-Card-General-Inquiries",
+      "title": "Bybit EU FAQ — Bybit Card General Inquiries",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-10-02. Newest eligibility list supersedes older referral/learn exclusions."
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-10",
+      "url": "https://www.bybit.eu/en-EU/help-center/article/Fees-and-Spending-Limits-Bybit-Card",
+      "title": "Bybit EU Fees and Limits (Bybit Card)",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Last updated 2026-10-08. "
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-11",
+      "url": "https://announcements.bybit.eu/en-EU/article/bybit-card-cashback-update-one-flat-rate-uncapped-and-accessible-to-everyone--bltefa8c5e2fb32d17b/",
+      "title": "Bybit EU Card Cashback Update: One Flat Rate, Uncapped, and Accessible to Everyone",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-06-02",
+      "notes": "Official search result contains full announcement; direct fetched page exposes title/date only."
+    },
+    {
+      "exchange": "Bybit",
+      "id": "bybit-12",
+      "url": "https://www.bybit.eu/en-EU/legal/bybit-card/Bybit-EU-Card-T-C",
+      "title": "Bybit EU Card T C",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Official Help Center links here, but retrieved legal page contains only heading; issuer could not be verified."
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-apac",
+      "url": "https://help.coinbase.com/en/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-apac",
+      "title": "Add and verify a payment method - APAC",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Opened live page; older search snippet differed. Live text includes India and excludes New Zealand from the grouped SWIFT list."
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-emea",
+      "url": "https://help.coinbase.com/en/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "title": "Add and verify a payment method - EMEA",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-funding",
+      "url": "https://help.coinbase.com/en/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea",
+      "title": "Funding your account - EMEA",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-latam",
+      "url": "https://help.coinbase.com/en/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-namerica-latam",
+      "title": "Add and verify a payment method - North America | LATAM",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-fees",
+      "url": "https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees",
+      "title": "Coinbase pricing and fees disclosures - crypto",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Fees article warns not all disclosures apply in every region."
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-card-eu",
+      "url": "https://help.coinbase.com/en/coinbase/trading-and-funding/other/coinbase-card-faq",
+      "title": "Coinbase Card for the EU",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Includes UK; issuer paragraph appears to reuse US boilerplate, conflicting with regional issuer disclosure."
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-card-us",
+      "url": "https://help.coinbase.com/en/coinbase/trading-and-funding/coinbase-card/cb-card-apply",
+      "title": "Coinbase Card - Apply for a debit card from Coinbase",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-wallet",
+      "url": "https://help.coinbase.com/en-gb/wallet/managing-account/buy-crypto",
+      "title": "Add crypto to your wallet",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Wallet third-party funding is separate from Coinbase.com exchange fiat funding."
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-one-apply",
+      "url": "https://help.coinbase.com/en/creditcard/apply",
+      "title": "Apply for a Coinbase One credit card",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-one-rewards",
+      "url": "https://www.coinbase.com/en-ca/legal/creditcard/rewards",
+      "title": "Coinbase One Card Rewards Program Terms & Conditions",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-08-15",
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-one-fees",
+      "url": "https://help.coinbase.com/en/creditcard/fees-and-interest",
+      "title": "Coinbase One credit card fees",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Coinbase",
+      "id": "coinbase-one-overview",
+      "url": "https://help.coinbase.com/en/creditcard/overview",
+      "title": "Coinbase One Card (credit) - Overview",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-1",
+      "url": "https://www.coinw.com/en_XA/p2p-trading/personalized/buy",
+      "title": "P2P Trading",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Global P2P FAQ; no country eligibility or payment-method matrix. Rendered page showed no ads; this is not evidence of country unavailability."
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-2",
+      "url": "https://www.coinw.com/help-center/faq/p2p/2025-10-13/how-to-contact-customer-support-of-3rd-partner%20/7033",
+      "title": "How to Contact Customer Support of 3rd Partner",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-10-13",
+      "notes": "CoinW says fiat deposits are handled entirely by third-party payment providers."
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-3",
+      "url": "https://www.coinw.com/help-center/announcement-center/otc-news/otc-latest-news/2025-08-01/coinw-has-added-unlimit-as-our-partner-u/6283?is_hot=1",
+      "title": "CoinW has added Unlimit as our partner",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-08-01",
+      "notes": "Historical quoted rates by currency, not residency eligibility; final cost depends on actual amount received."
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-4",
+      "url": "https://www.coinw.com/crypto-card",
+      "title": "CoinW Card",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Current public card landing page; merchant acceptance is not applicant eligibility."
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-5",
+      "url": "https://www.coinw.com/help-center/announcement-center/maintenance-updates/project-upgrades/2025-10-11/coinw-card-faq/7027",
+      "title": "CoinW Card FAQ",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-10-11",
+      "notes": "Virtual and physical products; eligibility and exact fees must be checked per selected card."
+    },
+    {
+      "exchange": "CoinW",
+      "id": "coinw-6",
+      "url": "https://www.coinw.com/help-center/faq/official-updates/2020-04-15/user-agreement/6912",
+      "title": "User Agreement",
+      "accessed_at": "2026-10-15",
+      "published_at": "2020-04-15",
+      "notes": "Updated 2025-09-25; section 1.7 allows jurisdictional restrictions including Japan and EU, without a complete eligibility list."
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-1",
+      "url": "https://www.gate.com/legal/user-agreement",
+      "title": "User Agreement",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Sections 2.5–2.9 identify restricted locations and require persons located there to cease accessing global Gate. Regional affiliates require separate assessment."
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-2",
+      "url": "https://www.gate.com/help/guide/deposit-withdrawa/51566",
+      "title": "(Web) Guide to Buying Cryptocurrency with a Credit/Debit Card via Gate Connect",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-06-08",
+      "notes": "Alchemy Pay supplies this channel; published guide says purchased crypto credits in 5–10 minutes. Navigation identifies Visa and Mastercard."
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-3",
+      "url": "https://www.gate.tr/en/help/guidetr/deposit_withdraw_tr/27357",
+      "title": "How to Deposit TRY from Your Bank to Gate TR",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-21",
+      "notes": null
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-4",
+      "url": "https://www.gate.tr/en/help/guidetr/deposit_withdraw_tr/27358",
+      "title": "How to Withdraw Turkish Lira from Gate TR to Your Bank Account",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-21",
+      "notes": null
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-5",
+      "url": "https://www.gate.com/card",
+      "title": "Gate Card",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Global card family advertises up to 8% tier-dependent points rewards; issuer and features vary by card. Do not conflate this with the US-specific Lead Bank product."
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-6",
+      "url": "https://www.gate.com/help/gatecard/gcd1213/50034",
+      "title": "Gate Card (Classic Card & Platinum Card) Fees & Limits",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-03-03",
+      "notes": null
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-7",
+      "url": "https://www.gate.com/help/gatecard/gcd1213/50050/gate-card-classic-platinum-card-introduction",
+      "title": "Gate Card (Classic & Platinum Card) Introduction",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-03-03",
+      "notes": null
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-8",
+      "url": "https://www.gate.com/help/gatecard/gcd1213/50053/faq-gate-card-classic-platinum-card",
+      "title": "FAQ-Gate Card (Classic & Platinum Card)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-03-03",
+      "notes": null
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-9",
+      "url": "https://www.gate.com/es/help/card/cards/36643/understanding-sepa-and-sepa-instant-a-comprehensive-guide",
+      "title": "Understanding SEPA and SEPA Instant: A Comprehensive Guide",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-04-22",
+      "notes": "Gate Connect EUR purchase processing described as minutes with SEPA Instant or 1–2 business days standard SEPA; not a verified withdrawal SLA or residency list."
+    },
+    {
+      "exchange": "Gate.io",
+      "id": "gate-10",
+      "url": "https://www.gate.com/en-eu/legal/gate-appendix-a",
+      "title": "Gate EU Appendix A",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "notes": "Conditional legal permission for cards/wallets and SEPA/bank funding and proceeds, not proof that every channel is currently live for every EU resident."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-1",
+      "url": "https://www.htx.com/support/360000112261",
+      "title": "HTX Platform User Agreement",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-01-28",
+      "notes": "Direct HTML retrieved with urllib after web reader failed. Page labels last update 13 July 2023, but retrieved clause 1.2 includes Hong Kong, UK and Italy beyond older indexed text. Do not treat displayed update date as reliable freshness evidence."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-2",
+      "url": "https://www.htx.com/support/84951848735314",
+      "title": "How to Buy Crypto on Quick Trade with Credit/Debit Cards (Web)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-10-17",
+      "notes": null
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-3",
+      "url": "https://square.htx.com/purchasing-crypto-with-fiat/",
+      "title": "Purchasing Crypto with Fiat",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-03-14",
+      "notes": "Generic Visa/Mastercard and zero-fee P2P description; supported currencies do not establish residence eligibility."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-4",
+      "url": "https://www.htx.com/support/900002290403",
+      "title": "The Minimum & Maximum Trading Amount for Buying Crypto with Credit/Debit Card?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-03-02",
+      "notes": "Direct HTML retrieved. Historical verification-tier EUR limits, not verified as current checkout limits."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-5",
+      "url": "https://www.htx.com/support/900004654746",
+      "title": "How to Deposit EUR Through Bank Transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-03-09",
+      "notes": "Direct HTML retrieved. Historical SEPA deposit instructions; no current country eligibility list. Refund timing is not normal withdrawal speed."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-6",
+      "url": "https://www.htx.com/support/en-us/detail/64892044063241",
+      "title": "Fiat Deposit FAQ Center",
+      "accessed_at": "2026-10-15",
+      "published_at": "2021-11-24",
+      "notes": "Official search extraction available; web open returned error. Historical topic index only, not availability proof."
+    },
+    {
+      "exchange": "HTX",
+      "id": "htx-7",
+      "url": "https://square.htx.com/htx-releases-january-2026-performance-report-20-new-fiat-on-off-ramps-25-6-volume-growth-and-58-million-users/",
+      "title": "HTX Releases January 2026 Performance Report: 20+ New Fiat On/Off-Ramps, 25.6% Volume Growth, and 58 Million Users",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-02-12",
+      "notes": "HBGL expansion lists currencies but no residence eligibility, payment rail, consumer fee or withdrawal timing."
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-geo",
+      "url": "https://support.kraken.com/articles/where-is-kraken-licensed-or-regulated",
+      "title": "Where is Kraken licensed or regulated?",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-09-30",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-deposit",
+      "url": "https://support.kraken.com/articles/360000381846-cash-deposit-options-fees-minimums-and-processing-times-",
+      "title": "Cash deposit options",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-10-01",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-withdraw",
+      "url": "https://support.kraken.com/articles/360000423043-cash-withdrawal-options-fees-minimums-and-processing-times-",
+      "title": "Cash withdrawal options",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-09-28",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-buy",
+      "url": "https://support.kraken.com/articles/360048212832-debit-or-credit-card-purchases-with-visa-and-mastercard-",
+      "title": "Debit or credit card purchases with Visa and Mastercard",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-10-07",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-wallet",
+      "url": "https://support.kraken.com/articles/4405883992724-digital-wallet-purchases",
+      "title": "Digital wallet purchases",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-10-07",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-card",
+      "url": "https://support.kraken.com/ca/articles/kraken-card-faqs",
+      "title": "Kraken Debit Card: Frequently Asked Questions",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-10-08",
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-launch",
+      "url": "https://blog.kraken.com/product/kraken-card/introducing-the-kraken-card",
+      "title": "Your Kraken balance, ready to spend: the Kraken Card is here",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-07-13",
+      "last_updated_at": null,
+      "notes": null
+    },
+    {
+      "exchange": "Kraken",
+      "id": "kraken-circle",
+      "url": "https://support.kraken.com/articles/banking-circle",
+      "title": "Banking Circle Funding Provider",
+      "accessed_at": "2026-10-15",
+      "published_at": null,
+      "last_updated_at": "2026-10-09",
+      "notes": null
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-1",
+      "url": "https://www.mexc.com/learn/article/how-to-buy-crypto-with-credit-debit-card-mexc-step-by-step-guide/1",
+      "title": "How to Buy Crypto with Credit/Debit Card: MEXC Step-by-Step Guide",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-09-21",
+      "notes": "Fee described as approximately 2%; text claims 38 countries but named lists total 37. Use named lists, not headline count."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-2",
+      "url": "https://www.mexc.com/support/article/fiat-deposit-via-bank-transfer-sepa-364723073679663104",
+      "title": "Fiat Deposit via Bank Transfer - SEPA",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-09-15",
+      "notes": null
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-3",
+      "url": "https://www.mexc.com/support/article/fiat-withdraw-via-bank-transfer-sepa-364845480247599104",
+      "title": "Fiat Withdraw via Bank Transfer - SEPA",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-05-19",
+      "notes": "Withdrawal list omits France and Netherlands, which appear in deposit list."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-4",
+      "url": "https://www.mexc.co/support/article/how-to-deposit-and-withdraw-usd-on-mexc-469383446634460160",
+      "title": "How to Deposit and Withdraw USD on MEXC",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-10-01",
+      "notes": "English .com URL inaccessible through web tool; official .co page accessible. Eligibility requires supported POA or POI; not blanket national availability."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-5",
+      "url": "https://www.mexc.com/support/article/how-to-deposit-argentine-pesos-ars-on-mexc-284666498189537280",
+      "title": "How to Deposit Argentine pesos (ARS) on MEXC",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-21",
+      "notes": null
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-6",
+      "url": "https://www.mexc.com/support/article/how-to-deposit-mexican-peso-mxn-via-bank-transfer-spei-284665957023656960",
+      "title": "How to Deposit Mexican Peso (MXN) via Bank Transfer (SPEI)",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-21",
+      "notes": null
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-7",
+      "url": "https://www.mexc.com/support/article/mexc-official-clarification-announcement-regarding-recent-online-rumors-7660137383449",
+      "title": "MEXC Official Clarification Announcement Regarding Recent Online Rumors",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-12-05",
+      "notes": null
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-8",
+      "url": "https://www.mexc.com/learn/article/mexc-card-supported-countries-restricted-regions-what-kyc-actually-requires/1",
+      "title": "MEXC Card: Supported Countries, Restricted Regions & What KYC Actually Requires",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-09-21",
+      "notes": "Country restrictions described as August 2026 list; application page takes precedence."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-9",
+      "url": "https://www.mexc.com/support/article/understanding-the-mexc-card-446453561133852672",
+      "title": "Understanding the MEXC Card: Fees, Spending Limits, and Transaction Examples",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-10-14",
+      "notes": "APAC conversion table says 0% but summary, notes and examples say 1%; unresolved contradiction."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-10",
+      "url": "https://www.mexc.com/support/article/mexc-card-rewards-faq-400416193234899968",
+      "title": "MEXC Card Rewards FAQ",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-09-21",
+      "notes": "Rewards only valid during event period; end date not established."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-11",
+      "url": "https://blog.mexc.com/press-release/mexc-launches-mexc-global-card-with-up-to-10-cashback-and-7-annualized-returns/",
+      "title": "MEXC Launches MEXC Global Card With Up to 10% Cashback and 7% Annualized Returns",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-08-31",
+      "notes": "Zero purchase-fee promotion ended September 30, 2026; not current fee."
+    },
+    {
+      "exchange": "MEXC",
+      "id": "mexc-domain-verification",
+      "url": "https://www.mexc.com/announcements/article/temporary-change-in-access-for-users-in-the-philippines-17827791528130",
+      "title": "Official MEXC domain cross-reference",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-08-07",
+      "notes": "Used only to establish that mexc.co is linked by mexc.com as an official domain; not as country eligibility or access instructions."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-1",
+      "url": "https://www.okx.com/help/how-do-i-buy-with-debit-credit-cards",
+      "title": "How do I buy with debit / credit cards?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-02-22",
+      "notes": "Updated 2026-10-02; residence-dependent card fees, subject to change."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-2",
+      "url": "https://www.okx.com/help/how-do-i-deposit-eur-with-sepa-bank-transfer",
+      "title": "How do I deposit EUR with SEPA bank transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-11-16",
+      "notes": "Updated 2026-08-05."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-3",
+      "url": "https://www.okx.com/help/how-do-i-withdraw-eur-with-sepa-bank-transfer",
+      "title": "How do I withdraw EUR with SEPA bank transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-11-16",
+      "notes": "Updated 2026-09-01."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-4",
+      "url": "https://www.okx.com/en-sg/help/how-do-i-deposit-sgd-with-paynow",
+      "title": "How do I deposit SGD with PayNow?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-11-08",
+      "notes": "Updated 2026-08-11."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-5",
+      "url": "https://www.okx.com/en-sg/help/how-do-i-deposit-sgd-with-fast-meps-and-international-wire-transfer",
+      "title": "How do I deposit SGD with FAST, MEPS and International wire transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-03-13",
+      "notes": "Updated 2026-08-11."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-6",
+      "url": "https://www.okx.com/en-sg/help/how-do-i-withdraw-sgd-with-fast-meps-and-international-wire-transfer",
+      "title": "How do I withdraw SGD with FAST, MEPS and International wire transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-03-13",
+      "notes": "Updated 2026-09-02."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-7",
+      "url": "https://www.okx.com/en-br/help/how-do-i-deposit-brl",
+      "title": "How do I deposit BRL with Pix transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-11-20",
+      "notes": "Updated 2026-09-11."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-8",
+      "url": "https://www.okx.com/en-eu/help/how-do-i-withdraw-brl",
+      "title": "How do I withdraw BRL with Pix transfer?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-11-27",
+      "notes": "Updated 2026-09-02; explicitly Brazilian customers despite EU URL locale."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-9",
+      "url": "https://www.okx.com/en-us/help/risk-compliance-disclosure",
+      "title": "OKX Risk & Compliance Disclosure",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-05-30",
+      "notes": "Last updated 2026-07-08. Lists restricted locations; wording allows restrictions on all or part of services, so not treated as a categorical method prohibition."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-10",
+      "url": "https://www.okx.com/en-gb/learn/okx-card-eea-fees-rewards-eligibility",
+      "title": "OKX Card EEA: How It Works, Fees, Rewards & Eligibility",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-28",
+      "notes": "Updated 2026-08-18; promotional cashback subject to changing eligibility and caps."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-11",
+      "url": "https://www.okx.com/en-us/help/eea-regional-addendum-to-pay-wallet-terms",
+      "title": "EEA Regional Addendum to the Pay Wallet Terms",
+      "accessed_at": "2026-10-15",
+      "published_at": "2026-01-27",
+      "notes": "Last updated 2026-02-05; EEA issuer identification."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-12",
+      "url": "https://www.okx.com/en-us/help/how-do-i-buy-crypto-with-apple-pay",
+      "title": "How do I buy crypto with Apple Pay?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-07-02",
+      "notes": "Updated 2026-09-17; Australia, EU, UAE verified residents only."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-13",
+      "url": "https://www.okx.com/en-us/help/how-do-i-buy-crypto-with-google-pay",
+      "title": "How do I buy crypto with Google Pay?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2025-07-22",
+      "notes": "Updated 2026-08-04; Australia, EU, UAE verified residents only."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-14",
+      "url": "https://www.okx.com/en-gb/help/how-to-contact-a-third-party-payment-channel",
+      "title": "How to contact a third-party payment channel?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-08-02",
+      "notes": "Updated 2026-08-26; partner directory is not evidence of national eligibility."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-15",
+      "url": "https://www.okx.com/en-us/help/okx-p2p-general-trading-guidelines",
+      "title": "OKX P2P general trading guidelines",
+      "accessed_at": "2026-10-15",
+      "published_at": "2023-08-28",
+      "notes": "Updated 2026-08-26; mainland users excluded from these general guidelines; mentions CNY residence restriction without proving current lawful access."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-16",
+      "url": "https://www.okx.com/en-gb/help/withdrawal-of-okx-hks-vasp-license-application",
+      "title": "Withdrawal of OKX HK's VASP license application",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-05-24",
+      "notes": "Ceased centralized trading for HK residents by 2024-05-31; withdrawal closure 2024-08-31, no current fiat bank withdrawal promise."
+    },
+    {
+      "exchange": "OKX",
+      "id": "okx-17",
+      "url": "https://www.okx.com/en-gb/help/how-do-i-trade-crypto-with-try-on-okx",
+      "title": "How do I trade crypto with TRY on OKX?",
+      "accessed_at": "2026-10-15",
+      "published_at": "2024-05-07",
+      "notes": "Updated 2026-09-30; refers to separate OKX TR entity, not a documented global OKX bank rail."
+    }
+  ],
+  "cards": [
+    {
+      "exchange": "Backpack",
+      "name": "Backpack Card",
+      "status": "announced_upcoming",
+      "network": null,
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": null,
+      "application": null,
+      "source_ids": [
+        "backpack-7"
+      ],
+      "notes": "Official staking-benefits article lists early card access as upcoming. Current launch, invitation eligibility, country terms, issuer and application flow remain unverified; no live availability claim."
+    },
+    {
+      "exchange": "Binance",
+      "name": "Binance Card - Global Program (Mexico)",
+      "status": "Documented application program; eligible verified jurisdictions only.",
+      "network": "Mastercard",
+      "issuer": "Immersve Limited",
+      "countries": [
+        "Mexico"
+      ],
+      "cashback_percent": {
+        "range": [
+          0.5,
+          2
+        ],
+        "conditions": "Monthly spend tiers; maximum 20 USDC monthly."
+      },
+      "fees": {
+        "fx_percent": 2,
+        "crypto_conversion_percent": 0.9,
+        "usdc_conversion_percent": 0.1,
+        "annual_usd": 0,
+        "virtual_issuance_usd": 0,
+        "physical_issuance_standard_shipping_usd": 10,
+        "atm": "2 free monthly withdrawals, then USD 1.5 each",
+        "conditions": "Mastercard/third-party fees and spreads may apply. Selected U-token payments have fee rebates."
+      },
+      "application": "Eligible-country residence and locally issued verified identity document; application in Binance Card dashboard; review required.",
+      "source_ids": [
+        "binance-global-card",
+        "binance-global-card-apply",
+        "binance-global-card-fees"
+      ],
+      "notes": "New 2026 Immersve collateral/liquidity-line program. Physical and virtual forms documented. Do not infer all Latam countries or a revival of older EEA/Dock programs."
+    },
+    {
+      "exchange": "Bitget",
+      "name": "Bitget Card (exchange account card)",
+      "status": "Existing cards continue; new applications moved to Bitget Wallet from 2026-08-01",
+      "network": "Visa",
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": {
+        "annual": 0,
+        "virtual_and_first_physical_issuance": 0,
+        "transaction_percent": 0.9,
+        "foreign_transaction_percent": 1,
+        "foreign_transaction_condition": "Added to Visa FX rate",
+        "atm": "USD 0.65 + 2%",
+        "inactivity": "USD 1 per month after 12 months without transactions",
+        "replacement": "Premium USD 59; Black USD 199"
+      },
+      "application": "New application entry point moved to Bitget Wallet; existing cards unaffected.",
+      "source_ids": [
+        "bitget-11",
+        "bitget-12"
+      ],
+      "notes": "Not a credit/debit card crypto purchase channel. Current issuer and country eligibility not established; old invitation-only eligibility not promoted as current."
+    },
+    {
+      "exchange": "Bitget",
+      "name": "Bitget Wallet Card (separate wallet product)",
+      "status": "Applications via Bitget Wallet",
+      "network": "Visa / Mastercard; issuing partners vary by region",
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": {
+        "annual": 0,
+        "monthly": 0
+      },
+      "application": "Apply and verify identity in Bitget Wallet; Pay → Card. Approval and current country rules are set on Wallet card page.",
+      "source_ids": [
+        "bitget-11",
+        "bitget-13"
+      ],
+      "notes": "Related wallet product, not the exchange account card. Advertises up to 3% assetback, not a universal 3% cashback rate. Exact country list, issuing entity, detailed fees and reward conditions unverified."
+    },
+    {
+      "exchange": "Bybit",
+      "name": "Bybit Card (Argentina)",
+      "status": "Documented virtual and physical product; application subject to country selector and verification",
+      "network": "Mastercard",
+      "issuer": null,
+      "countries": [
+        "Argentina"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "virtual_issuance": "Free until further notice",
+        "physical_issuance": "5 USD/USDT",
+        "FX_percent": 7,
+        "crypto_conversion_percent": 0.5,
+        "FX_padding_percent": 5,
+        "ATM": "2% above 95,000 ARS monthly"
+      },
+      "application": "Finance → Card → Apply Now; select residence and complete eligibility/identity verification. Virtual card precedes physical application.",
+      "source_ids": [
+        "bybit-6",
+        "bybit-7",
+        "bybit-8"
+      ],
+      "notes": "Country named in regional product table; complete residence eligibility and issuer not verified. FX surcharge is above network rate; crypto conversion above One-Click Sell rate."
+    },
+    {
+      "exchange": "Bybit",
+      "name": "Bybit Card (Brazil)",
+      "status": "Documented virtual and physical product; application subject to country selector and verification",
+      "network": "Mastercard",
+      "issuer": null,
+      "countries": [
+        "Brazil"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "virtual_and_physical_issuance": "Free until further notice for virtual",
+        "FX_percent": 1.5,
+        "crypto_conversion_percent": 0.9,
+        "FX_padding_percent": 1,
+        "ATM": "2% above 550 BRL monthly"
+      },
+      "application": "Finance → Card → Apply Now; select residence and complete eligibility/identity verification. Virtual card precedes physical application.",
+      "source_ids": [
+        "bybit-6",
+        "bybit-7",
+        "bybit-8"
+      ],
+      "notes": "Country named in regional product table; complete residence eligibility and issuer not verified. FX surcharge is above network rate; crypto conversion above One-Click Sell rate."
+    },
+    {
+      "exchange": "Bybit",
+      "name": "Bybit Card (Mexico)",
+      "status": "Documented virtual and physical product; application subject to country selector and verification",
+      "network": "Mastercard",
+      "issuer": null,
+      "countries": [
+        "Mexico"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "virtual_and_physical_issuance": "Free until further notice for virtual",
+        "FX_percent": 2,
+        "crypto_conversion_percent": 0.9,
+        "ATM": "2% above 100 USD / 1,800 MXN monthly"
+      },
+      "application": "Finance → Card → Apply Now; select residence and complete eligibility/identity verification. Virtual card precedes physical application.",
+      "source_ids": [
+        "bybit-6",
+        "bybit-7",
+        "bybit-8"
+      ],
+      "notes": "Country named in regional product table; complete residence eligibility and issuer not verified. FX surcharge is above network rate; crypto conversion above One-Click Sell rate."
+    },
+    {
+      "exchange": "Bybit",
+      "name": "Bybit Card (Asia Pacific)",
+      "status": "Virtual product; physical rollout in phases and Tier 2+ required",
+      "network": "Visa",
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": {
+        "virtual_issuance": "Free until further notice",
+        "physical_issuance": "5 USDT",
+        "FX_percent": 2,
+        "crypto_conversion_percent": 0.9,
+        "ATM": "2% above first 100 USD monthly"
+      },
+      "application": "Select supported residence in application and complete identity verification; physical card also requires residence-address verification.",
+      "source_ids": [
+        "bybit-6",
+        "bybit-7",
+        "bybit-8"
+      ],
+      "notes": "Asia Pacific is a program label; individual eligible countries not established."
+    },
+    {
+      "exchange": "Bybit",
+      "name": "Bybit EU Card (distinct EU program)",
+      "status": "Live virtual and physical debit-card program; application approval discretionary",
+      "network": "Mastercard",
+      "issuer": null,
+      "countries": [
+        "Austria",
+        "Belgium",
+        "Bulgaria",
+        "Cyprus",
+        "Czech Republic",
+        "Germany",
+        "Denmark",
+        "Spain",
+        "Estonia",
+        "Finland",
+        "France",
+        "Greece",
+        "Croatia",
+        "Hungary",
+        "Ireland",
+        "Iceland",
+        "Italy",
+        "Liechtenstein",
+        "Lithuania",
+        "Luxembourg",
+        "Latvia",
+        "Netherlands",
+        "Norway",
+        "Poland",
+        "Portugal",
+        "Romania",
+        "Slovakia",
+        "Slovenia",
+        "Sweden"
+      ],
+      "cashback_percent": {
+        "non_VIP": 1,
+        "monthly_cap": null,
+        "condition": "Eligible purchases only; uncapped non-VIP regime applies to all application cohorts by 4 August 2026. VIP tiered mechanism unchanged; no uniform VIP rate asserted."
+      },
+      "fees": {
+        "FX_percent": 0.5,
+        "FX_basis": "Above Mastercard exchange rate",
+        "crypto_conversion_percent": 0.9,
+        "conversion_basis": "Above Bybit EU One-Click Sell rate; minimum conversion 1 EUR/USD",
+        "annual": 0,
+        "inactivity": 0,
+        "cancellation": 0,
+        "virtual_issuance": "Free until further notice",
+        "physical_first_issuance_EUR": 0,
+        "physical_replacement_EUR": 5,
+        "ATM": "2% after first 100 EUR monthly; ATM operator fees may apply"
+      },
+      "application": "Identity verification required. Proof of address required if proof of identity is not from EEA. Obtain virtual card before physical application; Bybit EU may decline after risk evaluation.",
+      "source_ids": [
+        "bybit-9",
+        "bybit-10",
+        "bybit-11"
+      ],
+      "notes": "Latest FAQ explicitly excludes Malta; older official referral/learn exclusions conflict and are not used. EUR spending balance documented. Issuer remains null because linked legal page body was inaccessible. This program is separate from bybit.com regional cards."
+    },
+    {
+      "exchange": "Coinbase",
+      "name": "Coinbase Card (EU/UK debit)",
+      "status": "Applications documented",
+      "network": "Visa",
+      "issuer": {
+        "EU/EEA": "Paysafe Payment Solutions Limited",
+        "UK": null
+      },
+      "countries": [
+        "Austria",
+        "Belgium",
+        "Bulgaria",
+        "Croatia",
+        "Cyprus",
+        "Czech Republic",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Greece",
+        "Hungary",
+        "Iceland",
+        "Ireland",
+        "Italy",
+        "Latvia",
+        "Liechtenstein",
+        "Lithuania",
+        "Luxembourg",
+        "Malta",
+        "Netherlands",
+        "Norway",
+        "Poland",
+        "Portugal",
+        "Romania",
+        "Slovakia",
+        "Slovenia",
+        "Spain",
+        "Sweden",
+        "UK"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "application": 0,
+        "transaction": 0,
+        "coinbase_atm": 0,
+        "crypto_conversion": "Spread applies",
+        "atm_operator": "May charge fees"
+      },
+      "application": "Verified Coinbase account, residence in listed country, identity/address verification and accepted terms; mobile app Card section.",
+      "source_ids": [
+        "coinbase-card-eu",
+        "coinbase-fees",
+        "coinbase-card-us"
+      ],
+      "notes": "EU/UK mobile-wallet support is unavailable. US rewards source limits rewards to US users. EU FAQ names Pathward despite EU/EEA Paysafe disclosure; confirm current cardholder agreement before issuer comparison."
+    },
+    {
+      "exchange": "Coinbase",
+      "name": "Coinbase Card (US debit)",
+      "status": "Applications documented",
+      "network": "Visa",
+      "issuer": "Pathward, N.A.",
+      "countries": [
+        "US excluding Hawaii"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "application": 0,
+        "transaction": 0,
+        "crypto_conversion": "Spread applies; additional fees disclosed at signup"
+      },
+      "application": "Valid account, US eligible residence, identity verification and accepted terms; app or Coinbase.com Card section.",
+      "source_ids": [
+        "coinbase-card-us"
+      ],
+      "notes": "Rewards rate varies and is shown in app; no fixed cashback percentage evidenced."
+    },
+    {
+      "exchange": "Coinbase",
+      "name": "Coinbase One Card (US credit)",
+      "status": "Applications documented; credit approval required",
+      "network": "American Express",
+      "issuer": "First Electronic Bank",
+      "countries": [
+        "US excluding U.S. Territories"
+      ],
+      "cashback_percent": {
+        "tiers": [
+          {
+            "assets_usd": "under 10000",
+            "percent": 2
+          },
+          {
+            "assets_usd": "10000–49999.99",
+            "percent": 2.5
+          },
+          {
+            "assets_usd": "50000–199999.99",
+            "percent": 3
+          },
+          {
+            "assets_usd": "200000 or more",
+            "percent": 4
+          }
+        ],
+        "cap": "Above-2% rates apply to first USD 10,000 eligible monthly purchases; thereafter 2%",
+        "conditions": "Bitcoin rewards on eligible purchases; good standing required; balance calculation rules and exclusions apply"
+      },
+      "fees": {
+        "separate_card_holding_fee": 0,
+        "required_membership": "Coinbase One qualifying annual plan starts at USD 49.99",
+        "cash_advance": "Greater of USD 10 or 5%",
+        "late_payment_max_usd": 41,
+        "returned_payment_max_usd": 41,
+        "replacement": "First waived, subsequent up to USD 40",
+        "atm": "No provider ATM fee; operator charges may apply",
+        "interest_apr": null
+      },
+      "application": "US resident age 18+, valid Coinbase account, identity/income verification, terms and credit approval; qualifying membership needed. Apply in Credit card section.",
+      "source_ids": [
+        "coinbase-one-apply",
+        "coinbase-one-rewards",
+        "coinbase-one-fees",
+        "coinbase-one-overview"
+      ],
+      "notes": "Distinct from Visa debit card and not available in the 20 requested markets. Amex is the network, not the issuer. APR is quote-specific and not established."
+    },
+    {
+      "exchange": "CoinW",
+      "name": "CoinW Card (virtual and physical product family)",
+      "status": "Publicly advertised with application entry; successful issuance not tested",
+      "network": [
+        "Visa",
+        "Mastercard"
+      ],
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": {
+        "monthly_fee": "Landing page advertises zero monthly fees",
+        "issuance": "Free during promotions; exact non-promotional cost depends on selected card",
+        "top_up": null,
+        "atm": null,
+        "foreign_exchange": null
+      },
+      "application": "Create a CoinW account and complete identity verification; choose a card in the app to review its features, fees and required information before applying.",
+      "source_ids": [
+        "coinw-4",
+        "coinw-5"
+      ],
+      "notes": "USDT funds are converted into USD/EUR for spending. Physical ATM access is conditional on the product. FAQ says top-ups usually appear in minutes; that is not a bank-withdrawal SLA. Advertised worldwide merchant coverage does not establish applicant countries. Issuing financial institution is unnamed."
+    },
+    {
+      "exchange": "Gate.io",
+      "name": "Gate Card (Classic & Platinum)",
+      "status": "Application offered subject to eligibility and issuer review",
+      "network": "Visa",
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": {
+        "virtual_issuance_usd": 0,
+        "physical_issuance_usd": 0,
+        "monthly_usd": 0,
+        "inactivity_usd": 0,
+        "crypto_conversion": "0.90% for transactions >= USD 2; USD 0.05 for transactions below USD 2",
+        "non_usd_fx_percent": 0.4,
+        "chargeback_usd": 30,
+        "replacement_usd": 25,
+        "atm_withdrawal_percent": 2
+      },
+      "application": "Apply via Gate Card website or Gate Pay app; complete Level 2 KYC and issuer review. Some card types require proof of address issued within three months. Only regions present in application are supported.",
+      "source_ids": [
+        "gate-5",
+        "gate-6",
+        "gate-7",
+        "gate-8"
+      ],
+      "notes": "Classic/Platinum support Google Pay; Apple Pay not supported in reviewed FAQ. Card family advertises up to 8% tier-dependent points rewards, not a single guaranteed cashback rate. Named licensed issuer and complete residence list unverified. US Lead Bank prepaid product is separate."
+    },
+    {
+      "exchange": "HTX",
+      "name": "HTX exchange-issued spending card (unverified)",
+      "status": null,
+      "network": null,
+      "issuer": null,
+      "countries": null,
+      "cashback_percent": null,
+      "fees": null,
+      "application": null,
+      "source_ids": [],
+      "notes": "No official exchange-issued Visa/Mastercard spending-card product verified in bounded research. Card purchase guides and trading-fee point cards are different products."
+    },
+    {
+      "exchange": "Kraken",
+      "name": "Kraken Debit Card / Krak Card",
+      "status": "Live for eligible verified UK and EEA customers",
+      "network": "Mastercard",
+      "issuer": {
+        "UK": "Monavate Limited",
+        "EEA": "UAB Monavate"
+      },
+      "countries": [
+        "UK",
+        "EEA"
+      ],
+      "cashback_percent": {
+        "range": [
+          0,
+          2
+        ],
+        "condition": "30-day average combined Krak/Kraken/Kraken Pro balance",
+        "EUR_tiers": [
+          [
+            0,
+            0
+          ],
+          [
+            200,
+            0.5
+          ],
+          [
+            1000,
+            1
+          ],
+          [
+            10000,
+            1.5
+          ],
+          [
+            50000,
+            2
+          ]
+        ]
+      },
+      "fees": {
+        "annual": 0,
+        "monthly": 0,
+        "transaction": 0,
+        "FX": "Mastercard rate, no markup",
+        "ATM": "No Krak fee; operator fees possible",
+        "replacement": "4.99 GBP / EUR",
+        "conversion": "Variable spread"
+      },
+      "application": "Verified users start card signup in Kraken app; manage in Krak with same login; virtual and physical cards.",
+      "source_ids": [
+        "kraken-card",
+        "kraken-launch"
+      ],
+      "notes": "Two designs use the same Krak Everyday balance and rewards; spending crypto converts to fiat."
+    },
+    {
+      "exchange": "MEXC",
+      "name": "MEXC Global Card",
+      "status": "Live virtual card; launched August 31, 2026",
+      "network": "Visa Platinum",
+      "issuer": null,
+      "countries": {
+        "model": "Restricted-list; qualifying proof of address required",
+        "unavailable": [
+          "China mainland",
+          "Indonesia",
+          "India",
+          "Türkiye",
+          "Russia",
+          "Cyprus"
+        ],
+        "limited_access": {
+          "countries": [
+            "Australia",
+            "Saudi Arabia",
+            "South Africa",
+            "Switzerland"
+          ],
+          "condition": "VVIP M-Score >=600 or approved partner channel"
+        },
+        "notes": "These are relevant restrictions, not the full 69-entry list. Official application page is authoritative."
+      },
+      "cashback_percent": {
+        "tiers": [
+          {
+            "m_score": "350–599",
+            "percent": 4,
+            "monthly_cap_usdt": 100
+          },
+          {
+            "m_score": "600–799",
+            "percent": 6,
+            "monthly_cap_usdt": 300
+          },
+          {
+            "m_score": "800+",
+            "percent": 10,
+            "monthly_cap_usdt": 800
+          }
+        ],
+        "condition": "Event-period rewards; actual VVIP level on last calendar day; exclusions and reversals apply"
+      },
+      "fees": {
+        "issuance": 0,
+        "annual": 0,
+        "inactivity": 0,
+        "termination": 0,
+        "top_up": 0,
+        "transaction_percent": 1,
+        "crypto_conversion_percent": 0,
+        "fx": "Visa rate, no MEXC markup",
+        "refund": 0,
+        "failed_transaction": "USD 0.50 each if failure rate >=20%, otherwise zero",
+        "small_transaction_under_usd_1": 0.1
+      },
+      "application": "Advanced KYC and qualifying proof of address; apply through official card page subject to jurisdiction and approval.",
+      "source_ids": [
+        "mexc-8",
+        "mexc-9",
+        "mexc-10",
+        "mexc-11"
+      ],
+      "notes": "Apple Pay and Google Pay supported. No underlying licensed issuer identified; MEXC describes itself as issuing product. No ATM withdrawal for virtual card; September fee waiver expired."
+    },
+    {
+      "exchange": "MEXC",
+      "name": "MEXC Card (APAC)",
+      "status": "Live in selected APAC markets",
+      "network": "Visa",
+      "issuer": null,
+      "countries": [
+        "Taiwan",
+        "Philippines",
+        "Thailand",
+        "Vietnam"
+      ],
+      "cashback_percent": {
+        "tiers": [
+          {
+            "m_score": "350–599",
+            "percent": 4,
+            "monthly_cap_usdt": 100
+          },
+          {
+            "m_score": "600–799",
+            "percent": 6,
+            "monthly_cap_usdt": 300
+          },
+          {
+            "m_score": "800+",
+            "percent": 10,
+            "monthly_cap_usdt": 800
+          }
+        ],
+        "condition": "Event-period rewards; actual VVIP level on last calendar day; exclusions and reversals apply"
+      },
+      "fees": {
+        "issuance": 0,
+        "annual": 0,
+        "inactivity": 0,
+        "termination": 0,
+        "transaction_percent": 0,
+        "crypto_conversion_percent": null,
+        "fx": "Visa rate plus 1% cross-border fee",
+        "refund": "1% USD transactions; 3% non-USD"
+      },
+      "application": "Available in four named markets; Advanced KYC. Current application terms require checking official card page.",
+      "source_ids": [
+        "mexc-8",
+        "mexc-9",
+        "mexc-10"
+      ],
+      "notes": "Google Pay supported. APAC conversion fee unresolved: fee-table says 0% but explanatory notes/examples say 1%. Underlying licensed issuer not established."
+    },
+    {
+      "exchange": "OKX",
+      "name": "OKX Card (EEA)",
+      "status": "live",
+      "network": "Mastercard",
+      "issuer": "UAB Monavate",
+      "countries": [
+        "European Union",
+        "Norway"
+      ],
+      "cashback_percent": null,
+      "fees": {
+        "transaction_fee": 0,
+        "foreign_exchange_fee": 0,
+        "conversion_spread_percent": 0.1
+      },
+      "application": "Eligible EU/Norway users activate in OKX App and fund OKX Pay with supported stablecoins; account verification applies.",
+      "source_ids": [
+        "okx-10",
+        "okx-11"
+      ],
+      "notes": "Iceland and Liechtenstein excluded. USDC/USDG spending card; issuer distinct from OKX Europe program manager. Promotional cashback rates and caps change; no permanent rate asserted. This is separate from Visa/Mastercard crypto purchases."
+    }
+  ],
+  "gaps": [
+    {
+      "exchange": "Backpack",
+      "gaps": [
+        "No country-specific card network, Apple Pay/Google Pay eligibility, card fee percentage or card limits verified.",
+        "No country-level P2P service, payment methods or counts verified; no P2P availability inferred.",
+        "Exchange Banxa presence confirmed, but provider country availability remains unknown. MoonPay evidence is Wallet-only.",
+        "No named local fiat rails outside documented Hong Kong USD SWIFT account route verified.",
+        "Detailed current spending-card issuer, network, cashback, fees, launch status and residence eligibility require official product terms.",
+        "Zero-fee marketing/search snippets conflict with opened updated wire fee schedule; do not advertise unrestricted free wires.",
+        "EU claim distribution documentation is not ordinary Exchange EUR/SEPA funding evidence."
+      ]
+    },
+    {
+      "exchange": "Binance",
+      "gaps": [
+        "Per-market P2P availability, named methods and method counts were not verified; all unknown except documented NGN discontinuation.",
+        "Third-party on-ramp providers and country eligibility remain unverified.",
+        "Bank/card/third-party eligibility remains unknown for most markets; no inference from advertised fiat currency.",
+        "Historical EEA Card closure FAQ d6c54984df904db7a0705f2914827381 currently returns article does not exist; no current closure claim is based on it.",
+        "RUB exit announcement 4411f45c7fd4484584153c506469cc61 redirects to generic announcements on live open; Russian bank/P2P facts remain null.",
+        "Card cashbacks and fees apply to the named Mexico program; other Binance card program jurisdictions require separate evidence.",
+        "SEPA and FPS public FAQs are documentation evidence; account-specific live transaction completion was not tested."
+      ]
+    },
+    {
+      "exchange": "Bitget",
+      "gaps": [
+        "Country-level card eligibility, standard card purchase fee and limits remain unverified except scoped evidence for India, Indonesia, Philippines and THB suspension.",
+        "Country-level third-party provider eligibility and fees remain unverified; generic provider/currency lists are not country eligibility.",
+        "P2P payment methods, counts, limits and fees are unknown for every target country; country mapping proves advertised market coverage only.",
+        "SEPA identity/residence restrictions conflict across official pages. UK bank availability remains unknown.",
+        "MXN fee table does not establish Mexican resident bank eligibility.",
+        "MYR card discontinuation and MYR P2P discontinuation surfaced in official search results, but full applicable notices were inaccessible; do not display positive MYR availability.",
+        "No current mainland China product eligibility established; no P2P-only assumption.",
+        "Wallet card issuing entity, exact supported-country list, reward terms and detailed fee schedule remain unverified.",
+        "No real transfers, card applications, authenticated account eligibility or live P2P orderbook were tested."
+      ]
+    },
+    {
+      "exchange": "Bybit",
+      "gaps": [
+        "Country P2P availability and payment-method counts not established; unknown except excluded jurisdictions.",
+        "Third-party onramp provider and country availability not established.",
+        "Typical bank arrival times, country-specific fees and most bank limits require account order-page evidence; speed remains null.",
+        "Card issuers, exact residence eligibility, current global-program cashback not established; no universal cashback claim.",
+        "Japan, Korea and Russia listing concerns card issuance country only; service and regulatory eligibility remain unknown.",
+        "Do not use older Bybit Wiki card availability claims: it contradicts newer regional Help Center product tables.",
+        "Bybit EU issuer not verified: linked official legal page returned heading only; eligible EEA list and fees use October 2026 Help Center updates, not older conflicting pages."
+      ]
+    },
+    {
+      "exchange": "Coinbase",
+      "gaps": [
+        "Exchange P2P availability, payment-method counts and provider names unverified; all P2P rows remain null.",
+        "China mainland, Malaysia, Indonesia, Vietnam, Thailand, Türkiye, Mexico, Nigeria, Japan and Russia exchange-country eligibility and fiat rails unverified. Argentina exchange fiat rails unverified; Wallet evidence is separate.",
+        "Card-purchase numerical fees/limits and full residence eligibility require current account-specific official checkout evidence.",
+        "EU/UK card issuer paragraph conflicts with fee disclosure; UK issuer remains null. Fixed debit-card cashback rate unverified.",
+        "Wallet third-party rails are explicitly separated; no provider or currency is inferred from a regional list.",
+        "Coinbase One credit-card APR and current state-specific acceptance require approved offer/current issuer agreement; no credit application performed."
+      ]
+    },
+    {
+      "exchange": "CoinW",
+      "gaps": [
+        "No verified country eligibility or payment-method counts for any of the 20 markets.",
+        "No evidenced withdraw-to-bank option, fiat withdrawal fee or typical bank-arrival speed. P2P selling and spending-card ATM access are not equivalent to direct bank withdrawals.",
+        "Card-purchase Visa/Mastercard network support, Google Pay support and limits were not established by accessed purchase documentation. Spending-card wallet support is a different feature.",
+        "Current card issuer, applicant jurisdictions, cashback and product-specific fee schedule remain unverified.",
+        "Old Zendesk physical-card announcement redirected to a closed help center; its cached restrictions and fees were excluded. A newer card application article rendered without substantive body; search snippets were not used as current eligibility proof."
+      ]
+    },
+    {
+      "exchange": "Gate.io",
+      "gaps": [
+        "No country-specific P2P payment-method counts or live liquidity verified.",
+        "Taiwan, Brazil, Mexico and Nigeria: reviewed sources do not establish fiat rail eligibility; absence from restriction list is not positive proof.",
+        "Global Gate restricted-location evidence does not establish availability of separate regional affiliates.",
+        "Complete card residence eligibility, licensed global issuer and tier-specific cashback schedule remain unverified.",
+        "Card purchase fees/limits and Apple Pay/Google Pay buy-channel availability remain unverified; spending-card wallet integration is a separate fact.",
+        "EU/SEPA bank withdrawal speed, fee and complete residency list unverified; legal conditional support is not live operational evidence.",
+        "Other third-party providers and country-specific availability unverified."
+      ]
+    },
+    {
+      "exchange": "HTX",
+      "gaps": [
+        "Current card fees, eligible residences, Apple Pay/Google Pay and checkout limits not verified.",
+        "No market-specific P2P payment-method list/count or third-party on-ramp roster verified.",
+        "Bank withdrawal fees and normal processing speeds not established; historical SEPA failed-deposit refund timing must not be used as withdrawal speed.",
+        "SEPA, FPS, PIX, UPI and RUB legacy references require current operational and residence verification before recommendation.",
+        "Current legal/regulator restrictions require a separate official-source review; secondary 2026 restriction claims conflict with directly retrieved agreement and are not adopted.",
+        "HTX-issued spending-card eligibility, network, issuer, cashback, fees and application unavailable; null does not mean no product exists."
+      ]
+    },
+    {
+      "exchange": "Kraken",
+      "gaps": [
+        "Card FAQ links to general regulation page rather than a complete current card-purchase country list; national card availability remains null.",
+        "No verified country-specific P2P market, payment-method count, or Banxa/MoonPay/Simplex/Mercuryo/Alchemy Pay integration established.",
+        "Other requested markets lack explicitly evidenced national bank eligibility; worldwide SWIFT is not national confirmation.",
+        "Mainland China eligibility remains unestablished; do not label P2P available."
+      ]
+    },
+    {
+      "exchange": "MEXC",
+      "gaps": [
+        "Country-specific P2P availability, methods and counts not established; left null outside mainland offboarding.",
+        "Third-party onramp country availability and provider fees not established.",
+        "SEPA deposit/withdrawal fees not established from opened support guides.",
+        "Brazil PIX and local withdrawal rails outside documented SWIFT/SEPA not established.",
+        "Underlying card issuers unidentified; co-branded ether.fi card not researched here.",
+        "Card reward event end date unknown; current fee-table APAC conversion conflict requires clarification.",
+        "Only country-specific named card eligibility is asserted; missing countries remain unknown rather than inferred unsupported."
+      ]
+    },
+    {
+      "exchange": "OKX",
+      "gaps": [
+        "Country-level P2P methods and counts unverified across the 20 markets; global navigation count cannot be assigned nationally.",
+        "Third-party on-ramp national eligibility, quotes and limits unverified; provider names alone are insufficient.",
+        "Card-purchase country matrix and transaction/account limits unverified; currency-based fees do not establish country access.",
+        "Most market cash rails remain null because no explicit residence-specific documentation was established.",
+        "TRY OKX TR bank funding/withdrawal detail remains unverified; global-platform link is not a bank-transfer rail.",
+        "EEA cashback rates and caps require current program terms; promotional marketing is not a permanent percentage.",
+        "Brazil OKX Card issuer/application/cashback and other regional card products not established in this bounded source pass.",
+        "Mainland China legal context belongs in the main report; exchange P2P language does not establish lawful availability."
+      ]
+    }
+  ]
+}
