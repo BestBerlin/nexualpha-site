@@ -14,7 +14,7 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { officialCampaignResearchByVenue } from "../../data/official-campaign-research.js";
 import { campaignResearchLocalizedText } from "../../data/official-campaign-localizations.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { isTurkeyGated } from "../../data/partner-geo-policy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { formatDate } from "../../data/format-date.js";
@@ -395,7 +395,7 @@ export function CampaignRadar({ locale = "en" }) {
         name: db.name || partner.name || slug,
         category: db.category || partner.category || "CEX",
         inviteCode: publicCta.hasReferral ? publicCta.inviteCode : null,
-        registrationUrl: publicCta.registrationUrl,
+        registrationUrl: venueGoHref(slug, "campaign-radar", locale),
         hasReferral: publicCta.hasReferral,
         summaryText,
         rewardSummary,
@@ -459,7 +459,7 @@ export function CampaignRadar({ locale = "en" }) {
       <div className="campaign-radar__grid">
         {filteredCampaigns.map((item) => {
           const reviewedOn = item.checkedAt ? formatDate(locale, item.checkedAt, { dateStyle: "medium" }) : "";
-          const directRegistration = item.hasReferral && /^https:\/\//i.test(item.registrationUrl || "");
+          const directRegistration = item.hasReferral && Boolean(item.registrationUrl);
           return (
           <article key={item.slug} className="campaign-card">
             <div className="campaign-card__header">
@@ -552,13 +552,13 @@ export function CampaignRadar({ locale = "en" }) {
               )}
 
               <a
-                href={item.hasReferral && /^https:\/\//i.test(item.registrationUrl || "")
+                href={item.hasReferral && item.registrationUrl
                   ? item.registrationUrl
                   : contextualHref(`/exchanges/${item.slug}#registration-path`, { locale })}
-                target={item.hasReferral && /^https:\/\//i.test(item.registrationUrl || "") ? "_blank" : undefined}
-                rel={item.hasReferral && /^https:\/\//i.test(item.registrationUrl || "") ? "sponsored noopener noreferrer" : undefined}
+                target={item.hasReferral && item.registrationUrl ? "_blank" : undefined}
+                rel={item.hasReferral && item.registrationUrl ? "sponsored noopener noreferrer" : undefined}
                 className="campaign-card__cta"
-                data-cta-kind={item.hasReferral && /^https:\/\//i.test(item.registrationUrl || "") ? "registration" : "research"}
+                data-cta-kind={item.hasReferral && item.registrationUrl ? "registration" : "research"}
                 data-cta-platform={item.slug}
                 data-cta-placement="campaign-radar"
                 data-cta-status={item.commercialClaim.status}

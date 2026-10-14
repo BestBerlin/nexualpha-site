@@ -7,7 +7,7 @@ import { SourceLink } from "../shared/SourceLink.jsx";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
-import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { regionalVenueCta, venueGoHref } from "../../data/source-bound-cta.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
@@ -170,8 +170,8 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
   const hasReviewedBaseFee = Number.isFinite(calculations.annualTotalFee);
 
   const inviteCode = regionalCta.inviteCode ?? null;
-  const directRoute = Boolean(regionalCta.direct && /^https:\/\//i.test(regionalCta.ctaHref || ""));
-  const regUrl = regionalCta.ctaHref;
+  const directRoute = Boolean(regionalCta.direct);
+  const regUrl = directRoute ? venueGoHref(selectedSlug, "bleed-analyzer", locale, market) : regionalCta.ctaHref;
 
   // 真实 Telegram Deep Link 闭环
   const telegramFunnel = buildTelegramWebsiteFunnelContext({

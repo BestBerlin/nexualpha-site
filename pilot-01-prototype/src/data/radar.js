@@ -1,9 +1,9 @@
 import { formatSgt } from "./local-time.js";
 import { localizedHref } from "./locale-routing.js";
-import { publicCtaForVenue } from "./source-bound-cta.js";
 import { RADAR_UI_COPY } from "./radar-ui-copy.js";
 
 export { venueDisplayName } from "./radar-ui-copy.js";
+export { venueGoHref } from "./source-bound-cta.js";
 
 export const LONG_SHORT_PATH = "/long-short";
 export const WHALES_PATH = "/whales";
@@ -348,14 +348,5 @@ export function formatUtc(iso) {
   if (!Number.isFinite(t)) return "—";
   // Site clock is Singapore Time (SGT); the name is kept for existing callers.
   return formatSgt(iso, "en", "stamp");
-}
-
-export function venueGoHref(slug, src, locale = "en", market) {
-  const cta = publicCtaForVenue(slug, locale, market);
-  if (!cta?.hasReferral || !cta.routeAvailable) return null;
-  // /go is locale-neutral: keep src (and the display locale) in the query so the click is attributed.
-  const params = new URLSearchParams({ src });
-  if (locale && locale !== "en") params.set("locale", locale);
-  return `/go/${encodeURIComponent(slug)}?${params.toString()}`;
 }
 

@@ -23,6 +23,7 @@ const SOURCE_REVIEW_GATES = Object.freeze({
 // never reopen an account or campaign action on their pages.
 const NEUTRAL_SIGNUP_LOCALES = NEUTRAL_CTA_LOCALES; // src/data/locale-policy.js (vi since 2026-10-13)
 const NEUTRAL_SIGNUP_GATE = Object.freeze({ reason: "neutral-locale-signup-disabled" });
+const CTA_SRC_RE = /^[a-z0-9][a-z0-9_-]{0,47}$/;
 function neutralSignupGate(locale) {
   return NEUTRAL_SIGNUP_LOCALES.has(locale) ? NEUTRAL_SIGNUP_GATE : null;
 }
@@ -72,6 +73,16 @@ function registryCasedInviteCode(slug, cta) {
 export function publicCtaForVenue(slug, locale = "en", market) {
   const cta = registryCasedInviteCode(slug, basePublicCtaForVenue(slug, locale));
   return failClosedPublicCta(cta, neutralSignupGate(locale) || partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
+}
+
+export function venueGoHref(slug, src = "signup", locale = "en", market) {
+  const cta = publicCtaForVenue(slug, locale, market);
+  if (!cta?.hasReferral || !cta.routeAvailable) return null;
+  const safeSrc = CTA_SRC_RE.test(String(src || "")) ? String(src) : "signup";
+  const params = new URLSearchParams({ src: safeSrc });
+  if (locale && locale !== "en") params.set("locale", locale);
+  if (market) params.set("market", market);
+  return `/go/${encodeURIComponent(String(slug || "").toLowerCase())}?${params.toString()}`;
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {

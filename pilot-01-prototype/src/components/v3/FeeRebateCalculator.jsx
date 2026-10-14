@@ -6,7 +6,7 @@ import { useState, useMemo } from "react";
 import { formatPercent } from "../../data/format-percent.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import "./fee-rebate-calculator.css";
 
@@ -155,7 +155,7 @@ function calcRow(slug, monthlyVol, mode, locale) {
     rebatePercent,
     yearlyFee,
     yearlySaving,
-    registrationUrl: cta.registrationUrl,
+    registrationUrl: venueGoHref(slug, "fee-rebate-calculator", locale),
     hasReferral: cta.hasReferral,
     inviteCode: cta.inviteCode,
     claimStatus: cta.claim.status,
@@ -298,7 +298,7 @@ export function FeeRebateCalculator({ locale = "en" }) {
               </div>
 
               <div className="frc__col-action" role="cell">
-                {row.hasReferral && /^https:\/\//i.test(row.registrationUrl || "") ? (
+                {row.hasReferral && row.registrationUrl ? (
                   <a
                     href={row.registrationUrl}
                     target="_blank"

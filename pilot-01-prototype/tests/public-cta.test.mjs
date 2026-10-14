@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { publicCtaForVenue, publicCtaForTopicPlatform } from "../src/data/public-cta.js";
 
 test("public CTA keeps official destination but hides unverified partner economics", () => {
@@ -60,6 +61,34 @@ test("public CTA pairs the displayed code with the primary registration route", 
   assert.equal(bitget.registrationUrl, "https://partner.bitget.cafe/bg/C6PRAF");
   assert.equal(bitget.inviteCode, "nexu888");
   assert.equal(bitget.configuredInviteCode, "nexu888");
+});
+
+test("unregistered HashKey and Aevo records do not expose fallback invite codes", () => {
+  for (const [slug, registrationUrl] of Object.entries({
+    hashkey: "https://global.hashkey.com",
+    aevo: "https://app.aevo.xyz",
+  })) {
+    const cta = publicCtaForVenue(slug, "en");
+    assert.equal(cta.registrationUrl, registrationUrl, `${slug} official route`);
+    assert.equal(cta.inviteCode, null, `${slug} visible invite code`);
+    assert.equal(cta.configuredInviteCode, null, `${slug} configured invite code`);
+    assert.equal(cta.hasReferral, false, `${slug} referral flag`);
+    assert.equal(cta.hasPartnerRoute, false, `${slug} partner route`);
+    assert.equal(cta.routeAvailable, false, `${slug} route availability`);
+  }
+});
+
+test("worker factbook venue snapshot does not ship HashKey or Aevo NEXUALPHA codes", () => {
+  const worker = readFileSync(new URL("../worker/index.js", import.meta.url), "utf8");
+  for (const slug of ["hashkey", "aevo"]) {
+    const start = worker.indexOf(`  ${slug}: {`);
+    assert.notEqual(start, -1, `${slug} worker venue record`);
+    const end = worker.indexOf("\n  },", start);
+    assert.notEqual(end, -1, `${slug} worker venue record end`);
+    const record = worker.slice(start, end);
+    assert.doesNotMatch(record, /NEXUALPHA/, `${slug} worker record must not expose NEXUALPHA`);
+    assert.match(record, /inviteCode: null/, `${slug} worker invite code`);
+  }
 });
 
 test("topic CTA projection keeps partner route separate from unverified benefit economics", () => {

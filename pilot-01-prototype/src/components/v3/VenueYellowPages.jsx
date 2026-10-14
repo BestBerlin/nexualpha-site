@@ -15,7 +15,7 @@ import { buildRegionalDecisionSet } from "../../data/regional-decision.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalResearchReturnHref } from "../../data/regional-directory.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { accountStageCopy, decisionCopy, directoryCopy, productPathLabel } from "./venue-yellow-pages-copy.js";
 import { appendAccountStageToSearch, emptyYellowPagesFilters, restoreYellowPagesStateFromUrl, writeYellowPagesStateToUrl } from "./venue-yellow-pages-state.js";
 import { ExchangeMatrix } from "./ExchangeMatrix.jsx";
@@ -1183,12 +1183,12 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           const publicCta = publicCtaForVenue(venue.slug, locale, market);
           const hasReferral = publicCta.hasReferral;
           const inviteCode = publicCta.inviteCode;
-          const registrationUrl = publicCta.registrationUrl;
+          const registrationUrl = venueGoHref(venue.slug, "directory-card", locale, market);
           const officialDomain = partner.officialDomain ?? db.officialDomain;
           const regionalCandidate = regionalDirectoryCandidateState(venue, { market, product, locale, accountStage: effectiveAccountStage, funding: effectiveFunding });
           const displayMarketStatus = regionalCandidate.status !== "unscoped" ? regionalCandidate.status : marketStatus;
           const ctaState = regionalCtaState({ market, status: displayMarketStatus });
-          const canOpenRegistration = ctaState !== "blocked" && hasReferral && /^https:\/\//i.test(registrationUrl);
+          const canOpenRegistration = ctaState !== "blocked" && hasReferral && Boolean(registrationUrl);
 
           const catClass = String(venue.category || "").toLowerCase().replace(/\s+/g, "-");
           const detailExpanded = compactDirectory && (expandedVenueDetails || []).includes(venue.slug);

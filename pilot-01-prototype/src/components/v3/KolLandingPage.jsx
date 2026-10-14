@@ -4,7 +4,7 @@
  */
 import React from "react";
 import { venueDatabase } from "../../data/venue-database.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "./kol-landing-page.css";
@@ -98,9 +98,10 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
             const db = venueDatabase[slug] || {};
             const cta = publicCtaForVenue(slug, locale, market);
             const inviteCode = cta.inviteCode;
-            const directRoute = cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "");
+            const registrationHref = venueGoHref(slug, "kol-venue-card", locale, market);
+            const directRoute = Boolean(registrationHref);
             const routeHref = directRoute
-              ? cta.registrationUrl
+              ? registrationHref
               : contextualHref(`/exchanges/${slug}#registration-path`, { locale, market, product });
             const benefit = cta.benefit;
 

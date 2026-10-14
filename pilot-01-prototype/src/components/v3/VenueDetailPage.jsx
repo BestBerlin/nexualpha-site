@@ -29,7 +29,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { buildTelegramWebsiteFunnelContext, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
@@ -501,6 +501,24 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const [tradeVolume, setTradeVolume] = useState(50000);
   const [showAllSimilar, setShowAllSimilar] = useState(false);
   const [mobileStickyActive, setMobileStickyActive] = useState(false);
+  const [urlDecisionContext, setUrlDecisionContext] = useState(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const url = new URL(window.location.href);
+    if (!url.pathname.endsWith(`/exchanges/${venue.slug}`)) return undefined;
+    const next = {
+      market: url.searchParams.get("market") || undefined,
+      product: url.searchParams.get("product") || undefined,
+      accountStage: url.searchParams.get("accountStage") || undefined,
+      funding: url.searchParams.get("funding") || undefined,
+    };
+    setUrlDecisionContext(Object.values(next).some(Boolean) ? next : null);
+    return undefined;
+  }, [venue.slug]);
+  const effectiveMarket = urlDecisionContext?.market ?? market;
+  const effectiveProduct = urlDecisionContext?.product ?? product;
+  const effectiveAccountStage = urlDecisionContext?.accountStage ?? accountStage;
+  const effectiveFunding = urlDecisionContext?.funding ?? funding;
   const shouldShowMobileSticky = (anchorRect, isMobileViewport) => {
     if (!isMobileViewport || !anchorRect) return false;
     const bottom = Number(anchorRect.bottom);
@@ -522,7 +540,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const hubTools = exchangeHubToolLinks(venue.slug, locale);
   const suggested = profile.suggestedComparisons?.map((slug) => venues.find((candidate) => candidate.slug === slug)).filter(Boolean) ?? [];
   const similar = (suggested.length ? suggested : venues.filter((candidate) => candidate.slug !== venue.slug && candidate.category === venue.category)).sort((a, b) => {
-    const order = locale === "tr" || market === "TR" ? ["okx", "binance", "bybit"] : ["bitget", "okx", "binance"];
+    const order = locale === "tr" || effectiveMarket === "TR" ? ["okx", "binance", "bybit"] : ["bitget", "okx", "binance"];
     const rank = slug => order.includes(slug) ? order.indexOf(slug) : order.length;
     return rank(a.slug) - rank(b.slug);
   }).slice(0, 4);
@@ -554,13 +572,13 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const venueHeroSummary = reviewedDecision
     ? reviewedDecisionHeroSummary(localizedVenueName, locale, reviewedDecision)
     : (research?.contentLocale === locale ? research.summary : profile.positioning);
-  const venueCta = regionalVenueCta(venue.slug, locale, market, product, { accountStage, funding });
+  const venueCta = regionalVenueCta(venue.slug, locale, effectiveMarket, effectiveProduct, { accountStage: effectiveAccountStage, funding: effectiveFunding });
   const { db, partner, officialDomain, inviteCode, hasReferral, rebatePercent, benefitText, commercialClaim } = venueCta;
   // Owner 2026-10-10 (GSC: exchange pages earn impressions, no clicks): the H1 carries the search intent, under the same
   // referral-title policy as the <title> (referral-seo.js: ru, ar and zh-Hant stay neutral; tr only for SPK-listed
   // venues). The invite code is the data-bound one from the CTA, never typed here.
-  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale, market) ? inviteCode : null;
-  const nativeReferral = nativeReferralFor(venue.slug, locale, market);
+  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale, effectiveMarket) ? inviteCode : null;
+  const nativeReferral = nativeReferralFor(venue.slug, locale, effectiveMarket);
   const detailTitleStr = nativeReferral?.title || (referralHeadlineCode
     ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear(), referralSharePercent(venue.slug))
     : text.detailFeesTitle(localizedVenueName));
@@ -593,14 +611,14 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const takerRate = db.spotFee?.takerRate && db.feeCheckedAt ? db.spotFee.takerRate : null;
   const annualBaseFee = takerRate == null ? null : Math.round(tradeVolume * 12 * takerRate);
   const annualSavings = annualBaseFee == null || commercialClaim.status !== "verified" ? null : Math.round(annualBaseFee * (rebatePercent / 100));
-  const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
-  const directAnswerLinkContext = { market, product, accountStage, funding };
+  const contextSearch = directoryContextSearch({ market: effectiveMarket, product: effectiveProduct, locale, accountStage: effectiveAccountStage, funding: effectiveFunding });
+  const directAnswerLinkContext = { market: effectiveMarket, product: effectiveProduct, accountStage: effectiveAccountStage, funding: effectiveFunding };
   const venueDirectAnswerInternalHref = (href) => {
     const target = new URL(String(href || "/"), "https://nexualpha.com");
     return appendDecisionPassportQuery(href, {
       ...directAnswerLinkContext,
-      product: target.searchParams.get("product") || product,
-      market: target.searchParams.get("market") || market,
+      product: target.searchParams.get("product") || effectiveProduct,
+      market: target.searchParams.get("market") || effectiveMarket,
     });
   };
   const priorityAnswer = priorityVenueAnswerFor(venue.slug, locale);
@@ -635,9 +653,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     {venueDirectAnswer.boundary && <small>{venueDirectAnswer.boundary}</small>}
   </>;
   const venueDirectAnswerCta = venueDirectAnswer?.registrationSlug
-    ? regionalVenueCta(venueDirectAnswer.registrationSlug, locale, market, product, { accountStage, funding })
+    ? regionalVenueCta(venueDirectAnswer.registrationSlug, locale, effectiveMarket, effectiveProduct, { accountStage: effectiveAccountStage, funding: effectiveFunding })
     : null;
-  const heroTelegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market, locale, product, campaign: "venue_hero_monitor" });
+  const heroTelegramFunnel = buildTelegramWebsiteFunnelContext({ intent: "monitor", venue: venue.slug, market: effectiveMarket, locale, product: effectiveProduct, campaign: "venue_hero_monitor" });
   const nonCexResearchActions = String(profile.category || venue.category || "").toUpperCase() === "CEX" ? [] : [
     similar[0] && {
       label: text.viewCompare,
@@ -648,7 +666,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     },
     {
       label: telegramDetailUi.monitor || (isZhLocale ? "在 Telegram 继续研究 ↗" : "Continue research in Telegram ↗"),
-      href: getTelegramDeepLink({ action: "verify_domain", venue: venue.slug, market, locale, product }),
+      href: getTelegramDeepLink({ action: "verify_domain", venue: venue.slug, market: effectiveMarket, locale, product: effectiveProduct }),
       kind: "telegram",
       placement: "dex-detail-telegram",
       decision: `telegram_${venue.slug}`,
@@ -660,10 +678,23 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const handleStickyCopy = () => { handleCopyCode(); if (inviteCode) trackCodeCopy(venue.slug, "venue-mobile-sticky-code"); };
   // The sticky bar opens the same protected partner route as the registration card's primary button (same decision
   // state, same href). Where the card itself would not open a third-party route, the bar keeps the review link.
-  const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale, market), regionalCta: venueCta });
+  const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale, effectiveMarket), regionalCta: venueCta });
   const stickyOpensSignup = stickyDecision.canOpenThirdParty && stickyDecision.protectedHref === venueCta.ctaHref;
   const ctaText = ctaUiCopy(locale);
   const profileChapters = profileResearchChapterCopy[textLocaleKey(locale)] || profileResearchChapterCopy.en;
+
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    if (!venueCta.actionGate && venueCta.ctaState !== "blocked") return undefined;
+    const researchHref = venueCta.ctaHref;
+    for (const link of document.querySelectorAll(`.v3-profile-page a[href^="/go/${venue.slug}"]`)) {
+      link.setAttribute("href", researchHref);
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.setAttribute("data-cta-kind", "research");
+    }
+    return undefined;
+  }, [effectiveMarket, locale, venue.slug, venueCta.ctaHref, venueCta.actionGate?.reason, venueCta.ctaState]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -729,8 +760,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         data-cta-placement="venue-hero-quick-registration"
         data-growth-decision="registration_card_review"
         data-growth-placement="venue-hero-quick-registration"
-        data-growth-market={market}
-        data-growth-product={product}
+        data-growth-market={effectiveMarket}
+        data-growth-product={effectiveProduct}
         data-registration-confirmation-entry="registration-card"
       >
         {registrationReviewLabel}
@@ -740,9 +771,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
   const venueCampaignBanners = <>
       {/* Binance October gifts (owner 2026-10-12): banner on the Binance profile while the campaign runs. */}
-      {profile.slug === BINANCE_OCTOBER_VENUE && binanceOctoberPromotable({ locale, market }) && (() => {
+      {profile.slug === BINANCE_OCTOBER_VENUE && binanceOctoberPromotable({ locale, market: effectiveMarket }) && (() => {
         const teaser = binanceOctoberTeaser(locale);
-        return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
+        return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${effectiveMarket ? `?market=${encodeURIComponent(effectiveMarket)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
           data-cta-kind="research" data-cta-platform="binance" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
@@ -750,9 +781,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </LocalLink>;
       })()}
       {/* Kraken 5M USDG Challenge page (owner 2026-10-13): banner on the Kraken profile while it runs, where it may be promoted. */}
-      {profile.slug === KRAKEN_USDG_VENUE && krakenUsdgPromotable({ locale, market }) && (() => {
+      {profile.slug === KRAKEN_USDG_VENUE && krakenUsdgPromotable({ locale, market: effectiveMarket }) && (() => {
         const teaser = krakenUsdgTeaser(locale);
-        return <LocalLink locale={locale} href={`${KRAKEN_USDG_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="kraken-usdg"
+        return <LocalLink locale={locale} href={`${KRAKEN_USDG_PATH}${effectiveMarket ? `?market=${encodeURIComponent(effectiveMarket)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="kraken-usdg"
           data-cta-kind="research" data-cta-platform="kraken" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
@@ -760,9 +791,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </LocalLink>;
       })()}
       {/* Bitget Alliance campaign page (owner 2026-10-13): banner on the Bitget profile while the campaign runs, where Bitget may be promoted. */}
-      {profile.slug === BITGET_ALLIANCE_VENUE && bitgetAlliancePromotable({ locale, market }) && (() => {
+      {profile.slug === BITGET_ALLIANCE_VENUE && bitgetAlliancePromotable({ locale, market: effectiveMarket }) && (() => {
         const teaser = bitgetAllianceTeaser(locale);
-        return <LocalLink locale={locale} href={`${BITGET_ALLIANCE_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bitget-alliance"
+        return <LocalLink locale={locale} href={`${BITGET_ALLIANCE_PATH}${effectiveMarket ? `?market=${encodeURIComponent(effectiveMarket)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bitget-alliance"
           data-cta-kind="research" data-cta-platform="bitget" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
@@ -772,7 +803,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       {/* Bybit Stocks campaign page (owner 2026-10-12): banner on the Bybit profile while the launch campaign runs. */}
       {profile.slug === BYBIT_STOCKS_VENUE && bybitStocksCampaignActive() && (() => {
         const teaser = bybitStocksTeaser(locale);
-        return <LocalLink locale={locale} href={`${BYBIT_STOCKS_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bybit-stocks"
+        return <LocalLink locale={locale} href={`${BYBIT_STOCKS_PATH}${effectiveMarket ? `?market=${encodeURIComponent(effectiveMarket)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="bybit-stocks"
           data-cta-kind="research" data-cta-platform="bybit" data-cta-placement="venue-campaign-banner">
           <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
           <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
@@ -788,10 +819,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         expectedId={profile.slug}
         objectLabel={localizedVenueName}
         locale={locale}
-        market={market}
-        product={product}
-        accountStage={accountStage}
-        funding={funding}
+        market={effectiveMarket}
+        product={effectiveProduct}
+        accountStage={effectiveAccountStage}
+        funding={effectiveFunding}
         continueHash="#registration-checklist"
       />
       <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
@@ -833,7 +864,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               )}
             </h1>
           </div>
-          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={market} />
+          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} />
           {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
 
@@ -841,7 +872,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <div className="v3-profile-action-column">
         <div className="v3-profile-main-registration enter" style={{ "--i": 2 }} data-cta-surface="venue-profile-main-registration">
         <article className="v3-detail-grid__handoff">
-          <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={market} product={product} accountStage={accountStage} funding={funding} />
+          <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={effectiveMarket} product={effectiveProduct} accountStage={effectiveAccountStage} funding={effectiveFunding} />
         </article>
         <TelegramAlertsStrip locale={locale} placement="venue-telegram-alerts" className="tg-signal-strip--venue" />
         </div>
@@ -855,7 +886,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
-        <VenueKeywordSections slug={profile.slug} locale={locale} market={market} inviteCode={hasReferral ? inviteCode : null} />
+        <VenueKeywordSections slug={profile.slug} locale={locale} market={effectiveMarket} inviteCode={hasReferral ? inviteCode : null} />
         <BrazilDeadlineNotice locale={locale} slug={profile.slug} placement="venue" />
 
         {venueDirectAnswer && (
@@ -893,7 +924,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                 ))}
                 {venueDirectAnswerCta && (
                   <a
-                    href={venueDirectAnswerCta.ctaHref}
+                    href={venueDirectAnswerCta.direct ? venueGoHref(venueDirectAnswer.registrationSlug, "venue-direct-answer-protected-cta", locale, effectiveMarket) : venueDirectAnswerCta.ctaHref}
                     target={venueDirectAnswerCta.direct ? "_blank" : undefined}
                     rel={venueDirectAnswerCta.direct ? "sponsored noopener noreferrer" : undefined}
                     data-cta-kind={venueDirectAnswerCta.direct ? "registration" : "research"}
@@ -918,7 +949,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           />
         )}
 
-        {venue.slug === "hyperliquid" && ["en", "zh-Hans", "zh-Hant"].includes(locale) && <HyperliquidFeeScenario locale={locale} market={market} />}
+        {venue.slug === "hyperliquid" && ["en", "zh-Hans", "zh-Hant"].includes(locale) && <HyperliquidFeeScenario locale={locale} market={effectiveMarket} />}
 
         {!priorityAnswer && (
           <section className="v3-profile-decision-context" data-profile-task="context">
@@ -932,8 +963,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <VenueReadinessChecklist
           venueSlug={profile.slug}
           locale={locale}
-          market={market}
-          product={product}
+          market={effectiveMarket}
+          product={effectiveProduct}
         />
 
         <div className="v3-profile-primary-actions v3-profile-actions-row" data-profile-task="primary">
@@ -948,9 +979,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     </section>
 
-    <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={market} />
-    <ExchangeLicenseSection slug={profile.slug} locale={locale} market={market} />
-    <ExchangeKeyFacts slug={profile.slug} locale={locale} market={market} />
+    <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
 
@@ -964,14 +995,14 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </summary>
         <div className="v3-profile-sources-group__body">
           {ResearchHub && <DeferUntilVisible target=".v3-profile-sources-group" interactionOnly prefetch={prefetchResearch}>
-            <ResearchHub annualSavings={annualSavings} codeFeedback={codeFeedback} commercialClaim={commercialClaim} copy={copy} db={db} detailLabels={detailLabels} handleCopyCode={handleCopyCode} heroTelegramFunnel={heroTelegramFunnel} invitationSummary={invitationSummary} inviteCode={inviteCode} isZhLocale={isZhLocale} kycSummary={kycSummary} locale={locale} localizedVenueName={localizedVenueName} market={market} maxLev={maxLev} metricText={metricText} nonCexResearchActions={nonCexResearchActions} officialDomain={officialDomain} partner={partner} porRatio={porRatio} porVerified={porVerified} priorityAnswer={priorityAnswer} product={product} profile={profile} profileChapters={profileChapters} quickRegistration={quickRegistration} rebatePercent={rebatePercent} reviewedSpotRate={reviewedSpotRate} routeUi={routeUi} runtimeUi={runtimeUi} setTradeVolume={setTradeVolume} spotFeeDisplay={spotFeeDisplay} telegramDetailUi={telegramDetailUi} text={text} tradeVolume={tradeVolume} venue={venue} venueCta={venueCta} venueDirectAnswer={venueDirectAnswer} venueDirectAnswerDetails={venueDirectAnswerDetails} visibleBenefitText={visibleBenefitText} />
+            <ResearchHub annualSavings={annualSavings} codeFeedback={codeFeedback} commercialClaim={commercialClaim} copy={copy} db={db} detailLabels={detailLabels} handleCopyCode={handleCopyCode} heroTelegramFunnel={heroTelegramFunnel} invitationSummary={invitationSummary} inviteCode={inviteCode} isZhLocale={isZhLocale} kycSummary={kycSummary} locale={locale} localizedVenueName={localizedVenueName} market={effectiveMarket} maxLev={maxLev} metricText={metricText} nonCexResearchActions={nonCexResearchActions} officialDomain={officialDomain} partner={partner} porRatio={porRatio} porVerified={porVerified} priorityAnswer={priorityAnswer} product={effectiveProduct} profile={profile} profileChapters={profileChapters} quickRegistration={quickRegistration} rebatePercent={rebatePercent} reviewedSpotRate={reviewedSpotRate} routeUi={routeUi} runtimeUi={runtimeUi} setTradeVolume={setTradeVolume} spotFeeDisplay={spotFeeDisplay} telegramDetailUi={telegramDetailUi} text={text} tradeVolume={tradeVolume} venue={venue} venueCta={venueCta} venueDirectAnswer={venueDirectAnswer} venueDirectAnswerDetails={venueDirectAnswerDetails} visibleBenefitText={visibleBenefitText} />
           </DeferUntilVisible>}
         </div>
       </details>
     </section>
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
-    <VenueFaqSection venue={venue} profile={profile} locale={locale} market={market} db={db} partner={partner} />
+    <VenueFaqSection venue={venue} profile={profile} locale={locale} market={effectiveMarket} db={db} partner={partner} />
 
     <VenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} />
 
@@ -1025,7 +1056,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </div>
         {stickyOpensSignup ? (
           <a
-            href={venueCta.ctaHref}
+            href={venueGoHref(profile.slug, "venue-mobile-sticky", locale, effectiveMarket)}
             target="_blank"
             rel="sponsored noopener noreferrer"
             className="v3-mobile-sticky-bar__btn v3-mobile-sticky-bar__btn--signup"
@@ -1036,8 +1067,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             data-cta-code={hasReferral && inviteCode ? inviteCode : undefined}
             data-growth-decision={profile.slug}
             data-growth-placement="venue-mobile-sticky"
-            data-growth-market={market}
-            data-growth-product={product}
+            data-growth-market={effectiveMarket}
+            data-growth-product={effectiveProduct}
           >
             {ctaText.open} <span aria-hidden="true">↗</span>
           </a>

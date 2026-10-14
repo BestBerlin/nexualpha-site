@@ -60,8 +60,8 @@ for (const venue of Object.keys(BACKUP_SIGNUP_URLS)) goVenues.set(`${venue}-alt`
 const APK_GO_SLUGS = new Set(Object.keys(EXCHANGE_APK_BY_GO_SLUG));
 for (const [slug, apk] of Object.entries(EXCHANGE_APK_BY_GO_SLUG)) goVenues.set(slug, apk.venue);
 for (const [alias, slug] of Object.entries(GO_ALIASES)) if (goVenues.has(slug)) goVenues.set(alias, goVenues.get(slug));
-// Owner 2026-10-13 ("every click carries our code"): rendered body links to a referral venue must go through /go or
-// carry the code. Real external exchange links are allowed only on the legal and methodology pages; the reviewed
+// Owner 2026-10-14: rendered exchange registration links must use /go, even when the raw URL carries the code.
+// Real external exchange links are allowed only on the legal and methodology pages; the reviewed
 // allowlist below still covers non-referral venues and source literals stored in data (rendering rewrites those).
 const DIRECT_LINK_PAGES = new Set([...LEGAL_PAGE_PATHS, '/methodology']);
 
@@ -100,7 +100,7 @@ function classify(href, attrs = {}, { rendered = false, directAllowed = false } 
   }
   const venue = venueFor(url);
   if (!venue) return null;
-  if (attributed(url, venue)) return { venue, signup: true, valid: true };
+  if (attributed(url, venue)) return { venue, signup: true, valid: !rendered || directAllowed };
   const conversion = ['register', 'registration', 'signup', 'campaign'].includes(attrs['data-cta-kind']) || attrs.sourceKey === 'affiliateUrl';
   const unregisteredCode = ['ref', 'referralCode', 'inviteCode', 'invite_code', 'affiliate_id', 'channelCode', 'vipCode', 'rcode', 'reg', 'clacCode'].some(key => url.searchParams.has(key));
   // Strict for the venue's own domains (exchange-outbound.js); third-party doc hosts (GitBook) keep the reviewed allowlist.
@@ -150,6 +150,11 @@ test('guard rejects bare/wrong-code links and enforces locale gates', () => {
     else assert.equal(classify(href).valid, false, href);
   }
   for (const { url } of targets) assert.equal(classify(url.href)?.valid, true, url.href);
+  for (const { url } of targets) {
+    assert.equal(classify(url.href, {}, { rendered: true }).valid, false, `Rendered exchange links must use /go: ${url.href}`);
+    assert.equal(classify(url.href, {}, { rendered: true, directAllowed: true }).valid, true, 'Legal/methodology direct-link exception');
+  }
+  assert.equal(classify('/go/okx?src=directory-card', {}, { rendered: true }).valid, true);
   assert.equal(classify('/go/not-registered').valid, false);
   assert.equal(classify('https://www.binance.com', { lang: 'en', 'aria-label': 'Sign up' }).valid, false);
   assert.equal(classify('https://www.gate.example/signup/nexubest').valid, false);
@@ -211,8 +216,12 @@ test('every /go route in the registries redirects with the venue code or campaig
     report.push(`/go/${slug}${query} (${label}) -> ${location}`);
     if (SOURCE_BOUND_GO_SLUGS.includes(venue)) {
       const cta = publicCtaForVenue(venue, 'en');
-      assert.equal(location, cta.registrationUrl, 'source-bound destination is unchanged');
-      assert.ok(cta.inviteCode && location.includes(encodeURIComponent(cta.inviteCode)), 'source-bound redirect retains its referral code');
+      assert.equal(location, new URL(cta.registrationUrl).href, 'source-bound destination matches the public route');
+      if (cta.hasReferral) assert.ok(cta.inviteCode && location.includes(encodeURIComponent(cta.inviteCode)), 'source-bound redirect retains its referral code');
+      else {
+        assert.equal(cta.inviteCode, null);
+        assert.ok(!location.includes('NEXUALPHA'), 'official-only redirect never invents a code');
+      }
       continue;
     }
     if (!partnerRegistry[venue]?.hasReferral) continue;
@@ -264,7 +273,9 @@ test('built SSR and content/data exchange links retain attribution', async () =>
   // These families are request-time SSR, not prerender assets. Exercise the built renderer for their full
   // source inventory in every UI locale, rather than letting their absence from the manifest silently skip them.
   const { render } = await import('../dist/ssr/entry-server.js');
-  const runtimePaths = ['/academy', ...ACADEMY_EPISODES.map(episode => `/academy/${episode.slug}`),
+  const runtimePaths = ['/exchanges', '/activities', '/rates', '/funding-rates', '/embed/calculator',
+    ...Object.keys(partnerRegistry).map(slug => `/exchanges/${slug}`),
+    '/academy', ...ACADEMY_EPISODES.map(episode => `/academy/${episode.slug}`),
     ...APP_DOWNLOAD_SLUGS.map(appDownloadPath), '/coins', ...COINS.map(coin => `/coins/${coin.slug}`),
     '/activities/binance-october-gifts', '/activities/bitget-alliance', '/activities/bybit-stocks',
     ...APPROVED_CAMPAIGNS.map(c => `/activities/${c.id}`)];
@@ -272,7 +283,8 @@ test('built SSR and content/data exchange links retain attribution', async () =>
   for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) for (const pathname of runtimePaths) {
     const page = localizedPath(pathname, locale);
     const html = render(`https://nexualpha.com${page}`);
-    assert.ok(html.includes('<h1') && html.length > 2000, `Request-time SSR missing: ${page}`);
+    const expectedMarkup = pathname === '/embed/calculator' ? 'embed-container--calculator' : '<h1';
+    assert.ok(html.includes(expectedMarkup) && html.length > 2000, `Request-time SSR missing: ${page}`);
     for (const attrs of anchors(html)) check(resolve(root, 'dist/ssr/entry-server.js'), attrs, locale, page, page);
     runtimePages++;
   }

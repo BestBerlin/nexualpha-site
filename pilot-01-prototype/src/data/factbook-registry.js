@@ -974,10 +974,10 @@ export const FACTBOOK_REGISTRY = {
       docUrl: "https://hashkey-global.readme.io/reference/api-overview",
     },
     rebate: {
-      code: "NEXUALPHA",
-      percent: 20,
-      welcomeBonus: "HSK Token Reward Hub",
-      url: "https://global.hashkey.com/en-US/register/invite?invitationCode=NEXUALPHA",
+      code: null,
+      percent: 0,
+      welcomeBonus: null,
+      url: "https://global.hashkey.com",
     },
     tokenDiscount: {
       token: "HSK",
@@ -1331,10 +1331,10 @@ export const FACTBOOK_REGISTRY = {
       docUrl: "https://docs.aevo.xyz",
     },
     rebate: {
-      code: "NEXUALPHA",
-      percent: 10,
-      welcomeBonus: "10% Fee Rebate",
-      url: "https://app.aevo.xyz/r/NEXUALPHA",
+      code: null,
+      percent: 0,
+      welcomeBonus: null,
+      url: "https://app.aevo.xyz",
     },
     tokenDiscount: {
       token: "AEVO",

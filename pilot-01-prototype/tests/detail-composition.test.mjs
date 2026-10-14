@@ -83,7 +83,7 @@ test("DEX mechanism cards and CEX sourced fee summaries keep distinct presentati
 test("non-CEX details add comparison and Telegram research paths without changing registration links", () => {
   assert.match(source, /const nonCexResearchActions = String\(profile\.category \|\| venue\.category \|\| ""\)\.toUpperCase\(\) === "CEX" \? \[\] : \[/);
   assert.match(source, /href: `\/compare\/\$\{compareSlug\(\[profile\.slug, similar\[0\]\.slug\]\)\}\?\$\{contextSearch\}`/);
-  assert.match(source, /getTelegramDeepLink\(\{ action: "verify_domain", venue: venue\.slug, market, locale, product \}\)/);
+  assert.match(source, /getTelegramDeepLink\(\{ action: "verify_domain", venue: venue\.slug, market: effectiveMarket, locale, product: effectiveProduct \}\)/);
   assert.match(source, /researchActions=\{nonCexResearchActions\}/);
 });
 
@@ -143,7 +143,7 @@ test("venue detail moves protected invite and registration action into the hero 
   assert.doesNotMatch(detail, /前往官网注册|前往官網註冊|Register on Official Site/);
   // Class b, b16ef53 venue split: direct third-party signup moved to the guarded mobile sticky path when it matches the protected CTA.
   assert.match(detail, /const stickyOpensSignup = stickyDecision\.canOpenThirdParty && stickyDecision\.protectedHref === venueCta\.ctaHref/);
-  assert.match(detail, /stickyOpensSignup \? \([\s\S]*href=\{venueCta\.ctaHref\}[\s\S]*rel="sponsored noopener noreferrer"[\s\S]*data-cta-placement="venue-mobile-sticky"/);
+  assert.match(detail, /stickyOpensSignup \? \([\s\S]*href=\{venueGoHref\(profile\.slug, "venue-mobile-sticky", locale, effectiveMarket\)\}[\s\S]*rel="sponsored noopener noreferrer"[\s\S]*data-cta-placement="venue-mobile-sticky"/);
   assert.match(detail, /data-cta-placement="venue-hero-quick-registration"/);
   assert.match(css, /\.v3-venue-quick-registration\s*\{/);
 });

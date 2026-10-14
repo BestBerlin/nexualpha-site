@@ -188,7 +188,8 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
   assert.match(bleed, /const inviteCode = regionalCta\.inviteCode \?\? null/);
   assert.doesNotMatch(bleed, /partner\.inviteCode \?\? db\.inviteCode/);
   assert.doesNotMatch(bleed, /benefitVerified \? \(partner\.inviteCode/);
-  assert.match(bleed, /const directRoute = Boolean\(regionalCta\.direct && \/\^https:/);
+  assert.match(bleed, /const directRoute = Boolean\(regionalCta\.direct\)/);
+  assert.match(bleed, /const regUrl = directRoute \? venueGoHref\(selectedSlug, "bleed-analyzer", locale, market\) : regionalCta\.ctaHref/);
   assert.match(bleed, /data-growth-market=\{market\}/);
   assert.match(bleed, /data-growth-product=\{product\}/);
   const app = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8');

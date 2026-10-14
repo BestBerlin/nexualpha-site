@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BackupSignupLink } from "../../shared/BackupSignupLink.jsx";
 import { pickNewsOfferVenue } from "../../../data/news-offer.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
+import { venueGoHref } from "../../../data/source-bound-cta.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import "./news-venue-offer.css";
 
@@ -41,8 +42,9 @@ const READ_DELAY_MS = 15000;
 function OfferBody({ slug, cta, locale, market, t, placement, linkFor, nameFor }) {
   const [copied, setCopied] = useState(false);
   const name = (nameFor && nameFor(slug, cta)) || cta.name || slug;
-  const href = linkFor ? linkFor(slug, cta) : cta.registrationUrl;
-  const tracking = linkFor
+  const href = linkFor ? linkFor(slug, cta) : venueGoHref(slug, placement, locale, market);
+  if (!href) return null;
+  const tracking = href.startsWith("/go/")
     ? { "data-offer-link": "go", "data-cta-platform": slug, "data-cta-placement": placement }
     : { "data-cta-kind": "registration", "data-cta-platform": slug, "data-cta-placement": placement, "data-cta-code": cta.inviteCode || undefined };
   const terms = ownerRebateLine(slug, locale, name) || t.fallback;

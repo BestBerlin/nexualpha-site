@@ -7,19 +7,16 @@
   "4BRhe",
   "7f97gkqw",
   "NEXU888",
-  "NEXUALPHA",
   "luckybitcoin",
   "nexu888",
   "nexubest"
  ],
  "routes": {
   "/@1440": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | ",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
@@ -36,12 +33,10 @@
    "https://www.okx.com/join/nexu888 | nexu888"
   ],
   "/@390": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | ",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
@@ -94,12 +89,10 @@
    "https://www.okx.com/join/nexu888 | nexu888"
   ],
   "/de@1440": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | ",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
@@ -116,12 +109,10 @@
    "https://www.okx.com/join/nexu888 | nexu888"
   ],
   "/de@390": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | ",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
@@ -170,10 +161,8 @@
    "https://www.okx.com/join/nexu888 | nexu888"
   ],
   "/exchanges@1440": [
-   "https://app.aevo.xyz/r/NEXUALPHA | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://backpack.exchange/join/luckybitcoin | ",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | ",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://www.binance.com?ref=11350287 | ",
    "https://www.bybit.com/register?affiliate_id=48553 | ",
@@ -184,10 +173,8 @@
    "https://www.okx.com/join/nexu888 | "
   ],
   "/exchanges@390": [
-   "https://app.aevo.xyz/r/NEXUALPHA | ",
    "https://app.hyperliquid.xyz/join/NEXU888 | ",
    "https://backpack.exchange/join/luckybitcoin | ",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | ",
    "https://partner.bitget.cafe/bg/C6PRAF | ",
    "https://www.binance.com?ref=11350287 | ",
    "https://www.bybit.com/register?affiliate_id=48553 | ",
@@ -198,10 +185,8 @@
    "https://www.okx.com/join/nexu888 | "
   ],
   "/rates@1440": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
    "https://www.binance.com?ref=11350287 | 11350287",
@@ -213,10 +198,8 @@
    "https://www.okx.com/join/nexu888 | nexu888"
   ],
   "/rates@390": [
-   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
    "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
    "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
-   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
    "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
    "https://www.binance.com?ref=11350287 | ",
    "https://www.binance.com?ref=11350287 | 11350287",
