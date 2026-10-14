@@ -46,6 +46,7 @@ import { converterSitemapEntries } from "../src/data/converter-seo.js";
 import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 import { bybitStocksSitemapEntries } from "../src/data/bybit-stocks-seo.js";
+import { tokenizedStocksSitemapEntries } from "../src/data/tokenized-stocks-seo.js";
 import { bitgetAllianceSitemapEntries } from "../src/data/bitget-alliance-seo.js";
 import { krakenUsdgSitemapEntries } from "../src/data/kraken-usdg-seo.js";
 export { sitemapLocalesForRoute };
@@ -346,6 +347,9 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // Worker at request time; hreflang sets are the page head's.
   const campaigns = buildCampaignSitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-campaigns.xml", lastmod: campaigns.lastmod });
+  // Tokenized US stocks (2026-10-15): hub + 12 ticker pages in every written edition, request-time SSR in the Worker.
+  const tokenizedStocks = buildTokenizedStocksSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-tokenized-stocks.xml", lastmod: tokenizedStocks.lastmod });
   return {
     index: buildSitemapIndex(indexRows),
     files,
@@ -359,8 +363,13 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     glossary,
     apps,
     campaigns,
+    tokenizedStocks,
     publication,
   };
+}
+
+export function buildTokenizedStocksSitemap() {
+  return buildDownloadOrAcademySitemap(tokenizedStocksSitemapEntries);
 }
 
 export function buildAppsSitemap() {
@@ -630,6 +639,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-tokenized-stocks.xml"), splitSitemaps.tokenizedStocks.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -649,6 +659,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap-glossary.xml"), splitSitemaps.glossary.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);
   writeFileSync(path.join(clientDir, "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
+  writeFileSync(path.join(clientDir, "sitemap-tokenized-stocks.xml"), splitSitemaps.tokenizedStocks.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);

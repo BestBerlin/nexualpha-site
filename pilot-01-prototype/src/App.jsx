@@ -49,6 +49,7 @@ import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
+import { TS_PATH, parseTokenizedStocksPath, tokenizedStocksNavLabel } from "./data/tokenized-stocks-routes.js";
 import { parseBitgetAlliancePath } from "./data/bitget-alliance-path.js";
 import { approvedCampaign } from "./data/campaign-autodraft.js";
 import { parseKrakenUsdgPath } from "./data/kraken-usdg-path.js";
@@ -124,6 +125,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
@@ -216,6 +218,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/radar/RadarPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
   "./components/campaigns/BybitStocksPage.jsx",
+  "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
@@ -322,6 +325,8 @@ function readGlossaryLinks(locale) {
 const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
 // Bybit Stocks campaign landing page (2026-10-12): its own route chunk (route-campaign-bybit).
 const BybitStocksPage = deferredComponent(ROUTE_MODULE_PATHS.bybitStocks, "BybitStocksPage");
+const TokenizedStocksHubPage = deferredComponent(ROUTE_MODULE_PATHS.tokenizedStocks, "TokenizedStocksHubPage");
+const TokenizedStocksTickerPage = deferredComponent(ROUTE_MODULE_PATHS.tokenizedStocks, "TokenizedStocksTickerPage");
 // Bitget Alliance campaign landing page (2026-10-13): its own route chunk (route-campaign-bitget).
 const BitgetAlliancePage = deferredComponent(ROUTE_MODULE_PATHS.bitgetAlliance, "BitgetAlliancePage");
 // Kraken 5M USDG Futures Challenge page (2026-10-13): its own route chunk (route-campaign-kraken).
@@ -435,7 +440,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", TS_PATH, "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -621,6 +626,10 @@ export function routeState(venues, initialUrl) {
   // Türkiye pages (tr-market-gaps): an SPK-listed venue's own token (BGB) has no page there, like the Bitget guide.
   if (coins?.kind === "coin") return turkeyListingAllowed(coins.slug, { locale: publicRoute.locale, market: searchParams.get("market") || undefined }) ? { name: "coinPage", slug: coins.slug, ...contextParams() } : { name: "notFound" };
   if (coins?.kind === "missing") return { name: "notFound" };
+  const tokenizedStocks = parseTokenizedStocksPath(pathname);
+  if (tokenizedStocks?.kind === "hub") return { name: "tokenizedStocksHub", ...contextParams() };
+  if (tokenizedStocks?.kind === "ticker") return { name: "tokenizedStocksTicker", ticker: tokenizedStocks.ticker, ...contextParams() };
+  if (tokenizedStocks) return { name: "notFound" };
   const glossary = parseGlossaryPath(pathname);
   if (glossary?.kind === "hub") return { name: "glossaryHub", ...contextParams() };
   if (glossary?.kind === "term") return { name: "glossaryTerm", slug: glossary.slug, ...contextParams() };
@@ -759,6 +768,8 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
     // Header items name real destinations: the exchange directory and the comparison page,
     // not anchors on the home page (the home page has no #exchanges / #compare section any more).
     [copy.nav.exchanges, withLocale(locale, "/exchanges")],
+    // Tokenized US stocks (owner 2026-10-15: this year's top traffic topic): second primary item.
+    [tokenizedStocksNavLabel(locale), withLocale(locale, TS_PATH)],
     [copy.nav.compare, withLocale(locale, "/compare")], // compare hub: any-two picker + popular pairs (audit 4.6)
     // Academy (owner 2026-10-12): the 24-lesson beginner course is a primary destination.
     [academyShellCopy(locale).nav, withLocale(locale, "/academy")],
@@ -1017,6 +1028,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
+  if (route.name === "tokenizedStocksHub") return pageShell(<TokenizedStocksHubPage locale={locale} market={route.market} />);
+  if (route.name === "tokenizedStocksTicker") return pageShell(<TokenizedStocksTickerPage key={route.ticker} locale={locale} market={route.market} ticker={route.ticker} />);
   if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
   if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);

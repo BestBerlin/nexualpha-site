@@ -153,6 +153,8 @@ const focusClusters = `## Focus clusters
 
 ### Tokenized stocks (US stock tokens on crypto exchanges)
 
+- [Tokenized stocks hub: where to trade US stocks with USDT](${PUBLIC_ORIGIN}/tokenized-stocks) (also [中文](${PUBLIC_ORIGIN}/zh-hans/tokenized-stocks)): which exchanges list stock tokens (xStocks, rToken, bStocks, Ondo), stock perpetuals and pre-IPO contracts, with ticker counts, hours, leverage, fees and excluded regions, each next to its official source and date.
+- Ticker pages: ${["nvda", "tsla", "aapl", "msft", "coin", "mstr", "hood", "crcl", "googl", "amzn", "spy", "qqq"].map((slug) => `[${slug.toUpperCase()}](${PUBLIC_ORIGIN}/tokenized-stocks/${slug})`).join(", ")}: every exchange that lists the stock, in which form and under which symbol.
 - [Tokenized stocks vs stock perpetuals](${PUBLIC_ORIGIN}/topics/tokenized-stocks-vs-perpetuals): how a stock token (backed claim on a share) differs from a stock perpetual (derivative with funding and liquidation), and what to check first.
 - [Tokenized assets hub](${PUBLIC_ORIGIN}/topics/tokenized-assets): issuer, custody, redemption and access checks for tokenized stocks, Treasuries and gold.
 - [What are tokenized stocks?](${PUBLIC_ORIGIN}/glossary/tokenized-stocks): plain-language definition with related terms.

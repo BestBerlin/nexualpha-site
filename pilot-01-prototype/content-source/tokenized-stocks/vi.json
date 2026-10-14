@@ -1,0 +1,230 @@
+{
+  "seoTitle": "Cổ phiếu token hóa: sàn mua cổ phiếu Mỹ bằng USDT (2026)",
+  "seoDescription": "Sàn có token cổ phiếu Mỹ và hợp đồng vĩnh cửu: Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken. Mã, giờ, đòn bẩy và phí từ trang chính thức.",
+  "tickerSeoTitle": "Token cổ phiếu {name} ({ticker}): giao dịch bằng USDT ở đâu",
+  "tickerSeoDescription": "{n} sàn niêm yết {name} ({ticker}) dưới dạng token cổ phiếu hoặc hợp đồng vĩnh cửu: {list}. Mã, giờ giao dịch và đòn bẩy lấy từ trang chính thức của từng sàn.",
+  "breadcrumb": "Cổ phiếu token hóa",
+  "home": "Trang chủ",
+  "kicker": "Cổ phiếu Mỹ token hóa",
+  "h1": "Giao dịch cổ phiếu Mỹ bằng USDT",
+  "lead": "Nvidia, Tesla, Apple và S&P 500 giờ đã có trên sàn crypto dưới dạng token cổ phiếu và hợp đồng vĩnh cửu cổ phiếu. Dưới đây là sàn nào có gì, ở dạng nào và giao dịch khi nào.",
+  "answerLabel": "Trả lời nhanh",
+  "answer": "Hiện có {n} sàn cho phép giao dịch cổ phiếu Mỹ bằng USDT: {list}.",
+  "answerOther": "{list} cũng có token cổ phiếu hoặc hợp đồng vĩnh cửu cổ phiếu, thanh toán bằng {assets}.",
+  "answerForms": "Các dạng khác nhau: token cổ phiếu bám theo 1 cổ phiếu tỷ lệ 1:1, không đòn bẩy; hợp đồng vĩnh cửu cổ phiếu ký quỹ bằng USDT, có đòn bẩy; hợp đồng pre-IPO bám theo một công ty trước khi niêm yết.",
+  "checked": "Đã đối chiếu với trang chính thức của từng sàn ngày {date}.",
+  "lanes": {
+    "spot": "Token cổ phiếu",
+    "perp": "Hợp đồng vĩnh cửu cổ phiếu",
+    "preipo": "Pre-IPO"
+  },
+  "laneHint": {
+    "spot": "Token bám theo 1 cổ phiếu. Mua và giữ như crypto giao ngay.",
+    "perp": "Hợp đồng ký quỹ USDT theo giá cổ phiếu, mua lên hoặc bán xuống, có đòn bẩy.",
+    "preipo": "Hợp đồng về một công ty tư nhân trước IPO, như OpenAI hay SpaceX."
+  },
+  "tableH": "So sánh các sàn",
+  "tableLead": "Mỗi giá trị dẫn tới trang của sàn mà nó được lấy từ đó. Dấu gạch nghĩa là sàn chưa công bố.",
+  "cols": {
+    "exchange": "Sàn",
+    "count": "Số mã",
+    "tickers": "Mã phổ biến",
+    "hours": "Giờ giao dịch",
+    "lev": "Đòn bẩy tối đa",
+    "fees": "Phí",
+    "excluded": "Không hỗ trợ tại",
+    "promo": "Đang diễn ra",
+    "settle": "Thanh toán bằng"
+  },
+  "hours": {
+    "24/7": "24/7",
+    "24/5": "24/5",
+    "24/5+": "24/5, mã lớn 24/7"
+  },
+  "levUpTo": "tối đa {x}x",
+  "asOf": "{date}",
+  "feeMakerTaker": "{maker} maker / {taker} taker",
+  "feeFlat": "{flat} USD mỗi lệnh, {pct} trên 340 USD",
+  "feeZero": "Miễn phí giao dịch khi mua bằng USD hoặc USDG",
+  "more": "+{n} khác",
+  "listed": "{n} mã",
+  "notListed": "Chưa niêm yết",
+  "source": "Nguồn",
+  "sourcesH": "Nguồn",
+  "codeLabel": "Mã",
+  "copy": "Sao chép",
+  "copied": "Đã sao chép",
+  "cta": "Mở {name}",
+  "ctaFull": "Đăng ký {name} với mã {code}",
+  "profile": "Hồ sơ {name}",
+  "promoEnds": "đến {date}",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance: giao dịch cổ phiếu được tính vào phần thưởng",
+    "binanceWalletBstocks": "Cuộc thi giao dịch bStocks, phần thưởng 50,000 USDC"
+  },
+  "pickH": "Chọn sàn nào",
+  "picks": [
+    [
+      "Nhiều token cổ phiếu nhất",
+      "Bitget có hơn 1,700 cổ phiếu và ETF rToken (8/2026), Kraken có 131 xStocks."
+    ],
+    [
+      "Đòn bẩy cao nhất",
+      "Hợp đồng vĩnh cửu cổ phiếu Bitget tối đa 100x; Hyperliquid, Kraken, Binance, Gate và MEXC tối đa 20x."
+    ],
+    [
+      "Giao dịch cả cuối tuần",
+      "OKX xStocks và hợp đồng vĩnh cửu cổ phiếu của Bitget, OKX, Binance, Bybit giao dịch 24/7."
+    ],
+    [
+      "Mã pre-IPO",
+      "OpenAI và Anthropic trên OKX và Bybit, JIO trên Bitget, SpaceX và OpenAI trên Gate."
+    ]
+  ],
+  "howH": "Cách mua Tesla hoặc Nvidia bằng USDT",
+  "howLead": "Năm bước, giống nhau ở mọi sàn trong bảng.",
+  "steps": [
+    [
+      "Chọn sàn",
+      "Token cổ phiếu và hợp đồng vĩnh cửu trong một tài khoản: Bitget, OKX, Bybit, Gate hoặc Kraken. Hợp đồng vĩnh cửu cổ phiếu bằng USDT: thêm HTX và CoinW."
+    ],
+    [
+      "Mở tài khoản",
+      "Đăng ký bằng mã mời hiển thị ở đây và hoàn tất xác minh danh tính. Bitget rToken yêu cầu KYC cơ bản."
+    ],
+    [
+      "Nạp USDT",
+      "Chuyển USDT vào tài khoản giao ngay. Bitget rToken, OKX xStocks, Bybit xStocks và hợp đồng vĩnh cửu cổ phiếu của Bitget, OKX, Binance, Bybit thanh toán bằng USDT."
+    ],
+    [
+      "Tìm mã",
+      "Tesla là rTSLA trên Bitget, xTSLA trên OKX, TSLAX trên Gate và TSLAUSDT trên hợp đồng vĩnh cửu Bitget."
+    ],
+    [
+      "Mua hoặc mở long",
+      "Token cổ phiếu là lệnh mua giao ngay bình thường. Hợp đồng vĩnh cửu mở vị thế long hoặc short với đòn bẩy bạn chọn."
+    ]
+  ],
+  "stepTwoNeutral": [
+    "Mở tài khoản",
+    "Đăng ký trên trang chính thức của sàn và hoàn tất xác minh danh tính. Bitget rToken yêu cầu KYC cơ bản."
+  ],
+  "pathsH": "Tìm ở đâu trong ứng dụng",
+  "tickersH": "Mã phổ biến",
+  "tickersLead": "Sàn nào niêm yết từng cổ phiếu, và ở dạng nào.",
+  "tickerVenues": "{n} sàn",
+  "faqH": "Câu hỏi",
+  "faq": [
+    [
+      "Cổ phiếu token hóa là gì?",
+      "Là token bám theo một cổ phiếu niêm yết tỷ lệ 1:1, giao dịch trên sàn crypto bằng USDT. Các dòng chính là xStocks (OKX, Bybit, Kraken, Gate), rToken (Bitget), bStocks (Binance) và token Ondo (MEXC). OKX và Bitget mô tả đây là quyền lợi kinh tế theo cổ phiếu, không phải đăng ký sở hữu cổ phần trực tiếp và không có quyền biểu quyết.",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Token cổ phiếu và hợp đồng vĩnh cửu cổ phiếu khác nhau thế nào?",
+      "Token cổ phiếu được mua và giữ như crypto giao ngay. Hợp đồng vĩnh cửu cổ phiếu là hợp đồng ký quỹ USDT không có ngày đáo hạn, cho phép long hoặc short với đòn bẩy: tối đa 100x trên Bitget, tối đa 20x trên Kraken. Hợp đồng vĩnh cửu không cho bạn cổ phiếu.",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "Có thể giao dịch cổ phiếu Mỹ vào cuối tuần không?",
+      "Có, ở nhiều sàn. OKX xStocks giao dịch 24/7. Hợp đồng vĩnh cửu cổ phiếu của Bitget, OKX, Binance và Bybit giao dịch 24/7. Bitget rToken giao dịch 24/5, với 90 mã lớn mở 24/7 từ tháng 8/2026.",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "Token cổ phiếu có trả cổ tức không?",
+      "Tùy token. Bitget rToken trả cổ tức tiền mặt ròng bằng USDT sau khi khấu trừ mặc định 30%. OKX xStocks và Binance bStocks tái đầu tư cổ tức ròng vào số dư token thay vì trả tiền mặt.",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Cư dân Mỹ có mua được cổ phiếu token hóa không?",
+      "Không. Bitget rToken, cổ phiếu token hóa của OKX, Binance bStocks và Kraken xStocks đều loại trừ Hoa Kỳ và người Mỹ.",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "Hợp đồng pre-IPO là gì?",
+      "Là hợp đồng về các công ty tư nhân trước khi niêm yết, như OpenAI và Anthropic trên OKX và Bybit, hoặc JIO trên Bitget (tối đa 20x). Không có cổ phiếu, không có suất phân bổ IPO và không có quyền cổ đông.",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "Phí bao nhiêu?",
+      "Hợp đồng vĩnh cửu cổ phiếu Bitget tính 0.02% maker và 0.06% taker. Bybit xStocks giao ngay tính 0.2%. Kraken miễn phí giao dịch khi bạn mua xStocks bằng USD hoặc USDG.",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "Đọc thêm",
+  "related": {
+    "topic": "Token cổ phiếu và hợp đồng vĩnh cửu",
+    "bybitStocks": "Bybit Stocks: cổ phiếu Mỹ thật bằng USDC",
+    "exchanges": "Tất cả các sàn",
+    "academy": "Học viện crypto miễn phí"
+  },
+  "tickerH1": "Giao dịch {name} ({ticker}) bằng USDT",
+  "tickerLead": "Mọi sàn niêm yết {name} dưới dạng token cổ phiếu hoặc hợp đồng vĩnh cửu, kèm mã và giờ giao dịch.",
+  "tickerAnswer": "{n} sàn niêm yết {ticker}: {list}.",
+  "tickerAnswerSpot": "Dạng token cổ phiếu: {list}.",
+  "tickerAnswerPerp": "Dạng hợp đồng vĩnh cửu: {list}.",
+  "tickerCols": {
+    "exchange": "Sàn",
+    "form": "Dạng",
+    "symbol": "Mã",
+    "hours": "Giờ giao dịch",
+    "lev": "Đòn bẩy tối đa"
+  },
+  "tickerHow": "Để mua {ticker} bằng USDT, hãy nạp USDT và tìm {symbol} trên {exchange}.",
+  "tickerBack": "Tất cả cổ phiếu token hóa",
+  "tickerOther": "Mã khác",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "Nvidia",
+    "TSLA": "Tesla",
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "COIN": "Coinbase",
+    "MSTR": "Strategy",
+    "HOOD": "Robinhood",
+    "CRCL": "Circle",
+    "GOOGL": "Alphabet",
+    "AMZN": "Amazon",
+    "SPY": "ETF S&P 500",
+    "QQQ": "ETF Nasdaq-100"
+  },
+  "homeKicker": "Cổ phiếu Mỹ token hóa",
+  "homeTitle": "Giao dịch cổ phiếu Mỹ bằng USDT · 24/7",
+  "homeBody": "Nvidia, Tesla và Apple dưới dạng token cổ phiếu và hợp đồng vĩnh cửu trên các sàn bạn đang dùng.",
+  "homeAll": "Xem tất cả",
+  "homeTickers": "{n} mã",
+  "venueH": "Cổ phiếu Mỹ token hóa trên {name}",
+  "venueLink": "So sánh mọi sàn"
+}

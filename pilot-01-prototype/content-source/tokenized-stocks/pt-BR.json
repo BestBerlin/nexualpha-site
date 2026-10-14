@@ -1,0 +1,230 @@
+{
+  "seoTitle": "Ações tokenizadas: onde negociar ações dos EUA com USDT",
+  "seoDescription": "Corretoras com ações tokenizadas e perpétuos de ações dos EUA: Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken e mais. Tickers, horários, alavancagem, taxas.",
+  "tickerSeoTitle": "Token de {name} ({ticker}): onde negociar com USDT",
+  "tickerSeoDescription": "{n} corretoras listam {name} ({ticker}) como token de ação ou perpétuo: {list}. Símbolos, horários e alavancagem das páginas de cada corretora.",
+  "breadcrumb": "Ações tokenizadas",
+  "home": "Início",
+  "kicker": "Ações dos EUA tokenizadas",
+  "h1": "Negocie ações dos EUA com USDT",
+  "lead": "Nvidia, Tesla, Apple e o S&P 500 já são negociados em corretoras cripto como tokens de ações e perpétuos de ações. Veja quem lista o quê, em qual formato e quando dá para negociar.",
+  "answerLabel": "Resposta curta",
+  "answer": "{n} corretoras deixam você negociar ações dos EUA com USDT agora: {list}.",
+  "answerOther": "{list} também listam tokens de ações ou perpétuos de ações, liquidados em {assets}.",
+  "answerForms": "Os formatos são diferentes: um token de ação acompanha uma ação 1:1 sem alavancagem, um perpétuo de ações é um contrato com margem em USDT e alavancagem, e um contrato pré-IPO acompanha uma empresa antes de abrir capital.",
+  "checked": "Conferido em {date} nas páginas oficiais de cada corretora.",
+  "lanes": {
+    "spot": "Tokens de ações",
+    "perp": "Perpétuos de ações",
+    "preipo": "Pré-IPO"
+  },
+  "laneHint": {
+    "spot": "Um token que acompanha uma ação. Você compra e guarda como cripto à vista.",
+    "perp": "Um contrato com margem em USDT sobre o preço da ação, comprado ou vendido, com alavancagem.",
+    "preipo": "Um contrato sobre uma empresa privada antes do IPO, como OpenAI ou SpaceX."
+  },
+  "tableH": "Corretoras comparadas",
+  "tableLead": "Cada valor tem link para a página da corretora de onde ele vem. Um traço significa que a corretora não publicou.",
+  "cols": {
+    "exchange": "Corretora",
+    "count": "Tickers",
+    "tickers": "Tickers populares",
+    "hours": "Horário",
+    "lev": "Alavancagem máx.",
+    "fees": "Taxas",
+    "excluded": "Indisponível em",
+    "promo": "Agora em",
+    "settle": "Liquida em"
+  },
+  "hours": {
+    "24/7": "24/7",
+    "24/5": "24/5",
+    "24/5+": "24/5, principais 24/7"
+  },
+  "levUpTo": "até {x}x",
+  "asOf": "{date}",
+  "feeMakerTaker": "{maker} maker / {taker} taker",
+  "feeFlat": "{flat} USD por ordem, {pct} acima de 340 USD",
+  "feeZero": "Sem taxa de negociação ao comprar com USD ou USDG",
+  "more": "+{n} mais",
+  "listed": "{n} listados",
+  "notListed": "Não listado",
+  "source": "Fonte",
+  "sourcesH": "Fontes",
+  "codeLabel": "Código",
+  "copy": "Copiar",
+  "copied": "Copiado",
+  "cta": "Abrir {name}",
+  "ctaFull": "Cadastre-se na {name} com o código {code}",
+  "profile": "Perfil da {name}",
+  "promoEnds": "até {date}",
+  "promos": {
+    "bitgetAlliance": "Bitget Alliance: negociações de ações contam para as recompensas",
+    "binanceWalletBstocks": "Competição de trading de bStocks, 50,000 USDC em recompensas"
+  },
+  "pickH": "Qual combina com você",
+  "picks": [
+    [
+      "Mais tokens de ações",
+      "A Bitget lista mais de 1,700 ações e ETFs rToken (ago 2026); a Kraken, 131 xStocks."
+    ],
+    [
+      "Maior alavancagem",
+      "Os perpétuos de ações da Bitget vão até 100x; Hyperliquid, Kraken, Binance, Gate e MEXC, até 20x."
+    ],
+    [
+      "Negocia no fim de semana",
+      "Os xStocks da OKX e os perpétuos de ações da Bitget, OKX, Binance e Bybit são negociados 24/7."
+    ],
+    [
+      "Empresas pré-IPO",
+      "OpenAI e Anthropic na OKX e na Bybit, JIO na Bitget, SpaceX e OpenAI na Gate."
+    ]
+  ],
+  "howH": "Como comprar Tesla ou Nvidia com USDT",
+  "howLead": "Cinco passos, iguais em todas as corretoras da tabela.",
+  "steps": [
+    [
+      "Escolha uma corretora",
+      "Tokens de ações e perpétuos na mesma conta: Bitget, OKX, Bybit, Gate ou Kraken. Perpétuos de ações com USDT: também HTX e CoinW."
+    ],
+    [
+      "Abra a conta",
+      "Cadastre-se com o código de convite mostrado aqui e conclua a verificação de identidade. O Bitget rToken pede KYC básico."
+    ],
+    [
+      "Deposite USDT",
+      "Envie USDT para a conta spot. Bitget rToken, os xStocks da OKX, os xStocks da Bybit e os perpétuos de ações da Bitget, OKX, Binance e Bybit liquidam em USDT."
+    ],
+    [
+      "Busque o ticker",
+      "A Tesla é rTSLA na Bitget, xTSLA na OKX, TSLAX na Gate e TSLAUSDT como perpétuo da Bitget."
+    ],
+    [
+      "Compre ou abra uma compra alavancada",
+      "Um token de ação é uma compra à vista comum. Um perpétuo abre uma posição comprada ou vendida com a alavancagem que você escolher."
+    ]
+  ],
+  "stepTwoNeutral": [
+    "Abra a conta",
+    "Cadastre-se no site oficial da corretora e conclua a verificação de identidade. O Bitget rToken pede KYC básico."
+  ],
+  "pathsH": "Onde encontrar no app",
+  "tickersH": "Tickers populares",
+  "tickersLead": "Quais corretoras listam cada ação e em qual formato.",
+  "tickerVenues": "{n} corretoras",
+  "faqH": "Perguntas",
+  "faq": [
+    [
+      "O que são ações tokenizadas?",
+      "Tokens que acompanham uma ação listada 1:1 e são negociados em corretoras cripto com USDT. As principais famílias são xStocks (OKX, Bybit, Kraken, Gate), rToken (Bitget), bStocks (Binance) e os tokens Ondo (MEXC). OKX e Bitget os descrevem como exposição econômica à ação, sem registro direto da ação nem direito a voto.",
+      [
+        "okx-unified",
+        "bitget-rtoken-faq",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Qual a diferença entre um token de ação e um perpétuo de ações?",
+      "Um token de ação é comprado e guardado como cripto à vista. Um perpétuo de ações é um contrato com margem em USDT e sem vencimento que permite ficar comprado ou vendido com alavancagem: até 100x na Bitget, até 20x na Kraken. Um perpétuo não dá ações.",
+      [
+        "bitget-perps-faq",
+        "kraken-perps",
+        "okx-stock-perps"
+      ]
+    ],
+    [
+      "Dá para negociar ações dos EUA no fim de semana?",
+      "Sim, em muitas plataformas. Os xStocks da OKX são negociados 24/7. Os perpétuos de ações da Bitget, OKX, Binance e Bybit são negociados 24/7. O Bitget rToken é negociado 24/5, com 90 nomes principais abertos 24/7 desde agosto de 2026.",
+      [
+        "okx-unified",
+        "bitget-24-7",
+        "binance-stock-perps",
+        "bybit-perps-guide",
+        "bitget-rtoken-faq"
+      ]
+    ],
+    [
+      "Tokens de ações pagam dividendos?",
+      "Depende do token. O Bitget rToken credita os dividendos líquidos em USDT após uma retenção padrão de 30%. Os xStocks da OKX e os bStocks da Binance reinvestem o dividendo líquido no saldo do token em vez de pagar em dinheiro.",
+      [
+        "bitget-rtoken-faq",
+        "okx-unified",
+        "binance-bstocks-faq"
+      ]
+    ],
+    [
+      "Residentes nos EUA podem comprar ações tokenizadas?",
+      "Não. Bitget rToken, as ações tokenizadas da OKX, os bStocks da Binance e os xStocks da Kraken excluem os Estados Unidos e pessoas dos EUA.",
+      [
+        "bitget-rtoken-faq",
+        "okx-latest-spot",
+        "binance-bstocks-faq",
+        "kraken-faq"
+      ]
+    ],
+    [
+      "O que são contratos pré-IPO?",
+      "Contratos sobre empresas privadas antes de abrirem capital, como OpenAI e Anthropic na OKX e na Bybit ou JIO na Bitget (até 20x). Eles não dão ações, nem alocação no IPO, nem direitos de acionista.",
+      [
+        "okx-preipo-listing",
+        "bybit-preipo",
+        "bitget-jio",
+        "hl-preipo"
+      ]
+    ],
+    [
+      "Quanto custa?",
+      "Os perpétuos de ações da Bitget cobram 0.02% maker e 0.06% taker. O spot de xStocks da Bybit cobra 0.2%. A Kraken não cobra taxa de negociação quando você compra xStocks com USD ou USDG.",
+      [
+        "bitget-fees-guide",
+        "bybit-xstocks",
+        "kraken-faq"
+      ]
+    ]
+  ],
+  "relatedH": "Continue lendo",
+  "related": {
+    "topic": "Ações tokenizadas vs perpétuos",
+    "bybitStocks": "Bybit Stocks: ações reais dos EUA com USDC",
+    "exchanges": "Todas as corretoras",
+    "academy": "Academia cripto gratuita"
+  },
+  "tickerH1": "Negocie {name} ({ticker}) com USDT",
+  "tickerLead": "Todas as corretoras que listam {name} como token de ação ou perpétuo, com o símbolo e o horário de negociação.",
+  "tickerAnswer": "{n} corretoras listam {ticker}: {list}.",
+  "tickerAnswerSpot": "Como token de ação: {list}.",
+  "tickerAnswerPerp": "Como perpétuo: {list}.",
+  "tickerCols": {
+    "exchange": "Corretora",
+    "form": "Formato",
+    "symbol": "Símbolo",
+    "hours": "Horário",
+    "lev": "Alavancagem máx."
+  },
+  "tickerHow": "Para comprar {ticker} com USDT, deposite USDT e busque {symbol} na {exchange}.",
+  "tickerBack": "Todas as ações tokenizadas",
+  "tickerOther": "Outros tickers",
+  "etf": "ETF",
+  "names": {
+    "NVDA": "Nvidia",
+    "TSLA": "Tesla",
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "COIN": "Coinbase",
+    "MSTR": "Strategy",
+    "HOOD": "Robinhood",
+    "CRCL": "Circle",
+    "GOOGL": "Alphabet",
+    "AMZN": "Amazon",
+    "SPY": "ETF do S&P 500",
+    "QQQ": "ETF do Nasdaq-100"
+  },
+  "homeKicker": "Ações dos EUA tokenizadas",
+  "homeTitle": "Negocie ações dos EUA com USDT · 24/7",
+  "homeBody": "Nvidia, Tesla e Apple como tokens de ações e perpétuos nas corretoras que você já usa.",
+  "homeAll": "Ver tudo",
+  "homeTickers": "{n} tickers",
+  "venueH": "Ações dos EUA tokenizadas na {name}",
+  "venueLink": "Compare todas as corretoras"
+}

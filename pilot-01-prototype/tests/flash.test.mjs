@@ -391,7 +391,7 @@ test("hydration of the stream and an item page has no mismatch (en, zh-hans, ar)
   }
 });
 
-test("header keeps five primary items with Flash under More; home has no flash rail (owner 2026-10-14)", async () => {
+test("header keeps six primary items (tokenized stocks joined 2026-10-15) with Flash under More; home has no flash rail (owner 2026-10-14)", async () => {
   const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", { flash: flashStreamPayload(items, "zh-Hans", { limit: 5, now: NOW }) });
   assert.doesNotMatch(home, /h7-flash|快讯 · 实时更新/, "no flash block on home");
   assert.match(home.match(/<footer[\s\S]*?<\/footer>/)?.[0] || "", /href="\/zh-hans\/flash"/, "footer still links /flash");
@@ -400,7 +400,8 @@ test("header keeps five primary items with Flash under More; home has no flash r
   assert.doesNotMatch(primary.split(/nx-more|data-more/)[0], /href="\/zh-hans\/flash"/, "not a primary item");
   assert.match(header, /href="\/zh-hans\/flash"[^>]*>快讯</, "listed under More");
   const source = await readFile(new URL("../src/components/shell/SiteHeader.jsx", import.meta.url), "utf8");
-  assert.match(source, /const PRIMARY_COUNT = 5;/);
+  assert.match(source, /const PRIMARY_COUNT = 6;/);
+  assert.match(primary.split(/nx-more|data-more/)[0], /href="\/zh-hans\/tokenized-stocks"/, "tokenized stocks is a primary item");
 });
 
 // ------------------------------------------------------------------------------------- Important level (2026-10-13)

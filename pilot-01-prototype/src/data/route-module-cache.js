@@ -79,6 +79,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   binanceOctober: "./components/campaigns/BinanceOctoberPage.jsx",
   // Bybit Stocks campaign page (/activities/bybit-stocks, 2026-10-12): route chunk route-campaign-bybit.
   bybitStocks: "./components/campaigns/BybitStocksPage.jsx",
+  // Tokenized US stocks hub + ticker pages (/tokenized-stocks, 2026-10-15): route chunk route-tokenized-stocks.
+  tokenizedStocks: "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   // Spot ETF flows + crypto calendar (2026-10-13): route chunk route-intel-tools.
   intelTools: "./components/intel-tools/IntelToolPages.jsx",
   // Bitget Alliance campaign page (/activities/bitget-alliance, 2026-10-13): route chunk route-campaign-bitget.
@@ -205,6 +207,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "binanceOctober") return [ROUTE_MODULE_PATHS.binanceOctober];
   if (name === "bybitStocks") return [ROUTE_MODULE_PATHS.bybitStocks];
+  if (name === "tokenizedStocksHub" || name === "tokenizedStocksTicker") return [ROUTE_MODULE_PATHS.tokenizedStocks];
   if (name === "bitgetAlliance") return [ROUTE_MODULE_PATHS.bitgetAlliance];
   if (name === "autodraftCampaign") return [ROUTE_MODULE_PATHS.autodraftCampaign];
   if (name === "krakenUsdg") return [ROUTE_MODULE_PATHS.krakenUsdg];
