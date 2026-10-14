@@ -1,4 +1,5 @@
 import { REFERRAL_PARTNERS } from './referral-partners.generated.js';
+import { binanceProStep } from './binance-pro-step.js';
 import { isPartnerPromotableIn } from './partner-geo-policy.js';
 import { isNeutralCtaLocale } from './locale-policy.js';
 import en, { entryByVenue as enEntry } from './referral-native-copy/en.js';
@@ -45,9 +46,11 @@ export function nativeReferralFor(slug, locale = 'en', market) {
   const title = code ? `${copy.query(partner.name)}: ${code}` : null;
   const later = help.reviewedAt ? (copy[`later${help.later}`] || copy.laterUnknown) : copy.pending;
   const entry = help.reviewedAt && help.entry ? (copy.entryByVenue?.[slug] || copy.entryText) : copy.pending;
+  // Owner 2026-10-14: the Binance code is a Pro-mode code, so its sign-up answer starts with that step.
+  const entryWithStep = slug === 'binance' && code ? `${binanceProStep(locale)} ${entry}` : entry;
   const payout = !neutral && partner.termsConfirmedOn && partner.settle ? copy.payoutText(partner.name, copy.cadence[partner.settle]) : copy.noPayout;
-  return { slug, locale, copy, neutral, code, benefit, verifiedAt, title, help, entry, later, payout, partnerDate: neutral ? null : partner.termsConfirmedOn,
-    faq: [ { question: copy.faqEntry(partner.name), answer: entry, source: help.entryHref }, { question: copy.faqLater(partner.name), answer: later, source: help.href }, { question: copy.faqPayout(partner.name), answer: payout, source: '/intel/partners.json', origin: 'partner-data' } ],
+  return { slug, locale, copy, neutral, code, benefit, verifiedAt, title, help, entry: entryWithStep, later, payout, partnerDate: neutral ? null : partner.termsConfirmedOn,
+    faq: [ { question: copy.faqEntry(partner.name), answer: entryWithStep, source: help.entryHref }, { question: copy.faqLater(partner.name), answer: later, source: help.href }, { question: copy.faqPayout(partner.name), answer: payout, source: '/intel/partners.json', origin: 'partner-data' } ],
   };
 }
 

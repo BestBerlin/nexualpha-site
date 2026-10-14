@@ -15,6 +15,7 @@ import { buildRegistrationDecisionState } from "./registration-decision-state.js
 import { trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { ownerRebateLine, partnerBenefitParts } from "../../data/owner-rebate-line.js";
 import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
+import { binanceProStep } from "../../data/binance-pro-step.js";
 import "./registration-card.css";
 
 const passportLabels = Object.freeze({
@@ -944,9 +945,13 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       <span>{preflightText}</span>
     </div>
   );
+  // Owner 2026-10-14: the Binance code is a Pro-mode code; the full sign-up card says so as one plain step.
+  const binanceProNote = !compact && venueSlug === "binance" && primaryRegistrationHref && visiblePartner.hasReferral && visiblePartner.inviteCode
+    ? <p className="registration-card__pro-step" data-registration-step="binance-pro">{binanceProStep(locale)}</p> : null;
   const primaryAction = (
     primaryRegistrationHref ? (
       <>
+      {binanceProNote}
       <a
         href={primaryRegistrationHref}
         target="_blank"

@@ -184,3 +184,17 @@ test('review dates do not shift in western client timezones', () => {
   assert.equal(render('America/Sao_Paulo'), render('UTC'));
   assert.equal(render('Pacific/Honolulu'), render('Asia/Shanghai'));
 });
+
+test("Binance sign-up answers start with the Pro-mode step (owner 2026-10-14) on code locales only", async () => {
+  const { nativeReferralFor } = await import("../src/data/referral-native.js");
+  const { BINANCE_PRO_STEP } = await import("../src/data/binance-pro-step.js");
+  for (const locale of ["en", "zh-Hans", "es", "pt-BR", "id", "tr"]) {
+    const native = nativeReferralFor("binance", locale);
+    if (!native?.code) continue;
+    assert.ok(native.entry.startsWith(BINANCE_PRO_STEP[locale]), `${locale}: entry starts with the Pro step`);
+    assert.equal(native.faq[0].answer, native.entry);
+  }
+  assert.equal(BINANCE_PRO_STEP["zh-Hans"], "注册时请使用币安专业版（Pro），不要选简易版（Lite）。");
+  const okx = nativeReferralFor("okx", "en");
+  assert.ok(!okx?.entry?.includes("Binance Pro"), "other venues unchanged");
+});
