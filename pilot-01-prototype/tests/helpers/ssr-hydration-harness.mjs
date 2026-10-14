@@ -9,10 +9,15 @@ import { clientHomeHeroVariant } from "../../src/data/home-hero-experiment.js";
 
 const require = createRequire(import.meta.url);
 
-export async function createSsrHarness() {
+export async function createSsrHarness({ clientHome = false } = {}) {
   // These fixtures only load SSR modules. Client dependency discovery can keep
   // the test server alive after close() while scanning the full application.
-  const vite = await createViteServer({ optimizeDeps: { noDiscovery: true, include: [] }, appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, ws: false } });
+  const vite = await createViteServer({
+    plugins: clientHome ? [{ name: "test-home-client-branch", enforce: "pre", transform(code, id) {
+      if (id.endsWith("/components/v7/HomeV7.jsx")) return code.replaceAll("import.meta.env.SSR", "false");
+    } }] : [],
+    optimizeDeps: { noDiscovery: true, include: [] }, appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, ws: false },
+  });
   const entry = await vite.ssrLoadModule("/src/entry-server.jsx");
   return { vite, render: entry.render, close: () => vite.close() };
 }
@@ -39,7 +44,7 @@ export function decodeEntities(value) {
 const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Hydrates the SSR document in jsdom exactly like the browser entry: same bootstrap URL, same prerender-state props.
-export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, browserUrlAsWindowUrl = false, fixedNow = null, fetchImpl, intersectionObserver } = {}) {
+export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, until = null, settleMs = 50, browserUrlAsWindowUrl = false, fixedNow = null, fetchImpl, intersectionObserver } = {}) {
   const state = prerenderState(html);
   const bootstrap = buildHydrationBootstrap({ browserUrl: pageUrl, prerenderState: state, hasServerHtml: true, clientRender: false });
   const dom = new JSDOM(html, { url: browserUrlAsWindowUrl ? pageUrl : bootstrap.initialUrl, pretendToBeVisual: true });
@@ -92,13 +97,13 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });
     const started = originalDateNow();
-    while (originalDateNow() - started < timeoutMs) await tick(20);
+    while (originalDateNow() - started < timeoutMs && (!until || !until(window))) await tick(20);
     const text = root.textContent;
     // Optional: read the hydrated DOM (e.g. markup of one block) before unmounting.
     const inspected = typeof inspect === "function" ? inspect(window) : undefined;
     reactRoot.unmount();
     // Let React flush its unmount work and effect cleanups while the DOM globals are still installed.
-    await tick(50);
+    await tick(settleMs);
     return { errors, text, state, bootstrap, inspected };
   } finally {
     Date.now = originalDateNow;

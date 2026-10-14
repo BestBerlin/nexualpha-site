@@ -615,7 +615,8 @@ export function flashStreamPayload(items, locale = "en", { limit = 40, before = 
   const counts = new Map();
   for (const item of all.filter((row) => campaignVisibleInLocale(row, locale)).slice(0, 400)) if (item.venue && VENUE_PROFILES.has(item.venue)) counts.set(item.venue, (counts.get(item.venue) || 0) + 1);
   return {
-    generatedAt: generatedAt || new Date(now).toISOString(), locale,
+    generatedAt: generatedAt || items?.generatedAt || new Date(now).toISOString(), locale,
+    ...(items?.stale ? { stale: true } : {}),
     items: page.map((item) => flashView(item, locale, { now })),
     hasMore: rows.length > page.length,
     venues: [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([slug]) => ({ slug, name: flashVenueName(slug, templatesFor(locale) ? locale : "en") })),

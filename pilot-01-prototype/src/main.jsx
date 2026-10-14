@@ -40,12 +40,6 @@ installOutboundFeedback();
 installCtaClickBeacon();
 installPartnerViewPropagation();
 
-function ClientHydrationSignal() {
-  React.useEffect(() => {
-    signalRootHydrated();
-  }, []);
-  return null;
-}
 
 const root = document.getElementById("root");
 const prerenderState = (() => {
@@ -68,8 +62,10 @@ function HydrationBootstrap() {
     // The browser URL is authoritative after hydration, including query locale.
     setInitialUrl(bootstrap.browserUrl);
   }, []);
-  return <>
-    <App
+  React.useEffect(() => {
+    if (initialUrl === bootstrap.browserUrl) signalRootHydrated();
+  }, [initialUrl]);
+  return <App
       initialUrl={initialUrl}
       initialLocale={undefined}
       initialCompareSelection={prerenderState ? ["binance", "okx"] : undefined}
@@ -89,9 +85,7 @@ function HydrationBootstrap() {
       initialMovers={prerenderState?.movers}
       initialRadar={prerenderState?.radar}
       initialSeoAlternates={prerenderState?.seoAlternates}
-    />
-    {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
-  </>;
+    />;
 }
 
 // Home hero copy experiment (X5): hydrate with exactly the variant the server rendered (prerender state); other pages

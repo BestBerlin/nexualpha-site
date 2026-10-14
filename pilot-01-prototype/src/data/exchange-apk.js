@@ -47,7 +47,7 @@ export const exchangeApkHref = (venue, src) => `/go/${EXCHANGE_APKS[venue].goSlu
 
 // Native copy for every locale that may show a sign-up block (neutral ru/ar/zh-Hant/ur/uk never do).
 const COPY = Object.freeze({
-  en: { okx: "Download Android APK (invite code built in)", binance: "Download Android APK", size: "about {mb} MB", enterCode: "Enter code {code} when you sign up", copy: "Copy", copied: "Copied" },
+  en: { okx: "Download Android APK", binance: "Download Android APK", size: "about {mb} MB", enterCode: "Enter code {code} when you sign up", copy: "Copy", copied: "Copied" },
   "zh-Hans": { okx: "Android 直接下载（已绑定邀请码）", binance: "Android 直接下载", size: "约 {mb} MB", enterCode: "注册时填写邀请码 {code}", copy: "复制", copied: "已复制" },
   es: { okx: "Descargar APK para Android (código de invitación incluido)", binance: "Descargar APK para Android", size: "unos {mb} MB", enterCode: "Introduce el código {code} al registrarte", copy: "Copiar", copied: "Copiado" },
   "pt-BR": { okx: "Baixar APK para Android (código de convite já incluído)", binance: "Baixar APK para Android", size: "cerca de {mb} MB", enterCode: "Informe o código {code} ao se cadastrar", copy: "Copiar", copied: "Copiado" },

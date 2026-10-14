@@ -150,15 +150,16 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
   assert.match(bar, /requestIdleCallback/, "loaded after first paint");
   assert.doesNotMatch(bar + live, /binance\.com|okx\.com|bybit\.com|fapi\./i, "browsers never call an exchange");
   assert.match(live, /"\/api\/ticker\.json"/);
-  assert.match(live, /30 \* 1000/);
+  assert.match(live, /15 \* 1000/);
+  assert.match(live, /export function subscribe/);
   assert.match(live, /startJsonPolling/);
   assert.match(polling, /visibilityState === "hidden"/);
   assert.match(css, /@media \(max-width: 1020px\) and \(prefers-reduced-motion: no-preference\)[\s\S]*animation: nx-ticker-marquee/, "marquee only when motion is allowed");
   assert.match(css, /block-size: 36px/, "fixed height: no layout shift");
 });
 
-test("polling module: fetches our endpoint, skips hidden tabs, stops cleanly", async () => {
-  const { startTickerPolling } = await import("../src/components/ticker/ticker-live.js");
+test("polling module: fetches our endpoint, skips hidden tabs, shares one poller, stops cleanly", async () => {
+  const { startTickerPolling, subscribe } = await import(`../src/components/ticker/ticker-live.js?case=${Date.now()}`);
   const seen = [];
   const listeners = new Set();
   const doc = {
@@ -194,12 +195,22 @@ test("polling module: fetches our endpoint, skips hidden tabs, stops cleanly", a
     clearTimer,
     now: () => now,
   });
+  const gotSecond = [];
+  const stopSecond = subscribe((d) => gotSecond.push(d), {
+    everyMs: 20,
+    fetchImpl: async (url) => { seen.push(`duplicate:${url}`); return { ok: true, json: async () => SNAP }; },
+    documentRef: doc,
+    setTimer,
+    clearTimer,
+    now: () => now,
+  });
   await advance(60);
   doc.dispatch("hidden");
   const before = seen.length;
   await advance(60);
   assert.equal(seen.length, before, "no requests while hidden");
+  stopSecond();
   stop();
-  assert.ok(got.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
+  assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
   assert.equal(listeners.size, 0);
 });

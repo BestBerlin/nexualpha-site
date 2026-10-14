@@ -5,6 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { localizedHref } from '../src/data/locale-routing.js';
+import { homePartnersFor, homePushFor } from '../src/data/home-rebate-tiers.js';
 import { PARTNER_EXCHANGE_PAGE_SLUGS, partnerExchangePageLinks } from '../src/data/partner-page-links.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -41,14 +42,19 @@ test('shared footer renders localized topic and factbook labels without changing
       '--format=cjs', '--loader:.css=empty', '--log-level=warning', `--outfile=${bundle}`], { cwd: root });
     const rendered = JSON.parse(execFileSync('node', [bundle], { cwd: root, encoding: 'utf8' }));
     for (const [locale, [topics, factbook]] of Object.entries(expected)) {
-      if (localizedRights[locale]) {
-        assert.ok(rendered[locale].includes(localizedRights[locale]), `${locale}: copyright localized`);
-        assert.ok(!rendered[locale].includes('All rights reserved.'), `${locale}: no copyright English fallback`);
-      }
+      assert.ok(rendered[locale].includes('© 2026 NexuAlpha'), `${locale}: compact copyright`);
+      assert.ok(!rendered[locale].includes('All rights reserved.'), `${locale}: no old rights sentence`);
+      if (localizedRights[locale]) assert.ok(!rendered[locale].includes(localizedRights[locale]), `${locale}: old rights sentence removed`);
       const nav = rendered[locale].match(/<nav\b[^>]*>(.*?)<\/nav>/s)?.[1];
       assert.ok(nav, `${locale}: semantic navigation exists`);
       assert.ok(nav.includes(`<a href="${localizedHref('/topics', { locale })}">${topics}</a>`), `${locale}: topic link`);
       assert.ok(nav.includes(`<a href="${localizedHref('/factbook', { locale })}">${factbook}</a>`), `${locale}: factbook link`);
+      assert.equal((rendered[locale].match(/class="clean-footer__column"/g) || []).length, 4, `${locale}: four desktop columns`);
+      assert.equal((rendered[locale].match(/class="clean-footer__mobile-column"/g) || []).length, 4, `${locale}: four mobile disclosure rows`);
+      assert.doesNotMatch(rendered[locale], /nx-ftr-policy-details|clean-footer__policies|关于我们与政策|About & policies/, `${locale}: no policy accordion`);
+      for (const section of rendered[locale].matchAll(/<section class="clean-footer__column"[\s\S]*?<\/section>/g)) {
+        assert.ok((section[0].match(/<li>/g) || []).length <= 6, `${locale}: column has at most six links`);
+      }
       if (locale === 'en') {
         const bitget = rendered[locale].indexOf('/exchanges/bitget#registration-path');
         const okx = rendered[locale].indexOf('/exchanges/okx#registration-path');
@@ -84,6 +90,8 @@ test('shared footer renders partner exchange page links without code wording in 
         renderToStaticMarkup(React.createElement(CleanFooter, { locale }))]));
       rendered['en@TR'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'TR' }));
       rendered['en@VN'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'en', market: 'VN' }));
+      rendered['tr@SG'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'tr', market: 'SG' }));
+      rendered['tr@VN'] = renderToStaticMarkup(React.createElement(CleanFooter, { locale: 'tr', market: 'VN' }));
       console.log(JSON.stringify(rendered));
     `);
     execFileSync(path.join(root, 'node_modules/.bin/esbuild'), [entry, '--bundle', '--platform=node',
@@ -91,20 +99,20 @@ test('shared footer renders partner exchange page links without code wording in 
     const rendered = JSON.parse(execFileSync('node', [bundle], { cwd: root, encoding: 'utf8' }));
     for (const key of Object.keys(rendered)) {
       const [locale, market] = key.split('@');
-      const expected = partnerExchangePageLinks(locale, { market });
       const section = rendered[key].match(/<nav\b[^>]*data-footer-partner-links[^>]*>[\s\S]*?<\/nav>/)?.[0] || '';
-      assert.equal((section.match(/data-footer-partner-link=/g) || []).length, expected.length, key);
-      for (const link of expected) assert.ok(section.includes(`href="${link.href}"`), `${key}: ${link.slug}`);
       if (['ru', 'zh-Hant', 'vi'].includes(locale) || market === 'VN') {
-        assert.doesNotMatch(section, /code|referral|referido|parrainage|邀请码|邀請碼|11350287|nexu888|48553|7f97gkqw|2296057|4BRhe|LuckyBitcoin/i, `${key}: neutral labels stay informational`);
-        assert.doesNotMatch(section, /#registration-path/, `${key}: neutral links stay on info pages`);
+        assert.equal(section, '', `${key}: neutral locales hide the partner chip row`);
       } else {
+        const expectedSlugs = [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].slice(0, 6);
+        assert.equal((section.match(/data-footer-partner-link=/g) || []).length, expectedSlugs.length, key);
+        for (const slug of expectedSlugs) assert.ok(section.includes(`href="${localizedHref(`/exchanges/${slug}#registration-path`, { locale })}"`), `${key}: ${slug}`);
+        assert.ok(expectedSlugs.length <= 6, `${key}: six partner chips max`);
         if (key === 'en') assert.match(section, /Referral codes/);
         assert.match(section, /#registration-path/);
       }
       if (locale === 'tr' || market === 'TR') {
         assert.doesNotMatch(section, /exchanges\/bitget|exchanges\/coinw/, `${key}: no Bitget or CoinW link on Türkiye pages`);
-        assert.ok(section.indexOf('exchanges/okx') < section.indexOf('exchanges/binance'), `${key}: OKX before Binance`);
+        if (section) assert.ok(section.indexOf('exchanges/okx') < section.indexOf('exchanges/binance'), `${key}: OKX before Binance`);
       }
     }
     assert.ok(rendered.en.indexOf('exchanges/bitget') < rendered.en.indexOf('exchanges/okx'), 'en: Bitget first, then OKX');

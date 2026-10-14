@@ -9,9 +9,9 @@ test("home flash rail accepts an SSR snapshot, then still refreshes from /api/fl
   assert.match(rail, /function initialRows\(initial\)/);
   assert.match(rail, /export function FlashRail\(\{ locale = "en", initial \}\)/);
   assert.match(rail, /useState\(\(\) => initialRows\(initial\)\)/);
-  assert.match(rail, /setItems\(\(current\) => current \|\| initialRows\(initial\)\)/);
+  assert.match(rail, /shouldPoll: \(\) => visible && document\.visibilityState === "visible"/);
   assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
-  assert.match(rail, /entry\.isIntersecting \|\| entry\.boundingClientRect\.bottom < 0/);
+  assert.match(rail, /entries\.some\(\(entry\) => entry\.isIntersecting\)/);
 });
 
 test("home passes initialFlash from App to HomeBelowFold and FlashRail", () => {
@@ -20,7 +20,7 @@ test("home passes initialFlash from App to HomeBelowFold and FlashRail", () => {
   const below = read("../src/components/v7/home7-below.jsx");
   assert.match(app, /<HomeV7[^>]*initialFlash=\{initialFlash\}/);
   assert.match(home, /export function HomeV7\(\{[^}]*initialFlash[^}]*\}\)/);
-  assert.match(home, /<HomeBelowFold[^>]*initialFlash=\{initialFlash\}/);
+  assert.match(home, /<StableHomeBelowFold[^>]*initialFlash=\{initialFlash\}/);
   assert.match(below, /export function HomeBelowFold\(\{[^}]*initialFlash[^}]*\}\)/);
   assert.match(below, /<FlashRail locale=\{locale\} initial=\{initialFlash\} \/>/);
 });

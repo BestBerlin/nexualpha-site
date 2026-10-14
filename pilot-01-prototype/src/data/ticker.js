@@ -69,7 +69,7 @@ const escHtml = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/<
  * replacers only: the values are data.
  */
 export function spliceTickerHtml(html, snapshot) {
-  if (typeof html !== "string" || !isTickerSnapshot(snapshot) || !html.includes("nx-ticker")) return html;
+  if (typeof html !== "string" || !isTickerSnapshot(snapshot) || (!html.includes("nx-ticker") && !html.includes("h7-terminal"))) return html;
   const text = new Map();
   const dirs = new Map();
   for (const item of snapshot.items) {
@@ -81,5 +81,11 @@ export function spliceTickerHtml(html, snapshot) {
   out = out.replace(/(<(span|b)\b[^>]*\bdata-tk=")([A-Za-z0-9-]+)("[^>]*>)([^<]*)(<\/\2>)/g,
     (match, open, _tag, key, rest, _old, close) => (text.has(key) ? `${open}${key}${rest}${escHtml(text.get(key))}${close}` : match));
   out = out.replace(/(<div class="nx-ticker"[^>]*\bdata-ticker-source=")([a-z-]+)(")/g, (_m, a, _old, c) => `${a}${escHtml(snapshot.source || "none")}${c}`);
+  out = out.replace(/(<li\b[^>]*\bdata-sym=")([A-Za-z0-9]+)("\s+data-dir=")([a-z]+)(")/g,
+    (match, a, sym, b, dir, c) => (dirs.has(sym) ? `${a}${sym}${b}${dirs.get(sym)}${c}` : match));
+  out = out.replace(/(<(span|b)\b[^>]*\bdata-ht=")([A-Za-z0-9-]+)("[^>]*>)([^<]*)(<\/\2>)/g,
+    (match, open, _tag, key, rest, _old, close) => (text.has(key) ? `${open}${key}${rest}${escHtml(text.get(key))}${close}` : match));
+  out = out.replace(/(<span class="ht-badge"[^>]*\bdata-ht="BTC-c"\s+data-dir=")([a-z]+)(")/g,
+    (_m, a, _old, c) => `${a}${dirs.get("BTC") || "flat"}${c}`);
   return out;
 }

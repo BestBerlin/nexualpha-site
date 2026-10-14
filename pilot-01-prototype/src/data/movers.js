@@ -124,7 +124,9 @@ export function buildMoversSnapshot({ binanceRows = null, coins = null, marketEv
   const universe = moversUniverse(coins);
   const board = moversFromBinance(binanceRows, universe) || moversFromMarketEvents(marketEvents, universe);
   if (!board) return null;
-  const at = board.source === "market-events" && Number.isFinite(Date.parse(marketEvents?.generatedAt)) ? Date.parse(marketEvents.generatedAt) : now;
+  const at = board.source === "binance-usdm" && Number.isFinite(binanceRows?.snapshotAt)
+    ? binanceRows.snapshotAt
+    : board.source === "market-events" && Number.isFinite(Date.parse(marketEvents?.generatedAt)) ? Date.parse(marketEvents.generatedAt) : now;
   return { generatedAt: new Date(at).toISOString(), source: board.source, up: board.up, down: board.down, headline: moversHeadline(marketEvents) };
 }
 

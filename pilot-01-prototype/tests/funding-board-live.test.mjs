@@ -1,9 +1,8 @@
 // Home funding board stuck at "—" (2026-10-14). The feed shape was fine (unchanged since the board shipped on 2026-10-10:
-// {generatedAt, venues: {<slug>: {ok, readAt, rows: [{symbol, rate, intervalH, nextAt}]}}}); the board never hydrated,
-// because the scroll gate for the lower home half only watched #h7-flash and only listened for taps on that element.
+// {generatedAt, venues: {<slug>: {ok, readAt, rows: [{symbol, rate, intervalH, nextAt}]}}}); the board needed stable SSR
+// markup and lazy client hydration without removing the lower-half subtree.
 // 1. The live JSON (fixture saved from production) maps to six numeric rows per symbol.
-// 2. The gate opens for a reader who is already below the first watched section, for any listed section, and for a tap
-//    caught on the document (React swallows taps on a dehydrated boundary before they reach the element).
+// 2. The shared gate still works for other deferred routes, while home now uses StableHomeBelowFold with direct SSR text.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -96,7 +95,11 @@ test("any listed section opens the gate, and a tap inside it is caught on the do
   assert.equal(page.listeners.size, 0, "cleanup removes the document listeners");
 });
 
-test("the home page watches every lower-half data section, not only the flash rail", () => {
+test("the home page keeps lower-half data SSR-stable while lazy hydrating its controller", () => {
   const home = readFileSync(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
-  assert.match(home, /<DeferUntilVisible target="#h7-flash, #h7-calc, #h7-funding, #h7-intel" prefetch=\{loadHomeBelow\}>/);
+  assert.match(home, /function StableHomeBelowFold\(props\)/);
+  assert.match(home, /<ServerHomeBelowFold \{\.\.\.props\} \/>/);
+  assert.match(home, /hydrateRoot\(hostRef\.current, element\)/);
+  assert.match(home, /<StableHomeBelowFold[^>]*fundingFeed=\{fundingFeed\}/);
+  assert.doesNotMatch(home, /<DeferUntilVisible[^>]*HomeBelowFold/);
 });

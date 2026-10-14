@@ -294,6 +294,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // cannot absorb them into its chunk.
           // Shared first-paint movers CSS must not adopt the deferred home JS graph.
           if (id.includes("/src/styles/v7/movers-owner.css")) return "page-home-movers";
+          if (id.includes("/src/styles/v7/flash-rail.css")) return "page-home-flash";
           if (!isSsrBuild && /\/src\/components\/v7\/home7-(?:below|funding|telegram)\.jsx$/.test(id)) return "home-below-fold";
           if (!isSsrBuild && id.includes("/src/components/v6/closing-index")) return "home-closing-index";
           if (id.includes("/src/components/v3/FeeBenchmarkTerminal")) return "route-rates";

@@ -1,42 +1,64 @@
-import { beginnerPath } from "../../data/beginner-routes.js";
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
-import { lazy, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { feeFact } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_AUTO_SETTLE, HOME_SETTLE, homePartnersFor, homePushFor, homeRebateMaxPctFor } from "../../data/home-rebate-tiers.js";
+import { HOME_AUTO_SETTLE, homePartnersFor, homePushFor, homeRebateMaxPctFor } from "../../data/home-rebate-tiers.js";
 import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { partnerRebateShare } from "../../data/partner-benefit-status.js";
-import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
+import { formatPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { h7NeutralCopy } from "./home7-neutral-copy.js";
-import { HeroExchangeSelector } from "./HeroExchangeSelector.jsx";
-import { RebateNumber } from "./RebateNumber.jsx";
 import { jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
-import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { academyShellCopy } from "../../data/academy.js";
-import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
+import { Cta, nameOf } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 import "../../styles/v7/selector-owner.css";
 import "../../styles/v7/terminal-owner.css";
 import "../../styles/v7/movers-owner.css";
+import "../../styles/v7/flash-rail.css";
 
-// Below the first viewport (calculator, funding board, announcement stream, Telegram): the server renders the module
-// inline; the browser fetches its chunk only when the calculator scrolls near (perf lane 2026-10-11). The eager glob is
-// dropped from browser builds by vite.config.mjs (nexualpha-client-drops-ssr-eager-glob).
 const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-below.jsx"], { eager: true }) : {};
-const ssrHeroTerminalModules = import.meta.env.SSR ? import.meta.glob(["./HeroTerminal.jsx"], { eager: true }) : {};
+const ServerHomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : null;
 let homeBelowChunk;
-let heroTerminalChunk;
-const loadHomeBelow = () => (homeBelowChunk ??= import("./home7-below.jsx"));
-const loadHeroTerminal = () => (heroTerminalChunk ??= import("./HeroTerminal.jsx"));
-const HomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : lazy(() => loadHomeBelow().then((m) => ({ default: m.HomeBelowFold })));
-const HeroTerminal = import.meta.env.SSR ? ssrHeroTerminalModules["./HeroTerminal.jsx"].HeroTerminal : lazy(() => loadHeroTerminal().then((m) => ({ default: m.HeroTerminal })));
+const loadHomeBelow = () => (homeBelowChunk ??= Promise.all([import("./home7-below.jsx"), import("react-dom/client")]));
+const ssrTerminalModules = import.meta.env.SSR ? import.meta.glob(["./HeroTerminal.jsx"], { eager: true }) : {};
+const ServerHeroTerminal = import.meta.env.SSR ? ssrTerminalModules["./HeroTerminal.jsx"].HeroTerminal : null;
+let terminalFrameChunk;
+const loadTerminalFrame = () => (terminalFrameChunk ??= Promise.all([import("./HeroTerminal.jsx"), import("react-dom/client")]));
+
+const PRIMARY_DEFAULT = Object.freeze(["bitget", "okx", "binance"]);
+const PRIMARY_TR = Object.freeze(["okx", "binance", "bybit"]);
+
+const MORE_LABELS = Object.freeze({
+  en: "More",
+  "zh-Hans": "更多",
+  "zh-Hant": "更多",
+  es: "Más",
+  "pt-BR": "Mais",
+  fr: "Plus",
+  de: "Mehr",
+  it: "Altro",
+  ja: "その他",
+  ko: "더보기",
+  tr: "Daha",
+  ru: "Еще",
+  ar: "المزيد",
+  id: "Lainnya",
+  vi: "Thêm",
+  ur: "مزید",
+  uk: "Ще",
+});
+
+function moreLabel(locale) {
+  const raw = String(locale || "en");
+  return MORE_LABELS[raw] || MORE_LABELS[raw.split("-")[0]] || MORE_LABELS.en;
+}
 
 // Academy teaser (owner 2026-10-12): one compact row that sends newcomers to the 24-lesson course on our own site.
 function AcademyTeaser({ locale }) {
@@ -52,6 +74,102 @@ function AcademyTeaser({ locale }) {
       <span className="h7-academy-go">{a.homeCta}<span aria-hidden="true" className="h7-academy-arrow">→</span></span>
     </a>
   </section>;
+}
+
+function BelowHydrationCommit({ children, onReady }) {
+  useEffect(() => { onReady(); }, [onReady]);
+  return children;
+}
+
+function StableHeroTerminal(props) {
+  if (import.meta.env.SSR) return <div id="h7-terminal-root" className="hx-terminal-host"><ServerHeroTerminal {...props} /></div>;
+  const host = useRef(null), root = useRef(null), initial = useRef(props), latest = useRef(props);
+  latest.current = props;
+  const [html] = useState(() => document.getElementById("h7-terminal-root")?.innerHTML || "");
+  const frozen = useMemo(() => ({ __html: html }), [html]);
+  const ready = useRef(null);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    let cancelled = false, near = false, idle = null;
+    const start = () => {
+      if (!near || cancelled || idle !== null || document.visibilityState !== "visible") return;
+      const run = () => {
+        idle = null;
+        if (cancelled || document.visibilityState !== "visible") return;
+        loadTerminalFrame().then(([mod, client]) => {
+          if (cancelled || !host.current || root.current) return;
+          ready.current = () => { if (!cancelled) setHydrated(true); };
+          const element = <BelowHydrationCommit onReady={ready.current}><mod.HeroTerminal {...initial.current} /></BelowHydrationCommit>;
+          if (html) root.current = client.hydrateRoot(host.current, element);
+          else { root.current = client.createRoot(host.current); root.current.render(element); }
+        });
+      };
+      idle = window.requestIdleCallback ? window.requestIdleCallback(run, { timeout: 2500 }) : window.setTimeout(run, 0);
+    };
+    const observer = typeof IntersectionObserver === "function" ? new IntersectionObserver(entries => { near = entries.some(entry => entry.isIntersecting); start(); }, { rootMargin: "200px 0px" }) : null;
+    const figure = host.current?.firstElementChild;
+    if (observer && figure) observer.observe(figure); else { near = true; start(); }
+    document.addEventListener("visibilitychange", start);
+    return () => {
+      cancelled = true; observer?.disconnect(); document.removeEventListener("visibilitychange", start);
+      if (idle !== null) { window.cancelIdleCallback?.(idle); window.clearTimeout(idle); }
+      const child = root.current; root.current = null; if (child) setTimeout(() => child.unmount(), 0);
+    };
+  }, []);
+  useEffect(() => {
+    if (!hydrated) return;
+    loadTerminalFrame().then(([mod]) => root.current?.render(<BelowHydrationCommit onReady={ready.current}><mod.HeroTerminal {...latest.current} /></BelowHydrationCommit>));
+  }, [hydrated, props.locale, props.selected, props.estimate, props.neutral]);
+  return <div id="h7-terminal-root" className="hx-terminal-host" ref={host} suppressHydrationWarning dangerouslySetInnerHTML={frozen} />;
+}
+
+function StableHomeBelowFold(props) {
+  if (import.meta.env.SSR) {
+    return <div id="h7-below-root"><ServerHomeBelowFold {...props} /></div>;
+  }
+  const hostRef = useRef(null);
+  const rootRef = useRef(null);
+  const readyRef = useRef(null);
+  const elementRef = useRef(null);
+  const hydratedRef = useRef(false);
+  const [hydrated, setHydrated] = useState(false);
+  elementRef.current = props;
+  const [serverHtml] = useState(() => (typeof document === "undefined" ? "" : document.getElementById("h7-below-root")?.innerHTML || ""));
+  // The parent must not rewrite the island's live DOM when its own controls update.
+  const frozenHtml = useMemo(() => ({ __html: serverHtml }), [serverHtml]);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadHomeBelow().then(([mod, client]) => {
+      if (cancelled || !hostRef.current) return;
+      const markHydrated = () => {
+        if (cancelled || hydratedRef.current) return;
+        hydratedRef.current = true;
+        hostRef.current?.setAttribute("data-hydrated", "true");
+        setHydrated(true);
+      };
+      readyRef.current = markHydrated;
+      const element = <BelowHydrationCommit onReady={markHydrated}><mod.HomeBelowFold {...elementRef.current} /></BelowHydrationCommit>;
+      if (serverHtml) rootRef.current = client.hydrateRoot(hostRef.current, element);
+      else { rootRef.current = client.createRoot(hostRef.current); rootRef.current.render(element); }
+    });
+    return () => {
+      cancelled = true;
+      const root = rootRef.current;
+      rootRef.current = null;
+      hydratedRef.current = false;
+      if (root) setTimeout(() => root.unmount(), 0);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    loadHomeBelow().then(([mod]) => {
+      rootRef.current?.render(<BelowHydrationCommit onReady={readyRef.current}><mod.HomeBelowFold {...props} /></BelowHydrationCommit>);
+    });
+  }, [hydrated, props.renderedAt, props.t, props.locale, props.market, props.movers, props.fundingFeed, props.vol, props.mode, props.product, props.calc, props.priced, props.initialOfficialAnnouncements, props.initialFlash]);
+
+  return <div id="h7-below-root" ref={hostRef} suppressHydrationWarning dangerouslySetInnerHTML={frozenHtml} />;
 }
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
@@ -75,11 +193,164 @@ function useVenues(locale, product, market, banned) {
 
 function CopyCode({ code, t }) {
   const [done, setDone] = useState(false);
+  const timer = useRef(null);
+  const currentCode = useRef(code);
+  currentCode.current = code;
+  useEffect(() => { setDone(false); return () => clearTimeout(timer.current); }, [code]);
   const copy = () => {
-    const ok = () => { setDone(true); setTimeout(() => setDone(false), 2000); };
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(ok, () => {}); else ok();
+    const ok = () => {
+      if (currentCode.current !== code) return;
+      clearTimeout(timer.current); setDone(true); timer.current = setTimeout(() => setDone(false), 2000);
+    };
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(ok, () => {});
+    else {
+      const input = document.createElement("textarea");
+      input.value = code; input.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+      document.body.append(input); input.select();
+      try { if (document.execCommand?.("copy")) ok(); } finally { input.remove(); }
+    }
   };
   return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
+}
+
+function HeroRebate({ locale, venue, autoLabel, t }) {
+  // Static final value (owner 2026-10-14, hotfix #231): no count-up of any kind; the digits are real text so the
+  // figure reads "60%" everywhere, and the gradient sits on each glyph run (never on the parent) so iPhone Safari keeps the %.
+  const target = Math.max(0, Math.round((venue?.share || 0) * 100));
+  const percentBefore = formatPercent(locale, 1).startsWith("%");
+  const feeLabel = locale === "zh-Hans" ? `${venue.name} 最高返还手续费`
+    : locale === "zh-Hant" ? `${venue.name} 最高返還手續費` : t.lgShare(venue.name);
+  const label = `${feeLabel} ${formatPercent(locale, target)}`;
+
+  return (
+    <div className="hx-rate" data-pick={venue?.slug || "none"}>
+      <span className="hx-rate-logo" aria-hidden="true"><BrandMark slug={venue?.slug} compact priority /></span>
+      <p className="hx-rate-num h7-rebate-value" aria-label={label} data-final-value={target}>
+        {percentBefore && <span className="hx-rate-pct" aria-hidden="true">%</span>}
+        <span className="hx-rate-n" aria-hidden="true">{String(target)}</span>
+        {!percentBefore && <span className="hx-rate-pct" aria-hidden="true">%</span>}
+      </p>
+      <p className="hx-rate-label">{feeLabel}{autoLabel ? <span className="hx-chip">{autoLabel}</span> : null}</p>
+    </div>
+  );
+}
+
+function MoreRows({ overflow, selectableBySlug, selectedSlug, onPick, locale, t }) {
+  return overflow.map((venue) => {
+    const selectable = selectableBySlug.get(venue.slug);
+    const labelVenue = selectable || venue;
+    const share = labelVenue.share ? Math.round(labelVenue.share * 100) : null;
+    if (selectable) {
+      return (
+        <button
+          key={venue.slug}
+          type="button"
+          role="menuitemradio"
+          aria-checked={venue.slug === selectedSlug}
+          onClick={(event) => {
+            onPick(venue.slug);
+            event.currentTarget.closest("[popover]")?.hidePopover?.();
+            event.currentTarget.closest("details")?.removeAttribute("open");
+          }}
+        >
+          <BrandMark slug={venue.slug} compact />
+          <span>{venue.name}</span>
+          {share != null ? <b>{t.upTo} {formatPercent(locale, share)}</b> : null}
+        </button>
+      );
+    }
+    return (
+      <a key={venue.slug} role="menuitem" href={localizedHref(`/exchanges/${venue.slug}`, { locale })}>
+        <BrandMark slug={venue.slug} compact />
+        <span>{venue.name}</span>
+        {share != null ? <b>{t.upTo} {formatPercent(locale, share)}</b> : null}
+      </a>
+    );
+  });
+}
+
+function HeroExchangeSwitcher({ locale, market, venues, rebated, selectedSlug, onPick, t }) {
+  const wrapRef = useRef(null);
+  const tabRefs = useRef(new Map());
+  const [indicator, setIndicator] = useState({ x: 3, w: 0 });
+  const previousIndicator = useRef(indicator);
+  const selectableBySlug = useMemo(() => new Map(rebated.map((venue) => [venue.slug, venue])), [rebated]);
+  const venueBySlug = useMemo(() => new Map(venues.map((venue) => [venue.slug, venue])), [venues]);
+  const primaryOrder = market === "TR" || /^tr(?:-|$)/i.test(String(locale || "")) ? PRIMARY_TR : PRIMARY_DEFAULT;
+  const primary = useMemo(() => primaryOrder.map((slug) => selectableBySlug.get(slug) || venueBySlug.get(slug)).filter(Boolean), [primaryOrder, selectableBySlug, venueBySlug]);
+  const primarySlugs = useMemo(() => new Set(primary.map((venue) => venue.slug)), [primary]);
+  const overflow = useMemo(() => venues.filter((venue) => !primarySlugs.has(venue.slug)), [venues, primarySlugs]);
+  const selectedOverflow = overflow.find((venue) => venue.slug === selectedSlug);
+  const more = moreLabel(locale);
+
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const tab = tabRefs.current.get(primarySlugs.has(selectedSlug) ? selectedSlug : "more");
+    if (!wrap || !tab) return;
+    const measure = () => {
+      const wr = wrap.getBoundingClientRect();
+      const tr = tab.getBoundingClientRect();
+      setIndicator({ x: tr.left - wr.left, w: tr.width });
+    };
+    measure();
+    const observer = typeof ResizeObserver === "function" ? new ResizeObserver(measure) : null;
+    observer?.observe(wrap);
+    return () => observer?.disconnect();
+  }, [primarySlugs, selectedSlug, overflow.length]);
+
+  useLayoutEffect(() => {
+    const before = previousIndicator.current;
+    previousIndicator.current = indicator;
+    if (!before.w || !indicator.w || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    wrapRef.current?.querySelector(".hx-tab-ind")?.animate?.([
+      { transform: `translateX(${before.x}px) scaleX(${before.w / indicator.w})` },
+      { transform: `translateX(${indicator.x}px) scaleX(1)` },
+    ], { duration: 320, easing: "cubic-bezier(.16,1,.3,1)" });
+  }, [indicator]);
+
+  return (
+    <div className="hx-tabs" ref={wrapRef} role="group" aria-label={t.lgPick} style={{ "--hx-tab-x": `${indicator.x}px`, "--hx-tab-w": `${indicator.w}px` }}>
+      <span className="hx-tab-ind" aria-hidden="true" />
+      {primary.map((venue) => {
+        const selectable = selectableBySlug.get(venue.slug);
+        const selected = venue.slug === selectedSlug;
+        if (!selectable) {
+          return (
+            <a key={venue.slug} className="hx-tab" href={localizedHref(`/exchanges/${venue.slug}`, { locale })}>
+              <BrandMark slug={venue.slug} compact />
+              <span>{venue.name}</span>
+            </a>
+          );
+        }
+        return (
+          <button key={venue.slug} ref={(node) => { if (node) tabRefs.current.set(venue.slug, node); }} className="hx-tab" type="button" aria-pressed={selected} onClick={() => onPick(venue.slug)}>
+            <BrandMark slug={venue.slug} compact />
+            <span>{venue.name}</span>
+          </button>
+        );
+      })}
+      {overflow.length ? (
+        <>
+          <button ref={(node) => { if (node) tabRefs.current.set("more", node); }} className="hx-more" type="button" popoverTarget="hx-more" aria-pressed={selectedOverflow ? "true" : "false"}>
+            {selectedOverflow ? <BrandMark slug={selectedOverflow.slug} compact /> : null}
+            <span>{selectedOverflow?.name || more}</span><span aria-hidden="true">▾</span>
+          </button>
+          <div id="hx-more" className="hx-more-pop" popover="auto" role="menu" aria-label={more}>
+            <MoreRows overflow={overflow} selectableBySlug={selectableBySlug} selectedSlug={selectedSlug} onPick={onPick} locale={locale} t={t} />
+          </div>
+          <details className="hx-more-fallback" onKeyDown={(event) => {
+            if (event.key !== "Escape") return;
+            event.currentTarget.open = false; event.currentTarget.querySelector("summary")?.focus(); event.preventDefault();
+          }}>
+            <summary><span>{selectedOverflow?.name || more}</span><span aria-hidden="true">▾</span></summary>
+            <div className="hx-more-pop" role="menu" aria-label={more}>
+              <MoreRows overflow={overflow} selectableBySlug={selectableBySlug} selectedSlug={selectedSlug} onPick={onPick} locale={locale} t={t} />
+            </div>
+          </details>
+        </>
+      ) : null}
+    </div>
+  );
 }
 
 // Phones: once the hero has scrolled away, a dock keeps the exchange pick and its sign-up link one tap away.
@@ -95,7 +366,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   return (
     <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: true, "aria-hidden": "true" })}>
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
-        <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</option>)}</select>
+        <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {formatPercent(locale, Math.round(r.share * 100))}</option>)}</select>
       </label>
       <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span></Cta>
     </div>
@@ -148,74 +419,47 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
   // Ledger: venues with a disclosed rebate share; the pick drives the ledger and the hero CTA.
   const rebated = useMemo(() => homePushFor(locale, market).map((slug) => calc.rows.find((r) => r.slug === slug && r.share)).filter(Boolean), [calc, locale, market]);
   const [pickSlug, setPick] = useState(null);
-  // The SSR/LCP figures are already final. Animate the spring only after a visitor picks a venue.
-  const animateLedgerNudge = pickSlug !== null;
   const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
-  const auto = HOME_AUTO_SETTLE.includes(sel.slug);
-  const topShare = Math.max(0, ...rebated.map((r) => r.share || 0));
-  const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
+  const auto = sel?.slug ? HOME_AUTO_SETTLE.includes(sel.slug) : false;
+  // The terminal's stated scenario stays $100K/month, perpetual taker even if the lower calculator changes.
+  const terminalFee = feeFact(sel?.slug, "perp");
+  const terminalEstimate = terminalFee.state === "checked" && Number.isFinite(terminalFee.taker)
+    ? 100000 * 12 * terminalFee.taker / 100 * (sel?.share || 0) : undefined;
 
-  const heroRef = useRef(null), pillRefs = useRef([]);
+  const heroRef = useRef(null);
+  const h1b = banned ? heroText.h1b : heroText.h1b.replace("{max}%", formatPercent(locale, maxPct));
 
   return (
     <div className="h7" data-rendered-at={renderedAt} {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})} {...(banned ? { "data-neutral": "" } : {})}>
         <div className="h7-hc">
-          <p className="h7-kick">{t.kick}</p>
-          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{banned ? heroText.h1b : heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, maxPct)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
-          <p className="h7-sub">{heroText.sub}</p>
-          <div className="h7-cta">
-            {banned
-              ? <a className="h7-btn h7-hero-go" href={localizedHref("/exchanges", { locale })}>{t.heroGo}</a>
-              : <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>}
-            <a className="h7-ln h7-ln-down" href="#h7-calc">{t.calcLink}</a>
-          </div>
-          {banned ? (
-            <DeferUntilVisible target=".h7-terminal--neutral" rootMargin="20% 0px" prefetch={loadHeroTerminal}>
-              <HeroTerminal locale={locale} selected={{ slug: "nexualpha", name: "NexuAlpha" }} initialTicker={initialTicker} neutral />
-            </DeferUntilVisible>
-          ) : null}
+          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{h1b}</span></h1>
         </div>
 
         {!banned && (
-        <aside className="h7-lg" id="h7-desk" aria-label={t.lgTitle} onPointerMove={spot} data-pick={sel.slug}>
-          <HeroExchangeSelector locale={locale} market={market} venues={venues} rebated={rebated} selectedSlug={sel.slug} topShare={topShare} onPick={setPick} t={t} pillRefs={pillRefs} />
-          <div className="h7-lg-max">
-            <RebateNumber locale={locale} venue={sel} />
-            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}{auto && HOME_SETTLE[sel.slug] && <span className="h7-auto h7-auto--cad">{HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}</span>}</div>
-          </div>
-          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
-          <dl className="h7-lg-rows">
-            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
-            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
-            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} animateNudge={animateLedgerNudge} /></dd></div>
-          </dl>
-          {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
-          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
-          <DeferUntilVisible target=".h7-terminal" rootMargin="20% 0px" prefetch={loadHeroTerminal}>
-            <HeroTerminal locale={locale} selected={sel} estimate={sel.save} estimateLabel={t.lgBack} initialTicker={initialTicker} />
-          </DeferUntilVisible>
+        <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
+          <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={rebated} selectedSlug={sel.slug} onPick={setPick} t={t} />
+          <HeroRebate locale={locale} venue={sel} autoLabel={auto ? t.lgAuto : ""} t={t} />
+          {sel.code && <p className="hx-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
+          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
         </aside>
         )}
+        <StableHeroTerminal locale={locale} selected={banned ? { slug: "nexualpha", name: "NexuAlpha" } : sel} estimate={banned ? undefined : terminalEstimate} initialTicker={initialTicker} neutral={banned} />
+      </section>
 
-        <div className="h7-strip">
-          <p className="h7-strip-h">{replaceMaxPercent(t.cap(venues.length), locale, maxPct)}</p>
-          <ul className="h7-pw" aria-label={t.pw(venues.length)}>
-            {venues.map((v, i) => (
-              <li key={v.slug}>
-                <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} className={v.share ? "on" : undefined}>
-                  <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small>{t.upTo} {formatPercent(locale, Math.round(v.share * 100))}</small> : null}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="h7-strip" aria-label={t.pw(venues.length)}>
+        <ul className="h7-pw">
+          {venues.map((v, i) => (
+            <li key={v.slug}>
+              <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} className={v.share ? "on" : undefined}>
+                <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small>{t.upTo} {formatPercent(locale, Math.round(v.share * 100))}</small> : null}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <TelegramAlertsStrip locale={locale} placement="home-telegram-alerts" className="tg-signal-strip--home" />
-
-      <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
-
 
       <section className="h7-in h7-how" aria-labelledby="h7-how-h">
         <h2 id="h7-how-h">{t.howH}</h2>
@@ -226,9 +470,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
 
       <AcademyTeaser locale={locale} />
 
-      <DeferUntilVisible target="#h7-flash, #h7-calc, #h7-funding, #h7-intel" prefetch={loadHomeBelow}>
-        <HomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} />
-      </DeferUntilVisible>
+      <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} />
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>

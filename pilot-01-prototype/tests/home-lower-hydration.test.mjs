@@ -101,3 +101,40 @@ test('funding venue fits its cell without page overflow at narrow widths', { ski
     rmSync(profile, { recursive: true, force: true });
   }
 });
+
+test('the real client island keeps the same SSR sections through hydration and the first parent update', async () => {
+  const client = await createSsrHarness({ clientHome: true });
+  const funding = JSON.parse(readFileSync(new URL('./fixtures/funding-rates-live-2026-10-14.json', import.meta.url)));
+  const html = await harness.render('https://nexualpha.com/', { funding });
+  const document = `<div id="root">${html}</div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify({pathname:'/',locale:'en',funding})}</script>`;
+  let originalSections;
+  let observer;
+  const removed = [];
+  const observingIntersection = class {
+    observe() {
+      if (originalSections) return;
+      originalSections = ['h7-flash','h7-movers','h7-calc','h7-funding','h7-intel'].map(id => window.document.getElementById(id));
+      observer = new window.MutationObserver(records => {
+        for (const record of records) for (const node of record.removedNodes) {
+          if (node.nodeType === 1 && originalSections.some(section => node === section || node.contains(section))) removed.push(node.id || node.className);
+        }
+      });
+      observer.observe(window.document.getElementById('h7-below-root'), {childList:true,subtree:true});
+    }
+    disconnect() {}
+  };
+  try {
+    const result = await hydrateInJsdom(client.vite, document, 'https://nexualpha.com/', {
+      timeoutMs: 10000,
+      settleMs: 500,
+      until: window => window.document.getElementById('h7-below-root')?.dataset.hydrated === 'true',
+      intersectionObserver: observingIntersection,
+      inspect: window => ({same:originalSections.map(section => section === window.document.getElementById(section.id)),removed:[...removed],hasController:window.document.getElementById('h7-below-root')?.dataset.hydrated === 'true'}),
+    });
+    assert.deepEqual(hydrationErrors(result.errors), []);
+    assert.ok(originalSections.every(Boolean));
+    assert.deepEqual(result.inspected.same, [true,true,true,true,true]);
+    assert.deepEqual(result.inspected.removed, []);
+    assert.equal(result.inspected.hasController,true);
+  } finally { observer?.disconnect(); await client.close(); }
+});

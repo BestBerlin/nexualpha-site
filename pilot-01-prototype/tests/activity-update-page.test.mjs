@@ -49,7 +49,7 @@ test('neutral locales and blocked markets have no commercial CTA inside update a
  assert.match(html,/data-cta-placement="activity-update-join"/);
  // Owner rule 2026-10-12: no commission fine print in page sections; the footer carries the disclosure.
  assert.doesNotMatch(html.split('<footer')[0],/Partner link, commission disclosed|data-disclosure-placement=/);
- assert.match(html,/class="clean-footer__statement"/);
+ assert.match(html,/class="clean-footer__summary"/);
  assert.match(html,/href="[^"]*\/methodology#disclosure"/);
 });
 test('Türkiye Bitget event update falls back to the activity index while listings stay informationally reachable', () => {

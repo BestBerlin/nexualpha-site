@@ -86,7 +86,7 @@ test("body markup: every row links to its coin page, SGT time, five fixed rows p
   assert.equal((thin.match(/class="h7-mv-pad"/g) || []).length, 3, "short list padded to five rows");
   assert.match(thin, /<span class="h7-mv-count">2\/5<\/span>/, "short list shows the honest count");
   const spark = moversBodyHtml({ ...SNAP, up: [{ ...SNAP.up[0], sparkline: [1, 3, 2] }, ...SNAP.up.slice(1)] }, "en");
-  assert.match(spark, /<svg class="h7-mv-sp" viewBox="0 0 40 16"/, "sparklines render only when real row data exists");
+  assert.match(spark, /<svg class="h7-mv-sp" viewBox="0 0 64 22"/, "sparklines render only when real row data exists");
   const hostile = moversBodyHtml({ ...SNAP, up: [{ ...SNAP.up[0], sym: "<img>", price: "$1$'\"" }] }, "en");
   assert.doesNotMatch(hostile, /<img>/);
   assert.match(hostile, /\$1\$&#39;&quot;/);
@@ -160,12 +160,12 @@ test("worker: home HTML carries the movers frame and state \"movers\"; it hydrat
   assert.equal(prerenderState(bare).movers, undefined);
 });
 
-test("server and client wiring: /api/movers.json route, refresh every 45 s while visible, lazy chunk only", async () => {
+test("server and client wiring: /api/movers.json route, refresh every 30 s while visible, lazy chunk only", async () => {
   const server = await readFile(new URL("../server.mjs", import.meta.url), "utf8");
   assert.match(server, /requestPath === MOVERS_PATH/);
   assert.match(server, /MOVERS_READ: movers\.read/);
   const board = await readFile(new URL("../src/components/v7/home7-movers.jsx", import.meta.url), "utf8");
-  assert.match(board, /MOVERS_REFRESH_MS = 45 \* 1000/);
+  assert.match(board, /MOVERS_REFRESH_MS = 30 \* 1000/);
   assert.match(board, /IntersectionObserver/);
   assert.match(board, /movers-owner\.css/);
   assert.doesNotMatch(board, /h7-mv-tabs|h7-mv-t-up|h7-mv-t-dn/);

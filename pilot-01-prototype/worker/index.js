@@ -5089,7 +5089,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       readMoversSnapshot(env),
     ]);
     if (funding || flash || ticker || movers) {
-      const state = { heroVariant: routePayload.heroVariant, ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
+      // The prerendered announcement feed rides along: the client hydrates the below-fold island from the same state, so
+      // rendering without it SSR'd an empty notice list and threw React #418 on every home load.
+      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
         if (typeof rendered === "string" && rendered.includes('id="h7-flash"')) {
@@ -5342,9 +5344,28 @@ async function readTickerSnapshot(env) {
 // browser fills it from /api/movers.json once it is on screen.
 async function readMoversSnapshot(env) {
   try {
-    if (typeof env?.MOVERS_READ === "function") { const snapshot = await env.MOVERS_READ(); if (isMoversSnapshot(snapshot)) return snapshot; }
+    if (typeof env?.MOVERS_READ === "function") {
+      const snapshot = await env.MOVERS_READ();
+      if (isMoversSnapshot(snapshot)) {
+        if (!snapshot.stale && snapshot.up.length && snapshot.down.length) await retainHomeSnapshot(env, "movers:last", snapshot);
+        return snapshot;
+      }
+    }
   } catch (error) { console.error(`[NexuAlpha] movers snapshot failed: ${error?.message || error}`); }
+  const saved = await restoreHomeSnapshot(env, "movers:last");
+  if (isMoversSnapshot(saved)) return { ...saved, stale: true };
   return null;
+}
+
+// Optional durable KV binding: stale SSR values retain their source clock and never become fresh on read.
+async function retainHomeSnapshot(env, key, snapshot) {
+  try { await env?.HOME_FEEDS_KV?.put(key, JSON.stringify(snapshot)); } catch { /* Live response remains usable. */ }
+}
+async function restoreHomeSnapshot(env, key) {
+  try {
+    const value = await env?.HOME_FEEDS_KV?.get(key, "json");
+    return typeof value === "string" ? JSON.parse(value) : value;
+  } catch { return null; }
 }
 
 // ---------------------------------------------------------------------------------------------------------- Flash
@@ -5383,7 +5404,7 @@ async function readFlashItems(env, url, { force = false } = {}) {
   let cache = flashCaches.get(key);
   if (!cache) { cache = { at: 0, items: null, pending: null, memory: null }; flashCaches.set(key, cache); }
   const now = flashNow(env);
-  if (!force && cache.items && Date.now() - cache.at < FLASH_TTL_MS) return cache.items;
+  if ((!force || cache.failed) && cache.items && Date.now() - cache.at < FLASH_TTL_MS) return cache.items;
   if (cache.pending) return cache.pending;
   cache.pending = (async () => {
     if (!cache.memory) {
@@ -5392,6 +5413,16 @@ async function readFlashItems(env, url, { force = false } = {}) {
     }
     const sources = await readFlashSources(env, url);
     if (!sources.announcements && !sources.archive && !(Array.isArray(sources.briefs) && sources.briefs.length) && !sources.market && !(Array.isArray(sources.news) && sources.news.length)) {
+      cache.failed = true;
+      cache.at = Date.now();
+      if (cache.items?.length) { cache.items.stale = true; return cache.items; }
+      const saved = await restoreHomeSnapshot(env, "flash:last");
+      if (Array.isArray(saved?.items) && saved.items.length) {
+        cache.items = saved.items;
+        cache.items.generatedAt = saved.generatedAt || saved.items[0]?.time;
+        cache.items.stale = true;
+        return cache.items;
+      }
       throw new Error("flash sources unavailable");
     }
     const { items, marketItems } = buildFlashItems({ ...sources, remembered: cache.memory, now });
@@ -5399,6 +5430,9 @@ async function readFlashItems(env, url, { force = false } = {}) {
     cache.memory = marketItems;
     if (changed && typeof env?.FLASH_MEMORY?.save === "function") Promise.resolve(env.FLASH_MEMORY.save(marketItems)).catch(() => {});
     cache.items = items;
+    cache.failed = false;
+    items.generatedAt = new Date(now).toISOString();
+    if (items.length) await retainHomeSnapshot(env, "flash:last", { items, generatedAt: items.generatedAt });
     cache.at = Date.now();
     return items;
   })().finally(() => { cache.pending = null; });

@@ -9,9 +9,15 @@ import { MOVERS_PATH, buildMoversSnapshot } from '../src/data/movers.js';
 export { MOVERS_PATH };
 
 export function createMoversFeed({ readBinanceRows = null, readCoins = null, readMarketEvents = null, ttlMs = 30 * 1000, timeoutMs = 3000, now = Date.now, log = () => {} } = {}) {
+  let lastWide = null;
   const safe = async (fn) => { if (typeof fn !== 'function') return null; try { return await fn(); } catch (error) { log(`movers: ${error?.message || error}`); return null; } };
   return createStaleJsonFeed({ ttlMs, timeoutMs, now, log, load: async () => {
     const [binanceRows, coins, marketEvents] = await Promise.all([safe(readBinanceRows), safe(readCoins), safe(readMarketEvents)]);
-    return buildMoversSnapshot({ binanceRows, coins, marketEvents, now: now() });
+    const next = buildMoversSnapshot({ binanceRows, coins, marketEvents, now: now() });
+    if (next && now() - Date.parse(next.generatedAt) >= ttlMs) return { ...next, stale: true };
+    if (next?.up.length && next?.down.length) { lastWide = next; return next; }
+    // A degraded collector universe must not replace either side of a good board.
+    if (lastWide) return { ...lastWide, stale: true };
+    return next;
   } });
 }

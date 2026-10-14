@@ -2,33 +2,16 @@ import { beginnerPath } from "../../data/beginner-routes.js";
 import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { BrandMark } from "../brand/BrandMark";
-import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
+import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
 import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "../../data/partner-page-links.js";
+import { venueDatabase } from "../../data/venue-database.js";
 
-const copyDict = {
-  "zh-Hans": {
-    statement: "NexuAlpha 是独立的加密交易平台黄页与决策导航，不属于任何交易所，不代办开户、不触碰私钥、不托管资产。部分平台包含合作与返佣链接，佣金由平台承担，不会增加您的任何交易成本。所有开户与交易请核对官方主域名。",
-    disclaimer: "【风险披露与免责声明】数字资产与衍生品价格波动剧烈，合约与杠杆交易具有极高本金亏损风险。NexuAlpha 仅提供中立平台数据核验、费率比对与入口聚合，不构成任何投资、财务、税务或法律建议。用户须独立评估自身风险承受能力，自负盈亏 (DYOR)。",
-  },
-  "zh-Hant": {
-    statement: "NexuAlpha 是獨立的加密交易平台黃頁與決策導航，不屬於任何交易所，不代辦開戶、不觸碰私鑰、不託管資產。部分平台包含合作與返傭連結，傭金由平台承擔，不會增加您的任何交易成本。所有開戶與交易請核對官方主網域。",
-    disclaimer: "【風險披露與免責聲明】數位資產與衍生品價格波動劇烈，合約與槓桿交易具有極高本金虧損風險。NexuAlpha 僅提供中立平台數據核驗、費率比對與入口聚合，不構成任何投資、財務、稅務或法律建議。用戶須獨立評估自身風險承受能力，自負盈虧 (DYOR)。",
-  },
-  "pt-BR": {
-    statement: "NexuAlpha é um diretório independente para comparar plataformas de criptoativos. Não operamos uma corretora nem recebemos ou guardamos seus ativos. Alguns links são de parceiros comerciais. Confira o domínio oficial e as condições de cada plataforma.",
-    disclaimer: "Criptoativos podem ter grande volatilidade e risco de perda. As informações desta página ajudam a comparar condições de uso; não constituem recomendação de investimento. Custos, disponibilidade e critérios de cadastro podem mudar.",
-  },
-  en: {
-    statement: "NexuAlpha is an independent crypto platform directory and comparison hub. We do not operate an exchange, take deposits, or custody funds. Some partner links may earn an affiliate commission at no extra cost to you. Always verify official domains.",
-    disclaimer: "Risk Disclaimer & Disclosure: Trading digital assets and perpetual contracts carries substantial risk and extreme price volatility. NexuAlpha provides independent directory data, fee comparisons, and reviewed official-domain references for educational and informational purposes only. Nothing herein constitutes financial, investment, or legal advice. Past performance is not indicative of future returns. DYOR.",
-  },
-};
 
 const footerLabelByLocale = {
   en: {
@@ -357,7 +340,7 @@ const compactFooterCopy = {
   },
   "tr": {
     "brand": "Kripto platformları için bağımsız araştırma ve karşılaştırma.",
-    "affiliate": "Bazı bağlantılar ortaklık bağlantılarıdır; avantajlar platform koşullarına bağlıdır.",
+    "affiliate": "Bazı bağlantılar ortaklık bağlantısıdır.",
     "summary": "Bağımsız kripto platform araştırması; bazı bağlantılar ortaklık bağlantısıdır ve avantajlar platform koşullarına bağlıdır.",
     "policies": "Hakkımızda ve politikalar"
   },
@@ -451,6 +434,25 @@ const footerColumnLabels = {
   it: { product: "Prodotto", exchanges: "Exchange", learn: "Impara", about: "Chi siamo" },
 };
 
+const activityCenterLabel = {
+  en: "Activity center",
+  "zh-Hans": "活动中心",
+  "zh-Hant": "活動中心",
+  tr: "Etkinlik merkezi",
+  "pt-BR": "Central de atividades",
+  fr: "Centre d’activités",
+  es: "Centro de actividades",
+  ja: "アクティビティセンター",
+  ko: "활동 센터",
+  ar: "مركز الأنشطة",
+  hi: "गतिविधि केंद्र",
+  ru: "Центр активностей",
+  vi: "Trung tâm hoạt động",
+  de: "Aktivitätszentrum",
+  id: "Pusat aktivitas",
+  it: "Centro attività",
+};
+
 function getColumnLabels(locale) {
   if (locale === "zh-CN") return footerColumnLabels["zh-Hans"];
   if (locale === "zh-TW") return footerColumnLabels["zh-Hant"];
@@ -463,19 +465,6 @@ function getFooterLabels(locale) {
   return { ...footerLabelByLocale.en, ...(footerLabelByLocale[locale] || {}) };
 }
 
-function getCopy(locale) {
-  if (locale === "zh-Hans" || locale === "zh-CN") return copyDict["zh-Hans"];
-  if (locale === "zh-Hant" || locale === "zh-TW") return copyDict["zh-Hant"];
-  if (locale && locale !== "en") {
-    const text = v3ShellCopy(locale);
-    return {
-      ...copyDict.en,
-      statement: text.relationship || copyDict.en.statement,
-      disclaimer: text.noOfficial || copyDict.en.disclaimer,
-    };
-  }
-  return copyDict.en;
-}
 
 // Short localized "Affiliate Disclosure" label used by the footer link (/methodology#disclosure).
 export function footerDisclosureLabel(locale) {
@@ -483,27 +472,33 @@ export function footerDisclosureLabel(locale) {
 }
 
 export function CleanFooter({ locale = "en", market, brazil = false }) {
-  const copy = getCopy(locale);
   const labels = getFooterLabels(locale);
   const dataNav = dataPageCopy(locale).nav;
   const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
-  const partnerLinks = partnerExchangePageLinks(locale, { market });
   const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
   const columnLabels = getColumnLabels(locale);
   const turkeyRoute = locale === "tr" || market === "TR";
+  const neutralLocale = isNeutralCtaLocale(locale);
+  const hasPromotablePartner = partnerExchangePageLinks(locale, { market }).some((link) => link.href.includes("#registration-path"));
+  const partnerSlugs = neutralLocale || !hasPromotablePartner ? [] : [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].slice(0, 6);
+  const partnerLinks = partnerSlugs.map((slug) => ({
+    key: `partner-${slug}`,
+    slug,
+    name: venueDatabase[slug]?.name || slug,
+    href: href(`/exchanges/${slug}#registration-path`),
+  }));
   const primaryColumns = [
     {
       key: "product",
       title: columnLabels.product,
       links: [
-        { href: href("/exchanges"), label: labels.directory },
         { href: brazil ? "/br/custos" : href("/embed/calculator"), label: labels.calculator },
-        { href: href("/onchain"), label: labels.onchain },
-        { href: href("/liquidations"), label: dataNav.liquidations },
         { href: href("/funding-rates"), label: dataNav.funding },
-        { href: href("/partners/embed-guide"), label: labels.embedGuide },
+        { href: href("/liquidations"), label: dataNav.liquidations },
+        { href: href("/onchain"), label: labels.onchain },
+        { href: href("/flash"), label: { en: "Flash", "zh-Hans": "快讯", "zh-Hant": "快訊", tr: "Anlık haberler", es: "Flash", "pt-BR": "Flash", fr: "Flash", de: "Flash", ja: "速報", ko: "속보", id: "Flash", vi: "Tin nhanh", it: "Flash" }[locale] || "Flash" },
       ],
     },
     {
@@ -511,18 +506,14 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
       title: columnLabels.exchanges,
       links: turkeyRoute
         ? [
-          { href: href("/compare/binance-vs-okx"), label: "Binance / OKX" },
-          { href: href("/compare/binance-vs-bybit"), label: "Binance / Bybit" },
-          { href: href("/exchanges/okx"), label: "OKX" },
-          { href: href("/exchanges/binance"), label: "Binance" },
-          { href: href("/exchanges/bybit"), label: "Bybit" },
+          { href: href("/exchanges"), label: labels.directory },
+          { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
+          { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
         ]
         : [
-          { href: href("/compare/binance-vs-okx"), label: "Binance / OKX" },
-          { href: href("/compare/bitget-vs-okx"), label: "Bitget / OKX" },
-          { href: href("/exchanges/bitget"), label: "Bitget" },
-          { href: href("/exchanges/okx"), label: "OKX" },
-          { href: href("/exchanges/binance"), label: "Binance" },
+          { href: href("/exchanges"), label: labels.directory },
+          { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
+          { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
         ],
     },
     {
@@ -544,14 +535,15 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         { href: href("/editorial-policy"), label: labels.editorial },
         { href: href("/methodology"), label: labels.methodology },
         ...(!isNeutralCtaLocale(locale) ? [{ href: href("/partners"), label: partnerProgramLabel }] : []),
+        { href: href("/contact"), label: labels.contact },
       ],
     },
   ];
   const legalLinks = [
-    { href: href("/methodology#disclosure"), label: labels.disclosure },
     { href: href("/privacy"), label: labels.privacy },
     { href: href("/terms"), label: labels.terms },
-    { href: href("/contact"), label: labels.contact },
+    { href: href("/methodology#disclosure"), label: labels.disclosure },
+    { href: href("/partners/embed-guide"), label: labels.embedGuide },
   ];
 
   return (
@@ -561,9 +553,20 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
+          <div className="nx-ftr__socials" aria-label="NexuAlpha social links">
+            <a href="https://t.me/NexuAlphaAssistantBot" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 4.4 18.5 19c-.2 1-.8 1.2-1.6.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9L18 6.2c.4-.3-.1-.5-.6-.2L6.5 12.9 1.8 11.4c-1-.3-1-1 .2-1.5L20.4 2.8c.8-.3 1.6.2 1.3 1.6Z" /></svg>
+            </a>
+            <a href="https://twitter.com/NexuAlpha" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.9 10.5 21.3 2h-1.8l-6.4 7.4L8 2H2l7.8 11.3L2 22h1.8l6.8-7.8L16 22h6l-8.1-11.5Zm-2.4 2.8-.8-1.1L4.5 3.3h2.7l5 7.1.8 1.1 6.5 9.3h-2.7l-5.3-7.5Z" /></svg>
+            </a>
+            <a href="https://www.youtube.com/@NexuAlphaGlobal" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7.2a3 3 0 0 0-2.1-2.1C18 4.6 12 4.6 12 4.6s-6 0-7.9.5A3 3 0 0 0 2 7.2 31 31 0 0 0 1.5 12c0 1.6.2 3.2.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1c.3-1.6.5-3.2.5-4.8 0-1.6-.2-3.2-.5-4.8ZM9.8 15.4V8.6l5.8 3.4-5.8 3.4Z" /></svg>
+            </a>
+          </div>
         </div>
 
-        <nav className="clean-footer__nav clean-footer__nav--primary clean-footer__nav--columns nx-ftr__list" aria-label={labels.navAria}>
+        <nav className="clean-footer__nav clean-footer__nav--primary clean-footer__nav--columns clean-footer__nav--desktop nx-ftr__list" aria-label={labels.navAria}>
           {primaryColumns.map((column) => <section className="clean-footer__column" aria-labelledby={`nx-ftr-${column.key}`} key={column.key}>
             <h2 className="nx-ftr__column-title" id={`nx-ftr-${column.key}`}>{column.title}</h2>
             <ul>
@@ -572,32 +575,32 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           </section>)}
         </nav>
 
+        <nav className="clean-footer__nav clean-footer__nav--mobile nx-ftr__list" aria-label={labels.navAria}>
+          {primaryColumns.map((column) => <details className="clean-footer__mobile-column" key={`mobile-${column.key}`}>
+            <summary>{column.title}</summary>
+            <ul>
+              {column.links.map((link) => <li key={`mobile-${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
+            </ul>
+          </details>)}
+        </nav>
+
         {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__partner-row" aria-label={partnerGroupLabel} data-footer-partner-links>
           <b className="nx-ftr__group-label">{partnerGroupLabel}</b>
           <ul>
             {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug} className="nx-ftr__partner-link"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
           </ul>
+          <a className="nx-ftr__all-exchanges" href={href("/exchanges")}>{locale === "zh-Hans" || locale === "zh-CN" ? "全部 →" : "All →"}</a>
         </nav> : null}
 
-        <nav className="clean-footer__nav clean-footer__nav--legal nx-ftr__list nx-ftr__legal-row" aria-label={compact.policies}>
+        <nav className="clean-footer__nav clean-footer__nav--legal nx-ftr__list nx-ftr__legal-row" aria-label={labels.disclosure}>
+          <p className="clean-footer__copyright">
+            <bdi dir="ltr">© 2026 NexuAlpha</bdi>
+          </p>
           <ul>
             {legalLinks.map((link) => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}
           </ul>
-          <p className="clean-footer__summary" data-nosnippet="">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
+          <p className="clean-footer__summary" data-nosnippet="">{compact.affiliate}</p>
         </nav>
-
-        {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
-        <details className="clean-footer__policies nx-ftr__policies nx-ftr__fold" id="nx-ftr-policy-details">
-          <summary id="nx-ftr-policies" className="nx-ftr__title">{compact.policies}</summary>
-          <div className="nx-ftr__legal clean-footer__policy-body" data-nosnippet="">
-            <p className="clean-footer__statement">{copy.statement}</p>
-            <div className="clean-footer__disclaimer"><p>{copy.disclaimer}</p></div>
-          </div>
-        </details>
-
-        <p className="clean-footer__copyright">
-          <bdi dir="ltr">© 2026 NexuAlpha.</bdi> {labels.rights}
-        </p>
       </div>
     </footer>
   );

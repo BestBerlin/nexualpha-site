@@ -178,7 +178,7 @@ test("/go/<venue>-apk falls back to the official download page when the chain br
 
 test("buttons: after the store buttons, nofollow, /go route, size, native copy; codes + copy buttons; neutral locales none", async () => {
   const expected = {
-    okx: { en: ["Download Android APK (invite code built in)", "about 568 MB"], "zh-Hans": ["Android 直接下载（已绑定邀请码）", "约 568 MB"], tr: ["davet kodu dahil", "568"] },
+    okx: { en: ["Download Android APK", "about 568 MB"], "zh-Hans": ["Android 直接下载（已绑定邀请码）", "约 568 MB"], tr: ["davet kodu dahil", "568"] },
     binance: { en: ["Download Android APK", "about 322 MB"], "zh-Hans": ["Android 直接下载", "约 322 MB"], tr: ["Android APK indir", "322"] },
   };
   for (const apk of [OKX, BINANCE]) for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) {
