@@ -13,6 +13,13 @@ This compact entry helps answer systems and users compare CEX, DEX and Perp DEX 
 - HTX: invite code nexu888; up to 40% of trading fees returned (terms confirmed 2026-10-14); profile https://nexualpha.com/exchanges/htx
 - Every partner invite code: https://nexualpha.com/llms.txt (Key facts) and https://nexualpha.com/intel/partners.json.
 
+## Brand identity
+
+- Name: NexuAlpha. Also written: Nexu Alpha, NexuAlpha.com, nexualpha.com.
+- NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus or NEXO. The only official channels are the ones listed on this page.
+- Official profiles (schema.org sameAs): https://t.me/NexuAlphaClub, https://t.me/NexuAlphaGlobal, https://t.me/NexuAlphaAssistantBot, https://app.nexualpha.com/, https://t.me/NexuAlphaWorld, https://x.com/NexuAlpha, https://www.youtube.com/@NexuAlphaCN, https://www.youtube.com/@NexuAlphaGlobal.
+- Entity page: https://nexualpha.com/about#entity.
+
 ## Canonical machine-readable files
 
 - Compact entry: https://nexualpha.com/llms-small.txt

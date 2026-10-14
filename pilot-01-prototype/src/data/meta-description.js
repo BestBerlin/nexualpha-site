@@ -235,7 +235,12 @@ function isBoilerplateMetaSentence(sentence) {
     || /^来源地图的作用是把事实边界说清楚/u.test(value)
     || /^This article only handles/i.test(value)
     || /^This is not investment advice/i.test(value)
-    || /^The source map clarifies/i.test(value);
+    || /^The source map clarifies/i.test(value)
+    // SEO/GEO pass 2026-10-15: 99 indexable articles shipped this template as seo.description and summary.
+    || /^A source-mapped NexuAlpha decision brief\b/i.test(value)
+    || /^It separates verified facts, editorial interpretation and unknowns/i.test(value)
+    || /^本文用来源映射核对/u.test(value)
+    || /^本文用來源映射核對/u.test(value);
 }
 
 export function isProblemMetaDescription(text) {
@@ -256,11 +261,20 @@ function sectionAfter(markdown, headingPattern) {
   return rest.split(/\n#{1,6}\s+/)[0] || rest;
 }
 
+// The article's own direct answer (aeo.directAnswer is English-only; other editions use their "direct answer" lead).
+function articleDirectAnswer(article, locale) {
+  const direct = locale === "en" ? String(article?.aeo?.directAnswer || "") : "";
+  if (direct) return direct;
+  const lead = String(article?.content?.[locale] || "").match(/^(?:NexuAlpha direct answer|NexuAlpha 直接回答|NexuAlpha 直接答案)[:：]\s*([^\n]+)/imu);
+  return lead ? lead[1] : "";
+}
+
 function articleMetaCandidates(article, locale, seed) {
-  const content = article?.content?.[locale] || "";
+  const content = String(article?.content?.[locale] || "").replace(/^(?:NexuAlpha direct answer|NexuAlpha 直接回答|NexuAlpha 直接答案)[:：]\s*/imu, "");
   const summary = article?.summary?.[locale] || "";
   return [
     seed,
+    articleDirectAnswer(article, locale),
     sectionAfter(content, /^##\s+(?:Practical Takeaway|实用结论|實用結論)\s*$/imu),
     summary,
     content,
@@ -269,15 +283,15 @@ function articleMetaCandidates(article, locale, seed) {
 }
 
 export function articleMetaDescription(article, locale, seed = "") {
-  const cleanedSeed = plainMetaText(seed);
-  if (!isProblemMetaDescription(seed) && cleanedSeed.length >= 110 && cleanedSeed.length <= META_DESCRIPTION_MAX) {
+  const cleanedSeed = plainMetaText(seed).replace(/^(?:NexuAlpha direct answer|NexuAlpha 直接回答|NexuAlpha 直接答案)[:：]\s*/iu, "");
+  if (!isProblemMetaDescription(cleanedSeed) && cleanedSeed.length >= 110 && cleanedSeed.length <= META_DESCRIPTION_MAX) {
     return clampMetaDescription(cleanedSeed, locale);
   }
   const sentences = [];
   const seen = new Set();
   for (const candidate of articleMetaCandidates(article, locale, seed)) {
     for (const sentence of sentenceParts(candidate)) {
-      const clean = plainMetaText(sentence);
+      const clean = plainMetaText(sentence).replace(/^(?:NexuAlpha direct answer|NexuAlpha 直接回答|NexuAlpha 直接答案)[:：]\s*/iu, "");
       const key = clean.toLowerCase();
       if (!clean || seen.has(key) || isBoilerplateMetaSentence(clean)) continue;
       seen.add(key);

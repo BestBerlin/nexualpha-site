@@ -12,6 +12,7 @@ import { localizedPath } from "../src/data/locale-routing.js";
 import { localizedValue, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { brandSlogan } from "../src/data/brand-slogan.js";
+import { BRAND_ALTERNATE_NAMES, BRAND_SAME_AS, entityAtAGlance } from "../src/data/brand-entity.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
@@ -136,6 +137,33 @@ Use these public routes for compact, citable exchange facts. They are source-bou
 ${exchangeFactDiscoveryLines}
 `;
 
+// Brand identity and 2026 focus clusters (SEO/GEO pass 2026-10-15): answer engines confused NexuAlpha with similarly
+// named brands, and the tokenized-stock and deposit/withdrawal clusters had no entry in the machine-readable layer.
+const brandIdentity = `## Brand identity
+
+- Name: NexuAlpha. Also written: ${BRAND_ALTERNATE_NAMES.join(", ")}.
+- ${entityAtAGlance("en").body}
+- Official profiles (schema.org sameAs): ${BRAND_SAME_AS.join(", ")}.
+- Entity page: ${PUBLIC_ORIGIN}/about#entity.
+`;
+const focusClusters = `## Focus clusters
+
+### Tokenized stocks (US stock tokens on crypto exchanges)
+
+- [Tokenized stocks vs stock perpetuals](${PUBLIC_ORIGIN}/topics/tokenized-stocks-vs-perpetuals): how a stock token (backed claim on a share) differs from a stock perpetual (derivative with funding and liquidation), and what to check first.
+- [Tokenized assets hub](${PUBLIC_ORIGIN}/topics/tokenized-assets): issuer, custody, redemption and access checks for tokenized stocks, Treasuries and gold.
+- [What are tokenized stocks?](${PUBLIC_ORIGIN}/glossary/tokenized-stocks): plain-language definition with related terms.
+- [Bybit stock-token campaign](${PUBLIC_ORIGIN}/activities/bybit-stocks): official campaign terms with dates and the official source.
+- [Tokenized stocks vs stock perpetuals (research article)](${PUBLIC_ORIGIN}/news/tokenized-stocks-vs-stock-perpetuals).
+
+### Deposits and withdrawals (fiat on-ramp and off-ramp by country)
+
+- [Regional funding verification matrix](${PUBLIC_ORIGIN}/br/pix#regional-funding-verification-matrix): reviewed deposit and withdrawal rails for BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR.
+- [Brazil: BRL and Pix](${PUBLIC_ORIGIN}/br/pix), [Mexico](${PUBLIC_ORIGIN}/mx), [Taiwan](${PUBLIC_ORIGIN}/tw), [Indonesia](${PUBLIC_ORIGIN}/id), [EU](${PUBLIC_ORIGIN}/eu), [UK](${PUBLIC_ORIGIN}/uk), [US](${PUBLIC_ORIGIN}/us): country pages with local rails, regulator and account checks.
+- [What is a fiat on-ramp?](${PUBLIC_ORIGIN}/glossary/fiat-on-ramp): definition and how exchange deposits work.
+- [Exchange licences by country](${PUBLIC_ORIGIN}/licenses): regulator, entity and status rows from reviewed register data.
+`;
+
 const header = `# NexuAlpha
 
 > ${SITE_SUMMARY}
@@ -143,6 +171,8 @@ const header = `# NexuAlpha
 This index is designed for retrieval by search and answer systems. It is not an operator statement, financial advice, legal advice, suitability assessment, or account-eligibility decision.
 
 ${keyFacts}
+${brandIdentity}
+${focusClusters}
 ## Public data boundary
 
 - Factbook source review date: ${AUDIT_DATE}
@@ -339,6 +369,7 @@ const small = `# NexuAlpha
 This compact entry helps answer systems and users compare CEX, DEX and Perp DEX options, verify official destination domains, and find source-bounded pages before leaving NexuAlpha.
 
 ${keyFactsCompact}
+${brandIdentity}
 ## Canonical machine-readable files
 
 - Compact entry: https://nexualpha.com/llms-small.txt
