@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { generate, normalize, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
+import { generate, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
 import { weightedLength, xClient } from '../x-poster/x-poster.mjs';
 import { sendPhoto, token } from '../alert-sender/alert-sender.mjs';
 
@@ -191,4 +191,31 @@ test('failed deliveries log HTTP status and API message with secrets redacted', 
   const line = failureLine(Object.assign(new Error('fetch failed'), { cause: { code: 'ECONNRESET' } }), [], new Date(0));
   assert.equal(line.split('. ')[0], '1970-01-01T00:00:00.000Z Daily social generation/post failed: fetch failed / cause: ECONNRESET');
   assert.equal(redact('OAuth oauth_signature="abc", oauth_token="xyz" Bearer qq'), 'OAuth oauth_signature="<redacted>", oauth_token="<redacted>" Bearer <redacted>');
+});
+
+test('freshness tolerates the collector cadence (<=20 min) and names the stale source and its age', () => {
+  assert.equal(MAX_SOURCE_AGE_MS, 20 * 60000);
+  const at = (min) => new Date(now - min * 60000).toISOString();
+  const f = structuredClone(fixture);
+  f.movers.generatedAt = at(19); f.market.generatedAt = at(19); f.market.funding.generatedAt = at(19);
+  assert.doesNotThrow(() => normalize(f.movers, f.market, now));
+  f.market.generatedAt = at(69);
+  assert.throws(() => normalize(f.movers, f.market, now), /stale market: generatedAt .* is stale \(69 min old\)/);
+});
+test('feed sources default to the public site and accept local-origin overrides', () => {
+  assert.deepEqual(feedSources({}), { movers: 'https://nexualpha.com/api/movers.json', market: 'https://nexualpha.com/intel/market-events.json', marketFile: null });
+  const local = feedSources({ DAILY_SOCIAL_MOVERS_URL: 'http://127.0.0.1:18361/api/movers.json', DAILY_SOCIAL_MARKET_FILE: '/var/lib/market/market-events.json' });
+  assert.equal(local.movers, 'http://127.0.0.1:18361/api/movers.json'); assert.equal(local.marketFile, '/var/lib/market/market-events.json');
+  assert.throws(() => feedSources({ DAILY_SOCIAL_MOVERS_URL: 'http://127.0.0.1:18361/other' }));
+});
+test('CLI reads the market feed from DAILY_SOCIAL_MARKET_FILE instead of the network', async (t) => {
+  const dir = temp(t), file = path.join(dir, 'market.json'), stamp = new Date().toISOString();
+  const f = structuredClone(fixture); f.market.generatedAt = stamp; f.market.funding.generatedAt = stamp; f.movers.generatedAt = stamp;
+  writeFileSync(file, JSON.stringify(f.market));
+  const realFetch = globalThis.fetch, urls = [];
+  globalThis.fetch = async (url) => { urls.push(String(url)); return new Response(JSON.stringify(f.movers), { status: 200 }); };
+  t.after(() => { globalThis.fetch = realFetch; });
+  const summary = await main(['--out', dir], { DAILY_SOCIAL_MARKET_FILE: file, DAILY_SOCIAL_MOVERS_URL: 'http://127.0.0.1:18361/api/movers.json' });
+  assert.deepEqual(urls, ['http://127.0.0.1:18361/api/movers.json']);
+  assert.equal(summary.sourceTimes.market, stamp);
 });
