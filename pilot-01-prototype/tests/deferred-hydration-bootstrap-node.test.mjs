@@ -134,6 +134,7 @@ class FakeDocument {
   constructor() {
     this.nodeType = 9;
     this.documentElement = { dataset: {} };
+    this.readyState = "loading";
     this.body = { nodeType: 1, parentElement: null };
     this.listeners = new Map();
     this.elements = [];
@@ -298,20 +299,20 @@ function markScopeReady(document, scope) {
   globalThis.dispatchEvent(new CustomEvent("nexualpha:interaction-ready", { detail: { scope } }));
 }
 
-test("deferred hydration starts the app on idle after browser load without waiting for a user gesture", async () => {
+test("deferred hydration starts the app on idle after DOMContentLoaded without waiting for a user gesture", async () => {
   const document = new FakeDocument();
   const restore = installFakeEnvironment(document);
   try {
     const script = await bootstrapScriptForTest("globalThis.__imported = true;");
     Function(script)();
     await flushAsyncWork();
-    assert.equal(globalThis.__imported, undefined, "the bridge should wait until the page load boundary");
+    assert.equal(globalThis.__imported, undefined, "the bridge should wait until the DOMContentLoaded boundary");
 
-    globalThis.dispatchEvent(new FakeEvent("load"));
+    globalThis.dispatchEvent(new FakeEvent("DOMContentLoaded"));
     await flushAsyncWork();
 
-    assert.equal(globalThis.__imported, true, "load plus idle should import the app for passive CTA telemetry");
-    assert.equal(restore.listenerCount("load"), 0, "the load bootstrap listener should be one-shot");
+    assert.equal(globalThis.__imported, true, "DOMContentLoaded plus idle should import the app for passive CTA telemetry");
+    assert.equal(restore.listenerCount("DOMContentLoaded"), 0, "the DOMContentLoaded bootstrap listener should be one-shot");
   } finally {
     restore();
   }
@@ -1174,61 +1175,40 @@ test("deferred hydration ignores unsupported email input fields", async () => {
   }
 });
 
-// R118: passive background loading must not race visible SSR first paint.
-function installPaintObserver({ painted = false, throws = false } = {}) {
-  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'performance');
-  const previousObserver = globalThis.PerformanceObserver;
-  let observer, disconnected = 0;
-  Object.defineProperty(globalThis, 'performance', { configurable: true, value: { getEntriesByType: () => painted ? [{name:'first-contentful-paint'}] : [] } });
-  globalThis.PerformanceObserver = class {
-    static supportedEntryTypes = ['paint'];
-    constructor(callback) { observer = callback; }
-    observe() { if (throws) throw new Error('paint observer unavailable'); }
-    disconnect() { disconnected++; }
-  };
-  return { paint() { painted = true; observer?.({getEntries:()=>[{name:'first-contentful-paint'}]}); }, get disconnected() { return disconnected; }, restore() { if(descriptor) Object.defineProperty(globalThis,'performance',descriptor); else delete globalThis.performance; if(previousObserver === undefined) delete globalThis.PerformanceObserver; else globalThis.PerformanceObserver = previousObserver; } };
-}
-
-test('R118 passive import waits for first contentful paint, then loads once on idle', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver();
+// R118: passive background loading starts after DOMContentLoaded with one bounded idle slice.
+test('R118 passive import waits for DOMContentLoaded, then loads once on idle', async()=>{
+ const document=new FakeDocument(), restore=installFakeEnvironment(document);
  try {
   Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();
-  globalThis.dispatchEvent(new FakeEvent('load')); await flushAsyncWork();
-  assert.equal(globalThis.__imported, undefined, 'load/idle before first paint cannot fetch the application');
-  paint.paint(); await flushAsyncWork();
-  assert.equal(globalThis.__imported,true); assert.equal(paint.disconnected,1); assert.equal(restore.timerCount(),0);
- } finally { paint.restore();restore(); }
-});
-test('R118 already-painted SSR starts passive hydration without requiring another paint', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver({painted:true});
- try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))(); globalThis.dispatchEvent(new FakeEvent('load'));await flushAsyncWork();assert.equal(globalThis.__imported,true);assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
-});
-test('R118 user gesture still starts loading immediately while paint is pending', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver();
- try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();globalThis.dispatchEvent(new FakeEvent('load'));globalThis.dispatchEvent(new FakeEvent('pointerdown'));await flushAsyncWork();assert.equal(globalThis.__imported,true);paint.paint();await flushAsyncWork();assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
-});
-test('R118 missing paint event has a bounded passive hydration fallback', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver();
- try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();globalThis.dispatchEvent(new FakeEvent('load'));await flushAsyncWork();assert.equal(globalThis.__imported,undefined);assert.equal(restore.timerCount(),1);restore.runTimers();await flushAsyncWork();assert.equal(globalThis.__imported,true);assert.equal(paint.disconnected,1);assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
-});
-test('R118 paint observer failure keeps passive hydration usable without leaking timers', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver({throws:true});
- try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();globalThis.dispatchEvent(new FakeEvent('load'));await flushAsyncWork();assert.equal(globalThis.__imported,true);assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
+  await flushAsyncWork();
+  assert.equal(globalThis.__imported, undefined, 'the bridge waits for DOMContentLoaded before fetching the application');
+  globalThis.dispatchEvent(new FakeEvent('DOMContentLoaded')); await flushAsyncWork();
+  assert.equal(globalThis.__imported,true); assert.equal(restore.listenerCount('DOMContentLoaded'),0); assert.equal(restore.timerCount(),0);
+ } finally { restore(); }
 });
 
-test('R118 unsupported paint observation remains bounded when animation frames are suspended', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver();
- try { globalThis.PerformanceObserver.supportedEntryTypes=[];globalThis.requestAnimationFrame=()=>1;Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();globalThis.dispatchEvent(new FakeEvent('load'));await flushAsyncWork();assert.equal(globalThis.__imported,undefined);assert.equal(restore.timerCount(),1);restore.runTimers();await flushAsyncWork();assert.equal(globalThis.__imported,true);assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
+test('R118 already-interactive SSR starts passive hydration without waiting for load or paint', async()=>{
+ const document=new FakeDocument(); document.readyState='interactive'; const restore=installFakeEnvironment(document);
+ try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))(); await flushAsyncWork(); assert.equal(globalThis.__imported,true); assert.equal(restore.listenerCount('DOMContentLoaded'),0); assert.equal(restore.listenerCount('load'),0); assert.equal(restore.timerCount(),0); }
+ finally {restore();}
 });
-test('R118 failing paint observation remains bounded when animation frames are suspended', async()=>{
- const document=new FakeDocument(), restore=installFakeEnvironment(document), paint=installPaintObserver({throws:true});
- try { globalThis.requestAnimationFrame=()=>1;Function(await bootstrapScriptForTest('globalThis.__imported = true;'))();globalThis.dispatchEvent(new FakeEvent('load'));await flushAsyncWork();assert.equal(globalThis.__imported,undefined);assert.equal(restore.timerCount(),1);restore.runTimers();await flushAsyncWork();assert.equal(globalThis.__imported,true);assert.equal(paint.disconnected,1);assert.equal(restore.timerCount(),0); }
- finally {paint.restore();restore();}
+
+test('R118 user gesture still starts loading immediately while DOMContentLoaded is pending', async()=>{
+ const document=new FakeDocument(), restore=installFakeEnvironment(document);
+ try { Function(await bootstrapScriptForTest('globalThis.__imported = true;'))(); globalThis.dispatchEvent(new FakeEvent('pointerdown')); await flushAsyncWork(); assert.equal(globalThis.__imported,true); globalThis.dispatchEvent(new FakeEvent('DOMContentLoaded')); await flushAsyncWork(); assert.equal(restore.timerCount(),0); }
+ finally {restore();}
+});
+
+test('R118 missing requestIdleCallback has a zero-delay passive hydration fallback', async()=>{
+ const document=new FakeDocument(), restore=installFakeEnvironment(document);
+ try { delete globalThis.requestIdleCallback; Function(await bootstrapScriptForTest('globalThis.__imported = true;'))(); globalThis.dispatchEvent(new FakeEvent('DOMContentLoaded')); await flushAsyncWork(); assert.equal(globalThis.__imported,undefined); assert.equal(restore.timerCount(),1); restore.runTimers(); await flushAsyncWork(); assert.equal(globalThis.__imported,true); assert.equal(restore.timerCount(),0); }
+ finally {restore();}
+});
+
+test('R118 passive idle timeout is capped at one second', async()=>{
+ const document=new FakeDocument(), restore=installFakeEnvironment(document); let idleTimeout;
+ try { globalThis.requestIdleCallback=(callback, options)=>{ idleTimeout=options?.timeout; return 7; }; Function(await bootstrapScriptForTest('globalThis.__imported = true;'))(); globalThis.dispatchEvent(new FakeEvent('DOMContentLoaded')); await flushAsyncWork(); assert.equal(globalThis.__imported,undefined); assert.ok(idleTimeout<=1000); assert.equal(restore.timerCount(),0); }
+ finally {restore();}
 });
 
 for (const desiredOpen of [true, false]) {

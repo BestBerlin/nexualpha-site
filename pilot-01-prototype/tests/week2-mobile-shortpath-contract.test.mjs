@@ -1,11 +1,11 @@
 import { isPartnerPromotableIn } from "../src/data/partner-geo-restrictions.js";
 import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
 import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { createSsrHarness } from "./helpers/ssr-hydration-harness.mjs";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const coreLocales = ["en", "ja", "ko", "tr", "ar"];
@@ -13,27 +13,19 @@ const coreVenueSlugs = ["binance", "bitget", "backpack"];
 
 async function renderStaticPages(source) {
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-week2-mobile-shortpath-"));
+  let harness;
   try {
     const entryPath = path.join(tempDir, "entry.mjs");
-    const bundlePath = path.join(tempDir, "bundle.cjs");
-    await writeFile(entryPath, source);
+    const moduleSource = source.replace(/console\.log\(JSON\.stringify\(pages\)\);\s*$/, "export default pages;");
+    assert.notEqual(moduleSource, source, "static page fixture must export its rendered pages");
+    await writeFile(entryPath, moduleSource);
     const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
     await access(esbuildBin);
-    execFileSync(esbuildBin, [
-      entryPath,
-      "--bundle",
-      "--platform=node",
-      "--format=cjs",
-      `--outfile=${bundlePath}`,
-      "--loader:.css=empty",
-      "--log-level=warning",
-    ], { cwd: projectRoot, stdio: "pipe" });
-    return JSON.parse(execFileSync("node", [bundlePath], {
-      cwd: projectRoot,
-      encoding: "utf8",
-      maxBuffer: 24 * 1024 * 1024,
-    }));
+    harness = await createSsrHarness();
+    const mod = await harness.vite.ssrLoadModule(pathToFileURL(entryPath).href);
+    return mod.default;
   } finally {
+    await harness?.close();
     await rm(tempDir, { recursive: true, force: true });
   }
 }

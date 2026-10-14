@@ -67,8 +67,12 @@
   --caution: var(--amber);
 
   /* ---- type families ---- */
-  --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif;
+  --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif;
   --font-mono: "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+.v5:lang(zh-Hant) { --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", sans-serif; }
+.v5:lang(ja) { --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto JP", "Hiragino Sans", "Yu Gothic UI", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+.v5:lang(ko) { --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
 
   /* ---- type scale: 8 steps, fluid, display <= 6rem ---- */
   --t-xs: 0.75rem;

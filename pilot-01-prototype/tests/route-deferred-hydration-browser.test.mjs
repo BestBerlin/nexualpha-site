@@ -229,7 +229,7 @@ test("deferred hydration replays a first click/change after import but before Re
 test("news list preloads the compact feed while keeping hydration deferred", async () => {
   const html = await fetch(urlFor("/news?locale=zh-Hans")).then((response) => response.text());
   assert.match(html, /data-nexualpha-deferred-hydration/);
-  assert.match(html, /<link rel="preload" href="\/content\/news-feed-summary\.json" as="fetch" crossorigin \/>/);
+  assert.match(html, /<link rel="preload" href="\/content\/news-feed-page-1\.zh-Hans\.json" as="fetch" crossorigin \/>/);
 });
 
 for (const route of noScriptRoutes) {

@@ -8,12 +8,12 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { moversBodyHtml, moversCopy } from "../../data/movers-html.js";
-import { MOVERS_PATH, isMoversSnapshot } from "../../data/movers.js";
-import { startJsonPolling } from "../shared/json-polling.js";
+import { isMoversSnapshot } from "../../data/movers.js";
 import "../../styles/v7/movers-owner.css";
 import { subscribeLiveAge } from "../shared/live-age.js";
+import { LIVE_HUB_REFRESH_MS, subscribeLiveHub } from "../shared/live-hub.js";
 
-export const MOVERS_REFRESH_MS = 30 * 1000;
+export const MOVERS_REFRESH_MS = LIVE_HUB_REFRESH_MS;
 
 function eachRow(snapshot) {
   return [...(snapshot?.up || []), ...(snapshot?.down || [])];
@@ -52,27 +52,20 @@ export function MoversBoard({ locale = "en", initial = null }) {
     let visible = !(typeof IntersectionObserver === "function" && el);
     let stopAge = null;
     const startAge = () => { stopAge?.(); stopAge = visible ? subscribeLiveAge((now) => updateAges(el, moversCopy(locale), now)) : null; };
-    // One scheduler per mount: viewport exits pause it without resetting backoff or allowing overlapping fetches.
-    const stopPolling = startJsonPolling({
-      request: MOVERS_PATH,
-      intervalMs: MOVERS_REFRESH_MS,
-      isData: isMoversSnapshot,
-      shouldPoll: () => visible && document.visibilityState === "visible",
-      onData: (snapshot) => {
+    const stopHub = subscribeLiveHub("movers", (snapshot) => {
+      if (!visible || !isMoversSnapshot(snapshot)) return;
         el?.querySelectorAll("[data-mv-key]").forEach((row) => positions.current.set(row.dataset.mvKey, row.getBoundingClientRect().top));
         setData(snapshot);
-      },
-    });
+    }, { locale });
     let observer = null;
     if (typeof IntersectionObserver === "function" && el) {
       observer = new IntersectionObserver((entries) => {
         visible = entries.some((e) => e.isIntersecting);
-        startAge(); stopPolling.sync?.();
+        startAge();
       });
       observer.observe(el);
-      stopPolling.sync?.();
-    } else { startAge(); stopPolling.sync?.(); }
-    return () => { stopPolling(); observer?.disconnect(); stopAge?.(); };
+    } else { startAge(); }
+    return () => { stopHub(); observer?.disconnect(); stopAge?.(); };
   }, [locale]);
   useLayoutEffect(() => {
     const before = previousData.current;

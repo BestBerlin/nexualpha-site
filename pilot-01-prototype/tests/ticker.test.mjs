@@ -149,10 +149,10 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
   assert.match(bar, /import\("\.\/ticker-live\.js"\)/, "polling code is a lazy chunk");
   assert.match(bar, /requestIdleCallback/, "loaded after first paint");
   assert.doesNotMatch(bar + live, /binance\.com|okx\.com|bybit\.com|fapi\./i, "browsers never call an exchange");
-  assert.match(live, /"\/api\/ticker\.json"/);
-  assert.match(live, /15 \* 1000/);
+  assert.match(live, /subscribeLiveHub\("ticker"/);
+  assert.match(live, /LIVE_HUB_REFRESH_MS/);
   assert.match(live, /export function subscribe/);
-  assert.match(live, /startJsonPolling/);
+  assert.doesNotMatch(live, /startJsonPolling/);
   assert.match(polling, /visibilityState === "hidden"/);
   assert.match(css, /@media \(max-width: 1020px\) and \(prefers-reduced-motion: no-preference\)[\s\S]*animation: nx-ticker-marquee/, "marquee only when motion is allowed");
   assert.match(css, /block-size: 36px/, "fixed height: no layout shift");
@@ -189,7 +189,7 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   const got = [];
   const stop = startTickerPolling((d) => got.push(d), {
     everyMs: 20,
-    fetchImpl: async (url) => { seen.push(url); return { ok: true, json: async () => SNAP }; },
+    fetchImpl: async (url) => { seen.push(url); return { ok: true, json: async () => ({ ticker: SNAP }) }; },
     documentRef: doc,
     setTimer,
     clearTimer,
@@ -198,7 +198,7 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   const gotSecond = [];
   const stopSecond = subscribe((d) => gotSecond.push(d), {
     everyMs: 20,
-    fetchImpl: async (url) => { seen.push(`duplicate:${url}`); return { ok: true, json: async () => SNAP }; },
+    fetchImpl: async (url) => { seen.push(`duplicate:${url}`); return { ok: true, json: async () => ({ ticker: SNAP }) }; },
     documentRef: doc,
     setTimer,
     clearTimer,
@@ -211,6 +211,8 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   assert.equal(seen.length, before, "no requests while hidden");
   stopSecond();
   stop();
-  assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
+  assert.ok(got.length >= 1 && got.length < seen.length, "unchanged ticker payloads are not republished on every poll");
+  assert.ok(gotSecond.length >= 1 && gotSecond.length < seen.length, "shared subscribers receive fewer commits than fetches for identical payloads");
+  assert.ok(seen.every((u) => u === "/api/live.json?locale=en"));
   assert.equal(listeners.size, 0);
 });

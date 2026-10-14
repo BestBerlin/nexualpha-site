@@ -15,7 +15,7 @@ async function renderVenueFaq(slug, locale) {
     await writeFile(entryPath, `
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
-      import { VenueFaqSection } from "../../src/components/v3/V3Pages.jsx";
+      import { VenueFaqSection } from "../../src/components/v3/VenueFaqSection.jsx";
       import { venueDatabase } from "../../src/data/venue-database.js";
       import { partnerRegistry } from "../../src/data/partner-registry.js";
       import { venueProfile } from "../../src/data/v3-product.js";

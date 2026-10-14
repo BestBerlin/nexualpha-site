@@ -9,7 +9,7 @@
 
 /* ---------- #17 hygiene: Geist body stack, and a scroll container that lets position:sticky work ---------- */
 body:has(> #root > main.v6:not(.home-refinement)) {
-  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+  font-family: var(--font-body);
   /* body{overflow-x:hidden} made <body> a scroll container that never scrolls, so every sticky element froze. clip does not. */
   overflow-x: clip;
   overflow-y: visible;

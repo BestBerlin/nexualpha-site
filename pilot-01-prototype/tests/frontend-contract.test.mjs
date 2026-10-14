@@ -45,11 +45,13 @@ const pagesShared = await readFile(new URL("../src/components/v3/v3-pages-shared
 const v3Pages = [v3PagesOnly, pagesShared, venueShared, venueResearch, venuePage].join("\n");
 const venueDetailSource = `${venuePage.slice(venuePage.indexOf("export function VenueDetailPage"))}\n${venueResearch}`;
 const compareFinalChoiceCard = await readFile(new URL("../src/components/v3/CompareFinalChoiceCard.jsx", import.meta.url), "utf8");
+const compareVersusSources = await readFile(new URL("../src/components/v3/CompareVersusSources.jsx", import.meta.url), "utf8");
 const venueFaqSection = await readFile(new URL("../src/components/v3/VenueFaqSection.jsx", import.meta.url), "utf8");
 const v3InterfaceCopy = await readFile(new URL("../src/content/v3-interface-copy.js", import.meta.url), "utf8");
 const compareFaqLocales = await readFile(new URL("../src/data/compare-faq-locales.js", import.meta.url), "utf8");
 const researchPanels = await readFile(new URL("../src/components/v3/ResearchPanels.jsx", import.meta.url), "utf8");
 const activityPages = await readFile(new URL("../src/components/v3/activity/ActivityPages.jsx", import.meta.url), "utf8");
+const activityDetailPage = await readFile(new URL("../src/components/v3/activity/ActivityDetailPage.jsx", import.meta.url), "utf8");
 const activityCenterV3 = await readFile(new URL("../src/components/v3/activity/ActivityCenterV3.jsx", import.meta.url), "utf8");
 const activityCenterV3Css = await readFile(new URL("../src/components/v3/activity/ActivityCenterV3.css", import.meta.url), "utf8");
 const officialResearchPage = await readFile(new URL("../src/components/v3/activity/OfficialResearch.jsx", import.meta.url), "utf8");
@@ -65,6 +67,7 @@ const leanHero = await readFile(new URL("../src/components/v3/LeanHero.jsx", imp
 const leanHeroCss = await readFile(new URL("../src/components/v3/lean-hero.css", import.meta.url), "utf8");
 const traderWizardModal = await readFile(new URL("../src/components/v3/TraderWizardModal.jsx", import.meta.url), "utf8");
 const venueYellowPages = await readFile(new URL("../src/components/v3/VenueYellowPages.jsx", import.meta.url), "utf8");
+const regionalDecisionStrip = await readFile(new URL("../src/components/v3/RegionalDecisionStrip.jsx", import.meta.url), "utf8");
 const venueYellowPagesCopy = await readFile(new URL("../src/components/v3/venue-yellow-pages-copy.js", import.meta.url), "utf8");
 const venueYellowPagesState = await readFile(new URL("../src/components/v3/venue-yellow-pages-state.js", import.meta.url), "utf8");
 const venueDecisionArticles = await readFile(new URL("../src/components/v3/VenueDecisionArticles.jsx", import.meta.url), "utf8");
@@ -164,7 +167,7 @@ test("news mobile pages reduce repeated vertical scanning without removing CTAs"
 });
 
 test("V2 uses a conversion-led finder, venue directory, and comparison hierarchy", () => {
-  assert.match(app, /v2Copy\(locale\)/);
+  assert.match(app, /v2ShellCopy\(locale\)/);
   assert.match(app, /marketCommand\(copy, model\.venues\)/);
   assert.match(app, /<CommandFinder/);
   assert.match(app, /<HomeV7/);
@@ -211,7 +214,8 @@ test("directory route keeps non-directory surfaces out of the browser app shell"
   assert.match(app, /const ssrDeferredPageModules = import\.meta\.env\.SSR \? import\.meta\.glob/);
   assert.match(app, /readRouteModuleExport\(path, exportName\)/);
   assert.match(app, /registerRouteModuleLoaders\(deferredPageModules\)/);
-  assert.doesNotMatch(app, /React\.lazy\(/);
+  assert.doesNotMatch(app, /React\.lazy\(\(\) => import\("\.\/components\/v3\//);
+  assert.match(app, /React\.lazy\(\(\) => import\("\.\/components\/v6\/ClosingBand\.jsx"/);
   assert.match(app, /<React\.Suspense fallback=\{null\}>/);
   assert.match(app, /route\.name === "directory"[\s\S]*deferContent: false/);
   for (const modulePath of [
@@ -239,8 +243,8 @@ test("regional research previews expose bounded AEO questions and source freshne
   assert.match(regionalPreviewCopy, /official account flow/);
   assert.match(regionalPreview, /data-decision-stage/);
   assert.match(regionalPreview, /regional-account-stage/);
-  assert.match(venueYellowPages, /data-regional-decision-toggle/);
-  assert.match(venueYellowPages, /yellow-pages__decision-card--mobile-collapsed/);
+  assert.match(regionalDecisionStrip, /data-regional-decision-toggle/);
+  assert.match(regionalDecisionStrip, /yellow-pages__decision-card--mobile-collapsed/);
   assert.match(venueYellowPagesCss, /\.yellow-pages__decision-card--mobile-collapsed \{ display: none; \}/);
 });
 
@@ -787,13 +791,13 @@ test("news detail keeps the lead decision visible and puts the long analysis beh
 });
 
 test("activity detail surfaces source-bound profile actions before the long matrix", () => {
-  assert.match(activityPages, /v3-activity-decision-strip/);
-  assert.match(activityPages, /data-cta-placement="activity-detail-hero"/);
-  assert.match(activityPages, /data-cta-placement="activity-detail-hero-research"/);
-  assert.match(activityPages, /data-growth-decision=\{venue\.slug\}/);
-  assert.match(activityPages, /export function ActivityDetailPage\(\{ copy, locale, market, product/);
-  assert.match(activityPages, /contextualHref\(`\/exchanges\/\$\{venue\.slug\}`, \{ locale, market, product \}\)/);
-  assert.match(activityPages, /contextualHref\(`\/activities\/research\/\$\{venue\.slug\}`, \{ locale, market, product \}\)/);
+  assert.match(activityDetailPage, /v3-activity-decision-strip/);
+  assert.match(activityDetailPage, /data-cta-placement="activity-detail-hero"/);
+  assert.match(activityDetailPage, /data-cta-placement="activity-detail-hero-research"/);
+  assert.match(activityDetailPage, /data-growth-decision=\{venue\.slug\}/);
+  assert.match(activityDetailPage, /export function ActivityDetailPage\(\{ copy, locale, market, product/);
+  assert.match(activityDetailPage, /contextualHref\(`\/exchanges\/\$\{venue\.slug\}`, \{ locale, market, product \}\)/);
+  assert.match(activityDetailPage, /contextualHref\(`\/activities\/research\/\$\{venue\.slug\}`, \{ locale, market, product \}\)/);
   assert.match(v3Css, /\.v3-activity-decision-strip/);
 });
 
@@ -821,7 +825,7 @@ test("deep comparison actions preserve bounded growth attribution", () => {
   assert.match(v3PagesSource, /data-cta-placement="compare-sticky-registration"/);
   assert.match(v3PagesSource, /data-cta-kind=\{pCta\.direct \? "registration" : "research"\}/);
   assert.match(v3PagesSource, /data-growth-placement="compare-hero-versus"/);
-  assert.match(v3PagesSource, /data-growth-placement="compare-source-detail"/);
+  assert.match(compareVersusSources, /data-growth-placement="compare-source-detail"/);
   assert.match(v3PagesSource, /data-growth-placement="compare-decision-guide"/);
   assert.match(v3PagesSource, /data-growth-placement="curated-comparison"/);
   assert.match(v3PagesSource, /const \[stickyCtaActive, setStickyCtaActive\] = useState\(false\)/);
@@ -1121,7 +1125,7 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
   assert.doesNotMatch(app, /<ConversionFunnel/);
   // venue-graph lane 2026-10-11: ResearchPanel renders in the venue research hub, ResearchComparison in the compare page.
   assert.match(venueResearch, /import \{ ResearchPanel \} from "\.\/ResearchPanels"/);
-  assert.match(v3PagesOnly, /import \{ ResearchComparison \} from "\.\/ResearchPanels"/);
+  assert.match(v3PagesOnly, /const loadResearchComparison = \(\) => import\("\.\/ResearchPanels\.jsx"\)/);
   assert.match(v3Pages, /<ResearchPanel slug=\{profile\.slug\} locale=\{locale\}/);
   assert.match(v3Pages, /<ResearchComparison profiles=\{profiles\} locale=\{locale\}/);
   assert.match(v3Pages, /SnapshotStrip/);
@@ -1129,9 +1133,9 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
   assert.match(venueExplorer, /href=\{withLocale\(locale, `\/exchanges\/\$\{venue\.slug\}`\)\}/);
   assert.match(v3Pages, /text\.funnelTitle/);
   assert.match(v3Pages, /text\.compareTitle/);
-  assert.match(activityPages, /text\.activities/);
   assert.match(activityPages, /export function ActivityDetailPage/);
-  assert.match(activityPages, /text\.activityNotFound/);
+  assert.match(activityDetailPage, /text\.activities/);
+  assert.match(activityDetailPage, /text\.activityNotFound/);
   assert.match(v3Css, /\.v3-page-hero/);
 });
 
@@ -1300,7 +1304,7 @@ test("international market preview routes keep the shared research path", () => 
   assert.match(regionalPreview, /data-aeo-question=\{question\}/);
   assert.match(venueYellowPagesSource, /data-growth-placement="directory-card-eligibility"/);
   assert.match(venueYellowPagesSource, /data-cta-placement="directory-card"/);
-  assert.match(venueYellowPagesSource, /data-growth-placement=\{index === 0 \? "regional-directory-primary" : "regional-directory-alternative"\}/);
+  assert.match(regionalDecisionStrip, /data-growth-placement=\{index === 0 \? "regional-directory-primary" : "regional-directory-alternative"\}/);
   assert.match(venueYellowPagesSource, /data-growth-placement="directory-card-detail"/);
   assert.match(registrationCard, /data-registration-context/);
   assert.match(registrationCardCss, /scroll-margin-top/);
@@ -1392,8 +1396,8 @@ test("compare and market routes have working stateful controls", () => {
   assert.doesNotMatch(compare, /copy\.assetCapabilities\.coverage/);
   assert.doesNotMatch(compare, /feeSignal|regionAvailability|currentOffer/);
   assert.match(compare, /compare_cta_click/);
-  assert.match(v3Pages, /v3-versus-sources-disclosure/);
-  assert.match(v3Pages, /Official References & Sources/);
+  assert.match(compareVersusSources, /v3-versus-sources-disclosure/);
+  assert.match(compareVersusSources, /Official References & Sources/);
   assert.match(fintechPremiumCss, /v3-versus-sources-disclosure:not\(\[open\]\)/);
   assert.match(compare, /is-different/);
   assert.match(venueExplorer, /is-selected-for-compare/);
@@ -1501,8 +1505,10 @@ test("directory search narrows platform choices without changing the bounded CTA
 // Class d retarget: card selection feeds the CompareAnyPicker and canonical /compare handoff; the old tray is disabled.
 test("directory cards can form a bounded two-platform comparison handoff", async () => {
   assert.match(venueYellowPages, /compareSelection/);
-  assert.match(venueYellowPages, /import \{ CompareAnyPicker \} from "\.\.\/compare\/CompareAnyPicker\.jsx"/);
-  assert.match(venueYellowPages, /comparePathFor\(compareSelection\)\.path/);
+  assert.match(venueYellowPages, /const ssrComparePickerModules = import\.meta\.env\.SSR \? import\.meta\.glob\("\.\.\/compare\/CompareAnyPicker\.jsx", \{ eager: true \}\) : \{\}/);
+  assert.match(venueYellowPages, /React\.lazy\(\(\) => import\("\.\.\/compare\/CompareAnyPicker\.jsx"\)\.then\(\(module\) => \(\{ default: module\.CompareAnyPicker \}\)\)\)/);
+  assert.match(venueYellowPages, /directoryComparePathFor\(compareSelection\)/);
+  assert.match(venueYellowPages, /localizedHref\(`\$\{directoryComparePathFor\(compareSelection\)\}\?\$\{contextSearch\}`, \{ locale \}\)/);
   assert.match(venueYellowPages, /<CompareAnyPicker locale=\{locale\} venues=\{venues\} initial=\{compareSelection\} placement="exchange-directory" compact \/>/);
   assert.match(venueYellowPages, /data-cta-placement="directory-compare-select"/);
   assert.match(venueYellowPages, /aria-pressed=\{compareSelection\.includes\(venue\.slug\)\}/);
@@ -1511,7 +1517,7 @@ test("directory cards can form a bounded two-platform comparison handoff", async
   assert.match(compareAnyPicker, /method="get"/);
   assert.match(compareAnyPicker, /action=\{action\}/);
   assert.match(compareAnyPicker, /window\.location\.assign\(localizedHref\(canonicalComparePath\(\[a, b\]\), \{ locale \}\)\)/);
-  assert.match(v3Pages, /<CompareAnyPicker locale=\{locale\} venues=\{venues\} placement="compare-hub" \/>/);
+  assert.match(v3Pages, /<CompareLazyBoundary target="\.compare-any" prefetch=\{loadCompareAnyPicker\}><CompareAnyPicker locale=\{locale\} venues=\{venues\} placement="compare-hub" \/><\/CompareLazyBoundary>/);
   assert.match(venueYellowPagesCss, /\.yellow-card__btn-compare/);
   assert.match(compareAnyPickerCss, /\.compare-any__field select[\s\S]*min-height: 44px/);
   assert.match(venueYellowPages, /\{false && !compact && compareSelection\.length > 0 && \(/);
@@ -1982,7 +1988,7 @@ test("Vite build identity is defined in build config and CleanFooter provides cl
   assert.match(app, /document\.documentElement\.dataset\.build = __NEXUALPHA_BUILD_ID__/);
   assert.match(app, /<CleanFooter locale=\{locale\} market=\{footerMarket\} brazil=\{route\.name === "brazil"\} \/>/);
   assert.match(app, /const footerMarket = route\.market \|\| \(decisionPassport\.market !== "unknown" \? decisionPassport\.market : undefined\);/);
-  assert.match(app, /const footer = <CleanFooter/);
+  assert.match(app, /const footer = <DeferUntilVisible target="\.nx-ftr, #policy"[\s\S]*<CleanFooter locale=\{locale\} market=\{footerMarket\} brazil=\{route\.name === "brazil"\} \/>[\s\S]*<\/DeferUntilVisible>/);
   assert.doesNotMatch(app, /<small className="build-identity"/);
   assert.doesNotMatch(app, /className="data-connection"/);
 });
@@ -2096,9 +2102,9 @@ test("V3 source intake covers every visible venue with parseable HTTPS official 
 });
 
 test("activity center stays compact, source-bound, and fail-closed", () => {
-  const activityCenter = activityPages.slice(activityPages.indexOf("export function ActivityCenterPage"), activityPages.indexOf("export function ActivityDetailPage"));
+  const activityCenter = activityPages.slice(activityPages.indexOf("export function ActivityCenterPage"));
   assert.match(activityCenter, /const profiles = venues\.map\(\(venue\) => venueProfile\(venue, locale\)\)/);
-  assert.match(activityCenter, /<ActivityCenterV3/);
+  assert.match(activityCenter, /<ActivityCenterIsland/);
   assert.match(activityCenterV3, /visibleOfficialUpdates\(publicUpdates, now\)/);
   assert.match(activityCenterV3, /const publishable = discoveredAt !== null/);
   assert.match(activityCenterV3, /const feedItemList = useMemo\(\(\) => publishableUpdates/);
@@ -2109,8 +2115,8 @@ test("activity center stays compact, source-bound, and fail-closed", () => {
   assert.match(activityCenterV3, /activityCenterCopy\(locale\)/);
   assert.match(activityCenterV3, /href=\{updateHref\(update, locale, \{ market, product \}\)\}/);
   assert.match(activityCenterV3, /detailCopy\.openActivityDetail/);
-  assert.match(activityPages, /formatSgt\(update\.discoveredAt, locale\)/);
-  assert.doesNotMatch(activityPages, /toLocaleString\(locale\)/);
+  assert.match(activityDetailPage, /formatSgt\(update\.discoveredAt, locale\)/);
+  assert.doesNotMatch(activityDetailPage, /toLocaleString\(locale\)/);
   assert.doesNotMatch(activityCenterV3, /Tracked official sources|Only six sources|中心已经准备好|正在跟踪|默认只展示|跟蹤中/);
   assert.doesNotMatch(activityCenter, /<SourceList/);
 });
@@ -2128,8 +2134,8 @@ test("venue fee matrix keeps mobile evidence dense without removing the table", 
 });
 
 test("venue FAQ keeps the first decision questions visible and expands the remainder", () => {
-  assert.match(v3Pages, /import \{ VenueFaqSection \} from "\.\/VenueFaqSection\.jsx"/);
-  assert.match(v3Pages, /export \{ VenueFaqSection \} from "\.\/VenueFaqSection\.jsx"/);
+  assert.match(v3Pages, /const loadVenueFaqSection = \(\) => import\("\.\/VenueFaqSection\.jsx"\)/);
+  assert.match(v3Pages, /export \{ VenueFaqSection \};/);
   assert.doesNotMatch(v3Pages, /function getVenueFaqs/);
   assert.match(venueFaqSection, /export function VenueFaqSection[\s\S]*?const \[showAllFaqs, setShowAllFaqs\] = useState\(false\)/);
   assert.match(venueFaqSection, /hidden=\{idx >= 2 && !showAllFaqs\}/);
@@ -2414,7 +2420,7 @@ async function runBootstrapFrames(browserUrl, prerenderState, { clientRender = f
       .replace(/import \{ signalRootHydrated \}[^;]+;/,'const signalRootHydrated=()=>{};')
       .replace(/import "[^"\n]+\.css";/g,"")
       // Class c: PR #78 added a real hero context dependency to the copied bootstrap source.
-      .replace('from "./components/v7/home7-hero-variants.js"', `from ${JSON.stringify(path.join(root,"src/components/v7/home7-hero-variants.js"))}`)
+      .replace('from "./components/v7/home7-hero-context.js"', `from ${JSON.stringify(path.join(root,"src/components/v7/home7-hero-context.js"))}`)
       .replace(/from "(\.\/data\/[^"\n]+)"/g,(_,rel)=>`from ${JSON.stringify(path.resolve(root,"src",rel))}`);
     await writeFile(path.join(dir,"main.jsx"),source);
     await writeFile(path.join(dir,"entry.mjs"), `

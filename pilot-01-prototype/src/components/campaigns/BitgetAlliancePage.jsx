@@ -12,6 +12,7 @@ import {
 import { BITGET_ALLIANCE_COPY } from "../../data/bitget-alliance-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { useVisibleClock } from "../shared/visible-clock.js";
 import "./bitget-alliance.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -36,13 +37,8 @@ function fmtDay(day, locale) {
 }
 
 function useClock() {
-  const [now, setNow] = useState(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return now;
+  const now = useVisibleClock(null, { everyMs: 30 * 1000 });
+  return now ? new Date(now) : null;
 }
 
 // Bitget's figures: the baked snapshot first (SSR = first client render), then the server's live copy if it is valid.

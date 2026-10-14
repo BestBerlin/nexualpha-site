@@ -1,6 +1,6 @@
 // Home rail (2026-10-12): the latest 5 flash items, refreshed every 60 s, linking into /flash on our own site.
 // The home page now ships the latest request-time snapshot in SSR HTML and the browser replaces it from
-// /api/flash.json after hydration. HomeV7 loads this module as its own chunk when the rail scrolls near
+// /api/live.json after hydration. HomeV7 loads this module as its own chunk when the rail scrolls near
 // (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -10,11 +10,10 @@ import { moversCopy } from "../../data/movers-html.js";
 import { subscribeLiveAge, relativeFeedTime } from "../shared/live-age.js";
 import "../../styles/v7/flash-rail.css";
 import { FLASH_PATH } from "../../data/flash-path.js";
-import { startJsonPolling } from "../shared/json-polling.js";
+import { LIVE_HUB_REFRESH_MS, subscribeLiveHub } from "../shared/live-hub.js";
 
 // Same values as FLASH_FEED_URL / FLASH_REFRESH_MS in flash.js (not imported: that module carries the page strings).
-const FLASH_FEED_URL = "/api/flash.json";
-const FLASH_REFRESH_MS = 60 * 1000;
+const FLASH_REFRESH_MS = LIVE_HUB_REFRESH_MS;
 
 // Rail strings (this module is its own lazy chunk on the home page).
 const RAIL = {
@@ -54,12 +53,8 @@ export function FlashRail({ locale = "en", initial }) {
       ref.current?.toggleAttribute("data-paused", !visible || document.visibilityState !== "visible");
       stopAge?.(); stopAge = visible ? subscribeLiveAge(ages) : null;
     };
-    const polling = startJsonPolling({
-      request: () => `${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: String(ROWS) })}`,
-      intervalMs: FLASH_REFRESH_MS,
-      shouldPoll: () => visible && document.visibilityState === "visible",
-      isData: (data) => Array.isArray(data?.items),
-      onData: (data) => {
+    const stopHub = subscribeLiveHub("flash", (data) => {
+      if (!visible || !Array.isArray(data?.items)) return;
         const next = initialRows(data);
         if (!next?.length) return;
         const existing = new Set();
@@ -69,17 +64,15 @@ export function FlashRail({ locale = "en", initial }) {
         });
         newKeys.current = new Set(next.filter((item) => !existing.has(item.id || item.path)).slice(0, 3).map((item) => item.id || item.path));
         setItems(next); setUpdatedAt(data.generatedAt || next[0]?.time);
-      },
-      onError: () => setItems((current) => current || []),
-    });
+    }, { locale });
     const observer = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
       visible = entries.some((entry) => entry.isIntersecting);
-      syncAge(); polling.sync?.();
+      syncAge();
     }) : null;
     if (observer && ref.current) observer.observe(ref.current);
-    else { visible = true; syncAge(); polling.sync?.(); }
+    else { visible = true; syncAge(); }
     document.addEventListener("visibilitychange", syncAge);
-    return () => { observer?.disconnect(); polling(); stopAge?.(); document.removeEventListener("visibilitychange", syncAge); };
+    return () => { observer?.disconnect(); stopHub(); stopAge?.(); document.removeEventListener("visibilitychange", syncAge); };
   }, [locale]);
   useLayoutEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;

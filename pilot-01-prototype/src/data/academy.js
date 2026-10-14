@@ -1,11 +1,12 @@
 // NexuAlpha Academy (/academy): routes, media, progress and next-step rules shared by the browser, the Worker head and
-// the sitemap. Episode index and shell strings are generated (academy-season1.js, scripts/build-academy-data.mjs);
-// lesson content is one module per locale (academy-content-<locale>.js), loaded lazily in the browser.
-import { ACADEMY_CONTENT_LOCALES, ACADEMY_EPISODES, ACADEMY_SHELL_COPY } from "./academy-season1.js";
+// the sitemap. The full episode index remains in academy-season1.js; shell/path-only consumers should import
+// academy-shell.js or academy-path.js so they do not pull the full academy data into the app chrome.
+import { ACADEMY_EPISODES } from "./academy-season1.js";
+import { ACADEMY_CONTENT_LOCALES, ACADEMY_INDEX_LOCALES, ACADEMY_SHELL_COPY, academyContentLocale, academyContentModulePath, academyShellCopy } from "./academy-shell.js";
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 
-export { ACADEMY_CONTENT_LOCALES, ACADEMY_EPISODES, ACADEMY_SHELL_COPY };
+export { ACADEMY_CONTENT_LOCALES, ACADEMY_EPISODES, ACADEMY_INDEX_LOCALES, ACADEMY_SHELL_COPY, academyContentLocale, academyContentModulePath, academyShellCopy };
 
 export const ACADEMY_PATH = "/academy";
 export const ACADEMY_ORIGIN = "https://nexualpha.com";
@@ -14,9 +15,7 @@ export const ACADEMY_UPLOAD_DATE = "2026-10-12";
 export const ACADEMY_MEDIA_BASE = "/media/academy/s1/en";
 export const ACADEMY_CAPTION_BASE = "/captions/academy/s1";
 export const ACADEMY_PROGRESS_KEY = "nexu.academy.s1.watched";
-// Search editions: every locale with a localized lesson (dialogue, study notes, subtitles). Other UI locales show the
-// English lesson inside their own interface, served noindex,follow.
-export const ACADEMY_INDEX_LOCALES = Object.freeze([...ACADEMY_CONTENT_LOCALES]);
+// Search editions live in academy-shell.js so route/head consumers can avoid the full episode index.
 // Same neutral set as the campaign join block (src/components/v3/activity/CampaignJoin.jsx): no sign-up wording.
 export const ACADEMY_NEUTRAL_LOCALES = NEUTRAL_CTA_LOCALES;
 // Owner rule (DECISIONS 2026-10-12 #3): Bitget is named by its domain on academy cards and pages.
@@ -27,8 +26,6 @@ const FALLBACK_VENUES = ["okx", "binance"];
 export const ACADEMY_TOTAL_SECONDS = ACADEMY_EPISODES.reduce((sum, episode) => sum + episode.duration, 0);
 export const ACADEMY_TOTAL_MINUTES = Math.round(ACADEMY_TOTAL_SECONDS / 60);
 
-export const academyContentLocale = (locale) => (ACADEMY_CONTENT_LOCALES.includes(locale) ? locale : "en");
-export const academyContentModulePath = (locale) => `./data/academy-content-${academyContentLocale(locale).toLowerCase()}.js`;
 export const academyEpisodePath = (episode) => `${ACADEMY_PATH}/${episode.slug}`;
 export const academyEpisodeBySlug = (slug) => ACADEMY_EPISODES.find((episode) => episode.slug === slug) || null;
 
@@ -62,10 +59,6 @@ export function isoDuration(seconds) {
 export function clockDuration(seconds) {
   const total = Math.round(Number(seconds) || 0);
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
-}
-
-export function academyShellCopy(locale) {
-  return ACADEMY_SHELL_COPY[locale] || (String(locale || "").startsWith("zh") ? ACADEMY_SHELL_COPY["zh-Hans"] : ACADEMY_SHELL_COPY.en);
 }
 
 // Telegram channel per locale (DECISIONS 2026-10-12 #6).

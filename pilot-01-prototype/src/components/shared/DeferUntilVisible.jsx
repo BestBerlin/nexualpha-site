@@ -38,7 +38,15 @@ export const DEFER_OPEN_EVENTS = Object.freeze(["pointerdown", "keydown", "focus
 // pointer/key/focus listeners sit on the document in the capture phase. On the element itself they never fired: React
 // stops a discrete event that targets a dehydrated boundary at the root container (to replay it after hydrating), and
 // this boundary cannot hydrate before the gate opens, so a tap inside the section was swallowed.
-export function watchDeferTarget({ target, rootMargin, interactionOnly, open, doc = document, IntersectionObserver = globalThis.IntersectionObserver }) {
+export function watchDeferTarget({
+  target,
+  rootMargin,
+  interactionOnly,
+  open,
+  doc = document,
+  IntersectionObserver = globalThis.IntersectionObserver,
+  MutationObserver = globalThis.MutationObserver,
+}) {
   const elements = target ? [...doc.querySelectorAll(target)] : [];
   if (!elements.length || (!interactionOnly && typeof IntersectionObserver === "undefined")) { open(); return undefined; }
   // Content behind a collapsed <details> (interactionOnly): nothing is visible until the reader opens it, so only the
@@ -48,11 +56,18 @@ export function watchDeferTarget({ target, rootMargin, interactionOnly, open, do
   const reached = (entry) => entry.isIntersecting || entry.boundingClientRect.bottom < 0;
   const observer = interactionOnly ? null : new IntersectionObserver((entries) => { if (entries.some(reached)) open(); }, { rootMargin });
   for (const element of elements) observer?.observe(element);
+  // If React receives an update before the dehydrated boundary opens, it can replace the server nodes. The old observer
+  // then watches detached nodes forever; open only after that concrete detachment is observed, preserving lazy loading for
+  // normal idle pages.
+  const mutationObserver = (!interactionOnly && typeof MutationObserver === "function" && doc.documentElement)
+    ? new MutationObserver(() => { if (elements.every((element) => !element.isConnected)) open(); }) : null;
+  mutationObserver?.observe(doc.documentElement, { childList: true, subtree: true });
   // A reader who reaches the section before the observer fires (anchor jump, keyboard, tap) opens the gate too.
   const onEvent = (event) => { const node = event.target; if (node && elements.some((element) => element === node || element.contains?.(node))) open(); };
   for (const type of DEFER_OPEN_EVENTS) doc.addEventListener(type, onEvent, { capture: true, passive: true });
   return () => {
     observer?.disconnect();
+    mutationObserver?.disconnect();
     for (const type of DEFER_OPEN_EVENTS) doc.removeEventListener(type, onEvent, { capture: true });
   };
 }
@@ -64,21 +79,8 @@ function ClientGate({ target, rootMargin, prefetch, interactionOnly, children })
   const onReady = useCallback(() => setLive(true), []);
   useEffect(() => {
     if (gate.open) return undefined;
-    let poll = null, idle = null;
-    const openGate = () => {
-      clearInterval(poll); clearTimeout(idle);
-      gate.release(); prefetch?.();
-    };
-    const stop = watchDeferTarget({ target, rootMargin, interactionOnly, open: openGate });
-    // Safety net (owner 2026-10-14: everything below the hero stayed black on iPhone/Android). If a parent update
-    // client-renders this boundary, React drops the server HTML and the observed elements are detached, so the
-    // observer can never fire. Open once the page is idle (or the target is gone) so content always appears.
-    if (interactionOnly || gate.open) return stop;
-    const doc = globalThis.document;
-    const detached = () => !target || ![...doc.querySelectorAll(target)].some((el) => el.isConnected);
-    poll = setInterval(() => { if (detached()) openGate(); }, 400);
-    idle = setTimeout(openGate, 1800);
-    return () => { stop?.(); clearInterval(poll); clearTimeout(idle); };
+    const openGate = () => { gate.release(); prefetch?.(); };
+    return watchDeferTarget({ target, rootMargin, interactionOnly, open: openGate });
   }, [gate, target, rootMargin, prefetch, interactionOnly]);
   if (live) return <Suspense fallback={null}>{children}</Suspense>;
   // Same element reference on every render until hydrated: React bails out, so no update reaches the dehydrated boundary.

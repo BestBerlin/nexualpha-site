@@ -30,7 +30,10 @@ import { readCalendar } from './src/data/crypto-calendar.js';
 import { CALENDAR_JSON_PATH, ETF_FLOWS_JSON_PATH } from './src/data/intel-tools-routes.js';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
-import { createSsrPageCache } from './server/ssr-page-cache.mjs';
+import { monitorEventLoopDelay } from 'node:perf_hooks';
+import { createLiveFeed } from './server/live-feed.mjs';
+import { createSsrWorkerPool } from './server/ssr-worker-pool.mjs';
+import { createSsrPageCache, isPublicHtmlPath } from './server/ssr-page-cache.mjs';
 import { createEmbedRoute } from './server/embed-widgets.mjs';
 import { createFlashMemory } from './server/flash-memory.mjs';
 import { createPositionRadar } from './server/position-radar.mjs';
@@ -164,13 +167,16 @@ export async function createProductionServer({ env = process.env, appRoot = root
   }
   if (!suppliedWorker && !existsSync(path.join(clientRoot, 'index.html'))) throw new Error('SITE_BUILD_MISSING');
   const worker = suppliedWorker || (await import(pathToFileURL(path.join(distRoot, 'server/index.js')))).default;
-  // /exchanges directory HTML is cached for 60 s per path + query (perf lane 2026-10-11, SSR_PAGE_CACHE=off disables).
+  // Public HTML is cached for 60 s per path + query + home variant (SSR_PAGE_CACHE=off disables).
   // The key carries the intel feed version and the published news feed hash, so a feed refresh never serves stale HTML.
   const newsFeedHash = createFileFingerprint(path.join(clientRoot, 'content', 'news-feed.sha256.txt'));
   const pageCache = env.SSR_PAGE_CACHE === 'off' ? null : createSsrPageCache({
     ttlMs: Math.max(1000, Number.parseInt(env.SSR_PAGE_CACHE_TTL_MS || '60000', 10) || 60000),
     fingerprint: async () => `${intel.version?.() || ''}|${await newsFeedHash()}`,
   });
+  const pool = !suppliedWorker && env.SSR_WORKERS !== '0' ? createSsrWorkerPool({ workerUrl: pathToFileURL(path.join(distRoot, 'server/index.js')).href, clientRoot, distRoot, size: Number(env.SSR_WORKERS) || 2 }) : null;
+  const loopDelay = monitorEventLoopDelay({ resolution: 20 });
+  loopDelay.enable();
   const assets = {
     async fetch(request) {
       const file = resolveAssetPath(clientRoot, new URL(request.url).pathname);
@@ -184,7 +190,29 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } });
     },
   };
-  return createServer({ requestTimeout: 15000, headersTimeout: 10000 }, async (req, res) => {
+  const workerEnvironment = {
+    ASSETS: assets, WORKER_POLLED_JSON_CACHE_SCOPE: workerPolledJsonCacheScope,
+    NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read,
+    LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read,
+    FUNDING_READ: funding.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive,
+    FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined,
+    ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read,
+    TICKER_READ: ticker.read, MOVERS_READ: movers.read, RADAR_READ: radar.read,
+    CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+    CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
+    ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
+  };
+  let releaseFunding;
+  const readFunding = async () => funding.read() || (releaseFunding ??= readFile(path.join(clientRoot, "intel", "funding-rates.json"), "utf8").then(JSON.parse).catch(() => null));
+  const liveFeed = createLiveFeed({ readers: {
+    ticker: ticker.read, movers: movers.read, funding: readFunding, announcements: intel.read,
+    flash: async (locale) => {
+      const request = new Request(`http://localhost/api/flash.json?locale=${encodeURIComponent(locale)}&limit=8`);
+      const response = pool ? await pool.fetch(request, workerEnvironment) : await worker.fetch(request, workerEnvironment);
+      return response.ok ? response.json() : null;
+    },
+  } });
+  const server = createServer({ requestTimeout: 15000, headersTimeout: 10000 }, async (req, res) => {
     const requestId = safeRequestId(req.headers['x-request-id']);
     let requestPath = '/site-page';
     try {
@@ -217,6 +245,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await ogImages(request);
       } else if (requestPath.startsWith('/embed/') && (result = await embeds(request))) {
         // handled: embed widget or injector script
+      } else if (requestPath === '/__perf') {
+        const address = req.socket.remoteAddress || '';
+        const internal = ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(address) && !['forwarded', 'x-forwarded-for', 'x-real-ip'].some((header) => request.headers.has(header));
+        result = new Response(internal ? JSON.stringify({ eventLoop: { p50Ms: loopDelay.percentile(50) / 1e6, p99Ms: loopDelay.percentile(99) / 1e6, maxMs: loopDelay.max / 1e6 }, ssrCache: pageCache?.stats(), ssrPool: pool?.stats(), rssBytes: process.memoryUsage().rss }) : 'Not Found', { status: internal ? 200 : 404, headers: { 'content-type': internal ? 'application/json' : 'text/plain', 'cache-control': 'no-store' } });
       } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
@@ -260,6 +292,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await intel.respond();
       } else if (requestPath === INTEL_ARCHIVE_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await intel.respondArchive();
+      } else if (requestPath === '/api/live.json' && ['GET', 'HEAD'].includes(req.method)) {
+        const requestedLocale = new URL(request.url).searchParams.get('locale') || 'en';
+        const locale = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko', 'es', 'pt-BR', 'fr', 'de', 'tr', 'ru', 'ar', 'vi', 'id', 'it', 'ur', 'uk'].includes(requestedLocale) ? requestedLocale : 'en';
+        result = new Response(req.method === 'HEAD' ? null : JSON.stringify(await liveFeed(locale)), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=10', 'x-content-type-options': 'nosniff' } });
       } else if (requestPath === TICKER_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await ticker.respond(req.method);
       } else if (requestPath === MOVERS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
@@ -285,11 +321,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else if (mode || testQuery) result = smokeCollector ? await smokeCollector(request) : unavailable('CTA_SMOKE_NOT_CONFIGURED');
         else result = await collector(request);
       } else {
-        const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, WORKER_POLLED_JSON_CACHE_SCOPE: workerPolledJsonCacheScope, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, FUNDING_READ: funding.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, MOVERS_READ: movers.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
-          CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
-          ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
-        });
+        const renderPage = (pageRequest) => {
+          return pool && ['GET', 'HEAD'].includes(pageRequest.method) && isPublicHtmlPath(new URL(pageRequest.url).pathname)
+            ? pool.fetch(pageRequest, workerEnvironment) : worker.fetch(pageRequest, workerEnvironment);
+        };
         result = pageCache ? await pageCache.fetch(request, renderPage) : await renderPage(request);
       }
       if (new URL(request.url).searchParams.has('p') && result.headers.get('content-type')?.includes('text/html')) {
@@ -318,6 +353,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } else res.destroy();
     }
   });
+  server.on('close', () => { loopDelay.disable(); pool?.close().catch(() => {}); });
+  return server;
 }
 
 // Re-reads a small fingerprint file at most every few seconds; missing file = empty fingerprint (cache still works).

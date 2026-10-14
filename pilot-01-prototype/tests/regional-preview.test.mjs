@@ -14,6 +14,7 @@ import { internationalSourcesFor, INTERNATIONAL_SOURCE_REVIEWED_AT } from '../sr
 import { aeoQuestionText } from '../src/data/aeo-question-registry.js';
 import { regionalPageBoundary, regionalQuestionNextSteps } from '../src/data/regional-preview-copy.js';
 import { REGIONAL_SHORTLIST_STATES, buildRegionalShortlist, regionalShortlistAccountStageOptions, regionalShortlistCopy, regionalShortlistMarketOptions, regionalShortlistProductOptions } from '../src/data/regional-shortlist.js';
+import { regionalShortlistCandidateState } from '../src/data/regional-shortlist-summary.js';
 import { readFileSync } from 'node:fs';
 
 const projectRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -841,6 +842,20 @@ test('regional shortlist uses reviewed matrix states and lists no SPK-listed ven
   assert.ok(tr.candidates.some((candidate) => candidate.status === REGIONAL_SHORTLIST_STATES.ACCOUNT_CONFIRM), 'account-confirm candidate');
   // tr-bitget-sweep: Türkiye pages no longer carry a paused Bitget card.
   assert.equal(tr.candidates.find((candidate) => /bitget/i.test(`${candidate.name} ${candidate.slug}`)), undefined);
+});
+
+test('regional shortlist summary projection matches reviewed slug candidates', () => {
+  const markets = regionalShortlistMarketOptions('en').map((option) => option.value);
+  const knownSlugs = new Set(['binance', 'okx', 'hashkey', 'coinbase', 'kraken', 'bitget']);
+  for (const market of markets) {
+    const shortlist = buildRegionalShortlist({ market, locale: 'en', product: 'spot', accountStage: 'new_account' });
+    const expected = new Map(shortlist.candidates.filter((candidate) => candidate.slug).map((candidate) => [candidate.slug, candidate.status]));
+    for (const slug of knownSlugs) {
+      const actual = regionalShortlistCandidateState({ market, slug });
+      if (expected.has(slug)) assert.equal(actual.status, expected.get(slug), `${market}/${slug}`);
+      else assert.equal(actual.status, 'not_in_shortlist', `${market}/${slug}`);
+    }
+  }
 });
 
 test('Japan Korea Türkiye and Indonesia shortlists localize decision controls without changing handoff destinations', () => {

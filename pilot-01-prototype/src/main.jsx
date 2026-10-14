@@ -8,7 +8,7 @@ import { installPartnerViewPropagation } from "./data/partner-view.js";
 import { signalRootHydrated } from "./data/hydration-readiness.js";
 import { buildHydrationBootstrap } from "./data/hydration-bootstrap.js";
 import { clientHomeHeroVariant } from "./data/home-hero-experiment.js";
-import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
+import { withHomeHeroVariant } from "./components/v7/home7-hero-context.js";
 import { createHydrationOnceController, createHydrationRoutePreparer } from "./data/route-module-cache.js";
 import "./font-faces.css";
 import "./styles/tokens.css";
@@ -85,6 +85,7 @@ function HydrationBootstrap() {
       initialMovers={prerenderState?.movers}
       initialRadar={prerenderState?.radar}
       initialSeoAlternates={prerenderState?.seoAlternates}
+      initialCoreApi={prerenderState?.coreApi}
     />;
 }
 

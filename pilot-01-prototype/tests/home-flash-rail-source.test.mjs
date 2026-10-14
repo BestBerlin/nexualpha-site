@@ -4,13 +4,13 @@ import test from "node:test";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
-test("home flash rail accepts an SSR snapshot, then still refreshes from /api/flash.json", () => {
+test("home flash rail accepts an SSR snapshot, then refreshes through the shared live hub", () => {
   const rail = read("../src/components/flash/FlashRail.jsx");
   assert.match(rail, /function initialRows\(initial\)/);
   assert.match(rail, /export function FlashRail\(\{ locale = "en", initial \}\)/);
   assert.match(rail, /useState\(\(\) => initialRows\(initial\)\)/);
-  assert.match(rail, /shouldPoll: \(\) => visible && document\.visibilityState === "visible"/);
-  assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
+  assert.match(rail, /subscribeLiveHub\("flash"/);
+  assert.match(rail, /FLASH_REFRESH_MS = LIVE_HUB_REFRESH_MS/);
   assert.match(rail, /entries\.some\(\(entry\) => entry\.isIntersecting\)/);
 });
 

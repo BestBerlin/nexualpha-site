@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { SSR_CACHE_HEADER, createSsrPageCache, isDirectoryPath, shouldBypassSsrCache, ssrCacheKey } from "../server/ssr-page-cache.mjs";
+import { SSR_CACHE_HEADER, createSsrPageCache, isDirectoryPath, isPublicHtmlPath, shouldBypassSsrCache, ssrCacheKey } from "../server/ssr-page-cache.mjs";
 
 const html = (body, status = 200, type = "text/html; charset=utf-8") => new Response(body, { status, headers: { "content-type": type, "cache-control": "public, max-age=300" } });
 
@@ -38,7 +38,7 @@ test("cache key is pathname plus the sorted query, so locale and filters separat
 
 test("session-specific requests bypass the cache", () => {
   assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges")), false);
-  assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges", { headers: { cookie: "a=b" } })), true);
+  assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges", { headers: { cookie: "a=b" } })), false);
   assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges", { headers: { authorization: "Bearer x" } })), true);
   assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges", { headers: { "x-nexualpha-analytics-mode": "smoke" } })), true);
   assert.equal(shouldBypassSsrCache(new Request("https://nexualpha.com/exchanges", { method: "POST" })), true);
@@ -85,7 +85,7 @@ test("locale prefix, locale query and filter query each get their own entry", as
   assert.equal(renders.length, 4);
 });
 
-test("never caches non-200 or non-HTML responses, and never caches other routes", async () => {
+test("never caches non-200 or non-HTML responses, and caches all public HTML routes", async () => {
   let now = 0;
   const cache = createSsrPageCache({ now: () => now });
   let calls = 0;
@@ -106,14 +106,14 @@ test("never caches non-200 or non-HTML responses, and never caches other routes"
   assert.equal(cache.stats().size, 0);
   await cache.fetch(new Request("https://nexualpha.com/exchanges/okx"), render);
   await cache.fetch(new Request("https://nexualpha.com/"), render);
-  assert.equal(cache.stats().size, 0, "venue detail and home are not cached");
-  assert.equal(cache.stats().bypasses, 2);
+  assert.equal(cache.stats().size, 2, "venue detail and home are cached");
+  assert.equal(cache.stats().bypasses, 0);
 });
 
-test("requests with a cookie or authorization header bypass the cache in both directions", async () => {
+test("authorization bypasses the cache in both directions", async () => {
   const { renders, get, cache } = harness();
   await get("https://nexualpha.com/exchanges");
-  const personal = await get("https://nexualpha.com/exchanges", { cookie: "session=1" });
+  const personal = await get("https://nexualpha.com/exchanges", { authorization: "Bearer test" });
   assert.equal(personal.headers.get(SSR_CACHE_HEADER), null);
   assert.match(await personal.text(), /#2/, "personalised request was rendered, not served from cache");
   assert.equal(renders.length, 2);
@@ -154,4 +154,41 @@ test("the cache is bounded: the oldest entry is evicted past maxEntries", async 
   assert.equal(cache.stats().size, 2);
   assert.equal(cache.has("https://nexualpha.com/exchanges?a=1"), false);
   assert.equal(cache.has("https://nexualpha.com/exchanges?a=3"), true);
+});
+
+test("all public HTML routes cache, APIs, private routes and files bypass", () => {
+  for (const path of ["/", "/zh-hans", "/news/a", "/zh-hans/flash/1", "/activities/updates/a", "/coins/btc", "/rates", "/compare/a"]) assert.ok(isPublicHtmlPath(path), path);
+  for (const path of ["/api/live.json", "/assets/a.js", "/content/a.json", "/go/bitget", "/partners/private", "/__perf", "/healthz", "/robots.txt"]) assert.equal(isPublicHtmlPath(path), false, path);
+});
+
+test("irrelevant cookies share HTML; home hero variants and crawlers stay separate", async () => {
+  const { get, renders } = harness();
+  await get("https://nexualpha.com/rates", { cookie: "analytics=1; nx_hero=b" });
+  assert.equal((await get("https://nexualpha.com/rates", { cookie: "analytics=2" })).headers.get(SSR_CACHE_HEADER), "hit");
+  await get("https://nexualpha.com/zh-hans", { cookie: "nx_hero=a", "user-agent": "Mozilla/5.0" });
+  await get("https://nexualpha.com/zh-hans", { cookie: "nx_hero=b", "user-agent": "Mozilla/5.0" });
+  assert.equal(renders.length, 3);
+  assert.equal((await get("https://nexualpha.com/zh-hans", { cookie: "other=1; nx_hero=b", "user-agent": "Mozilla/5.0" })).headers.get(SSR_CACHE_HEADER), "hit");
+  assert.equal((await get("https://nexualpha.com/zh-hans", { cookie: "nx_hero=b", "user-agent": "Googlebot" })).headers.get(SSR_CACHE_HEADER), "miss");
+});
+
+test("Set-Cookie is never stored and byte budgets bound memory", async () => {
+  const cache = createSsrPageCache({ maxBytes: 10 });
+  const request = new Request("https://nexualpha.com/");
+  await cache.fetch(request, async () => new Response("bucket", { headers: { "content-type": "text/html", "set-cookie": "nx_hero=b" } }));
+  assert.equal(cache.stats().size, 0);
+  await cache.fetch(request, async () => html("12345678901"));
+  assert.equal(cache.stats().size, 0);
+  await cache.fetch(new Request("https://nexualpha.com/news/a"), async () => html("123456"));
+  await cache.fetch(new Request("https://nexualpha.com/news/b"), async () => html("123456"));
+  assert.equal(cache.stats().size, 1);
+  assert.equal(cache.stats().bytes, 6);
+  cache.clear();
+  assert.equal(cache.stats().bytes, 0);
+});
+
+test("no-store HTML is never retained", async () => {
+  const cache = createSsrPageCache();
+  await cache.fetch(new Request('https://nexualpha.com/funding-rates/matrix'), async () => new Response('live', { headers: { 'content-type': 'text/html', 'cache-control': 'no-store' } }));
+  assert.equal(cache.stats().size, 0);
 });

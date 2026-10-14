@@ -1,55 +1,48 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createServer as createViteServer } from "vite";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const occurrenceCount = (source, pattern) => (source.match(pattern) || []).length;
 
-test("Bybit vs Bitget compare renders reviewed editorial differences and no legacy fee bullet", async () => {
-  const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-compare-decision-"));
+async function renderComparePage(selected) {
+  const vite = await createViteServer({
+    root: projectRoot,
+    optimizeDeps: { noDiscovery: true, include: [] },
+    appType: "custom",
+    logLevel: "error",
+    server: { middlewareMode: true, hmr: false, ws: false },
+  });
   try {
-    const entryPath = path.join(tempDir, "entry.mjs");
-    const bundlePath = path.join(tempDir, "bundle.cjs");
-    await writeFile(entryPath, `
-      import React from "react";
-      import { renderToStaticMarkup } from "react-dom/server";
-      import { CompareDeepPage } from "../../src/components/v3/V3Pages.jsx";
-      import { venueDatabase } from "../../src/data/venue-database.js";
+    const [{ CompareDeepPage }, { venueDatabase }] = await Promise.all([
+      vite.ssrLoadModule("/src/components/v3/V3Pages.jsx"),
+      vite.ssrLoadModule("/src/data/venue-database.js"),
+    ]);
+    const pageCopy = {
+      common: { dimension: "Dimension" },
+      assetCapabilities: { none: "Pending source review" },
+    };
+    return renderToStaticMarkup(React.createElement(CompareDeepPage, {
+      copy: pageCopy,
+      locale: "en",
+      selected,
+      venues: Object.values(venueDatabase),
+      updates: [],
+      market: "unknown",
+      product: "unknown",
+    }));
+  } finally {
+    await vite.close();
+  }
+}
 
-      const pageCopy = {
-        common: { dimension: "Dimension" },
-        assetCapabilities: { none: "Pending source review" },
-      };
-
-      const html = renderToStaticMarkup(React.createElement(CompareDeepPage, {
-        copy: pageCopy,
-        locale: "en",
-        selected: ["bybit", "bitget"],
-        venues: Object.values(venueDatabase),
-        updates: [],
-        market: "unknown",
-        product: "unknown",
-      }));
-      console.log(html);
-    `);
-
-    const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
-    await access(esbuildBin);
-    execFileSync(esbuildBin, [
-      entryPath,
-      "--bundle",
-      "--platform=node",
-      "--format=cjs",
-      `--outfile=${bundlePath}`,
-      "--loader:.css=empty",
-      "--log-level=warning",
-    ], { cwd: projectRoot, stdio: "pipe" });
-
-    const html = execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8" });
+test("Bybit vs Bitget compare renders reviewed editorial differences and no legacy fee bullet", async () => {
+  const html = await renderComparePage(["bybit", "bitget"]);
     const directAnswer = compareDirectAnswerFor("bybit-vs-bitget", "en");
     assert.ok(directAnswer?.seoQuestion && directAnswer.seoQuestion.length > 20, "priority comparison answer should expose a meaningful SEO question");
     const matrix = html.slice(html.indexOf('id="hardcore-matrix"'), html.indexOf('id="compare-faq"'));
@@ -97,52 +90,10 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.doesNotMatch(html, /<details class="v3-versus-stats-disclosure" open/);
     assert.doesNotMatch(html, /Regional restrictions, account eligibility and campaign terms need official verification/);
     assert.doesNotMatch(html, /Published fee reference: Spot 0\.10% \/ 0\.10%, Futures 0\.02% \/ 0\.055%/);
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
 });
 
 test("Binance vs OKX compare renders reviewed editorial differences without commercial unlock", async () => {
-  const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-compare-decision-"));
-  try {
-    const entryPath = path.join(tempDir, "entry.mjs");
-    const bundlePath = path.join(tempDir, "bundle.cjs");
-    await writeFile(entryPath, `
-      import React from "react";
-      import { renderToStaticMarkup } from "react-dom/server";
-      import { CompareDeepPage } from "../../src/components/v3/V3Pages.jsx";
-      import { venueDatabase } from "../../src/data/venue-database.js";
-
-      const pageCopy = {
-        common: { dimension: "Dimension" },
-        assetCapabilities: { none: "Pending source review" },
-      };
-
-      const html = renderToStaticMarkup(React.createElement(CompareDeepPage, {
-        copy: pageCopy,
-        locale: "en",
-        selected: ["binance", "okx"],
-        venues: Object.values(venueDatabase),
-        updates: [],
-        market: "unknown",
-        product: "unknown",
-      }));
-      console.log(html);
-    `);
-
-    const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
-    await access(esbuildBin);
-    execFileSync(esbuildBin, [
-      entryPath,
-      "--bundle",
-      "--platform=node",
-      "--format=cjs",
-      `--outfile=${bundlePath}`,
-      "--loader:.css=empty",
-      "--log-level=warning",
-    ], { cwd: projectRoot, stdio: "pipe" });
-
-    const html = execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8" });
+  const html = await renderComparePage(["binance", "okx"]);
     assert.match(html, /Binance/);
     assert.match(html, /OKX/);
     assert.match(html, /broad account exchange with spot, margin, fiat, P2P/);
@@ -162,7 +113,4 @@ test("Binance vs OKX compare renders reviewed editorial differences without comm
     assert.match(finalCard, /href="\/exchanges\/okx#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="okx"/);
     assert.match(finalCard, /Binance vs OKX: compare fees, product scope, KYC and Web3 access before choosing/);
     assert.doesNotMatch(html, /Verify public products, regional eligibility and official fees first/);
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
 });

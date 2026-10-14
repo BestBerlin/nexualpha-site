@@ -1,5 +1,5 @@
 import { CoreClient } from "../../../backend/src/sdk/core-client.ts";
-import { normalizeMarketIntelligence, unavailableMarketIntelligence } from "./market-intelligence-view.js";
+import { unavailableMarketIntelligence } from "./market-intelligence-view.js";
 
 export type DataSource = "mock" | "core";
 export type OpportunityState = "Active" | "Upcoming" | "Ending soon" | "Expired" | "Restricted" | "Pending" | "Stale" | "No offer" | "Partner" | "Sponsored";
@@ -48,6 +48,10 @@ export type SiteLoadResult =
   | { status: "empty"; view?: undefined }
   | { status: "error"; view?: undefined }
   | { status: "stale"; view: SiteViewModel };
+export type CoreApiAvailability = "ready" | "unavailable" | "not_configured" | string | null | undefined;
+export type SiteLoadOptions = { coreApi?: CoreApiAvailability };
+export type SiteDataDemand = "venues" | "officialUpdates";
+export type SiteViewPatch = Partial<Pick<SiteViewModel, "venues" | "officialUpdates">>;
 
 const corePrefix = "/api/v1";
 
@@ -112,10 +116,7 @@ type CoreOpportunity = Awaited<ReturnType<CoreClient["opportunities"]>>["data"][
 type CoreCommercial = Awaited<ReturnType<CoreClient["resolveCommercial"]>>["data"];
 type CoreBootstrap = Awaited<ReturnType<CoreClient["bootstrap"]>>;
 type CoreVenue = Awaited<ReturnType<CoreClient["venue"]>>["data"];
-type CoreListingFeed = Awaited<ReturnType<CoreClient["listings"]>>;
 type CoreOfficialUpdates = Awaited<ReturnType<CoreClient["officialUpdates"]>>;
-type CoreAssetPulse = Awaited<ReturnType<CoreClient["assetPulse"]>>["data"];
-type CoreExchangeSnapshots = Awaited<ReturnType<CoreClient["exchangeSnapshots"]>>["data"];
 
 function commercialAction(commercial: CoreCommercial | undefined): CommercialAction {
   // Legacy CommercialResolveResponse can contain an href. It is intentionally
@@ -165,7 +166,7 @@ function toVenueViewModel(venue: CoreVenue): VenueViewModel {
   };
 }
 
-function coreView(bootstrap: CoreBootstrap, opportunities: readonly CoreOpportunity[], venues: readonly CoreVenue[], listings: CoreListingFeed, officialUpdates: CoreOfficialUpdates, market: MarketIntelligenceViewModel, commercial?: CoreCommercial): SiteViewModel {
+function coreView(bootstrap: CoreBootstrap, opportunities: readonly CoreOpportunity[], venues: readonly CoreVenue[], listings: { availability: "available" | "unavailable"; reasonCode?: string }, officialUpdates: CoreOfficialUpdates, market: MarketIntelligenceViewModel, commercial?: CoreCommercial): SiteViewModel {
   const featured = opportunities[0] ? toOpportunityViewModel(opportunities[0], commercial) : unavailableFeature;
   return {
     source: "core",
@@ -180,36 +181,57 @@ function coreView(bootstrap: CoreBootstrap, opportunities: readonly CoreOpportun
   };
 }
 
-export async function loadSiteView(locale: string): Promise<SiteLoadResult> {
+export function coreApiUnavailable(coreApi: CoreApiAvailability): boolean {
+  return coreApi === "unavailable" || coreApi === "not_configured";
+}
+
+function bootstrapOnlyView(bootstrap: CoreBootstrap): SiteViewModel {
+  return coreView(
+    bootstrap,
+    [],
+    [],
+    { availability: "unavailable", reasonCode: "NO_COMPARABLE_AUTHORIZED_SOURCE" },
+    { data: [] },
+    unavailableMarketIntelligence() as MarketIntelligenceViewModel,
+  );
+}
+
+export async function loadSiteView(locale: string, options: SiteLoadOptions = {}): Promise<SiteLoadResult> {
   if (DATA_SOURCE === "mock") return { status: "ready", view: mockSiteView };
+  if (coreApiUnavailable(options.coreApi)) return { status: "error" };
   return loadCoreSiteView(locale, coreClient());
+}
+
+export async function loadSiteDataDemand(_locale: string, demand: readonly SiteDataDemand[], options: SiteLoadOptions = {}): Promise<SiteViewPatch> {
+  if (DATA_SOURCE === "mock" || coreApiUnavailable(options.coreApi) || !demand.length) return {};
+  return loadCoreSiteDataDemand(demand, coreClient());
+}
+
+export async function loadCoreSiteDataDemand(demand: readonly SiteDataDemand[], client: Pick<CoreClient, "venues" | "officialUpdates">): Promise<SiteViewPatch> {
+  const wanted = new Set(demand);
+  const [venueResponse, officialUpdateResponse] = await Promise.all([
+    wanted.has("venues") ? client.venues().catch(() => undefined) : undefined,
+    wanted.has("officialUpdates") ? client.officialUpdates().catch(() => undefined) : undefined,
+  ]);
+  const patch: SiteViewPatch = {};
+  if (venueResponse && !("status" in venueResponse && venueResponse.status === "unavailable")) {
+    patch.venues = venueResponse.data.map(toVenueViewModel);
+  }
+  if (officialUpdateResponse && !("status" in officialUpdateResponse && officialUpdateResponse.status === "unavailable")) {
+    patch.officialUpdates = officialUpdateResponse.data
+      .filter((item) => item.reviewStatus === "APPROVED" && item.fixture === false && Number.isFinite(Date.parse(item.discoveredAt)) && item.verifiedAt !== null && Number.isFinite(Date.parse(item.verifiedAt)) && (!item.expiresAt || Date.parse(item.expiresAt) > Date.now()))
+      .map((item) => ({ ...item, verifiedAt: item.verifiedAt! }));
+  }
+  return patch;
 }
 
 export async function loadCoreSiteView(locale: string, client: CoreClient): Promise<SiteLoadResult> {
   try {
-    const [bootstrap, opportunityResponse, venueResponse, listingResponse, officialUpdateResponse, assetPulseResponse, exchangeSnapshotResponse] = await Promise.all([
-      client.bootstrap(locale),
-      client.opportunities(),
-      client.venues(),
-      client.listings(),
-      client.officialUpdates(),
-      client.assetPulse().then((response) => response.data).catch(() => undefined),
-      client.exchangeSnapshots().then((response) => response.data).catch(() => undefined),
-    ]);
+    const bootstrap = await client.bootstrap(locale);
     // The preview worker deliberately returns HTTP200 fail-closed envelopes.
     // They are not successful empty data and must not be labelled connected.
-    if (!bootstrap.contentVersion?.id || [bootstrap, opportunityResponse, venueResponse, officialUpdateResponse].some(
-      (response) => "status" in response && response.status === "unavailable",
-    )) return { status: "error" };
-    const commercial = await (opportunityResponse.data.length
-        ? client.resolveCommercial(opportunityResponse.data[0]!.slug).then((response) => response.data).catch(() => undefined)
-        : undefined);
-    // VenueListResponse already contains the full, identical Venue schema.
-    // Avoid a second network wave of 21 duplicate per-platform requests.
-    const venues = venueResponse.data;
-    const market = normalizeMarketIntelligence(assetPulseResponse as CoreAssetPulse | undefined, exchangeSnapshotResponse as CoreExchangeSnapshots | undefined, venues.map((venue) => venue.slug)) as MarketIntelligenceViewModel;
-    const view = coreView(bootstrap, opportunityResponse.data, venues, listingResponse, officialUpdateResponse, market, commercial);
-    return { status: "ready", view };
+    if (!bootstrap.contentVersion?.id || ("status" in bootstrap && bootstrap.status === "unavailable")) return { status: "error" };
+    return { status: "ready", view: bootstrapOnlyView(bootstrap) };
   } catch {
     return { status: "error" };
   }

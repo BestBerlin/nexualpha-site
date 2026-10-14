@@ -12,7 +12,7 @@
 // rules), ar (Egypt CBE law 194/2020), vi (Vietnam Resolution 05/2025/NQ-CP, owner 2026-10-13), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
-import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
+import { HOME_REBATE_SHARE } from "./home-rebate-runtime.js";
 import { NEUTRAL_CTA_LOCALE_LIST, isNeutralCtaLocale } from "./locale-policy.js";
 import { jurisdictionPromotionBan } from "./partner-geo-policy.js";
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";

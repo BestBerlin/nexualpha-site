@@ -1,7 +1,7 @@
 // 2026-10-10: placeholder invite codes never reach a CTA; news offers only use real invite routes.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { publicCtaForVenue, PLACEHOLDER_INVITE_CODE } from "../src/data/source-bound-cta.js";
+import { publicCtaForVenue, regionalVenueCta, PLACEHOLDER_INVITE_CODE } from "../src/data/source-bound-cta.js";
 import { pickNewsOfferVenue } from "../src/data/news-offer.js";
 
 test("placeholder codes (NEXU_*) are not offered as invite codes", () => {
@@ -19,6 +19,16 @@ test("owner invite routes are untouched", () => {
   assert.equal(publicCtaForVenue("okx").inviteCode, "nexu888");
   assert.equal(publicCtaForVenue("binance").inviteCode, "11350287");
   assert.match(publicCtaForVenue("bitget").registrationUrl, /C6PRAF/);
+});
+
+test("regional CTA projection also keeps placeholder invite routes closed", () => {
+  for (const slug of ["kucoin", "deribit", "gmx"]) {
+    const cta = regionalVenueCta(slug, "en", undefined, "spot");
+    assert.equal(cta.actionGate.reason, "placeholder-invite-code", slug);
+    assert.equal(cta.registrationUrl, null, slug);
+    assert.equal(cta.direct, false, slug);
+    assert.match(cta.ctaHref, /^\/exchanges\//, slug);
+  }
 });
 
 test("news offer picks the first mentioned venue with a real invite route", () => {

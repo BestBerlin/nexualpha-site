@@ -49,6 +49,8 @@ function DataRail({ locale }) {
   </section>;
 }
 import { FlashRail } from "../flash/FlashRail.jsx";
+import { subscribeLiveHub } from "../shared/live-hub.js";
+import { useVisibleClock } from "../shared/visible-clock.js";
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from "../../data/bybit-stocks.js";
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../data/bitget-alliance.js";
@@ -71,7 +73,7 @@ function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
     let alive = true;
-    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: first ? "default" : "no-cache" })
+    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: "default" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!alive) return;
@@ -82,9 +84,11 @@ function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
       })
       .catch(() => { if (alive && first) setFeed((current) => current || false); });
     load(true);
-    // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
-    const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(timer); };
+    const stopHub = subscribeLiveHub("announcements", (feed) => {
+      const next = intelView(feed, locale, Date.now());
+      if (next) setFeed(next);
+    }, { locale });
+    return () => { alive = false; stopHub(); };
   }, [slugs, locale]);
   return feed;
 }
@@ -140,9 +144,7 @@ const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
 // Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
 function useNow(snapshot, stepMs = 60 * 1000) {
   // Deferred hydration may happen minutes after SSR. Reuse the serialized feed clock first.
-  const [now, setNow] = useState(() => Number.isFinite(Date.parse(snapshot)) ? Date.parse(snapshot) : null);
-  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
-  return now;
+  return useVisibleClock(snapshot, { everyMs: stepMs });
 }
 function timeAgo(ms, locale) {
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });

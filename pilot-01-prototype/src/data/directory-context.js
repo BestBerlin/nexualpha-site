@@ -3,7 +3,7 @@ import { resolveMarketPolicy } from "./market-policy.js";
 import { venueDatabase } from "./venue-database.js";
 import { regionalEligibilityState } from "./regional-eligibility-evidence.js";
 import { readDecisionPassport } from "./decision-passport.js";
-import { buildRegionalShortlist } from "./regional-shortlist.js";
+import { regionalShortlistCandidateState } from "./regional-shortlist-summary.js";
 
 const REGION_TERMS = {
   BR: ["brazil", "latam", "global", "worldwide"],
@@ -112,19 +112,11 @@ export function regionalCtaState({ market, status } = {}) {
   return "verify";
 }
 
-export function regionalDirectoryCandidateState(venue, { market, product = "unknown", locale = "en", accountStage = "new_account", funding = "" } = {}) {
+export function regionalDirectoryCandidateState(venue, { market, product = "unknown", locale = "en" } = {}) {
   const context = directoryContext({ market, product, locale });
   if (!context.scoped) return { status: "unscoped", candidate: null };
-  const shortlist = buildRegionalShortlist({
-    market: context.market,
-    product: context.product || product || "spot",
-    locale: context.locale || locale,
-    accountStage,
-    funding,
-  });
-  const candidate = shortlist.candidates.find((item) => item.slug === venue?.slug) || null;
-  if (!candidate) return { status: "not_in_shortlist", candidate: null };
-  return { status: candidate.status, candidate };
+  if (venueMarketStatus(venue, context.market, context.product || product) === "restricted") return { status: "not_in_shortlist", candidate: null };
+  return regionalShortlistCandidateState({ market: context.market, slug: venue?.slug });
 }
 
 export function filterDirectoryVenues(venues = [], market, options = {}) {

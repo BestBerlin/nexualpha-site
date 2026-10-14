@@ -14,6 +14,7 @@ import {
 import { KRAKEN_USDG_COPY } from "../../data/kraken-usdg-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { useVisibleClock } from "../shared/visible-clock.js";
 import "./kraken-usdg.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -38,13 +39,8 @@ function fmtSgt(iso, locale) {
 }
 
 function useClock() {
-  const [now, setNow] = useState(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return now;
+  const now = useVisibleClock(null, { everyMs: 30 * 1000 });
+  return now ? new Date(now) : null;
 }
 
 // Kraken's figures: the baked snapshot first (SSR = first client render), then the server's live copy if it is valid.

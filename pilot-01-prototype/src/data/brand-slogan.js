@@ -7,7 +7,7 @@
 //                   headline constant and Turkish renders "%60".
 // Imported by the Worker (worker/index.js), the client router (seo-injection.js), the footer, the OG card renderer
 // (server/og-image.mjs) and scripts/generate-public-llms.mjs. Keep all 15 UI locales in both tables.
-import { HOME_REBATE_MAX_PCT } from "./home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT } from "./home-rebate-runtime.js";
 import { formatPercent } from "./format-percent.js";
 
 export const SLOGAN_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);

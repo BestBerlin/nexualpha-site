@@ -1,28 +1,49 @@
 import { compareVenuePriority } from "../../data/venue-priority.js";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
 import { venueDatabase } from "../../data/venue-database.js";
 import { feeDisplay, feeFact } from "../../data/exchange-facts.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
-import { venueDecisionContent } from "../../data/venue-decision-content";
-import { compareSlug, v3Copy } from "../../data/v3-product";
-import { comparePathFor } from "../v6/compare-routes.js";
-import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
+import { venueDecisionSummary, hasVenueDecisionSummary } from "../../data/venue-decision-summary.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { defaultDirectoryCategory, directoryContext, directoryContextSearch, filterDirectoryVenues, regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
-import { buildRegionalDecisionSet } from "../../data/regional-decision.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalResearchReturnHref } from "../../data/regional-directory.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-public-cta.js";
 import { accountStageCopy, decisionCopy, directoryCopy, productPathLabel } from "./venue-yellow-pages-copy.js";
 import { appendAccountStageToSearch, emptyYellowPagesFilters, restoreYellowPagesStateFromUrl, writeYellowPagesStateToUrl } from "./venue-yellow-pages-state.js";
-import { ExchangeMatrix } from "./ExchangeMatrix.jsx";
-import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { venueKycLevel } from "../../data/venue-kyc-corrections.js";
-import { matrixCopy } from "./exchange-matrix-copy.js";
 import "./venue-yellow-pages.css";
+
+const ssrMatrixModules = import.meta.env.SSR ? import.meta.glob(["./ExchangeMatrix.jsx", "./exchange-matrix-copy.js"], { eager: true }) : {};
+const ExchangeMatrix = import.meta.env.SSR
+  ? ssrMatrixModules["./ExchangeMatrix.jsx"].ExchangeMatrix
+  : React.lazy(() => import("./ExchangeMatrix.jsx").then((module) => ({ default: module.ExchangeMatrix })));
+function readMatrixCopy(locale) {
+  if (import.meta.env.SSR) return ssrMatrixModules["./exchange-matrix-copy.js"].matrixCopy(locale);
+  return { cta: "", highlight: "", proof: "" };
+}
+
+const ssrRegionalDecisionModules = import.meta.env.SSR ? import.meta.glob("./RegionalDecisionStrip.jsx", { eager: true }) : {};
+const RegionalDecisionStrip = import.meta.env.SSR
+  ? ssrRegionalDecisionModules["./RegionalDecisionStrip.jsx"].RegionalDecisionStrip
+  : () => null;
+
+const ssrComparePickerModules = import.meta.env.SSR ? import.meta.glob("../compare/CompareAnyPicker.jsx", { eager: true }) : {};
+const CompareAnyPicker = import.meta.env.SSR
+  ? ssrComparePickerModules["../compare/CompareAnyPicker.jsx"].CompareAnyPicker
+  : React.lazy(() => import("../compare/CompareAnyPicker.jsx").then((module) => ({ default: module.CompareAnyPicker })));
+
+const NO_COMPARE_ROUTE = new Set(["htx", "hashkey", "aevo"]);
+function directoryComparePathFor(slugs = []) {
+  if (slugs.length >= 2 && new Set(slugs).size === slugs.length && slugs.every((slug) => slug && !NO_COMPARE_ROUTE.has(slug))) {
+    return `/compare/${slugs.join("-vs-")}`;
+  }
+  const orphan = slugs.find((slug) => NO_COMPARE_ROUTE.has(slug));
+  return orphan ? `/factbook/${orphan}` : "/exchanges";
+}
 
 // Scoped regional UI: research status does not establish account eligibility.
 const regionalStatusLabels = {
@@ -664,25 +685,16 @@ export function getUi(locale) {
   if (locale === "zh-Hans" || locale === "zh-CN") return { ...uiText["zh-Hans"], ...directoryCopyForLocale, ...searchCopy };
   if (locale === "zh-Hant" || locale === "zh-TW") return { ...uiText["zh-Hant"], ...directoryCopyForLocale, ...searchCopy };
   if (locale && locale !== "en") {
-    const text = v3Copy(locale);
     return {
       ...uiText.en,
       ...directoryCopyForLocale,
-      viewDetail: text.openDetail || uiText.en.viewDetail,
-      viewAll: text.backToDirectory || uiText.en.viewAll,
       viewMore: actionCopy.viewMore,
       viewLess: actionCopy.viewLess,
       ...searchCopy,
-      compareOpen: text.viewCompare || uiText.en.compareOpen,
-      compareNeed: text.compareWith || uiText.en.compareNeed,
       compareSelect: actionCopy.compareSelect,
       compareRemove: actionCopy.compareRemove,
       compareClear: actionCopy.compareClear,
-      sourceReviewed: text.sourceIntake || "Source reviewed", sourcePending: text.pendingReview || "Source review pending",
-      openApp: text.openOfficialSource || uiText.en.openApp,
-      verifyEligibility: text.registrationLocked || uiText.en.verifyEligibility,
-      profilePending: text.notConfigured || "Needs review", officialFlow: text.verifyBefore || "Verify in official flow",
-      resultSummary: (count) => text.resultVenues?.(count) || ({ ja: `${count}サービス`, ko: `플랫폼 ${count}개`, tr: `${count} platform`, ar: `${count} منصة`, "pt-BR": `${count} plataformas`, es: `${count} plataformas`, fr: `${count} plateformes`, de: `${count} Plattformen` }[locale] || `${count} platforms`),
+      resultSummary: (count) => ({ ja: `${count}サービス`, ko: `플랫폼 ${count}개`, tr: `${count} platform`, ar: `${count} منصة`, "pt-BR": `${count} plataformas`, es: `${count} plataformas`, fr: `${count} plateformes`, de: `${count} Plattformen` }[locale] || `${count} platforms`),
       ...(categoryLabels[locale] ? { tabAll: categoryLabels[locale][0], tabCex: categoryLabels[locale][1], tabDex: categoryLabels[locale][2], tabPerp: categoryLabels[locale][3] } : {}),
     };
   }
@@ -758,9 +770,11 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
   const regionalReturnHref = regionalResearchReturnHref({ market, locale, product, accountStage: effectiveAccountStage, funding: effectiveFunding });
   const contextSearch = appendAccountStageToSearch(directoryContextSearch({ market, product, locale, funding: effectiveFunding }), effectiveAccountStage);
   const growthCampaign = context.scoped ? `${context.market.toLowerCase()}-research-preview` : undefined;
-  const decisions = buildRegionalDecisionSet({ venues, market, product });
   const regionalUi = regionalDirectoryUi(locale, dc);
-  const decisionUi = regionalUi.decision;
+  const regionalPrimarySlug = context.scoped ? venues.find((venue) => {
+    const regional = regionalDirectoryCandidateState(venue, { market, product, locale });
+    return regional.status !== "not_in_shortlist" && regional.status !== "paused";
+  })?.slug : null;
   const stageCopy = accountStageCopy(locale, effectiveAccountStage);
   const contextualVenues = useMemo(() => filterDirectoryVenues(venues, market, {
     product,
@@ -908,7 +922,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
     return [...current, slug];
   });
   const compareHref = compareSelection.length === 2
-    ? localizedHref(`${comparePathFor(compareSelection).path}?${contextSearch}`, { locale })
+    ? localizedHref(`${directoryComparePathFor(compareSelection)}?${contextSearch}`, { locale })
     : null;
   const compactDirectory = !compact;
   const detailToggleCopy = (expanded) => {
@@ -962,8 +976,8 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
       }
       return true;
     });
-    if (effectiveAccountStage === "existing_account" && decisions.primary) {
-      list = [...list].sort((a, b) => (a.slug === decisions.primary.venue.slug ? -1 : 0) - (b.slug === decisions.primary.venue.slug ? -1 : 0));
+    if (effectiveAccountStage === "existing_account" && regionalPrimarySlug) {
+      list = [...list].sort((a, b) => (a.slug === regionalPrimarySlug ? -1 : 0) - (b.slug === regionalPrimarySlug ? -1 : 0));
     } else if (effectiveAccountStage === "new_account") {
       list = [...list].sort((a, b) => (a.category === "CEX" ? 0 : 1) - (b.category === "CEX" ? 0 : 1));
     } else if (sortBy === "fee" && list.every((v) => feeFact(v.slug, "spot").state === "checked")) {
@@ -980,7 +994,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
       });
     }
     return list;
-  }, [contextualVenues, selectedCategory, filters, sortBy, searchQuery, locale, effectiveAccountStage, decisions.primary]);
+  }, [contextualVenues, selectedCategory, filters, sortBy, searchQuery, locale, effectiveAccountStage, regionalPrimarySlug]);
 
   return (
     <section className={compact ? "yellow-pages v2-shell" : "mx-page v5"} id="exchanges">
@@ -989,52 +1003,27 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
         <HeadingTag className={compact ? "yellow-pages__title" : "mx-title"}>{ui.sectionTitle}</HeadingTag>
         <p className={compact ? "yellow-pages__lead" : "mx-lead"}>{ui.sectionLead}</p>
         </div>
-        {!compact && <BrazilDeadlineNotice locale={locale} placement="directory" />}
         {context.scoped && (
           <p className="yellow-pages__context" data-directory-context={`${context.market}:${context.product}`}>
             {locale.startsWith("zh") ? `当前研究地区：${context.label} · 产品路径：${context.product === "spot" ? "现货" : "待选择"} · 资格仍需在平台官方流程确认。` : (dc.context?.(context.label, context.product) || `Research context: ${context.label} · Product path: ${context.product === "spot" ? "Spot" : "Choose in platform"}. Verify eligibility in the official flow.`)}
           </p>
         )}
         {stageCopy && <p className="yellow-pages__context yellow-pages__context--stage" data-account-stage={effectiveAccountStage}>{stageCopy[0]} · {stageCopy[1]}</p>}
-        {!compact && <CompareAnyPicker locale={locale} venues={venues} initial={compareSelection} placement="exchange-directory" compact />}
-        {context.scoped && decisions.primary && (
-          <div className="yellow-pages__decision-strip" data-regional-decision={`${context.market}:${decisions.primary.venue.slug}`}>
-            <div className="yellow-pages__decision-header">
-            <strong>{context.label} · {productPathLabel(locale, product)}</strong>
-              <span>{locale.startsWith("zh") ? "以地区证据缩短首轮选择" : (dc.shortlist || "Shortlist built from recorded regional evidence")}</span>
-            </div>
-            <div className="yellow-pages__decision-grid">
-              {[decisions.primary, ...decisions.alternatives].filter(Boolean).map((item, index) => (
-                <article className={`yellow-pages__decision-card${index > 0 && !regionalDecisionOpen ? " yellow-pages__decision-card--mobile-collapsed" : ""}`} key={item.venue.slug}>
-                  <span className="yellow-pages__decision-label">{index === 0 ? decisionUi.primary : decisionUi.alternative}</span>
-                  <strong>{item.venue.name}</strong>
-                  <small>{item.venue.category} · {item.evidence.hasReferral ? (locale.startsWith("zh") ? "合作入口已配置" : (dc.partnerRoute || "Partner route active")) : (locale.startsWith("zh") ? "官方入口" : (dc.officialRoute || "Official route"))}</small>
-                  <a
-                    href={localizedHref(`/exchanges/${item.venue.slug}?${contextSearch}`, { locale })}
-                    data-cta-kind="research"
-                    data-cta-platform={item.venue.slug}
-                    data-cta-placement={index === 0 ? "regional-directory-primary" : "regional-directory-alternative"}
-                    data-growth-decision={item.venue.slug}
-                    data-growth-placement={index === 0 ? "regional-directory-primary" : "regional-directory-alternative"}
-                    data-growth-market={context.market}
-                    data-growth-product={context.product}
-                    data-growth-campaign={growthCampaign}
-                  >{decisionUi.open} →</a>
-                </article>
-              ))}
-              {decisions.verification && <article className={`yellow-pages__decision-card yellow-pages__decision-card--verify${!regionalDecisionOpen ? " yellow-pages__decision-card--mobile-collapsed" : ""}`}>
-                <span className="yellow-pages__decision-label">{decisionUi.verify}</span>
-                <strong>{decisions.verification.venue.name}</strong>
-                <small>{decisionUi.verifyBody}</small>
-              </article>}
-              {(decisions.alternatives.length > 0 || decisions.verification) && <button type="button" className="yellow-pages__decision-toggle" data-regional-decision-toggle aria-expanded={regionalDecisionOpen} onClick={() => setRegionalDecisionOpen((open) => !open)}>
-                {regionalDecisionOpen
-                  ? (locale === "zh-Hant" ? "收起其他地區入口" : locale.startsWith("zh") ? "收起其他地区入口" : locale === "es" ? "Ocultar otras rutas" : locale === "id" ? "Sembunyikan rute lain" : (dc.hideMoreRoutes || "Hide other regional routes"))
-                  : (locale === "zh-Hant" ? "查看其他地區入口" : locale.startsWith("zh") ? "查看其他地区入口" : locale === "es" ? "Ver otras rutas" : locale === "id" ? "Lihat rute lain" : (dc.showMoreRoutes || "View other regional routes"))}
-                <span aria-hidden="true">{regionalDecisionOpen ? " ↑" : " ↓"}</span>
-              </button>}
-            </div>
-          </div>
+        {!compact && <Suspense fallback={null}><CompareAnyPicker locale={locale} venues={venues} initial={compareSelection} placement="exchange-directory" compact /></Suspense>}
+        {context.scoped && (
+          <Suspense fallback={null}>
+            <RegionalDecisionStrip
+              venues={venues}
+              market={market}
+              product={product}
+              locale={locale}
+              context={context}
+              contextSearch={contextSearch}
+              growthCampaign={growthCampaign}
+              open={regionalDecisionOpen}
+              onToggle={() => setRegionalDecisionOpen((open) => !open)}
+            />
+          </Suspense>
         )}
 
         {compact && (<>
@@ -1104,12 +1093,12 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
 
       {!compact ? (
         <div className="mx-page__inner">
-          <ExchangeMatrix
+          <Suspense fallback={null}><ExchangeMatrix
             venues={filteredVenues}
             totalCount={contextualVenues.length}
             locale={locale}
             ui={ui}
-            mc={matrixCopy(locale)}
+            mc={readMatrixCopy(locale)}
             context={context}
             market={market}
             product={product}
@@ -1131,7 +1120,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
             copiedToast={copiedToast}
             onReset={() => { setFilters({ noKyc: false, por: false, fiat: false, highLev: false }); setSearchQuery(""); setSelectedCategory("all"); }}
             regionalReturnHref={regionalReturnHref}
-          />
+          /></Suspense>
         </div>
       ) : filteredVenues.length === 0 ? (
         <div className="yellow-pages__empty" role="status">
@@ -1156,7 +1145,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           };
           const commercialClaim = resolveCommercialClaim({ partner, venue: db });
           const commercialVerified = commercialClaim.status === "verified";
-          const decision = venueDecisionContent[venue.slug];
+          const decision = venueDecisionSummary[venue.slug];
           const sourceReviewed = Boolean(db.decisionSourceReviewedAt);
           const hasDetailPage = Boolean(decision);
           const isZhLocale = locale.startsWith("zh");

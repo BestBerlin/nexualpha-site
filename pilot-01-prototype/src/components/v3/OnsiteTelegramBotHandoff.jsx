@@ -1,4 +1,5 @@
-import { buildTelegramWebsiteFunnelContext, TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS } from "../../data/telegram-config.js";
+import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-website-funnel.js";
+import { TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS } from "../../data/telegram-onsite-handoffs.js";
 
 const safeContext = (value, fallback) => String(value || fallback || "").trim();
 

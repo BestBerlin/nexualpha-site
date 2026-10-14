@@ -165,7 +165,8 @@ test("server and client wiring: /api/movers.json route, refresh every 30 s while
   assert.match(server, /requestPath === MOVERS_PATH/);
   assert.match(server, /MOVERS_READ: movers\.read/);
   const board = await readFile(new URL("../src/components/v7/home7-movers.jsx", import.meta.url), "utf8");
-  assert.match(board, /MOVERS_REFRESH_MS = 30 \* 1000/);
+  assert.match(board, /MOVERS_REFRESH_MS = LIVE_HUB_REFRESH_MS/);
+  assert.match(board, /subscribeLiveHub\("movers"/);
   assert.match(board, /IntersectionObserver/);
   assert.match(board, /movers-owner\.css/);
   assert.doesNotMatch(board, /h7-mv-tabs|h7-mv-t-up|h7-mv-t-dn/);

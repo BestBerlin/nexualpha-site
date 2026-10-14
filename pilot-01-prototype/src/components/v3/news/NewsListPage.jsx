@@ -8,20 +8,63 @@ import { TelegramAlertsStrip } from "../TelegramAlertsStrip.jsx";
 import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
 import { newsListHeroCopy } from "../../../data/news-list-copy.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
-import { venueDatabase } from "../../../data/venue-database.js";
-import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, loadNewsLibraryPage, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
+import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, loadNewsLibraryPage, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, newsVenueName, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { DataRule, utcClock, utcStamp } from "../../shared/DataRule.jsx";
-import { formatSgt } from "../../../data/local-time.js";
-import { groupNewsByDay, newsDayCopy, relativeDay } from "./news-day-groups.js";
-import "./news-list-page.css";
+import { formatSgt, readerDayKey } from "../../../data/local-time.js";
+import "../../../styles/news-list-page.css";
 
 // Editorial index (2026-10-11): a whole page is one lead story plus dense day-grouped rows, so every row of the page is
 // visible; search results still arrive in page-sized batches.
 const NEWS_INITIAL_VISIBLE_COUNT = NEWS_PAGE_SIZE;
 const NEWS_BATCH_SIZE = NEWS_PAGE_SIZE;
+
+const DAY_MS = 86_400_000;
+
+function groupNewsByDay(rows = []) {
+  const groups = [];
+  for (const row of rows) {
+    const day = readerDayKey(row?.publishedAt) || "undated";
+    const last = groups[groups.length - 1];
+    if (last && last.day === day) last.rows.push(row);
+    else groups.push({ day, rows: [row] });
+  }
+  return groups;
+}
+
+function relativeDay(day, nowMs) {
+  if (!nowMs || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  const today = readerDayKey(new Date(nowMs).toISOString());
+  if (day === today) return "today";
+  if (day === readerDayKey(new Date(nowMs - DAY_MS).toISOString())) return "yesterday";
+  return null;
+}
+
+const NEWS_DAY_COPY = {
+  en: { latest: "Latest", today: "Today", yesterday: "Yesterday", stories: (n) => `${n} ${n === 1 ? "story" : "stories"}` },
+  "zh-Hans": { latest: "最新", today: "今天", yesterday: "昨天", stories: (n) => `${n} 篇` },
+  "zh-Hant": { latest: "最新", today: "今天", yesterday: "昨天", stories: (n) => `${n} 篇` },
+  es: { latest: "Lo último", today: "Hoy", yesterday: "Ayer", stories: (n) => `${n} ${n === 1 ? "artículo" : "artículos"}` },
+  "pt-BR": { latest: "Mais recente", today: "Hoje", yesterday: "Ontem", stories: (n) => `${n} ${n === 1 ? "artigo" : "artigos"}` },
+  fr: { latest: "À la une", today: "Aujourd’hui", yesterday: "Hier", stories: (n) => `${n} ${n === 1 ? "article" : "articles"}` },
+  de: { latest: "Neueste Meldung", today: "Heute", yesterday: "Gestern", stories: (n) => `${n} ${n === 1 ? "Beitrag" : "Beiträge"}` },
+  it: { latest: "Ultima ora", today: "Oggi", yesterday: "Ieri", stories: (n) => `${n} ${n === 1 ? "articolo" : "articoli"}` },
+  ja: { latest: "最新", today: "今日", yesterday: "昨日", stories: (n) => `${n} 件` },
+  ko: { latest: "최신", today: "오늘", yesterday: "어제", stories: (n) => `${n}건` },
+  ru: { latest: "Главное", today: "Сегодня", yesterday: "Вчера", stories: (n) => `${n} ${n % 10 === 1 && n % 100 !== 11 ? "статья" : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? "статьи" : "статей"}` },
+  tr: { latest: "Son haber", today: "Bugün", yesterday: "Dün", stories: (n) => `${n} haber` },
+  id: { latest: "Terbaru", today: "Hari ini", yesterday: "Kemarin", stories: (n) => `${n} artikel` },
+  vi: { latest: "Mới nhất", today: "Hôm nay", yesterday: "Hôm qua", stories: (n) => `${n} bài` },
+  ar: { latest: "الأحدث", today: "اليوم", yesterday: "أمس", stories: (n) => `${n} ${n === 1 ? "مقال" : n === 2 ? "مقالان" : n <= 10 ? "مقالات" : "مقالًا"}` },
+  ur: { latest: "تازہ ترین", today: "آج", yesterday: "گزشتہ روز", stories: (n) => `${n} ${n === 1 ? "تحریر" : "تحریریں"}` },
+  uk: { latest: "Найновіше", today: "Сьогодні", yesterday: "Учора", stories: (n) => `${n} ${{ one: "матеріал", few: "матеріали", many: "матеріалів", other: "матеріалу" }[new Intl.PluralRules("uk").select(n)]}` },
+};
+
+function newsDayCopy(locale) {
+  return NEWS_DAY_COPY[locale] || (String(locale || "").startsWith("zh") ? NEWS_DAY_COPY["zh-Hans"] : NEWS_DAY_COPY.en);
+}
 
 const copy = {
   "zh-Hans": {
@@ -275,6 +318,12 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   // Server-paginated rows (Worker hydration state or the search endpoint); null means feedArticles is the whole library.
   const [serverListing, setServerListing] = useState(() => initialArticles && Number.isFinite(listing?.totalPages) ? listing : null);
   const [search, setSearch] = useState(idleSearch);
+  const fullLibraryRef = useRef(null);
+  const loadStaticLibrary = async (full = false) => {
+    if (!full) return loadNewsArticleSummaries(globalThis.fetch, { locale });
+    if (!fullLibraryRef.current) fullLibraryRef.current = loadNewsArticleSummaries(globalThis.fetch, { full: true, locale });
+    return fullLibraryRef.current;
+  };
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
@@ -305,7 +354,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
         setFeedState("ready");
         return;
       }
-      const articles = await loadNewsArticleSummaries();
+      const articles = await loadStaticLibrary(Boolean(activeCategory || requestedPage > 1));
       if (alive) {
         setFeedArticles(articles);
         setServerListing(null);
@@ -331,13 +380,13 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
         setSearch({ status: "ready", query: trimmedQuery, rows: result.articles, total: result.total, page: result.page, totalPages: result.totalPages });
         return;
       }
-      const library = serverListing ? await loadNewsArticleSummaries() : feedArticles;
+      const library = await loadStaticLibrary(true);
       if (!alive) return;
       const rows = searchNewsArticles(library, { query: trimmedQuery });
       setSearch({ status: "ready", query: trimmedQuery, rows, total: rows.length, page: 1, totalPages: 1 });
     }, NEWS_SEARCH_DEBOUNCE_MS);
     return () => { alive = false; clearTimeout(timer); };
-  }, [trimmedQuery, locale]);
+  }, [trimmedQuery, locale, feedArticles]);
 
   const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage, locale });
   const pageRows = serverListing ? feedArticles : localPage.rows;
@@ -464,7 +513,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
                   <div className="news-article-card__venues">
                     <span className="news-article-card__venues-label">{t.partnerOffer}:</span>
                     {article.relatedVenues.map((slug) => {
-                      const db = venueDatabase[slug] || {};
+                      const name = newsVenueName(slug);
                       return (
                         <a
                           key={slug}
@@ -477,7 +526,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
                           data-growth-placement="news-card-venue"
                         >
                           <BrandMark slug={slug} compact />
-                          <span translate="no" lang="en">{db.name || slug}</span>
+                          <span translate="no" lang="en">{name || slug}</span>
                         </a>
                       );
                     })}

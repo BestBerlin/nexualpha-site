@@ -28,7 +28,6 @@
 /* R11: the page body resolves to the v6 face on the home routes too (it fell back to "Pilot Inter" from font-token-override.css
    on /, /de, /ar). Home only, so inner routes keep what they render today; zh / ko keep their own stacks (no rule here),
    ja / ar take the same locale pairing #top uses (home-r7 / home-r8). */
-body:has(> #root > main.v6.home-refinement) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
-body:has(> #root > main.v6.home-refinement:is(:lang(zh), :lang(ko))) { font-family: var(--font-body); }
+body:has(> #root > main.v6.home-refinement) { font-family: var(--font-body); }
 body:has(> #root > main.v6.home-refinement:lang(ja)) { font-family: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif; }
 body:has(> #root > main.v6.home-refinement:is(:lang(ar), :lang(ur))) { font-family: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; }

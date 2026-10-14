@@ -78,7 +78,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     const React = require("react");
     const { hydrateRoot } = require("react-dom/client");
     const { App } = await vite.ssrLoadModule("/src/App.jsx");
-    const { withHomeHeroVariant } = await vite.ssrLoadModule("/src/components/v7/home7-hero-variants.js");
+    const { withHomeHeroVariant } = await vite.ssrLoadModule("/src/components/v7/home7-hero-context.js");
     // Same wrapper as src/main.jsx: the home hero variant comes from the prerender state (X5 hero experiment).
     const heroVariant = clientHomeHeroVariant({ prerenderState: state, cookie: window.document.cookie });
     const app = withHomeHeroVariant(React.createElement(React.StrictMode, null, React.createElement(App, {

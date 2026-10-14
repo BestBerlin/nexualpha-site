@@ -4,8 +4,6 @@
 // about NexuAlpha's own commission in the page body (owner rule 2026-10-13: that disclosure lives in the footer only). Shown only to visitors the worker assigned to "b" while experimentRegistry.home_hero_copy_v1
 // is enabled (src/data/home-hero-experiment.js); crawlers always get "a". Every locale needs all three keys and h1b
 // must keep "{max}%" (tests/home-hero-experiment.test.mjs).
-import { createContext, createElement, useContext } from "react";
-
 export const HOME_HERO_B = Object.freeze({
   en: { h1a: "Your fees, returned.", h1b: "Up to {max}% back.", sub: "Sign up on the exchange's official page with NexuAlpha's partner invite link.\nPart of every fee you pay comes back to you." },
   "zh-Hans": { h1a: "你付的手续费，", h1b: "最高返还 {max}%。", sub: "通过 NexuAlpha 合作邀请链接在交易所官网开户，\n每笔手续费按比例返还给你。" },
@@ -28,17 +26,7 @@ export const HOME_HERO_B = Object.freeze({
   uk: { h1a: "Ваші комісії повертаються.", h1b: "До {max}% назад.", sub: "Зареєструйтеся на офіційній сторінці біржі через партнерське запрошення NexuAlpha.\nЧастина кожної сплаченої комісії повертається вам." },
 });
 
-// The variant the home hero renders with. Provided by the SSR entry (worker-assigned variant) and the browser entry
-// (prerender state, so hydration renders exactly the server markup). Default "a" = the live copy.
-export const HomeHeroVariantContext = createContext("a");
-
-export function withHomeHeroVariant(element, variant) {
-  return createElement(HomeHeroVariantContext.Provider, { value: variant === "b" ? "b" : "a" }, element);
-}
-
-export function useHomeHeroVariant() {
-  return useContext(HomeHeroVariantContext);
-}
+export { withHomeHeroVariant, useHomeHeroVariant } from "./home7-hero-context.js";
 
 // Copy for the hero: A returns `t` unchanged; B swaps headline and subline when the locale has them (a locale without
 // B copy renders A, never English B inside a localized page).

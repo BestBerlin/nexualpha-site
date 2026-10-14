@@ -3,12 +3,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
 import { venueDatabase } from "../../data/venue-database.js";
-import { venueDecisionContent } from "../../data/venue-decision-content";
+import { hasVenueDecisionSummary } from "../../data/venue-decision-summary.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatFeeParts } from "../../data/format-fee.js";
-import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-public-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
@@ -147,7 +147,7 @@ export function ExchangeMatrix({
       verifiedOn: venueCheckedOn(venue.slug),
       region: verified && facts.regions?.length ? facts.regions.map((note) => localizeRegionNote(note, locale)).join(" · ") : null,
       products: productList,
-      hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
+      hasDetailPage: hasVenueDecisionSummary(venue.slug),
       hasReferral: publicCta.hasReferral,
       inviteCode: publicCta.inviteCode,
       registrationUrl,

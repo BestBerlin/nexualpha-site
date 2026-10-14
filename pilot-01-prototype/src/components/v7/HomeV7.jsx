@@ -1,21 +1,21 @@
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { feeFact } from "../../data/exchange-facts.js";
-import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { publicCtaForVenue } from "../../data/source-bound-public-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_AUTO_SETTLE, homePartnersFor, homePushFor, homeRebateMaxPctFor } from "../../data/home-rebate-tiers.js";
-import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
-import { partnerRebateShare } from "../../data/partner-benefit-status.js";
+import { HOME_AUTO_SETTLE, HOME_REBATE_SHARE, homePartnersFor, homePushFor, homeRebateMaxPctFor } from "../../data/home-rebate-runtime.js";
 import { formatPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
-import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
+import { heroCopyFor } from "./home7-hero-variants.js";
+import { useHomeHeroVariant } from "./home7-hero-context.js";
 import { h7NeutralCopy } from "./home7-neutral-copy.js";
 import { jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
-import { academyShellCopy } from "../../data/academy.js";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+import { academyShellCopy } from "../../data/academy-shell.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 import "../../styles/v7/selector-owner.css";
@@ -31,6 +31,10 @@ const ssrTerminalModules = import.meta.env.SSR ? import.meta.glob(["./HeroTermin
 const ServerHeroTerminal = import.meta.env.SSR ? ssrTerminalModules["./HeroTerminal.jsx"].HeroTerminal : null;
 let terminalFrameChunk;
 const loadTerminalFrame = () => (terminalFrameChunk ??= Promise.all([import("./HeroTerminal.jsx"), import("react-dom/client")]));
+const ssrTelegramStripModules = import.meta.env.SSR ? import.meta.glob(["../v3/TelegramAlertsStrip.jsx"], { eager: true }) : {};
+const ServerTelegramAlertsStrip = import.meta.env.SSR ? ssrTelegramStripModules["../v3/TelegramAlertsStrip.jsx"].TelegramAlertsStrip : null;
+const loadTelegramAlertsStrip = () => import("../v3/TelegramAlertsStrip.jsx");
+const ClientTelegramAlertsStrip = import.meta.env.SSR ? null : React.lazy(() => loadTelegramAlertsStrip().then((module) => ({ default: module.TelegramAlertsStrip })));
 
 const PRIMARY_DEFAULT = Object.freeze(["bitget", "okx", "binance"]);
 const PRIMARY_TR = Object.freeze(["okx", "binance", "bybit"]);
@@ -74,6 +78,13 @@ function AcademyTeaser({ locale }) {
       <span className="h7-academy-go">{a.homeCta}<span aria-hidden="true" className="h7-academy-arrow">→</span></span>
     </a>
   </section>;
+}
+
+
+function HomeTelegramAlertsStrip({ locale }) {
+  const props = { locale, placement: "home-telegram-alerts", className: "tg-signal-strip--home" };
+  const Strip = import.meta.env.SSR ? ServerTelegramAlertsStrip : ClientTelegramAlertsStrip;
+  return <DeferUntilVisible target=".tg-signal-strip--home" prefetch={loadTelegramAlertsStrip}><Strip {...props} /></DeferUntilVisible>;
 }
 
 function BelowHydrationCommit({ children, onReady }) {
@@ -185,7 +196,7 @@ function useVenues(locale, product, market, banned) {
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
     return {
       slug, name: nameOf(slug), maker: checked ? f.maker : null, taker: checked ? f.taker : null,
-      share: partnerRebateShare(slug), code: cta.hasReferral ? cta.inviteCode : null,
+      share: HOME_REBATE_SHARE[slug] ?? null, code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
   }), [locale, product, market, banned]);
@@ -459,8 +470,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
         </ul>
       </section>
 
-      <TelegramAlertsStrip locale={locale} placement="home-telegram-alerts" className="tg-signal-strip--home" />
-
+      <HomeTelegramAlertsStrip locale={locale} />
       <section className="h7-in h7-how" aria-labelledby="h7-how-h">
         <h2 id="h7-how-h">{t.howH}</h2>
         <ol className="h7-steps">

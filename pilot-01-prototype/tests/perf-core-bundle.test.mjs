@@ -11,7 +11,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { createServer as createViteServer } from "vite";
 
-import viteConfig, { STYLESHEET_LINK_ORDER, dropSsrEagerGlobForClient, orderStylesheetFiles, relinkStylesheets, stylesheetChunkName } from "../vite.config.mjs";
+import viteConfig, { STYLESHEET_LINK_ORDER, clientDropsSsrEagerGlobPlugin, dropSsrEagerGlobForClient, orderStylesheetFiles, relinkStylesheets, stylesheetChunkName } from "../vite.config.mjs";
 import { TOPIC_SLUGS } from "../src/data/topic-slugs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_SLUGS } from "../src/data/tokenized-asset-slugs.js";
@@ -46,8 +46,27 @@ const c = import.meta.env.SSR ? import.meta.glob("./x.jsx", { eager: true }) : {
   assert.ok(plugin, "plugin registered");
   assert.equal(plugin.enforce, "pre", "must run before Vite expands import.meta.glob");
   assert.equal(plugin.transform(source, "/x/src/App.jsx", { ssr: true }), null, "SSR transform keeps the eager glob");
+  assert.equal(clientDropsSsrEagerGlobPlugin({ isSsrBuild: true }).transform(source, "/x/src/App.jsx", { ssr: false }), null, "SSR build keeps the eager glob even when Vite omits transform options.ssr");
   assert.ok(plugin.transform(source, "/x/src/App.jsx", { ssr: false })?.code.includes("import.meta.env.SSR ? {} : {}"));
   assert.equal(plugin.transform(source, "/x/src/styles.css", { ssr: false }), null);
+});
+
+
+test("client build keeps manual chunk dependencies explicit", async () => {
+  const source = await read("../vite.config.mjs");
+  assert.match(source, /onlyExplicitManualChunks:\s*!isSsrBuild/, "client chunks must not absorb unrelated route dependencies");
+  assert.ok(source.indexOf('return "data-topic-guides"') < source.indexOf('return "core-shared"'), "route data chunks must be assigned before the broad core-shared rule");
+});
+
+test("client eager-glob stripping recognizes explicitly declared SSR aliases", async () => {
+  const source = `const onlyServer = Boolean(import.meta.env?.SSR);\nconst modules = onlyServer ? import.meta.glob(["./support.jsx"], { eager: true }) : {};`;
+  assert.doesNotMatch(dropSsrEagerGlobForClient(source), /eager: true/);
+  assert.equal(dropSsrEagerGlobForClient(`const modules = enabled ? import.meta.glob(["./support.jsx"], { eager: true }) : {};`), null, "unrelated eager glob remains intact");
+  for (const file of ["src/components/v3/V3Pages.jsx", "src/components/v3/VenueDetailPage.jsx"]) {
+    const source = await readFile(new URL(`../${file}`, import.meta.url), "utf8");
+    assert.ok(dropSsrEagerGlobForClient(source), file);
+    assert.doesNotMatch(dropSsrEagerGlobForClient(source), /eager: true/, file);
+  }
 });
 
 test("App.jsx and HomeV7 keep the SSR eager glob pattern the client plugin strips", async () => {
@@ -101,7 +120,7 @@ test("the shell no longer imports the heavy data modules directly", async () => 
   assert.match(shortlist, /from "\.\/telegram-start-payload\.js"/);
   const intel = await read("../src/data/announcement-intel.js");
   assert.match(intel, /from "\.\/official-research-route\.js"/);
-  assert.deepEqual(modulePathsForRoute({ name: "home" }), [], "home hydrates without deferred modules");
+  assert.deepEqual(modulePathsForRoute({ name: "home" }), [ROUTE_MODULE_PATHS.homeV7], "home hydrates through its own route module, not the app shell");
   assert.deepEqual(modulePathsForRoute({ name: "directory" }), [ROUTE_MODULE_PATHS.directory]);
 });
 
@@ -158,6 +177,9 @@ test("DeferUntilVisible renders its children inside a Suspense boundary on the s
   const source = await read("../src/components/shared/DeferUntilVisible.jsx");
   assert.match(source, /IntersectionObserver/);
   assert.match(source, /throw gate\.promise/);
+  assert.match(source, /MutationObserver/, "detached SSR nodes are recovered without an eager idle timer");
+  assert.doesNotMatch(source, /setInterval\(/, "deferred hydration must not keep a 400 ms poller alive");
+  assert.doesNotMatch(source, /requestIdleCallback/, "deferred hydration must not fetch below-fold chunks on idle");
 });
 
 const textOf = (html) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");

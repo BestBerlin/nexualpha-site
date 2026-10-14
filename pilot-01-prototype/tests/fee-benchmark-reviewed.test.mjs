@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { rendersSource, renderedSourceHref } from './helpers/outbound-expect.mjs';
-import { execFileSync } from "node:child_process";
-import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -9,6 +8,9 @@ import { buildVenueFeeSummary } from "../src/data/venue-fee-summary.js";
 import { feePctOfRate } from "../src/data/exchange-facts.js";
 import { reviewedFeeCopy } from "../src/data/reviewed-fee-copy.js";
 import { JSDOM } from "jsdom";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createServer as createViteServer } from "vite";
 import { venueDatabase } from "../src/data/venue-database.js";
 import { regionalVenueCta } from "../src/data/source-bound-cta.js";
 
@@ -33,37 +35,30 @@ const escapeHtml = (value) => String(value)
   .replaceAll("<", "&lt;")
   .replaceAll(">", "&gt;");
 
+let viteServer;
+
+async function feeBenchmarkSsrModule() {
+  viteServer ??= await createViteServer({
+    root: projectRoot,
+    optimizeDeps: { noDiscovery: true, include: [] },
+    appType: "custom",
+    logLevel: "error",
+    server: { middlewareMode: true, hmr: false, ws: false },
+  });
+  return viteServer.ssrLoadModule("/src/components/v3/FeeBenchmarkTerminal.jsx");
+}
+
+test.after(async () => {
+  await viteServer?.close();
+  viteServer = null;
+});
+
 async function renderFeeBenchmark(renderLocales = locales) {
-  const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-fee-benchmark-reviewed-"));
-  try {
-    const entryPath = path.join(tempDir, "entry.mjs");
-    const bundlePath = path.join(tempDir, "bundle.cjs");
-    await writeFile(entryPath, `
-      import React from "react";
-      import { renderToStaticMarkup } from "react-dom/server";
-      import { FeeBenchmarkTerminal } from "../../src/components/v3/FeeBenchmarkTerminal.jsx";
-      const locales = ${JSON.stringify(renderLocales)};
-      const pages = locales.map((locale) => ({
-        locale,
-        html: renderToStaticMarkup(React.createElement(FeeBenchmarkTerminal, { locale, market: "BR", product: "spot" }))
-      }));
-      console.log(JSON.stringify(pages));
-    `);
-    const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
-    await access(esbuildBin);
-    execFileSync(esbuildBin, [
-      entryPath,
-      "--bundle",
-      "--platform=node",
-      "--format=cjs",
-      `--outfile=${bundlePath}`,
-      "--loader:.css=empty",
-      "--log-level=warning",
-    ], { cwd: projectRoot, stdio: "pipe" });
-    return JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 }));
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
+  const { FeeBenchmarkTerminal } = await feeBenchmarkSsrModule();
+  return renderLocales.map((locale) => ({
+    locale,
+    html: renderToStaticMarkup(React.createElement(FeeBenchmarkTerminal, { locale, market: "BR", product: "spot" })),
+  }));
 }
 
 function feeTerminal(html) {

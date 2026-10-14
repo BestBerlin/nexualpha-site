@@ -20,6 +20,7 @@ import { BYBIT_STOCKS_PATH, bybitStocksCampaignActive, bybitStocksTeaser } from 
 import { BITGET_ALLIANCE_PATH, bitgetAlliancePromotable, bitgetAllianceTeaser } from "../../../data/bitget-alliance.js";
 import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../../data/kraken-usdg.js";
+import { subscribeLiveHub } from "../../shared/live-hub.js";
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
@@ -54,7 +55,7 @@ const pick = (v, locale) => (v && typeof v === "object" ? v[locale] || (String(l
 
 // `initialFeed` is the worker's request-time snapshot (prerender state `officialAnnouncements`): the server renders the
 // same cards the browser would, and the client refresh below only replaces them with newer rows of the same shape.
-function useCampaignFeed(initialFeed) {
+function useCampaignFeed(initialFeed, locale = "en") {
   const [state, setState] = useState(() => ({ items: Array.isArray(initialFeed?.items) ? initialFeed.items : null, failed: false }));
   useEffect(() => {
     let alive = true;
@@ -62,16 +63,18 @@ function useCampaignFeed(initialFeed) {
       .then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => { if (alive) setState({ items: Array.isArray(j?.items) ? j.items : [], failed: false }); })
       .catch(() => { if (alive) setState((s) => ({ items: s.items, failed: !s.items })); });
     load();
-    const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(id); };
-  }, []);
+    const stopHub = subscribeLiveHub("announcements", (feed) => {
+      if (alive) setState({ items: Array.isArray(feed?.items) ? feed.items : [], failed: false });
+    }, { locale });
+    return () => { alive = false; stopHub(); };
+  }, [locale]);
   return state;
 }
 
 export function LiveCampaigns({ locale = "en", market, initialFeed }) {
   const t = copyFor(locale);
   const joinText = campaignJoinCopy(locale);
-  const { items, failed } = useCampaignFeed(initialFeed);
+  const { items, failed } = useCampaignFeed(initialFeed, locale);
   const campaignFeed = useMemo(() => ({ items: items || [], campaignBriefs: initialFeed?.campaignBriefs }), [items, initialFeed?.campaignBriefs]);
   const briefFeed = useCampaignBriefs(campaignFeed);
   const [venue, setVenue] = useState("all");

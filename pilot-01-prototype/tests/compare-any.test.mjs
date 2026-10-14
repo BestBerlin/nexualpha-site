@@ -2,11 +2,13 @@
 // all 17 locales, reverse-slug 301, the index policy matrix, locale-sitemap counts, GET-form normalization, runtime SSR
 // injection, and the rendered page (one H1, both partner CTAs beside the disclosure, no CTA for a non-partner pair).
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createServer as createViteServer } from "vite";
 
 import worker, { renderLocaleSitemap, routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
@@ -178,30 +180,28 @@ test("every user-visible template exists in all 17 locales without placeholders 
 });
 
 test("SSR: generated pair renders one H1, both partner CTAs without in-section disclosure, the provenance note and related links; non-partner pair has no sign-up CTA", async () => {
-  const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-compare-any-"));
+  const vite = await createViteServer({
+    root: projectRoot,
+    optimizeDeps: { noDiscovery: true, include: [] },
+    appType: "custom",
+    logLevel: "error",
+    server: { middlewareMode: true, hmr: false, ws: false },
+  });
   try {
-    const entryPath = path.join(tempDir, "entry.mjs");
-    const bundlePath = path.join(tempDir, "bundle.cjs");
-    await writeFile(entryPath, `
-      import React from "react";
-      import { renderToStaticMarkup } from "react-dom/server";
-      import { CompareDeepPage, CompareHubPage } from "../../src/components/v3/V3Pages.jsx";
-      import { venueDatabase } from "../../src/data/venue-database.js";
-      const pageCopy = { common: { dimension: "Dimension" }, assetCapabilities: { none: "Pending source review" } };
-      const venues = Object.values(venueDatabase);
-      const page = (selected, locale) => renderToStaticMarkup(React.createElement(CompareDeepPage, { copy: pageCopy, locale, selected, venues, updates: [], market: "unknown", product: "unknown" }));
-      console.log(JSON.stringify({
-        partner: page(["gate-io", "kraken"], "en"),
-        partnerTr: page(["gate-io", "kraken"], "tr"),
-        nonPartner: page(["dydx", "kucoin"], "en"),
-        curated: page(["binance", "okx"], "en"),
-        hub: renderToStaticMarkup(React.createElement(CompareHubPage, { locale: "en", venues })),
-      }));
-    `);
-    const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
-    await access(esbuildBin);
-    execFileSync(esbuildBin, [entryPath, "--bundle", "--platform=node", "--format=cjs", `--outfile=${bundlePath}`, "--loader:.css=empty", "--log-level=warning"], { cwd: projectRoot, stdio: "pipe" });
-    const out = Object.fromEntries(Object.entries(JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }))).map(([key, markup]) => [key, unescape(markup)]));
+    const [{ CompareDeepPage, CompareHubPage }, { venueDatabase }] = await Promise.all([
+      vite.ssrLoadModule("/src/components/v3/V3Pages.jsx"),
+      vite.ssrLoadModule("/src/data/venue-database.js"),
+    ]);
+    const pageCopy = { common: { dimension: "Dimension" }, assetCapabilities: { none: "Pending source review" } };
+    const venues = Object.values(venueDatabase);
+    const page = (selected, locale) => renderToStaticMarkup(React.createElement(CompareDeepPage, { copy: pageCopy, locale, selected, venues, updates: [], market: "unknown", product: "unknown" }));
+    const out = Object.fromEntries(Object.entries({
+      partner: page(["gate-io", "kraken"], "en"),
+      partnerTr: page(["gate-io", "kraken"], "tr"),
+      nonPartner: page(["dydx", "kucoin"], "en"),
+      curated: page(["binance", "okx"], "en"),
+      hub: renderToStaticMarkup(React.createElement(CompareHubPage, { locale: "en", venues })),
+    }).map(([key, markup]) => [key, unescape(markup)]));
 
     for (const [key, markup] of Object.entries(out)) assert.equal(count(markup, /<h1[\s>]/g), 1, `${key}: exactly one H1`);
 
@@ -237,7 +237,7 @@ test("SSR: generated pair renders one H1, both partner CTAs without in-section d
     assert.ok(out.hub.includes('name="a"') && out.hub.includes('name="b"'));
     assert.ok(out.hub.includes(`/compare/${INDEXABLE_PAIR}`) && !out.hub.includes(`/compare/${NOINDEX_PAIR}`), "hub lists indexable generated pairs only");
   } finally {
-    await rm(tempDir, { recursive: true, force: true });
+    await vite.close();
   }
 });
 

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { localeManifest, supportedLocales } from "./content/locale-manifest";
-import { intlLocale, v2Copy } from "./content/v2-copy";
+import { intlLocale, v2ShellCopy } from "./content/v2-shell-copy.js";
 import { getTextDirection, localStorageKey, setLocale as setParaglideLocale } from "./paraglide/runtime.js";
-import { loadSiteView } from "./data/site-data.ts";
+import { loadSiteDataDemand, loadSiteView } from "./data/site-data.ts";
 import { marketCommand, presentationModel, neutralVenueCatalog } from "./data/market-command";
 import { DesignSystem } from "./components/DesignSystem";
 import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
@@ -11,14 +11,10 @@ import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
 import { researchRoute } from "./data/official-research-route.js";
 import { v3ShellCopy } from "./data/v3-shell-copy.js";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
-import { HomeV7 } from "./components/v7/HomeV7.jsx";
-import { ClosingBand } from "./components/v6/ClosingBand";
 import { createSelectionStore } from "./components/v6/home-selection.js";
-import { CleanFooter } from "./components/v3/CleanFooter";
 import { DeferUntilVisible } from "./components/shared/DeferUntilVisible.jsx";
 import { headerNavigationState } from "./data/header-navigation-state.js";
 // Mobile bottom dock removed in v8 (owner request 2026-10-09); navigation lives in the header menu.
-import { venueDatabase } from "./data/venue-database.js";
 import { TOPIC_SLUGS } from "./data/topic-slugs.js";
 import { TOKENIZED_ASSET_SLUGS } from "./data/tokenized-asset-slugs.js";
 import { VENUE_ALTERNATIVE_SLUGS } from "./data/venue-alternative-slugs.js";
@@ -29,14 +25,13 @@ import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decis
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
 import { languageOptionsFromHreflang, readDocumentHreflangAlternates } from "./data/page-hreflang-links.js";
-import { sharedOfficialEventItems } from "./data/event-source.js";
-import { startJsonPolling } from "./components/shared/json-polling.js";
 import { isNeutralCtaLocale } from "./data/locale-policy.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
-import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { academyContentModulePath, academyShellCopy } from "./data/academy-shell.js";
+import { parseAcademyPath } from "./data/academy-path.js";
 import { isBitgetGuidePath, bitgetGuideAvailable } from "./data/bitget-guide-routes.js";
 import { BEGINNER_ROOTS, parseBeginnerPath } from "./data/beginner-routes.js";
 import { parseLicensesPath } from "./data/licenses-routes.js";
@@ -66,21 +61,20 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v6/ClosingBand.jsx",
+  "./components/v3/CleanFooter.jsx",
+  "./components/v7/HomeV7.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/activity/ActivityUpdatePage.jsx",
+  "./components/v3/activity/ActivityPages.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
-  "./components/v3/LeanHero.jsx",
-  "./components/v3/RebateTickerBar.jsx",
-  "./components/v3/CampaignRadar.jsx",
   "./components/v3/FeeBenchmarkTerminal.jsx",
   "./components/v3/OnChainLiquidityBoard.jsx",
-  "./components/v3/MarketFearGreedPanel.jsx",
   "./components/v3/KolLandingPage.jsx",
   "./components/v3/TradingBleedAnalyzer.jsx",
   "./components/v3/TelegramBotHub.jsx",
-  "./components/v3/LiveConversionProof.jsx",
   "./components/v3/MethodologyPage.jsx",
   "./components/v3/brand-pages/AboutPage.jsx",
   "./components/v3/brand-pages/LegalPage.jsx",
@@ -153,21 +147,20 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v6/ClosingBand.jsx",
+  "./components/v3/CleanFooter.jsx",
+  "./components/v7/HomeV7.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/activity/ActivityUpdatePage.jsx",
+  "./components/v3/activity/ActivityPages.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
-  "./components/v3/LeanHero.jsx",
-  "./components/v3/RebateTickerBar.jsx",
-  "./components/v3/CampaignRadar.jsx",
   "./components/v3/FeeBenchmarkTerminal.jsx",
   "./components/v3/OnChainLiquidityBoard.jsx",
-  "./components/v3/MarketFearGreedPanel.jsx",
   "./components/v3/KolLandingPage.jsx",
   "./components/v3/TradingBleedAnalyzer.jsx",
   "./components/v3/TelegramBotHub.jsx",
-  "./components/v3/LiveConversionProof.jsx",
   "./components/v3/MethodologyPage.jsx",
   "./components/v3/brand-pages/AboutPage.jsx",
   "./components/v3/brand-pages/LegalPage.jsx",
@@ -234,8 +227,18 @@ function deferredComponent(path, exportName) {
 
 const CommandFinder = deferredComponent("./components/finder/CommandFinder.jsx", "CommandFinder");
 const SearchDialog = deferredComponent("./components/finder/SearchDialog.jsx", "SearchDialog");
-const ActivityCenterPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityCenterPage");
-const ActivityDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityDetailPage");
+const HomeV7 = deferredComponent(ROUTE_MODULE_PATHS.homeV7, "HomeV7");
+
+const ClosingBand = import.meta.env.SSR
+  ? ssrDeferredPageModules["./components/v6/ClosingBand.jsx"].ClosingBand
+  : React.lazy(() => import("./components/v6/ClosingBand.jsx").then((module) => ({ default: module.ClosingBand })));
+let cleanFooterChunk;
+const loadCleanFooter = () => (cleanFooterChunk ??= import("./components/v3/CleanFooter.jsx"));
+const CleanFooter = import.meta.env.SSR
+  ? ssrDeferredPageModules["./components/v3/CleanFooter.jsx"].CleanFooter
+  : React.lazy(() => loadCleanFooter().then((module) => ({ default: module.CleanFooter })));
+const ActivityCenterPage = deferredComponent(ROUTE_MODULE_PATHS.activityPages, "ActivityCenterPage");
+const ActivityDetailPage = deferredComponent(ROUTE_MODULE_PATHS.activityPages, "ActivityDetailPage");
 const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareDeepPage");
 const CompareHubPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareHubPage");
 const NotFoundPage = deferredComponent("./components/v3/V3Pages.jsx", "NotFoundPage");
@@ -340,16 +343,37 @@ const toolKeyOf = (route) => ({ liquidations: "liquidations", liquidationHeatmap
   || (route?.name === "newsList" && !route.category && (!route.page || Number(route.page) === 1) ? "news-hub" : null)
   || (route?.name === "venue" && typeof route.slug === "string" && route.slug ? `venue:${route.slug}` : null)
   || ((route?.name === "topic" || route?.name === "tokenizedAssets") && TOPIC_TOOL_KEYS[route.slug] ? TOPIC_TOOL_KEYS[route.slug] : null);
-const LeanHero = deferredComponent("./components/v3/LeanHero.jsx", "LeanHero");
-const RebateTickerBar = deferredComponent("./components/v3/RebateTickerBar.jsx", "RebateTickerBar");
-const CampaignRadar = deferredComponent("./components/v3/CampaignRadar.jsx", "CampaignRadar");
+const CORE_ROUTE_DEMANDS = {
+  activity: ["venues", "officialUpdates"],
+  activities: ["venues", "officialUpdates"],
+  compare: ["venues", "officialUpdates"],
+  compareHub: ["venues"],
+  directory: ["venues"],
+  research: ["venues"],
+  topic: ["venues"],
+  venue: ["venues", "officialUpdates"],
+};
+const coreDemandsForRoute = (route) => CORE_ROUTE_DEMANDS[route?.name] || [];
+function mergeSiteViewPatch(current, patch) {
+  if (!patch || (!patch.venues && !patch.officialUpdates)) return current;
+  return {
+    ...current,
+    source: current?.source || "core",
+    featured: current?.featured,
+    listings: current?.listings ?? [],
+    venues: patch.venues ?? current?.venues ?? [],
+    listingsAvailability: current?.listingsAvailability ?? "unavailable",
+    listingsReasonCode: current?.listingsReasonCode,
+    officialUpdates: patch.officialUpdates ?? current?.officialUpdates ?? [],
+    market: current?.market,
+    contentVersion: current?.contentVersion,
+  };
+}
 const FeeBenchmarkTerminal = deferredComponent("./components/v3/FeeBenchmarkTerminal.jsx", "FeeBenchmarkTerminal");
 const OnChainLiquidityBoard = deferredComponent("./components/v3/OnChainLiquidityBoard.jsx", "OnChainLiquidityBoard");
-const MarketFearGreedPanel = deferredComponent("./components/v3/MarketFearGreedPanel.jsx", "MarketFearGreedPanel");
 const KolLandingPage = deferredComponent("./components/v3/KolLandingPage.jsx", "KolLandingPage");
 const TradingBleedAnalyzer = deferredComponent("./components/v3/TradingBleedAnalyzer.jsx", "TradingBleedAnalyzer");
 const TelegramBotHub = deferredComponent("./components/v3/TelegramBotHub.jsx", "TelegramBotHub");
-const LiveConversionProof = deferredComponent("./components/v3/LiveConversionProof.jsx", "LiveConversionProof");
 const LegalPage = deferredComponent("./components/v3/brand-pages/LegalPage.jsx", "LegalPage");
 const AuditMethodologyPage = deferredComponent("./components/v3/MethodologyPage.jsx", "MethodologyPage");
 const AboutPage = deferredComponent("./components/v3/brand-pages/AboutPage.jsx", "AboutPage");
@@ -491,51 +515,6 @@ function HomeSectionNav({ locale }) {
   </nav>;
 }
 
-function HomeResearchDrawer({ locale }) {
-  const [researchOpen, setResearchOpen] = useState(false);
-  const researchDrawerRef = useRef(null);
-  useEffect(() => {
-    setResearchOpen(Boolean(researchDrawerRef.current?.open));
-  }, []);
-  const isHant = locale === "zh-Hant" || locale === "zh-TW";
-  const isZh = locale.startsWith("zh");
-  const text = isHant
-    ? { summary: "展開研究工具", note: "費率、鏈上流動性、Telegram 與市場狀態集中在這裡" }
-    : isZh
-      ? { summary: "展开研究工具", note: "费率、链上流动性、Telegram 与市场状态集中在这里" }
-      : ({
-        ja: { summary: "調査ツールを開く", note: "手数料、オンチェーン流動性、Telegram、市場状況をまとめて確認" },
-        ko: { summary: "리서치 도구 열기", note: "수수료, 온체인 유동성, Telegram과 시장 상태를 한곳에서 확인" },
-        tr: { summary: "Araştırma araçlarını aç", note: "Ücretler, zincir üstü likidite, Telegram ve piyasa durumu" },
-        ru: { summary: "Открыть инструменты исследования", note: "Комиссии, ончейн-ликвидность, Telegram и состояние рынка" },
-        de: { summary: "Recherchetools öffnen", note: "Gebühren, On-Chain-Liquidität, Telegram und Marktstatus" },
-        fr: { summary: "Ouvrir les outils de recherche", note: "Frais, liquidité on-chain, Telegram et état du marché" },
-        es: { summary: "Abrir herramientas de investigación", note: "Comisiones, liquidez on-chain, Telegram y estado del mercado" },
-        "pt-BR": { summary: "Abrir ferramentas de pesquisa", note: "Taxas, liquidez on-chain, Telegram e estado do mercado" },
-        it: { summary: "Apri strumenti di ricerca", note: "Commissioni, liquidità on-chain, Telegram e stato del mercato" },
-        id: { summary: "Buka alat riset", note: "Biaya, likuiditas on-chain, Telegram, dan kondisi pasar" },
-        vi: { summary: "Mở công cụ nghiên cứu", note: "Phí, thanh khoản on-chain, Telegram và trạng thái thị trường" },
-        // l10n: needs native review
-        ur: { summary: "تحقیقی ٹولز کھولیں", note: "فیس، آن چین لیکویڈیٹی، Telegram اور مارکیٹ کی حالت" },
-        // l10n: needs native review
-        uk: { summary: "Відкрити дослідницькі інструменти", note: "Комісії, ліквідність у блокчейні, Telegram і стан ринку" },
-        ar: { summary: "فتح أدوات البحث", note: "الرسوم والسيولة على السلسلة وTelegram وحالة السوق" },
-      }[locale] || { summary: "Open research tools", note: "Fees, on-chain liquidity, Telegram and market state in one section" });
-  return <details className="home-research-drawer" id="research-tools" ref={researchDrawerRef} onToggle={(event) => {
-    if (event.target === event.currentTarget) setResearchOpen(event.currentTarget.open);
-  }}>
-    <summary><strong>{text.summary}</strong><span>{text.note}</span><b aria-hidden="true">＋</b></summary>
-    <div className="home-research-drawer__body">
-      {researchOpen && <LiveConversionProof locale={locale} />}
-      <CampaignRadar locale={locale} />
-      <FeeBenchmarkTerminal locale={locale} />
-      <OnChainLiquidityBoard locale={locale} />
-      <TelegramBotHub locale={locale} />
-      <MarketFearGreedPanel locale={locale} />
-    </div>
-  </details>;
-}
-
 function routeState(venues, initialUrl) {
   const sourceUrl = initialUrl
     ? new URL(initialUrl, "https://nexualpha.com")
@@ -639,8 +618,7 @@ function routeState(venues, initialUrl) {
   const factbookMatch = pathname.match(/^\/factbook\/([a-z0-9-]+)$/);
   if (factbookMatch) {
     const slug = factbookMatch[1];
-    const venue = venues.find((v) => v.slug === slug) || venueDatabase[slug];
-    return venue ? { name: "factbook", slug, ...contextParams() } : { name: "notFound" };
+    return venues.some((v) => v.slug === slug) ? { name: "factbook", slug, ...contextParams() } : { name: "notFound" };
   }
   const newsMatch = pathname.match(/^\/news\/([a-z0-9-]+)$/);
   if (newsMatch) return { name: "newsDetail", slug: newsMatch[1], ...contextParams() };
@@ -797,7 +775,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialMovers, initialRadar, initialIntelTool, initialSeoAlternates } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialMovers, initialRadar, initialIntelTool, initialSeoAlternates, initialCoreApi } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -837,7 +815,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const [compareSelection, setCompareSelection] = useState(() => initialCompareSelection || readComparison());
   // Home acts (lab + directory) share their pair through this store instead of App state, so a pick never re-renders the page.
   const [homeSelection] = useState(() => createSelectionStore(compareSelection));
-  const copy = useMemo(() => v2Copy(locale), [locale]);
+  const copy = useMemo(() => v2ShellCopy(locale), [locale]);
   const changeLocale = useCallback((nextLocale) => {
     if (!supportedLocales.includes(nextLocale)) return;
     // A full locale navigation is intentional: it guarantees that SSR, the
@@ -869,7 +847,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     let alive = true;
     setDataStatus("loading");
     setSiteView(null);
-    loadSiteView(locale).then((result) => {
+    loadSiteView(locale, { coreApi: initialCoreApi }).then((result) => {
       if (!alive) return;
       setSiteView(result.view ?? null);
       setDataStatus(result.status);
@@ -879,7 +857,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       setDataStatus("error");
     });
     return () => { alive = false; };
-  }, [locale, dataRevision]);
+  }, [locale, dataRevision, initialCoreApi]);
 
   useEffect(() => {
     document.documentElement.dataset.dataSource = siteView?.source ?? "local-research";
@@ -904,15 +882,47 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const [noticeFeed, setNoticeFeed] = useState(initialOfficialAnnouncements);
   useEffect(() => { setNoticeFeed(initialOfficialAnnouncements); }, [initialOfficialAnnouncements]);
   const sharedOfficialEvents = useMemo(() => {
-    return Array.isArray(noticeFeed?.items) ? sharedOfficialEventItems(noticeFeed) : (model.officialUpdates ?? []);
+    return Array.isArray(noticeFeed?.items) ? noticeFeed.items : (model.officialUpdates ?? []);
   }, [noticeFeed, model.officialUpdates]);
   const command = useMemo(() => marketCommand(copy, model.venues), [copy, model.venues]);
   const route = routeState(command.venueCatalog, initialUrl);
+  const coreRouteDemands = useMemo(() => coreDemandsForRoute(route), [route.name]);
+  const loadedCoreDemandsRef = useRef(new Set());
   useEffect(() => {
-    if (route.name !== "venue" && route.name !== "compare") return;
-    return startJsonPolling({ request: "/intel/official-announcements.json", intervalMs: 5 * 60 * 1000,
-      isData: (feed) => Array.isArray(feed?.items), onData: setNoticeFeed });
-  }, [route.name]);
+    if (!siteView || !coreRouteDemands.length) return undefined;
+    const key = `${locale}:${coreRouteDemands.join(",")}`;
+    if (loadedCoreDemandsRef.current.has(key)) return undefined;
+    loadedCoreDemandsRef.current.add(key);
+    let alive = true;
+    let settled = false;
+    loadSiteDataDemand(locale, coreRouteDemands, { coreApi: initialCoreApi }).then((patch) => {
+      settled = true;
+      if (!alive) return;
+      setSiteView((current) => (current ? mergeSiteViewPatch(current, patch) : current));
+    }).catch(() => {
+      settled = true;
+      loadedCoreDemandsRef.current.delete(key);
+    });
+    return () => {
+      alive = false;
+      if (!settled) loadedCoreDemandsRef.current.delete(key);
+    };
+  }, [locale, siteView, coreRouteDemands, initialCoreApi]);
+  useEffect(() => {
+    if (route.name !== "venue" && route.name !== "compare") return undefined;
+    let unsubscribe;
+    let alive = true;
+    import("./components/shared/live-hub.js").then(({ subscribeLiveHub }) => {
+      if (!alive) return;
+      unsubscribe = subscribeLiveHub("announcements", (feed) => {
+        if (Array.isArray(feed?.items)) setNoticeFeed(feed);
+      }, { locale });
+    }).catch(() => {});
+    return () => {
+      alive = false;
+      unsubscribe?.();
+    };
+  }, [route.name, locale]);
   useEffect(() => {
     if (route.name === "newsDetail") {
       // The article component owns metadata after its feed resolves, including
@@ -963,7 +973,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const routedVenue = route.name === "venue" ? command.venueCatalog.find((venue) => venue.slug === route.slug) : null;
   const searchDialog = searchOpen && <DeferredBoundary scope="search-dialog"><SearchDialog label={copy.common.openFinder} onClose={closeSearchDialog} returnFocusRef={searchReturnFocusRef}><h2>{copy.common.openFinder}</h2><CommandFinder copy={copy} command={command} autoFocus onClose={closeSearchDialog} /><button type="button" onClick={closeSearchDialog}>{copy.common.closeFinder}</button></SearchDialog></DeferredBoundary>;
   const footerMarket = route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined);
-  const footer = <CleanFooter locale={locale} market={footerMarket} brazil={route.name === "brazil"} />;
+  const footer = <DeferUntilVisible target=".nx-ftr, #policy" rootMargin="25% 0px" prefetch={loadCleanFooter}><CleanFooter locale={locale} market={footerMarket} brazil={route.name === "brazil"} /></DeferUntilVisible>;
   const regionalDecisionDockOwnsMobileNav = ["regionalPreview", "regionalDecision"].includes(route.name)
     && REGIONAL_DECISION_DOCK_MARKETS.has(route.market);
   const showSharedMobileNav = route.name !== "venue" && route.name !== "compare" && !regionalDecisionDockOwnsMobileNav;
@@ -1062,7 +1072,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
-    <ClosingBand locale={locale} />
+    <DeferUntilVisible target=".nx-ftr, #policy" rootMargin="25% 0px"><ClosingBand locale={locale} /></DeferUntilVisible>
     {footer}
     {searchDialog}
   </main>;

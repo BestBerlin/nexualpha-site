@@ -1,11 +1,10 @@
 import { newsArticleGeoPool, newsMetadataAllowed } from "../../../data/news-geo-policy.js";
-import { articleRelatedLinks, recentEntityArticles } from '../../../data/article-related-links.js';
 import { SourceLink } from "../../shared/SourceLink.jsx";
-import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
+import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { EDITORIAL_POLICY_PATH, RESEARCH_DESK_ANCHOR, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
 import { localizedHref } from "../../../data/locale-routing.js";
-import { dropEmptyArticleHeadings, splitArticleReadingSections } from "./article-reading-sections.js";
+import { dropEmptyArticleHeadings } from "../../../data/article-empty-headings.js";
 import { estimateReadMinutes, formatReadTime, newsReadTimeFor } from "../../../data/news-read-time.js";
 /**
  * NewsDetailPage — 实时新闻与 SEO 文章二级详情页
@@ -13,34 +12,140 @@ import { estimateReadMinutes, formatReadTime, newsReadTimeFor } from "../../../d
  */
 import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
-import { venueDatabase } from "../../../data/venue-database.js";
-import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, newsHumanReview, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
-import { isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsReadingNeighbors, newsListingPath } from "../../../data/news-library.js";
+import { OKX_USD_USDC_OWNER_CHECKLIST, isNewsVenueSlug, loadNewsArticleBySlug, localizedNewsSummary, newsHumanReview, localizedNewsTitle, localizedValue, newsArticleUrl, newsVenueMeta, newsVenueName, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
+import { compareNewestFirst, isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsReadingNeighbors, newsListingPath } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
-import { validComparison } from "../../../data/browser-state.js";
 import { applyNotFoundSeo, syncRouteSeo } from "../../../data/route-seo-client.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
+import { DeferUntilVisible } from "../../shared/DeferUntilVisible.jsx";
+import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { nextDecisionBridgeCopy } from "../../../data/next-decision-bridge.js";
 import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
-import { TopDecisionBox } from "../TopDecisionBox.jsx";
-import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
 import { neutralArticleMarkdown, neutralArticleSources } from "../../../data/neutral-article.js";
 import { resolvePromotions } from "../../../data/promotions.js";
-import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
-import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
-import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
-import { glossaryTermPath } from "../../../data/glossary-routes.js";
+import { REFERRAL_PARTNERS } from "../../../data/referral-partners.generated.js";
+import { referralTitleAllowed } from "../../../data/referral-seo.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
-import { newsQueryOwnerLink, newsSignupBridge } from "../../../data/news-lead-links.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
-import { detectArticleAssets } from "./article-market-context.js";
-import "./news-detail-page.css";
-import { mergeNewsDetailCopy } from "./news-detail-copy-l10n.js";
-import { articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../../../data/article-embeds.js";
+import "../../../styles/news-detail-page.css";
+
+
+function articleSectionTargets(blocks, hasSources, leadCount = 0, sourcesLabel = "Sources") {
+  const targets = blocks.flatMap((block, index) => block.startsWith("## ")
+    ? [{ id: `article-section-${index}`, label: block.replace(/^## /, ""), deep: index >= leadCount }]
+    : []);
+  if (hasSources) targets.push({ id: "article-sources", label: sourcesLabel, deep: false });
+  return targets;
+}
+
+function activateArticleSection(id, disclosure, setOpen, documentRef, windowRef) {
+  const target = documentRef.getElementById(id);
+  if (!target) return false;
+  if (disclosure?.contains(target)) { disclosure.open = true; setOpen(true); }
+  windowRef.requestAnimationFrame(() => { target.scrollIntoView({ block: "start", behavior: "instant" }); target.focus({ preventScroll: true }); });
+  return true;
+}
+
+function splitArticleReadingSections(content = "") {
+  const blocks = String(content).split("\n\n").map((block) => block.trim()).filter(Boolean);
+  const headings = [];
+  let fence = null;
+  for (const [index, block] of blocks.entries()) {
+    for (const [lineIndex, line] of block.split("\n").entries()) {
+      const marker = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+      if (marker) {
+        if (!fence) fence = { char: marker[1][0], length: marker[1].length };
+        else if (marker[1][0] === fence.char && marker[1].length >= fence.length) fence = null;
+        continue;
+      }
+      if (!fence && lineIndex === 0) {
+        const heading = line.match(/^\s{0,3}(#{1,6})\s+\S/);
+        if (heading) headings.push({ index, level: heading[1].length });
+      }
+    }
+  }
+  const sectionLevel = headings.some((h) => h.level === 2) ? 2 : Math.min(...headings.map((h) => h.level));
+  const sections = headings.filter((h) => h.level === sectionLevel);
+  let boundary = blocks.length;
+  if (!sections.length || (sectionLevel === 1 && sections.length === 1)) {
+    boundary = Math.min(1, blocks.length);
+    if (blocks[0] && /^\s{0,3}#\s+[^\n]+$/.test(blocks[0]) && blocks.length > 1) boundary = 2;
+    let openingFence = null;
+    for (let index = 0; index < boundary; index++) {
+      for (const line of blocks[index].split("\n")) {
+        const marker = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+        if (!marker) continue;
+        if (!openingFence) openingFence = { char: marker[1][0], length: marker[1].length };
+        else if (marker[1][0] === openingFence.char && marker[1].length >= openingFence.length) openingFence = null;
+      }
+      if (index === boundary - 1 && openingFence && boundary < blocks.length) boundary++;
+    }
+    return { leadBlocks: blocks.slice(0, boundary), deepBlocks: blocks.slice(boundary) };
+  }
+  if (sections.length) {
+    if (sections[0].index > 0 && blocks.slice(0, sections[0].index).some((block) => !/^\s{0,3}#{1,6}\s+[^\n]+$/.test(block))) boundary = sections[0].index;
+    else boundary = sections[1]?.index ?? blocks.length;
+  }
+  return { leadBlocks: blocks.slice(0, boundary), deepBlocks: blocks.slice(boundary) };
+}
+
+const TELEGRAM_ALERTS_URL = "https://t.me/NexuAlphaAssistantBot?start=alerts";
+const ALERT_CARD_LANG = { en: "en", "zh-Hans": "zh", "zh-Hant": "zh", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", "pt-BR": "pt" };
+const TELEGRAM_ALERTS_COPY = {
+  en: ["Get liquidation and sharp-move alerts in Telegram", "Open the bot"],
+  "zh-Hans": ["在 Telegram 接收爆仓与急涨急跌告警", "打开机器人"],
+  "zh-Hant": ["在 Telegram 接收爆倉與急漲急跌提醒", "打開機器人"],
+  es: ["Recibe alertas de liquidaciones y movimientos bruscos en Telegram", "Abrir el bot"],
+  "pt-BR": ["Receba alertas de liquidações e movimentos bruscos no Telegram", "Abrir o bot"],
+  fr: ["Recevez les alertes de liquidations et de mouvements brusques sur Telegram", "Ouvrir le bot"],
+  de: ["Liquidations- und Kurssprung-Alarme in Telegram erhalten", "Bot öffnen"],
+  it: ["Ricevi su Telegram gli avvisi di liquidazioni e movimenti bruschi", "Apri il bot"],
+  ja: ["清算と急変動のアラートを Telegram で受け取る", "ボットを開く"],
+  ko: ["청산·급등락 알림을 텔레그램으로 받기", "봇 열기"],
+  ru: ["Получайте уведомления о ликвидациях и резких движениях в Telegram", "Открыть бота"],
+  tr: ["Tasfiye ve sert fiyat hareketi uyarılarını Telegram'da alın", "Botu aç"],
+  id: ["Dapatkan peringatan likuidasi dan pergerakan tajam di Telegram", "Buka bot"],
+  vi: ["Nhận cảnh báo thanh lý và biến động mạnh trên Telegram", "Mở bot"],
+  ar: ["احصل على تنبيهات التصفية والتحركات الحادة على تيليجرام", "افتح البوت"],
+  ur: ["Telegram میں لیکویڈیشن اور تیز اتار چڑھاؤ کے الرٹس حاصل کریں", "بوٹ کھولیں"],
+  uk: ["Отримуйте сповіщення про ліквідації та різкі зміни в Telegram", "Відкрити бота"],
+};
+
+function telegramAlertsUrl(locale = "en") {
+  const lang = ALERT_CARD_LANG[locale];
+  return lang ? `${TELEGRAM_ALERTS_URL}-${lang}` : TELEGRAM_ALERTS_URL;
+}
+
+function NewsTelegramAlerts({ locale = "en" }) {
+  const [text, action] = TELEGRAM_ALERTS_COPY[locale] || TELEGRAM_ALERTS_COPY.en;
+  return (
+    <aside className="news-tg-alerts" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2m12-9-4 16-8-7m12-9L9 13" /></svg>
+      <span>{text}</span>
+      <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} →</a>
+    </aside>
+  );
+}
+
+const ARTICLE_ASSET_PATTERNS = Object.freeze([
+  { symbol: "BTC", pattern: /\bBTC\b|\bbitcoin\b|比特币|比特幣|ビットコイン|비트코인|биткоин|بيتكوين/i },
+  { symbol: "ETH", pattern: /\bETH\b|\bethereum\b|\bether\b|以太坊|イーサリアム|이더리움|эфириум|إيثريوم/i },
+  { symbol: "SOL", pattern: /\bSOL\b|\bsolana\b|ソラナ|솔라나|солана|سولانا/i },
+]);
+const countAssetMatches = (text, pattern) => (String(text || "").match(new RegExp(pattern.source, "gi")) || []).length;
+function detectArticleAssets({ title = "", summary = "", body = "" } = {}, limit = 2) {
+  const head = `${title}\n${summary}`;
+  return ARTICLE_ASSET_PATTERNS.map(({ symbol, pattern }, order) => ({ symbol, order, inHead: countAssetMatches(head, pattern), inBody: countAssetMatches(body, pattern) }))
+    .filter((asset) => asset.inHead > 0 || asset.inBody >= 2)
+    .sort((a, b) => (b.inHead > 0) - (a.inHead > 0) || b.inBody - a.inBody || a.order - b.order)
+    .slice(0, limit)
+    .map((asset) => asset.symbol);
+}
+
 
 const copy = {
   "zh-Hans": {
@@ -168,7 +273,6 @@ copy.vi = { ...copy.en, originalLanguageNotice: "Nội dung bài viết đang hi
 copy.it = { ...copy.en, originalLanguageNotice: "Il corpo dell'articolo è mostrato nell'originale inglese verificato. La traduzione sarà aggiunta dopo la revisione delle fonti." };
 
 // fr/de/it/ru/id/vi article chrome and the missing not-found/loading strings (2026-10-11, ru/id/vi/ar need native review)
-mergeNewsDetailCopy(copy);
 
 const tableScrollHints = {
   "en": "Article table: scroll horizontally, or focus the table area and use the arrow keys.",
@@ -393,17 +497,202 @@ const priorityNewsDecisionSummaries = {
   },
 };
 
+
+
+
+
+const ARTICLE_EMBED_LINE = /^::embed[ \t]+([A-Za-z][A-Za-z0-9-]{0,31})(?:[ \t]+([A-Za-z0-9]{1,15}))?[ \t]*$/;
+const ANY_EMBED_LINE = /^[ \t]*::embed\b.*$/;
+const ARTICLE_EMBED_KINDS = Object.freeze({
+  liquidations: Object.freeze({ height: 360, toolPath: "/liquidations", symbolParam: false }),
+  "funding-rates": Object.freeze({ height: 400, toolPath: "/funding-rates", symbolParam: true }),
+});
+const ARTICLE_EMBED_ALIASES = Object.freeze({
+  liquidations: "liquidations", liquidation: "liquidations", liqs: "liquidations",
+  funding: "funding-rates", "funding-rates": "funding-rates", "funding-rate": "funding-rates", fundingrates: "funding-rates",
+});
+const ARTICLE_EMBED_COPY = Object.freeze({
+  en: { liquidations: "Crypto liquidations today", "funding-rates": "Crypto funding rates: Binance vs OKX", live: "Live NexuAlpha data, refreshed every few minutes.", open: "Open the full page" },
+  "zh-Hans": { liquidations: "今日加密货币爆仓", "funding-rates": "加密货币资金费率：Binance vs OKX", live: "NexuAlpha 实时数据，每隔几分钟刷新。", open: "打开完整页面" },
+  "zh-Hant": { liquidations: "今日加密貨幣爆倉", "funding-rates": "加密貨幣資金費率：Binance vs OKX", live: "NexuAlpha 即時數據，每隔幾分鐘更新。", open: "開啟完整頁面" },
+  es: { liquidations: "Liquidaciones cripto de hoy", "funding-rates": "Tasas de funding cripto: Binance vs OKX", live: "Datos en vivo de NexuAlpha, actualizados cada pocos minutos.", open: "Abrir la página completa" },
+  "pt-BR": { liquidations: "Liquidações cripto de hoje", "funding-rates": "Taxas de funding cripto: Binance vs OKX", live: "Dados ao vivo da NexuAlpha, atualizados a cada poucos minutos.", open: "Abrir a página completa" },
+  fr: { liquidations: "Liquidations crypto aujourd'hui", "funding-rates": "Taux de funding crypto : Binance vs OKX", live: "Données NexuAlpha en direct, actualisées toutes les quelques minutes.", open: "Ouvrir la page complète" },
+  de: { liquidations: "Krypto-Liquidationen heute", "funding-rates": "Krypto-Funding-Raten: Binance vs. OKX", live: "Live-Daten von NexuAlpha, alle paar Minuten aktualisiert.", open: "Ganze Seite öffnen" },
+  it: { liquidations: "Liquidazioni crypto di oggi", "funding-rates": "Tassi di funding crypto: Binance vs OKX", live: "Dati NexuAlpha in tempo reale, aggiornati ogni pochi minuti.", open: "Apri la pagina completa" },
+  ja: { liquidations: "本日の暗号資産清算", "funding-rates": "暗号資産の資金調達率：Binance vs OKX", live: "NexuAlpha のライブデータ（数分ごとに更新）。", open: "ページ全体を開く" },
+  ko: { liquidations: "오늘의 암호화폐 청산", "funding-rates": "암호화폐 펀딩비: 바이낸스 vs OKX", live: "NexuAlpha 실시간 데이터, 몇 분마다 갱신됩니다.", open: "전체 페이지 열기" },
+  ru: { liquidations: "Ликвидации криптовалют сегодня", "funding-rates": "Ставки финансирования крипто: Binance и OKX", live: "Живые данные NexuAlpha, обновляются каждые несколько минут.", open: "Открыть полную страницу" },
+  tr: { liquidations: "Bugünkü kripto tasfiyeleri", "funding-rates": "Kripto fonlama oranları: Binance vs OKX", live: "Canlı NexuAlpha verisi, birkaç dakikada bir yenilenir.", open: "Sayfanın tamamını aç" },
+  id: { liquidations: "Likuidasi kripto hari ini", "funding-rates": "Funding rate kripto: Binance vs OKX", live: "Data langsung NexuAlpha, diperbarui setiap beberapa menit.", open: "Buka halaman lengkap" },
+  vi: { liquidations: "Thanh lý crypto hôm nay", "funding-rates": "Funding rate crypto: Binance vs OKX", live: "Dữ liệu trực tiếp của NexuAlpha, cập nhật vài phút một lần.", open: "Mở trang đầy đủ" },
+  ar: { liquidations: "تصفيات العملات الرقمية اليوم", "funding-rates": "أسعار التمويل للعملات الرقمية: Binance مقابل OKX", live: "بيانات NexuAlpha المباشرة، تُحدَّث كل بضع دقائق.", open: "افتح الصفحة الكاملة" },
+  ur: { liquidations: "آج کی کرپٹو لیکویڈیشنز", "funding-rates": "کرپٹو فنڈنگ شرحیں: Binance مقابل OKX", live: "NexuAlpha کا لائیو ڈیٹا، ہر چند منٹ بعد تازہ ہوتا ہے۔", open: "مکمل صفحہ کھولیں" },
+  uk: { liquidations: "Криптоліквідації сьогодні", "funding-rates": "Ставки фінансування криптодеривативів: Binance проти OKX", live: "Живі дані NexuAlpha, оновлюються кожні кілька хвилин.", open: "Відкрити повну сторінку" },
+});
+const ARTICLE_EMBED_LOCALE_PREFIX = Object.freeze({ en: "", "zh-Hans": "/zh-hans", "zh-Hant": "/zh-hant", es: "/es", "pt-BR": "/pt-br", fr: "/fr", de: "/de", it: "/it", ja: "/ja", ko: "/ko", ru: "/ru", tr: "/tr", id: "/id-id", vi: "/vi", ar: "/ar", ur: "/ur", uk: "/uk-ua" });
+const ARTICLE_EMBED_LINK_SEPARATOR = Object.freeze({ "zh-Hans": "：", "zh-Hant": "：", ja: "：", fr: " : " });
+function isArticleEmbedLine(line) { return ANY_EMBED_LINE.test(String(line ?? "")); }
+function parseArticleEmbed(block) {
+  const text = String(block ?? "").trim();
+  if (!isArticleEmbedLine(text) || text.includes("\n")) return null;
+  const match = text.match(ARTICLE_EMBED_LINE);
+  const kind = match ? ARTICLE_EMBED_ALIASES[match[1].toLowerCase()] || null : null;
+  if (!kind) return { kind: null, symbol: null };
+  const symbol = ARTICLE_EMBED_KINDS[kind].symbolParam && match[2] ? match[2].toUpperCase() : null;
+  return { kind, symbol };
+}
+function articleEmbedModel(directive, locale = "en") {
+  const kind = directive?.kind;
+  const spec = kind ? ARTICLE_EMBED_KINDS[kind] : null;
+  if (!spec) return null;
+  const loc = Object.hasOwn(ARTICLE_EMBED_COPY, locale) ? locale : String(locale || "").startsWith("zh") ? "zh-Hans" : "en";
+  const copy = ARTICLE_EMBED_COPY[loc];
+  const query = new URLSearchParams({ locale: loc, theme: "dark" });
+  if (directive.symbol) query.set("symbol", directive.symbol);
+  return { kind, symbol: directive.symbol || null, src: `/embed/${kind}?${query.toString()}`, height: spec.height, title: `${copy[kind]} — NexuAlpha`, caption: copy.live, toolHref: `${ARTICLE_EMBED_LOCALE_PREFIX[loc]}${spec.toolPath}`, toolLabel: copy.open, toolName: copy[kind], toolLinkText: `${copy.open}${ARTICLE_EMBED_LINK_SEPARATOR[loc] || ": "}${copy[kind]}` };
+}
+function stripArticleEmbedDirectives(text) {
+  return String(text ?? "").split("\n").filter((line) => !isArticleEmbedLine(line)).join("\n");
+}
+function isolateArticleEmbedDirectives(markdown) {
+  const lines = String(markdown ?? "").split("\n");
+  if (!lines.some((line) => isArticleEmbedLine(line))) return String(markdown ?? "");
+  const out = [];
+  for (const line of lines) {
+    if (isArticleEmbedLine(line)) {
+      if (out.length && out[out.length - 1].trim() !== "") out.push("");
+      out.push(line.trim(), "");
+    } else {
+      if (line.trim() === "" && out.length && out[out.length - 1] === "") continue;
+      out.push(line);
+    }
+  }
+  return out.join("\n");
+}
+
+const REGISTRATION_TUTORIAL_SLUG = /^how-to-(?:register|create|open|sign-up|onboard)-([a-z0-9]+(?:-(?:io|exchange|global))?)-(?:account|with-kyc|complete-kyc|referral-code)(?:-|$)/;
+const VENUE_SIGNUP_SLUG = /^([a-z0-9]+(?:-io)?)-(?:kyc-level|referral-code)-/;
+const VENUE_ALIASES = Object.freeze({ gate: "gateio", "gate-io": "gateio" });
+const SIGNUP_BRIDGE_COPY = Object.freeze({
+  en: { eyebrow: "Opening an account?", guide: (name) => `${name} profile: fees, products and access` },
+  "zh-Hans": { eyebrow: "准备注册？", guide: (name) => `${name} 资料：手续费、产品与可用地区` },
+  "zh-Hant": { eyebrow: "準備註冊？", guide: (name) => `${name} 資料：手續費、產品與可用地區` },
+  es: { eyebrow: "¿Vas a abrir una cuenta?", guide: (name) => `Perfil de ${name}: comisiones, productos y acceso` },
+  "pt-BR": { eyebrow: "Vai abrir conta?", guide: (name) => `Perfil da ${name}: taxas, produtos e acesso` },
+  fr: { eyebrow: "Vous ouvrez un compte ?", guide: (name) => `Profil ${name} : frais, produits et accès` },
+  de: { eyebrow: "Konto eröffnen?", guide: (name) => `${name} Profil: Gebühren, Produkte und Zugang` },
+  it: { eyebrow: "Apri un conto?", guide: (name) => `Profilo ${name}: commissioni, prodotti e accesso` },
+  ja: { eyebrow: "口座開設の前に", guide: (name) => `${name} プロフィール：手数料・商品・利用地域` },
+  ko: { eyebrow: "계정을 만들 계획인가요?", guide: (name) => `${name} 프로필: 수수료, 상품, 이용 지역` },
+  tr: { eyebrow: "Hesap mı açacaksınız?", guide: (name) => `${name} profili: ücretler, ürünler ve erişim` },
+  id: { eyebrow: "Mau buka akun?", guide: (name) => `Profil ${name}: biaya, produk, dan akses` },
+  ru: { eyebrow: null, guide: (name) => `Профиль ${name}: комиссии, продукты и доступ` },
+  ar: { eyebrow: null, guide: (name) => `ملف ${name}: الرسوم والمنتجات والتوفر` },
+  vi: { eyebrow: null, guide: (name) => `Hồ sơ ${name}: phí, sản phẩm và khả dụng` },
+  ur: { eyebrow: null, guide: (name) => `${name} پروفائل: فیس، مصنوعات اور دستیابی` },
+  uk: { eyebrow: null, guide: (name) => `Профіль ${name}: комісії, продукти та доступ` },
+});
+function newsSignupBridge({ articleSlug, locale = "en", hasVenue, venueName }) {
+  const slug = String(articleSlug || "");
+  const token = REGISTRATION_TUTORIAL_SLUG.exec(slug)?.[1] || VENUE_SIGNUP_SLUG.exec(slug)?.[1];
+  const venue = VENUE_ALIASES[token] || token;
+  if (!venue || !hasVenue?.(venue)) return null;
+  const name = venueName?.(venue) || venue;
+  const copy = SIGNUP_BRIDGE_COPY[locale] || (String(locale || "").startsWith("zh") ? SIGNUP_BRIDGE_COPY["zh-Hans"] : SIGNUP_BRIDGE_COPY.en);
+  return { venue, neutral: true, eyebrow: copy.eyebrow, links: [{ kind: "profile", href: `/exchanges/${venue}`, label: copy.guide(name) }] };
+}
+
+const NEWS_PARTNER_SLUGS = Object.freeze(["binance", "okx", "bybit", "bitget", "kraken", "coinbase", "hyperliquid", "dydx", "gmx", "drift", "aevo", "uniswap", "pancakeswap", "jupiter", "raydium", "mexc", "kucoin", "gateio", "htx"]);
+const CURATED_COMPARE_PAIRS = Object.freeze([
+  ["binance", "okx"], ["binance", "bybit"], ["okx", "bybit"], ["binance", "mexc"], ["okx", "mexc"], ["bybit", "bitget"],
+  ["hyperliquid", "dydx"], ["uniswap", "jupiter"], ["binance", "kraken"], ["gateio", "mexc"],
+  ["binance", "bitget"], ["bitget", "okx"], ["bybit", "mexc"], ["bitget", "mexc"],
+]);
+const PARTNER_RELATED_COPY = Object.freeze({
+  en: { related: "Related", feesRebate: (n) => `${n} fees & rebate`, feesProfile: (n) => `${n} fees & profile`, compare: (a, b) => `Compare ${a} vs ${b}` },
+  "zh-Hans": { related: "相关", feesRebate: (n) => `${n} 手续费与返佣`, feesProfile: (n) => `${n} 手续费与平台档案`, compare: (a, b) => `对比 ${a} 与 ${b}` },
+  "zh-Hant": { related: "相關", feesRebate: (n) => `${n} 手續費與返傭`, feesProfile: (n) => `${n} 手續費與平台檔案`, compare: (a, b) => `比較 ${a} 與 ${b}` },
+  es: { related: "Relacionado", feesRebate: (n) => `Comisiones y reembolso de ${n}`, feesProfile: (n) => `Comisiones y perfil de ${n}`, compare: (a, b) => `Comparar ${a} y ${b}` },
+  "pt-BR": { related: "Relacionado", feesRebate: (n) => `Taxas e cashback da ${n}`, feesProfile: (n) => `Taxas e perfil da ${n}`, compare: (a, b) => `Comparar ${a} e ${b}` },
+  fr: { related: "À lire aussi", feesRebate: (n) => `Frais et remise ${n}`, feesProfile: (n) => `Frais et profil ${n}`, compare: (a, b) => `Comparer ${a} et ${b}` },
+  de: { related: "Verwandt", feesRebate: (n) => `${n} Gebühren und Rabatt`, feesProfile: (n) => `${n} Gebühren und Profil`, compare: (a, b) => `${a} und ${b} vergleichen` },
+  it: { related: "Correlati", feesRebate: (n) => `Commissioni e rimborso ${n}`, feesProfile: (n) => `Commissioni e profilo ${n}`, compare: (a, b) => `Confronta ${a} e ${b}` },
+  ja: { related: "関連", feesRebate: (n) => `${n} の手数料と還元`, feesProfile: (n) => `${n} の手数料と概要`, compare: (a, b) => `${a} と ${b} を比較` },
+  ko: { related: "관련", feesRebate: (n) => `${n} 수수료와 페이백`, feesProfile: (n) => `${n} 수수료와 프로필`, compare: (a, b) => `${a} vs ${b} 비교` },
+  ru: { related: "См. также", feesRebate: (n) => `Комиссии и возврат ${n}`, feesProfile: (n) => `Комиссии и профиль ${n}`, compare: (a, b) => `Сравнить ${a} и ${b}` },
+  tr: { related: "İlgili", feesRebate: (n) => `${n} ücretleri ve iade`, feesProfile: (n) => `${n} ücretleri ve profil`, compare: (a, b) => `${a} ile ${b} karşılaştırması` },
+  id: { related: "Terkait", feesRebate: (n) => `Biaya dan rabat ${n}`, feesProfile: (n) => `Biaya dan profil ${n}`, compare: (a, b) => `Bandingkan ${a} vs ${b}` },
+  vi: { related: "Liên quan", feesRebate: (n) => `Phí và hoàn phí ${n}`, feesProfile: (n) => `Phí và hồ sơ ${n}`, compare: (a, b) => `So sánh ${a} và ${b}` },
+  ar: { related: "ذات صلة", feesRebate: (n) => `رسوم ${n} والاسترداد`, feesProfile: (n) => `رسوم ${n} وملف المنصة`, compare: (a, b) => `مقارنة ${a} و${b}` },
+  ur: { related: "متعلقہ", feesRebate: (n) => `${n} کی فیس اور واپسی`, feesProfile: (n) => `${n} کی فیس اور تعارف`, compare: (a, b) => `${a} اور ${b} کا موازنہ` },
+  uk: { related: "Пов’язане", feesRebate: (n) => `Комісії та повернення ${n}`, feesProfile: (n) => `Комісії та профіль ${n}`, compare: (a, b) => `Порівняти ${a} та ${b}` },
+});
+const escapePartnerPattern = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function createPartnerAutolinker({ locale = "en", createLink }) {
+  const targets = NEWS_PARTNER_SLUGS.map((slug) => ({ slug, name: newsVenueName(slug), pattern: new RegExp(`(?<![A-Za-z0-9])${escapePartnerPattern(newsVenueName(slug))}(?![A-Za-z0-9])`, "i") }))
+    .sort((a, b) => b.name.length - a.name.length);
+  const linked = new Set();
+  const mentioned = [];
+  const note = (slug) => { if (!mentioned.includes(slug)) mentioned.push(slug); };
+  const observe = (text) => { for (const target of targets) if (target.pattern.test(String(text))) note(target.slug); };
+  const linkText = (text) => {
+    const out = [];
+    let rest = String(text);
+    while (rest) {
+      let best = null;
+      for (const target of targets) {
+        if (linked.has(target.slug)) { if (target.pattern.test(rest)) note(target.slug); continue; }
+        const match = target.pattern.exec(rest);
+        if (match && (!best || match.index < best.index)) best = { index: match.index, text: match[0], target };
+      }
+      if (!best) { out.push(rest); break; }
+      if (best.index > 0) out.push(rest.slice(0, best.index));
+      linked.add(best.target.slug);
+      note(best.target.slug);
+      out.push(createLink({ slug: best.target.slug, name: best.target.name, href: localizedHref(`/exchanges/${best.target.slug}`, { locale }), text: best.text }));
+      rest = rest.slice(best.index + best.text.length);
+    }
+    return out;
+  };
+  return {
+    linkSegments: (segments) => (Array.isArray(segments) ? segments : [segments]).flatMap((segment) => (typeof segment === "string" ? linkText(segment) : [segment])),
+    observe,
+    mentionedSlugs: () => [...mentioned],
+    linkedSlugs: () => [...linked],
+  };
+}
+const NEWS_REFERRAL_SLUGS = new Set(REFERRAL_PARTNERS.filter((partner) => partner?.inviteCode).map((partner) => partner.slug));
+function relatedPartnerLinks({ locale = "en", slugs = [] }) {
+  const t = PARTNER_RELATED_COPY[locale] || (String(locale || "").startsWith("zh") ? PARTNER_RELATED_COPY["zh-Hans"] : PARTNER_RELATED_COPY.en);
+  const unique = [...new Set(slugs)].filter(isNewsVenueSlug).slice(0, 3);
+  if (unique.length < 2) return null;
+  const profiles = unique.map((slug) => {
+    const name = newsVenueName(slug);
+    const promotional = NEWS_REFERRAL_SLUGS.has(slug) && referralTitleAllowed(slug, locale);
+    return { slug, name, href: localizedHref(`/exchanges/${slug}`, { locale }), label: (promotional ? t.feesRebate : t.feesProfile)(name) };
+  });
+  const pair = CURATED_COMPARE_PAIRS.find(([a, b]) => unique.includes(a) && unique.includes(b));
+  const compare = pair ? { slug: `${pair[0]}-vs-${pair[1]}`, href: localizedHref(`/compare/${pair[0]}-vs-${pair[1]}`, { locale }), label: t.compare(newsVenueName(pair[0]), newsVenueName(pair[1])) } : null;
+  return { label: t.related, profiles, compare };
+}
+
+function validNewsComparison(value) {
+  const parts = String(value || "").split("-vs-").filter(Boolean);
+  return parts.length >= 2 && parts.every(isNewsVenueSlug);
+}
+
 function ArticleDecisionSummary({ article, withContext, locale, t }) {
   const priorityDecision = priorityNewsDecisionSummaries[article.slug];
   const fallbackCopy = copy.en;
   const localizedPriorityDecision = priorityDecision?.locales
     ? priorityDecision.locales[locale]
     : locale === "en" ? priorityDecision : null;
-  const relatedVenue = article.relatedVenues?.find((slug) => typeof slug === "string" && venueDatabase[slug]?.slug === slug);
+  const relatedVenue = article.relatedVenues?.find((slug) => typeof slug === "string" && isNewsVenueSlug(slug));
   const comparisonTarget = (Array.isArray(article.seo?.internalLinkTargets) ? article.seo.internalLinkTargets : [])
     .find((href) => {
       const match = typeof href === "string" && href.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
-      return match && validComparison(match[1], Object.values(venueDatabase));
+      return match && validNewsComparison(match[1]);
     });
   const decision = localizedPriorityDecision || {
     eyebrow: t.firstDecisionEyebrow || fallbackCopy.firstDecisionEyebrow,
@@ -421,9 +710,9 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
   const leadingResearchHref = firstResearchAction?.kind === "research" && (() => {
     const href = firstResearchAction.href;
     const venueMatch = typeof href === "string" && href.match(/^\/exchanges\/([a-z0-9-]+)$/);
-    if (venueMatch) return venueDatabase[venueMatch[1]]?.slug === venueMatch[1] ? href : null;
+    if (venueMatch) return isNewsVenueSlug(venueMatch[1]) ? href : null;
     const compareMatch = typeof href === "string" && href.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
-    return compareMatch && validComparison(compareMatch[1], Object.values(venueDatabase)) ? href : null;
+    return compareMatch && validNewsComparison(compareMatch[1]) ? href : null;
   })();
   const originalSource = article.sources?.find((source) => /^https?:\/\//i.test(source?.url || ""));
   const sourceAction = originalSource
@@ -438,6 +727,108 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
 function relatedArticleCategory(item, locale) {
   const own = item.categoryName && typeof item.categoryName === "object" ? item.categoryName[locale] : null;
   return own || newsCategoryCopy(item.category, locale)?.label || localizedValue(item.categoryName, locale) || item.category;
+}
+
+
+function titleCaseSlug(value) {
+  return String(value || "").split("-").filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
+}
+
+function relatedLinkLabel(href, article, locale, t) {
+  const path = String(href || "").replace(/^https?:\/\/[^/]+/i, "").split(/[?#]/)[0];
+  const venue = path.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
+  if (venue) return `${newsVenueName(venue) || titleCaseSlug(venue)} ${t.profileSuffix || "profile"}`.trim();
+  const compare = path.match(/^\/compare\/([a-z0-9-]+)-vs-([a-z0-9-]+)$/)?.slice(1);
+  if (compare) return `${t.comparePrefix || "Compare"} ${compare.map((slug) => newsVenueName(slug) || titleCaseSlug(slug)).join(" vs ")}`;
+  const topic = path.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
+  if (topic) return `${titleCaseSlug(topic)} ${t.topicSuffix || "topic"}`;
+  const factbook = path.match(/^\/factbook\/([a-z0-9-]+)$/)?.[1];
+  if (factbook) return `${titleCaseSlug(factbook)} ${t.factbookSuffix || "factbook"}`;
+  if (path === "/methodology") return t.methodologyLabel || "Research methodology";
+  if (path === "/news") return "news";
+  if (path === "/exchanges") return article?.relatedVenues?.[0] ? (t.partnerSectionTitle || "Exchange profiles") : "Exchange profiles";
+  if (path === "/coins") return "Coins";
+  return titleCaseSlug(path.split("/").filter(Boolean).at(-1) || "news");
+}
+
+const NEWS_COIN_ENTITIES = Object.freeze([
+  ["bitcoin", "Bitcoin", "BTC"],
+  ["ethereum", "Ethereum", "ETH"],
+  ["solana", "Solana", "SOL"],
+  ["xrp", "XRP", "XRP"],
+  ["bnb", "BNB", "BNB"],
+  ["dogecoin", "Dogecoin", "DOGE"],
+  ["usd-coin", "USDC", "USDC"],
+  ["tether", "Tether", "USDT"],
+]);
+const NEWS_UTILITY_LABELS = Object.freeze({
+  en: ["Converter", "Calendar", "Licenses"], "zh-Hans": ["兑换工具", "日历", "牌照"], "zh-Hant": ["兌換工具", "日曆", "牌照"],
+  es: ["Conversor", "Calendario", "Licencias"], "pt-BR": ["Conversor", "Calendário", "Licenças"], fr: ["Convertisseur", "Calendrier", "Licences"],
+  de: ["Umrechner", "Kalender", "Lizenzen"], it: ["Convertitore", "Calendario", "Licenze"], ja: ["換算ツール", "カレンダー", "ライセンス"],
+  ko: ["환산 도구", "캘린더", "라이선스"], tr: ["Dönüştürücü", "Takvim", "Lisanslar"], ru: ["Конвертер", "Календарь", "Лицензии"],
+  id: ["Konverter", "Kalender", "Lisensi"], vi: ["Quy đổi", "Lịch", "Giấy phép"], ar: ["المحوّل", "التقويم", "التراخيص"],
+  ur: ["کنورٹر", "کیلنڈر", "لائسنس"], uk: ["Конвертер", "Календар", "Ліцензії"],
+});
+const NEWS_ENTITY_CACHE = new WeakMap();
+const NEWS_PATTERN_CACHE = new Map();
+const newsEntityValue = (value) => typeof value === "string" ? value : (value?.en || value?.["zh-Hans"] || "");
+const escapeNewsEntityPattern = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function newsEntityMentions(text, name, sensitive = false) {
+  const key = `${sensitive}:${name}`;
+  if (!NEWS_PATTERN_CACHE.has(key)) NEWS_PATTERN_CACHE.set(key, new RegExp(`(?<![\p{L}\p{N}])${escapeNewsEntityPattern(name)}(?![\p{L}\p{N}])`, sensitive ? "u" : "iu"));
+  return NEWS_PATTERN_CACHE.get(key).test(text);
+}
+function newsArticleEntities(article) {
+  if (article && NEWS_ENTITY_CACHE.has(article)) return NEWS_ENTITY_CACHE.get(article);
+  const text = [newsEntityValue(article?.title), newsEntityValue(article?.summary), newsEntityValue(article?.content), article?.seo?.primaryKeyword].join("\n");
+  const explicitVenues = Array.isArray(article?.relatedVenues) ? article.relatedVenues : [];
+  const venues = NEWS_PARTNER_SLUGS.filter((slug) => explicitVenues.includes(slug) || newsEntityMentions(text, newsVenueName(slug)));
+  const coins = NEWS_COIN_ENTITIES.filter(([, name, symbol]) => newsEntityMentions(text, name, true) || (symbol.length >= 3 && newsEntityMentions(text, symbol, true)));
+  const result = { text, venues, coins };
+  if (article) NEWS_ENTITY_CACHE.set(article, result);
+  return result;
+}
+
+function articleRelatedLinks(article, locale, t) {
+  const { text, venues, coins } = newsArticleEntities(article);
+  const utilityLabels = NEWS_UTILITY_LABELS[locale] || NEWS_UTILITY_LABELS.en;
+  const links = [];
+  const add = (href, label) => {
+    if (!href || !String(href).startsWith("/") || links.some((link) => link.href === href)) return;
+    links.push({ href, label: label || relatedLinkLabel(href, article, locale, t) });
+  };
+  const pair = CURATED_COMPARE_PAIRS.find(([a, b]) => venues.includes(a) && venues.includes(b));
+  if (venues[0]) add(`/exchanges/${venues[0]}`);
+  if (pair) add(`/compare/${pair.join("-vs-")}`);
+  if (coins[0]) add(`/coins/${coins[0][0]}`, `${coins[0][1]} (${coins[0][2]})`);
+  for (const link of articleClusterLinks(article, locale)) if (links.length < 5) add(link.href, link.label);
+  const tools = [
+    [/funding|perpetual|资金费率|資金費率/i, "/funding-rates/matrix", t.fundingMatrixLabel || "Funding matrix"],
+    [/liquidat|爆仓|清算/i, "/liquidations/heatmap", t.liquidationsLabel || "Liquidations heatmap"],
+    [/convert|兑换|兌換/i, coins[0] ? `/convert/${coins[0][2].toLowerCase()}-to-usd` : "/convert/btc-to-usd", utilityLabels[0]],
+    [/calendar|macro|fomc|日历|日曆/i, "/calendar", utilityLabels[1]],
+    [/licen[sc]|regulat|许可|監管|监管/i, "/licenses", utilityLabels[2]],
+  ];
+  for (const [pattern, href, label] of tools) if (pattern.test(text) && links.length < 5) add(href, label);
+  for (const href of Array.isArray(article?.seo?.internalLinkTargets) ? article.seo.internalLinkTargets : []) if (links.length < 5) add(href);
+  for (const slug of venues.slice(1)) if (links.length < 5) add(`/exchanges/${slug}`);
+  for (const coin of coins.slice(1)) if (links.length < 5) add(`/coins/${coin[0]}`, `${coin[1]} (${coin[2]})`);
+  for (const href of ["/news", "/exchanges", "/coins"]) if (links.length < 3) add(href);
+  return links.slice(0, 5);
+}
+
+function recentEntityArticles(article, articles, limit = 2) {
+  const own = newsArticleEntities(article);
+  return (Array.isArray(articles) ? articles : [])
+    .filter((candidate) => {
+      if (!candidate?.slug || candidate.slug === article?.slug || (candidate.status && candidate.status !== "PUBLISHED")) return false;
+      const other = newsArticleEntities(candidate);
+      return own.venues.some((venue) => other.venues.includes(venue))
+        || own.coins.some(([slug]) => other.coins.some(([otherSlug]) => otherSlug === slug))
+        || (article?.category && article.category === candidate.category);
+    })
+    .sort(compareNewestFirst)
+    .slice(0, limit);
 }
 
 function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, article }) {
@@ -522,22 +913,22 @@ const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到�
 // Inline markdown in article prose: [label](href) links, **strong**, *em* and `code`, tokenized by
 // article-inline-markdown.js (shared with the Worker fallback HTML). External http(s) links open in a new tab; allowed
 // internal paths (/news/, /exchanges/, /compare/, /rates, ...) are localized; any other target renders as its label.
-function renderInlineTokens(tokens, keyPrefix, linker) {
+function renderInlineTokens(tokens, keyPrefix, linker, locale = "en", market = undefined) {
   return tokens.flatMap((token, index) => {
     const key = `${keyPrefix}-${index}`;
     // Only top-level plain text can carry a partner autolink: links, code, strong and em pass through untouched.
     if (token.type === "text") return linker ? linker.linkSegments([token.text]) : [token.text];
     if (token.type === "code") return [<code key={key}>{token.text}</code>];
-    if (token.type === "strong") return [<strong key={key}>{renderInlineTokens(token.children, key, null)}</strong>];
-    if (token.type === "em") return [<em key={key}>{renderInlineTokens(token.children, key, null)}</em>];
+    if (token.type === "strong") return [<strong key={key}>{renderInlineTokens(token.children, key, null, locale, market)}</strong>];
+    if (token.type === "em") return [<em key={key}>{renderInlineTokens(token.children, key, null, locale, market)}</em>];
     return [token.external
-      ? <a key={key} href={token.href} target="_blank" rel={token.sponsored ? "nofollow sponsored noopener" : "noopener noreferrer"}>{renderInlineTokens(token.children, key, null)}</a>
-      : <a key={key} href={token.href}>{renderInlineTokens(token.children, key, null)}</a>];
+      ? <SourceLink key={key} locale={locale} market={market} href={token.href} target="_blank" rel={token.sponsored ? "nofollow sponsored noopener" : "noopener noreferrer"} src="article">{renderInlineTokens(token.children, key, null, locale, market)}</SourceLink>
+      : <a key={key} href={token.href}>{renderInlineTokens(token.children, key, null, locale, market)}</a>];
   });
 }
 
-function renderInline(text, linker = null, locale = "en") {
-  const parts = renderInlineTokens(tokenizeInlineMarkdown(text, { locale }), "md", linker);
+function renderInline(text, linker = null, locale = "en", market = undefined) {
+  const parts = renderInlineTokens(tokenizeInlineMarkdown(text, { locale }), "md", linker, locale, market);
   return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : parts;
 }
 
@@ -570,15 +961,15 @@ function ArticleEmbed({ directive, locale }) {
   );
 }
 
-function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
+function renderMarkdownBlock(block, index, t, linker = null, locale = "en", market = undefined) {
   const embed = parseArticleEmbed(block);
   if (embed) return embed.kind ? <ArticleEmbed key={index} directive={embed} locale={locale} /> : null;
   // Headings count as mentions for the related line but never carry a partner link.
-  if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{renderInline(block.replace(/^### /, ""), null, locale)}</h3>; }
-  if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{renderInline(block.replace(/^## /, ""), null, locale)}</h2>; }
+  if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{renderInline(block.replace(/^### /, ""), null, locale, market)}</h3>; }
+  if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{renderInline(block.replace(/^## /, ""), null, locale, market)}</h2>; }
   const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
   if (lines.length && lines.every((line) => line.startsWith(">"))) {
-    return <blockquote key={index}><p>{renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), linker, locale)}</p></blockquote>;
+    return <blockquote key={index}><p>{renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), linker, locale, market)}</p></blockquote>;
   }
   if (lines.length >= 2 && lines.every((line) => line.startsWith("|"))) {
     const rows = lines
@@ -591,11 +982,11 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
         <div className="news-detail__table-scroll" role="region" aria-labelledby={`news-table-hint-${index}`} tabIndex={0}>
           <table style={{ "--news-table-columns": head.length }}>
             <thead>
-              <tr>{head.map((cell) => <th key={cell} scope="col">{renderInline(cell, null, locale)}</th>)}</tr>
+              <tr>{head.map((cell) => <th key={cell} scope="col">{renderInline(cell, null, locale, market)}</th>)}</tr>
             </thead>
             <tbody>
               {body.map((row, rowIndex) => (
-                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`} className={isNumericCell(cell) ? "is-num" : undefined}>{renderInline(cell, linker, locale)}</td>)}</tr>
+                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`} className={isNumericCell(cell) ? "is-num" : undefined}>{renderInline(cell, linker, locale, market)}</td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -608,15 +999,15 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
     const items = lines.filter((line) => line.startsWith("- ")).map((line) => line.replace(/^- /, ""));
     return (
       <React.Fragment key={index}>
-        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "), linker, locale)}</p>}
+        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "), linker, locale, market)}</p>}
         {/* a list of short terms flows into columns (a 7-item glossary was a 280px-tall strip beside empty space) */}
         <ul className={items.length >= 4 && items.every((item) => item.trim().length <= 40) ? "news-detail__terms" : undefined}>
-          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim(), linker, locale)}</li>)}
+          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim(), linker, locale, market)}</li>)}
         </ul>
       </React.Fragment>
     );
   }
-  return <p key={index}>{renderInline(block, linker, locale)}</p>;
+  return <p key={index}>{renderInline(block, linker, locale, market)}</p>;
 }
 
 // Article byline (E-E-A-T): "By NexuAlpha Research Desk · Updated <date> · Editorial policy". "Reviewed <date>" is shown
@@ -691,6 +1082,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const visibleArticles = newsArticleGeoPool(articles, { locale, market }, slug);
   const article = getNewsArticleBySlug(slug, visibleArticles);
   const hasRequestedLanguageBody = Boolean(article?.content?.[locale]);
+
 
   useEffect(() => {
     // A native summary may already have been opened while modules were loading.
@@ -804,20 +1196,12 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
       <a key={`partner-${slug}`} href={withContext(href)} className="news-detail__partner-link" data-partner-link={slug} data-cta-kind="research" data-cta-placement="news-detail-partner-mention">{text}</a>
     ),
   });
-  // Glossary (2026-10-13): after partner names, the first mentions of up to 5 glossary terms link to their definitions
-  // (only when the article is shown in its own language and the glossary is written in it; glossaryLinks is null otherwise).
-  const glossaryLinker = glossaryLinks && resolveNewsContentLocale(locale, article) === locale ? createGlossaryLinker(glossaryLinks, { max: 5 }) : null;
-  const partnerLinker = glossaryLinker ? {
-    ...exchangeLinker,
-    linkSegments: (segments) => exchangeLinker.linkSegments(segments).flatMap((segment) => (typeof segment !== "string" ? [segment]
-      : glossaryLinker.linkText(segment).map((part) => (typeof part === "string" ? part
-        : <a key={`glossary-${part.slug}`} href={withContext(localizedHref(glossaryTermPath(part.slug), { locale }))} className="news-detail__glossary-link" data-glossary-link={part.slug}>{part.text}</a>)))),
-  } : exchangeLinker;
+  const partnerLinker = exchangeLinker;
   // The first H2 section is the lead answer: its heading becomes the section's data rule (same id, same TOC target).
   const leadHeading = leadBlocks[0]?.startsWith("## ") ? leadBlocks[0] : null;
   if (leadHeading) partnerLinker.observe(leadHeading);
   const leadKind = leadHeading ? (isShortAnswerHeading(leadHeading) ? "short-answer" : "lead") : null;
-  const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
+  const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale, market));
   const publishedStamp = utcStamp(article.publishedAt);
   const publishedDate = formatSgt(article.publishedAt, locale, "date");
   const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
@@ -826,7 +1210,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const promotions = resolvePromotions({ topicTags: [...(article.topicTags || article.tags || []), article.cta?.topic].filter(Boolean), venue: article.cta?.venue || article.relatedVenues, coin: article.cta?.coin, locale, market });
   const inlineIndex = Math.ceil((leadBlocks.length + deepBlocks.length) / 3);
   const inlineSlot = promotions.some(p => p.kind !== "tool") ? <SponsoredSlot promotions={promotions} variant="inline" locale={locale} market={market} /> : null;
-  const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));
+  const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale, market));
   if (inlineSlot) {
     if (inlineIndex <= leadBlockCount) leadNodes.splice(inlineIndex, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
     else deepNodes.splice(inlineIndex - leadBlockCount, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
@@ -837,8 +1221,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const clusterLinks = articleClusterLinks(article, locale).filter(link => newsMetadataAllowed(link, { locale, market }));
   // CTR pass 2026-10-13: registration tutorials open with the exchange profile (and app page) built for that search
   // intent; an article that splits a query with a stronger article links to the query owner. See news-lead-links.js.
-  const signupBridge = newsSignupBridge({ articleSlug: article.slug, locale, market, hasVenue: (venueSlug) => Boolean(venueDatabase[venueSlug]), venueName: (venueSlug) => venueDatabase[venueSlug]?.name });
-  const queryOwner = newsQueryOwnerLink(article.slug, locale);
+  const signupBridge = newsSignupBridge({ articleSlug: article.slug, locale, hasVenue: isNewsVenueSlug, venueName: newsVenueName });
+  const queryOwner = null;
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
   const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], articleSources.length > 0, leadBlockCount, t.sourcesTitle);
   const jumpToSection = (id) => {
@@ -848,9 +1232,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     }
   };
   const relatedLinks = articleRelatedLinks(article, locale, t).filter(link => newsMetadataAllowed(link, { locale, market }));
-  const newsBotVenue = article.relatedVenues?.find((venueSlug) =>
-    typeof venueSlug === "string" && venueDatabase[venueSlug]?.slug === venueSlug
-  );
+  const newsBotVenue = article.relatedVenues?.find((venueSlug) => typeof venueSlug === "string" && newsVenueName(venueSlug));
 
   return (
     <main className="v6 v2-page v3-page news-detail-page" id="top" {...sectionEyebrowAttrs(locale, "news")}>
@@ -1006,7 +1388,9 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               </ol>
             </nav>}
             <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="sidebar" />
-            <ArticleMarketContext assets={marketAssets} locale={locale} />
+            <DeferUntilVisible target=".news-market-context" rootMargin="75% 0px">
+              <ArticleMarketContext assets={marketAssets} locale={locale} />
+            </DeferUntilVisible>
           </div>
         </div>
 
@@ -1021,7 +1405,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             <h2 className="news-detail__partners-title">{t.partnerSectionTitle}</h2>
             <div className="news-detail__partners-grid">
               {article.relatedVenues.map((vSlug) => {
-                const db = venueDatabase[vSlug] || {};
+                const db = newsVenueMeta(vSlug);
 
                 return (
                   <a
@@ -1055,16 +1439,18 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         )}
 
         {newsBotVenue && (
-          <OnsiteTelegramBotHandoff
-            canonicalPath={`/news/${article.slug}`}
-            intent="monitor"
-            venue={newsBotVenue}
-            locale={locale}
-            market={market}
-            product={product}
-            returnRoute={`/news/${article.slug}`}
-            placement={`news-onsite-bot-handoff-${article.slug}`}
-          />
+          <DeferUntilVisible target=".v3-onsite-telegram-handoff" rootMargin="75% 0px">
+            <OnsiteTelegramBotHandoff
+              canonicalPath={`/news/${article.slug}`}
+              intent="monitor"
+              venue={newsBotVenue}
+              locale={locale}
+              market={market}
+              product={product}
+              returnRoute={`/news/${article.slug}`}
+              placement={`news-onsite-bot-handoff-${article.slug}`}
+            />
+          </DeferUntilVisible>
         )}
 
         {newsReadingNeighbors(article, visibleArticles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
@@ -1075,20 +1461,22 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
 
         {article.relatedVenues && article.relatedVenues.length > 0 && (
-          <NextDecisionBridge
-            className="news-detail__next-decision-bridge"
-            locale={locale}
-            market={market}
-            product={product}
-            title={t.nextStepTitle}
-            body={t.nextStepBody}
-            profileSlug={article.relatedVenues[0]}
-            profileLabel={venueDatabase[article.relatedVenues[0]]?.name || t.claimBtn}
-            compareHref={article.seo?.internalLinkTargets?.find((href) => /^\/compare\/[a-z0-9-]+$/i.test(href))}
-            compareSlugs={article.relatedVenues}
-            placement="news-detail-next-decision-bridge"
-            decision={article.slug}
-          />
+          <DeferUntilVisible target=".news-detail__next-decision-bridge" rootMargin="75% 0px">
+            <NextDecisionBridge
+              className="news-detail__next-decision-bridge"
+              locale={locale}
+              market={market}
+              product={product}
+              title={t.nextStepTitle}
+              body={t.nextStepBody}
+              profileSlug={article.relatedVenues[0]}
+              profileLabel={newsVenueName(article.relatedVenues[0]) || t.claimBtn}
+              compareHref={article.seo?.internalLinkTargets?.find((href) => /^\/compare\/[a-z0-9-]+$/i.test(href))}
+              compareSlugs={article.relatedVenues}
+              placement="news-detail-next-decision-bridge"
+              decision={article.slug}
+            />
+          </DeferUntilVisible>
         )}
       </article>
     </main>

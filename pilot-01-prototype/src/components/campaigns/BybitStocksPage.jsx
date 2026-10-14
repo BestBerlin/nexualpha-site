@@ -11,6 +11,7 @@ import { BYBIT_STOCKS_COPY } from "../../data/bybit-stocks-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatSgt } from "../../data/local-time.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { useVisibleClock } from "../shared/visible-clock.js";
 import "./bybit-stocks.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -44,13 +45,8 @@ function sgtTime(etHour, locale, now) {
 }
 
 function useClock() {
-  const [now, setNow] = useState(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return now;
+  const now = useVisibleClock(null, { everyMs: 30 * 1000 });
+  return now ? new Date(now) : null;
 }
 
 function CodeChip({ code, t }) {

@@ -230,7 +230,7 @@ main.v3-profile-page.v6:not(#_):not(#_):not(#_) { background: transparent; }
 .crawl-priority-links *,
 .platform-matcher,
 .platform-matcher *,
-.v2-brand-fallback { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif !important; }
+.v2-brand-fallback { font-family: var(--v6-sans, var(--font-body)) !important; }
 .bleed-copy-code-btn { font-family: "Geist Mono V5", ui-monospace, monospace !important; }
 .nx-search__kbd { font-size: 12px !important; }
 .v3-compare-reading-metadata span { font-size: var(--t-12, 0.75rem) !important; }

@@ -1,113 +1,78 @@
-import { formatSgt } from "../../../data/local-time.js";
-import { SourceLink } from "../../shared/SourceLink.jsx";
-import { CampaignJoin } from "./CampaignJoin.jsx";
-import { BrandMark } from "../../brand/BrandMark";
-import { visibleOfficialUpdates } from "../../official-updates/official-updates-model";
-import { contextualHref } from "../../../data/contextual-href.js";
-import { venueProfile, v3Copy } from "../../../data/v3-product";
-import { campaignCopy } from "./campaign-copy";
-import { ActivityCenterV3 } from "./ActivityCenterV3";
-import { useActivityNow } from "./useActivityNow";
-import { normalizeActivityEligibility } from "./activity-eligibility.js";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { venueProfile } from "../../../data/v3-product";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
-import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 
-function DecisionBrief({ text, eyebrow, title, body, facts = [] }) {
-  return <aside className="v3-decision-brief" aria-label={eyebrow}>
-    <h2>{title}</h2>
-    <p>{body}</p>
-    {facts.length > 0 && <dl>{facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd translate={fact.translate ?? undefined} lang={fact.lang ?? undefined} dir={fact.lang === "en" ? "ltr" : undefined}>{fact.value}</dd></div>)}</dl>}
-    <small>{text.ctaLocked}</small>
-  </aside>;
+
+const ssrActivityCenterModules = import.meta.env.SSR ? import.meta.glob(["./ActivityCenterV3.jsx"], { eager: true }) : {};
+const ServerActivityCenterV3 = import.meta.env.SSR ? ssrActivityCenterModules["./ActivityCenterV3.jsx"].ActivityCenterV3 : null;
+let activityCenterChunk;
+const loadActivityCenter = () => (activityCenterChunk ??= import("./ActivityCenterV3.jsx"));
+
+function ActivityCenterIsland(props) {
+  if (import.meta.env.SSR) {
+    return <div id="activity-center-v3-root"><ServerActivityCenterV3 {...props} /></div>;
+  }
+  const hostRef = useRef(null);
+  const rootRef = useRef(null);
+  const latestProps = useRef(props);
+  latestProps.current = props;
+  const [serverHtml] = useState(() => (typeof document === "undefined" ? "" : document.getElementById("activity-center-v3-root")?.innerHTML || ""));
+  const frozenHtml = useMemo(() => ({ __html: serverHtml }), [serverHtml]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let idle = null;
+    const start = () => {
+      if (cancelled || rootRef.current || !hostRef.current) return;
+      loadActivityCenter().then((mod) => {
+        if (cancelled || rootRef.current || !hostRef.current) return;
+        import("react-dom/client").then((client) => {
+          if (cancelled || rootRef.current || !hostRef.current) return;
+          const element = <mod.ActivityCenterV3 {...latestProps.current} />;
+          rootRef.current = serverHtml ? client.hydrateRoot(hostRef.current, element) : client.createRoot(hostRef.current);
+          if (!serverHtml) rootRef.current.render(element);
+        });
+      });
+    };
+    const schedule = () => {
+      idle = typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback(start, { timeout: 1000 })
+        : window.setTimeout(start, 0);
+    };
+    const wake = () => start();
+    schedule();
+    hostRef.current?.addEventListener("pointerdown", wake, { once: true, passive: true, capture: true });
+    hostRef.current?.addEventListener("keydown", wake, { once: true, capture: true });
+    return () => {
+      cancelled = true;
+      if (idle !== null) { window.cancelIdleCallback?.(idle); window.clearTimeout(idle); }
+      hostRef.current?.removeEventListener("pointerdown", wake, { capture: true });
+      hostRef.current?.removeEventListener("keydown", wake, { capture: true });
+      const root = rootRef.current;
+      rootRef.current = null;
+      if (root) setTimeout(() => root.unmount(), 0);
+    };
+  }, [serverHtml]);
+
+  useEffect(() => {
+    if (!rootRef.current) return;
+    loadActivityCenter().then((mod) => rootRef.current?.render(<mod.ActivityCenterV3 {...latestProps.current} />));
+  }, [props.locale, props.market, props.product, props.copy, props.venues, props.publicUpdates, props.campaignFeed]);
+
+  return <div id="activity-center-v3-root" ref={hostRef} suppressHydrationWarning dangerouslySetInnerHTML={frozenHtml} />;
 }
+const ssrActivityDetailModules = import.meta.env.SSR ? import.meta.glob(["./ActivityDetailPage.jsx"], { eager: true }) : {};
+const ServerActivityDetailPage = import.meta.env.SSR ? ssrActivityDetailModules["./ActivityDetailPage.jsx"].ActivityDetailPage : null;
+const ClientActivityDetailPage = import.meta.env.SSR ? null : lazy(() => import("./ActivityDetailPage.jsx").then((mod) => ({ default: mod.ActivityDetailPage })));
 
-function SnapshotStrip({ items }) {
-  const visibleItems = items.filter((item) => item && item.value !== null && item.value !== undefined && item.value !== "");
-  return <div className="v3-snapshot-strip">{visibleItems.map((item) => <article key={item.label}>
-    <span>{item.label}</span>
-    <b translate={item.translate ?? "no"} lang={item.lang ?? "en"}>{item.value}</b>
-    <p>{item.hint}</p>
-  </article>)}</div>;
+export function ActivityDetailPage(props) {
+  const DetailPage = import.meta.env.SSR ? ServerActivityDetailPage : ClientActivityDetailPage;
+  return <Suspense fallback={null}><DetailPage {...props} /></Suspense>;
 }
 
 export function ActivityCenterPage({ copy, locale, market, product, venues, updates, campaignFeed }) {
   const profiles = venues.map((venue) => venueProfile(venue, locale));
   return <main className="v6 v2-page v3-page v3-activity-center" id="top" {...sectionEyebrowAttrs(locale, "campaigns")}>
-    <ActivityCenterV3 locale={locale} market={market} product={product} copy={copy} venues={profiles} publicUpdates={updates} campaignFeed={campaignFeed} />
-  </main>;
-}
-
-export function ActivityDetailPage({ copy, locale, market, product, update: candidateUpdate, venues }) {
-  const now = useActivityNow([candidateUpdate?.expiresAt]);
-  const visibleCandidate = candidateUpdate && campaignVisibleInLocale(candidateUpdate, locale) ? candidateUpdate : null;
-  const update = visibleOfficialUpdates(visibleCandidate ? [visibleCandidate] : [], now)[0];
-  const text = v3Copy(locale);
-  const venue = update ? venues.find((candidate) => candidate.slug === update.platform.slug) : null;
-  const profile = venue ? venueProfile(venue, locale) : null;
-  const eligibility = update ? normalizeActivityEligibility(update, {
-    locale,
-    now,
-    researchHref: venue ? contextualHref(`/activities/research/${venue.slug}`, { locale, market, product }) : contextualHref("/activities", { locale, market, product }),
-  }) : null;
-  const snapshotItems = update ? [
-    { label: text.platformType, value: update.platform.name, hint: update.kind, translate: "no", lang: "en" },
-    { label: copy.opportunity.source, value: update.officialSource.type, hint: update.officialSource.url, translate: "no", lang: "en" },
-    { label: copy.decisionWorkbench.discovered, value: formatSgt(update.discoveredAt, locale), hint: copy.common.verifiedSource },
-    { label: copy.listings.expired, value: update.expiresAt ? formatSgt(update.expiresAt, locale) : "—", hint: eligibility?.statusLabel ?? text.sourceState },
-  ] : [];
-  return <main className={`v6 v2-page v3-page v3-activity-detail${update ? "" : " v3-page--empty"}`} id="top" {...sectionEyebrowAttrs(locale, "campaigns")}>
-    <section className="v3-page-hero v2-shell">
-      <a href={contextualHref("/activities", { locale, market, product })} className="v3-back-link">{text.activities}</a>
-      <div className="v3-venue-hero">
-        <span className="v3-independent-badge">{text.independent}</span>
-        <h1>{update?.title || text.activityDetail}</h1>
-        <p>{update ? text.verifiedOnly : text.activityNotFound}</p>
-      </div>
-      {profile && <DecisionBrief
-        text={text}
-        eyebrow={text.activities}
-        title={profile.name}
-        body={profile.positioning}
-        facts={[{ label: text.officialDomain, value: profile.officialDomain, translate: "no", lang: "en" }]}
-      />}
-      {update && venue && <div className="v3-activity-decision-strip" aria-label={text.activities}>
-        <div>
-          <span>{copy.common.verifiedSource}</span>
-          <strong>{update.officialSource.type}</strong>
-        </div>
-        <div>
-          <span>{text.sourceState}</span>
-          <strong>{eligibility.statusLabel}</strong>
-        </div>
-        <div className="v3-activity-decision-strip__actions">
-          <a href={contextualHref(`/exchanges/${venue.slug}`, { locale, market, product })} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="activity-detail-hero" data-growth-decision={venue.slug} data-growth-placement="activity-detail-hero">{text.openDetail} →</a>
-          {eligibility.cta.enabled
-            ? <a href={eligibility.cta.href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-platform={venue.slug} data-cta-placement="activity-detail-action" data-growth-decision={venue.slug} data-growth-placement="activity-detail-action">{eligibility.cta.label} →</a>
-            : <a href={eligibility.cta.alternativeHref} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="activity-detail-hero-research" data-growth-decision={venue.slug} data-growth-placement="activity-detail-hero-research">{eligibility.cta.alternativeLabel} →</a>}
-        </div>
-      </div>}
-    </section>
-    {update && <section className="v2-section"><CampaignJoin venue={update.platform.slug} locale={locale} market={market} officialUrl={update.officialSource.url} placement="activity-detail-join" /></section>}
-    {update && <section className="v2-section v3-page-snapshot v3-activity-snapshot">
-      <SnapshotStrip items={snapshotItems} />
-    </section>}
-    {update && <section className="v2-section">
-      <div className="v3-matrix">
-        <div><b>{text.platformType}</b><span translate="no" lang="en">{update.platform.name}</span></div>
-        <div><b>{copy.opportunity.source}</b><span translate="no" lang="en">{update.officialSource.type}</span></div>
-        <div><b>{copy.decisionWorkbench.discovered}</b><span><time dateTime={update.discoveredAt}>{formatSgt(update.discoveredAt, locale)}</time></span></div>
-        <div><b>{copy.common.verifiedSource}</b><span><time dateTime={update.verifiedAt}>{formatSgt(update.verifiedAt, locale)}</time></span></div>
-        <div><b>{copy.listings.expired}</b><span>{update.expiresAt ? <time dateTime={update.expiresAt}>{formatSgt(update.expiresAt, locale)}</time> : "—"}</span></div>
-        <div><b>{text.sourceState}</b><span><SourceLink locale={locale} market={market} href={update.officialSource.url} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink></span></div>
-      </div>
-      {eligibility && <div className="v3-matrix v3-activity-eligibility" aria-label={eligibility.statusLabel}>
-        {eligibility.rows.map((row) => <div key={row.key} data-missing={row.missing ? "true" : undefined}>
-          <b>{row.label}</b>
-          <span translate={row.key === "officialSource" ? "no" : undefined} lang={row.key === "officialSource" ? "en" : undefined}>{row.value}</span>
-        </div>)}
-      </div>}
-      {eligibility && !eligibility.cta.enabled && <p className="v3-activity-detail__cta-note">{eligibility.cta.label}</p>}
-    </section>}
-    {venue && <section className="v2-section v3-activity-detail__venue"><div className="v3-source-board__identity"><BrandMark slug={venue.slug} compact /><h2 translate="no" lang="en" dir="ltr">{venue.name}</h2></div><p>{profile.positioning}</p><a href={contextualHref(`/exchanges/${venue.slug}`, { locale, market, product })}>{text.openDetail}</a><a href={contextualHref(`/activities/research/${venue.slug}`, { locale, market, product })}>{campaignCopy(locale).openResearch}</a></section>}
+    <ActivityCenterIsland locale={locale} market={market} product={product} copy={copy} venues={profiles} publicUpdates={updates} campaignFeed={campaignFeed} />
   </main>;
 }

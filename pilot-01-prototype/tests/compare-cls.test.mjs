@@ -27,6 +27,14 @@ function loadWorkerInternals() {
 const worker = loadWorkerInternals();
 const prefixesFor = (path, marker) => worker.__routeStylePrefixesForPath(new URL(`https://nexualpha.com${path}`), { marker }) || [];
 
+test("split news styles stay available before client hydration", () => {
+  for (const path of ["/news", "/zh-hans/news", "/news/category/education"]) {
+    assert.ok(prefixesFor(path).includes("news-list-page-"), path);
+  }
+  assert.ok(prefixesFor("/news/example-article").includes("news-detail-page-"));
+  assert.ok(!prefixesFor("/news/example-article").includes("news-list-page-"));
+});
+
 // Class rendered by the component -> chunk its stylesheet is emitted into (vite.config.mjs manualChunks).
 const LAZY_STYLED_COMPONENTS = [
   { className: "compare-any", css: "/src/components/compare/compare-any-picker.css", chunk: "shared-compare-picker" },
@@ -85,7 +93,7 @@ test("compare hero actions: SSR markup and hydrated markup are identical (no lay
     // Scoped to this block: an unrelated attribute mismatch on the Telegram handoff (data-telegram-return-href) is
     // logged separately and does not move layout.
     assert.deepEqual(hydrationErrors(errors).filter((message) => /v3-compare-hero-actions|CompareHeroActions/.test(message)), [], `${path}: ${errors.join("\n")}`);
-    const normalize = (markup) => markup.replace(/<!--[\s\S]*?-->/g, "").replace(/=""/g, "").replace(/\s*\/>/g, ">");
+    const normalize = (markup) => markup.replace(/<!--[\s\S]*?-->/g, "").replace(/=""/g, "").replace(/\s*\/>/g, ">").replace(/\bsrcSet=/g, "srcset=");
     assert.equal(normalize(inspected), normalize(ssr), `${path}: hydrated hero actions differ from SSR`);
   }
 });

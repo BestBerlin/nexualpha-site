@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { gzipSync } from "node:zlib";
 import test from "node:test";
 import { JSDOM } from "jsdom";
-import { extractCriticalCss, stylesheetHrefs } from "../scripts/build-critical-css.mjs";
+import { extractCriticalCss, homeCriticalSubjects, stylesheetHrefs } from "../scripts/build-critical-css.mjs";
 import worker from "../worker/index.js";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
@@ -53,14 +54,20 @@ test("built v6 assets preserve every declaration and the original inner order", 
     return { name, css: read(`../dist/client/assets/${candidates[0]}`).trim() };
   });
   assert.equal(read(`../dist/client${full}`), parts.map((part) => part.css).join("\n") + "\n");
-  assert.equal(read(`../dist/client${home}`), parts.filter((part) => part.name.startsWith("core-")).map((part) => part.css).join("\n") + "\n");
+  const documents = locales.map((locale) => {
+    const { html } = JSON.parse(read(`../dist/client/prerender/${locale}/home.json`));
+    return new JSDOM(`<html lang="${locale}" dir="${["ar", "ur"].includes(locale) ? "rtl" : "ltr"}"><body><div id="root">${html}</div></body></html>`).window.document;
+  });
+  const expectedHome = extractCriticalCss(parts.filter((part) => part.name.startsWith("core-")).map((part) => part.css), documents).css + "\n";
+  assert.equal(read(`../dist/client${home}`), expectedHome);
+  for (const document of documents) document.defaultView.close();
   assert.ok(linked.every((href) => !/^\/assets\/(?:page-inner-c|core-c[234]-)/.test(href)), "no segment requests in the final shell");
   const critical = JSON.parse(read("../dist/client/critical-css.json")).routes.home;
   assert.ok(critical.sheets.includes(home) && !critical.sheets.includes(full));
-  assert.match(critical.css, /\.hx-rate-num/);
-  assert.match(critical.css, /\.hx-rate-n/, "the static figure is styled from the inline CSS");
+  assert.doesNotMatch(critical.css, /--v6-arrow|--rr-in/, "old v6 home-generation CSS stays deferred, not inline");
   assert.doesNotMatch(read("../src/styles/v7/home7.css"), /@keyframes hx-count\{/, "no count-up keyframes (owner 2026-10-14)");
   assert.ok(Buffer.byteLength(critical.css) < 120_000, "inline CSS covers shell/hero, not the full home page");
+  assert.ok(gzipSync(Buffer.from(critical.css)).length <= 14 * 1024, "inline CSS stays within the 14 KiB gzip budget");
   assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:swap/);
   assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2"/);
 });

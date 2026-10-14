@@ -5,6 +5,7 @@ import { withoutNeutralReferralEditions } from "./neutral-referral-topic.js";
 
 export const NEWS_FEED_URL = "/content/news-feed.json";
 export const NEWS_FEED_SUMMARY_URL = "/content/news-feed-summary.json";
+export const NEWS_FEED_PAGE_ONE_PREFIX = "/content/news-feed-page-1";
 
 const VALID_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const PUBLISHABLE_STATUSES = new Set(["PUBLISHED"]);
@@ -559,6 +560,48 @@ export function newsArticleUrl(slug, locale = "en", article = null) {
   return localizedHref(pathname, { locale });
 }
 
+
+const NEWS_VENUE_META = Object.freeze({
+  binance: { name: "Binance", officialDomain: "www.binance.com" },
+  okx: { name: "OKX", officialDomain: "www.okx.com" },
+  bybit: { name: "Bybit", officialDomain: "www.bybit.com" },
+  bitget: { name: "Bitget", officialDomain: "www.bitget.com" },
+  kraken: { name: "Kraken", officialDomain: "www.kraken.com" },
+  coinbase: { name: "Coinbase", officialDomain: "www.coinbase.com" },
+  hyperliquid: { name: "Hyperliquid", officialDomain: "app.hyperliquid.xyz" },
+  dydx: { name: "dYdX", officialDomain: "dydx.trade" },
+  gmx: { name: "GMX", officialDomain: "gmx.io" },
+  drift: { name: "Drift", officialDomain: "www.drift.trade" },
+  aevo: { name: "Aevo", officialDomain: "www.aevo.xyz" },
+  uniswap: { name: "Uniswap", officialDomain: "app.uniswap.org" },
+  pancakeswap: { name: "PancakeSwap", officialDomain: "pancakeswap.finance" },
+  jupiter: { name: "Jupiter", officialDomain: "jup.ag" },
+  raydium: { name: "Raydium", officialDomain: "raydium.io" },
+  mexc: { name: "MEXC", officialDomain: "www.mexc.com" },
+  kucoin: { name: "KuCoin", officialDomain: "www.kucoin.com" },
+  gateio: { name: "Gate.io", officialDomain: "www.gate.io" },
+  htx: { name: "HTX", officialDomain: "www.htx.com" },
+});
+
+function humanizeVenueSlug(slug) {
+  return String(slug || "").split("-").filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
+}
+
+export function isNewsVenueSlug(slug) {
+  const key = cleanString(slug).toLowerCase();
+  return Object.hasOwn(NEWS_VENUE_META, key);
+}
+
+export function newsVenueMeta(slug) {
+  const key = cleanString(slug).toLowerCase();
+  return NEWS_VENUE_META[key] || { name: humanizeVenueSlug(key), officialDomain: "" };
+}
+
+export function newsVenueName(slug) {
+  return newsVenueMeta(slug).name;
+}
+
+
 export function exchangeUrl(slug, locale = "en") {
   return localizedHref(`/exchanges/${encodeURIComponent(slug)}`, { locale });
 }
@@ -740,11 +783,15 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
   return projected;
 }
 
+const NEWS_ROUTE_LIST_PROJECTION_LIMIT = 24;
+const NEWS_ARTICLE_ROUTE_PATTERN = /^\/news\/[a-z0-9-]+$/;
+
 export function projectNewsFeedForRoute(pathname = "/news", articles = [], locale = "en") {
-  const includeContent = String(pathname).startsWith("/news/");
-  return (Array.isArray(articles) ? articles : [])
+  const includeContent = NEWS_ARTICLE_ROUTE_PATTERN.test(String(pathname));
+  const projected = (Array.isArray(articles) ? articles : [])
     .map((article) => projectNewsArticleForLocale(article, locale, { includeContent }))
     .filter(Boolean);
+  return includeContent ? projected : projected.slice(0, NEWS_ROUTE_LIST_PROJECTION_LIMIT);
 }
 
 export async function loadNewsArticles(fetchImpl = globalThis.fetch) {
@@ -772,12 +819,15 @@ export async function loadNewsArticleBySlug(slug, fetchImpl = globalThis.fetch, 
   return loadNewsArticles(fetchImpl);
 }
 
-export async function loadNewsArticleSummaries(fetchImpl = globalThis.fetch) {
+export async function loadNewsArticleSummaries(fetchImpl = globalThis.fetch, options = {}) {
   if (typeof fetchImpl !== "function") return [];
+  const locale = NEWS_DISPLAY_LOCALES.includes(options.locale) ? options.locale : "en";
+  const primaryUrl = options.full ? NEWS_FEED_SUMMARY_URL : `${NEWS_FEED_PAGE_ONE_PREFIX}.${locale}.json`;
   try {
-    let response = await fetchImpl(NEWS_FEED_SUMMARY_URL, { cache: "no-store" });
+    let response = await fetchImpl(primaryUrl, { cache: "no-store" });
     // Keep compatibility with older deployments and test fixtures while the
     // compact feed rolls out across the edge cache.
+    if (!response?.ok && primaryUrl !== NEWS_FEED_SUMMARY_URL) response = await fetchImpl(NEWS_FEED_SUMMARY_URL, { cache: "no-store" });
     if (!response?.ok) response = await fetchImpl(NEWS_FEED_URL, { cache: "no-store" });
     if (!response?.ok) return [];
     return normalizeNewsFeedSummaries(await response.json());
