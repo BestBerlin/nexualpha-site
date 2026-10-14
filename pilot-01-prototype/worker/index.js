@@ -5142,25 +5142,22 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     routePayload = { ...routePayload, heroVariant: heroServed };
   }
   let renderedLiveHome = false;
-  // Use one live snapshot for the header, terminal, rail and movers, then hydrate with those same values.
+  // Use one live snapshot for the header ticker, funding board and movers, then hydrate with those same values.
+  // Owner 2026-10-14: the home page has no flash rail any more, so home SSR no longer reads the flash stream.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
     // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
-    const [funding, flash, ticker, movers] = await Promise.all([
+    const [funding, ticker, movers] = await Promise.all([
       readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale, market: market || undefined })),
-      readFlashItems(env, url).then((items) => flashStreamPayload(items, publicRoute.locale || "en", { limit: 5, now: flashNow(env) })).catch((error) => {
-        console.error(`[NexuAlpha] home flash SSR failed: ${error?.message || error}`);
-        return null;
-      }),
       readTickerSnapshot(env),
       readMoversSnapshot(env),
     ]);
-    if (funding || flash || ticker || movers) {
+    if (funding || ticker || movers) {
       // The prerendered announcement feed rides along: the client hydrates the below-fold island from the same state, so
       // rendering without it SSR'd an empty notice list and threw React #418 on every home load.
-      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
+      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
-        if (typeof rendered === "string" && rendered.includes('id="h7-flash"')) {
+        if (typeof rendered === "string" && rendered.includes('id="h7-calc"')) {
           appHtml = rendered;
           renderedLiveHome = true;
           routePayload = { ...routePayload, ...state, homeContext: activityRequestContext(url) };

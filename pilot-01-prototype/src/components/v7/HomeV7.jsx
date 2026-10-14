@@ -19,18 +19,12 @@ import { academyShellCopy } from "../../data/academy.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 import "../../styles/v7/selector-owner.css";
-import "../../styles/v7/terminal-owner.css";
 import "../../styles/v7/movers-owner.css";
-import "../../styles/v7/flash-rail.css";
 
 const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-below.jsx"], { eager: true }) : {};
 const ServerHomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : null;
 let homeBelowChunk;
 const loadHomeBelow = () => (homeBelowChunk ??= Promise.all([import("./home7-below.jsx"), import("react-dom/client")]));
-const ssrTerminalModules = import.meta.env.SSR ? import.meta.glob(["./HeroTerminal.jsx"], { eager: true }) : {};
-const ServerHeroTerminal = import.meta.env.SSR ? ssrTerminalModules["./HeroTerminal.jsx"].HeroTerminal : null;
-let terminalFrameChunk;
-const loadTerminalFrame = () => (terminalFrameChunk ??= Promise.all([import("./HeroTerminal.jsx"), import("react-dom/client")]));
 
 const PRIMARY_DEFAULT = Object.freeze(["bitget", "okx", "binance"]);
 const PRIMARY_TR = Object.freeze(["okx", "binance", "bybit"]);
@@ -81,48 +75,6 @@ function BelowHydrationCommit({ children, onReady }) {
   return children;
 }
 
-function StableHeroTerminal(props) {
-  if (import.meta.env.SSR) return <div id="h7-terminal-root" className="hx-terminal-host"><ServerHeroTerminal {...props} /></div>;
-  const host = useRef(null), root = useRef(null), initial = useRef(props), latest = useRef(props);
-  latest.current = props;
-  const [html] = useState(() => document.getElementById("h7-terminal-root")?.innerHTML || "");
-  const frozen = useMemo(() => ({ __html: html }), [html]);
-  const ready = useRef(null);
-  const [hydrated, setHydrated] = useState(false);
-  useEffect(() => {
-    let cancelled = false, near = false, idle = null;
-    const start = () => {
-      if (!near || cancelled || idle !== null || document.visibilityState !== "visible") return;
-      const run = () => {
-        idle = null;
-        if (cancelled || document.visibilityState !== "visible") return;
-        loadTerminalFrame().then(([mod, client]) => {
-          if (cancelled || !host.current || root.current) return;
-          ready.current = () => { if (!cancelled) setHydrated(true); };
-          const element = <BelowHydrationCommit onReady={ready.current}><mod.HeroTerminal {...initial.current} /></BelowHydrationCommit>;
-          if (html) root.current = client.hydrateRoot(host.current, element);
-          else { root.current = client.createRoot(host.current); root.current.render(element); }
-        });
-      };
-      idle = window.requestIdleCallback ? window.requestIdleCallback(run, { timeout: 2500 }) : window.setTimeout(run, 0);
-    };
-    const observer = typeof IntersectionObserver === "function" ? new IntersectionObserver(entries => { near = entries.some(entry => entry.isIntersecting); start(); }, { rootMargin: "200px 0px" }) : null;
-    const figure = host.current?.firstElementChild;
-    if (observer && figure) observer.observe(figure); else { near = true; start(); }
-    document.addEventListener("visibilitychange", start);
-    return () => {
-      cancelled = true; observer?.disconnect(); document.removeEventListener("visibilitychange", start);
-      if (idle !== null) { window.cancelIdleCallback?.(idle); window.clearTimeout(idle); }
-      const child = root.current; root.current = null; if (child) setTimeout(() => child.unmount(), 0);
-    };
-  }, []);
-  useEffect(() => {
-    if (!hydrated) return;
-    loadTerminalFrame().then(([mod]) => root.current?.render(<BelowHydrationCommit onReady={ready.current}><mod.HeroTerminal {...latest.current} /></BelowHydrationCommit>));
-  }, [hydrated, props.locale, props.selected, props.estimate, props.neutral]);
-  return <div id="h7-terminal-root" className="hx-terminal-host" ref={host} suppressHydrationWarning dangerouslySetInnerHTML={frozen} />;
-}
-
 function StableHomeBelowFold(props) {
   if (import.meta.env.SSR) {
     return <div id="h7-below-root"><ServerHomeBelowFold {...props} /></div>;
@@ -167,7 +119,7 @@ function StableHomeBelowFold(props) {
     loadHomeBelow().then(([mod]) => {
       rootRef.current?.render(<BelowHydrationCommit onReady={readyRef.current}><mod.HomeBelowFold {...props} /></BelowHydrationCommit>);
     });
-  }, [hydrated, props.renderedAt, props.t, props.locale, props.market, props.movers, props.fundingFeed, props.vol, props.mode, props.product, props.calc, props.priced, props.initialOfficialAnnouncements, props.initialFlash]);
+  }, [hydrated, props.renderedAt, props.t, props.locale, props.market, props.movers, props.fundingFeed, props.vol, props.mode, props.product, props.calc, props.priced, props.initialOfficialAnnouncements]);
 
   return <div id="h7-below-root" ref={hostRef} suppressHydrationWarning dangerouslySetInnerHTML={frozenHtml} />;
 }
@@ -374,7 +326,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 }
 
 
-export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, initialOfficialAnnouncements, initialFlash, initialTicker }) {
+export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, initialOfficialAnnouncements }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -422,10 +374,6 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
   const [pickSlug, setPick] = useState(null);
   const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
   const auto = sel?.slug ? HOME_AUTO_SETTLE.includes(sel.slug) : false;
-  // The terminal's stated scenario stays $100K/month, perpetual taker even if the lower calculator changes.
-  const terminalFee = feeFact(sel?.slug, "perp");
-  const terminalEstimate = terminalFee.state === "checked" && Number.isFinite(terminalFee.taker)
-    ? 100000 * 12 * terminalFee.taker / 100 * (sel?.share || 0) : undefined;
 
   const heroRef = useRef(null);
   const h1b = banned ? heroText.h1b : heroText.h1b.replace("{max}%", formatPercent(locale, maxPct));
@@ -445,7 +393,6 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
         </aside>
         )}
-        <StableHeroTerminal locale={locale} selected={banned ? { slug: "nexualpha", name: "NexuAlpha" } : sel} estimate={banned ? undefined : terminalEstimate} initialTicker={initialTicker} neutral={banned} />
       </section>
 
       <section className="h7-strip" aria-label={t.pw(venues.length)}>
@@ -471,7 +418,7 @@ export function HomeV7({ locale, market, movers, fundingFeed, venues: _catalog, 
 
       <AcademyTeaser locale={locale} />
 
-      <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} />
+      <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} movers={movers} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>

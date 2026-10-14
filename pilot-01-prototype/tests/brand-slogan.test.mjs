@@ -165,7 +165,9 @@ test("footer renders slogan A under the brand mark in en, zh-Hans and ar", async
       const slogan = brand.match(/<p class="nx-ftr__slogan">([^<]*)<\/p>/)?.[1];
       assert.equal(decode(slogan || ""), BRAND_SLOGAN_PRIMARY[locale], `${locale} footer slogan`);
       assert.doesNotMatch(brand, /clean-footer__summary/, `${locale}: brand block has only the slogan`);
-      assert.match(html, /nx-ftr__legal-row[\s\S]*clean-footer__summary/, `${locale}: disclosure remains in the legal row`);
+      // Owner 2026-10-14: no fine-print sentence anywhere in the footer; the legal row keeps only its links.
+      assert.doesNotMatch(html, /clean-footer__summary/, `${locale}: no footer fine-print line`);
+      assert.match(html, /nx-ftr__legal-row[\s\S]*href="[^"]*methodology#disclosure"/, `${locale}: disclosure link remains in the legal row`);
     }
   } finally {
     await rm(temp, { recursive: true, force: true });
