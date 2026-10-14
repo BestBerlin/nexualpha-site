@@ -2,14 +2,14 @@
 // (server/movers-feed.mjs, the Worker head and tests): the browser never calls an exchange; it receives this already
 // formatted snapshot from /api/movers.json or the prerender state "movers". Built only from data the site already
 // collects: the Binance USDT-M 24h tickers the ticker feed caches every 15 s (fallback: the market collector's feed),
-// the coin universe in coins.json (top ~100 by market cap, so thin coins never dominate) and the collector's
+// the coin universe in coins.json (top ~200 by market cap, so thin coins never dominate) and the collector's
 // liquidation / funding numbers for the headline line. Numbers are formatted once (en-US digits, U+2212 minus), so the
 // server frame, the hydrated frame and every refresh render identical strings for identical data.
 import { fmtTickerChange, fmtTickerPrice, tickerDir } from "./ticker.js";
 
 export const MOVERS_PATH = "/api/movers.json";
 export const MOVERS_ROWS = 5;
-export const MOVERS_UNIVERSE_RANK = 100;
+export const MOVERS_UNIVERSE_RANK = 200;
 // A contract with less 24h quote volume than this is ignored (a stale or barely traded perpetual never ranks).
 export const MOVERS_MIN_VOLUME_USD = 2e6;
 const SKIP_CATEGORIES = new Set(["stablecoin", "gold"]);
@@ -79,8 +79,8 @@ export function moversFromBinance(rows, universe) {
     if (prev && (prev.mult < contract.mult || (prev.mult === contract.mult && prev.vol >= vol))) continue;
     seen.set(contract.base, { mult: contract.mult, vol, pct, row: toRow(contract.base, universe.get(contract.base), price / contract.mult, pct) });
   }
-  if (seen.size < MOVERS_ROWS * 2) return null;
-  return { source: "binance-usdm", ...rank([...seen.values()]) };
+  const ranked = rank([...seen.values()]);
+  return ranked.up.length + ranked.down.length ? { source: "binance-usdm", ...ranked } : null;
 }
 
 /** Fallback from the market collector feed (market-events.json: majors with price, movers by 24h change). */
@@ -128,7 +128,8 @@ export function buildMoversSnapshot({ binanceRows = null, coins = null, marketEv
   return { generatedAt: new Date(at).toISOString(), source: board.source, up: board.up, down: board.down, headline: moversHeadline(marketEvents) };
 }
 
-const isRow = (r) => Boolean(r && typeof r.sym === "string" && typeof r.slug === "string" && typeof r.price === "string" && typeof r.change === "string");
+const isSparkline = (value) => value === undefined || (Array.isArray(value) && value.length >= 2 && value.every((point) => Number.isFinite(Number(point))));
+const isRow = (r) => Boolean(r && typeof r.sym === "string" && typeof r.slug === "string" && typeof r.price === "string" && typeof r.change === "string" && isSparkline(r.sparkline));
 /** True for a snapshot the board can render (shape check for anything read from the network or prerender state). */
 export function isMoversSnapshot(value) {
   return Boolean(value && Array.isArray(value.up) && Array.isArray(value.down) && value.up.length + value.down.length > 0

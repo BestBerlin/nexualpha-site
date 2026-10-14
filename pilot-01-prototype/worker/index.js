@@ -5076,31 +5076,40 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.heroServed = heroServed;
     routePayload = { ...routePayload, heroVariant: heroServed };
   }
-  // Use the existing React renderer and funding cache for identical SSR and hydration values.
+  let renderedLiveHome = false;
+  // Use one live snapshot for the header, terminal, rail and movers, then hydrate with those same values.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
-    const funding = await readHomeFundingSnapshot(env);
-    if (funding) {
+    const [funding, flash, ticker, movers] = await Promise.all([
+      readHomeFundingSnapshot(env),
+      readFlashItems(env, url).then((items) => flashStreamPayload(items, publicRoute.locale || "en", { limit: 5, now: flashNow(env) })).catch((error) => {
+        console.error(`[NexuAlpha] home flash SSR failed: ${error?.message || error}`);
+        return null;
+      }),
+      readTickerSnapshot(env),
+      readMoversSnapshot(env),
+    ]);
+    if (funding || flash || ticker || movers) {
+      const state = { heroVariant: routePayload.heroVariant, ...(funding ? { funding } : {}), ...(flash ? { flash } : {}), ...(ticker ? { ticker } : {}), ...(movers ? { movers } : {}) };
       try {
-        const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), {
-          funding, heroVariant: routePayload.heroVariant,
-        });
-        if (typeof rendered === "string" && rendered.includes('id="h7-funding"')) {
+        const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
+        if (typeof rendered === "string" && rendered.includes('id="h7-flash"')) {
           appHtml = rendered;
-          routePayload = { ...routePayload, funding, homeContext: activityRequestContext(url) };
+          renderedLiveHome = true;
+          routePayload = { ...routePayload, ...state, homeContext: activityRequestContext(url) };
         }
       } catch (error) {
-        console.error(`[NexuAlpha] home funding SSR failed: ${error?.message || error}`);
+        console.error(`[NexuAlpha] home live SSR failed: ${error?.message || error}`);
       }
     }
   }
   // Live ticker bar (2026-10-13): the home page is prerendered with an empty bar; write the cached snapshot into it and
   // ship the same snapshot as state "ticker" so the browser hydrates the identical frame.
-  if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes("nx-ticker")) {
+  if (contentPathname === "/" && !renderedLiveHome && typeof appHtml === "string" && appHtml.includes("nx-ticker")) {
     const ticker = await readTickerSnapshot(env);
     if (ticker) { appHtml = spliceTickerHtml(appHtml, ticker); routePayload = { ...routePayload, ticker }; }
   }
   // Home "Today's movers" (2026-10-13): same pattern, the board body is prerendered empty and filled here.
-  if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes('data-mv="body"')) {
+  if (contentPathname === "/" && !renderedLiveHome && typeof appHtml === "string" && appHtml.includes('data-mv="body"')) {
     const movers = await readMoversSnapshot(env);
     if (movers) { appHtml = spliceMoversHtml(appHtml, movers, routeKey.split("|")[1] || "en"); routePayload = { ...routePayload, movers }; }
   }

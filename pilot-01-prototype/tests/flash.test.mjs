@@ -355,9 +355,12 @@ test("hydration of the stream and an item page has no mismatch (en, zh-hans, ar)
 });
 
 test("header keeps five primary items with Flash under More; home has the live rail", async () => {
-  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", {});
+  const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", { flash: flashStreamPayload(items, "zh-Hans", { limit: 5, now: NOW }) });
   assert.match(home, /class="h7-in h7-flash"[\s\S]*href="\/zh-hans\/flash"/, "home rail");
-  assert.equal((home.match(/class="h7-flash-skel"/g) || []).length, 5, "five fixed placeholder rows in the prerender");
+  assert.equal((home.match(/class="h7-flash-skel"/g) || []).length, 0, "SSR ships real rows instead of skeletons");
+  const rail = home.match(/<ol class="h7-flash-list"[\s\S]*?<\/ol>/)?.[0] || "";
+  assert.equal((rail.match(/<li/g) || []).length, 5);
+  assert.match(rail, /href="\/zh-hans\/flash\//);
   const header = home.match(/<header[\s\S]*?<\/header>/)?.[0] || "";
   const primary = header.match(/<nav class="nx-nav"[\s\S]*?<\/nav>/)?.[0] || "";
   assert.doesNotMatch(primary.split(/nx-more|data-more/)[0], /href="\/zh-hans\/flash"/, "not a primary item");

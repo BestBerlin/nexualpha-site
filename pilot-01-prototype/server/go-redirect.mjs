@@ -10,6 +10,7 @@ import path from 'node:path';
 import { partnersProgram, findProgramPartner } from '../src/data/partners-program.js';
 import { programTarget, programPartnerForRequest } from './partner-program.mjs';
 import { partnerRegistry } from '../src/data/partner-registry.js';
+import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
 import { clickMetadata } from './click-metadata.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
@@ -22,6 +23,7 @@ import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
 import { createApkProbe } from './exchange-apk-probe.mjs';
 
 // Older campaign route names some pages, posts or bots used; they resolve to the live tracked route (same code).
+export const SOURCE_BOUND_GO_SLUGS = Object.freeze(['aevo', 'hashkey']);
 export const GO_ALIASES = Object.freeze({ gate: 'gate-io', 'bybit-stocks': 'bybit', 'binance-october-gifts': 'binance-gifts', 'binance-october': 'binance-gifts' });
 
 /**
@@ -73,6 +75,14 @@ export function createPartnerMapLoader(clientRoot) {
       // never revive a referral venue omitted by the feed's verification/placeholder gates.
       for (const [slug, partner] of Object.entries(partnerRegistry)) {
         if (partner.hasReferral === false && /^https:\/\//.test(partner.registrationUrl || '')) partners.set(slug, partner.registrationUrl);
+      }
+      // These existing source-bound referral routes live outside the owner partner feed.
+      // Reuse their reviewed URL and code; do not bypass that feed for any registry venue.
+      for (const slug of SOURCE_BOUND_GO_SLUGS) {
+        const cta = publicCtaForVenue(slug, 'en');
+        if (cta.hasReferral && cta.inviteCode && /^https:\/\//.test(cta.registrationUrl || '') && cta.registrationUrl.includes(encodeURIComponent(cta.inviteCode))) {
+          partners.set(slug, cta.registrationUrl);
+        }
       }
       loadedAt = Date.now();
     }

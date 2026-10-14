@@ -3,7 +3,7 @@
 //  - route-matching slug lists mirror their heavy data sources without importing them;
 //  - every emitted stylesheet is re-linked in index.html in the historical cascade order;
 //  - DeferUntilVisible renders its children on the server and gates them in the browser;
-//  - the SSR home still contains the calculator, Telegram block, research drawer and closing index text.
+//  - the SSR home still contains the calculator, Telegram block and compact footer without restoring the old research/closing link walls.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -50,12 +50,14 @@ const c = import.meta.env.SSR ? import.meta.glob("./x.jsx", { eager: true }) : {
   assert.equal(plugin.transform(source, "/x/src/styles.css", { ssr: false }), null);
 });
 
-test("App.jsx, HomeV7 and ClosingBand keep the SSR eager glob pattern the client plugin strips", async () => {
-  for (const file of ["../src/App.jsx", "../src/components/v7/HomeV7.jsx", "../src/components/v6/ClosingBand.jsx"]) {
+test("App.jsx and HomeV7 keep the SSR eager glob pattern the client plugin strips", async () => {
+  for (const file of ["../src/App.jsx", "../src/components/v7/HomeV7.jsx"]) {
     const source = await read(file);
     assert.match(source, /import\.meta\.env\.SSR \? import\.meta\.glob\(\[[\s\S]*?\], \{ eager: true \}\) : \{\}/, file);
     assert.ok(dropSsrEagerGlobForClient(source), `${file} eager glob is recognised by the client transform`);
   }
+  const closingBand = await read("../src/components/v6/ClosingBand.jsx");
+  assert.doesNotMatch(closingBand, /import\.meta\.glob/, "ClosingBand no longer owns an eager SSR module table");
 });
 
 test("route-matching slug lists mirror their data sources", () => {
@@ -170,11 +172,12 @@ test("SSR home keeps the scroll-deferred sections' text for crawlers and no-JS r
     assert.ok(text.includes(t.calcH), `${locale}: calculator heading "${t.calcH}"`);
     assert.ok(text.includes(t.all), `${locale}: directory link`);
     assert.ok(text.includes(telegramCopy(locale).h), `${locale}: Telegram block heading`);
-    assert.match(html, /id="research-tools"/, `${locale}: research drawer`);
-    assert.match(html, /class="crawl-priority-links__groups"/, `${locale}: closing index groups`);
-    assert.match(html, /data-testid="brazil-entry-link"/, `${locale}: Brazil entry link inside the closing index`);
-    assert.ok((html.match(/<!--\$-->/g) || []).length >= 3, `${locale}: Suspense boundaries for below-fold, research drawer and closing index`);
-    assert.doesNotMatch(html, /<template data-nexualpha-scope-start="home-research"><\/template><!--\$--><!--\/\$-->/, `${locale}: research drawer is not empty`);
+    assert.doesNotMatch(html, /id="research-tools"|home-research-drawer/, `${locale}: old research-tools wall stays removed`);
+    assert.match(html, /<footer class="nx-ftr" id="policy">/, `${locale}: compact footer`);
+    assert.match(html, /data-footer-partner-links/, `${locale}: compact referral codes row`);
+    assert.doesNotMatch(html, /crawl-priority-links__groups|data-testid="brazil-entry-link"/, `${locale}: old closing link wall stays removed`);
+    assert.ok((html.match(/<!--\$-->/g) || []).length >= 1, `${locale}: Suspense boundary for below-fold content`);
+    assert.doesNotMatch(html, /<template data-nexualpha-scope-start="home-research">/, `${locale}: old research scope is not emitted`);
   }
 });
 

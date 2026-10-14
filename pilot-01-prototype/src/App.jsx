@@ -31,7 +31,6 @@ import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/l
 import { languageOptionsFromHreflang, readDocumentHreflangAlternates } from "./data/page-hreflang-links.js";
 import { sharedOfficialEventItems } from "./data/event-source.js";
 import { startJsonPolling } from "./components/shared/json-polling.js";
-import { jurisdictionPromotionBan } from "./data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "./data/locale-policy.js";
 import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
@@ -1047,65 +1046,11 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
 
   // 顶级转化漏斗首页：跑马灯 -> LeanHero首屏 -> 横向对比决策 -> 交易暗亏体检仪 -> 核心黄页开户 -> 辅助情报模块 -> 实时社交证明浮窗
-  const homeSlots = {
-    hero: <>
-      <DeferredBoundary scope="home-hero">
-        <RebateTickerBar locale={locale} />
-        <LeanHero locale={locale} />
-        <BrazilEntryLink locale={locale} />
-      </DeferredBoundary>
-      <HomeSectionNav locale={locale} />
-    </>,
-    compare: <>
-      <CrossroadsCompare locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} />
-    <details className="home-analyzer-drawer" id="bleed-analyzer-legacy">
-      <summary>
-        <strong>{({
-          "zh-Hans": "展开交易成本体检", "zh-Hant": "展開交易成本檢查", en: "Open the fee cost check",
-          ja: "取引コストを確認", ko: "거래 비용 확인", tr: "İşlem maliyetini kontrol et",
-          fr: "Vérifier les frais de transaction", de: "Handelskosten prüfen", es: "Revisar los costes de operación",
-          "pt-BR": "Verificar custos de negociação", ru: "Проверить торговые издержки",
-        // l10n: needs native review
-        ur: "ٹریڈنگ لاگت چیک کریں",
-        // l10n: needs native review
-        uk: "Перевірити торгові витрати", ar: "تحقق من تكاليف التداول",
-          id: "Periksa biaya perdagangan", vi: "Kiểm tra chi phí giao dịch", it: "Controlla i costi di trading",
-        }[locale] || v3ShellCopy(locale).comparisonMatrix || "Open the fee cost check")}</strong>
-        <span>{({
-          "zh-Hans": "用公开基础费率估算，再决定是否深入核对", "zh-Hant": "用公開基礎費率估算，再決定是否深入核對", en: "Estimate from published base rates before going deeper",
-          ja: "公開基準手数料を見積もり、詳しい確認に進みます", ko: "공개 기본 수수료를 추정한 뒤 자세히 확인하세요", tr: "Yayınlanan temel oranlarla tahmin yapın, sonra ayrıntıları doğrulayın",
-          fr: "Estimez avec les taux publiés avant d'aller plus loin", de: "Schätzen Sie anhand veröffentlichter Basissätze, bevor Sie weiterprüfen", es: "Estima con las tarifas base publicadas antes de profundizar",
-          "pt-BR": "Estime pelas taxas base publicadas antes de avançar", ru: "Оцените по опубликованным базовым ставкам перед подробной проверкой",
-        // l10n: needs native review
-        ur: "مزید تحقیق سے پہلے شائع شدہ بنیادی شرح سے تخمینہ لگائیں",
-        // l10n: needs native review
-        uk: "Оцініть за опублікованими базовими ставками перед детальнішою перевіркою", ar: "قدّر التكلفة بالأسعار الأساسية المنشورة قبل التعمق",
-          id: "Perkirakan dari biaya dasar yang dipublikasikan sebelum menelusuri lebih jauh", vi: "Ước tính theo mức phí cơ bản đã công bố trước khi xem chi tiết", it: "Stima con le tariffe base pubblicate prima di approfondire",
-        }[locale] || v3ShellCopy(locale).conversionPreviewBody || "Estimate from published base rates before going deeper")}</span>
-        <b aria-hidden="true">＋</b>
-      </summary>
-      <div className="home-analyzer-drawer__body"><DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary></div>
-    </details>
-    </>,
-    feeCheck: <DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary>,
-    directory: <>
-      <PlatformMatcher locale={locale} venues={command.venueCatalog} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={setCompareSelection} />
-      <VenueYellowPages venues={command.venueCatalog} locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} compact />
-    </>,
-    // Kept (folded): the drawer holds the only sign-up links for some partners (e.g. Aevo, HashKey, HTX); removing it needs owner sign-off.
-    closing: <>
-      <DeferredBoundary scope="home-research"><DeferUntilVisible target="#research-tools"><HomeResearchDrawer locale={locale} /></DeferUntilVisible></DeferredBoundary>
-      <CrawlPriorityLinks locale={locale} scope="home" />
-    </>,
-  };
-  const homeCtx = { locale, venues: command.venueCatalog, decisionPassport };
-  const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
-    <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} />
-    {/* Neutral locales and no-promotion markets (Vietnam) get no legacy research drawer: it holds sign-up links. */}
-    <ClosingBand locale={locale} legacy={isNeutralCtaLocale(locale) || jurisdictionPromotionBan({ locale, market: route.market }) ? <CrawlPriorityLinks locale={locale} scope="home" /> : homeSlots.closing} />
+    <HomeV7 locale={locale} market={route.market} movers={initialMovers} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
+    <ClosingBand locale={locale} />
     {footer}
     {searchDialog}
   </main>;

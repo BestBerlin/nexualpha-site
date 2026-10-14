@@ -1,20 +1,9 @@
-// V6 act 5: closing band. A large-type statement + next-action CTAs (one line-draw route + a
-// word-rise), then the legacy research drawer and CrawlPriorityLinks re-hosted unchanged as a typographic index
-// (restyled in src/styles/v6/closing.css). The legacy slot keeps every link in the DOM in its original order.
-import { Fragment, lazy, memo, useEffect, useRef, useState } from "react";
+// V6 act 5: closing band. A large-type statement + next-action CTAs (one line-draw route + a word-rise).
+import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { CLOSE_COPY, RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
+import { CLOSE_COPY } from "../v3/LeanHeroCopyV6.js";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { prefersReducedMotionNow, whenReached } from "../../lib/revealGuard.js";
-import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
-
-// The folded index (LeanHero facets + BrazilEntryLink) is server-rendered inline and loaded in the browser only when
-// the fold scrolls near (perf lane 2026-10-11); the eager glob is dropped from browser builds by vite.config.mjs.
-const ssrClosingIndexModules = import.meta.env.SSR ? import.meta.glob(["./closing-index.jsx"], { eager: true }) : {};
-let closingIndexChunk;
-const loadClosingIndex = () => (closingIndexChunk ??= import("./closing-index.jsx"));
-const ClosingIndexGroups = import.meta.env.SSR ? ssrClosingIndexModules["./closing-index.jsx"].ClosingIndexGroups : lazy(() => loadClosingIndex().then((m) => ({ default: m.ClosingIndexGroups })));
-
 
 // The two next-step CTAs are GET forms, not anchors: they work without JS and keep the page's crawlable <a href> set
 // identical to production (those destinations already link from the header, footer and the index below).
@@ -29,9 +18,8 @@ function GoForm({ href, className, children }) {
 // Shared noun for the directory CTA (the hero's tertiary link uses the same label).
 export const directoryLabel = (locale) => (CLOSE_COPY[locale] || CLOSE_COPY.en).dir;
 
-function ClosingBandImpl({ legacy, locale = "en" }) {
+function ClosingBandImpl({ locale = "en" }) {
   const t = CLOSE_COPY[locale] || CLOSE_COPY.en;
-  const r = pickLocale(RAIL, locale);
   const ref = useRef(null);
   const [phase, setPhase] = useState("idle"); // idle (SSR: all visible) -> armed (hidden) -> in (revealed)
   useEffect(() => {
@@ -48,12 +36,6 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
     setPhase("armed");
     stop = whenReached(el, open, { ratio: 0.85 });
     return () => { io.disconnect(); stop(); };
-  }, []);
-  // Phones: the related-research index starts folded (one tappable row; every link stays in the DOM for crawlers and keyboards).
-  const idx = useRef(null);
-  useEffect(() => {
-    const d = idx.current?.querySelector(".crawl-priority-links__details");
-    if (d && window.matchMedia("(max-width: 37.5rem)").matches) d.open = false;
   }, []);
   // CJK has no spaces: rise per clause (never per glyph, so kinsoku line breaking stays intact).
   const cjk = /^(zh|ja)/.test(locale);
@@ -78,16 +60,6 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
       <p className="v6-small v6-close__note">{t.note}</p>
     </div>
     <RailSeg dest /><RailDock i={3} kind="dest" locale={locale} />
-    </div>
-    <div className="v6-close__index v6-wrap" ref={idx}>{legacy}
-      {/* Moved here from the hero foot: the directory facets (same hrefs and labels the hero produced) and the Telegram / Brazil routes. */}
-      {/* v8: the directory facets and more-entry links fold into one drawer (same links, still in the DOM for crawlers). */}
-      <details className="crawl-priority-links__details v6-close__fold">
-        <summary className="crawl-priority-links__intro"><strong>{r[4]}</strong><span>{r[2]}</span><b aria-hidden="true">＋</b></summary>
-        <DeferUntilVisible target=".v6-close__fold" prefetch={loadClosingIndex}>
-          <ClosingIndexGroups locale={locale} r={r} />
-        </DeferUntilVisible>
-      </details>
     </div>
   </section>;
 }

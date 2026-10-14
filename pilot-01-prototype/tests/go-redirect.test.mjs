@@ -62,3 +62,16 @@ test("/go/gate resolves the canonical Gate.io partner target", async () => {
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map(row => JSON.parse(row));
   assert.equal(rows[0].partner, "gate-io");
 });
+
+// The UI now routes these pre-existing source-bound signup destinations through /go too.
+test("source-bound Aevo and HashKey routes retain their reviewed referral destinations", async () => {
+  const { publicCtaForVenue } = await import('../src/data/source-bound-cta.js');
+  const { handle } = await setup();
+  for (const slug of ['aevo', 'hashkey']) {
+    const cta = publicCtaForVenue(slug, 'en');
+    const response = await handle(new Request(`https://nexualpha.com/go/${slug}?src=registration-card-primary`));
+    assert.equal(response.status, 302);
+    assert.equal(response.headers.get('location'), cta.registrationUrl);
+    assert.ok(response.headers.get('location').includes(cta.inviteCode));
+  }
+});

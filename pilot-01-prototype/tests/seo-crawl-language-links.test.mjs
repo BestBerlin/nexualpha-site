@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 import { localizedHref, localizedLanguageHref } from '../src/data/locale-routing.js';
 const root = fileURLToPath(new URL('..', import.meta.url));
-test('language listbox renders only the page hreflang set while the footer keeps locale homes', () => {
+test('header language listbox keeps page hreflang targets without a duplicate footer language list', () => {
   const temp = mkdtempSync(path.join(root, 'tests/.tmp-language-'));
   try {
     const entry = path.join(temp, 'entry.jsx');
@@ -36,11 +36,8 @@ test('language listbox renders only the page hreflang set while the footer keeps
       assert.equal(document.querySelector('[role="listbox"]').hidden,true);
     }
     const footer = new JSDOM(result.footer).window.document;
-    const links = [...footer.querySelectorAll('.nx-ftr__locales a')];
-    assert.equal(links.length,15);
-    assert.equal(new Set(links.map(a=>a.href)).size,15);
-    assert.deepEqual(links.map((a) => a.hreflang).filter((code) => ['ur', 'uk'].includes(code)), []);
-    for (const link of links) assert.equal(link.getAttribute('href'),localizedHref('/',{locale:link.hreflang}));
+    assert.equal(footer.querySelectorAll('.nx-ftr__locales, a[hreflang]').length, 0);
+    assert.equal(footer.querySelectorAll('.clean-footer__column').length, 4);
   } finally {rmSync(temp,{recursive:true,force:true});}
 });
 

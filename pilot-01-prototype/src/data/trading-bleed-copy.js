@@ -1,4 +1,5 @@
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
+export { bleedCopyFeedback } from "./trading-bleed-feedback.js";
 
 const COPY = {
   // l10n: needs native review
@@ -530,16 +531,6 @@ function normalizeLocale(locale = "en") {
 
 export function tradingBleedCopy(locale = "en") {
   return COPY[normalizeLocale(locale)] || COPY.en;
-}
-
-export function bleedCopyFeedback(locale = "en") {
-  const copy = tradingBleedCopy(locale);
-  return {
-    copied: copy.copied,
-    failed: copy.copyFailed,
-    codeLabel: copy.codeManualLabel,
-    embedLabel: copy.embedManualLabel,
-  };
 }
 
 export const tradingBleedLocales = LOCALES;

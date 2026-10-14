@@ -167,10 +167,10 @@ test("V2 uses a conversion-led finder, venue directory, and comparison hierarchy
   assert.match(app, /v2Copy\(locale\)/);
   assert.match(app, /marketCommand\(copy, model\.venues\)/);
   assert.match(app, /<CommandFinder/);
-  assert.match(app, /<LeanHero/);
+  assert.match(app, /<HomeV7/);
   assert.match(app, /<VenueYellowPages/);
-  assert.match(app, /<VenueYellowPages[\s\S]*compact \/>/);
-  assert.match(app, /<CrossroadsCompare/);
+  assert.match(app, /<VenueYellowPages[\s\S]*headingLevel=\{1\}/);
+  assert.match(app, /deferredComponent\("\.\/components\/v3\/CrossroadsCompare\.jsx"/);
   assert.match(app, /<CleanFooter/);
   assert.match(leanHero, /href: "\/methodology#disclosure"/);
   assert.doesNotMatch(app, /<MarketRail|<OfficialUpdates|<Methodology|<MarketRoutes|<ListingsStream/);
@@ -244,30 +244,17 @@ test("regional research previews expose bounded AEO questions and source freshne
   assert.match(venueYellowPagesCss, /\.yellow-pages__decision-card--mobile-collapsed \{ display: none; \}/);
 });
 
-// The active HomeV7 decision desk precedes the research drawer hosted by ClosingBand.
-test("homepage keeps primary decisions above a collapsible research drawer", () => {
+// Owner overhaul: home keeps the decision desk and a compact closing band, without a research wall.
+test("homepage keeps decisions above the compact closing band", () => {
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
-  assert.match(activeHome, /<HomeV7 locale=\{locale\} market=\{route\.market\} movers=\{initialMovers\} fundingFeed=\{initialFundingFeed\} initialOfficialAnnouncements=\{initialOfficialAnnouncements\} \/>/);
-  // A no-promotion market (Vietnam) keeps only the crawl links; every other market keeps the research drawer.
-  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{isNeutralCtaLocale\(locale\) \|\| jurisdictionPromotionBan\(\{ locale, market: route\.market \}\) \? <CrawlPriorityLinks locale=\{locale\} scope="home" \/> : homeSlots\.closing\} \/>/);
-  assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
-  const closingSlot = app.slice(app.indexOf("closing: <>"), app.indexOf("const homeCtx"));
-  assert.match(closingSlot, /<HomeResearchDrawer locale=\{locale\} \/>/);
-  assert.match(closingBand, /className="v6-close__index v6-wrap"[^>]*>\{legacy\}/);
-  assert.match(homeV7, /<aside className="h7-lg" id="h7-desk" aria-label=\{t\.lgTitle\}/);
-  assert.match(homeV7, /className="h7-lg-tabs" role="group" aria-label=\{t\.lgPick\}/);
-  assert.match(homeV7, /aria-pressed=\{r\.slug === sel\.slug\} onClick=\{\(\) => setPick\(r\.slug\)\}/);
+  assert.match(activeHome, /<HomeV7[^>]*initialFlash=\{initialFlash\}/);
+  assert.match(activeHome, /<ClosingBand locale=\{locale\} \/>/);
+  assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"));
+  assert.doesNotMatch(activeHome, /HomeResearchDrawer|CrawlPriorityLinks|legacy=/);
+  assert.doesNotMatch(closingBand, /v6-close__index|ClosingIndexGroups/);
+  assert.match(homeV7, /<HeroExchangeSelector[^>]*onPick=\{setPick\}/);
   assert.match(homeV7, /<Cta v=\{sel\} locale=\{locale\}[^>]*placement="home-v7-hero"/);
-  assert.match(homeV7, /href="#h7-desk"/);
   assert.match(homeV7, /href="#h7-calc"/);
-  assert.match(app, /return <details className="home-research-drawer" id="research-tools"/);
-  assert.doesNotMatch(app, /<details className="home-research-drawer"[^>]*\bopen[=\s>]/, "secondary research starts collapsed");
-  assert.match(app, /<summary><strong>\{text\.summary\}<\/strong>/);
-  assert.match(app, /className="home-research-drawer__body"/);
-  for (const component of ["CampaignRadar", "FeeBenchmarkTerminal", "OnChainLiquidityBoard", "TelegramBotHub", "MarketFearGreedPanel"]) {
-    assert.match(app.slice(app.indexOf('className="home-research-drawer__body"'), app.indexOf("const crawlPriorityLinks")), new RegExp(`<${component} locale=\\{locale\\}`));
-  }
-  assert.match(v3LayoutStability, /\.home-research-drawer:not\(\[open\]\) > \.home-research-drawer__body \{ display: none; \}/);
 });
 
 // Class d retarget: the removed public manual-review queue is now an answer-first topic gateway plus collapsed ops pack.
@@ -1109,16 +1096,12 @@ test("Japanese homepage gives the JP AEO page a compact internal entry", () => {
   assert.match(leanHero, /heroPills\.map\(\(pill\)/);
 });
 
-test("homepage moves from the hero into venue comparison before the directory", () => {
-  assert.doesNotMatch(app, /function ResearchPath|function ActiveOpportunities/);
-  assert.match(app, /<LeanHero/);
-  assert.match(app, /<VenueYellowPages/);
-  assert.match(app, /<CrossroadsCompare/);
+test("homepage decision desk links to the calculator and exchange directory", () => {
+  assert.match(homeV7, /href="#h7-calc"/);
+  assert.match(homeV7, /localizedHref\("\/exchanges", \{ locale \}\)/);
+  assert.match(app, /<HomeV7/);
+  assert.match(app, /<VenueYellowPages[^>]*headingLevel=\{1\}/);
   assert.doesNotMatch(app, /<ScenarioRouter/);
-  assert.doesNotMatch(app, /href="https?:\/\/[^"}]+"/);
-  const home = app.slice(app.lastIndexOf("顶级转化漏斗首页"));
-  assert.ok(home.indexOf("<LeanHero") < home.indexOf("<CrossroadsCompare"));
-  assert.ok(home.indexOf("<CrossroadsCompare") < home.indexOf("<VenueYellowPages"));
 });
 
 test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a visible conversion path", () => {
@@ -1665,7 +1648,7 @@ test("locale state and the fixed default market cover the application root witho
   assert.match(app, /popstate/);
   assert.match(app, /initialCompareSelection/);
   assert.match(app, /useState\(\(\) => initialCompareSelection \|\| readComparison\(\)\)/);
-  assert.match(app, /selected=\{compareSelection\}/);
+  assert.match(app, /createSelectionStore\(compareSelection\)/);
   assert.match(app, /window\.sessionStorage\.setItem\("nexualpha-comparison"/);
   assert.match(app, /<LanguageMenu locale=\{locale\} options=\{localeOptions\} label=\{copy\.ui\.language\} disabled=\{brazil\} onSelect=\{onLocaleChange\} inline \/>/);
   assert.doesNotMatch(app, /See what is live\. Compare the terms\. Choose the venue\./);
@@ -2009,21 +1992,12 @@ test("CleanFooter navigation labels match their destinations in every supported 
   assert.match(cleanFooter, /contact: "お問い合わせ"/);
   assert.match(cleanFooter, /contact: "문의"/);
   assert.match(cleanFooter, /contact: "İletişim"/);
-  assert.match(cleanFooter, /href=\{href\("\/exchanges"\)\}>\{labels\.directory\}/);
-  assert.match(cleanFooter, /href=\{href\("\/topics"\)\}>\{labels\.topics\}/);
-  assert.match(cleanFooter, /href=\{href\("\/factbook"\)\}>\{labels\.factbook\}/);
-  // 2026-10-11 brand entity: the footer group gains About and Editorial policy; the methodology link keeps its own label.
-  assert.match(cleanFooter, /href=\{href\("\/about"\)\}>\{labels\.about\}/);
-  assert.match(cleanFooter, /href=\{href\("\/editorial-policy"\)\}>\{labels\.editorial\}/);
-  assert.match(cleanFooter, /href=\{href\("\/methodology"\)\}>\{labels\.methodology\}/);
-  assert.match(cleanFooter, /href=\{brazil \? "\/br\/custos" : href\("\/embed\/calculator"\)\}>\{labels\.calculator\}/);
-  assert.match(cleanFooter, /href=\{href\("\/partners\/embed-guide"\)\}>\{labels\.embedGuide\}/);
-  assert.match(cleanFooter, /!isNeutralCtaLocale\(locale\)[\s\S]*?href=\{href\("\/partners"\)\}>\{partnerProgramLabel\}/);
-  assert.match(cleanFooter, /href=\{href\("\/methodology#disclosure"\)\}>\{labels\.disclosure\}/);
-  // Public policy/contact destinations replace the former anchor and email-only navigation.
-  for (const label of ["privacy", "terms", "contact"]) {
-    assert.ok(cleanFooter.includes(`href={href("/${label}")}>{labels.${label}}`));
+  for (const [path, label] of [["exchanges","directory"],["topics","topics"],["factbook","factbook"],["about","about"],["editorial-policy","editorial"],["methodology","methodology"],["partners/embed-guide","embedGuide"],["methodology#disclosure","disclosure"],["privacy","privacy"],["terms","terms"],["contact","contact"]]) {
+    assert.ok(cleanFooter.includes(`href: href("/${path}"), label: labels.${label}`), `${path} retains its localized label`);
   }
+  assert.match(cleanFooter, /href: brazil \? "\/br\/custos" : href\("\/embed\/calculator"\), label: labels\.calculator/);
+  assert.match(cleanFooter, /!isNeutralCtaLocale\(locale\)[\s\S]*?href: href\("\/partners"\), label: partnerProgramLabel/);
+  assert.doesNotMatch(cleanFooter, /localeManifest|localeLinks/);
   assert.doesNotMatch(cleanFooter, /contact:\s*text\.detailHandoff/);
   assert.doesNotMatch(cleanFooter, /about:\s*text\.home/);
   assert.doesNotMatch(cleanFooter, />\{copy\.(?:about|editorial|calculator|embedGuide|privacy|terms|disclosure|contact)\}<\/a>/);
@@ -2292,15 +2266,15 @@ test("registration card displays route, benefit, and regional status independent
   assert.match(registrationCard, /publicCta\.benefitVerified \? copy\.benefitVerified : showProtocolContext \? entryContext\.body : copy\.benefitPending/);
   assert.match(registrationCard, /regionalCta\.ctaState === "blocked"/);
   assert.match(registrationCard, /registration-card__state-list/);
-  assert.match(registrationCard, /data-registration-preflight=\{primaryRegistrationHref \? "partner-route"/);
+  assert.match(registrationCard, /const guardedPreflight = primaryRegistrationHref \? null/);
   assert.match(registrationCard, /data-registration-decision-state=\{registrationDecision\.state\}/);
   assert.match(registrationCard, /data-growth-decision-state=\{registrationDecision\.state\}/);
-  assert.match(registrationCard, /copy\.preflightWithCode\.replace\("\{code\}", visiblePartner\.inviteCode\)/);
-  assert.match(registrationCard, /if it is not prefilled, enter it before submitting/);
+  assert.match(registrationCard, /data-cta-code=\{visiblePartner\.hasReferral && visiblePartner\.inviteCode \? visiblePartner\.inviteCode : undefined\}/);
+  assert.match(registrationCard, /registrationCardGoHref\(venueSlug/);
   assert.match(registrationCard, /data-cta-kind="registration"/);
   assert.match(registrationCard, /data-cta-placement="registration-card-primary"/);
   assert.match(registrationCard, /data-growth-placement="registration-card-primary"/);
-  assert.match(registrationCardCss, /\.registration-card__preflight/);
+  assert.match(registrationCardCss, /\.registration-card--compact \.registration-card__preflight/);
 });
 
 test("comparison decision fallback never invents fee, leverage or benefit defaults", () => {

@@ -1,9 +1,10 @@
 // Home rail (2026-10-12): the latest 5 flash items, refreshed every 60 s, linking into /flash on our own site.
-// The home page is prerendered, so the server ships the frame with five fixed-height placeholder rows (no layout shift)
-// and the browser fills them from /api/flash.json once the rail approaches the viewport. HomeV7 loads this module
-// as its own chunk when the rail scrolls near (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
+// The home page now ships the latest request-time snapshot in SSR HTML and the browser replaces it from
+// /api/flash.json after hydration. HomeV7 loads this module as its own chunk when the rail scrolls near
+// (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { dataStatusCopy } from "../../content/data-status-copy.js";
 import { ReaderTime } from "../shared/ReaderTime.jsx";
 import { FLASH_PATH } from "../../data/flash-path.js";
 import { startJsonPolling } from "../shared/json-polling.js";
@@ -27,10 +28,17 @@ export function flashRailCopy(locale) {
 
 const ROWS = 5;
 
-export function FlashRail({ locale = "en" }) {
+function initialRows(initial) {
+  return Array.isArray(initial?.items) ? initial.items.filter((item) => item && typeof item.headline === "string" && typeof item.path === "string" && typeof item.time === "string").slice(0, ROWS) : null;
+}
+
+export function FlashRail({ locale = "en", initial }) {
   const copy = flashRailCopy(locale);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState(() => initialRows(initial));
   const ref = useRef(null);
+  useEffect(() => {
+    setItems((current) => current || initialRows(initial));
+  }, [initial]);
   useEffect(() => {
     let observer = null, stopPolling = null;
     const start = () => {
@@ -39,29 +47,30 @@ export function FlashRail({ locale = "en" }) {
         request: () => `${FLASH_FEED_URL}?${new URLSearchParams({ locale, limit: String(ROWS) })}`,
         intervalMs: FLASH_REFRESH_MS,
         isData: (data) => Array.isArray(data?.items),
-        onData: (data) => setItems(data.items.slice(0, ROWS)),
+        onData: (data) => { const next = initialRows(data); if (next?.length) setItems(next); },
+        onError: () => setItems((current) => current || []),
       });
     };
     if (typeof IntersectionObserver === "function" && ref.current) {
-      observer = new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) { observer.disconnect(); start(); } }, { rootMargin: "600px 0px" });
+      const reached = (entry) => entry.isIntersecting || entry.boundingClientRect.bottom < 0;
+      observer = new IntersectionObserver((entries) => { if (entries.some(reached)) { observer.disconnect(); start(); } }, { rootMargin: "600px 0px" });
       observer.observe(ref.current);
     } else start();
     return () => { observer?.disconnect(); stopPolling?.(); };
   }, [locale]);
-  const rows = items || Array.from({ length: ROWS }, () => null);
+  const rows = items || [];
   return <section className="h7-in h7-flash" id="h7-flash" aria-labelledby="h7-flash-h" ref={ref}>
     <div className="h7-flash-head">
       <h2 id="h7-flash-h"><span className="h7-flash-dot" aria-hidden="true" />{copy.title}</h2>
       <a href={localizedHref(FLASH_PATH, { locale })}>{copy.all}<span aria-hidden="true" className="h7-flash-arrow">→</span></a>
     </div>
-    <ol className="h7-flash-list" aria-busy={items ? undefined : "true"}>
-      {rows.map((item, index) => item
-        ? <li key={item.id}>
+    <ol className="h7-flash-list" style={{ minHeight: "240px" }}>
+      {!rows.length && <li role="status">{dataStatusCopy(locale).empty}</li>}
+      {rows.map((item) => <li key={item.id || item.path}>
           <ReaderTime iso={item.time} locale={locale} />
           <span className="h7-flash-tag" data-type={item.type} data-important={item.important ? "true" : undefined}>{item.typeLabel}</span>
           <a href={localizedHref(item.path, { locale })} lang={item.lang !== locale ? item.lang : undefined} dir="auto">{item.headline}</a>
-        </li>
-        : <li key={`s${index}`} className="h7-flash-skel" aria-hidden="true"><span /><span /><span /></li>)}
+        </li>)}
     </ol>
   </section>;
 }

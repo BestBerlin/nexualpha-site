@@ -17,13 +17,13 @@ const coin = (rank, symbol, slug, category = "layer1", price = null) => ({ rank,
 const COINS = { coins: [
   coin(1, "BTC", "bitcoin"), coin(2, "ETH", "ethereum"), coin(3, "USDT", "tether", "stablecoin"), coin(4, "SOL", "solana"), coin(5, "XRP", "xrp"),
   coin(6, "DOGE", "dogecoin", "meme"), coin(7, "ADA", "cardano"), coin(8, "LINK", "chainlink"), coin(9, "PEPE", "pepe", "meme"), coin(10, "SUI", "sui"),
-  coin(11, "AVAX", "avalanche"), coin(12, "XAUT", "tether-gold", "gold"), coin(13, "TAO", "bittensor"), coin(14, "NEAR", "near-protocol", "layer1", 2.5), coin(150, "TINY", "tiny"),
+  coin(11, "AVAX", "avalanche"), coin(12, "XAUT", "tether-gold", "gold"), coin(13, "TAO", "bittensor"), coin(14, "NEAR", "near-protocol", "layer1", 2.5), coin(150, "ARB", "arbitrum"), coin(250, "TINY", "tiny"),
 ] };
 const row = (symbol, lastPrice, priceChangePercent, quoteVolume = 5e8) => ({ symbol, lastPrice: String(lastPrice), priceChangePercent: String(priceChangePercent), quoteVolume: String(quoteVolume) });
 const BINANCE = [
   row("BTCUSDT", 83999.9, 1.2), row("ETHUSDT", 2531.29, -1.14), row("SOLUSDT", 108.6, -3.35), row("XRPUSDT", 1.3801, 2.12), row("DOGEUSDT", 0.08509, 6.4),
   row("ADAUSDT", 0.41, -7.9), row("LINKUSDT", 11.2, 4.4), row("1000PEPEUSDT", 0.0101, 12.5), row("SUIUSDT", 1.9, -2.2), row("AVAXUSDT", 14.1, 0.8),
-  row("TAOUSDT", 300, -9.1), row("TINYUSDT", 0.001, 400), row("USDTUSDT", 1, 50), row("XAUTUSDT", 4000, 0.1), row("CIENUSDT", 397.3, -12.0), row("LINKUSDT", 11, 99, 10), row("NEARUSDT", 40, 80),
+  row("TAOUSDT", 300, -9.1), row("ARBUSDT", 0.62, 3.3), row("TINYUSDT", 0.001, 400), row("USDTUSDT", 1, 50), row("XAUTUSDT", 4000, 0.1), row("CIENUSDT", 397.3, -12.0), row("LINKUSDT", 11, 99, 10), row("NEARUSDT", 40, 80),
 ];
 const FEED = { generatedAt: "2026-10-13T08:00:00Z", liquidations: { h24: { totalUsd: 133392206, largest: { symbol: "OKX:BTCUSDT", side: "short", usd: 2375474 } } },
   funding: { rows: [{ symbol: "BTC", binanceRate: 8.542e-05, okxRate: 3.885e-05 }] },
@@ -31,12 +31,12 @@ const FEED = { generatedAt: "2026-10-13T08:00:00Z", liquidations: { h24: { total
 const NOW = Date.parse("2026-10-13T08:08:00Z");
 const SNAP = buildMoversSnapshot({ binanceRows: BINANCE, coins: COINS, marketEvents: FEED, now: NOW });
 
-test("universe: top coins by market cap only, no stablecoins or gold; gainers and losers ranked by 24h change", () => {
+test("universe: top 200 coins by market cap only, no stablecoins or gold; gainers and losers ranked by 24h change", () => {
   const universe = moversUniverse(COINS);
-  assert.ok(universe.has("BTC") && universe.has("PEPE"));
+  assert.ok(universe.has("BTC") && universe.has("PEPE") && universe.has("ARB"));
   for (const sym of ["USDT", "XAUT", "TINY"]) assert.ok(!universe.has(sym), sym);
   const board = moversFromBinance(BINANCE, universe);
-  assert.deepEqual(board.up.map((r) => r.sym), ["PEPE", "DOGE", "LINK", "XRP", "BTC"], "TINY (rank 150), USDT, CIEN (not a listed coin) and NEAR priced 16x its coin (another token) never rank");
+  assert.deepEqual(board.up.map((r) => r.sym), ["PEPE", "DOGE", "LINK", "ARB", "XRP"], "ARB (rank 150) ranks; TINY (rank 250), USDT, CIEN (not a listed coin) and NEAR priced 16x its coin (another token) never rank");
   assert.deepEqual(board.down.map((r) => r.sym), ["TAO", "ADA", "SOL", "SUI", "ETH"]);
   const pepe = board.up[0];
   assert.equal(pepe.slug, "pepe");
@@ -44,7 +44,8 @@ test("universe: top coins by market cap only, no stablecoins or gold; gainers an
   assert.equal(pepe.change, "+12.50%");
   assert.equal(board.down[0].change, "−9.10%");
   assert.equal(board.up.find((r) => r.sym === "LINK").change, "+4.40%", "a thin duplicate contract is ignored");
-  assert.equal(moversFromBinance(BINANCE.slice(0, 3), universe), null, "too few rows: no board");
+  assert.deepEqual(moversFromBinance(BINANCE.slice(0, 3), universe).up.map((r) => r.sym), ["BTC"], "short boards render with honest counts instead of disappearing");
+  assert.equal(moversFromBinance([], universe), null, "no valid rows: no board");
 });
 
 test("headline: 24h liquidations with the largest order, else BTC funding; compact USD", () => {
@@ -73,14 +74,19 @@ test("body markup: every row links to its coin page, SGT time, five fixed rows p
     const html = moversBodyHtml(SNAP, locale);
     assert.match(html, new RegExp(`href="${localizedHref("/coins/pepe", { locale }).replace(/[/]/g, "\\/")}"`), locale);
     assert.match(html, new RegExp(`href="${localizedHref("/liquidations", { locale })}"`), `${locale}: headline links the data page`);
-    assert.match(html, /<time datetime="[^"]+">[^<]*\S\S[:.]\S\S SGT/, `${locale}: time in SGT`);
+    assert.match(html, /<time datetime="[^"]+" data-mv-age="1" title="[^"]*SGT[^"]*">[^<]*SGT[^<]*<\/time>/, `${locale}: SSR shows SGT clock before hydration replaces it with relative age`);
     assert.equal((html.match(/<li/g) || []).length, 10, `${locale}: 5 + 5 rows`);
     assert.doesNotMatch(html, /\/go\/|data-cta|referral|invite|注册|sign ?up/i, `${locale}: no CTA`);
   }
   const empty = moversBodyHtml(null, "en");
-  assert.equal((empty.match(/class="h7-mv-sk"/g) || []).length, 10, "skeleton rows hold the height before data");
+  assert.match(empty, /Data unavailable/, "empty board states unavailable instead of disappearing");
+  assert.equal((empty.match(/<li/g) || []).length, 10, "empty and pad rows hold the height before data");
+  assert.equal((empty.match(/class="h7-mv-empty"/g) || []).length, 2, "both sides state unavailable");
   const thin = moversBodyHtml({ ...SNAP, up: SNAP.up.slice(0, 2) }, "en");
   assert.equal((thin.match(/class="h7-mv-pad"/g) || []).length, 3, "short list padded to five rows");
+  assert.match(thin, /<span class="h7-mv-count">2\/5<\/span>/, "short list shows the honest count");
+  const spark = moversBodyHtml({ ...SNAP, up: [{ ...SNAP.up[0], sparkline: [1, 3, 2] }, ...SNAP.up.slice(1)] }, "en");
+  assert.match(spark, /<svg class="h7-mv-sp" viewBox="0 0 40 16"/, "sparklines render only when real row data exists");
   const hostile = moversBodyHtml({ ...SNAP, up: [{ ...SNAP.up[0], sym: "<img>", price: "$1$'\"" }] }, "en");
   assert.doesNotMatch(hostile, /<img>/);
   assert.match(hostile, /\$1\$&#39;&quot;/);
@@ -102,7 +108,7 @@ test("feed: /api/movers.json serves the cached snapshot, 503 without data", asyn
 
 // ------------------------------------------------------------------------------------ rendering and the home page
 const SHELL = "<!doctype html><html lang=\"en\"><head><title>Shell</title></head><body><div id=\"root\"></div></body></html>";
-const boardOf = (html) => html.match(/<section class="h7-in h7-mv"[\s\S]*?<!--mv-end--><\/div><\/section>/)?.[0] || "";
+const boardOf = (html) => html.match(/<section class="[^"]*\bh7-mv\b[^"]*"[\s\S]*?<!--mv-end--><\/div><\/section>/)?.[0] || "";
 let harness;
 let assets;
 const rendered = {};
@@ -131,7 +137,7 @@ test("the old 'Popular coins' block is gone; the prerendered home has the empty 
     const empty = boardOf(rendered[locale]);
     assert.ok(empty, locale);
     assert.match(empty, new RegExp(`class="h7-mv-all" href="${localizedHref("/coins", { locale })}"`), "all coins link");
-    assert.equal((empty.match(/class="h7-mv-sk"/g) || []).length, 10, "placeholders only");
+    assert.equal((empty.match(/class="h7-mv-empty"/g) || []).length, 2, "both sides show honest unavailable states");
     const withData = boardOf(await harness.render(`https://nexualpha.com${localizedHref("/", { locale })}`, { movers: SNAP }));
     assert.equal(spliceMoversHtml(empty, SNAP, locale), withData, `${locale}: splice == render`);
   }
@@ -150,17 +156,19 @@ test("worker: home HTML carries the movers frame and state \"movers\"; it hydrat
     assert.deepEqual(hydrationErrors(errors), [], `${path}: ${errors.join("\n")}`);
   }
   const bare = await (await worker.fetch(new Request("https://nexualpha.com/", { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets })).text();
-  assert.equal((boardOf(bare).match(/class="h7-mv-sk"/g) || []).length, 10, "no reader: the empty frame stays");
+  assert.equal((boardOf(bare).match(/class="h7-mv-empty"/g) || []).length, 2, "no reader: each side has a visible unavailable state");
   assert.equal(prerenderState(bare).movers, undefined);
 });
 
-test("server and client wiring: /api/movers.json route, refresh at most every 60 s while visible, lazy chunk only", async () => {
+test("server and client wiring: /api/movers.json route, refresh every 45 s while visible, lazy chunk only", async () => {
   const server = await readFile(new URL("../server.mjs", import.meta.url), "utf8");
   assert.match(server, /requestPath === MOVERS_PATH/);
   assert.match(server, /MOVERS_READ: movers\.read/);
   const board = await readFile(new URL("../src/components/v7/home7-movers.jsx", import.meta.url), "utf8");
-  assert.match(board, /MOVERS_REFRESH_MS = 60 \* 1000/);
+  assert.match(board, /MOVERS_REFRESH_MS = 45 \* 1000/);
   assert.match(board, /IntersectionObserver/);
+  assert.match(board, /movers-owner\.css/);
+  assert.doesNotMatch(board, /h7-mv-tabs|h7-mv-t-up|h7-mv-t-dn/);
   const below = await readFile(new URL("../src/components/v7/home7-below.jsx", import.meta.url), "utf8");
   assert.match(below, /<MoversBoard locale=\{locale\} initial=\{movers\} \/>/);
   assert.doesNotMatch(below, /POPULAR_COINS|PopularCoins/);

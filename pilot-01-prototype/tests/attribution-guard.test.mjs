@@ -7,10 +7,11 @@ import { resolve, relative } from 'node:path';
 import { parse } from 'parse5';
 import ts from 'typescript';
 import { partnerRegistry } from '../src/data/partner-registry.js';
+import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
 import { EXCHANGE_FACTS } from '../src/data/exchange-facts.js';
 import { BINANCE_OCTOBER_CAMPAIGNS, binanceCampaignUrl } from '../src/data/binance-october.js';
 import { bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
-import { createGoRedirect, GO_ALIASES } from '../server/go-redirect.mjs';
+import { createGoRedirect, GO_ALIASES, SOURCE_BOUND_GO_SLUGS } from '../server/go-redirect.mjs';
 import { KRAKEN_USDG_GO_SLUG } from '../src/data/kraken-usdg.js';
 import { EXCHANGE_APK_BY_GO_SLUG } from '../src/data/exchange-apk.js';
 import { SITEWIDE_PARAM_VENUES, sitewideReferral, exchangeVenueForUrl } from '../src/data/exchange-outbound.js';
@@ -46,7 +47,7 @@ for (const [host, venue] of Object.entries({ 'gate.io': 'gate-io', 'gate.com': '
 for (const key of Object.keys(BINANCE_OCTOBER_CAMPAIGNS)) targets.push({ venue: 'binance', url: new URL(binanceCampaignUrl(key)) });
 targets.push({ venue: 'bitget', url: new URL(bitgetAllianceUrl()) });
 for (const campaign of APPROVED_CAMPAIGNS) targets.push({ venue: campaign.venue, url: new URL(campaignTarget(campaign)) });
-const goVenues = new Map(Object.keys(partnerRegistry).map(venue => [venue, venue]));
+const goVenues = new Map([...Object.keys(partnerRegistry), ...SOURCE_BOUND_GO_SLUGS].map(venue => [venue, venue]));
 for (const campaign of Object.values(BINANCE_OCTOBER_CAMPAIGNS)) goVenues.set(campaign.slug, 'binance');
 for (const campaign of APPROVED_CAMPAIGNS) goVenues.set(`campaign-${campaign.id}`, campaign.venue);
 goVenues.set('bitget-alliance', 'bitget');
@@ -208,6 +209,12 @@ test('every /go route in the registries redirects with the venue code or campaig
     assert.equal(response.status, 302, `/go/${slug} resolves`);
     const location = response.headers.get('location');
     report.push(`/go/${slug}${query} (${label}) -> ${location}`);
+    if (SOURCE_BOUND_GO_SLUGS.includes(venue)) {
+      const cta = publicCtaForVenue(venue, 'en');
+      assert.equal(location, cta.registrationUrl, 'source-bound destination is unchanged');
+      assert.ok(cta.inviteCode && location.includes(encodeURIComponent(cta.inviteCode)), 'source-bound redirect retains its referral code');
+      continue;
+    }
     if (!partnerRegistry[venue]?.hasReferral) continue;
     assert.ok(carries(location, venue), `/go/${slug} (${label}) must carry the ${venue} code: ${location}`);
   }

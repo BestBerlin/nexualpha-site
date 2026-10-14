@@ -1,0 +1,210 @@
+.h7:not(#_):not(#_) .h7-owner-tabs {
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab,
+.h7:not(#_):not(#_) .h7-owner-tabs__more > summary {
+  min-width: 0;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas: "i n" "p p" "t t";
+  justify-content: center;
+  align-content: center;
+  column-gap: 8px;
+  min-height: 64px;
+  padding: 6px 2px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink2);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab img {
+  grid-area: i;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab > span {
+  grid-area: n;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab b {
+  grid-area: p;
+  text-align: center;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab i {
+  grid-area: t;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--ink3);
+  text-align: center;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab:not([aria-pressed=true]) {
+  border-color: rgb(255 255 255/.06);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab:hover {
+  color: var(--ink);
+  border-color: rgb(255 255 255/.18);
+  background: rgb(255 255 255/.04);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab[aria-pressed=true] {
+  background: rgb(255 255 255/.08);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255/.12);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab[aria-pressed=true]::after {
+  content: "";
+  position: absolute;
+  inset: auto 18% -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--glow);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__muted {
+  color: var(--ink3);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__more {
+  position: relative;
+  min-width: 0;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__more > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 100%;
+  padding: 0 10px;
+  border: 1px solid rgb(255 255 255/.06);
+  border-radius: 9px;
+  color: var(--ink2);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.15;
+  text-align: center;
+  list-style: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__more > summary:hover,
+.h7:not(#_):not(#_) .h7-owner-tabs__more[open] > summary {
+  color: var(--ink);
+  background: rgb(255 255 255/.04);
+  border-color: rgb(255 255 255/.18);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__more > summary:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__menu {
+  position: absolute;
+  z-index: 8;
+  inset-block-start: calc(100% + 8px);
+  inset-inline-end: 0;
+  display: grid;
+  gap: 4px;
+  min-width: min(240px, calc(100vw - 40px));
+  padding: 8px;
+  border: 1px solid var(--line2);
+  border-radius: 12px;
+  background: rgb(12 14 18/.98);
+  box-shadow: 0 24px 48px -24px rgb(0 0 0/.9);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__menu button,
+.h7:not(#_):not(#_) .h7-owner-tabs__menu a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink2);
+  font: 600 14px/1.2 inherit;
+  text-decoration: none;
+  text-align: start;
+  cursor: pointer;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__menu button:hover,
+.h7:not(#_):not(#_) .h7-owner-tabs__menu a:hover,
+.h7:not(#_):not(#_) .h7-owner-tabs__menu button[aria-checked=true] {
+  color: var(--ink);
+  background: rgb(255 255 255/.07);
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__menu button:focus-visible,
+.h7:not(#_):not(#_) .h7-owner-tabs__menu a:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs__menu b {
+  color: var(--ac);
+  font: 500 12px/1 var(--mono);
+  white-space: nowrap;
+}
+
+@media(max-width:767px) {
+  .h7:not(#_):not(#_) .h7-owner-tabs {
+    gap: 3px;
+    padding: 3px;
+  }
+
+  .h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab {
+    min-height: 54px;
+    padding: 4px 1px;
+    font-size: 13px;
+  }
+
+  .h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .h7:not(#_):not(#_) .h7-owner-tabs > .h7-owner-tabs__tab b {
+    font-size: 11px;
+  }
+
+  .h7:not(#_):not(#_) .h7-owner-tabs__more > summary {
+    min-height: 54px;
+    padding: 0 4px;
+    font-size: 12px;
+  }
+}
+
+.h7:not(#_):not(#_) .h7-owner-tabs[data-has-more="true"] {
+  grid-template-columns: repeat(calc(var(--n, 4) - 1), minmax(0, 1fr)) minmax(0, 1.3fr);
+}

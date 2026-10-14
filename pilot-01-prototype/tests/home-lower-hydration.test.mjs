@@ -53,10 +53,15 @@ test('lower home hydrates across clock drift and motion preferences in both loca
 
 test('served home reuses its serialized render clock when the complete page hydrates later', async () => {
   const funding = JSON.parse(readFileSync(new URL('./fixtures/funding-rates-live-2026-10-14.json', import.meta.url)));
+  const flash = { kind: 'stream', items: [{ id: 'seed', path: '/flash/seed-notice', time: '2026-10-14T00:00:00Z', type: 'news', typeLabel: 'News', headline: 'Seeded official flash', lang: 'en' }] };
+  const ticker = { generatedAt: '2026-10-14T00:00:00Z', items: [{ sym: 'BTC', price: '$82,000', change: '+1.00%', dir: 'up' }] };
+  const movers = { generatedAt: '2026-10-14T00:00:00Z', up: [{ sym: 'BTC', slug: 'bitcoin', price: '$82,000', change: '+1.00%', dir: 'up' }], down: [], source: 'fixture' };
   for (const path of ['/', '/zh-hans']) for (const heroVariant of ['a', 'b']) {
-    const html = await harness.render(`https://nexualpha.com${path}`, { funding, heroVariant });
+    const html = await harness.render(`https://nexualpha.com${path}`, { funding, flash, ticker, movers, heroVariant });
+    assert.match(html, /Seeded official flash/);
+    assert.match(html, /h7-terminal__ticker[\s\S]*?82,000/);
     assert.match(html, /data-rendered-at="[^"]+"/);
-    const document = `<div id="root">${html}</div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify({ funding, heroVariant })}</script>`;
+    const document = `<div id="root">${html}</div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify({ funding, flash, ticker, movers, heroVariant })}</script>`;
     const result = await hydrateInJsdom(harness.vite, document, `https://nexualpha.com${path}`, { fixedNow: Date.now() + 125000, timeoutMs: 800 });
     assert.deepEqual(hydrationErrors(result.errors.filter(message => !message.includes('Not implemented: HTMLCanvasElement.prototype.getContext'))), [], `${path}/${heroVariant}`);
   }
