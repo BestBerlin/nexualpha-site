@@ -1,8 +1,9 @@
 // Owner privacy (2026-10-15): nothing the public site serves may link nexualpha.com to the owner's personal handle
 // or personal mailbox. The brand contact is contact@nexualpha.com and the byline is "NexuAlpha Research Desk".
 // Checked surfaces: Organization / Article JSON-LD from the Worker, the brand + legal pages, the public text assets
-// (llms.txt, llms-full.txt, research datasets, feeds, sitemaps) and, when present, the built dist output.
-// Partner referral URLs are owner-managed and out of scope here; JS bundles are not scanned.
+// (llms.txt, llms-full.txt, research datasets, feeds, sitemaps), the shipped sources (src, worker, server) and, when
+// present, the whole built dist output including JS bundles. Partner referral URLs are covered too (owner 2026-10-15:
+// the OKX mirror uses NEXU888, the retired personal mirror code must not come back).
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
@@ -16,7 +17,7 @@ import { localizedPath } from "../src/data/locale-routing.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const PERSONAL_IDENTITY = /bestberlin|lilixin/i;
-const SCANNED_EXTENSIONS = new Set([".html", ".json", ".txt", ".xml", ".md", ".webmanifest"]);
+const SCANNED_EXTENSIONS = new Set([".html", ".json", ".txt", ".xml", ".md", ".webmanifest", ".js", ".mjs", ".cjs", ".jsx", ".ts", ".tsx", ".css", ".svg"]);
 const env = { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } };
 
 async function* textFiles(dir) {
@@ -58,6 +59,12 @@ test("public text assets (llms, datasets, feeds, sitemaps) carry no personal ide
   assert.deepEqual(await leaksIn(path.join(root, "public")), []);
 });
 
-test("built dist output (HTML, JSON-LD, llms, feeds) carries no personal identity", { skip: !existsSync(path.join(root, "dist")) && "dist not built" }, async () => {
+test("shipped sources (src, worker, server) carry no personal identity", async () => {
+  const leaks = [];
+  for (const dir of ["src", "worker", "server"]) leaks.push(...await leaksIn(path.join(root, dir)));
+  assert.deepEqual(leaks, []);
+});
+
+test("built dist output (HTML, JSON-LD, llms, feeds, JS bundles) carries no personal identity", { skip: !existsSync(path.join(root, "dist")) && "dist not built" }, async () => {
   assert.deepEqual(await leaksIn(path.join(root, "dist")), []);
 });

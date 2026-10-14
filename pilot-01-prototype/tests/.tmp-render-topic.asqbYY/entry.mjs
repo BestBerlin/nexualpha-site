@@ -1,3 +1,0 @@
-import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {TopicGuidePage} from '../../src/components/v3/TopicGuidePage.jsx';
-const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
-for (const locale of locales) { const html=renderToStaticMarkup(React.createElement(TopicGuidePage,{slug:'meme-coins',locale})); const m=html.match(/<span class="topic-header__date">([^<]+)<\/span>/); const nav=html.match(/href="[^"]*topics\/meme-coins" class="topic-nav-btn active"><span>🔥<\/span><span>([^<]+)<\/span>/); console.log(locale, 'DATE=', m?.[1], 'NAV=', nav?.[1]); }
