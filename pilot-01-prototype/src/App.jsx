@@ -804,6 +804,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     if (typeof document === "undefined") return [];
     return readInitialPageAlternates(document);
   });
+  // Only commit alternates when their content changes; identical arrays must not re-render the whole app.
+  const setStableAlternates = useCallback((next) => {
+    setPageAlternates((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
+  }, []);
   const searchReturnFocusRef = useRef(null);
 
   // Hydration can begin from the server's default locale while the browser URL
@@ -916,13 +920,15 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     let alive = true;
     syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale }).then((seo) => {
       if (!alive) return;
-      setPageAlternates(seo?.alternates?.length ? seo.alternates : readInitialPageAlternates(document));
+      setStableAlternates(seo?.alternates?.length ? seo.alternates : readInitialPageAlternates(document));
     });
     return () => { alive = false; };
-  }, [locale, route]);
+    // routeState() returns a new object every render; depending on it re-ran this effect after every render and the
+    // fresh alternates array re-rendered the whole app ~800x/s while idle (perf audit 2026-10-14). Key on stable values.
+  }, [locale, route.name, initialUrl]);
   useEffect(() => {
     if (typeof document === "undefined" || typeof MutationObserver === "undefined") return undefined;
-    const update = () => setPageAlternates(readInitialPageAlternates(document));
+    const update = () => setStableAlternates(readInitialPageAlternates(document));
     update();
     const observer = new MutationObserver(update);
     observer.observe(document.head, { childList: true, subtree: true, attributes: true, attributeFilter: ["href", "hreflang", "rel"] });
