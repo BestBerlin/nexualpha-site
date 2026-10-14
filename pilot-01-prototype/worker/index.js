@@ -64,6 +64,8 @@ import { appDownloadRouteSeo } from "../src/data/app-downloads.js";
 import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
 import { parseLicensesPath } from "../src/data/licenses-routes.js";
+import { CRYPTO_CARDS_PATH, DEPOSIT_ROOTS, parseDepositPath } from "../src/data/deposit-routes.js";
+import { depositPublicationLocales, depositRouteSeo } from "../src/data/deposit-seo.js";
 import { licenseRouteSeo } from "../src/data/licenses-seo.js";
 import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
@@ -288,7 +290,7 @@ export default {
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     // Crypto calendar iCal export (2026-10-13): every event of the runtime snapshot, optionally one type, in one locale.
     if (url.pathname === CALENDAR_ICS_PATH && ["GET", "HEAD"].includes(request.method)) return handleCalendarIcs(request, env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|coins|convert|glossary|beginner|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|licenses|deposit|coins|convert|glossary|beginner|data)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
@@ -2790,6 +2792,7 @@ const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 const BEGINNER_ROUTE_MARKER = "NEXUALPHA_BEGINNER_ROUTE_V1";
 const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
+const DEPOSIT_ROUTE_MARKER = "NEXUALPHA_DEPOSIT_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
 const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
@@ -2823,6 +2826,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
   [BEGINNER_ROUTE_MARKER]: ["route-beginner-"],
   [LICENSES_ROUTE_MARKER]: ["route-licenses-"],
+  [DEPOSIT_ROUTE_MARKER]: ["route-deposit-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
   // Spot ETF flows + crypto calendar: own chunk only.
@@ -2882,7 +2886,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -4930,6 +4934,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] academy SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] academy SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    // Deposit & withdraw hub, country pages and /crypto-cards: static sourced data rendered at request time with the
+    // component the browser hydrates.
+    if (metadata.marker === DEPOSIT_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxd ")) {
+          metadata.depositSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+        console.error(`[NexuAlpha] deposit SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] deposit SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     if (metadata.marker === LICENSES_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
@@ -7083,6 +7099,7 @@ function searchPublicationLocales(pathname, options = {}) {
   const radarRoute = parseRadarPath(pathname);
   if (radarRoute) return radarRoute.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
   if (parseBeginnerPath(pathname) && parseBeginnerPath(pathname).kind !== "missing") return BEGINNER_LOCALES;
+  if (parseDepositPath(pathname) && parseDepositPath(pathname).kind !== "missing") return depositPublicationLocales(pathname);
   // Crypto glossary: the hub's written editions; a term page lists the locales its entry is written in.
   if (parseGlossaryPath(pathname) && parseGlossaryPath(pathname).kind !== "missing") return glossaryRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
@@ -7150,6 +7167,8 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   if (metadata.newsCanonicalTarget) { metadata.alternates = []; return metadata; }
   // Beginner editions have localized slugs; their helper validates the locale and builds reciprocal URLs.
   if (metadata.marker === BEGINNER_ROUTE_MARKER) return metadata;
+  // Deposit hub: localized slugs; its helper decides indexing and builds reciprocal hreflang URLs.
+  if (metadata.marker === DEPOSIT_ROUTE_MARKER) return metadata;
   if (metadata.canonicalDisposition) { metadata.alternates = []; return metadata; }
   // Flash items: indexable editions are the item's localized ones within 30 days (src/data/flash-feed.js).
   if (Array.isArray(metadata.flashIndexLocales)) {
@@ -8545,6 +8564,12 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(academySeo.image ? { image: academySeo.image } : {}),
     };
   }
+  const depositSeo = depositRouteSeo(canonicalPath, requestedLocale);
+  if (depositSeo) {
+    if (depositSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return { status: 200, title: depositSeo.title, description: depositSeo.description, canonical: depositSeo.canonical, locale: requestedLocale,
+      robots: depositSeo.indexable ? "index,follow" : "noindex,follow", marker: DEPOSIT_ROUTE_MARKER, alternates: depositSeo.alternates, schema: depositSeo.schemas };
+  }
   const beginnerSeo = bitgetGuideSeo(canonicalPath, requestedLocale, new URL(url, PUBLIC_ORIGIN).searchParams.get("market")) || beginnerRouteSeo(canonicalPath, requestedLocale);
   if (beginnerSeo) {
     if (beginnerSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
@@ -9172,6 +9197,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (isBitgetGuidePath(pathname) || parseBeginnerPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[BEGINNER_ROUTE_MARKER]];
   if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
+  if (parseDepositPath(pathname) && parseDepositPath(pathname).kind !== "missing") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[DEPOSIT_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
   if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];

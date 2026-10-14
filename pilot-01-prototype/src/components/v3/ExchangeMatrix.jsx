@@ -12,6 +12,9 @@ import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
+import { FIAT_FILTER_KINDS, FiatBadges, FiatGlyph, venueHasFiatKind } from "../deposit/FiatBadges.jsx";
+import { fiatLabels } from "../../data/fiat-labels.js";
+import "../../styles/v8/fiat-directory.css";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -107,6 +110,16 @@ export function ExchangeMatrix({
   const [sort, setSort] = useState({ key: null, dir: "asc" });
   const [tick, setTick] = useState(0);
   const [verifiedFirst, setVerifiedFirst] = useState(false);
+  // Deposit-method filter (2026-10-15): ?fiat=card|bank|p2p|cryptoCard links from the deposit hub preselect it after
+  // hydration (the server renders the unfiltered list, so the first client render matches).
+  const [fiatKind, setFiatKind] = useState(null);
+  useEffect(() => {
+    try {
+      const requested = new URLSearchParams(window.location.search).get("fiat");
+      if (FIAT_FILTER_KINDS.includes(requested)) setFiatKind(requested);
+    } catch { /* no URL access */ }
+  }, []);
+  const fl = fiatLabels(locale);
   const segRefs = useRef([]);
 
   const rows = useMemo(() => venues.map((venue) => {
@@ -178,6 +191,7 @@ export function ExchangeMatrix({
       return (pa[1] - pb[1]) * dir || (pa[0] - pb[0]) * dir || compareVenuePriority(a, b) || byName(a, b);
     });
   }, [rows, sort, locale, verifiedFirst]);
+  const shown = useMemo(() => (fiatKind ? sorted.filter((r) => venueHasFiatKind(r.slug, fiatKind)) : sorted), [sorted, fiatKind]);
 
   const cycleSort = (key) => {
     setTick((n) => n + 1);
@@ -279,22 +293,27 @@ export function ExchangeMatrix({
           <span>{mc.verifiedFirst}</span>
         </button>
         <p className="mx-legend" id="mx-verified-legend">{mc.verifiedHint}</p>
+        <div className="mx-fiat" role="group" aria-label={fl.filterLabel}>
+          <span className="mx-fiat__label" aria-hidden="true">{fl.filterLabel}</span>
+          <button type="button" className="mx-fiat__opt" aria-pressed={!fiatKind} onClick={() => setFiatKind(null)}>{fl.filterAll}</button>
+          {FIAT_FILTER_KINDS.map((kind) => <button key={kind} type="button" className="mx-fiat__opt" aria-pressed={fiatKind === kind} onClick={() => setFiatKind(fiatKind === kind ? null : kind)}><FiatGlyph kind={kind} />{fl.method[kind]}</button>)}
+        </div>
         <p className="mx-count num" role="status" aria-live="polite">
-          <span>{mc.show}</span> <b>{venues.length}</b> <span>{mc.of}</span> <b>{totalCount}</b>
+          <span>{mc.show}</span> <b>{shown.length}</b> <span>{mc.of}</span> <b>{totalCount}</b>
         </p>
       </div>
 
-      {sorted.length === 0 ? (
+      {shown.length === 0 ? (
         <div className="mx-empty" role="status">
           <h2>{ui.emptyTitle}</h2>
           <p>{ui.emptyBody}</p>
-          <button type="button" className="mx-btn" onClick={onReset}>{ui.resetFilters}</button>
+          <button type="button" className="mx-btn" onClick={() => { setFiatKind(null); onReset?.(); }}>{ui.resetFilters}</button>
           {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
         </div>
       ) : (
         <>
         <div className="mx-scroll" data-route-label={mc.table} data-rail-end="">
-          <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
+          <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={shown.length + 1}>
             <colgroup>
               <col className="mx-col mx-col--pick" />
               <col className="mx-col mx-col--name" />
@@ -318,7 +337,7 @@ export function ExchangeMatrix({
               </tr>
             </thead>
             <tbody role="rowgroup">
-              {sorted.map((r, index) => {
+              {shown.map((r, index) => {
                 const selected = compareSelection.includes(r.slug);
                 const noRoute = !hasCompareRoute(r.slug);
                 const pickDisabled = !selected && (compareFull || noRoute);
@@ -375,6 +394,7 @@ export function ExchangeMatrix({
                             <span className="mx-type" translate="no" lang="en">{r.category}</span>
                             {r.verifiedOn ? <span className="mx-checked num">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span> : null}
                             {noRoute ? <span className="mx-nocompare" aria-hidden="true">{noCompareLabel(locale)}</span> : null}
+                            <FiatBadges slug={r.slug} locale={locale} />
                           </span>
                         </div>
                       </div>

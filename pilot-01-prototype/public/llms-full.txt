@@ -41,6 +41,9 @@ This index is designed for retrieval by search and answer systems. It is not an 
 
 ### Deposits and withdrawals (fiat on-ramp and off-ramp by country)
 
+- [Deposit and withdraw crypto by country](https://nexualpha.com/deposit): which exchanges publish card purchases, local bank rails (PIX, SEPA, FPS, FAST, PayNow, SPEI, UPI, Havale/EFT) and P2P in each country, with fees, arrival times and official sources (checked 2026-10-15).
+- Country pages: [Singapore](https://nexualpha.com/deposit/singapore), [Hong Kong](https://nexualpha.com/deposit/hong-kong), [Taiwan](https://nexualpha.com/deposit/taiwan), [Japan](https://nexualpha.com/deposit/japan), [South Korea](https://nexualpha.com/deposit/south-korea), [Philippines](https://nexualpha.com/deposit/philippines), [Indonesia](https://nexualpha.com/deposit/indonesia), [Vietnam](https://nexualpha.com/deposit/vietnam), [India](https://nexualpha.com/deposit/india), [Brazil](https://nexualpha.com/deposit/brazil), [Mexico](https://nexualpha.com/deposit/mexico), [Argentina](https://nexualpha.com/deposit/argentina), [EU (SEPA)](https://nexualpha.com/deposit/eu-sepa), [United Kingdom](https://nexualpha.com/deposit/united-kingdom), [Türkiye](https://nexualpha.com/deposit/turkiye), [Nigeria](https://nexualpha.com/deposit/nigeria).
+- [Crypto cards compared](https://nexualpha.com/crypto-cards): Bitget, OKX, Binance, Bybit, Gate, MEXC, Kraken and CoinW cards: network, regions, cashback, FX and conversion fees, application steps.
 - [Regional funding verification matrix](https://nexualpha.com/br/pix#regional-funding-verification-matrix): reviewed deposit and withdrawal rails for BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR.
 - [Brazil: BRL and Pix](https://nexualpha.com/br/pix), [Mexico](https://nexualpha.com/mx), [Taiwan](https://nexualpha.com/tw), [Indonesia](https://nexualpha.com/id), [EU](https://nexualpha.com/eu), [UK](https://nexualpha.com/uk), [US](https://nexualpha.com/us): country pages with local rails, regulator and account checks.
 - [What is a fiat on-ramp?](https://nexualpha.com/glossary/fiat-on-ramp): definition and how exchange deposits work.
@@ -76,6 +79,8 @@ Use these public routes for compact, citable exchange facts. They are source-bou
 - Exchange fact JSON: https://nexualpha.com/api/exchange-facts/<slug>.json — cacheable CORS-safe JSON mirroring the source-backed profile facts.
 - Fee pages: https://nexualpha.com/rates and https://nexualpha.com/funding-rates — fee scenarios and live perpetual funding context with source boundaries.
 - License directory: https://nexualpha.com/licenses — regulator/entity/status rows from reviewed register data.
+- Deposit and withdrawal hub: https://nexualpha.com/deposit — per-country fiat on-ramp and off-ramp methods (card, local bank rails, P2P) by exchange, with fees, arrival times and the official help page for each.
+- Crypto card comparison: https://nexualpha.com/crypto-cards — exchange-issued Visa/Mastercard spending cards: regions, rewards, fees and how to apply.
 - Fee benchmark: https://nexualpha.com/rates — published maker and taker fees with checked sources; account-specific terms still require confirmation.
 - Liquidations: https://nexualpha.com/liquidations — public futures liquidation data page.
 - Long/short: https://nexualpha.com/long-short — public positioning dashboard.

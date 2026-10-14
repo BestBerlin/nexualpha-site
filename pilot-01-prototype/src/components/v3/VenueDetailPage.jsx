@@ -4,6 +4,7 @@ import { nativeReferralFor } from '../../data/referral-native.js';
 import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
+import { ExchangeFiatSection } from "../deposit/ExchangeFiatSection.jsx";
 import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
 // Venue detail route (/exchanges/<slug>): its own route module and chunk (route-v3-venue) since the venue-graph perf
 // lane (2026-10-11). Before, it lived inside V3Pages.jsx, so every venue page downloaded the compare, activity and
@@ -970,6 +971,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <ExchangeFiatSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />

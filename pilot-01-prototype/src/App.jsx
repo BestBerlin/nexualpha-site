@@ -40,6 +40,7 @@ import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./
 import { isBitgetGuidePath, bitgetGuideAvailable } from "./data/bitget-guide-routes.js";
 import { BEGINNER_ROOTS, parseBeginnerPath } from "./data/beginner-routes.js";
 import { parseLicensesPath } from "./data/licenses-routes.js";
+import { DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, depositNavLabel, parseDepositPath } from "./data/deposit-routes.js";
 import { parseConverterPath } from "./data/converter-routes.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { turkeyListingAllowed } from "./data/partner-geo-policy.js";
@@ -112,6 +113,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/licenses/LicensePages.jsx",
+  "./components/deposit/DepositPages.jsx",
   "./components/beginner/BeginnerPages.jsx",
   "./components/beginner/BitgetGuidePage.jsx",
   "./data/beginner-copy/*.json",
@@ -199,6 +201,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/licenses/LicensePages.jsx",
+  "./components/deposit/DepositPages.jsx",
   "./components/beginner/BeginnerPages.jsx",
   "./components/beginner/BitgetGuidePage.jsx",
   "./data/beginner-copy/*.json",
@@ -279,6 +282,8 @@ function BeginnerRoute({ route, locale, market }) {
   return <BeginnerPage locale={locale} market={market} route={route.beginner} copy={content} />;
 }
 const LicenseDirectoryPage = deferredComponent("./components/licenses/LicensePages.jsx", "LicenseDirectoryPage");
+// Deposit & withdraw hub, country pages and /crypto-cards (2026-10-15): one route chunk (route-deposit).
+const DepositPage = deferredComponent("./components/deposit/DepositPages.jsx", "DepositPage");
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
 const ConverterPage = deferredComponent(ROUTE_MODULE_PATHS.converter, "ConverterPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
@@ -430,7 +435,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -602,6 +607,8 @@ export function routeState(venues, initialUrl) {
   if (isBitgetGuidePath(pathname)) return bitgetGuideAvailable(publicRoute.locale, searchParams.get("market")) ? { name: "bitgetGuide" } : { name: "notFound" };
   const beginner = parseBeginnerPath(pathname, publicRoute.locale);
   if (beginner) return beginner.kind === "missing" ? { name: "notFound" } : { name: "beginner", beginner, ...contextParams() };
+  const deposit = parseDepositPath(pathname, publicRoute.locale);
+  if (deposit) return deposit.kind === "missing" ? { name: "notFound" } : { name: "deposit", pathname, ...contextParams() };
   const licenses = parseLicensesPath(pathname);
   if (licenses?.kind === "hub") return { name: "licenses", ...contextParams() };
   if (licenses?.kind === "country") return { name: "licenses", country: licenses.country, ...contextParams() };
@@ -763,6 +770,8 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         uk: "Новини ринку", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
     // Flash (2026-10-12): the 7x24 stream sits first under "More" (the five primary items stay as the owner set them).
     [flashNavLabel(locale), withLocale(locale, FLASH_PATH)],
+    // Deposit & withdraw (出入金, 2026-10-15): the hub under "More", right after Flash.
+    [depositNavLabel(locale), withLocale(locale, DEPOSIT_ROOTS[0])],
     [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề",
         // l10n: needs native review
         ur: "موضوعاتی رہنما",
@@ -996,6 +1005,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
   if (route.name === "bitgetGuide") return pageShell(<BitgetGuidePage locale={locale} />);
   if (route.name === "beginner") return pageShell(<BeginnerRoute route={route} locale={locale} market={new URLSearchParams(sourceSearch).get("market") || route.market} />);
+  if (route.name === "deposit") return pageShell(<DepositPage pathname={route.pathname} locale={locale} />);
   if (route.name === "licenses") return pageShell(<LicenseDirectoryPage locale={locale} country={route.country} market={route.market} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} initialNewsArticles={initialNewsArticles} />);

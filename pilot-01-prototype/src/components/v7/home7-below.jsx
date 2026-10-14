@@ -25,6 +25,9 @@ import { MoversBoard } from "./home7-movers.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "../../data/market-data-pages-nav.js";
+import { fiatLabels } from "../../data/fiat-labels.js";
+import { FiatGlyph } from "../deposit/FiatBadges.jsx";
+import { CRYPTO_CARDS_PATH, depositPath } from "../../data/deposit-routes.js";
 
 // Daily market data (2026-10-13): links to the data pages people come back to every day (pill list, h7-coins styles);
 // below the fold, so the entry stays inside its budget.
@@ -47,6 +50,18 @@ function DataRail({ locale }) {
     <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
     <p className="h7-coins-lead">{c.lead}</p>
     <ul className="h7-coins-list">{items.map(([path, label]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b></a></li>)}</ul>
+  </section>;
+}
+// Deposit & withdraw (出入金, 2026-10-15): one compact row into the hub and the card comparison; static copy, no data
+// fetch, no motion. Sits after the market modules (whale watch, tokenized stocks) and before the calculator.
+function FiatRail({ locale }) {
+  const l = fiatLabels(locale);
+  const hub = localizedHref(depositPath("en"), { locale });
+  const items = [[hub, l.homeItems.card, "card"], [hub, l.homeItems.bank, "bank"], [localizedHref(CRYPTO_CARDS_PATH, { locale }), l.homeItems.cryptoCard, "cryptoCard"]];
+  return <section className="h7-in h7-coins h7-fiat" aria-labelledby="h7-fiat-h" data-testid="home-fiat-rail">
+    <div className="h7-coins-head"><h2 id="h7-fiat-h"><a href={hub}>{l.homeTitle}</a></h2></div>
+    <p className="h7-coins-lead">{l.homeLead}</p>
+    <ul className="h7-coins-list">{items.map(([href, label, key]) => <li key={key}><a href={href} data-fiat-item={key}><FiatGlyph kind={key} size={16} /><b>{label}</b></a></li>)}</ul>
   </section>;
 }
 import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
@@ -264,6 +279,7 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
       <DataRail locale={locale} />
       <MoversBoard locale={locale} initial={whales} />
+      <FiatRail locale={locale} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
           <h2>{neutral ? c.nh : c.h}</h2>

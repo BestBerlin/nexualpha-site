@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { DEPOSIT_ROOTS } from "../src/data/deposit-routes.js";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { contentTypeForAssetPath, resolveAssetPath } from "../server/asset-path.mjs";
@@ -32,7 +33,7 @@ const localePrefixByCode = Object.freeze({
 });
 const localePrefixes = new Set(Object.values(localePrefixByCode).filter(Boolean));
 const countryRoutePrefixes = ["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"];
-const globalRoutePrefixes = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"];
+const globalRoutePrefixes = [...DEPOSIT_ROOTS, "/crypto-cards", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary"];
 const globalExactRoutes = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", "/liquidations", "/liquidations/heatmap", "/funding-rates", "/etf-flows", "/calendar", "/funding-rates/matrix"]);
 
 export function decodeHtml(value) {
