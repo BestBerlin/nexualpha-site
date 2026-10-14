@@ -55,14 +55,19 @@
 
 .h7:not(#_):not(#_) .h7-rebate-value {
   display: inline-flex;
-  align-items: baseline;
+  align-items: flex-start;
   min-inline-size: 2.7ch;
-  background: linear-gradient(100deg, var(--blue) 0%, var(--blue-text) 42%, var(--ac) 100%);
+  filter: drop-shadow(0 0 24px rgb(57 225 200 / 0.35));
+}
+
+/* Gradient sits on each glyph run (not the flex parent): WebKit drops background-clip:text on transformed or
+   flex children, which hid the "%" on iPhone. High-luminance stops only (owner 2026-10-14 "靠色"): ≥7:1 on the dark bg. */
+.h7:not(#_):not(#_) :is(.h7-rebate-digits, .h7-rebate-percent) {
+  background: linear-gradient(100deg, #ffffff 0%, #7fe7ff 55%, #39e1c8 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  color: #7fe7ff;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 34px rgb(31 224 192 / 0.28);
 }
 
 .h7:not(#_):not(#_) .h7-rebate-digits {
@@ -76,14 +81,14 @@
   font-size: 0.42em;
   font-weight: 750;
   line-height: 1;
-  transform: translateY(-0.34em);
+  margin-block-start: 0.12em;
 }
 
 @media (max-width: 640px) {
   .h7:not(#_):not(#_) .h7-num.h7-rebate-figure {
     gap: 10px;
     min-inline-size: min(100%, 6.2ch);
-    font-size: clamp(5.25rem, 27vw, 7rem);
+    font-size: clamp(4.5rem, 24vw, 6.5rem);
     line-height: 0.86;
     filter: drop-shadow(0 0 16px rgb(31 224 192 / 0.16));
   }
@@ -107,4 +112,14 @@
   .h7:not(#_):not(#_) .h7-rebate-figure::before {
     opacity: 0.42;
   }
+}
+
+/* H1 "60%" highlight: same high-luminance gradient as the rebate figure (owner 2026-10-14 "靠色"). */
+.h7:not(#_):not(#_) h1 .h7-h1n {
+  font-style: normal;
+  background: linear-gradient(100deg, #ffffff 0%, #7fe7ff 55%, #39e1c8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: #7fe7ff;
+  -webkit-text-fill-color: transparent;
 }

@@ -64,7 +64,17 @@ function ClientGate({ target, rootMargin, prefetch, interactionOnly, children })
   const onReady = useCallback(() => setLive(true), []);
   useEffect(() => {
     if (gate.open) return undefined;
-    return watchDeferTarget({ target, rootMargin, interactionOnly, open: () => { gate.release(); prefetch?.(); } });
+    const openGate = () => { gate.release(); prefetch?.(); };
+    const stop = watchDeferTarget({ target, rootMargin, interactionOnly, open: openGate });
+    // Safety net (owner 2026-10-14: everything below the hero stayed black on iPhone/Android). If a parent update
+    // client-renders this boundary, React drops the server HTML and the observed elements are detached, so the
+    // observer can never fire. Open once the page is idle (or the target is gone) so content always appears.
+    if (interactionOnly) return stop;
+    const doc = globalThis.document;
+    const detached = () => !target || ![...doc.querySelectorAll(target)].some((el) => el.isConnected);
+    const poll = setInterval(() => { if (detached()) openGate(); }, 400);
+    const idle = setTimeout(openGate, 1800);
+    return () => { stop?.(); clearInterval(poll); clearTimeout(idle); };
   }, [gate, target, rootMargin, prefetch, interactionOnly]);
   if (live) return <Suspense fallback={null}>{children}</Suspense>;
   // Same element reference on every render until hydrated: React bails out, so no update reaches the dehydrated boundary.
