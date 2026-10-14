@@ -9,7 +9,7 @@ import { CAMPAIGN_TITLE as FEED_CAMPAIGN_TITLE, NEUTRAL_CTA_LOCALE_LIST as FEED_
 import { articles, campaignItem, campaigns, listingItem, mk, partners } from "./fixtures/alert-fixture.mjs";
 import { VENUE_PRIORITY as SITE_VENUE_PRIORITY } from "../../pilot-01-prototype/src/data/venue-priority.js";
 import {
-  CAMPAIGN_PAGES, FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
+  BUTTON_MAX, CAMPAIGN_PAGES, FEATURE_KEYS, FEATURE_LANGS, NEUTRAL_CTA_LOCALE_LIST, campaignLinks, isNeutralCtaLocale, feature, langFromCode, pinnedMenuMessage, rotatingFeatures, startMenu,
   calendarRecapEvents, comingCalendarEvents, comingUpHead, todayBlock, todayRecapHead, todaysCalendarEvents, toolOfWeekKey, toolOfWeekMessage, topImportantFlash,
 } from "./site-features.mjs";
 
@@ -223,3 +223,17 @@ test("neutral locale list matches the site policy (pilot-01-prototype/src/data/l
     assert.equal(isNeutralCtaLocale(l), site.isNeutralCtaLocale(l), l);
   }
 });
+
+// Owner rule 2026-10-14: Telegram button labels are at most 20 characters; tr never sees Bitget; neutral gets no /go/.
+test("every start-menu and pinned-menu button fits 20 characters; tr has no Bitget; neutral has no /go/", () => {
+  for (const lang of [...FEATURE_LANGS, "ar", "zh-Hant", "uk"]) {
+    const start = startMenu(lang).rows.flat();
+    const pin = GUIDE_SAFE_LANGS.includes(lang) ? pinnedMenuMessage(lang).buttons.flat() : [];
+    for (const b of [...start, ...pin]) {
+      assert.ok(b.text.length <= BUTTON_MAX, `${lang}: "${b.text}" is ${b.text.length} chars`);
+      if (lang === "tr") assert.doesNotMatch(`${b.text} ${b.url}`, /bitget/i, `tr button ${b.text}`);
+      if (isNeutralCtaLocale(lang)) assert.doesNotMatch(String(b.url), /\/go\//, `${lang} neutral button ${b.text}`);
+    }
+  }
+});
+const GUIDE_SAFE_LANGS = ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"];

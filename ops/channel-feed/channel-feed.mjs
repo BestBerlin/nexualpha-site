@@ -44,10 +44,10 @@ const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit"
 const COPY = {
   zh: {
     cat: { listing: "上币", event: "活动", delisting: "下架", news: "公告", product: "产品", security: "安全" },
-    terms: (p) => [p.share != null ? `最高返佣 ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "官方自动结算" : null, p.settle === "hourly" ? "每小时到账" : p.settle === "daily" ? "每天到账" : null, p.inviteCode ? `邀请码 ${p.inviteCode}` : null].filter(Boolean).join(" · "),
+    terms: (p) => [p.share != null ? `手续费最高返还 ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "官方自动结算" : null, p.settle === "hourly" ? "每小时到账" : p.settle === "daily" ? "每天到账" : null, p.inviteCode ? `邀请码 ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `通过 NexuAlpha 注册 ${n}：`,
     listingGroup: (n) => `【上币】${n} 条新上币`,
-    official: "查看官方公告", readExplainer: "阅读解读", riskAction: "查看风险说明", source: "官方来源", sourceText: (domain) => `官方来源：${domain}`, signUp: (n) => `注册 ${n} 拿返佣`, more: "费率对比",
+    official: "查看官方公告", readExplainer: "阅读解读", riskAction: "查看风险说明", source: "官方来源", sourceText: (domain) => `官方来源：${domain}`, signUp: (n) => `注册 ${n}`, more: "费率对比",
     time: (iso) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Singapore", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) + "（新加坡时间 SGT）",
   },
   en: {
@@ -55,7 +55,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `up to ${Math.round(p.share * 100)}% back` : null, p.autoSettle ? "settled by the exchange" : null, p.settle === "hourly" ? "paid hourly" : p.settle === "daily" ? "paid daily" : null, p.inviteCode ? `code ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Sign up on ${n} via NexuAlpha: `,
     listingGroup: (n) => `[Listing] ${n} new listing notices`,
-    official: "Official notice", readExplainer: "Read the explainer", riskAction: "Read the risk explainer", source: "Official source", sourceText: (domain) => `Official source: ${domain}`, signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
+    official: "Official notice", readExplainer: "Read the explainer", riskAction: "Risk explainer", source: "Official source", sourceText: (domain) => `Official source: ${domain}`, signUp: (n) => `Join ${n}`, more: "Compare fees",
     time: (iso) => new Date(iso).toLocaleString("en-GB", { timeZone: "Asia/Singapore", weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).replace(/,/g, "") + " SGT",
   },
   // ru/tr/vi channels (2026-10-11): same facts, local wording; time in SGT (site time, 2026-10-13) with the local date format.
@@ -64,15 +64,15 @@ const COPY = {
     terms: (p) => [p.share != null ? `до ${Math.round(p.share * 100)}% возврата` : null, p.autoSettle ? "начисляет биржа" : null, p.settle === "hourly" ? "выплата каждый час" : p.settle === "daily" ? "выплата ежедневно" : null, p.inviteCode ? `код ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Регистрация на ${n} через NexuAlpha: `,
     listingGroup: (n) => `[Листинг] ${n} новых уведомлений`,
-    official: "Официальное объявление", readExplainer: "Прочитать разбор", riskAction: "Читать разбор риска", source: "Официальный источник", sourceText: (domain) => `Официальный источник: ${domain}`, signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
+    official: "Объявление", readExplainer: "Прочитать разбор", riskAction: "Читать разбор риска", source: "Официальный источник", sourceText: (domain) => `Официальный источник: ${domain}`, signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
     time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   tr: {
     cat: { listing: "Listeleme", event: "Kampanya", delisting: "Listeden çıkarma", news: "Duyuru", product: "Ürün", security: "Güvenlik" },
-    terms: (p) => [p.share != null ? `en fazla %${Math.round(p.share * 100)} iade` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
-    via: (n) => `NexuAlpha üzerinden ${n} kaydı: `,
+    terms: (p) => [p.share != null ? `komisyon iadesi en fazla %${Math.round(p.share * 100)}` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
+    via: (n) => `${n} hesabını NexuAlpha ile aç: `,
     listingGroup: (n) => `[Listeleme] ${n} yeni listeleme duyurusu`,
-    official: "Resmî duyuru", readExplainer: "Açıklamayı oku", riskAction: "Risk açıklamasını oku", source: "Resmî kaynak", sourceText: (domain) => `Resmî kaynak: ${domain}`, signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
+    official: "Resmî duyuru", readExplainer: "Açıklamayı oku", riskAction: "Risk açıklaması", source: "Resmî kaynak", sourceText: (domain) => `Resmî kaynak: ${domain}`, signUp: (n) => `${n} hesabı aç`, more: "Ücretleri kıyasla",
     time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "Asia/Singapore", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
   vi: {
@@ -80,7 +80,7 @@ const COPY = {
     terms: (p) => [p.share != null ? `hoàn tới ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "sàn tự động thanh toán" : null, p.settle === "hourly" ? "trả mỗi giờ" : p.settle === "daily" ? "trả mỗi ngày" : null, p.inviteCode ? `mã ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Đăng ký ${n} qua NexuAlpha: `,
     listingGroup: (n) => `[Niêm yết] ${n} thông báo niêm yết mới`,
-    official: "Thông báo chính thức", readExplainer: "Đọc phần giải thích", riskAction: "Đọc giải thích rủi ro", source: "Nguồn chính thức", sourceText: (domain) => `Nguồn chính thức: ${domain}`, signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
+    official: "Thông báo chính thức", readExplainer: "Đọc phần giải thích", riskAction: "Giải thích rủi ro", source: "Nguồn chính thức", sourceText: (domain) => `Nguồn chính thức: ${domain}`, signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
     time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "Asia/Singapore", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " SGT",
   },
 };
@@ -183,7 +183,7 @@ export function buildListingGroupMessage(items, partnersByVenue, lang, detailLim
     const updateUrl = `${SITE}${LOCALE_PATH[lang] ?? ""}${updatePath(item)}`;
     lines.push(`• <a href="${updateUrl}">${esc(name)}: ${esc(String(item.title || "").slice(0, 140))}</a> · ${esc(c.time(item.publishedAt))}`);
     const source = officialSourceCta(item.officialSource?.url || item.url, item.venue, { lang, src: `tg-channel-${lang}`, neutral });
-    if (source?.buttonUrl && sourceButtons.length < 3) sourceButtons.push({ text: `${c.source} · ${name}`, url: source.buttonUrl });
+    if (source?.buttonUrl && sourceButtons.length < 3) sourceButtons.push({ text: `📄 ${name}`, url: source.buttonUrl });
     else if (source?.url) lines.push(`  ${esc(c.sourceText(source.url))}`);
     const partner = partnersByVenue[item.venue];
     if (!neutral && partner && !NO_SIGNUP[lang]?.has(item.venue) && !seenPartners.has(partner.slug)) {

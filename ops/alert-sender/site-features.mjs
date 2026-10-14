@@ -240,12 +240,32 @@ const CAMPAIGN_VENUES = { "bitget-alliance": "bitget", "binance-october-gifts": 
 const campaignPagesFor = (lang = "en") => orderVenues(Object.keys(CAMPAIGN_LABELS).map((key) => ({ key, slug: CAMPAIGN_VENUES[key] || key })), lang).map((item) => item.key);
 export const CAMPAIGN_PAGES = campaignPagesFor();
 
+// Owner rule (2026-10-14): every Telegram button label is at most 20 characters (JS length, emoji included), so
+// labels that are fine as menu lines get a shorter button form here. Menu lines keep the full label.
+export const BUTTON_MAX = 20;
+const BUTTON_LABELS = {
+  en: { matrix: "Funding arbitrage", academy: "Video academy" },
+  ru: { flash: "Новости 24/7", matrix: "Арбитраж фандинга", academy: "Видеоакадемия" },
+  tr: { matrix: "Fonlama hesabı", academy: "Video akademi" },
+  vi: { matrix: "Máy tính funding", academy: "Học viện video" },
+  id: { matrix: "Hitung funding", academy: "Akademi video" },
+  es: { matrix: "Arbitraje funding", academy: "Academia en video" },
+  pt: { matrix: "Calcular funding", academy: "Academia em vídeo" },
+};
+const BUTTON_CTAS = { ru: { alerts: "Оповещения" } };
+const CAMPAIGN_BUTTON_LABELS = {
+  "binance-october-gifts": { en: "Binance gifts", tr: "Binance ödülleri", vi: "Quà Binance", id: "Hadiah Binance", es: "Regalos Binance", pt: "Presentes Binance" },
+  "bybit-stocks": { tr: "Bybit hisseleri", vi: "Cổ phiếu Bybit", es: "Acciones Bybit", pt: "Ações Bybit" },
+};
+/** Button text for a feature: emoji + the short button label when the full label would not fit. */
+export const featureButtonText = (f, lang) => `${f.emoji} ${BUTTON_LABELS[featureLang(lang)]?.[f.key] || f.label}`;
+
 /** [{key,label,url}] of live campaign pages for this language (ru gets the hub only, other neutral locales none). */
 export function campaignLinks(lang, src) {
   if (lang === "ru") return [{ key: "activities", label: featureCopy("ru").campaigns, url: featureUrl(lang, "/activities", src) }];
   if (isNeutralCtaLocale(lang)) return [];
   return campaignPagesFor(lang).filter((slug) => CAMPAIGN_LABELS[slug][lang] || (lang !== "tr" && CAMPAIGN_LABELS[slug].en))
-    .map((slug) => ({ key: slug, label: CAMPAIGN_LABELS[slug][lang] || CAMPAIGN_LABELS[slug].en, url: featureUrl(lang, `/activities/${slug}`, src) }));
+    .map((slug) => ({ key: slug, label: CAMPAIGN_LABELS[slug][lang] || CAMPAIGN_LABELS[slug].en, button: CAMPAIGN_BUTTON_LABELS[slug]?.[lang] || CAMPAIGN_LABELS[slug][lang] || CAMPAIGN_LABELS[slug].en, url: featureUrl(lang, `/activities/${slug}`, src) }));
 }
 
 export const featureUrl = (lang, path, src) => `${SITE}${FEATURE_LOCALE_PATH[lang] ?? ""}${path}${src ? `${path.includes("?") ? "&" : "?"}src=${src}` : ""}`;
@@ -295,7 +315,7 @@ export function pinnedMenuMessage(lang) {
   if (campaigns.length) lines.push(`${EMOJI.campaigns} ${campaigns.map((c) => `<a href="${c.url}">${esc(c.label)}</a>`).join(" · ")}`);
   lines.push("", `${EMOJI.alerts} ${esc(t.menuAlerts || COPY.en.menuAlerts)}`);
   const alerts = feature("alerts", lang, src);
-  return { text: lines.join("\n"), buttons: [[{ text: `${alerts.emoji} ${alerts.cta}`, url: alerts.url }]] };
+  return { text: lines.join("\n"), buttons: [[{ text: `${alerts.emoji} ${BUTTON_CTAS[lang]?.alerts || alerts.cta}`, url: alerts.url }]] };
 }
 
 /** Bot /start text (plain text: the poller sends without parse_mode) and URL buttons in the member's language. */
@@ -304,11 +324,11 @@ export function startMenu(lang, src = `tg-bot-start-${featureLang(lang)}`) {
   const t = featureCopy(l);
   const text = [t.startTitle, "", t.startLead, "", t.startAlertsHead, ...t.startExamples.map((e) => `• ${e}`), "", t.startToolsHead,
     ...["flash", "calendar", "matrix", "coins", "academy", "liquidations"].map((k) => { const f = feature(k, l, src); return `${f.emoji} ${f.label}`; }), "", t.startStop].join("\n");
-  const b = (k) => { const f = feature(k, l, src); return { text: `${f.emoji} ${f.label}`, url: f.url }; };
+  const b = (k) => { const f = feature(k, l, src); return { text: featureButtonText(f, l), url: f.url }; };
   const rows = [[b("flash"), b("calendar")], [b("matrix"), b("coins")], [b("academy"), b("liquidations")]];
   // neutral locales without their own copy (zh-Hant, uk, ar, ...) read zh/en text but never get a campaign row
   const camp = isNeutralCtaLocale(lang) && lang !== "ru" ? null : campaignLinks(l, src)[0];
-  if (camp) rows.push([{ text: `${EMOJI.campaigns} ${camp.label}`, url: camp.url }]);
+  if (camp) rows.push([{ text: `${EMOJI.campaigns} ${camp.button || camp.label}`, url: camp.url }]);
   return { text, rows };
 }
 

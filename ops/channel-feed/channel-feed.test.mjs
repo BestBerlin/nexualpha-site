@@ -84,7 +84,7 @@ test('sitewide official source buttons use /go/<venue>-page only on main domains
     publishedAt: new Date().toISOString(),
   };
   const msg = buildMessage(item, { slug: 'binance', share: 0.2 }, 'en');
-  assert.deepEqual(msg.reply_markup.inline_keyboard[0].map((b) => b.text), ['Read the explainer', 'Official source', 'Sign up on Binance']);
+  assert.deepEqual(msg.reply_markup.inline_keyboard[0].map((b) => b.text), ['Read the explainer', 'Official source', 'Join Binance']);
   assert.equal(msg.reply_markup.inline_keyboard[0][1].url, 'https://nexualpha.com/go/binance-page?to=%2Fen%2Fsupport%2Fannouncement%2Fbinance-lists-abc&src=tg-channel-en');
 
   const subdomain = buildMessage({ ...item, url: 'https://announcements.bybit.com/en-US/article/test/', venue: 'bybit', title: 'Bybit lists ABC' }, { slug: 'bybit', share: 0.2 }, 'en');
@@ -325,7 +325,7 @@ test('risk notices use one risk action plus official source and no signup button
     const msg = buildMessage(item, partner, 'en');
     const all = JSON.stringify(msg);
     assert.doesNotMatch(all, /\/go\/(?![a-z0-9-]+-page\?)|Sign up|Compare fees|code NXA|60% back/, item.id);
-    assert.equal(msg.reply_markup.inline_keyboard[0][0].text, 'Read the risk explainer', item.id);
+    assert.equal(msg.reply_markup.inline_keyboard[0][0].text, 'Risk explainer', item.id);
     assert.equal(msg.reply_markup.inline_keyboard[0][0].url, `https://nexualpha.com${siteUpdatePath(item)}`, item.id);
     assert.equal(msg.reply_markup.inline_keyboard.length, 1, item.id);
     assert.ok(
@@ -372,4 +372,30 @@ test('grouped channel notices fit the text budget even with long original source
   assert.match(message.text, /5 new listing notices/);
   assert.equal(message.reply_markup.inline_keyboard.at(-1)[0].text, 'Listing');
   assert.equal(message.reply_markup.inline_keyboard.at(-1)[0].url, 'https://nexualpha.com/activities');
+});
+
+// Owner rules 2026-10-14: button labels <= 20 chars in every channel language; tr never shows Bitget; neutral
+// channels carry no /go/ sign-up route; no "not financial advice" or commission wording.
+test('channel buttons fit 20 characters and follow the tr / neutral rules', () => {
+  const now = new Date().toISOString();
+  const partner = (slug, name) => ({ slug, name, share: 0.6, autoSettle: true, settle: 'daily', inviteCode: 'nexu888' });
+  const items = [
+    { id: 'l1', venue: 'hyperliquid', category: 'listing', title: 'Hyperliquid lists ABC', publishedAt: now, url: 'https://hyperliquid.gitbook.io/x' },
+    { id: 'l2', venue: 'binance', category: 'listing', title: 'Binance will list XYZ', publishedAt: now, url: 'https://www.binance.com/en/support/announcement/x' },
+    { id: 'l3', venue: 'okx', category: 'listing', title: 'OKX to list QQQ', publishedAt: now, url: 'https://www.okx.com/help/x' },
+    { id: 'e1', venue: 'bitget', category: 'event', title: 'Bitget futures challenge', publishedAt: now, url: 'https://www.bitget.com/support/x' },
+    { id: 'r1', venue: 'okx', category: 'delisting', title: 'OKX will delist ABC', publishedAt: now, url: 'https://www.okx.com/help/y' },
+  ];
+  const partners = { hyperliquid: partner('hyperliquid', 'Hyperliquid'), binance: partner('binance', 'Binance'), okx: partner('okx', 'OKX'), bitget: partner('bitget', 'Bitget') };
+  for (const lang of ['zh', 'en', 'ru', 'tr', 'vi']) {
+    const msgs = [...items.map((i) => buildMessage(i, partners[i.venue], lang)), buildListingGroupMessage(items.slice(0, 3), partners, lang)].filter(Boolean);
+    for (const msg of msgs) {
+      for (const b of msg.reply_markup.inline_keyboard.flat()) assert.ok(b.text.length <= 20, `${lang}: "${b.text}" is ${b.text.length} chars`);
+      const all = JSON.stringify(msg);
+      if (lang === 'tr') assert.doesNotMatch(all, /bitget/i, 'tr shows no Bitget');
+      if (lang === 'ru' || lang === 'vi') assert.doesNotMatch(all, /\/go\/(?![a-z0-9-]+-page\?)/, `${lang} has no sign-up route`);
+      assert.doesNotMatch(all, /not (financial|investment) advice|不构成投资建议|返佣|commission we/i, `${lang} has no fine print`);
+      if (/🕒/.test(msg.text)) assert.match(msg.text, /SGT/, `${lang} time labelled SGT`);
+    }
+  }
 });
