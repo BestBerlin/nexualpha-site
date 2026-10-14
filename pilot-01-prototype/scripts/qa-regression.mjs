@@ -695,6 +695,21 @@ async function main() {
   let buildId = null;
   try { buildId = (await (await fetch(`${base}/version.json?ts=${Date.now()}`, { signal: AbortSignal.timeout(10000) })).json()).buildId || null; } catch { /* reported as unknown */ }
 
+  // Warm-up (2026-10-15): a freshly started server (the staged build in deploy-local.sh) fills its live feeds in the
+  // background. The first home render before the funding feed's first refresh has no #h7-funding, so the first page the
+  // gate visited (zh-Hans @344) failed on every deploy. Wait (max 45 s) until the feed answers with rows, like a server
+  // that has been up for a minute; the section check itself is unchanged. A feed that never fills still fails the gate.
+  const warmUntil = Date.now() + 45000;
+  for (;;) {
+    try {
+      const r = await fetch(`${base}/intel/funding-rates.json?ts=${Date.now()}`, { signal: AbortSignal.timeout(10000) });
+      const j = r.ok ? await r.json() : null;
+      if (j && Object.values(j.venues || {}).some((v) => Array.isArray(v?.rows) && v.rows.length)) break;
+    } catch { /* not ready yet */ }
+    if (Date.now() > warmUntil) { log("warm-up: funding feed still empty after 45 s; running checks anyway"); break; }
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  }
+
   const only = args.only;
   const want = (s) => !only || only.includes(s);
   const browser = await puppeteer.launch({
