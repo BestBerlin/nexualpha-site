@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseRecords, licenseCopy, licenseTitle, licenseAnswer, licensePath, licenseResearchForCountry, venueDisplayName } from '../../data/licenses.js';
 import { licenseSignup } from '../../data/licenses-cta.js';
+import { licenseRegionName } from '../../data/license-region-names.js';
 import { localizedHref } from '../../data/locale-routing.js';
 import { isTurkeyUnlistedVenue } from '../../data/partner-geo-policy.js';
 import './licenses.css';
 
-const countryName = (country, locale) => new Intl.DisplayNames([locale], { type: 'region' }).of(country.code) || country.name;
+// Static region names (src/data/license-region-names.js): Intl.DisplayNames differs between server and browser ICU.
+const countryName = (country, locale) => licenseRegionName(country.code, locale, country.name);
 const benchmarkLabels = { en: 'Compare exchange fees', 'zh-Hans': '比较交易所手续费', es: 'Comparar comisiones', 'pt-BR': 'Comparar taxas', tr: 'Borsa ücretlerini karşılaştır', vi: 'So sánh phí giao dịch', id: 'Bandingkan biaya bursa', ja: '取引所手数料を比較', ko: '거래소 수수료 비교', fr: 'Comparer les frais', de: 'Börsengebühren vergleichen', ar: 'مقارنة رسوم التداول', ur: 'ایکسچینج فیس کا موازنہ', uk: 'Порівняти комісії бірж' };
 const link = (path, locale) => localizedHref(path, { locale });
 export function LicenseTable({ records, locale, market }) {

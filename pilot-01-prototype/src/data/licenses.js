@@ -2,6 +2,7 @@ import { researchRecords, licenseResearch } from "./licenses-research.js";
 import { countryEditorial } from "./licenses-editorial.js";
 import { localizedPath } from "./locale-routing.js";
 import { venueDisplayName } from "./venue-display-names.js";
+import { licenseRegionName } from "./license-region-names.js";
 
 export { venueDisplayName };
 
@@ -586,11 +587,8 @@ export function licenseRecordsForCountry(countrySlug) {
 export function licenseCountryName(countrySlug, locale = "en") {
   const country = licenseCountry(countrySlug);
   if (!country) return "";
-  try {
-    return new Intl.DisplayNames([locale], { type: "region" }).of(country.code) || country.name;
-  } catch {
-    return country.name;
-  }
+  // Static table, not Intl.DisplayNames: ICU differs between Node and browsers (hydration #418).
+  return licenseRegionName(country.code, locale, country.name);
 }
 
 export function fillLicense(template, vars = {}) {
