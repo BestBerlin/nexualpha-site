@@ -39,7 +39,6 @@ export const LOCAL_MARKET_BRIEFS = Object.freeze({
         heading: "Ortak borsalar ve Türkiye'de yaşayanlar",
         items: [
           { text: `NexuAlpha'nın ortak borsalardan herhangi birinin Türkiye'de yaşayanlara açık olduğuna dair kaynaklı bir uygunluk kaydı yok; bu yüzden burada hiçbir borsa "uygun" olarak gösterilmez.`, source: null },
-          { text: `${INTERNATIONAL_SOURCE_REVIEWED_AT} tarihli incelememizde Bitget Teknoloji AŞ, SPK'nın tasfiye sürecindeki sağlayıcılar listesinde yer alıyordu. Güncel durumu listeden kontrol edin.`, source: { label: "SPK — tasfiye sürecinde olanlar listesi", url: registerUrl("TR", "SPK crypto-asset service providers in liquidation") } },
         ],
       },
       {

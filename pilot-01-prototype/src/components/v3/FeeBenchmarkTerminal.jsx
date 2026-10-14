@@ -14,7 +14,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import "./fee-benchmark-terminal.css";
 import { CostDecision } from "./CostDecision.jsx";
 import { regionalVenueCta, venueGoHref } from "../../data/source-bound-cta.js";
-import { isTurkeyGated } from "../../data/partner-geo-policy.js";
+import { isTurkeyGated, isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
@@ -591,7 +591,9 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   const labels = { ...(stateCopy[normalizedLocale] || stateCopy.en), unchecked: matrixCopy(locale).unchecked };
   const basisText = costBasisCopy(locale);
 
-  const rows = MONITOR_SLUGS.map((slug) => {
+  // Türkiye pages leave Bitget (SPK list) out of the benchmark rows and the follow-up comparison link.
+  const trUnlisted = isTurkeyUnlistedVenue("bitget", { locale, market });
+  const rows = MONITOR_SLUGS.filter((slug) => !isTurkeyUnlistedVenue(slug, { locale, market })).map((slug) => {
     const db = venueDatabase[slug] || {};
     const partner = partnerRegistry[slug] || {};
     const feeSummary = buildVenueFeeSummary(db, {});
@@ -685,7 +687,9 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
           </dl>
           <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
             <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>
-            <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>
+            {trUnlisted
+              ? <a href={answerHref("/compare/okx-vs-bybit", "perpetuals")}>{answerBlock.compareB.replace(/Bitget/g, "OKX")}</a>
+              : <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>}
             <a href={answerHref("/topics/derivatives", "perpetuals")}>{answerBlock.derivatives}</a>
           </nav>
         </div>

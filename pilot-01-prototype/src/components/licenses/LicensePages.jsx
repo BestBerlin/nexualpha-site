@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseRecords, licenseCopy, licenseTitle, licenseAnswer, licensePath, licenseResearchForCountry, venueDisplayName } from '../../data/licenses.js';
 import { licenseSignup } from '../../data/licenses-cta.js';
 import { localizedHref } from '../../data/locale-routing.js';
+import { isTurkeyUnlistedVenue } from '../../data/partner-geo-policy.js';
 import './licenses.css';
 
 const countryName = (country, locale) => new Intl.DisplayNames([locale], { type: 'region' }).of(country.code) || country.name;
@@ -17,7 +18,8 @@ export function LicenseTable({ records, locale, market }) {
     name: venueDisplayName(record.exchange),
     status: t.statuses?.[record.status] || record.status,
   }));
-  const exchangeLink = ({ record, name }) => <a href={link(`/exchanges/${record.exchange}`, locale)}>{name}</a>;
+  // Türkiye pages state the SPK fact for an unlisted venue as plain text, never as a link to it (tr-bitget-sweep).
+  const exchangeLink = ({ record, name }) => isTurkeyUnlistedVenue(record.exchange, { locale, market }) ? name : <a href={link(`/exchanges/${record.exchange}`, locale)}>{name}</a>;
   const signupLink = ({ record, signup }) => signup && <a className="nx-license-cta" href={signup} data-cta-kind="registration" data-cta-platform={record.exchange} data-cta-placement="license-directory" rel="sponsored nofollow">{t.open}</a>;
   const countryLink = ({ country }) => country && <a href={link(licensePath(country.slug), locale)}>{countryName(country, locale)}</a>;
   return <div className="nx-license-table"><table><thead><tr>{[t.exchange, t.country, t.entity, t.regulator, t.type, t.status, t.source, t.lastChecked].map((label, i) => <th key={i} scope="col">{label}</th>)}</tr></thead><tbody>
@@ -51,11 +53,13 @@ export function LicenseDirectoryPage({ locale = 'en', country: slug, market }) {
   const [status, setStatus] = useState('');
   if (slug && !country) return <main className="v2-shell nx-licenses"><h1>404</h1><a href={link('/licenses', locale)}>{t.title}</a></main>;
   const research = licenseResearchForCountry(slug);
-  const base = country ? licenseRecords.filter(record => record.country === country.code) : licenseRecords;
+  // Türkiye pages keep an unlisted venue only as its Türkiye register fact (the SPK list), never in other countries' lists.
+  const base = (country ? licenseRecords.filter(record => record.country === country.code) : licenseRecords)
+    .filter(record => record.country === 'TR' || !isTurkeyUnlistedVenue(record.exchange, { locale, market }));
   const records = base.filter(record => (!exchange || record.exchange === exchange) && (!selectedCountry || record.country === selectedCountry) && (!status || record.status === status));
   return <main className="v2-shell nx-licenses" lang={LICENSE_INDEX_LOCALES.includes(locale) ? locale : "en"} dir={['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr'}><header><a href={link('/licenses', locale)}>{t.title}</a><h1>{licenseTitle(slug, locale)}</h1><p>{licenseAnswer(slug, locale)}</p></header>
     <form className="nx-license-filters" onSubmit={event => event.preventDefault()}>
-      <label>{t.exchange}<select value={exchange} onChange={event => setExchange(event.target.value)}><option value="">{t.all}</option>{[...new Set(base.map(record => record.exchange))].map(value => <option key={value} value={value}>{venueDisplayName(value)}</option>)}</select></label>
+      <label>{t.exchange}<select value={exchange} onChange={event => setExchange(event.target.value)}><option value="">{t.all}</option>{[...new Set(base.map(record => record.exchange))].filter(value => !isTurkeyUnlistedVenue(value, { locale, market })).map(value => <option key={value} value={value}>{venueDisplayName(value)}</option>)}</select></label>
       {!country && <label>{t.country}<select value={selectedCountry} onChange={event => setCountry(event.target.value)}><option value="">{t.all}</option>{LICENSE_COUNTRIES.map(value => <option key={value.code} value={value.code}>{countryName(value, locale)}</option>)}</select></label>}
       <label>{t.status}<select value={status} onChange={event => setStatus(event.target.value)}><option value="">{t.all}</option>{[...new Set(base.map(record => record.status))].map(value => <option key={value} value={value}>{t.statuses?.[value] || value}</option>)}</select></label>
     </form><LicenseTable records={records} locale={locale} market={market} />

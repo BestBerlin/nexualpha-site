@@ -1,3 +1,4 @@
+import { isTurkeyUnlistedVenue, turkeyListingAllowed } from "./partner-geo-policy.js";
 import { localizedHref } from "./locale-routing.js";
 import { appendDecisionPassportQuery } from "./decision-passport.js";
 import { comparePathFor } from "../components/v6/compare-routes.js";
@@ -176,7 +177,8 @@ export function buildNextDecisionBridge({
   telegramHref = "/telegram",
 } = {}) {
   const text = nextDecisionBridgeCopy(locale);
-  const profile = cleanSlug(profileSlug);
+  // Türkiye pages never route a next step to an SPK-listed venue (tr-bitget-sweep).
+  const profile = isTurkeyUnlistedVenue(cleanSlug(profileSlug), { locale, market }) ? "" : cleanSlug(profileSlug);
   const profilePath = `/exchanges/${profile}`;
   // Reuse the shortlist's validated route without accepting a different venue
   // or an off-site action in this research-only bridge.
@@ -187,7 +189,8 @@ export function buildNextDecisionBridge({
   // bridge then offers no comparison instead of a 404 link (QA 2026-10-11: /topics/compliant-exchanges linked
   // /compare/hashkey-vs-kraken).
   const pairPath = slugs.length >= 2 ? comparePathFor(slugs.slice(0, 2)) : null;
-  const comparison = compareHref || (pairPath && !pairPath.fallback ? pairPath.path : "");
+  const comparisonPath = compareHref || (pairPath && !pairPath.fallback ? pairPath.path : "");
+  const comparison = turkeyListingAllowed(comparisonPath, { locale, market }) ? comparisonPath : "";
   const contextualHref = (href) => {
     const target = new URL(String(href || "/"), "https://nexualpha.com");
     return appendDecisionPassportQuery(localizedHref(href, { locale }), {

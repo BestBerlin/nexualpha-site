@@ -1,6 +1,7 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { enFallback } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import { getTextDirection } from "../../paraglide/runtime.js";
 import { formatDate, formatMonthYear } from "../../data/format-date.js";
 import "./methodology-page.css";
@@ -830,7 +831,7 @@ export function MethodologyPage({ locale = "en" }) {
             <div>
               <h3>{fundingRoute.compareLabel}</h3>
               <ul>
-                {fundingRoute.compareLinks.map(([label, href]) => (
+                {withoutTurkeyUnlisted(fundingRoute.compareLinks, { locale }, ([, href]) => href).map(([label, href]) => (
                   <li key={href}>
                     <a href={localizedHref(href, { locale })}>{label}</a>
                   </li>

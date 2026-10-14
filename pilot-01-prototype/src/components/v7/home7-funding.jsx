@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { FUNDING_PATH, FUNDING_SYMBOLS, fundingTable } from "../../data/funding-rates.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatSgt } from "../../data/local-time.js";
+import { withoutTurkeyUnlistedVenueFeed } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { reduced } from "./home7-shared.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
@@ -63,7 +64,8 @@ export function FundingBoard({ locale, initialFeed }) {
   // SSR has no media query. Adopt the reader preference only after hydration.
   const [showSeconds, setShowSeconds] = useState(true);
   useEffect(() => { setShowSeconds(!reduced()); }, []);
-  const feed = useFunding(initialFeed);
+  const liveFeed = useFunding(initialFeed);
+  const feed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
   const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);
   const [symbol, setSymbol] = useState("BTC");

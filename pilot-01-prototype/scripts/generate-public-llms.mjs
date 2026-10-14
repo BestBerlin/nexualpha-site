@@ -1,3 +1,4 @@
+import { turkeyListingAllowed } from "../src/data/partner-geo-policy.js";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { pathToFileURL } from "node:url";
@@ -241,7 +242,8 @@ const supportOwnerComparisons = `\n\n## Support-owner comparison records\n\nThes
 
 const international = `\n\n## International authority source packs\n\nThese links are research aids for jurisdiction-specific review. They do not decide whether a user or product is eligible in a market. Source pack review date: ${INTERNATIONAL_SOURCE_REVIEWED_AT}.\n\n${sourceLines.join("\n")}\n`;
 
-const questionLines = AEO_QUESTION_REGISTRY.map((item) => {
+// Türkiye editions (tr-bitget-sweep): no tr question entry features an SPK-listed venue.
+const questionLines = AEO_QUESTION_REGISTRY.filter((item) => turkeyListingAllowed(item, { locale: item.locale })).map((item) => {
   const sources = item.sourceUrls.length ? item.sourceUrls.map((url) => `[source](${url})`).join(", ") : "no source selected; pending source review";
   return `- **${item.market} / ${item.locale} / ${item.intent}** — ${item.question} — canonical: https://nexualpha.com${item.canonicalPath}; status: ${item.status}; answer boundary: ${item.answerBoundary}; ${sources}`;
 }).join("\n");

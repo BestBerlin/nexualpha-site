@@ -12,6 +12,7 @@ import { campaignVisibleInLocale } from "./campaign-locale-policy.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
 import { carriesSignupPath, isReferralTopicArticle, neutralArticleMarkdown } from "./neutral-article.js";
 import { isNeutralCtaLocale } from "./locale-policy.js";
+import { turkeyListingAllowed } from "./partner-geo-policy.js";
 import { COIN_ROWS } from "./coins-data.generated.js";
 
 // Search editions (same set as the Worker's INDEXABLE_LOCALES): every one has its own templates below.
@@ -580,6 +581,8 @@ export function flashItemIndexLocales(item, { now = Date.now() } = {}) {
 // Neutral locales (locale-policy.js): an item about a referral code, or whose text carries a code or sign-up link, is
 // left out of the stream and the related list; an item page opened directly loses those sentences.
 function neutralFlashHidden(item, locale) {
+  // tr-bitget-sweep: Türkiye feeds (home rail, /tr/flash, API, related items) carry no SPK-listed venue at all.
+  if (!turkeyListingAllowed(item, { locale })) return true;
   if (!isNeutralCtaLocale(locale)) return false;
   const text = renderText(item, locale);
   const slug = item.type === "news" ? String(item.source?.url || "").split(/[?#]/)[0].split("/").filter(Boolean).pop() : "";

@@ -79,7 +79,7 @@ test("R37 BR, JP, KR, SG and TR decision depth gives localized payment, identity
 
   assert.match(html.tr, /data-regional-decision-depth="TR"/);
   assert.match(html.tr, /SPK listesi, tasfiye durumu, kimlik, TRY/);
-  assert.match(html.tr, /Bitget Teknoloji AŞ/);
+  assert.doesNotMatch(html.tr, /Bitget/i); // tr-bitget-sweep
   assert.match(html.tr, /Ücret ve işlem süresi/);
   assert.match(html.tr, /Türkiye Sermaye Piyasası Kurulu \(SPK\) ve resmi platform kaynakları/);
 

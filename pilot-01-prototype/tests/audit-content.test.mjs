@@ -197,6 +197,8 @@ test("NX-05 /onchain body: guide H1, plain 'not published' status, official repo
     assert.doesNotMatch(h1, /board|dashboard|看板|ボード|보드|panosu|Panel|Painel|Tableau|Pannello|Панель|لوحة|Papan|Bảng/i, `${locale} H1`);
     assert.match(html, /role="status" data-live-metrics="not-published">[^<]{20,}</, `${locale}: status says live metrics are not published`);
     for (const source of sources) {
+      // tr-bitget-sweep: Türkiye pages list no SPK-listed venue's reserve report.
+      if (locale === "tr" && source.slug === "bitget") { assert.doesNotMatch(html, /bitget/i, "tr: no Bitget reserve row"); continue; }
       // Owner 2026-10-13: exchange evidence carries our code (/go/<venue>-page) or is a plain label + domain.
       const link = outboundLink(source.url, { locale });
       assert.ok(!html.includes(`href="${source.url}"`) || link?.href === source.url, `${locale}: ${source.slug} no uncoded exchange link`);

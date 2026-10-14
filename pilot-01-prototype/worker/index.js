@@ -10,7 +10,7 @@ import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
 import { applyExchangeQuickAnswers } from "../src/data/exchange-quick-answer-schema.js";
 import { campaignVisibleInLocale } from "../src/data/campaign-locale-policy.js";
 import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
-import { isPartnerPromotableIn, jurisdictionPromotionBan } from "../src/data/partner-geo-policy.js";
+import { isPartnerPromotableIn, jurisdictionPromotionBan, isTurkeyPage, isTurkeyUnlistedVenue, turkeyListingAllowed, withoutTurkeyUnlistedVenueFeed, withoutTurkeyUnlistedSchema } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
 import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-topic.js";
 import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
@@ -3606,6 +3606,9 @@ function routeSchemaPayload(schema, metadata) {
     schema = completePageSchemas(schema, { pathname, canonical: metadata.canonical, title: metadata.title, description: metadata.description, locale: metadata.locale });
   }
   if (!schema) return null;
+  // Türkiye pages (tr-bitget-sweep): structured data never lists an SPK-listed venue. A page about that venue itself
+  // (its profile or comparison) keeps its own schema.
+  if (turkeyListingAllowed(metadata?.canonical || "", { locale: metadata?.locale })) schema = withoutTurkeyUnlistedSchema(schema, { locale: metadata?.locale });
   return Array.isArray(schema)
     ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
     : schema;
@@ -4506,6 +4509,18 @@ function attachBriefToCompactItem(item, feed) {
   return brief ? { ...item, brief } : item;
 }
 
+// Türkiye venue/compare pages (tr-bitget-sweep): the shared notice feed carries no SPK-listed venue, in the body or the
+// hydration state. A page about that venue itself keeps its own notices.
+function turkeyAnnouncementFeed(feed, publicRoute, market) {
+  const context = { locale: publicRoute.locale, market: market || undefined };
+  if (!feed || typeof feed !== "object" || !isTurkeyPage(context) || !turkeyListingAllowed(publicRoute.contentPathname, context)) return feed;
+  return {
+    ...feed,
+    ...(Array.isArray(feed.items) ? { items: feed.items.filter((item) => !isTurkeyUnlistedVenue(item?.venue, context) && turkeyListingAllowed([item?.title, item?.url], context)) } : {}),
+    ...(feed.sources && typeof feed.sources === "object" ? { sources: Object.fromEntries(Object.entries(feed.sources).filter(([slug]) => !isTurkeyUnlistedVenue(slug, context))) } : {}),
+  };
+}
+
 export function compactOfficialAnnouncements(feed, now = Date.now()) {
   if (!feed || typeof feed !== "object" || !Array.isArray(feed.items)) return null;
   const items = readIntelFeed(feed, { now })
@@ -4644,7 +4659,7 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   let officialAnnouncements = null;
   try {
     const feed = attachCampaignBriefs(await env.INTEL_READ(), await readCampaignBriefs(env, url));
-    officialAnnouncements = compactOfficialAnnouncements(feed);
+    officialAnnouncements = turkeyAnnouncementFeed(compactOfficialAnnouncements(feed), publicRoute, url.searchParams.get("market"));
   } catch (error) {
     console.error(`[NexuAlpha] activities SSR could not read the announcement feed: ${error?.message || error}`);
   }
@@ -5027,9 +5042,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if ((metadata.marker === VENUE_ROUTE_MARKER || metadata.marker === COMPARE_ROUTE_MARKER)
     && typeof env?.NEWS_SSR_RENDER === "function") {
     try {
-      const officialAnnouncements = typeof env?.INTEL_READ === "function"
+      const officialAnnouncements = turkeyAnnouncementFeed(typeof env?.INTEL_READ === "function"
         ? await env.INTEL_READ()
-        : await readJsonAsset(env, url, "/intel/official-announcements.json");
+        : await readJsonAsset(env, url, "/intel/official-announcements.json"), publicRoute, market);
       if (officialAnnouncements) {
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
         if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
@@ -5085,8 +5100,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   let renderedLiveHome = false;
   // Use one live snapshot for the header, terminal, rail and movers, then hydrate with those same values.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
+    // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
     const [funding, flash, ticker, movers] = await Promise.all([
-      readHomeFundingSnapshot(env),
+      readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale })),
       readFlashItems(env, url).then((items) => flashStreamPayload(items, publicRoute.locale || "en", { limit: 5, now: flashNow(env) })).catch((error) => {
         console.error(`[NexuAlpha] home flash SSR failed: ${error?.message || error}`);
         return null;

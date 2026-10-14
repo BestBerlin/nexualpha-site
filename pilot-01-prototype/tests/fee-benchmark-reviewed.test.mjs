@@ -80,8 +80,10 @@ test("fee benchmark uses reviewed spot records and localized reviewed copy", asy
       for (const rate of buildVenueFeeSummary({ slug }).rates) {
         const copy = reviewedFeeCopy(rate, locale);
         if (locale === 'tr' && slug === 'bitget') {
+          // tr-bitget-sweep: Türkiye pages list no SPK-listed venue in the benchmark at all.
           assert.ok(!section.includes(`href="${escapeHtml(rate.sourceUrl)}"`), `${locale}/${slug}: outbound source blocked`);
-          assert.match(section, /class="ft-src"><span[^>]*>[^<]+/, `${locale}/${slug}: nonlinked citation label retained`);
+          assert.doesNotMatch(section, /bitget/i, `${locale}/${slug}: row removed`);
+          continue;
         } else {
           assert.ok(rendersSource(section, rate.sourceUrl, { locale }) || section.includes(`data-source-plain="${new URL(rate.sourceUrl).hostname.replace(/^www\./, '')}"`), `${locale}/${slug}: reviewed source (coded route or plain label)`);
           assert.ok(!section.includes(`href="${escapeHtml(rate.sourceUrl)}"`) || renderedSourceHref(rate.sourceUrl, { locale }) === escapeHtml(rate.sourceUrl), `${locale}/${slug}: no uncoded exchange link`);

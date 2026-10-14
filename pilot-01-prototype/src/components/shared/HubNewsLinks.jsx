@@ -1,3 +1,4 @@
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import React from "react";
 
 const COPY = {
@@ -24,7 +25,9 @@ const dirOf = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 const textFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const fill = (text, vars) => String(text || "").replace(/\{(\w+)\}/g, (_m, key) => vars[key] || "");
 
-export function HubNewsLinks({ locale = "en", name, items = [], tools = [], className = "v2-section", id }) {
+export function HubNewsLinks({ locale = "en", name, items: allItems = [], tools = [], className = "v2-section", id }) {
+  // Türkiye pages list no article that features an SPK-listed venue (tr-bitget-sweep).
+  const items = withoutTurkeyUnlisted(allItems, { locale }, (item) => [item.slug, item.title, item.summary, item.href]);
   if (!items.length && !tools.length) return null;
   const copy = textFor(locale);
   const headingId = id || `hub-news-${String(name || "entity").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;

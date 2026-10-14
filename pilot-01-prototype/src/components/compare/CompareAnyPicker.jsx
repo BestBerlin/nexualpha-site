@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
+import { isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
 import { ACTIVE_COMPARE_VENUE_SLUGS, canonicalComparePath, comparePickerCopy } from "../../data/compare-slug.js";
 import "./compare-any-picker.css";
 
@@ -8,7 +9,7 @@ import "./compare-any-picker.css";
 export function CompareAnyPicker({ locale = "en", venues = [], initial = [], placement = "compare-hub", compact = false }) {
   const copy = comparePickerCopy(locale);
   const options = venues
-    .filter((venue) => ACTIVE_COMPARE_VENUE_SLUGS.includes(venue.slug))
+    .filter((venue) => ACTIVE_COMPARE_VENUE_SLUGS.includes(venue.slug) && !isTurkeyUnlistedVenue(venue.slug, { locale }))
     .map((venue) => ({ slug: venue.slug, name: venue.name }));
   const [a, setA] = useState(initial[0] || "");
   const [b, setB] = useState(initial[1] || "");

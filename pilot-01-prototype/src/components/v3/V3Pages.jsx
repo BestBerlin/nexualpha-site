@@ -42,6 +42,7 @@ import { formatPercent } from "../../data/format-percent.js";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, publishableFeeRate } from "./v3-pages-shared.jsx";
+import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 export { ActivityCenterPage, ActivityDetailPage } from "./activity/ActivityPages";
 export { VenueFaqSection } from "./VenueFaqSection.jsx";
@@ -1130,7 +1131,7 @@ export function CompareGoldMatrixNav({ currentSlugs = [], locale = "en", market,
         </span>
       </div>
       <div className="v3-gold-matrix-scroll">
-        {GOLDEN_COMPARE_PAIRS.map((pair) => {
+        {withoutTurkeyUnlisted(GOLDEN_COMPARE_PAIRS, { locale, market }, (pair) => pair.slug).map((pair) => {
           const active = isPairActive(pair);
           const pairClaimsVerified = [pair.left, pair.right].every(
             (slug) => publicVenueAccess(slug, locale, market).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug)
@@ -2486,7 +2487,7 @@ export function CompareRelatedPairs({ selected = [], profiles = [], locale = "en
   const groups = generated
     ? [{ key: "curated", label: copy.relatedCurated(profiles.map((profile) => getLocalizedVenueName(profile, locale)).join(" / ")), pairs: curatedPairsSharingVenue(selected, current) }]
     : profiles.map((profile) => ({ key: profile.slug, label: copy.moreWith(getLocalizedVenueName(profile, locale)), pairs: generatedPairsSharingVenue(profile.slug, { limit: 3, exclude: current }) }));
-  const visible = groups.filter((group) => group.pairs.length);
+  const visible = groups.map((group) => ({ ...group, pairs: withoutTurkeyUnlisted(group.pairs, { locale, market }) })).filter((group) => group.pairs.length);
   const totalCap = generated ? 12 : 6;
   let remaining = totalCap;
   return (
@@ -2525,7 +2526,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
   const copy = compareIndexCopy(locale);
   const text = v3Copy(locale);
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
-  const generatedPairs = indexableGeneratedComparePairs();
+  const generatedPairs = withoutTurkeyUnlisted(indexableGeneratedComparePairs(), { locale, market });
   return <main className="v6 v2-page v3-page v3-compare-hub" id="top" dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} {...sectionEyebrowAttrs(locale, "compare")}>
     <section className="v3-page-hero v2-shell" id="compare-hub-hero">
       <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">← {text.backToDirectory}</LocalLink>
@@ -2540,7 +2541,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
     <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-curated">
       <h2 id="compare-hub-curated" lang={locale}>{copy.curated}</h2>
       <ul className="v3-compare-hub__list">
-        {CURATED_COMPARISON_SLUGS.map((pair) => (
+        {withoutTurkeyUnlisted(CURATED_COMPARISON_SLUGS, { locale, market }).map((pair) => (
           <li key={pair}><LocalLink locale={locale} href={`/compare/${pair}?${contextSearch}`} translate="no" lang="en" data-growth-placement="compare-hub-curated">{pairLabel(pair)}</LocalLink></li>
         ))}
       </ul>

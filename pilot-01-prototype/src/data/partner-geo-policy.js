@@ -36,3 +36,48 @@ export function isPartnerPromotableIn(slug, context = {}) { return !partnerPromo
 // Owner 2026-10-13 (legal): on Türkiye pages a partner outside TURKEY_PROMOTED_PARTNERS (Bitget: SPK list) may be named
 // informationally only — no sign-up card, no rebate share, no link into its registration section.
 export function isTurkeyGated(slug, context = {}) { return partnerPromotionGate(slug, context)?.country === "TR"; }
+// Owner 2026-10-14 (tr-bitget-sweep): Bitget is on the SPK liquidation list, so Türkiye pages (locale tr, or an explicit
+// market TR) leave it out of every promotional or navigational surface — directories, fee/funding tables and boards,
+// compare links and cards, related links, offers and structured data. The only remaining mention is the neutral SPK fact
+// on /tr/licenses/turkey (plain text, no link). Every other edition keeps Bitget unchanged.
+export const TURKEY_UNLISTED_VENUES = Object.freeze(["bitget"]);
+const TURKEY_UNLISTED_PATTERN = new RegExp(TURKEY_UNLISTED_VENUES.join("|"), "i");
+export function isTurkeyPage({ locale, market } = {}) {
+  return String(locale || "").toLowerCase() === "tr" || (market ? promotionCountries({ market }).includes("TR") : false);
+}
+export function isTurkeyUnlistedVenue(slug, context = {}) {
+  return TURKEY_UNLISTED_VENUES.includes(String(slug || "").toLowerCase()) && isTurkeyPage(context);
+}
+/** True when a link, label, slug or record may be shown on this page (always true outside Türkiye pages). */
+export function turkeyListingAllowed(value, context = {}) {
+  if (!isTurkeyPage(context)) return true;
+  return !TURKEY_UNLISTED_PATTERN.test(typeof value === "string" ? value : JSON.stringify(value ?? ""));
+}
+/** Drops the entries that name an unlisted venue on Türkiye pages; returns the same array elsewhere. */
+export function withoutTurkeyUnlisted(list, context = {}, pick = (item) => item) {
+  if (!Array.isArray(list) || !isTurkeyPage(context)) return list;
+  return list.filter((item) => turkeyListingAllowed(pick(item), context));
+}
+/** Feed shapes keyed by venue slug ({ venues: { bitget: … } }): drops unlisted venues on Türkiye pages. */
+export function withoutTurkeyUnlistedVenueFeed(feed, context = {}) {
+  if (!feed?.venues || typeof feed.venues !== "object" || !isTurkeyPage(context)) return feed;
+  const venues = Object.fromEntries(Object.entries(feed.venues).filter(([slug]) => !isTurkeyUnlistedVenue(slug, context)));
+  return Object.keys(venues).length === Object.keys(feed.venues).length ? feed : { ...feed, venues };
+}
+/**
+ * Structured data on Türkiye pages: removes list entries (ListItems, hasPart, FAQ questions, sameAs …) that still name an
+ * unlisted venue once their own children are cleaned, and renumbers ListItem positions. Objects outside arrays are kept.
+ */
+export function withoutTurkeyUnlistedSchema(value, context = {}) {
+  if (!isTurkeyPage(context)) return value;
+  const prune = (node) => {
+    if (Array.isArray(node)) {
+      const kept = node.map(prune).filter((item) => item === null || typeof item === "number" || typeof item === "boolean" || turkeyListingAllowed(item, context));
+      let position = 0;
+      return kept.map((item) => (item && typeof item === "object" && !Array.isArray(item) && item["@type"] === "ListItem" && typeof item.position === "number" ? { ...item, position: ++position } : item));
+    }
+    if (node && typeof node === "object") return Object.fromEntries(Object.entries(node).map(([key, item]) => [key, prune(item)]));
+    return node;
+  };
+  return prune(value);
+}

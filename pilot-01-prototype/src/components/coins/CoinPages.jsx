@@ -14,7 +14,11 @@ import {
 import { DATA_PAGE_NAV } from "../../data/market-data-pages-nav.js";
 import { coinHubNewsItems } from "../../data/hub-entity-news.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { isPartnerPromotableIn } from "../../data/partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyPage, isTurkeyUnlistedVenue } from "../../data/partner-geo-policy.js";
+
+// Türkiye pages list no SPK-listed venue among a coin's venues (tr-bitget-sweep); other editions get the coin unchanged.
+const coinForPage = (coin, locale, market) => (coin && isTurkeyPage({ locale, market })
+  ? { ...coin, venues: coin.venues.filter((venue) => !isTurkeyUnlistedVenue(venue.slug, { locale, market })) } : coin);
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import "./coins.css";
@@ -238,7 +242,7 @@ export function useCoinData(overlay) {
 export function CoinPage({ locale = "en", content, slug, market, overlay, initialNewsArticles = [] }) {
   useCoinData(overlay);
   const t = coinCopy(locale);
-  const coin = coinBySlug(slug);
+  const coin = coinForPage(coinBySlug(slug), locale, market);
   const live = useLivePrice(coin);
   const own = useDescription(coin, locale, content);
   if (!coin) return <main className="nxc nxc--missing" id="top" dir={dirOf(locale)}><div className="nxc-shell"><h1>404</h1><p><a href={hrefFor("/coins", locale, market)}>{t.allCoins}</a></p></div></main>;
@@ -351,7 +355,8 @@ export function CoinsHubPage({ locale = "en", market, overlay }) {
       </div>
       <p className="nxc-muted nxc-count" aria-live="polite">{fill(t.showing, { n: visible.length })}</p>
       {visible.length ? <ol className="nxc-list">
-        {visible.map((coin) => {
+        {visible.map((listed) => {
+          const coin = coinForPage(listed, locale, market);
           const { price, change24h } = priceOf(coin, null);
           return <li key={coin.slug} data-coin-row={coin.slug}>
             <a href={hrefFor(coinPath(coin.slug), locale, market)} className="nxc-row">

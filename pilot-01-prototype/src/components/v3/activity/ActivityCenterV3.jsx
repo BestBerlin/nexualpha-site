@@ -28,6 +28,7 @@ import { isoDay } from "../../../data/exchange-facts.js";
 import { r9Text } from "../../v6/inner-r9-copy.js";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 import { formatSgt } from "../../../data/local-time.js";
+import { isTurkeyUnlistedVenue, withoutTurkeyUnlisted } from "../../../data/partner-geo-policy.js";
 
 const categoryDefinitions = (text) => [
   { key: "all", label: text.all },
@@ -142,7 +143,10 @@ const activitySupportSummary = {
 };
 
 
-export function ActivityCenterV3({ locale = "en", market, product, venues = [], publicUpdates = [], campaignFeed }) {
+export function ActivityCenterV3({ locale = "en", market, product, venues: allVenues = [], publicUpdates: allUpdates = [], campaignFeed }) {
+  // Türkiye pages list no SPK-listed venue in research cards, filters or campaign updates (tr-bitget-sweep).
+  const venues = useMemo(() => withoutTurkeyUnlisted(allVenues, { locale, market }, (venue) => venue.slug), [allVenues, locale, market]);
+  const publicUpdates = useMemo(() => withoutTurkeyUnlisted(allUpdates, { locale, market }, (update) => [update?.venue, update?.platform?.slug, update?.title, update?.url]), [allUpdates, locale, market]);
   const briefFeed = useCampaignBriefs(campaignFeed);
   const activityLocaleUi = {
     ja: { badge: "公式出典リサーチ速報", body: "出典付きの活動、上場、条件を掲載します。資格、期限、具体的な条件は公式アカウントで確認してください。", subscribe: "Telegramで出典付き調査を購読 ↗", index: "公式リサーチ索引を開く", indexHint: "サービス別に出典、状態、確認日を見る" },
@@ -217,7 +221,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           sources: view.sources,
         };
       })
-      .filter(Boolean),
+      .filter((item) => item && !isTurkeyUnlistedVenue(item.id, { locale, market })),
     [locale, market, product, now, venueBySlug],
   );
   // Keep the reviewed activity feed and the independent research index as two
