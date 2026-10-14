@@ -58,8 +58,9 @@ test('served home reuses its serialized render clock when the complete page hydr
   const movers = { generatedAt: '2026-10-14T00:00:00Z', up: [{ sym: 'BTC', slug: 'bitcoin', price: '$82,000', change: '+1.00%', dir: 'up' }], down: [], source: 'fixture' };
   for (const path of ['/', '/zh-hans']) for (const heroVariant of ['a', 'b']) {
     const html = await harness.render(`https://nexualpha.com${path}`, { funding, flash, ticker, movers, heroVariant });
-    assert.match(html, /Seeded official flash/);
-    assert.match(html, /h7-terminal__ticker[\s\S]*?82,000/);
+    // Owner 2026-10-14: no flash rail and no hero device mockup on home, even when the state carries both snapshots.
+    assert.doesNotMatch(html, /Seeded official flash|h7-flash/);
+    assert.doesNotMatch(html, /h7-terminal|hx-terminal-host/);
     assert.match(html, /data-rendered-at="[^"]+"/);
     const document = `<div id="root">${html}</div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify({ funding, flash, ticker, movers, heroVariant })}</script>`;
     const result = await hydrateInJsdom(harness.vite, document, `https://nexualpha.com${path}`, { fixedNow: Date.now() + 125000, timeoutMs: 800 });
@@ -113,7 +114,7 @@ test('the real client island keeps the same SSR sections through hydration and t
   const observingIntersection = class {
     observe() {
       if (originalSections) return;
-      originalSections = ['h7-flash','h7-movers','h7-calc','h7-funding','h7-intel'].map(id => window.document.getElementById(id));
+      originalSections = ['h7-movers','h7-intel','h7-calc','h7-funding'].map(id => window.document.getElementById(id));
       observer = new window.MutationObserver(records => {
         for (const record of records) for (const node of record.removedNodes) {
           if (node.nodeType === 1 && originalSections.some(section => node === section || node.contains(section))) removed.push(node.id || node.className);

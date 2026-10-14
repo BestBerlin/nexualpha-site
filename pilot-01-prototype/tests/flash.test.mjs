@@ -354,13 +354,10 @@ test("hydration of the stream and an item page has no mismatch (en, zh-hans, ar)
   }
 });
 
-test("header keeps five primary items with Flash under More; home has the live rail", async () => {
+test("header keeps five primary items with Flash under More; home has no flash rail (owner 2026-10-14)", async () => {
   const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", { flash: flashStreamPayload(items, "zh-Hans", { limit: 5, now: NOW }) });
-  assert.match(home, /class="h7-in h7-flash"[\s\S]*href="\/zh-hans\/flash"/, "home rail");
-  assert.equal((home.match(/class="h7-flash-skel"/g) || []).length, 0, "SSR ships real rows instead of skeletons");
-  const rail = home.match(/<ol class="h7-flash-list"[\s\S]*?<\/ol>/)?.[0] || "";
-  assert.equal((rail.match(/<li/g) || []).length, 5);
-  assert.match(rail, /href="\/zh-hans\/flash\//);
+  assert.doesNotMatch(home, /h7-flash|快讯 · 实时更新/, "no flash block on home");
+  assert.match(home.match(/<footer[\s\S]*?<\/footer>/)?.[0] || "", /href="\/zh-hans\/flash"/, "footer still links /flash");
   const header = home.match(/<header[\s\S]*?<\/header>/)?.[0] || "";
   const primary = header.match(/<nav class="nx-nav"[\s\S]*?<\/nav>/)?.[0] || "";
   assert.doesNotMatch(primary.split(/nx-more|data-more/)[0], /href="\/zh-hans\/flash"/, "not a primary item");
@@ -528,8 +525,6 @@ test("flash alerts module: preferences survive blocked storage, notifications ne
 test("the browser reads the flash JSON from /api/ (nginx serves /content/ statically); the old path still answers", async () => {
   const { FLASH_FEED_URL } = await import("../src/data/flash.js");
   assert.equal(FLASH_FEED_URL, "/api/flash.json");
-  const rail = await readFile(new URL("../src/components/flash/FlashRail.jsx", import.meta.url), "utf8");
-  assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
   for (const path of ["/api/flash.json?locale=en&limit=3", "/content/flash.json?locale=en&limit=3"]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), env());
     assert.equal(response.status, 200, path);

@@ -307,113 +307,6 @@ const footerLabelByLocale = {
   },
 };
 
-const compactFooterCopy = {
-  "en": {
-    "brand": "Independent crypto platform research and comparison.",
-    "affiliate": "Some links are affiliate links; user benefits follow platform terms.",
-    "summary": "Independent crypto platform research; some links are affiliate links and platform terms apply.",
-    "policies": "About & policies"
-  },
-  "zh-Hans": {
-    "brand": "独立的加密平台研究与比较。",
-    "affiliate": "部分链接为合作推广链接；用户权益以平台条款为准。",
-    "summary": "独立加密平台研究；部分链接为合作推广，用户权益以平台条款为准。",
-    "policies": "关于我们与政策"
-  },
-  "zh-Hant": {
-    "brand": "獨立的加密平台研究與比較。",
-    "affiliate": "部分連結為合作推廣連結；用戶權益以平台條款為準。",
-    "summary": "獨立加密平台研究；部分連結為合作推廣，用戶權益以平台條款為準。",
-    "policies": "關於我們與政策"
-  },
-  "ja": {
-    "brand": "暗号資産プラットフォームの独立した調査と比較。",
-    "affiliate": "一部はアフィリエイトリンクです。特典は各社の規約に従います。",
-    "summary": "暗号資産プラットフォームの独立調査です。一部リンクはアフィリエイトで、特典は各社規約に従います。",
-    "policies": "サイト情報とポリシー"
-  },
-  "ko": {
-    "brand": "암호화폐 플랫폼의 독립적인 조사와 비교.",
-    "affiliate": "일부는 제휴 링크입니다. 사용자 혜택은 플랫폼 약관에 따릅니다.",
-    "summary": "독립 암호화폐 플랫폼 리서치이며, 일부 링크는 제휴 링크이고 혜택은 플랫폼 약관을 따릅니다.",
-    "policies": "소개 및 정책"
-  },
-  "tr": {
-    "brand": "Kripto platformları için bağımsız araştırma ve karşılaştırma.",
-    "affiliate": "Bazı bağlantılar ortaklık bağlantısıdır.",
-    "summary": "Bağımsız kripto platform araştırması; bazı bağlantılar ortaklık bağlantısıdır ve avantajlar platform koşullarına bağlıdır.",
-    "policies": "Hakkımızda ve politikalar"
-  },
-  "es": {
-    "brand": "Investigación y comparación independiente de plataformas cripto.",
-    "affiliate": "Algunos enlaces son de afiliados; los beneficios dependen de las condiciones de cada plataforma.",
-    "summary": "Investigación cripto independiente; algunos enlaces son de afiliados y los beneficios dependen de cada plataforma.",
-    "policies": "Acerca de y políticas"
-  },
-  "pt-BR": {
-    "brand": "Pesquisa e comparação independente de plataformas cripto.",
-    "affiliate": "Alguns links são de afiliados; os benefícios seguem os termos da plataforma.",
-    "summary": "Pesquisa cripto independente; alguns links são afiliados e os benefícios seguem os termos da plataforma.",
-    "policies": "Sobre e políticas"
-  },
-  "fr": {
-    "brand": "Recherche et comparaison indépendantes de plateformes crypto.",
-    "affiliate": "Certains liens sont affiliés ; les avantages dépendent des conditions de la plateforme.",
-    "summary": "Recherche crypto indépendante ; certains liens sont affiliés et les avantages dépendent des conditions de la plateforme.",
-    "policies": "À propos et politiques"
-  },
-  "de": {
-    "brand": "Unabhängige Recherche und Vergleich von Kryptoplattformen.",
-    "affiliate": "Einige Links sind Affiliate-Links; Vorteile richten sich nach den Plattformbedingungen.",
-    "summary": "Unabhängige Krypto-Recherche; einige Links sind Affiliate-Links und Vorteile folgen den Plattformbedingungen.",
-    "policies": "Über uns und Richtlinien"
-  },
-  "ru": {
-    "brand": "Независимое исследование и сравнение криптоплатформ.",
-    "affiliate": "Некоторые ссылки партнёрские; преимущества определяются условиями платформы.",
-    "summary": "Независимое исследование криптоплатформ; некоторые ссылки партнёрские, а преимущества зависят от условий платформы.",
-    "policies": "О сайте и правилах"
-  },
-  "ar": {
-    "brand": "بحث ومقارنة مستقلان لمنصات العملات المشفرة.",
-    "affiliate": "بعض الروابط روابط شراكة؛ مزايا المستخدم تخضع لشروط المنصة.",
-    "summary": "بحث مستقل في منصات العملات المشفرة؛ بعض الروابط شراكة والمزايا تخضع لشروط المنصة.",
-    "policies": "عن الموقع والسياسات"
-  },
-  // l10n: needs native review
-  "ur": {
-    "brand": "کرپٹو پلیٹ فارمز کی آزاد تحقیق اور موازنہ۔",
-    "affiliate": "کچھ لنکس افیلی ایٹ ہیں؛ صارف فوائد پلیٹ فارم کی شرائط کے تابع ہیں۔",
-    "summary": "آزاد کرپٹو پلیٹ فارم تحقیق؛ کچھ لنکس افیلی ایٹ ہیں اور پلیٹ فارم شرائط لاگو ہوتی ہیں۔",
-    "policies": "تعارف اور پالیسیاں"
-  },
-  // l10n: needs native review
-  "uk": {
-    "brand": "Незалежне дослідження й порівняння криптоплатформ.",
-    "affiliate": "Деякі посилання є партнерськими; переваги користувача залежать від умов платформи.",
-    "summary": "Незалежне дослідження криптоплатформ; деякі посилання партнерські, умови платформ застосовуються.",
-    "policies": "Про нас і політики"
-  },
-  "id": {
-    "brand": "Riset dan perbandingan independen platform kripto.",
-    "affiliate": "Sebagian tautan adalah tautan afiliasi; manfaat pengguna mengikuti ketentuan platform.",
-    "summary": "Riset platform kripto independen; sebagian tautan afiliasi dan manfaat mengikuti ketentuan platform.",
-    "policies": "Tentang dan kebijakan"
-  },
-  "vi": {
-    "brand": "Nghiên cứu và so sánh độc lập các nền tảng tiền mã hóa.",
-    "affiliate": "Một số liên kết là liên kết đối tác; quyền lợi phụ thuộc điều khoản nền tảng.",
-    "summary": "Nghiên cứu nền tảng crypto độc lập; một số liên kết là đối tác và quyền lợi theo điều khoản nền tảng.",
-    "policies": "Giới thiệu và chính sách"
-  },
-  "it": {
-    "brand": "Ricerca e confronto indipendenti delle piattaforme crypto.",
-    "affiliate": "Alcuni link sono affiliati; i vantaggi dipendono dai termini della piattaforma.",
-    "summary": "Ricerca crypto indipendente; alcuni link sono affiliati e i vantaggi seguono i termini della piattaforma.",
-    "policies": "Informazioni e politiche"
-  }
-};
-
 const footerColumnLabels = {
   en: { product: "Product", exchanges: "Exchanges", learn: "Learn", about: "About" },
   "zh-Hans": { product: "产品", exchanges: "交易所", learn: "学习", about: "关于" },
@@ -474,7 +367,6 @@ export function footerDisclosureLabel(locale) {
 export function CleanFooter({ locale = "en", market, brazil = false }) {
   const labels = getFooterLabels(locale);
   const dataNav = dataPageCopy(locale).nav;
-  const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
   const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
@@ -599,7 +491,6 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           <ul>
             {legalLinks.map((link) => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}
           </ul>
-          <p className="clean-footer__summary" data-nosnippet="">{compact.affiliate}</p>
         </nav>
       </div>
     </footer>

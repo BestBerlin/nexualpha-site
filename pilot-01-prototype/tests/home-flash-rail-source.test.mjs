@@ -1,34 +1,32 @@
+// Owner 2026-10-14: the home page has no "快讯 · 实时更新" flash rail and no flash polling; /flash itself stays and the
+// footer keeps a link to it.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
-test("home flash rail accepts an SSR snapshot, then still refreshes from /api/flash.json", () => {
-  const rail = read("../src/components/flash/FlashRail.jsx");
-  assert.match(rail, /function initialRows\(initial\)/);
-  assert.match(rail, /export function FlashRail\(\{ locale = "en", initial \}\)/);
-  assert.match(rail, /useState\(\(\) => initialRows\(initial\)\)/);
-  assert.match(rail, /shouldPoll: \(\) => visible && document\.visibilityState === "visible"/);
-  assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
-  assert.match(rail, /entries\.some\(\(entry\) => entry\.isIntersecting\)/);
-});
-
-test("home passes initialFlash from App to HomeBelowFold and FlashRail", () => {
-  const app = read("../src/App.jsx");
+test("home renders no flash rail and ships no rail component", () => {
   const home = read("../src/components/v7/HomeV7.jsx");
   const below = read("../src/components/v7/home7-below.jsx");
-  assert.match(app, /<HomeV7[^>]*initialFlash=\{initialFlash\}/);
-  assert.match(home, /export function HomeV7\(\{[^}]*initialFlash[^}]*\}\)/);
-  assert.match(home, /<StableHomeBelowFold[^>]*initialFlash=\{initialFlash\}/);
-  assert.match(below, /export function HomeBelowFold\(\{[^}]*initialFlash[^}]*\}\)/);
-  assert.match(below, /<FlashRail locale=\{locale\} initial=\{initialFlash\} \/>/);
+  assert.equal(existsSync(new URL("../src/components/flash/FlashRail.jsx", import.meta.url)), false);
+  assert.equal(existsSync(new URL("../src/styles/v7/flash-rail.css", import.meta.url)), false);
+  for (const source of [home, below]) {
+    assert.doesNotMatch(source, /FlashRail|flash-rail\.css|initialFlash|\/api\/flash\.json/);
+  }
 });
 
-test("worker home SSR renders with the live flash stream payload", () => {
+test("worker home SSR no longer reads the flash stream and accepts the live render by the calculator marker", () => {
   const worker = read("../worker/index.js");
-  assert.match(worker, /readFlashItems\(env, url\)\.then\(\(items\) => flashStreamPayload\(items, publicRoute\.locale \|\| "en", \{ limit: 5, now: flashNow\(env\) \}\)\)/);
-  assert.match(worker, /\.\.\.\(flash \? \{ flash \} : \{\}\)/);
-  assert.match(worker, /rendered\.includes\('id="h7-flash"'\)/);
-  assert.match(worker, /\.\.\.state, homeContext: activityRequestContext\(url\)/);
+  const start = worker.indexOf("let renderedLiveHome = false;");
+  const block = worker.slice(start, worker.indexOf("// Live ticker bar (2026-10-13)", start));
+  assert.ok(start > 0 && block.length > 0);
+  assert.doesNotMatch(block, /readFlashItems|flashStreamPayload|h7-flash/);
+  assert.match(block, /rendered\.includes\('id="h7-calc"'\)/);
+  assert.match(block, /\.\.\.state, homeContext: activityRequestContext\(url\)/);
+});
+
+test("the footer still links the /flash page", () => {
+  const footer = read("../src/components/v3/CleanFooter.jsx");
+  assert.match(footer, /href\("\/flash"\)/);
 });
