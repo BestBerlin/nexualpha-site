@@ -17,6 +17,7 @@ import { titleDisplayWidth } from "../src/data/meta-description.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { nativeReferralFor } from "../src/data/referral-native.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 
@@ -119,7 +120,7 @@ test("Backpack: fees-first referral title keeps the partner-feed code and fits 6
   assert.ok(titleDisplayWidth(seo.title) <= 60, seo.title);
   // Other locales and other partners keep the shared templates.
   assert.ok(!referralSeoFor("backpack", "es").title.startsWith("Backpack Exchange Fees"));
-  assert.match(referralSeoFor("kraken", "en").title, /^How to Sign Up for Kraken \(\d{4}\): Steps, KYC, Code /);
+  assert.equal(referralSeoFor("kraken", "en").title, nativeReferralFor("kraken", "en").title);
 });
 
 test("/topics/no-kyc answers 'does hyperliquid require kyc' from existing data with an official source", () => {

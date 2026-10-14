@@ -1,6 +1,7 @@
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
 import { beginnerRouteSeo } from "../src/data/beginner-seo.js";
 import { BEGINNER_ROOTS, BEGINNER_LOCALES, parseBeginnerPath } from "../src/data/beginner-routes.js";
+import { isNativeReferralTitle } from '../src/data/referral-native.js';
 import { partnerProgramCopy } from "../src/data/partner-program-copy.js";
 import { approvedCampaign, campaignRouteSeo, CAMPAIGN_LOCALES } from "../src/data/campaign-autodraft.js";
 import { exchangeFactsResponse } from "../src/data/exchange-key-facts.js";
@@ -7097,7 +7098,7 @@ function notFoundMetadata(pathname, locale) {
 export { clampMetaDescription, metaDescriptionLimit };
 
 function applyServedMetadataBudget(metadata) {
-  if (metadata && typeof metadata.title === "string") metadata.title = budgetTitle(metadata.title, titleBudgetForLocale(metadata.locale));
+  if (metadata && typeof metadata.title === "string") metadata.title = isNativeReferralTitle(metadata.title, metadata.locale) ? metadata.title : budgetTitle(metadata.title, titleBudgetForLocale(metadata.locale));
   if (metadata && typeof metadata.description === "string") {
     metadata.description = routeMetaDescription(metadata.title, metadata.description, metadata.locale);
   }

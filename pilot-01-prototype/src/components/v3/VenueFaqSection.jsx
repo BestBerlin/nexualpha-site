@@ -311,7 +311,7 @@ export function VenueFaqSection({ venue, profile, locale, market, db = {}, partn
     a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <SourceLink locale={locale} market={market} key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</SourceLink>)}</p></>,
   })) : getVenueFaqs(venue, profile, locale, db, partner, market);
   // Localized partner FAQ (src/data/partner-venue-faq.js): the same entries feed the FAQPage schema.
-  const partnerFaq = partnerVenueFaqFor(venue.slug, locale);
+  const partnerFaq = partnerVenueFaqFor(venue.slug, locale, market);
   const partnerAccess = partnerFaq ? publicVenueAccess(venue.slug, locale, market) : null;
   const partnerFaqEntries = (partnerFaq?.entries || []).filter((entry) => partnerAccess?.hasReferral || !entry.showsInviteCode);
   const partnerFaqItems = partnerFaqEntries.map((entry) => ({

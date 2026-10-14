@@ -3,6 +3,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { nativeReferralFor, isNativeReferralTitle } from "../src/data/referral-native.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 import { SERP_CTR_NEWS_OVERRIDES, serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
@@ -24,18 +25,19 @@ test("partner profile titles answer the sign-up query within the title budget", 
     for (const locale of PROMOTABLE) {
       const seo = referralSeoFor(partner.slug, locale);
       if (!seo) continue;
-      assert.ok(seo.title.length <= budget(locale), `${partner.slug}/${locale} title ${seo.title.length}: ${seo.title}`);
+      assert.ok(isNativeReferralTitle(seo.title, locale) || seo.title.length <= budget(locale), `${partner.slug}/${locale} title ${seo.title.length}: ${seo.title}`);
       assert.ok(seo.description.length <= 155, `${partner.slug}/${locale} description ${seo.description.length}`);
       assert.doesNotMatch(seo.description, /Partner link|Enlace de socio|Link de parceiro|Partnerlink|Lien partenaire|Ortaklık bağlantısı|Tautan mitra/i, `${partner.slug}/${locale} carries no fine print`);
       assert.doesNotMatch(`${seo.title} ${seo.description}`, HYPE);
     }
   }
-  assert.equal(referralSeoFor("okx", "en").title, `How to Sign Up for OKX (${new Date().getUTCFullYear()}): Steps, KYC, Code nexu888`);
-  assert.match(referralSeoFor("okx", "en").description, /up to 40% of trading fees back/);
-  assert.match(referralSeoFor("okx", "zh-Hans").title, /^OKX 怎么注册：邀请码 nexu888/);
-  assert.match(referralSeoFor("okx", "tr").title, /nasıl kayıt olunur/);
-  assert.match(referralSeoFor("okx", "id").title, /^Cara daftar OKX/);
-  assert.match(referralSeoFor("bybit", "es").title, /^Registro en Bybit/);
+  assert.equal(referralSeoFor("bitget", "en").title, nativeReferralFor("bitget", "en").title);
+  assert.equal(referralSeoFor("okx", "en").title, nativeReferralFor("okx", "en").title);
+  assert.match(referralSeoFor("okx", "en").description, /Up to 40% of fees back/);
+  assert.equal(referralSeoFor("okx", "zh-Hans").title, nativeReferralFor("okx", "zh-Hans").title);
+  assert.equal(referralSeoFor("okx", "tr").title, nativeReferralFor("okx", "tr").title);
+  assert.equal(referralSeoFor("okx", "id").title, nativeReferralFor("okx", "id").title);
+  assert.equal(referralSeoFor("bybit", "es").title, nativeReferralFor("bybit", "es").title);
   // Hyperliquid is a wallet venue: no KYC wording.
   for (const locale of PROMOTABLE) assert.doesNotMatch(referralSeoFor("hyperliquid", locale)?.description || "", /KYC/, locale);
 });
@@ -116,7 +118,7 @@ test("app route heads carry the new English titles", async () => {
   assert.equal((await head("/methodology")).title, "How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha");
   assert.equal((await head("/exchanges/deribit")).title, "Deribit Fees (2026): Options, Futures and 10% Discount");
   assert.equal((await head("/exchanges/curve")).title, "Curve Finance (2026): Swap Fees, Pools and Wallet Checks");
-  assert.match((await head("/exchanges/okx")).title, /^How to Sign Up for OKX \(\d{4}\): Steps, KYC, Code nexu888$/);
+  assert.equal((await head("/exchanges/okx")).title, nativeReferralFor("okx", "en").title);
   assert.equal((await head("/fr/exchanges/backpack")).title, `Backpack Exchange avis (${new Date().getUTCFullYear()}) : frais et code luckybitcoin`);
   assert.doesNotMatch((await head("/vi/exchanges/okx")).title, /nexu888|giới thiệu/);
 });

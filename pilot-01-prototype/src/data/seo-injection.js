@@ -1,5 +1,6 @@
 import { beginnerRouteSeo } from "./beginner-seo.js";
 import { BEGINNER_LOCALES, parseBeginnerPath } from "./beginner-routes.js";
+import { isNativeReferralTitle } from './referral-native.js';
 import { approvedCampaign, campaignRouteSeo } from "./campaign-autodraft.js";
 import { applyExchangeQuickAnswers } from "./exchange-quick-answer-schema.js";
 import { fundingMatrixSeo } from "./funding-matrix-seo.js";
@@ -2077,7 +2078,7 @@ export function computeRouteSeo(options = {}) {
   }
   const seo = computeRouteSeoUnbudgeted(options);
   if (!seo) return seo;
-  const title = typeof seo.title === "string" ? budgetTitle(seo.title, titleBudgetForLocale(seo.locale)) : seo.title;
+  const title = typeof seo.title === "string" ? (isNativeReferralTitle(seo.title, seo.locale) ? seo.title : budgetTitle(seo.title, titleBudgetForLocale(seo.locale))) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
   const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
   return { ...seo, title, description, schemas };

@@ -196,7 +196,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (!isSsrBuild) {
             if (id.includes("/src/components/v3/NextDecisionBridge") || id.endsWith("/src/components/v3/next-decision-bridge.css")) return "route-topic-guide-bridge";
             if (id.includes("/src/components/v3/OnsiteTelegramBotHandoff")) return "shared-onsite-telegram-handoff";
-            if (id.includes("/src/data/referral-seo.js") || id.includes("/src/data/referral-partners.generated.js") || id.includes("/src/data/tr-percent.js")) return "data-referral-seo";
+            if (id.includes("/src/data/referral-native.js") || id.includes("/src/data/referral-native-copy/") || id.includes("/src/data/referral-seo.js") || id.includes("/src/data/referral-partners.generated.js") || id.includes("/src/data/tr-percent.js")) return "data-referral-seo";
             // Home budget (2026-10-12): the router reads news-listing-path.js / brazil-page-paths.js, so the news library
             // and the Brazil content left the entry closure. Own chunks keep Rollup from folding them into the first route
             // chunk that visits them (route-news-detail / route-international), which other routes would then import.

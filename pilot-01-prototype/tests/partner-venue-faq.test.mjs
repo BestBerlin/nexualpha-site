@@ -10,6 +10,10 @@ import { routeMetadata } from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 import {
+  NATIVE_REFERRAL_SLUGS,
+  nativeReferralFor,
+} from "../src/data/referral-native.js";
+import {
   PARTNER_VENUE_FAQ_SLUGS,
   PARTNER_VENUE_FAQ_REPLACE_LOCALES,
   PARTNER_VENUE_FAQ_LOCAL_TARGETS,
@@ -101,18 +105,55 @@ test("en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer 
   }
 });
 
-test("neutral locales get no partner FAQ; tr / id only for the owner's target exchanges", () => {
+test("neutral locales get no partner FAQ except zh-Hant informational native answers; tr targets stay scoped and id has seven native targets", () => {
   // Owner update 2026-10-11 (exchange keyword plan): tr, vi and id moved from "under review" to a per-exchange target
   // list (PARTNER_VENUE_FAQ_LOCAL_TARGETS); ru, ar and zh-Hant stay neutral.
   // vi became neutral on 2026-10-13 (Vietnam Resolution 05/2025/NQ-CP).
-  for (const locale of ["zh-Hant", "ru", "ar", "vi", "ur", "uk"]) {
+  for (const locale of ["ru", "ar", "vi", "ur", "uk"]) {
     for (const slug of [...PARTNER_VENUE_FAQ_SLUGS, "hyperliquid", "backpack"]) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
   }
-  for (const locale of ["tr", "id"]) {
+  for (const slug of NATIVE_REFERRAL_SLUGS) {
+    const faq = partnerVenueFaqFor(slug, "zh-Hant");
+    assert.equal(faq?.mode, "append", `${slug}/zh-Hant`);
+    assert.equal(faq?.entries.length, 2, `${slug}/zh-Hant informational FAQ only keeps later/payout answers`);
+    const text = faq.entries.map((entry) => `${entry.question}\n${entry.answer}`).join("\n");
+    assert.doesNotMatch(text, /nexu888|11350287|48553|2296057|7f97gkqw|最多可返還|立即開戶|立即加入|CTA|href=|\/go\//i, `${slug}/zh-Hant stays informational, without codes, benefits or CTA`);
+  }
+  for (const slug of ["hyperliquid", "backpack"]) assert.equal(partnerVenueFaqFor(slug, "zh-Hant"), null, `${slug}/zh-Hant`);
+  for (const locale of ["tr"]) {
     for (const slug of PARTNER_VENUE_FAQ_SLUGS) {
       if (PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale].includes(slug)) assert.ok(partnerVenueFaqFor(slug, locale)?.entries.length >= 5, `${slug}/${locale}`);
       else assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
     }
+  }
+  assert.deepEqual(NATIVE_REFERRAL_SLUGS, ["bitget", "okx", "binance", "bybit", "htx", "coinw", "kraken"]);
+  for (const slug of NATIVE_REFERRAL_SLUGS) assert.ok(partnerVenueFaqFor(slug, "id")?.entries.length >= 2, `${slug}/id native FAQ`);
+});
+
+test("native referral answers append with current citations while keeping reviewed wallet and KYC answers", () => {
+  for (const slug of NATIVE_REFERRAL_SLUGS) {
+    const native = nativeReferralFor(slug, "id");
+    const faq = partnerVenueFaqFor(slug, "id");
+    assert.ok(native, `${slug}/id native data`);
+    assert.ok(faq, `${slug}/id FAQ`);
+    for (const nativeEntry of native.faq) {
+      const rendered = faq.entries.find((entry) => entry.question === nativeEntry.question);
+      assert.ok(rendered, `${slug}/id missing native entry: ${nativeEntry.question}`);
+      assert.deepEqual(rendered.citations, [nativeEntry.source], `${slug}/id native citation`);
+      assert.equal(rendered.origin, nativeEntry.origin || "partner", `${slug}/id native origin`);
+    }
+  }
+
+  const bitget = partnerVenueFaqFor("bitget", "id").entries;
+  assert.ok(bitget.some((entry) => /Wallet/.test(entry.question)), "Bitget/id keeps the reviewed wallet answer");
+  assert.ok(bitget.some((entry) => /KYC/.test(entry.question)), "Bitget/id keeps the reviewed KYC answer");
+  assert.ok(bitget.findIndex((entry) => entry.question === "Di mana memasukkan kode referral Bitget?") > bitget.findIndex((entry) => /KYC/.test(entry.question)), "Bitget/id appends native entries after reviewed answers");
+  assert.equal(bitget.filter((entry) => /setelah daftar|sesudah daftar|nanti/i.test(entry.question)).length, 1, "Bitget/id replaces the stale add-later question with the native one");
+
+  for (const slug of ["okx", "bybit"]) {
+    const entries = partnerVenueFaqFor(slug, "id").entries;
+    assert.ok(entries.some((entry) => /Wallet/.test(entry.question)), `${slug}/id keeps the reviewed wallet answer`);
+    assert.ok(entries.some((entry) => /KYC|verifikasi identitas/i.test(entry.question)), `${slug}/id keeps the reviewed KYC answer`);
   }
 });
 

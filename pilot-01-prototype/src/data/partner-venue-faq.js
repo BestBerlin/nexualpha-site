@@ -1,3 +1,4 @@
+import { nativeReferralFor } from './referral-native.js';
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Localized partner-exchange FAQ (owner growth plan 2026-10-10, MARKET-PLAN.md "Problems found" #1 and #5).
 //
@@ -832,13 +833,19 @@ function rawEntriesFor(slug, locale) {
  *   kept after the partner entries so nothing reviewed disappears.
  * mode "append": entries are added after the page's existing FAQ (en / zh-Hans wallet answer).
  */
-export function partnerVenueFaqFor(slug, locale = "en") {
+export function partnerVenueFaqFor(slug, locale = "en", market) {
   const normalized = normalizePartnerFaqLocale(locale);
-  // Neutral locales (ru, ar, zh-Hant, ur, uk, vi) carry no referral FAQ.
-  if (normalized && isNeutralCtaLocale(normalized)) return null;
-  if (!normalized || !(PARTNER_VENUE_FAQ_SLUGS.includes(slug) || PARTNER_VENUE_FAQ_EXTRA_SLUGS.includes(slug))) return null;
+  const native = nativeReferralFor(slug, locale, market);
+  if (!isNeutralCtaLocale(locale) && !isPartnerPromotableIn(slug, { locale, market })) return null;
+  const nativeEntries = native?.faq.filter((_, i) => !native.neutral || i > 0).map(entry => ({
+    ...entry, sources: [[`${entry.origin === 'partner-data' ? 'NexuAlpha' : slug} — ${native.copy.labels.source}`, entry.source]], citations: [entry.source], showsInviteCode: false, origin: entry.origin || 'partner',
+  })) || [];
+  const nativeOnly = nativeEntries.length ? { slug, locale, mode: 'append', reviewedAt: native.help.reviewedAt, entries: nativeEntries, showsInviteCode: false } : null;
+  // Neutral locales carry no commercial FAQ; zh-Hant can explain missing-code and payout uncertainty without a code or offer.
+  if (normalized && isNeutralCtaLocale(normalized)) return nativeOnly;
+  if (!normalized || !(PARTNER_VENUE_FAQ_SLUGS.includes(slug) || PARTNER_VENUE_FAQ_EXTRA_SLUGS.includes(slug))) return nativeOnly;
   const raw = rawEntriesFor(slug, normalized);
-  if (!raw?.length) return null;
+  if (!raw?.length) return nativeOnly;
   const partner = partnerFor(slug);
   // A code placeholder without a real partner code must never render as an empty code, and a payout-cadence answer
   // needs a cadence in the partner feed.
@@ -851,6 +858,12 @@ export function partnerVenueFaqFor(slug, locale = "en") {
     showsInviteCode: /\{code\}/.test(entry.answer),
     origin: "partner",
   }));
+  if (nativeEntries.length) {
+    // Replace stale add-later answers while retaining wallet, KYC and local-market guidance.
+    const laterQuestion = /after|later|depois|após|después|posterior|sonra|sonradan|setelah|nanti|补|補/i;
+    for (let i = entries.length - 1; i >= 0; i--) if (laterQuestion.test(entries[i].question) && /code|código|kod|referral|邀请码|邀請碼/i.test(entries[i].question)) entries.splice(i, 1);
+    entries.push(...nativeEntries.filter(entry => !entries.some(existing => existing.question === entry.question)));
+  }
   const mode = PARTNER_VENUE_FAQ_REPLACE_LOCALES.includes(normalized) || PARTNER_VENUE_FAQ_LOCAL_TARGETS[normalized] ? "replace" : "append";
   if (mode === "replace") {
     const priority = priorityVenueAnswerFor(slug, normalized);
@@ -894,7 +907,7 @@ export function partnerFaqQuestion(entry) {
  */
 export function applyPartnerVenueFaqSchema(faqSchema, slug, locale, market) {
   if (!faqSchema || faqSchema["@type"] !== "FAQPage") return faqSchema;
-  const partnerFaq = partnerVenueFaqFor(slug, locale);
+  const partnerFaq = partnerVenueFaqFor(slug, locale, market);
   if (!partnerFaq) return faqSchema;
   const added = partnerFaq.entries.filter(entry => isPartnerPromotableIn(slug, { locale, market }) || !entry.showsInviteCode).map(partnerFaqQuestion);
   if (!added.length) return faqSchema;
