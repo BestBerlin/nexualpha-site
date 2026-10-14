@@ -36,9 +36,9 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "slug": "gate-io",
     "name": "Gate.io",
     "inviteCode": "nexubest",
-    "share": null,
+    "share": 0.4,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-15"
   },
   {
     "slug": "mexc",

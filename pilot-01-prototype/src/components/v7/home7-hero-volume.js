@@ -1,4 +1,4 @@
-// Home hero v3 (owner 2026-10-14): "交易 1000万U，Bitget 自动返还你 $3,600".
+// Home hero v3 (owner 2026-10-14/15): "在 Bitget 交易 1000万U，/ 自动返还你 $3,600" — line 2 runs straight into the figure.
 // One honest sum, no time unit: rebate = traded volume × the venue's perpetual taker fee (exchange-facts.js) × the
 // partner rebate share (partner-benefit-status.js). Nothing here holds a fee, share or code.
 // Formatting is hand-written (not Intl compact) so SSR and the browser always print the same string.
@@ -72,8 +72,8 @@ export function heroMoneyWidthEm(parts) {
 // The live sentence, line 1 and line 2 (the figure follows); `screen`, `fee`, `back` label the desktop device screen. {vol} and {venue} are filled at render; "auto" lines are
 // used only for venues the exchange settles automatically (HOME_AUTO_SETTLE).
 export const HERO_SAY = Object.freeze({
-  "zh-Hans": { l1: "交易 {vol}，", auto: "{venue} 自动返还你", manual: "{venue} 返还你", label: "交易量", screen: "交易 {vol} · 各交易所返还", fee: "手续费", back: "返还给你" },
-  "zh-Hant": { l1: "交易 {vol}，", auto: "{venue} 自動返還你", manual: "{venue} 返還你", label: "交易量", screen: "交易 {vol} · 各交易所返還", fee: "手續費", back: "返還給你" },
+  "zh-Hans": { l1: "在 {venue} 交易 {vol}，", auto: "自动返还你", manual: "返还给你", label: "交易量", screen: "交易 {vol} · 各交易所返还", fee: "手续费", back: "返还给你" },
+  "zh-Hant": { l1: "在 {venue} 交易 {vol}，", auto: "自動返還你", manual: "返還給你", label: "交易量", screen: "交易 {vol} · 各交易所返還", fee: "手續費", back: "返還給你" },
   en: { l1: "Trade {vol} on {venue},", auto: "get back automatically", manual: "get back", label: "Trading volume", screen: "Trade {vol} · rebate by exchange", fee: "Fees", back: "Back to you" },
   es: { l1: "Opera {vol} en {venue}", auto: "y recupera automáticamente", manual: "y recupera", label: "Volumen de trading", screen: "Opera {vol} · reembolso por plataforma", fee: "Comisiones", back: "Te vuelve" },
   "pt-BR": { l1: "Negocie {vol} na {venue}", auto: "e receba de volta, automático", manual: "e receba de volta", label: "Volume negociado", screen: "Negocie {vol} · cashback por corretora", fee: "Taxas", back: "Volta para você" },

@@ -168,7 +168,7 @@ function CopyCode({ code, t }) {
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 const HERO_EASE = "cubic-bezier(.16,1,.3,1)";
 // Brand tint (RGB triplet) for the indicator, the dial thumb halo and the glow behind the figure.
-const HERO_TINT = Object.freeze({ bitget: "0 229 245", okx: "235 238 243", binance: "240 185 11", htx: "42 120 246", bybit: "247 166 0" });
+const HERO_TINT = Object.freeze({ bitget: "0 229 245", okx: "235 238 243", binance: "240 185 11", htx: "42 120 246", "gate-io": "35 84 230", bybit: "247 166 0" });
 const heroTint = (slug) => HERO_TINT[slug] || "31 224 192";
 
 // A run of real text that slides up when its value changes (transform + opacity, WAAPI). Never on first render, never
@@ -222,8 +222,9 @@ function HeroRebate({ locale, venue, amount, sentence, quickRef }) {
       <span className="hx-rate-glow" aria-hidden="true">
         {Object.keys(HERO_TINT).map((slug) => <i key={slug} data-on={slug === venue?.slug ? "" : undefined} style={{ "--g": HERO_TINT[slug] }} />)}
       </span>
-      <span className="hx-rate-logo" aria-hidden="true" ref={logoRef}><BrandMark slug={venue?.slug} compact priority /></span>
-      <p className="hx-rate-num h7-rebate-value hx-amt" aria-label={`${sentence} ${text}`} data-final-value={amount == null ? "" : Math.round(amount)} style={{ "--wem": heroMoneyWidthEm(parts) }}>
+      {/* The brand mark sits in the figure's own line box: em-sized to the digits' cap height, bottom on their baseline. */}
+      <p className="hx-rate-num h7-rebate-value hx-amt" aria-label={`${sentence} ${text}`} data-final-value={amount == null ? "" : Math.round(amount)} style={{ "--wem": heroMoneyWidthEm(parts) + 0.86 }}>
+        <span className="hx-rate-logo" aria-hidden="true" ref={logoRef}><BrandMark slug={venue?.slug} compact priority /></span>
         {parts ? <>
           <span className="hx-rate-pct" aria-hidden="true">{parts.cur}</span>
           <span className="hx-rate-n" aria-hidden="true" ref={numRef}>{parts.num}</span>
@@ -237,7 +238,7 @@ function HeroRebate({ locale, venue, amount, sentence, quickRef }) {
 // Desktop device (≥1024 only, owner 2026-10-14): a laptop showing a real NexuAlpha screen, /rates, for the visitor's own
 // volume. Each partner row: the fee that volume pays (volume × perpetual taker) and what comes back (× partner share).
 // Same numbers as the figure, so the screen is proof, not decoration. Rows follow the dial and the exchange switch.
-function HeroScreen({ locale, picks, sel, volume, onPick, quickRef }) {
+function HeroScreen({ locale, picks, sel, volume, onPick, quickRef, live }) {
   const say = heroSay(locale);
   const rows = picks.map((venue) => {
     const fact = feeFact(venue.slug, "perp");
@@ -251,17 +252,19 @@ function HeroScreen({ locale, picks, sel, volume, onPick, quickRef }) {
       <div className="hx-mac">
         <div className="hx-mac-lid">
           <div className="hx-mac-display">
-            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span></div>
+            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={live ? "" : undefined}><i /></span></div>
             <div className="hx-scr-body">
               <p className="hx-scr-title">{say.screen.split("{vol}").map((part, i) => i ? <span key={i}><HeroWord className="hx-scr-vol" text={vol} quickRef={quickRef} />{part}</span> : <span key={i}>{part}</span>)}</p>
               <div className="hx-scr-head"><span /><span>{say.fee}</span><span>{say.back}</span></div>
-              <ul className="hx-scr-rows">
-                {rows.map(({ venue, fee, back }) => (
-                  <li key={venue.slug} data-on={venue.slug === sel.slug ? "" : undefined} style={{ "--g": heroTint(venue.slug), "--w": (back / top).toFixed(3) }}>
+              <ul className="hx-scr-rows" style={{ "--i": Math.max(0, rows.findIndex((row) => row.venue.slug === sel.slug)), "--g": heroTint(sel.slug) }}>
+                {/* One highlight that glides between rows (transform only). */}
+                <span className="hx-scr-hl" aria-hidden="true" />
+                {rows.map(({ venue, fee, back }, index) => (
+                  <li key={venue.slug} data-on={venue.slug === sel.slug ? "" : undefined} style={{ "--g": heroTint(venue.slug), "--w": (back / top).toFixed(3), "--d": `${index * 70}ms` }}>
                     <button type="button" tabIndex={-1} onClick={() => onPick(venue.slug)}>
                       <span className="hx-scr-name"><BrandMark slug={venue.slug} compact /><b>{venue.name}</b></span>
                       <HeroWord className="hx-scr-fee" text={heroMoneyText(fee, locale)} quickRef={quickRef} />
-                      <span className="hx-scr-back"><i className="hx-scr-bar-fill" /><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
+                      <span className="hx-scr-back"><i className="hx-scr-bar-fill" key={volume} /><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
                     </button>
                   </li>
                 ))}
@@ -278,7 +281,7 @@ function HeroScreen({ locale, picks, sel, volume, onPick, quickRef }) {
 
 // Volume dial: a native range (keyboard, tap-to-position, screen readers) over 21 log-scale stops, 1万U → 10亿U.
 // The tick labels jump to the snap points (single-pointer alternative to dragging).
-function HeroVolumeDial({ locale, step, onStep, dragRef }) {
+function HeroVolumeDial({ locale, step, onStep, dragRef, onTouch }) {
   const last = HERO_VOLUME_STEPS.length - 1;
   const halo = useRef(null);
   useEffect(() => {
@@ -295,7 +298,7 @@ function HeroVolumeDial({ locale, step, onStep, dragRef }) {
         <input
           className="hx-dial-input" type="range" min={0} max={last} step={1} value={step}
           aria-label={heroSay(locale).label} aria-valuetext={heroVolumeText(HERO_VOLUME_STEPS[step], locale)}
-          onPointerDown={() => { dragRef.current = true; }} onPointerUp={end} onPointerCancel={end} onBlur={end}
+          onPointerDown={() => { dragRef.current = true; onTouch?.(); }} onPointerUp={end} onPointerCancel={end} onBlur={end}
           onChange={(event) => onStep(Number(event.target.value))}
         />
       </div>
@@ -508,6 +511,38 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const dragRef = useRef(false);
 
   const heroRef = useRef(null);
+  // Desktop life (owner 2026-10-15): while nobody touches the hero, the laptop screen (only the screen: the headline and
+  // the figure keep the visitor's volume, so nothing above shifts) steps 1000万 → 1亿 → 100万 → 1000万 every 4 s, two
+  // rounds, then follows the dial again. Any touch of the dial, tabs or screen stops it for good. Paused offscreen or in a
+  // hidden tab; never starts on phones or with reduced motion. One React update per step, no loops in between.
+  const touchedRef = useRef(false);
+  const [heroCycling, setHeroCycling] = useState(false);
+  const [screenStep, setScreenStep] = useState(null);
+  const stopCycle = () => { touchedRef.current = true; setHeroCycling(false); setScreenStep(null); };
+  const pickVenue = (slug) => { stopCycle(); setPick(slug); };
+  const pickStep = (step) => { stopCycle(); setHeroStep(step); };
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (banned || !hero || reducedMotion() || !window.matchMedia?.("(min-width: 1024px)").matches || typeof IntersectionObserver !== "function") return undefined;
+    const seq = [1e8, 1e6, 1e7].map((v) => HERO_VOLUME_STEPS.indexOf(v));
+    let at = 0, done = 0, timer = null, visible = false;
+    const stop = () => { clearTimeout(timer); timer = null; };
+    const schedule = () => {
+      if (timer || touchedRef.current || done >= seq.length * 2 || !visible || document.visibilityState !== "visible") return;
+      timer = setTimeout(() => {
+        timer = null;
+        if (touchedRef.current) return;
+        setScreenStep(seq[at]); at = (at + 1) % seq.length; done += 1;
+        if (done >= seq.length * 2) { setHeroCycling(false); setScreenStep(null); } else schedule();
+      }, 4000);
+    };
+    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) schedule(); else stop(); }, { threshold: 0.25 });
+    const onVisibility = () => (document.visibilityState === "visible" ? schedule() : stop());
+    io.observe(hero);
+    document.addEventListener("visibilitychange", onVisibility);
+    setHeroCycling(true);
+    return () => { stop(); io.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
+  }, [banned]);
   const h1b = heroText.h1b.replace("{max}%", formatPercent(locale, maxPct));
 
   return (
@@ -522,13 +557,13 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
         {!banned && (
         <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
           <HeroRebate locale={locale} venue={sel} amount={heroAmount} sentence={heroSayText(locale, { vol: heroVolumeText(heroVolume, locale), venue: sel.name, auto })} quickRef={dragRef} />
-          <HeroVolumeDial locale={locale} step={heroStep} onStep={setHeroStep} dragRef={dragRef} />
-          <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={setPick} t={t} />
+          <HeroVolumeDial locale={locale} step={heroStep} onStep={pickStep} dragRef={dragRef} onTouch={stopCycle} />
+          <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
           {sel.code && <p className="hx-code"><span className="h7-sr">{sel.name} </span><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
         </aside>
         )}
-        {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} onPick={setPick} quickRef={dragRef} />}
+        {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={screenStep == null ? heroVolume : HERO_VOLUME_STEPS[screenStep]} onPick={pickVenue} quickRef={dragRef} live={heroCycling && !touchedRef.current} />}
       </section>
 
       <section className="h7-strip" aria-label={t.pw(venues.length)}>
