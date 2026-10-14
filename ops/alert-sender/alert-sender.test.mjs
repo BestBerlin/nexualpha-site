@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { BACKLINK_PATH, articleLink, buildFunnelReport, digestMessage, eventButtons, eventMessage, funnelReportDue, groupListingItems, listingGroupMessage, listingMessage, partnerButtons, readMore, sitePath } from "./alert-sender.mjs";
+import { BACKLINK_PATH, articleLink, assertTelegramOk, buildFunnelReport, deliverOnce, digestMessage, eventButtons, eventMessage, funnelReportDue, groupListingItems, listingGroupMessage, listingMessage, partnerButtons, readMore, sitePath } from "./alert-sender.mjs";
 
 const mk = {
   liquidations: { h1: { longUsd: 120e6, shortUsd: 30e6, largest: { symbol: "BTCUSDT", side: "long", usd: 5e6 } }, h24: { longUsd: 900e6, shortUsd: 400e6 } },
@@ -34,14 +34,56 @@ test("risk event buttons use one relevant action row and no partner sign-up rout
   assert.doesNotMatch(all, /\/go\/|Sign up|注册 OKX|Bitget|Binance|Bybit|Hyperliquid|Backpack/);
 });
 
+test("telegram send failures are explicit and safe to log", () => {
+  assert.deepEqual(assertTelegramOk({ ok: true, result: { message_id: 1 } }, "event zh"), { ok: true, result: { message_id: 1 } });
+  assert.throws(
+    () => assertTelegramOk({ ok: false, error_code: 429, description: "Too Many Requests: retry after 3" }, "daily brief en"),
+    /daily brief en: 429 Too Many Requests: retry after 3/,
+  );
+  assert.throws(
+    () => assertTelegramOk({ ok: false, error: "network timeout" }, "event tr"),
+    /event tr: unknown network timeout/,
+  );
+});
+
+test("partial fanout retries only the explicitly rejected recipient after a persisted restart", async () => {
+  let state = {}, disk = {}, calls = [];
+  const save = () => { disk = structuredClone(state); };
+  const first = key => deliverOnce({ state, key, save, deliver: async () => {
+    calls.push(key);
+    return key === "en" ? { ok: false, error_code: 429, parameters: { retry_after: 10 } } : { ok: true };
+  }, now: 1000 });
+  await first("zh");
+  await assert.rejects(first("en"), /429/);
+  state = structuredClone(disk);
+  const retry = (key, now) => deliverOnce({ state, key, save, now, deliver: async () => { calls.push(key); return { ok: true }; } });
+  await retry("zh", 2000);
+  await assert.rejects(retry("en", 2000), /backoff/);
+  await retry("en", 11000);
+  assert.deepEqual(calls, ["zh", "en", "en"]);
+});
+
+test("ambiguous delivery and receipt-write failure do not replay a possibly accepted message", async () => {
+  let state = {}, disk = {}, requests = 0;
+  const save = () => { disk = structuredClone(state); };
+  await assert.rejects(deliverOnce({ state, key: "event:1", save, deliver: async () => {
+    requests++; throw new Error("timeout after remote acceptance");
+  } }), /timeout/);
+  state = structuredClone(disk);
+  await assert.rejects(deliverOnce({ state, key: "event:1", save, deliver: async () => { requests++; return { ok: true }; } }), /outcome unknown/);
+  assert.equal(requests, 1);
+  await assert.rejects(deliverOnce({ state: {}, key: "digest:1", save: () => { throw new Error("disk full"); }, deliver: async () => { requests++; return { ok: true }; } }), /disk full/);
+  assert.equal(requests, 1, "no request before durable intent");
+});
+
 test("digest links to /news and keeps the partner /go buttons with their tg-digest sources", () => {
   const d = digestMessage(mk, partners, [{ slug: "a1", title: { en: "Hello", "zh-Hans": "你好" }, publishedAt: "2026-10-11T00:00:00Z" }], [], "zh");
   assert.match(d.text, /<a href="https:\/\/nexualpha\.com\/zh-hans\/news\/a1">你好<\/a>/);
   assert.match(d.text, /<a href="https:\/\/nexualpha\.com\/zh-hans\/news\?src=tg-digest">查看详情 →<\/a>$/);
-  assert.deepEqual(d.buttons[0].map((b) => b.url), ["https://nexualpha.com/go/okx?src=tg-digest-zh", "https://nexualpha.com/go/bitget?src=tg-digest-zh"]);
+  assert.deepEqual(d.buttons[0].map((b) => b.url), ["https://nexualpha.com/go/bitget?src=tg-digest-zh", "https://nexualpha.com/go/okx?src=tg-digest-zh"]);
   const en = digestMessage(mk, partners, [], [], "en");
   assert.match(en.text, /<a href="https:\/\/nexualpha\.com\/news\?src=tg-digest">Read more →<\/a>/);
-  assert.deepEqual(en.buttons[0].map((b) => b.url), ["https://nexualpha.com/go/okx?src=tg-digest-en", "https://nexualpha.com/go/bitget?src=tg-digest-en"]);
+  assert.deepEqual(en.buttons[0].map((b) => b.url), ["https://nexualpha.com/go/bitget?src=tg-digest-en", "https://nexualpha.com/go/okx?src=tg-digest-en"]);
 });
 
 test("ru digest article links use ru editions and mark English fallbacks", () => {
@@ -73,15 +115,15 @@ test("partner sign-up buttons are capped to the first commercial row", () => {
   ];
   const signupUrls = partnerButtons(P, "en", "tg-digest-en").flat().map((b) => b.url).filter((u) => u.includes("/go/"));
   assert.deepEqual(signupUrls, [
-    "https://nexualpha.com/go/okx?src=tg-digest-en",
     "https://nexualpha.com/go/bitget?src=tg-digest-en",
+    "https://nexualpha.com/go/okx?src=tg-digest-en",
     "https://nexualpha.com/go/binance?src=tg-digest-en",
   ]);
   const neutralRows = partnerButtons(P, "ru", "tg-digest-ru").slice(0, -1).map((row) => row.map((b) => b.url));
   assert.deepEqual(neutralRows, [
     [
-      "https://nexualpha.com/ru/exchanges/okx?src=tg-digest-ru",
       "https://nexualpha.com/ru/exchanges/bitget?src=tg-digest-ru",
+      "https://nexualpha.com/ru/exchanges/okx?src=tg-digest-ru",
       "https://nexualpha.com/ru/exchanges/binance?src=tg-digest-ru",
     ],
     ["https://nexualpha.com/ru/exchanges/bybit?src=tg-digest-ru"],

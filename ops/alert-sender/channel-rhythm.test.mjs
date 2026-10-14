@@ -192,3 +192,33 @@ test("morning snapshot fails closed on missing required market metrics and corru
     sendPoll: async () => assert.fail("corrupt record must not poll"),
   }), /morning record is corrupt/);
 });
+
+test("runChannelRhythm preserves delivery receipts written by send callbacks", async () => {
+  const state = { deliveryReceipts: { old: { status: "confirmed", at: 1 } } };
+  await runChannelRhythm({
+    channels: [["en", "@en"]],
+    state,
+    now: new Date("2026-10-12T08:05:00Z"),
+    market,
+    save: async () => {},
+    sendMessage: async () => { state.deliveryReceipts.pending = { status: "pending", at: 2 }; },
+    sendPoll: async () => assert.fail("not poll time"),
+  });
+  assert.deepEqual(state.deliveryReceipts, { old: { status: "confirmed", at: 1 }, pending: { status: "pending", at: 2 } });
+  assert.equal(state.channelRhythm.morning["en:@en"], "2026-10-12:08");
+});
+
+test("ambiguous rhythm timeout leaves pending receipt and does not mark slot", async () => {
+  const state = {};
+  await assert.rejects(runChannelRhythm({
+    channels: [["en", "@en"]],
+    state,
+    now: new Date("2026-10-12T08:05:00Z"),
+    market,
+    save: async () => {},
+    sendMessage: async () => { state.deliveryReceipts = { "rhythm:morning:2026-10-12:08:message:@en": { status: "pending", at: 3 } }; throw new Error("timeout after possible accept"); },
+    sendPoll: async () => assert.fail("not poll time"),
+  }), /timeout after possible accept/);
+  assert.equal(state.deliveryReceipts["rhythm:morning:2026-10-12:08:message:@en"].status, "pending");
+  assert.equal(state.channelRhythm.morning["en:@en"], undefined);
+});

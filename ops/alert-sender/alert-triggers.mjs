@@ -354,6 +354,7 @@ const getFrom = (m, k) => (m instanceof Map ? m.get(k) : m?.[k]);
 // The rate that counts is the more extreme of Binance and OKX for the coin.
 const fundingPick = (row) => [["Binance", row.binanceRate, row.binanceNextAt], ["OKX", row.okxRate, row.okxNextAt]]
   .filter(([, r]) => Number.isFinite(r)).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
+const deliveryIdentity = (uid, trigger, data, now) => [uid, trigger.id, trigger.type, data.id || data.coin || data.totalUsd || now, now].map((part) => encodeURIComponent(String(part))).join(":");
 
 // Returns the fired payloads for one rule (most kinds fire at most one; listing can fire one per new announcement).
 function check(t, s, uid, st, ctx) {
@@ -426,7 +427,8 @@ export function evaluateTriggers({ doc, state, now = Date.now(), prices = {}, ma
         // over the daily cap: dropped and logged by the caller, never queued for later
         if ((st.counts[uid] || 0) >= DAILY_CAP) { dropped.push({ uid, triggerId: t.id, type: t.type }); continue; }
         st.counts[uid] = (st.counts[uid] || 0) + 1;
-        deliveries.push({ uid, lang, triggerId: t.id, type: t.type, text: triggerMessage(t.type, data, lang), buttons: null });
+        const deliveryId = deliveryIdentity(uid, t, data, now);
+        deliveries.push({ deliveryId, uid, lang, triggerId: t.id, type: t.type, text: triggerMessage(t.type, data, lang), buttons: null });
       }
     }
   }

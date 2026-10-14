@@ -178,7 +178,7 @@ function ensureRhythmState(state) {
 
 export async function runChannelRhythm({ channels, state, now = new Date(), market, partners = [], sendMessage, sendPoll, save, dryRun = false, disclosureFor = () => "", buttonsFor = () => null }) {
   validateExistingRhythmState(state);
-  const next = structuredClone(state);
+  const next = { channelRhythm: structuredClone(state.channelRhythm || {}) };
   const rhythm = ensureRhythmState(next);
   const errors = [];
   for (const [lang, chat] of channels) {
@@ -198,7 +198,7 @@ export async function runChannelRhythm({ channels, state, now = new Date(), mark
         }
         rhythm[slot.kind][chatKey] = slot.key;
         if (!dryRun) {
-          Object.assign(state, next);
+          state.channelRhythm = structuredClone(rhythm);
           await save(state);
         }
       } catch (error) {
@@ -208,9 +208,9 @@ export async function runChannelRhythm({ channels, state, now = new Date(), mark
   }
   if (dryRun) return state;
   if (errors.length) {
-    Object.assign(state, next);
+    state.channelRhythm = structuredClone(rhythm);
     throw new Error(`channel rhythm failed: ${errors.join("; ")}`);
   }
-  Object.assign(state, next);
+  state.channelRhythm = structuredClone(rhythm);
   return state;
 }

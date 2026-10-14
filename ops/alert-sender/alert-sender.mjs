@@ -16,7 +16,7 @@ import { pathToFileURL } from "node:url";
 import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
-import { isNeutralCtaLocale, todayBlock, todayTitle } from "./site-features.mjs";
+import { isNeutralCtaLocale, orderVenues, todayBlock, todayTitle } from "./site-features.mjs";
 import { isRiskNotice } from "../channel-feed/notice-classifier.mjs";
 import { officialSourceCta, sourceUpdatePath } from "../channel-feed/official-source.mjs";
 
@@ -109,7 +109,42 @@ async function send(tok, chat, text, buttons) {
     method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(15000),
     body: JSON.stringify({ chat_id: chat, text, parse_mode: "HTML", disable_web_page_preview: true, reply_markup: buttons ? { inline_keyboard: buttons } : undefined }),
   });
-  return res.json().catch(() => ({ ok: false }));
+  const body = await res.json().catch(() => ({}));
+  return res.ok && body?.ok === true ? body : {
+    ok: false,
+    error_code: body?.error_code || res.status,
+    description: String(body?.description || `HTTP ${res.status}`).slice(0, 300),
+    parameters: body?.parameters,
+  };
+}
+export function assertTelegramOk(result, context = "sendMessage") {
+  if (result?.ok === true) return result;
+  const code = result?.error_code || result?.status || "unknown";
+  const description = String(result?.description || result?.error || "telegram request failed").slice(0, 300);
+  throw new Error(`${context}: ${code} ${description}`);
+}
+// Persist intent before the request. A timeout/crash may happen after Telegram
+// accepted it, so an unresolved receipt needs review rather than automatic replay.
+// Explicit Bot API rejection is safe to retry; confirmed recipients are skipped.
+export async function deliverOnce({ state, key, deliver, save, now = Date.now() }) {
+  const receipts = state.deliveryReceipts ||= {};
+  const previous = receipts[key];
+  if (previous?.status === "confirmed") return { ok: true, skipped: true };
+  if (previous?.status === "pending") throw new Error("delivery outcome unknown; inspect deliveryReceipts before retry");
+  if (previous?.retryAt > now) throw new Error("Telegram rate limit backoff still active");
+  receipts[key] = { status: "pending", at: now };
+  save();
+  const result = await deliver();
+  if (result?.ok !== true) {
+    const retryAfter = Number(result?.parameters?.retry_after);
+    if (Number.isFinite(retryAfter) && retryAfter > 0) receipts[key] = { status: "rejected", at: now, retryAt: now + retryAfter * 1000 };
+    else delete receipts[key];
+    save();
+    assertTelegramOk(result);
+  }
+  receipts[key] = { status: "confirmed", at: now };
+  save();
+  return result;
 }
 async function sendPoll(tok, chat, poll) {
   if (DRY) { log(`DRY poll -> ${chat}: ${poll.question}`); return { ok: true }; }
@@ -117,7 +152,13 @@ async function sendPoll(tok, chat, poll) {
     method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(15000),
     body: JSON.stringify({ chat_id: chat, question: poll.question, options: poll.options, is_anonymous: poll.is_anonymous }),
   });
-  return res.json().catch(() => ({ ok: false }));
+  const body = await res.json().catch(() => ({}));
+  return res.ok && body?.ok === true ? body : {
+    ok: false,
+    error_code: body?.error_code || res.status,
+    description: String(body?.description || `HTTP ${res.status}`).slice(0, 300),
+    parameters: body?.parameters,
+  };
 }
 
 // ---------- texts ----------
@@ -247,7 +288,7 @@ export function partnerButtons(partners, lang, src) {
   const button = (p) => (neutral ? { text: p.name, url: exchangePageUrl(lang, p.slug, src) }
     : { text: p.share === null ? t.signUpListing(p.name) : t.signUp(p.name), url: go(p.slug, src) });
   const rows = configuredRows.map((row) =>
-    (row === null ? partners.filter((p) => p.featured && !excluded.has(p.slug)).slice(0, 3) : row.map((slug) => bySlug[slug]).filter((p) => p && !excluded.has(p.slug)))
+    (row === null ? orderVenues(partners.filter((p) => p.featured && !excluded.has(p.slug)), lang).slice(0, 3) : row.map((slug) => bySlug[slug]).filter((p) => p && !excluded.has(p.slug)))
       .map(button)).filter((row) => row.length);
   return [
     ...rows,
@@ -461,8 +502,14 @@ export async function coinSlugs({ fetchJson = getJson, now = Date.now() } = {}) 
  * Evaluates the custom rules and DMs each fired alert. Prices are only fetched when a price or move rule exists.
  * Returns the new state.triggers value (unchanged when nobody has a rule).
  */
-export async function runTriggerAlerts({ doc, state, subs, market, announcements, dm, blocked = new Set(), now = Date.now(), fetchBinance = getBinance, fetchSite = getJson, sleep }) {
-  if (!countTriggers(doc)) return state;
+export async function runTriggerAlerts({ doc, state, subs, market, announcements, dm, sendDelivery, checkpoint = async () => {}, blocked = new Set(), now = Date.now(), fetchBinance = getBinance, fetchSite = getJson, sleep }) {
+  const pendingRuleKey = (delivery) => `${delivery.uid}:${delivery.triggerId}`;
+  const liveRuleKeys = new Set(Object.entries(doc?.users || {}).flatMap(([uid, user]) => (user?.triggers || []).filter((t) => t?.id).map((t) => `${uid}:${t.id}`)));
+  if (!countTriggers(doc)) {
+    const next = { ...(state || {}) };
+    if (next.pendingDeliveries && Object.keys(next.pendingDeliveries).length) { next.pendingDeliveries = {}; await checkpoint(next); }
+    return next;
+  }
   const needPrices = Object.values(doc.users).some((u) => (u?.triggers || []).some((t) => t.type === "price" || t.type === "move"));
   let prices = {};
   if (needPrices) {
@@ -470,14 +517,26 @@ export async function runTriggerAlerts({ doc, state, subs, market, announcements
   }
   const slugs = needPrices ? await coinSlugs({ fetchJson: fetchSite, now }) : {};
   const r = evaluateTriggers({ doc, state, now, prices, market, announcements, coinSlugs: slugs, subs });
+  const pending = r.state.pendingDeliveries ||= {};
   // Only the poller writes the rules file, so a member who blocked the bot keeps rules there: pause them for 7 days
   // instead of retrying every cycle (a /stop or new rule after unblocking resumes them once the pause ends).
   const paused = Object.fromEntries(Object.entries(r.state.paused || {}).filter(([, until]) => until > now));
-  for (const d of r.deliveries) {
+  for (const [id, delivery] of Object.entries(pending)) if (!liveRuleKeys.has(pendingRuleKey(delivery)) || paused[delivery.uid]) delete pending[id];
+  for (const delivery of r.deliveries) if (!paused[delivery.uid] && !pending[delivery.deliveryId]) pending[delivery.deliveryId] = { ...delivery, at: now };
+  r.state.paused = paused;
+  // Persist cooldown/count/seen progress and the durable outbox before any Telegram request.
+  await checkpoint(r.state);
+
+  for (const [id, d] of Object.entries(pending)) {
+    if (!liveRuleKeys.has(pendingRuleKey(d))) { delete pending[id]; await checkpoint(r.state); continue; }
     if (paused[d.uid]) continue;
-    await dm(d.uid, d.text, d.buttons);
+    if (sendDelivery) await sendDelivery(d);
+    else await dm(d.uid, d.text, d.buttons);
     if (blocked.has(d.uid) || blocked.has(String(d.uid))) paused[d.uid] = now + 7 * 24 * 3600e3;
     else log(`custom alert ${d.type} -> ${d.uid}`);
+    r.state.paused = paused;
+    delete pending[id];
+    await checkpoint(r.state);
   }
   r.state.paused = paused;
   for (const d of r.dropped) log(`custom alert ${d.type} for ${d.uid} dropped: daily cap reached`);
@@ -496,8 +555,17 @@ async function cycle(tok) {
   const blocked = new Set();
   const dm = async (uid, text, buttons) => {
     const r = await send(tok, uid, text, buttons);
-    if (!r.ok && /blocked|deactivated|chat not found/i.test(r.description || "")) blocked.add(uid);
+    const unavailable = !r.ok && /blocked|deactivated|chat not found/i.test(r.description || "");
+    if (unavailable) blocked.add(uid);
     await new Promise((res) => setTimeout(res, 60));
+    return unavailable ? { ok: true, unavailable: true } : r;
+  };
+  const deliverStrict = (key, action) => deliverOnce({ state, key, deliver: action, save: saveState });
+  // One recipient's rejection or unknown outcome must never stall the rest of the cycle (digest, funnel, custom alerts):
+  // log it and move on. Confirmed recipients are still skipped on a rerun; a pending receipt is never blindly replayed.
+  const deliver = async (key, action) => {
+    try { return await deliverStrict(key, action); }
+    catch (error) { log(`delivery ${key} not confirmed: ${error.message}`); if (ONCE) process.exitCode = 1; return { ok: false, description: error.message }; }
   };
 
   try {
@@ -508,18 +576,17 @@ async function cycle(tok) {
       partners,
       dryRun: DRY,
       buttonsFor: (lang, src) => partnerButtons(partners, lang, src),
-      sendMessage: async (chat, text, buttons) => {
-        const r = await send(tok, chat, text, buttons);
-        if (!r.ok) throw new Error(r.description || "sendMessage failed");
+      sendMessage: async (chat, text, buttons, { slot }) => {
+        await deliver(`rhythm:${slot.kind}:${slot.key}:message:${chat}`, () => send(tok, chat, text, buttons));
       },
-      sendPoll: async (chat, poll) => {
-        const r = await sendPoll(tok, chat, poll);
-        if (!r.ok) throw new Error(r.description || "sendPoll failed");
+      sendPoll: async (chat, poll, { slot }) => {
+        await deliver(`rhythm:${slot.kind}:${slot.key}:poll:${chat}`, () => sendPoll(tok, chat, poll));
       },
       save: saveState,
     });
   } catch (error) {
     log(error.message);
+    if (ONCE) process.exitCode = 1;
   }
 
   // market events (one alert per type per 3 hours)
@@ -528,10 +595,10 @@ async function cycle(tok) {
     const key = hourKey(ev.type);
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
-    for (const [lang, chat] of Object.entries(CHANNELS)) await send(tok, chat, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-channel-${lang}`));
+    for (const [lang, chat] of Object.entries(CHANNELS)) await deliver(`event:${key}:channel:${chat}`, () => send(tok, chat, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-channel-${lang}`)));
     for (const [uid, u] of users) if (u.topics?.includes(topic)) {
       const lang = msgLang(u);
-      await dm(uid, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-dm-${lang}`));
+      await deliver(`event:${key}:dm:${uid}`, () => dm(uid, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-dm-${lang}`)));
     }
     state.sentEvents[key] = new Date().toISOString();
     log(`event ${ev.type} sent`);
@@ -543,7 +610,7 @@ async function cycle(tok) {
     if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) {
       const lang = msgLang(u);
       const m = group.type === "listing" ? listingGroupMessage(group.items, bySlug, lang) : listingMessage(group.items[0], bySlug[group.items[0].venue], lang);
-      if (m) await dm(uid, m.text, m.buttons);
+      if (m) await deliver(`listing:${JSON.stringify(group.items.map(item => String(item.id)).sort())}:dm:${uid}`, () => dm(uid, m.text, m.buttons));
     }
     for (const item of group.items) state.sentListings[item.id] = new Date().toISOString();
   }
@@ -560,8 +627,11 @@ async function cycle(tok) {
       if (!(lang in flashByLang)) flashByLang[lang] = await getJson(`${SITE}/api/flash.json?important=1&limit=20&locale=${FLASH_LOCALE[lang] || lang}`).catch((e) => { log(`flash ${lang}: ${e.message}`); return { items: [] }; });
       return { now: Date.now(), flash: flashByLang[lang], calendar };
     };
-    for (const [lang, chat] of Object.entries(CHANNELS)) { const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await send(tok, chat, d.text, d.buttons); }
-    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await dm(uid, d.text, d.buttons); }
+    for (const [lang, chat] of Object.entries(CHANNELS)) {
+      const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang));
+      await deliver(`digest:${today}:channel:${chat}`, () => send(tok, chat, d.text, d.buttons));
+    }
+    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await deliver(`digest:${today}:dm:${uid}`, () => dm(uid, d.text, d.buttons)); }
     state.digestDates = [...state.digestDates.slice(-30), today];
     log("daily brief sent");
   }
@@ -571,17 +641,31 @@ async function cycle(tok) {
   if (funnelReportDue({ sentDates: state.funnelDates }) && state.initialized) {
     let clicksText = null;
     try { clicksText = CLICKS ? readFileSync(CLICKS, "utf8") : null; } catch { clicksText = null; }
-    const r = await send(tok, OWNER_CHAT_ID, buildFunnelReport({ clicksText, subs: readJson(SUBS, { users: {} }) }));
+    const r = await deliver(`funnel:${today}:${OWNER_CHAT_ID}`, () => send(tok, OWNER_CHAT_ID, buildFunnelReport({ clicksText, subs: readJson(SUBS, { users: {} }) })));
     if (r.ok) { state.funnelDates = [...state.funnelDates.slice(-30), today]; log("owner funnel report sent"); } else log(`owner funnel report failed: ${r.description || "unknown"}`);
   }
 
   // custom /alert rules (price, 1h move, liquidations, funding, listings); a failure here never blocks the rest
   try {
-    state.triggers = await runTriggerAlerts({ doc: loadTriggers({ file: TRIGGERS }), state: state.triggers, subs, market: mk, announcements: ann.items || [], dm, blocked });
-  } catch (error) { log(`custom alerts failed: ${error.message}`); }
+    const checkpointTriggers = async (triggers) => { state.triggers = triggers; saveState(); };
+    state.triggers = await runTriggerAlerts({
+      doc: loadTriggers({ file: TRIGGERS }), state: state.triggers, subs, market: mk, announcements: ann.items || [], dm, blocked, checkpoint: checkpointTriggers,
+      // Rate-limit backoff keeps the outbox entry for the next cycle (the throw stops this cycle's loop); any other
+      // failure is logged and the entry is dropped so one bad recipient cannot block everyone queued behind it.
+      sendDelivery: async (delivery) => {
+        try { return await deliverStrict(`custom:${delivery.deliveryId}:dm:${delivery.uid}`, () => dm(delivery.uid, delivery.text, delivery.buttons)); }
+        catch (error) {
+          if (/rate limit|\b429\b/i.test(error.message)) throw error;
+          log(`custom alert ${delivery.deliveryId} not confirmed: ${error.message}`); if (ONCE) process.exitCode = 1; return null;
+        }
+      },
+    });
+  } catch (error) { log(`custom alerts failed: ${error.message}`); if (ONCE) process.exitCode = 1; }
 
   if (blocked.size) { const s2 = readJson(SUBS, { users: {} }); for (const uid of blocked) delete s2.users[uid]; writeJson(SUBS, s2); log(`removed ${blocked.size} blocked users`); }
   for (const k of Object.keys(state.sentListings)) if (Object.keys(state.sentListings).length > 2000) delete state.sentListings[k];
+  // Receipts only guard reruns of the same hour/day key; keep a week of every status so state cannot grow unbounded.
+  for (const [key, receipt] of Object.entries(state.deliveryReceipts || {})) if (!(Date.now() - receipt.at <= 7 * 24 * 3600e3)) delete state.deliveryReceipts[key];
   state.initialized = true;
   saveState();
 }
@@ -595,7 +679,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     if (inFlight) { log("cycle skipped: previous cycle still running"); return; }
     inFlight = true;
     try { await cycle(tok); }
-    catch (e) { log(`cycle failed: ${e.message}`); }
+    catch (e) { log(`cycle failed: ${e.message}`); if (ONCE) process.exitCode = 1; }
     finally { inFlight = false; }
   };
   await run();

@@ -35,8 +35,24 @@ const ENV_FILE = process.env.CHANNEL_FEED_ENV || "/srv/agent/stacks/crypto-teleg
 const SITE = "https://nexualpha.com";
 const MAX_PER_RUN = 5;
 const MAX_AGE_MS = 36 * 3600 * 1000; // never post anything older than 36 h
-const CHANNELS = (process.env.CHANNEL_FEED_TARGETS || "zh:@NexuAlphaClub").split(",").map((x) => { const [lang, chat] = x.trim().split(":"); return { lang, chat }; }).filter((c) => c.lang && c.chat);
 const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi" };
+export const CHANNEL_LANGS = Object.freeze(["zh", "en", "ru", "tr", "vi"]);
+export function parseChannelTargets(spec) {
+  const seen = new Set();
+  return String(spec || "").split(",").map((x) => {
+    const trimmed = x.trim();
+    const sep = trimmed.indexOf(":");
+    if (sep <= 0) return null;
+    const lang = trimmed.slice(0, sep).trim();
+    const chat = trimmed.slice(sep + 1).trim();
+    if (!CHANNEL_LANGS.includes(lang) || !/^(?:@[a-zA-Z0-9_]+|-?\d+)$/.test(chat)) return null;
+    const key = `${lang}:${chat.toLowerCase()}`;
+    if (seen.has(key)) return null;
+    seen.add(key);
+    return { lang, chat };
+  }).filter(Boolean);
+}
+const CHANNELS = parseChannelTargets(process.env.CHANNEL_FEED_TARGETS || "zh:@NexuAlphaClub");
 
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
 

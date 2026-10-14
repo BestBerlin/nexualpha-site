@@ -123,11 +123,11 @@ for (const lang of NEW_LANGS) {
     // Turkey (owner 2026-10-11): only SPK-"operating" partners (OKX, Binance, Bybit); the fixture has OKX of those.
     if (NEUTRAL.includes(lang)) {
       // neutral: exchange name only, opening the site's exchange page (never /go/)
-      assert.deepEqual(d.buttons[0].map((b) => b.url), ["okx", "bitget"].map((s) => `https://nexualpha.com${path}/exchanges/${s}?src=tg-digest-${lang}`));
-      assert.deepEqual(d.buttons[0].map((b) => b.text), ["OKX", "Bitget"]);
+      assert.deepEqual(d.buttons[0].map((b) => b.url), ["bitget", "okx"].map((s) => `https://nexualpha.com${path}/exchanges/${s}?src=tg-digest-${lang}`));
+      assert.deepEqual(d.buttons[0].map((b) => b.text), ["Bitget", "OKX"]);
     } else {
-      assert.deepEqual(d.buttons[0].map((b) => b.url), lang === "tr" ? [`https://nexualpha.com/go/okx?src=tg-digest-tr`] : [`https://nexualpha.com/go/okx?src=tg-digest-${lang}`, `https://nexualpha.com/go/bitget?src=tg-digest-${lang}`]);
-      assert.equal(d.buttons[0][0].text, e.signUp);
+      assert.deepEqual(d.buttons[0].map((b) => b.url), lang === "tr" ? [`https://nexualpha.com/go/okx?src=tg-digest-tr`] : [`https://nexualpha.com/go/bitget?src=tg-digest-${lang}`, `https://nexualpha.com/go/okx?src=tg-digest-${lang}`]);
+      assert.equal(d.buttons[0][0].text, lang === "tr" ? e.signUp : e.signUp.replace("OKX", "Bitget"));
     }
     assert.deepEqual(d.buttons[1].map((b) => b.text), [e.getAlerts, e.funding]);
     assert.equal(d.buttons[1][1].url, `https://nexualpha.com${path}/funding-rates`);
@@ -204,7 +204,7 @@ test("partner buttons: second row Bybit / Hyperliquid / Backpack; Turkey only SP
     { slug: "hyperliquid", name: "Hyperliquid", share: null }, { slug: "backpack", name: "Backpack", share: null },
   ];
   const slugs = (rows) => rows.slice(0, -1).map((r) => r.map((b) => b.url.match(/go\/([a-z]+)/)[1]));
-  assert.deepEqual(slugs(partnerButtons(P, "en", "x")), [["okx", "bitget", "binance"]]);
+  assert.deepEqual(slugs(partnerButtons(P, "en", "x")), [["bitget", "okx", "binance"]]);
   assert.deepEqual(slugs(partnerButtons(P, "tr", "x")), [["okx", "binance", "bybit"]]);
   const zh = partnerButtons(P, "zh", "x");
   assert.match(zh[0][0].text, /返佣/);

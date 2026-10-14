@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import {access,mkdir,mkdtemp,readFile,writeFile,rename,rm} from 'node:fs/promises';
+import {access,mkdir,mkdtemp,open,readFile,writeFile,rename,rm,unlink} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {MARKET_URL,FUNDING_URL,validateData,buildPackage} from './builders.mjs';
+import {MARKET_URL,FUNDING_URL,validateData,buildPackage,sgtDay} from './builders.mjs';
 import {STRINGS} from './strings.mjs';
 import {renderShort,renderContactSheet} from './render.mjs';
 import {writePreview} from './preview.mjs';
@@ -23,12 +23,15 @@ export function parseDailyArgs(args) {
   if(options.voice&&!options.locales.includes('en')) throw new Error('--voice requires en in --locales');
   return options;
 }
+export function dailyDestination(root, data, fixture = false) {
+  return path.join(root, `${sgtDay(data.generatedAt)}${fixture ? '-fixture' : ''}`);
+}
 async function getJson(url) {
   const response=await fetch(url,{signal:AbortSignal.timeout(20000),headers:{accept:'application/json'}});
   if(!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
   return response.json();
 }
-export async function main(args=process.argv.slice(2)) {
+export async function main(args=process.argv.slice(2), deps = {}) {
   const options=parseDailyArgs(args);
   // Fetch once, validate once: every format/locale shares exactly the same snapshot.
   const market=options.fixture?JSON.parse(await readFile(options.fixture,'utf8')):await getJson(MARKET_URL);
@@ -37,15 +40,26 @@ export async function main(args=process.argv.slice(2)) {
   if(funding) data.fundingSourceUrl=FUNDING_URL;
   const root=path.resolve(options.out);
   await mkdir(root,{recursive:true});
-  const destination=path.join(root,`${data.generatedAt.slice(0,10)}${options.fixture?'-fixture':''}`);
+  const destination=dailyDestination(root,data,Boolean(options.fixture));
   try {
     await access(destination);
     throw new Error(`Daily package already exists: ${destination}; use another --out directory`);
   } catch(error) {
     if(error.code!=='ENOENT') throw error;
   }
-  const stage=await mkdtemp(path.join(root,'.daily-'));
+  const lockPath=`${destination}.lock`;
+  let lock;
+  let stage;
   try {
+    try {
+      lock=await open(lockPath,'wx',0o600);
+    } catch(error) {
+      if(error.code==='EEXIST') throw new Error(`Daily package already locked: ${lockPath}; inspect the previous job before removing it`);
+      throw error;
+    }
+    await lock.writeFile(`${process.pid}\n`);
+    stage=await (deps.mkdtemp ?? mkdtemp)(path.join(root,'.daily-'));
+
     for(const lang of options.locales) {
       const {slides,meta}=buildPackage(data,lang);
       const dir=path.join(stage,lang);
@@ -68,8 +82,13 @@ export async function main(args=process.argv.slice(2)) {
     console.log(destination);
     return destination;
   } catch(error) {
-    await rm(stage,{recursive:true,force:true});
+    if(stage) await rm(stage,{recursive:true,force:true});
     throw error;
+  } finally {
+    if(lock) {
+      try { await lock.close(); }
+      finally { await unlink(lockPath).catch(error=>{ if(error.code!=='ENOENT') throw error; }); }
+    }
   }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) main().catch(error=>{console.error(`daily shorts: ${error.message}`);process.exitCode=1;});

@@ -22,14 +22,18 @@ const ITEM_COLUMNS = `r.id, r.source_id, r.external_id, r.url, r.canonical_url, 
   r.title, r.body_excerpt, r.lang, r.published_at, r.fetched_at, r.metrics, r.metrics_at, r.entities, r.event_type_guess,
   r.simhash::text AS simhash, r.content_hash, s.platform, s.tier, s.verified_official`;
 
-export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {}) {
-  const watchlist = parse(execute(rows(`SELECT id, kind, display_name, aliases, partner_slug, priority, status FROM watchlist_entities WHERE status='active'`)));
-  const keywords = parse(execute(rows(`SELECT term, lang, event_type, entity_id, weight, status FROM keywords WHERE status='active'`)));
-  const items = parse(execute(rows(`SELECT ${ITEM_COLUMNS} FROM raw_items r JOIN sources s ON s.id=r.source_id
-    WHERE r.event_id IS NULL AND r.state='pending'
-    ORDER BY r.id LIMIT ${Number(limit)}`)));
-  if (!items.length) return { watchlist, keywords, items, existingEvents: [] };
-  const existingEvents = parse(execute(rows(`SELECT e.id, e.subject_entity, e.subjects, e.event_type, e.title_internal, e.occurred_at,
+function boundedInteger(value, fallback, { min = 1, max = 100000 } = {}) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= min ? Math.min(parsed, max) : fallback;
+}
+
+function positiveIntegerLiteral(value, fallback = '0') {
+  const text = String(value ?? '').trim();
+  return /^(0|[1-9]\d*)$/u.test(text) ? text : fallback;
+}
+
+function existingEventsQuery({ windowHours, limit, afterId = '0' }) {
+  return rows(`SELECT e.id, e.subject_entity, e.subjects, e.event_type, e.title_internal, e.occurred_at,
       e.source_published_at, e.original_links, e.discussion, e.effective_at, e.deadline_at, e.major_followup_at,
       e.story_asset, e.story_action, e.story_group_key,
       coalesce((SELECT jsonb_agg(jsonb_build_object('raw_item_id', v.raw_item_id, 'url', v.url, 'kind', v.kind, 'origin_key', v.origin_key,
@@ -39,7 +43,37 @@ export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {
         WHERE v.event_id=e.id), '[]'::jsonb) AS evidence,
       coalesce((SELECT jsonb_agg(jsonb_build_object('id', r.id, 'content_hash', r.content_hash, 'simhash', r.simhash::text,
         'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'metrics', r.metrics, 'url', r.url, 'canonical_url', r.canonical_url, 'platform', s2.platform, 'tier', s2.tier)) FROM raw_items r LEFT JOIN sources s2 ON s2.id=r.source_id WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
-    FROM events e WHERE e.state NOT IN ('rejected','expired') AND e.last_update_at > now() - interval '${Number(windowHours)} hours'`)));
+    FROM events e
+    WHERE e.state NOT IN ('rejected','expired') AND e.last_update_at > now() - interval '${Number(windowHours)} hours'
+      AND e.id > ${positiveIntegerLiteral(afterId)}
+    ORDER BY e.id
+    LIMIT ${Number(limit)}`);
+}
+
+function loadExistingDedupeEvents(execute, { windowHours, existingEventLimit }) {
+  const existingEvents = [];
+  let afterId = '0';
+  for (;;) {
+    const page = parse(execute(existingEventsQuery({ windowHours, limit: existingEventLimit, afterId })));
+    existingEvents.push(...page);
+    if (page.length < existingEventLimit) break;
+    const nextId = positiveIntegerLiteral(page.at(-1)?.id, afterId);
+    if (BigInt(nextId) <= BigInt(afterId)) throw new Error('dedupe event cursor did not advance');
+    afterId = nextId;
+  }
+  return existingEvents;
+}
+
+export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000, existingEventLimit = 250 } = {}) {
+  const itemLimit = boundedInteger(limit, 3000, { max: 10000 });
+  const eventLimit = boundedInteger(existingEventLimit, 250, { max: 5000 });
+  const watchlist = parse(execute(rows(`SELECT id, kind, display_name, aliases, partner_slug, priority, status FROM watchlist_entities WHERE status='active'`)));
+  const keywords = parse(execute(rows(`SELECT term, lang, event_type, entity_id, weight, status FROM keywords WHERE status='active'`)));
+  const items = parse(execute(rows(`SELECT ${ITEM_COLUMNS} FROM raw_items r JOIN sources s ON s.id=r.source_id
+    WHERE r.event_id IS NULL AND r.state='pending'
+    ORDER BY r.id LIMIT ${itemLimit}`)));
+  if (!items.length) return { watchlist, keywords, items, existingEvents: [] };
+  const existingEvents = loadExistingDedupeEvents(execute, { windowHours, existingEventLimit: eventLimit });
   return { watchlist, keywords, items, existingEvents };
 }
 
@@ -260,12 +294,22 @@ export function buildDedupeSql({ events, irrelevantItems = [] }, batchItemIds) {
 
 export function runDedupe(execute, options = {}) {
   const config = Object.fromEntries(parse(execute(rows(`SELECT key, value FROM newsroom_config WHERE key='dedupe'`))).map(row => [row.key, row.value]));
-  const { watchlist, keywords, items, existingEvents } = loadDedupeInputs(execute, options);
-  if (!items.length) return { items: 0, created: 0, updated: 0, assigned: 0, skipped_items: 0 };
-  const result = mergeRawItems(items, { watchlist, keywords, existingEvents, config: config.dedupe ?? {} });
-  const { sql, stats } = buildDedupeSql(result, items.map(item => item.id));
-  if (sql) execute(sql);
-  return { items: items.length, ...stats };
+  const maxBatches = boundedInteger(options.maxBatches, 1, { max: 200 });
+  const totals = { items: 0, created: 0, updated: 0, assigned: 0, skipped_items: 0 };
+  for (let batch = 0; batch < maxBatches; batch += 1) {
+    const { watchlist, keywords, items, existingEvents } = loadDedupeInputs(execute, options);
+    if (!items.length) return totals;
+    const result = mergeRawItems(items, { watchlist, keywords, existingEvents, config: config.dedupe ?? {} });
+    const { sql, stats } = buildDedupeSql(result, items.map(item => item.id));
+    if (sql) execute(sql);
+    totals.items += items.length;
+    totals.created += stats.created;
+    totals.updated += stats.updated;
+    totals.assigned += stats.assigned;
+    totals.skipped_items += stats.skipped_items;
+    if (items.length < boundedInteger(options.limit, 3000, { max: 10000 })) return totals;
+  }
+  return { ...totals, truncated: true };
 }
 
 export function loadScoreInputs(execute, { limit = 500, rescoreMinutes = 30 } = {}) {
