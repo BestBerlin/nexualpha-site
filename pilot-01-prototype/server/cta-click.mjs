@@ -44,10 +44,14 @@ export function createRateLimiter({ limit = 30, windowMs = 60_000, now = Date.no
   };
 }
 
+// Security audit 2026-10-15: the first X-Forwarded-For value is client-controlled (nginx appends, it does not
+// replace), so rotating it bypassed the limit. Trust nginx's X-Real-IP ($remote_addr), then the last XFF hop.
 export function clientKey(req) {
+  const realIp = req?.headers?.['x-real-ip'];
+  if (typeof realIp === 'string' && realIp.trim()) return realIp.trim();
   const forwarded = req?.headers?.['x-forwarded-for'];
-  const first = typeof forwarded === 'string' ? forwarded.split(',')[0].trim() : '';
-  return first || req?.socket?.remoteAddress || 'unknown';
+  const last = typeof forwarded === 'string' ? forwarded.split(',').map((part) => part.trim()).filter(Boolean).pop() : '';
+  return last || req?.socket?.remoteAddress || 'unknown';
 }
 
 export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry } = {}) {

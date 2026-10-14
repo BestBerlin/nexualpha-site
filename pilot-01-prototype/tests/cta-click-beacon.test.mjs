@@ -99,7 +99,10 @@ test("rate limiter is a fixed window that forgets clients after the window", () 
   assert.equal(allow("x"), true); assert.equal(allow("x"), true); assert.equal(allow("x"), false);
   t = 1001;
   assert.equal(allow("x"), true);
-  assert.equal(clientKey({ headers: { "x-forwarded-for": "198.51.100.7, 10.0.0.1" }, socket: { remoteAddress: "10.0.0.1" } }), "198.51.100.7");
+  // nginx appends the real client to X-Forwarded-For; the first value is whatever the client sent (spoofable).
+  assert.equal(clientKey({ headers: { "x-forwarded-for": "198.51.100.7, 203.0.113.9" }, socket: { remoteAddress: "127.0.0.1" } }), "203.0.113.9");
+  assert.equal(clientKey({ headers: { "x-real-ip": "203.0.113.9", "x-forwarded-for": "1.2.3.4, 203.0.113.9" }, socket: { remoteAddress: "127.0.0.1" } }), "203.0.113.9");
+  assert.equal(clientKey({ headers: { "x-real-ip": "203.0.113.9", "x-forwarded-for": "6.6.6.6" } }), "203.0.113.9", "a spoofed first hop never becomes the key");
   assert.equal(clientKey({ headers: {}, socket: { remoteAddress: "10.0.0.2" } }), "10.0.0.2");
   assert.equal(validateCtaClick({ partner: "okx", src: "x", path: "/" }, new Map([["okx", "https://x"]])).partner, "okx");
   assert.equal(validateCtaClick(["okx"], new Map([["okx", "https://x"]])), null);
