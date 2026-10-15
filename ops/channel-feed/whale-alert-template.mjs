@@ -1,5 +1,6 @@
 import { whaleSentence, whaleStealthLabel } from "../../pilot-01-prototype/src/data/whales-home.js";
 const ALERT_THRESHOLD_USD = 20_000_000;
+export const CONFLUENCE_WHALES_THRESHOLD = 3;
 const SITE = "https://nexualpha.com";
 const SAFE_EXPLORER_HOSTS = new Set([
   "app.hyperliquid.xyz",
@@ -26,8 +27,9 @@ export { ALERT_THRESHOLD_USD };
 
 export function whaleEventUsd(event) {
   const value = event?.totalUsd ?? event?.notionalUsd ?? event?.sizeUsd ?? event?.amountUsd ?? event?.usd;
+  if (typeof value !== "number" && typeof value !== "string") return 0;
   const num = Number(value);
-  return Number.isFinite(num) ? num : 0;
+  return Number.isFinite(num) && num > 0 ? num : 0;
 }
 
 export function formatUsd(value) {
@@ -45,8 +47,33 @@ function formatSignedUsd(value) {
   return `${n > 0 ? "+" : "-"}${formatUsd(Math.abs(n))}`;
 }
 
+// Counts observed wallet identities, never a caller-supplied aggregate count. EVM
+// addresses are case-insensitive; Solana base58 identities are case-sensitive.
+export function distinctWhaleCount(event) {
+  const addresses = event?.addresses ?? event?.whaleAddresses;
+  if (!Array.isArray(addresses)) return 0;
+  return new Set(addresses.flatMap((value) => {
+    if (typeof value !== "string") return [];
+    const address = value.trim();
+    if (/^0x[0-9a-f]{40}$/i.test(address)) return [address.toLowerCase()];
+    if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address)) return [address];
+    return [];
+  })).size;
+}
+
+function alertEligibility(event) {
+  if (whaleEventUsd(event) >= ALERT_THRESHOLD_USD) return "size";
+  const signal = String(event?.signalType || event?.eventType || event?.type || "").trim().toLowerCase();
+  const directional = ["accumulation", "distribution", "coordinated_long", "coordinated_short", "同步做多", "同步做空"].includes(signal);
+  const hours = Number(event?.periodHours);
+  const window = [event?.period, event?.window, event?.lookback].some((value) => typeof value === "string" && value.trim())
+    || (Number.isFinite(hours) && hours > 0);
+  return directional && (event?.coin || event?.asset) && window
+    && distinctWhaleCount(event) >= CONFLUENCE_WHALES_THRESHOLD ? "confluence" : null;
+}
+
 export function isWhaleChannelAlertEligible(event) {
-  return whaleEventUsd(event) >= ALERT_THRESHOLD_USD;
+  return Boolean(alertEligibility(event));
 }
 
 export function safeExplorerUrl(value) {
@@ -104,7 +131,7 @@ function buildSmartMoneySection(event, usd) {
   const kind = eventKind(event);
   const action = eventAction(event);
   const coin = event?.coin || event?.asset || "UNKNOWN";
-  const wallets = Number(event?.walletsCount ?? event?.walletCount ?? event?.addressesCount);
+  const wallets = distinctWhaleCount(event) || Number(event?.walletsCount ?? event?.walletCount ?? event?.addressesCount);
   const period = event?.period || event?.window || event?.lookback || (Number.isFinite(Number(event?.periodHours)) ? `${Number(event.periodHours)}h` : "");
   const avgEntry = event?.avgEntry ? `均价 ${event.avgEntry}` : event?.entryPx ? `入场 ${event.entryPx}` : null;
   const pnl = explicitPnlLine(event, action);
@@ -142,6 +169,8 @@ function buildDetailLines(event) {
   const explorer = safeExplorerUrl(event?.explorerUrl);
   return [
     event?.period ? `Window: ${event.period}` : null,
+    event?.whyItMatters ? `Why it matters: ${event.whyItMatters}` : null,
+    event?.confidenceScore != null && Number.isFinite(Number(event.confidenceScore)) && Number(event.confidenceScore) >= 0 && Number(event.confidenceScore) <= 100 ? `Confidence: ${Number(event.confidenceScore)}/100` : null,
     event?.leverage ? `Leverage: ${event.leverage}` : null,
     event?.entry ? `Entry: ${event.entry}` : event?.entryPx ? `Entry: ${event.entryPx}` : null,
     event?.closedPnlUsd != null && Number.isFinite(Number(event.closedPnlUsd)) ? `Closed PnL: ${formatSignedUsd(event.closedPnlUsd)}` : null,
@@ -152,9 +181,8 @@ function buildDetailLines(event) {
   ].filter(Boolean).map(escapeHtml);
 }
 
-// 秘密建仓 / 秘密出货 (owner 2026-10-15): repeated buying/selling of a non-major coin by one whale is alert-worthy from
-// $500k, highlighted first, written with the same sentence as the site, always with the explorer link to verify.
-export const STEALTH_ALERT_THRESHOLD_USD = 500_000;
+// Keep the site sentence for stealth events, subject to the same alert gate.
+export const STEALTH_ALERT_THRESHOLD_USD = ALERT_THRESHOLD_USD;
 function buildStealthAlert(event, usd, href, locale) {
   const label = whaleStealthLabel(event, locale);
   const explorer = safeExplorerUrl(event?.explorerUrl);
@@ -169,19 +197,18 @@ function buildStealthAlert(event, usd, href, locale) {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     text: lines.filter((line) => line !== null).join("\n").trim(),
-    metadata: { thresholdUsd: STEALTH_ALERT_THRESHOLD_USD, eventId: event?.id || null, kind: `stealth-${label.kind}`, amountUsd: usd, sendPolicy: "template-only; caller must explicitly post, this module does not call Telegram APIs" },
+    metadata: { thresholdUsd: ALERT_THRESHOLD_USD, eligibility: alertEligibility(event), distinctWhales: distinctWhaleCount(event), eventId: event?.id || null, kind: `stealth-${label.kind}`, amountUsd: usd, sendPolicy: "template-only; caller must explicitly post, this module does not call Telegram APIs" },
   };
 }
 
 export function buildWhaleChannelAlert(event, options = {}) {
   const usd = whaleEventUsd(event);
+  if (!isWhaleChannelAlertEligible(event)) return null;
   const stealthLocale = options.locale === "en" ? "en" : options.locale === "zh-Hant" ? "zh-Hant" : "zh-Hans";
   if (whaleStealthLabel(event, stealthLocale)) {
-    if (usd < STEALTH_ALERT_THRESHOLD_USD) return null;
     const path = stealthLocale === "en" ? "/en" : stealthLocale === "zh-Hant" ? "/zh-hant" : "/zh-hans";
     return buildStealthAlert(event, usd, `${SITE}${path}/whales?src=tg-whale-alert`, stealthLocale);
   }
-  if (usd < ALERT_THRESHOLD_USD) return null;
   const localePath = options.locale === "zh-Hant" ? "/zh-hant" : options.locale && options.locale !== "zh-Hans" && options.locale !== "zh" ? `/${options.locale}` : "/zh-hans";
   const href = `${SITE}${localePath}/whales?src=tg-whale-alert`;
   const lines = [
@@ -198,6 +225,8 @@ export function buildWhaleChannelAlert(event, options = {}) {
     text: lines.filter((line) => line !== null && line !== undefined).join("\n").replace(/\n{3,}/g, "\n\n").trim(),
     metadata: {
       thresholdUsd: ALERT_THRESHOLD_USD,
+      eligibility: alertEligibility(event),
+      distinctWhales: distinctWhaleCount(event),
       eventId: event?.id || null,
       kind: eventKind(event),
       action: eventAction(event),
@@ -205,4 +234,20 @@ export function buildWhaleChannelAlert(event, options = {}) {
       sendPolicy: "template-only; caller must explicitly post, this module does not call Telegram APIs",
     },
   };
+}
+
+// Pure preview: no credentials, state mutation, transport, or sending capability.
+export function dryRunWhaleChannelAlerts(events, options = {}) {
+  if (!Array.isArray(events)) throw new TypeError("events must be an array");
+  const seen = new Set();
+  const alerts = [];
+  for (const event of events) {
+    const alert = buildWhaleChannelAlert(event, options);
+    if (!alert) continue;
+    const key = event?.id ? `id:${event.id}` : `text:${alert.text}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    alerts.push(alert);
+  }
+  return { dryRun: true, sent: 0, inputCount: events.length, alerts };
 }

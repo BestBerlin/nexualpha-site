@@ -91,7 +91,7 @@ const explorerUrl = (value) => {
     const path = parsed.pathname;
     if (host === "app.hyperliquid.xyz" && /^\/explorer\/(address|tx)\//.test(path)) return url;
     if (host === "hypurrscan.io") return url;
-    if (["mempool.space", "etherscan.io", "tronscan.org"].includes(host)) return url;
+    if (["mempool.space", "etherscan.io", "tronscan.org", "basescan.org"].includes(host)) return url;
     return "";
   } catch {
     return "";

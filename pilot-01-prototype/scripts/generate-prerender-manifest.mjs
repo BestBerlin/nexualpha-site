@@ -172,7 +172,7 @@ export function routeInventory(newsArticles = []) {
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
     ...(pathname === "/funding-rates/matrix" || DATA_PAGE_PATHS.includes(pathname) || pathname === LIQUIDATION_HEATMAP_PATH || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
-    ...(RADAR_PATHS.includes(pathname) ? { locales: pathname === "/whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES, prerenderLocales: PRERENDER_LOCALES } : {}),
+    ...(RADAR_PATHS.includes(pathname) ? { locales: pathname.startsWith("/whales") ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES, prerenderLocales: PRERENDER_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),

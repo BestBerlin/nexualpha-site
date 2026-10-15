@@ -1,0 +1,384 @@
+{
+  "inputSource": "docs/whale-signals-v2-evidence/cycle-10.json",
+  "observedAt": "2026-10-15T04:25:04.589Z",
+  "dryRun": true,
+  "sent": 0,
+  "inputCount": 72,
+  "alerts": [
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $262M on hyperliquid</b>\nLeverage: 5\nEntry: 2322.64\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $262M · short · 入场 2322.64\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 262308201.2318,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $224M on hyperliquid</b>\nLeverage: 5\nEntry: 76178.4\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $224M · short · 入场 76178.4\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 223723436.69938,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $208M on hyperliquid</b>\nLeverage: 5\nEntry: 2375.28\nWallet: 0xb83d…6e36\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $208M · short · 入场 2375.28\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 208090043.82216,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $202M on hyperliquid</b>\nLeverage: 5\nEntry: 77751.1\nWallet: 0xb83d…6e36\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $202M · short · 入场 77751.1\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 201569217.16358,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：SOL short $74.7M on hyperliquid</b>\nLeverage: 7\nEntry: 94.3122\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nSOL 大额持仓 · $74.7M · short · 入场 94.3122\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:SOL:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 74660794.6448,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $65.9M on hyperliquid</b>\nLeverage: 20\nEntry: 78792.5\nWallet: 0xb695…a92d\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb695651daa495f59dd2725c6fe98322d8b51a92d\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $65.9M · short · 入场 78792.5\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb695651daa495f59dd2725c6fe98322d8b51a92d:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 65901225,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：HYPE short $57.6M on hyperliquid</b>\nLeverage: 5\nEntry: 69.8134\nWallet: 0xb83d…6e36\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nHYPE 大额持仓 · $57.6M · short · 入场 69.8134\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:HYPE:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 57559068.88704,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>减仓：HYPE short $57.5M on hyperliquid</b>\nEntry: 87.3665972348\nClosed PnL: -$49,998\nWallet: 0xf02d…54c6\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xf02d16a272a842f8bac1d9a9e773aba1933454c6\nTime: 2026-09-30T15:51:00.536Z\n\n<b>Smart-money accumulation</b>\nHYPE 减仓 · $57.5M · short · 入场 87.3665972348 · PnL -$49,998\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hlfill:0xf02d16a272a842f8bac1d9a9e773aba1933454c6:423131028066200:0xc507be64c415a3a3c68104458b5bda0201ff004a5f18c27568d069b783197d8e:561434609106:1790783460536",
+        "kind": "position",
+        "action": "decrease",
+        "amountUsd": 57469795.71267992,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ZEC short $53.7M on hyperliquid</b>\nLeverage: 3\nEntry: 1341.3609\nWallet: 0xb83d…6e36\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nZEC 大额持仓 · $53.7M · short · 入场 1341.3609\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:ZEC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 53746500.295,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $49.8M on hyperliquid</b>\nLeverage: 20\nEntry: 2565.37\nWallet: 0xb695…a92d\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb695651daa495f59dd2725c6fe98322d8b51a92d\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $49.8M · short · 入场 2565.37\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb695651daa495f59dd2725c6fe98322d8b51a92d:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 49845771.00335,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：HYPE short $48.2M on hyperliquid</b>\nLeverage: 5\nEntry: 70.1823\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nHYPE 大额持仓 · $48.2M · short · 入场 70.1823\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:HYPE:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 48150236.92302,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $47.2M on hyperliquid</b>\nLeverage: 25\nEntry: 2554.66\nWallet: 0x7fda…17d1\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x7fdafde5cfb5465924316eced2d3715494c517d1\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $47.2M · short · 入场 2554.66\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x7fdafde5cfb5465924316eced2d3715494c517d1:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 47235884.14662,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ZEC short $46.0M on hyperliquid</b>\nLeverage: 3\nEntry: 1488.1108\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nZEC 大额持仓 · $46.0M · short · 入场 1488.1108\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:ZEC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 45995083.776,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $44.3M on hyperliquid</b>\nLeverage: 25\nEntry: 2411.98\nWallet: 0xdf95…7d72\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xdf954bbe619273a56e0cfa90dad8382195dc7d72\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $44.3M · short · 入场 2411.98\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xdf954bbe619273a56e0cfa90dad8382195dc7d72:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 44318929.435795,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $38.5M on hyperliquid</b>\nLeverage: 30\nEntry: 82796.8\nWallet: 0x7fda…17d1\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x7fdafde5cfb5465924316eced2d3715494c517d1\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $38.5M · short · 入场 82796.8\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x7fdafde5cfb5465924316eced2d3715494c517d1:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 38540358.9982,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：SOL short $29.0M on hyperliquid</b>\nLeverage: 5\nEntry: 91.4175\nWallet: 0xb83d…6e36\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nSOL 大额持仓 · $29.0M · short · 入场 91.4175\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:SOL:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 28995944.1115,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH long $28.4M on hyperliquid</b>\nLeverage: 20\nEntry: 2419.91\nWallet: 0xbd1c…ff0e\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xbd1c84113c6deb5044be0c2221f9e9403811ff0e\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $28.4M · long · 入场 2419.91\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xbd1c84113c6deb5044be0c2221f9e9403811ff0e:ETH:long",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 28437960,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH long $28.4M on hyperliquid</b>\nLeverage: 20\nEntry: 2421.77\nWallet: 0x2371…0883\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x237152b038d88f4156a0cd71090462de7e3f0883\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $28.4M · long · 入场 2421.77\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x237152b038d88f4156a0cd71090462de7e3f0883:ETH:long",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 28437600,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $28.0M on hyperliquid</b>\nLeverage: 20\nEntry: 85057\nWallet: 0xebe1…4070\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xebe126adabe1a8f08d3ce53b45e7cc994ca14070\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $28.0M · short · 入场 85057\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xebe126adabe1a8f08d3ce53b45e7cc994ca14070:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 28000718.77538,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：XRP short $26.4M on hyperliquid</b>\nLeverage: 5\nEntry: 1.489222\nWallet: 0x5b5d…c060\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x5b5d51203a0f9079f8aeb098a6523a13f298c060\nTime: 2026-10-15T04:20:52.535Z\n\n<b>Smart-money accumulation</b>\nXRP 大额持仓 · $26.4M · short · 入场 1.489222\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x5b5d51203a0f9079f8aeb098a6523a13f298c060:XRP:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 26424277.9929,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $26.4M on hyperliquid</b>\nLeverage: 40\nEntry: 83367\nWallet: 0xdf95…7d72\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xdf954bbe619273a56e0cfa90dad8382195dc7d72\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $26.4M · short · 入场 83367\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xdf954bbe619273a56e0cfa90dad8382195dc7d72:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 26422806.94746,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $24.3M on hyperliquid</b>\nLeverage: 20\nEntry: 79675\nWallet: 0x519c…6a47\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x519c721de735f7c9e6146d167852e60d60496a47\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $24.3M · short · 入场 79675\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x519c721de735f7c9e6146d167852e60d60496a47:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 24330330,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：BTC short $23.5M on hyperliquid</b>\nLeverage: 20\nEntry: 82446.8\nWallet: 0xfc66…ca06\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xfc667adba8d4837586078f4fdcdc29804337ca06\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nBTC 大额持仓 · $23.5M · short · 入场 82446.8\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xfc667adba8d4837586078f4fdcdc29804337ca06:BTC:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 23549027.2395,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：ETH short $21.3M on hyperliquid</b>\nLeverage: 25\nEntry: 2553.61\nWallet: 0xca49…53c8\nExplorer: https://app.hyperliquid.xyz/explorer/address/0xca4903c207a0df58bf37d4bc8bbc5210726f53c8\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nETH 大额持仓 · $21.3M · short · 入场 2553.61\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0xca4903c207a0df58bf37d4bc8bbc5210726f53c8:ETH:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 21285758.782949,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    },
+    {
+      "parse_mode": "HTML",
+      "disable_web_page_preview": true,
+      "text": "<b>大额持仓：SOL short $20.6M on hyperliquid</b>\nLeverage: 20\nEntry: 105.8372\nWallet: 0x3dc9…54b0\nExplorer: https://app.hyperliquid.xyz/explorer/address/0x3dc908374e11623d8eb9f07dfc7a2e5e803a54b0\nTime: 2026-10-15T04:19:53.434Z\n\n<b>Smart-money accumulation</b>\nSOL 大额持仓 · $20.6M · short · 入场 105.8372\n\n<a href=\"https://nexualpha.com/zh-hans/whales?src=tg-whale-alert\">查看完整巨鲸动向</a>",
+      "metadata": {
+        "thresholdUsd": 20000000,
+        "eligibility": "size",
+        "distinctWhales": 0,
+        "eventId": "hl:0x3dc908374e11623d8eb9f07dfc7a2e5e803a54b0:SOL:short",
+        "kind": "position",
+        "action": "position",
+        "amountUsd": 20600019.57,
+        "sendPolicy": "template-only; caller must explicitly post, this module does not call Telegram APIs"
+      }
+    }
+  ]
+}

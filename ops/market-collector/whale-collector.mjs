@@ -12,6 +12,9 @@ import { atomicWriteJson, boundedFetch, createSourceRunner, readJson, runCollect
 export { atomicWriteJson } from "./resilience.mjs";
 import { createPositionRadar, POSITION_RADAR_WHALE_SOURCES } from "../../pilot-01-prototype/server/position-radar.mjs";
 
+import { collectWatchlist } from "./whale-watchlist.mjs";
+import { enrichWhaleSignals } from "../../pilot-01-prototype/server/whale-signal-quality.mjs";
+
 const UA = "NexuAlphaWhaleCollector/1.0 (+https://nexualpha.com)";
 const MINUTE = 60_000;
 const parseClampedNumber = (value, fallback, minimum) => {
@@ -163,6 +166,7 @@ export async function collectWhales({
   minUsd = MIN_USD,
   minPositionUsd = MIN_POSITION_USD,
   logFn = log,
+  watchlistSource = collectWatchlist,
 } = {}) {
   minUsd = parseClampedNumber(minUsd, MIN_USD, 5_000_000);
   minPositionUsd = parseClampedNumber(minPositionUsd, MIN_POSITION_USD, 1_000_000);
@@ -187,9 +191,25 @@ export async function collectWhales({
     log: logFn,
   });
   const snapshot = await radar.refresh("whales");
+  // Watchlist (Base token observations) is optional: its failure must never block the Hyperliquid/transfer snapshot.
+  const watchlist = await Promise.resolve().then(() => watchlistSource({ fetchImpl, now }))
+    .catch((error) => ({ transfers: [], observations: [], sourceStatus: [{ source: "watchlist", status: "unavailable", error: error?.message || String(error) }] }));
+  const signals = enrichWhaleSignals(snapshot.signals || []);
+  const transfers = [...(snapshot.transfers || []), ...watchlist.transfers];
+  const merged = {
+    ...snapshot,
+    status: signals.length || (snapshot.positions || []).length || transfers.length ? "ok" : snapshot.status,
+    sources: [...new Set([...(snapshot.sources || []), ...(watchlist.observations.length || watchlist.transfers.length ? ["https://base-rpc.publicnode.com", "https://api.dexscreener.com/token-pairs/v1/base/"] : [])])],
+    errors: [...(snapshot.errors || []), ...watchlist.sourceStatus.filter(row => row.status === "unavailable").map(row => `${row.source}${row.coin ? ` ${row.coin}` : ""}: ${row.error}`)],
+    signals,
+    transfers,
+    rows: [...signals, ...(snapshot.positions || []), ...transfers].slice(0, 200),
+    watchlistObservations: watchlist.observations,
+    watchlistSourceStatus: watchlist.sourceStatus,
+  };
   const updatedAt = new Date(now()).toISOString();
   const previous = readJson(outFile);
-  const failed = snapshot.status !== "ok";
+  const failed = merged.status !== "ok";
   const sourceStatus = {
     ...Object.fromEntries(Object.entries(sources).map(([name, source]) => [name, source.sourceStatus()])),
     btcPrice: { status: btc ? "ok" : "error", error: prices[0].reason?.message || null },
@@ -197,9 +217,9 @@ export async function collectWhales({
   };
   const degraded = failed || sourcesDegraded(sourceStatus);
   const output = {
-    ...(failed && previous?.status === "ok" ? previous : snapshot),
+    ...(failed && previous?.status === "ok" ? previous : merged),
     generatedAt: failed ? previous?.generatedAt || null : updatedAt,
-    dataUpdatedAt: failed ? previous?.dataUpdatedAt || previous?.updatedAt || null : snapshot.updatedAt,
+    dataUpdatedAt: failed ? previous?.dataUpdatedAt || previous?.updatedAt || null : snapshot.updatedAt || updatedAt,
     updatedAt, stale: failed, degraded, sourceStatus,
     collector: {
       cycleMs: CYCLE_MS,

@@ -1,0 +1,718 @@
+{
+  "startedAt": "2026-10-15T04:14:48.883Z",
+  "durationMs": 600000,
+  "mode": "read-only public endpoints; local evidence only",
+  "complete": {
+    "startedAt": "2026-10-15T04:14:48.883Z",
+    "endedAt": "2026-10-15T04:25:04.596Z",
+    "durationMs": 615713
+  },
+  "completed": true,
+  "cycles": [
+    {
+      "file": "cycle-0.json",
+      "generatedAt": "2026-10-15T04:15:50.232Z",
+      "status": "ok",
+      "signals": 2,
+      "transfers": 4,
+      "positions": 60,
+      "watchlistSourceStatus": [],
+      "watchlistObservations": []
+    },
+    {
+      "file": "cycle-1.json",
+      "generatedAt": "2026-10-15T04:15:59.303Z",
+      "status": "ok",
+      "signals": 2,
+      "transfers": 4,
+      "positions": 60,
+      "watchlistSourceStatus": [],
+      "watchlistObservations": []
+    },
+    {
+      "file": "cycle-2.json",
+      "generatedAt": "2026-10-15T04:17:11.613Z",
+      "status": "ok",
+      "signals": 2,
+      "transfers": 4,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "unavailable",
+          "error": "log window exceeds 1000 rows",
+          "observedAt": "2026-10-15T04:16:58.126Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:17:05.098Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:17:11.612Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "WELL",
+          "sampledTransfers": 27,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fb06",
+          "toBlock": "0x322fb69",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 274,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fb06",
+          "toBlock": "0x322fb69",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-3.json",
+      "generatedAt": "2026-10-15T04:18:10.914Z",
+      "status": "ok",
+      "signals": 2,
+      "transfers": 4,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "unavailable",
+          "error": "log window exceeds 1000 rows",
+          "observedAt": "2026-10-15T04:17:57.618Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:18:04.399Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:18:10.913Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "WELL",
+          "sampledTransfers": 26,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb23",
+          "toBlock": "0x322fb86",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 321,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb23",
+          "toBlock": "0x322fb86",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-4.json",
+      "generatedAt": "2026-10-15T04:19:09.820Z",
+      "status": "ok",
+      "signals": 3,
+      "transfers": 4,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "unavailable",
+          "error": "log window exceeds 1000 rows",
+          "observedAt": "2026-10-15T04:18:56.652Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:19:03.372Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:19:09.820Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "WELL",
+          "sampledTransfers": 27,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb41",
+          "toBlock": "0x322fba4",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 258,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb41",
+          "toBlock": "0x322fba4",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-5.json",
+      "generatedAt": "2026-10-15T04:20:51.307Z",
+      "status": "ok",
+      "signals": 3,
+      "transfers": 5,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "unavailable",
+          "error": "log window exceeds 1000 rows",
+          "observedAt": "2026-10-15T04:20:38.284Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:20:44.208Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:20:51.307Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "WELL",
+          "sampledTransfers": 1,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb74",
+          "toBlock": "0x322fbd7",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 348,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb74",
+          "toBlock": "0x322fbd7",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-6.json",
+      "generatedAt": "2026-10-15T04:21:22.555Z",
+      "status": "ok",
+      "signals": 3,
+      "transfers": 5,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:21:09.635Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:21:15.537Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:21:22.555Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "AERO",
+          "sampledTransfers": 366,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fbca",
+          "toBlock": "0x322fbe2",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "WELL",
+          "sampledTransfers": 1,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb7f",
+          "toBlock": "0x322fbe2",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 337,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb7f",
+          "toBlock": "0x322fbe2",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-7.json",
+      "generatedAt": "2026-10-15T04:22:16.753Z",
+      "status": "ok",
+      "signals": 5,
+      "transfers": 5,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:22:12.402Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:22:14.845Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:22:16.753Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "AERO",
+          "sampledTransfers": 266,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fbea",
+          "toBlock": "0x322fc02",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "WELL",
+          "sampledTransfers": 5,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb9f",
+          "toBlock": "0x322fc02",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 340,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fb9f",
+          "toBlock": "0x322fc02",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-8.json",
+      "generatedAt": "2026-10-15T04:23:03.433Z",
+      "status": "ok",
+      "signals": 5,
+      "transfers": 5,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:22:59.738Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:23:01.832Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:23:03.433Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "AERO",
+          "sampledTransfers": 242,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fc04",
+          "toBlock": "0x322fc1c",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "WELL",
+          "sampledTransfers": 13,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbb9",
+          "toBlock": "0x322fc1c",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 221,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbb9",
+          "toBlock": "0x322fc1c",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-9.json",
+      "generatedAt": "2026-10-15T04:24:04.747Z",
+      "status": "ok",
+      "signals": 5,
+      "transfers": 6,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:24:01.329Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:24:03.289Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:24:04.747Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "AERO",
+          "sampledTransfers": 317,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fc23",
+          "toBlock": "0x322fc3b",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "WELL",
+          "sampledTransfers": 13,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbd8",
+          "toBlock": "0x322fc3b",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 294,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbd8",
+          "toBlock": "0x322fc3b",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    },
+    {
+      "file": "cycle-10.json",
+      "generatedAt": "2026-10-15T04:25:04.589Z",
+      "status": "ok",
+      "signals": 5,
+      "transfers": 7,
+      "positions": 60,
+      "watchlistSourceStatus": [
+        {
+          "source": "base-public-rpc",
+          "coin": "AERO",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:25:00.484Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "WELL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:25:02.839Z"
+        },
+        {
+          "source": "base-public-rpc",
+          "coin": "VIRTUAL",
+          "status": "ok",
+          "observedAt": "2026-10-15T04:25:04.588Z"
+        }
+      ],
+      "watchlistObservations": [
+        {
+          "coin": "AERO",
+          "sampledTransfers": 320,
+          "newHoldersInSample": 0,
+          "fromBlock": "0x322fc40",
+          "toBlock": "0x322fc58",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "WELL",
+          "sampledTransfers": 8,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbf5",
+          "toBlock": "0x322fc58",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        },
+        {
+          "coin": "VIRTUAL",
+          "sampledTransfers": 367,
+          "newHoldersInSample": null,
+          "fromBlock": "0x322fbf5",
+          "toBlock": "0x322fc58",
+          "holderScope": "At most 3 observed recipients in 100 blocks; not total holders, wallet age, or whale accumulation."
+        }
+      ]
+    }
+  ],
+  "uniqueIntentSignals": 5,
+  "uniqueTransferFacts": 8,
+  "acceptance": "Five intent signals are not claimed unless actually observed. Transfer facts are explicitly separate.",
+  "realIntentSignals": [
+    {
+      "id": "signal:hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:XRP:short:reduce",
+      "category": "signal",
+      "type": "reduce_short",
+      "signalType": "reduce_short",
+      "mode": "reduce",
+      "label": "减仓空单",
+      "source": "hyperliquid-fills",
+      "platform": "hyperliquid",
+      "market": "perp",
+      "time": "2026-10-14T17:28:31.892Z",
+      "coin": "XRP",
+      "side": "short",
+      "walletsCount": 1,
+      "addresses": [
+        "0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36"
+      ],
+      "address": "0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36",
+      "days": 2,
+      "streak": "days",
+      "activeHours": 5,
+      "fills": 447,
+      "totalUsd": 2208215.6585004497,
+      "sizeUsd": 2208215.6585004497,
+      "periodHours": 10,
+      "period": "2d",
+      "avgEntry": null,
+      "avgExit": 1.3560946192008971,
+      "positionUsd": 14940764.8116,
+      "leverage": 5,
+      "pnlUsd": 2134666.580514,
+      "realizedPnlUsd": 232693.83568000002,
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36",
+      "explanation": "0xb83d…6e36 reduced XRP short on 2 day(s), net $2,208,216.",
+      "confidenceScore": 59,
+      "confidenceFactors": {
+        "fills": 447,
+        "days": 2,
+        "sizeVsLiquidity": null,
+        "whales": 1
+      },
+      "whyItMatters": "XRP: 447 observed fills across 2 days from 1 tracked wallet(s); activity does not establish intent.",
+      "evidenceFile": "cycle-10.json"
+    },
+    {
+      "id": "signal:hl:0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36:ETH:short:reduce",
+      "category": "signal",
+      "type": "reduce_short",
+      "signalType": "reduce_short",
+      "mode": "reduce",
+      "label": "减仓空单",
+      "source": "hyperliquid-fills",
+      "platform": "hyperliquid",
+      "market": "perp",
+      "time": "2026-10-15T02:22:15.236Z",
+      "coin": "ETH",
+      "side": "short",
+      "walletsCount": 1,
+      "addresses": [
+        "0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36"
+      ],
+      "address": "0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36",
+      "days": 2,
+      "streak": "days",
+      "activeHours": 9,
+      "fills": 110,
+      "totalUsd": 1223213.7314699995,
+      "sizeUsd": 1223213.7314699995,
+      "periodHours": 15,
+      "period": "2d",
+      "avgEntry": null,
+      "avgExit": 2446.87915683235,
+      "positionUsd": 208090043.82216,
+      "leverage": 5,
+      "pnlUsd": 410926.442481,
+      "realizedPnlUsd": -35792.969814,
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xb83de012dba672c76a7dbbbf3e459cb59d7d6e36",
+      "explanation": "0xb83d…6e36 reduced ETH short on 2 day(s), net $1,223,214.",
+      "confidenceScore": 59,
+      "confidenceFactors": {
+        "fills": 110,
+        "days": 2,
+        "sizeVsLiquidity": null,
+        "whales": 1
+      },
+      "whyItMatters": "ETH: 110 observed fills across 2 days from 1 tracked wallet(s); activity does not establish intent.",
+      "evidenceFile": "cycle-10.json"
+    },
+    {
+      "id": "signal:hl:0xb695651daa495f59dd2725c6fe98322d8b51a92d:BTC:short:add",
+      "category": "signal",
+      "type": "increase_short",
+      "signalType": "increase_short",
+      "mode": "add",
+      "label": "加仓空单",
+      "source": "hyperliquid-fills",
+      "platform": "hyperliquid",
+      "market": "perp",
+      "time": "2026-10-15T02:12:51.262Z",
+      "coin": "BTC",
+      "side": "short",
+      "walletsCount": 1,
+      "addresses": [
+        "0xb695651daa495f59dd2725c6fe98322d8b51a92d"
+      ],
+      "address": "0xb695651daa495f59dd2725c6fe98322d8b51a92d",
+      "days": 2,
+      "streak": "days",
+      "activeHours": 12,
+      "fills": 335,
+      "totalUsd": 1511415.7796600002,
+      "sizeUsd": 1511415.7796600002,
+      "periodHours": 11,
+      "period": "2d",
+      "avgEntry": 81698.1502518919,
+      "avgExit": null,
+      "positionUsd": 65901225,
+      "leverage": 20,
+      "pnlUsd": -1882259.70505,
+      "realizedPnlUsd": null,
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xb695651daa495f59dd2725c6fe98322d8b51a92d",
+      "explanation": "0xb695…a92d added BTC short on 2 day(s), net $1,511,416.",
+      "confidenceScore": 59,
+      "confidenceFactors": {
+        "fills": 335,
+        "days": 2,
+        "sizeVsLiquidity": null,
+        "whales": 1
+      },
+      "whyItMatters": "BTC: 335 observed fills across 2 days from 1 tracked wallet(s); activity does not establish intent.",
+      "evidenceFile": "cycle-10.json"
+    },
+    {
+      "id": "signal:hl:0xf02d16a272a842f8bac1d9a9e773aba1933454c6:HYPE:spot:add",
+      "category": "signal",
+      "type": "accumulation",
+      "signalType": "accumulation",
+      "mode": "add",
+      "label": "买入",
+      "source": "hyperliquid-fills",
+      "platform": "hyperliquid",
+      "market": "spot",
+      "time": "2026-10-14T18:06:38.141Z",
+      "coin": "HYPE",
+      "side": "spot",
+      "walletsCount": 1,
+      "addresses": [
+        "0xf02d16a272a842f8bac1d9a9e773aba1933454c6"
+      ],
+      "address": "0xf02d16a272a842f8bac1d9a9e773aba1933454c6",
+      "days": 4,
+      "streak": "days",
+      "activeHours": 9,
+      "fills": 14,
+      "stealth": "buy",
+      "totalUsd": 5500108.571760001,
+      "sizeUsd": 5500108.571760001,
+      "periodHours": 67,
+      "period": "4d",
+      "avgEntry": 81.48308995200001,
+      "avgExit": null,
+      "positionUsd": null,
+      "leverage": null,
+      "pnlUsd": null,
+      "realizedPnlUsd": null,
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xf02d16a272a842f8bac1d9a9e773aba1933454c6",
+      "explanation": "0xf02d…54c6 added HYPE spot on 4 day(s), net $5,500,109.",
+      "confidenceScore": 65,
+      "confidenceFactors": {
+        "fills": 14,
+        "days": 4,
+        "sizeVsLiquidity": null,
+        "whales": 1
+      },
+      "whyItMatters": "HYPE: 14 observed fills across 4 days from 1 tracked wallet(s); activity does not establish intent.",
+      "evidenceFile": "cycle-10.json"
+    },
+    {
+      "id": "signal:hl:0xf02d16a272a842f8bac1d9a9e773aba1933454c6:HYPE:short:reduce",
+      "category": "signal",
+      "type": "reduce_short",
+      "signalType": "reduce_short",
+      "mode": "reduce",
+      "label": "减仓空单",
+      "source": "hyperliquid-fills",
+      "platform": "hyperliquid",
+      "market": "perp",
+      "time": "2026-10-15T03:39:37.435Z",
+      "coin": "HYPE",
+      "side": "short",
+      "walletsCount": 1,
+      "addresses": [
+        "0xf02d16a272a842f8bac1d9a9e773aba1933454c6"
+      ],
+      "address": "0xf02d16a272a842f8bac1d9a9e773aba1933454c6",
+      "days": 2,
+      "streak": "days",
+      "activeHours": 7,
+      "fills": 127,
+      "totalUsd": 3136299.93308,
+      "sizeUsd": 3136299.93308,
+      "periodHours": 72,
+      "period": "2d",
+      "avgEntry": null,
+      "avgExit": 79.2462393533636,
+      "positionUsd": 57469795.71267992,
+      "leverage": null,
+      "pnlUsd": null,
+      "realizedPnlUsd": 213740.06135800004,
+      "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xf02d16a272a842f8bac1d9a9e773aba1933454c6",
+      "explanation": "0xf02d…54c6 reduced HYPE short on 2 day(s), net $3,136,300.",
+      "confidenceScore": 59,
+      "confidenceFactors": {
+        "fills": 127,
+        "days": 2,
+        "sizeVsLiquidity": null,
+        "whales": 1
+      },
+      "whyItMatters": "HYPE: 127 observed fills across 2 days from 1 tracked wallet(s); activity does not establish intent.",
+      "evidenceFile": "cycle-10.json"
+    }
+  ],
+  "realTransferFacts": []
+}

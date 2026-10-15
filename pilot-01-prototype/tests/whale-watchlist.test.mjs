@@ -1,0 +1,25 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {collectWatchlist,WHALE_WATCHLIST,confirmedV2TokenBuys} from '../../ops/market-collector/whale-watchlist.mjs';
+import {enrichWhaleSignals} from '../server/whale-signal-quality.mjs';
+const token=WHALE_WATCHLIST[0],tx='0x'+'a'.repeat(64),from='0x'+'1'.repeat(40),to='0x'+'2'.repeat(40),topic=a=>'0x'+a.slice(2).padStart(64,'0');
+function fake({price=true,unavailable=false,history=true}={}) {return async(url,opts)=>{let result;if(String(url).includes('dexscreener')) return {ok:true,json:async()=>price?[{chainId:'base',baseToken:{address:token.address},priceUsd:'2',liquidity:{usd:1000000}}]:[]};const q=JSON.parse(opts.body);if(unavailable) return {ok:false,status:429};if(q.method==='eth_blockNumber')result='0x1000';if(q.method==='eth_getLogs')result=[{address:token.address,topics:['0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',topic(from),topic(to)],transactionHash:tx,logIndex:'0x1',blockNumber:'0xffe',data:'0x'+(100000n*10n**18n).toString(16).padStart(64,'0')}, {address:token.address,removed:true,topics:['0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',topic(from),topic(to)],transactionHash:tx,logIndex:'0x2',data:'0x1'}];if(q.method==='eth_call'){if(q.params[0].data==='0x313ce567')result='0x12';else {if(!history && q.params[1]!=='0xffe')return {ok:true,json:async()=>({error:{message:'historical state unavailable'}})}; result=q.params[1]==='0xffe'?'0x10':'0x0';}}return {ok:true,json:async()=>({result})};};}
+test('watchlist samples new-to-token holders without asserting new wallets or buys',async()=>{const r=await collectWatchlist({fetchImpl:fake(),watchlist:[token]});assert.equal(r.observations[0].newHoldersInSample,1);assert.match(r.observations[0].holderScope,/not total holders/);assert.equal(r.transfers.length,1);assert.equal(r.transfers[0].amountUsd,200000);assert.equal(r.transfers[0].direction,'unknown');assert.match(r.transfers[0].valuation,/not transaction-time/);});
+test('unpriced transfers do not become USD whale rows',async()=>{const r=await collectWatchlist({fetchImpl:fake({price:false}),watchlist:[token]});assert.equal(r.transfers.length,0);assert.equal(r.observations.length,1);});
+test('RPC failures preserve explicit source status with no fabricated data',async()=>{const r=await collectWatchlist({fetchImpl:fake({unavailable:true})});assert.equal(r.transfers.length,0);assert.equal(r.observations.length,0);assert.equal(r.sourceStatus[0].status,'unavailable');assert.match(r.sourceStatus[0].error,/429/);});
+test('unsupported historical balances remain unknown',async()=>{const r=await collectWatchlist({fetchImpl:fake({history:false}),watchlist:[token]});assert.deepEqual(r.observations[0].recipientBalances,[]);assert.equal(r.observations[0].newHoldersInSample,null);});
+test('quality uses real day count, unique addresses and unknown liquidity',()=>{const [r]=enrichWhaleSignals([{coin:'AERO',days:3,periodHours:240,addresses:[from,from],fillsCount:8}]);assert.deepEqual(r.confidenceFactors,{fills:8,days:3,sizeVsLiquidity:null,whales:1});assert.match(r.whyItMatters,/does not establish intent/);});
+test('dedupe suppresses cross-source same log, preserves distinct tokens and SOL address case',()=>{const rows=enrichWhaleSignals([{coin:'A',txid:tx,chain:'base',source:'a'},{coin:'A',txid:tx,chain:'base',source:'b'},{coin:'B',txid:tx,chain:'base'},{coin:'SOL',addresses:['AbC','abc']}]);assert.equal(rows.length,3);assert.equal(rows[2].confidenceFactors.whales,2);});
+
+test('wrong topic, oversized data and future blocks are rejected',async()=>{const base=fake();const fetchImpl=async(url,opts)=>{const r=await base(url,opts);if(opts?.body && JSON.parse(opts.body).method==='eth_getLogs'){const p=await r.json();return {ok:true,json:async()=>({result:[{...p.result[0],topics:['0x'+'f'.repeat(64),topic(from),topic(to)]},{...p.result[0],data:'0x01'},{...p.result[0],blockNumber:'0xffff'}]})};}return r;};const r=await collectWatchlist({fetchImpl,watchlist:[token]});assert.equal(r.observations[0].sampledTransfers,0);assert.equal(r.transfers.length,0);});
+
+test('DEX buy requires successful exact V2 swap output plus same-receipt token transfer',()=>{
+ const swapTopic='0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822';
+ const transferTopic='0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+ const word=n=>n.toString(16).padStart(64,'0');
+ const receipt={status:'0x1',logs:[{address:from,topics:[swapTopic,topic(from),topic(to)],data:'0x'+[0,5,10,0].map(word).join(''),logIndex:'0x2'},{address:token.address,topics:[transferTopic,topic(from),topic(to)],data:'0x'+word(10)}]};
+ const options={poolAddress:from,tokenAddress:token.address,token0:token.address};
+ assert.equal(confirmedV2TokenBuys(receipt,options)[0].amountRaw,'10');
+ assert.deepEqual(confirmedV2TokenBuys({...receipt,status:'0x0'},options),[]);
+ assert.deepEqual(confirmedV2TokenBuys({...receipt,logs:receipt.logs.slice(0,1)},options),[]);
+});
