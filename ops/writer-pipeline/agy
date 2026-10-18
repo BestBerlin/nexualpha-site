@@ -1,0 +1,4 @@
+#!/bin/zsh
+# Never enable xtrace: the child environment contains the local CSRF token.
+unsetopt XTRACE
+exec /opt/homebrew/bin/node "${0:A:h}/agy.mjs" "$@"

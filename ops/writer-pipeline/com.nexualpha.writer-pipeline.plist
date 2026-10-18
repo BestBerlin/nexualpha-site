@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.nexualpha.writer-pipeline</string>
+<key>ProgramArguments</key><array><string>/opt/homebrew/bin/node</string><string>/Volumes/致态2TB/nx-agents/writers/write-batch.mjs</string></array>
+<key>WorkingDirectory</key><string>/Volumes/致态2TB/nx-agents/writers</string>
+<key>EnvironmentVariables</key><dict><key>PATH</key><string>/Users/bestberlin/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string><key>HOME</key><string>/Users/bestberlin</string></dict>
+<!-- Every 2 h at :15 local (Asia/Shanghai), 20 min before Claude reviews at :35. -->
+<key>StartCalendarInterval</key><array><dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>2</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>4</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>8</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>14</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>16</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>20</integer><key>Minute</key><integer>15</integer></dict><dict><key>Hour</key><integer>22</integer><key>Minute</key><integer>15</integer></dict></array>
+<key>RunAtLoad</key><false/>
+<key>ProcessType</key><string>Background</string>
+<!-- launchd itself cannot open files on the external SSD (verified 2026-10-18); node can. Logs stay on the internal disk. -->
+<key>StandardOutPath</key><string>/Users/bestberlin/Library/Logs/nexualpha-writer-pipeline.out.log</string>
+<key>StandardErrorPath</key><string>/Users/bestberlin/Library/Logs/nexualpha-writer-pipeline.err.log</string>
+</dict></plist>
