@@ -1,4 +1,4 @@
-import { WHALE_COINS, whaleCoinPath, whaleRowCoin, whaleSignalBucket } from "../../data/whale-routes.js";
+import { WHALE_COINS, coinPageForWhaleCoin, whaleCoinPath, whaleRowCoin, whaleSignalBucket } from "../../data/whale-routes.js";
 import React, { useEffect, useMemo, useState } from "react";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
@@ -330,7 +330,7 @@ function RadarMethod({ locale, page, apiPath, src }) {
   );
 }
 
-function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPath, offer = true }) {
+function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPath, offer = true, coinPage = null }) {
   const copy = radarCopy(locale);
   return (
     <>
@@ -348,7 +348,7 @@ function RadarTail({ locale, market, page, relatedPath, relatedLabel, src, apiPa
       </div>
       ) : null}
       <footer className="nxradar-foot v2-shell">
-        <p><span>{copy.related}:</span> <a href={localizedHref(relatedPath, { locale })}>{relatedLabel}</a></p>
+        <p><span>{copy.related}:</span> <a href={localizedHref(relatedPath, { locale })}>{relatedLabel}</a>{coinPage ? <>{" · "}<a href={localizedHref(coinPage.path, { locale })} data-whale-coin-page={coinPage.symbol} translate="no">{coinPage.name} ({coinPage.symbol})</a></> : null}</p>
       </footer>
       <RadarMethod locale={locale} page={page} apiPath={apiPath} src={src} />
     </>
@@ -381,7 +381,7 @@ export function WhalesPage({ locale = "en", market, initial, coin }) {
         <a href={localizedHref(WHALES_PATH, { locale })}>{whaleCopy.all}</a>{WHALE_COINS.map((symbol) => <a key={symbol} href={localizedHref(whaleCoinPath(symbol), { locale })} aria-current={coin === symbol ? "page" : undefined}>{symbol}</a>)}
       </nav>
       {feed.rows.length ? <WhalesTabs feed={feed} locale={locale} all={Boolean(coin)} /> : <RadarUnavailable locale={locale} />}
-      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} offer={false} />
+      <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} offer={false} coinPage={coin ? coinPageForWhaleCoin(coin) : null} />
     </main>
   );
 }

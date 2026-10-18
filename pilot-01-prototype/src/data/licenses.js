@@ -663,7 +663,7 @@ export function licenseSchemas(countrySlug, locale = "en", url) {
       inLanguage: locale,
       dateModified: licenseLastmod(countrySlug),
       license: DATA_LICENSE_URL,
-      creator: { "@type": "Organization", name: "NexuAlpha", url: "https://nexualpha.com" },
+      creator: { "@type": "Organization", "@id": "https://nexualpha.com/#organization", name: "NexuAlpha", url: "https://nexualpha.com" },
       isBasedOn: sourceUrls,
       measurementTechnique: "Manual extraction from readable official regulator registers; source URL and check date retained per entity.",
       variableMeasured: ["exchange", "entityName", "country", "regulator", "type", "number", "status", "sourceUrl", "lastChecked"],

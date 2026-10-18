@@ -12,6 +12,7 @@
 import { localizedPath } from "./locale-routing.js";
 import { hasNewsArticleLocale, localizedNewsTitle, localizedValue, newsArticleUrl } from "./news-feed-client.js";
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT } from "./brazil-vasp-deadline-slugs.js";
+import { tsArticleLinks } from "./tokenized-stocks-news.js";
 
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
@@ -182,7 +183,11 @@ export function clusterLabel(cluster, locale = "en") {
 
 export const ARTICLE_CLUSTER_LINK_LIMIT = 6;
 
-/** "Topic hubs & tools" line of an article: main pages of the clusters it belongs to, in cluster priority order. */
+/**
+ * "Topic hubs & tools" line of an article: main pages of the clusters it belongs to, in cluster priority order, then
+ * (SEO w43) the /tokenized-stocks hub and the ticker pages a tokenized-stocks article names. The tokenized-stocks links
+ * have their own cap (tokenized-stocks-news.js), so they never push a cluster family out of the line.
+ */
 export function articleClusterLinks(article, locale = "en", { limit = ARTICLE_CLUSTER_LINK_LIMIT } = {}) {
   const links = [];
   for (const cluster of TOPIC_CLUSTERS) {
@@ -191,6 +196,7 @@ export function articleClusterLinks(article, locale = "en", { limit = ARTICLE_CL
     const path = cluster.localePaths?.[locale] || cluster.path;
     links.push({ id: cluster.id, kind: cluster.kind, path, href: localizedPath(path, locale), label: clusterLabel(cluster, locale) });
   }
+  for (const link of tsArticleLinks(article, locale)) if (!links.some((item) => item.path === link.path)) links.push(link);
   return links;
 }
 

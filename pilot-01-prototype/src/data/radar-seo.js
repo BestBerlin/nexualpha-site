@@ -85,7 +85,7 @@ function webPageSchema(copy, canonicalUrl, locale) {
     url: canonicalUrl,
     inLanguage: schemaLocale(locale),
     isAccessibleForFree: true,
-    publisher: { "@type": "Organization", name: "NexuAlpha", url: PUBLIC_ORIGIN },
+    publisher: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: PUBLIC_ORIGIN },
     about: copy.about,
     ...(copy.isBasedOn.length ? { isBasedOn: copy.isBasedOn } : {}),
     relatedLink: [
@@ -107,7 +107,7 @@ function whalesDatasetSchema(copy, canonicalUrl, locale) {
     url: canonicalUrl,
     inLanguage: schemaLocale(locale),
     isAccessibleForFree: true,
-    creator: { "@type": "Organization", name: "NexuAlpha", url: PUBLIC_ORIGIN },
+    creator: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: PUBLIC_ORIGIN },
     variableMeasured: ["accumulation signal", "position notional", "transfer amount"],
   };
 }

@@ -135,9 +135,13 @@ test("Worker SSR emits GMX FAQ and Wave43 article relatedLink schema", async () 
   const articleAnchors = renderedInternalAnchors(articleHtml);
   assert.ok(articleAnchors.includes("/compare/binance-vs-okx"));
   assert.ok(articleAnchors.includes("/news/okx-usd-to-usdc-spot-pair-migration"));
-  assert.ok(articleSchema.relatedLink.includes("https://nexualpha.com/compare/binance-vs-okx"));
-  assert.ok(articleSchema.relatedLink.includes("https://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration"));
-  assert.doesNotMatch(articleSchema.relatedLink.join("\n"), /\/ref\/|register|commission/i);
+  // SEO w43: relatedLink is a WebPage property, so it moved from the NewsArticle to its mainEntityOfPage WebPage.
+  assert.equal(articleSchema.relatedLink, undefined);
+  const articlePage = articleSchema.mainEntityOfPage;
+  assert.equal(articlePage["@type"], "WebPage");
+  assert.ok(articlePage.relatedLink.includes("https://nexualpha.com/compare/binance-vs-okx"));
+  assert.ok(articlePage.relatedLink.includes("https://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration"));
+  assert.doesNotMatch(articlePage.relatedLink.join("\n"), /\/ref\/|register|commission/i);
 });
 
 test("Wave43 articles expose internal related research in feed, schema and detail page", async () => {
@@ -167,8 +171,10 @@ test("Wave43 articles expose internal related research in feed, schema and detai
 
     const seo = computeRouteSeo({ url: `/news/${slug}`, article, locale: "en", force: true });
     const schema = seo.schemas.find((row) => row["@type"] === "NewsArticle");
-    assert.ok(schema.relatedLink.length >= article.seo.internalLinkTargets.length, `${slug} Article relatedLink`);
-    assert.ok(schema.relatedLink.every((url) => url.startsWith("https://nexualpha.com/")), `${slug} canonical relatedLink URLs`);
+    // SEO w43: the related links ride on the article's mainEntityOfPage WebPage, not on the NewsArticle.
+    assert.equal(schema.relatedLink, undefined, `${slug} NewsArticle carries no relatedLink`);
+    assert.ok(schema.mainEntityOfPage.relatedLink.length >= article.seo.internalLinkTargets.length, `${slug} WebPage relatedLink`);
+    assert.ok(schema.mainEntityOfPage.relatedLink.every((url) => url.startsWith("https://nexualpha.com/")), `${slug} canonical relatedLink URLs`);
 
     assert.match(detailSource, /RelatedResearch links=\{relatedLinks\}/, `${slug} renders related module from computed links`);
   }

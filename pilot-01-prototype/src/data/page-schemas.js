@@ -1,6 +1,13 @@
 import { organizationSchema, websiteSchema, ORGANIZATION_ID, WEBSITE_ID } from "./brand-entity.js";
 import { localizedPath } from "./locale-routing.js";
 
+// Schema.org defines relatedLink on WebPage (and its subtypes) only. Article, NewsArticle and Dataset nodes carry their
+// related links on the WebPage they are the main entity of (same @id as the canonical URL), never on themselves (SEO w43).
+export function relatedLinkWebPage(url, relatedLinks = []) {
+  const links = [...new Set((relatedLinks || []).filter(Boolean))];
+  return { "@type": "WebPage", "@id": url, url, ...(links.length ? { relatedLink: links } : {}) };
+}
+
 // Complete the emitted graph without changing route metadata, publication gates or content locales.
 // Both the SSR head and navigation payload use this boundary.
 export function completePageSchemas(schema, { pathname, canonical, title, description, locale = "en" }) {

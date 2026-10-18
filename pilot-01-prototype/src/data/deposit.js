@@ -15,6 +15,7 @@ import { venueDisplayName } from "./venue-display-names.js";
 import { licenseRegionName } from "./license-region-names.js";
 import { DEPOSIT_COUNTRY_SLUGS, DEPOSIT_LOCALES, depositPath, CRYPTO_CARDS_PATH } from "./deposit-routes.js";
 import { depositCopy, fillDeposit } from "./deposit-copy.js";
+import { FIAT_SUMMARY } from "./fiat-rails-summary.generated.js";
 
 export { FIAT_CHECKED, CN_NOTICE };
 export const PUSH_ORDER = Object.freeze(["bitget", "okx", "binance", "bybit", "gate-io", "gate-tr", "mexc", "htx", "coinw", "kraken", "backpack", "coinbase"]);
@@ -107,6 +108,16 @@ const paren = (parts, locale) => {
 // ---- rows ----------------------------------------------------------------------------------------------------------
 const pushRank = (slug) => { const i = PUSH_ORDER.indexOf(slug); return i < 0 ? 99 : i; };
 export const byPush = (a, b) => pushRank(a) - pushRank(b);
+
+/**
+ * Hub -> exchange profile deposit sections (SEO w43 link hub): exchanges with a profile page and a sourced fiat summary
+ * (so /exchanges/<slug>#deposits exists), in push order; the tr locale skips Bitget; neutral locales (vi, ru) get none.
+ */
+export function depositExchangeLinks(locale = "en") {
+  if (isNeutralCtaLocale(locale)) return [];
+  return PUSH_ORDER.filter((slug) => PROFILE_SLUGS.has(slug) && FIAT_SUMMARY[slug] && !isTurkeyUnlistedVenue(slug, { locale }))
+    .map((slug) => ({ slug, name: exName(slug), path: `/exchanges/${slug}#deposits` }));
+}
 
 /** Sourced rows for one country, after the country restriction, Türkiye and tr-locale rules. */
 export function depositRows(country, { locale = "en" } = {}) {

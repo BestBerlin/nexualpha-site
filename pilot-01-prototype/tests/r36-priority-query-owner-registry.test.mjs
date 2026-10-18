@@ -95,9 +95,11 @@ test("R36 tokenized article schema is a dated source trail that links back to th
   ]) {
     assert.equal(schema.isPartOf, `https://nexualpha.com${topicOwner}`);
     assert.equal(schema.articleSection, "Dated source trail");
-    assert.ok(schema.relatedLink.includes(`https://nexualpha.com${topicOwner}`));
-    assert.ok(schema.relatedLink.includes(`https://nexualpha.com${articlePath}`));
-    assert.ok(schema.relatedLink.includes("https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json"));
+    // SEO w43: relatedLink lives on the mainEntityOfPage WebPage (schema.org defines it on WebPage, not NewsArticle).
+    assert.equal(schema.relatedLink, undefined);
+    assert.ok(schema.mainEntityOfPage.relatedLink.includes(`https://nexualpha.com${topicOwner}`));
+    assert.ok(schema.mainEntityOfPage.relatedLink.includes(`https://nexualpha.com${articlePath}`));
+    assert.ok(schema.mainEntityOfPage.relatedLink.includes("https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json"));
   }
 });
 
@@ -112,14 +114,15 @@ test("R36 product-boundary news pages link back to their canonical owners", () =
   const bybitBitget = computeRouteSeo({ url: "/news/bybit-vs-bitget-fees-products-risk-controls", article: articleBySlug("bybit-vs-bitget-fees-products-risk-controls") });
   const uniswapPancake = computeRouteSeo({ url: "/news/uniswap-v3-vs-pancakeswap-v3-concentrated-liquidity-controls", article: articleBySlug("uniswap-v3-vs-pancakeswap-v3-concentrated-liquidity-controls") });
 
-  const bybitSchema = bybitBitget.schemas.find((item) => item?.["@type"] === "NewsArticle");
+  // SEO w43: the article's related links ride on its mainEntityOfPage WebPage.
+  const bybitSchema = bybitBitget.schemas.find((item) => item?.["@type"] === "NewsArticle").mainEntityOfPage;
   assert.ok(bybitSchema.relatedLink.includes("https://nexualpha.com/compare/bybit-vs-bitget"));
   assert.ok(bybitSchema.relatedLink.includes("https://nexualpha.com/topics/tokenized-stocks-vs-perpetuals"));
   assert.ok(bybitSchema.relatedLink.includes("https://nexualpha.com/factbook/bybit"));
   assert.ok(bybitSchema.relatedLink.includes("https://nexualpha.com/factbook/bitget"));
   assert.match(JSON.stringify(bybitBitget.schemas), /stock query prove either platform offers real shares/);
 
-  const uniswapSchema = uniswapPancake.schemas.find((item) => item?.["@type"] === "NewsArticle");
+  const uniswapSchema = uniswapPancake.schemas.find((item) => item?.["@type"] === "NewsArticle").mainEntityOfPage;
   assert.ok(uniswapSchema.relatedLink.includes("https://nexualpha.com/exchanges/uniswap"));
   assert.ok(uniswapSchema.relatedLink.includes("https://nexualpha.com/compare/uniswap-vs-jupiter"));
   assert.ok(uniswapSchema.relatedLink.includes("https://nexualpha.com/factbook/uniswap"));
@@ -130,8 +133,9 @@ test("R36 product-boundary news pages link back to their canonical owners", () =
 test("R36 factbook owner links include exchange, compare and topic paths for Hyperliquid and Uniswap", () => {
   const hyperliquid = computeRouteSeo({ url: "/factbook/hyperliquid" });
   const uniswap = computeRouteSeo({ url: "/factbook/uniswap" });
-  const hyperliquidDataset = hyperliquid.schemas.find((item) => item?.["@type"] === "Dataset");
-  const uniswapDataset = uniswap.schemas.find((item) => item?.["@type"] === "Dataset");
+  // SEO w43: a Dataset carries its related links on the WebPage it is the main entity of.
+  const hyperliquidDataset = hyperliquid.schemas.find((item) => item?.["@type"] === "Dataset").mainEntityOfPage;
+  const uniswapDataset = uniswap.schemas.find((item) => item?.["@type"] === "Dataset").mainEntityOfPage;
 
   for (const expected of publicUrls(["/exchanges/hyperliquid", "/compare/hyperliquid-vs-dydx", "/topics/derivatives", "/news/hyperliquid-vs-dydx"])) {
     assert.ok(hyperliquidDataset.relatedLink.includes(expected), expected);

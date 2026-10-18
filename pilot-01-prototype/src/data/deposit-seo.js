@@ -95,7 +95,7 @@ function countrySeo(slug, locale) {
       { "@context": "https://schema.org", "@type": "WebPage", "@id": `${url}#page`, name: title, description: model.answer, url, inLanguage: locale, dateModified: FIAT_CHECKED, about: { "@type": "Country", name: model.label } },
       routes,
       { "@context": "https://schema.org", "@type": "Dataset", "@id": `${url}#dataset`, name: title, description: model.answer, url, inLanguage: locale, dateModified: FIAT_CHECKED, license: DATA_LICENSE_URL,
-        creator: { "@type": "Organization", name: "NexuAlpha", url: ORIGIN }, ...(sourceUrls.length ? { isBasedOn: sourceUrls } : {}),
+        creator: { "@type": "Organization", "@id": `${ORIGIN}/#organization`, name: "NexuAlpha", url: ORIGIN }, ...(sourceUrls.length ? { isBasedOn: sourceUrls } : {}),
         variableMeasured: ["exchange", "method", "direction", "currency", "rail", "fee", "arrival time", "source"], spatialCoverage: model.label, mainEntity: { "@id": `${url}#routes` } },
       faqSchema(model.faqs, locale),
       breadcrumb([["NexuAlpha", `${ORIGIN}${localizedPath("/", locale)}`], [t.breadcrumb, absolute(depositPath(locale), locale)], [model.label, url]]),
