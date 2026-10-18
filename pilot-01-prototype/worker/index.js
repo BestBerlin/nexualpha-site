@@ -91,7 +91,7 @@ import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } from "../src/data/bybit-stocks.js";
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { TS_PATH, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
-import { tokenizedStocksRouteSeo } from "../src/data/tokenized-stocks-seo.js";
+import { tokenizedStocksRouteSeo, tsCopyForPage } from "../src/data/tokenized-stocks-seo.js";
 import { TS_LIVE_BAKED } from "../src/data/tokenized-stocks-live.generated.js";
 import { tsLiveWithout } from "../src/data/tokenized-stocks-rows.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
@@ -3860,6 +3860,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
     // Tokenized-stocks pages rendered from a newer runtime listing snapshot: the compact table they were rendered with.
     ...(route.tsLive && typeof route.tsLive === "object" && route.tsLive.rows ? { tsLive: route.tsLive } : {}),
+    ...(route.tsPage && typeof route.tsPage === "object" && route.tsPage.copy ? { tsPage: route.tsPage } : {}),
     ...(Array.isArray(route.seoAlternates) ? { seoAlternates: route.seoAlternates } : {}),
     // Türkiye market on another edition (tr-market-gaps): the body was rendered with it, so the first client pass uses it too.
     ...(url && turkeyRequestMarket(url) ? { marketContext: { market: turkeyRequestMarket(url) } } : {}),
@@ -5001,7 +5002,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
         // A newer runtime listing snapshot is rendered and shipped as prerender state "tsLive" (the browser hydrates it).
-        const tsState = metadata.tsLive ? { tsLive: metadata.tsLive } : {};
+        // Page copy travels as prerender state "tsPage" (one edition; the browser bundle has no 17-locale table) with the
+        // render time, so campaigns past their end date drop identically on server and client.
+        const tsState = { tsPage: { copy: tsCopyForPage(publicRoute.locale, turkeyRequestMarket(url)), now: Date.now() }, ...(metadata.tsLive ? { tsLive: metadata.tsLive } : {}) };
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), tsState);
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxts")) {
           metadata.tokenizedStocksSsrMode = metadata.tsLive ? "runtime-snapshot" : "runtime";

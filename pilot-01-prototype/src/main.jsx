@@ -88,6 +88,7 @@ function HydrationBootstrap() {
       initialRadar={prerenderState?.radar}
       initialSeoAlternates={prerenderState?.seoAlternates}
       initialTsLive={prerenderState?.tsLive}
+      initialTsPage={prerenderState?.tsPage}
     />;
 }
 

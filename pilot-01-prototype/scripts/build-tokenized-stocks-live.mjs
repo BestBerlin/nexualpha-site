@@ -26,7 +26,7 @@
 import { mkdir, readFile, writeFile, rename, appendFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { TS_LIVE_ENDPOINTS, TS_LIVE_VENUES, compactLive, isUsableLiveSnapshot } from "../src/data/tokenized-stocks-live-sources.js";
+import { TS_CAMPAIGN_ENDPOINTS, TS_LIVE_ENDPOINTS, TS_LIVE_VENUES, compactLive, isUsableLiveSnapshot, parseBybitCampaigns } from "../src/data/tokenized-stocks-live-sources.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const argValue = (name) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : null; };
@@ -244,7 +244,11 @@ export async function collectLive({ previous = null, fetchImpl = fetch, now = ne
     }
     venues[venue] = lanes;
   }));
-  return { schema: 1, generatedAt: now.toISOString(), venues: Object.fromEntries(TS_LIVE_VENUES.map((v) => [v, venues[v]])) };
+  // Running stock campaigns (official start/end); on failure keep the previous list minus the ones that ended.
+  let campaigns;
+  try { campaigns = parseBybitCampaigns(await getJson(TS_CAMPAIGN_ENDPOINTS.bybit, fetchImpl), now.getTime()); }
+  catch { campaigns = (previous?.campaigns || []).filter((c) => Date.parse(c.endAt) > now.getTime()); }
+  return { schema: 1, generatedAt: now.toISOString(), venues: Object.fromEntries(TS_LIVE_VENUES.map((v) => [v, venues[v]])), campaigns };
 }
 
 const EVENT_DAYS = 60;

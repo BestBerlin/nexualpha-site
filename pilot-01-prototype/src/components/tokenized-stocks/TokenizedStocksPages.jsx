@@ -4,7 +4,7 @@
 // Values the research left unknown are not rendered. No fine print, no disclaimers (owner rule).
 // SSR renders every word; the browser only adds the copy buttons, so the first client render matches the server HTML.
 import React, { useState } from "react";
-import { TS_COPY } from "../../data/tokenized-stocks-copy.js";
+import { useTsCopy } from "../../data/tokenized-stocks-copy-client.js";
 import { TS_CHECKED, TS_LANES, TS_TICKERS, tsListings, tsSymbol } from "../../data/tokenized-stocks-facts.js";
 import { fillTs, tsActivePromo, tsCitable, tsFeeText, tsList, tsSignup, tsVenues } from "../../data/tokenized-stocks.js";
 import { TS_EXCHANGE_SLUGS, TS_PATH, tsExchangePath, tsTickerPath } from "../../data/tokenized-stocks-routes.js";
@@ -16,8 +16,8 @@ import { BrandMark } from "../brand/BrandMark.jsx";
 import "./tokenized-stocks.css";
 
 const RTL = new Set(["ar", "ur"]);
-export const tsPageCopy = (locale) => TS_COPY[locale] || (String(locale || "").startsWith("zh") ? TS_COPY["zh-Hans"] : TS_COPY.en);
-const contentLang = (locale) => (TS_COPY[locale] ? locale : String(locale || "").startsWith("zh") ? "zh-Hans" : "en");
+// The page's copy edition carries its locale (tokenized-stocks-copy-client.js): lang follows the edition shown.
+const contentLang = (t) => t.locale;
 const hrefFor = (path, locale, market) => {
   const href = localizedHref(path, { locale });
   return market ? `${href}${href.includes("?") ? "&" : "?"}market=${encodeURIComponent(market)}` : href;
@@ -241,16 +241,18 @@ function Faq({ t, locale, market, items }) {
   );
 }
 
-export function TokenizedStocksHubPage({ locale = "en", market, live }) {
-  const t = tsPageCopy(locale);
+export function TokenizedStocksHubPage({ locale = "en", market, live, page }) {
+  const t = useTsCopy(locale, page?.copy);
+  if (!t) return <main className="nxts" id="top" aria-busy="true" />;
   const venues = tsVenues(locale, market);
-  const now = Date.now();
+  // Render time from the server (prerender state) so expired campaigns drop identically on server and client.
+  const now = page?.now ?? Date.now();
   const answer = shortAnswer(venues, t, locale);
   const anySignup = venues.some((ex) => tsSignup(ex.slug, { locale, market }));
   const steps = t.steps.map((step, index) => (index === 1 && !anySignup ? t.stepTwoNeutral : step));
   const paths = venues.flatMap((ex) => ["spot", "perp"].filter((lane) => ex[lane]?.path).map((lane) => ({ ex, lane, path: ex[lane].path })));
   return (
-    <main className="nxts" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(locale)}>
+    <main className="nxts" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(t)}>
       <section className="nxts-hero">
         <div className="nxts-shell nxts-hero__in">
           <div className="nxts-hero__copy">

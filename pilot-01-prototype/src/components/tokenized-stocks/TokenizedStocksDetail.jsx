@@ -6,7 +6,7 @@
 // to its source and date; values nobody publishes are not rendered. Sign-ups go through /go/<venue> with our code, never
 // in neutral locales and never for Bitget in Türkiye. No fine print (owner rule).
 import React, { useState } from "react";
-import { TS_COPY } from "../../data/tokenized-stocks-copy.js";
+import { useTsCopy } from "../../data/tokenized-stocks-copy-client.js";
 import { TS_ETFS, TS_PREIPO, TS_TICKERS, tsExchange } from "../../data/tokenized-stocks-facts.js";
 import { fillTs, tsCampaigns, tsCitable, tsFeeText, tsSignup, tsVenues } from "../../data/tokenized-stocks.js";
 import { tsLive, tsRowSources } from "../../data/tokenized-stocks-rows.js";
@@ -21,7 +21,7 @@ import "./tokenized-stocks.css";
 import "./ts-detail.css";
 
 const RTL = new Set(["ar", "ur"]);
-const contentLang = (locale) => (TS_COPY[locale] ? locale : String(locale || "").startsWith("zh") ? "zh-Hans" : "en");
+const contentLang = (t) => t.locale;
 const hrefFor = (path, locale, market) => {
   const href = localizedHref(path, { locale });
   return market ? `${href}${href.includes("?") ? "&" : "?"}market=${encodeURIComponent(market)}` : href;
@@ -137,17 +137,17 @@ function Campaigns({ items, venues, t, tk, locale, market }) {
       <h2 id="ts-cmp-h">{tk.campaignsH}</h2>
       <ul className="nxts-campaigns">
         {items.map((c) => {
-          const signup = tsSignup(c.venue, { locale, market, placement: `campaign-${c.key.toLowerCase()}`.slice(0, 31) });
+          const signup = tsSignup(c.venue, { locale, market, placement: `campaign-${(c.key || "found").toLowerCase()}`.slice(0, 31) });
           return (
-            <li key={`${c.venue}-${c.key}`}>
+            <li key={`${c.venue}-${c.key || c.url}`}>
               <BrandMark slug={c.venue} compact />
               <p className="nxts-promo">
                 <span className="nxts-promo__k">{names.get(c.venue) || c.venue}</span>
-                {c.href ? <a href={hrefFor(c.href, locale, market)}>{t.promos[c.key]}</a> : <span>{t.promos[c.key]}</span>}
+                {c.href ? <a href={hrefFor(c.href, locale, market)}>{c.key ? t.promos[c.key] : c.title}</a> : <span>{c.key ? t.promos[c.key] : c.title}</span>}
                 <small>{fillTs(t.promoEnds, { date: formatSgt(c.endAt, locale, "end") })}</small>
               </p>
               {signup ? <SignupButton ex={{ slug: c.venue, name: names.get(c.venue) || c.venue }} signup={signup} t={t} /> : null}
-              <SourceList sources={tsCitable(c.s, locale, market)} locale={locale} market={market} t={t} />
+              <SourceList sources={c.s ? tsCitable(c.s, locale, market) : [{ id: c.url, url: c.url, title: c.title, date: readerDayKey(c.startAt || c.endAt), dateKind: "published" }]} locale={locale} market={market} t={t} />
             </li>
           );
         })}
@@ -195,14 +195,18 @@ function TickerLinks({ t, locale, market, except, live }) {
   );
 }
 
-export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live }) {
-  const model = tickerPageModel(ticker, { locale, market, live });
+export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live, page }) {
+  const copy = useTsCopy(locale, page?.copy);
+  if (!copy) return <main className="nxts nxts--ticker" id="top" aria-busy="true" />;
+  // Server render time (prerender state): campaigns past their end date drop identically on server and client.
+  const now = page?.now ?? Date.now();
+  const model = tickerPageModel(ticker, { locale, market, live, t: copy });
   const { t, tk, rows, name, preipo, answer, faq, about, data } = model;
   const venues = tsVenues(locale, market);
   const exLinks = venues.filter((ex) => TS_EXCHANGE_SLUGS.includes(ex.slug) && rows.some((row) => row.exchange.slug === ex.slug));
   const h1 = preipo ? fillTs(tk.preH1, { name }) : fillTs(t.tickerH1, { name, ticker });
   return (
-    <main className="nxts nxts--ticker" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(locale)}>
+    <main className="nxts nxts--ticker" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(t)}>
       <section className="nxts-hero nxts-hero--ticker">
         <div className="nxts-shell">
           <Crumbs items={[[t.breadcrumb, TS_PATH], [preipo ? name : ticker, null]]} locale={locale} market={market} t={t} />
@@ -228,7 +232,7 @@ export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live 
         </div>
       </section>
 
-      <Campaigns items={tsCampaigns({ venues: venues.map((ex) => ex.slug).filter((slug) => rows.some((row) => row.exchange.slug === slug)), ticker, locale, market })} venues={venues} t={t} tk={tk} locale={locale} market={market} />
+      <Campaigns items={tsCampaigns({ venues: venues.map((ex) => ex.slug).filter((slug) => rows.some((row) => row.exchange.slug === slug)), ticker, live: data, locale, market, now })} venues={venues} t={t} tk={tk} locale={locale} market={market} />
 
       <Changes events={(data.events || []).filter((e) => e.ticker === ticker)} venues={venues} t={t} tk={tk} />
 
@@ -291,12 +295,15 @@ function Products({ ex, t, locale, market }) {
   );
 }
 
-export function TokenizedStocksExchangePage({ locale = "en", market, slug, live }) {
-  const model = exchangePageModel(slug, { locale, market, live });
+export function TokenizedStocksExchangePage({ locale = "en", market, slug, live, page }) {
+  const copy = useTsCopy(locale, page?.copy);
+  if (!copy) return <main className="nxts nxts--exchange" id="top" aria-busy="true" />;
+  const now = page?.now ?? Date.now();
+  const model = exchangePageModel(slug, { locale, market, live, t: copy });
   const { t, ex, exName, tickers, answer, faq, excluded, at, data } = model;
   if (!ex) return null;
   const signup = tsSignup(slug, { locale, market, placement: "exchange-page" });
-  const campaigns = tsCampaigns({ venues: [slug], all: true, locale, market });
+  const campaigns = tsCampaigns({ venues: [slug], all: true, live: data, locale, market, now });
   const path = ex.perp?.path?.v || ex.spot?.path?.v || t.ex.pathNone;
   const tsla = tickers.find((row) => row.ticker === "TSLA");
   const sym = tsla ? [tsla.spot?.sym, tsla.perp?.sym].filter(Boolean).join(" / ") : "";
@@ -304,7 +311,7 @@ export function TokenizedStocksExchangePage({ locale = "en", market, slug, live 
     .map(([h, b]) => [fillTs(h, { name: exName }), fillTs(b, { name: exName, path, sym })]);
   const others = tsVenues(locale, market).filter((v) => v.slug !== slug && TS_EXCHANGE_SLUGS.includes(v.slug));
   return (
-    <main className="nxts nxts--exchange" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(locale)}>
+    <main className="nxts nxts--exchange" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(t)}>
       <section className="nxts-hero nxts-hero--ticker">
         <div className="nxts-shell">
           <Crumbs items={[[t.breadcrumb, TS_PATH], [exName, null]]} locale={locale} market={market} t={t} />

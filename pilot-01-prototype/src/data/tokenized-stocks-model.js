@@ -2,14 +2,13 @@
 // live listing rows and the sourced facts. Pure data: the page components (TokenizedStocksDetail.jsx) and the server-only
 // head/schema helpers (tokenized-stocks-seo.js) share it, so the visible answer, the FAQPage JSON-LD and the meta
 // description always say the same thing.
-import { TS_COPY } from "./tokenized-stocks-copy.js";
 import { TS_PREIPO, TS_TICKERS, tsExchange } from "./tokenized-stocks-facts.js";
 import { fillTs, tsCitable, tsList } from "./tokenized-stocks.js";
 import { tsExchangeCounts, tsExchangeTickerRows, tsLive, tsRowSources, tsTickerRows, tsTickerSummary } from "./tokenized-stocks-rows.js";
 import { formatSgt, readerDayKey } from "./local-time.js";
 
-export const tsCopyFor = (locale) => TS_COPY[locale] || (String(locale || "").startsWith("zh") ? TS_COPY["zh-Hans"] : TS_COPY.en);
-const copyFor = tsCopyFor;
+// The copy edition `t` is passed in: the browser holds one edition (tokenized-stocks-copy-client.js), the server all of
+// them (tokenized-stocks-seo.js). This module never imports the copy table.
 const pct = (n) => `${Number(n).toString()}%`;
 /** "2026-10-18 23:10" in Singapore time (SSR and browser print the same string). */
 export const sgtStamp = (iso) => { const day = readerDayKey(iso); return day ? `${day} ${formatSgt(iso, "en-GB", "clock").replace(/ SGT$/, "")}` : ""; };
@@ -49,8 +48,7 @@ function tickerFaq({ ticker, name, rows, sum, t, tk, locale, market }) {
 }
 
 /** Everything a ticker page and its meta/schema say (shared with tokenized-stocks-seo.js). */
-export function tickerPageModel(ticker, { locale = "en", market, live } = {}) {
-  const t = copyFor(locale);
+export function tickerPageModel(ticker, { locale = "en", market, live, t } = {}) {
   const tk = t.tk;
   const data = tsLive(live);
   const rows = tsTickerRows(ticker, { locale, market, live: data });
@@ -73,8 +71,7 @@ export function tickerPageModel(ticker, { locale = "en", market, live } = {}) {
 }
 
 /** Everything an exchange page and its meta/schema say (shared with tokenized-stocks-seo.js). */
-export function exchangePageModel(slug, { locale = "en", market, live } = {}) {
-  const t = copyFor(locale);
+export function exchangePageModel(slug, { locale = "en", market, live, t } = {}) {
   const ex = tsExchange(slug);
   const data = tsLive(live);
   const exName = t.exNames?.[slug] || ex?.name || slug;

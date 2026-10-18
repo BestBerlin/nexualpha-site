@@ -49,16 +49,18 @@ export function tsActivePromo(ex, { locale = "en", market, now = Date.now() } = 
  * (facts `promo`), only where sign-ups may be shown, never expired, in owner venue order.
  * { venues: slugs the page covers, ticker: limit ticker-specific campaigns to this stock }.
  */
-export function tsCampaigns({ venues = [], ticker = null, all = false, locale = "en", market, now = Date.now() } = {}) {
+export function tsCampaigns({ venues = [], ticker = null, all = false, live = null, locale = "en", market, now = Date.now() } = {}) {
   const out = [];
+  const active = (c) => Date.parse(c.endAt) > now && !(c.startAt && Date.parse(c.startAt) > now);
+  const fits = (c) => all || (ticker ? !c.tickers || c.tickers.includes(ticker) : !c.tickers);
+  // Campaigns the refresh job found in the exchange's own announcements (title, link, start/end): shown until their end
+  // date, then gone without an edit. A curated entry for the same announcement (localized name) wins.
+  const curatedUrls = new Set(TS_CAMPAIGNS.flatMap((c) => c.s.map((id) => TS_SOURCES[id]?.url)).filter(Boolean));
+  const found = Array.isArray(live?.campaigns) ? live.campaigns.filter((c) => c?.venue && c.url && c.title && !curatedUrls.has(c.url)) : [];
   for (const slug of venues) {
     if (!tsSignup(slug, { locale, market })) continue;
-    for (const c of TS_CAMPAIGNS) {
-      if (c.venue !== slug || Date.parse(c.endAt) <= now) continue;
-      if (!all && ticker && c.tickers && !c.tickers.includes(ticker)) continue;
-      if (!all && !ticker && c.tickers) continue;
-      out.push(c);
-    }
+    for (const c of TS_CAMPAIGNS) if (c.venue === slug && active(c) && fits(c)) out.push(c);
+    for (const c of found) if (c.venue === slug && active(c) && fits(c)) out.push({ ...c, key: null, href: "/activities" });
     const ex = TS_EXCHANGES.find((e) => e.slug === slug);
     const promo = ex ? tsPromo(ex, now) : null;
     if (promo) out.push({ venue: slug, ...promo });

@@ -10,9 +10,13 @@ import { rewritePartnerViewHtml } from "./data/partner-view.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 import { computeRouteSeo } from "./data/seo-injection.js";
 import { withRequestMarket } from "./data/partner-geo-policy.js";
+// Tokenized-stocks copy: the server holds every edition (the browser loads one; tokenized-stocks-copy-client.js).
+import { TS_COPY } from "./data/tokenized-stocks-copy.js";
+import { rememberTsCopy } from "./data/tokenized-stocks-copy-client.js";
+rememberTsCopy(Object.values(TS_COPY));
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive, tsPage } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -63,6 +67,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
         initialTicker={ticker && typeof ticker === "object" ? ticker : undefined}
         initialWhales={whales && typeof whales === "object" ? whales : undefined}
         initialTsLive={tsLive && typeof tsLive === "object" ? tsLive : undefined}
+        initialTsPage={tsPage && typeof tsPage === "object" ? tsPage : undefined}
       />
     </React.StrictMode>,
     heroVariant,

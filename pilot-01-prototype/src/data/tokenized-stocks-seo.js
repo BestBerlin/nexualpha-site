@@ -7,7 +7,7 @@ import { TS_COPY } from "./tokenized-stocks-copy.js";
 import { TS_CHECKED, TS_PREIPO, TS_PUBLISHED } from "./tokenized-stocks-facts.js";
 import { TS_INDEX_LOCALES, TS_ORIGIN, fillTs, tsList, tsVenues } from "./tokenized-stocks.js";
 import { TS_EXCHANGE_SLUGS, TS_LAUNCH_SLUGS, TS_PATH, TS_TICKER_SLUGS, parseTokenizedStocksPath, tsExchangePath, tsTickerPath } from "./tokenized-stocks-routes.js";
-import { exchangePageModel, tickerPageModel, tsCopyFor } from "./tokenized-stocks-model.js";
+import { exchangePageModel, tickerPageModel } from "./tokenized-stocks-model.js";
 import { tsLive } from "./tokenized-stocks-rows.js";
 import { titleBudgetForLocale } from "./meta-description.js";
 
@@ -20,6 +20,11 @@ const DATASET_URL = `${TS_ORIGIN}/intel/tokenized-stocks.json`;
 export const TS_MAIN_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "id", "tr", "ja", "ko", "vi"]);
 
 export const tsContentLocale = (locale) => (TS_COPY[locale] ? locale : String(locale || "").startsWith("zh") ? "zh-Hans" : "en");
+export const tsCopyFor = (locale) => TS_COPY[tsContentLocale(locale)];
+const withoutKeys = (value, re) => (value && typeof value === "object" && !Array.isArray(value)
+  ? Object.fromEntries(Object.entries(value).filter(([key]) => !re.test(key)).map(([key, v]) => [key, withoutKeys(v, re)])) : value);
+/** The edition a page ships to the browser; Türkiye drops every Bitget-keyed entry (the text never names it already). */
+export const tsCopyForPage = (locale, market) => (locale === "tr" || String(market || "").toUpperCase() === "TR" ? withoutKeys(tsCopyFor(locale), /bitget/i) : tsCopyFor(locale));
 const copyFor = tsCopyFor;
 const branded = (base, locale) => { const full = `${base} — NexuAlpha`; return full.length <= titleBudgetForLocale(locale) ? full : base; };
 
@@ -41,10 +46,10 @@ export function tsMeta(pathname, locale, { market, live } = {}) {
   const t = copyFor(locale);
   if (route.kind === "hub") return { title: branded(t.seoTitle, locale), description: t.seoDescription };
   if (route.kind === "exchange") {
-    const model = exchangePageModel(route.slug, { locale, market, live });
+    const model = exchangePageModel(route.slug, { locale, market, live, t });
     return { title: branded(model.title, locale), description: model.description };
   }
-  const { sum, name } = tickerPageModel(route.ticker, { locale, market, live });
+  const { sum, name } = tickerPageModel(route.ticker, { locale, market, live, t });
   const vars = { n: sum.names.length, name, ticker: route.ticker, list: tsList(sum.names, locale), lev: sum.maxLev || "" };
   const preipo = TS_PREIPO.has(route.ticker);
   return {
@@ -91,7 +96,7 @@ export function tsSchemas(pathname, locale, { urlFor, market, live } = {}) {
   }
   if (route.kind === "exchange") {
     const pageUrl = urlFor(tsExchangePath(route.slug));
-    const model = exchangePageModel(route.slug, { locale, market, live });
+    const model = exchangePageModel(route.slug, { locale, market, live, t });
     return [
       {
         "@context": "https://schema.org", "@type": "WebPage", "@id": `${pageUrl}#webpage`, url: pageUrl,
@@ -108,7 +113,7 @@ export function tsSchemas(pathname, locale, { urlFor, market, live } = {}) {
     ];
   }
   const pageUrl = urlFor(tsTickerPath(route.ticker));
-  const model = tickerPageModel(route.ticker, { locale, market, live });
+  const model = tickerPageModel(route.ticker, { locale, market, live, t });
   const crumb = TS_PREIPO.has(route.ticker) ? model.name : route.ticker;
   return [
     {
