@@ -364,7 +364,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (/\/src\/(?:data\/brazil-vasp-status\.js|data\/venue-kyc-corrections\.js|components\/v3\/BrazilDeadlineNotice\.jsx)$/.test(id)) return "shared-venue-copy";
           if (id.includes("/src/components/v3/ExchangeFactsV5") || id.includes("/src/components/v6/InnerLedger") || id.includes("/src/components/v6/inner-r9-copy") || id.includes("/src/lib/v5/")) return "shared-exchange-facts";
           // CSS-only chunks keep the "route-v3-pages-" prefix the Worker allow-lists on the venue, compare and home routes.
-          if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css")) return "route-v3-pages-detail";
+          // First-paint referral layout and compact disclosures must not wait for the venue module to hydrate.
+          if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css") || id.endsWith("/src/components/v3/referral-native-answers.css") || id.endsWith("/src/components/v3/venue-page-slimming.css")) return "route-v3-pages-detail";
           if (id.endsWith("/src/components/v3/growth-conversion.css")) return "route-v3-pages-growth";
           if (id.includes("/src/components/v3/TelegramReturnBanner") || id.endsWith("/src/components/v3/telegram-return-banner.css")) return "route-v3-pages-return-banner";
           if (id.includes("/src/components/v3/v3-pages-shared")) return "route-v3-pages-shared";

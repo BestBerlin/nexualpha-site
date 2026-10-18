@@ -457,7 +457,6 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
             <div>
               <div className="v3-matrix-badge-row">
                 <span className="v3-fee-tag">{compactUi.tag}</span>
-                <span className="v3-rebate-pill">{localePending(locale)}</span>
               </div>
               <h2 className="v3-fee-matrix-title">
                 {compactUi.title}
@@ -981,11 +980,11 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
       </header>
       <div className="v3-profile-cost-conditions__body">
         <div className="v3-venue-metrics-grid">
-          <div className="v3-metric-tile">
+          {reviewedSpotRate && <div className="v3-metric-tile">
             <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "现货基准费率", "現貨基準費率") : (metricText?.[0] || "Spot Base Fee")}</span>
             <strong className="v3-metric-tile__val text-blue" translate="no">{spotFeeDisplay}</strong>
             <span className="v3-metric-tile__sub">{reviewedSpotRate ? reviewedSpotRate.conditions : matrixCopy(locale).maker}</span>
-          </div>
+          </div>}
           {/* Tiles with no verified value render nothing (SEO audit 2026-10-11 #6: "Pending official-source verification"). */}
           {porVerified && (
           <div className="v3-metric-tile">
@@ -994,11 +993,11 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
               <span className="v3-metric-tile__sub">{porVerified ? (db.auditFirm || (isZhLocale ? zhText(locale, "公开链上默克尔树", "公開鏈上默克爾樹") : metricText?.[4] || "Public Merkle Tree")) : (isZhLocale ? zhText(locale, "未记录可复核来源", "未記錄可複核來源") : runtimeUi.noSource)}</span>
             </div>
           )}
-          <div className="v3-metric-tile">
+          {db.kycCheckedAt && <div className="v3-metric-tile">
             <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "身份验证要求", "身分驗證要求") : (metricText?.[2] || "KYC Requirement")}</span>
             <strong className="v3-metric-tile__val text-purple">{kycSummary}</strong>
             <span className="v3-metric-tile__sub">{isZhLocale ? zhText(locale, "支持多国认证", "支援多國認證") : runtimeUi.globalVerification}</span>
-          </div>
+          </div>}
           {db.maxLeverage && db.leverageCheckedAt && (
           <div className="v3-metric-tile">
               <span className="v3-metric-tile__label"><GlossaryTooltip term="leverage" locale={locale}>{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</GlossaryTooltip></span>

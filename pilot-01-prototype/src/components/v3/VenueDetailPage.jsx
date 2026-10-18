@@ -6,12 +6,16 @@ import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
 import { ExchangeFiatSection } from "../deposit/ExchangeFiatSection.jsx";
 import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
+import { quickAnswersForExchange } from "../../data/exchange-quick-answers.js";
 // Venue detail route (/exchanges/<slug>): its own route module and chunk (route-v3-venue) since the venue-graph perf
 // lane (2026-10-11). Before, it lived inside V3Pages.jsx, so every venue page downloaded the compare, activity and
 // topic-guide graphs (39 chunks, 1.3 MB) after hydration. The stylesheets it relies on keep their "route-v3-pages-"
 // chunk names (profile-density, growth-conversion, Hyperliquid scenario) so the Worker links them exactly as before.
 import "./profile-density.css";
 import "./venue-detail-layout.css";
+import "./venue-page-slimming.css";
+import { VenueSectionDisclosure } from "./VenueSectionDisclosure.jsx";
+import { venueAnnouncementPreview, venueSlimmingCopy } from "./venue-page-slimming.js";
 import { APP_DOWNLOAD_SLUGS, appDownloadLabel, appDownloadPath } from "../../data/app-download-path.js";
 import { useEffect, useState } from "react";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
@@ -60,10 +64,9 @@ import { exchangeHubToolLinks } from "../../data/exchange-hub-links.js";
 import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
-import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
-
+import { eventSourceStateLabel, visibleEventSourceItems } from "../../data/event-source.js";
+import { updatePath } from "../../data/activity-update-path.js";
 import "./venue-popular-coins.css";
-import "./venue-announcements.css";
 import { VenueTokenizedStocks } from "../tokenized-stocks/VenueTokenizedStocks.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
@@ -434,10 +437,10 @@ function SourceList({ text, profile, locale }) {
   return <div className="v3-source-list">
     <h3>{text.sourceIntake}</h3>
     <div className="v3-source-list__meta">
-      <p><span>{text.officialDomain}</span><strong translate="no" lang="en" dir="ltr">{profile.officialDomain || text.pendingReview}</strong></p>
-      <p><span>{text.sourceHost}</span><strong translate="no" lang="en" dir="ltr">{profile.sourceHost || text.pendingReview}</strong></p>
+      {profile.officialDomain && <p><span>{text.officialDomain}</span><strong translate="no" lang="en" dir="ltr">{profile.officialDomain}</strong></p>}
+      {profile.sourceHost && <p><span>{text.sourceHost}</span><strong translate="no" lang="en" dir="ltr">{profile.sourceHost}</strong></p>}
     </div>
-    {profile.sourceHubs.length ? profile.sourceHubs.map((source) => <SourceLink locale={locale} key={source.url} href={source.url} rel="noopener noreferrer" target="_blank"><span translate="no" lang="en" dir="ltr">{source.label}</span><small translate="no" lang="en" dir="ltr">{new URL(source.url).host}</small></SourceLink>) : <p>{text.pendingReview}</p>}
+    {profile.sourceHubs.length ? profile.sourceHubs.map((source) => <SourceLink locale={locale} key={source.url} href={source.url} rel="noopener noreferrer" target="_blank"><span translate="no" lang="en" dir="ltr">{source.label}</span><small translate="no" lang="en" dir="ltr">{new URL(source.url).host}</small></SourceLink>) : null}
   </div>;
 }
 
@@ -448,18 +451,15 @@ export function venueEventSnapshotNow(updates = []) {
   })), 0);
 }
 
-function activityDate(update, field) {
-  return update[field] || update.publishedAt;
-}
-
-export function ActivityCards({ text, locale, updates }) {
-  if (!updates.length) return null;
-  return <ul className="v3-venue-announcements">{updates.slice(0, 5).map((update) => {
-    const title = typeof update.title === "object" ? (update.title[locale] || update.title.en) : (update.localizedTitles?.[locale] || update.title);
-    const discoveredAt = activityDate(update, "discoveredAt");
+export function ActivityCards({ locale, updates }) {
+  return <ul className="venue-announcement-preview">{venueAnnouncementPreview(updates, locale).map((update) => {
+    const publishedAt = update.discoveredAt || update.publishedAt;
+    const day = isoDay(publishedAt);
     return <li key={update.id}>
-      {discoveredAt && <time dateTime={discoveredAt}>{discoveredAt.slice(0, 10)}</time>}{" · "}
-      <SourceLink locale={locale} href={update.officialSource?.url || update.url || update.sourceUrl} target="_blank" rel="noopener noreferrer"><span dir="auto">{title || text.openOfficialSource}</span></SourceLink>
+      <LocalLink locale={locale} href={update.platform ? `/activities/${encodeURIComponent(update.id)}` : updatePath(update)}>
+        <span>{update.previewTitle}</span>
+        {day && <time dateTime={day}>{day}</time>}
+      </LocalLink>
     </li>;
   })}</ul>;
 }
@@ -507,9 +507,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const research = researchForVenue(venue.slug, locale);
   const [eventNow, setEventNow] = useState(null);
   useEffect(() => { setEventNow(Date.now()); }, []);
-  // SSR and the first browser render share the source snapshot clock; live expiry is applied after hydration.
+  // SSR and the first browser render share the source snapshot clock; live expiry is applied after hydration (#418).
   const relatedEventView = visibleEventSourceItems(updates, { locale, venue: venue.slug, now: eventNow ?? venueEventSnapshotNow(updates) });
   const related = relatedEventView.items;
+  const slimmingUi = venueSlimmingCopy(locale);
   const relatedEmptyLabel = eventSourceStateLabel(relatedEventView.state, locale);
   const relatedAreReviewed = related.length > 0 && related.every((item) => Boolean(item.verifiedAt));
   const latestNews = exchangeHubNewsItems(initialNewsArticles, { slug: venue.slug, name: venue.name, locale });
@@ -960,13 +961,19 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     </section>
 
+    {quickAnswersForExchange(profile.slug, locale, effectiveMarket)?.items.length > 0 && <VenueSectionDisclosure label={slimmingUi.quick}>
     <ExchangeQuickAnswers slug={profile.slug} locale={locale} market={effectiveMarket} />
+    </VenueSectionDisclosure>}
     <VenueTokenizedStocks slug={profile.slug} locale={locale} market={effectiveMarket} />
-    <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFiatSection slug={profile.slug} locale={locale} market={effectiveMarket} />
+    <VenueSectionDisclosure label={slimmingUi.facts}>
+    <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
+    </VenueSectionDisclosure>
+    {(latestNews.length > 0 || hubTools.length > 0) && <VenueSectionDisclosure label={slimmingUi.news}>
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
+    </VenueSectionDisclosure>}
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub" id="sources">
@@ -985,16 +992,20 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </section>
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
+    <VenueSectionDisclosure label={slimmingUi.questions}>
     <VenueFaqSection venue={venue} profile={profile} locale={locale} market={effectiveMarket} db={db} partner={partner} />
+    </VenueSectionDisclosure>
 
+    {POPULAR_COINS_BY_VENUE[profile.slug]?.length > 0 && <VenueSectionDisclosure label={slimmingUi.coins}>
     <VenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} />
+    </VenueSectionDisclosure>}
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />
       <div className="section-lead"><h2>{relatedAreReviewed ? text.reviewedActivity : text.activityState}</h2>{relatedAreReviewed && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
-      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
-      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{related.length > 5 ? (locale === "ar" ? "عرض جميع الإعلانات" : locale.startsWith("zh") ? "查看全部公告" : "View all announcements") : text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
+      {related.length ? <ActivityCards locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
+      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{slimmingUi.all}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 
     <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>
