@@ -18,7 +18,8 @@ export function cohorts(query) {
     brand: /nexualpha|nexu alpha|nexuα/,
     referral: /邀请码|返佣|返利|referral|referido|referans|реферал|giới thiệu|hoàn phí|rebate/,
     tokenizedStocks: /tokeni[sz]ed stock|tokeni[sz]ed equit|股票代币|代币化股票|xstocks|\b(?:aapl|tsla|nvda|spy|qqq)x\b/,
-    deposit: /deposit|入金|充值|on.?ramp|fiat|nạp tiền|para yatır|depósito/,
+    deposit: /deposit|入金|充值|出金|出入金|withdraw|on.?ramp|fiat|nạp tiền|para yatır|depósito|setor|tarik/,
+    exchangeHowTo: /regist|sign.?up|signup|kyc|verif|注册|認證|认证|实名|kayıt|daftar|cadastr|đăng ký|login|2fa|passkey|api key|api doc|join/,
   }).filter(([, regex]) => regex.test(q)).map(([name]) => name);
 }
 export function summarize(rows) {
@@ -41,16 +42,19 @@ export function normalizeRows(rows, engine) {
       position: number(rawPosition) > 0 ? number(rawPosition) : null, cohorts: cohorts(query) };
   }).filter(row => row.query);
 }
-export function contentTasks(sources) {
+// Striking distance = positions 8-20. Money cohorts are P1; any other row with >=2 impressions is P2 so a
+// young site with no money-query impressions still gets a non-empty, evidence-backed review queue.
+export function contentTasks(sources, { limit = 60 } = {}) {
   return Object.entries(sources).flatMap(([engine, source]) => (source.rows || [])
-    .filter(row => row.cohorts.length && row.position >= 8 && row.position <= 20 && row.impressions > 0)
-    .map(row => ({ engine, query: row.query, page: row.page, cohorts: row.cohorts, metrics: summarize([row]), window: source.window,
+    .filter(row => row.position >= 8 && row.position <= 20 && row.impressions > 0 && (row.cohorts.length || row.impressions >= 2))
+    .map(row => ({ engine, query: row.query, page: row.page, cohorts: row.cohorts, priority: row.cohorts.length ? 'P1' : 'P2', metrics: summarize([row]), window: source.window,
       status: row.page ? 'READY_FOR_CONTENT_REVIEW' : 'NEEDS_LANDING_PAGE_EVIDENCE',
       title: `Review title against the exact intent: ${row.query}`,
       meta: 'Clarify the supported benefit and constraints; do not invent incentives, freshness, or official status.',
       intro: 'Answer the query in the opening paragraph, cite current primary evidence, and preserve neutral comparison.',
       acceptance: ['Verify the landing page and existing intent owner before editing.', 'Review title, meta description, and intro together.', 'Human/content review required before publication; no automated live edits.'] })))
-    .sort((a, b) => b.metrics.impressions - a.metrics.impressions);
+    .sort((a, b) => a.priority.localeCompare(b.priority) || b.metrics.impressions - a.metrics.impressions)
+    .slice(0, limit);
 }
 async function jsonRequest(url, options, fetchImpl) {
   const response = await fetchImpl(url, { ...options, signal: AbortSignal.timeout(25_000) });
@@ -99,7 +103,7 @@ export async function runSearch({ date, outputDir, gscClient = fetchGsc, bingCli
     catch (error) { sources[engine] = { status: 'unavailable', reason: /^HTTP_\d+$/.test(error.message) ? error.message : 'REQUEST_OR_CREDENTIAL_ERROR', rows: [] }; }
     if (sources[engine].status === 'ok') {
       sources[engine].returnedRowsTotals = summarize(sources[engine].rows);
-      sources[engine].cohorts = Object.fromEntries(['brand', 'referral', 'tokenizedStocks', 'deposit'].map(name => [name, summarize(sources[engine].rows.filter(row => row.cohorts.includes(name)))]));
+      sources[engine].cohorts = Object.fromEntries(['brand', 'referral', 'tokenizedStocks', 'deposit', 'exchangeHowTo'].map(name => [name, summarize(sources[engine].rows.filter(row => row.cohorts.includes(name)))]));
     }
   }));
   const status = Object.values(sources).every(source => source.status === 'ok') ? 'ok' : Object.values(sources).some(source => source.status === 'ok') ? 'partial' : 'unavailable';

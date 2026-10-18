@@ -12,16 +12,21 @@ test('search cohorts overlap and use impression-weighted positions, not average 
   assert.equal(summarize([]).position, null);
   assert.equal(normalizeRows([{ Query: 'okx referral', Impressions: 3 }], 'bing')[0].position, null);
 });
-test('striking-distance tasks require a cohort and retain unknown Bing landing pages', () => {
+test('striking-distance tasks rank money cohorts first, keep non-cohort rows with evidence, retain unknown Bing landing pages', () => {
   const rows = normalizeRows([
     { keys: ['okx referral', 'https://nexualpha.com/exchanges/okx'], impressions: 100, clicks: 1, position: 8 },
     { keys: ['random topic', 'https://nexualpha.com/'], impressions: 100, clicks: 1, position: 9 },
+    { keys: ['single impression topic', 'https://nexualpha.com/'], impressions: 1, clicks: 0, position: 9 },
     { keys: ['deposit', 'https://nexualpha.com/'], impressions: 0, clicks: 0, position: 20 },
+    { keys: ['okx referral', 'https://nexualpha.com/exchanges/okx'], impressions: 50, clicks: 0, position: 30 },
   ], 'gsc');
   const tasks = contentTasks({ gsc: { rows }, bing: { rows: normalizeRows([{ Query: 'okx referral', Impressions: 4, Clicks: 0, AvgImpressionPosition: 20 }], 'bing') } });
-  assert.equal(tasks.length, 2);
+  assert.equal(tasks.length, 3);
+  assert.deepEqual(tasks.map(task => task.priority), ['P1', 'P1', 'P2']);
   assert.equal(tasks[0].status, 'READY_FOR_CONTENT_REVIEW');
   assert.equal(tasks[1].status, 'NEEDS_LANDING_PAGE_EVIDENCE');
+  assert.equal(tasks[2].query, 'random topic');
+  assert.deepEqual(cohorts('"mexc" "verification" "kyc"'), ['exchangeHowTo']);
 });
 test('daily search writes unavailable status safely, uses final-data lag and correct rolling window', async () => {
   const dir = await mkdtemp(path.join(process.cwd(), 'ops/growth-analytics/.test-search-'));
@@ -33,11 +38,12 @@ test('daily search writes unavailable status safely, uses final-data lag and cor
     assert.doesNotMatch(await readFile(path.join(dir, 'search-2026-10-15.json'), 'utf8'), /DO_NOT_PRINT/);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
-test('30 distinct money queries generate 60 unknown engine checks without fabricated citations', () => {
+test('30 distinct money queries (en, zh and local languages) generate 120 unknown engine checks without fabricated citations', () => {
   assert.equal(MONEY_QUERIES.length, 30);
   assert.equal(new Set(MONEY_QUERIES.map(q => q.query)).size, 30);
   const rows = buildAnswerChecks('2026-10-15');
-  assert.equal(rows.length, 60);
+  assert.equal(rows.length, 120);
+  for (const lang of ['en', 'zh-Hans', 'es', 'pt-BR', 'id', 'tr', 'vi']) assert.ok(MONEY_QUERIES.some(q => q.lang === lang), lang);
   assert.ok(rows.every(row => row.cited === null && row.status === 'unavailable' && row.citations.length === 0));
 });
 test('manual answer evidence needs freshness, artifact, and sanitized citation URLs', () => {
@@ -56,13 +62,13 @@ test('public proxy opens circuit after three failed requests and never asserts a
 test('weekly recovery report labels missing Monday evidence honestly', async () => {
   const dir = await mkdtemp(path.join(process.cwd(), 'ops/growth-analytics/.test-aeo-'));
   try {
-    const result = await runAeo({ date: '2026-10-15', outputDir: dir, fetchProxy: false });
+    const result = await runAeo({ date: '2026-10-15', outputDir: dir, fetchProxy: false, browserObserver: null });
     assert.equal(result.scheduledMonday, '2026-10-12');
     assert.equal(result.week, '2026-W42');
     assert.equal(result.recovery, true);
     const report = await readFile(path.join(dir, 'monday-2026-W42.md'), 'utf8');
     assert.match(report, /does not reconstruct historical Monday/);
-    assert.match(report, /0\/60 observed/);
+    assert.match(report, /0\/120 observed/);
     assert.match(report, /unknown, not negative/);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
@@ -106,4 +112,18 @@ test('native clients use read-only Google scope and preserve Bing provider bucke
     assert.equal(bing.window.type, 'provider-native-buckets'); assert.equal(bing.rows[0].providerDate, '/Date(1791763200000)/');
     assert.equal(bing.rows[0].page, null);
   } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('browser evidence: explicit blocked/unavailable rows keep their reason; observed rows record mentions', () => {
+  const q = MONEY_QUERIES[0];
+  const rows = buildAnswerChecks('2026-10-18', [
+    { engine: 'perplexity', queryId: q.id, status: 'unavailable', reason: 'ROBOTS_DISALLOWS_QUERY_URL' },
+    { engine: 'google-ai-overview', queryId: q.id, status: 'blocked', reason: 'HUMAN_VERIFICATION_SERVED_NOT_SOLVED' },
+    { engine: 'chatgpt-search', queryId: q.id, status: 'observed', observedAt: '2026-10-18T01:00:00Z', answerEvidence: '/tmp/a.png', mentioned: true, citations: ['https://www.okx.com/referral'] },
+  ]).filter(row => row.queryId === q.id);
+  const by = Object.fromEntries(rows.map(row => [row.engine, row]));
+  assert.equal(by.perplexity.reason, 'ROBOTS_DISALLOWS_QUERY_URL');
+  assert.equal(by['google-ai-overview'].status, 'blocked');
+  assert.equal(by['chatgpt-search'].cited, false);
+  assert.equal(by['chatgpt-search'].mentioned, true);
 });
