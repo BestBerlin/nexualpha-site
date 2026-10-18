@@ -98,7 +98,7 @@ export const MONEY_QUERIES = [
     "id": "zh-deposit",
     "query": "加密货币交易所怎么入金出金",
     "lang": "zh-Hans",
-    "targetPath": "/zh-hans/deposit"
+    "targetPath": "/zh-hans/churujin"
   },
   {
     "id": "zh-exchange-rank",
@@ -152,7 +152,7 @@ export const MONEY_QUERIES = [
     "id": "id-deposit-rupiah",
     "query": "cara deposit rupiah ke exchange crypto",
     "lang": "id",
-    "targetPath": "/id-id/deposit"
+    "targetPath": "/id-id/setor-tarik"
   },
   {
     "id": "tr-okx-referans-nerede",
