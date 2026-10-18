@@ -177,6 +177,10 @@
 .nxd-countries ul { list-style: none; margin: 0; padding: 0; display: grid; }
 .nxd-countries a { display: flex; align-items: center; min-block-size: 44px; border-block-end: 1px solid var(--d-line); font-size: 15px; text-decoration: none; color: var(--d-ink2); }
 .nxd-countries a:hover { color: var(--d-ink); text-decoration: underline; text-underline-offset: 3px; }
+/* hub -> exchange deposit blocks (SEO w43): one compact wrapping line of names, same hairline language */
+.nxd-exlinks { grid-template-columns: minmax(0, 1fr); }
+.nxd-exlinks ul { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.nxd-exlinks a { min-block-size: 44px; border-block-end-color: transparent; color: var(--d-ink); text-decoration: underline; text-decoration-color: var(--d-line2); text-underline-offset: 4px; }
 
 /* crypto cards: card-lite blocks on a hairline (no box), 40px tile, facts as label / value rows */
 .nxd-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 48px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); }

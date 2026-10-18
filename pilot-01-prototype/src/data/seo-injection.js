@@ -61,7 +61,7 @@ import { bitgetAllianceRouteSeo } from "./bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, parseKrakenUsdgPath } from "./kraken-usdg.js";
 import { krakenUsdgRouteSeo } from "./kraken-usdg-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
-import { completePageSchemas } from "./page-schemas.js";
+import { completePageSchemas, relatedLinkWebPage } from "./page-schemas.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
@@ -2071,10 +2071,11 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
     // Latest real review date of the data on the page (fees checked / benefit terms confirmed / dossier compiled).
     dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
-    creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
+    creator: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
     isBasedOn: `https://${venue.officialDomain}`,
-    relatedLink: factbookRelatedLinks(venue.slug).map((link) => `${PUBLIC_ORIGIN}${localizedPath(link, locale)}`),
+    // relatedLink is a WebPage property: it rides on the page node the Dataset is the main entity of (SEO w43).
+    mainEntityOfPage: relatedLinkWebPage(canonicalUrl, factbookRelatedLinks(venue.slug).map((link) => `${PUBLIC_ORIGIN}${localizedPath(link, locale)}`)),
     variableMeasured: ["Spot Maker Fee", "Spot Taker Fee", "Futures Maker Fee", "Futures Taker Fee", "KYC Requirements"],
   }];
 }
@@ -2642,7 +2643,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
     const articleCanonical = newsCanonicalOverride || canonical(pathname, articleLocale);
     const owner = priorityOwnerForPath(pathname);
     schemas = [
-      { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical }, image: [socialImageObject(pathname, rawLocale, PUBLIC_ORIGIN)].filter(Boolean), datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale)) } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
+      { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: relatedLinkWebPage(articleCanonical, articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale))), image: [socialImageObject(pathname, rawLocale, PUBLIC_ORIGIN)].filter(Boolean), datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
       sectionBreadcrumb("News", "/news", articleTitle, articleCanonical, articleLocale),
       ...(articleFaq.length ? [{
         "@context": "https://schema.org",

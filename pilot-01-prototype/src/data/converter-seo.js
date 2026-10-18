@@ -76,15 +76,22 @@ export function converterSchemas(coin, fiat, locale, { urlFor, fx, market } = {}
         currency: coin.symbol,
         currentExchangeRate: price ? { "@type": "UnitPriceSpecification", price, priceCurrency: fiat } : undefined,
       },
+      // hasPart takes a CreativeWork: the quick-conversion block is a WebPageElement whose main entity is the ItemList
+      // (an ItemList is an Intangible, not a valid hasPart value; SEO w43).
       hasPart: {
-        "@type": "ItemList",
+        "@type": "WebPageElement",
+        "@id": `${url}#quick-conversions`,
         name: `${coin.symbol} to ${fiat} quick conversions`,
-        itemListElement: EXAMPLE_AMOUNTS.map((amount, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: `${amount} ${coin.symbol}`,
-          description: price ? `${amount} ${coin.symbol} = ${formatFiatAmount(amount * price, locale, fiat)} ${fiat}` : `${amount} ${coin.symbol}`,
-        })),
+        mainEntity: {
+          "@type": "ItemList",
+          name: `${coin.symbol} to ${fiat} quick conversions`,
+          itemListElement: EXAMPLE_AMOUNTS.map((amount, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: `${amount} ${coin.symbol}`,
+            description: price ? `${amount} ${coin.symbol} = ${formatFiatAmount(amount * price, locale, fiat)} ${fiat}` : `${amount} ${coin.symbol}`,
+          })),
+        },
       },
       ...(Number.isFinite(coin.change24h) ? { additionalProperty: { "@type": "PropertyValue", name: "24h change", value: formatChange(coin.change24h, locale) } } : {}),
     },

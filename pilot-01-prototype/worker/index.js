@@ -45,7 +45,7 @@ import { heatmapCopy, heatmapSchemas } from "../src/data/heatmap-copy.js";
 import { LIQUIDATION_LEVELS_PATH } from "../server/liquidation-levels-feed.mjs";
 import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
-import { completePageSchemas } from "../src/data/page-schemas.js";
+import { completePageSchemas, relatedLinkWebPage } from "../src/data/page-schemas.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { ARCHIVE_PATH, archiveItems, isArchiveIndexable } from "../src/data/announcement-archive.js";
@@ -6457,10 +6457,10 @@ function buildWorkerFactbookSchema(venue, locale, canonicalUrl) {
     url: canonicalUrl, inLanguage: locale,
     dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
-    creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
+    creator: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
     isBasedOn: `https://${venue.officialDomain}`,
-    relatedLink: factbookRelatedLinks(venue.slug).map((link) => `${PUBLIC_ORIGIN}${link}`),
+    mainEntityOfPage: relatedLinkWebPage(canonicalUrl, factbookRelatedLinks(venue.slug).map((link) => `${PUBLIC_ORIGIN}${link}`)),
     variableMeasured: ["Spot Maker Fee", "Spot Taker Fee", "Futures Maker Fee", "Futures Taker Fee", "KYC Requirements"],
   }];
 }
@@ -7858,7 +7858,8 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates("/compare"),
       schema: [pageBreadcrumb(hubCopy.h1, canonical, "Exchanges", "/exchanges", schemaLocale), {
         "@type": "CollectionPage", name: hubCopy.h1, description: hubCopy.description, url: canonical, inLanguage: schemaLocale,
-        hasPart: [...CURATED_COMPARISONS].map((pair) => ({ "@type": "WebPage", url: localizedCanonical(`/compare/${pair}`, locale) })),
+        // Every hasPart item is a named CreativeWork with a URL (SEO w43: the pair pages had no name).
+        hasPart: [...CURATED_COMPARISONS].map((pair) => ({ "@type": "WebPage", name: pair.split("-vs-").map((slug) => venueDisplayName(slug)).join(" vs "), url: localizedCanonical(`/compare/${pair}`, locale) })),
       }],
     };
   }
@@ -8463,7 +8464,8 @@ async function routeMetadataBase(url, env, newsFeed) {
         description,
         datePublished: article.publishedAt,
         dateModified: article.updatedAt || article.publishedAt,
-        mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical },
+        // relatedLink is a WebPage property (schema.org), so it rides on the page node, not on the NewsArticle (SEO w43).
+        mainEntityOfPage: relatedLinkWebPage(articleCanonical, articleRelatedLinks.filter(link => newsMetadataAllowed(link, { locale, market: url.searchParams.get("market") || undefined })).map((link) => String(link).startsWith("/research/") ? `${PUBLIC_ORIGIN}${link}` : localizedCanonical(link, contentLocale))),
         // The article's own 1200x630 social card, same URL as og:image (audit 2026-10-11 #2).
         image: [socialImageObject(canonicalPath, locale, PUBLIC_ORIGIN)].filter(Boolean),
         inLanguage: contentLocale,
@@ -8475,7 +8477,6 @@ async function routeMetadataBase(url, env, newsFeed) {
         hasPart: [...citationAssetSchemas(), ...(isTokenizedTreasuryArticle ? [wave48TokenizedTreasuryRightsOpsDatasetSchema()] : [])],
         citation: Array.isArray(article.sources) ? article.sources.map((source) => source?.url).filter(Boolean) : [],
         ...(ownerPath ? { isPartOf: `${PUBLIC_ORIGIN}${ownerPath}`, articleSection: "Dated source trail" } : {}),
-        ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.filter(link => newsMetadataAllowed(link, { locale, market: url.searchParams.get("market") || undefined })).map((link) => String(link).startsWith("/research/") ? `${PUBLIC_ORIGIN}${link}` : localizedCanonical(link, contentLocale)) } : {}),
         ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}),
       }, pageBreadcrumb(title, articleCanonical, "News", "/news", contentLocale), ...(() => {
         const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(contentLocale) : null;

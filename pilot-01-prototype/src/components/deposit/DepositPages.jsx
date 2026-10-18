@@ -11,7 +11,7 @@ import { CRYPTO_CARDS_PATH, depositPath, parseDepositPath } from "../../data/dep
 import { depositCopy, fillDeposit } from "../../data/deposit-copy.js";
 import {
   DEPOSIT_COUNTRIES, DEPOSIT_REGIONS, FIAT_CHECKED, cjkSpace, depositCardNotes, depositCards, depositCountryLabel,
-  depositCountryModel, depositHubModel,
+  depositCountryModel, depositExchangeLinks, depositHubModel,
 } from "../../data/deposit.js";
 import "./deposit.css";
 
@@ -78,7 +78,8 @@ function RouteCell({ items, dirLabel }) {
 
 function ExchangeName({ entry, locale }) {
   const name = <span translate="no">{entry.name}</span>;
-  return <span className="nxd-ex"><BrandMark slug={entry.slug} compact />{entry.profile ? <a href={href(`/exchanges/${entry.slug}`, locale)}>{name}</a> : name}</span>;
+  // Profile link lands on the exchange's "Deposits and withdrawals" block (ExchangeFiatSection, id="deposits").
+  return <span className="nxd-ex"><BrandMark slug={entry.slug} compact />{entry.profile ? <a href={`${href(`/exchanges/${entry.slug}`, locale)}#deposits`} data-deposit-exchange={entry.slug}>{name}</a> : name}</span>;
 }
 
 function MethodTable({ model, t, locale }) {
@@ -112,6 +113,18 @@ function CountryNav({ current, locale, t }) {
         <ul>{list.map((country) => <li key={country.slug}><a href={href(depositPath(locale, country.slug), locale)}>{depositCountryLabel(country, locale)}</a></li>)}</ul>
       </div>;
     })}
+  </nav>;
+}
+
+/** Hub -> exchange deposit sections, push order (tr skips Bitget; vi/ru render nothing). */
+function ExchangeLinks({ locale, t }) {
+  const links = depositExchangeLinks(locale);
+  if (!links.length) return null;
+  return <nav className="nxd-section nxd-countries nxd-exlinks" aria-label={t.col.exchange}>
+    <div className="nxd-countries__group">
+      <p className="nxd-countries__region">{t.col.exchange}</p>
+      <ul>{links.map((link) => <li key={link.slug}><a href={`${href(`/exchanges/${link.slug}`, locale)}#deposits`} data-deposit-exchange={link.slug} translate="no">{link.name}</a></li>)}</ul>
+    </div>
   </nav>;
 }
 
@@ -156,6 +169,8 @@ export function DepositHubPage({ locale = "en" }) {
           })}
         </div>
       </section>
+
+      <ExchangeLinks locale={locale} t={t} />
 
       <section className="nxd-section" aria-labelledby="nxd-methods-h">
         <SectionRule stamp="4" />
