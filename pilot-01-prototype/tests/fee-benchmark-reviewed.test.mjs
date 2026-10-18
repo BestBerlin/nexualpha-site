@@ -108,7 +108,7 @@ test("fee benchmark localizes next-step and pending states across priority local
   const pages = await renderFeeBenchmark(["ar", "ja", "ko", "tr", "pt-BR", "es"]);
   for (const { locale, html } of pages) {
     const section = feeTerminal(html);
-    assert.doesNotMatch(section, /Ready to choose\?|Compare platforms or continue|View platform directory|What the public fee check can answer|It cannot prove your final account rate|Pending source review|Pending verification|Not calculated|No reviewed trend/, locale);
+    assert.doesNotMatch(section, /Ready to choose\?|Compare platforms or continue|View platform directory|What this table tells you|Your final rate is the one your exchange account shows|Pending source review|Pending verification|Not calculated|No reviewed trend/, locale);
   }
   const arabic = pages.find((page) => page.locale === "ar").html;
   assert.match(arabic, /id="rate-terminal" dir="rtl"/);
@@ -200,8 +200,8 @@ test("rates route exposes answer-first conversion bridge through source-bound CT
   const binanceCta = regionalVenueCta("binance", "en", "BR", "spot");
   const bybitCta = regionalVenueCta("bybit", "en", "BR", "spot");
   assert.match(section, /fee-terminal__answer-block/, "answer block should render in SSR");
-  assert.match(section, /What the public fee check can answer/);
-  assert.match(section, /It cannot prove your final account rate/);
+  assert.match(section, /What this table tells you/);
+  assert.match(section, /Your final rate is the one your exchange account shows/);
   assert.ok(section.includes('href="/compare/binance-vs-okx#nxa-context?market=BR&amp;product=spot"'), "spot comparison handoff");
   assert.ok(section.includes('href="/compare/bybit-vs-bitget#nxa-context?market=BR&amp;product=perpetuals"'), "perpetual comparison handoff");
   assert.ok(section.includes('href="/topics/derivatives#nxa-context?market=BR&amp;product=perpetuals"'), "derivatives education handoff");

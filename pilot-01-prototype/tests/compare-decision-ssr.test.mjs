@@ -59,7 +59,7 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.match(html, /Bybit/);
     assert.match(html, /Bitget/);
     assert.match(html, /derivatives, copy-trading checks and product-specific fee tables/);
-    assert.match(html, /spot and futures fee mechanics plus copy-trading style workflows/);
+    assert.match(html, /Bitget suits you if you want copy trading and the highest fee rebate/);
     assert.match(html, /class="v3-versus-fit"/);
     assert.equal((html.match(/data-testid="compare-versus-stats-bybit"/g) || []).length, 1, "Bybit stats disclosure should have one stable hydration target");
     assert.equal((html.match(/data-testid="compare-versus-stats-bitget"/g) || []).length, 1, "Bitget stats disclosure should have one stable hydration target");

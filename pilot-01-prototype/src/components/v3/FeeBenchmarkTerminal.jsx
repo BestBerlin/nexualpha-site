@@ -322,18 +322,18 @@ const answerLabelCopy = Object.freeze({
 const answerBlockCopy = Object.freeze({
   en: {
     label: "Answer first",
-    title: "What the public fee check can answer",
+    title: "What this table tells you",
     can: "It can estimate a scenario from reviewed public maker/taker schedules and show which platform page or comparison to inspect next.",
-    cannot: "It cannot prove your final account rate, regional eligibility, deposits, KYC result, bonus receipt, or registration attribution. Those remain official-account checks.",
+    cannot: "Your final rate is the one your exchange account shows.",
     compareA: "Compare Binance vs OKX",
     compareB: "Compare Bybit vs Bitget",
     derivatives: "Read derivatives cost fields",
   },
   "zh-Hans": {
     label: "先给答案",
-    title: "公开费率检查能回答什么",
+    title: "这张表能告诉你什么",
     can: "它可以基于已复核的公开 maker/taker 费率估算一个交易场景，并告诉你下一步该看哪个平台页或对比页。",
-    cannot: "它不能证明你的最终账户费率、地区资格、入金、KYC 结果、奖励到账或注册归因。这些仍要在官方账户里核对。",
+    cannot: "最终费率以你交易所账户里显示的为准。",
     compareA: "比较 Binance vs OKX",
     compareB: "比较 Bybit vs Bitget",
     derivatives: "阅读衍生品成本字段",

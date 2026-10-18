@@ -31,8 +31,8 @@ import { CRYPTO_CARDS_PATH, depositPath } from "../../data/deposit-routes.js";
 // Daily market data (2026-10-13): links to the data pages people come back to every day (pill list, h7-coins styles);
 // below the fold, so the entry stays inside its budget.
 const DATA_RAIL_COPY = {
-  en: { title: "Daily market data", lead: "This week's macro dates and exchange deadlines, plus liquidations and funding — each with its source." },
-  "zh-Hans": { title: "每日市场数据", lead: "本周宏观日程与交易所截止日期，以及爆仓与资金费率，每项都附来源。" },
+  en: { title: "Daily market data", lead: "This week's macro dates, exchange deadlines, liquidations and funding." },
+  "zh-Hans": { title: "每日市场数据", lead: "这周的宏观日程、交易所截止日、爆仓和资金费率。" },
   es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de la semana, más liquidaciones y funding, cada uno con su fuente." },
   "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras da semana, além de liquidações e funding, cada um com a fonte." },
   tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri ve borsa son tarihleri, ayrıca tasfiyeler ve fonlama; hepsi kaynağıyla." },

@@ -1183,7 +1183,7 @@ function CompareDecisionNav({ locale = "en", text, hasFinalChoice = false }) {
 
   return (
     <nav className="v3-compare-decision-nav" aria-label={text.compareVerdictTitle}>
-      <span className="v3-compare-decision-nav__label">{locale.startsWith("zh") ? "快速定位" : (shortLabels.jump || "Jump to")}</span>
+      <span className="v3-compare-decision-nav__label">{locale.startsWith("zh") ? zhText(locale, "本页目录", "本頁目錄") : (shortLabels.jump || "Jump to")}</span>
       <div className="v3-compare-decision-nav__links">
         {items.map(([id, label]) => <a key={id} href={`#${id}`}>{label}</a>)}
       </div>
@@ -1526,7 +1526,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   const matrixTitleCopy = locale === "zh-Hant"
     ? "費率、返傭、準備金與門檻全維度對決"
     : isZh
-      ? "费率、返佣、准备金与门槛全维度对决"
+      ? "费率、返佣、储备金与门槛"
       : (labels.matrix || "Fees, Rebates, Reserves & Limits Comparison");
   const shortLabels = compareShortUi(locale);
   const columnCount = profiles.length;
@@ -1689,7 +1689,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
           <thead role="rowgroup">
             <tr role="row">
               <th role="columnheader" scope="col" className="v3-matrix-th--dim">
-                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "量化对比维度", "量化對比維度") : (labels.metrics || "Metrics")}</div>
+                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "对比项", "量化對比維度") : (labels.metrics || "Metrics")}</div>
               </th>
               {venueData.map((d) => (
                 <th role="columnheader" id={`matrix-column-${d.slug}`} scope="col" key={d.slug} className="v3-matrix-th--venue">
@@ -2307,7 +2307,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         continueHash="#compare-snapshot"
       />
       <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
-        ← {isZhLoc ? zhText(locale, "返回交易所黄页目录", "返回交易所黃頁目錄") : text.backToDirectory}
+        ← {isZhLoc ? zhText(locale, "返回交易所目录", "返回交易所目錄") : text.backToDirectory}
       </LocalLink>
 
       <div className="v3-venue-hero">

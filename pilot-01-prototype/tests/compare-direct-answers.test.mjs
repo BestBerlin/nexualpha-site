@@ -275,7 +275,7 @@ test("CompareDeepPage SSR localizes matrix lead and accessibility labels", async
     .replace(/&gt;/g, ">");
 
   const cases = [
-    ["zh-Hans", "按官方来源逐项核对费率、储备金、KYC、产品限制与用户权益；未完成核验的项目保持待确认。", "费率、返佣、准备金与门槛全维度对决", "选择平台前应该怎样比较 Bybit 与 Bitget？"],
+    ["zh-Hans", "按官方来源逐项核对费率、储备金、KYC、产品限制与用户权益；未完成核验的项目保持待确认。", "费率、返佣、储备金与门槛", "选择平台前应该怎样比较 Bybit 与 Bitget？"],
     ["zh-Hant", "按官方來源逐項核對費率、儲備金、KYC、產品限制與用戶權益；未完成核驗的項目保持待確認。", "費率、返傭、準備金與門檻全維度對決", "選擇平台前應該怎樣比較 Bybit 與 Bitget？"],
     ["pt-BR", "Compare taxas com fonte, reservas, KYC, limites de produto e benefícios; itens não verificados ficam pendentes.", "Comparação de taxas, benefícios, reservas e limites", null],
   ];

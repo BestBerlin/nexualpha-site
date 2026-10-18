@@ -51,7 +51,7 @@ const noScriptRoutes = [
   {
     name: "rates",
     path: "/rates?locale=en",
-    h1: /Crypto Exchange Fee Benchmark Terminal/,
+    h1: /Exchange fees, side by side/,
     hrefs: [
       "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
       "https://partner.bitget.cafe/bg/C6PRAF",
