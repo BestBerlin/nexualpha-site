@@ -257,6 +257,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/licenses/") || /\/src\/data\/licenses(?:-copy|-cta)?\.js/.test(id)) return "route-licenses";
           if (id.includes("/src/components/converter/") || /\/src\/data\/converter(?:-copy)?\.js/.test(id)) return "route-converter";
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";
+          // Linkable data assets + /press (SEO W43, 2026-10-18): pages, styles, builders, copy and head helpers.
+          if (id.includes("/src/components/data-assets/") || /\/src\/data\/data-assets(?:-copy|-seo)?\.js$/.test(id)) return "route-data-assets";
           // Spot ETF flows + crypto calendar (2026-10-13): pages, styles, copy and readers in one route chunk.
           if (id.includes("/src/components/intel-tools/") || /\/src\/data\/(?:intel-tools-copy|intel-tools-labels|etf-flows|crypto-calendar)\.js/.test(id)) return "route-intel-tools";
           // Crypto glossary (2026-10-13): pages, model, UI copy and the term index. Generated content modules

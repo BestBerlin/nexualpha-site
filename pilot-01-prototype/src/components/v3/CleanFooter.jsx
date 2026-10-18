@@ -8,6 +8,7 @@ import { academyShellCopy } from "../../data/academy.js";
 import { glossaryNavLabel } from "../../data/glossary-routes.js";
 import { DEPOSIT_ROOTS, depositNavLabel } from "../../data/deposit-routes.js";
 import { TS_PATH, tokenizedStocksNavLabel } from "../../data/tokenized-stocks-routes.js";
+import { PRESS_PATH, pressNavLabel } from "../../data/data-assets-routes.js";
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
@@ -408,6 +409,8 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         { href: href("/liquidations"), label: dataNav.liquidations },
         { href: href("/onchain"), label: labels.onchain },
         { href: href("/flash"), label: { en: "Flash", "zh-Hans": "快讯", "zh-Hant": "快訊", tr: "Anlık haberler", es: "Flash", "pt-BR": "Flash", fr: "Flash", de: "Flash", ja: "速報", ko: "속보", id: "Flash", vi: "Tin nhanh", it: "Flash" }[locale] || "Flash" },
+        // Press kit + open datasets (SEO W43, 2026-10-18); the About column is full (six links max).
+        { href: href(PRESS_PATH), label: pressNavLabel(locale) },
       ],
     },
     {

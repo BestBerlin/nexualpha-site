@@ -73,6 +73,9 @@ import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
 import { CALENDAR_ICS_PATH, INTEL_TOOL_INDEX_LOCALES, INTEL_TOOL_PATHS, intelToolKey, isIntelToolLive } from "../src/data/intel-tools-routes.js";
 import { intelToolRouteSeo } from "../src/data/intel-tools-seo.js";
+import { DATA_ASSET_INDEX_LOCALES, DATA_ASSET_ROUTE_PATHS, WHALE_REPORT_PATH, isDataAssetRoute, parseDataAssetFilePath } from "../src/data/data-assets-routes.js";
+import { dataAssetRouteSeo } from "../src/data/data-assets-seo.js";
+import { compactWhaleReport, feeIndexCsv, feeIndexSvg, readWhaleReport, tokenizedTrackerCsv, tokenizedTrackerSvg, whaleReportCsv, whaleReportSvg } from "../src/data/data-assets.js";
 import { calendarEventLabel } from "../src/data/intel-tools-labels.js";
 import { intelToolsCopy } from "../src/data/intel-tools-copy.js";
 import { compactEtfFlows, readEtfFlows } from "../src/data/etf-flows.js";
@@ -239,6 +242,32 @@ async function loadRadarApiPayload(env, kind) {
   return payload;
 }
 
+// Linkable data assets (SEO W43, 2026-10-18): CSV downloads /research/<key>.csv and SVG chart embeds /embed/<key>.svg,
+// built per request from the same helpers as the pages (src/data/data-assets.js). The whale report reads the live whale
+// feed; when it is missing the CSV says "unavailable" and the SVG shows no figures. SVGs may be framed anywhere.
+async function readWhaleReportFromFeed(env) {
+  const payload = await readRadarPayload(env, "whales");
+  return payload?.status === "unavailable" ? null : readWhaleReport(payload);
+}
+async function handleDataAssetFile(request, env, file) {
+  if (!["GET", "HEAD"].includes(request.method)) return new Response(null, { status: 405, headers: { allow: "GET, HEAD", "cache-control": "no-store" } });
+  const whale = file.key === "whale-accumulation-report";
+  const report = whale ? await readWhaleReportFromFeed(env) : null;
+  const theme = new URL(request.url).searchParams.get("theme") === "dark" ? "dark" : "light";
+  let body;
+  if (file.kind === "csv") body = file.key === "exchange-fee-index" ? feeIndexCsv() : file.key === "tokenized-stock-tracker" ? tokenizedTrackerCsv() : whaleReportCsv(report);
+  else body = file.key === "exchange-fee-index" ? feeIndexSvg({ theme }) : file.key === "tokenized-stock-tracker" ? tokenizedTrackerSvg({ theme }) : whaleReportSvg(report, { theme });
+  const maxAge = whale ? (report ? 600 : 60) : 3600;
+  const headers = {
+    "cache-control": `public, max-age=${maxAge}`, "x-content-type-options": "nosniff", "access-control-allow-origin": "*",
+    ...(file.kind === "csv"
+      ? { "content-type": "text/csv; charset=utf-8", "content-disposition": `attachment; filename="nexualpha-${file.key}.csv"`, "x-robots-tag": "noindex",
+        link: `<https://nexualpha.com${DATA_ASSET_ROUTE_PATHS.find((p) => p.endsWith(file.key))}>; rel="describedby"` }
+      : { "content-type": "image/svg+xml; charset=utf-8", "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors *", "x-robots-tag": "noindex" }),
+  };
+  return new Response(request.method === "HEAD" ? null : body, { status: 200, headers });
+}
+
 async function readRadarPayload(env, kind) {
   try {
     if (typeof env?.RADAR_READ === "function") return normalizeRadarPayload(kind, await env.RADAR_READ(kind));
@@ -282,6 +311,8 @@ export default {
       }
     }
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
+    const dataAssetFile = parseDataAssetFilePath(url.pathname);
+    if (dataAssetFile) return handleDataAssetFile(request, env, dataAssetFile);
     if (["/api/long-short.json", "/api/whales.json"].includes(url.pathname)) {
       if (!["GET", "HEAD"].includes(request.method)) return new Response(null, { status: 405, headers: { allow: "GET, HEAD" } });
       const kind = url.pathname === "/api/whales.json" ? "whales" : "long-short";
@@ -2814,6 +2845,7 @@ const DEPOSIT_ROUTE_MARKER = "NEXUALPHA_DEPOSIT_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
 const TOKENIZED_STOCKS_ROUTE_MARKER = "NEXUALPHA_TOKENIZED_STOCKS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
+const DATA_ASSETS_ROUTE_MARKER = "NEXUALPHA_DATA_ASSETS_ROUTE_V1";
 const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
 const RADAR_ROUTE_MARKER = "NEXUALPHA_RADAR_ROUTE_V1";
 const GLOSSARY_ROUTE_MARKER = "NEXUALPHA_GLOSSARY_ROUTE_V1";
@@ -2852,6 +2884,8 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [TOKENIZED_STOCKS_ROUTE_MARKER]: ["route-tokenized-stocks-"],
   // Spot ETF flows + crypto calendar: own chunk only.
   [INTEL_TOOLS_ROUTE_MARKER]: ["route-intel-tools-"],
+  // Linkable data assets + /press: own chunk plus the data-page styles it builds on.
+  [DATA_ASSETS_ROUTE_MARKER]: ["route-data-assets-", "route-data-"],
   [CONVERTER_ROUTE_MARKER]: ["route-converter-"],
   [RADAR_ROUTE_MARKER]: ["route-radar-"],
   // Crypto glossary (hub + terms): own chunk only.
@@ -2908,7 +2942,7 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/licenses", "/flash", "/coins", "/convert", "/glossary", "/tokenized-stocks"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...RADAR_PATHS, ...DATA_PAGE_PATHS, "/funding-rates/matrix", LIQUIDATION_HEATMAP_PATH, ...INTEL_TOOL_PATHS, ...DATA_ASSET_ROUTE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
@@ -3857,7 +3891,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
     // /etf-flows and /calendar: the snapshot the page was rendered with ({ kind, data, now }).
-    ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
+    ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar", "whale-report"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
     ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
     // Tokenized-stocks pages rendered from a newer runtime listing snapshot: the compact table they were rendered with.
@@ -5026,6 +5060,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] intel tool SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] intel tool SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    // Linkable data assets + /press: rendered at request time (the whale report from the snapshot the head used).
+    if (metadata.marker === DATA_ASSETS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const intelTool = metadata.dataAsset || null;
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), intelTool ? { intelTool } : {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"v6 v2-page v3-page nxd nxr")) {
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, intelTool ? { intelTool } : {}, url);
+        }
+        console.error(`[NexuAlpha] data asset SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] data asset SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     if (metadata.marker === CONVERTER_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
@@ -7137,6 +7182,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseLicensesPath(pathname) && parseLicensesPath(pathname).kind !== "missing") return licenseRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Spot ETF flows + crypto calendar: their nine written editions.
   if (INTEL_TOOL_PATHS.includes(pathname)) return isIntelToolLive(pathname) ? INTEL_TOOL_INDEX_LOCALES : [];
+  // Linkable data assets + /press: en and zh-Hans editions.
+  if (DATA_ASSET_ROUTE_PATHS.includes(pathname)) return DATA_ASSET_INDEX_LOCALES;
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Tokenized US stocks: every written edition (src/data/tokenized-stocks.js).
@@ -8641,6 +8688,18 @@ async function routeMetadataBase(url, env, newsFeed) {
   }
   // Spot ETF flows + crypto calendar (2026-10-13): Dataset (+ Event list) + FAQPage + BreadcrumbList from
   // src/data/intel-tools-seo.js (same helper as seo-injection.js), built from the runtime snapshot the body renders.
+  // Linkable data assets + /press (SEO W43, 2026-10-18): Dataset (CC BY 4.0, CSV distribution) + FAQPage + BreadcrumbList
+  // from src/data/data-assets-seo.js (same helper as seo-injection.js); the whale report from the live whale feed.
+  if (isDataAssetRoute(canonicalPath)) {
+    const report = canonicalPath === WHALE_REPORT_PATH ? compactWhaleReport(await readWhaleReportFromFeed(env)) : null;
+    const seo = dataAssetRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), report });
+    return {
+      status: 200, title: seo.title, description: seo.description, canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: seo.indexable ? "index,follow" : "noindex,follow", marker: DATA_ASSETS_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, seo.alternatesLocales), schema: seo.schemas,
+      ...(canonicalPath === WHALE_REPORT_PATH ? { dataAsset: { kind: "whale-report", data: report } } : {}),
+    };
+  }
   const intelKey = intelToolKey(canonicalPath);
   if (intelKey) {
     const now = Date.now();
@@ -9270,6 +9329,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/licenses" || pathname.startsWith("/licenses/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[LICENSES_ROUTE_MARKER]];
   if (parseDepositPath(pathname) && parseDepositPath(pathname).kind !== "missing") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[DEPOSIT_ROUTE_MARKER]];
   if (INTEL_TOOL_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[INTEL_TOOLS_ROUTE_MARKER]];
+  if (DATA_ASSET_ROUTE_PATHS.includes(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[DATA_ASSETS_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
   if (pathname === TS_PATH || pathname.startsWith(`${TS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[TOKENIZED_STOCKS_ROUTE_MARKER]];
   if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];

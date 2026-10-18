@@ -83,6 +83,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   tokenizedStocks: "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   // Spot ETF flows + crypto calendar (2026-10-13): route chunk route-intel-tools.
   intelTools: "./components/intel-tools/IntelToolPages.jsx",
+  // Linkable data assets + /press (SEO W43, 2026-10-18): route chunk route-data-assets.
+  dataAssets: "./components/data-assets/DataAssetPages.jsx",
   // Bitget Alliance campaign page (/activities/bitget-alliance, 2026-10-13): route chunk route-campaign-bitget.
   bitgetAlliance: "./components/campaigns/BitgetAlliancePage.jsx",
   // Kraken 5M USDG Challenge page (/activities/kraken-usdg-challenge, 2026-10-13): route chunk route-campaign-kraken.
@@ -186,6 +188,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "directory") return [ROUTE_MODULE_PATHS.directory];
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "etfFlows" || name === "calendar") return [ROUTE_MODULE_PATHS.intelTools];
+  if (name === "feeIndex" || name === "tsTracker" || name === "whaleReport" || name === "press") return [ROUTE_MODULE_PATHS.dataAssets];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "liquidationHeatmap") return [ROUTE_MODULE_PATHS.liquidationHeatmap];
   if (name === "fundingMatrix") return [ROUTE_MODULE_PATHS.fundingMatrix];

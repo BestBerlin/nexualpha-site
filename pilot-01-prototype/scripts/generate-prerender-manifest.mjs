@@ -42,6 +42,7 @@ import { depositSitemapEntries } from "../src/data/deposit-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { exchangeHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
+import { dataAssetsSitemapEntries } from "../src/data/data-assets-seo.js";
 import { converterSitemapEntries } from "../src/data/converter-seo.js";
 import { glossarySitemapEntries } from "../src/data/glossary-seo.js";
 import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
@@ -412,12 +413,15 @@ function buildDownloadOrAcademySitemap(sitemapEntries) {
 
 export function buildIntelToolsSitemap() {
   const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
-  const entries = intelToolsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const urlFor = (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}`;
+  // Linkable data assets + /press (SEO W43, 2026-10-18) share this data sitemap, with their own lastmod/changefreq.
+  const entries = [...intelToolsSitemapEntries({ urlFor }).map((entry) => ({ ...entry, lastmod: null, changefreq: "daily" })), ...dataAssetsSitemapEntries({ urlFor })];
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const entry of entries) {
     lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
     for (const alternate of entry.alternates) lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
-    lines.push("    <changefreq>daily</changefreq>", "  </url>");
+    if (entry.lastmod) lines.push(`    <lastmod>${entry.lastmod}</lastmod>`);
+    lines.push(`    <changefreq>${entry.changefreq || "daily"}</changefreq>`, "  </url>");
   }
   return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length };
 }
