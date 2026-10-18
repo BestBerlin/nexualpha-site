@@ -523,7 +523,10 @@ export async function cycle({ outFile = OUT_FILE, stateFile = STATE_FILE, histor
   if (binanceCoverage.status === "silent") log("Binance force-order stream unavailable: connected but silent for at least 10 minutes");
   observations.push({ t: Date.now(), binanceStream: binanceCoverage.available, okxPoll: Boolean(okxPoll) });
   const previous = readJson(outFile);
-  const m = result.markets?.status === "fulfilled" ? result.markets.value : previous?.market || { majors: [], movers: [], openInterest: [] };
+  // A successful headline/liquidation poll must not renew retained market prices.
+  const m = result.markets?.status === "fulfilled"
+    ? { ...result.markets.value, generatedAt: new Date().toISOString() }
+    : { ...(previous?.market || { majors: [], movers: [], openInterest: [] }), generatedAt: previous?.market?.generatedAt ?? previous?.generatedAt ?? null };
   const news = result.headlines?.status === "fulfilled" ? result.headlines.value : previous?.headlines || [];
   if (result.funding?.status === "fulfilled") lastFunding = result.funding.value;
   if (lastFunding && Date.now() - Date.parse(lastFunding.generatedAt) > 2 * 3600e3) lastFunding = null;

@@ -126,7 +126,8 @@ export function buildMoversSnapshot({ binanceRows = null, coins = null, marketEv
   if (!board) return null;
   const at = board.source === "binance-usdm" && Number.isFinite(binanceRows?.snapshotAt)
     ? binanceRows.snapshotAt
-    : board.source === "market-events" && Number.isFinite(Date.parse(marketEvents?.generatedAt)) ? Date.parse(marketEvents.generatedAt) : now;
+    : board.source === "market-events" ? Date.parse(marketEvents?.market?.generatedAt ?? marketEvents?.generatedAt) : now;
+  if (!Number.isFinite(at)) return null;
   return { generatedAt: new Date(at).toISOString(), source: board.source, up: board.up, down: board.down, headline: moversHeadline(marketEvents) };
 }
 

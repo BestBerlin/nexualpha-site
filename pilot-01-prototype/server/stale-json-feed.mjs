@@ -1,6 +1,7 @@
 // A single refresh per TTL, with a bounded wait and an indefinitely retained last good payload.
+// isSourceStale optionally separates source validity from the refresh timer; errors still mark retained data stale.
 export const STALE_JSON_CACHE_CONTROL = 'public, max-age=10, stale-while-revalidate=60';
-export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now = Date.now, log = () => {}, cacheControl = STALE_JSON_CACHE_CONTROL }) {
+export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now = Date.now, log = () => {}, cacheControl = STALE_JSON_CACHE_CONTROL, isSourceStale = null }) {
   let snapshot = null, goodAt = 0, attemptedAt = null, pending = null, failed = false, flight = 0;
   // 2026-10-18: the ticker froze for three days. The in-flight promise used to be released only when the *source*
   // settled, so one Binance request that ignored its abort kept every later refresh waiting on it forever and
@@ -41,7 +42,7 @@ export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now
       const running = refresh();
       if (!snapshot) await running;
     } else if (!snapshot && pending) await pending;
-    return snapshot && ((failed || now() - goodAt >= ttlMs) ? { ...snapshot, stale: true } : snapshot);
+    return snapshot && ((failed || (isSourceStale ? isSourceStale(snapshot, now()) : now() - goodAt >= ttlMs)) ? { ...snapshot, stale: true } : snapshot);
   };
   const respond = async (method = 'GET') => {
     const data = await read();

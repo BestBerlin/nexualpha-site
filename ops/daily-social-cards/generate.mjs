@@ -204,7 +204,7 @@ export async function moversWithFallback({ movers, market, now, readCoins }) {
   const age = (v) => now - Date.parse(v?.generatedAt);
   const ok = (v) => v && v.stale !== true && Number.isFinite(age(v)) && age(v) >= 0 && age(v) <= MAX_SOURCE_AGE_MS;
   if (ok(movers)) return { movers, source: 'web' };
-  if (!ok(market)) return { movers, source: 'web' }; // nothing better; normalize() reports the stale feed
+  if (!ok(market) || (market?.sourceStatus?.markets && market.sourceStatus.markets.status !== 'ok')) return { movers, source: 'web' }; // nothing better; normalize() reports the stale feed
   let coins = null;
   try { coins = await readCoins(); } catch { return { movers, source: 'web' }; }
   const snap = buildMoversSnapshot({ coins, marketEvents: market, now });

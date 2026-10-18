@@ -1,3 +1,4 @@
+import { radarSourceStale } from './source-freshness.mjs';
 // Server-only long/short and whale-transfer radar reader.
 //
 // Terms/source notes checked 2026-10-13:
@@ -532,8 +533,7 @@ function readWhaleSnapshotFile(file, now = Date.now()) {
     if (!signals.length && !positions.length && !transfers.length && !rows.length) return null;
     const updatedAt = typeof payload.updatedAt === "string" ? payload.updatedAt : null;
     const dataUpdatedAt = payload.dataUpdatedAt || payload.generatedAt || updatedAt;
-    const updatedMs = Date.parse(dataUpdatedAt || "");
-    const stale = payload.stale === true || !Number.isFinite(updatedMs) || now - updatedMs > MAX_TTL_MS;
+    const stale = radarSourceStale({ ...payload, dataUpdatedAt }, now);
     return {
       kind: "whales",
       status: "ok",
@@ -1260,11 +1260,12 @@ export function createPositionRadar({
   const read = async (kind, { waitMs = 2500 } = {}) => {
     if (!POSITION_RADAR_KINDS.includes(kind)) throw new RangeError(`unknown radar kind: ${kind}`);
     const hit = cache.get(kind);
-    if (hit && now() - hit.at <= cappedTtlMs) return hit.data;
+    // A file read near source expiry must not postpone revalidation for another full TTL.
+    if (hit && now() - hit.at < cappedTtlMs && !(kind === "whales" && radarSourceStale(hit.data, now()))) return hit.data;
     const run = refresh(kind);
     await Promise.race([run, sleep(waitMs)]);
     const next = cache.get(kind);
-    if (next && now() - next.at <= cappedTtlMs) return next.data;
+    if (next && now() - next.at <= cappedTtlMs) return kind === "whales" && radarSourceStale(next.data, now()) ? { ...next.data, stale: true } : next.data;
     if (next?.data?.status === "ok") return { ...next.data, stale: true };
     return unavailableFeed(kind, kind === "long-short" ? Object.keys(longShortSources) : Object.keys(whaleSources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name), "refresh-timeout");
   };

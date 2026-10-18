@@ -12,7 +12,7 @@ test('radar JSON endpoints share SSR reader, cache bursts and serve stale after 
     const url = `https://nexualpha.com/api/${kind}.json`;
     const response = await worker.fetch(new Request(url), env);
     assert.equal(response.status, 200);
-    assert.equal(response.headers.get('cache-control'), 'public, max-age=10, stale-while-revalidate=60');
+    assert.equal(response.headers.get('cache-control'), kind === 'whales' ? 'no-store' : 'public, max-age=10, stale-while-revalidate=60');
     assert.deepEqual((await response.json()).rows, rows);
     assert.equal(await (await worker.fetch(new Request(url, { method: 'HEAD' }), env)).text(), '');
     assert.equal((await worker.fetch(new Request(url, { method: 'POST' }), env)).status, 405);

@@ -1,3 +1,4 @@
+import { radarSourceStale } from '../server/source-freshness.mjs';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
 import { bitgetGuideSeo } from "../src/data/bitget-guide-seo.js";
 import { isBitgetGuidePath } from "../src/data/bitget-guide-routes.js";
@@ -213,6 +214,7 @@ function workerStaleJsonFeed(env, key, load) {
     entry.feed = createStaleJsonFeed({
       load: (signal) => entry.load(signal),
       ttlMs: polledJsonTtl(env),
+      ...(key.startsWith("radar:whales") ? { isSourceStale: radarSourceStale } : {}),
       timeoutMs: polledJsonTimeout(env),
       log: (message) => console.error(`[NexuAlpha] ${key}: ${message}`),
     });
@@ -222,7 +224,7 @@ function workerStaleJsonFeed(env, key, load) {
   return entry.feed;
 }
 
-async function respondWorkerStaleJson(feed, method, fallbackPayload) {
+async function respondWorkerStaleJson(feed, method, fallbackPayload, cacheControl = "public, max-age=10, stale-while-revalidate=60") {
   const data = await feed.read();
   return new Response(method === "HEAD" ? null : JSON.stringify(data || fallbackPayload || { status: "unavailable" }), {
     status: data ? 200 : 503,
@@ -230,7 +232,7 @@ async function respondWorkerStaleJson(feed, method, fallbackPayload) {
       "content-type": "application/json; charset=utf-8",
       "x-content-type-options": "nosniff",
       "x-robots-tag": "noindex",
-      "cache-control": data ? "public, max-age=10, stale-while-revalidate=60" : "no-store",
+      "cache-control": data ? cacheControl : "no-store",
     },
   });
 }
@@ -318,6 +320,7 @@ export default {
       const kind = url.pathname === "/api/whales.json" ? "whales" : "long-short";
       // ?view=home: the ≤8 rows the home board shows (~7 KB instead of the full feed) for its 60 s refresh.
       // &locale=xx adds ready-made sentence parts ([before, amount, after]) for clients without the site copy (Mini App).
+      // Whale freshness is evaluated at origin; nginx/browser SWR must not replay an old stale decision.
       if (kind === "whales" && url.searchParams.get("view") === "home") {
         const textLocale = WHALES_COPY_LOCALES.includes(url.searchParams.get("locale")) ? url.searchParams.get("locale") : null;
         // No rows yet = 200 {status:"unavailable"}: the board simply stays hidden, the browser logs no failed request.
@@ -328,10 +331,10 @@ export default {
         }).read();
         return new Response(request.method === "HEAD" ? null : JSON.stringify(data || { kind: "whales", status: "unavailable" }), {
           status: 200,
-          headers: { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff", "x-robots-tag": "noindex", "cache-control": data ? "public, max-age=10, stale-while-revalidate=60" : "no-store" },
+          headers: { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff", "x-robots-tag": "noindex", "cache-control": "no-store" },
         });
       }
-      return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:${kind}`, () => loadRadarApiPayload(env, kind)), request.method, unavailableRadarPayload(kind));
+      return respondWorkerStaleJson(workerStaleJsonFeed(env, `radar:${kind}`, () => loadRadarApiPayload(env, kind)), request.method, unavailableRadarPayload(kind), kind === "whales" ? "no-store" : undefined);
     }
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
