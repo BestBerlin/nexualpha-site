@@ -18,6 +18,17 @@ export function tsLive(live) {
     && Date.parse(live.generatedAt) >= Date.parse(TS_LIVE_BAKED.generatedAt) ? live : TS_LIVE_BAKED;
 }
 
+/** The live table without one venue (Türkiye pages never carry Bitget, not even in the hydration state). */
+export function tsLiveWithout(live, slug) {
+  if (!live?.rows) return live;
+  const drop = (obj) => Object.fromEntries(Object.entries(obj || {}).filter(([key]) => key !== slug));
+  return {
+    ...live, counts: drop(live.counts), checked: drop(live.checked),
+    rows: Object.fromEntries(Object.entries(live.rows).map(([ticker, lanes]) => [ticker, Object.fromEntries(Object.entries(lanes).filter(([key]) => !key.startsWith(`${slug}:`)))])),
+    events: (live.events || []).filter((e) => e.venue !== slug),
+  };
+}
+
 /** The cited live source of a venue lane: { id, url, title, date } (date = the SGT day it was read). */
 export function tsLiveSource(slug, lane, live) {
   const url = TS_LIVE_ENDPOINTS[slug]?.[lane];

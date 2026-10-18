@@ -93,6 +93,7 @@ import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { TS_PATH, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
 import { tokenizedStocksRouteSeo } from "../src/data/tokenized-stocks-seo.js";
 import { TS_LIVE_BAKED } from "../src/data/tokenized-stocks-live.generated.js";
+import { tsLiveWithout } from "../src/data/tokenized-stocks-rows.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
 import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "../src/data/kraken-usdg.js";
@@ -8659,7 +8660,9 @@ async function routeMetadataBase(url, env, newsFeed) {
   // Tokenized US stocks (2026-10-15): CollectionPage/WebPage + ItemList + FAQPage + BreadcrumbList from
   // src/data/tokenized-stocks-seo.js (same helper as seo-injection.js); unknown tickers are 404.
   // Ticker + exchange pages read the host's refreshed listing snapshot (TS_LIVE_READ) when it is newer than the release.
-  const tsLiveTable = parseTokenizedStocksPath(canonicalPath) ? await readTokenizedStocksLive(env) : null;
+  const tsLiveRuntime = parseTokenizedStocksPath(canonicalPath) ? await readTokenizedStocksLive(env) : null;
+  // Türkiye (tr edition or ?market=TR): the shipped table carries no Bitget rows, so the page source never names it.
+  const tsLiveTable = tsLiveRuntime && (requestedLocale === "tr" || turkeyRequestMarket(url)) ? tsLiveWithout(tsLiveRuntime, "bitget") : tsLiveRuntime;
   const tokenizedStocksSeo = tokenizedStocksRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined, live: tsLiveTable });
   if (tokenizedStocksSeo) {
     if (tokenizedStocksSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
