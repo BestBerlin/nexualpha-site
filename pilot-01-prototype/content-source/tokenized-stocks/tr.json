@@ -295,7 +295,13 @@
     "changesH": "Son listeleme değişiklikleri",
     "changeListed": "{exchange} {sym} listeledi",
     "changeDelisted": "{exchange} {sym} listeden çıkardı",
-    "campaignsH": "Devam eden hisse kampanyaları"
+    "campaignsH": "Devam eden hisse kampanyaları",
+    "found": {
+      "competitionStock": "{exchange} {stock} işlem yarışması · {amount} {asset} ödül havuzu · bitiş {date} SGT",
+      "competition": "{exchange} hisse işlem yarışması · {amount} {asset} ödül havuzu · bitiş {date} SGT",
+      "poolStock": "{exchange} {stock} işlem kampanyası · {amount} {asset} paylaşılıyor · bitiş {date} SGT",
+      "pool": "{exchange} hisse işlem kampanyası · {amount} {asset} paylaşılıyor · bitiş {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia, yapay zekâ modellerinin çoğunu eğiten ve çalıştıran GPU'ları tasarlar; bu yüzden NVDA kripto borsalarında en çok işlem gören hisse tokenıdır.",

@@ -302,7 +302,13 @@
     "changesH": "أحدث تغييرات الإدراج",
     "changeListed": "{exchange} أدرجت {sym}",
     "changeDelisted": "{exchange} أزالت {sym}",
-    "campaignsH": "حملات الأسهم الجارية"
+    "campaignsH": "حملات الأسهم الجارية",
+    "found": {
+      "competitionStock": "{exchange}: مسابقة تداول {stock} · جوائز {amount} {asset} · حتى {date} SGT",
+      "competition": "{exchange}: مسابقة تداول الأسهم · جوائز {amount} {asset} · حتى {date} SGT",
+      "poolStock": "{exchange}: حملة {stock} · تقاسم {amount} {asset} · حتى {date} SGT",
+      "pool": "{exchange}: حملة تداول الأسهم · تقاسم {amount} {asset} · حتى {date} SGT"
+    }
   },
   "about": {
     "NVDA": "تصمم Nvidia وحدات GPU التي تُدرَّب عليها معظم نماذج AI وتعمل عليها، ولهذا يُعد NVDA أكثر رموز الأسهم تداولًا على منصات العملات الرقمية.",

@@ -306,7 +306,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "أحدث تغييرات الإدراج",
    "changeListed": "{exchange} أدرجت {sym}",
    "changeDelisted": "{exchange} أزالت {sym}",
-   "campaignsH": "حملات الأسهم الجارية"
+   "campaignsH": "حملات الأسهم الجارية",
+   "found": {
+    "competitionStock": "{exchange}: مسابقة تداول {stock} · جوائز {amount} {asset} · حتى {date} SGT",
+    "competition": "{exchange}: مسابقة تداول الأسهم · جوائز {amount} {asset} · حتى {date} SGT",
+    "poolStock": "{exchange}: حملة {stock} · تقاسم {amount} {asset} · حتى {date} SGT",
+    "pool": "{exchange}: حملة تداول الأسهم · تقاسم {amount} {asset} · حتى {date} SGT"
+   }
   },
   "about": {
    "NVDA": "تصمم Nvidia وحدات GPU التي تُدرَّب عليها معظم نماذج AI وتعمل عليها، ولهذا يُعد NVDA أكثر رموز الأسهم تداولًا على منصات العملات الرقمية.",
@@ -765,7 +771,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Neueste Listing-Änderungen",
    "changeListed": "{exchange} listet {sym}",
    "changeDelisted": "{exchange} entfernt {sym}",
-   "campaignsH": "Laufende Aktien-Aktionen"
+   "campaignsH": "Laufende Aktien-Aktionen",
+   "found": {
+    "competitionStock": "{exchange}: {stock}-Trading-Wettbewerb · {amount} {asset} Preispool · bis {date} SGT",
+    "competition": "{exchange}: Aktien-Trading-Wettbewerb · {amount} {asset} Preispool · bis {date} SGT",
+    "poolStock": "{exchange}: {stock}-Aktion · {amount} {asset} zu teilen · bis {date} SGT",
+    "pool": "{exchange}: Aktien-Aktion · {amount} {asset} zu teilen · bis {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia entwickelt die GPUs, auf denen die meisten AI-Modelle trainiert werden und laufen; deshalb ist NVDA der meistgehandelte Aktien-Token auf Krypto-Börsen.",
@@ -1224,7 +1236,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Latest listing changes",
    "changeListed": "{exchange} listed {sym}",
    "changeDelisted": "{exchange} removed {sym}",
-   "campaignsH": "Stock campaigns running now"
+   "campaignsH": "Stock campaigns running now",
+   "found": {
+    "competitionStock": "{exchange} {stock} trading competition · {amount} {asset} pool · ends {date} SGT",
+    "competition": "{exchange} stock trading competition · {amount} {asset} pool · ends {date} SGT",
+    "poolStock": "{exchange} {stock} trading campaign · share {amount} {asset} · ends {date} SGT",
+    "pool": "{exchange} stock trading campaign · share {amount} {asset} · ends {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia designs the GPUs that train and run most AI models, which makes NVDA the most traded stock token on crypto exchanges.",
@@ -1683,7 +1701,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Últimos cambios de listado",
    "changeListed": "{exchange} listó {sym}",
    "changeDelisted": "{exchange} retiró {sym}",
-   "campaignsH": "Campañas de acciones en curso"
+   "campaignsH": "Campañas de acciones en curso",
+   "found": {
+    "competitionStock": "{exchange}: torneo de trading de {stock} · bote de {amount} {asset} · hasta el {date} SGT",
+    "competition": "{exchange}: torneo de trading de acciones · bote de {amount} {asset} · hasta el {date} SGT",
+    "poolStock": "{exchange}: campaña de {stock} · reparte {amount} {asset} · hasta el {date} SGT",
+    "pool": "{exchange}: campaña de acciones · reparte {amount} {asset} · hasta el {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia diseña las GPU que entrenan y ejecutan la mayoría de los modelos de AI, por eso NVDA es el token de acción más operado en los exchanges cripto.",
@@ -2142,7 +2166,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Derniers changements de cotation",
    "changeListed": "{exchange} a listé {sym}",
    "changeDelisted": "{exchange} a retiré {sym}",
-   "campaignsH": "Campagnes actions en cours"
+   "campaignsH": "Campagnes actions en cours",
+   "found": {
+    "competitionStock": "{exchange} : compétition de trading {stock} · {amount} {asset} à gagner · jusqu’au {date} SGT",
+    "competition": "{exchange} : compétition de trading d’actions · {amount} {asset} à gagner · jusqu’au {date} SGT",
+    "poolStock": "{exchange} : campagne {stock} · {amount} {asset} à partager · jusqu’au {date} SGT",
+    "pool": "{exchange} : campagne actions · {amount} {asset} à partager · jusqu’au {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia conçoit les GPU qui entraînent et font tourner la plupart des modèles d'AI, ce qui fait de NVDA le token d'action le plus tradé sur les plateformes crypto.",
@@ -2601,7 +2631,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Perubahan listing terbaru",
    "changeListed": "{exchange} me-listing {sym}",
    "changeDelisted": "{exchange} menghapus {sym}",
-   "campaignsH": "Kampanye saham yang sedang berjalan"
+   "campaignsH": "Kampanye saham yang sedang berjalan",
+   "found": {
+    "competitionStock": "{exchange} kompetisi trading {stock} · total hadiah {amount} {asset} · berakhir {date} SGT",
+    "competition": "{exchange} kompetisi trading saham · total hadiah {amount} {asset} · berakhir {date} SGT",
+    "poolStock": "{exchange} kampanye trading {stock} · bagi {amount} {asset} · berakhir {date} SGT",
+    "pool": "{exchange} kampanye trading saham · bagi {amount} {asset} · berakhir {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia merancang GPU yang melatih dan menjalankan sebagian besar model AI, sehingga NVDA menjadi token saham paling banyak diperdagangkan di exchange kripto.",
@@ -3060,7 +3096,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Ultime modifiche ai listing",
    "changeListed": "{exchange} ha listato {sym}",
    "changeDelisted": "{exchange} ha rimosso {sym}",
-   "campaignsH": "Campagne azionarie in corso"
+   "campaignsH": "Campagne azionarie in corso",
+   "found": {
+    "competitionStock": "{exchange}: gara di trading su {stock} · montepremi {amount} {asset} · fino al {date} SGT",
+    "competition": "{exchange}: gara di trading azionario · montepremi {amount} {asset} · fino al {date} SGT",
+    "poolStock": "{exchange}: campagna su {stock} · {amount} {asset} da dividere · fino al {date} SGT",
+    "pool": "{exchange}: campagna azionaria · {amount} {asset} da dividere · fino al {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia progetta le GPU che addestrano ed eseguono la maggior parte dei modelli di AI, per questo NVDA è il token azionario più scambiato sugli exchange crypto.",
@@ -3519,7 +3561,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "最新の上場・廃止",
    "changeListed": "{exchange} が {sym} を上場",
    "changeDelisted": "{exchange} が {sym} を廃止",
-   "campaignsH": "開催中の株式キャンペーン"
+   "campaignsH": "開催中の株式キャンペーン",
+   "found": {
+    "competitionStock": "{exchange} {stock}取引コンテスト · 賞金総額 {amount} {asset} · {date} SGT まで",
+    "competition": "{exchange} 株式取引コンテスト · 賞金総額 {amount} {asset} · {date} SGT まで",
+    "poolStock": "{exchange} {stock}取引キャンペーン · {amount} {asset} を山分け · {date} SGT まで",
+    "pool": "{exchange} 株式取引キャンペーン · {amount} {asset} を山分け · {date} SGT まで"
+   }
   },
   "about": {
    "NVDA": "エヌビディアは、ほとんどのAIモデルの学習と実行に使われるGPUを設計しています。そのためNVDAは暗号資産取引所で最も取引される株式トークンです。",
@@ -3978,7 +4026,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "최근 상장·상장폐지",
    "changeListed": "{exchange} {sym} 상장",
    "changeDelisted": "{exchange} {sym} 상장폐지",
-   "campaignsH": "진행 중인 주식 이벤트"
+   "campaignsH": "진행 중인 주식 이벤트",
+   "found": {
+    "competitionStock": "{exchange} {stock} 거래 대회 · 상금 {amount} {asset} · {date} SGT 마감",
+    "competition": "{exchange} 주식 거래 대회 · 상금 {amount} {asset} · {date} SGT 마감",
+    "poolStock": "{exchange} {stock} 거래 이벤트 · {amount} {asset} 나눠 갖기 · {date} SGT 마감",
+    "pool": "{exchange} 주식 거래 이벤트 · {amount} {asset} 나눠 갖기 · {date} SGT 마감"
+   }
   },
   "about": {
    "NVDA": "엔비디아는 대부분의 AI 모델을 학습하고 실행하는 GPU를 설계합니다. 그래서 NVDA는 암호화폐 거래소에서 가장 많이 거래되는 주식 토큰입니다.",
@@ -4437,7 +4491,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Últimas mudanças de listagem",
    "changeListed": "{exchange} listou {sym}",
    "changeDelisted": "{exchange} retirou {sym}",
-   "campaignsH": "Campanhas de ações em andamento"
+   "campaignsH": "Campanhas de ações em andamento",
+   "found": {
+    "competitionStock": "{exchange}: competição de trading de {stock} · prêmio de {amount} {asset} · até {date} SGT",
+    "competition": "{exchange}: competição de trading de ações · prêmio de {amount} {asset} · até {date} SGT",
+    "poolStock": "{exchange}: campanha de {stock} · divide {amount} {asset} · até {date} SGT",
+    "pool": "{exchange}: campanha de ações · divide {amount} {asset} · até {date} SGT"
+   }
   },
   "about": {
    "NVDA": "A Nvidia projeta as GPUs que treinam e rodam a maioria dos modelos de AI, por isso NVDA é o token de ação mais negociado nas corretoras de cripto.",
@@ -4896,7 +4956,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Последние изменения листинга",
    "changeListed": "{exchange}: добавлен {sym}",
    "changeDelisted": "{exchange}: удалён {sym}",
-   "campaignsH": "Акции для трейдеров сейчас"
+   "campaignsH": "Акции для трейдеров сейчас",
+   "found": {
+    "competitionStock": "{exchange}: турнир по {stock} · призовой фонд {amount} {asset} · до {date} SGT",
+    "competition": "{exchange}: турнир по акциям · призовой фонд {amount} {asset} · до {date} SGT",
+    "poolStock": "{exchange}: акция по {stock} · раздача {amount} {asset} · до {date} SGT",
+    "pool": "{exchange}: акция по торговле акциями · раздача {amount} {asset} · до {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia разрабатывает GPU, на которых обучается и работает большинство AI-моделей, поэтому NVDA — самый торгуемый токен акции на криптобиржах.",
@@ -5348,7 +5414,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Son listeleme değişiklikleri",
    "changeListed": "{exchange} {sym} listeledi",
    "changeDelisted": "{exchange} {sym} listeden çıkardı",
-   "campaignsH": "Devam eden hisse kampanyaları"
+   "campaignsH": "Devam eden hisse kampanyaları",
+   "found": {
+    "competitionStock": "{exchange} {stock} işlem yarışması · {amount} {asset} ödül havuzu · bitiş {date} SGT",
+    "competition": "{exchange} hisse işlem yarışması · {amount} {asset} ödül havuzu · bitiş {date} SGT",
+    "poolStock": "{exchange} {stock} işlem kampanyası · {amount} {asset} paylaşılıyor · bitiş {date} SGT",
+    "pool": "{exchange} hisse işlem kampanyası · {amount} {asset} paylaşılıyor · bitiş {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia, yapay zekâ modellerinin çoğunu eğiten ve çalıştıran GPU'ları tasarlar; bu yüzden NVDA kripto borsalarında en çok işlem gören hisse tokenıdır.",
@@ -5807,7 +5879,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Останні зміни лістингу",
    "changeListed": "{exchange}: додано {sym}",
    "changeDelisted": "{exchange}: видалено {sym}",
-   "campaignsH": "Акції для трейдерів зараз"
+   "campaignsH": "Акції для трейдерів зараз",
+   "found": {
+    "competitionStock": "{exchange}: турнір з {stock} · призовий фонд {amount} {asset} · до {date} SGT",
+    "competition": "{exchange}: турнір з акцій · призовий фонд {amount} {asset} · до {date} SGT",
+    "poolStock": "{exchange}: акція з {stock} · роздача {amount} {asset} · до {date} SGT",
+    "pool": "{exchange}: акція з торгівлі акціями · роздача {amount} {asset} · до {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia розробляє GPU, на яких навчається й працює більшість AI-моделей, тому NVDA — найбільш торгований токен акції на криптобіржах.",
@@ -6266,7 +6344,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "تازہ ترین لسٹنگ تبدیلیاں",
    "changeListed": "{exchange} نے {sym} لسٹ کیا",
    "changeDelisted": "{exchange} نے {sym} ہٹا دیا",
-   "campaignsH": "جاری اسٹاک مہمات"
+   "campaignsH": "جاری اسٹاک مہمات",
+   "found": {
+    "competitionStock": "{exchange}: {stock} ٹریڈنگ مقابلہ · انعامی پول {amount} {asset} · {date} SGT تک",
+    "competition": "{exchange}: اسٹاک ٹریڈنگ مقابلہ · انعامی پول {amount} {asset} · {date} SGT تک",
+    "poolStock": "{exchange}: {stock} مہم · {amount} {asset} تقسیم · {date} SGT تک",
+    "pool": "{exchange}: اسٹاک ٹریڈنگ مہم · {amount} {asset} تقسیم · {date} SGT تک"
+   }
   },
   "about": {
    "NVDA": "Nvidia وہ GPU ڈیزائن کرتی ہے جن پر زیادہ تر AI ماڈلز ٹرین ہوتے اور چلتے ہیں، اسی لیے NVDA کرپٹو ایکسچینجز پر سب سے زیادہ ٹریڈ ہونے والا اسٹاک ٹوکن ہے۔",
@@ -6725,7 +6809,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "Thay đổi niêm yết mới nhất",
    "changeListed": "{exchange} niêm yết {sym}",
    "changeDelisted": "{exchange} hủy niêm yết {sym}",
-   "campaignsH": "Sự kiện cổ phiếu đang diễn ra"
+   "campaignsH": "Sự kiện cổ phiếu đang diễn ra",
+   "found": {
+    "competitionStock": "{exchange} giải giao dịch {stock} · quỹ thưởng {amount} {asset} · hết hạn {date} SGT",
+    "competition": "{exchange} giải giao dịch cổ phiếu · quỹ thưởng {amount} {asset} · hết hạn {date} SGT",
+    "poolStock": "{exchange} sự kiện giao dịch {stock} · chia {amount} {asset} · hết hạn {date} SGT",
+    "pool": "{exchange} sự kiện giao dịch cổ phiếu · chia {amount} {asset} · hết hạn {date} SGT"
+   }
   },
   "about": {
    "NVDA": "Nvidia thiết kế GPU dùng để huấn luyện và chạy phần lớn mô hình AI, nên NVDA là token cổ phiếu được giao dịch nhiều nhất trên sàn crypto.",
@@ -7184,7 +7274,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "最新上下线",
    "changeListed": "{exchange} 上线 {sym}",
    "changeDelisted": "{exchange} 下线 {sym}",
-   "campaignsH": "正在进行的美股活动"
+   "campaignsH": "正在进行的美股活动",
+   "found": {
+    "competitionStock": "{exchange} {stock}交易赛 · 奖池 {amount} {asset} · 截止 {date} SGT",
+    "competition": "{exchange} 美股交易赛 · 奖池 {amount} {asset} · 截止 {date} SGT",
+    "poolStock": "{exchange} {stock}交易活动 · 瓜分 {amount} {asset} · 截止 {date} SGT",
+    "pool": "{exchange} 美股交易活动 · 瓜分 {amount} {asset} · 截止 {date} SGT"
+   }
   },
   "about": {
    "NVDA": "英伟达设计训练和运行大多数 AI 模型的 GPU，NVDA 是加密交易所里成交最活跃的美股代币。",
@@ -7643,7 +7739,13 @@ export const TS_COPY = Object.freeze({
    "changesH": "最新上下架",
    "changeListed": "{exchange} 上架 {sym}",
    "changeDelisted": "{exchange} 下架 {sym}",
-   "campaignsH": "正在進行的美股活動"
+   "campaignsH": "正在進行的美股活動",
+   "found": {
+    "competitionStock": "{exchange} {stock}交易賽 · 獎池 {amount} {asset} · 截止 {date} SGT",
+    "competition": "{exchange} 美股交易賽 · 獎池 {amount} {asset} · 截止 {date} SGT",
+    "poolStock": "{exchange} {stock}交易活動 · 瓜分 {amount} {asset} · 截止 {date} SGT",
+    "pool": "{exchange} 美股交易活動 · 瓜分 {amount} {asset} · 截止 {date} SGT"
+   }
   },
   "about": {
    "NVDA": "輝達設計訓練和執行大多數 AI 模型的 GPU，NVDA 是加密交易所裡成交最活躍的股票代幣。",

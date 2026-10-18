@@ -302,7 +302,13 @@
     "changesH": "最新上下线",
     "changeListed": "{exchange} 上线 {sym}",
     "changeDelisted": "{exchange} 下线 {sym}",
-    "campaignsH": "正在进行的美股活动"
+    "campaignsH": "正在进行的美股活动",
+    "found": {
+      "competitionStock": "{exchange} {stock}交易赛 · 奖池 {amount} {asset} · 截止 {date} SGT",
+      "competition": "{exchange} 美股交易赛 · 奖池 {amount} {asset} · 截止 {date} SGT",
+      "poolStock": "{exchange} {stock}交易活动 · 瓜分 {amount} {asset} · 截止 {date} SGT",
+      "pool": "{exchange} 美股交易活动 · 瓜分 {amount} {asset} · 截止 {date} SGT"
+    }
   },
   "about": {
     "NVDA": "英伟达设计训练和运行大多数 AI 模型的 GPU，NVDA 是加密交易所里成交最活跃的美股代币。",

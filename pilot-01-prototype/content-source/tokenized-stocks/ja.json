@@ -302,7 +302,13 @@
     "changesH": "最新の上場・廃止",
     "changeListed": "{exchange} が {sym} を上場",
     "changeDelisted": "{exchange} が {sym} を廃止",
-    "campaignsH": "開催中の株式キャンペーン"
+    "campaignsH": "開催中の株式キャンペーン",
+    "found": {
+      "competitionStock": "{exchange} {stock}取引コンテスト · 賞金総額 {amount} {asset} · {date} SGT まで",
+      "competition": "{exchange} 株式取引コンテスト · 賞金総額 {amount} {asset} · {date} SGT まで",
+      "poolStock": "{exchange} {stock}取引キャンペーン · {amount} {asset} を山分け · {date} SGT まで",
+      "pool": "{exchange} 株式取引キャンペーン · {amount} {asset} を山分け · {date} SGT まで"
+    }
   },
   "about": {
     "NVDA": "エヌビディアは、ほとんどのAIモデルの学習と実行に使われるGPUを設計しています。そのためNVDAは暗号資産取引所で最も取引される株式トークンです。",

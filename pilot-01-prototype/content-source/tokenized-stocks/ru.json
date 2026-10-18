@@ -302,7 +302,13 @@
     "changesH": "Последние изменения листинга",
     "changeListed": "{exchange}: добавлен {sym}",
     "changeDelisted": "{exchange}: удалён {sym}",
-    "campaignsH": "Акции для трейдеров сейчас"
+    "campaignsH": "Акции для трейдеров сейчас",
+    "found": {
+      "competitionStock": "{exchange}: турнир по {stock} · призовой фонд {amount} {asset} · до {date} SGT",
+      "competition": "{exchange}: турнир по акциям · призовой фонд {amount} {asset} · до {date} SGT",
+      "poolStock": "{exchange}: акция по {stock} · раздача {amount} {asset} · до {date} SGT",
+      "pool": "{exchange}: акция по торговле акциями · раздача {amount} {asset} · до {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia разрабатывает GPU, на которых обучается и работает большинство AI-моделей, поэтому NVDA — самый торгуемый токен акции на криптобиржах.",

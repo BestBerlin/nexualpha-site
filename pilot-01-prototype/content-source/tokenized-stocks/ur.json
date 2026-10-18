@@ -302,7 +302,13 @@
     "changesH": "تازہ ترین لسٹنگ تبدیلیاں",
     "changeListed": "{exchange} نے {sym} لسٹ کیا",
     "changeDelisted": "{exchange} نے {sym} ہٹا دیا",
-    "campaignsH": "جاری اسٹاک مہمات"
+    "campaignsH": "جاری اسٹاک مہمات",
+    "found": {
+      "competitionStock": "{exchange}: {stock} ٹریڈنگ مقابلہ · انعامی پول {amount} {asset} · {date} SGT تک",
+      "competition": "{exchange}: اسٹاک ٹریڈنگ مقابلہ · انعامی پول {amount} {asset} · {date} SGT تک",
+      "poolStock": "{exchange}: {stock} مہم · {amount} {asset} تقسیم · {date} SGT تک",
+      "pool": "{exchange}: اسٹاک ٹریڈنگ مہم · {amount} {asset} تقسیم · {date} SGT تک"
+    }
   },
   "about": {
     "NVDA": "Nvidia وہ GPU ڈیزائن کرتی ہے جن پر زیادہ تر AI ماڈلز ٹرین ہوتے اور چلتے ہیں، اسی لیے NVDA کرپٹو ایکسچینجز پر سب سے زیادہ ٹریڈ ہونے والا اسٹاک ٹوکن ہے۔",

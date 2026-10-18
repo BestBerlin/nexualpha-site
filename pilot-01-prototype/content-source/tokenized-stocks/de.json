@@ -302,7 +302,13 @@
     "changesH": "Neueste Listing-Änderungen",
     "changeListed": "{exchange} listet {sym}",
     "changeDelisted": "{exchange} entfernt {sym}",
-    "campaignsH": "Laufende Aktien-Aktionen"
+    "campaignsH": "Laufende Aktien-Aktionen",
+    "found": {
+      "competitionStock": "{exchange}: {stock}-Trading-Wettbewerb · {amount} {asset} Preispool · bis {date} SGT",
+      "competition": "{exchange}: Aktien-Trading-Wettbewerb · {amount} {asset} Preispool · bis {date} SGT",
+      "poolStock": "{exchange}: {stock}-Aktion · {amount} {asset} zu teilen · bis {date} SGT",
+      "pool": "{exchange}: Aktien-Aktion · {amount} {asset} zu teilen · bis {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia entwickelt die GPUs, auf denen die meisten AI-Modelle trainiert werden und laufen; deshalb ist NVDA der meistgehandelte Aktien-Token auf Krypto-Börsen.",

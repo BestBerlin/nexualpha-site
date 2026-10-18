@@ -302,7 +302,13 @@
     "changesH": "Perubahan listing terbaru",
     "changeListed": "{exchange} me-listing {sym}",
     "changeDelisted": "{exchange} menghapus {sym}",
-    "campaignsH": "Kampanye saham yang sedang berjalan"
+    "campaignsH": "Kampanye saham yang sedang berjalan",
+    "found": {
+      "competitionStock": "{exchange} kompetisi trading {stock} · total hadiah {amount} {asset} · berakhir {date} SGT",
+      "competition": "{exchange} kompetisi trading saham · total hadiah {amount} {asset} · berakhir {date} SGT",
+      "poolStock": "{exchange} kampanye trading {stock} · bagi {amount} {asset} · berakhir {date} SGT",
+      "pool": "{exchange} kampanye trading saham · bagi {amount} {asset} · berakhir {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia merancang GPU yang melatih dan menjalankan sebagian besar model AI, sehingga NVDA menjadi token saham paling banyak diperdagangkan di exchange kripto.",

@@ -302,7 +302,13 @@
     "changesH": "최근 상장·상장폐지",
     "changeListed": "{exchange} {sym} 상장",
     "changeDelisted": "{exchange} {sym} 상장폐지",
-    "campaignsH": "진행 중인 주식 이벤트"
+    "campaignsH": "진행 중인 주식 이벤트",
+    "found": {
+      "competitionStock": "{exchange} {stock} 거래 대회 · 상금 {amount} {asset} · {date} SGT 마감",
+      "competition": "{exchange} 주식 거래 대회 · 상금 {amount} {asset} · {date} SGT 마감",
+      "poolStock": "{exchange} {stock} 거래 이벤트 · {amount} {asset} 나눠 갖기 · {date} SGT 마감",
+      "pool": "{exchange} 주식 거래 이벤트 · {amount} {asset} 나눠 갖기 · {date} SGT 마감"
+    }
   },
   "about": {
     "NVDA": "엔비디아는 대부분의 AI 모델을 학습하고 실행하는 GPU를 설계합니다. 그래서 NVDA는 암호화폐 거래소에서 가장 많이 거래되는 주식 토큰입니다.",

@@ -302,7 +302,13 @@
     "changesH": "Latest listing changes",
     "changeListed": "{exchange} listed {sym}",
     "changeDelisted": "{exchange} removed {sym}",
-    "campaignsH": "Stock campaigns running now"
+    "campaignsH": "Stock campaigns running now",
+    "found": {
+      "competitionStock": "{exchange} {stock} trading competition · {amount} {asset} pool · ends {date} SGT",
+      "competition": "{exchange} stock trading competition · {amount} {asset} pool · ends {date} SGT",
+      "poolStock": "{exchange} {stock} trading campaign · share {amount} {asset} · ends {date} SGT",
+      "pool": "{exchange} stock trading campaign · share {amount} {asset} · ends {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia designs the GPUs that train and run most AI models, which makes NVDA the most traded stock token on crypto exchanges.",
