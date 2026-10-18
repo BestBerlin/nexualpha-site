@@ -2,6 +2,7 @@
 // since 2026-10-12 (build budget): SSR renders it eagerly; in the browser it sits in a Suspense boundary, so React keeps
 // the server HTML until the chunk arrives (same pattern as ToolArticleLinks). Moved unchanged from App.jsx.
 import React from "react";
+import "./crawl-priority-layout.css";
 import { localizedHref } from "../../data/locale-routing.js";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 

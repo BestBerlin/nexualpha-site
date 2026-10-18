@@ -37,6 +37,16 @@ test('Türkiye descriptive data does not award excluded venues', () => {
   assert.doesNotMatch(verdicts.split('</dl>')[0], /Bitget/);
 });
 
+test('narrow comparison tables expose a localized cue and keyboard-accessible scroll region', () => {
+  for (const [locale, hint] of [['en', 'Scroll horizontally'], ['zh-Hans', '左右滑动'], ['zh-Hant', '左右滑動']]) {
+    const html = pair(['binance', 'okx'], locale);
+    assert.ok(html.includes(hint), locale);
+    assert.match(html, /class="exchange-scorecard__scroll" tabindex="0" role="region" aria-label="[^"]+"/);
+    assert.match(html, /<th scope="col"><a href="[^\"]*\/exchanges\/binance">Binance<\/a><\/th>/);
+    assert.match(html, /<th scope="col"><a href="[^\"]*\/exchanges\/okx">OKX<\/a><\/th>/);
+  }
+});
+
 test('hub renders market-specific rules and excludes unsupported country claims', () => {
   const html = hub();
   for (const name of ['Türkiye', 'Indonesia', 'Brazil', 'Mexico']) assert.ok(html.includes(name), name);

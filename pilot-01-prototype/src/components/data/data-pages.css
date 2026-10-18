@@ -167,3 +167,17 @@
 
 /* RTL (ar, ur): the alerts arrow points the reading direction (2026-10-15). */
 .news-tg-alerts__arr:dir(rtl) { display: inline-block; transform: scaleX(-1); }
+
+/* Keep the breadcrumb distinct from the injected brand eyebrow and reserve the clock's hydration line. */
+.nxd--funding .nxd-crumbs { margin-block-end: 1rem; }
+.nxd--funding .nxd-next { min-block-size: 2.3em; }
+.nxd--funding .nxd-next small { white-space: nowrap; }
+@media (max-width: 639px) {
+  .nxd--funding .nxd-table--funding tbody td.nxd-nextcell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.35rem 0.5rem;
+  }
+  .nxd--funding .nxd-nextcell::before { grid-column: 1 / -1; }
+  .nxd--funding .nxd-nextcell .nxd-next { align-items: flex-end; min-inline-size: 0; }
+}

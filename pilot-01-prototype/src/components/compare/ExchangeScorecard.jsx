@@ -13,6 +13,25 @@ const COPY = {
   es: ['Comparación con datos', 'Criterio', 'Líder', 'Empate', 'No disponible', 'Datos al', 'Mejor para', 'Mejor exchange para', 'Uso', 'Líderes', 'Regla'],
 };
 function ui(locale) { return COPY[locale] || COPY.en; }
+const SCROLL_HINT = {
+  en: 'Scroll horizontally to compare all exchanges',
+  'zh-Hans': '左右滑动，查看所有交易所',
+  'zh-Hant': '左右滑動，查看所有交易所',
+  tr: 'Tüm borsaları karşılaştırmak için yana kaydırın',
+  vi: 'Cuộn ngang để so sánh tất cả sàn giao dịch',
+  id: 'Geser ke samping untuk membandingkan semua bursa',
+  'pt-BR': 'Role na horizontal para comparar todas as exchanges',
+  es: 'Desplázate horizontalmente para comparar todos los exchanges',
+  fr: 'Faites défiler horizontalement pour comparer les plateformes',
+  de: 'Horizontal scrollen, um alle Börsen zu vergleichen',
+  ja: '横にスクロールしてすべての取引所を比較',
+  ko: '가로로 스크롤하여 모든 거래소 비교',
+  ar: 'مرّر أفقياً لمقارنة جميع المنصات',
+  ru: 'Прокрутите по горизонтали, чтобы сравнить все биржи',
+  it: 'Scorri orizzontalmente per confrontare tutti gli exchange',
+  ur: 'تمام ایکسچینجز کا موازنہ کرنے کے لیے افقی اسکرول کریں',
+  uk: 'Прокрутіть горизонтально, щоб порівняти всі біржі',
+};
 function asOf(value) {
   if (!value) return 'Date not recorded';
   if (value.includes('SGT')) return value;
@@ -32,6 +51,7 @@ export function ExchangeScorecard({ selected, locale = 'en', market }) {
   if (card.venues.length < 2) return null;
   return <section className="v2-section v2-shell exchange-scorecard" id="exchange-scorecard" aria-labelledby="exchange-scorecard-heading" lang={COPY[locale] ? locale : 'en'}>
     <h2 id="exchange-scorecard-heading">{t[0]}</h2>
+    <p className="exchange-scorecard__scroll-hint" lang={SCROLL_HINT[locale] ? locale : 'en'}>{SCROLL_HINT[locale] || SCROLL_HINT.en} <span aria-hidden="true">↔</span></p>
     <div className="exchange-scorecard__scroll" tabIndex={0} role="region" aria-label={t[0]}>
       <table><caption lang="en">Published data only. Fees are maker / taker, in percent. Missing data cannot win; equal values share the lead.</caption>
         <thead><tr><th scope="col">{t[1]}</th>{card.venues.map((v) => <th scope="col" key={v.slug}><a href={localizedHref(`/exchanges/${v.slug}`, { locale })}>{v.name}</a></th>)}</tr></thead>

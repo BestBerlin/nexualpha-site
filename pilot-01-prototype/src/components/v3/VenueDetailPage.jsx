@@ -11,6 +11,7 @@ import { ExchangeQuickAnswers } from "./ExchangeQuickAnswers.jsx";
 // topic-guide graphs (39 chunks, 1.3 MB) after hydration. The stylesheets it relies on keep their "route-v3-pages-"
 // chunk names (profile-density, growth-conversion, Hyperliquid scenario) so the Worker links them exactly as before.
 import "./profile-density.css";
+import "./venue-detail-layout.css";
 import { APP_DOWNLOAD_SLUGS, appDownloadLabel, appDownloadPath } from "../../data/app-download-path.js";
 import { useEffect, useState } from "react";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
@@ -815,11 +816,12 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         funding={effectiveFunding}
         continueHash="#registration-checklist"
       />
-      <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
-        ← {isZhLocale ? zhText(locale, "返回交易所黄页目录", "返回交易所黃頁目錄") : text.backToDirectory}
-      </LocalLink>
-
-      {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
+      <div className="v3-venue-utility-links">
+        <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
+          ← {isZhLocale ? zhText(locale, "返回交易所黄页目录", "返回交易所黃頁目錄") : text.backToDirectory}
+        </LocalLink>
+        {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
+      </div>
 
       {!nativeReferral && venueCampaignBanners}
       <div className="v3-venue-hero">

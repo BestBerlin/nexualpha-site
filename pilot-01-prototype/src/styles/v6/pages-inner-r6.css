@@ -73,13 +73,13 @@ main.v6:not(.home-refinement) :is(.mx-td, .ft-cell) :is(.mx-unch, .mx-fee, .ft-n
 main.v6:not(.home-refinement) .mx-id__meta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; column-gap: 8px; row-gap: 2px; min-inline-size: 0; }
 main.v6:not(.home-refinement) .mx-nocompare:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-basis: 100%; white-space: nowrap; font-size: 12px; line-height: var(--lh-body, 1.55); }
 @media (max-width: 47.99rem) {
-  main.v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 2.25rem minmax(0, 1fr) auto; grid-template-areas: "pick name name" "pick spot spot" "pick perp perp" "pick code cta"; row-gap: 8px; }
+  main.v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 2.25rem minmax(0, 1fr); grid-template-areas: "pick name" "pick spot" "pick perp" "pick region" "pick code" "pick cta"; row-gap: 8px; }
   main.v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 2 / span 2; }
   main.v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 4; align-self: start; }
-  main.v6:not(.home-refinement) .mx-row > :is(.mx-td--code, .mx-td--cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 5; margin-block-start: 4px; }
+  main.v6:not(.home-refinement) .mx-row > :is(.mx-td--code, .mx-td--cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 4px; }
   main.v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
   main.v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; justify-self: start; }
-  main.v6:not(.home-refinement) .mx-td--cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; justify-self: end; }
+  main.v6:not(.home-refinement) .mx-td--cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 6; justify-self: start; }
 }
 
 /* ---- defect 7: venue profile — one primary (registration card), one quiet sources row, one secondary (compare) ---- */

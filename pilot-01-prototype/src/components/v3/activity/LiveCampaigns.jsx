@@ -6,7 +6,6 @@ import { SectionRule } from "../../shared/DataRule.jsx";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { CampaignJoin } from "./CampaignJoin.jsx";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
-import { monthCampaigns, isStartOfMonth } from "./campaign-month.js";
 import { readIntelFeed } from "../../../data/announcement-intel.js";
 import { updateHref } from "../../../data/activity-update.js";
 import { applyCampaignBriefs } from "../../../data/campaign-briefs.js";
@@ -117,21 +116,6 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
           <span className="campaign-spotlight__go">{teaser.go}<span aria-hidden="true"> →</span></span>
         </a>
       ))}
-      <section className="campaign-month" aria-labelledby="campaign-month-title">
-        <h2 id="campaign-month-title">{joinText.month}</h2>
-        {isStartOfMonth(locale) && <small suppressHydrationWarning>{joinText.season}</small>}
-        <p>{joinText.synced}</p>
-        <ul>{monthCampaigns(events, locale).map(c => <li key={c.id}>
-          <b>{NAMES[c.venue] || c.venue}</b>
-          <h3 dir="auto" lang={feedLang(c, locale)}>{c.title}</h3>
-          {c.summary && <p dir="auto">{c.summary}</p>}
-          
-          <CampaignBriefFacts brief={c.brief} locale={locale} />
-          <time dateTime={c.publishedAt}>{c.publishedAt.slice(0, 10)}</time>
-          <a href={updateHref(c, locale, { market })}>{joinText.official}</a>
-          <CampaignJoin venue={c.venue} locale={locale} market={market} placement="activities-month-campaign" />
-        </li>)}</ul>
-      </section>
       <SectionRule />
       <header className="live-campaigns__head">
         <h2 id="live-campaigns-h">{t.h}</h2>

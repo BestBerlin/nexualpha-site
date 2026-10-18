@@ -4,7 +4,6 @@
    drawn size and get a transparent hit extender instead. The :not(#_) chain outranks the page sheets (some use 4 ids). */
 @media (pointer: coarse), (max-width: 900px) {
   :is(
-    .crawl-priority-links__group a,
     .fee-terminal__cell-brand a,
     .cost-decision__results a.rt-offer,
     .tg-topic-card__links a,
