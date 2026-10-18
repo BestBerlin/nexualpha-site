@@ -40,26 +40,31 @@ test('truncation preserves graphemes, word boundaries, URLs and weighted caps', 
     assert.ok(!out.endsWith('\u200d…'));
   }
 });
-test('long article uses mapped facts, hook, watch, two hashtags, and no URLs or partner facts', () => {
-  const a = article(); a.claims.push({ text: 'OKX code EXAMPLE returns fees.', sourceIds: ['nexualpha-partners'] });
+test('long article uses mapped facts, hook, watch, 2-4 tags, and no URLs or partner facts', () => {
+  const a = article(); a.claims.push({ text: 'OKX invite code EXAMPLE returns fees.', sourceIds: ['nexualpha-partners'] });
   const text = articleMessage(a);
   assert.ok(weightedLength(text) >= 600 && weightedLength(text) <= 1200);
   assert.ok(weightedLength(text.split('\n')[0]) <= 120);
   assert.match(text, /What to watch:/);
   assert.equal((text.match(/^• /gm) || []).length, 4);
-  assert.ok((text.match(/#[a-z]+/gi) || []).length <= 2);
+  const tags = text.split('\n').at(-1).split(' ');
+  assert.ok(tags.length >= 2 && tags.length <= 4 && tags.every((t) => /^[#$]/.test(t)), text);
   assert.equal(costClass(text), 'plain');
   assert.doesNotMatch(text, /EXAMPLE|\?/);
   assert.ok(weightedLength(articleMessage(a, 280)) <= 280);
   assert.match(articleMessage(a, 280), /What to watch:/);
+  assert.match(articleMessage(a, 280), /\n\n[#$]\S+( [#$]\S+){1,3}$/);
 });
-test('partner disclosure stays last even when truncated; prohibited copy rejected', () => {
-  for (const phrase of ['rebates', 'partner codes', 'registration code']) {
-    const a = article('partner-news', { summary: { en: `${phrase} ${'details '.repeat(300)}` } });
-    assert.ok(articleMessage(a, 280).endsWith('Partner links disclosed.'));
-    assert.ok(weightedLength(articleMessage(a, 280)) <= 280);
-    assert.ok(linkMessage(a).endsWith('Partner links disclosed.'));
+test('no disclosure/commission lines: partner sentences are dropped; prohibited copy rejected', () => {
+  for (const phrase of ['Get rebates with our link.', 'Use the partner code now.', 'Enter the registration code.']) {
+    const a = article('partner-news', { summary: { en: `${phrase} ${'Market depth stayed stable. '.repeat(30)}` } });
+    for (const text of [articleMessage(a, 280), articleMessage(a), linkMessage(a)]) {
+      assert.doesNotMatch(text, /disclosed|rebate|partner code|registration code/i);
+      assert.ok(weightedLength(text) <= (text.length > 400 ? 1200 : 280));
+    }
   }
+  // "verification code" is ordinary support copy, not commission talk.
+  assert.match(articleMessage(article('otp', { summary: { en: 'Verification code not received by SMS.' } })), /Verification code/);
   for (const phrase of ['Tax avoidance', 'Bitcoin will reach $100,000', 'Price prediction']) {
     const a = article('unsafe-news', { summary: { en: phrase } });
     assert.throws(() => articleMessage(a), /content policy/);
@@ -76,8 +81,8 @@ test('canonical article link preserved under 280 and numbers retained in market/
   assert.ok(weightedLength(link) <= 280);
   assert.equal(costClass(link), 'link');
   const m = market(), alert = marketMessage(m.events[0], m), daily = dailyMessage(m);
-  assert.match(alert, /lower bound/); assert.match(alert, /\$60.00M/);
-  for (const s of ['BTC', 'ETH', 'SOL', 'lower bound', 'Top mover: ABC']) assert.ok(daily.includes(s));
+  assert.match(alert, /Observed liquidations/); assert.doesNotMatch(alert, /lower bound/); assert.match(alert, /\$60.00M/);
+  for (const s of ['$BTC', '$ETH', 'SOL', 'observed liquidations', 'Top mover: ABC']) assert.ok(daily.includes(s), daily);
   assert.ok(weightedLength(daily) <= 280);
   assert.equal(costClass(daily), 'plain');
   assert.throws(() => dailyMessage({ ...m, market: { majors: [], movers: [] } }), /major/);

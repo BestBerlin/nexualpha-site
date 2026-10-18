@@ -2,12 +2,12 @@
 import { createHmac, randomBytes } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, renameSync, openSync, closeSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+import { composeWithTags, dailyKeywords, readJsonSafe } from './hashtags.mjs';
 
 const SITE = 'https://nexualpha.com';
 const API = 'https://api.x.com/2';
 const HOUR = 3600000;
-const DISCLOSURE = 'Partner links disclosed.';
 const encode = (s) => encodeURIComponent(s).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
 export function oauthHeader(method, url, credentials, { nonce = randomBytes(18).toString('hex'), timestamp = Math.floor(Date.now() / 1000), form = {} } = {}) {
   const oauth = { oauth_consumer_key: credentials.consumerKey, oauth_nonce: nonce, oauth_signature_method: 'HMAC-SHA1', oauth_timestamp: String(timestamp), oauth_token: credentials.accessToken, oauth_version: '1.0' };
@@ -60,18 +60,26 @@ export function truncate(text, max = 280) {
   if (boundary && boundary.index > out.length / 2) out = out.slice(0, boundary.index + (/^[.!?]/.test(boundary[0]) ? 1 : 0));
   return out.trimEnd() + '…';
 }
-const partnerMention = (s) => /\brebates?\b|\bpartner(?:\s+(?:links?|codes?))?\b|\breferral\b|\b(?:registration |invite )?codes?\b/i.test(s);
+// Rebate/code/referral wording is never sent (owner rule: no commission talk, no disclaimer footers).
+const partnerMention = (s) => /\brebates?\b|\bpartner (?:links?|codes?)\b|\breferral\b|\b(?:registration|invite|invitation|referral|promo|bonus) codes?\b|\bcommissions?\b|\bkickbacks?\b|\bcashback\b/i.test(s);
 const unsafe = (s) => /\btax (?:avoidance|evasion|avoid\w*)\b|\bavoid\w* tax\b|\b(?:will|could|expected to|set to|predicted to) (?:rise|fall|rally|surge|crash|reach|hit)\b|\bprice (?:prediction|target)\b/i.test(s);
 function clean(s) {
   return String(s).replace(/<[^>]*>/g, '').replace(urlPattern, '[URL omitted]').replace(/\s+/g, ' ').trim();
 }
-function finish(text, max, { link = false, disclosure = false } = {}) {
+// Drop whole sentences that talk about rebates/codes/commission rather than adding a disclosure line.
+const dropPartnerSentences = (s) => s.split(/(?<=[.!?。！？])\s+/).filter((x) => !partnerMention(x)).join(' ').trim();
+function guard(text, { link = false } = {}) {
   if (unsafe(text)) throw new Error('content policy: prohibited wording');
-  const disclose = disclosure || partnerMention(text);
-  const suffix = disclose ? `\n\n${DISCLOSURE}` : '';
-  const out = truncate(text, max - weightedLength(suffix)) + suffix;
-  if (!link && costClass(out) !== 'plain') throw new Error('plain post contains a URL');
-  return out;
+  if (!link && costClass(text) !== 'plain') throw new Error('plain post contains a URL');
+  return text;
+}
+// Tag context: { keywords, extraTickers, now, locale, key }. Missing context still yields 2 tags.
+function tagged(body, max, fit, ctx = {}, { link = false } = {}) {
+  const out = composeWithTags({ body, fit, max, weightedLength, key: ctx.key || '', locale: ctx.locale || 'en',
+    keywords: ctx.keywords || [], extraTickers: ctx.extraTickers || [], now: ctx.now ?? Date.now() });
+  guard(out.text, { link });
+  if (weightedLength(out.text) > max) throw new Error('post exceeds weighted limit');
+  return out.text;
 }
 export function englishArticles(feed) {
   if (!Array.isArray(feed?.articles)) throw new Error('invalid articles feed');
@@ -84,43 +92,37 @@ export function englishArticles(feed) {
   }
   return [...unique.values()].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt) || a.slug.localeCompare(b.slug));
 }
-export function articleMessage(a, max = 1200) {
+export function articleMessage(a, max = 1200, ctx = {}) {
   const hook = truncate(clean(a.title.en).replace(/\?+$/, '.').replace(/\s*\([^)]*2026[^)]*\)$/, ''), 120);
   // Claude-authored summary and mapped claims supply the copy; no generated factual filler.
-  const summary = clean(a.summary.en);
+  const summary = dropPartnerSentences(clean(a.summary.en));
   const facts = (a.claims || []).filter((c) => c.sourceIds?.length && !c.sourceIds.some((id) => /partner/i.test(id)) && !partnerMention(c.text) && !unsafe(c.text)).map((c) => clean(c.text)).filter(Boolean).slice(0, 5);
-  const lines = [hook, '', summary, '', ...facts.map((s) => `• ${s}`)];
-  if (/liquidat/i.test(lines.join(' '))) lines.push('', 'NexuAlpha liquidation figures are lower bounds for the covered venues.');
-  const watch = '\n\nWhat to watch: follow the source updates and the data behind these findings.';
-  const tags = /bitcoin|\bBTC\b/i.test(hook + summary) ? '#Bitcoin #crypto' : /tokeniz/i.test(hook + summary) ? '#Tokenization #crypto' : '#crypto';
-  const raw = lines.join('\n');
-  const disclosure = partnerMention(raw) ? `\n\n${DISCLOSURE}` : '';
+  const raw = [hook, '', summary, '', ...facts.map((s) => `• ${s}`)].join('\n').replace(/\n{3,}/g, '\n\n').trim();
   if (unsafe(raw)) throw new Error('content policy: prohibited wording');
-  let text = finish(truncate(raw, max - weightedLength(watch + disclosure)) + watch, max, { disclosure: Boolean(disclosure) });
-  const suffix = text.endsWith(DISCLOSURE) ? `\n\n${DISCLOSURE}` : '';
-  const body = suffix ? text.slice(0, -suffix.length) : text;
-  if (weightedLength(`${body}\n\n${tags}${suffix}`) <= max) text = `${body}\n\n${tags}${suffix}`;
-  return text;
+  const watch = '\n\nWhat to watch: follow the source updates and the data behind these findings.';
+  const fit = (budget) => truncate(raw, budget - weightedLength(watch)) + watch;
+  return tagged(fit(max), max, fit, { ...ctx, key: ctx.key || `article:${a.slug}` });
 }
-export function linkMessage(a) {
+export function linkMessage(a, ctx = {}) {
   const url = `${SITE}/news/${a.slug}?src=x`;
-  const text = `${clean(a.title.en)}\n\n${clean(a.summary.en)}`;
-    if (unsafe(text)) throw new Error('content policy: prohibited wording');
-  // Preserve the entire canonical URL and put disclosure last when needed.
-  const disclosure = partnerMention(text) ? `\n${DISCLOSURE}` : '';
-  return `${truncate(text, 280 - weightedLength(`\n${url}${disclosure}`))}\n${url}${disclosure}`;
+  const text = `${clean(a.title.en)}\n\n${dropPartnerSentences(clean(a.summary.en))}`.trim();
+  if (unsafe(text)) throw new Error('content policy: prohibited wording');
+  // The canonical URL is never truncated; tags follow it on the last line.
+  const fit = (budget) => `${truncate(text, budget - weightedLength(`\n${url}`))}\n${url}`;
+  return tagged(fit(280), 280, fit, { ...ctx, key: ctx.key || `link:${a.slug}` }, { link: true });
 }
 const number = (n) => { if (!Number.isFinite(n)) throw new Error('missing market number'); return n; };
 const usd = (n) => '$' + number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
 const compact = (n) => '$' + (number(n) / 1e6).toFixed(2) + 'M';
 const pct = (n) => `${number(n) >= 0 ? '+' : ''}${n.toFixed(2)}%`;
-export function marketMessage(event, mk) {
+export function marketMessage(event, mk, ctx = {}) {
   const h1 = mk.liquidations.h1, h24 = mk.liquidations.h24;
   const headings = { 'sharp-move': clean(event.text), 'liquidation-spike': 'Liquidation spike', 'both-sides-liquidated': 'Longs and shorts liquidated' };
   if (!headings[event.type]) throw new Error('unsupported market event');
-  return finish(`${headings[event.type]}\nLiquidations (lower bound):\n1h long ${compact(h1.longUsd)} / short ${compact(h1.shortUsd)}\n24h long ${compact(h24.longUsd)} / short ${compact(h24.shortUsd)}`, 280);
+  const body = `${headings[event.type]}\nObserved liquidations:\n1h long ${compact(h1.longUsd)} / short ${compact(h1.shortUsd)}\n24h long ${compact(h24.longUsd)} / short ${compact(h24.shortUsd)}`;
+  return tagged(guard(body), 280, null, { ...ctx, key: ctx.key || `market:${event.type}` });
 }
-export function dailyMessage(mk) {
+export function dailyMessage(mk, ctx = {}) {
   const rows = ['NexuAlpha daily brief'];
   for (const symbol of ['BTC', 'ETH', 'SOL']) {
     const m = mk.market.majors.find((r) => r.symbol === `${symbol}USDT`);
@@ -128,13 +130,14 @@ export function dailyMessage(mk) {
     rows.push(`${symbol} ${usd(m.price)} (${pct(m.change24hPct)} 24h)`);
   }
   const l = mk.liquidations.h24;
-  rows.push(`24h liquidations (lower bound): long ${compact(l.longUsd)} / short ${compact(l.shortUsd)}`);
+  rows.push(`24h observed liquidations: long ${compact(l.longUsd)} / short ${compact(l.shortUsd)}`);
   const mover = mk.market.movers?.[0];
   if (!mover) throw new Error('missing top mover');
   rows.push(`Top mover: ${mover.symbol.replace(/USDT$/, '')} ${pct(mover.change24hPct)}`);
   const text = rows.join('\n');
   if (weightedLength(text) > 280) throw new Error('daily brief exceeds 280; required numbers cannot be truncated');
-  return finish(text, 280);
+  const movers = (mk.market.movers || []).map((m) => m.symbol);
+  return tagged(guard(text), 280, null, { ...ctx, key: ctx.key || 'daily', extraTickers: [...(ctx.extraTickers || []), ...movers] });
 }
 export function config(env = process.env) {
   const integer = (key, fallback, min, max) => {
@@ -157,31 +160,35 @@ export function validateState(s) {
 }
 export const budgetAvailable = (state, day, cls, cfg) => (state.days[day]?.[cls] || 0) < cfg[cls];
 const priority = (a) => ({ 'market-event': 0, news: 1, tokenization: 2, explainer: 3, rwa: 2 }[a.type || a.category] ?? 1);
-export function planPosts({ feed, market, state, now = Date.now(), cfg = config() }) {
+export function planPosts({ feed, market, state, now = Date.now(), cfg = config(), tagging = {} }) {
   validateState(state);
   const articles = englishArticles(feed).filter((a) => Date.parse(a.publishedAt) <= now);
   if (!state.initialized) return { baseline: articles.map((a) => a.slug), posts: [] };
   const day = new Date(now).toISOString().slice(0, 10), posts = [];
+  const ctx = (key) => ({ keywords: tagging.keywords || [], extraTickers: tagging.extraTickers || [], now, locale: 'en', key });
   const freshMarket = Number.isFinite(Date.parse(market?.generatedAt)) && now >= Date.parse(market.generatedAt) && now - Date.parse(market.generatedAt) <= cfg.maxAge;
-  if (freshMarket && new Date(now).getUTCHours() === 13 && !state.posts[`daily:${day}`]) posts.push({ key: `daily:${day}`, kind: 'daily', text: dailyMessage(market) });
+  if (freshMarket && new Date(now).getUTCHours() === 13 && !state.posts[`daily:${day}`]) posts.push({ key: `daily:${day}`, kind: 'daily', text: dailyMessage(market, ctx(`daily:${day}`)) });
   if (freshMarket) for (const ev of market.events || []) {
     if (ev.severity !== 'high' || !['sharp-move', 'liquidation-spike', 'both-sides-liquidated'].includes(ev.type) ||
         (state.events[ev.type] !== undefined && now - state.events[ev.type] < 3 * HOUR) || posts.some((p) => p.eventType === ev.type)) continue;
-    posts.push({ key: `market:${ev.type}:${Math.floor(now / (3 * HOUR))}`, kind: 'market', eventType: ev.type, text: marketMessage(ev, market) });
+    posts.push({ key: `market:${ev.type}:${Math.floor(now / (3 * HOUR))}`, kind: 'market', eventType: ev.type, text: marketMessage(ev, market, ctx(`market:${ev.type}:${Math.floor(now / (3 * HOUR))}`)) });
   }
   const eligible = articles.filter((a) => !state.baseline.includes(a.slug));
   const article = eligible.find((a) => !state.posts[`article:${a.slug}`]);
-  if (article && (state.lastArticle === null || now - state.lastArticle >= HOUR)) posts.push({ key: `article:${article.slug}`, kind: 'article', text: articleMessage(article, cfg.max) });
+  if (article && (state.lastArticle === null || now - state.lastArticle >= HOUR)) {
+    const text = articleMessage(article, cfg.max, ctx(`article:${article.slug}`));
+    posts.push({ key: `article:${article.slug}`, kind: 'article', text, ...(weightedLength(text) > 280 ? { fallbackText: articleMessage(article, 280, ctx(`article:${article.slug}`)) } : {}) });
+  }
   const top = eligible.filter((a) => new Date(a.publishedAt).toISOString().slice(0, 10) === day).sort((a, b) => priority(a) - priority(b) || Date.parse(b.publishedAt) - Date.parse(a.publishedAt))[0];
-  if (top && !state.posts[`link:${day}`]) posts.push({ key: `link:${day}`, kind: 'link', text: linkMessage(top) });
+  if (top && !state.posts[`link:${day}`]) posts.push({ key: `link:${day}`, kind: 'link', text: linkMessage(top, ctx(`link:${day}`)) });
   const counts = { plain: state.days[day]?.plain || 0, link: state.days[day]?.link || 0 };
   return { posts: posts.map((p) => ({ ...p, costClass: costClass(p.text), weightedLength: weightedLength(p.text) })).filter((p) => counts[p.costClass]++ < cfg[p.costClass]) };
 }
 
 // Reservations are durably written BEFORE any request. A timeout/crash is never retried:
 // X create-post has no client idempotency key. This favors missed posts over duplicates.
-export async function runCycle({ feed, market, state, now = Date.now(), cfg = config(), send, save, log = console.log, dryRun = false }) {
-  const plan = planPosts({ feed, market, state, now, cfg });
+export async function runCycle({ feed, market, state, now = Date.now(), cfg = config(), send, save, log = console.log, dryRun = false, tagging = {} }) {
+  const plan = planPosts({ feed, market, state, now, cfg, tagging });
   if (plan.baseline) {
     log(JSON.stringify({ baselineArticles: plan.baseline.length, dryRun }));
     if (!dryRun) { state.baseline = plan.baseline; state.initialized = true; await save(state); }
@@ -213,8 +220,8 @@ export async function runCycle({ feed, market, state, now = Date.now(), cfg = co
     };
     const r = await attempt(p.text);
     // Explicit brief exception: one NEW, short payload only for a length-specific 403.
-    if (r?.status === 403 && r.lengthRejected && p.kind === 'article' && p.weightedLength > 280) {
-      await attempt(finish(p.text.replace(/\n\nPartner links disclosed\.$/, ''), 280, { disclosure: p.text.endsWith(DISCLOSURE) }));
+    if (r?.status === 403 && r.lengthRejected && p.kind === 'article' && p.weightedLength > 280 && p.fallbackText) {
+      await attempt(p.fallbackText);
     }
     if (r && !r.ok) break; // stop this cycle on any error; never retry in later cycles
   }
@@ -273,6 +280,28 @@ export function xClient(credentials, fetcher = fetch) {
     },
   };
 }
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+// Fetch the day's keyword sources: /intel/calendar.json, /api/whales.json, newsroom top-events
+// (host-synced copy in the state dir), keyword-radar snapshot (shipped next to this file) and
+// CoinGecko trending. Any failure just drops that source; posting never depends on it.
+export async function keywordContext({ env = process.env, market, now = Date.now(), fetcher = fetch } = {}) {
+  const errors = [];
+  const get = async (name, url, timeout = 10000) => {
+    try { const r = await fetcher(url, { signal: AbortSignal.timeout(timeout) }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json(); }
+    catch (e) { errors.push(`${name}: ${String(e?.message || e).slice(0, 80)}`); return null; }
+  };
+  const [calendar, whales, cg] = await Promise.all([get('calendar', `${SITE}/intel/calendar.json`), get('whales', `${SITE}/api/whales.json`),
+    env.X_TRENDING === 'off' ? null : get('trending', 'https://api.coingecko.com/api/v3/search/trending', 8000)]);
+  const topFile = env.X_TOP_EVENTS_FILE || (env.X_STATE_DIR ? path.join(env.X_STATE_DIR, 'top-events.json') : null);
+  const topEvents = topFile ? readJsonSafe(topFile) : null;
+  if (topFile && !topEvents) errors.push('top-events: unavailable');
+  const radar = readJsonSafe(env.X_RADAR_FILE || path.join(HERE, 'radar-terms.json'));
+  if (!radar) errors.push('radar: unavailable');
+  const trending = Array.isArray(cg?.coins) ? cg.coins.map((c) => c?.item?.symbol).filter((x) => typeof x === 'string') : [];
+  const keywords = dailyKeywords({ calendar, topEvents, whales, market, radar, trending }, now);
+  const extraTickers = [...new Set([...(market?.market?.movers || []).map((m) => m.symbol), ...(whales?.rows || []).map((r) => r.coin)].filter((x) => typeof x === 'string'))];
+  return { keywords, extraTickers, errors };
+}
 export async function main(args = process.argv.slice(2), env = process.env) {
   if (args.some((a) => !['--once', '--dry-run'].includes(a))) throw new Error('usage: x-poster.mjs [--once] [--dry-run]');
   const dryRun = args.includes('--dry-run'), cfg = config(env), dir = env.X_STATE_DIR;
@@ -296,7 +325,10 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     const hasPosts = planPosts({ feed, market, state, cfg, now }).posts.length > 0;
     const client = dryRun || !hasPosts ? null : xClient(loadCredentials(env.X_ENV_FILE));
     if (client) await client.verifyAccount();
-    await runCycle({ feed, market, state, cfg, now, dryRun, send: (t) => client.send(t), save: (s) => {
+    // Keyword sources are fetched only when something may be posted (or previewed); all fail soft.
+    const tagging = hasPosts || dryRun ? await keywordContext({ env, market, now }) : {};
+    if (tagging.keywords) console.log(JSON.stringify({ keywords: tagging.keywords.slice(0, 6).map((k) => `${k.key}:${k.score}`), keywordSourceErrors: tagging.errors }));
+    await runCycle({ feed, market, state, cfg, now, dryRun, tagging, send: (t) => client.send(t), save: (s) => {
       const tmp = `${file}.tmp`; writeFileSync(tmp, JSON.stringify(s, null, 2) + '\n', { mode: 0o600 }); renameSync(tmp, file);
     } });
   } finally {
