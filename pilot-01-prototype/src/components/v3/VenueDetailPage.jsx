@@ -1,6 +1,8 @@
 import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
 import { nativeReferralFor } from '../../data/referral-native.js';
+import { venueShortAnswer } from '../../data/answer-first.js';
+import { ShortAnswer } from '../shared/ShortAnswer.jsx';
 import { ExchangeKeyFacts } from "./ExchangeKeyFacts.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ExchangeLicenseSection } from "../licenses/LicensePages.jsx";
@@ -605,6 +607,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     && Object.hasOwn(uniswapShortChecklistCopy, priorityAnswer.locale);
   const venueDirectAnswer = priorityAnswer || venueDirectAnswerFor(locale, venue.slug);
   const ownerQuestionTitle = priorityAnswer?.ownerQuestion || null;
+  // Answer-first pass 2026-10-18: money pages open with a dated, sourced 40-60 word answer (answer-first.js).
+  const moneyShortAnswer = venueShortAnswer(venue.slug, locale, effectiveMarket);
   const decisionGroups = [venueDirectAnswer?.fit, venueDirectAnswer?.avoid, venueDirectAnswer?.nextSteps].filter((group) => group?.items?.length);
   const venueDirectAnswerDetails = venueDirectAnswer && <>
     {venueDirectAnswer.costFormula && (
@@ -844,9 +848,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                 <>{titleBefore}{detailTitleStr.includes(localizedVenueName) && <bdi translate="no" lang={isZhLocale ? "zh-Hans" : "en"}>{localizedVenueName}</bdi>}{titleAfter && <>{titleSuffixGap}<span className="v3-venue-title__suffix">{titleAfter.trim()}</span></>}</>
               )}
             </h1>
+            <ShortAnswer answer={moneyShortAnswer} placement="venue-hero" />
           </div>
           {venue.slug === "bitget" && bitgetGuideAvailable(locale, effectiveMarket) ? <p><LocalLink locale={locale} href={BITGET_GUIDE_PATH}>{bitgetGuideLabel(locale)}</LocalLink></p> : null}
-          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} />
+          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} hideShortAnswer={Boolean(moneyShortAnswer)} />
           {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
 

@@ -357,6 +357,7 @@ const LeanHero = deferredComponent("./components/v3/LeanHero.jsx", "LeanHero");
 const RebateTickerBar = deferredComponent("./components/v3/RebateTickerBar.jsx", "RebateTickerBar");
 const CampaignRadar = deferredComponent("./components/v3/CampaignRadar.jsx", "CampaignRadar");
 const FeeBenchmarkTerminal = deferredComponent("./components/v3/FeeBenchmarkTerminal.jsx", "FeeBenchmarkTerminal");
+const RatesShortAnswer = deferredComponent("./components/v3/FeeBenchmarkTerminal.jsx", "RatesShortAnswer");
 const OnChainLiquidityBoard = deferredComponent("./components/v3/OnChainLiquidityBoard.jsx", "OnChainLiquidityBoard");
 const MarketFearGreedPanel = deferredComponent("./components/v3/MarketFearGreedPanel.jsx", "MarketFearGreedPanel");
 const KolLandingPage = deferredComponent("./components/v3/KolLandingPage.jsx", "KolLandingPage");
@@ -1069,6 +1070,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
         fr: "Les frais des plateformes, côte à côte", de: "Börsengebühren im Vergleich", ru: "Сравнение комиссий платформ",
         id: "Perbandingan biaya bursa", vi: "So sánh phí các sàn", it: "Commissioni degli exchange a confronto"
       }[locale] || (locale.startsWith("zh") ? "交易所手续费对比" : "Exchange fees, side by side"))}</h1>
+      <RatesShortAnswer locale={locale} market={route.market} />
     </section>
     <FeeBenchmarkTerminal locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />
   </main>, { crawlScope: "rates" });

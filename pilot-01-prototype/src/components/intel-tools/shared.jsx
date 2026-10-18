@@ -9,12 +9,12 @@ import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { FLASH_PATH, flashNavLabel } from "../../data/flash-path.js";
-import { formatSgtStamp } from "../../data/sgt-time.js";
 import { intelToolsCopy } from "../../data/intel-tools-copy.js";
 import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
 import { startJsonPolling } from "../shared/json-polling.js";
 import "../data/data-pages.css";
 import "./intel-tools.css";
+import { dataUpdatedStamp } from "../../data/data-updated.js";
 
 export const REFRESH_MS = 10 * 60 * 1000;
 export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
@@ -52,7 +52,7 @@ export function ToolHero({ locale, market, page, generatedAt, children }) {
       <p className="nxd-lead">{page.lead}</p>
       {generatedAt ? (
         <p className="nxd-updated" data-testid="intel-tool-updated">
-          <span className="nxd-dot" aria-hidden="true" /><strong>{common.updated}</strong> <time dateTime={generatedAt} dir="ltr">{formatSgtStamp(generatedAt, locale)}</time>
+          <span className="nxd-dot" aria-hidden="true" /><time dateTime={generatedAt} dir="ltr" data-updated-stamp="live">{dataUpdatedStamp(generatedAt, locale)?.text}</time>
         </p>
       ) : null}
       {children}

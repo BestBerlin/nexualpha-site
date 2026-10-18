@@ -1,4 +1,5 @@
 // Deposit & withdraw (出入金, 2026-10-15): the hub (/<localized slug>), country pages (/<slug>/<country>) and the
+import { DataUpdatedStamp } from "../shared/DataUpdatedStamp.jsx";
 // crypto-card comparison (/crypto-cards). Every figure comes from src/data/fiat-rails.generated.js with its official
 // source and check date; unknown values render nothing. One accent CTA per page block (a /go route that carries our
 // code); neutral locales and Vietnam render information only; Türkiye pages and the tr locale never show Bitget.
@@ -136,6 +137,7 @@ export function DepositHubPage({ locale = "en" }) {
     <div className="nxd-shell">
       <header className="nxd-head">
         <h1>{t.hubTitle}</h1>
+        <DataUpdatedStamp at={FIAT_CHECKED} locale={locale} />
         <Answer label={t.shortAnswer} text={cjkSpace(fillDeposit(t.hubAnswer, { n: hub.countries.length, date: FIAT_CHECKED }), locale)} stamp={FIAT_CHECKED} />
       </header>
 
@@ -203,6 +205,7 @@ export function DepositCountryPage({ slug, locale = "en" }) {
       <nav className="nxd-crumbs" aria-label={t.breadcrumb}><a href={href(depositPath(locale), locale)}>{t.breadcrumb}</a><span aria-hidden="true">/</span><span>{model.label}</span></nav>
       <header className="nxd-head">
         <h1>{title}</h1>
+        <DataUpdatedStamp at={FIAT_CHECKED} locale={locale} />
         <Answer label={t.shortAnswer} text={model.answer} stamp={FIAT_CHECKED} />
         {model.cta ? <div className="nxd-head__cta"><SignupButton href={model.cta.href} slug={model.cta.slug} label={fillDeposit(t.cta, { ex: model.cta.name })} placement="deposit-country-hero" /></div> : null}
       </header>
@@ -254,6 +257,7 @@ export function CryptoCardsPage({ locale = "en" }) {
       <nav className="nxd-crumbs" aria-label={t.breadcrumb}><a href={href(depositPath(locale), locale)}>{t.breadcrumb}</a><span aria-hidden="true">/</span><span>{t.method.cryptoCard}</span></nav>
       <header className="nxd-head">
         <h1>{t.cardsTitle}</h1>
+        <DataUpdatedStamp at={FIAT_CHECKED} locale={locale} />
         <Answer label={t.shortAnswer} text={cjkSpace(fillDeposit(t.cardsAnswer, { n: cards.length, date: FIAT_CHECKED }), locale)} stamp={FIAT_CHECKED} />
       </header>
       <section className="nxd-section" aria-labelledby="nxd-cardlist-h">

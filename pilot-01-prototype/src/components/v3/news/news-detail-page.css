@@ -1222,3 +1222,16 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 #top.news-detail-page .news-detail__prose .news-detail__table-hint:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* Striking-distance pass 2026-10-18: the one-paragraph answer to the query a reviewed article ranks for. */
+.news-detail-page .news-detail__search-answer {
+  max-inline-size: 44rem;
+  margin: 0.75rem 0 1rem;
+  padding-inline-start: 0.85rem;
+  border-inline-start: 2px solid var(--ed-ac, currentColor);
+  color: var(--ed-ink, inherit);
+  font-size: 1.02rem;
+  line-height: var(--lh-body, 1.6);
+  overflow-wrap: anywhere;
+}
+.news-detail-page .news-detail__search-answer strong { font-weight: 650; }

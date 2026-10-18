@@ -30,6 +30,7 @@ import { whaleExplorerHref, whaleSentenceParts, whaleStealthLabel, whalesCopy } 
 import { formatSgt } from "../../data/local-time.js";
 import "./radar.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
+import { dataUpdatedStamp } from "../../data/data-updated.js";
 
 // The collector's "why it matters" line is English-only evidence text; localized pages already carry the localized
 // WhaleSentence, so the English line is shown on English pages only (no English text on zh/ja/ar pages).
@@ -90,7 +91,7 @@ function RadarHero({ locale, page, pathname, feed, apiPath }) {
       <h1>{page.title}</h1>
       <p className="nxradar-lead">{page.lead}</p>
       <p className="nxradar-updated">
-        {feed.updatedAt ? <><span className="nxradar-dot" aria-hidden="true" /><strong>{copy.updated}</strong> <time dateTime={feed.updatedAt} dir="ltr">{formatUtc(feed.updatedAt)}</time> · </> : null}
+        {feed.updatedAt ? <><span className="nxradar-dot" aria-hidden="true" /><time dateTime={feed.updatedAt} dir="ltr" data-updated-stamp="live">{dataUpdatedStamp(feed.updatedAt, locale)?.text}</time> · </> : null}
         <strong>{copy.source}:</strong> <span translate="no">{sourceLine}</span> <span className={`nxradar-status nxradar-status--${feed.status}`}>{statusLabel}</span>
       </p>
     </header>

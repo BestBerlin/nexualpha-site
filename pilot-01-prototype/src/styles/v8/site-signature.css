@@ -180,3 +180,27 @@ body { counter-reset: nx-section; }
 #top.v3-compare-page .v3-matrix-table .v3-matrix-sub-val:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 13px; line-height: 1.6; color: var(--hx-ink-3, #8A909E); }
 #top.v3-compare-page .v3-matrix-table [class*="badge"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; border: 0; background: none; color: var(--hx-ink-3, #8A909E); font: 500 11px/1.2 "Geist Mono V5", ui-monospace, monospace; }
 #top.v3-compare-page :is(.v3-versus-card--supporting, .v3-onsite-telegram-handoff--compact):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; box-shadow: none; padding-inline: 0; }
+
+/* Answer-first lead and data freshness stamp (2026-10-18): shared by venue, compare, rates, directory and data pages.
+   Global so no single route chunk owns the styles. Text stays the page ink; a hairline marks it as the answer. */
+.nx-short-answer {
+  max-inline-size: 46rem;
+  margin: 0.75rem 0 1rem;
+  padding-inline-start: 0.85rem;
+  border-inline-start: 2px solid var(--accent, currentColor);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink, #EDEEF0);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.nx-short-answer strong { font-weight: 650; }
+.nx-data-updated {
+  margin: 0.25rem 0 0.75rem;
+  font: 500 12px/1.4 "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, monospace;
+  letter-spacing: 0.02em;
+  color: var(--v3-muted, #9097A0);
+}
+@media (max-width: 599px) {
+  .nx-short-answer { font-size: 0.95rem; }
+}

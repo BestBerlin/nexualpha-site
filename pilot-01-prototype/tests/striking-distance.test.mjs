@@ -109,7 +109,8 @@ test("Deribit: fees-first title within budget, H1 names fees, Worker and client 
   const server = await routeMetadata(new URL("https://nexualpha.com/exchanges/deribit"), { ASSETS: assets() });
   assert.equal(client.title, server.title);
   assert.equal(client.description, server.description);
-  assert.match(server.title, /^Deribit Fees \(2026\): Options, Futures and 10% Discount/);
+  // SEO pass 2026-10-18: the served title adds the official perpetual fees (striking-page-overrides.js).
+  assert.match(server.title, /^Deribit Fees \(2026\): Perps 0\.015%\/0\.035%, Options, 10% Off/);
 });
 
 test("Backpack: fees-first referral title keeps the partner-feed code and fits 60 characters", () => {

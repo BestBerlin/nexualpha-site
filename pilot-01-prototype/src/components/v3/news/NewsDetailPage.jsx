@@ -33,6 +33,7 @@ import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
 import { glossaryTermPath } from "../../../data/glossary-routes.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
 import { newsQueryOwnerLink, newsSignupBridge } from "../../../data/news-lead-links.js";
+import { serpCtrNewsOverride } from "../../../data/serp-ctr-news-overrides.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
@@ -797,7 +798,10 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   }
 
   const contentLocale = resolveNewsContentLocale(locale, article);
-  const title = localizedNewsTitle(article, locale);
+  // Striking-distance pass 2026-10-18: a reviewed headline and one-paragraph answer that repeat the words people search
+  // with, only on the edition they were written for (serp-ctr-news-overrides.js); other editions keep the feed title.
+  const searchAnswer = contentLocale === locale ? serpCtrNewsOverride(article.slug, locale) : null;
+  const title = searchAnswer?.h1 || localizedNewsTitle(article, locale);
   // Neutral locales (locale-policy.js): sign-up sentences, codes and the partner-feed source are removed at render time.
   const localizedSummary = neutralArticleMarkdown(localizedNewsSummary(article, locale), locale);
   const content = neutralArticleMarkdown(localizedValue(article.content, contentLocale), locale);
@@ -878,6 +882,11 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           </p>
 
           <h1 className="news-detail__title">{title}</h1>
+          {searchAnswer?.intro && (
+            <p className="news-detail__search-answer" data-short-answer="" data-search-answer={article.slug}>
+              <strong>{locale.startsWith("zh") ? "简短回答：" : "The short answer:"}</strong> {searchAnswer.intro}
+            </p>
+          )}
 
           <div className="news-detail__metaline">
             <ArticleByline article={article} locale={locale} />

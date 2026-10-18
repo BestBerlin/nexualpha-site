@@ -38,9 +38,9 @@ const ownerQuestionByVenue = {
     "zh-Hant": "核對 Drift 目前官網、更新公告和文件路徑後，是否還應該繼續？",
   },
   deribit: {
-    // Striking distance (GSC 2026-10-11): "deribit fees" sits at ~35, so the H1 names fees first.
-    en: "Should you use Deribit after checking fees, margin, API and liquidation rules?",
-    "zh-Hans": "核对产品、保证金、API 和清算边界后，Deribit 是否适合你？",
+    // Striking distance (GSC 2026-10-18: "deribit fees" ~34, "deribit mark price" ~32): the H1 opens with the query.
+    en: "Deribit fees: perpetuals, options, margin and liquidation rules",
+    "zh-Hans": "Deribit 手续费：永续、期权、保证金与清算规则",
     "zh-Hant": "核對產品、保證金、API 和清算邊界後，Deribit 是否適合你？",
   },
 };

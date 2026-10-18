@@ -204,7 +204,7 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.ok(en.includes("$6.11M"), "24h total");
   assert.ok(en.includes("$3.34M"), "1h total");
   assert.ok(en.includes("$1,452,978"), "largest single liquidation");
-  assert.ok(en.includes("2026-10-10 · 22:58 SGT"), "generatedAt in SGT");
+  assert.ok(en.includes("Data updated 2026-10-10 22:58 SGT"), "generatedAt in SGT (freshness stamp format, 2026-10-18)");
   assert.match(en, /<th scope="row" translate="no">SOL<\/th><td translate="no">OKX<\/td>/);
   // The explainer keeps the coverage limit as real content; the hero source line carries no caveat suffix (owner 2026-10-12).
   assert.match(en, /lower bound for two exchanges, not the whole market/);

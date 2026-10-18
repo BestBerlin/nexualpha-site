@@ -1,4 +1,7 @@
 import { SourceLink } from "../shared/SourceLink.jsx";
+import { ratesShortAnswer } from "../../data/answer-first.js";
+import { ShortAnswer } from "../shared/ShortAnswer.jsx";
+import { DataUpdatedStamp } from "../shared/DataUpdatedStamp.jsx";
 /**
  * FeeBenchmarkTerminal — B1. Published fee benchmark
  * 展示带来源状态的基础费率；没有字段级核验时保持待核验。
@@ -820,6 +823,17 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
       </div>
     </section>
   );
+}
+
+// /rates hero (answer-first pass 2026-10-18): the short answer and the fee review stamp sit directly under the H1.
+// Exported from this route module so App.jsx loads it with the terminal (no answer-first data in the entry bundle).
+export function RatesShortAnswer({ locale = "en", market }) {
+  const answer = ratesShortAnswer(locale, market);
+  if (!answer) return null;
+  return <>
+    <DataUpdatedStamp at={answer.asOf} locale={locale} />
+    <ShortAnswer answer={answer} placement="rates-hero" />
+  </>;
 }
 
 export default FeeBenchmarkTerminal;

@@ -1,4 +1,6 @@
 import { SourceLink } from "../shared/SourceLink.jsx";
+import { compareShortAnswer } from "../../data/answer-first.js";
+import { ShortAnswer } from "../shared/ShortAnswer.jsx";
 import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
 import { enAttrs } from "../../utils/fallback-lang.js";
@@ -2320,6 +2322,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
               : part)}
           </span>)}
         </h1>
+        {profiles.length === 2 && <ShortAnswer answer={compareShortAnswer(profiles[0].slug, profiles[1].slug, locale, market)} placement="compare-hero" />}
         {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
         {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}

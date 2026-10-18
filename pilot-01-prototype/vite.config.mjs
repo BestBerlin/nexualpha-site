@@ -218,6 +218,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // "Get alerts on Telegram" line (2026-10-13): CSS-free, shared by route-flash, route-coins and route-data; pinned so
           // none of them absorbs it and drags the others in.
           if (id.includes("/src/components/shared/TelegramTriggerCta")) return "shared-telegram-cta";
+          // Answer-first leads + freshness stamp (2026-10-18): CSS-free, shared by the venue, compare, rates, directory and
+          // data routes; pinned so no route chunk absorbs them and drags the others in.
+          if (/\/src\/(?:data\/answer-first|data\/data-updated|components\/shared\/ShortAnswer|components\/shared\/DataUpdatedStamp)\.jsx?$/.test(id)) return "shared-answer-first";
           // Data-page paths/nav are read by route-data, route-coins and the news chunks: pinned (SSR TDZ, 2026-10-13).
           if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
           // Shared browser polling helper: ticker, flash, movers and radar routes all use it. If Rollup lets a deferred
