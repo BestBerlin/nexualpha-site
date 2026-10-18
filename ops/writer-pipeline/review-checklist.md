@@ -14,3 +14,12 @@ A writer receipt, passing draft check, or builder output is not editorial approv
 - [ ] Review/rebuild using the managed tools, preserving first-publication dates for updates. Use the managed publisher rehearsal and publisher only. Writers never publish, submit, or append publication claims to a ledger.
 - [ ] After publication perform runbook HTTP + real Chrome DOM schema checks, all native edition URLs and mobile checks. Report readable, index-allowed, submitted and actually indexed separately.
 - [ ] Mark this draft manifest reviewed/cancelled with reviewer evidence, update ledger query/locale reservations and refresh the queue. Do not infer success from an empty queue.
+
+## Social drafts (X / Telegram / YouTube scripts)
+
+- [ ] Read the "Social drafts awaiting review" sections of REVIEW-QUEUE.md; `social-post.mjs show <id>` for each.
+- [ ] Every fact/number appears in the run's `brief.json` (newsroom event, whale row, published article); the event is still current (X/Telegram drafts > 18 h are refused).
+- [ ] Tone: plain language, user benefit only; no fine print, no "we/inviter earn", no predictions; links only to our pages; neutral locales info-only; tr no Bitget; no personal identity.
+- [ ] X: 2–4 tags incl. the day's hot keyword (and `$TSLA`/`$NVDA`/`#TokenizedStocks` on stock topics), ≤280; prefer plain posts, at most one link post per day.
+- [ ] Approve (optionally `--text-file` with your edit — the rules re-run), then `post <id>` (dry run) and `post <id> --live`. Reject the rest with `--reason`.
+- [ ] YouTube: approve + `handoff` only; the video pipeline adds voiceover/music and passes the audio gate before any upload.

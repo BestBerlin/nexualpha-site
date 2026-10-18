@@ -36,3 +36,28 @@ Before the draft gate, purely mechanical issues are normalised instead of failin
 The controller never grants PASS, invokes the publisher or submits search URLs. The reviewer owns the checklist, canonical validator, four review passes and publication. The writer manifest and review queue are not publication/indexing evidence.
 
 Known scope limits: not a complete automated implementation of every runbook discovery source; unattended X discovery is explicitly skipped. Owner priority prose and rewards fact-sheet interpretation remain editorial responsibilities: packages must not invent rewards from those mentions. Keyword `refresh existing page` actions become reviewable new article drafts, never site UI edits. Automated code/locale regex checks are conservative and incomplete across every language; reviewer confirmation is mandatory. No live end-to-end manuscript was produced here.
+
+## Social drafts: X, Telegram, YouTube Shorts scripts (2026-10-18)
+
+Same contract: writers draft, Claude reviews and posts. Writers: `agy --model flash` (gemini-3.8-flash-tiered), then `codex exec`. Gemini CLI is skipped because it is ineligible.
+
+| File | Role |
+|---|---|
+| `social-batch.mjs` | Gathers newsroom top-events (ssh, read-only), `/api/whales.json`, `/content/news-feed-summary.json`, `/intel/partners.json` and `/intel/market-events.json`. It builds a brief with tokenized-stock topics first and makes one writer call per channel. Every draft is checked by `social-rules.mjs`. Valid drafts land in `<root>/social/<SGT-date>/<UTC-run>-social/drafts.json` as `needs_review`; failing ones go in `invalid[]` with their errors. The script then rebuilds REVIEW-QUEUE.md. |
+| `social-rules.mjs` | Shared validator for all channels (see rules below). |
+| `social-queue.mjs` | Draft storage plus the REVIEW-QUEUE sections, one per channel. |
+| `social-post.mjs` | Review CLI: `list`, `show`, `approve [--text-file]`, `reject --reason`, `post [--live]`, `handoff`. |
+| `com.nexualpha.social-writers.plist` | launchd job at 07:50, 11:50, 15:50, 19:50 and 23:50 local time, 45 min before Claude's :35 review. |
+
+- **X (@NexuAlpha).** Writers produce 3 candidates per locale (en, zh-Hans, es, pt-BR, id, tr). Each body is ≤200 chars with no tags of its own. The tool strips writer tags and adds 2–4 tags with `ops/x-poster/hashtags.mjs`: stock tickers become cashtags (`$TSLA`, `$NVDA`), plus `#TokenizedStocks`, the day's hot keyword and an evergreen tag. Posts stay ≤280 weighted chars. A link is optional and must be our page (`?src=x-social`). Link posts cost about $0.20, so at most one per day.
+- **Telegram.** One post per channel: zh-Hans @NexuAlphaClub, en @NexuAlphaGlobal, ru @NexuAlphaRU, tr and vi private channels. Telegram HTML (`<b>`, `<i>`, `<a>`) only, ≤1000 chars, with a "read more" link to our locale page. `post --live` sends over `ssh nexualpha-prod`: python on the server reads `COMMUNITY_BOT_TOKEN` from `community-poller.env`. The token never reaches the Mac or its logs.
+- **YouTube Shorts.** Scripts only, in en, es, pt-BR, id, tr, vi and ru. Style is a cartoon Q-version Bitcoin mascot, 9:16, 4–6 scenes, ≤170 narration words. `handoff` copies an approved script to `<root>/social/youtube-approved/` for the separate video/voice pipeline, which owns the voiceover and audio gate. Nothing is uploaded from here.
+- **Rules enforced by `social-rules.mjs`.** No fine print or disclaimers, in any language. Never mention what we or the inviter earn (commission, kickback, rev-share, "inviter gets…"); regulators named "… Commission" are exempt. No price predictions or guarantees. Links go only to nexualpha.com pages: never /go/, never `ref=`, never an exchange URL or a bare domain such as `Gate.io`. Neutral locales (ru, ar, zh-Hant, ur, uk, vi) get no codes, sign-up, bonus or rebate wording. tr never mentions Bitget and gets no Backpack/Hyperliquid promotion. Partner codes must exist in partners.json. Owner anonymity: no BestBerlin, Btc_Berlin, 柏萬億 or personal handles.
+- **Posting safety.** `post` is a dry run unless `--live`. It refuses drafts that are not `approved`, are older than 18 h, or fail the rules again at post time. It also enforces caps: X 4/day (1 link), Telegram 3 per chat per day, on top of the automatic x-poster and channel feeds. Intent is recorded before the network call. An ambiguous result becomes `post_unknown` and is never retried. X uses the `@NexuAlpha` keys in `~/.codex/private/x-nexualpha-publisher.env`; `X_BERLIN_*` is never read, and `verifyAccount` requires @NexuAlpha.
+- **Unchanged automatic jobs.** The 09:00 SGT `daily-social` card job and the 5-minute `x-poster` on the prod scheduler are deterministic templates and are not touched. Social drafts are an extra, reviewed lane.
+
+```sh
+node ops/writer-pipeline/social-batch.mjs --config /abs/config.json   # {"root": "/scratch"} for a smoke test
+node ops/writer-pipeline/social-post.mjs list
+node --test ops/writer-pipeline/social.test.mjs
+```

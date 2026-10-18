@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validate as validateDraft, ungroundedNumbers } from './validate-drafts.mjs';
+import { socialSections } from './social-queue.mjs';
 
 export const HERE = path.dirname(fileURLToPath(import.meta.url));
 // Owner order 2026-10-18: Antigravity -> Gemini CLI -> Codex (last resort). Claude only reviews.
@@ -168,7 +169,7 @@ export async function discoverUrls(topic, dir, c = {}) {
     return urls.filter(u => { try { const x = new URL(u); return x.protocol === 'https:' && !/nexualpha\.com$/.test(x.hostname) && !/\/go\/|ref=|referral|register|signup|invite/i.test(u); } catch { return false; } });
   } catch { return []; }
 }
-async function writer(prompt, dir, providers, timeout) {
+export async function writer(prompt, dir, providers, timeout) {
   const attempts = [];
   for (const provider of providers) {
     const startedAt = Date.now();
@@ -218,9 +219,10 @@ export function dailyTopics(ledger, date) {
   const slugs = new Set(today.filter(r => r.slug && r.countedNewTopic !== false && r.newTopic !== false && r.type !== 'localized-edition').map(r => r.slug));
   return Math.max(slugs.size, ...today.map(r => Number(r.dailyNewTopics) || 0), 0);
 }
-async function refreshQueue(c) {
+// Articles first, then one section per social channel (social-queue.mjs). Both writers rebuild the whole file.
+export async function refreshQueue(c) {
   const rows = await pending(path.join(c.engine, 'staging'));
-  const queue = ['# Drafts awaiting editorial review', '', 'Validation is not approval. See review-checklist.md. Blocked batches reserve their topics until an editor explicitly resolves or cancels them.', '', ...rows.map(m => `- [ ] ${m.id} — ${m.status} — ${m.packages.map(p => `${p.directory} (writer: ${p.provider}${p.writerInfo?.responseModel ? ` / ${p.writerInfo.responseModel}` : ''})`).join(', ') || 'no complete package'}${m.blocker ? `; ${m.blocker}` : ''}`), ''].join('\n');
+  const queue = ['# Drafts awaiting editorial review', '', 'Validation is not approval. See review-checklist.md. Blocked batches reserve their topics until an editor explicitly resolves or cancels them.', '', ...rows.map(m => `- [ ] ${m.id} — ${m.status} — ${m.packages.map(p => `${p.directory} (writer: ${p.provider}${p.writerInfo?.responseModel ? ` / ${p.writerInfo.responseModel}` : ''})`).join(', ') || 'no complete package'}${m.blocker ? `; ${m.blocker}` : ''}`), ''].join('\n') + await socialSections(c.root);
   const temp = path.join(c.root, 'REVIEW-QUEUE.md.tmp'); await writeFile(temp, queue); await rename(temp, path.join(c.root, 'REVIEW-QUEUE.md'));
 }
 export async function main(config = {}) {
