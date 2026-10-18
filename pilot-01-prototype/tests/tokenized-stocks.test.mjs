@@ -18,7 +18,7 @@ import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 import { buildSplitSitemaps, buildTokenizedStocksSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
-import { createSsrHarness, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
+import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
 // Research packet vendored into the repo (copied from /Volumes/致态2TB/nx-agents/research/tokenized-stocks, as of 2026-10-15).
 const RESEARCH = new URL("../research/tokenized-stocks/exchanges.json", import.meta.url);
@@ -312,4 +312,15 @@ test("runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its d
   const older = { ...newer, generatedAt: "2026-01-01T00:00:00Z" };
   const html2 = await (await worker.fetch(new Request("https://nexualpha.com/tokenized-stocks/nvda", { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => older })).text();
   assert.doesNotMatch(mainHtml(html2), /\b77x/i);
+});
+
+test("hydration: ticker (baked and runtime table) and exchange pages hydrate without a mismatch", async () => {
+  const { TS_LIVE_BAKED } = await import("../src/data/tokenized-stocks-live.generated.js");
+  const newer = { ...structuredClone(TS_LIVE_BAKED), generatedAt: new Date(Date.parse(TS_LIVE_BAKED.generatedAt) + 3600e3).toISOString() };
+  const cases = [["/zh-hans/tokenized-stocks/tsla", {}], ["/tokenized-stocks/openai", { TS_LIVE_READ: async () => newer }], ["/es/tokenized-stocks/exchange/okx", {}], ["/tokenized-stocks", {}]];
+  for (const [path, extra] of cases) {
+    const html = await (await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html" } }), { ...env(), ...extra })).text();
+    const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
+    assert.deepEqual(hydrationErrors(errors), [], path);
+  }
 });
