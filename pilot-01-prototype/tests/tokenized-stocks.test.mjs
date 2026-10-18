@@ -133,10 +133,17 @@ test("hub SSR (zh-Hans, en): answer first, codes via /go, every fact sourced, sc
     }
     // No exchange sign-up link that bypasses /go.
     for (const a of anchors(main)) if (/data-cta-kind="signup"/.test(a.tag)) assert.match(a.href, /^\/go\//);
-    // Every lane cell with facts and every FAQ answer prints its source.
+    // Every exchange row keeps all its sources in the DOM (one collapsed disclosure per row, de-AI pass 2026-10-18),
+    // and every FAQ answer prints its source.
     const cells = main.split('<div class="nxts-cell" data-lane=').slice(1);
     assert.ok(cells.length > 15);
-    for (const cell of cells) assert.ok(cell.split('<div class="nxts-cell')[0].includes('class="nxts-src'), `${locale}: lane cell without source`);
+    for (const slug of rows) {
+      const row = main.split(`id="ts-${slug}"`)[1].split("<article")[0];
+      const ex = tsVenues(locale).find((venue) => venue.slug === slug);
+      const ids = ["spot", "perp", "preipo"].filter((lane) => ex[lane]).flatMap((lane) => ["form", "tickers", "count", "hours", "lev", "fee", "settle"].map((key) => ex[lane][key]).filter(Boolean).flatMap((fact) => fact.s));
+      assert.ok(row.includes('<details class="nxts-row__src">') && row.includes('class="nxts-src'), `${locale} ${slug}: row without sources`);
+      for (const id of new Set(ids)) assert.ok(row.includes(TS_SOURCES[id].date), `${locale} ${slug}: source ${id} missing`);
+    }
     const faqs = main.split("<details>").slice(1);
     assert.equal(faqs.length, t.faq.length);
     for (const faq of faqs) assert.ok(faq.includes('class="nxts-src'), `${locale}: FAQ without source`);
