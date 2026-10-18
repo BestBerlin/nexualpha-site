@@ -6,6 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'server.mjs',
   'server/cta-collector.mjs',
+  'server/analytics-bots.mjs',
   'server/error-monitor.mjs',
   'server/asset-path.mjs',
   'server/news-ssr.mjs',

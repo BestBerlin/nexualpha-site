@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { App, preloadCurrentRouteModulesForUrl } from "./App.jsx";
 import { installCtaAnalytics } from "./data/cta-analytics.js";
 import { installOutboundFeedback } from "./data/outbound-feedback.js";
+import { installGoAttribution } from "./data/go-attribution.js";
 import { installCtaClickBeacon } from "./data/cta-click-beacon.js";
 import { installPartnerViewPropagation } from "./data/partner-view.js";
 import { signalRootHydrated } from "./data/hydration-readiness.js";
@@ -38,6 +39,7 @@ const capturedBrowserUrl = typeof window !== "undefined" ? window.location.href 
 installCtaAnalytics();
 installOutboundFeedback();
 installCtaClickBeacon();
+installGoAttribution();
 installPartnerViewPropagation();
 
 

@@ -915,3 +915,19 @@ test('collector expires runtime idempotency keys using the same 30-day recovery 
     assert.equal((await readFile(file, 'utf8')).trim().split('\n').length, 2);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
+
+
+test('production collector excludes explicit QA user agents without storing them', async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-qa-collector-'));
+  try {
+    const file = path.join(dir, 'events.jsonl');
+    const collect = createCtaCollector(file, { environment: 'production', origin: 'https://nexualpha.com', env: { ANALYTICS_QA_UAS: 'internal-release-check', ANALYTICS_QA_IPS: '192.0.2.2' } });
+    for (const ua of ['Playwright', 'NexuAlpha QA', 'Mozilla/5.0 internal-release-check']) {
+      const req = request(pageView(), 'https://nexualpha.com');
+      req.headers.set('user-agent', ua);
+      assert.equal((await collect(req)).status, 204);
+    }
+    assert.equal((await collect(request(pageView(), 'https://nexualpha.com'), undefined, { clientIp: '192.0.2.2' })).status, 204);
+    await assert.rejects(readFile(file, 'utf8'), { code: 'ENOENT' });
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
