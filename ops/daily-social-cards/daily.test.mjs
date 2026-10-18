@@ -285,6 +285,8 @@ test('stale web movers fall back to the collector market file with the site buil
   assert.equal(d.up[0].sym, 'TAO'); assert.equal(d.down[0].sym, 'SUI');
   const fresh = await moversWithFallback({ movers: fixture.movers, market, now: at + 1000, readCoins: () => assert.fail('not needed') });
   assert.equal(fresh.source, 'web');
+  const failedMarket = { ...market, sourceStatus: { markets: { status: 'error' } } };
+  assert.equal((await moversWithFallback({ movers: staleWeb, market: failedMarket, now: at + 1000, readCoins: () => assert.fail('failed source must not be rebuilt') })).source, 'web');
   const deadMarket = { ...market, generatedAt: new Date(at - 3600000).toISOString() };
   assert.equal((await moversWithFallback({ movers: staleWeb, market: deadMarket, now: at + 1000, readCoins: async () => coins })).source, 'web');
 });

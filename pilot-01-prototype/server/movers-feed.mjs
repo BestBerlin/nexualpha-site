@@ -14,11 +14,20 @@ export const MOVERS_MAX_SOURCE_AGE_MS = 15 * 60 * 1000;
 export function createMoversFeed({ readBinanceRows = null, readCoins = null, readMarketEvents = null, ttlMs = 30 * 1000, maxSourceAgeMs = MOVERS_MAX_SOURCE_AGE_MS, timeoutMs = 3000, now = Date.now, log = () => {} } = {}) {
   let lastWide = null;
   const safe = async (fn) => { if (typeof fn !== 'function') return null; try { return await fn(); } catch (error) { log(`movers: ${error?.message || error}`); return null; } };
-  return createStaleJsonFeed({ ttlMs, timeoutMs, now, log, load: async () => {
+  const sourceStale = (snapshot, at) => {
+    const age = at - Date.parse(snapshot.generatedAt);
+    const maxAge = snapshot.source === 'market-events' ? maxSourceAgeMs : ttlMs;
+    return !Number.isFinite(age) || age < 0 || age >= maxAge;
+  };
+  return createStaleJsonFeed({ ttlMs, timeoutMs, now, log, isSourceStale: sourceStale, load: async () => {
     const [binanceRows, coins, marketEvents] = await Promise.all([safe(readBinanceRows), safe(readCoins), safe(readMarketEvents)]);
-    const next = buildMoversSnapshot({ binanceRows, coins, marketEvents, now: now() });
-    // Binance frames keep the strict TTL (expired cached rows must not pose as new); collector frames get the source bound.
-    if (next && now() - Date.parse(next.generatedAt) >= (next.source === 'market-events' ? maxSourceAgeMs : ttlMs)) return { ...next, stale: true };
+    // Expired wide ticker rows must not shadow a healthy collector fallback.
+    const rowsAge = now() - binanceRows?.snapshotAt;
+    const usableRows = Number.isFinite(rowsAge) && (rowsAge < 0 || rowsAge >= ttlMs) ? null : binanceRows;
+    const next = buildMoversSnapshot({ binanceRows: usableRows, coins, marketEvents, now: now() });
+    const marketFailed = marketEvents?.stale === true
+      || (marketEvents?.sourceStatus?.markets && marketEvents.sourceStatus.markets.status !== 'ok');
+    if (next && (sourceStale(next, now()) || (next.source === 'market-events' && marketFailed))) return { ...next, stale: true };
     if (next?.up.length && next?.down.length) { lastWide = next; return next; }
     // A degraded collector universe must not replace either side of a good board.
     if (lastWide) return { ...lastWide, stale: true };
