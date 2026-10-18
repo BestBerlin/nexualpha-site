@@ -1,81 +1,129 @@
-/* Live exchange campaigns (2026-10-10). Two columns from 900px, one on phones; every card has the same structure. */
-.live-campaigns:not(#_):not(#_) { margin: 40px 0 56px; color: var(--n12, #EDEEF0); }
+/* Live exchange campaigns (2026-10-10; de-AI pass 2 2026-10-18). Every campaign is an editorial row on a hairline,
+   not a box: exchange tile + name and time, the campaign title as the headline, a short plain summary, the key facts
+   as one compact mono line, and one blue sign-up action (official details stay a text link). Featured and hot labels
+   are plain coloured text. Spacing 8 / 16 / 24 / 32 / 48; no gradients, glows or infinite animation.
+   Specificity: the page-wide v6 rules (`.activity-center-v3 :is(span, small, a) { color: inherit }`, three id-weights;
+   `main.v6 :is(p, li, dd) { max-inline-size: 62ch }`, two) are beaten by the four id-weights below. */
+.live-campaigns:not(#_):not(#_) { margin: 40px 0 48px; color: var(--n12, #EDEEF0); }
 .live-campaigns__head:not(#_):not(#_) h2 { margin: 0; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; text-wrap-style: balance; }
 .live-campaigns__head:not(#_):not(#_) p { margin: 8px 0 0; max-width: 62ch; font-size: 15px; line-height: 1.55; color: var(--n10, #B0B4BA); }
-.live-campaigns__chips:not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 16px; padding: 2px; }
-.live-campaigns__chips:not(#_):not(#_) button { flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.14); background: transparent; color: var(--n10, #B0B4BA); font: 500 14px/1 inherit; cursor: pointer; transition: border-color .2s, color .2s, background-color .2s; }
+
+/* Exchange filter: a real filter control, so it may be a pill; the selected one is a light fill with dark ink. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; padding: 2px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.live-campaigns__chips:not(#_):not(#_) button { flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.12); background: transparent; color: var(--n10, #B0B4BA); font: 500 14px/1 inherit; cursor: pointer; transition: border-color .2s, color .2s, background-color .2s; }
 .live-campaigns__chips:not(#_):not(#_) button:hover { color: #EDEEF0; border-color: rgb(255 255 255 / 0.28); }
-.live-campaigns__chips:not(#_):not(#_) button.is-on { background: #1FE0C0; border-color: #1FE0C0; color: #04130F; }
-.live-campaigns__chips:not(#_):not(#_) button:focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
-.live-campaigns__list:not(#_):not(#_) { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 12px; }
-.live-campaigns__card:not(#_):not(#_) { display: grid; grid-template-rows: auto 1fr auto auto; gap: 10px; padding: 18px 18px 16px; border-radius: 14px; background: rgb(255 255 255 / 0.03); border: 1px solid rgb(255 255 255 / 0.10); min-width: 0; }
-.live-campaigns__card.is-featured:not(#_):not(#_) { border-color: rgb(31 224 192 / 0.45); background: rgb(31 224 192 / 0.05); }
-.live-campaigns__meta:not(#_):not(#_) { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--n10, #B0B4BA); min-width: 0; }
-.live-campaigns__meta:not(#_):not(#_) b { color: #EDEEF0; font-weight: 600; }
-.live-campaigns__meta:not(#_):not(#_) time { margin-inline-start: auto; white-space: nowrap; color: var(--n9, #8A909E); }
-.live-campaigns__tag:not(#_):not(#_) { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; color: #04130F; background: #1FE0C0; }
-.live-campaigns__card:not(#_):not(#_) :is(h3, h4) { margin: 0; font-size: 16px; line-height: 1.45; font-weight: 500; color: #EDEEF0; overflow-wrap: anywhere; text-wrap-style: pretty; }
-.live-campaigns__sum:not(#_):not(#_) { margin: 0; font-size: 14px; line-height: 1.5; color: var(--n10, #B0B4BA); }
-.live-campaigns__acts:not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.live-campaigns__acts:not(#_):not(#_) a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color .2s, border-color .2s; }
-.live-campaigns__details:not(#_):not(#_) { color: #EDEEF0; border: 1px solid rgb(255 255 255 / 0.18); }
-.live-campaigns__details:not(#_):not(#_):hover { border-color: rgb(255 255 255 / 0.36); }
-.live-campaigns__join:not(#_):not(#_) { color: #04130F; background: #1FE0C0; }
-.live-campaigns__join:not(#_):not(#_):hover { background: #4AEBD0; }
-.live-campaigns__join:not(#_):not(#_) small { font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: 0.8; margin-inline-start: 4px; }
-/* Filled-accent controls keep dark ink (12.6:1). The page-wide v6 rule `.activity-center-v3 :is(span, small, a)
-   { color: inherit }` carries three id-weights and was turning this text near-white on cyan (1.45:1). */
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) :is(.live-campaigns__join, .live-campaigns__join small, .live-campaigns__tag, .live-campaigns__chips button.is-on) { color: #04130F; }
-.live-campaigns__acts:not(#_):not(#_) a:focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
-.live-campaigns__terms:not(#_):not(#_) { margin: 0; font-size: 12px; color: #1FE0C0; }
-.live-campaigns__state:not(#_):not(#_) { padding: 28px; text-align: center; border-radius: 14px; border: 1px dashed rgb(255 255 255 / 0.14); color: var(--n10, #B0B4BA); }
-@media (max-width: 640px) { .live-campaigns__acts:not(#_):not(#_) a { flex: 1 1 auto; white-space: normal; text-align: center; } }
-@media (prefers-reduced-motion: reduce) { .live-campaigns__chips:not(#_):not(#_) button, .live-campaigns__acts:not(#_):not(#_) a { transition: none; } }
-/* Exchange groups (2026-10-10): three cards per exchange, the rest folded behind "Show all (n)"; all stay in the DOM. */
-.live-campaigns__group:not(#_):not(#_) { display: grid; gap: 10px; margin-top: 18px; min-width: 0; }
+.live-campaigns__chips:not(#_):not(#_) button.is-on { background: #EDEEF0; border-color: #EDEEF0; color: #0B0D10; }
+.live-campaigns__chips:not(#_):not(#_) button:focus-visible { outline: 2px solid #8FB0FF; outline-offset: 2px; }
+/* Filled controls keep dark ink: the page-wide v6 rule `.activity-center-v3 :is(span, small, a) { color: inherit }`
+   carries three id-weights and would otherwise turn this text near-white on the light fill. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) :is(.live-campaigns__chips button.is-on) { color: #0B0D10; }
+
+/* Exchange groups (2026-10-10): three cards per exchange (five when the group holds compact notices), the rest folded
+   behind "Show all (n)"; all stay in the DOM. */
+.live-campaigns__group:not(#_):not(#_) { display: grid; gap: 0; margin-top: 48px; min-width: 0; }
 .live-campaigns__group:not(#_):not(#_):first-of-type { margin-top: 0; }
-.live-campaigns__group-head:not(#_):not(#_):not(#_) { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; font-weight: 600; color: #EDEEF0; }
+.live-campaigns__group-head:not(#_):not(#_):not(#_) { display: flex; align-items: center; gap: 8px; margin: 0; padding-block-end: 8px; border-block-end: 1px solid rgb(255 255 255 / 0.18); font-size: 15px; font-weight: 600; color: #EDEEF0; }
+.live-campaigns__group-head:not(#_):not(#_):not(#_) :is(.v2-brand, .v2-brand-fallback) { width: 24px; height: 24px; flex: none; }
 .live-campaigns__group-head:not(#_):not(#_):not(#_) span { color: var(--n9, #8A909E); font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .live-campaigns__group[data-expanded="false"]:not(#_):not(#_) .live-campaigns__card[data-group-overflow="true"] { display: none; }
-.live-campaigns__group-toggle:not(#_):not(#_) { justify-self: start; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid rgb(255 255 255 / 0.18); background: transparent; color: #EDEEF0; font: 600 14px/1 inherit; cursor: pointer; }
-.live-campaigns__group-toggle:not(#_):not(#_):hover { border-color: rgb(255 255 255 / 0.36); }
-.live-campaigns__group-toggle:not(#_):not(#_):focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
-/* Request-time SSR (2026-10-11): without a feed the section keeps the height of one three-card group so nothing below it
-   shifts when the client inserts the real cards (CLS on /activities was 0.3-0.6). */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__group-toggle { justify-self: start; min-height: 44px; margin-top: 8px; padding: 0; border: 0; border-radius: 0; background: transparent; color: #8FB0FF; font: 600 14px/1 inherit; cursor: pointer; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__group-toggle:hover { text-decoration: underline; text-underline-offset: 3px; }
+.live-campaigns__group-toggle:not(#_):not(#_):focus-visible { outline: 2px solid #8FB0FF; outline-offset: 2px; }
+
+/* The campaign row. Phone: one column. From 900px: text on the left, the sign-up action on the right. */
+.live-campaigns__list:not(#_):not(#_), .live-campaigns__notices:not(#_):not(#_) { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; min-width: 0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "meta" "title" "sum" "facts" "act" "links";
+  gap: 8px; max-inline-size: none; min-width: 0; margin: 0; padding: 24px 0; border: 0; border-block-end: 1px solid rgb(255 255 255 / 0.10); border-radius: 0; background: none; box-shadow: none;
+}
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card.is-featured { border-color: rgb(255 255 255 / 0.10); background: none; }
+@media (min-width: 900px) {
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card {
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); column-gap: 48px;
+    grid-template-areas: "meta meta" "title act" "sum act" "facts act" "links act"; grid-template-rows: auto auto auto auto 1fr;
+  }
+}
+.live-campaigns__meta:not(#_):not(#_) { grid-area: meta; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--n10, #B0B4BA); min-width: 0; }
+.live-campaigns__meta:not(#_):not(#_) :is(.v2-brand, .v2-brand-fallback) { width: 28px; height: 28px; flex: none; }
+.live-campaigns__meta:not(#_):not(#_) b { color: #EDEEF0; font-weight: 600; }
+.live-campaigns__meta:not(#_):not(#_) time { margin-inline-start: auto; white-space: nowrap; color: var(--n9, #8A909E); font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+/* "Featured" is a plain 12px mono label, not a filled pill. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__tag { padding: 0; border: 0; border-radius: 0; background: none; color: #F5C542; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card :is(h3, h4) { grid-area: title; margin: 8px 0 0; max-inline-size: 48ch; font-size: 18px; line-height: 1.4; font-weight: 600; color: #EDEEF0; overflow-wrap: anywhere; text-wrap-style: pretty; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__sum { grid-area: sum; margin: 0; max-inline-size: 72ch; font-size: 14px; line-height: 1.6; color: var(--n10, #B0B4BA);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+
+/* Key facts (prize pool, period, threshold…) as one compact line: mono label, value, hairline-free. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts { grid-area: facts; display: grid; gap: 8px; min-width: 0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts dl { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts dl > div { display: flex; align-items: baseline; gap: 8px; max-inline-size: 100%; min-width: 0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts dt { flex: none; opacity: 1; font: 500 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--n9, #8A909E); }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts dd { margin: 0; max-inline-size: none; font-size: 14px; line-height: 1.5; color: #EDEEF0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts p { margin: 0; max-inline-size: 72ch; font-size: 13px; line-height: 1.55; color: var(--n10, #B0B4BA); }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card .campaign-brief-facts time { font: 500 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--n9, #8A909E); }
+
+/* Actions: official details is a text link under the copy; sign-up is the one blue button (campaign-join.css). */
+.live-campaigns__acts:not(#_):not(#_) { grid-area: links; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__acts a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: #8FB0FF; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__acts a::after { content: " →"; white-space: pre; }
+[dir="rtl"] .live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__acts a::after { content: " ←"; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__acts a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.live-campaigns__acts:not(#_):not(#_) a:focus-visible { outline: 2px solid #8FB0FF; outline-offset: 2px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card > :is(.campaign-join, .campaign-join__official) { grid-area: act; align-self: start; }
+@media (min-width: 900px) { .live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card > .campaign-join { margin-top: 8px; } }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card > .campaign-join__official { display: inline-flex; align-items: center; min-height: 44px; color: #8FB0FF; font-size: 14px; font-weight: 600; text-decoration: none; }
+
+.live-campaigns__terms:not(#_):not(#_) { margin: 0; font-size: 12px; color: var(--n10, #B0B4BA); }
+.live-campaigns__state:not(#_):not(#_) { padding: 24px 0; text-align: start; border: 0; border-block: 1px solid rgb(255 255 255 / 0.10); border-radius: 0; color: var(--n10, #B0B4BA); }
+@media (prefers-reduced-motion: reduce) { .live-campaigns__chips:not(#_):not(#_) button { transition: none; } }
+
+/* Request-time SSR (2026-10-11): without a feed the section keeps the height of one three-row group so nothing below it
+   shifts when the client inserts the real rows (CLS on /activities was 0.3-0.6). */
 .live-campaigns__group--skeleton:not(#_):not(#_) { min-height: 0; }
-.live-campaigns__state--inline:not(#_):not(#_) { padding: 0 0 4px; text-align: start; border: 0; border-radius: 0; font-size: 13px; }
-.live-campaigns__card--skeleton:not(#_):not(#_) { min-height: 212px; grid-template-rows: auto auto 1fr auto; }
+.live-campaigns__state--inline:not(#_):not(#_) { padding: 0 0 8px; text-align: start; border: 0; border-radius: 0; font-size: 13px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__card--skeleton { min-height: 212px; grid-template-columns: minmax(0, 1fr); grid-template-areas: none; grid-template-rows: auto auto 1fr auto; }
 .live-campaigns__skeleton-line:not(#_):not(#_) { display: block; height: 12px; border-radius: 6px; background: rgb(255 255 255 / 0.06); }
 .live-campaigns__skeleton-line--meta:not(#_):not(#_) { width: 38%; }
 .live-campaigns__skeleton-line--title:not(#_):not(#_) { height: 18px; width: 86%; }
 .live-campaigns__skeleton-line--action:not(#_):not(#_) { height: 44px; width: 60%; border-radius: 10px; align-self: end; }
-/* Featured campaign page (owner 2026-10-12): spotlight on top of /activities, with the header gold sparkle. */
-.campaign-spotlight:not(#_):not(#_) { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tag brand go" "title title title" "body body body"; align-items: center; gap: 8px 12px; margin: 0 0 28px; padding: 20px 22px; border-radius: 16px; border: 1px solid rgb(245 197 66 / .45); background: radial-gradient(70% 140% at 100% 0%, rgb(245 197 66 / .14), transparent 70%), rgb(255 255 255 / .03); text-decoration: none; transition: border-color .2s, background-color .2s; }
-.campaign-spotlight:not(#_):not(#_):hover { border-color: rgb(245 197 66 / .75); }
-.campaign-spotlight:not(#_):not(#_):focus-visible { outline: 2px solid #f5c542; outline-offset: 3px; }
-.campaign-spotlight__tag:not(#_):not(#_) { grid-area: tag; position: relative; justify-self: start; padding: 4px 10px; border-radius: 999px; border: 1px solid rgb(245 197 66 / .5); font-size: 12px; font-weight: 700; --nx-gold: #f5c542; background: linear-gradient(100deg, var(--nx-gold) 0%, var(--nx-gold) 38%, #fff8dc 48%, #ffe27a 52%, var(--nx-gold) 62%, var(--nx-gold) 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nx-gold-sweep 2.6s linear infinite, nx-chip-glow 2.6s ease-out infinite; }
-.campaign-spotlight__tag:not(#_):not(#_)::after { content: "✦"; position: absolute; inset-block-start: -7px; inset-inline-end: -6px; font-size: 11px; color: #ffe27a; -webkit-text-fill-color: #ffe27a; text-shadow: 0 0 6px rgb(255 214 90 / .9); animation: nx-twinkle 1.3s ease-in-out infinite; }
-.campaign-spotlight__brand:not(#_):not(#_) { grid-area: brand; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__brand b { color: #EDEEF0; }
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__title { grid-area: title; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 650; line-height: 1.35; color: #EDEEF0; }
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__body { grid-area: body; font-size: 14.5px; line-height: 1.55; color: #B0B4BA; }
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { grid-area: go; justify-self: end; font-size: 14px; font-weight: 600; color: #ffe27a; white-space: nowrap; }
-@media (max-width: 560px) {
-  .campaign-spotlight:not(#_):not(#_) { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "tag brand" "title title" "body body" "go go"; }
-  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { justify-self: start; min-height: 32px; display: inline-flex; align-items: center; }
+
+/* Untranslated source notices: one-line links on the same hairline rhythm. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__notice { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; max-inline-size: none; margin: 0; padding: 16px 0; border-block-end: 1px solid rgb(255 255 255 / 0.10); }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__notice a { min-width: 0; overflow-wrap: anywhere; line-height: 1.5; font-size: 15px; color: #EDEEF0; text-decoration: none; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__notice a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .live-campaigns__notice time { flex: none; font: 500 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--n9, #8A909E); }
+
+/* Featured campaign pages (owner 2026-10-12): first on /activities while they run. Editorial rows on hairlines: hot label
+   in plain gold text, exchange tile + name, the title as the headline, one line of body, a blue text action. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand go" "title go" "body go";
+  align-items: center; gap: 8px 32px; margin: 0; padding: 24px 0; border: 0; border-block-end: 1px solid rgb(255 255 255 / 0.10); border-radius: 0; background: none; box-shadow: none; text-decoration: none; transition: background-color .2s;
 }
-@media (prefers-reduced-motion: reduce) { .campaign-spotlight__tag:not(#_):not(#_), .campaign-spotlight__tag:not(#_):not(#_)::after { animation: none; } }
-/* Spotlight tag: plain gold text. The gradient-clipped text above rendered as an empty pill under the page's
-   `color: inherit` rule (verified in Chromium 2026-10-12), so the label is painted solid here. */
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { background: rgb(245 197 66 / .10); color: #ffe27a; -webkit-text-fill-color: #ffe27a; animation: nx-chip-glow 2.6s ease-out infinite; }
-@media (prefers-reduced-motion: reduce) { .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { animation: none; } }
-
-/* Untranslated source notices remain useful links without becoming large English campaign cards. */
-.live-campaigns__notices { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
-.live-campaigns__notice { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 0; border-block-end: 1px solid rgb(255 255 255 / 0.10); }
-.live-campaigns__notice a { min-width: 0; overflow-wrap: anywhere; line-height: 1.5; }
-.live-campaigns__notice time { flex: none; font-size: 12px; color: #9ca3af; }
-
-/* De-AI pass (2026-10-18): the hot tag is plain gold text on a hairline, no gold sweep, glow loop or twinkling star. */
-.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag:not(#_), .campaign-spotlight__tag:not(#_):not(#_):not(#_) { padding: 0; border: 0; border-radius: 0; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #F5C542; -webkit-text-fill-color: #F5C542; box-shadow: none; animation: none; }
-.campaign-spotlight__tag:not(#_):not(#_):not(#_)::after { content: none; animation: none; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight:first-child { border-block-start: 1px solid rgb(255 255 255 / 0.18); }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight:last-of-type { margin-block-end: 48px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight:hover .campaign-spotlight__title { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight:focus-visible { outline: 2px solid #8FB0FF; outline-offset: 4px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__brand { grid-area: brand; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__brand :is(.v2-brand, .v2-brand-fallback) { width: 28px; height: 28px; flex: none; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__brand b { color: #EDEEF0; font-weight: 600; }
+/* Hot tag: plain gold 12px mono text, placed on the brand line; no pill, sweep, glow or star. */
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag {
+  grid-area: brand; justify-self: end; align-self: center; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; animation: none;
+  -webkit-background-clip: border-box; background-clip: border-box; color: #F5C542; -webkit-text-fill-color: #F5C542; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em;
+}
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag::after { content: none; animation: none; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__title { grid-area: title; max-inline-size: 48ch; font-size: clamp(1.125rem, 1.8vw, 1.375rem); font-weight: 600; line-height: 1.35; color: #EDEEF0; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__body { grid-area: body; max-inline-size: 72ch; font-size: 14px; line-height: 1.6; color: #B0B4BA;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { grid-area: go; justify-self: end; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; background: #315CFF; font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; transition: background-color .2s; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight:hover .campaign-spotlight__go { background: #4A70FF; }
+@media (min-width: 900px) {
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight { grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "brand tag . go" "title title title go" "body body body go"; column-gap: 16px; }
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { grid-area: tag; justify-self: start; }
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { margin-inline-start: 32px; }
+}
+@media (max-width: 899px) {
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight { grid-template-columns: minmax(0, 1fr); grid-template-areas: "brand" "title" "body" "go"; }
+  .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__go { justify-self: start; margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .live-campaigns:not(#_):not(#_):not(#_):not(#_) :is(.campaign-spotlight, .campaign-spotlight__go) { transition: none; } }

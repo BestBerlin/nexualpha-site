@@ -49,7 +49,7 @@ test("Telegram header entry is an outline control, not a filled brand-blue pill"
 test("filled cyan buttons keep dark ink against higher-specificity white rules", () => {
   assert.match(read("src/styles/v6/cro.css"), /v3-mobile-sticky-bar__btn--signup[^{]*\{[^}]*color: var\(--on-accent, #04130f\) !important;/);
   assert.match(read("src/components/v3/activity/live-campaigns.css"),
-    /\.live-campaigns:not\(#_\):not\(#_\):not\(#_\):not\(#_\) :is\(\.live-campaigns__join, \.live-campaigns__join small, \.live-campaigns__tag, \.live-campaigns__chips button\.is-on\) \{ color: #04130F; \}/);
+    /\.live-campaigns:not\(#_\):not\(#_\):not\(#_\):not\(#_\) :is\(\.live-campaigns__chips button\.is-on\) \{ color: #0B0D10; \}/);
 });
 
 test("hidden home sign-up dock is inert (React 19 boolean), not just aria-hidden", () => {

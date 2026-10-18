@@ -1,8 +1,12 @@
-.campaign-join:not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 10px; min-width: 0; padding: 14px; border: 1px solid rgb(31 224 192 / .22); border-radius: 10px; overflow-wrap: anywhere; }
+/* Sign-up action (de-AI pass 2, 2026-10-18): one blue button, no teal frame around it; blue = action. */
+.campaign-join:not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 8px; min-width: 0; padding: 0; border: 0; border-radius: 0; overflow-wrap: anywhere; }
 .campaign-join:not(#_):not(#_):not(#_):not(#_) p { margin: 0; font-size: 14px; line-height: 1.6; }
-.campaign-join:not(#_):not(#_):not(#_):not(#_) > a { display: inline-flex; justify-content: center; align-items: center; min-height: 44px; padding: 10px 14px; background: #1FE0C0; color: #04130F; border-radius: 8px; text-align: center; font-weight: 600; white-space: normal; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) > a { display: inline-flex; justify-content: center; align-items: center; min-height: 44px; padding: 8px 16px; background: #315CFF; color: #fff; border-radius: 10px; text-align: center; font-weight: 600; white-space: normal; text-decoration: none; transition: background-color .2s; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) > a:hover { background: #4A70FF; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) > a.nx-backup-signup { background: transparent; color: #B0B4BA; padding: 0; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) > a.nx-backup-signup:hover { color: #EDEEF0; }
 .campaign-join:not(#_):not(#_):not(#_):not(#_) small { font-size: 12px; line-height: 1.5; color: var(--n10, #B0B4BA); }
-.campaign-join:not(#_):not(#_):not(#_):not(#_) a:focus-visible { outline: 2px solid #1FE0C0; outline-offset: 3px; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) a:focus-visible { outline: 2px solid #8FB0FF; outline-offset: 3px; }
 .campaign-month:not(#_):not(#_) { margin-bottom: 28px; min-width: 0; }
 .campaign-month:not(#_):not(#_) ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; }
 .campaign-month:not(#_):not(#_) li { min-width: 0; padding: 14px; border: 1px solid rgb(255 255 255 / .14); border-radius: 12px; overflow-wrap: anywhere; }
