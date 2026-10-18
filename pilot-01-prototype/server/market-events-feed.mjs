@@ -32,7 +32,7 @@ export function createMarketEventsReader({
     return Promise.race([work, timeout]).finally(() => clearTimeout(timer));
   };
   const refresh = () => {
-    if (pending && now() - startedAt < 2 * ttlMs) return pending;
+    if (pending && now() - startedAt < (ttlMs > 0 ? 2 * ttlMs : timeoutMs)) return pending;
     startedAt = now();
     const current = load()
       .then((next) => { if (next && typeof next === "object" && next.generatedAt) { feed = next; goodAt = now(); failed = false; } else { failed = true; } })

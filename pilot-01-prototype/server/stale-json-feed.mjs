@@ -7,7 +7,8 @@ export function createStaleJsonFeed({ load, ttlMs = 15000, timeoutMs = 3000, now
   // /api/ticker.json served the same frame. Now the flight ends with the bounded race (finally), and a flight older
   // than 2x the TTL is abandoned regardless; a result that arrives after its flight ended is ignored.
   const refresh = () => {
-    if (pending && attemptedAt !== null && now() - attemptedAt < 2 * ttlMs) return pending;
+    // (ttlMs 0 = no cache: concurrent cold reads still share one flight until its own timeout)
+    if (pending && attemptedAt !== null && now() - attemptedAt < (ttlMs > 0 ? 2 * ttlMs : timeoutMs)) return pending;
     const id = ++flight;
     attemptedAt = now();
     const controller = new AbortController();
