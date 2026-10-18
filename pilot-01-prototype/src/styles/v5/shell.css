@@ -509,18 +509,6 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   font-weight: 600;
   animation: nx-gold-sweep 2.6s linear 2; /* owner 2026-10-15: two sweeps after load, then static gold (no idle work) */
 }
-.nx-nav > ul > li > a[data-hot]::before {
-  content: "✦";
-  position: absolute;
-  inset-block-start: 9px;
-  inset-inline-end: 1px;
-  font-size: 10px;
-  line-height: 1;
-  color: #ffe27a;
-  -webkit-text-fill-color: #ffe27a;
-  text-shadow: 0 0 6px rgba(255, 214, 90, 0.9);
-  animation: nx-twinkle 1.3s ease-in-out 4;
-}
 .nx-nav > ul > li > a[data-hot]::after { background: var(--nx-gold); }
 .nx-hot-chip {
   display: none;
@@ -536,12 +524,6 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   white-space: nowrap;
   box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45);
   animation: nx-gold-sweep 2.6s linear 2, nx-chip-glow 2.6s ease-out 2;
-}
-.nx-hot-chip__star {
-  color: #ffe27a;
-  -webkit-text-fill-color: #ffe27a;
-  text-shadow: 0 0 6px rgba(255, 214, 90, 0.9);
-  animation: nx-twinkle 1.3s ease-in-out 4;
 }
 /* Tokenized-stocks pill (lead 2026-10-15): the same compact shape as the campaigns chip, in the plain header colours
    (no gold, no shimmer) so 活动 stays the one highlighted entry. */
@@ -572,9 +554,8 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 @keyframes nx-twinkle { 0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(20deg); } }
 @keyframes nx-chip-glow { 0% { box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45); } 70%, 100% { box-shadow: 0 0 0 7px rgba(245, 197, 66, 0); } }
 @media (prefers-reduced-motion: reduce) {
-  .nx-nav a[data-hot], .nx-sheet__nav a[data-hot], .nx-hot-chip, .nx-hot-chip__star,
-  .nx-nav > ul > li > a[data-hot]::before { animation: none; }
+  .nx-nav a[data-hot], .nx-sheet__nav a[data-hot], .nx-hot-chip { animation: none; }
 }
 /* Keep partner chips in one 44px scroller despite the legacy mobile column rule. */
 /* The campaign chip settles after its initial sweep. */
-.nx-hot-chip,.nx-hot-chip__star,.nx-nav a[data-hot]::before{animation-iteration-count:1!important}
+.nx-hot-chip{animation-iteration-count:1!important}
