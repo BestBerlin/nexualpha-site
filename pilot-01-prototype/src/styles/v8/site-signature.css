@@ -170,3 +170,6 @@ body { counter-reset: nx-section; }
 /* Venue utility row (back link + app download) in the global layer: the route chunk that also carries it arrives after
    first paint, so the row jumped from the end of the page to the top (CLS 0.026 on desktop /exchanges/<slug>). */
 .v3-profile-page .v3-venue-utility-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.5rem; min-inline-size: 0; grid-column: 1; grid-row: 1; order: -1; }
+/* Phones drew the rates calculator card with a ::before surface on the section (found in the post-deploy check); the
+   calculator sits on the page like on desktop. */
+#top#top#top#top#top#top#top#top#top#top#top#top#top#top.r1-rates-page .fee-terminal-section::before { display: none !important; content: none !important; }
