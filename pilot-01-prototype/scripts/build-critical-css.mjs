@@ -366,12 +366,32 @@ const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it
 // unstyled and restyling it when the deferred sheets land would shift the first screen (CLS).
 // Do not remove below-fold DOM: :has(), siblings and positional selectors still
 // need the real document structure to decide which first-screen rules apply.
+// 2026-10-18: on tablets (768×1024) the tokenized-stocks strip (.h7-ts, right after the logo strip) and the home
+// Telegram signal strip after it are on the first screen too. Their rules came with the deferred sheets, so the strip
+// re-laid out ~1 s after first paint (CLS 0.25 on /ru @768, failing the release gate). They are kept in order when
+// they directly follow; a section of any other kind ends the first-screen run.
+const FIRST_SCREEN_FOLLOWERS = [".h7-strip", ".h7-ts", ".tg-signal-strip--home"];
+
+function nextBlock(document, after) {
+  const walker = document.createTreeWalker(document.body || document.documentElement, 1);
+  walker.currentNode = after;
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (after.contains(node)) continue;
+    if (node.tagName === "SECTION" || node.tagName === "ASIDE") return node;
+  }
+  return null;
+}
+
 export function homeCriticalSubjects(document) {
   const hero = document.querySelector(".h7-hero");
   // Neutral locales (no rebate desk) have no .h7-num; the hero heading is their first-screen content.
   if (!hero) throw new Error("critical css: missing home hero/LCP element");
-  const strip = hero.nextElementSibling?.classList?.contains("h7-strip") ? hero.nextElementSibling : null;
-  const last = strip || hero;
+  let last = hero;
+  for (let i = 0, next = nextBlock(document, last); next && i < FIRST_SCREEN_FOLLOWERS.length; i += 1) {
+    if (!next.matches(FIRST_SCREEN_FOLLOWERS[i])) continue;
+    last = next;
+    next = nextBlock(document, last);
+  }
   const subjects = new Set();
   let reached = false;
   for (const element of document.getElementsByTagName("*")) {

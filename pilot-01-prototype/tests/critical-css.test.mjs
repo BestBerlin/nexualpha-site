@@ -131,3 +131,17 @@ test("built critical CSS covers exactly the stylesheets the Worker links on the 
   assert.ok(css.length > 20_000 && css.length < 400_000, `critical CSS size ${css.length}`);
   for (const selector of [".h7", ".nx-hdr", "@font-face"]) assert.ok(css.includes(selector), selector);
 });
+
+test("tablet first screen: the tokenized-stocks strip and the home signal strip that follow the hero are critical", () => {
+  const html = (strip) => `<html><body><div id="root"><main><div class="h7"><section class="h7-hero"><h1>Hero</h1></section>${strip}<div class="defer"><section class="h7-in h7-ts"><ul class="h7-ts-cards"><li>Bybit</li></ul></section></div><aside class="tg-signal-strip tg-signal-strip--home">TG</aside><section class="h7-in h7-how">How</section><section class="h7-in h7-ts"><ul class="h7-ts-cards"></ul></section></div></main></div></body></html>`;
+  const sheet = `.h7-ts-cards{display:grid}.tg-signal-strip--home{display:none}.h7-how{height:500px}.h7-pw a{display:grid}`;
+  for (const strip of [`<section class="h7-strip"><ul class="h7-pw"><li><a>Bitget</a></li></ul></section>`, ""]) {
+    const doc = new JSDOM(html(strip)).window.document;
+    const { css } = extractCriticalCss([sheet], [doc], { subjects: homeCriticalSubjects(doc) });
+    assert.match(css, /\.h7-ts-cards\{display:grid\}/);
+    assert.match(css, /\.tg-signal-strip--home\{display:none\}/);
+    assert.doesNotMatch(css, /\.h7-how/, "the run of first-screen sections ends at the first other section");
+  }
+  const other = new JSDOM(`<html><body><section class="h7-hero"></section><section class="h7-how"></section><section class="h7-ts"><ul class="h7-ts-cards"></ul></section></body></html>`).window.document;
+  assert.doesNotMatch(extractCriticalCss([sheet], [other], { subjects: homeCriticalSubjects(other) }).css, /h7-ts-cards/, "a strip further down stays deferred");
+});

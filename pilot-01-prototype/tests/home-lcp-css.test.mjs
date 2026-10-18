@@ -61,7 +61,9 @@ test("built v6 assets preserve every declaration and the original inner order", 
   assert.match(critical.css, /\.hx-rate-n/, "the static figure is styled from the inline CSS");
   assert.doesNotMatch(read("../src/styles/v7/home7.css"), /@keyframes hx-count\{/, "no count-up keyframes (owner 2026-10-14)");
   assert.ok(Buffer.byteLength(critical.css) < 120_000, "inline CSS covers shell/hero, not the full home page");
-  assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:swap/);
+  // 2026-10-18: optional, not swap — preloaded Geist paints first on normal connections; slow cold loads keep the
+  // metric-matched fallback instead of swapping glyphs at the top of the home (owner: "字体…冒出来").
+  assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:optional/);
   assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2"/);
 });
 

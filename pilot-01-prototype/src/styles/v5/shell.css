@@ -716,10 +716,31 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
   text-shadow: 0 0 6px rgba(255, 214, 90, 0.9);
   animation: nx-twinkle 1.3s ease-in-out 4;
 }
+/* Tokenized-stocks pill (lead 2026-10-15): the same compact shape as the campaigns chip, in the plain header colours
+   (no gold, no shimmer) so 活动 stays the one highlighted entry. */
+.nx-hot-chip--stocks {
+  margin-inline-start: 6px;
+  border-color: rgba(255, 255, 255, 0.16);
+  background: none;
+  color: var(--text, #EDEEF0);
+  -webkit-text-fill-color: currentColor;
+  box-shadow: none;
+  animation: none;
+  font-weight: 500;
+}
+.nx-hot-chip--stocks[aria-current="page"] { border-color: rgba(31, 224, 192, 0.55); color: #1FE0C0; }
 @media (max-width: 1099px) {
   .nx-hot-chip { display: inline-flex; }
   .nx-hot-chip ~ .nx-tg--compact { margin-inline-start: 2px; }
 }
+@media (max-width: 379px) { .nx-hot-chip--stocks[data-fit="narrow"] { display: none; } }
+/* ≤360 px: locales whose campaigns label overflowed the header use the short label (SiteHeader CAMPAIGN_CHIP_SHORT). */
+.nx-hot-chip__short { display: none; }
+@media (max-width: 360px) {
+  .nx-hot-chip[data-short] .nx-hot-chip__full { display: none; }
+  .nx-hot-chip[data-short] .nx-hot-chip__short { display: inline; }
+}
+@media (max-width: 479px) { .nx-hot-chip--stocks[data-fit="wide"] { display: none; } }
 @keyframes nx-gold-sweep { from { background-position: 130% 0; } to { background-position: -130% 0; } }
 @keyframes nx-twinkle { 0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(20deg); } }
 @keyframes nx-chip-glow { 0% { box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45); } 70%, 100% { box-shadow: 0 0 0 7px rgba(245, 197, 66, 0); } }
