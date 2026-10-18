@@ -1,5 +1,41 @@
 # Standby cutover and CTA guard
 
+## Deploying from the Mac: `deploy/deploy-local.sh`
+
+GitHub Actions is unavailable (billing), so production ships from the lead session's Mac with
+`deploy/deploy-local.sh`. It is the local equivalent of `.github/workflows/build.yml` + `deploy.yml`
+and uses the scripts below unchanged:
+
+```sh
+deploy/deploy-local.sh                       # build and ship origin/main
+ALLOW_CTA_CHANGE=1 deploy/deploy-local.sh    # only when invite/registration links are meant to change
+```
+
+1. Takes the lock `/Volumes/致态2TB/.nx-deploy.lock` (a second run exits 2 with `REFUSED`).
+2. Resets the worktree `/Volumes/致态2TB/.nx-deploy-build` to a clean detached `origin/main`. It keeps
+   `node_modules`, `.openai/hosting.json` (copied into `pilot-01-prototype/.openai/`) and the 5 newest packages.
+   It refuses a commit that is not on `origin/main` or that is older than the live build.
+3. Live version gate, same as deploy.yml.
+4. Build: `npm ci` (only when package-lock changed), `i18n:compile`, typecheck, `npm run build`
+   (generators, vite, `scripts/build-route-css.mjs`, SSR, news SSR, prerender, critical CSS, sites prep,
+   `verify-build-budget --strict`), the dist shell contract, the version.json buildId and campaign-brief validation.
+   buildId `3.0-<Shanghai time>-GH-<sha7>`, release `gh-<time>-<sha7>`, the same as build.yml.
+5. Packages like build.yml (plus the linux gnu/musl resvg binaries) and uploads to a `.part` file. Checks the
+   server sha256, then renames the file.
+6. `stage-remote.py` (with `ALLOW_CTA_CHANGE` passed through).
+7. **Pre-cutover gate:** `npm run qa:regression -- --base http://127.0.0.1:<tunnel>` against the staged
+   container through an SSH tunnel. A failure removes the standby; live is untouched.
+8. `poll-cutover.py` wraps `cutover-remote.py`: the home page is polled every 200 ms and must stay 200.
+9. **Post-cutover checks:** public buildId, 13 routes, invite codes on the pages, and the `/go` 302 targets
+   (`okx` nexu888, `okx-apk` NEXU888, `binance` 11350287, `bitget` C6PRAF). Then `qa:regression` runs against
+   production. Any failure runs `rollback-remote.py` and prints `ROLLED_BACK` (exit 3; exit 4 if the rollback itself failed).
+10. Syncs `campaign-briefs.json` into the content mount and keeps the 5 newest releases on the server.
+11. Runs `scripts/search-engines.mjs submit` with `NODE_OPTIONS=--dns-result-order=ipv4first`. Prints `LIVE <buildId>`.
+
+Logs and QA reports go to `/Volumes/致态2TB/nx-agents/deploy-logs/`. Exit 5 means the release is live and
+verified but a follow-up step (briefs, prune or sitemaps) failed. `/Volumes/致态2TB/nx-agents/deploy-local.sh`
+is a copy of this file. Never keep the only copy of a deploy script in a session scratchpad.
+
 These scripts remain self-contained because deployment streams each one to
 `python3 -` over SSH. They use only the Python standard library and retain Python
 3.6 syntax compatibility.
