@@ -232,14 +232,19 @@ for _ in $(seq 1 30); do
 done
 [ -n "$ok" ] || { remove_standby || true; die "tunnel to staged container did not serve $BUILD_ID"; }
 QA_DIR="$LOG_DIR/qa/$RELEASE"
-# Transport-only failures: every failed check is console-errors made only of net::ERR_* resets/empty responses, which
+# Transport-only failures: every failed check is console-errors made only of net::ERR_* resets/empty responses, or a
+# page load that failed with one of those errors through the tunnel, which
 # is the SSH tunnel dropping connections, not the release. Prints the suites to re-run; exit 1 for any real failure.
 tunnel_only_suites() {
   node -e '
     const j = require(process.argv[1]);
     const failed = j.results.filter((r) => !r.ok && !r.info);
-    const net = /^Failed to load resource: net::ERR_(EMPTY_RESPONSE|INCOMPLETE_CHUNKED_ENCODING|CONNECTION_RESET|CONNECTION_CLOSED|CONNECTION_REFUSED)$/;
-    const ok = failed.length > 0 && failed.every((r) => r.check === "console-errors" && Array.isArray(r.errors) && r.errors.length && r.errors.every((e) => net.test(e)));
+    const codes = "(EMPTY_RESPONSE|INCOMPLETE_CHUNKED_ENCODING|CONNECTION_RESET|CONNECTION_CLOSED|CONNECTION_REFUSED)";
+    const net = new RegExp(`^Failed to load resource: net::ERR_${codes}$`);
+    const navigation = new RegExp(`^net::ERR_${codes} at http://127\\.0\\.0\\.1:`);
+    const transport = (r) => (r.check === "console-errors" && Array.isArray(r.errors) && r.errors.length && r.errors.every((e) => net.test(e)))
+      || (r.check === "load" && navigation.test(String(r.detail || "")));
+    const ok = failed.length > 0 && failed.every(transport);
     if (!ok) process.exit(1);
     console.log([...new Set(failed.map((r) => r.suite))].join(","));' "$1"
 }
