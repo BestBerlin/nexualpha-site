@@ -222,3 +222,22 @@ main.v6.news-detail-page .news-detail__back:is(:hover, :focus-visible):not(#_):n
   main.v6.news-page .news-index-controls:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
   main.v6.news-page .news-tabs:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; overflow: visible; inline-size: 100%; }
 }
+
+/* ===== De-AI pass 2 (2026-10-18): news list ===== Tabs become an underlined text row, category tags and venue chips
+   lose their pills, pagination is plain numbers, the Telegram line keeps one quiet text action. */
+#top .news-hero .news-tabs:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 0 24px; padding: 0; border: 0; border-bottom: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; box-shadow: none; }
+#top .news-hero .news-tab:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; padding: 0; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; box-shadow: none; color: var(--hx-ink-3, #8A909E); font-weight: 500; }
+#top .news-hero .news-tab:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--hx-ink, #EDEEF0); background: none; }
+#top .news-hero .news-tab.news-tab--active:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--hx-ink, #EDEEF0); border-bottom-color: var(--hx-ink, #EDEEF0); background: none; box-shadow: none; }
+#top .news-hero .news-tab__count:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 6px; color: var(--hx-ink-3, #8A909E); font: 500 12px/1 "Geist Mono V5", ui-monospace, monospace; }
+#top :is(.news-row__cat, .news-lead__meta > span, .news-lead [class*="__cat"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; border: 0; border-radius: 0; background: none; color: var(--hx-ink-3, #8A909E); font: 500 12px/1.4 "Geist Mono V5", ui-monospace, monospace; letter-spacing: .02em; }
+#top .news-article-card__venue-chip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; gap: 8px; }
+#top .news-pagination__pill:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; box-shadow: none; }
+#top .news-pagination__pill[aria-current]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--hx-ink, #EDEEF0); text-decoration: underline; text-underline-offset: 6px; }
+.tg-signal-strip--news .tg-signal-strip__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; box-shadow: none; color: var(--hx-ink, #EDEEF0); }
+.tg-signal-strip--news:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; padding-inline: 0; }
+@media (max-width: 767px) {
+  #top .news-hero .news-tabs:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-inline: contain; -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
+  #top .news-hero .news-tabs::-webkit-scrollbar { display: none; }
+  #top .news-hero .news-tab:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; white-space: nowrap; }
+}

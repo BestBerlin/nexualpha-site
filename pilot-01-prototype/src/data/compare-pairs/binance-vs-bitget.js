@@ -74,7 +74,7 @@ const copy = {
 },
 
   en: {
-    ownerQuestion: "Should you open Binance or Bitget first, given what you actually plan to trade?",
+    ownerQuestion: "Binance or Bitget: deep liquidity and fiat, or copy trading?",
     title: "Binance vs Bitget: depth and fiat routes on one side, copy trading and a protection fund on the other.",
     body: "Binance is the broader exchange: the deepest order books on the site, the widest product shelf and the most fiat on-ramps, behind a strict identity check. Bitget is built around one-click copy trading and futures, backed by a published protection fund and proof-of-reserves. Decide by the product you will use first, then confirm the published fee row, the identity level and your region in each official account.",
     cardTitle: "Choose Binance for depth and fiat access; choose Bitget when copy trading is the main reason you are opening an account.",
@@ -92,7 +92,7 @@ const copy = {
     seoQuestion: "How should I compare Binance and Bitget before opening an account?",
   },
   "zh-Hans": {
-    ownerQuestion: "按你真正要交易的产品，先开 Binance 还是 Bitget？",
+    ownerQuestion: "Binance 还是 Bitget：要深度和法币通道，还是要跟单？",
     title: "Binance 对比 Bitget：一边是深度与法币通道，一边是跟单交易与保护基金。",
     body: "Binance 是覆盖面更广的交易所：站内最深的盘口、最全的产品线和最多的法币入金方式，但身份认证要求严格。Bitget 则围绕一键跟单和合约展开，并公开保护基金和储备金证明。先按你第一个会用到的产品做选择，再在各自的官方账户里核对公开费率行、认证等级和所在地区。",
     cardTitle: "要深度和法币通道选 Binance；如果开户主要是为了跟单，选 Bitget。",
@@ -110,7 +110,7 @@ const copy = {
     seoQuestion: "开户前应该怎样比较 Binance 和 Bitget？",
   },
   "zh-Hant": {
-    ownerQuestion: "依你實際要交易的產品，應該先比較 Binance 還是 Bitget 的哪些條件？",
+    ownerQuestion: "Binance 還是 Bitget：要深度和法幣通道，還是要跟單？",
     title: "Binance 與 Bitget 比較：一邊是深度與法幣通道，一邊是跟單交易與保護基金。",
     body: "Binance 的覆蓋面較廣：站內最深的盤口、最完整的產品線與較多的法幣入金方式，但身份驗證要求嚴格。Bitget 以一鍵跟單與合約為核心，並公開保護基金與儲備金證明。先依你第一個會用到的產品判斷，再到各自的官方帳戶核對公開費率行、驗證等級與所在地區。",
     cardTitle: "重視深度與法幣通道時看 Binance；以跟單為主要用途時看 Bitget。",
@@ -128,7 +128,7 @@ const copy = {
     seoQuestion: "開戶前應如何比較 Binance 與 Bitget？",
   },
   es: {
-    ownerQuestion: "¿Te conviene abrir primero Binance o Bitget según lo que de verdad vas a operar?",
+    ownerQuestion: "Binance o Bitget: ¿liquidez y entrada en moneda local, o copy trading?",
     title: "Binance vs Bitget: profundidad y vías fiat frente a copy trading y fondo de protección.",
     body: "Binance es el exchange más amplio: los libros de órdenes más profundos del sitio, la mayor gama de productos y más vías de entrada fiat, siempre tras una verificación de identidad estricta. Bitget gira en torno al copy trading con un clic y a los futuros, con un fondo de protección y prueba de reservas publicados. Decide por el producto que usarás primero y después confirma la fila de comisiones, el nivel de identidad y tu región en cada cuenta oficial.",
     cardTitle: "Elige Binance por profundidad y acceso fiat; elige Bitget si el copy trading es el motivo principal para abrir la cuenta.",
@@ -146,7 +146,7 @@ const copy = {
     seoQuestion: "¿Cómo comparar Binance y Bitget antes de abrir una cuenta?",
   },
   "pt-BR": {
-    ownerQuestion: "Vale abrir primeiro a Binance ou a Bitget, considerando o que você realmente vai operar?",
+    ownerQuestion: "Binance ou Bitget: liquidez e entrada em reais, ou copy trading?",
     title: "Binance vs Bitget: profundidade e canais fiat de um lado, copy trading e fundo de proteção do outro.",
     body: "A Binance é a corretora mais ampla: os livros de ordens mais profundos do site, a maior variedade de produtos e mais formas de entrada fiat, sempre após uma verificação de identidade rigorosa. A Bitget é construída em torno do copy trading com um clique e dos futuros, com fundo de proteção e prova de reservas publicados. Decida pelo produto que vai usar primeiro e depois confirme a linha de taxas, o nível de identidade e a sua região em cada conta oficial.",
     cardTitle: "Escolha a Binance por profundidade e acesso fiat; escolha a Bitget se o copy trading for o principal motivo da conta.",
@@ -164,7 +164,7 @@ const copy = {
     seoQuestion: "Como comparar Binance e Bitget antes de abrir uma conta?",
   },
   fr: {
-    ownerQuestion: "Faut-il ouvrir Binance ou Bitget en premier, selon ce que vous comptez vraiment trader ?",
+    ownerQuestion: "Binance ou Bitget : liquidité et dépôts en euros, ou copy trading ?",
     title: "Binance vs Bitget : profondeur et accès fiat d’un côté, copy trading et fonds de protection de l’autre.",
     body: "Binance est l’exchange le plus large : les carnets d’ordres les plus profonds du site, la gamme de produits la plus étendue et le plus de passerelles fiat, derrière une vérification d’identité stricte. Bitget est construit autour du copy trading en un clic et des futures, avec un fonds de protection et une preuve de réserves publiés. Choisissez d’abord selon le produit que vous utiliserez, puis confirmez la ligne de frais, le niveau d’identité et votre région dans chaque compte officiel.",
     cardTitle: "Choisissez Binance pour la profondeur et l’accès fiat ; choisissez Bitget si le copy trading est la raison principale du compte.",
@@ -182,7 +182,7 @@ const copy = {
     seoQuestion: "Comment comparer Binance et Bitget avant d’ouvrir un compte ?",
   },
   de: {
-    ownerQuestion: "Sollten Sie zuerst Binance oder Bitget eröffnen, gemessen an dem, was Sie wirklich handeln wollen?",
+    ownerQuestion: "Binance oder Bitget: Liquidität und Euro-Einzahlung oder Copy-Trading?",
     title: "Binance vs Bitget: Tiefe und Fiat-Wege auf der einen Seite, Copy Trading und Schutzfonds auf der anderen.",
     body: "Binance ist die breitere Börse: die tiefsten Orderbücher auf dieser Seite, das größte Produktregal und die meisten Fiat-Einzahlungswege, hinter einer strengen Identitätsprüfung. Bitget ist um Ein-Klick-Copy-Trading und Futures gebaut, mit veröffentlichtem Schutzfonds und Reservenachweis. Entscheiden Sie nach dem Produkt, das Sie zuerst nutzen, und bestätigen Sie dann Gebührenzeile, Identitätsstufe und Region im jeweiligen offiziellen Konto.",
     cardTitle: "Wählen Sie Binance für Tiefe und Fiat-Zugang; wählen Sie Bitget, wenn Copy Trading der Hauptgrund für das Konto ist.",
@@ -200,7 +200,7 @@ const copy = {
     seoQuestion: "Wie vergleiche ich Binance und Bitget vor der Kontoeröffnung?",
   },
   ja: {
-    ownerQuestion: "実際に取引したい商品から見て、Binance と Bitget はどのように比較すべきですか？",
+    ownerQuestion: "Binance か Bitget か：流動性と法定通貨の入出金か、コピートレードか",
     title: "Binance と Bitget の比較：板の深さと法定通貨ルートか、コピー取引と保護基金か。",
     body: "Binance は対象範囲の広い取引所です。当サイト掲載の中で最も深い板、最も幅広い商品、最も多い法定通貨入金ルートを備え、その前提として厳格な本人確認があります。Bitget はワンクリックのコピー取引と先物を中心に設計され、保護基金と準備金証明を公開しています。まず最初に使う商品で判断し、その後に各公式アカウントで公開手数料行、本人確認レベル、居住地域を確認してください。",
     cardTitle: "板の深さと法定通貨アクセスを重視するなら Binance、コピー取引が口座開設の主目的なら Bitget を検討します。",
@@ -218,7 +218,7 @@ const copy = {
     seoQuestion: "口座開設前に Binance と Bitget をどう比較すべきですか？",
   },
   ko: {
-    ownerQuestion: "실제로 거래할 상품을 기준으로 Binance와 Bitget을 어떻게 비교해야 하나요?",
+    ownerQuestion: "Binance냐 Bitget이냐: 유동성과 법정화폐 입출금인가, 카피 트레이딩인가?",
     title: "Binance vs Bitget: 호가 깊이와 법정화폐 경로인가, 카피트레이딩과 보호 기금인가.",
     body: "Binance는 범위가 더 넓은 거래소입니다. 이 사이트에 실린 거래소 중 가장 깊은 호가, 가장 넓은 상품 구성, 가장 많은 법정화폐 입금 경로를 갖추고 있으며 그 전제로 엄격한 신원 확인이 있습니다. Bitget은 원클릭 카피트레이딩과 선물을 중심으로 설계되었고 보호 기금과 준비금 증명을 공개합니다. 먼저 사용할 상품으로 판단한 뒤, 각 공식 계정에서 공개 수수료 행, 신원 확인 단계, 거주 지역을 확인하세요.",
     cardTitle: "호가 깊이와 법정화폐 접근이 중요하면 Binance, 카피트레이딩이 계정 개설의 주된 이유라면 Bitget을 검토합니다.",
@@ -290,7 +290,7 @@ const copy = {
     seoQuestion: "Как сравнить Binance и Bitget перед открытием аккаунта?",
   },
   id: {
-    ownerQuestion: "Sebaiknya buka Binance atau Bitget dulu, dilihat dari apa yang benar-benar akan Anda tradingkan?",
+    ownerQuestion: "Binance atau Bitget: likuiditas dan deposit rupiah, atau copy trading?",
     title: "Binance vs Bitget: kedalaman dan jalur fiat di satu sisi, copy trading dan dana perlindungan di sisi lain.",
     body: "Binance adalah bursa yang lebih luas: order book paling dalam di situs ini, rak produk paling lengkap, dan jalur masuk fiat paling banyak, di balik verifikasi identitas yang ketat. Bitget dibangun di sekitar copy trading satu klik dan futures, dengan dana perlindungan dan bukti cadangan yang dipublikasikan. Putuskan berdasarkan produk yang akan Anda pakai pertama, lalu pastikan baris biaya, tingkat identitas, dan wilayah Anda di masing-masing akun resmi.",
     cardTitle: "Pilih Binance untuk kedalaman dan akses fiat; pilih Bitget jika copy trading adalah alasan utama membuka akun.",
@@ -326,7 +326,7 @@ const copy = {
     seoQuestion: "Nên so sánh Binance và Bitget thế nào trước khi mở tài khoản?",
   },
   it: {
-    ownerQuestion: "Conviene aprire prima Binance o Bitget, in base a ciò che davvero intendi scambiare?",
+    ownerQuestion: "Binance o Bitget: liquidità e depositi in euro, o copy trading?",
     title: "Binance vs Bitget: profondità e canali fiat da una parte, copy trading e fondo di protezione dall’altra.",
     body: "Binance è l’exchange più ampio: i book più profondi tra quelli presenti sul sito, la gamma di prodotti più estesa e più vie di ingresso fiat, dietro una verifica d’identità rigorosa. Bitget è costruito attorno al copy trading con un clic e ai futures, con fondo di protezione e proof-of-reserves pubblicati. Decidi in base al prodotto che userai per primo, poi conferma la riga di commissioni, il livello d’identità e la tua regione in ciascun account ufficiale.",
     cardTitle: "Scegli Binance per profondità e accesso fiat; scegli Bitget se il copy trading è il motivo principale per aprire l’account.",
