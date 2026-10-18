@@ -278,6 +278,9 @@ rollback() {
     local back=""
     for _ in $(seq 1 20); do back="$(public_build || true)"; [ "$back" = "$LIVE_BUILD" ] && break; sleep 3; done
     if [ "$back" = "$LIVE_BUILD" ]; then
+      # The rolled-back release must not keep running next to live (rollback-remote.py leaves it up).
+      remote "grep -q '127.0.0.1:$NEW_PORT;' /www/server/panel/vhost/nginx/nexualpha.com.conf || docker stop -t 20 nexualpha-web-$RELEASE >/dev/null" \
+        || echo "note: could not stop nexualpha-web-$RELEASE" >&2
       echo "ROLLED_BACK $BUILD_ID -> $LIVE_BUILD (public version.json confirms)"
       exit 3
     fi
@@ -310,7 +313,8 @@ for r in $ROUTES; do
   echo "$code $r"
   [ "$code" = "200" ] || rollback "$r returned $code"
 done
-page_has() { curl -fsS --max-time 30 "$SITE$1" | grep -q -- "$2"; }
+# Read the whole page first: `curl | grep -q` under pipefail fails when grep exits on an early match (curl gets SIGPIPE).
+page_has() { local body; body="$(curl -fsS --max-time 30 "$SITE$1")" || return 1; grep -q -- "$2" <<<"$body"; }
 # Pages link through /go/<venue> (every click carries the code), so they show the bare code; the referral URL itself
 # is verified on the /go 302 targets below. (deploy.yml's 'ref=11350287' page grep predates /go and no longer matches.)
 page_has /exchanges/binance '11350287' || rollback "Binance code 11350287 missing on /exchanges/binance"
