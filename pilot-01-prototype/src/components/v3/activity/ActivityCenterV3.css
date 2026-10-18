@@ -761,3 +761,10 @@
 #top.v3-activity-center .activity-center-v3__head:not(#_):not(#_):not(#_) { margin-block-end: 0; }
 #top.v3-activity-center .activity-center-v3__head span:not(#_):not(#_):not(#_) { margin-block-end: 0; }
 #top.v3-activity-center .activity-center-v3 > .live-campaigns:not(#_):not(#_):not(#_) { margin-block-start: 16px; }
+
+/* De-AI pass 2 (2026-10-18): reviewed-feed campaigns read like the live campaign rows above — one column of hairline
+   rows instead of a two-column grid of boxes; the state label is plain 12px mono text, not a pill. */
+.activity-center-v3 .activity-center-v3__grid:not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.activity-center-v3 .activity-card-v3:not(#_):not(#_):not(#_) { gap: 8px; padding: 24px 0; border: 0; border-block-end: 1px solid rgb(255 255 255 / .10); border-radius: 0; background: none; box-shadow: none; }
+.activity-center-v3 .activity-card-v3__top:not(#_):not(#_):not(#_) span { padding: 0; border: 0; border-radius: 0; font-size: 12px; }
+.activity-center-v3 .activity-card-v3:not(#_):not(#_):not(#_) h3 { font-size: 18px; line-height: 1.4; font-weight: 600; }
