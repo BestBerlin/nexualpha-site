@@ -30,10 +30,6 @@ function MethodGlyph({ kind }) {
   return <svg className="nxd-glyph" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">{paths[kind] || paths.bank}</svg>;
 }
 
-function Chip({ kind, label }) {
-  return <span className={`nxd-chip nxd-chip--${kind}`}><MethodGlyph kind={kind} /><span>{label}</span></span>;
-}
-
 function Answer({ label, text, stamp }) {
   return <div className="nxd-answer">
     <p className="nxd-answer__label"><span>{label}</span>{stamp ? <time dateTime={FIAT_CHECKED}>{stamp}</time> : null}</p>
@@ -133,22 +129,32 @@ export function DepositHubPage({ locale = "en" }) {
       <section className="nxd-section" aria-labelledby="nxd-pick-h">
         <SectionRule stamp={String(hub.countries.length)} />
         <h2 id="nxd-pick-h">{t.pickCountry}</h2>
-        <ul className="nxd-grid">
-          {hub.countries.map((country) => <li key={country.slug} className="nxd-tile">
-            <a className="nxd-tile__link" href={href(country.href, locale)} data-deposit-country={country.slug}>
-              <span className="nxd-tile__head"><strong>{country.label}</strong><span className="nxd-tile__count" aria-hidden="true">{country.exchangeCount}</span></span>
-              <span className="nxd-tile__chips">{country.kinds.map((kind) => <Chip key={kind} kind={kind === "ewallet" || kind === "qr" ? "bank" : kind} label={kindsLabel(kind)} />)}</span>
-              {country.top ? <span className="nxd-tile__pick">
-                <span className="nxd-tile__pick-label">{country.informational ? t.localRoutes : t.topPick}</span>
-                <span className="nxd-tile__pick-name"><BrandMark slug={country.top.slug} compact /><span translate="no">{country.top.name}</span></span>
-              </span> : null}
-              {country.headline ? <span className="nxd-tile__route">
-                <span dir="auto">{country.headline.label}</span>
-                <span className="nxd-tile__meta">{[country.headline.dir, country.headline.fee, country.headline.speed].filter(Boolean).join(" · ")}</span>
-              </span> : null}
-            </a>
-          </li>)}
-        </ul>
+        <div className="nxd-regions">
+          {DEPOSIT_REGIONS.map((region) => {
+            const list = hub.countries.filter((country) => country.region === region);
+            if (!list.length) return null;
+            return <section className="nxd-region" key={region} aria-labelledby={`nxd-region-${region}`}>
+              <h3 className="nxd-region__name" id={`nxd-region-${region}`}>{t.regions[region]}<span aria-hidden="true">{list.length}</span></h3>
+              <ul className="nxd-clist">
+                {list.map((country) => <li key={country.slug}>
+                  <a className="nxd-crow" href={href(country.href, locale)} data-deposit-country={country.slug}>
+                    <span className="nxd-crow__name">{country.label}</span>
+                    <span className="nxd-crow__kinds">{country.kinds.map(kindsLabel).join(" · ")}</span>
+                    {country.top ? <span className="nxd-crow__pick">
+                      <small>{country.informational ? t.localRoutes : t.topPick}</small>
+                      <BrandMark slug={country.top.slug} compact /><span translate="no">{country.top.name}</span>
+                    </span> : <span className="nxd-crow__pick" aria-hidden="true" />}
+                    {country.headline ? <span className="nxd-crow__route">
+                      <span dir="auto">{country.headline.label}</span>
+                      <span className="nxd-crow__meta">{[country.headline.dir, country.headline.fee, country.headline.speed].filter(Boolean).join(" · ")}</span>
+                    </span> : <span className="nxd-crow__route" aria-hidden="true" />}
+                    <span className="nxd-crow__arrow" aria-hidden="true">→</span>
+                  </a>
+                </li>)}
+              </ul>
+            </section>;
+          })}
+        </div>
       </section>
 
       <section className="nxd-section" aria-labelledby="nxd-methods-h">
