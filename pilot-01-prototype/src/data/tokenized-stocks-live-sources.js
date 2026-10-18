@@ -13,6 +13,31 @@ export const TS_LIVE_ENDPOINTS = Object.freeze({
 });
 export const TS_LIVE_VENUES = Object.freeze(Object.keys(TS_LIVE_ENDPOINTS));
 
+// Stock-trading campaigns with official start/end times (Bybit's announcements API publishes both). The refresh job keeps
+// the ones still running; pages drop each one at its end date by themselves (tsCampaigns), no edit needed.
+export const TS_CAMPAIGN_ENDPOINTS = Object.freeze({ bybit: "https://api.bybit.com/v5/announcements/index?locale=en-US&type=latest_activities&limit=50" });
+// English names used only to tie a campaign title ("Stock Buzz: Trade Tesla…") to the stock pages it is about.
+export const TS_MATCH_NAMES = Object.freeze({
+  NVDA: "Nvidia", TSLA: "Tesla", AAPL: "Apple", MSFT: "Microsoft", COIN: "Coinbase", MSTR: "Strategy|MicroStrategy", HOOD: "Robinhood",
+  CRCL: "Circle", GOOGL: "Alphabet|Google", AMZN: "Amazon", SPY: "S&P 500", QQQ: "Nasdaq", META: "Meta", PLTR: "Palantir", AMD: "AMD",
+  NFLX: "Netflix", AVGO: "Broadcom", TSM: "TSMC", MU: "Micron", INTC: "Intel", ORCL: "Oracle", ARM: "Arm Holdings", SNDK: "Sandisk",
+  CRWV: "CoreWeave", BMNR: "BitMine", GME: "GameStop", BABA: "Alibaba", SPCX: "SpaceX", OPENAI: "OpenAI", ANTHROPIC: "Anthropic",
+});
+const STOCK_CAMPAIGN = /\b(?:stocks?|xStocks|TradFi|equit(?:y|ies)|pre-?IPO)\b/i;
+/** Bybit announcements API -> [{ venue, title, url, startAt, endAt, tickers }] for stock campaigns that have not ended. */
+export function parseBybitCampaigns(raw, now = Date.now()) {
+  const out = [];
+  for (const x of raw?.result?.list || []) {
+    const title = String(x?.title || "").trim();
+    const url = String(x?.url || "");
+    const end = Number(x?.endDateTimestamp), start = Number(x?.startDateTimestamp);
+    if (!title || !/^https:\/\/announcements\.bybit\.com\//.test(url) || !STOCK_CAMPAIGN.test(title) || !(end > now) || !(end > start)) continue;
+    const tickers = Object.entries(TS_MATCH_NAMES).filter(([sym, names]) => new RegExp(`\\b(?:${sym}|${names.replace(/&/g, "\\&")})\\b`).test(title)).map(([sym]) => sym);
+    out.push({ venue: "bybit", title: title.slice(0, 140), url, startAt: new Date(start).toISOString(), endAt: new Date(end).toISOString(), tickers: tickers.length ? tickers : null });
+  }
+  return out;
+}
+
 /** Compact table the pages render: only the page tickers, plus the per-venue stock counts. */
 export function compactLive(snapshot, tickers = TS_TICKERS_ALL) {
   const rows = {};
@@ -31,7 +56,9 @@ export function compactLive(snapshot, tickers = TS_TICKERS_ALL) {
   // Latest listing changes of the page tickers (newest first), for the "latest changes" lines on the pages.
   const events = (Array.isArray(snapshot.events) ? snapshot.events : []).filter((e) => tickers.includes(e.ticker))
     .slice(0, 40).map((e) => ({ type: e.type, venue: e.venue, lane: e.lane, ticker: e.ticker, sym: e.sym, observedAt: e.observedAt }));
-  return { generatedAt: snapshot.generatedAt, counts, checked, rows, events };
+  const at = Date.parse(snapshot.generatedAt);
+  const campaigns = (Array.isArray(snapshot.campaigns) ? snapshot.campaigns : []).filter((c) => Date.parse(c.endAt) > at);
+  return { generatedAt: snapshot.generatedAt, counts, checked, rows, events, campaigns };
 }
 
 export function isUsableLiveSnapshot(s) {

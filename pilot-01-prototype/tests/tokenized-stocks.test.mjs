@@ -328,3 +328,30 @@ test("hydration: ticker (baked and runtime table) and exchange pages hydrate wit
     assert.deepEqual(hydrationErrors(errors), [], path);
   }
 });
+
+test("campaigns drop at their end date without an edit (curated + found in the exchange's announcements)", async () => {
+  const { tsCampaigns } = await import("../src/data/tokenized-stocks.js");
+  const found = { campaigns: [{ venue: "bybit", title: "Stock Buzz: Trade Nvidia", url: "https://announcements.bybit.com/en-US/article/x/", startAt: "2026-10-20T00:00:00Z", endAt: "2026-11-05T00:00:00Z", tickers: ["NVDA"] }] };
+  const keys = (now, ticker) => tsCampaigns({ venues: ["bybit"], ticker, live: found, locale: "en", now: Date.parse(now) }).map((c) => c.key || c.title);
+  assert.ok(keys("2026-10-20T00:00:00Z", "TSLA").includes("bybitStockBuzzTsla"));
+  assert.ok(!keys("2026-10-29T08:00:01Z", "TSLA").includes("bybitStockBuzzTsla"), "Tesla Stock Buzz ends 2026-10-29 08:00 UTC");
+  assert.deepEqual(keys("2026-11-01T00:00:00Z", "TSLA"), []);
+  assert.ok(keys("2026-10-21T00:00:00Z", "NVDA").includes("Stock Buzz: Trade Nvidia"));
+  assert.ok(!keys("2026-10-19T00:00:00Z", "NVDA").includes("Stock Buzz: Trade Nvidia"), "not before its start");
+  assert.ok(!keys("2026-11-06T00:00:00Z", "NVDA").includes("Stock Buzz: Trade Nvidia"));
+  assert.deepEqual(tsCampaigns({ venues: ["bybit"], ticker: "TSLA", live: found, locale: "ru", now: Date.parse("2026-10-21T00:00:00Z") }), [], "neutral locale: none");
+});
+
+test("copy split: the browser ships one edition (prerender state), never the 17-locale table", async () => {
+  for (const file of ["src/components/tokenized-stocks/TokenizedStocksPages.jsx", "src/components/tokenized-stocks/TokenizedStocksDetail.jsx", "src/data/tokenized-stocks-model.js", "src/data/tokenized-stocks-copy-client.js"]) {
+    assert.doesNotMatch(readFileSync(new URL(`../${file}`, import.meta.url), "utf8"), /from\s+["'][^"']*tokenized-stocks-copy\.js["']/, file);
+  }
+  const html = await (await fetchPage("/ja/tokenized-stocks/nvda")).text();
+  const state = JSON.parse(html.match(/<script type="application\/json" id="nexualpha-prerender-state">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(state.tsPage.copy.locale, "ja");
+  assert.ok(Number.isFinite(state.tsPage.now));
+  const tr = await (await fetchPage("/tr/tokenized-stocks/nvda")).text();
+  assert.doesNotMatch(tr, /bitget/i);
+  // The trimmed Türkiye edition never leaks into later renders (server cache holds full editions).
+  assert.match(mainHtml(await (await fetchPage("/tokenized-stocks/exchange/bitget")).text()), /rToken/);
+});

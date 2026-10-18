@@ -273,7 +273,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Tokenized US stocks hub + ticker pages (2026-10-15): pages, styles and the 17-locale copy in one route chunk;
           // the sourced facts, teaser strings and helpers are read by the home strip and /exchanges/<slug> too, so they are
           // pinned in their own small chunk (no route chunk pulls another).
-          if (/\/src\/components\/tokenized-stocks\/(?:TokenizedStocksPages\.jsx|TokenizedStocksDetail\.jsx|tokenized-stocks\.css|ts-detail\.css)$/.test(id) || /\/src\/data\/tokenized-stocks-(?:copy|model|rows|live-sources|live\.generated)\.js$/.test(id)) return "route-tokenized-stocks";
+          if (/\/src\/components\/tokenized-stocks\/(?:TokenizedStocksPages\.jsx|TokenizedStocksDetail\.jsx|tokenized-stocks\.css|ts-detail\.css)$/.test(id) || /\/src\/data\/tokenized-stocks-(?:copy-client|model|rows|live-sources|live\.generated)\.js$/.test(id)) return "route-tokenized-stocks";
+          // One lazy chunk per copy edition (the browser loads only its own locale; the 17-locale table is server-only).
+          { const edition = /\/src\/data\/tokenized-stocks-copy\/([a-z-]+)\.js$/.exec(id); if (edition) return `ts-copy-${edition[1]}`; }
           if (/\/src\/data\/tokenized-stocks(?:-facts|-teaser)?\.js$/.test(id)) return "shared-tokenized-stocks";
           // The exchange-profile block: its stylesheet must be linked in the /exchanges/<slug> head (route-v3-pages- prefix).
           if (/\/src\/components\/tokenized-stocks\/(?:VenueTokenizedStocks\.jsx|venue-tokenized-stocks\.css)$/.test(id)) return "route-v3-pages-detail-stocks";
