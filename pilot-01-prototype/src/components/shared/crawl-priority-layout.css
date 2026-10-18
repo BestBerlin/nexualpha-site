@@ -1,0 +1,16 @@
+/* Keep related destinations in normal rows: no overlapping expanded hit areas. */
+@media (max-width: 760px) {
+  .crawl-priority-links:not(#_):not(#_) .crawl-priority-links__groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .crawl-priority-links:not(#_):not(#_) .crawl-priority-links__group {
+    min-inline-size: 0;
+    align-items: stretch;
+  }
+  .crawl-priority-links:not(#_):not(#_) .crawl-priority-links__group a {
+    min-block-size: 44px;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+    margin: 0;
+  }
+}

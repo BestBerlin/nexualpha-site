@@ -850,3 +850,20 @@
 @ .h7-ts-tk a:hover{border-color:var(--line2)}
 @media(max-width:900px){@ .h7-ts{grid-template-columns:1fr;grid-template-areas:"h" "c" "t";gap:14px}@ .h7-ts-cards{grid-template-columns:repeat(2,minmax(0,1fr))}@ .h7-ts-cards a{min-height:0;gap:8px;padding:12px 14px}@ .h7-ts-f{gap:2px 10px}@ .h7-ts-f i{font-size:12px}@ .h7-ts-tk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}@ .h7-ts-tk a{justify-content:center}}
 @media(max-width:360px){@ .h7-ts-cards a{padding:12px}@ .h7-ts-n b{font-size:15px}}
+
+/* P1 layout: a full-width signup row gives long venue labels their own space. Details remain a 44px target. */
+@ .h7-xr .h7-btn{min-inline-size:0;max-inline-size:100%;white-space:normal;overflow-wrap:break-word;line-height:1.35;block-size:auto;padding-block:10px;text-align:center}
+@media(max-width:700px){
+  @ .h7-xr{grid-template-areas:"n am" "m m" "go go" "dt dt"}
+  @ .h7-xr .h7-dt{justify-self:end}
+  /* Notices need padding inside their borders and a dedicated action row at narrow widths. */
+  @ .h7-il li{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"c v" "x x" "t b";gap:6px 10px;padding:14px 12px}
+  @ .h7-iv{min-inline-size:0;overflow-wrap:break-word}
+  @ .h7-il time{min-inline-size:0;overflow-wrap:break-word}
+  @ .h7-iw{justify-self:end;justify-content:flex-end;max-inline-size:100%;white-space:normal;line-height:1.35}
+}
+/* Open foldables have room for complete partner tiles; no partly hidden final venue. */
+@media(min-width:768px) and (max-width:1023px){
+  @ .h7-pw{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));overflow:visible;padding:0}
+  @ .h7-pw li{min-inline-size:0}
+}

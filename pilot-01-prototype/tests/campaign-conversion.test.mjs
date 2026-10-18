@@ -14,11 +14,11 @@ const render = props => renderToStaticMarkup(React.createElement(CampaignJoin, p
 test('join blocks use gated routes, omit unknown rebates, and keep neutral locales', () => {
   const en = render({ venue: 'okx', locale: 'en' });
   assert.match(en, /data-cta-placement="activities-live-campaign"/);
-  assert.match(en, /code .* included/);
-  assert.match(en, /40%/);
+  assert.match(en, /data-cta-code="[^"]+"/);
+  assert.doesNotMatch(en, /<p>|40%/);
   // Owner rule 2026-10-12: the join block carries no commission or terms fine print (footer + legal pages only).
   assert.doesNotMatch(en, /commission disclosed|official page|<small>|data-disclosure-placement=/);
-  assert.match(render({ venue: 'okx', locale: 'zh-Hans' }), /参加条件/);
+  assert.doesNotMatch(render({ venue: 'okx', locale: 'zh-Hans' }), /参加条件/);
   assert.doesNotMatch(render({ venue: 'bybit', locale: 'en' }), /fees back/);
   for (const locale of [...NEUTRAL_CTA_LOCALE_LIST, 'zh-TW', 'zh-HK', 'ru-RU', 'ar-SA', 'vi-VN']) assert.doesNotMatch(render({ venue: 'okx', locale }), /data-cta-code=|40%/);
   for (const venue of ['kraken', 'kucoin', 'okx']) {
@@ -38,7 +38,7 @@ test('monthly strip caps six events newest first and uses Singapore month bounda
   const items = Array.from({length: 10}, (_, i) => ({ category: 'event', id: i, publishedAt: `2026-10-${String(i+1).padStart(2,'0')}T00:00:00Z` }));
   assert.deepEqual(monthCampaigns([...items, {category:'listing',publishedAt:'2026-10-11T00:00:00Z'}], 'en', Date.parse('2026-10-12T00:00:00Z')).map(i=>i.id), [9,8,7,6,5,4]);
 });
-test('live campaign cards and monthly strip preserve official facts and explicit market gates', async () => {
+test('one grouped campaign list preserves official facts and explicit market gates', async () => {
   const { LiveCampaigns } = await harness.vite.ssrLoadModule('/src/components/v3/activity/LiveCampaigns.jsx');
   const initialFeed = { items: [
     { id: 'okx:test', venue: 'okx', category: 'event', title: 'Official campaign title', url: 'https://www.okx.com/help/test', publishedAt: new Date().toISOString() },
@@ -46,14 +46,16 @@ test('live campaign cards and monthly strip preserve official facts and explicit
   ] };
   const html = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'en', market: 'JP', initialFeed }));
   assert.ok(html.includes(updateHref(initialFeed.items[0], 'en', { market: 'JP' })), 'detail links preserve the blocked market');
-  assert.match(html, /This month/);
+  assert.doesNotMatch(html, /campaign-month/);
+  assert.equal((html.match(/Official campaign title/g) || []).length, 1);
+  assert.equal((html.match(/Bitget campaign title/g) || []).length, 1);
   assert.match(html, /Official campaign title/);
   assert.match(html, /Bitget campaign title/);
   assert.match(html, /href="\/activities\/updates\/okx\//);
   assert.doesNotMatch(html, /href="https:\/\/www.okx.com\/help\/test"/);
   assert.doesNotMatch(html, /data-cta-kind="registration"/);
   const allowed = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'en', initialFeed }));
-  assert.match(allowed, /data-cta-placement="activities-month-campaign"/);
+  assert.doesNotMatch(allowed, /activities-month-campaign/);
   assert.match(allowed, /data-cta-placement="activities-live-campaign"/);
   const tr = renderToStaticMarkup(React.createElement(LiveCampaigns, { locale: 'tr', initialFeed }));
   assert.match(tr, /Official campaign title/);

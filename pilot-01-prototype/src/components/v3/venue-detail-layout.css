@@ -1,0 +1,44 @@
+/* A single grid item owns the utility row; two independently placed anchors
+   would otherwise occupy the same desktop grid cell. */
+.v3-profile-page .v3-venue-utility-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.5rem;
+  min-inline-size: 0;
+  grid-column: 1;
+  grid-row: 1;
+  order: -1;
+}
+
+@media (max-width: 780px) {
+  /* Keep the identity and its code readable at 344px. The action occupies the
+     other grid column rather than taking width away from the label. */
+  #top.v3-profile-page .v3-mobile-sticky-bar__code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 6px;
+    row-gap: 0;
+    align-content: center;
+    block-size: auto;
+    padding-block: 4px;
+    white-space: normal;
+  }
+  #top.v3-profile-page .v3-mobile-sticky-bar__label:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    grid-column: 1 / -1;
+    overflow: visible;
+    text-overflow: clip;
+    text-align: start;
+    line-height: 1.25;
+  }
+  #top.v3-profile-page .v3-mobile-sticky-bar__code strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    grid-column: 1;
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+  #top.v3-profile-page .v3-mobile-sticky-bar__code small:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    grid-column: 2;
+    margin-inline-start: 0;
+  }
+}

@@ -86,6 +86,10 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
     const pages = JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
     assert.equal(pages.length, locales.length * slugs.length);
     for (const { locale, slug, firstScreen, fullHtml, decision, lastVerified } of pages) {
+      const utilityRow = fullHtml.match(/<div class="v3-venue-utility-links">([\s\S]*?)<\/div>/)?.[1];
+      assert.ok(utilityRow, `${slug}/${locale}: utility links share a single layout cell`);
+      assert.match(utilityRow, /class="v3-back-link"/, `${slug}/${locale}: directory route remains available`);
+      assert.ok(fullHtml.indexOf('class="v3-venue-utility-links"') < fullHtml.indexOf('<h1'), `${slug}/${locale}: utility links precede the title`);
       assert.doesNotMatch(fullHtml, /\bN\/A\b|尚未核验|尚未核驗/, `${slug}/${locale}: expanded source content must not render placeholder values`);
       assert.equal(decision.contentLocale, locale, `${slug}/${locale}: no English decision fallback`);
       assert.equal(decision.editorialReviewed, true, `${slug}/${locale}: reviewed editorial gate`);

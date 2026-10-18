@@ -207,7 +207,7 @@ test("featured placements: home notices, /activities and /exchanges/bybit link t
   assert.match(home, /class="h7-ic h7-ic-event" data-hot="true"/, "gold sparkle chip");
   const activities = await harness.render("https://nexualpha.com/activities?locale=zh-Hans", {});
   const first = activities.indexOf('data-featured-campaign="bybit-stocks"');
-  assert.ok(first > 0 && first < activities.indexOf('id="campaign-month-title"'), "/activities: spotlight is the first campaign item");
+  assert.ok(first > 0 && first < activities.indexOf('id="live-campaigns-h"'), "/activities: spotlight is the first campaign item");
   assert.match(activities, /class="campaign-spotlight" href="\/zh-hans\/activities\/bybit-stocks"/);
   const venue = await harness.render("https://nexualpha.com/exchanges/bybit?locale=en", {});
   assert.match(venue, /class="v3-venue-campaign-banner"[^>]*href="\/activities\/bybit-stocks"/, "Bybit profile banner");

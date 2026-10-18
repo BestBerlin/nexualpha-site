@@ -603,6 +603,15 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
       </div>
     );
   }
+  // A numbered Markdown block is a sequence, not a paragraph whose newlines collapse in HTML.
+  // Require a marker at the start of every line so numbers in ordinary prose stay untouched.
+  const numberedItems = lines.map((line) => line.match(/^(\d+)[.)]\s+(.+)$/));
+  if (numberedItems.length && numberedItems.every(Boolean)) {
+    const start = Number(numberedItems[0][1]);
+    return <ol key={index} start={start === 1 ? undefined : start}>
+      {numberedItems.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item[2], linker, locale)}</li>)}
+    </ol>;
+  }
   if (lines.some((line) => line.startsWith("- "))) {
     const leadLines = lines.filter((line) => !line.startsWith("- "));
     const items = lines.filter((line) => line.startsWith("- ")).map((line) => line.replace(/^- /, ""));

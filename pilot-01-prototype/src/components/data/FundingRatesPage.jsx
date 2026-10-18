@@ -14,7 +14,7 @@ function NextCell({ at, now, copy }) {
   return (
     <span className="nxd-next" dir="ltr">
       <time dateTime={at}>{formatUtcTime(at)}</time>
-      {remaining != null ? <small>{copy.nextIn} {formatCountdown(remaining, { seconds: !prefersReducedMotion() })}</small> : null}
+      <small aria-hidden={remaining == null ? "true" : undefined} style={remaining == null ? { visibility: "hidden" } : undefined}>{copy.nextIn} {remaining == null ? "00:00:00" : formatCountdown(remaining, { seconds: !prefersReducedMotion() })}</small>
     </span>
   );
 }

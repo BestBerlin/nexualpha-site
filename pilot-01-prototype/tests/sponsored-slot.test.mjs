@@ -33,7 +33,23 @@ test('news SSR with and without match in English and simplified Chinese', () => 
     assert.match(html, /href="https:\/\/example.com\/source" target="_blank" rel="noopener noreferrer"/);
   } } finally { Date.now = saved; }
 });
-test('reserved height and desktop sidebar threshold; mobile remains in document flow', () => {
+test('content-led promotion cards retain desktop sidebar and document flow', () => {
   const css = readFileSync(new URL('../src/components/shared/sponsored-slot.css', import.meta.url), 'utf8');
-  assert.match(css, /min-block-size: 164px/); assert.match(css, /min-width: 1200px/); assert.match(css, /position: sticky/); assert.doesNotMatch(css, /position: fixed/);
+  assert.doesNotMatch(css, /min-block-size: 164px/); assert.match(css, /align-items: start/); assert.match(css, /min-block-size: 44px/); assert.match(css, /min-width: 1200px/); assert.match(css, /position: sticky/); assert.doesNotMatch(css, /position: fixed/);
+});
+
+test('article numbered Markdown steps render as lists while prose and bullets retain their structure', () => {
+  for (const locale of ['en', 'zh-Hans']) {
+    const article = {
+      slug: 'numbered-steps-test', status: 'PUBLISHED',
+      title: { [locale]: 'Numbered steps' }, summary: { [locale]: 'Step rendering regression' },
+      content: { [locale]: 'Ordinary prose mentions 1. first and 2. second inline.\n\n1. **进入官网**\n2. 在账户页核对资格\n\n- Existing bullet one\n- Existing bullet two\n\n3. Resume the process\n4. Finish the checks' },
+      category: 'research', publishedAt: '2026-10-12T00:00:00Z', relatedVenues: [],
+    };
+    const html = renderToStaticMarkup(React.createElement(Page, { slug: article.slug, locale, initialArticles: [article] }));
+    assert.match(html, /<p>Ordinary prose mentions 1\. first and 2\. second inline\.<\/p>/);
+    assert.match(html, /<ol><li><strong>进入官网<\/strong><\/li><li>在账户页核对资格<\/li><\/ol>/);
+    assert.match(html, /<ul><li>Existing bullet one<\/li><li>Existing bullet two<\/li><\/ul>/);
+    assert.match(html, /<ol start="3"><li>Resume the process<\/li><li>Finish the checks<\/li><\/ol>/);
+  }
 });
