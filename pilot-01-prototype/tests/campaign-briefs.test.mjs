@@ -45,7 +45,8 @@ test('SSR renders brief, English fallback and source (no raw exchange title unde
 test('activities SSR cards consume localized briefs and explicit facts', () => {
  const html = harness.render('https://nexualpha.com/vi/activities', {officialAnnouncements:attachCampaignBriefs({items:[item]},[brief])});
  assert.ok(html.includes(brief.headline.en));
- assert.ok(html.includes(brief.summary.en));
- assert.ok(html.includes('Verified account'));
+ assert.ok(!html.includes(brief.summary.en), 'untranslated summaries are not full cards');
+ assert.ok(!html.includes('Verified account'), 'compact source notice omits unlocalized facts');
+ assert.ok(html.includes('data-compact-notice="true"'));
  assert.ok(!html.includes(item.title));
 });

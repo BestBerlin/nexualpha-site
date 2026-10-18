@@ -60,5 +60,5 @@
 }
 
 /* Backup sign-up link (owner 2026-10-13): own line under the button; hidden in the compact timed slide-in. */
-.news-offer__act .nx-backup-signup { flex-basis: 100%; }
+.news-offer__act .nx-backup-signup { flex: 0 0 44px; }
 .news-offer--timed .nx-backup-signup { display: none !important; }

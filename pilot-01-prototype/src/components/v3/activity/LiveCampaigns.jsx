@@ -23,7 +23,16 @@ import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../
 import "./live-campaigns.css";
 
 // Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
-const feedLang = (item, locale) => (!item.brief && !item.featured && !/^en(?:-|$)/i.test(String(locale || "en")) ? "en" : undefined);
+const feedLang = (item, locale) => (item.compactNotice !== false && !item.brief && !item.featured && !/^en(?:-|$)/i.test(String(locale || "en")) ? "en" : undefined);
+
+// A brief's presence does not prove that its headline has the requested translation.
+export function campaignPresentation(item, feed, locale) {
+  const applied = applyCampaignBriefs(item, feed, locale);
+  if (locale === "en" || item.featured) return applied;
+  const localizedTitle = applied.brief?.headline?.[locale] || (typeof item.title === "object" ? item.title[locale] : null);
+  const localizedSummary = applied.brief?.summary?.[locale] || (typeof item.summary === "object" ? item.summary[locale] : null);
+  return { ...applied, title: localizedTitle || applied.title, summary: localizedSummary || "", compactNotice: !localizedTitle, sourceLanguage: localizedTitle ? undefined : "en" };
+}
 
 const FEED = "/intel/official-announcements.json";
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
@@ -86,7 +95,7 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
     .map((c) => applyCampaignBriefs({ id: c.id, venue: c.venue, title: pick(c.title, locale), summary: pick(c.summary, locale), url: c.url, publishedAt: c.startAt || c.checkedAt, endAt: c.endAt, category: "campaign", featured: true }, briefFeed, locale));
   const events = readIntelFeed({ items: items || [] })
     .filter((i) => i.category === "event" && campaignVisibleInLocale(i, locale) && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5)
-    .map((i) => applyCampaignBriefs(i, briefFeed, locale));
+    .map((i) => campaignPresentation(i, briefFeed, locale));
   const all = [...featured, ...events];
   const venues = [...new Set(all.map((c) => c.venue))];
   // Grouped by exchange (owner 2026-10-10): every card is rendered; a group shows three and folds the rest behind
@@ -145,16 +154,25 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
       )}
       {items && !shown.length && <p className="live-campaigns__state">{t.empty}</p>}
       {groups.map((group) => {
-        const expanded = openGroups.has(group.venue) || group.items.length <= GROUP_PREVIEW_COUNT;
+        const compact = group.items.some((item) => item.compactNotice);
+        const previewCount = compact ? 5 : GROUP_PREVIEW_COUNT;
+        const expanded = openGroups.has(group.venue) || group.items.length <= previewCount;
         const labels = showAllCopy(locale, group.items.length);
         return (
         <section key={group.venue} className="live-campaigns__group" data-campaign-group={group.venue} data-expanded={expanded ? "true" : "false"}>
           <h3 className="live-campaigns__group-head"><BrandMark slug={group.venue} compact /><b>{NAMES[group.venue] || group.venue}</b><span>{group.items.length}</span></h3>
-        <ul className="live-campaigns__list">
+        <ul className={compact ? "live-campaigns__notices" : "live-campaigns__list"}>
           {group.items.map((c, itemIndex) => {
             const name = NAMES[c.venue] || c.venue;
+            if (c.compactNotice) {
+              if (!expanded && itemIndex >= previewCount) return null;
+              return <li key={c.id} className="live-campaigns__notice" data-compact-notice="true">
+                <a dir="auto" lang={c.sourceLanguage} href={updateHref(c, locale, { market })}>{c.title}</a>
+                {c.publishedAt && <time dateTime={c.publishedAt}>{c.publishedAt.slice(0, 10)}</time>}
+              </li>;
+            }
             return (
-              <li key={c.id} className={`live-campaigns__card${c.featured ? " is-featured" : ""}`} data-group-overflow={itemIndex >= GROUP_PREVIEW_COUNT ? "true" : undefined}>
+              <li key={c.id} className={`live-campaigns__card${c.featured ? " is-featured" : ""}`} data-group-overflow={itemIndex >= previewCount ? "true" : undefined}>
                 <div className="live-campaigns__meta">
                   <BrandMark slug={c.venue} compact />
                   <b>{name}</b>
@@ -175,7 +193,7 @@ export function LiveCampaigns({ locale = "en", market, initialFeed }) {
             );
           })}
         </ul>
-          {group.items.length > GROUP_PREVIEW_COUNT && <button type="button" className="live-campaigns__group-toggle" aria-expanded={expanded} onClick={() => toggleGroup(group.venue)}>{expanded ? labels.fewer : labels.all}</button>}
+          {group.items.length > previewCount && <button type="button" className="live-campaigns__group-toggle" aria-expanded={expanded} onClick={() => toggleGroup(group.venue)}>{expanded ? labels.fewer : labels.all}</button>}
         </section>
         );
       })}

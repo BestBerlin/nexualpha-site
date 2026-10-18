@@ -181,7 +181,7 @@ test("compare page first screen: H1, the existing verdict, both official sign-up
   assert.match(css, /\.v3-compare-hero-actions__row \{ display: grid; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
-test("activities: campaigns and the reviewed feed are grouped by exchange, three visible per group, every item kept in the HTML", async () => {
+test("activities: reviewed cards show three per group and untranslated notices use five compact items", async () => {
   for (const locale of LOCALES) {
     const { all, fewer } = showAllCopy(locale, 10);
     assert.match(all, /10/, locale);
@@ -190,7 +190,8 @@ test("activities: campaigns and the reviewed feed are grouped by exchange, three
   assert.equal(GROUP_PREVIEW_COUNT, 3);
   const live = await read("src/components/v3/activity/LiveCampaigns.jsx");
   assert.match(live, /data-campaign-group=\{group\.venue\} data-expanded=\{expanded \? "true" : "false"\}/);
-  assert.match(live, /data-group-overflow=\{itemIndex >= GROUP_PREVIEW_COUNT \? "true" : undefined\}/);
+  assert.match(live, /data-group-overflow=\{itemIndex >= previewCount \? "true" : undefined\}/);
+  assert.match(live, /const previewCount = compact \? 5 : GROUP_PREVIEW_COUNT/);
   assert.match(live, /className="live-campaigns__group-toggle" aria-expanded=\{expanded\}/);
   assert.doesNotMatch(live, /\.slice\(0, 24\)/, "no per-exchange cap drops cards any more");
   const liveCss = await read("src/components/v3/activity/live-campaigns.css");

@@ -1778,7 +1778,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-rebate-num${rebateKnown ? "" : " is-pending"}`}>
-                        {rebateKnown ? <>{d.rebate}<span className="v3-matrix-rebate-unit">%</span></> : localePending(locale)}
+                        {rebateKnown ? <>{d.rebate}<span className="v3-matrix-rebate-unit">%</span></> : null}
                         {isWinner && hasRebateDiff && (
                           <span className="v3-winner-badge v3-winner-badge--cyan">{isZh ? zhText(locale, "★ 返佣最高", "★ 返傭最高") : "★ Top Rebate"}</span>
                         )}
@@ -1787,7 +1787,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                         )}
                       </span>
                       <span className="v3-matrix-sub-val">
-                        {rebateKnown ? (isZh ? "官方账户条件已核验后显示" : compareFeeSurfaceCopy(locale).benefit) : compareFeeSurfaceCopy(locale).pendingBenefit}
+                        {rebateKnown ? (isZh ? "官方账户条件已核验后显示" : compareFeeSurfaceCopy(locale).benefit) : null}
                       </span>
                     </div>
                   </td>
@@ -1810,10 +1810,10 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                       <div className="v3-matrix-net-box">
                         <div className="v3-matrix-net-row">
                           <span className="v3-matrix-net-label">{isZh ? "现货净:" : compareDetailPhrase(locale, "spotNet", "Spot Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? feePctOfRate(d.effectiveSpotTaker, locale) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? feePctOfRate(d.effectiveSpotTaker, locale) : null}</strong>
                           <span className="v3-matrix-net-label">|</span>
                           <span className="v3-matrix-net-label">{isZh ? "合约净:" : compareDetailPhrase(locale, "futuresNet", "Futures Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? feePctOfRate(d.effectiveFuturesTaker, locale) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? feePctOfRate(d.effectiveFuturesTaker, locale) : null}</strong>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                           {Number.isFinite(d.rebate) && d.rebate > 0 && d.netCostPublishable && (
@@ -1848,7 +1848,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-por-pill${d.porCoverageRatio || d.proofOfReserves ? "" : " is-pending"}`}>
                         {(d.porCoverageRatio || d.proofOfReserves) && <span className="v3-shield-icon" aria-hidden="true"></span>}
-                        <span>{d.porCoverageRatio || (d.proofOfReserves ? (isZh ? "100%+ 充足" : "100%+ PoR") : (d.porAuditUrl ? linkedNotReviewed(locale) : localePending(locale)))}</span>
+                        <span>{d.porCoverageRatio || (d.proofOfReserves ? (isZh ? "100%+ 充足" : "100%+ PoR") : (d.porAuditUrl ? linkedNotReviewed(locale) : null))}</span>
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--green">{isZh ? "★ 储备最高" : "★ Top Reserves"}</span>}
                       </span>
                       {d.porAuditUrl ? (
@@ -1946,12 +1946,12 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                   <div className="v3-matrix-cell-stack">
                     <span className={`v3-bonus-badge${hasKnownWelcomeReward ? "" : " is-pending"}`}>
-                      {d.welcomeReward || (isZh ? " 用户奖励待官方核验" : compareDetailPhrase(locale, "rewards", " User rewards pending verification"))}
+                      {d.welcomeReward || null}
                     </span>
                     <span className="v3-matrix-sub-val">
                       {hasKnownWelcomeReward
                         ? (locale === "zh-Hant" ? "完成專屬開戶後前往福利中心確認" : isZh ? "专属开户后进入福利中心确认" : compareDetailPhrase(locale, "claim", "Check the rewards hub after signup"))
-                        : compareFeeSurfaceCopy(locale).pendingBenefit}
+                        : null}
                     </span>
                   </div>
                 </td>
@@ -1991,26 +1991,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
           </tbody>
         </table>
       </div>
-      {compactPendingRows.length > 0 && (
-        <details className="v3-matrix-pending-disclosure">
-          <summary>
-            <span>{matrixAux.pendingSummary} <small>({compactPendingRows.length})</small></span>
-            <b aria-hidden="true">＋</b>
-          </summary>
-          <div className="v3-matrix-pending-disclosure__body">
-            <p>{matrixAux.pendingLead}</p>
-            <ul>
-              {compactPendingRows.map((row) => (
-                <li key={row.key} id={`matrix-metric-${row.key}`} data-metric-key={row.key} tabIndex={-1}>
-                  <strong>{row.label}</strong>
-                  <span>{row.hint}</span>
-                  <em>{matrixAux.pendingSuffix}</em>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </details>
-      )}
+
     </section>
   );
 }
@@ -2021,7 +2002,14 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
   const ui = interfaceText(locale);
   const [stickyCtaActive, setStickyCtaActive] = useState(false);
   const profiles = selected.map((slug) => venues.find((venue) => venue.slug === slug)).filter(Boolean).map((venue) => venueProfile(venue, locale));
-  const eventViewForProfile = (profile) => visibleEventSourceItems(updates, { locale, venue: profile.slug, now: Date.now() });
+  // Render from the feed snapshot until mount so SSR and hydration share a clock.
+  const [eventNow, setEventNow] = useState(null);
+  useEffect(() => { setEventNow(Date.now()); }, []);
+  const snapshotNow = updates.reduce((latest, update) => Math.max(latest, ...[update.publishedAt, update.discoveredAt, update.verifiedAt].map(value => {
+    const parsed = Date.parse(value || "");
+    return Number.isFinite(parsed) ? parsed : 0;
+  })), 0);
+  const eventViewForProfile = (profile) => visibleEventSourceItems(updates, { locale, venue: profile.slug, now: eventNow ?? snapshotNow });
   const isZhLoc = locale.startsWith("zh");
   const isHantLoc = locale === "zh-Hant" || locale === "zh-TW";
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
@@ -2149,7 +2137,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             const pAccess = publicVenueAccess(p.slug, locale, market);
             const pKyc = localePending(locale);
             const pPorReviewed = Boolean(pDb.proofOfReserves && (pDb.porCoverageRatio || pDb.reserveRatio));
-            const pPor = pPorReviewed ? (pDb.porCoverageRatio || pDb.reserveRatio) : localePending(locale);
+            const pPor = pPorReviewed ? (pDb.porCoverageRatio || pDb.reserveRatio) : null;
             const pFeeSummary = buildVenueFeeSummary(pDb, researchForVenue(p.slug, locale) || {});
             const pSpotRate = publishableFeeRate(pFeeSummary, "spot", locale);
             const pFee = pSpotRate?.display || localePending(locale);

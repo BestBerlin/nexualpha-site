@@ -5,7 +5,7 @@ import { SourceLink } from "../shared/SourceLink.jsx";
  *
  * l10n (2026-10-11): every UI string lives in `copy` for all 15 locales; the site-authored research text (summaries,
  * conditions) comes from official-campaign-localizations.js through campaignResearchLocalizedText, and the review
- * stamp is rendered with Intl.DateTimeFormat instead of the raw ISO value. Official source titles stay English (data).
+ * stamp is rendered with Intl.DateTimeFormat instead of the raw ISO value. Source titles use available locale copy, otherwise the localized hub label.
  */
 import React, { useState, useMemo } from "react";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -18,7 +18,6 @@ import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { isTurkeyGated } from "../../data/partner-geo-policy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { formatDate } from "../../data/format-date.js";
-import { enAttrs } from "../../utils/fallback-lang.js";
 import "./campaign-radar.css";
 
 export const campaignRadarCopy = {
@@ -539,13 +538,12 @@ export function CampaignRadar({ locale = "en" }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="campaign-card__source-link"
-                      {...(src.title ? enAttrs(locale) : undefined)}
                     >
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                       </svg>
-                      {src.title || t.directHub}
+                      {typeof src.title === "object" ? (src.title[locale] || t.directHub) : locale === "en" ? (src.title || t.directHub) : (src.localizedTitle?.[locale] || t.directHub)}
                     </SourceLink>
                   ))}
                 </div>

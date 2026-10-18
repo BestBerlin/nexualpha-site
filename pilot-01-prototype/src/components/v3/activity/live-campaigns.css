@@ -69,3 +69,9 @@
    `color: inherit` rule (verified in Chromium 2026-10-12), so the label is painted solid here. */
 .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { background: rgb(245 197 66 / .10); color: #ffe27a; -webkit-text-fill-color: #ffe27a; animation: nx-chip-glow 2.6s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) { .live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag { animation: none; } }
+
+/* Untranslated source notices remain useful links without becoming large English campaign cards. */
+.live-campaigns__notices { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.live-campaigns__notice { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 0; border-block-end: 1px solid rgb(255 255 255 / 0.10); }
+.live-campaigns__notice a { min-width: 0; overflow-wrap: anywhere; line-height: 1.5; }
+.live-campaigns__notice time { flex: none; font-size: 12px; color: #9ca3af; }

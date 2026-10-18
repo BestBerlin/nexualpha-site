@@ -35,7 +35,7 @@ test("Chinese venue cards do not publish absolute safety, ranking, or fee claims
 });
 
 
-test("directory missing-fee cells show an official-source action without verification placeholders or invented rates", async () => {
+test("directory missing-fee cells render empty without placeholders or invented rates", async () => {
   const { createSsrHarness } = await import("./helpers/ssr-hydration-harness.mjs");
   const { feeFact } = await import("../src/data/exchange-facts.js");
   const harness = await createSsrHarness();
@@ -43,7 +43,11 @@ test("directory missing-fee cells show an official-source action without verific
     for (const locale of ["zh-Hans", "zh-Hant"]) {
       const html = await harness.render(`https://nexualpha.com/exchanges?locale=${locale}`, {});
       assert.doesNotMatch(html, /尚未核验|尚未核驗|\bN\/A\b|>placeholder</i);
-      assert.match(html, /请查官方费率|請查官方費率/);
+      const row = html.match(/<tr\b[^>]*data-slug="aevo"[^>]*>[\s\S]*?<\/tr>/)?.[0];
+      assert.ok(row, `${locale}: the venue remains in the directory`);
+      assert.doesNotMatch(row, /mx-unch|mx-dash|请查官方费率|請查官方費率/);
+      assert.match(row, /class="mx-td mx-td--fee mx-td--nofee"[^>]*><\/td>/, `${locale}: missing fee cell is empty`);
+      assert.match(html, /0[.,]10/, `${locale}: reviewed fee values remain visible`);
     }
     assert.equal(feeFact("aevo", "spot").state, "unchecked");
     assert.equal(feeFact("aevo", "spot").maker, null);

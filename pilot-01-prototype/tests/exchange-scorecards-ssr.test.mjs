@@ -58,3 +58,30 @@ test('hub renders market-specific rules and excludes unsupported country claims'
   assert.deepEqual([...new Set([...turkey.matchAll(/href="\/exchanges\/([a-z-]+)"/g)].map((m) => m[1]))].sort(), ['binance', 'bybit', 'okx']);
   assert.match(html, /ItemList/);
 });
+
+
+test('Chinese and Arabic scorecard presentation uses localized labels and hides missing values', () => {
+  for (const locale of ['zh-Hans', 'zh-Hant', 'ar']) {
+    const html = pair(['binance', 'okx'], locale);
+    assert.doesNotMatch(html, /Data-backed scorecard|Lowest checked spot fees|Published data only|Not checked|Date not recorded|Source 1/);
+  }
+});
+
+test('initial scorecard markup is stable across server and delayed browser clocks', () => {
+  const original = Date.now;
+  try {
+    Date.now = () => Date.parse('2026-10-01T23:59:59Z');
+    const server = pair(['binance', 'okx']);
+    Date.now = () => Date.parse('2026-10-16T01:00:00Z');
+    assert.equal(pair(['binance', 'okx']), server);
+  } finally { Date.now = original; }
+});
+
+test('scorecard register status words follow the requested language', async () => {
+  const { localizedScorecardValue } = await import('../src/components/compare/scorecard-copy.js');
+  for (const locale of ['zh-Hans', 'zh-Hant', 'ar']) {
+    const value = localizedScorecardValue('MFSA (MT): licensed; CNV (AR): registered', locale);
+    assert.doesNotMatch(value, /licensed|registered/);
+    assert.match(value, /MFSA \(MT\)/);
+  }
+});

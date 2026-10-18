@@ -70,3 +70,6 @@
 /* Chinese pages: the UI face follows the CJK reading stack (v3-layout-stability). */
 html:is(:lang(zh-CN), :lang(zh-Hans)) { --font-ui: var(--v3-cjk-sc-font); }
 html:is(:lang(zh-TW), :lang(zh-Hant)) { --font-ui: var(--v3-cjk-tc-font); }
+
+/* Arabic joining must survive component tracking declarations, including home's specificity stack. */
+:lang(ar) { letter-spacing: 0 !important; }

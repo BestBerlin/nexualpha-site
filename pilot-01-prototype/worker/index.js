@@ -2852,7 +2852,7 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/rates": ["page-rates-", "page-profile-signature-", "route-rates-", "route-activity-"],
   "/onchain": ["route-onchain-"],
   "/telegram": ["page-telegram-", "route-telegram-"],
-  "/embed/calculator": ["route-embed-", "route-international-"],
+  "/embed/calculator": ["route-embed-", "route-international-", "page-home-calculator-"],
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
   "/funding-rates/matrix": ["route-funding-matrix-", "route-data-"],

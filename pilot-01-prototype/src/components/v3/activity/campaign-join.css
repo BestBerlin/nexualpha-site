@@ -8,3 +8,6 @@
 .campaign-month:not(#_):not(#_) li { min-width: 0; padding: 14px; border: 1px solid rgb(255 255 255 / .14); border-radius: 12px; overflow-wrap: anywhere; }
 .campaign-month:not(#_):not(#_) h3 { font-size: 16px; line-height: 1.5; }
 .campaign-month:not(#_):not(#_) time { display: block; font-size: 12px; margin: 8px 0; }
+/* The backup route is an icon beside signup, rather than a second CTA row. */
+.campaign-join:not(#_):not(#_):not(#_):not(#_):has(> .nx-backup-signup) { grid-template-columns: minmax(0, 1fr) 44px; }
+.campaign-join:not(#_):not(#_):not(#_):not(#_) > p { grid-column: 1 / -1; }

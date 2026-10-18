@@ -104,3 +104,20 @@ test("countryRankings returns the main market tables with numeric rows", () => {
 test("top200CoinCounts keeps unknown venues null instead of scoring them as zero", () => {
   assert.deepEqual(top200CoinCounts(["binance", "not-a-venue"]), { binance: 135, "not-a-venue": null });
 });
+
+
+test("SGT scorecard dates do not depend on Intl date presentation patterns", () => {
+  const OriginalDateTimeFormat = Intl.DateTimeFormat;
+  const capture = () => {
+    const card = buildScorecard(["binance", "okx"], { locale: "en", now: "2026-10-13T17:30:00Z" });
+    return { generatedAt: card.generatedAt, dates: card.rows.map((row) => row.values.map((value) => value.asOf)) };
+  };
+  const expected = capture();
+  assert.equal(expected.generatedAt, "2026-10-14", "SGT date rolls over at 16:00 UTC");
+  try {
+    for (const pattern of ["10/14/2026", "14/10/2026"]) {
+      Intl.DateTimeFormat = class { format() { return pattern; } };
+      assert.deepEqual(capture(), expected);
+    }
+  } finally { Intl.DateTimeFormat = OriginalDateTimeFormat; }
+});
