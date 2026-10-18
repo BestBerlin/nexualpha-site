@@ -8756,11 +8756,11 @@ async function routeMetadataBase(url, env, newsFeed) {
 	        description: "Compare published maker and taker fee references across CEX, DEX and perpetual platforms. Use the page as a scenario checklist, then verify VIP tier, funding, withdrawal and account terms on the official platform.",
 	      },
       "zh-Hans": {
-        title: "交易所手续费基准终端 — NexuAlpha",
+        title: "交易所手续费对比 — NexuAlpha",
         description: "对比中心化交易所、DEX 与永续合约平台公开的 Maker、Taker 手续费基准。",
       },
       ja: { title: "暗号資産取引所の手数料ベンチマーク — NexuAlpha", description: "CEX、DEX、パーペチュアル取引所の公開メイカー・テイカー手数料を比較します。" },
-      ko: { title: "암호화폐 거래소 수수료 벤치마크 터미널 — NexuAlpha", description: "CEX, DEX와 퍼펙추얼 플랫폼의 공개 메이커·테이커 수수료를 비교합니다." },
+      ko: { title: "암호화폐 거래소 수수료 비교 — NexuAlpha", description: "CEX, DEX와 퍼펙추얼 플랫폼의 공개 메이커·테이커 수수료를 비교합니다." },
       tr: { title: "Kripto borsa ücretleri kıyaslama terminali — NexuAlpha", description: "CEX, DEX ve perpetual platformların yayınlanmış maker ve taker ücretlerini karşılaştırın." },
       es: { title: "Terminal de comparación de comisiones cripto — NexuAlpha", description: "Compara las comisiones maker y taker publicadas de exchanges centralizados, DEX y plataformas perpetuas." },
     },
@@ -8903,7 +8903,7 @@ async function routeMetadataBase(url, env, newsFeed) {
   }
   const staticPageCopyPatch = {
     "/rates": {
-      "zh-Hant": { title: "交易所手續費基準終端 — NexuAlpha", description: "比較中心化交易所、DEX 與永續合約平台公開的 Maker、Taker 手續費基準。" },
+      "zh-Hant": { title: "交易所手續費對比 — NexuAlpha", description: "比較中心化交易所、DEX 與永續合約平台公開的 Maker、Taker 手續費基準。" },
       "pt-BR": { title: "Terminal de comparação de taxas cripto — NexuAlpha", description: "Compare taxas maker e taker publicadas por CEXs, DEXs e plataformas perpétuas." },
       fr: { title: "Terminal de comparaison des frais crypto — NexuAlpha", description: "Comparez les frais maker et taker publiés par les CEX, DEX et plateformes perpétuelles." },
       de: { title: "Terminal für Krypto-Gebührenvergleiche — NexuAlpha", description: "Vergleichen Sie veröffentlichte Maker- und Taker-Gebühren von CEXs, DEXs und Perpetual-Plattformen." },
