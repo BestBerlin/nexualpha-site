@@ -77,5 +77,5 @@
 .live-campaigns__notice time { flex: none; font-size: 12px; color: #9ca3af; }
 
 /* De-AI pass (2026-10-18): the hot tag is plain gold text on a hairline, no gold sweep, glow loop or twinkling star. */
-.campaign-spotlight__tag:not(#_):not(#_):not(#_) { padding: 0; border: 0; border-radius: 0; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #F5C542; -webkit-text-fill-color: #F5C542; box-shadow: none; animation: none; }
+.live-campaigns:not(#_):not(#_):not(#_):not(#_) .campaign-spotlight__tag:not(#_), .campaign-spotlight__tag:not(#_):not(#_):not(#_) { padding: 0; border: 0; border-radius: 0; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #F5C542; -webkit-text-fill-color: #F5C542; box-shadow: none; animation: none; }
 .campaign-spotlight__tag:not(#_):not(#_):not(#_)::after { content: none; animation: none; }
