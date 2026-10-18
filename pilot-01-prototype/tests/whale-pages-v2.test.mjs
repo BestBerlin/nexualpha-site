@@ -42,6 +42,11 @@ test("whale page has four action filters; coin page renders all its observed act
     const main = new JSDOM(await harness.render("https://nexualpha.com/zh-hans/whales", { radar: snapshot })).window.document;
     assert.deepEqual([...main.querySelectorAll("[data-whale-filter]")].map((el) => el.dataset.whaleFilter), ["signals", "distribution", "positions", "transfers"]);
     assert.match(main.body.textContent, /置信度: 82\/100/);
+    assert.doesNotMatch(main.body.textContent, /Three observed wallets/, "English evidence line stays off localized pages");
+    const english = new JSDOM(await harness.render("https://nexualpha.com/whales", { radar: snapshot })).window.document;
+    assert.match(english.body.textContent, /Three observed wallets increased exposure/);
+    const japanese = new JSDOM(await harness.render("https://nexualpha.com/ja/whales", { radar: snapshot })).window.document;
+    assert.match(japanese.body.textContent, /信頼度: 82\/100/);
     assert.ok(main.querySelector('a[href="/zh-hans/whales/hype"]'));
     const coin = new JSDOM(await harness.render("https://nexualpha.com/whales/hype", { radar: snapshot })).window.document;
     assert.match(coin.querySelector("h1").textContent, /HYPE/);

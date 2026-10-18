@@ -31,6 +31,15 @@ import { formatSgt } from "../../data/local-time.js";
 import "./radar.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 
+// The collector's "why it matters" line is English-only evidence text; localized pages already carry the localized
+// WhaleSentence, so the English line is shown on English pages only (no English text on zh/ja/ar pages).
+const isEnglishLocale = (locale) => /^en(?:-|$)/i.test(String(locale || "en"));
+const CONFIDENCE_LABELS = {
+  en: "Confidence", "zh-Hans": "置信度", "zh-Hant": "置信度", ja: "信頼度", ko: "신뢰도", es: "Confianza", "pt-BR": "Confiança",
+  fr: "Confiance", de: "Konfidenz", it: "Affidabilità", ru: "Достоверность", uk: "Достовірність", tr: "Güven", id: "Keyakinan",
+  vi: "Độ tin cậy", ar: "درجة الثقة", ur: "اعتماد",
+};
+const confidenceLabel = (locale) => CONFIDENCE_LABELS[locale] || (String(locale).startsWith("zh") ? "置信度" : CONFIDENCE_LABELS.en);
 const directionFor = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 
 // Neutral locales (ru/ar/zh-Hant/ur/uk/vi) carry no partner offer or sponsored row links.
@@ -222,7 +231,7 @@ function WhalesTable({ rows, locale, all = false }) {
                   <span>{formatAmount(row.amount, row.asset)}</span>
                   <small>{formatUsd(row.amountUsd)}</small>
                   {row.valuation ? <small>{row.valuation}</small> : null}
-                  {row.whyItMatters ? <small>{row.whyItMatters}</small> : null}
+                  {row.whyItMatters && isEnglishLocale(locale) ? <small>{row.whyItMatters}</small> : null}
                 </td>
                 <td data-label={copy.columns.from}><AddressLine label={row.fromLabel} address={row.fromAddress} source={row.source} labelSource={row.fromLabelSource} unknownLabel={copy.unknown} /></td>
                 <td data-label={copy.columns.to}><AddressLine label={row.toLabel} address={row.toAddress} labelSource={row.toLabelSource} unknownLabel={copy.unknown} /></td>
@@ -291,8 +300,8 @@ function WhalesTabs({ feed, locale, all = false }) {
                 return (
                   <li key={row.id} data-kind={key} {...(row.stealth ? { "data-stealth": row.stealth } : {})}>
                     {href ? <a href={href} target="_blank" rel="nofollow noopener noreferrer">{content}</a> : content}
-                    {row.whyItMatters ? <p>{row.whyItMatters}</p> : null}
-                    {Number.isFinite(row.confidenceScore) ? <small>{locale.startsWith("zh") ? "置信度" : "Confidence"}: {row.confidenceScore}/100</small> : null}
+                    {row.whyItMatters && isEnglishLocale(locale) ? <p>{row.whyItMatters}</p> : null}
+                    {Number.isFinite(row.confidenceScore) ? <small>{confidenceLabel(locale)}: {row.confidenceScore}/100</small> : null}
                     {whaleCoinPath(whaleRowCoin(row)) ? <a href={localizedHref(whaleCoinPath(whaleRowCoin(row)), { locale })}>{whaleRowCoin(row)} · {c.title} →</a> : null}
                   </li>
                 );
