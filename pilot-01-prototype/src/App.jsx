@@ -48,6 +48,7 @@ import { turkeyListingAllowed } from "./data/partner-geo-policy.js";
 import { GLOSSARY_INDEX_LOCALES, glossaryIndexModulePath, glossaryLinksModulePath, glossaryShardModulePath, parseGlossaryPath } from "./data/glossary-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { CALENDAR_PATH, ETF_FLOWS_PATH } from "./data/intel-tools-routes.js";
+import { FEE_INDEX_PATH, PRESS_PATH, TS_TRACKER_PATH, WHALE_REPORT_PATH } from "./data/data-assets-routes.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { parseBybitStocksPath } from "./data/bybit-stocks-path.js";
 import { TS_PATH, parseTokenizedStocksPath, tokenizedStocksNavLabel } from "./data/tokenized-stocks-routes.js";
@@ -128,6 +129,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
+  "./components/data-assets/DataAssetPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
   "./components/campaigns/AutodraftCampaignPage.jsx",
@@ -221,6 +223,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/campaigns/BybitStocksPage.jsx",
   "./components/tokenized-stocks/TokenizedStocksPages.jsx",
   "./components/intel-tools/IntelToolPages.jsx",
+  "./components/data-assets/DataAssetPages.jsx",
   "./components/campaigns/BitgetAlliancePage.jsx",
   "./components/campaigns/KrakenUsdgPage.jsx",
   "./components/campaigns/AutodraftCampaignPage.jsx",
@@ -301,6 +304,12 @@ function CoinsRoute({ route, locale, overlay, initialNewsArticles }) {
   if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} overlay={overlay} />;
   return <CoinPage locale={locale} content={readCoinContent(locale)} slug={route.slug} market={route.market} overlay={overlay} initialNewsArticles={initialNewsArticles} />;
 }
+// Linkable data assets + /press (SEO W43, 2026-10-18): one route chunk (route-data-assets). The whale report's server
+// snapshot travels in the "intelTool" hydration slot as { kind: "whale-report", data }.
+const FeeIndexPage = deferredComponent(ROUTE_MODULE_PATHS.dataAssets, "FeeIndexPage");
+const TokenizedTrackerPage = deferredComponent(ROUTE_MODULE_PATHS.dataAssets, "TokenizedTrackerPage");
+const WhaleReportPage = deferredComponent(ROUTE_MODULE_PATHS.dataAssets, "WhaleReportPage");
+const PressPage = deferredComponent(ROUTE_MODULE_PATHS.dataAssets, "PressPage");
 // Spot ETF flows + crypto calendar (2026-10-13): one route chunk (route-intel-tools). `initial` is the snapshot the
 // server rendered with (prerender state "intelTool"); `now` keeps the calendar's first client render identical.
 const EtfFlowsPage = deferredComponent(ROUTE_MODULE_PATHS.intelTools, "EtfFlowsPage");
@@ -442,7 +451,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, LIQUIDATION_HEATMAP_PATH, FUNDING_RATES_PATH, ETF_FLOWS_PATH, CALENDAR_PATH, FEE_INDEX_PATH, TS_TRACKER_PATH, WHALE_REPORT_PATH, PRESS_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = [...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH, "/guides", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins", TS_PATH, "/convert", "/glossary", "/licenses"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -647,6 +656,10 @@ export function routeState(venues, initialUrl) {
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
   if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
   if (pathname === LIQUIDATION_HEATMAP_PATH) return { name: "liquidationHeatmap" };
+  if (pathname === FEE_INDEX_PATH) return { name: "feeIndex", ...contextParams() };
+  if (pathname === TS_TRACKER_PATH) return { name: "tsTracker", ...contextParams() };
+  if (pathname === WHALE_REPORT_PATH) return { name: "whaleReport", ...contextParams() };
+  if (pathname === PRESS_PATH) return { name: "press", ...contextParams() };
   if (pathname === ETF_FLOWS_PATH) return { name: "etfFlows", ...contextParams() };
   if (pathname === CALENDAR_PATH) return { name: "calendar", ...contextParams() };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
@@ -1036,6 +1049,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "tokenizedStocksHub") return pageShell(<TokenizedStocksHubPage locale={locale} market={route.market} live={initialTsLive} page={initialTsPage} />);
   if (route.name === "tokenizedStocksTicker") return pageShell(<TokenizedStocksTickerPage key={route.ticker} locale={locale} market={route.market} ticker={route.ticker} live={initialTsLive} page={initialTsPage} />);
   if (route.name === "tokenizedStocksExchange") return pageShell(<TokenizedStocksExchangePage key={route.slug} locale={locale} market={route.market} slug={route.slug} live={initialTsLive} page={initialTsPage} />);
+  if (route.name === "feeIndex") return pageShell(<FeeIndexPage locale={locale} market={route.market} />);
+  if (route.name === "tsTracker") return pageShell(<TokenizedTrackerPage locale={locale} market={route.market} />);
+  if (route.name === "whaleReport") return pageShell(<WhaleReportPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "whale-report" ? initialIntelTool.data : undefined} />);
+  if (route.name === "press") return pageShell(<PressPage locale={locale} market={route.market} />);
   if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
   if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);

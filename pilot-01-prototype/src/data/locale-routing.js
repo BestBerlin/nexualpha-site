@@ -136,6 +136,11 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/etf-flows",
   "/calendar",
   "/funding-rates/matrix",
+  // Linkable data assets + press kit (SEO W43, 2026-10-18): src/data/data-assets-routes.js.
+  "/data/exchange-fee-index",
+  "/data/tokenized-stock-tracker",
+  "/data/whale-accumulation-report",
+  "/press",
 ]);
 
 const NON_LOCALIZED_PREFIXES = Object.freeze([

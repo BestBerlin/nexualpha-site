@@ -4,6 +4,7 @@ import React from "react";
 import { localizedHref } from "../../../data/locale-routing.js";
 import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale, entityAtAGlance } from "../../../data/brand-entity.js";
 import { ABOUT_COPY } from "./about-copy.js";
+import { PRESS_PATH, pressNavLabel } from "../../../data/data-assets-routes.js";
 import "./brand-pages.css";
 
 export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
@@ -71,7 +72,7 @@ export function AboutPage({ locale = "en" }) {
       <section className="nxb-section v2-shell" id="verification" aria-labelledby="nxb-verify-h" data-rv="1">
         <h2 id="nxb-verify-h">{t.verifyTitle}</h2>
         <p>{t.verifyBody}</p>
-        <p className="nxb-links"><a href={href(METHODOLOGY_PATH)}>{t.verifyLink}</a></p>
+        <p className="nxb-links"><a href={href(METHODOLOGY_PATH)}>{t.verifyLink}</a> · <a href={href(PRESS_PATH)} data-testid="about-press-link">{pressNavLabel(code)}</a></p>
       </section>
 
       <section className="nxb-section nxb-section--card nxb-desk v2-shell" id="research-desk" aria-labelledby="nxb-desk-h" data-rv="1">
