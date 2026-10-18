@@ -54,13 +54,13 @@ test("merge fills only the strings a locale still inherits from English", () => 
   const copy = {
     en,
     fr: { ...en, originalLanguageNotice: "Avis en français" },
-    ja: { ...en, firstDecisionTitle: "この市場アップデートで行動する前に" },
+    ja: { ...en, firstDecisionTitle: "行動する前に" },
   };
   mergeNewsDetailCopy(copy);
-  assert.equal(copy.fr.firstDecisionTitle, "Avant d’agir sur cette actualité de marché");
+  assert.equal(copy.fr.firstDecisionTitle, "Avant d’agir");
   assert.equal(copy.fr.back, NEWS_DETAIL_COPY_L10N.fr.back);
   assert.equal(copy.fr.originalLanguageNotice, "Avis en français", "inline strings win");
-  assert.equal(copy.ja.firstDecisionTitle, "この市場アップデートで行動する前に", "inline translation kept");
+  assert.equal(copy.ja.firstDecisionTitle, "行動する前に", "inline translation kept");
   assert.equal(copy.ja.notFoundBody, NEWS_DETAIL_COPY_L10N.ja.notFoundBody, "missing string filled");
   assert.equal(copy.en.firstDecisionTitle, EN.firstDecisionTitle, "English untouched");
 });

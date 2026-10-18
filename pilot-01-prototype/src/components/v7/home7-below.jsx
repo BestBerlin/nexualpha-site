@@ -33,13 +33,13 @@ import { CRYPTO_CARDS_PATH, depositPath } from "../../data/deposit-routes.js";
 const DATA_RAIL_COPY = {
   en: { title: "Daily market data", lead: "This week's macro dates, exchange deadlines, liquidations and funding." },
   "zh-Hans": { title: "每日市场数据", lead: "这周的宏观日程、交易所截止日、爆仓和资金费率。" },
-  es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de la semana, más liquidaciones y funding, cada uno con su fuente." },
-  "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras da semana, além de liquidações e funding, cada um com a fonte." },
-  tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri ve borsa son tarihleri, ayrıca tasfiyeler ve fonlama; hepsi kaynağıyla." },
-  vi: { title: "Dữ liệu thị trường hằng ngày", lead: "Lịch vĩ mô và hạn chót của sàn trong tuần, cùng thanh lý và funding, kèm nguồn." },
-  id: { title: "Data pasar harian", lead: "Jadwal makro dan tenggat bursa minggu ini, plus likuidasi dan funding, masing-masing dengan sumbernya." },
-  ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標と取引所の締切日に加え、清算と資金調達率。すべて出典付き。" },
-  ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 거래소 마감일과 청산·펀딩비. 모두 출처 포함." },
+  es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de esta semana, liquidaciones y funding." },
+  "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras desta semana, liquidações e funding." },
+  tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri, borsa son tarihleri, tasfiyeler ve fonlama." },
+  vi: { title: "Dữ liệu thị trường hằng ngày", lead: "Lịch vĩ mô, hạn chót của sàn trong tuần, thanh lý và funding." },
+  id: { title: "Data pasar harian", lead: "Jadwal makro dan tenggat bursa minggu ini, likuidasi, dan funding." },
+  ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標、取引所の締切日、清算、資金調達率。" },
+  ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 거래소 마감일, 청산, 펀딩비." },
 };
 function DataRail({ locale }) {
   const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);

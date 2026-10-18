@@ -80,23 +80,23 @@ export function appendCostScenarioQuery(href, input={}) {
 const COPY = {
   en:{copy:'Copy this page link',copied:'Link copied',failed:'Copy failed. Select and copy the link below.',linkLabel:'Link with current selections',botFeeOpen:'Open fee query in Telegram'},
   'zh-Hans':{copy:'复制本页链接',copied:'链接已复制',failed:'未能自动复制，请选中并复制下方链接。',linkLabel:'包含当前选择的链接',botFeeOpen:'在 Telegram 打开费用查询'},
-  'zh-Hant':{copy:'複製連結，稍後繼續',copied:'連結已複製',failed:'未能自動複製，請選取並複製下方連結。',linkLabel:'包含目前選擇的連結',botFeeOpen:'在 Telegram 開啟費用查詢'},
-  ja:{copy:'リンクをコピーして後で続ける',copied:'リンクをコピーしました',failed:'コピーできませんでした。下のリンクを選択してコピーしてください。',linkLabel:'現在の選択を含むリンク',botFeeOpen:'Telegramで手数料の問い合わせを開く'},
-  ko:{copy:'나중에 이어볼 링크 복사',copied:'링크를 복사했습니다',failed:'복사하지 못했습니다. 아래 링크를 선택해 복사하세요.',linkLabel:'현재 선택이 포함된 링크',botFeeOpen:'Telegram에서 수수료 조회 열기'},
-  tr:{copy:'Daha sonra devam etmek için bağlantıyı kopyala',copied:'Bağlantı kopyalandı',failed:'Kopyalanamadı. Aşağıdaki bağlantıyı seçip kopyalayın.',linkLabel:'Mevcut seçimleri içeren bağlantı',botFeeOpen:'Telegram’da ücret sorgusunu aç'},
-  'pt-BR':{copy:'Copiar link para continuar depois',copied:'Link copiado',failed:'Não foi possível copiar. Selecione e copie o link abaixo.',linkLabel:'Link com as seleções atuais',botFeeOpen:'Abrir consulta de taxas no Telegram'},
-  es:{copy:'Copiar enlace para continuar después',copied:'Enlace copiado',failed:'No se pudo copiar. Selecciona y copia el enlace de abajo.',linkLabel:'Enlace con las selecciones actuales',botFeeOpen:'Abrir consulta de comisiones en Telegram'},
-  fr:{copy:'Copier le lien pour continuer plus tard',copied:'Lien copié',failed:'Copie impossible. Sélectionnez et copiez le lien ci-dessous.',linkLabel:'Lien avec les sélections actuelles',botFeeOpen:'Ouvrir la recherche de frais sur Telegram'},
-  de:{copy:'Link zum späteren Fortsetzen kopieren',copied:'Link kopiert',failed:'Kopieren fehlgeschlagen. Wählen und kopieren Sie den Link unten.',linkLabel:'Link mit der aktuellen Auswahl',botFeeOpen:'Gebührenabfrage in Telegram öffnen'},
+  'zh-Hant':{copy:'複製本頁連結',copied:'連結已複製',failed:'未能自動複製，請選取並複製下方連結。',linkLabel:'包含目前選擇的連結',botFeeOpen:'在 Telegram 開啟費用查詢'},
+  ja:{copy:'このページのリンクをコピー',copied:'リンクをコピーしました',failed:'コピーできませんでした。下のリンクを選択してコピーしてください。',linkLabel:'現在の選択を含むリンク',botFeeOpen:'Telegramで手数料の問い合わせを開く'},
+  ko:{copy:'이 페이지 링크 복사',copied:'링크를 복사했습니다',failed:'복사하지 못했습니다. 아래 링크를 선택해 복사하세요.',linkLabel:'현재 선택이 포함된 링크',botFeeOpen:'Telegram에서 수수료 조회 열기'},
+  tr:{copy:'Bu sayfanın bağlantısını kopyala',copied:'Bağlantı kopyalandı',failed:'Kopyalanamadı. Aşağıdaki bağlantıyı seçip kopyalayın.',linkLabel:'Mevcut seçimleri içeren bağlantı',botFeeOpen:'Telegram’da ücret sorgusunu aç'},
+  'pt-BR':{copy:'Copiar link desta página',copied:'Link copiado',failed:'Não foi possível copiar. Selecione e copie o link abaixo.',linkLabel:'Link com as seleções atuais',botFeeOpen:'Abrir consulta de taxas no Telegram'},
+  es:{copy:'Copiar el enlace de esta página',copied:'Enlace copiado',failed:'No se pudo copiar. Selecciona y copia el enlace de abajo.',linkLabel:'Enlace con las selecciones actuales',botFeeOpen:'Abrir consulta de comisiones en Telegram'},
+  fr:{copy:'Copier le lien de cette page',copied:'Lien copié',failed:'Copie impossible. Sélectionnez et copiez le lien ci-dessous.',linkLabel:'Lien avec les sélections actuelles',botFeeOpen:'Ouvrir la recherche de frais sur Telegram'},
+  de:{copy:'Link zu dieser Seite kopieren',copied:'Link kopiert',failed:'Kopieren fehlgeschlagen. Wählen und kopieren Sie den Link unten.',linkLabel:'Link mit der aktuellen Auswahl',botFeeOpen:'Gebührenabfrage in Telegram öffnen'},
   // l10n: needs native review
-  ur:{copy:"بعد میں جاری رکھنے کے لیے لنک کاپی کریں",copied:"لنک کاپی ہو گیا",failed:"کاپی نہیں ہو سکا۔ نیچے دیا گیا لنک منتخب کر کے کاپی کریں۔",linkLabel:"موجودہ انتخاب کے ساتھ لنک",botFeeOpen:"Telegram میں فیس کی تلاش کھولیں"},
+  ur:{copy:"اس صفحے کا لنک کاپی کریں",copied:"لنک کاپی ہو گیا",failed:"کاپی نہیں ہو سکا۔ نیچے دیا گیا لنک منتخب کر کے کاپی کریں۔",linkLabel:"موجودہ انتخاب کے ساتھ لنک",botFeeOpen:"Telegram میں فیس کی تلاش کھولیں"},
   // l10n: needs native review
-  uk:{copy:"Скопіювати посилання, щоб продовжити пізніше",copied:"Посилання скопійовано",failed:"Не вдалося скопіювати. Виділіть і скопіюйте посилання нижче.",linkLabel:"Посилання з поточними налаштуваннями",botFeeOpen:"Відкрити запит комісій у Telegram"},
-  ar:{copy:'نسخ الرابط للمتابعة لاحقًا',copied:'تم نسخ الرابط',failed:'تعذّر النسخ. حدّد الرابط أدناه وانسخه.',linkLabel:'رابط يتضمن الخيارات الحالية',botFeeOpen:'فتح استعلام الرسوم في Telegram'},
-  ru:{copy:'Скопировать ссылку, чтобы продолжить позже',copied:'Ссылка скопирована',failed:'Не удалось скопировать. Выделите и скопируйте ссылку ниже.',linkLabel:'Ссылка с текущими настройками',botFeeOpen:'Открыть запрос комиссий в Telegram'},
-  id:{copy:'Salin tautan untuk dilanjutkan nanti',copied:'Tautan disalin',failed:'Gagal menyalin. Pilih dan salin tautan di bawah.',linkLabel:'Tautan dengan pilihan saat ini',botFeeOpen:'Buka pemeriksaan biaya di Telegram'},
-  vi:{copy:'Sao chép liên kết để tiếp tục sau',copied:'Đã sao chép liên kết',failed:'Không thể sao chép. Chọn và sao chép liên kết bên dưới.',linkLabel:'Liên kết chứa lựa chọn hiện tại',botFeeOpen:'Mở truy vấn phí trên Telegram'},
-  it:{copy:'Copia il link per continuare più tardi',copied:'Link copiato',failed:'Copia non riuscita. Seleziona e copia il link qui sotto.',linkLabel:'Link con le selezioni attuali',botFeeOpen:'Apri la ricerca delle commissioni su Telegram'},
+  uk:{copy:"Скопіювати посилання на сторінку",copied:"Посилання скопійовано",failed:"Не вдалося скопіювати. Виділіть і скопіюйте посилання нижче.",linkLabel:"Посилання з поточними налаштуваннями",botFeeOpen:"Відкрити запит комісій у Telegram"},
+  ar:{copy:'نسخ رابط هذه الصفحة',copied:'تم نسخ الرابط',failed:'تعذّر النسخ. حدّد الرابط أدناه وانسخه.',linkLabel:'رابط يتضمن الخيارات الحالية',botFeeOpen:'فتح استعلام الرسوم في Telegram'},
+  ru:{copy:'Скопировать ссылку на страницу',copied:'Ссылка скопирована',failed:'Не удалось скопировать. Выделите и скопируйте ссылку ниже.',linkLabel:'Ссылка с текущими настройками',botFeeOpen:'Открыть запрос комиссий в Telegram'},
+  id:{copy:'Salin tautan halaman ini',copied:'Tautan disalin',failed:'Gagal menyalin. Pilih dan salin tautan di bawah.',linkLabel:'Tautan dengan pilihan saat ini',botFeeOpen:'Buka pemeriksaan biaya di Telegram'},
+  vi:{copy:'Sao chép liên kết trang này',copied:'Đã sao chép liên kết',failed:'Không thể sao chép. Chọn và sao chép liên kết bên dưới.',linkLabel:'Liên kết chứa lựa chọn hiện tại',botFeeOpen:'Mở truy vấn phí trên Telegram'},
+  it:{copy:'Copia il link di questa pagina',copied:'Link copiato',failed:'Copia non riuscita. Seleziona e copia il link qui sotto.',linkLabel:'Link con le selezioni attuali',botFeeOpen:'Apri la ricerca delle commissioni su Telegram'},
 };
 
 export function decisionReturnCopy(locale='en') {

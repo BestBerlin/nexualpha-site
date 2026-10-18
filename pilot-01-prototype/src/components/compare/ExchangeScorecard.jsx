@@ -14,14 +14,14 @@ function useScorecardNow() {
 }
 const COPY = {
   'zh-Hans': ['逐项对比', '维度', '领先', '并列', '', '截至', '适合场景', '交易所比较', '用途', '领先平台', '规则'],
-  'zh-Hant': ['數據比較評分卡', '維度', '領先', '並列', '', '截至', '適合場景', '交易所比較', '用途', '領先平台', '規則'],
-  ar: ['بطاقة مقارنة البيانات', 'المعيار', 'المتقدم', 'تعادل', '', 'بتاريخ', 'الأنسب حسب الاستخدام', 'مقارنة المنصات في', 'الاستخدام', 'المنصات المتقدمة', 'القاعدة'],
+  'zh-Hant': ['逐項對比', '維度', '領先', '並列', '', '截至', '適合場景', '交易所比較', '用途', '領先平台', '規則'],
+  ar: ['مقارنة بندًا بندًا', 'المعيار', 'المتقدم', 'تعادل', '', 'بتاريخ', 'الأنسب حسب الاستخدام', 'مقارنة المنصات في', 'الاستخدام', 'المنصات المتقدمة', 'القاعدة'],
   en: ['Line by line', 'Dimension', 'Winner', 'Tie', 'Not available', 'As of', 'Best for', 'Best exchange for', 'Use case', 'Leaders', 'Rule'],
-  tr: ['Veriye dayalı karşılaştırma', 'Ölçüt', 'Önde', 'Eşit', 'Veri yok', 'Veri tarihi', 'En uygun kullanım', 'En iyi borsa:', 'Kullanım amacı', 'Önde gelenler', 'Kural'],
-  vi: ['So sánh dựa trên dữ liệu', 'Tiêu chí', 'Dẫn đầu', 'Bằng nhau', 'Chưa có dữ liệu', 'Dữ liệu ngày', 'Phù hợp nhất cho', 'Sàn tốt nhất cho', 'Mục đích', 'Dẫn đầu', 'Quy tắc'],
-  id: ['Perbandingan berbasis data', 'Kriteria', 'Unggul', 'Seri', 'Data tidak tersedia', 'Data per', 'Terbaik untuk', 'Bursa terbaik untuk', 'Kebutuhan', 'Pemimpin', 'Aturan'],
-  'pt-BR': ['Comparação com dados', 'Critério', 'Líder', 'Empate', 'Não disponível', 'Dados de', 'Melhor para', 'Melhor exchange para', 'Uso', 'Líderes', 'Regra'],
-  es: ['Comparación con datos', 'Criterio', 'Líder', 'Empate', 'No disponible', 'Datos al', 'Mejor para', 'Mejor exchange para', 'Uso', 'Líderes', 'Regla'],
+  tr: ['Kalem kalem karşılaştırma', 'Ölçüt', 'Önde', 'Eşit', 'Veri yok', 'Veri tarihi', 'En uygun kullanım', 'En iyi borsa:', 'Kullanım amacı', 'Önde gelenler', 'Kural'],
+  vi: ['So sánh từng mục', 'Tiêu chí', 'Dẫn đầu', 'Bằng nhau', 'Chưa có dữ liệu', 'Dữ liệu ngày', 'Phù hợp nhất cho', 'Sàn tốt nhất cho', 'Mục đích', 'Dẫn đầu', 'Quy tắc'],
+  id: ['Bandingkan poin per poin', 'Kriteria', 'Unggul', 'Seri', 'Data tidak tersedia', 'Data per', 'Terbaik untuk', 'Bursa terbaik untuk', 'Kebutuhan', 'Pemimpin', 'Aturan'],
+  'pt-BR': ['Item por item', 'Critério', 'Líder', 'Empate', 'Não disponível', 'Dados de', 'Melhor para', 'Melhor exchange para', 'Uso', 'Líderes', 'Regra'],
+  es: ['Punto por punto', 'Criterio', 'Líder', 'Empate', 'No disponible', 'Datos al', 'Mejor para', 'Mejor exchange para', 'Uso', 'Líderes', 'Regla'],
 };
 function ui(locale) { return COPY[locale] || COPY.en; }
 const SCROLL_HINT = {
