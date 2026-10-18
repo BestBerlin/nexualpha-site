@@ -121,3 +121,15 @@ test("SGT scorecard dates do not depend on Intl date presentation patterns", () 
     }
   } finally { Intl.DateTimeFormat = OriginalDateTimeFormat; }
 });
+
+test("scorecard coin counts ignore the process-wide runtime coin overlay (SSR/hydration parity, #418 on /compare)", async () => {
+  const coins = await import("../src/data/coins.js");
+  const before = top200CoinCounts(["binance", "okx"]);
+  const row = coins.BAKED_COINS.find((coin) => coin.rank && coin.rank <= 200 && coin.venues.some((venue) => venue.slug === "okx"));
+  assert.ok(row, "fixture coin listed on OKX");
+  const raw = coins.BAKED_COINS.indexOf(row);
+  assert.ok(raw >= 0);
+  const changed = coins.applyCoinOverlay({ generatedAt: "2099-01-01T00:00:00.000Z", venueStatus: {}, rows: [[row.id, row.slug, row.name, row.symbol, row.rank, row.category, row.networks, row.price, row.change24h, row.marketCap, {}]] });
+  assert.equal(changed, true, "overlay applied to the live bindings");
+  assert.deepEqual(top200CoinCounts(["binance", "okx"]), before);
+});
