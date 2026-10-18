@@ -27,6 +27,9 @@ const isStocksHref = (href) => /\/tokenized-stocks(?:$|[/?#])/.test(href);
 // from 380 px; Latin/ja labels need ≥ 480 px beside the campaigns chip (the hub also stays in the burger sheet's nav).
 const STOCKS_CHIP_FIT = { "zh-Hans": "narrow", "zh-Hant": "narrow" };
 const STOCKS_CHIP = { "zh-Hans": "美股", "zh-Hant": "美股", en: "Stocks", es: "Acciones", "pt-BR": "Ações", fr: "Actions", de: "Aktien", it: "Azioni", ja: "米国株", ko: "미국주식", ru: "Акции", tr: "Hisseler", id: "Saham", vi: "Cổ phiếu", ar: "أسهم", ur: "اسٹاکس", uk: "Акції" };
+// ≤360 px (lead 2026-10-15): these four labels overflowed the 344 px phone header by 9–20 px (measured); a short label
+// keeps the chip readable. The full label stays as the chip's accessible name.
+const CAMPAIGN_CHIP_SHORT = { en: "Deals", "pt-BR": "Promos", ja: "特典", tr: "Fırsat" };
 const CAMPAIGN_CHIP = { "zh-Hans": "活动", "zh-Hant": "活動", en: "Campaigns", es: "Promos", "pt-BR": "Promoções", fr: "Promos", de: "Aktionen", it: "Promo", ja: "キャンペーン", ko: "이벤트", ru: "Акции", tr: "Kampanyalar", id: "Promo", vi: "Sự kiện", ar: "العروض", ur: "مہمات", uk: "Акції" };
 
 function linkProps(href, state, placement) {
@@ -115,7 +118,7 @@ export function SiteHeader({
             </li>}
           </ul>
         </nav>
-        {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__star" aria-hidden="true">✦</span>{CAMPAIGN_CHIP[locale] || campaignItem[0]}</a>}
+        {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" data-short={CAMPAIGN_CHIP_SHORT[locale] ? "" : undefined} aria-label={CAMPAIGN_CHIP_SHORT[locale] ? (CAMPAIGN_CHIP[locale] || campaignItem[0]) : undefined} aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__star" aria-hidden="true">✦</span><span className="nx-hot-chip__full">{CAMPAIGN_CHIP[locale] || campaignItem[0]}</span>{CAMPAIGN_CHIP_SHORT[locale] ? <span className="nx-hot-chip__short" aria-hidden="true">{CAMPAIGN_CHIP_SHORT[locale]}</span> : null}</a>}
         {stocksItem && <a className="nx-hot-chip nx-hot-chip--stocks" data-fit={STOCKS_CHIP_FIT[locale] || "wide"} href={stocksItem[1]} aria-current={navState(stocksItem[1]).current} aria-label={stocksItem[0]}>{STOCKS_CHIP[locale] || stocksItem[0]}</a>}
         {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
