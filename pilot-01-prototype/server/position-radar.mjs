@@ -22,6 +22,7 @@
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { EXCHANGE_ADDRESS_LABEL_ROWS } from "./exchange-address-labels.mjs";
+import { enrichWhaleSignals } from "./whale-signal-quality.mjs";
 import { buildHyperliquidFillSignals, createHyperliquidWhaleSource, foldHyperliquidFills, hyperliquidLiquidationEvents, isLiquidationOf, normalizeHyperliquidState } from "./hyperliquid-whales.mjs";
 
 const UA = "NexuAlphaPositionRadar/1.0 (+https://nexualpha.com)";
@@ -545,6 +546,8 @@ function readWhaleSnapshotFile(file, now = Date.now()) {
       signals: signals.slice(0, WHALE_MAX_SIGNALS),
       positions: positions.slice(0, WHALE_MAX_POSITIONS),
       transfers: transfers.slice(0, WHALE_MAX_ROWS),
+      watchlistObservations: Array.isArray(payload.watchlistObservations) ? payload.watchlistObservations : [],
+      watchlistSourceStatus: Array.isArray(payload.watchlistSourceStatus) ? payload.watchlistSourceStatus : [],
       labelSources: Array.isArray(payload.labelSources) ? payload.labelSources : [],
       sourceDocs: Array.isArray(payload.sourceDocs) ? payload.sourceDocs : [],
       sources: Array.isArray(payload.sources) ? payload.sources : ["WHALES_FILE"],
@@ -798,6 +801,7 @@ function buildPositionSignals(state, now, { minNotional = 1_000_000 } = {}) {
       totalUsd: deltaUsd,
       sizeUsd: deltaUsd,
       deltaSize,
+      observationCount: inc.length,
       periodHours,
       period: `${periodHours}h`,
       avgEntry: finite(last.entryPx),
@@ -887,6 +891,7 @@ function buildTransferSignals(state, { minUsd = 5_000_000 } = {}) {
       periodHours,
       period: `${periodHours}h`,
       avgEntry: null,
+      transferCount: distinctTx.size,
       explorerUrl: last.explorerUrl || null,
       explanation: `${rows.length} large ${last.asset} withdrawals from exchange labels to the same non-exchange wallet, total $${Math.round(totalUsd).toLocaleString("en-US")}.`,
     });
@@ -1136,7 +1141,7 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
   const snapshotSignals = buildPositionSignals(state, now, { minNotional: minPositionUsd })
     .filter((row) => !(row.walletsCount === 1 && (fillKeys.has(`${row.address}:${row.coin}:${row.side}`) || fillsSeen(row.address))))
     .filter((row) => !(row.walletsCount > 1 && (anyFills || fillSignals.some((fill) => fill.walletsCount > 1 && fill.coin === row.coin && fill.side === row.side))));
-  const signals = [...fillSignals, ...snapshotSignals.sort((a, b) => (finite(b.totalUsd) || 0) - (finite(a.totalUsd) || 0)), ...buildTransferSignals(state, { minUsd })]
+  const signals = enrichWhaleSignals([...fillSignals, ...snapshotSignals.sort((a, b) => (finite(b.totalUsd) || 0) - (finite(a.totalUsd) || 0)), ...buildTransferSignals(state, { minUsd })])
     .slice(0, WHALE_MAX_SIGNALS);
   positionEvents.push(...hyperliquidLiquidationEvents(state.hl, { now, minUsd: minPositionUsd }));
   const currentPositions = [...(state.positions?.values?.() || [])].filter((row) => (finite(row.notionalUsd) || 0) >= minPositionUsd);

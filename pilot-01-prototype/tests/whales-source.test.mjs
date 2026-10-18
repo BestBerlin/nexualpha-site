@@ -118,6 +118,8 @@ test("WHALES_FILE snapshot serves the whale API shape without polling third part
     rows: [{ id: "signal:SOL:long:cluster", category: "signal", signalType: "synchronized-long", coin: "SOL", totalUsd: 3_000_000 }],
     signals: [{ id: "signal:SOL:long:cluster", category: "signal", signalType: "synchronized-long", coin: "SOL", totalUsd: 3_000_000 }],
     sources: ["collector-fixture"],
+    watchlistObservations: [{ coin: "AERO", scope: "sampled recipients", holdersBefore: 2, holdersAfter: 3 }],
+    watchlistSourceStatus: [{ source: "base-rpc", status: "ok" }],
   }));
   const radar = createPositionRadar({
     whaleSnapshotFile: file,
@@ -129,6 +131,8 @@ test("WHALES_FILE snapshot serves the whale API shape without polling third part
   assert.equal(feed.schemaVersion, 2);
   assert.equal(feed.rows[0].category, "signal");
   assert.deepEqual(feed.sources, ["collector-fixture"]);
+  assert.equal(feed.watchlistObservations[0].scope, "sampled recipients");
+  assert.equal(feed.watchlistSourceStatus[0].source, "base-rpc");
 });
 
 test("Hyperliquid source selects active directional whales from leaderboardRows by account value before clearinghouseState", async () => {

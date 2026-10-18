@@ -100,7 +100,7 @@ const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({
   "/int": "en",
 });
 
-const GLOBAL_ROUTE_PREFIXES = Object.freeze([...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH,
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/whales", ...BEGINNER_ROOTS, ...DEPOSIT_ROOTS, CRYPTO_CARDS_PATH,
   "/guides",
   "/exchanges",
   "/compare",

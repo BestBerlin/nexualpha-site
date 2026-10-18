@@ -1,3 +1,4 @@
+import { coinForWhalePath } from "./data/whale-routes.js";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { localeManifest, supportedLocales } from "./content/locale-manifest";
 import { intlLocale, v2Copy } from "./content/v2-copy";
@@ -636,7 +637,7 @@ export function routeState(venues, initialUrl) {
   if (glossary?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
   if (pathname === "/long-short") return { name: "longShort", ...contextParams() };
-  if (pathname === "/whales") return { name: "whales", ...contextParams() };
+  if (pathname === "/whales" || coinForWhalePath(pathname)) return { name: "whales", coin: coinForWhalePath(pathname), ...contextParams() };
   if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
   if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
@@ -1023,7 +1024,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "glossaryHub" || route.name === "glossaryTerm") return pageShell(<GlossaryRoute route={route} locale={locale} />);
   // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
   if (route.name === "longShort") return pageShell(<LongShortPage locale={locale} market={route.market} initial={initialRadar} />);
-  if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} initial={initialRadar} />);
+  if (route.name === "whales") return pageShell(<WhalesPage locale={locale} market={route.market} coin={route.coin} initial={initialRadar} />);
   if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);

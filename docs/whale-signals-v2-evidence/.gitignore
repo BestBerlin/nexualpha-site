@@ -1,0 +1,7 @@
+baseline.json
+baseline.log
+cycle-*.json
+cycle-*.log
+history.json
+watch-history.json
+*.lock

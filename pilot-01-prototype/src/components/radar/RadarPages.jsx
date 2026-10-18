@@ -1,3 +1,4 @@
+import { WHALE_COINS, whaleCoinPath, whaleRowCoin, whaleSignalBucket } from "../../data/whale-routes.js";
 import React, { useEffect, useMemo, useState } from "react";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
@@ -191,10 +192,10 @@ function LongShortTable({ rows, locale, market }) {
   );
 }
 
-function WhalesTable({ rows, locale }) {
+function WhalesTable({ rows, locale, all = false }) {
   const copy = radarCopy(locale);
   const [sort, setSort] = useState({ key: "time", direction: "desc" });
-  const sorted = useMemo(() => sortRows(rows, sort.key, sort.direction).slice(0, 50), [rows, sort]);
+  const sorted = useMemo(() => sortRows(rows, sort.key, sort.direction).slice(0, all ? undefined : 50), [rows, sort, all]);
   const toggle = (key) => setSort((current) => ({ key, direction: current.key === key && current.direction === "desc" ? "asc" : "desc" }));
   const ariaSort = (key) => (sort.key === key ? (sort.direction === "asc" ? "ascending" : "descending") : "none");
 
@@ -216,10 +217,12 @@ function WhalesTable({ rows, locale }) {
           <tbody>
             {sorted.map((row) => (
               <tr key={row.id}>
-                <th scope="row" data-label={copy.columns.asset} translate="no">{row.asset}{row.chain ? <small>{chainDisplay(row.chain)}</small> : null}</th>
+                <th scope="row" data-label={copy.columns.asset} translate="no">{whaleCoinPath(row.asset) ? <a href={localizedHref(whaleCoinPath(row.asset), { locale })}>{row.asset}</a> : row.asset}{row.chain ? <small>{chainDisplay(row.chain)}</small> : null}</th>
                 <td className="num" data-label={copy.columns.amount}>
                   <span>{formatAmount(row.amount, row.asset)}</span>
                   <small>{formatUsd(row.amountUsd)}</small>
+                  {row.valuation ? <small>{row.valuation}</small> : null}
+                  {row.whyItMatters ? <small>{row.whyItMatters}</small> : null}
                 </td>
                 <td data-label={copy.columns.from}><AddressLine label={row.fromLabel} address={row.fromAddress} source={row.source} labelSource={row.fromLabelSource} unknownLabel={copy.unknown} /></td>
                 <td data-label={copy.columns.to}><AddressLine label={row.toLabel} address={row.toAddress} labelSource={row.toLabelSource} unknownLabel={copy.unknown} /></td>
@@ -243,66 +246,44 @@ function WhaleSentence({ row, locale }) {
   </>;
 }
 
-function whaleBucket(row) {
-  const kind = String(row.homeKind || row.kind || row.eventKind || row.category || "").toLowerCase();
-  if (["signal", "accumulation", "distribution", "smart_money"].includes(kind)) return "signals";
-  if (["position", "hyperliquid_position", "liquidation"].includes(kind)) return "positions";
-  return "transfers";
-}
+const whaleBucket = whaleSignalBucket;
 
-function WhalesTabs({ feed, locale }) {
+function WhalesTabs({ feed, locale, all = false }) {
   const c = whalesCopy(locale);
   const priority = (row) => ({ signals: 0, positions: 1, transfers: 2 })[whaleBucket(row)] ?? 2;
   // Signals and positions keep the collector ranking; transfers are newest first.
   const lead = (row) => (row.stealth === "buy" || row.stealth === "sell" ? 0 : 1);
-  const baseRows = [...feed.rows].sort((a, b) => lead(a) - lead(b) || priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(b.time || b.updatedAt || 0) - Date.parse(a.time || a.updatedAt || 0) : 0)).slice(0, 50);
-  const defaultFilter = baseRows.some((row) => whaleBucket(row) === "signals") ? "signals"
-    : baseRows.some((row) => whaleBucket(row) === "positions" || /hyperliquid/i.test(String(row.venue || row.source || ""))) ? "hyperliquid"
-      : "transfers";
+  const baseRows = [...feed.rows].sort((a, b) => lead(a) - lead(b) || priority(a) - priority(b) || (priority(a) === 2 ? Date.parse(b.time || b.updatedAt || 0) - Date.parse(a.time || a.updatedAt || 0) : 0));
+  const defaultFilter = ["signals", "distribution", "positions", "transfers"].find((key) => baseRows.some((row) => whaleBucket(row) === key)) || "signals";
   const [filter, setFilter] = useState(defaultFilter);
-  const FILTERS = [
-    ["signals", c.tabs.signals],
-    ["hyperliquid", "Hyperliquid"],
-    ["transfers", c.tabs.transfers],
-    ["btc", "BTC"],
-    ["eth", "ETH"],
-    ["stablecoins", "USDT / USDC"],
-  ];
-  const buckets = { signals: [], positions: [], transfers: [] };
-  const matches = (row) => {
-    const bucket = whaleBucket(row);
-    const asset = String(row.coin || row.asset || row.symbol || "").toUpperCase();
-    if (filter === "signals") return bucket === "signals";
-    if (filter === "hyperliquid") return bucket === "positions" || /hyperliquid/i.test(String(row.platform || row.venue || row.source || ""));
-    if (filter === "transfers") return bucket === "transfers";
-    if (filter === "btc") return asset === "BTC";
-    if (filter === "eth") return asset === "ETH";
-    if (filter === "stablecoins") return asset === "USDT" || asset === "USDC";
-    return true;
-  };
+  const labels = { ...c.tabs, distribution: locale === "zh-Hans" ? "出货" : locale === "zh-Hant" ? "出貨" : c.actions.distribution };
+  const FILTERS = ["signals", "distribution", "positions", "transfers"].map((key) => [key, labels[key]]);
+  const buckets = { signals: [], distribution: [], positions: [], transfers: [] };
+  const matches = (row) => all || whaleBucket(row) === filter;
   const rows = baseRows.filter(matches);
   for (const row of rows) buckets[whaleBucket(row)].push(row);
   const sections = [
     ["signals", buckets.signals],
+    ["distribution", buckets.distribution],
     ["positions", buckets.positions],
     ["transfers", buckets.transfers],
   ].filter(([, rows]) => rows.length);
   return (
     <section className="nxradar-panel nxradar-whales-tabs v2-shell" aria-label={c.title}>
-      <div className="nxradar-tabbar" role="tablist" aria-label={c.title}>
+      {!all ? <div className="nxradar-tabbar" role="group" aria-label={c.title}>
         {FILTERS.map(([key, label]) => <button type="button" key={key} data-whale-filter={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}
-      </div>
+      </div> : null}
       {!sections.length ? <p className="nxradar-empty-line" role="status">{radarCopy(locale).unavailableTitle}</p> : null}
       {sections.map(([key, rows]) => (
         <section key={key} className={`nxradar-whale-section nxradar-whale-section--${key}`} data-whale-section={key} aria-labelledby={`whales-${key}-h`}>
-          <h2 id={`whales-${key}-h`}>{c.tabs[key]}</h2>
-          {key === "transfers" ? <WhalesTable rows={rows} locale={locale} /> : (
+          <h2 id={`whales-${key}-h`}>{labels[key]}</h2>
+          {key === "transfers" ? <WhalesTable rows={rows} locale={locale} all={all} /> : (
             <ul className="nxradar-whale-cards">
-              {rows.slice(0, 50).map((row) => {
+              {rows.slice(0, all ? undefined : 50).map((row) => {
                 const href = whaleExplorerHref(row);
                 const content = (
                   <>
-                    <b translate="no">{row.coin || row.asset || row.symbol}</b>
+                    <b translate="no">{whaleRowCoin(row)}</b>
                     <WhaleSentence row={row} locale={locale} />
                     {row.time ? <time dateTime={row.time} dir="ltr">{formatSgt(row.time, locale, "end")}</time> : null}
                   </>
@@ -310,6 +291,9 @@ function WhalesTabs({ feed, locale }) {
                 return (
                   <li key={row.id} data-kind={key} {...(row.stealth ? { "data-stealth": row.stealth } : {})}>
                     {href ? <a href={href} target="_blank" rel="nofollow noopener noreferrer">{content}</a> : content}
+                    {row.whyItMatters ? <p>{row.whyItMatters}</p> : null}
+                    {Number.isFinite(row.confidenceScore) ? <small>{locale.startsWith("zh") ? "置信度" : "Confidence"}: {row.confidenceScore}/100</small> : null}
+                    {whaleCoinPath(whaleRowCoin(row)) ? <a href={localizedHref(whaleCoinPath(whaleRowCoin(row)), { locale })}>{whaleRowCoin(row)} · {c.title} →</a> : null}
                   </li>
                 );
               })}
@@ -375,15 +359,19 @@ export function LongShortPage({ locale = "en", market, initial }) {
   );
 }
 
-export function WhalesPage({ locale = "en", market, initial }) {
+export function WhalesPage({ locale = "en", market, initial, coin }) {
   const copy = radarCopy(locale);
   const whaleCopy = whalesCopy(locale);
-  const feed = useRadarFeed("whales", initial);
-  const page = { title: whaleCopy.title, lead: `${whaleCopy.tabs.signals} · Hyperliquid · ${whaleCopy.tabs.positions} · ${whaleCopy.tabs.transfers}`, sourceLine: copy.whalesSourceLine, sourceNames: "Hyperliquid · mempool.space · Ethereum RPC · Tronscan", summary: copy.whalesSummary, explainer: copy.whalesExplainer, methodExtra: copy.whalesMethodExtra };
+  const snapshot = useRadarFeed("whales", initial);
+  const feed = coin ? { ...snapshot, rows: snapshot.rows.filter((row) => whaleRowCoin(row) === coin) } : snapshot;
+  const page = { title: coin ? `${coin} ${whaleCopy.title}` : whaleCopy.title, lead: `${whaleCopy.tabs.signals} · Hyperliquid · ${whaleCopy.tabs.positions} · ${whaleCopy.tabs.transfers}`, sourceLine: copy.whalesSourceLine, sourceNames: "Hyperliquid · mempool.space · Ethereum RPC · Tronscan", summary: copy.whalesSummary, explainer: copy.whalesExplainer, methodExtra: copy.whalesMethodExtra };
   return (
     <main className="v6 v2-page v3-page nxradar nxradar--whales whales-page" id="top" dir={directionFor(locale)} data-market={market || "global"} data-testid="whales-page">
       <RadarHero locale={locale} page={page} pathname={WHALES_PATH} feed={feed} apiPath={WHALES_API_PATH} />
-      {feed.rows.length ? <WhalesTabs feed={feed} locale={locale} /> : <RadarUnavailable locale={locale} />}
+      <nav className="nxradar-coin-nav v2-shell" aria-label={whaleCopy.title}>
+        <a href={localizedHref(WHALES_PATH, { locale })}>{whaleCopy.all}</a>{WHALE_COINS.map((symbol) => <a key={symbol} href={localizedHref(whaleCoinPath(symbol), { locale })} aria-current={coin === symbol ? "page" : undefined}>{symbol}</a>)}
+      </nav>
+      {feed.rows.length ? <WhalesTabs feed={feed} locale={locale} all={Boolean(coin)} /> : <RadarUnavailable locale={locale} />}
       <RadarTail locale={locale} market={market} page={page} relatedPath={LONG_SHORT_PATH} relatedLabel={copy.longShortTitle} src="whales" apiPath={WHALES_API_PATH} offer={false} />
     </main>
   );

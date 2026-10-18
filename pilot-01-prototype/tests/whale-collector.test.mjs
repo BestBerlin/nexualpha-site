@@ -159,3 +159,24 @@ test("atomicWriteJson leaves complete JSON at the target", () => {
   atomicWriteJson(file, { ok: true });
   assert.deepEqual(JSON.parse(readFileSync(file, "utf8")), { ok: true });
 });
+
+
+test("Base-only transfer facts remain available when legacy sources are empty", async () => {
+  const dir = tmp("whale-base-only");
+  const now = Date.parse("2026-10-15T04:00:00Z");
+  const snapshot = await collectWhales({
+    now: () => now,
+    outFile: path.join(dir, "whales.json"),
+    historyFile: path.join(dir, "history.json"),
+    sources: {},
+    fetchImpl: async () => { throw new Error("offline"); },
+    watchlistSource: async () => ({ observations: [], transfers: [{ id: "base-fact", category: "transfer", coin: "WELL", source: "base-public-rpc", amountUsd: 200000 }], sourceStatus: [{ source: "base-public-rpc", coin: "WELL", status: "ok" }, {source: "base-public-rpc", coin: "AERO", status: "unavailable", error: "429"}] }),
+    logFn: () => {},
+  });
+  assert.equal(snapshot.status, "ok");
+  assert.equal(snapshot.updatedAt, new Date(now).toISOString());
+  assert.equal(snapshot.transfers[0].id, "base-fact");
+  assert.ok(snapshot.errors.some(error => error.includes("AERO: 429")));
+  assert.ok(snapshot.sources.includes("https://base-rpc.publicnode.com"));
+  rmSync(dir, { recursive: true, force: true });
+});

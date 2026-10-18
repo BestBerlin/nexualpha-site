@@ -51,6 +51,13 @@ if (process.argv.includes('--http-only')) {
       const schemas = [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
       const list = schemas.flatMap(item => item['@graph'] || [item]).find(item => item['@type'] === 'ItemList');
       assert.equal(list.numberOfItems, 8, locale);
+      const coinResponse = await fetch(base + localizedHref('/whales/hype', { locale }));
+      const coinHtml = await coinResponse.text();
+      assert.equal(coinResponse.status, 200, `${locale}: coin route`);
+      assert.match(coinHtml, /whales-page/, `${locale}: coin SSR`);
+      const coinSchemas = [...coinHtml.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+      const coinList = coinSchemas.flatMap(item => item['@graph'] || [item]).find(item => item['@type'] === 'ItemList');
+      assert.equal(coinList.numberOfItems, 2, `${locale}: coin-only JSON-LD`);
       routes.push({ locale, status: response.status, items: list.numberOfItems });
     }
     current = null;
@@ -59,7 +66,7 @@ if (process.argv.includes('--http-only')) {
     assert.ok(board);
     assert.doesNotMatch(board, /<li|h7-mv-pad|h7-mv-empty|—/);
     await writeFile(path.join(out, 'http-results.json'), JSON.stringify({ routes, emptyRows: 0, provenance: 'synthetic fixture; built Worker + built SSR' }, null, 2));
-    console.log(JSON.stringify({ locales: routes.length, itemsEach: 8, emptyRows: 0 }));
+    console.log(JSON.stringify({ locales: routes.length, itemsEach: 8, coinRoutes: routes.length, coinItemsEach: 2, emptyRows: 0 }));
   } finally { await new Promise(resolve => server.close(resolve)); }
   process.exit(0);
 }
@@ -84,7 +91,7 @@ try {
   }
   for (const width of [360, 390, 1440]) {
     for (const locale of ['en', 'zh-Hans', 'ar']) {
-      for (const route of ['/', '/whales']) {
+      for (const route of ['/', '/whales', '/whales/hype']) {
         const page = await browser.newPage();
         const userAgent = width === 360
           ? 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36'
@@ -120,7 +127,15 @@ try {
         await page.addScriptTag({ path: axePath });
         const axe = await page.evaluate(async selector => { const result = await window.axe.run(document.querySelector(selector), { runOnly: { type: 'rule', values: ['color-contrast'] } }); return result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })); }, selector);
         assert.deepEqual(axe, [], `${locale} ${width} ${route}: contrast violations`);
-        const name = `${route === '/' ? 'home' : 'whales'}-${locale}-${width}`;
+        if (route === '/whales') {
+          const tabs = await page.$$('[data-whale-filter]');
+          assert.equal(tabs.length, 4, `${route}: four activity tabs`);
+          for (const tab of tabs) {
+            await tab.click();
+            assert.equal(await tab.evaluate(el => el.getAttribute('aria-pressed')), 'true');
+          }
+        }
+        const name = `${route === '/' ? 'home' : route.replaceAll('/', '-').slice(1)}-${locale}-${width}`;
         await (await page.$(selector)).screenshot({ path: path.join(out, name + '.png') });
         samples.push({ name, provenance: 'synthetic layout fixture, built SSR and browser hydration', ...metrics, errors, contrastViolations: axe });
         await page.close();

@@ -206,7 +206,7 @@ export function safeExplorerUrl(value) {
     const host = parsed.hostname.toLowerCase();
     if (host === "app.hyperliquid.xyz" && /^\/explorer\/(address|tx)\//.test(parsed.pathname)) return url;
     if (host === "hypurrscan.io") return url;
-    if (["mempool.space", "etherscan.io", "tronscan.org"].includes(host)) return url;
+    if (["mempool.space", "etherscan.io", "tronscan.org", "basescan.org"].includes(host)) return url;
     return "";
   } catch {
     return "";
@@ -283,6 +283,8 @@ export function normalizeWhales(input) {
     currentPnl: firstNumber(row.currentPnl, row.pnlUsd),
     // Fields the plain-language sentence needs (who, side, streak, exit price, leverage).
     signalType: textOr(row.signalType, textOr(row.type, "")),
+    confidenceScore: firstNumber(row.confidenceScore, row.confidence?.score),
+    whyItMatters: textOr(row.whyItMatters, ""),
     mode: textOr(row.mode, ""),
     address: textOr(row.address, Array.isArray(row.addresses) ? textOr(row.addresses[0], "") : ""),
     side: textOr(row.side, ""),
@@ -319,9 +321,10 @@ export function normalizeWhales(input) {
     explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
     source: sourceLabel(row.source),
   })).filter((row) => row.coin && row.sizeUsd != null);
-  // Only exchange in/outflows: unknown→unknown moves and same-exchange internal shuffles are dropped (owner 2026-10-15).
+  // Ordinary transfers require an exchange side. Bounded Base watchlist facts are separately identified, never intent.
   const isExchangeSide = (side, label) => side?.type === "exchange" || Boolean(label && label !== "unknown");
   const meaningful = (row) => {
+    if (row.source === "base-public-rpc" && row.chain === "base" && Number(row.amountUsd) >= 100_000 && safeExplorerUrl(row.explorerUrl)) return true;
     const fromLabel = textOr(row.fromLabel, textOr(row.from?.label, "unknown"));
     const toLabel = textOr(row.toLabel, textOr(row.to?.label, "unknown"));
     const fromEx = isExchangeSide(row.from, fromLabel), toEx = isExchangeSide(row.to, toLabel);
@@ -334,19 +337,21 @@ export function normalizeWhales(input) {
     return {
       id: textOr(row.id, textOr(row.txHash, `whale-${index}`)),
       kind: "transfer",
-      asset: textOr(row.asset, textOr(row.symbol, "—")).toUpperCase(),
+      asset: textOr(row.asset, textOr(row.coin, textOr(row.symbol, "—"))).toUpperCase(),
       chain: textOr(row.chain, ""),
+      whyItMatters: textOr(row.whyItMatters, ""),
+      valuation: textOr(row.valuation, ""),
       amount: firstNumber(row.amount, row.value, row.tokenAmount),
       amountUsd: firstNumber(row.amountUsd, row.usd, row.valueUsd),
       fromLabel: textOr(row.fromLabel, textOr(row.from?.label, "unknown")),
       toLabel: textOr(row.toLabel, textOr(row.to?.label, "unknown")),
       fromLabelSource: safeHttpsUrl(row.from?.source),
       toLabelSource: safeHttpsUrl(row.to?.source),
-      fromAddress: textOr(row.fromAddress, textOr(row.from?.address, "")),
-      toAddress: textOr(row.toAddress, textOr(row.to?.address, "")),
+      fromAddress: textOr(row.fromAddress, textOr(row.from?.address, typeof row.from === "string" ? row.from : "")),
+      toAddress: textOr(row.toAddress, textOr(row.to?.address, typeof row.to === "string" ? row.to : "")),
       direction: ["to_exchange", "from_exchange", "wallet_to_wallet"].includes(direction) ? direction : "unknown",
-      time: isoOrNull(row.time) || isoOrNull(row.at) || isoOrNull(row.timestamp),
-      txHash: textOr(row.txHash, textOr(row.hash, "")),
+      time: isoOrNull(row.time) || isoOrNull(row.at) || isoOrNull(row.timestamp) || isoOrNull(row.observedAt),
+      txHash: textOr(row.txHash, textOr(row.hash, textOr(row.txid, ""))),
       explorerUrl: safeExplorerUrl(textOr(row.explorerUrl, textOr(row.url, ""))),
       source: sourceLabel(row.source),
     };

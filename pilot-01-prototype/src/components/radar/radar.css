@@ -516,3 +516,10 @@
 .nxradar-whale-tag { grid-column: 1 / 3; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-style: normal; font-weight: 700; color: #39E1C8; }
 .nxradar-whale-tag[data-stealth=sell] { color: #FF8A8A; }
 .nxradar-whale-tag small { color: #C9D6DE; font: 500 .8rem/1.4 var(--mono); }
+
+.nxradar-coin-nav { display: flex; flex-wrap: wrap; gap: 12px; padding-block: 16px; }
+.nxradar-coin-nav [aria-current="page"] { color: var(--accent, #39e1c8); text-decoration: underline; }
+
+.nxradar-coin-nav a { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+.nxradar-whale-cards li > a { min-height: 44px; align-items: center; }

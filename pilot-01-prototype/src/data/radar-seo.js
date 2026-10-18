@@ -1,10 +1,11 @@
+import { WHALE_COINS, whaleCoinPath, coinForWhalePath, whaleRowCoin } from "./whale-routes.js";
 import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy, normalizeWhales } from "./radar.js";
 import { whaleExplorerHref, whaleSentence, whalesCopy } from "./whales-home.js";
 import { localizedPath } from "./locale-routing.js";
 
 const PUBLIC_ORIGIN = "https://nexualpha.com";
 
-export const RADAR_PATHS = Object.freeze([LONG_SHORT_PATH, WHALES_PATH]);
+export const RADAR_PATHS = Object.freeze([LONG_SHORT_PATH, WHALES_PATH, ...WHALE_COINS.map(whaleCoinPath)]);
 export const LONG_SHORT_INDEX_LOCALES = Object.freeze(RADAR_LOCALES.filter((locale) => !["ur", "uk"].includes(locale)));
 export const WHALES_INDEX_LOCALES = RADAR_LOCALES;
 export const RADAR_INDEX_LOCALES = LONG_SHORT_INDEX_LOCALES;
@@ -26,10 +27,12 @@ function publicUrl(pathname, locale) {
 export function parseRadarPath(pathname) {
   if (pathname === LONG_SHORT_PATH) return { kind: "long-short", path: LONG_SHORT_PATH };
   if (pathname === WHALES_PATH) return { kind: "whales", path: WHALES_PATH };
+  const coin = coinForWhalePath(pathname);
+  if (coin) return { kind: "whales", path: pathname, coin };
   return null;
 }
 
-function pageCopy(kind, locale) {
+function pageCopy(kind, locale, coin) {
   const copy = radarCopy(locale);
   if (kind === "long-short") {
     return {
@@ -44,9 +47,9 @@ function pageCopy(kind, locale) {
     };
   }
   return {
-    title: resolvedWhalesTitle(locale),
-    headline: whalesCopy(locale).title,
-    description: `${whalesCopy(locale).tabs.signals} · Hyperliquid · ${whalesCopy(locale).tabs.positions} · ${whalesCopy(locale).tabs.transfers}`,
+    title: coin ? `${coin} ${whalesCopy(locale).title} — NexuAlpha` : resolvedWhalesTitle(locale),
+    headline: coin ? `${coin} ${whalesCopy(locale).title}` : whalesCopy(locale).title,
+    description: `${coin ? `${coin} · ` : ""}${whalesCopy(locale).tabs.signals} · Hyperliquid · ${whalesCopy(locale).tabs.positions} · ${whalesCopy(locale).tabs.transfers}`,
     section: whalesCopy(locale).title,
     relatedLabel: copy.longShortTitle,
     relatedPath: LONG_SHORT_PATH,
@@ -109,8 +112,8 @@ function whalesDatasetSchema(copy, canonicalUrl, locale) {
   };
 }
 
-function whalesItemListSchema(copy, canonicalUrl, locale, snapshot) {
-  const rows = normalizeWhales(snapshot).rows.slice(0, 50);
+function whalesItemListSchema(copy, canonicalUrl, locale, snapshot, coin) {
+  const rows = normalizeWhales(snapshot).rows.filter((row) => !coin || whaleRowCoin(row) === coin).slice(0, 50);
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -130,7 +133,7 @@ export function radarRouteSeo(pathname, locale = "en", options = {}) {
   const route = parseRadarPath(pathname);
   if (!route) return null;
   const resolvedLocale = RADAR_LOCALES.includes(locale) ? locale : "en";
-  const copy = pageCopy(route.kind, resolvedLocale);
+  const copy = pageCopy(route.kind, resolvedLocale, route.coin);
   const indexLocales = route.kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
   const indexable = indexLocales.includes(resolvedLocale);
   const urlFor = typeof options.urlFor === "function" ? options.urlFor : (path) => publicUrl(path, resolvedLocale);
@@ -145,7 +148,7 @@ export function radarRouteSeo(pathname, locale = "en", options = {}) {
     schemas: [
       breadcrumbs(copy, canonical, resolvedLocale),
       webPageSchema(copy, canonical, resolvedLocale),
-      ...(route.kind === "whales" ? [whalesDatasetSchema(copy, canonical, resolvedLocale), whalesItemListSchema(copy, canonical, resolvedLocale, options.snapshot)] : []),
+      ...(route.kind === "whales" ? [whalesDatasetSchema(copy, canonical, resolvedLocale), whalesItemListSchema(copy, canonical, resolvedLocale, options.snapshot, route.coin)] : []),
     ],
   };
 }
