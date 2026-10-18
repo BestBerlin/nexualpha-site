@@ -308,6 +308,10 @@ test("runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its d
   assert.match(mainHtml(html), /\b77x/i);
   const state = JSON.parse(html.match(/<script type="application\/json" id="nexualpha-prerender-state">([\s\S]*?)<\/script>/)[1]);
   assert.equal(state.tsLive.generatedAt, newer.generatedAt);
+  // Türkiye: the shipped runtime table has no Bitget rows (page source never names Bitget).
+  const tr = await (await worker.fetch(new Request("https://nexualpha.com/tr/tokenized-stocks/nvda", { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => newer })).text();
+  assert.match(tr, /"tsLive":/);
+  assert.doesNotMatch(tr, /bitget/i);
   // An older runtime table never replaces the release copy.
   const older = { ...newer, generatedAt: "2026-01-01T00:00:00Z" };
   const html2 = await (await worker.fetch(new Request("https://nexualpha.com/tokenized-stocks/nvda", { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => older })).text();
