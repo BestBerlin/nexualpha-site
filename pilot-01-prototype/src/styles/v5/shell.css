@@ -472,7 +472,7 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   .nx-ftr .nx-ftr__inner { inline-size: calc(100% - 32px); padding-block-start: 40px; row-gap: 32px; }
   .nx-ftr .nx-ftr__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
   .nx-ftr .nx-ftr__entry ul { column-gap: 16px; }
-  .nx-ftr .nx-ftr__column a { min-block-size: 40px; }
+  .nx-ftr .nx-ftr__column a { min-block-size: 44px; }
   .nx-ftr .nx-ftr__legal-row { flex-direction: column-reverse; align-items: flex-start; margin-block-start: 8px; padding-block-end: 24px; }
   /* Home phones: the fixed sign-up dock must not cover the legal row at the end of the page. */
   body:has(.h7-dock) .nx-ftr .nx-ftr__legal-row { padding-block-end: calc(84px + env(safe-area-inset-bottom, 0px)); }

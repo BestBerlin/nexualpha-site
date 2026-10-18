@@ -200,7 +200,8 @@ test("worker serves hub, country and cards pages with SSR body, canonical and sc
 test("neutral-locale and Türkiye pages render no sign-up button; tr pages never mention Bitget", async () => {
   for (const path of ["/ru/popolnenie/brazil", "/vi/nap-rut/vietnam", "/ar/crypto-cards", "/deposit/vietnam"]) {
     const html = await (await fetchPage(path)).text();
-    assert.ok(!/data-cta-kind="registration"/.test(html), path);
+    // The sitewide footer's "Official sites" row is outside the page body (and itself hidden on neutral locales).
+    assert.ok(!/data-cta-kind="registration"/.test(html.split('<footer')[0]), path);
     assert.ok(!/href="\/go\//.test(html.split('<footer')[0]), path);
   }
   for (const path of ["/tr/para-yatirma", "/tr/para-yatirma/turkiye", "/tr/crypto-cards", "/deposit/turkiye"]) {
