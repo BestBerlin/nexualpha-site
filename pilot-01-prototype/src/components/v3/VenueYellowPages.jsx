@@ -1,4 +1,6 @@
 import { compareVenuePriority } from "../../data/venue-priority.js";
+import { directoryShortAnswer } from "../../data/answer-first.js";
+import { ShortAnswer } from "../shared/ShortAnswer.jsx";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
@@ -178,7 +180,7 @@ function regionalDirectoryUi(locale, dc) {
 
 const uiText = {
   "zh-Hans": {
-    sectionTitle: "加密交易平台目录",
+    sectionTitle: "加密货币交易所列表：手续费、KYC 与官方注册入口",
     emptyTitle: "没有符合条件的平台",
     emptyBody: "当前分类与筛选组合没有结果。清空筛选后可继续查看可用平台。",
     resetFilters: "重置筛选",
@@ -200,7 +202,7 @@ const uiText = {
     searchLabel: "搜尋平台", searchPlaceholder: "輸入平台名稱或類型", clearSearch: "清除搜尋", compareSelect: "加入比較", compareRemove: "移出比較", compareNeed: "再選一家平台", compareOpen: "開啟比較", compareClear: "清除選擇",
   },
   en: {
-    sectionTitle: "Crypto Platform Directory",
+    sectionTitle: "Crypto exchange list: fees, KYC and official sign-up links",
     emptyTitle: "No platforms match these filters",
     emptyBody: "This category and filter combination has no results. Reset filters to keep browsing available venues.",
     resetFilters: "Reset filters",
@@ -239,14 +241,14 @@ const uiText = {
 const directoryUiCopy = {
   en: {
     returnToRegion: "Return to market research",
-    sectionTitle: "Crypto Platform Directory",
+    sectionTitle: "Crypto exchange list: fees, KYC and official sign-up links",
     sectionLead: "Compare official domains, use cases, account checks, and reviewed partner routes before leaving NexuAlpha.",
     openSignup: "Open Partner Signup ↗",
     benefitPending: "User benefits need verification in the official account",
   },
   "zh-Hans": {
     returnToRegion: "返回地区研究",
-    sectionTitle: "加密交易平台目录",
+    sectionTitle: "加密货币交易所列表：手续费、KYC 与官方注册入口",
     sectionLead: "离开 NexuAlpha 前，先比较官方域名、使用场景、账户条件和已审查的合作注册链接。",
     openSignup: "打开平台开户链接 ↗",
     benefitPending: "用户权益需在官方账户内核验",
@@ -987,6 +989,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
       <div className={compact ? "yellow-pages__header" : "mx-page__inner"}>
         <div className={compact ? undefined : "mx-head"}>
         <HeadingTag className={compact ? "yellow-pages__title" : "mx-title"}>{ui.sectionTitle}</HeadingTag>
+        {headingLevel === 1 && <ShortAnswer answer={directoryShortAnswer(contextualVenues.length, locale, market)} placement="directory-hero" />}
         <p className={compact ? "yellow-pages__lead" : "mx-lead"}>{ui.sectionLead}</p>
         </div>
         {!compact && <BrazilDeadlineNotice locale={locale} placement="directory" />}

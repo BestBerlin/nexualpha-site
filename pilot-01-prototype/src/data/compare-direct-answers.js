@@ -176,7 +176,8 @@ const ownerQuestionByCompare = {
     en: "Should you choose Hyperliquid or dYdX after checking fees, funding, liquidation and access risk?",
   },
   "uniswap-vs-jupiter": {
-    en: "Should you use Uniswap or Jupiter after checking chain, token, route, fees and wallet preview?",
+    // Striking distance 2026-10-18 (position ~18): the H1 names both DEXs and the checks in plain words.
+    en: "Uniswap vs Jupiter: chain, routing, fees and wallet checks before you swap",
   },
   "binance-vs-okx": {
     en: "Should you choose Binance or OKX after checking fees, products, KYC and Web3 access?",

@@ -1,5 +1,5 @@
 import { WHALE_COINS, whaleCoinPath, coinForWhalePath, whaleRowCoin } from "./whale-routes.js";
-import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy, normalizeWhales } from "./radar.js";
+import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy, normalizeRadarEnvelope, normalizeWhales } from "./radar.js";
 import { whaleExplorerHref, whaleSentence, whalesCopy } from "./whales-home.js";
 import { localizedPath } from "./locale-routing.js";
 
@@ -98,7 +98,10 @@ function webPageSchema(copy, canonicalUrl, locale) {
   };
 }
 
-function whalesDatasetSchema(copy, canonicalUrl, locale) {
+function whalesDatasetSchema(copy, canonicalUrl, locale, snapshot) {
+  // Freshness pass 2026-10-18: dateModified is the live snapshot's own update time (never the build time); without a
+  // snapshot the field is left out rather than guessed.
+  const updatedAt = snapshot ? normalizeRadarEnvelope(snapshot).updatedAt : null;
   return {
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -109,6 +112,7 @@ function whalesDatasetSchema(copy, canonicalUrl, locale) {
     isAccessibleForFree: true,
     creator: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: PUBLIC_ORIGIN },
     variableMeasured: ["accumulation signal", "position notional", "transfer amount"],
+    ...(updatedAt ? { dateModified: updatedAt } : {}),
   };
 }
 
@@ -148,7 +152,7 @@ export function radarRouteSeo(pathname, locale = "en", options = {}) {
     schemas: [
       breadcrumbs(copy, canonical, resolvedLocale),
       webPageSchema(copy, canonical, resolvedLocale),
-      ...(route.kind === "whales" ? [whalesDatasetSchema(copy, canonical, resolvedLocale), whalesItemListSchema(copy, canonical, resolvedLocale, options.snapshot, route.coin)] : []),
+      ...(route.kind === "whales" ? [whalesDatasetSchema(copy, canonical, resolvedLocale, options.snapshot), whalesItemListSchema(copy, canonical, resolvedLocale, options.snapshot, route.coin)] : []),
     ],
   };
 }

@@ -17,7 +17,7 @@ export const SAMPLE_ALERT = Object.freeze({ symbol: "BTCUSDT", amount: "$1.28M",
 
 const COPY = {
   en: {
-    h1: "Your own crypto alerts, a daily digest and exchange campaigns, in Telegram",
+    h1: "NexuAlpha Telegram research bot: your crypto alerts, a daily digest and exchange campaigns",
     sub: "Tell the bot what to watch: a price level, a fast move, a liquidation wave, extreme funding or a new listing. It messages you the moment it happens and sends a daily digest at 21:00 SGT.",
     sampleLabel: "Sample message",
     sampleNote: "Static example of the message format. Figures are placeholders.",

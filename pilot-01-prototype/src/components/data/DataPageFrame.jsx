@@ -6,13 +6,14 @@ import { GlossaryTooltip } from "../shared/GlossaryTooltip.jsx";
 import React from "react";
 import { SectionRule } from "../shared/DataRule.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
-import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH, dataPageCopy, formatUtc } from "../../data/market-data-pages.js";
+import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH, dataPageCopy } from "../../data/market-data-pages.js";
 import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { EmbedThisBlock } from "./EmbedThisBlock.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import "./data-pages.css";
+import { dataUpdatedStamp } from "../../data/data-updated.js";
 
 export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 
@@ -28,7 +29,7 @@ export function DataPageHero({ locale, page, pathname, generatedAt, sourceLine, 
       <h1><GlossaryTooltip term={pathname === LIQUIDATIONS_PATH ? "liquidation" : "funding-rate"} locale={locale}>{page.h1}</GlossaryTooltip></h1>
       <p className="nxd-lead">{page.lead}</p>
       <p className="nxd-updated" data-testid={`${pathname.slice(1)}-updated`}>
-        {generatedAt ? <><span className="nxd-dot" aria-hidden="true" /><strong>{copy.common.updated}</strong> <time dateTime={generatedAt} dir="ltr">{formatUtc(generatedAt)}</time> · </> : null}
+        {generatedAt ? <><span className="nxd-dot" aria-hidden="true" /><time dateTime={generatedAt} dir="ltr" data-updated-stamp="live">{dataUpdatedStamp(generatedAt, locale)?.text}</time> · </> : null}
         <strong>{copy.common.source}:</strong> {sourceLine}
       </p>
       {children}

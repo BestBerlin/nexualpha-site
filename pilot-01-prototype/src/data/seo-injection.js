@@ -13,6 +13,8 @@ import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "./referral-seo.js";
 import { serpCtrNewsOverride } from "./serp-ctr-news-overrides.js";
+import { applyStrikingPageOverride } from "./striking-page-overrides.js";
+import { venueAnswerModified } from "./answer-first.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
 import { venueFallbackFaqSchema } from "./venue-faq-fallback.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
@@ -2088,8 +2090,12 @@ export function computeRouteSeo(options = {}) {
     const seo = legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
     return { ...seo, schemas: completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo }) };
   }
-  const seo = computeRouteSeoUnbudgeted(options);
-  if (!seo) return seo;
+  const unbudgeted = computeRouteSeoUnbudgeted(options);
+  if (!unbudgeted) return unbudgeted;
+  // Striking-distance pass 2026-10-18: reviewed search titles for non-article pages (same helper as the Worker head).
+  const seo = legalRoute.localeSource !== "query" && !legalUrl.searchParams.has("locale")
+    ? applyStrikingPageOverride({ ...unbudgeted }, legalRoute.contentPathname, unbudgeted.locale || legalRoute.locale)
+    : unbudgeted;
   const title = typeof seo.title === "string" ? (isNativeReferralTitle(seo.title, seo.locale) ? seo.title : budgetTitle(seo.title, titleBudgetForLocale(seo.locale))) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
   const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
@@ -2462,7 +2468,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       schemas = type === "factbook" ? buildFactbookSchemas(venue, locale, canonical(pathname, locale)) : [
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
         { "@context": "https://schema.org", "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}` },
-        { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
+        { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueAnswerModified(venue.slug, venueSeoOverride?.reviewedAt || "2026-09-15"), ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
       ].concat([applyExchangeQuickAnswers(applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market")), slug, locale, url.searchParams.get("market"))]);
     }
   } else if (compareMatch) {

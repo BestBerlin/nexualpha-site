@@ -4,13 +4,14 @@ import { buildFundingMatrix, calculateFundingArbitrage, FUNDING_MATRIX_PATH as F
 import { localizedHref } from "../../data/locale-routing.js";
 import { partnerPromotionGate } from "../../data/partner-geo-policy.js";
 import { publicCtaForVenue } from "../../data/public-cta.js";
-import { dataPageCopy, formatUtc, formatUtcTime } from "../../data/market-data-pages.js";
+import { dataPageCopy, formatUtcTime } from "../../data/market-data-pages.js";
 import { fundingMatrixCopy } from "../../data/funding-matrix-copy.js";
 import { textDirection } from "./DataPageFrame.jsx";
 import "./funding-matrix.css";
 import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 import { startJsonPolling } from "../shared/json-polling.js";
 import { useClientNow } from "./useMarketEvents.js";
+import { dataUpdatedStamp } from "../../data/data-updated.js";
 
 export const FUNDING_MATRIX_PATH = "/funding-rates/matrix";
 const TURKEY_CTA_ALLOWLIST = new Set(["binance", "okx", "bybit"]);
@@ -257,7 +258,7 @@ export function FundingMatrixPage({ locale = "en", initialFeed, market }) {
         <h1>{copy.h1}</h1>
         <p className="nxd-lead">{copy.lead}</p>
         <p className="nxd-updated" data-testid="funding-rates-matrix-updated">
-          {displayMatrix?.generatedAt ? <><span className="nxd-dot" aria-hidden="true" /><strong>{copy.updated}</strong> <time dateTime={displayMatrix.generatedAt} dir="ltr">{formatUtc(displayMatrix.generatedAt)}</time> · </> : null}
+          {displayMatrix?.generatedAt ? <><span className="nxd-dot" aria-hidden="true" /><time dateTime={displayMatrix.generatedAt} dir="ltr" data-updated-stamp="live">{dataUpdatedStamp(displayMatrix.generatedAt, locale)?.text}</time> · </> : null}
           <strong>{copy.source}:</strong> {displayMatrix?.source || copy.sourceLine}
         </p>
       </header>

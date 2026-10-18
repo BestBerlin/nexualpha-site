@@ -116,7 +116,7 @@ test("app route heads carry the new English titles", async () => {
   assert.equal((await head("/exchanges")).title, "Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha");
   assert.equal((await head("/activities")).title, "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha");
   assert.equal((await head("/methodology")).title, "How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha");
-  assert.equal((await head("/exchanges/deribit")).title, "Deribit Fees (2026): Options, Futures and 10% Discount");
+  assert.equal((await head("/exchanges/deribit")).title, "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off"); // SEO pass 2026-10-18
   assert.equal((await head("/exchanges/curve")).title, "Curve Finance (2026): Swap Fees, Pools and Wallet Checks");
   assert.equal((await head("/exchanges/okx")).title, nativeReferralFor("okx", "en").title);
   assert.equal((await head("/fr/exchanges/backpack")).title, `Backpack Exchange avis (${new Date().getUTCFullYear()}) : frais et code LuckyBitcoin`);

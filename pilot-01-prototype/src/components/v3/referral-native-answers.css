@@ -15,3 +15,9 @@ main.v3-profile-page.v6 .v3-venue-identity[data-native-referral] h1:not(#_):not(
 }
 
 .referral-native-campaigns { grid-column: 1 / -1; grid-row: 4; min-inline-size: 0; }
+
+/* Answer-first lead (2026-10-18): directly under the H1 (row 2), spanning the identity grid; the referral answers and
+   campaign banners move down one row when it is present. */
+.v3-venue-identity .nx-short-answer { grid-column: 1 / -1; grid-row: 3; order: 99; min-inline-size: 0; max-inline-size: none; margin-block: 0.25rem 0.75rem; color: var(--ink, #EDEEF0); }
+.v3-venue-identity:has(> .v3-venue-identity__info .nx-short-answer) > .referral-native-answers { grid-row: 4; }
+.v3-venue-identity:has(> .v3-venue-identity__info .nx-short-answer) > .referral-native-campaigns { grid-row: 5; }

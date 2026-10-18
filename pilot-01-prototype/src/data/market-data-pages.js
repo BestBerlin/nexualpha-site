@@ -1357,7 +1357,7 @@ export function dataPageTemporalCoverage(key, history) {
   const since = key === "liquidations" && history?.since ? history.since.slice(0, 10) : null;
   return `${since && since < DATA_LAUNCH_DAY ? since : DATA_LAUNCH_DAY}/..`;
 }
-export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN, history = null } = {}) {
+export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN, history = null, generatedAt = null } = {}) {
   const key = pageKey(pathname);
   if (!key) return [];
   const copy = dataPageCopy(locale);
@@ -1372,6 +1372,8 @@ export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN, hist
       creator: RESEARCH_DESK,
       publisher: NEXUALPHA_PUBLISHER,
       temporalCoverage: dataPageTemporalCoverage(key, history),
+      // Freshness pass 2026-10-18: the collector's own update time when the request carries the live feed.
+      ...(isoOrNull(generatedAt) ? { dateModified: isoOrNull(generatedAt) } : {}),
       keywords: key === "liquidations" ? ["crypto liquidations", "long squeeze", "short squeeze", "Binance", "OKX", "futures"] : ["funding rate", "perpetual futures", "Binance", "OKX", "annualized funding"],
       variableMeasured: key === "liquidations"
         ? ["longUsd", "shortUsd", "totalUsd", "orders", "topSymbols", "largest"]

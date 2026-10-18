@@ -24,6 +24,8 @@ import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokeniz
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
 import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
+import { applyStrikingPageOverride } from "../src/data/striking-page-overrides.js";
+import { ratesDataModified, venueAnswerModified } from "../src/data/answer-first.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { HOME_SEARCH_COPY, homeSearchCopyFor } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
@@ -6354,7 +6356,7 @@ function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null)
   const schemas = [pageBreadcrumb(venue.name, canonicalUrl, "Exchanges", "/exchanges", locale), {
     "@type": "Organization", "@id": `https://${venue.officialDomain}/#organization`, name: venue.name, url: `https://${venue.officialDomain}`,
   }, {
-    "@type": "WebPage", name: `${venue.name} Exchange Profile`, url: canonicalUrl, inLanguage: locale, dateModified: seoOverride?.reviewedAt || (seoOverride ? "2026-09-15" : "2026-09-08"),
+    "@type": "WebPage", name: `${venue.name} Exchange Profile`, url: canonicalUrl, inLanguage: locale, dateModified: venueAnswerModified(venue.slug, seoOverride?.reviewedAt || (seoOverride ? "2026-09-15" : "2026-09-08")),
     ...researchAttribution([`https://${venue.officialDomain}`, ...sourceUrls]),
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
     isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...sourceUrls])],
@@ -6477,7 +6479,7 @@ function buildWorkerCollectionHubSchema(kind, locale, canonicalUrl) {
   const isZh = locale === "zh-Hans";
   const title = isFactbook
     ? (isZh ? "来源审阅事实库" : "Source Review Factbook")
-    : (isZh ? "主题研究聚合页" : "Topic Research Hubs");
+    : (isZh ? "主题研究聚合页" : "Crypto research topics");
   const description = isFactbook
     ? (isZh ? "按平台聚合公开来源、费率字段、账户条件、官方域名与核验边界。" : "A platform-level collection of published source records, fee fields, account conditions, official domains and verification limits.")
     : (isZh ? "按交易主题聚合平台比较、费用核验、地区条件、链上风险与来源记录。" : "A collection of trading-topic research paths covering platform comparisons, fee checks, regional conditions, on-chain risks and source records.");
@@ -7318,6 +7320,8 @@ export async function routeMetadata(url, env) {
   // Türkiye market on another edition (tr-market-gaps): structured data is pruned for it like a /tr page.
   const turkeyMarket = turkeyRequestMarket(url);
   if (turkeyMarket && metadata && typeof metadata === "object") metadata.market = turkeyMarket;
+  // Striking-distance pass 2026-10-18: reviewed search titles for non-article pages (same helper as seo-injection.js).
+  if (route.localeSource !== "query" && !url.searchParams.has("locale")) applyStrikingPageOverride(metadata, route.contentPathname, route.locale);
   return applyServedMetadataBudget(metadata);
 }
 
@@ -8525,11 +8529,14 @@ async function routeMetadataBase(url, env, newsFeed) {
     const meta = dataPageMeta(canonicalPath, locale);
     // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
     let history = null;
-    try { history = typeof env?.MARKET_EVENTS_READ === "function" ? readHistory(await env.MARKET_EVENTS_READ()) : null; } catch { history = null; }
+    let marketFeed = null;
+    try { marketFeed = typeof env?.MARKET_EVENTS_READ === "function" ? await env.MARKET_EVENTS_READ() : null; history = marketFeed ? readHistory(marketFeed) : null; } catch { history = null; }
+    // Freshness pass 2026-10-18: Dataset dateModified = the feed's generatedAt (the time the collector wrote it).
+    const generatedAt = canonicalPath === "/funding-rates" ? marketFeed?.funding?.generatedAt || marketFeed?.generatedAt : marketFeed?.generatedAt;
     return {
       status: 200, title: meta.title, description: meta.description,
       canonical: localizedCanonical(canonicalPath, locale), locale, robots: "index,follow", marker: STATIC_ROUTE_MARKER,
-      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history }),
+      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history, generatedAt }),
     };
   }
   // App downloads share their localized head and schema with the client.
@@ -8989,6 +8996,8 @@ async function routeMetadataBase(url, env, newsFeed) {
       description: copy.description,
       url: canonical,
       inLanguage: locale,
+      // Freshness pass 2026-10-18: the fee table is reviewed by hand, so its date is the latest official fee-page check.
+      ...(canonicalPath === "/rates" ? { dateModified: ratesDataModified() } : {}),
       ...(canonicalPath === "/methodology" ? {
         dateModified: REGIONAL_FUNDING_MATRIX_REVIEWED_AT,
         ...researchAttribution([REGIONAL_FUNDING_MATRIX_URLS.json, REGIONAL_FUNDING_MATRIX_URLS.csv]),

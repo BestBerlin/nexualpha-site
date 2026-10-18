@@ -449,8 +449,8 @@ test('Hong Kong regional component maps SFC HKD funding and account checks and g
 
 test('EU and UK regional pages graduate only their English source-backed canonicals', () => {
   for (const [market, path, expected] of [
-    ['EU', '/eu', { title: /European Union Crypto Platform Eligibility Research/, schema: /ESMA MiCA register|EUR|SEPA/, copy: /What EU users should verify before choosing a crypto platform/, source: /ESMA MiCA register/, locale: 'en' }],
-    ['UK', '/uk', { title: /United Kingdom Crypto Account Eligibility Research/, schema: /FCA cryptoasset registration|GBP funding/, copy: /What UK users should verify before choosing a crypto platform/, source: /FCA registration guidance/, locale: 'en' }],
+    ['EU', '/eu', { title: /Crypto Exchanges in the EU \(2026\): MiCA, SEPA and KYC Checks/, schema: /ESMA MiCA register|EUR|SEPA/, copy: /What EU users should verify before choosing a crypto platform/, source: /ESMA MiCA register/, locale: 'en' }],
+    ['UK', '/uk', { title: /Crypto Exchanges in the UK \(2026\): FCA, GBP and KYC Checks/, schema: /FCA cryptoasset registration|GBP funding/, copy: /What UK users should verify before choosing a crypto platform/, source: /FCA registration guidance/, locale: 'en' }],
   ]) {
     const seo = computeRouteSeo({
       url: `https://nexualpha.com${path}`,

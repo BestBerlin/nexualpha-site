@@ -274,7 +274,7 @@ const COPY = {
     sources: [],
   },
   EU: {
-    title: "European Union: compare account conditions by country",
+    title: "Crypto exchanges in the EU: MiCA status, SEPA funding and KYC by country",
     summary: "A research path for EUR, SEPA and country-specific compliance conditions across platform accounts.",
     directAnswer: {
       heading: "What EU users should verify before choosing a crypto platform",
@@ -317,7 +317,7 @@ const COPY = {
     sources: [],
   },
   UK: {
-    title: "United Kingdom: verify residency and product scope",
+    title: "Crypto exchanges in the UK: FCA status, GBP funding and KYC checks",
     summary: "A research path for GBP funding, account checks and product availability under platform-specific terms.",
     directAnswer: {
       heading: "What UK users should verify before choosing a crypto platform",
