@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.nexualpha.social-writers</string>
+<key>ProgramArguments</key><array><string>/opt/homebrew/bin/node</string><string>/Volumes/致态2TB/nx-agents/writers/social-batch.mjs</string></array>
+<key>WorkingDirectory</key><string>/Volumes/致态2TB/nx-agents/writers</string>
+<key>EnvironmentVariables</key><dict><key>PATH</key><string>/Users/bestberlin/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string><key>HOME</key><string>/Users/bestberlin</string></dict>
+<!-- Drafts only, every 4 h at :50 local (SGT): 07:50 11:50 15:50 19:50 23:50 — 45 min before Claude's :35 review, off the article writer's :15. -->
+<key>StartCalendarInterval</key><array><dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>50</integer></dict><dict><key>Hour</key><integer>11</integer><key>Minute</key><integer>50</integer></dict><dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>50</integer></dict><dict><key>Hour</key><integer>19</integer><key>Minute</key><integer>50</integer></dict><dict><key>Hour</key><integer>23</integer><key>Minute</key><integer>50</integer></dict></array>
+<key>RunAtLoad</key><false/>
+<key>ProcessType</key><string>Background</string>
+<key>StandardOutPath</key><string>/Users/bestberlin/Library/Logs/nexualpha-social-writers.out.log</string>
+<key>StandardErrorPath</key><string>/Users/bestberlin/Library/Logs/nexualpha-social-writers.err.log</string>
+</dict></plist>
