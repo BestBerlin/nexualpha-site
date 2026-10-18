@@ -35,9 +35,13 @@ def main():
     thread.start()
     result = 1
     try:
-        time.sleep(1)
+        # Baseline: wait for at least 3 completed probes (max 10 s). A cold "/?cutover_probe=1" can take over a second
+        # from the Mac, and judging an empty sample list after a fixed 1 s aborted healthy cutovers (2026-10-19, twice).
+        waited = time.monotonic()
+        while len(samples) < 3 and time.monotonic() - waited < 10:
+            time.sleep(0.1)
         # A broken baseline must not trigger a cutover.
-        if not samples or any(status != 200 for _, status in samples):
+        if len(samples) < 3 or any(status != 200 for _, status in samples):
             print('ABORT baseline is not consistently 200', file=sys.stderr)
         else:
             result = subprocess.call(command)
