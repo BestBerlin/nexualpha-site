@@ -107,9 +107,9 @@ test("zh-Hant shared CTA surfaces render Traditional Chinese copy instead of Eng
     "傭金由平台承擔",
     "資產儲備證明",
     "防釣魚官方網域",
-    "費率、返傭、準備金與門檻全維度對決",
+    "費率、返傭、儲備金與門檻",
     "硬核量化對決矩陣",
-    "量化對比維度",
+    "對比項",
     "查看驗資公示",
   ]) {
     assert.match(html, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing zh-Hant copy: ${expected}`);

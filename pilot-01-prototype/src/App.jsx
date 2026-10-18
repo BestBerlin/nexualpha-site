@@ -1055,15 +1055,15 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
         // l10n: needs native review
         uk: "Порівняння комісій", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}>
       <h1>{({
-        "zh-Hant": "交易所手續費基準終端",
-        ja: "取引所手数料ベンチマーク", ko: "거래소 수수료 벤치마크", tr: "Borsa ücret karşılaştırma terminali",
+        "zh-Hant": "交易所手續費對比",
+        ja: "取引所の手数料を比較", ko: "거래소 수수료 비교", tr: "Borsa ücretleri yan yana",
 
         // l10n: needs native review
         ur: "پلیٹ فارم کی فیس کا موازنہ",
         // l10n: needs native review
-        uk: "Порівняння комісій платформ", ar: "مقارنة رسوم منصات التداول", "pt-BR": "Painel de referência de taxas", es: "Panel de referencia de comisiones",
-        fr: "Référentiel des frais des plateformes", de: "Gebühren-Benchmark für Handelsplattformen", ru: "Сравнение комиссий платформ",
-        id: "Tolok ukur biaya platform", vi: "Bảng đối chiếu phí nền tảng", it: "Benchmark delle commissioni"
+        uk: "Порівняння комісій платформ", ar: "مقارنة رسوم منصات التداول", "pt-BR": "Taxas das corretoras lado a lado", es: "Comisiones de exchanges, lado a lado",
+        fr: "Les frais des plateformes, côte à côte", de: "Börsengebühren im Vergleich", ru: "Сравнение комиссий платформ",
+        id: "Perbandingan biaya bursa", vi: "So sánh phí các sàn", it: "Commissioni degli exchange a confronto"
       }[locale] || (locale.startsWith("zh") ? "交易所手续费对比" : "Exchange fees, side by side"))}</h1>
     </section>
     <FeeBenchmarkTerminal locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />

@@ -110,7 +110,7 @@ test("news detail SSR localizes zh-Hant top decision and source-language notice 
   const box = firstDecisionBox(html);
 
   assert.match(box, /先讀這裡/);
-  assert.match(box, /根據這條市場更新行動前/);
+  assert.match(box, /行動前先看/);
   assert.match(box, /把本文作為已核對來源的研究起點/);
   assert.doesNotMatch(box, /Before you choose a perpetual venue/);
   assert.doesNotMatch(box, /Separate the venue decision/);

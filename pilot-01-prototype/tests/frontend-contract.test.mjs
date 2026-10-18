@@ -315,9 +315,9 @@ test("Telegram research hub answers first and keeps command depth expandable", (
 
 test("rate and Telegram routes expose a localized SSR heading", () => {
   assert.match(app, /route\.name === "telegram"[\s\S]*<TelegramBotHub locale=\{locale\} headingLevel=\{1\} \/>/);
-  assert.match(app, /route\.name === "rateTerminal"[\s\S]*<h1>\{\(\{[\s\S]*ja:[^\n]+取引所手数料ベンチマーク/);
+  assert.match(app, /route\.name === "rateTerminal"[\s\S]*<h1>\{\(\{[\s\S]*ja:[^\n]+取引所の手数料を比較/);
   assert.match(telegramHub, /headingLevel === 1 \? <h1 className="tg-hub__title">\{t\.title\}<\/h1>/);
-  assert.match(app, /取引所手数料ベンチマーク/);
+  assert.match(app, /取引所の手数料を比較/);
 });
 
 test("venue Telegram handoff preserves market context and records distinct placements", () => {

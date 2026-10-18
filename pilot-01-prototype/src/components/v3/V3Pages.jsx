@@ -1524,7 +1524,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   };
   const matrixLeadCopy = matrixLeadByLocale[locale] || matrixLeadByLocale[localeKey(locale)] || matrixLeadByLocale.en;
   const matrixTitleCopy = locale === "zh-Hant"
-    ? "費率、返傭、準備金與門檻全維度對決"
+    ? "費率、返傭、儲備金與門檻"
     : isZh
       ? "费率、返佣、储备金与门槛"
       : (labels.matrix || "Fees, Rebates, Reserves & Limits Comparison");
@@ -1689,7 +1689,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
           <thead role="rowgroup">
             <tr role="row">
               <th role="columnheader" scope="col" className="v3-matrix-th--dim">
-                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "对比项", "量化對比維度") : (labels.metrics || "Metrics")}</div>
+                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "对比项", "對比項") : (labels.metrics || "Metrics")}</div>
               </th>
               {venueData.map((d) => (
                 <th role="columnheader" id={`matrix-column-${d.slug}`} scope="col" key={d.slug} className="v3-matrix-th--venue">

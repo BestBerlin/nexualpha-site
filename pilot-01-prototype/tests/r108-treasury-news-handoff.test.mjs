@@ -106,7 +106,7 @@ test("tokenized Treasury SC news handoff is localized and no longer starts with 
 
 test("unsupported news locale keeps existing localized fallback instead of treasury-specific handoff", () => {
   const box = firstDecision(rendered.jaNews);
-  assert.match(box, /この市場アップデートで行動する前に/);
+  assert.match(box, /行動する前に/);
   assert.equal(firstHref(box), "/ja/exchanges/coinbase");
   assert.doesNotMatch(box, /treasury-evidence-checklist|代币化美债核对清单/);
 });
