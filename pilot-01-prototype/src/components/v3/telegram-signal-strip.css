@@ -63,3 +63,9 @@
   .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn { grid-column: 1 / -1; inline-size: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .tg-signal-strip:not(#_):not(#_) .tg-signal-strip__btn { transition: none; } }
+
+/* De-AI pass (2026-10-18): one hairline line, not a card; the button becomes a plain text action. */
+.tg-signal-strip:not(#_):not(#_):not(#_) { padding: 12px 0; border: 0; border-block: 1px solid var(--line, rgb(255 255 255 / .1)); border-radius: 0; background: none; }
+.tg-signal-strip:not(#_):not(#_):not(#_) .tg-signal-strip__icon { inline-size: 24px; block-size: 24px; background: none; }
+.tg-signal-strip:not(#_):not(#_):not(#_) .tg-signal-strip__btn { padding: 0 4px; border: 0; border-radius: 0; background: none; color: var(--ink, #EDEEF0); font-weight: 500; }
+.tg-signal-strip:not(#_):not(#_):not(#_) .tg-signal-strip__btn:hover { background: none; color: #4FB8EA; }

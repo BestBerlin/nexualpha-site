@@ -523,3 +523,8 @@
 .nxradar-coin-nav a { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
 
 .nxradar-whale-cards li > a { min-height: 44px; align-items: center; }
+
+/* De-AI pass QA (2026-10-18): the related-page link is a 44px touch target on phones. */
+@media (pointer: coarse), (max-width: 767px) {
+  .nxradar-foot a { display: inline-flex; align-items: center; min-block-size: 44px; }
+}

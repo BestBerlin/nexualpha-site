@@ -881,3 +881,60 @@
 /* Embed uses the calculator heading as its page H1, with the same visual treatment. */
 .h7:not(#_):not(#_) .h7-calc h1.h7-calc-title{font-weight:600;font-size:1.75rem;line-height:1.12;letter-spacing:-.03em;color:var(--ink);margin:0;text-wrap:balance}
 @media(min-width:641px){.h7:not(#_):not(#_) .h7-calc h1.h7-calc-title{font-size:2.75rem}}
+
+/* ===== De-AI pass (2026-10-18): editorial rhythm below the hero =====
+   Fewer boxes, one spacing scale (8 / 16 / 24 / 32 / 48), hairlines instead of cards, no glow, no sparkle.
+   Colour roles: blue = action, teal = money back, brand colour = exchange mark only. Selectors carry one more ID
+   than the layers above (home7, movers-owner) so this block is the last word for these sections. */
+.h7:not(#_):not(#_):not(#_) .h7-steps{gap:0 32px;margin-top:32px}
+.h7:not(#_):not(#_):not(#_) .h7-steps li{padding:20px 0 0;border:0;border-top:1px solid var(--line2);border-radius:0;background:none;box-shadow:none}
+.h7:not(#_):not(#_):not(#_) .h7-steps li::after{content:none}
+.h7:not(#_):not(#_):not(#_) .h7-sn{position:static;display:block;margin:0 0 16px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:var(--ink3);font:500 13px/1 var(--mono);letter-spacing:.04em}
+.h7:not(#_):not(#_):not(#_) .h7-steps h3{min-height:0;margin:0;padding:0;display:block;font-size:1.125rem;line-height:1.35}
+.h7:not(#_):not(#_):not(#_) .h7-steps p{margin-top:8px;font-size:15px;line-height:1.65;max-width:34ch}
+@media(max-width:700px){.h7:not(#_):not(#_):not(#_) .h7-steps{gap:24px;margin-top:24px}.h7:not(#_):not(#_):not(#_) .h7-steps li{padding-top:16px}.h7:not(#_):not(#_):not(#_) .h7-sn{margin-bottom:8px}}
+
+.h7:not(#_):not(#_):not(#_) .h7-academy-card{padding:24px 0;border:0;border-block:1px solid var(--line);border-radius:0;background:none;box-shadow:none}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card:hover{background:none}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card img{filter:none;inline-size:72px;block-size:72px}
+.h7:not(#_):not(#_):not(#_) .h7-academy-kick{font:500 12px/1.3 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--ink3)}
+.h7:not(#_):not(#_):not(#_) .h7-academy-go{background:#315CFF;color:#fff;border-radius:10px}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card:hover .h7-academy-go{background:#4A70FF}
+@media(max-width:720px){.h7:not(#_):not(#_):not(#_) .h7-academy-card{padding:20px 0}.h7:not(#_):not(#_):not(#_) .h7-academy-card img{inline-size:56px;block-size:56px}}
+
+/* Data / deposit shortcuts: quiet text links with an arrow, not a row of pills. */
+.h7:not(#_):not(#_):not(#_) .h7-coins-list{gap:0 28px;margin-top:8px}
+.h7:not(#_):not(#_):not(#_) .h7-coins-list a{padding:0;border:0;border-radius:0;background:none;color:var(--ink);font-weight:500}
+.h7:not(#_):not(#_):not(#_) .h7-coins-list a::after{content:"→";color:var(--ink3);transition:transform 160ms var(--ease),color 160ms}
+.h7:not(#_):not(#_):not(#_) .h7-coins-list a:hover{background:none;color:#fff}
+.h7:not(#_):not(#_):not(#_) .h7-coins-list a:hover::after{transform:translateX(3px);color:var(--ink)}
+.h7:not(#_):not(#_):not(#_):dir(rtl) .h7-coins-list a::after{content:"←"}
+.h7:not(#_):not(#_):not(#_) .h7-coins-list a svg{color:var(--ink3)}
+
+/* Whale watch: a ledger, not a wall of tinted cards. Stealth rows keep the owner's teal/red signal as a 2px bar + tag. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{gap:0 32px;border-top:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{padding:14px 0 14px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;box-shadow:none}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li[data-stealth] a{padding-inline-start:12px;border-color:var(--line);background:none;box-shadow:inset 2px 0 0 #39E1C8}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li[data-stealth=sell] a{box-shadow:inset 2px 0 0 #FF6B6B}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk{background:var(--sf2);color:var(--ink2);border-radius:8px}
+.h7:not(#_):not(#_):not(#_) .h7-mv-dot{display:none}
+
+/* Exchange notices: featured campaigns are rows like the rest; the tag is plain coloured text. No gold sweep, no ✦. */
+.h7:not(#_):not(#_):not(#_) .h7-il li.h7-feat,.h7:not(#_):not(#_):not(#_) .h7-il li.h7-feat:hover{margin-block:0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}
+.h7:not(#_):not(#_):not(#_) .h7-il li:hover,.h7:not(#_):not(#_):not(#_) .h7-il li.h7-feat:hover{background:var(--sf)}
+.h7:not(#_):not(#_):not(#_) .h7-ic{padding:0;border:0;border-radius:0;background:none;font:500 12px/1.2 var(--mono);letter-spacing:.02em}
+.h7:not(#_):not(#_):not(#_) .h7-ic-event[data-hot]{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#F5C542;-webkit-text-fill-color:#F5C542;border:0;box-shadow:none;animation:none}
+.h7:not(#_):not(#_):not(#_) .h7-ic-event[data-hot]::after{content:none}
+
+/* Telegram: four entries as one hairline ledger; one quiet glyph instead of four identical blue discs. */
+.h7:not(#_):not(#_):not(#_) .h7-tg-list{gap:0 32px;border-top:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-tg-card{min-height:0;padding:20px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;gap:6px 12px}
+.h7:not(#_):not(#_):not(#_) .h7-tg-card:hover{background:none;border-color:var(--line2)}
+.h7:not(#_):not(#_):not(#_) .h7-tg-card:hover .h7-tg-txt b{color:#fff}
+.h7:not(#_):not(#_):not(#_) .h7-tg-ico{width:24px;height:24px;background:none;color:#4FB8EA}
+.h7:not(#_):not(#_):not(#_) .h7-tg-ico svg{width:18px;height:18px}
+.h7:not(#_):not(#_):not(#_) .h7-tg-go{color:var(--ink);font-weight:500}
+
+/* Sticky sign-up dock: the action is blue like the hero CTA; the exchange is named in the label, not painted on it. */
+.h7:not(#_):not(#_):not(#_) .h7-dock-go{background:#315CFF;color:#fff;box-shadow:none;border-color:#315CFF}
+.h7:not(#_):not(#_):not(#_) .h7-dock-go:hover{background:#4A70FF;border-color:#4A70FF}
