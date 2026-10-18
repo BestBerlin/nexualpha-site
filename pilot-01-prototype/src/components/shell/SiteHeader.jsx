@@ -17,8 +17,7 @@ function SearchIcon() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.75" /><path d="m10.5 10.5 3.25 3.25" /></svg>;
 }
 
-// Owner 2026-10-12: campaigns are where sign-ups happen, so the campaigns link sparkles (gold shimmer + twinkle,
-// static under prefers-reduced-motion) and phones get a compact campaigns chip next to the Telegram icon.
+// Campaigns stay highlighted, with a compact text chip next to Telegram on phones.
 const isCampaignHref = (href) => /\/activities(?:$|[/?#])/.test(href);
 // Lead 2026-10-15: phones also get a compact tokenized-stocks (美股) pill beside the campaigns chip. Short labels: the
 // full nav label (TS_NAV_LABELS) is too long for a 344-390 px header. Shown in every market incl. tr (no Bitget there).
@@ -118,7 +117,7 @@ export function SiteHeader({
             </li>}
           </ul>
         </nav>
-        {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" data-short={CAMPAIGN_CHIP_SHORT[locale] ? "" : undefined} aria-label={CAMPAIGN_CHIP_SHORT[locale] ? (CAMPAIGN_CHIP[locale] || campaignItem[0]) : undefined} aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__star" aria-hidden="true">✦</span><span className="nx-hot-chip__full">{CAMPAIGN_CHIP[locale] || campaignItem[0]}</span>{CAMPAIGN_CHIP_SHORT[locale] ? <span className="nx-hot-chip__short" aria-hidden="true">{CAMPAIGN_CHIP_SHORT[locale]}</span> : null}</a>}
+        {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" data-short={CAMPAIGN_CHIP_SHORT[locale] ? "" : undefined} aria-label={CAMPAIGN_CHIP_SHORT[locale] ? (CAMPAIGN_CHIP[locale] || campaignItem[0]) : undefined} aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__full">{CAMPAIGN_CHIP[locale] || campaignItem[0]}</span>{CAMPAIGN_CHIP_SHORT[locale] ? <span className="nx-hot-chip__short" aria-hidden="true">{CAMPAIGN_CHIP_SHORT[locale]}</span> : null}</a>}
         {stocksItem && <a className="nx-hot-chip nx-hot-chip--stocks" data-fit={STOCKS_CHIP_FIT[locale] || "wide"} href={stocksItem[1]} aria-current={navState(stocksItem[1]).current} aria-label={stocksItem[0]}>{STOCKS_CHIP[locale] || stocksItem[0]}</a>}
         {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
