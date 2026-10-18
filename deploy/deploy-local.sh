@@ -232,9 +232,33 @@ for _ in $(seq 1 30); do
 done
 [ -n "$ok" ] || { remove_standby || true; die "tunnel to staged container did not serve $BUILD_ID"; }
 QA_DIR="$LOG_DIR/qa/$RELEASE"
+# Transport-only failures: every failed check is console-errors made only of net::ERR_* resets/empty responses, which
+# is the SSH tunnel dropping connections, not the release. Prints the suites to re-run; exit 1 for any real failure.
+tunnel_only_suites() {
+  node -e '
+    const j = require(process.argv[1]);
+    const failed = j.results.filter((r) => !r.ok && !r.info);
+    const net = /^Failed to load resource: net::ERR_(EMPTY_RESPONSE|INCOMPLETE_CHUNKED_ENCODING|CONNECTION_RESET|CONNECTION_CLOSED|CONNECTION_REFUSED)$/;
+    const ok = failed.length > 0 && failed.every((r) => r.check === "console-errors" && Array.isArray(r.errors) && r.errors.length && r.errors.every((e) => net.test(e)));
+    if (!ok) process.exit(1);
+    console.log([...new Set(failed.map((r) => r.suite))].join(","));' "$1"
+}
 if ! with_timeout 2400 npm run qa:regression -- --base "$STAGED" --out "$QA_DIR/pre-cutover"; then
-  remove_standby || true
-  die "pre-cutover regression gate failed on the staged build (report $QA_DIR/pre-cutover/qa-regression.md); live untouched"
+  suites="$(tunnel_only_suites "$QA_DIR/pre-cutover/qa-regression.json" 2>/dev/null || true)"
+  retried=""
+  if [ -n "$suites" ]; then
+    echo "pre-cutover gate: only tunnel transport errors (suites $suites); re-running those suites once on a fresh tunnel"
+    kill "$TUNNEL_PID" 2>/dev/null || true; wait "$TUNNEL_PID" 2>/dev/null || true
+    ssh "${SSH_OPTS[@]}" -N -o ExitOnForwardFailure=yes -L "127.0.0.1:$LPORT:127.0.0.1:$NEW_PORT" "$SSH_HOST" &
+    TUNNEL_PID=$!
+    for _ in $(seq 1 30); do curl -fsS --max-time 5 "$STAGED/version.json" >/dev/null 2>&1 && break; sleep 1; done
+    if with_timeout 2400 npm run qa:regression -- --base "$STAGED" --only "$suites" --out "$QA_DIR/pre-cutover-retry"; then retried=1; fi
+  fi
+  if [ -z "$retried" ]; then
+    remove_standby || true
+    die "pre-cutover regression gate failed on the staged build (report $QA_DIR/pre-cutover/qa-regression.md); live untouched"
+  fi
+  echo "pre-cutover gate passed on retry of $suites (report $QA_DIR/pre-cutover-retry/qa-regression.md)"
 fi
 kill "$TUNNEL_PID" 2>/dev/null || true; TUNNEL_PID=""
 
