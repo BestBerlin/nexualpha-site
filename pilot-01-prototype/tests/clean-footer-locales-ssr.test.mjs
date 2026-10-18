@@ -45,26 +45,26 @@ test('shared footer renders localized topic and factbook labels without changing
       assert.ok(rendered[locale].includes('© 2026 NexuAlpha'), `${locale}: compact copyright`);
       assert.ok(!rendered[locale].includes('All rights reserved.'), `${locale}: no old rights sentence`);
       if (localizedRights[locale]) assert.ok(!rendered[locale].includes(localizedRights[locale]), `${locale}: old rights sentence removed`);
-      const nav = rendered[locale].match(/<nav\b[^>]*>(.*?)<\/nav>/s)?.[1];
+      const nav = rendered[locale].match(/<nav class="nx-ftr__columns"[^>]*>(.*?)<\/nav>/s)?.[1];
       assert.ok(nav, `${locale}: semantic navigation exists`);
       assert.ok(nav.includes(`<a href="${localizedHref('/topics', { locale })}">${topics}</a>`), `${locale}: topic link`);
       assert.ok(nav.includes(`<a href="${localizedHref('/factbook', { locale })}">${factbook}</a>`), `${locale}: factbook link`);
-      assert.equal((rendered[locale].match(/class="clean-footer__column"/g) || []).length, 4, `${locale}: four desktop columns`);
-      assert.equal((rendered[locale].match(/class="clean-footer__mobile-column"/g) || []).length, 4, `${locale}: four mobile disclosure rows`);
+      assert.equal((rendered[locale].match(/class="nx-ftr__column"/g) || []).length, 4, `${locale}: four link columns (two per row on phones)`);
+      assert.doesNotMatch(rendered[locale], /clean-footer__mobile-column|<details/, `${locale}: no duplicated accordion navigation`);
       assert.doesNotMatch(rendered[locale], /nx-ftr-policy-details|clean-footer__policies|关于我们与政策|About & policies/, `${locale}: no policy accordion`);
-      for (const section of rendered[locale].matchAll(/<section class="clean-footer__column"[\s\S]*?<\/section>/g)) {
+      for (const section of rendered[locale].matchAll(/<section class="nx-ftr__column"[\s\S]*?<\/section>/g)) {
         assert.ok((section[0].match(/<li>/g) || []).length <= 6, `${locale}: column has at most six links`);
       }
       if (locale === 'en') {
-        const bitget = rendered[locale].indexOf('/exchanges/bitget#registration-path');
-        const okx = rendered[locale].indexOf('/exchanges/okx#registration-path');
-        const binance = rendered[locale].indexOf('/exchanges/binance#registration-path');
+        const bitget = rendered[locale].indexOf('/go/bitget?src=footer');
+        const okx = rendered[locale].indexOf('/go/okx?src=footer');
+        const binance = rendered[locale].indexOf('/go/binance?src=footer');
         assert.ok(bitget > 0 && bitget < okx && okx < binance, `${locale}: referral codes follow shared venue priority`);
       }
       if (locale === 'tr') {
-        assert.ok(!rendered[locale].includes('/tr/exchanges/bitget'), `${locale}: no Bitget link`);
-        assert.ok(!rendered[locale].includes('/tr/exchanges/coinw'), `${locale}: no CoinW link`);
-        assert.ok(rendered[locale].indexOf('/tr/exchanges/okx') < rendered[locale].indexOf('/tr/exchanges/binance'), `${locale}: Turkish referral links start with OKX`);
+        assert.ok(!rendered[locale].includes('/go/bitget'), `${locale}: no Bitget link`);
+        assert.ok(!rendered[locale].includes('/go/coinw'), `${locale}: no CoinW link`);
+        assert.ok(rendered[locale].indexOf('/go/okx?') < rendered[locale].indexOf('/go/binance?'), `${locale}: Turkish official links start with OKX`);
       }
       if (locale !== 'en') {
         assert.ok(!nav.includes('>Topic Guides<'), `${locale}: no topic English fallback`);
@@ -76,7 +76,7 @@ test('shared footer renders localized topic and factbook labels without changing
   }
 });
 
-test('shared footer renders partner exchange page links without code wording in neutral locales', async () => {
+test('shared footer renders official /go partner links, hidden in neutral locales', async () => {
   const temp = await mkdtemp(path.join(root, 'tests/.tmp-footer-partners-'));
   try {
     const entry = path.join(temp, 'entry.mjs');
@@ -103,19 +103,21 @@ test('shared footer renders partner exchange page links without code wording in 
       if (['ru', 'zh-Hant', 'vi'].includes(locale) || market === 'VN') {
         assert.equal(section, '', `${key}: neutral locales hide the partner chip row`);
       } else {
-        const expectedSlugs = [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].slice(0, 6);
+        const promotable = new Set(partnerExchangePageLinks(locale, { market }).filter(link => link.href.includes('#registration-path')).map(link => link.slug));
+        const expectedSlugs = [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].filter(slug => promotable.has(slug)).slice(0, 6);
         assert.equal((section.match(/data-footer-partner-link=/g) || []).length, expectedSlugs.length, key);
-        for (const slug of expectedSlugs) assert.ok(section.includes(`href="${localizedHref(`/exchanges/${slug}#registration-path`, { locale })}"`), `${key}: ${slug}`);
-        assert.ok(expectedSlugs.length <= 6, `${key}: six partner chips max`);
-        if (key === 'en') assert.match(section, /Referral codes/);
-        assert.match(section, /#registration-path/);
+        for (const slug of expectedSlugs) assert.ok(section.includes(`href="/go/${slug}?src=footer&amp;locale=${encodeURIComponent(locale)}"`), `${key}: ${slug}`);
+        assert.ok(expectedSlugs.length <= 6, `${key}: six partner marks max`);
+        if (key === 'en') assert.match(section, /Official sites/);
+        assert.match(section, /rel="sponsored noopener noreferrer"/);
+        assert.match(section, /data-cta-placement="footer"/);
       }
       if (locale === 'tr' || market === 'TR') {
-        assert.doesNotMatch(section, /exchanges\/bitget|exchanges\/coinw/, `${key}: no Bitget or CoinW link on Türkiye pages`);
-        if (section) assert.ok(section.indexOf('exchanges/okx') < section.indexOf('exchanges/binance'), `${key}: OKX before Binance`);
+        assert.doesNotMatch(section, /go\/bitget|go\/coinw/, `${key}: no Bitget or CoinW link on Türkiye pages`);
+        if (section) assert.ok(section.indexOf('go/okx') < section.indexOf('go/binance'), `${key}: OKX before Binance`);
       }
     }
-    assert.ok(rendered.en.indexOf('exchanges/bitget') < rendered.en.indexOf('exchanges/okx'), 'en: Bitget first, then OKX');
+    assert.ok(rendered.en.indexOf('go/bitget') < rendered.en.indexOf('go/okx'), 'en: Bitget first, then OKX');
   } finally {
     await rm(temp, { recursive: true, force: true });
   }

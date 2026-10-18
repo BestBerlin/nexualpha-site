@@ -30,11 +30,6 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
 /* CJK display text follows strict punctuation rules with natural character breaks. keep-all plus anywhere
    forced emergency breaks before closing punctuation in narrow captions and step descriptions.
    Use the longhand wrapping style so existing white-space contracts are preserved. */
-:is(:lang(zh), :lang(ja)) :is(h1, h2, h3, h4, summary, button, .btn, .h7-sub, .h7-cap, .h7-ih p, .h7-steps p, .h7-vd, .h7-kick,
-  .v6-lead, .v6-close__lead, .v6-small, .crawl-priority-links__intro span, .clean-footer__summary, .nx-ftr__slogan, .nx-ftr__list a, [class*="lead"], [class*="subtitle"],
-  [class*="kicker"], [class*="eyebrow"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-  word-break: normal; overflow-wrap: break-word; line-break: strict; text-wrap-style: pretty;
-}
 :is(:lang(zh), :lang(ja)) :is(h1, h2, h3):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-wrap-style: balance; }
 
 /* Related-research index (owner, 2026-10-10: big holes under "费率工具"): one row per group — label on the left, links flow
@@ -142,10 +137,6 @@ body { counter-reset: nx-section; }
 /* Footer brand slogan (owner 2026-10-11, src/data/brand-slogan.js): slogan A as one quiet line directly under the brand
    mark on every page — footer type size, a step brighter than the summary below it, centred like the v9 footer column
    (logical properties, so RTL needs no override). */
-.nx-ftr .nx-ftr__brand .nx-ftr__slogan:not(#_):not(#_):not(#_):not(#_) {
-  margin: -2px 0 0; max-inline-size: 30em; margin-inline: auto; text-align: center;
-  font-size: 14px; font-weight: 500; line-height: 1.45; letter-spacing: .005em; color: var(--nx-n11, #b0b4ba); text-wrap: balance;
-}
 
 /* Brazil BCB deadline notice (/pt-br/exchanges and the profiles in the status table, owner plan 2026-10-12). */
 .brazil-deadline-notice { margin: 16px 0; padding: 14px 16px; border: 1px solid var(--line, rgba(255,255,255,.14)); border-inline-start: 3px solid var(--accent, #5287ff); border-radius: 8px; background: rgba(82, 135, 255, .06); max-width: 880px; overflow-wrap: anywhere; }

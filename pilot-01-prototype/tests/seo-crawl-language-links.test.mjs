@@ -37,7 +37,7 @@ test('header language listbox keeps page hreflang targets without a duplicate fo
     }
     const footer = new JSDOM(result.footer).window.document;
     assert.equal(footer.querySelectorAll('.nx-ftr__locales, a[hreflang]').length, 0);
-    assert.equal(footer.querySelectorAll('.clean-footer__column').length, 4);
+    assert.equal(footer.querySelectorAll('.nx-ftr__column').length, 4);
   } finally {rmSync(temp,{recursive:true,force:true});}
 });
 

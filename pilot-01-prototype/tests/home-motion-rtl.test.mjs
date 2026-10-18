@@ -45,7 +45,7 @@ test("ar / ur home: every CTA arrow sits in a span that flips in RTL", async () 
   for (const name of ["h7-tg-arrow", "tg-signal-strip__arr", "h7-academy-arrow", "h7-mv-arrow"]) assert.ok(flipping.includes(name), name);
   for (const locale of ["ar", "ur"]) {
     const html = await harness.render(`https://nexualpha.com${localizedHref("/", { locale })}`, {});
-    const main = html.slice(0, html.indexOf("clean-footer") > 0 ? html.indexOf("clean-footer") : html.length);
+    const main = html.slice(0, html.indexOf("class=\"nx-ftr\"") > 0 ? html.indexOf("class=\"nx-ftr\"") : html.length);
     const arrows = [...main.matchAll(/→/g)];
     assert.ok(arrows.length >= 5, `${locale}: Telegram strip + block arrows rendered`);
     for (const m of arrows) {

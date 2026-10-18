@@ -95,8 +95,7 @@
     .home-refinement:not(#_) :is(.crossroads__card, .crossroads__arrow, .crossroads__decision-label, .yellow-card--compact, .yellow-card__name, .yellow-pages__compact-more a > span),
     .home-refinement:not(#_) :is(.home-analyzer-drawer, .home-research-drawer) > summary > b,
     .home-refinement:not(#_) .platform-matcher__summary > i,
-    .crawl-priority-links:not(#_) .crawl-priority-links__group a,
-    .clean-footer:not(#_) .clean-footer__nav a {
+    .crawl-priority-links:not(#_) .crawl-priority-links__group a {
       transition: none !important;
     }
 }

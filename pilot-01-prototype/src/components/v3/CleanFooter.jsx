@@ -11,7 +11,7 @@ import { TS_PATH, tokenizedStocksNavLabel } from "../../data/tokenized-stocks-ro
 import { brandSlogan } from "../../data/brand-slogan.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
-import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "../../data/partner-page-links.js";
+import { partnerExchangePageLinks } from "../../data/partner-page-links.js";
 import { venueDatabase } from "../../data/venue-database.js";
 
 
@@ -348,6 +348,20 @@ const activityCenterLabel = {
   it: "Centro attività",
 };
 
+// "Official sites" row (de-AI pass 2026-10-18): partner marks open the exchange's official sign-up page through our
+// tracked /go/<slug> route (the server adds our code). Shown only where a partner may be promoted.
+const officialEntryLabel = {
+  en: "Official sites", "zh-Hans": "官方入口", "zh-Hant": "官方入口", es: "Sitios oficiales", "pt-BR": "Sites oficiais",
+  fr: "Sites officiels", de: "Offizielle Seiten", it: "Siti ufficiali", ja: "公式サイト", ko: "공식 사이트", tr: "Resmî siteler",
+  id: "Situs resmi", ar: "المواقع الرسمية", ur: "سرکاری سائٹس", uk: "Офіційні сайти", ru: "Официальные сайты", vi: "Trang chính thức",
+};
+
+function footerGoHref(slug, locale) {
+  const query = new URLSearchParams({ src: "footer" });
+  if (locale) query.set("locale", locale);
+  return `/go/${encodeURIComponent(slug)}?${query.toString()}`;
+}
+
 function getColumnLabels(locale) {
   if (locale === "zh-CN") return footerColumnLabels["zh-Hans"];
   if (locale === "zh-TW") return footerColumnLabels["zh-Hant"];
@@ -371,17 +385,18 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
   const dataNav = dataPageCopy(locale).nav;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
-  const partnerGroupLabel = partnerExchangeLinkGroupLabel(locale, { market });
+  const partnerGroupLabel = officialEntryLabel[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || officialEntryLabel.en;
   const columnLabels = getColumnLabels(locale);
   const turkeyRoute = locale === "tr" || market === "TR";
   const neutralLocale = isNeutralCtaLocale(locale);
-  const hasPromotablePartner = partnerExchangePageLinks(locale, { market }).some((link) => link.href.includes("#registration-path"));
-  const partnerSlugs = neutralLocale || !hasPromotablePartner ? [] : [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].slice(0, 6);
+  // Only partners that may be promoted on this locale/market get a /go link (same gate as the venue pages' sign-up path).
+  const promotable = new Set(partnerExchangePageLinks(locale, { market }).filter((link) => link.href.includes("#registration-path")).map((link) => link.slug));
+  const partnerSlugs = neutralLocale ? [] : [...new Set([...homePushFor(locale, market), ...homePartnersFor(locale, market)])].filter((slug) => promotable.has(slug)).slice(0, 6);
   const partnerLinks = partnerSlugs.map((slug) => ({
     key: `partner-${slug}`,
     slug,
     name: venueDatabase[slug]?.name || slug,
-    href: href(`/exchanges/${slug}#registration-path`),
+    href: footerGoHref(slug, locale),
   }));
   const primaryColumns = [
     {
@@ -433,6 +448,7 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         { href: href("/editorial-policy"), label: labels.editorial },
         { href: href("/methodology"), label: labels.methodology },
         ...(!isNeutralCtaLocale(locale) ? [{ href: href("/partners"), label: partnerProgramLabel }] : []),
+        { href: href("/partners/embed-guide"), label: labels.embedGuide },
         { href: href("/contact"), label: labels.contact },
       ],
     },
@@ -441,7 +457,6 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
     { href: href("/privacy"), label: labels.privacy },
     { href: href("/terms"), label: labels.terms },
     { href: href("/methodology#disclosure"), label: labels.disclosure },
-    { href: href("/partners/embed-guide"), label: labels.embedGuide },
   ];
 
   return (
@@ -462,42 +477,31 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7.2a3 3 0 0 0-2.1-2.1C18 4.6 12 4.6 12 4.6s-6 0-7.9.5A3 3 0 0 0 2 7.2 31 31 0 0 0 1.5 12c0 1.6.2 3.2.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1c.3-1.6.5-3.2.5-4.8 0-1.6-.2-3.2-.5-4.8ZM9.8 15.4V8.6l5.8 3.4-5.8 3.4Z" /></svg>
             </a>
           </div>
+          {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
+            <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
+            <ul>
+              {partnerLinks.map((link) => <li key={link.key}><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
+            </ul>
+          </nav> : null}
         </div>
 
-        <nav className="clean-footer__nav clean-footer__nav--primary clean-footer__nav--columns clean-footer__nav--desktop nx-ftr__list" aria-label={labels.navAria}>
-          {primaryColumns.map((column) => <section className="clean-footer__column" aria-labelledby={`nx-ftr-${column.key}`} key={column.key}>
-            <h2 className="nx-ftr__column-title" id={`nx-ftr-${column.key}`}>{column.title}</h2>
+        <nav className="nx-ftr__columns" aria-label={labels.navAria}>
+          {primaryColumns.map((column) => <section className="nx-ftr__column" aria-labelledby={`nx-ftr-${column.key}`} key={column.key}>
+            <h2 className="nx-ftr__heading" id={`nx-ftr-${column.key}`}>{column.title}</h2>
             <ul>
               {column.links.map((link) => <li key={`${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
             </ul>
           </section>)}
         </nav>
 
-        <nav className="clean-footer__nav clean-footer__nav--mobile nx-ftr__list" aria-label={labels.navAria}>
-          {primaryColumns.map((column) => <details className="clean-footer__mobile-column" key={`mobile-${column.key}`}>
-            <summary>{column.title}</summary>
+        <div className="nx-ftr__legal-row">
+          <p className="nx-ftr__copyright"><bdi dir="ltr">© 2026 NexuAlpha</bdi></p>
+          <nav aria-label={labels.disclosure}>
             <ul>
-              {column.links.map((link) => <li key={`mobile-${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
+              {legalLinks.map((link) => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}
             </ul>
-          </details>)}
-        </nav>
-
-        {partnerLinks.length ? <nav className="clean-footer__nav clean-footer__nav--partners nx-ftr__list nx-ftr__partner-row" aria-label={partnerGroupLabel} data-footer-partner-links>
-          <b className="nx-ftr__group-label">{partnerGroupLabel}</b>
-          <ul>
-            {partnerLinks.map((link) => <li key={link.key}><a href={link.href} data-footer-partner-link={link.slug} className="nx-ftr__partner-link"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
-          </ul>
-          <a className="nx-ftr__all-exchanges" href={href("/exchanges")}>{locale === "zh-Hans" || locale === "zh-CN" ? "全部 →" : "All →"}</a>
-        </nav> : null}
-
-        <nav className="clean-footer__nav clean-footer__nav--legal nx-ftr__list nx-ftr__legal-row" aria-label={labels.disclosure}>
-          <p className="clean-footer__copyright">
-            <bdi dir="ltr">© 2026 NexuAlpha</bdi>
-          </p>
-          <ul>
-            {legalLinks.map((link) => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}
-          </ul>
-        </nav>
+          </nav>
+        </div>
       </div>
     </footer>
   );
