@@ -302,7 +302,13 @@
     "changesH": "Thay đổi niêm yết mới nhất",
     "changeListed": "{exchange} niêm yết {sym}",
     "changeDelisted": "{exchange} hủy niêm yết {sym}",
-    "campaignsH": "Sự kiện cổ phiếu đang diễn ra"
+    "campaignsH": "Sự kiện cổ phiếu đang diễn ra",
+    "found": {
+      "competitionStock": "{exchange} giải giao dịch {stock} · quỹ thưởng {amount} {asset} · hết hạn {date} SGT",
+      "competition": "{exchange} giải giao dịch cổ phiếu · quỹ thưởng {amount} {asset} · hết hạn {date} SGT",
+      "poolStock": "{exchange} sự kiện giao dịch {stock} · chia {amount} {asset} · hết hạn {date} SGT",
+      "pool": "{exchange} sự kiện giao dịch cổ phiếu · chia {amount} {asset} · hết hạn {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia thiết kế GPU dùng để huấn luyện và chạy phần lớn mô hình AI, nên NVDA là token cổ phiếu được giao dịch nhiều nhất trên sàn crypto.",

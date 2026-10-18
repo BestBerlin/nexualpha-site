@@ -302,7 +302,13 @@
     "changesH": "Últimas mudanças de listagem",
     "changeListed": "{exchange} listou {sym}",
     "changeDelisted": "{exchange} retirou {sym}",
-    "campaignsH": "Campanhas de ações em andamento"
+    "campaignsH": "Campanhas de ações em andamento",
+    "found": {
+      "competitionStock": "{exchange}: competição de trading de {stock} · prêmio de {amount} {asset} · até {date} SGT",
+      "competition": "{exchange}: competição de trading de ações · prêmio de {amount} {asset} · até {date} SGT",
+      "poolStock": "{exchange}: campanha de {stock} · divide {amount} {asset} · até {date} SGT",
+      "pool": "{exchange}: campanha de ações · divide {amount} {asset} · até {date} SGT"
+    }
   },
   "about": {
     "NVDA": "A Nvidia projeta as GPUs que treinam e rodam a maioria dos modelos de AI, por isso NVDA é o token de ação mais negociado nas corretoras de cripto.",

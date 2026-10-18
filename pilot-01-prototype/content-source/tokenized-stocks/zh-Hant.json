@@ -302,7 +302,13 @@
     "changesH": "最新上下架",
     "changeListed": "{exchange} 上架 {sym}",
     "changeDelisted": "{exchange} 下架 {sym}",
-    "campaignsH": "正在進行的美股活動"
+    "campaignsH": "正在進行的美股活動",
+    "found": {
+      "competitionStock": "{exchange} {stock}交易賽 · 獎池 {amount} {asset} · 截止 {date} SGT",
+      "competition": "{exchange} 美股交易賽 · 獎池 {amount} {asset} · 截止 {date} SGT",
+      "poolStock": "{exchange} {stock}交易活動 · 瓜分 {amount} {asset} · 截止 {date} SGT",
+      "pool": "{exchange} 美股交易活動 · 瓜分 {amount} {asset} · 截止 {date} SGT"
+    }
   },
   "about": {
     "NVDA": "輝達設計訓練和執行大多數 AI 模型的 GPU，NVDA 是加密交易所裡成交最活躍的股票代幣。",

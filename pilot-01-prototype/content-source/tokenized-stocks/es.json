@@ -302,7 +302,13 @@
     "changesH": "Últimos cambios de listado",
     "changeListed": "{exchange} listó {sym}",
     "changeDelisted": "{exchange} retiró {sym}",
-    "campaignsH": "Campañas de acciones en curso"
+    "campaignsH": "Campañas de acciones en curso",
+    "found": {
+      "competitionStock": "{exchange}: torneo de trading de {stock} · bote de {amount} {asset} · hasta el {date} SGT",
+      "competition": "{exchange}: torneo de trading de acciones · bote de {amount} {asset} · hasta el {date} SGT",
+      "poolStock": "{exchange}: campaña de {stock} · reparte {amount} {asset} · hasta el {date} SGT",
+      "pool": "{exchange}: campaña de acciones · reparte {amount} {asset} · hasta el {date} SGT"
+    }
   },
   "about": {
     "NVDA": "Nvidia diseña las GPU que entrenan y ejecutan la mayoría de los modelos de AI, por eso NVDA es el token de acción más operado en los exchanges cripto.",

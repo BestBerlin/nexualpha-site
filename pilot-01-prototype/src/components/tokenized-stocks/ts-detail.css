@@ -65,4 +65,6 @@
 .nxts-campaigns li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding-block: 14px; border-block-end: 1px solid var(--t-line); }
 .nxts-campaigns li img { inline-size: 24px; block-size: 24px; }
 .nxts-campaigns .nxts-src { grid-column: 2 / -1; }
-@media (max-width: 560px) { .nxts-campaigns li { grid-template-columns: 28px minmax(0, 1fr); } .nxts-campaigns .nxts-btn { grid-column: 1 / -1; } }
+/* the hub's narrow-screen rule spans .nxts-promo across the row; here it stays next to the logo */
+.nxts-campaigns li > .nxts-promo { grid-column: 2; }
+@media (max-width: 560px) { .nxts-campaigns li { grid-template-columns: 28px minmax(0, 1fr); } .nxts-campaigns li > .nxts-promo { grid-column: 2; } .nxts-campaigns .nxts-btn { grid-column: 1 / -1; } }

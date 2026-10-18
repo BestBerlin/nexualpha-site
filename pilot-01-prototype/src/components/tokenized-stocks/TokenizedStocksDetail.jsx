@@ -128,10 +128,26 @@ function TickerRow({ row, ticker, t, tk, locale, market }) {
   );
 }
 
+/** "MM-DD" of an instant in Singapore time. */
+const sgtMonthDay = (iso) => (readerDayKey(iso) || "").slice(5);
+/**
+ * Title of a campaign the refresh job found in the exchange's announcements: a fixed per-locale template filled with the
+ * official facts (exchange, stock, reward, end date). Never the English announcement title outside en; a campaign
+ * without these facts is not shown.
+ */
+export function foundCampaignTitle(c, t, exchangeName) {
+  const tpl = t.tk?.found;
+  if (!tpl || !c.kind || !c.amount || !c.asset) return "";
+  const stock = c.tickers?.length === 1 ? t.names?.[c.tickers[0]] || c.tickers[0] : "";
+  const key = `${c.kind === "competition" ? "competition" : "pool"}${stock ? "Stock" : ""}`;
+  return fillTs(tpl[key], { exchange: exchangeName, stock, amount: c.amount, asset: c.asset, date: sgtMonthDay(c.endAt) });
+}
+
 /** Stock campaigns running now on the exchanges of this page (our pages first, sign-up through /go on the rows). */
-function Campaigns({ items, venues, t, tk, locale, market }) {
-  if (!items.length) return null;
+function Campaigns({ items: all, venues, t, tk, locale, market }) {
   const names = new Map(venues.map((ex) => [ex.slug, ex.name]));
+  const items = all.map((c) => (c.key ? c : { ...c, label: foundCampaignTitle(c, t, t.exNames?.[c.venue] || names.get(c.venue) || c.venue) })).filter((c) => c.key || c.label);
+  if (!items.length) return null;
   return (
     <section className="nxts-shell nxts-sec" aria-labelledby="ts-cmp-h">
       <h2 id="ts-cmp-h">{tk.campaignsH}</h2>
@@ -143,11 +159,11 @@ function Campaigns({ items, venues, t, tk, locale, market }) {
               <BrandMark slug={c.venue} compact />
               <p className="nxts-promo">
                 <span className="nxts-promo__k">{names.get(c.venue) || c.venue}</span>
-                {c.href ? <a href={hrefFor(c.href, locale, market)}>{c.key ? t.promos[c.key] : c.title}</a> : <span>{c.key ? t.promos[c.key] : c.title}</span>}
-                <small>{fillTs(t.promoEnds, { date: formatSgt(c.endAt, locale, "end") })}</small>
+                {c.href ? <a href={hrefFor(c.href, locale, market)}>{c.key ? t.promos[c.key] : c.label}</a> : <span>{c.key ? t.promos[c.key] : c.label}</span>}
+                {c.key ? <small>{fillTs(t.promoEnds, { date: formatSgt(c.endAt, locale, "end") })}</small> : null}
               </p>
               {signup ? <SignupButton ex={{ slug: c.venue, name: names.get(c.venue) || c.venue }} signup={signup} t={t} /> : null}
-              <SourceList sources={c.s ? tsCitable(c.s, locale, market) : [{ id: c.url, url: c.url, title: c.title, date: readerDayKey(c.startAt || c.endAt), dateKind: "published" }]} locale={locale} market={market} t={t} />
+              <SourceList sources={c.s ? tsCitable(c.s, locale, market) : [{ id: c.url, url: c.url, title: c.url, date: readerDayKey(c.startAt || c.endAt), dateKind: "published" }]} locale={locale} market={market} t={t} />
             </li>
           );
         })}

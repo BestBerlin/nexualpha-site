@@ -24,7 +24,12 @@ export const TS_MATCH_NAMES = Object.freeze({
   CRWV: "CoreWeave", BMNR: "BitMine", GME: "GameStop", BABA: "Alibaba", SPCX: "SpaceX", OPENAI: "OpenAI", ANTHROPIC: "Anthropic",
 });
 const STOCK_CAMPAIGN = /\b(?:stocks?|xStocks|TradFi|equit(?:y|ies)|pre-?IPO)\b/i;
-/** Bybit announcements API -> [{ venue, title, url, startAt, endAt, tickers }] for stock campaigns that have not ended. */
+/**
+ * Bybit announcements API -> [{ venue, kind, amount, asset, tickers, title, url, startAt, endAt }] for stock campaigns that
+ * have not ended and name a reward ("Compete For a Share of 100,000 USDT", "Share 150,000 USDC"). Pages build their
+ * localized title from these facts with a fixed per-locale template (no machine translation); `title` is the official
+ * English title, kept for the source link.
+ */
 export function parseBybitCampaigns(raw, now = Date.now()) {
   const out = [];
   for (const x of raw?.result?.list || []) {
@@ -32,8 +37,11 @@ export function parseBybitCampaigns(raw, now = Date.now()) {
     const url = String(x?.url || "");
     const end = Number(x?.endDateTimestamp), start = Number(x?.startDateTimestamp);
     if (!title || !/^https:\/\/announcements\.bybit\.com\//.test(url) || !STOCK_CAMPAIGN.test(title) || !(end > now) || !(end > start)) continue;
+    const reward = /([0-9][0-9,]*(?:\.[0-9]+)?)\s*(USDT|USDC|USD)\b/.exec(title);
+    if (!reward) continue;
+    const kind = /\b(?:compet\w*|buzz|tournament|championship|leaderboard|contest)\b/i.test(title) ? "competition" : "pool";
     const tickers = Object.entries(TS_MATCH_NAMES).filter(([sym, names]) => new RegExp(`\\b(?:${sym}|${names.replace(/&/g, "\\&")})\\b`).test(title)).map(([sym]) => sym);
-    out.push({ venue: "bybit", title: title.slice(0, 140), url, startAt: new Date(start).toISOString(), endAt: new Date(end).toISOString(), tickers: tickers.length ? tickers : null });
+    out.push({ venue: "bybit", kind, amount: reward[1], asset: reward[2], tickers: tickers.length ? tickers : null, title: title.slice(0, 140), url, startAt: new Date(start).toISOString(), endAt: new Date(end).toISOString() });
   }
   return out;
 }

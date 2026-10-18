@@ -355,3 +355,22 @@ test("copy split: the browser ships one edition (prerender state), never the 17-
   // The trimmed Türkiye edition never leaks into later renders (server cache holds full editions).
   assert.match(mainHtml(await (await fetchPage("/tokenized-stocks/exchange/bitget")).text()), /rToken/);
 });
+
+test("found campaigns get a fixed per-locale title from the official facts (never the English title outside en)", async () => {
+  const { TS_LIVE_BAKED } = await import("../src/data/tokenized-stocks-live.generated.js");
+  const newer = { ...structuredClone(TS_LIVE_BAKED), generatedAt: new Date(Date.parse(TS_LIVE_BAKED.generatedAt) + 3600e3).toISOString(), campaigns: [
+    { venue: "bybit", kind: "competition", amount: "100,000", asset: "USDT", tickers: ["NVDA"], title: "Stock Buzz: Trade Nvidia. Compete For a Share of 100,000 USDT.", url: "https://announcements.bybit.com/en-US/article/stock-buzz-nvda-test/", startAt: "2026-01-01T00:00:00Z", endAt: "2099-10-29T08:00:00Z" },
+    { venue: "bybit", title: "Legacy row without facts", url: "https://announcements.bybit.com/en-US/article/legacy/", startAt: "2026-01-01T00:00:00Z", endAt: "2099-10-29T08:00:00Z" },
+  ] };
+  const page = async (path) => mainHtml(await (await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => newer })).text());
+  const zh = await page("/zh-hans/tokenized-stocks/nvda");
+  assert.ok(zh.includes("Bybit 英伟达交易赛 · 奖池 100,000 USDT · 截止 10-29 SGT"), "zh-Hans template");
+  assert.doesNotMatch(zh, /Stock Buzz: Trade Nvidia|Legacy row/);
+  const tr = await page("/tr/tokenized-stocks/nvda");
+  assert.ok(tr.includes("Bybit Nvidia işlem yarışması · 100,000 USDT ödül havuzu · bitiş 10-29 SGT"), "tr template");
+  assert.doesNotMatch(tr, /Stock Buzz: Trade Nvidia/);
+  const en = await page("/tokenized-stocks/nvda");
+  assert.ok(en.includes("Bybit Nvidia trading competition · 100,000 USDT pool · ends 10-29 SGT"), "en template");
+  const ex = await page("/ja/tokenized-stocks/exchange/bybit");
+  assert.ok(ex.includes("Bybit エヌビディア取引コンテスト") || /Bybit \S+取引コンテスト · 賞金総額 100,000 USDT/.test(ex), "ja on the exchange page");
+});
