@@ -30,12 +30,19 @@ export function VenueTokenizedStocks({ slug, locale = "en", market }) {
           return (
             <li key={lane} data-lane={lane}>
               <p className="vts-lane"><span>{t.lanes[lane]}</span>{d.form && lane !== "preipo" ? <b translate="no">{d.form.v}</b> : null}</p>
-              {d.count ? <p className="vts-count">{fillTs(t.listed, { n: d.count.v })}{d.count.asOf ? <small> · {d.count.asOf}</small> : null}</p> : null}
-              {symbols.length ? <ul className="vts-syms">{symbols.slice(0, 8).map((ticker) => <li key={ticker} translate="no">{TS_TICKERS.includes(ticker) ? <a href={localizedHref(tsTickerPath(ticker), { locale })}>{tsSymbol(d, ticker)}</a> : <span>{tsSymbol(d, ticker)}</span>}</li>)}</ul> : null}
               <p className="vts-meta">
+                {d.count ? <span className="vts-count">{fillTs(t.listed, { n: d.count.v })}{d.count.asOf ? <small> · {d.count.asOf}</small> : null}</span> : null}
                 {d.hours ? <span>{t.cols.hours} {t.hours[d.hours.v] || d.hours.v}</span> : null}
                 {d.lev ? <span>{t.cols.lev} {fillTs(t.levUpTo, { x: d.lev.v })}</span> : null}
               </p>
+              {symbols.length ? (
+                <p className="vts-syms">
+                  {symbols.slice(0, 6).map((ticker) => (TS_TICKERS.includes(ticker)
+                    ? <a key={ticker} href={localizedHref(tsTickerPath(ticker), { locale })} translate="no">{tsSymbol(d, ticker)}</a>
+                    : <span key={ticker} translate="no">{tsSymbol(d, ticker)}</span>))}
+                  {symbols.length > 6 ? <span className="vts-more">+{symbols.length - 6}</span> : null}
+                </p>
+              ) : null}
             </li>
           );
         })}

@@ -77,38 +77,50 @@ function Crumbs({ items, locale, market, t }) {
 const hoursText = (fact, t) => (fact ? t.hours[fact.v] || fact.v : "");
 const levText = (fact, t) => (fact ? `${fillTs(t.levUpTo, { x: fact.v })}${fact.asOf ? ` · ${fact.asOf}` : ""}` : "");
 
-/** One lane cell of an exchange row: form, count, symbols, hours, leverage, fee, settlement, sources. */
+const TICKERS_SHOWN = 4;
+/** A fact value with its "as of" month on a quiet second line. */
+const factValue = (fact, text) => (fact && text ? <>{text}{fact.asOf ? <> <small>{fact.asOf}</small></> : null}</> : "");
+
+/** Example tickers as one line of mono text (links where a ticker page exists) plus a "+N" count. */
+function TickerLine({ d, t, locale, market }) {
+  const symbols = d.tickers?.v || [];
+  if (!symbols.length) return null;
+  return (
+    <p className="nxts-syms">
+      <span className="nxts-sr">{t.cols.tickers}: </span>
+      {symbols.slice(0, TICKERS_SHOWN).map((ticker) => {
+        const sym = tsSymbol(d, ticker);
+        return TS_TICKERS.includes(ticker)
+          ? <a key={ticker} href={hrefFor(tsTickerPath(ticker), locale, market)} translate="no">{sym}</a>
+          : <span key={ticker} translate="no">{sym}</span>;
+      })}
+      {symbols.length > TICKERS_SHOWN ? <span className="nxts-syms__more">+{symbols.length - TICKERS_SHOWN}</span> : null}
+    </p>
+  );
+}
+
+/** One product line of an exchange: label, form, then count / hours / leverage / fee as a definition grid, tickers. */
 function LaneCell({ ex, lane, t, locale, market }) {
   const d = ex[lane];
-  const label = <span className="nxts-cell__lane" data-lane={lane}>{t.lanes[lane]}</span>;
-  if (!d) return <div className="nxts-cell nxts-cell--none" data-lane={lane}>{label}<span className="nxts-dash" aria-label={t.notListed}>—</span></div>;
-  const ids = [d.form, d.tickers, d.count, d.hours, d.lev, d.fee, d.settle].filter(Boolean).flatMap((fact) => fact.s);
-  const symbols = d.tickers?.v || [];
-  const rows = [
-    [t.cols.hours, hoursText(d.hours, t)],
-    [t.cols.lev, levText(d.lev, t)],
-    [t.cols.fees, d.fee ? `${tsFeeText(d.fee, t)}${d.fee.asOf ? ` · ${d.fee.asOf}` : ""}` : ""],
-    [t.cols.settle, d.settle?.v || ""],
-  ].filter(([, value]) => value);
+  const facts = [
+    ["count", t.cols.count, d.count ? factValue(d.count, fillTs(t.listed, { n: d.count.v })) : ""],
+    ["hours", t.cols.hours, factValue(d.hours, hoursText(d.hours, t))],
+    ["lev", t.cols.lev, d.lev ? factValue(d.lev, fillTs(t.levUpTo, { x: d.lev.v })) : ""],
+    ["fees", t.cols.fees, d.fee ? factValue(d.fee, tsFeeText(d.fee, t)) : ""],
+  ];
   return (
     <div className="nxts-cell" data-lane={lane}>
-      {label}
       <p className="nxts-cell__head">
+        <span className="nxts-cell__lane" data-lane={lane}>{t.lanes[lane]}</span>
         {d.form && lane !== "preipo" ? <b translate="no">{d.form.v}</b> : null}
-        {d.count ? <span className="nxts-cell__count">{fillTs(t.listed, { n: d.count.v })}{d.count.asOf ? <small> · {d.count.asOf}</small> : null}</span> : null}
+        {d.settle ? <small translate="no">{d.settle.v}</small> : null}
       </p>
-      {symbols.length ? (
-        <ul className="nxts-syms" aria-label={t.cols.tickers}>
-          {symbols.slice(0, 6).map((ticker) => {
-            const page = TS_TICKERS.includes(ticker);
-            const sym = tsSymbol(d, ticker);
-            return <li key={ticker} translate="no">{page ? <a href={hrefFor(tsTickerPath(ticker), locale, market)}>{sym}</a> : sym}</li>;
-          })}
-          {symbols.length > 6 ? <li className="nxts-syms__more">+{symbols.length - 6}</li> : null}
-        </ul>
-      ) : null}
-      {rows.length ? <dl className="nxts-facts">{rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl> : null}
-      <Sources ids={ids} locale={locale} market={market} t={t} />
+      <dl className="nxts-facts">
+        {facts.map(([key, k, v]) => (
+          <div key={key} data-k={key} data-empty={v ? undefined : ""}><dt>{k}</dt><dd>{v || <span className="nxts-dash" aria-label={t.notListed}>—</span>}</dd></div>
+        ))}
+      </dl>
+      <TickerLine d={d} t={t} locale={locale} market={market} />
     </div>
   );
 }
@@ -117,11 +129,17 @@ function ExchangeRow({ ex, t, locale, market, now }) {
   const signup = tsSignup(ex.slug, { locale, market, placement: "hub-row" });
   const promo = tsActivePromo(ex, { locale, market, now });
   const excluded = ex.excluded?.v || [];
+  const lanes = TS_LANES.filter((lane) => ex[lane]);
+  const ids = [
+    ...lanes.flatMap((lane) => { const d = ex[lane]; return [d.form, d.tickers, d.count, d.hours, d.lev, d.fee, d.settle].filter(Boolean).flatMap((fact) => fact.s); }),
+    ...(excluded.length ? ex.excluded.s : []),
+  ];
+  const nSources = tsCitable(ids, locale, market).length;
   return (
     <article className="nxts-row" id={`ts-${ex.slug}`} aria-labelledby={`ts-${ex.slug}-h`}>
       <div className="nxts-row__id">
         <h3 id={`ts-${ex.slug}-h`}><BrandMark slug={ex.slug} compact /><span>{ex.name}</span></h3>
-        <a className="nxts-row__profile" href={hrefFor(`/exchanges/${ex.slug}`, locale, market)}>{fillTs(t.profile, { name: ex.name })}</a>
+        {signup ? <div className="nxts-row__go"><SignupButton ex={ex} signup={signup} t={t} /><CodeChip code={signup.code} t={t} /></div> : null}
         {promo ? (
           <p className="nxts-promo">
             <span className="nxts-promo__k">{t.cols.promo}</span>
@@ -129,17 +147,21 @@ function ExchangeRow({ ex, t, locale, market, now }) {
             <small>{fillTs(t.promoEnds, { date: formatSgt(promo.endAt, locale, "end") })}</small>
           </p>
         ) : null}
-        {signup ? <div className="nxts-row__go"><CodeChip code={signup.code} t={t} /><SignupButton ex={ex} signup={signup} t={t} /></div> : null}
+        <a className="nxts-row__profile" href={hrefFor(`/exchanges/${ex.slug}`, locale, market)}>{fillTs(t.profile, { name: ex.name })}</a>
       </div>
-      {TS_LANES.map((lane) => <LaneCell key={lane} ex={ex} lane={lane} t={t} locale={locale} market={market} />)}
-      <div className="nxts-row__geo">
-        <span className="nxts-cell__lane">{t.cols.excluded}</span>
-        {excluded.length ? (
-          <>
-            <p className="nxts-geo">{excluded.slice(0, 5).map((code) => regionName(code, t)).join(" · ")}{excluded.length > 5 ? ` ${fillTs(t.more, { n: excluded.length - 5 })}` : ""}</p>
-            <Sources ids={ex.excluded.s} locale={locale} market={market} t={t} />
-          </>
-        ) : <span className="nxts-dash">—</span>}
+      <div className="nxts-row__body">
+        {lanes.map((lane) => <LaneCell key={lane} ex={ex} lane={lane} t={t} locale={locale} market={market} />)}
+        <div className="nxts-row__foot">
+          {excluded.length ? (
+            <p className="nxts-geo"><span className="nxts-geo__k">{t.cols.excluded}</span>{excluded.slice(0, 5).map((code) => regionName(code, t)).join(" · ")}{excluded.length > 5 ? ` ${fillTs(t.more, { n: excluded.length - 5 })}` : ""}</p>
+          ) : null}
+          {nSources ? (
+            <details className="nxts-row__src">
+              <summary>{t.source}<span aria-hidden="true">· {nSources}</span></summary>
+              <Sources ids={ids} locale={locale} market={market} t={t} />
+            </details>
+          ) : null}
+        </div>
       </div>
     </article>
   );
@@ -249,7 +271,8 @@ export function TokenizedStocksHubPage({ locale = "en", market }) {
         </ul>
         <div className="nxts-table" role="list">
           <div className="nxts-row nxts-row--head" aria-hidden="true">
-            <span>{t.cols.exchange}</span>{TS_LANES.map((lane) => <span key={lane} data-lane={lane}>{t.lanes[lane]}</span>)}<span>{t.cols.excluded}</span>
+            <span>{t.cols.exchange}</span>
+            <span className="nxts-row--head__cols"><span>{t.tickerCols.form}</span><span>{t.cols.count}</span><span>{t.cols.hours}</span><span>{t.cols.lev}</span><span>{t.cols.fees}</span><span>{t.cols.tickers}</span></span>
           </div>
           {venues.map((ex) => <div role="listitem" key={ex.slug}><ExchangeRow ex={ex} t={t} locale={locale} market={market} now={now} /></div>)}
         </div>
