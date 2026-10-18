@@ -172,8 +172,9 @@ test("footer renders slogan A under the brand mark in en, zh-Hans and ar", async
   } finally {
     await rm(temp, { recursive: true, force: true });
   }
-  const css = await readFile(path.join(root, "src/styles/v8/site-signature.css"), "utf8");
-  assert.match(css, /\.nx-ftr__slogan[^{]*\{[^}]*text-align: center/, "footer slogan is styled in the global layer");
+  // Footer v11 (2026-10-18): the slogan is a start-aligned editorial line in the shell layer.
+  const css = await readFile(path.join(root, "src/styles/v5/shell.css"), "utf8");
+  assert.match(css, /\.nx-ftr__slogan[^{]*\{[^}]*text-align: start/, "footer slogan is styled in the shell layer");
 });
 
 test("default and home social cards carry slogan A; article cards are unchanged", () => {

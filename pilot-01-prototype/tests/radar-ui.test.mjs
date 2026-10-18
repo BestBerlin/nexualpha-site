@@ -143,7 +143,7 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   assert.ok(method.textContent.includes("not proof of a sale"), "exchange-transfer note lives in the collapsed methodology");
   assert.equal(doc.querySelector(".nxradar-hero").textContent.includes("not proof of a sale"), false, "no caveat above the fold");
   assert.ok(doc.querySelector('a[href="https://mempool.space/tx/example"]'), "explorer link is preserved as the source action");
-  assert.equal(doc.querySelectorAll('a[href^="/go/"]').length, 0, "whales page is information-only");
+  assert.equal([...doc.querySelectorAll('a[href^="/go/"]')].filter((a) => !a.closest("footer")).length, 0, "whales page is information-only (sitewide footer excluded)");
   assert.equal(doc.querySelectorAll(".news-offer--inline").length, 0, "whales page has no partner CTA block");
 
   const signalWhales = await harness.render("https://nexualpha.com/zh-hans/whales", { radar: {
@@ -168,7 +168,7 @@ test("route SSR renders populated long/short and whales pages with CTA, sparklin
   doc = new JSDOM(semanticWhales).window.document;
   assert.ok(doc.body.textContent.includes("Hyperliquid") && doc.body.textContent.includes("加仓") && doc.body.textContent.includes("做空") && doc.body.textContent.includes("均价"), "position card states venue, event, side and average entry");
   assert.ok(doc.querySelector('a[href^="https://app.hyperliquid.xyz/explorer/address/"]'), "position card keeps explorer-only link");
-  assert.equal(doc.querySelectorAll('a[href*="/register"],a[href^="/go/"]').length, 0, "semantic cards do not introduce exchange CTAs");
+  assert.equal([...doc.querySelectorAll('a[href*="/register"],a[href^="/go/"]')].filter((a) => !a.closest("footer")).length, 0, "semantic cards do not introduce exchange CTAs");
 });
 
 test("route SSR keeps readable unavailable states and RTL direction", async () => {

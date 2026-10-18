@@ -4,16 +4,11 @@
    Desktop: the brand line was capped at 34ch (424px of a 470px column), leaving a strip before the link grid,
    and the five policy links ran as one 240px column past the end of the disclaimer. The brand line now fills its
    column and the policy links sit in two columns, so the policies row ends with the disclaimer. */
-@media (min-width: 860px) {
-  .nx-ftr .nx-ftr__brand .clean-footer__summary:not(#_):not(#_) { max-inline-size: none; }
-  .nx-ftr .nx-ftr__policies .clean-footer__nav--policies ul:not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: var(--s-8, 32px); align-content: start; }
-}
 /* Phone / tablet with the bottom nav: the body already reserves the nav (+8px) and the footer added the nav height
    again (+28px), a ~160px empty strip under the copyright. The page now ends exactly one nav height below the
    copyright: the body reserve is the nav height and the footer adds nothing on top. */
 @media (max-width: 780px) {
   body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav):not(:has(> #root > main:is(.v3-profile-page, .v3-compare-page))) { --mobile-bottom-nav-reserve: var(--mobile-bottom-nav-height, 80px); }
-  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav):not(:has(> #root > main:is(.v3-profile-page, .v3-compare-page))) .nx-ftr__inner:not(#_):not(#_) { padding-block-end: 0; }
 }
 
 /* ---------- 2. /onchain: the two answer cards become one full-width list (heading | items per row) ----------

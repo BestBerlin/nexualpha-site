@@ -224,10 +224,8 @@
 }
 
 /* The footer h2 loses to `.v5 h2` on the home (footer sits inside the v5 main); restore its intended small title. */
-.v6 .nx-ftr .nx-ftr__title { font-size: var(--t-16); line-height: var(--lh-body, 1.55); font-weight: 600; letter-spacing: -0.005em; }
 
 /* ---------- footer on the page container (shared with every act: 1200 wide, 24px gutters), without touching shell.css ---------- */
-#top.v6 .nx-ftr__inner { inline-size: min(100% - 2 * var(--gutter), var(--container)); max-inline-size: none; padding-inline: 0; box-sizing: border-box; margin-inline: auto; }
 #top.v6 .nx-ftr { overflow-x: clip; }
 /* CJK clauses are unbreakable units: on a phone the display step drops to the 28 step so a clause never wraps (no stranded punctuation) */
 @media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: var(--t-28); line-height: var(--lh-head, 1.15); } }
