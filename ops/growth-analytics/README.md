@@ -25,6 +25,8 @@ Public web search observations are proxies. They do not establish ChatGPT Search
 - Queries run one at a time, with a 12–16 s pause between them. Each observation keeps a screenshot (`aeo-evidence/<date>/`), the cleaned citation URLs (query strings stripped), whether the answer text mentions NexuAlpha, and an excerpt.
 - Logged-out answers depend on the egress IP's location and on time. Read them as a sample, not a ranking.
 
+- Known gap (2026-10-18): citations are taken from `utm_source=chatgpt.com` anchors. Some third-party sources (Reddit, blogs) render as citation pills without an anchor, so they are undercounted. Check the screenshot when a third-party source matters.
+
 Manual run: `node aeo-browser.mjs --date YYYY-MM-DD [--limit N]`. It writes `aeo-browser-<date>.json`, which `runAeo` consumes as evidence.
 
 ## Content tasks
