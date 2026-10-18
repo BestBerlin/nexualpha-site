@@ -88,6 +88,10 @@ test("Worker selects one v6 asset and only the route's signature styles", { skip
     const signatures = sheets.filter((href) => /\/assets\/page-(?:news|compare|profile)-signature-/.test(href));
     assert.deepEqual(signatures.map((href) => href.split("/").pop().replace(/-mid1-[\w-]+\.css$/, "-")).sort(), signature ? [signature] : [], pathname);
   }
+  // The embed shares home calculator styling, but must receive it on its own route too.
+  const embed = await worker.fetch(new Request("https://nexualpha.com/embed/calculator"), { ASSETS: assets });
+  const embedSheets = stylesheetHrefs(await embed.text());
+  assert.ok(embedSheets.some((href) => href.includes("/page-home-calculator-")), "embed retains shared calculator CSS");
   // Without a runtime renderer, Flash follows the full-CSS fallback branch.
   const fallback = await worker.fetch(new Request("https://nexualpha.com/flash"), { ASSETS: assets });
   const html = await fallback.text();

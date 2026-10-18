@@ -61,8 +61,9 @@ import { exchangeHubNewsItems } from "../../data/hub-entity-news.js";
 import { HubNewsLinks } from "../shared/HubNewsLinks.jsx";
 import { exchangeLastVerifiedDate } from "../../data/exchange-key-facts.js";
 import { eventSourceStateLabel, eventVenueSlug, visibleEventSourceItems } from "../../data/event-source.js";
-import { updatePath } from "../../data/activity-update-path.js";
+
 import "./venue-popular-coins.css";
+import "./venue-announcements.css";
 import { VenueTokenizedStocks } from "../tokenized-stocks/VenueTokenizedStocks.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
@@ -440,43 +441,27 @@ function SourceList({ text, profile, locale }) {
   </div>;
 }
 
-function activityPlatform(update) {
-  const slug = eventVenueSlug(update);
-  return update.platform || { slug, name: slug ? slug.toUpperCase() : "Official source" };
-}
-
-function activityKind(update) {
-  return update.kind || update.category || update.sourceType || "notice";
+export function venueEventSnapshotNow(updates = []) {
+  return updates.reduce((latest, update) => Math.max(latest, ...[update.publishedAt, update.discoveredAt, update.verifiedAt].map(value => {
+    const parsed = Date.parse(value || "");
+    return Number.isFinite(parsed) ? parsed : 0;
+  })), 0);
 }
 
 function activityDate(update, field) {
   return update[field] || update.publishedAt;
 }
 
-function activityUrl(update) {
-  return update.officialSource?.url || update.url || update.sourceUrl;
-}
-
-function ActivityCards({ copy, text, locale, updates }) {
-  if (!updates.length) return <div className="v3-empty" role="status"><b>{text.noReviewedActivity}</b><p>{text.activityEmpty}</p></div>;
-  return <div className="v3-activity-list">{updates.map((update) => {
-    const platform = activityPlatform(update);
+export function ActivityCards({ text, locale, updates }) {
+  if (!updates.length) return null;
+  return <ul className="v3-venue-announcements">{updates.slice(0, 5).map((update) => {
+    const title = typeof update.title === "object" ? (update.title[locale] || update.title.en) : (update.localizedTitles?.[locale] || update.title);
     const discoveredAt = activityDate(update, "discoveredAt");
-    const verifiedAt = update.verifiedAt;
-    const sourceUrl = activityUrl(update);
-    return <article key={update.id}>
-      <span>{platform.name} · {activityKind(update)}</span>
-      <h3>{update.title}</h3>
-      <dl>
-        <div><dt>{copy.decisionWorkbench.discovered}</dt><dd><time dateTime={discoveredAt}>{new Date(discoveredAt).toLocaleDateString(locale)}</time></dd></div>
-        {verifiedAt ? <div><dt>{copy.common.verifiedSource}</dt><dd><time dateTime={verifiedAt}>{new Date(verifiedAt).toLocaleDateString(locale)}</time></dd></div> : null}
-      </dl>
-      <div className="v3-activity-actions">
-        <LocalLink locale={locale} href={update.platform ? `/activities/${encodeURIComponent(update.id)}` : updatePath(update)}>{text.openActivityDetail}</LocalLink>
-        {sourceUrl ? <SourceLink locale={locale} href={sourceUrl} target="_blank" rel="noopener noreferrer">{text.openOfficialSource}</SourceLink> : null}
-      </div>
-    </article>;
-  })}</div>;
+    return <li key={update.id}>
+      {discoveredAt && <time dateTime={discoveredAt}>{discoveredAt.slice(0, 10)}</time>}{" · "}
+      <SourceLink locale={locale} href={update.officialSource?.url || update.url || update.sourceUrl} target="_blank" rel="noopener noreferrer"><span dir="auto">{title || text.openOfficialSource}</span></SourceLink>
+    </li>;
+  })}</ul>;
 }
 
 // `researchComponent` renders the body of the collapsed "Sources" hub (VenueDetailResearch). App.jsx passes the static
@@ -520,7 +505,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const profile = venueProfile(venue, locale);
   const runtimeUi = detailRuntimeUi(locale, text, profile.name);
   const research = researchForVenue(venue.slug, locale);
-  const relatedEventView = visibleEventSourceItems(updates, { locale, venue: venue.slug, now: Date.now() });
+  const [eventNow, setEventNow] = useState(null);
+  useEffect(() => { setEventNow(Date.now()); }, []);
+  // SSR and the first browser render share the source snapshot clock; live expiry is applied after hydration.
+  const relatedEventView = visibleEventSourceItems(updates, { locale, venue: venue.slug, now: eventNow ?? venueEventSnapshotNow(updates) });
   const related = relatedEventView.items;
   const relatedEmptyLabel = eventSourceStateLabel(relatedEventView.state, locale);
   const relatedAreReviewed = related.length > 0 && related.every((item) => Boolean(item.verifiedAt));
@@ -1006,7 +994,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <div className="section-lead"><h2>{relatedAreReviewed ? text.reviewedActivity : text.activityState}</h2>{relatedAreReviewed && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
       {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
-      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
+      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{related.length > 5 ? (locale === "ar" ? "عرض جميع الإعلانات" : locale.startsWith("zh") ? "查看全部公告" : "View all announcements") : text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 
     <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>

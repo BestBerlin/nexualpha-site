@@ -242,12 +242,7 @@ export function ExchangeMatrix({
       </span>
     );
   };
-  const unchecked = (label) => (
-    <>
-      <span className="mx-unch" title={mc.check} aria-hidden="true">{mc.unchecked}</span>
-      <span className="mx-sr">{label}{mc.unchecked}. {mc.check}</span>
-    </>
-  );
+  const unchecked = () => null;
 
   return (
     <div className="mx" data-tray={compareSelection.length > 0 ? "open" : undefined}>
@@ -417,7 +412,7 @@ export function ExchangeMatrix({
                       <span translate="no">{r.products.join(mc.sep)}</span>
                     </td>
                     <td role="cell" className={`mx-td mx-td--region${r.region ? " mx-td--has" : ""}`} data-label={mc.region}>
-                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: {mc.unchecked}</span></>)}
+                      {r.region ? <span lang="en">{r.region}</span> : null}
                     </td>
                     <td role="cell" className="mx-td mx-td--code" data-label={mc.code} data-row-slug={r.slug} data-row-invite-code={r.inviteCode || ""}>
                       {r.hasReferral && r.inviteCode ? (
@@ -439,7 +434,7 @@ export function ExchangeMatrix({
                           {renderCopyFeedback(`${r.slug}-compact`)}
                         </>
                       ) : (
-                        <span className="mx-dash" title={mc.noCode}>&ndash;<span className="mx-sr">{mc.noCode}</span></span>
+                        null
                       )}
                     </td>
                     <td role="cell" className="mx-td mx-td--cta">

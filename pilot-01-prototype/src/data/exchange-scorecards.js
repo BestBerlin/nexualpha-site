@@ -28,7 +28,8 @@ const asIsoDay = (value) => (typeof value === "string" && /^\d{4}-\d\d-\d\d/.tes
 const asSgtDay = (value) => {
   const time = typeof value === "number" ? value : Date.parse(value);
   if (!Number.isFinite(time)) return null;
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Singapore", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(time));
+  // SGT is fixed UTC+08:00. ISO arithmetic avoids browser/server ICU date-pattern drift.
+  return new Date(time + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
 };
 
 const displayNumber = (value) => (numberOrNull(value) == null ? null : new Intl.NumberFormat("en").format(value));

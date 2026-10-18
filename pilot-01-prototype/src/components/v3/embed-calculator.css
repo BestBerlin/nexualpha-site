@@ -70,41 +70,10 @@
 }
 
 
-/* Compact only the embedded calculator shell. The standalone analyzer keeps its normal spacing. */
-.embed-container--calculator {
-  padding: 8px;
-  gap: 10px;
-}
-
-.embed-container--calculator .bleed-analyzer-section {
-  padding-block: 0;
-}
-
-.embed-container--calculator .bleed-analyzer__container {
-  padding: 12px;
-  border-radius: 12px;
-}
-
-.embed-container--calculator .bleed-analyzer__header {
-  margin-bottom: 1rem;
-}
-
-.embed-container--calculator .bleed-analyzer__controls,
-.embed-container--calculator .bleed-analyzer__verdict-card,
-.embed-container--calculator .bleed-solution-box {
-  padding: 12px;
-}
-
-.embed-container--calculator .bleed-analyzer__grid {
-  gap: 12px;
-}
-
-@media (max-width: 600px) {
-  .embed-container--calculator {
-    padding: 6px;
-  }
-
-  .embed-container--calculator .bleed-analyzer__container {
-    padding: 10px;
-  }
+/* Shared home calculator, with a compact frame for iframe widths. */
+.embed-container--calculator { padding: 8px; gap: 10px; background: #08090c; }
+.embed-container--calculator .h7:not(#_) { --pad: 16px; border: 1px solid rgb(255 255 255/.12); border-radius: 12px; }
+.embed-container--calculator .h7:not(#_):not(#_) .h7-calc { margin-block: 0; padding-block: 24px; }
+@media (max-width: 900px) {
+  .embed-container--calculator .h7:not(#_):not(#_) .h7-calc { grid-template-columns: minmax(0, 1fr); gap: 24px; }
 }

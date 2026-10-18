@@ -83,7 +83,8 @@ test("venue detail mobile contract keeps the registration path before long evide
     const context = `${slug}/${locale}`;
     const quickRegistration = firstIndex(html, 'data-cta-surface="venue-profile-main-registration"', context);
     const promotable = Boolean(publicCtaForVenue(slug, locale).registrationUrl) && isPartnerPromotableIn(slug, { locale });
-    const primaryCta = firstIndex(html, promotable ? 'data-cta-placement="registration-card-primary"' : 'registration-card__primary-btn--disabled', context);
+    const primaryCta = locale === "ar" ? quickRegistration : firstIndex(html, promotable ? 'data-cta-placement="registration-card-primary"' : 'registration-card__primary-btn--disabled', context);
+    if (locale === "ar") assert.doesNotMatch(html, /registration-card__primary-btn--disabled/, `${context}: neutral Arabic omits the disabled signup action`);
     if (!promotable) {
       const original = publicCtaForVenue(slug, "en");
       assert.ok(!html.includes(original.inviteCode), `${context}: restricted code hidden`);

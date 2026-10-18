@@ -9,7 +9,7 @@ import { prefersReducedMotion, useClientNow, useMarketEvents } from "./useMarket
 const tone = (rate) => (rate == null ? "" : rate > 0 ? " pos" : rate < 0 ? " neg" : "");
 
 function NextCell({ at, now, copy }) {
-  if (!at) return <span className="nxd-muted">—</span>;
+  if (!at) return null;
   const remaining = now == null ? null : Date.parse(at) - now;
   return (
     <span className="nxd-next" dir="ltr">
@@ -46,19 +46,19 @@ export function FundingRatesPage({ locale = "en", initialFeed }) {
               </tr>
             </thead>
             <tbody>
-              {data.rows.map((row) => (
+              {data.rows.filter((row) => row.binanceRate != null && row.okxRate != null).map((row) => (
                 <tr key={row.symbol}>
                   <th scope="row" translate="no">{row.symbol}</th>
                   <td className={`num${tone(row.binanceRate)}`} data-label={page.colBinance}>{formatRatePct(row.binanceRate)}</td>
                   <td className={`num${tone(row.okxRate)}`} data-label={page.colOkx}>{formatRatePct(row.okxRate)}</td>
                   <td className="num" data-label={page.colApr}>
-                    <span className={tone(row.binanceApr)}>{formatRatePct(row.binanceApr, 1)}</span>
-                    <span className="nxd-sep" aria-hidden="true"> / </span>
-                    <span className={tone(row.okxApr)}>{formatRatePct(row.okxApr, 1)}</span>
+                    <span className={tone(row.binanceApr)}>{row.binanceApr == null ? null : formatRatePct(row.binanceApr, 1)}</span>
+                    {row.binanceApr != null && row.okxApr != null ? <span className="nxd-sep" aria-hidden="true"> / </span> : null}
+                    <span className={tone(row.okxApr)}>{row.okxApr == null ? null : formatRatePct(row.okxApr, 1)}</span>
                   </td>
                   <td className="num nxd-nextcell" data-label={page.colNext}>
                     <NextCell at={row.binanceNextAt} now={now} copy={page} />
-                    <span className="nxd-sep" aria-hidden="true"> / </span>
+                    {row.binanceNextAt && row.okxNextAt ? <span className="nxd-sep" aria-hidden="true"> / </span> : null}
                     <NextCell at={row.okxNextAt} now={now} copy={page} />
                   </td>
                 </tr>

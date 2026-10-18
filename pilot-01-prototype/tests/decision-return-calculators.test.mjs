@@ -196,7 +196,8 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
   const embed = await readFile(new URL('../src/components/v3/EmbedCalculator.jsx', import.meta.url), 'utf8');
   assert.doesNotMatch(app, /<TradingBleedAnalyzer locale=\{locale\}/, "the legacy home analyzer slot stays removed");
   assert.match(app, /<EmbedCalculator locale=\{locale\} market=\{embedUrl\.searchParams\.get\("market"\)\} product=\{embedUrl\.searchParams\.get\("product"\)\}/);
-  assert.match(embed, /<TradingBleedAnalyzer locale=\{locale\} market=\{market\} product=\{product\}/);
+  assert.match(embed, /<HomeCalculator t=\{t\} locale=\{locale\}/);
+  assert.doesNotMatch(embed, /TradingBleedAnalyzer/);
   assert.match(bleed, /buildVenueFeeSummary\(db\)/);
   assert.doesNotMatch(bleed, /db\.futuresFee\?\.takerRate \?\? 0\.0005/);
   assert.doesNotMatch(bleed, /db\.spotFee\?\.takerRate \?\? 0\.001/);
@@ -212,15 +213,37 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
 });
 
 
-test('embed calculator uses compact shell without changing standalone analyzer CSS scope', async () => {
+test('embed calculator shares the home presentation with a compact iframe frame', async () => {
   const embed = await readFile(new URL('../src/components/v3/EmbedCalculator.jsx', import.meta.url), 'utf8');
   const embedCss = await readFile(new URL('../src/components/v3/embed-calculator.css', import.meta.url), 'utf8');
   const bleedCss = await readFile(new URL('../src/components/v3/trading-bleed-analyzer.css', import.meta.url), 'utf8');
   assert.match(embed, /className="embed-container embed-container--calculator"/);
-  assert.match(embedCss, /\.embed-container--calculator \.bleed-analyzer__container/);
-  assert.match(embedCss, /\.embed-container--calculator \.bleed-analyzer__controls,[\s\S]*\.embed-container--calculator \.bleed-analyzer__verdict-card,[\s\S]*\.embed-container--calculator \.bleed-solution-box/);
+  assert.match(embedCss, /\.embed-container--calculator \.h7/);
+  assert.match(embedCss, /grid-template-columns: minmax\(0, 1fr\)/);
   assert.match(bleedCss, /\.bleed-code-row \{[\s\S]*flex-wrap: wrap;[\s\S]*gap: 8px;/);
   assert.match(bleedCss, /\.bleed-embed-row \{[\s\S]*flex-wrap: wrap;[\s\S]*gap: 8px;/);
   assert.match(bleedCss, /\.bleed-copy-status \{[\s\S]*flex: 1 0 100%;/);
   assert.match(bleedCss, /\.bleed-manual-copy \{[\s\S]*flex: 1 0 100%;/);
+});
+
+
+test('embed uses current home volume math, positive rebates, and neutral Arabic output', async () => {
+  const output = await bundleAndRun(`
+    import React from 'react';
+    import { renderToStaticMarkup } from 'react-dom/server';
+    import { EmbedCalculator } from '../../src/components/v3/EmbedCalculator.jsx';
+    console.log(JSON.stringify(Object.fromEntries(['en', 'ar', 'zh-Hans'].map(locale => [locale, renderToStaticMarkup(React.createElement(EmbedCalculator, { locale }))]))));
+  `);
+  const result = JSON.parse(output);
+  for (const [locale, html] of Object.entries(result)) {
+    assert.match(html, /class="h7-in h7-calc/);
+    assert.equal((html.match(/<h1\b/g) || []).length, 1, "embed has one semantic page title");
+    assert.match(html, /class="h7-range" dir="ltr"/);
+    assert.match(html, /class="h7-range-scale" dir="ltr"/);
+    assert.match(html, locale === "zh-Hans" ? />10亿<\/span>/ : />1B<\/span>/);
+    assert.doesNotMatch(html, /bleed-progress-bar|bleed-track|权益待核验|用户权益待核验|-\$600/);
+  }
+  assert.match(result.en, /class="h7-back"/);
+  assert.match(result.ar, /lang="ar" dir="rtl"/);
+  assert.doesNotMatch(result.ar, /class="h7-back"|href="\/go\//);
 });

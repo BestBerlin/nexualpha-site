@@ -137,8 +137,9 @@ test("browser fragments restore decision and calculator context after canonical 
         href: window.location.href,
         market: window.document.querySelector("[data-growth-market]")?.getAttribute("data-growth-market"),
         product: window.document.querySelector("[data-growth-product]")?.getAttribute("data-growth-product"),
-        volumeTier: window.document.querySelector(".bleed-slider")?.value,
-        spotSelected: window.document.querySelectorAll(".bleed-type-btn")[1]?.classList.contains("bleed-type-btn--active"),
+        volumeTier: window.document.querySelector(".h7-range")?.value,
+        volume: window.document.querySelector(".h7-vin input")?.value,
+        spotSelected: window.document.querySelectorAll(".h7-seg")[0]?.querySelectorAll("button")[1]?.getAttribute("aria-pressed") === "true",
       }),
     },
   );
@@ -148,6 +149,27 @@ test("browser fragments restore decision and calculator context after canonical 
   assert.equal(calculatorHydration.inspected.market, "BR", JSON.stringify(calculatorHydration.inspected));
   assert.equal(calculatorHydration.inspected.product, "spot");
   assert.equal(calculatorHydration.inspected.volumeTier, "0");
+  assert.equal(calculatorHydration.inspected.volume, "5,000", "legacy scenario restores its exact typed amount");
   assert.equal(calculatorHydration.inspected.spotSelected, true);
   assert.match(calculatorHydration.inspected.href, /#nxa-context\?locale=ja&market=BR&product=spot&scenario=fees&venue=okx&instrument=spot&order=taker&volume=5000$/);
+
+  const makerHydration = await hydrateInJsdom(
+    harness.vite,
+    calculatorHtml,
+    "https://nexualpha.com/embed/calculator#nxa-context?scenario=cost&instrument=spot&order=maker&volume=250000",
+    {
+      browserUrlAsWindowUrl: true,
+      timeoutMs: 700,
+      fixedNow,
+      inspect: (window) => ({
+        volume: window.document.querySelector(".h7-vin input")?.value,
+        makerSelected: window.document.querySelectorAll(".h7-seg")[1]?.querySelector("button")?.getAttribute("aria-pressed"),
+        spotSelected: window.document.querySelectorAll(".h7-seg")[0]?.querySelectorAll("button")[1]?.getAttribute("aria-pressed"),
+      }),
+    },
+  );
+  assert.deepEqual(hydrationErrors(makerHydration.errors), []);
+  assert.equal(makerHydration.inspected.volume, "250,000");
+  assert.equal(makerHydration.inspected.makerSelected, "true");
+  assert.equal(makerHydration.inspected.spotSelected, "true");
 });

@@ -182,7 +182,11 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // is always loaded first; components keep their place so their stylesheets keep their link position.
           if (!isSsrBuild && /\/src\/(?:data|content|lib|hooks|utils|paraglide)\//.test(id) && isStaticallyReachableFromClientEntry(id, getModuleInfo)) return "core-shared";
           // Home copy is read by the first screen and by the registration card: keep it with the always-loaded data.
-          if (!isSsrBuild && id.includes("/src/components/v7/home7-copy")) return "core-shared";
+          if (!isSsrBuild && (id.includes("/src/components/v7/home7-copy") || id.endsWith("/src/components/v7/home7-neutral-copy.js"))) return "core-shared";
+          // Shared calculator stays deferred on home when the embed also imports it.
+          if (!isSsrBuild && id.endsWith("/src/components/v7/HomeCalculator.jsx")) return "shared-home-calculator";
+          // Both home and embed use these styles; retain a first-paint stylesheet for home.
+          if (!isSsrBuild && id.endsWith("/src/styles/v7/home7.css")) return "page-home-calculator";
           // Home first screen: the alerts strip (and the alerts copy it shares with article footers) must not drag the V3
           // page or news chunks in. Its stylesheet keeps the "route-v3-pages-" prefix it had inside the V3 page chunk, so
           // the worker links it on the same routes as before.

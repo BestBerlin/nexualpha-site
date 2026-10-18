@@ -234,7 +234,7 @@
 @ .h7-vin{display:flex;align-items:baseline;gap:12px;margin:32px 0 16px;font:500 2.75rem/1 var(--mono);color:var(--ink);border-bottom:1px solid var(--line2);padding-bottom:12px;font-variant-numeric:tabular-nums;transition:border-color 140ms}
 @ .h7-vin:focus-within{border-color:var(--ac);box-shadow:0 1px 0 var(--ac)}
 @ .h7-vin span{color:var(--ink3)}@ .h7-vin input{border:0;background:transparent;font:inherit;color:inherit;outline:none;min-width:0;width:100%;padding:0;box-shadow:none;caret-color:var(--ac)}
-@ .h7-vin small{font-size:14px;font-weight:400;line-height:1;font-family:inherit;color:var(--ink3);white-space:nowrap}
+@ .h7-vin small{flex-shrink:0;padding-inline-end:2px;font-size:14px;font-weight:400;line-height:1;font-family:inherit;color:var(--ink3);white-space:nowrap}
 @ .h7-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 @ .h7-ctl>button{cursor:pointer;font:500 14px/1 var(--mono);border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:999px;padding:0 16px;min-height:44px;transition:background-color 140ms,border-color 140ms,color 140ms}
 @ .h7-ctl>button:hover{border-color:var(--line2);color:var(--ink)}
@@ -877,3 +877,6 @@
    whale board's "view all" arrow points the reading direction. */
 @ .h7-rates::after{margin-inline-start:6px}
 .h7:not(#_):not(#_):dir(rtl) .h7-mv-arrow{display:inline-block;transform:scaleX(-1)}
+/* Embed uses the calculator heading as its page H1, with the same visual treatment. */
+@ .h7-calc h1.h7-calc-title{font-weight:600;font-size:1.75rem;line-height:1.12;letter-spacing:-.03em;color:var(--ink);margin:0;text-wrap:balance}
+@media(min-width:641px){@ .h7-calc h1.h7-calc-title{font-size:2.75rem}}

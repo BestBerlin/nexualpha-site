@@ -158,7 +158,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
         <span className="rt-axis__ticks"><span>0</span><span>{number.format(axisMax/2)}</span><span>{number.format(axisMax)}</span></span>
       </div>}
       <div className="cost-decision__results" aria-live="polite">
-        {resultRows.map((row)=>{
+        {resultRows.filter((row) => row.quote && row.displayRate).map((row)=>{
           const {slug,venue,quote,product,cta,displayRate,displayCost,reviewedRate,sourceCopy,rebateShare,baseCost,rebateCost,usesRebate}=row;
           const cost=quote?row.cost:0;
           // The other basis, shown next to the main figure so base vs after-rebate is never hidden in a disclaimer.

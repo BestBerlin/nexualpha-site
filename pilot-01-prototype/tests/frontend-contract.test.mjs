@@ -977,14 +977,14 @@ test("topic comparison and showdown links use honest research or registration at
 });
 
 // Class d retarget: the full matrix is rendered expanded; unknown metrics move into the pending disclosure.
-test("deep comparison keeps high-intent metrics visible with pending metrics disclosed on mobile", () => {
+test("deep comparison keeps high-intent metrics visible and hides pending metrics", () => {
   assert.match(v3PagesSource, /const compactPendingRows = metricRows\.filter\(\(row\) => !row\.hasKnown\)/);
   assert.match(v3PagesSource, /const shouldRenderMetricRow = \(key\) => !compactPendingKeys\.has\(key\)/);
   assert.match(v3PagesSource, /<div className="v3-matrix-table-wrap is-expanded"/);
   for (const key of ["spot", "futures", "benefit", "net"]) {
     assert.match(v3PagesSource, new RegExp(`shouldRenderMetricRow\\("${key}"\\)`));
   }
-  assert.match(v3PagesSource, /<details className="v3-matrix-pending-disclosure">/);
+  assert.doesNotMatch(v3PagesSource, /<details className="v3-matrix-pending-disclosure">/);
   assert.match(v3PagesSource, /View full quantitative matrix/);
   assert.doesNotMatch(v3PagesSource, /showAllMetrics/);
 });
@@ -2346,9 +2346,9 @@ test("comparison fee surfaces never publish unverified default rates or net-cost
   assert.doesNotMatch(matrix, /Direct quantitative comparison based on official fee schedules, Merkle-tree reserve audits, and verified channel rebate rates/);
   assert.doesNotMatch(matrix, /严格基于官方最新公开费率标准、默克尔树链上储备金报告与真实渠道返佣比例/);
   assert.match(matrix, /const rebateKnown = Number\.isFinite\(d\.rebate\) && d\.rebate > 0/);
-  assert.match(matrix, /\{rebateKnown \? <>\{d\.rebate\}<span className="v3-matrix-rebate-unit">%<\/span><\/> : localePending\(locale\)\}/);
+  assert.match(matrix, /\{rebateKnown \? <>\{d\.rebate\}<span className="v3-matrix-rebate-unit">%<\/span><\/> : null\}/);
   assert.match(matrix, /const hasKnownWelcomeReward = Boolean/);
-  assert.match(matrix, /hasKnownWelcomeReward[\s\S]*Check the rewards hub after signup[\s\S]*compareFeeSurfaceCopy\(locale\)\.pendingBenefit/);
+  assert.match(matrix, /hasKnownWelcomeReward[\s\S]*Check the rewards hub after signup[\s\S]*: null/);
   assert.doesNotMatch(matrix, /Claim via rewards hub upon signup/);
   assert.doesNotMatch(matrix, /makerRate: 0\.0010|takerRate: 0\.0010|makerRate: 0\.0002|takerRate: 0\.0005/);
   assert.doesNotMatch(matrix, /const hasReferral = access\.hasReferral|hasReferral \? access\.rebatePercent/);

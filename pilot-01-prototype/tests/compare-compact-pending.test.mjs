@@ -68,19 +68,19 @@ const tableHtml = (html) => {
   return html.slice(start, html.indexOf('</table>', start));
 };
 
-test("comparison matrix compacts all-pending rows but keeps sourced and CTA rows visible", async () => {
+test("comparison matrix omits all-pending rows but keeps sourced and CTA rows visible", async () => {
   const [page] = await renderComparePages([{ key: "binance-okx", locale: "en", selected: ["binance", "okx"] }]);
   const matrix = matrixHtml(page.html);
   const table = tableHtml(page.html);
 
-  assert.match(matrix, /class="v3-matrix-pending-disclosure"/, "all-pending rows are grouped in one disclosure");
+  assert.doesNotMatch(matrix, /class="v3-matrix-pending-disclosure"/, "all-pending rows are omitted");
   assert.match(table, /Spot maker \/ taker fee/, "sourced spot row stays in the main matrix");
   assert.match(table, /0\.10%/, "Binance sourced spot fee remains visible");
   assert.match(table, /Proof of Reserves \(PoR\)/, "known reserve disclosures stay in the main matrix");
   assert.match(table, /Official action/, "onsite action row remains in the main matrix");
   assert.doesNotMatch(table, /User benefit status/, "all-pending user benefit row is removed from the main matrix");
-  assert.match(matrix, /<strong>User benefit status<\/strong>/, "compacted disclosure preserves original field name");
-  assert.match(matrix, /<strong>Maximum futures leverage<\/strong>/, "compacted disclosure preserves original leverage field");
+  assert.doesNotMatch(matrix, /<strong>User benefit status<\/strong>/, "missing benefit omitted");
+  assert.doesNotMatch(matrix, /<strong>Maximum futures leverage<\/strong>/, "missing leverage omitted");
   assert.match(page.html, /href="\/go\/binance\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "Binance tracked invite route is available");
   assert.match(page.html, /href="\/go\/okx\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"/, "OKX tracked invite route is available");
   assert.match(table, /data-cta-placement="compare-metric-matrix-detail"/, "matrix action routes to onsite details");
@@ -93,11 +93,11 @@ test("comparison matrix preserves hero partner CTAs while routing matrix actions
   const matrix = matrixHtml(page.html);
   const table = tableHtml(page.html);
 
-  assert.match(matrix, /class="v3-matrix-pending-disclosure"/);
+  assert.doesNotMatch(matrix, /class="v3-matrix-pending-disclosure"/);
   assert.match(table, /Spot maker \/ taker fee/);
   assert.match(table, /Proof of Reserves \(PoR\)/);
   assert.doesNotMatch(table, /Effective net cost/, "net-cost row stays compact while both values lack source-linked commercial data");
-  assert.match(matrix, /<strong>Effective net cost<\/strong>/);
+  assert.doesNotMatch(matrix, /<strong>Effective net cost<\/strong>/);
   assert.match(page.html, /href="\/go\/bybit\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
   assert.match(page.html, /href="\/go\/bitget\?src=compare-bybit-vs-bitget&amp;locale=en&amp;market=unknown"/);
   assert.match(table, /data-cta-placement="compare-metric-matrix-detail"/);
@@ -106,13 +106,13 @@ test("comparison matrix preserves hero partner CTAs while routing matrix actions
   assert.match(page.html, /<strong class="v3-matrix-code-val">nexu888<\/strong>/);
 });
 
-test("comparison helper labels and pending disclosure avoid English fallback all 17 locales", async () => {
+test("comparison helper labels avoid English fallback and omit pending rows in all 17 locales", async () => {
   const pages = await renderComparePages(locales.map((locale) => ({ key: locale, locale, selected: ["bybit", "bitget"] })));
   assert.equal(pages.length, locales.length);
 
   for (const { locale, html } of pages) {
     assert.match(html, /v3-matrix-scroll-hint/, `${locale}: scroll hint rendered`);
-    assert.match(html, /v3-matrix-pending-disclosure/, `${locale}: pending disclosure rendered`);
+    assert.doesNotMatch(html, /v3-matrix-pending-disclosure/, `${locale}: pending disclosure omitted`);
     if (!nonEnglishLocales.includes(locale)) continue;
 
     assert.doesNotMatch(html, /Open the detailed research comparison|Open scenario fit and next steps|Show pending fields|Swipe the matrix sideways|BTC\/ETH perpetual contracts|COMPARE FIRST|NEXT STEP|>Join ↗<|>Verify ↗<|Basic KYC \(ID only\)|Pending verification/, `${locale}: compare helpers should not fall back to English`);

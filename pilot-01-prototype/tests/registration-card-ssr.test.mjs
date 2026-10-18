@@ -227,3 +227,15 @@ test("compact official-only and unavailable cards retain their guarded primary s
   assert.doesNotMatch(routeDisclosure(blocked), /registration-card__primary-btn/);
   assert.doesNotMatch(blocked, /target="_blank"/);
 });
+
+ test("Arabic neutral venue omits the disabled signup action", async () => {
+  const html = await renderRegistrationCard({ venueSlug: "okx", fallbackDomain: "www.okx.com", locale: "ar", compact: true });
+  assert.doesNotMatch(html, /primary-btn--disabled|data-cta-kind="registration"|backup-registration/);
+ });
+ test("Backup route is an accessible icon alongside the primary signup", async () => {
+  const html = await renderRegistrationCard({ venueSlug: "okx", fallbackDomain: "www.okx.com", locale: "zh-Hans", compact: true });
+  assert.match(html, /registration-card__signup-actions/);
+  assert.match(html, /aria-label="官网打不开？用备用注册链接"/);
+  assert.match(html, /data-cta-kind="backup-registration"[^>]*><svg aria-hidden="true"/);
+  assert.doesNotMatch(html, />官网打不开？用备用注册链接/);
+ });

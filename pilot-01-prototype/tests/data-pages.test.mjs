@@ -218,12 +218,14 @@ test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) 
   assert.ok(!en.includes("data-unavailable"));
   const fr = withFeed.en.funding;
   assert.match(fr, /<h1><span class="nx-glossary-tip"><a[^>]*>Crypto funding rates: Binance vs OKX<\/a>/);
-  assert.ok(fr.includes("+0.0033%") && fr.includes("−0.0120%"), "per-period rates with sign");
+  assert.ok(fr.includes("+0.0033%"), "per-period rates with sign");
+  assert.doesNotMatch(fr, /<th scope="row" translate="no">SOL<\/th>/, "incomplete comparison rows stay hidden");
   assert.ok(fr.includes("+3.6%"), "annualized estimate of BTC Binance rate (0.0000326 × 1095)");
   assert.ok(fr.includes("00:00 SGT"), "next funding time in SGT");
   assert.match(fr, /rate × 3 × 365/);
   assert.match(fr, /<th scope="row" translate="no">1000PEPE<\/th>/);
-  assert.match(fr, /class="num neg"/);
+  assert.doesNotMatch(fr, />—</, "missing funding observations do not become placeholder cells");
+  assert.doesNotMatch(fr, /−0.0120%/, "unpaired observation is hidden rather than rendered with a placeholder");
   assert.match(withFeed["zh-Hans"].liquidations, /<h1><span class="nx-glossary-tip"><a[^>]*>今日加密货币爆仓<\/a>/);
   assert.match(withFeed["zh-Hans"].liquidations, /多空双杀/);
   assert.match(withFeed.ar.funding, /<main[^>]*dir="rtl"/);

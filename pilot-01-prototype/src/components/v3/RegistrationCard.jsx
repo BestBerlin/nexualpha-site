@@ -952,6 +952,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
     primaryRegistrationHref ? (
       <>
       {binanceProNote}
+      <div className="registration-card__signup-actions">
       <a
         href={primaryRegistrationHref}
         target="_blank"
@@ -973,6 +974,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         {compactInviteTask ? (compactSignupLabel || compactInviteTask.action) : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}
       </a>
       {visiblePartner.hasReferral ? <BackupSignupLink venue={venueSlug} locale={locale} market={context.market} placement="registration-card-primary" /> : null}
+      </div>
       </>
     ) : officialRouteUrl ? (
       <a
@@ -987,7 +989,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       >
         {copy.openOfficial || copy.openApp}
       </a>
-    ) : (
+    ) : locale === "ar" ? null : (
       <span className="registration-card__primary-btn registration-card__primary-btn--disabled" aria-disabled="true">
         {disabledActionLabel}
       </span>

@@ -642,3 +642,7 @@
   min-width: 0;
   max-width: 100%;
 }
+
+/* Keep the alternate route discoverable without a second CTA line. */
+.registration-card__signup-actions { display: flex; align-items: center; gap: 8px; min-inline-size: 0; }
+.registration-card__signup-actions > .registration-card__primary-btn { flex: 1; min-inline-size: 0; }
