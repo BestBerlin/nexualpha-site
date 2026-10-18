@@ -49,3 +49,13 @@
   .nx-ticker { font-size: 12px; }
   .nx-ticker__item > a, .nx-ticker__item--mover { padding-inline: 10px; gap: 6px; }
 }
+
+/* Desktop (2026-10-18): every symbol already fits, so the strip stays put and shows life the honest way — each 12 s refresh
+   flashes the values that changed. A slightly stronger flash and a short colour hold on the changed figure; one-shot,
+   nothing runs between refreshes, static under reduced motion. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .nx-ticker [data-flash="up"]::after, .nx-ticker [data-flash="down"]::after { animation-name: nx-ticker-flash-strong-a; }
+  .nx-ticker [data-flash="up-b"]::after, .nx-ticker [data-flash="down-b"]::after { animation-name: nx-ticker-flash-strong-b; }
+}
+@keyframes nx-ticker-flash-strong-a { 0% { opacity: 0; } 15% { opacity: .34; } 100% { opacity: 0; } }
+@keyframes nx-ticker-flash-strong-b { 0% { opacity: 0; } 15% { opacity: .34; } 100% { opacity: 0; } }

@@ -9,18 +9,22 @@
  * Geist is SIL OFL 1.1 (public/fonts/geist/Geist-OFL.txt).
  */
 
+/* font-display: optional (2026-10-18, owner: "字体…冒出来" at the top of the home on cold loads): both files are
+ * preloaded, so a normal connection paints in Geist from the start; on a slow cold load the metric-matched fallback below
+ * stays for that page view instead of swapping glyphs in front of the reader (the swap also nudged the centred desktop
+ * ticker by 8-12 px). The next navigation reads Geist from cache. */
 @font-face {
   font-family: "Geist V5";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
+  font-display: optional;
   src: url("/fonts/geist/geist-sans-latin.woff2") format("woff2");
 }
 @font-face {
   font-family: "Geist Mono V5";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
+  font-display: optional;
   src: url("/fonts/geist/geist-mono-latin.woff2") format("woff2");
 }
 /* Metric-matched fallbacks (venue-graph lane 2026-10-11): while Geist is still downloading, text is laid out in Arial /
