@@ -146,8 +146,8 @@ export const venueDecisionContent = {
     }), [0, 1, 2, 3]),
   bitget: reviewedEntry(
     localeText({
-      en: "Choose Bitget when the decision turns on spot and futures fee mechanics plus copy-trading style workflows that must be checked before signup.",
-      "zh-Hans": "如果决策重点是现货/合约费用机制，以及开户前必须核对的跟单式使用流程，可把 Bitget 纳入候选。",
+      en: "Bitget suits you if you want copy trading and the highest fee rebate.",
+      "zh-Hans": "想跟单交易、想拿最高比例的手续费返还，选 Bitget。",
       "zh-Hant": "如果決策重點是現貨/合約費用機制，以及開戶前必須核對的跟單式使用流程，可把 Bitget 納入候選。",
       es: "Considera Bitget cuando la decisión dependa de mecánicas de fees spot/futuros y flujos tipo copy trading que debes revisar antes del alta.",
       "pt-BR": "Considere a Bitget quando a decisão depender de taxas spot/futuros e fluxos de copy trading que precisam ser checados antes do cadastro.",

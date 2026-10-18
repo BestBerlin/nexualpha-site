@@ -14,7 +14,7 @@ const UI_KEYS = [
   "notFoundTitle", "notFoundBody", "loadingTitle", "loadingBody",
 ];
 const EN = {
-  firstDecisionTitle: "Before you act on this market update",
+  firstDecisionTitle: "Before you act",
   firstDecisionEyebrow: "READ THIS FIRST",
   firstDecisionBody: "Use this article as a source-checked research starting point. Confirm the official domain, regional eligibility, product scope and account terms before acting.",
   compareBtn: "Open comparison",

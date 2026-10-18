@@ -33,8 +33,8 @@ export const RF_HUB = {
  uk: ["Ви","Перевірка офіційного домену"],
 };
 export const CLOSE_COPY = {
-  en: { title: "Pick your route. Then open the account.", lead: "Start from the directory, or put two platforms side by side first. Every sign-up link goes to the official page.", dir: "Browse the directory", cmp: "Compare two platforms", note: "Official sign-up pages only. Affiliate links are disclosed." },
-  "zh-Hans": { title: "选好路线，再去开户。", lead: "从平台目录开始，或先把两家平台并排对比。每个注册入口都指向官方页面。", dir: "浏览平台目录", cmp: "对比两家平台", note: "仅链接官方注册页，推广关系已披露。" },
+  en: { title: "Compare first. Then sign up.", lead: "Start from the exchange directory, or put two exchanges side by side. Every sign-up link opens the official site.", dir: "Browse the directory", cmp: "Compare two platforms", note: "Official sign-up pages only. Affiliate links are disclosed." },
+  "zh-Hans": { title: "先比清楚，再去开户。", lead: "从交易所目录开始，或把两家并排比一比。注册链接都直达官方网站。", dir: "浏览平台目录", cmp: "对比两家平台", note: "仅链接官方注册页，推广关系已披露。" },
   "zh-Hant": { title: "選好路線，再去開戶。", lead: "從平台目錄開始，或先把兩家平台並排比較。每個註冊入口都指向官方頁面。", dir: "瀏覽平台目錄", cmp: "比較兩家平台", note: "僅連結官方註冊頁，推廣關係已揭露。" },
   ja: { title: "ルートを選んで、口座を開く。", lead: "ディレクトリから始めるか、まず2つのプラットフォームを並べて比較。登録リンクはすべて公式ページに移動します。", dir: "ディレクトリを見る", cmp: "2社を比較する", note: "公式の登録ページのみ。アフィリエイト関係は開示しています。" },
   ko: { title: "경로를 고르고, 계정을 여세요.", lead: "디렉터리에서 시작하거나 두 플랫폼을 먼저 나란히 비교하세요. 모든 가입 링크는 공식 페이지로 연결됩니다.", dir: "디렉터리 보기", cmp: "두 플랫폼 비교", note: "공식 가입 페이지만 연결하며 제휴 관계를 공개합니다." },

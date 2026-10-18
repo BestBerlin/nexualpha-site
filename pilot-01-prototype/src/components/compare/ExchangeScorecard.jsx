@@ -13,10 +13,10 @@ function useScorecardNow() {
   return now;
 }
 const COPY = {
-  'zh-Hans': ['数据对比评分卡', '维度', '领先', '并列', '', '截至', '适合场景', '交易所比较', '用途', '领先平台', '规则'],
+  'zh-Hans': ['逐项对比', '维度', '领先', '并列', '', '截至', '适合场景', '交易所比较', '用途', '领先平台', '规则'],
   'zh-Hant': ['數據比較評分卡', '維度', '領先', '並列', '', '截至', '適合場景', '交易所比較', '用途', '領先平台', '規則'],
   ar: ['بطاقة مقارنة البيانات', 'المعيار', 'المتقدم', 'تعادل', '', 'بتاريخ', 'الأنسب حسب الاستخدام', 'مقارنة المنصات في', 'الاستخدام', 'المنصات المتقدمة', 'القاعدة'],
-  en: ['Data-backed scorecard', 'Dimension', 'Winner', 'Tie', 'Not available', 'As of', 'Best for', 'Best exchange for', 'Use case', 'Leaders', 'Rule'],
+  en: ['Line by line', 'Dimension', 'Winner', 'Tie', 'Not available', 'As of', 'Best for', 'Best exchange for', 'Use case', 'Leaders', 'Rule'],
   tr: ['Veriye dayalı karşılaştırma', 'Ölçüt', 'Önde', 'Eşit', 'Veri yok', 'Veri tarihi', 'En uygun kullanım', 'En iyi borsa:', 'Kullanım amacı', 'Önde gelenler', 'Kural'],
   vi: ['So sánh dựa trên dữ liệu', 'Tiêu chí', 'Dẫn đầu', 'Bằng nhau', 'Chưa có dữ liệu', 'Dữ liệu ngày', 'Phù hợp nhất cho', 'Sàn tốt nhất cho', 'Mục đích', 'Dẫn đầu', 'Quy tắc'],
   id: ['Perbandingan berbasis data', 'Kriteria', 'Unggul', 'Seri', 'Data tidak tersedia', 'Data per', 'Terbaik untuk', 'Bursa terbaik untuk', 'Kebutuhan', 'Pemimpin', 'Aturan'],

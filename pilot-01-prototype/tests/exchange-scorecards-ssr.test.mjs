@@ -63,7 +63,7 @@ test('hub renders market-specific rules and excludes unsupported country claims'
 test('Chinese and Arabic scorecard presentation uses localized labels and hides missing values', () => {
   for (const locale of ['zh-Hans', 'zh-Hant', 'ar']) {
     const html = pair(['binance', 'okx'], locale);
-    assert.doesNotMatch(html, /Data-backed scorecard|Lowest checked spot fees|Published data only|Not checked|Date not recorded|Source 1/);
+    assert.doesNotMatch(html, /Line by line|Data-backed scorecard|Lowest checked spot fees|Published data only|Not checked|Date not recorded|Source 1/);
   }
 });
 

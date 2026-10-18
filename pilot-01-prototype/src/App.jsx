@@ -1064,7 +1064,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
         uk: "Порівняння комісій платформ", ar: "مقارنة رسوم منصات التداول", "pt-BR": "Painel de referência de taxas", es: "Panel de referencia de comisiones",
         fr: "Référentiel des frais des plateformes", de: "Gebühren-Benchmark für Handelsplattformen", ru: "Сравнение комиссий платформ",
         id: "Tolok ukur biaya platform", vi: "Bảng đối chiếu phí nền tảng", it: "Benchmark delle commissioni"
-      }[locale] || (locale.startsWith("zh") ? "交易所手续费基准终端" : "Crypto Exchange Fee Benchmark Terminal"))}</h1>
+      }[locale] || (locale.startsWith("zh") ? "交易所手续费对比" : "Exchange fees, side by side"))}</h1>
     </section>
     <FeeBenchmarkTerminal locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />
   </main>, { crawlScope: "rates" });

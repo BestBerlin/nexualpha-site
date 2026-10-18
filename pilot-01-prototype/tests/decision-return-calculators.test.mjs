@@ -99,7 +99,7 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   assert.match(fees, /value="3"/); // default 100000 tier remains SSR default
   assert.match(fees, /Open fee query in Telegram/);
   assert.doesNotMatch(fees, /Save report to Telegram Bot|保存诊断至 Telegram/);
-  assert.match(fees, /Copy link to continue later/);
+  assert.match(fees, /Copy this page link/);
   assert.match(fees, /nexu888/);
   assert.match(fees, /User benefit pending official verification/);
   assert.doesNotMatch(fees, /bleed-verdict__numbers/);
@@ -112,7 +112,7 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   assert.match(feesRegional, /data-growth-product="spot"/);
   assert.match(cost, /id="cost-scenario"/);
   assert.match(cost, /value="100000"/);
-  assert.match(cost, /Copy link to continue later/);
+  assert.match(cost, /Copy this page link/);
   for (const venue of ['Binance', 'Bybit', 'Bitget']) {
     const match = cost.match(new RegExp(`<article><h3>${venue}</h3>[\\s\\S]*?</article>`));
     assert.ok(match, `${venue} card should render`);

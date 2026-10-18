@@ -78,8 +78,8 @@ export function appendCostScenarioQuery(href, input={}) {
 }
 
 const COPY = {
-  en:{copy:'Copy link to continue later',copied:'Link copied',failed:'Copy failed. Select and copy the link below.',linkLabel:'Link with current selections',botFeeOpen:'Open fee query in Telegram'},
-  'zh-Hans':{copy:'复制链接，稍后继续',copied:'链接已复制',failed:'未能自动复制，请选中并复制下方链接。',linkLabel:'包含当前选择的链接',botFeeOpen:'在 Telegram 打开费用查询'},
+  en:{copy:'Copy this page link',copied:'Link copied',failed:'Copy failed. Select and copy the link below.',linkLabel:'Link with current selections',botFeeOpen:'Open fee query in Telegram'},
+  'zh-Hans':{copy:'复制本页链接',copied:'链接已复制',failed:'未能自动复制，请选中并复制下方链接。',linkLabel:'包含当前选择的链接',botFeeOpen:'在 Telegram 打开费用查询'},
   'zh-Hant':{copy:'複製連結，稍後繼續',copied:'連結已複製',failed:'未能自動複製，請選取並複製下方連結。',linkLabel:'包含目前選擇的連結',botFeeOpen:'在 Telegram 開啟費用查詢'},
   ja:{copy:'リンクをコピーして後で続ける',copied:'リンクをコピーしました',failed:'コピーできませんでした。下のリンクを選択してコピーしてください。',linkLabel:'現在の選択を含むリンク',botFeeOpen:'Telegramで手数料の問い合わせを開く'},
   ko:{copy:'나중에 이어볼 링크 복사',copied:'링크를 복사했습니다',failed:'복사하지 못했습니다. 아래 링크를 선택해 복사하세요.',linkLabel:'현재 선택이 포함된 링크',botFeeOpen:'Telegram에서 수수료 조회 열기'},
