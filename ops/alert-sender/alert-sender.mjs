@@ -14,6 +14,8 @@ import { readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { runChannelRhythm } from "./channel-rhythm.mjs";
+import { deliverOnce } from "../channel-feed/delivery-receipts.mjs";
+export { deliverOnce, assertTelegramOk } from "../channel-feed/delivery-receipts.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 import { countTriggers, evaluateTriggers, loadTriggers, moveCoins } from "./alert-triggers.mjs";
 import { isNeutralCtaLocale, orderVenues, todayBlock, todayTitle } from "./site-features.mjs";
@@ -92,10 +94,19 @@ export async function sendPhoto(tok, chat, png, caption, fetcher = fetch) {
   // On failure keep the HTTP status and Telegram's description (never the request URL, which contains the token).
   return ok ? { ok, id: body.result.message_id } : { ok, id: body?.result?.message_id, status: res.status, error: String(body?.description || 'no message id returned').slice(0, 300) };
 }
+const sourceStatus = {};
 async function getJson(url) {
-  const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });
-  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
-  return res.json();
+  const key = new URL(url).pathname;
+  try {
+    const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaAlerts/1.0" }, signal: AbortSignal.timeout(15000) });
+    if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+    const data = await res.json();
+    sourceStatus[key] = { status: "ok", updatedAt: new Date().toISOString() };
+    return data;
+  } catch (error) {
+    sourceStatus[key] = { status: "failed", updatedAt: new Date().toISOString() };
+    throw error;
+  }
 }
 // Binance public API without the cache-buster query (getJson adds ?r= for our CDN-cached site files only).
 async function getBinance(url) {
@@ -116,35 +127,6 @@ async function send(tok, chat, text, buttons) {
     description: String(body?.description || `HTTP ${res.status}`).slice(0, 300),
     parameters: body?.parameters,
   };
-}
-export function assertTelegramOk(result, context = "sendMessage") {
-  if (result?.ok === true) return result;
-  const code = result?.error_code || result?.status || "unknown";
-  const description = String(result?.description || result?.error || "telegram request failed").slice(0, 300);
-  throw new Error(`${context}: ${code} ${description}`);
-}
-// Persist intent before the request. A timeout/crash may happen after Telegram
-// accepted it, so an unresolved receipt needs review rather than automatic replay.
-// Explicit Bot API rejection is safe to retry; confirmed recipients are skipped.
-export async function deliverOnce({ state, key, deliver, save, now = Date.now() }) {
-  const receipts = state.deliveryReceipts ||= {};
-  const previous = receipts[key];
-  if (previous?.status === "confirmed") return { ok: true, skipped: true };
-  if (previous?.status === "pending") throw new Error("delivery outcome unknown; inspect deliveryReceipts before retry");
-  if (previous?.retryAt > now) throw new Error("Telegram rate limit backoff still active");
-  receipts[key] = { status: "pending", at: now };
-  save();
-  const result = await deliver();
-  if (result?.ok !== true) {
-    const retryAfter = Number(result?.parameters?.retry_after);
-    if (Number.isFinite(retryAfter) && retryAfter > 0) receipts[key] = { status: "rejected", at: now, retryAt: now + retryAfter * 1000 };
-    else delete receipts[key];
-    save();
-    assertTelegramOk(result);
-  }
-  receipts[key] = { status: "confirmed", at: now };
-  save();
-  return result;
 }
 async function sendPoll(tok, chat, poll) {
   if (DRY) { log(`DRY poll -> ${chat}: ${poll.question}`); return { ok: true }; }
@@ -462,7 +444,19 @@ export function buildFunnelReport({ clicksText, subs, now = Date.now(), lang = "
 export function funnelReportDue({ now = new Date(), sentDates = [], ownerChatId = OWNER_CHAT_ID } = {}) {
   if (!ownerChatId) return false;
   const today = now.toISOString().slice(0, 10);
-  return now.getUTCHours() === 13 && now.getUTCMinutes() >= 5 && !sentDates.includes(today);
+  return now.getUTCHours() * 60 + now.getUTCMinutes() >= 13 * 60 + 5 && !sentDates.includes(today);
+}
+
+export function digestDue({ now = new Date(), sentDates = [], initialized = false } = {}) {
+  return initialized && now.getUTCHours() >= 13 && !sentDates.includes(now.toISOString().slice(0, 10));
+}
+
+export function requireCurrentMarket(market) {
+  if (market?.stale === true) throw new Error("market feed stale; waiting for recovery");
+  for (const key of ["markets", "fapi.binance.com/fapi/v1/ticker/24hr"]) {
+    const status = market?.sourceStatus?.[key]?.status;
+    if (status !== undefined && status !== "ok") throw new Error(`market source ${key} unavailable; waiting for recovery`);
+  }
 }
 
 // ---------- custom /alert rules ----------
@@ -549,6 +543,8 @@ async function cycle(tok) {
   const subs = readJson(SUBS, { users: {} });
   const users = Object.entries(subs.users || {});
   const [mk, partnersFeed, ann] = await Promise.all([getJson(`${SITE}/intel/market-events.json`), getJson(`${SITE}/intel/partners.json`), getJson(`${SITE}/intel/official-announcements.json`).catch(() => ({ items: [] }))]);
+  try { requireCurrentMarket(mk); }
+  catch (error) { sourceStatus["/intel/market-events.json"] = { status: "failed", updatedAt: new Date().toISOString() }; throw error; }
   const partners = partnersFeed.partners || [];
   const bySlug = Object.fromEntries(partners.map((p) => [p.slug, p]));
   const saveState = () => { if (!DRY) writeJson(STATE, state); };
@@ -560,12 +556,12 @@ async function cycle(tok) {
     await new Promise((res) => setTimeout(res, 60));
     return unavailable ? { ok: true, unavailable: true } : r;
   };
-  const deliverStrict = (key, action) => deliverOnce({ state, key, deliver: action, save: saveState });
+  const deliverStrict = (key, action) => deliverOnce({ state, ...(Array.isArray(key) ? { keys: key } : { key }), deliver: action, save: saveState });
   // One recipient's rejection or unknown outcome must never stall the rest of the cycle (digest, funnel, custom alerts):
   // log it and move on. Confirmed recipients are still skipped on a rerun; a pending receipt is never blindly replayed.
   const deliver = async (key, action) => {
     try { return await deliverStrict(key, action); }
-    catch (error) { log(`delivery ${key} not confirmed: ${error.message}`); if (ONCE) process.exitCode = 1; return { ok: false, description: error.message }; }
+    catch (error) { sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() }; log(`delivery ${key} not confirmed: ${error.message}`); if (ONCE) process.exitCode = 1; return { ok: false, description: error.message }; }
   };
 
   try {
@@ -577,14 +573,15 @@ async function cycle(tok) {
       dryRun: DRY,
       buttonsFor: (lang, src) => partnerButtons(partners, lang, src),
       sendMessage: async (chat, text, buttons, { slot }) => {
-        await deliver(`rhythm:${slot.kind}:${slot.key}:message:${chat}`, () => send(tok, chat, text, buttons));
+        await deliverStrict(`rhythm:${slot.kind}:${slot.key}:message:${chat}`, () => send(tok, chat, text, buttons));
       },
       sendPoll: async (chat, poll, { slot }) => {
-        await deliver(`rhythm:${slot.kind}:${slot.key}:poll:${chat}`, () => sendPoll(tok, chat, poll));
+        await deliverStrict(`rhythm:${slot.kind}:${slot.key}:poll:${chat}`, () => sendPoll(tok, chat, poll));
       },
       save: saveState,
     });
   } catch (error) {
+    sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() };
     log(error.message);
     if (ONCE) process.exitCode = 1;
   }
@@ -595,29 +592,43 @@ async function cycle(tok) {
     const key = hourKey(ev.type);
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
-    for (const [lang, chat] of Object.entries(CHANNELS)) await deliver(`event:${key}:channel:${chat}`, () => send(tok, chat, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-channel-${lang}`)));
+    let complete = true;
+    for (const [lang, chat] of Object.entries(CHANNELS)) if (!(await deliver(`event:${key}:channel:${chat}`, () => send(tok, chat, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-channel-${lang}`)))).ok) complete = false;
     for (const [uid, u] of users) if (u.topics?.includes(topic)) {
       const lang = msgLang(u);
-      await deliver(`event:${key}:dm:${uid}`, () => dm(uid, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-dm-${lang}`)));
+      if (!(await deliver(`event:${key}:dm:${uid}`, () => dm(uid, eventMessage(ev, mk, lang), eventButtons(lang, `tg-alert-dm-${lang}`)))).ok) complete = false;
     }
-    state.sentEvents[key] = new Date().toISOString();
-    log(`event ${ev.type} sent`);
+    if (complete) state.sentEvents[key] = new Date().toISOString();
+    log(`event ${ev.type} ${complete ? "sent" : "incomplete; retry remaining recipients"}`);
   }
 
   // partner listings and campaigns -> "listings" subscribers (channels already get them from channel-feed)
   const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3 && !state.sentListings[i.id]);
   for (const group of groupListingItems(fresh)) {
+    let complete = true;
     if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) {
       const lang = msgLang(u);
-      const m = group.type === "listing" ? listingGroupMessage(group.items, bySlug, lang) : listingMessage(group.items[0], bySlug[group.items[0].venue], lang);
-      if (m) await deliver(`listing:${JSON.stringify(group.items.map(item => String(item.id)).sort())}:dm:${uid}`, () => dm(uid, m.text, m.buttons));
+      const receiptKey = (item) => `listing:${JSON.stringify([String(item.id), uid])}`;
+      const unresolved = group.items.filter((item) => state.deliveryReceipts?.[receiptKey(item)]?.status !== "confirmed");
+      const pending = unresolved.filter((item) => {
+        const receipt = state.deliveryReceipts?.[receiptKey(item)];
+        return receipt?.status !== "pending" && !(receipt?.retryAt > Date.now());
+      });
+      if (pending.length < unresolved.length) {
+        complete = false;
+        sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() };
+        log(`listing recipient ${uid}: unresolved receipt/backoff retained for review; processing other items`);
+      }
+      if (!pending.length) continue;
+      const m = group.type === "listing" ? listingGroupMessage(pending, bySlug, lang) : listingMessage(pending[0], bySlug[pending[0].venue], lang);
+      if (m && !(await deliver(pending.map(receiptKey), () => dm(uid, m.text, m.buttons))).ok) complete = false;
     }
-    for (const item of group.items) state.sentListings[item.id] = new Date().toISOString();
+    if (complete) for (const item of group.items) state.sentListings[item.id] = new Date().toISOString();
   }
 
   // daily brief at 13:00 UTC
   const today = new Date().toISOString().slice(0, 10);
-  if (new Date().getUTCHours() === 13 && !state.digestDates.includes(today) && state.initialized) {
+  if (digestDue({ sentDates: state.digestDates, initialized: state.initialized })) {
     const feed = await getJson(`${SITE}/content/news-feed-summary.json`).catch(() => ({ articles: [] }));
     const articles = (feed.articles || []).filter((a) => Date.now() - Date.parse(a.publishedAt) < 24 * 3600e3).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     const campaigns = (ann.items || []).filter((i) => i.category === "event" && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 48 * 3600e3);
@@ -627,13 +638,14 @@ async function cycle(tok) {
       if (!(lang in flashByLang)) flashByLang[lang] = await getJson(`${SITE}/api/flash.json?important=1&limit=20&locale=${FLASH_LOCALE[lang] || lang}`).catch((e) => { log(`flash ${lang}: ${e.message}`); return { items: [] }; });
       return { now: Date.now(), flash: flashByLang[lang], calendar };
     };
+    let complete = true;
     for (const [lang, chat] of Object.entries(CHANNELS)) {
       const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang));
-      await deliver(`digest:${today}:channel:${chat}`, () => send(tok, chat, d.text, d.buttons));
+      if (!(await deliver(`digest:${today}:channel:${chat}`, () => send(tok, chat, d.text, d.buttons))).ok) complete = false;
     }
-    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); await deliver(`digest:${today}:dm:${uid}`, () => dm(uid, d.text, d.buttons)); }
-    state.digestDates = [...state.digestDates.slice(-30), today];
-    log("daily brief sent");
+    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang, await todayFor(lang)); if (!(await deliver(`digest:${today}:dm:${uid}`, () => dm(uid, d.text, d.buttons))).ok) complete = false; }
+    if (complete) state.digestDates = [...state.digestDates.slice(-30), today];
+    log(complete ? "daily brief sent" : "daily brief incomplete; remaining recipients retry next cycle");
   }
 
   // owner funnel report at 13:05 UTC (private DM; skipped silently without OWNER_CHAT_ID)
@@ -655,17 +667,18 @@ async function cycle(tok) {
       sendDelivery: async (delivery) => {
         try { return await deliverStrict(`custom:${delivery.deliveryId}:dm:${delivery.uid}`, () => dm(delivery.uid, delivery.text, delivery.buttons)); }
         catch (error) {
+          sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() };
           if (/rate limit|\b429\b/i.test(error.message)) throw error;
           log(`custom alert ${delivery.deliveryId} not confirmed: ${error.message}`); if (ONCE) process.exitCode = 1; return null;
         }
       },
     });
-  } catch (error) { log(`custom alerts failed: ${error.message}`); if (ONCE) process.exitCode = 1; }
+  } catch (error) { sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() }; log(`custom alerts failed: ${error.message}`); if (ONCE) process.exitCode = 1; }
 
   if (blocked.size) { const s2 = readJson(SUBS, { users: {} }); for (const uid of blocked) delete s2.users[uid]; writeJson(SUBS, s2); log(`removed ${blocked.size} blocked users`); }
   for (const k of Object.keys(state.sentListings)) if (Object.keys(state.sentListings).length > 2000) delete state.sentListings[k];
-  // Receipts only guard reruns of the same hour/day key; keep a week of every status so state cannot grow unbounded.
-  for (const [key, receipt] of Object.entries(state.deliveryReceipts || {})) if (!(Date.now() - receipt.at <= 7 * 24 * 3600e3)) delete state.deliveryReceipts[key];
+  // Keep completed/rejected receipts for a week; pending outcomes require review and must never expire into a replay.
+  for (const [key, receipt] of Object.entries(state.deliveryReceipts || {})) if (receipt.status !== "pending" && !(Date.now() - receipt.at <= 7 * 24 * 3600e3)) delete state.deliveryReceipts[key];
   state.initialized = true;
   saveState();
 }
@@ -678,10 +691,24 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const run = async () => {
     if (inFlight) { log("cycle skipped: previous cycle still running"); return; }
     inFlight = true;
+    for (const key of Object.keys(sourceStatus)) delete sourceStatus[key];
+    let status = "ok";
     try { await cycle(tok); }
-    catch (e) { log(`cycle failed: ${e.message}`); if (ONCE) process.exitCode = 1; }
-    finally { inFlight = false; }
+    catch (e) { status = "failed"; log(`cycle failed: ${e.message}`); if (ONCE) process.exitCode = 1; }
+    finally {
+      try {
+        if (!DRY) writeJson(process.env.ALERT_HEARTBEAT_FILE || path.join(path.dirname(STATE), "heartbeat.json"), {
+          updatedAt: new Date().toISOString(), status: status === "ok" && Object.values(sourceStatus).some((s) => s.status === "failed") ? "degraded" : status, sources: sourceStatus,
+        });
+      } finally { inFlight = false; }
+    }
+    return status === "ok";
   };
-  await run();
-  if (!ONCE) setInterval(run, 2 * 60 * 1000);
+  let backoff = 1000;
+  do {
+    const ok = await run();
+    if (ONCE) break;
+    await new Promise((resolve) => setTimeout(resolve, ok ? 2 * 60 * 1000 : backoff));
+    backoff = ok ? 1000 : Math.min(5 * 60 * 1000, backoff * 2);
+  } while (true);
 }

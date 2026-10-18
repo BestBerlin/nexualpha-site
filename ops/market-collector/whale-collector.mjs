@@ -5,9 +5,11 @@
 // - PublicNode Ethereum RPC through the existing server adapter when enabled there.
 // - Tronscan TRC20 transfer list for recent USDT-TRC20 transfers.
 // Writes whales.json atomically every cycle and keeps persistent whale-history.json for accumulation signals.
-import { closeSync, existsSync, mkdirSync, openSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { atomicWriteJson, boundedFetch, createSourceRunner, readJson, runCollectorLoop, sourcesDegraded } from "./resilience.mjs";
+export { atomicWriteJson } from "./resilience.mjs";
 import { createPositionRadar, POSITION_RADAR_WHALE_SOURCES } from "../../pilot-01-prototype/server/position-radar.mjs";
 
 const UA = "NexuAlphaWhaleCollector/1.0 (+https://nexualpha.com)";
@@ -30,18 +32,11 @@ const LOCK_STALE_MS = Number(process.env.WHALE_LOCK_STALE_MS || 10 * MINUTE);
 const LOG_PREFIX = "[whales]";
 
 const log = (message) => console.log(`${LOG_PREFIX} ${new Date().toISOString()} ${message}`);
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function collectorRuntimeConfig() {
   return { cycleMs: CYCLE_MS, minUsd: MIN_USD, minPositionUsd: MIN_POSITION_USD, lockStaleMs: LOCK_STALE_MS };
 }
 
-export function atomicWriteJson(file, value) {
-  mkdirSync(path.dirname(file), { recursive: true });
-  const tmp = `${file}.${process.pid}.${Date.now()}.tmp`;
-  writeFileSync(tmp, `${JSON.stringify(value)}\n`);
-  renameSync(tmp, file);
-}
 
 function processIsAlive(pid) {
   if (!Number.isInteger(pid) || pid <= 0) return false;
@@ -107,24 +102,14 @@ export function readWalletsFile(file = process.env.HYPERLIQUID_WALLETS_FILE) {
   return rows.map((row) => typeof row === "string" ? row : row?.address).filter(Boolean);
 }
 
-export function createBackoffSource(name, source, { now = Date.now, baseMs = 60_000, maxMs = 60 * 60_000, logFn = log } = {}) {
-  let failures = 0;
-  let nextAt = 0;
-  return async (...args) => {
-    const t = now();
-    if (t < nextAt) throw new Error(`${name} backed off until ${new Date(nextAt).toISOString()}`);
-    try {
-      const result = await source(...args);
-      failures = 0;
-      nextAt = 0;
-      return result;
-    } catch (error) {
-      failures += 1;
-      nextAt = t + Math.min(maxMs, baseMs * 2 ** (failures - 1));
-      logFn(`${name} failed: ${error?.message || error}; next retry ${new Date(nextAt).toISOString()}`);
-      throw error;
-    }
-  };
+export function createBackoffSource(name, source, { now = Date.now, baseMs = 1_000, maxMs = 300_000, timeoutMs = 45_000, logFn = log } = {}) {
+  const runner = createSourceRunner({ now, baseMs, maxMs, timeoutMs, log: logFn });
+  const wrapped = (...args) => runner.run(name, (signal) => {
+    if (typeof args[0] === "function") args[0] = boundedFetch(args[0], { signal });
+    return source(...args);
+  });
+  wrapped.sourceStatus = () => runner.status()[name] || { status: "pending" };
+  return wrapped;
 }
 
 async function getJson(url, fetchImpl = fetch) {
@@ -159,11 +144,12 @@ export async function ethUsdPrice(fetchImpl = fetch) {
   throw new Error("ETH USD price unavailable");
 }
 
-function whaleSourcesWithBackoff({ now = Date.now, fetchImpl = fetch, logFn = log } = {}) {
-  return Object.fromEntries(Object.entries(POSITION_RADAR_WHALE_SOURCES).map(([name, source]) => [
-    name,
-    createBackoffSource(name, source, { now, logFn }),
-  ]));
+const wrappedSourceSets = new WeakMap();
+function whaleSourcesWithBackoff(sources, options) {
+  if (!wrappedSourceSets.has(sources)) wrappedSourceSets.set(sources, Object.fromEntries(Object.entries(sources).map(([name, source]) => [
+    name, source.sourceStatus ? source : createBackoffSource(name, source, options),
+  ])));
+  return wrappedSourceSets.get(sources);
 }
 
 export async function collectWhales({
@@ -172,25 +158,19 @@ export async function collectWhales({
   outFile = OUT_FILE,
   historyFile = HISTORY_FILE,
   wallets = readWalletsFile(),
-  sources = whaleSourcesWithBackoff({ now, fetchImpl }),
+  sources = POSITION_RADAR_WHALE_SOURCES,
+  sourceTimeoutMs = 45_000,
   minUsd = MIN_USD,
   minPositionUsd = MIN_POSITION_USD,
   logFn = log,
 } = {}) {
   minUsd = parseClampedNumber(minUsd, MIN_USD, 5_000_000);
   minPositionUsd = parseClampedNumber(minPositionUsd, MIN_POSITION_USD, 1_000_000);
-  let btc = null;
-  try {
-    btc = await btcUsdPrice(fetchImpl);
-  } catch (error) {
-    logFn(`btc price failed: ${error?.message || error}`);
-  }
-  let eth = null;
-  try {
-    eth = await ethUsdPrice(fetchImpl);
-  } catch (error) {
-    logFn(`eth price failed: ${error?.message || error}`);
-  }
+  fetchImpl = boundedFetch(fetchImpl);
+  sources = whaleSourcesWithBackoff(sources, { now, logFn, timeoutMs: sourceTimeoutMs });
+  const prices = await Promise.allSettled([btcUsdPrice(fetchImpl), ethUsdPrice(fetchImpl)]);
+  const btc = prices[0].status === "fulfilled" ? prices[0].value : null;
+  const eth = prices[1].status === "fulfilled" ? prices[1].value : null;
   const radar = createPositionRadar({
     fetchImpl,
     now,
@@ -207,9 +187,20 @@ export async function collectWhales({
     log: logFn,
   });
   const snapshot = await radar.refresh("whales");
+  const updatedAt = new Date(now()).toISOString();
+  const previous = readJson(outFile);
+  const failed = snapshot.status !== "ok";
+  const sourceStatus = {
+    ...Object.fromEntries(Object.entries(sources).map(([name, source]) => [name, source.sourceStatus()])),
+    btcPrice: { status: btc ? "ok" : "error", error: prices[0].reason?.message || null },
+    ethPrice: { status: eth ? "ok" : "error", error: prices[1].reason?.message || null },
+  };
+  const degraded = failed || sourcesDegraded(sourceStatus);
   const output = {
-    ...snapshot,
-    generatedAt: new Date(now()).toISOString(),
+    ...(failed && previous?.status === "ok" ? previous : snapshot),
+    generatedAt: failed ? previous?.generatedAt || null : updatedAt,
+    dataUpdatedAt: failed ? previous?.dataUpdatedAt || previous?.updatedAt || null : snapshot.updatedAt,
+    updatedAt, stale: failed, degraded, sourceStatus,
     collector: {
       cycleMs: CYCLE_MS,
       minUsd,
@@ -221,26 +212,29 @@ export async function collectWhales({
     },
   };
   atomicWriteJson(outFile, output);
+  atomicWriteJson(`${outFile}.heartbeat.json`, { updatedAt, status: degraded ? "degraded" : "ok", sourceStatus });
   return output;
 }
 
 async function loop() {
   const release = acquireLock();
   for (const signal of ["SIGTERM", "SIGINT"]) process.once(signal, () => { release(); process.exit(0); });
-  const run = async () => {
-    const snapshot = await collectWhales();
-    log(`status=${snapshot.status} signals=${snapshot.signals?.length || 0} positions=${snapshot.positions?.length || 0} transfers=${snapshot.transfers?.length || 0}`);
-  };
   try {
-    await run();
-    if (ONCE) return;
-    setInterval(() => run().catch((error) => log(`cycle failed: ${error?.message || error}`)), CYCLE_MS);
-  } catch (error) {
-    log(`cycle failed: ${error?.message || error}`);
-    if (ONCE) process.exitCode = 1;
-  } finally {
-    if (ONCE) release();
-  }
+    await runCollectorLoop(async () => {
+      const snapshot = await collectWhales();
+      log(`status=${snapshot.status} signals=${snapshot.signals?.length || 0} positions=${snapshot.positions?.length || 0} transfers=${snapshot.transfers?.length || 0}`);
+      return !snapshot.stale;
+    }, {
+      cycleMs: CYCLE_MS, once: ONCE,
+      onError: (error) => {
+        log(`cycle failed: ${error?.message || error}`);
+        const updatedAt = new Date().toISOString();
+        const previous = readJson(OUT_FILE);
+        if (previous) atomicWriteJson(OUT_FILE, { ...previous, updatedAt, stale: true, degraded: true, sourceStatus: { collector: { status: "error", error: error.message } } });
+        atomicWriteJson(`${OUT_FILE}.heartbeat.json`, { updatedAt, status: "error", sourceStatus: { collector: { status: "error", error: error.message } } });
+      },
+    });
+  } finally { release(); }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -6,7 +6,7 @@ import path from "node:path";
 import {
   BINANCE_LIQUIDATION_URL, BINANCE_SILENCE_TIMEOUT_MS, connectBinanceLiquidations,
   binanceStreamCoverage, parseBinanceForceOrder, collectorStatePayload, readCollectorState,
-  liquidationWindow, buildLiquidationTimeline,
+  liquidationWindow, buildLiquidationTimeline, capOrders, MAX_RETAINED_ORDERS, readCollectorStatePayload,
 } from "../../ops/market-collector/market-collector.mjs";
 
 // Binance official example (including the merged-universe fields):
@@ -100,4 +100,36 @@ test("socket writes to the current retained array after a collector cycle replac
   emit(stream, payload);
   assert.equal(oldOrders.length, 0);
   assert.equal(orders.length, 1);
+});
+
+test("socket error does not recurse through close() and reconnect is scheduled once (2026-10-18)", () => {
+  let closes = 0;
+  let reconnects = 0;
+  class RecursiveSocket {
+    constructor() { this.readyState = 1; }
+    close() {
+      closes += 1;
+      if (closes > 50) throw new Error("recursed");
+      this.readyState = 2;
+      this.onerror?.(new Event("error")); // undici re-fires error from close() on a failed socket
+      this.readyState = 3;
+      this.onclose?.();
+    }
+  }
+  const stream = connectBinanceLiquidations([], { WebSocketImpl: RecursiveSocket, onClose: () => { reconnects += 1; } });
+  stream.ws.onerror(new Event("error"));
+  stream.ws.onclose();
+  assert.equal(closes, 1);
+  assert.equal(reconnects, 1);
+  assert.equal(stream.state.open, false);
+});
+
+test("retained liquidation orders are hard-capped, newest kept", () => {
+  const rows = [5, 1, 4, 2, 3].map((t) => ({ t }));
+  assert.deepEqual(capOrders(rows, 3).map((x) => x.t), [3, 4, 5]);
+  assert.equal(capOrders(rows, 10), rows);
+  assert.ok(MAX_RETAINED_ORDERS >= 1000 && MAX_RETAINED_ORDERS <= 300_000);
+  const now = Date.now();
+  const many = Array.from({ length: MAX_RETAINED_ORDERS + 5 }, (_, i) => ({ t: now - 60_000 + i, s: "BTCUSDT", side: "long", usd: 1 }));
+  assert.equal(readCollectorStatePayload({ orders: many }, now + 60_000).orders.length, MAX_RETAINED_ORDERS);
 });

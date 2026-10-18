@@ -1,17 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, mkdtempSync, rmSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, mkdtempSync, rmSync, writeFileSync, existsSync, utimesSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { generate, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
+import { generate, dailySlotDue, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
 import { weightedLength, xClient } from '../x-poster/x-poster.mjs';
 import { sendPhoto, token } from '../alert-sender/alert-sender.mjs';
 
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/daily.json', import.meta.url), 'utf8'));
 const now = Date.parse('2026-10-13T01:00:00Z');
 const data = () => normalize(fixture.movers, fixture.market, now);
+test('recent last-good snapshots and failed market sub-sources cannot publish during recovery', () => {
+  assert.throws(() => normalize({ ...fixture.movers, stale: true }, fixture.market, now), /movers feed stale/);
+  assert.throws(() => normalize(fixture.movers, { ...fixture.market, stale: true }, now), /market feed stale/);
+  assert.throws(() => normalize(fixture.movers, { ...fixture.market, stale: false, sourceStatus: { markets: { status: 'open' } } }, now), /markets unavailable/);
+});
 const temp = (t) => { const dir = mkdtempSync(path.join(tmpdir(), 'daily-social-')); t.after(() => rmSync(dir, { recursive: true, force: true })); return dir; };
 test('fixture renders an actual 1200x675 PNG and brand/logo/funding/ten rows', () => {
   const png = renderCard(data());
@@ -91,7 +96,33 @@ test('production dry-run reads both owner endpoints and checks freshness after f
   assert.equal(summary.mode, 'dry-run'); assert.equal(summary.sourceTimes.movers, at);
   assert.deepEqual(urls.sort(), ['https://nexualpha.com/api/movers.json', 'https://nexualpha.com/intel/market-events.json']);
 });
-const bundle = () => ({ summary: { day: data().day }, png: Buffer.from('png fixture'), texts: Object.fromEntries(['en', 'zh-Hans'].flatMap((l) => ['x', 'tg'].map((p) => [`${p}-${l}.txt`, postText(data(), l, p)]))) });
+const bundle = () => ({ summary: { day: data().day }, png: Buffer.from('89504e470d0a1a0a', 'hex'), texts: Object.fromEntries(['en', 'zh-Hans'].flatMap((l) => ['x', 'tg'].map((p) => [`${p}-${l}.txt`, postText(data(), l, p)]))) });
+
+test('same-day catch-up is due after 09:00 SGT; reboot preview never publishes or changes a journal', async (t) => {
+  assert.equal(dailySlotDue('2026-10-15T00:59:59Z'), false);
+  assert.equal(dailySlotDue('2026-10-15T01:00:00Z'), true);
+  assert.equal(dailySlotDue('2026-10-15T06:00:00Z'), true);
+  assert.equal(dailySlotDue('2026-10-15T16:00:00Z'), false);
+  const out = temp(t), file = path.join(out, 'fixture.json');
+  writeFileSync(file, JSON.stringify(fixture).replaceAll('2026-10-13T01:00:00Z', '2026-10-13T02:00:00Z'));
+  assert.deepEqual(await main(['--catch-up', '--dry-run', '--fixture', file, '--at', '2026-10-13T00:30:00Z', '--out', out], {}), { day: '2026-10-13', mode: 'not-due' });
+  for (let i = 0; i < 2; i++) assert.equal((await main(['--catch-up', '--dry-run', '--fixture', file, '--at', '2026-10-13T02:00:00Z', '--out', out], {})).mode, 'dry-run');
+  assert.equal(existsSync(path.join(out, '2026-10-13.json')), false);
+});
+
+test('reboot-left stale lock can recover without replaying pending deliveries', async (t) => {
+  const stateDir = temp(t), b = bundle(), sent = [];
+  const lock = path.join(stateDir, 'run.lock');
+  writeFileSync(lock, 'crashed process');
+  utimesSync(lock, new Date(Date.now() - 11 * 60000), new Date(Date.now() - 11 * 60000));
+  writeFileSync(path.join(stateDir, `${b.summary.day}.json`), JSON.stringify({ x: { status: 'pending', at: new Date().toISOString() } }));
+  const opts = { bundle: b, stateDir, client: { verifyAccount: () => assert.fail('do not repeat pending X'), send: () => assert.fail('do not repeat pending X') },
+    telegramSend: async (chat) => { sent.push(chat); return { ok: true, id: sent.length }; } };
+  await postDaily(opts);
+  await postDaily(opts);
+  assert.deepEqual(sent, ['@NexuAlphaClub', '@NexuAlphaGlobal']);
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, `${b.summary.day}.json`))).x.status, 'pending');
+});
 test('mock posting uploads image, posts one X locale and only two owner channels; repeat skips all', async (t) => {
   const stateDir = temp(t), calls = [], b = bundle();
   const client = { verifyAccount: async () => calls.push('verify'), uploadImage: async (png) => { assert.equal(png, b.png); calls.push('upload'); return '123'; },
@@ -124,13 +155,13 @@ test('exclusive lock, invalid journal and account mismatch prevent publication',
 test('existing OAuth1 X helper uploads multipart PNG and attaches media ID', async () => {
   const calls = [], credentials = { consumerKey: 'example', consumerSecret: 'example', accessToken: 'example', accessSecret: 'example' };
   const client = xClient(credentials, async (url, opts) => { calls.push([url, opts]); return Response.json(url.includes('media/upload') ? { media_id_string: '1234567890123456789' } : { data: { id: '77' } }); });
-  const id = await client.uploadImage(Buffer.from('png'));
+  const id = await client.uploadImage(Buffer.from('89504e470d0a1a0a', 'hex'));
   assert.equal(id, '1234567890123456789'); assert.match(calls[0][1].headers.Authorization, /^OAuth /);
   assert.equal(calls[0][1].body.get('media_category'), 'tweet_image'); assert.equal(calls[0][1].body.get('media').type, 'image/png');
   assert.equal(calls[0][1].headers['Content-Type'], undefined);
   assert.equal((await client.send('hello', [id])).ok, true);
   assert.deepEqual(JSON.parse(calls[1][1].body), { text: 'hello', media: { media_ids: [id] } });
-  await assert.rejects(xClient(credentials, async () => Response.json({}, { status: 403 })).uploadImage(Buffer.from('png')), /upload failed/);
+  await assert.rejects(xClient(credentials, async () => Response.json({}, { status: 403 })).uploadImage(Buffer.from('89504e470d0a1a0a', 'hex')), /upload failed/);
 });
 test('community token helper and sendPhoto use existing bot with multipart plain caption', async (t) => {
   const file = path.join(temp(t), 'bot.env'); writeFileSync(file, 'COMMUNITY_BOT_TOKEN="example"\n'); assert.equal(token(file), 'example');
@@ -178,7 +209,7 @@ test('failed deliveries log HTTP status and API message with secrets redacted', 
   const credentials = { consumerKey: 'ckey-example', consumerSecret: 'csecret-example', accessToken: 'atoken-example', accessSecret: 'asecret-example' };
   const client = xClient(credentials, async (url) => url.includes('/users/me') ? Response.json({ data: { username: 'NexuAlpha' } })
     : Response.json({ errors: [{ message: 'Your app is not permitted to access ckey-example' }] }, { status: 403 }));
-  await assert.rejects(client.uploadImage(Buffer.from('png')), /upload failed: HTTP 403 Your app is not permitted/);
+  await assert.rejects(client.uploadImage(Buffer.from('89504e470d0a1a0a', 'hex')), /upload failed: HTTP 403 Your app is not permitted/);
   const telegramSend = (chat, png, caption) => sendPhoto(tok, chat, png, caption, async () => Response.json({ ok: false, description: `Bad Request: chat not found bot${tok}` }, { status: 400 }));
   const err = await postDaily({ bundle: b, stateDir, client, telegramSend, secrets: [tok, ...Object.values(credentials)] }).catch((e) => e);
   assert.match(err.message, /Daily x delivery unconfirmed \(X image upload failed: HTTP 403 Your app is not permitted to access <redacted>\)/);

@@ -1,9 +1,10 @@
 // Official exchange announcements, kept fresh by the running server (owner asked for automatic refresh, 2026-10-09).
 // Sources are the exchanges' own public announcement endpoints; no key, no scraping. A source that fails keeps its
-// previous items; if every source fails the last good feed is served unchanged. Nothing is ever invented.
+// previous items; if every source fails the last good feed is served explicitly stale. Nothing is ever invented.
 // The feed lives in memory only (code and assets may be mounted read-only); the build ships a seed copy.
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { setTimeout as deadlineTimer, clearTimeout as clearDeadline } from 'node:timers';
 import { ARCHIVE_PATH, mergeArchive, unionArchives } from '../src/data/announcement-archive.js';
 import {
   mergeIntel, normalizeBitgetAnnouncements, normalizeBybitAnnouncements, readIntelFeed,
@@ -74,23 +75,46 @@ export const SOURCES = {
   },
 };
 
-// One refresh pass. Returns the new feed, or null when no source answered (caller keeps the previous feed).
-export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch, sources = SOURCES } = {}) {
+// Bound the whole venue as well as each fetch: multi-page sources run concurrently,
+// so a stalled venue cannot serialize delays across all the healthy exchanges.
+async function loadSource(load, now, fetchImpl, timeoutMs) {
+  const controller = new AbortController();
+  let timer;
+  const boundedFetch = (url, options = {}) => fetchImpl(url, {
+    ...options,
+    signal: options.signal ? AbortSignal.any([controller.signal, options.signal]) : controller.signal,
+  });
+  try {
+    return await Promise.race([
+      Promise.resolve().then(() => load(now, boundedFetch)),
+      new Promise((_, reject) => { timer = deadlineTimer(() => { controller.abort(); reject(new Error('Source deadline exceeded')); }, timeoutMs); }),
+    ]);
+  } finally { clearDeadline(timer); controller.abort(); }
+}
+
+// A cold total failure remains unavailable. Once seeded, preserve validated data
+// and the last-good generation clock while reporting the failed refresh separately.
+export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch, sources = SOURCES, sourceTimeoutMs = 30000 } = {}) {
   const kept = readIntelFeed(previous, { now });
   const status = {};
-  const lists = [];
-  for (const [venue, load] of Object.entries(sources)) {
+  const lists = await Promise.all(Object.entries(sources).map(async ([venue, load]) => {
     try {
-      const items = await load(now, fetchImpl);
+      const items = await loadSource(load, now, fetchImpl, sourceTimeoutMs);
+      if (!Array.isArray(items)) throw new Error('Invalid source response');
       status[venue] = { ok: true, fetched: items.length, at: new Date(now).toISOString(), lastGoodAt: new Date(now).toISOString() };
-      lists.push(items);
+      return items;
     } catch (error) {
-      status[venue] = { ok: false, error: String(error?.message || error), lastGoodAt: previous?.sources?.[venue]?.lastGoodAt ?? previous?.sources?.[venue]?.at ?? null };
-      lists.push(kept.filter((i) => i.venue === venue));
+      status[venue] = { ok: false, error: String(error?.message || error), at: new Date(now).toISOString(), lastGoodAt: previous?.sources?.[venue]?.lastGoodAt ?? previous?.sources?.[venue]?.at ?? null };
+      return kept.filter((i) => i.venue === venue);
     }
-  }
-  if (!Object.values(status).some((s) => s.ok)) return null;
-  return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now, limit: 240 }) };
+  }));
+  const anySuccess = Object.values(status).some((s) => s.ok);
+  if (!anySuccess) return previous ? {
+    ...previous, updatedAt: new Date(now).toISOString(), status: 'STALE', stale: true,
+    sources: { ...previous.sources, ...status }, items: kept,
+  } : null;
+  const stale = Object.values(status).some((s) => !s.ok);
+  return { generatedAt: new Date(now).toISOString(), updatedAt: new Date(now).toISOString(), status: stale ? 'PARTIAL' : 'OK', stale, sources: status, items: mergeIntel(lists, { now, limit: 240 }) };
 }
 
 const jsonResponse = (body, maxAge) => new Response(body, { status: 200, headers: {
@@ -104,8 +128,14 @@ async function readJson(file) {
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
 // Every feed it serves is also merged into the append-only archive (`archiveFile`, outside the read-only app tree), so an
 // update page stays resolvable after its item leaves the live feed. The build ships a seed archive next to the seed feed.
-export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {}, archiveFile = null, now = () => Date.now() } = {}) {
+export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {}, archiveFile = null, now = () => Date.now(), sources = SOURCES, sourceTimeoutMs = 30000 } = {}) {
   let feed = null, body = null, refreshing = null;
+  const current = () => {
+    if (!feed) return null;
+    const generated = Date.parse(feed.generatedAt);
+    const stale = feed.stale === true || !Number.isFinite(generated) || now() - generated >= everyMs;
+    return { ...feed, stale, ...(stale ? { status: 'STALE' } : {}) };
+  };
   let archive = null, archiveBody = null, writing = Promise.resolve();
   const persist = () => {
     if (!archiveFile) return writing;
@@ -138,7 +168,7 @@ export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled =
     .then((text) => set(JSON.parse(text))).catch(() => {});
   const refresh = () => {
     if (refreshing) return refreshing;
-    refreshing = seeded.then(() => buildFeed(feed, { fetchImpl }))
+    refreshing = seeded.then(() => buildFeed(feed, { fetchImpl, now: now(), sources, sourceTimeoutMs }))
       .then((next) => { if (next) { const saved = set(next); log(`intel refreshed: ${next.items.length} items, archive ${archive?.items.length ?? 0}`); return saved; } })
       .catch((error) => log(`intel refresh failed: ${error?.message || error}`))
       .finally(() => { refreshing = null; });
@@ -155,15 +185,16 @@ export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled =
     stop: () => { if (timer) clearInterval(timer); },
     flush: () => writing,
     // Changes whenever a refresh replaced the feed; the SSR page cache keys on it so cached HTML never outlives a feed.
-    version: () => feed?.generatedAt || "",
+    version: () => feed ? `${feed.generatedAt}|${feed.updatedAt || ""}|${current().stale}` : "",
     // The current feed object (seed or last good refresh) for request-time SSR of /activities; null until seeded.
-    async read() { await seeded; return feed; },
+    async read() { await seeded; return current(); },
     // Every item the feed ever carried (see src/data/announcement-archive.js); null when nothing is archived.
     async readArchive() { await seeded; return archive?.items?.length ? archive : null; },
     async respond() {
       await seeded;
       if (!body) return new Response('Not Found', { status: 404, headers: { 'cache-control': 'no-store' } });
-      return jsonResponse(body, 300);
+      const snapshot = current();
+      return jsonResponse(`${JSON.stringify(snapshot)}\n`, snapshot.stale ? 60 : 300);
     },
     async respondArchive() {
       await seeded;

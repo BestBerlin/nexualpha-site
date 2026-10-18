@@ -305,5 +305,7 @@ test("server feed reader caches for 60 seconds and keeps the last good feed thro
   assert.equal((await reader.read()).generatedAt, sampleFeed.generatedAt, "last good feed survives a failed refresh");
   assert.equal(fetches, 2);
   clock += 11 * 60_000;
-  assert.equal(await reader.read(), null, "too stale → unavailable rather than old numbers");
+  const retained = await reader.read();
+  assert.equal(retained.generatedAt, sampleFeed.generatedAt, "outage keeps the last-good source clock");
+  assert.equal(retained.stale, true, "expired source is explicitly stale, never presented as fresh");
 });

@@ -46,7 +46,7 @@ test('partial failure saves successful channel; retry only failed channel', asyn
   let state = {}, sent = [];
   const opts = { feed: { articles: [] }, channels, state, now, send: async () => {}, save: async s => { state = structuredClone(s); } };
   await runArticleFeed(opts);
-  await assert.rejects(runArticleFeed({ ...opts, state, feed: { articles: [article('new')] }, send: async chat => { if (chat === '@zh') throw new Error('denied'); sent.push(chat); } }), /denied/);
+  await assert.rejects(runArticleFeed({ ...opts, state, feed: { articles: [article('new')] }, send: async chat => { if (chat === '@zh') return { ok: false, description: 'denied' }; sent.push(chat); } }), /denied/);
   await runArticleFeed({ ...opts, state, feed: { articles: [article('new')] }, send: async chat => sent.push(chat) });
   assert.deepEqual(sent, ['@en', '@zh']);
 });
@@ -63,4 +63,16 @@ test('corrupt persisted state fails closed before delivery', async () => {
     await assert.rejects(runArticleFeed({ feed: { articles: [article('new')] }, channels, state, now,
       send: () => assert.fail('must not send'), save: () => assert.fail('must not save') }), /corrupt article/);
   }
+});
+
+test('article catch-up after reboot never repeats an ambiguous accepted request', async () => {
+  let state = { channels: { 'en:@en': { initialized: true, seen: {}, lastPostedAt: null } } }, attempts = 0;
+  const opts = { channels: [channels[0]], feed: { articles: [article('reboot-item')] }, now: now + 3 * 3600e3,
+    save: async (next) => { state = structuredClone(next); },
+    send: async () => { attempts++; throw new Error('timeout after possible Telegram accept'); } };
+  await assert.rejects(runArticleFeed({ ...opts, state }), /timeout/);
+  state = structuredClone(state);
+  await assert.rejects(runArticleFeed({ ...opts, state, now: now + 5 * 3600e3 }), /outcome unknown/);
+  assert.equal(attempts, 1);
+  assert.equal(Object.values(state.deliveryReceipts)[0].status, 'pending');
 });

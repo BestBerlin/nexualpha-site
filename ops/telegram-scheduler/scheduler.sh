@@ -6,15 +6,36 @@ REL=/srv/agent/releases/crypto-telegram-news
 STACK=/srv/agent/stacks/crypto-telegram-ops
 export TZ="Asia/Singapore"
 export COMMUNITY_POLLER_ENV_FILE="${COMMUNITY_POLLER_ENV_FILE:-$STACK/community-poller.env}"
+SCHEDULER_STATE_DIR="${SCHEDULER_STATE_DIR:-/var/lib/crypto-telegram-ops}"
+
+heartbeat() { # relative file, status, optional exit code
+  local file="$SCHEDULER_STATE_DIR/$1" status=$2 code=${3:-0}
+  local tmp="$file.tmp.$BASHPID"
+  mkdir -p "$(dirname "$file")" || return
+  printf '{"updatedAt":"%s","status":"%s","exitCode":%s}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$status" "$code" > "$tmp" && mv -f "$tmp" "$file"
+}
 
 job() { # name first-delay interval timeout cwd -- command...
   local name=$1 first=$2 every=$3 limit=$4 cwd=$5; shift 6
   ( sleep "$first"
+    local backoff=5
     while :; do
       local t0=$(date +%s)
+      heartbeat "scheduler-jobs/$name.json" running
       ( cd "$cwd" && timeout "$limit" "$@" ) 2>&1 | sed "s/^/[$name] /"
-      echo "[$name] exit=${PIPESTATUS[0]} took=$(( $(date +%s) - t0 ))s"
-      sleep "$every"
+      local code=${PIPESTATUS[0]} delay=$every
+      echo "[$name] exit=$code took=$(( $(date +%s) - t0 ))s"
+      if [[ $code -ne 0 ]]; then
+        delay=$backoff
+        (( backoff < 300 )) && backoff=$((backoff * 2))
+        (( backoff > 300 )) && backoff=300
+        (( delay > every )) && delay=$every
+        heartbeat "scheduler-jobs/$name.json" failed "$code"
+      else
+        backoff=5
+        heartbeat "scheduler-jobs/$name.json" ok
+      fi
+      sleep "$delay"
     done ) &
 }
 
@@ -59,4 +80,14 @@ job x-poster 240 300 120 "$STACK/x-poster" -- \
 job data-freshness 60 300 60 "$STACK/data-freshness" -- \
   "$NODE" "$STACK/data-freshness/data-freshness.mjs"
 
+# Explicit activation only. Each pass retries today's missed 09:00 SGT slot;
+# the existing private per-day journal protects already attempted deliveries.
+if [[ ${DAILY_SOCIAL_ENABLE:-0} = 1 ]]; then
+  daily_args=(--catch-up --out "${DAILY_SOCIAL_OUT:-/var/lib/crypto-telegram-ops/daily-social/output}")
+  [[ ${DAILY_SOCIAL_POST:-0} = 1 ]] && daily_args+=(--post)
+  job daily-social 30 300 120 "$STACK/daily-social-cards" -- \
+    "$NODE" "$STACK/daily-social-cards/generate.mjs" "${daily_args[@]}"
+fi
+
+( while :; do heartbeat scheduler-heartbeat.json ok; sleep 30; done ) &
 wait

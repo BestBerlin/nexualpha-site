@@ -99,16 +99,34 @@ export function psqlMaxBuffer(env = process.env) {
   const mb = Number(env.NEWSROOM_PSQL_MAX_BUFFER_MB);
   return (Number.isFinite(mb) && mb > 0 ? mb : PSQL_MAX_BUFFER_MB_DEFAULT) * 1024 * 1024;
 }
-export function runPsql(sql, env = process.env, spawn = spawnSync) {
+const boundedSetting = (value, fallback, max) => Number.isFinite(Number(value)) && Number(value) > 0 ? Math.min(Number(value), max) : fallback;
+// Only retry errors proving that a connection was never established. Replaying
+// an INSERT after losing its response could duplicate scores or writer claims.
+const connectionUnavailable = result => result.status === 2 && /could not translate host name|connection refused|network is unreachable|no route to host|database system is (?:starting up|shutting down|in recovery mode)|timeout expired|connection timed out/i.test(result.stderr ?? '') && !/server closed the connection unexpectedly|connection to server was lost/i.test(result.stderr ?? '');
+export function runPsql(sql, env = process.env, spawn = spawnSync, { now = Date.now, sleep = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) } = {}) {
   const maxBuffer = psqlMaxBuffer(env);
-  const result = spawn('psql', ['-X', '--quiet', '--no-password', '--set=ON_ERROR_STOP=1', '--tuples-only', '--no-align'], {
-    input: `SET standard_conforming_strings=on;\n${sql}\n`, encoding: 'utf8', maxBuffer,
-    env: { ...env, PGDATABASE: env.PGDATABASE || 'newsroom' },
-  });
-  if (result.error?.code === 'ENOENT') throw new Error('psql is required; install a PostgreSQL client or use the throwaway Docker test script');
-  if (result.error?.code === 'ENOBUFS') throw new Error(`PostgreSQL result exceeded the ${maxBuffer / 1048576} MB output buffer (set NEWSROOM_PSQL_MAX_BUFFER_MB)`);
-  if (result.error || result.status !== 0) throw new Error('PostgreSQL command failed; inspect database connectivity, permissions and SQL locally (connection details suppressed)');
-  return result.stdout.trim();
+  const budget = boundedSetting(env.NEWSROOM_DB_RETRY_MS, 300000, 300000);
+  const deadline = now() + budget;
+  const processTimeout = boundedSetting(env.NEWSROOM_DB_TIMEOUT_MS, 45000, 300000);
+  let delay = 1000;
+  for (;;) {
+    const result = spawn('psql', ['-X', '--quiet', '--no-password', '--set=ON_ERROR_STOP=1', '--tuples-only', '--no-align'], {
+      input: `SET standard_conforming_strings=on;\nSET statement_timeout=30000;\n${sql}\n`, encoding: 'utf8', maxBuffer,
+      timeout: Math.max(1, Math.min(processTimeout, deadline - now())), killSignal: 'SIGKILL',
+      env: { ...env, PGDATABASE: env.PGDATABASE || 'newsroom', PGCONNECT_TIMEOUT: env.PGCONNECT_TIMEOUT || '10', LC_ALL: 'C' },
+    });
+    if (result.error?.code === 'ENOENT') throw new Error('psql is required; install a PostgreSQL client or use the throwaway Docker test script');
+    if (result.error?.code === 'ENOBUFS') throw new Error(`PostgreSQL result exceeded the ${maxBuffer / 1048576} MB output buffer (set NEWSROOM_PSQL_MAX_BUFFER_MB)`);
+    if (!result.error && result.status === 0) return result.stdout.trim();
+    if (!result.error && connectionUnavailable(result) && now() < deadline) {
+      sleep(Math.min(delay, deadline - now()));
+      if (now() >= deadline) break;
+      delay = Math.min(30000, delay * 2);
+      continue;
+    }
+    break;
+  }
+  throw new Error('PostgreSQL command failed; inspect database connectivity, permissions and SQL locally (connection details suppressed)');
 }
 export async function main(argv, execute = runPsql) {
   if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | claim --limit N --writer ID [--history PATH --locale LOCALE --market MARKET] | release ID [--writer ID] | complete ID --article SLUG --url URL [--writer ID] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N] | calibrate\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';

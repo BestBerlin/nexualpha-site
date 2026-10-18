@@ -1,0 +1,2 @@
+# Server root cron. Lead installs after copying this reviewed directory; credentials remain server-side.
+*/30 * * * * root /usr/bin/python3 /data/agent/srv/stacks/crypto-telegram-ops/resilience/content/guard.py >> /data/agent/state/content-guard.log 2>&1

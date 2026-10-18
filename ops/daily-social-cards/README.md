@@ -28,11 +28,21 @@ CRON_TZ=Asia/Singapore
 
 Alternatively use `0 1 * * *` on a scheduler explicitly configured in UTC. Set environment via the existing scheduler's private configuration. Invoke with `sh` if checkout permissions do not preserve executable bits. Disable by removing this cron entry; do not delete the journal.
 
+For reboot/missed-slot recovery, replace the one-shot schedule with a five-minute
+schedule invoking `daily.sh --catch-up --out /persistent/artifacts/daily-social`
+(append `--post` only in the explicitly activated posting lane). `--catch-up`
+does nothing before 09:00 Singapore time, then regenerates from fresh sources
+through the same day. Each target's existing daily journal still skips attempted
+deliveries, so reruns finish only unattempted targets and never replay unknown
+outcomes. The scheduler's opt-in daily job implements this alternative; use one
+scheduler only. No previous-day backlog is sent. To catch up manually, use the
+same command and persistent `DAILY_SOCIAL_STATE_DIR`; never delete the journal.
+
 Card images per target: @NexuAlphaClub gets `card-zh-Hans.png`, @NexuAlphaGlobal gets `card.png`, and X gets the card matching `--x-locale`. Chinese glyphs come from `fonts/NotoSansSC-daily-subset.ttf` (Noto Sans SC 500, SIL OFL 1.1, see `fonts/OFL.txt`) containing only the card's fixed labels; symbols and numbers stay Inter. If a label changes, regenerate the subset with the new characters (the test fails on a missing glyph).
 
 A failed run prints one stderr line with the cause: the HTTP status and the X/Telegram API message (e.g. `X image upload failed: HTTP 403 …`, `send not confirmed: HTTP 400 Bad Request: chat not found`) or the network cause (`fetch failed / cause: ECONNRESET`). Bot tokens, OAuth values and loaded credential values are redacted. The same cause is stored as `error` on the journal entry marked `unknown`.
 
-Posting acquires an exclusive `run.lock` and persists a per-SGT-day record **before** each outbound delivery. Recorded pending/sent/unknown targets are skipped on later runs, including when changing X language. Errors stop the run without retries. A later run can finish unattempted channels. Inspect actual account/channel state before resolving unknown entries or a crash-left lock; never blindly remove a record to resend. Preview success and mocked transports do not prove live delivery.
+Posting acquires an exclusive `run.lock` and persists a per-SGT-day record **before** each outbound delivery. Recorded pending/sent/unknown targets are skipped on later runs, including when changing X language. Errors stop the current pass. A later scheduled pass can finish unattempted channels. A crash-left lock older than ten minutes is removed automatically; all delivery records survive that recovery. This assumes the scheduler's 120-second job deadline and bounded transports. Inspect actual account/channel state before resolving unknown entries; never blindly remove a record to resend. Preview success and mocked transports do not prove live delivery. Summary JSON is written with temporary-file rename so readers never see a partial summary.
 
 The X image adapter uses the existing OAuth1 signer with the legacy simple multipart upload endpoint, then `/2/tweets` with `media_ids`. Live legacy upload availability for the owner's app remains unverified; failures stop without falling back to text-only. Current [X upload documentation](https://docs.x.com/x-api/media/upload-media) describes the v2 OAuth2 endpoint; adopting that would require a separately authorized credential change. Telegram multipart uses the official [sendPhoto contract](https://core.telegram.org/bots/api#sendphoto). No live posts or credential reads are needed to test this feature.
 

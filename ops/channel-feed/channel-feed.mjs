@@ -10,6 +10,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { runArticleFeed } from "./article-feed.mjs";
 import { officialSourceCta } from "./official-source.mjs";
+import { deliverOnce } from "./delivery-receipts.mjs";
 export { isRiskNotice } from "./notice-classifier.mjs";
 import { isRiskNotice } from "./notice-classifier.mjs";
 // The Telegram runtime ships the ops bundle without the site tree. Keep this pure route contract local; parity tests lock it to the site helper.
@@ -105,10 +106,19 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 function readEnv(file) {
   return Object.fromEntries(readFileSync(file, "utf8").split("\n").filter((l) => l.includes("=") && !l.trim().startsWith("#")).map((l) => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1).replace(/^["']|["']$/g, "")]));
 }
+const sourceStatus = {};
 async function getJson(url) {
-  const res = await fetch(url, { headers: { accept: "application/json", "user-agent": "NexuAlphaChannelFeed/1.0" }, signal: AbortSignal.timeout(15000) });
-  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
-  return res.json();
+  const key = new URL(url).pathname;
+  try {
+    const res = await fetch(url, { headers: { accept: "application/json", "user-agent": "NexuAlphaChannelFeed/1.0" }, signal: AbortSignal.timeout(15000) });
+    if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+    const data = await res.json();
+    sourceStatus[key] = { status: "ok", updatedAt: new Date().toISOString() };
+    return data;
+  } catch (error) {
+    sourceStatus[key] = { status: "failed", updatedAt: new Date().toISOString() };
+    throw error;
+  }
 }
 
 // Turkey (owner 2026-10-14): no Bitget channel item in Turkish. Other non-SPK partners still publish as information
@@ -151,8 +161,13 @@ export function buildMessage(item, partnerIn, lang) {
 }
 
 export const channelStateKey = ({ lang, chat }) => `${lang}:${chat}`;
-export const itemSentToChannel = (state, item, channel) => Boolean(state?.posted?.[item.id] || state?.sent?.[item.id]?.[channelStateKey(channel)]);
+export const announcementReceiptKey = (item, channel) => `announcement:${JSON.stringify([String(item.id), channelStateKey(channel)])}`;
+export const itemSentToChannel = (state, item, channel) => Boolean(state?.posted?.[item.id] || state?.sent?.[item.id]?.[channelStateKey(channel)] || state?.deliveryReceipts?.[announcementReceiptKey(item, channel)]?.status === "confirmed");
 export const itemComplete = (state, item, channels) => Boolean(state?.posted?.[item.id] || channels.every((channel) => itemSentToChannel(state, item, channel)));
+export function itemReadyForChannel(state, item, channel, now = Date.now()) {
+  const receipt = state?.deliveryReceipts?.[announcementReceiptKey(item, channel)];
+  return !itemSentToChannel(state, item, channel) && receipt?.status !== "pending" && !(receipt?.retryAt > now);
+}
 
 export function markItemChannelSent(state, item, channel, value = new Date().toISOString(), channels = CHANNELS) {
   state.sent ||= {};
@@ -162,7 +177,7 @@ export function markItemChannelSent(state, item, channel, value = new Date().toI
 }
 
 export function selectFreshItems(items, state, channels = CHANNELS, { now = Date.now(), maxPerRun = MAX_PER_RUN, maxAgeMs = MAX_AGE_MS } = {}) {
-  const fresh = items.filter((i) => !itemComplete(state, i, channels) && now - Date.parse(i.publishedAt) < maxAgeMs);
+  const fresh = items.filter((i) => !itemComplete(state, i, channels) && channels.some((channel) => itemReadyForChannel(state, i, channel, now)) && now - Date.parse(i.publishedAt) < maxAgeMs);
   const urgent = fresh.filter(isRiskNotice);
   const routine = fresh.filter((i) => !isRiskNotice(i)).slice(-maxPerRun);
   return [...urgent, ...routine];
@@ -233,7 +248,8 @@ async function send(token, chat, msg) {
     signal: AbortSignal.timeout(15000),
   });
   const j = await res.json().catch(() => ({}));
-  if (!j.ok) throw new Error(`sendMessage ${chat}: ${j.error_code || res.status} ${j.description || ""}`);
+  if (res.ok && j.ok === true) return j;
+  return { ok: false, error_code: j.error_code || res.status, description: String(j.description || "sendMessage rejected").slice(0, 300), parameters: j.parameters };
 }
 
 async function main() {
@@ -242,13 +258,14 @@ async function main() {
   const articlePath = path.join(STATE_DIR, "articles.json");
   try {
     const articleState = existsSync(articlePath) ? JSON.parse(readFileSync(articlePath, "utf8")) : {};
+    if (Object.values(articleState.deliveryReceipts || {}).some((r) => r.status === "pending")) sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() };
     await runArticleFeed({
       feed: await getJson(`${SITE}/content/news-feed-summary.json`), channels: CHANNELS, state: articleState, dryRun: DRY,
       send: async (chat, msg) => {
         if (DRY) { console.log(`--- ${chat}\n${msg.text}`); return; }
         const tok = process.env.COMMUNITY_BOT_TOKEN || readEnv(ENV_FILE).COMMUNITY_BOT_TOKEN;
         if (!tok) throw new Error("bot token missing in env file");
-        await send(tok, chat, msg);
+        return send(tok, chat, msg);
       },
       save: (data) => { const tmp = `${articlePath}.tmp`; writeFileSync(tmp, JSON.stringify(data)); renameSync(tmp, articlePath); },
     });
@@ -257,7 +274,9 @@ async function main() {
   const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { posted: {}, sent: {}, initialized: false };
   state.posted ||= {};
   state.sent ||= {};
+  if (Object.values(state.deliveryReceipts || {}).some((r) => r.status === "pending")) sourceStatus.telegram = { status: "failed", updatedAt: new Date().toISOString() };
   const [feed, partnersFeed] = await Promise.all([getJson(`${SITE}/intel/official-announcements.json`), getJson(`${SITE}/intel/partners.json`).catch(() => ({ partners: [] }))]);
+  if (feed.stale === true) throw new Error("announcement feed stale; waiting for recovery");
   const partners = Object.fromEntries((partnersFeed.partners || []).map((p) => [p.slug, p]));
   const now = Date.now();
   const items = (feed.items || []).filter((i) => i?.id && i.url && Number.isFinite(Date.parse(i.publishedAt))).sort((a, b) => Date.parse(a.publishedAt) - Date.parse(b.publishedAt));
@@ -278,7 +297,7 @@ async function main() {
   for (const group of groupRunItems(fresh)) {
     for (const { lang, chat } of CHANNELS) {
       const channel = { lang, chat };
-      const pending = group.items.filter((item) => !itemSentToChannel(state, item, channel));
+      const pending = group.items.filter((item) => itemReadyForChannel(state, item, channel, now));
       if (!pending.length) continue;
       const msg = group.type === "listing" ? buildListingGroupMessage(pending, partners, lang) : buildMessage(pending[0], partners[pending[0].venue], lang);
       if (!msg) {
@@ -286,7 +305,14 @@ async function main() {
         continue;
       }
       if (DRY) { console.log(`--- ${chat}\n${msg.text}\n${JSON.stringify(msg.reply_markup)}`); continue; }
-      await send(token, chat, msg);
+      try {
+        await deliverOnce({ state, keys: pending.map((item) => announcementReceiptKey(item, channel)),
+          deliver: () => send(token, chat, msg), save });
+      } catch (error) {
+        console.error(`announcement delivery ${chat} unconfirmed: ${error.message}`);
+        process.exitCode = 1;
+        continue;
+      }
       for (const item of pending) markItemChannelSent(state, item, channel, undefined, CHANNELS);
       save();
       await new Promise((r) => setTimeout(r, 1500));
@@ -306,6 +332,15 @@ async function run() {
   // A lock older than 15 min is left over from a killed run; clear it so the feed cannot stall forever.
   try { if (Date.now() - statSync(lock).mtimeMs > 15 * 60 * 1000) rmdirSync(lock); } catch {}
   try { mkdirSync(lock); } catch (e) { if (e.code === "EEXIST") { console.log("channel-feed already running (lock exists)"); return; } throw e; }
-  try { await main(); } finally { rmdirSync(lock); }
+  let status = "ok";
+  try { await main(); }
+  catch (error) { status = "failed"; throw error; }
+  finally {
+    try {
+      const heartbeat = { updatedAt: new Date().toISOString(), status: status === "ok" && (process.exitCode || Object.values(sourceStatus).some((s) => s.status === "failed")) ? "degraded" : status, sources: sourceStatus };
+      const file = path.join(STATE_DIR, "heartbeat.json");
+      writeFileSync(`${file}.tmp`, JSON.stringify(heartbeat)); renameSync(`${file}.tmp`, file);
+    } finally { rmdirSync(lock); }
+  }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) run().catch((e) => { console.error(String(e?.message || e)); process.exit(1); });

@@ -1,0 +1,2 @@
+# Host root cron: no Docker socket exposed to an extra container. Lead installs.
+*/2 * * * * root /usr/bin/python3 /data/agent/srv/stacks/crypto-telegram-ops/resilience/deploy/watchdog.py >> /data/agent/state/pipeline-watchdog.log 2>&1

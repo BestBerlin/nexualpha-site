@@ -3,9 +3,10 @@
 // funding rows + age, market-events age. The 7-day report answers "≥ 20 funding symbols with < 10 min staleness".
 //   node data-freshness.mjs            append one sample
 //   node data-freshness.mjs --report   pass rate over the last 7 days
-import { appendFileSync, existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import path from "node:path";
+import { existsSync, readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import path from "node:path";
+import { atomicWriteJson, atomicWriteText, boundedFetch } from "../market-collector/resilience.mjs";
 
 const FILE = process.env.DATA_FRESHNESS_FILE || "/var/lib/crypto-telegram-ops/data-freshness.jsonl";
 const FEED = process.env.DATA_FRESHNESS_FEED || "https://nexualpha.com/intel/market-events.json";
@@ -31,24 +32,41 @@ export function report(samples, now = Date.now(), days = 7) {
   return { samples: window.length, ok, passRate: window.length ? Math.round((ok / window.length) * 1000) / 10 : 0, daysCovered: covered, worstFundingAgeMin: worst, failures: window.filter((s) => !s.ok).slice(-5) };
 }
 
+export async function collectFreshness({ file = FILE, feed = FEED, fetchImpl = fetch, now = Date.now } = {}) {
+  let sample;
+  try {
+    const res = await boundedFetch(fetchImpl)(`${feed}?r=${now()}`, { headers: { "user-agent": "NexuAlphaFreshness/1.0" } });
+    sample = res.ok ? sampleFrom(await res.json(), now()) : { t: new Date(now()).toISOString(), error: `HTTP ${res.status}`, ok: false };
+  } catch (e) {
+    sample = { t: new Date(now()).toISOString(), error: String(e?.message || e).slice(0, 120), ok: false };
+  }
+  const updatedAt = new Date(now()).toISOString();
+  sample.updatedAt = updatedAt;
+  sample.sourceStatus = { marketFeed: { status: sample.error ? "error" : "ok", error: sample.error || null } };
+  const lines = existsSync(file) ? readFileSync(file, "utf8").split("\n").filter(Boolean).slice(-9999) : [];
+  lines.push(JSON.stringify(sample));
+  atomicWriteText(file, `${lines.join("\n")}\n`);
+  atomicWriteJson(`${file}.heartbeat.json`, { updatedAt, status: sample.error ? "degraded" : "ok", sourceStatus: sample.sourceStatus });
+  return sample;
+}
+
+export async function collectFreshnessWithRetry({ startupBudgetMs = 300_000, now = Date.now, wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms)), ...options } = {}) {
+  const startedAt = now();
+  for (let attempt = 0; ; attempt += 1) {
+    const sample = await collectFreshness({ ...options, now });
+    const remaining = startupBudgetMs - (now() - startedAt);
+    if (!sample.error || remaining <= 0) return sample;
+    await wait(Math.min(30_000, 1_000 * 2 ** Math.min(attempt, 10), remaining));
+  }
+}
+
 async function main() {
   if (process.argv.includes("--report")) {
     const samples = existsSync(FILE) ? readFileSync(FILE, "utf8").split("\n").filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean) : [];
     console.log(JSON.stringify(report(samples), null, 1));
     return;
   }
-  let sample;
-  try {
-    const res = await fetch(`${FEED}?r=${Date.now()}`, { headers: { "user-agent": "NexuAlphaFreshness/1.0" }, signal: AbortSignal.timeout(15000) });
-    sample = res.ok ? sampleFrom(await res.json()) : { t: new Date().toISOString(), error: `HTTP ${res.status}`, ok: false };
-  } catch (e) {
-    sample = { t: new Date().toISOString(), error: String(e?.message || e).slice(0, 120), ok: false };
-  }
-  mkdirSync(path.dirname(FILE), { recursive: true });
-  appendFileSync(FILE, `${JSON.stringify(sample)}\n`);
-  // keep ~35 days at one sample per 5 minutes
-  const lines = readFileSync(FILE, "utf8").split("\n").filter(Boolean);
-  if (lines.length > 11000) writeFileSync(FILE, `${lines.slice(-10000).join("\n")}\n`);
+  const sample = await collectFreshnessWithRetry();
   console.log(JSON.stringify(sample));
 }
 

@@ -1,0 +1,4 @@
+{
+  "apps/worker/src/publication-worker.ts": "7243735f19565bef7ec63dc4f230cec0a5e411039d0cfbff3e201aa3403e9d28",
+  "apps/bot-community/src/polling-runner.ts": "4bd90ef67449d38b5ebf48330db09e1d9e44112cf20bf62ed98d986f045cec88"
+}

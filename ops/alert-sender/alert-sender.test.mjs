@@ -1,5 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 import { BACKLINK_PATH, articleLink, assertTelegramOk, buildFunnelReport, deliverOnce, digestMessage, eventButtons, eventMessage, funnelReportDue, groupListingItems, listingGroupMessage, listingMessage, partnerButtons, readMore, sitePath } from "./alert-sender.mjs";
 
 const mk = {
@@ -187,7 +192,7 @@ test("owner funnel report is due once per day from 13:05 UTC and only with OWNER
   assert.equal(funnelReportDue({ now: new Date("2026-10-11T13:05:00Z"), sentDates: [], ownerChatId: "123" }), true);
   assert.equal(funnelReportDue({ now: new Date("2026-10-11T13:04:59Z"), sentDates: [], ownerChatId: "123" }), false);
   assert.equal(funnelReportDue({ now: new Date("2026-10-11T13:40:00Z"), sentDates: ["2026-10-11"], ownerChatId: "123" }), false);
-  assert.equal(funnelReportDue({ now: new Date("2026-10-11T14:05:00Z"), sentDates: [], ownerChatId: "123" }), false);
+  assert.equal(funnelReportDue({ now: new Date("2026-10-11T14:05:00Z"), sentDates: [], ownerChatId: "123" }), true);
   assert.equal(funnelReportDue({ now: new Date("2026-10-11T13:05:00Z"), sentDates: [], ownerChatId: "" }), false);
   const now = Date.parse("2026-10-11T13:05:00Z");
   const clicksText = [
@@ -207,4 +212,32 @@ test('grouped listing text budget includes long original source URLs and escaped
   assert.match(message.text, /5 new listing notices/);
   assert.match(message.text, /5 more in the listing feed/);
   assert.match(message.text, /nexualpha\.com\/activities/);
+});
+
+test('async failed receipt checkpoint prevents any outbound delivery', async () => {
+  let sent = 0;
+  await assert.rejects(deliverOnce({ state: {}, key: 'fixture', save: async () => { throw new Error('disk unavailable'); },
+    deliver: async () => { sent++; return { ok: true }; } }), /disk unavailable/);
+  assert.equal(sent, 0);
+});
+
+test('startup offline attempt writes an atomic heartbeat with per-source failures and leaves receipts untouched', () => {
+  const dir = mkdtempSync(path.join(tmpdir(), 'alerts-offline-'));
+  try {
+    const envFile = path.join(dir, 'fixture.env');
+    writeFileSync(envFile, 'COMMUNITY_BOT_TOKEN=fixture-only\n');
+    const bootstrap = `globalThis.fetch = async () => { throw new Error('fixture DNS unavailable'); };`;
+    const result = spawnSync(process.execPath, ['--import', `data:text/javascript,${encodeURIComponent(bootstrap)}`,
+      fileURLToPath(new URL('./alert-sender.mjs', import.meta.url)), '--once'], {
+      encoding: 'utf8', env: { ...process.env, BOT_ENV_FILE: envFile, ALERT_STATE_FILE: path.join(dir, 'state.json'), ALERT_HEARTBEAT_FILE: path.join(dir, 'heartbeat.json') },
+    });
+    assert.equal(result.status, 1, result.stderr);
+    const heartbeat = JSON.parse(readFileSync(path.join(dir, 'heartbeat.json'), 'utf8'));
+    assert.equal(heartbeat.status, 'failed');
+    assert.ok(Date.now() - Date.parse(heartbeat.updatedAt) < 5000);
+    assert.equal(Object.keys(heartbeat.sources).length, 3);
+    assert.ok(Object.values(heartbeat.sources).every((s) => s.status === 'failed'));
+    assert.ok(!readdirSync(dir).some((name) => name.endsWith('.tmp') || name === 'state.json'));
+    assert.doesNotMatch(result.stdout + result.stderr, /fixture-only/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

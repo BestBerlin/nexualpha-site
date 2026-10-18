@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { dueRhythmSlots, fundingOutliers, morningSnapshotMessage, runChannelRhythm, weeklyPollPayload } from "./channel-rhythm.mjs";
 import { mk, partners } from "./fixtures/alert-fixture.mjs";
+import { deliverOnce, digestDue } from "./alert-sender.mjs";
 
 const market = {
   ...mk,
@@ -39,12 +40,12 @@ test("funding outliers sort by largest absolute venue rate", () => {
   assert.deepEqual(fundingOutliers(market).map((r) => r.symbol), ["DOGE", "XRP", "SOL"]);
 });
 
-test("timezone slots fire at 08:00 local and Monday 12:00 local only", () => {
+test("timezone slots remain eligible after missed hours until midnight", () => {
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T00:15:00Z"), "zh").map((s) => s.kind), ["morning"]);
   assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T08:15:00Z"), "en").map((s) => s.kind), ["morning"]);
-  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T09:15:00Z"), "ru").map((s) => s.kind), ["weeklyPoll"]);
-  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T12:15:00Z"), "en").map((s) => s.kind), ["weeklyPoll", "toolOfWeek"]);
-  assert.deepEqual(dueRhythmSlots(new Date("2026-10-13T12:15:00Z"), "en"), []);
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T09:15:00Z"), "ru").map((s) => s.kind), ["morning", "weeklyPoll"]);
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-12T12:15:00Z"), "en").map((s) => s.kind), ["morning", "weeklyPoll", "toolOfWeek"]);
+  assert.deepEqual(dueRhythmSlots(new Date("2026-10-13T12:15:00Z"), "en").map((s) => s.kind), ["morning"]);
 });
 
 test("weekly poll payloads are native non-anonymous polls", () => {
@@ -117,7 +118,7 @@ test("dry run does not write state or mark slots", async () => {
 });
 
 test("weekly poll uses sendPoll and marks the Monday noon slot", async () => {
-  const state = {};
+  const state = { channelRhythm: { morning: { "en:@en": "2026-10-12:08" } } };
   const polls = [];
   const sent = [];
   const opts = {
@@ -221,4 +222,28 @@ test("ambiguous rhythm timeout leaves pending receipt and does not mark slot", a
   }), /timeout after possible accept/);
   assert.equal(state.deliveryReceipts["rhythm:morning:2026-10-12:08:message:@en"].status, "pending");
   assert.equal(state.channelRhythm.morning["en:@en"], undefined);
+});
+
+test("reboot past morning window catches up once after data recovers, with a read-only dry run", async () => {
+  let state = {}, delivered = 0;
+  const opts = { channels: [["en", "@en"]], market: {}, now: new Date("2026-10-15T08:20:00Z"),
+    save: async (next) => { state = structuredClone(next); },
+    sendMessage: async (_chat, _text, _buttons, { slot }) => deliverOnce({ state, key: `rhythm:${slot.kind}:${slot.key}:@en`,
+      deliver: async () => { delivered++; return { ok: true }; }, save: async () => {} }),
+    sendPoll: async () => assert.fail("not Monday") };
+  await assert.rejects(runChannelRhythm({ ...opts, state }), /missing BTCUSDT/);
+  assert.equal(delivered, 0);
+  const before = structuredClone(state);
+  const preview = [];
+  await runChannelRhythm({ ...opts, state, market, now: new Date("2026-10-15T10:20:00Z"), dryRun: true,
+    sendMessage: async (_chat, _text, _buttons, { slot }) => preview.push(slot.key), save: async () => assert.fail("dry write") });
+  assert.deepEqual(preview, ["2026-10-15:08"]);
+  assert.deepEqual(state, before);
+  await runChannelRhythm({ ...opts, state, market, now: new Date("2026-10-15T10:20:00Z") });
+  state = structuredClone(state); // reload persisted state after reboot
+  await runChannelRhythm({ ...opts, state, market, now: new Date("2026-10-15T11:20:00Z") });
+  assert.equal(delivered, 1);
+  assert.equal(digestDue({ now: new Date("2026-10-15T15:10:00Z"), initialized: true }), true);
+  assert.equal(digestDue({ now: new Date("2026-10-15T15:10:00Z"), initialized: true, sentDates: ["2026-10-15"] }), false);
+  assert.equal(digestDue({ now: new Date("2026-10-15T12:59:00Z"), initialized: true }), false);
 });
