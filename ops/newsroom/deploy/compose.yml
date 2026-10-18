@@ -7,11 +7,16 @@ services:
     image: nexualpha-newsroom:local
     network_mode: host            # reaches Postgres 127.0.0.1:14320 and RSSHub 127.0.0.1:1200; listens on nothing
     restart: unless-stopped
+    labels:
+      com.nexualpha.watchdog: "true"
     env_file: [/data/private/nexualpha/newsroom/newsroom.env]
     environment:
       NEWSROOM_OUT: /out
       NEWSROOM_STATE: /state
       RSSHUB_BASE: http://127.0.0.1:1200
+      NEWSROOM_DB_RETRY_MS: 300000
+      NEWSROOM_DB_TIMEOUT_MS: 45000
+      PGCONNECT_TIMEOUT: 10
     volumes:
       - ./app:/srv/newsroom/app:ro
       - ./watchlist:/srv/newsroom/watchlist:ro
@@ -21,7 +26,7 @@ services:
     mem_limit: 384m
     security_opt: [no-new-privileges:true]
     healthcheck:
-      test: ["CMD-SHELL", "test $$(( $$(date +%s) - $$(stat -c %Y /state/heartbeat) )) -lt 900"]
+      test: ["CMD", "node", "/srv/newsroom/app/deploy/heartbeat.mjs", "check"]
       interval: 60s
       timeout: 5s
       retries: 3

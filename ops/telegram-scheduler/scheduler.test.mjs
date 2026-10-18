@@ -136,3 +136,28 @@ test('failed source stops the job with its original exit status', () => {
     rmSync(temp, { recursive: true, force: true });
   }
 });
+
+test('startup DNS failures retry with backoff, recover, and atomically publish a job heartbeat', () => {
+  const temp = mkdtempSync(join(directory, '.test-env-'));
+  try {
+    const result = run(`SCHEDULER_STATE_DIR="$FIXTURE_STATE"
+timeout() {
+  local n=0
+  [[ -f "$FIXTURE_STATE/attempts" ]] && n=$(cat "$FIXTURE_STATE/attempts")
+  n=$((n+1)); printf '%s' "$n" > "$FIXTURE_STATE/attempts"
+  [[ $n -ge 3 ]]
+}
+sleep() { printf '%s\\n' "$1" >> "$FIXTURE_STATE/delays"; [[ "$1" != 30 ]] || exit 0; }
+job fixture 0 30 10 "$FIXTURE_STATE" -- true
+wait`, { FIXTURE_STATE: temp });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(readFileSync(join(temp, 'attempts'), 'utf8'), '3');
+    assert.equal(readFileSync(join(temp, 'delays'), 'utf8'), '0\n5\n10\n30\n');
+    const heartbeat = JSON.parse(readFileSync(join(temp, 'scheduler-jobs/fixture.json'), 'utf8'));
+    assert.equal(heartbeat.status, 'ok');
+    assert.equal(heartbeat.exitCode, 0);
+    assert.ok(Date.now() - Date.parse(heartbeat.updatedAt) < 5000);
+    assert.match(result.stdout, /exit=1/);
+    assert.match(result.stdout, /exit=0/);
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});

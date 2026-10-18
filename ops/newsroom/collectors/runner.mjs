@@ -1,4 +1,5 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
+import { atomicWrite, atomicJson } from '../lib/runtime.mjs';
 import { resolve } from 'node:path';
 import { readSourceRegistry } from '../db/generate-seed-sql.mjs';
 import { CollectorError, makeRequest, normalizeItem } from './common.mjs';
@@ -22,8 +23,8 @@ export function dryStore(directory) {
     persist(source,items,health) {
       // Hex-encoded IDs cannot traverse or collide through sanitized filenames.
       const name=Buffer.from(source.id).toString('hex');
-      writeFileSync(resolve(directory,`${name}.ndjson`),items.map(i=>JSON.stringify(i)).join('\n')+(items.length?'\n':''));
-      writeFileSync(resolve(directory,`${name}.status.json`),JSON.stringify({source_id:source.id,...health},null,2)+'\n');
+      atomicWrite(resolve(directory,`${name}.ndjson`),items.map(i=>JSON.stringify(i)).join('\n')+(items.length?'\n':''));
+      atomicWrite(resolve(directory,`${name}.status.json`),JSON.stringify({source_id:source.id,...health},null,2)+'\n');
     },
     // Dry runs never dispatch paid requests. Inject a memory store in fixtures
     // to exercise social response parsing and caps without any API access.
@@ -134,8 +135,19 @@ export async function runCollect(args, db, overrides={}) {
   const opts=parseCollectArgs(args);
   const dry=opts['--dry-run'];
   const seeds=dry?loadSeeds():null;
+  const state=overrides.env?.NEWSROOM_STATE ?? process.env.NEWSROOM_STATE;
+  const report = value => {
+    if (state && !dry) { mkdirSync(state,{recursive:true}); atomicJson(resolve(state,'collect-sources.json'), {updatedAt:new Date().toISOString(),...value}); }
+  };
+  try {
   const registry=dry?[...readSourceRegistry(),...seeds.sources]:db.sources();
   const sources=opts['--all']?registry:registry.filter(s=>s.id===opts['--source']);
   if(!sources.length)throw new Error('Unknown source ID');
-  return collect({sources,fallbackSources:registry,entities:dry?seeds.entities:db.entities(),keywords:dry?seeds.keywords:db.keywords(),config:dry?{}:db.config(),store:dry?dryStore(dry):db,timeoutMs:+opts['--timeout-ms']||60000,...overrides});
+  const reports = await collect({sources,fallbackSources:registry,entities:dry?seeds.entities:db.entities(),keywords:dry?seeds.keywords:db.keywords(),config:dry?{}:db.config(),store:dry?dryStore(dry):db,timeoutMs:+opts['--timeout-ms']||60000,...overrides});
+  report({ status:'completed', sources:reports });
+  return reports;
+  } catch (error) {
+    report({status:'failed',error:'Collection unavailable; inspect database connectivity and local logs',sources:[]});
+    throw error;
+  }
 }

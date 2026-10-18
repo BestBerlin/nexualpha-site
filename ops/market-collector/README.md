@@ -63,3 +63,57 @@ services:
 
 The web stage mounts the same host directory read-only and sets
 `WHALES_FILE=/market/whales.json`.
+
+## Reboot recovery and heartbeat contract
+
+Both long-running collectors use a serial loop. A failed initial cycle retries
+with 1, 2, 4, 8, 16, then at most 30 seconds of delay, within a five-minute
+startup budget. After that budget they remain alive and retry on their normal
+cadence (market: five minutes; whales: at least one minute). No interval can
+start a second cycle while the previous cycle is running. Synchronous stream
+startup errors also reconnect without killing market REST collection.
+
+HTTP deadlines cover headers and body reads (10 seconds). Market source groups
+run concurrently, with persistent endpoint circuit breakers and a 60-second
+group ceiling. OKX funding requests use batches of four; Binance funding can
+still publish when OKX fails, and vice versa. Whale adapters keep their circuit
+breakers across cycles and have a 45-second whole-source deadline; aborting a
+source also aborts its bounded fetch calls. A source in cooldown is reported
+as `open`, and healthy sources continue collecting.
+
+Snapshots and JSON-lines history use same-directory temporary files followed
+by rename. Every completed attempt writes `<OUT_FILE>.heartbeat.json` with
+`updatedAt`, `status`, and `sourceStatus`; default paths are:
+
+- `/var/lib/nexualpha-market/market-events.json.heartbeat.json`
+- `/var/lib/nexualpha-market/whales.json.heartbeat.json`
+
+On total outage the last good payload remains available with `stale: true`.
+`generatedAt` retains its original data timestamp, while `updatedAt` records
+the collector attempt. Whale snapshots additionally retain `dataUpdatedAt`.
+Partial recovery sets `degraded: true` and a degraded heartbeat whenever any
+source is failed, in cooldown, or the liquidation stream is unavailable.
+Consumers needing current prices should require `sourceStatus.markets.status`
+to be `ok` when source status is present, because other sources can recover
+while the previous market-price block remains cached.
+The heartbeat describes process progress; a fresh heartbeat does not imply
+fresh upstream data. Monitor `status`, `stale`, `generatedAt`, and individual
+source results separately. A filesystem write error is still an operational
+failure and may prevent heartbeat persistence.
+
+The one-shot data freshness probe writes
+`<DATA_FRESHNESS_FILE>.heartbeat.json` even on network failure and retries
+within the same five-minute startup budget. Samples retain upstream
+`generatedAt` age checks, so a fresh collector heartbeat cannot make old
+funding data pass the freshness scorecard.
+
+Offline regression checks from the repository root:
+
+```bash
+node --test ops/market-collector/resilience.test.mjs ops/data-freshness/data-freshness.test.mjs pilot-01-prototype/tests/whale-collector.test.mjs pilot-01-prototype/tests/market-collector-funding.test.mjs
+```
+
+These simulate DNS failure, an unresponsive source/body, breaker recovery,
+five-minute startup budgeting, and last-good writes. They do not demonstrate
+production restart ordering; deployment and a staging Compose restart remain
+the release owner's responsibility.

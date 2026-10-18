@@ -14,9 +14,10 @@
 // Binance's liquidation stream sends at most the latest order per symbol per second, so totals are a lower bound and
 // are labelled as such. Output: one JSON file (OUT_FILE), rewritten atomically every 5 minutes, plus an hourly
 // history (MARKET_HISTORY_FILE, JSON lines, 90 days) summarised under `history` for the /liquidations 30-day chart.
-import { readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { atomicWriteJson, boundedFetch, createSourceRunner, readJson, runCollectorLoop, sourcesDegraded } from "./resilience.mjs";
 import { appendHourlySnapshot, defaultHistoryFile, historySnapshot, summarizeHistory } from "./market-history.mjs";
 
 const OUT_FILE = process.env.OUT_FILE || "/var/lib/nexualpha-market/market-events.json";
@@ -36,6 +37,8 @@ export const LIQUIDATION_TIMELINE_WINDOWS = Object.freeze({
 });
 export const LIQUIDATION_TIMELINE_LARGEST_LIMIT = 20;
 const log = (m) => console.log(`[market] ${new Date().toISOString()} ${m}`);
+const sourceRunner = createSourceRunner({ timeoutMs: 60_000, log });
+const http = boundedFetch();
 
 // ---------- liquidations (Binance force-order stream) ----------
 const lnum = (v) => { const n = typeof v === "number" ? v : Number.parseFloat(v); return Number.isFinite(n) ? n : null; };
@@ -46,14 +49,33 @@ const withinRetention = (row, now = Date.now(), retentionMs = LIQUIDATION_ORDER_
   const t = lnum(row?.t);
   return t != null && t >= retentionCutoff(now, retentionMs) && t <= now + HOUR;
 };
-const retainedOrders = (orders, now = Date.now()) => (Array.isArray(orders) ? orders : []).filter((x) => withinRetention(x, now));
+// Memory (2026-10-15 OOM crash loop): a 7-day retention holds ~1M small order rows. JSON.parse and the Binance stream
+// give every row its own copy of the same few strings ("BTCUSDT", "long", "okx"); sharing one instance per distinct value
+// cuts the resident heap by roughly half, so the 5-minute cycle fits a bounded container instead of being killed at
+// startup (exit 137, 900+ restarts after the 05:30 SGT reboot).
+const internPool = new Map();
+const intern = (v) => {
+  if (typeof v !== "string") return v;
+  const hit = internPool.get(v);
+  if (hit !== undefined) return hit;
+  if (internPool.size < 50000) internPool.set(v, v);
+  return v;
+};
+const compactOrder = (x) => ({ t: x.t, s: intern(x.s), side: intern(x.side), usd: x.usd, ...(x.src !== undefined ? { src: intern(x.src) } : {}) });
+// Hard bound on retained orders (2026-10-18 OOM: liquidations-24h.json reached 21 MB / 281k orders with 7-day
+// retention and the collector was killed at its 128 MB limit). Orders arrive in time order, so keeping the tail keeps
+// the newest; the 24h windows stay complete and only the oldest part of the 7-day timeline thins out in extreme weeks.
+export const MAX_RETAINED_ORDERS = Math.max(1000, Number(process.env.MAX_RETAINED_ORDERS) || 200_000);
+export const capOrders = (rows, max = MAX_RETAINED_ORDERS) => (rows.length > max ? [...rows].sort((a, b) => a.t - b.t).slice(rows.length - max) : rows);
+const retainedOrders = (orders, now = Date.now()) => capOrders((Array.isArray(orders) ? orders : []).filter((x) => withinRetention(x, now)));
+const loadedOrders = (orders, now = Date.now()) => retainedOrders(orders, now).map(compactOrder);
 const retainedObservations = (observations, now = Date.now()) => (Array.isArray(observations) ? observations : [])
   .filter((x) => withinRetention(x, now)).map((x) => ({ t: lnum(x.t), binanceStream: Boolean(x.binanceStream), okxPoll: Boolean(x.okxPoll) }));
 
 export function readCollectorStatePayload(payload, now = Date.now()) {
-  if (Array.isArray(payload)) return { orders: retainedOrders(payload, now), observations: [] };
+  if (Array.isArray(payload)) return { orders: loadedOrders(payload, now), observations: [] };
   if (!payload || typeof payload !== "object") return { orders: [], observations: [] };
-  return { orders: retainedOrders(payload.orders, now), observations: retainedObservations(payload.observations, now) };
+  return { orders: loadedOrders(payload.orders, now), observations: retainedObservations(payload.observations, now) };
 }
 
 export function readCollectorState(file = STATE_FILE, now = Date.now()) {
@@ -83,7 +105,7 @@ export function parseBinanceForceOrder(payload, now = Date.now()) {
   const quantity = Number(o.z ?? o.q);
   const usd = Math.round(price * quantity), t = Number(o.T);
   if (!Number.isFinite(usd) || usd <= 0 || !Number.isFinite(t) || t <= 0 || t > now || t < retentionCutoff(now)) return null;
-  return { t, s: o.s, side: o.S === "SELL" ? "long" : "short", usd, src: "binance" };
+  return { t, s: intern(o.s), side: o.S === "SELL" ? "long" : "short", usd, src: "binance" };
 }
 
 export function binanceStreamCoverage(state, now = Date.now(), timeoutMs = BINANCE_SILENCE_TIMEOUT_MS) {
@@ -113,17 +135,33 @@ export function connectBinanceLiquidations(orders, {
       state.lastOrderAt = now();
     } catch { /* malformed frames do not establish coverage */ }
   };
-  ws.onclose = () => { state.open = false; onClose(); };
-  ws.onerror = () => { state.open = false; ws.close(); };
+  // Guarded: undici fires "error" again from close() on a failed socket; an unguarded close() inside onerror
+  // recursed until "Maximum call stack size exceeded" (2026-10-18 incident, hot-patched on prod the same day).
+  // onClose (the reconnect scheduler) must also run at most once per socket.
+  let closing = false;
+  let closedOnce = false;
+  ws.onclose = () => { state.open = false; if (closedOnce) return; closedOnce = true; onClose(); };
+  ws.onerror = () => {
+    state.open = false;
+    if (closing) return;
+    closing = true;
+    try { if (ws.readyState === 0 || ws.readyState === 1) ws.close(); } catch { /* already closing */ }
+  };
   return { ws, state };
 }
 
 let binanceStream = { state: { open: false, connectedAt: null, lastOrderAt: null } };
 function connectLiquidations() {
-  binanceStream = connectBinanceLiquidations(liq, {
-    getOrders: () => liq,
-    onClose: () => { log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); },
-  });
+  try {
+    binanceStream = connectBinanceLiquidations(liq, {
+      getOrders: () => liq,
+      onClose: () => { log("liquidation stream closed; reconnecting in 5s"); setTimeout(connectLiquidations, 5000); },
+    });
+  } catch (error) {
+    // A synchronous DNS/socket startup failure must not kill the REST collector.
+    log(`liquidation stream startup failed: ${error.message}; retrying in 5s`);
+    setTimeout(connectLiquidations, 5000);
+  }
 }
 
 export function liquidationCoverage(orders) {
@@ -151,7 +189,7 @@ const okxCtVal = {};
 const seenOkx = new Set(liq.filter((x) => x.src === "okx").map((x) => `${x.s}:${x.t}:${x.usd}`));
 async function pollOkxLiquidations() {
   let okxPoll = false;
-  for (const fam of OKX_FAMILIES) {
+  await Promise.all(OKX_FAMILIES.map(async (fam) => {
     try {
       const inst = `${fam}-SWAP`;
       if (!okxCtVal[inst]) okxCtVal[inst] = Number((await getJson(`https://www.okx.com/api/v5/public/instruments?instType=SWAP&instId=${inst}`)).data?.[0]?.ctVal);
@@ -162,10 +200,11 @@ async function pollOkxLiquidations() {
         const t = Number(d.ts), key = `${inst}:${t}:${usd}`;
         if (!Number.isFinite(usd) || usd <= 0 || seenOkx.has(key) || Date.now() - t > H7) continue;
         seenOkx.add(key);
-        liq.push({ t, s: `OKX:${fam.replace("-", "")}`, side: d.posSide === "short" ? "short" : "long", usd, src: "okx" });
+        liq.push({ t, s: intern(`OKX:${fam.replace("-", "")}`), side: d.posSide === "short" ? "short" : "long", usd, src: "okx" });
       }
     } catch (error) { log(`okx liquidations ${fam} failed: ${error.message}`); }
-  }
+  }));
+  if (!okxPoll) throw new Error("all OKX liquidation polls failed");
   return okxPoll;
 }
 
@@ -233,10 +272,25 @@ function buildTimelineWindow(rows, observationsInput, { windowMs, bucketMs }, no
   const buckets = [];
   const obs = observationTimes(observationsInput, now);
   const bySymbolTotals = new Map();
-  for (let t = startMs; t < endMs; t += bucketMs) {
+  // One pass over the orders and one over the observations: each row lands in its bucket by index. The previous
+  // filter-per-bucket scan was O(rows x buckets) (~1M x 456 per cycle on a 7-day retention) and, with the garbage it
+  // made, stretched the 5-minute cycle to 30 minutes before the 2026-10-15 OOM crash loop.
+  const bucketCount = Math.ceil(windowMs / bucketMs);
+  const bucketRowsByIndex = Array.from({ length: bucketCount }, () => []);
+  for (const row of rows) {
+    if (row.t < startMs || row.t >= endMs) continue;
+    bucketRowsByIndex[Math.floor((row.t - startMs) / bucketMs)].push(row);
+  }
+  const observedByIndex = new Array(bucketCount).fill(false);
+  for (const ot of obs) {
+    if (ot < startMs || ot >= endMs) continue;
+    observedByIndex[Math.floor((ot - startMs) / bucketMs)] = true;
+  }
+  for (let t = startMs, index = 0; t < endMs; t += bucketMs, index += 1) {
     const bucketEnd = t + bucketMs;
-    const bucketRows = rows.filter((x) => x.t >= t && x.t < bucketEnd);
+    const bucketRows = bucketRowsByIndex[index] || [];
     const symbolMap = new Map();
+    let longUsd = 0, shortUsd = 0;
     for (const row of bucketRows) {
       const current = symbolMap.get(row.symbol) || { symbol: row.symbol, longUsd: 0, shortUsd: 0, totalUsd: 0, orders: 0 };
       current[`${row.side}Usd`] += row.usd;
@@ -245,10 +299,9 @@ function buildTimelineWindow(rows, observationsInput, { windowMs, bucketMs }, no
       symbolMap.set(row.symbol, current);
       const total = bySymbolTotals.get(row.symbol) || 0;
       bySymbolTotals.set(row.symbol, total + row.usd);
+      if (row.side === "long") longUsd += row.usd; else shortUsd += row.usd;
     }
-    const longUsd = bucketRows.filter((x) => x.side === "long").reduce((a, x) => a + x.usd, 0);
-    const shortUsd = bucketRows.filter((x) => x.side === "short").reduce((a, x) => a + x.usd, 0);
-    const observed = bucketRows.length > 0 || obs.some((ot) => ot >= t && ot < bucketEnd);
+    const observed = bucketRows.length > 0 || observedByIndex[index] === true;
     const symbols = Object.fromEntries([...symbolMap.values()].sort((a, b) => b.totalUsd - a.totalUsd || a.symbol.localeCompare(b.symbol)).map((s) => [s.symbol, {
       longUsd: s.longUsd, shortUsd: s.shortUsd, totalUsd: s.totalUsd, orders: s.orders,
     }]));
@@ -297,9 +350,12 @@ export function buildLiquidationTimeline(orders, observationsInput = [], now = D
 
 // ---------- prices, moves, open interest ----------
 async function getJson(url) {
-  const res = await fetch(url, { headers: { accept: "application/json", "user-agent": UA }, signal: AbortSignal.timeout(15000) });
-  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
-  return res.json();
+  const key = `${new URL(url).hostname}${new URL(url).pathname}`;
+  return sourceRunner.run(key, async (signal) => {
+    const res = await http(url, { headers: { accept: "application/json", "user-agent": UA }, signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  });
 }
 async function markets() {
   const tickers = (await getJson("https://fapi.binance.com/fapi/v1/ticker/24hr"))
@@ -307,20 +363,20 @@ async function markets() {
   const top = tickers.slice(0, 60);
   fundingSymbols = topFundingSymbols(tickers);
   const majors = [];
-  for (const symbol of ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT", "BNBUSDT"]) {
+  await Promise.all(["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT", "BNBUSDT"].map(async (symbol) => {
     const t = tickers.find((x) => x.symbol === symbol);
-    if (!t) continue;
+    if (!t) return;
     const k = await getJson(`https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=1h&limit=2`);
     const open1h = Number(k[k.length - 1][1]);
     majors.push({ symbol, price: Number(t.lastPrice), change1hPct: round((Number(t.lastPrice) / open1h - 1) * 100), change24hPct: round(Number(t.priceChangePercent)), quoteVolume24h: Math.round(Number(t.quoteVolume)) });
-  }
+  }));
   const movers = top.map((t) => ({ symbol: t.symbol, change24hPct: round(Number(t.priceChangePercent)), quoteVolume24h: Math.round(Number(t.quoteVolume)) }))
     .filter((t) => Math.abs(t.change24hPct) >= 10).sort((a, b) => Math.abs(b.change24hPct) - Math.abs(a.change24hPct)).slice(0, 10);
   const openInterest = [];
-  for (const symbol of ["BTCUSDT", "ETHUSDT"]) {
+  await Promise.all(["BTCUSDT", "ETHUSDT"].map(async (symbol) => {
     const h = await getJson(`https://fapi.binance.com/futures/data/openInterestHist?symbol=${symbol}&period=1h&limit=25`);
     if (h.length >= 2) openInterest.push({ symbol, oiUsd: Math.round(Number(h[h.length - 1].sumOpenInterestValue)), change24hPct: round((Number(h[h.length - 1].sumOpenInterestValue) / Number(h[0].sumOpenInterestValue) - 1) * 100) });
-  }
+  }));
   return { majors, movers, openInterest };
 }
 const round = (x) => Math.round(x * 100) / 100;
@@ -345,20 +401,25 @@ const TAGS = [
 ];
 async function headlines() {
   const out = [];
-  for (const [source, url] of FEEDS) {
+  let answered = 0;
+  await Promise.all(FEEDS.map(async ([source, url]) => {
     try {
-      const res = await fetch(url, { headers: { "user-agent": UA, accept: "application/rss+xml, application/xml, text/xml" }, signal: AbortSignal.timeout(15000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const xml = await res.text();
-      for (const item of xml.split(/<item[\s>]/).slice(1, 30)) {
-        const pick = (tag) => (item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]?.replace(/<!\[CDATA\[|\]\]>/g, "").trim();
-        const title = pick("title"), link = pick("link"), date = pick("pubDate") || pick("dc:date");
-        const t = Date.parse(date);
-        if (!title || !link || !Number.isFinite(t) || Date.now() - t > 48 * 3600e3) continue;
-        out.push({ source, title: title.replace(/&amp;/g, "&").replace(/&#39;|&#8217;/g, "'").replace(/&quot;/g, '"'), url: link, publishedAt: new Date(t).toISOString(), tags: TAGS.filter(([, re]) => re.test(title)).map(([n]) => n) });
-      }
+      await sourceRunner.run(`rss:${source}`, async (signal) => {
+        const res = await http(url, { headers: { "user-agent": UA, accept: "application/rss+xml, application/xml, text/xml" }, signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const xml = await res.text();
+        answered += 1;
+        for (const item of xml.split(/<item[\s>]/).slice(1, 30)) {
+          const pick = (tag) => (item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]?.replace(/<!\[CDATA\[|\]\]>/g, "").trim();
+          const title = pick("title"), link = pick("link"), date = pick("pubDate") || pick("dc:date");
+          const t = Date.parse(date);
+          if (!title || !link || !Number.isFinite(t) || Date.now() - t > 48 * 3600e3) continue;
+          out.push({ source, title: title.replace(/&amp;/g, "&").replace(/&#39;|&#8217;/g, "'").replace(/&quot;/g, '"'), url: link, publishedAt: new Date(t).toISOString(), tags: TAGS.filter(([, re]) => re.test(title)).map(([n]) => n) });
+        }
+      });
     } catch (error) { log(`feed ${source} failed: ${error.message}`); }
-  }
+  }));
+  if (!answered) throw new Error("all headline feeds failed");
   return out.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
@@ -413,17 +474,22 @@ export function buildFundingRows(symbols, binanceBySymbol, okxBySymbol) {
 }
 
 let fundingSymbols = FUNDING_FALLBACK_SYMBOLS.map((s) => s.replace(/USDT$/, ""));
-let lastFunding = null;
+let lastFunding = readJson(OUT_FILE)?.funding || null;
 async function collectFunding(symbols) {
-  const binance = normalizeBinancePremium(await getJson("https://fapi.binance.com/fapi/v1/premiumIndex"));
+  let binance = new Map();
   const okx = new Map();
-  for (const base of symbols) {
-    try {
-      const r = normalizeOkxFunding(await getJson(`https://www.okx.com/api/v5/public/funding-rate?instId=${okxInstId(base)}`));
-      if (r) okx.set(base, r);
-    } catch (error) { log(`okx funding ${base} failed: ${error.message}`); }
-    await new Promise((r) => setTimeout(r, 150));
-  }
+  await Promise.all([
+    getJson("https://fapi.binance.com/fapi/v1/premiumIndex").then((json) => { binance = normalizeBinancePremium(json); }).catch((error) => log(`binance funding failed: ${error.message}`)),
+    // Bounded batches avoid both serial timeout multiplication and a 20-request burst.
+    (async () => {
+      for (let i = 0; i < symbols.length; i += 4) await Promise.all(symbols.slice(i, i + 4).map(async (base) => {
+        try {
+          const r = normalizeOkxFunding(await getJson(`https://www.okx.com/api/v5/public/funding-rate?instId=${okxInstId(base)}`));
+          if (r) okx.set(base, r);
+        } catch (error) { log(`okx funding ${base} failed: ${error.message}`); }
+      }));
+    })(),
+  ]);
   const rows = buildFundingRows(symbols, binance, okx);
   if (!rows.length) throw new Error("no funding rows");
   return { generatedAt: new Date().toISOString(), source: FUNDING_SOURCE, rows };
@@ -445,24 +511,30 @@ function detectEvents(liq1h, liq24h, m) {
   return ev;
 }
 
-async function cycle() {
+export async function cycle({ outFile = OUT_FILE, stateFile = STATE_FILE, historyFile = HISTORY_FILE, runner = sourceRunner, collectors = { liquidations: pollOkxLiquidations, markets, headlines, funding: () => collectFunding(fundingSymbols) } } = {}) {
   liq = retainedOrders(liq);
   observations = retainedObservations(observations);
   seenOkx.clear();
   for (const row of liq.filter(x => x.src === "okx")) seenOkx.add(`${row.s}:${row.t}:${row.usd}`);
-  const okxPoll = await pollOkxLiquidations();
+  const results = await Promise.allSettled(Object.entries(collectors).map(([name, collect]) => runner.run(name, () => collect())));
+  const result = Object.fromEntries(Object.keys(collectors).map((name, index) => [name, results[index]]));
+  const okxPoll = result.liquidations?.status === "fulfilled" && result.liquidations.value;
   const binanceCoverage = binanceStreamCoverage(binanceStream.state);
   if (binanceCoverage.status === "silent") log("Binance force-order stream unavailable: connected but silent for at least 10 minutes");
-  observations.push({ t: Date.now(), binanceStream: binanceCoverage.available, okxPoll });
-  let m = { majors: [], movers: [], openInterest: [] };
-  try { m = await markets(); } catch (error) { log(`markets failed: ${error.message}`); }
-  const news = await headlines();
-  // Funding: a failed pass keeps the previous block (at most 2 hours old) rather than inventing rates.
-  try { lastFunding = await collectFunding(fundingSymbols); }
-  catch (error) { log(`funding failed: ${error.message}`); if (lastFunding && Date.now() - Date.parse(lastFunding.generatedAt) > 2 * 3600e3) lastFunding = null; }
+  observations.push({ t: Date.now(), binanceStream: binanceCoverage.available, okxPoll: Boolean(okxPoll) });
+  const previous = readJson(outFile);
+  const m = result.markets?.status === "fulfilled" ? result.markets.value : previous?.market || { majors: [], movers: [], openInterest: [] };
+  const news = result.headlines?.status === "fulfilled" ? result.headlines.value : previous?.headlines || [];
+  if (result.funding?.status === "fulfilled") lastFunding = result.funding.value;
+  if (lastFunding && Date.now() - Date.parse(lastFunding.generatedAt) > 2 * 3600e3) lastFunding = null;
+  const sourceStatus = { ...runner.status(), binanceStream: binanceCoverage };
+  const stale = !binanceCoverage.available && !results.some((r, i) => r.status === "fulfilled" && (Object.keys(collectors)[i] !== "headlines" || r.value.length));
+  const degraded = stale || sourcesDegraded(sourceStatus);
   const l1 = liquidationWindow(3600e3), l4 = liquidationWindow(4 * 3600e3), l24 = liquidationWindow(H24);
   const doc = {
-    generatedAt: new Date().toISOString(),
+    generatedAt: stale ? previous?.generatedAt || null : new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    stale, degraded, sourceStatus,
     liquidations: {
       source: `${l24.coverage.label}; a lower bound, not the whole market. Binance snapshots at most one order per symbol per second; OKX polls BTC/ETH/SOL/XRP/DOGE. Only contributing venues are named above.`,
       coverage: { ...l24.coverage, binance: binanceCoverage },
@@ -475,25 +547,35 @@ async function cycle() {
     events: detectEvents(l1, l24, m),
     headlines: news.slice(0, 80),
   };
+  if (stale && previous) Object.assign(doc, previous, { updatedAt: doc.updatedAt, stale: true, degraded: true, sourceStatus });
   // History: one snapshot per UTC hour (the first cycle of the hour); the summary is recomputed every cycle so the
   // feed always carries it. A history failure never blocks the live feed.
   try {
     const snapshot = historySnapshot(doc);
-    if (snapshot) {
-      const { rows } = appendHourlySnapshot(HISTORY_FILE, snapshot);
+    if (snapshot && (okxPoll || binanceCoverage.available)) {
+      const { rows } = appendHourlySnapshot(historyFile, snapshot);
       const history = summarizeHistory(rows);
       if (history) doc.history = history;
     }
   } catch (error) { log(`history failed: ${error.message}`); }
-  mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-  writeFileSync(`${OUT_FILE}.tmp`, JSON.stringify(doc)); renameSync(`${OUT_FILE}.tmp`, OUT_FILE);
-  writeFileSync(`${STATE_FILE}.tmp`, JSON.stringify(collectorStatePayload(liq, observations))); renameSync(`${STATE_FILE}.tmp`, STATE_FILE);
+  atomicWriteJson(outFile, doc);
+  atomicWriteJson(stateFile, collectorStatePayload(liq, observations));
+  atomicWriteJson(`${outFile}.heartbeat.json`, { updatedAt: doc.updatedAt, status: degraded ? "degraded" : "ok", sourceStatus });
   log(`events=${doc.events.length} headlines=${news.length} liq24h=${Math.round(l24.totalUsd / 1e6)}M funding=${lastFunding ? lastFunding.rows.length : 0}`);
+  return doc;
 }
 
 // Only the entrypoint starts the stream and the 5-minute loop; tests import the pure helpers above.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   connectLiquidations();
-  cycle();
-  setInterval(cycle, 5 * 60 * 1000);
+  runCollectorLoop(async () => !(await cycle()).stale, {
+    cycleMs: 5 * 60 * 1000,
+    onError: (error) => {
+      log(`cycle failed: ${error.message}`);
+      const updatedAt = new Date().toISOString();
+      const previous = readJson(OUT_FILE);
+      if (previous) atomicWriteJson(OUT_FILE, { ...previous, updatedAt, stale: true, degraded: true, sourceStatus: sourceRunner.status() });
+      atomicWriteJson(`${OUT_FILE}.heartbeat.json`, { updatedAt, status: "error", error: error.message, sourceStatus: sourceRunner.status() });
+    },
+  });
 }

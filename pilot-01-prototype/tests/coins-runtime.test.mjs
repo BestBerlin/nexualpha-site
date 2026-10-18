@@ -53,6 +53,10 @@ test("reader: missing, implausible and valid files", async () => {
     await writeFile(file, "{ truncated");
     now += 2000;
     assert.equal((await reader.read()).generatedAt, snapshot.generatedAt, "a broken rewrite keeps the last good snapshot");
+    assert.equal((await reader.read()).stale, true);
+    const staleResponse = await reader.respond();
+    assert.equal(staleResponse.status, 200);
+    assert.equal((await staleResponse.json()).stale, true);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 

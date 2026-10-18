@@ -31,7 +31,9 @@ export function createTickerFeed({ ttlMs = TICKER_TTL_MS, staleMs = 10 * 60 * 10
         raw = { rows, at }; return next;
       }
     } catch (error) { log(`ticker: ${error?.message || error}; using the collector feed`); }
-    return typeof readMarketEvents === 'function' ? tickerFromMarketEvents(await readMarketEvents()) : null;
+    const market = typeof readMarketEvents === 'function' ? await readMarketEvents() : null;
+    const fallback = tickerFromMarketEvents(market);
+    return fallback && (market?.stale || (market?.sourceStatus?.markets && market.sourceStatus.markets.status !== 'ok') || now() - Date.parse(fallback.generatedAt) >= ttlMs) ? { ...fallback, stale: true } : fallback;
   } });
   // SWR uses the last wide snapshot for ten minutes; the consumer retains its original clock.
   const readRows = async () => { await feed.read(); return raw && now() - raw.at < staleMs ? raw.rows : null; };

@@ -119,7 +119,8 @@ test("the collector entrypoint wires the history file and summary without blocki
   const src = readFileSync(new URL("../../ops/market-collector/market-collector.mjs", import.meta.url), "utf8");
   assert.match(src, /MARKET_HISTORY_FILE/);
   assert.match(src, /defaultHistoryFile\(OUT_FILE\)/);
-  assert.match(src, /appendHourlySnapshot\(HISTORY_FILE, snapshot\)/);
+  assert.match(src, /historyFile = HISTORY_FILE/);
+  assert.match(src, /appendHourlySnapshot\(historyFile, snapshot\)/);
   assert.match(src, /doc\.history = history/);
   assert.match(src, /catch \(error\) \{ log\(`history failed/);
 });

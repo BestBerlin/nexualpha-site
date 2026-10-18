@@ -6,7 +6,9 @@
 # Every run is recorded in the job_runs table and appended to $NEWSROOM_STATE/logs/<job>.log.
 set -uo pipefail
 export TZ=Asia/Singapore
-APP=/srv/newsroom/app
+export PGCONNECT_TIMEOUT=${PGCONNECT_TIMEOUT:-10}
+export PGOPTIONS="${PGOPTIONS:-} -c statement_timeout=30000"
+APP=${NEWSROOM_APP:-/srv/newsroom/app}
 CLI=(node "$APP/bin/newsroom.mjs")
 OUT=${NEWSROOM_OUT:-/out}
 STATE=${NEWSROOM_STATE:-/state}
@@ -15,6 +17,8 @@ COLLECT_SOURCE_TIMEOUT=${COLLECT_SOURCE_TIMEOUT:-120}
 EXPORT_LIMIT=${EXPORT_LIMIT:-50}
 SNAPSHOT_HOUR=${SNAPSHOT_HOUR:-9}          # daily status snapshot after 09:00 Asia/Singapore
 mkdir -p "$STATE/locks" "$STATE/logs" "$OUT/status"
+
+job_heartbeat() { node "$APP/deploy/heartbeat.mjs" job "$@"; }
 
 log() { printf '%s [%s] %s\n' "$(date -Is)" "$1" "$2"; }
 
@@ -88,8 +92,9 @@ loop() { # name first-delay interval timeout
   ( sleep "$first"
     while :; do
       local t0=$(date +%s) rc
-      touch "$STATE/heartbeat"
+      job_heartbeat "$name" running
       timeout "$limit" bash "$0" run "$name"; rc=$?
+      job_heartbeat "$name" completed "$rc"
       if [ "$rc" -eq 124 ]; then log "$name" "killed after ${limit}s timeout"; record_run "$name" "$t0" 124 "timeout after ${limit}s"; fi
       local left=$(( every - ($(date +%s) - t0) )); [ "$left" -gt 30 ] || left=30
       sleep "$left"
@@ -101,9 +106,10 @@ if [ "${1:-}" = run ]; then
 fi
 
 log scheduler "start: collect every 10 min, pipeline (dedupe+score+verify+export) every 10 min offset 5 min, daily status after ${SNAPSHOT_HOUR}:00"
-touch "$STATE/heartbeat"
+for job in collect pipeline daily; do job_heartbeat "$job" waiting; done
+node "$APP/deploy/heartbeat.mjs" write
 loop collect 30 600 570
 loop pipeline 330 600 300
 loop daily 60 600 120
-( while :; do touch "$STATE/heartbeat"; sleep 60; done ) &
+( while :; do node "$APP/deploy/heartbeat.mjs" write; sleep 30; done ) &
 wait

@@ -86,11 +86,14 @@ export function dueRhythmSlots(now, lang) {
   const slot = localSlot(now, lang);
   if (!slot) return [];
   const out = [];
-  if (slot.hour === 8) out.push({ kind: "morning", key: `${slot.date}:08`, local: slot });
-  if (slot.weekday === "Mon" && slot.hour === 12) out.push({ kind: "weeklyPoll", key: `${slot.date}:12`, local: slot });
+  // A restart or unavailable feed may miss the original hour. Keep today's
+  // slots eligible through local midnight; the persisted per-chat key dedupes.
+  // Never replay previous days/weeks and flood a channel after a long outage.
+  if (slot.hour >= 8) out.push({ kind: "morning", key: `${slot.date}:08`, local: slot });
+  if (slot.weekday === "Mon" && slot.hour >= 12) out.push({ kind: "weeklyPoll", key: `${slot.date}:12`, local: slot });
   // "Tool of the week" (owner 2026-10-13): Monday 20:00 Singapore time in every channel, whatever the channel's zone.
   const sgt = localSlot(now, "sgt");
-  if (sgt.weekday === "Mon" && sgt.hour === 20) out.push({ kind: "toolOfWeek", key: `${sgt.date}:20`, local: sgt });
+  if (sgt.weekday === "Mon" && sgt.hour >= 20) out.push({ kind: "toolOfWeek", key: `${sgt.date}:20`, local: sgt });
   return out;
 }
 

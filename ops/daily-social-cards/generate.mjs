@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import { readFileSync, mkdirSync, writeFileSync, openSync, closeSync, unlinkSync, renameSync } from 'node:fs';
+import { readFileSync, mkdirSync, writeFileSync, openSync, closeSync, unlinkSync, renameSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { weightedLength, loadCredentials, xClient } from '../x-poster/x-poster.mjs';
-import { token, sendPhoto } from '../alert-sender/alert-sender.mjs';
+import { token, sendPhoto, requireCurrentMarket } from '../alert-sender/alert-sender.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const HERE = fileURLToPath(new URL('.', import.meta.url));
@@ -16,6 +16,9 @@ export function channelFor(locale) {
   return CHANNELS[locale];
 }
 export const sgtDay = (at) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Singapore', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(at));
+export function dailySlotDue(at = Date.now()) {
+  return Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Singapore', hour: '2-digit', hourCycle: 'h23' }).format(new Date(at))) >= 9;
+}
 const money = (n) => '$' + new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 2 }).format(n);
 const pct = (n) => `${n >= 0 ? '+' : '−'}${Math.abs(n).toFixed(2)}%`;
 const rate = (n) => `${n >= 0 ? '+' : '−'}${Math.abs(n * 100).toFixed(4)}%`;
@@ -28,6 +31,8 @@ function fresh(at, now, name) {
   if (why) throw new Error(`Missing, future or stale ${name}: generatedAt ${at ?? 'absent'} is ${why}`);
 }
 export function normalize(movers, market, now) {
+  if (movers?.stale === true) throw new Error('movers feed stale; waiting for recovery');
+  requireCurrentMarket(market);
   fresh(movers?.generatedAt, now, 'movers');
   fresh(market?.generatedAt, now, 'market');
   const seen = new Set();
@@ -119,6 +124,10 @@ export function renderCard(data, locale = 'en') {
   return new Resvg(cardSvg(data, locale), { font: { loadSystemFonts: false, fontFiles: [path.join(ROOT, 'ops/shorts/fonts/InterVariable.ttf'), CJK_FONT], defaultFontFamily: 'Inter' } }).render().asPng();
 }
 const CARD_FILES = Object.freeze({ en: 'card.png', 'zh-Hans': 'card-zh-Hans.png' });
+function writeSummary(file, summary) {
+  const tmp = `${file}.${process.pid}.tmp`;
+  writeFileSync(tmp, JSON.stringify(summary, null, 2) + '\n'); renameSync(tmp, file);
+}
 export function generate({ movers, market, now, out }) {
   const data = normalize(movers, market, now), dir = path.join(out, data.day);
   mkdirSync(dir, { recursive: true, mode: 0o700 });
@@ -132,7 +141,7 @@ export function generate({ movers, market, now, out }) {
   const summary = { day: data.day, mode: 'dry-run', directory: dir, card: path.join(dir, CARD_FILES.en), width: 1200, height: 675,
     cards: Object.fromEntries(Object.entries(CARD_FILES).map(([locale, name]) => [locale, path.join(dir, name)])),
     texts: Object.fromEntries(Object.entries(texts).map(([name, text]) => [name, { file: path.join(dir, name), weightedLength: weightedLength(text) }])), sourceTimes: data.sourceTimes };
-  writeFileSync(path.join(dir, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
+  writeSummary(path.join(dir, 'summary.json'), summary);
   return { summary, png: pngs.en, pngs, texts };
 }
 // Error text for logs: message plus the low-level cause (e.g. ECONNRESET), with tokens/OAuth values removed.
@@ -147,6 +156,10 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
   channelFor(xLocale);
   mkdirSync(stateDir, { recursive: true, mode: 0o700 });
   const lockPath = path.join(stateDir, 'run.lock');
+  // A reboot can leave the lock behind. Every transport is bounded and the
+  // scheduler caps the full job at 120s; receipts survive a stale-lock cleanup.
+  try { if (Date.now() - statSync(lockPath).mtimeMs > 10 * 60000) unlinkSync(lockPath); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
   const lock = openSync(lockPath, 'wx', 0o600);
   try {
     const file = path.join(stateDir, `${bundle.summary.day}.json`);
@@ -189,9 +202,10 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--post') opts.post = true;
     else if (args[i] === '--dry-run') opts.dry = true;
+    else if (args[i] === '--catch-up') opts.catchUp = true;
     else {
       const key = { '--fixture': 'fixture', '--out': 'out', '--at': 'at', '--x-locale': 'xLocale' }[args[i]];
-      if (!key || !args[i + 1] || args[i + 1].startsWith('--')) throw new Error('Usage: generate.mjs [--fixture FILE --at ISO] [--out DIR] [--post] [--x-locale en|zh-Hans]');
+      if (!key || !args[i + 1] || args[i + 1].startsWith('--')) throw new Error('Usage: generate.mjs [--fixture FILE --at ISO] [--out DIR] [--catch-up] [--post] [--x-locale en|zh-Hans]');
       opts[key] = args[++i];
     }
   }
@@ -200,6 +214,7 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   channelFor(opts.xLocale);
   const fixtureClock = opts.at ? Date.parse(opts.at) : null;
   if (fixtureClock !== null && !Number.isFinite(fixtureClock)) throw new Error('Invalid clock');
+  if (opts.catchUp && !dailySlotDue(fixtureClock ?? Date.now())) return { day: sgtDay(fixtureClock ?? Date.now()), mode: 'not-due' };
   const get = async (url) => { const r = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(15000) }); if (!r.ok) throw new Error(`Feed fetch failed: ${new URL(url).pathname} HTTP ${r.status}`); return r.json(); };
   // Production reads the local origin (no public DNS/CDN cache): DAILY_SOCIAL_MARKET_FILE is the collector's state
   // file, DAILY_SOCIAL_MOVERS_URL the web container's loopback /api/movers.json. Unset = public site URLs.
@@ -219,13 +234,13 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     const deliveries = await postDaily({ bundle, stateDir: env.DAILY_SOCIAL_STATE_DIR, xLocale: opts.xLocale, client, secrets: SECRETS,
       telegramSend: (chat, png, caption) => sendPhoto(botToken, chat, png, caption) });
     bundle.summary.mode = 'post'; bundle.summary.deliveries = deliveries;
-    writeFileSync(path.join(bundle.summary.directory, 'summary.json'), JSON.stringify(bundle.summary, null, 2) + '\n');
+    writeSummary(path.join(bundle.summary.directory, 'summary.json'), bundle.summary);
   }
   console.log(JSON.stringify(bundle.summary));
   return bundle.summary;
 }
 export function failureLine(e, secrets = SECRETS, at = new Date()) {
-  return `${at.toISOString()} Daily social generation/post failed: ${redact(describe(e), secrets)}. Inspect feeds, configuration and private journal. No automatic retry.`;
+  return `${at.toISOString()} Daily social generation/post failed: ${redact(describe(e), secrets)}. Inspect feeds, configuration and private journal. Unconfirmed deliveries are not replayed.`;
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch((e) => {
   console.error(failureLine(e)); process.exitCode = 1;

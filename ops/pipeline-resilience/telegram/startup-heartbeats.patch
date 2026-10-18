@@ -1,0 +1,150 @@
+--- a/apps/worker/src/publication-worker.ts
++++ b/apps/worker/src/publication-worker.ts
+@@ -1,10 +1,39 @@
+ import { Worker } from "bullmq";
++import { mkdirSync, renameSync, writeFileSync } from "node:fs";
++import { dirname } from "node:path";
+ import type { PublishJob } from "../../../packages/queue/src/publication-queue.js";
+ import { processPublicationJob } from "../../../packages/queue/src/publication-worker.js";
++
++let backendClients: { status: string }[] = [];
++let stopping = false;
++let lastProgressAt = new Date().toISOString();
++let lastBackendErrorAt: string | null = null;
++let lastJobOutcome = "idle";
++const healthPath = process.env.WORKER_HEARTBEAT_FILE ?? process.env.WORKER_HEALTH_SNAPSHOT_PATH ?? "/var/lib/crypto-telegram-ops/worker-heartbeat.json";
++
++function writeWorkerHealth(): void {
++  try {
++    mkdirSync(dirname(healthPath), { recursive: true, mode: 0o700 });
++    const temporaryPath = `${healthPath}.${process.pid}.tmp`;
++    writeFileSync(temporaryPath, JSON.stringify({
++      updatedAt: new Date().toISOString(), lastProgressAt, lastBackendErrorAt,
++      status: stopping ? "stopping" : backendClients.length > 0 && backendClients.every(client => client.status === "ready") ? "running" : "reconnecting",
++      backendConnectivity: backendClients.length > 0 && backendClients.every(client => client.status === "ready") ? "connected" : "unavailable",
++      lastJobOutcome,
++    }), { mode: 0o600 });
++    renameSync(temporaryPath, healthPath);
++  } catch {
++    console.error(JSON.stringify({ service: "telegram-publication-worker", event: "heartbeat_write_failed" }));
++  }
++}
+ 
+ const connection = {
+   host: process.env.VALKEY_HOST ?? "127.0.0.1",
+   port: Number(process.env.VALKEY_PORT ?? "14321"),
++  // Workers must wait for Valkey through startup/network races, never exhaust command retries.
++  maxRetriesPerRequest: null,
++  connectTimeout: 10_000,
++  retryStrategy: (attempt: number) => Math.min(30_000, 1_000 * 2 ** Math.min(attempt - 1, 5)),
+   // Valkey requirepass (security audit 2026-10-15, H6). Unset keeps the old no-auth behaviour.
+   ...(process.env.VALKEY_PASSWORD ? { password: process.env.VALKEY_PASSWORD } : {}),
+ };
+@@ -18,9 +47,27 @@
+ }, { connection });
+ 
+ worker.on("ready", () => console.info(JSON.stringify({ service: "telegram-publication-worker", publishingEnabled })));
+-worker.on("error", (error) => console.error(JSON.stringify({ service: "telegram-publication-worker", error: error.message })));
++worker.on("error", () => {
++  lastBackendErrorAt = new Date().toISOString();
++  writeWorkerHealth();
++  console.error(JSON.stringify({ service: "telegram-publication-worker", event: "backend_error" }));
++});
++const backend = worker.getBackend();
++void Promise.all([backend.connection.client, ...(backend.blockingConnection ? [backend.blockingConnection.client] : [])]).then(clients => { backendClients = clients; writeWorkerHealth(); }).catch(() => {
++  lastBackendErrorAt = new Date().toISOString();
++  writeWorkerHealth();
++});
++for (const event of ["active", "completed", "failed"] as const) {
++  worker.on(event, () => { lastProgressAt = new Date().toISOString(); lastJobOutcome = event; writeWorkerHealth(); });
++}
++writeWorkerHealth();
++const heartbeatTimer = setInterval(writeWorkerHealth, 30_000);
+ 
+ async function stop(signal: string): Promise<void> {
++  if (stopping) return;
++  stopping = true;
++  clearInterval(heartbeatTimer);
++  writeWorkerHealth();
+   console.info(JSON.stringify({ service: "telegram-publication-worker", signal, event: "stopping" }));
+   await worker.close();
+   process.exit(0);
+--- a/apps/bot-community/src/polling-runner.ts
++++ b/apps/bot-community/src/polling-runner.ts
+@@ -35,6 +35,24 @@
+ const shadowObservationSnapshotPath = process.env.SHADOW_OBSERVATION_SNAPSHOT_PATH ?? "/var/lib/crypto-telegram-ops/shadow-observation-summary.json";
+ const memberNewsDigestPath = process.env.MEMBER_NEWS_DIGEST_PATH ?? "/var/lib/crypto-telegram-ops/member-news-digest.json";
+ const marketPulsePath = process.env.MARKET_PULSE_PATH ?? "/var/lib/crypto-telegram-ops/market-pulse.json";
++const pollHealthPath = process.env.POLL_HEALTH_SNAPSHOT_PATH ?? "/var/lib/crypto-telegram-ops/poller-health.json";
++let lastSuccessfulPollAt: string | null = null;
++let consecutivePollFailures = 0;
++
++async function writePollHealth(status: string): Promise<void> {
++  try {
++    await mkdir(dirname(pollHealthPath), { recursive: true, mode: 0o700 });
++    const temporaryPath = `${pollHealthPath}.${process.pid}.tmp`;
++    await writeFile(temporaryPath, JSON.stringify({
++      updatedAt: new Date().toISOString(), lastSuccessfulPollAt, consecutivePollFailures,
++      status, phase: pollingPhase, backendConnectivity: consecutivePollFailures ? "degraded" : lastSuccessfulPollAt ? "connected" : "unknown",
++    }), { mode: 0o600 });
++    await rename(temporaryPath, pollHealthPath);
++  } catch {
++    console.error(JSON.stringify({ service: "telegram-community-poller", event: "heartbeat_write_failed" }));
++  }
++}
++
+ let offset = 0;
+ let stopping = false;
+ let processingUpdateId: number | undefined;
+@@ -45,6 +63,7 @@
+ const memberControls = memberPool ? new MemberControls(new PostgresMemberSubscriptionRepository(memberPool)) : undefined;
+ 
+ console.info(JSON.stringify({ service: "telegram-community-poller", environment: config.environment, event: "started" }));
++await writePollHealth("starting");
+ await logGroupObservationCoverage();
+ 
+ process.once("SIGTERM", () => { stopping = true; });
+@@ -53,7 +72,11 @@
+ while (!stopping) {
+   try {
+     pollingPhase = "get_updates";
++    await writePollHealth("polling");
+     const updates = await getUpdates(offset);
++    lastSuccessfulPollAt = new Date().toISOString();
++    consecutivePollFailures = 0;
++    await writePollHealth("processing");
+     for (const update of updates) {
+       const updateId = updateIdOf(update);
+       if (updateId === undefined) continue;
+@@ -120,11 +143,14 @@
+           await recordCommunityFeedback(event);
+         }
+       }
++      await writePollHealth("processing");
+       offset = updateId + 1;
+       processingUpdateId = undefined;
+       pollingPhase = "get_updates";
+     }
+   } catch (error) {
++    consecutivePollFailures += 1;
++    await writePollHealth("retrying");
+     if (processingUpdateId !== undefined && adapter.updateDeliveryState(processingUpdateId) === "dead_lettered") {
+       console.error(JSON.stringify({ service: "telegram-community-poller", event: "update_dead_lettered", updateId: processingUpdateId }));
+       offset = processingUpdateId + 1;
+@@ -137,6 +163,7 @@
+ }
+ 
+ console.info(JSON.stringify({ service: "telegram-community-poller", event: "stopped" }));
++await writePollHealth("stopped");
+ await memberPool?.end();
+ 
+ async function getUpdates(nextOffset: number): Promise<unknown[]> {
+@@ -164,7 +191,7 @@
+ /** Telegram's bounded retry_after is honored without creating a second poller or retrying uncertain sends. */
+ function retryDelayMilliseconds(error: unknown): number {
+   if (error instanceof TelegramBotApiError && error.retryAfterSeconds !== undefined) return error.retryAfterSeconds * 1_000;
+-  return 2_000;
++  return Math.min(30_000, 1_000 * 2 ** Math.min(consecutivePollFailures, 5));
+ }
+ 
+ async function logGroupObservationCoverage(): Promise<void> {

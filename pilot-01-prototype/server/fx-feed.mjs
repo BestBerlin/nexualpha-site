@@ -1,5 +1,5 @@
 // Public fiat FX snapshot for converter pages. The open ExchangeRate-API endpoint is USD-based, updates daily, and
-// includes all converter fiat currencies. A failed refresh keeps the last good snapshot for a bounded stale window; the
+// includes all converter fiat currencies. A failed refresh keeps the last validated snapshot explicitly stale; the
 // endpoint never fills missing currencies or fabricates rates.
 export const FX_JSON_PATH = "/intel/fx.json";
 export const FX_SOURCE_URL = "https://open.er-api.com/v6/latest/USD";
@@ -68,9 +68,9 @@ export async function fetchFxSnapshot({ sourceUrl = FX_SOURCE_URL, fetchImpl = f
   return normalizeFxSnapshot(await response.json(), { sourceUrl, now: now() });
 }
 
-function withFreshness(snapshot, { currentTime, lastGoodAt, lastError, everyMs }) {
+function withFreshness(snapshot, { currentTime, lastGoodAt, lastError, everyMs, staleMs }) {
   const sourceAgeMs = currentTime - Date.parse(snapshot.generatedAt);
-  const stale = Boolean(lastError) || currentTime - lastGoodAt >= everyMs || sourceAgeMs >= everyMs;
+  const stale = Boolean(lastError) || currentTime - lastGoodAt >= everyMs || sourceAgeMs >= everyMs || currentTime - lastGoodAt >= staleMs || sourceAgeMs >= staleMs;
   return {
     ...snapshot,
     status: stale ? "stale" : "ok",
@@ -119,8 +119,7 @@ export function createFxFeed({
       if (!snapshot && refreshing) await refreshing;
       if (!snapshot) return null;
       const currentTime = now();
-      if (currentTime - lastGoodAt > staleMs || currentTime - Date.parse(snapshot.generatedAt) > staleMs) return null;
-      return withFreshness(snapshot, { currentTime: now(), lastGoodAt, lastError, everyMs });
+      return withFreshness(snapshot, { currentTime, lastGoodAt, lastError, everyMs, staleMs });
   };
   return {
     refresh,

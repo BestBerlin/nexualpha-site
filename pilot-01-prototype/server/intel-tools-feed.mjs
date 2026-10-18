@@ -6,7 +6,7 @@
 import { readFile, stat } from "node:fs/promises";
 
 export function createJsonSnapshotReader({ file = null, fallbackFile = null, validate = () => true, ttlMs = 5 * 60 * 1000, now = Date.now, log = () => {}, label = "snapshot" } = {}) {
-  let snapshot = null, body = null, source = null, mtimeMs = 0, readAt = 0, pending = null;
+  let snapshot = null, body = null, source = null, mtimeMs = 0, readAt = 0, pending = null, failed = false;
   const load = async (path) => {
     const info = await stat(path);
     if (source === path && info.mtimeMs === mtimeMs && snapshot) return true;
@@ -19,8 +19,9 @@ export function createJsonSnapshotReader({ file = null, fallbackFile = null, val
   };
   const refresh = () => {
     pending ??= (async () => {
+      failed = false;
       for (const path of [file, fallbackFile].filter(Boolean)) {
-        try { if (await load(path)) return; } catch (error) { if (error?.code !== "ENOENT") log(`${label} read failed: ${error?.message || error}`); }
+        try { if (await load(path)) return; } catch (error) { failed = true; if (error?.code !== "ENOENT") log(`${label} read failed: ${error?.message || error}`); }
         // keep the runtime snapshot already in memory rather than falling back to the older release copy
         if (path === file && snapshot && source === file) return;
       }
@@ -29,17 +30,17 @@ export function createJsonSnapshotReader({ file = null, fallbackFile = null, val
   };
   const read = async () => {
     if (!readAt || now() - readAt >= ttlMs) await refresh();
-    return snapshot;
+    return snapshot && (failed || (file && source !== file) ? { ...snapshot, stale: true } : snapshot);
   };
   return {
     enabled: Boolean(file || fallbackFile),
     read,
     /** GET/HEAD response from the snapshot, or null to let the static file answer. */
     async respond(method = "GET") {
-      await read();
+      const current = await read();
       if (!body || source !== file) return null;
       const modified = Date.parse(snapshot?.generatedAt);
-      return new Response(method === "HEAD" ? null : body, { status: 200, headers: {
+      return new Response(method === "HEAD" ? null : current?.stale ? JSON.stringify(current) : body, { status: 200, headers: {
         "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=300", "access-control-allow-origin": "*",
         ...(Number.isFinite(modified) ? { "last-modified": new Date(modified).toUTCString() } : {}), "x-content-type-options": "nosniff",
       } });

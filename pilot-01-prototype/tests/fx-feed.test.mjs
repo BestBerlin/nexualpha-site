@@ -59,7 +59,7 @@ test("normalizer fails closed when any required fiat is missing or implausible",
   assert.throws(() => normalizeFxSnapshot(future, { now: NOW }), /future/);
 });
 
-test("feed serves fresh rates, marks stale fallback after a failed refresh, then expires the fallback", async () => {
+test("feed serves fresh rates and retains explicitly stale fallback beyond the former expiry", async () => {
   let currentNow = NOW;
   let calls = 0;
   const fetchImpl = async () => {
@@ -95,10 +95,12 @@ test("feed serves fresh rates, marks stale fallback after a failed refresh, then
 
   currentNow += 2 * 24 * 60 * 60 * 1000;
   res = await feed.respond();
-  assert.equal(res.status, 503);
+  assert.equal(res.status, 200);
   body = await res.json();
-  assert.equal(body.status, "unavailable");
-  assert.equal(body.rates, null);
+  assert.equal(body.status, "stale");
+  assert.equal(body.stale, true);
+  assert.equal(body.generatedAt, "2026-10-13T08:00:00.000Z");
+  assert.equal(body.rates.VND, 26300);
 });
 
 test("feed marks old source timestamps stale and rejects regressive source updates", async () => {
@@ -178,4 +180,13 @@ test("production server serves /intel/fx.json ahead of the worker and exposes FX
     if (sourceServer?.listening) await new Promise((resolve) => sourceServer.close(resolve));
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+
+test("FX cold-start failure stays unavailable without inventing rates", async () => {
+  const feed = createFxFeed({ enabled: false, now: () => NOW, fetchImpl: async () => { throw new Error("offline"); } });
+  await feed.refresh();
+  const response = await feed.respond();
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).rates, null);
 });

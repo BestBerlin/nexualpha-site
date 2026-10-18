@@ -160,3 +160,72 @@ test("createIntelFeed archives every served item so rotated-out updates stay res
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("bounded concurrent sources keep healthy results when another source never resolves", async () => {
+  let slowStarted = false, sourceAborted = false;
+  const feed = await buildFeed(null, { now, sourceTimeoutMs: 20,
+    fetchImpl: async (_url, options) => {
+      options.signal.addEventListener('abort', () => { sourceAborted = true; });
+      return new Promise(() => {});
+    },
+    sources: {
+      slow: async (_now, fetchImpl) => { slowStarted = true; return fetchImpl('https://slow.test/'); },
+      okx: async () => {
+        assert.equal(slowStarted, true);
+        return [{ id: 'okx:last-good', venue: 'okx', category: 'news', title: 'Official news', url: 'https://www.okx.com/help/last-good', publishedAt: new Date(now).toISOString() }];
+      },
+    },
+  });
+  assert.equal(sourceAborted, true);
+  assert.equal(feed.stale, true);
+  assert.equal(feed.sources.slow.ok, false);
+  assert.match(feed.sources.slow.error, /deadline/);
+  assert.equal(feed.sources.okx.ok, true);
+  assert.equal(feed.items.length, 1);
+});
+
+test("announcement last-good snapshots remain available and explicitly stale after failure and age", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "nexualpha-intel-last-good-"));
+  let clock = now;
+  const item = { id: 'okx:retained', venue: 'okx', category: 'news', title: 'Retained official notice', url: 'https://www.okx.com/help/retained', publishedAt: new Date(now).toISOString() };
+  try {
+    await mkdir(path.join(root, 'intel'));
+    await writeFile(path.join(root, 'intel', 'official-announcements.json'), JSON.stringify({ generatedAt: new Date(now).toISOString(), status: 'OK', items: [item] }));
+    const feed = createIntelFeed(root, { enabled: false, now: () => clock, sources: { okx: async () => { throw new Error('offline'); } } });
+    assert.equal((await feed.read()).stale, false);
+    const freshVersion = feed.version();
+    await feed.refresh();
+    const response = await feed.respond();
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('cache-control'), 'public, max-age=60');
+    const body = await response.json();
+    assert.equal(body.stale, true);
+    assert.equal(body.generatedAt, new Date(now).toISOString());
+    assert.equal(body.sources.okx.ok, false);
+    assert.deepEqual(body.items, [item]);
+    assert.notEqual(feed.version(), freshVersion);
+    clock += 40 * 86400e3;
+    await feed.refresh();
+    assert.equal((await feed.respond()).status, 200);
+    assert.equal((await feed.read()).generatedAt, new Date(now).toISOString());
+    assert.equal((await feed.read()).stale, true);
+    assert.deepEqual((await feed.read()).items, [item]);
+    feed.stop();
+
+    const aged = createIntelFeed(root, { enabled: false, now: () => clock });
+    assert.equal((await aged.read()).stale, true, 'an old shipped seed is marked stale without a refresh attempt');
+    assert.equal((await (await aged.respond()).json()).generatedAt, new Date(now).toISOString());
+    aged.stop();
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test("announcement cold failure stays unavailable", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'nexualpha-intel-cold-'));
+  try {
+    const feed = createIntelFeed(root, { enabled: false, sources: { okx: async () => { throw new Error('offline'); } } });
+    await feed.refresh();
+    assert.equal(await feed.read(), null);
+    assert.equal((await feed.respond()).status, 404);
+    feed.stop();
+  } finally { await rm(root, { recursive: true, force: true }); }
+});

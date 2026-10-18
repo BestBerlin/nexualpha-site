@@ -1,5 +1,6 @@
 // Article editions share the existing channel-feed scheduler and state directory.
 import { T, ARTICLE_LOCALE, LOCALE_PATH } from '../alert-sender/alert-sender.mjs';
+import { deliverOnce } from './delivery-receipts.mjs';
 export const ARTICLE_INTERVAL_MS = 90 * 60 * 1000;
 export const ARTICLE_LANGS = ['zh', 'en', 'ru', 'tr', 'vi'];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -24,6 +25,7 @@ export function articleMessage(edition, lang) {
 // Persist each successful chat delivery before advancing. A new chat establishes its own baseline.
 export async function runArticleFeed({ feed, channels, state, now = Date.now(), send, save, dryRun = false }) {
   if (!Array.isArray(feed?.articles)) throw new Error('invalid article feed: articles array required');
+  if (feed.stale === true) throw new Error('article feed stale; waiting for recovery');
   const object = (value) => value && typeof value === 'object' && !Array.isArray(value);
   if (!object(state) || (state.channels !== undefined && !object(state.channels))) throw new Error('corrupt article state');
   for (const channel of Object.values(state.channels || {})) {
@@ -48,7 +50,10 @@ export async function runArticleFeed({ feed, channels, state, now = Date.now(), 
     const edition = editions.find((e) => !Object.hasOwn(channel.seen, e.key) && e.publishedAt <= now);
     if (!edition) continue;
     try {
-      await send(chat, articleMessage(edition, lang));
+      if (dryRun) await send(chat, articleMessage(edition, lang));
+      else await deliverOnce({ state: next, key: `article:${edition.key}:${key}`, now,
+        deliver: async () => { const result = await send(chat, articleMessage(edition, lang)); return result && typeof result === 'object' ? result : { ok: true }; },
+        save: () => save(next) });
       if (!dryRun) {
         channel.seen[edition.key] = new Date(now).toISOString();
         channel.lastPostedAt = now;

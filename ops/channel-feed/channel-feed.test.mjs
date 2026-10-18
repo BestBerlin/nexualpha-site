@@ -14,14 +14,36 @@ import {
   isRiskNotice,
   itemComplete,
   itemSentToChannel,
+  itemReadyForChannel,
+  announcementReceiptKey,
   markItemChannelSent,
   parseChannelTargets,
   pruneState,
 } from './channel-feed.mjs';
 import { officialSourceCta, officialSourceRoute } from './official-source.mjs';
+import { deliverOnce } from '../alert-sender/alert-sender.mjs';
 import { updatePath as siteUpdatePath } from '../../pilot-01-prototype/src/data/activity-update-path.js';
 const script = fileURLToPath(new URL('./channel-feed.mjs', import.meta.url));
 const article = slug => ({ slug, publishedAt: new Date().toISOString(), title: {en: slug, 'zh-Hans': '标题'}, summary: {en: 'A summary.', 'zh-Hans': '摘要。'}, availableLocales: ['en', 'zh-Hans'] });
+test('announcement receipts protect each item even when a recovered feed changes listing groups', async () => {
+  let state = { posted: {}, sent: {} }, sends = 0;
+  const channel = { lang: 'en', chat: '@en' }, a = { id: 'a' }, b = { id: 'b' };
+  const save = () => { state = structuredClone(state); };
+  await assert.rejects(deliverOnce({ state, keys: [announcementReceiptKey(a, channel)], save,
+    deliver: async () => { sends++; throw new Error('timeout after possible accept'); } }), /timeout/);
+  await assert.rejects(deliverOnce({ state, keys: [a, b].map((item) => announcementReceiptKey(item, channel)), save,
+    deliver: async () => { sends++; return { ok: true }; } }), /outcome unknown/);
+  assert.equal(sends, 1);
+  assert.equal(itemReadyForChannel(state, a, channel), false);
+  assert.equal(itemReadyForChannel(state, b, channel), true);
+  state.deliveryReceipts[announcementReceiptKey(a, channel)].status = 'confirmed';
+  assert.equal(itemSentToChannel(state, a, channel), true);
+  assert.equal(itemSentToChannel(state, b, channel), false);
+  const pending = [a, b].filter((item) => !itemSentToChannel(state, item, channel));
+  await deliverOnce({ state, keys: pending.map((item) => announcementReceiptKey(item, channel)), save,
+    deliver: async () => { sends++; return { ok: true }; } });
+  assert.equal(sends, 2);
+});
 test('CLI integrates articles with existing announcements, persists per channel, and guards overlaps', () => {
   const dir = mkdtempSync(path.join(tmpdir(), 'channel-rhythm-test-'));
   try {
@@ -45,6 +67,10 @@ test('CLI integrates articles with existing announcements, persists per channel,
     run(); assert.equal(readFileSync(sends,'utf8'),'');
     writeFileSync(feed,JSON.stringify({articles:[article('new'),article('baseline')]}));
     run(); assert.equal(readFileSync(sends,'utf8'),'sent\nsent\n');
+    const heartbeat = JSON.parse(readFileSync(path.join(dir, 'heartbeat.json'), 'utf8'));
+    assert.equal(heartbeat.status, 'ok');
+    assert.equal(Object.keys(heartbeat.sources).length, 3);
+    assert.ok(Date.now() - Date.parse(heartbeat.updatedAt) < 5000);
     run(); assert.equal(readFileSync(sends,'utf8'),'sent\nsent\n');
     const file = path.join(dir,'articles.json');
     const before = readFileSync(file,'utf8');
@@ -111,11 +137,14 @@ test('sitewide official source buttons use /go/<venue>-page only on main domains
 test('channel route mapping works without the site source tree in its runtime bundle', () => {
   const dir = mkdtempSync(path.join(tmpdir(), 'channel-standalone-'));
   try {
-    const entry = path.join(dir, 'channel-feed.mjs');
+    const bundle = path.join(dir, 'channel-feed');
+    mkdirSync(bundle);
+    copyFileSync(new URL('./delivery-receipts.mjs', import.meta.url), path.join(bundle, 'delivery-receipts.mjs'));
+    const entry = path.join(bundle, 'channel-feed.mjs');
     copyFileSync(script, entry);
-    writeFileSync(path.join(dir, 'article-feed.mjs'), 'export async function runArticleFeed() {}\n');
-    copyFileSync(new URL('./official-source.mjs', import.meta.url), path.join(dir, 'official-source.mjs'));
-    copyFileSync(new URL('./notice-classifier.mjs', import.meta.url), path.join(dir, 'notice-classifier.mjs'));
+    writeFileSync(path.join(bundle, 'article-feed.mjs'), 'export async function runArticleFeed() {}\n');
+    copyFileSync(new URL('./official-source.mjs', import.meta.url), path.join(bundle, 'official-source.mjs'));
+    copyFileSync(new URL('./notice-classifier.mjs', import.meta.url), path.join(bundle, 'notice-classifier.mjs'));
     const item = { id:'bybit:https://announcements.bybit.com/en-US/article/test/',venue:'bybit',category:'listing',title:'Listing',publishedAt:new Date().toISOString() };
     const code = `const {buildMessage}=await import(${JSON.stringify(pathToFileURL(entry).href)});console.log(buildMessage(${JSON.stringify(item)},null,'zh').reply_markup.inline_keyboard[0][0].url);`;
     const result = spawnSync(process.execPath, ['--input-type=module','--eval',code], {encoding:'utf8'});

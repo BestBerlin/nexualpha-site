@@ -530,13 +530,15 @@ function readWhaleSnapshotFile(file, now = Date.now()) {
     const transfers = Array.isArray(payload.transfers) ? payload.transfers : rows.filter((row) => row?.chain || row?.category === "transfer");
     if (!signals.length && !positions.length && !transfers.length && !rows.length) return null;
     const updatedAt = typeof payload.updatedAt === "string" ? payload.updatedAt : null;
-    const updatedMs = Date.parse(updatedAt || "");
-    const stale = !Number.isFinite(updatedMs) || now - updatedMs > MAX_TTL_MS;
+    const dataUpdatedAt = payload.dataUpdatedAt || payload.generatedAt || updatedAt;
+    const updatedMs = Date.parse(dataUpdatedAt || "");
+    const stale = payload.stale === true || !Number.isFinite(updatedMs) || now - updatedMs > MAX_TTL_MS;
     return {
       kind: "whales",
       status: "ok",
       ttlSeconds: Math.floor(MAX_TTL_MS / 1000),
       updatedAt,
+      dataUpdatedAt,
       ...(stale ? { stale: true } : {}),
       schemaVersion: Number.isFinite(Number(payload.schemaVersion)) ? Number(payload.schemaVersion) : 2,
       rows: rows.length ? rows.slice(0, WHALE_MAX_ROWS) : [...signals, ...positions, ...transfers].slice(0, WHALE_MAX_ROWS),
@@ -1054,43 +1056,53 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
   const transfers = [];
   const positionEvents = [];
   const errors = [];
-  try {
-    if (typeof sources.hyperliquid === "function") {
-      const rawWallets = await sources.hyperliquid(fetchImpl, { wallets: hyperliquidWallets, minNotional: minPositionUsd, now, state });
-      positionEvents.push(...appendPositionFillHistory(state, rawWallets, now, { minNotional: minPositionUsd }));
-      foldHyperliquidFills(state.hl || (state.hl = normalizeHyperliquidState(null)), Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [], now);
-      const allPositions = normalizeHyperliquidPositionRows(rawWallets, { now, minNotional: minPositionUsd, includeBelowThreshold: true });
-      // Only wallets whose clearinghouseState came back this cycle are complete; fills-only entries never imply a close.
-      const completeAddresses = [...new Set((Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [])
-        .filter((wallet) => wallet && (wallet.clearinghouseState || wallet.state || Array.isArray(wallet.positions)))
-        .map((wallet) => String(wallet?.user || wallet?.address || wallet?.account || "").toLowerCase()).filter(isEthAddress))];
-      positionEvents.push(...appendPositionHistory(state, allPositions, now, completeAddresses));
-      positionEvents.push(...appendClosedPositionEvents(state, allPositions, completeAddresses, now));
-    }
-  } catch (error) {
-    errors.push(`hyperliquid: ${error?.message || error}`);
-  }
-  try {
-    if (typeof sources.btcMempool === "function") transfers.push(...normalizeBtcMempool(await sources.btcMempool(fetchImpl, { minBtc }), { btcUsd, minBtc }));
-  } catch (error) {
-    errors.push(`btc: ${error?.message || error}`);
-  }
-  try {
-    for (const [name, source] of Object.entries(sources)) {
-      if (!name.startsWith("ethereum") || typeof source !== "function") continue;
-      transfers.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd, ethUsd }));
-    }
-  } catch (error) {
-    errors.push(`ethereum: ${error?.message || error}`);
-  }
-  try {
-    for (const [name, source] of Object.entries(sources)) {
-      if (!name.startsWith("tron") || typeof source !== "function") continue;
-      transfers.push(...normalizeTronTransfers(await source(fetchImpl, { minUsd, state }), { minUsd }));
-    }
-  } catch (error) {
-    errors.push(`tron: ${error?.message || error}`);
-  }
+  await Promise.all([
+    (async () => {
+      try {
+        if (typeof sources.hyperliquid === "function") {
+          const rawWallets = await sources.hyperliquid(fetchImpl, { wallets: hyperliquidWallets, minNotional: minPositionUsd, now, state });
+          positionEvents.push(...appendPositionFillHistory(state, rawWallets, now, { minNotional: minPositionUsd }));
+          foldHyperliquidFills(state.hl || (state.hl = normalizeHyperliquidState(null)), Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [], now);
+          const allPositions = normalizeHyperliquidPositionRows(rawWallets, { now, minNotional: minPositionUsd, includeBelowThreshold: true });
+          // Only wallets whose clearinghouseState came back this cycle are complete; fills-only entries never imply a close.
+          const completeAddresses = [...new Set((Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [])
+            .filter((wallet) => wallet && (wallet.clearinghouseState || wallet.state || Array.isArray(wallet.positions)))
+            .map((wallet) => String(wallet?.user || wallet?.address || wallet?.account || "").toLowerCase()).filter(isEthAddress))];
+          positionEvents.push(...appendPositionHistory(state, allPositions, now, completeAddresses));
+          positionEvents.push(...appendClosedPositionEvents(state, allPositions, completeAddresses, now));
+        }
+      } catch (error) {
+        errors.push(`hyperliquid: ${error?.message || error}`);
+      }
+    })(),
+    (async () => {
+      try {
+        if (typeof sources.btcMempool === "function") transfers.push(...normalizeBtcMempool(await sources.btcMempool(fetchImpl, { minBtc }), { btcUsd, minBtc }));
+      } catch (error) {
+        errors.push(`btc: ${error?.message || error}`);
+      }
+    })(),
+    (async () => {
+      try {
+        for (const [name, source] of Object.entries(sources)) {
+          if (!name.startsWith("ethereum") || typeof source !== "function") continue;
+          transfers.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd, ethUsd }));
+        }
+      } catch (error) {
+        errors.push(`ethereum: ${error?.message || error}`);
+      }
+    })(),
+    (async () => {
+      try {
+        for (const [name, source] of Object.entries(sources)) {
+          if (!name.startsWith("tron") || typeof source !== "function") continue;
+          transfers.push(...normalizeTronTransfers(await source(fetchImpl, { minUsd, state }), { minUsd }));
+        }
+      } catch (error) {
+        errors.push(`tron: ${error?.message || error}`);
+      }
+    })(),
+  ]);
   // An exchange moving coins between its own wallets is housekeeping, not a whale move.
   const internal = (row) => row.from?.type === "exchange" && row.to?.type === "exchange" && row.from?.owner && row.from.owner === row.to?.owner;
   for (let i = transfers.length - 1; i >= 0; i -= 1) if (internal(transfers[i])) transfers.splice(i, 1);

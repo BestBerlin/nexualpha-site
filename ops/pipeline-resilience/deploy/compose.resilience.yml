@@ -1,0 +1,87 @@
+# Overlay for /srv/agent/stacks/crypto-telegram-ops/baota/apps-compose.yml.
+# Copy the reviewed resilience directory under /data/agent/srv/stacks/crypto-telegram-ops first.
+# --profile cutover is SINGLE HOST ONLY. No new poller or second production sender.
+x-watch: &watch
+  com.nexualpha.watchdog: "true"
+x-health: &health
+  interval: 30s
+  timeout: 8s
+  retries: 2
+  start_period: 5m
+services:
+  market-collector:
+    restart: unless-stopped
+    # 128m OOM-killed the collector on 2026-10-18 (21 MB liquidation state, 281k orders); orders are now capped
+    # (MAX_RETAINED_ORDERS) and the limit matches the live `docker update` value.
+    mem_limit: 512m
+    labels: *watch
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/nexualpha-market/market-events.json.heartbeat.json]
+  whale-collector:
+    restart: unless-stopped
+    labels: *watch
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/nexualpha-market/whales.json.heartbeat.json]
+  alert-sender:
+    restart: unless-stopped
+    labels: *watch
+    environment:
+      ALERT_HEARTBEAT_FILE: /var/lib/nexualpha-alerts/heartbeat.json
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/nexualpha-alerts/heartbeat.json]
+  scheduler:
+    restart: unless-stopped
+    labels: *watch
+    environment:
+      SCHEDULER_STATE_DIR: /var/lib/crypto-telegram-ops
+    depends_on:
+      api: {condition: service_healthy}
+      market-collector: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/scheduler-heartbeat.json]
+  api:
+    restart: unless-stopped
+    labels: *watch
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, http, 'http://127.0.0.1:14322/healthz']
+  miniapp-verifier:
+    restart: unless-stopped
+    labels: *watch
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, http, 'http://127.0.0.1:14325/healthz']
+  miniapp:
+    restart: unless-stopped
+    labels: *watch
+    depends_on:
+      miniapp-verifier: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, http, 'http://127.0.0.1:14324/']
+  admin:
+    restart: unless-stopped
+    labels: *watch
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, http, 'http://127.0.0.1:14323/']
+  community-poller:
+    restart: unless-stopped
+    labels: *watch
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/poller-health.json]
+  worker:
+    restart: unless-stopped
+    labels: *watch
+    environment:
+      WORKER_HEARTBEAT_FILE: /var/lib/crypto-telegram-ops/worker-heartbeat.json
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/worker-heartbeat.json]

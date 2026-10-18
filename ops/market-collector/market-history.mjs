@@ -6,8 +6,9 @@
 // market-events.json (last 24 hourly points, last 30 daily totals, records) that /liquidations renders and cites.
 // Daily totals are the sum of the hourly 1h windows of that UTC day, so a day is a true calendar-day figure and the
 // current day is explicitly partial. Everything here is pure except the two file helpers.
-import { appendFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { atomicWriteText } from "./resilience.mjs";
 
 export const HISTORY_RETENTION_DAYS = 90;
 export const HISTORY_HOURLY_POINTS = 24;
@@ -91,24 +92,15 @@ export function normalizeHistoryRows(rows, { now = Date.now(), retentionDays = H
   return [...byHour.values()].sort((a, b) => Date.parse(a.t) - Date.parse(b.t));
 }
 
-// Appends `row` unless this UTC hour already has a snapshot. Rows older than the retention window are dropped; when
-// that prunes anything (or the file is new) the whole file is rewritten through a temp file + rename, otherwise one
-// line is appended (a single write under PIPE_BUF, atomic on POSIX). Returns the normalized rows after the call.
+// Adds one row per UTC hour and atomically replaces the retained JSON-lines file.
+// PIPE_BUF guarantees apply to pipes, not append writes to a regular file.
 export function appendHourlySnapshot(file, row, { now = Date.now(), retentionDays = HISTORY_RETENTION_DAYS } = {}) {
   const existing = readHistoryFile(file);
   const kept = normalizeHistoryRows(existing, { now, retentionDays });
   const key = hourKey(row.t);
   if (kept.some((r) => hourKey(r.t) === key)) return { appended: false, rows: kept };
   const rows = [...kept, row];
-  const line = `${JSON.stringify(row)}\n`;
-  mkdirSync(path.dirname(file), { recursive: true });
-  if (!existsSync(file) || kept.length !== existing.length) {
-    const tmp = `${file}.${process.pid}.tmp`;
-    writeFileSync(tmp, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
-    renameSync(tmp, file);
-  } else {
-    appendFileSync(file, line);
-  }
+  atomicWriteText(file, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
   return { appended: true, rows };
 }
 
