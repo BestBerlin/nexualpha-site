@@ -1,4 +1,6 @@
-import { COINS, COINS_GENERATED_AT, COIN_VENUE_SLUGS, coinVenueStatus } from "./coins.js";
+import { BAKED_COINS as COINS, BAKED_COINS_GENERATED_AT as COINS_GENERATED_AT, COIN_VENUE_SLUGS, bakedCoinVenueStatus as coinVenueStatus } from "./coins.js";
+// Baked coin table, not the runtime overlay: scorecards render on compare/venue routes where the browser never applies
+// the overlay, so SSR and hydration must read the same rows (React #418 on /compare, 2026-10-18).
 import { FUNDING_GUIDES } from "./converter.js";
 import { FACTS_AS_OF, factsForVenue, feeFact, feePair, primarySourceUrl } from "./exchange-facts.js";
 import { FUNDING_MATRIX_SYMBOLS, FUNDING_MATRIX_VENUES, venueName as fundingVenueName, venueSlug } from "./funding-matrix.js";

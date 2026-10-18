@@ -32,7 +32,13 @@ function toCoin(row) {
   return { id, slug, name, symbol, rank, category, networks, price, change24h, marketCap, venues };
 }
 // Live bindings: the baked table (coins-data.generated.js) until applyCoinOverlay swaps in a fresher runtime snapshot.
-export let COINS = Object.freeze(COIN_ROWS.map(toCoin));
+// The baked table never changes inside a process. Anything rendered on non-coin routes (compare scorecards) reads these,
+// because the overlay below is process-wide on the server but only applied in the browser on coin pages: reading the
+// live bindings there made SSR and hydration disagree (React #418 on /compare, 2026-10-18).
+export const BAKED_COINS = Object.freeze(COIN_ROWS.map(toCoin));
+export const BAKED_COINS_GENERATED_AT = BAKED_GENERATED_AT;
+export const bakedCoinVenueStatus = (slug) => BAKED_VENUE_STATUS[slug] || null;
+export let COINS = BAKED_COINS;
 export let COINS_GENERATED_AT = BAKED_GENERATED_AT;
 let COIN_VENUE_STATUS = BAKED_VENUE_STATUS;
 let BY_SLUG = new Map(COINS.map((coin) => [coin.slug, coin]));
