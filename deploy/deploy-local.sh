@@ -282,7 +282,9 @@ for r in $ROUTES; do
   [ "$code" = "200" ] || rollback "$r returned $code"
 done
 page_has() { curl -fsS --max-time 30 "$SITE$1" | grep -q -- "$2"; }
-page_has /exchanges/binance 'ref=11350287' || rollback "Binance invite ref=11350287 missing on /exchanges/binance"
+# Pages link through /go/<venue> (every click carries the code), so they show the bare code; the referral URL itself
+# is verified on the /go 302 targets below. (deploy.yml's 'ref=11350287' page grep predates /go and no longer matches.)
+page_has /exchanges/binance '11350287' || rollback "Binance code 11350287 missing on /exchanges/binance"
 page_has /exchanges/bitget 'C6PRAF' || rollback "Bitget code C6PRAF missing on /exchanges/bitget"
 page_has /exchanges/okx 'nexu888' || rollback "OKX code nexu888 missing on /exchanges/okx"
 echo "invite codes present on pages"
