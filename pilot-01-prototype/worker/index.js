@@ -92,6 +92,7 @@ import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } f
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { TS_PATH, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
 import { tokenizedStocksRouteSeo } from "../src/data/tokenized-stocks-seo.js";
+import { TS_LIVE_BAKED } from "../src/data/tokenized-stocks-live.generated.js";
 import { BITGET_ALLIANCE_INDEX_LOCALES, BITGET_ALLIANCE_PATH, parseBitgetAlliancePath } from "../src/data/bitget-alliance.js";
 import { bitgetAllianceRouteSeo } from "../src/data/bitget-alliance-seo.js";
 import { KRAKEN_USDG_INDEX_LOCALES, KRAKEN_USDG_PATH, parseKrakenUsdgPath } from "../src/data/kraken-usdg.js";
@@ -109,6 +110,18 @@ async function refreshCoinOverlay(env) {
     return overlay;
   } catch (error) {
     console.error(`[NexuAlpha] coins overlay failed: ${error?.message || error}`);
+    return null;
+  }
+}
+
+// Runtime tokenized-stocks listing table (server.mjs: TS_LIVE_READ), only when newer than the one baked into the release.
+async function readTokenizedStocksLive(env) {
+  if (typeof env?.TS_LIVE_READ !== "function") return null;
+  try {
+    const live = await env.TS_LIVE_READ();
+    return live && live.rows && Date.parse(live.generatedAt) > Date.parse(TS_LIVE_BAKED.generatedAt) ? live : null;
+  } catch (error) {
+    console.error(`[NexuAlpha] tokenized-stocks snapshot read failed: ${error?.message || error}`);
     return null;
   }
 }
@@ -3844,6 +3857,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.intelTool && typeof route.intelTool === "object" && ["etf", "calendar"].includes(route.intelTool.kind) ? { intelTool: route.intelTool } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
     ...(route.radar && typeof route.radar === "object" ? { radar: route.radar } : {}),
+    // Tokenized-stocks pages rendered from a newer runtime listing snapshot: the compact table they were rendered with.
+    ...(route.tsLive && typeof route.tsLive === "object" && route.tsLive.rows ? { tsLive: route.tsLive } : {}),
     ...(Array.isArray(route.seoAlternates) ? { seoAlternates: route.seoAlternates } : {}),
     // Türkiye market on another edition (tr-market-gaps): the body was rendered with it, so the first client pass uses it too.
     ...(url && turkeyRequestMarket(url) ? { marketContext: { market: turkeyRequestMarket(url) } } : {}),
@@ -4984,10 +4999,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (metadata.marker === TOKENIZED_STOCKS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
-        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
+        // A newer runtime listing snapshot is rendered and shipped as prerender state "tsLive" (the browser hydrates it).
+        const tsState = metadata.tsLive ? { tsLive: metadata.tsLive } : {};
+        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), tsState);
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxts")) {
-          metadata.tokenizedStocksSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          metadata.tokenizedStocksSsrMode = metadata.tsLive ? "runtime-snapshot" : "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, tsState, url);
         }
         console.error(`[NexuAlpha] tokenized-stocks SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] tokenized-stocks SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -8641,7 +8658,9 @@ async function routeMetadataBase(url, env, newsFeed) {
   }
   // Tokenized US stocks (2026-10-15): CollectionPage/WebPage + ItemList + FAQPage + BreadcrumbList from
   // src/data/tokenized-stocks-seo.js (same helper as seo-injection.js); unknown tickers are 404.
-  const tokenizedStocksSeo = tokenizedStocksRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  // Ticker + exchange pages read the host's refreshed listing snapshot (TS_LIVE_READ) when it is newer than the release.
+  const tsLiveTable = parseTokenizedStocksPath(canonicalPath) ? await readTokenizedStocksLive(env) : null;
+  const tokenizedStocksSeo = tokenizedStocksRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined, live: tsLiveTable });
   if (tokenizedStocksSeo) {
     if (tokenizedStocksSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
     return {
@@ -8649,6 +8668,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
       robots: tokenizedStocksSeo.indexable ? "index,follow" : "noindex,follow", marker: TOKENIZED_STOCKS_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath, tokenizedStocksSeo.alternatesLocales), schema: tokenizedStocksSeo.schemas,
+      ...(tsLiveTable ? { tsLive: tsLiveTable } : {}),
     };
   }
   const converterFx = parseConverterPath(canonicalPath)?.kind === "pair" ? await refreshFxSnapshot(env) : null;

@@ -60,7 +60,10 @@
   "promoEnds": "até {date}",
   "promos": {
     "bitgetAlliance": "Bitget Alliance: negociações de ações contam para as recompensas",
-    "binanceWalletBstocks": "Competição de trading de bStocks, 50,000 USDC em recompensas"
+    "binanceWalletBstocks": "Competição de trading de bStocks, 50,000 USDC em recompensas",
+    "bybitStockBuzzTsla": "Bybit Stock Buzz: negocie Tesla e divida 100.000 USDT",
+    "bybitStockBuzzMu": "Bybit Stock Buzz: negocie Micron e divida 100.000 USDT",
+    "bybitFullStocksAhead": "Bybit Full Stocks Ahead: divida 150.000 USDC"
   },
   "pickH": "Qual combina com você",
   "picks": [
@@ -218,7 +221,25 @@
     "GOOGL": "Alphabet",
     "AMZN": "Amazon",
     "SPY": "ETF do S&P 500",
-    "QQQ": "ETF do Nasdaq-100"
+    "QQQ": "ETF do Nasdaq-100",
+    "META": "Meta",
+    "PLTR": "Palantir",
+    "AMD": "AMD",
+    "NFLX": "Netflix",
+    "AVGO": "Broadcom",
+    "TSM": "TSMC",
+    "MU": "Micron",
+    "INTC": "Intel",
+    "ORCL": "Oracle",
+    "ARM": "Arm",
+    "SNDK": "Sandisk",
+    "CRWV": "CoreWeave",
+    "BMNR": "BitMine",
+    "GME": "GameStop",
+    "BABA": "Alibaba",
+    "SPCX": "SpaceX",
+    "OPENAI": "OpenAI",
+    "ANTHROPIC": "Anthropic"
   },
   "homeKicker": "Ações dos EUA tokenizadas",
   "homeTitle": "Negocie ações dos EUA com USDT · 24/7",
@@ -226,5 +247,200 @@
   "homeAll": "Ver tudo",
   "homeTickers": "{n} tickers",
   "venueH": "Ações dos EUA tokenizadas na {name}",
-  "venueLink": "Compare todas as corretoras"
+  "venueLink": "Compare todas as corretoras",
+  "updated": "Dados atualizados em {time} SGT",
+  "tk": {
+    "seoTitle": "Token de ação e perpétuos de {name} ({ticker}): negocie com USDT",
+    "seoDescription": "Negocie {name} ({ticker}) com USDT em {n} corretoras: {list}. Token ou perpétuo, símbolo, alavancagem de até {lev}x, taxas, horários e dividendos com dados de cada corretora.",
+    "preSeoTitle": "Perpétuos pré-IPO de {name}: onde negociar com USDT",
+    "preSeoDescription": "{n} corretoras listam um perpétuo pré-IPO de {name}: {list}. Símbolos, alavancagem de até {lev}x e taxas com dados de cada corretora. Sem ações, sem alocação no IPO.",
+    "preH1": "Negocie perpétuos pré-IPO de {name} com USDT",
+    "preLead": "{name} é uma empresa privada. Estes contratos em USDT acompanham o valor estimado dela antes de abrir capital.",
+    "answerLev": "Maior alavancagem: {lev}x na {list}.",
+    "answerFee": "Menor taxa taker publicada em um perpétuo de {ticker}: {fee} na {list}.",
+    "answerWeekend": "Negocia no fim de semana: {list}.",
+    "preAnswer": "{n} corretoras listam um perpétuo pré-IPO de {name}: {list}. Ele liquida em USDT e não dá ações, nem alocação no IPO, nem direitos de acionista.",
+    "cols": {
+      "exchange": "Corretora",
+      "form": "Produto",
+      "symbol": "Símbolo",
+      "lev": "Alavancagem máx.",
+      "fee": "Taxa (padrão)",
+      "hours": "Horário",
+      "dividends": "Dividendos",
+      "source": "Fonte"
+    },
+    "div": {
+      "cash": "Em dinheiro em USDT, após impostos",
+      "reinvest": "Reinvestidos no token",
+      "adjust": "Pagos entre posições compradas e vendidas",
+      "none": "Nenhum",
+      "nocash": "Sem pagamento em dinheiro"
+    },
+    "altToken": "também {sym} ({form})",
+    "aboutH": "Sobre {name}",
+    "faqH": "Perguntas sobre {ticker}",
+    "q1": "Posso comprar {name} ({ticker}) com USDT?",
+    "a1Both": "Sim. Como token de ação na {spot}. Como perpétuo em USDT na {perp}.",
+    "a1Perp": "Sim, como perpétuo em USDT na {perp}. Nenhuma das corretoras que consultamos lista um token de {ticker} ainda.",
+    "a1Spot": "Sim, como token de ação na {spot}.",
+    "q2": "Qual é a maior alavancagem em {ticker}?",
+    "a2": "Até {lev}x na {list}, conforme cada corretora publica. Um token de ação é comprado sem alavancagem.",
+    "q3": "O token de ação de {ticker} paga dividendos?",
+    "a3Cash": "{list}: dividendos líquidos em dinheiro, creditados em USDT.",
+    "a3Reinvest": "{list}: os dividendos são reinvestidos e aparecem no saldo do token.",
+    "a3NoCash": "{list}: sem dividendo em dinheiro.",
+    "a3Perp": "Perpétuos não pagam dividendos, exceto na Bitget, que liquida dividendos em dinheiro entre posições compradas e vendidas.",
+    "q4": "Posso negociar {ticker} no fim de semana?",
+    "a4": "Sim. 24 horas por dia na {list}.",
+    "a4No": "Só nos horários que cada corretora mostra acima; nenhuma publica negociação 24/7 para {ticker}.",
+    "q3Pre": "Tenho ações da {name} com um perpétuo pré-IPO?",
+    "a3Pre": "Não. É um contrato liquidado em USDT sobre o valor estimado da {name}. Você não recebe ações, nem alocação no IPO, nem direitos de acionista.",
+    "exLink": "Guia de ações da {name}",
+    "other": "Mais ações tokenizadas",
+    "preipoBadge": "Pré-IPO",
+    "changesH": "Últimas mudanças de listagem",
+    "changeListed": "{exchange} listou {sym}",
+    "changeDelisted": "{exchange} retirou {sym}",
+    "campaignsH": "Campanhas de ações em andamento"
+  },
+  "about": {
+    "NVDA": "A Nvidia projeta as GPUs que treinam e rodam a maioria dos modelos de AI, por isso NVDA é o token de ação mais negociado nas corretoras de cripto.",
+    "TSLA": "A Tesla fabrica carros elétricos, baterias e robotáxis; a ação é uma das favoritas dos traders de cripto e se move a cada manchete de Elon Musk.",
+    "AAPL": "A Apple fabrica o iPhone, o Mac e os serviços em torno deles, e é uma das maiores empresas do S&P 500.",
+    "MSFT": "A Microsoft vende Windows, Office e a nuvem Azure, e é a maior apoiadora da OpenAI.",
+    "COIN": "A Coinbase opera a maior corretora de cripto dos EUA, então COIN costuma se mover junto com o bitcoin.",
+    "MSTR": "A Strategy (antiga MicroStrategy) tem mais bitcoin do que qualquer outra empresa listada; MSTR é negociada como uma aposta alavancada em bitcoin.",
+    "HOOD": "A Robinhood é o app de investimentos dos EUA que também emite seus próprios tokens de ações na Europa.",
+    "CRCL": "A Circle emite a stablecoin USDC e abriu capital na Bolsa de Nova York em 2025.",
+    "GOOGL": "A Alphabet é dona do Google Search, YouTube, Android e Google Cloud; GOOGL é a ação classe A.",
+    "AMZN": "A Amazon tem a maior loja online e a AWS, o maior negócio de nuvem.",
+    "SPY": "SPY é o ETF da SPDR que acompanha o S&P 500, as 500 maiores empresas dos EUA em um só ticker.",
+    "QQQ": "QQQ é o ETF da Invesco que acompanha o Nasdaq-100, as grandes ações da Nasdaq, com forte peso de tecnologia.",
+    "META": "A Meta é dona do Facebook, Instagram e WhatsApp e investe pesado em AI.",
+    "PLTR": "A Palantir vende software de dados e AI para governos e empresas; é uma das ações de crescimento dos EUA mais negociadas.",
+    "AMD": "A AMD projeta CPUs e aceleradores de AI que concorrem com Intel e Nvidia.",
+    "NFLX": "A Netflix é o maior serviço de streaming de vídeo pago.",
+    "AVGO": "A Broadcom fabrica chips de rede e chips de AI sob medida, além de software de infraestrutura.",
+    "TSM": "A TSMC fabrica a maioria dos chips avançados do mundo, incluindo os da Nvidia e da Apple; TSM é a ação listada nos EUA.",
+    "MU": "A Micron fabrica a DRAM e a memória de alta largura de banda de que os servidores de AI precisam.",
+    "INTC": "A Intel projeta e fabrica processadores para PCs e servidores.",
+    "ORCL": "A Oracle vende bancos de dados e um negócio de nuvem em rápido crescimento feito para cargas de AI.",
+    "ARM": "A Arm licencia os projetos de chip presentes em quase todos os smartphones.",
+    "SNDK": "A Sandisk fabrica memória flash e SSDs; foi separada da Western Digital em 2025.",
+    "CRWV": "A CoreWeave aluga capacidade de GPUs Nvidia como uma nuvem de AI.",
+    "BMNR": "A BitMine Immersion Technologies é uma empresa listada que tem Ether como principal ativo de tesouraria.",
+    "GME": "A GameStop é a varejista de videogames que esteve no centro da alta das meme stocks de 2021.",
+    "BABA": "O Alibaba é o maior grupo de e-commerce e nuvem da China; BABA é a ação listada em Nova York.",
+    "SPCX": "A SpaceX constrói os foguetes Falcon, a Starship e a rede de satélites Starlink.",
+    "OPENAI": "A OpenAI, criadora do ChatGPT, é uma empresa privada: suas ações não são listadas em nenhuma bolsa.",
+    "ANTHROPIC": "A Anthropic, criadora do Claude, é uma empresa privada: suas ações não são listadas em nenhuma bolsa."
+  },
+  "ex": {
+    "answer": "A {name} lista {perp} perpétuos de ações e {spot} tokens de ações, segundo os dados de mercado da própria {name} em {time} SGT.",
+    "answerPerpOnly": "A {name} lista {perp} perpétuos de ações, segundo os dados de mercado da própria {name} em {time} SGT.",
+    "answerLev": "Maior alavancagem entre as empresas abaixo: {lev}x ({list}).",
+    "answerTsla": "Tesla na {name}: {symbols}.",
+    "productsH": "O que a {name} oferece",
+    "stepsH": "Como comprar ações dos EUA na {name}",
+    "steps": [
+      [
+        "Abra uma conta na {name}",
+        "Cadastre-se pelo link com o nosso código abaixo e conclua a verificação de identidade."
+      ],
+      [
+        "Deposite USDT",
+        "Envie USDT para sua conta na {name}. Tokens de ações e perpétuos em USDT liquidam em USDT."
+      ],
+      [
+        "Encontre a área de ações",
+        "No app: {path}."
+      ],
+      [
+        "Busque o símbolo",
+        "A Tesla é {sym}. Use a tabela abaixo para as outras empresas."
+      ],
+      [
+        "Compre o token ou abra uma posição",
+        "Um token de ação é uma compra à vista que você guarda. Um perpétuo fica comprado ou vendido com a alavancagem que você escolher."
+      ]
+    ],
+    "stepOneNeutral": [
+      "Abra uma conta na {name}",
+      "Cadastre-se no site oficial da {name} e conclua a verificação de identidade."
+    ],
+    "pathNone": "abra Mercados e busque o ticker",
+    "tableH": "Ações dos EUA na {name}",
+    "tableLead": "Símbolos e alavancagem máxima das empresas mais buscadas, com dados de mercado da própria {name}.",
+    "cols": {
+      "stock": "Ação",
+      "token": "Token de ação",
+      "perp": "Perpétuo",
+      "lev": "Alavancagem máx."
+    },
+    "excludedH": "Indisponível em",
+    "promoH": "Acontecendo agora",
+    "q1": "Posso comprar ações dos EUA na {name}?",
+    "a1": "Sim. A {name} lista {perp} perpétuos de ações e {spot} tokens de ações que liquidam em USDT.",
+    "a1PerpOnly": "Sim, como perpétuos em USDT: a {name} lista {perp}. Ela não tem tokens de ações.",
+    "q2": "Qual é a alavancagem máxima nos perpétuos de ações da {name}?",
+    "a2": "Até {lev}x em {list}. Cada contrato tem seu próprio limite: veja a tabela.",
+    "q3": "Quem não pode usar as ações da {name}?",
+    "a3": "A {name} não as oferece em {list}.",
+    "otherEx": "Ações em outras corretoras",
+    "allTickers": "Todos os tickers"
+  },
+  "exPages": {
+    "bitget": {
+      "title": "Futuros de ações e rToken na {name}: como comprar ações dos EUA com USDT",
+      "description": "Como negociar ações dos EUA na {name} com USDT: perpétuos de ações de até {lev}x, tokens de ações rToken, símbolos, taxas, horários e dividendos, com dados da própria {name}.",
+      "h1": "Ações dos EUA na {name}: futuros de ações e rToken",
+      "intro": "A {name} oferece dois caminhos para ações dos EUA: tokens de ações rToken que você compra e guarda, e perpétuos de ações com margem em USDT negociados 24/7."
+    },
+    "okx": {
+      "title": "Tutorial de xStocks na {name}: compre ações dos EUA com USDT na {name}",
+      "description": "Como comprar xStocks na {name} com USDT: ações tokenizadas, perpétuos de ações de até {lev}x, perpétuos pré-IPO, símbolos e horários, com dados da própria {name}.",
+      "h1": "xStocks e perpétuos de ações na {name}",
+      "intro": "A {name} lista tokens xStocks negociados 24/7 no mercado à vista, além de perpétuos de ações em USDT e contratos pré-IPO."
+    },
+    "binance": {
+      "title": "Ações na {name}: tokens bStocks e perpétuos de ações com USDT",
+      "description": "Dá para comprar ações dos EUA na {name}? Sim: tokens bStocks e perpétuos de ações em USDT. Símbolos, horários, taxas e dividendos com dados da própria {name}.",
+      "h1": "Ações dos EUA na {name}: bStocks e perpétuos de ações",
+      "intro": "A {name} lista tokens bStocks no mercado à vista e perpétuos TradFi com margem em USDT sobre ações e ETFs dos EUA."
+    },
+    "bybit": {
+      "title": "xStocks e perpétuos de ações na {name}: negocie ações dos EUA com USDT",
+      "description": "Como negociar ações dos EUA na {name}: tokens xStocks, perpétuos de ações em USDT de até {lev}x, símbolos, taxas e horários com dados da própria {name}.",
+      "h1": "Ações dos EUA na {name}: xStocks e perpétuos de ações",
+      "intro": "A {name} lista tokens xStocks no mercado à vista e perpétuos em USDT de ações e ETFs na área TradFi."
+    },
+    "gate-io": {
+      "title": "Ações na {name}: xStocks, tokens Ondo e perpétuos de ações com USDT",
+      "description": "Como negociar ações dos EUA na {name} com USDT: tokens xStocks e Ondo, perpétuos de ações de até {lev}x, símbolos e taxas com dados da própria {name}.",
+      "h1": "Ações dos EUA na {name}: tokens e perpétuos de ações",
+      "intro": "A {name} lista tokens de ações xStocks e Ondo no mercado à vista, e perpétuos de ações em USDT, incluindo empresas pré-IPO."
+    },
+    "kraken": {
+      "title": "xStocks na {name}: ações tokenizadas e perpétuos de ações",
+      "description": "Como negociar xStocks na {name}: ações dos EUA tokenizadas, perpétuos de xStocks de até {lev}x, símbolos, horários e taxas com dados da própria {name}.",
+      "h1": "xStocks e perpétuos de ações na {name}",
+      "intro": "A {name} lista tokens xStocks que você pode comprar com USD, USDC ou USDG, além de perpétuos de xStocks."
+    },
+    "mexc": {
+      "title": "Futuros de ações na {name}: negocie ações dos EUA com USDT",
+      "description": "Como negociar ações dos EUA na {name}: perpétuos de ações de até {lev}x, tokens xStocks e Ondo, símbolos e taxas com dados da própria {name}.",
+      "h1": "Ações dos EUA na {name}: futuros de ações e tokens",
+      "intro": "A {name} lista perpétuos de ações em USDT, muitos com taxa maker zero, além de tokens de ações xStocks e Ondo no mercado à vista."
+    }
+  },
+  "exNames": {
+    "bitget": "Bitget",
+    "okx": "OKX",
+    "binance": "Binance",
+    "bybit": "Bybit",
+    "gate-io": "Gate",
+    "kraken": "Kraken",
+    "mexc": "MEXC"
+  }
 }

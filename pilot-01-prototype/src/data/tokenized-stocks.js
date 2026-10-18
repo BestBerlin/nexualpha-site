@@ -8,7 +8,7 @@ import { publicCtaForVenue, venueGoHref } from "./source-bound-cta.js";
 import { orderVenues } from "./venue-priority.js";
 import { isTurkeyPage } from "./partner-geo-policy.js";
 import { isNeutralCtaLocale } from "./locale-policy.js";
-import { TS_EXCHANGES, TS_SOURCES, tsPromo } from "./tokenized-stocks-facts.js";
+import { TS_CAMPAIGNS, TS_EXCHANGES, TS_SOURCES, tsPromo } from "./tokenized-stocks-facts.js";
 
 export const TS_INDEX_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "tr", "id", "ja", "ko", "vi", "ru", "ar", "fr", "de", "it", "ur", "uk"]);
 export const TS_ORIGIN = "https://nexualpha.com";
@@ -42,6 +42,28 @@ export function tsSignup(slug, { locale = "en", market, placement = "hub" } = {}
 export function tsActivePromo(ex, { locale = "en", market, now = Date.now() } = {}) {
   if (!tsSignup(ex.slug, { locale, market })) return null;
   return tsPromo(ex, now);
+}
+
+/**
+ * Running stock campaigns for a page: the exchanges' own stock campaigns (TS_CAMPAIGNS) plus their general promotion
+ * (facts `promo`), only where sign-ups may be shown, never expired, in owner venue order.
+ * { venues: slugs the page covers, ticker: limit ticker-specific campaigns to this stock }.
+ */
+export function tsCampaigns({ venues = [], ticker = null, all = false, locale = "en", market, now = Date.now() } = {}) {
+  const out = [];
+  for (const slug of venues) {
+    if (!tsSignup(slug, { locale, market })) continue;
+    for (const c of TS_CAMPAIGNS) {
+      if (c.venue !== slug || Date.parse(c.endAt) <= now) continue;
+      if (!all && ticker && c.tickers && !c.tickers.includes(ticker)) continue;
+      if (!all && !ticker && c.tickers) continue;
+      out.push(c);
+    }
+    const ex = TS_EXCHANGES.find((e) => e.slug === slug);
+    const promo = ex ? tsPromo(ex, now) : null;
+    if (promo) out.push({ venue: slug, ...promo });
+  }
+  return out;
 }
 
 export const fillTs = (template, vars = {}) => String(template ?? "").replace(/\{(\w+)\}/g, (_m, key) => (vars[key] ?? ""));

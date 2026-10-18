@@ -60,7 +60,10 @@
   "promoEnds": "bis {date}",
   "promos": {
     "bitgetAlliance": "Bitget Alliance: Aktien-Trades zählen für die Belohnungen",
-    "binanceWalletBstocks": "bStocks-Trading-Wettbewerb, 50,000 USDC an Belohnungen"
+    "binanceWalletBstocks": "bStocks-Trading-Wettbewerb, 50,000 USDC an Belohnungen",
+    "bybitStockBuzzTsla": "Bybit Stock Buzz: Tesla handeln, 100.000 USDT teilen",
+    "bybitStockBuzzMu": "Bybit Stock Buzz: Micron handeln, 100.000 USDT teilen",
+    "bybitFullStocksAhead": "Bybit Full Stocks Ahead: 150.000 USDC teilen"
   },
   "pickH": "Was passt zu dir",
   "picks": [
@@ -218,7 +221,25 @@
     "GOOGL": "Alphabet",
     "AMZN": "Amazon",
     "SPY": "S&P-500-ETF",
-    "QQQ": "Nasdaq-100-ETF"
+    "QQQ": "Nasdaq-100-ETF",
+    "META": "Meta",
+    "PLTR": "Palantir",
+    "AMD": "AMD",
+    "NFLX": "Netflix",
+    "AVGO": "Broadcom",
+    "TSM": "TSMC",
+    "MU": "Micron",
+    "INTC": "Intel",
+    "ORCL": "Oracle",
+    "ARM": "Arm",
+    "SNDK": "Sandisk",
+    "CRWV": "CoreWeave",
+    "BMNR": "BitMine",
+    "GME": "GameStop",
+    "BABA": "Alibaba",
+    "SPCX": "SpaceX",
+    "OPENAI": "OpenAI",
+    "ANTHROPIC": "Anthropic"
   },
   "homeKicker": "Tokenisierte US-Aktien",
   "homeTitle": "US-Aktien mit USDT handeln · 24/7",
@@ -226,5 +247,200 @@
   "homeAll": "Alle ansehen",
   "homeTickers": "{n} Ticker",
   "venueH": "Tokenisierte US-Aktien auf {name}",
-  "venueLink": "Alle Börsen vergleichen"
+  "venueLink": "Alle Börsen vergleichen",
+  "updated": "Daten aktualisiert am {time} SGT",
+  "tk": {
+    "seoTitle": "{name} ({ticker}) Aktien-Token und Perpetuals: mit USDT handeln",
+    "seoDescription": "{name} ({ticker}) ist auf {n} Börsen mit USDT handelbar: {list}. Token oder Perpetual, Symbol, Hebel bis {lev}x, Gebühren, Handelszeiten und Dividenden aus den Daten jeder Börse.",
+    "preSeoTitle": "{name} Pre-IPO-Perpetuals: wo du sie mit USDT handelst",
+    "preSeoDescription": "{n} Börsen listen ein {name} Pre-IPO-Perpetual: {list}. Symbole, Hebel bis {lev}x und Gebühren aus den Daten jeder Börse. Keine Aktien, keine IPO-Zuteilung.",
+    "preH1": "{name} Pre-IPO-Perpetuals mit USDT handeln",
+    "preLead": "{name} ist ein privates Unternehmen. Diese USDT-Kontrakte bilden seinen geschätzten Wert vor einem Börsengang ab.",
+    "answerLev": "Höchster Hebel: {lev}x auf {list}.",
+    "answerFee": "Niedrigste veröffentlichte Taker-Gebühr für ein {ticker}-Perpetual: {fee} auf {list}.",
+    "answerWeekend": "Handel am Wochenende: {list}.",
+    "preAnswer": "{n} Börsen listen ein {name} Pre-IPO-Perpetual: {list}. Es wird in USDT abgerechnet und bringt keine Aktien, keine IPO-Zuteilung und keine Aktionärsrechte.",
+    "cols": {
+      "exchange": "Börse",
+      "form": "Produkt",
+      "symbol": "Symbol",
+      "lev": "Max. Hebel",
+      "fee": "Gebühr (Standard)",
+      "hours": "Handelszeiten",
+      "dividends": "Dividenden",
+      "source": "Quelle"
+    },
+    "div": {
+      "cash": "Bar in USDT, nach Steuern",
+      "reinvest": "In den Token reinvestiert",
+      "adjust": "Zwischen Long und Short ausgeglichen",
+      "none": "Keine",
+      "nocash": "Keine Barauszahlung"
+    },
+    "altToken": "auch {sym} ({form})",
+    "aboutH": "Über {name}",
+    "faqH": "Fragen zu {ticker}",
+    "q1": "Kann ich {name} ({ticker}) mit USDT kaufen?",
+    "a1Both": "Ja. Als Aktien-Token auf {spot}. Als USDT-Perpetual auf {perp}.",
+    "a1Perp": "Ja, als USDT-Perpetual auf {perp}. Keine der Börsen, die wir auslesen, listet bisher einen {ticker}-Token.",
+    "a1Spot": "Ja, als Aktien-Token auf {spot}.",
+    "q2": "Was ist der höchste Hebel auf {ticker}?",
+    "a2": "Bis {lev}x auf {list}, so wie jede Börse es veröffentlicht. Ein Aktien-Token wird ohne Hebel gekauft.",
+    "q3": "Zahlt der {ticker} Aktien-Token Dividenden?",
+    "a3Cash": "{list}: Netto-Bardividenden, gutgeschrieben in USDT.",
+    "a3Reinvest": "{list}: Dividenden werden reinvestiert und erscheinen im Token-Guthaben.",
+    "a3NoCash": "{list}: keine Bardividende.",
+    "a3Perp": "Perpetuals zahlen keine Dividenden, außer bei Bitget: Dort werden Bardividenden zwischen Long und Short ausgeglichen.",
+    "q4": "Kann ich {ticker} am Wochenende handeln?",
+    "a4": "Ja. Rund um die Uhr auf {list}.",
+    "a4No": "Nur zu den Handelszeiten, die jede Börse oben angibt; keine veröffentlicht 24/7-Handel für {ticker}.",
+    "q3Pre": "Besitze ich mit einem Pre-IPO-Perpetual {name}-Aktien?",
+    "a3Pre": "Nein. Es ist ein in USDT abgerechneter Kontrakt auf den geschätzten Wert von {name}. Du bekommst keine Aktien, keine IPO-Zuteilung und keine Aktionärsrechte.",
+    "exLink": "{name} Aktien-Ratgeber",
+    "other": "Weitere tokenisierte Aktien",
+    "preipoBadge": "Pre-IPO",
+    "changesH": "Neueste Listing-Änderungen",
+    "changeListed": "{exchange} listet {sym}",
+    "changeDelisted": "{exchange} entfernt {sym}",
+    "campaignsH": "Laufende Aktien-Aktionen"
+  },
+  "about": {
+    "NVDA": "Nvidia entwickelt die GPUs, auf denen die meisten AI-Modelle trainiert werden und laufen; deshalb ist NVDA der meistgehandelte Aktien-Token auf Krypto-Börsen.",
+    "TSLA": "Tesla baut Elektroautos, Batterien und Robotaxis; die Aktie ist bei Krypto-Tradern beliebt und reagiert auf jede Schlagzeile von Elon Musk.",
+    "AAPL": "Apple stellt iPhone, Mac und die Dienste rund um sie her und gehört zu den größten Unternehmen im S&P 500.",
+    "MSFT": "Microsoft verkauft Windows, Office und die Azure-Cloud und ist der größte Geldgeber von OpenAI.",
+    "COIN": "Coinbase betreibt die größte Krypto-Börse der USA, deshalb bewegt sich COIN oft mit Bitcoin.",
+    "MSTR": "Strategy (früher MicroStrategy) hält mehr Bitcoin als jedes andere börsennotierte Unternehmen; MSTR wird wie eine gehebelte Bitcoin-Wette gehandelt.",
+    "HOOD": "Robinhood ist die US-Trading-App, die in Europa auch eigene Aktien-Token ausgibt.",
+    "CRCL": "Circle gibt den Stablecoin USDC aus und ging 2025 an die New York Stock Exchange.",
+    "GOOGL": "Alphabet gehören Google Search, YouTube, Android und Google Cloud; GOOGL ist die Klasse-A-Aktie.",
+    "AMZN": "Amazon betreibt den größten Onlineshop und AWS, das größte Cloud-Geschäft.",
+    "SPY": "SPY ist der SPDR-ETF auf den S&P 500, die 500 größten US-Unternehmen in einem Ticker.",
+    "QQQ": "QQQ ist der Invesco-ETF auf den Nasdaq-100, die großen, techlastigen Aktien der Nasdaq.",
+    "META": "Meta gehören Facebook, Instagram und WhatsApp, und das Unternehmen investiert stark in AI.",
+    "PLTR": "Palantir verkauft Daten- und AI-Software an Regierungen und Unternehmen; die Aktie gehört zu den meistgehandelten US-Wachstumswerten.",
+    "AMD": "AMD entwickelt CPUs und AI-Beschleuniger, die mit Intel und Nvidia konkurrieren.",
+    "NFLX": "Netflix ist der größte bezahlte Video-Streamingdienst.",
+    "AVGO": "Broadcom stellt Netzwerkchips und maßgeschneiderte AI-Chips her, dazu Infrastruktur-Software.",
+    "TSM": "TSMC fertigt die meisten modernen Chips der Welt, auch die von Nvidia und Apple; TSM ist die in den USA gelistete Aktie.",
+    "MU": "Micron stellt den DRAM und den High-Bandwidth-Speicher her, den AI-Server brauchen.",
+    "INTC": "Intel entwickelt und fertigt Prozessoren für PCs und Server.",
+    "ORCL": "Oracle verkauft Datenbanken und ein schnell wachsendes Cloud-Geschäft für AI-Workloads.",
+    "ARM": "Arm lizenziert die Chipdesigns, die in fast jedem Smartphone stecken.",
+    "SNDK": "Sandisk stellt Flash-Speicher und SSDs her; das Unternehmen wurde 2025 von Western Digital abgespalten.",
+    "CRWV": "CoreWeave vermietet Nvidia-GPU-Kapazität als AI-Cloud.",
+    "BMNR": "BitMine Immersion Technologies ist ein börsennotiertes Unternehmen, das Ether als wichtigsten Treasury-Vermögenswert hält.",
+    "GME": "GameStop ist der Videospielhändler im Zentrum der Meme-Stock-Rally von 2021.",
+    "BABA": "Alibaba ist Chinas größter E-Commerce- und Cloud-Konzern; BABA ist die in New York gelistete Aktie.",
+    "SPCX": "SpaceX baut Falcon-Raketen, Starship und das Satellitennetz Starlink.",
+    "OPENAI": "OpenAI, der Entwickler von ChatGPT, ist ein privates Unternehmen: Seine Aktien sind an keiner Börse gelistet.",
+    "ANTHROPIC": "Anthropic, der Entwickler von Claude, ist ein privates Unternehmen: Seine Aktien sind an keiner Börse gelistet."
+  },
+  "ex": {
+    "answer": "{name} listet {perp} Aktien-Perpetuals und {spot} Aktien-Token, ausgelesen aus den Marktdaten von {name} am {time} SGT.",
+    "answerPerpOnly": "{name} listet {perp} Aktien-Perpetuals, ausgelesen aus den Marktdaten von {name} am {time} SGT.",
+    "answerLev": "Höchster Hebel unter den Werten unten: {lev}x ({list}).",
+    "answerTsla": "Tesla auf {name}: {symbols}.",
+    "productsH": "Was {name} anbietet",
+    "stepsH": "So kaufst du US-Aktien auf {name}",
+    "steps": [
+      [
+        "{name}-Konto eröffnen",
+        "Registriere dich über den Link mit unserem Code unten und schließe die Identitätsprüfung ab."
+      ],
+      [
+        "USDT einzahlen",
+        "Sende USDT auf dein {name}-Konto. Aktien-Token und USDT-Perpetuals werden beide in USDT abgerechnet."
+      ],
+      [
+        "Aktienbereich finden",
+        "In der App: {path}."
+      ],
+      [
+        "Symbol suchen",
+        "Tesla ist {sym}. Die übrigen Werte findest du in der Tabelle unten."
+      ],
+      [
+        "Token kaufen oder Position eröffnen",
+        "Ein Aktien-Token ist ein Spot-Kauf, den du hältst. Mit einem Perpetual gehst du long oder short, mit dem Hebel, den du wählst."
+      ]
+    ],
+    "stepOneNeutral": [
+      "{name}-Konto eröffnen",
+      "Registriere dich auf der offiziellen Website von {name} und schließe die Identitätsprüfung ab."
+    ],
+    "pathNone": "Märkte öffnen und den Ticker suchen",
+    "tableH": "US-Aktien auf {name}",
+    "tableLead": "Symbole und maximaler Hebel der meistgesuchten Werte, aus den Marktdaten von {name}.",
+    "cols": {
+      "stock": "Aktie",
+      "token": "Aktien-Token",
+      "perp": "Perpetual",
+      "lev": "Max. Hebel"
+    },
+    "excludedH": "Nicht verfügbar in",
+    "promoH": "Aktuell",
+    "q1": "Kann ich auf {name} US-Aktien kaufen?",
+    "a1": "Ja. {name} listet {perp} Aktien-Perpetuals und {spot} Aktien-Token, die in USDT abgerechnet werden.",
+    "a1PerpOnly": "Ja, als USDT-Perpetuals: {name} listet {perp} davon. Aktien-Token gibt es dort nicht.",
+    "q2": "Was ist der maximale Hebel auf Aktien-Perpetuals bei {name}?",
+    "a2": "Bis {lev}x auf {list}. Jeder Kontrakt hat sein eigenes Limit: siehe Tabelle.",
+    "q3": "Wer kann Aktien auf {name} nicht nutzen?",
+    "a3": "{name} bietet sie nicht an in: {list}.",
+    "otherEx": "Aktien auf anderen Börsen",
+    "allTickers": "Alle Ticker"
+  },
+  "exPages": {
+    "bitget": {
+      "title": "{name} Aktien-Futures und rToken: US-Aktien mit USDT kaufen",
+      "description": "So handelst du US-Aktien auf {name} mit USDT: Aktien-Perpetuals bis {lev}x, rToken Aktien-Token, Symbole, Gebühren, Handelszeiten und Dividenden aus den Daten von {name}.",
+      "h1": "{name} US-Aktien: Aktien-Futures und rToken",
+      "intro": "{name} bietet zwei Wege zu US-Aktien: rToken Aktien-Token zum Kaufen und Halten und Aktien-Perpetuals mit USDT-Margin, die rund um die Uhr gehandelt werden."
+    },
+    "okx": {
+      "title": "{name} xStocks-Anleitung: US-Aktien mit USDT auf {name} kaufen",
+      "description": "So kaufst du xStocks auf {name} mit USDT: tokenisierte Aktien, Aktien-Perpetuals bis {lev}x, Pre-IPO-Perpetuals, Symbole und Handelszeiten aus den Daten von {name}.",
+      "h1": "{name} xStocks und Aktien-Perpetuals",
+      "intro": "{name} listet xStocks-Token, die rund um die Uhr im Spot-Markt gehandelt werden, dazu USDT-Aktien-Perpetuals und Pre-IPO-Kontrakte."
+    },
+    "binance": {
+      "title": "{name} Aktien: bStocks-Token und Aktien-Perpetuals mit USDT",
+      "description": "Kann man auf {name} US-Aktien kaufen? Ja: bStocks-Token und USDT-Aktien-Perpetuals. Symbole, Handelszeiten, Gebühren und Dividenden aus den Daten von {name}.",
+      "h1": "{name} US-Aktien: bStocks und Aktien-Perpetuals",
+      "intro": "{name} listet bStocks-Token im Spot-Markt und TradFi-Perpetuals mit USDT-Margin auf US-Aktien und ETFs."
+    },
+    "bybit": {
+      "title": "{name} xStocks und Aktien-Perpetuals: US-Aktien mit USDT handeln",
+      "description": "So handelst du US-Aktien auf {name}: xStocks-Token, USDT-Aktien-Perpetuals bis {lev}x, Symbole, Gebühren und Handelszeiten aus den Daten von {name}.",
+      "h1": "{name} US-Aktien: xStocks und Aktien-Perpetuals",
+      "intro": "{name} listet xStocks-Token im Spot-Markt und USDT-Perpetuals auf Aktien und ETFs im Bereich TradFi."
+    },
+    "gate-io": {
+      "title": "{name} Aktien: xStocks, Ondo-Token und Aktien-Perpetuals mit USDT",
+      "description": "So handelst du US-Aktien auf {name} mit USDT: xStocks- und Ondo-Token, Aktien-Perpetuals bis {lev}x, Symbole und Gebühren aus den Daten von {name}.",
+      "h1": "{name} US-Aktien: Token und Aktien-Perpetuals",
+      "intro": "{name} listet sowohl xStocks- als auch Ondo-Aktien-Token im Spot-Markt und USDT-Aktien-Perpetuals, auch auf Pre-IPO-Werte."
+    },
+    "kraken": {
+      "title": "{name} xStocks: tokenisierte Aktien und Aktien-Perpetuals",
+      "description": "So handelst du xStocks auf {name}: tokenisierte US-Aktien, xStocks-Perpetuals bis {lev}x, Symbole, Handelszeiten und Gebühren aus den Daten von {name}.",
+      "h1": "{name} xStocks und Aktien-Perpetuals",
+      "intro": "{name} listet xStocks-Token, die du mit USD, USDC oder USDG kaufen kannst, dazu xStocks-Perpetuals."
+    },
+    "mexc": {
+      "title": "{name} Aktien-Futures: US-Aktien mit USDT handeln",
+      "description": "So handelst du US-Aktien auf {name}: Aktien-Perpetuals bis {lev}x, xStocks- und Ondo-Token, Symbole und Gebühren aus den Daten von {name}.",
+      "h1": "{name} US-Aktien: Aktien-Futures und Token",
+      "intro": "{name} listet USDT-Aktien-Perpetuals, viele davon ohne Maker-Gebühr, dazu xStocks- und Ondo-Aktien-Token im Spot-Markt."
+    }
+  },
+  "exNames": {
+    "bitget": "Bitget",
+    "okx": "OKX",
+    "binance": "Binance",
+    "bybit": "Bybit",
+    "gate-io": "Gate",
+    "kraken": "Kraken",
+    "mexc": "MEXC"
+  }
 }

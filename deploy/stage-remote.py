@@ -218,6 +218,7 @@ def main():
     args += ['-v', '/data/private/nexualpha/intel:/intel-state', '-e', 'INTEL_ARCHIVE_FILE=/intel-state/official-announcements-archive.json']
     # Runtime coin snapshot (2026-10-12): ops/coins-refresh rewrites it on the host daily/weekly; /coins pages read it without a redeploy.
     args += ['-e', 'COINS_FILE=/intel-state/coins.json']
+    args += ['-e', 'TS_LIVE_FILE=/intel-state/tokenized-stocks.json']
     # Spot ETF flows + crypto calendar (2026-10-13): ops/intel-tools rewrites them on the host daily; the pages read them without a redeploy.
     args += ['-e', 'ETF_FLOWS_FILE=/intel-state/etf-flows.json', '-e', 'CALENDAR_FILE=/intel-state/calendar.json']
     # Live market feeds (written by collectors; nginx serves market-events as /intel/market-events.json) for data pages and whale watch.

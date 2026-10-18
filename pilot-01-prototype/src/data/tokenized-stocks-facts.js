@@ -6,6 +6,8 @@
 // Count, leverage and fee values that the packet dates to a launch or a guide keep that date in `asOf`.
 // Shared by the hub, the ticker pages, the home strip and the exchange profiles (route chunks only, never the entry).
 
+import { TS_TICKERS_ALL } from "./tokenized-stocks-routes.js";
+
 export const TS_CHECKED = "2026-10-15";
 export const TS_PUBLISHED = "2026-10-15";
 
@@ -25,6 +27,7 @@ const S = {
   "okx-perps-faq": ["https://www.okx.com/en-gb/help/stock-perpetuals-faq", "OKX Stock Perpetuals FAQ", "2026-04-01", "published"],
   "okx-preipo-listing": ["https://www.okx.com/en-us/help/okx-to-list-pre-ipo-openaiusd-and-anthropicusd-x-perps", "OKX to list Pre-IPO OPENAIUSD and ANTHROPICUSD X-Perps", "2026-09-10", "published"],
   "okx-oura": ["https://www.okx.com/help/okx-to-list-pre-ipo-ourausd-x-perps", "OKX to list Pre-IPO OURAUSD X-Perps", "2026-10-07", "published"],
+  "okx-preipo": ["https://www.okx.com/ua/help/what-are-pre-ipo-x-perps-and-how-do-they-work", "What are pre-IPO X-Perps and how do they work", "2026-09-08", "published"],
   "okx-campaign": ["https://www.okx.com/ru/campaigns/xstocks-equity-trading", "OKX xStocks equity trading", "2026-10-14", "checked"],
   "okx-latest-spot": ["https://www.okx.com/help/okx-to-list-unified-tokenized-stocks-xlunr-xoscr-and-more-for-spot-trading", "OKX to list Unified Tokenized Stocks xLUNR, xOSCR and more", "2026-10-12", "published"],
   "binance-bstocks-faq": ["https://www.binance.com/en/support/faq/detail/f0c03cd6509a4085b4cce1636f16be38", "Binance bStocks FAQ", "2026-06-11", "published"],
@@ -40,6 +43,10 @@ const S = {
   "bybit-preipo": ["https://announcements.bybit.com/en/article/new-listing-openaiusdt-and-anthropicusdt-pre-ipo-perpetual-contracts-with-up-to-20x-leverage--art657b4039477f/", "New listing: OPENAIUSDT and ANTHROPICUSDT pre-IPO perpetual contracts", "2026-07-13", "published"],
   "bybit-comparison": ["https://www.bybit.com/en/learn/bybit-tradfi/xstocks-cfds-perpetuals-bybit", "xStocks, CFDs and perpetuals on Bybit", "2026-08-06", "published"],
   "bybit-restricted": ["https://www.bybit.com/en/help-center/article/Service-Restricted-Countries", "Bybit Service Restricted Countries", "2026-10-13", "published"],
+  "bybit-stock-buzz-tsla": ["https://announcements.bybit.com/en-US/article/stock-buzz-trade-tesla-compete-for-a-share-of-100-000-usdt--art39f8ac7bc7f4/", "Stock Buzz: Trade Tesla. Compete For a Share of 100,000 USDT.", "2026-10-16", "published"],
+  "bybit-stock-buzz-mu": ["https://announcements.bybit.com/en-US/article/stock-buzz-trade-micron-compete-for-a-share-of-100-000-usdt--art12b57db35368/", "Stock Buzz: Trade Micron. Compete For a Share of 100,000 USDT.", "2026-09-30", "published"],
+  "bybit-full-stocks-ahead": ["https://announcements.bybit.com/en-US/article/exclusive-launch-full-stocks-ahead-share-150-000-usdc--art6a5cd5beed87/", "[Exclusive Launch] Full Stocks Ahead: Share 150,000 USDC", "2026-10-14", "published"],
+  "bybit-activities-api": ["https://api.bybit.com/v5/announcements/index?locale=en-US&type=latest_activities", "Bybit announcements API: activity start and end times", "2026-10-18", "checked"],
   "kraken-faq": ["https://support.kraken.com/articles/xstocks-faq", "Kraken xStocks FAQ", "2026-09-18", "published"],
   "kraken-perps": ["https://support.kraken.com/articles/xstocks-perps-kraken", "xStocks perps on Kraken", "2026-02-24", "published"],
   "kraken-product": ["https://www.kraken.com/pro/perps/xstocks-perpetuals", "Kraken xStocks perpetuals", "2026-10-14", "checked"],
@@ -48,9 +55,11 @@ const S = {
   "gate-app-guide": ["https://www.gate.com/help/trade/stocks/49421/how-to-buy-tokenized-stocks-on-gate-app", "How to buy tokenized stocks on Gate App", "2026-01-22", "published"],
   "gate-stock-perps": ["https://www.gate.com/pt-br/announcements/article/51518", "Gate stocks and ETF USDT-M perpetuals", "2026-06-04", "published"],
   "gate-preipo-perps": ["https://www.gate.com/ja/blog/gate-pre-ipos-updates-how-retail-users-can-participate", "Gate Pre-IPOs updates", "2026-04-14", "published"],
+  "gate-faq": ["https://www.gate.com/help/trade/stocks/48921", "Gate tokenized stocks FAQ", "2025-12-26", "published"],
   "gate-agreement": ["https://www.gate.com/legal/user-agreement", "Gate user agreement", "2026-10-14", "checked"],
   "mexc-initial-spot": ["https://www.mexc.com/en-GB/announcements/article/mexc-to-launch-ondo-s-tokenized-stock-trading-pairs-on-spot-markets-2025-09-03-17827791529298", "MEXC launches Ondo tokenized stock spot pairs", "2025-09-03", "published"],
   "mexc-future-list": ["https://www.mexc.com/announcements/article/mexc-to-list-aph-stm-on-and-ms-stock-futures-with-0-fee-trading-on-jul-16-17827791536896", "MEXC lists APH, STM, ON and MS stock futures", "2026-07-16", "published"],
+  "mexc-spot-five": ["https://blog.mexc.com/press-release/mexc-adds-five-ondo-tokenized-stocks/", "MEXC adds five Ondo tokenized stocks", "2026-07-17", "published"],
   "mexc-user-terms": ["https://www.mexc.com/terms", "MEXC user agreement", "2026-10-13", "published"],
   "htx-rwa": ["https://square.htx.com/htx-ventures-latest-report-rwa-perps-a-new-frontier-in-the-on-chain-expansion-of-global-financial-markets/", "HTX Ventures report: RWA perps", "2026-06-15", "published"],
   "htx-product": ["https://square.htx.com/popular-tradfi-assets-now-live-on-htx-en/", "Popular TradFi assets now live on HTX", "2026-05-28", "published"],
@@ -68,6 +77,9 @@ const S = {
   "hl-terms": ["https://trade.xyz/terms", "trade[XYZ] terms", "2026-09-06", "published"],
 };
 
+// Sources added after the 2026-10-15 research packet (campaigns read from the exchanges' own announcements on 2026-10-18).
+export const TS_LATER_SOURCE_IDS = Object.freeze(new Set(["bybit-stock-buzz-tsla", "bybit-stock-buzz-mu", "bybit-full-stocks-ahead", "bybit-activities-api"]));
+
 export const TS_SOURCES = Object.freeze(Object.fromEntries(Object.entries(S).map(([id, [url, title, date, dateKind]]) => [id, Object.freeze({ id, url, title, date, dateKind })])));
 
 /**
@@ -83,11 +95,12 @@ const EXCHANGES = [
     spot: { form: f("rToken", ["bitget-rtoken-page"]), sym: "r{t}", settle: f("USDT", ["bitget-rtoken-page"]),
       tickers: f(["NVDA", "AAPL", "TSLA", "MSFT", "MSTR", "COIN", "SPY", "QQQ"], ["bitget-rtoken-faq"]),
       count: f("1,700+", ["bitget-rtoken-faq"], "2026-08"), hours: f("24/5+", ["bitget-rtoken-faq"]),
-      lev: f(10, ["bitget-rtoken-faq"]), path: f("Trading > Stocks > rAAPL", ["bitget-fees-guide"]) },
+      lev: f(10, ["bitget-rtoken-faq"]), path: f("Trading > Stocks > rAAPL", ["bitget-fees-guide"]),
+      dividends: f("cash", ["bitget-rtoken-faq"]) },
     perp: { form: f("USDT-M", ["bitget-perps-faq"]), sym: "{t}USDT", settle: f("USDT", ["bitget-perps-faq"]),
       tickers: f(["TSLA", "NVDA", "AAPL", "MSFT", "COIN", "MSTR", "HOOD", "CRCL", "QQQ"], ["bitget-24-7"]),
       hours: f("24/7", ["bitget-24-7"]), lev: f(100, ["bitget-perps-faq"]),
-      fee: f({ maker: 0.02, taker: 0.06 }, ["bitget-fees-guide"]), dividends: f(true, ["bitget-dividends"]),
+      fee: f({ maker: 0.02, taker: 0.06 }, ["bitget-fees-guide"]), dividends: f("adjust", ["bitget-dividends"]),
       path: f("TradFi > Stocks", ["bitget-perps-faq"]) },
     preipo: { tickers: f(["JIO"], ["bitget-jio"]), sym: "{t}USDT", hours: f("24/7", ["bitget-jio"]), lev: f(20, ["bitget-jio"]), settle: f("USDT", ["bitget-jio"]) },
     excluded: f(["US"], ["bitget-rtoken-faq"]),
@@ -98,18 +111,18 @@ const EXCHANGES = [
     spot: { form: f("xStocks", ["okx-unified"]), sym: "x{t}", settle: f("USDT", ["okx-unified"]),
       tickers: f(["NVDA", "TSLA", "AAPL", "MSFT", "MSTR", "COIN", "SPY", "QQQ", "HOOD", "CRCL"], ["okx-campaign"]),
       count: f("40+", ["okx-launch"], "2026-07"), hours: f("24/7", ["okx-unified"]),
-      path: f("Spot > xNVDA/USDT", ["okx-campaign"]) },
+      path: f("Spot > xNVDA/USDT", ["okx-campaign"]), dividends: f("reinvest", ["okx-unified"]) },
     perp: { form: f("USDT-M", ["okx-stock-perps"]), sym: "{t}", settle: f("USDT", ["okx-stock-perps"]),
       tickers: f(["AAPL", "TSLA", "NVDA"], ["okx-stock-perps"]), hours: f("24/7", ["okx-stock-perps"]),
-      path: f("Trade > Futures > TradFi", ["okx-perps-faq"]) },
-    preipo: { tickers: f(["OPENAI", "ANTHROPIC", "OURA"], ["okx-preipo-listing", "okx-oura"]), sym: "{t}USD", hours: f("24/7", ["okx-preipo-listing", "okx-oura"]) },
+      path: f("Trade > Futures > TradFi", ["okx-perps-faq"]), dividends: f("none", ["okx-perps-faq"]) },
+    preipo: { tickers: f(["OPENAI", "ANTHROPIC", "OURA"], ["okx-preipo-listing", "okx-oura"]), sym: "{t}USD", hours: f("24/7", ["okx-preipo-listing", "okx-oura"]), dividends: f("none", ["okx-preipo"]) },
     excluded: f(["US"], ["okx-latest-spot"]),
   },
   {
     slug: "binance", name: "Binance",
     spot: { form: f("bStocks", ["binance-bstocks-faq"]), sym: "{t}B", tickers: f(["TSLA"], ["binance-bstocks-faq"]),
       hours: f("24/7", ["binance-bstocks-conversion"]), fee: f({ flatUsd: 0.35, pct: 0.1 }, ["binance-bstocks-fees"], "2026-07"),
-      path: f("Spot", ["binance-bstocks-faq"]) },
+      path: f("Spot", ["binance-bstocks-faq"]), dividends: f("reinvest", ["binance-bstocks-faq"]) },
     perp: { form: f("USDT-M", ["binance-stock-perps"]), sym: "{t}USDT", settle: f("USDT", ["binance-stock-perps"]),
       tickers: f(["MSTR", "AMZN", "CRCL", "COIN", "PLTR", "QQQ", "SPY"], ["binance-stock-perps", "binance-etf-perps"]),
       hours: f("24/7", ["binance-stock-perps"]), lev: f(20, ["binance-latest-perps"], "2026-10"),
@@ -122,10 +135,10 @@ const EXCHANGES = [
     slug: "bybit", name: "Bybit",
     spot: { form: f("xStocks", ["bybit-xstocks"]), sym: "{t}X", settle: f("USDT", ["bybit-comparison"]),
       tickers: f(["COIN", "NVDA", "AAPL"], ["bybit-xstocks"]), hours: f("24/7", ["bybit-xstocks"]),
-      fee: f({ maker: 0.2, taker: 0.2 }, ["bybit-xstocks"]), path: f("Spot > xStocks", ["bybit-xstocks"]) },
+      fee: f({ maker: 0.2, taker: 0.2 }, ["bybit-xstocks"]), path: f("Spot > xStocks", ["bybit-xstocks"]), dividends: f("reinvest", ["bybit-xstocks"]) },
     perp: { form: f("USDT-M", ["bybit-perps-guide"]), sym: "{t}USDT", settle: f("USDT", ["bybit-perps-guide"]),
       tickers: f(["SKHY", "SNDK", "MU", "SOXL", "KORU"], ["bybit-perps-guide"]), hours: f("24/7", ["bybit-perps-guide"]),
-      path: f("TradFi > Futures", ["bybit-perps-guide"]) },
+      path: f("TradFi > Futures", ["bybit-perps-guide"]), dividends: f("none", ["bybit-perps-guide"]) },
     preipo: { tickers: f(["OPENAI", "ANTHROPIC"], ["bybit-preipo"]), sym: "{t}USDT", hours: f("24/7", ["bybit-preipo"]), settle: f("USDT", ["bybit-preipo"]) },
     excluded: f(["US", "CN", "HK", "SG", "CA"], ["bybit-restricted"]),
   },
@@ -133,7 +146,7 @@ const EXCHANGES = [
     slug: "gate-io", name: "Gate",
     spot: { form: f("xStocks", ["gate-launch"]), sym: "{t}X", settle: f("USDT", ["gate-launch"]),
       tickers: f(["COIN", "NVDA", "CRCL", "AAPL", "META", "HOOD", "TSLA", "GOOGL"], ["gate-launch"]), hours: f("24/7", ["gate-app-guide"]),
-      path: f("Spot > Stocks", ["gate-app-guide"]) },
+      path: f("Spot > Stocks", ["gate-app-guide"]), dividends: f("nocash", ["gate-faq"]) },
     perp: { form: f("USDT-M", ["gate-stock-perps"]), sym: "{t}X", settle: f("USDT", ["gate-launch"]),
       tickers: f(["COIN", "NVDA", "CRCL", "AAPL", "META", "HOOD"], ["gate-launch"]), hours: f("24/7", ["gate-launch"]),
       lev: f(20, ["gate-stock-perps"], "2026-06") },
@@ -144,7 +157,7 @@ const EXCHANGES = [
     slug: "mexc", name: "MEXC",
     spot: { form: f("Ondo", ["mexc-initial-spot"]), sym: "{t}ON", settle: f("USDT", ["mexc-initial-spot"]),
       tickers: f(["NVDA", "TSLA", "AAPL", "COIN", "HOOD", "CRCL"], ["mexc-initial-spot"]),
-      path: f("Spot > NVDAON/USDT", ["mexc-initial-spot"]) },
+      path: f("Spot > NVDAON/USDT", ["mexc-initial-spot"]), dividends: f("reinvest", ["mexc-spot-five"]) },
     perp: { form: f("USDT-M", ["mexc-future-list"]), sym: "{t}USDT", settle: f("USDT", ["mexc-user-terms"]),
       tickers: f(["APH", "STM", "ON", "MS"], ["mexc-future-list"]), hours: f("24/7", ["mexc-future-list"]), lev: f(20, ["mexc-future-list"], "2026-07") },
     excluded: f(["US", "CN", "SG", "MY", "GB", "HK", "CA"], ["mexc-user-terms"]),
@@ -161,7 +174,7 @@ const EXCHANGES = [
     spot: { form: f("xStocks", ["kraken-faq"]), sym: "{t}x", settle: f("USD/USDC/USDG", ["kraken-faq", "kraken-availability"]),
       tickers: f(["AAPL", "CRCL", "GOOGL", "HOOD", "MSTR", "NVDA", "QQQ", "SPY", "TSLA"], ["kraken-faq"]),
       count: f("131", ["kraken-faq"]), hours: f("24/5+", ["kraken-faq"]), lev: f(3, ["kraken-availability"]),
-      fee: f({ zeroUsd: true }, ["kraken-faq"]) },
+      fee: f({ zeroUsd: true }, ["kraken-faq"]), dividends: f("reinvest", ["kraken-faq"]) },
     perp: { form: f("xStocks perps", ["kraken-perps"]), sym: "{t}x",
       tickers: f(["AAPL", "CRCL", "GOOGL", "HOOD", "MSTR", "NVDA", "QQQ", "SPY", "TSLA"], ["kraken-perps"]),
       hours: f("24/7", ["kraken-perps"]), lev: f(20, ["kraken-perps", "kraken-product"]) },
@@ -199,10 +212,12 @@ const deepFreeze = (value) => {
 export const TS_EXCHANGES = deepFreeze(EXCHANGES);
 export const TS_LANES = Object.freeze(["spot", "perp", "preipo"]);
 
-// The twelve ticker pages: the editorial backlog of the research packet (NVDA, TSLA, AAPL, MSFT, COIN, MSTR, SPY, QQQ,
-// HOOD, CRCL) plus GOOGL and AMZN, the two most-listed others in the packet.
-export const TS_TICKERS = Object.freeze(["NVDA", "TSLA", "AAPL", "MSFT", "COIN", "MSTR", "HOOD", "CRCL", "GOOGL", "AMZN", "SPY", "QQQ"]);
+// The ticker pages: the twelve of the 2026-10-15 launch (the research packet's editorial backlog plus GOOGL and AMZN) and
+// eighteen more from the 2026-10-18 live listing snapshot (tokenized-stocks-routes.js holds the list).
+export const TS_TICKERS = TS_TICKERS_ALL;
 export const TS_ETFS = Object.freeze(new Set(["SPY", "QQQ"]));
+// Private companies: their pages describe pre-IPO perpetuals, not stocks (no shares, no dividends).
+export const TS_PREIPO = Object.freeze(new Set(["OPENAI", "ANTHROPIC"]));
 
 export const tsSource = (id) => TS_SOURCES[id] || null;
 export const tsSymbol = (lane, ticker) => String(lane?.sym || "{t}").replace("{t}", ticker);
@@ -235,8 +250,18 @@ export function tsAllSourceIds() {
     Object.values(value).forEach(walk);
   };
   walk(EXCHANGES);
+  walk(TS_CAMPAIGNS);
   return [...ids];
 }
+
+// Stock-trading campaigns shown on the ticker and exchange pages (start/end from the exchange's own announcements API).
+// `tickers: null` = the campaign covers every stock the exchange lists. `href` opens OUR page (activities, campaign guide),
+// never the exchange directly; the sign-up next to it goes through /go with our code.
+export const TS_CAMPAIGNS = Object.freeze([
+  { venue: "bybit", key: "bybitStockBuzzTsla", tickers: ["TSLA"], endAt: "2026-10-29T08:00:00Z", s: ["bybit-stock-buzz-tsla", "bybit-activities-api"], href: "/activities" },
+  { venue: "bybit", key: "bybitStockBuzzMu", tickers: ["MU"], endAt: "2026-10-31T00:00:00Z", s: ["bybit-stock-buzz-mu", "bybit-activities-api"], href: "/activities" },
+  { venue: "bybit", key: "bybitFullStocksAhead", tickers: null, endAt: "2026-10-31T00:00:00Z", s: ["bybit-full-stocks-ahead", "bybit-activities-api"], href: "/activities/bybit-stocks" },
+].map((c) => Object.freeze(c)));
 
 /** Active promotion of an exchange at `now` (expired ones never show). */
 export function tsPromo(ex, now = Date.now()) {

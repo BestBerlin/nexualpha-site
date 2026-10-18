@@ -35,6 +35,7 @@ const expectedSourceStatuses = {
   'coinbase-status': 'partial',
   'kraken-status': 'connected',
   'nexualpha-official-announcements': 'connected',
+  'nexualpha-tokenized-stocks': 'connected',
   'ethereum-blog': 'partial',
   'solana-news': 'partial',
   'hyperliquid-medium-dropped': 'partial',

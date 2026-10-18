@@ -60,7 +60,10 @@
   "promoEnds": "đến {date}",
   "promos": {
     "bitgetAlliance": "Bitget Alliance: giao dịch cổ phiếu được tính vào phần thưởng",
-    "binanceWalletBstocks": "Cuộc thi giao dịch bStocks, phần thưởng 50,000 USDC"
+    "binanceWalletBstocks": "Cuộc thi giao dịch bStocks, phần thưởng 50,000 USDC",
+    "bybitStockBuzzTsla": "Bybit Stock Buzz: giao dịch Tesla, chia 100.000 USDT",
+    "bybitStockBuzzMu": "Bybit Stock Buzz: giao dịch Micron, chia 100.000 USDT",
+    "bybitFullStocksAhead": "Bybit Full Stocks Ahead: chia 150.000 USDC"
   },
   "pickH": "Chọn sàn nào",
   "picks": [
@@ -218,7 +221,25 @@
     "GOOGL": "Alphabet",
     "AMZN": "Amazon",
     "SPY": "ETF S&P 500",
-    "QQQ": "ETF Nasdaq-100"
+    "QQQ": "ETF Nasdaq-100",
+    "META": "Meta",
+    "PLTR": "Palantir",
+    "AMD": "AMD",
+    "NFLX": "Netflix",
+    "AVGO": "Broadcom",
+    "TSM": "TSMC",
+    "MU": "Micron",
+    "INTC": "Intel",
+    "ORCL": "Oracle",
+    "ARM": "Arm",
+    "SNDK": "Sandisk",
+    "CRWV": "CoreWeave",
+    "BMNR": "BitMine",
+    "GME": "GameStop",
+    "BABA": "Alibaba",
+    "SPCX": "SpaceX",
+    "OPENAI": "OpenAI",
+    "ANTHROPIC": "Anthropic"
   },
   "homeKicker": "Cổ phiếu Mỹ token hóa",
   "homeTitle": "Giao dịch cổ phiếu Mỹ bằng USDT · 24/7",
@@ -226,5 +247,200 @@
   "homeAll": "Xem tất cả",
   "homeTickers": "{n} mã",
   "venueH": "Cổ phiếu Mỹ token hóa trên {name}",
-  "venueLink": "So sánh mọi sàn"
+  "venueLink": "So sánh mọi sàn",
+  "updated": "Dữ liệu cập nhật lúc {time} SGT",
+  "tk": {
+    "seoTitle": "Token cổ phiếu và hợp đồng vĩnh cửu {name} ({ticker}): giao dịch bằng USDT",
+    "seoDescription": "{name} ({ticker}) giao dịch bằng USDT trên {n} sàn: {list}. Token hay hợp đồng vĩnh cửu, mã, đòn bẩy tối đa {lev}x, phí, giờ giao dịch và cổ tức lấy từ dữ liệu của chính từng sàn.",
+    "preSeoTitle": "Hợp đồng vĩnh cửu Pre-IPO {name}: giao dịch bằng USDT ở đâu",
+    "preSeoDescription": "{n} sàn niêm yết hợp đồng vĩnh cửu Pre-IPO {name}: {list}. Mã, đòn bẩy tối đa {lev}x và phí lấy từ dữ liệu của chính từng sàn. Không có cổ phiếu, không có suất phân bổ IPO.",
+    "preH1": "Giao dịch hợp đồng vĩnh cửu Pre-IPO {name} bằng USDT",
+    "preLead": "{name} là công ty tư nhân. Các hợp đồng USDT này bám theo giá trị ước tính của công ty trước khi niêm yết.",
+    "answerLev": "Đòn bẩy cao nhất: {lev}x trên {list}.",
+    "answerFee": "Phí taker công bố thấp nhất cho hợp đồng vĩnh cửu {ticker}: {fee} trên {list}.",
+    "answerWeekend": "Giao dịch cả cuối tuần: {list}.",
+    "preAnswer": "{n} sàn niêm yết hợp đồng vĩnh cửu Pre-IPO {name}: {list}. Thanh toán bằng USDT, không cho bạn cổ phiếu, suất phân bổ IPO hay quyền cổ đông.",
+    "cols": {
+      "exchange": "Sàn",
+      "form": "Sản phẩm",
+      "symbol": "Mã",
+      "lev": "Đòn bẩy tối đa",
+      "fee": "Phí (tiêu chuẩn)",
+      "hours": "Giờ giao dịch",
+      "dividends": "Cổ tức",
+      "source": "Nguồn"
+    },
+    "div": {
+      "cash": "Tiền mặt bằng USDT, sau thuế",
+      "reinvest": "Tái đầu tư vào token",
+      "adjust": "Thanh toán giữa bên long và short",
+      "none": "Không",
+      "nocash": "Không trả tiền mặt"
+    },
+    "altToken": "thêm {sym} ({form})",
+    "aboutH": "Về {name}",
+    "faqH": "Câu hỏi về {ticker}",
+    "q1": "Có mua được {name} ({ticker}) bằng USDT không?",
+    "a1Both": "Có. Token cổ phiếu trên {spot}. Hợp đồng vĩnh cửu USDT trên {perp}.",
+    "a1Perp": "Có, qua hợp đồng vĩnh cửu USDT trên {perp}. Chưa sàn nào chúng tôi theo dõi niêm yết token {ticker}.",
+    "a1Spot": "Có, qua token cổ phiếu trên {spot}.",
+    "q2": "Đòn bẩy cao nhất cho {ticker} là bao nhiêu?",
+    "a2": "Tối đa {lev}x trên {list}, theo số liệu từng sàn công bố. Token cổ phiếu được mua không dùng đòn bẩy.",
+    "q3": "Token cổ phiếu {ticker} có trả cổ tức không?",
+    "a3Cash": "{list}: cổ tức tiền mặt ròng được cộng bằng USDT.",
+    "a3Reinvest": "{list}: cổ tức được tái đầu tư và hiện trong số dư token.",
+    "a3NoCash": "{list}: không trả cổ tức tiền mặt.",
+    "a3Perp": "Hợp đồng vĩnh cửu không trả cổ tức, trừ Bitget: cổ tức tiền mặt được thanh toán giữa bên long và short.",
+    "q4": "Có giao dịch {ticker} vào cuối tuần được không?",
+    "a4": "Có. Giao dịch suốt ngày đêm trên {list}.",
+    "a4No": "Chỉ trong giờ mỗi sàn ghi ở bảng trên; chưa sàn nào công bố giao dịch {ticker} 24/7.",
+    "q3Pre": "Mua hợp đồng vĩnh cửu Pre-IPO thì tôi có sở hữu cổ phiếu {name} không?",
+    "a3Pre": "Không. Đây là hợp đồng thanh toán bằng USDT theo giá trị ước tính của {name}. Bạn không có cổ phiếu, suất phân bổ IPO hay quyền cổ đông.",
+    "exLink": "Hướng dẫn cổ phiếu trên {name}",
+    "other": "Thêm cổ phiếu token hóa",
+    "preipoBadge": "Pre-IPO",
+    "changesH": "Thay đổi niêm yết mới nhất",
+    "changeListed": "{exchange} niêm yết {sym}",
+    "changeDelisted": "{exchange} hủy niêm yết {sym}",
+    "campaignsH": "Sự kiện cổ phiếu đang diễn ra"
+  },
+  "about": {
+    "NVDA": "Nvidia thiết kế GPU dùng để huấn luyện và chạy phần lớn mô hình AI, nên NVDA là token cổ phiếu được giao dịch nhiều nhất trên sàn crypto.",
+    "TSLA": "Tesla sản xuất xe điện, pin và robotaxi; cổ phiếu này được dân crypto yêu thích và biến động theo mọi tin tức về Elon Musk.",
+    "AAPL": "Apple làm iPhone, Mac và các dịch vụ đi kèm, là một trong những công ty lớn nhất trong S&P 500.",
+    "MSFT": "Microsoft bán Windows, Office và đám mây Azure, đồng thời là nhà đầu tư lớn nhất của OpenAI.",
+    "COIN": "Coinbase vận hành sàn crypto lớn nhất nước Mỹ, nên COIN thường biến động theo bitcoin.",
+    "MSTR": "Strategy (tên cũ MicroStrategy) nắm giữ nhiều bitcoin nhất trong các công ty niêm yết; MSTR biến động như một khoản cược bitcoin có đòn bẩy.",
+    "HOOD": "Robinhood là ứng dụng giao dịch của Mỹ, cũng phát hành token cổ phiếu riêng ở châu Âu.",
+    "CRCL": "Circle phát hành stablecoin USDC và niêm yết trên Sở Giao dịch Chứng khoán New York năm 2025.",
+    "GOOGL": "Alphabet sở hữu Google Search, YouTube, Android và Google Cloud; GOOGL là cổ phiếu loại A.",
+    "AMZN": "Amazon vận hành cửa hàng trực tuyến lớn nhất và AWS, mảng đám mây lớn nhất.",
+    "SPY": "SPY là ETF SPDR bám theo S&P 500, tức 500 công ty lớn nhất nước Mỹ trong một mã.",
+    "QQQ": "QQQ là ETF của Invesco bám theo Nasdaq-100, gồm các cổ phiếu lớn, nặng về công nghệ trên Nasdaq.",
+    "META": "Meta sở hữu Facebook, Instagram và WhatsApp, và chi rất mạnh cho AI.",
+    "PLTR": "Palantir bán phần mềm dữ liệu và AI cho chính phủ và doanh nghiệp; đây là một trong những cổ phiếu tăng trưởng Mỹ được giao dịch nhiều nhất.",
+    "AMD": "AMD thiết kế CPU và chip tăng tốc AI, cạnh tranh với Intel và Nvidia.",
+    "NFLX": "Netflix là dịch vụ xem video trả phí lớn nhất.",
+    "AVGO": "Broadcom làm chip mạng, chip AI tùy chỉnh và phần mềm hạ tầng.",
+    "TSM": "TSMC sản xuất phần lớn chip tiên tiến của thế giới, gồm cả chip của Nvidia và Apple; TSM là cổ phiếu niêm yết tại Mỹ.",
+    "MU": "Micron sản xuất DRAM và bộ nhớ băng thông cao mà máy chủ AI cần.",
+    "INTC": "Intel thiết kế và sản xuất bộ xử lý cho PC và máy chủ.",
+    "ORCL": "Oracle bán cơ sở dữ liệu và có mảng đám mây tăng trưởng nhanh dành cho AI.",
+    "ARM": "Arm cấp phép thiết kế chip có trong gần như mọi điện thoại thông minh.",
+    "SNDK": "Sandisk sản xuất bộ nhớ flash và SSD; công ty được tách ra từ Western Digital năm 2025.",
+    "CRWV": "CoreWeave cho thuê năng lực GPU Nvidia dưới dạng đám mây AI.",
+    "BMNR": "BitMine Immersion Technologies là công ty niêm yết nắm giữ Ether làm tài sản dự trữ chính.",
+    "GME": "GameStop là chuỗi bán lẻ trò chơi điện tử, tâm điểm của đợt sốt cổ phiếu meme năm 2021.",
+    "BABA": "Alibaba là tập đoàn thương mại điện tử và đám mây lớn nhất Trung Quốc; BABA là cổ phiếu niêm yết tại New York.",
+    "SPCX": "SpaceX chế tạo tên lửa Falcon, Starship và vận hành mạng vệ tinh Starlink.",
+    "OPENAI": "OpenAI, công ty tạo ra ChatGPT, là công ty tư nhân: cổ phiếu chưa niêm yết trên bất kỳ sở giao dịch chứng khoán nào.",
+    "ANTHROPIC": "Anthropic, công ty tạo ra Claude, là công ty tư nhân: cổ phiếu chưa niêm yết trên bất kỳ sở giao dịch chứng khoán nào."
+  },
+  "ex": {
+    "answer": "{name} niêm yết {perp} hợp đồng vĩnh cửu cổ phiếu và {spot} token cổ phiếu, đọc từ dữ liệu thị trường của chính {name} lúc {time} SGT.",
+    "answerPerpOnly": "{name} niêm yết {perp} hợp đồng vĩnh cửu cổ phiếu, đọc từ dữ liệu thị trường của chính {name} lúc {time} SGT.",
+    "answerLev": "Đòn bẩy cao nhất trong các mã bên dưới: {lev}x ({list}).",
+    "answerTsla": "Tesla trên {name}: {symbols}.",
+    "productsH": "{name} có gì",
+    "stepsH": "Cách mua cổ phiếu Mỹ trên {name}",
+    "steps": [
+      [
+        "Mở tài khoản {name}",
+        "Đăng ký qua liên kết có mã của chúng tôi bên dưới và hoàn tất xác minh danh tính."
+      ],
+      [
+        "Nạp USDT",
+        "Chuyển USDT vào tài khoản {name}. Token cổ phiếu và hợp đồng vĩnh cửu USDT đều thanh toán bằng USDT."
+      ],
+      [
+        "Tìm mục cổ phiếu",
+        "Trong ứng dụng: {path}."
+      ],
+      [
+        "Tìm mã",
+        "Tesla là {sym}. Xem bảng bên dưới cho các mã khác."
+      ],
+      [
+        "Mua token hoặc mở vị thế",
+        "Token cổ phiếu là lệnh mua giao ngay để giữ. Hợp đồng vĩnh cửu mở long hoặc short với đòn bẩy bạn chọn."
+      ]
+    ],
+    "stepOneNeutral": [
+      "Mở tài khoản {name}",
+      "Đăng ký trên trang chính thức của {name} và hoàn tất xác minh danh tính."
+    ],
+    "pathNone": "mở Thị trường và tìm mã",
+    "tableH": "Cổ phiếu Mỹ trên {name}",
+    "tableLead": "Mã và đòn bẩy tối đa của các cổ phiếu được tìm nhiều nhất, từ dữ liệu thị trường của chính {name}.",
+    "cols": {
+      "stock": "Cổ phiếu",
+      "token": "Token cổ phiếu",
+      "perp": "Hợp đồng vĩnh cửu",
+      "lev": "Đòn bẩy tối đa"
+    },
+    "excludedH": "Không hỗ trợ tại",
+    "promoH": "Đang diễn ra",
+    "q1": "Có mua được cổ phiếu Mỹ trên {name} không?",
+    "a1": "Có. {name} niêm yết {perp} hợp đồng vĩnh cửu cổ phiếu và {spot} token cổ phiếu, thanh toán bằng USDT.",
+    "a1PerpOnly": "Có, qua hợp đồng vĩnh cửu USDT: {name} niêm yết {perp} hợp đồng. Sàn không có token cổ phiếu.",
+    "q2": "Đòn bẩy tối đa cho hợp đồng vĩnh cửu cổ phiếu trên {name} là bao nhiêu?",
+    "a2": "Tối đa {lev}x trên {list}. Mỗi hợp đồng có giới hạn riêng: xem bảng.",
+    "q3": "Ai không dùng được cổ phiếu trên {name}?",
+    "a3": "{name} không cung cấp tại {list}.",
+    "otherEx": "Cổ phiếu trên các sàn khác",
+    "allTickers": "Tất cả mã"
+  },
+  "exPages": {
+    "bitget": {
+      "title": "Hợp đồng cổ phiếu và rToken trên {name}: mua cổ phiếu Mỹ bằng USDT",
+      "description": "Cách giao dịch cổ phiếu Mỹ trên {name} bằng USDT: hợp đồng vĩnh cửu cổ phiếu tối đa {lev}x, token cổ phiếu rToken, mã, phí, giờ giao dịch và cổ tức, từ dữ liệu của chính {name}.",
+      "h1": "Cổ phiếu Mỹ trên {name}: hợp đồng cổ phiếu và rToken",
+      "intro": "{name} có hai cách đầu tư cổ phiếu Mỹ: token cổ phiếu rToken để mua và giữ, và hợp đồng vĩnh cửu cổ phiếu ký quỹ USDT giao dịch 24/7."
+    },
+    "okx": {
+      "title": "Hướng dẫn xStocks trên {name}: mua cổ phiếu Mỹ bằng USDT trên {name}",
+      "description": "Cách mua xStocks trên {name} bằng USDT: cổ phiếu token hóa, hợp đồng vĩnh cửu cổ phiếu tối đa {lev}x, hợp đồng Pre-IPO, mã và giờ giao dịch, từ dữ liệu của chính {name}.",
+      "h1": "xStocks và hợp đồng vĩnh cửu cổ phiếu trên {name}",
+      "intro": "{name} niêm yết token xStocks giao dịch 24/7 trên thị trường giao ngay, cùng hợp đồng vĩnh cửu cổ phiếu USDT và hợp đồng Pre-IPO."
+    },
+    "binance": {
+      "title": "Cổ phiếu trên {name}: token bStocks và hợp đồng vĩnh cửu cổ phiếu USDT",
+      "description": "Có mua được cổ phiếu Mỹ trên {name} không? Có: token bStocks và hợp đồng vĩnh cửu cổ phiếu USDT. Mã, giờ giao dịch, phí và cổ tức từ dữ liệu của chính {name}.",
+      "h1": "Cổ phiếu Mỹ trên {name}: bStocks và hợp đồng vĩnh cửu cổ phiếu",
+      "intro": "{name} niêm yết token bStocks trên giao ngay và hợp đồng vĩnh cửu TradFi ký quỹ USDT cho cổ phiếu Mỹ và ETF."
+    },
+    "bybit": {
+      "title": "xStocks và hợp đồng vĩnh cửu cổ phiếu trên {name}: giao dịch cổ phiếu Mỹ bằng USDT",
+      "description": "Cách giao dịch cổ phiếu Mỹ trên {name}: token xStocks, hợp đồng vĩnh cửu cổ phiếu USDT tối đa {lev}x, mã, phí và giờ giao dịch từ dữ liệu của chính {name}.",
+      "h1": "Cổ phiếu Mỹ trên {name}: xStocks và hợp đồng vĩnh cửu cổ phiếu",
+      "intro": "{name} niêm yết token xStocks trên giao ngay và hợp đồng vĩnh cửu USDT cho cổ phiếu và ETF trong mục TradFi."
+    },
+    "gate-io": {
+      "title": "Cổ phiếu trên {name}: xStocks, token Ondo và hợp đồng vĩnh cửu cổ phiếu USDT",
+      "description": "Cách giao dịch cổ phiếu Mỹ trên {name} bằng USDT: token xStocks và Ondo, hợp đồng vĩnh cửu cổ phiếu tối đa {lev}x, mã và phí từ dữ liệu của chính {name}.",
+      "h1": "Cổ phiếu Mỹ trên {name}: token và hợp đồng vĩnh cửu cổ phiếu",
+      "intro": "{name} niêm yết cả token cổ phiếu xStocks lẫn Ondo trên giao ngay, cùng hợp đồng vĩnh cửu cổ phiếu USDT, gồm cả các mã Pre-IPO."
+    },
+    "kraken": {
+      "title": "xStocks trên {name}: cổ phiếu token hóa và hợp đồng vĩnh cửu cổ phiếu",
+      "description": "Cách giao dịch xStocks trên {name}: cổ phiếu Mỹ token hóa, hợp đồng vĩnh cửu xStocks tối đa {lev}x, mã, giờ giao dịch và phí từ dữ liệu của chính {name}.",
+      "h1": "xStocks và hợp đồng vĩnh cửu cổ phiếu trên {name}",
+      "intro": "{name} niêm yết token xStocks mua được bằng USD, USDC hoặc USDG, cùng hợp đồng vĩnh cửu xStocks."
+    },
+    "mexc": {
+      "title": "Hợp đồng cổ phiếu trên {name}: giao dịch cổ phiếu Mỹ bằng USDT",
+      "description": "Cách giao dịch cổ phiếu Mỹ trên {name}: hợp đồng vĩnh cửu cổ phiếu tối đa {lev}x, token xStocks và Ondo, mã và phí từ dữ liệu của chính {name}.",
+      "h1": "Cổ phiếu Mỹ trên {name}: hợp đồng cổ phiếu và token",
+      "intro": "{name} niêm yết hợp đồng vĩnh cửu cổ phiếu USDT, nhiều hợp đồng có phí maker bằng 0, cùng token cổ phiếu xStocks và Ondo trên giao ngay."
+    }
+  },
+  "exNames": {
+    "bitget": "Bitget",
+    "okx": "OKX",
+    "binance": "Binance",
+    "bybit": "Bybit",
+    "gate-io": "Gate",
+    "kraken": "Kraken",
+    "mexc": "MEXC"
+  }
 }

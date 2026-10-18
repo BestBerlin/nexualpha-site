@@ -427,6 +427,26 @@
     "verified_at": "2026-10-12"
   },
   {
+    "id": "nexualpha-tokenized-stocks",
+    "platform": "exchange",
+    "name": "NexuAlpha tokenized-stocks listing changes",
+    "url": "https://nexualpha.com/intel/tokenized-stocks.json",
+    "topics": [
+      "exchange-announcements",
+      "tokenized-stocks",
+      "own-feed"
+    ],
+    "access_method": "public_json",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Own feed: diff of 7 exchanges' public instrument lists every 3 h (stock tokens, stock perps, pre-IPO).",
+    "verified_official": true,
+    "verified_via": "pilot-01-prototype/docs/tokenized-stocks-refresh.md",
+    "verified_at": "2026-10-18"
+  },
+  {
     "id": "ethereum-blog",
     "platform": "project",
     "name": "Ethereum Foundation blog RSS",
