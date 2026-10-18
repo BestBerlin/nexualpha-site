@@ -39,6 +39,9 @@ import { createFlashMemory } from './server/flash-memory.mjs';
 import { createPositionRadar } from './server/position-radar.mjs';
 import { createTickerFeed, TICKER_PATH } from './server/ticker-feed.mjs';
 import { createMoversFeed, MOVERS_PATH } from './server/movers-feed.mjs';
+import { installUndiciCloseRaceGuard } from './server/undici-close-race.mjs';
+
+installUndiciCloseRaceGuard();
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
