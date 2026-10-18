@@ -12,7 +12,7 @@ def monitor(url, stop, samples):
     while not stop.is_set():
         started = time.monotonic()
         try:
-            with urllib.request.urlopen(url, timeout=2) as response:
+            with urllib.request.urlopen(url, timeout=4) as response:
                 status = response.status
         except Exception as error:
             status = str(error)
@@ -30,26 +30,30 @@ def main():
     command = args.command[1:] if args.command[:1] == ['--'] else args.command
     if not command:
         parser.error('a cutover command is required')
-    stop, samples = threading.Event(), []
+    stop, samples, cutover_from = threading.Event(), [], 0
     thread = threading.Thread(target=monitor, args=(args.url, stop, samples))
     thread.start()
     result = 1
     try:
-        # Baseline: wait for at least 3 completed probes (max 10 s). A cold "/?cutover_probe=1" can take over a second
-        # from the Mac, and judging an empty sample list after a fixed 1 s aborted healthy cutovers (2026-10-19, twice).
-        waited = time.monotonic()
-        while len(samples) < 3 and time.monotonic() - waited < 10:
-            time.sleep(0.1)
-        # A broken baseline must not trigger a cutover.
-        if len(samples) < 3 or any(status != 200 for _, status in samples):
+        # Baseline: wait up to 20 s for 3 consecutive 200s (one slow first request from a busy laptop used to abort
+        # the whole deploy twice on 2026-10-19). Only samples taken after the baseline passes count as cutover failures.
+        baseline_ok, deadline = False, time.monotonic() + 20
+        while time.monotonic() < deadline:
+            time.sleep(0.25)
+            tail = [status for _, status in samples[-3:]]
+            if len(tail) == 3 and all(status == 200 for status in tail):
+                baseline_ok = True
+                break
+        if not baseline_ok:
             print('ABORT baseline is not consistently 200', file=sys.stderr)
         else:
+            cutover_from = len(samples)
             result = subprocess.call(command)
             time.sleep(3)
     finally:
         stop.set()
         thread.join()
-    failures = [(timestamp, status) for timestamp, status in samples if status != 200]
+    failures = [(timestamp, status) for timestamp, status in samples[cutover_from:] if status != 200]
     print('samples=%d non_200=%d command_exit=%d' % (len(samples), len(failures), result))
     return 1 if failures else result
 
