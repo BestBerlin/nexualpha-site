@@ -26,7 +26,7 @@ ALLOW_CTA_CHANGE=1 deploy/deploy-local.sh    # only when invite/registration lin
 7. **Pre-cutover gate:** `npm run qa:regression -- --base http://127.0.0.1:<tunnel>` against the staged
    container through an SSH tunnel. A failure removes the standby; live is untouched.
 8. `poll-cutover.py` wraps `cutover-remote.py`: the home page is polled every 200 ms and must stay 200.
-9. **Post-cutover checks:** public buildId, 13 routes, invite codes on the pages, and the `/go` 302 targets
+9. **Post-cutover checks:** public buildId, 13 routes, invite codes on the pages (bare codes, since the pages link through `/go`), and the `/go` 302 targets
    (`okx` nexu888, `okx-apk` NEXU888, `binance` 11350287, `bitget` C6PRAF). Then `qa:regression` runs against
    production. Any failure runs `rollback-remote.py` and prints `ROLLED_BACK` (exit 3; exit 4 if the rollback itself failed).
 10. Syncs `campaign-briefs.json` into the content mount and keeps the 5 newest releases on the server.
