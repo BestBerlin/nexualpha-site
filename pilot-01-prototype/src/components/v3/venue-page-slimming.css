@@ -1,0 +1,48 @@
+.v3-profile-page .venue-section-disclosure {
+  margin-block: 16px;
+  border-block-end: 1px solid var(--line, #25313e);
+}
+.v3-profile-page .venue-section-disclosure > summary {
+  display: list-item;
+  min-block-size: 44px;
+  padding: 14px 4px;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.v3-profile-page .venue-section-disclosure > summary:focus-visible,
+.v3-profile-page .venue-announcement-preview a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+.v3-profile-page .venue-section-disclosure__body > .v2-section {
+  margin-block: 16px;
+}
+.v3-profile-page .venue-announcement-preview {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.v3-profile-page .venue-announcement-preview li + li {
+  border-block-start: 1px solid var(--line, #25313e);
+}
+.v3-profile-page .venue-announcement-preview a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  min-block-size: 44px;
+  padding-block: 12px;
+  overflow-wrap: anywhere;
+}
+.v3-profile-page .venue-announcement-preview time {
+  font-size: .85rem;
+  color: var(--muted, #a4afbd);
+}
+.v3-profile-page .v3-activity-panel__actions a,
+.v3-profile-page .v3-activity-panel__actions summary {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+}

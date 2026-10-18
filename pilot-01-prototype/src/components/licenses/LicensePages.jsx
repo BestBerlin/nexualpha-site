@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
-import { LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseRecords, licenseCopy, licenseTitle, licenseAnswer, licensePath, licenseResearchForCountry, venueDisplayName } from '../../data/licenses.js';
+import { LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseRecords, licenseTitle, licenseAnswer, licensePath, licenseResearchForCountry, venueDisplayName } from '../../data/licenses.js';
 import { licenseSignup } from '../../data/licenses-cta.js';
 import { licenseRegionName } from '../../data/license-region-names.js';
 import { localizedHref } from '../../data/locale-routing.js';
 import { isTurkeyUnlistedVenue } from '../../data/partner-geo-policy.js';
 import './licenses.css';
-import { licenseTypeLabel, licenseScopeNote, moreFactsLabel, publicFactValue } from './license-presentation.js';
+import { licenseProfileCopy, publicFactValue } from './license-profile-copy.js';
 
 // Static region names (src/data/license-region-names.js): Intl.DisplayNames differs between server and browser ICU.
 const countryName = (country, locale) => licenseRegionName(country.code, locale, country.name);
 const benchmarkLabels = { en: 'Compare exchange fees', 'zh-Hans': '比较交易所手续费', es: 'Comparar comisiones', 'pt-BR': 'Comparar taxas', tr: 'Borsa ücretlerini karşılaştır', vi: 'So sánh phí giao dịch', id: 'Bandingkan biaya bursa', ja: '取引所手数料を比較', ko: '거래소 수수료 비교', fr: 'Comparer les frais', de: 'Börsengebühren vergleichen', ar: 'مقارنة رسوم التداول', ur: 'ایکسچینج فیس کا موازنہ', uk: 'Порівняти комісії бірж' };
 const link = (path, locale) => localizedHref(path, { locale });
 export function LicenseTable({ records, locale, market }) {
-  const t = licenseCopy(locale);
-  const rows = records.filter(record => publicFactValue(record.entityName) && publicFactValue(record.type)).map(record => ({
-    record,
-    key: `${record.exchange}-${record.country}-${record.entityName}`,
-    country: LICENSE_COUNTRIES.find(item => item.code === record.country),
-    signup: licenseSignup(record, { locale, market }),
-    name: venueDisplayName(record.exchange),
-    status: t.statuses?.[record.status] || record.status,
-  }));
+  const t = licenseProfileCopy(locale);
+  const rows = records.map(sourceRecord => {
+    const record = { ...sourceRecord, ...Object.fromEntries(["entityName", "regulator", "type", "number", "statusNote"].map(key => [key, publicFactValue(sourceRecord[key])])) };
+    return {
+      record,
+      key: `${record.exchange}-${record.country}-${sourceRecord.entityName}`,
+      country: LICENSE_COUNTRIES.find(item => item.code === record.country),
+      signup: licenseSignup(record, { locale, market }),
+      name: venueDisplayName(record.exchange),
+      status: t.statuses?.[record.status] || publicFactValue(record.status),
+    };
+  });
   // Türkiye pages state the SPK fact for an unlisted venue as plain text, never as a link to it (tr-bitget-sweep).
   const exchangeLink = ({ record, name }) => isTurkeyUnlistedVenue(record.exchange, { locale, market }) ? name : <a href={link(`/exchanges/${record.exchange}`, locale)}>{name}</a>;
   const signupLink = ({ record, signup }) => signup && <a className="nx-license-cta" href={signup} data-cta-kind="registration" data-cta-platform={record.exchange} data-cta-placement="license-directory" rel="sponsored nofollow">{t.open}</a>;
@@ -29,7 +32,7 @@ export function LicenseTable({ records, locale, market }) {
     {rows.map(item => {
       const { record } = item;
       return <tr key={item.key}><th scope="row">{exchangeLink(item)}{signupLink(item)}</th>
-        <td>{countryLink(item)}</td><td><bdi>{record.entityName}</bdi></td><td>{record.regulator}</td><td>{licenseTypeLabel(record.type, locale)}{publicFactValue(record.number) && <><br /><bdi>{record.number}</bdi></>}</td><td>{item.status}{licenseScopeNote(record, locale) && <p dir="auto">{licenseScopeNote(record, locale)}</p>}</td><td><a href={record.sourceUrl} target="_blank" rel="noopener noreferrer">{t.source}</a></td><td><time dateTime={record.lastChecked}>{record.lastChecked}</time></td></tr>;
+        <td>{countryLink(item)}</td><td><bdi>{record.entityName}</bdi></td><td>{record.regulator}</td><td>{record.type}{record.number && <><br /><bdi>{record.number}</bdi></>}</td><td>{item.status}{record.statusNote && <p lang="en" dir="ltr">{record.statusNote}</p>}</td><td><a href={record.sourceUrl} target="_blank" rel="noopener noreferrer">{t.source}</a></td><td><time dateTime={record.lastChecked}>{record.lastChecked}</time></td></tr>;
     })}
   </tbody></table>
   <ul className="nx-license-cards" aria-label={t.title}>
@@ -37,11 +40,11 @@ export function LicenseTable({ records, locale, market }) {
       const { record } = item;
       return <li key={item.key} className={`nx-license-card nx-license-card--${record.status.replace(/\s+/g, '-')}`}>
         <div className="nx-license-card__head"><strong>{exchangeLink(item)}</strong><span className="nx-license-card__status">{item.status}</span></div>
-        {licenseScopeNote(record, locale) && <p dir="auto">{licenseScopeNote(record, locale)}</p>}
+        {record.statusNote && <p lang="en" dir="ltr">{record.statusNote}</p>}
         <dl>
           <div><dt>{t.country}</dt><dd>{countryLink(item)} · {record.regulator}</dd></div>
           <div><dt>{t.entity}</dt><dd><bdi>{record.entityName}</bdi></dd></div>
-          <div><dt>{t.type}</dt><dd>{licenseTypeLabel(record.type, locale)}{publicFactValue(record.number) && <><br /><bdi>{record.number}</bdi></>}</dd></div>
+          <div><dt>{t.type}</dt><dd>{record.type}{record.number && <><br /><bdi>{record.number}</bdi></>}</dd></div>
         </dl>
         <div className="nx-license-card__foot"><a href={record.sourceUrl} target="_blank" rel="noopener noreferrer">{t.source} ↗</a><time dateTime={record.lastChecked}>{record.lastChecked}</time>{signupLink(item)}</div>
       </li>;
@@ -49,7 +52,7 @@ export function LicenseTable({ records, locale, market }) {
   </ul>{!records.length && <p role="status">{t.empty}</p>}</div>;
 }
 export function LicenseDirectoryPage({ locale = 'en', country: slug, market }) {
-  const t = licenseCopy(locale);
+  const t = licenseProfileCopy(locale);
   const country = LICENSE_COUNTRIES.find(item => item.slug === slug);
   const [exchange, setExchange] = useState('');
   const [selectedCountry, setCountry] = useState('');
@@ -75,6 +78,6 @@ export function LicenseDirectoryPage({ locale = 'en', country: slug, market }) {
 export function ExchangeLicenseSection({ slug, locale = 'en', market }) {
   const records = licenseRecords.filter(record => record.exchange === slug);
   if (!records.length) return null;
-  const t = licenseCopy(locale);
-  return <section className="v2-shell nx-licenses" id="licenses"><h2>{t.title}</h2><LicenseTable records={records.slice(0, 3)} locale={locale} market={market} />{records.length > 3 && <details><summary>{moreFactsLabel(locale)} ({records.length})</summary><LicenseTable records={records.slice(3)} locale={locale} market={market} /></details>}<a href={link('/licenses', locale)}>{t.all} · {t.title}</a></section>;
+  const t = licenseProfileCopy(locale);
+  return <section className="v2-shell nx-licenses" id="licenses"><h2>{t.title}</h2><LicenseTable records={records} locale={locale} market={market} /><a href={link('/licenses', locale)}>{t.all} · {t.title}</a></section>;
 }
