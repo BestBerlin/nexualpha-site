@@ -5,10 +5,12 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { generate, dailySlotDue, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
+import { moversWithFallback, generate, dailySlotDue, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
 import { weightedLength, xClient } from '../x-poster/x-poster.mjs';
 import { sendPhoto, token } from '../alert-sender/alert-sender.mjs';
 
+// A real 1x1 RGBA PNG (valid IHDR/IDAT/IEND with CRCs), so tests exercise the PNG-only upload guard honestly.
+const TINY_PNG = readFileSync(new URL('./fixtures/tiny.png', import.meta.url));
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/daily.json', import.meta.url), 'utf8'));
 const now = Date.parse('2026-10-13T01:00:00Z');
 const data = () => normalize(fixture.movers, fixture.market, now);
@@ -28,14 +30,31 @@ test('fixture renders an actual 1200x675 PNG and brand/logo/funding/ten rows', (
 });
 test('four concise owner-page texts have one 23-unit URL, <=280 weighted units, no domain names or codes', () => {
   for (const locale of ['zh-Hans', 'en']) for (const platform of ['x', 'tg']) {
-    const text = postText(data(), locale, platform), lines = text.split('\n');
+    const text = postText(data(), locale, platform);
+    // X gets one trailing tag line after a blank line; Telegram stays tag-free.
+    const [body, tagLine] = platform === 'x' ? text.split('\n\n') : [text, null];
+    const lines = body.split('\n');
     assert.equal(lines.length, 4);
     assert.ok(weightedLength(text) <= 280);
     assert.equal(weightedLength(lines.at(-1)), 23);
     assert.equal(lines.at(-1), `https://nexualpha.com/${locale === 'en' ? 'en' : 'zh-hans'}?src=${platform}-daily`);
     assert.doesNotMatch(lines.slice(0, -1).join('\n'), /\b[a-z0-9-]+\.[a-z]{2,}\b/i);
-    assert.doesNotMatch(text, /#|referral|promo code|预测|disclaimer/i);
+    assert.doesNotMatch(body, /#|referral|promo code|预测|disclaimer/i);
+    if (platform === 'x') {
+      const tags = tagLine.split(' ').concat(body.match(/\$[A-Z][A-Z0-9]+/g) || []).filter((t, i, a) => a.indexOf(t) === i);
+      assert.ok(tags.length >= 2 && tags.length <= 4, tags.join(' '));
+      assert.ok(tagLine.split(' ').every((t) => /^[#$]\S+$/.test(t)), tagLine);
+      assert.ok(tagLine.split(' ').some((t) => (locale === 'en' ? ['#crypto', '#Bitcoin', '#CryptoNews', '#Web3'] : ['#加密货币', '#比特币', '#crypto', '#CryptoNews']).includes(t)), tagLine);
+      assert.equal(text, postText(data(), locale, platform), 'deterministic');
+    } else assert.doesNotMatch(text, /#/);
   }
+});
+test('X daily text carries today\'s hot keyword and inline cashtags for listed movers', () => {
+  const keywords = [{ key: 'FOMC', score: 150, sources: ['calendar'] }, { key: 'BTC', score: 60, sources: ['whales'] }];
+  const text = postText(data(), 'en', 'x', { keywords, now });
+  assert.match(text, /#FOMC/);
+  const syms = [...data().up, ...data().down].slice(0, 1).map((r) => r.sym);
+  assert.match(text, new RegExp(`\\$${syms[0]}\\b`));
 });
 test('SGT date rolls over eight hours ahead of UTC', () => {
   assert.equal(sgtDay('2026-10-12T16:00:00Z'), '2026-10-13');
@@ -92,11 +111,12 @@ test('production dry-run reads both owner endpoints and checks freshness after f
   const at = new Date(now + 500).toISOString();
   f.movers.generatedAt = at; f.market.generatedAt = at; f.market.funding.generatedAt = at;
   globalThis.fetch = async (url) => { urls.push(url); clock = now + 500; return Response.json(url.endsWith('/api/movers.json') ? f.movers : f.market); };
-  const summary = await main(['--out', out], {});
+  const summary = await main(['--out', out], { X_TRENDING: 'off' });
   assert.equal(summary.mode, 'dry-run'); assert.equal(summary.sourceTimes.movers, at);
-  assert.deepEqual(urls.sort(), ['https://nexualpha.com/api/movers.json', 'https://nexualpha.com/intel/market-events.json']);
+  // Feeds: exactly the two owner endpoints (keyword sources are separate, optional and fail soft).
+  assert.deepEqual(urls.filter((u) => /movers|market-events/.test(u)).sort(), ['https://nexualpha.com/api/movers.json', 'https://nexualpha.com/intel/market-events.json']);
 });
-const bundle = () => ({ summary: { day: data().day }, png: Buffer.from('89504e470d0a1a0a', 'hex'), texts: Object.fromEntries(['en', 'zh-Hans'].flatMap((l) => ['x', 'tg'].map((p) => [`${p}-${l}.txt`, postText(data(), l, p)]))) });
+const bundle = () => ({ summary: { day: data().day }, png: TINY_PNG, texts: Object.fromEntries(['en', 'zh-Hans'].flatMap((l) => ['x', 'tg'].map((p) => [`${p}-${l}.txt`, postText(data(), l, p)]))) });
 
 test('same-day catch-up is due after 09:00 SGT; reboot preview never publishes or changes a journal', async (t) => {
   assert.equal(dailySlotDue('2026-10-15T00:59:59Z'), false);
@@ -155,23 +175,23 @@ test('exclusive lock, invalid journal and account mismatch prevent publication',
 test('existing OAuth1 X helper uploads multipart PNG and attaches media ID', async () => {
   const calls = [], credentials = { consumerKey: 'example', consumerSecret: 'example', accessToken: 'example', accessSecret: 'example' };
   const client = xClient(credentials, async (url, opts) => { calls.push([url, opts]); return Response.json(url.includes('media/upload') ? { media_id_string: '1234567890123456789' } : { data: { id: '77' } }); });
-  const id = await client.uploadImage(Buffer.from('89504e470d0a1a0a', 'hex'));
+  const id = await client.uploadImage(TINY_PNG);
   assert.equal(id, '1234567890123456789'); assert.match(calls[0][1].headers.Authorization, /^OAuth /);
   assert.equal(calls[0][1].body.get('media_category'), 'tweet_image'); assert.equal(calls[0][1].body.get('media').type, 'image/png');
   assert.equal(calls[0][1].headers['Content-Type'], undefined);
   assert.equal((await client.send('hello', [id])).ok, true);
   assert.deepEqual(JSON.parse(calls[1][1].body), { text: 'hello', media: { media_ids: [id] } });
-  await assert.rejects(xClient(credentials, async () => Response.json({}, { status: 403 })).uploadImage(Buffer.from('89504e470d0a1a0a', 'hex')), /upload failed/);
+  await assert.rejects(xClient(credentials, async () => Response.json({}, { status: 403 })).uploadImage(TINY_PNG), /upload failed/);
 });
 test('community token helper and sendPhoto use existing bot with multipart plain caption', async (t) => {
   const file = path.join(temp(t), 'bot.env'); writeFileSync(file, 'COMMUNITY_BOT_TOKEN="example"\n'); assert.equal(token(file), 'example');
-  const result = await sendPhoto('example', '@NexuAlphaClub', Buffer.from('png'), 'caption', async (url, opts) => {
+  const result = await sendPhoto('example', '@NexuAlphaClub', TINY_PNG, 'caption', async (url, opts) => {
     assert.equal(url, 'https://api.telegram.org/botexample/sendPhoto'); assert.equal(opts.body.get('chat_id'), '@NexuAlphaClub');
     assert.equal(opts.body.get('caption'), 'caption'); assert.equal(opts.body.get('parse_mode'), null);
     assert.equal(opts.body.get('photo').type, 'image/png'); return Response.json({ ok: true, result: { message_id: 22 } });
   });
   assert.deepEqual(result, { ok: true, id: 22 });
-  assert.equal((await sendPhoto('example', '@NexuAlphaClub', Buffer.from('png'), 'caption', async () => Response.json({ ok: false }, { status: 403 }))).ok, false);
+  assert.equal((await sendPhoto('example', '@NexuAlphaClub', TINY_PNG, 'caption', async () => Response.json({ ok: false }, { status: 403 }))).ok, false);
 });
 test('one-sided market (one gainer, five losers) still renders truthfully', () => {
   for (const [up, down] of [[1, 5], [0, 5], [5, 0]]) {
@@ -182,7 +202,7 @@ test('one-sided market (one gainer, five losers) still renders truthfully', () =
     assert.equal(renderCard(d).readUInt32BE(16), 1200);
     for (const locale of ['zh-Hans', 'en']) {
       const text = postText(d, locale, 'x');
-      assert.equal(text.split('\n').length, 4); assert.doesNotMatch(text, /undefined/);
+      assert.equal(text.split('\n\n')[0].split('\n').length, 4); assert.doesNotMatch(text, /undefined/);
       assert.equal(/Top gainer|领涨/.test(text), up > 0); assert.equal(/Top loser|领跌/.test(text), down > 0);
     }
   }
@@ -209,7 +229,7 @@ test('failed deliveries log HTTP status and API message with secrets redacted', 
   const credentials = { consumerKey: 'ckey-example', consumerSecret: 'csecret-example', accessToken: 'atoken-example', accessSecret: 'asecret-example' };
   const client = xClient(credentials, async (url) => url.includes('/users/me') ? Response.json({ data: { username: 'NexuAlpha' } })
     : Response.json({ errors: [{ message: 'Your app is not permitted to access ckey-example' }] }, { status: 403 }));
-  await assert.rejects(client.uploadImage(Buffer.from('89504e470d0a1a0a', 'hex')), /upload failed: HTTP 403 Your app is not permitted/);
+  await assert.rejects(client.uploadImage(TINY_PNG), /upload failed: HTTP 403 Your app is not permitted/);
   const telegramSend = (chat, png, caption) => sendPhoto(tok, chat, png, caption, async () => Response.json({ ok: false, description: `Bad Request: chat not found bot${tok}` }, { status: 400 }));
   const err = await postDaily({ bundle: b, stateDir, client, telegramSend, secrets: [tok, ...Object.values(credentials)] }).catch((e) => e);
   assert.match(err.message, /Daily x delivery unconfirmed \(X image upload failed: HTTP 403 Your app is not permitted to access <redacted>\)/);
@@ -246,7 +266,32 @@ test('CLI reads the market feed from DAILY_SOCIAL_MARKET_FILE instead of the net
   const realFetch = globalThis.fetch, urls = [];
   globalThis.fetch = async (url) => { urls.push(String(url)); return new Response(JSON.stringify(f.movers), { status: 200 }); };
   t.after(() => { globalThis.fetch = realFetch; });
-  const summary = await main(['--out', dir], { DAILY_SOCIAL_MARKET_FILE: file, DAILY_SOCIAL_MOVERS_URL: 'http://127.0.0.1:18361/api/movers.json' });
-  assert.deepEqual(urls, ['http://127.0.0.1:18361/api/movers.json']);
+  const summary = await main(['--out', dir], { DAILY_SOCIAL_MARKET_FILE: file, DAILY_SOCIAL_MOVERS_URL: 'http://127.0.0.1:18361/api/movers.json', X_TRENDING: 'off' });
+  assert.deepEqual(urls.filter((u) => /movers|market-events/.test(u)), ['http://127.0.0.1:18361/api/movers.json']);
   assert.equal(summary.sourceTimes.market, stamp);
+});
+
+test('stale web movers fall back to the collector market file with the site builder; stale market does not', async () => {
+  const at = Date.parse(fixture.market.generatedAt);
+  const coins = { coins: ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'ADA', 'LINK', 'SUI', 'AVAX', 'TAO', 'NEAR'].map((symbol, i) => ({ rank: i + 1, symbol, slug: symbol.toLowerCase(), name: symbol, category: 'layer1', price: 1 })) };
+  const market = structuredClone(fixture.market);
+  market.market = { majors: [{ symbol: 'BTCUSDT', price: 81000, change24hPct: -1.2 }, { symbol: 'ETHUSDT', price: 2400, change24hPct: 2.1 }, { symbol: 'SOLUSDT', price: 103, change24hPct: -3 }],
+    movers: [{ symbol: 'TAOUSDT', change24hPct: 12, quoteVolume24h: 9e7 }, { symbol: 'SUIUSDT', change24hPct: -9, quoteVolume24h: 9e7 }, { symbol: 'NEARUSDT', change24hPct: 5, quoteVolume24h: 9e7 }] };
+  const staleWeb = { ...fixture.movers, generatedAt: new Date(at - 24 * 3600000).toISOString(), stale: true };
+  const fb = await moversWithFallback({ movers: staleWeb, market, now: at + 1000, readCoins: async () => coins });
+  assert.equal(fb.source, 'market-events-fallback');
+  assert.equal(Date.parse(fb.movers.generatedAt), Date.parse(market.generatedAt));
+  const d = normalize(fb.movers, market, at + 1000);
+  assert.equal(d.up[0].sym, 'TAO'); assert.equal(d.down[0].sym, 'SUI');
+  const fresh = await moversWithFallback({ movers: fixture.movers, market, now: at + 1000, readCoins: () => assert.fail('not needed') });
+  assert.equal(fresh.source, 'web');
+  const deadMarket = { ...market, generatedAt: new Date(at - 3600000).toISOString() };
+  assert.equal((await moversWithFallback({ movers: staleWeb, market: deadMarket, now: at + 1000, readCoins: async () => coins })).source, 'web');
+});
+test('X upload guard accepts the real PNG fixture and still refuses non-PNG bytes', async () => {
+  assert.equal(TINY_PNG.subarray(0, 8).toString('hex'), '89504e470d0a1a0a'); assert.equal(TINY_PNG.readUInt32BE(16), 1);
+  let called = false;
+  const client = xClient({ consumerKey: 'k', consumerSecret: 's', accessToken: 't', accessSecret: 'ts' }, async () => { called = true; return Response.json({ media_id_string: '1' }); });
+  assert.equal(await client.uploadImage(TINY_PNG), '1'); called = false;
+  await assert.rejects(client.uploadImage(Buffer.from('\x00\x00\x00\x18ftypmp42')), /only PNG/); assert.equal(called, false);
 });

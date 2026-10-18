@@ -200,11 +200,17 @@ export function inlineCashtags(text, syms) {
  * budget (so URLs/required parts stay intact). Drops tags (never below MIN_TAGS) before
  * truncating bodies that cannot shrink. Returns { text, tags }.
  */
-export function composeWithTags({ body, fit, max, weightedLength, ...sel }) {
+export function composeWithTags({ body, fit, max, weightedLength, top = false, ...sel }) {
   const chosen = selectTags({ text: body, ...sel });
   let tags = chosen.all;
   const coinTags = chosen.topics.filter((t) => t.coin).map((t) => t.coin);
   const build = (list, b) => {
+    // Long posts: the whole tag line goes right under the hook (first lines, visible before "Show more").
+    if (top) {
+      const i = b.indexOf('\n');
+      const out = i < 0 ? `${b}\n\n${list.join(' ')}` : `${b.slice(0, i)}\n\n${list.join(' ')}\n${b.slice(i)}`;
+      return { text: out.replace(/\n{3,}/g, '\n\n'), tags: list };
+    }
     const inl = inlineCashtags(b, coinTags.filter((c) => list.includes(`$${c}`)));
     const trailing = list.filter((t) => !(t.startsWith('$') && inl.inlined.includes(t.slice(1))));
     return { text: trailing.length ? `${inl.text}\n\n${trailing.join(' ')}` : inl.text, tags: list };

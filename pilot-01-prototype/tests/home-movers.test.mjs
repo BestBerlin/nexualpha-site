@@ -104,6 +104,16 @@ test("feed: /api/movers.json serves the cached snapshot, 503 without data", asyn
   await feed.read(); assert.equal(calls, 1, "cached");
   clock += 31 * 1000; await feed.read(); assert.equal(calls, 2, "rebuilt after 30 s");
   const none = createMoversFeed({ readBinanceRows: async () => { throw new Error("offline"); } });
+  // Collector-only frames (Binance unreachable) are minutes old by design; they must keep replacing the board.
+  let at = Date.parse("2026-10-18T08:03:00Z"), feedAt = at - 3 * 60 * 1000;
+  const collectorOnly = createMoversFeed({ readBinanceRows: async () => null, readCoins: async () => COINS, readMarketEvents: async () => ({ ...FEED, generatedAt: new Date(feedAt).toISOString() }), now: () => at });
+  const first = await collectorOnly.read();
+  assert.equal(first.source, "market-events"); assert.ok(!first.stale, "a 3-minute-old collector frame is fresh");
+  at += 6 * 60 * 1000; feedAt = at - 60 * 1000;
+  await collectorOnly.refresh();
+  assert.equal((await collectorOnly.read()).generatedAt, new Date(feedAt).toISOString(), "next collector frame replaces the old one");
+  feedAt = at - 20 * 60 * 1000; at += 31 * 1000;
+  await collectorOnly.refresh(); assert.equal((await collectorOnly.read()).stale, true, "a dead collector still reads as stale");
   assert.equal((await none.respond()).status, 503);
 });
 

@@ -3,7 +3,9 @@ import { readFileSync, mkdirSync, writeFileSync, openSync, closeSync, unlinkSync
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { weightedLength, loadCredentials, xClient } from '../x-poster/x-poster.mjs';
+import { weightedLength, loadCredentials, xClient, keywordContext } from '../x-poster/x-poster.mjs';
+import { composeWithTags, dailyKeywords } from '../x-poster/hashtags.mjs';
+import { buildMoversSnapshot } from '../../pilot-01-prototype/src/data/movers.js';
 import { token, sendPhoto, requireCurrentMarket } from '../alert-sender/alert-sender.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
@@ -72,7 +74,9 @@ export function normalize(movers, market, now) {
   return { day: sgtDay(now), up, down, total, largest, funding,
     sourceTimes: { movers: movers.generatedAt, market: market.generatedAt, funding: market.funding.generatedAt } };
 }
-export function postText(data, locale, platform) {
+// X only: 2-4 hashtags (coins inline as cashtags, today's hot keyword, rotated evergreen), shared with ops/x-poster.
+// `tagging` = { keywords, now } from keywordContext/dailyKeywords; without it the X text still gets 2 tags.
+export function postText(data, locale, platform, tagging = null) {
   channelFor(locale);
   if (!['x', 'tg'].includes(platform)) throw new Error('Invalid platform');
   const zh = locale === 'zh-Hans';
@@ -82,7 +86,10 @@ export function postText(data, locale, platform) {
       data.down[0] && `${zh ? '领跌' : 'Top loser'} ${data.down[0].sym} ${pct(data.down[0].change)}`].filter(Boolean).join(' · '),
     zh ? `24h 已观测爆仓 ≥${money(data.total)}` : `24h observed liquidations ≥${money(data.total)}`, url].join('\n');
   if (weightedLength(text) > 280) throw new Error('Text exceeds X weighted limit');
-  return text;
+  if (platform !== 'x') return text;
+  const out = composeWithTags({ body: text, fit: null, max: 280, weightedLength, key: `daily-social:${data.day}`, locale,
+    keywords: tagging?.keywords || [], extraTickers: [...data.up, ...data.down].map((r) => r.sym), now: tagging?.now ?? Date.parse(`${data.day}T01:00:00Z`) });
+  return out.text;
 }
 // Card labels. zh-Hans glyphs come from the bundled Noto Sans SC subset (fonts/); symbols, numbers and venue names stay Inter.
 export const CARD_LABELS = Object.freeze({
@@ -128,14 +135,14 @@ function writeSummary(file, summary) {
   const tmp = `${file}.${process.pid}.tmp`;
   writeFileSync(tmp, JSON.stringify(summary, null, 2) + '\n'); renameSync(tmp, file);
 }
-export function generate({ movers, market, now, out }) {
+export function generate({ movers, market, now, out, tagging = null }) {
   const data = normalize(movers, market, now), dir = path.join(out, data.day);
   mkdirSync(dir, { recursive: true, mode: 0o700 });
   const pngs = Object.fromEntries(Object.keys(CHANNELS).map((locale) => [locale, renderCard(data, locale)])), texts = {};
   for (const [locale, png] of Object.entries(pngs)) writeFileSync(path.join(dir, CARD_FILES[locale]), png);
   for (const locale of Object.keys(CHANNELS)) for (const platform of ['x', 'tg']) {
     const name = `${platform}-${locale}.txt`;
-    texts[name] = postText(data, locale, platform);
+    texts[name] = postText(data, locale, platform, tagging);
     writeFileSync(path.join(dir, name), texts[name] + '\n');
   }
   const summary = { day: data.day, mode: 'dry-run', directory: dir, card: path.join(dir, CARD_FILES.en), width: 1200, height: 675,
@@ -191,6 +198,18 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
     return state;
   } finally { closeSync(lock); unlinkSync(lockPath); }
 }
+// The web /api/movers.json can be stale (2026-10-16..18 it froze on an old frame). When it is, rebuild the same board
+// from the collector's market-events file with the site's own builder (coins.json universe), if that file is fresh.
+export async function moversWithFallback({ movers, market, now, readCoins }) {
+  const age = (v) => now - Date.parse(v?.generatedAt);
+  const ok = (v) => v && v.stale !== true && Number.isFinite(age(v)) && age(v) >= 0 && age(v) <= MAX_SOURCE_AGE_MS;
+  if (ok(movers)) return { movers, source: 'web' };
+  if (!ok(market)) return { movers, source: 'web' }; // nothing better; normalize() reports the stale feed
+  let coins = null;
+  try { coins = await readCoins(); } catch { return { movers, source: 'web' }; }
+  const snap = buildMoversSnapshot({ coins, marketEvents: market, now });
+  return snap && snap.up.length + snap.down.length >= 5 ? { movers: snap, source: 'market-events-fallback' } : { movers, source: 'web' };
+}
 export function feedSources(env = {}) {
   const movers = env.DAILY_SOCIAL_MOVERS_URL || `${SITE}/api/movers.json`;
   if (!/^https?:\/\/[^/]+\/api\/movers\.json$/.test(movers)) throw new Error('DAILY_SOCIAL_MOVERS_URL must end in /api/movers.json');
@@ -223,7 +242,14 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     : await Promise.all([get(sources.movers), sources.marketFile ? JSON.parse(readFileSync(sources.marketFile, 'utf8')) : get(sources.market)]);
   // A snapshot can be generated while its HTTP request is in flight. Compare
   // against the completion clock, not a time captured before the requests.
-  const bundle = generate({ movers, market, now: fixtureClock ?? Date.now(), out: opts.out });
+  const at = fixtureClock ?? Date.now();
+  const board = opts.fixture ? { movers, source: 'fixture' }
+    : await moversWithFallback({ movers, market, now: at, readCoins: () => get(env.DAILY_SOCIAL_COINS_URL || `${SITE}/intel/coins.json`) });
+  // Today's keywords: fixtures stay offline and deterministic; production uses the X poster's sources (fail soft).
+  const tagging = opts.fixture ? { keywords: dailyKeywords({ market }, at), now: at } : { ...(await keywordContext({ env, market, now: at })), now: at };
+  const bundle = generate({ movers: board.movers, market, now: at, out: opts.out, tagging });
+  bundle.summary.moversSource = board.source;
+  if (tagging.keywords) bundle.summary.keywords = tagging.keywords.slice(0, 5).map((k) => k.key);
   if (opts.post) {
     if (!env.DAILY_SOCIAL_STATE_DIR) throw new Error('DAILY_SOCIAL_STATE_DIR required for --post');
     const botToken = token(env.BOT_ENV_FILE);

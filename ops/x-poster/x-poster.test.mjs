@@ -47,7 +47,10 @@ test('long article uses mapped facts, hook, watch, 2-4 tags, and no URLs or part
   assert.ok(weightedLength(text.split('\n')[0]) <= 120);
   assert.match(text, /What to watch:/);
   assert.equal((text.match(/^• /gm) || []).length, 4);
-  const tags = text.split('\n').at(-1).split(' ');
+  // Long post: tag line sits right under the hook (line 3), inside the visible part before "Show more".
+  const lines = text.split('\n'), tags = lines[2].split(' ');
+  assert.equal(lines[1], ''); assert.ok(weightedLength(lines.slice(0, 3).join('\n')) <= 280);
+  assert.ok(!/^[#$]/.test(lines.at(-1)), 'tags not repeated at the end');
   assert.ok(tags.length >= 2 && tags.length <= 4 && tags.every((t) => /^[#$]/.test(t)), text);
   assert.equal(costClass(text), 'plain');
   assert.doesNotMatch(text, /EXAMPLE|\?/);

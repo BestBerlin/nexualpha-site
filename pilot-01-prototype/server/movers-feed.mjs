@@ -8,13 +8,17 @@ import { MOVERS_PATH, buildMoversSnapshot } from '../src/data/movers.js';
 
 export { MOVERS_PATH };
 
-export function createMoversFeed({ readBinanceRows = null, readCoins = null, readMarketEvents = null, ttlMs = 30 * 1000, timeoutMs = 3000, now = Date.now, log = () => {} } = {}) {
+// A frame is "stale" only when its source data is older than this. Comparing against the 30 s cache TTL marked every
+// collector-sourced frame (rewritten every ~5 min) stale, so the board froze on its first frame (fixed 2026-10-18).
+export const MOVERS_MAX_SOURCE_AGE_MS = 15 * 60 * 1000;
+export function createMoversFeed({ readBinanceRows = null, readCoins = null, readMarketEvents = null, ttlMs = 30 * 1000, maxSourceAgeMs = MOVERS_MAX_SOURCE_AGE_MS, timeoutMs = 3000, now = Date.now, log = () => {} } = {}) {
   let lastWide = null;
   const safe = async (fn) => { if (typeof fn !== 'function') return null; try { return await fn(); } catch (error) { log(`movers: ${error?.message || error}`); return null; } };
   return createStaleJsonFeed({ ttlMs, timeoutMs, now, log, load: async () => {
     const [binanceRows, coins, marketEvents] = await Promise.all([safe(readBinanceRows), safe(readCoins), safe(readMarketEvents)]);
     const next = buildMoversSnapshot({ binanceRows, coins, marketEvents, now: now() });
-    if (next && now() - Date.parse(next.generatedAt) >= ttlMs) return { ...next, stale: true };
+    // Binance frames keep the strict TTL (expired cached rows must not pose as new); collector frames get the source bound.
+    if (next && now() - Date.parse(next.generatedAt) >= (next.source === 'market-events' ? maxSourceAgeMs : ttlMs)) return { ...next, stale: true };
     if (next?.up.length && next?.down.length) { lastWide = next; return next; }
     // A degraded collector universe must not replace either side of a good board.
     if (lastWide) return { ...lastWide, stale: true };

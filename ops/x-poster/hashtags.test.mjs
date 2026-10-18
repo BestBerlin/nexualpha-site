@@ -55,8 +55,11 @@ test('every post: 2-4 tags, no duplicates, ≤ limit (URL=23), cost class unchan
     assert.ok(tags.length >= 2 && tags.length <= 4, `${tags} in\n${text}`);
     assert.equal(new Set(tags.map((t) => t.slice(1).toLowerCase())).size, tags.length, `duplicate in ${tags}`);
     assert.ok(weightedLength(text) <= limits[i], `${weightedLength(text)} > ${limits[i]}`);
-    assert.ok(tagLine(text).every((t) => /^[#$]\S+$/.test(t)), `last line must be tags:\n${text}`);
-    assert.ok(tagLine(text).some((t) => t.startsWith('#')), 'hashtags at the end');
+    // ≤280 posts: tags on the last line. Long posts: tag line is line 3, right under the hook.
+    const line = limits[i] > 280 ? text.split('\n')[2].split(' ') : tagLine(text);
+    assert.ok(line.every((t) => /^[#$]\S+$/.test(t)), `tag line misplaced:\n${text}`);
+    assert.ok(line.some((t) => t.startsWith('#')), 'hashtags present in the tag line');
+    if (limits[i] > 280) assert.ok(weightedLength(text.split('\n').slice(0, 3).join('\n')) <= 280, 'tags visible before Show more');
     for (const t of tags) assert.ok(!BANNED.test(t.slice(1)), t);
   });
   const [, , , link, market, daily] = posts();

@@ -75,7 +75,7 @@ function guard(text, { link = false } = {}) {
 }
 // Tag context: { keywords, extraTickers, now, locale, key }. Missing context still yields 2 tags.
 function tagged(body, max, fit, ctx = {}, { link = false } = {}) {
-  const out = composeWithTags({ body, fit, max, weightedLength, key: ctx.key || '', locale: ctx.locale || 'en',
+  const out = composeWithTags({ body, fit, max, weightedLength, top: Boolean(ctx.top), key: ctx.key || '', locale: ctx.locale || 'en',
     keywords: ctx.keywords || [], extraTickers: ctx.extraTickers || [], now: ctx.now ?? Date.now() });
   guard(out.text, { link });
   if (weightedLength(out.text) > max) throw new Error('post exceeds weighted limit');
@@ -101,7 +101,8 @@ export function articleMessage(a, max = 1200, ctx = {}) {
   if (unsafe(raw)) throw new Error('content policy: prohibited wording');
   const watch = '\n\nWhat to watch: follow the source updates and the data behind these findings.';
   const fit = (budget) => truncate(raw, budget - weightedLength(watch)) + watch;
-  return tagged(fit(max), max, fit, { ...ctx, key: ctx.key || `article:${a.slug}` });
+  // Long (Premium) posts put the tag line under the hook so it shows before "Show more"; ≤280 posts keep it last.
+  return tagged(fit(max), max, fit, { ...ctx, top: max > 280, key: ctx.key || `article:${a.slug}` });
 }
 export function linkMessage(a, ctx = {}) {
   const url = `${SITE}/news/${a.slug}?src=x`;
@@ -295,7 +296,9 @@ export async function keywordContext({ env = process.env, market, now = Date.now
   const topFile = env.X_TOP_EVENTS_FILE || (env.X_STATE_DIR ? path.join(env.X_STATE_DIR, 'top-events.json') : null);
   const topEvents = topFile ? readJsonSafe(topFile) : null;
   if (topFile && !topEvents) errors.push('top-events: unavailable');
-  const radar = readJsonSafe(env.X_RADAR_FILE || path.join(HERE, 'radar-terms.json'));
+  // Radar: the Mac's daily radar job pushes radar-terms.json into the state dir; the shipped copy is the fallback.
+  const radarFiles = [env.X_RADAR_FILE, env.X_STATE_DIR && path.join(env.X_STATE_DIR, 'radar-terms.json'), path.join(HERE, 'radar-terms.json')].filter(Boolean);
+  const radar = radarFiles.map(readJsonSafe).find((r) => r?.terms && typeof r.terms === 'object') || null;
   if (!radar) errors.push('radar: unavailable');
   const trending = Array.isArray(cg?.coins) ? cg.coins.map((c) => c?.item?.symbol).filter((x) => typeof x === 'string') : [];
   const keywords = dailyKeywords({ calendar, topEvents, whales, market, radar, trending }, now);

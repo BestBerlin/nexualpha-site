@@ -57,8 +57,9 @@ moderation system. Editorial review remains necessary for paraphrases or novel w
 
 ## Hashtags and the day's keywords (`hashtags.mjs`, since 2026-10-18)
 
-Every post carries **2–4 tags**: cashtags inline where the ticker already appears in the text,
-everything else on one final tag line. Tags never add a URL, so the cost class is unchanged.
+Every post carries **2–4 tags**. Posts ≤280: cashtags inline where the ticker already appears,
+everything else on one final tag line. Long (Premium) article posts: the whole tag line sits right
+under the hook (line 3), inside the part X shows before "Show more", and is not repeated at the end. Tags never add a URL, so the cost class is unchanged.
 
 1. **Topic (0–2)**: coins in the post as cashtags (`$BTC`, `$ETH`, `$HYPE`; at most two), then topics
    such as `#TokenizedStocks`, `#NVDA`, `#ETF`, `#Hyperliquid`, `#Liquidations`, then one venue tag
@@ -77,8 +78,8 @@ Daily keyword set, computed every run that may post (all sources optional, failu
 `/intel/calendar.json` (FOMC/CPI/NFP/PCE days dominate), newsroom top-events (slim copy synced by
 `sync-top-events.py` via `/etc/cron.d/nexualpha-x-keywords` into `$X_STATE_DIR/top-events.json`,
 override `X_TOP_EVENTS_FILE`), `/api/whales.json`, market majors/movers and 24h liquidations, the
-keyword-radar snapshot `radar-terms.json` (rebuild on the Mac with `node build-radar-snapshot.mjs`
-before each deploy; override `X_RADAR_FILE`), and CoinGecko trending (`X_TRENDING=off` disables).
+keyword-radar terms (`$X_STATE_DIR/radar-terms.json`, pushed daily by the Mac radar job
+`nx-agents/keywords/radar/radar.mjs`; the shipped `radar-terms.json` is the fallback; override `X_RADAR_FILE`), and CoinGecko trending (`X_TRENDING=off` disables).
 
 Weighted counting uses NFC, Twitter text v3 ranges, grapheme-safe emoji/ZWJ/flag/keycap
 weight 2 and detected URL weight 23. URL extraction conservatively treats bare domains
