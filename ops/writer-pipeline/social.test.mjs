@@ -94,6 +94,8 @@ test('finishX adds 2-4 tags incl. stock cashtag and hot keyword, strips writer t
   assert.ok(tags.includes('$TSLA') && tags.includes('#TokenizedStocks'), out.text);
   assert.doesNotMatch(out.text, /#spam/);
   assert.match(out.text, /\nhttps:\/\/nexualpha\.com\/tokenized-stocks\/tsla\?src=x-social/);
+  const dup = finishX({ locale: 'en', text: 'Chip perps crashed.\nhttps://nexualpha.com/news/a?src=x-social', link: 'https://nexualpha.com/news/a?src=x-social' }, tagging, NOW);
+  assert.equal(dup.text.split('https://nexualpha.com/news/a').length - 1, 1, dup.text);
   assert.deepEqual(checkSocialDraft({ channel: 'x', locale: 'en', ...out }, { partners }), []);
   const bad = finishX({ locale: 'en', text: 'x', link: 'https://bitget.com' }, tagging, NOW);
   assert.equal(bad.link, null);

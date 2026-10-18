@@ -98,7 +98,7 @@ export function checkSocialDraft(draft, { partners = [] } = {}) {
     const words = scenes.map((s) => s?.narration ?? '').join(' ');
     const length = /^(zh|ja|ko)/.test(locale) ? (words.match(/[㐀-鿿぀-ヿ가-힯]/g) ?? []).length / 2.5 : (words.match(/[\p{L}\p{N}]+/gu) ?? []).length;
     if (length > 170) errors.push(`youtube: narration too long (~${Math.round(length)} words > 170 for 60 s)`);
-    if (!/cartoon|animated|mascot|chibi|q-?version|Q版/i.test(scenes.map((s) => s?.visual ?? '').join(' '))) errors.push('youtube: visuals must describe the cartoon mascot style');
+    if (!/cartoon|animated|mascot|chibi|q-?version|Q版|maskot|mascota|mascote|маскот|linh vật|kartun|çizgi/i.test(scenes.map((s) => s?.visual ?? '').join(' '))) errors.push('youtube: visuals must describe the cartoon mascot style');
   }
   return [...new Set(errors)];
 }

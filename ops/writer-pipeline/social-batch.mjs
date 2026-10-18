@@ -66,7 +66,7 @@ const RULES = `HARD RULES (a validator rejects violations):
 - Neutral locales ru, ar, zh-Hant, ur, uk, vi: information only — no invite/referral codes, no sign-up/register/bonus/rebate wording, no call to action to join an exchange, no /activities link.
 - tr (Turkish): never mention Bitget; no Backpack/Hyperliquid promotion.
 - Never mention any person behind NexuAlpha; speak only as the NexuAlpha brand.
-- Write natively in each language (not word-for-word translation). Plain language for newcomers.`;
+- Write natively in each language (not word-for-word translation) with correct accents/diacritics (é, ç, ş, ı, ğ, ã …). Plain language for newcomers.`;
 
 export function promptFor(channel, brief, locales) {
   const links = Object.fromEntries(locales.map((l) => [l, allowedLinks(brief, l, channel === 'x' ? 'x-social' : channel === 'telegram' ? `tg-social-${l}` : `yt-${l}`).map((x) => x.url)]));
@@ -88,7 +88,7 @@ LINKS: ${JSON.stringify(links)}
 DATA: ${data}`;
   return `${head}
 Task: write one YouTube Shorts SCRIPT (no video, no audio) per locale in ${JSON.stringify(locales)} about the single most useful topic in the data (tokenized stocks first if present). English is the master; other locales are native adaptations of the same story.
-Style: friendly cartoon explainer with the NexuAlpha mascot (a cute Q-version Bitcoin coin monster) and clean product-grade UI cards; vertical 9:16, 35-55 seconds, 4-6 scenes, max 130 narration words per locale. Every scene "visual" must describe the cartoon/mascot shot. End hook: invite viewers to follow the channel and read the full story on our site (neutral locales: follow only).
+Style: friendly cartoon explainer with the NexuAlpha mascot (a cute Q-version Bitcoin coin monster) and clean product-grade UI cards; vertical 9:16, 35-55 seconds, 4-6 scenes, max 130 narration words per locale. Every scene "visual" is written in ENGLISH for the animation team (whatever the locale) and must describe the cartoon mascot shot; narration/onScreen/title are in the locale. End hook: invite viewers to follow the channel and read the full story on our site (neutral locales: follow only).
 Return {"scripts":[{"locale":"en","topicRef":"...","title":"<=90 chars","hook":"first 2 seconds line","scenes":[{"visual":"cartoon mascot ...","narration":"...","onScreen":"short caption"}],"cta":"...","description":"1-2 lines + one LINKS url","link":"https://nexualpha.com/..."}]}
 ${RULES}
 LINKS: ${JSON.stringify(links)}
@@ -97,7 +97,8 @@ DATA: ${data}`;
 
 // X: strip writer-added tags, then add 2-4 tags with the shared x-poster hashtag engine (incl. the day's hot keyword).
 export function finishX(post, tagging, now) {
-  const body = String(post.text ?? '').replace(/(?<![\w$#&])[#$][\p{L}\p{N}_]+/gu, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  // URLs in the body are dropped: the single allowed link is appended once from post.link.
+  const body = String(post.text ?? '').replace(/https?:\/\/\S+/g, '').replace(/(?<![\w$#&])[#$][\p{L}\p{N}_]+/gu, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
   const link = post.link && ourLink(post.link) ? post.link : null;
   const fit = (budget) => (link ? `${truncate(body, budget - weightedLength(`\n${link}`))}\n${link}` : truncate(body, budget));
   const out = composeWithTags({ body: fit(280), fit, max: 280, weightedLength, key: `social:${post.locale}:${post.topicRef ?? ''}`, locale: post.locale,
