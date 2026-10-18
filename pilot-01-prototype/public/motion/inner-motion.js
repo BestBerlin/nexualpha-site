@@ -332,7 +332,10 @@
     var main = innerMain();
     if (!main) return;
     var s = state = { sig: "", raf: 0 };
-    buildRail(main, s);
+    /* De-AI pass 2026-10-18: the decorative route rail (vertical line, docks, scroll fill) is retired on inner pages;
+       buildRail stays for reference but is no longer mounted. Scroll reveal and copy feedback are unchanged. */
+    s.measure = function () {};
+    s.fill = function () { s.raf = 0; };
     buildReveal(main, s);
     var mq = 0;
     s.onScroll = function () {

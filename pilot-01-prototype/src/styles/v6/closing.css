@@ -250,3 +250,9 @@
 /* index rows: the band and the index share one 128 rhythm (no stacked 180px void under the CTA) */
 .v6 .v6-close__band { padding-block-end: var(--s-12); }
 .v6 .v6-close__index { padding-block-start: var(--s-8); }
+
+/* De-AI pass (2026-10-18): the closing action is blue (action colour), and the decorative route line/rail that "arrives"
+   at it is retired on home and inner pages alike. */
+.v6 .v6-close .v6-close__cta:not(#_):not(#_):not(#_) { background: #315CFF; color: #fff; }
+.v6 .v6-close .v6-close__cta:is(:hover, :focus-visible):not(#_):not(#_):not(#_) { background: #4A70FF; color: #fff; }
+.v6 .v6-close__route:not(#_):not(#_), #top.v6 :is(.rr-seg, .rr-stub, .rr-start, .rr-dock):not(#_):not(#_), .v6r:not(#_) { display: none !important; }

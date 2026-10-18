@@ -3,9 +3,7 @@
    (fade on top, rules below) so no pseudo-element is taken (news detail uses main::before for reading progress). */
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   background-color: transparent;
-  background-image: linear-gradient(to bottom, rgb(7 8 10 / 0) 0, #07080A 560px), linear-gradient(rgb(255 255 255 / .03) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 32px;
-  background-repeat: no-repeat, repeat;
+  background-image: none; /* de-AI 2026-10-18: no hero grid ruling */
 }
 
 /* Rail labels repeated the visible section heading as rotated 12px text and were ellipsis-truncated (e.g. telegram).
@@ -145,3 +143,30 @@ body { counter-reset: nx-section; }
 .brazil-deadline-notice__body { color: var(--v3-muted, #a5b4c7); }
 .brazil-deadline-notice__link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 .brazil-deadline-notice__link:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 3px; }
+
+
+/* ===== De-AI pass (2026-10-18): inner-page templates (venue, compare, rates, news) =====
+   Meta reads as a quiet line, not a row of pills; campaign rows are hairline rows, not gold boxes; actions are blue. */
+.v3-venue-identity__badges > :is(.v3-trust-metal-badge, .v3-last-verified-pill, span):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: var(--hx-ink-3, #8A909E); font-size: 13px;
+}
+.v3-venue-identity__badges:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 4px 16px; }
+.v3-venue-campaign-banner:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border: 0; border-block: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; box-shadow: none; padding-inline: 0;
+}
+.v3-venue-campaign-banner :is(.v3-venue-campaign-banner__tag, [class*="__badge"], [class*="__tag"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  padding: 0; border: 0; background: none; box-shadow: none; color: #F5C542;
+}
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: #315CFF; border-color: #315CFF; color: #fff; box-shadow: none; }
+#top.v3-compare-page .v3-compare-hero-actions__btn:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: #4A70FF; border-color: #4A70FF; }
+#top.v3-compare-page .v3-compare-hero-actions__btn :is(strong, span, small, b):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #fff; }
+.v3-matrix-venue-brand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; border: 0; background: none; box-shadow: none; }
+.v3-compare-related__list a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; border: 0; border-radius: 0; background: none; text-decoration: underline; text-decoration-color: rgb(255 255 255 / .22); text-underline-offset: 4px; }
+.v3-compare-related__list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 4px 24px; }
+/* Rates: the calculator sits on the page, framed by hairlines, instead of floating in a lifted card. */
+#top#top#top#top.v6.r1-rates-page .rt-panel:not(#_):not(#_) { padding-inline: 0; border: 0; border-block: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; box-shadow: none; }
+@media (max-width: 760px) { #top#top#top#top.v6.r1-rates-page .rt-panel:not(#_):not(#_) { padding-inline: 0; } }
+#top#top#top#top.v6.r1-rates-page section.cost-decision.rt-cd:not(#_):not(#_) { padding-inline: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+/* Venue utility row (back link + app download) in the global layer: the route chunk that also carries it arrives after
+   first paint, so the row jumped from the end of the page to the top (CLS 0.026 on desktop /exchanges/<slug>). */
+.v3-profile-page .v3-venue-utility-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.5rem; min-inline-size: 0; grid-column: 1; grid-row: 1; order: -1; }
