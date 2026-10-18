@@ -49,11 +49,36 @@ source copy stays short rather than adding invented facts. The hook is mechanica
 shortened/dequestioned; the watch line is generic. Claude must review these templates
 and feed copy before deploying. No LLM or new factual content is generated.
 
-Plain copy removes domain/URL strings, using `[URL omitted]`. Related hashtags (at most
-two) are added only when they fit. Rebate, partner or code mentions retain the final
-`Partner links disclosed.` line, even through truncation. A lexical policy gate blocks
-common tax avoidance and price prediction wording; it is not a semantic moderation
-system. Editorial review remains necessary for paraphrases or novel wording.
+Plain copy removes domain/URL strings, using `[URL omitted]`. No disclosure, commission or
+data-caveat footers are added (owner rule): sentences about rebates, referral/invite/registration
+codes or commission are dropped from summaries, and partner-source claims are excluded. A lexical
+policy gate blocks common tax avoidance and price prediction wording; it is not a semantic
+moderation system. Editorial review remains necessary for paraphrases or novel wording.
+
+## Hashtags and the day's keywords (`hashtags.mjs`, since 2026-10-18)
+
+Every post carries **2–4 tags**: cashtags inline where the ticker already appears in the text,
+everything else on one final tag line. Tags never add a URL, so the cost class is unchanged.
+
+1. **Topic (0–2)**: coins in the post as cashtags (`$BTC`, `$ETH`, `$HYPE`; at most two), then topics
+   such as `#TokenizedStocks`, `#NVDA`, `#ETF`, `#Hyperliquid`, `#Liquidations`, then one venue tag
+   in push order Bitget > OKX > Binance (then Bybit, Gate, HTX, KuCoin, Kraken, Coinbase).
+2. **Hot keyword (1)**: the highest-ranked daily keyword the post touches; if the day's #1 keyword is
+   already tagged in the post that covers it; otherwise the top macro/topic/major (`#FOMC`, `#CPI`,
+   `#BTC` …). Random trending alts are never put on unrelated posts.
+3. **Evergreen (1)**: rotated by SGT day + post key from `#crypto #Bitcoin #CryptoNews #Web3`
+   (Chinese posts: `#加密货币 #比特币 #crypto #CryptoNews`).
+
+No duplicates (`$BTC` and `#BTC` count as one); a banned list blocks giveaway/100x/casino/tax-style
+tags; only curated coins can become a hashtag keyword. If tags do not fit, the body is truncated
+(URLs and required numbers stay intact) and the second topic tag is dropped before anything else.
+
+Daily keyword set, computed every run that may post (all sources optional, failures only logged):
+`/intel/calendar.json` (FOMC/CPI/NFP/PCE days dominate), newsroom top-events (slim copy synced by
+`sync-top-events.py` via `/etc/cron.d/nexualpha-x-keywords` into `$X_STATE_DIR/top-events.json`,
+override `X_TOP_EVENTS_FILE`), `/api/whales.json`, market majors/movers and 24h liquidations, the
+keyword-radar snapshot `radar-terms.json` (rebuild on the Mac with `node build-radar-snapshot.mjs`
+before each deploy; override `X_RADAR_FILE`), and CoinGecko trending (`X_TRENDING=off` disables).
 
 Weighted counting uses NFC, Twitter text v3 ranges, grapheme-safe emoji/ZWJ/flag/keycap
 weight 2 and detected URL weight 23. URL extraction conservatively treats bare domains
@@ -90,11 +115,11 @@ would send nothing.
 ```sh
 X_STATE_DIR=/data/agent/state/x-poster node ops/x-poster/x-poster.mjs --dry-run
 node ops/x-poster/preview.mjs
-node --test ops/x-poster/x-poster.test.mjs
+node --test ops/x-poster/x-poster.test.mjs ops/x-poster/hashtags.test.mjs
 ```
 
-`preview.mjs` previews five current article builders, one market builder and the daily
-brief without using state or X credentials. If no supported high event exists, its market
+`preview.mjs` prints the day's keyword set and the next five article posts (plus the 280 fallback,
+the daily link, one market alert and the daily brief) with their tags, without state or X credentials. If no supported high event exists, its market
 example is explicitly synthetic; it does not promote a medium event. This is not a
 scheduler dry run or permission to send those samples.
 

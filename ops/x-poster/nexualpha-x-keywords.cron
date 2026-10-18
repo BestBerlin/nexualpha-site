@@ -1,0 +1,5 @@
+# NexuAlpha X poster keyword feed: slim newsroom top-events -> x-poster state dir (read by the scheduler container).
+# Installed as /etc/cron.d/nexualpha-x-keywords. Disable by deleting this file; the poster falls back to its other sources.
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+*/10 * * * * root /usr/bin/python3 /data/agent/srv/stacks/crypto-telegram-ops/x-poster/sync-top-events.py >> /data/private/nexualpha/ops/x-keywords.log 2>&1

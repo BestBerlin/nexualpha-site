@@ -1,3 +1,14 @@
+# 2026-10-18 update: hashtags + daily keywords
+
+- New `hashtags.mjs`: every post gets 2–4 tags (topic cashtags/hashtags, the day's hot keyword, one
+  rotated evergreen tag), cashtags inline, hashtags on the last line, ≤ limit with URLs as 23.
+- Daily keyword set from calendar (FOMC/CPI/NFP/PCE), newsroom top-events (host-synced slim copy),
+  whales, market movers/liquidations, keyword-radar snapshot and CoinGecko trending; all fail soft.
+- Removed the `Partner links disclosed.` and liquidation lower-bound footers (owner rule: no
+  disclaimers/commission talk); rebate/code/commission sentences are dropped instead.
+- The 403 length fallback now sends a pre-built tagged ≤280 version.
+- Tests: `x-poster.test.mjs` (20) + `hashtags.test.mjs` (11). The historical report below predates this.
+
 # Changed files
 
 - `ops/x-poster/x-poster.mjs`: dependency-free single-run publisher and pure builders.
