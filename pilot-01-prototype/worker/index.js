@@ -2809,6 +2809,12 @@ const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 const BEGINNER_ROUTE_MARKER = "NEXUALPHA_BEGINNER_ROUTE_V1";
 const LICENSES_ROUTE_MARKER = "NEXUALPHA_LICENSES_ROUTE_V1";
 const DEPOSIT_ROUTE_MARKER = "NEXUALPHA_DEPOSIT_ROUTE_V1";
+// Deposit pages render <main className="nxd" data-deposit-page=...>; match "nxd" as a whole class token (any position,
+// any neighbours) on the element that carries data-deposit-page, so the data pages that share the "nxd" class don't pass.
+const DEPOSIT_PAGE_BODY_PATTERN = /<main\b(?=[^>]*\bclass="(?:[^"]*\s)?nxd(?:\s[^"]*)?")(?=[^>]*\bdata-deposit-page=")[^>]*>/;
+export function isDepositPageBody(appHtml) {
+  return DEPOSIT_PAGE_BODY_PATTERN.test(appHtml);
+}
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
 const TOKENIZED_STOCKS_ROUTE_MARKER = "NEXUALPHA_TOKENIZED_STOCKS_ROUTE_V1";
 const INTEL_TOOLS_ROUTE_MARKER = "NEXUALPHA_INTEL_TOOLS_ROUTE_V1";
@@ -4962,7 +4968,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (metadata.marker === DEPOSIT_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && appHtml.includes("class=\"nxd ")) {
+        if (typeof appHtml === "string" && isDepositPageBody(appHtml)) {
           metadata.depositSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
