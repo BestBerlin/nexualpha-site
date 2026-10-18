@@ -201,3 +201,26 @@ img {
     white-space: normal;
   }
 }
+
+/* Venue mark tile (de-AI pass 2026-10-18): one treatment for every exchange mark in strips, panels, cards and tables.
+   The asset is a normalised full-bleed square (public/brands/tile); the tile adds the same corner ratio and hairline
+   everywhere, so a black OKX square and a white Gate square sit at the same optical size on the dark surface.
+   Contexts still choose the size; nothing else may re-pad, re-round or re-frame the mark. */
+img.v2-brand {
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 22% !important;
+  background: #16191F !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+  outline: 1px solid rgb(255 255 255 / 0.10);
+  outline-offset: -1px;
+}
+img.v2-brand--tile { object-fit: cover !important; }
+.v2-brand-fallback {
+  border-radius: 22% !important;
+  border-color: transparent !important;
+  background: #16191F !important;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.10) !important;
+}

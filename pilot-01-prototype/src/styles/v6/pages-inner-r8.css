@@ -4,7 +4,7 @@
 /* ============ #2 brand tiles: one fixed 32px tile, whole logo visible (Bybit was scaled 1.35x and clipped to "BYB!T") ============ */
 img.v2-brand--bybit:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
 [data-brand-slug="bybit"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: none !important; }
-.v6 :is(.mx-id, .v3-alternative__identity, .topic-card__logo, .factbook-venue-pill, .official-research__identity, .activity-center-v3__research-identity, .rt-logo, .fee-terminal__cell-brand) img.v2-brand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+.v6 :is(.mx-id, .v3-alternative__identity, .topic-card__logo, .factbook-venue-pill, .official-research__identity, .activity-center-v3__research-identity) img.v2-brand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   inline-size: 32px !important; block-size: 32px !important; min-inline-size: 32px; flex: 0 0 32px;
   object-fit: contain; border-radius: 6px; transform: none !important; overflow: hidden;
 }
