@@ -5,8 +5,8 @@ const HERO_COPY = Object.freeze({
   // Striking distance (GSC 2026-10-11): /news ranks ~10.8 for exchange-news queries ("okx bybit coinbase bitget kraken
   // 2026 new product launch"), so the English H1 and intro name the venues the feed actually covers most.
   en: { eyebrow: "Market news & research", title: "Crypto exchange news & research", subtitle: "News on Binance, OKX, Coinbase, Kraken and Bybit: product and API changes, account guides and regulation, each linked to official sources." },
-  "zh-Hans": { eyebrow: "市场观察与研究", title: "新闻与研究", subtitle: "通过附有官方来源的分析，了解平台选择、交易成本与政策变化。" },
-  "zh-Hant": { eyebrow: "市場觀察與研究", title: "新聞與研究", subtitle: "透過附有官方來源的分析，了解平台選擇、交易成本與政策變化。" },
+  "zh-Hans": { eyebrow: "市场观察与研究", title: "新闻与研究", subtitle: "交易所动态、监管变化和交易成本，每天更新。" },
+  "zh-Hant": { eyebrow: "市場觀察與研究", title: "新聞與研究", subtitle: "交易所動態、監管變化和交易成本，每天更新。" },
   ja: { eyebrow: "市場ニュースとリサーチ", title: "ニュースとリサーチ", subtitle: "公式資料に基づく分析で、プラットフォーム選び、取引コスト、政策の変化を確認できます。" },
   ko: { eyebrow: "시장 뉴스와 리서치", title: "뉴스와 리서치", subtitle: "공식 출처를 바탕으로 한 분석으로 플랫폼 선택, 거래 비용, 정책 변화를 살펴보세요." },
   tr: { eyebrow: "Piyasa haberleri ve araştırma", title: "Haberler ve araştırma", subtitle: "Resmî kaynaklara dayanan analizlerle platform seçimini, işlem maliyetlerini ve politika değişikliklerini inceleyin." },
