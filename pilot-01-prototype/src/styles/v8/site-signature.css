@@ -173,3 +173,10 @@ body { counter-reset: nx-section; }
 /* Phones drew the rates calculator card with a ::before surface on the section (found in the post-deploy check); the
    calculator sits on the page like on desktop. */
 #top#top#top#top#top#top#top#top#top#top#top#top#top#top.r1-rates-page .fee-terminal-section::before { display: none !important; content: none !important; }
+/* Compare matrix (de-AI pass 2): the table sits on the page with hairlines; long explanations step back to 13px muted. */
+#top.v3-compare-page :is(.v3-matrix-table-wrap, .v3-matrix-table):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; box-shadow: none; }
+#top.v3-compare-page .v3-matrix-table :is(th, td):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border-inline: 0; border-block-end: 1px solid rgb(255 255 255 / .08); }
+#top.v3-compare-page .v3-matrix-table thead :is(th, td):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-end-color: rgb(255 255 255 / .16); }
+#top.v3-compare-page .v3-matrix-table .v3-matrix-sub-val:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 13px; line-height: 1.6; color: var(--hx-ink-3, #8A909E); }
+#top.v3-compare-page .v3-matrix-table [class*="badge"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; border: 0; background: none; color: var(--hx-ink-3, #8A909E); font: 500 11px/1.2 "Geist Mono V5", ui-monospace, monospace; }
+#top.v3-compare-page :is(.v3-versus-card--supporting, .v3-onsite-telegram-handoff--compact):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block: 1px solid rgb(255 255 255 / .1); border-radius: 0; background: none; box-shadow: none; padding-inline: 0; }
