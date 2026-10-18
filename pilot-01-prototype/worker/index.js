@@ -5160,6 +5160,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Fail closed if the host cannot render country context; do not fall back to an ungated snapshot.
     return rendered || html;
   }
+  // Radar pages (/whales, /long-short) render from the live snapshot at request time, like their ?query variants: the
+  // build-time prerender has no rows ("unavailable"), so the first client fetch replaced the empty state with the tabs
+  // and shifted the page (desktop CLS 0.055, de-AI pass 2026-10-18). The runtime renderer falls back to the shell.
+  if (metadata.marker === RADAR_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") return fallback();
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
   const manifest = await loadPrerenderManifest(env, url);
