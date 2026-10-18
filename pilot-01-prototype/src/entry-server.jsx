@@ -12,7 +12,7 @@ import { computeRouteSeo } from "./data/seo-injection.js";
 import { withRequestMarket } from "./data/partner-geo-policy.js";
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -62,6 +62,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
         initialRadar={radar && typeof radar === "object" ? radar : undefined}
         initialTicker={ticker && typeof ticker === "object" ? ticker : undefined}
         initialWhales={whales && typeof whales === "object" ? whales : undefined}
+        initialTsLive={tsLive && typeof tsLive === "object" ? tsLive : undefined}
       />
     </React.StrictMode>,
     heroVariant,

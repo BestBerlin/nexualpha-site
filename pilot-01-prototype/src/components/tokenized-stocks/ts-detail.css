@@ -1,0 +1,68 @@
+/* Tokenized US stocks: ticker and exchange-product pages (2026-10-18). Same dark editorial system as the hub
+   (tokenized-stocks.css tokens): hairline rows, mono symbols, lane colours as plain text, no boxes, no animation. */
+.nxts-updated { margin-block-start: 12px; font: 500 12.5px/1.4 var(--t-mono); color: var(--t-ink3); }
+.nxts-updated time { color: var(--t-ink2); }
+.nxts-about { color: var(--t-ink2); font-size: 1.02rem; line-height: 1.7; }
+.nxts-h1--ex { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.nxts-h1--ex img { inline-size: clamp(32px, 4vw, 44px); block-size: auto; }
+.nxts-exgo { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-block-start: 20px; }
+.nxts-exgo .nxts-promo { max-inline-size: 44ch; }
+
+/* ticker table: exchange · product · symbol · leverage · fee · hours · dividends · sign-up + source */
+.nxts-tk2 { display: grid; margin-block-start: 16px; border-block-start: 1px solid var(--t-line2); }
+.nxts-tk2__row { display: grid; grid-template-columns: 150px 1fr .9fr .75fr 1fr .7fr 1fr minmax(220px, 1.3fr); align-items: center; gap: 14px; padding-block: 14px; border-block-end: 1px solid var(--t-line); font-size: 13.5px; color: var(--t-ink); }
+.nxts-tk2__row--head { padding-block: 8px; font: 500 12px/1.3 var(--t-mono); color: var(--t-ink3); text-transform: uppercase; letter-spacing: .04em; }
+:is(:lang(zh), :lang(ja), :lang(ko), :lang(ar), :lang(ur)) .nxts-tk2__row--head { text-transform: none; letter-spacing: 0; font-family: inherit; font-size: 12.5px; }
+.nxts-tk2 code { font: 600 13.5px/1.2 var(--t-mono); direction: ltr; unicode-bidi: plaintext; }
+.nxts-tk2__alt { display: block; margin-block-start: 4px; font-size: 12px; color: var(--t-ink3); }
+.nxts-tk2__row > [data-k] { min-inline-size: 0; overflow-wrap: anywhere; }
+@media (max-width: 1100px) {
+  .nxts-tk2__row--head { display: none; }
+  .nxts-tk2__row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 16px; }
+  .nxts-tk2__row .nxts-tk__ex { grid-column: 1 / -1; }
+  .nxts-tk2__row > [data-k]::before { content: attr(data-k); display: block; margin-block-end: 4px; font-size: 12px; color: var(--t-ink3); }
+  .nxts-tk2__row .nxts-tk__go { grid-column: 1 / -1; justify-content: flex-start; }
+  .nxts-tk2__row .nxts-tk__go .nxts-src { justify-content: flex-start; }
+}
+@media (max-width: 560px) { .nxts-tk2__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* exchange page: products as three hairline columns */
+.nxts-exprod { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 32px; margin-block-start: 16px; border-block-start: 1px solid var(--t-line); }
+.nxts-exprod__lane { display: grid; gap: 10px; align-content: start; padding-block: 20px; border-block-end: 1px solid var(--t-line); }
+.nxts-exprod__lane h3 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.nxts-exprod__lane h3 b { font: 600 15px/1.2 var(--t-mono); color: var(--t-ink); }
+.nxts-exprod__hint { font-size: 14px; color: var(--t-ink3); }
+.nxts-exprod .nxts-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+.nxts-exprod .nxts-facts dt { position: static; inline-size: auto; block-size: auto; overflow: visible; clip: auto; white-space: normal; font-size: 12px; color: var(--t-ink3); line-height: 1.4; }
+.nxts-exprod__path code { font: 500 13px/1.4 var(--t-mono); color: var(--t-ink2); }
+
+/* exchange page: stocks table */
+.nxts-ext { display: grid; margin-block: 16px 12px; border-block-start: 1px solid var(--t-line2); }
+.nxts-ext__row { display: grid; grid-template-columns: minmax(160px, 1.2fr) 1fr 1fr .8fr; align-items: center; gap: 16px; min-block-size: 52px; padding-block: 8px; border-block-end: 1px solid var(--t-line); font-size: 14px; color: var(--t-ink); }
+.nxts-ext__row--head { min-block-size: 0; font: 500 12px/1.3 var(--t-mono); color: var(--t-ink3); text-transform: uppercase; letter-spacing: .04em; }
+:is(:lang(zh), :lang(ja), :lang(ko), :lang(ar), :lang(ur)) .nxts-ext__row--head { text-transform: none; letter-spacing: 0; font-family: inherit; font-size: 12.5px; }
+.nxts-ext__stock a { display: inline-flex; align-items: baseline; gap: 10px; min-block-size: 44px; align-items: center; text-decoration: none; }
+.nxts-ext__stock b { font: 600 14.5px/1.2 var(--t-mono); color: var(--t-ink); }
+.nxts-ext__stock span { font-size: 13px; color: var(--t-ink3); }
+.nxts-ext__stock a:hover b { color: var(--t-blue-hi); }
+.nxts-ext code { font: 500 13.5px/1.2 var(--t-mono); direction: ltr; unicode-bidi: plaintext; }
+@media (max-width: 640px) {
+  .nxts-ext__row--head { display: none; }
+  .nxts-ext__row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 12px; padding-block: 10px; }
+  .nxts-ext__stock { grid-column: 1 / -1; }
+  .nxts-ext__row > [data-k]::before { content: attr(data-k); display: block; font-size: 11.5px; color: var(--t-ink3); }
+}
+
+/* latest listing changes (host refresh job) */
+.nxts-changes { margin-block-start: 16px; border-block-start: 1px solid var(--t-line); }
+.nxts-changes li { display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline; padding-block: 12px; border-block-end: 1px solid var(--t-line); font-size: 14px; color: var(--t-ink); }
+.nxts-changes time { font: 500 12px/1.4 var(--t-mono); color: var(--t-ink3); }
+.nxts-changes li[data-type="delisted"] span:first-of-type { color: var(--t-ink2); text-decoration: line-through; text-decoration-color: var(--t-line2); }
+@media (max-width: 560px) { .nxts-changes li { grid-template-columns: minmax(0, 1fr) auto; } .nxts-changes time { grid-column: 1 / -1; } }
+
+/* running stock campaigns: one hairline row per campaign, our page link + /go sign-up */
+.nxts-campaigns { margin-block-start: 16px; border-block-start: 1px solid var(--t-line); }
+.nxts-campaigns li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding-block: 14px; border-block-end: 1px solid var(--t-line); }
+.nxts-campaigns li img { inline-size: 24px; block-size: 24px; }
+.nxts-campaigns .nxts-src { grid-column: 2 / -1; }
+@media (max-width: 560px) { .nxts-campaigns li { grid-template-columns: 28px minmax(0, 1fr); } .nxts-campaigns .nxts-btn { grid-column: 1 / -1; } }

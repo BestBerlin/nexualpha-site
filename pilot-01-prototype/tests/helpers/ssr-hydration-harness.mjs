@@ -99,6 +99,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialWhales: state?.whales,
       initialRadar: state?.radar,
       initialSeoAlternates: state?.seoAlternates,
+      initialTsLive: state?.tsLive,
     })), heroVariant);
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });

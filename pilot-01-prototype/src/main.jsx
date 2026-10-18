@@ -87,6 +87,7 @@ function HydrationBootstrap() {
       initialWhales={prerenderState?.whales}
       initialRadar={prerenderState?.radar}
       initialSeoAlternates={prerenderState?.seoAlternates}
+      initialTsLive={prerenderState?.tsLive}
     />;
 }
 

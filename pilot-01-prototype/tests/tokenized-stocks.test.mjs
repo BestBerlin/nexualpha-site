@@ -1,4 +1,5 @@
-// Tokenized US stocks (/tokenized-stocks hub + 12 ticker pages, home strip, exchange-profile block; owner 2026-10-15).
+// Tokenized US stocks (/tokenized-stocks hub + 30 ticker pages + 7 exchange-product pages, home strip, exchange-profile
+// block; owner 2026-10-15 / 2026-10-18).
 // Checks: every displayed fact has an official source with a date (and matches the research packet when it is mounted),
 // sign-ups use the registry code through /go/<venue>?src=tokenized-stocks-*, owner order Bitget > OKX > Binance,
 // Türkiye never names Bitget, neutral locales show no code / CTA / campaign, expired promotions disappear, JSON-LD
@@ -8,15 +9,16 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import worker from "../worker/index.js";
-import { TS_EXCHANGES, TS_SOURCES, TS_TICKERS, tsAllSourceIds, tsListings, tsPromo } from "../src/data/tokenized-stocks-facts.js";
+import { TS_EXCHANGES, TS_LATER_SOURCE_IDS, TS_SOURCES, TS_TICKERS, tsAllSourceIds, tsListings, tsPromo } from "../src/data/tokenized-stocks-facts.js";
 import { TS_INDEX_LOCALES, tsSignup, tsVenues } from "../src/data/tokenized-stocks.js";
-import { TS_PATH, TS_TICKER_SLUGS, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
+import { TS_EXCHANGE_SLUGS, TS_PATH, TS_TICKER_SLUGS, parseTokenizedStocksPath } from "../src/data/tokenized-stocks-routes.js";
+import { tsTickerRows } from "../src/data/tokenized-stocks-rows.js";
 import { TS_COPY } from "../src/data/tokenized-stocks-copy.js";
 import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 import { buildSplitSitemaps, buildTokenizedStocksSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
-import { createSsrHarness, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
+import { createSsrHarness, SHELL_HTML, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
 // Research packet vendored into the repo (copied from /Volumes/致态2TB/nx-agents/research/tokenized-stocks, as of 2026-10-15).
 const RESEARCH = new URL("../research/tokenized-stocks/exchanges.json", import.meta.url);
@@ -60,6 +62,8 @@ test("facts: sources, dates and ticker lists match the research packet", () => {
   const packet = JSON.parse(readFileSync(RESEARCH, "utf8"));
   const sources = new Map(packet.exchanges.flatMap((ex) => ex.sources.map((src) => [src.url, src])));
   for (const src of Object.values(TS_SOURCES)) {
+    // Campaign sources read after the packet: official exchange hosts only.
+    if (TS_LATER_SOURCE_IDS.has(src.id)) { assert.match(new URL(src.url).hostname, /(^|\.)bybit\.com$/, src.id); continue; }
     const found = sources.get(src.url);
     assert.ok(found, `source not in research packet: ${src.url}`);
     assert.equal(src.date, found.published_date || found.retrieved_at.slice(0, 10), `date of ${src.url}`);
@@ -75,7 +79,9 @@ test("routes: ticker slugs mirror the ticker list; unknown tickers are missing",
   assert.deepEqual(parseTokenizedStocksPath("/tokenized-stocks"), { kind: "hub" });
   assert.deepEqual(parseTokenizedStocksPath("/tokenized-stocks/nvda"), { kind: "ticker", ticker: "NVDA" });
   assert.deepEqual(parseTokenizedStocksPath("/tokenized-stocks/xyz"), { kind: "missing" });
-  for (const ticker of TS_TICKERS) assert.ok(tsListings(ticker).length >= 3, `${ticker}: at least three sourced listings`);
+  for (const ticker of TS_TICKERS) assert.ok(tsTickerRows(ticker).length >= 3, `${ticker}: at least three sourced listings`);
+  assert.deepEqual(parseTokenizedStocksPath("/tokenized-stocks/exchange/okx"), { kind: "exchange", slug: "okx" });
+  assert.deepEqual(parseTokenizedStocksPath("/tokenized-stocks/exchange/ftx"), { kind: "missing" });
 });
 
 test("copy: every written edition exists; Türkiye never names Bitget; FAQ sources resolve", () => {
@@ -171,20 +177,61 @@ test("hub SSR: Türkiye never names Bitget; neutral locales show no code, CTA or
   }
 });
 
-test("ticker pages: 12 pages render with sourced rows and CTAs; unknown ticker 404", async () => {
+test("ticker pages: every ticker renders live rows with a source each, CTAs via /go, FAQ + Dataset schema; unknown ticker 404", async () => {
   for (const ticker of TS_TICKERS) {
     const response = await fetchPage(`/zh-hans/tokenized-stocks/${ticker.toLowerCase()}`);
     assert.equal(response.status, 200, ticker);
     const html = await response.text();
     const main = mainHtml(html);
-    const rows = main.split('<div class="nxts-tk__row" role="row">').slice(1);
-    assert.equal(rows.length, tsListings(ticker).length, ticker);
+    const rows = main.split('<div class="nxts-tk2__row" role="row">').slice(1);
+    assert.equal(rows.length, tsTickerRows(ticker, { locale: "zh-Hans" }).length, ticker);
+    assert.ok(rows.length >= 3, `${ticker}: rows`);
     for (const row of rows) assert.ok(row.includes('class="nxts-src'), `${ticker}: row without source`);
+    assert.ok(main.includes("数据更新于"), `${ticker}: SGT stamp`);
     assert.ok(anchors(main).some((a) => /^\/go\/[a-z-]+\?src=tokenized-stocks-ticker-/.test(a.href)), `${ticker}: CTA`);
+    for (const a of anchors(main)) if (/data-cta-kind="signup"/.test(a.tag)) assert.match(a.href, /^\/go\//);
+    // Bitget first wherever it lists the ticker (owner order).
+    if (rows.some((row) => row.includes(">Bitget<"))) assert.ok(rows[0].includes(">Bitget<"), `${ticker}: Bitget first`);
     const types = ldJson(html).map((item) => item["@type"]);
-    for (const type of ["ItemList", "FAQPage", "BreadcrumbList"]) assert.ok(types.includes(type), `${ticker}: ${type}`);
+    for (const type of ["ItemList", "FAQPage", "BreadcrumbList", "Dataset"]) assert.ok(types.includes(type), `${ticker}: ${type}`);
+    for (const re of FINE_PRINT) assert.doesNotMatch(main, re, `${ticker}: ${re}`);
   }
   assert.equal((await fetchPage("/tokenized-stocks/zzzz")).status, 404);
+});
+
+test("ticker pages: index policy (launch twelve everywhere, the rest in the main markets), Türkiye and neutral editions", async () => {
+  const launch = await (await fetchPage("/de/tokenized-stocks/nvda")).text();
+  assert.match(launch, /<meta name="robots" content="index,follow"/);
+  const added = await (await fetchPage("/de/tokenized-stocks/arm")).text();
+  assert.match(added, /<meta name="robots" content="noindex,follow"/);
+  const addedMain = await (await fetchPage("/es/tokenized-stocks/arm")).text();
+  assert.match(addedMain, /<meta name="robots" content="index,follow"/);
+  const tr = mainHtml(await (await fetchPage("/tr/tokenized-stocks/tsla")).text());
+  assert.doesNotMatch(tr, /bitget/i);
+  for (const locale of NEUTRAL) {
+    const main = mainHtml(await (await fetchPage(`${localizedPath("/tokenized-stocks/nvda", locale)}`)).text());
+    assert.doesNotMatch(main, /class="nxts-code"|data-cta-kind="signup"/, `${locale}: no code or CTA`);
+  }
+  const pre = await (await fetchPage("/tokenized-stocks/openai")).text();
+  assert.match(mainHtml(pre), /pre-IPO/i);
+  assert.doesNotMatch(mainHtml(pre), /dividends are reinvested/);
+});
+
+test("exchange pages: answer from live counts, CTA via /go (none in neutral locales), Bitget 404 in Türkiye", async () => {
+  for (const slug of TS_EXCHANGE_SLUGS) {
+    const response = await fetchPage(`/zh-hans/tokenized-stocks/exchange/${slug}`);
+    assert.equal(response.status, 200, slug);
+    const html = await response.text();
+    const main = mainHtml(html);
+    assert.ok(main.includes('class="nxts-ext__row" role="row"'), `${slug}: stocks table`);
+    assert.ok(anchors(main).some((a) => new RegExp(`^/go/${slug}\\?src=tokenized-stocks-exchange-page`).test(a.href)), `${slug}: CTA`);
+    const types = ldJson(html).map((item) => item["@type"]);
+    for (const type of ["WebPage", "ItemList", "BreadcrumbList"]) assert.ok(types.includes(type), `${slug}: ${type}`);
+  }
+  assert.equal((await fetchPage("/tr/tokenized-stocks/exchange/bitget")).status, 404);
+  assert.equal((await fetchPage("/tokenized-stocks/exchange/bitget?market=TR")).status, 404);
+  const ru = mainHtml(await (await fetchPage("/ru/tokenized-stocks/exchange/okx")).text());
+  assert.doesNotMatch(ru, /class="nxts-code"|data-cta-kind="signup"/);
 });
 
 test("home: the strip sits right after the hero, before the whale board; header and footer link the hub", async () => {
@@ -221,4 +268,59 @@ test("sitemap: every edition with hreflang, listed in the index and robots.txt, 
   assert.match(readFileSync(new URL("../public/robots.txt", import.meta.url), "utf8"), /Sitemap: https:\/\/nexualpha\.com\/sitemap-tokenized-stocks\.xml/);
   assert.equal(readFileSync(new URL("../public/sitemap-tokenized-stocks.xml", import.meta.url), "utf8"), sitemap.xml);
   assert.match(readFileSync(new URL("../public/llms.txt", import.meta.url), "utf8"), /https:\/\/nexualpha\.com\/tokenized-stocks\)/);
+});
+
+test("live snapshot: parsers read only stock instruments; diff reports listings and delistings; stale lanes stay quiet", async () => {
+  const { PARSE, diffLive } = await import("../scripts/build-tokenized-stocks-live.mjs");
+  const bitgetPerp = PARSE.bitget.perp({ data: [
+    { symbol: "TSLAUSDT", baseCoin: "TSLA", quoteCoin: "USDT", isRwa: "YES", symbolType: "perpetual", symbolStatus: "normal", maxLever: "100", makerFeeRate: "0.0002", takerFeeRate: "0.0006", openTime: "1769994062288" },
+    { symbol: "XAUUSDT", baseCoin: "XAU", quoteCoin: "USDT", isRwa: "YES", symbolType: "perpetual", symbolStatus: "normal", maxLever: "100" },
+    { symbol: "BTCUSDT", baseCoin: "BTC", quoteCoin: "USDT", isRwa: "NO", symbolType: "perpetual", symbolStatus: "normal", maxLever: "125" },
+  ] });
+  assert.deepEqual(Object.keys(bitgetPerp), ["TSLA"]);
+  assert.deepEqual(bitgetPerp.TSLA, { sym: "TSLAUSDT", lev: 100, maker: 0.02, taker: 0.06, since: "2026-02-02" });
+  // rTokens only where Bitget also lists the stock perpetual (RNDR is not a stock).
+  assert.deepEqual(Object.keys(PARSE.bitget.spot({ data: [{ symbol: "RTSLAUSDT", status: "online" }, { symbol: "RNDRUSDT", status: "online" }] }, { perp: bitgetPerp })), ["TSLA"]);
+  const okx = PARSE.okx.perp({ data: [
+    { instId: "OPENAI-USDT-SWAP", instCategory: "3", state: "live", settleCcy: "USDT", instFamily: "OPENAI-USDT", lever: "20", listTime: "1778145300000", ruleType: "pre_market" },
+    { instId: "BTC-USDT-SWAP", instCategory: "1", state: "live", settleCcy: "USDT", instFamily: "BTC-USDT", lever: "100" },
+  ] });
+  assert.deepEqual(Object.keys(okx), ["OPENAI"]);
+  assert.equal(okx.OPENAI.preipo, true);
+  const gate = PARSE["gate-io"].spot([
+    { id: "TSLAON_USDT", base: "TSLAON", base_name: "Tesla Ondo Tokenized", quote: "USDT", trade_status: "tradable" },
+    { id: "TSLAX_USDT", base: "TSLAX", base_name: "Tesla xStock", quote: "USDT", trade_status: "tradable" },
+  ]);
+  assert.deepEqual(gate.TSLA, { sym: "TSLAX", form: "xStocks", alt: "TSLAON", altForm: "Ondo" });
+  const prev = { venues: { okx: { perp: { checkedAt: "x", items: { TSLA: { sym: "TSLA-USDT-SWAP" }, GME: { sym: "GME-USDT-SWAP" } } } }, bybit: { perp: { stale: true, items: {} } } } };
+  const next = { generatedAt: "2026-10-18T00:00:00Z", venues: { okx: { perp: { checkedAt: "y", source: "s", items: { TSLA: { sym: "TSLA-USDT-SWAP" }, NVDA: { sym: "NVDA-USDT-SWAP", lev: 50 } } } }, bybit: { perp: { checkedAt: "y", items: { AAPL: { sym: "AAPLUSDT" } } } } } };
+  const events = diffLive(prev, next);
+  assert.deepEqual(events.map((e) => `${e.type}:${e.venue}:${e.ticker}`).sort(), ["delisted:okx:GME", "listed:okx:NVDA"]);
+});
+
+test("runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its date and shipped as prerender state", async () => {
+  const { TS_LIVE_BAKED } = await import("../src/data/tokenized-stocks-live.generated.js");
+  const newer = structuredClone(TS_LIVE_BAKED);
+  newer.generatedAt = new Date(Date.parse(TS_LIVE_BAKED.generatedAt) + 86400e3).toISOString();
+  newer.rows.NVDA["bitget:perp"] = { ...newer.rows.NVDA["bitget:perp"], sym: "NVDAUSDT", lev: 77 };
+  const response = await worker.fetch(new Request("https://nexualpha.com/tokenized-stocks/nvda", { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => newer });
+  const html = await response.text();
+  assert.match(mainHtml(html), /\b77x/i);
+  const state = JSON.parse(html.match(/<script type="application\/json" id="nexualpha-prerender-state">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(state.tsLive.generatedAt, newer.generatedAt);
+  // An older runtime table never replaces the release copy.
+  const older = { ...newer, generatedAt: "2026-01-01T00:00:00Z" };
+  const html2 = await (await worker.fetch(new Request("https://nexualpha.com/tokenized-stocks/nvda", { headers: { accept: "text/html" } }), { ...env(), TS_LIVE_READ: async () => older })).text();
+  assert.doesNotMatch(mainHtml(html2), /\b77x/i);
+});
+
+test("hydration: ticker (baked and runtime table) and exchange pages hydrate without a mismatch", async () => {
+  const { TS_LIVE_BAKED } = await import("../src/data/tokenized-stocks-live.generated.js");
+  const newer = { ...structuredClone(TS_LIVE_BAKED), generatedAt: new Date(Date.parse(TS_LIVE_BAKED.generatedAt) + 3600e3).toISOString() };
+  const cases = [["/zh-hans/tokenized-stocks/tsla", {}], ["/tokenized-stocks/openai", { TS_LIVE_READ: async () => newer }], ["/es/tokenized-stocks/exchange/okx", {}], ["/tokenized-stocks", {}]];
+  for (const [path, extra] of cases) {
+    const html = await (await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html" } }), { ...env(), ...extra })).text();
+    const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
+    assert.deepEqual(hydrationErrors(errors), [], path);
+  }
 });

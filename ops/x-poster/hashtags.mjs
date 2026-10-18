@@ -16,6 +16,23 @@ export const COINS = Object.freeze({
   BGB: [], OKB: [], USDT: ['tether'], USDC: [],
 });
 const STABLES = new Set(['USDT', 'USDC']); // never worth a tag on their own
+// US stocks that trade as tokens / perpetuals on our exchanges (tokenized-stocks pages, 2026-10-18): a post about one
+// carries its cashtag ($TSLA, $NVDA). Matched by ticker (upper case) or company name; never a hot keyword on its own.
+export const STOCKS = Object.freeze({
+  TSLA: ['tesla', '特斯拉'], NVDA: ['nvidia', '英伟达'], AAPL: ['apple stock', '苹果股票'], MSFT: ['microsoft', '微软'],
+  AMZN: ['amazon stock'], GOOGL: ['alphabet'], META: ['meta platforms'], COIN: ['coinbase stock'], MSTR: ['microstrategy', 'strategy inc'],
+  HOOD: ['robinhood'], CRCL: ['circle stock'], PLTR: ['palantir'], AMD: [], SPY: [], QQQ: [], SPCX: ['spacex stock'],
+});
+/** Stock tickers a text is about, earliest mention first. */
+export function stocksIn(text) {
+  const out = [];
+  for (const [sym, names] of Object.entries(STOCKS)) {
+    const idx = [new RegExp(`(?:^|[^A-Za-z0-9#/])\\$?${sym}(?![A-Za-z0-9])`).exec(text)?.index ?? -1,
+      ...names.map((n) => text.toLowerCase().indexOf(n.toLowerCase()))].filter((i) => i >= 0);
+    if (idx.length) out.push({ sym, idx: Math.min(...idx) });
+  }
+  return out.sort((a, b) => a.idx - b.idx).map((s) => s.sym);
+}
 // Topic tags (not coins). `match` runs on post text; zh gives the Chinese-post form.
 export const TOPICS = Object.freeze({
   FOMC: { tag: '#FOMC', match: /\bFOMC\b|\bFed(?:eral Reserve)?\b|\brate (?:cut|hike|decision)s?\b|美联储|议息/i },
@@ -25,6 +42,7 @@ export const TOPICS = Object.freeze({
   ETF: { tag: '#ETF', match: /\bETFs?\b/i },
   Hyperliquid: { tag: '#Hyperliquid', match: /\bHyperliquid\b/i },
   TokenizedStocks: { tag: '#TokenizedStocks', zh: '#美股代币化', match: /\btokeni[sz]ed (?:stocks?|equit(?:y|ies)|shares)\b|\bxStocks\b|\bstock tokens?\b|代币化(?:美股|股票)|美股代币/i },
+  xStocks: { tag: '#xStocks', match: /\bxStocks\b/i },
   NVDA: { tag: '#NVDA', match: /\bNVDA\b|\bNvidia\b|英伟达/i },
   TSLA: { tag: '#TSLA', match: /\bTSLA\b|\bTesla\b|特斯拉/i },
   RWA: { tag: '#RWA', match: /\bRWAs?\b|\breal[- ]world assets?\b/i },
@@ -150,6 +168,9 @@ export function selectTags({ text, key = '', locale = 'en', keywords = [], extra
   const coins = coinsIn(text, extraTickers);
   const topics = [];
   for (const sym of coins) { if (topics.length >= 2) break; if (take(`$${sym}`)) topics.push({ coin: sym, tag: `$${sym}` }); }
+  // The post's stock (tokenized-stocks posts): one cashtag ($TSLA, $NVDA), leaving room for #TokenizedStocks / #xStocks.
+  const stock = stocksIn(text).find((sym) => !coins.includes(sym));
+  if (stock && topics.length < 2 && take(`$${stock}`)) topics.push({ coin: stock, tag: `$${stock}` });
   for (const [k, t] of Object.entries(TOPICS)) {
     if (topics.length >= 2) break;
     if (t.match.test(text) && take(tagFor(k, lang))) topics.push({ topic: k, tag: tagFor(k, lang) });

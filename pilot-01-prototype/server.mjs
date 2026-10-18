@@ -26,6 +26,7 @@ import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usd
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from './server/liquidation-levels-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
+import { createTokenizedStocksReader, TS_LIVE_JSON_PATH } from './server/tokenized-stocks-feed.mjs';
 import { createJsonSnapshotReader } from './server/intel-tools-feed.mjs';
 import { readEtfFlows } from './src/data/etf-flows.js';
 import { readCalendar } from './src/data/crypto-calendar.js';
@@ -103,6 +104,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // Hyperliquid or chain sources itself, so a missing file answers "unavailable" at once instead of timing out.
   const radar = createPositionRadar({ whaleFileOnly: true, ...(suppliedWorker || env.INTEL_REFRESH === 'off' ? { fetchImpl: async () => { throw new Error('radar network off'); } } : {}) });
   const coinsSnapshot = createCoinsSnapshotReader({ file: env.COINS_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // /tokenized-stocks ticker + exchange pages and /intel/tokenized-stocks.json: the host's refreshed listing snapshot
+  // (TS_LIVE_FILE, read-only for the server); unset = the table baked into the release.
+  const tsLive = createTokenizedStocksReader({ file: env.TS_LIVE_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // Home "Today's movers": the ticker's Binance rows + the coin universe (runtime snapshot, else the release copy) + the
   // collector feed. No extra upstream request.
   let releaseCoins = null;
@@ -280,6 +284,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await fx.respond(req.method);
       } else if (requestPath === LIQUIDATION_LEVELS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await liquidationLevels.respond(req.method);
+      } else if (requestPath === TS_LIVE_JSON_PATH && tsLive.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await tsLive.respond(req.method))) {
+        // served from TS_LIVE_FILE (falls through to the static copy below when the file is not usable)
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
         // served from COINS_FILE (falls through to the static copy below when the file is not usable)
       } else if (requestPath === '/api/analytics/cta' && collector) {
@@ -290,7 +296,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request, undefined, { clientIp: clientKey(req) });
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, WORKER_POLLED_JSON_CACHE_SCOPE: workerPolledJsonCacheScope, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, FUNDING_READ: funding.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, MOVERS_READ: movers.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, WORKER_POLLED_JSON_CACHE_SCOPE: workerPolledJsonCacheScope, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, LIQUIDATION_LEVELS_READ: liquidationLevels.read, FUNDING_MATRIX_READ: fundingMatrix.read, FUNDING_READ: funding.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, TS_LIVE_READ: tsLive.enabled ? tsLive.read : undefined, ETF_FLOWS_READ: etfFlows.read, CALENDAR_READ: calendar.read, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, MOVERS_READ: movers.read, RADAR_READ: radar.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

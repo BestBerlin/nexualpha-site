@@ -52,6 +52,7 @@ const EXCHANGE_SOURCES = Object.freeze(new Set([
   'kraken-announcements',
   'kraken-status',
   'nexualpha-official-announcements',
+  'nexualpha-tokenized-stocks',
 ]));
 
 const ENDPOINTS = Object.freeze({
@@ -63,6 +64,7 @@ const ENDPOINTS = Object.freeze({
   'kraken-announcements': { host: 'blog.kraken.com', path: '/category/product/asset-listings/feed' },
   'kraken-status': { host: 'status.kraken.com', path: '/api/v2/incidents.json' },
   'nexualpha-official-announcements': { host: 'nexualpha.com', path: '/intel/official-announcements.json' },
+  'nexualpha-tokenized-stocks': { host: 'nexualpha.com', path: '/intel/tokenized-stocks.json' },
 });
 
 export function supports(source) {
@@ -84,6 +86,7 @@ export async function poll(source, since = null, ctx = {}) {
   else if (source.id === 'kraken-announcements') items = mapKrakenAnnouncements(await request(source.url, { format: 'text' }), source, nowMs);
   else if (source.id === 'kraken-status') items = mapKraken(await request(source.url), source, nowMs);
   else if (source.id === 'nexualpha-official-announcements') items = mapMirror(await request(source.url), source, nowMs);
+  else if (source.id === 'nexualpha-tokenized-stocks') items = mapTokenizedStockChanges(await request(source.url), source, nowMs);
   else throw new CollectorError(`Unsupported exchange source: ${source.id}`);
   return dedupe(items).filter(item => afterSince(item, sinceMs));
 }
@@ -272,6 +275,31 @@ function mapMirror(payload, source, nowMs) {
     event_type_guess: exchangeEventType(row?.category, row?.title),
     metrics: row?.venue ? { venue: row.venue, source_type: row.sourceType ?? null } : undefined,
   }, source)).filter(Boolean);
+}
+
+// Tokenized-stock listing changes (2026-10-18): the site's refresh job diffs the exchanges' own instrument lists every
+// few hours and keeps a rolling `events` log in /intel/tokenized-stocks.json. Each change becomes a listing/delisting
+// item that links to the stock's page (which cites the exchange endpoint); the observation time is the publication time.
+const TS_VENUE_NAMES = Object.freeze({ bitget: 'Bitget', okx: 'OKX', binance: 'Binance', bybit: 'Bybit', 'gate-io': 'Gate', mexc: 'MEXC', kraken: 'Kraken' });
+function mapTokenizedStockChanges(payload, source, nowMs) {
+  if (!payload || typeof payload !== 'object' || !Array.isArray(payload.events ?? [])) throw new CollectorError(`${source.id} malformed payload`);
+  return (payload.events ?? []).map(row => {
+    const venue = TS_VENUE_NAMES[row?.venue];
+    const ticker = String(row?.ticker ?? '').toUpperCase();
+    if (!venue || !/^[A-Z][A-Z0-9.]{0,14}$/.test(ticker) || !['listed', 'delisted'].includes(row?.type)) return null;
+    const product = row.lane === 'spot' ? 'stock token' : 'stock perpetual';
+    const verb = row.type === 'listed' ? 'lists' : 'removes';
+    const lev = row.type === 'listed' && Number.isFinite(row.lev) ? `, up to ${row.lev}x` : '';
+    return buildItem({
+      external_id: row.id ? `ts:${row.id}` : `ts:${row.observedAt}:${row.type}:${row.venue}:${row.lane}:${ticker}`,
+      url: `https://nexualpha.com/tokenized-stocks/${ticker.toLowerCase()}`,
+      title: `${venue} ${verb} ${ticker} ${product} (${row.sym ?? ticker})${lev}`,
+      body_excerpt: `Observed in ${venue}'s public instrument list: ${row.source ?? ''}`,
+      published_at: timestamp(row.observedAt, nowMs),
+      event_type_guess: row.type === 'listed' ? 'listing' : 'delisting',
+      metrics: { venue: row.venue, ticker, lane: row.lane ?? null, symbol: row.sym ?? null, max_leverage: row.lev ?? null, endpoint: row.source ?? null },
+    }, source);
+  }).filter(Boolean);
 }
 
 // Announcement bodies are optional enrichment: cap them per poll so a slow or blocking venue

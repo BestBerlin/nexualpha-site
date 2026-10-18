@@ -70,6 +70,8 @@ export const ATTRIBUTION_ALLOWLIST = [
   rule(['www.mexc.com'], /^\/zh-MY\/campaigns\/TradingPapa8$/, 'Expired campaign terms retained as historical evidence, not an active conversion destination.', attrs => attrs.sourceLiteral || attrs.class === 'campaign-card__source-link' || attrs.class === 'v3-versus-source-link' || ['activity-center-v3__source-actions', 'official-research__source-head'].includes(attrs.sourceContext)),
   rule(['fapi.binance.com'], /^\/(?:futures\/data|fapi\/v1)\//, 'Official public USDT-M futures statistics API used as a /long-short data source.'),
   rule(['api.bybit.com'], /^\/v5\/market\//, 'Official public v5 market-data API used as a /long-short data source.'),
+  rule(['api.bybit.com'], /^\/v5\/announcements\/index$/, 'Official public announcements API: campaign start/end times cited on the tokenized-stocks pages.'),
+  rule(['contract.mexc.com'], /^\/api\/v1\/contract\/detail$/, 'Official public MEXC futures contract list: stock-perpetual symbols, leverage and fees (tokenized-stocks live snapshot).'),
   rule(['www.kraken.com'], /^\/competitions\//, 'Official Kraken competition terms cited as the campaign source; conversion buttons use /go.', attrs => attrs.sourceLiteral || attrs.class === 'campaign-card__source-link'),
   rule(['www.okx.com'], /^\/affiliatedownload\/apk$/, 'Official OKX channel-APK URL (channelId NEXU888 binds the invite) used only as the /go/okx-apk server redirect target.', attrs => attrs.sourceLiteral),
   rule(['download.binance.com'], /^\/pack\/[A-Za-z0-9_]+\.apk$/, 'Official Binance channel APK used only as the /go/binance-apk server redirect target; the page shows the code beside the button.', attrs => attrs.sourceLiteral),

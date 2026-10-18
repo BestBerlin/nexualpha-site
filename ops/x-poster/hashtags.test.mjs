@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dailyKeywords, selectTags, coinsIn, radarTermsFromCsv, BANNED, EVERGREEN } from './hashtags.mjs';
+import { dailyKeywords, selectTags, coinsIn, stocksIn, radarTermsFromCsv, BANNED, EVERGREEN } from './hashtags.mjs';
 import { articleMessage, linkMessage, marketMessage, dailyMessage, weightedLength, costClass, keywordContext } from './x-poster.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -69,7 +69,7 @@ test('every post: 2-4 tags, no duplicates, ≤ limit (URL=23), cost class unchan
 test('cashtags match coins in the text; inline where the ticker already appears', () => {
   for (const text of posts()) {
     const body = text.replace(/\$(?=[A-Za-z])/g, '');
-    for (const tag of allTags(text).filter((t) => t.startsWith('$'))) assert.ok(coinsIn(body, ['STRKUSDT', 'QUSDT']).includes(tag.slice(1)), `${tag} not in text`);
+    for (const tag of allTags(text).filter((t) => t.startsWith('$'))) assert.ok([...coinsIn(body, ['STRKUSDT', 'QUSDT']), ...stocksIn(body)].includes(tag.slice(1)), `${tag} not in text`);
   }
   const [etf, , , , , daily] = posts();
   assert.match(etf, /\$BTC ETF inflows/); // inline, first mention
@@ -89,7 +89,10 @@ test('venue tags follow Bitget > OKX > Binance; topics like #TokenizedStocks and
   const tok = posts()[1];
   const tags = allTags(tok);
   assert.ok(tags.includes('#TokenizedStocks'), tok);
-  assert.ok(tags.includes('#NVDA') || tags.includes('#FOMC'));
+  assert.ok(tags.includes('$NVDA') || tags.includes('#NVDA') || tags.includes('#FOMC'));
+  // A stock post carries the stock's cashtag plus the tokenized-stocks topic (owner: $TSLA $NVDA #TokenizedStocks #xStocks).
+  const tsla = selectTags({ text: 'Tesla stock token TSLAx now trades 24/7 on Bybit xStocks', key: 't', keywords: [], now });
+  assert.deepEqual(tsla.topics.map((t) => t.tag), ['$TSLA', '#TokenizedStocks']);
   const v = selectTags({ text: 'Binance, OKX and Bitget fees compared', key: 'v', keywords: [], now });
   assert.deepEqual(v.topics.map((t) => t.tag), ['#Bitget']);
 });

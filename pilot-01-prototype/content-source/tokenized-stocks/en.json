@@ -60,7 +60,10 @@
   "promoEnds": "until {date}",
   "promos": {
     "bitgetAlliance": "Bitget Alliance: stock trades count toward the rewards",
-    "binanceWalletBstocks": "bStocks trading competition, 50,000 USDC in rewards"
+    "binanceWalletBstocks": "bStocks trading competition, 50,000 USDC in rewards",
+    "bybitStockBuzzTsla": "Bybit Stock Buzz: trade Tesla, share 100,000 USDT",
+    "bybitStockBuzzMu": "Bybit Stock Buzz: trade Micron, share 100,000 USDT",
+    "bybitFullStocksAhead": "Bybit Full Stocks Ahead: share 150,000 USDC"
   },
   "pickH": "Which one fits",
   "picks": [
@@ -218,7 +221,25 @@
     "GOOGL": "Alphabet",
     "AMZN": "Amazon",
     "SPY": "S&P 500 ETF",
-    "QQQ": "Nasdaq-100 ETF"
+    "QQQ": "Nasdaq-100 ETF",
+    "META": "Meta",
+    "PLTR": "Palantir",
+    "AMD": "AMD",
+    "NFLX": "Netflix",
+    "AVGO": "Broadcom",
+    "TSM": "TSMC",
+    "MU": "Micron",
+    "INTC": "Intel",
+    "ORCL": "Oracle",
+    "ARM": "Arm",
+    "SNDK": "Sandisk",
+    "CRWV": "CoreWeave",
+    "BMNR": "BitMine",
+    "GME": "GameStop",
+    "BABA": "Alibaba",
+    "SPCX": "SpaceX",
+    "OPENAI": "OpenAI",
+    "ANTHROPIC": "Anthropic"
   },
   "homeKicker": "Tokenized US stocks",
   "homeTitle": "Trade US stocks with USDT · 24/7",
@@ -226,5 +247,200 @@
   "homeAll": "See all",
   "homeTickers": "{n} tickers",
   "venueH": "Tokenized US stocks on {name}",
-  "venueLink": "Compare every exchange"
+  "venueLink": "Compare every exchange",
+  "updated": "Data updated {time} SGT",
+  "tk": {
+    "seoTitle": "{name} ({ticker}) stock token and perps: trade it with USDT",
+    "seoDescription": "{name} ({ticker}) trades on {n} exchanges with USDT: {list}. Token or perpetual, symbol, leverage up to {lev}x, fees, hours and dividends from each exchange's own data.",
+    "preSeoTitle": "{name} pre-IPO perpetuals: where to trade them with USDT",
+    "preSeoDescription": "{n} exchanges list {name} pre-IPO perpetuals: {list}. Symbols, leverage up to {lev}x and fees from each exchange's own data. No shares, no IPO allocation.",
+    "preH1": "Trade {name} pre-IPO perpetuals with USDT",
+    "preLead": "{name} is a private company. These USDT contracts track its estimated value before any listing.",
+    "answerLev": "Highest leverage: {lev}x on {list}.",
+    "answerFee": "Lowest published taker fee on a {ticker} perpetual: {fee} on {list}.",
+    "answerWeekend": "Trades on weekends: {list}.",
+    "preAnswer": "{n} exchanges list {name} pre-IPO perpetuals: {list}. They settle in USDT and give no shares, no IPO allocation and no shareholder rights.",
+    "cols": {
+      "exchange": "Exchange",
+      "form": "Product",
+      "symbol": "Symbol",
+      "lev": "Max leverage",
+      "fee": "Fee (standard)",
+      "hours": "Hours",
+      "dividends": "Dividends",
+      "source": "Source"
+    },
+    "div": {
+      "cash": "Cash in USDT, after tax",
+      "reinvest": "Reinvested into the token",
+      "adjust": "Paid between longs and shorts",
+      "none": "None",
+      "nocash": "No cash payout"
+    },
+    "altToken": "also {sym} ({form})",
+    "aboutH": "About {name}",
+    "faqH": "{ticker} questions",
+    "q1": "Can I buy {name} ({ticker}) with USDT?",
+    "a1Both": "Yes. As a stock token on {spot}. As a USDT perpetual on {perp}.",
+    "a1Perp": "Yes, as a USDT perpetual on {perp}. None of the exchanges we read lists a {ticker} token yet.",
+    "a1Spot": "Yes, as a stock token on {spot}.",
+    "q2": "What is the highest leverage on {ticker}?",
+    "a2": "Up to {lev}x on {list}, as each exchange publishes it. A stock token is bought without leverage.",
+    "q3": "Does the {ticker} stock token pay dividends?",
+    "a3Cash": "{list}: net cash dividends credited in USDT.",
+    "a3Reinvest": "{list}: dividends are reinvested and show up in the token balance.",
+    "a3NoCash": "{list}: no cash dividend.",
+    "a3Perp": "Perpetuals pay no dividends, except Bitget, which settles cash dividends between longs and shorts.",
+    "q4": "Can I trade {ticker} on weekends?",
+    "a4": "Yes. Around the clock on {list}.",
+    "a4No": "Only in the hours each exchange lists above; none publishes 24/7 trading for {ticker}.",
+    "q3Pre": "Do I own {name} shares with a pre-IPO perpetual?",
+    "a3Pre": "No. It is a USDT-settled contract on {name}'s estimated value. You get no shares, no IPO allocation and no shareholder rights.",
+    "exLink": "{name} stock guide",
+    "other": "More tokenized stocks",
+    "preipoBadge": "Pre-IPO",
+    "changesH": "Latest listing changes",
+    "changeListed": "{exchange} listed {sym}",
+    "changeDelisted": "{exchange} removed {sym}",
+    "campaignsH": "Stock campaigns running now"
+  },
+  "about": {
+    "NVDA": "Nvidia designs the GPUs that train and run most AI models, which makes NVDA the most traded stock token on crypto exchanges.",
+    "TSLA": "Tesla builds electric cars, batteries and robotaxis; its stock is a favourite of crypto traders and moves on every Elon Musk headline.",
+    "AAPL": "Apple makes the iPhone, Mac and the services around them, and is one of the largest companies in the S&P 500.",
+    "MSFT": "Microsoft sells Windows, Office and the Azure cloud, and is OpenAI's biggest backer.",
+    "COIN": "Coinbase runs the largest US crypto exchange, so COIN tends to move with bitcoin.",
+    "MSTR": "Strategy (formerly MicroStrategy) holds more bitcoin than any other listed company; MSTR trades like a leveraged bitcoin bet.",
+    "HOOD": "Robinhood is the US trading app that also issues its own stock tokens in Europe.",
+    "CRCL": "Circle issues the USDC stablecoin and listed on the New York Stock Exchange in 2025.",
+    "GOOGL": "Alphabet owns Google Search, YouTube, Android and Google Cloud; GOOGL is its class A share.",
+    "AMZN": "Amazon runs the largest online store and AWS, the biggest cloud business.",
+    "SPY": "SPY is the SPDR ETF that tracks the S&P 500, the 500 largest US companies in one ticker.",
+    "QQQ": "QQQ is the Invesco ETF that tracks the Nasdaq-100, the large tech-heavy stocks of the Nasdaq.",
+    "META": "Meta owns Facebook, Instagram and WhatsApp and spends heavily on AI.",
+    "PLTR": "Palantir sells data and AI software to governments and companies; it is one of the most traded US growth stocks.",
+    "AMD": "AMD designs CPUs and AI accelerators that compete with Intel and Nvidia.",
+    "NFLX": "Netflix is the largest paid video streaming service.",
+    "AVGO": "Broadcom makes networking and custom AI chips plus infrastructure software.",
+    "TSM": "TSMC manufactures most of the world's advanced chips, including Nvidia's and Apple's; TSM is its US-listed share.",
+    "MU": "Micron makes the DRAM and high-bandwidth memory that AI servers need.",
+    "INTC": "Intel designs and manufactures PC and server processors.",
+    "ORCL": "Oracle sells databases and a fast-growing cloud business built for AI workloads.",
+    "ARM": "Arm licenses the chip designs inside almost every smartphone.",
+    "SNDK": "Sandisk makes flash memory and SSDs; it was spun off from Western Digital in 2025.",
+    "CRWV": "CoreWeave rents out Nvidia GPU capacity as an AI cloud.",
+    "BMNR": "BitMine Immersion Technologies is a listed company that holds Ether as its main treasury asset.",
+    "GME": "GameStop is the video-game retailer at the centre of the 2021 meme-stock rally.",
+    "BABA": "Alibaba is China's largest e-commerce and cloud group; BABA is its New York-listed share.",
+    "SPCX": "SpaceX builds Falcon rockets, Starship and the Starlink satellite network.",
+    "OPENAI": "OpenAI, the maker of ChatGPT, is a private company: its shares are not listed on any stock exchange.",
+    "ANTHROPIC": "Anthropic, the maker of Claude, is a private company: its shares are not listed on any stock exchange."
+  },
+  "ex": {
+    "answer": "{name} lists {perp} stock perpetuals and {spot} stock tokens, read from {name}'s own market data on {time} SGT.",
+    "answerPerpOnly": "{name} lists {perp} stock perpetuals, read from {name}'s own market data on {time} SGT.",
+    "answerLev": "Highest leverage among the names below: {lev}x ({list}).",
+    "answerTsla": "Tesla on {name}: {symbols}.",
+    "productsH": "What {name} offers",
+    "stepsH": "How to buy US stocks on {name}",
+    "steps": [
+      [
+        "Open a {name} account",
+        "Sign up through the link with our code below and complete identity verification."
+      ],
+      [
+        "Deposit USDT",
+        "Send USDT to your {name} account. Stock tokens and USDT perpetuals both settle in USDT."
+      ],
+      [
+        "Find the stocks section",
+        "In the app: {path}."
+      ],
+      [
+        "Search the symbol",
+        "Tesla is {sym}. Use the table below for the other names."
+      ],
+      [
+        "Buy the token or open a position",
+        "A stock token is a spot buy you hold. A perpetual goes long or short with the leverage you choose."
+      ]
+    ],
+    "stepOneNeutral": [
+      "Open a {name} account",
+      "Register on {name}'s official site and complete identity verification."
+    ],
+    "pathNone": "open Markets and search the ticker",
+    "tableH": "US stocks on {name}",
+    "tableLead": "Symbols and maximum leverage for the most-searched names, from {name}'s own market data.",
+    "cols": {
+      "stock": "Stock",
+      "token": "Stock token",
+      "perp": "Perpetual",
+      "lev": "Max leverage"
+    },
+    "excludedH": "Not available in",
+    "promoH": "Running now",
+    "q1": "Can I buy US stocks on {name}?",
+    "a1": "Yes. {name} lists {perp} stock perpetuals and {spot} stock tokens that settle in USDT.",
+    "a1PerpOnly": "Yes, as USDT perpetuals: {name} lists {perp} of them. It has no stock tokens.",
+    "q2": "What is the maximum leverage on {name} stock perpetuals?",
+    "a2": "Up to {lev}x on {list}. Each contract has its own limit: see the table.",
+    "q3": "Who can't use {name} stocks?",
+    "a3": "{name} does not offer them in {list}.",
+    "otherEx": "Stocks on other exchanges",
+    "allTickers": "All tickers"
+  },
+  "exPages": {
+    "bitget": {
+      "title": "{name} stock futures and rToken: how to buy US stocks with USDT",
+      "description": "How to trade US stocks on {name} with USDT: stock perpetuals up to {lev}x, rToken stock tokens, symbols, fees, hours and dividends, from {name}'s own data.",
+      "h1": "{name} US stocks: stock futures and rToken",
+      "intro": "{name} offers two ways into US stocks: rToken stock tokens you buy and hold, and USDT-margined stock perpetuals that trade 24/7."
+    },
+    "okx": {
+      "title": "{name} xStocks tutorial: buy US stocks with USDT on {name}",
+      "description": "How to buy xStocks on {name} with USDT: tokenized stocks, stock perpetuals up to {lev}x, pre-IPO perps, symbols and hours, from {name}'s own data.",
+      "h1": "{name} xStocks and stock perpetuals",
+      "intro": "{name} lists xStocks tokens that trade 24/7 in the spot market, plus USDT stock perpetuals and pre-IPO contracts."
+    },
+    "binance": {
+      "title": "{name} stocks: bStocks tokens and stock perpetuals with USDT",
+      "description": "Can you buy US stocks on {name}? Yes: bStocks tokens and USDT stock perpetuals. Symbols, hours, fees and dividends from {name}'s own data.",
+      "h1": "{name} US stocks: bStocks and stock perpetuals",
+      "intro": "{name} lists bStocks tokens in spot and USDT-margined TradFi perpetuals on US stocks and ETFs."
+    },
+    "bybit": {
+      "title": "{name} xStocks and stock perpetuals: trade US stocks with USDT",
+      "description": "How to trade US stocks on {name}: xStocks tokens, USDT stock perpetuals up to {lev}x, symbols, fees and hours from {name}'s own data.",
+      "h1": "{name} US stocks: xStocks and stock perpetuals",
+      "intro": "{name} lists xStocks tokens in spot and USDT stock and ETF perpetuals under TradFi."
+    },
+    "gate-io": {
+      "title": "{name} stocks: xStocks, Ondo tokens and stock perpetuals with USDT",
+      "description": "How to trade US stocks on {name} with USDT: xStocks and Ondo tokens, stock perpetuals up to {lev}x, symbols and fees from {name}'s own data.",
+      "h1": "{name} US stocks: tokens and stock perpetuals",
+      "intro": "{name} lists both xStocks and Ondo stock tokens in spot, and USDT stock perpetuals including pre-IPO names."
+    },
+    "kraken": {
+      "title": "{name} xStocks: tokenized stocks and stock perps",
+      "description": "How to trade xStocks on {name}: tokenized US stocks, xStocks perpetuals up to {lev}x, symbols, hours and fees from {name}'s own data.",
+      "h1": "{name} xStocks and stock perpetuals",
+      "intro": "{name} lists xStocks tokens you can buy with USD, USDC or USDG, plus xStocks perpetuals."
+    },
+    "mexc": {
+      "title": "{name} stock futures: trade US stocks with USDT",
+      "description": "How to trade US stocks on {name}: stock perpetuals up to {lev}x, xStocks and Ondo tokens, symbols and fees from {name}'s own data.",
+      "h1": "{name} US stocks: stock futures and tokens",
+      "intro": "{name} lists USDT stock perpetuals, many with zero maker fees, plus xStocks and Ondo stock tokens in spot."
+    }
+  },
+  "exNames": {
+    "bitget": "Bitget",
+    "okx": "OKX",
+    "binance": "Binance",
+    "bybit": "Bybit",
+    "gate-io": "Gate",
+    "kraken": "Kraken",
+    "mexc": "MEXC"
+  }
 }

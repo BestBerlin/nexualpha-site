@@ -5,9 +5,10 @@
 // SSR renders every word; the browser only adds the copy buttons, so the first client render matches the server HTML.
 import React, { useState } from "react";
 import { TS_COPY } from "../../data/tokenized-stocks-copy.js";
-import { TS_CHECKED, TS_ETFS, TS_LANES, TS_TICKERS, tsListings, tsSymbol } from "../../data/tokenized-stocks-facts.js";
+import { TS_CHECKED, TS_LANES, TS_TICKERS, tsListings, tsSymbol } from "../../data/tokenized-stocks-facts.js";
 import { fillTs, tsActivePromo, tsCitable, tsFeeText, tsList, tsSignup, tsVenues } from "../../data/tokenized-stocks.js";
-import { TS_PATH, tsTickerPath } from "../../data/tokenized-stocks-routes.js";
+import { TS_EXCHANGE_SLUGS, TS_PATH, tsExchangePath, tsTickerPath } from "../../data/tokenized-stocks-routes.js";
+import { tsLive } from "../../data/tokenized-stocks-rows.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { outboundLink, sourceDomain } from "../../data/exchange-outbound.js";
 import { formatSgt } from "../../data/local-time.js";
@@ -147,7 +148,9 @@ function ExchangeRow({ ex, t, locale, market, now }) {
             <small>{fillTs(t.promoEnds, { date: formatSgt(promo.endAt, locale, "end") })}</small>
           </p>
         ) : null}
-        <a className="nxts-row__profile" href={hrefFor(`/exchanges/${ex.slug}`, locale, market)}>{fillTs(t.profile, { name: ex.name })}</a>
+        {TS_EXCHANGE_SLUGS.includes(ex.slug)
+          ? <a className="nxts-row__profile" href={hrefFor(tsExchangePath(ex.slug), locale, market)}>{fillTs(t.tk.exLink, { name: t.exNames?.[ex.slug] || ex.name })}</a>
+          : <a className="nxts-row__profile" href={hrefFor(`/exchanges/${ex.slug}`, locale, market)}>{fillTs(t.profile, { name: ex.name })}</a>}
       </div>
       <div className="nxts-row__body">
         {lanes.map((lane) => <LaneCell key={lane} ex={ex} lane={lane} t={t} locale={locale} market={market} />)}
@@ -178,14 +181,19 @@ function shortAnswer(venues, t, locale) {
   };
 }
 
-function TickerBoard({ venues, t, locale, market }) {
+/** Exchanges (shown on this page) that list a ticker, and its lanes, from the live table plus the sourced fact rows. */
+function tickerCoverage(ticker, slugs, live) {
+  const keys = Object.keys(tsLive(live).rows?.[ticker] || {}).filter((key) => slugs.has(key.split(":")[0]));
+  const rows = tsListings(ticker).filter((row) => slugs.has(row.exchange.slug));
+  return { n: new Set([...keys.map((key) => key.split(":")[0]), ...rows.map((row) => row.exchange.slug)]).size, lanes: new Set([...keys.map((key) => key.split(":")[1]), ...rows.map((row) => row.lane)]) };
+}
+
+function TickerBoard({ venues, t, locale, market, live }) {
   const slugs = new Set(venues.map((ex) => ex.slug));
   return (
     <ul className="nxts-board" aria-label={t.tickersH}>
       {TS_TICKERS.slice(0, 8).map((ticker) => {
-        const rows = tsListings(ticker).filter((row) => slugs.has(row.exchange.slug));
-        const n = new Set(rows.map((row) => row.exchange.slug)).size;
-        const lanes = new Set(rows.map((row) => row.lane));
+        const { n, lanes } = tickerCoverage(ticker, slugs, live);
         return (
           <li key={ticker}>
             <a href={hrefFor(tsTickerPath(ticker), locale, market)}>
@@ -201,16 +209,16 @@ function TickerBoard({ venues, t, locale, market }) {
   );
 }
 
-function TickerChips({ t, locale, market, venues, except }) {
+function TickerChips({ t, locale, market, venues, except, live }) {
   const slugs = new Set(venues.map((ex) => ex.slug));
   return (
     <ul className="nxts-chips">
       {TS_TICKERS.filter((ticker) => ticker !== except).map((ticker) => {
-        const n = new Set(tsListings(ticker).filter((row) => slugs.has(row.exchange.slug)).map((row) => row.exchange.slug)).size;
+        const { n } = tickerCoverage(ticker, slugs, live);
         return (
           <li key={ticker}>
             <a href={hrefFor(tsTickerPath(ticker), locale, market)}>
-              <b translate="no">{ticker}</b><span>{t.names[ticker]}</span><small>{fillTs(t.tickerVenues, { n })}</small>
+              <b translate="no">{ticker}</b><span>{t.names[ticker] || ticker}</span><small>{fillTs(t.tickerVenues, { n })}</small>
             </a>
           </li>
         );
@@ -233,7 +241,7 @@ function Faq({ t, locale, market, items }) {
   );
 }
 
-export function TokenizedStocksHubPage({ locale = "en", market }) {
+export function TokenizedStocksHubPage({ locale = "en", market, live }) {
   const t = tsPageCopy(locale);
   const venues = tsVenues(locale, market);
   const now = Date.now();
@@ -257,7 +265,7 @@ export function TokenizedStocksHubPage({ locale = "en", market }) {
               <p className="nxts-answer__checked">{fillTs(t.checked, { date: TS_CHECKED })}</p>
             </div>
           </div>
-          <TickerBoard venues={venues} t={t} locale={locale} market={market} />
+          <TickerBoard venues={venues} t={t} locale={locale} market={market} live={live} />
         </div>
       </section>
 
@@ -309,7 +317,7 @@ export function TokenizedStocksHubPage({ locale = "en", market }) {
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-tickers-h">
         <h2 id="ts-tickers-h">{t.tickersH}</h2>
         <p className="nxts-sec__lead">{t.tickersLead}</p>
-        <TickerChips t={t} locale={locale} market={market} venues={venues} />
+        <TickerChips t={t} locale={locale} market={market} venues={venues} live={live} />
       </section>
 
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-faq-h">
@@ -330,71 +338,5 @@ export function TokenizedStocksHubPage({ locale = "en", market }) {
   );
 }
 
-const laneForm = (row, t) => `${t.lanes[row.lane]}${row.data.form && row.lane === "spot" ? ` · ${row.data.form.v}` : ""}`;
-
-export function TokenizedStocksTickerPage({ locale = "en", market, ticker }) {
-  const t = tsPageCopy(locale);
-  const venues = tsVenues(locale, market);
-  const slugs = new Set(venues.map((ex) => ex.slug));
-  const order = venues.map((ex) => ex.slug);
-  const rows = tsListings(ticker).filter((row) => slugs.has(row.exchange.slug))
-    .sort((a, b) => order.indexOf(a.exchange.slug) - order.indexOf(b.exchange.slug) || (a.lane === "spot" ? -1 : 1));
-  const name = t.names[ticker] || ticker;
-  const exNames = [...new Set(rows.map((row) => row.exchange.name))];
-  const spot = rows.filter((row) => row.lane === "spot").map((row) => `${row.exchange.name} (${row.symbol})`);
-  const perp = rows.filter((row) => row.lane === "perp").map((row) => `${row.exchange.name} (${row.symbol})`);
-  const first = rows.find((row) => tsSignup(row.exchange.slug, { locale, market })) || rows[0];
-  return (
-    <main className="nxts nxts--ticker" id="top" dir={RTL.has(locale) ? "rtl" : "ltr"} lang={contentLang(locale)}>
-      <section className="nxts-hero nxts-hero--ticker">
-        <div className="nxts-shell">
-          <Crumbs items={[[t.breadcrumb, TS_PATH], [ticker, null]]} locale={locale} market={market} t={t} />
-          <h1 className="nxts-h1">{fillTs(t.tickerH1, { name, ticker })}{TS_ETFS.has(ticker) ? <span className="nxts-etf">{t.etf}</span> : null}</h1>
-          <p className="nxts-lead">{fillTs(t.tickerLead, { name })}</p>
-          <div className="nxts-answer" role="note" aria-label={t.answerLabel}>
-            <h2 className="nxts-answer__k">{t.answerLabel}</h2>
-            <p className="nxts-answer__main">{fillTs(t.tickerAnswer, { n: exNames.length, ticker, list: tsList(exNames, locale) })}</p>
-            {spot.length ? <p>{fillTs(t.tickerAnswerSpot, { list: tsList(spot, locale) })}</p> : null}
-            {perp.length ? <p>{fillTs(t.tickerAnswerPerp, { list: tsList(perp, locale) })}</p> : null}
-            {first ? <p>{fillTs(t.tickerHow, { ticker, symbol: first.symbol, exchange: first.exchange.name })}</p> : null}
-            <p className="nxts-answer__checked">{fillTs(t.checked, { date: TS_CHECKED })}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="nxts-shell nxts-sec" aria-labelledby="ts-tk-h">
-        <h2 id="ts-tk-h" className="nxts-sr">{t.tableH}</h2>
-        <div className="nxts-tk" role="table" aria-label={fillTs(t.tickerH1, { name, ticker })}>
-          <div className="nxts-tk__row nxts-tk__row--head" role="row">
-            {["exchange", "form", "symbol", "hours", "lev"].map((key) => <span key={key} role="columnheader">{t.tickerCols[key]}</span>)}
-            <span role="columnheader"><span className="nxts-sr">{t.codeLabel}</span></span>
-          </div>
-          {rows.map((row) => {
-            const signup = tsSignup(row.exchange.slug, { locale, market, placement: `ticker-${ticker.toLowerCase()}` });
-            const lev = row.lev != null ? fillTs(t.levUpTo, { x: row.lev }) : levText(row.data.lev, t);
-            const ids = [row.data.tickers, row.data.hours, row.lev != null ? { s: row.levSource } : row.data.lev].filter(Boolean).flatMap((fact) => fact.s || []);
-            return (
-              <div className="nxts-tk__row" role="row" key={`${row.exchange.slug}-${row.lane}`}>
-                <span role="cell" className="nxts-tk__ex"><BrandMark slug={row.exchange.slug} compact /><a href={hrefFor(`/exchanges/${row.exchange.slug}`, locale, market)}>{row.exchange.name}</a></span>
-                <span role="cell" data-k={t.tickerCols.form}><span className="nxts-cell__lane" data-lane={row.lane}>{laneForm(row, t)}</span></span>
-                <span role="cell" data-k={t.tickerCols.symbol}><code translate="no">{row.symbol}</code></span>
-                <span role="cell" data-k={t.tickerCols.hours}>{hoursText(row.data.hours, t) || "—"}</span>
-                <span role="cell" data-k={t.tickerCols.lev}>{lev || "—"}</span>
-                <span role="cell" className="nxts-tk__go">
-                  {signup ? <><CodeChip code={signup.code} t={t} /><SignupButton ex={row.exchange} signup={signup} t={t} /></> : null}
-                  <Sources ids={ids} locale={locale} market={market} t={t} />
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="nxts-shell nxts-sec" aria-labelledby="ts-other-h">
-        <h2 id="ts-other-h">{t.tickerOther}</h2>
-        <TickerChips t={t} locale={locale} market={market} venues={venues} except={ticker} />
-        <p className="nxts-back"><a className="nxts-btn nxts-btn--ghost" href={hrefFor(TS_PATH, locale, market)}>{t.tickerBack}<span aria-hidden="true" className="nxts-arrow">→</span></a></p>
-      </section>
-    </main>
-  );
-}
+// Ticker and exchange-product pages live in TokenizedStocksDetail.jsx (same route chunk).
+export { TokenizedStocksTickerPage, TokenizedStocksExchangePage } from "./TokenizedStocksDetail.jsx";

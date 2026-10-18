@@ -328,6 +328,7 @@ const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, 
 const BybitStocksPage = deferredComponent(ROUTE_MODULE_PATHS.bybitStocks, "BybitStocksPage");
 const TokenizedStocksHubPage = deferredComponent(ROUTE_MODULE_PATHS.tokenizedStocks, "TokenizedStocksHubPage");
 const TokenizedStocksTickerPage = deferredComponent(ROUTE_MODULE_PATHS.tokenizedStocks, "TokenizedStocksTickerPage");
+const TokenizedStocksExchangePage = deferredComponent(ROUTE_MODULE_PATHS.tokenizedStocks, "TokenizedStocksExchangePage");
 // Bitget Alliance campaign landing page (2026-10-13): its own route chunk (route-campaign-bitget).
 const BitgetAlliancePage = deferredComponent(ROUTE_MODULE_PATHS.bitgetAlliance, "BitgetAlliancePage");
 // Kraken 5M USDG Futures Challenge page (2026-10-13): its own route chunk (route-campaign-kraken).
@@ -630,6 +631,8 @@ export function routeState(venues, initialUrl) {
   const tokenizedStocks = parseTokenizedStocksPath(pathname);
   if (tokenizedStocks?.kind === "hub") return { name: "tokenizedStocksHub", ...contextParams() };
   if (tokenizedStocks?.kind === "ticker") return { name: "tokenizedStocksTicker", ticker: tokenizedStocks.ticker, ...contextParams() };
+  // Türkiye never shows Bitget: its exchange-product page does not exist there.
+  if (tokenizedStocks?.kind === "exchange") return tokenizedStocks.slug === "bitget" && (publicRoute.locale === "tr" || String(searchParams.get("market") || "").toUpperCase() === "TR") ? { name: "notFound" } : { name: "tokenizedStocksExchange", slug: tokenizedStocks.slug, ...contextParams() };
   if (tokenizedStocks) return { name: "notFound" };
   const glossary = parseGlossaryPath(pathname);
   if (glossary?.kind === "hub") return { name: "glossaryHub", ...contextParams() };
@@ -820,7 +823,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialWhales, initialRadar, initialIntelTool, initialSeoAlternates } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialWhales, initialRadar, initialIntelTool, initialSeoAlternates, initialTsLive } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -1029,8 +1032,9 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
-  if (route.name === "tokenizedStocksHub") return pageShell(<TokenizedStocksHubPage locale={locale} market={route.market} />);
-  if (route.name === "tokenizedStocksTicker") return pageShell(<TokenizedStocksTickerPage key={route.ticker} locale={locale} market={route.market} ticker={route.ticker} />);
+  if (route.name === "tokenizedStocksHub") return pageShell(<TokenizedStocksHubPage locale={locale} market={route.market} live={initialTsLive} />);
+  if (route.name === "tokenizedStocksTicker") return pageShell(<TokenizedStocksTickerPage key={route.ticker} locale={locale} market={route.market} ticker={route.ticker} live={initialTsLive} />);
+  if (route.name === "tokenizedStocksExchange") return pageShell(<TokenizedStocksExchangePage key={route.slug} locale={locale} market={route.market} slug={route.slug} live={initialTsLive} />);
   if (route.name === "etfFlows") return pageShell(<EtfFlowsPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "etf" ? initialIntelTool.data : undefined} />);
   if (route.name === "calendar") return pageShell(<CalendarPage locale={locale} market={route.market} initial={initialIntelTool?.kind === "calendar" ? initialIntelTool.data : undefined} now={initialIntelTool?.kind === "calendar" ? initialIntelTool.now : undefined} />);
   if (route.name === "bitgetAlliance") return pageShell(<BitgetAlliancePage locale={locale} market={route.market} />);

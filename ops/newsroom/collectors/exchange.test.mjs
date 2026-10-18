@@ -196,3 +196,17 @@ test('binance bodies come from the CMS detail API with the marketing disclaimer 
   assert.ok(urls.some(url => url.endsWith(`articleCode=${code}`)));
   assert.match(items[0].body_excerpt, /^Binance will delist and cease trading/);
 });
+
+test('tokenized-stock listing changes from the site feed become listing and delisting items on the stock page', async () => {
+  const feed = { schema: 1, generatedAt: '2026-10-12T11:35:00Z', venues: {}, events: [
+    { id: '2026-10-12T11:35:listed:okx:perp:NVDA', type: 'listed', venue: 'okx', lane: 'perp', ticker: 'NVDA', sym: 'NVDA-USDT-SWAP', lev: 50, source: 'https://www.okx.com/api/v5/public/instruments?instType=SWAP', observedAt: '2026-10-12T11:35:00Z' },
+    { id: '2026-10-12T11:35:delisted:gate-io:spot:GME', type: 'delisted', venue: 'gate-io', lane: 'spot', ticker: 'GME', sym: 'GMEX', source: 'https://api.gateio.ws/api/v4/spot/currency_pairs', observedAt: '2026-10-12T11:35:00Z' },
+    { type: 'listed', venue: 'unknown-venue', lane: 'perp', ticker: 'AAPL', observedAt: '2026-10-12T11:35:00Z' },
+  ] };
+  const items = await poll(source('nexualpha-tokenized-stocks', 'https://nexualpha.com/intel/tokenized-stocks.json'), null, { now, async request() { return feed; } });
+  assert.deepEqual(items.map(item => [item.event_type_guess, item.url, item.title]), [
+    ['listing', 'https://nexualpha.com/tokenized-stocks/nvda', 'OKX lists NVDA stock perpetual (NVDA-USDT-SWAP), up to 50x'],
+    ['delisting', 'https://nexualpha.com/tokenized-stocks/gme', 'Gate removes GME stock token (GMEX)'],
+  ]);
+  assert.equal(items[0].metrics.endpoint, 'https://www.okx.com/api/v5/public/instruments?instType=SWAP');
+});
