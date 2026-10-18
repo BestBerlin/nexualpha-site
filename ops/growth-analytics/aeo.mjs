@@ -2,7 +2,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 // A new versioned set; historical weekly question sets and evidence stay intact.
-export const MONEY_QUERY_VERSION = '2026-10-15.v1';
+export const MONEY_QUERY_VERSION = '2026-10-18.v2';
 export const MONEY_QUERIES = [
   {
     "id": "okx-referral-code",
@@ -11,34 +11,40 @@ export const MONEY_QUERIES = [
     "targetPath": "/exchanges/okx"
   },
   {
-    "id": "okx-vs-binance-fees",
-    "query": "OKX vs Binance fees",
-    "lang": "en",
-    "targetPath": "/compare/binance-vs-okx"
-  },
-  {
     "id": "bitget-referral-rebate",
     "query": "Bitget referral code rebate",
     "lang": "en",
     "targetPath": "/exchanges/bitget"
   },
   {
-    "id": "binance-vs-bybit-cheaper",
-    "query": "Binance vs Bybit which is cheaper",
+    "id": "binance-referral",
+    "query": "Binance referral code trading fee discount",
     "lang": "en",
-    "targetPath": "/compare/binance-vs-bybit"
+    "targetPath": "/exchanges/binance"
   },
   {
-    "id": "bitget-signup-referral",
-    "query": "how to sign up on Bitget with a referral code",
+    "id": "bybit-referral",
+    "query": "Bybit referral code fee rebate",
     "lang": "en",
-    "targetPath": "/exchanges/bitget"
+    "targetPath": "/exchanges/bybit"
   },
   {
-    "id": "mexc-vs-bybit-kyc",
-    "query": "MEXC vs Bybit KYC",
+    "id": "best-rebate-exchange",
+    "query": "which crypto exchange gives the highest trading fee rebate",
     "lang": "en",
-    "targetPath": "/compare/bybit-vs-mexc"
+    "targetPath": "/exchanges"
+  },
+  {
+    "id": "okx-vs-binance-fees",
+    "query": "OKX vs Binance fees",
+    "lang": "en",
+    "targetPath": "/compare/binance-vs-okx"
+  },
+  {
+    "id": "bitget-vs-okx",
+    "query": "Bitget vs OKX which is better",
+    "lang": "en",
+    "targetPath": "/compare/bitget-vs-okx"
   },
   {
     "id": "lowest-perp-fees",
@@ -47,40 +53,58 @@ export const MONEY_QUERIES = [
     "targetPath": "/derivatives"
   },
   {
-    "id": "bitget-cafe-official",
-    "query": "is bitget.cafe an official Bitget domain",
+    "id": "tokenized-stock-where",
+    "query": "where can I buy tokenized stocks with USDT",
+    "lang": "en",
+    "targetPath": "/tokenized-stocks"
+  },
+  {
+    "id": "xstocks-availability",
+    "query": "which exchanges list xStocks",
+    "lang": "en",
+    "targetPath": "/tokenized-stocks"
+  },
+  {
+    "id": "bitget-signup-referral",
+    "query": "how to sign up on Bitget with a referral code",
     "lang": "en",
     "targetPath": "/exchanges/bitget"
   },
   {
-    "id": "tr-okx-referans-nerede",
-    "query": "okx referans kodu nerede yazar",
-    "lang": "tr",
-    "targetPath": "/tr/exchanges/okx"
+    "id": "zh-okx-invite",
+    "query": "OKX邀请码 返佣多少",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/exchanges/okx"
   },
   {
-    "id": "tr-okx-kayit",
-    "query": "okx tr nasıl kayıt olunur",
-    "lang": "tr",
-    "targetPath": "/tr/exchanges/okx"
+    "id": "zh-bitget-invite",
+    "query": "Bitget邀请码是多少",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/exchanges/bitget"
   },
   {
-    "id": "vi-okx-ma-gioi-thieu",
-    "query": "mã giới thiệu okx lấy ở đâu",
-    "lang": "vi",
-    "targetPath": "/vi/exchanges/okx"
+    "id": "zh-binance-rebate",
+    "query": "币安邀请码 手续费返还",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/exchanges/binance"
   },
   {
-    "id": "vi-okx-dang-ky",
-    "query": "cách đăng ký okx",
-    "lang": "vi",
-    "targetPath": "/vi/exchanges/okx"
+    "id": "zh-stock-tokens",
+    "query": "美股代币在哪个交易所买",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/tokenized-stocks"
   },
   {
-    "id": "vi-okx-hoan-phi",
-    "query": "okx có hoàn phí giao dịch không",
-    "lang": "vi",
-    "targetPath": "/vi/exchanges/okx"
+    "id": "zh-deposit",
+    "query": "加密货币交易所怎么入金出金",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/deposit"
+  },
+  {
+    "id": "zh-exchange-rank",
+    "query": "返佣最高的加密货币交易所",
+    "lang": "zh-Hans",
+    "targetPath": "/zh-hans/exchanges"
   },
   {
     "id": "es-okx-codigo-referido",
@@ -95,16 +119,22 @@ export const MONEY_QUERIES = [
     "targetPath": "/es/exchanges/okx"
   },
   {
-    "id": "es-okx-confiable-mexico",
-    "query": "okx es confiable en mexico",
+    "id": "es-mx-depositar",
+    "query": "como depositar pesos en un exchange de criptomonedas en Mexico",
     "lang": "es",
     "targetPath": "/mx"
   },
   {
-    "id": "ru-bybit-komissii",
-    "query": "bybit комиссии за торговлю",
-    "lang": "ru",
-    "targetPath": "/ru/exchanges/bybit"
+    "id": "ptbr-pix",
+    "query": "como depositar via pix em corretora de cripto",
+    "lang": "pt-BR",
+    "targetPath": "/br/pix"
+  },
+  {
+    "id": "ptbr-bitget-codigo",
+    "query": "código de convite Bitget desconto taxa",
+    "lang": "pt-BR",
+    "targetPath": "/pt-br/exchanges/bitget"
   },
   {
     "id": "id-bitget-ojk",
@@ -113,79 +143,49 @@ export const MONEY_QUERIES = [
     "targetPath": "/id-id/exchanges/bitget"
   },
   {
-    "id": "binance-referral",
-    "query": "Binance referral code trading fee discount",
-    "targetPath": "/exchanges/binance",
-    "lang": "en"
+    "id": "id-kode-referral",
+    "query": "kode referral okx diskon biaya",
+    "lang": "id",
+    "targetPath": "/id-id/exchanges/okx"
   },
   {
-    "id": "bybit-referral",
-    "query": "Bybit referral code fee rebate",
-    "targetPath": "/exchanges/bybit",
-    "lang": "en"
+    "id": "id-deposit-rupiah",
+    "query": "cara deposit rupiah ke exchange crypto",
+    "lang": "id",
+    "targetPath": "/id-id/deposit"
   },
   {
-    "id": "mexc-referral",
-    "query": "MEXC referral code trading fees",
-    "targetPath": "/exchanges/mexc",
-    "lang": "en"
+    "id": "tr-okx-referans-nerede",
+    "query": "okx referans kodu nerede yazar",
+    "lang": "tr",
+    "targetPath": "/tr/exchanges/okx"
   },
   {
-    "id": "okx-deposit",
-    "query": "how to deposit USDT on OKX network fees",
-    "targetPath": "/exchanges/okx",
-    "lang": "en"
+    "id": "tr-okx-kayit",
+    "query": "okx tr nasıl kayıt olunur",
+    "lang": "tr",
+    "targetPath": "/tr/exchanges/okx"
   },
   {
-    "id": "bitget-deposit",
-    "query": "Bitget USDT deposit supported networks",
-    "targetPath": "/exchanges/bitget",
-    "lang": "en"
+    "id": "vi-okx-dang-ky",
+    "query": "cách đăng ký okx",
+    "lang": "vi",
+    "targetPath": "/vi/exchanges/okx"
   },
   {
-    "id": "bybit-deposit",
-    "query": "Bybit fiat deposit fees",
-    "targetPath": "/exchanges/bybit",
-    "lang": "en"
+    "id": "vi-nap-tien",
+    "query": "cách nạp tiền vào sàn okx",
+    "lang": "vi",
+    "targetPath": "/vi/exchanges/okx"
   },
   {
-    "id": "binance-deposit",
-    "query": "Binance minimum USDT deposit",
-    "targetPath": "/exchanges/binance",
-    "lang": "en"
-  },
-  {
-    "id": "tokenized-stock-fees",
-    "query": "tokenized stocks trading fees comparison",
-    "targetPath": "/tokenized-stocks",
-    "lang": "en"
-  },
-  {
-    "id": "xstocks-availability",
-    "query": "where can I buy xStocks eligibility",
-    "targetPath": "/tokenized-stocks",
-    "lang": "en"
-  },
-  {
-    "id": "tokenized-stock-risks",
-    "query": "tokenized stocks redemption custody risks",
-    "targetPath": "/tokenized-stocks",
-    "lang": "en"
-  },
-  {
-    "id": "hyperliquid-fees",
-    "query": "Hyperliquid perpetual trading fees",
-    "targetPath": "/exchanges/hyperliquid",
-    "lang": "en"
-  },
-  {
-    "id": "okx-rebate-terms",
-    "query": "OKX referral fee rebate eligibility terms",
-    "targetPath": "/exchanges/okx",
-    "lang": "en"
+    "id": "ru-bybit-komissii",
+    "query": "bybit комиссии за торговлю",
+    "lang": "ru",
+    "targetPath": "/ru/exchanges/bybit"
   }
 ];
-export const ANSWER_ENGINES = ['chatgpt-search', 'perplexity'];
+export const ANSWER_ENGINES = ['chatgpt-search', 'perplexity', 'google-ai-overview', 'bing-copilot'];
 export function isoWeek(ymd) {
   const date = new Date(`${ymd}T00:00:00Z`);
   date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
@@ -237,6 +237,7 @@ export function buildAnswerChecks(date, evidence = []) {
     const observed = evidence.find(row => row.engine === engine && row.queryId === query.id);
     const base = { queryId: query.id, query: query.query, engine, status: 'unavailable', reason: 'NO_VERIFIED_ANSWER_ENGINE_ACCESS', cited: null, citations: [] };
     if (!observed) return base;
+    if (observed.status && observed.status !== 'observed') return { ...base, status: observed.status === 'blocked' ? 'blocked' : 'unavailable', reason: String(observed.reason || 'NOT_OBSERVED').replace(/[^A-Z0-9_]/g, '').slice(0, 60) || 'NOT_OBSERVED' };
     const observedDate = String(observed.observedAt || '').slice(0, 10);
     const age = Date.parse(`${date}T12:00:00Z`) - Date.parse(`${observedDate}T12:00:00Z`);
     const citations = observed.citations?.map(safeUrl);
@@ -245,7 +246,7 @@ export function buildAnswerChecks(date, evidence = []) {
       return { ...base, reason: 'INVALID_OR_STALE_OPERATOR_EVIDENCE' };
     }
     return { ...base, status: 'observed', reason: null, observedAt: observed.observedAt, answerEvidence: observed.answerEvidence,
-      cited: citations.some(isOurDomain), citations };
+      cited: citations.some(isOurDomain), mentioned: observed.mentioned === true, citations };
   }));
 }
 export async function collectProxy({ queries = MONEY_QUERIES, fetcher = fetchSerp, pauseMs = 2200 } = {}) {
@@ -276,10 +277,10 @@ export function mondayReport(result) {
     '', `Report generated ${result.date}; planned Monday ${result.scheduledMonday}. ${result.recovery ? 'Recovery run after the scheduled Monday; this does not reconstruct historical Monday observations.' : 'Scheduled weekly run.'}`,
     '', `Query set ${MONEY_QUERY_VERSION}: ${MONEY_QUERIES.length} distinct money queries.`,
     `Answer engines: ${observed.length}/${result.answerChecks.length} observed; ${cited} observed checks cite nexualpha.com. Unavailable checks are unknown, not negative citations.`,
-    'ChatGPT-search and Perplexity checks require visible/manual answer evidence; this runner uses no paid API and does not equate public SERP results with answer-engine citations.',
+    'Answer evidence comes from a real logged-out browser session (aeo-browser.mjs) where robots.txt allows the query URL; human checks, logins and rate limits are recorded, never bypassed. No paid API is used and public SERP results are never counted as answer-engine citations.',
     '', `Public web proxy: DuckDuckGo; ${successfulProxies.length}/${result.publicWebProxy.rows.length} successful result pages. Proxy ranks and result URLs below are search evidence only.`,
     '', '| Query | Engine | Status | Citation URLs / reason |', '| --- | --- | --- | --- |',
-    ...result.answerChecks.map(row => `| ${escape(row.query)} | ${row.engine} | ${row.status} | ${escape(row.status === 'observed' ? row.citations.join(', ') || 'No citations in observed answer' : row.reason)} |`),
+    ...result.answerChecks.map(row => `| ${escape(row.query)} | ${row.engine} | ${row.status}${row.cited ? ' (cites us)' : row.mentioned ? ' (mentions us)' : ''} | ${escape(row.status === 'observed' ? row.citations.join(', ') || 'No citations in observed answer' : row.reason)} |`),
     '', '## Public web proxy result log', '', '| Query | Status | Our rank | Observed result URLs |', '| --- | --- | --- | --- |',
     ...result.publicWebProxy.rows.map(row => `| ${escape(row.query)} | ${row.status} | ${row.nexualphaRank ?? 'unknown'} | ${escape((row.top || []).map(hit => hit.url).join(', ') || row.reason || '')} |`),
     '', '## Next actions', '',
@@ -288,11 +289,16 @@ export function mondayReport(result) {
     '- Route evidence-backed query/page opportunities through content review. Do not publish from monitoring output.', '',
   ].join('\n');
 }
-export async function runAeo({ date, outputDir, fetchProxy = true, evidenceFile = process.env.NEXU_AEO_EVIDENCE_FILE, proxyCollector = collectProxy }) {
+export async function runAeo({ date, outputDir, fetchProxy = true, evidenceFile = process.env.NEXU_AEO_EVIDENCE_FILE, proxyCollector = collectProxy,
+  browserObserver = process.env.NEXU_AEO_BROWSER === '0' ? null : async (args) => (await import('./aeo-browser.mjs')).runBrowserAeo(args) }) {
   const week = isoWeek(date);
   const day = new Date(`${date}T12:00:00Z`).getUTCDay() || 7;
   const scheduledMonday = new Date(Date.parse(`${date}T12:00:00Z`) - (day - 1) * 864e5).toISOString().slice(0, 10);
   let evidence = [], evidenceStatus = 'not-configured';
+  if (!evidenceFile && browserObserver) {
+    try { evidenceFile = (await browserObserver({ queries: MONEY_QUERIES, date, outputDir })).file; }
+    catch { evidenceStatus = 'browser-observer-failed'; }
+  }
   if (evidenceFile) {
     try { const data = JSON.parse(await readFile(evidenceFile, 'utf8')); evidence = Array.isArray(data.results) ? data.results : []; evidenceStatus = 'loaded'; }
     catch { evidenceStatus = 'unavailable'; }

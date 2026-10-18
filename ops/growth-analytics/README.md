@@ -14,7 +14,22 @@ Private credentials are loaded from `~/.codex/private/umami.env`, `gsc-api.env`,
 
 `daily/<date>.json` and `.md` provide the run status and source evidence paths. The Umami Chinese report contains country, device, top pages, /go attribution, code-copy and Telegram aggregates. Human candidates are heuristic anonymous sessions, not verified people. Missing UA/IP/ASN fields and missing event instrumentation remain explicit coverage gaps. Datacenter ASNs, no-JS and bursts are suspicious rather than proof of bots; known automation and configured QA markers are excluded. Configure comma-separated `ANALYTICS_QA_UAS`, `ANALYTICS_QA_IPS`, and optional `ANALYTICS_DATACENTER_ASNS` in the private environment. Do not guess QA addresses.
 
-Public web search observations are proxies. They do not establish ChatGPT Search or Perplexity citations. The AEO report records actual engine checks as unavailable until direct, dated evidence is supplied. No paid AI API is called and no historical week is backfilled as observed.
+Public web search observations are proxies. They do not establish ChatGPT Search or Perplexity citations. No paid AI API is called and no historical week is backfilled as observed.
+
+## Answer-engine observation (`aeo-browser.mjs`)
+
+`runAeo` calls `aeo-browser.mjs` unless `NEXU_AEO_EVIDENCE_FILE` is supplied or `NEXU_AEO_BROWSER=0`. It opens the public, logged-out answer page in a normal visible Chrome window (puppeteer-core from `~/.codex/shared-tools/web-quality`, Chrome at `/Applications/Google Chrome.app`). The rules:
+
+- robots.txt is fetched for every engine on every run, and a query URL is opened only when the `User-agent: *` group allows it. As of 2026-10-18, chatgpt.com allows `/?*`, so it is observed. Perplexity (`Disallow: /*?*q=`), Google (`Disallow: /search`, so no AI Overview check) and Bing (`Disallow: /search`) are recorded as `ROBOTS_DISALLOWS_QUERY_URL`.
+- Human-verification pages, CAPTCHAs, login walls and rate-limit notices are recorded as `blocked` and stop that engine for the run. They are never solved or worked around. Headless Chrome gets a Cloudflare check on chatgpt.com, which is why a visible window is used. DuckDuckGo Search Assist and you.com are not in the engine list: on 2026-10-18 they served a CAPTCHA and a login wall respectively.
+- Queries run one at a time, with a 12–16 s pause between them. Each observation keeps a screenshot (`aeo-evidence/<date>/`), the cleaned citation URLs (query strings stripped), whether the answer text mentions NexuAlpha, and an excerpt.
+- Logged-out answers depend on the egress IP's location and on time. Read them as a sample, not a ranking.
+
+Manual run: `node aeo-browser.mjs --date YYYY-MM-DD [--limit N]`. It writes `aeo-browser-<date>.json`, which `runAeo` consumes as evidence.
+
+## Content tasks
+
+`contentTasks` lists GSC/Bing rows at positions 8–20. Rows in a money cohort (referral, tokenized stocks, deposit, exchange how-to, brand) are P1. Any other row with at least 2 impressions is P2. Before 2026-10-18 only cohort rows qualified, and because the site has no money-query impressions yet, `content-tasks-*.json` came out empty.
 
 ## Scheduler staging and installation boundary
 
