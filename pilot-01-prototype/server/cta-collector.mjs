@@ -1,3 +1,4 @@
+import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { createReadStream } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { appendFile, mkdir } from 'node:fs/promises';
@@ -13,7 +14,6 @@ const BASE_KEYS = ['version','type','eventId','session','page','locale','source'
 const DEVICE_CLASSES = new Set(['mobile', 'tablet', 'desktop', 'unknown']);
 const TELEGRAM_TARGETS = new Set(['bot', 'telegram', 'unknown']);
 const TELEGRAM_RETURN_KINDS = new Set(['none', 'hub', 'route', 'venue', 'pair', 'activity']);
-const AUTOMATED_ANALYTICS_AGENT = /bot|crawler|spider|headless|googleother|google-inspectiontool|facebookexternalhit|bytespider|chatgpt-user|gptbot|claudebot|perplexitybot|applebot/i;
 export const CTA_ENVIRONMENTS = new Set(['local-preview', 'production', 'smoke', 'test']);
 export function validateCta(value, registry = experimentRegistry) {
   if (!value || typeof value !== 'object') return false;
@@ -109,7 +109,7 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
   // Expose startup readiness without an unhandled rejection for legacy callers.
   ready.catch(() => {});
   let serial = Promise.resolve();
-  const collect = async (request, origin) => {
+  const collect = async (request, origin, { clientIp } = {}) => {
     await ready;
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
     const expectedOrigin = configuredOrigin || origin;
@@ -119,7 +119,7 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
     // Crawlers may execute the hydrated client and POST a page_view. Treat the
     // request as accepted but never persist it so bot traffic cannot pollute
     // first-party intent reports or create noisy 4xx retries in access logs.
-    if (!['smoke', 'test'].includes(environment) && AUTOMATED_ANALYTICS_AGENT.test(request.headers.get('user-agent') || '')) {
+    if (!['smoke', 'test'].includes(environment) && isAutomatedAnalyticsRequest(request, { env, clientIp })) {
       return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
     }
     if (!jsonContentType.test(request.headers.get('content-type') || '')) return new Response(null, { status: 415 });

@@ -1,3 +1,4 @@
+import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 // Site click beacon (owner 2026-10-10). Sign-up buttons on the website keep linking straight to the partner URL
 // (the deploy-time CTA guard compares those hrefs), so the click itself is reported out of band: the browser sends
 // navigator.sendBeacon('/api/cta-click', {partner, src, path}) and this route appends
@@ -8,7 +9,7 @@
 import { appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { clickMetadata, safeClickPath } from './click-metadata.mjs';
-import { BOT_UA, SRC, createPartnerMapLoader } from './go-redirect.mjs';
+import { SRC, createPartnerMapLoader } from './go-redirect.mjs';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 
 export const CTA_CLICK_PATH = '/api/cta-click';
@@ -54,7 +55,7 @@ export function clientKey(req) {
   return last || req?.socket?.remoteAddress || 'unknown';
 }
 
-export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry } = {}) {
+export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry, env = process.env } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   const allow = createRateLimiter({ limit, windowMs });
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
@@ -80,7 +81,7 @@ export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () =>
     const click = validateCtaClick(data, partners);
     if (!click) return new Response(null, { status: 400, headers: NO_STORE });
     const ua = request.headers.get('user-agent') || '';
-    if (eventFile && !BOT_UA.test(ua)) {
+    if (eventFile && !isAutomatedAnalyticsRequest(request, { env, clientIp: key })) {
       // Home hero experiment (X5): {experiment, variant} from the visitor's bucket cookie while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
       const metadata = clickMetadata({ path: click.ref, src: click.src });
