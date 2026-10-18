@@ -30,7 +30,7 @@ test('cold requests share one refresh and time out even if the source ignores ab
   assert.equal(calls, 1);
   assert.equal(signal.aborted, true);
   clock = 30000; await feed.respond();
-  assert.equal(calls, 1, 'a timed-out source that ignores abort keeps ownership of the flight');
+  assert.equal(calls, 2, 'a timed-out source that ignores abort no longer blocks the next refresh (2026-10-18 ticker freeze)');
   for (const res of results) { assert.equal(res.status, 503); assert.equal(res.headers.get('cache-control'), 'no-store'); }
 });
 test('late timed-out payload cannot overwrite a good snapshot', async () => {

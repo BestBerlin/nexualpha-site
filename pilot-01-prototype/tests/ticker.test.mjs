@@ -8,6 +8,8 @@ import test from "node:test";
 import worker from "../worker/index.js";
 import { fmtTickerChange, fmtTickerPrice, isTickerSnapshot, spliceTickerHtml, tickerDir, tickerFromBinance, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { createTickerFeed, TICKER_PATH } from "../server/ticker-feed.mjs";
+import { createStaleJsonFeed } from "../server/stale-json-feed.mjs";
+import { createMarketEventsReader } from "../server/market-events-feed.mjs";
 import { localizedHref } from "../src/data/locale-routing.js";
 import { tickerChanges } from "../src/components/ticker/ticker-changes.js";
 import { createSsrHarness, hydrateInJsdom, hydrationErrors, prerenderState } from "./helpers/ssr-hydration-harness.mjs";
@@ -252,4 +254,79 @@ test("tickerChanges: direction per value, unchanged values ignored, mover symbol
   assert.equal(changes.get("mover-sym"), "down");
   assert.equal(changes.has("BTC-p"), false);
   assert.equal(tickerChanges(SNAP, SNAP).size, 0);
+});
+
+// 2026-10-18 production incident: /api/ticker.json served one frame (generatedAt 2026-10-15T13:31Z) for three days.
+// One Binance request never settled and ignored its abort; the shared in-flight promise was only released when that
+// source settled, so every later refresh joined the dead flight. These tests use real timers and a fetch that never
+// resolves (and ignores its signal).
+const hangingFetch = () => new Promise(() => {});
+const tick = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const tickerRows = ["BTC", "ETH", "SOL", "BNB", "XRP"].map((sym, i) => ({ symbol: `${sym}USDT`, lastPrice: String(100 + i), priceChangePercent: "1", quoteVolume: "100000000" }));
+
+test("ticker feed recovers after a Binance fetch that never resolves", async () => {
+  let clock = 0, hang = false, calls = 0, price = 100;
+  const ticker = createTickerFeed({ now: () => clock, ttlMs: 6000, timeoutMs: 20, fetchImpl: (url, init) => {
+    calls += 1;
+    assert.ok(init.signal instanceof AbortSignal, "every Binance request carries an abort signal");
+    if (hang) return hangingFetch();
+    return Promise.resolve(Response.json(tickerRows.map((row) => ({ ...row, lastPrice: String(price) }))));
+  } });
+  const first = await ticker.read();
+  assert.ok(first && !first.stale);
+  hang = true; clock += 6000;
+  await ticker.refresh(); // times out after 20 ms; the source keeps hanging forever
+  assert.equal((await ticker.read()).stale, true, "the last good frame is served, marked stale");
+  hang = false; price = 200; clock += 6000;
+  await ticker.refresh();
+  const recovered = await ticker.read();
+  assert.equal(calls, 3, "the hung request did not swallow the next refresh");
+  assert.ok(!recovered.stale, "a fresh frame replaces the stale one");
+  assert.notEqual(recovered.generatedAt, first.generatedAt);
+  assert.match(JSON.stringify(recovered.items), /200/);
+});
+
+test("in-flight refresh is cleared in finally and a flight older than 2x TTL is replaced regardless", async () => {
+  let clock = 0, calls = 0, mode = "ok";
+  const feed = createStaleJsonFeed({ now: () => clock, ttlMs: 1000, timeoutMs: 60_000, load: () => {
+    calls += 1;
+    if (mode === "hang") return hangingFetch();
+    return { generatedAt: `frame-${calls}` };
+  } });
+  await feed.read();
+  mode = "hang"; clock = 1000;
+  const stuck = feed.refresh(); // never settles within this test (timeout 60 s)
+  assert.equal(feed.refresh(), stuck, "a young flight is shared");
+  clock = 1999; assert.equal(feed.refresh(), stuck, "still shared below 2x TTL");
+  mode = "ok"; clock = 3000;
+  const fresh = feed.refresh();
+  assert.notEqual(fresh, stuck, "older than 2x TTL: a new refresh starts");
+  await fresh;
+  assert.deepEqual(await feed.read(), { generatedAt: "frame-3" });
+  assert.equal(calls, 3);
+});
+
+test("market events reader: a read that never settles times out and the next read starts a new one", async () => {
+  let clock = 0, calls = 0, hang = true;
+  const reader = createMarketEventsReader({ url: "https://example.test/intel/market-events.json", now: () => clock, ttlMs: 60_000, timeoutMs: 20,
+    fetchImpl: (url, init) => { calls += 1; assert.ok(init.signal instanceof AbortSignal); return hang ? hangingFetch() : Promise.resolve(Response.json({ generatedAt: "g1", market: {} })); } });
+  assert.equal(await reader.read(), null, "a hung first read resolves (null) instead of waiting forever");
+  hang = false; clock += 60_000;
+  assert.equal((await reader.read()).generatedAt, "g1");
+  assert.equal(calls, 2);
+});
+
+test("the ticker endpoint keeps answering promptly while the upstream hangs", async () => {
+  let clock = 0, hang = false;
+  const ticker = createTickerFeed({ now: () => clock, timeoutMs: 20, fetchImpl: () => hang ? hangingFetch() : Promise.resolve(Response.json(tickerRows)) });
+  assert.equal((await ticker.respond()).status, 200);
+  hang = true;
+  for (let i = 0; i < 5; i += 1) {
+    clock += 6000;
+    const started = Date.now();
+    const res = await ticker.respond();
+    assert.equal(res.status, 200);
+    assert.ok(Date.now() - started < 1000, "a warm read never waits on the hung upstream");
+    await tick(30);
+  }
 });
