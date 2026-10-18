@@ -148,7 +148,7 @@ export const venueDecisionContent = {
     localeText({
       en: "Bitget suits you if you want copy trading and the highest fee rebate.",
       "zh-Hans": "想跟单交易、想拿最高比例的手续费返还，选 Bitget。",
-      "zh-Hant": "想用跟單交易，Bitget 比較合適。",
+      "zh-Hant": "想用跟單交易、又想先看清合約手續費和帳戶條款，Bitget 比較合適。",
       es: "Bitget te conviene si quieres copy trading y el mayor reembolso de comisiones.",
       "pt-BR": "A Bitget é para você se quer copy trading e o maior cashback de taxas.",
       fr: "Bitget vous convient si vous voulez du copy trading et le meilleur remboursement de frais.",
