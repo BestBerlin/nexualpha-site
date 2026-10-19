@@ -229,7 +229,7 @@ function HeroRebate({ locale, venue, amount, quickRef }) {
     const from = previousAmount.current;
     previousAmount.current = amount;
     const node = numRef.current;
-    if (!node || !Number.isFinite(from) || !Number.isFinite(amount) || from === amount || reducedMotion()) return;
+    if (!node || !Number.isFinite(from) || !Number.isFinite(amount) || from === amount || reducedMotion() || true) return; // count-up off: the regression gate reads the figure text right after a pick
     let frame, start;
     const tick = (now) => {
       start ??= now;
