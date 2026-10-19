@@ -1,0 +1,44 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ the sum is volume × perpetual taker × partner share, read from the sources (3449.022583ms)
+✔ HTX fee comes from the official page (2026-10-14) and HTX is not auto-settled (0.638583ms)
+✔ money format: full figure below 10,000, then the locale's unit (0.171ms)
+✔ dial: 21 log stops from 1万U to 10亿U, default 1000万U, ticks on the snap points (0.059458ms)
+✔ sentence: 17 locales, both placeholders, no time unit, no commission or fine print (0.709584ms)
+✔ SSR /zh-hans: live sentence, $3,600, dial at 1000万U, code and /go CTA, desktop device screen (99.6115ms)
+✔ SSR Türkiye: OKX first, no Bitget anywhere in the hero (39.767917ms)
+✔ SSR neutral locales: information headline only, no figure, dial, code or /go link (168.629333ms)
+✔ calculator: same volume framing in 17 locales, 1万U → 10亿U range, no time words (0.32725ms)
+✔ Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, so it has a hero amount (0.145625ms)
+✔ hero life stays finite: desktop-only screen cycle, two rounds, stops on touch, pauses offscreen/hidden, no reduced motion (2.422834ms)
+✔ SSR: the brand mark sits inside the figure's line box (33.5895ms)
+✔ phone header: a compact 美股 pill beside 活动 links to the tokenized-stocks hub (tr too) (77.114417ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ neutral hero has complete information-only copy in all 17 locales (3446.675542ms)
+✔ neutral and jurisdiction-banned SSR heroes show six real fee rows and only internal learning/comparison links (263.749375ms)
+✔ neutral market chips preserve server ticker splicing and first-render markup (231.929708ms)
+✔ promotional SSR heroes retain registration and do not render neutral research actions (63.226833ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ neutral hero keeps perpetual fees when the hydrated lower calculator switches to spot (2780.591583ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ formatting: en-US digits, U+2212 minus, fixed decimals by size, flat when it rounds to zero (3430.572792ms)
+✔ snapshot from Binance: the five majors in order, biggest mover among the top-60 by volume (no majors, no stablecoins) (0.935042ms)
+✔ fallback snapshot from the market collector feed (0.187417ms)
+✔ server feed: one Binance call per 6 s window, collector fallback, 503 with nothing to show (7.548542ms)
+✔ the prerendered home has an empty fixed frame; splicing a snapshot equals rendering with it (hydration-safe) (44.46475ms)
+✔ worker: home HTML carries the live first frame and state "ticker"; it hydrates without mismatch (1530.291083ms)
+✔ bar: localized label, coin links, never an exchange URL, lazy polling of our endpoint, reduced motion stops the marquee (1.177584ms)
+✔ polling module: fetches our endpoint, skips hidden tabs, shares one poller, stops cleanly (0.92125ms)
+✔ regression: the hydrated bar re-fetches /api/ticker.json and updates the DOM with a direction flash (1343.408625ms)
+✔ tickerChanges: direction per value, unchanged values ignored, mover symbol change follows the mover direction (0.254ms)
+✔ ticker feed recovers after a Binance fetch that never resolves (22.090625ms)
+✔ in-flight refresh is cleared in finally and a flight older than 2x TTL is replaced regardless (0.188833ms)
+✔ market events reader: a read that never settles times out and the next read starts a new one (20.674875ms)
+✔ the ticker endpoint keeps answering promptly while the upstream hangs (155.737584ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7078.21475

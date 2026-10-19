@@ -1,0 +1,76 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+node:fs:436
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+    at readFileSync (node:fs:436:20)
+    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)
+    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:56
+    at Array.from (<anonymous>)
+    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:327:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+}
+
+Node.js v26.0.0
+✖ academy data generator reproduces checked-in generated files (3657.291208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4136.731958
+
+✖ failing tests:
+
+test at tests/academy.test.mjs:78:1
+✖ academy data generator reproduces checked-in generated files (3657.291208ms)
+  Error: Command failed: /opt/homebrew/Cellar/node/26.0.0/bin/node scripts/build-academy-data.mjs --output-root /Volumes/致态2TB/nx-wt-codex-neutral-hero/.task-tmp/nxa-academy-build-Vfia7A
+  node:fs:436
+      return binding.readFileUtf8(path, stringToFlags(options.flag));
+                     ^
+  
+  Error: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+      at readFileSync (node:fs:436:20)
+      at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)
+      at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)
+      at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:56
+      at Array.from (<anonymous>)
+      at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)
+      at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:327:1
+      at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+      at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+  }
+  
+  Node.js v26.0.0
+  
+      at genericNodeError (node:internal/errors:998:15)
+      at wrappedFn (node:internal/errors:543:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/tests/academy.test.mjs:88:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    status: 1,
+    signal: null,
+    output: [ null, '', "node:fs:436\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\n                   ^\n\nError: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n    at readFileSync (node:fs:436:20)\n    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)\n    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:56\n    at Array.from (<anonymous>)\n    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:327:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n}\n\nNode.js v26.0.0\n" ],
+    pid: 69116,
+    stdout: '',
+    stderr: "node:fs:436\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\n                   ^\n\nError: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n    at readFileSync (node:fs:436:20)\n    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)\n    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:56\n    at Array.from (<anonymous>)\n    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-neutral-hero/pilot-01-prototype/scripts/build-academy-data.mjs:327:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n}\n\nNode.js v26.0.0\n"
+  }
