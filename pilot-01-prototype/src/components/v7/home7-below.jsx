@@ -40,6 +40,13 @@ const DATA_RAIL_COPY = {
   id: { title: "Data pasar harian", lead: "Jadwal makro dan tenggat bursa minggu ini, likuidasi, dan funding." },
   ja: { title: "毎日のマーケットデータ", lead: "今週の経済指標、取引所の締切日、清算、資金調達率。" },
   ko: { title: "매일 보는 시장 데이터", lead: "이번 주 경제지표, 거래소 마감일, 청산, 펀딩비." },
+  "zh-Hant": { title: "每日市場數據", lead: "這週的總經日程、交易所截止日、爆倉和資金費率。" },
+  de: { title: "Tägliche Marktdaten", lead: "Makrotermine und Börsenfristen dieser Woche, Liquidationen und Funding." },
+  fr: { title: "Données de marché quotidiennes", lead: "Dates macro et échéances des plateformes cette semaine, liquidations et funding." },
+  it: { title: "Dati di mercato giornalieri", lead: "Date macro e scadenze degli exchange di questa settimana, liquidazioni e funding." },
+  ru: { title: "Рыночные данные каждый день", lead: "Макрособытия и сроки бирж на этой неделе, ликвидации и фандинг." },
+  ar: { title: "بيانات السوق اليومية", lead: "مواعيد الاقتصاد الكلي وآجال المنصات هذا الأسبوع، والتصفيات ومعدلات التمويل." },
+  ur: { title: "روزانہ مارکیٹ ڈیٹا", lead: "اس ہفتے کی میکرو تاریخیں، ایکسچینج کی آخری تاریخیں، لیکویڈیشنز اور فنڈنگ۔" },
 };
 function DataRail({ locale }) {
   const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);

@@ -1261,11 +1261,11 @@ export function createPositionRadar({
     if (!POSITION_RADAR_KINDS.includes(kind)) throw new RangeError(`unknown radar kind: ${kind}`);
     const hit = cache.get(kind);
     // A file read near source expiry must not postpone revalidation for another full TTL.
-    if (hit && now() - hit.at < cappedTtlMs && !(kind === "whales" && radarSourceStale(hit.data, now()))) return hit.data;
+    if (hit && now() - hit.at <= cappedTtlMs && !(kind === "whales" && hit.data?.status === "ok" && radarSourceStale(hit.data, now()))) return hit.data;
     const run = refresh(kind);
     await Promise.race([run, sleep(waitMs)]);
     const next = cache.get(kind);
-    if (next && now() - next.at <= cappedTtlMs) return kind === "whales" && radarSourceStale(next.data, now()) ? { ...next.data, stale: true } : next.data;
+    if (next && now() - next.at <= cappedTtlMs) return kind === "whales" && next.data?.status === "ok" && radarSourceStale(next.data, now()) ? { ...next.data, stale: true } : next.data;
     if (next?.data?.status === "ok") return { ...next.data, stale: true };
     return unavailableFeed(kind, kind === "long-short" ? Object.keys(longShortSources) : Object.keys(whaleSources).map(name => name === "btcMempool" ? "mempool.space" : name === "ethereumRpc" ? "PublicNode Ethereum RPC" : name), "refresh-timeout");
   };

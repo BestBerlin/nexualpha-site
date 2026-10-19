@@ -1,4 +1,6 @@
 // Plain-language whale sentences for 17 locales (2026-10-14).
+// Russian plural of "день" (1 день, 2-4 дня, 5-20 дней, 21 день ...): "5 дня подряд" was wrong.
+const ruDays = (n) => { const m10 = Number(n) % 10, m100 = Number(n) % 100; return m10 === 1 && m100 !== 11 ? "день" : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? "дня" : "дней"; };
 // Each builder returns [before, amount, after] so the UI can make the dollar amount bright and bold in place, e.g.
 // "巨鲸 0x7a…3f 连续 3 天加仓 HYPE 多单，累计 " + "$8.2M" + "，均价 $41.2".
 // p = { who, coin, side: "long"|"short"|"spot", days, n, period, lev, avg, pnl, pnlUp, from, to, qty }
@@ -149,10 +151,10 @@ const it = latin({
 
 const ru = latin({
   whale: "Кит", wallet: "Кошелёк", side: { long: "лонг", short: "шорт", spot: "спот" }, avg: "средняя", exit: "средний выход", total: "всего", sum: "в сумме", gain: "прибыль", loss: "убыток", now: "теперь", unknown: "неизвестного кошелька",
-  addDays: (p) => `${p.who} ${p.days} дня подряд наращивает ${p.sideWord} ${p.coin}`, addHours: (p) => `${p.who} несколько раз за 24 ч нарастил ${p.sideWord} ${p.coin}`,
-  buyDays: (p) => `${p.who} ${p.days} дня подряд покупает ${p.coin} на споте`, buyHours: (p) => `${p.who} несколько раз за 24 ч купил ${p.coin} на споте`,
-  reduceDays: (p) => `${p.who} ${p.days} дня подряд сокращает ${p.sideWord} ${p.coin}`, reduceHours: (p) => `${p.who} несколько раз за 24 ч сократил ${p.sideWord} ${p.coin}`,
-  sellDays: (p) => `${p.who} ${p.days} дня подряд продаёт ${p.coin} на споте`, sellHours: (p) => `${p.who} несколько раз за 24 ч продал ${p.coin} на споте`,
+  addDays: (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд наращивает ${p.sideWord} ${p.coin}`, addHours: (p) => `${p.who} несколько раз за 24 ч нарастил ${p.sideWord} ${p.coin}`,
+  buyDays: (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд покупает ${p.coin} на споте`, buyHours: (p) => `${p.who} несколько раз за 24 ч купил ${p.coin} на споте`,
+  reduceDays: (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд сокращает ${p.sideWord} ${p.coin}`, reduceHours: (p) => `${p.who} несколько раз за 24 ч сократил ${p.sideWord} ${p.coin}`,
+  sellDays: (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд продаёт ${p.coin} на споте`, sellHours: (p) => `${p.who} несколько раз за 24 ч продал ${p.coin} на споте`,
   addPeriod: (p) => `${p.who} наращивает ${p.sideWord} ${p.coin} за ${p.period}`, fresh: (p) => `${p.who} открыл новый ${p.sideWord} ${p.coin}`,
   cluster: (p) => `${p.n} кита за 24 ч открыли ${p.side === "short" ? "шорт" : "лонг"} ${p.coin}`, withdraw: (p) => `${p.who} вывел ${p.coin} с бирж за ${p.period}`,
   open: (p) => `${p.who} открыл ${p.sideWord} ${p.coin} на Hyperliquid`, increase: (p) => `${p.who} нарастил ${p.sideWord} ${p.coin}`, decrease: (p) => `${p.who} сократил ${p.sideWord} ${p.coin}`,
@@ -299,7 +301,7 @@ const STEALTH = {
   it: S("🔺 Accumulo silenzioso", "🔻 Vendita silenziosa", (p) => `${p.who} compra ${p.coin} in silenzio da ${p.days} giorni`, (p) => `${p.who} compra ${p.coin} in silenzio in 24 h`, (p) => `${p.who} vende ${p.coin} in silenzio da ${p.days} giorni`, (p) => `${p.who} vende ${p.coin} in silenzio in 24 h`, (d, n) => `${d} giorni · ${n} ordini`, (n) => `24 h · ${n} ordini`),
   ja: S("🔺 ひそかに仕込み", "🔻 ひそかに売り抜け", (p) => `${p.who} が ${p.days} 日連続で ${p.coin} をひそかに買い増し`, (p) => `${p.who} が 24 時間で ${p.coin} をひそかに買い増し`, (p) => `${p.who} が ${p.days} 日連続で ${p.coin} をひそかに売却`, (p) => `${p.who} が 24 時間で ${p.coin} をひそかに売却`, (d, n) => `${d}日 · ${n}約定`, (n) => `24時間 · ${n}約定`),
   ko: S("🔺 조용한 매집", "🔻 조용한 매도", (p) => `${p.who} ${p.days}일 연속 ${p.coin} 조용히 매수`, (p) => `${p.who} 24시간 동안 ${p.coin} 조용히 매수`, (p) => `${p.who} ${p.days}일 연속 ${p.coin} 조용히 매도`, (p) => `${p.who} 24시간 동안 ${p.coin} 조용히 매도`, (d, n) => `${d}일 · ${n}건`, (n) => `24시간 · ${n}건`),
-  ru: S("🔺 Тихое накопление", "🔻 Тихие продажи", (p) => `${p.who} ${p.days} дня подряд тихо покупает ${p.coin}`, (p) => `${p.who} за 24 ч тихо купил ${p.coin}`, (p) => `${p.who} ${p.days} дня подряд тихо продаёт ${p.coin}`, (p) => `${p.who} за 24 ч тихо продал ${p.coin}`, (d, n) => `${d} дн. · ${n} сделок`, (n) => `24 ч · ${n} сделок`),
+  ru: S("🔺 Тихое накопление", "🔻 Тихие продажи", (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд тихо покупает ${p.coin}`, (p) => `${p.who} за 24 ч тихо купил ${p.coin}`, (p) => `${p.who} ${p.days} ${ruDays(p.days)} подряд тихо продаёт ${p.coin}`, (p) => `${p.who} за 24 ч тихо продал ${p.coin}`, (d, n) => `${d} дн. · ${n} сделок`, (n) => `24 ч · ${n} сделок`),
   uk: S("🔺 Тихе накопичення", "🔻 Тихий продаж", (p) => `${p.who} ${p.days} дні поспіль тихо купує ${p.coin}`, (p) => `${p.who} за 24 год тихо купив ${p.coin}`, (p) => `${p.who} ${p.days} дні поспіль тихо продає ${p.coin}`, (p) => `${p.who} за 24 год тихо продав ${p.coin}`, (d, n) => `${d} дн. · ${n} угод`, (n) => `24 год · ${n} угод`),
   tr: S("🔺 Sessiz birikim", "🔻 Sessiz satış", (p) => `${p.who} ${p.days} gündür sessizce ${p.coin} alıyor`, (p) => `${p.who} 24 saatte sessizce ${p.coin} aldı`, (p) => `${p.who} ${p.days} gündür sessizce ${p.coin} satıyor`, (p) => `${p.who} 24 saatte sessizce ${p.coin} sattı`, (d, n) => `${d} gün · ${n} işlem`, (n) => `24 saat · ${n} işlem`),
   id: S("🔺 Akumulasi diam-diam", "🔻 Jual diam-diam", (p) => `${p.who} diam-diam membeli ${p.coin} ${p.days} hari berturut-turut`, (p) => `${p.who} diam-diam membeli ${p.coin} dalam 24 jam`, (p) => `${p.who} diam-diam menjual ${p.coin} ${p.days} hari berturut-turut`, (p) => `${p.who} diam-diam menjual ${p.coin} dalam 24 jam`, (d, n) => `${d} hari · ${n} transaksi`, (n) => `24 jam · ${n} transaksi`),
