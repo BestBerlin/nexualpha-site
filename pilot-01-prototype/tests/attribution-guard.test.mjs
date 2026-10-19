@@ -43,7 +43,7 @@ for (const [venue, partner] of Object.entries(partnerRegistry)) {
 for (const [venue, facts] of Object.entries(EXCHANGE_FACTS)) {
   for (const href of facts.sourceUrls || []) addDomain(new URL(href).hostname, venue);
 }
-for (const [host, venue] of Object.entries({ 'gate.io': 'gate-io', 'gate.com': 'gate-io', 'gate.us': 'gate-io', 'bitget.cafe': 'bitget' })) addDomain(host, venue);
+for (const [host, venue] of Object.entries({ 'gate.io': 'gate-io', 'gate.com': 'gate-io', 'gate.us': 'gate-io', 'bitget.com': 'bitget' })) addDomain(host, venue);
 for (const key of Object.keys(BINANCE_OCTOBER_CAMPAIGNS)) targets.push({ venue: 'binance', url: new URL(binanceCampaignUrl(key)) });
 targets.push({ venue: 'bitget', url: new URL(bitgetAllianceUrl()) });
 for (const campaign of APPROVED_CAMPAIGNS) targets.push({ venue: campaign.venue, url: new URL(campaignTarget(campaign)) });

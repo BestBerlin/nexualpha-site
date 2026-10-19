@@ -182,7 +182,7 @@ test("sign-up CTA: registry codes via /go/<venue>?src=coin-<slug>, Türkiye OKX/
   const en = mainHtml(await (await fetchPage("/coins/bitcoin")).text());
   assert.match(en, /href="\/go\/okx\?src=coin-bitcoin"/);
   assert.ok(en.includes(publicCtaForVenue("okx", "en").inviteCode));
-  assert.doesNotMatch(en, /bitget\.cafe|topzhjdgxcb/, "raw partner domains never shown");
+  assert.doesNotMatch(en, /bitget\.com|topzhjdgxcb/, "raw partner domains never shown");
   for (const path of ["/ru/coins/bitcoin", "/zh-hant/coins/bitcoin", "/ar/coins/bitcoin"]) {
     const html = mainHtml(await (await fetchPage(path)).text());
     assert.doesNotMatch(html, /href="\/go\/|nexu888|11350287|LUCKX/i, `${path}: no sign-up in a neutral locale`);

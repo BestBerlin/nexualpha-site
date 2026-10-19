@@ -118,7 +118,7 @@ test("R48 compare pages expose mobile quick choices before long comparison evide
   assert.match(html, /data-cta-placement="compare-final-choice-registration"/, "existing final-choice registration CTA remains");
   assert.match(html, /data-cta-placement="compare-hero-versus"/, "existing versus CTA remains");
 
-  assert.equal(countMatches(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/g), 3, "Bitget referral route is not duplicated");
+  assert.equal(countMatches(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/g), 3, "Bitget referral route is not duplicated");
   assert.equal(countMatches(html, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/g), 3, "Bybit referral route is not duplicated");
 });
 
