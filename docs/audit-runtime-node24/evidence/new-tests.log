@@ -1,0 +1,16 @@
+✔ seven proposed container roles use executable CMD probes (0.995334ms)
+✔ HTTP health snippets require exact 200, reject redirects, outages and refused connections (362.785084ms)
+✔ healthcheck uses actual updatedAt, admits degraded progress, rejects stale/missing/future heartbeat (14.825709ms)
+✔ HTTP healthchecks fail on upstream errors and use a bounded signal (9.70325ms)
+✔ CSP hashes trusted inline scripts without allowing inline or eval globally (1.192583ms)
+✔ CSP reports discard all identifying strings and use a bounded global log budget (3.152917ms)
+✔ CSP endpoint bounds streaming input and validates method/type and Reporting API shape (0.4675ms)
+✔ production server adds report-only header and keeps enforced CSP unchanged (34.639291ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 417.921542

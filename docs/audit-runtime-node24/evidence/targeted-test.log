@@ -1,0 +1,22 @@
+✔ CSP hashes trusted inline scripts without allowing inline or eval globally (0.674ms)
+✔ CSP reports discard all identifying strings and use a bounded global log budget (3.379ms)
+✔ CSP endpoint bounds streaming input and validates method/type and Reporting API shape (0.443667ms)
+✔ production server adds report-only header and keeps enforced CSP unchanged (55.88575ms)
+✔ every card kind renders a 1200x630 PNG with public cache headers (1462.893042ms)
+✔ unknown ids, kinds and malformed paths answer 404 without rendering (9.782958ms)
+✔ rendered cards are cached in memory and on disk under the build id (475.867042ms)
+✔ cards print page facts but never invite codes, and RTL titles are right-aligned (6.14925ms)
+✔ a missing liquidation feed renders an 'updating' card and a missing renderer falls back to the brand image (152.761958ms)
+✔ wrapText keeps three lines with an ellipsis and formatUsdCompact rounds like the page (20.275083ms)
+✔ route metadata points og:image and twitter:image at the page's card by route kind (17.409ms)
+✔ the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour (306.3225ms)
+✔ every src/data module the worker imports (transitively) is shipped with the server build (87.212083ms)
+✔ every server module the worker imports is shipped with the server build (4.012333ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2766.390042

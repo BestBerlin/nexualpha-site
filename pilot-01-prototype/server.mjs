@@ -6,6 +6,7 @@ import { clickStorage } from './server/click-storage.mjs';
 import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, appendFile, realpath, chmod, readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { createCspReporter, reportOnlyPolicy } from './server/csp-report.mjs';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
@@ -58,6 +59,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const distRoot = path.resolve(env.DIST_ROOT || path.join(appRoot, 'dist'));
   const clientRoot = path.join(distRoot, 'client');
   const renderNews = createNewsSsrRenderer(distRoot);
+  const cspReporter = createCspReporter();
+  const cspReportOnly = reportOnlyPolicy(await readFile(path.join(clientRoot, 'index.html'), 'utf8').catch(() => ''));
   const workerPolledJsonCacheScope = {};
   // Append-only announcement archive (2026-10-12): update pages stay real pages after their item leaves the live feed.
   // INTEL_ARCHIVE_FILE lives outside the read-only app tree (production: /intel-state, host /data/private/nexualpha/intel).
@@ -197,6 +200,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
     },
   };
   const server = createServer({ requestTimeout: 15000, headersTimeout: 10000 }, async (req, res) => {
+    res.setHeader('Content-Security-Policy-Report-Only', cspReportOnly);
     const requestId = safeRequestId(req.headers['x-request-id']);
     let requestPath = '/site-page';
     try {
@@ -219,7 +223,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
-      if ((result = await partnerProgram(request))) {
+      if (requestPath === '/api/csp-report') {
+        result = await cspReporter(request);
+      } else if ((result = await partnerProgram(request))) {
         // Partner landing and private statistics are handled before public SSR/cache.
       } else if (requestPath === CTA_CLICK_PATH) {
         result = await ctaClick(request, clientKey(req));

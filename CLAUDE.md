@@ -23,7 +23,8 @@ On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 9
   its quality gate. Never reintroduce a frozen roster or a locale whitelist that hides translated pages.
 - Deploy health is more than HTTP 200: the standby must reach the running CTA collector and report the error monitor
   ready (deploy/stage-remote.py checks both). Public checks must not use `curl | grep -q` under pipefail.
-- Production runs `node:20-bookworm-slim` with no npm install on the server: anything `server/*.mjs` imports at runtime
+- The repo stages `node:24-bookworm-slim` by default (`NEXUALPHA_NODE_IMAGE` overrides it; see deploy/README.md).
+  This is preparation, not evidence of a production cutover. Production has no npm install on the server: anything `server/*.mjs` imports at runtime
   must be inside the release tarball. Social cards (`/og/*.png`, `server/og-image.mjs`) need `node_modules/@resvg` with
   the Linux gnu+musl binaries — on a Mac build use `npm pack` + extract (npm refuses cross-platform installs); fonts
   come from the host mount `/data/private/nexualpha/og-fonts` (DejaVu = Latin/Cyrillic/Arabic, WenQuanYi = CJK).

@@ -1,0 +1,10 @@
+Prepare a supported runtime without changing production cutover behavior
+
+Constraint: Repository preparation only; production validation belongs to the lead.
+Rejected: Forced major dependency upgrades | Same-major build-chain updates clear the observed advisories.
+Confidence: medium
+Scope-risk: moderate
+Directive: Validate Linux resvg, mounted fonts, collectors and report-only CSP before staged promotion.
+Tested: Node 24 typecheck, full build, strict budget, 13 SSR routes, native OG, CSP, health probes and deployment tests.
+Not-tested: Production containers, Linux native renderer, mounted fonts and browser CSP completeness.
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

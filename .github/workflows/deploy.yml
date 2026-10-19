@@ -34,6 +34,7 @@ jobs:
       RELEASE: ${{ needs.build.outputs.release }}
       BUILD_ID: ${{ needs.build.outputs.build_id }}
       SITE: https://nexualpha.com
+      NEXUALPHA_NODE_IMAGE: ${{ vars.NEXUALPHA_NODE_IMAGE || 'node:24-bookworm-slim' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -85,7 +86,8 @@ jobs:
 
       - name: Start standby and preflight (live untouched)
         run: |
-          ssh prod "env RELEASE=$RELEASE BUILD_ID=$BUILD_ID BASELINE_BUILD_ID=$(cat BASELINE_BUILD_ID) ALLOW_CTA_CHANGE=${{ inputs.allow_cta_change && '1' || '0' }} python3 -" < deploy/stage-remote.py
+          [[ "$NEXUALPHA_NODE_IMAGE" =~ ^node:[a-zA-Z0-9._-]+(@sha256:[a-f0-9]{64})?$ ]] || { echo "::error::Invalid NEXUALPHA_NODE_IMAGE"; exit 1; }
+          ssh prod "env RELEASE=$RELEASE BUILD_ID=$BUILD_ID BASELINE_BUILD_ID=$(cat BASELINE_BUILD_ID) NEXUALPHA_NODE_IMAGE=$NEXUALPHA_NODE_IMAGE ALLOW_CTA_CHANGE=${{ inputs.allow_cta_change && '1' || '0' }} python3 -" < deploy/stage-remote.py
 
       - name: Switch traffic
         run: ssh prod "env RELEASE=$RELEASE python3 -" < deploy/cutover-remote.py

@@ -99,3 +99,36 @@ old-container retirement or the drain-timeout fallback, inspect the expected
 build publicly, and test rollback on a non-production clone before relying on
 it. In the GitHub workflow the same polling command can wrap the existing
 Switch traffic command. No production command was run for this change.
+
+## Node 24 staging preparation
+
+The standby image defaults to `node:24-bookworm-slim` in `stage-remote.py`.
+`deploy-local.sh` passes `NEXUALPHA_NODE_IMAGE` to staging; changing it does not
+change the existing cutover or rollback algorithm. For a Node 20 fallback during
+staging, use `NEXUALPHA_NODE_IMAGE=node:20-bookworm-slim ./deploy/deploy-local.sh`
+with the usual deployment arguments. Node 20 is an emergency fallback, not the
+supported target. Existing-container rollback still uses the original container.
+
+Before an authorized staged cutover, inspect the official image manifest with
+`docker buildx imagetools inspect node:24-bookworm-slim`, record its verified
+manifest digest and platform, and set
+`NEXUALPHA_NODE_IMAGE=node:24-bookworm-slim@sha256:<verified-64-hex-digest>`.
+No digest is guessed or baked into this preparation. The runtime tarball must
+still include `server/`, its imports and `node_modules/@resvg` Linux gnu/musl
+binaries; the read-only host font mount remains required. Local macOS native
+rendering does not validate the Linux binary or mounted fonts.
+
+After building, run the local production-entry smoke with Node 24:
+`cd pilot-01-prototype && ~/.nvm/versions/node/v24.14.0/bin/node scripts/node24-runtime-smoke.mjs`.
+It starts `node server.mjs` on loopback with production-shaped environment
+variables, isolated temporary event/cache/snapshot paths, background refresh off,
+and no collector connection. It checks the same 13 staging routes, error-monitor
+readiness, the build id and an actual native-rendered OG PNG. It removes all
+temporary state when finished. This proves local runtime compatibility only;
+Linux image, native module, mounted fonts and collector acceptance still need
+the lead's authorized standby checks.
+
+GitHub Actions builds with Node 24.14.0. Its production environment/repository
+variable `NEXUALPHA_NODE_IMAGE` uses the same default and accepts the same pinned
+image reference or Node 20 rollback tag as the local entrypoint. Only the lead
+should change that variable and dispatch a staged release.
