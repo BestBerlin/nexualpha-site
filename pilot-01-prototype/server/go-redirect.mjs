@@ -13,7 +13,7 @@ import { partnersProgram, findProgramPartner } from '../src/data/partners-progra
 import { programTarget, programPartnerForRequest } from './partner-program.mjs';
 import { partnerRegistry } from '../src/data/partner-registry.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
-import { clickMetadata } from './click-metadata.mjs';
+import { clickMetadata, clickRequestMetadata } from './click-metadata.mjs';
 import { safeGoPage, safeGoModule, partnerAttributionTarget, retainGoAttribution } from '../src/data/go-attribution.js';
 import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
@@ -235,7 +235,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       const module = safeGoModule(url.searchParams.get('module'));
       // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
+      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...clickRequestMetadata(request), ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
     }
     return new Response(null, { status: 302, headers: { ...headers, location: partnerAttributionTarget(target, url.searchParams, attributionPolicy) } });
   };
