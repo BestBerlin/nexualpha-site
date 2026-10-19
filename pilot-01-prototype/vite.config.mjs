@@ -239,7 +239,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // The neutral-locale list (locale-policy.js, vi neutral 2026-10-13) and its tiny helpers are read by the campaign,
           // academy, news and data chunks: same pin, same reason.
           if (/\/src\/data\/(?:locale-policy|neutral-referral-topic|campaign-codes)\.js$/.test(id)) return isSsrBuild ? "data-partner-geo" : undefined;
-          if (id.includes("FundingMatrixPage") || id.includes("funding-matrix")) return "route-funding-matrix";
+          // Match source paths only: a worktree named funding-matrix must not absorb every module.
+          if (/\/src\/(?:components\/data\/(?:FundingMatrixPage\.jsx|funding-matrix\.css)|data\/funding-matrix[^/]*\.js)$/.test(id)) return "route-funding-matrix";
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
