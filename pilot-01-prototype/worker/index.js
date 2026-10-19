@@ -216,13 +216,23 @@ function workerStaleJsonFeed(env, key, load) {
       load: (signal) => entry.load(signal),
       ttlMs: polledJsonTtl(env),
       ...(key.startsWith("radar:whales") ? { isSourceStale: radarSourceStale } : {}),
-      timeoutMs: polledJsonTimeout(env),
+      timeoutMs: key === "funding-matrix" ? 20000 : polledJsonTimeout(env),
+      retainLateResults: key === "funding-matrix",
       log: (message) => console.error(`[NexuAlpha] ${key}: ${message}`),
     });
     byKey.set(key, entry);
     if (byKey.size > MAX_POLLED_JSON_FEEDS_PER_SCOPE) byKey.delete(byKey.keys().next().value);
   } else entry.load = load;
   return entry.feed;
+}
+
+function fundingMatrixFeed(env) {
+  return workerStaleJsonFeed(env, "funding-matrix", async () => {
+    if (typeof env?.FUNDING_MATRIX_READ !== "function") throw new Error("FUNDING_MATRIX_READ is not configured");
+    const feed = await env.FUNDING_MATRIX_READ();
+    if (!feed || typeof feed !== "object") throw new Error("empty funding matrix snapshot");
+    return feed;
+  });
 }
 
 async function respondWorkerStaleJson(feed, method, fallbackPayload, cacheControl = "public, max-age=10, stale-while-revalidate=60") {
@@ -348,12 +358,7 @@ export default {
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
     if (url.pathname === "/intel/funding-matrix.json" && ["GET", "HEAD"].includes(request.method)) {
-      return respondWorkerStaleJson(workerStaleJsonFeed(env, "funding-matrix", async () => {
-        if (typeof env?.FUNDING_MATRIX_READ !== "function") throw new Error("FUNDING_MATRIX_READ is not configured");
-        const feed = await env.FUNDING_MATRIX_READ();
-        if (!feed || typeof feed !== "object") throw new Error("empty funding matrix snapshot");
-        return feed;
-      }), request.method, {});
+      return respondWorkerStaleJson(fundingMatrixFeed(env), request.method, {});
     }
     if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
@@ -4891,7 +4896,7 @@ function turkeyMarketRenderEnv(env, url) {
 
 async function injectPrerenderedRoute(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
-  env = turkeyMarketRenderEnv(routeSeoRenderEnv(env, metadata), url);
+  env = turkeyMarketRenderEnv(routeSeoRenderEnv({ ...env, WORKER_POLLED_JSON_CACHE_SCOPE: polledJsonScope(env) }, metadata), url);
   if (metadata.status === 404) {
     const guide = isBitgetGuidePath(parsePublicRoute(url.pathname, url.searchParams).contentPathname);
     return (await renderRouteAtRequestTime(html, metadata, url, env, {
@@ -4940,7 +4945,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
     if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
       let fundingMatrix = null;
-      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ_CACHED === "function" ? await env.FUNDING_MATRIX_READ_CACHED() : await fundingMatrixFeed(env).read({ waitMs: 250 }); } catch { /* unavailable */ }
       // Neutral locales and no-promotion markets (Vietnam): the embedded payload carries no /go/ trade routes.
       if (fundingMatrix && (isNeutralCtaLocale(publicRoute.locale) || jurisdictionPromotionBan({ locale: publicRoute.locale, market: url.searchParams.get("market") }))) fundingMatrix = withoutFundingTradeHrefs(fundingMatrix);
       try {
