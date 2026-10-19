@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL as DATA_LICENSE_URL } from "./dataset-schema.js";
 // Head metadata, JSON-LD and sitemap rows for the deposit hub, its country pages and /crypto-cards (2026-10-15).
 // Used by the SSR head (seo-injection.js), the Worker head and the prerender/sitemap script; same helpers everywhere.
 // Indexing: hub and cards in every locale; a country page only in its own languages (DEPOSIT_COUNTRIES[].locales) and only
@@ -11,7 +12,6 @@ import {
 } from "./deposit.js";
 
 const ORIGIN = "https://nexualpha.com";
-const DATA_LICENSE_URL = `${ORIGIN}/methodology#data-license`;
 const absolute = (path, locale) => `${ORIGIN}${localizedPath(path, locale)}`;
 
 function fitTitle(candidates, locale) {
