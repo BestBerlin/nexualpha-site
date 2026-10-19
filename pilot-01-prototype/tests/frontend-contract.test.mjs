@@ -1104,7 +1104,12 @@ test("homepage hero keeps registration primary and leaves research paths below t
   assert.match(homeV7, /<HeroExchangeSwitcher[^>]*venues=\{venues\}/);
   assert.match(homeV7, /placement="home-v7-hero"/);
   assert.match(homeV7, /<StableHomeBelowFold[^>]*priced=\{priced\}/);
-  assert.doesNotMatch(homeV7, /href="#h7-calc"/);
+  // The information-only hero now opens the calculator; promotional heroes keep registration primary.
+  const promotionalHero = homeV7.slice(homeV7.indexOf('{!banned && (\n        <aside'), homeV7.indexOf('</section>', homeV7.indexOf('{!banned && (\n        <aside')));
+  assert.ok(promotionalHero.includes('placement="home-v7-hero"'));
+  assert.doesNotMatch(promotionalHero, /href="#h7-calc"/);
+  assert.match(homeV7, /banned && <><NeutralHeroBoard/);
+  assert.match(homeV7, /href="#h7-calc">\{c.calculator\}/);
   assert.match(app, /<HomeV7/);
   assert.match(app, /<VenueYellowPages[^>]*headingLevel=\{1\}/);
   assert.doesNotMatch(app, /<ScenarioRouter/);

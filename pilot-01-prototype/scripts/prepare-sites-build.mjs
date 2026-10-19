@@ -69,6 +69,8 @@ for (const name of serverRuntimeFiles) copyFileSync(path.join(root, "server", na
 const updatesModelDir = path.join(dist, "src", "components", "official-updates");
 mkdirSync(updatesModelDir, { recursive: true });
 copyFileSync(path.join(root, "src", "components", "official-updates", "official-updates-model.js"), path.join(updatesModelDir, "official-updates-model.js"));
+mkdirSync(path.join(dist, "src", "components", "shared"), { recursive: true });
+copyFileSync(path.join(root, "src", "components", "shared", "announcement-snapshot.js"), path.join(dist, "src", "components", "shared", "announcement-snapshot.js"));
 mkdirSync(path.join(dist, "src", "data"), { recursive: true });
 copyFileSync(publication, path.join(dist, "src", "data", "reviewed-news-publication.js"));
 copyFileSync(attribution, path.join(dist, "src", "data", "tracking-attribution.js"));

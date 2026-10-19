@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "entryGzipBytes": 341256,
+  "limitBytes": 350000,
+  "command": "node scripts/verify-build-budget.mjs --strict",
+  "exitCode": 0
+}

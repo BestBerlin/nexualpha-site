@@ -36,7 +36,8 @@ test("a failing venue keeps its last good rows for at most two hours", async () 
   const sources = { okx: async () => { throw new Error("down"); }, bybit: async () => { throw new Error("down"); }, binance: async () => [{ symbol: "BTC", rate: 0.0001, intervalH: 8, nextAt: null }] };
   const feed = await buildFunding(previous, { now, sources });
   assert.equal(feed.venues.okx.ok, false);
-  assert.equal(feed.venues.bybit, undefined);
+  assert.equal(feed.venues.bybit.status, "unavailable");
+  assert.deepEqual(feed.venues.bybit.rows, []);
   assert.equal(feed.venues.binance.ok, true);
-  assert.equal(await buildFunding(null, { now, sources: { okx: async () => { throw new Error("down"); } } }), null);
+  assert.equal((await buildFunding(null, { now, sources: { okx: async () => { throw new Error("down"); } } })).status, "unavailable");
 });

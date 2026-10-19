@@ -1,3 +1,4 @@
+import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { radarSourceStale } from '../server/source-freshness.mjs';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
 import { bitgetGuideSeo } from "../src/data/bitget-guide-seo.js";
@@ -17,7 +18,7 @@ import { withoutNeutralReferralEditions } from "../src/data/neutral-referral-top
 import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
 import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
 import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
-import { fundingTable, FUNDING_SYMBOLS } from "../src/data/funding-rates.js";
+import { fundingTable, FUNDING_SYMBOLS, isFundingSnapshot } from "../src/data/funding-rates.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
@@ -126,10 +127,10 @@ async function readTokenizedStocksLive(env) {
   if (typeof env?.TS_LIVE_READ !== "function") return null;
   try {
     const live = await env.TS_LIVE_READ();
-    return live && live.rows && Date.parse(live.generatedAt) > Date.parse(TS_LIVE_BAKED.generatedAt) ? live : null;
+    return live && live.rows && (live.status || Date.parse(live.generatedAt) > Date.parse(TS_LIVE_BAKED.generatedAt)) ? live : null;
   } catch (error) {
     console.error(`[NexuAlpha] tokenized-stocks snapshot read failed: ${error?.message || error}`);
-    return null;
+    return { generatedAt: null, rows: {}, counts: {}, checked: {}, events: [], campaigns: [], status: "UNAVAILABLE", stale: true, degraded: true, unavailable: true };
   }
 }
 
@@ -5277,15 +5278,21 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   // Owner 2026-10-14: the home page has no flash rail any more, so home SSR no longer reads the flash stream.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
     // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
-    const [funding, ticker, whales] = await Promise.all([
+    const [funding, ticker, whales, officialAnnouncements] = await Promise.all([
       readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale, market: market || undefined })),
       readTickerSnapshot(env),
       readWhalesSnapshot(env),
+      (async () => {
+        try {
+          const feed = typeof env?.INTEL_READ === "function" ? await env.INTEL_READ() : await readJsonAsset(env, url, "/intel/official-announcements.json");
+          return turkeyAnnouncementFeed(announcementSnapshot(feed), publicRoute, market);
+        } catch { return announcementSnapshot(null); }
+      })(),
     ]);
-    if (funding || ticker || whales) {
-      // The prerendered announcement feed rides along: the client hydrates the below-fold island from the same state, so
-      // rendering without it SSR'd an empty notice list and threw React #418 on every home load.
-      const state = { heroVariant: routePayload.heroVariant, ...(routePayload.officialAnnouncements && typeof routePayload.officialAnnouncements === "object" ? { officialAnnouncements: routePayload.officialAnnouncements } : {}), ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(whales ? { whales } : {}) };
+    if (funding || ticker || whales || officialAnnouncements) {
+      // Read announcements per request and pass the exact snapshot to SSR and hydration; a build-time seed
+      // cannot establish freshness. Unavailable snapshots are explicit rather than silently retaining old notices.
+      const state = { heroVariant: routePayload.heroVariant, officialAnnouncements, ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(whales ? { whales } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
         if (typeof rendered === "string" && rendered.includes('id="h7-calc"')) {
@@ -5528,7 +5535,7 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
 async function readHomeFundingSnapshot(env) {
   try {
     const snapshot = typeof env?.FUNDING_READ === "function" ? await env.FUNDING_READ() : null;
-    return snapshot && FUNDING_SYMBOLS.some((symbol) => fundingTable(snapshot, symbol).length)
+    return isFundingSnapshot(snapshot)
       ? { ...snapshot, renderedAt: new Date().toISOString() } : null;
   } catch { return null; }
 }

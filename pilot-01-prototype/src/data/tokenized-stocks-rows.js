@@ -14,6 +14,7 @@ const SPOT_FORM = Object.freeze({ bitget: "rToken", okx: "xStocks", binance: "bS
 
 /** A usable live table ({ generatedAt, counts, checked, rows }) or the one baked into the release. */
 export function tsLive(live) {
+  if (live?.status && live.rows) return live;
   return live && typeof live === "object" && live.rows && Number.isFinite(Date.parse(live.generatedAt))
     && Date.parse(live.generatedAt) >= Date.parse(TS_LIVE_BAKED.generatedAt) ? live : TS_LIVE_BAKED;
 }

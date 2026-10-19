@@ -75,8 +75,9 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
 
   assert.match(home, /useEffect\(\(\) => \{ setShowSeconds\(!reduced\(\)\); \}, \[\]\)/, "motion preference is read after hydration");
 
-  // SEO trust: the home funding board only renders after real SSR/client rows exist; no dash placeholder table.
-  assert.match(home, /if \(!feed \|\| !selectedSymbol \|\| rows\.length === 0\) return null;/);
+  // Explicit unavailable snapshots keep their status visible; absent data still hides and no placeholder table is fabricated.
+  assert.match(home, /if \(!feed \|\| \(!selectedSymbol && feed\.status !== "unavailable"\)\) return null;/);
+  assert.match(home, /rows\.length > 0 &&/);
   assert.match(home, /availableSymbols\.map\(\(s\) => <button/);
   assert.doesNotMatch(home, /FUNDING_VENUES\.map/);
   assert.doesNotMatch(home, /h7-fr-row--wait|aria-busy/);
