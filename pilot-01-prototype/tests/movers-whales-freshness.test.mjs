@@ -43,9 +43,9 @@ test('partial collector success retains the market source clock', async () => {
 });
 test('whale source freshness uses the data clock, TTL boundary and failure flag', () => {
   const payload = { dataUpdatedAt: new Date(at).toISOString(), updatedAt: new Date(at + 100_000).toISOString(), ttlSeconds: 60 };
-  assert.equal(radarSourceStale(payload, at + 59_999), false);
-  assert.equal(radarSourceStale(payload, at + 60_000), true);
-  assert.equal(radarSourceStale({ ...payload, ttlSeconds: 10 }, at + 10_000), true);
+  assert.equal(radarSourceStale(payload, at + 299_999), false);
+  assert.equal(radarSourceStale(payload, at + 300_000), true);
+  assert.equal(radarSourceStale({ ...payload, ttlSeconds: 10 }, at + 60_000), false);
   for (const extra of [{ stale: true }, { dataUpdatedAt: 'invalid' }, { dataUpdatedAt: new Date(at + 1).toISOString() }]) assert.equal(radarSourceStale({ ...payload, ...extra }, at), true);
 });
 test('healthy whale data remains fresh during cache refresh and expires without renewing its source clock', async () => {
@@ -54,11 +54,11 @@ test('healthy whale data remains fresh during cache refresh and expires without 
   const feed = createStaleJsonFeed({ ttlMs: 10_000, now: () => clock, isSourceStale: radarSourceStale, load: async () => payload });
   await feed.read(); clock += 10_001;
   assert.ok(!(await feed.read()).stale);
-  await feed.refresh(); clock = at + 60_000;
+  await feed.refresh(); clock = at + 300_000;
   assert.equal((await feed.read()).stale, true);
 });
 test('cached whale file data ages out before the next internal cache refresh', async () => {
-  const dir = await mkdtemp(path.join(tmpdir(), 'whale-clock-')); let clock = at + 59_000;
+  const dir = await mkdtemp(path.join(tmpdir(), 'whale-clock-')); let clock = at + 299_000;
   try {
     const file = path.join(dir, 'whales.json');
     await writeFile(file, JSON.stringify({ status: 'ok', dataUpdatedAt: new Date(at).toISOString(), rows: [{ id: 'existing', category: 'transfer', chain: 'bitcoin' }] }));

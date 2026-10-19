@@ -16,7 +16,8 @@ export function createMoversFeed({ readBinanceRows = null, readCoins = null, rea
   const safe = async (fn) => { if (typeof fn !== 'function') return null; try { return await fn(); } catch (error) { log(`movers: ${error?.message || error}`); return null; } };
   const sourceStale = (snapshot, at) => {
     const age = at - Date.parse(snapshot.generatedAt);
-    const maxAge = snapshot.source === 'market-events' ? maxSourceAgeMs : ttlMs;
+    // Binance frames are refreshed every ttlMs; a frame is only stale once several refreshes have been missed.
+    const maxAge = snapshot.source === 'market-events' ? maxSourceAgeMs : Math.max(ttlMs * 4, 2 * 60 * 1000);
     return !Number.isFinite(age) || age < 0 || age >= maxAge;
   };
   return createStaleJsonFeed({ ttlMs, timeoutMs, now, log, isSourceStale: sourceStale, load: async () => {
