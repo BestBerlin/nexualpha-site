@@ -19,6 +19,7 @@ RELEASE = os.environ.get('RELEASE', '')
 BUILD_ID = os.environ.get('BUILD_ID', '')
 BASELINE = os.environ.get('BASELINE_BUILD_ID', '')
 ALLOW_CTA_CHANGE = os.environ.get('ALLOW_CTA_CHANGE') == '1'
+NODE_IMAGE = os.environ.get('NEXUALPHA_NODE_IMAGE', 'node:24-bookworm-slim')
 PKG = '/data/wwwroot/nexualpha-ui-%s.tgz' % RELEASE
 ROOT = '/data/wwwroot/nexualpha-release-%s' % RELEASE
 NEW = 'nexualpha-web-%s' % RELEASE
@@ -212,7 +213,7 @@ def main():
     args += ['-v', '/data/private/nexualpha/clicks:/clicks', '-e', 'CLICK_EVENT_FILE=/clicks/go-clicks.jsonl']
     # Social cards /og/<kind>/<id>.png (2026-10-10): rendered PNGs are cached outside the read-only app tree, keyed by build id.
     args += ['-v', '/data/private/nexualpha/og-cache:/og-cache', '-e', 'OG_CACHE_DIR=/og-cache']
-    # Host fonts for the cards (node:20-bookworm-slim has none): DejaVu covers Latin/Cyrillic/Arabic, WenQuanYi covers CJK.
+    # Host fonts for the cards (bookworm-slim has none): DejaVu covers Latin/Cyrillic/Arabic, WenQuanYi covers CJK.
     args += ['-v', '/data/private/nexualpha/og-fonts:/og-fonts:ro', '-e', 'OG_FONT_DIR=/og-fonts']
     # Append-only official-announcement archive (2026-10-12): update pages whose item left the live feed stay 200, not 404.
     args += ['-v', '/data/private/nexualpha/intel:/intel-state', '-e', 'INTEL_ARCHIVE_FILE=/intel-state/official-announcements-archive.json']
@@ -223,7 +224,7 @@ def main():
     args += ['-e', 'ETF_FLOWS_FILE=/intel-state/etf-flows.json', '-e', 'CALENDAR_FILE=/intel-state/calendar.json']
     # Live market feeds (written by collectors; nginx serves market-events as /intel/market-events.json) for data pages and whale watch.
     args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json', '-e', 'WHALES_FILE=/market/whales.json']
-    args += [info['Config']['Image'], 'node', 'server.mjs']
+    args += [NODE_IMAGE, 'node', 'server.mjs']
     sh(*args, stdout=subprocess.DEVNULL)
     nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}
     if collector:

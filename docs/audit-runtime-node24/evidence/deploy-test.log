@@ -1,0 +1,7 @@
+----------------------------------------------------------------------
+Ran 17 tests in 24.601s
+
+OK
+CUTOVER_DONE 18001 -> 18002; old container stopped (rollback restarts it)
+ROLLBACK_DONE previous container ready and nginx restored for test
+CUTOVER_DONE; old workers still draining, old container kept running for rollback
