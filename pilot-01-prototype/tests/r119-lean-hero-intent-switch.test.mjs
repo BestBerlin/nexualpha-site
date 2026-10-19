@@ -50,7 +50,7 @@ test("R119 LeanHero defaults to direct signup intent during SSR", async () => {
     assert.match(html, /class="growth-platform-search"/);
     assert.match(html, /data-cta-placement="home-decision-panel"/);
     assert.doesNotMatch(html, /class="growth-compare-shortcuts__links"/);
-    assert.equal(publicCtaForVenue("bitget", "en").registrationUrl, "https://partner.bitget.cafe/bg/C6PRAF");
+    assert.equal(publicCtaForVenue("bitget", "en").registrationUrl, "https://partner.bitget.com/bg/C6PRAF");
   } finally {
     await vite.close();
   }

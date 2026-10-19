@@ -301,8 +301,8 @@ test("worker serves the international SSR locale set", async () => {
 test("worker prerenders path-locale high-intent routes with market and product context", async () => {
   const cases = [
     ["/es/compare/binance-vs-okx?market=MX&product=spot", /<h1[^>]*>[\s\S]*Binance[\s\S]*OKX[\s\S]*<\/h1>/, /data-cta-placement|www\.bsmkweb\.cc|okx\.com\/join/],
-    ["/tr/compare/bybit-vs-bitget?market=TR&product=spot", /<h1[^>]*>[\s\S]*Bybit[\s\S]*Bitget[\s\S]*<\/h1>/, /data-cta-placement|bybit\.com\/register|partner\.bitget\.cafe/],
-    ["/pt-br/rates?market=BR&product=spot", /<h1[^>]*>[\s\S]*Taxas das corretoras lado a lado[\s\S]*<\/h1>/, /data-cta-placement|partner\.bitget\.cafe|backpack\.exchange\/join/],
+    ["/tr/compare/bybit-vs-bitget?market=TR&product=spot", /<h1[^>]*>[\s\S]*Bybit[\s\S]*Bitget[\s\S]*<\/h1>/, /data-cta-placement|bybit\.com\/register|partner\.bitget\.com/],
+    ["/pt-br/rates?market=BR&product=spot", /<h1[^>]*>[\s\S]*Taxas das corretoras lado a lado[\s\S]*<\/h1>/, /data-cta-placement|partner\.bitget\.com|backpack\.exchange\/join/],
   ];
 
   for (const [path, h1Pattern, ctaPattern] of cases) {

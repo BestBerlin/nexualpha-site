@@ -12,7 +12,7 @@ const partnerRegistrySource = await readFile(new URL("../src/data/partner-regist
 
 const protectedPartners = {
   binance: ["https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy", "11350287"],
-  bitget: ["https://partner.bitget.cafe/bg/C6PRAF", "nexu888"],
+  bitget: ["https://partner.bitget.com/bg/C6PRAF", "nexu888"],
   okx: ["https://www.okx.com/join/nexu888", "nexu888"],
   backpack: ["https://backpack.exchange/join/luckybitcoin", "luckybitcoin"],
 };

@@ -54,7 +54,7 @@ const noScriptRoutes = [
     h1: /Exchange fees, side by side/,
     hrefs: [
       "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
-      "https://partner.bitget.cafe/bg/C6PRAF",
+      "https://partner.bitget.com/bg/C6PRAF",
       "https://backpack.exchange/join/luckybitcoin",
     ],
   },

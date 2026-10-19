@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
 import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { radarSourceStale } from '../server/source-freshness.mjs';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
@@ -2612,7 +2613,6 @@ function staticAssetResponse(response, url) {
   });
 }
 
-const NEXUALPHA_DATA_LICENSE_URL = `${PUBLIC_ORIGIN}/methodology#data-license`;
 // RESEARCH_DESK and NEXUALPHA_PUBLISHER come from src/data/brand-entity.js (one Organization @id for every page).
 const DEFAULT_SOCIAL_IMAGE = `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-social-v1.jpg`;
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
