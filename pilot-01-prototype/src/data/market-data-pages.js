@@ -132,12 +132,22 @@ export function readHistory(feed) {
 
 // What the server embeds for hydration: the data blocks, the history summary and majors, never the 80 headlines.
 // `timeline: false` drops liquidations.timeline (the v2 collector's ~1 MB bucket series) for pages that never draw it.
-export function compactMarketEvents(feed, { timeline = true } = {}) {
+export function compactMarketEvents(feed, { timeline = true, firstScreen = false } = {}) {
   if (!feed || typeof feed !== "object") return null;
   const out = { generatedAt: feed.generatedAt ?? null };
   if (feed.liquidations && typeof feed.liquidations === "object") {
     const { timeline: series, ...rest } = feed.liquidations;
     out.liquidations = timeline && series !== undefined ? { ...rest, timeline: series } : rest;
+    if (firstScreen && timeline && series?.h24) {
+      // Preserve the observed aggregate buckets exactly. Coin series and the
+      // seven-day window are fetched only when a reader uses chart controls.
+      const { symbols: _symbols, largestBySymbol: _bySymbol, ...window } = series.h24;
+      out.liquidations.timeline = {
+        coverage: series.coverage, symbols: series.symbols, detailsDeferred: true,
+        h24: { ...window, largest: (window.largest || []).slice(0, 10),
+          buckets: (window.buckets || []).map(({ symbols: _detail, ...bucket }) => bucket) },
+      };
+    }
   }
   if (feed.funding) out.funding = feed.funding;
   if (feed.history) out.history = feed.history;

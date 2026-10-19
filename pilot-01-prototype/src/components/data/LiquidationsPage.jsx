@@ -15,7 +15,7 @@ function WindowCard({ label, window: w, copy, primary }) {
   if (!w) return null;
   return (
     <article className={`nxd-stat${primary ? " nxd-stat--primary" : ""}`}>
-      <h3>{label}</h3>
+      <h2>{label}</h2>
       <p className="nxd-stat__value" dir="ltr"><span>{formatUsdCompact(w.totalUsd)}</span></p>
       <p className="nxd-stat__meta">
         <span className="nxd-long" dir="ltr">{copy.longs}: {formatUsdCompact(w.longUsd)}</span>
@@ -44,7 +44,7 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
 
       {!data ? <DataUnavailable locale={locale} /> : (
         <>
-          <section className="nxd-stats v2-shell" data-rv="1" aria-label={page.total}>
+          <section className="nxd-stats v2-shell" aria-label={page.total}>
             <WindowCard label={page.h1Window} window={data.windows.h1} copy={page} />
             <WindowCard label={page.h4Window} window={data.windows.h4} copy={page} />
             <WindowCard label={page.h24Window} window={data.windows.h24} copy={page} primary />

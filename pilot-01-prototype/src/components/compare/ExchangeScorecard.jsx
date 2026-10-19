@@ -150,7 +150,7 @@ export function CountryScorecards({ locale = 'en' }) {
     {markets.map((market) => <section key={market.key} aria-labelledby={`scorecard-${market.key}`}>
       <h2 id={`scorecard-${market.key}`}>{t[7]} <span lang="en">{market.name}</span></h2>
       <CountryRankingTable market={market} locale={locale} />
-      <div className="exchange-scorecard__scroll" tabIndex={0} role="region" aria-label={`${t[7]} ${market.name}`}>
+      <div className="exchange-scorecard__scroll" tabIndex={0} role="region" aria-label={`${market.name} · ${t[8]} · ${t[9]}`}>
         <table><caption lang="en">Ranked within the documented comparison universe, after geographic promotion exclusions.</caption><thead><tr><th scope="col">{t[8]}</th><th scope="col">{t[9]}</th><th scope="col">{t[10]}</th></tr></thead>
           <tbody>{market.verdicts.map((v) => <tr key={v.key}><th scope="row" lang="en">{v.label}</th><td>{v.winners.length ? v.winners.map((slug, i) => <span key={slug}>{i > 0 && ' / '}<a href={localizedHref(`/exchanges/${slug}`, { locale })}>{market.venues.find((venue) => venue.slug === slug)?.name || slug}</a></span>) : t[4]}</td><td lang="en">{v.rule}</td></tr>)}</tbody>
         </table>

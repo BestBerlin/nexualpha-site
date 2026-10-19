@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { localizedHref } from '../../data/locale-routing.js';
 import { heatmapCopy } from '../../data/heatmap-copy.js';
 // Neutral locales (ru/ar/zh-Hant/ur/uk) carry no partner offer.
@@ -17,24 +17,55 @@ import { NEUTRAL_CTA_LOCALES } from "../../data/locale-policy.js";
 export function LiquidationTimeline({ feed, locale = 'en', showSource = true }) {
  const c = heatmapCopy(locale);
  const [windowKey,setWindow] = useState('h24'), [symbol,setSymbol] = useState('ALL');
- const timeline = feed?.liquidations?.timeline;
+ const [detailFeed, setDetailFeed] = useState(null);
+ const detailRequest = useRef(null);
+ const detailController = useRef(null);
+ const mounted = useRef(false);
+ useEffect(() => {
+  mounted.current = true;
+  return () => { mounted.current = false; detailController.current?.abort(); };
+ }, []);
+ const loadDetails = () => {
+  if (!feed?.liquidations?.timeline?.detailsDeferred || detailFeed) return Promise.resolve(true);
+  if (detailRequest.current) return detailRequest.current;
+  const controller = new AbortController();
+  detailController.current = controller;
+  const timer = setTimeout(() => controller.abort(), 12000);
+  detailRequest.current = fetch('/intel/market-events.json', { cache: 'no-cache', signal: controller.signal })
+   .then(response => { if (!response.ok) throw new Error('Market details unavailable'); return response.json(); })
+   .then(next => {
+    if (!mounted.current || !next?.liquidations?.timeline) return false;
+    setDetailFeed(next);
+    return true;
+   })
+   .catch(() => false) // Keep the selected aggregate view on failure; refocus retries.
+   .finally(() => { clearTimeout(timer); detailRequest.current = null; });
+  return detailRequest.current;
+ };
+ useEffect(() => {
+  if (!detailFeed) return undefined;
+  return startJsonPolling({ request: '/intel/market-events.json', intervalMs: 60000,
+   immediate: false, cache: 'no-cache',
+   isData: next => Boolean(next?.liquidations?.timeline), onData: setDetailFeed });
+ }, [Boolean(detailFeed)]);
+ const timeline = detailFeed?.liquidations?.timeline || feed?.liquidations?.timeline;
  const window = timeline?.[windowKey];
  const symbols = timeline?.symbols || [];
- const rows = timelineRows(window,symbol);
+ const rows = timeline?.detailsDeferred && symbol !== 'ALL' ? [] : timelineRows(window,symbol);
  const largest = (symbol === 'ALL' ? (window?.largest || []) : (window?.largestBySymbol?.[symbol] || (window?.largest || []).filter(r=>r.symbol===symbol))).slice(0,10);
  const coverage = readLiquidationCoverage(window?.coverage, window?.largest || []);
  const longUsd = rows.reduce((a,r)=>a+r.longUsd,0), shortUsd = rows.reduce((a,r)=>a+r.shortUsd,0);
  return <section className="nxh-section v2-shell" data-testid="liquidation-timeline">
   <h2>{c.timeline}</h2>
   <div className="nxh-controls">
-   <label>{c.timeline}<select value={windowKey} onChange={e=>setWindow(e.target.value)}><option value="h24">24h · 5 min</option><option value="d7">7d · 1h</option></select></label>
-   <label>{c.all}<select value={symbol} onChange={e=>setSymbol(e.target.value)}><option value="ALL">{c.all}</option>{symbols.map(s=><option key={s} value={s}>{s}</option>)}</select></label>
+   <label>{c.timeline}<select value={windowKey} onFocus={loadDetails} onChange={async e=>{const value=e.target.value;if(await loadDetails()) setWindow(value);}}><option value="h24">24h · 5 min</option><option value="d7">7d · 1h</option></select></label>
+   <label>{c.all}<select value={symbol} onFocus={loadDetails} onChange={async e=>{const value=e.target.value;if(await loadDetails()) setSymbol(value);}}><option value="ALL">{c.all}</option>{symbols.map(s=><option key={s} value={s}>{s}</option>)}</select></label>
   </div>
   <p className="nxh-legend">{showSource ? `${coverage.label} · ` : ''}{c.lowerBound} · {c.longs} / {c.shorts} · USD · SGT</p>
   {rows.length ? <>
    <p className="nxh-summary">{c.longs}: <b>{formatUsdFull(longUsd)}</b> ({longUsd+shortUsd ? Math.round(longUsd/(longUsd+shortUsd)*100):0}%) · {c.shorts}: <b>{formatUsdFull(shortUsd)}</b></p>
    <HeatmapCanvas rows={rows} title={`${c.timeline} · USD / SGT`} longs={c.longs} shorts={c.shorts} />
-   {timeline.coverage?.since ? <p className="nxd-muted">{c.updated}: {formatUtc(timeline.coverage.since)} → {formatUtc(feed.generatedAt)}</p>:null}
+   {timeline.coverage?.since ? <p className="nxd-muted">{c.updated}: {formatUtc(timeline.coverage.since)} → {formatUtc((detailFeed || feed).generatedAt)}</p>:null}
    <p className="nxd-muted">{c.gaps}: {window.unobservedBuckets} / {rows.length}</p><h3>{c.biggest}</h3>
    {largest.length ? <div className="nxh-scroll"><table className="nxd-table" dir="ltr"><thead><tr><th>{c.all}</th><th>{c.longs} / {c.shorts}</th><th>USD</th><th>SGT</th></tr></thead><tbody>{largest.map((r,i)=><tr key={`${r.at}-${r.symbol}-${i}`}><th scope="row">{r.symbol} <small>{r.venue}</small></th><td>{r.side==='short'?c.shorts:c.longs}</td><td>{formatUsdFull(r.usd)}</td><td>{formatUtc(r.at)}</td></tr>)}</tbody></table></div>:<p>—</p>}
   </>:<p role="status">{c.unavailable}</p>}

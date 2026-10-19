@@ -362,6 +362,13 @@ export default {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
+    if (url.pathname === "/api/market-events/summary" && request.method === "GET") {
+      let feed = null;
+      try { feed = typeof env?.MARKET_EVENTS_READ === "function" ? await env.MARKET_EVENTS_READ() : await readJsonAsset(env, url, "/intel/market-events.json"); } catch { /* unavailable, never invent data */ }
+      return Response.json(compactMarketEvents(feed, { firstScreen: true }), {
+        status: feed ? 200 : 503, headers: { "cache-control": "no-cache" },
+      });
+    }
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
@@ -4954,7 +4961,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if ((isDataPagePath(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
       let liquidationLevels = null;
-      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ(), { timeline: pathname !== FUNDING_RATES_PATH }) : null; } catch { marketEvents = null; }
+      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ(), { timeline: pathname !== FUNDING_RATES_PATH, firstScreen: true }) : null; } catch { marketEvents = null; }
       if (pathname === LIQUIDATION_HEATMAP_PATH) {
         try { liquidationLevels = typeof env?.LIQUIDATION_LEVELS_READ === "function" ? await env.LIQUIDATION_LEVELS_READ() : null; } catch { liquidationLevels = null; }
       }
@@ -9300,12 +9307,9 @@ function optimizeRouteResourceHints(html, metadata, url) {
   const styled = hasPrerenderState || isClientRenderedNews
     ? optimized.replace(/\s*<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi, (tag) => shouldKeepStylesheet(tag, allowedStylePrefixes) ? tag : "")
     : optimized;
-  const newsSummaryPreload = metadata?.marker === NEWS_ROUTE_MARKER || url?.pathname === "/news"
-    ? '<link rel="preload" href="/content/news-feed-summary.json" as="fetch" crossorigin />'
-    : "";
-  const withNewsPreload = newsSummaryPreload && !/news-feed-summary\.json/.test(styled)
-    ? styled.replace(/<\/head>/i, `${newsSummaryPreload}</head>`)
-    : styled;
+  // Listings already carry paginated SSR rows and use /api/news/search.
+  // Do not compete with first-screen text by preloading the entire fallback archive.
+  const withNewsPreload = styled;
   // Non-indexable locale news shells need immediate hydration to load their
   // summarized feed, but they do not need every route chunk or stylesheet.
   if (!hasPrerenderState) return withNewsPreload;

@@ -87,17 +87,19 @@ export function FundingBoard({ locale, initialFeed }) {
       <div className="h7-fr-tabs" role="tablist" aria-label={t.h}>
         {availableSymbols.map((s) => <button key={s} type="button" role="tab" aria-selected={s === selectedSymbol} className={s === selectedSymbol ? "on" : undefined} onClick={() => setSymbol(s)} translate="no">{s}</button>)}
       </div>
-      <div className="h7-fr-table" role="table" aria-label={`${t.h} · ${selectedSymbol}`}>
-        <div className="h7-fr-row h7-fr-head" role="row"><span role="columnheader">{t.venue}</span><span role="columnheader">{t.rate}</span><span role="columnheader">{t.apr}</span><span role="columnheader">{t.next}</span></div>
+      <table className="h7-fr-table" aria-label={`${t.h} · ${selectedSymbol}`}>
+        <thead><tr className="h7-fr-row h7-fr-head"><th scope="col">{t.venue}</th><th scope="col">{t.rate}</th><th scope="col">{t.apr}</th><th scope="col">{t.next}</th></tr></thead>
+        <tbody>
         {rows.map((r, i) => (
-          <a key={r.venue} role="row" className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}`} href={localizedHref(`/exchanges/${r.venue}`, { locale })}>
-            <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}<small>{r.stale ? `${health[0]} · ` : ""}{formatSgt(r.lastSuccessAt || r.readAt, locale)}</small></span></span>
-            <span role="cell" className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></span>
-            <span role="cell" className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</span>
-            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</span>
-          </a>
+          <tr key={r.venue} className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}`}>
+            <td><a className="h7-fr-v" href={localizedHref(`/exchanges/${r.venue}`, { locale })}><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}<small>{r.stale ? `${health[0]} · ` : ""}{formatSgt(r.lastSuccessAt || r.readAt, locale)}</small></span></a></td>
+            <td className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></td>
+            <td className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</td>
+            <td className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</td>
+          </tr>
         ))}
-      </div>
+        </tbody>
+      </table>
       </>}
       <p className="h7-ia">{t.note}<br />{t.asOf(asOf)}</p>
     </section>
