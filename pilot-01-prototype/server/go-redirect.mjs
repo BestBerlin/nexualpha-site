@@ -6,7 +6,8 @@ import { campaignSignup, campaignTarget } from "../src/data/campaign-autodraft.j
 // Only time, partner, source, referring host and sanitized attribution
 // metadata are recorded (plus the home hero experiment id and a/b bucket while that experiment runs); no IP, no cookie
 // value, no user id. Crawlers are not counted and the route is noindex.
-import { readFile, appendFile, mkdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
+import { clickStorage } from './click-storage.mjs';
 import path from 'node:path';
 import { partnersProgram, findProgramPartner } from '../src/data/partners-program.js';
 import { programTarget, programPartnerForRequest } from './partner-program.mjs';
@@ -16,6 +17,8 @@ import { clickMetadata } from './click-metadata.mjs';
 import { safeGoPage, safeGoModule, partnerAttributionTarget, retainGoAttribution } from '../src/data/go-attribution.js';
 import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
+import { isNeutralCtaLocale } from '../src/data/locale-policy.js';
+import { LOCALE_PREFIX_BY_CODE, LOCALE_CODE_BY_PREFIX, localizedPath } from '../src/data/locale-routing.js';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 import { BINANCE_OCTOBER_GO_SLUGS, binanceCampaignActive, binanceCampaignUrl } from '../src/data/binance-october.js';
 import { BITGET_ALLIANCE_GO_SLUG, bitgetAllianceActive, bitgetAllianceUrl } from '../src/data/bitget-alliance.js';
@@ -108,11 +111,11 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth() } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth(), storage = clickStorage } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   // venue -> async () => redirect URL (injectable for tests); created lazily so a probe runs only once someone clicks.
   const apkProbes = { ...apkTargets };
-  if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
+
 
   return async function handle(request) {
     const url = new URL(request.url);
@@ -120,17 +123,39 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     const slug = GO_ALIASES[requested] || requested;
     const headers = { 'cache-control': 'no-store', 'x-robots-tag': 'noindex, nofollow', 'referrer-policy': 'no-referrer-when-downgrade' };
     const src = SRC.test(url.searchParams.get('src') || '') ? url.searchParams.get('src') : 'unknown';
-    // Heatmap offers use the same territorial policy as their visible card.
-    // Cloudflare supplies CF-IPCountry at the trusted edge; locale remains a
-    // conservative fallback for deployments without a country signal.
-    if (src === 'liq-heatmap' || url.searchParams.get('module') === 'liq-heatmap') {
-      const locale = url.searchParams.get('locale') || 'en';
-      const country = request.headers.get('cf-ipcountry') || '';
-      const context = { locale, ...(/^[A-Z]{2}$/.test(country) && !['XX', 'T1'].includes(country) ? { market: country } : {}) };
-      if (partnerPromotionGate(slug, context)) return new Response('Unavailable in this region', { status: 403, headers });
-    }
+    // Language, selected market and trusted-edge geography are independent vetoes; none proves residence.
+    // CF-IPCountry is supplied by the production edge (the origin must not be directly exposed).
+    let page;
+    try {
+      const ref = new URL(request.headers.get('referer'));
+      if (ref.origin === url.origin) page = ref;
+    } catch { /* direct/bot links have no page context */ }
+    const rawLocale = url.searchParams.get('locale') || url.searchParams.get('lang') || LOCALE_CODE_BY_PREFIX[page?.pathname.split('/')[1]] || 'en';
+    const locale = Object.keys(LOCALE_PREFIX_BY_CODE).find(code => code.toLowerCase() === rawLocale.toLowerCase())
+      || (/^zh-(?:hant|tw|hk)(?:-|$)/i.test(rawLocale) ? 'zh-Hant' : rawLocale.split('-')[0].toLowerCase());
+    const pageLocale = LOCALE_CODE_BY_PREFIX[page?.pathname.split('/')[1]] || 'en';
+    const pageMarket = page?.searchParams.get('market') || undefined;
+    const market = url.searchParams.get('market') || pageMarket || undefined;
+    const country = request.headers.get('cf-ipcountry') || '';
+    const edgeCountry = /^[A-Z]{2}$/.test(country) && !['XX', 'T1'].includes(country) ? country : undefined;
     const programPartner = programPartnerForRequest(url, request, programRegistry);
-    if (findProgramPartner(url.searchParams.get('p'), programRegistry) && !programPartner) return new Response('Unavailable in this locale', { status: 403, headers });
+    const invalidProgram = findProgramPartner(url.searchParams.get('p'), programRegistry) && !programPartner;
+    const neutralRedirect = venue => new Response(null, { status: 302, headers: { ...headers, location: localizedPath(`/exchanges/${venue}`, locale in LOCALE_PREFIX_BY_CODE ? locale : 'en') } });
+    const denied = venue => isNeutralCtaLocale(rawLocale) || isNeutralCtaLocale(pageLocale) || invalidProgram
+      || publicCtaForVenue(venue, pageLocale).actionGate
+      || (pageMarket && partnerPromotionGate(venue, { locale: 'en', market: pageMarket }))
+      || publicCtaForVenue(venue, locale).actionGate
+      || (market && partnerPromotionGate(venue, { locale: 'en', market }))
+      || (edgeCountry && partnerPromotionGate(venue, { locale: 'en', market: edgeCountry }));
+    const expiredSignup = venue => {
+      if (denied(venue)) return neutralRedirect(venue);
+      const fallback = new URL(`/go/${venue}`, url.origin);
+      fallback.searchParams.set('src', `${src}-expired`.slice(0, 48));
+      if (locale !== 'en' || url.searchParams.has('locale') || programPartner) fallback.searchParams.set('locale', locale);
+      if (market) fallback.searchParams.set('market', market);
+      if (programPartner) fallback.searchParams.set('p', programPartner.id);
+      return new Response(null, { status: 302, headers: { ...headers, location: retainGoAttribution(`${fallback.pathname}${fallback.search}`, url.searchParams) } });
+    };
     let target;
     let campaign = null;
     // Binance October campaign links (owner 2026-10-12): /go/binance-gifts, /go/binance-refer2earn, /go/binance-tournament
@@ -140,9 +165,8 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     let venue = 'binance';
     const approved = APPROVED_CAMPAIGNS.find(c => `campaign-${c.id}` === slug);
     if (approved) {
-      const country = request.headers.get('cf-ipcountry');
-      const context = { locale: url.searchParams.get('locale') || 'en', market: /^[A-Z]{2}$/.test(country || '') && !['XX', 'T1'].includes(country) ? country : url.searchParams.get('market') || undefined, now: now() };
-      if (!campaignSignup(approved, context)) return new Response('Unavailable', { status: 403, headers });
+      const context = { locale, market: market || edgeCountry, now: now() };
+      if (!campaignSignup(approved, context) || (edgeCountry && !campaignSignup(approved, { locale, market: edgeCountry, now: now() }))) return neutralRedirect(approved.venue);
       target = campaignTarget(approved);
       campaign = approved.id;
       venue = approved.venue;
@@ -150,7 +174,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       // Bitget Alliance (owner 2026-10-13): the official www.bitget.com campaign page with the campaign code (never the
       // mirror domain), in the visitor's language; after 26 Oct 16:00 UTC+8 it falls back to the regular /go/bitget.
       if (!bitgetAllianceActive(now())) {
-        return new Response(null, { status: 302, headers: { ...headers, location: retainGoAttribution(`/go/bitget?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}${programPartner ? `&p=${programPartner.id}&locale=${encodeURIComponent(url.searchParams.get('locale') || 'en')}` : ''}`, url.searchParams) } });
+        return expiredSignup('bitget');
       }
       target = bitgetAllianceUrl(url.searchParams.get('lang') || 'en');
       campaign = 'alliance';
@@ -160,7 +184,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       // ref code (owner 2026-10-13; the sign-up with our code is /go/kraken, the primary button). Counted so step-2 clicks can be measured; after the
       // end (11 Dec 07:59:59 SGT) it falls back to our Kraken profile.
       if (!krakenUsdgActive(now())) {
-        return new Response(null, { status: 302, headers: { ...headers, location: '/exchanges/kraken' } });
+        return new Response(null, { status: 302, headers: { ...headers, location: localizedPath('/exchanges/kraken', locale in LOCALE_PREFIX_BY_CODE ? locale : 'en') } });
       }
       target = krakenUsdgRegisterUrl();
       campaign = 'usdg-challenge';
@@ -187,7 +211,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       target = (await mirrorHealth(mirror).catch(() => false)) ? mirror : official;
     } else if (campaignKey) {
       if (!binanceCampaignActive(campaignKey, now())) {
-        return new Response(null, { status: 302, headers: { ...headers, location: retainGoAttribution(`/go/binance?src=${encodeURIComponent(`${src}-expired`.slice(0, 48))}${programPartner ? `&p=${programPartner.id}&locale=${encodeURIComponent(url.searchParams.get('locale') || 'en')}` : ''}`, url.searchParams) } });
+        return expiredSignup('binance');
       }
       target = binanceCampaignUrl(campaignKey, url.searchParams.get('lang') || 'en');
       campaign = campaignKey;
@@ -196,12 +220,12 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     }
     if (programPartner) {
       const programVenue = campaign ? venue : slug;
-      const country = request.headers.get('cf-ipcountry') || '';
-      if (partnerPromotionGate(programVenue, { locale: url.searchParams.get('locale') || 'en', ...(/^[A-Z]{2}$/.test(country) ? { market: country } : {}) })) return new Response('Unavailable in this region', { status: 403, headers });
       // APK downloads remain downloads; signup/campaign routes use the approved sub-link.
       if (campaign !== 'android-apk') target = programTarget(programPartner, programVenue, target);
     }
     if (!target) return new Response('Not Found', { status: 404, headers });
+    // Every resolved and validated route shares the UI's action policy before the commercial count/302.
+    if (denied(campaign ? venue : slug)) return neutralRedirect(campaign ? venue : slug);
     const ua = request.headers.get('user-agent') || '';
     if (eventFile && !isAutomatedAnalyticsRequest(request) && request.method === 'GET') {
       let refHost = null;
@@ -211,8 +235,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       const module = safeGoModule(url.searchParams.get('module'));
       // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      await mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
-      await appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
+      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
     }
     return new Response(null, { status: 302, headers: { ...headers, location: partnerAttributionTarget(target, url.searchParams, attributionPolicy) } });
   };

@@ -28,7 +28,7 @@ async function fixture() {
 
 const post = (body, headers = {}) => new Request("https://nexualpha.com/api/cta-click", {
   method: "POST", body: typeof body === "string" ? body : JSON.stringify(body),
-  headers: { "content-type": "application/json", "user-agent": "Mozilla/5.0 (iPhone)", ...headers },
+  headers: { origin: "https://nexualpha.com", "content-type": "application/json", "user-agent": "Mozilla/5.0 (iPhone)", ...headers },
 });
 
 test("cta-click beacon appends one anonymous site click to the shared click file", async () => {
@@ -119,12 +119,18 @@ test("production server routes POST /api/cta-click and writes to CLICK_EVENT_FIL
     });
     await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
     const base = `http://127.0.0.1:${server.address().port}`;
-    const res = await fetch(`${base}/api/cta-click`, { method: "POST", headers: { "content-type": "application/json", "user-agent": "Mozilla/5.0" },
+    const res = await fetch(`${base}/api/cta-click`, { method: "POST", headers: { origin: "https://nexualpha.com", "content-type": "application/json", "user-agent": "Mozilla/5.0" },
       body: JSON.stringify({ partner: "okx", src: "registration-card-primary", path: "/exchanges/okx" }) });
     assert.equal(res.status, 204);
     assert.equal((await fetch(`${base}/api/cta-click`)).status, 405);
     const go = await fetch(`${base}/go/okx?src=tg-channel-zh`, { redirect: "manual", headers: { "user-agent": "Mozilla/5.0" } });
     assert.equal(go.status, 302);
+    const health = await fetch(`${base}/health/click-storage`);
+    assert.equal(health.status, 200);
+    const diagnostics = await health.json();
+    assert.equal(diagnostics.ready, true);
+    assert.equal(typeof diagnostics.failures, "number");
+    assert.deepEqual(Object.keys(diagnostics).sort(), ["configured", "failures", "ready", "writes"]);
     await wait();
     const all = await rows(f.eventFile);
     assert.deepEqual(all.map((r) => [r.partner, r.src, r.ref, r.kind ?? null, r.path ?? null, r.locale ?? null]), [["okx", "registration-card-primary", "/exchanges/okx", "site", "/exchanges/okx", "en"], ["okx", "tg-channel-zh", null, null, null, "zh-Hans"]]);

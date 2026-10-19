@@ -2682,7 +2682,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const newsClientLocale = pathname === "/news"
     ? (NATIVE_REVIEW_PENDING_LOCALES.has(locale) ? locale : resolveNewsContentLocale(locale, newsListingPublishedLocales(options.newsArticles)))
     : null;
-  const newsArticleClientLocale = newsMatch && options.article ? resolveNewsContentLocale(locale, newsArticleSeoLocales(options.article)) : null;
+  const newsArticleClientLocale = newsMatch && options.article ? resolveNewsContentLocale(locale, options.article.seo?.noindex === false ? newsArticleSeoLocales(options.article) : newsArticleAvailableLocales(options.article)) : null;
   const tokenizedClientLocale = topicMatch && tokenizedAssetPage(topicMatch[1]) ? tokenizedAssetLocale(locale) : topicMatch && venueAlternativePage(topicMatch[1]) && !VENUE_ALTERNATIVES_INDEX_LOCALES.includes(locale) ? "en" : null;
   const collectionHubLocale = pathname === "/topics" || pathname === "/factbook" ? "en" : null;
   const canonicalLocale = collectionHubLocale || newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || locale;

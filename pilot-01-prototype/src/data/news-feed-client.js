@@ -532,9 +532,9 @@ function newsArticleSummaryAvailableLocales(article) {
 
 
 export function newsArticleSeoLocales(article) {
+  // Readable editions are not publication authority: every SEO consumer shares the page robots gate.
+  if (!isRecord(article) || article.status !== "PUBLISHED" || article.seo?.noindex !== false) return [];
   const fullLocales = newsArticleAvailableLocales(article);
-  if (!isRecord(article)) return fullLocales;
-  if (article.status !== "PUBLISHED" || article.seo?.noindex !== false) return fullLocales;
   if (!Array.isArray(article.sources) || article.sources.length === 0) return fullLocales;
   const projectedLocales = projectionLocales(article);
   return projectedLocales.length > fullLocales.length ? projectedLocales : fullLocales;
@@ -658,6 +658,8 @@ export function normalizeNewsArticleSummary(article) {
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleSummaryAvailableLocales(article),
+    // Do not turn a full noindex row into an implicitly published summary during library projection.
+    ...(typeof article.seo?.noindex === "boolean" ? { seo: { noindex: article.seo.noindex } } : {}),
     ...(routeProjection(article) ? { routeProjection: routeProjection(article) } : {}),
   };
 }

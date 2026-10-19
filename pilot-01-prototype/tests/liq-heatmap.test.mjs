@@ -26,8 +26,8 @@ test('heatmap redirects enforce territorial gates without counting blocked click
  try {
   await mkdir(path.join(dir,'intel')); await writeFile(path.join(dir,'intel/partners.json'),JSON.stringify({partners:[{slug:'okx',registrationUrl:'https://www.okx.com/join/nexu888'}]}));
   const handle = createGoRedirect({clientRoot:dir});
-  assert.equal((await handle(new Request('https://nexualpha.com'+heatmapPartnerHref('okx','ja')))).status,403);
-  assert.equal((await handle(new Request('https://nexualpha.com'+heatmapPartnerHref('okx','en'),{headers:{'cf-ipcountry':'JP'}}))).status,403);
+  assert.equal((await handle(new Request('https://nexualpha.com'+heatmapPartnerHref('okx','ja')))).headers.get('location'),'/ja/exchanges/okx');
+  assert.equal((await handle(new Request('https://nexualpha.com'+heatmapPartnerHref('okx','en'),{headers:{'cf-ipcountry':'JP'}}))).headers.get('location'),'/exchanges/okx');
   const allowed = await handle(new Request('https://nexualpha.com'+heatmapPartnerHref('okx','en'),{headers:{'cf-ipcountry':'TR'}}));
   assert.equal(allowed.status,302); assert.equal(allowed.headers.get('location'),'https://www.okx.com/join/nexu888');
  } finally { await rm(dir,{recursive:true,force:true}); }

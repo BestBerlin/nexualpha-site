@@ -44,7 +44,10 @@ test('landing carries only query attribution, locale gates reject neutral/unassi
   assert.equal(res.headers.get('set-cookie'), null);
   for (const locale of ['ru', 'ar', 'zh-Hant', 'ur', 'uk', 'vi', 'fr']) {
     assert.equal((await program(new Request(`https://nexualpha.com/p/alice?locale=${locale}`))).status, 404);
-    assert.equal((await go(click(`okx?p=alice&locale=${locale}`))).status, 403);
+    const denied = await go(click(`okx?p=alice&locale=${locale}`));
+    assert.equal(denied.status, 302);
+    const prefix = { 'zh-Hant': 'zh-hant', uk: 'uk-ua' }[locale] || locale;
+    assert.equal(denied.headers.get('location'), `/${prefix}/exchanges/okx`);
   }
   assert.equal((await program(new Request('https://nexualpha.com/p/missing'))).status, 404);
 });
@@ -117,5 +120,6 @@ test('rendered program exposes localized application options and neutral edition
 test('partner attribution preserves venue territorial gates', async () => {
   const { go } = await setup();
   const response = await go(new Request('https://nexualpha.com/go/okx?p=alice&locale=en', { headers: { 'cf-ipcountry': 'VN', 'user-agent': 'Mozilla/5.0' } }));
-  assert.equal(response.status, 403);
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get('location'), '/exchanges/okx');
 });

@@ -208,12 +208,19 @@ test('every /go route in the registries redirects with the venue code or campaig
     const routeHandle = campaign ? createGoRedirect({ clientRoot: dir, now: () => new Date(Date.parse(campaign.startAt) + 1) }) : handle;
     const response = await routeHandle(new Request(`https://nexualpha.com/go/${slug}${campaignQuery}`, { headers: { 'user-agent': 'Mozilla/5.0' } }));
     if (campaign && !campaignSignup(campaign, { market, now: Date.parse(campaign.startAt) + 1 })) {
-      assert.equal(response.status, 403, `/go/${slug} remains gated when no permitted campaign market exists`);
+      assert.equal(response.status, 302, `/go/${slug} remains gated when no permitted campaign market exists`);
+      assert.equal(response.headers.get('location'), `/exchanges/${venue}`, 'denied campaigns return to the neutral venue profile');
       continue;
     }
     assert.equal(response.status, 302, `/go/${slug} resolves`);
     const location = response.headers.get('location');
     report.push(`/go/${slug}${query} (${label}) -> ${location}`);
+    // The raw registry fixture deliberately includes placeholder/source-review routes that the public UI closes.
+    // Their final redirect must enforce that same gate, even when a feed supplies an external target.
+    if (publicCtaForVenue(venue, 'en').actionGate) {
+      assert.equal(location, `/exchanges/${venue}`, 'UI-gated routes return to their neutral venue profile');
+      continue;
+    }
     if (SOURCE_BOUND_GO_SLUGS.includes(venue)) {
       const cta = publicCtaForVenue(venue, 'en');
       assert.equal(location, new URL(cta.registrationUrl).href, 'source-bound destination matches the public route');

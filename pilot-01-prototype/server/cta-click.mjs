@@ -6,8 +6,8 @@ import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 // Validation: partner must exist in the build's partner feed, src is a placement slug, path is a site path.
 // Same crawler filter as /go. Per-IP rate limit lives in memory only; no IP, cookie value or user id is ever written
 // (the home hero experiment adds only its id and the a/b bucket, read from the first-party nx_hero cookie).
-import { appendFile, mkdir } from 'node:fs/promises';
-import path from 'node:path';
+import { clickStorage } from './click-storage.mjs';
+import { analyticsOriginAllowed } from './analytics-origin.mjs';
 import { clickMetadata, safeClickPath } from './click-metadata.mjs';
 import { SRC, createPartnerMapLoader } from './go-redirect.mjs';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
@@ -55,13 +55,14 @@ export function clientKey(req) {
   return last || req?.socket?.remoteAddress || 'unknown';
 }
 
-export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry, env = process.env } = {}) {
+export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry, env = process.env, storage = clickStorage, origin } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   const allow = createRateLimiter({ limit, windowMs });
-  if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
+
 
   return async function handle(request, key = 'unknown') {
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { ...NO_STORE, allow: 'POST' } });
+    if (!analyticsOriginAllowed(request, origin || new URL(request.url).origin, { allowMissingOrigin: true })) return new Response(null, { status: 403, headers: NO_STORE });
     if (!allow(key)) return new Response(null, { status: 429, headers: { ...NO_STORE, 'retry-after': String(Math.ceil(windowMs / 1000)) } });
     const reader = request.body?.getReader();
     if (!reader) return new Response(null, { status: 400, headers: NO_STORE });
@@ -85,7 +86,8 @@ export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () =>
       // Home hero experiment (X5): {experiment, variant} from the visitor's bucket cookie while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
       const metadata = clickMetadata({ path: click.ref, src: click.src });
-      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), ...click, kind: 'site', ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
+      const written = await storage.write(eventFile, { t: now().toISOString(), ...click, kind: 'site', ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'site');
+      if (!written) return new Response(null, { status: 503, headers: NO_STORE });
     }
     return new Response(null, { status: 204, headers: NO_STORE });
   };

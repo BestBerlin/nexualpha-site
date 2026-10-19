@@ -118,10 +118,10 @@ test('approved registry drives real SSR page, worker metadata, sitemap and redir
   const handle = createGoRedirect({ clientRoot: '/unused', now: () => new Date() });
   const href = `https://nexualpha.com/go/campaign-${c.id}`;
   const response = await handle(new Request(href)); assert.equal(response.status, 302); assert.equal(response.headers.get('location'), partnerRegistry.okx.registrationUrl);
-  assert.equal((await handle(new Request(`${href}?locale=vi`))).status, 403);
-  assert.equal((await handle(new Request(`${href}?market=SG`, { headers: { 'cf-ipcountry': 'VN' } }))).status, 403);
+  assert.equal((await handle(new Request(`${href}?locale=vi`))).headers.get('location'), '/vi/exchanges/okx');
+  assert.equal((await handle(new Request(`${href}?market=SG`, { headers: { 'cf-ipcountry': 'VN' } }))).headers.get('location'), '/exchanges/okx');
   const inactive = createGoRedirect({ clientRoot: '/unused', now: () => new Date(c.endAt) });
-  assert.equal((await inactive(new Request(href))).status, 403);
+  assert.equal((await inactive(new Request(href))).headers.get('location'), '/exchanges/okx');
 });
 test('special-link promotion stores the attributed URL rather than an unbound URL', t => {
   const root = sandbox(t);
