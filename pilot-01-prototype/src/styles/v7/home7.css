@@ -985,3 +985,15 @@
 .h7:not(#_):not(#_) .h7-receipt-row bdi{font-size:20px;font-family:"Geist Mono V5","Geist Mono V5 Fallback",monospace;font-variant-numeric:tabular-nums;color:var(--ink)}
 .h7:not(#_):not(#_) .h7-receipt-action{margin:24px 0 0;font-size:14px;line-height:1.7;color:var(--ink3)}
 @media(max-width:700px){.h7:not(#_):not(#_) .h7-receipt-row{grid-template-columns:minmax(0,1fr);gap:16px}.h7:not(#_):not(#_) .h7-receipt-row li{justify-content:space-between}.h7:not(#_):not(#_) .h7-receipt-row li+li::before{content:none}}
+/* Live state belongs only to the two home feed headings. */
+.h7:not(#_):not(#_) .h7-board-live{display:inline-flex;align-items:center;gap:5px;margin-inline-start:10px;padding:3px 7px;vertical-align:middle;border:1px solid rgb(31 224 192/.24);border-radius:999px;color:var(--ac);font:600 10px/1.4 var(--mono);white-space:nowrap}
+.h7:not(#_):not(#_) .h7-board-live i{inline-size:5px;block-size:5px;border-radius:50%;background:currentColor;animation:h7-board-breathe 2s cubic-bezier(.2,.8,.2,1) infinite}
+@keyframes h7-board-breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.h7:not(#_):not(#_) .h7-rate-bar{display:block;inline-size:100%;block-size:2px;margin-block:4px;background:rgb(31 224 192/.08);overflow:hidden}
+.h7:not(#_):not(#_) .h7-rate-bar i{display:block;inline-size:100%;block-size:100%;background:var(--ac);transform-origin:left;transition:transform 450ms cubic-bezier(.2,.8,.2,1)}
+.h7:not(#_):not(#_) .h7-rate-bar i:dir(rtl){transform-origin:right}
+.h7:not(#_):not(#_) .h7-wh-new{animation:h7-wh-enter 220ms cubic-bezier(.2,.8,.2,1) both;position:relative;isolation:isolate}
+.h7:not(#_):not(#_) .h7-wh-new::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgb(31 224 192/.08);animation:h7-wh-highlight 1.4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes h7-wh-enter{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes h7-wh-highlight{0%,70%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-board-live i,.h7:not(#_):not(#_) .h7-wh-new,.h7:not(#_):not(#_) .h7-wh-new::after{animation:none!important}.h7:not(#_):not(#_) .h7-rate-bar i{transition:none!important}}

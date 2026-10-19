@@ -48,7 +48,7 @@ test("fallback snapshot from the market collector feed", () => {
   const snap = tickerFromMarketEvents({ generatedAt: "2026-10-12T22:52:03.058Z", market: {
     majors: [{ symbol: "BTCUSDT", price: 82576.4, change24hPct: -1.26 }, { symbol: "ETHUSDT", price: 2484.45, change24hPct: -1.92 }, { symbol: "SOLUSDT", price: 150, change24hPct: 2 }, { symbol: "DOGEUSDT", price: 0.2, change24hPct: 1 }],
     movers: [{ symbol: "RSRUSDT", change24hPct: 31.89 }, { symbol: "GTCUSDT", change24hPct: 53.12 }] } });
-  assert.deepEqual(snap.items.map((i) => i.sym), ["BTC", "ETH", "SOL"]);
+  assert.deepEqual(snap.items.map((i) => i.sym), ["BTC", "ETH", "SOL", "DOGE"]);
   assert.equal(snap.mover.sym, "GTC");
   assert.equal(snap.source, "market-events");
   assert.equal(tickerFromMarketEvents({ market: { majors: [] } }), null);
@@ -119,6 +119,21 @@ test("the prerendered home has an empty fixed frame; splicing a snapshot equals 
   assert.match(spliceTickerHtml(barOf(rendered.en), hostile), /data-tk="BTC-p">\$1\$'&lt;b&gt;</, "function replacer + escaping");
 });
 
+test("optional ticker rows splice identically to React in all 17 locales and preserve duplicate focus rules", async () => {
+  const snapshot = { ...SNAP, items: [...SNAP.items,
+    { sym: "DOGE", price: "$0.2000", change: "+1.00%", dir: "up" },
+    { sym: "HYPE", price: "$40.00", change: "−1.00%", dir: "down" }],
+    metrics: [{ id: "btc-funding", value: "+0.0100%" }, { id: "liquidations-24h", value: "$12.00M" }] };
+  for (const locale of ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]) {
+    const url = `https://nexualpha.com${localizedHref("/", { locale })}`;
+    const empty = barOf(await harness.render(url, {}));
+    const filled = barOf(await harness.render(url, { ticker: snapshot }));
+    assert.equal(spliceTickerHtml(empty, snapshot), filled, `${locale}: optional rows match React`);
+    assert.equal(spliceTickerHtml(filled, SNAP), barOf(await harness.render(url, { ticker: SNAP })), `${locale}: unavailable optional rows removed`);
+    assert.equal((filled.match(/tabindex="-1"/g) || []).length, 7, `${locale}: duplicate links cannot receive keyboard focus`);
+  }
+});
+
 test("worker: home HTML carries the live first frame and state \"ticker\"; it hydrates without mismatch", async () => {
   for (const [path, locale] of [["/", "en"], ["/zh-hans", "zh-Hans"], ["/ar", "ar"]]) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html", "user-agent": "Mozilla/5.0" } }), { ASSETS: assets, TICKER_READ: async () => SNAP });
@@ -126,7 +141,7 @@ test("worker: home HTML carries the live first frame and state \"ticker\"; it hy
     assert.equal(response.status, 200);
     assert.match(barOf(html), /data-tk="BTC-p">\$82,576</, `${locale}: live first frame`);
     assert.match(barOf(html), /data-sym="mover" data-dir="up"/);
-    assert.deepEqual(prerenderState(html).ticker, SNAP);
+    assert.deepEqual(prerenderState(html).ticker, { ...SNAP, stale: true });
     const { errors } = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${path}`);
     assert.deepEqual(hydrationErrors(errors), [], `${path}: ${errors.join("\n")}`);
   }
@@ -153,11 +168,11 @@ test("bar: localized label, coin links, never an exchange URL, lazy polling of o
   assert.match(bar, /requestIdleCallback/, "loaded after first paint");
   assert.doesNotMatch(bar + live, /binance\.com|okx\.com|bybit\.com|fapi\./i, "browsers never call an exchange");
   assert.match(live, /"\/api\/ticker\.json"/);
-  assert.match(live, /TICKER_REFRESH_MS = 12 \* 1000/, "10-15 s refresh");
+  assert.match(live, /TICKER_REFRESH_MS = 6 \* 1000/, "6 s refresh");
   assert.match(live, /export function subscribe/);
   assert.match(live, /startJsonPolling/);
   assert.match(polling, /visibilityState === "hidden"/);
-  assert.match(css, /@media \(max-width: 1020px\) and \(prefers-reduced-motion: no-preference\)[\s\S]*animation: nx-ticker-marquee/, "marquee only when motion is allowed");
+  assert.match(css, /animation: nx-ticker-marquee var\(--ticker-duration, 40s\) linear infinite/, "marquee only when motion is allowed");
   assert.match(css, /block-size: 36px/, "fixed height: no layout shift");
 });
 
@@ -211,7 +226,7 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   doc.dispatch("hidden");
   const before = seen.length;
   await advance(60);
-  assert.equal(seen.length, before, "no requests while hidden");
+  assert.equal(seen.length, before + 1, "one immediate hidden refresh, then 30 s backoff");
   stopSecond();
   stop();
   assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
@@ -241,7 +256,7 @@ test("regression: the hydrated bar re-fetches /api/ticker.json and updates the D
   assert.deepEqual(inspected.btc, ["$83,001|up", "$83,001|up"], "both copies updated and flagged up");
   assert.deepEqual(inspected.eth, ["down", "down"]);
   const css = await readFile(new URL("../src/components/ticker/ticker.css", import.meta.url), "utf8");
-  assert.match(css, /animation: nx-ticker-flash-a 1100ms ease-out 1;/, "finite flash");
+  assert.match(css, /animation: nx-ticker-flash-a 650ms cubic-bezier\(.2,.8,.2,1\) 1;/, "finite flash");
   assert.doesNotMatch(css.match(/@keyframes nx-ticker-flash-a[^}]*}[^}]*}[^}]*}/)?.[0] || "", /color|width|height|top|left/, "opacity only");
   assert.match(css, /prefers-reduced-motion: reduce\) \{ \.nx-ticker \[data-tk\]::after \{ animation: none/);
 });

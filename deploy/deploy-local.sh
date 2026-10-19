@@ -51,6 +51,8 @@ SITE="https://nexualpha.com"
 REF="origin/main"
 KEEP_RELEASES=5
 ALLOW_CTA_CHANGE="${ALLOW_CTA_CHANGE:-0}"
+NEXUALPHA_NODE_IMAGE="${NEXUALPHA_NODE_IMAGE:-node:24-bookworm-slim}"
+[[ "$NEXUALPHA_NODE_IMAGE" =~ ^node:[a-zA-Z0-9._-]+(@sha256:[a-f0-9]{64})?$ ]] || { echo "ABORT invalid NEXUALPHA_NODE_IMAGE" >&2; exit 1; }
 PILOT="$BUILD/pilot-01-prototype"
 ROUTES="/ /zh-hans /exchanges /exchanges/binance /exchanges/bitget /exchanges/okx /compare/binance-vs-okx /activities /news /rates /telegram /br /methodology"
 
@@ -204,7 +206,7 @@ echo "server sha256 matches"
 step "stage standby (ALLOW_CTA_CHANGE=$ALLOW_CTA_CHANGE)"
 STAGE_OUT="$LOG_DIR/stage-$RELEASE.out"
 with_timeout 1200 ssh "${SSH_OPTS[@]}" "$SSH_HOST" \
-  "env RELEASE=$RELEASE BUILD_ID=$BUILD_ID BASELINE_BUILD_ID=$BASELINE ALLOW_CTA_CHANGE=$ALLOW_CTA_CHANGE python3 -" \
+  "env RELEASE=$RELEASE BUILD_ID=$BUILD_ID BASELINE_BUILD_ID=$BASELINE ALLOW_CTA_CHANGE=$ALLOW_CTA_CHANGE NEXUALPHA_NODE_IMAGE=$NEXUALPHA_NODE_IMAGE python3 -" \
   < "$BUILD/deploy/stage-remote.py" | tee "$STAGE_OUT"
 NEW_PORT="$(sed -n 's/^STANDBY_READY .* on 127\.0\.0\.1:\([0-9][0-9]*\) buildId .*/\1/p' "$STAGE_OUT" | tail -1)"
 [ -n "$NEW_PORT" ] || die "stage-remote did not report STANDBY_READY"

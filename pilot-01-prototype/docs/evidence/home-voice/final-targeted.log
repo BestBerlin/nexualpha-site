@@ -1,0 +1,28 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ the sum is volume × perpetual taker × partner share, read from the sources (26652.13025ms)
+✔ HTX fee comes from the official page (2026-10-14) and HTX is not auto-settled (1.143666ms)
+✔ money format: full figure below 10,000, then the locale's unit (0.283708ms)
+✔ dial: 21 log stops from 1万U to 10亿U, default 1000万U, ticks on the snap points (0.090292ms)
+✔ sentence: 17 locales, both placeholders, no time unit, no commission or fine print (0.852875ms)
+✔ SSR /zh-hans: live sentence, $3,600, dial at 1000万U, code and /go CTA, desktop device screen (848.677667ms)
+✔ SSR Türkiye: OKX first, no Bitget anywhere in the hero (262.900333ms)
+✔ SSR neutral locales: information headline only, no figure, dial, code or /go link (919.770042ms)
+✔ calculator: same volume framing in 17 locales, 1万U → 10亿U range, no time words (7.692583ms)
+✔ Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, so it has a hero amount (0.373708ms)
+✔ hero life stays finite: desktop-only screen cycle, two rounds, stops on touch, pauses offscreen/hidden, no reduced motion (9.560542ms)
+✔ SSR: the brand mark sits inside the figure's line box (222.529834ms)
+✔ phone header: a compact 美股 pill beside 活动 links to the tokenized-stocks hub (tr too) (420.23825ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ zh-Hans home copy rejects machine phrases and slogan pairs (26401.999792ms)
+✔ en home copy rejects machine phrases and slogan pairs (0.540208ms)
+✔ phrase guard catches representative editorial regressions (0.065292ms)
+✔ receipt SSR keeps the hero arithmetic and four mobile-ready entries (605.410792ms)
+✔ receipt follows the checked fee, rebate and volume; unavailable inputs stay empty (1.408417ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31709.2015

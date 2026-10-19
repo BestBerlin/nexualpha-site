@@ -1,6 +1,4 @@
-// Home polish (2026-10-15): no infinite animation anywhere on home (idle main-thread budget; the hot-event gold sweep
-// runs two cycles, then rests), reduced motion = fully static, CTA arrows point the reading direction in ar / ur, and
-// the ticker's symbols and prices carry no link underline (focus outline kept).
+// Approved state/control loops honor reduced motion, CTA arrows mirror in RTL, and ticker links retain focus outlines.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -22,17 +20,25 @@ export function infiniteAnimations(css) {
   return out;
 }
 
-test("home CSS: no infinite animation (scroll-driven timelines excepted)", async () => {
+test("home CSS: only approved state and control loops repeat", async () => {
   assert.deepEqual(infiniteAnimations(".a{animation:x 1s infinite}.b{animation:y 1s linear 2}.c{animation:z 1s infinite;animation-timeline:scroll()}/* infinite */"), [".a { animation:x 1s infinite }"]);
-  for (const file of HOME_CSS) assert.deepEqual(infiniteAnimations(await read(file)), [], file);
+  const approved = /h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle/;
+  for (const file of HOME_CSS) {
+    const css = await read(file);
+    for (const animation of infiniteAnimations(css)) assert.match(animation, approved, file);
+    assert.match(css, /prefers-reduced-motion:\s*reduce/, file);
+  }
 });
 
-test("hot event chip: two gold sweeps then static; reduced motion makes the whole home static", async () => {
+test("campaign chip repeats a restrained sweep; reduced motion makes the whole home static", async () => {
   const css = await read("src/styles/v7/home7.src.css");
   assert.match(css, /@ \.h7-ic-event\[data-hot\]\{[^}]*animation:nx-gold-sweep 2\.6s linear 2,nx-chip-glow 2\.6s ease-out 2/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{@ \*,@ \*::before,@ \*::after\{animation:none!important\}\}/);
   const ticker = await read("src/components/ticker/ticker.css");
-  assert.match(ticker, /animation: nx-ticker-marquee 48s linear 3;/, "the phone marquee makes three passes, then rests");
+  assert.match(ticker, /animation: nx-ticker-marquee var\(--ticker-duration, 40s\) linear infinite/, "ticker moves at every width");
+  const shell = await read("src/styles/v5/shell.css");
+  assert.match(shell, /nx-campaign-sheen 9s linear infinite/);
+  assert.match(shell, /prefers-reduced-motion: reduce/);
 });
 
 let harness;

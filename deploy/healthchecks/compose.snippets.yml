@@ -1,0 +1,51 @@
+# REVIEW MATERIAL ONLY: merge individual entries into the actual stack; do not
+# launch this file as a stack (it intentionally contains no images/commands).
+# tg-api / tg-worker are container roles; existing resilience service keys are
+# api / worker. Confirm service keys, Node paths and mounts before application.
+x-health: &health
+  interval: 30s
+  timeout: 8s
+  retries: 3
+  start_period: 5m
+services:
+  web:
+    healthcheck:
+      <<: *health
+      # node:24-bookworm-slim has Node; no curl/wget dependency.
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:'+(process.env.PORT||8080)+'/health/web-ready',{signal:AbortSignal.timeout(5000),redirect:'manual'}).then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))"]
+  api:
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, -e, "fetch('http://127.0.0.1:14322/healthz',{signal:AbortSignal.timeout(5000),redirect:'manual'}).then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))"]
+  worker:
+    # GATE: stage/review the worker heartbeat writer patch first.
+    environment:
+      WORKER_HEARTBEAT_FILE: /var/lib/crypto-telegram-ops/worker-heartbeat.json
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/worker-heartbeat.json]
+  scheduler:
+    environment:
+      SCHEDULER_STATE_DIR: /var/lib/crypto-telegram-ops
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/scheduler-heartbeat.json]
+  alert-sender:
+    environment:
+      ALERT_HEARTBEAT_FILE: /var/lib/nexualpha-alerts/heartbeat.json
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/nexualpha-alerts/heartbeat.json]
+  community-poller:
+    # GATE: stage/review the poller heartbeat writer patch first.
+    environment:
+      POLL_HEALTH_SNAPSHOT_PATH: /var/lib/crypto-telegram-ops/poller-health.json
+    healthcheck:
+      <<: *health
+      test: [CMD, /srv/agent/runtimes/node-v22.19.0-linux-x64/bin/node, /srv/agent/stacks/crypto-telegram-ops/resilience/deploy/healthcheck.mjs, file, /var/lib/crypto-telegram-ops/poller-health.json]
+  rsshub:
+    healthcheck:
+      <<: *health
+      # Weak process-only fallback. Confirm Node on PATH and PID1 is RSSHub,
+      # not an init wrapper. No verified cheap HTTP route exists in this repo.
+      test: [CMD, node, -e, "try{process.kill(1,0)}catch{process.exit(1)}"]

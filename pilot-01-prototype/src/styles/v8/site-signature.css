@@ -204,3 +204,38 @@ body { counter-reset: nx-section; }
 @media (max-width: 599px) {
   .nx-short-answer { font-size: 0.95rem; }
 }
+
+/* Shared tactile feedback: composited sheen, with no layout or hero entrance motion. */
+:is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  position: relative;
+  overflow: hidden;
+  transition: transform 160ms cubic-bezier(.2,.8,.2,1), box-shadow 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms cubic-bezier(.2,.8,.2,1);
+}
+:is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 25%, rgb(255 255 255 / .2) 50%, transparent 75%);
+  opacity: 0;
+  animation: nx-cta-sheen 10s linear 3s infinite;
+}
+a:is([class*="card"], [class*="__row"], .h7-it, .mx-row):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  transition: border-color 160ms cubic-bezier(.2,.8,.2,1), transform 160ms cubic-bezier(.2,.8,.2,1);
+}
+@media (hover: hover) {
+  :is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgb(0 0 0 / .32); }
+  a:is([class*="card"], [class*="__row"], .h7-it, .mx-row):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):hover { transform: translateY(-2px); border-color: rgb(255 255 255 / .28); }
+}
+:is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):active { transform: scale(.98); transition-duration: 120ms; }
+@keyframes nx-cta-sheen {
+  0% { transform: translateX(-120%); opacity: 0; }
+  1% { opacity: 1; }
+  10%, 100% { transform: translateX(120%); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_), a:is([class*="card"], [class*="__row"], .h7-it, .mx-row):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transition: none; }
+  :is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { animation: none; opacity: 0; }
+  :is(.h7-btn, .btn--primary, .v3-btn--primary, .registration-card__primary-btn, .v3-compare-final-choice-card__primary, .fee-terminal__cta-btn[rel~="sponsored"], .mx-cta[rel~="sponsored"], .cost-decision__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):is(:hover, :active), a:is([class*="card"], [class*="__row"], .h7-it, .mx-row):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):hover { transform: none; }
+}
