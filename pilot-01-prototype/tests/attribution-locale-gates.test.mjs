@@ -56,14 +56,14 @@ test('Türkiye citation rendering retains labels while blocking Bitget external 
   const { SourceLink } = module.exports;
   const render = (href, locale) => renderToStaticMarkup(React.createElement(SourceLink, { href, locale, target: '_blank', rel: 'noopener noreferrer', className: 'citation' }, 'Official source'));
   // Türkiye: every Bitget source is a plain label (title + domain), never a link.
-  for (const href of ['https://www.bitget.com/support/articles/123', 'https://api.bitget.com/api/v2/test', 'https://partner.bitget.cafe/bg/C6PRAF']) {
+  for (const href of ['https://www.bitget.com/support/articles/123', 'https://api.bitget.com/api/v2/test', 'https://partner.bitget.com/bg/C6PRAF']) {
     assert.match(render(href, 'tr'), /^<span class="citation"[^>]*>Official source<span class="source-plain__domain"> · [a-z.]*bitget\.[a-z]+<\/span><\/span>$/);
   }
   // Owner 2026-10-13: Bitget has no sitewide referral parameter, so its help pages are plain text everywhere; the
   // registry sign-up link (with the code) stays a link.
   assert.doesNotMatch(render('https://www.bitget.com/support/articles/123', 'en'), /<a /);
-  const registryLink = render('https://partner.bitget.cafe/bg/C6PRAF', 'en');
-  assert.match(registryLink, /<a [^>]*href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  const registryLink = render('https://partner.bitget.com/bg/C6PRAF', 'en');
+  assert.match(registryLink, /<a [^>]*href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
   assert.match(registryLink, /rel="noopener noreferrer nofollow sponsored"/);
   // Binance pages carry the code through /go/binance-page in Türkiye; non-exchange links are unchanged.
   assert.match(render('https://www.binance.com/en/fee/trading', 'tr'), /<a [^>]*href="\/go\/binance-page\?to=%2Fen%2Ffee%2Ftrading"/);
@@ -94,7 +94,7 @@ test('actual Turkish home, activities, venue and comparison SSR retain facts wit
           if (href) {
             let host = '';
             try { host = new URL(href).hostname; } catch { /* Internal facts links remain allowed. */ }
-            if (/(?:^|\.)(?:bitget\.com|bitget\.cafe)$/.test(host)) failures.push(href);
+            if (/(?:^|\.)(?:bitget\.com|bitget\.com)$/.test(host)) failures.push(href);
           }
         }
         for (const child of node.childNodes || []) walk(child);

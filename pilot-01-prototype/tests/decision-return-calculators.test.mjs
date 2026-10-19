@@ -206,7 +206,7 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
   assert.match(cost, /<DecisionReturnLink href=\{decisionReturnHref\} locale=\{locale\}/);
 
   const partnerRegistry = await readFile(new URL('../src/data/partner-registry.js', import.meta.url), 'utf8');
-  assert.match(partnerRegistry, /https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF/);
+  assert.match(partnerRegistry, /https:\/\/partner\.bitget\.com\/bg\/C6PRAF/);
   assert.match(partnerRegistry, /https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287/);
   assert.match(partnerRegistry, /https:\/\/www\.okx\.com\/join\/nexu888/);
   assert.match(partnerRegistry, /https:\/\/backpack\.exchange\/join\/luckybitcoin/);

@@ -100,7 +100,7 @@ test('R122 compact SSR separates preflight from native route details without rem
 
   const bitgetHtml = pages.find((page) => page.key === 'zh-bitget').html;
   assert.match(bitgetHtml, /nexu888/, 'Bitget invite code remains visible');
-  assert.match(bitgetHtml, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/, 'Bitget protected invite href remains unchanged');
+  assert.match(bitgetHtml, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/, 'Bitget protected invite href remains unchanged');
 });
 
 test('R122 registration hierarchy keeps partner registry protected', () => {

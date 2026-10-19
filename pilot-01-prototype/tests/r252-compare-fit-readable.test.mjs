@@ -146,7 +146,7 @@ test('15 locale real compare SSR keeps all text and CTA attributes byte-identica
     assert.match(html, /class="v3-versus-fit"/, `${locale} renders the support fit text nodes`);
     for (const [slug, href] of [
       ['bybit', 'https://www.bybit.com/register?affiliate_id=48553'],
-      ['bitget', 'https://partner.bitget.cafe/bg/C6PRAF'],
+      ['bitget', 'https://partner.bitget.com/bg/C6PRAF'],
     ]) {
       const anchors = anchorAttrs(html, href);
       const baselineAnchors = anchorAttrs(baseline, href);

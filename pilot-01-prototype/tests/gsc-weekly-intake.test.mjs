@@ -62,7 +62,7 @@ export const CUSTOM_INVITE_CODES = {
 
 export const PARTNER_REGISTRATION_URLS = {
   binance: ["https://www.binance.com/join?ref=11350287"],
-  bitget: ["https://partner.bitget.cafe/bg/C6PRAF"],
+  bitget: ["https://partner.bitget.com/bg/C6PRAF"],
 };
 
 export const partnerRegistry = Object.fromEntries(Object.entries(PARTNER_REGISTRATION_URLS).map(([slug, urls]) => [
