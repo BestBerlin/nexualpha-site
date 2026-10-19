@@ -997,3 +997,41 @@
 @keyframes h7-wh-enter{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes h7-wh-highlight{0%,70%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-board-live i,.h7:not(#_):not(#_) .h7-wh-new,.h7:not(#_):not(#_) .h7-wh-new::after{animation:none!important}.h7:not(#_):not(#_) .h7-rate-bar i{transition:none!important}}
+
+/* Hero polish: natural CJK lead, figure below, readable calculation screen. */
+.h7:not(#_):not(#_) .h7-hc h1.hx-say{margin-block:0;text-wrap:balance;overflow-wrap:normal}
+.h7:not(#_):not(#_) .h7-hc h1.hx-say[data-natural]{font-family:"PingFang SC","PingFang TC","Hiragino Sans","Noto Sans SC","Noto Sans TC","Noto Sans JP","Geist V5","Geist V5 Fallback",sans-serif;font-weight:600;line-height:1.28;letter-spacing:0;word-break:keep-all;line-break:strict;text-autospace:normal;font-size:clamp(25px,6vw,38px)}
+.h7:not(#_):not(#_) .hx-say[data-natural] .h7-h1l{display:inline;white-space:normal}
+.h7:not(#_):not(#_) .hx-say[data-natural] :is(.hx-say-vol,.hx-say-venue){white-space:nowrap}
+.h7:not(#_):not(#_) .hx-screen{display:block;align-self:stretch}
+.h7:not(#_):not(#_) .hx-mac{block-size:100%;display:flex;flex-direction:column;max-inline-size:none}
+.h7:not(#_):not(#_) .hx-mac-lid{flex:1;display:flex;padding:10px 10px 12px;background:linear-gradient(145deg,#536171,#293544);box-shadow:inset 0 0 0 1px #7b8999}
+.h7:not(#_):not(#_) .hx-mac-display{position:relative;inline-size:100%;aspect-ratio:auto;min-block-size:360px;background:linear-gradient(145deg,#243548,#172536 70%);box-shadow:inset 0 0 0 1px #526579}
+.h7:not(#_):not(#_) .hx-mac-display::after{content:"";position:absolute;inset:-50%;pointer-events:none;background:linear-gradient(110deg,transparent 42%,rgb(255 255 255/.09) 50%,transparent 58%);opacity:0;transform:translateX(-60%);animation:hx-screen-sheen 12s linear infinite}
+@keyframes hx-screen-sheen{0%,84%{opacity:0;transform:translateX(-60%)}87%{opacity:1}96%,100%{opacity:0;transform:translateX(60%)}}
+.h7:not(#_):not(#_) .hx-scr-bar{flex-shrink:0;block-size:36px;background:#2a3c50;border-color:#526579;gap:8px}
+.h7:not(#_):not(#_) .hx-scr-url{font-size:13px;color:#e0e9f3;background:#1b2b3d;flex:1;min-inline-size:0;padding-inline:4px}
+.h7:not(#_):not(#_) .hx-scr-live{display:inline-flex;gap:6px;inline-size:auto;block-size:auto;white-space:nowrap;font:500 13px/1.3 var(--hx-font);color:#e0e9f3}
+.h7:not(#_):not(#_) .hx-scr-live i{opacity:1;flex-shrink:0}
+.h7:not(#_):not(#_) .hx-scr-body{padding:18px 12px 14px;gap:14px}
+.h7:not(#_):not(#_) .hx-scr-title{font-size:16px;color:#f4f7fb;text-wrap:balance}
+.h7:not(#_):not(#_) .hx-scr-head,.h7:not(#_):not(#_) .hx-scr-rows button{grid-template-columns:minmax(82px,1fr) minmax(56px,.75fr) minmax(88px,1.1fr);gap:8px;padding-inline:8px}
+.h7:not(#_):not(#_) .hx-scr-head{font-size:13px;line-height:1.3;color:#d6e2ee;letter-spacing:0}
+.h7:not(#_):not(#_) .hx-scr-rows button{font-size:13px;color:#e0e9f3}
+.h7:not(#_):not(#_) .hx-scr-name{gap:6px}
+.h7:not(#_):not(#_) .hx-scr-name b,.h7:not(#_):not(#_) .hx-scr-amt{color:#f4f7fb}
+.h7:not(#_):not(#_) .hx-scr-fee{color:#d6e2ee}
+.h7:not(#_):not(#_) .hx-scr-back{gap:6px}
+.h7:not(#_):not(#_) .hx-scr-amt{min-inline-size:58px;white-space:nowrap}
+.h7:not(#_):not(#_) .hx-scr-bar-fill{background:#43566a}
+.h7:not(#_):not(#_) .hx-scr-hl{background:rgb(var(--g)/.15);box-shadow:inset 0 0 0 1px rgb(var(--g)/.5)}
+.h7:not(#_):not(#_) .hx-scr-code{font-size:13px;color:#d6e2ee;border-color:#526579;line-height:1.3}
+@media(max-width:1023px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){grid-template-areas:"head" "panel" "device"}.h7:not(#_):not(#_) .hx-screen{margin-block-start:24px}.h7:not(#_):not(#_) .hx-mac-display{min-block-size:360px}.h7:not(#_):not(#_) .hx-scr-dots{display:none}}
+@media(min-width:1024px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){align-items:stretch;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);row-gap:16px;column-gap:32px}.h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .h7-hc{align-self:start}.h7:not(#_):not(#_) .hx-screen{align-self:stretch}.h7:not(#_):not(#_) .h7-hc h1.hx-say[data-natural]{font-size:38px}}
+@media(min-width:1440px){.h7:not(#_):not(#_) .h7-hero:not([data-neutral]){grid-template-columns:minmax(0,540px) minmax(0,620px);column-gap:40px}.h7:not(#_):not(#_) .h7-hc h1.hx-say[data-natural]{font-size:42px}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .hx-mac-display::after{animation:none;opacity:0}}
+
+/* Keep the trust text below both columns, so the device ends at the CTA. */
+.h7:not(#_):not(#_) .h7-hero>.h7-trust-line{grid-area:trust;margin:0}
+@media(max-width:1023px){.h7:not(#_):not(#_) .h7-hero:has(>.h7-trust-line):not([data-neutral]){grid-template-areas:"head" "panel" "trust" "device"}}
+@media(min-width:1024px){.h7:not(#_):not(#_) .h7-hero:has(>.h7-trust-line):not([data-neutral]){grid-template-areas:"head device" "panel device" "trust trust"}.h7:not(#_):not(#_) .h7-hero:not([data-neutral]) .hx-hero-panel.h7-lg{align-self:stretch}}

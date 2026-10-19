@@ -1,4 +1,4 @@
-// Home hero v3 (owner 2026-10-14): "在 Bitget 交易 1000万U，自动返还你 $3,600". Pins the honest sum (volume × perpetual taker
+// Home hero v3 (owner 2026-10-14): "在 Bitget 交易 1000 万 U 自动返还你 $3,600". Pins the honest sum (volume × perpetual taker
 // fee × partner share, read from the sources, never typed here), the Chinese/Latin money format, the log dial stops,
 // the 17-locale sentence, and the SSR hero per market: CTA locales show sentence + figure + dial + code + CTA; Türkiye
 // shows no Bitget; neutral locales show no figure, dial, code or /go link.
@@ -22,7 +22,7 @@ test("the sum is volume × perpetual taker × partner share, read from the sourc
     assert.equal(fee.state, "checked", `${slug} perpetual fee is checked`);
     for (const volume of HERO_VOLUME_STEPS) assert.ok(Math.abs(amountFor(slug, volume) - volume * (fee.taker / 100) * partnerRebateShare(slug)) < 1e-6, `${slug} ${volume}`);
   }
-  // The owner's headline example, from the same sources: 1000万U on Bitget (0.06% × 60%) is $3,600.
+  // The owner's headline example, from the same sources: 1000 万 U on Bitget (0.06% × 60%) is $3,600.
   assert.equal(heroMoneyText(amountFor("bitget", 1e7), "zh-Hans"), "$3,600");
   assert.equal(heroMoneyText(amountFor("okx", 1e7), "zh-Hans"), "$2,000");
   assert.equal(heroMoneyText(amountFor("binance", 1e7), "zh-Hans"), "$1,250");
@@ -45,12 +45,12 @@ test("money format: full figure below 10,000, then the locale's unit", () => {
   assert.equal(heroMoneyText(36000, "ko"), "$3.6만");
   assert.equal(heroMoneyText(36000, "en"), "$36K");
   assert.equal(heroMoneyText(3.6e6, "en"), "$3.6M");
-  assert.equal(heroVolumeText(1e7, "zh-Hans"), "1000万U");
-  assert.equal(heroVolumeText(1e9, "zh-Hans"), "10亿U");
+  assert.equal(heroVolumeText(1e7, "zh-Hans"), "1000 万 U");
+  assert.equal(heroVolumeText(1e9, "zh-Hans"), "10 亿 U");
   assert.equal(heroVolumeText(1e7, "en"), "$10M");
 });
 
-test("dial: 21 log stops from 1万U to 10亿U, default 1000万U, ticks on the snap points", () => {
+test("dial: 21 log stops from 1万U to 10 亿 U, default 1000 万 U, ticks on the snap points", () => {
   assert.equal(HERO_VOLUME_STEPS.length, 21);
   assert.equal(HERO_VOLUME_STEPS[0], 1e4);
   assert.equal(HERO_VOLUME_STEPS.at(-1), 1e9);
@@ -70,8 +70,8 @@ test("sentence: 17 locales, both placeholders, no time unit, no commission or fi
     assert.doesNotMatch(text, /年|月|year|month|annual|\baño\b|\bmes\b|\bano\b|\bmês\b|par an\b|Jahr|Monat|\banno\b|\bmese\b|년|월|год|месяц|\byıl\b|\btahun\b|\bbulan\b|\bnăm\b|tháng|سنة|شهر|سال|مہینہ|рік|місяць/i, `${locale}: no time unit`);
     assert.doesNotMatch(text, /佣金|返佣|not (financial )?advice|免责|disclaimer|\*/i, `${locale}: no commission wording or fine print (the 'our commission' phrases are pinned in l10n-qa-2026-10-13)`);
   }
-  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "Bitget", auto: true }), "在 Bitget 交易 1000万U，自动返还你");
-  assert.equal(heroSayText("zh-Hans", { vol: "1000万U", venue: "HTX", auto: false }), "在 HTX 交易 1000万U，返还给你");
+  assert.equal(heroSayText("zh-Hans", { vol: "1000 万 U", venue: "Bitget", auto: true }), "在 Bitget 交易 1000 万 U 自动返还你");
+  assert.equal(heroSayText("zh-Hans", { vol: "1000 万 U", venue: "HTX", auto: false }), "在 HTX 交易 1000 万 U 返还给你");
 });
 
 let harness;
@@ -83,16 +83,16 @@ const hero = async (pathname, market) => {
   return { doc: dom.window.document, close: () => dom.window.close() };
 };
 
-test("SSR /zh-hans: live sentence, $3,600, dial at 1000万U, code and /go CTA, desktop device screen", async () => {
+test("SSR /zh-hans: live sentence, $3,600, dial at 1000 万 U, code and /go CTA, desktop device screen", async () => {
   const { doc, close } = await hero("/zh-hans");
-  assert.equal(doc.querySelector(".h7-hero h1").textContent, "在 Bitget 交易 1000万U，自动返还你");
+  assert.equal(doc.querySelector(".h7-hero h1").textContent, "在 Bitget 交易 1000 万 U 自动返还你");
   const figure = doc.querySelector(".hx-amt");
   assert.equal(figure.getAttribute("data-final-value"), "3600");
   assert.equal(figure.textContent, "$3,600", "real text, final value in the HTML");
   const dial = doc.querySelector(".hx-dial-input");
   assert.equal(dial.getAttribute("type"), "range");
   assert.equal(dial.getAttribute("value"), String(HERO_VOLUME_DEFAULT_STEP));
-  assert.equal(dial.getAttribute("aria-valuetext"), "1000万U");
+  assert.equal(dial.getAttribute("aria-valuetext"), "1000 万 U");
   assert.equal(doc.querySelector(".hx-code code").textContent, "nexu888");
   assert.match(doc.querySelector(".hx-go").getAttribute("href"), /^\/go\/bitget\?/);
   const rows = [...doc.querySelectorAll(".hx-screen .hx-scr-rows li")].map((li) => li.textContent.replace(/\s+/g, " ").trim());
@@ -122,7 +122,7 @@ test("SSR neutral locales: information headline only, no figure, dial, code or /
   }
 });
 
-test("calculator: same volume framing in 17 locales, 1万U → 10亿U range, no time words", async () => {
+test("calculator: same volume framing in 17 locales, 1万U → 10 亿 U range, no time words", async () => {
   const { CALC_SAY, CALC_VMIN, CALC_VMAX, calcToPos, calcToVol } = await import("../src/components/v7/home7-hero-volume.js");
   assert.deepEqual(Object.keys(CALC_SAY).sort(), [...LOCALES].sort());
   for (const locale of LOCALES) {
@@ -154,7 +154,7 @@ test("hero life stays finite: desktop-only screen cycle, two rounds, stops on to
   // and figure never change on their own (no CLS), and bars are animated in place instead of remounted.
   assert.doesNotMatch(home, /setHeroStep\(seq/);
   assert.doesNotMatch(home, /hx-scr-bar-fill" key=/, "bars are not remounted per step");
-  assert.match(home, /bar\.animate\(\[\{ transform: `scaleX/, "bars regrow with one transform animation each");
+  assert.doesNotMatch(home, /bar\.animate/, "bars enter once in CSS, not on every volume change");
   const css = await readFile(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
   assert.match(css, /@ \.hx-scr-live\[data-on\] i\{[^}]*animation:hx-live/, "the live dot pulses only while the demo runs, so it ends with it");
   assert.match(home, /const DEMO_STEPS = \[1e8, 1e6\];/, "one round: 1亿, 100万, then back to the visitor's volume");

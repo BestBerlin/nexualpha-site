@@ -57,7 +57,7 @@ export function heroVolumeShort(volume, locale) {
 export function heroVolumeText(volume, locale) {
   let num = grouped(volume), unit = "";
   for (const [size, u] of unitsFor(locale)) if (volume >= size) { num = trim(volume / size); unit = u; break; }
-  if (locale === "zh-Hans" || locale === "zh-Hant") return `${num}${unit}U`;
+  if (locale === "zh-Hans" || locale === "zh-Hant") return `${num} ${unit} U`;
   return locale === "ja" || locale === "ko" ? `${num}${unit} USDT` : `$${num}${unit}`;
 }
 
@@ -72,23 +72,23 @@ export function heroMoneyWidthEm(parts) {
 // The live sentence, line 1 and line 2 (the figure follows); `screen`, `fee`, `back` label the desktop device screen. {vol} and {venue} are filled at render; "auto" lines are
 // used only for venues the exchange settles automatically (HOME_AUTO_SETTLE).
 export const HERO_SAY = Object.freeze({
-  "zh-Hans": { l1: "在 {venue} 交易 {vol}，", auto: "自动返还你", manual: "返还给你", label: "交易量", screen: "交易 {vol} · 各交易所返还", fee: "手续费", back: "返还给你" },
-  "zh-Hant": { l1: "在 {venue} 交易 {vol}，", auto: "自動返還你", manual: "返還給你", label: "交易量", screen: "交易 {vol} · 各交易所返還", fee: "手續費", back: "返還給你" },
-  en: { l1: "Trade {vol} on {venue},", auto: "get back automatically", manual: "get back", label: "Trading volume", screen: "Trade {vol} · rebate by exchange", fee: "Fees", back: "Back to you" },
-  es: { l1: "Opera {vol} en {venue}", auto: "y recupera automáticamente", manual: "y recupera", label: "Volumen de trading", screen: "Opera {vol} · reembolso por plataforma", fee: "Comisiones", back: "Te vuelve" },
-  "pt-BR": { l1: "Negocie {vol} na {venue}", auto: "e receba de volta, automático", manual: "e receba de volta", label: "Volume negociado", screen: "Negocie {vol} · cashback por corretora", fee: "Taxas", back: "Volta para você" },
-  fr: { l1: "Tradez {vol} sur {venue},", auto: "récupérez automatiquement", manual: "récupérez", label: "Volume de trading", screen: "Tradez {vol} · remise par plateforme", fee: "Frais", back: "Pour vous" },
-  de: { l1: "{vol} auf {venue} handeln,", auto: "automatisch zurückerhalten", manual: "zurückerhalten", label: "Handelsvolumen", screen: "{vol} handeln · Rückvergütung je Börse", fee: "Gebühren", back: "Zurück an Sie" },
-  it: { l1: "Fai {vol} di volume su {venue},", auto: "ti torna in automatico", manual: "ti torna", label: "Volume di trading", screen: "{vol} di volume · rimborso per piattaforma", fee: "Commissioni", back: "Ti torna" },
-  ja: { l1: "{vol} の取引で、", auto: "{venue} から自動で還元", manual: "{venue} から還元", label: "取引量", screen: "{vol} の取引 · 取引所別の還元", fee: "手数料", back: "還元額" },
-  ko: { l1: "{vol} 거래하면", auto: "{venue}에서 자동 환급", manual: "{venue}에서 환급", label: "거래량", screen: "{vol} 거래 · 거래소별 환급", fee: "수수료", back: "환급액" },
-  ru: { l1: "Объём {vol} на {venue} —", auto: "автоматически вернётся", manual: "вернётся", label: "Объём торгов", screen: "Объём {vol} · возврат по биржам", fee: "Комиссии", back: "Вернётся вам" },
-  tr: { l1: "{venue} üzerinde {vol} işlem,", auto: "otomatik geri alın", manual: "geri alın", label: "İşlem hacmi", screen: "{vol} işlem · borsaya göre iade", fee: "Ücretler", back: "Size dönen" },
-  id: { l1: "Trading {vol} di {venue},", auto: "otomatis kembali ke Anda", manual: "kembali ke Anda", label: "Volume trading", screen: "Trading {vol} · rebate per bursa", fee: "Biaya", back: "Kembali ke Anda" },
-  vi: { l1: "Giao dịch {vol} trên {venue},", auto: "tự động hoàn lại cho bạn", manual: "hoàn lại cho bạn", label: "Khối lượng giao dịch", screen: "Giao dịch {vol} · hoàn phí theo sàn", fee: "Phí", back: "Hoàn cho bạn" },
-  ar: { l1: "تداول {vol} على {venue}،", auto: "يعود إليك تلقائيًا", manual: "يعود إليك", label: "حجم التداول", screen: "تداول {vol} · الاسترداد حسب المنصة", fee: "الرسوم", back: "يعود إليك" },
-  ur: { l1: "{venue} پر {vol} ٹریڈ کریں،", auto: "خودکار طور پر واپس پائیں", manual: "واپس پائیں", label: "ٹریڈنگ حجم", screen: "{vol} ٹریڈ · ایکسچینج کے لحاظ سے واپسی", fee: "فیس", back: "آپ کو واپس" },
-  uk: { l1: "Обсяг {vol} на {venue} —", auto: "автоматично повернеться", manual: "повернеться", label: "Обсяг торгів", screen: "Обсяг {vol} · повернення за біржами", fee: "Комісії", back: "Повернеться вам" },
+  "zh-Hans": { exchange: "交易所", live: "实时", l1: "在 {venue} 交易 {vol}", auto: "自动返还你", manual: "返还给你", label: "交易量", screen: "交易 {vol} · 各交易所返还", fee: "手续费", back: "返还给你" },
+  "zh-Hant": { exchange: "交易所", live: "即時", l1: "在 {venue} 交易 {vol}", auto: "自動返還你", manual: "返還給你", label: "交易量", screen: "交易 {vol} · 各交易所返還", fee: "手續費", back: "返還給你" },
+  en: { exchange: "Exchange", live: "Live", l1: "Trade {vol} on {venue},", auto: "get back automatically", manual: "get back", label: "Trading volume", screen: "Trade {vol} · rebate by exchange", fee: "Fees", back: "Back to you" },
+  es: { exchange: "Plataforma", live: "En vivo", l1: "Opera {vol} en {venue}", auto: "y recupera automáticamente", manual: "y recupera", label: "Volumen de trading", screen: "Opera {vol} · reembolso por plataforma", fee: "Comisiones", back: "Te vuelve" },
+  "pt-BR": { exchange: "Corretora", live: "Ao vivo", l1: "Negocie {vol} na {venue}", auto: "e receba de volta, automático", manual: "e receba de volta", label: "Volume negociado", screen: "Negocie {vol} · cashback por corretora", fee: "Taxas", back: "Volta para você" },
+  fr: { exchange: "Plateforme", live: "En direct", l1: "Tradez {vol} sur {venue},", auto: "récupérez automatiquement", manual: "récupérez", label: "Volume de trading", screen: "Tradez {vol} · remise par plateforme", fee: "Frais", back: "Pour vous" },
+  de: { exchange: "Börse", live: "Live", l1: "{vol} auf {venue} handeln,", auto: "automatisch zurückerhalten", manual: "zurückerhalten", label: "Handelsvolumen", screen: "{vol} handeln · Rückvergütung je Börse", fee: "Gebühren", back: "Zurück an Sie" },
+  it: { exchange: "Piattaforma", live: "In tempo reale", l1: "Fai {vol} di volume su {venue},", auto: "ti torna in automatico", manual: "ti torna", label: "Volume di trading", screen: "{vol} di volume · rimborso per piattaforma", fee: "Commissioni", back: "Ti torna" },
+  ja: { exchange: "取引所", live: "リアルタイム", l1: "{vol} の取引で", auto: "{venue} から自動で還元", manual: "{venue} から還元", label: "取引量", screen: "{vol} の取引 · 取引所別の還元", fee: "手数料", back: "還元額" },
+  ko: { exchange: "거래소", live: "실시간", l1: "{vol} 거래하면", auto: "{venue}에서 자동 환급", manual: "{venue}에서 환급", label: "거래량", screen: "{vol} 거래 · 거래소별 환급", fee: "수수료", back: "환급액" },
+  ru: { exchange: "Биржа", live: "Сейчас", l1: "Объём {vol} на {venue} —", auto: "автоматически вернётся", manual: "вернётся", label: "Объём торгов", screen: "Объём {vol} · возврат по биржам", fee: "Комиссии", back: "Вернётся вам" },
+  tr: { exchange: "Borsa", live: "Canlı", l1: "{venue} üzerinde {vol} işlem,", auto: "otomatik geri alın", manual: "geri alın", label: "İşlem hacmi", screen: "{vol} işlem · borsaya göre iade", fee: "Ücretler", back: "Size dönen" },
+  id: { exchange: "Bursa", live: "Langsung", l1: "Trading {vol} di {venue},", auto: "otomatis kembali ke Anda", manual: "kembali ke Anda", label: "Volume trading", screen: "Trading {vol} · rebate per bursa", fee: "Biaya", back: "Kembali ke Anda" },
+  vi: { exchange: "Sàn", live: "Trực tiếp", l1: "Giao dịch {vol} trên {venue},", auto: "tự động hoàn lại cho bạn", manual: "hoàn lại cho bạn", label: "Khối lượng giao dịch", screen: "Giao dịch {vol} · hoàn phí theo sàn", fee: "Phí", back: "Hoàn cho bạn" },
+  ar: { exchange: "المنصة", live: "مباشر", l1: "تداول {vol} على {venue}،", auto: "يعود إليك تلقائيًا", manual: "يعود إليك", label: "حجم التداول", screen: "تداول {vol} · الاسترداد حسب المنصة", fee: "الرسوم", back: "يعود إليك" },
+  ur: { exchange: "ایکسچینج", live: "لائیو", l1: "{venue} پر {vol} ٹریڈ کریں،", auto: "خودکار طور پر واپس پائیں", manual: "واپس پائیں", label: "ٹریڈنگ حجم", screen: "{vol} ٹریڈ · ایکسچینج کے لحاظ سے واپسی", fee: "فیس", back: "آپ کو واپس" },
+  uk: { exchange: "Біржа", live: "Наживо", l1: "Обсяг {vol} на {venue} —", auto: "автоматично повернеться", manual: "повернеться", label: "Обсяг торгів", screen: "Обсяг {vol} · повернення за біржами", fee: "Комісії", back: "Повернеться вам" },
 });
 
 export function heroSay(locale) {

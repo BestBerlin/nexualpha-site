@@ -204,25 +204,46 @@ function HeroWord({ className, text, quickRef }) {
 function HeroSay({ locale, volume, venue, auto, quickRef }) {
   const lines = heroSayTokens(locale, auto);
   const vol = heroVolumeText(volume, locale);
+  const natural = /^(zh|ja)/.test(locale);
   return (
-    <h1 className="hx-say">
+    <h1 className="hx-say" data-natural={natural ? "" : undefined}>
       {lines.map((line, i) => (
         <span className="h7-h1l" key={i}>
           {line.map((part, j) => part === "{vol}" ? <HeroWord key={j} className="hx-say-vol" text={vol} quickRef={quickRef} />
             : part === "{venue}" ? <HeroWord key={j} className="hx-say-venue" text={venue.name} quickRef={quickRef} />
             : <span key={j}>{part}</span>)}
-          {i < lines.length - 1 ? <>{heroLineGap(line)}<br /></> : null}
+          {i < lines.length - 1 ? <>{natural ? " " : heroLineGap(line)}{!natural && <br />}</> : null}
         </span>
       ))}
     </h1>
   );
 }
 
-// The figure: volume × perpetual taker fee × partner share, in dollars (no time unit, no count-up). The gradient sits
+// The figure: volume × perpetual taker fee × partner share, in dollars (no time unit). The gradient sits
 // on each glyph run, never on the parent, so iPhone Safari keeps every run (hotfix #231).
 function HeroRebate({ locale, venue, amount, quickRef }) {
   const parts = heroMoneyParts(amount, locale);
-  const numRef = useSlideOnChange(parts?.num, quickRef);
+  const numRef = useRef(null), previousAmount = useRef(amount), finalNumber = useRef(parts?.num);
+  finalNumber.current = parts?.num;
+  useEffect(() => {
+    const from = previousAmount.current;
+    previousAmount.current = amount;
+    const node = numRef.current;
+    if (!node || !Number.isFinite(from) || !Number.isFinite(amount) || from === amount || reducedMotion()) return;
+    let frame, start;
+    const tick = (now) => {
+      start ??= now;
+      const progress = reducedMotion() ? 1 : Math.min(1, (now - start) / 360);
+      const value = from + (amount - from) * (1 - (1 - progress) ** 3);
+      // Keep the final unit throughout the tween; changing compact units would mislabel the value.
+      const target = heroMoneyParts(amount, locale);
+      const sample = heroMoneyParts(value, locale);
+      node.textContent = sample?.unit === target?.unit ? sample.num : target.num;
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(frame); node.textContent = finalNumber.current || ""; };
+  }, [amount, locale]);
   const unitRef = useSlideOnChange(parts?.unit, quickRef);
   const logoRef = useSlideOnChange(venue?.slug);
   return (
@@ -285,20 +306,18 @@ function useScreenDemo(rootRef, enabled) {
 }
 
 function HeroScreen({ locale, picks, sel, volume: heroVolume, onPick, quickRef, demo }) {
-  const rootRef = useRef(null), bars = useRef([]);
+  const rootRef = useRef(null);
   const { step, phase, running } = useScreenDemo(rootRef, demo);
   const volume = step == null ? heroVolume : HERO_VOLUME_STEPS[step];
-  const prevVolume = useRef(volume);
+  const previousSelection = useRef(sel.slug);
   useLayoutEffect(() => {
-    if (prevVolume.current === volume) return;
-    prevVolume.current = volume;
+    if (previousSelection.current === sel.slug) return;
+    previousSelection.current = sel.slug;
     if (reducedMotion()) return;
-    bars.current.forEach((bar, index) => {
-      if (!bar?.animate) return;
-      const w = Number(bar.dataset.w) || 1;
-      bar.animate([{ transform: `scaleX(${(w * 0.35).toFixed(3)})` }, { transform: `scaleX(${w})` }], { duration: 600, delay: index * 70, easing: HERO_EASE, fill: "backwards" });
-    });
-  }, [volume]);
+    const selected = rootRef.current?.querySelector("li[data-on] button");
+    const animation = selected?.animate?.([{ opacity: .65 }, { opacity: 1 }], { duration: 320, easing: HERO_EASE });
+    return () => animation?.cancel();
+  }, [sel.slug]);
   const say = heroSay(locale);
   const rows = picks.map((venue) => {
     const fact = feeFact(venue.slug, "perp");
@@ -312,10 +331,10 @@ function HeroScreen({ locale, picks, sel, volume: heroVolume, onPick, quickRef, 
       <div className="hx-mac">
         <div className="hx-mac-lid">
           <div className="hx-mac-display">
-            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={running ? "" : undefined}><i /></span></div>
+            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={running ? "" : undefined}><i />{say.live}</span></div>
             <div className="hx-scr-body">
               <p className="hx-scr-title">{say.screen.split("{vol}").map((part, i) => i ? <span key={i}><HeroWord className="hx-scr-vol" text={vol} quickRef={quickRef} />{part}</span> : <span key={i}>{part}</span>)}</p>
-              <div className="hx-scr-head"><span /><span>{say.fee}</span><span>{say.back}</span></div>
+              <div className="hx-scr-head"><span>{say.exchange}</span><span>{say.fee}</span><span>{say.back}</span></div>
               <ul className="hx-scr-rows" style={{ "--i": Math.max(0, rows.findIndex((row) => row.venue.slug === sel.slug)), "--g": heroTint(sel.slug) }}>
                 {/* One highlight that glides between rows (transform only). */}
                 <span className="hx-scr-hl" aria-hidden="true" />
@@ -324,7 +343,7 @@ function HeroScreen({ locale, picks, sel, volume: heroVolume, onPick, quickRef, 
                     <button type="button" tabIndex={-1} onClick={() => onPick(venue.slug)}>
                       <span className="hx-scr-name"><BrandMark slug={venue.slug} compact /><b>{venue.name}</b></span>
                       <span className="hx-scr-fee">{heroMoneyText(fee, locale)}</span>
-                      <span className="hx-scr-back"><i className="hx-scr-bar-fill"><b ref={(el) => { bars.current[index] = el; }} data-w={(back / top).toFixed(3)} /></i><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
+                      <span className="hx-scr-back"><i className="hx-scr-bar-fill"><b data-w={(back / top).toFixed(3)} /></i><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
                     </button>
                   </li>
                 ))}
@@ -635,9 +654,9 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
           {sel.code && <p className="hx-code"><span className="h7-sr">{sel.name} </span><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
-          {editorial && <p className="h7-trust-line">{t.t1} · {t.t2} · {t.t3}</p>}
         </aside>
         )}
+        {!banned && editorial && <p className="h7-trust-line">{t.t1} · {t.t2} · {t.t3}</p>}
         {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} onPick={pickVenue} quickRef={dragRef} demo={!touched} />}
       </section>
 
