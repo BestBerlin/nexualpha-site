@@ -91,7 +91,7 @@ import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
 import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
-import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
+import { isTickerSnapshot, isTickerSourceStale, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { WHALES_COPY_LOCALES, homeWhalesSnapshot, isWhalesSnapshot, spliceWhalesHtml, withWhaleText } from "../src/data/whales-home.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, parseAnnouncementTitle, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
@@ -5553,9 +5553,18 @@ async function readHomeFundingSnapshot(env) {
 }
 
 async function readTickerSnapshot(env) {
+  const freshness = (snapshot, sourceFailed = false) => isTickerSnapshot(snapshot)
+    ? (sourceFailed || snapshot.stale || isTickerSourceStale(snapshot) ? { ...snapshot, stale: true } : snapshot) : null;
   try {
-    if (typeof env?.TICKER_READ === "function") { const snapshot = await env.TICKER_READ(); if (isTickerSnapshot(snapshot)) return snapshot; }
-    if (typeof env?.MARKET_EVENTS_READ === "function") { const snapshot = tickerFromMarketEvents(await env.MARKET_EVENTS_READ()); if (isTickerSnapshot(snapshot)) return snapshot; }
+    if (typeof env?.TICKER_READ === "function") {
+      const snapshot = freshness(await env.TICKER_READ());
+      if (snapshot) return snapshot;
+    }
+    if (typeof env?.MARKET_EVENTS_READ === "function") {
+      const market = await env.MARKET_EVENTS_READ();
+      return freshness(tickerFromMarketEvents(market), market?.stale === true
+        || (market?.sourceStatus?.markets && market.sourceStatus.markets.status !== "ok"));
+    }
   } catch (error) { console.error(`[NexuAlpha] ticker snapshot failed: ${error?.message || error}`); }
   return null;
 }

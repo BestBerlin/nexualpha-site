@@ -1,0 +1,4 @@
+// Shared by React and the server fallback splice to keep all localized labels identical.
+export const METRIC_LABELS = {
+ en: ["BTC funding", "24h observed liquidations"], "zh-Hans": ["BTC 资金费率", "24小时观测清算"], "zh-Hant": ["BTC 資金費率", "24小時觀測清算"], es: ["Financiación BTC", "Liquidaciones observadas 24 h"], "pt-BR": ["Financiamento BTC", "Liquidações observadas 24 h"], fr: ["Financement BTC", "Liquidations observées 24 h"], de: ["BTC-Finanzierung", "Beobachtete Liquidationen 24 h"], it: ["Funding BTC", "Liquidazioni osservate 24 h"], ja: ["BTC 資金調達率", "24時間観測清算"], ko: ["BTC 펀딩비", "24시간 관측 청산"], ru: ["Фандинг BTC", "Ликвидации за 24 ч (наблюдение)"], tr: ["BTC fonlama", "24 saatte gözlenen tasfiyeler"], id: ["Pendanaan BTC", "Likuidasi teramati 24 jam"], vi: ["Phí funding BTC", "Thanh lý quan sát 24 giờ"], ar: ["تمويل BTC", "التصفيات المرصودة 24 ساعة"], ur: ["BTC فنڈنگ", "24 گھنٹے کی مشاہدہ شدہ لیکویڈیشن"], uk: ["Фандинг BTC", "Спостережені ліквідації за 24 год"],
+};

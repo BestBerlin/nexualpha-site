@@ -20,6 +20,7 @@ import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
+import { LiveBadge } from "./home7-board-motion.jsx";
 import { MoversBoard } from "./home7-movers.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
 import { intelToolLinks } from "../../data/intel-tools-links.js";
@@ -222,7 +223,7 @@ function IntelBlock({ intel, t, locale, market, venues, renderedAt }) {
     if (!featuredCampaigns(locale, market, now).length) return null;
     return (
       <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel("unavailable", locale)}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel("unavailable", locale)}</span><h2>{t.inH}<LiveBadge locale={locale} /></h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
         <ul className="h7-il"><FeaturedCampaignRows locale={locale} market={market} now={now} /></ul>
       </section>
     );
@@ -231,7 +232,7 @@ function IntelBlock({ intel, t, locale, market, venues, renderedAt }) {
   const freshness = announcementSnapshot(intel, now ?? (Date.parse(intel.renderedAt) || 0)).freshness;
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel(freshness, locale)}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel(freshness, locale)}</span><h2>{t.inH}<LiveBadge locale={locale} /></h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
         <FeaturedCampaignRows locale={locale} market={market} now={now} />
         {spread(intel.items, 10, 2).map((raw) => {
