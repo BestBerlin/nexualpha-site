@@ -1,0 +1,10 @@
+{
+  "branch": "codex/neutral-hero",
+  "baseCommit": "16056897a8aa9c9bb0494b3448c388d1e23b9bf3",
+  "commitCreated": false,
+  "attempt": "git add <task files>",
+  "exitCode": 128,
+  "error": "Unable to create /Volumes/\u81f4\u60012TB/nexualpha-site-git/.git/worktrees/nx-wt-codex-neutral-hero/index.lock: Operation not permitted",
+  "patch": "neutral-hero.patch",
+  "message": "neutral-hero.commit-message.txt"
+}
