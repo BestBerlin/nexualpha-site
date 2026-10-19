@@ -87,6 +87,7 @@
 @ .h7-pn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @ .h7-pw small{font:700 12px/1 var(--mono);color:#E8FBFF} /* contrast addendum: rebate % on dark is near-white, not teal */
 @ .h7-kick:is(:lang(ar), :lang(ur)){font-family:inherit;letter-spacing:0}
+@ .h7-ts-k:is(:lang(vi), :lang(ru), :lang(uk), :lang(ar), :lang(ur), :lang(zh), :lang(ja), :lang(ko)){font-family:inherit;letter-spacing:0}
 /* ---------- hero copy ---------- */
 @ .h7-kick{margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:var(--ink3)}
 @ h1 em{font-style:normal;color:var(--ac)}
