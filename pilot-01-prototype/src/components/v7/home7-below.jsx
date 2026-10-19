@@ -77,18 +77,20 @@ import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../
 
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
+import { announcementSnapshot, announcementStatusLabel } from "../shared/announcement-snapshot.js";
+
 const INTEL_URL = "/intel/official-announcements.json";
 function intelView(feed, locale, now = Date.parse(feed?.renderedAt || feed?.generatedAt) || 0) {
+  feed = announcementSnapshot(feed, now);
   const sourceItems = sharedOfficialEventItems(feed);
-  if (!Array.isArray(feed?.items)) return null;
   const view = visibleEventSourceItems(sourceItems, { locale, now });
   // Türkiye pages show no notice from an SPK-listed venue (tr-bitget-sweep).
   const items = withoutTurkeyUnlisted(view.items, { locale }, (item) => [item.venue, item.rawTitle || item.title, item.url]);
-  return { ...view, items: items.slice(0, 40), generatedAt: feed.generatedAt, renderedAt: feed.renderedAt };
+  return { ...feed, ...view, items: items.slice(0, 40), generatedAt: feed.generatedAt, renderedAt: feed.renderedAt };
 }
 
 function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
-  const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale, Date.parse(renderedAt || initialOfficialAnnouncements?.renderedAt || initialOfficialAnnouncements?.generatedAt) || 0));
+  const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale, Date.parse(initialOfficialAnnouncements?.renderedAt || renderedAt || initialOfficialAnnouncements?.generatedAt) || 0));
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
     let alive = true;
@@ -98,10 +100,9 @@ function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
         if (!alive) return;
         const next = intelView(j, locale, Date.now());
         // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
-        if (next) setFeed(next);
-        else if (first) setFeed((current) => current || false);
+        setFeed(next);
       })
-      .catch(() => { if (alive && first) setFeed((current) => current || false); });
+      .catch(() => { if (alive) setFeed((current) => intelView({ ...current, status: "UNAVAILABLE" }, locale, Date.now())); });
     load(true);
     // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
     const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
@@ -172,13 +173,6 @@ function timeAgo(ms, locale) {
   const h = Math.round(min / 60);
   return h < 24 ? rtf.format(-h, "hour") : rtf.format(-Math.round(h / 24), "day");
 }
-// l10n: needs native review
-const LIVE = {
-// l10n: needs native review
-ur: "لائیو",
-// l10n: needs native review
-uk: "Наживо", "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
-
 // Newest first, but at most `perVenue` rows per exchange until the list is full (one venue's batch of listings
 // should not hide every other exchange).
 function spread(items, limit, perVenue) {
@@ -222,21 +216,22 @@ function FeaturedCampaignRows({ locale, market, now }) {
 
 function IntelBlock({ intel, t, locale, market, venues, renderedAt }) {
   const [open, setOpen] = useState(null);
-  const now = useNow(renderedAt || intel?.renderedAt || intel?.generatedAt);
+  const now = useNow(intel?.renderedAt || renderedAt || intel?.generatedAt);
   if (!intel) {
     // Feed still loading or unavailable: the featured campaign still shows (fail closed for exchange notices only).
     if (!featuredCampaigns(locale, market, now).length) return null;
     return (
       <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel("unavailable", locale)}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
         <ul className="h7-il"><FeaturedCampaignRows locale={locale} market={market} now={now} /></ul>
       </section>
     );
   }
   const asOf = fmtAsOf(intel.generatedAt, locale);
+  const freshness = announcementSnapshot(intel, now ?? (Date.parse(intel.renderedAt) || 0)).freshness;
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{announcementStatusLabel(freshness, locale)}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
         <FeaturedCampaignRows locale={locale} market={market} now={now} />
         {spread(intel.items, 10, 2).map((raw) => {

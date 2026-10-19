@@ -8,7 +8,8 @@ import { createFundingFeed } from "../server/funding-feed.mjs";
 import { HOME_PARTNERS } from "../src/data/home-rebate-tiers.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 
-const generatedAt = "2026-10-13T08:00:00.000Z";
+// The worker supplies its actual render clock; live fixtures must be within the validity window.
+const generatedAt = new Date().toISOString();
 const liveFunding = {
   generatedAt,
   venues: {
@@ -34,7 +35,7 @@ const emptyFunding = {
   },
 };
 
-test("home funding table hides until the SSR feed has real rows", async () => {
+test("home funding hides without a feed and shows unavailable for an explicit empty snapshot", async () => {
   const harness = await createSsrHarness();
   try {
     const noFeed = harness.render("/");
@@ -42,12 +43,15 @@ test("home funding table hides until the SSR feed has real rows", async () => {
     assert.doesNotMatch(noFeed, /h7-fr-row--wait/);
 
     const empty = harness.render("/", { funding: emptyFunding });
-    assert.doesNotMatch(empty, /id="h7-funding"/);
+    assert.match(empty, /id="h7-funding"/);
+    assert.match(empty, /Unavailable/);
     assert.doesNotMatch(empty, /h7-fr-table/);
     assert.doesNotMatch(empty, /h7-fr-row--wait/);
     const invalid = { ...liveFunding, venues: { binance: { rows: [{ symbol: "BTC", rate: null, intervalH: 8 }] } } };
     assert.equal(fundingTable(invalid, "BTC").length, 0);
-    assert.doesNotMatch(harness.render("/", { funding: invalid }), /id="h7-funding"/);
+    const invalidHtml = harness.render("/", { funding: invalid });
+    assert.match(invalidHtml, /Unavailable/);
+    assert.doesNotMatch(invalidHtml, /h7-fr-table/);
   } finally {
     await harness.close();
   }
@@ -80,7 +84,14 @@ test("Worker serves funding cache values and identical hydration state across lo
       const hydrated = await hydrateInJsdom(harness.vite, html, url);
       assert.deepEqual(hydrationErrors(hydrated.errors), [], hydrated.errors.join("\n"));
     }
-    for (const read of [() => null, () => emptyFunding, () => { throw new Error("unavailable"); }]) {
+    // Null/throw are missing transport state; an explicit empty snapshot is data.
+    const emptyHtml = await (await worker.fetch(new Request("https://nexualpha.com/"), {
+      ASSETS: assets, NEWS_SSR_RENDER: harness.render, FUNDING_READ: () => emptyFunding,
+    })).text();
+    assert.match(emptyHtml, /id="h7-funding"/);
+    assert.match(emptyHtml, /Unavailable/);
+    assert.deepEqual(prerenderState(emptyHtml).funding.venues, emptyFunding.venues);
+    for (const read of [() => null, () => { throw new Error("unavailable"); }]) {
       const html = await (await worker.fetch(new Request("https://nexualpha.com/"), {
         ASSETS: assets, NEWS_SSR_RENDER: harness.render, FUNDING_READ: read,
       })).text();

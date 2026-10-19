@@ -17,8 +17,10 @@ test('lower home hydrates across clock drift and motion preferences in both loca
   const { withHomeHeroVariant } = await harness.vite.ssrLoadModule('/src/components/v7/home7-hero-variants.js');
   const funding = JSON.parse(readFileSync(new URL('./fixtures/funding-rates-live-2026-10-14.json', import.meta.url)));
   const snapshot = '2026-10-14T00:00:00Z';
+  // Recorded market values are reused, but their source clock must be fresh at the simulated render.
+  for (const venue of Object.values(funding.venues)) venue.readAt = snapshot;
   for (const venue of Object.values(funding.venues)) for (const row of venue.rows) row.nextAt = '2026-10-14T01:00:00Z';
-  const feed = { generatedAt: snapshot, items: [{ id: 'notice', venue: 'okx', category: 'news', title: 'Official notice', url: 'https://www.okx.com/help/notice', publishedAt: '2026-10-13T23:59:00Z', expiresAt: '2026-10-14T00:01:00Z' }] };
+  const feed = { generatedAt: snapshot, items: [{ id: 'notice', venue: 'okx', category: 'news', title: 'Official notice', url: 'https://www.okx.com/help/notice', publishedAt: '2026-10-13T23:59:00Z', expiresAt: '2026-10-14T00:10:00Z' }, { id: 'expiring', venue: 'okx', category: 'news', title: 'Official expiring notice', url: 'https://www.okx.com/help/expiring', publishedAt: '2026-10-13T23:59:00Z', expiresAt: '2026-10-14T00:01:00Z' }] };
   const originalNow = Date.now;
   for (const locale of ['en', 'zh-Hans']) for (const variant of ['a', 'b']) for (const motion of [false, true]) for (const seeded of [false, true]) {
     const props = { renderedAt: snapshot, t: h7Copy(locale), locale, market: undefined, fundingFeed: { ...funding, generatedAt: snapshot }, initialOfficialAnnouncements: seeded ? feed : undefined, vol: 10000, setVol() {}, mode: 'taker', setMode() {}, product: 'perp', setProduct() {}, calc: { rows: [] }, priced: [] };
@@ -27,7 +29,7 @@ test('lower home hydrates across clock drift and motion preferences in both loca
     const html = renderToString(element());
     const dom = new JSDOM(`<div id="root">${html}</div>`, { url: 'https://nexualpha.com/' });
     dom.window.matchMedia = () => ({ matches: motion });
-    const overrides = { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true, fetch: async () => new Response('{}', { status: 404 }), IntersectionObserver: class { observe() {} disconnect() {} } };
+    const overrides = { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true, fetch: async (url) => seeded && url === '/intel/official-announcements.json' ? Response.json(feed) : new Response('{}', { status: 404 }), IntersectionObserver: class { observe() {} disconnect() {} } };
     const saved = new Map(Object.keys(overrides).map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
     let root;
     const errors = [];
@@ -39,7 +41,10 @@ test('lower home hydrates across clock drift and motion preferences in both loca
       await act(async () => { root = hydrateRoot(container, element(), { onRecoverableError: e => errors.push(e.message) }); });
       assert.deepEqual(errors, [], `${locale}/${variant}/reduce=${motion}/seeded=${seeded}`);
       assert.ok(container.querySelector('.h7-fr-name').textContent);
-      if (seeded) assert.match(container.querySelector('.h7-il time').textContent, /3|٣/, 'relative age updates after mount');
+      if (seeded) {
+        assert.match(container.querySelector('.h7-il time').textContent, /3|٣/, 'relative age updates after mount');
+        assert.doesNotMatch(container.textContent, /Official expiring notice/, 'expired notices disappear after the refresh boundary');
+      }
       const countdown = container.querySelector('.h7-fr-cd').textContent;
       assert.equal(countdown.split(':').length, motion ? 2 : 3, 'motion preference applies after mount');
     } finally {
@@ -106,6 +111,10 @@ test('funding venue fits its cell without page overflow at narrow widths', { ski
 test('the real client island keeps the same SSR sections through hydration and the first parent update', async () => {
   const client = await createSsrHarness({ clientHome: true });
   const funding = JSON.parse(readFileSync(new URL('./fixtures/funding-rates-live-2026-10-14.json', import.meta.url)));
+  // This assertion tracks DOM identity during a current render, rather than hard-expiry behavior.
+  const sourceTime = new Date().toISOString();
+  funding.generatedAt = sourceTime;
+  for (const venue of Object.values(funding.venues)) venue.readAt = sourceTime;
   const html = await harness.render('https://nexualpha.com/', { funding });
   const document = `<div id="root">${html}</div><script type="application/json" id="nexualpha-prerender-state">${JSON.stringify({pathname:'/',locale:'en',funding})}</script>`;
   let originalSections;

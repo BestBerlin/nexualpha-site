@@ -13,6 +13,9 @@ import { buildHydrationBootstrap } from "../src/data/hydration-bootstrap.js";
 
 const json = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 const funding = json("./fixtures/funding-rates-live-2026-10-14.json");
+// Use current source timestamps: this suite tests regional filtering, not hard expiry.
+funding.generatedAt = new Date().toISOString();
+for (const source of Object.values(funding.venues)) source.readAt = funding.generatedAt;
 // The live collector also reads Bitget funding; the fixture predates it.
 funding.venues.bitget = { ok: true, readAt: funding.generatedAt, rows: ["BTC", "ETH"].map((symbol) => ({ symbol, rate: 0.0001, intervalH: 8, nextAt: "2026-10-14T00:00:00.000Z" })) };
 const marketEvents = json("./fixtures/market-data/market-events.live-v2-2026-10-13.json");
