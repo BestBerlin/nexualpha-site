@@ -1,7 +1,7 @@
 // Live funding-rate board (owner 2026-10-10). Data: FUNDING_PATH, refreshed by the server every 5 minutes from each
 // exchange's public endpoint. Renders nothing until real data arrives; a venue that did not answer is not shown.
 import React, { useEffect, useMemo, useState } from "react";
-import { FUNDING_PATH, FUNDING_SYMBOLS, fundingTable } from "../../data/funding-rates.js";
+import { FUNDING_PATH, FUNDING_SYMBOLS, fundingTable, fundingSnapshot, isFundingSnapshot } from "../../data/funding-rates.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatSgt } from "../../data/local-time.js";
 import { withoutTurkeyUnlistedVenueFeed } from "../../data/partner-geo-policy.js";
@@ -46,8 +46,8 @@ function useFunding(initialFeed) {
       request: FUNDING_PATH,
       intervalMs: 5 * 60 * 1000,
       cache: "no-cache",
-      // An empty refresh keeps the last board on screen.
-      isData: (j) => Boolean(j?.venues && FUNDING_SYMBOLS.some((sym) => fundingTable(j, sym).length > 0)),
+      // An explicit unavailable snapshot must replace previously healthy rows.
+      isData: isFundingSnapshot,
       onData: setFeed,
     });
   }, []);
@@ -59,37 +59,46 @@ function useTick(renderedAt) {
   return now ?? (Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
 }
 
+const HEALTH = {
+ en: ['Stale', 'Unavailable'], 'zh-Hans': ['数据过期', '暂不可用'], 'zh-Hant': ['資料過期', '暫不可用'], es: ['Desactualizado', 'No disponible'], 'pt-BR': ['Desatualizado', 'Indisponível'], fr: ['Périmé', 'Indisponible'], de: ['Veraltet', 'Nicht verfügbar'], it: ['Obsoleto', 'Non disponibile'], ja: ['更新遅延', '利用不可'], ko: ['오래된 데이터', '사용 불가'], ru: ['Устарело', 'Недоступно'], tr: ['Güncel değil', 'Kullanılamıyor'], id: ['Kedaluwarsa', 'Tidak tersedia'], vi: ['Đã cũ', 'Không khả dụng'], ar: ['بيانات قديمة', 'غير متاح'], ur: ['پرانا', 'دستیاب نہیں'], uk: ['Застаріло', 'Недоступно'],
+};
+
 export function FundingBoard({ locale, initialFeed }) {
   const t = copyFor(locale);
   // SSR has no media query. Adopt the reader preference only after hydration.
   const [showSeconds, setShowSeconds] = useState(true);
   useEffect(() => { setShowSeconds(!reduced()); }, []);
   const liveFeed = useFunding(initialFeed);
-  const feed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
+  const regionalFeed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
   const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
+  const feed = useMemo(() => fundingSnapshot(regionalFeed, now), [regionalFeed, now]);
+  const health = HEALTH[locale] || HEALTH.en;
   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);
   const [symbol, setSymbol] = useState("BTC");
   const selectedSymbol = availableSymbols.includes(symbol) ? symbol : availableSymbols[0];
   const rows = useMemo(() => (feed && selectedSymbol ? fundingTable(feed, selectedSymbol) : []), [feed, selectedSymbol]);
-  if (!feed || !selectedSymbol || rows.length === 0) return null;
-  const asOf = formatSgt(feed.generatedAt, locale);
+  if (!feed || (!selectedSymbol && feed.status !== "unavailable")) return null;
+  const asOf = formatSgt(feed.lastSuccessAt || feed.generatedAt, locale);
   return (
     <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
       <div className="h7-ih"><h2 id="h7-fr-h">{t.h}</h2><p>{t.sub}</p></div>
+      {feed.stale && <p role="status">{health[feed.status === "unavailable" ? 1 : 0]}</p>}
+      {rows.length > 0 && <>
       <div className="h7-fr-tabs" role="tablist" aria-label={t.h}>
         {availableSymbols.map((s) => <button key={s} type="button" role="tab" aria-selected={s === selectedSymbol} className={s === selectedSymbol ? "on" : undefined} onClick={() => setSymbol(s)} translate="no">{s}</button>)}
       </div>
       <div className="h7-fr-table" role="table" aria-label={`${t.h} · ${selectedSymbol}`}>
         <div className="h7-fr-row h7-fr-head" role="row"><span role="columnheader">{t.venue}</span><span role="columnheader">{t.rate}</span><span role="columnheader">{t.apr}</span><span role="columnheader">{t.next}</span></div>
         {rows.map((r, i) => (
-          <a key={r.venue} role="row" className={`h7-fr-row${i === 0 ? " best" : ""}`} href={localizedHref(`/exchanges/${r.venue}`, { locale })}>
-            <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}</span></span>
+          <a key={r.venue} role="row" className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}`} href={localizedHref(`/exchanges/${r.venue}`, { locale })}>
+            <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}<small>{r.stale ? `${health[0]} · ` : ""}{formatSgt(r.lastSuccessAt || r.readAt, locale)}</small></span></span>
             <span role="cell" className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></span>
             <span role="cell" className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</span>
             <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</span>
           </a>
         ))}
       </div>
+      </>}
       <p className="h7-ia">{t.note}<br />{t.asOf(asOf)}</p>
     </section>
   );

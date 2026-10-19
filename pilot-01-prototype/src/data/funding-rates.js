@@ -50,13 +50,34 @@ export const normalizeFunding = {
 // Annualised from the per-interval rate, for comparing venues with different intervals (1h vs 8h).
 export const fundingApr = (r) => r.rate * (24 / r.intervalH) * 365;
 
+// Snapshot age is evaluated using a supplied clock so SSR and first hydration agree.
+export const FUNDING_SOFT_AGE_MS = 10 * 60 * 1000;
+export const FUNDING_MAX_AGE_MS = 2 * 60 * 60 * 1000;
+export const isFundingSnapshot = (feed) => Boolean(feed && feed.venues && typeof feed.venues === "object" && !Array.isArray(feed.venues));
+export function fundingSnapshot(feed, now = Date.parse(feed?.renderedAt || feed?.generatedAt)) {
+  if (!isFundingSnapshot(feed)) return null;
+  const venues = {};
+  for (const [venue, source] of Object.entries(feed.venues)) {
+    const lastSuccessAt = source.lastSuccessAt || source.readAt || null;
+    const age = now - Date.parse(lastSuccessAt);
+    const unavailable = source.status === 'unavailable' || !source.rows?.length || !Number.isFinite(age) || age < 0 || age >= FUNDING_MAX_AGE_MS;
+    const stale = unavailable || source.ok === false || age >= FUNDING_SOFT_AGE_MS;
+    venues[venue] = { ...source, lastSuccessAt, readAt: lastSuccessAt, stale, status: unavailable ? 'unavailable' : stale ? 'stale' : 'fresh', rows: unavailable ? [] : source.rows };
+  }
+  const values = Object.values(venues);
+  const available = values.some(v => v.rows.length);
+  const stale = !available || values.some(v => v.stale);
+  return { ...feed, venues, stale, ok: available && !stale, status: !available ? 'unavailable' : stale ? 'stale' : 'fresh' };
+}
+
 // Readers: rows for one symbol across venues, sorted by annualised cost to longs (cheapest first).
 export function fundingTable(feed, symbol) {
   const out = [];
   for (const venue of FUNDING_VENUES) {
-    const r = feed?.venues?.[venue]?.rows?.find((x) => x.symbol === symbol);
+    const source = feed?.venues?.[venue];
+    const r = source?.status !== "unavailable" && source?.rows?.find((x) => x.symbol === symbol);
     if (r && Number.isFinite(r.rate) && Math.abs(r.rate) <= 0.05 && Number.isFinite(r.intervalH) && r.intervalH > 0 && r.intervalH <= 24) {
-      out.push({ venue, ...r, apr: fundingApr(r) });
+      out.push({ venue, ...r, apr: fundingApr(r), ok: source.ok, status: source.status, stale: source.stale, readAt: source.readAt, lastSuccessAt: source.lastSuccessAt, lastAttemptAt: source.lastAttemptAt, error: source.error });
     }
   }
   return out.sort((a, b) => a.apr - b.apr);

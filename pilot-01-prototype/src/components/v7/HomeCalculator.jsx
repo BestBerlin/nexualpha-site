@@ -12,7 +12,8 @@ import { CALC_CHIPS, CALC_SCALE, CALC_VMAX, CALC_VMIN, calcSay, calcToPos, calcT
 export function HomeCalculator({ t, locale, vol, setVol, mode, setMode, product, setProduct, calc, headingLevel = 2 }) {
   const Heading = headingLevel === 1 ? "h1" : "h2";
   const [draft, setDraft] = React.useState(null);
-  const feedbackId = React.useId();
+  // Fixed id: useId differs between the server render and the lazily hydrated island (hydration mismatch on id/aria-describedby).
+  const feedbackId = "h7-calc-feedback";
   const currentDraft = draft?.volume === vol ? draft : null;
   const invalid = currentDraft?.invalid || false;
   // Keep the editing text separate from the numeric amount (e.g. "100." and "100.50").

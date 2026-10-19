@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { bitgetGuideSitemapEntries } from "../src/data/bitget-guide-seo.js";
 import { beginnerSitemapEntries } from "../src/data/beginner-seo.js";
 import { isTurkeyUnlistedVenue, turkeyListingAllowed } from "../src/data/partner-geo-policy.js";
@@ -588,12 +589,13 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       const toolKey = toolKeyForPath(pathname);
       const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale, { rank: newsStrengthRank }) || undefined : undefined;
       const noticeSlugs = pathname.startsWith("/exchanges/") ? [pathname.split("/")[2]] : pathname.startsWith("/compare/") ? pathname.split("/")[2].split("-vs-") : null;
-      const noticeState = pathname === "/" || noticeSlugs ? { officialAnnouncements: {
-        generatedAt: officialAnnouncements.generatedAt,
+      const noticeState = pathname === "/" || noticeSlugs ? { officialAnnouncements: announcementSnapshot({
+        ...officialAnnouncements,
+        ...(officialAnnouncements.sources ? { sources: Object.fromEntries(Object.entries(officialAnnouncements.sources).filter(([slug]) => !isTurkeyUnlistedVenue(slug, { locale }))) } : {}),
         // Türkiye editions carry no SPK-listed venue's notices (tr-bitget-sweep), except on that venue's own pages.
         items: (officialAnnouncements.items || []).filter((item) => (!noticeSlugs || noticeSlugs.includes(item.venue))
           && (noticeSlugs?.some((slug) => isTurkeyUnlistedVenue(slug, { locale })) || turkeyListingAllowed([item.venue, item.title, item.url], { locale }))).slice(0, 40),
-      } } : {};
+      }) } : {};
       const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles, ...noticeState }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;
