@@ -10,7 +10,7 @@ export function useMarketEvents(initialFeed) {
   const [feed, setFeed] = useState(initialFeed ?? null);
   useEffect(() => {
     return startJsonPolling({
-      request: MARKET_EVENTS_PATH,
+      request: initialFeed?.liquidations?.timeline?.detailsDeferred ? "/api/market-events/summary" : MARKET_EVENTS_PATH,
       intervalMs: DATA_PAGE_REFRESH_MS,
       immediate: !initialFeed,
       cache: "no-cache",

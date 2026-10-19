@@ -337,7 +337,7 @@ test("deferred hydration replays scoped form intent only after the target subtre
   oldSelect.setAttribute("name", "market");
   oldSelect.value = "a";
   const anchor = document.add(new FakeElement("a", "Signup"));
-  anchor.setAttribute("href", "https://partner.bitget.cafe/bg/C6PRAF");
+  anchor.setAttribute("href", "https://partner.bitget.com/bg/C6PRAF");
   const targetEnd = document.add(new FakeElement("template"));
   targetEnd.setAttribute("data-nexualpha-scope-end", "page-content");
 

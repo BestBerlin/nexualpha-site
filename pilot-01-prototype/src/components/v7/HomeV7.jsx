@@ -10,7 +10,7 @@ import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback, h7TurkeyCopy } from "./home7-copy.js";
-import { HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP, HERO_VOLUME_TICKS, heroRebateAmount, heroMoneyParts, heroMoneyText, heroMoneyWidthEm, heroLineGap, heroSay, heroSayTokens, heroSayText, heroVolumeShort, heroVolumeText } from "./home7-hero-volume.js";
+import { HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP, HERO_VOLUME_TICKS, heroRebateAmount, heroMoneyParts, heroMoneyText, heroMoneyWidthEm, heroLineGap, heroSay, heroSayTokens, heroVolumeShort, heroVolumeText } from "./home7-hero-volume.js";
 import { h7NeutralCopy, neutralHeroCopy } from "./home7-neutral-copy.js";
 import { isTurkeyPage, jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
@@ -219,25 +219,24 @@ function HeroSay({ locale, volume, venue, auto, quickRef }) {
 
 // The figure: volume × perpetual taker fee × partner share, in dollars (no time unit, no count-up). The gradient sits
 // on each glyph run, never on the parent, so iPhone Safari keeps every run (hotfix #231).
-function HeroRebate({ locale, venue, amount, sentence, quickRef }) {
+function HeroRebate({ locale, venue, amount, quickRef }) {
   const parts = heroMoneyParts(amount, locale);
   const numRef = useSlideOnChange(parts?.num, quickRef);
   const unitRef = useSlideOnChange(parts?.unit, quickRef);
   const logoRef = useSlideOnChange(venue?.slug);
-  const text = parts ? heroMoneyText(amount, locale) : "—";
   return (
     <div className="hx-rate" data-pick={venue?.slug || "none"}>
       <span className="hx-rate-glow" aria-hidden="true">
         {Object.keys(HERO_TINT).map((slug) => <i key={slug} data-on={slug === venue?.slug ? "" : undefined} style={{ "--g": HERO_TINT[slug] }} />)}
       </span>
       {/* The brand mark sits in the figure's own line box: em-sized to the digits' cap height, bottom on their baseline. */}
-      <p className="hx-rate-num h7-rebate-value hx-amt" aria-label={`${sentence} ${text}`} data-final-value={amount == null ? "" : Math.round(amount)} style={{ "--wem": heroMoneyWidthEm(parts) + 0.86 }}>
+      <p className="hx-rate-num h7-rebate-value hx-amt" data-final-value={amount == null ? "" : Math.round(amount)} style={{ "--wem": heroMoneyWidthEm(parts) + 0.86 }}>
         <span className="hx-rate-logo" aria-hidden="true" ref={logoRef}><BrandMark slug={venue?.slug} compact priority /></span>
         {parts ? <>
-          <span className="hx-rate-pct" aria-hidden="true">{parts.cur}</span>
-          <span className="hx-rate-n" aria-hidden="true" ref={numRef}>{parts.num}</span>
-          {parts.unit ? <span className="hx-rate-u" aria-hidden="true" ref={unitRef}>{parts.unit}</span> : null}
-        </> : <span className="hx-rate-n" aria-hidden="true">—</span>}
+          <span className="hx-rate-pct">{parts.cur}</span>
+          <span className="hx-rate-n" ref={numRef}>{parts.num}</span>
+          {parts.unit ? <span className="hx-rate-u" ref={unitRef}>{parts.unit}</span> : null}
+        </> : <span className="hx-rate-n">—</span>}
       </p>
     </div>
   );
@@ -629,7 +628,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
         {banned && <><NeutralHeroBoard rows={neutralHeroVenues} locale={locale} /><NeutralHeroChips initialTicker={initialTicker} locale={locale} /></>}
         {!banned && (
         <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
-          <HeroRebate locale={locale} venue={sel} amount={heroAmount} sentence={heroSayText(locale, { vol: heroVolumeText(heroVolume, locale), venue: sel.name, auto })} quickRef={dragRef} />
+          <HeroRebate locale={locale} venue={sel} amount={heroAmount} quickRef={dragRef} />
           <HeroVolumeDial locale={locale} step={heroStep} onStep={pickStep} dragRef={dragRef} onTouch={stopCycle} />
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
           {sel.code && <p className="hx-code"><span className="h7-sr">{sel.name} </span><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}

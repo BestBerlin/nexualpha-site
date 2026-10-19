@@ -120,3 +120,23 @@ export function clickMetadata({ path = null, ref = null, src = null, locale = nu
     country: normalizedCountry,
   };
 }
+
+// Header signals are coarse and spoofable; never persist raw UA or network identifiers.
+export const CLICK_BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|discord|curl|wget|python|node-fetch|headless|lighthouse/i;
+const INAPP_UAS = [
+  ['telegram', /telegram/i], ['x', /(?:Twitter(?:Android| for iPhone| for iPad)?|\bXAndroid\b|\bX for iPhone\b)/i],
+  ['youtube', /youtube/i], ['wechat', /micromessenger/i],
+  ['instagram', /instagram/i], ['tiktok', /tiktok|musical_ly|bytedancewebview|trill/i],
+];
+
+export function clickRequestMetadata(request) {
+  const header = name => request.headers.get(name) || '';
+  const ua = header('user-agent');
+  const inapp = INAPP_UAS.find(([, pattern]) => pattern.test(ua))?.[0] || 'none';
+  let cls = 'unknown';
+  if (request.method === 'HEAD' || CLICK_BOT_UA.test(ua)) cls = 'bot';
+  else if (/prefetch|prerender/i.test(`${header('purpose')} ${header('sec-purpose')} ${header('x-moz')}`)) cls = 'prefetch';
+  else if (request.method === 'GET' && (inapp !== 'none' ||
+    (header('sec-fetch-dest').toLowerCase() === 'document' && header('sec-fetch-mode').toLowerCase() === 'navigate'))) cls = 'human';
+  return { cls, inapp };
+}

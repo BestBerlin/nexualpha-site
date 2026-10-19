@@ -85,7 +85,7 @@ function assetsFor(appHtmlByPath) {
         if (url.pathname === "/prerender-manifest.json") return Response.json(manifest);
         const route = Object.values(manifest.routes).find((entry) => entry.asset === url.pathname);
         if (route) {
-          return Response.json({ html: `${appHtmlByPath[route.pathname]}<a href="https://partner.bitget.cafe/bg/C6PRAF" data-test-external="bitget">Bitget</a>` });
+          return Response.json({ html: `${appHtmlByPath[route.pathname]}<a href="https://partner.bitget.com/bg/C6PRAF" data-test-external="bitget">Bitget</a>` });
         }
         return new Response("missing", { status: 404 });
       },
@@ -166,7 +166,7 @@ function decodeHref(value) {
 function hrefInventory(html) {
   return [...html.matchAll(/<a\b[^>]*\shref=(["'])([\s\S]*?)\1[^>]*>/gi)]
     .map((match) => decodeHref(match[2]))
-    .filter((href) => href !== "https://partner.bitget.cafe/bg/C6PRAF");
+    .filter((href) => href !== "https://partner.bitget.com/bg/C6PRAF");
 }
 
 function hrefContextParams(url) {
@@ -221,7 +221,7 @@ for (const pathname of ["/br", "/br/pix", "/br/custos", "/br/comparar"]) {
     assert.deepEqual(state.brAttribution, { source: "tg_channel", medium: "manual_draft", campaign: "r74_br_cold" });
     assert.deepEqual(hrefInventory(rootHtmlFromDocument(html)), hrefInventory(firstPassHtml));
     assertProjectedAttribution(hrefInventory(rootHtmlFromDocument(html)), state.brAttribution);
-    assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+    assert.match(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
     assert.equal(neutralHtml, neutralHash, "source prerender HTML remains neutral in memory");
     assert.doesNotMatch(neutralHtml, /r74_br_cold|tg_channel|manual_draft/);
   });

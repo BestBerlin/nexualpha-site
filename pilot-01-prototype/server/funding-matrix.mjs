@@ -1,3 +1,4 @@
+import { createStaleJsonFeed } from "./stale-json-feed.mjs";
 import {
   FUNDING_MATRIX_PATH,
   FUNDING_MATRIX_SYMBOLS,
@@ -202,30 +203,18 @@ export async function buildFundingMatrixSnapshot({ now = Date.now(), fetchImpl =
 
 export function createFundingMatrixReader({ enabled = true, ttlMs = 60000, fetchImpl = fetch, sources = FUNDING_MATRIX_SOURCES, now = () => Date.now(), log = () => {} } = {}) {
   const lastSuccess = {};
-  let cached = null;
-  let cachedAt = 0;
-  let pending = null;
-  const maxTtlMs = Math.min(Math.max(1000, ttlMs), 60000);
-  async function read() {
-    if (!enabled) return null;
-    const current = now();
-    if (cached && current - cachedAt <= maxTtlMs) return cached;
-    if (!pending) {
-      pending = buildFundingMatrixSnapshot({ now: current, fetchImpl, sources, log, lastSuccess })
-        .then((matrix) => {
-          if (matrix) {
-            cached = matrix;
-            cachedAt = current;
-          }
-          return matrix;
-        })
-        .finally(() => { pending = null; });
-    }
-    const matrix = await pending;
-    return matrix || (cached && now() - cachedAt <= maxTtlMs ? cached : null);
-  }
+  const feed = createStaleJsonFeed({
+    load: () => enabled ? buildFundingMatrixSnapshot({ now: now(), fetchImpl, sources, log, lastSuccess }) : null,
+    ttlMs: Math.min(Math.max(1000, ttlMs), 60000),
+    timeoutMs: 20000,
+    retainLateResults: true,
+    now,
+    log,
+  });
+  const read = () => enabled ? feed.read({ waitForFresh: true }) : Promise.resolve(null);
   return Object.freeze({
     read,
+    readCached: () => enabled ? feed.read({ waitMs: 0 }) : Promise.resolve(null),
     async respond(method = "GET") {
       const matrix = await read();
       if (!matrix) return new Response(method === "HEAD" ? null : "{}", { status: 503, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });

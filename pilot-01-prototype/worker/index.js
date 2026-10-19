@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
 import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { radarSourceStale } from '../server/source-freshness.mjs';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../src/data/news-geo-policy.js";
@@ -216,13 +217,23 @@ function workerStaleJsonFeed(env, key, load) {
       load: (signal) => entry.load(signal),
       ttlMs: polledJsonTtl(env),
       ...(key.startsWith("radar:whales") ? { isSourceStale: radarSourceStale } : {}),
-      timeoutMs: polledJsonTimeout(env),
+      timeoutMs: key === "funding-matrix" ? 20000 : polledJsonTimeout(env),
+      retainLateResults: key === "funding-matrix",
       log: (message) => console.error(`[NexuAlpha] ${key}: ${message}`),
     });
     byKey.set(key, entry);
     if (byKey.size > MAX_POLLED_JSON_FEEDS_PER_SCOPE) byKey.delete(byKey.keys().next().value);
   } else entry.load = load;
   return entry.feed;
+}
+
+function fundingMatrixFeed(env) {
+  return workerStaleJsonFeed(env, "funding-matrix", async () => {
+    if (typeof env?.FUNDING_MATRIX_READ !== "function") throw new Error("FUNDING_MATRIX_READ is not configured");
+    const feed = await env.FUNDING_MATRIX_READ();
+    if (!feed || typeof feed !== "object") throw new Error("empty funding matrix snapshot");
+    return feed;
+  });
 }
 
 async function respondWorkerStaleJson(feed, method, fallbackPayload, cacheControl = "public, max-age=10, stale-while-revalidate=60") {
@@ -348,12 +359,7 @@ export default {
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
     if (url.pathname === "/intel/funding-matrix.json" && ["GET", "HEAD"].includes(request.method)) {
-      return respondWorkerStaleJson(workerStaleJsonFeed(env, "funding-matrix", async () => {
-        if (typeof env?.FUNDING_MATRIX_READ !== "function") throw new Error("FUNDING_MATRIX_READ is not configured");
-        const feed = await env.FUNDING_MATRIX_READ();
-        if (!feed || typeof feed !== "object") throw new Error("empty funding matrix snapshot");
-        return feed;
-      }), request.method, {});
+      return respondWorkerStaleJson(fundingMatrixFeed(env), request.method, {});
     }
     if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
@@ -361,6 +367,13 @@ export default {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
+    if (url.pathname === "/api/market-events/summary" && request.method === "GET") {
+      let feed = null;
+      try { feed = typeof env?.MARKET_EVENTS_READ === "function" ? await env.MARKET_EVENTS_READ() : await readJsonAsset(env, url, "/intel/market-events.json"); } catch { /* unavailable, never invent data */ }
+      return Response.json(compactMarketEvents(feed, { firstScreen: true }), {
+        status: feed ? 200 : 503, headers: { "cache-control": "no-cache" },
+      });
+    }
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
@@ -2605,7 +2618,6 @@ function staticAssetResponse(response, url) {
   });
 }
 
-const NEXUALPHA_DATA_LICENSE_URL = `${PUBLIC_ORIGIN}/methodology#data-license`;
 // RESEARCH_DESK and NEXUALPHA_PUBLISHER come from src/data/brand-entity.js (one Organization @id for every page).
 const DEFAULT_SOCIAL_IMAGE = `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-social-v1.jpg`;
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
@@ -4891,7 +4903,7 @@ function turkeyMarketRenderEnv(env, url) {
 
 async function injectPrerenderedRoute(html, metadata, url, env) {
   if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
-  env = turkeyMarketRenderEnv(routeSeoRenderEnv(env, metadata), url);
+  env = turkeyMarketRenderEnv(routeSeoRenderEnv({ ...env, WORKER_POLLED_JSON_CACHE_SCOPE: polledJsonScope(env) }, metadata), url);
   if (metadata.status === 404) {
     const guide = isBitgetGuidePath(parsePublicRoute(url.pathname, url.searchParams).contentPathname);
     return (await renderRouteAtRequestTime(html, metadata, url, env, {
@@ -4940,7 +4952,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
     if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
       let fundingMatrix = null;
-      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ_CACHED === "function" ? await env.FUNDING_MATRIX_READ_CACHED() : await fundingMatrixFeed(env).read({ waitMs: 250 }); } catch { /* unavailable */ }
       // Neutral locales and no-promotion markets (Vietnam): the embedded payload carries no /go/ trade routes.
       if (fundingMatrix && (isNeutralCtaLocale(publicRoute.locale) || jurisdictionPromotionBan({ locale: publicRoute.locale, market: url.searchParams.get("market") }))) fundingMatrix = withoutFundingTradeHrefs(fundingMatrix);
       try {
@@ -4954,7 +4966,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if ((isDataPagePath(pathname) || pathname === LIQUIDATION_HEATMAP_PATH) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
       let liquidationLevels = null;
-      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ(), { timeline: pathname !== FUNDING_RATES_PATH }) : null; } catch { marketEvents = null; }
+      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ(), { timeline: pathname !== FUNDING_RATES_PATH, firstScreen: true }) : null; } catch { marketEvents = null; }
       if (pathname === LIQUIDATION_HEATMAP_PATH) {
         try { liquidationLevels = typeof env?.LIQUIDATION_LEVELS_READ === "function" ? await env.LIQUIDATION_LEVELS_READ() : null; } catch { liquidationLevels = null; }
       }
@@ -9300,12 +9312,9 @@ function optimizeRouteResourceHints(html, metadata, url) {
   const styled = hasPrerenderState || isClientRenderedNews
     ? optimized.replace(/\s*<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi, (tag) => shouldKeepStylesheet(tag, allowedStylePrefixes) ? tag : "")
     : optimized;
-  const newsSummaryPreload = metadata?.marker === NEWS_ROUTE_MARKER || url?.pathname === "/news"
-    ? '<link rel="preload" href="/content/news-feed-summary.json" as="fetch" crossorigin />'
-    : "";
-  const withNewsPreload = newsSummaryPreload && !/news-feed-summary\.json/.test(styled)
-    ? styled.replace(/<\/head>/i, `${newsSummaryPreload}</head>`)
-    : styled;
+  // Listings already carry paginated SSR rows and use /api/news/search.
+  // Do not compete with first-screen text by preloading the entire fallback archive.
+  const withNewsPreload = styled;
   // Non-indexable locale news shells need immediate hydration to load their
   // summarized feed, but they do not need every route chunk or stylesheet.
   if (!hasPrerenderState) return withNewsPreload;

@@ -61,7 +61,7 @@ test("Bitget registration card exposes referral copy and handoff controls with a
   assert.match(html, /<div class="registration-card__state-list" role="group" aria-label="Partner route, user benefit and regional eligibility">/);
   assert.match(html, /<details class="registration-card__mobile-route-details" open="">/);
   assert.match(html, /<summary class="registration-card__mobile-route-summary">/);
-  assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
   assert.match(html, /rel="sponsored noopener noreferrer"/);
   assert.match(html, /data-registration-decision-state="verify-first"/);
 });
