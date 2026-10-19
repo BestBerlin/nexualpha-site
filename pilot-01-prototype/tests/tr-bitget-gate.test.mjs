@@ -36,6 +36,8 @@ export function bitgetSignupHits(html) {
   add(/exchanges\/bitget[^"'\s]*#registration-path/g);
   add(/\/go\/bitget\b/g);
   add(/C6PRAF/g);
+  add(/partner\.bitget\.(com|cafe)/g);
+  add(/bitget\.(com|cafe)\/(expressly|kol-register)/g);
   add(/bitget\.cafe/g);
   add(/<a\b[^>]*data-cta-kind="registration"[^>]*data-cta-platform="bitget"[^>]*>/g);
   add(/<a\b[^>]*data-cta-platform="bitget"[^>]*data-cta-kind="registration"[^>]*>/g);

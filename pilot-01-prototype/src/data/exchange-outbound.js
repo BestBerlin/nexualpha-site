@@ -31,7 +31,7 @@ const EXCHANGE_DOMAINS = (() => {
       try { map.set(baseDomain(/^https?:/.test(value) ? new URL(value).hostname : value), venue); } catch { /* skip */ }
     }
   }
-  // Sister domains of the same venues (gate.io, bitget.com behind bitget.cafe registration links).
+  // Sister domains of the same venues (gate.io, bitget.com, now also the registration links host).
   for (const [host, venue] of [["gate.io", "gate-io"], ["gate.com", "gate-io"], ["bitget.com", "bitget"], ["okx.com", "okx"]]) {
     if (partnerRegistry[venue]?.hasReferral) map.set(host, venue);
   }

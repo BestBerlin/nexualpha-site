@@ -187,7 +187,7 @@ test("sign-up CTA: conversion lessons only, registry codes via /go/, geo-gated, 
   assert.match(bitget, /href="\/go\/bitget\?src=academy-e07"/);
   assert.match(bitget, /Bitget\.com/);
   assert.ok(bitget.includes(publicCtaForVenue("bitget", "en").inviteCode), "code from the partner registry");
-  assert.doesNotMatch(bitget, /bitget\.cafe/, "the raw partner domain is never shown");
+  assert.doesNotMatch(bitget, /bitget\.com/, "the raw partner domain is never shown");
   for (const path of [`/ru/academy/${E05.slug}`, `/zh-hant/academy/${E05.slug}`, `/ar/academy/${E05.slug}`]) {
     const html = mainHtml(await (await fetchPage(path)).text());
     assert.doesNotMatch(html, /href="\/go\/|data-offer-venue|nexu888|11350287/, `${path}: no sign-up in a neutral locale`);

@@ -42,7 +42,7 @@ class SeasonTest(unittest.TestCase):
         with mock.patch.object(engine, 'text') as draw:
             engine.frame(script, timing, 10, (1920,1080), 'zh-Hans', partner)
             values = [call.args[1] for call in draw.call_args_list]
-            self.assertIn('partner.bitget.cafe 为 Bitget 官方合作域名', values)
+            self.assertIn('partner.bitget.com 为 Bitget 官方合作域名', values)
             self.assertTrue(any(partner['inviteCode'] in v for v in values))
             self.assertTrue(any('佣金由交易所支付' in v for v in values))
 

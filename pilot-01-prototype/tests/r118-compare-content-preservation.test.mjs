@@ -23,5 +23,5 @@ test('three-platform primary choice cannot be hidden by the support disclosure',
   const html=render('/compare/binance-vs-okx-vs-bitget?locale=en');
   const tag=html.match(/<details\b[^>]*id="compare-versus-card"[^>]*>/)?.[0];
   assert.ok(tag&&/\bopen(?:=|\s|>)/.test(tag));
-  assert.match(html,/https:\/\/partner.bitget.cafe\/bg\/C6PRAF/);
+  assert.match(html,/https:\/\/partner.bitget.com\/bg\/C6PRAF/);
 });
