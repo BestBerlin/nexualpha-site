@@ -498,18 +498,23 @@
 .h7:not(#_):not(#_) .h7-fr-tabs button:hover{border-color:var(--line2);color:var(--ink)}
 .h7:not(#_):not(#_) .h7-fr-tabs button.on{border-color:var(--ac);color:var(--on-ac);background:var(--ac)}
 .h7:not(#_):not(#_) .h7-fr-tabs button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.h7:not(#_):not(#_) .h7-fr-table{display:grid;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.h7:not(#_):not(#_) .h7-fr-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.2fr) minmax(0,.9fr) minmax(0,.9fr);align-items:center;gap:12px;min-height:56px;padding:10px 18px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;font-variant-numeric:tabular-nums}
-.h7:not(#_):not(#_) .h7-fr-row:first-child{border-top:0}
-.h7:not(#_):not(#_) a.h7-fr-row:hover{background:var(--sf)}
-.h7:not(#_):not(#_) a.h7-fr-row:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.h7:not(#_):not(#_) .h7-fr-table{width:100%;border-spacing:0;display:grid;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.h7:not(#_):not(#_) .h7-fr-row{position:relative;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.2fr) minmax(0,.9fr) minmax(0,.9fr);align-items:center;gap:12px;min-height:56px;padding:10px 18px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_) .h7-fr-head{border-top:0}
+.h7:not(#_):not(#_) .h7-fr-row>td:not(.h7-fr-n),.h7:not(#_):not(#_) .h7-fr-row>th{padding:0;text-align:start;min-width:0}
+.h7:not(#_):not(#_) .h7-fr-row>th{font-weight:inherit}
+.h7:not(#_):not(#_) .h7-fr-v{min-height:36px;color:inherit;text-decoration:none}
+.h7:not(#_):not(#_) .h7-fr-v::after{content:"";position:absolute;inset:0}
+.h7:not(#_):not(#_) .h7-fr-v:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.h7:not(#_):not(#_) .h7-fr-row:has(a:hover){background:var(--sf)}
+.h7:not(#_):not(#_) .h7-fr-row:has(a:focus-visible){outline:2px solid var(--ac);outline-offset:-2px}
 .h7:not(#_):not(#_) .h7-fr-head{min-height:40px;font:500 12px/1.3 var(--mono);color:var(--ink3);letter-spacing:.02em;background:var(--sf)}
 .h7:not(#_):not(#_) .h7-fr-row.best{background:rgb(31 224 192/.06)}
 .h7:not(#_):not(#_) .h7-fr-v{display:flex;align-items:center;gap:10px;font-weight:600;min-width:0}
 .h7:not(#_):not(#_) .h7-fr-v>[aria-hidden]{flex-shrink:0}
 .h7:not(#_):not(#_) .h7-fr-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .h7:not(#_):not(#_) .h7-fr-n{font:500 15px/1.3 var(--mono);text-align:end;white-space:nowrap}
-.h7:not(#_):not(#_) .h7-fr-head span:not(:first-child){text-align:end}
+.h7:not(#_):not(#_) .h7-fr-head th:not(:first-child){text-align:end}
 .h7:not(#_):not(#_) .h7-fr-n small{display:block;font-size:11px;color:var(--ink3)}
 .h7:not(#_):not(#_) .h7-fr-n.neg{color:var(--ac)}
 .h7:not(#_):not(#_) .h7-fr-n.pos{color:var(--ink)}
@@ -553,7 +558,7 @@
 .h7:not(#_):not(#_) .h7-tg-list>li{container-type:inline-size}
 .h7:not(#_):not(#_) .h7-tg-txt small{overflow-wrap:break-word}
 /* Funding board header labels never spill out of their column on phones. */
-@media(max-width:640px){.h7:not(#_):not(#_) .h7-fr-head span{overflow-wrap:anywhere;font-size:11px;letter-spacing:0}}
+@media(max-width:640px){.h7:not(#_):not(#_) .h7-fr-head th{overflow-wrap:anywhere;font-size:11px;letter-spacing:0}}
 
 /* "Live" marker sits above the announcements heading (it fell onto its own line inside the heading). */
 .h7:not(#_):not(#_) .h7-intel .h7-live{margin:0 0 12px;margin-inline-start:0}
