@@ -1,0 +1,19 @@
+{
+  "command": "TMPDIR='/Volumes/致态2TB/nx-wt-codex-neutral-hero/.task-tmp' npm test",
+  "exitCode": 1,
+  "stats": {
+    "tests": 2178,
+    "pass": 2174,
+    "fail": 1,
+    "skipped": 3,
+    "duration_ms": 222613.142416
+  },
+  "failures": [
+    "academy data generator reproduces checked-in generated files"
+  ],
+  "failuresOutsideSuppliedBaseline": [
+    "academy data generator reproduces checked-in generated files"
+  ],
+  "reason": "Unchanged Academy generator requires absent /Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json",
+  "downstreamWholeSiteStage": "Not run because test:sites failed"
+}

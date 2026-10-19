@@ -11,7 +11,7 @@ import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback, h7TurkeyCopy } from "./home7-copy.js";
 import { HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP, HERO_VOLUME_TICKS, heroRebateAmount, heroMoneyParts, heroMoneyText, heroMoneyWidthEm, heroLineGap, heroSay, heroSayTokens, heroSayText, heroVolumeShort, heroVolumeText } from "./home7-hero-volume.js";
-import { h7NeutralCopy } from "./home7-neutral-copy.js";
+import { h7NeutralCopy, neutralHeroCopy } from "./home7-neutral-copy.js";
 import { isTurkeyPage, jurisdictionPromotionBan } from "../../data/partner-geo-policy.js";
 import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -512,7 +512,41 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 }
 
 
-export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, initialOfficialAnnouncements }) {
+// A second subscriber uses the ticker's existing shared poller; it never opens another feed.
+export function NeutralHeroChips({ initialTicker, locale }) {
+  const [ticker, setTicker] = useState(initialTicker);
+  useEffect(() => {
+    let off = false, stop;
+    import("../ticker/ticker-live.js").then(({ subscribe }) => {
+      if (!off) stop = subscribe(setTicker);
+    }).catch(() => {});
+    return () => { off = true; stop?.(); };
+  }, []);
+  return <ul className="nh-chips" tabIndex="0" aria-label={neutralHeroCopy(locale).title}>
+    {["BTC", "ETH", "SOL"].map((sym) => {
+      const item = ticker?.items?.find((r) => r.sym === sym);
+      return <li className="nh-chip" data-sym={sym} data-dir={item?.dir || "flat"} key={sym}><bdi dir="ltr">{sym} <span data-tk={`${sym}-p`}>{item?.price || "—"}</span> <span className="nh-change" data-tk={`${sym}-c`}>{item?.change || "—"}</span></bdi></li>;
+    })}
+  </ul>;
+}
+
+export function NeutralHeroBoard({ rows, locale }) {
+  const c = neutralHeroCopy(locale);
+  const [volume, basis] = c.volume.split(" · ");
+  // Preserve the lower calculator's checked-row order and default volume, independent of its controls.
+  const checkedOn = rows.slice(0, 6).map((r) => feeFact(r.slug, "perp").checkedOn).filter(Boolean).sort()[0];
+  return <aside className="nh-board" data-testid="neutral-hero-board" aria-labelledby="nh-board-title">
+    <div className="nh-board-head"><h2 id="nh-board-title">{c.title}</h2>{checkedOn && <span className="nh-updated">{c.updated} <bdi dir="ltr">{checkedOn} SGT</bdi></span>}</div>
+    <p className="nh-volume"><bdi dir="ltr">{volume}</bdi> · {basis}</p>
+    <ul>{rows.filter((r) => r.taker != null).slice(0, 6).map((r) => <li key={r.slug} data-testid="neutral-hero-row">
+      <span className="nh-venue"><BrandMark slug={r.slug} compact priority /><bdi dir="ltr">{r.name}</bdi></span>
+      <bdi dir="ltr" className="nh-money">${Math.round(1e7 * r.taker / 100).toLocaleString("en-US")}</bdi>
+    </li>)}</ul>
+    <a href="#h7-calc">{c.calculator}<span aria-hidden="true"> ↗</span></a>
+  </aside>;
+}
+
+export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, initialTicker, initialOfficialAnnouncements }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -528,6 +562,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   });
   const [product, setProduct] = useState("perp");
   const venues = useVenues(locale, product, market, banned);
+  const neutralHeroVenues = useVenues(locale, "perp", market, true);
   const maxPct = homeRebateMaxPctFor(locale, market);
   // Calculator volume (owner 2026-10-14: volume framing, no per-month / per-year): the traded volume, default 1000万U.
   const [vol, setVol] = useState(1e7);
@@ -577,6 +612,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const stopCycle = () => { if (!touched) setTouched(true); };
   const pickVenue = (slug) => { stopCycle(); setPick(slug); };
   const pickStep = (step) => { stopCycle(); setHeroStep(step); };
+  const nc = neutralHeroCopy(locale);
   const h1b = heroText.h1b.replace("{max}%", formatPercent(locale, maxPct));
 
   return (
@@ -584,10 +620,13 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(banned ? { "data-neutral": "" } : { style: { "--hx-tint": heroTint(sel.slug) } })}>
         <div className="h7-hc">
           {banned
-            ? <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{h1b}</span></h1>
+            ? <><span className="nh-eyebrow">{nc.eyebrow}</span><h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{h1b}</span></h1>
+              <p className="nh-lead">{nc.lead}</p>
+              <div className="nh-actions"><a className="nh-primary" href={localizedHref("/compare", { locale })}>{nc.compare}</a><a href={localizedHref("/academy", { locale })}>{nc.course}</a></div></>
             : <HeroSay locale={locale} volume={heroVolume} venue={sel} auto={auto} quickRef={dragRef} />}
         </div>
 
+        {banned && <><NeutralHeroBoard rows={neutralHeroVenues} locale={locale} /><NeutralHeroChips initialTicker={initialTicker} locale={locale} /></>}
         {!banned && (
         <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
           <HeroRebate locale={locale} venue={sel} amount={heroAmount} sentence={heroSayText(locale, { vol: heroVolumeText(heroVolume, locale), venue: sel.name, auto })} quickRef={dragRef} />
