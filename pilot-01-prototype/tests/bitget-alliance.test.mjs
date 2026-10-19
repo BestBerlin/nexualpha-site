@@ -105,7 +105,7 @@ test("campaign CTA: /go/bitget-alliance with DPRWSXAS only; none in Türkiye, th
 async function goSetup(at) {
   const dir = await mkdtemp(path.join(tmpdir(), "go-bg-"));
   await mkdir(path.join(dir, "client", "intel"), { recursive: true });
-  await writeFile(path.join(dir, "client", "intel", "partners.json"), JSON.stringify({ partners: [{ slug: "bitget", registrationUrl: "https://partner.bitget.cafe/bg/C6PRAF" }] }));
+  await writeFile(path.join(dir, "client", "intel", "partners.json"), JSON.stringify({ partners: [{ slug: "bitget", registrationUrl: "https://partner.bitget.com/bg/C6PRAF" }] }));
   const eventFile = path.join(dir, "go.jsonl");
   return { handle: createGoRedirect({ clientRoot: path.join(dir, "client"), eventFile, now: () => new Date(at) }), eventFile };
 }
@@ -123,7 +123,7 @@ test("/go/bitget-alliance 302s to the official www.bitget.com campaign page with
     assert.equal(bitgetAllianceUrl(lang), `https://www.bitget.com/${seg}activity/bitget-alliance?clacCode=DPRWSXAS`, lang);
   }
   res = await handle(new Request("https://nexualpha.com/go/bitget?src=x", { headers: ua }));
-  assert.equal(res.headers.get("location"), "https://partner.bitget.cafe/bg/C6PRAF", "regular /go/bitget is unchanged");
+  assert.equal(res.headers.get("location"), "https://partner.bitget.com/bg/C6PRAF", "regular /go/bitget is unchanged");
   await new Promise((r) => setTimeout(r, 50));
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
   assert.deepEqual(rows.map((r) => [r.partner, r.src, r.venue || null, r.campaign || null]).sort(),

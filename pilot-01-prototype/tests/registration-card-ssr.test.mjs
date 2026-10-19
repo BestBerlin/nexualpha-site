@@ -43,7 +43,7 @@ test("Arabic research-only card suppresses partner code and outbound signup whil
   const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "ar", market: "BR", product: "spot" });
 
   assert.doesNotMatch(html, /nexu888|href="\/go\//);
-  assert.doesNotMatch(html, /https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF/);
+  assert.doesNotMatch(html, /https:\/\/partner\.bitget\.com\/bg\/C6PRAF/);
   assert.match(html, /data-registration-decision-state="blocked"/);
   assert.match(html, /مسار الشراكة/);
   assert.match(html, /تحتاج مراجعة/);
@@ -132,10 +132,10 @@ test("Bitget registration card keeps attributed signup without reassurance copy 
   assert.match(html, /Check eligibility in the official account flow/);
   assert.doesNotMatch(html, /Configured|Available to confirm in official flow|Pending configuration/);
   assert.match(html, /href="\/go\/bitget\?src=registration-card-primary&amp;locale=en&amp;product=spot"/);
-  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
   assert.match(html, /data-cta-placement="registration-card-primary"/);
   assert.match(html, /class="registration-card__primary-btn"/);
-  assert.doesNotMatch(html, /data-registration-confirmation|data-registration-preflight="partner-route"|Full Official Link|partner\.bitget\.cafe/);
+  assert.doesNotMatch(html, /data-registration-confirmation|data-registration-preflight="partner-route"|Full Official Link|partner\.bitget\.com/);
   assert.doesNotMatch(html, /Verify that your browser address bar exactly matches/);
   assert.doesNotMatch(html, /aria-disabled="true"[\s\S]*data-cta-placement="registration-card-primary"/);
   assert.doesNotMatch(html, /15-second registration review|registration-card__primary-btn--waiting/i);
@@ -159,7 +159,7 @@ test("reviewed decision passport remains visible before an onsite regional verif
   assert.match(html, /account_stage=new_account/);
   assert.match(html, /funding=HKD(?:%20|\+)bank(?:%20|\+)transfer/);
   assert.match(html, /data-registration-decision-state="blocked"/);
-  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
 });
 
 test("decision passport drops a cross-market funding route before the CTA", async () => {
@@ -193,7 +193,7 @@ test("compact partner card keeps its sole attributed CTA and referral copy outsi
   assert.match(html, /registration-card__copy-btn/);
   assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
   assert.match(html, /href="\/go\/bitget\?src=registration-card-primary&amp;locale=en&amp;product=spot"/);
-  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
   assert.match(html, /rel="sponsored noopener noreferrer"/);
   assert.match(html, /data-growth-placement="registration-card-primary"/);
   assert.doesNotMatch(html, /data-growth-market=/);

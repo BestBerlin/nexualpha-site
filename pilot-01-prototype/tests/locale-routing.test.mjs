@@ -61,7 +61,7 @@ test("supported UI locales use path URLs for eligible global routes", () => {
   assert.equal(localizedLanguageHref("/br", { locale: "pt-BR" }), "/br");
   assert.equal(localizedLanguageHref("/mx", { locale: "es" }), "/mx");
   assert.equal(localizedLanguageHref("/mx", { locale: "ja" }), "/ja");
-  assert.equal(localizedHref("https://partner.bitget.cafe/bg/C6PRAF", { locale: "fr" }), "https://partner.bitget.cafe/bg/C6PRAF");
+  assert.equal(localizedHref("https://partner.bitget.com/bg/C6PRAF", { locale: "fr" }), "https://partner.bitget.com/bg/C6PRAF");
   assert.equal(localizedHref("/exchanges?locale=en&market=BR", { locale: "fr" }), "/fr/exchanges#nxa-context?market=BR");
 });
 

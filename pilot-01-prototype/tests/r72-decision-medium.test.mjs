@@ -42,7 +42,7 @@ test("R72 broadcast medium is accepted but unsafe or unknown medium values are d
 });
 
 test("R72 decision URL writer keeps the helper onsite and does not copy arbitrary or partner query params", () => {
-  const partnerInput = "https://partner.bitget.cafe/bg/C6PRAF?ref=nexu888&utm_medium=web_share_copy&secret=private";
+  const partnerInput = "https://partner.bitget.com/bg/C6PRAF?ref=nexu888&utm_medium=web_share_copy&secret=private";
   const state = decisionStateFromUrl(
     "https://nexualpha.com/br?market=BR&product=spot&utm_source=tg_channel&utm_medium=broadcast&utm_campaign=br_pix_ptbr&tg_draft=brazil_pix_ptbr",
   );

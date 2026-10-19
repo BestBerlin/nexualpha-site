@@ -288,7 +288,7 @@ def frame(script,timing,t,size,locale,cta,burn=False):
         text(im,claim,(margin,500,block_right,780 if vertical else 700),44,WHITE,locale)
         text(im,disclosure,(margin,800 if vertical else 740,block_right,895 if vertical else 805),34,MUTED,locale)
         if cta and meta['level']==8 and cta.get('slug')=='bitget':
-            domain_line='partner.bitget.cafe is an official Bitget partner domain' if en else 'partner.bitget.cafe 为 Bitget 官方合作域名'
+            domain_line='partner.bitget.com is an official Bitget partner domain' if en else 'partner.bitget.com 为 Bitget 官方合作域名'
             text(im,domain_line,(margin,895 if vertical else 810,block_right,945 if vertical else 865),34,MUTED,locale)
         text(im,'Not investment advice' if en else '不构成投资建议',(margin,1690 if vertical else 900,w-margin,1775 if vertical else 955),34,MUTED,locale)
         try:

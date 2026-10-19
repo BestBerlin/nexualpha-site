@@ -230,12 +230,12 @@ export function publicCtaForVenue(slug) {
 `;
 
 const lockedBitgetUrls = [
-  "https://partner.bitget.cafe/bg/C6PRAF",
-  "https://partner.bitget.cafe/bg/neh7w5h9",
-  "https://partner.bitget.cafe/bg/7nfg94491669857692277",
-  "https://partner.bitget.cafe/bg/7nfg8123",
-  "https://partner.bitget.cafe/bg/7nfg70121688265185866",
-  "https://partner.bitget.cafe/bg/7nfg38641689775663839",
+  "https://partner.bitget.com/bg/C6PRAF",
+  "https://partner.bitget.com/bg/neh7w5h9",
+  "https://partner.bitget.com/bg/7nfg94491669857692277",
+  "https://partner.bitget.com/bg/7nfg8123",
+  "https://partner.bitget.com/bg/7nfg70121688265185866",
+  "https://partner.bitget.com/bg/7nfg38641689775663839",
   "https://partner.bitget.com/bg/zc8pmupf",
   "https://www.bitget.com/expressly?channelCode=nexu888&vipCode=nexu888",
 ];

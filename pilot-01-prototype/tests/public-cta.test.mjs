@@ -24,7 +24,7 @@ test("public CTA keeps official destination but hides unverified partner economi
 
 test("public CTA preserves Bitget attribution parameters on the signup route", () => {
   const cta = publicCtaForVenue("bitget", "en");
-  assert.equal(cta.registrationUrl, "https://partner.bitget.cafe/bg/C6PRAF");
+  assert.equal(cta.registrationUrl, "https://partner.bitget.com/bg/C6PRAF");
   assert.equal(cta.registrationUrls.length, 8);
   assert.ok(cta.registrationUrls.includes("https://partner.bitget.com/bg/zc8pmupf"));
   assert.ok(cta.registrationUrls.includes("https://www.bitget.com/expressly?channelCode=nexu888&vipCode=nexu888"));
@@ -35,7 +35,7 @@ test("public CTA preserves Bitget attribution parameters on the signup route", (
 test("public CTA exposes configured invite codes without verifying private benefit economics", () => {
   const expected = {
     binance: ["https://www.binance.com?ref=11350287", "11350287"],
-    bitget: ["https://partner.bitget.cafe/bg/C6PRAF", "nexu888"],
+    bitget: ["https://partner.bitget.com/bg/C6PRAF", "nexu888"],
     okx: ["https://www.okx.com/join/nexu888", "nexu888"],
     backpack: ["https://backpack.exchange/join/luckybitcoin", "luckybitcoin"],
   };
@@ -58,7 +58,7 @@ test("public CTA pairs the displayed code with the primary registration route", 
   assert.ok(okx.registrationUrls.includes("https://www.topzhjdgxcb.net/join/CANDY007"));
 
   const bitget = publicCtaForVenue("bitget", "en");
-  assert.equal(bitget.registrationUrl, "https://partner.bitget.cafe/bg/C6PRAF");
+  assert.equal(bitget.registrationUrl, "https://partner.bitget.com/bg/C6PRAF");
   assert.equal(bitget.inviteCode, "nexu888");
   assert.equal(bitget.configuredInviteCode, "nexu888");
 });

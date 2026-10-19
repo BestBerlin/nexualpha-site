@@ -149,6 +149,6 @@ test("zh-Hant shared CTA surfaces render Traditional Chinese copy instead of Eng
     assert.doesNotMatch(html, new RegExp(blocked.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `blocked fallback leaked: ${blocked}`);
   }
 
-  assert.match(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/);
+  assert.match(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
   assert.match(html, /nexu888/);
 });
