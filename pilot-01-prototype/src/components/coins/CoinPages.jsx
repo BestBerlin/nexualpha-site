@@ -164,7 +164,7 @@ function VenueTable({ coin, locale, market, t }) {
         {coin.venues.map((venue) => {
           const signup = coinSignup(venue.slug, coin, { locale, market });
           const fee = spotFeeText(venue.slug, locale);
-          return <tr key={venue.slug} data-venue={venue.slug}>
+          return <tr key={venue.slug} id={`venue-${venue.slug}`} data-venue={venue.slug}>
             <th scope="row" data-label={t.colExchange}>
               <a className="nxc-venue" href={hrefFor(`/exchanges/${venue.slug}`, locale, market)}><BrandMark slug={venue.slug} compact /><span translate="no">{venue.name}</span></a>
             </th>
