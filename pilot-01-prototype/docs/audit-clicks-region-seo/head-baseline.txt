@@ -1,0 +1,152 @@
+HEAD baseline: 98cb38dfd5c4ef70f6a3f30fd530ead136930879
+Setup: git archive HEAD of pilot-01-prototype/{src,tests,scripts,worker,server,package.json,index.html,vite.config.mjs,project.inlang}, ops, backend, extracted only under artifacts/head-baseline. Existing public, node_modules and generated src/paraglide reused as symlinks. All tested source/tests are from HEAD.
+Command cwd: artifacts/head-baseline/pilot-01-prototype
+Command: node --test --test-name-pattern='academy data generator reproduces checked-in generated files|the real client island keeps the same SSR sections through hydration and the first parent update' tests/academy.test.mjs tests/home-lower-hydration.test.mjs
+Result: exit 1; 2 tests, 0 pass, 2 fail.
+Snapshot removed after collecting evidence.
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+node:fs:436
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+    at readFileSync (node:fs:436:20)
+    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)
+    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:56
+    at Array.from (<anonymous>)
+    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:327:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+}
+
+Node.js v26.0.0
+✖ academy data generator reproduces checked-in generated files (12923.499125ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✖ the real client island keeps the same SSR sections through hydration and the first parent update (22732.035834ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23333.311
+
+✖ failing tests:
+
+test at tests/academy.test.mjs:78:1
+✖ academy data generator reproduces checked-in generated files (12923.499125ms)
+  Error: Command failed: /opt/homebrew/Cellar/node/26.0.0/bin/node scripts/build-academy-data.mjs --output-root /var/folders/pc/0rtg5tnn3msdkvv4bhrswkb80000gn/T/nxa-academy-build-EyrEQq
+  node:fs:436
+      return binding.readFileUtf8(path, stringToFlags(options.flag));
+                     ^
+
+  Error: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+      at readFileSync (node:fs:436:20)
+      at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)
+      at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)
+      at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:56
+      at Array.from (<anonymous>)
+      at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)
+      at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:327:1
+      at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+      at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'
+  }
+
+  Node.js v26.0.0
+
+      at genericNodeError (node:internal/errors:998:15)
+      at wrappedFn (node:internal/errors:543:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/tests/academy.test.mjs:88:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    status: 1,
+    signal: null,
+    output: [ null, '', "node:fs:436\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\n                   ^\n\nError: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n    at readFileSync (node:fs:436:20)\n    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)\n    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:56\n    at Array.from (<anonymous>)\n    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:327:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n}\n\nNode.js v26.0.0\n" ],
+    pid: 63840,
+    stdout: '',
+    stderr: "node:fs:436\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\n                   ^\n\nError: ENOENT: no such file or directory, open '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n    at readFileSync (node:fs:436:20)\n    at readJson (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:54:39)\n    at loadSources (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:97:16)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:56\n    at Array.from (<anonymous>)\n    at main (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:230:25)\n    at file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/scripts/build-academy-data.mjs:327:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json'\n}\n\nNode.js v26.0.0\n"
+  }
+
+test at tests/home-lower-hydration.test.mjs:106:1
+✖ the real client island keeps the same SSR sections through hydration and the first parent update (22732.035834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + [
+  +   "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n" +
+  +     '\n' +
+  +     "- A server/client branch `if (typeof window !== 'undefined')`.\n" +
+  +     "- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n" +
+  +     "- Date formatting in a user's locale which doesn't match the server.\n" +
+  +     '- External changing data without sending a snapshot of it along with the HTML.\n' +
+  +     '- Invalid HTML tag nesting.\n' +
+  +     '\n' +
+  +     'It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n' +
+  +     '\n' +
+  +     '%s%s https://react.dev/link/hydration-mismatch \n' +
+  +     '\n' +
+  +     '  <BelowHydrationCommit onReady={function markHydrated}>\n' +
+  +     '    <HomeBelowFold renderedAt="2026-10-19..." t={{kick:"NEXU...", ...}} locale="en" market={undefined} whales={undefined} ...>\n' +
+  +     '      <DataRail>\n' +
+  +     '      <MoversBoard>\n' +
+  +     '      <FiatRail>\n' +
+  +     '      <HomeCalculator t={{kick:"NEXU...", ...}} locale="en" vol={10000000} setVol={function bound dispatchSetState} ...>\n' +
+  +     '        <section className="h7-in h7-calc" id="h7-calc">\n' +
+  +     '          <div>\n' +
+  +     '            <h2>\n' +
+  +     '            <label className="h7-vin" dir="ltr">\n' +
+  +     '              <span>\n' +
+  +     '              <input\n' +
+  +     '                value="10,000,000"\n' +
+  +     '                onChange={function onVol}\n' +
+  +     '                inputMode="decimal"\n' +
+  +     '                aria-label="Trading volume (USDT)"\n' +
+  +     '                aria-invalid={undefined}\n' +
+  +     '+               aria-describedby="_R_4_"\n' +
+  +     '-               aria-describedby="_R_hr_"\n' +
+  +     '              >\n' +
+  +     '              ...\n' +
+  +     '            <input>\n' +
+  +     '            <div>\n' +
+  +     '            <div>\n' +
+  +     '            <p\n' +
+  +     '              className="h7-vd"\n' +
+  +     '+             id="_R_4_"\n' +
+  +     '-             id="_R_hr_"\n' +
+  +     '              aria-live="polite"\n' +
+  +     '            >\n' +
+  +     '+             Bitget returns the most: $3,600\n' +
+  +     '            ...\n' +
+  +     '          ...\n' +
+  +     '      ...\n'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-audit-clicks-region-seo/artifacts/head-baseline/pilot-01-prototype/tests/home-lower-hydration.test.mjs:135:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'A tree hydrated but some attributes of the server rendered HTML didn\'t match the client properties. This won\'t be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== \'undefined\')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it\'s called.\n- Date formatting in a user\'s locale which doesn\'t match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  <BelowHydrationCommit onReady={function markHydrated}>\n    <HomeBelowFold renderedAt="2026-10-19..." t={{kick:"NEXU...", ...}} locale="en" market={undefined} whales={undefined} ...>\n      <DataRail>\n      <MoversBoard>\n      <FiatRail>\n      <HomeCalculator t={{kick:"NEXU...", ...}} locale="en" vol={10000000} setVol={function bound dispatchSetState} ...>\n        <section className="h7-in h7-calc" id="h7-calc">\n          <div>\n            <h2>\n            <label className="h7-vin" dir="ltr">\n              <span>\n              <input\n                value="10,000,000"\n                onChange={function onVol}\n                inputMode="decimal"\n                aria-label="Trading volume (USDT)"\n                aria-invalid={undefined}\n+               aria-describedby="_R_4_"\n-               aria-describedby="_R_hr_"\n              >\n              ...\n            <input>\n            <div>\n            <div>\n            <p\n              className="h7-vd"\n+             id="_R_4_"\n-             id="_R_hr_"\n              aria-live="polite"\n            >\n+             Bitget returns the most: $3,600\n            ...\n          ...\n      ...\n' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

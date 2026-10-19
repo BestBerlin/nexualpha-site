@@ -42,3 +42,8 @@
     margin-inline-start: 0;
   }
 }
+
+/* Source-review CTAs and older source links share the real, persistent source hub. */
+.v3-profile-page :is(#source-review, #sources) {
+  scroll-margin-block-start: 6rem;
+}

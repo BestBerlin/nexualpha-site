@@ -1,3 +1,4 @@
+import { analyticsOriginAllowed } from './analytics-origin.mjs';
 import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { createReadStream } from 'node:fs';
 import { createInterface } from 'node:readline';
@@ -113,7 +114,7 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
     await ready;
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
     const expectedOrigin = configuredOrigin || origin;
-    if (!expectedOrigin || request.headers.get('origin') !== expectedOrigin) return new Response(null, { status: 403 });
+    if (!analyticsOriginAllowed(request, expectedOrigin)) return new Response(null, { status: 403 });
     if (environment === 'production' && (new URL(request.url).searchParams.has('analytics_test')
       || request.headers.has('x-nexualpha-analytics-mode'))) return new Response(null, { status: 400 });
     // Crawlers may execute the hydrated client and POST a page_view. Treat the

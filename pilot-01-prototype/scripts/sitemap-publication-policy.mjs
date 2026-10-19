@@ -233,6 +233,13 @@ export function selectSitemapPublicationEntries(inventory, newsArticles = [], {
   policy = loadSearchPublicationBaseline(),
   allLocales,
 } = {}) {
+  // Inventory can be stale or caller supplied. Reconcile article editions with current page publication authority.
+  const articlesBySlug = new Map(newsArticles.map((article) => [article.slug, article]));
+  inventory = inventory.map((route) => {
+    if (route.template !== "article") return route;
+    const eligible = newsArticleSeoLocales(articlesBySlug.get(pathSlug(route.pathname, "/news/")));
+    return { ...route, locales: eligible.filter((locale) => !route.locales || route.locales.includes(locale)) };
+  });
   const locales = allLocales || policy.priorityLocales || DEFAULT_POLICY.priorityLocales;
   const routeByKey = new Map();
   for (const route of inventory) {

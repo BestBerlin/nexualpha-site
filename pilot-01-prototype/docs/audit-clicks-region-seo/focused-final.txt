@@ -1,0 +1,27 @@
+✔ F06 rejects cross-site simple posts before writing and permits same-origin beacons (172.02175ms)
+✔ F07 storage faults are counted, sanitized, and recover; missing directories are created (12.85125ms)
+✔ F07 beacon reports a failed count instead of success (5.609ms)
+✔ F07 redirect still wins when counting fails (6.457583ms)
+✔ F07 real read-only directory failure is observable and recovers after permissions restore (5.900292ms)
+✔ F02 all resolved routes deny neutral locales before counting, including aliases/campaigns/mirrors/APK (144.494166ms)
+✔ F02 independent language, URL market and edge country cannot override a deny (11.275ms)
+✔ F02 global feed routes keep exact existing registered target and code (40.249041ms)
+✔ F02 expired campaign requests remain neutral and allowed expiry preserves policy context (10.494833ms)
+✔ F02 older site links inherit only same-origin referring-page context (7.635917ms)
+✔ F02 explicit allowed query cannot erase a denied same-origin referring context (6.139708ms)
+✔ F12 noindex news rows never supply sitemap or sibling hreflang locales (3869.1545ms)
+✔ F12 published news preserves readable editions and only trusted published projection alternates (8.250042ms)
+✔ F12 summary projection retains a full row publication gate for listing eligibility (0.301291ms)
+✔ F12 stale Turkish inventory cannot index an English fallback or advertise it to ID/VI siblings (1.299834ms)
+✔ F11 source-review resolves to the real venue source section without losing the legacy hash (14.756542ms)
+✔ F11 both source hash targets reserve space for the sticky header (21.45425ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ F11 source-review and legacy source hashes survive venue hydration (13681.148ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13874.95025

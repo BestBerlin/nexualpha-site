@@ -1,0 +1,3 @@
+
+> pilot-01-prototype@3.0.0 typecheck
+> tsc -p tsconfig.json

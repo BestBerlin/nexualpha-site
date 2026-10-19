@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 import { attributedGoHref, installGoAttribution, partnerAttributionTarget } from '../src/data/go-attribution.js';
 import { createGoRedirect } from '../server/go-redirect.mjs';
@@ -81,7 +82,7 @@ test('actual redirect records sanitized page/module and forwards only explicit a
 });
 
 test('expired campaign fallback retains safe attribution and the decorated heatmap still enforces geo policy', async () => {
-  const handle = createGoRedirect({ clientRoot: '/unused', now: () => new Date('2026-11-01T00:00:00Z') });
+  const handle = createGoRedirect({ clientRoot: fileURLToPath(new URL('../public/', import.meta.url)), now: () => new Date('2026-11-01T00:00:00Z') });
   const href = attributedGoHref('/go/bitget-alliance?src=campaign-banner', location);
   const response = await handle(new Request(new URL(href, location)));
   const target = new URL(response.headers.get('location'), location);
@@ -91,5 +92,6 @@ test('expired campaign fallback retains safe attribution and the decorated heatm
   assert.equal(target.searchParams.get('module'), 'campaign-banner');
   const heatmap = attributedGoHref('/go/okx?src=liq-heatmap&locale=en', location, 'card');
   const blocked = await handle(new Request(new URL(heatmap, location), { headers: { 'cf-ipcountry': 'JP' } }));
-  assert.equal(blocked.status, 403, 'module attribution cannot erase existing territorial gates');
+  assert.equal(blocked.status, 302, 'module attribution cannot erase existing territorial gates');
+  assert.equal(blocked.headers.get('location'), '/exchanges/okx', 'denied attributed heatmap links stay on our venue page');
 });

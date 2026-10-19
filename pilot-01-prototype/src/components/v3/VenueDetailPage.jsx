@@ -981,8 +981,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </VenueSectionDisclosure>}
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
-    <section className="v2-section v3-profile-research-hub" id="sources">
-      <details className="v3-profile-sources-group">
+    <section className="v2-section v3-profile-research-hub" id="source-review">
+      <details className="v3-profile-sources-group" id="sources">
         <summary className="v3-profile-sources-group__summary">
           <strong>{profileChapters[1]}</strong>
           <span>{profileChapters[0]} · {profileChapters[2]}</span>

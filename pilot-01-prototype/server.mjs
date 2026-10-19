@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { clickStorage } from './server/click-storage.mjs';
 // Production entrypoint. Code/assets may be mounted read-only. Enable local
 // analytics with CTA_ENVIRONMENT, CTA_ALLOWED_ORIGIN and an external absolute
 // CTA_DATA_FILE. CTA_SMOKE_DATA_FILE is optional and must be a different file.
@@ -135,7 +136,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const partnerProgram = createPartnerProgram({ eventFile: clickEventFile, tokens: partnerTokens });
   const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
-  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce });
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce, origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com' });
   // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
   const ogImages = createOgImageRoute({
     clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
@@ -228,6 +229,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await ogImages(request);
       } else if (requestPath.startsWith('/embed/') && (result = await embeds(request))) {
         // handled: embed widget or injector script
+      } else if (requestPath === '/health/click-storage' || requestPath === '/api/v1/health/click-storage') {
+        const status = clickEventFile ? clickStorage.status() : { configured: false, ready: false, writes: 0, failures: 0 };
+        result = new Response(JSON.stringify(status), { status: status.ready ? 200 : 503, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
       } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });

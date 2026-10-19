@@ -8464,7 +8464,9 @@ async function routeMetadataBase(url, env, newsFeed) {
         robots: "noindex,nofollow",
       };
     }
-    const articleLocales = articleSeoLocales(article);
+    // Readable native editions still supply canonical and metadata for noindex/canonicalized articles.
+    // Search discovery below continues to require the strict publication gate.
+    const articleLocales = article.seo?.noindex === false ? articleSeoLocales(article) : articlePublishedLocales(article);
     const contentLocale = newsContentLocale(locale, articleLocales);
     const isPublishedLocale = articleLocales.includes(locale) && contentLocale === locale;
     const title = localizedArticleText(article.title, contentLocale) || slug;

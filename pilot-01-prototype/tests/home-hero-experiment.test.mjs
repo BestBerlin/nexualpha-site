@@ -234,7 +234,7 @@ test("/go/<partner> and the site beacon record experiment + variant while it run
     const beaconForced = createCtaClickBeacon({ clientRoot, eventFile, heroForce: "on" });
     const go = (handler, cookie, ua = HUMAN_UA) => handler(new Request("https://nexualpha.com/go/okx?src=tg-channel-zh", { headers: { "user-agent": ua, ...(cookie ? { cookie } : {}) } }));
     const beacon = (handler, cookie) => handler(new Request("https://nexualpha.com/api/cta-click", {
-      method: "POST", headers: { "content-type": "application/json", "user-agent": HUMAN_UA, ...(cookie ? { cookie } : {}) },
+      method: "POST", headers: { origin: "https://nexualpha.com", "content-type": "application/json", "user-agent": HUMAN_UA, ...(cookie ? { cookie } : {}) },
       body: JSON.stringify({ partner: "okx", src: "home-v7-hero", path: "/" }),
     }), "k");
     assert.equal((await go(goOff, "nx_hero=b")).status, 302);
