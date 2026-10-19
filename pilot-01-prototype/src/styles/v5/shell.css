@@ -328,7 +328,7 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   .nx-lang__name { display: none; }
   .nx-lang__code { display: inline; }
 }
-@media (max-width: 1099px) {
+@media (max-width: 1024px) {
   .nx-nav, .nx-tools { display: none; }
   .nx-burger { display: grid; }
   .nx-hdr { --nx-h: 60px; }
@@ -490,9 +490,9 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 .nx-tg--compact { display: none; inline-size: 44px; block-size: 44px; padding: 0; justify-content: center; margin-inline-start: auto; border-color: transparent; color: var(--nx-n12); }
 .nx-tg--compact .nx-ico { inline-size: 20px; block-size: 20px; color: var(--nx-n11); }
 .nx-tg--compact:hover, .nx-tg--compact[aria-current] { border-color: transparent; }
-@media (max-width: 1099px) { .nx-tg--compact { display: inline-flex; } }
+@media (max-width: 1024px) { .nx-tg--compact { display: inline-flex; } }
 @media (prefers-reduced-motion: reduce) { .nx-tg, .nx-tg .nx-ico { transition: none; } }
-@media (max-width: 1099px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }
+@media (max-width: 1024px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }
 
 /* Campaigns link: gold shimmer sweep + twinkling star (owner 2026-10-12: make 活动 impossible to miss).
    Gradient text keeps WCAG contrast on the dark header; reduced-motion users get the static gold. */
@@ -538,7 +538,7 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   font-weight: 500;
 }
 .nx-hot-chip--stocks[aria-current="page"] { border-color: rgba(31, 224, 192, 0.55); color: #1FE0C0; }
-@media (max-width: 1099px) {
+@media (max-width: 1024px) {
   .nx-hot-chip { display: inline-flex; }
   .nx-hot-chip ~ .nx-tg--compact { margin-inline-start: 2px; }
 }
@@ -559,3 +559,33 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 /* Keep partner chips in one 44px scroller despite the legacy mobile column rule. */
 /* The campaign chip settles after its initial sweep. */
 .nx-hot-chip{animation-iteration-count:1!important}
+
+/* Header fit budget: CSS chooses the same priority tier in SSR and hydrated HTML.
+   Container width includes route-specific gutters; tools and brand never shrink. */
+.nx-hdr__inner { container: header-fit / inline-size; gap: clamp(8px, 1.2vw, 18px); }
+.nx-hdr__inner > .nx-brand, .nx-tools { flex-shrink: 0; }
+.nx-nav { margin-inline: auto; flex: 0 0 auto; }
+.nx-nav > ul { gap: clamp(0px, .15vw, 2px); }
+.nx-nav > ul > li > a, .nx-more__btn { padding-inline: clamp(5px, .55vw, 10px); min-block-size: 44px; }
+.nx-more__panel a { min-block-size: 44px; }
+.nx-more__panel [data-overflow-priority] { display: none; }
+.nx-nav > ul > .nx-more[data-overflow-only] { display: none; }
+@media (min-width: 1025px) {
+  .nx-hdr, .nx-hdr[data-scrolled] { --nx-h: 64px; }
+  .nx-hdr[data-scrolled] .nx-hdr__bar { block-size: 64px; }
+}
+@media (min-width: 1025px) and (max-width: 1499px) {
+  .nx-tools .nx-lang__name { display: none; }
+  .nx-tools .nx-lang__code { display: inline; }
+}
+@container header-fit (max-width: 1199px) {
+  .nx-nav > ul > .nx-more[data-overflow-only] { display: flex; }
+  .nx-more:has([data-overflow-priority="2"] a[data-active]), .nx-more:has([data-overflow-priority="3"] a[data-active]), .nx-more:has([data-overflow-priority="5"] a[data-active]) > .nx-more__btn { color: var(--nx-n12); }
+  .nx-nav > ul > [data-priority="2"], .nx-nav > ul > [data-priority="3"], .nx-nav > ul > [data-priority="5"] { display: none; }
+  .nx-more__panel [data-overflow-priority="2"], .nx-more__panel [data-overflow-priority="3"], .nx-more__panel [data-overflow-priority="5"] { display: block; }
+}
+@container header-fit (max-width: 999px) {
+  .nx-more:has([data-overflow-priority="1"] a[data-active]) > .nx-more__btn { color: var(--nx-n12); }
+  .nx-nav > ul > [data-priority="1"] { display: none; }
+  .nx-more__panel [data-overflow-priority="1"] { display: block; }
+}

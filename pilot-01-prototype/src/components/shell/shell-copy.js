@@ -25,3 +25,19 @@ export function shellCopy(locale) {
   const key = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
   return COPY[key] || COPY[String(key || "").split("-")[0]] || COPY.en;
 }
+
+// Desktop-only compact wording; full destination labels remain in More and the mobile sheet.
+export const COMPACT_NAV = {
+  en: ["News", "US stocks"], "zh-Hans": ["新闻", "美股"], "zh-Hant": ["新聞", "美股"],
+  es: ["Noticias", "Acciones US"], "pt-BR": ["Notícias", "Ações EUA"], fr: ["Actualités", "Actions US"],
+  de: ["Nachrichten", "US-Aktien"], it: ["Notizie", "Azioni USA"], ja: ["ニュース", "米国株"],
+  ko: ["뉴스", "미국 주식"], ru: ["Новости", "Акции США"], tr: ["Haberler", "ABD hisseleri"],
+  id: ["Berita", "Saham AS"], vi: ["Tin tức", "Cổ phiếu Mỹ"], ar: ["الأخبار", "أسهم أمريكية"],
+  ur: ["خبریں", "امریکی حصص"], uk: ["Новини", "Акції США"],
+};
+export function compactNavLabel(locale, href, fallback) {
+  const labels = COMPACT_NAV[locale] || COMPACT_NAV.en;
+  if (/\/news(?:$|[/?#])/.test(href)) return labels[0];
+  if (/\/tokenized-stocks(?:$|[/?#])/.test(href)) return labels[1];
+  return fallback;
+}

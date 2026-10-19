@@ -1,9 +1,9 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { LanguageMenu } from "./LanguageMenu.jsx";
-import { shellCopy } from "./shell-copy.js";
+import { compactNavLabel, shellCopy } from "./shell-copy.js";
 
-// owner 2026-10-12: exchanges, compare, academy, campaigns, news stay visible; 2026-10-15: tokenized stocks joins them.
+// Keep the six destinations primary at full width; CSS moves lower priorities into More in narrower containers.
 const PRIMARY_COUNT = 6;
 
 function Chevron() {
@@ -106,13 +106,13 @@ export function SiteHeader({
         <NexuAlphaWordmark href={homeHref} />
         <nav className="nx-nav" aria-label={copy.ui.menu}>
           <ul>
-            {primary.map(([label, href]) => <li key={href}><a href={href} {...linkProps(href, navState(href), "header")}>{label}</a></li>)}
-            {secondary.length > 0 && <li className="nx-more" ref={moreRef} data-open={moreOpen ? "true" : undefined} data-active={secondaryActive ? "true" : undefined}>
+            {primary.map(([label, href], index) => <li key={href} data-priority={index}><a href={href} {...linkProps(href, navState(href), "header")}>{isCampaignHref(href) ? (CAMPAIGN_CHIP[locale] || label) : compactNavLabel(locale, href, label)}</a></li>)}
+            {pages.length > 0 && <li className="nx-more" data-overflow-only={secondary.length === 0 ? "true" : undefined} ref={moreRef} data-open={moreOpen ? "true" : undefined} data-active={secondaryActive ? "true" : undefined}>
               <button ref={moreBtnRef} type="button" className="nx-more__btn" aria-expanded={moreOpen} aria-controls={moreId} onClick={() => setMoreOpen((v) => !v)}>
                 {text.more}<Chevron />
               </button>
               <ul id={moreId} className="nx-more__panel" hidden={!moreOpen}>
-                {secondary.map(([label, href]) => <li key={href}><a href={href} onClick={() => setMoreOpen(false)} {...linkProps(href, navState(href), "header")}>{label}</a></li>)}
+                {pages.map(([label, href], index) => <li key={href} data-overflow-priority={index < PRIMARY_COUNT ? index : undefined}><a href={href} onClick={() => setMoreOpen(false)} {...linkProps(href, navState(href), "header")}>{label}</a></li>)}
               </ul>
             </li>}
           </ul>
