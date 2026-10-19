@@ -973,3 +973,16 @@
 @media(min-width:768px) and (max-width:1023px){.h7:not(#_):not(#_) .h7-hero[data-neutral]{max-inline-size:640px;margin-inline:auto}}
 @media(min-width:768px){.h7:not(#_):not(#_) .nh-actions{flex-direction:row;flex-wrap:wrap}.h7:not(#_):not(#_) .nh-actions a{flex:1 1 auto}}
 @media(min-width:1024px){.h7:not(#_):not(#_) .h7-hero[data-neutral]{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-areas:"head head head head head head head board board board board board" "chips chips chips chips chips chips chips board board board board board";gap:24px 48px;align-content:center;min-block-size:560px;max-inline-size:1280px;padding-inline:40px;margin-inline:auto}.h7:not(#_):not(#_) .h7-hero[data-neutral] .h7-hc h1{font-size:44px;line-height:1.15}.h7:not(#_):not(#_) .nh-board{align-self:center}.h7:not(#_):not(#_) .nh-actions a{flex:0 1 auto}}
+
+/* Live state belongs only to the two home feed headings. */
+.h7:not(#_):not(#_) .h7-board-live{display:inline-flex;align-items:center;gap:5px;margin-inline-start:10px;padding:3px 7px;vertical-align:middle;border:1px solid rgb(31 224 192/.24);border-radius:999px;color:var(--ac);font:600 10px/1.4 var(--mono);white-space:nowrap}
+.h7:not(#_):not(#_) .h7-board-live i{inline-size:5px;block-size:5px;border-radius:50%;background:currentColor;animation:h7-board-breathe 2s cubic-bezier(.2,.8,.2,1) infinite}
+@keyframes h7-board-breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.h7:not(#_):not(#_) .h7-rate-bar{display:block;inline-size:100%;block-size:2px;margin-block:4px;background:rgb(31 224 192/.08);overflow:hidden}
+.h7:not(#_):not(#_) .h7-rate-bar i{display:block;inline-size:100%;block-size:100%;background:var(--ac);transform-origin:left;transition:transform 450ms cubic-bezier(.2,.8,.2,1)}
+.h7:not(#_):not(#_) .h7-rate-bar i:dir(rtl){transform-origin:right}
+.h7:not(#_):not(#_) .h7-wh-new{animation:h7-wh-enter 220ms cubic-bezier(.2,.8,.2,1) both;position:relative;isolation:isolate}
+.h7:not(#_):not(#_) .h7-wh-new::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgb(31 224 192/.08);animation:h7-wh-highlight 1.4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes h7-wh-enter{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes h7-wh-highlight{0%,70%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-board-live i,.h7:not(#_):not(#_) .h7-wh-new,.h7:not(#_):not(#_) .h7-wh-new::after{animation:none!important}.h7:not(#_):not(#_) .h7-rate-bar i{transition:none!important}}

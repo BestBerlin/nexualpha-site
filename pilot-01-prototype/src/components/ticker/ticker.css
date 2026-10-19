@@ -1,5 +1,4 @@
-/* Live ticker bar (2026-10-13). Fixed 36px strip under the header placeholder; tabular digits and fixed minimum widths
-   so a refresh never moves anything. A finite marquee (three passes) only on narrow screens and only without prefers-reduced-motion. */
+/* Fixed-height live strip. Compositor-only motion; reduced motion uses manual horizontal scrolling. */
 .nx-ticker {
   --tk-ink: #EDEEF0; --tk-ink2: #B0B4BA; --tk-ink3: #8A919B; --tk-up: #3DDC97; --tk-down: #FF6B6B; --tk-line: rgb(255 255 255 / .08);
   position: relative; z-index: 2; box-sizing: border-box; block-size: 36px; overflow: hidden;
@@ -25,37 +24,35 @@
 .nx-ticker__c { min-inline-size: 7ch; }
 .nx-ticker__item[data-dir="up"] .nx-ticker__c { color: var(--tk-up); }
 .nx-ticker__item[data-dir="down"] .nx-ticker__c { color: var(--tk-down); }
-/* Refresh cue: a changed value gets one short tint behind its digits. Opacity only (compositor), finite, 1.1 s. */
+/* Refresh cue: a changed value gets one short tint behind its digits. Opacity only (compositor), finite, 650 ms. */
 .nx-ticker [data-tk] { position: relative; }
 .nx-ticker [data-tk]::after { content: ""; position: absolute; inset: 6px -4px; border-radius: 4px; background: var(--tk-up); opacity: 0; pointer-events: none; z-index: -1; }
 .nx-ticker [data-flash^="down"]::after { background: var(--tk-down); }
-.nx-ticker [data-flash="up"]::after, .nx-ticker [data-flash="down"]::after { animation: nx-ticker-flash-a 1100ms ease-out 1; }
-.nx-ticker [data-flash="up-b"]::after, .nx-ticker [data-flash="down-b"]::after { animation: nx-ticker-flash-b 1100ms ease-out 1; }
-@keyframes nx-ticker-flash-a { 0% { opacity: 0; } 20% { opacity: .22; } 100% { opacity: 0; } }
-@keyframes nx-ticker-flash-b { 0% { opacity: 0; } 20% { opacity: .22; } 100% { opacity: 0; } }
+.nx-ticker [data-flash="up"]::after, .nx-ticker [data-flash="down"]::after { animation: nx-ticker-flash-a 650ms cubic-bezier(.2,.8,.2,1) 1; }
+.nx-ticker [data-flash="up-b"]::after, .nx-ticker [data-flash="down-b"]::after { animation: nx-ticker-flash-b 650ms cubic-bezier(.2,.8,.2,1) 1; }
+@keyframes nx-ticker-flash-a { 0% { opacity: 0; } 20% { opacity: .08; } 100% { opacity: 0; } }
+@keyframes nx-ticker-flash-b { 0% { opacity: 0; } 20% { opacity: .08; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .nx-ticker [data-tk]::after { animation: none !important; } }
 .nx-ticker__l { font-size: 12px; color: var(--tk-ink3); }
 .nx-ticker__item--mover b { min-inline-size: 5ch; }
 
-/* Narrow screens: a slow marquee (two copies of the list, the second aria-hidden) unless motion is reduced. */
-@media (max-width: 1020px) and (prefers-reduced-motion: no-preference) {
-  /* Three passes (2.4 min), then the strip rests and stays swipeable: no infinite animation on home. */
-  .nx-ticker__track { margin-inline: 0; animation: nx-ticker-marquee 48s linear 3; }
-  .nx-ticker__list[aria-hidden="true"] { display: flex; }
-  .nx-ticker:hover .nx-ticker__track, .nx-ticker:focus-within .nx-ticker__track { animation-play-state: paused; }
-}
-@keyframes nx-ticker-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (max-width: 600px) {
-  .nx-ticker { font-size: 12px; }
-  .nx-ticker__item > a, .nx-ticker__item--mover { padding-inline: 10px; gap: 6px; }
-}
 
-/* Desktop (2026-10-18): every symbol already fits, so the strip stays put and shows life the honest way — each 12 s refresh
-   flashes the values that changed. A slightly stronger flash and a short colour hold on the changed figure; one-shot,
-   nothing runs between refreshes, static under reduced motion. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .nx-ticker [data-flash="up"]::after, .nx-ticker [data-flash="down"]::after { animation-name: nx-ticker-flash-strong-a; }
-  .nx-ticker [data-flash="up-b"]::after, .nx-ticker [data-flash="down-b"]::after { animation-name: nx-ticker-flash-strong-b; }
+.nx-ticker__list { box-sizing: border-box; min-inline-size: 100vw; justify-content: space-around; flex-shrink: 0; }
+.nx-ticker__item { min-inline-size: 220px; }
+.nx-ticker__track { margin-inline: 0; animation: nx-ticker-marquee var(--ticker-duration, 40s) linear infinite; }
+.nx-ticker__list[aria-hidden="true"] { display: flex; }
+.nx-ticker[dir="rtl"] .nx-ticker__track { animation-name: nx-ticker-marquee-rtl; }
+.nx-ticker:hover .nx-ticker__track, .nx-ticker:focus-within .nx-ticker__track,
+.nx-ticker[data-paused] .nx-ticker__track { animation-play-state: paused; }
+.nx-ticker [data-flash^="up"] { color: var(--tk-up); }
+.nx-ticker [data-flash^="down"] { color: var(--tk-down); }
+.nx-ticker__c::before { display: inline-block; inline-size: 1ch; content: ""; }
+.nx-ticker__item[data-dir="up"] .nx-ticker__c::before { content: "▴"; }
+.nx-ticker__item[data-dir="down"] .nx-ticker__c::before { content: "▾"; }
+@keyframes nx-ticker-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes nx-ticker-marquee-rtl { from { transform: translateX(0); } to { transform: translateX(50%); } }
+@media (prefers-reduced-motion: reduce) {
+ .nx-ticker__track, .nx-ticker[dir="rtl"] .nx-ticker__track, .nx-ticker [data-tk]::after { animation: none !important; }
+ .nx-ticker__list[aria-hidden="true"] { display: none; }
 }
-@keyframes nx-ticker-flash-strong-a { 0% { opacity: 0; } 15% { opacity: .34; } 100% { opacity: 0; } }
-@keyframes nx-ticker-flash-strong-b { 0% { opacity: 0; } 15% { opacity: .34; } 100% { opacity: 0; } }
+.nx-ticker__p, .nx-ticker__c { direction: ltr; unicode-bidi: isolate; }

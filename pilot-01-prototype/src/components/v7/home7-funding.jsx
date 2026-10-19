@@ -1,6 +1,6 @@
 // Live funding-rate board (owner 2026-10-10). Data: FUNDING_PATH, refreshed by the server every 5 minutes from each
 // exchange's public endpoint. Renders nothing until real data arrives; a venue that did not answer is not shown.
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FUNDING_PATH, FUNDING_SYMBOLS, fundingTable, fundingSnapshot, isFundingSnapshot } from "../../data/funding-rates.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatSgt } from "../../data/local-time.js";
@@ -63,6 +63,23 @@ const HEALTH = {
  en: ['Stale', 'Unavailable'], 'zh-Hans': ['数据过期', '暂不可用'], 'zh-Hant': ['資料過期', '暫不可用'], es: ['Desactualizado', 'No disponible'], 'pt-BR': ['Desatualizado', 'Indisponível'], fr: ['Périmé', 'Indisponible'], de: ['Veraltet', 'Nicht verfügbar'], it: ['Obsoleto', 'Non disponibile'], ja: ['更新遅延', '利用不可'], ko: ['오래된 데이터', '사용 불가'], ru: ['Устарело', 'Недоступно'], tr: ['Güncel değil', 'Kullanılamıyor'], id: ['Kedaluwarsa', 'Tidak tersedia'], vi: ['Đã cũ', 'Không khả dụng'], ar: ['بيانات قديمة', 'غير متاح'], ur: ['پرانا', 'دستیاب نہیں'], uk: ['Застаріло', 'Недоступно'],
 };
 
+function RateValue({ value, decimals }) {
+  const ref = useRef(null), previous = useRef(value);
+  useEffect(() => {
+    const before = previous.current;
+    previous.current = value;
+    if (before === value) return;
+    let stopped = false, cleanup;
+    const run = () => import("./home7-board-motion.js").then(({ tweenValue }) => {
+      if (!stopped && ref.current) cleanup = tweenValue(ref.current, before, value, n => pct(n, decimals));
+    });
+    const idle = typeof requestIdleCallback === "function";
+    const id = idle ? requestIdleCallback(run) : setTimeout(run, 200);
+    return () => { stopped = true; idle ? cancelIdleCallback(id) : clearTimeout(id); cleanup?.(); };
+  }, [value, decimals]);
+  return <span ref={ref}>{pct(value, decimals)}</span>;
+}
+
 export function FundingBoard({ locale, initialFeed }) {
   const t = copyFor(locale);
   // SSR has no media query. Adopt the reader preference only after hydration.
@@ -93,8 +110,8 @@ export function FundingBoard({ locale, initialFeed }) {
         {rows.map((r, i) => (
           <tr key={r.venue} className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}`}>
             <td><a className="h7-fr-v" href={localizedHref(`/exchanges/${r.venue}`, { locale })}><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}<small>{r.stale ? `${health[0]} · ` : ""}{formatSgt(r.lastSuccessAt || r.readAt, locale)}</small></span></a></td>
-            <td className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></td>
-            <td className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</td>
+            <td className="h7-fr-n" dir="ltr"><RateValue value={r.rate} decimals={4} /><span className="h7-rate-bar" aria-hidden="true"><i style={{ transform: `scaleX(${Math.min(1, Math.abs(r.rate) / Math.max(...rows.map(row => Math.abs(row.rate)), 0.000001))})` }} /></span><small>{t.every(r.intervalH)}</small></td>
+            <td className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr"><RateValue value={r.apr} decimals={1} /></td>
             <td className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</td>
           </tr>
         ))}

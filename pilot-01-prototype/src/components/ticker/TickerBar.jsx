@@ -1,19 +1,13 @@
-// Live ticker bar (2026-10-13): a slim strip under the header on the home page and /flash with BTC, ETH, SOL, BNB, XRP
-// (price + 24h change) and the biggest 24h mover. The server renders a real first frame (the Worker reads the cached
-// snapshot from server/ticker-feed.mjs, splices it into the prerendered home HTML with spliceTickerHtml and ships the
-// same snapshot as prerender state "ticker"), so the first paint already shows prices. After first paint the browser
-// lazy-loads ticker-live.js (own chunk) and polls our /api/ticker.json every 12 s while the tab is visible (paused when
-// hidden). Only this component re-renders on a refresh. A value that changed gets one short up/down tint (opacity of a
-// pseudo-element, compositor only; none under prefers-reduced-motion) so a refresh is visible.
-// Fixed height and tabular digits: no layout shift. On narrow screens the strip scrolls as a slow marquee, never with
-// prefers-reduced-motion (then it is a plain horizontal scroller). Values are pre-formatted strings from the server.
+// Hydration-stable market strip. Two accessible/hidden copies loop at every width; the idle-loaded runtime
+// measures the list, pauses background motion and polls the cached feed (6 s visible, 30 s hidden).
+// Feed changes tween and briefly tint digits; reduced motion keeps only the colour cue and manual scrolling.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { tickerChanges } from "./ticker-changes.js";
 import "./ticker.css";
+import { METRIC_LABELS } from "../../data/ticker-labels.js";
 
-export const TICKER_BAR_SYMBOLS = ["BTC", "ETH", "SOL", "BNB", "XRP"];
-const COIN_SLUG = { BTC: "bitcoin", ETH: "ethereum", SOL: "solana", BNB: "bnb", XRP: "xrp" };
+export const TICKER_BAR_SYMBOLS = ["BTC", "ETH", "SOL", "BNB", "XRP", "DOGE", "HYPE"];
+const COIN_SLUG = { BTC: "bitcoin", ETH: "ethereum", SOL: "solana", BNB: "bnb", XRP: "xrp", DOGE: "dogecoin", HYPE: "hyperliquid" };
 // [region label, mover label]
 const COPY = {
   en: ["Market prices, 24h change", "Top mover"], "zh-Hans": ["行情 · 24 小时涨跌", "最大异动"], "zh-Hant": ["行情 · 24 小時漲跌", "最大異動"],
@@ -38,7 +32,9 @@ function Row({ item, locale, hidden }) {
   </li>;
 }
 
-function List({ items, mover, label, locale, hidden }) {
+
+
+function List({ items, mover, metrics, label, locale, hidden }) {
   return <ul className="nx-ticker__list" aria-hidden={hidden ? "true" : undefined}>
     {items.map((item) => <Row key={item.sym} item={item} locale={locale} hidden={hidden} />)}
     <li className="nx-ticker__item nx-ticker__item--mover" data-sym="mover" data-dir={mover?.dir || "flat"}>
@@ -46,31 +42,21 @@ function List({ items, mover, label, locale, hidden }) {
       <b translate="no" data-tk="mover-sym" suppressHydrationWarning>{mover?.sym || EMPTY}</b>
       <span className="nx-ticker__c" data-tk="mover-c" suppressHydrationWarning>{mover?.change || EMPTY}</span>
     </li>
+    {(metrics || []).map(metric => <li className="nx-ticker__item nx-ticker__item--mover" key={metric.id}>
+      <span className="nx-ticker__l">{(METRIC_LABELS[locale] || METRIC_LABELS.en)[metric.id === "btc-funding" ? 0 : 1]}</span>
+      <span className="nx-ticker__p">{metric.value}</span>
+    </li>)}
   </ul>;
 }
 
 export function TickerBar({ locale = "en", initial = null }) {
   const [data, setData] = useState(() => (validSnapshot(initial) ? initial : null));
   const rootRef = useRef(null);
-  const prevRef = useRef(data);
-  // Flash the digits that changed (both marquee copies). The attribute alternates between two names so a second change
-  // of the same value restarts the animation; React never owns data-flash, so a re-render leaves it alone.
-  useEffect(() => {
-    const prev = prevRef.current;
-    prevRef.current = data;
-    const root = rootRef.current;
-    if (!root || !prev || !data || prev === data) return;
-    const changes = tickerChanges(prev, data);
-    if (!changes.size) return;
-    for (const el of root.querySelectorAll("[data-tk]")) {
-      const dir = changes.get(el.getAttribute("data-tk"));
-      if (dir) el.setAttribute("data-flash", el.getAttribute("data-flash") === dir ? `${dir}-b` : dir);
-    }
-  }, [data]);
+
   useEffect(() => {
     let off = false, stop = null, handle = null;
     const start = () => import("./ticker-live.js")
-      .then(({ startTickerPolling }) => { if (!off) stop = startTickerPolling((next) => { if (validSnapshot(next)) setData(next); }); })
+      .then(({ startTickerMotion }) => { if (!off) stop = startTickerMotion(rootRef.current, (next) => { if (validSnapshot(next)) setData(next); }, data); })
       .catch(() => {});
     // After first paint, off the critical path.
     if (typeof window.requestIdleCallback === "function") handle = window.requestIdleCallback(start, { timeout: 2500 });
@@ -82,12 +68,12 @@ export function TickerBar({ locale = "en", initial = null }) {
     };
   }, []);
   const [label, moverLabel] = copyFor(locale);
-  const items = TICKER_BAR_SYMBOLS.map((sym) => data?.items?.find((item) => item?.sym === sym) || { sym, price: EMPTY, change: EMPTY, dir: "flat" });
-  return <div ref={rootRef} className="nx-ticker" role="region" aria-label={label} dir="ltr" data-ticker-source={data?.source || "none"}>
+  const items = TICKER_BAR_SYMBOLS.flatMap((sym) => { const item = data?.items?.find((item) => item?.sym === sym); return item ? [item] : (["DOGE", "HYPE"].includes(sym) ? [] : [{ sym, price: EMPTY, change: EMPTY, dir: "flat" }]); });
+  return <div ref={rootRef} className="nx-ticker" role="region" aria-label={label} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-ticker-source={data?.source || "none"}>
     <div className="nx-ticker__viewport">
       <div className="nx-ticker__track">
-        <List items={items} mover={data?.mover} label={moverLabel} locale={locale} />
-        <List items={items} mover={data?.mover} label={moverLabel} locale={locale} hidden />
+        <List items={items} mover={data?.mover} metrics={data?.metrics} label={moverLabel} locale={locale} />
+        <List items={items} mover={data?.mover} metrics={data?.metrics} label={moverLabel} locale={locale} hidden />
       </div>
     </div>
   </div>;

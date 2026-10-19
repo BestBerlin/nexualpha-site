@@ -494,22 +494,41 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 @media (prefers-reduced-motion: reduce) { .nx-tg, .nx-tg .nx-ico { transition: none; } }
 @media (max-width: 1024px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }
 
-/* Campaigns link: gold shimmer sweep + twinkling star (owner 2026-10-12: make 活动 impossible to miss).
-   Gradient text keeps WCAG contrast on the dark header; reduced-motion users get the static gold. */
+/* Campaigns retain their localized label; generated sparkle is purely decorative. */
 .nx-nav a[data-hot],
 .nx-sheet__nav a[data-hot],
-.nx-hot-chip {
+.nx-hot-chip[data-hot] {
   --nx-gold: #f5c542;
-  background: linear-gradient(100deg, var(--nx-gold) 0%, var(--nx-gold) 38%, #fff8dc 48%, #ffe27a 52%, var(--nx-gold) 62%, var(--nx-gold) 100%);
-  background-size: 260% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  position: relative;
+  overflow: hidden;
+  background: none;
+  color: var(--nx-gold);
+  -webkit-text-fill-color: currentColor;
   font-weight: 600;
-  animation: nx-gold-sweep 2.6s linear 2; /* owner 2026-10-15: two sweeps after load, then static gold (no idle work) */
+  animation: none;
 }
-.nx-nav > ul > li > a[data-hot]::after { background: var(--nx-gold); }
+:is(.nx-nav a, .nx-sheet__nav a, .nx-hot-chip)[data-hot]::before {
+  content: "✦";
+  display: inline-block;
+  flex: none;
+  margin-inline-end: 4px;
+  font-size: 10px;
+  line-height: 1;
+  color: #ffe27a;
+  -webkit-text-fill-color: #ffe27a;
+  animation: nx-campaign-twinkle 9s cubic-bezier(.2,.8,.2,1) infinite;
+}
+:is(.nx-nav a, .nx-sheet__nav a, .nx-hot-chip)[data-hot]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  block-size: auto;
+  inline-size: auto;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 25%, rgb(255 226 122 / .25) 50%, transparent 75%);
+  animation: nx-campaign-sheen 9s linear infinite;
+}
 .nx-hot-chip {
   display: none;
   align-items: center;
@@ -522,8 +541,16 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   font-size: 13px;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45);
-  animation: nx-gold-sweep 2.6s linear 2, nx-chip-glow 2.6s ease-out 2;
+}
+@keyframes nx-campaign-sheen {
+  0% { transform: translateX(-120%); opacity: 0; }
+  1% { opacity: 1; }
+  12% { transform: translateX(120%); opacity: 0; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+@keyframes nx-campaign-twinkle {
+  0%, 12%, 100% { transform: scale(.85); opacity: .65; }
+  6% { transform: scale(1.15); opacity: 1; }
 }
 /* Tokenized-stocks pill (lead 2026-10-15): the same compact shape as the campaigns chip, in the plain header colours
    (no gold, no shimmer) so 活动 stays the one highlighted entry. */
@@ -557,8 +584,11 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   .nx-nav a[data-hot], .nx-sheet__nav a[data-hot], .nx-hot-chip { animation: none; }
 }
 /* Keep partner chips in one 44px scroller despite the legacy mobile column rule. */
-/* The campaign chip settles after its initial sweep. */
-.nx-hot-chip{animation-iteration-count:1!important}
+@media (prefers-reduced-motion: reduce) {
+  :is(.nx-nav a, .nx-sheet__nav a, .nx-hot-chip)[data-hot]::before,
+  :is(.nx-nav a, .nx-sheet__nav a, .nx-hot-chip)[data-hot]::after { animation: none; }
+  :is(.nx-nav a, .nx-sheet__nav a, .nx-hot-chip)[data-hot]::after { opacity: 0; }
+}
 
 /* Header fit budget: CSS chooses the same priority tier in SSR and hydrated HTML.
    Container width includes route-specific gutters; tools and brand never shrink. */

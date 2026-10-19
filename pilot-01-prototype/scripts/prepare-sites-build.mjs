@@ -20,7 +20,7 @@ const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.j
 // Flash (2026-10-12): the Worker builds the flash feed, its head and sitemap from these.
 // Live ticker bar (2026-10-13): the Worker splices the server snapshot into the home page (ticker.js); same for the home
 // "Today's movers" board (movers.js, movers-html.js) and the whale-watch replacement (whales-home.js).
-const flashData = ["flash.js", "flash-path.js", "flash-feed.js", "local-time.js", "ticker.js", "movers.js", "movers-html.js", "whales-home.js", "whale-sentences.js"];
+const flashData = ["flash.js", "flash-path.js", "flash-feed.js", "local-time.js", "ticker.js", "ticker-labels.js", "movers.js", "movers-html.js", "whales-home.js", "whale-sentences.js"];
 // License directory (2026-10-13): Worker head imports the route parser, data table and SEO helper.
 const licenseData = ["licenses-routes.js", "licenses.js", "licenses-seo.js", "licenses-research.js", "licenses-editorial.js", "venue-display-names.js", "license-region-names.js"];
 // Deposit & withdraw hub (2026-10-15): the Worker head imports the route parser, model, copy, SEO helper and fiat tables.

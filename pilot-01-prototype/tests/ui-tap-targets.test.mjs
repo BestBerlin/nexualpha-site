@@ -5,7 +5,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createServer } from "vite";
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
-test("activities nav preserves labels and links without stars across locales", async () => {
+test("activities nav preserves labels and links with a decorative CSS sparkle across locales", async () => {
  const vite = await createServer({ configFile: false, esbuild: { jsx: "automatic" }, optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
  try {
   const { SiteHeader } = await vite.ssrLoadModule("/src/components/shell/SiteHeader.jsx");
@@ -16,7 +16,11 @@ test("activities nav preserves labels and links without stars across locales", a
    assert.ok(html.includes('href="' + href + '"'), locale);
    assert.match(html, /nx-hot-chip__full">[^<]+<\/span>/, locale);
   }
-  assert.ok(!read("../src/styles/v5/shell.css").includes("✦"));
+  const css = read("../src/styles/v5/shell.css");
+  assert.match(css, /content: "✦"/);
+  assert.match(css, /font-size: 10px/);
+  assert.match(css, /color: #ffe27a/);
+  assert.match(css, /prefers-reduced-motion: reduce/);
  } finally { await vite.close(); }
 });
 test("FAQ source links get a mobile-only 44px hit area", () => {
