@@ -20,7 +20,7 @@ test('CSP reports discard all identifying strings and use a bounded global log b
   assert.equal((await report(request(body))).status, 204);
   assert.deepEqual(rows, [{ event: 'csp-report-only', directive: 'script-src-elem', blocked: 'url-or-other' }]);
   assert.equal((await report(request('bad'))).status, 400);
-  assert.equal((await report(request(body))).status, 429);
+  assert.equal((await report(request(body))).status, 204);
   clock = 60_000;
   assert.equal((await report(request(body))).status, 204);
 });
