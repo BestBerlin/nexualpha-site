@@ -16,7 +16,7 @@ export function createCspReporter({ log = (row) => console.log(JSON.stringify(ro
     const reply = (status) => new Response(null, { status, headers: { 'cache-control': 'no-store' } });
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { allow: 'POST' } });
     if (now() - windowStart >= 60_000) { windowStart = now(); accepted = 0; }
-    if (accepted >= limit) { await request.body?.cancel(); return reply(429); }
+    if (accepted >= limit) { await request.body?.cancel(); return reply(204); }
     accepted++;
     if (!/^(application\/csp-report|application\/reports\+json|application\/json)(?:;|$)/i.test(request.headers.get('content-type') || '')) return reply(415);
     const reader = request.body?.getReader();
