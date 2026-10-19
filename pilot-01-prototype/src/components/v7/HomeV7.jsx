@@ -9,6 +9,7 @@ import { HOME_AUTO_SETTLE, homePartnersFor, homePushFor, homeRebateMaxPctFor } f
 import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent } from "../../data/format-percent.js";
+import { FeeReceipt } from "./home7-receipt.jsx";
 import { h7Copy, h7IsFallback, h7TurkeyCopy } from "./home7-copy.js";
 import { HERO_VOLUME_STEPS, HERO_VOLUME_DEFAULT_STEP, HERO_VOLUME_TICKS, heroRebateAmount, heroMoneyParts, heroMoneyText, heroMoneyWidthEm, heroLineGap, heroSay, heroSayTokens, heroVolumeShort, heroVolumeText } from "./home7-hero-volume.js";
 import { h7NeutralCopy, neutralHeroCopy } from "./home7-neutral-copy.js";
@@ -602,6 +603,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const heroVolume = HERO_VOLUME_STEPS[heroStep];
   const heroFee = feeFact(sel?.slug, "perp");
   const heroAmount = heroFee.state === "checked" ? heroRebateAmount(heroVolume, heroFee.taker, sel?.share) : null;
+  const editorial = locale === "zh-Hans" || locale === "en";
   const dragRef = useRef(false);
 
   const heroRef = useRef(null);
@@ -633,6 +635,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
           {sel.code && <p className="hx-code"><span className="h7-sr">{sel.name} </span><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
+          {editorial && <p className="h7-trust-line">{t.t1} · {t.t2} · {t.t3}</p>}
         </aside>
         )}
         {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} onPick={pickVenue} quickRef={dragRef} demo={!touched} />}
@@ -656,9 +659,9 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
 
       <section className="h7-in h7-how" aria-labelledby="h7-how-h">
         <h2 id="h7-how-h">{t.howH}</h2>
-        <ol className="h7-steps">
+        {editorial && !banned ? <FeeReceipt locale={locale} venue={sel} volume={heroVolume} fee={heroFee} rebate={heroAmount} payout={t.how[2][1]} /> : <ol className="h7-steps">
           {t.how.map(([h, b], i) => <li key={h}><span className="h7-sn" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3>{h}</h3><p>{b}</p></li>)}
-        </ol>
+        </ol>}
       </section>
 
       <AcademyTeaser locale={locale} />

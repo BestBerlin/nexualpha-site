@@ -974,6 +974,17 @@
 @media(min-width:768px){.h7:not(#_):not(#_) .nh-actions{flex-direction:row;flex-wrap:wrap}.h7:not(#_):not(#_) .nh-actions a{flex:1 1 auto}}
 @media(min-width:1024px){.h7:not(#_):not(#_) .h7-hero[data-neutral]{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-areas:"head head head head head head head board board board board board" "chips chips chips chips chips chips chips board board board board board";gap:24px 48px;align-content:center;min-block-size:560px;max-inline-size:1280px;padding-inline:40px;margin-inline:auto}.h7:not(#_):not(#_) .h7-hero[data-neutral] .h7-hc h1{font-size:44px;line-height:1.15}.h7:not(#_):not(#_) .nh-board{align-self:center}.h7:not(#_):not(#_) .nh-actions a{flex:0 1 auto}}
 
+/* Reviewed zh-Hans/en receipt: a single sum, not three instructional cards. */
+.h7:not(#_):not(#_) .h7-trust-line{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--ink3);text-align:center}
+.h7:not(#_):not(#_) .h7-receipt{margin-block-start:32px;border-block:1px solid var(--line);padding-block:24px}
+.h7:not(#_):not(#_) .h7-receipt-venue{margin:0 0 16px;color:var(--ink3);font-size:14px}
+.h7:not(#_):not(#_) .h7-receipt-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;list-style:none;padding:0;margin:0}
+.h7:not(#_):not(#_) .h7-receipt-row li{display:flex;align-items:baseline;gap:8px;position:relative;min-width:0}
+.h7:not(#_):not(#_) .h7-receipt-row li+li::before{content:"→";position:absolute;inset-inline-start:-24px;color:var(--ink3)}
+.h7:not(#_):not(#_) .h7-receipt-row span{font-size:14px;color:var(--ink3)}
+.h7:not(#_):not(#_) .h7-receipt-row bdi{font-size:20px;font-family:"Geist Mono V5","Geist Mono V5 Fallback",monospace;font-variant-numeric:tabular-nums;color:var(--ink)}
+.h7:not(#_):not(#_) .h7-receipt-action{margin:24px 0 0;font-size:14px;line-height:1.7;color:var(--ink3)}
+@media(max-width:700px){.h7:not(#_):not(#_) .h7-receipt-row{grid-template-columns:minmax(0,1fr);gap:16px}.h7:not(#_):not(#_) .h7-receipt-row li{justify-content:space-between}.h7:not(#_):not(#_) .h7-receipt-row li+li::before{content:none}}
 /* Live state belongs only to the two home feed headings. */
 .h7:not(#_):not(#_) .h7-board-live{display:inline-flex;align-items:center;gap:5px;margin-inline-start:10px;padding:3px 7px;vertical-align:middle;border:1px solid rgb(31 224 192/.24);border-radius:999px;color:var(--ac);font:600 10px/1.4 var(--mono);white-space:nowrap}
 .h7:not(#_):not(#_) .h7-board-live i{inline-size:5px;block-size:5px;border-radius:50%;background:currentColor;animation:h7-board-breathe 2s cubic-bezier(.2,.8,.2,1) infinite}
