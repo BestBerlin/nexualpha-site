@@ -1,0 +1,18 @@
+✔ stage, preflight, cutover, status and rollback switch proxy plus static alias without leaking commercial content (30.228667ms)
+✔ execution adapter validates probes, runs nginx test before replacement, then reloads (11.500625ms)
+✔ nginx test failure keeps the previous include and alias untouched (27.254083ms)
+✔ probe failure keeps the previous include and alias untouched before nginx test (42.0025ms)
+✔ reload failure restores the previous include, alias and state (36.791083ms)
+✔ rollback uses the same nginx test, atomic replacement and reload order (33.391041ms)
+✔ buildId, version and commercial hash mismatches fail closed before cutover (10.286542ms)
+✔ CLI returns sanitized JSON and nonzero contract errors (69.828583ms)
+✔ fresh dist Worker and five shared schema dependencies are byte-identical to source (207.080708ms)
+✔ isolated dist package imports without repository fallback and missing transitive data fails (437.665167ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 678.15125

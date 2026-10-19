@@ -34,7 +34,10 @@ test('isolated dist package imports without repository fallback and missing tran
   await writeFile(path.join(dir,'package.json'),'{"type":"module"}\n');
   const entry=path.join(dir,'server/index.js');
   await copyFile(path.join(root,'dist/server/index.js'),entry);
-  await cp(path.join(root,'dist/src/data'),path.join(dir,'src/data'),{recursive:true});
+  // Mirror the complete prepared runtime, including shared components/server helpers.
+  // Still isolate from the repository and preserve the missing-dependency assertions.
+  await cp(path.join(root,'dist/server'),path.join(dir,'server'),{recursive:true});
+  await cp(path.join(root,'dist/src'),path.join(dir,'src'),{recursive:true});
   assert.match((await importWorker(entry)).stdout,/STANDALONE_IMPORT_PASS/);
   await unlink(path.join(dir,'src/data/topic-reviewed-faqs.js'));
   await assert.rejects(importWorker(entry),error=>{assert.match(error.stderr,/topic-reviewed-faqs\.js/);return true;});
