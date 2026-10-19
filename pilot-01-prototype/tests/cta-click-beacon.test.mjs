@@ -39,7 +39,7 @@ test("cta-click beacon appends one anonymous site click to the shared click file
     assert.equal(res.status, 204);
     assert.equal(res.headers.get("cache-control"), "no-store");
     await wait();
-    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
+    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site", cls: "unknown", inapp: "none", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
     const raw = await readFile(f.eventFile, "utf8");
     assert.doesNotMatch(raw, /203\.0\.113\.9/, "IPs are never written");
   } finally { await f.close(); }
@@ -181,4 +181,19 @@ test("SSR pages carry data-cta-kind/platform/placement on every partner sign-up 
       for (const placement of placements) assert.ok(anchors.some((tag) => tag.includes(`data-cta-placement="${placement}"`)), `${url} exposes placement ${placement}`);
     }
   } finally { await vite.close(); }
+});
+
+test("beacon classification uses headers rather than submitted classification fields", async () => {
+  const f = await fixture();
+  try {
+    const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile });
+    const body = { partner: "okx", src: "home-test", path: "/", cls: "human", inapp: "x" };
+    assert.equal((await handle(post(body, { "user-agent": "Mozilla/5.0 Telegram-iOS/11.0" }))).status, 204);
+    assert.equal((await handle(post(body, { purpose: "prefetch" }))).status, 204);
+    const saved = await rows(f.eventFile);
+    assert.deepEqual(saved.map(({ cls, inapp }) => ({ cls, inapp })), [
+      { cls: "unknown", inapp: "telegram" }, { cls: "prefetch", inapp: "none" },
+    ]);
+    assert.doesNotMatch(JSON.stringify(saved), /Mozilla|Telegram-iOS/);
+  } finally { await f.close(); }
 });

@@ -1,3 +1,4 @@
+import { finalizeDataset } from "./dataset-schema.js";
 // Head of the linkable data assets and /press (Worker head, /api/route-seo via seo-injection.js, sitemap-data.xml):
 // title, description, robots and JSON-LD. Indexable in en and zh-Hans; other UI locales render English noindex,follow.
 // Dataset: license CC BY 4.0, creator = the NexuAlpha Organization (@id), temporalCoverage, distribution = CSV.
@@ -69,7 +70,7 @@ const CREATOR = Object.freeze({ "@type": "Organization", "@id": ORGANIZATION_ID,
 export function datasetSchema(key, locale = "en", { url, report = null } = {}) {
   const view = dataAssetView(key, locale, { report });
   const urls = dataAssetUrls(key);
-  const base = {
+  const base = finalizeDataset({
     "@context": "https://schema.org", "@type": "Dataset", "@id": `${urls.page}#dataset`,
     name: view.page.datasetName, description: view.page.datasetDescription, url: url || urls.page, inLanguage: locale,
     isAccessibleForFree: true, license: DATA_ASSET_LICENSE_URL, creditText: "Source: NexuAlpha",
@@ -77,7 +78,7 @@ export function datasetSchema(key, locale = "en", { url, report = null } = {}) {
     datePublished: DATA_ASSETS_LAUNCH_DAY,
     distribution: [{ "@type": "DataDownload", encodingFormat: "text/csv", contentUrl: urls.csv, name: `${view.page.datasetName} (CSV)` }],
     image: urls.svg,
-  };
+  });
   if (key === "exchange-fee-index") {
     const s = view.stats;
     return {
@@ -124,7 +125,7 @@ export function dataAssetRouteSeo(pathname, locale = "en", { urlFor, report = nu
           "@context": "https://schema.org", "@type": "WebPage", name: page.title, description: page.description, url, inLanguage: locale,
           isPartOf: { "@type": "WebSite", "@id": WEBSITE_ID }, about: { "@type": "Organization", "@id": ORGANIZATION_ID, name: BRAND.name },
           publisher: NEXUALPHA_PUBLISHER, dateModified: DATA_ASSETS_LAUNCH_DAY,
-          hasPart: DATA_ASSET_KEYS.map((key) => ({ "@type": "Dataset", "@id": `${dataAssetUrls(key).page}#dataset`, name: dataAssetsCopy(locale)[PAGE_KEY[key]].datasetName, url: urlFor(DATA_ASSETS[key]) })),
+          hasPart: DATA_ASSET_KEYS.map((key) => datasetSchema(key, locale, { url: urlFor(DATA_ASSETS[key]), report })),
         },
         crumbs([[copy.common.home, homeUrl], [page.h1, url]]),
       ],

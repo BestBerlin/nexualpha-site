@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL } from "./dataset-schema.js";
 import { bitgetGuideSeo } from "./bitget-guide-seo.js";
 import { isBitgetGuidePath, BITGET_GUIDE_LOCALES } from "./bitget-guide-routes.js";
 import { beginnerRouteSeo } from "./beginner-seo.js";
@@ -84,7 +85,6 @@ import {
 import { PRIORITY_QUERY_OWNER_REGISTRY, priorityOwnerForPath } from "./priority-query-owner-registry.js";
 
 const PUBLIC_ORIGIN = "https://nexualpha.com";
-const NEXUALPHA_DATA_LICENSE_URL = `${PUBLIC_ORIGIN}/methodology#data-license`;
 // Publisher and editorial-team references come from brand-entity.js so every page shares one Organization @id.
 const DEFAULT_SOCIAL_IMAGE = `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-social-v1.jpg`;
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";

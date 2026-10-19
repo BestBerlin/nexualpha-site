@@ -1,3 +1,4 @@
+import { finalizeDataset, whaleDatasetDescription } from "./dataset-schema.js";
 import { WHALE_COINS, whaleCoinPath, coinForWhalePath, whaleRowCoin } from "./whale-routes.js";
 import { LONG_SHORT_PATH, RADAR_LOCALES, WHALES_PATH, radarCopy, normalizeRadarEnvelope, normalizeWhales } from "./radar.js";
 import { whaleExplorerHref, whaleSentence, whalesCopy } from "./whales-home.js";
@@ -49,7 +50,7 @@ function pageCopy(kind, locale, coin) {
   return {
     title: coin ? `${coin} ${whalesCopy(locale).title} — NexuAlpha` : resolvedWhalesTitle(locale),
     headline: coin ? `${coin} ${whalesCopy(locale).title}` : whalesCopy(locale).title,
-    description: `${coin ? `${coin} · ` : ""}${whalesCopy(locale).tabs.signals} · Hyperliquid · ${whalesCopy(locale).tabs.positions} · ${whalesCopy(locale).tabs.transfers}`,
+    description: whaleDatasetDescription(locale, coin),
     section: whalesCopy(locale).title,
     relatedLabel: copy.longShortTitle,
     relatedPath: LONG_SHORT_PATH,
@@ -102,7 +103,7 @@ function whalesDatasetSchema(copy, canonicalUrl, locale, snapshot) {
   // Freshness pass 2026-10-18: dateModified is the live snapshot's own update time (never the build time); without a
   // snapshot the field is left out rather than guessed.
   const updatedAt = snapshot ? normalizeRadarEnvelope(snapshot).updatedAt : null;
-  return {
+  return finalizeDataset({
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: copy.headline,
@@ -113,7 +114,7 @@ function whalesDatasetSchema(copy, canonicalUrl, locale, snapshot) {
     creator: { "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: PUBLIC_ORIGIN },
     variableMeasured: ["accumulation signal", "position notional", "transfer amount"],
     ...(updatedAt ? { dateModified: updatedAt } : {}),
-  };
+  });
 }
 
 function whalesItemListSchema(copy, canonicalUrl, locale, snapshot, coin) {

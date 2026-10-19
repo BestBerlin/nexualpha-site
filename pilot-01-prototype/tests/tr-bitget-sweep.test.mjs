@@ -6,6 +6,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { JSDOM } from "jsdom";
 import worker from "../worker/index.js";
 import { createSsrHarness, prerenderState, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
 import { isTurkeyPage, withRequestMarket, withoutTurkeyUnlisted, withoutTurkeyUnlistedSchema, withoutTurkeyUnlistedVenueFeed } from "../src/data/partner-geo-policy.js";
@@ -84,7 +85,10 @@ test("the home funding board and hydration state drop Bitget on /tr only", async
   assert.match(tr, /id="h7-funding"/);
   assert.match(tr, /h7-fr-row/);
   const en = await serve("/");
-  assert.match(en, /class="h7-fr-row" href="\/exchanges\/bitget"/, "control: English board lists Bitget");
+  const document = new JSDOM(en).window.document;
+  const bitget = document.querySelector('table.h7-fr-table tbody tr td a[href="/exchanges/bitget"]');
+  assert.ok(bitget, "control: English native funding table lists Bitget with its venue link");
+  assert.ok(bitget.closest('tr').classList.contains('h7-fr-row'));
 });
 
 test("/tr/licenses/turkey keeps only the SPK fact, as plain text", async () => {

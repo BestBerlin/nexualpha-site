@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL } from "./dataset-schema.js";
 // Server-side head of /etf-flows and /calendar (Worker head, /api/route-seo via seo-injection.js, sitemap): title,
 // description, robots and JSON-LD. Indexable in INTEL_TOOL_INDEX_LOCALES; other UI locales render English as
 // noindex,follow. The Dataset/Event schema is built from the snapshot the page renders with (null = no live numbers).
@@ -26,7 +27,7 @@ function etfSchemas(locale, url, homeUrl, data) {
   return [
     {
       "@context": "https://schema.org", "@type": "Dataset", name: page.datasetName, description: page.datasetDescription, url, inLanguage: locale,
-      isAccessibleForFree: true, license: `${ORIGIN}/methodology#data-license`, creator: RESEARCH_DESK, publisher: NEXUALPHA_PUBLISHER,
+      isAccessibleForFree: true, license: NEXUALPHA_DATA_LICENSE_URL, creator: RESEARCH_DESK, publisher: NEXUALPHA_PUBLISHER,
       temporalCoverage: `${first && first < INTEL_TOOLS_LAUNCH_DAY ? first : INTEL_TOOLS_LAUNCH_DAY}/..`,
       ...(data ? { dateModified: data.generatedAt } : {}),
       keywords: ["spot bitcoin ETF flows", "ETF inflows", "ETF outflows", "IBIT", "FBTC", "GBTC", "spot ether ETF"],
@@ -47,7 +48,7 @@ function calendarSchemas(locale, url, homeUrl, data, now) {
   return [
     {
       "@context": "https://schema.org", "@type": "Dataset", name: page.datasetName, description: page.datasetDescription, url, inLanguage: locale,
-      isAccessibleForFree: true, license: `${ORIGIN}/methodology#data-license`, creator: RESEARCH_DESK, publisher: NEXUALPHA_PUBLISHER,
+      isAccessibleForFree: true, license: NEXUALPHA_DATA_LICENSE_URL, creator: RESEARCH_DESK, publisher: NEXUALPHA_PUBLISHER,
       temporalCoverage: `${INTEL_TOOLS_LAUNCH_DAY}/..`, ...(data ? { dateModified: data.generatedAt } : {}),
       keywords: ["crypto calendar", "FOMC", "CPI", "jobs report", "exchange listings", "delistings"],
       distribution: [

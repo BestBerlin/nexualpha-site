@@ -31,6 +31,7 @@
 .nxd-stats { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1.5rem; }
 .nxd-stat { padding: 1rem 1.1rem 0.95rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); min-width: 0; }
 .nxd-stat--primary { background: linear-gradient(180deg, rgba(49, 92, 207, 0.16), rgba(49, 92, 207, 0.04)), var(--surface-1); border-color: rgba(111, 144, 255, 0.35); }
+.nxd .nxd-stat > h2 { font: 600 0.95rem/1.3 var(--font-display); margin: 0 0 0.4rem; color: var(--muted); }
 .nxd-stat__value { font: 700 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -0.02em; margin: 0.15rem 0 0.55rem; font-variant-numeric: tabular-nums; }
 .nxd-stat__meta { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.84rem; color: var(--muted); }
 @media (min-width: 640px) { .nxd-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nxd-stat--primary { order: -1; } }
@@ -181,3 +182,6 @@
   .nxd--funding .nxd-nextcell::before { grid-column: 1 / -1; }
   .nxd--funding .nxd-nextcell .nxd-next { align-items: flex-end; min-inline-size: 0; }
 }
+
+/* Stats remain visible from SSR; entrance transforms above the fold cause CLS. */
+.nxd--liquidations .nxd-stat { min-block-size: 160px; }

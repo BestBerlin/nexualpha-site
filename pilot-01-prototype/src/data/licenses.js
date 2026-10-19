@@ -1,3 +1,4 @@
+import { NEXUALPHA_DATA_LICENSE_URL as DATA_LICENSE_URL } from "./dataset-schema.js";
 import { researchRecords, licenseResearch } from "./licenses-research.js";
 import { countryEditorial } from "./licenses-editorial.js";
 import { localizedPath } from "./locale-routing.js";
@@ -46,7 +47,6 @@ const MAS_DPT_SOURCE = "https://eservices.mas.gov.sg/fid/institution?activity=Di
 const FSA_JAPAN_SOURCE = "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf";
 const ESMA_CASP_SOURCE = "https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv";
 const VARA_REGISTER_SOURCE = "https://www.vara.ae/en/licenses-and-register/public-register/";
-const DATA_LICENSE_URL = "https://nexualpha.com/methodology#data-license";
 const LAST_CHECKED = "2026-10-13";
 
 const row = (entry) => Object.freeze({ lastChecked: LAST_CHECKED, ...entry });
