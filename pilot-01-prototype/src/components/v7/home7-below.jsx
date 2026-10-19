@@ -31,8 +31,8 @@ import { CRYPTO_CARDS_PATH, depositPath } from "../../data/deposit-routes.js";
 // Daily market data (2026-10-13): links to the data pages people come back to every day (pill list, h7-coins styles);
 // below the fold, so the entry stays inside its budget.
 const DATA_RAIL_COPY = {
-  en: { title: "Daily market data", lead: "This week's macro dates, exchange deadlines, liquidations and funding." },
-  "zh-Hans": { title: "每日市场数据", lead: "这周的宏观日程、交易所截止日、爆仓和资金费率。" },
+  en: { title: "Daily market data", lead: "" },
+  "zh-Hans": { title: "每日市场数据", lead: "" },
   es: { title: "Datos de mercado diarios", lead: "Fechas macro y plazos de exchanges de esta semana, liquidaciones y funding." },
   "pt-BR": { title: "Dados de mercado diários", lead: "Datas macro e prazos de corretoras desta semana, liquidações e funding." },
   tr: { title: "Günlük piyasa verileri", lead: "Haftanın makro tarihleri, borsa son tarihleri, tasfiyeler ve fonlama." },
@@ -54,7 +54,7 @@ function DataRail({ locale }) {
   const items = [...(ETF_FLOWS_LIVE ? [[ETF_FLOWS_PATH, links.etf]] : []), [CALENDAR_PATH, links.calendar], [LIQUIDATIONS_PATH, nav.liquidations], [FUNDING_RATES_PATH, nav.funding]];
   return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail">
     <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
-    <p className="h7-coins-lead">{c.lead}</p>
+    {c.lead && <p className="h7-coins-lead">{c.lead}</p>}
     <ul className="h7-coins-list">{items.map(([path, label]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b></a></li>)}</ul>
   </section>;
 }
