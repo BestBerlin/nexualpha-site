@@ -11,7 +11,25 @@ import { CALC_CHIPS, CALC_SCALE, CALC_VMAX, CALC_VMIN, calcSay, calcToPos, calcT
 // One controlled calculator for home and embeds: identical volume, fee and rebate framing.
 export function HomeCalculator({ t, locale, vol, setVol, mode, setMode, product, setProduct, calc, headingLevel = 2 }) {
   const Heading = headingLevel === 1 ? "h1" : "h2";
-  const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, CALC_VMAX)); };
+  const [draft, setDraft] = React.useState(null);
+  const feedbackId = React.useId();
+  const currentDraft = draft?.volume === vol ? draft : null;
+  const invalid = currentDraft?.invalid || false;
+  // Keep the editing text separate from the numeric amount (e.g. "100." and "100.50").
+  React.useEffect(() => {
+    setDraft((current) => current && current.volume !== vol ? null : current);
+  }, [vol]);
+  const onVol = (e) => {
+    const text = e.target.value;
+    const value = text.trim();
+    // Match the cost-scenario contract: US-style grouping and at most two decimal places.
+    const validFormat = value === "" || /^(?:(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\.[0-9]{0,2})?|\.[0-9]{1,2})$/.test(value);
+    const next = Number(value.replaceAll(",", ""));
+    const valid = validFormat && Number.isFinite(next) && next >= 0 && next <= CALC_VMAX;
+    setDraft({ text, volume: valid ? next : vol, invalid: !valid });
+    if (valid) setVol(next);
+  };
+  const chooseVolume = (next) => { setDraft(null); setVol(next); };
   const c = calcSay(locale);
   const neutral = !calc.rows.some((r) => r.share);
   const money = (v) => heroMoneyText(v, locale);
@@ -19,15 +37,15 @@ export function HomeCalculator({ t, locale, vol, setVol, mode, setMode, product,
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
           <Heading className="h7-calc-title">{neutral ? c.nh : c.h}</Heading>
-          <label className="h7-vin" dir="ltr"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={c.label} />{vol > 0 ? <small>{heroVolumeText(vol, locale)}</small> : null}</label>
-          <input className="h7-range" dir="ltr" type="range" min="0" max="1000" step="1" value={calcToPos(vol)} style={{ "--p": `${calcToPos(vol) / 10}%` }} onChange={(e) => setVol(calcToVol(Number(e.target.value)))} aria-label={c.label} aria-valuetext={heroVolumeText(vol || CALC_VMIN, locale)} />
+          <label className="h7-vin" dir="ltr"><span>$</span><input value={currentDraft ? currentDraft.text : vol ? vol.toLocaleString("en-US", { maximumFractionDigits: 20 }) : ""} onChange={onVol} inputMode="decimal" aria-label={c.label} aria-invalid={invalid || undefined} aria-describedby={feedbackId} />{vol > 0 ? <small>{heroVolumeText(vol, locale)}</small> : null}</label>
+          <input className="h7-range" dir="ltr" type="range" min="0" max="1000" step="1" value={calcToPos(vol)} style={{ "--p": `${calcToPos(vol) / 10}%` }} onChange={(e) => chooseVolume(calcToVol(Number(e.target.value)))} aria-label={c.label} aria-valuetext={heroVolumeText(vol || CALC_VMIN, locale)} />
           <div className="h7-range-scale" dir="ltr" aria-hidden="true">{CALC_SCALE.map((v) => <span key={v} style={{ "--x": `${calcToPos(v) / 10}%` }}>{heroVolumeShort(v, locale)}</span>)}</div>
           <div className="h7-ctl">
-            {CALC_CHIPS.map((chip) => <button key={chip} type="button" aria-pressed={vol === chip} onClick={() => setVol(chip)}>{heroVolumeShort(chip, locale)}</button>)}
+            {CALC_CHIPS.map((chip) => <button key={chip} type="button" aria-pressed={vol === chip} onClick={() => chooseVolume(chip)}>{heroVolumeShort(chip, locale)}</button>)}
             <div className="h7-seg" role="group" aria-label={`${t.perpL} / ${t.spotL}`}><button type="button" aria-pressed={product === "perp"} onClick={() => setProduct("perp")}>{t.perpL}</button><button type="button" aria-pressed={product === "spot"} onClick={() => setProduct("spot")}>{t.spotL}</button></div>
             <div className="h7-seg" role="group" aria-label="maker / taker"><button type="button" aria-pressed={mode === "maker"} onClick={() => setMode("maker")}>{t.maker}</button><button type="button" aria-pressed={mode === "taker"} onClick={() => setMode("taker")}>{t.taker}</button></div>
           </div>
-          <p className="h7-vd" aria-live="polite">{!vol ? c.empty : neutral ? (calc.best ? fillCalc(c.low, calc.best.name, money(calc.best.gross)) : null) : (calc.most && calc.most.save > 0 ? fillCalc(c.most, calc.most.name, money(calc.most.save)) : null)}</p>
+          <p className="h7-vd" id={feedbackId} aria-live="polite">{invalid ? c.invalid.replace("{max}", CALC_VMAX.toLocaleString("en-US")) : !vol ? c.empty : neutral ? (calc.best ? fillCalc(c.low, calc.best.name, money(calc.best.gross)) : null) : (calc.most && calc.most.save > 0 ? fillCalc(c.most, calc.most.name, money(calc.most.save)) : null)}</p>
           <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
           {vol > 0 && <a className="h7-ln h7-all h7-rates" href={buildDecisionReturnHref({ kind: "cost", locale, instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: "rebate" }) || localizedHref("/rates", { locale })}>{c.rates}</a>}
         </div>
