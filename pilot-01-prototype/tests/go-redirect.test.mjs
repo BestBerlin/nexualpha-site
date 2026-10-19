@@ -22,7 +22,7 @@ test("go redirect sends the exact partner registration URL and records one anony
   assert.match(res.headers.get("x-robots-tag"), /noindex/);
   await wait();
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
-  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "tg-channel-zh", ref: "nexualpha.com", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
+  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", cls: "unknown", inapp: "none", src: "tg-channel-zh", ref: "nexualpha.com", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
   assert.doesNotMatch(JSON.stringify(rows[0]), /utm_source|Mozilla|203\.0\.113/, "click rows keep only sanitized metadata");
 });
 
@@ -101,4 +101,26 @@ test("Aevo and HashKey routes open official destinations without an unregistered
     assert.equal(cta.hasReferral, false);
     assert.ok(!response.headers.get('location').includes('NEXUALPHA'));
   }
+});
+
+
+test("go rows include navigation and prefetch signals without changing legacy fields", async () => {
+  const { handle, eventFile } = await setup();
+  for (const headers of [
+    { 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' },
+    { 'user-agent': 'Mozilla/5.0 Telegram-iOS/11.0' },
+    { purpose: 'prefetch', 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' },
+    { 'user-agent': 'Discord/1.0' },
+  ]) await handle(new Request('https://nexualpha.com/go/okx?src=home-test', { headers }));
+  const rows = (await readFile(eventFile, 'utf8')).trim().split('\n').map(JSON.parse);
+  assert.deepEqual(rows.map(({ cls, inapp }) => ({ cls, inapp })), [
+    { cls: 'human', inapp: 'none' }, { cls: 'human', inapp: 'telegram' },
+    { cls: 'prefetch', inapp: 'none' }, { cls: 'bot', inapp: 'none' },
+  ]);
+  for (const row of rows) {
+    assert.equal(row.partner, 'okx');
+    assert.equal(row.src, 'home-test');
+    assert.equal(row.t, '2026-10-10T12:00:00.000Z');
+  }
+  assert.doesNotMatch(JSON.stringify(rows), /Mozilla|Discord|Telegram-iOS/);
 });

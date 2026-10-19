@@ -8,7 +8,7 @@ import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 // (the home hero experiment adds only its id and the a/b bucket, read from the first-party nx_hero cookie).
 import { clickStorage } from './click-storage.mjs';
 import { analyticsOriginAllowed } from './analytics-origin.mjs';
-import { clickMetadata, safeClickPath } from './click-metadata.mjs';
+import { clickMetadata, clickRequestMetadata, safeClickPath } from './click-metadata.mjs';
 import { SRC, createPartnerMapLoader } from './go-redirect.mjs';
 import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 
@@ -86,7 +86,7 @@ export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () =>
       // Home hero experiment (X5): {experiment, variant} from the visitor's bucket cookie while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
       const metadata = clickMetadata({ path: click.ref, src: click.src });
-      const written = await storage.write(eventFile, { t: now().toISOString(), ...click, kind: 'site', ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'site');
+      const written = await storage.write(eventFile, { t: now().toISOString(), ...click, kind: 'site', ...clickRequestMetadata(request), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'site');
       if (!written) return new Response(null, { status: 503, headers: NO_STORE });
     }
     return new Response(null, { status: 204, headers: NO_STORE });
