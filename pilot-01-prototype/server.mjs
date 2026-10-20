@@ -215,6 +215,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
+      // English has no locale prefix: '/en' and '/en/x' (used by an old social card) redirect to '/' and '/x', keeping the query.
+      if ((req.method === 'GET' || req.method === 'HEAD') && /^\/en(\/|$)/.test(requestPath)) {
+        const u = new URL(request.url);
+        res.writeHead(301, { location: (u.pathname.replace(/^\/en/, '') || '/') + u.search, 'cache-control': 'public, max-age=3600', 'x-request-id': requestId });
+        res.end();
+        return;
+      }
       // QA 2026-10-10: '/exchanges/okx/' was a 404. Page URLs have no trailing slash: redirect permanently, keep the query.
       if ((req.method === 'GET' || req.method === 'HEAD') && requestPath.length > 1 && requestPath.endsWith('/') && !requestPath.startsWith('/api/')) {
         const u = new URL(request.url);

@@ -267,93 +267,62 @@ function HeroRebate({ locale, venue, amount, quickRef }) {
 // Desktop device (≥1024 only, owner 2026-10-14): a laptop showing a real NexuAlpha screen, /rates, for the visitor's own
 // volume. Each partner row: the fee that volume pays (volume × perpetual taker) and what comes back (× partner share).
 // Same numbers as the figure, so the screen is proof, not decoration. Rows follow the dial and the exchange switch.
-// Demo (owner 2026-10-15; lead: motion stays, the demo is one short intro): while nobody has touched the hero, the screen
-// steps 1000万 → 1亿 → 100万 → back to the visitor's volume, 4 s apart, starting after an idle callback + 2 s (≈ 12–16 s
-// in all), then stops for good. Desktop only, never with reduced motion, paused offscreen or in a hidden tab. Each step
-// re-renders only this screen (digits slide, bars regrow on the compositor without remounting, the highlight glides).
-// The figure carries data-demo = pending | running | done | off so the release gate samples idle only once it is over.
-const DEMO_STEPS = [1e8, 1e6];
-function useScreenDemo(rootRef, enabled) {
-  const [step, setStep] = useState(null);
-  const [phase, setPhase] = useState("pending");
+// Stable slots keep every venue mounted while the selected chip moves to the centre.
+const STAGE_SLOTS = [[18, 22], [82, 25], [16, 73], [84, 72], [50, 88]];
+function RebateStage({ locale, picks, sel, volume }) {
+  const rootRef = useRef(null);
   useEffect(() => {
     const root = rootRef.current;
-    if (!enabled) { setStep(null); setPhase((p) => (p === "off" ? p : "done")); return undefined; }
-    if (!root || reducedMotion() || !window.matchMedia?.("(min-width: 1024px)").matches || typeof IntersectionObserver !== "function") { setPhase("off"); return undefined; }
-    const seq = DEMO_STEPS.map((v) => HERO_VOLUME_STEPS.indexOf(v));
-    let at = 0, timer = null, idle = null, started = false, visible = false, cancelled = false;
-    const stop = () => { clearTimeout(timer); timer = null; };
-    const schedule = () => {
-      if (cancelled || timer || !started || !visible || document.visibilityState !== "visible") return;
-      timer = setTimeout(() => {
-        timer = null;
-        if (at < seq.length) { setStep(seq[at]); at += 1; schedule(); }
-        else { setStep(null); setPhase("done"); cancelled = true; }
-      }, 4000);
+    const sync = () => {
+      const rect = root.getBoundingClientRect();
+      root.dataset.paused = String(document.hidden || rect.bottom <= 0 || rect.top >= window.innerHeight);
     };
-    const begin = () => { idle = null; if (cancelled) return; timer = setTimeout(() => { timer = null; started = true; setPhase("running"); schedule(); }, 2000); };
-    idle = window.requestIdleCallback ? window.requestIdleCallback(begin, { timeout: 4000 }) : window.setTimeout(begin, 1500);
-    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) schedule(); else stop(); }, { threshold: 0.25 });
-    const onVisibility = () => (document.visibilityState === "visible" ? schedule() : stop());
-    io.observe(root);
-    document.addEventListener("visibilitychange", onVisibility);
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    document.addEventListener("visibilitychange", sync);
     return () => {
-      cancelled = true; stop(); io.disconnect(); document.removeEventListener("visibilitychange", onVisibility);
-      if (idle !== null) { window.cancelIdleCallback?.(idle); window.clearTimeout(idle); }
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      document.removeEventListener("visibilitychange", sync);
     };
-  }, [enabled, rootRef]);
-  return { step, phase, running: phase === "running" && enabled };
-}
-
-function HeroScreen({ locale, picks, sel, volume: heroVolume, onPick, quickRef, demo }) {
-  const rootRef = useRef(null);
-  const { step, phase, running } = useScreenDemo(rootRef, demo);
-  const volume = step == null ? heroVolume : HERO_VOLUME_STEPS[step];
-  const previousSelection = useRef(sel.slug);
-  useLayoutEffect(() => {
-    if (previousSelection.current === sel.slug) return;
-    previousSelection.current = sel.slug;
-    if (reducedMotion()) return;
-    const selected = rootRef.current?.querySelector("li[data-on] button");
-    const animation = selected?.animate?.([{ opacity: .65 }, { opacity: 1 }], { duration: 320, easing: HERO_EASE });
-    return () => animation?.cancel();
-  }, [sel.slug]);
+  }, []);
   const say = heroSay(locale);
   const rows = picks.map((venue) => {
     const fact = feeFact(venue.slug, "perp");
-    const fee = fact.state === "checked" && Number.isFinite(fact.taker) ? volume * fact.taker / 100 : null;
-    return { venue, fee, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, venue.share) };
+    return { venue, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, venue.share) };
   }).filter((row) => row.back != null);
-  const top = Math.max(1, ...rows.map((row) => row.back));
-  const vol = heroVolumeText(volume, locale);
+  const selectedIndex = rows.findIndex(({ venue }) => venue.slug === sel.slug);
+  const slot = (index) => index === selectedIndex ? [50, 47] : STAGE_SLOTS[index === 0 ? selectedIndex - 1 : index - 1] || STAGE_SLOTS[0];
   return (
-    <figure className="hx-screen" aria-hidden="true" ref={rootRef} data-demo={phase}>
-      <div className="hx-mac">
-        <div className="hx-mac-lid">
-          <div className="hx-mac-display">
-            <div className="hx-scr-bar"><span className="hx-scr-dots"><i /><i /><i /></span><span className="hx-scr-url">nexualpha.com/rates</span><span className="hx-scr-live" data-on={running ? "" : undefined}><i />{say.live}</span></div>
-            <div className="hx-scr-body">
-              <p className="hx-scr-title">{say.screen.split("{vol}").map((part, i) => i ? <span key={i}><HeroWord className="hx-scr-vol" text={vol} quickRef={quickRef} />{part}</span> : <span key={i}>{part}</span>)}</p>
-              <div className="hx-scr-head"><span>{say.exchange}</span><span>{say.fee}</span><span>{say.back}</span></div>
-              <ul className="hx-scr-rows" style={{ "--i": Math.max(0, rows.findIndex((row) => row.venue.slug === sel.slug)), "--g": heroTint(sel.slug) }}>
-                {/* One highlight that glides between rows (transform only). */}
-                <span className="hx-scr-hl" aria-hidden="true" />
-                {rows.map(({ venue, fee, back }, index) => (
-                  <li key={venue.slug} data-on={venue.slug === sel.slug ? "" : undefined} style={{ "--g": heroTint(venue.slug), "--w": (back / top).toFixed(3), "--d": `${index * 70}ms` }}>
-                    <button type="button" tabIndex={-1} onClick={() => onPick(venue.slug)}>
-                      <span className="hx-scr-name"><BrandMark slug={venue.slug} compact /><b>{venue.name}</b></span>
-                      <span className="hx-scr-fee">{heroMoneyText(fee, locale)}</span>
-                      <span className="hx-scr-back"><i className="hx-scr-bar-fill"><b data-w={(back / top).toFixed(3)} /></i><HeroWord className="hx-scr-amt" text={heroMoneyText(back, locale)} quickRef={quickRef} /></span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              {sel.code ? <p className="hx-scr-code"><span>{sel.name}</span><code>{sel.code}</code></p> : null}
-            </div>
-          </div>
-        </div>
-        <div className="hx-mac-base"><i /></div>
+    <figure className="hx-stage" ref={rootRef} data-demo="off">
+      <div className="hx-stage-art" aria-hidden="true">
+        <div className="hx-stage-grid" />
+        <svg className="hx-stage-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {rows.map(({ venue }, index) => {
+            const [x, y] = slot(index);
+            return venue.slug === sel.slug ? null : <path key={venue.slug} d={`M ${x} ${y} Q 50 ${y} 50 47`} />;
+          })}
+        {rows.map(({ venue }, index) => {
+          const [x, y] = slot(index);
+          return venue.slug === sel.slug ? null : <circle r=".65" key={venue.slug} className="hx-stage-flow" style={{ offsetPath: `path("M ${x} ${y} Q 50 ${y} 50 47")`, "--delay": `${-index * .8}s` }} />;
+        })}
+        </svg>
+        <div className="hx-stage-ring" />
+        {rows.map(({ venue, back }, index) => {
+          const selected = venue.slug === sel.slug;
+          const [x, y] = slot(index);
+          return <div key={venue.slug} className="hx-stage-node" data-on={selected ? "" : undefined} data-venue={venue.slug} style={{ "--x": `${x}%`, "--y": `${y}%` }}>
+            <BrandMark slug={venue.slug} compact priority={selected} />
+            <span className="hx-stage-label">{selected ? say.back : venue.name}</span>
+            <b className="hx-stage-value" data-final-value={Math.round(back)}>{heroMoneyText(back, locale)}</b>
+          </div>;
+        })}
       </div>
+      <figcaption className="hx-stage-caption"><i />{say.live} · {say.screen.replace("{vol}", heroVolumeText(volume, locale))}</figcaption>
+      <ul className="h7-sr" aria-label={say.screen.replace("{vol}", heroVolumeText(volume, locale))}>
+        {rows.map(({ venue, back }) => <li key={venue.slug}>{venue.name}: {heroMoneyText(back, locale)}</li>)}
+      </ul>
     </figure>
   );
 }
@@ -657,7 +626,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
         </aside>
         )}
         {!banned && editorial && <p className="h7-trust-line">{t.t1} · {t.t2} · {t.t3}</p>}
-        {!banned && <HeroScreen locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} onPick={pickVenue} quickRef={dragRef} demo={!touched} />}
+        {!banned && <RebateStage locale={locale} picks={heroPicks} sel={sel} volume={heroVolume} />}
       </section>
 
       <section className="h7-strip" aria-label={t.pw(venues.length)}>

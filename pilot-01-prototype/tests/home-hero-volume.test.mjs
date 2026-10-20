@@ -95,10 +95,10 @@ test("SSR /zh-hans: live sentence, $3,600, dial at 1000 万 U, code and /go CTA,
   assert.equal(dial.getAttribute("aria-valuetext"), "1000 万 U");
   assert.equal(doc.querySelector(".hx-code code").textContent, "nexu888");
   assert.match(doc.querySelector(".hx-go").getAttribute("href"), /^\/go\/bitget\?/);
-  const rows = [...doc.querySelectorAll(".hx-screen .hx-scr-rows li")].map((li) => li.textContent.replace(/\s+/g, " ").trim());
-  assert.ok(rows.some((row) => row.includes("Bitget") && row.includes("$6,000") && row.includes("$3,600")), rows.join(" | "));
+  const rows = [...doc.querySelectorAll(".hx-stage .h7-sr li")].map((li) => li.textContent.replace(/\s+/g, " ").trim());
+  assert.ok(rows.some((row) => row.includes("Bitget") && row.includes("$3,600")), rows.join(" | "));
   assert.ok(rows.some((row) => row.includes("HTX") && row.includes("$2,400")), "HTX appears with its checked fee");
-  assert.equal(doc.querySelector(".hx-screen").getAttribute("aria-hidden"), "true", "the device repeats the figure; it is hidden from AT");
+  assert.equal(doc.querySelector(".hx-stage-art").getAttribute("aria-hidden"), "true");
   assert.equal(doc.querySelector(".h7-hero .ht, #h7-terminal-root"), null, "no price terminal on the CTA hero");
   close();
 });
@@ -116,7 +116,7 @@ test("SSR neutral locales: information headline only, no figure, dial, code or /
     const { doc, close } = await hero(pathname);
     const section = doc.querySelector(".h7-hero");
     assert.ok(section.hasAttribute("data-neutral"), pathname);
-    assert.equal(section.querySelector(".hx-amt, .hx-dial, .hx-code, .hx-screen"), null, pathname);
+    assert.equal(section.querySelector(".hx-amt, .hx-dial, .hx-code, .hx-stage"), null, pathname);
     assert.doesNotMatch(section.outerHTML, /href="\/go\//, pathname);
     close();
   }
@@ -145,25 +145,14 @@ test("Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, s
   assert.equal(heroMoneyText(amountFor("gate-io", 1e7), "zh-Hans"), "$2,000");
 });
 
-test("hero life stays finite: desktop-only screen cycle, two rounds, stops on touch, pauses offscreen/hidden, no reduced motion", async () => {
+test("stage has no independent volume demo and pauses decorative motion", async () => {
   const { readFile } = await import("node:fs/promises");
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
-  const cycle = home.slice(home.indexOf("function useScreenDemo"), home.indexOf("function HeroScreen"));
-  for (const guard of ["reducedMotion()", "(min-width: 1024px)", "IntersectionObserver", "visibilitychange", "requestIdleCallback", "2000", "setPhase(\"done\")", "4000"]) assert.ok(cycle.includes(guard), guard);
-  // Cheap demo (lead 2026-10-15): its state lives in the screen, so a step re-renders only the screen; the hero headline
-  // and figure never change on their own (no CLS), and bars are animated in place instead of remounted.
-  assert.doesNotMatch(home, /setHeroStep\(seq/);
-  assert.doesNotMatch(home, /hx-scr-bar-fill" key=/, "bars are not remounted per step");
-  assert.doesNotMatch(home, /bar\.animate/, "bars enter once in CSS, not on every volume change");
-  const css = await readFile(new URL("../src/styles/v7/home7.src.css", import.meta.url), "utf8");
-  assert.match(css, /@ \.hx-scr-live\[data-on\] i\{[^}]*animation:hx-live/, "the live dot pulses only while the demo runs, so it ends with it");
-  assert.match(home, /const DEMO_STEPS = \[1e8, 1e6\];/, "one round: 1亿, 100万, then back to the visitor's volume");
-  assert.match(home, /data-demo=\{phase\}/, "the screen reports pending / running / done / off");
-  const gate = await readFile(new URL("../scripts/qa-regression.mjs", import.meta.url), "utf8");
-  assert.match(gate, /screen\.dataset\.demo === "done" \|\| screen\.dataset\.demo === "off"/, "the release gate samples idle only after the demo");
-  assert.match(css, /@ \.hx-scr-hl\{[^}]*transform:translateY\(calc\(var\(--i,0\) \* 50px\)\)/, "row highlight glides by transform");
-  assert.match(css, /@ \.hx-amt \.hx-rate-logo\{[^}]*inline-size:\.58em/, "brand mark is em-sized to the figure");
-  assert.match(css, /@ \.hx-mac-display\{contain:layout paint\}/, "layout and paint stay inside the laptop display");
+  assert.doesNotMatch(home, /useScreenDemo|DEMO_STEPS/);
+  assert.match(home, /document.hidden/);
+  assert.match(home, /visibilitychange/);
+  assert.match(home, /rect.bottom <= 0/);
+  assert.match(home, /data-demo="off"/);
 });
 
 test("SSR: the brand mark sits inside the figure's line box", async () => {

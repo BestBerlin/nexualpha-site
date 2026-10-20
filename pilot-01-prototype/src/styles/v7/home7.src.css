@@ -1034,3 +1034,29 @@
 @ .h7-hero>.h7-trust-line{grid-area:trust;margin:0}
 @media(max-width:1023px){@ .h7-hero:has(>.h7-trust-line):not([data-neutral]){grid-template-areas:"head" "panel" "trust" "device"}}
 @media(min-width:1024px){@ .h7-hero:has(>.h7-trust-line):not([data-neutral]){grid-template-areas:"head device" "panel device" "trust trust"}@ .h7-hero:not([data-neutral]) .hx-hero-panel.h7-lg{align-self:stretch}}
+
+/* Rebate stage: stable slots and the existing hero palette. */
+@ .hx-stage{grid-area:device;position:relative;min-inline-size:0;inline-size:100%;margin:0;display:flex;flex-direction:column;overflow:clip;font-family:var(--hx-font);background:radial-gradient(ellipse at 50% 47%,rgb(31 224 192/.15),transparent 66%)}
+@ .hx-stage-art{position:relative;inline-size:100%;flex:1;min-block-size:280px}
+@ .hx-stage-grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgb(31 224 192/.22) 1px,transparent 1px);background-size:22px 22px;mask-image:radial-gradient(ellipse,black,transparent 70%)}
+@ .hx-stage-grid::after{content:"";position:absolute;inset:9% 10%;border:1px dashed var(--hx-line-2);border-radius:50%;transform:rotate(-20deg)}
+@ .hx-stage-lines{position:absolute;inset:0;inline-size:100%;block-size:100%;fill:none;stroke:var(--hx-accent);stroke-width:.16;opacity:.6}
+@ .hx-stage-flow{fill:var(--hx-accent);stroke:none;animation:hx-stage-flow 4s var(--delay) linear infinite}
+@keyframes hx-stage-flow{to{offset-distance:100%}}
+@ .hx-stage-ring{position:absolute;left:50%;top:47%;inline-size:clamp(140px,32%,200px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgb(31 224 192/.08),var(--hx-surface));box-shadow:0 0 60px rgb(31 224 192/.12),inset 0 0 30px rgb(31 224 192/.08)}
+@ .hx-stage-ring::after{content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;background:conic-gradient(transparent,var(--hx-accent),#7fe7ff,transparent 80%);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;animation:hx-stage-spin 14s linear infinite}
+@keyframes hx-stage-spin{to{transform:rotate(360deg)}}
+@ .hx-stage-node{position:absolute;left:0;top:0;inline-size:100%;block-size:100%;pointer-events:none;transform:translate(var(--x),var(--y));transition:transform 500ms cubic-bezier(.2,.8,.2,1)}
+@ .hx-stage-node>*{position:absolute;left:0;top:0;transform:translate(-50%,-50%)}
+@ .hx-stage-label{display:none}
+@ .hx-stage-value{padding:10px 12px 10px 42px;border:1px solid var(--hx-line-2);border-radius:12px;background:var(--hx-surface);color:var(--hx-ink);font:600 15px/1.2 var(--hx-font);font-variant-numeric:tabular-nums;white-space:nowrap}
+@ .hx-stage-node>:first-child{margin-left:-32px;inline-size:24px;block-size:24px;z-index:1}
+@ .hx-stage-node[data-on]>:first-child{margin-left:0;margin-top:-32px;inline-size:36px;block-size:36px}
+@ .hx-stage-node[data-on] .hx-stage-label{display:block;margin-top:3px;font:500 12px/1.3 var(--hx-font);color:var(--hx-ink-2);white-space:nowrap}
+@ .hx-stage-node[data-on] .hx-stage-value{margin-top:32px;padding:0;border:0;background:var(--hx-rate-grad);background-clip:text;-webkit-background-clip:text;color:transparent;font-size:clamp(24px,3vw,38px);letter-spacing:-.055em}
+@ .hx-stage-caption{display:flex;justify-content:center;align-items:center;gap:7px;margin:0;padding:12px 8px;color:var(--hx-ink-3);font:500 12px/1.5 var(--hx-font);text-align:center}
+@ .hx-stage-caption i{flex:none;inline-size:6px;block-size:6px;background:var(--hx-up);border-radius:50%}
+@ .hx-stage[data-paused=true] *,@ .hx-stage[data-paused=true] *::after{animation-play-state:paused}
+@media(max-width:1023px){@ .hx-stage{block-size:300px;max-block-size:300px}@ .hx-stage-art{min-block-size:0}@ .hx-stage-ring{inline-size:140px}@ .hx-stage-node[data-on] .hx-stage-value{font-size:26px}@ .hx-stage-value{padding-inline:32px 8px}@ .hx-stage-node>:first-child{margin-left:-26px;inline-size:20px;block-size:20px}@ .hx-stage-node[data-on]>:first-child{margin-left:0;inline-size:36px;block-size:36px}}
+@media(prefers-reduced-motion:reduce){@ .hx-stage *,@ .hx-stage *::after{animation:none!important;transition:none!important}}
+@ .hx-stage-label,@ .hx-stage-caption{font-family:"PingFang SC","PingFang TC","Hiragino Sans","Noto Sans SC","Noto Sans TC","Noto Sans JP","Geist V5","Geist V5 Fallback",sans-serif}
