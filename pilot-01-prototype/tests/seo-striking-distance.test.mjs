@@ -101,7 +101,7 @@ test('SSR venue answer follows H1 and body and footer expose the comparison rout
       const document = new JSDOM(html).window.document;
       const links = [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
       if (slug === 'footer') {
-        for (const route of [...venues.map(v => `/exchanges/${v}`), ...pairs.map(p => `/compare/${p}`)]) assert.ok(links.includes(localizedHref(route, { locale })), `${locale}: footer ${route}`);
+        for (const route of [...venues.map(v => `/exchanges/${v}`), ...pairs.filter(p => !p.includes('bitget')).map(p => `/compare/${p}`), '/compare/binance-vs-gate-io']) assert.ok(links.includes(localizedHref(route, { locale })), `${locale}: footer ${route}`);
         continue;
       }
       const headings = document.querySelectorAll('h1');
