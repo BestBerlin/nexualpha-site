@@ -221,7 +221,7 @@ async function settleAfterHydration(page) {
   // The home's laptop demo is a one-round intro (≈ 12–16 s, desktop only). The idle budget protects the page once it is
   // truly idle, so wait until the screen reports data-demo="done" or "off" (phones, reduced motion), or has no screen.
   await page.waitForFunction(() => {
-    const screen = document.querySelector(".hx-screen[data-demo]");
+    const screen = document.querySelector(".hx-stage[data-demo]");
     return !screen || screen.dataset.demo === "done" || screen.dataset.demo === "off";
   }, { timeout: 30000, polling: 500 }).catch(() => {});
   await page.evaluate(() => new Promise((resolve) => {
