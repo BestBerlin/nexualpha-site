@@ -900,6 +900,9 @@ function buildTransferSignals(state, { minUsd = 5_000_000 } = {}) {
 }
 
 const ETH_RPC_URL = "https://ethereum-rpc.publicnode.com";
+// Keyless fallbacks (2026-10-20): PublicNode timeouts stalled whole collector cycles, so the board went stale for 5–16 min.
+const ETH_RPC_URLS = [ETH_RPC_URL, "https://cloudflare-eth.com", "https://eth.drpc.org"];
+let ethRpcIndex = 0;
 const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 const USDT_CONTRACT = "0xdac17f958d2ee523a2206206994597c13d831ec7";
 const USDC_CONTRACT = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
@@ -910,16 +913,29 @@ const topicAddress = (topic) => `0x${String(topic || "").slice(-40)}`.toLowerCas
 const tokenAmount = (data, decimals) => Number(hexBigInt(data)) / 10 ** decimals;
 
 async function rpc(fetchImpl, method, params = []) {
-  const res = await fetchImpl(ETH_RPC_URL, {
-    method: "POST",
-    headers: { accept: "application/json", "content-type": "application/json", "user-agent": UA },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-    signal: AbortSignal.timeout(DEFAULT_TIMEOUT_MS),
-  });
-  if (!res.ok) throw new Error(`ethereum rpc HTTP ${res.status}`);
-  const body = await res.json();
-  if (body.error) throw new Error(body.error.message || "ethereum rpc error");
-  return body.result;
+  let lastError;
+  for (let attempt = 0; attempt < ETH_RPC_URLS.length; attempt += 1) {
+    const url = ETH_RPC_URLS[(ethRpcIndex + attempt) % ETH_RPC_URLS.length];
+    try {
+      const res = await fetchImpl(url, {
+        method: "POST",
+        headers: { accept: "application/json", "content-type": "application/json", "user-agent": UA },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+        signal: AbortSignal.timeout(DEFAULT_TIMEOUT_MS),
+      });
+      if (!res.ok) {
+        const error = new Error(`ethereum rpc HTTP ${res.status}`);
+        // 429/4xx: the endpoint answered and refused; never hammer the next one (a 429 can lead to a ban).
+        if (res.status >= 400 && res.status < 500) { error.noFallback = true; throw error; }
+        throw error;
+      }
+      const body = await res.json();
+      if (body.error) throw new Error(body.error.message || "ethereum rpc error");
+      ethRpcIndex = (ethRpcIndex + attempt) % ETH_RPC_URLS.length; // stick with the endpoint that answered
+      return body.result;
+    } catch (error) { if (error?.noFallback) throw error; lastError = error; }
+  }
+  throw lastError || new Error("ethereum rpc unavailable");
 }
 
 async function mapLimit(items, limit, fn) {
@@ -1055,6 +1071,13 @@ export const POSITION_RADAR_WHALE_SOURCES = Object.freeze({
   },
 });
 
+// Each source gets its own deadline so one slow chain cannot hold the whole cycle (and the file) for minutes.
+const WHALE_SOURCE_DEADLINE_MS = 20_000;
+function withSourceDeadline(promise, label, ms = WHALE_SOURCE_DEADLINE_MS) {
+  let timer;
+  const deadline = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`${label}: source deadline ${ms / 1000} s exceeded`)), ms); timer.unref?.(); });
+  return Promise.race([promise, deadline]).finally(() => clearTimeout(timer));
+}
 async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, minPositionUsd, btcUsd, ethUsd = null, state, hyperliquidWallets, whaleSnapshotFile, log }) {
   const fileSnapshot = readWhaleSnapshotFile(whaleSnapshotFile, now);
   if (fileSnapshot) return fileSnapshot;
@@ -1065,7 +1088,7 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
     (async () => {
       try {
         if (typeof sources.hyperliquid === "function") {
-          const rawWallets = await sources.hyperliquid(fetchImpl, { wallets: hyperliquidWallets, minNotional: minPositionUsd, now, state });
+          const rawWallets = await withSourceDeadline(sources.hyperliquid(fetchImpl, { wallets: hyperliquidWallets, minNotional: minPositionUsd, now, state }), "hyperliquid");
           positionEvents.push(...appendPositionFillHistory(state, rawWallets, now, { minNotional: minPositionUsd }));
           foldHyperliquidFills(state.hl || (state.hl = normalizeHyperliquidState(null)), Array.isArray(rawWallets) ? rawWallets : rawWallets?.wallets || rawWallets?.rows || [], now);
           const allPositions = normalizeHyperliquidPositionRows(rawWallets, { now, minNotional: minPositionUsd, includeBelowThreshold: true });
@@ -1082,7 +1105,7 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
     })(),
     (async () => {
       try {
-        if (typeof sources.btcMempool === "function") transfers.push(...normalizeBtcMempool(await sources.btcMempool(fetchImpl, { minBtc }), { btcUsd, minBtc }));
+        if (typeof sources.btcMempool === "function") transfers.push(...normalizeBtcMempool(await withSourceDeadline(sources.btcMempool(fetchImpl, { minBtc }), "btc"), { btcUsd, minBtc }));
       } catch (error) {
         errors.push(`btc: ${error?.message || error}`);
       }
@@ -1091,7 +1114,7 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
       try {
         for (const [name, source] of Object.entries(sources)) {
           if (!name.startsWith("ethereum") || typeof source !== "function") continue;
-          transfers.push(...normalizeEthTransfers(await source(fetchImpl, { minEth, minUsd, state }), { minEth, minUsd, ethUsd }));
+          transfers.push(...normalizeEthTransfers(await withSourceDeadline(source(fetchImpl, { minEth, minUsd, state }), name), { minEth, minUsd, ethUsd }));
         }
       } catch (error) {
         errors.push(`ethereum: ${error?.message || error}`);
@@ -1101,7 +1124,7 @@ async function buildWhales({ fetchImpl, now, sources, minBtc, minEth, minUsd, mi
       try {
         for (const [name, source] of Object.entries(sources)) {
           if (!name.startsWith("tron") || typeof source !== "function") continue;
-          transfers.push(...normalizeTronTransfers(await source(fetchImpl, { minUsd, state }), { minUsd }));
+          transfers.push(...normalizeTronTransfers(await withSourceDeadline(source(fetchImpl, { minUsd, state }), name), { minUsd }));
         }
       } catch (error) {
         errors.push(`tron: ${error?.message || error}`);
