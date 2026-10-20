@@ -402,7 +402,7 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
   }));
   // Ordinary editorial links, never sign-up links: keep discovery available in every market.
   const feeVenues = ["bybit", "gate-io", "okx", "hyperliquid", "deribit", "jupiter", "mexc", "backpack"];
-  const feeComparisons = ["binance-vs-kraken", "binance-vs-okx", "binance-vs-bybit", "bybit-vs-bitget", "okx-vs-bybit", "gate-io-vs-mexc", "hyperliquid-vs-dydx", "coinbase-vs-gate-io"];
+  const feeComparisons = ["binance-vs-kraken", "binance-vs-okx", "binance-vs-bybit", "binance-vs-gate-io", "okx-vs-bybit", "gate-io-vs-mexc", "hyperliquid-vs-dydx", "coinbase-vs-gate-io"];
   const primaryColumns = [
     {
       key: "product",
