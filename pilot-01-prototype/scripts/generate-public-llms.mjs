@@ -13,7 +13,7 @@ import { localizedPath } from "../src/data/locale-routing.js";
 import { localizedValue, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { brandSlogan } from "../src/data/brand-slogan.js";
-import { BRAND_ALTERNATE_NAMES, BRAND_SAME_AS, entityAtAGlance } from "../src/data/brand-entity.js";
+import { organizationDescription, BRAND_ALTERNATE_NAMES, BRAND_SAME_AS, entityAtAGlance } from "../src/data/brand-entity.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
@@ -81,10 +81,8 @@ const sourceLines = Object.entries(internationalSourceRegistry).flatMap(([market
   ]) : ["- No authority source pack selected for this market."]),
 ]);
 
-// What the site is, in one sentence that starts with brand slogan A (SEO audit 2026-10-11 #9, owner-approved): independent
-// exchange research with disclosed partner links and invite codes. The old text called the site a "neutral directory"
-// and said referral codes were omitted, the opposite of what the venue pages say.
-const SITE_SUMMARY = `${brandSlogan("en").replace(/[.。]\s*$/, "")}: NexuAlpha is independent crypto exchange research that checks trading fees, official domains and sign-up routes against each exchange's own sources, with disclosed partner links and invite codes.`;
+// Shared benefit-first entity definition, followed by the unchanged commission disclosure.
+const SITE_SUMMARY = organizationDescription("en");
 // Machine-readable commission disclosure. On the site itself the disclosure lives only in the footer and the legal pages
 // (/methodology#disclosure, owner rule 2026-10-12), never inside page sections.
 const COMMISSION_DISCLOSURE = "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.";

@@ -1,3 +1,4 @@
+import { organizationDescription } from "../../data/brand-definition.js";
 import { beginnerPath } from "../../data/beginner-routes.js";
 import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
@@ -469,6 +470,7 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
+          <p className="nx-ftr__definition">{organizationDescription(locale)}</p>
           <div className="nx-ftr__socials" aria-label="NexuAlpha social links">
             <a href="https://t.me/NexuAlphaAssistantBot" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 4.4 18.5 19c-.2 1-.8 1.2-1.6.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9L18 6.2c.4-.3-.1-.5-.6-.2L6.5 12.9 1.8 11.4c-1-.3-1-1 .2-1.5L20.4 2.8c.8-.3 1.6.2 1.3 1.6Z" /></svg>

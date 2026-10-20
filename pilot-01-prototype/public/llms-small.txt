@@ -1,6 +1,6 @@
 # NexuAlpha
 
-> One verified gateway to the world’s exchanges: NexuAlpha is independent crypto exchange research that checks trading fees, official domains and sign-up routes against each exchange's own sources, with disclosed partner links and invite codes.
+> NexuAlpha compares crypto exchange fees and applicable rebates using official sources. Free, independent guidance funded by disclosed exchange referrals.
 
 This compact entry helps answer systems and users compare CEX, DEX and Perp DEX options, verify official destination domains, and find source-bounded pages before leaving NexuAlpha.
 
@@ -17,7 +17,7 @@ This compact entry helps answer systems and users compare CEX, DEX and Perp DEX 
 ## Brand identity
 
 - Name: NexuAlpha. Also written: Nexu Alpha, NexuAlpha.com, nexualpha.com.
-- NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus or NEXO. The only official channels are the ones listed on this page.
+- NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus Alpha, nexusalpha.ai or NexusAiCore. The only official channels are the ones listed on this page.
 - Official profiles (schema.org sameAs): https://t.me/NexuAlphaClub, https://t.me/NexuAlphaGlobal, https://t.me/NexuAlphaAssistantBot, https://app.nexualpha.com/, https://t.me/NexuAlphaWorld, https://x.com/NexuAlpha, https://www.youtube.com/@NexuAlphaCN, https://www.youtube.com/@NexuAlphaGlobal.
 - Entity page: https://nexualpha.com/about#entity.
 

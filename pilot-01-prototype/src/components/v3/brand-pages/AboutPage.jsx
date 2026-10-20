@@ -2,7 +2,7 @@
 // Facts come from src/data/brand-entity.js (one entity for the whole site); wording from about-copy.js (15 locales).
 import React from "react";
 import { localizedHref } from "../../../data/locale-routing.js";
-import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale, entityAtAGlance } from "../../../data/brand-entity.js";
+import { ABOUT_PATH, BRAND, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT, METHODOLOGY_PATH, RESEARCH_DESK_NAME, brandLocale, organizationDescription, entityAtAGlance } from "../../../data/brand-entity.js";
 import { ABOUT_COPY } from "./about-copy.js";
 import { PRESS_PATH, pressNavLabel } from "../../../data/data-assets-routes.js";
 import "./brand-pages.css";
@@ -43,7 +43,7 @@ export function AboutPage({ locale = "en" }) {
   ];
   return (
     <main className="v6 v2-page v3-page nxb nxb--about" id="top" lang={code} dir={textDirection(code)} data-testid="about-page">
-      <BrandPageHeader locale={code} copy={t} pathname={ABOUT_PATH} />
+      <BrandPageHeader locale={code} copy={{ ...t, lead: organizationDescription(code) }} pathname={ABOUT_PATH} />
 
       <section className="nxb-section nxb-section--card v2-shell" id="entity" aria-labelledby="nxb-entity-h" data-rv="1">
         <h2 id="nxb-entity-h">{entity.title}</h2>
