@@ -1,3 +1,4 @@
+import { organizationDescription } from "../../data/brand-definition.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { enFallback } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -753,6 +754,7 @@ export function MethodologyPage({ locale = "en" }) {
             <span className="methodology-page__date"><time dateTime={METHODOLOGY_REVISED_MONTH}>{lastUpdated}</time></span>
           </div>
           <h1 className="methodology-page__title">{t.title}</h1>
+          <p data-aeo-extractable-answer>{organizationDescription(locale)}</p>
           <p className="methodology-page__subtitle">{t.subtitle}</p>
 
           <aside className="methodology-page__research-trust" aria-label={trust.label}>

@@ -1,17 +1,5 @@
-// Home <title> and meta description per locale. One table read by the Worker head (worker/index.js routeMetadata),
-// the SSR/client router (seo-injection.js computeRouteSeo) and therefore /api/route-seo, so all three stay identical.
-//
-// Owner 2026-10-10 (GSC CTR work): the title carries the commercial search intent (referral code / fee rebate; ja/ko
-// informational; ru/ar/ur/uk/vi neutral, matching src/data/referral-seo.js).
-// Owner 2026-10-11 (brand slogans, src/data/brand-slogan.js):
-//   - title = search keywords + slogan A + " — NexuAlpha" when that fits the 60-wide budget (budgetTitle,
-//     titleDisplayWidth: CJK counts double); otherwise keywords + " — NexuAlpha" and slogan A leads the description;
-//   - description = [slogan A when not in the title] + slogan B + the facts (OKX/Bitget/Binance codes, settled by the
-//     exchange; no disclosure line since 2026-10-13), clamped with clampMetaDescription.
-// Slogan B (a rebate share) is left out where the home copy is neutral pending local review: ru (advertising
-// rules), ar (Egypt CBE law 194/2020), vi (Vietnam Resolution 05/2025/NQ-CP, owner 2026-10-13), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
-// slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
-// NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
+import { organizationDescription } from "./brand-definition.js";
+// Home titles retain existing locale/market policy. Descriptions share the canonical entity definition.
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
 import { NEUTRAL_CTA_LOCALE_LIST, isNeutralCtaLocale } from "./locale-policy.js";
 import { isTurkeyPage, jurisdictionPromotionBan } from "./partner-geo-policy.js";
@@ -99,16 +87,9 @@ export function turkeyVenueTrio(text) {
   return String(text).replace(/Bitget(.{1,6}?)(Binance|币安|幣安)/gu, "$2$1Bybit");
 }
 
-/** Home meta description: [slogan A] + [slogan B] + facts, clamped to the locale snippet budget. */
+/** Canonical entity definition, bounded to the locale snippet budget. */
 export function homeDescription(locale, { turkey = locale === "tr" } = {}) {
-  const parts = [];
-  if (!homeTitleCarriesSlogan(locale)) parts.push(sloganSentence(brandSlogan(locale), locale));
-  // Turkey (owner 2026-10-11): Bitget is not promoted (its Turkish entity is on the SPK liquidation list), so the share in
-  // slogan B is the best confirmed share among the partners promoted in Turkey (OKX 40%), not the Bitget headline.
-  if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) parts.push(sloganSentence(brandSloganSecondary(locale, turkey ? TR_REBATE_MAX_PCT : undefined), locale));
-  const facts = HOME_FACTS[locale] || HOME_FACTS.en;
-  parts.push(turkey ? turkeyVenueTrio(facts) : facts);
-  return clampMetaDescription(parts.join(CJK_JOIN.has(locale) ? "" : " "), locale);
+  return clampMetaDescription(organizationDescription(locale), locale);
 }
 
 export const HOME_SEARCH_COPY = Object.freeze(Object.fromEntries(

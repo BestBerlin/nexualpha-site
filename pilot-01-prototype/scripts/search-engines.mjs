@@ -13,6 +13,19 @@ import { groupStrikingRows, mergeStrikingWindows, strikingMarkdownTable } from "
 import { createSign } from "node:crypto";
 import { homedir } from "node:os";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { loadIndexNowKey, buildIndexNowPayload, submitIndexNowPayload, parseChangedUrls } from "./indexnow-submit.mjs";
+
+export async function submitYandexIndexNow(urls, fetchImpl = globalThis.fetch) {
+  const key = await loadIndexNowKey();
+  return submitIndexNowPayload({ endpoint: "https://yandex.com/indexnow", payload: buildIndexNowPayload({ ...key, urls }), fetchImpl });
+}
+
+export function submissionWarning(engine, result, error) {
+  if (engine === "yandex" && error && /fetch failed|timeout|abort|ECONN|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|socket|UND_ERR/i.test(`${error.name} ${error.message} ${error.cause?.code || ""}`)) return "unreachable";
+  if (engine === "bing" && result?.status === 400 && /ThrottleHost/i.test(result.text)) return "throttled, retry next slot";
+  return null;
+}
 
 const SITE = "https://nexualpha.com/";
 // news-library-sitemap.xml and locale-sitemap.xml 301 to sitemap.xml since #118; the index now lists their content.
@@ -94,14 +107,15 @@ async function yandex(method, pathname, body) {
   const token = readEnv("yandex-webmaster.env").YANDEX_OAUTH_TOKEN;
   if (!token) throw new Error("yandex-webmaster.env has no YANDEX_OAUTH_TOKEN");
   const headers = { authorization: `OAuth ${token}`, "content-type": "application/json" };
-  const user = (await (await fetch(`${YANDEX}/user`, { headers })).json()).user_id;
-  const res = await fetch(`${YANDEX}/user/${user}${pathname}`, { method, headers, body: body && JSON.stringify(body) });
+  const signal = AbortSignal.timeout(15_000);
+  const user = (await (await fetch(`${YANDEX}/user`, { headers, signal })).json()).user_id;
+  const res = await fetch(`${YANDEX}/user/${user}${pathname}`, { method, headers, signal, body: body && JSON.stringify(body) });
   return { status: res.status, text: await res.text() };
 }
 
 async function run(engine, step, fn) {
-  try { const r = await fn(); out(engine, step, r.status, short(r.text)); return r; }
-  catch (error) { out(engine, step, "ERR", error.message); return null; }
+  try { const r = await fn(); const warning = submissionWarning(engine, r); out(engine, step, warning ? "WARN" : r.status, warning || short(r.text)); return r; }
+  catch (error) { const warning = submissionWarning(engine, null, error); out(engine, step, warning ? "WARN" : "ERR", warning || error.message); return null; }
 }
 
 // Search data lives in the domain property (sc-domain:nexualpha.com); the URL-prefix property has none. Use the
@@ -130,6 +144,7 @@ async function queryPageRows(property, start, end) {
 }
 function argValue(name) { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : undefined; }
 
+async function main() {
 const cmd = process.argv[2];
 if (cmd === "verify") {
   await run("google", "verify file", () => google("POST", "https://www.googleapis.com/siteVerification/v1/webResource?verificationMethod=FILE", { site: { type: "SITE", identifier: SITE } }));
@@ -137,7 +152,8 @@ if (cmd === "verify") {
   await run("bing", "verify", () => bing("POST", "VerifySite", { siteUrl: SITE }));
   await run("yandex", "verify file", () => yandex("POST", `/hosts/${YHOST}/verification?verification_type=HTML_FILE`));
 } else if (cmd === "submit") {
-  for (const sm of await nonEmptySitemaps()) {
+  const sitemaps = await nonEmptySitemaps();
+  for (const sm of sitemaps) {
     await run("google", "sitemap", () => google("PUT", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/sitemaps/${encodeURIComponent(sm)}`));
     await run("bing", "sitemap", () => bing("POST", "SubmitFeed", { siteUrl: SITE, feedUrl: sm }));
     await run("yandex", "sitemap", async () => {
@@ -145,6 +161,12 @@ if (cmd === "verify") {
       return r.status === 409 && r.text.includes("SITEMAP_ALREADY_ADDED") ? { status: 200, text: "already registered; Yandex re-reads it on its own schedule" } : r;
     });
   }
+  const changedFile = argValue("--changed-urls");
+  const urls = changedFile ? parseChangedUrls(readFileSync(changedFile, "utf8")) : sitemaps;
+  await run("yandex", "indexnow", async () => {
+    const r = await submitYandexIndexNow(urls);
+    return { status: r.status, text: r.ok ? "accepted by endpoint; indexing is not guaranteed" : r.text };
+  });
 } else if (cmd === "status") {
   await run("google", "sitemaps", () => google("GET", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/sitemaps`));
   await run("bing", "feeds", () => bing("GET", "GetFeeds", { siteUrl: SITE }));
@@ -252,3 +274,6 @@ if (cmd === "verify") {
   console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>...|perf [days]|striking [--write dir] [--date YYYY-MM-DD] [--full]");
   process.exitCode = 1;
 }
+
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

@@ -1,10 +1,12 @@
+import { organizationDescription } from "./brand-definition.js";
+export { organizationDescription, ENTITY_DEFINITION } from "./brand-definition.js";
 // One source of truth for the NexuAlpha publisher entity (schema.org Organization), the editorial team
 // (NexuAlpha Research Desk, an internal desk, not a named person) and the brand pages /about and /editorial-policy.
 // Imported by the Worker, the client router (seo-injection.js), the data pages and the Brazil SEO module, so every
 // page emits the same @id for the publisher. Facts only: no people, credentials, addresses or awards are listed.
 // To add a public profile (X, GitHub, Medium, LinkedIn), append its URL to BRAND.profiles below; nothing else changes.
 
-import { brandSlogan, sloganSentence } from "./brand-slogan.js";
+import { brandSlogan } from "./brand-slogan.js";
 
 export const PUBLIC_ORIGIN = "https://nexualpha.com";
 export const ORGANIZATION_ID = `${PUBLIC_ORIGIN}/#organization`;
@@ -61,29 +63,29 @@ export const BRAND_KNOWS_ABOUT = Object.freeze([
 export const RESEARCH_DESK_NAME = "NexuAlpha Research Desk";
 
 // Brand disambiguation (SEO/GEO pass 2026-10-15). Search engines and answer engines confuse "NexuAlpha" with older,
-// similarly named brands (Nexus, NEXO). One sentence per locale, used as Organization.disambiguatingDescription and
+// similarly named brands (Nexus Alpha, nexusalpha.ai / NexusAiCore). One sentence per locale, used as Organization.disambiguatingDescription and
 // as the visible "at a glance" block on /about. vi stays information-only (no rebate wording, owner rule 2026-10-13).
 export const BRAND_ALTERNATE_NAMES = Object.freeze(["Nexu Alpha", "NexuAlpha.com", "nexualpha.com"]);
 export const ENTITY_AT_A_GLANCE = Object.freeze({
-  en: ["NexuAlpha at a glance", "NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus or NEXO. The only official channels are the ones listed on this page.", "Official profiles"],
-  "zh-Hans": ["NexuAlpha 一览", "NexuAlpha（也写作 Nexu Alpha）是位于 nexualpha.com 的加密交易所研究与手续费返还网站。它不是交易所、代币或交易 App，也与使用相近名称的其他公司、代币或项目（例如 Nexus、NEXO）没有关联。官方渠道仅以本页列出的为准。", "官方账号"],
-  "zh-Hant": ["NexuAlpha 一覽", "NexuAlpha（也寫作 Nexu Alpha）是位於 nexualpha.com 的加密交易所研究與手續費返還網站。它不是交易所、代幣或交易 App，也與使用相近名稱的其他公司、代幣或專案（例如 Nexus、NEXO）沒有關聯。官方管道僅以本頁列出的為準。", "官方帳號"],
-  es: ["NexuAlpha en breve", "NexuAlpha (también escrito Nexu Alpha) es el sitio de análisis de exchanges cripto y devolución de comisiones en nexualpha.com. No es un exchange, un token ni una app de trading, y no está vinculado con otras empresas, tokens o proyectos de nombre parecido, como Nexus o NEXO. Los únicos canales oficiales son los que figuran en esta página.", "Perfiles oficiales"],
-  "pt-BR": ["NexuAlpha em resumo", "A NexuAlpha (também escrita Nexu Alpha) é o site de análise de exchanges cripto e devolução de taxas em nexualpha.com. Não é uma exchange, um token nem um app de trading, e não tem relação com outras empresas, tokens ou projetos de nome parecido, como Nexus ou NEXO. Os únicos canais oficiais são os listados nesta página.", "Perfis oficiais"],
-  fr: ["NexuAlpha en bref", "NexuAlpha (aussi écrit Nexu Alpha) est le site d’analyse des plateformes crypto et de remboursement de frais publié sur nexualpha.com. Ce n’est ni une plateforme d’échange, ni un jeton, ni une application de trading, et il n’est lié à aucune société, aucun jeton ni aucun projet au nom proche, comme Nexus ou NEXO. Seuls les canaux listés sur cette page sont officiels.", "Profils officiels"],
-  de: ["NexuAlpha auf einen Blick", "NexuAlpha (auch Nexu Alpha geschrieben) ist die Recherche- und Gebührenrückerstattungsseite zu Kryptobörsen unter nexualpha.com. NexuAlpha ist keine Börse, kein Token und keine Trading-App und steht in keiner Verbindung zu Unternehmen, Token oder Projekten mit ähnlichem Namen wie Nexus oder NEXO. Offiziell sind nur die auf dieser Seite genannten Kanäle.", "Offizielle Profile"],
-  it: ["NexuAlpha in breve", "NexuAlpha (scritto anche Nexu Alpha) è il sito di analisi degli exchange crypto e rimborso commissioni su nexualpha.com. Non è un exchange, un token né un’app di trading e non è collegato ad altre società, token o progetti con nomi simili, come Nexus o NEXO. Gli unici canali ufficiali sono quelli elencati in questa pagina.", "Profili ufficiali"],
-  ja: ["NexuAlpha の概要", "NexuAlpha（Nexu Alpha とも表記）は、nexualpha.com で運営する暗号資産取引所のリサーチと手数料還元のサイトです。取引所、トークン、取引アプリではなく、Nexus や NEXO など似た名前の企業・トークン・プロジェクトとは関係ありません。公式チャンネルはこのページに掲載したものだけです。", "公式アカウント"],
-  ko: ["NexuAlpha 한눈에 보기", "NexuAlpha(Nexu Alpha로도 표기)는 nexualpha.com에서 운영하는 암호화폐 거래소 리서치 및 수수료 환급 사이트입니다. 거래소, 토큰, 트레이딩 앱이 아니며 Nexus, NEXO 등 비슷한 이름의 다른 회사·토큰·프로젝트와 관련이 없습니다. 공식 채널은 이 페이지에 적힌 것뿐입니다.", "공식 계정"],
-  ru: ["NexuAlpha кратко", "NexuAlpha (также пишется Nexu Alpha) — сайт с исследованиями криптобирж и возвратом комиссий по адресу nexualpha.com. Это не биржа, не токен и не торговое приложение; NexuAlpha не связан с компаниями, токенами или проектами с похожими названиями, например Nexus или NEXO. Официальные каналы — только те, что перечислены на этой странице.", "Официальные профили"],
-  tr: ["Kısaca NexuAlpha", "NexuAlpha (Nexu Alpha olarak da yazılır), nexualpha.com adresindeki kripto borsa araştırma ve komisyon iadesi sitesidir. Bir borsa, token ya da alım satım uygulaması değildir; Nexus veya NEXO gibi benzer adlı şirket, token ya da projelerle bağlantısı yoktur. Resmî kanallar yalnızca bu sayfada listelenenlerdir.", "Resmî hesaplar"],
-  id: ["Sekilas tentang NexuAlpha", "NexuAlpha (juga ditulis Nexu Alpha) adalah situs riset bursa kripto dan pengembalian biaya di nexualpha.com. NexuAlpha bukan bursa, token, atau aplikasi trading, dan tidak terkait dengan perusahaan, token, atau proyek lain bernama mirip seperti Nexus atau NEXO. Kanal resmi hanya yang tercantum di halaman ini.", "Profil resmi"],
-  vi: ["Tóm tắt về NexuAlpha", "NexuAlpha (còn viết là Nexu Alpha) là trang nghiên cứu sàn tiền mã hóa tại nexualpha.com. NexuAlpha không phải sàn giao dịch, token hay ứng dụng giao dịch, và không liên quan đến các công ty, token hay dự án có tên gần giống như Nexus hoặc NEXO. Kênh chính thức chỉ gồm những kênh được liệt kê trên trang này.", "Tài khoản chính thức"],
-  ar: ["لمحة عن NexuAlpha", "NexuAlpha (وتُكتب أيضًا Nexu Alpha) هو موقع أبحاث منصات تداول العملات المشفرة واسترداد الرسوم على nexualpha.com. ليس منصة تداول ولا رمزًا مميزًا ولا تطبيق تداول، ولا يرتبط بشركات أو رموز أو مشاريع أخرى تحمل أسماء مشابهة مثل Nexus أو NEXO. القنوات الرسمية هي المدرجة في هذه الصفحة فقط.", "الحسابات الرسمية"],
+  en: ["NexuAlpha at a glance", "NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus Alpha, nexusalpha.ai or NexusAiCore. The only official channels are the ones listed on this page.", "Official profiles"],
+  "zh-Hans": ["NexuAlpha 一览", "NexuAlpha（也写作 Nexu Alpha）是位于 nexualpha.com 的加密交易所研究与手续费返还网站。它不是交易所、代币或交易 App，也与使用相近名称的其他公司、代币或项目（例如 Nexus Alpha、nexusalpha.ai、NexusAiCore）没有关联。官方渠道仅以本页列出的为准。", "官方账号"],
+  "zh-Hant": ["NexuAlpha 一覽", "NexuAlpha（也寫作 Nexu Alpha）是位於 nexualpha.com 的加密交易所研究與手續費返還網站。它不是交易所、代幣或交易 App，也與使用相近名稱的其他公司、代幣或專案（例如 Nexus Alpha、nexusalpha.ai、NexusAiCore）沒有關聯。官方管道僅以本頁列出的為準。", "官方帳號"],
+  es: ["NexuAlpha en breve", "NexuAlpha (también escrito Nexu Alpha) es el sitio de análisis de exchanges cripto y devolución de comisiones en nexualpha.com. No es un exchange, un token ni una app de trading, y no está vinculado con otras empresas, tokens o proyectos de nombre parecido, como Nexus Alpha o nexusalpha.ai / NexusAiCore. Los únicos canales oficiales son los que figuran en esta página.", "Perfiles oficiales"],
+  "pt-BR": ["NexuAlpha em resumo", "A NexuAlpha (também escrita Nexu Alpha) é o site de análise de exchanges cripto e devolução de taxas em nexualpha.com. Não é uma exchange, um token nem um app de trading, e não tem relação com outras empresas, tokens ou projetos de nome parecido, como Nexus Alpha ou nexusalpha.ai / NexusAiCore. Os únicos canais oficiais são os listados nesta página.", "Perfis oficiais"],
+  fr: ["NexuAlpha en bref", "NexuAlpha (aussi écrit Nexu Alpha) est le site d’analyse des plateformes crypto et de remboursement de frais publié sur nexualpha.com. Ce n’est ni une plateforme d’échange, ni un jeton, ni une application de trading, et il n’est lié à aucune société, aucun jeton ni aucun projet au nom proche, comme Nexus Alpha ou nexusalpha.ai / NexusAiCore. Seuls les canaux listés sur cette page sont officiels.", "Profils officiels"],
+  de: ["NexuAlpha auf einen Blick", "NexuAlpha (auch Nexu Alpha geschrieben) ist die Recherche- und Gebührenrückerstattungsseite zu Kryptobörsen unter nexualpha.com. NexuAlpha ist keine Börse, kein Token und keine Trading-App und steht in keiner Verbindung zu Unternehmen, Token oder Projekten mit ähnlichem Namen wie Nexus Alpha oder nexusalpha.ai / NexusAiCore. Offiziell sind nur die auf dieser Seite genannten Kanäle.", "Offizielle Profile"],
+  it: ["NexuAlpha in breve", "NexuAlpha (scritto anche Nexu Alpha) è il sito di analisi degli exchange crypto e rimborso commissioni su nexualpha.com. Non è un exchange, un token né un’app di trading e non è collegato ad altre società, token o progetti con nomi simili, come Nexus Alpha o nexusalpha.ai / NexusAiCore. Gli unici canali ufficiali sono quelli elencati in questa pagina.", "Profili ufficiali"],
+  ja: ["NexuAlpha の概要", "NexuAlpha（Nexu Alpha とも表記）は、nexualpha.com で運営する暗号資産取引所のリサーチと手数料還元のサイトです。取引所、トークン、取引アプリではなく、Nexus Alpha や nexusalpha.ai / NexusAiCore など似た名前の企業・トークン・プロジェクトとは関係ありません。公式チャンネルはこのページに掲載したものだけです。", "公式アカウント"],
+  ko: ["NexuAlpha 한눈에 보기", "NexuAlpha(Nexu Alpha로도 표기)는 nexualpha.com에서 운영하는 암호화폐 거래소 리서치 및 수수료 환급 사이트입니다. 거래소, 토큰, 트레이딩 앱이 아니며 Nexus Alpha, nexusalpha.ai / NexusAiCore 등 비슷한 이름의 다른 회사·토큰·프로젝트와 관련이 없습니다. 공식 채널은 이 페이지에 적힌 것뿐입니다.", "공식 계정"],
+  ru: ["NexuAlpha кратко", "NexuAlpha (также пишется Nexu Alpha) — сайт с исследованиями криптобирж и возвратом комиссий по адресу nexualpha.com. Это не биржа, не токен и не торговое приложение; NexuAlpha не связан с компаниями, токенами или проектами с похожими названиями, например Nexus Alpha или nexusalpha.ai / NexusAiCore. Официальные каналы — только те, что перечислены на этой странице.", "Официальные профили"],
+  tr: ["Kısaca NexuAlpha", "NexuAlpha (Nexu Alpha olarak da yazılır), nexualpha.com adresindeki kripto borsa araştırma ve komisyon iadesi sitesidir. Bir borsa, token ya da alım satım uygulaması değildir; Nexus Alpha veya nexusalpha.ai / NexusAiCore gibi benzer adlı şirket, token ya da projelerle bağlantısı yoktur. Resmî kanallar yalnızca bu sayfada listelenenlerdir.", "Resmî hesaplar"],
+  id: ["Sekilas tentang NexuAlpha", "NexuAlpha (juga ditulis Nexu Alpha) adalah situs riset bursa kripto dan pengembalian biaya di nexualpha.com. NexuAlpha bukan bursa, token, atau aplikasi trading, dan tidak terkait dengan perusahaan, token, atau proyek lain bernama mirip seperti Nexus Alpha atau nexusalpha.ai / NexusAiCore. Kanal resmi hanya yang tercantum di halaman ini.", "Profil resmi"],
+  vi: ["Tóm tắt về NexuAlpha", "NexuAlpha (còn viết là Nexu Alpha) là trang nghiên cứu sàn tiền mã hóa tại nexualpha.com. NexuAlpha không phải sàn giao dịch, token hay ứng dụng giao dịch, và không liên quan đến các công ty, token hay dự án có tên gần giống như Nexus Alpha hoặc nexusalpha.ai / NexusAiCore. Kênh chính thức chỉ gồm những kênh được liệt kê trên trang này.", "Tài khoản chính thức"],
+  ar: ["لمحة عن NexuAlpha", "NexuAlpha (وتُكتب أيضًا Nexu Alpha) هو موقع أبحاث منصات تداول العملات المشفرة واسترداد الرسوم على nexualpha.com. ليس منصة تداول ولا رمزًا مميزًا ولا تطبيق تداول، ولا يرتبط بشركات أو رموز أو مشاريع أخرى تحمل أسماء مشابهة مثل Nexus Alpha أو nexusalpha.ai / NexusAiCore. القنوات الرسمية هي المدرجة في هذه الصفحة فقط.", "الحسابات الرسمية"],
   // l10n: needs native review
-  ur: ["NexuAlpha ایک نظر میں", "NexuAlpha (جسے Nexu Alpha بھی لکھا جاتا ہے) nexualpha.com پر کرپٹو ایکسچینج تحقیق اور فیس واپسی کی ویب سائٹ ہے۔ یہ کوئی ایکسچینج، ٹوکن یا ٹریڈنگ ایپ نہیں، اور Nexus یا NEXO جیسے ملتے جلتے ناموں والی کمپنیوں، ٹوکنز یا منصوبوں سے اس کا کوئی تعلق نہیں۔ سرکاری چینل صرف وہی ہیں جو اس صفحے پر درج ہیں۔", "سرکاری اکاؤنٹس"],
+  ur: ["NexuAlpha ایک نظر میں", "NexuAlpha (جسے Nexu Alpha بھی لکھا جاتا ہے) nexualpha.com پر کرپٹو ایکسچینج تحقیق اور فیس واپسی کی ویب سائٹ ہے۔ یہ کوئی ایکسچینج، ٹوکن یا ٹریڈنگ ایپ نہیں، اور Nexus Alpha یا nexusalpha.ai / NexusAiCore جیسے ملتے جلتے ناموں والی کمپنیوں، ٹوکنز یا منصوبوں سے اس کا کوئی تعلق نہیں۔ سرکاری چینل صرف وہی ہیں جو اس صفحے پر درج ہیں۔", "سرکاری اکاؤنٹس"],
   // l10n: needs native review
-  uk: ["Коротко про NexuAlpha", "NexuAlpha (також пишеться Nexu Alpha) — сайт із дослідженнями криптобірж і поверненням комісій за адресою nexualpha.com. Це не біржа, не токен і не торговий застосунок; NexuAlpha не пов’язаний з компаніями, токенами чи проєктами зі схожими назвами, як-от Nexus або NEXO. Офіційні канали — лише ті, що наведені на цій сторінці.", "Офіційні профілі"],
+  uk: ["Коротко про NexuAlpha", "NexuAlpha (також пишеться Nexu Alpha) — сайт із дослідженнями криптобірж і поверненням комісій за адресою nexualpha.com. Це не біржа, не токен і не торговий застосунок; NexuAlpha не пов’язаний з компаніями, токенами чи проєктами зі схожими назвами, як-от Nexus Alpha або nexusalpha.ai / NexusAiCore. Офіційні канали — лише ті, що наведені на цій сторінці.", "Офіційні профілі"],
 });
 
 export function entityAtAGlance(locale = "en") {
@@ -91,27 +93,7 @@ export function entityAtAGlance(locale = "en") {
   return { title, body, profilesLabel };
 }
 
-const ORGANIZATION_DESCRIPTION = Object.freeze({
-  en: "Independent, source-backed crypto platform research: published fees, referral terms, regional conditions and reserve disclosures, each with its official source and review date.",
-  "zh-Hans": "独立、以来源为依据的加密交易平台研究：公开费率、邀请条款、地区条件与储备披露，每项都附官方来源与复核日期。",
-  "zh-Hant": "獨立、以來源為依據的加密交易平台研究：公開費率、邀請條款、地區條件與儲備披露，每項都附官方來源與複核日期。",
-  es: "Investigación independiente y basada en fuentes sobre plataformas cripto: comisiones publicadas, condiciones de referidos, condiciones regionales y reservas, cada una con su fuente oficial y fecha de revisión.",
-  "pt-BR": "Pesquisa independente e baseada em fontes sobre plataformas cripto: taxas publicadas, termos de indicação, condições regionais e reservas, cada item com fonte oficial e data de revisão.",
-  fr: "Recherche indépendante et sourcée sur les plateformes crypto : frais publiés, conditions de parrainage, conditions régionales et réserves, chaque donnée avec sa source officielle et sa date de révision.",
-  de: "Unabhängige, quellenbasierte Recherche zu Kryptoplattformen: veröffentlichte Gebühren, Empfehlungsbedingungen, regionale Bedingungen und Reserven, jeweils mit offizieller Quelle und Prüfdatum.",
-  it: "Ricerca indipendente e basata su fonti sulle piattaforme crypto: commissioni pubblicate, condizioni referral, condizioni regionali e riserve, ciascuna con fonte ufficiale e data di verifica.",
-  ja: "独立した一次情報ベースの暗号資産取引所リサーチ。公開手数料、紹介条件、地域条件、準備金開示を、公式ソースと確認日とともに整理します。",
-  ko: "독립적이고 출처 기반의 암호화폐 플랫폼 리서치. 공개 수수료, 추천 조건, 지역 조건, 준비금 공시를 공식 출처와 검토일과 함께 정리합니다.",
-  ru: "Независимое исследование криптоплатформ с опорой на источники: опубликованные комиссии, реферальные условия, региональные требования и раскрытие резервов — каждый пункт с официальным источником и датой проверки.",
-  tr: "Kaynağa dayalı bağımsız kripto platform araştırması: yayımlanmış ücretler, referans koşulları, bölgesel koşullar ve rezerv açıklamaları, her biri resmi kaynağı ve inceleme tarihiyle.",
-  id: "Riset platform kripto yang independen dan berbasis sumber: biaya resmi, ketentuan referral, kondisi regional dan pengungkapan cadangan, masing-masing dengan sumber resmi dan tanggal tinjauan.",
-  vi: "Nghiên cứu nền tảng tiền mã hóa độc lập, dựa trên nguồn: phí công bố, điều khoản giới thiệu, điều kiện khu vực và công bố dự trữ, mỗi mục kèm nguồn chính thức và ngày rà soát.",
-  // l10n: needs native review
-  ur: "آزاد اور ماخذ پر مبنی کرپٹو ایکسچینج تحقیق: شائع شدہ فیس، ریفرل شرائط، علاقائی شرائط اور ذخائر کے افشا، ہر نکتے کے ساتھ سرکاری ماخذ اور جائزے کی تاریخ۔",
-  // l10n: needs native review
-  uk: "Незалежні дослідження криптобірж на основі джерел: опубліковані комісії, реферальні та регіональні умови, розкриття резервів — з офіційним джерелом і датою перевірки для кожного пункту.",
-  ar: "بحث مستقل قائم على المصادر حول منصات العملات المشفرة: الرسوم المنشورة وشروط الإحالة والشروط الإقليمية وإفصاحات الاحتياطيات، كل بند مع مصدره الرسمي وتاريخ مراجعته.",
-});
+
 
 const RESEARCH_DESK_DESCRIPTION = Object.freeze({
   en: "The internal editorial team of NexuAlpha. It checks fees, referral terms and official announcements against primary sources; articles are researched and written with AI assistance and reviewed before publication. It is not a named individual, adviser, broker or exchange operator.",
@@ -219,12 +201,6 @@ export function organizationSchema(locale = "en") {
   };
 }
 
-/** Publisher description: slogan A first, then the factual description (Organization, default WebSite description). */
-export function organizationDescription(locale = "en") {
-  const code = brandLocale(locale);
-  return `${sloganSentence(brandSlogan(code), code)}${["zh-Hans", "zh-Hant", "ja"].includes(code) ? "" : " "}${ORGANIZATION_DESCRIPTION[code] || ORGANIZATION_DESCRIPTION.en}`;
-}
-
 export function researchDeskDescription(locale = "en") {
   return RESEARCH_DESK_DESCRIPTION[brandLocale(locale)] || RESEARCH_DESK_DESCRIPTION.en;
 }
@@ -232,25 +208,25 @@ export function researchDeskDescription(locale = "en") {
 // <title> (≤ 65 chars) and meta description (≤ 160 chars; ≤ 80 for zh/ja/ko) of the two brand pages, per locale.
 export const BRAND_PAGE_SEO = Object.freeze({
   [ABOUT_PATH]: Object.freeze({
-    en: ["About NexuAlpha: Publisher, Funding and Research Desk", "Who publishes NexuAlpha, how the site earns from partner commissions, how fees and facts are checked, and how to reach the Research Desk on Telegram."],
-    "zh-Hans": ["关于 NexuAlpha：发布方、收入来源与研究团队", "NexuAlpha 由谁发布、如何通过合作佣金获得收入、费率与事实如何核验，以及如何在 Telegram 联系研究团队。"],
-    "zh-Hant": ["關於 NexuAlpha：發布方、收入來源與研究團隊", "NexuAlpha 由誰發布、如何透過合作傭金獲得收入、費率與事實如何核驗，以及如何在 Telegram 聯絡研究團隊。"],
-    es: ["Acerca de NexuAlpha: editor, financiación y Research Desk", "Quién publica NexuAlpha, cómo se financia con comisiones de socios, cómo se verifican comisiones y datos, y cómo contactar al Research Desk en Telegram."],
-    "pt-BR": ["Sobre a NexuAlpha: editora, financiamento e equipe de pesquisa", "Quem publica a NexuAlpha, como o site ganha com comissões de parceiros, como taxas e fatos são verificados e como falar com o Research Desk no Telegram."],
-    fr: ["À propos de NexuAlpha : éditeur, financement et Research Desk", "Qui publie NexuAlpha, comment le site est financé par des commissions partenaires, comment frais et faits sont vérifiés, et comment joindre le Research Desk."],
-    de: ["Über NexuAlpha: Herausgeber, Finanzierung und Research Desk", "Wer NexuAlpha herausgibt, wie die Seite über Partnerprovisionen finanziert wird, wie Gebühren und Fakten geprüft werden und wie Sie den Research Desk erreichen."],
-    it: ["Chi siamo: editore, finanziamento e Research Desk di NexuAlpha", "Chi pubblica NexuAlpha, come il sito guadagna con le commissioni dei partner, come vengono verificati commissioni e dati e come contattare il Research Desk."],
-    ja: ["NexuAlpha について：発行者・収益・リサーチチーム", "NexuAlpha の発行者、パートナー手数料による収益、手数料と事実の確認方法、Telegram での連絡先を説明します。"],
-    ko: ["NexuAlpha 소개: 발행 주체, 수익 구조, 리서치 데스크", "NexuAlpha의 발행 주체, 파트너 수수료 기반 수익 구조, 수수료와 사실 검증 방식, Telegram 연락 방법을 안내합니다."],
-    ru: ["О NexuAlpha: издатель, финансирование и Research Desk", "Кто издаёт NexuAlpha, как сайт зарабатывает на партнёрских комиссиях, как проверяются комиссии и факты и как связаться с Research Desk в Telegram."],
-    tr: ["NexuAlpha Hakkında: Yayıncı, Finansman ve Research Desk", "NexuAlpha'yı kim yayımlıyor, site ortaklık komisyonlarından nasıl gelir elde ediyor, ücretler ve bilgiler nasıl doğrulanıyor, Research Desk'e nasıl ulaşılır."],
-    id: ["Tentang NexuAlpha: Penerbit, Pendanaan dan Research Desk", "Siapa yang menerbitkan NexuAlpha, bagaimana situs memperoleh komisi mitra, bagaimana biaya dan fakta diverifikasi, dan cara menghubungi Research Desk."],
-    vi: ["Về NexuAlpha: nhà xuất bản, nguồn thu và Research Desk", "Ai xuất bản NexuAlpha, trang kiếm tiền từ hoa hồng đối tác như thế nào, phí và dữ kiện được kiểm chứng ra sao, và cách liên hệ Research Desk qua Telegram."],
+    en: ["About NexuAlpha: Publisher, Funding and Research Desk", "NexuAlpha compares crypto exchange fees and applicable rebates using official sources. Free, independent guidance funded by disclosed exchange referrals."],
+    "zh-Hans": ["关于 NexuAlpha：发布方、收入来源与研究团队", "NexuAlpha 是独立的加密交易所手续费比较与返还指南，依据官方来源帮助交易者核对费率、注册链接和适用返还，降低交易成本。内容免费，由公开披露的交易所推荐计划资助。"],
+    "zh-Hant": ["關於 NexuAlpha：發布方、收入來源與研究團隊", "NexuAlpha 是獨立的加密交易所手續費比較指南，依官方來源核對費率與平台條件，協助評估交易成本。內容免費，由公開揭露的交易所推薦計畫資助。"],
+    es: ["Acerca de NexuAlpha: editor, financiación y Research Desk", "NexuAlpha compara tarifas y reembolsos cripto con fuentes oficiales. Guía gratuita e independiente, financiada por referidos declarados."],
+    "pt-BR": ["Sobre a NexuAlpha: editora, financiamento e equipe de pesquisa", "NexuAlpha compara taxas e reembolsos cripto com fontes oficiais. Guia gratuito e independente, financiado por indicações divulgadas."],
+    fr: ["À propos de NexuAlpha : éditeur, financement et Research Desk", "NexuAlpha compare les frais et remises crypto avec des sources officielles. Guide gratuit et indépendant, financé par des parrainages déclarés."],
+    de: ["Über NexuAlpha: Herausgeber, Finanzierung und Research Desk", "NexuAlpha vergleicht Kryptogebühren und Rabatte anhand offizieller Quellen. Kostenlos und unabhängig, durch offengelegte Empfehlungen finanziert."],
+    it: ["Chi siamo: editore, finanziamento e Research Desk di NexuAlpha", "NexuAlpha confronta costi e rimborsi crypto da fonti ufficiali. Guida gratuita e indipendente, finanziata da referral dichiarati."],
+    ja: ["NexuAlpha について：発行者・収益・リサーチチーム", "NexuAlpha は公式情報に基づく独立した暗号資産取引所の手数料比較ガイドです。取引コストの確認を支援します。無料で、開示された取引所紹介制度により運営されています。"],
+    ko: ["NexuAlpha 소개: 발행 주체, 수익 구조, 리서치 데스크", "NexuAlpha는 공식 출처로 암호화폐 거래소 수수료와 조건을 비교하는 독립 가이드입니다. 거래 비용 확인을 돕습니다. 무료이며 공개된 거래소 추천 프로그램으로 운영됩니다."],
+    ru: ["О NexuAlpha: издатель, финансирование и Research Desk", "NexuAlpha сравнивает комиссии криптобирж по официальным источникам. Бесплатный независимый гид финансируется раскрытыми реферальными программами."],
+    tr: ["NexuAlpha Hakkında: Yayıncı, Finansman ve Research Desk", "NexuAlpha resmi kaynaklarla kripto ücret ve iadelerini karşılaştırır. Ücretsiz, bağımsız rehber; açıklanan referans programlarıyla finanse edilir."],
+    id: ["Tentang NexuAlpha: Penerbit, Pendanaan dan Research Desk", "NexuAlpha membandingkan biaya dan rabat kripto dari sumber resmi. Panduan gratis dan independen, didanai referral yang diungkapkan."],
+    vi: ["Về NexuAlpha: nhà xuất bản, nguồn thu và Research Desk", "NexuAlpha so sánh phí sàn crypto từ nguồn chính thức. Hướng dẫn độc lập, miễn phí, được tài trợ bởi chương trình giới thiệu đã công bố."],
     // l10n: needs native review
-    ur: ["NexuAlpha کے بارے میں: ناشر، آمدنی اور تحقیقی ٹیم", "NexuAlpha کا ناشر، پارٹنر کمیشن سے آمدنی، فیس اور حقائق کی جانچ اور Telegram پر تحقیقی ٹیم سے رابطہ۔"],
+    ur: ["NexuAlpha کے بارے میں: ناشر، آمدنی اور تحقیقی ٹیم", "NexuAlpha سرکاری ذرائع سے کرپٹو ایکسچینج فیس کا موازنہ کرتا ہے۔ آزاد، مفت رہنمائی؛ ظاہر کردہ ریفرل پروگراموں سے مالی معاونت۔"],
     // l10n: needs native review
-    uk: ["Про NexuAlpha: видавець, фінансування й дослідницька команда", "Хто видає NexuAlpha, як сайт отримує партнерські комісії, як перевіряє комісії та факти і як зв’язатися з командою через Telegram."],
-    ar: ["عن NexuAlpha: الناشر والتمويل وفريق البحث", "من ينشر NexuAlpha، وكيف يحقق الموقع دخله من عمولات الشركاء، وكيف تُراجع الرسوم والحقائق، وكيفية التواصل مع فريق البحث عبر Telegram."],
+    uk: ["Про NexuAlpha: видавець, фінансування й дослідницька команда", "NexuAlpha порівнює комісії криптобірж за офіційними джерелами. Безкоштовний незалежний гід фінансують розкриті реферальні програми."],
+    ar: ["عن NexuAlpha: الناشر والتمويل وفريق البحث", "NexuAlpha دليل مستقل لمقارنة رسوم منصات العملات المشفرة من مصادر رسمية. المحتوى مجاني وتموله برامج إحالة معلنة."],
   }),
   [EDITORIAL_POLICY_PATH]: Object.freeze({
     en: ["NexuAlpha Editorial Policy: Sources, Corrections and AI Use", "How NexuAlpha sources every claim, labels lower-bound data, handles corrections and partner links, uses AI assistance and updates pages."],
@@ -283,7 +259,7 @@ export function brandPageMeta(pathname, locale = "en") {
   const table = BRAND_PAGE_SEO[pathname];
   if (!table) return null;
   const [title, description] = table[brandLocale(locale)] || table.en;
-  return { title, description };
+  return { title, description: pathname === ABOUT_PATH ? organizationDescription(locale) : description };
 }
 
 /** JSON-LD for /about (AboutPage whose mainEntity is the Organization) and /editorial-policy (WebPage about it). */

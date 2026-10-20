@@ -14,7 +14,7 @@ import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { DATA_PAGE_PATHS } from "../src/data/market-data-pages.js";
 import {
   ABOUT_PATH, BRAND, BRAND_LOCALES, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, BRAND_SAME_AS, EDITORIAL_POLICY_PATH, ENTITY_REVIEWED_AT,
-  NEXUALPHA_PUBLISHER, ORGANIZATION_ID, RESEARCH_DESK, RESEARCH_DESK_ID, RESEARCH_DESK_NAME, WEBSITE_ID, brandPageMeta, organizationSchema,
+  NEXUALPHA_PUBLISHER, ORGANIZATION_ID, RESEARCH_DESK, RESEARCH_DESK_ID, RESEARCH_DESK_NAME, WEBSITE_ID, organizationDescription, brandPageMeta, organizationSchema,
 } from "../src/data/brand-entity.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -213,6 +213,7 @@ test("about, editorial-policy pages, byline and footer render localized in all 1
       const t = ABOUT_COPY[locale];
       const e = EDITORIAL_POLICY_COPY[locale];
       assert.ok(t && e, `${locale} has native copy`);
+      assert.ok(about.includes(escapeHtml(organizationDescription(locale))), `${locale} canonical About lead`);
       // about: h1, sections, research desk anchor, funding body, methodology + policy links, Telegram routes, reviewed date
       assert.match(about, new RegExp(`<h1>${escapeHtml(t.h1)}</h1>`), `${locale} about h1`);
       for (const id of ["publisher", "funding", "verification", "research-desk", "contact"]) assert.match(about, new RegExp(`id="${id}"`), `${locale} about #${id}`);
@@ -269,4 +270,28 @@ test("server build ships brand-entity.js and the brand pages have their own styl
   const llms = await readFile(path.join(root, "scripts/generate-public-llms.mjs"), "utf8");
   assert.match(llms, /https:\/\/nexualpha\.com\/editorial-policy/);
   assert.match(llms, /https:\/\/nexualpha\.com\/about/);
+});
+
+
+test("canonical benefit-first entity definition is shared by home head, About, retrieval and schema", async () => {
+  const { organizationDescription, ENTITY_DEFINITION } = await import("../src/data/brand-entity.js");
+  for (const locale of BRAND_LOCALES) {
+    const definition = organizationDescription(locale);
+    assert.equal(definition, ENTITY_DEFINITION[locale]);
+    assert.doesNotMatch(definition, /[$0-9]|award|guarantee/i);
+    const home = await routeMetadata(new URL(`https://nexualpha.com${localizedPath("/", locale)}`), env);
+    const about = await routeMetadata(new URL(`https://nexualpha.com${localizedPath("/about", locale)}`), env);
+    assert.ok(definition.startsWith(home.description), locale);
+    assert.ok(definition.startsWith(about.description), locale);
+    const organizations = graphOf(home).filter((n) => n["@type"] === "Organization");
+    assert.equal(organizations.length, 1);
+    assert.equal(organizations[0].description, definition);
+    assert.ok(organizations[0].sameAs.every((url) => new URL(url).protocol === "https:"));
+    assert.ok(organizations[0].sameAs.includes("https://www.youtube.com/@NexuAlphaGlobal"));
+  }
+  for (const file of ["llms.txt", "llms-full.txt"]) {
+    assert.ok((await readFile(path.join(root, "public", file), "utf8")).includes(organizationDescription("en")), file);
+  }
+  const aboutSource = await readFile(path.join(root, "src/components/v3/brand-pages/AboutPage.jsx"), "utf8");
+  assert.match(aboutSource, /lead: organizationDescription\(code\)/);
 });
