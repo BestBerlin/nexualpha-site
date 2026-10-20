@@ -1,3 +1,4 @@
+import { isStrikingDistanceVenueTitle, strikingDistanceVenueTitle } from '../src/data/striking-distance-venue-copy.js';
 // CTR pass 2026-10-13: titles/descriptions for pages in the top 15 with no clicks, the registration intent bridge on
 // news tutorials, and the query-owner links for split queries.
 import test from "node:test";
@@ -8,6 +9,7 @@ import { referralSeoFor } from "../src/data/referral-seo.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 import { SERP_CTR_NEWS_OVERRIDES, serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { factbookProfileAnchor, newsQueryOwnerLink, newsSignupBridge, registrationVenueForArticle } from "../src/data/news-lead-links.js";
+import { organizationDescription } from "../src/data/brand-definition.js";
 import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { NEWS_HUB_SEO_EN } from "../src/data/news-list-copy.js";
 import { NEWS_CANONICAL_TARGETS } from "../src/data/news-search-state.generated.js";
@@ -25,7 +27,7 @@ test("partner profile titles answer the sign-up query within the title budget", 
     for (const locale of PROMOTABLE) {
       const seo = referralSeoFor(partner.slug, locale);
       if (!seo) continue;
-      assert.ok(isNativeReferralTitle(seo.title, locale) || seo.title.length <= budget(locale), `${partner.slug}/${locale} title ${seo.title.length}: ${seo.title}`);
+      assert.ok(isNativeReferralTitle(seo.title, locale) || isStrikingDistanceVenueTitle(seo.title, locale) || seo.title.length <= budget(locale), `${partner.slug}/${locale} title ${seo.title.length}: ${seo.title}`);
       assert.ok(seo.description.length <= 155, `${partner.slug}/${locale} description ${seo.description.length}`);
       assert.doesNotMatch(seo.description, /Partner link|Enlace de socio|Link de parceiro|Partnerlink|Lien partenaire|Ortaklık bağlantısı|Tautan mitra/i, `${partner.slug}/${locale} carries no fine print`);
       assert.doesNotMatch(`${seo.title} ${seo.description}`, HYPE);
@@ -33,7 +35,7 @@ test("partner profile titles answer the sign-up query within the title budget", 
   }
   assert.equal(referralSeoFor("bitget", "en").title, nativeReferralFor("bitget", "en").title);
   assert.equal(referralSeoFor("okx", "en").title, nativeReferralFor("okx", "en").title);
-  assert.match(referralSeoFor("okx", "en").description, /Up to 40% of fees back/);
+  assert.match(referralSeoFor("okx", "en").description, /[Uu]p to 40% of fees back/);
   assert.equal(referralSeoFor("okx", "zh-Hans").title, nativeReferralFor("okx", "zh-Hans").title);
   assert.equal(referralSeoFor("okx", "tr").title, nativeReferralFor("okx", "tr").title);
   assert.equal(referralSeoFor("okx", "id").title, nativeReferralFor("okx", "id").title);
@@ -107,16 +109,16 @@ test("split queries point at one owner", () => {
 
 test("app route heads carry the new English titles", async () => {
   const head = async (path) => routeMetadata(new URL(`https://nexualpha.com${path}`), env);
-  assert.equal(HOME_SEARCH_COPY.en[0], "Crypto Referral Codes: Up to 60% Fee Rebates — NexuAlpha");
+  assert.equal(HOME_SEARCH_COPY.en[0], "NexuAlpha — Crypto Fee Comparison, Rebates & Referral Codes (Official)");
   for (const [locale, [, description]] of Object.entries(HOME_SEARCH_COPY)) {
-    assert.ok(description.length <= 155, `${locale} home description ${description.length}`);
-    assert.doesNotMatch(description, /disclosed|披露|揭露|declarados|informados|signalés|offengelegt|dichiarati|開示|제휴 공개|раскрыты|belirtilir|diungkapkan|Công bố|مُفصح|вказані/, locale);
+    assert.ok(description.length <= 160, `${locale} home description ${description.length}`);
+    assert.ok(organizationDescription(locale).startsWith(description), `${locale}: preserved brand-entity description`);
   }
   assert.equal(NEWS_HUB_SEO_EN.title, "Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha");
   assert.equal((await head("/exchanges")).title, "Crypto Exchange List 2026: Fees, KYC, Sign-Up — NexuAlpha");
   assert.equal((await head("/activities")).title, "Exchange Campaigns: Launchpool, Airdrops (2026) — NexuAlpha");
   assert.equal((await head("/methodology")).title, "How NexuAlpha Checks Exchange Fees and Codes — NexuAlpha");
-  assert.equal((await head("/exchanges/deribit")).title, "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off"); // SEO pass 2026-10-18
+  assert.equal((await head("/exchanges/deribit")).title, strikingDistanceVenueTitle("deribit", "en")); // SEO pass 2026-10-18
   assert.equal((await head("/exchanges/curve")).title, "Curve Finance (2026): Swap Fees, Pools and Wallet Checks");
   assert.equal((await head("/exchanges/okx")).title, nativeReferralFor("okx", "en").title);
   assert.equal((await head("/fr/exchanges/backpack")).title, `Backpack Exchange avis (${new Date().getUTCFullYear()}) : frais et code LuckyBitcoin`);

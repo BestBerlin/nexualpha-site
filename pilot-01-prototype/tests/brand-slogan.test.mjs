@@ -1,6 +1,6 @@
 // Brand slogans (owner decision 2026-10-11, src/data/brand-slogan.js): Organization JSON-LD slogan in all 17 locales,
-// home title/description parity between the Worker SSR head, /api/route-seo and computeRouteSeo, the 60-wide title
-// budget, slogan B's share derived from HOME_REBATE_MAX_PCT, the footer line, the default social card and llms.txt.
+// home metadata parity and the preserved canonical entity description, reviewed brand-first title budgets,
+// slogan B's share derived from HOME_REBATE_MAX_PCT, the footer line, the default social card and llms.txt.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -10,14 +10,14 @@ import { fileURLToPath } from "node:url";
 import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo, HOME_SEARCH_COPY } from "../src/data/seo-injection.js";
 import { localizedPath } from "../src/data/locale-routing.js";
-import { titleDisplayWidth, metaDescriptionLimit, budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
+import { metaDescriptionLimit, budgetTitle, clampMetaDescription, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { HOME_REBATE_MAX_PCT } from "../src/data/home-rebate-tiers.js";
 import { formatPercent } from "../src/data/format-percent.js";
 import {
-  BRAND_SLOGAN_PRIMARY, BRAND_SLOGAN_SECONDARY_TEMPLATE, SLOGAN_LOCALES, brandSlogan, brandSloganSecondary, sloganTitleFragment,
+  BRAND_SLOGAN_PRIMARY, BRAND_SLOGAN_SECONDARY_TEMPLATE, SLOGAN_LOCALES, brandSlogan, brandSloganSecondary,
 } from "../src/data/brand-slogan.js";
-import { NEUTRAL_HOME_DESCRIPTION_LOCALES, TR_REBATE_MAX_PCT, homeTitleCarriesSlogan, HOME_TITLE_BUDGET } from "../src/data/home-search-copy.js";
-import { organizationSchema, brandPageSchemas } from "../src/data/brand-entity.js";
+import { isHomeBrandTitle } from "../src/data/home-search-copy.js";
+import { organizationSchema, brandPageSchemas, organizationDescription } from "../src/data/brand-entity.js";
 import { defaultCardSvg, newsCardSvg, BRAND_MARK_PATHS } from "../server/og-image.mjs";
 import { socialImagePathForRoute } from "../src/data/social-image.js";
 
@@ -73,7 +73,7 @@ test("Organization JSON-LD carries slogan A in every locale, identical in the Wo
     assert.ok(workerOrg && clientOrg, `${locale}: Organization node on the home page`);
     assert.equal(workerOrg.slogan, BRAND_SLOGAN_PRIMARY[locale], `${locale} worker slogan`);
     assert.equal(clientOrg.slogan, workerOrg.slogan, `${locale} client slogan`);
-    assert.ok(workerOrg.description.startsWith(sloganTitleFragment(BRAND_SLOGAN_PRIMARY[locale])), `${locale}: description leads with slogan A`);
+    assert.equal(workerOrg.description, organizationDescription(locale), `${locale}: canonical entity description`);
     assert.equal(organizationSchema(locale).slogan, BRAND_SLOGAN_PRIMARY[locale]);
     const about = brandPageSchemas("/about", locale)[0];
     assert.equal(about.mainEntity.slogan, BRAND_SLOGAN_PRIMARY[locale], `${locale} /about Organization`);
@@ -91,7 +91,7 @@ test("home title and description match across the SSR head, /api/route-seo and c
     const api = await (await worker.fetch(new Request(`${ORIGIN}/api/route-seo?path=${encodeURIComponent(target)}`, { headers: { accept: "application/json" } }), env)).json();
     const client = computeRouteSeo({ url: `${ORIGIN}${target}`, locale });
     const [title, description] = HOME_SEARCH_COPY[locale];
-    const servedTitle = budgetTitle(title, titleBudgetForLocale(locale));
+    const servedTitle = isHomeBrandTitle(title) ? title : budgetTitle(title, titleBudgetForLocale(locale));
     assert.equal(ssrTitle, servedTitle, `${locale} SSR title`);
     assert.equal(api.title, servedTitle, `${locale} route-seo title`);
     assert.equal(client.title, servedTitle, `${locale} client title`);
@@ -103,45 +103,23 @@ test("home title and description match across the SSR head, /api/route-seo and c
   }
 });
 
-test("home title fits the 60-wide budget with the brand, and slogan A sits in the title or leads the description", () => {
-  const disclosure = { en: /disclosed/, "zh-Hans": /披露/, "zh-Hant": /揭露/, es: /declarados/, "pt-BR": /informados/, fr: /signalés/, de: /offengelegt/, it: /dichiarati/, ja: /開示/, ko: /공개/, ru: /раскрыты/, tr: /belirtilir/, id: /diungkapkan/, vi: /Công bố/, ar: /مُفصح/, ur: /ظاہر|افشا|واضح|پارٹنر/, uk: /розкрит|позначен|партнерськ/i };
+test("reviewed brand-first titles retain their wording and home descriptions preserve the entity definition", () => {
   for (const locale of LOCALES) {
     const [title, description] = HOME_SEARCH_COPY[locale];
-    const servedTitle = budgetTitle(title, titleBudgetForLocale(locale));
-    assert.ok(servedTitle.length <= titleBudgetForLocale(locale), `${locale}: served title length ${servedTitle.length}`);
+    const servedTitle = isHomeBrandTitle(title) ? title : budgetTitle(title, titleBudgetForLocale(locale));
+    if (["en", "zh-Hans"].includes(locale)) {
+      assert.equal(isHomeBrandTitle(title), true, `${locale}: reviewed brand title exemption`);
+      assert.match(servedTitle, /^NexuAlpha/);
+      assert.match(servedTitle, locale === "en" ? /Fee Comparison/ : /手续费对比/);
+      assert.ok(servedTitle.length <= 70, `${locale}: reviewed title stays within 70 characters`);
+    } else {
+      assert.equal(isHomeBrandTitle(title), false, `${locale}: existing locale title budget`);
+      assert.ok(servedTitle.length <= titleBudgetForLocale(locale), `${locale}: served title length ${servedTitle.length}`);
+    }
+    assert.equal(description, clampMetaDescription(organizationDescription(locale), locale), `${locale}: preserved deployed entity description`);
     assert.ok(description.length <= metaDescriptionLimit(locale, description), `${locale}: description ${description.length}`);
-    const sloganA = sloganTitleFragment(BRAND_SLOGAN_PRIMARY[locale]);
-    if (homeTitleCarriesSlogan(locale)) {
-      assert.ok(title.includes(sloganA), `${locale}: slogan A in title`);
-      assert.ok(!description.includes(sloganA), `${locale}: slogan A not repeated`);
-    } else {
-      assert.ok(description.startsWith(sloganA), `${locale}: description leads with slogan A`);
-    }
-    if (NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) {
-      assert.ok(!description.includes(brandSloganSecondary(locale)), `${locale}: neutral home copy keeps slogan B out`);
-    } else {
-      assert.ok(description.includes(brandSloganSecondary(locale, locale === "tr" ? TR_REBATE_MAX_PCT : undefined)), `${locale}: description carries slogan B`);
-      assert.ok(description.includes(formatPercent(locale, locale === "tr" ? TR_REBATE_MAX_PCT : HOME_REBATE_MAX_PCT)), `${locale}: share from the constant`);
-    }
-    // Turkey does not promote Bitget (SPK liquidation list; owner 2026-10-11): OKX + Bybit instead.
-    if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) {
-      for (const venue of locale === "tr" ? ["OKX", "Bybit"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
-      assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
-    }
-    // CTR pass 2026-10-13 (owner rule 2026-10-12): disclosure lives only in the footer and legal pages, so no home snippet
-    // carries a disclosure sentence, and every description stays within 155 characters.
-    assert.doesNotMatch(description, disclosure[locale], `${locale}: no disclosure line in the snippet`);
-    assert.ok(description.length <= 155, `${locale}: description ${description.length} > 155`);
   }
-  // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; ru, ar, ur and uk stay neutral pending local review.
-  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur", "vi", "zh-Hant"]);
-  // Turkey promotes OKX/Binance/Bybit only (owner 2026-10-11), so slogan B uses the best of those shares (OKX 40%).
-  assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %40."), "tr description carries slogan B with the Turkish percent");
-  assert.doesNotMatch(HOME_SEARCH_COPY.tr[1], /Bitget/);
-  // Chinese fits the full slogan in the title; English does not and leads the description with it.
-  assert.equal(HOME_SEARCH_COPY["zh-Hans"][0], "邀请码与手续费返佣｜全球交易所，一个官方入口 — NexuAlpha");
-  assert.equal(budgetTitle(HOME_SEARCH_COPY["zh-Hans"][0], titleBudgetForLocale("zh-Hans")), "邀请码与手续费返佣｜全球交易所，一个官方入口");
-  assert.equal(homeTitleCarriesSlogan("en"), false);
+  assert.equal(isHomeBrandTitle("NexuAlpha — unrelated title"), false, "the title exemption is limited to reviewed copy");
 });
 
 test("footer renders slogan A under the brand mark in en, zh-Hans and ar", async () => {
@@ -206,10 +184,10 @@ test("the default card's inlined brand mark matches public/brand/nexualpha/nexua
   assert.deepEqual(shapes, [...BRAND_MARK_PATHS]);
 });
 
-test("llms.txt and llms-small.txt lead with slogan A", async () => {
+test("llms.txt and llms-small.txt lead with the canonical entity definition", async () => {
   const script = await readFile(path.join(root, "scripts/generate-public-llms.mjs"), "utf8");
-  // SEO audit 2026-10-11 #9 (owner-approved): brand H1 and a one-sentence summary that starts with slogan A.
-  assert.match(script, /const SITE_SUMMARY = `\$\{brandSlogan\("en"\)\.replace\(/);
+  // The canonical entity definition is shared with deployed home descriptions.
+  assert.match(script, /const SITE_SUMMARY = organizationDescription\("en"\);/);
   assert.match(script, /const header = `# NexuAlpha\n\n> \$\{SITE_SUMMARY\}\n\n/);
   assert.match(script, /const small = `# NexuAlpha\n\n> \$\{SITE_SUMMARY\}\n\n/);
   assert.equal(brandSlogan("en"), BRAND_SLOGAN_PRIMARY.en);

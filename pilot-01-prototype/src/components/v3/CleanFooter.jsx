@@ -400,6 +400,9 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
     name: venueDatabase[slug]?.name || slug,
     href: footerGoHref(slug, locale),
   }));
+  // Ordinary editorial links, never sign-up links: keep discovery available in every market.
+  const feeVenues = ["bybit", "gate-io", "okx", "hyperliquid", "deribit", "jupiter", "mexc", "backpack"];
+  const feeComparisons = ["binance-vs-kraken", "binance-vs-okx", "binance-vs-bybit", "bybit-vs-bitget", "okx-vs-bybit", "gate-io-vs-mexc", "hyperliquid-vs-dydx", "coinbase-vs-gate-io"];
   const primaryColumns = [
     {
       key: "product",
@@ -497,6 +500,14 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
               {column.links.map((link) => <li key={`${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
             </ul>
           </section>)}
+        </nav>
+
+        <nav className="nx-ftr__discovery" aria-label={columnLabels.exchanges} data-footer-fee-links>
+          <h2 className="nx-ftr__heading">{columnLabels.exchanges}</h2>
+          <ul>
+            {feeVenues.map((slug) => <li key={slug}><a href={href(`/exchanges/${slug}`)}>{venueDatabase[slug]?.name || slug}</a></li>)}
+            {feeComparisons.map((pair) => <li key={pair}><a href={href(`/compare/${pair}`)}>{pair.split("-vs-").map((slug) => venueDatabase[slug]?.name || slug).join(" vs ")}</a></li>)}
+          </ul>
         </nav>
 
         <div className="nx-ftr__legal-row">

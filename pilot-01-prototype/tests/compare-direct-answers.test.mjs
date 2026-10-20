@@ -191,7 +191,7 @@ test("CompareDeepPage SSR renders the Bybit vs Bitget direct answer in supported
   };
 
   const enBlock = directAnswerBlock(await renderComparePage("en"));
-  assert.match(enBlock, /Bybit vs Bitget: choose by product route, UTA model and account screen before signup\./);
+  assert.match(enBlock, /Bitget vs Bybit: who has lower fees\?/);
   assert.match(enBlock, /Bybit xStocks/);
   assert.match(enBlock, /Bitget stock futures/);
   assert.match(enBlock, /First-time account route/);
@@ -208,7 +208,7 @@ test("CompareDeepPage SSR renders the Bybit vs Bitget direct answer in supported
   assert.doesNotMatch(enBlock, forbiddenPublicCopy);
 
   const zhHansBlock = directAnswerBlock(await renderComparePage("zh-Hans"));
-  assert.match(zhHansBlock, /Bybit vs Bitget：先确认产品类型、费用、KYC 与账户路径。/);
+  assert.match(zhHansBlock, /Bitget vs Bybit：谁的手续费更低？/);
   assert.match(zhHansBlock, /代币化敞口/);
   assert.match(zhHansBlock, /Bitget 股票期货/);
   assert.match(zhHansBlock, /32 次展示/);
@@ -275,7 +275,7 @@ test("CompareDeepPage SSR localizes matrix lead and accessibility labels", async
     .replace(/&gt;/g, ">");
 
   const cases = [
-    ["zh-Hans", "按官方来源逐项核对费率、储备金、KYC、产品限制与用户权益；未完成核验的项目保持待确认。", "费率、返佣、储备金与门槛", "选择平台前应该怎样比较 Bybit 与 Bitget？"],
+    ["zh-Hans", "按官方来源逐项核对费率、储备金、KYC、产品限制与用户权益；未完成核验的项目保持待确认。", "费率、返佣、储备金与门槛", "Bitget vs Bybit：谁的手续费更低？"],
     ["zh-Hant", "按官方來源逐項核對費率、儲備金、KYC、產品限制與用戶權益；未完成核驗的項目保持待確認。", "費率、返傭、儲備金與門檻", "選擇平台前應該怎樣比較 Bybit 與 Bitget？"],
     ["pt-BR", "Compare taxas com fonte, reservas, KYC, limites de produto e benefícios; itens não verificados ficam pendentes.", "Comparação de taxas, benefícios, reservas e limites", null],
   ];

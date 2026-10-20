@@ -21,3 +21,9 @@ main.v3-profile-page.v6 .v3-venue-identity[data-native-referral] h1:not(#_):not(
 .v3-venue-identity .nx-short-answer { grid-column: 1 / -1; grid-row: 3; order: 99; min-inline-size: 0; max-inline-size: none; margin-block: 0.25rem 0.75rem; color: var(--ink, #EDEEF0); }
 .v3-venue-identity:has(> .v3-venue-identity__info .nx-short-answer) > .referral-native-answers { grid-row: 4; }
 .v3-venue-identity:has(> .v3-venue-identity__info .nx-short-answer) > .referral-native-campaigns { grid-row: 5; }
+
+/* The added disclosure is a full-width row when the identity info uses display: contents.
+   Auto-placement would size the logo's max-content column from the entire sentence. */
+.v3-venue-identity .v3-partner-relationship { grid-column: 1 / -1; grid-row: 4; min-inline-size: 0; }
+.v3-venue-identity:has(> .v3-venue-identity__info .v3-partner-relationship) > .referral-native-answers { grid-row: 5; }
+.v3-venue-identity:has(> .v3-venue-identity__info .v3-partner-relationship) > .referral-native-campaigns { grid-row: 6; }
