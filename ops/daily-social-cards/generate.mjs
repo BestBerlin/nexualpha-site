@@ -257,6 +257,13 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     const credentials = loadCredentials(env.X_ENV_FILE);
     SECRETS.push(botToken, ...Object.values(credentials));
     const client = xClient(credentials);
+    // Never post a dead link (2026-10-20: the English card linked to /en, a 404, on X).
+    const links = new Set();
+    for (const name of Object.keys(bundle.summary.texts)) for (const m of readFileSync(path.join(bundle.summary.directory, name), 'utf8').matchAll(/https?:\/\/nexualpha\.com[^\s)]*/g)) links.add(m[0]);
+    for (const link of links) {
+      const r = await fetch(link, { redirect: 'manual', signal: AbortSignal.timeout(15000) });
+      if (!(r.status >= 200 && r.status < 400)) throw new Error(`dead link ${r.status}: ${link}`);
+    }
     const deliveries = await postDaily({ bundle, stateDir: env.DAILY_SOCIAL_STATE_DIR, xLocale: opts.xLocale, client, secrets: SECRETS,
       telegramSend: (chat, png, caption) => sendPhoto(botToken, chat, png, caption) });
     bundle.summary.mode = 'post'; bundle.summary.deliveries = deliveries;
