@@ -1,0 +1,3419 @@
+{
+  "date": "2026-10-21",
+  "periods": {
+    "current": {
+      "startDate": "2026-10-12",
+      "endDate": "2026-10-18"
+    },
+    "previous": {
+      "startDate": "2026-10-05",
+      "endDate": "2026-10-11"
+    },
+    "month": {
+      "startDate": "2026-09-21",
+      "endDate": "2026-10-18"
+    }
+  },
+  "metrics": {
+    "current": {
+      "clicks": 5,
+      "impressions": 827,
+      "ctr": 0.006045949214026602,
+      "position": 29.088270858524787
+    },
+    "previous": {
+      "clicks": 9,
+      "impressions": 843,
+      "ctr": 0.010676156583629894,
+      "position": 14.32502965599051
+    },
+    "countries": [
+      {
+        "keys": [
+          "usa"
+        ],
+        "clicks": 0,
+        "impressions": 236,
+        "ctr": 0,
+        "position": 25.173728813559322
+      },
+      {
+        "keys": [
+          "bra"
+        ],
+        "clicks": 0,
+        "impressions": 79,
+        "ctr": 0,
+        "position": 63.40506329113924
+      },
+      {
+        "keys": [
+          "kor"
+        ],
+        "clicks": 0,
+        "impressions": 46,
+        "ctr": 0,
+        "position": 15.5
+      },
+      {
+        "keys": [
+          "ind"
+        ],
+        "clicks": 0,
+        "impressions": 31,
+        "ctr": 0,
+        "position": 16.161290322580648
+      },
+      {
+        "keys": [
+          "deu"
+        ],
+        "clicks": 0,
+        "impressions": 28,
+        "ctr": 0,
+        "position": 47.642857142857146
+      }
+    ],
+    "devices": [
+      {
+        "keys": [
+          "DESKTOP"
+        ],
+        "clicks": 4,
+        "impressions": 697,
+        "ctr": 0.005738880918220947,
+        "position": 29.513629842180773
+      },
+      {
+        "keys": [
+          "MOBILE"
+        ],
+        "clicks": 1,
+        "impressions": 129,
+        "ctr": 0.007751937984496124,
+        "position": 26.4031007751938
+      },
+      {
+        "keys": [
+          "TABLET"
+        ],
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 79
+      }
+    ],
+    "previousCountries": [
+      {
+        "keys": [
+          "usa"
+        ],
+        "clicks": 2,
+        "impressions": 329,
+        "ctr": 0.0060790273556231,
+        "position": 18.60790273556231
+      },
+      {
+        "keys": [
+          "bra"
+        ],
+        "clicks": 0,
+        "impressions": 48,
+        "ctr": 0,
+        "position": 17.375
+      },
+      {
+        "keys": [
+          "ind"
+        ],
+        "clicks": 0,
+        "impressions": 41,
+        "ctr": 0,
+        "position": 6.902439024390244
+      },
+      {
+        "keys": [
+          "idn"
+        ],
+        "clicks": 0,
+        "impressions": 23,
+        "ctr": 0,
+        "position": 5.869565217391305
+      },
+      {
+        "keys": [
+          "gbr"
+        ],
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 6.476190476190476
+      }
+    ],
+    "previousDevices": [
+      {
+        "keys": [
+          "DESKTOP"
+        ],
+        "clicks": 6,
+        "impressions": 726,
+        "ctr": 0.008264462809917356,
+        "position": 14.380165289256198
+      },
+      {
+        "keys": [
+          "MOBILE"
+        ],
+        "clicks": 2,
+        "impressions": 114,
+        "ctr": 0.017543859649122806,
+        "position": 14.18421052631579
+      },
+      {
+        "keys": [
+          "TABLET"
+        ],
+        "clicks": 1,
+        "impressions": 3,
+        "ctr": 0.3333333333333333,
+        "position": 6.333333333333333
+      }
+    ]
+  },
+  "strikingDistance": [
+    {
+      "query": "hyperliquid fees",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63.94736842105263,
+      "impressions": 19,
+      "clicks": 0
+    },
+    {
+      "query": "blockchain network maintenance services market",
+      "page": "https://nexualpha.com/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison",
+      "position": 46.27272727272727,
+      "impressions": 11,
+      "clicks": 0
+    },
+    {
+      "query": "kraken vs binance",
+      "page": "https://nexualpha.com/compare/binance-vs-kraken",
+      "position": 63.2,
+      "impressions": 10,
+      "clicks": 0
+    },
+    {
+      "query": "binance sbe",
+      "page": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "position": 9.11111111111111,
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "query": "hyperliquid funded account",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 38.666666666666664,
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "query": "gemini verify identity",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 27.875,
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "query": "get funded to trade hyperliquid",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 55.42857142857143,
+      "impressions": 7,
+      "clicks": 0
+    },
+    {
+      "query": "mexc vs gate.io",
+      "page": "https://nexualpha.com/topics/meme-coins",
+      "position": 53.333333333333336,
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "query": "mua eth ở đâu",
+      "page": "https://nexualpha.com/vi/coins/ethereum",
+      "position": 69.16666666666667,
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "query": "okx vs binance",
+      "page": "https://nexualpha.com/compare/binance-vs-okx?market=GLOBAL&product=research",
+      "position": 58.5,
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "query": "bybit注册",
+      "page": "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 35.6,
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "query": "bybit derivative",
+      "page": "https://nexualpha.com/exchanges/bybit",
+      "position": 20,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "bybit register",
+      "page": "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 31.75,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "gemini id verification",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 29.75,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "gmx v2 perpetual dex",
+      "page": "https://nexualpha.com/exchanges/gmx",
+      "position": 62.25,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "okx api doc",
+      "page": "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+      "position": 21.5,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "uniswap testnet",
+      "page": "https://nexualpha.com/vi/exchanges/uniswap?product=spot",
+      "position": 24.75,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "usdc a pesos",
+      "page": "https://nexualpha.com/es/convert/usdc-to-mxn",
+      "position": 63,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "أفضل عملات الميم",
+      "page": "https://nexualpha.com/topics/meme-coins",
+      "position": 57.5,
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "query": "binance sbe market data",
+      "page": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "position": 8,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "binance vs bybit",
+      "page": "https://nexualpha.com/compare/binance-vs-bybit",
+      "position": 56,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "bitget vs bybit uta",
+      "page": "https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+      "position": 63.333333333333336,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "bybit registro",
+      "page": "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 22.666666666666668,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "bybit vs bitget",
+      "page": "https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+      "position": 60.666666666666664,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "bybit vs phemex",
+      "page": "https://nexualpha.com/topics/derivatives",
+      "position": 69,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "cryptocurrency",
+      "page": "https://nexualpha.com/glossary/cryptocurrency",
+      "position": 68.33333333333333,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "funding 2fa kraken",
+      "page": "https://nexualpha.com/news/how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+      "position": 10.666666666666666,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "gate.io register",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 21.666666666666668,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "gemini identity verification",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 36,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "how to create anti phishing code",
+      "page": "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code",
+      "position": 24,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "hyperliquid funding rates",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63.666666666666664,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "hyperliquid rebates",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "kraken ou binance",
+      "page": "https://nexualpha.com/compare/binance-vs-kraken",
+      "position": 62.333333333333336,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "okx vs bybit",
+      "page": "https://nexualpha.com/compare/okx-vs-bybit",
+      "position": 58.333333333333336,
+      "impressions": 3,
+      "clicks": 0
+    },
+    {
+      "query": "backpack exchange avis",
+      "page": "https://nexualpha.com/fr/factbook/backpack",
+      "position": 45,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "backpack exchange avis avis",
+      "page": "https://nexualpha.com/fr/factbook/backpack",
+      "position": 51.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "bis unified ledger",
+      "page": "https://nexualpha.com/news/bis-unified-ledger-vs-stablecoin-two-tier-money-trust-map",
+      "position": 8,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "bitget vs bybit 美股",
+      "page": "https://nexualpha.com/zh-hans/compare/bybit-vs-bitget",
+      "position": 40,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "buy verified gate.io accounts",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 38.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "bybit 注册",
+      "page": "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 19,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "cctp v2",
+      "page": "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+      "position": 63,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "dca",
+      "page": "https://nexualpha.com/es/glossary/dollar-cost-averaging",
+      "position": 45.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "deribit fees",
+      "page": "https://nexualpha.com/exchanges/deribit",
+      "position": 34.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "deribit login",
+      "page": "https://nexualpha.com/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+      "position": 9,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "deribit mark price",
+      "page": "https://nexualpha.com/exchanges/deribit",
+      "position": 32,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "does bybit require kyc",
+      "page": "https://nexualpha.com/exchanges/bybit",
+      "position": 55,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "gate.io signup",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 20,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "gemini verify account",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 9,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "https www coinbase com verifications documents new",
+      "page": "https://nexualpha.com/news/how-to-create-coinbase-account-verify-identity-securely",
+      "position": 19,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "hyperliquid maintenance margin",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 59.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "hyperliquid sub account",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 39,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "kucoin join",
+      "page": "https://nexualpha.com/news/how-to-register-kucoin-account-complete-identity-verification-and-secure-access",
+      "position": 23,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "okx account",
+      "page": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely",
+      "position": 15,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "okx api docs",
+      "page": "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+      "position": 20,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "okx gebühren",
+      "page": "https://nexualpha.com/de/exchanges/okx",
+      "position": 56.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "okx register",
+      "page": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely",
+      "position": 22,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "raydium ortalama hesaplama",
+      "page": "https://nexualpha.com/tr/factbook/raydium",
+      "position": 12.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "servicio de listado en exchange de criptomonedas",
+      "page": "https://nexualpha.com/exchanges?locale=es",
+      "position": 66,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "servicios de listado de intercambio de criptomonedas",
+      "page": "https://nexualpha.com/exchanges?locale=es",
+      "position": 30.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "solana to euro",
+      "page": "https://nexualpha.com/de/convert/sol-to-eur",
+      "position": 68.5,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "taxas bybit",
+      "page": "https://nexualpha.com/exchanges/bybit?locale=pt-BR",
+      "position": 57,
+      "impressions": 2,
+      "clicks": 0
+    },
+    {
+      "query": "幣安手續費",
+      "page": "https://nexualpha.com/zh-hant/exchanges/binance",
+      "position": 67,
+      "impressions": 2,
+      "clicks": 0
+    }
+  ],
+  "excluded": [
+    {
+      "query": "opusdte",
+      "reason": "brand-collision",
+      "position": 10.4
+    },
+    {
+      "query": "\"bsfinanciacion.es\" and (filetype:xls or filetype:xlsx or filetype:doc or filetype:docx or filetype:csv or filetype:txt or filetype:ppt or filetype:pptx or filetype:pdf)",
+      "reason": "operator-query",
+      "position": 1
+    },
+    {
+      "query": "\"circle is discontinuing support for usdc and cctp v1 on noble\"",
+      "reason": "operator-query",
+      "position": 9
+    },
+    {
+      "query": "\"gemini\" \"verified account\"",
+      "reason": "operator-query",
+      "position": 29
+    },
+    {
+      "query": "\"innovation exemption\" \"september\" \"2026\" site:sec.gov",
+      "reason": "operator-query",
+      "position": 7
+    },
+    {
+      "query": "\"mexc\" \"verification\" \"kyc\"",
+      "reason": "operator-query",
+      "position": 18.166666666666668
+    },
+    {
+      "query": "%site.sec.gov \"34-106402\"",
+      "reason": "operator-query",
+      "position": 4
+    },
+    {
+      "query": "%site.sec.gov \"34-106402\"",
+      "reason": "operator-query",
+      "position": 10
+    },
+    {
+      "query": "+site.sec.gov \"34-106402\"",
+      "reason": "operator-query",
+      "position": 9.5
+    },
+    {
+      "query": "6pysqkpygm5z2hkvnh5wcjcpybb6ktctf2jvsuctmvu31rxrhted3a9sct",
+      "reason": "head-noise",
+      "position": 88
+    },
+    {
+      "query": "apy",
+      "reason": "head-noise",
+      "position": 89
+    },
+    {
+      "query": "bitcioin",
+      "reason": "head-noise",
+      "position": 99
+    },
+    {
+      "query": "bitcoin",
+      "reason": "head-noise",
+      "position": 93
+    },
+    {
+      "query": "bitcoins",
+      "reason": "head-noise",
+      "position": 95.6
+    },
+    {
+      "query": "biticoin",
+      "reason": "head-noise",
+      "position": 96
+    },
+    {
+      "query": "blockcgain",
+      "reason": "head-noise",
+      "position": 95
+    },
+    {
+      "query": "blockchain",
+      "reason": "head-noise",
+      "position": 92.2
+    },
+    {
+      "query": "blokchain",
+      "reason": "head-noise",
+      "position": 99
+    },
+    {
+      "query": "blovkchain",
+      "reason": "head-noise",
+      "position": 97
+    },
+    {
+      "query": "btc",
+      "reason": "head-noise",
+      "position": 89.25
+    },
+    {
+      "query": "contentxi6mbh84rqpqbd6unhal0gctafdyzkuwwobxjp1bpbu",
+      "reason": "head-noise",
+      "position": 96
+    },
+    {
+      "query": "crypto",
+      "reason": "head-noise",
+      "position": 92
+    },
+    {
+      "query": "crypto funding rates -site:youtube.com -site:reddit.com -site:x.com -site:twitter.com -site:facebook.com -site:instagram.com -site:tiktok.com -site:linkedin.com -site:pinterest.com -site:nytimes.com -site:wsj.com -site:yelp.com -site:rottentomatoes.com",
+      "reason": "operator-query",
+      "position": 3.5
+    },
+    {
+      "query": "dxxbzqgqsobnq2ltza4xsxn9ewuimgkveuc7h8b8j1qm",
+      "reason": "head-noise",
+      "position": 83.66666666666667
+    },
+    {
+      "query": "dydx",
+      "reason": "head-noise",
+      "position": 81
+    },
+    {
+      "query": "itcoin",
+      "reason": "head-noise",
+      "position": 98
+    },
+    {
+      "query": "kripto",
+      "reason": "head-noise",
+      "position": 99
+    },
+    {
+      "query": "onchain",
+      "reason": "head-noise",
+      "position": 86
+    },
+    {
+      "query": "site.developers.binance.com \"how to manage a local order book correctly\"",
+      "reason": "operator-query",
+      "position": 6.333333333333333
+    },
+    {
+      "query": "site.sec.gov \"34-106402\"",
+      "reason": "operator-query",
+      "position": 6
+    },
+    {
+      "query": "site:cftc.gov \"blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+      "reason": "operator-query",
+      "position": 4
+    },
+    {
+      "query": "site:cftc.gov \"use of blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+      "reason": "operator-query",
+      "position": 4
+    },
+    {
+      "query": "site:docs.cdp.coinbase.com \"advanced trade api sandbox\"",
+      "reason": "operator-query",
+      "position": 4
+    },
+    {
+      "query": "site:docs.cdp.coinbase.com \"advanced trade api sandbox\"",
+      "reason": "operator-query",
+      "position": 4
+    },
+    {
+      "query": "site:sites.google.com \"uniswap\" (\"connect wallet\" or \"wallet connect\")",
+      "reason": "operator-query",
+      "position": 8
+    },
+    {
+      "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"seed phrase\")",
+      "reason": "operator-query",
+      "position": 6
+    },
+    {
+      "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")",
+      "reason": "operator-query",
+      "position": 5.5
+    },
+    {
+      "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")",
+      "reason": "operator-query",
+      "position": 21
+    },
+    {
+      "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"wallet verification\")",
+      "reason": "operator-query",
+      "position": 3.5
+    },
+    {
+      "query": "skipshift",
+      "reason": "head-noise",
+      "position": 92
+    },
+    {
+      "query": "usdc",
+      "reason": "head-noise",
+      "position": 94
+    }
+  ],
+  "targets": [
+    {
+      "query": "hyperliquid fees",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63.94736842105263,
+      "impressions": 19,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid fees: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "hyperliquid fees | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "blockchain network maintenance services market",
+      "page": "https://nexualpha.com/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison",
+      "position": 46.27272727272727,
+      "impressions": 11,
+      "clicks": 0,
+      "pathname": "/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Blockchain Network Upgrade vs Exchange Wallet Maintenance…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "blockchain network maintenance services market: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "blockchain network maintenance services market | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "kraken vs binance",
+      "page": "https://nexualpha.com/compare/binance-vs-kraken",
+      "position": 63.2,
+      "impressions": 10,
+      "clicks": 0,
+      "pathname": "/compare/binance-vs-kraken",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance vs Kraken: Trading Fees &amp; Platform Comparison",
+      "currentDescription": "Compare Binance vs Kraken by trading fees, products, account requirements and platform differences.",
+      "proposedDescription": "kraken vs binance: Compare Binance vs Kraken by trading fees, products, account requirements and platform differences. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "kraken vs binance | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "binance sbe",
+      "page": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "position": 9.11111111111111,
+      "impressions": 9,
+      "clicks": 0,
+      "pathname": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance SBE Market Data vs Coinbase WebSocket: Setup Checks",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "binance sbe: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "binance sbe | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "hyperliquid funded account",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 38.666666666666664,
+      "impressions": 9,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid funded account: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "answer-first",
+      "proposedTitle": "hyperliquid funded account | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gemini verify identity",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 27.875,
+      "impressions": 8,
+      "clicks": 0,
+      "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Gemini Identity Verification (2026): ID, Face Scan and 2FA",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "gemini verify identity: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "gemini verify identity | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "get funded to trade hyperliquid",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 55.42857142857143,
+      "impressions": 7,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "get funded to trade hyperliquid: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "get funded to trade hyperliquid | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "mexc vs gate.io",
+      "page": "https://nexualpha.com/topics/meme-coins",
+      "position": 53.333333333333336,
+      "impressions": 6,
+      "clicks": 0,
+      "pathname": "/topics/meme-coins",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Meme coin platform comparison (2026): MEXC vs Gate.io vs…",
+      "currentDescription": "Compare MEXC, Gate.io and Raydium by product access, token contracts, liquidity routes, published costs, approval risk and exit conditions.",
+      "proposedDescription": "mexc vs gate.io: Compare MEXC, Gate.io and Raydium by product access, token contracts, liquidity routes, published costs, approval risk and exit conditions. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "mexc vs gate.io | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "mua eth ở đâu",
+      "page": "https://nexualpha.com/vi/coins/ethereum",
+      "position": 69.16666666666667,
+      "impressions": 6,
+      "clicks": 0,
+      "pathname": "/vi/coins/ethereum",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Mua Ethereum (ETH) ở đâu năm 2026: sàn và cặp giao dịch",
+      "currentDescription": "Ethereum (ETH) đang niêm yết trên OKX, Binance, Bitget và 5 sàn khác. So sánh cặp giao dịch, hợp đồng vĩnh cửu, phí và mạng nạp, rồi làm theo các bước để mua.",
+      "proposedDescription": "mua eth ở đâu: Ethereum (ETH) đang niêm yết trên OKX, Binance, Bitget và 5 sàn khác. So sánh cặp giao dịch, hợp đồng vĩnh cửu, phí và mạng nạp, rồi làm theo các bước để mua. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "mua eth ở đâu | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx vs binance",
+      "page": "https://nexualpha.com/compare/binance-vs-okx?market=GLOBAL&product=research",
+      "position": 58.5,
+      "impressions": 6,
+      "clicks": 0,
+      "pathname": "/compare/binance-vs-okx",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks",
+      "currentDescription": "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
+      "proposedDescription": "okx vs binance: Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility. | NexuAlpha",
+      "action": "answer-first",
+      "proposedTitle": "okx vs binance | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bybit注册",
+      "page": "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 35.6,
+      "impressions": 5,
+      "clicks": 0,
+      "pathname": "/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "locale": "zh-hans",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "如何注册 Bybit 账户、完成 KYC 并保护首次登录",
+      "currentDescription": "请求的页面不存在或未发布。",
+      "proposedDescription": "bybit注册: 请求的页面不存在或未发布。 | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "bybit注册 | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bybit derivative",
+      "page": "https://nexualpha.com/exchanges/bybit",
+      "position": 20,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/exchanges/bybit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Bybit referral code: 48553",
+      "currentDescription": "Bybit referral code: 48553. No verified user benefit.",
+      "proposedDescription": "bybit derivative: Bybit referral code: 48553. No verified user benefit. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "bybit derivative | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bybit register",
+      "page": "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 31.75,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Register a Bybit Account, Complete KYC and Secure…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "bybit register: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "bybit register | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gemini id verification",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 29.75,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Gemini Identity Verification (2026): ID, Face Scan and 2FA",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "gemini id verification: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "answer-first",
+      "proposedTitle": "gemini id verification | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "gmx v2 perpetual dex",
+      "page": "https://nexualpha.com/exchanges/gmx",
+      "position": 62.25,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/exchanges/gmx",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation",
+      "currentDescription": "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries.",
+      "proposedDescription": "gmx v2 perpetual dex: Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "gmx v2 perpetual dex | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx api doc",
+      "page": "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+      "position": 21.5,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX API Rate Limits: KYC Level and Order-Tagged Limits",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "okx api doc: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "okx api doc | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "uniswap testnet",
+      "page": "https://nexualpha.com/vi/exchanges/uniswap?product=spot",
+      "position": 24.75,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/vi/exchanges/uniswap",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Uniswap Hồ sơ nền tảng và phí — NexuAlpha",
+      "currentDescription": "Independent Uniswap profile covering fee schedules, account conditions and official sources.",
+      "proposedDescription": "uniswap testnet: Independent Uniswap profile covering fee schedules, account conditions and official sources. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "uniswap testnet | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "usdc a pesos",
+      "page": "https://nexualpha.com/es/convert/usdc-to-mxn",
+      "position": 63,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/es/convert/usdc-to-mxn",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "USDC a MXN — NexuAlpha",
+      "currentDescription": "Convierte USDC a MXN con el precio de referencia más reciente, consulta la tabla de conversión y compara exchanges para comprar USDC con MXN.",
+      "proposedDescription": "usdc a pesos: Convierte USDC a MXN con el precio de referencia más reciente, consulta la tabla de conversión y compara exchanges para comprar USDC con MXN. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "usdc a pesos | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "أفضل عملات الميم",
+      "page": "https://nexualpha.com/topics/meme-coins",
+      "position": 57.5,
+      "impressions": 4,
+      "clicks": 0,
+      "pathname": "/topics/meme-coins",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Meme coin platform comparison (2026): MEXC vs Gate.io vs…",
+      "currentDescription": "Compare MEXC, Gate.io and Raydium by product access, token contracts, liquidity routes, published costs, approval risk and exit conditions.",
+      "proposedDescription": "أفضل عملات الميم: Compare MEXC, Gate.io and Raydium by product access, token contracts, liquidity routes, published costs, approval risk and exit conditions. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "أفضل عملات الميم | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "binance sbe market data",
+      "page": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "position": 8,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance SBE Market Data vs Coinbase WebSocket: Setup Checks",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "binance sbe market data: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "binance sbe market data | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "binance vs bybit",
+      "page": "https://nexualpha.com/compare/binance-vs-bybit",
+      "position": 56,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/compare/binance-vs-bybit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance vs Bybit: Fees, Futures, Earn and KYC Checks",
+      "currentDescription": "Compare Binance and Bybit by published spot and futures fees, product scope, Earn or copy-trading boundaries, identity requirements…",
+      "proposedDescription": "binance vs bybit: Compare Binance and Bybit by published spot and futures fees, product scope, Earn or copy-trading boundaries, identity requirements… | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "binance vs bybit | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bitget vs bybit uta",
+      "page": "https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+      "position": 63.333333333333336,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/compare/bybit-vs-bitget",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Bybit vs Bitget Stocks, Copy Trading, Fees and Account…",
+      "currentDescription": "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.",
+      "proposedDescription": "bitget vs bybit uta: Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "bitget vs bybit uta | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "bybit registro",
+      "page": "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 22.666666666666668,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Register a Bybit Account, Complete KYC and Secure…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "bybit registro: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "bybit registro | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bybit vs bitget",
+      "page": "https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+      "position": 60.666666666666664,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/compare/bybit-vs-bitget",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Bybit vs Bitget Stocks, Copy Trading, Fees and Account…",
+      "currentDescription": "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.",
+      "proposedDescription": "bybit vs bitget: Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "bybit vs bitget | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "bybit vs phemex",
+      "page": "https://nexualpha.com/topics/derivatives",
+      "position": 69,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/topics/derivatives",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Crypto Perpetual Platform Comparison: Fees, Funding and…",
+      "currentDescription": "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.",
+      "proposedDescription": "bybit vs phemex: Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "bybit vs phemex | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "cryptocurrency",
+      "page": "https://nexualpha.com/glossary/cryptocurrency",
+      "position": 68.33333333333333,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/glossary/cryptocurrency",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "What is cryptocurrency? Meaning explained simply — NexuAlpha",
+      "currentDescription": "Understand what cryptocurrency is, how ownership and private keys work, and why prices move around the clock.",
+      "proposedDescription": "cryptocurrency: Understand what cryptocurrency is, how ownership and private keys work, and why prices move around the clock. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "cryptocurrency | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "funding 2fa kraken",
+      "page": "https://nexualpha.com/news/how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+      "position": 10.666666666666666,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/news/how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Kraken 2FA: Sign-in vs Funding 2FA, Passkeys and GSL",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "funding 2fa kraken: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "funding 2fa kraken | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gate.io register",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 21.666666666666668,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/exchanges/gate-io",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Sign Up for Gate.io: Steps, KYC, Code nexubest",
+      "currentDescription": "Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io.",
+      "proposedDescription": "gate.io register: Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "gate.io register | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gemini identity verification",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 36,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Gemini Identity Verification (2026): ID, Face Scan and 2FA",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "gemini identity verification: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "answer-first",
+      "proposedTitle": "gemini identity verification | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "how to create anti phishing code",
+      "page": "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code",
+      "position": 24,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/news/how-to-set-up-binance-anti-phishing-code",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance Anti-Phishing Code: How to Set It Up and Check a…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "how to create anti phishing code: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "how to create anti phishing code | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "hyperliquid funding rates",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63.666666666666664,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid funding rates: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "hyperliquid funding rates | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "hyperliquid rebates",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 63,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid rebates: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "hyperliquid rebates | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "kraken ou binance",
+      "page": "https://nexualpha.com/compare/binance-vs-kraken",
+      "position": 62.333333333333336,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/compare/binance-vs-kraken",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance vs Kraken: Trading Fees &amp; Platform Comparison",
+      "currentDescription": "Compare Binance vs Kraken by trading fees, products, account requirements and platform differences.",
+      "proposedDescription": "kraken ou binance: Compare Binance vs Kraken by trading fees, products, account requirements and platform differences. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "kraken ou binance | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx vs bybit",
+      "page": "https://nexualpha.com/compare/okx-vs-bybit",
+      "position": 58.333333333333336,
+      "impressions": 3,
+      "clicks": 0,
+      "pathname": "/compare/okx-vs-bybit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX vs Bybit: Fees, Web3, Derivatives and Account Checks",
+      "currentDescription": "Compare OKX and Bybit by fee schedules, derivatives access, Web3 or wallet routes, copy-trading context, identity requirements…",
+      "proposedDescription": "okx vs bybit: Compare OKX and Bybit by fee schedules, derivatives access, Web3 or wallet routes, copy-trading context, identity requirements… | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "okx vs bybit | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "backpack exchange avis",
+      "page": "https://nexualpha.com/fr/factbook/backpack",
+      "position": 45,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/fr/factbook/backpack",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Backpack Fiche des sources — NexuAlpha",
+      "currentDescription": "Factbook des sources pour Backpack : frais de base, accès régional, KYC et domaines officiels. Avantages et réserves exigent une vérification par source.",
+      "proposedDescription": "backpack exchange avis: Factbook des sources pour Backpack : frais de base, accès régional, KYC et domaines officiels. Avantages et réserves exigent une vérification par source. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "backpack exchange avis | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "backpack exchange avis avis",
+      "page": "https://nexualpha.com/fr/factbook/backpack",
+      "position": 51.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/fr/factbook/backpack",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Backpack Fiche des sources — NexuAlpha",
+      "currentDescription": "Factbook des sources pour Backpack : frais de base, accès régional, KYC et domaines officiels. Avantages et réserves exigent une vérification par source.",
+      "proposedDescription": "backpack exchange avis avis: Factbook des sources pour Backpack : frais de base, accès régional, KYC et domaines officiels. Avantages et réserves exigent une vérification par source. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "backpack exchange avis avis | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "bis unified ledger",
+      "page": "https://nexualpha.com/news/bis-unified-ledger-vs-stablecoin-two-tier-money-trust-map",
+      "position": 8,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/bis-unified-ledger-vs-stablecoin-two-tier-money-trust-map",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "BIS Unified Ledger vs Stablecoins: Two-Tier Money Trust Map",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "bis unified ledger: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "bis unified ledger | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "bitget vs bybit 美股",
+      "page": "https://nexualpha.com/zh-hans/compare/bybit-vs-bitget",
+      "position": 40,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/zh-hans/compare/bybit-vs-bitget",
+      "locale": "zh-hans",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Bybit vs Bitget UTA、股票类产品、跟单…",
+      "currentDescription": "比较 Bybit 与 Bitget 时先确认产品标签：UTA 保证金、xStocks 费率、股票期货、跟单分润、费用、资金费、KYC 与开户注册路径限制。",
+      "proposedDescription": "bitget vs bybit 美股: 比较 Bybit 与 Bitget 时先确认产品标签：UTA 保证金、xStocks 费率、股票期货、跟单分润、费用、资金费、KYC 与开户注册路径限制。 | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "bitget vs bybit 美股 | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "buy verified gate.io accounts",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 38.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/gate-io",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Sign Up for Gate.io: Steps, KYC, Code nexubest",
+      "currentDescription": "Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io.",
+      "proposedDescription": "buy verified gate.io accounts: Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "buy verified gate.io accounts | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "bybit 注册",
+      "page": "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "position": 19,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "locale": "zh-hans",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "如何注册 Bybit 账户、完成 KYC 并保护首次登录",
+      "currentDescription": "请求的页面不存在或未发布。",
+      "proposedDescription": "bybit 注册: 请求的页面不存在或未发布。 | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "bybit 注册 | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "cctp v2",
+      "page": "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+      "position": 63,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Circle CCTP V2 USDC Fast Transfer, Hooks and Finality Risk…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "cctp v2: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "cctp v2 | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "dca",
+      "page": "https://nexualpha.com/es/glossary/dollar-cost-averaging",
+      "position": 45.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/es/glossary/dollar-cost-averaging",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "¿Qué es el DCA en cripto? Promedio de costo — NexuAlpha",
+      "currentDescription": "Qué es el DCA, cómo calcula tu precio medio con compras periódicas y qué límites tiene frente a una compra única.",
+      "proposedDescription": "dca: Qué es el DCA, cómo calcula tu precio medio con compras periódicas y qué límites tiene frente a una compra única. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "dca | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "deribit fees",
+      "page": "https://nexualpha.com/exchanges/deribit",
+      "position": 34.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/deribit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off",
+      "currentDescription": "Deribit fees: BTC perpetual 0.015% maker / 0.035% taker, spot 0.02% / 0.05% (official API, 2026-10-10), plus the six-month 10% referred-user discount.",
+      "proposedDescription": "deribit fees: Deribit fees: BTC perpetual 0.015% maker / 0.035% taker, spot 0.02% / 0.05% (official API, 2026-10-10), plus the six-month 10% referred-user discount. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "deribit fees | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "deribit login",
+      "page": "https://nexualpha.com/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+      "position": 9,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Register on Deribit, Complete KYC and Secure First…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "deribit login: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "deribit login | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "deribit mark price",
+      "page": "https://nexualpha.com/exchanges/deribit",
+      "position": 32,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/deribit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off",
+      "currentDescription": "Deribit fees: BTC perpetual 0.015% maker / 0.035% taker, spot 0.02% / 0.05% (official API, 2026-10-10), plus the six-month 10% referred-user discount.",
+      "proposedDescription": "deribit mark price: Deribit fees: BTC perpetual 0.015% maker / 0.035% taker, spot 0.02% / 0.05% (official API, 2026-10-10), plus the six-month 10% referred-user discount. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "deribit mark price | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "does bybit require kyc",
+      "page": "https://nexualpha.com/exchanges/bybit",
+      "position": 55,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/bybit",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Bybit referral code: 48553",
+      "currentDescription": "Bybit referral code: 48553. No verified user benefit.",
+      "proposedDescription": "does bybit require kyc: Bybit referral code: 48553. No verified user benefit. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "does bybit require kyc | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gate.io signup",
+      "page": "https://nexualpha.com/exchanges/gate-io",
+      "position": 20,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/gate-io",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Sign Up for Gate.io: Steps, KYC, Code nexubest",
+      "currentDescription": "Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io.",
+      "proposedDescription": "gate.io signup: Register for Gate.io with code nexubest on the official site or app, then complete KYC: up to 40% of trading fees back, paid by Gate.io. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "gate.io signup | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "gemini verify account",
+      "page": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "position": 9,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Gemini Identity Verification (2026): ID, Face Scan and 2FA",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "gemini verify account: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "gemini verify account | NexuAlpha",
+      "evidence": "live-title-h1",
+      "protection": "page-already-top-eight"
+    },
+    {
+      "query": "https www coinbase com verifications documents new",
+      "page": "https://nexualpha.com/news/how-to-create-coinbase-account-verify-identity-securely",
+      "position": 19,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-create-coinbase-account-verify-identity-securely",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Create a Coinbase Account and Verify Identity…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "https www coinbase com verifications documents new: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "https www coinbase com verifications documents new | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "hyperliquid maintenance margin",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 59.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid maintenance margin: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "hyperliquid maintenance margin | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "hyperliquid sub account",
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "position": 39,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/hyperliquid",
+      "locale": "en",
+      "eligible": true,
+      "brand": "NexuAlpha",
+      "currentTitle": "Hyperliquid Fees, Code NEXU888 &amp; Funded Accounts",
+      "currentDescription": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "proposedDescription": "hyperliquid sub account: Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "hyperliquid sub account | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "kucoin join",
+      "page": "https://nexualpha.com/news/how-to-register-kucoin-account-complete-identity-verification-and-secure-access",
+      "position": 23,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-kucoin-account-complete-identity-verification-and-secure-access",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "How to Register a KuCoin Account, Complete Identity…",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "kucoin join: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "kucoin join | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx account",
+      "page": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely",
+      "position": 15,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-okx-account-verify-identity-safely",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX Account: How to Register and Verify Identity (2026)",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "okx account: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "okx account | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx api docs",
+      "page": "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+      "position": 20,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX API Docs: Upcoming WebSocket Amend &amp; Cancel Changes",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "okx api docs: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "okx api docs | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx gebühren",
+      "page": "https://nexualpha.com/de/exchanges/okx",
+      "position": 56.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/de/exchanges/okx",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX Anmeldung: Schritte, KYC und Code nexu888",
+      "currentDescription": "Bei OKX mit Code nexu888 auf der offiziellen Website oder App anmelden, danach KYC abschließen: bis zu 40 % der Gebühren zurück, gezahlt von OKX.",
+      "proposedDescription": "okx gebühren: Bei OKX mit Code nexu888 auf der offiziellen Website oder App anmelden, danach KYC abschließen: bis zu 40 % der Gebühren zurück, gezahlt von OKX. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "okx gebühren | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "okx register",
+      "page": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely",
+      "position": 22,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/news/how-to-register-okx-account-verify-identity-safely",
+      "locale": "en",
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "OKX Account: How to Register and Verify Identity (2026)",
+      "currentDescription": "The requested page does not exist or is not published.",
+      "proposedDescription": "okx register: The requested page does not exist or is not published. | NexuAlpha",
+      "action": "description",
+      "proposedTitle": "okx register | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "raydium ortalama hesaplama",
+      "page": "https://nexualpha.com/tr/factbook/raydium",
+      "position": 12.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/tr/factbook/raydium",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Raydium Kaynak factbook — NexuAlpha",
+      "currentDescription": "Raydium için kaynak factbook: temel ücretler, bölgesel erişim, KYC referansları ve resmî alan adları. Avantajlar ve rezervler kaynak bazında doğrulanmalıdır.",
+      "proposedDescription": "raydium ortalama hesaplama: Raydium için kaynak factbook: temel ücretler, bölgesel erişim, KYC referansları ve resmî alan adları. Avantajlar ve rezervler kaynak bazında doğrulanmalıdır. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "raydium ortalama hesaplama | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "servicio de listado en exchange de criptomonedas",
+      "page": "https://nexualpha.com/exchanges?locale=es",
+      "position": 66,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Directorio de exchanges cripto y comparación de comisiones",
+      "currentDescription": "Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta.",
+      "proposedDescription": "servicio de listado en exchange de criptomonedas: Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "servicio de listado en exchange de criptomonedas | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "servicios de listado de intercambio de criptomonedas",
+      "page": "https://nexualpha.com/exchanges?locale=es",
+      "position": 30.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Directorio de exchanges cripto y comparación de comisiones",
+      "currentDescription": "Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta.",
+      "proposedDescription": "servicios de listado de intercambio de criptomonedas: Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "servicios de listado de intercambio de criptomonedas | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "solana to euro",
+      "page": "https://nexualpha.com/de/convert/sol-to-eur",
+      "position": 68.5,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/de/convert/sol-to-eur",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Solana in EUR umrechnen — NexuAlpha",
+      "currentDescription": "Rechne SOL zum aktuellen Referenzkurs in EUR um, nutze die Umrechnungstabelle und vergleiche Börsen, um Solana mit EUR zu kaufen.",
+      "proposedDescription": "solana to euro: Rechne SOL zum aktuellen Referenzkurs in EUR um, nutze die Umrechnungstabelle und vergleiche Börsen, um Solana mit EUR zu kaufen. | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "solana to euro | NexuAlpha",
+      "evidence": "live-title-h1"
+    },
+    {
+      "query": "taxas bybit",
+      "page": "https://nexualpha.com/exchanges/bybit?locale=pt-BR",
+      "position": 57,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/exchanges/bybit",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "código de convite Bybit: 48553",
+      "currentDescription": "código de convite Bybit (indicação): 48553. Sem benefício verificado para o usuário.",
+      "proposedDescription": "taxas bybit: código de convite Bybit (indicação): 48553. Sem benefício verificado para o usuário. | NexuAlpha",
+      "action": "none",
+      "proposedTitle": "taxas bybit | NexuAlpha",
+      "evidence": "page-fetch-unavailable"
+    },
+    {
+      "query": "幣安手續費",
+      "page": "https://nexualpha.com/zh-hant/exchanges/binance",
+      "position": 67,
+      "impressions": 2,
+      "clicks": 0,
+      "pathname": "/zh-hant/exchanges/binance",
+      "locale": null,
+      "eligible": false,
+      "brand": "NexuAlpha",
+      "currentTitle": "Binance 平台檔案與手續費",
+      "currentDescription": "Binance 手續費、產品、帳戶條件與官方來源的獨立資料。用戶權益、地區可用性和活動資格需在官方帳戶內核驗。",
+      "proposedDescription": "幣安手續費: Binance 手續費、產品、帳戶條件與官方來源的獨立資料。用戶權益、地區可用性和活動資格需在官方帳戶內核驗。 | NexuAlpha",
+      "action": "title",
+      "proposedTitle": "幣安手續費 | NexuAlpha",
+      "evidence": "live-title-h1"
+    }
+  ],
+  "pageDecay": [
+    {
+      "page": "https://nexualpha.com/exchanges/hyperliquid",
+      "before": 28,
+      "after": 5
+    },
+    {
+      "page": "https://nexualpha.com/news/bybit-v5-api-rate-limit-header-retry-budget-checklist",
+      "before": 23,
+      "after": 3
+    },
+    {
+      "page": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely",
+      "before": 65,
+      "after": 13
+    },
+    {
+      "page": "https://nexualpha.com/news/how-to-set-up-kraken-global-settings-lock-safely",
+      "before": 23,
+      "after": 0
+    }
+  ],
+  "indexHealth": [
+    {
+      "url": "https://nexualpha.com/news/binance-referral-code-11350287-sign-up-verify-october-2026",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/switzerland-first-retail-bitcoin-etf-finma-what-swiss-investors-check",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/okx-lists-netflix-tokenized-stock-xnflx-spot-what-to-check",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/okx-referral-code-nexu888-sign-up-verify-october-2026",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/bitget-to-buy-thailand-gmo-z-com-cryptonomics-weeks-after-388m-hack-what-bitget-users-should-check",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/drift-exploiter-sends-61m-eth-to-tornado-cash-81k-eth-left-what-it-means-for-drift-users",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/jpmorgan-bitcoin-forecast-10-percent-a-year-vs-stocks-and-gold-what-the-ltcma-really-says",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/mt-gox-repayment-deadline-extended-october-2027-what-creditors-and-bitcoin-holders-should-know",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/nine-companies-object-okx-ice-tokenized-stock-venue-what-it-means-for-tokenized-stocks",
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    },
+    {
+      "url": "https://nexualpha.com/news/visa-mesh-spend-crypto-175-million-merchants-when-can-you-use-it",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null
+    }
+  ],
+  "notIndexed": 10,
+  "inspectionUnknown": 0,
+  "bing": {
+    "GetQueryStats": {
+      "d": [
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 3,
+          "Clicks": 0,
+          "Date": "/Date(1790899200000)/",
+          "Impressions": 1,
+          "Query": "nexualpha ai"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 6,
+          "Clicks": 0,
+          "Date": "/Date(1791504000000)/",
+          "Impressions": 1,
+          "Query": "inbody:spot inbody:corretora \"exchange cripto\""
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 5,
+          "Clicks": 0,
+          "Date": "/Date(1791504000000)/",
+          "Impressions": 1,
+          "Query": "ethereum exchange inbody:\"trading fees\" loc:jp"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 7,
+          "Clicks": 0,
+          "Date": "/Date(1791504000000)/",
+          "Impressions": 1,
+          "Query": "\"crypto exchange\" inbody:\"frais de trading\""
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 1,
+          "Clicks": 1,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 2,
+          "Query": "binanice bot  state websocket  account 对账"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 4,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "backpack exchange kyc requirements official account verification"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 6,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "the sender needs to submit a withdrawal request in the system."
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 3,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "choose blockchain network withdrawal same asset exchange guide"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 7,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "site.support.kraken.com security passkeys global settings lock mica ireland"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 5,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "kraken manage recurring buys cancel schedule"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 5,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "okx stock perpetuals price band trading hours risk official"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 6,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "kraken recurring buys fees germany recurring buy schedule"
+        },
+        {
+          "__type": "QueryStats:#Microsoft.Bing.Webmaster.Api",
+          "AvgClickPosition": -1,
+          "AvgImpressionPosition": 7,
+          "Clicks": 0,
+          "Date": "/Date(1792108800000)/",
+          "Impressions": 1,
+          "Query": "site.okx.com help registered country region identity verification account"
+        }
+      ]
+    },
+    "GetCrawlStats": {
+      "d": [
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 2,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 0,
+          "Code301": 0,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 0,
+          "CrawlErrors": 0,
+          "Date": "/Date(1788998400000)/",
+          "DnsFailures": 0,
+          "InIndex": 0,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 2,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 0,
+          "Code301": 0,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 1,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789084800000)/",
+          "DnsFailures": 0,
+          "InIndex": 0,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 1,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 0,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 6,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789171200000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 1,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789257600000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 30,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789344000000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 46,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789430400000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 22,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789516800000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 49,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789603200000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 51,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789689600000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 13,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789776000000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 39,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789862400000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 23,
+          "CrawlErrors": 0,
+          "Date": "/Date(1789948800000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 53,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790035200000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 0,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 82,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790121600000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 1,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 1,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 68,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790208000000)/",
+          "DnsFailures": 0,
+          "InIndex": 1,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 4,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 3,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 71,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790294400000)/",
+          "DnsFailures": 0,
+          "InIndex": 3,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 4,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 3,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 45,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790380800000)/",
+          "DnsFailures": 0,
+          "InIndex": 3,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 11,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 4,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 128,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790467200000)/",
+          "DnsFailures": 0,
+          "InIndex": 4,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 30,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 7,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 96,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790553600000)/",
+          "DnsFailures": 0,
+          "InIndex": 7,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 31,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 10,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 131,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790640000000)/",
+          "DnsFailures": 0,
+          "InIndex": 10,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 31,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 12,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 116,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790726400000)/",
+          "DnsFailures": 0,
+          "InIndex": 12,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 39,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 14,
+          "Code301": 1,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 115,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790812800000)/",
+          "DnsFailures": 0,
+          "InIndex": 14,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 243,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 58,
+          "Code301": 2,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 216,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790899200000)/",
+          "DnsFailures": 0,
+          "InIndex": 34,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 441,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 124,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 0,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 103,
+          "CrawlErrors": 0,
+          "Date": "/Date(1790985600000)/",
+          "DnsFailures": 0,
+          "InIndex": 75,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 595,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 238,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 1,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 145,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791072000000)/",
+          "DnsFailures": 0,
+          "InIndex": 135,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 595,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 238,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 1,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 83,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791158400000)/",
+          "DnsFailures": 0,
+          "InIndex": 135,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 663,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 300,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 162,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791244800000)/",
+          "DnsFailures": 0,
+          "InIndex": 165,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 720,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 357,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 132,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791331200000)/",
+          "DnsFailures": 0,
+          "InIndex": 195,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 753,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 391,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 185,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791417600000)/",
+          "DnsFailures": 0,
+          "InIndex": 211,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 791,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 426,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 1,
+          "Code5xx": 3,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 175,
+          "CrawlErrors": 6,
+          "Date": "/Date(1791504000000)/",
+          "DnsFailures": 0,
+          "InIndex": 229,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 818,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 456,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 249,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791590400000)/",
+          "DnsFailures": 0,
+          "InIndex": 241,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 906,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 544,
+          "Code301": 5,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 289,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791676800000)/",
+          "DnsFailures": 0,
+          "InIndex": 297,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 818,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 456,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 1,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 342,
+          "CrawlErrors": 1,
+          "Date": "/Date(1791763200000)/",
+          "DnsFailures": 0,
+          "InIndex": 241,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 818,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 456,
+          "Code301": 3,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 305,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791849600000)/",
+          "DnsFailures": 0,
+          "InIndex": 241,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 906,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 544,
+          "Code301": 5,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 251,
+          "CrawlErrors": 0,
+          "Date": "/Date(1791936000000)/",
+          "DnsFailures": 0,
+          "InIndex": 297,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 963,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 591,
+          "Code301": 11,
+          "Code302": 0,
+          "Code4xx": 1,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 196,
+          "CrawlErrors": 2,
+          "Date": "/Date(1792022400000)/",
+          "DnsFailures": 0,
+          "InIndex": 317,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 963,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 591,
+          "Code301": 11,
+          "Code302": 0,
+          "Code4xx": 1,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 231,
+          "CrawlErrors": 1,
+          "Date": "/Date(1792108800000)/",
+          "DnsFailures": 0,
+          "InIndex": 317,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 1026,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 662,
+          "Code301": 27,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 163,
+          "CrawlErrors": 0,
+          "Date": "/Date(1792195200000)/",
+          "DnsFailures": 0,
+          "InIndex": 355,
+          "InLinks": 0
+        },
+        {
+          "__type": "CrawlStats:#Microsoft.Bing.Webmaster.Api",
+          "AllOtherCodes": 1026,
+          "BlockedByRobotsTxt": 0,
+          "Code2xx": 662,
+          "Code301": 27,
+          "Code302": 0,
+          "Code4xx": 0,
+          "Code5xx": 2,
+          "ConnectionTimeout": 0,
+          "ContainsMalware": 0,
+          "CrawledPages": 145,
+          "CrawlErrors": 0,
+          "Date": "/Date(1792281600000)/",
+          "DnsFailures": 0,
+          "InIndex": 355,
+          "InLinks": 0
+        }
+      ]
+    }
+  },
+  "radar": [
+    {
+      "rank": 1,
+      "score": 78,
+      "market": "en",
+      "query": "kraken vs blackhawks",
+      "lanes": "seo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/exchanges/kraken"
+    },
+    {
+      "rank": 2,
+      "score": 73,
+      "market": "zh-hans",
+      "query": "okx怎么注册",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/okx"
+    },
+    {
+      "rank": 3,
+      "score": 73,
+      "market": "tr",
+      "query": "okx tr nasıl üye olunur",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/tr/exchanges/okx"
+    },
+    {
+      "rank": 4,
+      "score": 73,
+      "market": "id",
+      "query": "cara daftar okx card",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/id-id/exchanges/okx"
+    },
+    {
+      "rank": 5,
+      "score": 73,
+      "market": "en",
+      "query": "okx how to register",
+      "lanes": "seo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/exchanges/okx"
+    },
+    {
+      "rank": 6,
+      "score": 73,
+      "market": "zh-hans",
+      "query": "比南车怎么注册",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/binance"
+    },
+    {
+      "rank": 7,
+      "score": 73,
+      "market": "tr",
+      "query": "binance nasıl kayıt olunur",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/tr/exchanges/binance"
+    },
+    {
+      "rank": 8,
+      "score": 73,
+      "market": "id",
+      "query": "cara daftar binance di indonesia",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/id-id/exchanges/binance"
+    },
+    {
+      "rank": 9,
+      "score": 73,
+      "market": "zh-hans",
+      "query": "bybit注册",
+      "lanes": "seo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/bybit"
+    },
+    {
+      "rank": 10,
+      "score": 73,
+      "market": "id",
+      "query": "cara daftar bybit card",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/id-id/exchanges/bybit"
+    },
+    {
+      "rank": 11,
+      "score": 73,
+      "market": "zh-hans",
+      "query": "bitget邀请码",
+      "lanes": "seo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/bitget"
+    },
+    {
+      "rank": 12,
+      "score": 73,
+      "market": "zh-hans",
+      "query": "bitget怎么注册",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/bitget"
+    },
+    {
+      "rank": 13,
+      "score": 73,
+      "market": "id",
+      "query": "cara daftar bitget exchange",
+      "lanes": "aeo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/id-id/exchanges/bitget"
+    },
+    {
+      "rank": 14,
+      "score": 73,
+      "market": "id",
+      "query": "kraken register",
+      "lanes": "seo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/id-id/exchanges/kraken"
+    },
+    {
+      "rank": 15,
+      "score": 72,
+      "market": "en",
+      "query": "okx bybit",
+      "lanes": "seo",
+      "action": "refresh existing page",
+      "url": "https://nexualpha.com/ko/compare/okx-vs-bybit"
+    },
+    {
+      "rank": 16,
+      "score": 70,
+      "market": "pt-br",
+      "query": "como comprar cardano",
+      "lanes": "seo+aeo",
+      "action": "write new (ranks with /pt-br/coins/cardano)",
+      "url": "https://nexualpha.com/pt-br/coins/cardano"
+    },
+    {
+      "rank": 17,
+      "score": 69,
+      "market": "en",
+      "query": "gate.io signup",
+      "lanes": "seo",
+      "action": "refresh existing page",
+      "url": "https://nexualpha.com/exchanges/gate-io"
+    },
+    {
+      "rank": 18,
+      "score": 68,
+      "market": "en",
+      "query": "que significa codigo de referido",
+      "lanes": "seo",
+      "action": "write new (ranks with /es/glossary/referral-code)",
+      "url": "https://nexualpha.com/news/<new-slug> (new)"
+    },
+    {
+      "rank": 19,
+      "score": 68,
+      "market": "en",
+      "query": "okx fees vs kraken",
+      "lanes": "geo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/compare/kraken-vs-okx"
+    },
+    {
+      "rank": 20,
+      "score": 68,
+      "market": "zh-hans",
+      "query": "okx 入金 手续费",
+      "lanes": "geo",
+      "action": "refresh existing page (add section/FAQ)",
+      "url": "https://nexualpha.com/zh-hans/exchanges/okx"
+    }
+  ],
+  "topicHints": [],
+  "warnings": [
+    "Page unavailable: https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+    "Page unavailable: https://nexualpha.com/compare/bybit-vs-bitget?locale=en",
+    "Page unavailable: https://nexualpha.com/fr/factbook/backpack",
+    "Page unavailable: https://nexualpha.com/fr/factbook/backpack",
+    "Page unavailable: https://nexualpha.com/tr/factbook/raydium",
+    "Page unavailable: https://nexualpha.com/exchanges?locale=es",
+    "Page unavailable: https://nexualpha.com/exchanges?locale=es",
+    "Page unavailable: https://nexualpha.com/exchanges/bybit?locale=pt-BR",
+    "Inbound-link analysis skipped: no complete built HTML graph; no internal-link claims made.",
+    "No explicit unmatched radar intents; no new-article hints emitted."
+  ],
+  "verified": [],
+  "application": {
+    "mode": "dry-run",
+    "applied": [],
+    "proposed": [
+      "/exchanges/hyperliquid",
+      "/exchanges/bybit",
+      "/exchanges/gmx",
+      "/exchanges/gate-io",
+      "/compare/binance-vs-kraken",
+      "/compare/okx-vs-bybit",
+      "/zh-hans/compare/bybit-vs-bitget",
+      "/exchanges/deribit"
+    ],
+    "rejected": [
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/compare/binance-vs-kraken",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/topics/meme-coins",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/vi/coins/ethereum",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/compare/binance-vs-okx",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/vi/exchanges/uniswap",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/es/convert/usdc-to-mxn",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/topics/meme-coins",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+        "errors": [
+          "protected-position",
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/compare/binance-vs-bybit",
+        "errors": [
+          "length"
+        ]
+      },
+      {
+        "pathname": "/compare/bybit-vs-bitget",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/compare/bybit-vs-bitget",
+        "errors": [
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/topics/derivatives",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/glossary/cryptocurrency",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-set-up-binance-anti-phishing-code",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/fr/factbook/backpack",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/fr/factbook/backpack",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/news/bis-unified-ledger-vs-stablecoin-two-tier-money-trust-map",
+        "errors": [
+          "protected-position",
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/gate-io",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/es/glossary/dollar-cost-averaging",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/exchanges/deribit",
+        "errors": [
+          "unsupported-action",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/bybit",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/exchanges/gate-io",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-create-coinbase-account-verify-identity-securely",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/exchanges/hyperliquid",
+        "errors": [
+          "active-experiment"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-kucoin-account-complete-identity-verification-and-secure-access",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-okx-account-verify-identity-safely",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/de/exchanges/okx",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/news/how-to-register-okx-account-verify-identity-safely",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/tr/factbook/raydium",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/exchanges",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/exchanges",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action"
+        ]
+      },
+      {
+        "pathname": "/de/convert/sol-to-eur",
+        "errors": [
+          "ineligible-route"
+        ]
+      },
+      {
+        "pathname": "/exchanges/bybit",
+        "errors": [
+          "ineligible-route",
+          "unsupported-action",
+          "length"
+        ]
+      },
+      {
+        "pathname": "/zh-hant/exchanges/binance",
+        "errors": [
+          "ineligible-route",
+          "length"
+        ]
+      }
+    ],
+    "pendingReverts": []
+  }
+}

@@ -1,3 +1,4 @@
+import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
 import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
 import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { radarSourceStale } from '../server/source-freshness.mjs';
@@ -7400,7 +7401,7 @@ export async function routeMetadata(url, env) {
   if (turkeyMarket && metadata && typeof metadata === "object") metadata.market = turkeyMarket;
   // Striking-distance pass 2026-10-18: reviewed search titles for non-article pages (same helper as seo-injection.js).
   if (route.localeSource !== "query" && !url.searchParams.has("locale")) applyStrikingPageOverride(metadata, route.contentPathname, route.locale);
-  return applyServedMetadataBudget(metadata);
+  return applyAutopilotOverride(applyServedMetadataBudget(metadata), route.contentPathname, metadata?.locale || route.locale, undefined, url.pathname);
 }
 
 async function resolveRouteMetadata(url, env) {

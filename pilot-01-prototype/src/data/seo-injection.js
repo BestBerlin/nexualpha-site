@@ -1,3 +1,5 @@
+import { applyAutopilotOverride } from "./seo-autopilot.js";
+export { applyAutopilotOverride } from "./seo-autopilot.js";
 import { NEXUALPHA_DATA_LICENSE_URL } from "./dataset-schema.js";
 import { bitgetGuideSeo } from "./bitget-guide-seo.js";
 import { isBitgetGuidePath, BITGET_GUIDE_LOCALES } from "./bitget-guide-routes.js";
@@ -2103,7 +2105,7 @@ export function computeRouteSeo(options = {}) {
   const title = typeof seo.title === "string" ? (isNativeReferralTitle(seo.title, seo.locale) ? seo.title : budgetTitle(seo.title, titleBudgetForLocale(seo.locale))) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
   const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
-  return { ...seo, title, description, schemas };
+  return applyAutopilotOverride({ ...seo, title, description, schemas }, legalRoute.contentPathname, seo.locale, undefined, legalUrl.pathname);
 }
 
 function computeRouteSeoUnbudgeted(options = {}) {
