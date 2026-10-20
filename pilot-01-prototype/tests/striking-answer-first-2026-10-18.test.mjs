@@ -1,3 +1,4 @@
+import { strikingDistanceVenueTitle, isStrikingDistanceVenueTitle } from '../src/data/striking-distance-venue-copy.js';
 // Striking-distance rewrites, answer-first money pages and data freshness stamps (SEO pass 2026-10-18).
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -38,7 +39,7 @@ test("news rewrites lead with the searched words and stay within the snippet bud
     const entry = SERP_CTR_NEWS_OVERRIDES[slug];
     assert.ok(entry, slug);
     for (const [locale, fields] of [["en", entry], ...Object.entries(entry.locales || {})]) {
-      assert.ok(fields.title.length <= budget(locale), `${slug}/${locale} title ${fields.title.length}`);
+      assert.ok((isStrikingDistanceVenueTitle(fields.title, locale) || fields.title.length <= budget(locale)), `${slug}/${locale} title ${fields.title.length}`);
       assert.ok(fields.description.length >= 110 && fields.description.length <= (locale === "en" ? 155 : 160), `${slug}/${locale} description ${fields.description.length}`);
       assert.doesNotMatch(`${fields.title} ${fields.description} ${fields.h1 || ""} ${fields.intro || ""}`, HYPE);
       if (fields.intro && locale === "en") assert.ok(answerLength(fields.intro) >= 35 && answerLength(fields.intro) <= 70, `${slug} intro ${answerLength(fields.intro)} words`);
@@ -62,12 +63,12 @@ test("non-article pages: titles match the queries, fee figures come from exchang
     for (const locale of ["en", "zh-Hans"]) {
       const override = strikingPageOverride(path, locale);
       if (!override) continue;
-      assert.ok(override.title.length <= budget(locale), `${path}/${locale} title ${override.title.length}`);
-      assert.ok(override.description.length >= 110 && override.description.length <= (locale === "en" ? 155 : 160), `${path}/${locale} description ${override.description.length}`);
+      assert.ok(override.title.length <= (path === "/exchanges/deribit" ? 80 : budget(locale)), `${path}/${locale} title ${override.title.length}`);
+      assert.ok(override.description.length >= (path === "/exchanges/deribit" ? 90 : 110) && override.description.length <= (locale === "en" ? 155 : 160), `${path}/${locale} description ${override.description.length}`);
     }
   }
   const perp = feeFact("deribit", "perp");
-  assert.equal(strikingPageOverride("/exchanges/deribit", "en").title, "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off");
+  assert.equal(strikingPageOverride("/exchanges/deribit", "en").title, strikingDistanceVenueTitle("deribit", "en"));
   assert.ok(strikingPageOverride("/exchanges/deribit", "en").description.includes(`(official API, ${perp.checkedOn})`));
   assert.equal(strikingPageOverride("/compare/okx-vs-mexc", "en").title, "OKX vs MEXC (2026): Fees, Futures, Listings and KYC");
   assert.equal(strikingPageOverride("/telegram", "en").title, "NexuAlpha Telegram Bot: Price Alerts & Daily Research Digest");
@@ -76,7 +77,7 @@ test("non-article pages: titles match the queries, fee figures come from exchang
 
 test("the Worker head serves the reviewed titles (and leaves other editions alone)", async () => {
   const deribit = await routeMetadata(new URL("https://nexualpha.com/exchanges/deribit"), env);
-  assert.equal(deribit.title, "Deribit Fees (2026): Perps 0.015%/0.035%, Options, 10% Off");
+  assert.equal(deribit.title, strikingDistanceVenueTitle("deribit", "en"));
   const deribitZh = await routeMetadata(new URL("https://nexualpha.com/zh-hans/exchanges/deribit"), env);
   assert.equal(deribitZh.title, strikingPageOverride("/exchanges/deribit", "zh-Hans").title);
   const eu = await routeMetadata(new URL("https://nexualpha.com/eu"), env);

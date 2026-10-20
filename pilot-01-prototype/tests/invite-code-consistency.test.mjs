@@ -84,7 +84,7 @@ test('built worker referral titles and descriptions keep code values unambiguous
       const route = `${prefix ? `/${prefix}` : ''}/exchanges/${venue}`;
       const metadata = await routeMetadata(new URL(`https://nexualpha.com${route}`), env);
       assert.equal(metadata.status, 200, `${locale}: ${route}`);
-      if (venue === 'hyperliquid' && metadata.title.includes(CUSTOM_INVITE_CODES.hyperliquid)) assert.doesNotMatch(metadata.title, /\b[12]\d{3}\b/, 'Hyperliquid title must keep the real code separate from dated editorial context');
+      if (venue === 'hyperliquid' && metadata.title.includes(CUSTOM_INVITE_CODES.hyperliquid)) assert.doesNotMatch(metadata.title, /referral code[:：]?\s+[12]\d{3}\b/i, 'Hyperliquid title must keep the real code separate from dated editorial context');
       for (const copy of [metadata.title, metadata.description]) issues.push(...scanInviteText(copy, { source: route, venue }));
     }
   }

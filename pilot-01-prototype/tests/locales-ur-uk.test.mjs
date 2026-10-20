@@ -101,7 +101,8 @@ test('new locales keep partner metadata neutral pending regulator review', async
 });
 
 test('draft comparison answers preserve complete structures, source routes and numeric facts', async () => {
-  const { compareDirectAnswerFor } = await import('../src/data/compare-direct-answers.js');
+  const { compareDirectAnswers } = await import('../src/data/compare-direct-answers.js');
+  const { compareDirectAnswerDrafts } = await import('../src/data/compare-direct-answer-drafts.js');
   const numbers = value => [...String(value).matchAll(/\d+(?:[.,:]\d+)*/g)].map(m => m[0]).sort();
   function check(source, draft, path) {
     if (Array.isArray(source)) {
@@ -119,8 +120,18 @@ test('draft comparison answers preserve complete structures, source routes and n
     } else assert.equal(draft, source, path);
   }
   for (const slug of ['binance-vs-okx', 'bybit-vs-bitget', 'hyperliquid-vs-dydx', 'uniswap-vs-jupiter']) {
-    const source = compareDirectAnswerFor(slug, 'en');
-    for (const locale of ['ur', 'uk']) check(source, compareDirectAnswerFor(slug, locale), `${slug}.${locale}`);
+    // Translation fidelity is measured against its source record, before runtime search-intent overlays.
+    const source = compareDirectAnswers[slug].en;
+    for (const locale of ['ur', 'uk']) {
+      const native = compareDirectAnswers[slug][locale] || compareDirectAnswerDrafts[slug]?.[locale];
+      // Drafts also store runtime wrapper fields, absent from the underlying English content record.
+      const { slug: draftSlug, locale: draftLocale, ownerQuestion, primaryNextAction, ...draft } = native;
+      assert.equal(draftSlug, slug);
+      assert.equal(draftLocale, locale);
+      assert.ok(ownerQuestion.trim());
+      assert.ok(primaryNextAction);
+      check(source, draft, `${slug}.${locale}`);
+    }
   }
 });
 

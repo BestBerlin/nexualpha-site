@@ -70,6 +70,8 @@ const CJK_JOIN = new Set(["zh-Hans", "zh-Hant", "ja"]);
 
 /** Home title: keywords + slogan A when it fits HOME_TITLE_BUDGET, else keywords only; always ends " — NexuAlpha". */
 export function homeTitle(locale) {
+  if (locale === "en") return "NexuAlpha — Crypto Fee Comparison, Rebates & Referral Codes (Official)";
+  if (locale === "zh-Hans") return "NexuAlpha — 交易所手续费对比、返佣与邀请码（官方来源）";
   const keywords = HOME_TITLE_KEYWORDS[locale] || HOME_TITLE_KEYWORDS.en;
   const withSlogan = `${keywords}${TITLE_JOINER[locale] || " | "}${sloganTitleFragment(brandSlogan(locale))}${BRAND_SUFFIX}`;
   if (titleDisplayWidth(withSlogan) <= HOME_TITLE_BUDGET) return withSlogan;
@@ -112,4 +114,9 @@ export function homeSearchCopyFor(locale, market) {
     return [title, homeDescription(copyLocale, { turkey: true })];
   }
   return HOME_SEARCH_COPY[locale] || HOME_SEARCH_COPY.en;
+}
+
+/** Reviewed brand-first titles keep their full wording in both head renderers. */
+export function isHomeBrandTitle(title) {
+  return [homeTitle("en"), homeTitle("zh-Hans")].includes(title);
 }

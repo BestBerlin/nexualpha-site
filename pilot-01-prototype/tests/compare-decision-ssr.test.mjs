@@ -83,7 +83,8 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.ok(finalCardStart > 0 && versusStart > finalCardStart, "final choice card should render before versus cards");
     const finalCard = html.slice(finalCardStart, versusStart);
     // R111 removed the eyebrow from the priority final-choice card; the card now starts with the decision title/body.
-    assert.match(finalCard, /Choose Bybit for product breadth and xStocks checks/);
+    assert.match(finalCard, /<h2>Bitget vs Bybit: who has lower fees\?<\/h2>/);
+    assert.match(finalCard, /On spot fees, the base schedules tie \(Bybit 0\.10% \/ 0\.10%; Bitget 0\.10% \/ 0\.10%, maker \/ taker\)/);
     assert.match(finalCard, /Who it fits/);
     assert.match(finalCard, /Verify first/);
     assert.match(finalCard, /data-cta-placement="compare-final-choice-registration"/);
@@ -92,7 +93,7 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.match(finalCard, /data-cta-placement="compare-final-choice-detail"/);
     assert.match(finalCard, /href="\/exchanges\/bybit#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bybit"/);
     assert.match(finalCard, /href="\/exchanges\/bitget#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bitget"/);
-    assert.match(finalCard, /Bybit vs Bitget: choose by product route/);
+    assert.match(finalCard, /Bitget vs Bybit: who has lower fees\?/);
     assert.match(finalCard, new RegExp(`class="v3-compare-final-choice-evidence"[^>]*aria-label="${directAnswer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(html, /<details class="v3-versus-stats-disclosure" open/);
     assert.doesNotMatch(html, /Regional restrictions, account eligibility and campaign terms need official verification/);
@@ -154,13 +155,15 @@ test("Binance vs OKX compare renders reviewed editorial differences without comm
     assert.ok(finalCardStart > 0 && versusStart > finalCardStart, "final choice card should render before versus cards");
     const finalCard = html.slice(finalCardStart, versusStart);
     // R111 removed the eyebrow from the priority final-choice card; the card now starts with the decision title/body.
-    assert.match(finalCard, /Choose Binance for broad exchange depth/);
+    assert.match(finalCard, /<h2>OKX vs Binance: who has lower fees\?<\/h2>/);
+    // The lower maker schedule does not imply a lower taker rate: both remain visible.
+    assert.match(finalCard, /On spot fees, OKX has lower base fees \(Binance 0\.10% \/ 0\.10%; OKX 0\.08% \/ 0\.10%, maker \/ taker\)/);
     assert.match(finalCard, /data-cta-placement="compare-final-choice-registration"/);
     assert.match(finalCard, /href="\/go\/binance\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="binance"/);
     assert.match(finalCard, /href="\/go\/okx\?src=compare-binance-vs-okx&amp;locale=en&amp;market=unknown"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="okx"/);
     assert.match(finalCard, /href="\/exchanges\/binance#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="binance"/);
     assert.match(finalCard, /href="\/exchanges\/okx#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="okx"/);
-    assert.match(finalCard, /Binance vs OKX: compare fees, product scope, KYC and Web3 access before choosing/);
+    assert.match(finalCard, /OKX vs Binance: who has lower fees\?/);
     assert.doesNotMatch(html, /Verify public products, regional eligibility and official fees first/);
   } finally {
     await rm(tempDir, { recursive: true, force: true });

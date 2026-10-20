@@ -1,3 +1,4 @@
+import { strikingDistanceVenueH1, strikingDistanceVenueLead, STRIKING_DISTANCE_VENUE_COMPARISONS } from '../../data/striking-distance-venue-copy.js';
 import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
 import { nativeReferralFor } from '../../data/referral-native.js';
@@ -559,6 +560,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   // venues). The invite code is the data-bound one from the CTA, never typed here.
   const referralHeadline = hasReferral && inviteCode ? referralSeoFor(venue.slug, locale, effectiveMarket) : null;
   const nativeReferral = nativeReferralFor(venue.slug, locale, effectiveMarket);
+  const strikingH1 = strikingDistanceVenueH1(venue.slug, locale, referralHeadline ? inviteCode : null);
+  const strikingLead = strikingDistanceVenueLead(venue.slug, locale, { referral: Boolean(referralHeadline) });
+  const strikingComparisons = ["en", "zh-Hans"].includes(locale) ? STRIKING_DISTANCE_VENUE_COMPARISONS[venue.slug] : null;
   const detailTitleStr = nativeReferral?.title || (referralHeadline
     ? referralHeadline.title
     : text.detailFeesTitle(localizedVenueName));
@@ -842,16 +846,17 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               </span>}
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>
-              {nativeReferral?.title ? nativeReferral.title : ownerQuestionTitle ? (
+              {strikingH1 ? strikingH1 : nativeReferral?.title ? nativeReferral.title : ownerQuestionTitle ? (
                 ownerQuestionTitle
               ) : (
                 <>{titleBefore}{detailTitleStr.includes(localizedVenueName) && <bdi translate="no" lang={isZhLocale ? "zh-Hans" : "en"}>{localizedVenueName}</bdi>}{titleAfter && <>{titleSuffixGap}<span className="v3-venue-title__suffix">{titleAfter.trim()}</span></>}</>
               )}
             </h1>
-            <ShortAnswer answer={moneyShortAnswer} placement="venue-hero" />
+            <ShortAnswer answer={strikingLead ? { locale, label: locale === "zh-Hans" ? "简短回答：" : "The short answer:", text: strikingLead } : moneyShortAnswer} placement="venue-hero" />
+            {strikingH1 && referralHeadline && <p className="v3-partner-relationship">{text.relationship}</p>}
           </div>
           {venue.slug === "bitget" && bitgetGuideAvailable(locale, effectiveMarket) ? <p><LocalLink locale={locale} href={BITGET_GUIDE_PATH}>{bitgetGuideLabel(locale)}</LocalLink></p> : null}
-          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} hideShortAnswer={Boolean(moneyShortAnswer)} />
+          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} hideShortAnswer={Boolean(strikingLead || moneyShortAnswer)} />
           {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
 
@@ -871,6 +876,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </div>}
 
 
+        {strikingComparisons && <nav aria-label={locale === "zh-Hans" ? "相关手续费对比" : "Related fee comparisons"} data-venue-compare-links="">
+          <h2>{locale === "zh-Hans" ? "对比手续费与账户要求" : "Compare fees and account requirements"}</h2>
+          <ul>{strikingComparisons.map(pair => <li key={pair}><LocalLink locale={locale} href={`/compare/${pair}`}>{pair.split("-vs-").map(slug => getLocalizedVenueName(venues.find(v => v.slug === slug), locale) || slug).join(" vs ")}</LocalLink></li>)}</ul>
+        </nav>}
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
         <VenueKeywordSections slug={profile.slug} locale={locale} market={effectiveMarket} inviteCode={hasReferral ? inviteCode : null} />

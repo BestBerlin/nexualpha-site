@@ -619,3 +619,9 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
   .nx-nav > ul > [data-priority="1"] { display: none; }
   .nx-more__panel [data-overflow-priority="1"] { display: block; }
 }
+
+/* Editorial discovery links share the footer grid without expanding its compact columns. */
+.nx-ftr .nx-ftr__discovery { grid-column: 1 / -1; min-inline-size: 0; margin-block-start: 32px; }
+.nx-ftr .nx-ftr__discovery ul { display: flex; flex-wrap: wrap; gap: 0 24px; list-style: none; margin: 0; padding: 0; }
+.nx-ftr .nx-ftr__discovery a { display: inline-flex; align-items: center; min-block-size: 44px; color: var(--hx-ink-2, #B0B4BA); font-size: 14px; text-decoration: none; }
+.nx-ftr .nx-ftr__discovery a:hover { color: var(--hx-ink, #EDEEF0); }
