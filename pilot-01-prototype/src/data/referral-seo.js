@@ -1,3 +1,4 @@
+import { strikingDistanceVenueTitle, strikingDistanceVenueDescription } from './striking-distance-venue-copy.js';
 import { nativeReferralFor } from './referral-native.js';
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Search titles for partner exchange profiles (owner 2026-10-10: grow search traffic). People who are about to open
@@ -161,6 +162,8 @@ export function referralSharePercent(slug) {
 export function referralSeoFor(slug, locale = "en", market) {
   const p = partnersBySlug()[slug];
   if (!p?.inviteCode || !referralTitleAllowed(slug, locale, market)) return null;
+  const strikingTitle = strikingDistanceVenueTitle(slug, locale, p.inviteCode);
+  if (strikingTitle) return { title: strikingTitle, description: strikingDistanceVenueDescription(slug, locale, p) };
   const native = nativeReferralFor(slug, locale, market);
   if (native?.title) return { title: native.title, description: locale === "tr" && p.share != null ? `${native.copy.query(p.name)}: ${p.inviteCode}. ${trPercentDative(Math.round(p.share * 100))} varan ücret iadesi.` : `${native.copy.query(p.name)}${locale === "pt-BR" ? " (indicação)" : ""}: ${p.inviteCode}. ${native.benefit}.` };
   const pct = p.share != null ? Math.round(p.share * 100) : null;

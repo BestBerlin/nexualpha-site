@@ -1,3 +1,4 @@
+import { strikingDistanceVenueTitle } from './striking-distance-venue-copy.js';
 import { REFERRAL_PARTNERS } from './referral-partners.generated.js';
 import { binanceProStep } from './binance-pro-step.js';
 import { isPartnerPromotableIn } from './partner-geo-policy.js';
@@ -53,9 +54,9 @@ export function nativeReferralFor(slug, locale = 'en', market) {
   const benefit = !neutral && partner.share != null && partner.termsConfirmedOn ? copy.share(Math.round(partner.share * 100)) : copy.noBenefit;
   const verifiedAt = !neutral ? partner.termsConfirmedOn || help.reviewedAt : help.reviewedAt;
   const code = neutral ? null : partner.inviteCode;
-  // SEO audit 2026-10-14: keep native referral titles short and code-only. Dates and benefit wording stay in the
-  // description/body, so search titles do not confuse a verification year with the invite code.
-  const title = code ? `${copy.query(partner.name)}: ${code}` : null;
+  // Search-demand venues answer fee and account intent first while retaining the helper-bound code.
+  // Other native titles retain their existing locale templates.
+  const title = code ? (strikingDistanceVenueTitle(slug, locale, code) || `${copy.query(partner.name)}: ${code}`) : null;
   const later = help.reviewedAt ? (copy[`later${help.later}`] || copy.laterUnknown) : copy.pending;
   const entry = help.reviewedAt && help.entry ? (copy.entryByVenue?.[slug] || copy.entryText) : copy.pending;
   // Owner 2026-10-14: the Binance code is a Pro-mode code, so its sign-up answer starts with that step.

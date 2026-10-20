@@ -1,3 +1,4 @@
+import { strikingDistanceVenueTitle, strikingDistanceVenueDescription } from './striking-distance-venue-copy.js';
 // Search titles and descriptions for non-article pages in Google's striking distance (average position 8-20).
 // Striking-distance pass 2026-10-18 (GSC sc-domain:nexualpha.com, 28 days 2026-09-21..2026-10-18; evidence file
 // nx-agents/seo/striking-2026-10-18.json). Each title leads with the words people searched with and stays within the
@@ -14,20 +15,10 @@ const host = (slug) => {
 };
 
 function deribitCopy() {
-  const perp = feeFact("deribit", "perp");
-  const spot = feeFact("deribit", "spot");
-  if (perp.state !== "checked" || spot.state !== "checked") return null;
-  return {
-    en: {
-      // deribit fees (pos 34.5), deribit mark price (32)
-      title: `Deribit Fees (2026): Perps ${pct(perp.maker)}/${pct(perp.taker)}, Options, 10% Off`,
-      description: `Deribit fees: BTC perpetual ${pct(perp.maker)} maker / ${pct(perp.taker)} taker, spot ${pct(spot.maker)} / ${pct(spot.taker)} (official API, ${perp.checkedOn}), plus the six-month 10% referred-user discount.`,
-    },
-    "zh-Hans": {
-      title: `Deribit 手续费：永续合约 ${pct(perp.maker)}/${pct(perp.taker)}`,
-      description: `Deribit 手续费：BTC 永续合约挂单 ${pct(perp.maker)}、吃单 ${pct(perp.taker)}，现货 ${pct(spot.maker)} / ${pct(spot.taker)}（官方 API，${perp.checkedOn} 读取）；受邀用户前六个月享 10% 交易手续费折扣，现货不适用，并附保证金模式与清算规则说明。`,
-    },
-  };
+  return Object.fromEntries(['en', 'zh-Hans'].map(locale => [locale, {
+    title: strikingDistanceVenueTitle('deribit', locale),
+    description: strikingDistanceVenueDescription('deribit', locale),
+  }]));
 }
 
 function okxMexcCopy() {

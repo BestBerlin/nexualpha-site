@@ -1,5 +1,6 @@
 import { applyAutopilotOverride } from "./seo-autopilot.js";
 export { applyAutopilotOverride } from "./seo-autopilot.js";
+import { strikingDistanceVenueTitle, strikingDistanceVenueDescription, isStrikingDistanceVenueTitle } from './striking-distance-venue-copy.js';
 import { NEXUALPHA_DATA_LICENSE_URL } from "./dataset-schema.js";
 import { bitgetGuideSeo } from "./bitget-guide-seo.js";
 import { isBitgetGuidePath, BITGET_GUIDE_LOCALES } from "./bitget-guide-routes.js";
@@ -31,7 +32,7 @@ const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de"
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, routeMetaDescription, titleBudgetForLocale } from "./meta-description.js";
-import { HOME_NEUTRAL_SEARCH_COPY_EN, HOME_SEARCH_COPY, homeSearchCopyFor } from "./home-search-copy.js";
+import { HOME_NEUTRAL_SEARCH_COPY_EN, HOME_SEARCH_COPY, homeSearchCopyFor, isHomeBrandTitle } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
@@ -1329,8 +1330,10 @@ function mergeLocalizedOverride(base, localizedOverride) {
 export function venueSeoOverrideFor(slug, locale, market) {
   const base = VENUE_SEO_OVERRIDES[slug];
   const existing = locale === "en" ? base || null : mergeLocalizedOverride(base, LOCALIZED_VENUE_SEO_OVERRIDES[locale]?.[slug]);
-  const merged = mergePriorityVenueSeo(slug, locale, existing);
-  // Owner 2026-10-10: partner profiles lead with the real invite code ("<exchange> referral code" searches).
+  const priority = mergePriorityVenueSeo(slug, locale, existing);
+  const strikingTitle = strikingDistanceVenueTitle(slug, locale);
+  const merged = strikingTitle ? { ...(priority || {}), title: strikingTitle, description: strikingDistanceVenueDescription(slug, locale) } : priority;
+  // Keep the real invite code in partner titles; the reviewed template leads with fee/account intent.
   const referral = referralSeoFor(slug, locale, market);
   return referral ? { ...(merged || {}), title: referral.title, description: referral.description } : geoSafeVenueSeoOverride(merged, slug, { locale, market });
 }
@@ -2102,7 +2105,7 @@ export function computeRouteSeo(options = {}) {
   const seo = legalRoute.localeSource !== "query" && !legalUrl.searchParams.has("locale")
     ? applyStrikingPageOverride({ ...unbudgeted }, legalRoute.contentPathname, unbudgeted.locale || legalRoute.locale)
     : unbudgeted;
-  const title = typeof seo.title === "string" ? (isNativeReferralTitle(seo.title, seo.locale) ? seo.title : budgetTitle(seo.title, titleBudgetForLocale(seo.locale))) : seo.title;
+  const title = typeof seo.title === "string" ? ((isHomeBrandTitle(seo.title) || isNativeReferralTitle(seo.title, seo.locale) || isStrikingDistanceVenueTitle(seo.title, seo.locale)) ? seo.title : budgetTitle(seo.title, titleBudgetForLocale(seo.locale))) : seo.title;
   const description = typeof seo.description === "string" ? routeMetaDescription(title, seo.description, seo.locale) : seo.description;
   const schemas = seo.status === 200 ? completePageSchemas(seo.schemas, { pathname: legalRoute.contentPathname, ...seo, title, description }) : seo.schemas;
   return applyAutopilotOverride({ ...seo, title, description, schemas }, legalRoute.contentPathname, seo.locale, undefined, legalUrl.pathname);
@@ -2502,8 +2505,8 @@ function computeRouteSeoUnbudgeted(options = {}) {
       const generatedPolicy = !CURATED_COMPARISONS.has(compareSlug) && slugs.length === 2 ? generatedComparePolicy(compareSlug) : null;
       if (generatedPolicy?.generated) {
         const generatedCopy = generatedCompareCopy(rawLocale, { nameA: compareNames[0], nameB: compareNames[1], date: generatedCompareDataDate(slugs) });
-        title = generatedCopy.title;
-        description = generatedCopy.description;
+        title = compareSeoOverride?.title || generatedCopy.title;
+        description = compareSeoOverride?.description || generatedCopy.description;
       }
       robots = generatedPolicy ? generatedPolicy.robots : CURATED_COMPARISONS.has(compareSlug) ? "index,follow" : "noindex,follow";
       const comparisonUrl = canonical(canonicalPathname, locale);

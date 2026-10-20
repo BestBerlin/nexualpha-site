@@ -1,4 +1,5 @@
 import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
+import { isStrikingDistanceVenueTitle, strikingDistanceVenueTitle, strikingDistanceVenueDescription } from '../src/data/striking-distance-venue-copy.js';
 import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
 import { announcementSnapshot } from "../src/components/shared/announcement-snapshot.js";
 import { radarSourceStale } from '../server/source-freshness.mjs';
@@ -31,10 +32,10 @@ import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { applyStrikingPageOverride } from "../src/data/striking-page-overrides.js";
 import { ratesDataModified, venueAnswerModified } from "../src/data/answer-first.js";
 import { articleMetaDescription, budgetTitle, clampMetaDescription, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
-import { HOME_SEARCH_COPY, homeSearchCopyFor } from "../src/data/home-search-copy.js";
+import { HOME_SEARCH_COPY, homeSearchCopyFor, isHomeBrandTitle } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
-import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
+import { compareSeoOverrideFromDirectAnswer, strikingDistanceComparePairs } from "../src/data/compare-direct-answers.js";
 import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
 import { newsReadTimes } from "../src/data/news-read-time.js";
 import { dropEmptyArticleHeadings } from "../src/data/article-empty-headings.js";
@@ -507,8 +508,8 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid Fees, Code NEXU888 & Funded Accounts",
-      "description": "Trade on Hyperliquid from your own wallet: connect on the official app, deposit USDC and enter referral code NEXU888 for a 4% discount on trading fees.",
+      "title": "Hyperliquid fees & wallet setup — referral code NEXU888 (2026) | NexuAlpha",
+      "description": "Hyperliquid perps maker/taker 0.015%/0.045%; eligible referrals save 4% on fees. Referral code NEXU888.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -578,8 +579,8 @@ const PRIORITY_VENUE_SEO = {
       "reviewedAt": "2026-09-22"
     },
     "zh-Hans": {
-      "title": "Hyperliquid 邀请码 NEXU888",
-      "description": "Hyperliquid 无需注册账户：在官方 App 连接自己的钱包、存入 USDC，填写邀请码 NEXU888 即可享受交易手续费 4% 折扣。",
+      "title": "Hyperliquid 手续费与钱包使用 — 邀请码 NEXU888（2026） | NexuAlpha",
+      "description": "Hyperliquid 永续 maker/taker 0.015%/0.045%；符合邀请条件享手续费 4% 折扣。 邀请码 NEXU888.",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
@@ -1259,8 +1260,8 @@ const PRIORITY_VENUE_SEO = {
   },
   "deribit": {
     "en": {
-      "title": "Deribit Fees (2026): Options, Futures and 10% Discount",
-      "description": "Deribit options and futures fees, the six-month 10% discount for referred users, DRB Panama vs FZE limits, margin modes and how liquidation works.",
+      "title": "Deribit fees, sign-up & KYC (2026) | NexuAlpha",
+      "description": "Deribit spot maker/taker 0.02%/0.05%; USDC perps 0.015%/0.035% (official API, 2026-10-10). Check KYC and account eligibility.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -1315,8 +1316,8 @@ const PRIORITY_VENUE_SEO = {
       ]
     },
     "zh-Hans": {
-      "title": "Deribit 期权费用、10% 用户折扣、迁移日期与实体检查",
-      "description": "Deribit 决策清单，区分期权、合约费用、前六个月 10% 用户折扣、DRB Panama/FZE 实体、现货排除、迁移日期、保证金与清算边界。",
+      "title": "Deribit 手续费、注册与 KYC（2026） | NexuAlpha",
+      "description": "Deribit 现货 maker/taker 0.02%/0.05%；USDC 永续 0.015%/0.035%（官方 API，2026-10-10）。注册前核对 KYC、账户实体与实际费率。",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -1431,13 +1432,13 @@ const PRIORITY_VENUE_SEO = {
 const PRIORITY_COMPARE_SEO = {
   "binance-vs-okx": {
     "en": {
-      "title": "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
+      "title": "Binance vs OKX: fees, KYC & rebates (2026) | NexuAlpha",
       "completeFaq": true,
-      "description": "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
+      "description": "On spot fees, OKX has lower base fees (Binance 0.10% / 0.10%; OKX 0.08% / 0.10%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account.",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
-        "question": "How should I compare Binance and OKX before choosing an exchange?",
-        "answer": "Compare Binance and OKX by their official fee tables, product-specific availability, identity requirements, regional restrictions, Web3 or DEX-style access paths and announcement sources. Do not treat either public comparison as a current account entitlement, fee guarantee or eligibility decision."
+        "question": "OKX vs Binance: who has lower fees?",
+        "answer": "On spot fees, OKX has lower base fees (Binance 0.10% / 0.10%; OKX 0.08% / 0.10%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account. Compare Binance and OKX by their official fee tables, product-specific availability, identity requirements, regional restrictions, Web3 or DEX-style access paths and announcement sources. Do not treat either public comparison as a current account entitlement, fee guarantee or eligibility decision."
       },
       "faq": [
         [
@@ -1463,7 +1464,28 @@ const PRIORITY_COMPARE_SEO = {
         "https://www.okx.com/help/individual-identity-verification-eligibility-review-time-and-supported"
       ]
     },
-    "zh-Hans": null,
+    "zh-Hans": {
+      "title": "Binance vs OKX：手续费、KYC 与返佣对比（2026）— NexuAlpha",
+      "completeFaq": true,
+      "description": "现货手续费：OKX 的基础费率更低（Binance 0.10% / 0.10%；OKX 0.08% / 0.10%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。",
+      "reviewedAt": "2026-10-10",
+      "directAnswer": {
+        "question": "OKX vs Binance：谁的手续费更低？",
+        "answer": "现货手续费：OKX 的基础费率更低（Binance 0.10% / 0.10%；OKX 0.08% / 0.10%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。"
+      },
+      "faq": [],
+      "relatedLinks": [
+        "/exchanges/binance",
+        "/exchanges/okx"
+      ],
+      "sourceUrls": [
+        "https://www.binance.com/en/fee/schedule",
+        "https://www.binance.com/en/support/faq/detail/360033544231",
+        "https://www.binance.com/en/fee/trading",
+        "https://www.binance.com/en/fee/futureFee",
+        "https://www.okx.com/fees"
+      ]
+    },
     "zh-Hant": null,
     "ja": {
       "title": "Binance vs OKX：手数料、商品、KYC、Web3 アクセス確認 — NexuAlpha",
@@ -1616,13 +1638,13 @@ const PRIORITY_COMPARE_SEO = {
   },
   "bybit-vs-bitget": {
     "en": {
-      "title": "Bybit vs Bitget Stocks, Copy Trading, Fees and Account Checks — NexuAlpha",
+      "title": "Bybit vs Bitget: fees, KYC & rebates (2026) | NexuAlpha",
       "completeFaq": true,
-      "description": "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.",
+      "description": "On spot fees, the base schedules tie (Bybit 0.10% / 0.10%; Bitget 0.10% / 0.10%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account.",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
-        "question": "How should I compare Bybit and Bitget before choosing a platform?",
-        "answer": "Start by labeling the user path: ordinary crypto futures, xStocks-style exposure, stock futures, copy trading, UTA or a first-time account route. Bybit xStocks, Bybit TradFi derivatives, Bitget stock futures, Bitget stock-product pages, UTA margin and crypto copy trading are different paths. Compare the product-specific official fee table first: xStocks uses the Adventure Zone & xStocks schedule, not ordinary crypto spot fees; copy trading needs the profit-sharing rules and the selected trader/account page."
+        "question": "Bitget vs Bybit: who has lower fees?",
+        "answer": "On spot fees, the base schedules tie (Bybit 0.10% / 0.10%; Bitget 0.10% / 0.10%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account. Start by labeling the user path: ordinary crypto futures, xStocks-style exposure, stock futures, copy trading, UTA or a first-time account route. Bybit xStocks, Bybit TradFi derivatives, Bitget stock futures, Bitget stock-product pages, UTA margin and crypto copy trading are different paths. Compare the product-specific official fee table first: xStocks uses the Adventure Zone & xStocks schedule, not ordinary crypto spot fees; copy trading needs the profit-sharing rules and the selected trader/account page."
       },
       "faq": [
         [
@@ -1673,13 +1695,13 @@ const PRIORITY_COMPARE_SEO = {
       ]
     },
     "zh-Hans": {
-      "title": "Bybit vs Bitget UTA、股票类产品、跟单、费用与账户检查 — NexuAlpha",
+      "title": "Bybit vs Bitget：手续费、KYC 与返佣对比（2026）— NexuAlpha",
       "completeFaq": true,
-      "description": "比较 Bybit 与 Bitget 时先确认产品标签：UTA 保证金、xStocks 费率、股票期货、跟单分润、费用、资金费、KYC 与开户注册路径限制。",
+      "description": "现货手续费：双方基础费率相同（Bybit 0.10% / 0.10%；Bitget 0.10% / 0.10%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
-        "question": "选择平台前应该怎样比较 Bybit 与 Bitget？",
-        "answer": "先给产品贴准标签。Bybit xStocks、Bybit TradFi 衍生品、Bitget 股票期货、Bitget 股票相关产品页面和加密跟单，是不同路径。先看具体产品的官方费率表：xStocks 走 Adventure Zone & xStocks 费率，不套普通加密现货费率；跟单还要看分润规则和所选交易员/账户页面。"
+        "question": "Bitget vs Bybit：谁的手续费更低？",
+        "answer": "现货手续费：双方基础费率相同（Bybit 0.10% / 0.10%；Bitget 0.10% / 0.10%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。 先给产品贴准标签。Bybit xStocks、Bybit TradFi 衍生品、Bitget 股票期货、Bitget 股票相关产品页面和加密跟单，是不同路径。先看具体产品的官方费率表：xStocks 走 Adventure Zone & xStocks 费率，不套普通加密现货费率；跟单还要看分润规则和所选交易员/账户页面。"
       },
       "faq": [
         [
@@ -1985,13 +2007,13 @@ const PRIORITY_COMPARE_SEO = {
   },
   "hyperliquid-vs-dydx": {
     "en": {
-      "title": "Hyperliquid vs dYdX: Perp Fees, Funding, Liquidation and Access Checks — NexuAlpha",
+      "title": "Hyperliquid vs dYdX: fees, KYC & rebates (2026) | NexuAlpha",
       "completeFaq": true,
-      "description": "Compare Hyperliquid and dYdX by fee schedules, funding, collateral, liquidation rules, oracle design, wallet signing, no-KYC access assumptions and official documentation.",
+      "description": "On perpetual fees, neither venue wins both maker and taker fees (Hyperliquid 0.015% / 0.045%; dYdX 0.01% / 0.05%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account.",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
-        "question": "How should I compare Hyperliquid and dYdX as crypto perpetual platforms?",
-        "answer": "Compare Hyperliquid and dYdX by execution model, fee schedule, funding cadence, collateral, liquidation logic, oracle design, wallet-signing route, network dependency, regional limits and official documentation. A lower quoted cost or faster interface does not remove liquidation, bridge, outage or eligibility risk."
+        "question": "dYdX vs Hyperliquid: who has lower fees?",
+        "answer": "On perpetual fees, neither venue wins both maker and taker fees (Hyperliquid 0.015% / 0.045%; dYdX 0.01% / 0.05%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account. Compare Hyperliquid and dYdX by execution model, fee schedule, funding cadence, collateral, liquidation logic, oracle design, wallet-signing route, network dependency, regional limits and official documentation. A lower quoted cost or faster interface does not remove liquidation, bridge, outage or eligibility risk."
       },
       "faq": [
         [
@@ -2030,7 +2052,25 @@ const PRIORITY_COMPARE_SEO = {
         "https://docs.dydx.xyz/concepts/trading/rewards_fees_and_parameters"
       ]
     },
-    "zh-Hans": null,
+    "zh-Hans": {
+      "title": "Hyperliquid vs dYdX：手续费、KYC 与返佣对比（2026）— NexuAlpha",
+      "completeFaq": true,
+      "description": "永续合约手续费：Maker 与 Taker 各有优势，不能确定单一赢家（Hyperliquid 0.015% / 0.045%；dYdX 0.01% / 0.05%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。",
+      "reviewedAt": "2026-10-10",
+      "directAnswer": {
+        "question": "dYdX vs Hyperliquid：谁的手续费更低？",
+        "answer": "永续合约手续费：Maker 与 Taker 各有优势，不能确定单一赢家（Hyperliquid 0.015% / 0.045%；dYdX 0.01% / 0.05%，依次为 Maker / Taker）。 以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。"
+      },
+      "faq": [],
+      "relatedLinks": [
+        "/exchanges/hyperliquid",
+        "/exchanges/dydx"
+      ],
+      "sourceUrls": [
+        "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+        "https://docs.dydx.xyz/concepts/trading/rewards"
+      ]
+    },
     "zh-Hant": null,
     "ja": {
       "title": "Hyperliquid vs dYdX：Perp 手数料、資金調達、清算、アクセス確認 — NexuAlpha",
@@ -7385,7 +7425,7 @@ function notFoundMetadata(pathname, locale) {
 export { clampMetaDescription, metaDescriptionLimit };
 
 function applyServedMetadataBudget(metadata) {
-  if (metadata && typeof metadata.title === "string") metadata.title = isNativeReferralTitle(metadata.title, metadata.locale) ? metadata.title : budgetTitle(metadata.title, titleBudgetForLocale(metadata.locale));
+  if (metadata && typeof metadata.title === "string") metadata.title = (isHomeBrandTitle(metadata.title) || isNativeReferralTitle(metadata.title, metadata.locale) || isStrikingDistanceVenueTitle(metadata.title, metadata.locale)) ? metadata.title : budgetTitle(metadata.title, titleBudgetForLocale(metadata.locale));
   if (metadata && typeof metadata.description === "string") {
     metadata.description = routeMetaDescription(metadata.title, metadata.description, metadata.locale);
   }
@@ -7885,9 +7925,11 @@ async function routeMetadataBase(url, env, newsFeed) {
     const localizedVenueOverride = localizedVenueSeoOverride(slug, requestedLocale, venueSeoOverride);
     const candidateVenueSeoOverride = PRIORITY_VENUE_SEO[slug]?.[requestedLocale] || localizedVenueOverride || (requestedLocale === "en" ? venueSeoOverride : null);
     const baseVenueSeoOverride = geoSafeVenueSeoOverride(candidateVenueSeoOverride, slug, { locale: requestedLocale, market: url.searchParams.get("market") });
-    // Owner 2026-10-10: partner profiles lead with the real invite code (same rule as src/data/seo-injection.js).
+    // Keep the helper-bound invite code in the fee/account title, matching seo-injection.js.
     const referralSeo = referralSeoFor(slug, requestedLocale, url.searchParams.get("market"));
-    const effectiveVenueSeoOverride = referralSeo ? { ...(baseVenueSeoOverride || {}), title: referralSeo.title, description: referralSeo.description } : baseVenueSeoOverride;
+    const strikingTitle = strikingDistanceVenueTitle(slug, requestedLocale);
+    const strikingSeo = strikingTitle ? { ...(baseVenueSeoOverride || {}), title: strikingTitle, description: strikingDistanceVenueDescription(slug, requestedLocale) } : baseVenueSeoOverride;
+    const effectiveVenueSeoOverride = referralSeo ? { ...(strikingSeo || {}), title: referralSeo.title, description: referralSeo.description } : strikingSeo;
     const title = effectiveVenueSeoOverride?.title || (isZh
       ? `${venue.name} 评测、手续费与账户条件 — NexuAlpha`
       : localizedProfileTitle
@@ -7961,13 +8003,14 @@ async function routeMetadataBase(url, env, newsFeed) {
     const generatedPolicy = !curated && slugs.length === 2 ? generatedComparePolicy(pair) : null;
     if (generatedPolicy?.generated) {
       const generatedCopy = generatedCompareCopy(requestedLocale, { nameA: venues[0].name, nameB: venues[1].name, date: generatedCompareDataDate(slugs) });
+      const directAnswerOverride = compareSeoOverrideFromDirectAnswer(pair, requestedLocale);
       return {
         status: 200,
-        title: generatedCopy.title,
-        description: generatedCopy.description,
+        title: directAnswerOverride?.title || generatedCopy.title,
+        description: directAnswerOverride?.description || generatedCopy.description,
         canonical, locale, robots: generatedPolicy.robots, marker: COMPARE_ROUTE_MARKER, generatedComparison: true,
         alternates: generatedPolicy.indexable ? routeAlternates(canonicalPath, generatedCompareLocales(pair)) : [],
-        schema: buildWorkerCompareSchema(venues, schemaLocale, canonical, null),
+        schema: buildWorkerCompareSchema(venues, schemaLocale, canonical, directAnswerOverride),
       };
     }
     const compareSeoOverrides = {
@@ -8127,7 +8170,8 @@ async function routeMetadataBase(url, env, newsFeed) {
     const localFirstComparePairs = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc", "okx-vs-mexc"]);
     // Pairs outside the generated projection (the 2026-10-10 market-plan pairs) read the shared direct-answer data
     // for every locale, the same source the SSR page and seo-injection use.
-    const sharedDirectAnswerOverride = PRIORITY_COMPARE_SEO[pair] ? null : compareSeoOverrideFromDirectAnswer(pair, requestedLocale);
+    const useSharedCompareAnswer = strikingDistanceComparePairs.includes(pair) && ["en", "zh-Hans"].includes(requestedLocale);
+    const sharedDirectAnswerOverride = PRIORITY_COMPARE_SEO[pair] && !useSharedCompareAnswer ? null : compareSeoOverrideFromDirectAnswer(pair, requestedLocale);
     const compareSeoOverride = sharedDirectAnswerOverride || (localFirstComparePairs.has(pair)
       ? baseCompareSeoOverride || PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair])
       : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride);

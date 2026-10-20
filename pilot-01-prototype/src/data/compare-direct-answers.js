@@ -1,3 +1,4 @@
+import { feeFact, feePair, factsForVenue, FACTS_AS_OF } from "./exchange-facts.js";
 import { compareDirectAnswerDrafts } from "./compare-direct-answer-drafts.js";
 import { comparePairAnswers, comparePairAnswerSlugs } from "./compare-pair-answers.js";
 
@@ -1401,11 +1402,51 @@ Object.assign(compareDirectAnswers["hyperliquid-vs-dydx"], {
   },
 });
 
+// Search-demand pairs use the same checked fee facts as the visible comparison matrix.
+// A fee winner is scoped to the base schedule, never to account eligibility or net cost.
+export const strikingDistanceComparePairs = Object.freeze([
+  "binance-vs-kraken", "binance-vs-okx", "binance-vs-bybit", "bybit-vs-bitget",
+  "okx-vs-bybit", "gate-io-vs-mexc", "hyperliquid-vs-dydx", "coinbase-vs-gate-io",
+]);
+function strikingDistanceAnswer(slug, locale, existing) {
+  if (!strikingDistanceComparePairs.includes(slug) || !["en", "zh-Hans"].includes(locale)) return existing;
+  const [a, b] = slug.split("-vs-");
+  const left = factsForVenue(a), right = factsForVenue(b);
+  const nameA = a === "gate-io" ? "Gate.io" : left?.name || a;
+  const nameB = b === "gate-io" ? "Gate.io" : right?.name || b;
+  const product = slug === "hyperliquid-vs-dydx" ? "perp" : "spot";
+  const fa = feeFact(a, product), fb = feeFact(b, product);
+  const zh = locale === "zh-Hans";
+  const label = product === "perp" ? (zh ? "永续合约" : "perpetual") : (zh ? "现货" : "spot");
+  const checked = [fa, fb].every((f) => f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker));
+  let verdict;
+  if (!checked) verdict = zh ? `目前不能确认 ${nameA} 与 ${nameB} 谁的${label}手续费更低：双方尚未都有已核验的基础费率。` : `No ${label} fee winner can be verified between ${nameA} and ${nameB}: at least one checked base schedule is unavailable.`;
+  else {
+    const aLower = fa.maker <= fb.maker && fa.taker <= fb.taker;
+    const bLower = fb.maker <= fa.maker && fb.taker <= fa.taker;
+    const outcome = aLower && bLower ? (zh ? "双方基础费率相同" : "the base schedules tie") : aLower || bLower ? (zh ? `${aLower ? nameA : nameB} 的基础费率更低` : `${aLower ? nameA : nameB} has lower base fees`) : (zh ? "Maker 与 Taker 各有优势，不能确定单一赢家" : "neither venue wins both maker and taker fees");
+    verdict = zh ? `${label}手续费：${outcome}（${nameA} ${feePair(fa.maker, fa.taker, locale)}；${nameB} ${feePair(fb.maker, fb.taker, locale)}，依次为 Maker / Taker）。` : `On ${label} fees, ${outcome} (${nameA} ${feePair(fa.maker, fa.taker, locale)}; ${nameB} ${feePair(fb.maker, fb.taker, locale)}, maker / taker).`;
+  }
+  const boundary = zh ? "以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。" : "These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account.";
+  const title = zh ? `${nameA} vs ${nameB}：手续费、KYC 与返佣对比（2026）— NexuAlpha` : `${nameA} vs ${nameB}: fees, KYC & rebates (2026) | NexuAlpha`;
+  const heading = zh ? `${nameB} vs ${nameA}：谁的手续费更低？` : `${nameB} vs ${nameA}: who has lower fees?`;
+  const sourceLinks = [...new Set([...(left?.sourceUrls || []), ...(right?.sourceUrls || [])])].map((href) => [zh ? "官方费率来源" : "Official fee source", href]);
+  return {
+    checks: [], nextSteps: [], faq: [], productTypes: [],
+    internalLinks: [[nameA, `/exchanges/${a}`], [nameB, `/exchanges/${b}`]],
+    sourceLinks, reviewedAt: FACTS_AS_OF, ...existing,
+    title: heading, body: `${verdict} ${boundary}${existing?.body ? ` ${existing.body}` : ""}`, boundary: existing?.boundary || boundary,
+    ownerQuestion: zh ? `${nameA} vs ${nameB}：手续费、KYC 与返佣如何比较？` : `${nameA} vs ${nameB}: how do fees, KYC and rebates compare?`,
+    decisionCard: { ...existing?.decisionCard, title: heading },
+    seoTitle: title, seoDescription: `${verdict} ${boundary}`, seoQuestion: heading,
+  };
+}
+
 export function compareDirectAnswerFor(slug, locale = "en") {
   const normalizedLocale = normalizeCompareAnswerLocale(locale);
   const record = compareDirectAnswers[slug];
-  if (!record || !normalizedLocale || !supportedLocales.has(normalizedLocale)) return null;
-  const answer = record[normalizedLocale] || compareDirectAnswerDrafts[slug]?.[normalizedLocale];
+  if (!normalizedLocale || !supportedLocales.has(normalizedLocale)) return null;
+  const answer = strikingDistanceAnswer(slug, normalizedLocale, record?.[normalizedLocale] || compareDirectAnswerDrafts[slug]?.[normalizedLocale]);
   if (!answer) return null;
   return {
     slug,

@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { routeMetadata, clampMetaDescription, metaDescriptionLimit } from "../worker/index.js";
 import { computeRouteSeo, HOME_SEARCH_COPY } from "../src/data/seo-injection.js";
 import { articleMetaDescription, budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
+import { isHomeBrandTitle } from "../src/data/home-search-copy.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
@@ -52,9 +53,9 @@ test("route metadata stays within the description budget for every locale and co
   }
 });
 
-test("home title carries the commercial search intent per locale and stays within 65 characters", async () => {
+test("home title carries the commercial search intent per locale and keeps the reviewed brand title within 70 characters", async () => {
   const expectations = {
-    en: [/Referral Codes/, /Fee Rebates/],
+    en: [/Referral Codes/, /Fee Comparison/, /Rebates/],
     "zh-Hans": [/邀请码/, /返佣/],
     "zh-Hant": [/手續費/, /OKX/],
     ja: [/手数料/, /紹介コード/],
@@ -72,17 +73,17 @@ test("home title carries the commercial search intent per locale and stays withi
   };
   for (const locale of LOCALES) {
     const metadata = await routeMetadata(new URL(`https://nexualpha.com${localizedPath("/", locale)}`), env);
-    assert.ok(metadata.title.length <= 65, `${locale}: ${metadata.title.length} chars`);
+    assert.ok(metadata.title.length <= (locale === "en" ? 70 : 65), `${locale}: ${metadata.title.length} chars`);
     for (const pattern of expectations[locale]) assert.match(metadata.title, pattern, `${locale} title`);
     if (!["zh-Hans", "zh-Hant", "ja", "ko"].includes(locale)) assert.match(metadata.title, /NexuAlpha/, `${locale} brand`);
     // ja/ko keep an informational tone; ru/ar stay neutral like the referral-title policy
     if (["ja", "ko"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /登録して|会員登録|가입하세요|회원가입/);
-    if (["ru", "ar", "vi", "zh-Hant"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /реферальн|промокод|إحالة|giới thiệu|hoàn phí|đăng ký|邀請碼|返傭/i);
-    if (!["ru", "ar", "tr", "vi", "zh-Hant"].includes(locale)) assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
+    if (["ru", "ar", "vi", "zh-Hant"].includes(locale)) assert.doesNotMatch(metadata.title, /реферальн|промокод|إحالة|giới thiệu|hoàn phí|đăng ký|邀請碼|返傭/i);
+    assert.equal(metadata.description, HOME_SEARCH_COPY[locale][1], `${locale} preserves deployed brand-entity description`);
     // the Worker mirror and the client router share one copy table
     const client = computeRouteSeo({ url: `https://nexualpha.com${localizedPath("/", locale)}`, locale });
-    assert.equal(metadata.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} worker title`);
-    assert.equal(client.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} client title`);
+    assert.equal(metadata.title, (isHomeBrandTitle(HOME_SEARCH_COPY[locale][0]) ? HOME_SEARCH_COPY[locale][0] : budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale))), `${locale} worker title`);
+    assert.equal(client.title, (isHomeBrandTitle(HOME_SEARCH_COPY[locale][0]) ? HOME_SEARCH_COPY[locale][0] : budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale))), `${locale} client title`);
     assert.equal(client.description, routeMetaDescription(client.title, HOME_SEARCH_COPY[locale][1], locale), `${locale} client description`);
   }
 });

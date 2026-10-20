@@ -1,3 +1,4 @@
+import { strikingDistanceVenueH1 } from '../src/data/striking-distance-venue-copy.js';
 // The exchange profile H1 carries the search intent under the same
 // referral-title policy as the <title>, stays a single H1, keeps the data-bound invite code and the fees-checked chip.
 import assert from "node:assert/strict";
@@ -57,7 +58,7 @@ test("exchange H1 carries the exact referral code where allowed, neutral profile
     const code = CUSTOM_INVITE_CODES[slug];
     const native = nativeReferralFor(slug, locale);
     if (native?.title) {
-      assert.equal(h1, native.title, `${slug}/${locale}: native referral H1`);
+      assert.equal(h1, strikingDistanceVenueH1(slug, locale, code) || native.title, `${slug}/${locale}: native referral H1`);
     } else if (priorityVenueAnswerFor(slug, locale)) {
       // owner-reviewed priority answers keep their question as the H1 (tests/week3-owner-intent-contract.test.mjs)
       assert.equal(h1, priorityVenueAnswerFor(slug, locale).ownerQuestion, `${slug}/${locale}: owner question H1`);
@@ -77,7 +78,7 @@ test("exchange H1 carries the exact referral code where allowed, neutral profile
     assert.match(html, /v3-trust-metal-badge/, `${slug}/${locale}: fees-checked chip stays in the hero`);
   }
   const en = pages.find((p) => p.locale === "en" && p.slug === "okx");
-  assert.equal(textOf(en.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), nativeReferralFor("okx", "en").title);
+  assert.equal(textOf(en.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), strikingDistanceVenueH1("okx", "en", CUSTOM_INVITE_CODES.okx));
   const tr = pages.find((p) => p.locale === "tr" && p.slug === "okx");
   assert.equal(textOf(tr.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), nativeReferralFor("okx", "tr").title);
   const trBitget = pages.find((p) => p.locale === "tr" && p.slug === "bitget");

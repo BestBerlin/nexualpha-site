@@ -219,12 +219,12 @@ These are existing English venue-detail pages with source-bounded summaries. Par
 
 These support records mirror visible comparison-page direct-answer content. They do not promise route execution, trading outcomes, account eligibility or user benefits.
 
-### Hyperliquid vs dYdX: compare perp fees, funding, liquidation and access checks.
+### dYdX vs Hyperliquid: who has lower fees?
 
 - Canonical: https://nexualpha.com/compare/hyperliquid-vs-dydx
 - Robots: index,follow
 - Reviewed: 2026-09-22
-- Support-owner answer: Compare Hyperliquid and dYdX by execution model, fee schedule, funding cadence, collateral, liquidation logic, oracle design, wallet-signing route, network dependency, regional limits and official documentation. A lower quoted cost or faster interface does not remove liquidation, bridge, outage or eligibility risk.
+- Support-owner answer: On perpetual fees, neither venue wins both maker and taker fees (Hyperliquid 0.015% / 0.045%; dYdX 0.01% / 0.05%, maker / taker). These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account. Compare Hyperliquid and dYdX by execution model, fee schedule, funding cadence, collateral, liquidation logic, oracle design, wallet-signing route, network dependency, regional limits and official documentation. A lower quoted cost or faster interface does not remove liquidation, bridge, outage or eligibility risk.
 - Primary next step: Read the dated source explainer first: https://nexualpha.com/news/hyperliquid-vs-dydx
 - Limitations: This comparison cannot confirm wallet access, regional eligibility, liquidation risk, bridge safety or final trading cost.
 - Internal support links: [Read the dated source explainer](https://nexualpha.com/news/hyperliquid-vs-dydx), [Open no-KYC access guide](https://nexualpha.com/topics/no-kyc), [Open derivatives guide](https://nexualpha.com/topics/derivatives), [Review Hyperliquid profile](https://nexualpha.com/exchanges/hyperliquid), [Review dYdX profile](https://nexualpha.com/exchanges/dydx)
