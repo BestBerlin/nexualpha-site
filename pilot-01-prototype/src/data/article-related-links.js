@@ -3,6 +3,7 @@ import { venueDatabase } from './venue-database.js';
 import { COIN_ROWS } from './coins-data.generated.js';
 import { articleClusterLinks } from './topic-clusters.js';
 import { CURATED_COMPARISON_SLUGS } from './compare-slug.js';
+import { hasNewsArticleLocale } from './news-feed-client.js';
 import { compareNewestFirst, newsReadingNeighbors } from './news-library.js';
 import { fundingMatrixCopy } from './funding-matrix-copy.js';
 import { DATA_PAGE_NAV } from './market-data-pages-nav.js';
@@ -70,19 +71,26 @@ export function articleRelatedLinks(article, locale, { profileSuffix = '', compa
   return links.slice(0, 5);
 }
 
-export function recentEntityArticles(article, articles, limit = 2) {
+export function recentEntityArticles(article, articles, limit = 5, locale = 'en') {
   const own = articleEntities(article);
-  return (articles || []).filter(candidate => {
-    if (!candidate?.slug || candidate.slug === article.slug || (candidate.status && candidate.status !== 'PUBLISHED')) return false;
+  const tags = article.topicTags || article.tags || [];
+  const candidates = (articles || []).filter(candidate => candidate?.slug && candidate.slug !== article.slug
+    && (!candidate.status || candidate.status === 'PUBLISHED') && candidate.seo?.noindex === false
+    && hasNewsArticleLocale(candidate, locale)).sort(compareNewestFirst);
+  const related = candidates.filter(candidate => {
     const other = articleEntities(candidate);
-    return own.venues.some(v => other.venues.includes(v)) || own.coins.some(([slug]) => other.coins.some(([s]) => s === slug)) || (article.category && article.category === candidate.category);
-  }).sort(compareNewestFirst).slice(0, limit);
+    return own.venues.some(v => other.venues.includes(v)) || own.coins.some(([slug]) => other.coins.some(([s]) => s === slug))
+      || tags.some(tag => (candidate.topicTags || candidate.tags || []).includes(tag))
+      || (article.category && article.category === candidate.category);
+  });
+  // Always expose the latest two editions; fill the remaining slots by relevance, then recency.
+  return [...new Map([...candidates.slice(0, 2), ...related, ...candidates].map(item => [item.slug, item])).values()].slice(0, limit);
 }
 
 // Carry just the selected cards and archive neighbors into hydration. Selection remains identical
 // when the client receives this smaller pool, rather than the entire library.
-export function articleRelatedPool(article, articles) {
+export function articleRelatedPool(article, articles, locale = 'en') {
   const seen = new Set();
-  return [article, ...recentEntityArticles(article, articles), ...newsReadingNeighbors(article, articles)]
+  return [article, ...recentEntityArticles(article, articles, 5, locale), ...newsReadingNeighbors(article, articles)]
     .filter(item => item?.slug && !seen.has(item.slug) && seen.add(item.slug));
 }

@@ -71,6 +71,7 @@ function HydrationBootstrap() {
       initialUrl={initialUrl}
       initialLocale={undefined}
       initialCompareSelection={prerenderState ? ["binance", "okx"] : undefined}
+      initialHomeLatest={prerenderState?.homeLatest}
       initialNewsArticles={prerenderState?.newsArticles}
       initialNewsListing={prerenderState?.newsListing}
       initialFundingMatrix={prerenderState?.fundingMatrix}

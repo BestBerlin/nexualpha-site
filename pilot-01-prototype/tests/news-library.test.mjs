@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 import worker, { renderNewsLibrarySitemap } from "../worker/index.js";
 import { NEWS_CATEGORY_KEYS, NEWS_LIBRARY_LOCALES, newsCategoryCopy, newsLibraryCopy, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
 
+import { recentEntityArticles } from "../src/data/article-related-links.js";
+
 const root = fileURLToPath(new URL("../", import.meta.url));
 const categories = ["guide", "comparison", "exchange-update", "regulation", "rwa", "research"];
 const venues = ["binance", "okx", "bybit", "bitget", "kraken", "coinbase"];
@@ -167,16 +169,17 @@ test("/api/news/search searches the whole library and returns compact rows", asy
   assert.ok(plural.body.total > 0, "plural terms also match the singular");
 });
 
-test("article pages server-render 4-6 related articles from the same category and shared platforms", async () => {
+test("article pages server-render five related articles including the two newest", async () => {
   const target = articles[7];
   const html = await (await fetchPage(`/news/${target.slug}`)).text();
   const related = [...html.matchAll(/data-cta-placement="news-detail-related-article"/g)];
-  assert.ok(related.length >= 4 && related.length <= 6, `related count ${related.length}`);
+  assert.equal(related.length, 5);
   const block = html.match(/<section class="news-detail__related-research"[\s\S]*?<\/section>/)?.[0] || "";
   assert.match(block, /<h2>Related research<\/h2>/);
   const linked = [...block.matchAll(/\/news\/([a-z0-9-]+)"/g)].map((match) => match[1]);
   assert.ok(!linked.includes(target.slug));
-  for (const slug of linked) {
+  assert.deepEqual(linked.slice(0, 2), ["article-00", "article-01"]);
+  for (const slug of linked.slice(2)) {
     const item = articles.find((article) => article.slug === slug);
     assert.ok(item.category === target.category || item.relatedVenues.some((venue) => target.relatedVenues.includes(venue)), slug);
   }
@@ -184,7 +187,7 @@ test("article pages server-render 4-6 related articles from the same category an
   assert.ok(hydration.newsArticles.length > 1, "related summaries hydrate with the article");
 
   const api = await (await worker.fetch(new Request(`https://nexualpha.com/api/news/article/${target.slug}`), env)).json();
-  assert.deepEqual(api.relatedSlugs, relatedNewsArticles(target, articles.filter((article) => article.status === "PUBLISHED")).map((article) => article.slug));
+  assert.deepEqual(api.relatedSlugs, recentEntityArticles(target, articles.filter((article) => article.status === "PUBLISHED"), 5, "en").map((article) => article.slug));
   assert.ok(api.articles.slice(1).every((article) => article.content === undefined));
 });
 
@@ -227,7 +230,7 @@ test("React news pages render the same pagination, category links and related re
         list: renderToStaticMarkup(React.createElement(NewsListPage, { locale: 'en', page: 2, initialArticles: page2, listing })),
         zhArchive: renderToStaticMarkup(React.createElement(NewsListPage, { locale: 'zh-Hans', category: 'rwa', page: 1, initialArticles: articles.filter(a => a.category === 'rwa').map(summary), listing: { category: 'rwa', page: 1, total: 10, totalPages: 1, libraryTotal: 60 } })),
         localPool: renderToStaticMarkup(React.createElement(NewsListPage, { locale: 'en', page: 3, initialArticles: articles.map(summary) })),
-        detail: renderToStaticMarkup(React.createElement(NewsDetailPage, { slug: articles[7].slug, locale: 'en', initialArticles: [articles[7], ...articles.filter(a => a.slug !== articles[7].slug).map(summary)] })),
+        detail: renderToStaticMarkup(React.createElement(NewsDetailPage, { slug: articles[7].slug, locale: 'en', initialArticles: [articles[7], ...articles.filter(a => a.slug !== articles[7].slug).map(a => ({ ...summary(a), seo: a.seo }))] })),
       };
       console.log(JSON.stringify(out));
     `);
@@ -252,7 +255,7 @@ test("React news pages render the same pagination, category links and related re
     assert.doesNotMatch(out.localPool, /article-47"/);
 
     const related = [...out.detail.matchAll(/data-cta-placement="news-detail-related-article"/g)].length;
-    assert.equal(related, 2, "two recent related articles");
+    assert.equal(related, 5, "five indexable related articles, including the newest two");
     assert.match(out.detail, /data-news-reading-neighbors/, "older research remains discoverable");
     assert.match(out.detail, /<h2>Related research<\/h2>/);
   } finally {

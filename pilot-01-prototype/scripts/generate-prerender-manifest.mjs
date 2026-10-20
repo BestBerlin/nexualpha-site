@@ -543,7 +543,7 @@ function routeNewsArticlesFor(pathname, { newsArticles, newsArticleSummaries, lo
   if (pathname.startsWith("/news/")) {
     const current = newsArticles.find((article) => pathname === `/news/${article.slug}`);
     if (!current) return [];
-    return articleRelatedPool(current, [current, ...newsArticleSummaries.filter((article) => article.slug !== current.slug)]);
+    return articleRelatedPool(current, [current, ...newsArticleSummaries.filter((article) => article.slug !== current.slug)], locale);
   }
   const venueSlug = pathname.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
   if (venueSlug) {

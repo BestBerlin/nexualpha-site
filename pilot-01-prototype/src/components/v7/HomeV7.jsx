@@ -534,7 +534,7 @@ export function NeutralHeroBoard({ rows, locale }) {
   </aside>;
 }
 
-export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, initialTicker, initialOfficialAnnouncements }) {
+export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, initialTicker, initialOfficialAnnouncements, homeLatest = [] }) {
   // Owner 2026-10-13 (legal): Vietnam (vi pages, VN market) is information-only — no rebate ledger, code or sign-up.
   // Neutral locales (locale-policy.js: ru, ar, zh-Hant, ur, uk, vi) read the same information-only home (lead 2026-10-13).
   const banned = isNeutralCtaLocale(locale) || Boolean(jurisdictionPromotionBan({ locale, market }));
@@ -639,6 +639,19 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
+        <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
+        <ul>{homeLatest.map((item) => <li key={item.href}>
+          <a href={item.href}>{item.title}</a>
+          <time dateTime={item.publishedAt}>{item.relativeDate}</time>
+        </li>)}</ul>
+        <nav aria-label={t.latestAnalysis || "Latest analysis"}>
+          <a href={localizedHref("/news", { locale })}>{t.latestAnalysis || "Latest analysis"}</a>
+          <a href={localizedHref("/compare", { locale })}>Compare</a>
+          <a href={localizedHref("/data/exchange-fee-index", { locale })}>Exchange fee index</a>
+        </nav>
       </section>
 
       <DeferUntilVisible target=".h7-ts" prefetch={loadTsStrip}><TokenizedStrip locale={locale} market={market} /></DeferUntilVisible>

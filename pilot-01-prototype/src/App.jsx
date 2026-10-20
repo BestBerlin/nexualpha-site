@@ -837,7 +837,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialWhales, initialRadar, initialIntelTool, initialSeoAlternates, initialTsLive, initialTsPage } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialHomeLatest, initialNewsListing, initialMarketEvents, initialLiquidationLevels, initialFundingMatrix, initialFundingFeed, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker, initialWhales, initialRadar, initialIntelTool, initialSeoAlternates, initialTsLive, initialTsPage } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -1110,7 +1110,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
-    <HomeV7 locale={locale} market={route.market} whales={initialWhales} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
+    <HomeV7 homeLatest={initialHomeLatest} locale={locale} market={route.market} whales={initialWhales} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
     <ClosingBand locale={locale} />
     {footer}
     {searchDialog}

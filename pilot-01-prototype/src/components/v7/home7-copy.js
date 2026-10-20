@@ -4,6 +4,7 @@ import { H7_I18N } from "./home7-copy-i18n.js";
 
 export const H7_COPY = {
   "zh-Hans": {
+    latestAnalysis: "最新分析",
     kick: "NEXUALPHA · 交易所比价与返佣",
     h1a: "别再白送手续费，", h1b: "最高拿回 {max}%。",
     sub: "用我们的合作邀请链接在交易所官网开户，\n手续费按比例返还，主流交易所逐家比价。",
@@ -27,6 +28,7 @@ export const H7_COPY = {
     all: "查看全部交易所", foot: (d) => `费率为各平台公开的基础费率（默认按 USDT 永续合约，可切换现货），数据日期 ${d}，不含 VIP 等级、平台币抵扣和地区差异。首页“最高 {max}%”为合作交易所中的最高档位，各家最高比例不同（如币安 25%、OKX 40%、Bitget 60%），计算按最高比例估算。`,
   },
   en: {
+    latestAnalysis: "Latest analysis",
     kick: "NEXUALPHA · EXCHANGE FEES & REBATES",
     h1a: "Stop gifting fees.", h1b: "Get up to {max}% back.",
     sub: "Open on the exchange's official page using NexuAlpha's partner invite link.\nPart of every fee comes back, compared exchange by exchange.",
@@ -99,6 +101,8 @@ export const H7_COPY = {
   },
   ...H7_I18N,
 };
+// New analysis heading falls back to English until an edition supplies its own copy.
+for (const copy of Object.values(H7_COPY)) copy.latestAnalysis ??= "Latest analysis";
 // Missing keys fall back to English so a new key never breaks a locale before its translation lands.
 export const h7Copy = (locale) => ({ ...H7_COPY.en, ...(H7_COPY[locale] || (String(locale || "").startsWith("zh") ? H7_COPY["zh-Hans"] : {})) });
 // Türkiye pages (tr locale or ?market=TR, tr-market-gaps): Bitget is on the SPK liquidation list, so step 3 names only the
