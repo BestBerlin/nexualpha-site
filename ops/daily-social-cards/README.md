@@ -46,7 +46,7 @@ Posting acquires an exclusive `run.lock` and persists a per-SGT-day record **bef
 
 The X image adapter uses the existing OAuth1 signer with the legacy simple multipart upload endpoint, then `/2/tweets` with `media_ids`. Live legacy upload availability for the owner's app remains unverified; failures stop without falling back to text-only. Current [X upload documentation](https://docs.x.com/x-api/media/upload-media) describes the v2 OAuth2 endpoint; adopting that would require a separately authorized credential change. Telegram multipart uses the official [sendPhoto contract](https://core.telegram.org/bots/api#sendphoto). No live posts or credential reads are needed to test this feature.
 
-All text links open only `https://nexualpha.com/en?src=x-daily` / `zh-hans?src=x-daily` (or `tg-daily`). Symbol validation rejects domain-style names; source names/headlines are never copied into captions. Four short lines, no hashtags, codes, disclaimers or predictions. Observed liquidation totals use ≥ to preserve the feed's lower-bound meaning.
+All text links open only `https://nexualpha.com/?src=x-daily` / `zh-hans?src=x-daily` (or `tg-daily`). Symbol validation rejects domain-style names; source names/headlines are never copied into captions. Four short lines, no hashtags, codes, disclaimers or predictions. Observed liquidation totals use ≥ to preserve the feed's lower-bound meaning.
 
 ## X hashtags and movers fallback (2026-10-18)
 
