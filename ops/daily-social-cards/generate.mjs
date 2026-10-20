@@ -80,7 +80,7 @@ export function postText(data, locale, platform, tagging = null) {
   channelFor(locale);
   if (!['x', 'tg'].includes(platform)) throw new Error('Invalid platform');
   const zh = locale === 'zh-Hans';
-  const url = `${SITE}/${zh ? 'zh-hans' : 'en'}?src=${platform}-daily`;
+  const url = `${SITE}/${zh ? 'zh-hans' : ''}?src=${platform}-daily`;
   const text = [zh ? `今日异动 · ${data.day} SGT` : `Today's movers · ${data.day} SGT`,
     [data.up[0] && `${zh ? '领涨' : 'Top gainer'} ${data.up[0].sym} ${pct(data.up[0].change)}`,
       data.down[0] && `${zh ? '领跌' : 'Top loser'} ${data.down[0].sym} ${pct(data.down[0].change)}`].filter(Boolean).join(' · '),
