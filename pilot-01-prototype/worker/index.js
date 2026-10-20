@@ -1,3 +1,4 @@
+import { recentEntityArticles } from '../src/data/article-related-links.js';
 import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
 import { isStrikingDistanceVenueTitle, strikingDistanceVenueTitle, strikingDistanceVenueDescription } from '../src/data/striking-distance-venue-copy.js';
 import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
@@ -22,7 +23,7 @@ import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
 import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
 import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
 import { fundingTable, FUNDING_SYMBOLS, isFundingSnapshot } from "../src/data/funding-rates.js";
-import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, hasNewsArticleLocale, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
@@ -352,6 +353,7 @@ export default {
     }
     if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
+    if (["/rss.xml", "/feed.xml", "/zh-hans/rss.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) return handleNewsRss(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return handleSitemapIndex(request, env, url);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
     // Crypto calendar iCal export (2026-10-13): every event of the runtime snapshot, optionally one type, in one locale.
@@ -3866,6 +3868,11 @@ function injectRouteMetadata(html, metadata) {
     output = replaceOrInsert(output, expression, `<meta name="${name}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
   }
   output = output.replace(/\s*<link\b[^>]*data-nexualpha-route-seo=["']alternate["'][^>]*>\s*/gi, "\n");
+  output = replaceOrInsert(
+    output,
+    /<link\b[^>]*type=["']application\/rss\+xml["'][^>]*>/i,
+    `<link rel="alternate" type="application/rss+xml" title="NexuAlpha" href="${pageLocale === "zh-Hans" ? "/zh-hans/rss.xml" : "/rss.xml"}" />`,
+  );
   if (Array.isArray(metadata.alternates)) {
     const alternateHtml = metadata.alternates
       .map((alternate) => `    <link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeHtml(alternate.href)}" data-nexualpha-route-seo="alternate" />`)
@@ -3936,6 +3943,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.liquidationLevels && typeof route.liquidationLevels === "object" ? { liquidationLevels: route.liquidationLevels } : {}),
     ...(route.beginnerContext && typeof route.beginnerContext === "object" ? { beginnerContext: route.beginnerContext } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
+    ...(Array.isArray(route.homeLatest) ? { homeLatest: route.homeLatest } : {}),
     ...(route.homeContext && typeof route.homeContext === "object" ? { homeContext: route.homeContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
@@ -4145,7 +4153,10 @@ async function handlePublicNewsSummaryFeed(request, env, url) {
     const response = await env.ASSETS.fetch(new Request(new URL("/content/news-feed.json", url), { headers: { accept: "application/json" } }));
     if (!response.ok) return response;
     const parsed = await response.json();
-    const articles = Array.isArray(parsed?.articles) ? parsed.articles.map(summarizeNewsArticle).filter(Boolean) : [];
+    const articles = Array.isArray(parsed?.articles) ? parsed.articles.map(applyNewsSearchState).map(article => {
+      const summary = summarizeNewsArticle(article);
+      return summary ? { ...summary, ...(typeof article.seo?.noindex === "boolean" ? { seo: { noindex: article.seo.noindex } } : {}) } : null;
+    }).filter(Boolean) : [];
     return new Response(JSON.stringify({ ...parsed, articles }), {
       headers: {
         "content-type": "application/json; charset=utf-8",
@@ -4458,14 +4469,14 @@ function renderNewsListingFallback(metadata, locale, listing) {
 }
 
 // Related articles for an article page: same category plus shared relatedVenues, summary-only.
-function newsRelatedSummaries(article, articles) {
-  return relatedNewsArticles(article, articles).map(summarizeNewsArticle).filter(Boolean);
+function newsRelatedSummaries(article, articles, locale = "en") {
+  return recentEntityArticles(article, articles, 5, locale).map(item => ({ ...summarizeNewsArticle(item), seo: { noindex: item.seo?.noindex } })).filter(Boolean);
 }
 
 function newsDetailSummaries(article, articles) {
   return (Array.isArray(articles) ? articles : [])
     .filter((item) => item?.slug && item.slug !== article?.slug)
-    .map(summarizeNewsArticle)
+    .map(item => ({ ...summarizeNewsArticle(item), seo: { noindex: item.seo?.noindex } }))
     .filter(Boolean);
 }
 
@@ -4484,7 +4495,7 @@ function renderedNewsDetailPool(article, summaries, html) {
 }
 
 function renderNewsRelatedArticlesHtml(article, articles, locale) {
-  const related = relatedNewsArticles(article, articles);
+  const related = recentEntityArticles(article, articles, 5, locale);
   if (!related.length) return "";
   const title = newsLibraryCopy(locale).related;
   return `<section class="news-detail__related-research" aria-label="${escapeHtml(title)}"><h2>${escapeHtml(title)}</h2><ul class="news-detail__related-articles">${related.map((item) => {
@@ -4551,7 +4562,7 @@ function injectFallbackBody(html, metadata, url) {
     newsListing = { category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages, libraryTotal: sourceArticles.length, counts: newsCategoryCounts(sourceArticles) };
   } else if (slug) {
     const article = sourceArticles.find((item) => item?.slug === slug);
-    hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article, ...newsRelatedSummaries(article, sourceArticles)], locale) : [];
+    hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article, ...newsRelatedSummaries(article, sourceArticles, locale)], locale) : [];
   }
   if (!hydrationArticles.length) {
     return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
@@ -4870,7 +4881,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
       if (value) renderUrl.searchParams.set(key, value);
     }
     if (pathname === "/") {
-      hydrationData = { ...hydrationData, homeContext: activityRequestContext(renderUrl) };
+      hydrationData = { ...hydrationData, homeContext: activityRequestContext(renderUrl), homeLatest: await readHomeLatest(env, url, locale) };
       const funding = withoutTurkeyUnlistedVenueFeed(await readHomeFundingSnapshot(env), { locale, market: renderUrl.searchParams.get("market") || undefined });
       if (funding) hydrationData = { ...hydrationData, funding };
       if (metadata.heroAssignment?.active) {
@@ -4967,6 +4978,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   const fallback = async () => {
     const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
     const pathname = publicRoute.contentPathname;
+    if (metadata.marker === HOME_ROUTE_MARKER) {
+      const rendered = await renderRouteAtRequestTime(html, metadata, url, env, { accept: hasMainWithHeading, label: "home latest", preserveContext: true });
+      if (rendered) return rendered;
+    }
     // News listings (2026-10-11): /news, /news/page/N and /news/category/<key>[/page/N] in every locale are rendered at
     // request time with the NewsListPage the browser hydrates (summary rows of this page + library counts), so the
     // SSR body, the head and the first client render agree and crawlers index the current listing. The hand-written
@@ -5331,7 +5346,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   // Owner 2026-10-14: the home page has no flash rail any more, so home SSR no longer reads the flash stream.
   if (contentPathname === "/" && typeof env?.NEWS_SSR_RENDER === "function") {
     // Türkiye pages never list an SPK-listed venue (tr-bitget-sweep): the same filtered feed feeds SSR and hydration.
-    const [funding, ticker, whales, officialAnnouncements] = await Promise.all([
+    const [funding, ticker, whales, officialAnnouncements, homeLatest] = await Promise.all([
       readHomeFundingSnapshot(env).then((feed) => withoutTurkeyUnlistedVenueFeed(feed, { locale: publicRoute.locale, market: market || undefined })),
       readTickerSnapshot(env),
       readWhalesSnapshot(env),
@@ -5341,11 +5356,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
           return turkeyAnnouncementFeed(announcementSnapshot(feed), publicRoute, market);
         } catch { return announcementSnapshot(null); }
       })(),
+      readHomeLatest(env, url, publicRoute.locale),
     ]);
-    if (funding || ticker || whales || officialAnnouncements) {
+    if (funding || ticker || whales || officialAnnouncements || homeLatest.length) {
       // Read announcements per request and pass the exact snapshot to SSR and hydration; a build-time seed
       // cannot establish freshness. Unavailable snapshots are explicit rather than silently retaining old notices.
-      const state = { heroVariant: routePayload.heroVariant, officialAnnouncements, ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(whales ? { whales } : {}) };
+      const state = { heroVariant: routePayload.heroVariant, officialAnnouncements, homeLatest, ...(funding ? { funding } : {}), ...(ticker ? { ticker } : {}), ...(whales ? { whales } : {}) };
       try {
         const rendered = await env.NEWS_SSR_RENDER(activityRenderUrl(url, "/", publicRoute.locale), state);
         if (typeof rendered === "string" && rendered.includes('id="h7-calc"')) {
@@ -5433,7 +5449,7 @@ async function handleNewsArticleJson(env, url) {
   const article = feed.articles.find((item) => item?.slug === slug);
   if (!article) return new Response(JSON.stringify({ articles: [] }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=60" } });
   const linked = new Set([...JSON.stringify(article).matchAll(/\/news\/([a-z0-9][a-z0-9-]{0,159})/g)].map((m) => m[1]).filter((s) => s !== slug));
-  const related = newsRelatedSummaries(article, feed.articles);
+  const related = newsRelatedSummaries(article, feed.articles, routeLocale(url));
   const relatedSlugs = new Set(related.map((item) => item.slug));
   const linkedSummaries = feed.articles.filter((item) => linked.has(item?.slug) && !relatedSlugs.has(item.slug)).map(summarizeNewsArticle).filter(Boolean);
   // ?locale=<ui locale> (localized news lane): ship only the English edition plus the requested one (and zh-Hans for
@@ -5875,6 +5891,34 @@ async function handleArticleSitemap(env, url) {
   return new Response(renderArticleSitemap(feed.articles, locale), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
 }
 
+// Both English paths serve RSS 2.0 from the same request-time mounted feed as /news.
+export function renderNewsRss(articles, locale = "en", now = Date.now()) {
+  const rows = sortNewsForLocale(articles, locale).filter((article) => {
+    const published = Date.parse(article.publishedAt);
+    return article.status === "PUBLISHED" && article.seo?.noindex === false
+      && articleSeoLocales(article).includes(locale)
+      && Number.isFinite(published) && published <= now;
+  }).slice(0, 50);
+  const items = rows.map((article) => {
+    const link = localizedCanonical(`/news/${article.slug}`, locale);
+    const answer = article.aeo?.directAnswer;
+    const description = typeof answer === "string" ? answer : answer?.[locale] || answer?.en || "";
+    return `  <item>\n    <title>${xmlText(localizedArticleText(article.title, locale))}</title>\n    <link>${xmlText(link)}</link>\n    <guid isPermaLink="true">${xmlText(link)}</guid>\n    <pubDate>${new Date(article.publishedAt).toUTCString()}</pubDate>\n    <description>${xmlText(description)}</description>\n  </item>`;
+  });
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0"><channel>',
+    '<title>NexuAlpha</title>', `<link>${xmlText(localizedCanonical("/news", locale))}</link>`,
+    '<description>Latest NexuAlpha analysis</description>', `<language>${locale === "zh-Hans" ? "zh-CN" : "en"}</language>`,
+    ...items, '</channel></rss>', ''].join("\n");
+}
+
+async function handleNewsRss(request, env, url) {
+  const locale = url.pathname.startsWith("/zh-hans/") ? "zh-Hans" : "en";
+  const feed = await loadNewsFeed(env, url);
+  return new Response(request.method === "HEAD" ? null : renderNewsRss(feed.articles, locale), {
+    headers: { "content-type": "application/rss+xml; charset=utf-8", "cache-control": "public, max-age=300", "x-content-type-options": "nosniff" },
+  });
+}
+
 async function handleLiveNewsSitemap(env, url) {
   const feed = await loadNewsFeed(env, url);
   return new Response(renderLiveNewsSitemap(feed.articles), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
@@ -5904,6 +5948,21 @@ async function loadNewsFeed(env, requestUrl) {
     newsFeedCache = sha === fingerprint ? { sha, value } : sha ? null : { text, value };
     return value;
   } catch { return { articles: [], fingerprint: null }; }
+}
+
+// Only eight crawl links cross into the browser; relative labels are frozen for identical hydration.
+async function readHomeLatest(env, url, locale, now = Date.now()) {
+  const feed = await loadNewsFeed(env, url);
+  const pool = newsArticleGeoPool(feed.articles, { locale, market: url.searchParams.get("market") || undefined });
+  const relative = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  return pool.filter(item => item.seo?.noindex === false && hasNewsArticleLocale(item, locale)
+    && Number.isFinite(Date.parse(item.publishedAt)) && Date.parse(item.publishedAt) <= now)
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt) || a.slug.localeCompare(b.slug))
+    .slice(0, 8).map(item => {
+      const hours = Math.floor((now - Date.parse(item.publishedAt)) / 3600000);
+      return { href: localizedPath(`/news/${item.slug}`, locale), title: localizedNewsTitle(item, locale), publishedAt: item.publishedAt,
+        relativeDate: hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day") };
+    });
 }
 
 async function loadPrerenderedNewsSnapshot(env, requestUrl) {

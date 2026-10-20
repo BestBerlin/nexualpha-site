@@ -86,6 +86,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialLocale: undefined,
       initialCompareSelection: ["binance", "okx"],
       initialNewsArticles: state?.newsArticles,
+      initialHomeLatest: state?.homeLatest,
       initialNewsListing: state?.newsListing,
       initialMarketEvents: state?.marketEvents,
       initialFundingFeed: state?.funding,

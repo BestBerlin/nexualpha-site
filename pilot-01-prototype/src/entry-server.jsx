@@ -16,7 +16,7 @@ import { rememberTsCopy } from "./data/tokenized-stocks-copy-client.js";
 rememberTsCopy(Object.values(TS_COPY));
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
-export function render(url, { newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive, tsPage } = {}) {
+export function render(url, { homeLatest, newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive, tsPage } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -51,6 +51,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, liquidati
         initialLocale={initialLocale}
         initialSeoAlternates={routeSeoAlternates}
         initialCompareSelection={["binance", "okx"]}
+        initialHomeLatest={homeLatest}
         initialNewsArticles={normalizedNewsArticles}
         initialNewsListing={newsListing && typeof newsListing === "object" ? newsListing : undefined}
         initialFundingMatrix={fundingMatrix}

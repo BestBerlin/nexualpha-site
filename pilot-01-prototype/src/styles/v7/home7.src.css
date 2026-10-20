@@ -1060,3 +1060,15 @@
 @media(max-width:1023px){@ .hx-stage{block-size:300px;max-block-size:300px}@ .hx-stage-art{min-block-size:0}@ .hx-stage-ring{inline-size:140px}@ .hx-stage-node[data-on] .hx-stage-value{font-size:26px}@ .hx-stage-value{padding-inline:32px 8px}@ .hx-stage-node>:first-child{margin-left:-26px;inline-size:20px;block-size:20px}@ .hx-stage-node[data-on]>:first-child{margin-left:0;inline-size:36px;block-size:36px}}
 @media(prefers-reduced-motion:reduce){@ .hx-stage *,@ .hx-stage *::after{animation:none!important;transition:none!important}}
 @ .hx-stage-label,@ .hx-stage-caption{font-family:"PingFang SC","PingFang TC","Hiragino Sans","Noto Sans SC","Noto Sans TC","Noto Sans JP","Geist V5","Geist V5 Fallback",sans-serif}
+
+/* Crawlable live analysis, below the hero and partner strip. */
+@ .h7-latest { padding-block: 32px; }
+@ .h7-latest h2 { font-size: 24px; margin-block: 0 16px; }
+@ .h7-latest ul { list-style: none; margin: 0; padding: 0; }
+@ .h7-latest li { display: flex; align-items: baseline; gap: 24px; border-block-start: 1px solid var(--line); padding-block: 12px; }
+@ .h7-latest li a { flex: 1; min-width: 0; color: var(--ink); overflow-wrap: anywhere; }
+@ .h7-latest time { flex-shrink: 0; color: var(--ink3); font-size: 12px; }
+@ .h7-latest nav { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-block-start: 16px; }
+@ .h7-latest nav a { display: inline-flex; align-items: center; min-height: 44px; }
+@ .h7-latest a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+@media (max-width: 640px) { @ .h7-latest li { flex-direction: column; gap: 4px; } @ .h7-latest li a { display: flex; align-items: center; min-height: 44px; } }

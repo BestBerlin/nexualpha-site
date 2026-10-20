@@ -8,6 +8,7 @@
 //   node scripts/search-engines.mjs perf [days]   # Google clicks / impressions: totals, top queries, top pages, by section
 //   node scripts/search-engines.mjs striking [--write <dir>] [--date YYYY-MM-DD]   # pages at avg position 4–30 (90 + 28 days)
 // Network: run with NODE_OPTIONS=--dns-result-order=ipv4first on the owner's Mac (IPv6 routes to Google time out).
+import { hasNewsArticleLocale } from "../src/data/news-feed-client.js";
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { groupStrikingRows, mergeStrikingWindows, strikingMarkdownTable } from "./striking-distance-lib.mjs";
 import { createSign } from "node:crypto";
@@ -19,6 +20,32 @@ import { loadIndexNowKey, buildIndexNowPayload, submitIndexNowPayload, parseChan
 export async function submitYandexIndexNow(urls, fetchImpl = globalThis.fetch) {
   const key = await loadIndexNowKey();
   return submitIndexNowPayload({ endpoint: "https://yandex.com/indexnow", payload: buildIndexNowPayload({ ...key, urls }), fetchImpl });
+}
+
+// The feed is read live so publish-time submissions do not depend on a deploy snapshot.
+export async function newestArticleUrls(fetchImpl = globalThis.fetch) {
+  const response = await fetchImpl('https://nexualpha.com/content/news-feed.json', { headers: { 'cache-control': 'no-cache' } });
+  if (!response.ok) throw new Error(`news feed ${response.status}`);
+  const { articles = [] } = await response.json();
+  return articles.filter(article => article?.slug && article.seo?.noindex === false
+    && (!article.status || article.status === 'PUBLISHED') && hasNewsArticleLocale(article, 'en')
+    && Number.isFinite(Date.parse(article.publishedAt)) && Date.parse(article.publishedAt) <= Date.now())
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt) || a.slug.localeCompare(b.slug))
+    .slice(0, 50).map(article => `https://nexualpha.com/news/${encodeURIComponent(article.slug)}`);
+}
+
+export function indexNowBatches(urls) {
+  const unique = [...new Set(urls)];
+  return Array.from({ length: Math.ceil(unique.length / 100) }, (_, i) => unique.slice(i * 100, (i + 1) * 100));
+}
+
+export async function submitFreshIndexNow(urls, fetchImpl = globalThis.fetch) {
+  const key = await loadIndexNowKey();
+  const results = [];
+  for (const batch of indexNowBatches(urls)) results.push(await submitIndexNowPayload({
+    endpoint: 'https://api.indexnow.org/indexnow', payload: buildIndexNowPayload({ ...key, urls: batch }), fetchImpl,
+  }));
+  return results;
 }
 
 export function submissionWarning(engine, result, error) {
@@ -163,9 +190,15 @@ if (cmd === "verify") {
   }
   const changedFile = argValue("--changed-urls");
   const urls = changedFile ? parseChangedUrls(readFileSync(changedFile, "utf8")) : sitemaps;
+  await run("indexnow", "fresh articles", async () => {
+    const fresh = await newestArticleUrls();
+    const results = await submitFreshIndexNow([...fresh, ...urls]);
+    return { status: results.every(r => r.ok) ? 202 : 500, text: `${fresh.length} newest articles plus existing URLs; ${results.length} batches; endpoint acceptance is not indexing` };
+  });
   await run("yandex", "indexnow", async () => {
-    const r = await submitYandexIndexNow(urls);
-    return { status: r.status, text: r.ok ? "accepted by endpoint; indexing is not guaranteed" : r.text };
+    const results = [];
+    for (const batch of indexNowBatches(urls)) results.push(await submitYandexIndexNow(batch));
+    return { status: results.every(r => r.ok) ? 202 : 500, text: results.every(r => r.ok) ? "accepted by endpoint; indexing is not guaranteed" : results.map(r => r.text).join("; ") };
   });
 } else if (cmd === "status") {
   await run("google", "sitemaps", () => google("GET", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/sitemaps`));
