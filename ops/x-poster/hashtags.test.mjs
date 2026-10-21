@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dailyKeywords, selectTags, coinsIn, stocksIn, radarTermsFromCsv, BANNED, EVERGREEN } from './hashtags.mjs';
+import { dailyKeywords, selectTags, coinsIn, stocksIn, radarTermsFromCsv, limitCashtags, BANNED, EVERGREEN } from './hashtags.mjs';
 import { articleMessage, linkMessage, marketMessage, dailyMessage, weightedLength, costClass, keywordContext } from './x-poster.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -73,8 +73,11 @@ test('cashtags match coins in the text; inline where the ticker already appears'
   }
   const [etf, , , , , daily] = posts();
   assert.match(etf, /\$BTC ETF inflows/); // inline, first mention
-  assert.match(daily, /^\$BTC \$81,000/m); assert.match(daily, /^\$ETH /m);
-  assert.doesNotMatch(daily, /\$SOL/); // at most two coin tags
+  assert.match(daily, /^\$BTC \$81,000/m); assert.match(daily, /^ETH /m);
+  assert.doesNotMatch(daily, /\$SOL/);
+  // X allows one cashtag per post (403 on 2026-10-21): every post, including the one with BTC and ETH, carries at most one.
+  for (const text of posts()) assert.ok((text.match(/(?<![\w$#&])\$[A-Za-z]/g) || []).length <= 1, text);
+  assert.equal(limitCashtags('$BTC and $ETH\n\n$SOL #FOMC'), '$BTC and ETH\n\n#SOL #FOMC');
 });
 test('hot keyword: the post\'s own daily keyword first, else top macro/topic; never a random alt', () => {
   const okx = posts()[2];

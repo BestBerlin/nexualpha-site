@@ -100,7 +100,12 @@ export async function measure({ date = new Date().toLocaleDateString('en-CA', { 
   try { radar = JSON.parse(await readFile(process.env.SEO_RADAR_FILE || '/Volumes/致态2TB/nx-agents/keywords/radar/latest.json', 'utf8')).top || []; } catch { warnings.push('Keyword radar unavailable.'); }
   try {
     const feed = JSON.parse(await fetchText(`${origin}/content/news-feed-summary.json`));
-    const articles = (feed.articles || []).filter((a) => a.status === 'PUBLISHED').sort((a, b) => Date.parse(b.publishedAt || b.updatedAt) - Date.parse(a.publishedAt || a.updatedAt)).slice(0, 10);
+    // Sample articles published 3-10 days ago: Google needs days to index a new page, so inspecting the newest ten
+    // (2026-10-21: 0/10, all "Discovered - currently not indexed") measured crawl lag, not the indexing rate.
+    const ageDays = (a) => (Date.now() - Date.parse(a.publishedAt || a.updatedAt)) / 86400e3;
+    const settled = (feed.articles || []).filter((a) => a.status === 'PUBLISHED' && ageDays(a) >= 3 && ageDays(a) <= 10).sort((a, b) => Date.parse(b.publishedAt || b.updatedAt) - Date.parse(a.publishedAt || a.updatedAt));
+    const step = Math.max(1, Math.floor(settled.length / 10));
+    const articles = settled.filter((_, i) => i % step === 0).slice(0, 10);
     for (const a of articles) {
       const url = `${origin}/news/${encodeURIComponent(a.slug)}`;
       try { indexHealth.push({ url, ...await inspect(url) }); } catch { indexHealth.push({ url, error: 'inspection unavailable', verdict: null }); warnings.push(`Inspection unavailable: ${url}`); }

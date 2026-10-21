@@ -4,13 +4,13 @@ import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { checkSocialDraft, ourLink, tagsIn } from './social-rules.mjs';
-import { buildBrief, finishX, finishTelegram, main, promptFor } from './social-batch.mjs';
+import { buildBrief, finishX, finishTelegram, finishYoutube, main, promptFor } from './social-batch.mjs';
 import { postDraft, review, loadXCredentials } from './social-post.mjs';
 import { socialSections } from './social-queue.mjs';
 
 const partners = [{ slug: 'bitget', name: 'Bitget', inviteCode: 'nexu888' }, { slug: 'binance', name: 'Binance', inviteCode: '11350287' }];
 const x = (text, locale = 'en') => ({ channel: 'x', locale, text });
-const tg = (text, locale = 'en') => ({ channel: 'telegram', locale, text });
+const tg = (text, locale = 'en') => ({ channel: 'telegram', locale, text: `${text}\n\n#Bitcoin #Crypto` }); // tag line as finishTelegram writes it
 const NOW = Date.parse('2026-10-18T12:00:00Z');
 
 test('clean X and Telegram drafts pass', () => {
@@ -59,8 +59,15 @@ test('channel shape rules: X 280 + 2-4 tags, Telegram HTML subset, YouTube carto
   assert.match(checkSocialDraft(x(`${'a'.repeat(290)} #crypto #BTC`), {}).join(), /> 280/);
   assert.match(checkSocialDraft(x('a #a #b #c #d #e'), {}).join(), /5 tags/);
   assert.match(checkSocialDraft(tg('<script>x</script>'), {}).join(), /not allowed/);
+  assert.match(checkSocialDraft({ channel: 'telegram', locale: 'en', text: '<b>BTC</b> no tag line' }, {}).join(), /0 tags on the last line/);
+  assert.match(checkSocialDraft(x('$BTC and $ETH up #crypto #BTC'), {}).join(), /one cashtag/);
   const yt = { channel: 'youtube', locale: 'en', title: 'Tesla on-chain', scenes: [1, 2, 3].map(() => ({ visual: 'cartoon mascot points at a chart', narration: 'Tesla tokens traded more today.' })) };
   assert.deepEqual(checkSocialDraft(yt, {}), []);
+  const desc = 'Tesla tokens explained.\nFull course: https://nexualpha.com/academy?src=yt-en\nTelegram: https://t.me/NexuAlphaGlobal\n\n#Shorts #Crypto #NexuAlpha';
+  assert.deepEqual(checkSocialDraft({ ...yt, description: desc, link: 'https://nexualpha.com/academy?src=yt-en' }, {}), []);
+  assert.match(checkSocialDraft({ ...yt, description: desc.replace('/academy?src=yt-en', '/news/tesla?src=yt-en') }, {}).join(), /not academy/);
+  assert.match(checkSocialDraft({ ...yt, description: desc.replace(' #NexuAlpha', '') }, {}).join(), /three hashtags/);
+  assert.match(checkSocialDraft({ ...yt, link: 'https://nexualpha.com/news/tesla' }, {}).join(), /academy page/);
   assert.match(checkSocialDraft({ ...yt, scenes: yt.scenes.map((s) => ({ ...s, visual: 'stock footage' })) }, {}).join(), /cartoon/);
   assert.match(checkSocialDraft({ ...yt, scenes: yt.scenes.slice(0, 2) }, {}).join(), /3-8 scenes/);
   assert.match(checkSocialDraft({ ...yt, locale: 'ru', cta: 'Register on OKX' }, {}).join(), /neutral/);
@@ -72,7 +79,9 @@ const events = [
   { id: 3, title_internal: 'Old event', source_published_at: '2026-10-10T09:00:00Z' },
 ];
 const feed = { articles: [{ slug: 'nvda-tokenized-stock-guide', status: 'PUBLISHED', publishedAt: '2026-10-18T08:00:00Z', title: { en: 'NVDA tokenized stock: what changed' }, summary: { en: 'Short.' }, availableLocales: ['en', 'es'] }] };
-const whales = { rows: [{ id: 'w1', coin: 'ETH', side: 'long', totalUsd: 5e6, time: '2026-10-18T11:00:00Z' }, { id: 'w2', coin: 'DOGE', totalUsd: 1000, time: '2026-10-18T11:00:00Z' }] };
+const whales = { rows: [{ id: 'w1', coin: 'ETH', side: 'long', totalUsd: 5e6, time: '2026-10-18T11:00:00Z', period: '24h', explanation: '0xab…cd added ETH longs, net $5,000,000.' },
+  { id: 'w2', coin: 'DOGE', totalUsd: 1000, time: '2026-10-18T11:00:00Z', period: '24h', explanation: 'small' },
+  { id: 'w3', coin: 'SOL', side: 'long', totalUsd: 9e6, time: '2026-10-18T11:00:00Z' }] }; // w3: bare snapshot (no period/explanation) is not offered
 
 test('brief puts tokenized-stock topics first and drops stale/small items', () => {
   const b = buildBrief({ events, whales, feed, now: NOW });
@@ -82,8 +91,17 @@ test('brief puts tokenized-stock topics first and drops stale/small items', () =
   assert.equal(b.tokenizedFirst, true);
   const p = promptFor('x', b, ['en', 'tr']);
   assert.match(p, /https:\/\/nexualpha\.com\/tr\/tokenized-stocks\/tsla\?src=x-social/);
-  assert.match(p, /https:\/\/nexualpha\.com\/news\/nvda-tokenized-stock-guide/); // tr has no edition -> en article
+  assert.match(p, /https:\/\/nexualpha\.com\/news\/nvda-tokenized-stock-guide/); // tr has no edition -> en article (X only)
   assert.doesNotMatch(promptFor('telegram', b, ['vi']), /vi\/activities/);
+  const linksOf = (prompt) => JSON.parse(prompt.match(/LINKS: (\{.*\})\nDATA:/)[1]);
+  assert.ok(!linksOf(promptFor('telegram', b, ['tr'])).tr.some((u) => u.includes('nvda-tokenized-stock-guide'))); // Telegram: never the English article in a tr channel
+  assert.ok(linksOf(promptFor('telegram', b, ['es'])).es.includes('https://nexualpha.com/es/news/nvda-tokenized-stock-guide?src=tg-social-es'));
+  assert.equal(b.events[0].atSgt, '18 Oct 17:00 SGT'); assert.equal(b.events[0].officialSource, null); // media-only
+  // Stale (>18 h) and already-posted topics are not offered; posted refs are recorded on the brief.
+  const old = buildBrief({ events, whales, feed, now: NOW + 17 * 3600000 });
+  assert.deepEqual(old.events.map((e) => e.ref), []); // 18-19 h old now
+  const b2 = buildBrief({ events, whales, feed, now: NOW, posted: ['event:2', 'article:nvda-tokenized-stock-guide'] });
+  assert.deepEqual(b2.events.map((e) => e.ref), ['event:1']); assert.equal(b2.articles.length, 0);
 });
 
 test('finishX adds 2-4 tags incl. stock cashtag and hot keyword, strips writer tags, keeps link', () => {
@@ -99,7 +117,13 @@ test('finishX adds 2-4 tags incl. stock cashtag and hot keyword, strips writer t
   assert.deepEqual(checkSocialDraft({ channel: 'x', locale: 'en', ...out }, { partners }), []);
   const bad = finishX({ locale: 'en', text: 'x', link: 'https://bitget.com' }, tagging, NOW);
   assert.equal(bad.link, null);
-  assert.match(finishTelegram({ locale: 'ru', text: '<b>BTC</b>', link: 'https://nexualpha.com/ru/whales' }).text, /Подробнее/);
+  const ru = finishTelegram({ locale: 'ru', text: '<b>BTC</b> #spam', link: 'https://nexualpha.com/ru/whales' }, tagging, NOW);
+  assert.match(ru.text, /Подробнее/); assert.doesNotMatch(ru.text, /#spam/);
+  assert.deepEqual(checkSocialDraft({ channel: 'telegram', locale: 'ru', ...ru }, { partners }), []);
+  const yt = finishYoutube({ locale: 'es', title: 'Tesla', hook: 'x', description: 'Dos líneas.\nhttps://bitget.com #spam', scenes: [{ visual: 'cartoon mascot', narration: 'Tesla tokens doubled.' }] }, tagging, NOW);
+  assert.equal(yt.link, 'https://nexualpha.com/es/academy?src=yt-es');
+  assert.match(yt.description, /^Dos líneas\.\nFull course: https:\/\/nexualpha\.com\/es\/academy\?src=yt-es\nTelegram: https:\/\/t\.me\/NexuAlphaGlobal\n\n#\S+ #\S+ #\S+$/);
+  assert.doesNotMatch(yt.description, /bitget|#spam/);
 });
 
 async function fixture() {

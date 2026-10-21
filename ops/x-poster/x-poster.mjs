@@ -3,7 +3,7 @@ import { createHmac, randomBytes } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, renameSync, openSync, closeSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
-import { composeWithTags, dailyKeywords, readJsonSafe } from './hashtags.mjs';
+import { composeWithTags, dailyKeywords, readJsonSafe, CASHTAG } from './hashtags.mjs';
 
 const SITE = 'https://nexualpha.com';
 const API = 'https://api.x.com/2';
@@ -70,6 +70,7 @@ function clean(s) {
 const dropPartnerSentences = (s) => s.split(/(?<=[.!?。！？])\s+/).filter((x) => !partnerMention(x)).join(' ').trim();
 function guard(text, { link = false } = {}) {
   if (unsafe(text)) throw new Error('content policy: prohibited wording');
+  if ((text.match(CASHTAG) || []).length > 1) throw new Error('X allows one cashtag per post');
   if (!link && costClass(text) !== 'plain') throw new Error('plain post contains a URL');
   return text;
 }

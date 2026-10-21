@@ -222,7 +222,7 @@ export function dailyTopics(ledger, date) {
 // Articles first, then one section per social channel (social-queue.mjs). Both writers rebuild the whole file.
 export async function refreshQueue(c) {
   const rows = await pending(path.join(c.engine, 'staging'));
-  const queue = ['# Drafts awaiting editorial review', '', 'Validation is not approval. See review-checklist.md. Blocked batches reserve their topics until an editor explicitly resolves or cancels them.', '', ...rows.map(m => `- [ ] ${m.id} — ${m.status} — ${m.packages.map(p => `${p.directory} (writer: ${p.provider}${p.writerInfo?.responseModel ? ` / ${p.writerInfo.responseModel}` : ''})`).join(', ') || 'no complete package'}${m.blocker ? `; ${m.blocker}` : ''}`), ''].join('\n') + await socialSections(c.root);
+  const queue = ['# Drafts awaiting editorial review', '', 'Validation is not approval. See review-checklist.md. Blocked batches reserve their topics until an editor explicitly resolves or cancels them.', '', ...rows.map(m => `- [ ] ${m.id} — ${m.status} — ${m.packages.map(p => `${p.directory} (writer: ${p.provider}${p.writerInfo?.responseModel ? ` / ${p.writerInfo.responseModel}` : ''})`).join(', ') || 'no complete package'}${m.blocker ? `; ${m.blocker}` : ''}`), ''].join('\n') + await socialSections(c.root, c.now ?? Date.now());
   const temp = path.join(c.root, 'REVIEW-QUEUE.md.tmp'); await writeFile(temp, queue); await rename(temp, path.join(c.root, 'REVIEW-QUEUE.md'));
 }
 export async function main(config = {}) {

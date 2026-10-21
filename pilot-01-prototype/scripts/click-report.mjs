@@ -2,7 +2,7 @@ import { createReadStream } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { pathToFileURL } from 'node:url';
 
-const CLASSES = ['human', 'bot', 'prefetch', 'unknown'];
+const CLASSES = ['human', 'bot', 'burst', 'prefetch', 'unknown']; // burst = one address hammering the buttons (server/click-metadata.mjs)
 
 // Rolling seven-day UTC window; old rows without cls remain unknown.
 export async function clickReport(file, now = new Date()) {

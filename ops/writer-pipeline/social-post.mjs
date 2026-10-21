@@ -71,6 +71,16 @@ async function partnersFor(runDir) {
 const posted = (runs, pred) => runs.flatMap((r) => r.data.drafts ?? []).filter((d) => ['posting', 'posted', 'post_unknown'].includes(d.status) && pred(d));
 
 /** Post one approved draft. Dry run unless live. send functions are injectable for tests. */
+
+// Never publish a dead link: every nexualpha.com URL in the text must answer 2xx/3xx right now (owner 2026-10-20: a posted card linked to a 404).
+export async function assertLinksLive(text, fetchImpl = globalThis.fetch) {
+  const urls = [...new Set((String(text).match(/https?:\/\/(?:www\.)?nexualpha\.com[^\s)]*/g) || []).map((u) => u.replace(/[.,;]+$/, '')))];
+  for (const u of urls) {
+    let status = 0;
+    try { status = (await fetchImpl(u, { method: 'GET', redirect: 'manual', signal: AbortSignal.timeout(15000) })).status; } catch { status = 0; }
+    if (!(status >= 200 && status < 400)) throw new Error(`link check failed (${status || 'no response'}): ${u}`);
+  }
+}
 export async function postDraft(id, { live = false, now = Date.now(), sendX, sendTelegram, log = console.log, ...opts } = {}) {
   const c = { ...POST_DEFAULTS, ...opts };
   const { run, draft } = await findDraft(c.root, id);
@@ -90,6 +100,7 @@ export async function postDraft(id, { live = false, now = Date.now(), sendX, sen
   if (draft.channel === 'telegram' && chat !== draft.chat) throw new Error('telegram chat does not match locale');
   const preview = { id, channel: draft.channel, locale: draft.locale, chat, weighted: draft.channel === 'x' ? weightedLength(draft.text) : undefined,
     costClass: draft.channel === 'x' ? costClass(draft.text) : undefined, tags: draft.channel === 'x' ? tagsIn(draft.text) : undefined, text: draft.text };
+  if (live && !opts.skipLinkCheck) await assertLinksLive(draft.text);
   if (!live) { log(JSON.stringify({ dryRun: true, ...preview }, null, 2)); return { dryRun: true, ...preview }; }
   // Record intent before the network call; an ambiguous result is never retried automatically.
   draft.status = 'posting'; draft.postedAt = new Date(now).toISOString(); await saveRun(run.file, run.data);

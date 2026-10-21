@@ -129,12 +129,30 @@ const INAPP_UAS = [
   ['instagram', /instagram/i], ['tiktok', /tiktok|musical_ly|bytedancewebview|trill/i],
 ];
 
-export function clickRequestMetadata(request) {
+// Burst detector (2026-10-21: one headless browser clicked every sign-up button on the home page 1,590 times in
+// three hours and every row was classed "human" because Sec-Fetch headers are trivial to send). A client address
+// that records more than `limit` clicks inside `windowMs` is classed "burst" from then on in that window; a real
+// visitor compares a few venues, not forty. Memory is bounded: idle addresses are dropped on the next sweep.
+export function createBurstDetector({ limit = 12, windowMs = 10 * 60 * 1000, now = Date.now, maxKeys = 10000 } = {}) {
+  const windows = new Map();
+  return function burst(key) {
+    if (!key) return false;
+    const t = now();
+    if (windows.size >= maxKeys) for (const [k, w] of windows) if (w.resetAt <= t) windows.delete(k);
+    const w = windows.get(key);
+    if (!w || w.resetAt <= t) { windows.set(key, { count: 1, resetAt: t + windowMs }); return false; }
+    w.count += 1;
+    return w.count > limit;
+  };
+}
+
+export function clickRequestMetadata(request, { burst = false } = {}) {
   const header = name => request.headers.get(name) || '';
   const ua = header('user-agent');
   const inapp = INAPP_UAS.find(([, pattern]) => pattern.test(ua))?.[0] || 'none';
   let cls = 'unknown';
   if (request.method === 'HEAD' || CLICK_BOT_UA.test(ua)) cls = 'bot';
+  else if (burst) cls = 'burst';
   else if (/prefetch|prerender/i.test(`${header('purpose')} ${header('sec-purpose')} ${header('x-moz')}`)) cls = 'prefetch';
   else if (request.method === 'GET' && (inapp !== 'none' ||
     (header('sec-fetch-dest').toLowerCase() === 'document' && header('sec-fetch-mode').toLowerCase() === 'navigate'))) cls = 'human';

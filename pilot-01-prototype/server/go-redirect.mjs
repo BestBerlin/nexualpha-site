@@ -13,7 +13,7 @@ import { partnersProgram, findProgramPartner } from '../src/data/partners-progra
 import { programTarget, programPartnerForRequest } from './partner-program.mjs';
 import { partnerRegistry } from '../src/data/partner-registry.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
-import { clickMetadata, clickRequestMetadata } from './click-metadata.mjs';
+import { clickMetadata, clickRequestMetadata, createBurstDetector } from './click-metadata.mjs';
 import { safeGoPage, safeGoModule, partnerAttributionTarget, retainGoAttribution } from '../src/data/go-attribution.js';
 import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
@@ -111,13 +111,14 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth(), storage = clickStorage } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth(), storage = clickStorage, burst = createBurstDetector() } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   // venue -> async () => redirect URL (injectable for tests); created lazily so a probe runs only once someone clicks.
   const apkProbes = { ...apkTargets };
 
 
-  return async function handle(request) {
+  // `clientIp` is the proxy-validated address (server.mjs clientKey) used only for the burst class of the click row.
+  return async function handle(request, clientIp = null) {
     const url = new URL(request.url);
     const requested = url.pathname.slice('/go/'.length).toLowerCase();
     const slug = GO_ALIASES[requested] || requested;
@@ -235,7 +236,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
       const module = safeGoModule(url.searchParams.get('module'));
       // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...clickRequestMetadata(request), ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
+      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...clickRequestMetadata(request, { burst: burst(clientIp) }), ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
     }
     return new Response(null, { status: 302, headers: { ...headers, location: partnerAttributionTarget(target, url.searchParams, attributionPolicy) } });
   };

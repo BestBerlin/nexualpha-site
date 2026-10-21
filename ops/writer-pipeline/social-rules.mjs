@@ -35,6 +35,10 @@ export function ourLink(url) {
   } catch { return false; }
 }
 export const pageUrl = (locale, pathname, src) => `${SITE}${LOCALE_PATH[locale] ?? ''}${pathname}${src ? `?src=${src}` : ''}`;
+export const YT_TELEGRAM = 'https://t.me/NexuAlphaGlobal';
+// YouTube description links: academy pages (optionally localized) and the course root only (youtube.md §24).
+export const ytLink = (url) => ourLink(url) && /^\/(?:[a-z-]+\/)?academy(?:\/|$)/i.test(new URL(url).pathname);
+const CASHTAG = /(?<![\w$#&])\$[A-Za-z][A-Za-z0-9_]*/gu;
 export const tagsIn = (text) => String(text ?? '').match(/(?<![\w$#&])(?:#[\p{L}\p{N}_]+|\$[A-Za-z][A-Za-z0-9_]*)/gu) ?? [];
 
 // Collect every human-readable string of a draft (text, link, script fields) for the shared rules.
@@ -60,7 +64,8 @@ export function checkSocialDraft(draft, { partners = [] } = {}) {
   if (EARNINGS.test(all) || COMMISSION.test(prose)) errors.push('mentions what we or the inviter earn');
   if (PREDICTION.test(all)) errors.push('price prediction or guarantee');
   if (ANONYMITY.test(all)) errors.push('owner identity (anonymity rule)');
-  for (const url of linksIn(all)) if (!ourLink(url)) errors.push(`link not to our page: ${url}`);
+  // YouTube descriptions may also carry our Telegram (youtube.md §24); nothing else leaves nexualpha.com.
+  for (const url of linksIn(all)) if (!ourLink(url) && !(draft.channel === 'youtube' && url === YT_TELEGRAM)) errors.push(`link not to our page: ${url}`);
   if (draft.link && !ourLink(draft.link)) errors.push('draft link must be a nexualpha.com page');
   const codes = new Map(partners.filter((p) => p?.inviteCode).map((p) => [String(p.inviteCode).toLowerCase(), p]));
   const codeShaped = (t) => codes.has(t.toLowerCase()) || /\d/.test(t) || /^[A-Z0-9_-]{4,}$/.test(t);
@@ -82,6 +87,7 @@ export function checkSocialDraft(draft, { partners = [] } = {}) {
     if (n > 280) errors.push(`x: ${n} weighted chars > 280`);
     const tags = tagsIn(text);
     if (tags.length < 2 || tags.length > 4) errors.push(`x: ${tags.length} tags (need 2-4)`);
+    if ((text.match(CASHTAG) ?? []).length > 1) errors.push('x: more than one cashtag (X rejects the post)');
   }
   if (draft.channel === 'telegram') {
     const text = String(draft.text ?? '');
@@ -89,10 +95,23 @@ export function checkSocialDraft(draft, { partners = [] } = {}) {
     if (text.length > 1000) errors.push(`telegram: ${text.length} chars > 1000`);
     for (const m of text.matchAll(/<\/?([a-z]+)[^>]*>/gi)) if (!['b', 'i', 'a'].includes(m[1].toLowerCase())) errors.push(`telegram: tag <${m[1]}> not allowed`);
     for (const m of text.matchAll(/<a\s+href="([^"]+)"/gi)) if (!ourLink(m[1])) errors.push('telegram: anchor must point to our page');
+    // telegram-ops §55: 2-4 tags on the last line, after a blank line, nothing else on that line.
+    const lines = text.trimEnd().split('\n');
+    const lastTags = lines.length >= 3 && lines.at(-2).trim() === '' ? tagsIn(lines.at(-1)) : [];
+    if (lastTags.length < 2 || lastTags.length > 4 || lines.at(-1).trim().split(/\s+/).length !== lastTags.length) errors.push(`telegram: ${lastTags.length} tags on the last line (need 2-4)`);
   }
   if (draft.channel === 'youtube') {
     const scenes = draft.scenes ?? [];
     if (!draft.title || draft.title.length > 100) errors.push('youtube: title required (<=100 chars)');
+    if (draft.link && !ytLink(draft.link)) errors.push('youtube: link must be an academy page');
+    // youtube.md §24/§63: description links only academy + our Telegram; exactly three hashtags on the last line.
+    if (draft.description !== undefined) {
+      const desc = String(draft.description ?? '').trimEnd();
+      for (const url of linksIn(desc)) if (url !== YT_TELEGRAM && !ytLink(url)) errors.push(`youtube: description link not academy/Telegram: ${url}`);
+      const last = desc.split('\n').at(-1) ?? '';
+      const hashes = last.match(/(?<![\w#$])#[\p{L}\p{N}_]+/gu) ?? [];
+      if (hashes.length !== 3 || last.trim().split(/\s+/).length !== 3) errors.push('youtube: description must end with exactly three hashtags on the last line');
+    }
     if (scenes.length < 3 || scenes.length > 8) errors.push('youtube: 3-8 scenes');
     if (scenes.some((s) => !s?.visual || !s?.narration)) errors.push('youtube: every scene needs visual + narration');
     const words = scenes.map((s) => s?.narration ?? '').join(' ');

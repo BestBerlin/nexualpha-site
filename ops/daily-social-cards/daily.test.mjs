@@ -37,7 +37,7 @@ test('four concise owner-page texts have one 23-unit URL, <=280 weighted units, 
     assert.equal(lines.length, 4);
     assert.ok(weightedLength(text) <= 280);
     assert.equal(weightedLength(lines.at(-1)), 23);
-    assert.equal(lines.at(-1), `https://nexualpha.com/${locale === 'en' ? 'en' : 'zh-hans'}?src=${platform}-daily`);
+    assert.equal(lines.at(-1), `https://nexualpha.com/${locale === 'en' ? '' : 'zh-hans'}?src=${platform}-daily`); // English home is / (/en is a 404, #335)
     assert.doesNotMatch(lines.slice(0, -1).join('\n'), /\b[a-z0-9-]+\.[a-z]{2,}\b/i);
     assert.doesNotMatch(body, /#|referral|promo code|预测|disclaimer/i);
     if (platform === 'x') {
@@ -158,7 +158,7 @@ test('ambiguous send is journaled and never retried; later run can finish unsent
   const client = { verifyAccount: async () => {}, uploadImage: async () => '1', send: async () => { attempts++; throw new Error('timeout secret-url'); } };
   const telegramSend = async () => { telegram++; return { ok: true, id: 1 }; };
   await assert.rejects(postDaily({ bundle: b, stateDir, client, telegramSend }), /Daily x delivery unconfirmed/);
-  assert.equal(telegram, 0);
+  assert.equal(telegram, 2); // the X failure does not block the Telegram channels (2026-10-21)
   assert.equal(JSON.parse(readFileSync(path.join(stateDir, `${b.summary.day}.json`))).x.status, 'unknown');
   await postDaily({ bundle: b, stateDir, client, telegramSend });
   assert.equal(attempts, 1); assert.equal(telegram, 2);
@@ -233,11 +233,12 @@ test('failed deliveries log HTTP status and API message with secrets redacted', 
   const telegramSend = (chat, png, caption) => sendPhoto(tok, chat, png, caption, async () => Response.json({ ok: false, description: `Bad Request: chat not found bot${tok}` }, { status: 400 }));
   const err = await postDaily({ bundle: b, stateDir, client, telegramSend, secrets: [tok, ...Object.values(credentials)] }).catch((e) => e);
   assert.match(err.message, /Daily x delivery unconfirmed \(X image upload failed: HTTP 403 Your app is not permitted to access <redacted>\)/);
+  // The X failure did not stop the Telegram targets; their failures are reported in the same error (one pass, all targets).
+  assert.match(err.message, /Daily zh-Hans delivery unconfirmed \(send not confirmed: HTTP 400 Bad Request: chat not found bot<redacted>\)/);
+  assert.match(err.message, /Daily en delivery unconfirmed/);
   const journal = JSON.parse(readFileSync(path.join(stateDir, `${b.summary.day}.json`)));
   assert.equal(journal.x.status, 'unknown'); assert.match(journal.x.error, /HTTP 403/);
-  const tgOnly = { ...client, verifyAccount: async () => {} };
-  const err2 = await postDaily({ bundle: b, stateDir, client: tgOnly, telegramSend, secrets: [] }).catch((e) => e);
-  assert.match(err2.message, /zh-Hans delivery unconfirmed \(send not confirmed: HTTP 400 Bad Request: chat not found bot<redacted>\)/);
+  assert.equal(journal['zh-Hans'].status, 'unknown'); assert.equal(journal.en.status, 'unknown');
   assert.doesNotMatch(readFileSync(path.join(stateDir, `${b.summary.day}.json`), 'utf8'), /AAHexample|ckey-example/);
   const line = failureLine(Object.assign(new Error('fetch failed'), { cause: { code: 'ECONNRESET' } }), [], new Date(0));
   assert.equal(line.split('. ')[0], '1970-01-01T00:00:00.000Z Daily social generation/post failed: fetch failed / cause: ECONNRESET');

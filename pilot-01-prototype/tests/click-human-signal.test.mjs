@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { clickRequestMetadata } from '../server/click-metadata.mjs';
+import { clickRequestMetadata, createBurstDetector } from '../server/click-metadata.mjs';
 import { clickReport } from '../scripts/click-report.mjs';
 
 const navigate = { 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' };
@@ -35,6 +35,20 @@ for (const [inapp, marker] of [['telegram', 'Telegram-iOS/11.0'], ['x', 'Twitter
   });
 }
 
+test('burst: an address past the window limit is classed burst, not human; bots stay bots; windows expire', () => {
+  let t = 0;
+  const burst = createBurstDetector({ limit: 3, windowMs: 1000, now: () => t });
+  const req = () => new Request('https://nexualpha.com/go/okx', { headers: { ...navigate, 'user-agent': 'Mozilla/5.0 Chrome/130.0 Safari/537.36' } });
+  const cls = [];
+  for (let i = 0; i < 5; i++) cls.push(clickRequestMetadata(req(), { burst: burst('1.2.3.4') }).cls);
+  assert.deepEqual(cls, ['human', 'human', 'human', 'burst', 'burst']);
+  assert.equal(clickRequestMetadata(req(), { burst: burst('5.6.7.8') }).cls, 'human'); // another address is unaffected
+  assert.equal(clickRequestMetadata(new Request('https://nexualpha.com/go/okx', { headers: { 'user-agent': 'curl/8.0' } }), { burst: burst('1.2.3.4') }).cls, 'bot');
+  t = 2000; // window expired: counting starts again
+  assert.equal(clickRequestMetadata(req(), { burst: burst('1.2.3.4') }).cls, 'human');
+  assert.equal(burst(null), false);
+});
+
 test('report accepts legacy and additive JSONL rows, bounds dates and groups counts', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'click-report-'));
   try {
@@ -43,8 +57,8 @@ test('report accepts legacy and additive JSONL rows, bounds dates and groups cou
     await writeFile(file, [legacy, { ...legacy, cls: 'human', inapp: 'telegram' }, { ...legacy, cls: 'bot' }, { ...legacy, cls: 'prefetch' }, { ...legacy, t: '2026-10-01T00:00:00Z' }, { ...legacy, t: '2026-10-20T00:00:00Z' }].map(JSON.stringify).join('\n') + '\ninvalid\nnull\n');
     const report = await clickReport(file, new Date('2026-10-19T00:00:00Z'));
     assert.match(report, /Total: 4; human: 1 \(25.00%\); invalid rows skipped: 2/);
-    for (const key of ['2026-10-18', 'okx', 'tg']) assert.ok(report.includes(`${key}\t4\t1\t1\t1\t1\t25.00%`));
-    assert.match(report, /unknown\t1\t0\t0\t0\t1/);
+    for (const key of ['2026-10-18', 'okx', 'tg']) assert.ok(report.includes(`${key}\t4\t1\t1\t0\t1\t1\t25.00%`), report);
+    assert.match(report, /unknown\t1\t0\t0\t0\t0\t1/);
     await writeFile(file, '');
     assert.match(await clickReport(file), /Total: 0; human: 0 \(0.00%\)/);
   } finally { await rm(dir, { recursive: true, force: true }); }

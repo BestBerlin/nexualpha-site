@@ -164,13 +164,13 @@ export function selectTags({ text, key = '', locale = 'en', keywords = [], extra
   const used = new Set();
   const norm = (t) => t.replace(/^[#$]/, '').toLowerCase();
   const take = (t) => { if (!t || bannedTag(t) || used.has(norm(t))) return false; used.add(norm(t)); return true; };
-  // 1) Topic tags tied to the content (max 2): coins first (cashtags), then topics, then one venue.
+  // 1) Topic tags tied to the content (max 2): ONE cashtag (X rejects posts with more than one $SYMBOL since
+  //    2026-10-21: "Posts are limited to a maximum of one cashtag"), then topics, then one venue.
   const coins = coinsIn(text, extraTickers);
   const topics = [];
-  for (const sym of coins) { if (topics.length >= 2) break; if (take(`$${sym}`)) topics.push({ coin: sym, tag: `$${sym}` }); }
-  // The post's stock (tokenized-stocks posts): one cashtag ($TSLA, $NVDA), leaving room for #TokenizedStocks / #xStocks.
+  // The post's stock (tokenized-stocks posts) wins the single cashtag ($TSLA, $NVDA); otherwise the first coin.
   const stock = stocksIn(text).find((sym) => !coins.includes(sym));
-  if (stock && topics.length < 2 && take(`$${stock}`)) topics.push({ coin: stock, tag: `$${stock}` });
+  for (const sym of [stock, ...coins].filter(Boolean)) { if (take(`$${sym}`)) { topics.push({ coin: sym, tag: `$${sym}` }); break; } }
   for (const [k, t] of Object.entries(TOPICS)) {
     if (topics.length >= 2) break;
     if (t.match.test(text) && take(tagFor(k, lang))) topics.push({ topic: k, tag: tagFor(k, lang) });
@@ -196,6 +196,21 @@ export function selectTags({ text, key = '', locale = 'en', keywords = [], extra
   for (let i = 0; all.length < MIN_TAGS && i < pool.length; i++) { const t = pool[(start + i) % pool.length]; if (take(t)) all.push(t); }
   all.splice(MAX_TAGS);
   return { topics, hot: hotTag, evergreen: ever, all };
+}
+
+// X allows ONE $SYMBOL per post (HTTP 403 "Posts are limited to a maximum of one cashtag", first seen 2026-10-21
+// on the daily card). Keep the first cashtag; later ones on the tag line become hashtags, in the body they lose the $.
+export const CASHTAG = /(?<![\w$#&])\$([A-Za-z][A-Za-z0-9_]*)/gu;
+export function limitCashtags(text, max = 1) {
+  let seen = 0;
+  const lines = String(text).split('\n');
+  const last = lines.length - 1;
+  return lines.map((line, i) => line.replace(CASHTAG, (m, sym, offset) => {
+    if (seen++ < max) return m;
+    // Trailing tag line (every token a tag): keep the tag count by switching to a hashtag.
+    const tagLine = i === last && line.trim().split(/\s+/).every((t) => /^[#$]\S+$/.test(t));
+    return tagLine ? `#${sym}` : sym;
+  })).join('\n');
 }
 
 // Turn the first plain mention of each coin ticker into a cashtag, in place. URLs untouched.
@@ -238,6 +253,7 @@ export function composeWithTags({ body, fit, max, weightedLength, top = false, .
   };
   for (;;) {
     let out = build(tags, body);
+    out = { ...out, text: limitCashtags(out.text) };
     if (weightedLength(out.text) <= max) return out;
     const lineLen = weightedLength(`\n\n${tags.join(' ')}`) + tags.filter((t) => t.startsWith('$')).length; // + '$' inline
     const shrunk = fit ? fit(max - lineLen) : null;

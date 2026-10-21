@@ -175,18 +175,20 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
     catch (e) { if (e.code !== 'ENOENT') throw e; state = {}; }
     if (!state || typeof state !== 'object' || Array.isArray(state) || Object.entries(state).some(([k, v]) => !['x', 'zh-Hans', 'en'].includes(k) || !['pending', 'sent', 'unknown'].includes(v?.status))) throw new Error('Invalid daily journal');
     const save = () => { writeFileSync(`${file}.tmp`, JSON.stringify(state, null, 2), { mode: 0o600 }); renameSync(`${file}.tmp`, file); };
+    // One target's failure never blocks the others (2026-10-21: an X 403 left both Telegram channels without their
+    // card). Each failure is journaled as 'unknown' (never auto-retried) and all of them are reported at the end.
+    const failures = [];
     const send = async (key, operation) => {
       if (state[key]) return; // Never retry a potentially delivered post.
       state[key] = { status: 'pending', at: new Date().toISOString() }; save();
-      // Any failure stays 'unknown' (never auto-retried) but the journal and the error carry the redacted cause.
       const fail = (cause) => {
         const why = redact(cause, secrets);
         state[key] = { ...state[key], status: 'unknown', error: why }; save();
-        throw new Error(`Daily ${key} delivery unconfirmed (${why}); inspect journal before retry`);
+        failures.push(`Daily ${key} delivery unconfirmed (${why})`);
       };
       let result;
-      try { result = await operation(); } catch (e) { fail(describe(e)); }
-      if (!result?.ok || !result.id) fail(`send not confirmed: HTTP ${result?.status ?? 'n/a'}${result?.error ? ` ${result.error}` : ''}`);
+      try { result = await operation(); } catch (e) { fail(describe(e)); return; }
+      if (!result?.ok || !result.id) { fail(`send not confirmed: HTTP ${result?.status ?? 'n/a'}${result?.error ? ` ${result.error}` : ''}`); return; }
       state[key] = { ...state[key], status: 'sent', id: result.id }; save();
     };
     const pngFor = (locale) => bundle.pngs?.[locale] ?? bundle.png;
@@ -195,6 +197,7 @@ export async function postDaily({ bundle, stateDir, xLocale = 'en', client, tele
       await send('x', async () => client.send(bundle.texts[`x-${xLocale}.txt`], [await client.uploadImage(pngFor(xLocale))]));
     }
     for (const locale of Object.keys(CHANNELS)) await send(locale, () => telegramSend(channelFor(locale), pngFor(locale), bundle.texts[`tg-${locale}.txt`]));
+    if (failures.length) throw new Error(`${failures.join('; ')}; inspect journal before retry`);
     return state;
   } finally { closeSync(lock); unlinkSync(lockPath); }
 }

@@ -237,7 +237,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } else if (requestPath === CTA_CLICK_PATH) {
         result = await ctaClick(request, clientKey(req));
       } else if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
-        result = await goRedirect(request);
+        result = await goRedirect(request, clientKey(req));
       } else if (requestPath.startsWith(OG_PATH_PREFIX) && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await ogImages(request);
       } else if (requestPath.startsWith('/embed/') && (result = await embeds(request))) {

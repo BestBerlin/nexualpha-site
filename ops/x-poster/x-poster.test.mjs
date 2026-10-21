@@ -85,7 +85,9 @@ test('canonical article link preserved under 280 and numbers retained in market/
   assert.equal(costClass(link), 'link');
   const m = market(), alert = marketMessage(m.events[0], m), daily = dailyMessage(m);
   assert.match(alert, /Observed liquidations/); assert.doesNotMatch(alert, /lower bound/); assert.match(alert, /\$60.00M/);
-  for (const s of ['$BTC', '$ETH', 'SOL', 'observed liquidations', 'Top mover: ABC']) assert.ok(daily.includes(s), daily);
+  // One cashtag per post (X 403 since 2026-10-21): BTC keeps the $, ETH and SOL stay plain.
+  for (const s of ['$BTC', '\nETH ', 'SOL', 'observed liquidations', 'Top mover: ABC']) assert.ok(daily.includes(s), daily);
+  assert.equal((daily.match(/(?<![\w$#&])\$[A-Za-z]/g) || []).length, 1, daily);
   assert.ok(weightedLength(daily) <= 280);
   assert.equal(costClass(daily), 'plain');
   assert.throws(() => dailyMessage({ ...m, market: { majors: [], movers: [] } }), /major/);
