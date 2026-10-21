@@ -33,7 +33,10 @@ test('four concise owner-page texts have one 23-unit URL, <=280 weighted units, 
     const text = postText(data(), locale, platform);
     // X gets one trailing tag line after a blank line; Telegram stays tag-free.
     const [body, tagLine] = platform === 'x' ? text.split('\n\n') : [text, null];
-    const lines = body.split('\n');
+    const all = body.split('\n');
+    // X carries a fifth line, our Telegram group (owner 2026-10-22); Telegram's own text does not.
+    if (platform === 'x') assert.equal(all.pop(), `${locale === 'en' ? 'Telegram: ' : 'Telegram 群：'}https://t.me/${locale === 'en' ? 'NexuAlphaGlobal' : 'NexuAlphaClub'}`);
+    const lines = all;
     assert.equal(lines.length, 4);
     assert.ok(weightedLength(text) <= 280);
     assert.equal(weightedLength(lines.at(-1)), 23);
@@ -202,7 +205,7 @@ test('one-sided market (one gainer, five losers) still renders truthfully', () =
     assert.equal(renderCard(d).readUInt32BE(16), 1200);
     for (const locale of ['zh-Hans', 'en']) {
       const text = postText(d, locale, 'x');
-      assert.equal(text.split('\n\n')[0].split('\n').length, 4); assert.doesNotMatch(text, /undefined/);
+      assert.equal(text.split('\n\n')[0].split('\n').length, 5); assert.doesNotMatch(text, /undefined/); // 4 card lines + our Telegram group line (owner 2026-10-22)
       assert.equal(/Top gainer|领涨/.test(text), up > 0); assert.equal(/Top loser|领跌/.test(text), down > 0);
     }
   }

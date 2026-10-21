@@ -275,7 +275,8 @@ const STAGE_VENUES = Object.freeze(["bitget", "okx", "binance", "hyperliquid", "
 // Hyperliquid has no rebate share; its referral benefit is a 4% perpetual fee discount (partner-registry `benefit`),
 // so the figure shows the fee that discount saves. Backpack has no checked fee: it shows its route label, never a number.
 const STAGE_FEE_SAVING = Object.freeze({ hyperliquid: 0.04 });
-const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方通道", "zh-Hant": "官方通道", en: "Official route" });
+// Short on purpose: the node sits at the stage edge and a long label is clipped on a 390 px phone (owner screenshot 2026-10-22).
+const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方", "zh-Hant": "官方", en: "Official" });
 function RebateStage({ locale, picks, venues, sel, volume }) {
   const rootRef = useRef(null);
   useEffect(() => {

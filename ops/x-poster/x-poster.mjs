@@ -6,6 +6,7 @@ import { pathToFileURL, fileURLToPath } from 'node:url';
 import { composeWithTags, dailyKeywords, readJsonSafe, CASHTAG } from './hashtags.mjs';
 
 const SITE = 'https://nexualpha.com';
+export const TELEGRAM_GROUP_URL = 'https://t.me/NexuAlphaGlobal';
 const API = 'https://api.x.com/2';
 const HOUR = 3600000;
 const encode = (s) => encodeURIComponent(s).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
@@ -110,7 +111,10 @@ export function linkMessage(a, ctx = {}) {
   const text = `${clean(a.title.en)}\n\n${dropPartnerSentences(clean(a.summary.en))}`.trim();
   if (unsafe(text)) throw new Error('content policy: prohibited wording');
   // The canonical URL is never truncated; tags follow it on the last line.
-  const fit = (budget) => `${truncate(text, budget - weightedLength(`\n${url}`))}\n${url}`;
+  // Owner 2026-10-22: every post that already carries a link also carries the Telegram group (one more URL costs nothing
+  // extra: X bills per post). Plain posts stay link-free, so the daily budget is unchanged.
+  const group = `Telegram: ${TELEGRAM_GROUP_URL}`;
+  const fit = (budget) => `${truncate(text, budget - weightedLength(`\n${url}\n${group}`))}\n${url}\n${group}`;
   return tagged(fit(280), 280, fit, { ...ctx, key: ctx.key || `link:${a.slug}` }, { link: true });
 }
 const number = (n) => { if (!Number.isFinite(n)) throw new Error('missing market number'); return n; };

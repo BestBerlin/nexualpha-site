@@ -36,6 +36,7 @@ export function ourLink(url) {
 }
 export const pageUrl = (locale, pathname, src) => `${SITE}${LOCALE_PATH[locale] ?? ''}${pathname}${src ? `?src=${src}` : ''}`;
 export const YT_TELEGRAM = 'https://t.me/NexuAlphaGlobal';
+export const TELEGRAM_GROUPS = Object.freeze(['https://t.me/NexuAlphaGlobal', 'https://t.me/NexuAlphaClub']);
 // YouTube description links: academy pages (optionally localized) and the course root only (youtube.md §24).
 export const ytLink = (url) => ourLink(url) && /^\/(?:[a-z-]+\/)?academy(?:\/|$)/i.test(new URL(url).pathname);
 const CASHTAG = /(?<![\w$#&])\$[A-Za-z][A-Za-z0-9_]*/gu;
@@ -65,7 +66,9 @@ export function checkSocialDraft(draft, { partners = [] } = {}) {
   if (PREDICTION.test(all)) errors.push('price prediction or guarantee');
   if (ANONYMITY.test(all)) errors.push('owner identity (anonymity rule)');
   // YouTube descriptions may also carry our Telegram (youtube.md §24); nothing else leaves nexualpha.com.
-  for (const url of linksIn(all)) if (!ourLink(url) && !(draft.channel === 'youtube' && url === YT_TELEGRAM)) errors.push(`link not to our page: ${url}`);
+  // Our own Telegram groups are allowed on X (owner 2026-10-22, only on posts that already carry a link) and in YouTube descriptions.
+  const groupUrl = (url) => TELEGRAM_GROUPS.includes(url);
+  for (const url of linksIn(all)) if (!ourLink(url) && !(draft.channel === 'youtube' && url === YT_TELEGRAM) && !(draft.channel === 'x' && groupUrl(url))) errors.push(`link not to our page: ${url}`);
   if (draft.link && !ourLink(draft.link)) errors.push('draft link must be a nexualpha.com page');
   const codes = new Map(partners.filter((p) => p?.inviteCode).map((p) => [String(p.inviteCode).toLowerCase(), p]));
   const codeShaped = (t) => codes.has(t.toLowerCase()) || /\d/.test(t) || /^[A-Z0-9_-]{4,}$/.test(t);

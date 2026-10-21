@@ -84,7 +84,9 @@ export function postText(data, locale, platform, tagging = null) {
   const text = [zh ? `今日异动 · ${data.day} SGT` : `Today's movers · ${data.day} SGT`,
     [data.up[0] && `${zh ? '领涨' : 'Top gainer'} ${data.up[0].sym} ${pct(data.up[0].change)}`,
       data.down[0] && `${zh ? '领跌' : 'Top loser'} ${data.down[0].sym} ${pct(data.down[0].change)}`].filter(Boolean).join(' · '),
-    zh ? `24h 已观测爆仓 ≥${money(data.total)}` : `24h observed liquidations ≥${money(data.total)}`, url].join('\n');
+    zh ? `24h 已观测爆仓 ≥${money(data.total)}` : `24h observed liquidations ≥${money(data.total)}`, url,
+    // Owner 2026-10-22: the X card also carries our Telegram group (zh → @NexuAlphaClub, en → @NexuAlphaGlobal).
+    ...(platform === 'x' ? [`${zh ? 'Telegram 群：' : 'Telegram: '}https://t.me/${zh ? 'NexuAlphaClub' : 'NexuAlphaGlobal'}`] : [])].join('\n');
   if (weightedLength(text) > 280) throw new Error('Text exceeds X weighted limit');
   if (platform !== 'x') return text;
   const out = composeWithTags({ body: text, fit: null, max: 280, weightedLength, key: `daily-social:${data.day}`, locale,
