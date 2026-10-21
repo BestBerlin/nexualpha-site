@@ -28,10 +28,17 @@ On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 9
   must be inside the release tarball. Social cards (`/og/*.png`, `server/og-image.mjs`) need `node_modules/@resvg` with
   the Linux gnu+musl binaries — on a Mac build use `npm pack` + extract (npm refuses cross-platform installs); fonts
   come from the host mount `/data/private/nexualpha/og-fonts` (DejaVu = Latin/Cyrillic/Arabic, WenQuanYi = CJK).
-- The article publisher (`AEO Crypto Factory/scripts/nexualpha-content-publish.mjs`) imports site scripts from the old
-  checkout `/Users/bestberlin/Documents/ChatGPT/Crypto聚合/pilot-01-prototype`, not this repo: after changing
-  `scripts/update-news-seo.mjs`, `import-nexualpha-content.mjs`, `sitemap-publication-policy.mjs`,
-  `generate-prerender-manifest.mjs`, `src/data/news-feed-client.js`, `news-library.js` or `news-listing-path.js` (news-library imports it), copy them there.
+- The article publisher (`/Volumes/致态2TB/AEO-Crypto-Factory/scripts/nexualpha-content-publish.mjs`) imports site
+  scripts from its own detached worktree `/Volumes/致态2TB/NexuAlpha/publisher/site`, refreshed from origin/main at the
+  start of every run (since 2026-10-19; the iCloud checkout is gone): a change to `scripts/update-news-seo.mjs`,
+  `import-nexualpha-content.mjs`, `sitemap-publication-policy.mjs`, `generate-prerender-manifest.mjs` or the news data
+  libraries reaches the publisher only once it is merged to main.
+- Daily green board (2026-10-22): `/Volumes/致态2TB/nx-agents/jobs/bin/green-board.mjs` judges every module on what
+  reached the public (articles, X, Telegram, off-site, YouTube, SEO jobs, index sample, clicks, backups) and DMs the owner
+  at 23:40; `NexuAlpha/growth/GREEN-BOARD.md` is the record. The prod copies of `ops/x-poster` and
+  `ops/daily-social-cards` (`/data/agent/srv/stacks/crypto-telegram-ops/{x-poster,daily-social/repo/ops}`) are not
+  deployed by deploy-local.sh: scp them after a change and bump `daily-social/repo/REVISION`. X allows one cashtag per
+  post (403 otherwise); `hashtags.mjs` enforces it for every poster.
 - Data pages `/liquidations` and `/funding-rates` (15 locales) render from the market feed mounted at
   `MARKET_EVENTS_FILE` (host `/data/agent/state/market/market-events.json`, written by `ops/market-collector`).
   Sign-up click attribution: Telegram traffic via `/go/<partner>?src=`, site buttons via the `/api/cta-click` beacon
