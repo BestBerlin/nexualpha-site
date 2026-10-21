@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 const source = readFileSync('src/components/v7/HomeV7.jsx', 'utf8');
 const css = readFileSync('src/styles/v7/home7.src.css', 'utf8');
 test('stage shares actual hero state without a separate volume demo', () => {
-  assert.match(source, /<RebateStage locale={locale} picks={heroPicks} sel={sel} volume={heroVolume}/);
+  assert.match(source, /<RebateStage locale={locale} picks={heroPicks} venues={venues} sel={sel} volume={heroVolume}/);
   assert.doesNotMatch(source, /hx-mac|useScreenDemo|animateMotion/);
   assert.match(source, /data-final-value={Math.round\(back\)}/);
   assert.match(css, /500ms cubic-bezier\(\.2,\.8,\.2,1\)/);

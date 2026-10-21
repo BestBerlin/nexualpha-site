@@ -97,7 +97,10 @@ test("SSR /zh-hans: live sentence, $3,600, dial at 1000 万 U, code and /go CTA,
   assert.match(doc.querySelector(".hx-go").getAttribute("href"), /^\/go\/bitget\?/);
   const rows = [...doc.querySelectorAll(".hx-stage .h7-sr li")].map((li) => li.textContent.replace(/\s+/g, " ").trim());
   assert.ok(rows.some((row) => row.includes("Bitget") && row.includes("$3,600")), rows.join(" | "));
-  assert.ok(rows.some((row) => row.includes("HTX") && row.includes("$2,400")), "HTX appears with its checked fee");
+  // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid (4% fee discount) and Backpack (no checked fee: label, no number); HTX/Gate.io stay in the tabs only.
+  assert.ok(rows.some((row) => row.includes("Hyperliquid") && row.includes("$180")), rows.join(" | "));
+  assert.ok(rows.some((row) => row.includes("Backpack") && !/\$/.test(row)), rows.join(" | "));
+  assert.ok(!rows.some((row) => /HTX|Gate/.test(row)), rows.join(" | "));
   assert.equal(doc.querySelector(".hx-stage-art").getAttribute("aria-hidden"), "true");
   assert.equal(doc.querySelector(".h7-hero .ht, #h7-terminal-root"), null, "no price terminal on the CTA hero");
   close();
