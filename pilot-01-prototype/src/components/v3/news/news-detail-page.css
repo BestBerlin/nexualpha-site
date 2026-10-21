@@ -1235,3 +1235,37 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   overflow-wrap: anywhere;
 }
 .news-detail-page .news-detail__search-answer strong { font-weight: 650; }
+
+/* Telegram channel join card under the article header (owner 2026-10-22): visible before the body on every article. */
+.news-tg-join {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 1.25rem 0 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(103, 232, 249, 0.35);
+  border-radius: 12px;
+  background: rgba(103, 232, 249, 0.06);
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.news-tg-join svg { flex: none; color: #67e8f9; }
+.news-tg-join__copy { flex: 1 1 14rem; min-width: 0; display: grid; gap: 2px; }
+.news-tg-join__copy b { color: #f1f5f9; font-weight: 650; }
+.news-tg-join a {
+  flex: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: #2aabee;
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+}
+.news-tg-join a:hover, .news-tg-join a:focus-visible { background: #229ed9; }
+@media (max-width: 480px) { .news-tg-join a { inline-size: 100%; justify-content: center; } }

@@ -138,10 +138,10 @@ export function finishX(post, tagging, now) {
   // URLs in the body are dropped: the single allowed link is appended once from post.link.
   const body = String(post.text ?? '').replace(/https?:\/\/\S+/g, '').replace(/(?<![\w$#&])[#$][\p{L}\p{N}_]+/gu, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
   const link = post.link && ourLink(post.link) ? post.link : null;
-  // Owner 2026-10-22: a post that already carries a link also carries our Telegram group (zh-Hans → Club, others → Global); plain posts stay link-free.
-  const group = link ? `Telegram: ${post.locale === 'zh-Hans' ? 'https://t.me/NexuAlphaClub' : 'https://t.me/NexuAlphaGlobal'}` : null;
-  const tail = link ? `\n${link}\n${group}` : '';
-  const fit = (budget) => (link ? `${truncate(body, budget - weightedLength(tail))}${tail}` : truncate(body, budget));
+  // Owner 2026-10-22: every X post carries our Telegram channel (zh-Hans -> Club, others -> Global), with or without a page link.
+  const group = `Telegram: ${post.locale === 'zh-Hans' ? 'https://t.me/NexuAlphaClub' : 'https://t.me/NexuAlphaGlobal'}`;
+  const tail = link ? `\n${link}\n${group}` : `\n${group}`;
+  const fit = (budget) => `${truncate(body, budget - weightedLength(tail))}${tail}`;
   const out = composeWithTags({ body: fit(280), fit, max: 280, weightedLength, key: `social:${post.locale}:${post.topicRef ?? ''}`, locale: post.locale,
     keywords: tagging.keywords ?? [], extraTickers: [...(tagging.extraTickers ?? []), ...STOCK_TICKERS], now });
   return { text: out.text, link, tags: out.tags };

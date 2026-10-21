@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { moversWithFallback, generate, dailySlotDue, normalize, feedSources, MAX_SOURCE_AGE_MS, postText, renderCard, cardSvg, channelFor, sgtDay, postDaily, main, CARD_LABELS, CJK_FONT, redact, failureLine } from './generate.mjs';
 import { weightedLength, xClient } from '../x-poster/x-poster.mjs';
+import { EVERGREEN } from '../x-poster/hashtags.mjs';
 import { sendPhoto, token } from '../alert-sender/alert-sender.mjs';
 
 // A real 1x1 RGBA PNG (valid IHDR/IDAT/IEND with CRCs), so tests exercise the PNG-only upload guard honestly.
@@ -47,7 +48,7 @@ test('four concise owner-page texts have one 23-unit URL, <=280 weighted units, 
       const tags = tagLine.split(' ').concat(body.match(/\$[A-Z][A-Z0-9]+/g) || []).filter((t, i, a) => a.indexOf(t) === i);
       assert.ok(tags.length >= 2 && tags.length <= 4, tags.join(' '));
       assert.ok(tagLine.split(' ').every((t) => /^[#$]\S+$/.test(t)), tagLine);
-      assert.ok(tagLine.split(' ').some((t) => (locale === 'en' ? ['#crypto', '#Bitcoin', '#CryptoNews', '#Web3'] : ['#加密货币', '#比特币', '#crypto', '#CryptoNews']).includes(t)), tagLine);
+      assert.ok(tagLine.split(' ').some((t) => EVERGREEN[locale === 'en' ? 'en' : 'zh'].includes(t)), tagLine);
       assert.equal(text, postText(data(), locale, platform), 'deterministic');
     } else assert.doesNotMatch(text, /#/);
   }

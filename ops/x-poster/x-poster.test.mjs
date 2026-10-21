@@ -1,3 +1,5 @@
+// Budget/billing machinery is tested with the Telegram line off (plain vs link); the line itself has its own test.
+process.env.X_TELEGRAM_LINE = '0';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';

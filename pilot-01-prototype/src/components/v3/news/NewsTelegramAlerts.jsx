@@ -47,3 +47,40 @@ export function NewsTelegramAlerts({ locale = "en" }) {
     </aside>
   );
 }
+
+// Channel join card at the TOP of every article (owner 2026-10-22: the Telegram entry was buried at the end, nobody
+// found it). Keyword copy for promotable locales (rebates / Bitcoin / tokenized stocks); neutral locales (zh-Hant, ru,
+// ar, ur, uk, vi) carry information only, no rebate or sign-up wording.
+export const TELEGRAM_CHANNELS = { club: "https://t.me/NexuAlphaClub", global: "https://t.me/NexuAlphaGlobal", ru: "https://t.me/NexuAlphaRU" };
+export function telegramChannelFor(locale = "en") {
+  if (locale === "zh-Hans" || locale === "zh-Hant") return TELEGRAM_CHANNELS.club;
+  if (locale === "ru") return TELEGRAM_CHANNELS.ru;
+  return TELEGRAM_CHANNELS.global;
+}
+const JOIN_NEUTRAL_EN = ["Follow NexuAlpha on Telegram", "Bitcoin moves, liquidations and tokenized stocks, every day", "Join channel"];
+export const TELEGRAM_JOIN_COPY = {
+  "zh-Hans": ["加入 NexuAlpha 中文频道", "交易所返佣省钱、比特币行情、代币化美股，每天更新", "加入频道"],
+  "zh-Hant": ["加入 NexuAlpha 頻道", "比特幣行情、爆倉數據、代幣化美股，每天更新", "加入頻道"],
+  en: ["Join NexuAlpha on Telegram", "Exchange fee rebates, Bitcoin moves and tokenized stocks, every day", "Join channel"],
+  es: ["Únete a NexuAlpha en Telegram", "Reembolsos de comisiones, movimientos de Bitcoin y acciones tokenizadas, cada día", "Unirse"],
+  "pt-BR": ["Entre no canal NexuAlpha no Telegram", "Cashback de taxas, movimentos do Bitcoin e ações tokenizadas, todos os dias", "Entrar no canal"],
+  id: ["Gabung NexuAlpha di Telegram", "Rabat biaya bursa, pergerakan Bitcoin, dan saham tokenisasi setiap hari", "Gabung"],
+  tr: ["Telegram'da NexuAlpha'yı takip edin", "Borsa komisyon indirimleri, Bitcoin hareketleri ve tokenize hisseler, her gün", "Katıl"],
+  ru: ["Подписывайтесь на NexuAlpha в Telegram", "Движения биткоина, ликвидации и токенизированные акции — каждый день", "Подписаться"],
+  vi: ["Theo dõi NexuAlpha trên Telegram", "Biến động Bitcoin, thanh lý và cổ phiếu token hóa mỗi ngày", "Tham gia"],
+  ar: ["تابع NexuAlpha على تيليجرام", "تحركات البيتكوين والتصفيات والأسهم المرمّزة يوميًا", "انضم"],
+  uk: ["Стежте за NexuAlpha у Telegram", "Рух біткоїна, ліквідації та токенізовані акції щодня", "Підписатися"],
+  ur: JOIN_NEUTRAL_EN,
+};
+export const telegramJoinCopy = (locale) => TELEGRAM_JOIN_COPY[locale] || TELEGRAM_JOIN_COPY.en;
+
+export function NewsTelegramJoin({ locale = "en" }) {
+  const [title, text, action] = telegramJoinCopy(locale);
+  return (
+    <aside className="news-tg-join" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} lang={locale} data-news-tg-join="">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2m12-9-4 16-8-7m12-9L9 13" /></svg>
+      <span className="news-tg-join__copy"><b>{title}</b><span>{text}</span></span>
+      <a href={telegramChannelFor(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-join">{action} <span aria-hidden="true">→</span></a>
+    </aside>
+  );
+}

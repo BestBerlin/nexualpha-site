@@ -24,7 +24,7 @@ export const POST_DEFAULTS = {
   sshHost: 'nexualpha-prod',
   botEnvFile: '/srv/agent/stacks/crypto-telegram-ops/community-poller.env',
   // Social posts come on top of the automatic x-poster (10 plain + 1 link/day on prod) and channel feeds.
-  xPerDay: 4, xLinkPerDay: 1, telegramPerChatPerDay: 3,
+  xPerDay: 4, xLinkPerDay: 4, telegramPerChatPerDay: 3, // every X post now carries the Telegram link (owner 2026-10-22), so all 4 are link posts
 };
 const sgtDay = (t) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Singapore' }).format(new Date(t));
 

@@ -76,10 +76,20 @@ function guard(text, { link = false } = {}) {
   return text;
 }
 // Tag context: { keywords, extraTickers, now, locale, key }. Missing context still yields 2 tags.
-function tagged(body, max, fit, ctx = {}, { link = false } = {}) {
+// Owner 2026-10-22: EVERY post carries our Telegram channel ("发推特一定要带上 Telegram 入口"), so every post is a link
+// post for X billing; prod caps were raised to match (scheduler.sh MAX_LINK_PER_DAY).
+const GROUP_LINE = `Telegram: ${'https://t.me/NexuAlphaGlobal'}`;
+// X_TELEGRAM_LINE=0 turns it off (tests of the plain/link budget machinery run with it off).
+function withGroup(body, fit) {
+  if (process.env.X_TELEGRAM_LINE === '0' || String(body).includes('t.me/NexuAlpha')) return { body, fit };
+  const tail = `\n${GROUP_LINE}`;
+  return { body: `${body}${tail}`, fit: fit ? (budget) => `${fit(budget - weightedLength(tail))}${tail}` : null };
+}
+function tagged(rawBody, max, rawFit, ctx = {}) {
+  const { body, fit } = withGroup(rawBody, rawFit);
   const out = composeWithTags({ body, fit, max, weightedLength, top: Boolean(ctx.top), key: ctx.key || '', locale: ctx.locale || 'en',
     keywords: ctx.keywords || [], extraTickers: ctx.extraTickers || [], now: ctx.now ?? Date.now() });
-  guard(out.text, { link });
+  guard(out.text, { link: true });
   if (weightedLength(out.text) > max) throw new Error('post exceeds weighted limit');
   return out.text;
 }
@@ -113,9 +123,9 @@ export function linkMessage(a, ctx = {}) {
   // The canonical URL is never truncated; tags follow it on the last line.
   // Owner 2026-10-22: every post that already carries a link also carries the Telegram group (one more URL costs nothing
   // extra: X bills per post). Plain posts stay link-free, so the daily budget is unchanged.
-  const group = `Telegram: ${TELEGRAM_GROUP_URL}`;
-  const fit = (budget) => `${truncate(text, budget - weightedLength(`\n${url}\n${group}`))}\n${url}\n${group}`;
-  return tagged(fit(280), 280, fit, { ...ctx, key: ctx.key || `link:${a.slug}` }, { link: true });
+  const tail = process.env.X_TELEGRAM_LINE === '0' ? `\n${url}` : `\n${url}\nTelegram: ${TELEGRAM_GROUP_URL}`;
+  const fit = (budget) => `${truncate(text, budget - weightedLength(tail))}${tail}`;
+  return tagged(fit(280), 280, fit, { ...ctx, key: ctx.key || `link:${a.slug}` });
 }
 const number = (n) => { if (!Number.isFinite(n)) throw new Error('missing market number'); return n; };
 const usd = (n) => '$' + number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });

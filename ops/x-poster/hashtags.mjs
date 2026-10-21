@@ -53,7 +53,8 @@ export const TOPICS = Object.freeze({
 export const VENUES = Object.freeze([['Bitget', /\bBitget\b/i], ['OKX', /\bOKX\b/i], ['Binance', /\bBinance\b|币安/i],
   ['Bybit', /\bBybit\b/i], ['Gate', /\bGate(?:\.io)?\b(?= |$|[,.:;])/], ['HTX', /\bHTX\b/], ['KuCoin', /\bKuCoin\b/i], ['Kraken', /\bKraken\b/i], ['Coinbase', /\bCoinbase\b/i]]);
 // Evergreen brand/category tags, rotated deterministically.
-export const EVERGREEN = Object.freeze({ en: ['#crypto', '#Bitcoin', '#CryptoNews', '#Web3'], zh: ['#加密货币', '#比特币', '#crypto', '#CryptoNews'] });
+// Owner 2026-10-22: evergreen tags are the search keywords we want to be found for (rebates/saving fees, Bitcoin, crypto, tokenized stocks).
+export const EVERGREEN = Object.freeze({ en: ['#Bitcoin', '#crypto', '#TokenizedStocks', '#CryptoRebate', '#SaveOnFees'], zh: ['#返佣', '#省钱', '#比特币', '#币圈', '#代币化股票'] });
 // Never emitted, whatever the sources say (spam, gambling, giveaways, price calls, tax, sanctioned topics).
 export const BANNED = /^(?:giveaway|airdrops?|freecrypto|100x|1000x|moon|tothemoon|lambo|pump|pumpanddump|gem|gems|signals?|casino|gambling|bet|nsfw|porn|tax|taxfree|scam|rugpull|presale|nft giveaway|pricepredictions?)$/i;
 export const MAX_TAGS = 4, MIN_TAGS = 2;
