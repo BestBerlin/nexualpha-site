@@ -179,6 +179,32 @@ function CopyCode({ code, t }) {
   return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
 }
 
+// The invite code under the hero button: travels with the sign-up link, shown for reassurance, copy is one tap. Only
+// CTA locales reach it (neutral locales render no code); a locale without its own line reads the English one.
+const CODE_AUTO = Object.freeze({
+  en: "Code {code} applied automatically", "zh-Hans": "邀请码 {code} 已自动填写", es: "Código {code} aplicado automáticamente",
+  "pt-BR": "Código {code} aplicado automaticamente", fr: "Code {code} appliqué automatiquement", de: "Code {code} wird automatisch übernommen",
+  it: "Codice {code} applicato in automatico", ja: "招待コード {code} は自動で適用", ko: "초대 코드 {code} 자동 적용",
+  tr: "{code} kodu otomatik uygulanır", id: "Kode {code} otomatis terpasang",
+});
+// "Applied automatically" only when the sign-up URL itself carries the shown code (2026-10-22: Bitget's partner short
+// link resolves to a different vipCode, so its line must not claim nexu888 is pre-filled).
+const CODE_PLAIN = Object.freeze({
+  en: "Invite code {code}", "zh-Hans": "邀请码 {code}", es: "Código {code}", "pt-BR": "Código {code}", fr: "Code {code}",
+  de: "Code {code}", it: "Codice {code}", ja: "招待コード {code}", ko: "초대 코드 {code}", tr: "Kod {code}", id: "Kode {code}",
+});
+const codeInUrl = (venue) => Boolean(venue.code && venue.url && venue.url.toLowerCase().includes(String(venue.code).toLowerCase()));
+function HeroCode({ locale, venue, t }) {
+  const auto = codeInUrl(venue);
+  const lines = auto ? CODE_AUTO : CODE_PLAIN;
+  const [before, after = ""] = (lines[h7IsFallback(locale) ? "en" : locale] || lines.en).split("{code}");
+  return <p className="hx-code">
+    {auto ? <svg className="hx-code-ok" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" /></svg> : null}
+    <span className="hx-code-t"><span className="h7-sr">{venue.name} </span>{before}<code>{venue.code}</code>{after}</span>
+    <CopyCode code={venue.code} t={t} />
+  </p>;
+}
+
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 const HERO_EASE = "cubic-bezier(.16,1,.3,1)";
 // Brand tint (RGB triplet) for the indicator, the dial thumb halo and the glow behind the figure.
@@ -269,79 +295,80 @@ function HeroRebate({ locale, venue, amount, quickRef }) {
   );
 }
 
-// Desktop device (≥1024 only, owner 2026-10-14): a laptop showing a real NexuAlpha screen, /rates, for the visitor's own
-// volume. Each partner row: the fee that volume pays (volume × perpetual taker) and what comes back (× partner share).
-// Same numbers as the figure, so the screen is proof, not decoration. Rows follow the dial and the exchange switch.
-// Stable slots keep every venue mounted while the selected chip moves to the centre.
-const STAGE_SLOTS = [[18, 22], [82, 25], [16, 73], [84, 72], [50, 88]];
+// Rebate globe (owner 2026-10-22): the partners around a turning dotted globe, each chip with what the visitor's own volume
+// gets back there (same numbers as the figure), arcs and pulses from every partner to "you". The server renders a still
+// SVG globe and the chips in a box whose size comes from CSS only; the canvas animation (home7-globe.js, its own chunk)
+// loads after the page has loaded and lays itself over the same circle, so first paint and CLS do not depend on it.
 // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid and Backpack (not HTX / Gate.io; those stay
 // selectable under the tabs' "更多"). A venue picked in the tabs that is not in this list takes the last slot.
+const STAGE_SLOTS = 5;
 const STAGE_VENUES = Object.freeze(["bitget", "okx", "binance", "hyperliquid", "backpack"]);
 // Backpack has no checked fee: it shows its route label, never a number. Hyperliquid's share is the owner's 30% (2026-10-22).
-// Short on purpose: the node sits at the stage edge and a long label is clipped on a 390 px phone (owner screenshot 2026-10-22).
-const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方", "zh-Hant": "官方", en: "Official" });
+const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方", "zh-Hant": "官方", en: "Official", ja: "公式", ko: "공식", es: "Oficial", "pt-BR": "Oficial", fr: "Officiel", de: "Offiziell", it: "Ufficiale", tr: "Resmî", id: "Resmi" });
+const loadGlobe = () => import("./home7-globe.js");
 function RebateStage({ locale, picks, venues, sel, volume }) {
-  const rootRef = useRef(null);
+  const rootRef = useRef(null), hostRef = useRef(null), globeRef = useRef(null), selRef = useRef(sel.slug);
+  selRef.current = sel.slug;
   useEffect(() => {
-    const root = rootRef.current;
-    const sync = () => {
-      const rect = root.getBoundingClientRect();
-      root.dataset.paused = String(document.hidden || rect.bottom <= 0 || rect.top >= window.innerHeight);
-    };
-    sync();
-    window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
-    document.addEventListener("visibilitychange", sync);
+    let off = false, handle = 0;
+    const start = () => loadGlobe().then(({ mountGlobe }) => {
+      if (off || !hostRef.current) return;
+      globeRef.current = mountGlobe(hostRef.current, rootRef.current, reducedMotion());
+      globeRef.current?.select(selRef.current);
+    }, () => {});
+    const later = () => { handle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 800); };
+    if (document.readyState === "complete") later(); else window.addEventListener("load", later, { once: true });
     return () => {
-      window.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-      document.removeEventListener("visibilitychange", sync);
+      off = true;
+      window.removeEventListener("load", later);
+      if (window.cancelIdleCallback) cancelIdleCallback(handle); else clearTimeout(handle);
+      globeRef.current?.destroy(); globeRef.current = null;
     };
   }, []);
+  useEffect(() => { globeRef.current?.select(sel.slug); }, [sel.slug, volume]);
   const say = heroSay(locale);
   const routeLabel = STAGE_ROUTE_LABEL[locale] || STAGE_ROUTE_LABEL.en;
   // Only venues this market's home already offers (Türkiye gating happens upstream in useVenues/heroPicks).
   const known = new Map([...venues, ...picks].map((venue) => [venue.slug, venue]));
   const shown = STAGE_VENUES.map((slug) => picks.find((v) => v.slug === slug) || known.get(slug)).filter(Boolean);
   // A market that may not show some of them (Türkiye: no Bitget/Hyperliquid/Backpack) fills the free slots with its other rebated partners.
-  for (const venue of picks) if (shown.length < STAGE_SLOTS.length && !shown.some((v) => v.slug === venue.slug)) shown.push(venue);
-  if (sel && !shown.some((v) => v.slug === sel.slug)) shown.splice(Math.min(shown.length, STAGE_SLOTS.length) - 1, 1, sel);
-  const rows = shown.slice(0, STAGE_SLOTS.length).map((venue) => {
+  for (const venue of picks) if (shown.length < STAGE_SLOTS && !shown.some((v) => v.slug === venue.slug)) shown.push(venue);
+  if (sel && !shown.some((v) => v.slug === sel.slug)) shown.splice(Math.min(shown.length, STAGE_SLOTS) - 1, 1, sel);
+  const rows = shown.slice(0, STAGE_SLOTS).map((venue) => {
     const fact = feeFact(venue.slug, "perp");
-    const share = venue.share;
-    return { venue, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, share) };
+    return { venue, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, venue.share) };
   }).filter((row) => row.back != null || row.venue.slug === "backpack");
-  const selectedIndex = rows.findIndex(({ venue }) => venue.slug === sel.slug);
-  const slot = (index) => index === selectedIndex ? [50, 47] : STAGE_SLOTS[index === 0 ? selectedIndex - 1 : index - 1] || STAGE_SLOTS[0];
+  const screen = say.screen.replace("{vol}", heroVolumeText(volume, locale));
   return (
     <figure className="hx-stage" ref={rootRef} data-demo="off">
       <div className="hx-stage-art" aria-hidden="true">
-        <div className="hx-stage-grid" />
-        <svg className="hx-stage-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {rows.map(({ venue }, index) => {
-            const [x, y] = slot(index);
-            return venue.slug === sel.slug ? null : <path key={venue.slug} d={`M ${x} ${y} Q 50 ${y} 50 47`} />;
-          })}
-        {rows.map(({ venue }, index) => {
-          const [x, y] = slot(index);
-          return venue.slug === sel.slug ? null : <circle r=".65" key={venue.slug} className="hx-stage-flow" style={{ offsetPath: `path("M ${x} ${y} Q 50 ${y} 50 47")`, "--delay": `${-index * .8}s` }} />;
-        })}
+        <svg className="hx-globe-svg" viewBox="-50 -50 100 100" focusable="false">
+          <defs>
+            <radialGradient id="hx-globe-fill" cx="38%" cy="32%" r="75%">
+              <stop offset="0" stopColor="#12323A" /><stop offset=".55" stopColor="#0A161B" /><stop offset="1" stopColor="#07090C" />
+            </radialGradient>
+          </defs>
+          <circle r="40" className="hx-globe-halo" />
+          <circle r="34" fill="url(#hx-globe-fill)" className="hx-globe-rim" />
+          <g className="hx-globe-grid">
+            {[0.28, 0.62, 0.9].map((k) => <ellipse key={`m${k}`} rx={34 * k} ry="34" />)}
+            {[-22, 0, 22].map((y) => <ellipse key={`p${y}`} cy={y} rx={Math.sqrt(34 * 34 - y * y)} ry={Math.sqrt(34 * 34 - y * y) * 0.22} />)}
+          </g>
+          <circle r="1.6" cx="-5.4" cy="-8.6" className="hx-globe-hub" />
         </svg>
-        <div className="hx-stage-ring" />
-        {rows.map(({ venue, back }, index) => {
-          const selected = venue.slug === sel.slug;
-          const [x, y] = slot(index);
-          return <div key={venue.slug} className="hx-stage-node" data-on={selected ? "" : undefined} data-venue={venue.slug} style={{ "--x": `${x}%`, "--y": `${y}%` }}>
-            <BrandMark slug={venue.slug} compact priority={selected} />
-            <span className="hx-stage-label">{selected ? say.back : venue.name}</span>
+        <div className="hx-globe" ref={hostRef} />
+        {rows.map(({ venue, back }, index) => (
+          <div key={venue.slug} className="hx-stage-node" data-slot={index} data-on={venue.slug === sel.slug ? "" : undefined} data-venue={venue.slug}>
+            <BrandMark slug={venue.slug} compact priority={venue.slug === sel.slug} />
+            <span className="hx-stage-label">{venue.name}</span>
             {back == null
               ? <b className="hx-stage-value hx-stage-route">{routeLabel}</b>
               : <b className="hx-stage-value" data-final-value={Math.round(back)}>{heroMoneyText(back, locale)}</b>}
-          </div>;
-        })}
+          </div>
+        ))}
       </div>
-      <figcaption className="hx-stage-caption"><i />{say.live} · {say.screen.replace("{vol}", heroVolumeText(volume, locale))}</figcaption>
-      <ul className="h7-sr" aria-label={say.screen.replace("{vol}", heroVolumeText(volume, locale))}>
+      <figcaption className="hx-stage-caption"><i />{say.live} · {screen}</figcaption>
+      <ul className="h7-sr" aria-label={screen}>
         {rows.map(({ venue, back }) => <li key={venue.slug}>{venue.name}: {back == null ? routeLabel : heroMoneyText(back, locale)}</li>)}
       </ul>
     </figure>
@@ -641,9 +668,11 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
         <aside className="h7-lg hx-hero-panel" id="h7-desk" aria-label={t.lgTitle} data-pick={sel.slug}>
           <HeroRebate locale={locale} venue={sel} amount={heroAmount} quickRef={dragRef} />
           <HeroVolumeDial locale={locale} step={heroStep} onStep={pickStep} dragRef={dragRef} onTouch={stopCycle} />
-          <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
-          {sel.code && <p className="hx-code"><span className="h7-sr">{sel.name} </span><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
+          {/* Hero CTA simplification (2026-10-22): one dominant button straight under the promise, the code as a quiet
+              confirmation line under it (the sign-up link carries it; copy is one tap), the exchange switch last and light. */}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
+          {sel.code && <HeroCode locale={locale} venue={sel} t={t} />}
+          <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
         </aside>
         )}
         {!banned && editorial && <p className="h7-trust-line">{t.t1} · {t.t2} · {t.t3}</p>}

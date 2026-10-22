@@ -151,11 +151,13 @@ test("Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, s
 test("stage has no independent volume demo and pauses decorative motion", async () => {
   const { readFile } = await import("node:fs/promises");
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
+  const globe = await readFile(new URL("../src/components/v7/home7-globe.js", import.meta.url), "utf8");
   assert.doesNotMatch(home, /useScreenDemo|DEMO_STEPS/);
-  assert.match(home, /document.hidden/);
-  assert.match(home, /visibilitychange/);
-  assert.match(home, /rect.bottom <= 0/);
   assert.match(home, /data-demo="off"/);
+  // Globe (2026-10-22): the animation module stops while the tab is hidden or the stage is off-screen.
+  assert.match(globe, /document.hidden/);
+  assert.match(globe, /visibilitychange/);
+  assert.match(globe, /IntersectionObserver/);
 });
 
 test("SSR: the brand mark sits inside the figure's line box", async () => {
