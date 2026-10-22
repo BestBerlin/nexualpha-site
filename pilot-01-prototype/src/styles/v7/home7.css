@@ -1308,3 +1308,115 @@
 .h7:not(#_):not(#_) .h7-latest nav a { display: inline-flex; align-items: center; min-height: 44px; }
 .h7:not(#_):not(#_) .h7-latest a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 @media (max-width: 640px) { .h7:not(#_):not(#_) .h7-latest li { flex-direction: column; gap: 4px; } .h7:not(#_):not(#_) .h7-latest li a { display: flex; align-items: center; min-height: 44px; } }
+
+/* ===== Flow pass (2026-10-23, owner: below the hero felt "断层" and "死气沉沉") =====
+   One canvas, one rhythm, one rule, two surfaces, and quiet motion. Out of scope here: hero, partner strip, whale board.
+   - Canvas: .h7 is an isolated stacking context; its ::before paints a dot grid and slow colour fields that flow behind
+     every section below the hero (static paint, faded in under the partner strip), so no section is a hard band.
+   - Rhythm: every below-hero section pads only its top with one of two steps (--fl-s1 modules, --fl-s2 stories).
+   - Rule: each section opens with the site's section rule (running number, teal node, hairline) at the same distance
+     above its heading; it is absolutely positioned, so grids (stocks, calculator) and layout are untouched.
+   - Surfaces: interactive tools are panels (12px radius, hairline, faint fill, hover lift); lists stay hairline ledgers
+     whose rows light a 2px start bar on hover.
+   - Motion: transform/opacity only (no layout, CLS 0), no scroll-driven or entrance animation (content is never hidden),
+     everything off under prefers-reduced-motion. */
+.h7:not(#_):not(#_):not(#_){position:relative;isolation:isolate;counter-reset:h7-flow;--fl-s1:clamp(72px,6vw,88px);--fl-s2:clamp(88px,8vw,112px);--fl-rule:40px;--fl-panel:rgb(255 255 255/.025)}
+.h7:not(#_):not(#_):not(#_)::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(rgb(255 255 255/.055) 1px,transparent 1.5px) 0 0/28px 28px,
+    radial-gradient(42% 7% at 88% 20%,rgb(49 92 255/.09),transparent 70%),
+    radial-gradient(40% 7% at 6% 36%,rgb(31 224 192/.06),transparent 70%),
+    radial-gradient(44% 7% at 92% 54%,rgb(49 92 255/.08),transparent 70%),
+    radial-gradient(40% 7% at 8% 72%,rgb(31 224 192/.06),transparent 70%),
+    radial-gradient(46% 8% at 80% 90%,rgb(49 92 255/.08),transparent 70%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,transparent 9%,#000 15%,#000 97%,transparent);
+  mask-image:linear-gradient(180deg,transparent 0,transparent 9%,#000 15%,#000 97%,transparent)}
+
+/* Rhythm */
+.h7:not(#_):not(#_):not(#_) :is(.h7-ts,.h7-how,.h7-data,.h7-latest,.h7-fiat,.h7-calc,.h7-fr,.h7-intel,.h7-tg){position:relative;padding-block-start:var(--fl-pt)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-ts,.h7-data,.h7-latest,.h7-fiat){--fl-pt:var(--fl-s1)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-how,.h7-calc,.h7-fr,.h7-intel,.h7-tg){--fl-pt:var(--fl-s2)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-ts,.h7-how,.h7-data,.h7-latest,.h7-fiat,.h7-calc,.h7-fr,.h7-intel){padding-block-end:0}
+.h7:not(#_):not(#_):not(#_) .h7-tg{padding-block-end:var(--fl-s2)}
+.h7:not(#_):not(#_):not(#_) .h7-academy{padding-block-start:32px}
+
+/* Section rule: 01 ●───────── (decorative; the number is hidden from assistive tech where the alt syntax works). */
+.h7:not(#_):not(#_):not(#_) :is(.h7-ts,.h7-how,.h7-data,.h7-latest,.h7-fiat,.h7-calc,.h7-fr,.h7-intel,.h7-tg)::before{
+  content:counter(h7-flow,decimal-leading-zero);content:counter(h7-flow,decimal-leading-zero)/"";counter-increment:h7-flow;
+  position:absolute;inset-inline:var(--pad);top:calc(var(--fl-pt) - var(--fl-rule));block-size:16px;pointer-events:none;
+  font:500 12px/16px var(--mono);letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--ink3);
+  background:
+    radial-gradient(circle,#1FE0C0 0 2.5px,rgb(31 224 192/.22) 3px 5px,transparent 5.5px) no-repeat 28px 50%/12px 12px,
+    linear-gradient(90deg,rgb(31 224 192/.45),rgb(255 255 255/.14) 72px,rgb(255 255 255/.08) 72%,transparent) no-repeat 46px 50%/calc(100% - 46px) 1px}
+.h7:not(#_):not(#_):not(#_) :is(.h7-ts,.h7-how,.h7-data,.h7-latest,.h7-fiat,.h7-calc,.h7-fr,.h7-intel,.h7-tg):dir(rtl)::before{
+  background:
+    radial-gradient(circle,#1FE0C0 0 2.5px,rgb(31 224 192/.22) 3px 5px,transparent 5.5px) no-repeat right 28px center/12px 12px,
+    linear-gradient(270deg,rgb(31 224 192/.45),rgb(255 255 255/.14) 72px,rgb(255 255 255/.08) 72%,transparent) no-repeat right 46px center/calc(100% - 46px) 1px}
+
+/* Headings: the stocks block joins the module tier (it was the only 33.6px / 650 heading on the page). */
+.h7:not(#_):not(#_):not(#_) .h7-ts h2{font-weight:600;font-size:1.5rem;line-height:1.15;letter-spacing:-.02em}
+@media(min-width:641px){.h7:not(#_):not(#_):not(#_) .h7-ts h2{font-size:1.75rem}}
+.h7:not(#_):not(#_):not(#_) .h7-ts h2:is(:lang(zh),:lang(ja),:lang(ko)){letter-spacing:0}
+/* Live sections carry one breathing dot after the heading (the funding board and the daily data strip poll). */
+.h7:not(#_):not(#_):not(#_) :is(.h7-data .h7-coins-head h2,.h7-fr .h7-ih h2)::after{content:"";display:inline-block;inline-size:8px;block-size:8px;margin-inline-start:12px;vertical-align:.2em;border-radius:50%;background:var(--ac);box-shadow:0 0 0 4px rgb(31 224 192/.14);animation:h7-board-breathe 2s cubic-bezier(.2,.8,.2,1) infinite}
+
+/* Ambient colour fields: three small drifting glows (compositor transform only) behind the story blocks. */
+.h7:not(#_):not(#_):not(#_) :is(.h7-fr,.h7-calc,.h7-tg)::after{content:"";position:absolute;z-index:-1;pointer-events:none;inline-size:min(620px,110vw);aspect-ratio:4/3;inset-block-start:4%;inset-inline-end:-8%;border-radius:50%;background:radial-gradient(closest-side,rgb(49 92 255/.10),rgb(31 224 192/.04) 55%,transparent);animation:h7-drift 26s ease-in-out infinite alternate}
+.h7:not(#_):not(#_):not(#_) .h7-calc::after{inset-inline:-10% auto;inset-block-start:18%;background:radial-gradient(closest-side,rgb(31 224 192/.09),rgb(49 92 255/.03) 55%,transparent);animation-duration:32s;animation-direction:alternate-reverse}
+.h7:not(#_):not(#_):not(#_) .h7-tg::after{background:radial-gradient(closest-side,rgb(34 158 217/.11),transparent);animation-duration:22s}
+@keyframes h7-drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-9%,7%,0) scale(1.1)}}
+
+/* Panels: one surface for tools. */
+.h7:not(#_):not(#_):not(#_) .tg-signal-strip--home{padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(90deg,rgb(34 158 217/.09),var(--fl-panel) 55%);transition:border-color 240ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .tg-signal-strip--home:hover{border-color:rgb(79 184 234/.45)}
+.h7:not(#_):not(#_):not(#_) .tg-signal-strip--home .tg-signal-strip__icon{color:#4FB8EA}
+
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list{gap:12px;border-top:0;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list li{position:relative;overflow:hidden;border:0;border-radius:12px}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a{padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--fl-panel);transition:transform 240ms var(--ease),border-color 240ms var(--ease),background-color 240ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a:hover{transform:translateY(-2px);border-color:var(--line2);background:rgb(255 255 255/.045)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a:focus-visible{outline-offset:2px;border-radius:12px}
+/* a live figure ticks in when it arrives or changes (the span is keyed by its text), and a faint sheen passes its card */
+.h7:not(#_):not(#_):not(#_) .h7-data [data-rail-figure]{color:var(--ink);animation:h7-tick 700ms var(--ease) both}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list li:has([data-rail-figure])::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(105deg,transparent 38%,rgb(255 255 255/.055) 50%,transparent 62%);transform:translateX(-100%);animation:h7-sheen 8s var(--ease) 1.2s infinite}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list li:nth-child(3)::after{animation-delay:2.4s}
+@keyframes h7-tick{from{opacity:0;transform:translateY(6px)}}
+@keyframes h7-sheen{0%,72%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+.h7:not(#_):not(#_):not(#_) .h7-fr-table{border-radius:12px;background:var(--fl-panel)}
+
+.h7:not(#_):not(#_):not(#_) .h7-tg-list{gap:12px;border-top:0}
+.h7:not(#_):not(#_):not(#_) .h7-tg-card{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--fl-panel);transition:transform 240ms var(--ease),border-color 240ms var(--ease),background-color 240ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-tg-card:hover{transform:translateY(-2px);border-color:rgb(79 184 234/.5);background:rgb(34 158 217/.06)}
+
+/* Academy: the one key card with a travelling gradient border (an opaque fill covers all but a 1px ring). */
+.h7:not(#_):not(#_):not(#_) .h7-academy-card,.h7:not(#_):not(#_):not(#_) .h7-how+.h7-academy .h7-academy-card{position:relative;isolation:isolate;overflow:hidden;padding:20px 24px 20px 20px;border:0;border-radius:12px;background:none;transition:transform 240ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card::before{content:"";position:absolute;z-index:-2;inset-block:0;inset-inline-start:0;inline-size:300%;pointer-events:none;background:repeating-linear-gradient(90deg,rgb(255 255 255/.12) 0,rgb(255 255 255/.12) 17%,rgb(31 224 192/.85) 23%,rgb(79 124 255/.85) 28%,rgb(255 255 255/.12) 33.333%);animation:h7-ring 9s linear infinite}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card::after{content:"";position:absolute;z-index:-1;inset:1px;border-radius:11px;pointer-events:none;background:radial-gradient(60% 140% at 0% 50%,rgb(79 124 255/.13),transparent 70%),#0A0B0E}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card:hover{transform:translateY(-2px)}
+@keyframes h7-ring{to{transform:translateX(-33.333%)}}
+@media(max-width:720px){.h7:not(#_):not(#_):not(#_) .h7-academy-card,.h7:not(#_):not(#_):not(#_) .h7-how+.h7-academy .h7-academy-card{padding:16px}}
+
+/* Ledger rows: a 2px start bar grows on hover (scaleY); the calculator's best row keeps it lit and breathing. */
+.h7:not(#_):not(#_):not(#_) :is(.h7-latest li,.h7-il li,.h7-xr){position:relative}
+.h7:not(#_):not(#_):not(#_) :is(.h7-latest li,.h7-il li,.h7-xr)::after,.h7:not(#_):not(#_):not(#_) .h7-fr-row:not(.h7-fr-head)::before{content:"";position:absolute;inset-block:10px;inset-inline-start:-12px;inline-size:2px;border-radius:2px;background:var(--ac);pointer-events:none;transform:scaleY(0);transition:transform 240ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-il li::after{inset-inline-start:0}
+.h7:not(#_):not(#_):not(#_) .h7-fr-row:not(.h7-fr-head)::before{inset-inline-start:0}
+.h7:not(#_):not(#_):not(#_) :is(.h7-latest li:hover,.h7-il li:hover,.h7-xr:hover)::after,.h7:not(#_):not(#_):not(#_) .h7-fr-row:has(a:hover)::before{transform:scaleY(1)}
+.h7:not(#_):not(#_):not(#_) .h7-xr.best::after{transform:scaleY(1);background:linear-gradient(180deg,#1FE0C0,#315CFF);animation:h7-board-breathe 2.4s cubic-bezier(.2,.8,.2,1) infinite}
+@media(max-width:640px){.h7:not(#_):not(#_):not(#_) :is(.h7-latest li,.h7-xr,.h7-il li)::after{inset-inline-start:-10px}}
+
+/* Closing band (home only): no hard grey band; the canvas deepens into it with one soft blue field. */
+.h7:not(#_):not(#_)~.v6-close .v6-close__band{border-block-start:0;background:radial-gradient(55% 60% at 82% 55%,rgb(49 92 255/.12),transparent 70%),radial-gradient(40% 50% at 10% 50%,rgb(31 224 192/.05),transparent 70%),linear-gradient(180deg,#08090C,#0F1013 50%,#08090C)}
+
+@media(prefers-reduced-motion:reduce){
+  .h7:not(#_):not(#_):not(#_) :is(.h7-fr,.h7-calc,.h7-tg)::after,
+  .h7:not(#_):not(#_):not(#_) :is(.h7-data .h7-coins-head h2,.h7-fr .h7-ih h2)::after,
+  .h7:not(#_):not(#_):not(#_) .h7-data [data-rail-figure],
+  .h7:not(#_):not(#_):not(#_) .h7-academy-card::before,
+  .h7:not(#_):not(#_):not(#_) .h7-xr.best::after{animation:none}
+  .h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list li:has([data-rail-figure])::after{content:none;animation:none}
+  .h7:not(#_):not(#_):not(#_) :is(.h7-data .h7-coins-list a,.h7-tg-card,.h7-academy-card,.tg-signal-strip--home),
+  .h7:not(#_):not(#_):not(#_) :is(.h7-latest li,.h7-il li,.h7-xr)::after,.h7:not(#_):not(#_):not(#_) .h7-fr-row::before{transition:none}
+  .h7:not(#_):not(#_):not(#_) :is(.h7-data .h7-coins-list a,.h7-tg-card,.h7-academy-card):hover{transform:none}
+}

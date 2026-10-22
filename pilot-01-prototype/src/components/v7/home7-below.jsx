@@ -85,7 +85,7 @@ function DataRail({ locale }) {
   return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail">
     <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
     {c.lead && <p className="h7-coins-lead">{c.lead}</p>}
-    <ul className="h7-coins-list">{items.map(([path, label, figure]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b>{figure && <span dir="ltr" data-rail-figure="">{figure}</span>}</a></li>)}</ul>
+    <ul className="h7-coins-list">{items.map(([path, label, figure]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b>{figure && <span key={figure} dir="ltr" data-rail-figure="">{figure}</span>}</a></li>)}</ul>
   </section>;
 }
 // Deposit & withdraw (出入金, 2026-10-15): one compact row into the hub and the card comparison; static copy, no data
@@ -303,6 +303,9 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
     <>
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
       <DataRail locale={locale} />
+      {/* Flow (2026-10-23): the live data run together (daily data, funding, analysis), then the actions (deposit,
+          calculator), then the notices reference list and Telegram. */}
+      <FundingBoard locale={locale} initialFeed={fundingFeed} />
       <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
         <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
         <ul>{homeLatest.map((item) => <li key={item.href}>
@@ -317,7 +320,6 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       </section>
       <FiatRail locale={locale} />
       <HomeCalculator t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} />
-      <FundingBoard locale={locale} initialFeed={fundingFeed} />
       <IntelSection renderedAt={renderedAt} t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       <TelegramBlock locale={locale} />
       <LocalMarketBrief locale={locale} />
