@@ -32,6 +32,20 @@ const COPY = {
   // l10n: needs native review
   uk: { h: "Поточні ставки фінансування", sub: "Фінансування безстрокових контрактів на шести біржах, оновлення кожні 5 хвилин. Нижча ставка дешевша для лонгів.", venue: "Біржа", rate: "Ставка / період", apr: "Річна", next: "Наступне", every: (h) => `кожні ${h} год`, note: "Плюс: лонги платять шортам. Мінус: шорти платять лонгам. Річна ставка лише для порівняння.", asOf: (d) => `Публічні API бірж, ${d}` },
 };
+// Heat legend (owner 2026-10-22: "looks like a PPT"). [shorts pay longs, longs pay shorts, most extreme row]
+const LEGEND = {
+  en: ["Shorts pay longs", "Longs pay shorts", "Most extreme"], "zh-Hans": ["空头付多头", "多头付空头", "最极端"], "zh-Hant": ["空頭付多頭", "多頭付空頭", "最極端"],
+  ja: ["ショートが支払う", "ロングが支払う", "最も極端"], ko: ["숏이 롱에 지급", "롱이 숏에 지급", "가장 극단적"], tr: ["Short long'a öder", "Long short'a öder", "En uç"],
+  es: ["Cortos pagan a largos", "Largos pagan a cortos", "Más extremo"], "pt-BR": ["Vendidos pagam comprados", "Comprados pagam vendidos", "Mais extremo"],
+  fr: ["Vendeurs paient acheteurs", "Acheteurs paient vendeurs", "Le plus extrême"], de: ["Shorts zahlen Longs", "Longs zahlen Shorts", "Am extremsten"],
+  ru: ["Шорты платят лонгам", "Лонги платят шортам", "Экстремум"], ar: ["القصير يدفع للطويل", "الطويل يدفع للقصير", "الأكثر تطرفًا"],
+  id: ["Short bayar long", "Long bayar short", "Paling ekstrem"], vi: ["Short trả long", "Long trả short", "Cực trị"], it: ["Gli short pagano i long", "I long pagano gli short", "Più estremo"],
+  // l10n: needs native review
+  ur: ["شارٹ لانگ کو ادا کریں", "لانگ شارٹ کو ادا کریں", "سب سے نمایاں"], uk: ["Шорти платять лонгам", "Лонги платять шортам", "Екстремум"],
+};
+// Heat 0..1 against the board's largest |APR|, never below 20% APR so a quiet market stays quiet (0.01%/8h is about 11%).
+const heatScale = (rows) => Math.max(0.2, ...rows.map((r) => Math.abs(r.apr)));
+const side = (v) => (v > 0 ? "pos" : v < 0 ? "neg" : "");
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const pct = (v, d) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v * 100).toFixed(d)}%`;
 // Reduced motion: hh:mm, refreshed once a minute (no digits changing every second).
@@ -69,13 +83,20 @@ function RateValue({ value, decimals }) {
     const before = previous.current;
     previous.current = value;
     if (before === value) return;
-    let stopped = false, cleanup;
+    let stopped = false, cleanup, flash;
+    // Direction flash on the cell (CSS, once); skipped for reduced motion.
+    const cell = ref.current?.closest("td");
+    if (cell && Number.isFinite(before) && !reduced()) {
+      const cls = value > before ? "h7-fr-up" : "h7-fr-dn";
+      cell.classList.remove("h7-fr-up", "h7-fr-dn"); void cell.offsetWidth; cell.classList.add(cls);
+      flash = setTimeout(() => cell.classList.remove(cls), 900);
+    }
     const run = () => import("./home7-board-motion.js").then(({ tweenValue }) => {
       if (!stopped && ref.current) cleanup = tweenValue(ref.current, before, value, n => pct(n, decimals));
     });
     const idle = typeof requestIdleCallback === "function";
     const id = idle ? requestIdleCallback(run) : setTimeout(run, 200);
-    return () => { stopped = true; idle ? cancelIdleCallback(id) : clearTimeout(id); cleanup?.(); };
+    return () => { stopped = true; clearTimeout(flash); idle ? cancelIdleCallback(id) : clearTimeout(id); cleanup?.(); };
   }, [value, decimals]);
   return <span ref={ref}>{pct(value, decimals)}</span>;
 }
@@ -95,6 +116,11 @@ export function FundingBoard({ locale, initialFeed }) {
   const selectedSymbol = availableSymbols.includes(symbol) ? symbol : availableSymbols[0];
   const rows = useMemo(() => (feed && selectedSymbol ? fundingTable(feed, selectedSymbol) : []), [feed, selectedSymbol]);
   if (!feed || (!selectedSymbol && feed.status !== "unavailable")) return null;
+  const lg = LEGEND[locale] || (String(locale || "").startsWith("zh") ? LEGEND["zh-Hans"] : LEGEND.en);
+  const scale = heatScale(rows);
+  // The most extreme venue (largest |APR|) among fresh rows, only when at least two fresh venues can be compared.
+  const fresh = rows.filter((r) => !r.stale);
+  const peakVenue = fresh.length > 1 ? fresh.reduce((x, y) => (Math.abs(y.apr) > Math.abs(x.apr) ? y : x)).venue : null;
   const asOf = formatSgt(feed.lastSuccessAt || feed.generatedAt, locale);
   return (
     <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
@@ -104,17 +130,26 @@ export function FundingBoard({ locale, initialFeed }) {
       <div className="h7-fr-tabs" role="tablist" aria-label={t.h}>
         {availableSymbols.map((s) => <button key={s} type="button" role="tab" aria-selected={s === selectedSymbol} className={s === selectedSymbol ? "on" : undefined} onClick={() => setSymbol(s)} translate="no">{s}</button>)}
       </div>
+      <div className="h7-fr-key" aria-hidden="true">
+        <span className="neg"><b>▼ −</b>{lg[0]}</span>
+        <i className="h7-fr-scale" />
+        <span className="pos">{lg[1]}<b>+ ▲</b></span>
+      </div>
       <table className="h7-fr-table" aria-label={`${t.h} · ${selectedSymbol}`}>
         <thead><tr className="h7-fr-row h7-fr-head"><th scope="col">{t.venue}</th><th scope="col">{t.rate}</th><th scope="col">{t.apr}</th><th scope="col">{t.next}</th></tr></thead>
         <tbody>
-        {rows.map((r, i) => (
-          <tr key={r.venue} className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}`}>
+        {rows.map((r, i) => {
+          const heat = Math.min(1, Math.abs(r.apr) / scale).toFixed(3);
+          const isPeak = r.venue === peakVenue;
+          return (
+          <tr key={r.venue} className={`h7-fr-row${i === 0 && !feed.stale ? " best" : ""}${isPeak ? " peak" : ""}`}>
             <td><a className="h7-fr-v" href={localizedHref(`/exchanges/${r.venue}`, { locale })}><BrandMark slug={r.venue} compact /><span className="h7-fr-name">{brandsBySlug[r.venue]?.name || r.venue}<small>{r.stale ? `${health[0]} · ` : ""}{formatSgt(r.lastSuccessAt || r.readAt, locale)}</small></span></a></td>
-            <td className="h7-fr-n" dir="ltr"><RateValue value={r.rate} decimals={4} /><span className="h7-rate-bar" aria-hidden="true"><i style={{ transform: `scaleX(${Math.min(1, Math.abs(r.rate) / Math.max(...rows.map(row => Math.abs(row.rate)), 0.000001))})` }} /></span><small>{t.every(r.intervalH)}</small></td>
-            <td className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr"><RateValue value={r.apr} decimals={1} /></td>
+            <td className={`h7-fr-n h7-fr-rate ${side(r.rate)}`} dir="ltr"><RateValue value={r.rate} decimals={4} /><span className={`h7-rate-bar ${side(r.rate)}`} aria-hidden="true"><i style={{ transform: `scaleX(${heat})` }} /></span><small>{t.every(r.intervalH)}</small></td>
+            <td className={`h7-fr-n h7-fr-heat ${side(r.apr)}`} style={{ "--heat": heat }} dir="ltr"><RateValue value={r.apr} decimals={1} />{isPeak && <small className="h7-fr-peak"><i aria-hidden="true" />{lg[2]}</small>}</td>
             <td className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(now === null ? null : Date.parse(r.nextAt) - now, showSeconds)}</td>
           </tr>
-        ))}
+          );
+        })}
         </tbody>
       </table>
       </>}

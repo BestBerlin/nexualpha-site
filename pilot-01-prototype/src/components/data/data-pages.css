@@ -185,3 +185,44 @@
 
 /* Stats remain visible from SSR; entrance transforms above the fold cause CLS. */
 .nxd--liquidations .nxd-stat { min-block-size: 160px; }
+
+/* Funding heat (owner 2026-10-22): same language as the home board. Teal = shorts pay longs, amber = longs pay
+   shorts, neutral grey at zero; tint strength = |APR| / table max (floor 20% APR). Sign and glyph carry meaning too. */
+.nxd--funding { --fr-neg: 31 224 192; --fr-pos: 233 169 59; --fr-zero: 176 180 186; }
+.nxd--funding .pos { color: #F2C46D; }
+.nxd--funding .neg { color: #5CEBD4; }
+.nxd-heatkey { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 0.75rem; }
+.nxd-heatkey .nxd-legend { margin: 0; }
+.nxd-heatkey__scale { display: inline-flex; align-items: center; gap: 0.5rem; font: 600 0.78rem/1 var(--hx-mono); }
+.nxd-heatkey__scale .neg { color: rgb(var(--fr-neg)); }
+.nxd-heatkey__scale .pos { color: rgb(var(--fr-pos)); }
+.nxd-heatkey__scale i { inline-size: 120px; block-size: 6px; border-radius: 3px; background: linear-gradient(90deg, rgb(var(--fr-neg) / .9), rgb(var(--fr-zero) / .18) 50%, rgb(var(--fr-pos) / .9)); }
+.nxd--funding td.nxd-heat { --fr-c: var(--fr-zero); font-family: var(--hx-mono); background-color: rgb(var(--fr-c) / calc(.03 + var(--heat, 0) * .24)); box-shadow: inset 0 0 0 1px rgb(var(--fr-c) / calc(var(--heat, 0) * .22)); transition: background-color 400ms cubic-bezier(.16,1,.3,1); }
+.nxd--funding td.nxd-heat.pos { --fr-c: var(--fr-pos); }
+.nxd--funding td.nxd-heat.neg { --fr-c: var(--fr-neg); }
+.nxd-heat__v { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.nxd--funding td.nxd-heat.is-peak { box-shadow: inset 0 0 0 1px rgb(var(--fr-c) / .65), inset 0 0 22px -8px rgb(var(--fr-c) / .7); }
+.nxd--funding tr.is-peak-row th { color: var(--ink); }
+.nxd-peak { display: inline-flex; align-items: center; gap: 5px; font: 600 0.7rem/1.2 var(--hx-mono); letter-spacing: .02em; color: rgb(var(--fr-c)); white-space: nowrap; }
+.nxd-peak i { inline-size: 6px; block-size: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgb(var(--fr-c) / .18); animation: nxd-breathe 2s cubic-bezier(.2,.8,.2,1) infinite; }
+@keyframes nxd-breathe { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+.nxd--funding td.nxd-up { animation: nxd-flash-up 900ms cubic-bezier(.16,1,.3,1) 1; }
+.nxd--funding td.nxd-dn { animation: nxd-flash-dn 900ms cubic-bezier(.16,1,.3,1) 1; }
+@keyframes nxd-flash-up { 0% { box-shadow: inset 0 0 0 1px rgb(var(--fr-pos) / .95), inset 0 0 18px -4px rgb(var(--fr-pos) / .7); } }
+@keyframes nxd-flash-dn { 0% { box-shadow: inset 0 0 0 1px rgb(var(--fr-neg) / .95), inset 0 0 18px -4px rgb(var(--fr-neg) / .7); } }
+.nxd--funding .nxd-peakline { --fr-c: var(--fr-zero); flex: 1 0 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.75rem; min-block-size: 44px; padding: 0.5rem 0.875rem; border: 1px solid rgb(var(--fr-c) / .45); border-radius: 8px; background: linear-gradient(90deg, rgb(var(--fr-c) / .12), rgb(var(--fr-c) / .02) 70%); color: var(--ink); text-decoration: none; transition: border-color 140ms, background-color 140ms; }
+.nxd--funding .nxd-peakline.pos { --fr-c: var(--fr-pos); }
+.nxd--funding .nxd-peakline.neg { --fr-c: var(--fr-neg); }
+.nxd--funding .nxd-peakline:hover { border-color: rgb(var(--fr-c) / .8); }
+.nxd--funding .nxd-peakline:focus-visible { outline: 2px solid rgb(var(--fr-c)); outline-offset: 2px; }
+.nxd-peakline b { font: 650 1rem/1.2 var(--hx-mono); }
+.nxd-peakline__venue { color: var(--muted); font-size: 0.86rem; }
+.nxd-peakline__v { margin-inline-start: auto; font: 600 1rem/1.2 var(--hx-mono); color: rgb(var(--fr-c)); font-variant-numeric: tabular-nums; }
+.nxd--funding tr.is-peak-row { scroll-margin-block-start: 96px; }
+@media (max-width: 639px) {
+  .nxd--funding .nxd-table--funding tbody td.nxd-heat { margin-block: 2px; padding: 0.35rem 0.5rem; border-radius: 6px; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nxd-peak i, .nxd--funding td.nxd-up, .nxd--funding td.nxd-dn { animation: none; }
+  .nxd--funding td.nxd-heat { transition: none; }
+}
