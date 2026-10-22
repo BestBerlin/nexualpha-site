@@ -29,6 +29,7 @@ import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
 import { neutralArticleMarkdown, neutralArticleSources } from "../../../data/neutral-article.js";
 import { resolvePromotions } from "../../../data/promotions.js";
 import { NewsTelegramAlerts, NewsTelegramJoin } from "./NewsTelegramAlerts.jsx";
+import { NewsFollowLine } from "./NewsFollowLine.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
 import { createGlossaryLinker } from "../../../data/glossary-autolink.js";
 import { glossaryTermPath } from "../../../data/glossary-routes.js";
@@ -902,6 +903,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </p>
           )}
           <NewsTelegramJoin locale={locale} />
+          <NewsFollowLine locale={locale} />
         </header>
 
         {/* 文章正文 */}

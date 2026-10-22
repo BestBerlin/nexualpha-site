@@ -1270,3 +1270,33 @@
 .h7:not(#_):not(#_) .h7-latest nav a { display: inline-flex; align-items: center; min-height: 44px; }
 .h7:not(#_):not(#_) .h7-latest a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 @media (max-width: 640px) { .h7:not(#_):not(#_) .h7-latest li { flex-direction: column; gap: 4px; } .h7:not(#_):not(#_) .h7-latest li a { display: flex; align-items: center; min-height: 44px; } }
+
+/* ===== Follow NexuAlpha band (social matrix, owner 2026-10-23) — own block, owned by home7-follow.jsx =====
+   Three cards under the Telegram block: Telegram (brand blue), X (ink), YouTube (brand red). Platform colour only in the
+   glyph tile and a soft hover glow; no accent fill, no movement beyond a colour/shadow fade (off under reduced motion). */
+.h7:not(#_):not(#_) .h7-follow{padding-block:0}
+.h7:not(#_):not(#_) .h7-follow:last-child{padding-block-end:var(--h7-s2,clamp(56px,7vw,96px))}
+.h7:not(#_):not(#_) .h7-follow-head{display:grid;gap:8px;margin-block-end:24px}
+.h7:not(#_):not(#_) .h7-follow-head h2{margin:0;font-weight:600;font-size:1.5rem;line-height:1.15;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+.h7:not(#_):not(#_) .h7-follow-head p{margin:0;max-width:52ch;color:var(--ink3);font-size:15px;line-height:1.6}
+.h7:not(#_):not(#_) .h7-follow-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.h7:not(#_):not(#_) .h7-follow-list>li{display:flex;min-width:0}
+.h7:not(#_):not(#_) .h7-follow-card{--fl-c:255 255 255;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:8px 14px;width:100%;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--sf);color:var(--ink);transition:border-color 240ms var(--ease),box-shadow 240ms var(--ease),background-color 240ms var(--ease)}
+.h7:not(#_):not(#_) .h7-follow-card--telegram{--fl-c:42 171 238}
+.h7:not(#_):not(#_) .h7-follow-card--youtube{--fl-c:255 0 51}
+.h7:not(#_):not(#_) .h7-follow-ico{grid-row:1/3;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:rgb(var(--fl-c)/.12);color:rgb(var(--fl-c))}
+.h7:not(#_):not(#_) .h7-follow-card--x .h7-follow-ico{background:rgb(255 255 255/.08);color:#fff}
+.h7:not(#_):not(#_) .h7-follow-txt{display:grid;gap:2px;min-width:0}
+.h7:not(#_):not(#_) .h7-follow-txt b{font-weight:600;font-size:16px;line-height:1.3;color:var(--ink)}
+.h7:not(#_):not(#_) .h7-follow-handle{font:500 12px/1.4 var(--mono);color:var(--ink3);justify-self:start}
+.h7:not(#_):not(#_) .h7-follow-txt small{margin-top:6px;font-size:14px;line-height:1.5;color:var(--ink2);overflow-wrap:break-word}
+.h7:not(#_):not(#_) .h7-follow-go{grid-column:2;grid-row:3;align-self:end;justify-self:start;display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-block:-4px -10px;font-weight:600;font-size:14px;line-height:1.3;color:var(--ink)}
+.h7:not(#_):not(#_) .h7-follow-arrow{color:rgb(var(--fl-c));transition:transform 240ms var(--ease)}
+.h7:not(#_):not(#_):dir(rtl) .h7-follow-arrow{display:inline-block;transform:scaleX(-1)}
+.h7:not(#_):not(#_) .h7-follow-card:hover,.h7:not(#_):not(#_) .h7-follow-card:focus-visible{border-color:rgb(var(--fl-c)/.55);background:rgb(var(--fl-c)/.05);box-shadow:0 0 0 1px rgb(var(--fl-c)/.25),0 16px 48px -20px rgb(var(--fl-c)/.55)}
+.h7:not(#_):not(#_) .h7-follow-card--x:hover,.h7:not(#_):not(#_) .h7-follow-card--x:focus-visible{border-color:rgb(255 255 255/.4);background:rgb(255 255 255/.05);box-shadow:0 0 0 1px rgb(255 255 255/.12),0 16px 48px -20px rgb(255 255 255/.3)}
+.h7:not(#_):not(#_) .h7-follow-card:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.h7:not(#_):not(#_) .h7-follow-card:hover .h7-follow-arrow{transform:translateX(3px)}
+.h7:not(#_):not(#_):dir(rtl) .h7-follow-card:hover .h7-follow-arrow{transform:scaleX(-1) translateX(3px)}
+@media(min-width:768px){.h7:not(#_):not(#_) .h7-follow-list{grid-template-columns:repeat(3,minmax(0,1fr))}.h7:not(#_):not(#_) .h7-follow-head h2{font-size:1.75rem}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-follow-card,.h7:not(#_):not(#_) .h7-follow-arrow{transition:none}.h7:not(#_):not(#_) .h7-follow-card:hover .h7-follow-arrow{transform:none}.h7:not(#_):not(#_):dir(rtl) .h7-follow-card:hover .h7-follow-arrow{transform:scaleX(-1)}}

@@ -2,6 +2,8 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { LanguageMenu } from "./LanguageMenu.jsx";
 import { compactNavLabel, shellCopy } from "./shell-copy.js";
+import { socialLabels, socialLinksFor } from "../../data/brand-social.js";
+import { TelegramGlyph, XGlyph, YouTubeGlyph } from "../shared/SocialIcons.jsx";
 
 // Keep the six destinations primary at full width; CSS moves lower priorities into More in narrower containers.
 const PRIMARY_COUNT = 6;
@@ -9,12 +11,19 @@ const PRIMARY_COUNT = 6;
 function Chevron() {
   return <svg className="nx-ico nx-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>;
 }
-// Outline glyph drawn with the same stroke weight as the search icon so it reads as a header control, not a badge.
-function TelegramIcon() {
-  return <svg className="nx-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M21.2 3.6 2.9 10.7c-.8.3-.8 1 0 1.3l4.6 1.5 1.8 5.6c.2.7.9.8 1.4.4l2.6-2.3 4.7 3.5c.6.4 1.3.1 1.5-.6L22.3 4.6c.2-.8-.4-1.3-1.1-1Z" /><path d="m7.5 13.5 9.8-6.3-7 6.6-.2 3.4" /></svg>;
-}
 function SearchIcon() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.75" /><path d="m10.5 10.5 3.25 3.25" /></svg>;
+}
+
+// Owner 2026-10-23: the social matrix (X, YouTube) sits beside the Telegram entry on desktop; official accounts only,
+// links from src/data/brand-social.js (re-exported by brand-entity.js). Icon-only 44px targets with a localized name.
+function SocialIconLinks({ locale, className, placement }) {
+  const links = socialLinksFor(locale);
+  const { follow } = socialLabels(locale);
+  return <>
+    <a className={`${className} ${className}--x`} href={links.x} target="_blank" rel="noopener" aria-label={`${follow}: X ${links.handles.x}`} data-cta-kind="social" data-cta-placement={`${placement}-x`}><XGlyph size={16} /></a>
+    <a className={`${className} ${className}--yt`} href={links.youtube} target="_blank" rel="noopener" aria-label={`${follow}: YouTube ${links.handles.youtube}`} data-cta-kind="social" data-cta-placement={`${placement}-youtube`}><YouTubeGlyph size={18} /></a>
+  </>;
 }
 
 // Campaigns stay highlighted, with a compact text chip next to Telegram on phones.
@@ -119,9 +128,10 @@ export function SiteHeader({
         </nav>
         {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" data-short={CAMPAIGN_CHIP_SHORT[locale] ? "" : undefined} aria-label={CAMPAIGN_CHIP_SHORT[locale] ? (CAMPAIGN_CHIP[locale] || campaignItem[0]) : undefined} aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__full">{CAMPAIGN_CHIP[locale] || campaignItem[0]}</span>{CAMPAIGN_CHIP_SHORT[locale] ? <span className="nx-hot-chip__short" aria-hidden="true">{CAMPAIGN_CHIP_SHORT[locale]}</span> : null}</a>}
         {stocksItem && <a className="nx-hot-chip nx-hot-chip--stocks" data-fit={STOCKS_CHIP_FIT[locale] || "wide"} href={stocksItem[1]} aria-current={navState(stocksItem[1]).current} aria-label={stocksItem[0]}>{STOCKS_CHIP[locale] || stocksItem[0]}</a>}
-        {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
+        {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramGlyph size={20} className="nx-ico" /></a>}
         <div className="nx-tools">
-          {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramIcon /><span className="nx-tg__label">Telegram</span></a>}
+          <SocialIconLinks locale={locale} className="nx-social" placement="header" />
+          {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramGlyph size={16} className="nx-ico" /><span className="nx-tg__label">Telegram</span></a>}
           {/* Owner 2026-10-12: the header "搜索平台" box was unused and cluttered the bar — removed. */}
           {languageMenu(false)}
         </div>
@@ -133,7 +143,23 @@ export function SiteHeader({
   </header>;
 }
 
-export function MobileSheet({ copy, nav, homeHref, navState, onClose, onSearch, dialogRef, languageMenu }) {
+function MobileFollowRow({ locale }) {
+  const links = socialLinksFor(locale);
+  const labels = socialLabels(locale);
+  const items = [
+    ["telegram", links.telegramChannel, "Telegram", links.handles.telegramChannel, TelegramGlyph],
+    ["x", links.x, "X", links.handles.x, XGlyph],
+    ["youtube", links.youtube, "YouTube", links.handles.youtube, YouTubeGlyph],
+  ];
+  return <div className="nx-sheet__follow" role="group" aria-label={labels.follow}>
+    <span className="nx-sheet__follow-h" aria-hidden="true">{labels.follow}</span>
+    <ul>
+      {items.map(([key, href, name, handle, Glyph]) => <li key={key}><a className={`nx-sheet__social nx-sheet__social--${key}`} href={href} target="_blank" rel="noopener" aria-label={`${name} ${handle}`} data-cta-kind={key === "telegram" ? "telegram" : "social"} data-cta-placement={`mobile-menu-follow-${key}`}><Glyph size={18} /><span>{name}</span></a></li>)}
+    </ul>
+  </div>;
+}
+
+export function MobileSheet({ copy, locale = "en", nav, homeHref, navState, onClose, onSearch, dialogRef, languageMenu }) {
   return <dialog ref={dialogRef} id="v2-mobile-menu" className="nx-sheet" aria-label={copy.ui.menu} onKeyDown={(event) => event.stopPropagation()}>
     <div className="nx-sheet__top">
       <NexuAlphaWordmark href={homeHref} />
@@ -147,6 +173,7 @@ export function MobileSheet({ copy, nav, homeHref, navState, onClose, onSearch, 
       </ul>
     </nav>
     <div className="nx-sheet__tools">
+      <MobileFollowRow locale={locale} />
       {/* Owner 2026-10-12: search removed from the phone menu too, matching the desktop header. */}
       {languageMenu}
     </div>

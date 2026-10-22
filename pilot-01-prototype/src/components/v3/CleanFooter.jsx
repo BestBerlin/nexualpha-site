@@ -15,6 +15,8 @@ import { isNeutralCtaLocale } from "../../data/locale-policy.js";
 import { homePartnersFor, homePushFor } from "../../data/home-rebate-tiers.js";
 import { partnerExchangePageLinks } from "../../data/partner-page-links.js";
 import { venueDatabase } from "../../data/venue-database.js";
+import { socialLabels, socialLinksFor } from "../../data/brand-social.js";
+import { TelegramGlyph, XGlyph, YouTubeGlyph } from "../shared/SocialIcons.jsx";
 
 
 const footerLabelByLocale = {
@@ -466,6 +468,15 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
     { href: href("/methodology#disclosure"), label: labels.disclosure },
   ];
 
+  const social = socialLabels(locale);
+  const socialLinks = socialLinksFor(locale);
+  const socialItems = [
+    ["x", socialLinks.x, "X", XGlyph],
+    ["youtube", socialLinks.youtube, "YouTube", YouTubeGlyph],
+    ["tg-channel", socialLinks.telegramChannel, social.channel, TelegramGlyph],
+    ["tg-group", socialLinks.telegramGroup, social.group, TelegramGlyph],
+  ];
+
   return (
     <footer className="nx-ftr" id="policy">
       <div className="nx-ftr__inner">
@@ -474,17 +485,13 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
           <p className="nx-ftr__definition">{organizationDescription(locale)}</p>
-          <div className="nx-ftr__socials" aria-label="NexuAlpha social links">
-            <a href="https://t.me/NexuAlphaAssistantBot" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 4.4 18.5 19c-.2 1-.8 1.2-1.6.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9L18 6.2c.4-.3-.1-.5-.6-.2L6.5 12.9 1.8 11.4c-1-.3-1-1 .2-1.5L20.4 2.8c.8-.3 1.6.2 1.3 1.6Z" /></svg>
-            </a>
-            <a href="https://twitter.com/NexuAlpha" target="_blank" rel="noopener noreferrer" aria-label="X">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.9 10.5 21.3 2h-1.8l-6.4 7.4L8 2H2l7.8 11.3L2 22h1.8l6.8-7.8L16 22h6l-8.1-11.5Zm-2.4 2.8-.8-1.1L4.5 3.3h2.7l5 7.1.8 1.1 6.5 9.3h-2.7l-5.3-7.5Z" /></svg>
-            </a>
-            <a href="https://www.youtube.com/@NexuAlphaGlobal" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7.2a3 3 0 0 0-2.1-2.1C18 4.6 12 4.6 12 4.6s-6 0-7.9.5A3 3 0 0 0 2 7.2 31 31 0 0 0 1.5 12c0 1.6.2 3.2.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1c.3-1.6.5-3.2.5-4.8 0-1.6-.2-3.2-.5-4.8ZM9.8 15.4V8.6l5.8 3.4-5.8 3.4Z" /></svg>
-            </a>
-          </div>
+          {/* Owner 2026-10-23: the full social matrix with labels (official accounts, locale-appropriate YouTube and channel). */}
+          <nav className="nx-ftr__follow" aria-labelledby="nx-ftr-follow" data-footer-social>
+            <h2 className="nx-ftr__heading" id="nx-ftr-follow">{social.follow}</h2>
+            <ul className="nx-ftr__socials">
+              {socialItems.map(([key, href, label, Glyph]) => <li key={key}><a className={`nx-ftr__social nx-ftr__social--${key}`} href={href} target="_blank" rel="noopener" data-cta-kind={key.startsWith("tg") ? "telegram" : "social"} data-cta-placement={`footer-follow-${key}`}><Glyph size={16} /><span>{label}</span></a></li>)}
+            </ul>
+          </nav>
           {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
             <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
             <ul>

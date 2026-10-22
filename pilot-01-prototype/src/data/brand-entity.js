@@ -7,6 +7,9 @@ export { organizationDescription, ENTITY_DEFINITION } from "./brand-definition.j
 // To add a public profile (X, GitHub, Medium, LinkedIn), append its URL to BRAND.profiles below; nothing else changes.
 
 import { brandSlogan } from "./brand-slogan.js";
+import { SOCIAL_TELEGRAM, SOCIAL_X, SOCIAL_YOUTUBE } from "./brand-social.js";
+// Site-wide social matrix (header, footer, home "Follow" band, article follow line) reads the locale's links here.
+export { socialLinksFor, socialLabels } from "./brand-social.js";
 
 export const PUBLIC_ORIGIN = "https://nexualpha.com";
 export const ORGANIZATION_ID = `${PUBLIC_ORIGIN}/#organization`;
@@ -28,16 +31,10 @@ export const BRAND = Object.freeze({
   logo: Object.freeze({ url: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg`, width: 512, height: 512 }),
   image: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-square.png`,
   email: "contact@nexualpha.com",
-  telegram: Object.freeze({
-    channelZh: "https://t.me/NexuAlphaClub",
-    channelEn: "https://t.me/NexuAlphaGlobal",
-    group: "https://t.me/NexuAlphaWorld",
-    bot: "https://t.me/NexuAlphaAssistantBot",
-    miniApp: "https://app.nexualpha.com/",
-  }),
-  // Other public profiles. twitter.com/NexuAlpha was already emitted by the Worker's home Organization block;
-  // the owner confirms or removes it here. Add X / GitHub / Medium / LinkedIn URLs to this list only.
-  profiles: Object.freeze(["https://x.com/NexuAlpha", "https://www.youtube.com/@NexuAlphaCN", "https://www.youtube.com/@NexuAlphaGlobal"]),
+  // The URLs themselves live in brand-social.js (tiny module the header/footer import without this file's copy).
+  telegram: SOCIAL_TELEGRAM,
+  // Other public profiles. Add GitHub / Medium / LinkedIn URLs to this list only (X and YouTube come from brand-social.js).
+  profiles: Object.freeze([SOCIAL_X, SOCIAL_YOUTUBE.zh, SOCIAL_YOUTUBE.global]),
 });
 
 export const BRAND_SAME_AS = Object.freeze([
