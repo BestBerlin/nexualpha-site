@@ -31,7 +31,7 @@ async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch()
         for w in widths:
-            ctx = await b.new_context(viewport={"width": w, "height": 900}, device_scale_factor=1, user_agent="Mozilla/5.0 (NexuAlpha-QA-sweep Chromium)")
+            ctx = await b.new_context(viewport={"width": w, "height": 900}, device_scale_factor=1, user_agent="Mozilla/5.0 (NexuAlpha-QA-sweep Chromium) NexuAlpha-internal/qa-browser-sweep")
             pg = await ctx.new_page()
             errs, failed = [], []
             pg.on("console", lambda m: errs.append(m.text[:200]) if m.type == "error" else None)

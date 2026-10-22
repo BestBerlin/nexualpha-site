@@ -1,3 +1,4 @@
+import { fontUrl, localeFontStyleTag, LOCALE_FONT_STYLE_ATTR } from "../src/data/locale-font-faces.js";
 import { articleSitemapLocales } from "../src/data/article-sitemap-seo.js";
 import { recentEntityArticles, primaryVenueResearch } from '../src/data/article-related-links.js';
 import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
@@ -3817,7 +3818,7 @@ async function handleRouteSeoJson(request, env, url) {
   });
 }
 
-const ARABIC_FONT_PRELOAD_HREF = "/fonts/ar-400.woff2";
+const ARABIC_FONT_PRELOAD_HREF = fontUrl("ar-400.woff2");
 
 function injectPrerenderSeoAlternates(html, alternates) {
   if (!Array.isArray(alternates)) return html;
@@ -3851,6 +3852,10 @@ function injectRouteMetadata(html, metadata) {
   if (pageDirection === "rtl" && !output.includes(ARABIC_FONT_PRELOAD_HREF)) {
     output = output.replace(/(<link\b[^>]*rel=["']preload["'][^>]*geist-mono-latin\.woff2[^>]*>)/i, (tag) => `${tag}\n    <link rel="preload" href="${ARABIC_FONT_PRELOAD_HREF}" as="font" type="font/woff2" crossorigin />`);
   }
+  // Script fonts follow the page locale (perf 2026-10-22): only this page's CJK/Korean/Arabic @font-face is declared, so
+  // an English page never downloads a CJK file for the language switcher's 简体中文 / 日本語.
+  const localeFonts = localeFontStyleTag(pageLocale);
+  if (localeFonts && !output.includes(LOCALE_FONT_STYLE_ATTR)) output = output.replace(/<\/head>/i, () => `    ${localeFonts}\n  </head>`);
   output = replaceOrInsert(
     output,
     /<title\b[^>]*>[\s\S]*?<\/title>/i,

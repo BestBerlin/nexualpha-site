@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
 import worker from "../worker/index.js";
+import { localeFontFaceCss } from "../src/data/locale-font-faces.js";
 
 const shell = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const assets = { fetch: async (request) => {
@@ -13,7 +14,7 @@ const assets = { fetch: async (request) => {
   return new Response("missing", { status: 404 });
 } };
 const page = async (pathname) => (await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), { ASSETS: assets })).text();
-const PRELOAD = /<link rel="preload" href="\/fonts\/ar-400\.woff2" as="font" type="font\/woff2" crossorigin \/>/g;
+const PRELOAD = /<link rel="preload" href="\/fonts\/ar-400\.woff2\?v=[0-9a-f]{12}" as="font" type="font\/woff2" crossorigin \/>/g;
 
 test("Arabic pages preload the Arabic font once, right after the Geist preloads", async () => {
   for (const pathname of ["/ar/news", "/ar/about"]) {
@@ -29,7 +30,7 @@ test("non-Arabic pages do not preload the Arabic font", async () => {
 });
 
 test("the Arabic face uses font-display optional so a late arrival never reflows the page", () => {
-  const css = readFileSync(new URL("../src/font-faces.css", import.meta.url), "utf8");
+  const css = localeFontFaceCss("ar");
   const face = css.match(/@font-face\{font-family:"Pilot Noto Arabic";[^}]*\}/)?.[0] || "";
   assert.match(face, /font-display:optional/);
 });

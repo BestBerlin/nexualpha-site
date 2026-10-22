@@ -11,6 +11,9 @@
 //   "data" otherwise. M1 passes when the "ui" count is 0.
 //   node scripts/qa-l10n-gaps.mjs [--base=http://localhost:8952] [--out=report.json] [--concurrency=8]
 import { writeFileSync } from "node:fs";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-l10n-gaps", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-l10n-gaps");
 
 const arg = (name, fallback) => process.argv.slice(2).find((value) => value.startsWith(`--${name}=`))?.split("=").slice(1).join("=") || fallback;
 const BASE = String(arg("base", "https://nexualpha.com")).replace(/\/$/, "");

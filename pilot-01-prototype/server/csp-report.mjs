@@ -1,11 +1,39 @@
 import { createHash } from 'node:crypto';
 
+const scriptHash = (text) => `'sha256-${createHash('sha256').update(text).digest('base64')}'`;
+
 // Hash only the trusted build template, never attacker-controlled response HTML.
-export function reportOnlyPolicy(template = '') {
+export function reportOnlyPolicy(template = '', extraHashes = []) {
   const hashes = [...template.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)]
     .filter(([, attrs, text]) => !/\bsrc\s*=/i.test(attrs) && text.trim() && !/\btype\s*=\s*["']application\/(?:ld\+)?json["']/i.test(attrs))
-    .map(([, , text]) => `'sha256-${createHash('sha256').update(text).digest('base64')}'`);
-  return `default-src 'self'; script-src 'self' ${[...new Set(hashes)].join(' ')}; object-src 'none'; base-uri 'self'; report-uri /api/csp-report`.replace('  ', ' ');
+    .map(([, , text]) => scriptHash(text));
+  // style-src: SSR pages inline their critical CSS and React renders style="" attributes. Without it every page fired
+  // 2-5 report POSTs to /api/csp-report (perf diagnosis 2026-10-22). img-src data:/blob: covers inline data icons.
+  return `default-src 'self'; script-src 'self' ${[...new Set([...hashes, ...extraHashes])].join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; report-uri /api/csp-report`.replace('  ', ' ');
+}
+
+// The two inline scripts the worker itself adds to SSR HTML (worker/index.js protectPrerenderInteraction and
+// DEFERRED_CSS_SWITCH). Matched by their exact fixed opening, first occurrence only, so feed or article text can never
+// get a script of its own allowlisted. The bridge embeds the build's entry URL, so its hash is per build: memoised.
+const WORKER_INLINE_SCRIPTS = [
+  /<script data-nexualpha-deferred-hydration>(\/\* Prerendered content is already visible\. \*\/\(\(\)=>\{let p;const s="\/assets\/[^"<]+";[\s\S]*?)<\/script>/,
+  /<script>(\(\(\)=>\{const l=\[\.\.\.document\.querySelectorAll\("link\[data-nexualpha-deferred-css\]"\)\];[\s\S]*?)<\/script>/,
+];
+const workerHashMemo = new Map();
+export function workerInlineScriptHashes(html = '') {
+  const hashes = [];
+  for (const pattern of WORKER_INLINE_SCRIPTS) {
+    const text = pattern.exec(html)?.[1];
+    if (!text) continue;
+    let hash = workerHashMemo.get(text);
+    if (!hash) {
+      if (workerHashMemo.size >= 32) workerHashMemo.clear();
+      hash = scriptHash(text);
+      workerHashMemo.set(text, hash);
+    }
+    hashes.push(hash);
+  }
+  return hashes;
 }
 
 // Global budget, rather than IP keys: no PII or attacker-controlled map growth.

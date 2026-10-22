@@ -180,15 +180,27 @@ function coreView(bootstrap: CoreBootstrap, opportunities: readonly CoreOpportun
   };
 }
 
+// Production has no Core API configured (every /api/v1/* answers a fail-closed "unavailable" envelope). Perf 2026-10-22:
+// each page view used to fire 7 such requests in parallel after idle. Now bootstrap goes first and the other feeds only
+// follow when it is available; an unavailable backend is remembered in memory for 10 minutes, so client-side route and
+// locale changes in the same page send none. No browser storage: site data keeps no durable cache.
+const CORE_UNAVAILABLE_MS = 10 * 60 * 1000;
+let coreUnavailableUntil = 0;
+
 export async function loadSiteView(locale: string): Promise<SiteLoadResult> {
   if (DATA_SOURCE === "mock") return { status: "ready", view: mockSiteView };
-  return loadCoreSiteView(locale, coreClient());
+  if (coreUnavailableUntil > Date.now()) return { status: "error" };
+  const result = await loadCoreSiteView(locale, coreClient());
+  if (result.status === "error") coreUnavailableUntil = Date.now() + CORE_UNAVAILABLE_MS;
+  return result;
 }
 
 export async function loadCoreSiteView(locale: string, client: CoreClient): Promise<SiteLoadResult> {
   try {
-    const [bootstrap, opportunityResponse, venueResponse, listingResponse, officialUpdateResponse, assetPulseResponse, exchangeSnapshotResponse] = await Promise.all([
-      client.bootstrap(locale),
+    // Bootstrap first: a fail-closed backend answers "unavailable" here and the six feeds below are never requested.
+    const bootstrap = await client.bootstrap(locale);
+    if (!bootstrap.contentVersion?.id || ("status" in bootstrap && bootstrap.status === "unavailable")) return { status: "error" };
+    const [opportunityResponse, venueResponse, listingResponse, officialUpdateResponse, assetPulseResponse, exchangeSnapshotResponse] = await Promise.all([
       client.opportunities(),
       client.venues(),
       client.listings(),

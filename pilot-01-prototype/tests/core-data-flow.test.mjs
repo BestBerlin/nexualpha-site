@@ -60,6 +60,15 @@ test("empty opportunities do not discard connected venue data or call commercial
   assert.equal(client.calls.venue, 0);
 });
 
+test("a fail-closed bootstrap envelope stops the load before the six feed requests (perf 2026-10-22)", async () => {
+  const client = clientFor();
+  client.bootstrap = async () => { client.calls.bootstrap += 1; return { status: "unavailable", reasonCode: "CORE_API_ORIGIN_NOT_CONFIGURED", data: [] }; };
+  const result = await adapter.loadCoreSiteView("en", client);
+  assert.equal(result.status, "error");
+  assert.equal(client.calls.bootstrap, 1);
+  for (const name of ["opportunities", "venues", "listings", "officialUpdates", "assetPulse", "exchangeSnapshots"]) assert.equal(client.calls[name], 0, name);
+});
+
 test("a genuinely unavailable backend stays unavailable, not a successful local mock", async () => {
   const result = await adapter.loadCoreSiteView("en", clientFor({ bootstrapFails: true }));
 

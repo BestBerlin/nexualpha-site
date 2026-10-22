@@ -28,6 +28,9 @@ import { formatPercent } from "../src/data/format-percent.js";
 import { partnerRegistry } from "../src/data/partner-registry.js";
 import { BACKUP_SIGNUP_URLS } from "../src/data/backup-signup.js";
 import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
+import { internalFetch, internalUserAgent, paceInternalRequest } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-regression", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-regression");
 
 const sharedRequire = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality/package.json");
 const puppeteer = sharedRequire("puppeteer-core");
@@ -177,10 +180,11 @@ async function openPage(browser, device, url, { settleMs = 1500 } = {}) {
     if (ANALYTICS_BEACONS.has(pathname)) return req.respond({ status: 204, body: "" });
     return req.continue();
   });
-  await page.setUserAgent(device.ua);
+  await page.setUserAgent(internalUserAgent("qa-regression", device.ua));
   await page.setViewport({ width: device.width, height: device.height, deviceScaleFactor: device.dpr, isMobile: device.mobile, hasTouch: device.touch });
   await page.evaluateOnNewDocument(CLS_BOOTSTRAP);
   const t0 = Date.now();
+  await paceInternalRequest(url); // page loads (one SSR render each) share the 2 req/s budget with fetch()
   const response = await page.goto(url, { waitUntil: "load", timeout: M.budgets.navigationTimeoutMs });
   const loadMs = Date.now() - t0;
   if (settleMs) await sleep(settleMs);

@@ -79,7 +79,7 @@ test('Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR', async
     assert.equal(response.status, 200, href);
     const html = await response.text();
     assert.match(html, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${locale === 'ur' ? 'rtl' : 'ltr'}"`), href);
-    assert.equal(html.includes('href="/fonts/ar-400.woff2"'), locale === 'ur', href);
+    assert.equal(/href="\/fonts\/ar-400\.woff2\?v=/.test(html), locale === 'ur', href);
   }
 });
 

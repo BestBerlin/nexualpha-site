@@ -17,6 +17,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { TOPIC_CLUSTERS, TOOL_CLUSTER_IDS, articleMatchesCluster } from "../src/data/topic-clusters.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath } from "../src/data/locale-routing.js";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-crosslinks", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-crosslinks");
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const arg = (name, fallback) => {

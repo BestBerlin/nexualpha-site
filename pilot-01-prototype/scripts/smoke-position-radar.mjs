@@ -1,6 +1,9 @@
 // Run against the built local server with INTEL_REFRESH=off.
 import assert from 'node:assert/strict';
 import { LOCALE_PREFIX_BY_CODE, localizedPath } from '../src/data/locale-routing.js';
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/smoke-position-radar", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("smoke-position-radar");
 const base = process.argv[2] || 'http://127.0.0.1:48913';
 assert.ok(['127.0.0.1', 'localhost'].includes(new URL(base).hostname), 'This smoke test targets a local preview.');
 let pages = 0;

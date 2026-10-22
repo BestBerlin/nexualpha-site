@@ -6,7 +6,7 @@ import { clickStorage } from './server/click-storage.mjs';
 import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, appendFile, realpath, chmod, readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
-import { createCspReporter, reportOnlyPolicy } from './server/csp-report.mjs';
+import { createCspReporter, reportOnlyPolicy, workerInlineScriptHashes } from './server/csp-report.mjs';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
@@ -60,7 +60,21 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const clientRoot = path.join(distRoot, 'client');
   const renderNews = createNewsSsrRenderer(distRoot);
   const cspReporter = createCspReporter();
-  const cspReportOnly = reportOnlyPolicy(await readFile(path.join(clientRoot, 'index.html'), 'utf8').catch(() => ''));
+  const cspTemplate = await readFile(path.join(clientRoot, 'index.html'), 'utf8').catch(() => '');
+  const cspReportOnly = reportOnlyPolicy(cspTemplate);
+  // SSR HTML also carries the worker's own two inline scripts (hydration bridge, deferred CSS switch): add their hashes
+  // so report-only CSP stops posting a script-src-elem report per page view. One policy string per distinct hash set.
+  const cspPolicies = new Map();
+  const cspForHtml = (html) => {
+    const extra = workerInlineScriptHashes(html);
+    if (!extra.length) return cspReportOnly;
+    const key = extra.join(' ');
+    if (!cspPolicies.has(key)) {
+      if (cspPolicies.size >= 32) cspPolicies.clear();
+      cspPolicies.set(key, reportOnlyPolicy(cspTemplate, extra));
+    }
+    return cspPolicies.get(key);
+  };
   const workerPolledJsonCacheScope = {};
   // Append-only announcement archive (2026-10-12): update pages stay real pages after their item leaves the live feed.
   // INTEL_ARCHIVE_FILE lives outside the read-only app tree (production: /intel-state, host /data/private/nexualpha/intel).
@@ -188,9 +202,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
   });
   const assets = {
     async fetch(request) {
-      const file = resolveAssetPath(clientRoot, new URL(request.url).pathname);
+      const assetUrl = new URL(request.url);
+      const file = resolveAssetPath(clientRoot, assetUrl.pathname);
       if (!file) return new Response('Not Found', { status: 404 });
-      const immutableAsset = (/[/\\]assets[/\\]/.test(file) && /-[A-Za-z0-9_-]{8,}\.(js|css)$/.test(file))
+      const immutableAsset = (/[/\\]assets[/\\]/.test(file) && /-[A-Za-z0-9_-]{8,}\.(js|css|woff2?|svg|png|webp|avif|jpe?g|gif)$/.test(file))
+        // Fonts referenced with their content version (src/data/locale-font-faces.js FONT_VERSIONS, ?v=<sha256 prefix>).
+        || (/[/\\]fonts[/\\]/.test(file) && /\.woff2$/.test(file) && /^[0-9a-f]{8,64}$/.test(assetUrl.searchParams.get('v') || ''))
         || (/[/\\]brand[/\\]/.test(file) && /-v\d+\.(?:avif|gif|jpe?g|png|webp)$/i.test(file));
       const cache = immutableAsset
         ? 'public, max-age=31536000, immutable' : /\.(woff2?|ttf|png|webp|jpe?g|svg|ico|vtt)$/.test(file) ? 'public, max-age=86400' : 'no-cache';
@@ -328,6 +345,11 @@ export async function createProductionServer({ env = process.env, appRoot = root
         rewrittenHeaders.delete('content-length');
         rewrittenHeaders.set('cache-control', 'no-store');
         result = new Response(html, { status: result.status, headers: rewrittenHeaders });
+      }
+      if (req.method === 'GET' && result.body && result.headers.get('content-type')?.includes('text/html')) {
+        const html = await result.text();
+        res.setHeader('Content-Security-Policy-Report-Only', cspForHtml(html));
+        result = new Response(html, { status: result.status, headers: result.headers });
       }
       if (result.status >= 500 && !isHealthCheckPath(requestPath)) await errorMonitor?.record({ requestId, route: requestPath,
         component: requestPath === '/api/analytics/cta' ? 'cta' : 'web',

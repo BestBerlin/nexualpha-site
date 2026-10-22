@@ -1,6 +1,9 @@
 import { localizedHref } from '../src/data/locale-routing.js';
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-venue-slimming", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-venue-slimming");
 const require = createRequire('/Users/bestberlin/.codex/shared-tools/web-quality/package.json');
 const puppeteer = require('puppeteer-core');
 const root = new URL('../docs/venue-page-slimming/browser/', import.meta.url);

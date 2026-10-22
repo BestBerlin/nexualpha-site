@@ -3,8 +3,8 @@
  *
  * Font preload hints (add to the page <head> of any route that adopts V5; ~45KB total, do NOT preload mono unless
  * the first viewport shows numbers in mono):
- *   <link rel="preload" href="/fonts/geist/geist-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
- *   <link rel="preload" href="/fonts/geist/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+ *   <link rel="preload" href="/fonts/geist/geist-sans-latin.woff2?v=fd90607dcdac" as="font" type="font/woff2" crossorigin>
+ *   <link rel="preload" href="/fonts/geist/geist-mono-latin.woff2?v=18da015f4a96" as="font" type="font/woff2" crossorigin>
  * Latin only (U+0020-007E, Latin-1 punctuation, arrows, math). CJK/Arabic fall back to the existing Pilot Noto stacks.
  * Geist is SIL OFL 1.1 (public/fonts/geist/Geist-OFL.txt).
  */
@@ -18,14 +18,14 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: optional;
-  src: url("/fonts/geist/geist-sans-latin.woff2") format("woff2");
+  src: url("/fonts/geist/geist-sans-latin.woff2?v=fd90607dcdac") format("woff2");
 }
 @font-face {
   font-family: "Geist Mono V5";
   font-style: normal;
   font-weight: 100 900;
   font-display: optional;
-  src: url("/fonts/geist/geist-mono-latin.woff2") format("woff2");
+  src: url("/fonts/geist/geist-mono-latin.woff2?v=18da015f4a96") format("woff2");
 }
 /* Metric-matched fallbacks (venue-graph lane 2026-10-11): while Geist is still downloading, text is laid out in Arial /
  * Courier New scaled to Geist's average advance and vertical metrics, so the swap does not reflow the page. Measured
