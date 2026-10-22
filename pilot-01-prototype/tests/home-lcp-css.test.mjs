@@ -64,7 +64,7 @@ test("built v6 assets preserve every declaration and the original inner order", 
   // 2026-10-18: optional, not swap — preloaded Geist paints first on normal connections; slow cold loads keep the
   // metric-matched fallback instead of swapping glyphs at the top of the home (owner: "字体…冒出来").
   assert.match(critical.css, /font-family:Geist V5;[^}]*font-display:optional/);
-  assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2"/);
+  assert.match(read("../dist/client/index.html"), /rel="preload" href="\/fonts\/geist\/geist-sans-latin\.woff2\?v=[0-9a-f]{12}"/);
 });
 
 test("Worker selects one v6 asset and only the route's signature styles", { skip: !built && "run npm run build first" }, async () => {

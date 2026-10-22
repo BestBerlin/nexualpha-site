@@ -6,6 +6,9 @@
 // manifest's searchPublished flag. Writes a JSON report and prints a summary of failing checks.
 import { readFileSync, writeFileSync } from "node:fs";
 import { localizedPath } from "../src/data/locale-routing.js";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-crawl", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-crawl");
 
 const site = (process.argv[2] || "https://nexualpha.com").replace(/\/$/, "");
 const manifest = JSON.parse(readFileSync(process.argv[3] || "dist/client/prerender-manifest.json", "utf8"));

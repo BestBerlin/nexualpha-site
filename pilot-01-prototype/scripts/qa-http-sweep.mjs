@@ -4,6 +4,9 @@
 // pages missing from the sitemaps and reports broken internal links. Output: JSON lines + a summary.
 //   node scripts/qa-http-sweep.mjs <urls.txt> <out.jsonl> [--crawl] [--concurrency 12]
 import { readFile, writeFile, appendFile } from "node:fs/promises";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-http-sweep", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-http-sweep");
 
 const [, , listPath, outPath, ...rest] = process.argv;
 const crawl = rest.includes("--crawl");

@@ -71,6 +71,9 @@ mkdirSync(updatesModelDir, { recursive: true });
 copyFileSync(path.join(root, "src", "components", "official-updates", "official-updates-model.js"), path.join(updatesModelDir, "official-updates-model.js"));
 mkdirSync(path.join(dist, "src", "components", "shared"), { recursive: true });
 copyFileSync(path.join(root, "src", "components", "shared", "announcement-snapshot.js"), path.join(dist, "src", "components", "shared", "announcement-snapshot.js"));
+// Per-locale script font faces (perf 2026-10-22): the Worker head inlines the page locale's @font-face block.
+mkdirSync(path.join(dist, "src", "data"), { recursive: true });
+copyFileSync(path.join(root, "src", "data", "locale-font-faces.js"), path.join(dist, "src", "data", "locale-font-faces.js"));
 // The Worker imports these pure research selectors at runtime.
 const researchDir = path.join(dist, "src", "components", "research");
 mkdirSync(researchDir, { recursive: true });

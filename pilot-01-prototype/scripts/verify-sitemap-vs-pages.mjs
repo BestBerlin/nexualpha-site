@@ -3,6 +3,9 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/verify-sitemap-vs-pages", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("verify-sitemap-vs-pages");
 
 const decode = (text) => text.replace(/&(#x[\da-f]+|#\d+|amp|quot|apos|lt|gt);/gi, (all, entity) => {
   if (entity.startsWith('#')) {

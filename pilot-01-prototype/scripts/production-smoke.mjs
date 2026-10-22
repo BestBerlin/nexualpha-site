@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 import { partnerRegistry } from "../src/data/partner-registry.js";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/production-smoke", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("production-smoke");
 
 const base = (process.env.SMOKE_BASE_URL || "https://nexualpha.com").replace(/\/$/, "");
 const checks = [];

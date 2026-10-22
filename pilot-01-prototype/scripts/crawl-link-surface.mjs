@@ -2,6 +2,9 @@
 // Read-only breadth-first crawl of a built preview. URL variants count separately.
 // Fetch each document path once; fragments and outbound/API/asset routes are excluded.
 import { writeFileSync } from 'node:fs';
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/crawl-link-surface", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("crawl-link-surface");
 const origin = process.argv[2] || 'http://127.0.0.1:4173';
 const output = process.argv[3] || 'crawl-link-surface.json';
 const queue = ['/'];

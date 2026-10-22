@@ -12,6 +12,7 @@ import { clientHomeHeroVariant } from "./data/home-hero-experiment.js";
 import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 import { createHydrationOnceController, createHydrationRoutePreparer } from "./data/route-module-cache.js";
 import "./font-faces.css";
+import { ensureLocaleFontFaces } from "./data/locale-font-faces.js";
 import "./styles/tokens.css";
 import "./styles/v2.css";
 import "./styles/v2-refinement.css";
@@ -98,6 +99,8 @@ function HydrationBootstrap() {
 const heroVariant = clientHomeHeroVariant({ prerenderState, cookie: typeof document !== "undefined" ? document.cookie : "" });
 const app = withHomeHeroVariant(<React.StrictMode><HydrationBootstrap /></React.StrictMode>, heroVariant);
 const routePreparer = createHydrationRoutePreparer({ preloadForUrl: preloadCurrentRouteModulesForUrl });
+// CJK/Korean/Arabic @font-face follow <html lang> (SSR inlines the first one; this covers client-side locale changes).
+ensureLocaleFontFaces();
 let hydrationController;
 
 function clearHydrationFailureState() {

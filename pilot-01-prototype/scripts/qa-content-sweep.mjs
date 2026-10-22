@@ -27,6 +27,9 @@ import { TOPIC_SLUGS } from "../src/data/topic-slugs.js";
 import { TOKENIZED_ASSET_SLUGS } from "../src/data/tokenized-asset-slugs.js";
 import { parseComparePair } from "../src/data/compare-generated.js";
 import { newsArticleAvailableLocales } from "../src/data/news-feed-client.js";
+import { internalFetch } from "./lib/internal-http.mjs";
+// UA "NexuAlpha-internal/qa-content-sweep", paced to 2 req/s against remote hosts (scripts/lib/internal-http.mjs).
+const fetch = internalFetch("qa-content-sweep");
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const arg = (name, fallback) => process.argv.slice(2).find((value) => value.startsWith(`--${name}=`))?.split("=").slice(1).join("=") || fallback;
