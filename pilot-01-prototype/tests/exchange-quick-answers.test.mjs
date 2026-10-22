@@ -76,7 +76,9 @@ test("schema extension retains reviewed questions, removes duplicate names and l
     const entries = quickAnswersForExchange("bitget", locale).items;
     assert.ok(entries.some(entry => entry.question.includes(country) && entry.sources.includes("https://www.bitget.com/support/articles/360014944032")), `${locale}: sourced main-country restriction`);
   }
-  assert.ok(quickAnswersForExchange("backpack", "en").items.every(item => !item.answer.includes("%")), "unchecked Backpack rates are omitted");
+  // Backpack's Tier 1 fees were read from its official fee page on 2026-10-23: the rate answer cites only that page.
+  assert.ok(quickAnswersForExchange("backpack", "en").items.filter(item => item.answer.includes("%")).every(item => item.sources.every(url => url === "https://backpack.exchange/fees")), "Backpack rates cite the official fee page");
+  assert.ok(quickAnswersForExchange("coinw", "en")?.items?.every(item => !item.answer.includes("%")) ?? true, "unchecked rates are omitted");
   assert.equal(quickAnswersForExchange("bitget", "en", "TR"), null);
   for (const locale of ["vi-VN", "zh-TW", "ru-RU"]) {
     const copy = quickAnswersForExchange("okx", locale);

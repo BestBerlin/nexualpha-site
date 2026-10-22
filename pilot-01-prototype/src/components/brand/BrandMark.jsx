@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // Normalised tiles (de-AI pass 2026-10-18, scripts/build-brand-tiles.py): every mark is a full-bleed 64/128 px square
 // built from its manifest-recorded official asset, so one CSS tile (same radius, hairline, size per context) shows
 // every exchange at the same optical size. Venues without a tile keep the manifest asset below.
-export const BRAND_TILE_SLUGS = Object.freeze(new Set(["aerodrome", "aster", "balancer", "binance", "bingx", "bitfinex", "bitget", "bithumb", "bitstamp", "btse", "bullish", "bybit", "camelot", "coinbase", "coinex", "coinw", "crypto-com", "curve", "deepcoin", "deribit", "drift", "dydx", "gate-io", "gemini", "gmx", "hashkey", "htx", "hyperliquid", "jupiter", "kraken", "kucoin", "lbank", "mexc", "okx", "pancakeswap", "phemex", "raydium", "sushi", "uniswap", "upbit", "vertex", "weex", "whitebit"]));
+export const BRAND_TILE_SLUGS = Object.freeze(new Set(["aerodrome", "aster", "backpack", "balancer", "binance", "bingx", "bitfinex", "bitget", "bithumb", "bitstamp", "btse", "bullish", "bybit", "camelot", "coinbase", "coinex", "coinw", "crypto-com", "curve", "deepcoin", "deribit", "drift", "dydx", "gate-io", "gemini", "gmx", "hashkey", "htx", "hyperliquid", "jupiter", "kraken", "kucoin", "lbank", "mexc", "okx", "pancakeswap", "phemex", "raydium", "sushi", "uniswap", "upbit", "vertex", "weex", "whitebit"]));
 
 // 64/128 px WebP squares (356-2,186 B) for the most-shown venues; the manifest asset stays the src fallback.
 const optimizedBrandSquares = Object.freeze({

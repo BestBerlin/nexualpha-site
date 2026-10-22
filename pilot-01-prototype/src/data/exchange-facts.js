@@ -1,7 +1,7 @@
 // The ONE source for public fee facts: every surface (directory, /rates, /compare/*, /factbook/*,
 // /exchanges/{slug}, home hero, compare lab) reads fees, status and check dates from here.
 // Raw data: RAW below is docs/data/exchange-facts-20261010.json verbatim (official fee pages fetched
-// 2026-10-08, re-verified and extended 2026-10-10); update both together. Percent units. A null stays null and renders as "Not yet checked":
+// 2026-10-08, re-verified and extended 2026-10-10; Backpack added 2026-10-23 from backpack.exchange/fees); update both together. Percent units. A null stays null and renders as "Not yet checked":
 // never estimate, never fall back to another file.
 //
 // Publishing rules (keyed by venue + field + date):
@@ -219,6 +219,31 @@ const raw = {
     "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
    ],
    "verified_on": "2026-10-10",
+   "status": "verified"
+  },
+  {
+   "slug": "backpack",
+   "name": "Backpack",
+   "type": "cex",
+   "fees": {
+    "spot": {
+     "maker": 0.08,
+     "taker": 0.1,
+     "note": "Tier 1 base rate. Official fee page, read 2026-10-23."
+    },
+    "perp": {
+     "maker": 0.02,
+     "taker": 0.05,
+     "note": "Tier 1 perps base rate. Official fee page, read 2026-10-23."
+    }
+   },
+   "discount": {},
+   "kyc": null,
+   "restricted_regions": [],
+   "source_urls": [
+    "https://backpack.exchange/fees"
+   ],
+   "verified_on": "2026-10-23",
    "status": "verified"
   },
   {

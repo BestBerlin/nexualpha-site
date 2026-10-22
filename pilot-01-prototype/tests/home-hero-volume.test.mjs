@@ -97,9 +97,12 @@ test("SSR /zh-hans: live sentence, $3,600, dial at 1000 万 U, code and /go CTA,
   assert.match(doc.querySelector(".hx-go").getAttribute("href"), /^\/go\/bitget\?/);
   const rows = [...doc.querySelectorAll(".hx-stage .h7-sr li")].map((li) => li.textContent.replace(/\s+/g, " ").trim());
   assert.ok(rows.some((row) => row.includes("Bitget") && row.includes("$3,600")), rows.join(" | "));
-  // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid (30% share since 2026-10-22) and Backpack (no checked fee: label, no number); HTX/Gate.io stay in the tabs only.
+  // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid (30% share since 2026-10-22) and Backpack; HTX/Gate.io
+  // stay in the tabs only. Owner 2026-10-23: every chip is an amount — Backpack's Tier 1 perp taker 0.05% (official fee page)
+  // × 30% on 1000 万 U = $1,500, never an "官方" label.
   assert.ok(rows.some((row) => row.includes("Hyperliquid") && row.includes("$1,350")), rows.join(" | "));
-  assert.ok(rows.some((row) => row.includes("Backpack") && !/\$/.test(row)), rows.join(" | "));
+  assert.ok(rows.some((row) => row.includes("Backpack") && row.includes("$1,500")), rows.join(" | "));
+  assert.ok(rows.every((row) => /\$[\d,]+/.test(row)), rows.join(" | "));
   assert.ok(!rows.some((row) => /HTX|Gate/.test(row)), rows.join(" | "));
   assert.equal(doc.querySelector(".hx-stage-art").getAttribute("aria-hidden"), "true");
   assert.equal(doc.querySelector(".h7-hero .ht, #h7-terminal-root"), null, "no price terminal on the CTA hero");

@@ -68,9 +68,11 @@ test('reviewed official spot base rates are keyed by venue slug and include disp
 });
 
 test('conditional or unreadable venues remain unknown unless a separate sourced rate is provided', () => {
-  // OKX was promoted to official reviewed fee rows on 2026-10-10; Backpack still has no separate sourced fee row.
+  // OKX was promoted to official reviewed fee rows on 2026-10-10, Backpack on 2026-10-23 (backpack.exchange/fees); a venue
+  // without a sourced fee row (CoinW) stays unknown whatever rate the caller passes.
   assert.equal(buildVenueFeeSummary({ slug: 'okx', spotFee: { makerRate: 0.0008, takerRate: 0.001 } }).rates.length, 2);
-  assert.deepEqual(buildVenueFeeSummary({ slug: 'backpack', spotFee: { makerRate: 0, takerRate: 0.0005 } }).rates, []);
+  assert.equal(buildVenueFeeSummary({ slug: 'backpack', spotFee: { makerRate: 0, takerRate: 0.0005 } }).rates.length, 2);
+  assert.deepEqual(buildVenueFeeSummary({ slug: 'coinw', spotFee: { makerRate: 0, takerRate: 0.0005 } }).rates, []);
 });
 
 test('compact fee guidance has native copy in every supported locale', () => {

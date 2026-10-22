@@ -5,8 +5,12 @@ Every tile is a full-bleed square (64 and 128 px WebP) so the shared CSS tile (s
 size per context) shows every exchange at the same optical size. Rules:
   * opaque app icons are resized as-is;
   * pre-rounded or circular icons get their transparent corners filled with the icon's own edge colour;
-  * bare glyphs on transparency sit at 68 % on the neutral tile colour (#16191F).
-Sources are the official assets already recorded in src/content/brand-manifest.ts. Run: python3 scripts/build-brand-tiles.py
+  * bare glyphs on transparency sit at 68 % on the neutral tile colour (#16191F);
+  * wordmark-only brands (WORDMARKS) span most of the tile width on their own brand ground, so the letters stay
+    legible at 28-32 px instead of floating small in a dark square.
+Sources are the official assets already recorded in src/content/brand-manifest.ts, plus (2026-10-23) Bybit's header
+wordmark SVG from bybit.com and Backpack's header symbol SVG from backpack.exchange.
+Run: python3 scripts/build-brand-tiles.py [slug ...]   (no slug: every tile)
 """
 import io, json, os, subprocess, sys
 from PIL import Image
@@ -14,8 +18,11 @@ from PIL import Image
 ROOT = os.path.join(os.path.dirname(__file__), "..", "public")
 OUT = os.path.join(ROOT, "brands", "tile")
 NEUTRAL = (22, 25, 31, 255)
+# slug -> (ground colour, share of the tile width the wordmark spans)
+WORDMARKS = {"bybit": ((0, 0, 0, 255), 0.86)}
 SOURCES = {
-  "binance": "brands/binance.png", "okx": "brands/okx.png", "bybit": "brands/bybit.png",
+  "binance": "brands/binance.png", "okx": "brands/okx.png", "bybit": "brands/bybit/official-logo.svg",
+  "backpack": "brands/backpack/official-icon.svg",
   "bitget": "brands/bitget/manifest-icon.png", "gate-io": "brands/gate-io/app-store-icon.jpg",
   "mexc": "brands/mexc/app-store-icon.jpg", "htx": "brands/htx/google-play-icon.png", "kraken": "brands/kraken.png",
   "coinbase": "brands/coinbase/app-store-icon.jpg", "kucoin": "brands/kucoin/google-play-icon.png",
@@ -67,12 +74,21 @@ def tile(im):
   bg = Image.new("RGBA", (size, size), NEUTRAL)
   bg.alpha_composite(glyph, ((size - glyph.width) // 2, (size - glyph.height) // 2)); return bg
 
+def wordmark(im, ground, share):
+  im = im.convert("RGBA"); glyph = im.crop(im.getchannel("A").getbbox())
+  size = 512; k = size * share / glyph.width
+  glyph = glyph.resize((round(glyph.width * k), round(glyph.height * k)), Image.LANCZOS)
+  bg = Image.new("RGBA", (size, size), ground)
+  bg.alpha_composite(glyph, ((size - glyph.width) // 2, (size - glyph.height) // 2)); return bg
+
 os.makedirs(OUT, exist_ok=True)
 made = {}
+only = set(sys.argv[1:])
 for slug, rel in SOURCES.items():
+  if only and slug not in only: continue
   src = os.path.join(ROOT, rel)
   if not os.path.exists(src): print("missing", slug, rel, file=sys.stderr); continue
-  t = tile(load(src))
+  t = wordmark(load(src), *WORDMARKS[slug]) if slug in WORDMARKS else tile(load(src))
   for px in (64, 128):
     t.resize((px, px), Image.LANCZOS).convert("RGB").save(os.path.join(OUT, f"{slug}-{px}.webp"), "WEBP", quality=88, method=6)
   made[slug] = rel

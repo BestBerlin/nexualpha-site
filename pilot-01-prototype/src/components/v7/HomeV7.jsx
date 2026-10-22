@@ -303,8 +303,9 @@ function HeroRebate({ locale, venue, amount, quickRef }) {
 // selectable under the tabs' "更多"). A venue picked in the tabs that is not in this list takes the last slot.
 const STAGE_SLOTS = 5;
 const STAGE_VENUES = Object.freeze(["bitget", "okx", "binance", "hyperliquid", "backpack"]);
-// Backpack has no checked fee: it shows its route label, never a number. Hyperliquid's share is the owner's 30% (2026-10-22).
-const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方", "zh-Hant": "官方", en: "Official", ja: "公式", ko: "공식", es: "Oficial", "pt-BR": "Oficial", fr: "Officiel", de: "Offiziell", it: "Ufficiale", tr: "Resmî", id: "Resmi" });
+// Every chip shows an amount (owner 2026-10-23): a venue without a checked perp taker fee is left out and the next rebated
+// partner takes its slot, never a word in place of a number. Backpack's Tier 1 perp fee is in exchange-facts.js
+// (backpack.exchange/fees, read 2026-10-23). Hyperliquid's share is the owner's 30% (2026-10-22).
 const loadGlobe = () => import("./home7-globe.js");
 function RebateStage({ locale, picks, venues, sel, volume }) {
   const rootRef = useRef(null), hostRef = useRef(null), globeRef = useRef(null), selRef = useRef(sel.slug);
@@ -327,17 +328,18 @@ function RebateStage({ locale, picks, venues, sel, volume }) {
   }, []);
   useEffect(() => { globeRef.current?.select(sel.slug); }, [sel.slug, volume]);
   const say = heroSay(locale);
-  const routeLabel = STAGE_ROUTE_LABEL[locale] || STAGE_ROUTE_LABEL.en;
   // Only venues this market's home already offers (Türkiye gating happens upstream in useVenues/heroPicks).
   const known = new Map([...venues, ...picks].map((venue) => [venue.slug, venue]));
-  const shown = STAGE_VENUES.map((slug) => picks.find((v) => v.slug === slug) || known.get(slug)).filter(Boolean);
-  // A market that may not show some of them (Türkiye: no Bitget/Hyperliquid/Backpack) fills the free slots with its other rebated partners.
-  for (const venue of picks) if (shown.length < STAGE_SLOTS && !shown.some((v) => v.slug === venue.slug)) shown.push(venue);
-  if (sel && !shown.some((v) => v.slug === sel.slug)) shown.splice(Math.min(shown.length, STAGE_SLOTS) - 1, 1, sel);
-  const rows = shown.slice(0, STAGE_SLOTS).map((venue) => {
+  const backOf = (venue) => {
     const fact = feeFact(venue.slug, "perp");
-    return { venue, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, venue.share) };
-  }).filter((row) => row.back != null || row.venue.slug === "backpack");
+    return heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, venue.share);
+  };
+  const priced = (venue) => backOf(venue) != null;
+  const shown = STAGE_VENUES.map((slug) => picks.find((v) => v.slug === slug) || known.get(slug)).filter((v) => v && priced(v));
+  // A market that may not show some of them (Türkiye: no Bitget/Hyperliquid/Backpack) fills the free slots with its other rebated partners.
+  for (const venue of picks) if (shown.length < STAGE_SLOTS && priced(venue) && !shown.some((v) => v.slug === venue.slug)) shown.push(venue);
+  if (sel && priced(sel) && !shown.some((v) => v.slug === sel.slug)) shown.splice(Math.min(shown.length, STAGE_SLOTS) - 1, 1, sel);
+  const rows = shown.slice(0, STAGE_SLOTS).map((venue) => ({ venue, back: backOf(venue) }));
   const screen = say.screen.replace("{vol}", heroVolumeText(volume, locale));
   return (
     <figure className="hx-stage" ref={rootRef} data-demo="off">
@@ -361,15 +363,13 @@ function RebateStage({ locale, picks, venues, sel, volume }) {
           <div key={venue.slug} className="hx-stage-node" data-slot={index} data-on={venue.slug === sel.slug ? "" : undefined} data-venue={venue.slug}>
             <BrandMark slug={venue.slug} compact priority={venue.slug === sel.slug} />
             <span className="hx-stage-label">{venue.name}</span>
-            {back == null
-              ? <b className="hx-stage-value hx-stage-route">{routeLabel}</b>
-              : <b className="hx-stage-value" data-final-value={Math.round(back)}>{heroMoneyText(back, locale)}</b>}
+            <b className="hx-stage-value" data-final-value={Math.round(back)}>{heroMoneyText(back, locale)}</b>
           </div>
         ))}
       </div>
       <figcaption className="hx-stage-caption"><i />{say.live} · {screen}</figcaption>
       <ul className="h7-sr" aria-label={screen}>
-        {rows.map(({ venue, back }) => <li key={venue.slug}>{venue.name}: {back == null ? routeLabel : heroMoneyText(back, locale)}</li>)}
+        {rows.map(({ venue, back }) => <li key={venue.slug}>{venue.name}: {heroMoneyText(back, locale)}</li>)}
       </ul>
     </figure>
   );
@@ -680,7 +680,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
       </section>
 
       <section className="h7-strip" aria-label={t.pw(venues.length)}>
-        <ul className="h7-pw">
+        <ul className="h7-pw" style={{ "--pw-n": venues.length }}>
           {venues.map((v, i) => (
             <li key={v.slug}>
               <a href={localizedHref(banned ? `/exchanges/${v.slug}` : `/exchanges/${v.slug}#registration-path`, { locale })} className={v.share ? "on" : undefined}>
