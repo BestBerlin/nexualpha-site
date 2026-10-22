@@ -12,7 +12,6 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { neutralVenueCatalog } from "../src/data/market-command.js";
 import { venueDatabase } from "../src/data/venue-database.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
@@ -32,7 +31,7 @@ import { factbookDates } from "../src/data/factbook-dates.js";
 import { FACTS_AS_OF } from "../src/data/exchange-facts.js";
 import { homeHeroEnabled } from "../src/data/home-hero-experiment.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
-import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
+import { articleSitemapLocales, isSelfCanonicalSitemapSeo, buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildBotPromosFeed } from "../src/data/bot-promos-feed.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
@@ -41,6 +40,7 @@ import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES } from "../src/data/radar-seo.js";
 import { licenseSitemapEntries } from "../src/data/licenses-seo.js";
 import { depositSitemapEntries } from "../src/data/deposit-seo.js";
+import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 import { exchangeHubNewsArticles } from "../src/data/hub-entity-news.js";
 import { intelToolsSitemapEntries } from "../src/data/intel-tools-seo.js";
@@ -226,7 +226,7 @@ export function buildSitemap(inventory, newsArticles, options = {}) {
     // editions; every other route's alternates live on the page and in /locale-sitemap.xml (worker routeMetadata), so
     // this file never states a second, smaller set for the same <loc>.
     lines.push("  <url>", `    <loc>${escape(loc)}</loc>`);
-    for (const alternate of sitemapHreflangAlternates(route.pathname, { article, newsArticles })) {
+    for (const alternate of sitemapHreflangAlternates(route.pathname, { article, newsArticles, eligibleArticleLocales: route.template === "article" ? route.locales : undefined })) {
       lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
     }
     // A rebuild is not a content update: use the route's own content date only.
@@ -257,7 +257,7 @@ function buildUrlset(entries, newsArticles, options = {}) {
     const article = newsArticles.find((article) => entry.route.pathname === `/news/${article.slug}`);
     const date = sitemapEntryLastmod(entry, newsArticles, options);
     lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
-    for (const alternate of sitemapHreflangAlternates(entry.route.pathname, { article, newsArticles })) {
+    for (const alternate of sitemapHreflangAlternates(entry.route.pathname, { article, newsArticles, eligibleArticleLocales: entry.route.template === "article" ? entry.route.locales : undefined })) {
       lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
     }
     if (date && Number.isFinite(Date.parse(date))) lines.push(`    <lastmod>${new Date(date).toISOString().slice(0, 10)}</lastmod>`);
@@ -284,6 +284,7 @@ function buildSitemapIndex(rows) {
 }
 
 export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
+  options = { ...options, articleSeoLocales: options.articleSeoLocales || new Map() };
   const publication = selectSitemapPublicationEntries(inventory, newsArticles, {
     ...options,
     allLocales: INDEXABLE_LOCALES,
@@ -425,7 +426,8 @@ export function buildIntelToolsSitemap() {
 
 export function buildCoinsSitemap() {
   const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
-  const entries = coinsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const entries = coinsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` })
+    .filter((entry) => isSelfCanonicalSitemapSeo(entry.loc, computeRouteSeo({ url: entry.loc })));
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const entry of entries) {
     lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
@@ -494,11 +496,9 @@ export function buildNewsSitemap(newsArticles, { generatedAt = new Date().toISOS
   const href = (pathname, locale) => `${origin}${localizedPath(pathname, locale)}`;
   const reference = Date.parse(generatedAt);
   const cutoff = reference - (2 * 24 * 60 * 60 * 1000);
-  const publishedSlugs = selectReviewedNewsSearchSlugs(newsArticles);
   const recentArticles = newsArticles.filter((article) => {
     const publishedAt = Date.parse(article.publishedAt);
-    return publishedSlugs.has(article.slug)
-      && article.seo?.noindex === false
+    return article.seo?.noindex === false
       && Number.isFinite(reference)
       && Number.isFinite(publishedAt)
       && publishedAt >= cutoff
@@ -507,13 +507,13 @@ export function buildNewsSitemap(newsArticles, { generatedAt = new Date().toISOS
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   let urlCount = 0;
   for (const article of recentArticles) {
-    const locales = newsArticleSeoLocales(article);
+    const locales = articleSitemapLocales(article, newsArticles);
     for (const locale of locales) {
       if (urlCount >= NEWS_SITEMAP_LIMIT) break;
       const pathname = `/news/${article.slug}`;
       const title = article.title?.[locale] || article.title?.en || article.slug;
       lines.push("  <url>", `    <loc>${escape(href(pathname, locale))}</loc>`);
-      for (const alternate of sitemapHreflangAlternates(pathname, { article })) {
+      for (const alternate of sitemapHreflangAlternates(pathname, { article, newsArticles, eligibleArticleLocales: locales })) {
         lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
       }
       const lastmod = article.updatedAt || article.publishedAt;

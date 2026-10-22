@@ -38,7 +38,11 @@ export const coinHasDescription = (coin, locale) => Boolean(COIN_DESCRIPTIONS_BY
 // out of the hub, its schema, the count and the tr sitemap/hreflang.
 export const coinOnPage = (coin, locale) => Boolean(coin) && turkeyListingAllowed(coin.slug, { locale });
 const coinsOnPage = (locale) => COINS.filter((coin) => coinOnPage(coin, locale));
-export const coinIndexable = (coin, locale) => Boolean(coin) && COIN_DETAIL_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale) && coinOnPage(coin, locale);
+// Supplied production crawl (2026-10-22) serves KAG as noindex in all seven editions, while the checked-in
+// listing snapshot would publish it. Keep that observed page policy until the owner reconciles the live snapshot;
+// this affects search publication only, never the coin's listing facts or accessible page.
+const COIN_SEARCH_HOLD_SLUGS = new Set(["kinesis-silver"]);
+export const coinIndexable = (coin, locale) => Boolean(coin) && !COIN_SEARCH_HOLD_SLUGS.has(coin.slug) && COIN_DETAIL_INDEX_LOCALES.includes(locale) && isCoinListed(coin) && coinHasDescription(coin, locale) && coinOnPage(coin, locale);
 /** Locales in which this coin's page is indexable (its hreflang set). */
 export const coinIndexLocales = (coin) => COIN_DETAIL_INDEX_LOCALES.filter((locale) => coinIndexable(coin, locale));
 export const coinsHubCount = () => COINS.length;
@@ -62,8 +66,11 @@ export function coinMeta(coin, locale) {
   const venues = listedOn.length > 4
     ? fill(t.venuesMore || "{list} and {n} more exchanges", { list: listedOn.slice(0, 3).join(t.listJoin), n: listedOn.length - 3 })
     : joinList(listedOn, locale);
+  // Long project names must not erase the localized purchase intent when titles hit the budget.
+  const compactTitle = fill(t.seoTitleShort, { ...vars, coin: coin.symbol })
+    .replace(` (${coin.symbol})`, "").replace(`（${coin.symbol}）`, "");
   return {
-    title: fitTitle([`${fill(t.seoTitle, vars)}`, `${fill(t.seoTitleShort, vars)} — NexuAlpha`, fill(t.seoTitleShort, vars), `${coin.name} (${coin.symbol})`], locale),
+    title: fitTitle([`${fill(t.seoTitle, vars)}`, `${fill(t.seoTitleShort, vars)} — NexuAlpha`, fill(t.seoTitleShort, vars), compactTitle, `${coin.name} (${coin.symbol})`], locale),
     description: clip(isCoinListed(coin) && listedOn.length ? fill(t.seoDescription, { ...vars, venues }) : fill(t.seoDescriptionNone, vars)),
   };
 }

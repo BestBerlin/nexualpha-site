@@ -1,3 +1,4 @@
+import { articleSitemapLocales } from "./article-sitemap-seo.js";
 import { applyAutopilotOverride } from "./seo-autopilot.js";
 export { applyAutopilotOverride } from "./seo-autopilot.js";
 import { strikingDistanceVenueTitle, strikingDistanceVenueDescription, isStrikingDistanceVenueTitle } from './striking-distance-venue-copy.js';
@@ -11,7 +12,6 @@ import { approvedCampaign, campaignRouteSeo } from "./campaign-autodraft.js";
 import { applyExchangeQuickAnswers } from "./exchange-quick-answer-schema.js";
 import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
-import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
@@ -402,10 +402,7 @@ function searchPublicationLocales(pathname, options = {}) {
   // Kraken 5M USDG Challenge page (mirror of the Worker): its written editions.
   if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
-  if (options.article) {
-    if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
-    return selectReviewedNewsSearchSlugs(options.newsArticles).has(options.article.slug) ? newsArticleSeoLocales(options.article) : [];
-  }
+  if (options.article) return articleSitemapLocales(options.article, options.newsArticles);
   if (tokenizedAssetPage(pathname.replace(/^\/topics\//, ""))) return TOKENIZED_ASSET_LOCALES;
   if (venueAlternativePage(pathname.replace(/^\/topics\//, ""))) return VENUE_ALTERNATIVES_INDEX_LOCALES;
   if (isBrazilDeadlineSlug(pathname.replace(/^\/topics\//, ""))) return brazilDeadlineIndexLocales(pathname);

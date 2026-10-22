@@ -33,11 +33,21 @@ export function parseRadarPath(pathname) {
   return null;
 }
 
+// Search titles distinguish the six locales whose UI uses the shared trading term "long/short".
+const LONG_SHORT_SEARCH_TITLES = Object.freeze({
+  es: "Ratio de posiciones largas y cortas",
+  "pt-BR": "Proporção de posições compradas e vendidas",
+  fr: "Ratio des positions acheteuses et vendeuses",
+  it: "Rapporto tra posizioni lunghe e corte",
+  id: "Rasio posisi beli dan jual",
+  vi: "Tỷ lệ vị thế mua và bán",
+});
+
 function pageCopy(kind, locale, coin) {
   const copy = radarCopy(locale);
   if (kind === "long-short") {
     return {
-      title: `${copy.longShortTitle} — NexuAlpha`,
+      title: `${LONG_SHORT_SEARCH_TITLES[locale] || copy.longShortTitle} — NexuAlpha`,
       headline: copy.longShortTitle,
       description: `${copy.longShortLead} ${copy.longShortSummary}`,
       section: copy.longShortTitle,

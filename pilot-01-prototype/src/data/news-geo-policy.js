@@ -1,5 +1,5 @@
 import { partnerRegistry } from "./partner-registry.js";
-import { isPartnerPromotableIn, partnerPromotionGate } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyUnlistedVenue, partnerPromotionGate } from "./partner-geo-policy.js";
 import { neutralArticleView } from "./neutral-article.js";
 
 // A locale restriction remains binding even when a permissive market is supplied.
@@ -22,12 +22,14 @@ function patternsFor(context) {
   const key = `${context.locale || ""}\0${context.market || ""}`;
   const cached = restrictedPatterns.get(context);
   if (cached?.key === key) return cached.patterns;
-  // Locale alone only binds the Türkiye gate (tr pages never name Bitget). Other locale-inferred countries (ja → JP, ...)
-  // keep their article bodies; an explicit request market applies its full territorial gate.
+  // Türkiye promotion restrictions permit informational research about non-promoted venues. Only the separate
+  // unlisted-venue policy removes editorial mentions (Bitget); using the promotion allowlist here erased entire
+  // Turkish editions about Kraken, Hyperliquid and dYdX. Explicit non-Türkiye markets retain their territorial gate.
   const patterns = venuePatterns.filter(([slug]) => [{ locale: context.locale }, { market: context.market }].some(scope => {
     const gate = partnerPromotionGate(slug, scope);
     if (!gate || gate.reason === "jurisdiction-promotion-ban") return false;
-    return scope.market ? true : gate.country === "TR";
+    if (gate.country === "TR") return isTurkeyUnlistedVenue(slug, scope);
+    return Boolean(scope.market);
   })).map(([, pattern]) => pattern);
   restrictedPatterns.set(context, { key, patterns });
   return patterns;

@@ -1,5 +1,6 @@
 import { isLegalPagePath, LEGAL_LOCALES } from "../src/data/legal-pages.js";
-import { selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
+import { articleSitemapLocales } from "../src/data/article-sitemap-seo.js";
+export { articleSitemapLocales, isSelfCanonicalSitemapSeo } from "../src/data/article-sitemap-seo.js";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -172,10 +173,10 @@ export function loadSearchPublicationBaseline({ projectRoot = root } = {}) {
 //   - /news listings: the locales with enough native articles (newsListingIndexableLocales, the worker's function);
 //   - every other route: none here. Their hreflang lives on the page and in /locale-sitemap.xml, both built by the
 //     worker's routeMetadata, so this file never states a second, different set for the same URL.
-export function sitemapHreflangAlternates(pathname, { article = null, newsArticles = [] } = {}) {
+export function sitemapHreflangAlternates(pathname, { article = null, newsArticles = [], eligibleArticleLocales } = {}) {
   const href = (locale) => `${origin}${localizedPath(pathname, locale)}`;
   if (/^\/news\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pathname) && !parseNewsListingPath(pathname)) {
-    return article ? hreflangAlternates(newsArticleSeoLocales(article), href) : [];
+    return article ? hreflangAlternates(eligibleArticleLocales || articleSitemapLocales(article, newsArticles), href) : [];
   }
   if (pathname === "/news" || parseNewsListingPath(pathname)) return hreflangAlternates(newsListingIndexableLocales(newsArticles), href);
   return [];
@@ -212,6 +213,7 @@ function publicRouteKeyFromUrl(value) {
   return routeKey(publicRoute.contentPathname, publicRoute.locale);
 }
 
+
 function addEntry(entries, route, locale, loc, source) {
   if (!route.index) return false;
   const url = normalizeUrl(loc || sitemapUrl(route.pathname, locale));
@@ -232,13 +234,14 @@ function entryCountByTemplate(entries, template) {
 export function selectSitemapPublicationEntries(inventory, newsArticles = [], {
   policy = loadSearchPublicationBaseline(),
   allLocales,
+  articleSeoLocales,
 } = {}) {
   // Inventory can be stale or caller supplied. Reconcile article editions with current page publication authority.
   const articlesBySlug = new Map(newsArticles.map((article) => [article.slug, article]));
   inventory = inventory.map((route) => {
     if (route.template !== "article") return route;
-    const eligible = newsArticleSeoLocales(articlesBySlug.get(pathSlug(route.pathname, "/news/")));
-    return { ...route, locales: eligible.filter((locale) => !route.locales || route.locales.includes(locale)) };
+    const eligible = articleSitemapLocales(articlesBySlug.get(pathSlug(route.pathname, "/news/")), newsArticles, articleSeoLocales);
+    return { ...route, locales: eligible };
   });
   const locales = allLocales || policy.priorityLocales || DEFAULT_POLICY.priorityLocales;
   const routeByKey = new Map();
@@ -248,7 +251,7 @@ export function selectSitemapPublicationEntries(inventory, newsArticles = [], {
   }
 
   const entries = new Map();
-  const reviewedArticleSlugs = selectReviewedNewsSearchSlugs(newsArticles, Number(policy.maxReviewedNewsArticleRoutes ?? DEFAULT_POLICY.maxReviewedNewsArticleRoutes));
+  const reviewedArticleSlugs = new Set(newsArticles.filter((article) => article?.seo?.noindex === false).map((article) => article.slug));
   if (policy.publicationMode === "full-reviewed-indexable") {
     for (const route of inventory) {
       if (!route.index || !shouldPublishRoute(route.pathname)) continue;

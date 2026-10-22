@@ -4,11 +4,12 @@ import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { hreflangAlternates, newsArticleSeoLocales, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { INDEXABLE_LOCALES, buildSplitSitemaps, routeInventory, routeLastmod } from "./generate-prerender-manifest.mjs";
 import {
   SEARCH_PUBLICATION_VERSION,
+  articleSitemapLocales,
   buildSearchPublicationReport,
   loadSearchPublicationBaseline,
   selectPublicationNewsArticles,
@@ -296,20 +297,23 @@ function recentIndexableNewsArticles(articles, generatedAt) {
   });
 }
 
-function newsSitemapEntries(articles, generatedAt, origin) {
+function newsSitemapEntries(articles, generatedAt, origin, articleSeoLocales) {
   const href = (pathname, locale) => `${origin}${localizedPath(pathname, locale)}`;
   return recentIndexableNewsArticles(articles, generatedAt)
-    .flatMap((article) => newsArticleSeoLocales(article).map((locale) => {
-      const title = cleanString(article.title?.[locale]) || cleanString(article.title?.en) || article.slug;
-      return {
-        loc: href(`/news/${article.slug}`, locale),
-        language: newsSitemapLanguage(locale),
-        publicationDate: new Date(Date.parse(article.publishedAt)).toISOString(),
-        lastmod: newsSitemapLastmod(article, Date.parse(generatedAt)),
-        alternates: hreflangAlternates(newsArticleSeoLocales(article), (hreflang) => href(`/news/${article.slug}`, hreflang)),
-        title,
-      };
-    }))
+    .flatMap((article) => {
+      const locales = articleSitemapLocales(article, articles, articleSeoLocales);
+      return locales.map((locale) => {
+        const title = cleanString(article.title?.[locale]) || cleanString(article.title?.en) || article.slug;
+        return {
+          loc: href(`/news/${article.slug}`, locale),
+          language: newsSitemapLanguage(locale),
+          publicationDate: new Date(Date.parse(article.publishedAt)).toISOString(),
+          lastmod: newsSitemapLastmod(article, Date.parse(generatedAt)),
+          alternates: hreflangAlternates(locales, (hreflang) => href(`/news/${article.slug}`, hreflang)),
+          title,
+        };
+      });
+    })
     .slice(0, NEWS_SITEMAP_LIMIT);
 }
 
@@ -321,15 +325,18 @@ export function buildNewsSeoFiles(feed, options = {}) {
   const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(feed));
   const inventory = Array.isArray(options.inventory) ? options.inventory : routeInventory(articles);
   const policy = options.policy || loadSearchPublicationBaseline();
+  const articleSeoLocales = new Map();
   const publication = selectSitemapPublicationEntries(inventory, articles, {
+    articleSeoLocales,
     policy,
     allLocales: options.allLocales || INDEXABLE_LOCALES,
   });
   const publicationReport = buildSearchPublicationReport(publication);
   const indexableArticles = selectPublicationNewsArticles(articles, publication);
 
-  const newsSitemapUrls = newsSitemapEntries(indexableArticles, generatedAt, origin);
+  const newsSitemapUrls = newsSitemapEntries(indexableArticles, generatedAt, origin, articleSeoLocales);
   const splitSitemaps = buildSplitSitemaps(inventory, articles, {
+    articleSeoLocales,
     policy,
     allLocales: options.allLocales || INDEXABLE_LOCALES,
     newsSitemapLastmod: generatedAt,
@@ -338,7 +345,7 @@ export function buildNewsSeoFiles(feed, options = {}) {
 
   return {
     sitemap: splitSitemaps.index,
-    sitemapFiles: Object.fromEntries([...splitSitemaps.files.entries()].map(([file, data]) => [file, data.xml])),
+    sitemapFiles: Object.fromEntries([...splitSitemaps.files.entries(), ["sitemap-coins.xml", splitSitemaps.coins]].map(([file, data]) => [file, data.xml])),
     llms,
     newsSitemap: serializeNewsSitemap(newsSitemapUrls),
     newsSitemapUrls,
