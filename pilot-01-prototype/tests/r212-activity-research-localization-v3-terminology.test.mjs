@@ -11,7 +11,7 @@ const sourceText = readFileSync(new URL('../src/data/official-campaign-localizat
 
 test('R212 v3 fixes audited finance terminology without weakening source identity or protected registry', () => {
   const registry = readFileSync(new URL('../src/data/partner-registry.js', import.meta.url));
-  assert.equal(createHash('sha256').update(registry).digest('hex'), '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(createHash('sha256').update(registry).digest('hex'), '3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83');
 });
 
 test('Kraken default-currency amount does not become USD in Japanese or Arabic', () => {

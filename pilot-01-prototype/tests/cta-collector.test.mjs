@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { loopbackListenSkip } from './helpers/environment.mjs';
 import assert from 'node:assert/strict';
 import { mkdtemp, readFile, rm, mkdir, readdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
@@ -648,7 +649,7 @@ test('production collector acknowledges crawler analytics without persisting int
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
-test('production health endpoints separate live, web, CTA and Core readiness', async () => {
+test('production health endpoints separate live, web, CTA and Core readiness', { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-health-http-'));
   const appRoot = path.join(dir, 'app');
   await mkdir(appRoot);
@@ -724,7 +725,7 @@ test('production health endpoints separate live, web, CTA and Core readiness', a
   } finally { if (server?.listening) await new Promise((resolve) => server.close(resolve)); await rm(dir, { recursive: true, force: true }); }
 });
 
-test('production Core readiness probes the configured upstream with a timeout boundary', async () => {
+test('production Core readiness probes the configured upstream with a timeout boundary', { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-health-core-'));
   const appRoot = path.join(dir, 'app');
   await mkdir(appRoot);
@@ -767,7 +768,7 @@ test('production Core readiness probes the configured upstream with a timeout bo
   }
 });
 
-test('production HTTP entry records external private data, isolates smoke, and retains dedupe after restart', async () => {
+test('production HTTP entry records external private data, isolates smoke, and retains dedupe after restart', { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-production-http-'));
   const appRoot = path.join(dir, 'app');
   await mkdir(appRoot);
@@ -808,18 +809,27 @@ test('production HTTP entry records external private data, isolates smoke, and r
   } finally { if (server?.listening) await stop(); await rm(dir, { recursive: true, force: true }); }
 });
 
-test('production server rejects ambiguous storage/config and supports the existing proxy-only mode', async () => {
+test('production server rejects ambiguous storage/config', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-production-config-'));
   const appRoot = path.join(dir, 'app');
   await mkdir(appRoot);
   const env = { NODE_ENV: 'production', CTA_ENVIRONMENT: 'production', CTA_ALLOWED_ORIGIN: 'https://nexualpha.com', CTA_DATA_FILE: path.join(dir, 'private', 'production.jsonl') };
   const worker = { fetch: async (_request, bindings) => new Response(bindings.CTA_ANALYTICS_ORIGIN || 'missing') };
-  let server;
   try {
     await assert.rejects(createProductionServer({ appRoot, worker, env: { CTA_DATA_FILE: env.CTA_DATA_FILE } }), /CTA_EXPLICIT_CONFIG_REQUIRED/);
     await assert.rejects(createProductionServer({ appRoot, worker, env: { ...env, CTA_DATA_FILE: path.join(appRoot, 'events.jsonl') } }), /CTA_DATA_MUST_BE_OUTSIDE_APP/);
     await assert.rejects(createProductionServer({ appRoot, worker, env: { ...env, CTA_SMOKE_DATA_FILE: env.CTA_DATA_FILE } }), /CTA_SMOKE_FILE_MUST_BE_SEPARATE/);
     await assert.rejects(createProductionServer({ appRoot, worker, env: { ...env, CTA_ANALYTICS_ORIGIN: 'http://collector:8081' } }), /CTA_MULTIPLE_COLLECTORS_CONFIGURED/);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('production server supports the existing proxy-only mode', { skip: await loopbackListenSkip() }, async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-production-proxy-'));
+  const appRoot = path.join(dir, 'app');
+  await mkdir(appRoot);
+  const worker = { fetch: async (_request, bindings) => new Response(bindings.CTA_ANALYTICS_ORIGIN || 'missing') };
+  let server;
+  try {
     server = await createProductionServer({ appRoot, worker, env: { CTA_ANALYTICS_ORIGIN: 'http://collector:8081' } });
     await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
     const response = await fetch(`http://127.0.0.1:${server.address().port}/api/analytics/cta`);

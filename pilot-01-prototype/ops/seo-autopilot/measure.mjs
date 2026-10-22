@@ -30,15 +30,17 @@ export function pageDecay(current, previous) {
 export function proposal(target, html) {
   const url = new URL(target.page), pathname = url.pathname;
   const seo = computeRouteSeo({ url: url.href });
-  const title = html?.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || seo.title || '';
-  const h1 = html?.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g, ' ') || '';
+  const decode = (value) => String(value || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  const title = decode(html?.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || seo.title);
+  const h1 = decode(html?.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g, ' '));
   const tokens = target.query.toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
   const missing = (text) => tokens.some((t) => !text.toLowerCase().includes(t));
   const locale = pathname.startsWith('/zh-hans/') ? 'zh-hans' : seo.locale === 'en' ? 'en' : null;
   const contentPath = pathname.replace(/^\/zh-hans(?=\/)/, '');
   const eligible = Boolean(!url.search && locale && seo.status === 200 && !/\bnoindex\b/.test(seo.robots) && /^(?:\/exchanges\/[^/]+|\/compare\/[^/]+|\/news(?:\/page\/\d+|\/category\/[^/]+)?|\/data\/[^/]+|\/liquidations|\/funding-rates)$/.test(contentPath));
   const brand = 'NexuAlpha';
-  const description = seo.description || '';
+  const descriptionTag = [...String(html || '').matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => tag).find((tag) => /\bname\s*=\s*["']description["']/i.test(tag));
+  const description = decode(descriptionTag?.match(/\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i)?.slice(1).find((value) => value !== undefined) ?? seo.description);
   const action = html === null ? 'none' : missing(title) ? 'title' : missing(h1) ? 'answer-first' : missing(description) ? 'description' : 'none';
   // Reuse observed query language; no synthesized claims or amounts.
   return { ...target, pathname, locale, eligible, brand, currentTitle: title, currentDescription: description, proposedDescription: `${target.query}: ${description}${description.includes(brand) ? '' : ` | ${brand}`}`, action, proposedTitle: `${target.query} | ${brand}`, evidence: html === null ? 'page-fetch-unavailable' : 'live-title-h1' };
@@ -47,12 +49,60 @@ export function proposal(target, html) {
 export function unmatchedTopics(radar) {
   return radar.filter((r) => typeof r.query === 'string' && !r.url && /new[- ]article/i.test(r.action || '') && !/nexu|opusdte|\b(?:site|inbody):|["“”]/i.test(r.query)).map((r) => ({ query: r.query, locale: r.market || 'en', action: 'new-article', source: 'radar-unmatched-hint', requiresEditorialReview: true }));
 }
-export async function fetchText(url) {
-  const parsed = new URL(url);
-  if (parsed.origin !== origin) throw new Error('Non-site URL rejected');
-  const response = await fetch(url, { signal: AbortSignal.timeout(20000), redirect: 'error' });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.text();
+export function contextualInboundLinks(fetchedPages = []) {
+  const decode = (value) => String(value || '').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&#x27;/gi, "'");
+  const attribute = (tag, name) => decode(tag.match(new RegExp(`(?:^|\\s)${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'))?.slice(1).find((value) => value !== undefined));
+  const normalize = (value, base = origin) => {
+    try {
+      const url = new URL(decode(value), base);
+      if (url.origin !== origin) return null;
+      return origin + (url.pathname.replace(/\/+$/, '') || '/');
+    } catch { return null; }
+  };
+  const sources = new Set(), inlinks = new Map();
+  for (const page of fetchedPages) {
+    if (!normalize(page.url)) continue;
+    const html = String(page.html || '');
+    const head = html.split(/<\/head>/i)[0];
+    const robots = [...head.matchAll(/<meta\b[^>]*>/gi)].filter(([tag]) => attribute(tag, 'name').toLowerCase() === 'robots').map(([tag]) => attribute(tag, 'content'));
+    if (robots.some((value) => value.split(/[\s,]+/).some((token) => token.toLowerCase() === 'noindex'))) continue;
+    const canonical = [...head.matchAll(/<link\b[^>]*>/gi)].find(([tag]) => attribute(tag, 'rel').toLowerCase().split(/\s+/).includes('canonical'));
+    const source = normalize(canonical ? attribute(canonical[0], 'href') : page.url, page.url);
+    if (!source) continue;
+    sources.add(source);
+    const body = html.replace(/<(script|style|template)\b[\s\S]*?<\/\1>/gi, '').replace(/<!--[\s\S]*?-->/g, '').match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] || '';
+    for (const [anchor, , text] of body.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
+      if (!text.replace(/<[^>]*>/g, '').trim()) continue;
+      const href = attribute(anchor, 'href');
+      if (!href) continue;
+      const target = normalize(href, source);
+      if (!target || target === source) continue;
+      if (!inlinks.has(target)) inlinks.set(target, new Set());
+      inlinks.get(target).add(source);
+    }
+  }
+  return { coverage: 'gsc-target-sample', complete: false, successfulFetches: fetchedPages.length, pages: sources.size, sourceUrls: [...sources].sort(), observedLowerBoundInlinks: [...inlinks].sort(([a], [b]) => a.localeCompare(b)).map(([url, referring]) => ({ url, count: referring.size, sourceUrls: [...referring].sort() })) };
+}
+export async function fetchText(url, { fetchPage = fetch } = {}) {
+  // GSC retains retired query-locale and factbook URLs. Their canonical redirects are
+  // healthy pages, not outages. Validate every hop before fetching it.
+  let current = new URL(url);
+  const seen = new Set();
+  for (let hop = 0; hop <= 5; hop += 1) {
+    if (current.origin !== origin) throw new Error('Non-site URL rejected');
+    if (seen.has(current.href)) throw new Error('Redirect loop');
+    seen.add(current.href);
+    const response = await fetchPage(current.href, { signal: AbortSignal.timeout(20000), redirect: 'manual' });
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      const location = response.headers.get('location');
+      if (!location) throw new Error('Redirect missing location');
+      current = new URL(location, current);
+      continue;
+    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.text();
+  }
+  throw new Error('Too many redirects');
 }
 async function bing(warnings) {
   try {
@@ -72,7 +122,7 @@ export async function saveReport(report, dir) {
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, `${report.date}.json`), `${JSON.stringify(report, null, 2)}\n`);
   const jsonBlock = (value) => `\n\`\`\`json\n${JSON.stringify(value, null, 2)}\n\`\`\`\n`;
-  const markdown = [`# SEO autopilot ${report.date}`, '## Windows and metrics', jsonBlock({ periods: report.periods, ...report.metrics }), '## Top proposals', proposalTable(report.targets), '## Page decay', jsonBlock(report.pageDecay), '## Index health', jsonBlock({ notIndexed: report.notIndexed, unknown: report.inspectionUnknown, urls: report.indexHealth }), '## Verification', jsonBlock(report.verified || []), '## Application', jsonBlock(report.application || {}), '## Warnings', ...report.warnings.map((s) => `- ${s}`)].join('\n\n');
+  const markdown = [`# SEO autopilot ${report.date}`, '## Windows and metrics', jsonBlock({ periods: report.periods, ...report.metrics }), '## Top proposals', proposalTable(report.targets), '## Inbound links (GSC target sample only)', jsonBlock(report.inboundLinks || { coverage: 'unavailable', complete: false }), '## Page decay', jsonBlock(report.pageDecay), '## Index health', jsonBlock({ notIndexed: report.notIndexed, unknown: report.inspectionUnknown, urls: report.indexHealth }), '## Verification', jsonBlock(report.verified || []), '## Application', jsonBlock(report.application || {}), '## Notes', ...(report.notes || []).map((s) => `- ${s}`), '## Warnings', ...report.warnings.map((s) => `- ${s}`)].join('\n\n');
   await writeFile(path.join(dir, `${report.date}.md`), `${markdown}\n`);
 }
 export function proposalTable(targets) {
@@ -85,17 +135,17 @@ export async function measure({ date = new Date().toLocaleDateString('en-CA', { 
   const [current, previous, countries, devices, rows, currentPages, previousPages, previousCountries, previousDevices] = await Promise.all([
     pull(periods.current, []), pull(periods.previous, []), pull(periods.current, ['country']), pull(periods.current, ['device']), pull(periods.month, ['query', 'page']), pull(periods.current, ['page']), pull(periods.previous, ['page']), pull(periods.previous, ['country']), pull(periods.previous, ['device']),
   ]);
-  const selected = selectTargets(rows), targets = [];
+  const selected = selectTargets(rows), targets = [], fetchedPages = [];
   const protectedPages = new Set([...currentPages, ...rows.map((r) => ({ ...r, keys: [r.keys[1]] }))].filter((r) => r.position <= 8).map((r) => r.keys[0]));
   for (const target of selected.targets.slice(0, 100)) {
     let html = null;
-    try { html = await fetchText(target.page); } catch { warnings.push(`Page unavailable: ${target.page}`); }
+    try { html = await fetchText(target.page); fetchedPages.push({ url: target.page, html }); } catch { if (!warnings.includes(`Page unavailable: ${target.page}`)) warnings.push(`Page unavailable: ${target.page}`); }
     const item = proposal(target, html);
     if (protectedPages.has(target.page)) { item.eligible = false; item.protection = "page-already-top-eight"; }
     targets.push(item);
   }
   if (selected.targets.length > 100) warnings.push('Live page analysis capped at 100 targets; remaining candidates retained in strikingDistance.');
-  warnings.push('Inbound-link analysis skipped: no complete built HTML graph; no internal-link claims made.');
+  const inboundLinks = contextualInboundLinks(fetchedPages);
   let radar = [], indexHealth = [];
   try { radar = JSON.parse(await readFile(process.env.SEO_RADAR_FILE || '/Volumes/致态2TB/nx-agents/keywords/radar/latest.json', 'utf8')).top || []; } catch { warnings.push('Keyword radar unavailable.'); }
   try {
@@ -111,12 +161,12 @@ export async function measure({ date = new Date().toLocaleDateString('en-CA', { 
       try { indexHealth.push({ url, ...await inspect(url) }); } catch { indexHealth.push({ url, error: 'inspection unavailable', verdict: null }); warnings.push(`Inspection unavailable: ${url}`); }
     }
   } catch { warnings.push('Newest article feed unavailable.'); }
-  const report = { date, periods, metrics: { current: current[0] || null, previous: previous[0] || null, countries: countries.sort((a, b) => b.impressions - a.impressions).slice(0, 5), devices, previousCountries: previousCountries.sort((a, b) => b.impressions - a.impressions).slice(0, 5), previousDevices }, strikingDistance: selected.targets, excluded: selected.excluded, targets, pageDecay: pageDecay(currentPages, previousPages), indexHealth, notIndexed: indexHealth.filter((s) => s.verdict && s.verdict !== 'PASS').length, inspectionUnknown: indexHealth.filter((s) => !s.verdict).length, bing: await bing(warnings), radar, topicHints: unmatchedTopics(radar), warnings, verified: [] };
+  const report = { date, periods, metrics: { current: current[0] || null, previous: previous[0] || null, countries: countries.sort((a, b) => b.impressions - a.impressions).slice(0, 5), devices, previousCountries: previousCountries.sort((a, b) => b.impressions - a.impressions).slice(0, 5), previousDevices }, strikingDistance: selected.targets, excluded: selected.excluded, targets, inboundLinks, pageDecay: pageDecay(currentPages, previousPages), indexHealth, notIndexed: indexHealth.filter((s) => s.verdict && s.verdict !== 'PASS').length, inspectionUnknown: indexHealth.filter((s) => !s.verdict).length, bing: await bing(warnings), radar, topicHints: unmatchedTopics(radar), warnings, notes: [], verified: [] };
   if (report.topicHints.length) {
     const file = process.env.SEO_AUTOPILOT_TOPICS_FILE || '/Volumes/致态2TB/nx-agents/keywords/radar/autopilot-topics.json';
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, `${JSON.stringify({ date, topics: report.topicHints }, null, 2)}\n`);
-  } else warnings.push('No explicit unmatched radar intents; no new-article hints emitted.');
+  } else report.notes.push('No explicit unmatched radar intents; no new-article hints emitted.');
   await saveReport(report, dir);
   return report;
 }

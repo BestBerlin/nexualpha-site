@@ -52,7 +52,7 @@ test("a generated pair resolves in all 17 locales with templated copy and the sh
     // Owner title-budget rule: long served titles drop the trailing brand suffix, while source copy keeps it.
     assert.equal(meta.title, budgetTitle(copy.title, titleBudgetForLocale(locale)), url);
     assert.ok(meta.description.length > 40 && meta.description.length <= 160 + 20, url);
-    const expected = generatedCompareLocales(INDEXABLE_PAIR).includes(locale) ? "index,follow" : "noindex,follow";
+    const expected = "noindex,follow";
     assert.equal(meta.robots, expected, url);
     assert.equal(computeRouteSeo({ pathname: `/compare/${INDEXABLE_PAIR}`, locale, route: {} }).robots, expected, `seo-injection mirror ${locale}`);
     if (expected === "index,follow") assert.ok(meta.alternates.some((alt) => alt.hreflang === "x-default"), url);
@@ -76,8 +76,8 @@ test("the reverse slug 301s to the canonical pair and keeps attribution params",
   assert.equal(canonical.status, 200);
 });
 
-test("index policy matrix: both reviewed AND at least one partner -> index; otherwise noindex,follow", () => {
-  const fixtures = { hasReviewedFees: (slug) => ["alpha", "beta", "gamma"].includes(slug), isPartner: (slug) => ["alpha", "delta"].includes(slug) };
+test("index policy requires pair-specific evidence beyond reused reviewed venue rows", () => {
+  const fixtures = { hasReviewedFees: (slug) => ["alpha", "beta", "gamma"].includes(slug), isPartner: (slug) => ["alpha", "delta"].includes(slug), hasUniqueData: () => true };
   assert.equal(generatedComparePolicy("alpha-vs-beta", fixtures).robots, "index,follow"); // reviewed + reviewed, one partner
   assert.equal(generatedComparePolicy("beta-vs-gamma", fixtures).robots, "noindex,follow"); // reviewed, no partner
   assert.equal(generatedComparePolicy("alpha-vs-delta", fixtures).robots, "noindex,follow"); // partner, delta unreviewed
@@ -86,9 +86,10 @@ test("index policy matrix: both reviewed AND at least one partner -> index; othe
   assert.equal(generatedComparePolicy("binance-vs-okx").robots, "index,follow");
   assert.equal(generatedComparePolicy(NOINDEX_PAIR).robots, "noindex,follow");
   assert.equal(generatedComparePolicy(NOINDEX_UNREVIEWED).robots, "noindex,follow");
-  assert.equal(generatedComparePolicy(INDEXABLE_PAIR).robots, "index,follow");
+  assert.equal(generatedComparePolicy(INDEXABLE_PAIR).robots, "noindex,follow");
+  assert.equal(generatedComparePolicy("alpha-vs-beta", { ...fixtures, hasUniqueData: () => false }).robots, "noindex,follow");
   const indexable = indexableGeneratedComparePairs();
-  assert.ok(indexable.length >= 20 && indexable.length <= 60, `indexable generated pairs: ${indexable.length}`);
+  assert.equal(indexable.length, 0, "no generated page currently exposes pair-specific reviewed evidence");
   assert.ok(indexable.every((pair) => !CURATED_COMPARISON_SLUGS.includes(pair)));
   const expectedTotal = (ACTIVE_COMPARE_VENUE_SLUGS.length * (ACTIVE_COMPARE_VENUE_SLUGS.length - 1)) / 2 - CURATED_COMPARISON_SLUGS.length;
   assert.equal(generatedComparePairs().length, expectedTotal);
@@ -153,7 +154,7 @@ test("generated pairs and the hub are server-rendered at request time when the r
   const body = await response.text();
   assert.equal(rendered.length, 1);
   assert.match(body, /<div id="root"><main class="v3-compare-page"><h1>Gate\.io vs Kraken<\/h1><\/main><\/div>/);
-  assert.match(body, /name="robots" content="index,follow"/);
+  assert.match(body, /name="robots" content="noindex,follow"/);
   const hub = await html("https://nexualpha.com/ja/compare", { NEWS_SSR_RENDER: async () => '<main class="v3-compare-hub"><h1>比較</h1></main>' });
   assert.match(await hub.text(), /<div id="root"><main class="v3-compare-hub">/);
   // Curated pairs now render at request time too: fresh research must reach already-indexed hubs.
@@ -240,7 +241,7 @@ test("SSR: generated pair renders one H1, both partner CTAs without in-section d
 
     assert.ok(out.hub.includes('class="compare-any') && out.hub.includes('method="get"') && out.hub.includes('action="/compare"'), "no-JS GET form");
     assert.ok(out.hub.includes('name="a"') && out.hub.includes('name="b"'));
-    assert.ok(out.hub.includes(`/compare/${INDEXABLE_PAIR}`) && !out.hub.includes(`/compare/${NOINDEX_PAIR}`), "hub lists indexable generated pairs only");
+    assert.ok(out.hub.includes(`/compare/${INDEXABLE_PAIR}`) && out.hub.includes(`/compare/${NOINDEX_PAIR}`), "hub retains crawlable generated pairs after search exclusion");
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }

@@ -1,3 +1,6 @@
+import { parseNewsListingPath, paginateNews, newsListingPath, newsCategoryCopy, newsLibraryCopy } from "./news-library.js";
+import { partnerProgramCopy } from "./partner-program-copy.js";
+import { isNeutralCtaLocale } from "./locale-policy.js";
 import { articleSitemapLocales } from "./article-sitemap-seo.js";
 import { applyAutopilotOverride } from "./seo-autopilot.js";
 export { applyAutopilotOverride } from "./seo-autopilot.js";
@@ -36,7 +39,7 @@ import { HOME_NEUTRAL_SEARCH_COPY_EN, HOME_SEARCH_COPY, homeSearchCopyFor, isHom
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
-import { newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
+import { newsHumanReview, newsListingIndexableLocales, newsListingHasNativeArticles, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
@@ -401,7 +404,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseBitgetAlliancePath(pathname)) return BITGET_ALLIANCE_INDEX_LOCALES;
   // Kraken 5M USDG Challenge page (mirror of the Worker): its written editions.
   if (parseKrakenUsdgPath(pathname)) return KRAKEN_USDG_INDEX_LOCALES;
-  if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
+  if (parseNewsListingPath(pathname)) return newsListingIndexableLocales(options.newsArticles).filter(locale => newsListingHasNativeArticles(options.newsArticles || [], locale, parseNewsListingPath(pathname)));
   if (options.article) return articleSitemapLocales(options.article, options.newsArticles);
   if (tokenizedAssetPage(pathname.replace(/^\/topics\//, ""))) return TOKENIZED_ASSET_LOCALES;
   if (venueAlternativePage(pathname.replace(/^\/topics\//, ""))) return VENUE_ALTERNATIVES_INDEX_LOCALES;
@@ -440,6 +443,7 @@ const STATIC_COPY = {
   [EDITORIAL_POLICY_PATH]: [BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH].en[0], BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH]["zh-Hans"][0]],
   "/embed/calculator": ["Embeddable Trading Fee Calculator — NexuAlpha", "可嵌入交易手续费计算器 — NexuAlpha"],
   "/partners": ["Partner Embeds & Distribution — NexuAlpha", "合作嵌入与内容分发 — NexuAlpha"],
+  "/partners/embed-guide": ["Partner Embed Guide — NexuAlpha", "合作伙伴嵌入指南 — NexuAlpha"],
 };
 const STATIC_COPY_LOCALIZED = {
   "zh-Hans": { "/": HOME_SEARCH_COPY["zh-Hans"][0], "/exchanges": "加密交易平台目录与费率对比 — NexuAlpha", "/activities": "官方活动与上新 — NexuAlpha", "/news": "市场新闻与研究 — NexuAlpha", "/rates": "加密交易平台费率基准 — NexuAlpha" },
@@ -1792,7 +1796,7 @@ function canonical(pathname, locale) {
 }
 function localized(value, locale) { return typeof value === "string" ? value : value?.[contentLocale(locale)] || value?.en || ""; }
 function aliases(pathname) {
-  return ({ "/index.html": "/", "/partners/embed-guide": "/partners" })[pathname] || pathname;
+  return ({ "/index.html": "/" })[pathname] || pathname;
 }
 function schemaLocale(locale) {
   if (locale === "zh-Hant") return "zh-Hant";
@@ -2090,6 +2094,16 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
 
 // Same title budget as the Worker head (meta-description.js budgetTitle).
 export function computeRouteSeo(options = {}) {
+  const seo = computeRouteSeoWithPublicationPolicy(options);
+  const url = new URL(options.url || options.pathname || "/", PUBLIC_ORIGIN);
+  const route = parsePublicRoute(url.pathname, url.searchParams);
+  const requestedLocale = options.locale || route.locale;
+  // Apply last, after specialized templates and editorial overrides, including early returns.
+  if (seo?.status === 200 && ["ur", "uk"].includes(requestedLocale)) return { ...seo, robots: "noindex,follow", alternates: [] };
+  return seo?.alternates ? { ...seo, alternates: seo.alternates.filter(alternate => !["ur", "uk"].includes(alternate.hreflang)) } : seo;
+}
+
+function computeRouteSeoWithPublicationPolicy(options = {}) {
   const legalUrl = new URL(options.url || options.pathname || "/", PUBLIC_ORIGIN);
   const legalRoute = parsePublicRoute(legalUrl.pathname, legalUrl.searchParams);
   if (isLegalPagePath(legalRoute.contentPathname)) {
@@ -2401,11 +2415,39 @@ function computeRouteSeoUnbudgeted(options = {}) {
     accept();
     const matrix = fundingMatrixSeo(locale);
     title = matrix.title; description = matrix.description; schemas = matrix.schema;
+  } else if (parseNewsListingPath(pathname) && pathname !== "/news") {
+    const listing = parseNewsListingPath(pathname);
+    if (listing.redirect) {
+      accept();
+      robots = "noindex,follow";
+      canonicalPathname = listing.canonicalPath;
+    } else if (!listing.invalid) {
+      const pagination = paginateNews(options.newsArticles || [], { ...listing, locale });
+      if (listing.page <= pagination.totalPages) {
+        accept();
+        const published = newsListingIndexableLocales(options.newsArticles).includes(locale) && newsListingHasNativeArticles(options.newsArticles || [], locale, listing);
+        robots = listing.page === 1 && pagination.total > 0 && published ? "index,follow" : "noindex,follow";
+        const categoryCopy = listing.category ? newsCategoryCopy(listing.category, locale) : null;
+        const sectionName = (STATIC_COPY_LOCALIZED[locale]?.["/news"] || NEWS_HUB_SEO_EN.title).replace(/\s+—\s+NexuAlpha$/, "");
+        const pageCopy = listing.page > 1 ? newsLibraryCopy(locale).pageOf(listing.page, pagination.totalPages) : "";
+        title = `${categoryCopy ? `${categoryCopy.label} — ` : ""}${sectionName}${pageCopy ? ` — ${pageCopy}` : ""} — NexuAlpha`;
+        description = `${categoryCopy?.intro || STATIC_DESCRIPTION_LOCALIZED[locale] || NEWS_HUB_SEO_EN.description}${pageCopy ? ` ${pageCopy}.` : ""}`;
+        schemas = [pageSchema(title, canonical(newsListingPath(listing), locale), locale)];
+      }
+    }
   } else if (STATIC_COPY[pathname]) {
     accept();
     const staticPageCopy = STATIC_PAGE_COPY_LOCALIZED[pathname]?.[rawLocale] || STATIC_PAGE_COPY_LOCALIZED[pathname]?.[locale];
     title = staticPageCopy?.[0] || STATIC_COPY_LOCALIZED[rawLocale]?.[pathname] || STATIC_COPY[pathname][isZh ? 1 : 0];
     description = staticPageCopy?.[1] || STATIC_DESCRIPTION_LOCALIZED[rawLocale] || (isZh ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : "NexuAlpha platform research, trading fees, account requirements and source context.");
+    if (pathname === "/partners/embed-guide") {
+      description = isZh ? "在合作伙伴网站嵌入 NexuAlpha 比较工具的实施指南。" : "Implementation guidance for embedding NexuAlpha comparison tools on partner sites.";
+    }
+    if (pathname === "/partners" && !isNeutralCtaLocale(locale)) {
+      const copy = partnerProgramCopy(locale);
+      title = `${copy.breadcrumb} — NexuAlpha`;
+      description = copy.lead;
+    }
     if (pathname === "/news") {
       // Listing editions: the core locales plus every locale with a search-published native article in the feed.
       const listingLocales = newsListingPublishedLocales(options.newsArticles);

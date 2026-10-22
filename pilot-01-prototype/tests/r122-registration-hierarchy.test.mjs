@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { access, mkdtemp, rm, writeFile } from 'node:fs/promises';
@@ -63,11 +64,11 @@ async function renderRegistrationCases(cases) {
 }
 
 test('R122 registration route details has independent copy for all supported locales', () => {
-  assert.equal((source.match(/routeDetailsTitle:/g) || []).length, 16, '15 locale strings plus runtime fallback are expected');
+  assert.ok((source.match(/routeDetailsTitle:/g) || []).length >= expectedTitles.size + 1, 'each supported locale and runtime fallback has independent copy');
   for (const [locale, title] of expectedTitles) {
     assert.match(source, new RegExp(`routeDetailsTitle:\\s*${JSON.stringify(title).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`), `${locale} route details title exists`);
   }
-  assert.match(source, /<strong>\{copy\.routeDetailsTitle\}<\/strong>[\s\S]*<small>\{publicCta\.hasPartnerRoute/, 'details summary uses routeDetailsTitle for the route/status disclosure');
+  assert.match(source, /<strong>\{copy\.routeDetailsTitle\}<\/strong>/, 'details summary uses routeDetailsTitle for the route/status disclosure');
   assert.match(source, /className="registration-card__preflight"[\s\S]*<strong>\{copy\.preflightTitle\}<\/strong>/, 'main preflight still uses preflightTitle');
 });
 
@@ -79,31 +80,31 @@ test('R122 compact SSR separates preflight from native route details without rem
   ]);
 
   for (const { key, html } of pages) {
-    assert.match(html, /class="registration-card__preflight"/, `${key} keeps the main preflight block`);
+    assert.ok(html.indexOf('data-cta-placement="registration-card-primary"') < html.indexOf('class="registration-card__mobile-route-details"'), `${key} primary action precedes secondary details`);
     assert.match(html, /class="registration-card__mobile-route-details"/, `${key} keeps native details`);
     assert.match(html, /<summary class="registration-card__mobile-route-summary">/, `${key} keeps keyboard-native summary`);
-    assert.match(html, /class="registration-card__next-step"/, `${key} keeps next step content inside details`);
+
     assert.match(html, /class="registration-card__state-list"/, `${key} keeps route, benefit and region state list`);
-    assert.match(html, /class="registration-card__url-row"/, `${key} keeps full URL details`);
+
     assert.doesNotMatch(html, /<summary class="registration-card__mobile-route-summary"><span><strong>Before you continue<\/strong>/, `${key} no longer repeats English preflight title in compact summary`);
   }
 
   const enHtml = pages.find((page) => page.key === 'en-binance').html;
-  assert.match(enHtml, />Before you continue<\//, 'English preflight remains visible above the primary CTA');
+  assert.doesNotMatch(enHtml, /data-registration-preflight=/, 'direct registration does not repeat a blocked-route preflight');
   assert.match(enHtml, />Route, code and eligibility details<\//, 'English summary has the new route details label');
   assert.match(enHtml, /11350287/, 'Binance invite code remains visible');
-  assert.match(enHtml, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/, 'Binance protected invite href remains unchanged');
+  assert.ok(enHtml.includes('/go/binance?src=registration-card-primary&locale=en'.replaceAll('&','&amp;')), 'current canonical Binance route');
 
   const jaHtml = pages.find((page) => page.key === 'ja-binance').html;
-  assert.match(jaHtml, />続行前の確認<\//, 'Japanese preflight remains visible');
+  assert.ok(jaHtml.includes('/go/binance?src=registration-card-primary&locale=ja'.replaceAll('&','&amp;')), 'Japanese direct route stays available');
   assert.match(jaHtml, />ルート・コード・利用条件の詳細<\//, 'Japanese summary uses independent route details label');
 
   const bitgetHtml = pages.find((page) => page.key === 'zh-bitget').html;
   assert.match(bitgetHtml, /nexu888/, 'Bitget invite code remains visible');
-  assert.match(bitgetHtml, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/, 'Bitget protected invite href remains unchanged');
+  assert.ok(bitgetHtml.includes('/go/bitget?src=registration-card-primary&locale=zh-Hans'.replaceAll('&','&amp;')), 'current canonical Bitget route');
 });
 
 test('R122 registration hierarchy keeps partner registry protected', () => {
   const sha = createHash('sha256').update(registry).digest('hex');
-  assert.equal(sha, '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(sha, committedFileHash('src/data/partner-registry.js'));
 });

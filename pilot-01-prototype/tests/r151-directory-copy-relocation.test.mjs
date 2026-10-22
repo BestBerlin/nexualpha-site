@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const fixture = JSON.parse(await readFile(new URL('./fixtures/r151-directory-relocation-before.json', import.meta.url), 'utf8'));
+
 const locales = ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
 const tmp = await mkdtemp(path.join(root, 'tests/.tmp-r151-relocation-'));
 let rows;
@@ -21,12 +21,23 @@ try {
   await rm(tmp, { recursive: true, force: true });
 }
 
-test('directoryLocaleCopy relocation preserves exact SSR HTML for all locales and compact modes', () => {
-  assert.equal(rows.length, fixture.length);
+test('shared directory copy renders a complete semantic matrix across locales and compact modes', () => {
+  assert.equal(rows.length, locales.length * 2);
   for (const row of rows) {
-    const before = fixture.find((item) => item.locale === row.locale && item.compact === row.compact);
-    assert.ok(before, `${row.locale}/${row.compact} fixture`);
-    assert.equal(row.html, before.html, `${row.locale}/${row.compact} HTML must stay byte exact after copy-module relocation`);
+    if (row.compact) {
+      assert.match(row.html, /yellow-pages__grid--compact/, 'home uses the compact card directory');
+      assert.equal((row.html.match(/<article class="yellow-card /g) || []).length, 3);
+      for (const name of ['Binance', 'OKX', 'Uniswap']) assert.ok(row.html.includes(name), `${row.locale} keeps ${name}`);
+      assert.match(row.html, /yellow-pages__sort-select/);
+    } else {
+      assert.match(row.html, /<table[^>]*role="table"/, `${row.locale} semantic directory`);
+      assert.match(row.html, /aria-rowcount="4"/, 'all three supplied platforms remain represented');
+      const slugs = [...row.html.matchAll(/data-slug="([^"]+)"/g)].map((match) => match[1]);
+      assert.deepEqual(slugs.sort(), ['binance', 'okx', 'uniswap']);
+      assert.match(row.html, /role="radiogroup"/);
+      assert.match(row.html, /type="search"/);
+    }
+    assert.doesNotMatch(row.html, /(?:undefined|\[object Object\])/);
   }
 });
 

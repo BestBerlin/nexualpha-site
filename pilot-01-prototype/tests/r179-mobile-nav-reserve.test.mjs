@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r170-mobile-navigation/candidate/src/components/v3/MobileBottomNav.jsx", import.meta.url);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -89,7 +92,7 @@ test('R179 CSS uses measured nav height with a small gap instead of the old fixe
 
 
 
-test('R179 source is exactly R170 after reversing the reserve helper, nav ref, effect, and two CSS reserve hunks', () => {
+test('R179 source is exactly R170 after reversing the reserve helper, nav ref, effect, and two CSS reserve hunks', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const currentJsx = read('src/components/v3/MobileBottomNav.jsx')
     .replace('import React, { useEffect, useRef, useState } from "react";', 'import React, { useEffect, useState } from "react";')
     .replace(/\n\nconst MOBILE_BOTTOM_NAV_HEIGHT_VAR = "--mobile-bottom-nav-height";[\s\S]*?\n\/\/ Current location only;/, '\n// Current location only;')

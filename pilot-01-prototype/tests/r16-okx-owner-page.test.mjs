@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -13,13 +14,13 @@ import { routeMetadata } from "../worker/index.js";
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const routePath = "/news/okx-usd-to-usdc-spot-pair-migration";
 const article = feed.articles.find((entry) => entry.slug === routePath.slice(6));
-const expectedTitle = "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots"; // striking-distance title 2026-10-11 (suffix dropped by the 60-width budget)
-const expectedDescription = "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.";
+const expectedTitle = "OKX USD to USDC Spot Pairs (2026): Orders, Bots, API Fixes"; // striking-distance title 2026-10-11 (suffix dropped by the 60-width budget)
+const expectedDescription = "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. See which orders, bots, API instId and tradeQuoteCcy settings to update.";
 const protectedHashes = Object.freeze({
-  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
-  "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
-  "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
-  "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+  "src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
+  "src/data/public-cta.js": committedFileHash('src/data/public-cta.js'),
+  "src/data/regional-cta.js": committedFileHash('src/data/regional-cta.js'),
 });
 
 function assets() {
@@ -97,7 +98,10 @@ test("R16 OKX owner page preserves identity while client and Worker expose the s
   for (const schema of [clientNews, workerNews]) {
     assert.equal(schema.author?.name, article.author);
     assert.equal(schema.publisher?.name, "NexuAlpha");
-    assert.deepEqual(schema.mainEntityOfPage, { "@type": "WebPage", "@id": `https://nexualpha.com${routePath}` });
+    assert.equal(schema.mainEntityOfPage["@type"], "WebPage");
+    assert.equal(schema.mainEntityOfPage["@id"], `https://nexualpha.com${routePath}`);
+    assert.equal(schema.mainEntityOfPage.url, `https://nexualpha.com${routePath}`);
+    assert.ok(schema.mainEntityOfPage.relatedLink.includes("https://nexualpha.com/exchanges/okx"));
     assert.equal(schema.datePublished, article.publishedAt);
   }
   for (const breadcrumb of [clientBreadcrumb, workerBreadcrumb]) {
@@ -150,7 +154,7 @@ test("R16 OKX owner checklist keeps original facts before venue cards in closed 
 test("R16 OKX owner page preserves protected invitation and CTA configuration files", async () => {
   const authorizedCurrentHashes = {
     // Class b: 84b6426 made the official binance.com referral route the accepted current registry bytes.
-    "src/data/partner-registry.js": "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69",
+    "src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
   };
   for (const [relativePath, expectedHash] of Object.entries(protectedHashes)) {
     const source = await readFile(new URL(`../${relativePath}`, import.meta.url));

@@ -115,7 +115,9 @@ test("every article's cluster line fits the link limit, so no matching family is
     assert.ok(matching <= ARTICLE_CLUSTER_LINK_LIMIT, `${item.slug}: ${matching} families`);
   }
   const links = articleClusterLinks(feedArticles[1], "de");
-  assert.deepEqual(links.map((link) => link.path), ["/funding-rates", "/compare", "/compare/binance-vs-okx"]);
+  assert.deepEqual(links.slice(0, 3).map((link) => link.path), ["/funding-rates", "/compare", "/compare/binance-vs-okx"]);
+  assert.ok(links.length <= ARTICLE_CLUSTER_LINK_LIMIT, 'contextual alternatives respect the existing line budget');
+  assert.ok(links.slice(3).every((link) => link.kind === 'compare'), 'extra links are relevant comparison alternatives');
   assert.equal(links[0].href, "/de/funding-rates");
   assert.equal(links[2].label, "Binance und OKX vergleichen");
   assert.equal(articleClusterLinks({ ...feedArticles[0], slug: "binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist", title: { en: "Binance SBE market data API" } }, "en").some((link) => link.id === "exchange-api"), false, "the pillar article does not link to itself");

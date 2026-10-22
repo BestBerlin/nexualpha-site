@@ -18,14 +18,15 @@ const venues = [
 ];
 
 test("matcher upgrade copy covers the primary locales with short English fallback", () => {
-  for (const locale of ["en", "zh-Hans", "zh-Hant"]) {
+  for (const locale of ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]) {
     const copy = matcherDecisionCopy(locale);
     assert.equal(typeof copy.filters.kycPreference, "string");
     assert.equal(typeof copy.candidateLabels.verify, "string");
     assert.equal(typeof copy.failClosed, "string");
   }
 
-  assert.equal(matcherDecisionCopy("de"), matcherDecisionCopy("en"));
+  assert.notEqual(matcherDecisionCopy("de").candidateLabels.profile, matcherDecisionCopy("en").candidateLabels.profile);
+  assert.equal(matcherDecisionCopy("unknown"), matcherDecisionCopy("en"));
   assert.deepEqual(matcherDecisionChoiceGroups("zh-Hans").map((group) => group.key), ["kycPreference", "usageFrequency", "usageScale"]);
 });
 

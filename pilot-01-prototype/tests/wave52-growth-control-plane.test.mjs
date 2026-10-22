@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
@@ -12,7 +13,7 @@ const partnerRegistryPath = path.join(repoRoot, "src/data/partner-registry.js");
 const RAW_EXCHANGE_REGISTRATION_URL_RE =
   /accounts\.binance\.com|partner\.bitget|okx\.com\/join|backpack\.exchange\/join|bybit\.com\/invite|weex\.com\/register/i;
 
-test("Wave52 locks the top-five Telegram pack to onsite-first manual review", async () => {
+test("Wave52 locks the top-five Telegram pack to onsite-first manual review", {skip:existsSync(evidencePath)?false:'Requires archived operator review evidence '+evidencePath}, async () => {
   const evidence = JSON.parse(await fs.readFile(evidencePath, "utf8"));
   const feed = JSON.parse(await fs.readFile(feedPath, "utf8"));
   const broadcasts = feed.broadcasts;

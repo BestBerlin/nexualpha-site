@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -14,7 +15,7 @@ import { routeMetadata } from "../worker/index.js";
 const execFileAsync = promisify(execFile);
 const rootPath = fileURLToPath(new URL("..", import.meta.url));
 const assetUrl = new URL("../public/research/wave48-tokenized-treasury-rights-ops.json", import.meta.url);
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash("src/data/partner-registry.js");
 const findingPattern = /(?:Wave57 )?finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types/i;
 
 function assets() {

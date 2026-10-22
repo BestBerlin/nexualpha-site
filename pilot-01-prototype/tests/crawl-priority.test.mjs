@@ -119,3 +119,51 @@ test('a prerendered home snapshot receives the fresh block and matching hydratio
     assert.deepEqual(hydrationErrors(hydrated.errors), [], path);
   }
 });
+
+test('the news hub exposes topic research and every archive page as real anchors', async () => {
+  for (const prefix of ['', '/zh-hans']) {
+    const html = await (await fetchPage(`${prefix}/news`, makeEnv(rows))).text();
+    const document = parseHtml(html);
+    assert.ok(document.querySelector(`a[data-news-topic-hubs][href="${prefix}/topics"]`));
+    const pagination = document.querySelector('.news-pagination');
+    const total = Number(pagination.getAttribute('data-total-pages'));
+    assert.ok(total > 1);
+    for (let page = 2; page <= total; page++) assert.ok(pagination.querySelector(`a[href="${prefix}/news/page/${page}"]`), `${prefix}: archive ${page}`);
+  }
+});
+
+test('home balances six fresh articles with the strongest reviewed GSC snapshot articles', async () => {
+  const { strongNewsSlugs } = await import('../src/data/news-search-state.js');
+  const strong = strongNewsSlugs().slice(0, 2).map((slug, i) => article(slug, `2026-09-${String(i + 1).padStart(2, '0')}T00:00:00Z`));
+  const html = await (await fetchPage('/', makeEnv([...rows, ...strong]))).text();
+  const links = [...parseHtml(html).querySelectorAll('[data-home-latest] li > a')].map(link => link.getAttribute('href'));
+  assert.equal(links.length, 8);
+  for (const fresh of rows.slice(0, 6)) assert.ok(links.includes(`/news/${fresh.slug}`));
+  for (const item of strong) assert.ok(links.includes(`/news/${item.slug}`));
+});
+
+test('root home SSR and hydration preserve direct native-language news archive bridges', async () => {
+  const { LOCALE_PREFIX_BY_CODE } = await import('../src/data/locale-routing.js');
+  const html = await (await fetchPage('/', makeEnv(rows))).text();
+  const document = parseHtml(html);
+  const group = document.querySelector('[data-crawl-priority-links="home"] [data-news-editions]');
+  assert.ok(group, 'lazy root related research renders its edition links on the server');
+  for (const href of ['/coins', '/licenses', '/convert/btc-to-usd']) {
+    const anchor = document.querySelector(`[data-crawl-priority-links="home"] a[href="${href}"]`);
+    assert.ok(anchor, `${href} is directly linked from home`);
+    assert.ok(anchor.textContent.trim(), href);
+  }
+  const links = [...group.querySelectorAll('a')];
+  const editions = Object.entries(LOCALE_PREFIX_BY_CODE).filter(([locale]) => !['ur', 'uk'].includes(locale));
+  assert.equal(links.length, editions.length);
+  for (const [locale, prefix] of editions) {
+    const anchor = group.querySelector(`a[href="${prefix ? `/${prefix}` : ""}/news"]`);
+    assert.ok(anchor, locale);
+    assert.equal(anchor.getAttribute('lang'), locale);
+    assert.equal(anchor.getAttribute('hreflang'), locale);
+    assert.ok(anchor.textContent.trim(), locale);
+  }
+  assert.ok(!group.querySelector('a[href="/ur/news"], a[href="/uk-ua/news"]'));
+  const hydrated = await hydrateInJsdom(harness.vite, html, 'https://nexualpha.com/');
+  assert.deepEqual(hydrationErrors(hydrated.errors), []);
+});

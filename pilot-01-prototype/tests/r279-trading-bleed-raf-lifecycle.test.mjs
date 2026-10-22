@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r278-leading-research-action/candidate/src/components/v3/TradingBleedAnalyzer.jsx", import.meta.url);
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -98,7 +101,7 @@ async function bundleAndRunAnimatedNumber(sourcePath) {
   }
 }
 
-test('R278 AnimatedNumber source reproduces the recursive RAF cleanup leak', async () => {
+test('R278 AnimatedNumber source reproduces the recursive RAF cleanup leak', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const result = await bundleAndRunAnimatedNumber(r278TradingBleedPath);
   assert.deepEqual(result.cleanup.framesAfterFirst, [2], 'old source schedules recursive frame id=2');
   assert.deepEqual(result.cleanup.cancelled, [1], 'old cleanup cancels only initial frame id=1');
@@ -115,7 +118,7 @@ test('current AnimatedNumber source cancels the latest recursive RAF and guards 
   assert.deepEqual(result.midpoint.values.slice(0, 2), [0, 88], '400ms easeOutCubic midpoint remains Math.round(87.5)');
 });
 
-test('AnimatedNumber source keeps lifecycle local and partner registry untouched', async () => {
+test('AnimatedNumber source keeps lifecycle local and partner registry untouched', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const source = await readFile(new URL('../src/components/v3/TradingBleedAnalyzer.jsx', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /createAnimatedNumberFrameController/);
   assert.match(source, /const duration = 400; \/\/ 400ms smooth count/);

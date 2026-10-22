@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { loopbackListenSkip } from './helpers/environment.mjs';
 import { once } from 'node:events';
 import { JSDOM } from 'jsdom';
 import { createProductionServer } from '../server.mjs';
@@ -34,7 +35,7 @@ test('guide has five editions, one registry code and matching structured data/si
   }
 });
 
-test('built server renders guides, schemas, one /go CTA and inbound links; excluded locales 404', async () => {
+test('built server renders guides, schemas, one /go CTA and inbound links; excluded locales 404', { skip: await loopbackListenSkip() }, async () => {
   const server = await createProductionServer({ env: { INTEL_REFRESH: 'off', FX_REFRESH: 'off', BITGET_ALLIANCE_POOL: 'off', KRAKEN_USDG_LIVE: 'off' } });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   const origin = `http://127.0.0.1:${server.address().port}`;

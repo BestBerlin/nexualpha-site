@@ -7,6 +7,9 @@ import { spawn } from 'node:child_process';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
+import { loopbackUnavailableReason } from './sandbox-network.mjs';
+
+const networkSkip = await loopbackUnavailableReason();
 const verifier = new URL('../scripts/verify-whole-site-seo.mjs', import.meta.url);
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 
@@ -31,7 +34,7 @@ async function withServer(routes, callback) {
     response.writeHead(route.status ?? 200, route.headers ?? { 'content-type': route.type ?? 'text/html' });
     response.end(route.body ?? '');
   });
-  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
   try {
     const { port } = server.address();
     return await callback(`http://127.0.0.1:${port}`);
@@ -68,7 +71,7 @@ async function runVerifier({ routes, inventory, buildId = null }) {
   }
 }
 
-test('whole-site SEO verifier checks the canonical homepage entry bundle for the build identity', async () => {
+test('whole-site SEO verifier checks the canonical homepage entry bundle for the build identity', { skip: networkSkip }, async () => {
   const buildId = '3.0-test-build';
   const inventory = [{ path: '/', template: 'home', index: true }];
   const routes = {
@@ -86,7 +89,7 @@ test('whole-site SEO verifier checks the canonical homepage entry bundle for the
   assert.equal(result.issues.some((issue) => issue.code === 'VERSION_JSON_BUILD_ID_MISMATCH'), false);
 });
 
-test('whole-site SEO verifier reports indexable pages with no internal inbound links', async () => {
+test('whole-site SEO verifier reports indexable pages with no internal inbound links', { skip: networkSkip }, async () => {
   const inventory = [
     { path: '/', template: 'home', index: true },
     { path: '/orphan', template: 'topic', index: true },
@@ -104,7 +107,7 @@ test('whole-site SEO verifier reports indexable pages with no internal inbound l
   assert.ok(result.issues.some((issue) => issue.scope === '/orphan|en' && issue.code === 'ZERO_INTERNAL_INBOUND'));
 });
 
-test('whole-site SEO verifier reports missing internal fragment targets', async () => {
+test('whole-site SEO verifier reports missing internal fragment targets', { skip: networkSkip }, async () => {
   const inventory = [
     { path: '/', template: 'home', index: true },
     { path: '/linked', template: 'topic', index: true },
@@ -123,7 +126,7 @@ test('whole-site SEO verifier reports missing internal fragment targets', async 
   assert.ok(result.issues.some((issue) => issue.scope === '/linked' && issue.code === 'MISSING_LINK_FRAGMENT' && issue.detail === 'missing-section'));
 });
 
-test('whole-site SEO verifier permits controlled context and reports unknown non-canonical query variants', async () => {
+test('whole-site SEO verifier permits controlled context and reports unknown non-canonical query variants', { skip: networkSkip }, async () => {
   const inventory = [
     { path: '/', template: 'home', index: true },
     { path: '/linked', template: 'topic', index: true },
@@ -145,7 +148,7 @@ test('whole-site SEO verifier permits controlled context and reports unknown non
   assert.ok(result.issues.some((issue) => issue.code === 'LEGACY_QUERY_INTERNAL_LINK' && issue.detail.includes('page=newsDetail')));
 });
 
-test('whole-site SEO verifier ignores nofollow internal state variants', async () => {
+test('whole-site SEO verifier ignores nofollow internal state variants', { skip: networkSkip }, async () => {
   const inventory = [
     { path: '/', template: 'home', index: true },
     { path: '/br/pix', template: 'brazil', index: true, locales: ['pt-BR'] },
@@ -168,7 +171,7 @@ test('whole-site SEO verifier ignores nofollow internal state variants', async (
   assert.equal(result.issues.some((issue) => issue.code === 'NON_CANONICAL_INTERNAL_LINK' && issue.detail.includes('spot_fee_bps')), false);
 });
 
-test('whole-site SEO verifier permits alternate links, static assets and campaign-tagged registration exits', async () => {
+test('whole-site SEO verifier permits alternate links, static assets and campaign-tagged registration exits', { skip: networkSkip }, async () => {
   const inventory = [
     { path: '/', template: 'home', index: true },
     { path: '/linked', template: 'topic', index: true },

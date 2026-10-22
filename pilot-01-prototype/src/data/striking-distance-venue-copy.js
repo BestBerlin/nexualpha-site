@@ -17,6 +17,8 @@ export function strikingDistanceVenueLead(slug, locale = 'en', { referral = true
   const name = names[slug];
   const spot = pair(slug, 'spot', locale);
   const perp = pair(slug, 'perp', locale);
+  if (slug === 'hyperliquid' && !zh) return `Hyperliquid fees are ${spot || 'unverified'} maker/taker on spot and ${perp || 'unverified'} on perpetuals. A Hyperliquid funded account here uses your own USDC collateral, not an offer to get funded to trade Hyperliquid; Hyperliquid rebates refer to ${referral ? 'a conditional 4% referral fee discount' : 'referral terms to verify in the official app'}, not cashback.`;
+  if (slug === 'gate-io' && !zh) return `Gate.io register: create an account on the official site, then check KYC and regional eligibility. ${spot && perp ? `Base maker/taker fees are ${spot} on spot and ${perp} on perpetuals; account tier and pair can change costs.` : 'Unchecked fee schedules are withheld; verify your account rate before trading.'}`;
   if (slug === 'hyperliquid') return zh
     ? `${name} 基础 maker/taker 费率：现货 ${spot}，永续合约 ${perp}。${referral ? "符合邀请条件的交易手续费享 4% 折扣；" : ""}通过官方 App 连接钱包并存入 USDC。`
     : `${name} base maker/taker fees are ${spot} on spot and ${perp} on perpetuals. ${referral ? "Eligible referred trading fees receive a 4% discount; connect" : "Connect"} a wallet and deposit USDC through the official app.`;
@@ -41,6 +43,9 @@ export function strikingDistanceVenueTitle(slug, locale = 'en', code = null, yea
   if (!supported(slug, locale)) return null;
   const name = names[slug];
   const wallet = ['hyperliquid', 'jupiter'].includes(slug);
+  // GSC 2026-10-22: one title per ranking URL; related query variants live in the lead and FAQ.
+  if (locale === 'en' && slug === 'hyperliquid') return `Hyperliquid fees, rebates & funded account checks (${year})`;
+  if (locale === 'en' && slug === 'gate-io') return `Gate.io register: KYC, fees${code ? ` & code ${code}` : ` (${year})`}`;
   if (locale === 'zh-Hans') return `${name} ${wallet ? '手续费与钱包使用' : '手续费、注册与 KYC'}${code ? ` — 邀请码 ${code}` : ''}（${year}） | NexuAlpha`;
   return `${name} ${wallet ? 'fees & wallet setup' : 'fees, sign-up & KYC'}${code ? ` — referral code ${code}` : ''} (${year}) | NexuAlpha`;
 }
@@ -48,6 +53,8 @@ export function strikingDistanceVenueH1(slug, locale = 'en', code = null) {
   if (!supported(slug, locale)) return null;
   const name = names[slug];
   const wallet = ['hyperliquid', 'jupiter'].includes(slug);
+  if (locale === 'en' && slug === 'hyperliquid') return `Hyperliquid fees, rebates & funded account checks${code ? `: code ${code}` : ''}`;
+  if (locale === 'en' && slug === 'gate-io') return `Gate.io register: KYC, fees${code ? ` & code ${code}` : ' & account checks'}`;
   return locale === 'zh-Hans'
     ? `${name} ${wallet ? '手续费与钱包使用' : '注册、手续费与 KYC'}${code ? `：邀请码 ${code} 有什么权益？` : '：需要核对什么？'}`
     : `${name} ${wallet ? 'fees and wallet setup' : 'sign-up, fees and KYC'}${code ? `: what you get with code ${code}` : ': what to check'}`;
@@ -57,6 +64,8 @@ export function strikingDistanceVenueDescription(slug, locale = 'en', partner = 
   const zh = locale === 'zh-Hans';
   const name = names[slug];
   const spot = pair(slug, 'spot', locale);
+  if (!zh && slug === 'hyperliquid') return `Hyperliquid fees: perps maker/taker ${pair(slug, 'perp', locale) || 'unverified'}. Funded accounts use your USDC; ${partner?.inviteCode ? 'rebates mean a conditional 4% fee discount.' : 'check referral terms in the app.'}`;
+  if (!zh && slug === 'gate-io') return `Gate.io register: sign up on the official site and check KYC. ${spot ? `Spot maker/taker ${spot}.` : 'Fee schedule unverified.'} Confirm your region and account terms.`;
   let lead = spot ? (zh ? `${name} 现货 maker/taker ${spot}。` : `${name} spot maker/taker ${spot}.`) : strikingDistanceVenueLead(slug, locale).split(zh ? '。' : '. ')[0] + (zh ? '。' : '.');
   if (slug === 'hyperliquid') lead = zh ? `${name} 永续 maker/taker ${pair(slug, 'perp', locale)}${partner?.inviteCode ? "；符合邀请条件享手续费 4% 折扣" : ""}。` : `${name} perps maker/taker ${pair(slug, 'perp', locale)}${partner?.inviteCode ? "; eligible referrals save 4% on fees" : ""}.`;
   if (slug === 'deribit') lead = zh ? `Deribit 现货 maker/taker ${spot}；USDC 永续 ${pair(slug, 'perp', locale)}（官方 API，${feeFact(slug, 'perp').checkedOn}）。注册前核对 KYC、账户实体与实际费率。` : `Deribit spot maker/taker ${spot}; USDC perps ${pair(slug, 'perp', locale)} (official API, ${feeFact(slug, 'perp').checkedOn}). Check KYC and account eligibility.`;

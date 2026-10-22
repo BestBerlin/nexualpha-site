@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -87,7 +88,7 @@ test('dated artifacts preserve draft-only inventory across the scoped OKX source
  assert.equal(recorded.productionLandingReview,'pending_manual_review');
  // Class b: 84b6426 intentionally switched Binance to its official primary referral domain.
  const partner=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));
- assert.equal(createHash('sha256').update(partner).digest('hex'),'e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69');
+ assert.equal(createHash('sha256').update(partner).digest('hex'),committedFileHash("src/data/partner-registry.js"));
  const generator=await readFile(new URL('../scripts/generate-telegram-30day-review-pack.mjs',import.meta.url),'utf8');
  assert.doesNotMatch(generator,/\bfetch\s*\(|sendMessage|api\.telegram\.org|execFile|child_process/);
 });

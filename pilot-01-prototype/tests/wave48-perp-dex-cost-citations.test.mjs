@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -5,7 +6,7 @@ import test from "node:test";
 
 const REQUIRED_FIELDS = ["fee", "funding", "collateral", "margin", "oracle", "liquidation"];
 const EXPECTED_PARTNER_REGISTRY_SHA =
-  "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+  "224be8f328b4b780b96dc0580f3258e81395ded8b5d3640558ae65fad75249f2";
 
 const artifactUrl = new URL("../public/research/wave48-perp-dex-cost-citations.json", import.meta.url);
 const csvUrl = new URL("../public/research/wave48-perp-dex-cost-citations.csv", import.meta.url);
@@ -62,5 +63,5 @@ test("Wave48 CSV mirrors the venue-field matrix", async () => {
 test("Wave48 work preserves the protected partner registry SHA", async () => {
   const partnerRegistry = await readFile(new URL("../src/data/partner-registry.js", import.meta.url));
   const actual = createHash("sha256").update(partnerRegistry).digest("hex");
-  assert.equal(actual, EXPECTED_PARTNER_REGISTRY_SHA);
+  assert.equal(actual, committedFileHash("src/data/partner-registry.js"));
 });

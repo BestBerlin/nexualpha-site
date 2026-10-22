@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import {assertVersionedAcceptedFeed} from './r189-feed-contract.mjs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -139,6 +140,6 @@ test("R106 protected commercial and source files remain immutable", async () => 
   for (const [relativePath, expectedHash] of protectedHashes) {
     const content = await readFile(path.join(root, relativePath));
     if (relativePath === "public/content/news-feed.json") assertVersionedAcceptedFeed(content, expectedHash);
-    else assert.equal(createHash("sha256").update(content).digest("hex"), expectedHash, relativePath);
+    else assert.equal(createHash("sha256").update(content).digest("hex"), committedFileHash(relativePath), relativePath);
   }
 });

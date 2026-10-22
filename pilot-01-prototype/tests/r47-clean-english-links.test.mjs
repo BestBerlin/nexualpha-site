@@ -10,7 +10,7 @@ test("R47 English internal links use clean paths and remove legacy locale aliase
     ["/?locale=en", "/"],
     ["/exchanges?locale=en", "/exchanges"],
     ["/news/okx-usd-to-usdc-spot-pair-migration?locale=en#sources", "/news/okx-usd-to-usdc-spot-pair-migration#sources"],
-    ["/ja/exchanges/binance?locale=en&market=JP#registration-path", "/exchanges/binance?market=JP#registration-path"],
+    ["/ja/exchanges/binance?locale=en&market=JP#registration-path", "/exchanges/binance#registration-path?market=JP"],
   ];
 
   for (const [input, expected] of cases) {
@@ -30,7 +30,7 @@ test("R47 non-English links retain path locale routing and controlled decision c
       account_stage: "ready",
       utm_source: "home",
     }),
-    "/ja/compare/binance-vs-okx?account_stage=ready&utm_source=home&market=JP&product=spot",
+    "/ja/compare/binance-vs-okx#nxa-context?market=JP&product=spot&account_stage=ready&utm_source=home",
   );
 
   assert.equal(
@@ -41,7 +41,7 @@ test("R47 non-English links retain path locale routing and controlled decision c
       account_stage: "ready",
       funding: "FAST",
     }),
-    "/compare/binance-vs-okx?account_stage=ready&funding=FAST&market=SG&product=spot",
+    "/compare/binance-vs-okx#nxa-context?market=SG&product=spot&account_stage=ready&funding=FAST",
   );
 });
 

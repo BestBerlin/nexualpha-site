@@ -63,15 +63,16 @@ test('cleanup does not focus disconnected trigger', () => {
   state.cleanup(); assert.equal(state.focus.at(-1), 'close');
 });
 test('menu renders a named native dialog and keeps native navigation href mapping', () => {
-  const header = source.slice(source.indexOf('function Header('), source.indexOf('export function App('));
-  assert.match(header, /<dialog ref=\{mobileMenuRef\}[^>]+aria-label=\{copy.ui.menu\}/);
+  const header = fs.readFileSync(new URL('../src/components/shell/SiteHeader.jsx', import.meta.url),'utf8');
+  assert.match(header, /<dialog ref=\{dialogRef\}[^>]+aria-label=\{copy.ui.menu\}/);
   assert.match(header, /onKeyDown=\{\(event\) => event.stopPropagation\(\)\}/);
-  assert.match(header, /<nav aria-label=\{copy.ui.menu\}>/);
-  assert.match(header, /href=\{href\} onClick=\{\(\) => setMobileOpen\(false\)\}/);
+  assert.match(header, /<nav className="nx-sheet__nav" aria-label=\{copy.ui.menu\}>/);
+  assert.match(header, /href=\{href\} onClick=\{onClose\}/);
 });
 test('short viewport menu owns scroll, safe area and full dynamic viewport', () => {
-  assert.match(css, /height: 100dvh/); assert.match(css, /overflow-y: auto/);
+  const css=fs.readFileSync(new URL('../src/styles/v5/shell.css',import.meta.url),'utf8');
+  assert.match(css, /block-size: 100dvh/); assert.match(css, /overflow-y: auto/);
   assert.match(css, /overscroll-behavior: contain/);
-  for (const edge of ['top', 'right', 'bottom', 'left']) assert.ok(css.includes(`env(safe-area-inset-${edge})`));
-  assert.match(css, /\.mobile-search-overlay > nav \{ display: contents; \}/);
+  assert.ok(css.includes('env(safe-area-inset-bottom, 0px)'));
+  assert.match(css, /\.nx-sheet__nav \{[^}]*flex: 1 1 auto;[^}]*min-block-size: 0;/);
 });

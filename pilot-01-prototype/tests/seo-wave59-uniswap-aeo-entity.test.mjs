@@ -42,7 +42,7 @@ test("Wave59 Uniswap client and Worker expose matching testnet and contract-role
   assert.equal(worker.canonical, client.canonical);
   assert.equal(client.title, worker.title);
   assert.equal(client.description, worker.description);
-  assert.equal(client.title, "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist — NexuAlpha");
+  assert.equal(client.title, "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist");
   assert.match(client.description, /official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview/);
   assert.equal(clientPage.dateModified, "2026-09-22");
   assert.equal(workerPage.dateModified, clientPage.dateModified);

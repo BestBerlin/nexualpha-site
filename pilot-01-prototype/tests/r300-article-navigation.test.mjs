@@ -1,7 +1,25 @@
-import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createRequire} from 'node:module';
+import vm from 'node:vm';
+import {fileURLToPath} from 'node:url';
+import {buildSync} from 'esbuild';
+import {createHash} from 'node:crypto';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("../../../r299-news-reading-priority/candidate", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
 const helper=new URL('../src/components/v3/news/article-section-navigation.js',import.meta.url);
 test('only real renderer H2 blocks become unique targets; source conditional',async()=>{assert.ok(fs.existsSync(helper));const {articleSectionTargets}=await import(helper);assert.deepEqual(articleSectionTargets(['intro','## Same','### Sub','## Same','##無空白'],false),[{id:'article-section-1',label:'Same',deep:true},{id:'article-section-3',label:'Same',deep:true}]);assert.equal(articleSectionTargets(['## A'],true,2,'Sources').at(-1).id,'article-sources');});
-import {createRequire} from 'node:module';import vm from 'node:vm';import {fileURLToPath} from 'node:url';import {buildSync} from 'esbuild';import {createHash} from 'node:crypto';
+
 const root=new URL('../',import.meta.url),base=new URL('../../../r299-news-reading-priority/candidate/',import.meta.url),require=createRequire(import.meta.url),React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
 function load(r){const code=buildSync({stdin:{contents:"export {NewsDetailPage} from './src/components/v3/news/NewsDetailPage.jsx';",resolveDir:fileURLToPath(r),loader:'jsx'},bundle:true,write:false,format:'cjs',platform:'node',external:['react','react/jsx-runtime'],loader:{'.css':'empty'}}).outputFiles[0].text,m={exports:{}};vm.runInNewContext(code,{module:m,exports:m.exports,require,console,URL,URLSearchParams,Intl,Date,setTimeout,clearTimeout});return m.exports;}
 const a=load(root),b=load(base),feed=JSON.parse(fs.readFileSync(new URL('public/content/news-feed.json',root))),articles=Array.isArray(feed)?feed:feed.articles;
@@ -11,3 +29,4 @@ test('whole source inverse, original feed and registry remain exact',()=>{let s=
 test('deep activation opens native disclosure and React state before focus, unknown targets fail safely',async()=>{const {activateArticleSection}=await import(helper),events=[],target={scrollIntoView:o=>events.push(['scroll',o]),focus:o=>events.push(['focus',o])},gate={open:false,contains:n=>n===target},doc={getElementById:id=>id==='article-section-2'?target:null},win={requestAnimationFrame:fn=>{events.push(['frame']);fn();}};assert.equal(activateArticleSection('bad',gate,v=>events.push(['state',v]),doc,win),false);assert.equal(activateArticleSection('article-section-2',gate,v=>events.push(['state',v]),doc,win),true);assert.equal(gate.open,true);assert.deepEqual(events,[['state',true],['frame'],['scroll',{block:'start',behavior:'instant'}],['focus',{preventScroll:true}]]);});
 test('select resets for same-option repeat; same hash does not duplicate history; hook stays before early returns',()=>{const s=fs.readFileSync(new URL('src/components/v3/news/NewsDetailPage.jsx',root),'utf8');assert.ok(s.includes('jumpToSection(event.currentTarget.value); event.currentTarget.value = "";'));assert.ok(s.includes('if (window.location.hash !== `#${id}`) window.history.pushState'));assert.ok(s.indexOf('window.addEventListener("hashchange", onHash)')<s.indexOf('if (feedState === "loading")'));assert.ok(s.includes('<h2 id="article-sources" tabIndex={-1}'));assert.ok(s.includes('only\n      // adopt disclosure state and focus'));});
 test('actual no-heading article with real Sources keeps Sources but omits redundant one-option nav',()=>{const row=articles.find(article=>{const value=article.content?.en;return typeof value==='string'&&!value.split('\n\n').map(s=>s.trim()).some(s=>s.startsWith('## '))&&article.sources?.length>0;});assert.ok(row,'actual frozen-feed fixture exists');const props={slug:row.slug,locale:'en',initialArticles:articles},h=renderToStaticMarkup(React.createElement(a.NewsDetailPage,props));assert.ok(h.includes('id="article-sources"'));assert.ok(!h.includes('class="news-detail__section-nav"'));assert.equal(inverseHtml(h),renderToStaticMarkup(React.createElement(b.NewsDetailPage,props)));});
+}

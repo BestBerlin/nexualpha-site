@@ -5,12 +5,13 @@ import test from "node:test";
 import { buildNewsSeoFiles } from "../scripts/update-news-seo.mjs";
 import { buildNewsSitemap, buildSitemap, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { sitemapUrl } from "../scripts/sitemap-publication-policy.mjs";
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
 
 const feed = {
   generatedAt: "2026-09-08T12:00:00Z",
   articles: [{
-    slug: "address-poisoning-transfer-history-wallet-warning-radar",
+    slug: "seo-refresh-fixture-new",
     status: "PUBLISHED",
     publishedAt: "2026-09-08T11:00:00Z",
     updatedAt: "2026-09-08T11:30:00Z",
@@ -20,7 +21,7 @@ const feed = {
     seo: { noindex: false },
     sources: [{ title: "Official source", publisher: "NexuAlpha", url: "https://nexualpha.com/source" }],
   }, {
-    slug: "api-failover-cancel-control-disclosure-radar",
+    slug: "seo-refresh-fixture-old",
     status: "PUBLISHED",
     publishedAt: "2026-09-05T11:00:00Z",
     updatedAt: "2026-09-05T11:30:00Z",
@@ -47,7 +48,7 @@ const existingSitemap = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>https://nexualpha.com/</loc></url>
   <url><loc>https://nexualpha.com/exchanges/binance</loc></url>
   <url><loc>https://nexualpha.com/exchanges/binance</loc></url>
-  <url><loc>https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar</loc></url>
+  <url><loc>https://nexualpha.com/news/seo-refresh-fixture-old</loc></url>
   <url><loc>https://nexualpha.com/zh-hans/news/stale-research</loc></url>
 </urlset>
 `;
@@ -60,7 +61,7 @@ const existingLlms = `# NexuAlpha
 
 ## Published Source-Backed Research
 
-- [Old](https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar): Old summary.
+- [Old](https://nexualpha.com/news/seo-refresh-fixture-old): Old summary.
 
 ---
 
@@ -72,6 +73,19 @@ const existingLlms = `# NexuAlpha
 function locsFromSitemap(xml) {
   return [...String(xml || "").matchAll(/<loc>([\s\S]*?)<\/loc>/g)]
     .map((match) => match[1].replaceAll("&amp;", "&"));
+}
+
+// News refresh now emits an index plus template children. Read the generated
+// inventory children in memory, so an index <loc> cannot masquerade as a page.
+function inventoryUrlsets(result) {
+  assert.match(result.sitemap, /<sitemapindex/);
+  const children = new Set(locsFromSitemap(result.sitemap).map(loc => new URL(loc).pathname.slice(1)));
+  const files = Object.entries(result.sitemapFiles).filter(([name]) => name !== "sitemap-coins.xml");
+  for (const [name, xml] of files) {
+    assert.ok(children.has(name), `${name}: generated child advertised by the index`);
+    assert.match(xml, /<urlset/);
+  }
+  return files.map(([, xml]) => xml).join("\n");
 }
 
 function blockForLoc(xml, loc) {
@@ -106,14 +120,14 @@ function testArticle({
 test("news SEO refresh preserves non-news sitemap and llms sections", () => {
   const result = buildNewsSeoFiles(feed, { existingSitemap, existingLlms });
 
-  assert.match(result.sitemap, /<loc>https:\/\/nexualpha\.com\/exchanges\/binance<\/loc>/);
-  assert.match(result.sitemap, /<loc>https:\/\/nexualpha\.com\/news\/address-poisoning-transfer-history-wallet-warning-radar<\/loc>/);
-  assert.match(result.sitemap, /<loc>https:\/\/nexualpha\.com\/zh-hans\/news\/address-poisoning-transfer-history-wallet-warning-radar<\/loc>/);
-  assert.equal((result.sitemap.match(/<loc>https:\/\/nexualpha\.com\/exchanges\/binance<\/loc>/g) || []).length, 1);
-  assert.ok((result.sitemap.match(/<loc>/g) || []).length > 8);
-  assert.match(result.sitemap, /api-failover-cancel-control-disclosure-radar/);
-  assert.doesNotMatch(result.sitemap, /stale-research/);
-  assert.doesNotMatch(result.sitemap, /noindex-research/);
+  assert.match(inventoryUrlsets(result), /<loc>https:\/\/nexualpha\.com\/exchanges\/binance<\/loc>/);
+  assert.match(inventoryUrlsets(result), /<loc>https:\/\/nexualpha\.com\/news\/seo-refresh-fixture-new<\/loc>/);
+  assert.match(inventoryUrlsets(result), /<loc>https:\/\/nexualpha\.com\/zh-hans\/news\/seo-refresh-fixture-new<\/loc>/);
+  assert.equal((inventoryUrlsets(result).match(/<loc>https:\/\/nexualpha\.com\/exchanges\/binance<\/loc>/g) || []).length, 1);
+  assert.ok((inventoryUrlsets(result).match(/<loc>/g) || []).length > 8);
+  assert.match(inventoryUrlsets(result), /seo-refresh-fixture-old/);
+  assert.doesNotMatch(inventoryUrlsets(result), /stale-research/);
+  assert.doesNotMatch(inventoryUrlsets(result), /noindex-research/);
 
   assert.match(result.llms, /## Core Canonical Endpoints/);
   assert.match(result.llms, /Preserve this policy\./);
@@ -125,8 +139,8 @@ test("news SEO refresh uses the shared publication set instead of raw feed expan
   const inventory = [
     { pathname: "/", template: "home", index: true, locales: ["en"] },
     { pathname: "/news", template: "newsList", index: true, locales: ["en", "zh-Hans"] },
-    { pathname: "/news/address-poisoning-transfer-history-wallet-warning-radar", template: "article", index: true, locales: ["en", "zh-Hans"] },
-    { pathname: "/news/api-failover-cancel-control-disclosure-radar", template: "article", index: true, locales: ["en", "zh-Hans"] },
+    { pathname: "/news/seo-refresh-fixture-new", template: "article", index: true, locales: ["en", "zh-Hans"] },
+    { pathname: "/news/seo-refresh-fixture-old", template: "article", index: true, locales: ["en", "zh-Hans"] },
   ];
   const policy = {
     minSitemapUrls: 0,
@@ -139,9 +153,9 @@ test("news SEO refresh uses the shared publication set instead of raw feed expan
   };
   const result = buildNewsSeoFiles(feed, { existingSitemap, existingLlms, inventory, policy, allLocales: ["en", "zh-Hans"] });
 
-  assert.deepEqual(result.publication.articleSlugs, ["address-poisoning-transfer-history-wallet-warning-radar", "api-failover-cancel-control-disclosure-radar"]);
-  assert.equal((result.sitemap.match(/<loc>https:\/\/nexualpha\.com\/news\/address-poisoning-transfer-history-wallet-warning-radar\?locale=zh-Hans<\/loc>/g) || []).length, 0);
-  assert.equal((result.sitemap.match(/<loc>https:\/\/nexualpha\.com\/news\/api-failover-cancel-control-disclosure-radar\?locale=zh-Hans<\/loc>/g) || []).length, 0);
+  assert.deepEqual(result.publication.articleSlugs, ["seo-refresh-fixture-new", "seo-refresh-fixture-old"]);
+  assert.equal((inventoryUrlsets(result).match(/<loc>https:\/\/nexualpha\.com\/news\/seo-refresh-fixture-new\?locale=zh-Hans<\/loc>/g) || []).length, 0);
+  assert.equal((inventoryUrlsets(result).match(/<loc>https:\/\/nexualpha\.com\/news\/seo-refresh-fixture-old\?locale=zh-Hans<\/loc>/g) || []).length, 0);
   assert.match(result.llms, /publication version: nexualpha-search-publication-v1/i);
   assert.match(result.llms, /New Source-Backed Research/);
   assert.match(result.llms, /Old Source-Backed Research/);
@@ -194,10 +208,10 @@ test("news SEO refresh rewrites non-article hreflang alternates through publicat
     ["/topics/derivatives", "ar"],
   ];
   for (const [pathname, blockedLocale] of expectations) {
-    const block = blockForLoc(result.sitemap, sitemapUrl(pathname, "en"));
+    const block = blockForLoc(inventoryUrlsets(result), sitemapUrl(pathname, "en"));
     assert.ok(block, pathname);
     const hreflangs = hreflangsFromBlock(block);
-    assert.deepEqual(hreflangs, ["en", "ja", "ko", "tr", "zh-Hans", "x-default"], pathname);
+    assert.deepEqual(hreflangs, [], `${pathname}: non-article alternates remain owned by the page head`);
     assert.ok(!hreflangs.includes(blockedLocale), `${pathname} leaked ${blockedLocale}`);
     assert.doesNotMatch(block, new RegExp(`/${blockedLocale}/`), pathname);
   }
@@ -206,7 +220,7 @@ test("news SEO refresh rewrites non-article hreflang alternates through publicat
 test("news SEO refresh is idempotent with the build sitemap for the same feed", async () => {
   const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
   const currentFeed = JSON.parse(feedText);
-  const articles = normalizeNewsFeed(currentFeed);
+  const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(currentFeed));
   const buildSitemapXml = buildSitemap(routeInventory(articles), articles);
   const buildNewsSitemapXml = buildNewsSitemap(articles, { generatedAt: currentFeed.generatedAt });
   const result = buildNewsSeoFiles(currentFeed, {
@@ -215,7 +229,7 @@ test("news SEO refresh is idempotent with the build sitemap for the same feed", 
   });
 
   const buildUrls = locsFromSitemap(buildSitemapXml);
-  const refreshedUrls = locsFromSitemap(result.sitemap);
+  const refreshedUrls = locsFromSitemap(inventoryUrlsets(result));
   assert.equal(refreshedUrls.length, buildUrls.length);
   assert.deepEqual(new Set(refreshedUrls), new Set(buildUrls));
 
@@ -229,18 +243,18 @@ test("news sitemap exposes only recent indexable reviewed news URLs", () => {
   const result = buildNewsSeoFiles(feed, { existingSitemap, existingLlms });
 
   assert.match(result.newsSitemap, /xmlns:news="http:\/\/www\.google\.com\/schemas\/sitemap-news\/0\.9"/);
-  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/news\/address-poisoning-transfer-history-wallet-warning-radar<\/loc>/);
-  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/zh-hans\/news\/address-poisoning-transfer-history-wallet-warning-radar<\/loc>/);
+  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/news\/seo-refresh-fixture-new<\/loc>/);
+  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/zh-hans\/news\/seo-refresh-fixture-new<\/loc>/);
   assert.match(result.newsSitemap, /<news:publication>/);
   assert.match(result.newsSitemap, /<news:name>NexuAlpha<\/news:name>/);
   assert.match(result.newsSitemap, /<news:language>en<\/news:language>/);
-  assert.match(result.newsSitemap, /<news:language>zh-Hans<\/news:language>/);
+  assert.match(result.newsSitemap, /<news:language>zh-cn<\/news:language>/);
   assert.match(result.newsSitemap, /<news:publication_date>2026-09-08T11:00:00\.000Z<\/news:publication_date>/);
   assert.match(result.newsSitemap, /<news:title>New Source-Backed Research<\/news:title>/);
   assert.match(result.newsSitemap, /<news:title>新的源头核验研究<\/news:title>/);
   assert.match(result.newsSitemap, /<lastmod>2026-09-08<\/lastmod>/);
   assert.match(result.newsSitemap, /xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
-  assert.doesNotMatch(result.newsSitemap, /api-failover-cancel-control-disclosure-radar/);
+  assert.doesNotMatch(result.newsSitemap, /seo-refresh-fixture-old/);
   assert.doesNotMatch(result.newsSitemap, /noindex-research/);
   assert.equal(result.newsSitemapUrls.length, 2);
 });
@@ -250,23 +264,23 @@ test("news sitemap freshness gate excludes expired, future, and invalid publicat
     generatedAt: "2026-09-08T12:00:00Z",
     articles: [
       testArticle({
-        slug: "basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map",
+        slug: "seo-refresh-fixture-cutoff",
         publishedAt: "2026-09-06T12:00:00Z",
         updatedAt: "2026-09-09T00:00:00Z",
         title: "Cutoff Research",
       }),
       testArticle({
-        slug: "binance-ai-beta-market-insights-evidence-risk-checklist",
+        slug: "seo-refresh-fixture-expired",
         publishedAt: "2026-09-06T11:59:59Z",
         title: "Expired Research",
       }),
       testArticle({
-        slug: "binance-ava-gns-towns-network-support-ended-transfer-checklist",
+        slug: "seo-refresh-fixture-future",
         publishedAt: "2026-09-08T12:00:01Z",
         title: "Future Research",
       }),
       testArticle({
-        slug: "binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist",
+        slug: "seo-refresh-fixture-invalid",
         publishedAt: "not-a-date",
         title: "Invalid Date Research",
       }),
@@ -274,13 +288,13 @@ test("news sitemap freshness gate excludes expired, future, and invalid publicat
   };
   const result = buildNewsSeoFiles(gatedFeed, { existingSitemap, existingLlms });
 
-  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/news\/basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map<\/loc>/);
+  assert.match(result.newsSitemap, /<loc>https:\/\/nexualpha\.com\/news\/seo-refresh-fixture-cutoff<\/loc>/);
   assert.match(result.newsSitemap, /<news:publication_date>2026-09-06T12:00:00\.000Z<\/news:publication_date>/);
   assert.match(result.newsSitemap, /<lastmod>2026-09-06<\/lastmod>/);
   assert.doesNotMatch(result.newsSitemap, /2026-09-09/);
-  assert.doesNotMatch(result.newsSitemap, /binance-ai-beta-market-insights-evidence-risk-checklist/);
-  assert.doesNotMatch(result.newsSitemap, /binance-ava-gns-towns-network-support-ended-transfer-checklist/);
-  assert.doesNotMatch(result.newsSitemap, /binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist/);
+  assert.doesNotMatch(result.newsSitemap, /seo-refresh-fixture-expired/);
+  assert.doesNotMatch(result.newsSitemap, /seo-refresh-fixture-future/);
+  assert.doesNotMatch(result.newsSitemap, /seo-refresh-fixture-invalid/);
   assert.equal(result.newsSitemapUrls.length, 2);
 });
 
@@ -298,10 +312,10 @@ test("robots exposes AI search crawlers and the regular sitemap entry point", as
 });
 
 
-test("unknown newly arrived articles remain readable feed content but do not gain search publication", () => {
-  const arrival = { ...feed.articles[0], slug: 'unreviewed-new-arrival' };
+test("explicitly unreviewed arrivals remain readable feed content without search publication", () => {
+  const arrival = { ...feed.articles[0], slug: 'unreviewed-new-arrival', seo: { noindex: true } };
   const result = buildNewsSeoFiles({ ...feed, articles: [arrival, ...feed.articles] }, { existingSitemap, existingLlms });
-  assert.doesNotMatch(result.sitemap, /unreviewed-new-arrival/);
+  assert.doesNotMatch(inventoryUrlsets(result), /unreviewed-new-arrival/);
   assert.doesNotMatch(result.newsSitemap, /unreviewed-new-arrival/);
   assert.doesNotMatch(result.llms, /unreviewed-new-arrival/);
   assert.equal(result.articles.some((article) => article.slug === arrival.slug), true);

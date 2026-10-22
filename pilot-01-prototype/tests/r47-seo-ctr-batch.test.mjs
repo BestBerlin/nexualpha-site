@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -11,8 +12,8 @@ import { routeMetadata } from "../worker/index.js";
 
 const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
 const protectedHashes = {
-  "../src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
-  "../src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
+  "../src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "../src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
   "../src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
   "../src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
 };
@@ -34,9 +35,9 @@ function assets() {
 
 test("R47 gives four English owner pages concise query-first snippets and direct answers", async () => {
   const cases = [
-    ["/news/okx-usd-to-usdc-spot-pair-migration", article("okx-usd-to-usdc-spot-pair-migration"), /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/, /official pair scope first/],
-    ["/news/hyperliquid-vs-dydx", article("hyperliquid-vs-dydx"), /^Hyperliquid vs dYdX: Fees, Funding and Liquidation/, /no single quoted rate settles the decision/],
-    ["/exchanges/deribit", null, /^Deribit Options Fees: Margin, API and Liquidation Guide/, /Open Deribit when the query is about crypto options/],
+    ["/news/okx-usd-to-usdc-spot-pair-migration", article("okx-usd-to-usdc-spot-pair-migration"), /^OKX USD to USDC Spot Pairs \(2026\): Orders, Bots, API Fixes/, /official pair scope first/],
+    ["/news/hyperliquid-vs-dydx", article("hyperliquid-vs-dydx"), /^Hyperliquid vs dYdX \(2026\): Fees, Funding and Liquidations/, /no single quoted rate settles the decision/],
+    ["/exchanges/deribit", null, /^Deribit fees, sign-up & KYC/, /Open Deribit when the query is about crypto options/],
     ["/topics/tokenized-stocks-vs-perpetuals", null, /^Tokenized Stocks vs Stock Perps: Rights and Liquidation/, /legal claim before comparing price exposure/],
   ];
 

@@ -48,8 +48,8 @@ test("fee benchmark answer links and regional fallback keep account stage and fu
     console.log(html);
   `, "r104-fee-context");
 
-  assert.match(html, /href="\/es\/compare\/binance-vs-okx\?market=MX&amp;product=spot&amp;account_stage=another_platform&amp;funding=SPEI"/);
-  assert.match(html, /href="\/es\/compare\/bybit-vs-bitget\?market=MX&amp;product=perpetuals&amp;account_stage=another_platform&amp;funding=SPEI"/);
+  assert.match(html, /href="\/es\/compare\/binance-vs-okx#nxa-context\?market=MX&amp;product=spot&amp;account_stage=another_platform&amp;funding=SPEI"/);
+  assert.match(html, /href="\/es\/compare\/bybit-vs-bitget#nxa-context\?market=MX&amp;product=perpetuals&amp;account_stage=another_platform&amp;funding=SPEI"/);
   assert.match(html, /data-cta-placement="rate-benchmark-row"[\s\S]{0,900}account_stage=another_platform/);
   assert.match(html, /data-cta-placement="rate-benchmark-row"[\s\S]{0,900}funding=SPEI/);
 });
@@ -70,8 +70,8 @@ test("fee benchmark answer links reject invalid account stage and cross-market f
     console.log(html);
   `, "r104-fee-invalid-context");
 
-  assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot"/);
-  assert.match(html, /href="\/ja\/compare\/bybit-vs-bitget\?market=JP&amp;product=perpetuals"/);
+  assert.match(html, /href="\/ja\/compare\/binance-vs-okx#nxa-context\?market=JP&amp;product=spot"/);
+  assert.match(html, /href="\/ja\/compare\/bybit-vs-bitget#nxa-context\?market=JP&amp;product=perpetuals"/);
   assert.doesNotMatch(html, /account_stage=admin_account/);
   assert.doesNotMatch(html, /funding=Pix/);
 });
@@ -96,7 +96,7 @@ test("registration card research recovery keeps the decision passport in the dir
 
   const match = html.match(/<a href="([^"]+)" data-cta-kind="research" data-cta-placement="registration-card-compare"/);
   assert.ok(match, "registration compare recovery link should render");
-  assert.match(match[1], /^\/es\/exchanges\?/);
+  assert.match(match[1], /^\/es\/exchanges#nxa-context\?/);
   assert.match(match[1], /market=MX/);
   assert.match(match[1], /product=spot/);
   assert.match(match[1], /account_stage=another_platform/);

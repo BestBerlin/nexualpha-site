@@ -5,11 +5,18 @@ import { join } from "node:path";
 import test, { after, before } from "node:test";
 
 const require = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality/package.json");
-const puppeteer = require("puppeteer-core");
+let puppeteer, browserSkip=false;
+try {puppeteer=require('puppeteer-core');} catch(error) {if(error.code!=='MODULE_NOT_FOUND')throw error;browserSkip='Requires optional puppeteer-core browser audit dependency';}
 
 const baseUrl = process.env.ROUTE_CSS_BASE_URL || "http://127.0.0.1:4304";
 const chromeExecutablePath = process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const artifactDir = process.env.ROUTE_CSS_ARTIFACT_DIR || "artifacts/continuous-optimization-wave4";
+
+if (!browserSkip) {
+ try { const response=await fetch(baseUrl,{signal:AbortSignal.timeout(3000)});assert.ok(response.ok,`Browser target returned ${response.status}`); }
+ catch(error) {if(error instanceof assert.AssertionError)throw error;browserSkip=`Requires reachable browser preview at ${baseUrl}: ${error.cause?.code||error.name}`;}
+}
+const browserTest=(name,fn)=>test(name,{skip:browserSkip},fn);
 
 const allRouteStylePrefixes = [
   "route-activity-",
@@ -197,6 +204,7 @@ let browser;
 const evidence = [];
 
 before(async () => {
+  if(browserSkip)return;
   browser = await puppeteer.launch({
     executablePath: chromeExecutablePath,
     headless: "new",
@@ -205,6 +213,7 @@ before(async () => {
 });
 
 after(async () => {
+  if(browserSkip)return;
   await browser?.close();
   await mkdir(artifactDir, { recursive: true });
   await writeFile(join(artifactDir, "route-css-browser.json"), `${JSON.stringify({ baseUrl, checkedAt: new Date().toISOString(), routes: evidence }, null, 2)}\n`);
@@ -332,7 +341,7 @@ async function clickButtonContaining(page, text) {
 }
 
 for (const route of routeCases) {
-  test(`${route.name} keeps only the CSS prefixes required by its route`, async () => {
+  browserTest(`${route.name} keeps only the CSS prefixes required by its route`, async () => {
     const { page, failures } = await openRoute(route);
     assertNoFailures(route, failures);
 
@@ -354,7 +363,7 @@ for (const route of routeCases) {
 
 for (const route of routeCases) {
   for (const selector of route.selectors) {
-    test(`${route.name} renders ${selector} with styled geometry`, async () => {
+    browserTest(`${route.name} renders ${selector} with styled geometry`, async () => {
       const { page, failures } = await openRoute(route);
       assertNoFailures(route, failures);
 
@@ -369,7 +378,7 @@ for (const route of routeCases) {
 
 for (const route of routeCases) {
   for (const selector of route.textSelectors || []) {
-    test(`${route.name} exposes ${selector} as readable route content`, async () => {
+    browserTest(`${route.name} exposes ${selector} as readable route content`, async () => {
       const { page, failures } = await openRoute(route);
       assertNoFailures(route, failures);
 
@@ -382,7 +391,7 @@ for (const route of routeCases) {
   }
 }
 
-test("home expanded conversion drawers keep every deep module styled", async () => {
+browserTest("home expanded conversion drawers keep every deep module styled", async () => {
   const route = routeCases.find((candidate) => candidate.name === "home");
   const { page, failures } = await openRoute(route);
   assertNoFailures(route, failures);
@@ -404,7 +413,7 @@ test("home expanded conversion drawers keep every deep module styled", async () 
   await page.close();
 });
 
-test("home matcher wizard opens with styled modal geometry", async () => {
+browserTest("home matcher wizard opens with styled modal geometry", async () => {
   const route = routeCases.find((candidate) => candidate.name === "home");
   const { page, failures } = await openRoute(route);
   assertNoFailures(route, failures);
@@ -418,7 +427,7 @@ test("home matcher wizard opens with styled modal geometry", async () => {
 });
 
 for (const viewport of viewports) {
-  test(`representative routes avoid horizontal overflow on ${viewport.name}`, async () => {
+  browserTest(`representative routes avoid horizontal overflow on ${viewport.name}`, async () => {
     for (const route of routeCases) {
       const { page, failures } = await openRoute(route, viewport);
       assertNoFailures(route, failures);
@@ -431,7 +440,7 @@ for (const viewport of viewports) {
   });
 }
 
-test("arabic route preserves RTL reading direction and styled layout", async () => {
+browserTest("arabic route preserves RTL reading direction and styled layout", async () => {
   const route = routeCases.find((candidate) => candidate.expectedDirection === "rtl");
   const { page, failures } = await openRoute(route);
   assertNoFailures(route, failures);

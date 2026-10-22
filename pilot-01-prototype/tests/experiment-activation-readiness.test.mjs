@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
@@ -11,7 +12,7 @@ import test from 'node:test';
 const runFile = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-test('experiment activation readiness writes an auditable non-activation gate', async () => {
+test('experiment activation readiness writes an auditable non-activation gate', { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'nexu-experiment-gate-'));
   try {
     const reportPath = path.join(dir, `${randomUUID()}.json`);

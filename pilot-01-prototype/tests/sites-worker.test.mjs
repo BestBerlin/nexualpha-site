@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { BRAND_SAME_AS } from "../src/data/brand-entity.js";
+import { existsSync } from "node:fs";
 import { access } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
@@ -784,7 +785,7 @@ test("v1 API proxy accepts a base URL that already includes the API prefix", asy
   }
 });
 
-test("emits the files required by Sites packaging", async () => {
+test("emits the files required by Sites packaging", { skip: !existsSync(new URL("../dist/server/index.js", import.meta.url)) && "Sites server package unavailable: complete npm run build before packaging integration checks" }, async () => {
   await access(new URL("../dist/client/index.html", import.meta.url));
   await access(new URL("../dist/server/index.js", import.meta.url));
   await access(new URL("../dist/.openai/hosting.json", import.meta.url));

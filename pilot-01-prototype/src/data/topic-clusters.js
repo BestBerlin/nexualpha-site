@@ -13,6 +13,8 @@ import { localizedPath } from "./locale-routing.js";
 import { hasNewsArticleLocale, localizedNewsTitle, localizedValue, newsArticleUrl } from "./news-feed-client.js";
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT } from "./brazil-vasp-deadline-slugs.js";
 import { tsArticleLinks } from "./tokenized-stocks-news.js";
+import { CURATED_COMPARISON_SLUGS } from "./compare-slug.js";
+import { isTurkeyGated } from "./partner-geo-policy.js";
 
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
@@ -68,6 +70,11 @@ const NAME = (name) => new RegExp(`(?<![A-Za-z0-9])${name.replace(/[.*+?^${}()|[
 
 const venue = (slug, name, query, extra = {}) => ({ id: slug, kind: "venue", path: `/exchanges/${slug}`, name, venues: [slug], query, match: { title: extra.title || NAME(name) } });
 const pair = (a, b, names, query) => ({ id: `${a}-vs-${b}`, kind: "compare", path: `/compare/${a}-vs-${b}`, names, venues: [a, b], query, match: { all: names.map((n) => NAME(n)) } });
+const COMPARISON_NAMES = { binance: "Binance", okx: "OKX", bybit: "Bybit", bitget: "Bitget", mexc: "MEXC", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", dydx: "dYdX", uniswap: "Uniswap", jupiter: "Jupiter" };
+const COMPARISON_CLUSTERS = CURATED_COMPARISON_SLUGS.map((slug) => {
+  const venues = slug.split("-vs-");
+  return pair(...venues, venues.map((venue) => COMPARISON_NAMES[venue]), new RegExp(venues.join(".*"), "i"));
+});
 
 /**
  * Clusters in priority order: an article's link line lists matching clusters in this order; GSC queries go to the first
@@ -197,6 +204,21 @@ export function articleClusterLinks(article, locale = "en", { limit = ARTICLE_CL
     links.push({ id: cluster.id, kind: cluster.kind, path, href: localizedPath(path, locale), label: clusterLabel(cluster, locale) });
   }
   for (const link of tsArticleLinks(article, locale)) if (!links.some((item) => item.path === link.path)) links.push(link);
+  // A venue article can offer a relevant comparison without claiming that it already
+  // discusses both platforms. Rotate bounded alternatives by the stable article slug,
+  // instead of always feeding the first pair in the inventory.
+  const { title, summary } = articleText(article);
+  const candidates = COMPARISON_CLUSTERS.filter((cluster) => cluster.venues.every((venue) => !isTurkeyGated(venue, { locale })) && cluster.venues.some((venue, index) => article?.relatedVenues?.includes(venue) || NAME(cluster.names[index]).test(`${title}\n${summary}`)));
+  const offset = [...String(article?.slug || "")].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const rotated = candidates.length ? [...candidates.slice(offset % candidates.length), ...candidates.slice(0, offset % candidates.length)] : [];
+  // MEXC listing/fee research is the relevant source for the smaller Gate.io and
+  // Bitget comparisons, which would otherwise lose every slot to larger brands.
+  const mexcAlternatives = candidates.filter((cluster) => ["gate-io-vs-mexc", "bitget-vs-mexc"].includes(cluster.id));
+  for (const cluster of [...mexcAlternatives, ...rotated].filter((cluster, index, rows) => rows.findIndex((row) => row.id === cluster.id) === index).slice(0, 2)) {
+    if (links.length >= limit) break;
+    if (links.some((link) => link.path === cluster.path)) continue;
+    links.push({ id: cluster.id, kind: cluster.kind, path: cluster.path, href: localizedPath(cluster.path, locale), label: clusterLabel(cluster, locale) });
+  }
   return links;
 }
 

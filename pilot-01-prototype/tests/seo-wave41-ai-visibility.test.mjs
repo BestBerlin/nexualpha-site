@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, mkdtemp, rm } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+import { tmpdir } from "node:os";
 import test from "node:test";
 
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { newsArticleFaqEntries, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { routeMetadata } from "../worker/index.js";
@@ -17,10 +22,11 @@ const prioritySlugs = [
 ];
 
 const rawFeed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
-const articles = normalizeNewsFeed(rawFeed);
+const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(rawFeed));
 
 test('retrieval retention respects withdrawal, noindex, canonical and source boundaries', () => {
-  const article = articles.find((entry) => entry.slug === prioritySlugs[0]);
+  const source = articles.find((entry) => entry.slug === prioritySlugs[0]);
+  const article = { ...source, seo: { ...source.seo, noindex: false, canonical: `https://nexualpha.com/news/${source.slug}` } };
   assert.equal(retainRetrievalNews(article), true);
   assert.equal(retainRetrievalNews({ ...article, status: 'DRAFT' }), false);
   assert.equal(retainRetrievalNews({ ...article, sources: [] }), false);
@@ -76,14 +82,23 @@ test("Wave41 priority articles expose truthful FAQ schema in client and worker m
   }
 });
 
-test("Wave41 llms surfaces expose all six OAI-SearchBot visited articles as dated source records", async () => {
-  const llms = await readFile(new URL("../public/llms.txt", import.meta.url), "utf8");
-  const full = await readFile(new URL("../public/llms-full.txt", import.meta.url), "utf8");
+test("llms surfaces retain eligible visited articles as dated source records without resurrecting withdrawn search content", async () => {
+  const outputDir = await mkdtemp(path.join(tmpdir(), "nexualpha-llms-test-"));
+  let llms, full;
+  try {
+    execFileSync(process.execPath, [fileURLToPath(new URL("../scripts/generate-public-llms.mjs", import.meta.url))], {
+      env: { ...process.env, NEXUALPHA_LLMS_OUTPUT_DIR: outputDir }, timeout: 90_000, stdio: "pipe",
+    });
+    [llms, full] = await Promise.all(["llms.txt", "llms-full.txt"].map(name => readFile(path.join(outputDir, name), "utf8")));
+  } finally { await rm(outputDir, { recursive: true, force: true }); }
 
   for (const text of [llms, full]) {
     assert.match(text, /## Reviewed news article answers/);
     for (const slug of prioritySlugs) {
-      assert.match(text, new RegExp(`https://nexualpha\\.com/news/${slug}`), slug);
+      const pattern = new RegExp(`https://nexualpha[.]com/news/${slug}`);
+      const article = articles.find(entry => entry.slug === slug);
+      if (retainRetrievalNews(article)) assert.match(text, pattern, `${slug}: eligible retrieval record`);
+      else assert.doesNotMatch(text, pattern, `${slug}: withdrawn/noindex record stays out`);
     }
     assert.match(text, /author: NexuAlpha Research Desk/);
     assert.match(text, /published: 2026-/);

@@ -42,7 +42,7 @@ test("factbook and CTA trust surfaces avoid unproven absolute claims", async () 
 });
 
 test("venue security copy avoids unproven authorization and safety guarantees", async () => {
-  const source = await read("src/components/v3/V3Pages.jsx");
+  const source = await read("src/components/v3/VenueDetailResearch.jsx");
   const block = securityBlock(source);
 
   assert.doesNotMatch(block, /NexuAlpha 权威验证通过|官方唯一权威主域名|官方认证登录镜像|SSL 256-bit Valid/i);
@@ -53,7 +53,7 @@ test("venue security copy avoids unproven authorization and safety guarantees", 
 });
 
 test("venue security block never fabricates accounts subdomains as mirrors", async () => {
-  const source = await read("src/components/v3/V3Pages.jsx");
+  const source = await read("src/components/v3/VenueDetailResearch.jsx");
   const block = securityBlock(source);
 
   assert.doesNotMatch(block, /accounts\.\$\{officialDomain|`accounts\.|accounts\.\$\{/);

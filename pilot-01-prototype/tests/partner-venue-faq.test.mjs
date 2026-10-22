@@ -17,6 +17,7 @@ import {
   PARTNER_VENUE_FAQ_SLUGS,
   PARTNER_VENUE_FAQ_REPLACE_LOCALES,
   PARTNER_VENUE_FAQ_LOCAL_TARGETS,
+  partnerFaqQuestion,
   partnerVenueFaqFor,
 } from "../src/data/partner-venue-faq.js";
 
@@ -32,6 +33,18 @@ const OFFICIAL_HOSTS = {
   mexc: ["www.mexc.com"],
 };
 const GENERIC_ENGLISH = /Where should .* fees and account terms be confirmed|Does NexuAlpha guarantee/;
+
+test("FAQ JSON-LD resolves first-party citations without changing visible source records", () => {
+  const entry = { question: "Which source describes the partner data?", answer: "The public partner feed.", citations: ["/intel/partners.json", "https://www.okx.com/help"] };
+  assert.deepEqual(partnerFaqQuestion(entry).acceptedAnswer.citation, ["https://nexualpha.com/intel/partners.json", "https://www.okx.com/help"]);
+  assert.deepEqual(entry.citations, ["/intel/partners.json", "https://www.okx.com/help"]);
+  for (const locale of ["en", "zh-Hans", "zh-Hant"]) {
+    const faq = partnerVenueFaqFor("okx", locale);
+    for (const question of faq.entries.map(partnerFaqQuestion)) {
+      for (const citation of question.acceptedAnswer.citation || []) assert.match(citation, /^https:\/\//, `${locale}: schema citation is absolute`);
+    }
+  }
+});
 
 async function bothFaqs(slug, locale) {
   const route = localizedPath(`/exchanges/${slug}`, locale);

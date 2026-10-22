@@ -3,7 +3,7 @@ import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from '../src/data/brand-entity.js'
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import worker, { routeMetadata } from '../worker/index.js';
+import worker, { routeMetadata, routeSeoPayload } from '../worker/index.js';
 import { BRAZIL_PAGES } from '../src/data/brazil-market.js';
 import { getBrazilSeo } from '../src/data/brazil-seo.js';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
@@ -35,7 +35,8 @@ test('Brazil originals keep Portuguese canonical/schema in server and browser fo
     assert.equal(server.description, client.description);
     assert.equal(server.locale, 'pt-BR');
     assert.deepEqual(server.alternates.map((row) => row.hreflang), ['pt-BR', 'x-default']);
-    assert.deepEqual(server.schema, client.schemas);
+    const servedGraph = routeSeoPayload(server, url).schema["@graph"];
+    assert.deepEqual(servedGraph, client.schemas.map(({ ["@context"]: context, ...schema }) => schema));
     const expectedFaqQuestions = [...new Set([...(page.faq || []), ...(page.aeoAnswers || [])].map((faq) => faq.question))];
     const faqQuestions = client.schemas.find((row) => row['@type'] === 'FAQPage')?.mainEntity.map((row) => row.name);
     assert.deepEqual(faqQuestions, expectedFaqQuestions);
@@ -89,7 +90,10 @@ test('only seven original Portuguese routes enter the sitemap, without fictional
   const xml = buildSitemap(inventory, []);
   assert.equal((xml.match(/<loc>https:\/\/nexualpha.com\/br(?:\/[^<]+)?<\/loc>/g) || []).length, 7);
   assert.doesNotMatch(xml, /<loc>https:\/\/nexualpha.com\/br[^<]*locale=/);
-  assert.match(xml, /hreflang="pt-BR"/);
+  // Non-news alternates are emitted by the page head and locale-sitemap.xml.
+  const brazilEntries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]).filter((entry) => /<loc>https:\/\/nexualpha\.com\/br(?:\/[^<]+)?<\/loc>/.test(entry));
+  assert.equal(brazilEntries.length, 7);
+  for (const entry of brazilEntries) assert.doesNotMatch(entry, /<xhtml:link/);
 });
 
 test('Portuguese HTTP pages contain prerendered answers, while customized decision state is rendered by the client', async () => {

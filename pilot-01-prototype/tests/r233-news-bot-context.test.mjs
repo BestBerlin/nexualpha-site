@@ -11,7 +11,9 @@ import { venueDatabase } from "../src/data/venue-database.js";
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const krakenNewsSlug = "kraken-crypto-withdrawal-network-address-confirmation-checklist";
 
+let renderedFixtures;
 async function renderNewsFixtures() {
+  if (renderedFixtures) return renderedFixtures;
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-r233-news-bot-"));
   try {
     const entryPath = path.join(tempDir, "entry.mjs");
@@ -63,7 +65,8 @@ async function renderNewsFixtures() {
       "--log-level=warning",
     ], { cwd: projectRoot, stdio: "pipe" });
 
-    return JSON.parse(execFileSync("node", [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
+    renderedFixtures = JSON.parse(execFileSync(process.execPath, [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
+    return renderedFixtures;
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
@@ -73,8 +76,8 @@ function extractTelegramStart(html) {
   return html.match(/data-telegram-start="([^"]+)"/)?.[1] || "";
 }
 
-function extractTelegramReturnHref(html) {
-  return (html.match(/data-telegram-return-href="([^"]+)"/)?.[1] || "").replaceAll("&amp;", "&");
+function extractTelegramReturnRoute(html) {
+  return (html.match(/data-telegram-return-route="([^"]+)"/)?.[1] || "").replaceAll("&amp;", "&");
 }
 
 function telegramHandoffCount(html) {
@@ -108,7 +111,7 @@ test("news detail SSR passes the first valid related venue into the Telegram mon
     assert.equal(telegramHandoffCount(html), 1, `${locale} renders one explicit news handoff`);
     assert.match(extractTelegramStart(html), /^monitor_kraken(?:_|$)/, `${locale} uses the Kraken monitor payload`);
     assert.doesNotMatch(extractTelegramStart(html), /monitor_binance/, `${locale} never falls back to Binance`);
-    assert.match(extractTelegramReturnHref(html), new RegExp(`/news/${krakenNewsSlug}`), `${locale} keeps the news route return href`);
+    assert.match(extractTelegramReturnRoute(html), new RegExp(`/news/${krakenNewsSlug}`), `${locale} keeps the news route stable return route`);
   }
 });
 
@@ -125,8 +128,8 @@ test("news detail SSR skips invalid related venues and preserves ordered first-v
   const rendered = await renderNewsFixtures();
   assert.match(extractTelegramStart(rendered.invalidThenKraken), /^monitor_kraken(?:_|$)/);
   assert.doesNotMatch(extractTelegramStart(rendered.invalidThenKraken), /monitor_binance/);
-  assert.match(extractTelegramReturnHref(rendered.invalidThenKraken), /\/news\/r233-invalid-then-kraken-fixture/);
+  assert.match(extractTelegramReturnRoute(rendered.invalidThenKraken), /\/news\/r233-invalid-then-kraken-fixture/);
   assert.match(extractTelegramStart(rendered.coinbaseThenKraken), /^monitor_coinbase(?:_|$)/);
   assert.doesNotMatch(extractTelegramStart(rendered.coinbaseThenKraken), /monitor_kraken/);
-  assert.match(extractTelegramReturnHref(rendered.coinbaseThenKraken), /\/news\/r233-coinbase-then-kraken-fixture/);
+  assert.match(extractTelegramReturnRoute(rendered.coinbaseThenKraken), /\/news\/r233-coinbase-then-kraken-fixture/);
 });

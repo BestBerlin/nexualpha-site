@@ -4,8 +4,11 @@ import { createRequire } from "node:module";
 import { test } from "node:test";
 import vm from "node:vm";
 
-const requireCompiler = createRequire(new URL("../../../../pilot-01-prototype/package.json", import.meta.url));
+const requireCompiler = createRequire(new URL("../package.json", import.meta.url));
 const { transformSync } = requireCompiler("esbuild");
+const heroSourceUrl=new URL('../src/components/v3/LeanHero.jsx',import.meta.url);
+const realJsModules=Object.fromEntries(await Promise.all([...readFileSync(heroSourceUrl,'utf8').matchAll(/from ["']([^"']+\.js)["']/g)].filter(([,name])=>!['v3-product.js','home-copy.js'].some(file=>name.endsWith(file))).map(async ([,name])=>[name,await import(new URL(name,heroSourceUrl))])));
+
 
 function events() {
   const listeners = new Map();
@@ -145,6 +148,8 @@ function harness({ reduced = false, hidden = false, width = 1024 } = {}) {
       if (name.endsWith("home-copy.js")) return { homeHeroH1: stubs.homeHeroH1 };
       if (name.endsWith("RegistrationCard.jsx")) return { RegistrationCard: stubs.RegistrationCard };
       if (name.endsWith(".css")) return {};
+      if (realJsModules[name]) return realJsModules[name];
+      if (name.endsWith(".jsx")) return new Proxy({}, {get: () => () => null});
       throw new Error(`Unexpected import ${name}`);
     },
     window,
@@ -178,7 +183,7 @@ function hero(options) {
   h.draw();
   h.flush();
   if (options?.open) {
-    findByClass(h.draw(), "lean-hero__secondary-toggle").props.onClick();
+    findByClass(h.draw(), "hx__more-toggle").props.onClick();
     h.draw(); h.flush();
   }
   return h;
@@ -201,8 +206,8 @@ function textContent(node) {
 
 function proofState(h) {
   const tree = h.draw();
-  const inner = findByClass(tree, "lean-hero__social-proof-inner");
-  const action = findByClass(tree, "lean-hero__proof-action");
+  const inner = findByClass(tree, "hx__proof-inner");
+  const action = findByClass(tree, "hx__proof-action");
   return {
     className: inner?.props.className,
     action: textContent(action),
@@ -261,11 +266,11 @@ test("closed Hero disclosure starts no interval; closing an open example cancels
   const initial = proofState(h);
   h.timers.advance(10000);
   assert.deepEqual(proofState(h), initial);
-  findByClass(h.draw(), "lean-hero__secondary-toggle").props.onClick();
+  findByClass(h.draw(), "hx__more-toggle").props.onClick();
   h.draw(); h.flush();
   assert.equal(h.timers.count(), 1);
   h.timers.advance(4200); assert.equal(h.timers.count(), 2);
-  findByClass(h.draw(), "lean-hero__secondary-toggle").props.onClick();
+  findByClass(h.draw(), "hx__more-toggle").props.onClick();
   h.draw(); h.flush(); assert.equal(h.timers.count(), 0);
   const stopped = proofState(h); h.timers.advance(10000); assert.deepEqual(proofState(h), stopped);
   h.unmount(); assert.equal(h.media.count() + h.narrow.count() + h.document.count(), 0);
@@ -292,7 +297,7 @@ test('R138 exact641 boundary rotates; resize during fade clears interval and tim
  const h=hero({width:641,open:true});assert.equal(h.timers.count(),1);h.timers.advance(4200);assert.equal(h.timers.count(),2);h.resize(640);assert.equal(h.timers.count(),0);assert.match(proofState(h).className,/visible/);const stopped=proofState(h);h.timers.advance(30000);assert.deepEqual(proofState(h),stopped);h.resize(641);assert.equal(h.timers.count(),1);h.timers.advance(4199);assert.deepEqual(proofState(h),stopped);h.timers.advance(401);assert.notEqual(proofState(h),stopped);h.unmount();assert.equal(h.timers.count(),0);
 });
 test('R138 layout, reduced motion, background and disclosure gates remain independent',()=>{
- const h=hero({width:390,open:true});h.document.hidden=true;h.document.dispatch('visibilitychange');h.resize(900);assert.equal(h.timers.count(),0);h.media.matches=true;h.media.dispatch('change');h.document.hidden=false;h.document.dispatch('visibilitychange');assert.equal(h.timers.count(),0);h.media.matches=false;h.media.dispatch('change');assert.equal(h.timers.count(),1);h.resize(640);assert.equal(h.timers.count(),0);h.resize(900);assert.equal(h.timers.count(),1);findByClass(h.draw(),'lean-hero__secondary-toggle').props.onClick();h.draw();h.flush();assert.equal(h.timers.count(),0);h.resize(390);h.resize(900);assert.equal(h.timers.count(),0);h.unmount();assert.equal(h.media.count()+h.narrow.count()+h.document.count(),0);
+ const h=hero({width:390,open:true});h.document.hidden=true;h.document.dispatch('visibilitychange');h.resize(900);assert.equal(h.timers.count(),0);h.media.matches=true;h.media.dispatch('change');h.document.hidden=false;h.document.dispatch('visibilitychange');assert.equal(h.timers.count(),0);h.media.matches=false;h.media.dispatch('change');assert.equal(h.timers.count(),1);h.resize(640);assert.equal(h.timers.count(),0);h.resize(900);assert.equal(h.timers.count(),1);findByClass(h.draw(),'hx__more-toggle').props.onClick();h.draw();h.flush();assert.equal(h.timers.count(),0);h.resize(390);h.resize(900);assert.equal(h.timers.count(),0);h.unmount();assert.equal(h.media.count()+h.narrow.count()+h.document.count(),0);
 });
 test('R138 strict replay and repeated media events keep one cycle and remove every listener',()=>{
  const h=hero({open:true});h.replay();h.replay();h.resize(900);h.resize(900);assert.equal(h.timers.count(),1);assert.equal(h.media.count(),1);assert.equal(h.narrow.count(),1);assert.equal(h.document.count(),1);h.timers.advance(4200);h.unmount();assert.equal(h.timers.count(),0);assert.equal(h.media.count()+h.narrow.count()+h.document.count(),0);

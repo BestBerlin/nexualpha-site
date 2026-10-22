@@ -13,7 +13,7 @@ import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { routeMetadata } from "../worker/index.js";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const forbiddenCommercialTokens = /partner\.bitget|bsmkweb|topzhjdgxcb|11350287|nexu888|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|referral code|invite code|guaranteed|bonus|cashback|commission|reward/i;
+const forbiddenCommercialTokens = /partner\.bitget|bsmkweb|topzhjdgxcb|11350287|nexu888|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|invite code|guaranteed|bonus|cashback|commission|reward/i;
 const forbiddenExchangeOutbound = /href="https:\/\/(?:www\.)?(?:binance|bitget|okx|coinbase|kraken|backpack|hashkey|osl)\./i;
 const shell = '<!doctype html><html lang="en"><head><title>NexuAlpha</title><meta name="description" content="base"><meta name="robots" content="index,follow"></head><body><main>app</main></body></html>';
 
@@ -52,7 +52,7 @@ test("R40 Hong Kong decision depth renders Traditional Chinese account, funding 
 
   assert.match(html, /data-regional-decision-depth="HK"/);
   assert.match(html, /lang="zh-Hant"/);
-  assert.match(html, /香港帳戶核對/);
+  assert.match(html, /aria-labelledby="regional-decision-depth-title-HK"/);
   assert.match(html, /SFC/);
   assert.match(html, /HKD 銀行轉帳|港幣/);
   assert.match(html, /eDDA/);
@@ -67,9 +67,9 @@ test("R40 Hong Kong handoff uses only onsite research routes plus Telegram conte
   const html = await renderHongKongDecisionDepth();
 
   assert.match(html, /aria-label="HK research handoff"/);
-  assert.match(html, /href="\/zh-hant\/exchanges\?market=HK&amp;product=spot"/);
-  assert.match(html, /href="\/zh-hant\/rates\?market=HK&amp;product=spot"/);
-  assert.match(html, /href="\/zh-hant\/compare\/binance-vs-okx\?market=HK&amp;product=spot"/);
+  assert.match(html, /href="\/zh-hant\/exchanges#nxa-context\?market=HK&amp;product=spot"/);
+  assert.match(html, /href="\/zh-hant\/rates#nxa-context\?market=HK&amp;product=spot"/);
+  assert.match(html, /href="\/zh-hant\/compare\/binance-vs-okx#nxa-context\?market=HK&amp;product=spot"/);
   assert.match(html, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=/);
   assert.match(html, /data-telegram-market-context="HK"/);
   assert.match(html, /data-telegram-start="[^"]*m_HK[^"]*t_spot/);

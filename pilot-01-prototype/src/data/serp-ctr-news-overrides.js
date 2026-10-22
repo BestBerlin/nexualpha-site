@@ -121,10 +121,11 @@ const BASE_OVERRIDES = {
 const STRIKING_2026_10_18 = {
   "how-to-register-okx-account-verify-identity-safely": {
     // okx account (pos 15), okx register (22), okex verification (16)
-    title: "OKX Account: How to Register and Verify Identity (2026)",
+    // Restore the source article's historical registration wording (page-decay review 2026-10-22).
+    title: "How to Register an OKX Account and Verify Identity Safely",
     description: "Open an OKX account on okx.com or the app: pick the region you live in, verify email and phone (one account each), set a password, then pass ID checks.",
-    h1: "OKX Account: How to Register and Verify Your Identity (KYC)",
-    intro: "To register an OKX account, use only okx.com or the official app and pick the country or region where you ordinarily live: OKX says residence can decide the service entity and the features you get. Verify your email and phone (each can register only one account), set a unique password, then start identity verification (KYC) from the signed-in verification page.",
+    h1: "How to Register an OKX Account and Verify Identity Safely",
+    intro: "Register only through OKX's official website or app and select the country or region where you currently and ordinarily reside. OKX's registration guide says residence can determine the service entity and available features, and it warns that successful registration or identity verification does not guarantee every product.",
     locales: {
       "zh-Hans": {
         title: "OKX 怎么注册？账户注册与身份认证（2026）",
@@ -133,6 +134,13 @@ const STRIKING_2026_10_18 = {
         intro: "注册 OKX 账户只用 okx.com 官网或官方 App，并选择你当前实际居住的国家或地区：OKX 表示居住地可能决定服务实体和可用功能。依次验证邮箱和手机号（每个只能注册一个账户）、设置唯一密码，然后在登录后的认证页面开始个人身份认证（KYC）。",
       },
     },
+  },
+  "okx-order-book-checksum-deprecation-sequence-integrity-radar": {
+    // Recover the existing sequence-gap/resynchronization intent lost to automatic title truncation.
+    title: "OKX Order Book Checksum: Sequence Gaps and Resync",
+    description: "OKX deprecated WebSocket order-book checksum validation on June 23, 2026. Use seqId and prevSeqId for continuity; rebuild from a snapshot after gaps.",
+    h1: "OKX Order Book Checksum: Sequence Gaps and Resynchronization",
+    intro: "OKX deprecated order-book checksum validation for the books, books-l2-tbt and books50-l2-tbt JSON WebSocket channels in production on June 23, 2026. The checksum field remains present but is fixed to zero and must not be used for integrity checks; clients should validate continuity with seqId and prevSeqId.",
   },
   "okx-api-upcoming-changes-websocket-amend-cancel-order-controls": {
     // okx api doc (pos 22.8, 9 impressions), okx api docs (20)

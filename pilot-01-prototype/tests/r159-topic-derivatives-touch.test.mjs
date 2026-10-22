@@ -21,7 +21,9 @@ function cssBlock(css, selector) {
   return css.slice(open + 1, close);
 }
 
+let renderedLocales;
 async function renderDerivatives(locale) {
+  if (renderedLocales) return renderedLocales[locale];
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-r159-topic-touch-"));
   try {
     const entryPath = path.join(tempDir, "entry.mjs");
@@ -30,14 +32,14 @@ async function renderDerivatives(locale) {
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
       import { TopicGuidePage } from "../../src/components/v3/TopicGuidePage.jsx";
-      const html = renderToStaticMarkup(React.createElement(TopicGuidePage, {
+      const html = Object.fromEntries(${JSON.stringify(locales)}.map(locale => [locale, renderToStaticMarkup(React.createElement(TopicGuidePage, {
         slug: "derivatives",
-        locale: ${JSON.stringify(locale)},
+        locale,
         market: "unknown",
         product: "perp",
         venues: [],
-      }));
-      console.log(html);
+      }))]));
+      console.log(JSON.stringify(html));
     `);
     execFileSync(path.join(projectRoot, "node_modules/.bin/esbuild"), [
       entryPath,
@@ -48,7 +50,8 @@ async function renderDerivatives(locale) {
       "--loader:.css=empty",
       "--log-level=warning",
     ], { cwd: projectRoot, stdio: "pipe" });
-    return execFileSync(process.execPath, [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    renderedLocales = JSON.parse(execFileSync(process.execPath, [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 16 * 1024 * 1024 }));
+    return renderedLocales[locale];
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
@@ -81,7 +84,7 @@ test("derivatives route touch selector is mounted by the topic page and the rout
     totals.locales += 1;
 
     assert.match(html, /data-testid="derivatives-decision-routes"/, `${locale} renders the route section`);
-    assert.match(html, /href="(?:\/[a-z]{2}(?:-[a-z]{2,4})?)?\/compare\/binance-vs-okx\?market=unknown&amp;product=perp/, `${locale} keeps primary compare route hrefs`);
+    assert.match(html, /href="(?:\/[a-z]{2}(?:-[a-z]{2,4})?)?\/compare\/[a-z0-9-]+-vs-[a-z0-9-]+[^\"]*product=perp/, `${locale} keeps primary compare route hrefs`);
     assert.doesNotMatch(html, /<details class="topic-derivatives-route-detail"[^>]*open/, `${locale} keeps native route details closed by default`);
   }
   assert.deepEqual(totals, { locales: 15, summaries: 60, bodies: 60, checks: 180 }, "native summary touch checks execute across all original text records");

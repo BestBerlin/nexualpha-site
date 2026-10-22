@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r184-home-code-identity/candidate/src/components/v3/RebateTickerBar.jsx", import.meta.url);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -56,7 +59,7 @@ test('R186 Russian summary uses a short visible label while keeping the full sou
   assert.doesNotMatch(sum.replace(/aria-label="[^"]+"/g, ''), /ЗАМЕТКИ ОБ ИСТОЧНИКАХ/, 'full RU label is not duplicated as visible text');
 });
 
-test('R186 Russian notes keep original text order and onsite destinations', () => {
+test('R186 Russian notes keep original text order and onsite destinations', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const before = notes(renderTicker(base, 'ru'));
   const after = notes(renderTicker(root, 'ru'));
   assert.equal(before.length, 6, 'base RU has six notes');
@@ -64,7 +67,7 @@ test('R186 Russian notes keep original text order and onsite destinations', () =
 });
 
 
-test('R186 inverse patch restores the R184 RebateTickerBar source exactly', () => {
+test('R186 inverse patch restores the R184 RebateTickerBar source exactly', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const current = read(root, 'src/components/v3/RebateTickerBar.jsx');
   const newRuLine = 'ru: { aria: "Статус источников", tag: "Источники", fullTag: "ЗАМЕТКИ ОБ ИСТОЧНИКАХ", viewAll: "Показать все", hide: "Закрыть", badge:';
   const oldRuLine = 'ru: { aria: "Статус источников", tag: "ЗАМЕТКИ ОБ ИСТОЧНИКАХ", viewAll: "Показать все", hide: "Закрыть", badge:';
@@ -79,7 +82,7 @@ test('R186 inverse patch restores the R184 RebateTickerBar source exactly', () =
   assert.equal(reversed, read(base, 'src/components/v3/RebateTickerBar.jsx'));
 });
 
-test('R186 source boundaries and native summary behavior stay scoped', () => {
+test('R186 source boundaries and native summary behavior stay scoped', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const source = read(root, 'src/components/v3/RebateTickerBar.jsx');
   assert.match(source, /<details className="rebate-ticker__details">/, 'native details remains');
   assert.match(source, /<summary className="rebate-ticker__summary" aria-label=\{sourceFullLabel \|\| undefined\}>/, 'summary owns the full accessible label only when needed');

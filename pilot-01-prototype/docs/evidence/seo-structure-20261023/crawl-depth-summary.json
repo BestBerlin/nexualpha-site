@@ -1,0 +1,62 @@
+{
+  "summary": {
+    "origin": "https://nexualpha.com",
+    "maxDepth": 3,
+    "sitemapUrls": 5558,
+    "sitemapFiles": 18,
+    "sitemapErrors": 0,
+    "reachableIndexableSitemapUrls": 5558,
+    "depthFailures": 0,
+    "crawlable": 15005,
+    "documentsFetched": 6921,
+    "indexable": 5582,
+    "parameterUrls": 45,
+    "redirects": 40,
+    "errors": 1,
+    "passed": true,
+    "validationMode": "packaged-worker-and-production-ssr-in-process"
+  },
+  "sitemapCounts": {
+    "/sitemap-articles-en.xml": 224,
+    "/sitemap-articles-zh-hans.xml": 224,
+    "/sitemap-compare.xml": 132,
+    "/sitemap-locales.xml": 118,
+    "/sitemap-topics-tools.xml": 323,
+    "/sitemap-venues.xml": 260,
+    "/sitemap-apps.xml": 75,
+    "/sitemap-academy.xml": 350,
+    "/sitemap-beginner.xml": 155,
+    "/sitemap-licenses.xml": 228,
+    "/sitemap-deposit.xml": 68,
+    "/sitemap-coins.xml": 1263,
+    "/sitemap-data.xml": 17,
+    "/sitemap-convert.xml": 12,
+    "/sitemap-glossary.xml": 1620,
+    "/sitemap-campaigns.xml": 45,
+    "/sitemap-tokenized-stocks.xml": 444
+  },
+  "renderedDocumentsByDepth": {
+    "0": 1,
+    "1": 135,
+    "2": 2568,
+    "3": 4217
+  },
+  "indexableDocumentsByDepth": {
+    "0": 1,
+    "1": 108,
+    "2": 1256,
+    "3": 4217
+  },
+  "sitemapErrors": [],
+  "failures": [],
+  "nonSitemapErrors": [
+    {
+      "path": "/news/bybit-us-stocks-etfs-usdc-alpaca-what-you-own",
+      "depth": 2,
+      "parent": "/activities/bybit-stocks",
+      "status": 404,
+      "indexable": false
+    }
+  ],
+  "scope": "Complete advertised sitemap inventory, traversed from home through real server-rendered anchors; no browser/production HTTP or search-engine indexing claim."
+}

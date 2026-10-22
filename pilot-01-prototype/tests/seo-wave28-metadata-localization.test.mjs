@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
-import { parsePublicRoute } from "../src/data/locale-routing.js";
+import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { routeInventory, INDEXABLE_LOCALES } from "../scripts/generate-prerender-manifest.mjs";
 import { buildSearchPublicationEligibility, selectSitemapPublicationEntries } from "../scripts/sitemap-publication-policy.mjs";
@@ -35,8 +35,7 @@ function normalizePath(path) {
   const locale = url.searchParams.get("locale");
   if (!locale) return path;
   url.searchParams.delete("locale");
-  const prefix = locale.toLowerCase() === "en" ? "" : `/${locale.toLowerCase()}`;
-  return `${prefix}${url.pathname}${url.search}${url.hash}` || "/";
+  return `${localizedPath(url.pathname, locale)}${url.search}${url.hash}` || "/";
 }
 
 function expectedRobots(path) {
@@ -85,8 +84,8 @@ test("Wave28 static pages receive locale-specific metadata without changing Work
     // Class b: onchain now owns the proof-of-reserves verification guide copy.
     ["/onchain?locale=es", /Prueba de reservas: cómo verificar un exchange cripto/, /prueba de reservas/],
     ["/onchain?locale=zh-Hant", /鏈上流動性與儲備證明核驗指南/, /儲備證明/],
-    ["/partners?locale=de", /Partner-Einbettungen und Distribution/, /Integrationshinweise/],
-    ["/partners?locale=de", /Partner-Einbettungen und Distribution/, /Integrationshinweise/],
+    ["/partners?locale=de", /Partnerprogramm/, /Community|KOL/],
+    ["/partners?locale=de", /Partnerprogramm/, /Community|KOL/],
     ["/methodology?locale=zh-Hant", /研究方法與編輯政策/, /商業合作關係/],
     ["/methodology?locale=de", /Forschungsmethodik und redaktionelle Richtlinie/, /kommerzielle Beziehungen/],
   ];
@@ -99,21 +98,26 @@ test("Wave28 standard topic pages expose localized answer-engine metadata", asyn
     ["/topics/compliant-exchanges?locale=fr", /Accès fiat/, /éligibilité régionale/],
     ["/topics/derivatives?locale=de", /Krypto-Perpetual/, /Liquidation/],
     // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
-    ["/topics/no-kyc?locale=it", /Autocustodia senza KYC vs exchange con KYC/, /prelievi/],
-    ["/ja/topics/no-kyc", /本人確認なしの自己管理 vs 本人確認必須の取引所/, /地域制限/],
+    ["/topics/no-kyc?locale=it", /MEXC KYC vs Hyperliquid\/dYdX autocustodia/, /prelievi/],
+    ["/ja/topics/no-kyc", /MEXC KYC 対 Hyperliquid\/dYdX 自己管理/, /地域制限/],
   ];
   for (const row of cases) await assertParity(...row);
 });
 
-test("Wave28 Factbook pages localize descriptions while preserving source-bound metadata", async () => {
-  const cases = [
-    ["/factbook/binance?locale=zh-Hant", /Binance 來源審閱事實庫 \(Factbook\).*— NexuAlpha/, /基礎費率/],
-    // Class b: factbook route titles no longer duplicate the dossier date; dateModified carries review timing.
-    ["/factbook/binance?locale=es", /Binance Ficha de fuentes — NexuAlpha/, /comisiones base/],
-    ["/factbook/okx?locale=pt-BR", /OKX Ficha de fontes — NexuAlpha/, /taxas base/],
-    ["/ar/factbook/bybit", /Bybit سجل المصادر — NexuAlpha/, /الرسوم الأساسية/],
-  ];
-  for (const row of cases) await assertParity(...row);
+test("localized Factbook URLs consolidate into the venue source hub", async () => {
+  for (const [path, locale, slug] of [
+    ["/zh-hant/factbook/binance", "zh-Hant", "binance"],
+    ["/es/factbook/binance", "es", "binance"],
+    ["/pt-br/factbook/okx", "pt-BR", "okx"],
+    ["/ar/factbook/bybit", "ar", "bybit"],
+  ]) {
+    const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), { ASSETS: assets() });
+    assert.equal(response.status, 301, path);
+    assert.equal(response.headers.get("location"), `https://nexualpha.com${localizedPath(`/exchanges/${slug}`, locale)}#sources`, path);
+    const seo = computeRouteSeo({ url: localizedPath(`/exchanges/${slug}`, locale) });
+    assert.equal(seo.locale, locale, path);
+    assert.ok(seo.schemas.some(schema => schema.citation?.length), `${path}: destination retains official source citations`);
+  }
 });
 
 test("Wave28 targeted locale metadata reduces known duplicate title and description groups", () => {

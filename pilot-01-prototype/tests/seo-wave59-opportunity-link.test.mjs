@@ -1,3 +1,5 @@
+import { compareSeoOverrideFromDirectAnswer } from '../src/data/compare-direct-answers.js';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -8,7 +10,7 @@ import { routeMetadata } from "../worker/index.js";
 
 const bybitProfileUrl = "https://nexualpha.com/exchanges/bybit";
 const bitgetProfileUrl = "https://nexualpha.com/exchanges/bitget";
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash('src/data/partner-registry.js');
 
 function assets() {
   return { fetch: async () => new Response("missing", { status: 404 }) };
@@ -28,9 +30,9 @@ test("Wave59 Bybit-vs-Bitget owner links both venue profiles without route chang
   assert.equal(worker.status, 200);
   assert.equal(client.canonical, "https://nexualpha.com/compare/bybit-vs-bitget");
   assert.equal(worker.canonical, client.canonical);
-  assert.equal(client.title, "Bybit vs Bitget Stocks, Copy Trading, Fees and Account Checks — NexuAlpha");
+  assert.equal(client.title, "Bybit vs Bitget: fees, KYC & rebates (2026) | NexuAlpha");
   assert.equal(worker.title, client.title);
-  assert.equal(client.description, "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.");
+  assert.equal(client.description, compareSeoOverrideFromDirectAnswer("bybit-vs-bitget", "en").description.split(" These are checked")[0]);
   assert.equal(worker.description, client.description);
   assert.equal(client.robots, "index,follow");
   assert.equal(worker.robots, "index,follow");

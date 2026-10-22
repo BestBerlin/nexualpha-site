@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { loopbackListenSkip } from './helpers/environment.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createCspReporter, reportOnlyPolicy, workerInlineScriptHashes } from '../server/csp-report.mjs';
@@ -37,7 +38,7 @@ test('CSP endpoint bounds streaming input and validates method/type and Reportin
   assert.equal((await report(request(JSON.stringify([{ body: { effectiveDirective: 'script-src', blockedURL: 'inline' } }]), { 'content-type': 'application/reports+json' }))).status, 204);
   assert.deepEqual(rows, [{ event: 'csp-report-only', directive: 'script-src', blocked: 'inline' }]);
 });
-test('production server adds report-only header and keeps enforced CSP unchanged', async () => {
+test('production server adds report-only header and keeps enforced CSP unchanged', { skip: await loopbackListenSkip() }, async () => {
   const server = await createProductionServer({ env: { INTEL_REFRESH: 'off', FX_REFRESH: 'off' }, worker: { fetch: () => new Response('<html>ok</html>', { headers: { 'content-type': 'text/html', 'content-security-policy': "frame-ancestors 'self'" } }) } });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${server.address().port}`;
@@ -49,13 +50,15 @@ test('production server adds report-only header and keeps enforced CSP unchanged
     assert.equal((await fetch(`${base}/api/csp-report`, { method: 'POST', headers: { 'content-type': 'application/csp-report' }, body: '{}' })).status, 204);
   } finally { await new Promise((resolve) => { server.close(resolve); server.closeAllConnections(); }); }
 });
-test('the worker\'s own inline scripts are hashed per response; look-alike or injected scripts are not', async () => {
+test('the worker\'s own inline scripts are hashed per response; look-alike or injected scripts are not', async (t) => {
   const bridge = '/* Prerendered content is already visible. */(()=>{let p;const s="/assets/index-AbC12345.js";p=1})();';
   const css = '(()=>{const l=[...document.querySelectorAll("link[data-nexualpha-deferred-css]")];l.length})();';
   const html = `<html><body><script>evil()</script><script data-nexualpha-deferred-hydration>${bridge}</script><script>${css}</script></body></html>`;
   const sha = (text) => `'sha256-${createHash('sha256').update(text).digest('base64')}'`;
   assert.deepEqual(workerInlineScriptHashes(html), [sha(bridge), sha(css)]);
   assert.deepEqual(workerInlineScriptHashes('<script data-nexualpha-deferred-hydration>evil()</script>'), []);
+  const unavailable = await loopbackListenSkip();
+  if (unavailable) { t.skip(unavailable); return; }
   const server = await createProductionServer({ env: { INTEL_REFRESH: 'off', FX_REFRESH: 'off' }, worker: { fetch: () => new Response(html, { headers: { 'content-type': 'text/html' } }) } });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   try {
@@ -66,7 +69,7 @@ test('the worker\'s own inline scripts are hashed per response; look-alike or in
     assert.equal(await response.text(), html);
   } finally { await new Promise((resolve) => { server.close(resolve); server.closeAllConnections(); }); }
 });
-test('versioned fonts and hashed assets are immutable for a year; unversioned fonts are not', async () => {
+test('versioned fonts and hashed assets are immutable for a year; unversioned fonts are not', { skip: await loopbackListenSkip() }, async () => {
   const server = await createProductionServer({ env: { INTEL_REFRESH: 'off', FX_REFRESH: 'off' }, worker: { fetch: (request, env) => env.ASSETS.fetch(request) } });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${server.address().port}`;

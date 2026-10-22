@@ -100,7 +100,7 @@ test("news detail SSR renders one compact top decision before long article conte
   assert.equal(countLinks(box), 3);
   assert.equal((box.match(/data-cta-kind="research"/g) || []).length, 2);
   assert.equal((box.match(/data-cta-kind="source"/g) || []).length, 1);
-  assert.match(box, /href="\/compare\/hyperliquid-vs-dydx\?product=perp"/);
+  assert.match(box, /href="\/compare\/hyperliquid-vs-dydx#nxa-context\?product=perp"/);
   assert.match(box, /href="https:\/\/hyperliquid\.gitbook\.io\/hyperliquid-docs\/trading\/referrals"/);
   assert.doesNotMatch(box, forbiddenCommercialPromise);
 });
@@ -130,8 +130,8 @@ test("topic guide SSR renders the same compact decision contract before source a
   assert.equal((box.match(/data-cta-kind="research"/g) || []).length, 2);
   assert.equal((box.match(/data-cta-kind="source"/g) || []).length, 1);
   assert.match(box, /How to choose a crypto perpetual platform/);
-  assert.match(box, /href="\/exchanges\/binance\?market=unknown&amp;product=perp"/);
-  assert.match(box, /href="https:\/\//);
+  assert.match(box, /href="\/exchanges\/binance#nxa-context\?product=perp"/);
+  assert.match(box, /href="\/go\/binance-page\?to=[^"]+"[^>]*data-cta-kind="source"/);
   assert.doesNotMatch(box, /data-cta-kind="registration"/);
   assert.doesNotMatch(box, forbiddenCommercialPromise);
 });

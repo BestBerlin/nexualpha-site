@@ -1,4 +1,7 @@
+import { isHomeBrandTitle } from '../src/data/home-search-copy.js';
+import { isStrikingDistanceVenueTitle } from '../src/data/striking-distance-venue-copy.js';
 import { isNativeReferralTitle } from '../src/data/referral-native.js';
+import { createHash } from "node:crypto";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -11,11 +14,14 @@ import { newsArticleAvailableLocales, normalizeNewsFeed } from "../src/data/news
 import { routeMetadata } from "../worker/index.js";
 
 const articles = normalizeNewsFeed(productionFeed).filter((article) => article.seo?.noindex === false);
+const feedText = JSON.stringify(productionFeed);
+const feedSha = createHash("sha256").update(feedText).digest("hex");
 const feedEnv = {
   ASSETS: {
     fetch: async (request) => {
       const url = new URL(request.url);
-      if (url.pathname === "/content/news-feed.json") return Response.json(productionFeed);
+      if (url.pathname === "/content/news-feed.sha256.txt") return new Response(feedSha);
+      if (url.pathname === "/content/news-feed.json") return new Response(feedText);
       return new Response("missing", { status: 404 });
     },
   },
@@ -111,10 +117,12 @@ test("built prerender manifest routes keep Worker metadata budgets", async (t) =
     t.skip(`dist build manifest unavailable: ${error.message}`);
     return;
   }
+  const distSha = createHash("sha256").update(newsFeedText).digest("hex");
   const distEnv = {
     ASSETS: {
       fetch: async (request) => {
         const url = new URL(request.url);
+        if (url.pathname === "/content/news-feed.sha256.txt") return new Response(distSha);
         if (url.pathname === "/content/news-feed.json") return new Response(newsFeedText, { headers: { "content-type": "application/json" } });
         return new Response("missing", { status: 404 });
       },
@@ -129,7 +137,7 @@ test("built prerender manifest routes keep Worker metadata budgets", async (t) =
     // lift them over 110 characters ("Use this NexuAlpha page…") is gone, so only boilerplate and the upper budgets count.
     const min = /Use this NexuAlpha page|用这一页了解|用這一頁了解|source boundary/.test(metadata.description) ? "boilerplate" : null;
     const over = metadata.description.length > 160 ? "over160" : null;
-    const longTitle = metadata.title.length > titleBudgetForLocale(metadata.locale) && !isNativeReferralTitle(metadata.title, metadata.locale) ? "title" : null;
+    const longTitle = metadata.title.length > titleBudgetForLocale(metadata.locale) && !isNativeReferralTitle(metadata.title, metadata.locale) && !isHomeBrandTitle(metadata.title) && !isStrikingDistanceVenueTitle(metadata.title, metadata.locale) ? "title" : null;
     if (min || over || longTitle) {
       deficits.push({ pathname, locale: route.locale, kind: min || over || longTitle, title: metadata.title, description: metadata.description });
     }

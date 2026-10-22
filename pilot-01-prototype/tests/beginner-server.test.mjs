@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { once } from 'node:events';
@@ -8,7 +9,7 @@ import { LOCALE_PREFIX_BY_CODE, localizedPath } from '../src/data/locale-routing
 import { decodeEntities } from './helpers/ssr-hydration-harness.mjs';
 
 // Exercise the built Worker and SSR bundle through the production HTTP entrypoint.
-test('production server beginner aliases redirect to rendered canonical pages in all locales', async () => {
+test('production server beginner aliases redirect to rendered canonical pages in all locales', { skip: await loopbackListenSkip() }, async () => {
   const server = await createProductionServer({ env: { INTEL_REFRESH: 'off', FX_REFRESH: 'off', BITGET_ALLIANCE_POOL: 'off', KRAKEN_USDG_LIVE: 'off' } });
   server.listen(0, '127.0.0.1');
   await once(server, 'listening');

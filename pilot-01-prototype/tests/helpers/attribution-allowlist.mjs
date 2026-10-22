@@ -3,6 +3,7 @@
 // Each rule is host/path bounded; new destination families require a reason and review.
 const rule = (hosts, path, reason, context = () => true) => ({ hosts, path, reason, matches: (url, attrs = {}) => hosts.includes(url.hostname) && path.test(url.pathname) && context(attrs) });
 export const ATTRIBUTION_ALLOWLIST = [
+  rule(['backpack.exchange'], /^\/fees$/, 'Official Backpack fee schedule added to the reviewed fee facts on 2026-10-23; citation only, never a sign-up exception.'),
   rule(['www.binance.com', 'binance.com'], /^\/(?:[a-z]{2}(?:-[A-Za-z]{2,4})?\/)?(?:fee(?:\/|$)|support(?:\/(?:faq|announcement)(?:\/|$)|$)|academy\/articles|blog|about-legal|risk-warning|network|square\/post)/, 'Official fee schedules, help evidence and announcement sources.'),
   rule(['www.okx.com', 'okx.com'], /^\/(?:[a-z]{2}(?:-[A-Za-z]{2,4})?\/)?(?:fees|help|learn|proof-of-reserves|docs-v5|service-center|status|about)(?:\/|$)/, 'Official fees, help, educational evidence and reserve disclosures.'),
   rule(['www.bybit.com', 'bybit.com'], /^\/(?:[a-z]{2}(?:-[A-Za-z]{2,4})?\/)?help-center(?:\/|$)/, 'Official fee and eligibility help articles.'),

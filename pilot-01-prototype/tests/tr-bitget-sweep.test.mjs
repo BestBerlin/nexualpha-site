@@ -153,7 +153,8 @@ test("English (and other) editions with ?market=TR carry no Bitget anywhere in t
 test("?market=TR home: Türkiye head copy, no Bitget funding row, market carried into hydration", async () => {
   const html = await serve("/?market=TR");
   const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1] || "";
-  assert.match(description, /OKX, Binance and Bybit/);
+  assert.match(description, /crypto exchange fees.*official sources/);
+  assert.doesNotMatch(description,/Bitget/i);
   assert.match(html, /class="h7-fr-row"/, "funding board still renders");
   const state = prerenderState(html);
   assert.equal(state.marketContext?.market, "TR");

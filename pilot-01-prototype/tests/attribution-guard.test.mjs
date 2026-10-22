@@ -145,6 +145,10 @@ function violations(attrs, locale, options = {}) {
 }
 
 test('guard rejects bare/wrong-code links and enforces locale gates', () => {
+  assert.equal(classify('https://backpack.exchange/fees').valid, true, 'reviewed official fee citation');
+  assert.equal(classify('https://backpack.exchange/fees', { 'data-cta-kind': 'registration' }).valid, false, 'fee evidence never exempts a registration CTA');
+  assert.equal(classify('https://backpack.exchange/fees?ref=wrong').valid, false, 'unregistered referral parameters remain forbidden');
+  assert.equal(classify('https://backpack.exchange/fees/signup').valid, false, 'fee exception is exact-path bounded');
   for (const href of ['https://www.binance.com/register', 'https://www.binance.com/register?ref=wrong&next=11350287', 'https://binance.com.evil.test/register?ref=11350287']) {
     if (href.includes('evil.test')) assert.equal(classify(href), null);
     else assert.equal(classify(href).valid, false, href);

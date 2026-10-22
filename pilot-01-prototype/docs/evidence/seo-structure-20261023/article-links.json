@@ -1,0 +1,13 @@
+{
+  "scope": "Checked-in feed, shared sitemap publication and article-link selectors; SSR/hydration equivalence verified separately.",
+  "feedGeneratedAt": "2026-10-04T20:46:19.460Z",
+  "editions": 448,
+  "byLocale": {
+    "en": 224,
+    "zh-Hans": 224
+  },
+  "relatedCounts": {
+    "5": 448
+  },
+  "failures": []
+}

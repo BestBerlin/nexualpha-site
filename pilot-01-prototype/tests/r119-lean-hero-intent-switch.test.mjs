@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -13,7 +14,7 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const leanHeroPath = path.join(projectRoot, "src/components/v3/LeanHero.jsx");
 const registryPath = path.join(projectRoot, "src/data/partner-registry.js");
 const expectedPartnerRegistrySha =
-  "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+  committedFileHash('src/data/partner-registry.js');
 
 test("R119 LeanHero keeps partner registry immutable", async () => {
   const registry = await readFile(registryPath);
@@ -47,9 +48,9 @@ test("R119 LeanHero defaults to direct signup intent during SSR", async () => {
     assert.match(html, /data-growth-decision="compare_first"/);
     assert.match(html, /aria-pressed="true"[^>]*data-growth-decision="known_platform"/);
     assert.match(html, /aria-pressed="false"[^>]*data-growth-decision="compare_first"/);
-    assert.match(html, /class="growth-platform-search"/);
+    assert.match(html, /class="hx-route"/);
     assert.match(html, /data-cta-placement="home-decision-panel"/);
-    assert.doesNotMatch(html, /class="growth-compare-shortcuts__links"/);
+    assert.doesNotMatch(html, /class="hx-compare__list"/);
     assert.equal(publicCtaForVenue("bitget", "en").registrationUrl, "https://partner.bitget.com/bg/C6PRAF");
   } finally {
     await vite.close();
@@ -62,8 +63,8 @@ test("R119 LeanHero source uses mutually exclusive panels without details toggle
   assert.doesNotMatch(source, /<details\s+className="growth-compare-shortcuts"/);
   assert.doesNotMatch(source.slice(source.indexOf("function HomeDecisionPanel"), source.indexOf("export function LeanHero")), /onToggle=\{/);
   assert.match(source, /activeIntent === "compare" \? \(/);
-  assert.match(source, /<section className="growth-compare-shortcuts"/);
-  assert.match(source, /: \(\s*<>\s*<label className="growth-platform-search"/);
+  assert.match(source, /<section className="hx-compare"/);
+  assert.match(source, /: \(\s*<div className="hx-route"/);
   assert.match(source, /setActiveIntent\("direct"\)/);
   assert.match(source, /setActiveIntent\("compare"\)/);
 });

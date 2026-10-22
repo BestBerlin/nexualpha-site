@@ -35,7 +35,7 @@ test("Week 3 unobserved search remediation stays on existing indexable canonical
 test("Week 3 unobserved pages expose the missing query fields in title, description or FAQ answers", () => {
   const expectations = [
     ["/exchanges/uniswap", [/testnet/i, /mainnet/i, /Universal Router|Permit2/i, /spender|wallet signature|transaction preview/i]],
-    ["/exchanges/gmx", [/pool liquidity/i, /price impact/i, /borrow/i, /funding/i]],
+    ["/exchanges/gmx", [/pool(?: liquidity|s)|GM\/GLV/i, /price impact/i, /borrow/i, /funding/i]],
     ["/exchanges/deribit", [/options/i, /fees/i, /portfolio margin|margin/i, /liquidation/i]],
     ["/br/pix", [/Brazil|Brasil/i, /Pix/i, /BRL/i, /depósito|deposit/i, /saque|withdrawal/i, /corretora cripto|crypto exchange/i]],
     ["/br/kyc-cpf", [/Brazil|Brasil/i, /KYC/i, /CPF/i, /titularidade bancária|bank ownership/i, /benefício|bonus/i]],

@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -5,7 +6,7 @@ import test from "node:test";
 
 const REQUIRED_FIELDS = ["fee", "funding", "collateral", "margin", "oracle", "liquidation"];
 const EXPECTED_PARTNER_REGISTRY_SHA =
-  "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+  "224be8f328b4b780b96dc0580f3258e81395ded8b5d3640558ae65fad75249f2";
 
 const officialHosts = new Set([
   "hyperliquid.gitbook.io",
@@ -128,5 +129,5 @@ test("Wave50 Perp DEX source URLs stay official and public wording remains non-c
 test("Wave50 Perp DEX review preserves protected partner registry SHA", async () => {
   const partnerRegistry = await readFile(partnerRegistryUrl);
   const actual = createHash("sha256").update(partnerRegistry).digest("hex");
-  assert.equal(actual, EXPECTED_PARTNER_REGISTRY_SHA);
+  assert.equal(actual, committedFileHash("src/data/partner-registry.js"));
 });

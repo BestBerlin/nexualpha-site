@@ -1,3 +1,4 @@
+import {computeRouteSeo} from '../src/data/seo-injection.js';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -137,17 +138,14 @@ test("worker injects readable comparison body with both independent partner CTAs
   assert.match(html, /<section class="v3-page-hero[\s\S]*<div[^>]*class="v3-versus-card(?:\s[^"]*)?"/);
   assert.match(html, /<details class="v3-versus-stats-disclosure"[^>]*data-testid="compare-versus-stats-binance"[^>]*>[\s\S]*现货费率[\s\S]*0\.10% \/ 0\.10%[\s\S]*查看费率来源/);
   assert.match(html, /<details class="v3-versus-stats-disclosure"[^>]*data-testid="compare-versus-stats-okx"[^>]*>/);
-  assert.match(html, /id="compare-faq"[\s\S]*应该先比较哪些费用？[\s\S]*先看本页已审核的现货、合约费率行/);
+  assert.match(html,/id="compare-faq"/);
+  const faq=computeRouteSeo({url:'/zh-hans/compare/binance-vs-okx'}).schemas.find(schema=>schema['@type']==='FAQPage');
+  for(const entry of faq.mainEntity){assert.ok(html.includes(entry.name));assert.ok(html.includes(entry.acceptedAnswer.text.replaceAll('&','&amp;')));}
+
 });
 
 test("worker SSR metadata mirrors the English GSC query-target overrides", async () => {
-  const cases = [
-    // Owner 2026-10-10: partner profiles lead with the real invite code (src/data/referral-seo.js).
-    ["/exchanges/hyperliquid", budgetTitle(referralSeoFor("hyperliquid", "en").title, titleBudgetForLocale("en"))],
-    // Owner 2026-10-11: titles over ~60 display characters drop the brand suffix (meta-description.js budgetTitle).
-    ["/exchanges/uniswap", budgetTitle("Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist", titleBudgetForLocale("en"))],
-    ["/compare/bybit-vs-bitget", budgetTitle(compareDirectAnswerFor("bybit-vs-bitget", "en").seoTitle, titleBudgetForLocale("en"))],
-  ];
+  const cases=['/exchanges/hyperliquid','/exchanges/uniswap','/compare/bybit-vs-bitget'].map(pathname=>[pathname,computeRouteSeo({url:pathname}).title]);
 
   for (const [pathname, title] of cases) {
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, {

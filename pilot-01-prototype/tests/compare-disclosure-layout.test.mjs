@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import test from "node:test";
 
 const pagesSource = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
-const researchCss = await readFile(new URL("../src/components/v3/research.css", import.meta.url), "utf8");
+const disclosureCss = await readFile(new URL("../src/styles/r1-compare.css", import.meta.url), "utf8");
 const crossroadsCss = await readFile(new URL("../src/components/v3/crossroads-compare.css", import.meta.url), "utf8");
 
 const previewOrigin = process.env.COMPARE_DISCLOSURE_BASE_URL || "http://localhost:4173";
@@ -35,19 +35,19 @@ test("compare disclosure section has a dedicated compact layout owner", () => {
     "CompareDeepPage must scope the deep compare disclosure section",
   );
   assert.match(
-    researchCss,
-    /\.v3-page \.v2-section\.v3-compare-disclosure-section\s*\{\s*padding-block:12px;\s*\}/,
+    disclosureCss,
+    /#top\.v3-compare-page \.v3-compare-disclosure-section\s*\{\s*padding:\s*0;\s*\}/,
     "section padding is compact and scoped",
   );
   assert.match(
-    researchCss,
-    /\.v3-compare-disclosure-section \.research-references\s*\{\s*margin-block-start:0;\s*\}/,
+    disclosureCss,
+    /\.v3-compare-disclosure-section \.research-references\s*\{\s*margin:\s*0;\s*padding:\s*0;/,
     "details margin is removed only in the compare disclosure section",
   );
   assert.match(
-    researchCss,
-    /\.v3-compare-disclosure-section \.research-references summary\s*\{[\s\S]*min-block-size:44px;[\s\S]*padding-block:10px;[\s\S]*\}/,
-    "summary keeps a native 44px minimum hit target",
+    disclosureCss,
+    /\.v3-compare-disclosure-section \.research-references\) > summary,[^{]*\{\s*min-block-size:\s*60px;\s*padding:\s*0;/,
+    "the shared disclosure row keeps its 60px hit target",
   );
   assert.match(
     crossroadsCss,

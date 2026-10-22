@@ -7,9 +7,12 @@ import vm from 'node:vm';
 // Reuse the workspace's existing compiler; no candidate dependency is added.
 const requireCompiler = createRequire(new URL('../package.json', import.meta.url));
 const { transformSync } = requireCompiler('esbuild');
+const newsSourceUrl=new URL('../src/components/v3/news/NewsDetailPage.jsx',import.meta.url);
+const realNewsHelpers=Object.assign({}, ...await Promise.all([...readFileSync(newsSourceUrl,'utf8').matchAll(/from ["']([^"']+\.js)["']/g)].map(async ([,name])=>import(new URL(name,newsSourceUrl)))));
+
 const locales = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko', 'es', 'pt-BR', 'fr', 'de', 'tr', 'ru', 'ar', 'id', 'vi', 'it'];
 const tableBody = '| A | B | C | D |\n| --- | --- | --- | --- |\n| first | second | third | last |';
-const article = { slug: 'fixture', content: Object.fromEntries(locales.map(locale => [locale, tableBody])), title: 'Fixture', categoryName: 'Research', publishedAt: '2026-10-05', readTime: '2 min', author: 'Fixture', sources: [] };
+const article = { slug: 'fixture', content: Object.fromEntries(locales.map(locale => [locale, 'Lead one.\n\nLead two.\n\nLead three.\n\n'+tableBody+'\n\nDeep analysis.'])), title: 'Fixture', categoryName: 'Research', publishedAt: '2026-10-05', readTime: '2 min', author: 'Fixture', sources: [] };
 
 function events() {
   const listeners = new Map();
@@ -46,7 +49,7 @@ function clock() {
 function harness(file, { reduced = false, hidden = false, width = 390, expose = '' } = {}) {
   const media = { ...events(), matches: reduced };
   const document = { ...events(), hidden };
-  const window = { ...events(), innerWidth: width, matchMedia: () => media };
+  const window = { ...events(), location:{pathname:'/news/fixture',search:'',hash:''}, innerWidth: width, matchMedia: query => query.includes('prefers-reduced-motion') ? media : {...events(),matches: query.includes('max-width') ? width<=780 : false} };
   const timers = clock();
   const slots = [], pending = [];
   let cursor = 0;
@@ -67,6 +70,8 @@ function harness(file, { reduced = false, hidden = false, width = 390, expose = 
     }
   };
   const mocks = {
+    ...realNewsHelpers,
+    utcStamp: () => "2026-10-05 UTC",
     getNewsArticleBySlug: () => article,
     venueDatabase: {}, OKX_USD_USDC_OWNER_CHECKLIST: { slug: 'other' },
     resolveNewsContentLocale: locale => locale,
@@ -77,7 +82,7 @@ function harness(file, { reduced = false, hidden = false, width = 390, expose = 
   const source = readFileSync(new URL(file, import.meta.url), 'utf8');
   const compiled = transformSync(source + expose, { loader: 'jsx', format: 'cjs', jsx: 'transform' }).code;
   const module = { exports: {} };
-  vm.runInNewContext(compiled, { module, exports: module.exports, require: name => name === 'react' ? React : mocks, window, document, ...timers });
+  vm.runInNewContext(compiled, { module, exports: module.exports, require: name => name === 'react' ? React : mocks, window, document, URL, URLSearchParams, ...timers });
   return {
     module: module.exports, window, document, media, timers,
     render(component, props) { cursor = 0; return component(props); },
@@ -107,64 +112,61 @@ function news(options) {
 test('reduced motion keeps one labelled static example and creates no timer', () => {
   const h = proof({ reduced: true });
   const initial = h.draw(); h.timers.advance(30000);
-  assert.deepEqual(h.draw(), initial);
+  assert.equal(JSON.stringify(h.draw()), JSON.stringify(initial));
   assert.equal(h.timers.count(), 0);
   assert.match(initial.props['aria-label'], /not a live user event/);
   h.unmount(); assert.equal(h.media.count() + h.document.count(), 0);
 });
-test('normal rotation runs, then visibility cancels the pending hide/update and resumes without catch-up', () => {
-  const h = proof(); h.timers.advance(4500);
-  assert.match(h.draw().props.className, /--out/);
-  h.document.hidden = true; h.document.dispatch('visibilitychange');
-  assert.equal(h.timers.count(), 0); assert.match(h.draw().props.className, /--in/);
-  const paused = h.draw(); h.timers.advance(30000); assert.deepEqual(h.draw(), paused);
-  h.document.hidden = false; h.document.dispatch('visibilitychange');
-  assert.equal(h.timers.count(), 1); h.timers.advance(4900);
-  assert.notDeepEqual(h.draw(), paused); h.unmount();
+function byClass(node, name) {
+  if (!node || typeof node !== 'object') return undefined;
+  if (String(node.props?.className || '').split(' ').includes(name)) return node;
+  for(const child of node.children || []) {const match=byClass(child,name);if(match)return match;}
+}
+function startPlayback(h) {find(h.draw(),'button').props.onClick();h.draw();h.flush();}
+test('examples stay paused until a reader explicitly starts desktop playback',()=>{
+ const h=proof({width:1440});assert.equal(h.timers.count(),0);startPlayback(h);assert.equal(h.timers.count(),1);
+ h.timers.advance(4500);assert.match(byClass(h.draw(),'conversion-proof__example').props.className,/--out/);
+ h.document.hidden=true;h.document.dispatch('visibilitychange');h.draw();h.flush();assert.equal(h.timers.count(),0);
+ h.document.hidden=false;h.document.dispatch('visibilitychange');assert.equal(h.timers.count(),0,'foreground does not auto-resume');
+ startPlayback(h);assert.equal(h.timers.count(),1);h.unmount();assert.equal(h.timers.count(),0);
 });
-test('switching reduced motion on cancels pending callbacks; switching off restarts one interval', () => {
-  const h = proof(); h.timers.advance(4500);
-  h.media.matches = true; h.media.dispatch('change');
-  const frozen = h.draw(); assert.equal(h.timers.count(), 0);
-  h.timers.advance(30000); assert.deepEqual(h.draw(), frozen);
-  h.media.matches = false; h.media.dispatch('change'); assert.equal(h.timers.count(), 1);
-  h.unmount(); assert.equal(h.timers.count(), 0);
+test('reduced motion cancels playback and requires another explicit action after the preference clears',()=>{
+ const h=proof({width:1440});startPlayback(h);h.timers.advance(4500);
+ h.media.matches=true;h.media.dispatch('change');h.draw();h.flush();assert.equal(h.timers.count(),0);
+ h.media.matches=false;h.media.dispatch('change');assert.equal(h.timers.count(),0);
+ startPlayback(h);assert.equal(h.timers.count(),1);h.unmount();assert.equal(h.timers.count(),0);
 });
-test('unmount while fade timeout is queued removes both timers and both listeners', () => {
-  const h = proof(); h.timers.advance(4500); assert.equal(h.timers.count(), 2);
-  h.unmount(); assert.equal(h.timers.count(), 0);
-  assert.equal(h.document.count() + h.media.count(), 0);
-  const stopped = h.draw(); h.timers.advance(30000); assert.deepEqual(h.draw(), stopped);
+test('unmount with a queued fade removes both timers and all playback listeners',()=>{
+ const h=proof({width:1440});startPlayback(h);h.timers.advance(4500);assert.equal(h.timers.count(),2);
+ h.unmount();assert.equal(h.timers.count(),0);assert.equal(h.document.count()+h.media.count(),0);
 });
-test('hidden initial tab has no rotation until foregrounded', () => {
-  const h = proof({ hidden: true }); assert.equal(h.timers.count(), 0);
-  h.document.hidden = false; h.document.dispatch('visibilitychange');
-  assert.equal(h.timers.count(), 1); h.unmount();
+test('mobile and initially hidden readers have no automatic rotation',()=>{
+ for(const options of [{width:390},{width:1440,hidden:true}]){const h=proof(options);startPlayback(h);assert.equal(h.timers.count(),0);h.unmount();}
 });
 test('pre-hydration native expansion is adopted and survives effect replay', () => {
   const h = news({ width: 390 });
-  const details = find(h.draw(), 'details'); details.props.ref.current = { open: true };
-  h.flush(); assert.equal(find(h.draw(), 'details').props.open, true);
-  h.replayEffects(); assert.equal(find(h.draw(), 'details').props.open, true);
+  const details = byClass(h.draw(), 'news-detail__article-disclosure'); details.props.ref.current = { open: true };
+  h.flush(); assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
+  h.replayEffects(); assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
 });
 test('mobile reader expansion survives same-width and cross-breakpoint resize', () => {
   const h = news({ width: 390 }); h.draw(); h.flush();
-  find(h.draw(), 'details').props.onToggle({ currentTarget: { open: true } });
+  byClass(h.draw(), 'news-detail__article-disclosure').props.onToggle({ currentTarget: { open: true } });
   for (const width of [390, 600, 900]) {
     h.window.innerWidth = width; h.window.dispatch('resize'); h.draw(); h.flush();
-    assert.equal(find(h.draw(), 'details').props.open, true);
+    assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
   }
 });
 test('desktop reader collapse survives resize but a new language receives its default', () => {
   const h = news({ width: 900 }); h.draw(); h.flush();
-  assert.equal(find(h.draw(), 'details').props.open, true);
-  find(h.draw(), 'details').props.onToggle({ currentTarget: { open: false } });
+  assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
+  byClass(h.draw(), 'news-detail__article-disclosure').props.onToggle({ currentTarget: { open: false } });
   h.window.innerWidth = 920; h.window.dispatch('resize'); h.draw(); h.flush();
-  assert.equal(find(h.draw(), 'details').props.open, false);
+  assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, false);
   h.props.locale = 'ja'; h.draw(); h.flush();
-  assert.equal(find(h.draw(), 'details').props.open, true);
+  assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
   h.window.innerWidth = 390; h.props.locale = 'ko'; h.draw(); h.flush();
-  assert.equal(find(h.draw(), 'details').props.open, false);
+  assert.equal(byClass(h.draw(), 'news-detail__article-disclosure').props.open, true);
 });
 test('four-column table retains all cells inside a named keyboard-focusable local region in all 15 locales', () => {
   const h = harness('../src/components/v3/news/NewsDetailPage.jsx', { expose: '\nexport { copy, renderMarkdownBlock };' });

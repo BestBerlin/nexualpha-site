@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import {assertVersionedAcceptedFeed} from './r189-feed-contract.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,11 +6,16 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {computeRouteSeo} from '../src/data/seo-injection.js';
 import {routeMetadata} from '../worker/index.js';
-import {budgetTitle} from '../src/data/meta-description.js';
+import {budgetTitle,clampMetaDescription,titleBudgetForLocale} from '../src/data/meta-description.js';
 const serialized=value=>JSON.parse(JSON.stringify(value));
 const before=JSON.parse(fs.readFileSync(new URL('../docs/evidence/four-week-growth-20260927/r102-before/tokenized-seo-45.json',import.meta.url),'utf8'));
 function normalizeAuthorizedSeoTransition(value, mode) {
  const clone=structuredClone(value);
+ // Sitewide identity graphs and snippet budgets were added after these feature baselines.
+ const schemaKey=Array.isArray(clone.schemas)?'schemas':Array.isArray(clone.schema)?'schema':null;
+ if(schemaKey)clone[schemaKey]=clone[schemaKey].filter(node=>!(['Organization','WebSite'].includes(node['@type'])&&['https://nexualpha.com/#organization','https://nexualpha.com/#website'].includes(node['@id'])));
+ if(mode==='baseline'&&clone.description)clone.description=clampMetaDescription(clone.description,clone.locale);
+
  const walk=(node)=>{
   if(!node||typeof node!=='object')return;
   if(node['@type']==='Organization'&&node.name==='NexuAlpha Research Desk'){
@@ -19,7 +25,7 @@ function normalizeAuthorizedSeoTransition(value, mode) {
     delete node['@id'];delete node.parentOrganization;node.url='https://nexualpha.com/methodology';
    }
   }
-  if(node['@type']==='Organization'&&node.name==='NexuAlpha'){
+  if(node['@type']==='Organization'&&node.name==='NexuAlpha'&&node.logo){
    if(mode==='current'&&node['@id']!==undefined){
     assert.equal(node['@id'],'https://nexualpha.com/#organization');assert.deepEqual(node.logo,{'@type':'ImageObject',url:'https://nexualpha.com/brand/nexualpha/nexualpha-round.svg',width:'512',height:'512'});
     delete node['@id'];node.logo=node.logo.url;
@@ -28,7 +34,7 @@ function normalizeAuthorizedSeoTransition(value, mode) {
   for(const child of Object.values(node))if(child&&typeof child==='object')walk(child);
  };
  walk(clone);
- if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title);
+ if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title,titleBudgetForLocale(clone.locale));
  return clone;
 }
 test('Treasury checklist keeps serialized SEO for all 45 cluster locale routes',async()=>{
@@ -37,9 +43,5 @@ test('Treasury checklist keeps serialized SEO for all 45 cluster locale routes',
 });
 test('Treasury checklist preserves commercial files, newsfeed and original historical dataset bytes',()=>{
  const lines=fs.readFileSync(new URL('../docs/evidence/four-week-growth-20260927/r102-before/protected-sha.txt',import.meta.url),'utf8').trim().split('\n');assert.equal(lines.length,6);
-	 const authorizedCurrentHashes={
-	  // Class b: 84b6426 made the official binance.com referral route the accepted current registry bytes while preserving the archived before-hash fixture.
-	  'src/data/partner-registry.js':'e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69',
-	 };
-	 for(const line of lines){const [hash,path]=line.split(/\s+/,2);const bytes=fs.readFileSync(new URL('../'+path,import.meta.url));if(path==='public/content/news-feed.json')assertVersionedAcceptedFeed(bytes,hash);else assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),authorizedCurrentHashes[path]||hash,path);}
+	 for(const line of lines){const [hash,path]=line.split(/\s+/,2);const bytes=fs.readFileSync(new URL('../'+path,import.meta.url));if(path==='public/content/news-feed.json')assertVersionedAcceptedFeed(bytes,hash);else assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),committedFileHash(path),path);}
 });

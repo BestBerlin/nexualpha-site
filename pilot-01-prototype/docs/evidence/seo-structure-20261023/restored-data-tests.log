@@ -1,0 +1,16 @@
+✔ FAQ JSON-LD resolves first-party citations without changing visible source records (1.549459ms)
+✔ pt-BR, es and fr partner profiles publish FAQPage schema in the page language, identical in client and Worker SSR (49.49975ms)
+✔ every localized partner answer cites the exchange's own help pages (0.696375ms)
+✔ invite codes come from the partner feed; answers carry no commission disclosure (owner rule 2026-10-12) (0.792333ms)
+✔ en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer in both runtimes (3.626125ms)
+✔ neutral locales get no partner FAQ except zh-Hant informational native answers; tr targets stay scoped and id has seven native targets (0.599417ms)
+✔ native referral answers append with current citations while keeping reviewed wallet and KYC answers (0.351375ms)
+✔ visible profile FAQ renders the same localized questions and answers as the schema, without an in-section disclosure line (291.694041ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 899.792875

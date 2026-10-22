@@ -1,61 +1,51 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {fileURLToPath} from 'node:url';
+import { existsSync, readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
-import {createRequire} from 'node:module';
-import * as routing from '../src/data/locale-routing.js';
-const compiler=createRequire(new URL('../package.json',import.meta.url))('esbuild');
-const dataModule={exports:{}};
-vm.runInNewContext(compiler.buildSync({entryPoints:[fileURLToPath(new URL('../src/data/v3-product.js',import.meta.url))],bundle:true,platform:'node',format:'cjs',write:false}).outputFiles[0].text,{module:dataModule,exports:dataModule.exports});
-const data=dataModule.exports;
-const current=fs.readFileSync(new URL('../src/components/v3/CleanFooter.jsx',import.meta.url),'utf8');
-const baseline=fs.readFileSync(new URL('../../footer-before/CleanFooter.jsx',import.meta.url),'utf8');
-function render(source,locale,brazil=false){const React={createElement:(type,props,...children)=>({type,props:props||{},children:children.flat(Infinity).filter(x=>x!==null&&x!==false&&x!==undefined)})};const module={exports:{}};vm.runInNewContext(compiler.transformSync(source,{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,React,require:()=>({...data,...routing,NexuAlphaWordmark:'wordmark'})});return module.exports.CleanFooter({locale,brazil});}
-function nodes(n){return !n||typeof n!=='object'?[]:[n,...(n.children||[]).flatMap(nodes)];}
-function text(n){return typeof n==='object'?(n.children||[]).map(text).join(' '):String(n);}
-function cls(n,c){return nodes(n).find(x=>(x.props.className||'').split(' ').includes(c));}
-const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
-for(const locale of locales)test(`${locale}: all original destinations and full disclosures remain in server render`,()=>{
- for(const brazil of [false,true]){
- const old=render(baseline,locale,brazil),now=render(current,locale,brazil);
- const links=n=>nodes(n).filter(x=>x.props.href).map(x=>x.props.href).sort();
- assert.deepEqual(links(now),links(old));
- assert.equal(text(cls(now,'clean-footer__statement')),text(cls(old,'clean-footer__statement')));
- assert.equal(text(cls(now,'clean-footer__disclaimer')),text(cls(old,'clean-footer__disclaimer')));
- assert.equal(text(cls(now,'clean-footer__copyright')),text(cls(old,'clean-footer__copyright')));
- }
-});
-for(const locale of locales)test(`${locale}: compact default keeps six main routes and policies and full legal copy are always visible`,()=>{
- const tree=render(current,locale),policies=cls(tree,'clean-footer__policies');
- assert.equal(policies.type,'section');
- assert.equal(policies.children[0].type,'h2');
- assert.equal(nodes(cls(tree,'clean-footer__nav--primary')).filter(x=>x.type==='a').length,6);
- assert.equal(nodes(cls(tree,'clean-footer__nav--policies')).filter(x=>x.type==='a').length,5);
- assert.ok(nodes(policies).includes(cls(tree,'clean-footer__statement')));
- assert.ok(nodes(policies).includes(cls(tree,'clean-footer__disclaimer')));
- assert.equal(cls(tree,'clean-footer__intro'), undefined);
- assert.equal(cls(tree,'clean-footer__affiliate'), undefined);
- assert.ok(text(cls(tree,'clean-footer__summary')).length>20);
- if(locale!=='en')assert.notEqual(text(cls(tree,'clean-footer__summary')),text(cls(render(current,'en'),'clean-footer__summary')));
- if(locale!=='en')assert.notEqual(text(policies.children[0]),text(cls(render(current,'en'),'clean-footer__policies').children[0]));
-});
-test('actual SSR retains risk/policy body while native details has no open attribute or JS dependency',()=>{
- const req=createRequire(new URL('../package.json',import.meta.url));
- const React=req('react'),{renderToStaticMarkup}=req('react-dom/server');
- const module={exports:{}};
- vm.runInNewContext(compiler.transformSync(current,{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,React,require:()=>({...data,...routing,NexuAlphaWordmark:({href})=>React.createElement('a',{href},'NexuAlpha')})});
- for(const locale of locales){
-  const html=renderToStaticMarkup(React.createElement(module.exports.CleanFooter,{locale}));
-  assert.match(html,/<section class="clean-footer__policies nx-ftr__policies"/);
-  assert.doesNotMatch(html,/<details/);
-  assert.match(html,/clean-footer__statement/);assert.match(html,/clean-footer__disclaimer/);
-  assert.equal((html.match(/<a /g)||[]).length,12);
- }
-});
-test('compact footer uses one default statement, wrapping and 44px controls without hard-height clipping',()=>{
- const css=fs.readFileSync(new URL('../src/styles/v5/shell.css',import.meta.url),'utf8');
- assert.match(css,/clean-footer__summary/);
- assert.match(css,/min-block-size: 32px/);
- assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+import { localizedHref } from '../src/data/locale-routing.js';
+
+const require = createRequire(new URL('../package.json', import.meta.url));
+const React = require('react');
+const { renderToStaticMarkup } = require('react-dom/server');
+const { buildSync } = require('esbuild');
+const sourceUrl = new URL('../src/components/v3/CleanFooter.jsx', import.meta.url);
+const baselineUrl = new URL('../../footer-before/CleanFooter.jsx', import.meta.url);
+function component(source) {
+  const module = { exports: {} };
+  const compiled = buildSync({ stdin: { contents: source, resolveDir: fileURLToPath(new URL('.', sourceUrl)), loader: 'jsx' }, bundle: true, platform: 'node', format: 'cjs', write: false, external: ['react'], loader: { '.css': 'empty' } }).outputFiles[0].text;
+  vm.runInNewContext(compiled, { React, module, exports: module.exports, require, URL, URLSearchParams, Intl });
+  return module.exports.CleanFooter;
+}
+const Current = component(readFileSync(sourceUrl, 'utf8'));
+const Before = existsSync(baselineUrl) ? component(readFileSync(baselineUrl, 'utf8')) : null;
+const render = (Component, locale, brazil = false) => renderToStaticMarkup(React.createElement(Component, { locale, brazil }));
+const locales = ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
+const hrefs = html => [...html.matchAll(/href="([^"]+)"/g)].map(match => match[1]).sort();
+
+for (const locale of locales) {
+  test(`${locale}: historical footer destinations remain unchanged`, { skip: !Before && 'Original footer-before source snapshot is absent; current footer checks still run' }, () => {
+    for (const brazil of [false, true]) assert.deepEqual(hrefs(render(Current, locale, brazil)), hrefs(render(Before, locale, brazil)));
+  });
+  test(`${locale}: current footer keeps legal routes, named navigation and identity visible`, () => {
+    const html = render(Current, locale);
+    assert.match(html, /<footer class="nx-ftr" id="policy">/);
+    assert.match(html, /nx-ftr__definition/);
+    assert.match(html, /nx-ftr__slogan/);
+    assert.match(html, /nx-ftr__copyright/);
+    assert.equal([...html.matchAll(/<section class="nx-ftr__column"/g)].length, 4, 'four named discovery columns');
+    for (const path of ['/privacy','/terms','/methodology#disclosure','/editorial-policy','/contact']) {
+      assert.ok(html.includes(`href="${localizedHref(path,{locale})}"`), `${locale} retains ${path}`);
+    }
+    assert.doesNotMatch(html, /<details\b|\shidden(?:=|\s|>)/, 'legal navigation needs no expansion');
+  });
+}
+
+test('footer remains responsive, wraps its legal row and provides visible focus and touch targets', () => {
+  const css = readFileSync(new URL('../src/styles/v5/shell.css', import.meta.url), 'utf8');
+  assert.match(css, /\.nx-ftr \.nx-ftr__legal-row \{[^}]*flex-wrap: wrap/);
+  assert.match(css, /\.nx-ftr \.nx-ftr__column a \{[^}]*min-block-size: 36px/);
+  assert.match(css, /\.nx-ftr [^{]*:focus-visible/);
+  assert.match(css, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });

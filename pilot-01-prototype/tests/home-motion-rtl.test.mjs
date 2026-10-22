@@ -22,8 +22,9 @@ export function infiniteAnimations(css) {
 
 test("home CSS: only approved state and control loops repeat", async () => {
   assert.deepEqual(infiniteAnimations(".a{animation:x 1s infinite}.b{animation:y 1s linear 2}.c{animation:z 1s infinite;animation-timeline:scroll()}/* infinite */"), [".a { animation:x 1s infinite }"]);
-  // Owner 2026-10-23: the whale board beats (heartbeat, ring, sonar, header scan) only while on screen and with motion allowed.
-  const approved = /h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle|h7-wh-(?:beat|ring|sonar|scan)/;
+  // Owner 2026-10-23: whale board beats plus the below-fold drift, data sheen and academy ring
+  // (df303a16) are intentional; the reduced-motion checks below still gate every stylesheet.
+  const approved = /hx-screen-sheen|h7-(?:drift|sheen|ring)|h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle|h7-wh-(?:beat|ring|sonar|scan)/;
   for (const file of HOME_CSS) {
     const css = await read(file);
     for (const animation of infiniteAnimations(css)) assert.match(animation, approved, file);
@@ -48,8 +49,11 @@ test.after(async () => { await harness?.close(); });
 
 test("ar / ur home: every CTA arrow sits in a span that flips in RTL", async () => {
   const css = (await read("src/styles/v7/home7.src.css")) + (await read("src/components/v3/telegram-signal-strip.css"));
-  const flipping = [...css.matchAll(/\.([a-z0-9_-]+(?:arrow|__arr))(?::dir\(rtl\))\s*\{[^}]*scaleX\(-1\)/g)].map((m) => m[1]);
-  for (const name of ["h7-tg-arrow", "tg-signal-strip__arr", "h7-academy-arrow", "h7-mv-arrow"]) assert.ok(flipping.includes(name), name);
+  // Both element-level :dir(rtl) and the newer scoped RTL parent can mirror an arrow.
+  const flipping = [...css.matchAll(/([^{}]+)\{[^{}]*scaleX\(-1\)/g)]
+    .filter((match) => match[1].includes(":dir(rtl)"))
+    .flatMap((match) => [...match[1].matchAll(/\.([a-z0-9_-]+(?:arrow|__arr))\b/g)].map((item) => item[1]));
+  for (const name of ["h7-tg-arrow", "tg-signal-strip__arr", "h7-academy-arrow", "h7-mv-arrow", "h7-follow-arrow"]) assert.ok(flipping.includes(name), name);
   for (const locale of ["ar", "ur"]) {
     const html = await harness.render(`https://nexualpha.com${localizedHref("/", { locale })}`, {});
     const main = html.slice(0, html.indexOf("class=\"nx-ftr\"") > 0 ? html.indexOf("class=\"nx-ftr\"") : html.length);

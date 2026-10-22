@@ -1062,7 +1062,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "liquidationHeatmap") return pageShell(<LiquidationHeatmapPage locale={locale} initialFeed={initialMarketEvents} initialLevels={initialLiquidationLevels} />, { deferContent: false });
   if (route.name === "fundingMatrix") return pageShell(<FundingMatrixPage locale={locale} initialFeed={initialFundingMatrix} market={route.market} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
-  if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
+  if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} initialNewsArticles={initialNewsArticles} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);
   if (route.name === "tokenizedAssets") return pageShell(<TokenizedAssetsPage slug={route.slug} locale={locale} />, { crawlScope: "tokenized" });
   if (route.name === "venueAlternatives") return pageShell(<VenueAlternativesPage slug={route.slug} locale={locale} />);
@@ -1112,6 +1112,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 homeLatest={initialHomeLatest} locale={locale} market={route.market} whales={initialWhales} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
     <ClosingBand locale={locale} />
+    <CrawlPriorityLinks locale={locale} scope="home" />
     {footer}
     {searchDialog}
   </main>;

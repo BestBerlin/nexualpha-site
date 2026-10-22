@@ -1,0 +1,81 @@
+{"documentsFetched":100,"depth":1,"frontier":135}
+{"documentsFetched":200,"depth":2,"frontier":2568}
+{"documentsFetched":300,"depth":2,"frontier":2568}
+{"documentsFetched":400,"depth":2,"frontier":2568}
+{"documentsFetched":500,"depth":2,"frontier":2568}
+{"documentsFetched":600,"depth":2,"frontier":2568}
+{"documentsFetched":700,"depth":2,"frontier":2568}
+{"documentsFetched":800,"depth":2,"frontier":2568}
+{"documentsFetched":900,"depth":2,"frontier":2568}
+{"documentsFetched":1000,"depth":2,"frontier":2568}
+{"documentsFetched":1100,"depth":2,"frontier":2568}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":1200,"depth":2,"frontier":2568}
+{"documentsFetched":1300,"depth":2,"frontier":2568}
+{"documentsFetched":1400,"depth":2,"frontier":2568}
+{"documentsFetched":1500,"depth":2,"frontier":2568}
+{"documentsFetched":1600,"depth":2,"frontier":2568}
+{"documentsFetched":1700,"depth":2,"frontier":2568}
+{"documentsFetched":1800,"depth":2,"frontier":2568}
+[NexuAlpha] not-found SSR returned no page body for /news/bybit-us-stocks-etfs-usdc-alpaca-what-you-own (en); serving the app shell
+{"documentsFetched":1900,"depth":2,"frontier":2568}
+{"documentsFetched":2000,"depth":2,"frontier":2568}
+{"documentsFetched":2100,"depth":2,"frontier":2568}
+{"documentsFetched":2200,"depth":2,"frontier":2568}
+{"documentsFetched":2300,"depth":2,"frontier":2568}
+{"documentsFetched":2400,"depth":2,"frontier":2568}
+{"documentsFetched":2500,"depth":2,"frontier":2568}
+{"documentsFetched":2600,"depth":2,"frontier":2568}
+{"documentsFetched":2700,"depth":2,"frontier":2568}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":2800,"depth":3,"frontier":4217}
+{"documentsFetched":2900,"depth":3,"frontier":4217}
+{"documentsFetched":3000,"depth":3,"frontier":4217}
+{"documentsFetched":3100,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":3200,"depth":3,"frontier":4217}
+{"documentsFetched":3300,"depth":3,"frontier":4217}
+{"documentsFetched":3400,"depth":3,"frontier":4217}
+{"documentsFetched":3500,"depth":3,"frontier":4217}
+{"documentsFetched":3600,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":3700,"depth":3,"frontier":4217}
+{"documentsFetched":3800,"depth":3,"frontier":4217}
+{"documentsFetched":3900,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":4000,"depth":3,"frontier":4217}
+{"documentsFetched":4100,"depth":3,"frontier":4217}
+{"documentsFetched":4200,"depth":3,"frontier":4217}
+{"documentsFetched":4300,"depth":3,"frontier":4217}
+{"documentsFetched":4400,"depth":3,"frontier":4217}
+{"documentsFetched":4500,"depth":3,"frontier":4217}
+{"documentsFetched":4600,"depth":3,"frontier":4217}
+{"documentsFetched":4700,"depth":3,"frontier":4217}
+{"documentsFetched":4800,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":4900,"depth":3,"frontier":4217}
+{"documentsFetched":5000,"depth":3,"frontier":4217}
+{"documentsFetched":5100,"depth":3,"frontier":4217}
+{"documentsFetched":5200,"depth":3,"frontier":4217}
+{"documentsFetched":5300,"depth":3,"frontier":4217}
+{"documentsFetched":5400,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":5500,"depth":3,"frontier":4217}
+{"documentsFetched":5600,"depth":3,"frontier":4217}
+{"documentsFetched":5700,"depth":3,"frontier":4217}
+{"documentsFetched":5800,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":5900,"depth":3,"frontier":4217}
+{"documentsFetched":6000,"depth":3,"frontier":4217}
+{"documentsFetched":6100,"depth":3,"frontier":4217}
+{"documentsFetched":6200,"depth":3,"frontier":4217}
+{"documentsFetched":6300,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":6400,"depth":3,"frontier":4217}
+{"documentsFetched":6500,"depth":3,"frontier":4217}
+{"documentsFetched":6600,"depth":3,"frontier":4217}
+{"documentsFetched":6700,"depth":3,"frontier":4217}
+{"documentsFetched":6800,"depth":3,"frontier":4217}
+[NexuAlpha] funding-matrix: feed refresh failed: FUNDING_MATRIX_READ is not configured
+{"documentsFetched":6900,"depth":3,"frontier":4217}
+{"origin":"https://nexualpha.com","maxDepth":3,"sitemapUrls":5558,"sitemapFiles":18,"sitemapErrors":0,"reachableIndexableSitemapUrls":5558,"depthFailures":0,"crawlable":15005,"documentsFetched":6921,"indexable":5582,"parameterUrls":45,"redirects":40,"errors":1,"passed":true,"validationMode":"packaged-worker-and-production-ssr-in-process"}

@@ -1,5 +1,8 @@
 import { nativeReferralFor } from './referral-native.js';
+import { strikingDistanceVenueLead } from './striking-distance-venue-copy.js';
+import { primarySourceUrl } from './exchange-facts.js';
 import { isPartnerPromotableIn } from "./partner-geo-policy.js";
+import { PUBLIC_ORIGIN } from "./brand-entity.js";
 // Localized partner-exchange FAQ (owner growth plan 2026-10-10, MARKET-PLAN.md "Problems found" #1 and #5).
 //
 // One source for BOTH the visible FAQ on /<locale>/exchanges/<slug> and its FAQPage JSON-LD, used by the client SSR
@@ -822,6 +825,25 @@ function fill(text, partner, locale) {
 }
 
 function rawEntriesFor(slug, locale) {
+  // Resolve fee-backed answers on demand: SSR chunks may initialize the FAQ before the fee ledger.
+  if (slug === 'gate-io' && locale === 'en') return [
+    faq('Gate.io register: what should I check before signing up?',
+      strikingDistanceVenueLead(slug, locale),
+      [['Gate — Official fee schedule', primarySourceUrl(slug)], SRC[slug].faqFr, SRC[slug].kycFr, SRC[slug].restrictedFr]),
+  ];
+  if (slug === 'hyperliquid' && locale === 'en') {
+    const priority = priorityVenueAnswerFor(slug, locale);
+    const funded = priority?.faq.find(([question]) => question === 'Does Hyperliquid offer a funded account?');
+    const rebates = priority?.faq.find(([question]) => question === 'Does Hyperliquid have cashback or a referral discount?');
+    return [
+      ...LOCAL_ENTRIES.hyperliquid.en,
+      faq('What are Hyperliquid fees?', strikingDistanceVenueLead(slug, locale), [SRC_EXTRA.hyperliquid.fees, SRC_EXTRA.hyperliquid.referrals]),
+      ...(funded ? ['Hyperliquid funded account: what does it mean?', 'Can I get funded to trade Hyperliquid?'].map(question =>
+        faq(question, funded[1], (funded[2] || []).map(href => [priority.sources.find(([, url]) => url === href)?.[0] || href, href]))) : []),
+      ...(rebates ? [faq('Hyperliquid rebates: cashback or a referral fee discount?', rebates[1],
+        (rebates[2] || []).map(href => [priority.sources.find(([, url]) => url === href)?.[0] || href, href]))] : []),
+    ];
+  }
   const local = PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale];
   if (local) return local.includes(slug) ? LOCAL_ENTRIES[slug]?.[locale] || null : null;
   return ENTRIES[slug]?.[locale] || LOCAL_ENTRIES[slug]?.[locale] || null;
@@ -896,7 +918,7 @@ export function partnerFaqQuestion(entry) {
     acceptedAnswer: {
       "@type": "Answer",
       text: entry.answer,
-      ...(entry.citations?.length ? { citation: [...entry.citations] } : {}),
+      ...(entry.citations?.length ? { citation: entry.citations.map((href) => href.startsWith("/") && !href.startsWith("//") ? new URL(href, PUBLIC_ORIGIN).href : href) } : {}),
     },
   };
 }

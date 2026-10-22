@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -30,7 +32,7 @@ test('initial desktop default open and explicit close remain stable across width
 test('fresh mobile defaults closed; fresh desktop defaults open; native open wins on either',()=>{for(const width of [390,900])for(const nativeOpen of [false,true]){const h=mount({width,nativeOpen});assert.equal(h.details.open,nativeOpen||width>640);}});
 test('parent rerender and strict effect replay do not reset user intent',()=>{const h=mount();h.choose(true);h.rerender();h.strictReplay();assert.equal(h.details.open,true);h.choose(false);h.strictReplay();assert.equal(h.details.open,false);});
 test('no resize subscription or leaked cleanup remains after initialization',()=>{const h=mount();assert.equal(h.listeners,0);h.unmount();assert.equal(h.listeners,0);});
-test('all source bytes outside bounded disclosure component and registry remain frozen',()=>{const old=readFileSync(new URL('../../topic-before.jsx',import.meta.url),'utf8');const strip=s=>{const a=s.indexOf('function TopicDisclosure('),b=s.indexOf('\nexport function TopicGuidePage',a);return s.slice(0,a)+s.slice(b);};assert.equal(strip(source),strip(old));assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');assert.match(component,/<summary>\{title\}/);assert.match(component,/\{children\}/);});
+test('all source bytes outside bounded disclosure component and registry remain frozen', { skip: !existsSync(new URL('../../topic-before.jsx', import.meta.url)) && 'Original historical topic-before source snapshot is absent from a fresh checkout' },()=>{const old=readFileSync(new URL('../../topic-before.jsx',import.meta.url),'utf8');const strip=s=>{const a=s.indexOf('function TopicDisclosure('),b=s.indexOf('\nexport function TopicGuidePage',a);return s.slice(0,a)+s.slice(b);};assert.equal(strip(source),strip(old));assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),committedFileHash('src/data/partner-registry.js'));assert.match(component,/<summary>\{title\}/);assert.match(component,/\{children\}/);});
 test('closed desktop disclosure keeps a reachable summary while default-open desktop stays compact',()=>{
  const css=readFileSync(new URL('../src/components/v3/topic-guide.css',import.meta.url),'utf8');
  const postcss=req('postcss');

@@ -41,12 +41,12 @@ test("source-bound regional research fallback preserves decision context", () =>
 
   assert.equal(cta.direct, false);
   assert.equal(cta.ctaState, "blocked");
-  assert.match(cta.ctaHref, /^\/exchanges\/drift\?/);
+  assert.match(cta.ctaHref, /^\/exchanges\/drift#source-review\?/);
   assert.match(cta.ctaHref, /market=BR/);
   assert.match(cta.ctaHref, /product=perpetuals/);
   assert.match(cta.ctaHref, /account_stage=existing_account/);
   assert.match(cta.ctaHref, /funding=Pix/);
-  assert.match(cta.ctaHref, /#source-review$/);
+  assert.match(cta.ctaHref, /#source-review\?/);
 });
 
 test("compare final-choice detail links preserve account stage and funding", async () => {
@@ -81,12 +81,12 @@ test("compare final-choice detail links preserve account stage and funding", asy
   const detailLinks = Array.from(html.matchAll(/<a[^>]+href="([^"]+)"[^>]+data-cta-placement="compare-final-choice-detail"/g), (match) => match[1]);
   assert.equal(detailLinks.length, 2, "both final-choice detail links should render with preserved context");
   for (const href of detailLinks) {
-    assert.match(href, /^\/exchanges\/(binance|okx)\?/);
+    assert.match(href, /^\/exchanges\/(binance|okx)#registration-path\?/);
     assert.match(href, /market=BR/);
     assert.match(href, /product=spot/);
     assert.match(href, /account_stage=existing_account/);
     assert.match(href, /funding=Pix/);
-    assert.match(href, /#registration-path$/);
+    assert.match(href, /#registration-path\?/);
   }
 });
 
@@ -121,7 +121,7 @@ test("compare final-choice internal links merge regional context without replaci
   `);
 
   const internalLink = Array.from(html.matchAll(/<a[^>]+href="([^"]+)"[^>]+data-cta-placement="compare-direct-answer-internal"/g), (match) => match[1])
-    .find((href) => href.startsWith("/rates?"));
+    .find((href) => href.startsWith("/rates#nxa-context?"));
   assert.ok(internalLink, "direct-answer internal rates link should render");
   assert.match(internalLink, /market=BR/);
   assert.match(internalLink, /product=spot/);
@@ -253,14 +253,14 @@ test("venue direct-answer internal links preserve regional decision context", as
     (match) => match[1].replaceAll("&amp;", "&")
   );
 
-  const compareLink = directAnswerLinks.find((href) => href.startsWith("/compare/binance-vs-okx?"));
+  const compareLink = directAnswerLinks.find((href) => href.startsWith("/compare/binance-vs-okx#nxa-context?"));
   assert.ok(compareLink, "default direct-answer compare link should render");
   assert.match(compareLink, /market=MX/);
   assert.match(compareLink, /product=perpetuals/);
   assert.match(compareLink, /account_stage=another_platform/);
   assert.match(compareLink, /funding=SPEI/);
 
-  const ratesLink = directAnswerLinks.find((href) => href.startsWith("/rates?"));
+  const ratesLink = directAnswerLinks.find((href) => href.startsWith("/rates#nxa-context?"));
   assert.ok(ratesLink, "default direct-answer rates link should render");
   assert.match(ratesLink, /market=MX/);
   assert.match(ratesLink, /product=spot/);

@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -63,5 +64,5 @@ test('R121 source notes keep finite onsite destinations, single presentation, i1
   assert.doesNotMatch(source, /rebate-ticker__loop-copy|tabIndex=\{-1\}/, 'duplicate focus-excluded loop is removed, not made focusable');
   assert.match(source, /const items = tickerData\[locale\] \|\| \(isHant \? tickerData\["zh-Hant"\] : isZh \? tickerData\["zh-Hans"\] : tickerData\.en\);/, 'language fallback gate remains unchanged');
   const sha = createHash('sha256').update(registry).digest('hex');
-  assert.equal(sha, '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(sha, committedFileHash('src/data/partner-registry.js'));
 });

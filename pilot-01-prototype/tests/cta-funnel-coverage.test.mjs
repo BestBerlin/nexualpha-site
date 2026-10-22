@@ -155,14 +155,16 @@ test("CTA funnel coverage CLI emits JSON and can enforce strict failure", async 
   }
 });
 
-test("component registration CTAs carry growth decision and placement attributes", async () => {
+test("component registration CTAs carry attribution and paired optional growth controls", async () => {
   const files = await componentFiles(path.join(root, "src/components"));
   const missing = [];
 
   for (const file of files) {
     const source = await readFile(file, "utf8");
     for (const { tag, line } of openingTagsWithRegistrationCta(source)) {
-      if (!/data-growth-decision=/.test(tag) || !/data-growth-placement=/.test(tag)) {
+      // Registration clicks use the shared CTA collector; explicit growth decisions are a paired opt-in.
+      if (!/data-cta-platform=/.test(tag) || !/data-cta-placement=/.test(tag)
+        || /data-growth-decision=/.test(tag) !== /data-growth-placement=/.test(tag)) {
         missing.push(`${path.relative(root, file)}:${line}`);
       }
     }

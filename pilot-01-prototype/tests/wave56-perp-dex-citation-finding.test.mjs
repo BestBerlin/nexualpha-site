@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -6,7 +7,7 @@ import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash("src/data/partner-registry.js");
 const expectedFields = ["fee", "funding", "collateral", "margin", "oracle", "liquidation"];
 const expectedVenueHosts = {
   hyperliquid: "hyperliquid.gitbook.io",

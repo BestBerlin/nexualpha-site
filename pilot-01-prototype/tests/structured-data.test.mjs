@@ -10,6 +10,7 @@ import { appDownloadPath } from "../src/data/app-download-path.js";
 import { BINANCE_OCTOBER_PATH } from "../src/data/binance-october-path.js";
 import { COINS_PATH, coinPath } from "../src/data/coins-routes.js";
 import { CALENDAR_PATH } from "../src/data/intel-tools-routes.js";
+import { partnerFaqQuestion, partnerVenueFaqFor } from "../src/data/partner-venue-faq.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { GLOSSARY_PATH, glossaryTermPath } from "../src/data/glossary-routes.js";
 
@@ -214,8 +215,12 @@ function assertRequiredByType(graph, label, sample) {
   visit(graph, (node) => { if (node && typeof node === "object" && schemaTypes(node).includes("Event")) typedNodes.push(node); });
   for (const node of [...graph.filter((node) => !schemaTypes(node).includes("Event")), ...typedNodes]) {
     const types = schemaTypes(node);
-    if (types.includes("NewsArticle")) {
-      for (const key of ["headline", "datePublished", "dateModified", "author", "publisher", "image", "inLanguage"]) assert.ok(node[key], `${label}: NewsArticle.${key}`);
+    if (types.includes("NewsArticle") || types.includes("Article")) {
+      const articleType = types.includes("NewsArticle") ? "NewsArticle" : "Article";
+      for (const key of ["headline", "datePublished", "dateModified", "author", "publisher", "image", "inLanguage"]) assert.ok(node[key], `${label}: ${articleType}.${key}`);
+      assert.equal(node.publisher?.["@id"], ORGANIZATION_ID, `${label}: ${articleType} publisher uses the site entity`);
+      assert.ok(node.author?.["@type"], `${label}: ${articleType} author is a typed entity`);
+      assert.ok(Date.parse(node.dateModified) >= Date.parse(node.datePublished), `${label}: ${articleType} modified date cannot predate publication`);
     }
     if (types.includes("SoftwareApplication")) {
       assert.equal(node.operatingSystem, "iOS, Android", `${label}: SoftwareApplication operatingSystem`);
@@ -252,6 +257,7 @@ function assertRequiredByType(graph, label, sample) {
       assert.ok(Array.isArray(node.mainEntity) && node.mainEntity.length > 0, `${label}: FAQPage questions`);
       for (const question of node.mainEntity) {
         assert.equal(question["@type"], "Question");
+        assert.equal(question.acceptedAnswer?.["@type"], "Answer", `${label}: FAQPage answer type`);
         assert.ok(question.name && question.acceptedAnswer?.text, `${label}: FAQPage has answered questions`);
       }
     }
@@ -289,11 +295,25 @@ function validateStructuredData(html, sample) {
 
 async function fetchBuiltPage(worker, env, sample) {
   const pathName = localizedPath(sample.path, sample.locale);
+  if (sample.redirectFrom) {
+    const legacyPath = localizedPath(sample.redirectFrom, sample.locale);
+    const redirected = await worker.fetch(new Request(`${ORIGIN}${legacyPath}`, { headers: { accept: "text/html" } }), env);
+    assert.equal(redirected.status, 301, `${legacyPath}: consolidated factbook redirect`);
+    assert.equal(redirected.headers.get("location"), `${ORIGIN}${pathName}#sources`, `${legacyPath}: canonical profile destination`);
+  }
   const response = await worker.fetch(new Request(`${ORIGIN}${pathName}`, { headers: { accept: "text/html" } }), env);
   const html = await response.text();
   assert.equal(response.status, sample.status || 200, `${sample.type} ${sample.locale} ${pathName}: status`);
+  if (sample.depositBody) {
+    const body = html.match(/<main\b[^>]*data-deposit-page="(?:hub|cards)"[^>]*>([\s\S]*?)<\/main>/);
+    assert.ok(body, `${sample.type}: retain the actual SSR body and its crawl links`);
+    assert.match(body[1], /<a\b[^>]*href="\//, `${sample.type}: sourced navigation remains in the document`);
+  }
   return html;
 }
+
+const buildSkip = [workerPath, ssrPath, clientRoot].some(file => !existsSync(file))
+  ? "Complete npm run build before built JSON-LD integration checks (server/SSR/client artifacts missing)" : false;
 
 async function loadBuiltArtifacts() {
   assert.ok(existsSync(workerPath), "run npm run build before this test: dist/server/index.js is missing");
@@ -305,7 +325,7 @@ async function loadBuiltArtifacts() {
   };
 }
 
-test("built pages emit valid complete JSON-LD across page types and core locales", async (t) => {
+test("built pages emit valid complete JSON-LD across page types and core locales", { skip: buildSkip }, async (t) => {
   const { worker, render } = await loadBuiltArtifacts();
   const sourceFeed = JSON.parse(await readFile(path.join(root, "public", "content", "news-feed.json"), "utf8"));
   const sourceArticles = Array.isArray(sourceFeed) ? sourceFeed : sourceFeed.items || sourceFeed.articles || [];
@@ -333,11 +353,14 @@ test("built pages emit valid complete JSON-LD across page types and core locales
     { type: "academyHub", path: ACADEMY_PATH, expectTypes: ["Course"] },
     { type: "glossaryHub", path: GLOSSARY_PATH, expectTypes: ["DefinedTermSet"] },
     { type: "coinHub", path: COINS_PATH, expectTypes: ["CollectionPage"] },
+    { type: "depositHub", path: "/deposit", expectTypes: ["CollectionPage"], depositBody: true },
+    { type: "cryptoCards", path: "/crypto-cards", expectTypes: ["WebPage"], depositBody: true },
     { type: "newsListing", path: "/news", expectTypes: ["CollectionPage"] },
     { type: "comparison", path: "/compare/binance-vs-okx", expectTypes: ["WebPage", "FAQPage"] },
     { type: "comparisonHub", path: "/compare", expectTypes: ["WebPage"] },
-    { type: "factbook", path: "/factbook/okx", expectTypes: ["Dataset"] },
     { type: "topic", path: "/topics/meme-coins", expectTypes: ["CollectionPage"] },
+    { type: "fundingTopic", path: "/topics/derivatives", expectTypes: ["CollectionPage", "FAQPage"] },
+    { type: "tokenizedStocksHub", path: "/tokenized-stocks", expectTypes: ["CollectionPage"] },
     { type: "topicHub", path: "/topics", expectTypes: ["CollectionPage"], allowedSchemaLanguages: ["en", "zh-Hans", "zh-Hant"], contentLanguage: "en", contentLanguageTypes: ["CollectionPage"] },
     { type: "factbookHub", path: "/factbook", expectTypes: ["CollectionPage"], allowedSchemaLanguages: ["en", "zh-Hans", "zh-Hant"], contentLanguage: "en", contentLanguageTypes: ["CollectionPage"] },
     { type: "fundingRates", path: "/funding-rates", expectTypes: ["Dataset"] },
@@ -386,7 +409,30 @@ test("built pages emit valid complete JSON-LD across page types and core locales
   assert.equal(checked, routeMatrix.length * LOCALES.length);
 });
 
-test("built noindex fallback locales keep JSON-LD locale-safe and do not advertise search-only hreflang", async () => {
+test("retired factbook details redirect to the active exchange source section in each core locale", async (t) => {
+  const { worker, render } = await loadBuiltArtifacts();
+  const env = {
+    ASSETS: {
+      fetch: async request => {
+        const pathname = new URL(request.url).pathname;
+        const asset = await readAsset(pathname === "/" ? "/index.html" : pathname);
+        return asset ? new Response(asset.body, { headers: { "content-type": asset.type } }) : new Response("missing", { status: 404 });
+      },
+    },
+    NEWS_SSR_RENDER: render,
+  };
+  for (const locale of LOCALES) for (const slug of ["okx", "uniswap", "hyperliquid"]) {
+    await t.test(`${slug} ${locale}`, async () => {
+      const response = await worker.fetch(new Request(`${ORIGIN}${localizedPath(`/factbook/${slug}`, locale)}`, { headers: { accept: "text/html" } }), env);
+      assert.equal(response.status, 301);
+      assert.equal(response.headers.get("location"), `${ORIGIN}${localizedPath(`/exchanges/${slug}`, locale)}#sources`);
+      assert.doesNotMatch(await response.text(), /application\/ld\+json/, "retired detail routes do not advertise a separate Dataset page");
+      // The active destination is covered by exchangeProfile/dexProfile/perpDexProfile in the template matrix.
+    });
+  }
+});
+
+test("built noindex fallback locales keep JSON-LD locale-safe and do not advertise search-only hreflang", { skip: buildSkip }, async () => {
   const { worker, render } = await loadBuiltArtifacts();
   const env = {
     ASSETS: {
@@ -414,4 +460,13 @@ test("built noindex fallback locales keep JSON-LD locale-safe and do not adverti
     expectTypes: ["VideoObject", "LearningResource"],
   });
   assert.equal(/hreflang="it"/.test(html), false, "Italian fallback is noindex and not advertised as a search hreflang");
+});
+
+test("partner FAQ schema resolves internal citations without changing visible source links", () => {
+  const entry = partnerVenueFaqFor("okx", "en").entries.find((row) => row.citations.includes("/intel/partners.json"));
+  assert.ok(entry, "native partner-data FAQ remains present");
+  const question = partnerFaqQuestion(entry);
+  assert.deepEqual(question.acceptedAnswer.citation, ["https://nexualpha.com/intel/partners.json"]);
+  assert.ok(entry.sources.some(([, href]) => href === "/intel/partners.json"));
+  assert.deepEqual(entry.citations, ["/intel/partners.json"], "schema emission does not mutate input");
 });

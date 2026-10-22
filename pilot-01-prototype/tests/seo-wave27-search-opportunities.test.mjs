@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { routeMetadata } from '../worker/index.js';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
 import { exchangeResearch } from '../src/data/exchange-research.js';
 
@@ -24,7 +25,7 @@ test('Wave27 Aerodrome page deepens 7-impression search intent without reward or
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
   assert.match(seo.title, /Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO/);
-  assert.match(seo.description, /Aerodrome search intent/);
+  assert.match(serialized, /Aerodrome is a Base-native DEX/);
   assert.match(seo.description, /Base-native DEX path/);
   assert.match(serialized, /Before swapping or adding liquidity, verify the official domain, Base network and bridge route/);
   assert.match(serialized, /Aerodrome is a Base-native DEX/);
@@ -46,9 +47,8 @@ test('Wave27 Jupiter page deepens 6-impression Solana route intent without execu
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.title, /Jupiter Solana Swap Routes/);
-  assert.match(seo.description, /Jupiter search intent/);
-  assert.match(seo.description, /token-list checks, Solana test quotes/);
+  assert.match(seo.title, /Jupiter fees & wallet setup/);
+  assert.match(serialized, /test quote, live swap, token-list check/);
   assert.match(serialized, /test quote, live swap, token-list check, Ultra route review, API integration or platform-fee review/);
   assert.match(serialized, /not a custodial account/);
   assert.match(serialized, /What is the compact Jupiter CTA after this checklist/);
@@ -80,19 +80,13 @@ test('Wave27 source research records expose query and CTA boundaries for DEX dec
   assert.doesNotMatch([jupiterQuery?.value.en, aerodromeCta?.value.en].join('\n'), forbiddenClaims);
 });
 
-test('Wave27 worker mirror contains only selected SEO updates for Aerodrome and Jupiter snippets', async () => {
-  const worker = await readFile(new URL('../worker/index.js', import.meta.url), 'utf8');
-  const aerodromeStart = worker.indexOf('Review Aerodrome search intent as a Base-native DEX path');
-  const jupiterStart = worker.indexOf('Review Jupiter search intent across Swap and Ultra');
-  assert.notEqual(aerodromeStart, -1);
-  assert.notEqual(jupiterStart, -1);
-
-  const aerodromeSnippet = worker.slice(aerodromeStart, aerodromeStart + 2_800);
-  const jupiterSnippet = worker.slice(jupiterStart, jupiterStart + 2_800);
-
-  assert.match(aerodromeSnippet, /compact Aerodrome CTA/);
-  assert.match(aerodromeSnippet, /not a route-safety, availability or reward promise/);
-  assert.match(jupiterSnippet, /compact Jupiter CTA/);
-  assert.match(jupiterSnippet, /not execution, safety or availability proof/);
-  assert.doesNotMatch(`${aerodromeSnippet}\n${jupiterSnippet}`, invitationTokens);
+test('Wave27 worker metadata preserves source-bound DEX decision snippets', async () => {
+  for (const slug of ['aerodrome', 'jupiter']) {
+    const seo = await routeMetadata(new URL(`https://nexualpha.com/exchanges/${slug}`), {});
+    const serialized = JSON.stringify(seo.schema);
+    assert.match(serialized, new RegExp(`compact ${slug === 'aerodrome' ? 'Aerodrome' : 'Jupiter'} CTA`));
+    assert.match(serialized, slug === 'aerodrome' ? /not a route-safety, availability or reward promise/ : /not execution, safety or availability proof/);
+    assert.doesNotMatch(serialized, invitationTokens);
+    assert.doesNotMatch(serialized, forbiddenClaims);
+  }
 });

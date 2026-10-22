@@ -1,3 +1,4 @@
+import { loopbackUnavailableReason } from './sandbox-network.mjs';
 import test from "node:test";
 import assert from "node:assert/strict";
 import { copyFile, mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
@@ -269,7 +270,7 @@ test("route metadata points og:image and twitter:image at the page's card by rou
   assert.equal(workerOnly.status, 404);
 });
 
-test("the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour", async () => {
+test("the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour", {skip:await loopbackUnavailableReason()}, async () => {
   const f = await fixture();
   let server;
   try {

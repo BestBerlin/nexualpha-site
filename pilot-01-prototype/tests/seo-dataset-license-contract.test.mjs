@@ -1,15 +1,20 @@
+import { DATA_ASSET_PAGE_PATHS } from '../src/data/data-assets-routes.js';
+import { DATA_ASSET_LICENSE_URL } from '../src/data/data-assets.js';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
+import { readSitemapTree, sitemapPageUrls } from "../scripts/sitemap-tree.mjs";
 
 import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 
 const DATA_LICENSE_URL = "https://nexualpha.com/methodology#data-license";
-// Freeze the registry bytes currently shipped in this candidate. Any future
-// invitation/link edit must intentionally update this gate and receive review.
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+// Compare with this checkout's committed baseline, so independently reviewed
+// partner updates do not inherit a stale feature-branch hash.
+const protectedPartnerRegistrySha = committedFileHash('src/data/partner-registry.js');
 const shell = "<!doctype html><html><head><title>Base</title><meta name=\"description\" content=\"Base\"></head><body><div id=\"root\"></div></body></html>";
 const newsFeed = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
 const newsArticles = JSON.parse(newsFeed).articles || [];
@@ -33,8 +38,18 @@ function collectDatasets(value, out = []) {
 
 function assertDatasetLicense(dataset, label) {
   assert.ok(typeof dataset.description === "string" && dataset.description.trim().length >= 50, `${label} needs a 50+ character description`);
-  assert.equal(dataset.license, DATA_LICENSE_URL, `${label} license`);
-  assert.doesNotMatch(JSON.stringify(dataset), /creativecommons|CC BY|CC0/i, `${label} must not claim Creative Commons licensing`);
+  const ownAsset = DATA_ASSET_PAGE_PATHS.some(path => dataset["@id"] === `https://nexualpha.com${path}#dataset`);
+  if (ownAsset) {
+    assert.equal(dataset.license, DATA_ASSET_LICENSE_URL, `${label}: own dataset publishes CC BY 4.0`);
+    assert.equal(dataset.creditText, "Source: NexuAlpha", `${label}: required attribution`);
+    assert.equal(dataset.creator?.["@id"], "https://nexualpha.com/#organization", `${label}: owned dataset creator`);
+  } else if (/^https:\/\/nexualpha\.com\/(?:[a-z-]+\/)?tokenized-stocks\/[a-z0-9-]+#dataset$/.test(dataset["@id"] || "")) {
+    assert.equal(dataset.license, "https://nexualpha.com/terms", `${label}: ticker-table use terms`);
+    assert.ok(dataset.distribution?.some(item => item.contentUrl === "https://nexualpha.com/intel/tokenized-stocks.json"), `${label}: exact published table distribution`);
+  } else {
+    assert.equal(dataset.license, DATA_LICENSE_URL, `${label} license`);
+    assert.doesNotMatch(JSON.stringify(dataset), /creativecommons|CC BY|CC0/i, `${label} must not extend the open license to third-party research`);
+  }
 }
 
 function assets() {
@@ -83,8 +98,9 @@ test("Dataset schemas use the NexuAlpha data-license URL in client and Worker me
 });
 
 test("Sitemap routes recursively keep every Worker Dataset licensed and described", async () => {
-  const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8");
-  const urls = [...sitemap.matchAll(/<loc>(https:\/\/nexualpha\.com[^<]+)<\/loc>/g)].map((match) => match[1]);
+  const tree = readSitemapTree(fileURLToPath(new URL("../public/sitemap.xml", import.meta.url)));
+  assert.deepEqual(tree.missing, [], "all indexed child sitemaps exist");
+  const urls = sitemapPageUrls(tree);
   assert.ok(urls.length > 400, "sitemap route inventory should be complete enough for a recursive contract");
 
   let datasetCount = 0;

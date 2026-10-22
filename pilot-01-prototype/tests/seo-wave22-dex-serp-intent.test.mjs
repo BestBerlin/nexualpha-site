@@ -1,3 +1,4 @@
+import { budgetTitle } from '../src/data/meta-description.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
@@ -49,7 +50,7 @@ test('Wave22 DEX exposure pages keep titles stable while deepening answer intent
 
     assert.equal(seo.status, 200, item.path);
     assert.equal(seo.robots, 'index,follow', item.path);
-    assert.equal(seo.title, item.title, item.path);
+    assert.equal(seo.title, item.path === '/exchanges/jupiter' ? 'Jupiter fees & wallet setup (2026) | NexuAlpha' : budgetTitle(item.title), item.path);
     assert.match(serializedFaq, item.direct, item.path);
     assert.match(serializedFaq, item.faq, item.path);
     assert.match(serializedPage, new RegExp(item.source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), item.path);

@@ -25,5 +25,5 @@ test("R124 decision rail keeps desktop three-up layout and existing link contrac
   assert.match(jsx, /href: decisionHref\(`\/compare\/\$\{compareSlugFor\(selectedVenue, selectedShortlist\)\}`\)/);
   assert.match(jsx, /href: decisionHref\(`\/factbook\/\$\{selectedVenue\}#rates`\)/);
   assert.match(jsx, /href: decisionHref\("\/exchanges"\)/);
-  assert.match(jsx, /<span aria-hidden="true">0\{index \+ 1\}<\/span>\{link\.label\} <b aria-hidden="true">→<\/b>/);
+  assert.match(jsx, /\{link\.label\} <b aria-hidden="true">→<\/b>/);
 });

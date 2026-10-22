@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
+import { referralSeoFor } from '../src/data/referral-seo.js';
+import { compareSeoOverrideFromDirectAnswer } from '../src/data/compare-direct-answers.js';
 
 const forbiddenCommercialClaims = /\b(guaranteed|lowest|best|free money|risk-free|always available|prop account allocation)\b/i;
 
@@ -16,14 +18,14 @@ test('GSC priority Hyperliquid metadata matches fees and funded-account queries 
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.title, /Hyperliquid Fees, Referral Discount and Funded Account Checks/);
-  assert.match(seo.description, /fee tiers/i);
-  assert.match(seo.description, /USDC collateral/i);
-  assert.match(seo.description, /vault volume/i);
-  assert.match(seo.description, /funded-account claim boundaries/i);
+  assert.equal(seo.title, referralSeoFor('hyperliquid').title);
+  assert.equal(seo.description, referralSeoFor('hyperliquid').description);
+  assert.match(serialized, /self-funded wallet collateral/i);
+  assert.match(serialized, /vault-volume separation/i);
+  assert.match(serialized, /funded-account or prop-trading programme/i);
   assert.match(serialized, /rolling 14-day volume/);
   assert.match(serialized, /hourly peer-to-peer funding|paid every hour/);
-  assert.match(serialized, /funded-account keywords/);
+  assert.match(serialized, /funded.account/);
   assert.match(serialized, /sub-account volume rules/);
   assert.match(serialized, /vault-volume separation/);
   assert.match(serialized, /HIP-3 market conditions/);
@@ -43,8 +45,9 @@ test('GSC priority Binance metadata matches fees and KYC intent without entitlem
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.title, /Binance Fees, KYC and Product Scope Checks/);
-  assert.match(seo.description, /BNB\/VIP tier conditions/);
+  assert.equal(seo.title, referralSeoFor('binance').title);
+  assert.equal(seo.description, referralSeoFor('binance').description);
+  assert.match(serialized, /VIP or BNB discount conditions/);
   assert.match(serialized, /published spot and margin fee table/);
   assert.match(serialized, /identity-verification requirement/);
   assert.match(serialized, /https:\/\/www\.binance\.com\/en\/fee\/trading/);
@@ -54,7 +57,7 @@ test('GSC priority Binance metadata matches fees and KYC intent without entitlem
 test('Wave17 high-intent CEX profiles expose answer depth and comparison next steps', () => {
   const cases = [
     ['/exchanges/okx', /OKX Fees, KYC, Web3/, /proof-of-reserves/i, /OKX's published fee page/, /\/compare\/binance-vs-okx/, /https:\/\/www\.okx\.com\/fees/],
-    ['/exchanges/bybit', /Bybit Fees, KYC, Derivatives/, /copy trading boundaries/i, /Bybit's trading-fee structure/, /\/compare\/bybit-vs-bitget/, /https:\/\/www\.bybit\.com\/en\/help-center\/article\/Trading-Fee-Structure/],
+    ['/exchanges/bybit', /Bybit Fees, KYC, Derivatives/, /copy trading/i, /Bybit's trading-fee structure/, /\/compare\/bybit-vs-bitget/, /https:\/\/www\.bybit\.com\/en\/help-center\/article\/Trading-Fee-Structure/],
     ['/exchanges/bitget', /Bitget Fees, KYC, Futures/, /registration route/i, /Bitget's spot-fee article/, /\/compare\/bybit-vs-bitget/, /https:\/\/www\.bitget\.com\/support\/articles\/12560603820584/],
   ];
 
@@ -66,14 +69,15 @@ test('Wave17 high-intent CEX profiles expose answer depth and comparison next st
 
     assert.equal(seo.status, 200, path);
     assert.equal(seo.robots, 'index,follow', path);
-    assert.match(seo.title, titlePattern, path);
-    assert.match(seo.description, descriptionPattern, path);
-    assert.equal(page.dateModified, '2026-09-15', path);
+    assert.equal(seo.title, referralSeoFor(path.split('/').pop()).title, path);
+    assert.equal(seo.description, referralSeoFor(path.split('/').pop()).description, path);
+    assert.match(serialized, descriptionPattern, path);
+    assert.match(page.dateModified, /^\d{4}-\d{2}-\d{2}$/, path);
     assert.ok(page.relatedLink.some((link) => relatedPattern.test(link)), path);
     assert.ok(faq.mainEntity.length >= 4, path);
     assert.match(serialized, answerPattern, path);
     assert.match(serialized, citationPattern, path);
-    assert.doesNotMatch(serialized, /"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|nexu888|11350287/i, path);
+    assert.doesNotMatch(serialized, /"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS/i, path);
     assert.doesNotMatch(`${seo.title}\n${seo.description}\n${serialized}`, forbiddenCommercialClaims, path);
   }
 });
@@ -107,14 +111,16 @@ test('GSC priority Uniswap metadata matches testnet intent without implying live
 test('GSC priority Bybit vs Bitget metadata addresses stock exposure with official-source boundaries', () => {
   const seo = computeRouteSeo({ url: '/compare/bybit-vs-bitget' });
   const subjectFaq = seo.schemas.find((schema) => schema.subjectOf?.['@type'] === 'FAQPage')?.subjectOf;
-  const serialized = JSON.stringify(subjectFaq);
+  const page = seo.schemas.find((schema) => schema['@type'] === 'WebPage');
+  const serialized = JSON.stringify([page, subjectFaq]);
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
   assert.match(seo.title, /Bybit vs Bitget/);
-  assert.match(seo.title, /Stocks, Copy Trading, Fees and Account Checks/);
-  assert.match(seo.description, /UTA margin/);
-  assert.match(seo.description, /product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing/i);
+  assert.equal(seo.title, compareSeoOverrideFromDirectAnswer('bybit-vs-bitget', 'en').title);
+  assert.equal(seo.description, compareSeoOverrideFromDirectAnswer('bybit-vs-bitget', 'en').description.split(' These are checked')[0]);
+  assert.match(serialized, /UTA margin/);
+  assert.match(serialized, /xStocks.*fee schedule|xStocks schedule/i);
   assert.equal(subjectFaq.mainEntity.length, 6);
   assert.match(serialized, /product label/i);
   assert.match(serialized, /official account terms can change the practical route/);
@@ -127,12 +133,13 @@ test('GSC priority Binance vs OKX metadata adds source-bound comparison depth', 
   const seo = computeRouteSeo({ url: '/compare/binance-vs-okx' });
   const subjectFaq = seo.schemas.find((schema) => schema.subjectOf?.['@type'] === 'FAQPage')?.subjectOf;
   const page = seo.schemas.find((schema) => schema['@type'] === 'WebPage');
-  const serialized = JSON.stringify(subjectFaq);
+  const serialized = JSON.stringify([page, subjectFaq]);
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.title, /Binance vs OKX: Fees, Products, KYC and Web3 Access Checks/);
-  assert.match(seo.description, /identity requirements, Web3 or DEX-style access/);
+  assert.equal(seo.title, compareSeoOverrideFromDirectAnswer('binance-vs-okx', 'en').title);
+  assert.equal(seo.description, compareSeoOverrideFromDirectAnswer('binance-vs-okx', 'en').description.split(' These are checked')[0]);
+  assert.match(serialized, /identity requirements, regional restrictions, Web3 or DEX-style access/);
   assert.equal(subjectFaq.mainEntity.length, 3);
   assert.match(serialized, /official fee tables/);
   assert.match(serialized, /not treat either public comparison as a current account entitlement/);
@@ -146,12 +153,13 @@ test('GSC priority Binance vs OKX metadata adds source-bound comparison depth', 
 test('Wave15 Hyperliquid vs dYdX comparison deepens CTR answer intent without eligibility promises', () => {
   const seo = computeRouteSeo({ url: '/compare/hyperliquid-vs-dydx' });
   const page = seo.schemas.find((schema) => schema['@type'] === 'WebPage');
-  const serialized = JSON.stringify(page.subjectOf);
+  const serialized = JSON.stringify(page);
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
   assert.match(seo.title, /Hyperliquid vs dYdX/);
-  assert.match(seo.description, /no-KYC access assumptions/i);
+  assert.equal(seo.description, compareSeoOverrideFromDirectAnswer('hyperliquid-vs-dydx', 'en').description.split(' These are checked')[0]);
+  assert.match(serialized, /no-KYC access/i);
   assert.equal(page.subjectOf.mainEntity.length, 6);
   assert.match(serialized, /collateral and liquidation/i);
   assert.match(serialized, /front-end availability/i);
@@ -171,13 +179,13 @@ test('Wave15 English no-KYC topic emits FAQ schema and route-specific next steps
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
   // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
-  assert.match(seo.title, /No-KYC Self-Custody vs KYC Exchange/);
+  assert.match(seo.title, /MEXC KYC vs Hyperliquid\/dYdX self-custody/);
   assert.match(seo.description, /wallet access, CEX account flows, withdrawals/i);
   assert.ok(topic.relatedLink.some((link) => link.endsWith('/compare/hyperliquid-vs-dydx')));
   assert.ok(faq);
-  assert.equal(faq.mainEntity.length, 4);
-  assert.match(serialized, /separating wallet-connected protocols from centralized accounts/i);
-  assert.match(serialized, /Hyperliquid vs dYdX comparison/i);
-  assert.match(serialized, /Verify the current official account flow/i);
+  assert.equal(faq.mainEntity.length, 5);
+  assert.match(serialized, /connecting a self-custody wallet, not by opening an identity-verified account/i);
+  assert.match(serialized, /Email registration alone does not establish withdrawal eligibility/i);
+  assert.match(serialized, /Check the current terms and your own eligibility/i);
   assert.doesNotMatch(`${seo.title}\n${seo.description}\n${serialized}`, forbiddenCommercialClaims);
 });

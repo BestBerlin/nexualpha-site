@@ -19,13 +19,13 @@ test('Wave20 factbook pages are not internal-link dead ends in fee and KYC clust
   for (const [path, expectedPaths] of cases) {
     const seo = computeRouteSeo({ url: path });
     const dataset = primarySchema(seo, 'Dataset');
-    const related = dataset.relatedLink || [];
+    const related = dataset.mainEntityOfPage?.relatedLink || [];
 
     assert.equal(seo.status, 200, path);
     assert.equal(seo.robots, 'index,follow', path);
-    assert.equal(dataset.dateModified, '2026-09-08', path);
+    assert.match(dataset.dateModified, /^\d{4}-\d{2}-\d{2}$/, path);
     for (const expectedPath of expectedPaths) {
-      assert.ok(related.includes(`https://nexualpha.com${expectedPath}`), `${path} should link ${expectedPath}`);
+      assert.ok(related.some(link => new URL(link).pathname === expectedPath), `${path} should link ${expectedPath}`);
     }
     assert.doesNotMatch(JSON.stringify(dataset), /nexu888|11350287|MOCK_EVENTS|"@type":"(?:Offer|FinancialProduct|AggregateRating)"/i, path);
     assert.doesNotMatch(`${seo.title}\n${seo.description}\n${JSON.stringify(dataset)}`, forbiddenCommercialClaims, path);
@@ -48,7 +48,7 @@ test('Wave20 tokenized stock topic is positioned as hub, not article duplicate',
   assert.equal(topic.status, 200);
   assert.equal(topic.robots, 'index,follow');
   assert.match(topic.title, /Tokenized Stocks vs Stock Perps/);
-  assert.match(topic.description, /tokenized stock entitlement claims|stock perpetual derivatives/i);
+  assert.match(topic.description, /tokenized stock claims|stock perpetuals/i);
   assert.notEqual(topic.title, article.title);
   assert.notEqual(topic.description, article.description);
   assert.doesNotMatch(`${topic.title}\n${topic.description}`, forbiddenCommercialClaims);

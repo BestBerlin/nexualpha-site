@@ -1,3 +1,4 @@
+import {loopbackUnavailableReason} from './sandbox-network.mjs';
 import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -442,7 +443,7 @@ function listen(server) {
   });
 }
 
-test("live runtime collector requires explicit base URL and separates Core 503 from web readiness", async () => {
+test("live runtime collector requires explicit base URL and separates Core 503 from web readiness", {skip:await loopbackUnavailableReason()}, async () => {
   await assert.rejects(() => collectLiveRuntimeHealth(), /LIVE_HEALTH_BASE_URL_REQUIRED/);
 
   const server = createServer((req, res) => {

@@ -1,3 +1,5 @@
+import feed from '../public/content/news-feed.json' with { type: 'json' };
+import { articleRelatedLinks } from '../src/data/article-related-links.js';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
@@ -38,11 +40,13 @@ test('related research labels render complete copy in all 15 locales without cha
   assert.equal(pages.length, 15);
   for (const {locale, html} of pages) {
     const links = [...html.matchAll(/<a\b([^>]*data-cta-placement="news-detail-related-research"[^>]*)>(.*?)<\/a>/gs)];
-    assert.equal(links.length, targets.length, locale);
+    const article = feed.articles.find((entry) => entry.slug === 'okx-usd-to-usdc-spot-pair-migration');
+    const expectedLinks = articleRelatedLinks(article, locale);
+    assert.equal(links.length, expectedLinks.length, locale);
     const labels = links.map(([, , body]) => body.match(/<span>(.*?)<\/span>/s)?.[1]);
     assert.ok(labels.every(label => typeof label === 'string' && label.trim() && !/undefined|null/.test(label)), `${locale}: ${labels.join(' | ')}`);
-    assert.deepEqual(links.map(([, attrs]) => decode(attrs.match(/href="([^"]+)"/)[1])), targets.map(href => contextualHref(href, {locale, market: 'BR', product: 'spot'})), `${locale}: exact hrefs and context`);
-    if (locale === 'zh-Hans') assert.deepEqual(labels, ['OKX 档案', 'OKX 资料册', '比较 Binance vs OKX', 'NO KYC 专题', '研究方法']);
-    if (locale === 'zh-Hant') assert.deepEqual(labels, ['OKX 檔案', 'OKX 資料冊', '比較 Binance vs OKX', 'NO KYC 專題', '研究方法']);
+    assert.deepEqual(links.map(([, attrs]) => decode(attrs.match(/href="([^"]+)"/)[1])), expectedLinks.map(({href}) => contextualHref(href, {locale, market: 'BR', product: 'spot'})), `${locale}: exact hrefs and context`);
+    if (locale === 'zh-Hans') assert.equal(labels[0], 'OKX 档案');
+    if (locale === 'zh-Hant') assert.equal(labels[0], 'OKX 檔案');
   }
 });

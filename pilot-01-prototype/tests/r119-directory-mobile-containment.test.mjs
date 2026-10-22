@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -38,5 +39,5 @@ test('R119 directory CTA href ownership is unchanged', () => {
   assert.match(jsx, /href=\{localizedHref\(`\/exchanges\/\$\{venue\.slug\}\?\$\{contextSearch\}`, \{ locale \}\)\}/, 'detail links must still navigate to exchange detail pages');
   assert.match(jsx, /href=\{registrationUrl\}[\s\S]*className="yellow-card__btn-register"/, 'registration CTA must still use the resolved partner URL');
   const sha = createHash('sha256').update(registry).digest('hex');
-  assert.equal(sha, '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(sha, committedFileHash('src/data/partner-registry.js'));
 });

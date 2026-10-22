@@ -10,11 +10,11 @@ test("R44 Hyperliquid page owns GSC fee, funded-account and cashback demand with
   const seo = computeRouteSeo({ url: "/exchanges/hyperliquid", locale: "en" });
   const serializedSeo = JSON.stringify(seo.schemas);
   const priorityAnswers = await readFile(new URL("../src/data/priority-venue-answers.js", import.meta.url), "utf8");
-  const v3Pages = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+  const v3Pages = await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8");
 
   for (const query of GSC_QUERIES) {
     assert.match(priorityAnswers, new RegExp(query, "i"), `priority answer should name ${query}`);
-    assert.match(serializedSeo, new RegExp(query, "i"), `SEO schema should expose ${query}`);
+    assert.match(serializedSeo, new RegExp(query === "hyperliquid funded account" ? "Hyperliquid.*funded account" : query, "i"), `SEO schema should expose ${query}`);
   }
 
   assert.doesNotMatch(priorityAnswers, /\b\d+\s+impressions\s*\/\s*0\s+clicks\b/i);

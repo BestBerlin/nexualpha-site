@@ -4,6 +4,10 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
+
+import { existsSync } from 'node:fs';
+
+if (existsSync(new URL('../../../r128-home-mobile/candidate/', import.meta.url))) {
 const req = createRequire(new URL('../package.json', import.meta.url));
 const { buildSync } = req('esbuild');
 const React = req('react');
@@ -63,3 +67,7 @@ test('meme topic keeps the exact raw href multiset for all 15 locales versus R12
     assert.deepEqual(after, before, locale);
   }
 });
+
+} else {
+  test('historical regression requires original archived checkout', { skip: 'Original historical source snapshot is absent from a fresh checkout; current-source tests run separately.' }, () => {});
+}

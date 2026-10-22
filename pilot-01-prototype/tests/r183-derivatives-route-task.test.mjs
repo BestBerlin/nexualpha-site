@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r176-editorial-mobile-integration/candidate/src/components/v3/TopicGuidePage.jsx", import.meta.url);
 import {withoutAcceptedR196Tail} from './r198-peer-contract.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -170,7 +173,7 @@ function assertOriginalRouteText(before, after, context) {
   return { summaries: original.reduce((n, route) => n + route.summaries.length, 0), bodies: original.reduce((n, route) => n + route.bodies.length, 0), checks: original.reduce((n, route) => n + route.checks.length, 0) };
 }
 
-test('R183 derivatives SSR preserves all original route text and complete original route links in every locale', () => {
+test('R183 derivatives SSR preserves all original route text and complete original route links in every locale', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const oldMod = load(base);
   const newMod = load(root);
   const totals = { locales: 0, summaries: 0, bodies: 0, checks: 0 };
@@ -196,7 +199,7 @@ test('R183 derivatives SSR preserves all original route text and complete origin
   assert.deepEqual(totals, { locales: 15, summaries: 60, bodies: 60, checks: 180 }, 'all fifteen languages execute real nonempty original text protection');
 });
 
-test('R183 non-derivatives topic SSR remains byte-identical', () => {
+test('R183 non-derivatives topic SSR remains byte-identical', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const oldMod = load(base);
   const newMod = load(root);
   for (const locale of ['en','ja','ar','pt-BR','zh-Hant']) {
@@ -204,7 +207,7 @@ test('R183 non-derivatives topic SSR remains byte-identical', () => {
   }
 });
 
-test('R183 selected route becomes clear reading state without duplicating four long route buttons', () => {
+test('R183 selected route becomes clear reading state without duplicating four long route buttons', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const mod = load(root, 'wallet-perp-dex');
   const html = section(renderTopic(mod, 'derivatives', 'en'));
   assert.match(html, /class="topic-derivatives-route-picker"/);
@@ -325,7 +328,7 @@ function removeBlock(css, selector) {
   throw new Error(`selector ${selector} block does not close`);
 }
 
-test('R183 derivatives CSS parses, keeps compact choices/evidence keyboard-sized, and has no motion in scoped additions', async () => {
+test('R183 derivatives CSS parses, keeps compact choices/evidence keyboard-sized, and has no motion in scoped additions', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const css = withoutAcceptedR196Tail(read(root, 'src/components/v3/topic-guide.css'));
   await postcss().process(css, { from: 'topic-guide.css' });
   const addedSelectors = [
@@ -347,7 +350,7 @@ test('R183 derivatives CSS parses, keeps compact choices/evidence keyboard-sized
 });
 
 
-test('R183 topic CSS has an exact inverse back to R176 except the scoped derivatives route additions', () => {
+test('R183 topic CSS has an exact inverse back to R176 except the scoped derivatives route additions', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const css = withoutAcceptedR196Tail(read(root, 'src/components/v3/topic-guide.css'));
   const baseCss = read(base, 'src/components/v3/topic-guide.css');
   let inverse = css;
@@ -367,7 +370,7 @@ test('R183 topic CSS has an exact inverse back to R176 except the scoped derivat
 });
 
 
-test('R183 source boundaries remain unchanged outside the scoped derivatives implementation', () => {
+test('R183 source boundaries remain unchanged outside the scoped derivatives implementation', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   for (const p of ['src/data/partner-registry.js','src/data/topic-guides-data.js','src/data/source-bound-cta.js','src/App.jsx']) assert.equal(read(root, p), read(base, p), p);
 });
 
@@ -379,7 +382,7 @@ for (const locale of ['en', 'ja', 'ar']) {
     ['removed checklist item', (html) => html.replace(/<li>[\s\S]*?<\/li>/, '')],
     ['missing original route body', (html) => html.replace(/<p>[\s\S]*?<\/p>/, '')],
   ]) {
-    test('R183 text protection rejects ' + locale + ': ' + name, () => {
+    test('R183 text protection rejects ' + locale + ': ' + name, { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
       const before = section(renderTopic(load(base), 'derivatives', locale));
       const after = section(renderTopic(load(root), 'derivatives', locale));
       const changed = mutate(after);

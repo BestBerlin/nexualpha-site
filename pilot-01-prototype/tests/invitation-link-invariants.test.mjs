@@ -2,18 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { PARTNER_REGISTRATION_URLS } from "../src/data/partner-registry.js";
-import { publicCtaForVenue } from "../src/data/public-cta.js";
+import { PARTNER_REGISTRATION_URLS, CUSTOM_INVITE_CODES } from "../src/data/partner-registry.js";
+import { publicCtaForVenue } from "../src/data/source-bound-cta.js";
 
 const partnerRegistrySource = await readFile(new URL("../src/data/partner-registry.js", import.meta.url), "utf8");
-const expectedPartnerRegistrySha256 = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const expectedPartnerRegistrySha256 = "3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83";
 
+// Intentional owner changes: Binance official primary (84b6426), Bitget domain migration (3ac4fbd8),
+// and registry-cased Backpack code in source-bound-cta. Keep full URL cluster and source-hash protection.
 const expected = {
   binance: [
-    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
-    "https://www.bsmkweb.cc/join?ref=11350287",
+    "https://www.binance.com?ref=11350287",
     "https://www.binance.com/join?ref=11350287",
     "https://accounts.binance.com/register?ref=11350287",
+    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
+    "https://www.bsmkweb.cc/join?ref=11350287",
   ],
   bitget: [
     "https://partner.bitget.com/bg/C6PRAF",
@@ -44,7 +47,7 @@ const expectedInviteCodes = {
   binance: "11350287",
   bitget: "nexu888",
   okx: "nexu888",
-  backpack: "luckybitcoin",
+  backpack: CUSTOM_INVITE_CODES.backpack,
 };
 
 test("constitutional invitation link clusters remain exact and complete", () => {

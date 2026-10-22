@@ -71,7 +71,7 @@ test("Uniswap vs Jupiter compare page is indexable and schema stays bounded by t
   assert.equal(seo.robots, "index,follow");
   assert.equal(seo.canonical, "https://nexualpha.com/compare/uniswap-vs-jupiter");
   assert.equal(page.dateModified, answer.reviewedAt);
-  assert.match(seo.title, /Uniswap vs Jupiter: Chain, Route, Fees and Wallet Preview Checks/);
+  assert.match(seo.title, /Uniswap vs Jupiter \(2026\): Chains, Routing, Fees, Wallets/);
   assert.match(seo.description, /token contract or mint, route source, slippage/);
   assert.deepEqual(qaPairs(faq), visibleQa);
   assert.equal(answer.primaryNextAction[1], "/exchanges/uniswap");
@@ -89,7 +89,7 @@ test("Uniswap vs Jupiter SSR exposes source-bound support body, limitations and 
 
   assert.match(block, /Uniswap vs Jupiter: compare chain, router, token mint, fees and wallet preview before signing\./);
   assert.match(block, /Compare Uniswap and Jupiter as wallet-connected swap routes, not as exchange accounts/);
-  assert.match(block, /Official Uniswap and Jupiter sources reviewed September 22, 2026/);
+  assert.match(block, /Official Uniswap and Jupiter sources reviewed 2026-09-22/);
   assert.match(block, /Review the Uniswap owner page first/);
   assert.match(block, /href="\/exchanges\/uniswap"/);
   assert.match(block, /This comparison cannot confirm token safety, route execution, final cost/);
@@ -110,7 +110,7 @@ test("Owner compare support routes enter sitemap locales and public llms support
   );
   assert.deepEqual(
     sitemapLocalesForRoute({ pathname: "/compare/binance-vs-okx", template: "comparison", index: true, expectedStatus: 200 }),
-    ["en", "zh-Hans", "ja", "ko", "tr"],
+    ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"],
   );
 
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-owner-llms-"));
@@ -131,7 +131,7 @@ test("Owner compare support routes enter sitemap locales and public llms support
       assert.match(content, /Reviewed: 2026-09-22/);
       assert.match(content, /Primary next step: Review the Uniswap owner page first: https:\/\/nexualpha\.com\/exchanges\/uniswap/);
       assert.match(content, /Limitations: This comparison cannot confirm token safety/);
-      assert.match(content, /Support-owner answer: Compare Hyperliquid and dYdX by execution model/);
+      assert.ok(content.includes('Support-owner answer: '+compareDirectAnswerFor('hyperliquid-vs-dydx','en').body));
     }
   } finally {
     await rm(tempDir, { recursive: true, force: true });

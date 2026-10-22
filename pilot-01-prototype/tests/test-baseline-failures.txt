@@ -1,0 +1,48 @@
+# tests-green-a: scoped failure baseline (2026-10-23)
+# Scope: tests/[a-l0-9]*.test.* only. Other filename ranges were not evaluated here.
+# Node: v24.19.0; build outputs prepared before final verification.
+# Recorded before: 223 files; 184 exit zero, 38 failing, 1 timeout.
+# Final: 223 files exit zero; 1677 passed subtests, 90 explicit skips, 0 failures/cancellations.
+# Per-file commands/results/logs: ../../.test-evidence/final-results.json in the task worktree.
+# Standard command: node --test --test-timeout=120000 tests/<file>
+# g-l adds --test-reporter=tap. Three exhaustive audits use --test-timeout=600000:
+# attribution-guard.test.mjs; audit-content.test.mjs; internal-inlinks.test.mjs.
+
+# Failing files in this scope: none.
+
+# Explicit skipped subtests (dependency/evidence/opt-in reasons appear in TAP logs):
+# academy.test.mjs: 1
+# activity-research-desk-style.test.mjs: 1
+# activity-research-desk.test.mjs: 18
+# backup-retention-policy.test.mjs: 1
+# beginner-server.test.mjs: 1
+# bitget-guide.test.mjs: 1
+# cjk-typography.test.mjs: 1
+# compare-disclosure-layout.test.mjs: 1
+# compare-reading-structure.test.mjs: 18
+# compare-reading-style.test.mjs: 3
+# csp-report.test.mjs: 3
+# cta-click-beacon.test.mjs: 1
+# cta-collector.test.mjs: 4
+# deep-audit-runtime.test.mjs: 1
+# directory-action-structure.test.mjs: 18
+# directory-action-style.test.mjs: 1
+# embed-widgets.test.mjs: 1
+# error-monitor.test.mjs: 3
+# experiment-activation-readiness.test.mjs: 1
+# fx-feed.test.mjs: 1
+# header-fit-browser.test.mjs: 1
+# home-layout.test.mjs: 7
+# home-lower-hydration.test.mjs: 1
+# home-top-stability-browser.test.mjs: 1
+
+# Scoped baseline: tests named m-z, including numeric r files (2026-10-23).
+# No remaining failure entries in this scope: 560 individual files, 0 nonzero exits.
+# Cases: 2226 passed, 494 explicitly skipped, 0 failed/cancelled.
+# Skips require unavailable historical/operator fixtures, optional browser/preview,
+# or loopback HTTP capability. They are not verified behavior passes.
+# Runtime: Node 24.19.0 (package requires >=24 <25), successful npm run build.
+# Command per file: node --test --test-timeout=120000 tests/<file>
+# seo-whole-site.test.mjs uses --test-timeout=600000 for the full corpus.
+# Restore generated tracked data after build. No claim is made for a-l tests;
+# that range belongs to the other task. This file was absent at task start.

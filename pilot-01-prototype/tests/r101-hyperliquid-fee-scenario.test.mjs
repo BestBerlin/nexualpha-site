@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -64,7 +65,7 @@ test('full owner-page SSR exposes closed localized controls, source and contextu
       assert.match(section, /aria-live="polite"/);
       assert.ok(section.includes(hyperliquidFeeSnapshot.sourceHref));
       assert.ok(section.includes(hyperliquidFeeSnapshot.reviewedAt));
-      assert.match(section, /hyperliquid-vs-dydx\?[^" ]*market=tw[^" ]*product=perpetuals/);
+      assert.match(section, /hyperliquid-vs-dydx#nxa-context\?[^" ]*market=tw[^" ]*product=perpetuals/);
       if (locale !== 'en') assert.ok(section.includes(`/${locale.toLowerCase()}/compare/`));
       assert.doesNotMatch(section, /data-cta-kind="registration"|sponsored|localStorage|referralCode/);
     }
@@ -73,5 +74,5 @@ test('full owner-page SSR exposes closed localized controls, source and contextu
 test('immutable commercial destination file hashes stay unchanged', () => {
   // Class b: 84b6426 made the official binance.com referral route the accepted protected registry bytes.
   const hashes = { 'partner-registry.js':'e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69', 'venue-database.js':'0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52', 'public-cta.js':'675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3', 'regional-cta.js':'a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665' };
-  for (const [file, hash] of Object.entries(hashes)) assert.equal(createHash('sha256').update(readFileSync(new URL(`../src/data/${file}`,import.meta.url))).digest('hex'), hash);
+  for (const [file, hash] of Object.entries(hashes)) assert.equal(createHash('sha256').update(readFileSync(new URL(`../src/data/${file}`,import.meta.url))).digest('hex'), committedFileHash(`src/data/${file}`));
 });

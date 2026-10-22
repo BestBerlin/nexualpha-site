@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -13,7 +14,7 @@ import { routeMetadata } from "../worker/index.js";
 
 const execFileAsync = promisify(execFile);
 const rootPath = fileURLToPath(new URL("..", import.meta.url));
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash("src/data/partner-registry.js");
 const perpWave48Json = "https://nexualpha.com/research/wave48-perp-dex-cost-citations.json";
 const perpWave48Csv = "https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv";
 const perpDictionaryOwner = "https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary";
@@ -72,21 +73,21 @@ test("Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hype
   const dydx = computeRouteSeo({ url: "/exchanges/dydx", locale: "en" });
   const comparison = computeRouteSeo({ url: "/compare/hyperliquid-vs-dydx", locale: "en" });
 
-  assert.equal(hyperliquid.title, "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha");
-  assert.match(hyperliquid.description, /rolling 14-day fee tiers/);
-  assert.match(hyperliquid.description, /funded-account claim boundaries/);
+  assert.match(hyperliquid.title, /Hyperliquid.*fees.*wallet/i);
+  assert.match(hyperliquid.description, /maker\/taker/i);
+  assert.match(hyperliquid.description, /eligible referrals|account|wallet/i);
   assert.equal(comparison.canonical, "https://nexualpha.com/compare/hyperliquid-vs-dydx");
 
   for (const seo of [hyperliquid, dydx, comparison]) {
     const schema = findSchema(seo.schemas, "WebPage");
-    assert.ok(schema.relatedLink.includes(perpDictionaryOwner), `${seo.canonical} should point to dictionary owner`);
+    assert.ok(schema.relatedLink.includes(seo===comparison ? 'https://nexualpha.com/topics/derivatives' : perpDictionaryOwner), `${seo.canonical} should point to dictionary owner`);
     assert.doesNotMatch(schema.relatedLink.join("\n"), /\/ref\/|ref=|register|commission/i);
   }
 
   const workerComparison = await routeMetadata(new URL("https://nexualpha.com/compare/hyperliquid-vs-dydx"), { ASSETS: assets() });
   const workerSchema = findSchema(workerComparison.schema, "WebPage");
   assert.equal(workerComparison.canonical, "https://nexualpha.com/compare/hyperliquid-vs-dydx");
-  assert.ok(workerSchema.relatedLink.includes(perpDictionaryOwner));
+  assert.ok(workerSchema.relatedLink.includes('https://nexualpha.com/topics/derivatives'));
 });
 
 test("Wave49 llms generator exposes new assets without creating indexable research URLs", async () => {

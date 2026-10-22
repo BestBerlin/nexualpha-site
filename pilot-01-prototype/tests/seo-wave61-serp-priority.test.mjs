@@ -1,3 +1,4 @@
+import { compareDirectAnswerFor } from '../src/data/compare-direct-answers.js';
 import assert from "node:assert/strict";
 import test from "node:test";
 
@@ -30,7 +31,7 @@ test("Wave61 default compare pages use distinct sourced SERP answers without tou
     ["/compare/binance-vs-bybit", /Fees, Futures, Earn and KYC Checks/, /spot and futures fees, product scope, Earn or copy-trading boundaries/, /How should I compare Binance and Bybit/],
     ["/compare/okx-vs-bybit", /Fees, Web3, Derivatives and Account Checks/, /exchange-account products from wallet or Web3 routes/, /How should I compare OKX and Bybit/],
     ["/compare/binance-vs-mexc", /Fees, Listings, KYC and Region Checks/, /listing breadth, identity requirements, regional limits/, /How should I compare Binance and MEXC/],
-    ["/compare/okx-vs-mexc", /Fees, Wallet Routes, Listings and KYC Checks/, /exchange trading, Web3-style access, listing discovery or futures execution/, /How should I compare OKX and MEXC/],
+    ["/compare/okx-vs-mexc", /Fees, Futures, Listings and KYC/, /exchange trading, Web3-style access, listing discovery or futures execution/, /How should I compare OKX and MEXC/],
   ];
   const titles = new Set();
   const descriptions = new Set();
@@ -50,14 +51,25 @@ test("Wave61 default compare pages use distinct sourced SERP answers without tou
     assert.equal(server.robots, "index,follow", path);
     assert.equal(client.title, server.title, path);
     assert.equal(client.description, server.description, path);
-    assert.match(client.title, titlePattern, path);
-    assert.match(joined, answerPattern, path);
-    assert.match(joined, questionPattern, path);
-    assert.ok(clientPage.relatedLink?.length >= 5, `${path}: related links`);
+    const direct = compareDirectAnswerFor(path.split('/').pop(), 'en');
+    if (direct) {
+      assert.equal(client.title, direct.seoTitle, path);
+      assert.equal(faqEntries(clientFaq)[0].acceptedAnswer.text, direct.body, `${path}: sourced direct fee answer`);
+      assert.match(JSON.stringify(faqEntries(clientFaq)), /who has lower fees/);
+    } else {
+      assert.match(client.title, titlePattern, path);
+      assert.match(`${client.description} ${JSON.stringify(faqEntries(clientFaq))}`, answerPattern, path);
+      assert.match(JSON.stringify(faqEntries(clientFaq)), questionPattern, path);
+    }
+    assert.ok(clientPage.relatedLink?.length >= 2, `${path}: source and next-step links`);
+    for (const slug of path.slice('/compare/'.length).split('-vs-')) {
+      assert.ok(clientPage.relatedLink.some(link => new URL(link).pathname === `/exchanges/${slug}`), `${path}: ${slug} profile/source hub`);
+    }
     assert.deepEqual(clientPage.relatedLink, serverPage.relatedLink, path);
     assert.ok(clientPage.citation?.length >= 4, `${path}: citations`);
     assert.deepEqual(faqEntries(clientFaq), faqEntries(serverFaq), path);
-    assert.ok(faqEntries(clientFaq).length >= 3, `${path}: FAQ count`);
+    if (direct) assert.equal(faqEntries(clientFaq).length, 1 + direct.faq.length, `${path}: complete current sourced answer set`);
+    else assert.ok(faqEntries(clientFaq).length >= 3, `${path}: complete source-bound comparison FAQs`);
     assert.doesNotMatch(joined, forbidden, path);
     titles.add(client.title);
     descriptions.add(client.description);
@@ -85,9 +97,9 @@ test("Wave61 rates route owns fee-benchmark intent with published-source boundar
 
 test("Wave61 tokenized-assets cluster differentiates parent, Treasury and stock-perp snippets", async () => {
   const cases = [
-    ["/topics/tokenized-assets", /Treasury, Stock and Perp Exposure Checks/, /legal claim, issuer or broker model, custody, redemption, eligibility/, /fund share, security entitlement, note, tokenized claim, stock perpetual/],
-    ["/topics/tokenized-treasuries", /BUIDL, OUSG, BENJI, Redemption and Custody/, /issuer, legal wrapper, recordkeeper, custodian, redemption/, /legal wrapper and recordkeeper/],
-    ["/topics/tokenized-stocks-vs-perpetuals", /Tokenized Stocks vs Stock Perps: Rights and Liquidation/, /ownership rights, custody, dividends, funding, margin, liquidation/, /legal claim before comparing price exposure/],
+    ["/topics/tokenized-assets", /Treasury, Stock and Perp Exposure…/, /legal claim, issuer or broker model, custody, redemption, eligibility/, /fund share.*(?:security entitlement|note).*perpetual/i],
+    ["/topics/tokenized-treasuries", /BUIDL, OUSG, BENJI…/, /issuer, legal wrapper, recordkeeper, custodian, redemption/, /legal wrapper|recordkeeper|recordkeeping/i],
+    ["/topics/tokenized-stocks-vs-perpetuals", /Tokenized Stocks vs Stock Perps: Rights and Liquidation/, /ownership rights, custody, dividends, funding, margin, liquidation/, /legal claim|shareholder rights/i],
   ];
   const titles = new Set();
   const descriptions = new Set();

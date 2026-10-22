@@ -1,3 +1,6 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import test from "node:test";
 import assert from "node:assert/strict";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
@@ -45,5 +48,9 @@ test("removing R96 Hant additions restores its compliant owner exactly", () => {
     for (const item of owner[section]) for (const field of fields) delete item[field];
   }
   // Later authorized owners have separate input-preservation tests.
-  assert.deepEqual(restored["compliant-exchanges"], before["compliant-exchanges"]);
+  const expected = structuredClone(before["compliant-exchanges"]);
+  // The later reviewed Kraken signup bridge is independent of the Hant copy addition.
+  expected.platforms.find((item) => item.slug === 'kraken').affiliateUrl = '/go/kraken?src=topic-guide';
+  assert.deepEqual(restored["compliant-exchanges"], expected);
+  assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/topic-guides-data.js', import.meta.url))).digest('hex'), committedFileHash('src/data/topic-guides-data.js'));
 });

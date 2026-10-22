@@ -5,8 +5,9 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { COUNTRY_ROUTE_PREFIXES, isLocalePathEligible, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
-import { hreflangAlternates, newsArticleSeoLocales, newsListingIndexableLocales } from "../src/data/news-feed-client.js";
-import { parseNewsListingPath } from "../src/data/news-library.js";
+import { hreflangAlternates, newsArticleSeoLocales, newsListingIndexableLocales, newsListingHasNativeArticles } from "../src/data/news-feed-client.js";
+import { generatedComparePolicy } from "../src/data/compare-generated.js";
+import { paginateNews, parseNewsListingPath } from "../src/data/news-library.js";
 import { RADAR_PATHS } from "../src/data/radar-seo.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -90,31 +91,36 @@ function supportedRouteLocales(route, allLocales) {
 }
 
 function pickSupportedLocales(route, candidates, allLocales) {
-  const supported = new Set(supportedRouteLocales(route, allLocales));
+  const supported = new Set(supportedRouteLocales(route, allLocales).filter((locale) => !["ur", "uk"].includes(locale)));
   return unique(candidates).filter((locale) => supported.has(locale));
 }
 
 export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priorityLocales) {
+  // Never trust caller-supplied inventories to promote thin archives or machine-only editions.
+  allLocales = allLocales.filter((locale) => !["ur", "uk"].includes(locale));
   const { pathname, template } = route;
+  const listing = parseNewsListingPath(pathname);
+  if (listing?.invalid || listing?.page > 1 || route.emptyListing === true) return [];
+  if (template === "comparison" && route.generatedComparison && !generatedComparePolicy(pathSlug(pathname, "/compare/")).indexable) return [];
   if (isLegalPagePath(pathname)) return route.index ? pickSupportedLocales(route, LEGAL_LOCALES, allLocales) : [];
   if (!route.index || route.alias || (route.expectedStatus ?? 200) !== 200) return [];
   if (pathname.startsWith("/br")) return ["pt-BR"];
-  if (COUNTRY_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) return supportedRouteLocales(route, allLocales);
+  if (COUNTRY_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) return pickSupportedLocales(route, allLocales, allLocales);
   if (["topicCollection", "factbookCollection"].includes(template)) return pickSupportedLocales(route, ["en"], allLocales);
   // Localized news lane (2026-10-10): an article or listing route carries its published editions in route.locales
   // (English and Simplified Chinese plus every locale with a native body); without them the two core editions apply.
   if (template === "article") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
   if (template === "newsList") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
-  if (RADAR_PATHS.includes(pathname)) return supportedRouteLocales(route, allLocales);
-  if (template === "regionalPreview") return supportedRouteLocales(route, allLocales);
-  if (template === "dataTool") return supportedRouteLocales(route, allLocales);
+  if (RADAR_PATHS.includes(pathname)) return pickSupportedLocales(route, allLocales, allLocales);
+  if (template === "regionalPreview") return pickSupportedLocales(route, allLocales, allLocales);
+  if (template === "dataTool") return pickSupportedLocales(route, allLocales, allLocales);
   if (!isLocalePathEligible(pathname)) return pickSupportedLocales(route, ["en"], allLocales);
   if (SITEMAP_CORE_STATIC_PATHS.has(pathname)) {
     return ["/", "/exchanges", "/activities", "/rates", "/onchain"].includes(pathname)
       ? pickSupportedLocales(route, allLocales, allLocales)
       : pickSupportedLocales(route, ["en", "zh-Hans", "ja", "ko", "tr"], allLocales);
   }
-  if (SITEMAP_TOOL_STATIC_PATHS.has(pathname)) return supportedRouteLocales(route, allLocales);
+  if (SITEMAP_TOOL_STATIC_PATHS.has(pathname)) return pickSupportedLocales(route, allLocales, allLocales);
   if (SITEMAP_SECONDARY_STATIC_PATHS.has(pathname)) return pickSupportedLocales(route, ["en", "zh-Hans"], allLocales);
   if (template === "venue") {
     const slug = pathSlug(pathname, "/exchanges/");
@@ -139,7 +145,7 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   }
   if (template === "topic") {
     // A topic edition that owns its locales (Brazil BCB deadline page: English slug in en, Portuguese slug in pt-BR).
-    if (route.ownLocales) return supportedRouteLocales(route, allLocales);
+    if (route.ownLocales) return pickSupportedLocales(route, allLocales, allLocales);
     const slug = pathSlug(pathname, "/topics/");
     return pickSupportedLocales(route, SITEMAP_PRIORITY_TOPICS.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
   }
@@ -239,6 +245,11 @@ export function selectSitemapPublicationEntries(inventory, newsArticles = [], {
   // Inventory can be stale or caller supplied. Reconcile article editions with current page publication authority.
   const articlesBySlug = new Map(newsArticles.map((article) => [article.slug, article]));
   inventory = inventory.map((route) => {
+    if (route.template === "newsList" || parseNewsListingPath(route.pathname)) {
+      const listing = parseNewsListingPath(route.pathname);
+      const emptyListing = !listing || listing.invalid || !paginateNews(newsArticles, listing).total;
+      return { ...route, emptyListing, locales: newsListingIndexableLocales(newsArticles).filter(locale => newsListingHasNativeArticles(newsArticles, locale, listing || {})) };
+    }
     if (route.template !== "article") return route;
     const eligible = articleSitemapLocales(articlesBySlug.get(pathSlug(route.pathname, "/news/")), newsArticles, articleSeoLocales);
     return { ...route, locales: eligible };

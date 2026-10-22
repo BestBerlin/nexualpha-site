@@ -1,6 +1,6 @@
 import { isTurkeyUnlistedVenue, turkeyListingAllowed } from "./partner-geo-policy.js";
-import { localizedHref } from "./locale-routing.js";
-import { appendDecisionPassportQuery } from "./decision-passport.js";
+import { localizedHref, parsePublicRoute } from "./locale-routing.js";
+import { appendDecisionPassportQuery, decisionContextSearchFromUrl, readDecisionPassport } from "./decision-passport.js";
 import { comparePathFor } from "../components/v6/compare-routes.js";
 
 const COPY = {
@@ -183,7 +183,8 @@ export function buildNextDecisionBridge({
   // Reuse the shortlist's validated route without accepting a different venue
   // or an off-site action in this research-only bridge.
   const suppliedProfilePath = typeof profileHref === "string" ? profileHref.split(/[?#]/)[0] : "";
-  const profileRoute = suppliedProfilePath === profilePath ? profileHref : profilePath;
+  const suppliedProfileIsLocal = suppliedProfilePath.startsWith("/") && !suppliedProfilePath.startsWith("//");
+  const profileRoute = suppliedProfileIsLocal && parsePublicRoute(suppliedProfilePath).contentPathname === profilePath ? profileHref : profilePath;
   const slugs = (Array.isArray(compareSlugs) ? compareSlugs : []).map(cleanSlug).filter(Boolean);
   // Factbook-only venues (HTX, HashKey, Aevo) have no compare route: comparePathFor() reports a fallback, and the
   // bridge then offers no comparison instead of a 404 link (QA 2026-10-11: /topics/compliant-exchanges linked
@@ -193,12 +194,14 @@ export function buildNextDecisionBridge({
   const comparison = turkeyListingAllowed(comparisonPath, { locale, market }) ? comparisonPath : "";
   const contextualHref = (href) => {
     const target = new URL(String(href || "/"), "https://nexualpha.com");
-    return appendDecisionPassportQuery(localizedHref(href, { locale }), {
-      market: target.searchParams.get("market") || market,
-      product: target.searchParams.get("product") || product,
+    const targetContext = new URLSearchParams(decisionContextSearchFromUrl(target));
+    const passport = readDecisionPassport(targetContext, {
+      market: targetContext.get("market") || market,
+      product: targetContext.get("product") || product,
       accountStage,
       funding,
     });
+    return appendDecisionPassportQuery(localizedHref(href, { locale }), passport);
   };
   const actions = uniqueActions([
     profile ? {

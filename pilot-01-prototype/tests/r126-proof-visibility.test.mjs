@@ -1,3 +1,5 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
+import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -70,10 +72,10 @@ test('effect replay and repeated events never leave duplicate cycles or listener
 test('legacy media listeners react to resize/motion and are removed',()=>{
  const h=mount({width:390,legacy:true});assert.equal(h.timers.count(),0);h.resize(1000);assert.equal(h.timers.count(),0);h.click();assert.equal(h.timers.count(),1);h.motion.matches=true;h.motion.dispatch('change');h.draw();assert.equal(h.timers.count(),0);h.unmount();assert.equal(h.motion.count()+h.narrow.count()+h.short.count()+h.document.count(),0);
 });
-test('all localized disclaimer, full example data and registry stay unchanged',()=>{
+test('all localized disclaimer, full example data and registry stay unchanged', { skip: !existsSync(new URL('../../../r125-reading-hierarchy/candidate/src/components/v3/LiveConversionProof.jsx', import.meta.url)) && 'Original historical source snapshot is absent from a fresh checkout' }, ()=>{
  const baseline=readFileSync(new URL('../../../r125-reading-hierarchy/candidate/src/components/v3/LiveConversionProof.jsx',import.meta.url),'utf8');
  const data=text=>text.slice(text.indexOf('const MOCK_EVENTS'),text.indexOf('export function LiveConversionProof')).split('const examplePlaybackCopy')[0].trim();assert.equal(data(source),data(baseline));assert.equal(source.match(/  const exampleLabel =[^\n]+/)[0],baseline.match(/  const exampleLabel =[^\n]+/)[0]);
  const h=mount({width:390});for(const l of ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it']){const tree=h.locale(l);assert.ok(tree.props['aria-label']);assert.equal(tree.props['aria-live'],'off');assert.equal(h.timers.count(),0);}h.unmount();
- assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+ assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),committedFileHash('src/data/partner-registry.js'));
  const css=readFileSync(new URL('../src/components/v3/live-conversion-proof.css',import.meta.url),'utf8');assert.match(css,/@media \(max-width: 780px\)[\s\S]*\.conversion-proof-toast \{ display: none;/);
 });

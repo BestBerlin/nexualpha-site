@@ -86,13 +86,13 @@ test("/news renders 24 newest articles with crawlable next-page links and a self
   assert.equal(hydration.newsArticles[0].content, undefined, "list hydration stays summary-only");
 });
 
-test("paginated pages are self-canonical, indexable and link both directions", async () => {
+test("paginated pages are self-canonical, noindex and link both directions", async () => {
   const response = await fetchPage("/news/page/2");
   const html = await response.text();
   assert.equal(response.status, 200);
   assert.equal(canonical(html), "https://nexualpha.com/news/page/2");
-  assert.equal(robots(html), "index,follow");
-  assert.match(html, /hreflang="zh-Hans" href="https:\/\/nexualpha\.com\/zh-hans\/news\/page\/2"/);
+  assert.equal(robots(html), "noindex,follow");
+  assert.doesNotMatch(html, /hreflang=/);
   assert.match(html, /<title[^>]*>[^<]*Page 2 of 3(?: — NexuAlpha)?<\/title>/); // long titles drop the brand suffix (owner 2026-10-11)
   assert.deepEqual(cardSlugs(html), articles.slice(24, 48).map((article) => article.slug));
   assert.match(html, /href="\/news" rel="prev"/);
@@ -103,7 +103,7 @@ test("paginated pages are self-canonical, indexable and link both directions", a
 
   const zh = await (await fetchPage("/zh-hans/news/page/2")).text();
   assert.equal(canonical(zh), "https://nexualpha.com/zh-hans/news/page/2");
-  assert.equal(robots(zh), "index,follow");
+  assert.equal(robots(zh), "noindex,follow");
   assert.match(zh, /href="\/zh-hans\/news\/page\/3" rel="next"/);
   assert.match(zh, /第 2 页，共 3 页/);
 
@@ -209,10 +209,10 @@ test("related selection is deterministic: shared platforms first, then newest in
 
 test("news library sitemap helper lists archives while the legacy public endpoint redirects to the sitemap index", async () => {
   const xml = renderNewsLibrarySitemap(articles.filter((article) => article.status === "PUBLISHED"));
-  for (const loc of ["https://nexualpha.com/news", "https://nexualpha.com/news/page/3", "https://nexualpha.com/zh-hans/news/page/2", "https://nexualpha.com/news/category/rwa", "https://nexualpha.com/zh-hans/news/category/exchange-update"]) {
+  for (const loc of ["https://nexualpha.com/news", "https://nexualpha.com/news/category/rwa", "https://nexualpha.com/zh-hans/news/category/exchange-update"]) {
     assert.match(xml, new RegExp(`<loc>${loc.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</loc>`));
   }
-  assert.equal((xml.match(/<url>/g) || []).length, 2 * (3 + 6));
+  assert.equal((xml.match(/<url>/g) || []).length, 2 * (1 + 6));
   const response = await worker.fetch(new Request("https://nexualpha.com/news-library-sitemap.xml"), env);
   assert.equal(response.status, 301);
   assert.equal(response.headers.get("location"), "https://nexualpha.com/sitemap.xml");

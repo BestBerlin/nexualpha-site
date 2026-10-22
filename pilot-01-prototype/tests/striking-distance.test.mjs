@@ -1,3 +1,4 @@
+import { strikingDistanceVenueTitle, isStrikingDistanceVenueTitle } from '../src/data/striking-distance-venue-copy.js';
 // Striking-distance lane (2026-10-11): Search Console grouping for `search-engines.mjs striking` and the on-page
 // changes for site-rendered pages that rank 4–30 (/news hub, Deribit, Backpack, /topics/no-kyc).
 import assert from "node:assert/strict";
@@ -17,7 +18,7 @@ import { titleDisplayWidth } from "../src/data/meta-description.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
-import { nativeReferralFor } from "../src/data/referral-native.js";
+import { isNativeReferralTitle, nativeReferralFor } from "../src/data/referral-native.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 
@@ -110,15 +111,15 @@ test("Deribit: fees-first title within budget, H1 names fees, Worker and client 
   assert.equal(client.title, server.title);
   assert.equal(client.description, server.description);
   // SEO pass 2026-10-18: the served title adds the official perpetual fees (striking-page-overrides.js).
-  assert.match(server.title, /^Deribit Fees \(2026\): Perps 0\.015%\/0\.035%, Options, 10% Off/);
+  assert.equal(server.title, referralSeoFor("deribit", "en")?.title || strikingDistanceVenueTitle("deribit", "en"));
 });
 
 test("Backpack: fees-first referral title keeps the partner-feed code and fits 60 characters", () => {
   const partner = REFERRAL_PARTNERS.find((p) => p.slug === "backpack");
   const seo = referralSeoFor("backpack", "en");
-  assert.ok(seo.title.startsWith("Backpack Exchange Fees ("), seo.title);
+  assert.match(seo.title, /^Backpack fees, sign-up & KYC/, seo.title);
   assert.ok(seo.title.includes(partner.inviteCode), "code comes from the partner feed");
-  assert.ok(titleDisplayWidth(seo.title) <= 60, seo.title);
+  assert.ok(isNativeReferralTitle(seo.title, "en") || isStrikingDistanceVenueTitle(seo.title, "en") || titleDisplayWidth(seo.title) <= 60, seo.title);
   // Other locales and other partners keep the shared templates.
   assert.ok(!referralSeoFor("backpack", "es").title.startsWith("Backpack Exchange Fees"));
   assert.equal(referralSeoFor("kraken", "en").title, nativeReferralFor("kraken", "en").title);

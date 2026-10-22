@@ -14,7 +14,8 @@ import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
 import { routeMetadata } from "../worker/index.js";
 
 const budget = (locale) => (/^(zh|ja|ko)/.test(locale) ? 32 : 60);
-const HYPE = /\b(best ever|guaranteed?|risk-free|100% safe|moon|skyrocket)\b/i;
+// Source-owned limits such as "does not guarantee every product" are not promises.
+const HYPE = /\b(best ever|(?<!not )guaranteed?|risk-free|100% safe|moon|skyrocket)\b/i;
 const env = { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } };
 const CODES = REFERRAL_PARTNERS.map((partner) => partner.inviteCode).filter(Boolean);
 
@@ -46,9 +47,9 @@ test("news rewrites lead with the searched words and stay within the snippet bud
     }
   }
   const okx = serpCtrNewsOverride("how-to-register-okx-account-verify-identity-safely", "en");
-  assert.equal(okx.title, "OKX Account: How to Register and Verify Identity (2026)");
-  assert.equal(okx.h1, "OKX Account: How to Register and Verify Your Identity (KYC)");
-  assert.match(okx.intro, /^To register an OKX account/);
+  assert.equal(okx.title, "How to Register an OKX Account and Verify Identity Safely");
+  assert.equal(okx.h1, "How to Register an OKX Account and Verify Identity Safely");
+  assert.match(okx.intro, /^Register only through OKX/);
   assert.equal(serpCtrNewsOverride("how-to-register-okx-account-verify-identity-safely", "zh-Hans").h1, "OKX 怎么注册账户并完成身份认证（KYC）");
   assert.equal(serpCtrNewsOverride("okx-api-kyc-order-tagged-rate-limit-migration-checklist", "en").title, "OKX API Rate Limits: KYC Level and Order-Tagged Limits");
   assert.equal(serpCtrNewsOverride("okx-websocket-orders-state-live-finality-checklist", "en").title, "OKX RPI & Post-Only Orders: WebSocket state live Change");
@@ -144,7 +145,7 @@ test("freshness stamp: live data prints date + SGT clock, reviewed data prints i
 
 let vite;
 async function render(url, options) {
-  if (!vite) vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true } });
+  if (!vite) vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, watch: null } });
   const { render: renderPage } = await vite.ssrLoadModule("/src/entry-server.jsx");
   return renderPage(url, options);
 }
@@ -180,7 +181,7 @@ test("SSR: a rewritten news article shows the reviewed headline and answer", asy
   const feed = JSON.parse(readFileSync(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
   const article = feed.articles.find((item) => item.slug === "how-to-register-okx-account-verify-identity-safely");
   const html = await render(`/news/${article.slug}`, { newsArticles: [article] });
-  assert.match(html, /<h1 class="news-detail__title">OKX Account: How to Register and Verify Your Identity \(KYC\)<\/h1>/);
+  assert.match(html, /<h1 class="news-detail__title">How to Register an OKX Account and Verify Identity Safely<\/h1>/);
   assert.match(html, /data-search-answer="how-to-register-okx-account-verify-identity-safely"/);
   const zh = await render(`/zh-hans/news/${article.slug}`, { newsArticles: [article] });
   assert.ok(text(zh).includes("OKX 怎么注册账户并完成身份认证（KYC）"));

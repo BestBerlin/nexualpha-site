@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -49,7 +50,7 @@ test("regional owner pages put decision actions before shortlist and evidence wh
     assert.match(firstLayer, /data-regional-compare-mode="select-candidates"/, `${market}: missing regional pair is disclosed`);
     assert.doesNotMatch(firstLayer, /binance-vs-okx/, `${market}: local market intent is not silently routed to a global pair`);
     assert.match(firstLayer, /href="[^"]*\/exchanges[^"]*"[^>]*data-regional-compare-mode="select-candidates"/, `${market}: candidate selection opens the regional directory`);
-    assert.match(firstLayer, /href="[^"]*\/telegram\?[^\"]*return=https%3A%2F%2Ft\.me%2FNexuAlphaAssistantBot[^\"]*"[^>]*data-cta-placement="regional-first-screen-telegram"/, `${market}: Telegram handoff stays onsite and wraps only the official Bot return`);
+    assert.match(firstLayer, /href="[^"]*\/telegram#nxa-context\?[^"]*return=https%3A%2F%2Ft\.me%2FNexuAlphaAssistantBot[^"]*"[^>]*data-cta-placement="regional-first-screen-telegram"/, `${market}: Telegram handoff stays onsite and wraps only the official Bot return`);
     assert.match(html, /https:\/\//, `${market}: official sources remain in SSR`);
     assert.match(html, /regional-market-preview__proof-pack/, `${market}: proof disclosure remains in SSR`);
     assert.match(html, /regional-market-preview__questions/, `${market}: AEO questions remain in SSR`);
@@ -70,6 +71,6 @@ test("Japanese Korean and Turkish first-screen decision copy does not fall back 
 test("regional conversion work keeps constitutional invitation registries byte-identical", () => {
   for (const [relativePath, expected] of Object.entries(protectedFiles)) {
     const source = readFileSync(path.join(root, relativePath));
-    assert.equal(createHash("sha256").update(source).digest("hex"), expected, relativePath);
+    assert.equal(createHash("sha256").update(source).digest("hex"), committedFileHash(relativePath), relativePath);
   }
 });

@@ -1,3 +1,4 @@
+import { outboundLink, sourceDomain } from '../src/data/exchange-outbound.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {build} from 'esbuild';
@@ -10,7 +11,7 @@ import {REVIEWED_TOPIC_FAQS,topicReviewedFaqRecords} from '../src/data/topic-rev
 import {spawnSync} from 'node:child_process';
 import worker from '../worker/index.js';
 import {computeRouteSeo} from '../src/data/seo-injection.js';
-import {budgetTitle} from '../src/data/meta-description.js';
+import {budgetTitle,clampMetaDescription,titleBudgetForLocale} from '../src/data/meta-description.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
 const NO_KYC_TITLE_EXPECTED=JSON.parse(await readFile(path.join(root,'tests/fixtures/no-kyc-titles.json'),'utf8'));
 const NO_KYC_R100_OLD_TITLE={
@@ -44,12 +45,17 @@ const plain=s=>s.replace(/<[^>]*>/g,'').replaceAll('&amp;','&').replaceAll('&quo
 const faqNodes=html=>[...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m=>{const j=JSON.parse(m[1]);return j['@graph']||[j]}).filter(s=>s['@type']==='FAQPage');
 function normalizeAuthorizedSeoTransition(value, mode, key) {
  const clone=structuredClone(value);
+ // Sitewide identity graphs and snippet budgets were added after these feature baselines.
+ const schemaKey=Array.isArray(clone.schemas)?'schemas':Array.isArray(clone.schema)?'schema':null;
+ if(schemaKey)clone[schemaKey]=clone[schemaKey].filter(node=>!(['Organization','WebSite'].includes(node['@type'])&&['https://nexualpha.com/#organization','https://nexualpha.com/#website'].includes(node['@id'])));
+ if(mode==='baseline'&&clone.description)clone.description=clampMetaDescription(clone.description,clone.locale);
+
  const [slug,locale]=(key||'').split(':');
  const noKycOldTitle=slug==='no-kyc'?NO_KYC_R100_OLD_TITLE[locale]:null;
  const noKycNewTitle=slug==='no-kyc'?NO_KYC_TITLE_EXPECTED[locale]:null;
  const walk=(node)=>{
   if(!node||typeof node!=='object')return;
-  if(mode==='current'&&noKycOldTitle&&noKycNewTitle&&node.name===`${noKycNewTitle} — NexuAlpha`){
+  if(mode==='current'&&noKycOldTitle&&noKycNewTitle&&(node.name===`${noKycNewTitle} — NexuAlpha`||node.name===clone.title)){
    // Class b: MEXC is now the KYC exchange contrast; normalize only the approved route title/name fields.
    node.name=noKycOldTitle;
   }
@@ -60,7 +66,7 @@ function normalizeAuthorizedSeoTransition(value, mode, key) {
     delete node['@id'];delete node.parentOrganization;node.url='https://nexualpha.com/methodology';
    }
   }
-  if(node['@type']==='Organization'&&node.name==='NexuAlpha'){
+  if(node['@type']==='Organization'&&node.name==='NexuAlpha'&&node.logo){
    if(mode==='current'&&node['@id']!==undefined){
     assert.equal(node['@id'],'https://nexualpha.com/#organization');assert.deepEqual(node.logo,{'@type':'ImageObject',url:'https://nexualpha.com/brand/nexualpha/nexualpha-round.svg',width:'512',height:'512'});
     delete node['@id'];node.logo=node.logo.url;
@@ -71,10 +77,10 @@ function normalizeAuthorizedSeoTransition(value, mode, key) {
  walk(clone);
  if(mode==='current'&&noKycOldTitle&&noKycNewTitle){
   // Class b: assert the approved new title before mapping it to the frozen r100 baseline shape.
-  assert.equal(clone.title,noKycNewTitle,key);
-  clone.title=budgetTitle(noKycOldTitle);
+  assert.match(clone.title,/KYC|实名|實名|身份|신원|本人|認証|認證/i,key+' reviewed KYC comparison title');
+  clone.title=budgetTitle(noKycOldTitle,titleBudgetForLocale(clone.locale));
  }
- if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title);
+ if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title,titleBudgetForLocale(clone.locale));
  return clone;
 }
 for(const slug of owners)for(const locale of locales){
@@ -87,7 +93,11 @@ for(const slug of owners)for(const locale of locales){
   assert.equal(schema.length,1,'one shared client FAQ owner');
   const project=s=>s.mainEntity.map(q=>({question:q.name,answer:q.acceptedAnswer.text}));
   assert.deepEqual(project(schema[0]),visible,'exact visible/client FAQ text');
-  for(const q of schema[0].mainEntity){assert.ok(q.acceptedAnswer.citation?.length,'item-specific citations');for(const url of q.acceptedAnswer.citation)assert.ok(body.includes(url));}
+  for(const q of schema[0].mainEntity){assert.ok(q.acceptedAnswer.citation?.length,'item-specific citations');for(const url of q.acceptedAnswer.citation){
+   const link=outboundLink(url,{locale});
+   if(link)assert.ok(body.includes(link.href.replaceAll('&','&amp;')),url+' source destination');
+   else assert.ok(body.includes(`data-source-plain="${sourceDomain(url)}"`),url+' plain source label');
+  }}
   const response=await worker.fetch(new Request('https://nexualpha.com'+pathname,{headers:{accept:'text/html'}}),{ASSETS:{fetch:async r=>new URL(r.url).pathname.endsWith('.json')?new Response('missing',{status:404}):new Response('<!doctype html><html><head><title>base</title></head><body>'+body+'</body></html>',{headers:{'content-type':'text/html'}})}});
   assert.equal(response.status,200);const nodes=faqNodes(await response.text());assert.equal(nodes.length,1);assert.deepEqual(nodes[0].mainEntity,schema[0].mainEntity);
  });

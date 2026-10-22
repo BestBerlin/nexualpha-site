@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -5,7 +6,7 @@ import test from "node:test";
 
 const artifactUrl = new URL("../public/research/wave48-tokenized-treasury-rights-ops.json", import.meta.url);
 const partnerRegistryUrl = new URL("../src/data/partner-registry.js", import.meta.url);
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash("src/data/partner-registry.js");
 
 async function loadArtifact() {
   return JSON.parse(await readFile(artifactUrl, "utf8"));

@@ -2,7 +2,7 @@
 // from reviewed data only. This module is the single source for
 //   - the canonical slug of a pair (curated pairs keep their hand-written order, generated pairs are alphabetical),
 //   - the index policy (index,follow only when BOTH venues have reviewed spot or perp fee rows AND at least one is a
-//     partner; everything else stays noindex,follow but still renders),
+//     partner and the page has pair-specific reviewed evidence; everything else stays noindex,follow but still renders),
 //   - the sitemap locales of an indexable generated pair (en + locales where both venues carry localized facts),
 //   - the per-locale templates for the generated title / description / H1 / provenance note and the picker.
 // It is imported by worker/index.js (shipped by scripts/prepare-sites-build.mjs), the SSR/client app and
@@ -41,13 +41,17 @@ export function generatedComparePolicy(pair, options = {}) {
   const anyPartner = twoVenues && slugs.some((slug) => Boolean(isPartner(slug)));
   const generated = twoVenues && !curated;
   const withinLimits = twoVenues && generatedPairWithinIndexLimits(slugs);
-  const indexable = generated && bothReviewed && anyPartner && withinLimits;
+  // Recombining two venue records is not unique pair research. No generated pair currently
+  // carries its own reviewed dataset; a future renderer must expose that evidence before opting in.
+  const hasUniqueData = typeof options.hasUniqueData === "function" && options.hasUniqueData(slugs) === true;
+  const indexable = generated && bothReviewed && anyPartner && withinLimits && hasUniqueData;
   return Object.freeze({
     curated,
     generated,
     bothReviewed,
     anyPartner,
     withinLimits,
+    hasUniqueData,
     indexable,
     robots: curated || indexable ? "index,follow" : "noindex,follow",
   });
@@ -91,7 +95,7 @@ export function curatedPairsSharingVenue(slugs = [], exclude = "") {
   const wanted = new Set(slugs);
   return CURATED_COMPARISON_SLUGS.filter((pair) => pair !== exclude && pair.split("-vs-").some((slug) => wanted.has(slug)));
 }
-export function generatedPairsSharingVenue(slug, { limit = 6, exclude = "", indexableOnly = true } = {}) {
+export function generatedPairsSharingVenue(slug, { limit = 6, exclude = "", indexableOnly = false } = {}) {
   const pairs = generatedComparePairs().filter((pair) => pair !== exclude && pair.split("-vs-").includes(slug));
   const indexable = pairs.filter((pair) => generatedComparePolicy(pair).indexable);
   const list = indexableOnly ? indexable : [...indexable, ...pairs.filter((pair) => !indexable.includes(pair))];

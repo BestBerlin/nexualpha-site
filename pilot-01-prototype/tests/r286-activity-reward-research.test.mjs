@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../baseline/ActivityCenterV3.before-reward-research-tasks.jsx", import.meta.url);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, mkdtemp, writeFile, rm } from 'node:fs/promises';
@@ -59,7 +62,7 @@ function anchors(html) {
   }));
 }
 
-test('reward research cards use dedicated activity research routes while preserving the three task model', async () => {
+test('reward research cards use dedicated activity research routes while preserving the three task model', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const source = await read(jsxPath);
   assert.doesNotMatch(source, /import \{ detailHref \} from "\.\.\/matcher-model";/, 'research cards must not reuse the generic exchange detail helper');
   assert.match(source, /detailHref: `\/activities\/research\/\$\{encodeURIComponent\(research\.venueSlug\)\}`,/);
@@ -69,7 +72,7 @@ test('reward research cards use dedicated activity research routes while preserv
   assert.doesNotMatch(source, /detailHref: contextualHref\(detailHref\(locale, research\.venueSlug\)\)/);
 });
 
-test('only the authorized ActivityCenterV3 JSX hunk changed', async () => {
+test('only the authorized ActivityCenterV3 JSX hunk changed', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const source = await read(jsxPath);
   const backup = await readFile(jsxBackup, 'utf8');
   assert.equal(reverseJsxPatch(source), backup);
@@ -90,13 +93,13 @@ test('phone reward actions place the two site tasks on one row while preserving 
   assert.match(css, /@media \(max-width: 640px\) \{[\s\S]*?\.activity-center-v3__reward-grid \.activity-center-v3__source-actions a \{[\s\S]*?min-height: 44px;/);
 });
 
-test('only the authorized phone reward action density CSS hunk changed after the single-column baseline', async () => {
+test('only the authorized phone reward action density CSS hunk changed after the single-column baseline', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const css = await read(cssPath);
   const backup = await readFile(cssDensityBackup, 'utf8');
   assert.equal(reverseCssDensityPatch(css), backup);
 });
 
-test('only the authorized ActivityCenterV3 CSS hunk changed', async () => {
+test('only the authorized ActivityCenterV3 CSS hunk changed', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const css = await read(cssPath);
   const backup = await readFile(cssBackup, 'utf8');
   assert.equal(reverseCssPatch(css), backup);
@@ -150,7 +153,7 @@ test('SSR reward actions keep platform profile, source, and contextual research 
   }
 });
 
-test('partner registry remains byte-stable and exact SHA-protected', async () => {
+test('partner registry remains byte-stable and exact SHA-protected', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, async () => {
   const bytes = await readFile(path.join(root, registryPath));
   assert.equal(sha(bytes), expectedRegistrySha);
 });

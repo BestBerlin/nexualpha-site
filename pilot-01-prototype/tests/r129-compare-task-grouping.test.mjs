@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -49,7 +50,7 @@ const renderComparePages = async (cases) => {
 
 const summaries=html=>[...html.matchAll(/<summary[^>]*>(.*?)<\/summary>/gs)].map(m=>m[1].replace(/<[^>]*>/g,''));
 const hrefs=html=>[...html.matchAll(/\bhref="([^"]*)"/g)].map(m=>m[1]).sort();
-test('R129 comparison groups each supporting task once and retains raw full links',async()=>{
+test('R129 comparison groups each supporting task once and retains raw full links', {skip: !existsSync('/Users/bestberlin/Documents/ChatGPT/Crypto聚合/release-candidates/r128-home-mobile/candidate/src/components/v3/V3Pages.jsx') && 'Original R128 historical candidate is absent from a fresh checkout'},async()=>{
 const cases=[['binance','okx'],['uniswap','jupiter'],['binance','kraken']].flatMap(selected=>['en','ja','ar'].flatMap(locale=>[{selected,locale,before:true},{selected,locale}]));
 const results=await renderComparePages(cases);
 for(let i=0;i<results.length;i+=2){const before=results[i].html,after=results[i+1].html;

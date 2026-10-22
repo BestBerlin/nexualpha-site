@@ -70,3 +70,13 @@ main.v6.collection-hub-page :is(.collection-hub__row, .collection-hub__tile):has
 }
 @media (prefers-reduced-motion: reduce) { main.v6.collection-hub-page * { transition-duration: 0ms !important; } }
 main.v6.collection-hub-page :is(.collection-hub__row, .collection-hub__lead, .collection-hub__tile, .collection-hub__rows, .collection-hub__tiles):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+
+/* Money-topic clusters reuse the index rhythm and keep article anchors visible to readers and crawlers. */
+main.v6.collection-hub-page .collection-hub__money-topics:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 16px; }
+main.v6.collection-hub-page .collection-hub__money-topics .collection-hub__section-desc:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--hb-ink-2); margin-block: 12px; }
+main.v6.collection-hub-page .collection-hub__money-articles:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 12px; }
+main.v6.collection-hub-page .collection-hub__money-articles .collection-hub__row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 32px minmax(0, 1fr) auto; }
+@media (max-width: 640px) {
+  main.v6.collection-hub-page .collection-hub__money-articles .collection-hub__row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 24px minmax(0, 1fr); }
+  main.v6.collection-hub-page .collection-hub__money-articles .collection-hub__facts:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; text-align: start; }
+}

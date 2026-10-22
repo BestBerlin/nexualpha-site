@@ -38,7 +38,8 @@ test("zh-Hant shared CTA surfaces render Traditional Chinese copy instead of Eng
   const html = await renderFixture(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
-    import { CompareDeepPage, VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+    import { CompareDeepPage } from "../../src/components/v3/V3Pages.jsx";
+    import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
     import { FactbookPage } from "../../src/components/v3/FactbookPage.jsx";
     import { TelegramBotHub } from "../../src/components/v3/TelegramBotHub.jsx";
     import { MobileBottomNav } from "../../src/components/v3/MobileBottomNav.jsx";
@@ -84,33 +85,9 @@ test("zh-Hant shared CTA surfaces render Traditional Chinese copy instead of Eng
   `)();
 
   for (const expected of [
-    "註冊前最終怎麼選",
-    "查看詳細矩陣",
-    "在官網註冊",
-    "現貨 Taker / Maker 費率",
-    "資產儲備 (PoR)",
-    "返回交易所黃頁目錄",
-    "信任評分待核驗",
-    "本頁面只展示可追溯的公開資料",
-    "展開完整儲備資料",
-    "合作開戶註冊入口",
-    "比較平台",
-    "平台黃頁",
-    "Binance (幣安)",
-    "OKX (歐易)",
-    "費率、條件與費用測算",
-    "在 Telegram 中監控此交易所費率與返傭",
-    "高意圖搜尋問答與安全指南",
-    "主題指南",
-    "事實庫",
-    "返傭連結",
-    "傭金由平台承擔",
-    "資產儲備證明",
-    "防釣魚官方網域",
-    "費率、返傭、儲備金與門檻",
-    "硬核量化對決矩陣",
-    "對比項",
-    "查看驗資公示",
+    "註冊開戶前結論", "逐項對比", "返回交易所目錄", "平台黃頁",
+    "先核對地區資格", "費用與使用條件問答", "按具體問題查看答案及對應官方來源",
+    "先確定哪一家更適合你", "官方來源", "隱私",
   ]) {
     assert.match(html, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing zh-Hant copy: ${expected}`);
   }
@@ -149,6 +126,6 @@ test("zh-Hant shared CTA surfaces render Traditional Chinese copy instead of Eng
     assert.doesNotMatch(html, new RegExp(blocked.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `blocked fallback leaked: ${blocked}`);
   }
 
-  assert.match(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
-  assert.match(html, /nexu888/);
+  assert.doesNotMatch(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
+  assert.doesNotMatch(html, /nexu888/);
 });

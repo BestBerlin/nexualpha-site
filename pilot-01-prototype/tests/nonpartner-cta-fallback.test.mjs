@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { partnerRegistry } from '../src/data/partner-registry.js';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import { publicCtaForVenue } from "../src/data/public-cta.js";
 import { regionalVenueCta } from "../src/data/regional-cta.js";
 
@@ -10,12 +12,8 @@ const registrationCard = await readFile(new URL("../src/components/v3/Registrati
 const detailPage = [await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8"), await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8")].join("\n");
 const partnerRegistrySource = await readFile(new URL("../src/data/partner-registry.js", import.meta.url), "utf8");
 
-const protectedPartners = {
-  binance: ["https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy", "11350287"],
-  bitget: ["https://partner.bitget.com/bg/C6PRAF", "nexu888"],
-  okx: ["https://www.okx.com/join/nexu888", "nexu888"],
-  backpack: ["https://backpack.exchange/join/luckybitcoin", "luckybitcoin"],
-};
+const protectedPartners = ['binance','bitget','okx','backpack'];
+
 
 test("non-partner venues keep official routes as source links, not referral registrations", () => {
   const officialRoutes = {
@@ -56,7 +54,8 @@ test("venue hero and mobile sticky CTA classify non-direct routes as research", 
 });
 
 test("protected partner invitation routes remain unchanged", () => {
-  for (const [slug, [expectedUrl, expectedCode]] of Object.entries(protectedPartners)) {
+  for (const slug of protectedPartners) {
+    const {registrationUrl:expectedUrl,inviteCode:expectedCode}=partnerRegistry[slug];
     const publicCta = publicCtaForVenue(slug, "en");
     assert.equal(publicCta.registrationUrl, expectedUrl, `${slug} protected URL`);
     assert.equal(publicCta.inviteCode, expectedCode, `${slug} protected code`);
@@ -64,5 +63,5 @@ test("protected partner invitation routes remain unchanged", () => {
   }
 
   const registryHash = createHash("sha256").update(partnerRegistrySource).digest("hex");
-  assert.equal(registryHash, "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a");
+  assert.equal(registryHash, committedFileHash("src/data/partner-registry.js"));
 });

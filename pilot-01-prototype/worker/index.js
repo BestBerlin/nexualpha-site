@@ -25,7 +25,7 @@ import { isNeutralCtaLocale } from "../src/data/locale-policy.js";
 import { isReferralTopicArticle, neutralArticleView } from "../src/data/neutral-article.js";
 import { withoutFundingTradeHrefs } from "../src/data/funding-matrix.js";
 import { fundingTable, FUNDING_SYMBOLS, isFundingSnapshot } from "../src/data/funding-rates.js";
-import { hreflangAlternates, hasNewsArticleLocale, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, hasNewsArticleLocale, localizedNewsTitle, localizedNewsSummary, newsArticleAvailableLocales, newsArticleSeoLocales, newsHumanReview, newsListingIndexableLocales, newsListingHasNativeArticles, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
@@ -92,6 +92,7 @@ import { GLOSSARY_PATH, parseGlossaryPath } from "../src/data/glossary-routes.js
 import { glossaryRouteSeo } from "../src/data/glossary-seo.js";
 import { applyCoinOverlay, coinBySlug, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
 import { selectResearch } from "../src/components/research/research-selection.js";
+import { moneyTopicArticlePool } from "../src/data/money-topic-hubs.js";
 import { tokenizedResearchArticles, researchClaimTexts } from "../src/components/research/hub-research.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
@@ -513,8 +514,8 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid fees & wallet setup — referral code NEXU888 (2026) | NexuAlpha",
-      "description": "Hyperliquid perps maker/taker 0.015%/0.045%; eligible referrals save 4% on fees. Referral code NEXU888.",
+      "title": "Hyperliquid fees, rebates & funded account checks (2026)",
+      "description": "Hyperliquid fees: perps maker/taker 0.015%/0.045%. Funded accounts use your USDC; rebates mean a conditional 4% fee discount.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -4135,6 +4136,7 @@ function projectNewsArticleForRoute(pathname, article, locale = "en", { preserve
       availableLocales: routeProjectionLocales,
     },
   };
+  projected.seo = { noindex: article.seo?.noindex !== false };
   if (String(pathname || "").startsWith("/news/")) {
     const contentLocale = newsContentLocale(locale, article);
     // Full SSR snapshots must hydrate the exact same Markdown text.
@@ -4897,6 +4899,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
         metadata.heroServed = metadata.heroAssignment.variant;
       }
     }
+    if (pathname === "/topics") hydrationData = { ...hydrationData, newsArticles: await researchArticlesForHub(env, url, pathname, locale) };
     const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, hydrationData);
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
@@ -5078,7 +5081,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (metadata.marker === DEPOSIT_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
-        if (typeof appHtml === "string" && appHtml.includes("class=\"nxd ")) {
+        if (typeof appHtml === "string" && appHtml.includes("data-deposit-page=\"")) {
           metadata.depositSsrMode = "runtime";
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
@@ -5259,6 +5262,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // /liquidations, /funding-rates and /liquidations/heatmap are in the manifest for sitemap/hreflang, but their build-time
     // body has no feed ("temporarily unavailable"); always render them at request time from the collector feed.
     if (isDataPagePath(contentPath) || contentPath === LIQUIDATION_HEATMAP_PATH) return fallback();
+    // Topic clusters use the current publication feed, never the build-time article snapshot.
+    if (contentPath === "/topics") return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
@@ -5528,7 +5533,10 @@ async function researchArticlesForHub(env, url, pathname, locale) {
     const feed = await loadNewsFeed(env, url);
     const context = { locale, market: url.searchParams.get("market") || undefined };
     const safeFeed = isNeutralCtaLocale(locale) ? neutralNewsFeed(feed, locale, { listing: true }) : feed;
-    const articles = newsArticleGeoPool(safeFeed?.articles || [], context).map(article => ({ ...summarizeNewsArticle(article), ...(researchClaimTexts(article).length ? { researchClaims: researchClaimTexts(article) } : {}) })).filter(article => article.slug);
+    const sourceArticles = newsArticleGeoPool(safeFeed?.articles || [], context);
+    const topicArticles = pathname === "/topics" ? moneyTopicArticlePool(sourceArticles, locale) : null;
+    if (topicArticles) return projectHubResearch(pathname, topicArticles, locale);
+    const articles = sourceArticles.map(article => ({ ...summarizeNewsArticle(article), ...(researchClaimTexts(article).length ? { researchClaims: researchClaimTexts(article) } : {}) })).filter(article => article.slug);
     const tokenized = parseTokenizedStocksPath(pathname);
     let selected;
     if (tokenized) {
@@ -5829,14 +5837,15 @@ export function renderNewsLibrarySitemap(articles) {
   // Listing pages are indexable (and listed) in English plus every locale with at least NEWS_LISTING_MIN_NATIVE_ARTICLES
   // search-published native articles (audit 2026-10-11 #4, scorecard M3); thinner locale listings render as noindex.
   const listingLocales = newsListingIndexableLocales(articles);
-  const alternates = (path) => sitemapAlternateLines(routeAlternates(path, listingLocales));
   for (const category of [null, ...NEWS_CATEGORY_KEYS]) {
     const { totalPages, total } = paginateNews(articles, { category });
     if (!total) continue;
-    for (let page = 1; page <= totalPages; page += 1) {
+    const categoryLocales = listingLocales.filter(locale => newsListingHasNativeArticles(articles, locale, { category }));
+    const alternates = (path) => sitemapAlternateLines(routeAlternates(path, categoryLocales));
+    for (const page of [1]) {
       const path = newsListingPath({ category, page });
       const lastmod = lastmodFor(paginateNews(articles, { category, page }).rows);
-      for (const locale of listingLocales) {
+      for (const locale of categoryLocales) {
         rows.push([
           "  <url>",
           `    <loc>${xmlText(localizedCanonical(path, locale))}</loc>`,
@@ -6001,10 +6010,15 @@ async function readHomeLatest(env, url, locale, now = Date.now()) {
   const feed = await loadNewsFeed(env, url);
   const pool = newsArticleGeoPool(feed.articles, { locale, market: url.searchParams.get("market") || undefined });
   const relative = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-  return pool.filter(item => item.seo?.noindex === false && hasNewsArticleLocale(item, locale)
+  const newest = pool.filter(item => item.seo?.noindex === false && hasNewsArticleLocale(item, locale)
     && Number.isFinite(Date.parse(item.publishedAt)) && Date.parse(item.publishedAt) <= now)
-    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt) || a.slug.localeCompare(b.slug))
-    .slice(0, 8).map(item => {
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt) || a.slug.localeCompare(b.slug));
+  // Preserve freshness and reserve two slots for the strongest reviewed search articles.
+  // Ranking is an existing GSC snapshot, never a claim about current traffic or indexing.
+  const strongest = newest.filter(item => Number.isFinite(newsStrengthRank(item.slug)))
+    .sort((a, b) => newsStrengthRank(a.slug) - newsStrengthRank(b.slug));
+  const selected = [...new Map([...newest.slice(0, 6), ...strongest.slice(0, 2), ...newest].map(item => [item.slug, item])).values()].slice(0, 8);
+  return selected.map(item => {
       const hours = Math.floor((now - Date.parse(item.publishedAt)) / 3600000);
       return { href: localizedPath(`/news/${item.slug}`, locale), title: localizedNewsTitle(item, locale), publishedAt: item.publishedAt,
         relativeDate: hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day") };
@@ -7384,7 +7398,9 @@ function searchPublicationLocales(pathname, options = {}) {
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   const newsListing = parseNewsListingPath(pathname);
-  if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListingIndexableLocales(options.newsArticles);
+  if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListing.page === 1
+    ? newsListingIndexableLocales(options.newsArticles).filter(locale => newsListingHasNativeArticles(options.newsArticles || [], locale, newsListing))
+    : [];
   if (options.article) {
     if (options.searchPublished === false) return [];
     return articleSitemapLocales(options.article, options.newsArticles);
@@ -7530,6 +7546,13 @@ function applyServedMetadataBudget(metadata) {
 }
 
 export async function routeMetadata(url, env) {
+  const metadata = await routeMetadataWithPublicationPolicy(url, env);
+  const route = parsePublicRoute(url.pathname, url.searchParams);
+  if (metadata?.status === 200 && NATIVE_REVIEW_PENDING_LOCALES.has(route.locale)) return { ...metadata, robots: "noindex,follow", alternates: [] };
+  return metadata?.alternates ? { ...metadata, alternates: metadata.alternates.filter(alternate => !NATIVE_REVIEW_PENDING_LOCALES.has(alternate.hreflang)) } : metadata;
+}
+
+async function routeMetadataWithPublicationPolicy(url, env) {
   const route = parsePublicRoute(url.pathname, url.searchParams);
   if (isLegalPagePath(route.contentPathname)) return applyServedMetadataBudget({ ...legalPageSeo(route.contentPathname, route.locale), marker: STATIC_ROUTE_MARKER });
   const metadata = await resolveRouteMetadata(url, env);
@@ -8556,7 +8579,7 @@ async function routeMetadataBase(url, env, newsFeed) {
     const publishedLocales = newsListingPublishedLocales(newsFeed?.articles || []);
     // Indexable only with >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); a thinner locale
     // listing keeps its self-canonical edition but is noindex,follow without hreflang.
-    const indexableLocales = newsListingIndexableLocales(newsFeed?.articles || []);
+    const indexableLocales = newsListingIndexableLocales(newsFeed?.articles || []).filter(locale => newsListingHasNativeArticles(newsFeed?.articles || [], locale, newsListing));
     const contentLocale = newsContentLocale(locale, publishedLocales);
     const displayLocale = UI_LOCALES.has(locale) ? locale : contentLocale;
     const isPublishedLocale = publishedLocales.includes(locale) && contentLocale === locale;
@@ -8594,7 +8617,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       title: `${categoryCopy ? `${categoryCopy.label} — ${sectionName}` : sectionName}${pageSuffix} — NexuAlpha`,
       description: `${categoryCopy ? categoryCopy.intro : newsCopy[1]}${page > 1 ? ` ${libraryCopy.pageOf(page, pagination.totalPages)}.` : ""}`,
     };
-    const hasArticles = pagination.rows.length > 0;
+    const hasArticles = pagination.rows.length > 0 && newsListingHasNativeArticles(newsFeed?.articles || [], displayLocale, { category });
     const pendingSelfCanonicalLocale = NATIVE_REVIEW_PENDING_LOCALES.has(displayLocale);
     const canonicalLocale = isPublishedLocale || pendingSelfCanonicalLocale ? displayLocale : contentLocale;
     const canonicalUrl = localizedCanonical(listingPath, canonicalLocale);
@@ -8603,9 +8626,9 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...localizedCopy,
       canonical: canonicalUrl,
       locale: displayLocale,
-      robots: isIndexableLocale && hasArticles ? "index,follow" : "noindex,follow",
+      robots: isIndexableLocale && hasArticles && page === 1 ? "index,follow" : "noindex,follow",
       marker: NEWS_ROUTE_MARKER,
-      alternates: isIndexableLocale && hasArticles ? routeAlternates(listingPath, indexableLocales) : [],
+      alternates: isIndexableLocale && hasArticles && page === 1 ? routeAlternates(listingPath, indexableLocales) : [],
       // Heading and intro are the NewsListPage hero copy (one source for SSR, fallback and client).
       newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: categoryCopy ? categoryCopy.label : newsListHeroCopy(displayLocale).title, intro: categoryCopy ? categoryCopy.intro : newsListHeroCopy(displayLocale).subtitle },
       schema: {

@@ -1,3 +1,5 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
+import { budgetTitle } from '../src/data/meta-description.js';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -16,9 +18,9 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const path = "/news/tokenized-treasuries-structure-access-risks";
 const canonical = `https://nexualpha.com${path}`;
 const assetUrl = "https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json";
-const expectedTitle = "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks — NexuAlpha";
+const expectedTitle = budgetTitle("Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks — NexuAlpha");
 const expectedDescription = "Check what a tokenized Treasury legally represents before comparing yield: issuer, recordkeeper, custodian, redemption path, wallet controls and eligibility.";
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash('src/data/partner-registry.js');
 
 function assets() {
   return { fetch: async () => new Response(JSON.stringify(feed), { headers: { "content-type": "application/json" } }) };
@@ -91,7 +93,7 @@ test("Wave60 keeps the dated article identity frozen and exposes its existing ri
     const dataset = schema.hasPart.find((part) => part["@type"] === "Dataset" && part.url === assetUrl);
     assert.ok(dataset);
     assert.match(dataset.abstract, /five products across four distinct product types/);
-    assert.ok(schema.relatedLink.includes(assetUrl));
+    assert.ok(schema.mainEntityOfPage.relatedLink.includes(assetUrl));
   }
 });
 

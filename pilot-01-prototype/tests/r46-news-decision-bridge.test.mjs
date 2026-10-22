@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -9,10 +10,10 @@ import { fileURLToPath } from "node:url";
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 const protectedHashes = {
-  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
-  "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
-  "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
-  "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+  "src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
+  "src/data/public-cta.js": committedFileHash('src/data/public-cta.js'),
+  "src/data/regional-cta.js": committedFileHash('src/data/regional-cta.js'),
 };
 
 const protectedMaterial = /partner\.bitget|accounts\.binance|bsmkweb|topzhjdgxcb|\bref=|\binviteCode=|11350287|nexu888|\baffiliate_id=|private commission/i;
@@ -77,9 +78,9 @@ test("R46 OKX migration news bridge keeps Binance vs OKX comparison and internal
   `);
   const { html } = JSON.parse(output);
 
-  assert.match(html, /href="\/compare\/binance-vs-okx\?market=GLOBAL&amp;product=spot"/);
-  assert.match(html, /href="\/exchanges\/okx\?market=GLOBAL&amp;product=spot#registration-path"/);
-  assert.doesNotMatch(html, /href="\/exchanges\/binance\?market=GLOBAL&amp;product=spot#registration-path"/);
+  assert.match(html, /href="\/compare\/binance-vs-okx#nxa-context\?market=GLOBAL&amp;product=spot"/);
+  assert.match(html, /href="\/exchanges\/okx#registration-path\?market=GLOBAL&amp;product=spot"/);
+  assert.doesNotMatch(html, /href="\/exchanges\/binance#registration-path\?market=GLOBAL&amp;product=spot"/);
   assert.match(html, /data-next-decision-action="compare"/);
   assert.match(html, /data-cta-placement="news-detail-venue-card"/);
   assert.doesNotMatch(html, protectedMaterial);
@@ -112,10 +113,10 @@ test("R46 Hyperliquid news bridge sends readers to derivatives guide and side-by
   `);
   const { html } = JSON.parse(output);
 
-  assert.match(html, /href="\/compare\/hyperliquid-vs-dydx\?market=GLOBAL&amp;product=perpetuals"/);
-  assert.match(html, /href="\/topics\/derivatives\?market=GLOBAL&amp;product=perpetuals"/);
-  assert.match(html, /href="\/exchanges\/hyperliquid\?market=GLOBAL&amp;product=perpetuals#registration-path"/);
-  assert.match(html, /href="\/exchanges\/dydx\?market=GLOBAL&amp;product=perpetuals#registration-path"/);
+  assert.match(html, /href="\/compare\/hyperliquid-vs-dydx#nxa-context\?market=GLOBAL&amp;product=perpetuals"/);
+  assert.match(html, /href="\/topics\/derivatives#nxa-context\?market=GLOBAL&amp;product=perpetuals"/);
+  assert.match(html, /href="\/exchanges\/hyperliquid#registration-path\?market=GLOBAL&amp;product=perpetuals"/);
+  assert.match(html, /href="\/exchanges\/dydx#registration-path\?market=GLOBAL&amp;product=perpetuals"/);
   assert.doesNotMatch(html, protectedMaterial);
 });
 

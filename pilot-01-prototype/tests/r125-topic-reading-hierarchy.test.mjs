@@ -42,7 +42,7 @@ test('R125 topic bridge keeps context props and tracking identity intact', () =>
 
 test('R125 topic mobile hero is tightened without hiding H1 or source sections', () => {
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.topic-header \{[\s\S]*margin-bottom:\s*1rem;/, 'mobile header spacing is tightened');
-  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.topic-header__title \{[\s\S]*font-size:\s*clamp\(1\.45rem,\s*8vw,\s*2\.05rem\);[\s\S]*line-height:\s*1\.16;/, 'mobile H1 scale is bounded');
+  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.topic-header__title \{[\s\S]*font-size:\s*clamp\(1\.45rem,\s*8vw,\s*2\.05rem\);[\s\S]*line-height:\s*var\(--lh-head,\s*1\.15\);/, 'mobile H1 scale is bounded');
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.topic-header__subtitle \{[\s\S]*margin-bottom:\s*0\.7rem;/, 'mobile subtitle spacing is compact');
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*body \.v2-page\.topic-guide-page \.topic-header__subtitle \{[\s\S]*font-size:\s*16px !important;/, 'mobile subtitle size uses high-specificity topic-page rule over global V3 prose rules');
   assert.doesNotMatch(css, /\.topic-header__title\s*\{[^}]*display:\s*none/, 'H1 remains visible');

@@ -1,6 +1,27 @@
-import {skipApprovedAdded} from './helpers/r237-approved-inverses.mjs';
-import {assertProjectedTree,projectApproved,projectNewsBotPlugin} from './helpers/r237-approved-inverses.mjs';
-import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';import vm from 'node:vm';import {build} from 'esbuild';import postcss from 'postcss';import crypto from 'node:crypto';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+import vm from 'node:vm';
+import {build} from 'esbuild';
+import postcss from 'postcss';
+import crypto from 'node:crypto';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("fixtures/r237-approved-inverses.json", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
+const { skipApprovedAdded: skipApprovedAdded } = await import("./helpers/r237-approved-inverses.mjs");
+const { assertProjectedTree: assertProjectedTree, projectApproved: projectApproved, projectNewsBotPlugin: projectNewsBotPlugin } = await import("./helpers/r237-approved-inverses.mjs");
+
 const root=fileURLToPath(new URL('../',import.meta.url)),base=fileURLToPath(new URL('../../../r236-news-original-direction/candidate/',import.meta.url)),require=createRequire(import.meta.url),React=require('react'),{renderToStaticMarkup}=require('react-dom/server'),file='src/components/v3/news/news-detail-page.css',read=(r,f)=>{const text=fs.readFileSync(path.join(r,f),'utf8');return r===root&&f===file?projectApproved(f,text,'r273-final-experience-integration'):text;};
 const before="\n/* R236: original-language prose direction is independent of interface direction. */\n.news-detail-page [data-news-content-locale=\"en\"] .news-detail__prose,\n.news-detail-page [data-news-content-locale=\"zh-Hans\"] .news-detail__prose,\n.news-detail-page [data-news-content-locale=\"zh-Hant\"] .news-detail__prose {\n  direction: ltr;\n  text-align: start;\n}\n";const tail="\n/* R238: source prose direction excludes localized sources and table guidance. */\n.news-detail-page [data-news-content-locale=\"en\"] .news-detail__prose--lead,\n.news-detail-page [data-news-content-locale=\"en\"] .news-detail__prose--deep,\n.news-detail-page [data-news-content-locale=\"zh-Hans\"] .news-detail__prose--lead,\n.news-detail-page [data-news-content-locale=\"zh-Hans\"] .news-detail__prose--deep,\n.news-detail-page [data-news-content-locale=\"zh-Hant\"] .news-detail__prose--lead,\n.news-detail-page [data-news-content-locale=\"zh-Hant\"] .news-detail__prose--deep {\n  direction: ltr;\n  text-align: start;\n}\nhtml[dir=\"rtl\"] .news-detail-page .news-detail__table-hint {\n  direction: rtl;\n  text-align: start;\n}\n";
 class FixedDate extends Date{constructor(...a){super(...(a.length?a:[1791190800000]));}static now(){return 1791190800000;}}
@@ -10,3 +31,4 @@ for(const locale of ['en','zh-Hans','zh-Hant','ja','ko','tr','ar','es','pt-BR','
 test('exact replacement inverse keeps all other CSS and excludes generic sources/local brief',()=>{const css=read(root,file),old=read(base,file);assert.ok(css.endsWith(tail));assert.ok(old.endsWith(before));assert.equal(css.slice(0,-tail.length),old.slice(0,-before.length));const rules=postcss.parse(tail).nodes.filter(n=>n.type==='rule');assert.equal(rules.length,2);assert.deepEqual(rules[0].selector.split(',').map(x=>x.trim()),['en','zh-Hans','zh-Hant'].flatMap(l=>['lead','deep'].map(k=>`.news-detail-page [data-news-content-locale="${l}"] .news-detail__prose--${k}`)));assert.equal(rules[1].selector,'html[dir="rtl"] .news-detail-page .news-detail__table-hint');const declarations=rules.map(rule=>{const d={};rule.walkDecls(x=>{assert.equal(Boolean(x.important),false);d[x.prop]=x.value;});return d;});assert.deepEqual(declarations,[{direction:'ltr','text-align':'start'},{direction:'rtl','text-align':'start'}]);assert.doesNotMatch(rules.map(r=>r.selector).join(','),/\.news-detail__prose(?:\s|,|\{)|first-decision|local-brief|sources|font-|padding|margin|overflow/);});
 test('real Arabic sources and table guidance remain localized; original English table preserved',()=>{const html=renderToStaticMarkup(React.createElement(a.NewsDetailPage,{slug:tableArticle.slug,locale:'ar',initialArticles:[a.normalizeNewsArticle(tableArticle)]}));assert.match(html,/<section class="news-detail__prose news-detail__sources" aria-labelledby="article-sources">/);assert.match(html,/<h2 id="article-sources">المصادر<\/h2>/);assert.match(html,/<p class="news-detail__table-hint" id="news-table-hint-\d+">[^<]+<\/p>/);assert.ok(html.includes('جدول المقال: مرّر أفقيًا أو انقل التركيز إلى منطقة الجدول واستخدم مفاتيح الأسهم.'));assert.match(html,/data-news-content-locale="en"/);assert.match(html,/<th scope="col">/);const source=read(root,'src/components/v3/news/NewsDetailPage.jsx');assert.match(source,/<div className="news-detail__table-block" key=\{index\}>[\s\S]*?className="news-detail__table-hint"[\s\S]*?t.tableScrollHint[\s\S]*?className="news-detail__table-scroll"/);assert.equal(projectApproved('src/components/v3/news/NewsDetailPage.jsx',source,'r235-compare-condition-completeness'),read(base,'src/components/v3/news/NewsDetailPage.jsx'));});
 test('protected src/config/public exact except scoped CSS and mutation negatives enforce UI boundary',()=>{const changes=[];function walk(dir){for(const e of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())walk(f);else if(e.isFile()){if(skipApprovedAdded(f,fs.readFileSync(path.join(root,f))))continue;assert.ok(fs.existsSync(path.join(base,f)));if((f===file?read(root,f):projectApproved(f,read(root,f),'r235-compare-condition-completeness'))!==read(base,f))changes.push(f);}}}for(const area of ['src','config','public'])walk(area);assert.deepEqual(changes,[file]);assertProjectedTree(root,base,'r235-compare-condition-completeness',[file]);assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'src/data/partner-registry.js'))).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');function exact(t){assert.equal(t,tail);}for(const mutated of [tail.replace('prose--lead','prose'),tail.replace('direction: rtl','direction: ltr'),tail.replace('"en"','"ar"')])assert.throws(()=>exact(mutated));});
+}

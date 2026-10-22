@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r193-desktop-hero-composition/candidate/src/components/v3/LeanHero.jsx", import.meta.url);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -94,7 +97,7 @@ function findNode(node, predicate) {
   return found;
 }
 
-test('R195 non-matching chooser query shows empty state instead of fallback venues while keeping selected registration card', () => {
+test('R195 non-matching chooser query shows empty state instead of fallback venues while keeping selected registration card', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const html = panel('en', 'zzzz-no-platform', 'binance', 'direct', true);
   assert.equal(optionCount(html), 0, 'no fallback platform options appear for a real zero-match query');
   assert.match(chooser(html), /No matching platform in this shortlist\./);
@@ -104,14 +107,14 @@ test('R195 non-matching chooser query shows empty state instead of fallback venu
   assert.ok(anchors(html).some((anchor) => anchor.includes('ref=11350287')), 'selected Binance invite href remains visible outside chooser');
 });
 
-test('R195 default and matching query counts stay unchanged', () => {
+test('R195 default and matching query counts stay unchanged', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   assert.equal(optionCount(panel('en', '', 'binance', 'direct', true)), 4, 'empty query keeps four common options');
   const matched = panel('en', 'e', 'binance', 'direct', true);
   assert.equal(optionCount(matched), 6, 'matching query still expands to six options');
   for (const name of ['Binance','OKX','Bybit','Bitget','Gate.io','MEXC']) assert.match(chooser(matched), new RegExp(name.replace('.', '\\.')));
 });
 
-test('R195 empty-state copy is native for every supported locale', () => {
+test('R195 empty-state copy is native for every supported locale', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   for (const locale of locales) {
     const html = chooser(panel(locale, 'zzzz-no-platform', 'binance', 'direct', true));
     for (const text of expectedEmptyCopy[locale]) assert.ok(html.includes(text), `${locale} missing ${text}`);
@@ -119,7 +122,7 @@ test('R195 empty-state copy is native for every supported locale', () => {
   }
 });
 
-test('R195 clear-search button resets query and returns keyboard focus to the search input', () => {
+test('R195 clear-search button resets query and returns keyboard focus to the search input', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const treeHero = loadTreeModule();
   treeStates = ['zzzz-no-platform', 'binance', 'direct', true];
   treeIndex = 0;
@@ -141,7 +144,7 @@ test('R195 CSS gives the empty-state clear button a 44px touch target', () => {
   assert.equal(declarations['width'], '100%');
 });
 
-test('R195 protected registry and commercial anchors stay unchanged from R193 for non-empty states', () => {
+test('R195 protected registry and commercial anchors stay unchanged from R193 for non-empty states', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   assert.equal(createHash('sha256').update(read(current, 'src/data/partner-registry.js')).digest('hex'), '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
   for (const query of ['', 'e']) assert.deepEqual(anchors(panel('en', query, 'binance', 'direct', true)), anchors(renderToStaticMarkup(React.createElement(load(base, '\nexport { HomeDecisionPanel, getUi };').HomeDecisionPanel, { locale: 'en', ui: load(base, '\nexport { HomeDecisionPanel, getUi };').getUi('en') }))));
 });
@@ -165,13 +168,13 @@ function normalizeR195HomeCss(css) {
   return css.replace(/\.growth-platform-empty \{\n[\s\S]*?\.growth-platform-empty__clear:focus-visible \{\n  outline: 2px solid #8fb0ff;\n  outline-offset: 3px;\n\}\n\n/, '');
 }
 
-test('R195 LeanHero source inverse is exactly R193 except the empty-search feature', () => {
+test('R195 LeanHero source inverse is exactly R193 except the empty-search feature', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const currentSource = read(current, 'src/components/v3/LeanHero.jsx');
   const baseSource = read(base, 'src/components/v3/LeanHero.jsx');
   assert.equal(normalizeR195LeanHeroSource(currentSource), baseSource);
   assert.doesNotMatch(currentSource, /filtered\.length \? filtered : venues/, 'zero-match query must not use fallback venues');
 });
 
-test('R195 CSS inverse is exactly R193 except the empty-state rule block', () => {
+test('R195 CSS inverse is exactly R193 except the empty-state rule block', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   assert.equal(normalizeR195HomeCss(read(current, 'src/components/v3/growth-conversion.css')), read(base, 'src/components/v3/growth-conversion.css'));
 });

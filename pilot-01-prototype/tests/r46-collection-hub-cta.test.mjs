@@ -79,9 +79,10 @@ test("R46 factbook collection hub adds source-record research CTAs without outbo
   const { factbookEn } = await renderCollectionHubs();
 
   assert.match(factbookEn, /data-collection-hub="factbook"/);
-  assert.match(factbookEn, /href="\/factbook\/binance"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-placement="factbook-collection-hero-primary"/);
+  assert.doesNotMatch(factbookEn, /data-cta-placement="factbook-collection-hero-primary"/, "neutral source hub does not prefer one venue in its hero");
+  for (const slug of FACTBOOK_SLUGS) assert.ok(factbookEn.includes(`/factbook/${slug}`), `${slug} keeps its own research entry`);
   assert.match(factbookEn, /href="\/exchanges"[\s\S]*data-cta-placement="factbook-collection-hero-secondary"/);
-  assert.match(factbookEn, /data-growth-decision="factbook_source_record"/);
+  assert.match(factbookEn, /data-growth-decision="platform_directory"/);
   assert.equal((factbookEn.match(/data-cta-placement="factbook-collection-card"/g) || []).length, FACTBOOK_SLUGS.length);
   assertOnsiteResearchCtas(factbookEn);
 });

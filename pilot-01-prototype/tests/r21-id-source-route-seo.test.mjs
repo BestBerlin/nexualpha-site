@@ -9,7 +9,7 @@ import { regionalFundingRowsForMarket } from "../src/data/regional-funding-verif
 import { regionalAeoCoverageSummary } from "../src/data/regional-preview-copy.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
-import { routeMetadata } from "../worker/index.js";
+import worker, { routeMetadata } from "../worker/index.js";
 
 const forbiddenCommercialTokens = /https?:\/\/(?:www\.)?(?:bsmkweb|partner\.bitget|topzhjdgxcb)|nexu888|11350287|LUCKX|CANDY007|INS898|1836370407|luckybitcoin/i;
 
@@ -66,4 +66,21 @@ test("R21 /id is an Indonesian indexable owner page with client and Worker parit
     { hreflang: "id", href: "https://nexualpha.com/id" },
     { hreflang: "x-default", href: "https://nexualpha.com/id" },
   ]);
+});
+
+test('restored country roots stay separate from retired locale prefixes in inventory and Worker HTML', async () => {
+  const shell = '<!doctype html><html lang="en"><head><title>base</title></head><body><main>app</main></body></html>';
+  const env = { ASSETS: { fetch: async () => new Response(shell, { headers: { 'content-type': 'text/html; charset=utf-8' } }) } };
+  for (const [pathname, locale] of [['/id', 'id'], ['/jp', 'ja'], ['/kr', 'ko']]) {
+    const route = routeInventory([]).find((item) => item.pathname === pathname);
+    assert.equal(route?.template, 'regionalPreview');
+    assert.equal(route.index, true);
+    assert.deepEqual(route.locales, [locale]);
+    const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: 'text/html' } }), env);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    assert.ok(html.includes(`rel="canonical" href="https://nexualpha.com${pathname}"`), `${pathname} remains self canonical`);
+    assert.match(html, /name="robots" content="index,follow"/);
+    assert.ok(html.includes(`lang="${locale}"`), `${pathname} renders its owner locale`);
+  }
 });

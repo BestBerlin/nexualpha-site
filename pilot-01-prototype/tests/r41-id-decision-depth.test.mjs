@@ -55,13 +55,14 @@ test("R41 Indonesia handoff keeps onsite context and returns Telegram research t
   const html = await renderIndonesiaDecisionDepth();
 
   assert.match(html, /aria-label="ID research handoff"/);
-  assert.match(html, /href="\/id-id\/exchanges\?market=ID&amp;product=spot"/);
-  assert.match(html, /href="\/id-id\/rates\?market=ID&amp;product=spot"/);
-  assert.match(html, /href="\/id-id\/compare\/binance-vs-okx\?market=ID&amp;product=spot"/);
+  assert.match(html, /href="\/id-id\/exchanges#nxa-context\?market=ID&amp;product=spot"/);
+  assert.match(html, /href="\/id-id\/rates#nxa-context\?market=ID&amp;product=spot"/);
+  assert.match(html, /href="\/id-id\/compare\/binance-vs-okx#nxa-context\?market=ID&amp;product=spot"/);
   assert.match(html, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=/);
   assert.match(html, /data-telegram-market-context="ID"/);
   assert.match(html, /data-telegram-start="[^"]*m_ID[^"]*t_spot/);
-  assert.match(html, /data-telegram-return-href="\/id\?[^\"]*market=ID[^\"]*product=spot/);
+  assert.match(html, /data-telegram-start="[^"]+"/);
+  assert.doesNotMatch(html, /data-telegram-return-href=/);
   assert.doesNotMatch(html, forbiddenCommercialTokens);
   assert.doesNotMatch(html, forbiddenExchangeOutbound);
 });

@@ -29,16 +29,18 @@ for (const path of ["/", "/zh-hans", "/ru"]) {
   });
 }
 
-test("CTA home has no price terminal: the desktop device shows the /rates screen instead (owner 2026-10-14)", async () => {
+test("CTA home shows the rebate globe instead of a price terminal or device (owner 2026-10-22)", async () => {
   const html = await harness.render("https://nexualpha.com/", { ticker: SNAP });
   const dom = new JSDOM(html);
   const doc = dom.window.document;
   assert.equal(doc.querySelector(".h7-hero .h7-terminal"), null, "no BTC price terminal on the CTA hero");
-  const screen = doc.querySelector(".h7-hero .hx-screen");
-  assert.ok(screen, "desktop device screen is in the SSR hero");
-  assert.equal(screen.getAttribute("aria-hidden"), "true");
-  assert.match(screen.textContent, /nexualpha\.com\/rates/);
-  assert.doesNotMatch(screen.textContent, /BTC|\$82,576/, "no market prices on the device");
+  assert.equal(doc.querySelector(".h7-hero .hx-screen"), null, "retired device mockup stays absent");
+  const stage = doc.querySelector(".h7-hero .hx-stage-art");
+  assert.ok(stage, "rebate globe is in the SSR hero");
+  assert.equal(stage.getAttribute("aria-hidden"), "true");
+  assert.ok(stage.querySelector(".hx-globe-svg"), "static globe does not depend on client animation");
+  assert.ok(stage.querySelectorAll(".hx-stage-value[data-final-value]").length >= 3);
+  assert.doesNotMatch(stage.textContent, /BTC|\$82,576/, "no market prices in the rebate stage");
   dom.window.close();
 });
 

@@ -26,28 +26,15 @@ test.after(async () => {
   await vite?.close();
 });
 
-test("Week2 crawl path links expose GSC priority examples from the SSR homepage", async () => {
+test("home SSR exposes crawl paths through the fee comparison and current navigation", async () => {
   const html = await renderRoute("/");
 
-  assert.match(html, /data-crawl-priority-links="home"/);
+  assert.match(html, /<main[^>]*class="[^"]*home-refinement/);
   assertLinks(html, [
-    "/br/comparar",
-    "/br/conta",
-    "/br/custos",
-    "/br/kyc-cpf",
-    "/br/pix",
-    "/br/saque-pix",
-    "/compare/binance-vs-kraken",
-    "/compare/binance-vs-mexc",
-    "/compare/binance-vs-okx",
-    "/compare/bybit-vs-bitget",
-    "/compare/hyperliquid-vs-dydx",
-    "/compare/okx-vs-bybit",
-    "/compare/okx-vs-mexc",
-    "/rates",
-    "/topics/tokenized-assets",
-    "/topics/tokenized-stocks-vs-perpetuals",
-    "/topics/tokenized-treasuries",
+    "/exchanges",
+    "/compare",
+    "/academy",
+    "/news",
   ], "home SSR crawl links");
 });
 

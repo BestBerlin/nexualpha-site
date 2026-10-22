@@ -7,6 +7,15 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 const crawlPriorityLinks = Object.freeze({
+  // Root -> edition archive -> any archive page -> article stays within three clicks.
+  // This lazy module carries native labels; no news library joins the home entry graph.
+  editions: [
+    ["en", "English"], ["zh-Hans", "简体中文"], ["zh-Hant", "繁體中文"],
+    ["es", "Español"], ["pt-BR", "Português"], ["fr", "Français"],
+    ["de", "Deutsch"], ["it", "Italiano"], ["ja", "日本語"], ["ko", "한국어"],
+    ["tr", "Türkçe"], ["ru", "Русский"], ["id", "Bahasa Indonesia"],
+    ["vi", "Tiếng Việt"], ["ar", "العربية"],
+  ].map(([edition, label]) => [localizedHref("/news", { locale: edition }), label, edition]),
   brazil: [
     ["/br/comparar", "Brazil platform comparison"],
     ["/br/conta", "Brazil account route"],
@@ -25,6 +34,7 @@ const crawlPriorityLinks = Object.freeze({
     ["/compare/okx-vs-mexc", "OKX vs MEXC"],
   ],
   tools: [
+    ["/topics", "Topic research hubs"],
     ["/rates", "Exchange fee benchmark"],
   ],
   tokenized: [
@@ -76,6 +86,7 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     it: ["Confronto commissioni", "Centro degli asset tokenizzati", "Azioni tokenizzate e perpetui", "Checklist dei titoli di Stato tokenizzati"],
   }[locale] || ["Exchange fee benchmark", "Tokenized assets hub", "Tokenized stocks vs perpetuals", "Tokenized Treasuries checklist"];
   const labelOverrides = new Map([
+    ["/topics", copy.label],
     ["/rates", localizedLabels[0]],
     ["/topics/tokenized-assets", localizedLabels[1]],
     ["/topics/tokenized-stocks-vs-perpetuals", localizedLabels[2]],
@@ -90,7 +101,7 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     ] : []),
   ]);
   const groupsByScope = {
-    home: ["brazil", "compare", "tools", "tokenized"],
+    home: ["brazil", "compare", "tools", "tokenized", "editions"],
     directory: ["compare", "tools", "tokenized"],
     rates: ["compare", "tokenized"],
     // three groups like the directory, so the Related research grid keeps three columns (the fee benchmark is a real next step here)
@@ -98,7 +109,8 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     tokenized: ["compare", "tools"],
   };
   const groups = (groupsByScope[scope] || groupsByScope.home)
-    .filter((group) => group !== "brazil" || locale === "pt-BR" || locale === "en");
+    .filter((group) => group !== "brazil" || locale === "pt-BR" || locale === "en")
+    .filter((group) => group !== "editions" || locale === "en");
   return <nav className="crawl-priority-links v2-shell" data-crawl-priority-links={scope} aria-label={copy.label}>
     <details className="crawl-priority-links__details" open>
       <summary className="crawl-priority-links__intro">
@@ -108,14 +120,16 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
       </summary>
       <div className="crawl-priority-links__groups">
         {groups.map((group) => (
-          <div className="crawl-priority-links__group" key={group}>
-            <span>{copy[group]}</span>
-            {withoutTurkeyUnlisted([...crawlPriorityLinks[group], ...(group === "compare" && locale === "en" ? [
+          <div className="crawl-priority-links__group" key={group} data-news-editions={group === "editions" ? "" : undefined}>
+            <span>{group === "editions" ? "News by language" : copy[group]}</span>
+            {withoutTurkeyUnlisted([...crawlPriorityLinks[group], ...(group === "tools" && scope === "home" && locale === "en" ? [
+              ["/coins", "Coin research"], ["/licenses", "Exchange licenses"], ["/convert/btc-to-usd", "Crypto converter"],
+            ] : []), ...(group === "compare" && locale === "en" ? [
               ["/us", "US exchange research"], ["/id", "Indonesia exchange research"], ["/tw", "Taiwan exchange research"],
               ["/topics/bybit-alternatives", "Bybit alternatives"],
               ["/topics/brazil-crypto-exchange-deadline-2026", "Brazil exchange authorization deadline"],
-            ] : [])], { locale }, ([href]) => href).map(([href, label]) => (
-              <a key={href} href={href.startsWith("/br") ? href : localizedHref(href, { locale })}>{labelOverrides.get(href) || label}</a>
+            ] : [])], { locale }, ([href]) => href).map(([href, label, edition]) => (
+              <a key={href} lang={edition} hrefLang={edition} href={edition || href.startsWith("/br") ? href : localizedHref(href, { locale })}>{labelOverrides.get(href) || label}</a>
             ))}
           </div>
         ))}

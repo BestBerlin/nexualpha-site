@@ -1,3 +1,4 @@
+import { outboundLink, sourceDomain } from '../src/data/exchange-outbound.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { build } from 'esbuild';
@@ -43,7 +44,11 @@ for (const locale of ['en', 'zh-Hans', 'zh-Hant']) {
       const visible = body.replaceAll('&amp;', '&').replaceAll('&#x27;', "'").replaceAll('&quot;', '"');
       assert.ok(visible.includes(question.name));
       assert.ok(visible.includes(question.acceptedAnswer.text));
-      for (const url of question.acceptedAnswer.citation) assert.ok(body.includes(url));
+      for (const url of question.acceptedAnswer.citation) {
+        const link = outboundLink(url, { locale });
+        if (link) assert.ok(visible.includes(link.href), `${locale}: attributed official source ${url}`);
+        else assert.ok(body.includes(`data-source-plain="${sourceDomain(url)}"`), `${locale}: explicit official source domain remains visible`);
+      }
     }
     for (const faq of TOPIC_GUIDES['compliant-exchanges'].faqs) {
       for (const source of faq.sources) {

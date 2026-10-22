@@ -48,7 +48,7 @@ function escapeAttribute(value) {
   return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 }
 
-test("R48 news list SSR shows four cards while retaining indexable article links", async () => {
+test("R48 news list SSR exposes one lead and complete day rows for the current page", async () => {
   const { html, slugs } = await renderStaticPayload(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
@@ -77,16 +77,16 @@ test("R48 news list SSR shows four cards while retaining indexable article links
     }));
   `);
 
-  assert.equal(countMatches(html, /class="news-article-card"/g), 4, "SSR renders four full article cards by default");
-  assert.match(html, /id="news-article-grid" data-visible-count="4"/, "visible grid exposes the four-card mobile default");
-  assert.match(html, /class="news-articles-toggle"[^>]*aria-expanded="false"/, "show-more control starts collapsed");
-  assert.match(html, /id="news-research-index"[^>]*data-ssr-indexable="true"/, "research index declares the SSR indexability bridge");
+  assert.equal(countMatches(html, /data-news-lead=/g), 1, 'one prominent lead story');
+  assert.equal(countMatches(html, /data-news-row=/g), slugs.length - 1, 'every remaining page article is a day row');
+  assert.match(html, /id="news-article-grid" data-visible-count="7"/, 'whole page is visible without the retired four-card collapse');
+  assert.doesNotMatch(html, /class="news-articles-toggle"/, 'no unnecessary show-more control for a complete short page');
   for (const slug of slugs) {
     assert.match(html, new RegExp(`/news/${slug}`), `research index keeps ${slug} linked in SSR`);
   }
 });
 
-test("R48 compare pages expose mobile quick choices before long comparison evidence without duplicating referrals", async () => {
+test("R48 compare pages expose two hero choices before evidence without duplicating referral handoffs", async () => {
   const { html } = await renderStaticPayload(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
@@ -107,25 +107,20 @@ test("R48 compare pages expose mobile quick choices before long comparison evide
     }));
   `);
 
-  const quick = firstIndex(html, 'class="v3-compare-quick-actions"', "compare quick actions");
-  const finalChoice = firstIndex(html, 'class="v3-compare-final-choice-card"', "compare final choice");
-  const versus = firstIndex(html, 'id="compare-versus-card"', "compare versus");
+  const hero = firstIndex(html, 'class="v3-compare-hero-actions"', 'compare hero actions');
+  const matrix = firstIndex(html, 'id="hardcore-matrix"', 'comparison evidence');
+  assert.ok(hero < matrix, 'two actionable choices precede the full evidence matrix');
+  assert.equal(countMatches(html, /data-cta-placement="compare-hero-signup"/g), 2);
+  assert.equal(countMatches(html, /data-cta-placement="compare-sticky-registration"/g), 2);
+  for (const slug of ['bitget', 'bybit']) {
+    assert.equal(countMatches(html, new RegExp(`href="/go/${slug}\\?`, 'g')), 4, `${slug} retains exactly the reviewed hero, sticky, final-choice and verdict handoffs`);
+  }
 
-  assert.ok(quick < finalChoice, "mobile quick CTA strip appears before final choice card");
-  assert.ok(quick < versus, "mobile quick CTA strip appears before long versus evidence");
-  assert.equal(countMatches(html, /data-cta-placement="compare-mobile-quick-choice"/g), 2, "quick strip keeps one onsite decision choice per compared venue");
-  assert.equal(countMatches(html, /href="#compare-final-choice"/g), 2, "quick choices move to the existing final-choice card");
-  assert.match(html, /data-cta-placement="compare-final-choice-registration"/, "existing final-choice registration CTA remains");
-  assert.match(html, /data-cta-placement="compare-hero-versus"/, "existing versus CTA remains");
-
-  assert.equal(countMatches(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/g), 3, "Bitget referral route is not duplicated");
-  assert.equal(countMatches(html, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/g), 3, "Bybit referral route is not duplicated");
 });
 
-test("R48 mobile compression CSS keeps the quick strip mobile-only and compacts dense compare blocks", async () => {
+test("R48 mobile compression preserves full readable comparison copy and compact hero spacing", async () => {
   const css = await readFile(path.join(projectRoot, "src/components/v3/crossroads-compare.css"), "utf8");
-  assert.match(css, /\.v3-compare-quick-actions\s*{\s*display:\s*none;/, "quick actions are hidden outside the mobile breakpoint");
-  assert.match(css, /@media \(max-width:\s*680px\)[\s\S]*\.v3-compare-quick-actions\s*{[\s\S]*display:\s*grid;/, "quick actions become visible on mobile");
-  assert.match(css, /@media \(max-width:\s*680px\)[\s\S]*\.v3-compare-page \.v3-versus-fit[\s\S]*-webkit-line-clamp:\s*2;/, "versus fit copy is line-clamped on mobile");
-  assert.match(css, /@media \(max-width:\s*680px\)[\s\S]*\.v3-compare-page \.v3-page-hero[\s\S]*padding-block:\s*0\.9rem 1rem;/, "compare hero vertical padding is compacted on mobile");
+  assert.match(css, /@media \(max-width:\s*680px\)[\s\S]*\.v3-compare-page \.v3-page-hero[\s\S]*padding-block:\s*0\.9rem 1rem;/);
+  assert.match(css, /\.v3-versus-fit\s*\{[^}]*line-height:/);
+  assert.doesNotMatch(css, /\.v3-compare-page \.v3-versus-fit\s*\{[^}]*-webkit-line-clamp:/, 'comparison conditions remain complete on mobile');
 });

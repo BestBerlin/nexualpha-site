@@ -33,11 +33,11 @@ test("Wave46 Hyperliquid route answers the fees and funded-account GSC intents i
 
   assert.equal(client.status, 200);
   assert.equal(worker.robots, "index,follow");
-  assert.match(client.description, /rolling 14-day fee tiers/);
+  assert.match(clientText, /rolling 14-day volume/);
   assert.match(clientText, /hourly peer-to-peer funding/);
   assert.match(clientText, /self-funded wallet collateral/);
-  assert.match(clientText, /capital-allocation program/);
-  assert.match(workerText, /rolling 14-day maker\/taker fee tier/);
+  assert.match(clientText, /third-party capital allocation offer/);
+  assert.match(workerText, /maker\/taker fee tier based on rolling 14-day volume/);
   assert.match(workerText, /funding is separate from maker\/taker trading fees/i);
   assert.ok(clientFaq.mainEntity.length >= 5);
   assert.ok(workerFaq.mainEntity.length >= 5);
@@ -68,7 +68,7 @@ test("Wave46 Worker HTML keeps route schema extractable after Hyperliquid answer
 
   assert.equal(response.status, 200);
   assert.match(html, /<script id="nexualpha-route-schema" type="application\/ld\+json">/);
-  assert.match(html, /rolling 14-day maker\/taker fee tier/);
+  assert.match(html, /maker\/taker fee tier based on rolling 14-day volume/);
   assert.match(html, /hourly peer-to-peer funding/);
   assert.doesNotMatch(html, /private commission|commission rate|guaranteed funded account/i);
 });

@@ -1,6 +1,7 @@
+import { REFERRAL_PARTNERS } from '../src/data/referral-partners.generated.js';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -63,9 +64,16 @@ test("localized title builders preserve exact query text", () => {
   );
 });
 
-test("missing benefit never invents a rebate percentage", () => {
+test("missing benefit never invents a rebate percentage", async () => {
+  // Isolate the missing-terms branch from subsequently confirmed live terms.
+  const sourceUrl=new URL('../src/data/referral-native.js',import.meta.url);
+  const fixture=REFERRAL_PARTNERS.map(({share,termsConfirmedOn,...partner})=>partner);
+  let source=(await readFile(sourceUrl,'utf8')).replace(/import \{ REFERRAL_PARTNERS \} from ['"][^'"]+['"];?/, 'const REFERRAL_PARTNERS='+JSON.stringify(fixture)+';');
+  source=source.replace(/from (['"])(\.[^'"]+)\1/g,(_,q,p)=>'from '+JSON.stringify(new URL(p,sourceUrl).href));
+  const {nativeReferralFor:withoutTerms}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+
   for (const slug of ["bybit", "coinw", "kraken"]) {
-    const data = nativeReferralFor(slug, "en");
+    const data = withoutTerms(slug, "en");
     assert.ok(data, `${slug} native answer exists`);
     assert.equal(data.benefit, data.copy.noBenefit);
     assert.doesNotMatch(data.benefit, /%/);

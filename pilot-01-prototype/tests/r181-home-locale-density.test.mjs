@@ -1,5 +1,24 @@
-import {withoutR180Only} from './r180-source-scope.mjs';
-import test from'node:test';import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createRequire}from'node:module';import{fileURLToPath}from'node:url';import path from'node:path';import vm from'node:vm';import{createHash}from'node:crypto';
+import test from'node:test';
+import assert from'node:assert/strict';
+import{readFileSync}from'node:fs';
+import{createRequire}from'node:module';
+import{fileURLToPath}from'node:url';
+import path from'node:path';
+import vm from'node:vm';
+import{createHash}from'node:crypto';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("../../../r176-editorial-mobile-integration/candidate/src/components/v3/LeanHero.jsx", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
+const { withoutR180Only: withoutR180Only } = await import("./r180-source-scope.mjs");
+
 const req=createRequire(import.meta.url),React=req('react'),{renderToStaticMarkup:render}=req('react-dom/server'),{buildSync}=req('esbuild'),base=new URL('../../../r176-editorial-mobile-integration/candidate/',import.meta.url),root=process.env.R181_BASELINE==='1'?base:new URL('../',import.meta.url),read=(r,p)=>readFileSync(new URL(p,r),'utf8');let states=null,index=0;class FixedDate extends Date{constructor(...a){super(...(a.length?a:[1791172800000]));}static now(){return 1791172800000;}}const hooks={...React,useState:init=>states&&index<states.length?[states[index++],()=>{}]:React.useState(init)};
 function load(r,f,extra=''){const p=fileURLToPath(new URL(f,r)),o=buildSync({stdin:{contents:read(r,f)+extra,resolveDir:path.dirname(p),loader:'jsx'},jsx:'automatic',bundle:true,write:false,platform:'node',format:'cjs',external:['react','react/jsx-runtime'],loader:{'.css':'empty'}}).outputFiles[0].text,m={exports:{}};vm.runInNewContext(o,{module:m,exports:m.exports,require:n=>n==='react'?hooks:req(n),URL,URLSearchParams,Intl,Date:FixedDate,setTimeout,clearTimeout,console});return m.exports;}
 const old=load(base,'src/components/v3/LeanHero.jsx','\nexport {HomeDecisionPanel,getUi};'),now=load(root,'src/components/v3/LeanHero.jsx','\nexport {HomeDecisionPanel,getUi};'),oldReg=load(base,'src/components/v3/RegistrationCard.jsx').RegistrationCard,newReg=load(root,'src/components/v3/RegistrationCard.jsx').RegistrationCard;
@@ -12,3 +31,4 @@ test('registration optional short signup is ignored outside valid compact invita
 test('source inverse restores entire registration and hero outside authorized function; registry/gates/CSS unchanged',()=>{const a=read(base,'src/components/v3/LeanHero.jsx'),b=read(root,'src/components/v3/LeanHero.jsx'),start=x=>x.indexOf('function HomeDecisionPanel('),end=x=>x.indexOf('\nexport function LeanHero(');assert.equal(b.slice(0,start(b)),a.slice(0,start(a)));assert.equal(b.slice(end(b)),a.slice(end(a)));const reg=read(root,'src/components/v3/RegistrationCard.jsx').replace(', compactCopyAriaLabel, compactSignupLabel })',', compactCopyAriaLabel })').replace('\n        aria-label={compactInviteTask && compactSignupLabel ? compactInviteTask.action : undefined}','').replace('(compactSignupLabel || compactInviteTask.action)','compactInviteTask.action');assert.equal(withoutR180Only(reg),read(base,'src/components/v3/RegistrationCard.jsx'));for(const f of['src/App.jsx','src/components/v3/growth-conversion.css','src/components/v3/registration-card.css','src/data/partner-registry.js','src/data/source-bound-cta.js','src/components/v3/registration-decision-state.js'])assert.equal(read(root,f),read(base,f),f);assert.equal(createHash('sha256').update(read(root,'src/data/partner-registry.js')).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');});
 
 test('inverse exact authorized home-label hunks restore entire LeanHero including unchanged handlers',()=>{let s=read(root,'src/components/v3/LeanHero.jsx');const begin=s.indexOf('  const compactHomeTaskCopy = {',s.indexOf('function HomeDecisionPanel(')),end=s.indexOf('  const localeBase = String(locale || "en").split("-")[0];',begin);assert.ok(begin>=0&&end>begin);s=s.slice(0,begin)+s.slice(end);s=s.replace('  const compactHomeTask = compactHomeTaskCopy[locale] || compactHomeTaskCopy[localeBase];\n  const fullChooserTaskLabel = platformChooserTaskCopy[locale] || platformChooserTaskCopy[localeBase] || platformChooserTaskCopy.en;\n  const chooserTaskLabel = compactHomeTask?.change || fullChooserTaskLabel;','  const chooserTaskLabel = platformChooserTaskCopy[locale] || platformChooserTaskCopy[localeBase] || platformChooserTaskCopy.en;').replace(' : compactHomeTask ? `${selected.name}: ${fullChooserTaskLabel}` : undefined;',' : undefined;').replace(' : compactHomeTask?.copy;',' : undefined;').replace(' : compactHomeTask?.copyFull;',' : undefined;').replace('                  compactSignupLabel={compactHomeTask?.signup}\n','');assert.equal(s,read(base,'src/components/v3/LeanHero.jsx'));});
+}

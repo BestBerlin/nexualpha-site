@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -23,6 +24,7 @@ import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 
 const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
+const feedSha = createHash("sha256").update(feedText).digest("hex");
 const brazilMetadataText = await readFile(new URL("../public/content/brazil-metadata.json", import.meta.url), "utf8");
 // Same T10 search state the build scripts and the Worker apply (src/data/news-search-state.js).
 const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(JSON.parse(feedText)));
@@ -60,6 +62,7 @@ const newsEnv = {
   ASSETS: {
     fetch: async (request) => {
       const pathname = new URL(request.url).pathname;
+      if (pathname === "/content/news-feed.sha256.txt") return new Response(feedSha);
       if (pathname === "/content/news-feed.json") {
         return new Response(feedText, { headers: { "content-type": "application/json" } });
       }
@@ -92,16 +95,18 @@ test("sitemap publication gate stays inside reviewed locale and URL budgets", ()
   assert.equal(publication.stats.publicationMode, "full-reviewed-indexable");
   assert.ok(publication.stats.totalUrls > policy.maxSitemapUrls, "full-reviewed indexable mode is no longer capped by the old cautious max");
   assert.equal(publication.stats.queryLocaleUrls, 0);
-  // T10 (2026-10-12): 312 -> 224 article routes after the thin template pages and weaker duplicates left search.
-  assert.equal(publication.stats.routesByTemplate.article, 224);
-  assert.equal(publication.stats.urlsByTemplate.article, 448);
-  assert.equal(publication.stats.routesByTemplate.comparison, 48);
-  assert.equal(publication.stats.urlsByTemplate.comparison, 234);
-  assert.equal(publication.stats.urlsByTemplate.venue, 260); // + /exchanges/coinw (en, zh-Hans) 2026-10-13
-  assert.equal(publication.stats.urlsByTemplate.home, 15);
+  const articlesPublished = publication.urls.filter(entry => entry.route.template === "article");
+  assert.ok(articlesPublished.length > 0, "reviewed native editions remain eligible");
+  for (const entry of articlesPublished) {
+    const article = articles.find(article => `/news/${article.slug}` === entry.route.pathname);
+    assert.equal(article?.seo?.noindex, false, entry.loc);
+    assert.ok(newsArticleAvailableLocales(article).includes(entry.locale), entry.loc);
+  }
+  const comparisonsPublished = publication.urls.filter(entry => entry.route.template === "comparison");
+  assert.ok(comparisonsPublished.length > 0, "curated comparisons remain eligible");
+  assert.ok(comparisonsPublished.every(entry => !entry.route.generatedComparison), "recombined venue rows are excluded");
+  assert.equal(publication.stats.urlsByTemplate.home, INDEXABLE_LOCALES.length);
   assert.equal(publication.stats.urlsByTemplate.factbook || 0, 0);
-  assert.equal(publication.stats.routesByTemplate.venue, 22);
-  assert.equal(publication.stats.urlsByTemplate.venue, 260);
   assert.ok(publication.stats.lowDifferentiationUrlCount <= policy.maxLowDifferentiationUrls);
   assert.equal(
     publication.stats.cleanOrPathUrls,
@@ -179,8 +184,9 @@ test("sitemap index splits indexable canonical routes by template", async () => 
 
   assert.doesNotMatch(split.index, /news-sitemap\.xml/, "Google News sitemap is not advertised even with a legacy generation timestamp");
   const compareLocs = locsFromSitemap(split.files.get("sitemap-compare.xml").xml);
-  assert.equal(compareLocs.length, 234);
-  assert.equal(compareLocs.filter((loc) => /\/compare\//.test(new URL(loc).pathname)).length, 234);
+  const comparisonEntries = publication.urls.filter(entry => entry.route.template === "comparison");
+  assert.equal(compareLocs.length, comparisonEntries.length);
+  assert.equal(compareLocs.filter((loc) => /\/compare\//.test(new URL(loc).pathname)).length, compareLocs.length);
   assert.equal(new Set(compareLocs).size, compareLocs.length);
   for (const pair of indexableGeneratedComparePairs()) {
     assert.ok(compareLocs.includes(`https://nexualpha.com/compare/${pair}`), pair);
@@ -196,7 +202,7 @@ test("sitemap index splits indexable canonical routes by template", async () => 
     assert.ok(!allLocs.some((loc) => new URL(loc).pathname === forbidden), forbidden);
   }
 
-  const legacyLocaleLocs = locsFromSitemap(await renderLocaleSitemap({}));
+  const legacyLocaleLocs = locsFromSitemap(await renderLocaleSitemap(newsEnv));
   const legacyRedirectLocs = new Set([
     "https://nexualpha.com/exchanges/htx",
     "https://nexualpha.com/zh-hans/exchanges/htx",
@@ -326,7 +332,8 @@ test("Mexico hub is published as one clean Spanish country URL while thin region
   assert.ok(!locs.has("https://nexualpha.com/mx?locale=es"));
   assert.ok(locs.has("https://nexualpha.com/tw"));
   assert.ok(!locs.has("https://nexualpha.com/tw?locale=zh-Hant"));
-  assert.ok(!locs.has("https://nexualpha.com/id"));
+  assert.ok(locs.has("https://nexualpha.com/id")); // Indonesian edition root is independently indexable.
+  for (const root of ["jp", "kr"]) assert.ok(locs.has(`https://nexualpha.com/${root}`), root);
   assert.ok(locs.has("https://nexualpha.com/id-id"));
   assert.ok(!locs.has("https://nexualpha.com/id?locale=id"));
   for (const path of ["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/int"]) {

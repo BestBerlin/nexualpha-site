@@ -1,3 +1,4 @@
+import { decisionContextSearchFromUrl } from '../src/data/decision-passport.js';
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -25,8 +26,8 @@ test("English selector navigation from Spanish/MX compare returns the clean Engl
   const url = new URL(href, "https://nexualpha.com");
 
   assert.equal(url.pathname, "/compare/binance-vs-okx");
-  assert.equal(url.searchParams.get("market"), "MX");
-  assert.equal(url.searchParams.get("product"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("market"), "MX");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("product"), "spot");
   assert.equal(url.searchParams.get("locale"), null);
   assert.equal(parsePublicRoute(url.pathname, url.searchParams).locale, "en");
   assert.equal(parsePublicRoute(url.pathname, url.searchParams).localeSource, "default");
@@ -40,7 +41,7 @@ test("App readLocale prioritizes clean English generic routes before market fall
   assert.notEqual(defaultRule, -1, "generic English default rule is present");
   assert.notEqual(marketPolicy, -1, "market policy fallback is still present");
   assert.ok(defaultRule < marketPolicy, "generic root routes remain English before market fallback");
-  assert.match(app, /GENERIC_ENGLISH_DEFAULT_PREFIXES = \["\/exchanges", "\/compare", "\/topics", "\/factbook", "\/activities", "\/news", "\/markets"\]/);
+  assert.match(app, /GENERIC_ENGLISH_DEFAULT_PREFIXES = \[[^\]]*"\/exchanges", "\/compare", "\/topics", "\/factbook", "\/activities", "\/news", "\/markets"[^\]]*\]/);
 });
 
 test("country-owned routes still use regional locale authority", () => {

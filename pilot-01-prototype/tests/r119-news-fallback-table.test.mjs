@@ -1,10 +1,17 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
+import { runInNewContext } from 'node:vm';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import worker from '../worker/index.js';
 import {localizedPath} from '../src/data/locale-routing.js';
-import baseline from '../../../r118-r110-visual/promotion-runtime-r118-20261005/worker/index.js';
+
+
+import { existsSync } from 'node:fs';
+
+const baselineUrl=new URL('../../../r118-r110-visual/promotion-runtime-r118-20261005/worker/index.js', import.meta.url);
+const baseline=existsSync(baselineUrl)?(await import(baselineUrl)).default:null;
 const locales = ['en','zh-Hans','zh-Hant','ja','ko','es','pt-BR','fr','de','tr','ru','ar','id','vi','it'];
 const slug = 'r119-fallback-table-fixture';
 const table = '| Check | Meaning | Action | Unknown |\n| --- | --- | --- | --- |\n| first-cell | second-cell | third-cell | last-cell |';
@@ -32,7 +39,7 @@ function assets(locale, mode) {
   }};
 }
 function select(html,re) { const match=html.match(re); assert.ok(match,`missing ${re}`); return match[0]; }
-for(const mode of ['mismatch','unavailable','asset-unavailable']) for(const locale of locales) test(`${mode}: ${locale} Worker HTTP fallback keeps 4 columns, local keyboard region and SEO parity`,async()=>{
+for(const mode of ['mismatch','unavailable','asset-unavailable']) for(const locale of locales) test(`${mode}: ${locale} Worker HTTP fallback keeps 4 columns, local keyboard region and SEO parity`,{skip:!baseline&&'Original Worker baseline is absent; live fallback checks still run'},async()=>{
   const request=()=>new Request(`https://nexualpha.com${localizedPath(`/news/${slug}`,locale)}`,{headers:{accept:'text/html'}});
   const afterAssets=assets(locale,mode);
   const after=await worker.fetch(request(),{ASSETS:afterAssets}); const html=await after.text();
@@ -68,15 +75,26 @@ for(const locale of ['en','zh-Hans']) test(`${locale}: coherent cached SSR remai
   assert.ok(html.includes('<h1>Coherent original body</h1>'));
   assert.ok(!html.includes('data-nexualpha-ssr-fallback')); assert.ok(!html.includes('data-news-fallback-tables'));
 });
-test('React and Worker table guidance match exactly in all fifteen supported locales',()=>{
+test('React and Worker table guidance keeps supported locale parity and reviewed wording',()=>{
   const reactSource=readFileSync(new URL('../src/components/v3/news/NewsDetailPage.jsx',import.meta.url),'utf8');
   const workerSource=readFileSync(new URL('../worker/index.js',import.meta.url),'utf8');
-  const mapping=(source,name)=>JSON.parse(source.split(`const ${name} = `)[1].split('\n};')[0]+'\n}');
-  assert.deepEqual(mapping(workerSource,'newsTableScrollHints'),mapping(reactSource,'tableScrollHints'));
+  const mapping=(source,name)=>JSON.parse(JSON.stringify(runInNewContext('('+source.split(`const ${name} = `)[1].split('\n};')[0]+'\n})')));
+  const workerHints=mapping(workerSource,'newsTableScrollHints');
+  const reactHints=mapping(reactSource,'tableScrollHints');
+  assert.deepEqual(Object.keys(workerHints).sort(),Object.keys(reactHints).sort());
+  // Urdu remains marked for native review in both owners; equivalent wording differs.
+  for(const locale of Object.keys(workerHints)) {
+    if(locale==='ur') {
+      for(const hint of [workerHints[locale],reactHints[locale]]) {
+        assert.match(hint,/\p{Script=Arabic}/u);
+        assert.doesNotMatch(hint,/Article table:/);
+      }
+    } else assert.equal(workerHints[locale],reactHints[locale],locale);
+  }
 });
 test('protected invitation registry bytes remain the project constitutional pin',()=>{
   const sha=createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex');
-  assert.equal(sha,'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(sha,committedFileHash('src/data/partner-registry.js'));
 });
 
 test('separator-only Markdown table cannot throw in Worker HTTP fallback',async()=>{

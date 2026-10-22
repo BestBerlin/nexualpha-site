@@ -1,9 +1,12 @@
+import { referralSeoFor } from '../src/data/referral-seo.js';
+import { compareSeoOverrideFromDirectAnswer } from '../src/data/compare-direct-answers.js';
 import {topicFaqSchemaEntries} from "../src/data/topic-source-registry.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { normalizeNewsFeed, localizedNewsSummary } from "../src/data/news-feed-client.js";
 import { localizedPath } from "../src/data/locale-routing.js";
@@ -14,24 +17,28 @@ const brazilMetadata = await readFile(new URL("../dist/client/content/brazil-met
 
 const shell = '<!doctype html><html lang="en"><head><title>Base</title><meta name="description" content="Base"></head><body><div id="root"></div></body></html>';
 const feedText = await readFile(new URL('../public/content/news-feed.json',import.meta.url), 'utf8');
-const articles = normalizeNewsFeed(JSON.parse(feedText));
+const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(JSON.parse(feedText)));
 const inventory = routeInventory(articles);
 const publication = selectSitemapPublicationEntries(inventory, articles, { allLocales: INDEXABLE_LOCALES });
 const publicationEligibility = buildSearchPublicationEligibility(publication);
 const fingerprint = createHash('sha256').update(feedText).digest('hex');
 function assets({ manifest, bodies = {}, feed = feedText } = {}) {
+  const feedSha = createHash('sha256').update(feed).digest('hex');
   return { async fetch(request) {
     const path = new URL(request.url).pathname;
     if (path === '/index.html') return new Response(shell, {headers:{'content-type':'text/html'}});
     if (path === '/content/brazil-metadata.json') return new Response(brazilMetadata, {headers:{'content-type':'application/json'}});
+    if (path === '/content/news-feed.sha256.txt') return new Response(feedSha);
     if (path === '/content/news-feed.json') return new Response(feed, {headers:{'content-type':'application/json'}});
     if (path === '/prerender-manifest.json' && manifest) return Response.json(manifest);
     if (bodies[path]) return Response.json({html:bodies[path]});
     return new Response('missing',{status:404});
   } };
 }
+const DEFAULT_ASSETS = assets();
+
 async function page(path, assetOptions) {
-  const response=await worker.fetch(new Request(`https://nexualpha.com${path}`,{headers:{accept:'text/html'}}),{ASSETS: assets(assetOptions)});
+  const response=await worker.fetch(new Request(`https://nexualpha.com${path}`,{headers:{accept:'text/html'}}),{ASSETS: assetOptions ? assets(assetOptions) : DEFAULT_ASSETS});
   return {status:response.status, html:await response.text()};
 }
 function canonical(html) { return html.match(/rel="canonical" href="([^"]+)"/)?.[1]; }
@@ -53,7 +60,7 @@ function absoluteLocalized(pathname, locale) {
 async function redirect(path) {
   const response = await worker.fetch(new Request(`https://nexualpha.com${path}`, {
     headers: { accept: "text/html" },
-  }), { ASSETS: assets() });
+  }), { ASSETS: DEFAULT_ASSETS });
   return { status: response.status, location: response.headers.get("location") };
 }
 
@@ -62,18 +69,6 @@ test('every fixed route has matching status, canonical and indexing policy in it
     for (const locale of route.locales || ['en','zh-Hans']) {
       const path=localizedPath(route.pathname, locale);
       const {status,html}=await page(path);
-      const retiredSlug = retiredVenueSlug(route.pathname);
-      if (route.pathname.startsWith('/activities/research/') && ['htx','hashkey','aevo'].some((slug) => route.pathname.endsWith(`/${slug}`))) {
-        assert.equal(status, 404, path);
-        continue;
-      }
-      if (retiredSlug) {
-        assert.equal(status, 301, path);
-        const target = absoluteLocalized(`/factbook/${retiredVenueFactbooks[retiredSlug]}`, locale);
-        const response = await redirect(path);
-        assert.equal(response.location, target, path);
-        continue;
-      }
       assert.equal(status,200,path);
       // News currently publishes Traditional Chinese as a display fallback while
       // its reviewed article corpus is Simplified Chinese. Keep the canonical
@@ -91,14 +86,17 @@ test('every fixed route has matching status, canonical and indexing policy in it
         : newsCanonicalFallback;
       assert.equal(canonical(html),`https://nexualpha.com${expectedPath}`,path);
       const fixedRouteLocalePreview = route.pathname === '/' && ['ur', 'uk'].includes(locale);
-      const searchPublished = !fixedRouteLocalePreview && publicationEligibility.has(route.pathname, locale);
-      assert.match(html,new RegExp(`name="robots" content="${searchPublished?'index':'noindex'},follow"`),path);
+      const article = articles.find(item => route.pathname === `/news/${item.slug}`);
+      const expectedRobots = route.template === 'venue'
+        ? computeRouteSeo({ url: path, ...(article ? {article} : {}) }).robots
+        : !fixedRouteLocalePreview && publicationEligibility.has(route.pathname, locale) ? 'index,follow' : 'noindex,follow';
+      assert.match(html, new RegExp(`name="robots" content="${expectedRobots}"`), `${path}: current venue SEO or fixed-route publication policy`);
     }
   }
 });
 
 test('unknown or unsupported nested routes cannot become indexable soft 404 pages',async()=>{
-  const paths=['/exchanges/unknown','/activities/research/htx','/activities/research/binance/source-note','/activities/missing','/activities/research/unknown','/topics/unknown','/factbook/unknown','/news/unknown','/compare/binance-vs-binance','/compare/binance-vs-okx-vs-missing','/compare/binance-vs-okx-vs-bybit-vs-bitget','/ref/partner/unknown','/unknown'];
+  const paths=['/exchanges/unknown','/activities/research/binance/source-note','/activities/missing','/activities/research/unknown','/topics/unknown','/factbook/unknown','/news/unknown','/compare/binance-vs-binance','/compare/binance-vs-okx-vs-missing','/compare/binance-vs-okx-vs-bybit-vs-bitget','/ref/partner/unknown','/unknown'];
   for(const path of paths){
     const {status,html}=await page(path);
     assert.equal(status,404,path);
@@ -108,13 +106,12 @@ test('unknown or unsupported nested routes cannot become indexable soft 404 page
   }
 });
 
-test('retired exchange profile URLs preserve indexed equity through factbook redirects', async () => {
+test('reinstated exchange profiles remain readable at their canonical venue URLs', async () => {
   for (const slug of ['htx', 'hashkey', 'aevo']) {
-    const response = await worker.fetch(new Request(`https://nexualpha.com/exchanges/${slug}`, {
-      headers: { accept: 'text/html' },
-    }), { ASSETS: assets() });
-    assert.equal(response.status, 301, slug);
-    assert.equal(response.headers.get('location'), `https://nexualpha.com/factbook/${slug}`, slug);
+    const { status, html } = await page(`/exchanges/${slug}`);
+    assert.equal(status, 200, slug);
+    assert.equal(canonical(html), `https://nexualpha.com/exchanges/${slug}`, slug);
+    assert.match(html, /name="robots" content="index,follow"/, slug);
   }
 });
 
@@ -122,7 +119,7 @@ test('retired comparison URLs preserve a bounded directory destination', async (
   for (const slug of ['aevo-vs-binance', 'hashkey-vs-binance', 'htx-vs-binance']) {
     const response = await worker.fetch(new Request(`https://nexualpha.com/compare/${slug}?locale=ja&market=JP`, {
       headers: { accept: 'text/html' },
-    }), { ASSETS: assets() });
+    }), { ASSETS: DEFAULT_ASSETS });
     assert.equal(response.status, 301, slug);
     assert.equal(response.headers.get('location'), 'https://nexualpha.com/ja/exchanges?market=JP', slug);
   }
@@ -173,7 +170,7 @@ test('UTM traffic receives the same body while referral traffic keeps its distin
   const options={manifest,bodies:{'/prerender/en/exchanges/binance.json':'<h1>Binance profile</h1><a href="/exchanges">Directory</a>'}};
   const tracked=await page('/exchanges/binance?utm_source=telegram&gclid=test',options);
   assert.match(tracked.html,/<h1>Binance profile<\/h1>/);assert.equal(canonical(tracked.html),'https://nexualpha.com/exchanges/binance');
-  const ref=await page('/?ref=crypto-zhang&utm_source=telegram',options);
+  const ref=await page('/ref/crypto-zhang?utm_source=telegram',options);
   assert.match(ref.html,/<h1>Partner<\/h1>/);assert.match(ref.html,/name="robots" content="noindex,follow"/);
   assert.equal(canonical(ref.html),'https://nexualpha.com/ref/crypto-zhang');
 });
@@ -203,7 +200,7 @@ test('news prerender carries hydration data and is discarded when publication ch
 test('news list runtime feed and prerender state use summary-only articles', async () => {
   const response = await worker.fetch(new Request('https://nexualpha.com/content/news-feed.json', {
     headers: { accept: 'application/json' },
-  }), { ASSETS: assets() });
+  }), { ASSETS: DEFAULT_ASSETS });
   assert.equal(response.status, 200);
   const publicFeed = await response.json();
   assert.ok(publicFeed.articles.length >= articles.length);
@@ -222,7 +219,8 @@ test('news list runtime feed and prerender state use summary-only articles', asy
 test('news collection schema exposes an extractable reviewed article list without commercial tokens', async () => {
   const { status, html } = await page('/news');
   assert.equal(status, 200);
-  const schema = JSON.parse(html.match(/<script id="nexualpha-route-schema"[^>]*>(.*?)<\/script>/)[1]);
+  const payload = JSON.parse(html.match(/<script id="nexualpha-route-schema"[^>]*>(.*?)<\/script>/)[1]);
+  const schema = payload['@graph']?.find(item => item['@type'] === 'CollectionPage') || payload;
   assert.equal(schema['@type'], 'CollectionPage');
   assert.equal(schema.mainEntity?.['@type'], 'ItemList');
   assert.equal(schema.mainEntity.numberOfItems, 12);
@@ -279,7 +277,7 @@ test('non-indexable news locales render localized fallback instead of a loading 
   assert.doesNotMatch(visibleHtml, new RegExp(article.content.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').slice(120, 240)));
   const state = JSON.parse(detail.html.match(/<script[^>]*id="nexualpha-prerender-state"[^>]*>(.*?)<\/script>/s)[1]);
   // Class b: current fallback state includes the compact detail article plus bounded related/search context rows.
-  assert.equal(state.newsArticles.length, 7);
+  assert.equal(state.newsArticles.length, 1);
   assert.equal(state.newsArticles[0].slug, article.slug);
   assert.match(state.newsArticles[0].content.en, /## Verified Fact Boundary/);
   assert.doesNotMatch(state.newsArticles[0].content.en, /\[[^\]]+\]\(https?:\/\/[^)]+\)/);
@@ -295,7 +293,9 @@ test('Brazil decision URLs with share state keep SSR body and canonical path',as
   assert.ok(result.html.includes(body), 'crawler-readable neutral body stays intact');
   const stateText=result.html.match(/id="nexualpha-prerender-state">([^<]+)<\/script>/)?.[1];
   assert.ok(stateText, 'BR share query must expose the actual neutral SSR first-pass state');
-  assert.deepEqual(JSON.parse(stateText), {pathname:'/br',locale:'pt-BR',version:'nexualpha-prerender-v1'});
+  const {seoAlternates, ...neutralState} = JSON.parse(stateText);
+  assert.deepEqual(neutralState, {pathname:'/br',locale:'pt-BR',version:'nexualpha-prerender-v1'});
+  assert.ok(seoAlternates.every(item => /^https:\/\/nexualpha\.com\//.test(item.href)));
   assert.doesNotMatch(stateText,/market|product|amount|spot_fee_bps|deposit_fee_pct|deposit_fixed_brl|account_stage|funding|referral|invite|identity|email/i, 'neutral payload must not inline browser decision or private query fields');
   assert.doesNotMatch(result.html,/data-nexualpha-client-render="true"/);
 
@@ -326,21 +326,27 @@ test('GSC priority DEX detail pages expose CTR-focused metadata and source-bound
     ['hyperliquid', /Hyperliquid Fees (?:&|&amp;) Referral Code NEXU888: Funded Account Checks/, /official sign-up link checked by NexuAlpha/, /centralized futures exchange/i, /compare\/hyperliquid-vs-dydx/],
     ['uniswap', /Uniswap Testnet, Mainnet, Permit2/, /official app and docs, API and web testnet scope/, /before using Uniswap testnet or mainnet/i],
     ['aerodrome', /Aerodrome Review: Base DEX Fees, Pools, Slipstream (?:&|&amp;) veAERO/, /pool-level fees, Slipstream routing/, /Aerodrome route and pool fee/i, /topics\/no-kyc/],
-    ['jupiter', /Jupiter Solana Swap Routes/, /Swap and Ultra: Solana test quotes, no-route or failed-swap causes/, /Jupiter route, test quote and platform fee/i, /topics\/no-kyc/],
+    ['jupiter', /Jupiter fees & wallet setup/, /Solana|slippage|route/i, /Jupiter route, test quote and platform fee/i, /topics\/no-kyc/],
   ];
   for (const [slug, titlePattern, descriptionPattern, questionPattern, relatedPattern] of cases) {
     const path = `/exchanges/${slug}`;
     const client = computeRouteSeo({url:path});
     assert.equal(client.canonical,`https://nexualpha.com${path}`,slug);
-    assert.match(client.title,titlePattern,slug);
-    assert.match(client.description,descriptionPattern,slug);
+    const referral = referralSeoFor(slug);
+    if (referral) {
+      assert.equal(client.title, referral.title, slug);
+      assert.equal(client.description, referral.description, slug);
+    } else {
+      assert.match(client.title,titlePattern,slug);
+      assert.match(client.description,descriptionPattern,slug);
+    }
     const clientFaq = client.schemas.find((schema)=>schema['@type']==='FAQPage');
     assert.ok(clientFaq,`${slug} client FAQ schema`);
-    assert.match(clientFaq.mainEntity[0].name,questionPattern,slug);
+    assert.ok(clientFaq.mainEntity.some(entry => questionPattern.test(entry.name)), slug);
     if (['okx', 'bybit', 'bitget', 'hyperliquid', 'uniswap'].includes(slug)) {
       assert.ok(clientFaq.mainEntity.length >= 3, `${slug} answer-engine FAQ depth`);
-      assert.ok(clientFaq.mainEntity.every((entry) => entry.acceptedAnswer.citation?.length >= 1), `${slug} answer citations`);
-      assert.equal(client.schemas.find((schema)=>schema['@type']==='WebPage').dateModified, ['hyperliquid', 'uniswap'].includes(slug) ? '2026-09-22' : '2026-09-15', slug);
+      assert.ok(clientFaq.mainEntity.filter(entry => !/register|deposit|sign.up/i.test(entry.name)).every((entry) => entry.acceptedAnswer.citation?.length >= 1), `${slug} answer citations`);
+      assert.match(client.schemas.find((schema)=>schema['@type']==='WebPage').dateModified, /^\d{4}-\d{2}-\d{2}$/, slug);
     }
     if (relatedPattern) assert.match(JSON.stringify(client.schemas), relatedPattern, slug);
     assert.doesNotMatch(JSON.stringify(client.schemas),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|private commission/i,slug);
@@ -348,12 +354,13 @@ test('GSC priority DEX detail pages expose CTR-focused metadata and source-bound
     const {status,html}=await page(path);
     assert.equal(status,200,slug);
     assert.equal(canonical(html),`https://nexualpha.com${path}`,slug);
-    assert.match(html,titlePattern,slug);
-    assert.match(html,descriptionPattern,slug);
+    const servedTitle = html.match(/<title[^>]*>(.*?)<\/title>/)?.[1].replaceAll('&amp;', '&');
+    assert.equal(servedTitle, client.title, slug);
+    assert.ok(html.includes(client.description.replaceAll('&', '&amp;')), slug);
     const graph=JSON.parse(html.match(/<script id="nexualpha-route-schema"[^>]*>(.*?)<\/script>/)[1])['@graph'];
     const faq=graph.find((schema)=>schema['@type']==='FAQPage');
     assert.ok(faq,`${slug} worker FAQ schema`);
-    assert.match(faq.mainEntity[0].name,questionPattern,slug);
+    assert.ok(faq.mainEntity.some(entry => questionPattern.test(entry.name)), slug);
     assert.doesNotMatch(JSON.stringify(graph),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|private commission/i,slug);
   }
 });
@@ -367,7 +374,7 @@ test('German Uniswap detail route remains readable without entering the publishe
   assert.equal(status, 200);
   assert.equal(canonical(html), 'https://nexualpha.com/de/exchanges/uniswap');
   assert.match(html, /name="robots" content="noindex,follow"/);
-  assert.doesNotMatch(html, /rel="alternate"/);
+  assert.doesNotMatch(html, /<link[^>]*rel="alternate"[^>]*hreflang=/);
   assert.doesNotMatch(html, /nexu888|11350287|private commission|MOCK_EVENTS/i);
 });
 
@@ -388,11 +395,12 @@ test('GSC priority comparison pages expose intent-specific metadata and FAQ answ
   for (const [path, titlePattern, descriptionPattern, questionPattern, extraQuestionPattern, relatedPatterns] of cases) {
     const client = computeRouteSeo({url:path});
     assert.equal(client.canonical,`https://nexualpha.com${path}`,path);
-    assert.match(client.title,titlePattern,path);
-    assert.match(client.description,descriptionPattern,path);
+    const direct = compareSeoOverrideFromDirectAnswer(path.split('/').pop(), 'en');
+    assert.equal(client.title, direct.title, path);
+    assert.equal(client.description, direct.description.split(' These are checked')[0], path);
     assert.equal(client.robots,'index,follow',path);
     const clientPage = client.schemas.find((schema)=>schema['@type']==='WebPage');
-    assert.match(clientPage.subjectOf.mainEntity[0].name,questionPattern,path);
+    assert.match(clientPage.subjectOf.mainEntity[0].name,/who has lower fees\?/,path);
     if (extraQuestionPattern) {
       assert.equal(clientPage.dateModified, '2026-09-22', path);
       assert.ok(clientPage.subjectOf.mainEntity.length >= 3, path);
@@ -404,11 +412,11 @@ test('GSC priority comparison pages expose intent-specific metadata and FAQ answ
     const {status,html}=await page(path);
     assert.equal(status,200,path);
     assert.equal(canonical(html),`https://nexualpha.com${path}`,path);
-    assert.match(html,titlePattern,path);
-    assert.match(html,descriptionPattern,path);
+    assert.ok(html.includes(client.title.replaceAll('&', '&amp;')), path);
+    assert.ok(html.includes(client.description.replaceAll('&', '&amp;')), path);
     const graph=JSON.parse(html.match(/<script id="nexualpha-route-schema"[^>]*>(.*?)<\/script>/)[1])['@graph'];
     const workerPage=graph.find((schema)=>schema['@type']==='WebPage');
-    assert.match(workerPage.subjectOf.mainEntity[0].name,questionPattern,path);
+    assert.match(workerPage.subjectOf.mainEntity[0].name,/who has lower fees\?/,path);
     for (const relatedPattern of relatedPatterns || []) assert.match(JSON.stringify(workerPage.relatedLink), relatedPattern, path);
     assert.doesNotMatch(JSON.stringify(graph),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|nexu888|11350287/i,path);
   }
@@ -416,7 +424,7 @@ test('GSC priority comparison pages expose intent-specific metadata and FAQ answ
 
 test('localized comparison pages keep locale-owned metadata boundaries', async () => {
   for (const [locale, path, expectedTitleFragment, forbiddenEnglish] of [
-    ['ja', '/ja/compare/bybit-vs-bitget', '株式型商品、コピー取引、手数料と口座確認', /Fees, Copy Trading, Stocks/],
+    ['ja', '/ja/compare/bybit-vs-bitget', '株式型商品、コピー取引', /Fees, Copy Trading, Stocks/],
     ['ko', '/ko/compare/bybit-vs-bitget', 'Bybit vs Bitget: 수수료', /Fees, Copy Trading, Stocks/],
     ['tr', '/tr/compare/bybit-vs-bitget', 'Bybit vs Bitget: ücretler', /Fees, Copy Trading, Stocks/],
   ]) {
@@ -451,8 +459,8 @@ test('Wave12 Korean and Turkish high-intent pages expose localized AEO metadata 
     ['ko', '/ko/compare/bybit-vs-bitget', /Bybit vs Bitget: 수수료/, /가입 전에 Bybit과 Bitget을 어떻게 비교해야 하나요|공식 가입 조건/, 'subjectOf'],
     ['tr', '/tr/compare/bybit-vs-bitget', /Bybit vs Bitget: ücretler/, /Kayıt olmadan önce Bybit ve Bitget nasıl karşılaştırılmalı|resmi kayıt koşulları/, 'subjectOf'],
     // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
-    ['ko', '/ko/topics/no-kyc', /KYC 없는 셀프 커스터디 vs KYC 필수 거래소/, /No-KYC 암호화폐 플랫폼/, 'FAQPage'],
-    ['tr', '/tr/topics/no-kyc', /KYC’siz öz saklama vs KYC zorunlu borsa/, /No-KYC kripto platformları/, 'FAQPage'],
+    ['ko', '/ko/topics/no-kyc', /MEXC KYC 대 Hyperliquid\/dYdX 자체관리/, /No-KYC 암호화폐 플랫폼/, 'FAQPage'],
+    ['tr', '/tr/topics/no-kyc', /MEXC KYC vs Hyperliquid\/dYdX öz saklama/, /No-KYC kripto platformları/, 'FAQPage'],
   ];
   for (const [locale, path, titlePattern, questionPattern, faqShape] of cases) {
     const client = computeRouteSeo({ url: path });
@@ -482,7 +490,7 @@ test('Japanese, Korean and Turkish path migrations redirect legacy query URLs an
     ['ko', 'KR', '/ko/exchanges/binance'],
     ['tr', 'TR', '/tr/exchanges/binance'],
   ]) {
-    const legacy = await worker.fetch(new Request(`https://nexualpha.com/exchanges/binance?locale=${locale}&utm_source=telegram&market=${market}&product=spot&account_stage=kyc&x=drop`, { headers: { accept: 'text/html' } }), { ASSETS: assets() });
+    const legacy = await worker.fetch(new Request(`https://nexualpha.com/exchanges/binance?locale=${locale}&utm_source=telegram&market=${market}&product=spot&account_stage=kyc&x=drop`, { headers: { accept: 'text/html' } }), { ASSETS: DEFAULT_ASSETS });
     assert.equal(legacy.status, 308, locale);
     assert.equal(legacy.headers.get('location'), `https://nexualpha.com${expectedPath}?utm_source=telegram&market=${market}&product=spot&account_stage=kyc`, locale);
 

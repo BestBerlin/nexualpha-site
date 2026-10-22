@@ -54,7 +54,7 @@ test("R120 direct-answer pair exposes matrix before repeated verdict chrome with
   const [{ html }] = await renderComparePages([{ key: "binance-okx", selected: ["binance", "okx"] }]);
 
   const firstMatrixJump = indexOfOrThrow(html, 'href="#hardcore-matrix"', "early matrix jump");
-  const quickActions = indexOfOrThrow(html, 'class="v3-compare-quick-actions"');
+  assert.doesNotMatch(html, /class="v3-compare-quick-actions/,'priority pair avoids duplicate quick choices');
   const finalChoice = indexOfOrThrow(html, 'id="compare-final-choice"');
   const support = indexOfOrThrow(html, 'id="compare-versus-card"');
   const matrix = indexOfOrThrow(html, 'id="hardcore-matrix"');
@@ -62,15 +62,15 @@ test("R120 direct-answer pair exposes matrix before repeated verdict chrome with
   const secondaryVerdict = indexOfOrThrow(html, 'v3-compare-section-disclosure--secondary-verdict');
   const verdict = indexOfOrThrow(html, 'class="v2-section v3-compare-verdict"');
 
-  assert.ok(firstMatrixJump < quickActions, "matrix jump should sit in the hero decision nav before mobile quick-choice cards");
+  assert.ok(firstMatrixJump < support, "matrix jump stays in the primary decision nav");
   assert.ok(firstMatrixJump < support, "matrix jump should appear before the supporting CTA/stat disclosure");
   assert.ok(finalChoice < support, "Final Call remains the primary choice before support details");
   assert.ok(matrix < snapshot, "matrix should move before snapshot/repeated summary blocks on direct-answer pair pages");
   assert.ok(matrix < verdict, "matrix should appear before repeated pre-registration verdict cards");
   assert.ok(secondaryVerdict < verdict, "repeated verdict content should be retained inside a secondary native details disclosure");
 
-  assert.match(html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/);
-  assert.match(html, /href="https:\/\/www\.okx\.com\/join\/nexu888"/);
+  assert.match(html, /data-cta-placement="compare-final-choice-registration"/);
+  assert.match(html, /href="\/go\/okx\?src=compare-binance-vs-okx&amp;locale=en(?:&amp;[^\"]*)?"/);
   assert.doesNotMatch(html.slice(matrix, html.indexOf('class="v3-matrix-expand"')), /https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287|https:\/\/www\.okx\.com\/join\/nexu888/, "matrix action remains onsite-first and does not duplicate protected external registration URLs");
 });
 

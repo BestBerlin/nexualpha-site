@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../../r257-readable-mobile-integration/candidate", import.meta.url);
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -103,7 +106,7 @@ test('R256 logical padding and custom 44px clear button remain unchanged', () =>
   assert.equal(clear['inset-inline-end'], '0.35rem');
 });
 
-test('15 locale SSR changes only by adding the input class; values, hrefs and clear labels remain exact', () => {
+test('15 locale SSR changes only by adding the input class; values, hrefs and clear labels remain exact', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   for (const locale of locales) {
     for (const query of ['Bitget', 'NO_SUCH_PLATFORM_256', '']) {
       const current = ssr(root, locale, query);
@@ -115,7 +118,7 @@ test('15 locale SSR changes only by adding the input class; values, hrefs and cl
   }
 });
 
-test('exact inverse returns JSX and CSS to R257 and registry remains exact', () => {
+test('exact inverse returns JSX and CSS to R257 and registry remains exact', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname }, () => {
   const currentJsx = fs.readFileSync(path.join(root, pageFile), 'utf8');
   const baseJsx = fs.readFileSync(path.join(base, pageFile), 'utf8');
   assert.equal(projectR261Jsx(currentJsx).replace('\n                className="yellow-pages__search-input"', ''), baseJsx);

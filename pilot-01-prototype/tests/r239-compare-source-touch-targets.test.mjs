@@ -1,3 +1,5 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+const historicalFixture=new URL("../../../r235-compare-condition-completeness/candidate",import.meta.url);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -28,7 +30,7 @@ function loadCompareFinalChoiceCard(projectRoot) {
   return module.exports;
 }
 const { CompareFinalChoiceCard } = loadCompareFinalChoiceCard(root);
-const { CompareFinalChoiceCard: BaselineCompareFinalChoiceCard } = loadCompareFinalChoiceCard(base);
+const { CompareFinalChoiceCard: BaselineCompareFinalChoiceCard } = historicalFixtureExists(historicalFixture)?loadCompareFinalChoiceCard(base):{};
 
 const read = (projectRoot, rel) => fs.readFileSync(path.join(projectRoot, rel), 'utf8');
 const normalizeAssets = (html) => html.replace(/data-v-[a-z0-9_-]+/gi, 'data-v-ASSET');
@@ -91,7 +93,7 @@ function renderBaseline(locale = 'en') {
   return renderWith(BaselineCompareFinalChoiceCard, locale);
 }
 
-test('R239 keeps compare final evidence source and decision href/text output unchanged', () => {
+test('R239 keeps compare final evidence source and decision href/text output unchanged',{skip: !historicalFixtureExists(historicalFixture) && 'Missing historical review fixture: '+historicalFixture.pathname}, () => {
   const html = render('en');
   const baselineHtml = renderBaseline('en');
   const baseModule = fs.readFileSync(path.join(base, 'src/components/v3/CompareFinalChoiceCard.jsx'), 'utf8');

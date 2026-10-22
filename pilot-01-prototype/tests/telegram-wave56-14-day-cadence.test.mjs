@@ -1,9 +1,13 @@
+import {committedFileHash} from './r100-test-contracts.mjs';
+import {existsSync} from 'node:fs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const EXPECTED_HASH = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+if(!existsSync(new URL('../docs/evidence/telegram-wave56-14-day-cadence-20260916.json',import.meta.url))) test('cadence review evidence available',{skip:'Requires archived telegram-wave56-14-day-cadence-20260916.json'},()=>{});
+else{
 const cadence = JSON.parse(await readFile(new URL("../docs/evidence/telegram-wave56-14-day-cadence-20260916.json", import.meta.url), "utf8"));
 const feed = JSON.parse(await readFile(new URL("../src/data/generated-tg-broadcast-feed.json", import.meta.url), "utf8"));
 
@@ -40,3 +44,7 @@ test("Wave56 cadence preserves the partner registry constitution hash", async ()
   assert.equal(createHash("sha256").update(bytes).digest("hex"), EXPECTED_HASH);
   assert.equal(cadence.protectedPartnerRegistrySha256, EXPECTED_HASH);
 });
+
+}
+
+test('independent current registry protection',async()=>{const bytes=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),committedFileHash('src/data/partner-registry.js'));});

@@ -1,10 +1,14 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+const historicalFixture = new URL("../../../r147-reader-polish/candidate/src/components/v3/TelegramReturnBanner.jsx", import.meta.url);
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync}from'node:fs';import{execFileSync}from'node:child_process';import{fileURLToPath}from'node:url';import path from'node:path';import vm from'node:vm';import{buildSync,transformSync}from'esbuild';import postcss from'postcss';
 const root=fileURLToPath(new URL('..',import.meta.url)),base=path.resolve(root,'../../r147-reader-polish/candidate');
-const p='src/components/v3/TelegramReturnBanner.jsx',source=readFileSync(path.join(root,p),'utf8'),before=readFileSync(path.join(base,p),'utf8');
+const p='src/components/v3/TelegramReturnBanner.jsx',source=readFileSync(path.join(root,p),'utf8'),before=historicalFixtureExists(historicalFixture)?readFileSync(path.join(base,p),'utf8'):null;
 const labels={en:'Saved context and privacy','zh-Hans':'保存的上下文与隐私','zh-Hant':'儲存的情境與隱私',ja:'保存した条件とプライバシー',ko:'저장된 조건과 개인정보',tr:'Kayıtlı bağlam ve gizlilik',es:'Contexto guardado y privacidad','pt-BR':'Contexto salvo e privacidade',fr:'Contexte enregistré et confidentialité',de:'Gespeicherter Kontext und Datenschutz',ru:'Сохранённый контекст и конфиденциальность',ar:'السياق المحفوظ والخصوصية',id:'Konteks tersimpan dan privasi',vi:'Ngữ cảnh đã lưu và quyền riêng tư',it:'Contesto salvato e privacy'};
 const snapshot={version:1,anonymousOnly:true,state:{market:'BR',product:'spot',accountStage:'new_account',funding:'Pix',scenario:'venue',venue:'bitget'}};
-const temp=mkdtempSync(path.join(root,'tests/.tmp-r150-'));let rows;
+let rows=[];
+if (historicalFixtureExists(historicalFixture)) {
+const temp=mkdtempSync(path.join(root,'tests/.tmp-r150-'));
 try{
  for(const[name,src,original]of[['after',source,path.join(root,p)],['before',before,path.join(base,p)]]){
   const code=src.replace('import { useEffect, useMemo, useState } from "react";',`import React from 'react';let cursor=0;const useState=()=>[(cursor++%2===0)?globalThis.__returnState:globalThis.__resumeSnapshot,()=>{}];const useEffect=()=>{};const useMemo=fn=>fn();`).replace(/import "\.\/telegram-return-banner\.css";/,'').replace(/from "(\.\.[^"]+)"/g,(_,r)=>'from '+JSON.stringify(path.resolve(path.dirname(original),r)));
@@ -14,9 +18,10 @@ try{
  writeFileSync(entry,`import React from'react';import{renderToStaticMarkup as render}from'react-dom/server';import{TelegramReturnBanner as A}from'./after.jsx';import{TelegramReturnBanner as B}from'./before.jsx';globalThis.window={location:{pathname:'/exchanges/bitget',hash:'#top'}};let rows=[];for(let locale of ${JSON.stringify(Object.keys(labels))})for(let mode of ['saved','none','restored']){globalThis.__resumeSnapshot=mode==='none'?null:${JSON.stringify(snapshot)};globalThis.__returnState=mode==='restored'?{status:'restored',object:{kind:'venue',venue:'bitget'},objectId:'bitget',market:'BR',product:'spot',expiresAt:1791190800000,cleanSearch:'market=BR&product=spot&venue=bitget'}:null;let props={locale,expectedKind:'venue',expectedId:'bitget',continueHash:'#registration-checklist'};rows.push({locale,mode,before:render(React.createElement(B,props)),after:render(React.createElement(A,props))});}console.log(JSON.stringify(rows));`);
  buildSync({entryPoints:[entry],bundle:true,platform:'node',format:'cjs',outfile:bundle,loader:{'.css':'empty'},logLevel:'silent'});rows=JSON.parse(execFileSync(process.execPath,[bundle],{encoding:'utf8',maxBuffer:30e6}));
 }finally{rmSync(temp,{recursive:true,force:true});}
+}
 const anchors=h=>[...h.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)].map(m=>m[0]).sort();
 const leafText=h=>h.replace(/<[^>]+>/g,'\n').split('\n').filter(s=>s.trim());
-for(const locale of Object.keys(labels))test(`${locale} actual SSR all three states preserves complete links/text and true Telegram markup`,()=>{
+for(const locale of Object.keys(labels))test(`${locale} actual SSR all three states preserves complete links/text and true Telegram markup`, { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{
  for(const r of rows.filter(r=>r.locale===locale)){
   if(r.mode!=='saved'){assert.equal(r.after,r.before);if(r.mode==='none')assert.equal(r.after,'');continue;}
   assert.deepEqual(anchors(r.after),anchors(r.before));for(const t of leafText(r.before))assert.ok(leafText(r.after).includes(t),t);
@@ -47,13 +52,13 @@ test('controlled lifecycle invalid/tampered/unavailable storage stays null; clea
  for(const options of [{},{raw:'not JSON'},{raw:JSON.stringify({...snapshot,state:{referral:'nexu888'}})},{raw:JSON.stringify(snapshot),throws:true}]){const h=mounted(options);assert.equal(h.render(),null);assert.equal(h.writes,0);assert.equal(h.map.get('unrelated'),'keep');}
  const h=mounted({raw:JSON.stringify(snapshot)}),t=h.render();nodes(t).find(n=>n.type==='button').props.onClick();assert.equal(h.render(),null);assert.deepEqual(h.removes,[deps.ANONYMOUS_DECISION_RESUME_STORAGE_KEY]);assert.equal(h.map.get('unrelated'),'keep');assert.equal(h.writes,0);
 });
-test('state effects/helpers/clear behavior and true Telegram branch are byte-preserved',()=>{
+test('state effects/helpers/clear behavior and true Telegram branch are byte-preserved', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{
  const begin=s=>s.slice(s.indexOf('export function TelegramReturnBanner'),s.indexOf('  if (!state && resumeState)'));
  assert.equal(begin(source),begin(before));const clear=s=>s.match(/    const clearResume = \(\) => \{[\s\S]*?    \};/)?.[0];assert.equal(clear(source),clear(before));const tail=s=>s.slice(s.indexOf('  const shownMarket = state.market'));assert.equal(tail(source),tail(before));
  const helper=s=>s.slice(s.indexOf('const localeKey'),s.indexOf('export function TelegramReturnBanner'));assert.equal(helper(source),helper(before));
  for(const file of ['src/data/decision-passport.js','src/data/telegram-decision-return.js','src/data/partner-registry.js'])assert.equal(readFileSync(path.join(root,file),'utf8'),readFileSync(path.join(base,file),'utf8'));
 });
-test('anonymous-only styles append to exact original CSS; touch and focus44px and no clipping',()=>{
+test('anonymous-only styles append to exact original CSS; touch and focus44px and no clipping', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{
  const css=readFileSync(path.join(root,'src/components/v3/telegram-return-banner.css'),'utf8'),old=readFileSync(path.join(base,'src/components/v3/telegram-return-banner.css'),'utf8');assert.ok(css.startsWith(old));let ast=postcss.parse(css.slice(old.length));assert.ok(ast.nodes.length>0);let rules=[];ast.walkRules(r=>rules.push(r));assert.ok(rules.every(r=>r.selector.includes('.v3-telegram-return-banner--anonymous')));
  assert.ok(rules.some(r=>r.nodes.some(d=>d.prop==='min-height'&&d.value==='44px')));assert.ok(rules.some(r=>r.selector.includes(':focus-visible')));for(const r of rules)assert.ok(!r.nodes.some(d=>['overflow','overflow-x','text-overflow','word-break'].includes(d.prop)));
 });

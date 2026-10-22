@@ -23,7 +23,7 @@ test("R72 Telegram manual draft medium survives decision URL and storage roundtr
 
   assert.equal(
     writeDecisionStateToUrl("/br/pix?locale=pt-BR&utm_medium=old&uid=private@example.com", state),
-    "/br/pix?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+    "/br/pix#nxa-context?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check&locale=pt-BR",
   );
 
   const values = new Map();
@@ -49,6 +49,6 @@ test("R72 decision URL writer keeps the helper onsite and does not copy arbitrar
 
   assert.equal(
     writeDecisionStateToUrl(partnerInput, state),
-    "/bg/C6PRAF?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=broadcast&utm_campaign=br_pix_ptbr",
+    "/bg/C6PRAF#nxa-context?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=broadcast&utm_campaign=br_pix_ptbr",
   );
 });

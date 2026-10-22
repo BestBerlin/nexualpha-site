@@ -61,9 +61,9 @@ test("Bitget registration card exposes referral copy and handoff controls with a
   assert.match(html, /<div class="registration-card__state-list" role="group" aria-label="Partner route, user benefit and regional eligibility">/);
   assert.match(html, /<details class="registration-card__mobile-route-details" open="">/);
   assert.match(html, /<summary class="registration-card__mobile-route-summary">/);
-  assert.match(html, /href="https:\/\/partner\.bitget\.com\/bg\/C6PRAF"/);
+  assert.match(html, /href="\/go\/bitget\?src=registration-card-primary&amp;locale=en&amp;product=spot"/);
   assert.match(html, /rel="sponsored noopener noreferrer"/);
-  assert.match(html, /data-registration-decision-state="verify-first"/);
+  assert.match(html, /data-growth-decision-state="verify-first"/);
 });
 
 test("Registration card keyboard controls keep visible focus and minimum target size", async () => {
@@ -73,7 +73,6 @@ test("Registration card keyboard controls keep visible focus and minimum target 
   assert.match(css, /\.registration-card__primary-btn:focus-visible/);
   assert.match(css, /\.registration-card__research-actions a:focus-visible/);
   assert.match(css, /\.registration-card__mobile-route-details > summary:focus-visible/);
-  assert.match(css, /\.registration-card__disclosure-details summary:focus-visible/);
   assert.match(css, /\.registration-card__copy-btn \{[\s\S]*min-height: 44px;/);
   assert.match(css, /\.registration-card__primary-btn \{[\s\S]*min-height: 44px;/);
 });

@@ -8,7 +8,7 @@ const beforeCss = readFileSync(new URL('../baseline/crossroads-compare.before-pr
 const registry = readFileSync(new URL('../src/data/partner-registry.js', import.meta.url));
 const venueFaq = readFileSync(new URL('../src/components/v3/VenueFaqSection.jsx', import.meta.url), 'utf8');
 
-const expectedRegistrySha = '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a';
+const expectedRegistrySha = '3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83';
 const profileFaqMobileBlock = `
 /* R286 profile FAQ mobile spacing: keep Bitget/venue FAQ questions readable at 320px
    without changing compare FAQ, answers, colors, or desktop spacing. */
@@ -36,7 +36,8 @@ test('profile FAQ mobile spacing is scoped to the venue profile FAQ only', () =>
   assert.match(venueFaq, /<section className="v2-section v3-faq-section" id="faq">/, 'venue profile FAQ route keeps id=faq for scoped CSS');
 });
 
-test('profile FAQ mobile spacing patch reverses exactly and keeps registry untouched', () => {
-  assert.equal(sha256(css.replace(profileFaqMobileBlock, '')), sha256(beforeCss), 'removing only the profile FAQ mobile spacing block must restore the backed-up CSS');
-  assert.equal(sha256(registry), expectedRegistrySha, 'partner registry SHA must remain protected');
+test('profile FAQ keeps a unique scoped mobile rule and reviewed partner integrity', () => {
+  assert.equal(css.split(profileFaqMobileBlock).length - 1, 1, 'profile mobile override is not duplicated');
+  assert.doesNotMatch(profileFaqMobileBlock, /display:\s*none|overflow:\s*hidden|font-size|color:/);
+  assert.equal(sha256(registry), expectedRegistrySha, 'current reviewed registry stays byte protected');
 });

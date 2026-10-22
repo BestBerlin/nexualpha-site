@@ -387,6 +387,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
         </div>
         <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : hero.title}</h1>
         <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : hero.subtitle}</p>
+        <a href={withContext("/topics")} className="news-pagination__step" data-news-topic-hubs="">{t.researchIndex}</a>
         <TelegramAlertsStrip locale={locale} placement="news-list-telegram-alerts" className="tg-signal-strip--news" />
 
         <div className="news-index-controls">

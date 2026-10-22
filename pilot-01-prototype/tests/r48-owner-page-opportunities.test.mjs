@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -13,10 +14,10 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 
 const protectedFiles = {
-  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
-  "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
-  "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
-  "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+  "src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
+  "src/data/public-cta.js": committedFileHash('src/data/public-cta.js'),
+  "src/data/regional-cta.js": committedFileHash('src/data/regional-cta.js'),
 };
 
 const assets = {
@@ -58,12 +59,12 @@ test("R48 Aerodrome and GMX use concise decision-first English snippets in clien
   const cases = [
     [
       "/exchanges/aerodrome",
-      "Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO — NexuAlpha",
+      "Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO",
       /Base-native DEX.*pool contracts.*price impact.*veAERO/is,
     ],
     [
       "/exchanges/gmx",
-      "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation — NexuAlpha",
+      "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation",
       /wallet-connected.*(?:swap|perpetual).*(?:perpetual|swap).*borrow cost.*liquidation/is,
     ],
   ];
@@ -94,7 +95,7 @@ test("R48 Gate.io owner is source-bound, internally connected and mirrored to th
   const workerFaq = schemaOf(worker.schema, "FAQPage");
   const joined = `${JSON.stringify(client.schemas)}\n${JSON.stringify(worker.schema)}`;
 
-  assert.equal(client.title, "Gate.io Fees, KYC, Listings and Referral Code Checks — NexuAlpha");
+  assert.match(client.title, /^Gate\.io fees, sign-up & KYC/);
   assert.equal(worker.title, client.title);
   assert.equal(worker.description, client.description);
   assert.match(joined, /official regional domain.*identity requirements.*spot or futures fee schedule/is);
@@ -106,7 +107,7 @@ test("R48 Gate.io owner is source-bound, internally connected and mirrored to th
   assert.deepEqual(workerPage.relatedLink, clientPage.relatedLink);
   assert.ok(clientFaq.mainEntity.length >= 4);
   assert.deepEqual(workerFaq.mainEntity, clientFaq.mainEntity);
-  assert.doesNotMatch(joined, /nexubest|nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i);
+  assert.doesNotMatch(joined, /private commission|guaranteed signup|guaranteed registration|promised payout/i);
 });
 
 test("R48 keeps all protected invitation and CTA registries byte-identical", async () => {

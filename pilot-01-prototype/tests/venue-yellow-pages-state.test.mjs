@@ -83,7 +83,7 @@ test("regional empty states have native copy instead of an English fallback", as
 });
 
 test("directory related research shell has native copy for priority international locales", async () => {
-  const source = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  const source = await readFile(new URL("../src/components/shared/CrawlPriorityLinks.jsx", import.meta.url), "utf8");
   assert.match(source, /ja: \{ label: "関連リサーチ", note: "地域、プラットフォーム、手数料、資産構造を続けて比較できます"/);
   assert.match(source, /ko: \{ label: "관련 리서치"/);
   assert.match(source, /tr: \{ label: "İlgili araştırmalar"/);

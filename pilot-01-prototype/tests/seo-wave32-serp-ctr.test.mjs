@@ -6,7 +6,7 @@ import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 
 const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
-const forbidden = /guaranteed|risk-free|real-time|live yield|route safety guaranteed|available in every region|regional availability guaranteed|commission|rebate|nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i;
+const forbidden = /guaranteed|risk-free|real-time|live yield|route safety guaranteed|available in every region|regional availability guaranteed|private commission|guaranteed rebate/i;
 
 function article(slug) {
   const row = feed.articles.find((item) => item.slug === slug);
@@ -34,17 +34,17 @@ test("Wave32 news SERP overrides sharpen top-ten zero-CTR article snippets witho
     {
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
-      title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
+      title: /^OKX USD to USDC Spot Pairs \(2026\): Orders, Bots, API Fixes/,
       // Class b: 6435cda shortened the snippet while preserving the same migration fields.
-      description: /open orders, bots, API instId and tradeQuoteCcy/,
+      description: /orders, bots, API instId and tradeQuoteCcy/,
       about: /OKX USD to USDC spot-pair migration/,
     },
     {
       path: "/news/hyperliquid-vs-dydx",
       article: article("hyperliquid-vs-dydx"),
       // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
-      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation/,
-      description: /fees, funding, collateral, liquidation, oracle, wallet and recovery mechanics/,
+      title: /Hyperliquid vs dYdX \(2026\): Fees, Funding and Liquidations/,
+      description: /Compare fees, funding, margin and liquidation/,
       about: /choose Hyperliquid or dYdX for perp DEX trading/,
     },
   ];
@@ -81,8 +81,8 @@ test("Wave32 DEX profile SERP snippets keep parity and source-bound intent for A
     {
       path: "/exchanges/jupiter",
       // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
-      title: /Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks/,
-      description: /no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs/,
+      title: /Jupiter fees & wallet setup/,
+      description: /Jupiter routes Solana swaps; check the quote and network costs/,
       question: /Jupiter route, test quote and platform fee conditions/,
       answer: /failed-swap diagnosis/,
     },

@@ -1,3 +1,4 @@
+import { applyNewsSearchState } from '../src/data/news-search-state.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -12,30 +13,32 @@ const slugs = ['binance-okx-proof-of-reserves-disclosure-audit', 'bybit-vs-okx-s
   'coinbase-address-allowlist-setup-network-hold-tutorial', 'how-to-set-up-binance-anti-phishing-code',
   'jupiter-vs-raydium-solana-swap-routing-execution-controls', 'verify-official-crypto-exchange-website'];
 const raw = JSON.parse(await readFile(new URL('../public/content/news-feed.json', import.meta.url), 'utf8'));
-const articles = normalizeNewsFeed(raw);
+const articles = normalizeNewsFeed(raw).map(applyNewsSearchState);
 const policy = loadSearchPublicationBaseline();
 const publication = (feed) => selectSitemapPublicationEntries(routeInventory(feed), feed, { policy });
 const assets = (feed) => ({ fetch: async (request) => new URL(request.url).pathname === '/content/news-feed.json'
   ? new Response(JSON.stringify(Array.isArray(feed) ? { ...raw, articles: feed } : feed), { headers: { 'content-type': 'application/json' } })
   : new Response('missing', { status: 404 }) });
 
-test('all six retained research answers stay selected and client/SSR indexable within unchanged budgets', async () => {
+test('research answers obey current search-state exclusions in sitemap and client/SSR metadata', async () => {
   const selected = publication(articles);
   const selectedSlugs = new Set(articleSlugsFromPublication(selected));
   // Class b: b4c9051 lifted the frozen reviewed-news cap; the URL budget still limits output.
   assert.equal(policy.maxReviewedNewsArticleRoutes, 5000);
   assert.equal(policy.maxUrlsByTemplate.article, 624);
-  assert.equal(selectedSlugs.size, 312);
-  assert.ok(selected.urls.length <= policy.maxSitemapUrls);
+  assert.ok(selectedSlugs.size > slugs.length,'the full reviewed library remains selected');
+  assert.equal(selected.stats.publicationMode, 'full-reviewed-indexable');
+  assert.equal(new Set(selected.urls).size,selected.urls.length,'full publication still has unique URL entries');
   for (const slug of slugs) {
-    assert.ok(selectedSlugs.has(slug), `${slug}: protected publication`);
     const article = articles.find((entry) => entry.slug === slug);
+    const indexable=article.seo?.noindex===false;
+    assert.equal(selectedSlugs.has(slug),indexable,`${slug}: current publisher/search-state gate`);
     for (const locale of ['en', 'zh-Hans']) {
       const url = `https://nexualpha.com/${locale === 'zh-Hans' ? 'zh-hans/' : ''}news/${slug}`;
       const client = computeRouteSeo({ url, locale, article, newsArticles: articles });
       const ssr = await routeMetadata(new URL(url), { ASSETS: assets(raw) });
-      assert.equal(client.robots, 'index,follow', `${slug}/${locale}: client`);
-      assert.equal(ssr.robots, 'index,follow', `${slug}/${locale}: SSR`);
+      assert.equal(client.robots, article.seo?.noindex===false ? 'index,follow':'noindex,follow', `${slug}/${locale}: client`);
+      assert.equal(ssr.robots, client.robots, `${slug}/${locale}: SSR parity`);
     }
   }
 });
@@ -68,7 +71,7 @@ test('retention protection never revives an explicitly noindex or withdrawn arti
 
 test('new PUBLISHED feed arrivals and feed order keep reviewed publication deterministic', async () => {
   const baseline = articleSlugsFromPublication(publication(articles)).sort();
-  const newArticle = { ...articles[0], slug: 'unreviewed-search-publication-arrival',
+  const newArticle = { ...articles[0], searchState:undefined,canonicalSlug:undefined,slug: 'unreviewed-search-publication-arrival',
     publishedAt: '2026-10-02T00:00:00.000Z',
     seo: { ...articles[0].seo, noindex: false, canonical: 'https://nexualpha.com/news/unreviewed-search-publication-arrival' } };
   for (const feed of [[newArticle, ...articles], [...articles, newArticle], [...articles].reverse().concat(newArticle)]) {
@@ -88,7 +91,8 @@ test('new PUBLISHED feed arrivals and feed order keep reviewed publication deter
 
 
 test('matching prerender fingerprint and searchPublished true never bypass reviewed article guard', async () => {
-  const accepted = articles.find((article) => article.slug === slugs[0]);
+  const original=articles.find(article=>article.slug===slugs[0]);
+  const accepted={...original,slug:'reviewed-manifest-positive',searchState:undefined,seo:{...original.seo,noindex:false}};
   const fixtures = [
     { article: accepted, expected: 'index,follow' },
     { article: accepted, snapshotArticles: [], expected: 'noindex,nofollow', status: 404 },

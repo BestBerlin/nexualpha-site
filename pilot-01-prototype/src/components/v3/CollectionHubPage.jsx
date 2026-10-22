@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { collectionHubCopy, collectionHubIndexCopy, factbookHubItems, hubRecordsLocalized, topicHubItems } from "../../data/collection-hubs.js";
 import { enAttrs } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -6,6 +6,8 @@ import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import { BrandMark } from "../brand/BrandMark";
 import { feeFact } from "../../data/exchange-facts.js";
 import { DataRule } from "../shared/DataRule.jsx";
+import { MONEY_TOPIC_HUBS, moneyTopicArticlePool, moneyTopicArticles, moneyTopicCopy } from "../../data/money-topic-hubs.js";
+import { loadNewsArticleSummaries } from "../../data/news-feed-client.js";
 import "./CollectionHubPage.css";
 
 const hasCheckedFees = (slug) => feeFact(slug, "spot").state === "checked" || feeFact(slug, "perp").state === "checked";
@@ -35,7 +37,24 @@ function featuredRecords(items, count = 4) {
 }
 
 /** Editorial hub index (2026-10-11): featured row, grouped sections with counts and review dates, one link per row. */
-export function CollectionHubPage({ kind, locale = "en" }) {
+export function CollectionHubPage({ kind, locale = "en", initialNewsArticles = [] }) {
+  const [research, setResearch] = useState(() => ({ locale, articles: initialNewsArticles }));
+  useEffect(() => {
+    if (kind !== "topics") return undefined;
+    let active = true;
+    let feedRead = false;
+    const controller = new AbortController();
+    // Also refresh after SPA navigation: App's original page props may describe a different route.
+    // The static summary file strips seo; the public Worker feed retains the approval
+    // flag in its compact summaries, so a client refresh cannot erase approved clusters.
+    loadNewsArticleSummaries(async (_url, options) => {
+      const response = await fetch("/content/news-feed.json", { ...options, signal: controller.signal });
+      if (response.ok) feedRead = true;
+      return response;
+    }).then(articles => { if (active && feedRead) setResearch({ locale, articles: moneyTopicArticlePool(articles, locale) }); });
+    return () => { active = false; controller.abort(); };
+  }, [kind, locale]);
+  const researchArticles = research.locale === locale ? research.articles : initialNewsArticles;
   const copy = collectionHubCopy(kind, locale);
   const ix = collectionHubIndexCopy(locale);
   const items = withoutTurkeyUnlisted(kind === "factbook" ? factbookHubItems(locale) : topicHubItems(locale), { locale }, (item) => [item.slug, item.href]);
@@ -79,8 +98,29 @@ export function CollectionHubPage({ kind, locale = "en" }) {
     </section>
     {kind === "factbook"
       ? <FactbookIndex items={items} copy={copy} ix={ix} href={href} recordLang={recordLang} hubProduct={hubProduct} />
-      : <TopicIndex items={items} copy={copy} ix={ix} href={href} recordLang={recordLang} hubProduct={hubProduct} />}
+      : <><MoneyTopicIndex articles={researchArticles} locale={locale} href={href} copy={copy} /><TopicIndex items={items} copy={copy} ix={ix} href={href} recordLang={recordLang} hubProduct={hubProduct} /></>}
   </main>;
+}
+
+function MoneyTopicIndex({ articles, locale, href, copy }) {
+  return <div className="v2-shell collection-hub__money-topics">
+    {MONEY_TOPIC_HUBS.map(topic => {
+      const text = moneyTopicCopy(topic.id, locale);
+      const rows = withoutTurkeyUnlisted(moneyTopicArticles(articles, topic.id, locale), { locale }, article => [article.slug, article.title?.[locale], article.summary?.[locale]]);
+      return <section key={topic.id} id={topic.id} className="collection-hub__section" aria-labelledby={`money-topic-${topic.id}`} data-money-topic={topic.id}>
+        <DataRule as="h2" label={<span lang={text.language}>{text.title}</span>} labelId={`money-topic-${topic.id}`} />
+        <p className="collection-hub__section-desc" lang={text.language}>{text.intro}</p>
+        <a className="collection-hub__lead-link" href={href(topic.path)} data-money-topic-guide={topic.id}>{copy.cardCta} <span aria-hidden="true">→</span></a>
+        {rows.length > 0 && <ol className="collection-hub__rows collection-hub__money-articles">
+          {rows.map((article, index) => <li className="collection-hub__row" key={article.slug}>
+            <span className="collection-hub__num" aria-hidden="true">{pad2(index + 1)}</span>
+            <div className="collection-hub__main"><h3 className="collection-hub__name"><a href={href(`/news/${article.slug}`)} data-money-topic-article={article.slug}>{article.title[locale]}</a></h3></div>
+            <p className="collection-hub__facts"><time dateTime={article.publishedAt}>{ltr(article.publishedAt.slice(0, 10))}</time></p>
+          </li>)}
+        </ol>}
+      </section>;
+    })}
+  </div>;
 }
 
 function TopicIndex({ items, copy, ix, href, recordLang, hubProduct }) {

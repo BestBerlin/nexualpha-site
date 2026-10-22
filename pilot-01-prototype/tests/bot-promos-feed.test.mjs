@@ -67,14 +67,16 @@ test('priority then recency, max five and announcement title only', () => {
   assert.equal(promoButton('a'.repeat(19) + '🎁'), 'a'.repeat(19));
 });
 
-test('build publishes feed beside partners in public and client output', () => {
+test('build publishes feed beside partners in public and client output', (t) => {
   const script = readFileSync(new URL('../scripts/generate-prerender-manifest.mjs', import.meta.url), 'utf8');
   assert.match(script, /buildBotPromosFeed\(\)/);
   assert.match(script, /writeFileSync\(path.join\(dir, "bot-promos.json"\), botPromosFeed\)/);
   const output = new URL('../dist/client/intel/bot-promos.json', import.meta.url);
-  if (existsSync(output)) {
-    const feed = JSON.parse(readFileSync(output));
-    assert.equal(feed.schema, 'nexualpha.bot-promos.v1');
-    assert.deepEqual(feed, JSON.parse(readFileSync(new URL('../public/intel/bot-promos.json', import.meta.url))));
-  }
+  assert.match(script, /for \(const dir of \[path\.join\(projectRoot, "public", "intel"\), path\.join\(clientDir, "intel"\)\]\)/);
+  if (!existsSync(output)) { t.skip('Built bot promo feed is unavailable; run npm run build first'); return; }
+  const feed = JSON.parse(readFileSync(output));
+  assert.equal(feed.schema, 'nexualpha.bot-promos.v1');
+  // Tracked public snapshots are restored after builds; compare the fresh output
+  // to the current generator at its recorded time, rather than an older snapshot.
+  assert.deepEqual(feed, buildBotPromosFeed({ now: Date.parse(feed.generatedAt) }));
 });

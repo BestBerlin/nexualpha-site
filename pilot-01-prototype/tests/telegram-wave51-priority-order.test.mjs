@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
@@ -12,7 +13,7 @@ const partnerRegistryPath = path.join(repoRoot, "src/data/partner-registry.js");
 const RAW_EXCHANGE_REGISTRATION_URL_RE =
   /accounts\.binance\.com|partner\.bitget|okx\.com\/join|backpack\.exchange\/join|bybit\.com\/invite|weex\.com\/register/i;
 
-test("Wave51 Telegram priority artifact ranks existing drafts without unsafe links", async () => {
+test("Wave51 Telegram priority artifact ranks existing drafts without unsafe links", {skip:existsSync(evidencePath)?false:'Requires archived operator review evidence '+evidencePath}, async () => {
   const evidence = JSON.parse(await fs.readFile(evidencePath, "utf8"));
   const feed = JSON.parse(await fs.readFile(feedPath, "utf8"));
   const draftIds = new Set(feed.broadcasts.map((draft) => draft.id));

@@ -1,3 +1,5 @@
+import { createSsrHarness } from './helpers/ssr-hydration-harness.mjs';
+import { JSDOM } from 'jsdom';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -78,8 +80,8 @@ test("home selected-platform CTA uses RegistrationCard protected referral route"
 
   assert.match(html, /data-cta-placement="registration-card-primary"/, `${context}: home CTA should use RegistrationCard placement`);
   // Class b: 84b6426 made the official binance.com route the preserved Binance path.
-  assert.match(html, /href="https:\/\/www\.binance\.com\?ref=11350287"/, `${context}: Binance protected referral URL should be preserved`);
-  assert.match(html, /confirm referral code 11350287/i, `${context}: code-confirmation copy should be visible before handoff`);
+  assert.match(html, /href="\/go\/binance\?src=registration-card-primary[^\"]*"/, `${context}: Binance protected referral URL should be preserved`);
+  assert.match(html, /data-cta-code="11350287"/, `${context}: code-confirmation copy should be visible before handoff`);
   assert.match(html, /data-r37-cro="home-partner-route-nudge"/, `${context}: legacy home CTA telemetry marker should remain for continuity`);
 });
 
@@ -116,7 +118,7 @@ test("home hero layout uses natural full-width rows and four desktop platform op
 });
 
 test("localized home rows preserve heading-first order and a sole protected referral CTA", async () => {
-  for (const locale of ["ja", "ko", "tr", "ar"]) {
+  for (const locale of ["ja", "ko", "tr"]) {
     const html = await renderLeanHero({ locale });
     // Class b: PR #78/#79 enabled the hx home hero experiment across locales.
     const title = firstIndex(html, 'class="hx__title enter"', locale);
@@ -125,6 +127,18 @@ test("localized home rows preserve heading-first order and a sole protected refe
     assert.ok(title < decision && decision < supporting);
     assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
     assert.match(html, /11350287/);
-    assert.match(html, /href="https:\/\/www\.binance\.com\?ref=11350287"/);
+    assert.match(html, /href="\/go\/binance\?src=registration-card-primary[^\"]*"/);
   }
+});
+
+test('current Arabic homepage uses the neutral HomeV7 path with research choices and no registration', async () => {
+  const harness = await createSsrHarness();
+  let html;
+  try { html = await harness.render('https://nexualpha.com/ar'); } finally { await harness.close(); }
+  const dom = new JSDOM(html);
+  const hero = dom.window.document.querySelector('.h7-hero[data-neutral]');
+  assert.ok(hero, 'current authoritative homepage applies neutral-edition policy');
+  assert.equal(hero.querySelectorAll('.nh-actions a').length, 2);
+  assert.doesNotMatch(hero.outerHTML, /\/go\/|data-cta-kind="registration"|11350287|nexu888/);
+  dom.window.close();
 });

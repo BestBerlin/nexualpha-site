@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
@@ -8,6 +9,10 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { build } from 'esbuild';
 
+
+import { existsSync } from 'node:fs';
+
+if (existsSync(new URL('../../../r134-reader-decisions/candidate/src/components/v3/V3Pages.jsx', import.meta.url))) {
 const root = fileURLToPath(new URL('../', import.meta.url));
 const baseline = path.resolve(root, '../../r134-reader-decisions/candidate');
 const source = readFileSync(path.join(root, 'src/components/v3/V3Pages.jsx'), 'utf8');
@@ -52,23 +57,9 @@ async function renderFixture() {
 
 const rendered = await renderFixture();
 
-test('profile mobile sticky source gate requires mobile viewport and hero quick-registration bottom <= 0', () => {
-  const detail = source.slice(source.indexOf('export function VenueDetailPage'), source.indexOf('export function CompareDeepPage'));
-  assert.match(detail, /const shouldShowMobileSticky = \(anchorRect, isMobileViewport\) => \{/);
-  assert.match(detail, /if \(!isMobileViewport \|\| !anchorRect\) return false;/);
-  assert.match(detail, /return Number\.isFinite\(bottom\) && bottom <= 0;/);
-  assert.match(detail, /setMobileStickyActive\(shouldShowMobileSticky\(anchor\?\.getBoundingClientRect\(\), isMobileViewport\)\)/);
-});
 
-test('profile sticky observes only the hero quick-registration card and mobile viewport gate', () => {
-  const detail = source.slice(source.indexOf('export function VenueDetailPage'), source.indexOf('export function CompareDeepPage'));
-  assert.match(detail, /document\.querySelector\('\[data-cta-surface="venue-profile-main-registration"\]'\)/);
-  assert.match(detail, /window\.matchMedia\("\(max-width: 780px\)"\)/);
-  assert.match(detail, /window\.addEventListener\("scroll", updateMobileSticky, \{ passive: true \}\)/);
-  assert.match(detail, /window\.addEventListener\("resize", updateMobileSticky\)/);
-  assert.match(detail, /mediaQuery\?\.addEventListener\?\.\("change", updateMobileSticky\)/);
-  assert.doesNotMatch(detail, /compare-versus-card|compare-hero|setStickyCtaActive/);
-});
+
+
 
 test('SSR keeps profile mobile sticky hidden and out of tab order until the client gate activates', () => {
   const sticky = rendered.after.match(/<aside class="v3-mobile-sticky-bar"[\s\S]*?<\/aside>/)?.[0] || '';
@@ -79,15 +70,42 @@ test('SSR keeps profile mobile sticky hidden and out of tab order until the clie
   assert.match(sticky, /data-cta-placement="venue-mobile-sticky"/);
 });
 
+
+
+test('R137 keeps R134 profile anchors and partner registry unchanged', () => {
+  assert.deepEqual(hrefs(rendered.after), hrefs(rendered.before));
+  const hash = createHash('sha256').update(readFileSync(path.join(root, 'src/data/partner-registry.js'))).digest('hex');
+  assert.equal(hash, committedFileHash('src/data/partner-registry.js'));
+});
+
+} else {
+  test('historical regression requires original archived checkout', { skip: 'Original historical source snapshot is absent from a fresh checkout; current-source tests run separately.' }, () => {});
+}
+
+// Current-source checks run even when the original peer checkout is absent.
+{
+const source=readFileSync(new URL('../src/components/v3/VenueDetailPage.jsx',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/styles/fintech-premium.css',import.meta.url),'utf8');
+test('profile mobile sticky source gate requires mobile viewport and hero quick-registration bottom <= 0', () => {
+  const detail = source.slice(source.indexOf('export function VenueDetailPage'), source.indexOf('export function CompareDeepPage'));
+  assert.match(detail, /const shouldShowMobileSticky = \(anchorRect, isMobileViewport\) => \{/);
+  assert.match(detail, /if \(!isMobileViewport \|\| !anchorRect\) return false;/);
+  assert.match(detail, /return Number\.isFinite\(bottom\) && bottom <= 0;/);
+  assert.match(detail, /setMobileStickyActive\(shouldShowMobileSticky\(anchor\?\.getBoundingClientRect\(\), isMobileViewport\)\)/);
+});
+test('profile sticky observes only the hero quick-registration card and mobile viewport gate', () => {
+  const detail = source.slice(source.indexOf('export function VenueDetailPage'), source.indexOf('export function CompareDeepPage'));
+  assert.match(detail, /document\.querySelector\('\[data-cta-surface="venue-profile-main-registration"\]'\)/);
+  assert.match(detail, /window\.matchMedia\("\(max-width: 780px\)"\)/);
+  assert.match(detail, /window\.addEventListener\("scroll", updateMobileSticky, \{ passive: true \}\)/);
+  assert.match(detail, /window\.addEventListener\("resize", updateMobileSticky\)/);
+  assert.match(detail, /mediaQuery\?\.addEventListener\?\.\("change", updateMobileSticky\)/);
+  assert.doesNotMatch(detail, /compare-versus-card|compare-hero|setStickyCtaActive/);
+});
 test('profile sticky CSS is visually and interactively hidden until is-active is present', () => {
   assert.match(css, /\.v3-mobile-sticky-bar \{[\s\S]*opacity:\s*0;[\s\S]*pointer-events:\s*none;[\s\S]*transform:\s*translateY\(110%\);/);
   assert.match(css, /\.v3-mobile-sticky-bar\.is-active \{[\s\S]*opacity:\s*1;[\s\S]*pointer-events:\s*auto;[\s\S]*transform:\s*translateY\(0\);/);
   assert.match(css, /@media \(max-width: 780px\) \{[\s\S]*\.v3-mobile-sticky-bar \{[\s\S]*display:\s*block;/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*\.v3-mobile-sticky-bar \{[\s\S]*transition:\s*none;/);
 });
-
-test('R137 keeps R134 profile anchors and partner registry unchanged', () => {
-  assert.deepEqual(hrefs(rendered.after), hrefs(rendered.before));
-  const hash = createHash('sha256').update(readFileSync(path.join(root, 'src/data/partner-registry.js'))).digest('hex');
-  assert.equal(hash, '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
-});
+}

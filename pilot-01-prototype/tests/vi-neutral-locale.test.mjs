@@ -254,7 +254,8 @@ test("served vi pages and VN-market pages carry no /go/ route, invite code, regi
   for (const path of ["/?market=VN", ...NEUTRAL_CTA_LOCALE_LIST.map((locale) => localizedPath("/", locale))]) {
     const page = pages.find((row) => row.path === path);
     const meta = [...page.html.matchAll(/<title[^>]*>([^<]*)<\/title>|<meta [^>]*(?:name="description"|property="og:(?:title|description)")[^>]*content="([^"]*)"/g)].map((m) => m[1] || m[2]).join("\n");
-    assert.doesNotMatch(meta, /referral|rebate|\b60\s?%|Lên đến|hoàn phí|mã giới thiệu|邀請碼|返傭|реферал|промокод|إحالة/i, `${path}: neutral title and meta: ${meta}`);
+    assert.doesNotMatch(meta, /referral code|claim rebate|\b60\s?%|Lên đến|hoàn phí|mã giới thiệu|邀請碼|返傭|реферальный код|промокод|رمز إحالة/i, `${path}: neutral title and meta: ${meta}`);
+    assert.doesNotMatch(meta,codePattern,`${path}: no invite codes in metadata`);
   }
   const factbookRedirect = await worker.fetch(new Request("https://nexualpha.com/vi/factbook/okx", { headers: { accept: "text/html" } }), { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } });
   assert.equal(factbookRedirect.status, 301, "/vi/factbook/okx redirects before neutral-page assertions");

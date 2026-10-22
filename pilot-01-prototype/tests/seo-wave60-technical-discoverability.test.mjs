@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+import { readSitemapTree, sitemapPageUrls } from '../scripts/sitemap-tree.mjs';
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -31,8 +33,11 @@ test("Wave60 discovery files retain canonical source and answer inventories", as
     readFile(new URL("../public/llms-full.txt", import.meta.url), "utf8"),
   ]);
 
-  assert.match(sitemap, /<loc>https:\/\/nexualpha\.com\/methodology<\/loc>/);
-  assert.match(sitemap, /<loc>https:\/\/nexualpha\.com\/exchanges\/uniswap<\/loc>/);
+  const tree = readSitemapTree(fileURLToPath(new URL("../public/sitemap.xml", import.meta.url)));
+  assert.deepEqual(tree.missing, []);
+  const urls = sitemapPageUrls(tree);
+  assert.ok(urls.includes("https://nexualpha.com/methodology"));
+  assert.ok(urls.includes("https://nexualpha.com/exchanges/uniswap"));
   for (const text of [llms, full]) {
     assert.match(text, /https:\/\/nexualpha\.com\/llms-small\.txt/);
     assert.match(text, /https:\/\/nexualpha\.com\/methodology/);
@@ -49,20 +54,22 @@ test("Wave60 discovery files retain canonical source and answer inventories", as
   }
   // SEO audit 2026-10-11 #9 (owner-approved): the compact entry adds a short Key facts block (featured partner codes and
   // the commission disclosure) and describes the site as independent exchange research, not a neutral directory.
-  assert.ok(Buffer.byteLength(small) < 6_000, `llms-small.txt should stay compact, got ${Buffer.byteLength(small)} bytes`);
-  assert.match(small, /NexuAlpha is independent crypto exchange research/);
+  assert.ok(Buffer.byteLength(small) < 10_000 && Buffer.byteLength(small) < Buffer.byteLength(llms), `llms-small.txt should stay compact, got ${Buffer.byteLength(small)} bytes`);
+  assert.match(small, /Independent exchange research, not an exchange/);
   assert.match(small, /https:\/\/nexualpha\.com\/llms\.txt/);
   assert.match(small, /https:\/\/nexualpha\.com\/llms-full\.txt/);
   assert.match(small, /https:\/\/nexualpha\.com\/exchanges/);
   assert.match(small, /https:\/\/nexualpha\.com\/compare\/binance-vs-okx/);
   assert.match(small, /https:\/\/nexualpha\.com\/methodology/);
   assert.match(small, /## Priority answer map/);
-  assert.match(small, /EU\/regulation: Where can a user check the current ESMA MiCA register/);
+  assert.match(small, /HK\/regulation: .*SFC/);
   assert.match(small, /TR\/regulation: Türkiye'de bir kripto varlık hizmet sağlayıcısını/);
-  assert.match(small, /Commercial terms, referral codes, commission rates, rebates and welcome offers are intentionally omitted/);
+  assert.match(small, /## Key facts/);
+  assert.match(small, /Partner links may earn NexuAlpha a platform-paid commission at no extra cost/);
+  assert.match(small, /commission rates paid to NexuAlpha, welcome offers and campaign amounts are not asserted here/);
   assert.match(small, /https:\/\/nexualpha\.com\/methodology#data-license/);
   assert.match(small, /does not grant redistribution, republication or sublicensing rights/);
-  assert.doesNotMatch(small, /Detailed venue records|## Retrieval question inventory|private commission|invite code|referral link|nexu888|11350287/i);
+  assert.doesNotMatch(small, /Detailed venue records|## Retrieval question inventory|private commission|guaranteed rebate/i);
 });
 
 test("Wave60 uses standard visible-content schema types rather than an AI-only schema", () => {

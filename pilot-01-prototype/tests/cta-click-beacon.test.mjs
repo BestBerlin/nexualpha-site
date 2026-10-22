@@ -1,4 +1,5 @@
 import test from "node:test";
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -110,7 +111,7 @@ test("rate limiter is a fixed window that forgets clients after the window", () 
   assert.equal(validateCtaClick(["okx"], new Map([["okx", "https://x"]])), null);
 });
 
-test("production server routes POST /api/cta-click and writes to CLICK_EVENT_FILE without disturbing /go", async () => {
+test("production server routes POST /api/cta-click and writes to CLICK_EVENT_FILE without disturbing /go", { skip: await loopbackListenSkip() }, async () => {
   const f = await fixture();
   let server;
   try {
@@ -161,7 +162,7 @@ test("client payload reads the shared registration attributes and reports placem
 });
 
 test("SSR pages carry data-cta-kind/platform/placement on every partner sign-up link", { timeout: 240_000 }, async () => {
-  const vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true } });
+  const vite = await createViteServer({ appType: "custom", logLevel: "error", optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false, ws: false } });
   try {
     const { render } = await vite.ssrLoadModule("/src/entry-server.jsx");
     const expectations = [
@@ -176,7 +177,17 @@ test("SSR pages carry data-cta-kind/platform/placement on every partner sign-up 
       const anchors = [...text.matchAll(/<a\b[^>]*rel="sponsored[^"]*"[^>]*>/g)].map((m) => m[0]);
       assert.ok(anchors.length > 0, `${url} renders at least one sponsored sign-up link`);
       for (const tag of anchors) {
-        assert.match(tag, /data-cta-kind="registration"/, `${url}: ${tag.slice(0, 160)}`);
+        // Internal /go links record their signup click at the redirect; external links need the registration beacon.
+        const kind = tag.match(/data-cta-kind="([^"]+)"/)?.[1];
+        assert.ok(kind === "registration" || kind === "signup", `${url}: ${tag.slice(0, 160)}`);
+        if (kind === "signup") {
+          const href = tag.match(/href="([^"]+)"/)?.[1];
+          const target = new URL(href.replaceAll("&amp;", "&"), "https://nexualpha.com");
+          const platform = tag.match(/data-cta-platform="([^"]+)"/)?.[1];
+          assert.equal(target.origin, "https://nexualpha.com");
+          assert.equal(target.pathname, `/go/${platform}`);
+          assert.equal(target.searchParams.get("src"), tag.match(/data-cta-placement="([^"]+)"/)?.[1]);
+        }
         assert.match(tag, /data-cta-platform="[a-z0-9_-]+"/, `${url}: ${tag.slice(0, 160)}`);
         assert.match(tag, /data-cta-placement="[a-z0-9][a-z0-9_-]{0,47}"/, `${url}: ${tag.slice(0, 160)}`);
       }

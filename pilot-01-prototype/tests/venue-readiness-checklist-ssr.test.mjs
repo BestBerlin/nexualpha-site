@@ -16,7 +16,7 @@ async function renderVenueDetail({ locale = "en", slug = "bitget" } = {}) {
     await writeFile(entryPath, `
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
-      import { VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+      import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
       import { venueDatabase } from "../../src/data/venue-database.js";
 
       const pageCopy = {
@@ -62,7 +62,7 @@ test("venue detail renders a four-point readiness checklist before the compact r
 
   assert.ok(checklistStart > 0, "readiness checklist is rendered");
   assert.ok(summaryStart > checklistStart, "readiness checklist is before the compact invite summary");
-  assert.ok(handoffStart > checklistStart, "original readiness precedes the main registration handoff");
+  assert.ok(handoffStart > 0 && handoffStart < checklistStart, "primary registration is in the hero before the detailed readiness checklist");
   assert.ok(summaryStart > handoffStart, "main registration precedes the secondary route summary");
   assert.equal((html.match(/id="registration-path"/g) || []).length, 1, "registration handoff ID remains unique");
 

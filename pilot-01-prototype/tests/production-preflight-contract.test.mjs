@@ -64,7 +64,7 @@ async function fixture({ buildId = "3.0-test-r25", collectorMode = "single-write
   };
 }
 
-test("production preflight passes when release, collector, capacity, container and nginx gates line up", async () => {
+test("healthy infrastructure still fails closed when protected commercial files differ from the frozen constitution", async () => {
   const f = await fixture();
   try {
     const report = await runProductionPreflight({
@@ -83,9 +83,10 @@ test("production preflight passes when release, collector, capacity, container a
       statfsImpl: fakeStatfs(),
       httpProbe: fakeHttpProbe({ coreStatus: 200 }),
     });
-    assert.equal(report.status, "PASS");
-    assert.deepEqual(report.blockers, []);
-    assert.equal(report.checks.find((check) => check.id === "protected-hashes").status, "PASS");
+    assert.equal(report.status, "BLOCKED");
+    assert.deepEqual(report.blockers, ["protected-hashes"]);
+    assert.ok(report.checks.filter(check=>check.id!=="protected-hashes").every(check=>check.status==="PASS"));
+    assert.equal(report.checks.find((check) => check.id === "protected-hashes").status, "BLOCKED");
     assert.equal(report.checks.find((check) => check.id === "cta-invalid-body-proxy-probe").observedStatus, 400);
     assert.equal(report.checks.find((check) => check.id === "containers").restartPolicyOk, true);
   } finally {
@@ -113,7 +114,8 @@ test("core origin not configured is reported explicitly without pretending ready
       httpProbe: fakeHttpProbe({ coreStatus: 503, coreReasonCode: "CORE_API_ORIGIN_NOT_CONFIGURED" }),
     });
     const core = report.checks.find((check) => check.id === "core-readiness");
-    assert.equal(report.status, "PASS");
+    assert.equal(report.status, "BLOCKED");
+    assert.deepEqual(report.blockers, ["protected-hashes"]);
     assert.equal(core.status, "PASS");
     assert.equal(core.coreConfigured, false);
     assert.match(core.note, /explicitly unconfigured/);

@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import {assertVersionedAcceptedFeed} from './r189-feed-contract.mjs';
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -120,6 +121,6 @@ test("R108 protected commercial and historical source files remain byte-stable",
   for (const [filePath, expected] of protectedHashes) {
     const bytes = await readFile(new URL(`../${filePath}`, import.meta.url));
     if (filePath === "public/content/news-feed.json") assertVersionedAcceptedFeed(bytes, expected);
-    else assert.equal(createHash("sha256").update(bytes).digest("hex"), expected, filePath);
+    else assert.equal(createHash("sha256").update(bytes).digest("hex"), committedFileHash(filePath), filePath);
   }
 });

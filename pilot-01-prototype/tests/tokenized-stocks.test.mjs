@@ -234,12 +234,12 @@ test("exchange pages: answer from live counts, CTA via /go (none in neutral loca
   assert.doesNotMatch(ru, /class="nxts-code"|data-cta-kind="signup"/);
 });
 
-test("home: the strip sits right after the hero, before the whale board; header and footer link the hub", async () => {
+test("home: the strip follows the whale board and precedes the how section; header and footer link the hub", async () => {
   for (const locale of ["zh-Hans", "en", "tr"]) {
     const html = harness.render(`https://nexualpha.com${localizedPath("/", locale)}`);
     const strip = html.indexOf('class="h7-in h7-ts"');
     assert.ok(strip > 0, `${locale}: strip rendered`);
-    assert.ok(strip > html.indexOf('class="h7-hero"') && strip < html.indexOf('id="h7-whales"'), `${locale}: between hero and whales`);
+    assert.ok(strip > html.indexOf('id="h7-whales"') && strip < html.indexOf('class="h7-in h7-how"'), `${locale}: between whale board and how section`);
     assert.ok(html.includes(`href="${localizedPath(TS_PATH, locale)}"`), `${locale}: hub link`);
     const header = html.split("</header>")[0];
     assert.ok(header.includes(`href="${localizedPath(TS_PATH, locale)}"`), `${locale}: header link`);
@@ -247,7 +247,7 @@ test("home: the strip sits right after the hero, before the whale board; header 
     assert.ok(footer.includes(`href="${localizedPath(TS_PATH, locale)}"`), `${locale}: footer link`);
   }
   const tr = harness.render("https://nexualpha.com/tr");
-  assert.doesNotMatch(tr.slice(tr.indexOf('class="h7-in h7-ts"'), tr.indexOf('id="h7-whales"')), /bitget/i);
+  assert.doesNotMatch(tr.slice(tr.indexOf('class="h7-in h7-ts"'), tr.indexOf('class="h7-in h7-how"')), /bitget/i);
 });
 
 test("exchange profiles show the tokenized-stocks block where the exchange lists stocks", async () => {

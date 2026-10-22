@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 test("every src/data module the worker imports (transitively) is shipped with the server build", () => {
   const root = fileURLToPath(new URL("..", import.meta.url));
   const prepare = readFileSync(path.join(root, "scripts/prepare-sites-build.mjs"), "utf8");
-  const shipped = new Set([...prepare.matchAll(/"([a-z0-9.-]+\.js)"/g)].map((m) => m[1]));
+  const shipped = new Set([...prepare.matchAll(/"([a-z0-9.-]+\.(?:js|json))"/g)].map((m) => m[1]));
   shipped.add("reviewed-news-publication.js");
   shipped.add("tracking-attribution.js");
   // Generated glossary content (2026-10-13) ships by pattern (readdir in prepare-sites-build.mjs), not by name.

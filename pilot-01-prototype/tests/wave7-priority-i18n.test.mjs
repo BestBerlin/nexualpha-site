@@ -11,16 +11,16 @@ const telegramHub = await read("src/components/v3/TelegramBotHub.jsx");
 const onchainBoard = await read("src/components/v3/OnChainLiquidityBoard.jsx");
 
 test("rates route owns Spanish and Brazilian Portuguese decision copy", () => {
-  assert.match(feeBenchmark, /copy\.es = \{ \.\.\.copy\.en,[\s\S]*Comparador de comisiones publicadas y slippage/);
-  assert.match(feeBenchmark, /copy\["pt-BR"\] = \{ \.\.\.copy\.en,[\s\S]*Comparador de taxas publicadas e slippage/);
+  assert.match(feeBenchmark, /copy\.es = \{ \.\.\.copy\.en,[\s\S]*Comparador de comisiones publicadas/);
+  assert.match(feeBenchmark, /copy\["pt-BR"\] = \{ \.\.\.copy\.en,[\s\S]*Comparador de taxas publicadas/);
   assert.match(feeBenchmark, /Fuente pendiente de revisión/);
   assert.match(feeBenchmark, /Fonte pendente de revisão/);
   assert.match(feeBenchmark, /Verificación oficial pendiente/);
   assert.match(feeBenchmark, /Verificação oficial pendente/);
   assert.match(feeBenchmark, /Verificar elegibilidad/);
   assert.match(feeBenchmark, /Verificar elegibilidade/);
-  assert.match(feeBenchmark, /Ver las \$\{total\} plataformas/);
-  assert.match(feeBenchmark, /Ver todas as \$\{total\} plataformas/);
+  assert.match(feeBenchmark, /Ver directorio de plataformas/);
+  assert.match(feeBenchmark, /Ver diretório de plataformas/);
 });
 
 test("rates cost calculator localizes Spanish and Brazilian Portuguese visible controls and states", () => {

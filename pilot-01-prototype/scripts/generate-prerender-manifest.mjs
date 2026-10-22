@@ -134,7 +134,10 @@ export function routeInventory(newsArticles = []) {
     "/factbook",
     "/mx",
     "/tw",
+    "/id",
     "/hk",
+    "/jp",
+    "/kr",
     "/sg",
     "/eu",
     "/uk",
@@ -398,7 +401,13 @@ export function buildCampaignSitemap() {
 
 function buildDownloadOrAcademySitemap(sitemapEntries) {
   const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
-  const entries = sitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const isIndexableEdition = (href) => {
+    const url = new URL(href, "https://nexualpha.com");
+    return !["ur", "uk"].includes(parsePublicRoute(url.pathname, url.searchParams).locale);
+  };
+  const entries = sitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` })
+    .filter((entry) => isIndexableEdition(entry.loc))
+    .map((entry) => ({ ...entry, alternates: entry.alternates.filter((alternate) => !["ur", "uk"].includes(alternate.hreflang) && isIndexableEdition(alternate.href)) }));
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const entry of entries) {
     lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);

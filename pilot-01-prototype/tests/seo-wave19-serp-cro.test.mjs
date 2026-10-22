@@ -18,7 +18,7 @@ test('Wave19 Bybit vs Bitget comparison exposes source-bound stock and copy-trad
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.description, /product label first: xStocks fee schedule, stock futures, copy-trading profit sharing/i);
+  assert.match(serialized, /xStocks schedule.*copy trading needs the profit-sharing rules/i);
   assert.ok(page.relatedLink.some((link) => link.endsWith('/topics/tokenized-stocks-vs-perpetuals')));
   assert.ok(page.relatedLink.some((link) => link.endsWith('/factbook/bybit')));
   assert.ok(page.relatedLink.some((link) => link.endsWith('/factbook/bitget')));

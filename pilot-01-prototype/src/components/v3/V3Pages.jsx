@@ -33,7 +33,7 @@ import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
-import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
+import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, generatedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
 import { ExchangeScorecard, CountryScorecards } from "../compare/ExchangeScorecard.jsx";
 import { compareVenueCta } from "../../data/compare-cta.js";
 import { eventSourceStateLabel, visibleEventSourceItems } from "../../data/event-source.js";
@@ -2325,7 +2325,9 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
               : part)}
           </span>)}
         </h1>
-        {profiles.length === 2 && <ShortAnswer answer={compareShortAnswer(profiles[0].slug, profiles[1].slug, locale, market)} placement="compare-hero" />}
+        {profiles.length === 2 && <ShortAnswer answer={directAnswer?.shortAnswer
+          ? { locale, label: 'The short answer:', text: directAnswer.shortAnswer }
+          : compareShortAnswer(profiles[0].slug, profiles[1].slug, locale, market)} placement="compare-hero" />}
         {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
         {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
@@ -2521,7 +2523,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
   const copy = compareIndexCopy(locale);
   const text = v3Copy(locale);
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
-  const generatedPairs = withoutTurkeyUnlisted(indexableGeneratedComparePairs(), { locale, market });
+  const generatedPairs = withoutTurkeyUnlisted(generatedComparePairs(), { locale, market });
   return <main className="v6 v2-page v3-page v3-compare-hub" id="top" dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} {...sectionEyebrowAttrs(locale, "compare")}>
     <section className="v3-page-hero v2-shell" id="compare-hub-hero">
       <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">← {text.backToDirectory}</LocalLink>

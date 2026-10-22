@@ -4,10 +4,17 @@ import { createRequire } from "node:module";
 import test, { after, before } from "node:test";
 
 const require = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality/package.json");
-const puppeteer = require("puppeteer-core");
+let puppeteer,browserSkip=false;
+try{puppeteer=require('puppeteer-core');}catch(error){if(error.code!=='MODULE_NOT_FOUND')throw error;browserSkip='Requires optional puppeteer-core browser audit dependency';}
 
 const baseUrl = process.env.ROUTE_HYDRATION_BASE_URL || "http://127.0.0.1:4303";
 const chromeExecutablePath = process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+if (!browserSkip) {
+ try {const response=await fetch(baseUrl,{signal:AbortSignal.timeout(3000)});assert.ok(response.ok,`Browser target returned ${response.status}`);}
+ catch(error){if(error instanceof assert.AssertionError)throw error;browserSkip=`Requires reachable hydration preview at ${baseUrl}: ${error.cause?.code||error.name}`;}
+}
+const browserTest=(name,fn)=>test(name,{skip:browserSkip},fn);
 
 let browser;
 
@@ -87,6 +94,7 @@ const noScriptRoutes = [
 ];
 
 before(async () => {
+  if(browserSkip)return;
   browser = await puppeteer.launch({
     executablePath: chromeExecutablePath,
     headless: true,
@@ -95,6 +103,7 @@ before(async () => {
 });
 
 after(async () => {
+  if(browserSkip)return;
   await browser?.close();
 });
 
@@ -149,7 +158,7 @@ async function openPage(path, options = {}) {
   return { page, errors };
 }
 
-test("homepage defers the main application until the first button interaction", async () => {
+browserTest("homepage defers the main application until the first button interaction", async () => {
   const html = await fetch(urlFor("/")).then((response) => response.text());
   assert.match(html, /data-nexualpha-deferred-hydration/);
   assert.doesNotMatch(html, /<script\b[^>]*type="module"/);
@@ -174,7 +183,7 @@ test("homepage defers the main application until the first button interaction", 
 });
 
 
-test("deferred hydration replays a first click/change after import but before React hydration", async () => {
+browserTest("deferred hydration replays a first click/change after import but before React hydration", async () => {
   const page = await browser.newPage();
   const script = await deferredHydrationBootstrapForTest(`
     window.__imported = true;
@@ -226,14 +235,14 @@ test("deferred hydration replays a first click/change after import but before Re
 });
 
 
-test("news list preloads the compact feed while keeping hydration deferred", async () => {
+browserTest("news list preloads the compact feed while keeping hydration deferred", async () => {
   const html = await fetch(urlFor("/news?locale=zh-Hans")).then((response) => response.text());
   assert.match(html, /data-nexualpha-deferred-hydration/);
   assert.match(html, /<link rel="preload" href="\/content\/news-feed-summary\.json" as="fetch" crossorigin \/>/);
 });
 
 for (const route of noScriptRoutes) {
-  test(`${route.name} exposes critical decision links without JavaScript`, async () => {
+  browserTest(`${route.name} exposes critical decision links without JavaScript`, async () => {
     const { page } = await openPage(route.path, { javaScriptEnabled: false });
     const snapshot = await page.evaluate(() => ({
       h1: document.querySelector("h1")?.textContent || "",
@@ -250,7 +259,7 @@ for (const route of noScriptRoutes) {
   });
 }
 
-test("news list first interaction reveals another page of articles", async () => {
+browserTest("news list first interaction reveals another page of articles", async () => {
   const { page, errors } = await openPage("/news?locale=en");
   const before = await page.evaluate(() => document.querySelectorAll(".news-article-card, article").length);
 
@@ -263,7 +272,7 @@ test("news list first interaction reveals another page of articles", async () =>
   await page.close();
 });
 
-test("factbook first interaction opens the raw markdown preview", async () => {
+browserTest("factbook first interaction opens the raw markdown preview", async () => {
   const { page, errors } = await openPage("/factbook/binance?locale=en");
 
   await clickButtonContaining(page, "View Raw LLM Markdown Data");
@@ -275,7 +284,7 @@ test("factbook first interaction opens the raw markdown preview", async () => {
   await page.close();
 });
 
-test("partners first interaction copies the embed code state", async () => {
+browserTest("partners first interaction copies the embed code state", async () => {
   const { page, errors } = await openPage("/partners?locale=en");
 
   await clickButtonContaining(page, "Copy code");
@@ -285,7 +294,7 @@ test("partners first interaction copies the embed code state", async () => {
   await page.close();
 });
 
-test("rates first interaction updates the platform filter", async () => {
+browserTest("rates first interaction updates the platform filter", async () => {
   const { page, errors } = await openPage("/rates?locale=en");
 
   await clickButtonContaining(page, "Perp DEX");
@@ -297,7 +306,7 @@ test("rates first interaction updates the platform filter", async () => {
   await page.close();
 });
 
-test("comparison first interaction opens the additional FAQ entries", async () => {
+browserTest("comparison first interaction opens the additional FAQ entries", async () => {
   const { page, errors } = await openPage("/compare/binance-vs-okx?locale=en");
 
   const hiddenBefore = await page.evaluate(() => document.querySelectorAll(".v3-faq-item[hidden]").length);

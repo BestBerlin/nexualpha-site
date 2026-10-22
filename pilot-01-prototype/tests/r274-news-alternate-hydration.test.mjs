@@ -85,8 +85,8 @@ test("fake projected availableLocales cannot publish missing article languages",
   };
   assert.deepEqual(projectNewsFeedForRoute("/news/fake-news-hydration-article", [fake], "en")[0].routeProjection.availableLocales, ["en"], "raw availableLocales are not route proof");
   const seo = computeRouteSeo({ pathname: "/news/fake-news-hydration-article", locale: "en", article: fake });
-  assert.equal(seo.robots, "noindex,follow", "unreviewed slug remains outside publication even with fake availableLocales");
-  assert.deepEqual(seo.alternates, []);
+  assert.equal(seo.robots, "index,follow", "reviewed English content follows feed publication authority without a frozen slug roster");
+  assert.deepEqual(alternateLanguages(seo), ["en", "x-default"], "untrusted locale declarations cannot publish the missing translation");
 });
 
 test("worker route producer carries trusted bilingual projection into client SEO", async () => {

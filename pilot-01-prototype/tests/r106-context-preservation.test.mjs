@@ -1,3 +1,4 @@
+import { decisionContextSearchFromUrl } from "../src/data/decision-passport.js";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -128,8 +129,8 @@ test("rates calculator and rail reject invalid account stage and cross-market fu
   `, "r106-rates-invalid-context");
 
 	  // Class b: the current equal-rate verdict uses the tie compare CTA while preserving passport context.
-	  assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot[^"]*"[^>]+data-cta-placement="cost-calculator-tie-compare"/);
-  assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot"[^>]+data-cta-placement="decision-rail-compare"/);
+	  assert.match(html, /href="\/ja\/compare\/binance-vs-okx#nxa-context\?market=JP&amp;product=spot[^"]*"[^>]+data-cta-placement="cost-calculator-tie-compare"/);
+  assert.match(html, /href="\/ja\/compare\/binance-vs-okx#nxa-context\?market=JP&amp;product=spot"[^>]+data-cta-placement="decision-rail-compare"/);
   assert.doesNotMatch(html, /account_stage=admin_account/);
   assert.doesNotMatch(html, /funding=Pix/);
 });
@@ -152,15 +153,16 @@ test("cost decision saved return href keeps validated account stage and funding"
 
   const url = spyDecisionReturnUrl(html);
   assert.equal(url.pathname, "/es/rates");
-  assert.equal(url.hash, "#cost-scenario");
-  assert.equal(url.searchParams.get("scenario"), "cost");
-  assert.equal(url.searchParams.get("instrument"), "spot");
-  assert.equal(url.searchParams.get("order"), "taker");
-  assert.equal(url.searchParams.get("volume"), "100000");
-  assert.equal(url.searchParams.get("market"), "MX");
-  assert.equal(url.searchParams.get("product"), "spot");
-  assert.equal(url.searchParams.get("account_stage"), "another_platform");
-  assert.equal(url.searchParams.get("funding"), "SPEI");
+  assert.equal(url.hash.split("?")[0], "#cost-scenario");
+  assert.equal(url.search, "", "decision state stays out of the canonical query");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("scenario"), "cost");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("instrument"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("order"), "taker");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("volume"), "100000");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("market"), "MX");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("product"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("account_stage"), "another_platform");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("funding"), "SPEI");
 });
 
 test("cost decision saved return href rejects invalid account stage and cross-market funding", async () => {
@@ -181,12 +183,13 @@ test("cost decision saved return href rejects invalid account stage and cross-ma
 
   const url = spyDecisionReturnUrl(html);
   assert.equal(url.pathname, "/ja/rates");
-  assert.equal(url.hash, "#cost-scenario");
-  assert.equal(url.searchParams.get("scenario"), "cost");
-  assert.equal(url.searchParams.get("market"), "JP");
-  assert.equal(url.searchParams.get("product"), "spot");
-  assert.equal(url.searchParams.get("account_stage"), null);
-  assert.equal(url.searchParams.get("funding"), null);
+  assert.equal(url.hash.split("?")[0], "#cost-scenario");
+  assert.equal(url.search, "", "decision state stays out of the canonical query");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("scenario"), "cost");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("market"), "JP");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("product"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("account_stage"), null);
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("funding"), null);
 });
 
 test("next decision bridge appends passport to all internal actions and keeps explicit target context", () => {
@@ -204,20 +207,20 @@ test("next decision bridge appends passport to all internal actions and keeps ex
 
   const actions = Object.fromEntries(bridge.actions.map((action) => [action.id, new URL(action.href, "https://nexualpha.com")]));
   assert.equal(actions.profile.pathname, "/es/exchanges/binance");
-  assert.equal(actions.profile.searchParams.get("market"), "MX");
-  assert.equal(actions.profile.searchParams.get("product"), "spot");
-  assert.equal(actions.profile.searchParams.get("account_stage"), "another_platform");
-  assert.equal(actions.profile.searchParams.get("funding"), "SPEI");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.profile)).get("market"), "MX");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.profile)).get("product"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.profile)).get("account_stage"), "another_platform");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.profile)).get("funding"), "SPEI");
   assert.equal(actions.compare.pathname, "/es/compare/bybit-vs-bitget");
-  assert.equal(actions.compare.searchParams.get("market"), "MX");
-  assert.equal(actions.compare.searchParams.get("product"), "perpetuals");
-  assert.equal(actions.compare.searchParams.get("account_stage"), "another_platform");
-  assert.equal(actions.compare.searchParams.get("funding"), "SPEI");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.compare)).get("market"), "MX");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.compare)).get("product"), "perpetuals");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.compare)).get("account_stage"), "another_platform");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.compare)).get("funding"), "SPEI");
   assert.equal(actions.telegram.pathname, "/es/telegram");
-  assert.equal(actions.telegram.searchParams.get("market"), "MX");
-  assert.equal(actions.telegram.searchParams.get("product"), "spot");
-  assert.equal(actions.telegram.searchParams.get("account_stage"), "another_platform");
-  assert.equal(actions.telegram.searchParams.get("funding"), "SPEI");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.telegram)).get("market"), "MX");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.telegram)).get("product"), "spot");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.telegram)).get("account_stage"), "another_platform");
+  assert.equal(new URLSearchParams(decisionContextSearchFromUrl(actions.telegram)).get("funding"), "SPEI");
 });
 
 test("next decision bridge filters funding against an explicit target market", () => {
@@ -235,9 +238,9 @@ test("next decision bridge filters funding against an explicit target market", (
 
   for (const action of bridge.actions) {
     const url = new URL(action.href, "https://nexualpha.com");
-    assert.equal(url.searchParams.get("market"), "BR", `${action.id} target market`);
-    assert.equal(url.searchParams.get("product"), "spot", `${action.id} target product`);
-    assert.equal(url.searchParams.get("account_stage"), "another_platform", `${action.id} account stage`);
-    assert.equal(url.searchParams.get("funding"), null, `${action.id} funding filtered`);
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("market"), "BR", `${action.id} target market`);
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("product"), "spot", `${action.id} target product`);
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("account_stage"), "another_platform", `${action.id} account stage`);
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get("funding"), null, `${action.id} funding filtered`);
   }
 });

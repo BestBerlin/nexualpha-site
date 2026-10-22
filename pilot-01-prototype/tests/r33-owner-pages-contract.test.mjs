@@ -21,7 +21,7 @@ const OWNER_PAGES = [
   },
   {
     path: "/topics/derivatives",
-    expected: /account-based decisions, Hyperliquid vs dYdX for wallet-connected mechanics/i,
+    expected: /fees.*funding.*liquidation/i,
     related: ["/compare/binance-vs-okx", "/compare/bybit-vs-bitget", "/compare/hyperliquid-vs-dydx"],
   },
 ];
@@ -98,7 +98,7 @@ test("R33 visible owner data routes users by decision type without changing invi
   assert.ok(compare.internalLinks.some(([, href]) => href === "/topics/tokenized-assets"));
   assert.match(compare.nextSteps.join(" "), /derivatives checklist/);
   assert.match(derivatives.searchAnswer.bodyEn, /tokenized-stock guide/);
-  assert.match(tokenized.content.en, /\[derivatives platform checklist\]\(\/topics\/derivatives\)/);
+  assert.match(tokenized.content.en, /\[tokenized stocks vs perpetuals\]\(\/topics\/tokenized-stocks-vs-perpetuals\)/);
   assert.doesNotMatch(
     [
       compare.nextSteps.join(" "),

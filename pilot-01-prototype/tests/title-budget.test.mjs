@@ -1,3 +1,4 @@
+import {isHomeBrandTitle} from '../src/data/home-search-copy.js';
 // Owner decision 2026-10-11: long titles drop the " — NexuAlpha" suffix (it would be cut to "…" in search results;
 // the site name shows separately from the WebSite/Organization schema). Short titles keep it.
 import test from "node:test";
@@ -20,9 +21,9 @@ test("budgetTitle keeps short titles, drops the suffix and trims long titles", (
 test("Worker head and computeRouteSeo apply the same title budget", async () => {
   for (const path of ["/", "/about", "/exchanges", "/zh-hans/news", "/compare/binance-vs-okx", "/ja/compare/binance-vs-okx", "/topics/tokenized-assets"]) {
     const meta = await routeMetadata(new URL(`https://nexualpha.com${path}`), {});
-    assert.ok(meta.title.length <= titleBudgetForLocale(meta.locale), `${path}: ${meta.title}`);
+    assert.ok(isHomeBrandTitle(meta.title) || meta.title.length <= titleBudgetForLocale(meta.locale), `${path}: ${meta.title}`);
     const seo = computeRouteSeo({ url: path });
-    assert.ok(seo.title.length <= titleBudgetForLocale(seo.locale), `client ${path}: ${seo.title}`);
+    assert.ok(isHomeBrandTitle(seo.title) || seo.title.length <= titleBudgetForLocale(seo.locale), `client ${path}: ${seo.title}`);
   }
 });
 

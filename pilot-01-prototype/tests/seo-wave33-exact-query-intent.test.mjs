@@ -36,10 +36,10 @@ test("Wave33 Hyperliquid exact queries cover fees and funded-account boundaries 
   assert.equal(client.robots, "index,follow");
   assert.equal(server.robots, "index,follow");
   // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
-  assert.match(client.title, /Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks/);
-  assert.match(server.title, /Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks/);
-  assert.match(client.description, /official sign-up link checked by NexuAlpha/);
-  assert.match(server.description, /official sign-up link checked by NexuAlpha/);
+  assert.match(client.title, /Hyperliquid fees & wallet setup — referral code/);
+  assert.match(server.title, /Hyperliquid fees & wallet setup — referral code/);
+  assert.match(client.description, /eligible referrals save/);
+  assert.match(server.description, /eligible referrals save/);
   assert.match(joined, /rolling 14-day volume/);
   assert.match(joined, /peer-to-peer and paid every hour/);
   assert.match(joined, /equity falls below maintenance margin/);

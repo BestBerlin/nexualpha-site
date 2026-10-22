@@ -62,9 +62,12 @@ test("AI discovery generator emits priority source-backed venue canonicals witho
     const small = await readFile(join(outputDir, "llms-small.txt"), "utf8");
     assert.match(small, /https:\/\/nexualpha\.com\/methodology#data-license/);
     assert.match(small, /does not grant redistribution, republication or sublicensing rights/);
-    assert.match(small, /Source-backed venue detail canonicals: https:\/\/nexualpha\.com\/exchanges\/binance/);
-    assert.match(small, /https:\/\/nexualpha\.com\/exchanges\/hyperliquid/);
-    assert.match(small, /https:\/\/nexualpha\.com\/exchanges\/uniswap/);
+    const compactCanonicals = small.match(/^.*Source-backed venue detail canonicals: (.+)$/m)?.[1];
+    assert.ok(compactCanonicals, "compact index retains the source-backed venue canonical list");
+    assert.deepEqual(new Set(compactCanonicals.split(", ")), new Set(
+      ["binance", "okx", "bybit", "bitget", "hyperliquid", "uniswap", "gmx"]
+        .map(slug => `https://nexualpha.com/exchanges/${slug}`),
+    ), "priority ordering can change without dropping or adding canonical venues");
   } finally {
     await rm(outputDir, { recursive: true, force: true });
   }

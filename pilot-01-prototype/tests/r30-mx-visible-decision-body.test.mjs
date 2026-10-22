@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -7,7 +8,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const expectedPartnerHash = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const expectedPartnerHash = committedFileHash('src/data/partner-registry.js');
 const forbiddenCommercialTokens = /https?:\/\/(?:www\.)?(?:bsmkweb|partner\.bitget|topzhjdgxcb)|nexu888|11350287|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|private commission|commissionrate|payout|佣金比例|返给用户/i;
 
 async function renderMxDecisionPages() {
@@ -52,7 +53,8 @@ test("R30 Mexico decision pages render independent Spanish bodies", async () => 
   assert.match(pages.comparar, /Comparación de 4 pruebas antes del CTA/);
   assert.match(pages.comparar, /Cómo comparar plataformas cripto para México sin asumir acceso MXN/);
   assert.match(pages.comparar, /Comparar no equivale a prometer acceso/);
-  assert.match(pages.comparar, /\/compare\/binance-vs-okx\?market=MX/);
+  assert.match(pages.comparar, /data-regional-compare-mode="select-candidates"/);
+  assert.match(pages.comparar, /href="\/es\/exchanges#nxa-context\?market=MX/);
 
   assert.match(pages.costos, /Cálculo de 4 capas antes del depósito/);
   assert.match(pages.costos, /Qué costes debe separar un usuario mexicano antes de depositar/);

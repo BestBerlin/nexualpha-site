@@ -1,6 +1,3 @@
-import {withoutR181} from './r182-peer-scope.mjs';
-import {withoutR180Copy} from './r180-source-scope.mjs';
-import {expectedRegistrationSource} from './r176-peer-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -9,6 +6,28 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createHash } from 'node:crypto';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("../../../r163-home-decision-copy/candidate/src/components/v3/LeanHero.jsx", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
+const { withoutR181: withoutR181 } = await import("./r182-peer-scope.mjs");
+const { withoutR180Copy: withoutR180Copy } = await import("./r180-source-scope.mjs");
+const { expectedRegistrationSource: expectedRegistrationSource } = await import("./r176-peer-source.mjs");
+
+
+
+
+
+
+
+
 
 const req = createRequire(import.meta.url);
 const React = req('react');
@@ -234,3 +253,4 @@ test('R169 CSS adds only scoped chooser rules and keeps native summary/touch tar
   assert.doesNotMatch(extra, /font-size\s*:\s*(?:0\.[0-7]|[0-9]+px)/, 'no smaller text hack in new chooser CSS');
   assert.doesNotMatch(extra, /display\s*:\s*none|visibility\s*:\s*hidden|overflow\s*:\s*hidden/);
 });
+}

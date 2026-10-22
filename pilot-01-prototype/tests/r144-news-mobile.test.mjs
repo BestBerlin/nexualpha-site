@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -16,7 +17,7 @@ test('four category buttons use a two-column mobile grid without clipped text or
  assert.ok(!mobile.nodes.some(n=>n.selector==='.news-tabs::-webkit-scrollbar'));
  for(const d of [...Object.entries(tabs),...Object.entries(button)]) assert.ok(!['overflow','overflow-x','text-overflow','line-clamp'].includes(d[0]));
 });
-test('only bounded mobile category CSS and the R164 four-card news grid hunk change; all article behavior remains exact',()=>{
+test('only bounded mobile category CSS and the R164 four-card news grid hunk change; all article behavior remains exact', { skip: !existsSync(new URL('../../../r143-interaction-integration/candidate/src/components/v3/news/NewsListPage.jsx', import.meta.url)) && 'Original historical source snapshot is absent from a fresh checkout' },()=>{
  const strip = s => s
    .replace(/@media \(min-width: 641px\) \{\n  \.news-grid\[data-visible-count=\"4\"\] \{\n    grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);\n  \}\n\}\n\n/g,'')
    .replace(/  \.news-tabs \{[\s\S]*?  \.news-article-card__footer \{/,'  .news-article-card__footer {');
@@ -25,7 +26,7 @@ test('only bounded mobile category CSS and the R164 four-card news grid hunk cha
  assert.match(css,/\.news-tabs \{\s*display: inline-flex;/);
  assert.match(css,/@media \(min-width: 641px\) \{\n  \.news-grid\[data-visible-count=\"4\"\] \{\n    grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
 });
-test('component behavior, all article links/data and commercial registry are byte-preserved',()=>{
+test('component behavior, all article links/data and commercial registry are byte-preserved', { skip: !existsSync(new URL('../../../r143-interaction-integration/candidate/src/components/v3/news/NewsListPage.jsx', import.meta.url)) && 'Original historical source snapshot is absent from a fresh checkout' },()=>{
  for(const p of ['src/components/v3/news/NewsListPage.jsx','src/data/partner-registry.js']) assert.equal(read(p),baseline(p));
  const source=read('src/components/v3/news/NewsListPage.jsx');
  assert.match(source,/NEWS_INITIAL_VISIBLE_COUNT = 4/);

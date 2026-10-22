@@ -1,8 +1,13 @@
+import {committedFileHash} from './r100-test-contracts.mjs';
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+const reviewInputs=['../docs/evidence/telegram-wave59-international-canonical-review-pack-20260916.json', '../docs/strategy/telegram-wave59-international-canonical-review-pack-20260916.md'];
+if(!reviewInputs.every(p=>existsSync(new URL(p,import.meta.url)))) test('archived review evidence available',{skip:'Requires archived operator review pack: '+reviewInputs.join(', ')},()=>{});
+else {
 const evidence = JSON.parse(
   await readFile(new URL("../docs/evidence/telegram-wave59-international-canonical-review-pack-20260916.json", import.meta.url), "utf8"),
 );
@@ -134,3 +139,7 @@ test("Wave59 preserves the protected partner registry invariant", () => {
   assert.equal(hash, evidence.protectedInvariants.expectedPartnerRegistrySha256);
   assert.equal(hash, "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a");
 });
+
+}
+
+test('independent current registry protection',async()=>{const bytes=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),committedFileHash('src/data/partner-registry.js'));});

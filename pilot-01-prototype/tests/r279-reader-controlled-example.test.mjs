@@ -1,3 +1,6 @@
+import { existsSync as historicalFixtureExists } from 'node:fs';
+// Only historical comparisons need this external review snapshot. Local checks run.
+const historicalFixture = new URL("../../reader-example-baseline/LiveConversionProof.jsx", import.meta.url);
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -62,10 +65,10 @@ test('hidden/reduced/mobile guards stop pending transition and need explicit res
 test('Play cannot override reduced/mobile/hidden guards including exact 780 boundary',()=>{for(const opts of [{width:780},{reduced:true},{hidden:true}]){const h=mount(opts);h.click();assert.equal(h.timers.count(),0);assert.equal(h.button().props['aria-pressed'],false);h.unmount();}});
 test('locale change cancels pending transition, resets example and needs reader consent',()=>{const h=mount();h.click();h.timers.advance(4500);h.locale('ja');assert.equal(h.timers.count(),0);assert.equal(h.button().props['aria-pressed'],false);assert.match(snapshot(h),/OKX/);h.click();assert.equal(h.timers.count(),1);h.unmount();});
 test('unmount clears interval and transition timeout plus modern/legacy listeners',()=>{for(const legacy of [false,true]){const h=mount({legacy});h.click();h.timers.advance(4500);assert.equal(h.timers.count(),2);h.unmount();assert.equal(h.timers.count(),0);assert.equal(h.motion.count()+h.narrow.count()+h.short.count()+h.document.count(),0);}});
-test('15 native controls preserve existing example data/disclaimer and registry',()=>{const baseline=readFileSync(new URL('../../reader-example-baseline/LiveConversionProof.jsx',import.meta.url),'utf8');const data=s=>s.slice(s.indexOf('const MOCK_EVENTS'),s.indexOf('export function LiveConversionProof'));assert.equal(data(source).split('const examplePlaybackCopy')[0].trim(),data(baseline).trim());const label=s=>s.match(/  const exampleLabel =[^\n]+/)[0];assert.equal(label(source),label(baseline));const h=mount();const labels=[];for(const locale of ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it']){h.locale(locale);labels.push(h.button().children.join(''));assert.ok(h.draw().props['aria-label']);assert.equal(h.timers.count(),0);}assert.equal(new Set(labels).size,15);h.unmount();assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');});
+test('15 native controls preserve existing example data/disclaimer and registry', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{const baseline=readFileSync(new URL('../../reader-example-baseline/LiveConversionProof.jsx',import.meta.url),'utf8');const data=s=>s.slice(s.indexOf('const MOCK_EVENTS'),s.indexOf('export function LiveConversionProof'));assert.equal(data(source).split('const examplePlaybackCopy')[0].trim(),data(baseline).trim());const label=s=>s.match(/  const exampleLabel =[^\n]+/)[0];assert.equal(label(source),label(baseline));const h=mount();const labels=[];for(const locale of ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it']){h.locale(locale);labels.push(h.button().children.join(''));assert.ok(h.draw().props['aria-label']);assert.equal(h.timers.count(),0);}assert.equal(new Set(labels).size,15);h.unmount();assert.equal(createHash('sha256').update(readFileSync(new URL('../src/data/partner-registry.js',import.meta.url))).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');});
 test('control CSS preserves fixed position, mobile guard and accessible focus target',()=>{const css=readFileSync(new URL('../src/components/v3/live-conversion-proof.css',import.meta.url),'utf8');assert.match(css,/min-height: 44px/);assert.match(css,/conversion-proof__control:focus-visible/);assert.match(css,/pointer-events: auto/);assert.match(css,/@media \(max-width: 780px\)/);});
 
-test('actual React SSR preserves all original text/markup except authorized control wrapper and live mode',()=>{
+test('actual React SSR preserves all original text/markup except authorized control wrapper and live mode', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{
  const React=req('react'),{renderToStaticMarkup}=req('react-dom/server');
  const baseline=readFileSync(new URL('../../reader-example-baseline/LiveConversionProof.jsx',import.meta.url),'utf8');
  const load=text=>{const module={exports:{}};vm.runInNewContext(transformSync(text,{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,require:name=>name==='react'?React:{}});return module.exports.LiveConversionProof;};
@@ -83,7 +86,7 @@ test('repeated Play/Pause and duplicate visibility events do not multiply timers
  assert.equal(h.motion.count(),1);assert.equal(h.narrow.count(),1);assert.equal(h.document.count(),1);h.unmount();
 });
 
-test('CSS edit is additive, scoped to illustrative content/control; fixed layout and all old media bytes remain',()=>{
+test('CSS edit is additive, scoped to illustrative content/control; fixed layout and all old media bytes remain', { skip: !historicalFixtureExists(historicalFixture) && "Missing historical review fixture: " + historicalFixture.pathname },()=>{
  const before=readFileSync(new URL('../../reader-example-baseline/live-conversion-proof.css',import.meta.url),'utf8');
  const after=readFileSync(new URL('../src/components/v3/live-conversion-proof.css',import.meta.url),'utf8');
  assert.ok(after.startsWith(before));

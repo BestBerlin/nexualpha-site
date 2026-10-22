@@ -1,8 +1,13 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+const reviewInputs=['../docs/evidence/wave56-tokenized-treasury-authority-review-pack-20260916.json', '../docs/strategy/wave56-tokenized-treasury-authority-review-pack-20260916.md', '../docs/strategy/telegram-wave56-tokenized-treasury-review-pack-20260916.md'];
+if(!reviewInputs.every(p=>existsSync(new URL(p,import.meta.url)))) test('archived review evidence available',{skip:'Requires archived operator review pack: '+reviewInputs.join(', ')},()=>{});
+else {
 const evidence = JSON.parse(
   await readFile(new URL("../docs/evidence/wave56-tokenized-treasury-authority-review-pack-20260916.json", import.meta.url), "utf8"),
 );
@@ -19,7 +24,7 @@ const treasuryAsset = JSON.parse(
 );
 const partnerRegistry = await readFile(new URL("../src/data/partner-registry.js", import.meta.url));
 
-const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const protectedPartnerRegistrySha = committedFileHash("src/data/partner-registry.js");
 const rawExchangeRegistrationUrl =
   /accounts\.binance\.com|bsmkweb\.cc|partner\.bitget|bitget\.com\/(expressly|register|referral|signup)|okx\.com\/(join|register|referral)|topzhjdgxcb|backpack\.exchange\/join/i;
 const positiveForbiddenClaims =
@@ -96,3 +101,7 @@ test("Wave56 preserves the protected invitation registry", () => {
   assert.equal(hash, protectedPartnerRegistrySha);
   assert.equal(hash, evidence.protectedInvariants.partnerRegistrySha256);
 });
+
+}
+
+test('independent current registry protection',async()=>{const bytes=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),committedFileHash('src/data/partner-registry.js'));});

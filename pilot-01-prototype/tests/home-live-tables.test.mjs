@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync } from "node:fs";
+import { JSDOM } from "jsdom";
+import { WHALES_API_PATH } from "../src/data/whales-home.js";
 import { createSsrHarness, hydrateInJsdom, hydrationErrors, prerenderState, SHELL_HTML } from "./helpers/ssr-hydration-harness.mjs";
 import worker from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
@@ -19,13 +22,8 @@ const liveFunding = {
 };
 
 
-const liveMovers = {
-  generatedAt,
-  source: "test",
-  headline: { kind: "funding", base: "BTC", binance: "+0.0100%", okx: "−0.0020%" },
-  up: [{ sym: "BTC", slug: "bitcoin", name: "Bitcoin", price: "$100,000.00", change: "+2.50%", dir: "up" }],
-  down: [{ sym: "ETH", slug: "ethereum", name: "Ethereum", price: "$3,000.00", change: "−1.20%", dir: "down" }],
-};
+// Synthetic layout fixture: validates rendering and refresh, never evidence of live market activity.
+const liveWhales = { ...JSON.parse(readFileSync(new URL("./fixtures/whale-watch-layout.json", import.meta.url))), updatedAt: generatedAt };
 
 const emptyFunding = {
   generatedAt,
@@ -143,24 +141,24 @@ test("public partner feed count follows the home partner registry", () => {
 });
 
 
-test("home movers table is hidden until a live snapshot exists", async () => {
+test("home whale board has no invented rows before a snapshot and renders a supplied snapshot", async () => {
   const harness = await createSsrHarness();
   try {
-    const noFeed = harness.render("/");
-    assert.match(noFeed, /<section class="h7-in h7-mv" id="h7-movers"[^>]*hidden=""/);
-    assert.match(noFeed, /<!--mv-end-->/, "worker splice marker remains available");
-
-    const html = harness.render("/", { movers: liveMovers });
-    const openTag = html.match(/<section class="h7-in h7-mv" id="h7-movers"[^>]*>/)?.[0] || "";
-    assert.doesNotMatch(openTag, /hidden/);
-    assert.match(html, /BTC/);
-    assert.match(html, /ETH/);
-  } finally {
-    await harness.close();
-  }
+    const noFeed = new JSDOM(harness.render("/"));
+    const seeded = new JSDOM(harness.render("/", { whales: liveWhales }));
+    try {
+      const empty = noFeed.window.document.querySelector("#h7-whales");
+      assert.ok(empty, "stable whale board shell renders before the live feed arrives");
+      assert.equal(empty.querySelectorAll(".h7-wh-list li").length, 0, "no fabricated market rows");
+      assert.ok(empty.innerHTML.includes("<!--whales-end-->"), "worker splice marker remains available");
+      const board = seeded.window.document.querySelector("#h7-whales");
+      assert.ok(board.querySelectorAll(".h7-wh-list li").length > 0);
+      assert.match(board.textContent, /HYPE/);
+    } finally { noFeed.window.close(); seeded.window.close(); }
+  } finally { await harness.close(); }
 });
 
-test("client refresh recovers missing home funding and hidden movers without hydration errors", async () => {
+test("client refresh recovers missing home funding and whale rows without hydration errors", async () => {
   const harness = await createSsrHarness();
   try {
     const html = SHELL_HTML.replace('<div id="root"></div>', `<div id="root">${harness.render("/")}</div>`);
@@ -170,27 +168,27 @@ test("client refresh recovers missing home funding and hidden movers without hyd
       timeoutMs: 2500,
       intersectionObserver: class {
         constructor(callback) { this.callback = callback; }
-        observe(target) { observed.push(target.id); this.callback([{ target, boundingClientRect: target.getBoundingClientRect(), isIntersecting: target.id === "h7-flash" || (target.id === "h7-movers" && !target.hidden) }]); }
+        observe(target) { observed.push(target.id); this.callback([{ target, boundingClientRect: target.getBoundingClientRect(), isIntersecting: target.id === "h7-whales" }]); }
         disconnect() {} unobserve() {}
       },
       fetchImpl: async (input) => {
         const path = String(input);
         requests.push(path);
         if (path === "/intel/funding-rates.json") return Response.json(liveFunding);
-        if (path === "/api/movers.json") return Response.json(liveMovers);
+        if (path === `${WHALES_API_PATH}?view=home`) return Response.json(liveWhales);
         return new Response("{}", { status: 404 });
       },
       inspect: (window) => ({
         funding: window.document.querySelector("#h7-funding")?.textContent,
-        moversHidden: window.document.querySelector("#h7-movers")?.hidden,
-        movers: window.document.querySelector("#h7-movers")?.textContent,
+        whaleRows: window.document.querySelectorAll("#h7-whales .h7-wh-list li").length,
+        whales: window.document.querySelector("#h7-whales")?.textContent,
       }),
     });
     assert.ok(requests.includes("/intel/funding-rates.json"), JSON.stringify({ requests, observed }));
-    assert.ok(requests.includes("/api/movers.json"));
+    assert.ok(requests.includes(`${WHALES_API_PATH}?view=home`), JSON.stringify(requests));
     assert.match(hydrated.inspected.funding, /\+0\.0100%/);
-    assert.equal(hydrated.inspected.moversHidden, false);
-    assert.match(hydrated.inspected.movers, /\+2\.50%/);
+    assert.ok(hydrated.inspected.whaleRows > 0);
+    assert.match(hydrated.inspected.whales, /HYPE/);
     assert.deepEqual(hydrationErrors(hydrated.errors), [], hydrated.errors.join("\n"));
   } finally { await harness.close(); }
 });

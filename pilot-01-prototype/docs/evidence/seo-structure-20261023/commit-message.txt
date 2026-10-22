@@ -1,0 +1,14 @@
+Concentrate crawl budget on approved research and connected hubs
+
+Keep publishing volume and readable editions while excluding thin sitemap entries.
+Preserve publication authority through compact projections and validate real SSR anchors.
+
+Constraint: Home initial JavaScript must stay below 350000 gzip bytes
+Rejected: Reduce article volume | Owner requires the existing publishing volume
+Confidence: high
+Scope-risk: moderate
+Directive: Preserve explicit search approval when projecting article summaries
+Tested: Node 24 build, strict bundle budget, typecheck, 236 regressions, 448 article editions, 5558 sitemap targets within three clicks
+Not-tested: Browser geometry, production HTTP, live feed availability, search-engine indexing
+
+Co-Authored-By: Codex <noreply@openai.com>

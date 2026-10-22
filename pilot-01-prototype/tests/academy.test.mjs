@@ -3,7 +3,7 @@
 // (partner registry + geo policy, neutral locales get no sign-up), the owner's no-fine-print rule, and /starter -> /academy.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import test from "node:test";
@@ -75,7 +75,16 @@ test("numbers and codes in localized lessons match English", () => {
   }
 });
 
-test("academy data generator reproduces checked-in generated files", () => {
+test("academy data generator reproduces checked-in generated files", (t) => {
+  const sourceRoots = [
+    process.env.ACADEMY_V3_DIR || "/Volumes/致态2TB/nx-agents/education/v3/episodes",
+    process.env.ACADEMY_L10N_DIR || "/Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out",
+  ];
+  const missing = sourceRoots.flatMap((dir) => ACADEMY_EPISODES.map((_, i) => `${dir}/E${String(i + 1).padStart(2, "0")}.json`)).filter((file) => !existsSync(file));
+  if (missing.length) {
+    t.skip(`Academy regeneration source inputs are unavailable (${missing.length} episode files; first: ${missing[0]}). Set ACADEMY_V3_DIR and ACADEMY_L10N_DIR to the complete source inputs.`);
+    return;
+  }
   const out = mkdtempSync(`${tmpdir()}/nxa-academy-build-`);
   const dataFiles = [
     "src/data/academy-season1.js",

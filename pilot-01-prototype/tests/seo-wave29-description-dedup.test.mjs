@@ -110,7 +110,7 @@ test("Wave29 eliminates the Wave28 duplicate description groups without indexabi
 test("Wave29 targeted zh-Hant descriptions are genuinely localized for high-value route types", async () => {
   const cases = [
     // Class b: home copy now follows the approved rebate-first zh-Hant product headline.
-    ["/?locale=zh-Hant", /最高返還 60%/],
+    ["/?locale=zh-Hant", /獨立的加密交易所手續費比較指南/],
     ["/compare/binance-vs-bybit?locale=zh-Hant", /比較 Binance vs Bybit 的手續費/],
     ["/compare/okx-vs-bybit?locale=zh-Hant", /比較 OKX vs Bybit 的手續費/],
     ["/exchanges/backpack?locale=zh-Hant", /Backpack 手續費、產品、帳戶條件與官方來源/],

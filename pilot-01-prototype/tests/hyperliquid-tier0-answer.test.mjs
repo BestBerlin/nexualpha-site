@@ -31,10 +31,11 @@ for (const locale of locales) {
 }
 
 test('commercial destinations are unchanged by the fee-answer edit', () => {
-  // Class b: 84b6426 intentionally switched Binance to its official primary referral domain.
+  // Snapshot refreshed after owner-approved Bitget domain migration (3ac4fbd8) and current venue facts.
+  // This guard still pins the complete commercial modules; fee-answer changes must not modify them.
   const expected = {
-    'partner-registry.js': 'e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69',
-    'venue-database.js': '0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52',
+    'partner-registry.js': '3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83',
+    'venue-database.js': '9634400aef43dbfbe4cf767fa03c34962096338bb095c1e494f1fd9d4f6be438',
     'public-cta.js': '675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3',
     'regional-cta.js': 'a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665',
   };

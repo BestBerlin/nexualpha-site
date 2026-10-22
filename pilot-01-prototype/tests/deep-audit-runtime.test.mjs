@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -6,7 +7,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createProductionServer } from '../server.mjs';
 
-test('slow and disconnected clients apply backpressure and cancel the response source', { timeout: 5000 }, async () => {
+test('slow and disconnected clients apply backpressure and cancel the response source', { timeout: 5000, skip: await loopbackListenSkip() }, async () => {
   const appRoot = await mkdtemp(path.join(os.tmpdir(), 'nx-runtime-backpressure-'));
   let produced = 0;
   let cancelled = false;

@@ -28,7 +28,7 @@ import { dropEmptyArticleHeadings } from "../src/components/v3/news/article-read
 import { trDativeSuffix, trPercentDative } from "../src/data/tr-percent.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
-import { brandSlogan } from "../src/data/brand-slogan.js";
+import { organizationDescription } from "../src/data/brand-entity.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const ORIGIN = "https://nexualpha.com";
@@ -89,15 +89,12 @@ test("#1 every sitemap entry that carries hreflang matches the page head; other 
   for (const [loc, entry] of Object.entries(built)) {
     const url = new URL(loc);
     const isNews = /^\/(?:[a-z-]+\/)?news(?:\/|$)/.test(url.pathname);
-    if (!isNews) {
-      assert.deepEqual(entry.alternates, [], `${loc}: non-news hreflang is owned by the page and /locale-sitemap.xml`);
-      continue;
-    }
+    if (!isNews && entry.alternates.length === 0) continue;
     const meta = await routeMetadata(url, env);
     assert.equal(meta.robots, "index,follow", loc);
     assert.deepEqual(entry.alternates, altSet(meta.alternates), `${loc}: sitemap.xml vs page`);
     for (const other of [library, live]) if (other[loc]) assert.deepEqual(other[loc].alternates, entry.alternates, `${loc}: sitemaps disagree`);
-    compared += 1;
+    if (isNews) compared += 1;
   }
   assert.ok(compared >= 12, `compared ${compared} news URLs`);
   // locale-sitemap.xml (worker routeMetadata) agrees with the page for every listed URL.
@@ -313,9 +310,9 @@ test("#10 llms*.txt describe the site accurately: slogan-led summary, partner co
       const text = await readFile(path.join(dir, file), "utf8");
       const [h1, , summary] = text.split("\n");
       assert.equal(h1, "# NexuAlpha", file);
-      assert.ok(summary.startsWith(`> ${brandSlogan("en").replace(/\.$/, "")}`), `${file}: summary starts with slogan A`);
-      assert.match(summary, /independent crypto exchange research/);
-      assert.match(summary, /disclosed partner links and invite codes/);
+      assert.equal(summary, `> ${organizationDescription("en")}`, `${file}: current source-bound entity summary`);
+      assert.match(summary, /independent guidance/i);
+      assert.match(summary, /disclosed exchange referrals/);
       assert.match(text, /Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you\./, `${file}: disclosure wording`);
       // llms-small lists the partners with a published fee-return share and points to the full list.
       for (const partner of partners.filter((item) => file !== "llms-small.txt" || item.share > 0)) assert.ok(text.includes(`${partner.name}: invite code ${partner.inviteCode};`), `${file}: ${partner.name}`);

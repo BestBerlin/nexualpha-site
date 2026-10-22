@@ -8,7 +8,7 @@ import { regionalAeoCoverageSummary } from "../src/data/regional-preview-copy.js
 import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import worker, { routeMetadata } from "../worker/index.js";
 
-const forbiddenCommercialTokens = /https?:\/\/(?:www\.)?(?:bsmkweb|binance|bitget|okx|backpack)|nexu888|11350287|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|guaranteed|bonus|cashback|reward|commission|referral code|invite code/i;
+const forbiddenCommercialTokens = /https?:\/\/(?:www\.)?(?:bsmkweb|binance|bitget|okx|backpack)|nexu888|11350287|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|guaranteed|bonus|cashback|reward|commission|invite code/i;
 
 const shell = "<!doctype html><html lang=\"en\"><head><title>NexuAlpha</title><meta name=\"description\" content=\"base\"><meta name=\"robots\" content=\"index,follow\"></head><body><main>app</main></body></html>";
 

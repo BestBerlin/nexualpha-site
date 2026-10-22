@@ -178,6 +178,7 @@ export const FRAGMENT_CONTEXT_KEYS = Object.freeze({
   order: "order",
   publisher: "publisher",
   scenario: "scenario",
+  pair: "pair",
   utm_source: "utm_source",
   utm_medium: "utm_medium",
   utm_campaign: "utm_campaign",

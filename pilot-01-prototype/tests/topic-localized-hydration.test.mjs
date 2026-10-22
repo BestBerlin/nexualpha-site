@@ -1,3 +1,5 @@
+import {loopbackUnavailableReason} from './sandbox-network.mjs';
+const networkSkip=await loopbackUnavailableReason();
 import assert from "node:assert/strict";
 import { once } from "node:events";
 import { spawn } from "node:child_process";
@@ -41,7 +43,7 @@ async function startPreview(port) {
   return child;
 }
 
-test("Korean and Turkish no-KYC topic SSR and hydration keep the no-KYC title", async (t) => {
+test("Korean and Turkish no-KYC topic SSR and hydration keep the no-KYC title", {skip:networkSkip}, async (t) => {
   const port = 4300 + (process.pid % 2000);
   const base = `http://127.0.0.1:${port}`;
   const preview = await startPreview(port);
@@ -112,7 +114,7 @@ test("Korean and Turkish no-KYC topic SSR and hydration keep the no-KYC title", 
 });
 
 
-test("Korean and Turkish no-KYC topic mobile hard navigations keep hydration clean on one page", async (t) => {
+test("Korean and Turkish no-KYC topic mobile hard navigations keep hydration clean on one page", {skip:networkSkip}, async (t) => {
   const port = 4500 + (process.pid % 2000);
   const base = `http://127.0.0.1:${port}`;
   const preview = await startPreview(port);

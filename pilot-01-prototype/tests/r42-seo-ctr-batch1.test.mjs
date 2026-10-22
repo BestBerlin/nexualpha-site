@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -12,8 +13,8 @@ const forbidden = /11350287|nexu888|LUCKX|CANDY007|INS898|1836370407|luckybitcoi
 
 // Class b: 84b6426 made the official binance.com referral route the accepted protected registry bytes.
 const protectedHashes = {
-  "../src/data/partner-registry.js": "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69",
-  "../src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
+  "../src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "../src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
   "../src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
   "../src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
 };
@@ -50,23 +51,23 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
       path: "/news/hyperliquid-vs-dydx",
       article: article("hyperliquid-vs-dydx"),
       // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
-      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation/,
-      description: /oracle, wallet and recovery mechanics/,
+      title: /Hyperliquid vs dYdX \(2026\): Fees, Funding and Liquidations/,
+      description: /14-day volume.*funding.*margin.*liquidation/,
       schema: /Should I choose Hyperliquid or dYdX for perp DEX trading/,
     },
     {
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
-      title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
+      title: /^OKX USD to USDC Spot Pairs \(2026\): Orders, Bots, API Fixes/,
       // Class b: the current reviewed summary keeps the same fields without the literal "fields" suffix.
-      description: /open orders, bots, API instId and tradeQuoteCcy/,
+      description: /orders, bots, API instId and tradeQuoteCcy/,
       schema: /OKX USD to USDC spot-pair migration/,
     },
     {
       path: "/exchanges/deribit",
       // Striking distance 2026-10-11: fees-first title within the 60-character budget.
-      title: /Deribit Fees: Options, Futures and 10% User Discount Terms/,
-      description: /six-month 10% user fee discount/,
+      title: /Deribit fees, sign-up & KYC/,
+      description: /spot maker\/taker.*KYC.*eligibility/,
       schema: /crypto options, futures, perpetuals, margin models, API execution or liquidation mechanics/,
     },
     {

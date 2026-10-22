@@ -18,7 +18,8 @@ async function renderOwnerIntentFixture() {
     await writeFile(entryPath, `
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
-      import { CompareDeepPage, VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+      import { CompareDeepPage } from "../../src/components/v3/V3Pages.jsx";
+      import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
       import { TokenizedAssetsPage } from "../../src/components/v3/TokenizedAssetsPage.jsx";
       import { venueDatabase } from "../../src/data/venue-database.js";
       import { v3Copy } from "../../src/data/v3-product.js";
@@ -86,24 +87,26 @@ test("priority venue answers expose owner questions and one primary next action"
 
 test("compare direct answers expose owner questions and support-page next actions", () => {
   const bybitBitget = compareDirectAnswerFor("bybit-vs-bitget", "en");
-  assert.match(bybitBitget.ownerQuestion, /Should you choose Bybit or Bitget/);
+  assert.match(bybitBitget.ownerQuestion, /Bybit vs Bitget.*fees.*KYC/i);
   assert.deepEqual(bybitBitget.primaryNextAction, ["Open the product-specific evidence first", "/topics/tokenized-stocks-vs-perpetuals"]);
 
   const hyperliquidDydx = compareDirectAnswerFor("hyperliquid-vs-dydx", "en");
-  assert.match(hyperliquidDydx.ownerQuestion, /Should you choose Hyperliquid or dYdX/);
+  assert.match(hyperliquidDydx.ownerQuestion, /Hyperliquid vs dYdX.*fees.*KYC/i);
   assert.deepEqual(hyperliquidDydx.primaryNextAction, ["Read the dated source explainer first", "/news/hyperliquid-vs-dydx"]);
 });
 
 test("SSR renders owner-level H1s and tokenized topic primary actions", async () => {
   const html = await renderOwnerIntentFixture();
 
-  assert.match(html.venues.hyperliquid, /<h1[^>]*>Should you use Hyperliquid after checking fees, funding, collateral and liquidation\?<\/h1>/);
-  assert.match(html.venues.uniswap, /<h1[^>]*>Should you use Uniswap after checking chain, token contract, approval and wallet preview\?<\/h1>/);
-  assert.match(html.venues.gmx, /<h1[^>]*>Should you use GMX after checking pool liquidity, collateral, fees and liquidation risk\?<\/h1>/);
-  assert.match(html.venues.drift, /<h1[^>]*>Should you open Drift after checking its current site, updates and documentation route\?<\/h1>/);
-
-  assert.match(html.compares.bybitBitget, /<h1[^>]*>Should you choose Bybit or Bitget for the product route you actually need\?<\/h1>/);
-  assert.match(html.compares.hyperliquidDydx, /<h1[^>]*>Should you choose Hyperliquid or dYdX after checking fees, funding, liquidation and access risk\?<\/h1>/);
+  for(const [slug, brand] of [['hyperliquid','Hyperliquid'],['uniswap','Uniswap'],['gmx','GMX'],['drift','Drift']]){
+    const headings=[...html.venues[slug].matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+    assert.equal(headings.length,1,slug+' single owner heading');
+    assert.ok(headings[0][1].includes(brand),slug+' venue identity in owner heading');
+  }
+  for(const [key, pair] of [['bybitBitget','bybit-vs-bitget'],['hyperliquidDydx','hyperliquid-vs-dydx']]){
+    const h1=html.compares[key].match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1];
+    assert.equal(h1,compareDirectAnswerFor(pair,'en').ownerQuestion,pair+' visible owner question');
+  }
 
   assert.match(html.topics.tokenizedAssets, /href="\/topics\/tokenized-treasuries"[^>]*data-cta-placement="tokenized-assets-primary-next-action"/);
   assert.match(html.topics.tokenizedTreasuries, /href="\/news\/tokenized-treasuries-structure-access-risks"[^>]*data-cta-placement="tokenized-assets-primary-next-action"/);

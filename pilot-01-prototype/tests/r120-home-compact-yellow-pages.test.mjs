@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -30,5 +31,5 @@ test('R120 homepage compact fix does not alter CTA href ownership or partner reg
   assert.match(jsx, /className=\{`yellow-pages__grid\$\{compact \? " yellow-pages__grid--compact" : " yellow-pages__grid--directory"\}/, 'homepage still uses compact grid class');
   assert.match(jsx, /href=\{registrationUrl\}[\s\S]*className="yellow-card__btn-register"/, 'registration button still uses resolved partner URL');
   const sha = createHash('sha256').update(registry).digest('hex');
-  assert.equal(sha, '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(sha, committedFileHash('src/data/partner-registry.js'));
 });

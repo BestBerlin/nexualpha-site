@@ -657,7 +657,7 @@ test("server-rendered news routes expose canonical metadata and fail unknown slu
   const html = await response.text();
   assert.equal(response.status, 200);
   assert.match(html, /<title[^>]*>Verified Search Title — NexuAlpha<\/title>/);
-  assert.match(html, /name="description" content="A source-backed route description\."/);
+  assert.match(html, /name="description" content="A source-backed route description\.[^"]*"/);
   assert.match(html, /"headline":"Verified Article"/);
   assert.match(html, /rel="canonical" href="https:\/\/nexualpha\.com\/news\/verify-official-crypto-exchange-website"/);
   assert.match(html, /NEXUALPHA_ARTICLE_ROUTE_V1/);

@@ -1,4 +1,6 @@
-import {assertApprovedResearchMove} from './r189-presentation-contract.mjs';
+import { parseComparePair } from '../src/data/compare-slug.js';
+import { outboundLink, sourceDomain } from '../src/data/exchange-outbound.js';
+import { localizedHref } from '../src/data/locale-routing.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {build} from 'esbuild';
@@ -29,7 +31,35 @@ test('explicit Hant nested decision copy is consumed by actual SSR',()=>{
 test('compliant research copy does not claim live quantitative audits or guaranteed protection',()=>{
  for(const body of Object.values(rendered))assert.doesNotMatch(body,/统一量化引擎|統一量化引擎|实盘挂单深度|實盤掛單深度|Audited side-by-side|万无一失|萬無一失|全面消除/);
 });
-test('all existing commercial, research and source hrefs survive unchanged',async()=>{
+test('current research and official sources preserve their locale-aware link or plain-domain outcomes', async () => {
  const baseline=JSON.parse(await readFile(baselinePath,'utf8'));
- for(const [locale,body]of Object.entries(rendered))assertApprovedResearchMove(hrefs(body),baseline[locale].map(href=>href.replace(/([?&]|&amp;)tg_expires=\d+/g,'$1tg_expires=DYNAMIC')),locale);
+ for (const [locale, body] of Object.entries(rendered)) {
+  const current = hrefs(body).map((href) => href.replaceAll('&amp;', '&'));
+  assert.match(body, /data-testid="topic-research-links"|topic-research-links|topic-derivatives|topic-source/);
+  assert.ok(current.some((href) => href.startsWith('https://t.me/')), `${locale} keeps the research bot route`);
+  for (const original of new Set(baseline[locale])) {
+   const href = original.replaceAll('&amp;', '&');
+   if (!href.startsWith('http')) {
+    const originalUrl = new URL(href, 'https://nexualpha.com');
+    if (originalUrl.searchParams.has('tg_return') || originalUrl.searchParams.get('utm_source') === 'telegram') {
+      assert.doesNotMatch(body, /data-telegram-return-href=/, `${locale} defers transient return tokens until hydration`);
+      continue;
+    }
+    const expected = localizedHref(href, { locale });
+    const pair = new URL(href, 'https://nexualpha.com').pathname.match(/\/compare\/([^/]+)/)?.[1];
+    if (pair && !parseComparePair(pair)) {
+      assert.ok(!current.includes(expected), `${locale} omits retired unsupported pair ${pair}`);
+      continue;
+    }
+    assert.ok(current.includes(expected), `${locale} keeps internal research destination ${expected}`);
+    continue;
+   }
+   if (href.startsWith('https://t.me/')) continue;
+   const url = new URL(href);
+   if (url.pathname === '/' || /register|signup|join|ref=/i.test(href)) continue; // signup targets follow the current reviewed CTA registry
+   const linked = outboundLink(href, { locale });
+   if (linked) assert.ok(current.includes(linked.href), `${locale} keeps attributed official evidence ${href}`);
+   else assert.ok(body.includes(`data-source-plain="${sourceDomain(href)}"`), `${locale} keeps official source domain ${href}`);
+  }
+ }
 });

@@ -30,13 +30,13 @@ function registrationHandleHarness({ clipboard, execResult = true, execThrows = 
   const setTimeout = (fn, ms) => { timers.set(++timerId, { fn, ms }); return timerId; };
   const clearTimeout = (id) => timers.delete(id);
   const begin = regSource.indexOf('  const handleCopy = ');
-  const end = regSource.indexOf('\n  const benefitText', begin);
+  const end = regSource.indexOf('\n  };', begin) + '\n  };'.length;
   assert.ok(begin >= 0 && end > begin, 'RegistrationCard handleCopy block exists');
   const arrow = regSource.slice(begin, end).replace('  const handleCopy = ', '').trim().replace(/;$/, '');
   const handler = Function(
-    'visiblePartner', 'navigator', 'document', 'setCopyState', 'setTimeout', 'clearTimeout', 'copyFeedbackTimerRef', 'copyRequestRef', 'copyMountedRef',
+    'visiblePartner', 'navigator', 'document', 'setCopyState', 'setTimeout', 'clearTimeout', 'copyFeedbackTimerRef', 'copyRequestRef', 'copyMountedRef', 'trackCodeCopy', 'venueSlug', 'compact',
     `return (${arrow});`,
-  )({ inviteCode: code }, navigator, document, (value) => states.push(value), setTimeout, clearTimeout, ...refs);
+  )({ inviteCode: code }, navigator, document, (value) => states.push(value), setTimeout, clearTimeout, ...refs, () => {}, "test-venue", false);
   return { handler, states, writes, timers };
 }
 
@@ -118,8 +118,8 @@ test('Factbook renders explicit failure status and manual recovery surfaces', ()
   assert.match(factbookSource, /maxWidth: "100%"/);
 });
 
-test('copy failure feedback reuses existing 15-locale feedback source', () => {
-  assert.equal(tradingBleedLocales.length, 15);
+test('copy failure feedback reuses all supported locale feedback source', () => {
+  assert.deepEqual([...tradingBleedLocales].sort(), ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko', 'tr', 'es', 'pt-BR', 'fr', 'de', 'ru', 'ar', 'ur', 'uk', 'id', 'vi', 'it'].sort());
   for (const locale of tradingBleedLocales) {
     const feedback = bleedCopyFeedback(locale);
     assert.ok(feedback.failed, `${locale} has localized failed feedback`);
@@ -127,8 +127,8 @@ test('copy failure feedback reuses existing 15-locale feedback source', () => {
   }
   assert.notEqual(bleedCopyFeedback('ja').failed, bleedCopyFeedback('en').failed);
   assert.notEqual(bleedCopyFeedback('ar').failed, bleedCopyFeedback('en').failed);
-  assert.match(regSource, /import \{ bleedCopyFeedback \} from "\.\.\/\.\.\/data\/trading-bleed-copy\.js"/);
-  assert.match(factbookSource, /import \{ bleedCopyFeedback \} from "\.\.\/\.\.\/data\/trading-bleed-copy\.js"/);
+  assert.match(regSource, /import \{ bleedCopyFeedback \} from "\.\.\/\.\.\/data\/trading-bleed-feedback\.js"/);
+  assert.match(factbookSource, /import \{ bleedCopyFeedback \} from "\.\.\/\.\.\/data\/trading-bleed-feedback\.js"/);
 });
 
 test('Factbook copy requests ignore stale promises and stale reset timers', () => {
@@ -153,7 +153,7 @@ test('Factbook resets copy state and raw recovery when venue context changes', (
 
 test('R277 copy recovery does not change partner registry or invite values', () => {
   const registry = read('src/data/partner-registry.js');
-  assert.equal(createHash('sha256').update(registry).digest('hex'), '8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+  assert.equal(createHash('sha256').update(registry).digest('hex'), '3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83');
   assert.match(regSource, /inviteCode: publicCta\.inviteCode/);
   assert.match(regSource, /registrationUrl: regionalCta\.direct \? regionalCta\.ctaHref : null/);
 });

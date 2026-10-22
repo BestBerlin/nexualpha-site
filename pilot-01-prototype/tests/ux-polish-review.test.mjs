@@ -40,7 +40,9 @@ test("Telegram header entry is an outline control, not a filled brand-blue pill"
   assert.match(tg, /\.nx-tg \{[^}]*background: transparent;[^}]*border: 1px solid var\(--nx-n6\)/);
   assert.match(tg, /\.nx-tg:hover[^{]*\{[^}]*\}\s*\.nx-tg:hover \.nx-ico[^{]*\{ color: var\(--nx-accent\)/);
   const header = read("src/components/shell/SiteHeader.jsx");
-  assert.match(header, /function TelegramIcon\(\) \{\s*return <svg[^>]*fill="none" stroke="currentColor"/);
+  assert.match(header, /import \{ TelegramGlyph, XGlyph, YouTubeGlyph \} from "\.\.\/shared\/SocialIcons\.jsx"/);
+  assert.match(header, /<TelegramGlyph/);
+  assert.match(read("src/components/shared/SocialIcons.jsx"), /function TelegramGlyph/);
   // Link targets and tracking attributes stay as they were.
   assert.match(header, /className="nx-tg nx-tg--compact" href=\{telegramItem\[1\]\}/);
   assert.match(header, /className="nx-tg" href=\{telegramItem\[1\]\}/);

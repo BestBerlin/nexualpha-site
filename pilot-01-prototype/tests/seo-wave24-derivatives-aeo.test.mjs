@@ -1,3 +1,5 @@
+import { topicFaqSchemaEntries } from '../src/data/topic-source-registry.js';
+import { budgetTitle } from '../src/data/meta-description.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
@@ -17,8 +19,8 @@ test('Wave24 derivatives topic owns broad crypto perpetual platform intent', () 
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.equal(seo.title, 'Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha');
-  assert.match(seo.description, /account model, published fees, funding, margin mode, liquidation rules, oracle route/i);
+  assert.equal(seo.title, budgetTitle('Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha'));
+  assert.match(seo.description, /published fees, funding, margin mode, liquidation rules, oracle route/i);
   assert.equal(collection.dateModified, '2026-09-22');
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/compare/hyperliquid-vs-dydx'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/news/hyperliquid-vs-dydx'));
@@ -26,10 +28,10 @@ test('Wave24 derivatives topic owns broad crypto perpetual platform intent', () 
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/compare/bybit-vs-bitget'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/exchanges/hyperliquid'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/exchanges/binance'));
-  assert.match(serialized, /What is a crypto perpetual platform, and how should I compare one/);
-  assert.match(serialized, /evergreen checklist/);
-  assert.match(serialized, /wallet-connected perpetual mechanics/);
-  assert.match(serialized, /Final product access, KYC, country availability, benefits, leverage and fee tier/);
+  assert.deepEqual(faq.mainEntity, topicFaqSchemaEntries('derivatives', 'en'));
+  assert.match(JSON.stringify(faq), /funding, collateral, margin and liquidation documentation/);
+  assert.match(JSON.stringify(faq), /official fees and access terms/);
+  assert.ok(faq.mainEntity.every(item => item.acceptedAnswer.citation?.length >= 1));
   assert.match(serialized, /https:\/\/www\.binance\.com/);
   assert.match(serialized, /https:\/\/www\.bybit\.com/);
   assert.match(serialized, /https:\/\/hyperliquid\.gitbook\.io\/hyperliquid-docs/);

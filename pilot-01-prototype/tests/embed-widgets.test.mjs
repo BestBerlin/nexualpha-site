@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 // Embeddable widgets (server/embed-widgets.mjs, 2026-10-11): /embed/liquidations and /embed/funding-rates render the
 // data pages' numbers from the collector feed in a self-contained, iframe-friendly, noindex HTML page; /embed/<kind>.js
 // injects the iframe. Also: the snippets the "Embed this" block shows, the beacon's landing source and the sitemap.
@@ -146,7 +147,7 @@ test("route: iframe-friendly headers (no X-Frame-Options, frame-ancestors *), no
   assert.match(await noFeed.text(), /Live data is temporarily unavailable/);
 });
 
-test("production server serves the embeds from MARKET_EVENTS_FILE ahead of the worker and leaves /embed/calculator to it", async () => {
+test("production server serves the embeds from MARKET_EVENTS_FILE ahead of the worker and leaves /embed/calculator to it", { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(tmpdir(), "embed-widgets-"));
   let server;
   try {

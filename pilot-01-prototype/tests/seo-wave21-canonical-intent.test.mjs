@@ -1,3 +1,4 @@
+import { budgetTitle } from '../src/data/meta-description.js';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
@@ -73,7 +74,7 @@ test('Wave21 Hyperliquid news article and comparison page have separate search i
   const compareSeo = computeRouteSeo({ url: '/compare/hyperliquid-vs-dydx' });
   const webpage = compareSeo.schemas.find((schema) => schema['@type'] === 'WebPage');
   const faq = webpage?.subjectOf;
-  assert.equal(compareSeo.title, 'Hyperliquid vs dYdX: Perp Fees, Funding, Liquidation and Access Checks — NexuAlpha');
+  assert.equal(compareSeo.title, 'Hyperliquid vs dYdX: fees, KYC & rebates (2026) | NexuAlpha');
   assert.match(JSON.stringify(faq), /news explainer or this comparison page/);
   assert.ok(webpage.relatedLink.includes('https://nexualpha.com/news/hyperliquid-vs-dydx'));
   assert.doesNotMatch(`${article.seo.description}\n${article.aeo.directAnswer}\n${JSON.stringify(compareSeo.schemas)}`, /guaranteed|lowest|risk-free|commission|返佣/i);

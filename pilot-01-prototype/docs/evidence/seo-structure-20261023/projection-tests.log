@@ -1,0 +1,173 @@
+✔ imports reviewed source-backed article packages into a published runtime feed (92.426334ms)
+✔ imported English search summaries end at sentence boundaries (5.63275ms)
+✔ updating a reviewed article preserves its original publication date and author (5.816167ms)
+✔ an invalid explicit publication date is rejected instead of silently replaced (7.598917ms)
+✔ packages without an original date retain the established first-publication fallback (3.4495ms)
+✔ importer repairs a source SEO description truncated after a semicolon-delimited clause (4.958542ms)
+✔ rejects packages that are not reviewed, sourced, localized, and staged or published (15.280417ms)
+✔ browser feed client normalizes safe articles and fails closed for bad data or fetch errors (3.967667ms)
+✔ browser news summary loader keeps list runtime free of article bodies and source payloads (1.04475ms)
+✔ news summary normalization accepts locale-compacted hydration payloads (0.316791ms)
+✔ international news display locales receive local-language summaries without claiming translated bodies (1.5685ms)
+✔ the highest-intent article has an explicitly reviewed multilingual decision summary (0.175625ms)
+✔ the first three high-intent articles expose reviewed summaries in every priority locale (0.330875ms)
+✔ the fourth and fifth high-intent articles keep reviewed locale summaries (0.179959ms)
+✔ news route projection keeps hydration payload compact for list and detail routes (1.08925ms)
+✔ published feed merge is idempotent and retains earlier articles (89.960167ms)
+✔ Wave41 OAI-visited articles expose current source boundaries and complete search summaries (0.692792ms)
+✔ indexable production news summaries and descriptions do not end mid-sentence (1.710333ms)
+✔ every published feed article survives browser normalization in both indexable locales (821.99375ms)
+✔ public feed rejects staging-only language in the rendered body (90.202208ms)
+✔ public feed rejects publication workflow residue in the rendered body (17.820625ms)
+✔ public feed allows legitimate technical references to article.json and sources.md (24.345458ms)
+✔ publication rejects internal editorial instructions in otherwise reviewed bodies (13.21625ms)
+✔ published production feed contains no internal publication workflow residue (39.751792ms)
+✖ server-rendered news routes expose canonical metadata and fail unknown slugs closed (368.838083ms)
+✔ priority research pages provide direct answers and distinct comparison facts without editorial scaffolding (0.856167ms)
+✔ the unrelated OKX migration article retains its reviewed action and source contract (0.09125ms)
+✔ server-rendered tokenized Treasuries article exposes current internal links (1855.272583ms)
+✔ legacy venue page paths are not compatible while exchange profiles are indexable (21.02725ms)
+✔ merge import refuses to replace a newer reviewed article with an older same-slug package (103.06275ms)
+✔ merge import still accepts a newer same-slug reviewed article update (8.375333ms)
+✔ merge import counts one retained article when duplicate older same-slug packages are blocked (7.338667ms)
+✔ merge import retained count follows the final winner when older and newer same-slug packages are mixed (7.55475ms)
+✔ replace import rejects older same-slug published content without touching feed or health (10.708417ms)
+✔ replace import rejects dropping a published article, including an empty batch (27.896959ms)
+✔ staging into a published destination cannot demote an existing article (22.162125ms)
+✔ complete forward replace remains supported without silently merging unrelated staged rows (6.966208ms)
+✔ candidate generation stays available for absent and staged-only destinations (91.634167ms)
+✔ custom merge baseline cannot bypass the actual destination chronology (43.420916ms)
+✔ reviewed news article keeps zh-Hans alternate after hydration projection (6.572042ms)
+✖ fake projected availableLocales cannot publish missing article languages (1.464833ms)
+✔ worker route producer carries trusted bilingual projection into client SEO (754.91275ms)
+✔ worker raw feed ingestion strips untrusted route projection before reprojecting (840.93775ms)
+✖ summary generator removes only claims beyond the previously excluded heavyweight fields (6.690916ms)
+✖ news summary feed drops claims while keeping feed metadata, order, and all other summary fields (188.319916ms)
+✖ summary normalization and 15-locale news projections remain unchanged after claims removal (3.13875ms)
+ℹ tests 46
+ℹ suites 0
+ℹ pass 41
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4384.577042
+
+✖ failing tests:
+
+test at tests/news-feed.test.mjs:624:1
+✖ server-rendered news routes expose canonical metadata and fail unknown slugs closed (368.838083ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /name="description" content="A source-backed route description\."/. Input:
+  
+  '<!doctype html><html lang="en" dir="ltr"><head><meta name="description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." /><title translate="no" lang="en">Verified Search Title — NexuAlpha</title>    <meta property="og:type" content="article" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:site_name" content="NexuAlpha" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:title" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:url" content="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:image" content="https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:image:width" content="1200" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:image:height" content="630" data-nexualpha-route-seo="social" />\n' +
+    '      <meta property="og:image:alt" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n' +
+    '      <meta name="twitter:card" content="summary_large_image" data-nexualpha-route-seo="social" />\n' +
+    '      <meta name="twitter:site" content="@NexuAlpha" data-nexualpha-route-seo="social" />\n' +
+    '      <meta name="twitter:title" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n' +
+    '      <meta name="twitter:description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." data-nexualpha-route-seo="social" />\n' +
+    '      <meta name="twitter:image" content="https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png" data-nexualpha-route-seo="social" />\n' +
+    '      <link rel="alternate" type="application/rss+xml" title="NexuAlpha" href="/rss.xml" />\n' +
+    '      <link rel="alternate" hreflang="en" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n' +
+    '    <link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n' +
+    '    <link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n' +
+    '      <link rel="canonical" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="canonical" />\n' +
+    '      <meta name="robots" content="index,follow" data-nexualpha-route-seo="robots" />\n' +
+    '      <meta name="author" content="NexuAlpha Research Desk" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-last-reviewed" content="2026-09-07T01:00:00Z" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-methodology" content="https://nexualpha.com/methodology" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-llms" content="https://nexualpha.com/llms.txt" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-regional-funding-dataset" content="https://nexualpha.com/research/regional-funding-verification-matrix.json" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-regional-funding-dataset-reviewed" content="2026-09-15" data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-regional-funding-dataset-limitations" content="The matrix is a dated research checklist, not a live-rate feed, account approval decision, funding availability promise, product-access promise, user-benefit promise or registration outcome." data-nexualpha-route-seo="trust" />\n' +
+    '      <meta name="nexualpha-route-marker" content="NEXUALPHA_ARTICLE_ROUTE_V1" data-nexualpha-route-seo="marker" />\n' +
+    '      <script id="nexualpha-route-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"NewsArticle","headline":"Verified Article","description":"A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article.","datePublished":"2026-09-07T00:00:00Z","dateModified":"2026-09-07T01:00:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://nexualpha.com/news/verify-official-crypto-exchange-website","url":"https://nexualpha.com/news/verify-official-crypto-exchange-website"},"image":[{"@type":"ImageObject","url":"https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png","width":1200,"height":630}],"inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true,"hasPart":[{"@type":"DigitalDocument","name":"NexuAlpha public source review index","url":"https://nexualpha.com/llms.txt","encodingFormat":"text/plain"},{"@type":"DigitalDocument","name":"NexuAlpha full source review records","url":"https://nexualpha.com/llms-full.txt","encodingFormat":"text/plain"},{"@type":"DigitalDocument","name":"Perp DEX cost-field dictionary JSON","url":"https://nexualpha.com/research/perp-dex-cost-field-dictionary.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Perp DEX cost-field dictionary CSV","url":"https://nexualpha.com/research/perp-dex-cost-field-dictionary.csv","encodingFormat":"text/csv"},{"@type":"DigitalDocument","name":"Wave48 Perp DEX cost citations JSON","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Wave48 Perp DEX cost citations CSV","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","encodingFormat":"text/csv"},{"@type":"DigitalDocument","name":"Regional funding verification matrix JSON","url":"https://nexualpha.com/research/regional-funding-verification-matrix.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Regional funding verification matrix CSV","url":"https://nexualpha.com/research/regional-funding-verification-matrix.csv","encodingFormat":"text/csv"},{"@type":"Dataset","name":"Wave48 Perp DEX cost citations","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","sameAs":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","dateModified":"2026-09-15","creator":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"license":"https://nexualpha.com/methodology#data-license","isAccessibleForFree":true,"inLanguage":"en","abstract":"Wave56 finding: across the four reviewed Perp DEX venues, all 24 required venue-field records are source-backed as known, but every venue still requires cost review across fee, funding, collateral, margin, oracle and liquidation rather than a single static fee or live funding quote.","description":"Wave56 finding: across the four reviewed Perp DEX venues, all 24 required venue-field records are source-backed as known, but every venue still requires cost review across fee, funding, collateral, margin, oracle and liquidation rather than a single static fee or live funding quote. Dated research snapshot; not a live quote, trading recommendation, referral route, campaign eligibility claim or venue ranking.","about":["Perp DEX costs","funding","margin","oracle","liquidation"],"isPartOf":"https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary","variableMeasured":["venue","fee","funding","collateral","margin","oracle","liquidation","sourceUrl","unknowns"],"distribution":[{"@type":"DataDownload","name":"Wave48 Perp DEX cost citations JSON","contentUrl":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","encodingFormat":"application/json"},{"@type":"DataDownload","name":"Wave48 Perp DEX cost citations CSV","contentUrl":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","encodingFormat":"text/csv"}],"citation":["https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary","https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv"],"conditionsOfAccess":"Dated research snapshot for citation and comparison; not a live quote, trading recommendation, referral route, campaign eligibility claim or venue ranking."},{"@type":"Dataset","name":"Regional funding verification matrix","url":"https://nexualpha.com/research/regional-funding-verification-matrix.json","sameAs":"https://nexualpha.com/research/regional-funding-verification-matrix.csv","dateModified":"2026-09-15","creator":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlph'... 8916 more characters
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/news-feed.test.mjs:660:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<!doctype html><html lang="en" dir="ltr"><head><meta name="description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." /><title translate="no" lang="en">Verified Search Title — NexuAlpha</title>    <meta property="og:type" content="article" data-nexualpha-route-seo="social" />\n      <meta property="og:site_name" content="NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta property="og:title" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta property="og:description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." data-nexualpha-route-seo="social" />\n      <meta property="og:url" content="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="social" />\n      <meta property="og:image" content="https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png" data-nexualpha-route-seo="social" />\n      <meta property="og:image:width" content="1200" data-nexualpha-route-seo="social" />\n      <meta property="og:image:height" content="630" data-nexualpha-route-seo="social" />\n      <meta property="og:image:alt" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:card" content="summary_large_image" data-nexualpha-route-seo="social" />\n      <meta name="twitter:site" content="@NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:title" content="Verified Search Title — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:description" content="A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article." data-nexualpha-route-seo="social" />\n      <meta name="twitter:image" content="https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png" data-nexualpha-route-seo="social" />\n      <link rel="alternate" type="application/rss+xml" title="NexuAlpha" href="/rss.xml" />\n      <link rel="alternate" hreflang="en" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="alternate" />\n      <link rel="canonical" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" data-nexualpha-route-seo="canonical" />\n      <meta name="robots" content="index,follow" data-nexualpha-route-seo="robots" />\n      <meta name="author" content="NexuAlpha Research Desk" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-last-reviewed" content="2026-09-07T01:00:00Z" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-methodology" content="https://nexualpha.com/methodology" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-llms" content="https://nexualpha.com/llms.txt" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-regional-funding-dataset" content="https://nexualpha.com/research/regional-funding-verification-matrix.json" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-regional-funding-dataset-reviewed" content="2026-09-15" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-regional-funding-dataset-limitations" content="The matrix is a dated research checklist, not a live-rate feed, account approval decision, funding availability promise, product-access promise, user-benefit promise or registration outcome." data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-route-marker" content="NEXUALPHA_ARTICLE_ROUTE_V1" data-nexualpha-route-seo="marker" />\n      <script id="nexualpha-route-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"NewsArticle","headline":"Verified Article","description":"A source-backed route description. A verified summary. A verified article body. Verified Article Verified Article. Verified Article.","datePublished":"2026-09-07T00:00:00Z","dateModified":"2026-09-07T01:00:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://nexualpha.com/news/verify-official-crypto-exchange-website","url":"https://nexualpha.com/news/verify-official-crypto-exchange-website"},"image":[{"@type":"ImageObject","url":"https://nexualpha.com/og/news/verify-official-crypto-exchange-website.png","width":1200,"height":630}],"inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true,"hasPart":[{"@type":"DigitalDocument","name":"NexuAlpha public source review index","url":"https://nexualpha.com/llms.txt","encodingFormat":"text/plain"},{"@type":"DigitalDocument","name":"NexuAlpha full source review records","url":"https://nexualpha.com/llms-full.txt","encodingFormat":"text/plain"},{"@type":"DigitalDocument","name":"Perp DEX cost-field dictionary JSON","url":"https://nexualpha.com/research/perp-dex-cost-field-dictionary.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Perp DEX cost-field dictionary CSV","url":"https://nexualpha.com/research/perp-dex-cost-field-dictionary.csv","encodingFormat":"text/csv"},{"@type":"DigitalDocument","name":"Wave48 Perp DEX cost citations JSON","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Wave48 Perp DEX cost citations CSV","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","encodingFormat":"text/csv"},{"@type":"DigitalDocument","name":"Regional funding verification matrix JSON","url":"https://nexualpha.com/research/regional-funding-verification-matrix.json","encodingFormat":"application/json"},{"@type":"DigitalDocument","name":"Regional funding verification matrix CSV","url":"https://nexualpha.com/research/regional-funding-verification-matrix.csv","encodingFormat":"text/csv"},{"@type":"Dataset","name":"Wave48 Perp DEX cost citations","url":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","sameAs":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","dateModified":"2026-09-15","creator":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"license":"https://nexualpha.com/methodology#data-license","isAccessibleForFree":true,"inLanguage":"en","abstract":"Wave56 finding: across the four reviewed Perp DEX venues, all 24 required venue-field records are source-backed as known, but every venue still requires cost review across fee, funding, collateral, margin, oracle and liquidation rather than a single static fee or live funding quote.","description":"Wave56 finding: across the four reviewed Perp DEX venues, all 24 required venue-field records are source-backed as known, but every venue still requires cost review across fee, funding, collateral, margin, oracle and liquidation rather than a single static fee or live funding quote. Dated research snapshot; not a live quote, trading recommendation, referral route, campaign eligibility claim or venue ranking.","about":["Perp DEX costs","funding","margin","oracle","liquidation"],"isPartOf":"https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary","variableMeasured":["venue","fee","funding","collateral","margin","oracle","liquidation","sourceUrl","unknowns"],"distribution":[{"@type":"DataDownload","name":"Wave48 Perp DEX cost citations JSON","contentUrl":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","encodingFormat":"application/json"},{"@type":"DataDownload","name":"Wave48 Perp DEX cost citations CSV","contentUrl":"https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv","encodingFormat":"text/csv"}],"citation":["https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary","https://nexualpha.com/research/wave48-perp-dex-cost-citations.json","https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv"],"conditionsOfAccess":"Dated research snapshot for citation and comparison; not a live quote, trading recommendation, referral route, campaign eligibility claim or venue ranking."},{"@type":"Dataset","name":"Regional funding verification matrix","url":"https://nexualpha.com/research/regional-funding-verification-matrix.json","sameAs":"https://nexualpha.com/research/regional-funding-verification-matrix.csv","dateModified":"2026-09-15","creator":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlph'... 8916 more characters,
+    expected: /name="description" content="A source-backed route description\."/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/r274-news-alternate-hydration.test.mjs:75:1
+✖ fake projected availableLocales cannot publish missing article languages (1.464833ms)
+  AssertionError [ERR_ASSERTION]: unreviewed slug remains outside publication even with fake availableLocales
+  + actual - expected
+  
+  + 'index,follow'
+  - 'noindex,follow'
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/r274-news-alternate-hydration.test.mjs:88:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'index,follow',
+    expected: 'noindex,follow',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/r286-news-summary-claims.test.mjs:28:1
+✖ summary generator removes only claims beyond the previously excluded heavyweight fields (6.690916ms)
+  Error: ENOENT: no such file or directory, open '/Volumes/致态2TB/nx-wt-codex-seo-structure/baseline/before-summary-claims-generate-news-summary-feed.mjs'
+      at async open (node:internal/fs/promises:697:25)
+      at async readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/r286-news-summary-claims.test.mjs:29:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Volumes/致态2TB/nx-wt-codex-seo-structure/baseline/before-summary-claims-generate-news-summary-feed.mjs'
+  }
+
+test at tests/r286-news-summary-claims.test.mjs:35:1
+✖ news summary feed drops claims while keeping feed metadata, order, and all other summary fields (188.319916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '7939fb1ca148ac039ddc8b9eb6dcd397b0fd5f1e9d9c38c0da808a097b837c95'
+  - '399059b1434a94325fa95b54b5a452887756b2ca9d4d0f674e41f4c9f6d6e5b6'
+  
+      at restoreFourSummaryBytes (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/fixtures/r286-four-summary-inverse.mjs:23:9)
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/r286-news-summary-claims.test.mjs:36:21)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '7939fb1ca148ac039ddc8b9eb6dcd397b0fd5f1e9d9c38c0da808a097b837c95',
+    expected: '399059b1434a94325fa95b54b5a452887756b2ca9d4d0f674e41f4c9f6d6e5b6',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/r286-news-summary-claims.test.mjs:60:1
+✖ summary normalization and 15-locale news projections remain unchanged after claims removal (3.13875ms)
+  Error: ENOENT: no such file or directory, open '/Volumes/致态2TB/nx-wt-codex-seo-structure/baseline/before-summary-claims-news-feed-summary.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async readFile (node:internal/fs/promises:1348:14)
+      at async parse (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/r286-news-summary-claims.test.mjs:23:15)
+      at async TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-seo-structure/pilot-01-prototype/tests/r286-news-summary-claims.test.mjs:61:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/Volumes/致态2TB/nx-wt-codex-seo-structure/baseline/before-summary-claims-news-feed-summary.json'
+  }

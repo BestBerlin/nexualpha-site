@@ -1,0 +1,20 @@
+{
+  "node": "/opt/homebrew/opt/node@24/bin/node (v24.19.0)",
+  "localPrerequisites": {
+    "inlang": "Reused ignored project.inlang/cache/plugins from the canonical checkout, restored generated modules after offline compilation emitted empty modules, then rebuilt.",
+    "pluginSha256": [
+      "85862f6305793b56bfd9afe5368b096e63fb2aeab38b7799c051517be3499c0b",
+      "9486558801c08ebb018223c51c2044b6c3c23fc2a8c0e7894a57882b34feb6ca"
+    ],
+    "hosting": "Reused canonical ignored .openai/hosting.json containing {}. No tracked configuration or dependencies changed."
+  },
+  "unavailableChecks": {
+    "chromeComputerUse": "Browser is not available: 1; Browser is not available: chrome",
+    "chromium": "FATAL bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer: Permission denied (1100)",
+    "httpListener": "EPERM listen EPERM: operation not permitted 127.0.0.1",
+    "betterDesignPrinciples": "find-design-system, get-ui-principle, get-ux-principle, get-review-rules returned free-query quota exhausted.",
+    "spacing": "inspect-spacing returned needs-capture; no rendered browser state available."
+  },
+  "availableFallback": "Packaged Worker + production news SSR renderer in-process; real HTML anchors and JSON-LD, not HTTP/browser verification.",
+  "productionActions": "None. No deployment, push, publication or search submission."
+}

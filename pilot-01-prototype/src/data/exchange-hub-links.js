@@ -1,4 +1,4 @@
-import { isPartnerPromotableIn } from './partner-geo-policy.js';
+import { isPartnerPromotableIn, isTurkeyGated } from './partner-geo-policy.js';
 import { APP_DOWNLOAD_SLUGS, appDownloadPath } from "./app-download-path.js";
 import { BITGET_ALLIANCE_PATH, BITGET_ALLIANCE_VENUE } from "./bitget-alliance.js";
 import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE } from "./binance-october.js";
@@ -7,6 +7,7 @@ import { KRAKEN_USDG_PATH, KRAKEN_USDG_VENUE } from "./kraken-usdg.js";
 import { localizedHref } from "./locale-routing.js";
 import { licenseRecords } from "./licenses.js";
 import { partnerExchangeLinkGroupLabel, partnerExchangePageLinks } from "./partner-page-links.js";
+import { CURATED_COMPARISON_SLUGS } from "./compare-slug.js";
 
 const LABELS = {
   en: { fees: "Fee tools", app: "App guide", licenses: "License records", campaigns: "Campaign research" },
@@ -43,7 +44,14 @@ export function exchangeHubToolLinks(slug, locale = "en", { market } = {}) {
   if (APP_DOWNLOAD_SLUGS.includes(slug)) links.push({ key: "app", label: labels.app, href: localizedHref(appDownloadPath(slug), { locale }) });
   if (licenseRecords.some((record) => record.exchange === slug)) links.push({ key: "licenses", label: labels.licenses, href: localizedHref("/licenses", { locale }) });
   if (CAMPAIGN_PATHS[slug] && isPartnerPromotableIn(slug, { locale, market })) links.push({ key: "campaigns", label: labels.campaigns, href: localizedHref(CAMPAIGN_PATHS[slug], { locale }) });
-  const partnerLinks = partnerExchangePageLinks(locale, { includeCodes: false, market }).filter((link) => link.slug !== slug);
+  // Keep alternatives next to the venue research, rather than in the global footer.
+  const name = (venue) => ({ okx: "OKX", mexc: "MEXC", "gate-io": "Gate.io", dydx: "dYdX", hyperliquid: "Hyperliquid", uniswap: "Uniswap" }[venue] || venue[0].toUpperCase() + venue.slice(1));
+  for (const pair of CURATED_COMPARISON_SLUGS.filter((pair) => pair.split("-vs-").includes(slug))) {
+    const venues = pair.split("-vs-");
+    if (venues.some((venue) => isTurkeyGated(venue, { locale, market }))) continue;
+    links.push({ key: `compare-${pair}`, label: `${venues.map(name).join(" vs ")} — ${labels.fees}`, href: localizedHref(`/compare/${pair}`, { locale }) });
+  }
+  const partnerLinks = partnerExchangePageLinks(locale, { includeCodes: false, market }).filter((link) => link.slug !== slug).map((link) => ({ ...link, label: `${link.name} — ${labels.fees}` }));
   if (partnerLinks.length) links.push({ key: "partner-links", label: partnerExchangeLinkGroupLabel(locale, { market }), href: localizedHref("/exchanges", { locale }) }, ...partnerLinks);
   return links;
 }

@@ -1,3 +1,4 @@
+import { budgetTitle } from '../src/data/meta-description.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import feed from '../public/content/news-feed.json' with { type: 'json' };
@@ -17,7 +18,7 @@ test('Wave23 tokenized assets hub routes Treasury demand to topic and dated arti
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.equal(seo.title, 'Tokenized Assets Hub: Treasury, Stock and Perp Exposure Checks — NexuAlpha');
+  assert.equal(seo.title, budgetTitle('Tokenized Assets Hub: Treasury, Stock and Perp Exposure Checks — NexuAlpha'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/topics/tokenized-treasuries'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/news/tokenized-treasuries-structure-access-risks'));
   assert.match(serialized, /Where should a tokenized Treasury search continue from the hub/);
@@ -34,7 +35,7 @@ test('Wave23 tokenized Treasuries topic separates evergreen checklist from artic
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.equal(seo.title, 'Tokenized Treasury Checklist: BUIDL, OUSG, BENJI, Redemption and Custody — NexuAlpha');
+  assert.equal(seo.title, budgetTitle('Tokenized Treasury Checklist: BUIDL, OUSG, BENJI, Redemption and Custody — NexuAlpha'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/news/tokenized-treasuries-structure-access-risks'));
   assert.ok(collection.relatedLink.includes('https://nexualpha.com/topics/tokenized-assets'));
   assert.match(serialized, /Should a tokenized Treasury query land on the article or the topic checklist/);

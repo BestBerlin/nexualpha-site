@@ -13,10 +13,10 @@ test("search-demand comparisons lead with a checked fee winner, tie, tradeoff or
     const [left, right] = slug.split("-vs-");
     assert.ok(answer.internalLinks.some(([, href]) => href === `/exchanges/${left}`));
     assert.ok(answer.internalLinks.some(([, href]) => href === `/exchanges/${right}`));
-    assert.match(answer.body, locale === "en" ? /^On (spot|perpetual) fees,|^No spot fee winner can be verified/ : /手续费|基础费率/);
+    assert.match(answer.body, locale === "en" ? /^(?:(?:Kraken vs Binance|Binance vs Bybit|OKX vs Bybit): on spot fees,|On (?:spot|perpetual) fees,|No spot fee winner can be verified)/ : /手续费|基础费率/);
   }
-  assert.match(compareDirectAnswerFor("binance-vs-kraken").body, /^On spot fees, Binance has lower base fees/);
-  assert.match(compareDirectAnswerFor("binance-vs-bybit").body, /^On spot fees, the base schedules tie/);
+  assert.match(compareDirectAnswerFor("binance-vs-kraken").body, /^Kraken vs Binance: on spot fees, Binance has lower base fees/);
+  assert.match(compareDirectAnswerFor("binance-vs-bybit").body, /^Binance vs Bybit: on spot fees, the base schedules tie/);
   assert.match(compareDirectAnswerFor("hyperliquid-vs-dydx").body, /^On perpetual fees, neither venue wins both/);
   assert.match(compareDirectAnswerFor("gate-io-vs-mexc").body, /^No spot fee winner can be verified/);
 });

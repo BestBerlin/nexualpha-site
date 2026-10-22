@@ -42,7 +42,7 @@ test("R39 US decision depth renders funding, state, product and unknown boundari
 
   assert.match(html, /data-regional-decision-depth="US"/);
   assert.match(html, /lang="en"/);
-  assert.match(html, /UNITED STATES ACCOUNT CHECK/);
+  assert.match(html, /aria-labelledby="regional-decision-depth-title-US"/);
   assert.match(html, /Separate USD funding, state support, identity and product scope before signup/);
   assert.match(html, /ACH|wire transfer|debit card/);
   assert.match(html, /legal-name bank ownership|bank-name/);
@@ -57,13 +57,14 @@ test("R39 US decision depth hands off only to research routes with market and pr
   const html = await renderUsDecisionDepth();
 
   assert.match(html, /aria-label="US research handoff"/);
-  assert.match(html, /href="\/exchanges\?market=US&amp;product=spot"/);
-  assert.match(html, /href="\/compare\/coinbase-vs-kraken\?market=US&amp;product=spot"/);
-  assert.match(html, /href="\/rates\?market=US&amp;product=spot"/);
+  assert.match(html, /href="\/exchanges#nxa-context\?market=US&amp;product=spot"/);
+  assert.match(html, /href="\/compare\/coinbase-vs-kraken#nxa-context\?market=US&amp;product=spot"/);
+  assert.match(html, /href="\/rates#nxa-context\?market=US&amp;product=spot"/);
   assert.match(html, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=/);
   assert.match(html, /data-growth-market="US"/);
   assert.match(html, /data-growth-product="spot"/);
-  assert.match(html, /data-telegram-return-href="\/exchanges\/coinbase\?market=US&amp;product=spot/);
+  assert.match(html, /data-telegram-start="[^"]+"/);
+  assert.doesNotMatch(html, /data-telegram-return-href=/);
   assert.match(html, /data-telegram-start="[^"]*m_US[^"]*t_spot/);
   assert.doesNotMatch(html, forbiddenCommercialTokens);
   assert.doesNotMatch(html, forbiddenExchangeOutbound);

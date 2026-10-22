@@ -163,7 +163,7 @@ test("compare page first screen: H1, the existing verdict, both official sign-up
   })();
   assert.ok(hero > 0 && h1 > hero && actions > h1 && ledger > actions && copyLink > ledger && copyLink < heroEnd, "order: h1, verdict + sign-up, fee ledger, copy link, all inside the hero");
   const heroBlock = html.slice(actions, ledger);
-  assert.match(heroBlock, /Choose Binance for broad exchange depth; choose OKX when Web3-style routing and tools matter more\./, "verdict reuses the final-choice card title");
+  assert.match(heroBlock, /OKX vs Binance: who has lower fees\?/, "verdict leads with the current pair decision question");
   // Owner rule 2026-10-12: no commission disclosure inside page sections (footer and legal pages only).
   assert.doesNotMatch(html.slice(hero, heroEnd), /data-disclosure-placement=|commission-disclosure-line|v3-relationship-note/, "no commission disclosure in the hero");
   const heroSignup = [...heroBlock.matchAll(/<a href="([^"]+)"[^>]*data-cta-placement="compare-hero-signup"[^>]*>/g)];

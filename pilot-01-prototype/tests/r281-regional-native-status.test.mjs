@@ -1,4 +1,22 @@
-import test from'node:test';import assert from'node:assert/strict';import fs from'node:fs';import path from'node:path';import{fileURLToPath}from'node:url';import{buildSync,transformSync}from'esbuild';import vm from'node:vm';import{execFileSync}from'node:child_process';
+import test from'node:test';
+import assert from'node:assert/strict';
+import fs from'node:fs';
+import path from'node:path';
+import{fileURLToPath}from'node:url';
+import{buildSync,transformSync}from'esbuild';
+import vm from'node:vm';
+import{execFileSync}from'node:child_process';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("../../baseline/VenueYellowPages.jsx", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
 const root=fileURLToPath(new URL('../',import.meta.url)),source=fs.readFileSync(path.join(root,'src/components/v3/VenueYellowPages.jsx'),'utf8'),old=fs.readFileSync(path.join(root,'../baseline/VenueYellowPages.jsx'),'utf8');const languages=['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
 const dir=fs.mkdtempSync(path.join(root,'tests/.tmp-r281-'));let rows;
 try{const entry=path.join(dir,'entry.jsx'),bundle=path.join(dir,'bundle.cjs');fs.writeFileSync(entry,`import React from'react';import{renderToStaticMarkup}from'react-dom/server';import{VenueYellowPages as A}from'../../src/components/v3/VenueYellowPages.jsx';import{VenueYellowPages as B}from ${JSON.stringify(path.resolve(root,'../../r280-inline-research-example/candidate/src/components/v3/VenueYellowPages.jsx'))};import{venueDatabase}from'../../src/data/venue-database.js';import{venueDatabase as oldDatabase}from ${JSON.stringify(path.resolve(root,'../../r280-inline-research-example/candidate/src/data/venue-database.js'))};Date.now=()=>1791190800000;const rows=[];for(const locale of ${JSON.stringify(languages)})for(const market of ['BR','unknown'])for(const product of ['spot','unknown'])for(const compact of [false,true])for(const verified of [false,true]){for(const db of [venueDatabase,oldDatabase]){db.binance.porCoverageRatio=verified?'100%':null;db.binance.porAuditCheckedAt=verified?'2026-09-01':null;}const props={locale,market,product,compact,venues:Object.values(venueDatabase)};rows.push({locale,market,product,compact,verified,a:renderToStaticMarkup(React.createElement(A,props)),b:renderToStaticMarkup(React.createElement(B,props))});}console.log(JSON.stringify(rows));`);buildSync({entryPoints:[entry],outfile:bundle,bundle:true,platform:'node',format:'cjs',jsx:'automatic',loader:{'.css':'empty'}});rows=JSON.parse(execFileSync(process.execPath,[bundle],{maxBuffer:60e6}).toString());}finally{fs.rmSync(dir,{recursive:true,force:true});}
@@ -11,3 +29,4 @@ test('source inverse is literal/full byte and preserved pending guards',()=>{con
 test('verified PoR retains exact original success class/text in both real component layouts',()=>{for(const compact of [false,true]){const r=rows.find(x=>x.locale==='en'&&x.market==='unknown'&&x.compact===compact&&x.product==='unknown'&&x.verified);assert.match(r.a,/<span class="yellow-card__meta-val yellow-card__meta-val--success" translate="no">100%<\/span>/);assert.match(r.b,/<span class="yellow-card__meta-val yellow-card__meta-val--success" translate="no">100%<\/span>/);}});
 test('real presentation helper preserves 15-language research/paused distinctions and original eight decision copies',async()=>{const{decisionCopy,directoryCopy}=await import('../src/components/v3/venue-yellow-pages-copy.js');const text=source.slice(source.indexOf('// Scoped regional UI:'),source.indexOf('const uiText = {'));const module={exports:{}};vm.runInNewContext(transformSync(text+'\nmodule.exports = {regionalDirectoryUi,regionalStatusLabels,regionalDecisionLabels};',{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,decisionCopy});for(const l of languages){const c=module.exports.regionalDirectoryUi(l,directoryCopy(l));assert.equal(c.researchable,module.exports.regionalStatusLabels[l][0]);assert.equal(c.paused,module.exports.regionalStatusLabels[l][1]);assert.ok(c.researchable&&c.paused&&c.matched);if(!module.exports.regionalDecisionLabels[l])assert.deepEqual(c.decision,decisionCopy(l));}assert.equal(module.exports.regionalDirectoryUi('zh-Hant',{}).matched,'地區條件已匹配');});
 test('each of 15 actual BR component SSR renders planned native status and lead action',async()=>{const{decisionCopy}=await import('../src/components/v3/venue-yellow-pages-copy.js');const ui=JSON.parse(fs.readFileSync(path.join(root,'../UI-EXPECTED.json'),'utf8'));for(const locale of languages){const r=rows.find(x=>x.locale===locale&&x.market==='BR'&&x.product==='spot'&&!x.compact&&!x.verified);const oldResearch=locale.startsWith('zh')?'地区研究候选':'Regional research candidate';const expectedResearch=ui[locale].replacements.find(pair=>pair[1]===oldResearch)?.[0]||oldResearch;assert.ok(badge(r.a).includes(expectedResearch),locale);const oldAction=decisionCopy(locale).open;const expectedAction=ui[locale].replacements.find(pair=>pair[1]===oldAction)?.[0]||oldAction;assert.ok(r.a.includes('>'+expectedAction+' →</a>'),locale);}});
+}

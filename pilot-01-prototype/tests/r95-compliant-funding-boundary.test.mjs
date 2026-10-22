@@ -74,7 +74,7 @@ test("compliant platform identity and protected link/code/commission fields are 
   const project = (venue) => [venue.slug, venue.name, venue.affiliateUrl, venue.inviteCode, venue.rebate];
   assert.deepEqual(TOPIC_GUIDES["compliant-exchanges"].platforms.map(project), [
     ["hashkey", "HashKey Global / Exchange", "https://global.hashkey.com", "N/A", 0],
-    ["kraken", "Kraken", "https://www.kraken.com", "N/A", 0],
+    ["kraken", "Kraken", "/go/kraken?src=topic-guide", "N/A", 0],
     ["okx", "OKX (欧易)", "https://www.okx.com/join/nexu888", "nexu888", 20],
   ]);
 });

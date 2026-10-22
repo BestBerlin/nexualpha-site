@@ -74,10 +74,10 @@ test("regional mobile decision dock renders exactly three onsite decision entrie
   assert.equal(hrefs.length, 3);
   assert.match(html, /data-regional-mobile-decision-dock="JP"/);
   assert.ok(hrefs.every((href) => href.startsWith("/") && !/^https?:/i.test(href)), hrefs.join("\n"));
-  assert.match(hrefs[0], /^\/exchanges\?/);
-  assert.match(hrefs[1], /^\/compare\/binance-vs-okx\?/);
-  assert.match(hrefs[1], /locale=ja/);
-  assert.match(hrefs[2], /^\/ja\/telegram\?/);
+  assert.match(hrefs[0], /^\/ja\/exchanges#nxa-context\?/);
+  assert.match(hrefs[1], /^\/ja\/compare\/binance-vs-okx#nxa-context\?/);
+  assert.match(hrefs[1], /market=JP/);
+  assert.match(hrefs[2], /^\/ja\/telegram#nxa-context\?/);
   assert.match(hrefs[2], /market=JP/);
   assert.match(hrefs[2], /product=spot/);
   assert.match(hrefs[2], /account_stage=another_platform/);
@@ -98,11 +98,11 @@ test("regional mobile decision dock opens candidate selection when no reviewed c
   });
   const hrefs = hrefsFrom(html);
   assert.equal(hrefs.length, 3);
-  assert.match(hrefs[1], /^\/exchanges\?/);
+  assert.match(hrefs[1], /^\/id-id\/exchanges#exchanges$/);
   assert.match(hrefs[1], /#exchanges$/);
   assert.match(html, /data-regional-compare-mode="select-candidates"/);
   assert.doesNotMatch(hrefs[1], /\/compare\//);
-  assert.match(hrefs[2], /^\/id-id\/telegram\?/);
+  assert.match(hrefs[2], /^\/id-id\/telegram#nxa-context\?/);
   assert.match(hrefs[2], /scenario=selected/);
   assert.doesNotMatch(hrefs[2], /pair=/);
 });

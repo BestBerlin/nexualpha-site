@@ -1,3 +1,5 @@
+import { budgetTitle } from '../src/data/meta-description.js';
+import { referralSeoFor } from '../src/data/referral-seo.js';
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -43,8 +45,8 @@ test("Wave46 tokenized Treasuries article owns the yield-check search intent wit
   const worker = await routeMetadata(new URL(`https://nexualpha.com/news/${slug}`), { ASSETS: assets() });
 
   // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
-  assert.equal(client.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks");
-  assert.equal(worker.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks");
+  assert.equal(client.title, budgetTitle("Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks"));
+  assert.equal(worker.title, budgetTitle("Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks"));
   assert.match(client.description, /legally represents before comparing yield/);
   assert.match(worker.description, /legally represents before comparing yield/);
   assert.ok(article.seo.internalLinkTargets.includes("/news/coinbase-vs-kraken"));
@@ -55,8 +57,8 @@ test("Wave46 tokenized Treasuries article owns the yield-check search intent wit
     const faq = findSchema(schemas, "FAQPage");
     assert.ok(newsArticle, `${surface} NewsArticle`);
     assert.equal(newsArticle.about?.name, "What should I verify before comparing tokenized Treasury yield?");
-    assert.ok(newsArticle.relatedLink.includes("https://nexualpha.com/news/coinbase-vs-kraken"));
-    assert.doesNotMatch(newsArticle.relatedLink.join("\n"), /\/compare\/coinbase-vs-kraken|\/ref\/|ref=|register|commission/i);
+    assert.ok(newsArticle.mainEntityOfPage.relatedLink.includes("https://nexualpha.com/news/coinbase-vs-kraken"));
+    assert.doesNotMatch(newsArticle.mainEntityOfPage.relatedLink.join("\n"), /\/compare\/coinbase-vs-kraken|\/ref\/|ref=|register|commission/i);
     assert.ok(faq?.mainEntity?.length >= 4, `${surface} visible FAQ schema`);
   }
 });
@@ -79,8 +81,8 @@ test("priority answers preserve Hyperliquid decision coverage and the GMX search
   const hyperliquidFaq = hyperliquid.schemas.find((entry) => entry["@type"] === "FAQPage");
 
   // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
-  assert.equal(hyperliquid.title, "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)");
-  assert.match(hyperliquid.description, /official sign-up link checked by NexuAlpha/);
+  assert.equal(hyperliquid.title, referralSeoFor("hyperliquid").title);
+  assert.match(hyperliquid.description, /eligible referrals save/);
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/compare/hyperliquid-vs-dydx"));
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/topics/no-kyc"));
   assert.ok(hyperliquidPage.citation.includes("https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"));

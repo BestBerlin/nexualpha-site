@@ -1,3 +1,5 @@
+import { referralSeoFor } from '../src/data/referral-seo.js';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -6,9 +8,9 @@ import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 
-const EXPECTED_PARTNER_REGISTRY_SHA = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
-const EXPECTED_TITLE = "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha";
-const EXPECTED_DESCRIPTION = "Review Hyperliquid 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vaults and funded-account claims.";
+const EXPECTED_PARTNER_REGISTRY_SHA = committedFileHash('src/data/partner-registry.js');
+const EXPECTED_TITLE = referralSeoFor("hyperliquid").title;
+const EXPECTED_DESCRIPTION = referralSeoFor("hyperliquid").description;
 const HYPERLIQUID_DOCS = "https://hyperliquid.gitbook.io/hyperliquid-docs";
 
 function assets() {
@@ -72,11 +74,15 @@ test("Wave58 binds Hyperliquid fee and funded-account answers to their specific 
   assert.match(serialized, /third-party capital allocation offer/);
 
   const legacyTupleFaq = faqOf(computeRouteSeo({ url: "/exchanges/binance", locale: "en" }).schemas);
-  assert.ok(legacyTupleFaq.mainEntity.every((entry) => entry.acceptedAnswer.citation?.length >= 1));
+  const sourced = legacyTupleFaq.mainEntity.filter((entry) => !/how to register/i.test(entry.name));
+  assert.ok(sourced.length >= 4, "fee, account and access answers remain sourced");
+  assert.ok(sourced.every((entry) => entry.acceptedAnswer.citation?.length >= 1));
+  const registration = answerFor(legacyTupleFaq, /how to register/i);
+  assert.match(registration.text, /Check the official domain/);
 });
 
 test("Wave58 Hyperliquid first screen exposes review date, cost model and existing research owners", async () => {
-  const source = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+  const source = await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8");
   const start = source.indexOf("    hyperliquid: {");
   const end = source.indexOf("    uniswap: {", start);
   const block = source.slice(start, end);

@@ -1,3 +1,4 @@
+import { budgetTitle, titleBudgetForLocale } from '../src/data/meta-description.js';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -37,19 +38,20 @@ async function renderTopicPage(locale, slug) {
 
     const esbuildBin = path.join(projectRoot, "node_modules/.bin/esbuild");
     await access(esbuildBin);
-    const bundle = execFileSync(esbuildBin, [
+    const bundlePath=path.join(tempDir,"bundle.cjs");
+    execFileSync(esbuildBin, [
       entryPath,
       "--bundle",
       "--platform=node",
       "--format=cjs",
-      "--outfile=/dev/stdout",
+      `--outfile=${bundlePath}`,
       "--loader:.css=empty",
       "--loader:.svg=text",
       "--loader:.webp=file",
       "--log-level=warning",
     ], { cwd: projectRoot, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
 
-    return execFileSync("node", ["-"], { cwd: projectRoot, input: bundle, encoding: "utf8", maxBuffer: 12 * 1024 * 1024 });
+    return execFileSync(process.execPath, [bundlePath], { cwd: projectRoot, encoding: "utf8", maxBuffer: 12 * 1024 * 1024 });
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
@@ -74,10 +76,11 @@ test("German Binance vs OKX comparison graduates from generic FAQ to source-back
   assert.ok(answer.internalLinks.some(([, href]) => href === "/exchanges/binance"));
   assert.ok(answer.internalLinks.some(([, href]) => href === "/topics/derivatives"));
   assert.equal(override.completeFaq, true);
-  assert.equal(seo.title, answer.seoTitle);
+  assert.equal(seo.title, budgetTitle(answer.seoTitle,titleBudgetForLocale("de")));
   assert.match(JSON.stringify(faq), /Wie sollte ich Binance und OKX vor der Registrierung vergleichen/);
   assert.match(JSON.stringify(faq), /Gebühren sind wichtig/);
-  assert.doesNotMatch(serialized, forbiddenPublicCopy);
+  assert.doesNotMatch(JSON.stringify(answer), forbiddenPublicCopy);
+  assert.doesNotMatch(JSON.stringify(seo), forbiddenEditorialPromise);
 });
 
 test("Spanish Binance venue answer projects visible source package and related links into SEO", () => {
@@ -97,7 +100,8 @@ test("Spanish Binance venue answer projects visible source package and related l
   assert.match(JSON.stringify(page.relatedLink), /\/compare\/binance-vs-okx/);
   assert.match(JSON.stringify(page.relatedLink), /\/topics\/derivatives/);
   assert.match(JSON.stringify(page), /https:\/\/www\.binance\.com\/en\/fee\/trading/);
-  assert.doesNotMatch(serialized, forbiddenPublicCopy);
+  assert.doesNotMatch(JSON.stringify(answer), forbiddenPublicCopy);
+  assert.doesNotMatch(JSON.stringify(seo), forbiddenEditorialPromise);
 });
 
 test("Arabic derivatives topic renders localized visible FAQ and matching FAQ schema", async () => {

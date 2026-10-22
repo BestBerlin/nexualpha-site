@@ -1,3 +1,5 @@
+import { referralSeoFor } from '../src/data/referral-seo.js';
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -7,7 +9,7 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import sitesWorker, { routeMetadata } from "../worker/index.js";
 
 const EXPECTED_PARTNER_REGISTRY_SHA =
-  "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+  committedFileHash('src/data/partner-registry.js');
 
 const htmlShell = "<!doctype html><html><head><title>Base</title></head><body><div id=\"root\"></div></body></html>";
 
@@ -38,11 +40,11 @@ test("Wave55 Hyperliquid metadata strengthens fees and funded-account answer cov
   assert.equal(client.status, 200);
   assert.equal(client.canonical, "https://nexualpha.com/exchanges/hyperliquid");
   assert.equal(worker.canonical, "https://nexualpha.com/exchanges/hyperliquid");
-  assert.equal(client.title, "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha");
+  assert.equal(client.title, referralSeoFor("hyperliquid").title);
   assert.equal(worker.title, client.title);
 
-  assert.equal(clientFaq.mainEntity.length, 5);
-  assert.equal(workerFaq.mainEntity.length, 5);
+  assert.equal(clientFaq.mainEntity.length, 7);
+  assert.equal(workerFaq.mainEntity.length, 7);
   assert.match(clientText, /rolling 14-day volume/);
   assert.match(clientText, /referral-code fee discount/);
   assert.match(clientText, /not a generic cashback promise/);

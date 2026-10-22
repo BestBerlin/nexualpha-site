@@ -1,0 +1,732 @@
+{
+  "feedGeneratedAt": "2026-10-04T20:46:19.460Z",
+  "feedArticles": 416,
+  "generated": {
+    "sitemap-articles-ar.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-de.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-en.xml": {
+      "total": 224,
+      "byLocale": {
+        "en": 224
+      }
+    },
+    "sitemap-articles-es.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-fr.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-id.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-it.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ja.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ko.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-pt-br.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ru.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-tr.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-vi.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-zh-hans.xml": {
+      "total": 224,
+      "byLocale": {
+        "zh-Hans": 224
+      }
+    },
+    "sitemap-articles-zh-hant.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-compare.xml": {
+      "total": 264,
+      "byLocale": {
+        "ar": 8,
+        "en": 58,
+        "de": 8,
+        "es": 8,
+        "fr": 8,
+        "id": 8,
+        "it": 8,
+        "ja": 8,
+        "ko": 8,
+        "pt-BR": 8,
+        "ru": 8,
+        "tr": 8,
+        "vi": 8,
+        "zh-Hans": 58,
+        "zh-Hant": 52
+      }
+    },
+    "sitemap-locales.xml": {
+      "total": 118,
+      "byLocale": {
+        "en": 15,
+        "ar": 6,
+        "pt-BR": 13,
+        "de": 6,
+        "es": 7,
+        "fr": 6,
+        "zh-Hant": 8,
+        "id": 6,
+        "it": 6,
+        "ja": 7,
+        "ko": 7,
+        "ru": 6,
+        "tr": 8,
+        "vi": 6,
+        "zh-Hans": 11
+      }
+    },
+    "sitemap-topics-tools.xml": {
+      "total": 347,
+      "byLocale": {
+        "ar": 19,
+        "de": 19,
+        "es": 19,
+        "en": 32,
+        "fr": 19,
+        "id": 19,
+        "it": 19,
+        "ja": 24,
+        "ko": 24,
+        "pt-BR": 20,
+        "ru": 19,
+        "tr": 24,
+        "uk": 12,
+        "ur": 12,
+        "vi": 19,
+        "zh-Hans": 28,
+        "zh-Hant": 19
+      }
+    },
+    "sitemap-venues.xml": {
+      "total": 260,
+      "byLocale": {
+        "ar": 16,
+        "de": 16,
+        "es": 16,
+        "en": 22,
+        "fr": 16,
+        "id": 16,
+        "it": 16,
+        "ja": 18,
+        "ko": 18,
+        "pt-BR": 16,
+        "ru": 16,
+        "tr": 18,
+        "vi": 16,
+        "zh-Hans": 22,
+        "zh-Hant": 18
+      }
+    },
+    "academy": {
+      "total": 350,
+      "byLocale": {
+        "en": 25,
+        "zh-Hans": 25,
+        "zh-Hant": 25,
+        "es": 25,
+        "pt-BR": 25,
+        "fr": 25,
+        "de": 25,
+        "ja": 25,
+        "ko": 25,
+        "ru": 25,
+        "tr": 25,
+        "id": 25,
+        "vi": 25,
+        "ar": 25
+      }
+    },
+    "beginner": {
+      "total": 175,
+      "byLocale": {
+        "en": 11,
+        "zh-Hans": 11,
+        "es": 11,
+        "pt-BR": 11,
+        "id": 11,
+        "tr": 10,
+        "ko": 10,
+        "ja": 10,
+        "fr": 10,
+        "de": 10,
+        "it": 10,
+        "ru": 10,
+        "ar": 10,
+        "zh-Hant": 10,
+        "ur": 10,
+        "uk": 10,
+        "vi": 10
+      }
+    },
+    "licenses": {
+      "total": 266,
+      "byLocale": {
+        "en": 19,
+        "zh-Hans": 19,
+        "es": 19,
+        "pt-BR": 19,
+        "tr": 19,
+        "vi": 19,
+        "id": 19,
+        "ja": 19,
+        "ko": 19,
+        "fr": 19,
+        "de": 19,
+        "ar": 19,
+        "ur": 19,
+        "uk": 19
+      }
+    },
+    "deposit": {
+      "total": 72,
+      "byLocale": {
+        "en": 15,
+        "zh-Hans": 14,
+        "zh-Hant": 4,
+        "es": 6,
+        "pt-BR": 3,
+        "fr": 3,
+        "de": 3,
+        "it": 3,
+        "ja": 2,
+        "ko": 3,
+        "ar": 2,
+        "tr": 3,
+        "ru": 2,
+        "id": 2,
+        "vi": 3,
+        "ur": 2,
+        "uk": 2
+      }
+    },
+    "coins": {
+      "total": 1263,
+      "byLocale": {
+        "en": 180,
+        "es": 180,
+        "pt-BR": 180,
+        "tr": 179,
+        "vi": 180,
+        "id": 180,
+        "zh-Hans": 180,
+        "ja": 1,
+        "ko": 1,
+        "fr": 1,
+        "de": 1
+      }
+    },
+    "dataTools": {
+      "total": 17,
+      "byLocale": {
+        "en": 5,
+        "zh-Hans": 5,
+        "es": 1,
+        "pt-BR": 1,
+        "tr": 1,
+        "vi": 1,
+        "id": 1,
+        "ja": 1,
+        "ko": 1
+      }
+    },
+    "convert": {
+      "total": 12,
+      "byLocale": {
+        "en": 12
+      }
+    },
+    "glossary": {
+      "total": 1620,
+      "byLocale": {
+        "en": 180,
+        "zh-Hans": 180,
+        "es": 180,
+        "pt-BR": 180,
+        "tr": 180,
+        "vi": 180,
+        "id": 180,
+        "ja": 180,
+        "ko": 180
+      }
+    },
+    "apps": {
+      "total": 85,
+      "byLocale": {
+        "en": 5,
+        "zh-Hans": 5,
+        "zh-Hant": 5,
+        "es": 5,
+        "pt-BR": 5,
+        "fr": 5,
+        "de": 5,
+        "ja": 5,
+        "ko": 5,
+        "ar": 5,
+        "tr": 5,
+        "ru": 5,
+        "id": 5,
+        "vi": 5,
+        "it": 5,
+        "ur": 5,
+        "uk": 5
+      }
+    },
+    "campaigns": {
+      "total": 45,
+      "byLocale": {
+        "en": 4,
+        "zh-Hans": 4,
+        "es": 4,
+        "pt-BR": 4,
+        "tr": 2,
+        "vi": 4,
+        "id": 4,
+        "ja": 4,
+        "ko": 4,
+        "fr": 4,
+        "de": 4,
+        "zh-Hant": 1,
+        "ar": 1,
+        "ru": 1
+      }
+    },
+    "tokenizedStocks": {
+      "total": 470,
+      "byLocale": {
+        "en": 38,
+        "zh-Hans": 38,
+        "zh-Hant": 38,
+        "es": 38,
+        "pt-BR": 38,
+        "tr": 37,
+        "id": 38,
+        "ja": 38,
+        "ko": 38,
+        "vi": 38,
+        "ru": 13,
+        "ar": 13,
+        "fr": 13,
+        "de": 13,
+        "it": 13,
+        "ur": 13,
+        "uk": 13
+      }
+    },
+    "news-sitemap.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "news-library-sitemap.xml": {
+      "total": 72,
+      "byLocale": {
+        "en": 36,
+        "zh-Hans": 36
+      }
+    }
+  },
+  "noindexed": {
+    "total": 3559,
+    "byLocale": {
+      "ur": 218,
+      "uk": 218,
+      "en": 173,
+      "zh-Hans": 173,
+      "zh-Hant": 173,
+      "es": 217,
+      "pt-BR": 217,
+      "fr": 217,
+      "de": 217,
+      "ja": 217,
+      "ko": 217,
+      "ar": 217,
+      "tr": 217,
+      "ru": 217,
+      "id": 217,
+      "vi": 217,
+      "it": 217
+    },
+    "byTemplate": {
+      "home": 2,
+      "comparison": 3557
+    }
+  },
+  "noindexedScope": "Home plus all generated comparisons across UI_LOCALES; count 200/noindex shared SSR metadata only. Article, archive and auxiliary templates are not enumerated.",
+  "trackedPublic": {
+    "news-sitemap.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-academy.xml": {
+      "total": 350,
+      "byLocale": {
+        "en": 25,
+        "zh-Hans": 25,
+        "zh-Hant": 25,
+        "es": 25,
+        "pt-BR": 25,
+        "fr": 25,
+        "de": 25,
+        "ja": 25,
+        "ko": 25,
+        "ru": 25,
+        "tr": 25,
+        "id": 25,
+        "vi": 25,
+        "ar": 25
+      }
+    },
+    "sitemap-apps.xml": {
+      "total": 85,
+      "byLocale": {
+        "en": 5,
+        "zh-Hans": 5,
+        "zh-Hant": 5,
+        "es": 5,
+        "pt-BR": 5,
+        "fr": 5,
+        "de": 5,
+        "ja": 5,
+        "ko": 5,
+        "ar": 5,
+        "tr": 5,
+        "ru": 5,
+        "id": 5,
+        "vi": 5,
+        "it": 5,
+        "ur": 5,
+        "uk": 5
+      }
+    },
+    "sitemap-articles-ar.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-de.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-en.xml": {
+      "total": 224,
+      "byLocale": {
+        "en": 224
+      }
+    },
+    "sitemap-articles-es.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-fr.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-id.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-it.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ja.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ko.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-pt-br.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-ru.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-tr.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-vi.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-articles-zh-hans.xml": {
+      "total": 224,
+      "byLocale": {
+        "zh-Hans": 224
+      }
+    },
+    "sitemap-articles-zh-hant.xml": {
+      "total": 0,
+      "byLocale": {}
+    },
+    "sitemap-beginner.xml": {
+      "total": 175,
+      "byLocale": {
+        "en": 11,
+        "zh-Hans": 11,
+        "es": 11,
+        "pt-BR": 11,
+        "id": 11,
+        "tr": 10,
+        "ko": 10,
+        "ja": 10,
+        "fr": 10,
+        "de": 10,
+        "it": 10,
+        "ru": 10,
+        "ar": 10,
+        "zh-Hant": 10,
+        "ur": 10,
+        "uk": 10,
+        "vi": 10
+      }
+    },
+    "sitemap-campaigns.xml": {
+      "total": 45,
+      "byLocale": {
+        "en": 4,
+        "zh-Hans": 4,
+        "es": 4,
+        "pt-BR": 4,
+        "tr": 2,
+        "vi": 4,
+        "id": 4,
+        "ja": 4,
+        "ko": 4,
+        "fr": 4,
+        "de": 4,
+        "zh-Hant": 1,
+        "ar": 1,
+        "ru": 1
+      }
+    },
+    "sitemap-coins.xml": {
+      "total": 1263,
+      "byLocale": {
+        "en": 180,
+        "es": 180,
+        "pt-BR": 180,
+        "tr": 179,
+        "vi": 180,
+        "id": 180,
+        "zh-Hans": 180,
+        "ja": 1,
+        "ko": 1,
+        "fr": 1,
+        "de": 1
+      }
+    },
+    "sitemap-compare.xml": {
+      "total": 234,
+      "byLocale": {
+        "ar": 8,
+        "en": 48,
+        "de": 8,
+        "es": 8,
+        "fr": 8,
+        "id": 8,
+        "it": 8,
+        "ja": 8,
+        "ko": 8,
+        "pt-BR": 8,
+        "ru": 8,
+        "tr": 8,
+        "vi": 8,
+        "zh-Hans": 48,
+        "zh-Hant": 42
+      }
+    },
+    "sitemap-convert.xml": {
+      "total": 12,
+      "byLocale": {
+        "en": 12
+      }
+    },
+    "sitemap-data.xml": {
+      "total": 17,
+      "byLocale": {
+        "en": 5,
+        "zh-Hans": 5,
+        "es": 1,
+        "pt-BR": 1,
+        "tr": 1,
+        "vi": 1,
+        "id": 1,
+        "ja": 1,
+        "ko": 1
+      }
+    },
+    "sitemap-deposit.xml": {
+      "total": 72,
+      "byLocale": {
+        "en": 15,
+        "zh-Hans": 14,
+        "zh-Hant": 4,
+        "es": 6,
+        "pt-BR": 3,
+        "fr": 3,
+        "de": 3,
+        "it": 3,
+        "ja": 2,
+        "ko": 3,
+        "ar": 2,
+        "tr": 3,
+        "ru": 2,
+        "id": 2,
+        "vi": 3,
+        "ur": 2,
+        "uk": 2
+      }
+    },
+    "sitemap-glossary.xml": {
+      "total": 1620,
+      "byLocale": {
+        "en": 180,
+        "zh-Hans": 180,
+        "es": 180,
+        "pt-BR": 180,
+        "tr": 180,
+        "vi": 180,
+        "id": 180,
+        "ja": 180,
+        "ko": 180
+      }
+    },
+    "sitemap-licenses.xml": {
+      "total": 266,
+      "byLocale": {
+        "en": 19,
+        "zh-Hans": 19,
+        "es": 19,
+        "pt-BR": 19,
+        "tr": 19,
+        "vi": 19,
+        "id": 19,
+        "ja": 19,
+        "ko": 19,
+        "fr": 19,
+        "de": 19,
+        "ar": 19,
+        "ur": 19,
+        "uk": 19
+      }
+    },
+    "sitemap-locales.xml": {
+      "total": 118,
+      "byLocale": {
+        "en": 15,
+        "ar": 6,
+        "pt-BR": 13,
+        "de": 6,
+        "es": 7,
+        "fr": 6,
+        "zh-Hant": 8,
+        "id": 6,
+        "it": 6,
+        "ja": 7,
+        "ko": 7,
+        "ru": 6,
+        "tr": 8,
+        "vi": 6,
+        "zh-Hans": 11
+      }
+    },
+    "sitemap-tokenized-stocks.xml": {
+      "total": 470,
+      "byLocale": {
+        "en": 38,
+        "zh-Hans": 38,
+        "zh-Hant": 38,
+        "es": 38,
+        "pt-BR": 38,
+        "tr": 37,
+        "id": 38,
+        "ja": 38,
+        "ko": 38,
+        "vi": 38,
+        "ru": 13,
+        "ar": 13,
+        "fr": 13,
+        "de": 13,
+        "it": 13,
+        "ur": 13,
+        "uk": 13
+      }
+    },
+    "sitemap-topics-tools.xml": {
+      "total": 347,
+      "byLocale": {
+        "ar": 19,
+        "de": 19,
+        "es": 19,
+        "en": 32,
+        "fr": 19,
+        "id": 19,
+        "it": 19,
+        "ja": 24,
+        "ko": 24,
+        "pt-BR": 20,
+        "ru": 19,
+        "tr": 24,
+        "uk": 12,
+        "ur": 12,
+        "vi": 19,
+        "zh-Hans": 28,
+        "zh-Hant": 19
+      }
+    },
+    "sitemap-venues.xml": {
+      "total": 260,
+      "byLocale": {
+        "ar": 16,
+        "de": 16,
+        "es": 16,
+        "en": 22,
+        "fr": 16,
+        "id": 16,
+        "it": 16,
+        "ja": 18,
+        "ko": 18,
+        "pt-BR": 16,
+        "ru": 16,
+        "tr": 18,
+        "vi": 16,
+        "zh-Hans": 22,
+        "zh-Hant": 18
+      }
+    }
+  }
+}

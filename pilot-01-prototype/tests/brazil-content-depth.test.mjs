@@ -6,9 +6,10 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { BRAZIL_PAGES, BRAZIL_SOURCES, getBrazilPage } from "../src/data/brazil-market.js";
+import { buildTelegramWebsiteFunnelContext } from "../src/data/telegram-config.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const expectedPartnerHash = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+const expectedPartnerHash = "3a69b03020089ccb700370fcac011230635fe21d00a5cdae39d342284b78ef83";
 
 const requiredSourceIds = [
   "bcb-pix-speed-availability",
@@ -153,12 +154,33 @@ test("Brazil SSR exposes Pix to compare to CTA-check to Telegram return path", a
   const html = await renderBrazilPage("/br/pix");
   assert.match(html, /class="br-next-steps v2-shell"/);
   assert.match(html, /Comparar Binance e OKX com BRL\/Pix/);
-  assert.match(html, /href="\/br\/comparar\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=okx&amp;amount=1000/);
+  const nextSteps = html.match(/<nav class="br-next-steps v2-shell"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(nextSteps, "next-step navigation is present");
+  for (const pathname of ["/br/comparar", "/br/conta"]) {
+    const href = [...nextSteps.matchAll(/href="([^"]+)"/g)].map(match => match[1].replaceAll("&amp;", "&"))
+      .find(href => href.startsWith(`${pathname}#nxa-context?`));
+    assert.ok(href, `${pathname}: local context uses the fragment contract`);
+    const target = new URL(href, "https://nexualpha.com");
+    assert.equal(target.pathname, pathname);
+    assert.equal(target.search, "", "decision state stays out of the canonical query");
+    const params = new URLSearchParams(target.hash.split("?")[1]);
+    for (const [key, value] of Object.entries({ locale: "pt-BR", market: "BR", product: "spot", platform: "okx", amount: "1000" })) {
+      assert.equal(params.get(key), value, `${pathname}: preserves ${key}`);
+    }
+  }
   assert.match(html, /Ver CTA e benefício antes do cadastro/);
-  assert.match(html, /href="\/br\/conta\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=okx&amp;amount=1000/);
+
   assert.match(html, /Levar a dúvida para o Telegram/);
   assert.match(html, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=/);
-  assert.match(html, /data-telegram-return-href="\/pt-br\/compare\/binance-vs-okx\?market=BR&amp;product=spot/);
+  // Clock-dependent return links are added after hydration; SSR carries the stable bot payload.
+  assert.doesNotMatch(nextSteps, /data-telegram-return-href=/);
+  const funnel = buildTelegramWebsiteFunnelContext({ intent: "compare", pair: "binance-vs-okx", market: "BR", locale: "pt-BR", product: "spot", campaign: "br_pix_brl_compare_return", now: 1790000000000 });
+  assert.ok(nextSteps.includes(`data-telegram-start="${funnel.startPayload}"`));
+  const returnTarget = new URL(funnel.returnHref, "https://nexualpha.com");
+  assert.equal(returnTarget.pathname, "/pt-br/compare/binance-vs-okx");
+  for (const [key, value] of Object.entries({ market: "BR", product: "spot", tg_return: "bot", tg_pair: "binance-vs-okx", tg_locale: "pt-BR" })) {
+    assert.equal(returnTarget.searchParams.get(key), value, `Telegram return preserves ${key}`);
+  }
   assert.match(html, /data-growth-decision="br_next_telegram"/);
   assert.doesNotMatch(html, /private commission|commissionrate|佣金比例|返给用户|partner\.bitget|affiliate_id/i);
   assert.doesNotMatch(html.replace(/<[^>]*>/g, ""), /payout/i);
@@ -189,10 +211,12 @@ test("Brazil first viewport shows a clear internal decision path before outbound
   const url = new URL(href, "https://nexualpha.com");
   assert.equal(url.origin, "https://nexualpha.com");
   assert.ok(["/exchanges/okx", "/pt-br/exchanges/okx"].includes(url.pathname));
-  assert.equal(url.hash, "#registration-path");
-  assert.equal(url.searchParams.get("market"), "BR");
-  assert.equal(url.searchParams.get("product"), "spot");
-  assert.equal(url.searchParams.get("locale"), "pt-BR");
+  assert.equal(url.hash.split("?")[0], "#registration-path");
+  assert.equal(url.search, "");
+  const context = new URLSearchParams(url.hash.split("?")[1]);
+  assert.equal(context.get("market"), "BR");
+  assert.equal(context.get("product"), "spot");
+  assert.equal(context.get("locale"), "pt-BR");
   assert.match(anchor, /data-cta-kind="research"/);
   assert.doesNotMatch(anchor, /target="_blank"|rel="sponsored/);
   assert.doesNotMatch(selectedPath, /Abrir cadastro oficial|data-cta-kind="registration"/);

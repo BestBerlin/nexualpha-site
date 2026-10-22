@@ -472,8 +472,8 @@ export function hasNewsArticleLocale(article, locale) {
 
 /**
  * Locales the news listing pages (/news, pagination, categories) are published in: the core editions plus every
- * locale at least one search-published article has an edition for. Rows without `seo` (summary rows) count by their
- * declared locales; full rows must be search-published (`seo.noindex === false`).
+ * locale at least one search-published article has an edition for. Full and summary rows both require explicit
+ * search-publication authority (`seo.noindex === false`).
  */
 export function newsListingPublishedLocales(articles = []) {
   const counts = newsListingNativeArticleCounts(articles);
@@ -486,7 +486,7 @@ export function newsListingNativeArticleCounts(articles = []) {
   for (const article of Array.isArray(articles) ? articles : []) {
     if (!isRecord(article)) continue;
     if (article.status && article.status !== "PUBLISHED") continue;
-    if (isRecord(article.seo) && article.seo.noindex !== false) continue;
+    if (article.seo?.noindex !== false) continue;
     for (const locale of newsArticleDeclaredLocales(article)) counts[locale] = (counts[locale] || 0) + 1;
   }
   return counts;
@@ -495,13 +495,19 @@ export function newsListingNativeArticleCounts(articles = []) {
 // SEO audit 2026-10-11 #4 / scorecard M3: a locale news index (/<locale>/news, its pages and categories) is indexable
 // only once that locale has at least this many native, search-published article editions. Below it the listing still
 // renders (newsListingPublishedLocales) but is noindex,follow, carries no hreflang and stays out of every sitemap; at the
-// threshold it becomes index,follow automatically. English is the default edition and is always indexable.
+// threshold it becomes index,follow automatically. English requires at least one approved native edition.
 export const NEWS_LISTING_MIN_NATIVE_ARTICLES = 5;
+
+export function newsListingHasNativeArticles(articles = [], locale = "en", { category = null } = {}) {
+  return articles.some(article => article?.status === "PUBLISHED" && article.seo?.noindex === false
+    && (!category || article.category === category) && hasNewsArticleLocale(article, locale));
+}
+
 
 /** Locales whose news listing pages are index,follow (and listed in sitemaps / hreflang). */
 export function newsListingIndexableLocales(articles = [], minimum = NEWS_LISTING_MIN_NATIVE_ARTICLES) {
   const counts = newsListingNativeArticleCounts(articles);
-  return newsListingPublishedLocales(articles).filter((locale) => locale === "en" || (counts[locale] || 0) >= minimum);
+  return newsListingPublishedLocales(articles).filter((locale) => NEWS_INDEXABLE_LOCALES.includes(locale) && (counts[locale] || 0) >= (locale === "en" ? 1 : minimum));
 }
 
 /**
@@ -729,6 +735,7 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: Array.isArray(article.availableLocales) ? article.availableLocales : [],
+    seo: { noindex: article.seo?.noindex !== false },
     routeProjection: {
       source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE,
       locale,

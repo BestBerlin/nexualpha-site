@@ -34,19 +34,25 @@ test('SSR preserves real calculation rows, readable labels, and locale-specific 
       const heading = doc.querySelector('h1.hx-say');
       if (['zh-Hant', 'ru', 'ar'].includes(locale)) {
         assert.equal(heading, null, `${locale}: neutral locale keeps its information-only hero`);
-        assert.equal(doc.querySelector('.hx-screen'), null);
+        assert.equal(doc.querySelector('.hx-stage'), null);
         assert.equal(doc.querySelector('.hx-go'), null);
         continue;
       }
       assert.ok(heading, locale);
       assert.equal(heading.querySelectorAll('br').length, /^(zh|ja)/.test(locale) ? 0 : 1, locale);
-      const screen = doc.querySelector('.hx-screen');
-      assert.equal(screen.querySelector('.hx-scr-head').firstElementChild.textContent, HERO_SAY[locale].exchange);
-      assert.equal(screen.querySelector('.hx-scr-live').textContent, HERO_SAY[locale].live);
-      const selected = screen.querySelector('li[data-on]');
-      assert.ok(selected);
-      assert.equal(selected.querySelector('.hx-scr-amt').textContent, doc.querySelector('.hx-amt').textContent);
-      assert.ok(screen.querySelectorAll('.hx-scr-bar-fill b').length >= 3);
+      // The owner replaced the device mockup with the globe; its real calculation rows and labels remain accessible.
+      const stage = doc.querySelector('.hx-stage');
+      assert.ok(stage, `${locale}: rebate stage renders`);
+      const caption = stage.querySelector('.hx-stage-caption').textContent;
+      assert.ok(caption.includes(HERO_SAY[locale].live), `${locale}: localized live label`);
+      assert.ok(caption.includes(heroVolumeText(1e7, locale)), `${locale}: shared volume label`);
+      const selected = stage.querySelector('.hx-stage-node[data-on]');
+      assert.ok(selected, `${locale}: current venue is selected`);
+      assert.equal(selected.querySelector('.hx-stage-value').textContent, doc.querySelector('.hx-amt').textContent);
+      const values = [...stage.querySelectorAll('.hx-stage-value')];
+      assert.ok(values.length >= 3);
+      assert.ok(values.every(value => Number(value.dataset.finalValue) > 0 && value.textContent.trim()));
+      assert.equal(stage.querySelectorAll('.h7-sr li').length, values.length, `${locale}: every visible row has accessible text`);
     } finally { dom.window.close(); }
   }
 });

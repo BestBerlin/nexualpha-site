@@ -1,3 +1,5 @@
+import {readFile} from 'node:fs/promises';
+import {referralPartnerRows} from '../scripts/generate-referral-partners.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PROMOTIONS, resolvePromotions, NEUTRAL_PROMOTION_LOCALES } from '../src/data/promotions.js';
@@ -6,13 +8,17 @@ const now = Date.parse('2026-10-12T12:00:00Z');
 const base = PROMOTIONS.find(p => p.partner === 'okx' && p.kind === 'signup');
 const resolve = (records, context = {}) => resolvePromotions({ venue: 'okx', locale: 'en', now, ...context }, records);
 const neutral = result => assert.equal(result[0].kind, 'tool');
-test('seed uses exact registry codes and shares; no WEEX or invented campaigns', () => {
-  for (const p of PROMOTIONS.filter(p => p.kind === 'signup')) {
+test('build-generated seed uses exact registry codes and shares; no WEEX or invented campaigns', async () => {
+  const sourceUrl=new URL('../src/data/promotions.js',import.meta.url);
+  let source=(await readFile(sourceUrl,'utf8')).replace(/import \{ REFERRAL_PARTNERS \} from ['"][^'"]+['"];?/, 'const REFERRAL_PARTNERS='+JSON.stringify(referralPartnerRows())+';');
+  source=source.replace(/from (['"])(\.[^'"]+)\1/g,(_,q,p)=>'from '+JSON.stringify(new URL(p,sourceUrl).href));
+  const {PROMOTIONS:generatedSeed}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+  for (const p of generatedSeed.filter(p => p.kind === 'signup')) {
     const row = buildPartnersFeed({ generatedAt: 'static' }).partners.find(row => row.slug === p.partner);
     assert.equal(p.inviteCode, row.inviteCode); assert.equal(p.share, row.share);
   }
-  assert.ok(!PROMOTIONS.some(p => p.partner === 'weex'));
-  assert.ok(PROMOTIONS.filter(p => p.kind === 'campaign').every(p => !p.enabled));
+  assert.ok(!generatedSeed.some(p => p.partner === 'weex'));
+  assert.ok(generatedSeed.filter(p => p.kind === 'campaign').every(p => !p.enabled));
 });
 test('expiry, future start, staleness, invalid dates and disabled fail closed', () => {
   assert.equal(resolve([base])[0].partner, 'okx');

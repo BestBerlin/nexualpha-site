@@ -30,21 +30,16 @@ async function readJsonOrFixture(url, fallback) {
   }
 }
 
-async function readJsonOrSourceInventory(url) {
-  try {
-    return JSON.parse(await readFile(url, "utf8"));
-  } catch (error) {
-    if (error?.code !== "ENOENT") throw error;
-    const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
-    return { routes: routeInventory(normalizeNewsFeed(feed)) };
-  }
+async function sourceInventory() {
+  const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
+  return { routes: routeInventory(normalizeNewsFeed(feed)) };
 }
 
 const cases = [
   { path: "/mx", locale: "es", market: "MX", title: /México|Investigación cripto/, canonical: "https://nexualpha.com/mx", source: /banxico\.org\.mx|binance\.com\/es-MX|gob\.mx\/cnbv/, faq: /SPEI|MXN|CNBV|producto/, related: "https://nexualpha.com/methodology" },
   { path: "/hk", locale: "zh-Hant", market: "HK", title: /香港加密平台帳戶核對|SFC|eDDA/, canonical: "https://nexualpha.com/hk", source: /sfc\.hk/, faq: /SFC|HKD|eDDA|地址證明|註冊歸因/, related: "https://nexualpha.com/methodology" },
-  { path: "/eu", locale: "en", market: "EU", title: /European Union Crypto Platform/, canonical: "https://nexualpha.com/eu", source: /esma\.europa\.eu/, faq: /MiCA|ESMA|SEPA|Member State/, related: "https://nexualpha.com/news/esma-mica-register-how-to-check-casp-issuer-status" },
-  { path: "/uk", locale: "en", market: "UK", title: /United Kingdom Crypto Account/, canonical: "https://nexualpha.com/uk", source: /fca\.org\.uk/, faq: /FCA|GBP|appropriateness|bank-name/, related: "https://nexualpha.com/methodology" },
+  { path: "/eu", locale: "en", market: "EU", title: /Crypto Exchanges in the EU/, canonical: "https://nexualpha.com/eu", source: /esma\.europa\.eu/, faq: /MiCA|ESMA|SEPA|Member State/, related: "https://nexualpha.com/news/esma-mica-register-how-to-check-casp-issuer-status" },
+  { path: "/uk", locale: "en", market: "UK", title: /Crypto Exchanges in the UK/, canonical: "https://nexualpha.com/uk", source: /fca\.org\.uk/, faq: /FCA|GBP|appropriateness|bank-name/, related: "https://nexualpha.com/methodology" },
   { path: "/jp?locale=ja", locale: "ja", market: "JP", title: /日本の暗号資産/, canonical: "https://nexualpha.com/jp", source: /fsa\.go\.jp|bitflyer\.com/, faq: /金融庁|本人名義口座|日本円入金/, related: "https://nexualpha.com/methodology" },
   { path: "/kr?locale=ko", locale: "ko", market: "KR", title: /한국 암호화폐/, canonical: "https://nexualpha.com/kr", source: /fsc\.go\.kr|kofiu\.go\.kr|upbit\.com/, faq: /금융위원회|실명확인 계좌|원화 입출금/, related: "https://nexualpha.com/methodology" },
   { path: "/tr/markets/turkiye", locale: "tr", market: "TR", title: /Türkiye kripto platformu/, canonical: "https://nexualpha.com/tr/markets/turkiye", source: /spk\.gov\.tr|paribu\.com/, faq: /SPK|TRY|tasfiye|ürün kapsamı/, related: "https://nexualpha.com/markets/turkiye" },
@@ -95,8 +90,8 @@ test("Wave36 keeps unpublished regional previews out of the index", async () => 
   }
 });
 
-test("Wave36 low-value consolidation audit has zero high-confidence current candidates", async () => {
-  const inventory = await readJsonOrSourceInventory(new URL("../dist/client/route-inventory.json", import.meta.url));
+test("regional source inventory retains index policy and the historical consolidation fixture", async () => {
+  const inventory = await sourceInventory();
   const duplication = await readJsonOrFixture(
     new URL("../../artifacts/seo/wave35-indexable-content-duplication.json", import.meta.url),
     new URL("./fixtures/seo/wave35-indexable-content-duplication.json", import.meta.url),

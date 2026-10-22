@@ -16,7 +16,7 @@ function between(source, start, end) {
   return source.slice(a, b);
 }
 
-test('App records a connected search opener for header, bottom nav and mobile menu search', () => {
+test('App records a connected search opener for header and mobile menu search', () => {
   assert.match(app, /const searchReturnFocusRef = useRef\(null\)/);
   assert.match(app, /const openSearchDialog = useCallback\(\(event\) => \{/);
   assert.match(app, /const candidate = event\?\.currentTarget/);
@@ -24,7 +24,7 @@ test('App records a connected search opener for header, bottom nav and mobile me
   assert.match(app, /searchReturnFocusRef\.current = active && active !== document\.body \? active : null/);
 
   assert.match(app, /<Header[\s\S]*onSearch=\{openSearchDialog\}/);
-  assert.match(app, /<MobileBottomNav[\s\S]*onSearch=\{openSearchDialog\}/);
+  assert.match(app, /onClose=\{closeMobile\} onSearch=\{\(\) => \{ closeMobile\(\); onSearch\(\{ currentTarget: mobileTriggerRef\.current \}\)/);
   assert.match(app, /onSearch\(\{ currentTarget: mobileTriggerRef\.current \}\)/);
 });
 

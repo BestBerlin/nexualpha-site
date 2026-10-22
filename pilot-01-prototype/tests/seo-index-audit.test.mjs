@@ -1,3 +1,4 @@
+import { loopbackUnavailableReason } from './sandbox-network.mjs';
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -230,7 +231,9 @@ test("canonical aliases do not create duplicate metadata findings", () => {
 });
 
 
-test("built public sitemap, canonical, hreflang, robots and metadata stay index-consistent", { timeout: 600_000 }, async () => {
+test("built public sitemap, canonical, hreflang, robots and metadata stay index-consistent", { timeout: 600_000 }, async (t) => {
+  const reason = await loopbackUnavailableReason();
+  if (reason) return t.skip(reason);
   assert.equal(existsSync(path.join(projectRoot, "dist", "client", "sitemap.xml")), true, "build output missing: run npm run build before the built SEO index audit");
   const report = await runSeoIndexAudit({
     root: projectRoot,

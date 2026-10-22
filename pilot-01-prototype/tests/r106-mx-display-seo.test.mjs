@@ -1,3 +1,4 @@
+import { budgetTitle, clampMetaDescription } from '../src/data/meta-description.js';
 import assert from "node:assert/strict";
 import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
@@ -79,11 +80,11 @@ const spanishFaq = /¿Cómo comparar|¿Qué costes|¿Qué diferencia|¿La calcul
 const commercialLeak = /https?:\/\/(?:www\.)?(?:bsmkweb|partner\.bitget|topzhjdgxcb)|nexu888|11350287|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|private commission|commissionrate|payout|佣金比例|返给用户/i;
 
 function schemaTypes(seo) {
-  return seo.schemas.map((schema) => schema["@type"]);
+  return seo.schemas.filter(schema => !["Organization", "WebSite"].includes(schema["@type"])).map((schema) => schema["@type"]);
 }
 
 function schemaLanguages(seo) {
-  return seo.schemas.map((schema) => schema.inLanguage).filter(Boolean);
+  return seo.schemas.filter(schema => !["Organization", "WebSite"].includes(schema["@type"])).map((schema) => schema.inLanguage).filter(Boolean);
 }
 
 function stringify(value) {
@@ -97,8 +98,8 @@ test("R106 MX English display SEO is native English while preserving clean Spani
     assert.equal(seo.robots, "noindex,follow", item.url);
     assert.equal(seo.locale, "en", item.url);
     assert.equal(seo.htmlLocale, "en", item.url);
-    assert.equal(seo.title, item.title, item.url);
-    assert.equal(seo.description, item.description, item.url);
+    assert.equal(seo.title, budgetTitle(item.title), item.url);
+    assert.equal(seo.description, clampMetaDescription(item.description), item.url);
     assert.equal(seo.canonical, item.canonical, item.url);
     assert.deepEqual(seo.alternates, [], item.url);
     assert.doesNotMatch(`${seo.title}\n${seo.description}`, spanishMetadata, item.url);
@@ -113,7 +114,7 @@ test("R106 MX English decision schemas include only English WebPage and Breadcru
     assert.deepEqual(schemaTypes(seo), ["WebPage", "BreadcrumbList"], item.url);
     assert.deepEqual(schemaLanguages(seo), ["en"], item.url);
     assert.ok(seo.schemas.every((schema) => schema["@type"] !== "FAQPage"), item.url);
-    assert.ok(seo.schemas.every((schema) => stringify(schema).includes(item.canonical)), item.url);
+    assert.ok(seo.schemas.filter(schema => !["Organization", "WebSite"].includes(schema["@type"])).every((schema) => stringify(schema).includes(item.canonical)), item.url);
   }
 });
 
@@ -124,8 +125,8 @@ test("R106 MX Spanish SEO metadata remains unchanged", () => {
     assert.equal(seo.robots, item.robots, item.url);
     assert.equal(seo.locale, "es", item.url);
     assert.equal(seo.htmlLocale, "es", item.url);
-    assert.equal(seo.title, item.title, item.url);
-    assert.equal(seo.description, item.description, item.url);
+    assert.equal(seo.title, budgetTitle(item.title), item.url);
+    assert.equal(seo.description, clampMetaDescription(item.description), item.url);
     assert.equal(seo.canonical, item.canonical, item.url);
     assert.deepEqual(schemaTypes(seo), item.schemaTypes, item.url);
     assert.ok(schemaLanguages(seo).every((locale) => locale === "es"), item.url);

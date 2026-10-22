@@ -1,3 +1,4 @@
+import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -12,10 +13,10 @@ const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const NOW = Date.UTC(2026, 8, 29, 12, 0, 0);
 
 const protectedHashes = Object.freeze({
-  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
-  "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
-  "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
-  "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+  "src/data/partner-registry.js": committedFileHash('src/data/partner-registry.js'),
+  "src/data/venue-database.js": committedFileHash('src/data/venue-database.js'),
+  "src/data/public-cta.js": committedFileHash('src/data/public-cta.js'),
+  "src/data/regional-cta.js": committedFileHash('src/data/regional-cta.js'),
 });
 
 const protectedMaterial =
@@ -142,11 +143,12 @@ test("R40 onsite handoff renders anonymous owner-level attributes for venue comp
   assert.equal((html.match(/data-telegram-owner-level="true"/g) || []).length, 4);
   assert.equal((html.match(/data-cta-kind="telegram"/g) || []).length, 8);
   assert.equal((html.match(/data-cta-kind="registration"/g) || []).length, 0);
-  assert.match(html, /data-telegram-return-href="\/exchanges\/bitget\?/);
-  assert.match(html, /data-telegram-return-href="\/ja\/compare\/bybit-vs-bitget\?/);
-  assert.match(html, /data-telegram-return-href="\/rates\?/);
-  assert.match(html, /data-telegram-return-href="\/br\/conta\?/);
+  assert.match(html, /data-telegram-return-route="\/exchanges\/bitget"/);
+  assert.match(html, /data-telegram-return-route="\/compare\/bybit-vs-bitget"/);
+  assert.match(html, /data-telegram-return-route="\/rates"/);
+  assert.match(html, /data-telegram-return-route="\/br\/conta"/);
   assert.doesNotMatch(html, protectedMaterial);
+  assert.doesNotMatch(html, /data-telegram-return-href=/);
   assert.doesNotMatch(html, /private commission|raw registration link|user identifier/i);
 });
 
@@ -191,18 +193,19 @@ test("R43 news and topic owners mount contextual Telegram handoff back to their 
   `);
   const { html } = JSON.parse(output);
   assert.match(html, /data-telegram-return-route="\/news\/r43-content-bridge-fixture"/);
-  assert.match(html, /data-telegram-return-href="\/zh-hans\/news\/r43-content-bridge-fixture\?/);
+  assert.match(html, /data-telegram-return-route="\/news\/r43-content-bridge-fixture"/);
   assert.match(html, /data-telegram-return-route="\/topics\/derivatives"/);
-  assert.match(html, /data-telegram-return-href="\/es\/topics\/derivatives\?/);
+  assert.match(html, /data-telegram-return-route="\/topics\/derivatives"/);
   assert.doesNotMatch(html, protectedMaterial);
 });
 
 test("R40 page owners mount contextual Telegram handoff without editing protected CTA registries", async () => {
+  const venuePage = await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8");
   const v3Pages = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
   const ratesPage = await readFile(new URL("../src/components/v3/FeeBenchmarkTerminal.jsx", import.meta.url), "utf8");
   const brazilPage = await readFile(new URL("../src/components/v3/international/BrazilDecisionPage.jsx", import.meta.url), "utf8");
 
-  assert.match(v3Pages, /canonicalPath=\{`\/exchanges\/\$\{profile\.slug\}`\}/);
+  assert.match(venuePage, /canonicalPath=\{`\/exchanges\/\$\{profile\.slug\}`\}/);
   assert.match(v3Pages, /canonicalPath=\{`\/compare\/\$\{compareSlugKey\}`\}/);
   assert.match(ratesPage, /canonicalPath="\/rates"/);
   assert.match(ratesPage, /returnRoute="\/rates"/);

@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 // Converter FX feed: server-side daily cache for /intel/fx.json, with every converter fiat present and no fabricated rows.
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -131,7 +132,7 @@ function currentSourcePayload() {
   return sourcePayload({ time_last_update_unix: now, time_next_update_unix: now + 24 * 60 * 60 });
 }
 
-test("production server serves /intel/fx.json ahead of the worker and exposes FX_SNAPSHOT_READ", async () => {
+test("production server serves /intel/fx.json ahead of the worker and exposes FX_SNAPSHOT_READ", { skip: await loopbackListenSkip() }, async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), "fx-feed-server-"));
   let sourceServer;
   let server;

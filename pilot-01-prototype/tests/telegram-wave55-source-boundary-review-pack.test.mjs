@@ -1,8 +1,13 @@
+import {committedFileHash} from './r100-test-contracts.mjs';
+import { existsSync } from 'node:fs';
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { createHash } from "node:crypto";
 
+const reviewInputs=['../docs/evidence/telegram-wave55-source-boundary-review-pack-20260916.json', '../docs/strategy/telegram-wave55-source-boundary-review-pack-20260916.md'];
+if(!reviewInputs.every(p=>existsSync(new URL(p,import.meta.url)))) test('archived review evidence available',{skip:'Requires archived operator review pack: '+reviewInputs.join(', ')},()=>{});
+else {
 const evidence = JSON.parse(
   await readFile(new URL("../docs/evidence/telegram-wave55-source-boundary-review-pack-20260916.json", import.meta.url), "utf8"),
 );
@@ -85,3 +90,7 @@ test("Wave55 preserves source-boundary guardrails for Uniswap, perps and tokeniz
   assert.match(byId["tokenized-treasury-issuer-custody-redemption-en"].riskBoundary, /Do not imply direct U\.S\. Treasury ownership/);
   assert.match(byId["ai-citation-tokenized-asset-ownership-redemption-en"].riskBoundary, /Do not claim AI Overview/);
 });
+
+}
+
+test('independent current registry protection',async()=>{const bytes=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),committedFileHash('src/data/partner-registry.js'));});

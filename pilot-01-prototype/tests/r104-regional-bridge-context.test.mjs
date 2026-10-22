@@ -1,3 +1,4 @@
+import { decisionContextSearchFromUrl } from "../src/data/decision-passport.js";
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildNextDecisionBridge } from '../src/data/next-decision-bridge.js';
@@ -11,10 +12,10 @@ test('regional shortcut preserves the selected shortlist profile passport', () =
     const bridge = buildNextDecisionBridge({ locale: 'es', market: 'MX', product: 'spot', profileSlug: candidate.slug, profileHref: candidate.directHref });
     const url = new URL(bridge.actions.find(a => a.id === 'profile').href, 'https://nexualpha.com');
     assert.equal(url.pathname, `/es/exchanges/${candidate.slug}`);
-    assert.equal(url.searchParams.get('account_stage'), accountStage);
-    assert.equal(url.searchParams.get('funding'), 'SPEI');
-    assert.equal(url.searchParams.get('market'), 'MX');
-    assert.equal(url.searchParams.get('product'), 'spot');
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get('account_stage'), accountStage);
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get('funding'), 'SPEI');
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get('market'), 'MX');
+    assert.equal(new URLSearchParams(decisionContextSearchFromUrl(url)).get('product'), 'spot');
   }
 });
 

@@ -9,12 +9,13 @@ import { createServer } from "node:net";
 import { join, resolve } from "node:path";
 import test, { after, before } from "node:test";
 import { fileURLToPath } from "node:url";
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 
 const projectRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const hasBuild = existsSync(join(projectRoot, "dist", "client", "prerender-manifest.json"));
 const chromePath = [process.env.CHROME_PATH, "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "/usr/bin/chromium"].filter(Boolean).find((candidate) => existsSync(candidate));
 const sharedPackage = "/Users/bestberlin/.codex/shared-tools/web-quality/package.json";
-const skip = !hasBuild ? "no dist build" : !chromePath ? "no Chrome" : !existsSync(sharedPackage) ? "no puppeteer-core" : false;
+const skip = !hasBuild ? "no dist build" : !chromePath ? "no Chrome" : !existsSync(sharedPackage) ? "no puppeteer-core" : await loopbackListenSkip();
 
 const PAGES = { en: "/", "zh-Hans": "/zh-hans", ja: "/ja", ar: "/ar", tr: "/tr" };
 const WIDTHS = [344, 360, 390];

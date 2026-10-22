@@ -1,3 +1,4 @@
+import { loopbackListenSkip } from "./helpers/environment.mjs";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
@@ -160,7 +161,7 @@ test('degrades readiness when the monitor cannot create the event file', { skip:
   }
 });
 
-test('records worker exceptions as sanitized site request events', async () => {
+test('records worker exceptions as sanitized site request events', { skip: await loopbackListenSkip() }, async () => {
   const f = await fixture();
   let server;
   try {
@@ -186,7 +187,7 @@ test('records worker exceptions as sanitized site request events', async () => {
   }
 });
 
-test('records Core not-configured readiness errors without storing request secrets', async () => {
+test('records Core not-configured readiness errors without storing request secrets', { skip: await loopbackListenSkip() }, async () => {
   const f = await fixture();
   let server;
   try {
@@ -210,7 +211,7 @@ test('records Core not-configured readiness errors without storing request secre
   }
 });
 
-test('records Core upstream readiness errors with bounded upstream status', async () => {
+test('records Core upstream readiness errors with bounded upstream status', { skip: await loopbackListenSkip() }, async () => {
   const f = await fixture();
   let core;
   let server;

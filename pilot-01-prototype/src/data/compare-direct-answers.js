@@ -1419,26 +1419,44 @@ function strikingDistanceAnswer(slug, locale, existing) {
   const zh = locale === "zh-Hans";
   const label = product === "perp" ? (zh ? "永续合约" : "perpetual") : (zh ? "现货" : "spot");
   const checked = [fa, fb].every((f) => f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker));
-  let verdict;
+  let verdict, outcome;
   if (!checked) verdict = zh ? `目前不能确认 ${nameA} 与 ${nameB} 谁的${label}手续费更低：双方尚未都有已核验的基础费率。` : `No ${label} fee winner can be verified between ${nameA} and ${nameB}: at least one checked base schedule is unavailable.`;
   else {
     const aLower = fa.maker <= fb.maker && fa.taker <= fb.taker;
     const bLower = fb.maker <= fa.maker && fb.taker <= fa.taker;
-    const outcome = aLower && bLower ? (zh ? "双方基础费率相同" : "the base schedules tie") : aLower || bLower ? (zh ? `${aLower ? nameA : nameB} 的基础费率更低` : `${aLower ? nameA : nameB} has lower base fees`) : (zh ? "Maker 与 Taker 各有优势，不能确定单一赢家" : "neither venue wins both maker and taker fees");
+    outcome = aLower && bLower ? (zh ? "双方基础费率相同" : "the base schedules tie") : aLower || bLower ? (zh ? `${aLower ? nameA : nameB} 的基础费率更低` : `${aLower ? nameA : nameB} has lower base fees`) : (zh ? "Maker 与 Taker 各有优势，不能确定单一赢家" : "neither venue wins both maker and taker fees");
     verdict = zh ? `${label}手续费：${outcome}（${nameA} ${feePair(fa.maker, fa.taker, locale)}；${nameB} ${feePair(fb.maker, fb.taker, locale)}，依次为 Maker / Taker）。` : `On ${label} fees, ${outcome} (${nameA} ${feePair(fa.maker, fa.taker, locale)}; ${nameB} ${feePair(fb.maker, fb.taker, locale)}, maker / taker).`;
   }
   const boundary = zh ? "以上为已核验来源的基础费率快照；账户等级、代币折扣、返佣、资金费率与地区资格仍需在官方账户确认。" : "These are checked base-fee snapshots; verify account tiers, token discounts, rebates, funding and regional eligibility in the official account.";
   const title = zh ? `${nameA} vs ${nameB}：手续费、KYC 与返佣对比（2026）— NexuAlpha` : `${nameA} vs ${nameB}: fees, KYC & rebates (2026) | NexuAlpha`;
   const heading = zh ? `${nameB} vs ${nameA}：谁的手续费更低？` : `${nameB} vs ${nameA}: who has lower fees?`;
   const sourceLinks = [...new Set([...(left?.sourceUrls || []), ...(right?.sourceUrls || [])])].map((href) => [zh ? "官方费率来源" : "Official fee source", href]);
+  // 2026-10-22 GSC: retain the canonical URL while putting the observed query order first.
+  const query = locale === 'en' ? ({
+    'binance-vs-kraken': 'Kraken vs Binance',
+    'binance-vs-bybit': 'Binance vs Bybit',
+    'okx-vs-bybit': 'OKX vs Bybit',
+  })[slug] : null;
+  const queryAnswer = query ? `${query}: ${verdict.charAt(0).toLowerCase()}${verdict.slice(1)} ${boundary}` : null;
+  const queryFaq = query ? [[`${query}: can account tiers change the fee comparison?`, boundary]] : [];
+  if (query && slug === 'binance-vs-kraken') queryFaq.push([
+    'Kraken ou Binance: how do their spot fees compare?',
+    `The search “Kraken ou Binance” asks the same comparison. ${verdict} ${boundary}`,
+  ]);
   return {
     checks: [], nextSteps: [], faq: [], productTypes: [],
     internalLinks: [[nameA, `/exchanges/${a}`], [nameB, `/exchanges/${b}`]],
     sourceLinks, reviewedAt: FACTS_AS_OF, ...existing,
-    title: heading, body: `${verdict} ${boundary}${existing?.body ? ` ${existing.body}` : ""}`, boundary: existing?.boundary || boundary,
-    ownerQuestion: zh ? `${nameA} vs ${nameB}：手续费、KYC 与返佣如何比较？` : `${nameA} vs ${nameB}: how do fees, KYC and rebates compare?`,
-    decisionCard: { ...existing?.decisionCard, title: heading },
-    seoTitle: title, seoDescription: `${verdict} ${boundary}`, seoQuestion: heading,
+    title: query ? `${query}: who has lower spot fees?` : heading,
+    body: `${queryAnswer || `${verdict} ${boundary}`}${existing?.body ? ` ${existing.body}` : ""}`,
+    shortAnswer: queryAnswer,
+    boundary: existing?.boundary || boundary,
+    ownerQuestion: query ? `${query}: fees, KYC and account checks` : zh ? `${nameA} vs ${nameB}：手续费、KYC 与返佣如何比较？` : `${nameA} vs ${nameB}: how do fees, KYC and rebates compare?`,
+    decisionCard: { ...existing?.decisionCard, title: query ? `${query}: who has lower spot fees?` : heading },
+    faq: [...(existing?.faq || []), ...queryFaq],
+    seoTitle: query ? `${query}: spot fees & KYC (2026)` : title,
+    seoDescription: query && checked ? `${query}: ${nameA} ${feePair(fa.maker, fa.taker, locale)}; ${nameB} ${feePair(fb.maker, fb.taker, locale)} spot maker/taker. ${outcome.charAt(0).toUpperCase()}${outcome.slice(1)}; verify tiers and region.` : `${verdict} ${boundary}`,
+    seoQuestion: query ? `${query}: who has lower spot fees?` : heading,
   };
 }
 

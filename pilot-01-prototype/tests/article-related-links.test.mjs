@@ -113,3 +113,47 @@ test('five same-locale indexable related editions include the two newest', () =>
     assert.deepEqual(recentEntityArticles(article, articleRelatedPool(article, peers, locale), 5, locale), selected);
   }
 });
+
+test('neutral entity-free articles reserve an informational exchange destination before optional tools', () => {
+  const current = { title: { en: 'Bitcoin funding and liquidation converter calendar regulation' } };
+  for (const locale of ['ru', 'ar', 'zh-Hant', 'vi', 'ur', 'uk']) {
+    const links = articleRelatedLinks(current, locale);
+    assert.ok(links.some(link => link.href.endsWith('/exchanges')), locale);
+    assert.ok(links.length <= 5);
+    assert.ok(links.every(link => !link.href.includes('/go/')));
+  }
+});
+
+test('related research excludes malformed dates as well as noindex and missing editions', () => {
+  const candidate = (slug, date, extra = {}) => ({ slug, title: { en: 'Bitcoin' }, summary: { en: 'Bitcoin' }, availableLocales: ['en'], seo: { noindex: false }, publishedAt: date, ...extra });
+  const selected = recentEntityArticles(article, [candidate('invalid', 'invalid'), candidate('private', '2026-10-12', { seo: { noindex: true } }), candidate('valid', '2026-10-11')]);
+  assert.deepEqual(selected.map(item => item.slug), ['valid']);
+});
+
+test('venue-free multi-topic articles reserve a permitted exchange profile before optional tools', () => {
+  const current = { title: { en: 'Bitcoin funding and liquidation converter calendar regulation' } };
+  for (const [locale, slug] of [['en', 'bitget'], ['tr', 'okx']]) {
+    const links = articleRelatedLinks(current, locale);
+    assert.ok(links.some(link => link.href.endsWith(`/exchanges/${slug}`)), locale);
+    assert.ok(links.length <= 5);
+    if (locale === 'tr') assert.ok(links.every(link => !link.href.includes('bitget')));
+  }
+});
+
+test('article converter links preserve the complete served universe and fall back for unsupported coins', async () => {
+  const { converterCoins } = await import('../src/data/converter.js');
+  const { parseConverterPath } = await import('../src/data/converter-routes.js');
+  for (const coin of converterCoins()) {
+    const title = `${coin.symbol.length >= 3 ? coin.symbol : coin.name} convert`;
+    const links = articleRelatedLinks({ title: { en: title } }, 'en');
+    const converter = links.find(link => link.href.startsWith('/convert/'));
+    assert.ok(converter, `${coin.symbol} retains a converter link`);
+    assert.equal(parseConverterPath(converter.href)?.kind, 'pair');
+    assert.equal(converter.href, `/convert/${coin.symbol.toLowerCase()}-to-usd`, title);
+    assert.ok(links.some(link => link.href.startsWith('/exchanges/')));
+    assert.ok(links.length <= 5);
+  }
+  const links = articleRelatedLinks({ title: { en: 'KCS convert' } }, 'en');
+  assert.ok(links.some(link => link.href === '/convert/btc-to-usd'));
+  assert.ok(links.every(link => link.href !== '/convert/kcs-to-usd'));
+});

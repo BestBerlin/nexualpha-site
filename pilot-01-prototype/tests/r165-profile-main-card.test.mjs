@@ -1,7 +1,27 @@
-import {withoutR180Copy} from './r180-source-scope.mjs';
-import {expectedRegistrationSource} from './r176-peer-source.mjs';
 import {build} from 'esbuild';
-import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';import{mkdtemp,writeFile,rm}from'node:fs/promises';import{execFileSync}from'node:child_process';import{fileURLToPath}from'node:url';import{createHash}from'node:crypto';import path from'node:path';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import{readFileSync}from'node:fs';
+import{mkdtemp,writeFile,rm}from'node:fs/promises';
+import{execFileSync}from'node:child_process';
+import{fileURLToPath}from'node:url';
+import{createHash}from'node:crypto';
+import path from'node:path';
+import { existsSync as historicalFixtureExists } from 'node:fs';
+import { test as historicalFixtureTest } from 'node:test';
+
+// This historical peer comparison requires the original review snapshot. A fresh
+// checkout cannot reconstruct its evidence; retain the assertions for that setup.
+const historicalFixture = new URL("../../../r160-hierarchy-touch-integration/candidate/src/components/v3/V3Pages.jsx", import.meta.url);
+if (!historicalFixtureExists(historicalFixture)) {
+  historicalFixtureTest('historical peer fixture is available', {
+    skip: 'Missing historical review fixture: ' + historicalFixture.pathname,
+  }, () => {});
+} else {
+const { withoutR180Copy: withoutR180Copy } = await import("./r180-source-scope.mjs");
+const { expectedRegistrationSource: expectedRegistrationSource } = await import("./r176-peer-source.mjs");
+
+
 const root=fileURLToPath(new URL('../',import.meta.url)),base=fileURLToPath(new URL('../../../r160-hierarchy-touch-integration/candidate/',import.meta.url)),source='src/components/v3/V3Pages.jsx';const read=(r,p)=>readFileSync(path.join(r,p),'utf8');const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','ar','es','pt-BR','fr','de','ru','id','vi','it'];const dir=await mkdtemp(path.join(root,'tests/.tmp-r165-'));let rows,others;
 try{const entry=path.join(dir,'entry.mjs'),out=path.join(dir,'out.cjs');await writeFile(entry,`import React from 'react';import {renderToStaticMarkup as render} from 'react-dom/server';import {VenueDetailPage,NotFoundPage,ConversionFunnel,CompareDeepPage} from '../../src/components/v3/V3Pages.jsx';import {VenueDetailPage as Before,NotFoundPage as OldNotFound,ConversionFunnel as OldFunnel,CompareDeepPage as OldCompare} from ${JSON.stringify(path.join(base,source))};import {venueDatabase} from '../../src/data/venue-database.js';const NativeDate=Date;globalThis.Date=class extends NativeDate{constructor(...a){super(...(a.length?a:['2026-10-05T09:00:00Z']));}static now(){return 1791190800000;}};const locales=${JSON.stringify(locales)},venues=Object.values(venueDatabase);const cases=venues.flatMap(venue=>locales.map(locale=>({venue,locale,market:'unknown',product:'unknown'}))).concat([{venue:venueDatabase.binance,locale:'en',market:'US',product:'spot'},{venue:venueDatabase.binance,locale:'ja',market:'BR',product:'spot'},{venue:venueDatabase.hyperliquid,locale:'en',market:'unknown',product:'perp'}]);const copy={common:{dimension:'Dimension'},assetCapabilities:{none:'Pending source review'}};console.log(JSON.stringify({rows:cases.map(c=>{const p={...c,venues,updates:[],copy};return {slug:c.venue.slug,locale:c.locale,market:c.market,before:render(React.createElement(Before,p)),after:render(React.createElement(VenueDetailPage,p))};}),others:locales.map(locale=>({locale,before:[render(React.createElement(OldNotFound,{locale})),render(React.createElement(OldFunnel,{locale})),render(React.createElement(OldCompare,{locale,copy,selected:['binance','okx'],venues,updates:[],market:'unknown',product:'spot'}))],after:[render(React.createElement(NotFoundPage,{locale})),render(React.createElement(ConversionFunnel,{locale})),render(React.createElement(CompareDeepPage,{locale,copy,selected:['binance','okx'],venues,updates:[],market:'unknown',product:'spot'}))]}))}));`);await build({entryPoints:[entry],bundle:true,platform:'node',format:'cjs',outfile:out,loader:{'.css':'empty'},logLevel:'error',plugins:[{name:'exact-frozen-R163-registration-peer',setup(b){b.onLoad({filter:/RegistrationCard\.jsx$/},args=>args.path.startsWith(base)?{contents:read(fileURLToPath(new URL('../../../r172-registration-nextstep-locales/candidate/',import.meta.url)),'src/components/v3/RegistrationCard.jsx'),loader:'jsx',resolveDir:path.dirname(fileURLToPath(new URL('../../../r172-registration-nextstep-locales/candidate/src/components/v3/RegistrationCard.jsx',import.meta.url)))}:undefined);}}]});({rows,others}=JSON.parse(execFileSync(process.execPath,[out],{cwd:root,encoding:'utf8',maxBuffer:160*1024*1024})));}finally{await rm(dir,{recursive:true,force:true});}
 const anchors=h=>[...h.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)].map(m=>m[0]).sort(),text=h=>h.replace(/<[^>]*>/g,'\0').split('\0').map(x=>x.trim()).filter(Boolean).sort();
@@ -12,3 +32,4 @@ test('real sticky effect targets visible main card and preserves scroll/media/cl
 
 test('profile-only CSS additions preserve original cascade, typography and controls',()=>{const file='src/styles/v3-layout-stability.css',a=read(base,file),b=read(root,file);assert.ok(b.startsWith(a));const extra=b.slice(a.length);assert.doesNotMatch(extra,/font-size\s*:|display\s*:\s*none|overflow\s*:\s*hidden|visibility\s*:\s*hidden|height\s*:/);for(const m of extra.matchAll(/([^{}]+)\{/g))assert.match(m[1],/\.v3-profile-page \.v3-profile-main-registration/);assert.match(extra,/min-width: 0/);});
 test('all profile formulas, fee/source gates and sticky state implementation before JSX are preserved',()=>{const a=read(base,source),b=read(root,source),head=s=>s.slice(s.indexOf('export function VenueDetailPage('),s.indexOf('  return <main',s.indexOf('export function VenueDetailPage(')));assert.equal(head(b).replace('venue-profile-main-registration','venue-hero-quick-registration').replace('<div className="v3-venue-quick-registration">','<div className="v3-venue-quick-registration" data-cta-surface="venue-hero-quick-registration">'),head(a));});
+}
