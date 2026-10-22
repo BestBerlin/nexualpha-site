@@ -103,7 +103,7 @@ test('production request handler reads TS_PRICES_FILE, handles HEAD and rejects 
       return { status: res.statusCode, headers: res.responseHeaders, body: Buffer.concat(chunks).toString() };
     }
     const response = await request();
-    assert.equal(response.status, 200); assert.equal(response.headers['cache-control'], 'no-store');
+    assert.equal(response.status, 200); assert.equal(response.headers['cache-control'], 'public, max-age=30'); // 2026-10-23: nginx may hold it 30 s (collector refreshes every 2 min)
     assert.equal(JSON.parse(response.body).rows[0].lastPrice, 100);
     const head = await request('HEAD'); assert.equal(head.status, 200); assert.equal(head.body, '');
     const post = await request('POST'); assert.equal(post.status, 405); assert.equal(post.headers.allow, 'GET, HEAD');

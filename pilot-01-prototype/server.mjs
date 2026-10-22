@@ -326,7 +326,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } else if (requestPath === LIQUIDATION_LEVELS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await liquidationLevels.respond(req.method);
       } else if (requestPath === TS_PRICES_PATH) {
-        result = ['GET', 'HEAD'].includes(req.method) ? await tsPrices.respond(req.method)
+        result = ['GET', 'HEAD'].includes(req.method) ? await tsPrices.respond(req.method, new URL(request.url).searchParams)
           : new Response(null, { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } });
       } else if (requestPath === TS_LIVE_JSON_PATH && tsLive.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await tsLive.respond(req.method))) {
         // served from TS_LIVE_FILE (falls through to the static copy below when the file is not usable)

@@ -73,10 +73,17 @@ export function createTokenizedStocksPricesReader({ file = null, ttlMs = 60_000,
   };
   return {
     read,
-    async respond(method = 'GET') {
-      const data = await read();
+    // ?tickers=NVDA,TSLA (home strip): only those rows, so the home page parses a few KB instead of ~150 KB.
+    async respond(method = 'GET', searchParams = null) {
+      let data = await read();
+      const wanted = new Set(String(searchParams?.get?.('tickers') || '').split(',').map((t) => t.trim().toUpperCase()).filter((t) => /^[A-Z][A-Z0-9.]{0,19}$/.test(t)).slice(0, 40));
+      if (wanted.size) {
+        const rows = data.rows.filter((row) => wanted.has(row.ticker));
+        const used = new Set(rows.flatMap((row) => [row.sourceId, row.indexSourceId].filter(Boolean)));
+        data = { ...data, rows, sources: data.sources.filter((source) => used.has(source.id)), unavailable: rows.length === 0 };
+      }
       return new Response(method === 'HEAD' ? null : JSON.stringify(data), { headers: {
-        'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff',
+        'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=30', 'x-content-type-options': 'nosniff',
       } });
     },
   };

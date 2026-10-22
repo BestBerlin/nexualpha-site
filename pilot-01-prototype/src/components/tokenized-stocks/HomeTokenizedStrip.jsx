@@ -47,7 +47,7 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
   const data = tsLive(live);
   const venues = tsVenues(locale, market).slice(0, HOME_VENUES);
   const rows = tsMatrix({ locale, market, live: data, tickers: HOME_TICKERS });
-  const prices = listedTsPrices(useTsPrices(), rows, data).filter((p) => venues.some((v) => v.slug === p.venueId));
+  const prices = listedTsPrices(useTsPrices(HOME_TICKERS), rows, data).filter((p) => venues.some((v) => v.slug === p.venueId));
   const summaries = tsHomePriceSummary(prices);
   const priceStamp = tsPriceStamp([...summaries.values()].map((s) => s.price));
   const pt = tsPriceCopy(locale);

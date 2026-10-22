@@ -98,7 +98,9 @@ export const tsPriceNumber = (n) => n == null ? "—" : new Intl.NumberFormat("e
 export const tsPricePercent = (n) => n == null ? "—" : `${n > 0 ? "+" : ""}${new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(n)}%`;
 export const tsPriceStamp = (rows) => rows.length ? new Date(Math.min(...rows.map((r) => Date.parse(r.updatedAt)))).toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " +00:00") : "";
 
-export function useTsPrices() {
+/** `tickers` limits the request (home strip); the hub asks for every ticker. */
+export function useTsPrices(tickers = null) {
+  const query = tickers?.length ? `?tickers=${tickers.join(",")}` : "";
   const [feed, setFeed] = useState(null);
   const [now, setNow] = useState(0);
   useEffect(() => {
@@ -109,7 +111,7 @@ export function useTsPrices() {
       active = ctrl;
       const deadline = setTimeout(() => ctrl.abort(), 8_000);
       try {
-        const res = await fetch("/api/tokenized-stocks/prices", { signal: ctrl.signal, headers: { accept: "application/json" }, cache: "no-store" });
+        const res = await fetch(`/api/tokenized-stocks/prices${query}`, { signal: ctrl.signal, headers: { accept: "application/json" }, cache: "no-store" });
         if (res.ok) {
           const next = await res.json();
           if (!stopped) setFeed(next);
@@ -120,7 +122,8 @@ export function useTsPrices() {
     setNow(Date.now());
     refresh();
     const poll = setInterval(refresh, 60_000);
-    const expiry = setInterval(() => setNow(Date.now()), 10_000);
+    // Expiry is 15 min server-side; re-checking every minute (only while visible) keeps idle main-thread work near zero.
+    const expiry = setInterval(() => { if (document.visibilityState === "visible") setNow(Date.now()); }, 60_000);
     const resume = () => { setNow(Date.now()); refresh(); };
     window.addEventListener("focus", resume);
     document.addEventListener("visibilitychange", resume);
