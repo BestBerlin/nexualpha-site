@@ -10,7 +10,7 @@ import { HOME_REBATE_SHARE, HOME_AUTO_SETTLE, HOME_SETTLE } from "./home-rebate-
 /** Date the site owner confirmed the partner programme terms (shares + settlement) — the "benefit terms confirmed" date. */
 export const PARTNER_TERMS_CONFIRMED_ON = "2026-10-10";
 /** Venues whose terms were confirmed later than the first batch (owner 2026-10-14: HTX up to 40%). */
-const CONFIRMED_ON_BY_VENUE = Object.freeze({ htx: "2026-10-14", "gate-io": "2026-10-15" });
+const CONFIRMED_ON_BY_VENUE = Object.freeze({ htx: "2026-10-14", "gate-io": "2026-10-15", mexc: "2026-10-22", kraken: "2026-10-22", backpack: "2026-10-22", hyperliquid: "2026-10-22", coinw: "2026-10-22" });
 
 /** What the exchange still confirms per account after sign-up (the share is each programme's maximum). */
 export const ACCOUNT_LEVEL_CHECKS = Object.freeze(["product-scope", "region", "account-tier", "promotion-stacking"]);

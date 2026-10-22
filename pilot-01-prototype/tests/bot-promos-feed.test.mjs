@@ -22,8 +22,8 @@ test('schema, empty fallback and checked home hero savings', () => {
     const fee = feeFact(row.slug, 'perp');
     assert.equal(row.takerPct, fee.taker);
     assert.equal(row.source, `perp taker, checked ${fee.checkedOn}`);
-    assert.equal(row.share, row.slug === 'hyperliquid' ? 0.04 : HOME_REBATE_SHARE[row.slug]);
-    assert.equal(row.benefitType, row.slug === 'hyperliquid' ? 'fee-discount' : 'rebate');
+    assert.equal(row.share, HOME_REBATE_SHARE[row.slug]);
+    assert.equal(row.benefitType, 'rebate'); // Hyperliquid's share is the owner's 30% since 2026-10-22
     for (const volume of feed.savings.volumes) assert.ok(Math.abs(volume * row.takerPct / 100 * row.share - heroRebateAmount(volume, fee.taker, row.share)) < 1e-6);
   }
   assert.equal(heroMoneyText(heroRebateAmount(1e7, feed.savings.rows[0].takerPct, feed.savings.rows[0].share), 'en'), '$3,600');

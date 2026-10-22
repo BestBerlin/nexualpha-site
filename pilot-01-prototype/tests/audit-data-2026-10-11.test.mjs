@@ -163,7 +163,12 @@ test("NX-02 partner benefit status is derived from home-rebate-tiers (no new num
   assert.equal(partnerBenefitStatus("htx").autoSettle, false, "HTX is not on the auto-settle list");
   assert.equal(partnerBenefitStatus("gate-io").sharePct, 40, "Gate.io up to 40% (owner confirmed 2026-10-15)");
   assert.equal(partnerBenefitStatus("gate-io").confirmedOn, "2026-10-15");
-  for (const slug of ["bybit", "kraken", "hyperliquid"]) assert.equal(partnerBenefitStatus(slug), null, slug);
+  assert.equal(partnerBenefitStatus("bybit"), null, "bybit has no declared share yet");
+  // Owner 2026-10-22: MEXC 30, Kraken 20, Backpack 30, Hyperliquid 30, CoinW 40.
+  for (const [slug, pct] of [["mexc", 30], ["kraken", 20], ["backpack", 30], ["hyperliquid", 30], ["coinw", 40]]) {
+    assert.equal(partnerBenefitStatus(slug).sharePct, pct, slug);
+    assert.equal(partnerBenefitStatus(slug).confirmedOn, "2026-10-22", slug);
+  }
 });
 
 test("NX-02 benefit wording exists in all 15 locales and the factbook line matches the audit wording", () => {
@@ -175,7 +180,8 @@ test("NX-02 benefit wording exists in all 15 locales and the factbook line match
     if (locale !== "en") assert.notEqual(c.label, partnerBenefitCopy("en").label, `${locale} is translated`);
   }
   assert.equal(partnerBenefitParts("okx", "en").line, "Partner rebate share: Up to 40% — partner terms confirmed 2026-10-10; your account's eligibility is confirmed by the exchange after sign-up");
-  assert.equal(partnerBenefitParts("kraken", "en"), null);
+  assert.equal(partnerBenefitParts("bybit", "en"), null);
+  assert.match(partnerBenefitParts("kraken", "en").line, /Up to 20%/);
   assert.match(ownerRebateLine("okx", "en", "OKX"), /40%.*hourly/);
 });
 
@@ -205,11 +211,11 @@ test("NX-02 /factbook/okx states the partner share with its basis instead of a b
   assert.doesNotMatch(okx, /User benefit status pending/i);
   assert.match(okx, /product scope, region, account tier and stacking with exchange promotions/);
   assert.doesNotMatch(out.okx, /data-disclosure-placement=/, "owner rule 2026-10-12: no commission disclosure beside the activation CTA");
-  assert.match(text(out.kraken), /User benefit status pending/i);
+  assert.match(text(out.kraken), /Partner rebate share Up to 20% — partner terms confirmed 2026-10-22/); // owner 2026-10-22
   assert.match(text(out.de), /Partner-Rückvergütungsanteil/);
   // NX-06 visible dates
   assert.match(okx, /Fees checked 2026-10-10 Benefit terms confirmed 2026-10-10 Source dossier compiled 2026-09-08/);
-  assert.match(text(out.kraken), /Benefit terms confirmed Not yet/);
+  assert.match(text(out.kraken), /Benefit terms confirmed 2026-10-22/);
 });
 
 // ---------- NX-03: labelled bases, shared URL params ----------

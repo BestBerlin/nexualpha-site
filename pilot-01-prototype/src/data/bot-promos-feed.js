@@ -28,10 +28,9 @@ export function buildBotPromosFeed({ now = Date.now(), campaigns = [...OFFICIAL_
   const rows = ['bitget', 'okx', 'binance', 'hyperliquid'].flatMap(slug => {
     const fee = feeFact(slug, 'perp');
     if (fee.state !== 'checked' || !Number.isFinite(fee.taker) || !fee.checkedOn) return [];
-    // Same 4% fee discount as the home figure; explicitly distinct from a rebate.
-    const discount = slug === 'hyperliquid';
+    // Owner 2026-10-22: Hyperliquid's share is 30% like the home figure, so it is a rebate row like the others.
     return [{ slug, name: factsForVenue(slug).name, takerPct: fee.taker,
-      share: discount ? 0.04 : HOME_REBATE_SHARE[slug], benefitType: discount ? 'fee-discount' : 'rebate',
+      share: HOME_REBATE_SHARE[slug], benefitType: 'rebate',
       source: `perp taker, checked ${fee.checkedOn}` }];
   });
   const promos = [];

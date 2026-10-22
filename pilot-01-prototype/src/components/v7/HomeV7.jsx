@@ -272,9 +272,7 @@ const STAGE_SLOTS = [[18, 22], [82, 25], [16, 73], [84, 72], [50, 88]];
 // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid and Backpack (not HTX / Gate.io; those stay
 // selectable under the tabs' "更多"). A venue picked in the tabs that is not in this list takes the last slot.
 const STAGE_VENUES = Object.freeze(["bitget", "okx", "binance", "hyperliquid", "backpack"]);
-// Hyperliquid has no rebate share; its referral benefit is a 4% perpetual fee discount (partner-registry `benefit`),
-// so the figure shows the fee that discount saves. Backpack has no checked fee: it shows its route label, never a number.
-const STAGE_FEE_SAVING = Object.freeze({ hyperliquid: 0.04 });
+// Backpack has no checked fee: it shows its route label, never a number. Hyperliquid's share is the owner's 30% (2026-10-22).
 // Short on purpose: the node sits at the stage edge and a long label is clipped on a 390 px phone (owner screenshot 2026-10-22).
 const STAGE_ROUTE_LABEL = Object.freeze({ "zh-Hans": "官方", "zh-Hant": "官方", en: "Official" });
 function RebateStage({ locale, picks, venues, sel, volume }) {
@@ -305,7 +303,7 @@ function RebateStage({ locale, picks, venues, sel, volume }) {
   if (sel && !shown.some((v) => v.slug === sel.slug)) shown.splice(Math.min(shown.length, STAGE_SLOTS.length) - 1, 1, sel);
   const rows = shown.slice(0, STAGE_SLOTS.length).map((venue) => {
     const fact = feeFact(venue.slug, "perp");
-    const share = venue.share || STAGE_FEE_SAVING[venue.slug];
+    const share = venue.share;
     return { venue, back: heroRebateAmount(volume, fact.state === "checked" ? fact.taker : NaN, share) };
   }).filter((row) => row.back != null || row.venue.slug === "backpack");
   const selectedIndex = rows.findIndex(({ venue }) => venue.slug === sel.slug);

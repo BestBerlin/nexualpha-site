@@ -8,7 +8,8 @@ export const HOME_REBATE_MAX_PCT = 60; // owner 2026-10-10: Bitget up to 60% is 
 // Owner 2026-10-10: these are each program's MAXIMUM shares (OKX up to 40%, Binance up to 25%, Bitget up to 60%); the
 // home shows them as "up to" and estimates with them.
 // Owner 2026-10-15: Gate.io up to 40% confirmed (code nexubest). Owner 2026-10-14: HTX up to 40% confirmed (code nexu888, partner-registry.js). Not auto-settled: no HOME_AUTO_SETTLE entry.
-export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.4, binance: 0.25, bitget: 0.6, htx: 0.4, "gate-io": 0.4, bybit: null });
+// Owner 2026-10-22: MEXC up to 30%, Kraken up to 20%, Backpack up to 30%, Hyperliquid up to 30%, CoinW up to 40% (Hyperliquid was shown as a 4% fee discount before).
+export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.4, binance: 0.25, bitget: 0.6, htx: 0.4, "gate-io": 0.4, mexc: 0.3, kraken: 0.2, backpack: 0.3, hyperliquid: 0.3, coinw: 0.4, bybit: null });
 export const HOME_VENUES = Object.freeze(orderVenues(Object.keys(HOME_REBATE_SHARE)));
 // Display order for registry-derived partner routes. The set and count still come from partnerRegistry: venues with
 // placeholder invite codes or missing HTTPS registration routes fail closed before they can appear on the home page.
