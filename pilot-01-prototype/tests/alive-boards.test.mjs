@@ -52,3 +52,29 @@ test('value tween ends exactly at the target and reduced motion schedules no fra
     tweenValue(node, 3, 4, String); assert.equal(count, 1);
   } finally { Object.assign(globalThis, original); }
 });
+
+test('whale times switch to hours and days after one hour, in every locale', async () => {
+  const { whaleAgoLabel } = await import('../src/data/whales-home.js');
+  const at = '2026-10-19T00:00:00Z', t = (min) => Date.parse(at) + min * 60000;
+  assert.match(relativeWhaleTime(at, t(394), 'zh-Hans'), /6\s*小时/);
+  assert.doesNotMatch(relativeWhaleTime(at, t(394), 'zh-Hans'), /分钟/);
+  assert.match(whaleAgoLabel(at, t(59), 'en'), /59 min/);
+  assert.match(whaleAgoLabel(at, t(3 * 1440 + 5), 'en'), /3 days/);
+  for (const locale of ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','it','ja','ko','ru','tr','id','vi','ar','ur','uk']) {
+    assert.notEqual(whaleAgoLabel(at, t(394), locale), whaleAgoLabel(at, t(30), locale), locale);
+  }
+});
+
+test('whale rows carry size tier and direction; at most three displayed $5M+ buy/sell rows pulse', async () => {
+  const { whalesBodyHtml, whaleTier } = await import('../src/data/whales-home.js');
+  const { pickPulseRows } = await import('../src/components/v7/home7-board-motion.js');
+  assert.deepEqual([whaleTier(4_999_999), whaleTier(5e6), whaleTier(2e7)], [0, 1, 2]);
+  const signals = [3e6, 6e6, 25e6].map((totalUsd, i) => ({ id: `s${i}`, coin: 'SOL', side: 'long', signalType: 'accumulation', totalUsd, time: '2026-10-19T00:00:00Z' }));
+  const html = whalesBodyHtml({ status: 'ok', updatedAt: '2026-10-19T00:00:00Z', signals }, 'en');
+  assert.match(html, /data-mv-key="s2" data-dir="in" data-tier="2" data-usd="25000000"/);
+  assert.match(html, /data-mv-key="s0" data-dir="in" data-tier="0"/);
+  const row = (tier, dir, usd, shown = true) => ({ dataset: { tier: String(tier), dir, usd: String(usd) }, offsetParent: shown ? {} : null });
+  const rows = [row(1, 'in', 6e6), row(2, 'out', 30e6), row(0, 'in', 2e6), row(1, 'flat', 9e6), row(1, 'in', 7e6), row(1, 'out', 8e6), row(2, 'in', 50e6, false)];
+  pickPulseRows(rows);
+  assert.deepEqual(rows.map(r => r.dataset.pulse), [undefined, '1', undefined, undefined, '3', '2', undefined]);
+});

@@ -344,13 +344,40 @@ const sameSgtDay = (a, b) => {
   return day(x) === day(y);
 };
 
+// Size tiers for the live board (owner 2026-10-23: "big money should beat like a heart"). Derived from the 2026-10-22
+// prod snapshot (147 signals/positions/transfers): p25 ≈ $5M, p75 ≈ $20–26M; home rows themselves start at $1M.
+// Tier 1 (≥ $5M) gets a static coloured edge, tier 2 (≥ $20M) a ring; the motion chunk picks the pulsing rows.
+export const WHALE_TIER_USD = Object.freeze([5_000_000, 20_000_000]);
+export const whaleRowUsd = (row) => {
+  const n = number(row?.totalUsd ?? row?.sizeUsd ?? row?.notionalUsd ?? row?.amountUsd ?? row?.usd);
+  if (n != null) return Math.abs(n);
+  return STABLES.has(upper(row?.asset || row?.symbol)) ? Math.abs(number(row?.amount) || 0) : 0;
+};
+export const whaleTier = (usd) => (usd >= WHALE_TIER_USD[1] ? 2 : usd >= WHALE_TIER_USD[0] ? 1 : 0);
+
+// "394 分钟前" read badly (owner 2026-10-23): minutes below one hour, then hours, then days, in every locale.
+export function whaleAgoLabel(at, now, locale = "en") {
+  const elapsed = now - Date.parse(at);
+  if (!Number.isFinite(elapsed)) return null;
+  const minutes = Math.max(0, Math.floor(elapsed / 60000));
+  let fmt;
+  try { fmt = new Intl.RelativeTimeFormat(locale, { numeric: minutes ? "always" : "auto", style: "short" }); }
+  catch { fmt = new Intl.RelativeTimeFormat("en", { numeric: minutes ? "always" : "auto", style: "short" }); }
+  if (!minutes) return fmt.format(0, "second");
+  if (minutes < 60) return fmt.format(-minutes, "minute");
+  if (minutes < 24 * 60) return fmt.format(-Math.floor(minutes / 60), "hour");
+  return fmt.format(-Math.floor(minutes / 1440), "day");
+}
+
 function rowHtml(row, snapshot, locale) {
   const at = eventTime(row, snapshot);
   const href = explorerUrl(row.explorerUrl || row.url) || localizedHref("/whales", { locale });
   const [before, amount, after] = whaleSentenceParts(row, locale);
   const stealth = whaleStealthLabel(row, locale);
+  const usd = whaleRowUsd(row);
+  const tier = whaleTier(usd);
   const tag = stealth ? `<span class="h7-wh-tag" data-stealth="${stealth.kind}">${esc(stealth.badge)}${stealth.meta ? `<small>${esc(stealth.meta)}</small>` : ""}</span>` : "";
-  return `<li data-kind="${esc(rowKind(row))}"${stealth ? ` data-stealth="${stealth.kind}"` : ""}><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="nofollow noopener noreferrer"' : ""} data-mv-key="${esc(row.id)}">`
+  return `<li data-kind="${esc(rowKind(row))}"${stealth ? ` data-stealth="${stealth.kind}"` : ""}><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="nofollow noopener noreferrer"' : ""} data-mv-key="${esc(row.id)}" data-dir="${esc(toneFor(row))}" data-tier="${tier}" data-usd="${Math.round(usd)}">`
     + `<span class="h7-mv-mk" aria-hidden="true">${esc(iconFor(row))}</span>`
     + tag
     + `<span class="h7-wh-text">${esc(before.trimStart())}<b class="h7-wh-amt" data-tone="${esc(toneFor(row))}" dir="ltr">${esc(amount)}</b>${esc(after.trimEnd())}</span>`

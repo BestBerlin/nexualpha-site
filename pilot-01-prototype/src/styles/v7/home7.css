@@ -1129,6 +1129,44 @@
 @keyframes h7-wh-enter{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes h7-wh-highlight{0%,70%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-board-live i,.h7:not(#_):not(#_) .h7-wh-new,.h7:not(#_):not(#_) .h7-wh-new::after{animation:none!important}.h7:not(#_):not(#_) .h7-rate-bar i{transition:none!important}}
+/* Live whale board (owner 2026-10-23: "green = buying, red = selling; big money should beat like a heart").
+ * Tiers come from the server HTML (a[data-tier], whales-home.js: 1 = $5M+, 2 = $20M+), so the static emphasis is in the
+ * first paint and never shifts anything. The motion chunk marks at most three displayed rows a[data-pulse] and sets
+ * section[data-live] only while the board is on screen, the tab is visible and motion is allowed. Every animation is
+ * transform / opacity / filter on a pseudo-element or the inline-block amount: no row ever changes size. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a{--wh-c:31 224 192}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a[data-dir=in]{--wh-c:57 225 200}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a[data-dir=out]{--wh-c:255 107 107}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-amt{display:inline-block;transform-origin:50% 60%}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk{position:relative}
+/* $5M+ buy/sell rows: the same 2px side bar as stealth rows, in the row's direction colour, plus a tinted marker. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a:is([data-tier="1"],[data-tier="2"]):is([data-dir=in],[data-dir=out]){padding-inline-start:12px;box-shadow:inset 2px 0 0 rgb(var(--wh-c))}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a:is([data-tier="1"],[data-tier="2"]):is([data-dir=in],[data-dir=out]) .h7-mv-mk{background:rgb(var(--wh-c)/.14);color:rgb(var(--wh-c))}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li[data-stealth] a:dir(rtl),.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a:is([data-tier="1"],[data-tier="2"]):is([data-dir=in],[data-dir=out]):dir(rtl){box-shadow:inset -2px 0 0 rgb(var(--wh-c))}
+/* Ring: static on $20M+ rows and on the pulsing rows; it breathes with the heartbeat while the board is live. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;box-shadow:inset 0 0 0 1px rgb(var(--wh-c)/.5),inset 0 0 28px rgb(var(--wh-c)/.14)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a:is([data-tier="2"],[data-pulse]):is([data-dir=in],[data-dir=out])::before{opacity:.55}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;box-shadow:0 0 0 1.5px rgb(var(--wh-c)/.9)}
+/* Heartbeat (lub-dub, 1.5s): amount scale + glow, ring flare, marker sonar. Rows 2 and 3 beat off-phase. */
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse]::before{animation:h7-wh-ring 1.5s cubic-bezier(.22,1,.36,1) infinite;will-change:opacity}
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse] .h7-wh-amt{animation:h7-wh-beat 1.5s cubic-bezier(.22,1,.36,1) infinite;will-change:transform}
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse] .h7-mv-mk::after{animation:h7-wh-sonar 1.5s cubic-bezier(.22,1,.36,1) infinite}
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="2"]::before,.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="2"] .h7-wh-amt,.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="2"] .h7-mv-mk::after{animation-delay:-.5s}
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="3"]::before,.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="3"] .h7-wh-amt,.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-wh-list a[data-pulse="3"] .h7-mv-mk::after{animation-delay:-1s}
+@keyframes h7-wh-beat{0%{transform:scale(1)}8%{transform:scale(1.1)}16%{transform:scale(1)}24%{transform:scale(1.05)}40%,100%{transform:scale(1)}}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a[data-pulse]:is([data-dir=in],[data-dir=out]) .h7-wh-amt{filter:drop-shadow(0 0 6px rgb(var(--wh-c)/.45))}
+@keyframes h7-wh-ring{0%{opacity:.3}8%{opacity:1}16%{opacity:.55}24%{opacity:.85}55%,100%{opacity:.3}}
+@keyframes h7-wh-sonar{0%{opacity:.9;transform:scale(.55)}50%,100%{opacity:0;transform:scale(1)}}
+/* New row in a refresh: a direction-coloured flash; $5M+ rows blink twice. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a.h7-wh-new::after{background:rgb(var(--wh-c)/.12)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a.h7-wh-new:is([data-tier="1"],[data-tier="2"])::after{background:rgb(var(--wh-c)/.2);animation:h7-wh-alert 1.4s cubic-bezier(.22,1,.36,1) both}
+@keyframes h7-wh-alert{0%{opacity:1}18%{opacity:.15}36%{opacity:1}100%{opacity:0}}
+/* Header scanline: a 1px light sweeps the list's top rule every 7s while the board is live. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-body{position:relative;overflow-x:clip}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-body::before{content:"";position:absolute;inset-block-start:0;inset-inline-start:0;inline-size:28%;block-size:1px;pointer-events:none;opacity:0;background:linear-gradient(90deg,transparent,rgb(31 224 192/.9),transparent);transform:translateX(-100%)}
+.h7:not(#_):not(#_):not(#_) .h7-whales[data-live] .h7-mv-body::before{animation:h7-wh-scan 7s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes h7-wh-scan{0%{opacity:0;transform:translateX(-100%)}6%{opacity:1}52%{opacity:1;transform:translateX(360%)}58%,100%{opacity:0;transform:translateX(360%)}}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list a::before,.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-amt,.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk::after,.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-body::before{animation:none!important}}
 /* Funding heat (owner 2026-10-22, "looks like a PPT"): diverging teal (shorts pay longs) / amber (longs pay shorts),
  * a neutral grey at zero; tint strength = |APR| against the board's largest, floor 20% APR. Sign and glyph carry the
  * meaning as well, never colour alone. The most extreme venue gets a ring and the approved breathing status dot. */

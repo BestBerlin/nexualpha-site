@@ -22,7 +22,8 @@ export function infiniteAnimations(css) {
 
 test("home CSS: only approved state and control loops repeat", async () => {
   assert.deepEqual(infiniteAnimations(".a{animation:x 1s infinite}.b{animation:y 1s linear 2}.c{animation:z 1s infinite;animation-timeline:scroll()}/* infinite */"), [".a { animation:x 1s infinite }"]);
-  const approved = /h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle/;
+  // Owner 2026-10-23: the whale board beats (heartbeat, ring, sonar, header scan) only while on screen and with motion allowed.
+  const approved = /h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle|h7-wh-(?:beat|ring|sonar|scan)/;
   for (const file of HOME_CSS) {
     const css = await read(file);
     for (const animation of infiniteAnimations(css)) assert.match(animation, approved, file);

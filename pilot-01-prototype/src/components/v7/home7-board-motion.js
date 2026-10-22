@@ -1,8 +1,24 @@
-export function relativeWhaleTime(at, now, locale) {
-  const elapsed = now - Date.parse(at);
-  if (!Number.isFinite(elapsed)) return null;
-  const minutes = Math.max(0, Math.floor(elapsed / 60000));
-  return new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" }).format(minutes ? -minutes : 0, minutes ? "minute" : "second");
+import { whaleAgoLabel } from "../../data/whales-home.js";
+
+// Minutes below one hour, then hours, then days ("394分钟前" → "6小时前").
+export const relativeWhaleTime = (at, now, locale) => whaleAgoLabel(at, now, locale);
+
+// Owner 2026-10-23: the board must feel alive. At most three rows beat at once: the largest buy/sell rows of $5M+
+// (data-tier ≥ 1) that are actually displayed (mobile hides rows 7–8). CSS animates only transform/opacity/filter on
+// pseudo-elements, and only while the board is on screen, the tab is visible and motion is allowed (root[data-live]).
+export const WHALE_PULSE_MAX = 3;
+export function pickPulseRows(rows, max = WHALE_PULSE_MAX) {
+  const ranked = rows
+    .filter(a => Number(a.dataset?.tier) >= 1 && (a.dataset.dir === "in" || a.dataset.dir === "out") && a.offsetParent !== null)
+    .sort((a, b) => Number(b.dataset.usd) - Number(a.dataset.usd))
+    .slice(0, max);
+  for (const a of rows) {
+    const rank = ranked.indexOf(a);
+    if (!a.dataset) continue;
+    if (rank < 0) delete a.dataset.pulse;
+    else a.dataset.pulse = String(rank + 1);
+  }
+  return ranked;
 }
 
 export function startBoardMotion(root, locale) {
@@ -28,6 +44,24 @@ export function startBoardMotion(root, locale) {
     }
   };
   rememberAmounts([...root.querySelectorAll("[data-mv-key]")]);
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const narrowQuery = window.matchMedia("(max-width: 760px)");
+  let onScreen = typeof IntersectionObserver !== "function";
+  const syncLive = () => {
+    const live = onScreen && document.visibilityState !== "hidden" && !motionQuery.matches;
+    if (root.dataset) live ? (root.dataset.live = "") : delete root.dataset.live;
+  };
+  const repick = () => pickPulseRows([...root.querySelectorAll("[data-mv-key]")]);
+  const seen = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
+    onScreen = entries.some(e => e.isIntersecting);
+    syncLive();
+  }) : null;
+  seen?.observe(root);
+  motionQuery.addEventListener?.("change", syncLive);
+  narrowQuery.addEventListener?.("change", repick);
+  document.addEventListener?.("visibilitychange", syncLive);
+  repick();
+  syncLive();
   const timers = new Set();
   const refreshTimes = () => {
     if (document.visibilityState === "hidden") return;
@@ -46,6 +80,7 @@ export function startBoardMotion(root, locale) {
       timers.add(timer);
     }
     rememberAmounts(rows);
+    repick();
     keys = next;
   });
   // Watch list replacement only; updating time text must not retrigger the observer.
@@ -53,7 +88,12 @@ export function startBoardMotion(root, locale) {
   if (body) observer.observe(body, { childList: true });
   refreshTimes();
   const interval = setInterval(refreshTimes, 30000);
-  return () => { observer.disconnect(); clearInterval(interval); for (const timer of timers) clearTimeout(timer); for (const stop of animations.values()) stop(); };
+  return () => {
+    observer.disconnect(); clearInterval(interval); seen?.disconnect();
+    motionQuery.removeEventListener?.("change", syncLive);
+    narrowQuery.removeEventListener?.("change", repick);
+    document.removeEventListener?.("visibilitychange", syncLive);
+    if (root.dataset) delete root.dataset.live; for (const timer of timers) clearTimeout(timer); for (const stop of animations.values()) stop(); };
 }
 
 export function tweenValue(node, before, after, format) {
