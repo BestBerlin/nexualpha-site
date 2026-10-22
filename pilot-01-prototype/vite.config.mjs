@@ -339,6 +339,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/styles/v7/movers-owner.css")) return "page-home-movers";
           if (id.includes("/src/styles/v7/flash-rail.css")) return "page-home-flash";
           if (!isSsrBuild && /\/src\/components\/v7\/home7-(?:below|funding|telegram)\.jsx$/.test(id)) return "home-below-fold";
+          // Hero globe animation (2026-10-22): loaded after page load, never part of the home entry closure.
+          if (!isSsrBuild && id.endsWith("/src/components/v7/home7-globe.js")) return "home-globe";
           if (!isSsrBuild && id.includes("/src/components/v6/closing-index")) return "home-closing-index";
           if (id.includes("/src/components/v3/FeeBenchmarkTerminal")) return "route-rates";
           if (id.includes("/src/components/v3/MarketFearGreedPanel")) return "route-market";
