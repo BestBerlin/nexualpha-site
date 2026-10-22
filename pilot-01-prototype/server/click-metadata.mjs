@@ -1,3 +1,7 @@
+import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import { isIP } from 'node:net';
+import { AUTOMATED_ANALYTICS_UA, isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
+
 const SAFE_PATH = /^\/[A-Za-z0-9/_.~%-]{0,199}$/;
 const SAFE_LOCALE = /^[a-z]{2,3}(?:-[A-Za-z]{2,8}){0,2}$/;
 const SAFE_COUNTRY = /^[A-Z]{2}$/;
@@ -121,18 +125,59 @@ export function clickMetadata({ path = null, ref = null, src = null, locale = nu
   };
 }
 
-// Header signals are coarse and spoofable; never persist raw UA or network identifiers.
-export const CLICK_BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|discord|curl|wget|python|node-fetch|headless|lighthouse/i;
+// Header signals are coarse and spoofable: "human" is a filtered click, not a verified person or signup.
+export const CLICK_BOT_UA = new RegExp(`${AUTOMATED_ANALYTICS_UA.source}|Go-http-client|Discord`, 'i');
 const INAPP_UAS = [
   ['telegram', /telegram/i], ['x', /(?:Twitter(?:Android| for iPhone| for iPad)?|\bXAndroid\b|\bX for iPhone\b)/i],
   ['youtube', /youtube/i], ['wechat', /micromessenger/i],
   ['instagram', /instagram/i], ['tiktok', /tiktok|musical_ly|bytedancewebview|trill/i],
 ];
+const processHashSecret = randomBytes(32);
+const list = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
 
-// Burst detector (2026-10-21: one headless browser clicked every sign-up button on the home page 1,590 times in
-// three hours and every row was classed "human" because Sec-Fetch headers are trivial to send). A client address
-// that records more than `limit` clicks inside `windowMs` is classed "burst" from then on in that window; a real
-// visitor compares a few venues, not forty. Memory is bounded: idle addresses are dropped on the next sweep.
+function normalizedIp(value) {
+  if (typeof value !== 'string') return null;
+  const ip = value.trim().replace(/^::ffff:(?=\d+\.)/i, '');
+  if (!isIP(ip)) return null;
+  // Canonicalize equivalent IPv6 spellings; never read client-controlled forwarding headers here.
+  if (isIP(ip) === 4) return ip;
+  try { return new URL(`http://[${ip}]/`).hostname.slice(1, -1); } catch { return null; }
+}
+
+export function clickIpHash(clientIp, date = new Date(), secret = processHashSecret) {
+  const ip = normalizedIp(clientIp);
+  if (!ip) return null;
+  const day = date.toISOString().slice(0, 10);
+  const dailySalt = createHmac('sha256', secret).update(`nexualpha-click:${day}`).digest();
+  return createHmac('sha256', dailySalt).update(ip).digest('hex');
+}
+
+function matchesSecret(value, expected) {
+  if (!value || !expected) return false;
+  const a = Buffer.from(value), b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+export function isInternalClickRequest(request, { env = process.env, clientIp } = {}) {
+  if (/NexuAlpha-internal\//i.test(request.headers.get('user-agent') || '')) return true;
+  const ip = normalizedIp(clientIp);
+  const ownIp = Boolean(ip && list(env.CLICK_INTERNAL_IPS).some(value => normalizedIp(value) === ip));
+  // Header value may be "1" on an allowlisted address, or the private shared token. Never trust XFF here.
+  const marker = request.headers.get('x-nexualpha-internal');
+  return ownIp || matchesSecret(marker, env.CLICK_INTERNAL_TOKEN);
+}
+
+function uaFamily(ua, inapp) {
+  if (CLICK_BOT_UA.test(ua)) return 'bot';
+  if (inapp !== 'none') return inapp;
+  for (const [family, pattern] of [['edge', /Edg(?:e|A|iOS)?\//i], ['opera', /OPR\//i],
+    ['firefox', /Firefox\/|FxiOS\//i], ['chrome', /Chrome\/|CriOS\//i], ['safari', /Safari\//i]]) {
+    if (pattern.test(ua)) return family;
+  }
+  return ua ? 'other' : 'unknown';
+}
+
+// Bounded per-process counters. Eviction may reset classification; the report still deduplicates daily hashes.
 export function createBurstDetector({ limit = 12, windowMs = 10 * 60 * 1000, now = Date.now, maxKeys = 10000 } = {}) {
   const windows = new Map();
   return function burst(key) {
@@ -140,21 +185,59 @@ export function createBurstDetector({ limit = 12, windowMs = 10 * 60 * 1000, now
     const t = now();
     if (windows.size >= maxKeys) for (const [k, w] of windows) if (w.resetAt <= t) windows.delete(k);
     const w = windows.get(key);
-    if (!w || w.resetAt <= t) { windows.set(key, { count: 1, resetAt: t + windowMs }); return false; }
+    if (!w || w.resetAt <= t) {
+      if (windows.size >= maxKeys && !windows.has(key)) windows.delete(windows.keys().next().value);
+      windows.set(key, { count: 1, resetAt: t + windowMs });
+      return false;
+    }
     w.count += 1;
     return w.count > limit;
   };
 }
 
-export function clickRequestMetadata(request, { burst = false } = {}) {
+export function clickRequestMetadata(request, { env = process.env, clientIp, ipHash = null, burst = false, duplicate = false } = {}) {
   const header = name => request.headers.get(name) || '';
   const ua = header('user-agent');
   const inapp = INAPP_UAS.find(([, pattern]) => pattern.test(ua))?.[0] || 'none';
-  let cls = 'unknown';
-  if (request.method === 'HEAD' || CLICK_BOT_UA.test(ua)) cls = 'bot';
+  let cls;
+  if (isInternalClickRequest(request, { env, clientIp })) cls = 'internal';
+  else if (request.method === 'HEAD' || CLICK_BOT_UA.test(ua) || isAutomatedAnalyticsRequest(request, { env, clientIp }) ||
+    /prefetch|prerender/i.test(`${header('purpose')} ${header('sec-purpose')} ${header('x-moz')}`)) cls = 'bot';
   else if (burst) cls = 'burst';
-  else if (/prefetch|prerender/i.test(`${header('purpose')} ${header('sec-purpose')} ${header('x-moz')}`)) cls = 'prefetch';
-  else if (request.method === 'GET' && (inapp !== 'none' ||
-    (header('sec-fetch-dest').toLowerCase() === 'document' && header('sec-fetch-mode').toLowerCase() === 'navigate'))) cls = 'human';
-  return { cls, inapp };
+  else if (duplicate) cls = 'duplicate';
+  else cls = ipHash && ua ? 'human' : 'unknown';
+  const metadata = { cls, inapp, uaFamily: uaFamily(ua, inapp), ipHash };
+  if (request.method === 'GET') {
+    let hasReferrerOrigin = false;
+    try { hasReferrerOrigin = /^https?:$/.test(new URL(header('referer')).protocol); } catch { /* no valid origin */ }
+    Object.assign(metadata, {
+      hasFetchSite: Boolean(header('sec-fetch-site')),
+      hasFetchUser: header('sec-fetch-user') === '?1',
+      hasReferrerOrigin,
+    });
+  }
+  return metadata;
+}
+
+// Inject the SAME classifier into /go and /api/cta-click so beacons and redirects share burst/dedup state.
+export function createClickClassifier({ env = process.env, now = Date.now, burst = createBurstDetector({ now }),
+  duplicateMs = 30 * 60 * 1000, maxKeys = 10000 } = {}) {
+  const recent = new Map();
+  const stableSecret = typeof env.CLICK_HASH_SECRET === 'string' && Boolean(env.CLICK_HASH_SECRET.trim());
+  const secret = stableSecret ? env.CLICK_HASH_SECRET : processHashSecret;
+  return (request, { clientIp, partner, at = new Date(now()) } = {}) => {
+    const ipHash = clickIpHash(clientIp, at, secret);
+    const base = clickRequestMetadata(request, { env, clientIp, ipHash });
+    if (base.cls !== 'human') return base; // internal/bot requests cannot poison a visitor's counters
+    // Process-only hashes cannot support reliable daily uniqueness across restarts. Fail closed.
+    if (!stableSecret) return { ...base, cls: 'unknown' };
+    const key = `${ipHash}:${partner}`;
+    const t = at.getTime();
+    if (recent.size >= maxKeys) for (const [k, time] of recent) if (t - time >= duplicateMs) recent.delete(k);
+    const previous = recent.get(key);
+    const duplicate = previous !== undefined && t >= previous && t - previous < duplicateMs;
+    if (recent.size >= maxKeys && !recent.has(key)) recent.delete(recent.keys().next().value);
+    recent.set(key, t);
+    return { ...base, cls: burst(key) ? 'burst' : duplicate ? 'duplicate' : 'human' };
+  };
 }

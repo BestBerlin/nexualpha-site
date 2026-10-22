@@ -14,7 +14,7 @@ async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch()
         for w in (390, 1440):
-            ctx = await b.new_context(viewport={"width": w, "height": 900})
+            ctx = await b.new_context(viewport={"width": w, "height": 900}, user_agent="Mozilla/5.0 (NexuAlpha QA flows) NexuAlpha-internal/qa-flows")
             pg = await ctx.new_page()
             errs = []
             pg.on("pageerror", lambda e: errs.append(str(e)[:160]))

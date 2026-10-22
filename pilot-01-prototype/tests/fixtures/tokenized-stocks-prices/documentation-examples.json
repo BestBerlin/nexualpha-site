@@ -1,0 +1,42 @@
+{
+  "provenance": "Official documentation response examples, recorded 2026-10-23. Selected documented fields only; these are historical BTC examples, NOT live stock quotes. Live API access was unavailable. Synthetic stock identities are created only inside tests.",
+  "bitget": {
+    "url": "https://www.bitget.com/docs/catalog/market/market-data",
+    "response": {"code":"00000","requestTime":1765444397411,"data":[{"category":"SPOT","symbol":"BTCUSDT","lastPrice":"90253.5","openPrice24h":"92590.86","price24hPcnt":"-0.02524","volume24h":"7386.014738","turnover24h":"677732572.225658","ts":"1765444395778"}]}
+  },
+  "bybit": {
+    "url": "https://bybit-exchange.github.io/docs/v5/market/tickers",
+    "response": {"retCode":0,"result":{"category":"spot","list":[{"symbol":"BTCUSDT","lastPrice":"20533.13","prevPrice24h":"20393.48","price24hPcnt":"0.0068","turnover24h":"243765620.65899866","volume24h":"11801.27771","usdIndexPrice":"20784.12009279"}]},"time":1673859087947}
+  },
+  "binance": {
+    "url": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+    "response": [{"symbol":"BTCUSDT","lastPrice":"4.00000200","openPrice":"99.00000000","quoteVolume":"15.30000000","closeTime":1499869899040}],
+    "indexResponse": [{"symbol":"BTCUSDT","markPrice":"11793.63104562","indexPrice":"11781.80495970","time":1597370495002}],
+    "transformation": "Each documented single-symbol example is wrapped in the documented no-symbol bulk array; fields are otherwise unchanged."
+  },
+  "okx": {
+    "url": "https://app.okx.com/docs-v5/en/#order-book-trading-market-data-get-tickers",
+    "response": {"code":"0","data":[{"instType":"SWAP","instId":"LTC-USD-SWAP","last":"9999.99","open24h":"9000","volCcy24h":"2222","vol24h":"2222","ts":"1597026383085"}]}
+  },
+  "gate": {
+    "url": "https://www.gate.com/docs/developers/apiv4/en/futures/",
+    "response": [{"contract":"BTC_USDT","last":"6432","change_percentage":"4.43","volume_24h":"184040233284","volume_24h_quote":"184040233284","index_price":"6531"}]
+  },
+  "mexc": {
+    "url": "https://www.mexc.io/api-docs/futures/market-endpoints/get-ticker-contract-market-data",
+    "response": {"success":true,"code":0,"data":[{"symbol":"BTC_USDT","lastPrice":109167.1,"volume24":954830625,"amount24":10374579341.00211,"riseFallRate":0.014,"indexPrice":109235,"timestamp":1761883095759}]},
+    "transformation": "The documented single-symbol data object is wrapped in an array for the documented no-symbol bulk request used by this collector. Numeric fields are unchanged."
+  },
+  "mexcSpot": {
+    "url": "https://mexcdevelop.github.io/apidocs/spot_v3_en/#24hr-ticker-price-change-statistics",
+    "response": [{"symbol":"BTCUSDT","priceChange":"184.34","priceChangePercent":"0.00400048","lastPrice":"46263.71","openPrice":"46079.37","volume":"1732.461487","quoteVolume":null,"openTime":1641349500000,"closeTime":1641349582808}]
+  },
+  "kraken": {
+    "url": "https://docs.kraken.com/api-reference/market-data/get-ticker-information",
+    "response": {"error":[],"result":{"XXBTZUSD":{"c":["30303.20000","0.00067643"],"v":["4083.67001100","4412.73601799"],"p":["30706.77771","30689.13205"],"o":"30502.80000"}}}
+  },
+  "krakenFutures": {
+    "url": "https://docs.kraken.com/api-reference/market-data/get-tickers",
+    "response": {"result":"success","serverTime":"2022-06-17T11:00:31.335Z","tickers":[{"tag":"perpetual","symbol":"PI_XBTUSD","last":49289,"open24h":49289,"volumeQuote":7305.2,"indexPrice":21087.8,"lastTime":"2022-06-17T10:46:35.705Z","suspended":false}]}
+  }
+}

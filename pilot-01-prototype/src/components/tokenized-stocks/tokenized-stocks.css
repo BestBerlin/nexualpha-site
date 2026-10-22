@@ -316,3 +316,10 @@
   .nxts-risk li { grid-template-columns: 3ch minmax(0, 1fr); padding-block: 16px; }
   .nxts-risk p { grid-column: 2; }
 }
+
+/* Live quotes: compare one product and quote currency at a time. */
+.nxts-prices-controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin-block-start: 20px; }
+.nxts-prices-controls label { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: var(--t-ink2); }
+.nxts-prices-controls select { min-block-size: 44px; max-inline-size: 100%; padding: 8px 12px; color: var(--t-ink); background: var(--t-bg); border: 1px solid var(--t-line2); border-radius: 8px; font: inherit; }
+.nxts-prices-controls > p:last-child { flex-basis: 100%; max-inline-size: 76ch; font-size: 14px; line-height: 1.6; color: var(--t-ink3); }
+.nxts-mx__t td > a { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-underline-offset: 3px; }

@@ -34,12 +34,14 @@ const post = (body, headers = {}) => new Request("https://nexualpha.com/api/cta-
 test("cta-click beacon appends one anonymous site click to the shared click file", async () => {
   const f = await fixture();
   try {
-    const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile, now: () => new Date("2026-10-10T12:00:00Z") });
+    const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile, env: { CLICK_HASH_SECRET: "test-only-key" }, now: () => new Date("2026-10-10T12:00:00Z") });
     const res = await handle(post({ partner: "OKX", src: "home-v7-hero", path: "/zh-hans/exchanges/okx" }), "203.0.113.9");
     assert.equal(res.status, 204);
     assert.equal(res.headers.get("cache-control"), "no-store");
     await wait();
-    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site", cls: "unknown", inapp: "none", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
+    const savedHash = (await rows(f.eventFile))[0].ipHash;
+    assert.match(savedHash, /^[a-f0-9]{64}$/);
+    assert.deepEqual(await rows(f.eventFile), [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "home-v7-hero", ref: "/zh-hans/exchanges/okx", kind: "site", cls: "human", inapp: "none", uaFamily: "other", ipHash: savedHash, path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
     const raw = await readFile(f.eventFile, "utf8");
     assert.doesNotMatch(raw, /203\.0\.113\.9/, "IPs are never written");
   } finally { await f.close(); }
@@ -77,19 +79,19 @@ test("cta-click beacon rejects unknown partners, bad sources, long paths, oversi
   } finally { await f.close(); }
 });
 
-test("cta-click beacon ignores crawlers and rate-limits per client in memory", async () => {
+test("cta-click beacon records excluded crawlers and rate-limits per client in memory", async () => {
   const f = await fixture();
   try {
     const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile, limit: 3 });
     assert.equal((await handle(post({ partner: "okx", src: "home", path: "/" }, { "user-agent": "Googlebot/2.1" }), "a")).status, 204);
     await wait();
-    assert.deepEqual(await rows(f.eventFile), [], "bot clicks are accepted but not counted");
+    assert.equal((await rows(f.eventFile))[0].cls, "bot", "bot clicks are logged as excluded evidence");
     for (let i = 0; i < 3; i += 1) assert.equal((await handle(post({ partner: "bitget", src: "directory-card", path: "/exchanges" }), "b")).status, 204);
     const limited = await handle(post({ partner: "bitget", src: "directory-card", path: "/exchanges" }), "b");
     assert.equal(limited.status, 429);
     assert.equal((await handle(post({ partner: "bitget", src: "directory-card", path: "/exchanges" }), "c")).status, 204, "other clients are unaffected");
     await wait();
-    assert.equal((await rows(f.eventFile)).length, 4);
+    assert.equal((await rows(f.eventFile)).length, 5);
   } finally { await f.close(); }
 });
 
@@ -186,14 +188,14 @@ test("SSR pages carry data-cta-kind/platform/placement on every partner sign-up 
 test("beacon classification uses headers rather than submitted classification fields", async () => {
   const f = await fixture();
   try {
-    const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile });
-    const body = { partner: "okx", src: "home-test", path: "/", cls: "human", inapp: "x" };
-    assert.equal((await handle(post(body, { "user-agent": "Mozilla/5.0 Telegram-iOS/11.0" }))).status, 204);
-    assert.equal((await handle(post(body, { purpose: "prefetch" }))).status, 204);
+    const handle = createCtaClickBeacon({ clientRoot: f.clientRoot, eventFile: f.eventFile, env: { CLICK_HASH_SECRET: "test-only-key" } });
+    const body = { partner: "okx", src: "home-test", path: "/", cls: "human", inapp: "x", ipHash: "forged", uaFamily: "forged" };
+    assert.equal((await handle(post(body, { "user-agent": "Mozilla/5.0 Telegram-iOS/11.0" }), "203.0.113.7")).status, 204);
+    assert.equal((await handle(post(body, { purpose: "prefetch" }), "203.0.113.7")).status, 204);
     const saved = await rows(f.eventFile);
     assert.deepEqual(saved.map(({ cls, inapp }) => ({ cls, inapp })), [
-      { cls: "unknown", inapp: "telegram" }, { cls: "prefetch", inapp: "none" },
+      { cls: "human", inapp: "telegram" }, { cls: "bot", inapp: "none" },
     ]);
-    assert.doesNotMatch(JSON.stringify(saved), /Mozilla|Telegram-iOS/);
+    assert.doesNotMatch(JSON.stringify(saved), /Mozilla|Telegram-iOS|forged|203\.0\.113/);
   } finally { await f.close(); }
 });

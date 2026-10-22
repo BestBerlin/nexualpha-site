@@ -4,18 +4,18 @@ import { campaignSignup, campaignTarget } from "../src/data/campaign-autodraft.j
 // partner's registration URL from the build's partner feed (intel/partners.json), unchanged, so invite codes and
 // links stay exactly what the registry says unless a reviewed exact-host attribution policy permits safe query tags.
 // Only time, partner, source, referring host and sanitized attribution
-// metadata are recorded (plus the home hero experiment id and a/b bucket while that experiment runs); no IP, no cookie
+// metadata, daily-salted IP hash and coarse UA family are recorded (plus the hero experiment id and a/b bucket); no raw IP, no cookie
 // value, no user id. Crawlers are not counted and the route is noindex.
 import { readFile } from 'node:fs/promises';
+import { isIP } from 'node:net';
 import { clickStorage } from './click-storage.mjs';
 import path from 'node:path';
 import { partnersProgram, findProgramPartner } from '../src/data/partners-program.js';
 import { programTarget, programPartnerForRequest } from './partner-program.mjs';
 import { partnerRegistry } from '../src/data/partner-registry.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
-import { clickMetadata, clickRequestMetadata, createBurstDetector } from './click-metadata.mjs';
+import { clickMetadata, createClickClassifier } from './click-metadata.mjs';
 import { safeGoPage, safeGoModule, partnerAttributionTarget, retainGoAttribution } from '../src/data/go-attribution.js';
-import { isAutomatedAnalyticsRequest } from './analytics-bots.mjs';
 import { partnerPromotionGate } from '../src/data/partner-geo-policy.js';
 import { isNeutralCtaLocale } from '../src/data/locale-policy.js';
 import { LOCALE_PREFIX_BY_CODE, LOCALE_CODE_BY_PREFIX, localizedPath } from '../src/data/locale-routing.js';
@@ -111,13 +111,13 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth(), storage = clickStorage, burst = createBurstDetector() } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry, attributionPolicy = {}, apkTargets = {}, programRegistry = partnersProgram, mirrorHealth = createMirrorHealth(), storage = clickStorage, env = process.env, burst, classify = createClickClassifier({ env, now: () => now().getTime(), ...(burst ? { burst } : {}) }) } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   // venue -> async () => redirect URL (injectable for tests); created lazily so a probe runs only once someone clicks.
   const apkProbes = { ...apkTargets };
 
 
-  // `clientIp` is the proxy-validated address (server.mjs clientKey) used only for the burst class of the click row.
+  // `clientIp` is the proxy-validated address (server.mjs clientKey); only its daily hash may be persisted.
   return async function handle(request, clientIp = null) {
     const url = new URL(request.url);
     const requested = url.pathname.slice('/go/'.length).toLowerCase();
@@ -228,15 +228,22 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     // Every resolved and validated route shares the UI's action policy before the commercial count/302.
     if (denied(campaign ? venue : slug)) return neutralRedirect(campaign ? venue : slug);
     const ua = request.headers.get('user-agent') || '';
-    if (eventFile && !isAutomatedAnalyticsRequest(request) && request.method === 'GET') {
-      let refHost = null;
-      const referer = request.headers.get('referer');
-      try { refHost = new URL(referer).host; } catch { /* none */ }
-      const metadata = clickMetadata({ path: safeGoPage(url.searchParams.get('page')), ref: referer, src });
-      const module = safeGoModule(url.searchParams.get('module'));
-      // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
-      const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
-      await storage.write(eventFile, { t: now().toISOString(), partner: slug, ...clickRequestMetadata(request, { burst: burst(clientIp) }), ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
+    if (eventFile && request.method === 'GET') {
+      const at = now();
+      const classification = classify(request, { clientIp, partner: campaign ? venue : slug, at });
+      if (classification.cls !== 'internal') {
+        let refHost = null;
+        const referer = request.headers.get('referer');
+        try {
+          const ref = new URL(referer);
+          if (/^https?:$/.test(ref.protocol) && !isIP(ref.hostname.replace(/^\[|\]$/g, ''))) refHost = ref.host;
+        } catch { /* none */ }
+        const metadata = clickMetadata({ path: safeGoPage(url.searchParams.get('page')), ref: referer, src });
+        const module = safeGoModule(url.searchParams.get('module'));
+        // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
+        const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
+        await storage.write(eventFile, { t: at.toISOString(), partner: slug, ...classification, ...(programPartner ? { partnerId: programPartner.id } : {}), src, ...(module ? { module } : {}), ref: refHost, ...(campaign ? { venue, campaign } : {}), ...Object.fromEntries(Object.entries(metadata).filter(([, value]) => value)), ...(hero || {}) }, 'go');
+      }
     }
     return new Response(null, { status: 302, headers: { ...headers, location: partnerAttributionTarget(target, url.searchParams, attributionPolicy) } });
   };

@@ -2,7 +2,7 @@
 // A stock x exchange matrix for six popular tickers: which of the first six exchanges (owner order) list each one as a
 // stock token and/or a stock perpetual, the highest leverage and the lowest standard perpetual taker fee, with the
 // exchange that offers it. Every value comes from tsMatrix (the exchanges' public market data + sourced facts); a value
-// nobody publishes is a dash. No prices: we read no price feed for these instruments.
+// nobody publishes is a dash. Prices are read only inside this lazy module and expire after 15 minutes.
 // SSR and the first client render use the listing snapshot baked into the release (identical HTML); after mount the
 // strip reads the host's fresher snapshot (/intel/tokenized-stocks.json) and keeps the baked one when that read fails.
 // One primary action (sign-up of the first exchange that may show one, via tsSignup -> /go/<venue>) plus the hub link.
@@ -16,6 +16,9 @@ import { tsLive } from "../../data/tokenized-stocks-rows.js";
 import { compactLive, isUsableLiveSnapshot } from "../../data/tokenized-stocks-live-sources.js";
 import { sgtStamp, tsMatrix } from "../../data/tokenized-stocks-matrix.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { listedTsPrices, tsHomePriceSummary, tsPriceNumber, tsPricePercent, tsPriceStamp, useTsPrices } from "./tokenized-prices-client.js";
+import { tsPriceCopy } from "./tokenized-prices-copy.js";
+import "./tokenized-prices-home.css";
 import { BrandMark } from "../brand/BrandMark.jsx";
 
 const teaserFor = (locale) => TS_TEASER[locale] || (String(locale || "").startsWith("zh") ? TS_TEASER["zh-Hans"] : TS_TEASER.en);
@@ -44,6 +47,10 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
   const data = tsLive(live);
   const venues = tsVenues(locale, market).slice(0, HOME_VENUES);
   const rows = tsMatrix({ locale, market, live: data, tickers: HOME_TICKERS });
+  const prices = listedTsPrices(useTsPrices(), rows, data).filter((p) => venues.some((v) => v.slug === p.venueId));
+  const summaries = tsHomePriceSummary(prices);
+  const priceStamp = tsPriceStamp([...summaries.values()].map((s) => s.price));
+  const pt = tsPriceCopy(locale);
   const hub = localizedHref(TS_PATH, { locale });
   const go = venues.map((ex) => ({ ex, signup: tsSignup(ex.slug, { locale, market, placement: "home-strip" }) })).find((v) => v.signup);
   const stamp = sgtStamp(data.generatedAt);
@@ -62,6 +69,7 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
           ) : null}
           <a className="h7-ln h7-ts-all" href={hub}>{fillTs(mx.homeMore, { n: TS_TICKERS.length })}</a>
         </div>
+        {priceStamp ? <p className="h7-ts-d">{pt.asOf} <bdi dir="ltr">{priceStamp}</bdi></p> : null}
         {stamp ? <p className="h7-ts-d">{fillTs(mx.dataNote, { time: stamp })}</p> : null}
       </div>
       <div className="h7-ts-mx">
@@ -76,10 +84,13 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
             <span className="h7-ts-x" role="columnheader">{mx.lev}</span>
             <span className="h7-ts-x" role="columnheader">{mx.fee}</span>
           </div>
-          {rows.map((row) => (
+          {rows.map((row) => {
+            const price = summaries.get(row.ticker)?.price;
+            return (
             <div key={row.ticker} className="h7-ts-r" role="row">
               <span className="h7-ts-s" role="rowheader">
                 <a href={localizedHref(tsTickerPath(row.ticker), { locale })}><b translate="no">{row.ticker}</b><small>{t.names?.[row.ticker] || row.ticker}</small></a>
+                {price ? <span className="h7-ts-price"><bdi dir="ltr">{tsPriceNumber(price.lastPrice)} {price.quoteCurrency}</bdi><bdi dir="ltr">{tsPricePercent(price.change24hPct)}</bdi><small>{venues.find((v) => v.slug === price.venueId)?.name} · {t.lanes[price.marketType === "spot" ? "spot" : "perp"]}</small></span> : null}
               </span>
               {venues.map((ex) => {
                 const on = row.by[ex.slug] || {};
@@ -101,7 +112,7 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
                 {row.minTaker != null ? <><b>{pct(row.minTaker)}</b><small>{row.minTakerVenues.slice(0, 2).join(" · ")}</small></> : <b aria-label={mx.none}>—</b>}
               </span>
             </div>
-          ))}
+          ); })}
         </div>
         <p className="h7-ts-lg" aria-hidden="true"><span><i data-lane="spot" data-on="" />{t.lanes.spot}</span><span><i data-lane="perp" data-on="" />{t.lanes.perp}</span></p>
       </div>

@@ -10,7 +10,7 @@ async function setup() {
   await mkdir(path.join(dir, "client", "intel"), { recursive: true });
   await writeFile(path.join(dir, "client", "intel", "partners.json"), JSON.stringify({ partners: [{ slug: "okx", registrationUrl: "https://www.okx.com/join/nexu888" }, { slug: "bad", registrationUrl: "javascript:alert(1)" }] }));
   const eventFile = path.join(dir, "clicks", "go.jsonl");
-  return { handle: createGoRedirect({ clientRoot: path.join(dir, "client"), eventFile, now: () => new Date("2026-10-10T12:00:00Z") }), eventFile };
+  return { handle: createGoRedirect({ clientRoot: path.join(dir, "client"), eventFile, env: { CLICK_HASH_SECRET: "test-only-key" }, now: () => new Date("2026-10-10T12:00:00Z") }), eventFile };
 }
 const wait = () => new Promise((r) => setTimeout(r, 50));
 
@@ -22,7 +22,7 @@ test("go redirect sends the exact partner registration URL and records one anony
   assert.match(res.headers.get("x-robots-tag"), /noindex/);
   await wait();
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
-  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", cls: "unknown", inapp: "none", src: "tg-channel-zh", ref: "nexualpha.com", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
+  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", cls: "unknown", inapp: "none", uaFamily: "other", ipHash: null, hasFetchSite: false, hasFetchUser: false, hasReferrerOrigin: true, src: "tg-channel-zh", ref: "nexualpha.com", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
   assert.doesNotMatch(JSON.stringify(rows[0]), /utm_source|Mozilla|203\.0\.113/, "click rows keep only sanitized metadata");
 });
 
@@ -51,7 +51,7 @@ test("go redirect resolves every generated tracked partner-feed slug to the curr
   }
 });
 
-test("go redirect rejects unknown or unsafe partners, sanitizes src and does not count crawlers", async () => {
+test("go redirect rejects unknown or unsafe partners, sanitizes src and classifies crawlers as excluded", async () => {
   const { handle, eventFile } = await setup();
   assert.equal((await handle(new Request("https://nexualpha.com/go/nope"))).status, 404);
   assert.equal((await handle(new Request("https://nexualpha.com/go/bad"))).status, 404);
@@ -59,7 +59,8 @@ test("go redirect rejects unknown or unsafe partners, sanitizes src and does not
   await handle(new Request("https://nexualpha.com/go/okx?src=x", { headers: { "user-agent": "Googlebot/2.1" } }));
   await wait();
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
-  assert.equal(rows.length, 1);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[1].cls, "bot");
   assert.equal(rows[0].src, "unknown");
 });
 
@@ -107,15 +108,15 @@ test("Aevo and HashKey routes open official destinations without an unregistered
 test("go rows include navigation and prefetch signals without changing legacy fields", async () => {
   const { handle, eventFile } = await setup();
   for (const headers of [
-    { 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' },
+    { 'user-agent': 'Mozilla/5.0', 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' },
     { 'user-agent': 'Mozilla/5.0 Telegram-iOS/11.0' },
     { purpose: 'prefetch', 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate' },
     { 'user-agent': 'Discord/1.0' },
-  ]) await handle(new Request('https://nexualpha.com/go/okx?src=home-test', { headers }));
+  ]) await handle(new Request('https://nexualpha.com/go/okx?src=home-test', { headers }), '203.0.113.9');
   const rows = (await readFile(eventFile, 'utf8')).trim().split('\n').map(JSON.parse);
   assert.deepEqual(rows.map(({ cls, inapp }) => ({ cls, inapp })), [
-    { cls: 'human', inapp: 'none' }, { cls: 'human', inapp: 'telegram' },
-    { cls: 'prefetch', inapp: 'none' }, { cls: 'bot', inapp: 'none' },
+    { cls: 'human', inapp: 'none' }, { cls: 'duplicate', inapp: 'telegram' },
+    { cls: 'bot', inapp: 'none' }, { cls: 'bot', inapp: 'none' },
   ]);
   for (const row of rows) {
     assert.equal(row.partner, 'okx');

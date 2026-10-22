@@ -21,6 +21,7 @@ import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { rewritePartnerViewHtml } from './src/data/partner-view.js';
 import { createPartnerProgram } from './server/partner-program.mjs';
+import { createClickClassifier } from './server/click-metadata.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { beginnerAliasRedirect } from './src/data/locale-routing.js';
 import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
@@ -29,6 +30,7 @@ import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from './server/liquidation-levels-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
 import { createTokenizedStocksReader, TS_LIVE_JSON_PATH } from './server/tokenized-stocks-feed.mjs';
+import { createTokenizedStocksPricesReader, TS_PRICES_PATH } from './server/tokenized-stocks-prices-feed.mjs';
 import { createJsonSnapshotReader } from './server/intel-tools-feed.mjs';
 import { readEtfFlows } from './src/data/etf-flows.js';
 import { readCalendar } from './src/data/crypto-calendar.js';
@@ -128,6 +130,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   // /tokenized-stocks ticker + exchange pages and /intel/tokenized-stocks.json: the host's refreshed listing snapshot
   // (TS_LIVE_FILE, read-only for the server); unset = the table baked into the release.
   const tsLive = createTokenizedStocksReader({ file: env.TS_LIVE_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const tsPrices = createTokenizedStocksPricesReader({ file: env.TS_PRICES_FILE || null, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // Home "Today's movers": the ticker's Binance rows + the coin universe (runtime snapshot, else the release copy) + the
   // collector feed. No extra upstream request.
   let releaseCoins = null;
@@ -151,9 +154,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
   let partnerTokens = {};
   try { partnerTokens = JSON.parse(env.PARTNER_STATS_TOKENS || '{}'); } catch { throw new Error('Invalid PARTNER_STATS_TOKENS JSON'); }
   const partnerProgram = createPartnerProgram({ eventFile: clickEventFile, tokens: partnerTokens });
-  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce });
+  const classifyClick = createClickClassifier({ env });
+  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce, env, classify: classifyClick });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
-  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce, origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com' });
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce, env, classify: classifyClick, origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com' });
   // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
   const ogImages = createOgImageRoute({
     clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
@@ -321,6 +325,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await fx.respond(req.method);
       } else if (requestPath === LIQUIDATION_LEVELS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await liquidationLevels.respond(req.method);
+      } else if (requestPath === TS_PRICES_PATH) {
+        result = ['GET', 'HEAD'].includes(req.method) ? await tsPrices.respond(req.method)
+          : new Response(null, { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } });
       } else if (requestPath === TS_LIVE_JSON_PATH && tsLive.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await tsLive.respond(req.method))) {
         // served from TS_LIVE_FILE (falls through to the static copy below when the file is not usable)
       } else if (requestPath === COINS_JSON_PATH && coinsSnapshot.enabled && (req.method === 'GET' || req.method === 'HEAD') && (result = await coinsSnapshot.respond(req.method))) {
