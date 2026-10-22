@@ -940,6 +940,109 @@
 .h7:not(#_):not(#_):not(#_) .h7-tg-ico svg{width:18px;height:18px}
 .h7:not(#_):not(#_):not(#_) .h7-tg-go{color:var(--ink);font-weight:500}
 
+/* ===== Below-hero rhythm (2026-10-22, owner: "整体的排版，你还是要多多的下功夫") =====
+   One page grammar from the whale board to the Telegram block (hero, h7-fr and h7-ts are owned elsewhere):
+   - two section steps: --h7-s1 for data modules (whales, academy, data rail, latest, deposit), --h7-s2 for the
+     story sections (how, calculator, notices, Telegram); every section only pads its top, so gaps never stack;
+   - two heading tiers: story h2 stays 44/28; module h2 is 28/24 (t-28, mobile ramp), CJK without negative tracking;
+   - one header pattern: [mono kicker] / heading + optional "view all" (ink, not accent) / strong hairline (--line2)
+     opening the list / light hairlines (--line) between rows;
+   - figures in Geist Mono with tabular numerals; rows are whole-row links with a full-row focus ring.
+   Selectors carry three IDs like the de-AI block above, so they also outrank movers-owner.css. */
+.h7:not(#_):not(#_):not(#_){--h7-s1:clamp(40px,4.5vw,64px);--h7-s2:clamp(56px,7vw,96px);--h7-hg:20px;--h7-hg2:24px}
+@media(min-width:768px){.h7:not(#_):not(#_):not(#_){--h7-hg:24px;--h7-hg2:32px}}
+
+/* Vertical rhythm */
+.h7:not(#_):not(#_):not(#_) :is(.h7-whales,.h7-academy,.h7-data,.h7-latest,.h7-fiat){padding-block:var(--h7-s1) 0}
+.h7:not(#_):not(#_):not(#_) :is(.h7-how,.h7-calc,.h7-intel){padding-block:var(--h7-s2) 0}
+.h7:not(#_):not(#_):not(#_) .h7-tg{padding-block:var(--h7-s2)}
+
+/* Module headings (tier B) */
+.h7:not(#_):not(#_):not(#_) :is(.h7-whales .h7-mv-head h2,.h7-coins-head h2,.h7-latest h2){font-weight:600;font-size:1.5rem;line-height:1.15;letter-spacing:-.02em;color:var(--ink);text-wrap:balance}
+@media(min-width:641px){.h7:not(#_):not(#_):not(#_) :is(.h7-whales .h7-mv-head h2,.h7-coins-head h2,.h7-latest h2){font-size:1.75rem}}
+.h7:not(#_):not(#_):not(#_) :is(.h7-whales .h7-mv-head h2,.h7-coins-head h2,.h7-latest h2,.h7-how h2,.h7-ih h2,.h7-academy-card h2):is(:lang(zh),:lang(ja),:lang(ko)){letter-spacing:0}
+.h7:not(#_):not(#_):not(#_) :is(.h7-whales .h7-mv-head,.h7-coins-head){display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-head{margin-block-end:var(--h7-hg)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-whales .h7-mv-head,.h7-coins-head) h2{margin:0}
+.h7:not(#_):not(#_):not(#_) .h7-latest h2{margin-block:0 var(--h7-hg)}
+.h7:not(#_):not(#_):not(#_) .h7-coins-lead{margin:8px 0 0;max-inline-size:60ch;font-size:15px;line-height:1.6;color:var(--ink3)}
+/* "View all" is navigation, not the primary action: ink, not accent. */
+.h7:not(#_):not(#_):not(#_) :is(.h7-mv-all,.h7-coins-all){min-height:44px;color:var(--ink2);font-weight:500;font-size:14px;transition:color 140ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-mv-all,.h7-coins-all):hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--line2)}
+/* Story headings (tier A): one gap from heading to content. */
+.h7:not(#_):not(#_):not(#_) .h7-how .h7-receipt,.h7:not(#_):not(#_):not(#_) .h7-how .h7-steps{margin-block-start:var(--h7-hg2)}
+.h7:not(#_):not(#_):not(#_) :is(.h7-intel,.h7-tg) .h7-ih{margin-block-end:var(--h7-hg2)}
+
+/* Whale board: ledger rows under a strong rule; the amount is the only bright figure in the sentence. */
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{border-top-color:var(--line2)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{transition:background-color 140ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-text{color:var(--ink2);transition:color 140ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a:hover .h7-wh-text{color:var(--ink)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a:hover .h7-mv-mk{background:rgb(255 255 255/.1);color:var(--ink)}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a:focus-visible{outline:2px solid var(--ac);outline-offset:-2px;border-radius:4px}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-amt{font-weight:600;font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-tag{font-weight:600;font-size:12px;letter-spacing:.02em}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-tag small{color:var(--ink3);font-variant-numeric:tabular-nums}
+.h7:not(#_):not(#_):not(#_) .h7-whales time{margin-block-start:2px;font-variant-numeric:tabular-nums}
+@media(min-width:761px){.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-text{font-size:15px;line-height:1.5}}
+
+/* How it works -> academy: the receipt already closes with a rule, so the academy row keeps only its bottom one. */
+.h7:not(#_):not(#_):not(#_) .h7-how+.h7-academy .h7-academy-card{border-block-start:0;padding-block-start:0}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card h2{font-size:1.125rem;line-height:1.3}
+@media(min-width:641px){.h7:not(#_):not(#_):not(#_) .h7-academy-card h2{font-size:1.25rem}}
+.h7:not(#_):not(#_):not(#_) .h7-academy-body{font-size:15px;line-height:1.6;color:var(--ink3);max-inline-size:60ch}
+.h7:not(#_):not(#_):not(#_) .h7-academy-card:hover h2{color:#fff}
+
+/* Daily market data: a stat strip. Label, then the live figure in mono; each cell reserves the figure line, so the
+   client-side read (useRailFeed) fills it without moving anything below. */
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:0 32px;margin:var(--h7-hg) 0 0;border-top:1px solid var(--line2)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list li{min-inline-size:0;border-bottom:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:4px;inline-size:100%;min-block-size:80px;padding-block:16px;font-weight:500;font-size:15px;line-height:1.4}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a b{grid-column:1;grid-row:1;font-weight:500;color:var(--ink)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a span{grid-column:1;grid-row:2;justify-self:start;min-block-size:22px;font:500 15px/22px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0;color:var(--ink2);overflow-wrap:anywhere}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a::after{grid-column:2;grid-row:1/3}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a:hover b{color:#fff}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a:hover span{color:var(--ink)}
+.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a:focus-visible{outline:2px solid var(--ac);outline-offset:-2px;border-radius:4px}
+@media(max-width:640px){.h7:not(#_):not(#_):not(#_) .h7-data .h7-coins-list a{min-block-size:72px;padding-block:14px}}
+
+/* Deposit rail: same rule under the heading as the other modules, links stay quiet. */
+.h7:not(#_):not(#_):not(#_) .h7-fiat .h7-coins-list{margin-block-start:12px}
+
+/* Latest analysis: a dated ledger; the whole row is the link, the date sits in a mono column. */
+.h7:not(#_):not(#_):not(#_) .h7-latest ul{border-top:1px solid var(--line2)}
+.h7:not(#_):not(#_):not(#_) .h7-latest ul:empty{display:none}
+.h7:not(#_):not(#_):not(#_) .h7-latest li{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 32px;padding-block:14px;border-block-start:0;border-block-end:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-latest li a{display:block;min-height:0;font-size:16px;line-height:1.5;color:var(--ink);transition:color 140ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-latest li a::before{content:"";position:absolute;inset:0 -8px;border-radius:8px}
+.h7:not(#_):not(#_):not(#_) .h7-latest li a:hover{color:#fff;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:4px}
+.h7:not(#_):not(#_):not(#_) .h7-latest li a:focus-visible{outline:0}
+.h7:not(#_):not(#_):not(#_) .h7-latest li a:focus-visible::before{outline:2px solid var(--ac);outline-offset:-2px}
+.h7:not(#_):not(#_):not(#_) .h7-latest time{font:500 12px/1.5 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink3);white-space:nowrap;text-align:end}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav{display:flex;flex-wrap:wrap;gap:0 24px;margin-block-start:12px}
+.h7:not(#_):not(#_):not(#_) .h7-latest ul:empty+nav{margin-block-start:0}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;font-weight:500;color:var(--ink2);transition:color 140ms var(--ease)}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a::after{content:"→";color:var(--ink3);transition:transform 160ms var(--ease),color 160ms}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a:dir(rtl)::after{content:"←"}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a:hover{color:var(--ink)}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a:hover::after{color:var(--ink);transform:translateX(3px)}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a:dir(rtl):hover::after{transform:translateX(-3px)}
+.h7:not(#_):not(#_):not(#_) .h7-latest nav a:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
+/* The heading falls back to English on ar/ur; keep it on the reading side of the page. */
+.h7:not(#_):not(#_):not(#_) .h7-latest h2:dir(rtl){text-align:right}
+@media(max-width:640px){.h7:not(#_):not(#_):not(#_) .h7-latest li{grid-template-columns:minmax(0,1fr);gap:4px;padding-block:12px}.h7:not(#_):not(#_):not(#_) .h7-latest li a{display:block;min-height:0}.h7:not(#_):not(#_):not(#_) .h7-latest time{text-align:start}.h7:not(#_):not(#_):not(#_) .h7-latest li a::before{inset:0}}
+
+/* Exchange notices: the freshness state is a mono kicker above the heading, not a second pill. */
+.h7:not(#_):not(#_):not(#_) .h7-intel .h7-live{display:flex;inline-size:max-content;margin:0 0 12px;padding:0;border:0;background:none;font:500 12px/1.4 var(--mono);letter-spacing:.04em;color:var(--ink3)}
+.h7:not(#_):not(#_):not(#_) .h7-intel .h7-live i{inline-size:6px;block-size:6px}
+.h7:not(#_):not(#_):not(#_) .h7-il time,.h7:not(#_):not(#_):not(#_) .h7-ia{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* Telegram: the ledger opens with the same strong rule. */
+.h7:not(#_):not(#_):not(#_) .h7-tg-list{margin-block-start:0;border-top-color:var(--line2)}
+.h7:not(#_):not(#_):not(#_) .h7-tg-handle{font-variant-numeric:tabular-nums}
+
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_):not(#_) :is(.h7-mv-all,.h7-coins-all,.h7-wh-text,.h7-latest li a,.h7-latest nav a,.h7-latest nav a::after),.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{transition:none}}
+
 /* Sticky sign-up dock: the action is blue like the hero CTA; the exchange is named in the label, not painted on it. */
 .h7:not(#_):not(#_):not(#_) .h7-dock-go{background:#315CFF;color:#fff;box-shadow:none;border-color:#315CFF}
 .h7:not(#_):not(#_):not(#_) .h7-dock-go:hover{background:#4A70FF;border-color:#4A70FF}
