@@ -163,7 +163,7 @@ test("NX-02 partner benefit status is derived from home-rebate-tiers (no new num
   assert.equal(partnerBenefitStatus("htx").autoSettle, false, "HTX is not on the auto-settle list");
   assert.equal(partnerBenefitStatus("gate-io").sharePct, 40, "Gate.io up to 40% (owner confirmed 2026-10-15)");
   assert.equal(partnerBenefitStatus("gate-io").confirmedOn, "2026-10-15");
-  assert.equal(partnerBenefitStatus("bybit"), null, "bybit has no declared share yet");
+  assert.equal(partnerBenefitStatus("bybit").sharePct, 30, "owner 2026-10-23: Bybit up to 30%");
   // Owner 2026-10-22: MEXC 30, Kraken 20, Backpack 30, Hyperliquid 30, CoinW 40.
   for (const [slug, pct] of [["mexc", 30], ["kraken", 20], ["backpack", 30], ["hyperliquid", 30], ["coinw", 40]]) {
     assert.equal(partnerBenefitStatus(slug).sharePct, pct, slug);
@@ -180,7 +180,7 @@ test("NX-02 benefit wording exists in all 15 locales and the factbook line match
     if (locale !== "en") assert.notEqual(c.label, partnerBenefitCopy("en").label, `${locale} is translated`);
   }
   assert.equal(partnerBenefitParts("okx", "en").line, "Partner rebate share: Up to 40% — partner terms confirmed 2026-10-10; your account's eligibility is confirmed by the exchange after sign-up");
-  assert.equal(partnerBenefitParts("bybit", "en"), null);
+  assert.match(partnerBenefitParts("bybit", "en").line, /Up to 30%/);
   assert.match(partnerBenefitParts("kraken", "en").line, /Up to 20%/);
   assert.match(ownerRebateLine("okx", "en", "OKX"), /40%.*hourly/);
 });
