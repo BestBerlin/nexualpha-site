@@ -142,6 +142,11 @@
    the headline have fixed heights (skeletons/pads while empty) so the server frame, the splice and refreshes never shift.
    Desktop: two columns. Mobile: radio tabs (CSS only, work before hydration) show one list at a time. */
 @ .h7-mv{padding-block:clamp(32px,4vw,56px) 0}
+/* Owner 2026-10-22: the whale board moved up next to the hero. When the SSR splice has no snapshot yet the list is empty
+ * and the client fills it; reserve the filled height (measured on prod: 714 / 435 / 395 px) so nothing below shifts. */
+@ .h7-wh-list:empty{min-block-size:714px}
+@media (min-width:768px){@ .h7-wh-list:empty{min-block-size:435px}}
+@media (min-width:1200px){@ .h7-wh-list:empty{min-block-size:395px}}
 @ .h7-mv-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
 @ .h7-mv-head h2{display:flex;align-items:center;gap:10px;margin:0;font-weight:600;font-size:1.375rem;line-height:1.25;letter-spacing:-.02em;color:var(--ink)}
 @ .h7-mv-dot{inline-size:8px;block-size:8px;border-radius:50%;background:#3DDC97;box-shadow:0 0 0 4px rgb(61 220 151/.14);flex:none}
