@@ -1,3 +1,5 @@
+import { LatestResearch } from "../research/LatestResearch.jsx";
+import { tokenizedResearchArticles } from "../research/hub-research.js";
 // Tokenized US stocks: hub (/tokenized-stocks) and ticker pages (/tokenized-stocks/<ticker>), owner 2026-10-15.
 // Every number, symbol, hour, fee, leverage, region and promotion on these pages comes from tokenized-stocks-facts.js
 // and is printed next to the official page it comes from (plain text where a link would carry no invite code).
@@ -241,7 +243,7 @@ function Faq({ t, locale, market, items }) {
   );
 }
 
-export function TokenizedStocksHubPage({ locale = "en", market, live, page }) {
+export function TokenizedStocksHubPage({ locale = "en", market, live, page, initialNewsArticles = [] }) {
   const t = useTsCopy(locale, page?.copy);
   if (!t) return <main className="nxts" id="top" aria-busy="true" />;
   const venues = tsVenues(locale, market);
@@ -321,6 +323,8 @@ export function TokenizedStocksHubPage({ locale = "en", market, live, page }) {
         <p className="nxts-sec__lead">{t.tickersLead}</p>
         <TickerChips t={t} locale={locale} market={market} venues={venues} live={live} />
       </section>
+
+      <LatestResearch className="nxts-shell nxts-sec" locale={locale} articles={tokenizedResearchArticles(initialNewsArticles, { locale })} name={t.breadcrumb} />
 
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-faq-h">
         <h2 id="ts-faq-h">{t.faqH}</h2>

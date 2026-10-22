@@ -228,7 +228,7 @@ export function buildSitemap(inventory, newsArticles, options = {}) {
     for (const alternate of sitemapHreflangAlternates(route.pathname, { article, newsArticles })) {
       lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
     }
-    // A rebuild is not a content update: the route's own content date, the build date only when it has none.
+    // A rebuild is not a content update: use the route's own content date only.
     if (date && Number.isFinite(Date.parse(date))) lines.push(`    <lastmod>${new Date(date).toISOString().slice(0, 10)}</lastmod>`);
     lines.push("  </url>");
   }
@@ -312,12 +312,7 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
     loc: `https://nexualpha.com/${file}`,
     lastmod: info.lastmod,
   }));
-  if (options.newsSitemapLastmod) {
-    indexRows.push({
-      loc: "https://nexualpha.com/news-sitemap.xml",
-      lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10),
-    });
-  }
+  // Regular article sitemaps carry every search-published edition; we are not a Google News publisher.
   // NexuAlpha Academy (2026-10-12): hub + 24 lessons in every locale with a localized lesson, rendered by the Worker at
   // request time. It is its own file outside the route inventory's publication budget; its
   // hreflang sets are the page head's (routeAlternates over ACADEMY_INDEX_LOCALES).
@@ -631,7 +626,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
     generatedAt: new Date().toISOString(),
     ...buildSearchPublicationReport(publication),
   }, null, 2);
-  const splitSitemaps = buildSplitSitemaps(inventory, newsArticles, { newsSitemapLastmod: rawFeed.generatedAt });
+  const splitSitemaps = buildSplitSitemaps(inventory, newsArticles);
   const newsSitemap = buildNewsSitemap(newsArticles, { generatedAt: rawFeed.generatedAt });
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);

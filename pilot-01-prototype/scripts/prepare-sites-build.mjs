@@ -71,6 +71,12 @@ mkdirSync(updatesModelDir, { recursive: true });
 copyFileSync(path.join(root, "src", "components", "official-updates", "official-updates-model.js"), path.join(updatesModelDir, "official-updates-model.js"));
 mkdirSync(path.join(dist, "src", "components", "shared"), { recursive: true });
 copyFileSync(path.join(root, "src", "components", "shared", "announcement-snapshot.js"), path.join(dist, "src", "components", "shared", "announcement-snapshot.js"));
+// The Worker imports these pure research selectors at runtime.
+const researchDir = path.join(dist, "src", "components", "research");
+mkdirSync(researchDir, { recursive: true });
+for (const name of ["research-selection.js", "hub-research.js"]) {
+  copyFileSync(path.join(root, "src", "components", "research", name), path.join(researchDir, name));
+}
 mkdirSync(path.join(dist, "src", "data"), { recursive: true });
 copyFileSync(publication, path.join(dist, "src", "data", "reviewed-news-publication.js"));
 copyFileSync(attribution, path.join(dist, "src", "data", "tracking-attribution.js"));

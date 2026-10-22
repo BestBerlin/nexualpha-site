@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import worker, { renderNewsLibrarySitemap } from "../worker/index.js";
 import { NEWS_CATEGORY_KEYS, NEWS_LIBRARY_LOCALES, newsCategoryCopy, newsLibraryCopy, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
 
-import { recentEntityArticles } from "../src/data/article-related-links.js";
+import { primaryVenueResearch, recentEntityArticles } from "../src/data/article-related-links.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const categories = ["guide", "comparison", "exchange-update", "regulation", "rwa", "research"];
@@ -189,6 +189,12 @@ test("article pages server-render five related articles including the two newest
   const api = await (await worker.fetch(new Request(`https://nexualpha.com/api/news/article/${target.slug}`), env)).json();
   assert.deepEqual(api.relatedSlugs, recentEntityArticles(target, articles.filter((article) => article.status === "PUBLISHED"), 5, "en").map((article) => article.slug));
   assert.ok(api.articles.slice(1).every((article) => article.content === undefined));
+  const olderVenueArticles = primaryVenueResearch(target, articles.filter(article => article.status === "PUBLISHED"), "en");
+  assert.equal(olderVenueArticles.length, 4, "fixture supplies all four older venue articles");
+  for (const older of olderVenueArticles) assert.ok(api.articles.some(article => article.slug === older.slug), `venue companion ${older.slug}`);
+  const localizedApi = await (await worker.fetch(new Request(`https://nexualpha.com/api/news/article/${target.slug}?locale=en`), env)).json();
+  assert.deepEqual(localizedApi.relatedSlugs, api.relatedSlugs);
+  for (const older of olderVenueArticles) assert.ok(localizedApi.articles.some(article => article.slug === older.slug), `localized companion ${older.slug}`);
 });
 
 test("related selection is deterministic: shared platforms first, then newest in the same category", () => {

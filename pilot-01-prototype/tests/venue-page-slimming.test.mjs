@@ -28,21 +28,32 @@ test('secondary disclosures preserve server content and protected component call
   assert.match(component, /\{children\}/);
 });
 
-test('real venue SSR includes five localized notices, index link and closed section bodies', async () => {
+test('real venue SSR includes five localized notices, visible research links and closed secondary section bodies', async () => {
   const { createSsrHarness } = await import('./helpers/ssr-hydration-harness.mjs');
   const { JSDOM } = await import('jsdom');
   const harness = await createSsrHarness();
   const publishedAt = new Date(Date.now() - 3600000).toISOString();
   const feed = { items: items.map(item => ({...item, publishedAt, sourceType: 'official_api', url: `https://www.binance.com/en/support/announcement/${item.id}`})) };
+  const locales = ['en', 'zh-Hans', 'ja', 'ko'];
+  const research = [{ slug: 'binance-research-visibility', status: 'PUBLISHED', publishedAt, relatedVenues: ['binance'],
+    title: Object.fromEntries(locales.map(locale => [locale, `Binance ${locale}`])),
+    summary: Object.fromEntries(locales.map(locale => [locale, `Research ${locale}`])), availableLocales: locales }];
   try {
     for (const [locale, prefix] of [['en',''],['zh-Hans','/zh-hans'],['ja','/ja'],['ko','/ko']]) {
-      const html = harness.render(`https://nexualpha.com${prefix}/exchanges/binance`, { officialAnnouncements: feed });
+      const html = harness.render(`https://nexualpha.com${prefix}/exchanges/binance`, { officialAnnouncements: feed, newsArticles: research });
       const document = new JSDOM(html).window.document;
       const rows = document.querySelectorAll('.venue-announcement-preview > li');
       assert.equal(rows.length, 5, locale);
       assert.ok(rows[0].textContent.includes(locale === 'en' ? 'Will List' : venueAnnouncementPreview(items, locale)[0].previewTitle));
       const disclosures = [...document.querySelectorAll('.venue-section-disclosure')];
-      assert.equal(disclosures.length, 5);
+      // Research is intentionally visible: indexed hubs must expose new article editions without opening a panel.
+      assert.equal(disclosures.length, 4);
+      const researchSection = document.querySelector('[data-hub-news-links]');
+      assert.ok(researchSection, locale);
+      assert.equal(researchSection.closest('details'), null, `${locale}: research and tools remain outside disclosures`);
+      const researchLink = researchSection.querySelector('[data-hub-news-link="binance-research-visibility"]');
+      assert.equal(researchLink?.getAttribute('href'), `${prefix}/news/binance-research-visibility`);
+      assert.ok(researchSection.querySelector('[data-hub-tool-link]'), `${locale}: informational tool links stay visible`);
       assert.ok(disclosures.every(node => !node.hasAttribute('open') && node.querySelector('.venue-section-disclosure__body').children.length));
       const all = document.querySelector(`.v3-activity-panel__actions a[href='${prefix}/activities']`);
       assert.equal(all?.textContent, venueSlimmingCopy(locale).all);

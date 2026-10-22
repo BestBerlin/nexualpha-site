@@ -569,7 +569,7 @@ function NewsPagination({ locale, category, page, totalPages, withContext, copy:
         </a>
       )}
       <ol className="news-pagination__pills">
-        {newsPaginationItems(page, totalPages).map((n, index) => n === null
+        {(page === 1 ? Array.from({ length: totalPages }, (_, i) => i + 1) : newsPaginationItems(page, totalPages)).map((n, index) => n === null
           ? <li key={`gap-${index}`} className="news-pagination__gap" aria-hidden="true">…</li>
           : <li key={n}><a className="news-pagination__pill" href={href(n)} aria-current={n === page ? "page" : undefined}>{n}</a></li>)}
       </ol>

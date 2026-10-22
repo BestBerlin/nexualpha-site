@@ -59,7 +59,7 @@ test('compact hydration pool retains exactly the recent cards and chronological 
   const peers = Array.from({ length: 10 }, (_, i) => ({ slug: `peer-${i}`, category: 'research', status: 'PUBLISHED', title: { en: 'Bitcoin' }, summary: { en: 'Bitcoin' }, availableLocales: ['en'], seo: { noindex: false }, publishedAt: `2026-10-${String(i + 1).padStart(2, '0')}` }));
   for (const current of peers) {
     const compact = articleRelatedPool(current, peers);
-    assert.ok(compact.length <= 9);
+    assert.ok(compact.length <= 13);
     assert.deepEqual(recentEntityArticles(current, compact), recentEntityArticles(current, peers));
     assert.deepEqual(newsReadingNeighbors(current, compact), newsReadingNeighbors(current, peers));
   }

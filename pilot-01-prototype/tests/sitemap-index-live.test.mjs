@@ -25,11 +25,11 @@ test("sitemap index lastmods for feed-driven children follow the live feed; othe
   assert.match(xml, /sitemap-articles-en\.xml<\/loc>\n {4}<lastmod>2026-10-13<\/lastmod>/);
   assert.match(xml, /sitemap-articles-zh-hans\.xml<\/loc>\n {4}<lastmod>2026-10-13<\/lastmod>/);
   assert.match(xml, /sitemap-glossary\.xml<\/loc>\n {4}<lastmod>2026-10-13<\/lastmod>/);
-  assert.match(xml, /news-sitemap\.xml<\/loc>\n {4}<lastmod>2026-10-13<\/lastmod>/);
+  assert.doesNotMatch(xml, /news-sitemap\.xml/);
   assert.doesNotMatch(xml, /sitemap-articles-ja/, "a locale with no search-published article is left out");
-  assert.equal((xml.match(/<sitemap>/g) || []).length, 4);
+  assert.equal((xml.match(/<sitemap>/g) || []).length, 3);
   assert.match(xml, /^<\?xml[^\n]*\n<sitemapindex[^\n]*>\n {2}<sitemap>/);
-  assert.equal(refreshSitemapIndexLastmods(index, []), index, "no feed: the build-time index is served unchanged");
+  assert.equal(refreshSitemapIndexLastmods(index, []), index.replace(/\n  <sitemap>\n    <loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>[\s\S]*?<\/sitemap>/, ""), "without a feed, remove only the legacy News entry");
 });
 
 test("worker answers /sitemap.xml with the release index, refreshed from the mounted feed", async () => {
@@ -56,4 +56,12 @@ test("every sitemap robots.txt advertises is a child of the release index", () =
     if (file === "sitemap.xml") continue;
     assert.ok(generator.includes(`https://nexualpha.com/${file}`), `${file} is in robots.txt but not in the generated index`);
   }
+});
+
+test("article index lastmod is the real edit time, independent of sitemap refresh time", () => {
+  const article = { ...base, slug: "edited", publishedAt: "2026-10-01T08:00:00Z", updatedAt: "2026-10-09T09:30:00Z", seo: { noindex: false } };
+  const first = refreshSitemapIndexLastmods(index, [article], Date.parse("2026-10-13T12:00:00Z"));
+  const rebuilt = refreshSitemapIndexLastmods(index, [article], Date.parse("2026-10-22T12:00:00Z"));
+  assert.equal(first, rebuilt);
+  assert.match(first, /sitemap-articles-en\.xml<\/loc>\n {4}<lastmod>2026-10-09<\/lastmod>/);
 });

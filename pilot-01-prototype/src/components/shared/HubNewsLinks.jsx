@@ -31,7 +31,7 @@ export function HubNewsLinks({ locale = "en", name, items: allItems = [], tools 
   if (!items.length && !tools.length) return null;
   const copy = textFor(locale);
   const headingId = id || `hub-news-${String(name || "entity").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-  return <section className={className} aria-labelledby={items.length ? headingId : undefined} aria-label={items.length ? undefined : fill(copy.tools, { name })} dir={dirOf(locale)} data-hub-news-links={headingId}>
+  return <section className={className} aria-labelledby={items.length ? headingId : undefined} aria-label={items.length ? undefined : fill(copy.tools, { name })} dir={dirOf(locale)} data-hub-news-links={headingId} style={items.length ? { minBlockSize: `${4 + items.length * 5}rem` } : undefined}>
     {items.length ? <>
       <div className="section-lead"><h2 id={headingId}>{fill(copy.latest, { name })}</h2><span>{copy.fallback}</span></div>
       <ol className="v3-alternative-list">

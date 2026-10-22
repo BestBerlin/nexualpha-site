@@ -288,13 +288,13 @@ test("machine discovery files do not publish a false MCP endpoint", async () => 
   await assert.rejects(access(new URL("../public/mcp.json", import.meta.url)), /ENOENT/);
 });
 
-test("robots exposes AI search crawlers and both sitemap entry points", async () => {
+test("robots exposes AI search crawlers and the regular sitemap entry point", async () => {
   const robots = await readFile(new URL("../public/robots.txt", import.meta.url), "utf8");
   for (const agent of ["OAI-SearchBot", "GPTBot", "ChatGPT-User", "PerplexityBot", "ClaudeBot", "Claude-SearchBot", "Claude-User", "anthropic-ai", "Google-Extended", "Applebot-Extended", "Bingbot"]) {
     assert.match(robots, new RegExp(`User-agent: ${agent}\\nAllow: /`));
   }
   assert.match(robots, /Sitemap: https:\/\/nexualpha\.com\/sitemap\.xml/);
-  assert.match(robots, /Sitemap: https:\/\/nexualpha\.com\/news-sitemap\.xml/);
+  assert.doesNotMatch(robots, /Sitemap: https:\/\/nexualpha\.com\/news-sitemap\.xml/, "the non-News publisher does not advertise a Google News sitemap");
 });
 
 

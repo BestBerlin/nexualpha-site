@@ -1,3 +1,4 @@
+import { ArticleVenueResearch } from './ArticleVenueResearch.jsx';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../../../data/news-geo-policy.js";
 import { articleRelatedLinks, recentEntityArticles } from '../../../data/article-related-links.js';
 import { SourceLink } from "../../shared/SourceLink.jsx";
@@ -1089,6 +1090,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         {newsReadingNeighbors(article, visibleArticles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
           {newsReadingNeighbors(article, visibleArticles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}>{localizedNewsTitle(item, locale)}</a>)}
         </nav>}
+        <ArticleVenueResearch article={article} articles={visibleArticles} locale={locale} />
         <RelatedResearch links={relatedLinks} relatedArticles={recentEntityArticles(article, visibleArticles, 5, locale)} locale={locale} t={t} withContext={withContext} article={article} />
 
 

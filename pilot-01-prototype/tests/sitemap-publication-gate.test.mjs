@@ -171,14 +171,13 @@ test("sitemap index splits indexable canonical routes by template", async () => 
     assert.ok(files.has(file), file);
     assert.match(split.index, new RegExp(`<loc>https://nexualpha\\.com/${file}</loc>`), file);
   }
-  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>/);
-  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>\n {4}<lastmod>2026-10-12<\/lastmod>/);
   assert.doesNotMatch(
     split.index,
     /<loc>https:\/\/nexualpha\.com\/sitemap-updates\.xml<\/loc>/,
     "thin update detail pages stay out of the sitemap index",
   );
 
+  assert.doesNotMatch(split.index, /news-sitemap\.xml/, "Google News sitemap is not advertised even with a legacy generation timestamp");
   const compareLocs = locsFromSitemap(split.files.get("sitemap-compare.xml").xml);
   assert.equal(compareLocs.length, 234);
   assert.equal(compareLocs.filter((loc) => /\/compare\//.test(new URL(loc).pathname)).length, 234);
@@ -442,4 +441,19 @@ test("route-locale eligibility is the single source for indexable hreflang candi
   const binanceJa = eligibility.entry("/exchanges/binance", "ja");
   assert.equal(binanceJa.loc, "https://nexualpha.com/ja/exchanges/binance");
   assert.equal(binanceJa.route.template, "venue");
+});
+
+test("sitemap article lastmods use source edit dates rather than generation timestamps", () => {
+  const article = { ...articles.find((item) => item.seo?.noindex === false), publishedAt: "2026-10-01T08:00:00Z", updatedAt: "2026-10-09T09:30:00Z" };
+  assert.ok(article.slug, "fixture has a search-published article");
+  const routes = routeInventory([article]).filter((route) => route.pathname === `/news/${article.slug}`);
+  const build = (generatedAt) => buildSitemap(routes, [article], { policy, generatedAt });
+  const first = build("2026-10-13T12:00:00Z");
+  const rebuilt = build("2026-10-22T12:00:00Z");
+  assert.equal(first, rebuilt);
+  const xml = first;
+  const block = sitemapUrlBlock(xml, `https://nexualpha.com/news/${article.slug}`);
+  assert.ok(block, "published edition remains in the regular article sitemap");
+  assert.match(block, /<lastmod>2026-10-09<\/lastmod>/);
+  assert.doesNotMatch(xml, /<lastmod>2026-10-(13|22)<\/lastmod>/);
 });

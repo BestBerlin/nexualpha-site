@@ -1,3 +1,4 @@
+import { LatestResearch } from "../research/LatestResearch.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { compareShortAnswer } from "../../data/answer-first.js";
 import { ShortAnswer } from "../shared/ShortAnswer.jsx";
@@ -1998,7 +1999,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   );
 }
 
-export function CompareDeepPage({ copy, locale, selected, venues, updates = [], market, product, accountStage, funding }) {
+export function CompareDeepPage({ copy, locale, selected, venues, updates = [], market, product, accountStage, funding, initialNewsArticles = [] }) {
   const text = v3Copy(locale);
   const compareLabels = compareUi(locale);
   const ui = interfaceText(locale);
@@ -2462,6 +2463,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       <p>{text.ctaLocked}</p>
     </details>
     </CompareNotesGroup>
+    <LatestResearch locale={locale} articles={initialNewsArticles} venueIds={selected} terms={selected.map(slug => slug.replaceAll("-", " "))} name={profiles.map((profile) => profile.name).join(" / ")} />
   </main>;
 }
 

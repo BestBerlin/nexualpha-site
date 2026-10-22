@@ -577,6 +577,12 @@ export function newsHumanReview(article) {
 
 const SEARCH_STATES = new Set(["noindex-thin", "canonicalized"]);
 
+// Only claim text crosses into summary/hub payloads; source arrays and article bodies stay on detail pages.
+export function compactResearchClaims(article) {
+  const strings = value => typeof value === "string" ? [value.trim()] : value && typeof value === "object" ? Object.values(value).flatMap(strings) : [];
+  return [...new Set(strings(article?.researchClaims || article?.claims).filter(Boolean))];
+}
+
 export function normalizeNewsArticle(article) {
   if (!isRecord(article)) return null;
   const slug = cleanString(article.slug).toLowerCase();
@@ -615,6 +621,7 @@ export function normalizeNewsArticle(article) {
     content,
     sources,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    ...(compactResearchClaims(article).length ? { researchClaims: compactResearchClaims(article) } : {}),
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleAvailableLocales(article),
@@ -655,6 +662,7 @@ export function normalizeNewsArticleSummary(article) {
     title,
     summary,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    ...(compactResearchClaims(article).length ? { researchClaims: compactResearchClaims(article) } : {}),
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleSummaryAvailableLocales(article),

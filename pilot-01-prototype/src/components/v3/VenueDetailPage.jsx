@@ -985,9 +985,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
     </VenueSectionDisclosure>
-    {(latestNews.length > 0 || hubTools.length > 0) && <VenueSectionDisclosure label={slimmingUi.news}>
+    {(latestNews.length > 0 || hubTools.length > 0) && <>
     <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
-    </VenueSectionDisclosure>}
+    </>}
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub" id="source-review">

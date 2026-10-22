@@ -20,7 +20,7 @@ test("Wave60 robots keeps search discovery open without conflating OpenAI crawle
   assert.match(robots, /User-agent: Bingbot\nAllow: \//);
   assert.match(robots, /User-agent: \*\nAllow: \//);
   assert.match(robots, /Sitemap: https:\/\/nexualpha\.com\/sitemap\.xml/);
-  assert.match(robots, /Sitemap: https:\/\/nexualpha\.com\/news-sitemap\.xml/);
+  assert.doesNotMatch(robots, /Sitemap: https:\/\/nexualpha\.com\/news-sitemap\.xml/, "the non-News publisher does not advertise a Google News sitemap");
 });
 
 test("Wave60 discovery files retain canonical source and answer inventories", async () => {
