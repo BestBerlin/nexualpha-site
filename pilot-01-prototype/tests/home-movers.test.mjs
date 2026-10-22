@@ -222,10 +222,15 @@ test("server and client wiring: /api/whales.json route, refresh every 60 s while
   assert.match(board, /movers-owner\.css/);
   assert.doesNotMatch(board, /h7-mv-tabs|h7-mv-t-up|h7-mv-t-dn/);
   const below = await readFile(new URL("../src/components/v7/home7-below.jsx", import.meta.url), "utf8");
-  assert.match(below, /<MoversBoard locale=\{locale\} initial=\{whales\} \/>/);
   assert.doesNotMatch(below, /POPULAR_COINS|PopularCoins/);
+  assert.match(below, /data-home-latest/, "owner 2026-10-22: the latest-analysis block now sits where the whale board used to be");
   const home = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
-  assert.doesNotMatch(home, /home7-movers|movers-html/, "only the lazy below-the-fold chunk imports the board");
+  // Owner 2026-10-22: the whale board and the latest-analysis block swapped places; the board stays a lazy chunk
+  // (dynamic import + DeferUntilVisible), never part of the home entry's static closure.
+  assert.match(home, /<DeferUntilVisible target="\.h7-whales" prefetch=\{loadHomeBelow\}><MoversBoard locale=\{locale\} initial=\{whales\} \/><\/DeferUntilVisible>/);
+  assert.match(home, /ssrHomeBelowModules\["\.\/home7-below\.jsx"\]\.MoversBoard/);
+  assert.doesNotMatch(home, /^import .*home7-movers/m, "no static import of the board in the home entry");
+  assert.doesNotMatch(home, /movers-html/);
 });
 
 test("home whale board: accumulation first, never unknown→unknown or same-exchange transfers, no padding", () => {

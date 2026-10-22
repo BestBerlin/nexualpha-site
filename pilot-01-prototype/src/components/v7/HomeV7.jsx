@@ -31,6 +31,11 @@ const loadHomeBelow = () => (homeBelowChunk ??= Promise.all([import("./home7-bel
 // Tokenized US stocks strip (owner 2026-10-15): server-rendered with the page, its chunk loads when it nears the viewport.
 const ssrTsStripModules = import.meta.env.SSR ? import.meta.glob(["../tokenized-stocks/HomeTokenizedStrip.jsx"], { eager: true }) : {};
 const loadTsStrip = () => import("../tokenized-stocks/HomeTokenizedStrip.jsx");
+// Owner 2026-10-22: the whale board and the latest-analysis block swapped places. The board is re-exported by the
+// below-fold chunk (its own lazy chunk pulled whale data into core-shared and broke the 350 KB home budget).
+const MoversBoard = import.meta.env.SSR
+  ? ssrHomeBelowModules["./home7-below.jsx"].MoversBoard
+  : React.lazy(() => loadHomeBelow().then(([mod]) => ({ default: mod.MoversBoard })));
 const TokenizedStrip = import.meta.env.SSR
   ? ssrTsStripModules["../tokenized-stocks/HomeTokenizedStrip.jsx"].HomeTokenizedStrip
   : React.lazy(() => loadTsStrip().then((mod) => ({ default: mod.HomeTokenizedStrip })));
@@ -657,18 +662,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
         </ul>
       </section>
 
-      <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
-        <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
-        <ul>{homeLatest.map((item) => <li key={item.href}>
-          <a href={item.href}>{item.title}</a>
-          <time dateTime={item.publishedAt}>{item.relativeDate}</time>
-        </li>)}</ul>
-        <nav aria-label={t.latestAnalysis || "Latest analysis"}>
-          <a href={localizedHref("/news", { locale })}>{t.latestAnalysis || "Latest analysis"}</a>
-          <a href={localizedHref("/compare", { locale })}>Compare</a>
-          <a href={localizedHref("/data/exchange-fee-index", { locale })}>Exchange fee index</a>
-        </nav>
-      </section>
+      <DeferUntilVisible target=".h7-whales" prefetch={loadHomeBelow}><MoversBoard locale={locale} initial={whales} /></DeferUntilVisible>
 
       <DeferUntilVisible target=".h7-ts" prefetch={loadTsStrip}><TokenizedStrip locale={locale} market={market} /></DeferUntilVisible>
 
@@ -683,7 +677,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
 
       <AcademyTeaser locale={locale} />
 
-      <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} whales={whales} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
+      <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} whales={whales} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} homeLatest={homeLatest} />
       {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated.some((r) => r.slug === sel.slug) ? rebated : [...rebated, sel]} setPick={setPick} t={t} locale={locale} />
     </div>

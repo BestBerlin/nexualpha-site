@@ -6,6 +6,7 @@ import { HomeCalculator } from "./HomeCalculator.jsx";
 import { useEffect, useRef, useState } from "react";
 import { TelegramBlock } from "./home7-telegram.jsx";
 import { FundingBoard } from "./home7-funding.jsx";
+import { startJsonPolling } from "../shared/json-polling.js";
 import { feeFact } from "../../data/exchange-facts.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
@@ -21,7 +22,6 @@ import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
 import { LiveBadge } from "./home7-board-motion.jsx";
-import { MoversBoard } from "./home7-movers.jsx";
 import { CALENDAR_PATH, ETF_FLOWS_LIVE, ETF_FLOWS_PATH } from "../../data/intel-tools-routes.js";
 import { intelToolLinks } from "../../data/intel-tools-links.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "../../data/market-data-pages-nav.js";
@@ -49,14 +49,43 @@ const DATA_RAIL_COPY = {
   ar: { title: "بيانات السوق اليومية", lead: "مواعيد الاقتصاد الكلي وآجال المنصات هذا الأسبوع، والتصفيات ومعدلات التمويل." },
   ur: { title: "روزانہ مارکیٹ ڈیٹا", lead: "اس ہفتے کی میکرو تاریخیں، ایکسچینج کی آخری تاریخیں، لیکویڈیشنز اور فنڈنگ۔" },
 };
+// Compact USD for the rail: $1.13B / $776M / $48K (lower bound figures; the data page carries the methodology).
+const railUsd = (n) => !Number.isFinite(n) ? null : n >= 1e9 ? `$${(n / 1e9).toFixed(2)}B` : n >= 1e6 ? `$${Math.round(n / 1e6)}M` : n >= 1e3 ? `$${Math.round(n / 1e3)}K` : `$${Math.round(n)}`;
+const railRate = (n) => !Number.isFinite(n) ? null : `${n >= 0 ? "+" : "−"}${Math.abs(n * 100).toFixed(4)}%`;
+const RAIL_LABELS = { en: { liq: "24h liquidations", long: "long", short: "short", btc: "BTC funding" }, "zh-Hans": { liq: "24h 爆仓", long: "多", short: "空", btc: "BTC 资金费率" } };
+// 2026-10-22 owner: the block showed only three bare links ("no data"). It now shows the live figures behind the links: 24 h
+// observed liquidations and the BTC funding rate (read client-side from /api/market-events/summary, refreshed by the hook);
+// before the first read, or when the read fails, the pills stay plain links.
+// The small summary endpoint (~66 KB), not the 1.7 MB market-events file: the home must stay light.
+function useRailFeed() {
+  const [feed, setFeed] = useState(null);
+  useEffect(() => startJsonPolling({
+    request: "/api/market-events/summary", intervalMs: 60000, immediate: true, cache: "no-cache",
+    isData: (next) => Boolean(next && typeof next === "object" && next.generatedAt), onData: setFeed, onError: () => {},
+  }), []);
+  return feed;
+}
 function DataRail({ locale }) {
   const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);
   const links = intelToolLinks(locale), nav = dataPageCopy(locale).nav;
-  const items = [...(ETF_FLOWS_LIVE ? [[ETF_FLOWS_PATH, links.etf]] : []), [CALENDAR_PATH, links.calendar], [LIQUIDATIONS_PATH, nav.liquidations], [FUNDING_RATES_PATH, nav.funding]];
+  const feed = useRailFeed();
+  const zh = String(locale || "").startsWith("zh");
+  const l = RAIL_LABELS[zh ? "zh-Hans" : "en"];
+  const h24 = feed?.liquidations?.h24;
+  const total = railUsd(h24?.totalUsd);
+  const split = total && h24.totalUsd > 0 ? `${l.long} ${Math.round((h24.longUsd / h24.totalUsd) * 100)}% / ${l.short} ${Math.round((h24.shortUsd / h24.totalUsd) * 100)}%` : null;
+  const btc = feed?.funding?.rows?.find((r) => r.symbol === "BTC");
+  const btcRate = railRate(btc?.binanceRate);
+  const items = [
+    ...(ETF_FLOWS_LIVE ? [[ETF_FLOWS_PATH, links.etf, null]] : []),
+    [CALENDAR_PATH, links.calendar, null],
+    [LIQUIDATIONS_PATH, nav.liquidations, total ? `${total}${split ? ` · ${split}` : ""}` : null],
+    [FUNDING_RATES_PATH, nav.funding, btcRate ? `${l.btc} ${btcRate}` : null],
+  ];
   return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail">
     <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
     {c.lead && <p className="h7-coins-lead">{c.lead}</p>}
-    <ul className="h7-coins-list">{items.map(([path, label]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b></a></li>)}</ul>
+    <ul className="h7-coins-list">{items.map(([path, label, figure]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b>{figure && <span dir="ltr" data-rail-figure="">{figure}</span>}</a></li>)}</ul>
   </section>;
 }
 // Deposit & withdraw (出入金, 2026-10-15): one compact row into the hub and the card comparison; static copy, no data
@@ -269,12 +298,23 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
-export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements }) {
+export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements, homeLatest = [] }) {
   return (
     <>
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
       <DataRail locale={locale} />
-      <MoversBoard locale={locale} initial={whales} />
+      <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
+        <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
+        <ul>{homeLatest.map((item) => <li key={item.href}>
+          <a href={item.href}>{item.title}</a>
+          <time dateTime={item.publishedAt}>{item.relativeDate}</time>
+        </li>)}</ul>
+        <nav aria-label={t.latestAnalysis || "Latest analysis"}>
+          <a href={localizedHref("/news", { locale })}>{t.latestAnalysis || "Latest analysis"}</a>
+          <a href={localizedHref("/compare", { locale })}>Compare</a>
+          <a href={localizedHref("/data/exchange-fee-index", { locale })}>Exchange fee index</a>
+        </nav>
+      </section>
       <FiatRail locale={locale} />
       <HomeCalculator t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} />
       <FundingBoard locale={locale} initialFeed={fundingFeed} />
@@ -284,3 +324,6 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
     </>
   );
 }
+
+// Mounted by HomeV7 above the tokenized-stocks strip (owner 2026-10-22); lives in this lazy chunk for the home budget.
+export { MoversBoard } from "./home7-movers.jsx";

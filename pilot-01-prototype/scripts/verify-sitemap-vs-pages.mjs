@@ -110,11 +110,18 @@ export async function verifySitemapVsPages({ base, sitemap, limit = Infinity, lo
   }
   const pages = [...urls];
   let cursor = 0;
-  await Promise.all(Array.from({ length: Math.min(8, pages.length) }, async () => {
+  await Promise.all(Array.from({ length: Math.min(Number(process.env.VERIFY_SITEMAP_CONCURRENCY) || 8, pages.length) }, async () => {
     while (cursor < pages.length) {
       const url = pages[cursor++];
       try {
-        const response = await fetchImpl(url, { signal: AbortSignal.timeout(timeoutMs) });
+        // The site rate-limits one client address (429): back off and retry instead of reporting a false inconsistency.
+        let response;
+        for (let attempt = 0; attempt < 6; attempt++) {
+          response = await fetchImpl(url, { signal: AbortSignal.timeout(timeoutMs) });
+          if (response.status !== 429) break;
+          const wait = Number(response.headers?.get?.('retry-after'));
+          await new Promise((resolve) => setTimeout(resolve, (Number.isFinite(wait) && wait > 0 ? Math.min(wait, 30) : 2 + attempt * 2) * 1000));
+        }
         const issues = inspectPage(await response.text(), response, url);
         if (issues.length) record(url, issues);
       } catch (error) { record(url, [`fetch error: ${error.message}`]); }
