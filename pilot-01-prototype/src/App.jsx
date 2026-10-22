@@ -832,7 +832,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
     <SiteHeader copy={copy} locale={locale} brazil={brazil} nav={nav} homeHref={withLocale(locale, "/")} navState={navState} localeOptions={localeOptions}
       onLocaleChange={onLocaleChange} onSearch={onSearch} mobileOpen={mobileOpen} onMobileToggle={() => setMobileOpen((value) => !value)}
       mobileTriggerRef={mobileTriggerRef} headerRef={headerRef} />
-    {mobileOpen && <MobileSheet copy={copy} nav={nav} homeHref={withLocale(locale, "/")} navState={navState} dialogRef={mobileMenuRef} languageMenu={languageMenu}
+    {mobileOpen && <MobileSheet copy={copy} locale={locale} nav={nav} homeHref={withLocale(locale, "/")} navState={navState} dialogRef={mobileMenuRef} languageMenu={languageMenu}
       onClose={closeMobile} onSearch={() => { closeMobile(); onSearch({ currentTarget: mobileTriggerRef.current }); }} />}
   </>;
 }

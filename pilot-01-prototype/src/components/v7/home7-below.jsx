@@ -5,6 +5,7 @@ import { HomeCalculator } from "./HomeCalculator.jsx";
 // first-screen bundle stays small. Markup and copy are unchanged from the previous inline version.
 import { useEffect, useRef, useState } from "react";
 import { TelegramBlock } from "./home7-telegram.jsx";
+import { FollowBand } from "./home7-follow.jsx";
 import { FundingBoard } from "./home7-funding.jsx";
 import { startJsonPolling } from "../shared/json-polling.js";
 import { feeFact } from "../../data/exchange-facts.js";
@@ -322,6 +323,7 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <HomeCalculator t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} />
       <IntelSection renderedAt={renderedAt} t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       <TelegramBlock locale={locale} />
+      <FollowBand locale={locale} />
       <LocalMarketBrief locale={locale} />
     </>
   );
