@@ -156,10 +156,15 @@ test("generated pairs and the hub are server-rendered at request time when the r
   assert.match(body, /name="robots" content="index,follow"/);
   const hub = await html("https://nexualpha.com/ja/compare", { NEWS_SSR_RENDER: async () => '<main class="v3-compare-hub"><h1>比較</h1></main>' });
   assert.match(await hub.text(), /<div id="root"><main class="v3-compare-hub">/);
-  // Curated pairs keep their build-time prerender path (renderer not called).
+  // Curated pairs now render at request time too: fresh research must reach already-indexed hubs.
   const curatedCalls = [];
-  await html("https://nexualpha.com/compare/binance-vs-okx", { NEWS_SSR_RENDER: async (url) => { curatedCalls.push(url); return ""; } });
-  assert.equal(curatedCalls.length, 0);
+  const curated = await html("https://nexualpha.com/compare/binance-vs-okx", { NEWS_SSR_RENDER: async (url, state) => {
+    curatedCalls.push({ url, state });
+    return '<main class="v3-compare-page"><h1>Binance vs OKX</h1></main>';
+  } });
+  assert.equal(curatedCalls.length, 1);
+  assert.deepEqual(curatedCalls[0].state.newsArticles, [], "missing feed produces an explicit empty research pool");
+  assert.match(await curated.text(), /<div id="root"><main class="v3-compare-page"><h1>Binance vs OKX<\/h1>/);
 });
 
 test("every user-visible template exists in all 17 locales without placeholders left behind", () => {

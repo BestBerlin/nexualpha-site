@@ -62,7 +62,6 @@ Disallow: /go/
 Disallow: /insights/
 
 Sitemap: https://nexualpha.com/sitemap.xml
-Sitemap: https://nexualpha.com/news-sitemap.xml
 Sitemap: https://nexualpha.com/sitemap-academy.xml
 Sitemap: https://nexualpha.com/sitemap-licenses.xml
 Sitemap: https://nexualpha.com/sitemap-deposit.xml

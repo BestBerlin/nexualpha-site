@@ -1,4 +1,5 @@
 // News-route-only entity links: informational paths, never registration redirects.
+import { tsArticleLinks } from './tokenized-stocks-news.js';
 import { venueDatabase } from './venue-database.js';
 import { COIN_ROWS } from './coins-data.generated.js';
 import { articleClusterLinks } from './topic-clusters.js';
@@ -46,6 +47,8 @@ export function articleRelatedLinks(article, locale, { profileSuffix = '', compa
   if (venues[0]) add(`/exchanges/${venues[0]}`, `${venueDatabase[venues[0]].name} ${profileSuffix}`.trim());
   if (pair) add(`/compare/${pair.join('-vs-')}`, `${comparePrefix} ${pair.map(s => venueDatabase[s].name).join(' vs ')}`);
   if (coins[0]) add(`/coins/${coins[0][0]}`, `${coins[0][1]} (${coins[0][2]})`);
+  // Reserve an equity backlink before optional tools and extra venue links.
+  for (const link of tsArticleLinks(article, locale).filter(link => link.kind === 'ticker')) if (links.length < 5) add(link.path, link.label);
   for (const link of articleClusterLinks(article, locale)) if (links.length < 5 && !links.some(l => l.href === link.href)) links.push({ href: link.href, label: link.label });
   const tools = [
     [/funding|perpetual|资金费率|資金費率/i, '/funding-rates/matrix', fundingMatrixCopy(locale).internalLinkLabel],
@@ -87,10 +90,23 @@ export function recentEntityArticles(article, articles, limit = 5, locale = 'en'
   return [...new Map([...candidates.slice(0, 2), ...related, ...candidates].map(item => [item.slug, item])).values()].slice(0, limit);
 }
 
+/** Older articles from the first declared venue, with a real edition in the requested locale. */
+export function primaryVenueResearch(article, articles, locale = 'en') {
+  const venue = article?.relatedVenues?.find(slug => venueDatabase[slug]);
+  const before = Date.parse(article?.publishedAt);
+  if (!venue || !Number.isFinite(before)) return [];
+  const seen = new Set();
+  return (articles || []).filter(candidate => candidate?.slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(candidate.slug) && candidate.slug !== article.slug
+    && !seen.has(candidate.slug) && seen.add(candidate.slug)
+    && (!candidate.status || candidate.status === 'PUBLISHED') && candidate.seo?.noindex === false
+    && candidate.relatedVenues?.includes(venue) && hasNewsArticleLocale(candidate, locale)
+    && Date.parse(candidate.publishedAt) < before).sort(compareNewestFirst).slice(0, 4);
+}
+
 // Carry just the selected cards and archive neighbors into hydration. Selection remains identical
 // when the client receives this smaller pool, rather than the entire library.
 export function articleRelatedPool(article, articles, locale = 'en') {
   const seen = new Set();
-  return [article, ...recentEntityArticles(article, articles, 5, locale), ...newsReadingNeighbors(article, articles)]
+  return [article, ...recentEntityArticles(article, articles, 5, locale), ...primaryVenueResearch(article, articles, locale), ...newsReadingNeighbors(article, articles)]
     .filter(item => item?.slug && !seen.has(item.slug) && seen.add(item.slug));
 }

@@ -1,3 +1,4 @@
+import { researchHasLocale, researchMentions } from "../components/research/research-selection.js";
 import { localizedNewsSummary, localizedNewsTitle, newsArticleUrl } from "./news-feed-client.js";
 
 const clean = (value) => String(value || "").trim();
@@ -15,6 +16,7 @@ function localizedHaystack(article) {
 }
 
 function articleMentions(article, terms) {
+  if (researchMentions(article, terms)) return true;
   const normalized = localizedHaystack(article);
   const compact = compactSlug(normalized);
   return terms.some((term) => {
@@ -29,7 +31,7 @@ function newestFirst(left, right) {
   return Date.parse(right?.publishedAt || right?.updatedAt || 0) - Date.parse(left?.publishedAt || left?.updatedAt || 0);
 }
 
-export function hubNewsArticles(articles = [], { terms = [], limit = 6 } = {}) {
+export function hubNewsArticles(articles = [], { terms = [], limit = 5 } = {}) {
   const seen = new Set();
   return (Array.isArray(articles) ? articles : [])
     .filter((article) => article?.slug && !seen.has(article.slug) && seen.add(article.slug))
@@ -39,8 +41,8 @@ export function hubNewsArticles(articles = [], { terms = [], limit = 6 } = {}) {
     .slice(0, limit);
 }
 
-export function hubNewsItems(articles = [], { locale = "en", terms = [], limit = 6 } = {}) {
-  return hubNewsArticles(articles, { terms, limit })
+export function hubNewsItems(articles = [], { locale = "en", terms = [], limit = 5 } = {}) {
+  return hubNewsArticles(articles.filter((article) => researchHasLocale(article, locale)), { terms, limit })
     .map((article) => ({
       slug: article.slug,
       href: newsArticleUrl(article.slug, locale, article),
@@ -51,19 +53,19 @@ export function hubNewsItems(articles = [], { locale = "en", terms = [], limit =
     }));
 }
 
-export function exchangeHubNewsArticles(articles, { slug, name, limit = 6 } = {}) {
+export function exchangeHubNewsArticles(articles, { slug, name, limit = 5 } = {}) {
   return hubNewsArticles(articles, { limit, terms: words([slug, name, ...(slug ? [slug.replace(/-/g, " ")] : [])]) });
 }
 
-export function exchangeHubNewsItems(articles, { slug, name, locale = "en", limit = 6 } = {}) {
+export function exchangeHubNewsItems(articles, { slug, name, locale = "en", limit = 5 } = {}) {
   return hubNewsItems(articles, { locale, limit, terms: words([slug, name, ...(slug ? [slug.replace(/-/g, " ")] : [])]) });
 }
 
-export function coinHubNewsArticles(articles, { coin, limit = 6 } = {}) {
+export function coinHubNewsArticles(articles, { coin, limit = 5 } = {}) {
   return hubNewsArticles(articles, { limit, terms: words([coin?.slug, coin?.id, coin?.name, coin?.symbol?.length >= 3 ? coin.symbol : null]) });
 }
 
-export function coinHubNewsItems(articles, { coin, locale = "en", limit = 6 } = {}) {
+export function coinHubNewsItems(articles, { coin, locale = "en", limit = 5 } = {}) {
   return hubNewsItems(articles, {
     locale,
     limit,

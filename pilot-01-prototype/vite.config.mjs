@@ -134,6 +134,14 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         // the app shell. This reduces repeat navigation cost without changing
         // SSR output or hiding indexable content behind a client-only loader.
         manualChunks(id, { getModuleInfo }) {
+          if (isSsrBuild && id.endsWith("/src/data/coins-data.generated.js")) return "shared-coin-rows";
+          if (isSsrBuild && id.endsWith("/src/data/exchange-facts.js")) return "shared-exchange-facts";
+          if (id.endsWith("/src/data/brazil-vasp-deadline-slugs.js")) return "shared-brazil-paths";
+          // Registration helpers are also used by articles; keep route visitation from pulling news into venues.
+          if (!isSsrBuild && (id.endsWith("/src/data/owner-rebate-line.js") || id.endsWith("/src/components/shared/BackupSignupLink.jsx"))) return "shared-registration-helpers";
+          // Research is shared by venue, compare, coin and stock routes; do not let one route absorb it.
+          if (id.includes("/src/components/research/") || id.endsWith("/src/components/shared/HubNewsLinks.jsx") || id.endsWith("/src/data/hub-entity-news.js")) return "shared-research";
+          if (isSsrBuild && /\/src\/data\/(?:news-library|news-feed-client|news-read-time|tokenized-stocks-news)\.js$/.test(id)) return "shared-news-selection";
           // Vite's dynamic-import preload helper is an unassigned virtual module: Rollup folds it into the first manual
           // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
           // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.

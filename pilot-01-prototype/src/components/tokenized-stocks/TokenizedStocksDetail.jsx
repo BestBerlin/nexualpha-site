@@ -1,3 +1,5 @@
+import { LatestResearch } from "../research/LatestResearch.jsx";
+import { tokenizedResearchArticles } from "../research/hub-research.js";
 // Tokenized US stocks: ticker pages (/tokenized-stocks/<ticker>) and exchange-product pages
 // (/tokenized-stocks/exchange/<venue>), 2026-10-18.
 // Symbols, maximum leverage and standard fees come from the live listing snapshot (each exchange's own public market
@@ -211,7 +213,7 @@ function TickerLinks({ t, locale, market, except, live }) {
   );
 }
 
-export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live, page }) {
+export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live, page, initialNewsArticles = [] }) {
   const copy = useTsCopy(locale, page?.copy);
   if (!copy) return <main className="nxts nxts--ticker" id="top" aria-busy="true" />;
   // Server render time (prerender state): campaigns past their end date drop identically on server and client.
@@ -272,6 +274,8 @@ export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live,
           </ul>
         </section>
       ) : null}
+
+      <LatestResearch className="nxts-shell nxts-sec" locale={locale} articles={tokenizedResearchArticles(initialNewsArticles, { locale, ticker })} name={`${name} (${ticker})`} />
 
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-other-h">
         <h2 id="ts-other-h">{tk.other}</h2>

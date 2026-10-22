@@ -1044,7 +1044,7 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 }
 #top.news-detail-page .news-detail__prose blockquote > p:not(#_) { margin: 0; }
 
-/* ============================================================================================================
+/* =====================================================================================================
    Editorial v9 (2026-10-11): newsroom reading rhythm on the dark system. One measure (68ch), one type scale
    (body 17/1.7, h2 24/1.25, h3 18/1.35, captions 13), the lead answer as its own block, a sticky section index in
    the rail with the live market context under it, a mobile section disclosure and sources as a footnote panel.
@@ -1269,3 +1269,9 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 }
 .news-tg-join a:hover, .news-tg-join a:focus-visible { background: #229ed9; }
 @media (max-width: 480px) { .news-tg-join a { inline-size: 100%; justify-content: center; } }
+=======
+/* Server-rendered informational links reserve space through route hydration. */
+.news-detail__venue-research { grid-column: 1 / -1; min-block-size: 8rem; margin-block: 2rem; padding-block: 1rem; border-block-start: 1px solid var(--v2-line, #29333d); }
+.news-detail__venue-research h2 { font-size: 1.15rem; line-height: 1.5; margin-block: 0 1rem; }
+.news-detail__venue-research ol { display: grid; gap: .75rem; padding-inline-start: 1.5rem; }
+.news-detail__venue-research a { color: inherit; text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }

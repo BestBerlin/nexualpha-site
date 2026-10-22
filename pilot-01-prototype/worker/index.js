@@ -1,4 +1,4 @@
-import { recentEntityArticles } from '../src/data/article-related-links.js';
+import { recentEntityArticles, primaryVenueResearch } from '../src/data/article-related-links.js';
 import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
 import { isStrikingDistanceVenueTitle, strikingDistanceVenueTitle, strikingDistanceVenueDescription } from '../src/data/striking-distance-venue-copy.js';
 import { NEXUALPHA_DATA_LICENSE_URL } from "../src/data/dataset-schema.js";
@@ -89,7 +89,8 @@ import { CALENDAR_TYPES, compactCalendar, filterEvents, readCalendar, renderIcs 
 import { GLOSSARY_PATH, parseGlossaryPath } from "../src/data/glossary-routes.js";
 import { glossaryRouteSeo } from "../src/data/glossary-seo.js";
 import { applyCoinOverlay, coinBySlug, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
-import { coinHubNewsArticles } from "../src/data/hub-entity-news.js";
+import { selectResearch } from "../src/components/research/research-selection.js";
+import { tokenizedResearchArticles, researchClaimTexts } from "../src/components/research/hub-research.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { LONG_SHORT_INDEX_LOCALES, RADAR_PATHS, WHALES_INDEX_LOCALES, parseRadarPath, radarRouteSeo } from "../src/data/radar-seo.js";
@@ -4075,6 +4076,7 @@ function summarizeNewsArticle(article) {
     title: article.title,
     summary: article.summary,
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
+    ...(researchClaimTexts(article).length ? { researchClaims: researchClaimTexts(article) } : {}),
     ...(Array.isArray(article.tags) ? { tags: article.tags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
     ...(Array.isArray(article.topicTags) ? { topicTags: article.topicTags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
     ...(article.cta && typeof article.cta === "object" ? { cta: article.cta } : {}),
@@ -4420,7 +4422,7 @@ function renderNewsPaginationHtml(locale, { category = null, page = 1, totalPage
   if (totalPages <= 1) return "";
   const libraryCopy = newsLibraryCopy(locale);
   const href = (n) => escapeHtml(localizedPath(newsListingPath({ category, page: n }), locale));
-  const items = newsPaginationItems(page, totalPages).map((n) => n === null
+  const items = (page === 1 ? Array.from({ length: totalPages }, (_, i) => i + 1) : newsPaginationItems(page, totalPages)).map((n) => n === null
     ? '<li class="news-pagination__gap" aria-hidden="true">…</li>'
     : n === page
       ? `<li><a class="news-pagination__pill" href="${href(n)}" aria-current="page">${n}</a></li>`
@@ -4470,7 +4472,7 @@ function renderNewsListingFallback(metadata, locale, listing) {
 
 // Related articles for an article page: same category plus shared relatedVenues, summary-only.
 function newsRelatedSummaries(article, articles, locale = "en") {
-  return recentEntityArticles(article, articles, 5, locale).map(item => ({ ...summarizeNewsArticle(item), seo: { noindex: item.seo?.noindex } })).filter(Boolean);
+  return [...new Map([...recentEntityArticles(article, articles, 5, locale), ...primaryVenueResearch(article, articles, locale)].map(item => [item.slug, item])).values()].map(item => ({ ...summarizeNewsArticle(item), seo: { noindex: item.seo?.noindex } })).filter(Boolean);
 }
 
 function newsDetailSummaries(article, articles) {
@@ -4484,7 +4486,7 @@ function newsDetailSummaries(article, articles) {
 // Keep SSR selection on the complete feed, then project its actual rendered links.
 function renderedNewsDetailPool(article, summaries, html) {
   const slugs = new Set([article.slug]);
-  const relatedCards = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*data-cta-placement="news-detail-related-article"/g)];
+  const relatedCards = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*data-cta-placement="(?:news-detail-related-article|news-detail-venue-research)"/g)];
   const neighbors = html.match(/<nav\b[^>]*data-news-reading-neighbors[^>]*>([\s\S]*?)<\/nav>/)?.[1] || "";
   const hrefs = [...relatedCards.map(match => match[1]), ...[...neighbors.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1])];
   for (const href of hrefs) {
@@ -5035,9 +5037,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
-    // Compare hub and generated pairs (compare-any, 2026-10-11) are not in the build-time prerender manifest (196 pairs
-    // x 15 locales); render them at request time with the same renderer so crawlers and no-JS readers get the matrix.
-    if ((pathname === "/compare" || (metadata.marker === COMPARE_ROUTE_MARKER && metadata.generatedComparison)) && typeof env?.NEWS_SSR_RENDER === "function") {
+    // Render the compare index at request time. Pair pages use the shared venue/comparison render below,
+    // carrying the current official notices and the same small research pool into hydration.
+    if (pathname === "/compare" && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const toolArticles = await toolArticlesForRequest(env, url, pathname, publicRoute.locale);
         const appHtml = await env.NEWS_SSR_RENDER(url.href, { toolArticles });
@@ -5096,7 +5098,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const coinsRoute = parseCoinsPath(pathname);
         const coin = coinsRoute?.kind === "coin" ? coinBySlug(coinsRoute.slug) : null;
         const feed = coin ? await loadNewsFeed(env, url) : null;
-        const newsArticles = coin ? initialNewsArticlesForRoute(pathname, coinHubNewsArticles(feed?.articles || [], { coin }), publicRoute.locale) : [];
+        const newsArticles = coin ? projectHubResearch(pathname, selectResearch(feed?.articles || [], { locale: publicRoute.locale, terms: [coin.slug, coin.id, coin.name, ...(coin.symbol?.length >= 3 ? [coin.symbol] : [])] }), publicRoute.locale) : [];
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, ...(newsArticles.length ? { newsArticles } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxc ")) {
           metadata.coinsSsrMode = overlay ? "runtime-snapshot" : "runtime";
@@ -5112,7 +5114,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         // A newer runtime listing snapshot is rendered and shipped as prerender state "tsLive" (the browser hydrates it).
         // Page copy travels as prerender state "tsPage" (one edition; the browser bundle has no 17-locale table) with the
         // render time, so campaigns past their end date drop identically on server and client.
-        const tsState = { tsPage: { copy: tsCopyForPage(publicRoute.locale, turkeyRequestMarket(url)), now: Date.now() }, ...(metadata.tsLive ? { tsLive: metadata.tsLive } : {}) };
+        const newsArticles = await researchArticlesForHub(env, url, pathname, publicRoute.locale);
+        const tsState = { newsArticles, tsPage: { copy: tsCopyForPage(publicRoute.locale, turkeyRequestMarket(url)), now: Date.now() }, ...(metadata.tsLive ? { tsLive: metadata.tsLive } : {}) };
         const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), tsState);
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxts")) {
           metadata.tokenizedStocksSsrMode = metadata.tsLive ? "runtime-snapshot" : "runtime";
@@ -5285,11 +5288,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       const officialAnnouncements = turkeyAnnouncementFeed(typeof env?.INTEL_READ === "function"
         ? await env.INTEL_READ()
         : await readJsonAsset(env, url, "/intel/official-announcements.json"), publicRoute, market);
-      if (officialAnnouncements) {
-        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), { officialAnnouncements });
-        if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
-          return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { officialAnnouncements, activityContext: activityRequestContext(url) }, url);
-        }
+      const newsArticles = await researchArticlesForHub(env, url, publicRoute.contentPathname, publicRoute.locale);
+      const toolArticles = await toolArticlesForRequest(env, url, publicRoute.contentPathname, publicRoute.locale);
+      const state = { officialAnnouncements, newsArticles, ...(toolArticles ? { toolArticles } : {}) };
+      const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, publicRoute.contentPathname, publicRoute.locale), state);
+      if (typeof appHtml === "string" && hasMainWithHeading(appHtml)) {
+        return injectPrerenderedBody(html, appHtml, `${publicRoute.contentPathname}|${publicRoute.locale}`, { ...state, activityContext: activityRequestContext(url) }, url);
       }
     } catch (error) {
       console.error(`[NexuAlpha] shared notice SSR failed: ${error?.message || error}`);
@@ -5303,6 +5307,10 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   // Radar pages (/whales, /long-short) render from the live snapshot at request time, like their ?query variants: the
   // build-time prerender has no rows ("unavailable"), so the first client fetch replaced the empty state with the tabs
   // and shifted the page (desktop CLS 0.055, de-AI pass 2026-10-18). The runtime renderer falls back to the shell.
+  // Hub research changes with every publication. Never let a build-time coin/tokenized snapshot
+  // bypass the request-time selection and its matching hydration payload.
+  if ([COINS_ROUTE_MARKER, TOKENIZED_STOCKS_ROUTE_MARKER].includes(metadata.marker)
+    && typeof env?.NEWS_SSR_RENDER === "function") return fallback();
   if (metadata.marker === RADAR_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") return fallback();
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
@@ -5450,8 +5458,10 @@ async function handleNewsArticleJson(env, url) {
   if (!article) return new Response(JSON.stringify({ articles: [] }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=60" } });
   const linked = new Set([...JSON.stringify(article).matchAll(/\/news\/([a-z0-9][a-z0-9-]{0,159})/g)].map((m) => m[1]).filter((s) => s !== slug));
   const related = newsRelatedSummaries(article, feed.articles, routeLocale(url));
-  const relatedSlugs = new Set(related.map((item) => item.slug));
-  const linkedSummaries = feed.articles.filter((item) => linked.has(item?.slug) && !relatedSlugs.has(item.slug)).map(summarizeNewsArticle).filter(Boolean);
+  // Keep the API recommendation contract at five; additional venue summaries only supply rendered links.
+  const relatedSlugs = new Set(recentEntityArticles(article, feed.articles, 5, routeLocale(url)).map(item => item.slug));
+  const companionSlugs = new Set(related.map(item => item.slug));
+  const linkedSummaries = feed.articles.filter((item) => linked.has(item?.slug) && !companionSlugs.has(item.slug)).map(summarizeNewsArticle).filter(Boolean);
   // ?locale=<ui locale> (localized news lane): ship only the English edition plus the requested one (and zh-Hans for
   // Chinese readers) instead of every native body, and tell the client which edition it will read. The full set of
   // editions is carried in routeProjection.availableLocales so hreflang stays complete client-side.
@@ -5468,7 +5478,7 @@ async function handleNewsArticleJson(env, url) {
       routeProjection: { source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE, locale: requestedLocale, availableLocales: articleSeoLocales(article) },
     };
     const articles = newsArticleGeoPool([projected, ...related, ...linkedSummaries], { locale: requestedLocale, market: url.searchParams.get("market") || undefined }, slug);
-    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles, relatedSlugs: articles.slice(1).map(row => row.slug) }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
+    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles, relatedSlugs: articles.slice(1).filter(row => relatedSlugs.has(row.slug)).map(row => row.slug) }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
   }
   return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
@@ -5496,6 +5506,37 @@ function turkeyToolArticles(payload, locale, market) {
   const items = payload.items.filter((item) => turkeyListingAllowed([item?.slug, item?.title, item?.href], context));
   return items.length === payload.items.length ? payload : { ...payload, items };
 }
+// entry-server normalizes feed dates; serialize that same ISO value for the browser's first render.
+function projectHubResearch(pathname, articles, locale) {
+  const claims = new Map(articles.map(article => [article.slug, researchClaimTexts(article)]));
+  return initialNewsArticlesForRoute(pathname, articles, locale).map(article => ({
+    ...article, publishedAt: new Date(article.publishedAt).toISOString(),
+    ...(claims.get(article.slug)?.length ? { researchClaims: claims.get(article.slug) } : {}),
+  }));
+}
+
+// Select before projection: only five locale-safe summaries travel to SSR and hydration.
+async function researchArticlesForHub(env, url, pathname, locale) {
+  try {
+    const feed = await loadNewsFeed(env, url);
+    const context = { locale, market: url.searchParams.get("market") || undefined };
+    const safeFeed = isNeutralCtaLocale(locale) ? neutralNewsFeed(feed, locale, { listing: true }) : feed;
+    const articles = newsArticleGeoPool(safeFeed?.articles || [], context).map(article => ({ ...summarizeNewsArticle(article), ...(researchClaimTexts(article).length ? { researchClaims: researchClaimTexts(article) } : {}) })).filter(article => article.slug);
+    const tokenized = parseTokenizedStocksPath(pathname);
+    let selected;
+    if (tokenized) {
+      selected = tokenizedResearchArticles(articles, { locale, ticker: tokenized.ticker });
+    } else {
+      const venue = pathname.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
+      const pair = pathname.match(/^\/compare\/([a-z0-9-]+)$/)?.[1];
+      const venueIds = venue ? [venue] : pair ? pair.split("-vs-") : [];
+      if (!venueIds.length) return [];
+      selected = selectResearch(articles, { locale, venueIds, terms: venueIds.map(id => id.replaceAll("-", " ")) });
+    }
+    return projectHubResearch(pathname, selected, locale);
+  } catch { return []; }
+}
+
 async function toolArticlesForRequest(env, url, pathname, locale) {
   const toolKey = toolKeyForPath(pathname);
   if (!toolKey || !env?.ASSETS) return undefined;
@@ -5847,7 +5888,7 @@ export function renderArticleSitemap(articles, locale = "en") {
 
 // Sitemap index (2026-10-13). nginx used to serve the content publisher's own /sitemap.xml, a stale copy that missed
 // every child sitemap added after 10-12; it now proxies here. The index is the release's build-time file (every child
-// the release serves); only the lastmod of the feed-driven children (sitemap-articles-*, news-sitemap) is refreshed
+// the release serves); only the lastmod of the feed-driven children (sitemap-articles-*) is refreshed
 // from the mounted live feed, since the build checkout's bundled feed is days older than the published one, and empty
 // article locales are dropped.
 export function refreshSitemapIndexLastmods(indexXml, articles, now = Date.now()) {
@@ -5860,13 +5901,11 @@ export function refreshSitemapIndexLastmods(indexXml, articles, now = Date.now()
     const modified = Date.parse(article.updatedAt || article.publishedAt);
     for (const locale of newsArticleSeoLocales(article)) bump(`sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`, modified);
   }
-  for (const article of Array.isArray(articles) ? articles : []) {
-    const published = Date.parse(article?.publishedAt);
-    if (isReviewedNewsSearchArticle(article) && now - published <= LIVE_NEWS_SITEMAP_WINDOW_MS) bump("news-sitemap.xml", published);
-  }
   const feedLoaded = newest.size > 0;
   return String(indexXml).replace(/\n?[ \t]*<sitemap>([\s\S]*?)<\/sitemap>/g, (block, inner) => {
     const file = inner.match(/<loc>https:\/\/nexualpha\.com\/([^<]+)<\/loc>/)?.[1];
+    // Remove the legacy News entry even when the feed is unavailable.
+    if (file === "news-sitemap.xml") return "";
     // A locale with no search-published article renders an empty urlset; leave it out of the index until it has one.
     if (feedLoaded && /^sitemap-articles-[a-z0-9-]+\.xml$/.test(file || "") && !newest.has(file)) return "";
     if (!file || !newest.has(file)) return block;
