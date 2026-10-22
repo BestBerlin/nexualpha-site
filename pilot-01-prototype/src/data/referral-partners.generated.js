@@ -28,9 +28,9 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "slug": "bybit",
     "name": "Bybit",
     "inviteCode": "48553",
-    "share": null,
+    "share": 0.3,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-23"
   },
   {
     "slug": "gate-io",
@@ -44,9 +44,9 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "slug": "mexc",
     "name": "MEXC",
     "inviteCode": "4BRhe",
-    "share": null,
+    "share": 0.3,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-22"
   },
   {
     "slug": "htx",
@@ -60,32 +60,32 @@ export const REFERRAL_PARTNERS = Object.freeze([
     "slug": "kraken",
     "name": "Kraken",
     "inviteCode": "7f97gkqw",
-    "share": null,
+    "share": 0.2,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-22"
   },
   {
     "slug": "backpack",
     "name": "Backpack",
     "inviteCode": "LuckyBitcoin",
-    "share": null,
+    "share": 0.3,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-22"
   },
   {
     "slug": "hyperliquid",
     "name": "Hyperliquid",
     "inviteCode": "NEXU888",
-    "share": null,
+    "share": 0.3,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-22"
   },
   {
     "slug": "coinw",
     "name": "CoinW",
     "inviteCode": "2296057",
-    "share": null,
+    "share": 0.4,
     "settle": null,
-    "termsConfirmedOn": null
+    "termsConfirmedOn": "2026-10-22"
   }
 ]);
