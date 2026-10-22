@@ -45,8 +45,16 @@
   padding: 0;
 }
 
+/* Owner 2026-10-22: the board sits right under the hero now. An empty list (SSR splice had no snapshot yet; the client
+ * fills it) keeps the filled height measured on prod (714 / 435 / 395 px) instead of collapsing, so nothing below shifts. */
 .h7:not(#_):not(#_) .h7-whales .h7-wh-list:empty {
-  display: none;
+  min-block-size: 714px;
+}
+@media (min-width: 768px) {
+  .h7:not(#_):not(#_) .h7-whales .h7-wh-list:empty { min-block-size: 435px; }
+}
+@media (min-width: 1200px) {
+  .h7:not(#_):not(#_) .h7-whales .h7-wh-list:empty { min-block-size: 395px; }
 }
 
 .h7:not(#_):not(#_) .h7-whales .h7-wh-list li a {
