@@ -6020,8 +6020,10 @@ async function readHomeLatest(env, url, locale, now = Date.now()) {
   const selected = [...new Map([...newest.slice(0, 6), ...strongest.slice(0, 2), ...newest].map(item => [item.slug, item])).values()].slice(0, 8);
   return selected.map(item => {
       const hours = Math.floor((now - Date.parse(item.publishedAt)) / 3600000);
+      // Card thumbnail (owner 2026-10-23): the article's own social card, served by server/og-image.mjs.
       return { href: localizedPath(`/news/${item.slug}`, locale), title: localizedNewsTitle(item, locale), publishedAt: item.publishedAt,
-        relativeDate: hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day") };
+        relativeDate: hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day"),
+        category: newsCardCategoryLabel(item, locale), image: socialImagePathForRoute(`/news/${item.slug}`, locale) };
     });
 }
 

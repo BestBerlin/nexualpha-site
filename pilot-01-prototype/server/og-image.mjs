@@ -24,6 +24,7 @@ export { socialImagePathForRoute } from "../src/data/social-image.js";
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
+export const OG_THUMB_WIDTH = 600;
 export const OG_PATH_PREFIX = "/og/";
 export const OG_KINDS = Object.freeze(["news", "venue", "compare", "liquidations", "default"]);
 export const OG_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
@@ -424,10 +425,10 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     return rendererPromise;
   };
 
-  async function renderPng(svg) {
+  async function renderPng(svg, width = OG_WIDTH) {
     const Resvg = await renderer();
     const instance = new Resvg(svg, {
-      fitTo: { mode: "width", value: OG_WIDTH },
+      fitTo: { mode: "width", value: width },
       font: { loadSystemFonts: true, fontFiles: fonts, defaultFontFamily: "Inter" },
       background: COLOR.bg,
     });
@@ -503,7 +504,9 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     const locale = normalizeOgLocale(url.searchParams.get("locale"));
     const resolved = await resolve(kind, id, locale);
     if (!resolved) return notFound();
-    const key = `${buildId}:${kind}:${id}:${locale}:${resolved.cacheKey}`;
+    // ?w=600: half-size render for in-page thumbnails (home article cards); any other value is the full card.
+    const width = url.searchParams.get("w") === String(OG_THUMB_WIDTH) ? OG_THUMB_WIDTH : OG_WIDTH;
+    const key = `${buildId}:${kind}:${id}:${locale}:${resolved.cacheKey}${width === OG_WIDTH ? "" : `:w${width}`}`;
     const headers = {
       "content-type": "image/png",
       "cache-control": resolved.cacheControl,
@@ -515,7 +518,7 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     let png = memory.get(key) || (resolved.persist ? await fromDisk(key) : null);
     if (!png) {
       try {
-        png = await renderPng(resolved.svg);
+        png = await renderPng(resolved.svg, width);
       } catch {
         // Renderer missing (e.g. native binary absent on this host): keep the link working with the brand image.
         if (fallbackImage && existsSync(fallbackImage)) {

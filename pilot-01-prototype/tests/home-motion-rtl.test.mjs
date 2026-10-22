@@ -24,7 +24,9 @@ test("home CSS: only approved state and control loops repeat", async () => {
   assert.deepEqual(infiniteAnimations(".a{animation:x 1s infinite}.b{animation:y 1s linear 2}.c{animation:z 1s infinite;animation-timeline:scroll()}/* infinite */"), [".a { animation:x 1s infinite }"]);
   // Owner 2026-10-23: whale board beats plus the below-fold drift, data sheen and academy ring
   // (df303a16) are intentional; the reduced-motion checks below still gate every stylesheet.
-  const approved = /hx-screen-sheen|h7-(?:drift|sheen|ring)|h7-board-breathe|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle|h7-wh-(?:beat|ring|sonar|scan)/;
+  // Owner 2026-10-23 (alive pass v2): the fee-flow coin (h7-flow-*) and the steps highlight (h7-step-walk) loop only
+  // while their section is [data-inview].
+  const approved = /hx-screen-sheen|h7-(?:drift|sheen|ring)|h7-board-breathe|h7-flow-(?:x|x-rtl|y|hit)\b|h7-step-walk|nx-ticker-marquee|nx-campaign-sheen|nx-campaign-twinkle|h7-wh-(?:beat|ring|sonar|scan)/;
   for (const file of HOME_CSS) {
     const css = await read(file);
     for (const animation of infiniteAnimations(css)) assert.match(animation, approved, file);

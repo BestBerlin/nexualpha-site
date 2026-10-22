@@ -53,10 +53,28 @@ const DATA_RAIL_COPY = {
 // Compact USD for the rail: $1.13B / $776M / $48K (lower bound figures; the data page carries the methodology).
 const railUsd = (n) => !Number.isFinite(n) ? null : n >= 1e9 ? `$${(n / 1e9).toFixed(2)}B` : n >= 1e6 ? `$${Math.round(n / 1e6)}M` : n >= 1e3 ? `$${Math.round(n / 1e3)}K` : `$${Math.round(n)}`;
 const railRate = (n) => !Number.isFinite(n) ? null : `${n >= 0 ? "+" : "−"}${Math.abs(n * 100).toFixed(4)}%`;
-const RAIL_LABELS = { en: { liq: "24h liquidations", long: "long", short: "short", btc: "BTC funding" }, "zh-Hans": { liq: "24h 爆仓", long: "多", short: "空", btc: "BTC 资金费率" } };
-// 2026-10-22 owner: the block showed only three bare links ("no data"). It now shows the live figures behind the links: 24 h
-// observed liquidations and the BTC funding rate (read client-side from /api/market-events/summary, refreshed by the hook);
-// before the first read, or when the read fails, the pills stay plain links.
+// Short tile words per locale: the long / short side of a liquidation.
+const RAIL_LABELS = {
+  en: { long: "Long", short: "Short" }, "zh-Hans": { long: "多", short: "空" },
+  "zh-Hant": { long: "多", short: "空" }, es: { long: "Largos", short: "Cortos" },
+  "pt-BR": { long: "Longs", short: "Shorts" }, fr: { long: "Longs", short: "Shorts" },
+  de: { long: "Long", short: "Short" }, it: { long: "Long", short: "Short" },
+  ja: { long: "ロング", short: "ショート" }, ko: { long: "롱", short: "숏" },
+  ru: { long: "Лонги", short: "Шорты" }, uk: { long: "Лонги", short: "Шорти" },
+  tr: { long: "Long", short: "Short" }, id: { long: "Long", short: "Short" },
+  vi: { long: "Long", short: "Short" }, ar: { long: "شراء", short: "بيع" },
+  ur: { long: "لانگ", short: "شارٹ" },
+};
+// Macro event kinds read as their market acronyms in every language; exchange rows stay on the calendar page.
+const MACRO_KINDS = { fomc: "FOMC", cpi: "CPI", nfp: "NFP", pce: "PCE", gdp: "GDP" };
+const FUNDING_SPAN = 0.0003; // the gauge reads ±0.03% per 8 h; larger rates pin to the end
+const CAL_DAYS = 14;
+const DAY_MS = 86_400_000;
+// 2026-10-22 owner: the block showed only three bare links ("no data"). 2026-10-23 owner ("lifeless text"): three stat
+// tiles, each a link to its data page, with the live figure and a mini chart drawn from data the home already reads:
+// /api/market-events/summary (24 h liquidations + hourly history, BTC funding; polled every minute) and the calendar
+// snapshot /intel/calendar.json (read once). Before the first read, or when a read fails, a tile keeps its label, an
+// empty figure line and an empty chart frame of the same size (no CLS, nothing invented).
 // The small summary endpoint (~66 KB), not the 1.7 MB market-events file: the home must stay light.
 function useRailFeed() {
   const [feed, setFeed] = useState(null);
@@ -66,27 +84,114 @@ function useRailFeed() {
   }), []);
   return feed;
 }
+function useCalendar() {
+  const [events, setEvents] = useState(null);
+  useEffect(() => {
+    const ctrl = new AbortController();
+    fetch("/intel/calendar.json", { signal: ctrl.signal, headers: { accept: "application/json" } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { if (Array.isArray(j?.events)) setEvents(j.events.filter((e) => Number.isFinite(Date.parse(e?.start)))); })
+      .catch(() => {});
+    return () => ctrl.abort();
+  }, []);
+  return events;
+}
+function useInViewAttr(ref) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([entry]) => { el.toggleAttribute("data-inview", entry.isIntersecting); }, { rootMargin: "80px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref]);
+}
+const relIn = (ms, locale) => {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
+  const h = ms / 3_600_000;
+  return h < 1 ? rtf.format(Math.max(1, Math.round(ms / 60000)), "minute") : h < 48 ? rtf.format(Math.round(h), "hour") : rtf.format(Math.round(h / 24), "day");
+};
+const utcDay = (ms, locale) => new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "UTC", hour12: false }).format(ms);
+
+const RAIL_ICONS = {
+  calendar: <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /><circle cx="15.5" cy="15" r="1.6" /></svg>,
+  liq: <svg viewBox="0 0 24 24"><path d="M12 3c.5 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2.4 1.2-3.9 2.5-5 .2 1.7 1 2.8 2 3.2C11 9.2 11 6 12 3z" /></svg>,
+  funding: <svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 0 1 16 0" /><path d="M12 16l4-5" /><circle cx="12" cy="16" r="1.4" /><path d="M4 20h16" /></svg>,
+};
+
+function RailTile({ href, kind, label, figure, sub, children, tone }) {
+  return <li data-k={kind} data-live={figure ? "" : undefined} data-tone={tone}>
+    <a href={href}>
+      <span className="h7-mk-top"><span className="h7-mk-ic" aria-hidden="true">{RAIL_ICONS[kind]}</span><b>{label}</b><i className="h7-mk-dot" aria-hidden="true" /></span>
+      <span className="h7-mk-fig">{figure ? <span key={figure} dir="ltr" data-rail-figure="">{figure}</span> : <span className="h7-mk-none">—</span>}</span>
+      <span className="h7-mk-sub">{sub || " "}</span>
+      <span className="h7-mk-viz" aria-hidden="true">{children}</span>
+    </a>
+  </li>;
+}
+
 function DataRail({ locale }) {
   const c = DATA_RAIL_COPY[locale] || (String(locale || "").startsWith("zh") ? DATA_RAIL_COPY["zh-Hans"] : DATA_RAIL_COPY.en);
   const links = intelToolLinks(locale), nav = dataPageCopy(locale).nav;
+  const ref = useRef(null);
+  useInViewAttr(ref);
   const feed = useRailFeed();
-  const zh = String(locale || "").startsWith("zh");
-  const l = RAIL_LABELS[zh ? "zh-Hans" : "en"];
+  const events = useCalendar();
+  const l = RAIL_LABELS[locale] || (String(locale || "").startsWith("zh") ? RAIL_LABELS["zh-Hans"] : RAIL_LABELS.en);
+  // Clock for countdowns: the feed's own read time (minute steps), so the tiles never tick on their own.
+  const now = feed ? Date.parse(feed.generatedAt) || null : null;
+
+  // Liquidations: 24 h total, long/short split, hourly stacked bars from the summary history.
   const h24 = feed?.liquidations?.h24;
   const total = railUsd(h24?.totalUsd);
-  const split = total && h24.totalUsd > 0 ? `${l.long} ${Math.round((h24.longUsd / h24.totalUsd) * 100)}% / ${l.short} ${Math.round((h24.shortUsd / h24.totalUsd) * 100)}%` : null;
+  const longPct = total && h24.totalUsd > 0 ? Math.round((h24.longUsd / h24.totalUsd) * 100) : null;
+  const hourly = Array.isArray(feed?.history?.hourly) ? feed.history.hourly.filter((r) => Number.isFinite(r?.totalUsd)).slice(-24) : [];
+  const peak = Math.max(1, ...hourly.map((r) => r.totalUsd));
+
+  // Funding: Binance BTC rate on a ±0.03% gauge; OKX as the second reading.
   const btc = feed?.funding?.rows?.find((r) => r.symbol === "BTC");
   const btcRate = railRate(btc?.binanceRate);
-  const items = [
-    ...(ETF_FLOWS_LIVE ? [[ETF_FLOWS_PATH, links.etf, null]] : []),
-    [CALENDAR_PATH, links.calendar, null],
-    [LIQUIDATIONS_PATH, nav.liquidations, total ? `${total}${split ? ` · ${split}` : ""}` : null],
-    [FUNDING_RATES_PATH, nav.funding, btcRate ? `${l.btc} ${btcRate}` : null],
-  ];
-  return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail">
+  const okxRate = railRate(btc?.okxRate);
+  const gauge = Number.isFinite(btc?.binanceRate) ? Math.max(-1, Math.min(1, btc.binanceRate / FUNDING_SPAN)) : null;
+
+  // Calendar: the next macro release, and a 14-day strip of how many dated events each day holds.
+  const clock = now ?? (events ? Date.now() : null);
+  const upcoming = events && clock ? events.filter((e) => Date.parse(e.start) > clock).sort((a, b) => Date.parse(a.start) - Date.parse(b.start)) : [];
+  const nextMacro = upcoming.find((e) => MACRO_KINDS[e.kind]);
+  const dayStart = clock ? Math.floor(clock / DAY_MS) * DAY_MS : 0;
+  const days = clock ? Array.from({ length: CAL_DAYS }, (_, i) => {
+    const from = dayStart + i * DAY_MS;
+    const list = upcoming.filter((e) => { const t = Date.parse(e.start); return t >= from && t < from + DAY_MS; });
+    return { n: list.length, macro: list.some((e) => MACRO_KINDS[e.kind]), next: nextMacro ? Date.parse(nextMacro.start) >= from && Date.parse(nextMacro.start) < from + DAY_MS : false };
+  }) : [];
+  const dayPeak = Math.max(1, ...days.map((d) => d.n));
+  const nextAt = nextMacro ? Date.parse(nextMacro.start) : null;
+
+  return <section className="h7-in h7-coins h7-data" aria-labelledby="h7-data-h" data-testid="home-data-rail" ref={ref}>
     <div className="h7-coins-head"><h2 id="h7-data-h">{c.title}</h2></div>
     {c.lead && <p className="h7-coins-lead">{c.lead}</p>}
-    <ul className="h7-coins-list">{items.map(([path, label, figure]) => <li key={path}><a href={localizedHref(path, { locale })}><b>{label}</b>{figure && <span key={figure} dir="ltr" data-rail-figure="">{figure}</span>}</a></li>)}</ul>
+    <ul className="h7-mk">
+      {ETF_FLOWS_LIVE ? <RailTile href={localizedHref(ETF_FLOWS_PATH, { locale })} kind="calendar" label={links.etf} /> : null}
+      <RailTile href={localizedHref(CALENDAR_PATH, { locale })} kind="calendar" label={links.calendar}
+        figure={nextMacro ? MACRO_KINDS[nextMacro.kind] : null}
+        sub={nextAt ? `${relIn(nextAt - clock, locale)} · ${utcDay(nextAt, locale)} UTC` : null}>
+        <span className="h7-mk-cal">{(days.length ? days : Array.from({ length: CAL_DAYS }, () => ({ n: 0 }))).map((d, i) => <i key={i} data-macro={d.macro ? "" : undefined} data-next={d.next ? "" : undefined} style={{ transform: `scaleY(${d.n ? 0.25 + 0.75 * (d.n / dayPeak) : 0.12})` }} />)}</span>
+      </RailTile>
+      <RailTile href={localizedHref(LIQUIDATIONS_PATH, { locale })} kind="liq" label={nav.liquidations} figure={total}
+        sub={longPct != null ? <><span data-side="long">{l.long} {longPct}%</span><span data-side="short">{l.short} {100 - longPct}%</span></> : null}>
+        <span className="h7-mk-bars">{(hourly.length ? hourly : Array.from({ length: 24 }, () => null)).map((r, i) => r
+          ? <i key={i} style={{ transform: `scaleY(${Math.max(0.04, r.totalUsd / peak)})`, "--lp": `${r.totalUsd > 0 ? Math.round((r.longUsd / r.totalUsd) * 100) : 0}%` }} />
+          : <i key={i} data-empty="" />)}</span>
+        <span className="h7-mk-split"><i style={{ transform: `scaleX(${longPct != null ? longPct / 100 : 0})` }} /></span>
+      </RailTile>
+      <RailTile href={localizedHref(FUNDING_RATES_PATH, { locale })} kind="funding" label={`${nav.funding} · BTC`} figure={btcRate}
+        tone={gauge == null ? undefined : gauge >= 0 ? "pos" : "neg"}
+        sub={okxRate ? `OKX ${okxRate}` : null}>
+        <span className="h7-mk-gauge" dir="ltr" data-side={gauge == null ? undefined : gauge >= 0 ? "pos" : "neg"}>
+          <span className="h7-mk-track"><i style={{ transform: `scaleX(${gauge == null ? 0 : Math.abs(gauge)})` }} /><b style={{ left: `${50 + (gauge ?? 0) * 50}%` }} /></span>
+          <span className="h7-mk-scale"><span>−0.03%</span><span>0</span><span>+0.03%</span></span>
+        </span>
+      </RailTile>
+    </ul>
   </section>;
 }
 // Deposit & withdraw (出入金, 2026-10-15): one compact row into the hub and the card comparison; static copy, no data
@@ -297,6 +402,26 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
   return <IntelBlock renderedAt={renderedAt} intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
 }
 
+// Latest analysis (owner 2026-10-23: "a text list"): article cards with the article's own social card (/og/news/<slug>.png,
+// rendered by server/og-image.mjs; the worker puts its path on each homeLatest item) as the thumbnail. One link per
+// article (crawl tests count them). Images are lazy, decode async and sit in a fixed 1200:630 frame (no CLS); a
+// missing image leaves the frame's gradient. Desktop: one lead card + four, then three compact rows; phones scroll the
+// five cards sideways.
+const LATEST_CARDS = 5;
+const ogSized = (src, w) => `${src}${src.includes("?") ? "&" : "?"}w=${w}`;
+function LatestCard({ item, lead = false, small = false }) {
+  const img = typeof item.image === "string" && item.image.startsWith("/og/") ? item.image : null;
+  return <li data-lead={lead ? "" : undefined}>
+    <a href={item.href}>
+      <span className="h7-lt-img">{img ? <img src={ogSized(img, 600)} srcSet={small ? undefined : `${ogSized(img, 600)} 600w, ${img} 1200w`}
+        sizes={small ? undefined : lead ? "(min-width: 1024px) 560px, (min-width: 641px) 90vw, 82vw" : "(min-width: 1024px) 300px, (min-width: 641px) 45vw, 82vw"}
+        width="1200" height="630" alt="" loading="lazy" decoding="async" /> : null}</span>
+      <span className="h7-lt-meta">{item.category ? <span className="h7-lt-cat">{item.category}</span> : null}<time dateTime={item.publishedAt}>{item.relativeDate}</time></span>
+      <span className="h7-lt-t">{item.title}</span>
+    </a>
+  </li>;
+}
+
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
 export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements, homeLatest = [] }) {
@@ -309,10 +434,8 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <FundingBoard locale={locale} initialFeed={fundingFeed} />
       <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
         <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
-        <ul>{homeLatest.map((item) => <li key={item.href}>
-          <a href={item.href}>{item.title}</a>
-          <time dateTime={item.publishedAt}>{item.relativeDate}</time>
-        </li>)}</ul>
+        <ul className="h7-lt">{homeLatest.slice(0, LATEST_CARDS).map((item, i) => <LatestCard key={item.href} item={item} lead={i === 0} />)}</ul>
+        {homeLatest.length > LATEST_CARDS ? <ul className="h7-lt h7-lt-more">{homeLatest.slice(LATEST_CARDS).map((item) => <LatestCard key={item.href} item={item} small />)}</ul> : null}
         <nav aria-label={t.latestAnalysis || "Latest analysis"}>
           <a href={localizedHref("/news", { locale })}>{t.latestAnalysis || "Latest analysis"}</a>
           <a href={localizedHref("/compare", { locale })}>Compare</a>

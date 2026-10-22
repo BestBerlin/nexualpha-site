@@ -69,6 +69,24 @@ function moreLabel(locale) {
 }
 
 // Academy teaser (owner 2026-10-12): one compact row that sends newcomers to the 24-lesson course on our own site.
+// "Where the fee goes" step glyphs (locales without the reviewed receipt): compare, sign up, rebate back.
+const STEP_ICONS = [
+  <svg key="pick" viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="7" rx="1.5" /><rect x="13.5" y="4" width="7" height="7" rx="1.5" /><rect x="3.5" y="14" width="7" height="6" rx="1.5" /><path d="M14 17l2 2 4-4" /></svg>,
+  <svg key="join" viewBox="0 0 24 24"><circle cx="10" cy="8" r="3.5" /><path d="M3.5 20c.8-3.6 3.4-5.5 6.5-5.5 1.4 0 2.7.4 3.8 1.1" /><path d="M18 14v6M15 17h6" /></svg>,
+  <svg key="back" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7" /><path d="M20 4v4h-4" /><path d="M12 8v8M9.5 10.5h3.5a1.5 1.5 0 0 1 0 3H11a1.5 1.5 0 0 0 0 3h3.5" /></svg>,
+];
+
+// Marks a section [data-inview] while it is near the viewport so its looping CSS motion pauses off screen.
+function useInViewAttr(ref) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([entry]) => { el.toggleAttribute("data-inview", entry.isIntersecting); }, { rootMargin: "80px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref]);
+}
+
 function AcademyTeaser({ locale }) {
   const a = academyShellCopy(locale);
   return <section className="h7-in h7-academy" aria-labelledby="h7-academy-h">
@@ -643,6 +661,8 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
   const dragRef = useRef(false);
 
   const heroRef = useRef(null);
+  const howRef = useRef(null);
+  useInViewAttr(howRef);
   // The laptop screen runs its own short demo (HeroScreen); the first touch of the dial, tabs or screen ends it for good.
   // One state flip, once: the demo itself never re-renders anything outside the screen.
   const [touched, setTouched] = useState(false);
@@ -697,10 +717,10 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
 
       <TelegramAlertsStrip locale={locale} placement="home-telegram-alerts" className="tg-signal-strip--home" />
 
-      <section className="h7-in h7-how" aria-labelledby="h7-how-h">
+      <section className="h7-in h7-how" aria-labelledby="h7-how-h" ref={howRef}>
         <h2 id="h7-how-h">{t.howH}</h2>
         {editorial && !banned ? <FeeReceipt locale={locale} venue={sel} volume={heroVolume} fee={heroFee} rebate={heroAmount} payout={t.how[2][1]} /> : <ol className="h7-steps">
-          {t.how.map(([h, b], i) => <li key={h}><span className="h7-sn" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3>{h}</h3><p>{b}</p></li>)}
+          {t.how.map(([h, b], i) => <li key={h}><span className="h7-step-ic" aria-hidden="true">{STEP_ICONS[i]}</span><span className="h7-sn" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3>{h}</h3><p>{b}</p></li>)}
         </ol>}
       </section>
 

@@ -37,11 +37,13 @@ test("live hub renders sortable metrics, identifies currency/instrument and pres
  assert.match(hub,/123\.45 USDT/);assert.match(hub,/\+2\.25%/);assert.match(hub,/\+0\.36%/);assert.match(hub,/2026-10-23 00:10:00 \+00:00/);
  assert.ok(hub.includes(lanes.spot));assert.match(hub,/Stock tokens · USDT/);assert.match(hub,/Stock tokens · USD/);assert.doesNotMatch(hub,/BAD|unknown/);
 });
-test("home shows price/change and its venue, quote and product without new grid columns",()=>{
+test("home cards show price/change and its venue, quote and product (owner 2026-10-23: six stock cards)",()=>{
  scope.__tsPrices=[fixture];
  const home=render(HomeTokenizedStrip,{locale:"en"});
- assert.match(home,/h7-ts-price/);assert.match(home,/123\.45 USDT/);assert.match(home,/\+2\.25%/);assert.match(home,/Stock tokens/);assert.match(home,/Prices as of/);
- assert.equal((home.match(/role="columnheader"/g)||[]).length,9);
+ assert.match(home,/h7-tsc-price/);assert.match(home,/123\.45<\/b> <small>USDT/);assert.match(home,/\+2\.25%/);assert.match(home,/Stock tokens/);assert.match(home,/Prices as of/);
+ assert.equal((home.match(/class="h7-tsc"/g)||[]).length,6);
+ // Cards without a fresh price show listing info only, never a placeholder price.
+ assert.match(home,/data-empty=""><b>\d+ listed<\/b>/);
 });
 test("risk remains five existing items with localized NYSE hours explanation",()=>{
  for(const [locale,t]of Object.entries(TS_COPY)) {const html=render(RiskList,{t});assert.equal((html.match(/<li>/g)||[]).length,5,locale);assert.match(html,/NYSE|纽约证券交易所|紐約證券交易所/);}
