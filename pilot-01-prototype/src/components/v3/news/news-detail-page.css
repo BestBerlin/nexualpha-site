@@ -1269,7 +1269,6 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 }
 .news-tg-join a:hover, .news-tg-join a:focus-visible { background: #229ed9; }
 @media (max-width: 480px) { .news-tg-join a { inline-size: 100%; justify-content: center; } }
-=======
 /* Server-rendered informational links reserve space through route hydration. */
 .news-detail__venue-research { grid-column: 1 / -1; min-block-size: 8rem; margin-block: 2rem; padding-block: 1rem; border-block-start: 1px solid var(--v2-line, #29333d); }
 .news-detail__venue-research h2 { font-size: 1.15rem; line-height: 1.5; margin-block: 0 1rem; }
