@@ -1,3 +1,4 @@
+import { articleSitemapLocales } from "../src/data/article-sitemap-seo.js";
 import { recentEntityArticles, primaryVenueResearch } from '../src/data/article-related-links.js';
 import { applyAutopilotOverride } from "../src/data/seo-autopilot.js";
 import { isStrikingDistanceVenueTitle, strikingDistanceVenueTitle, strikingDistanceVenueDescription } from '../src/data/striking-distance-venue-copy.js';
@@ -27,7 +28,7 @@ import { hreflangAlternates, hasNewsArticleLocale, localizedNewsTitle, localized
 import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
-import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
+import { isReviewedNewsSearchArticle } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
 import { serpCtrNewsOverride } from "../src/data/serp-ctr-news-overrides.js";
 import { applyStrikingPageOverride } from "../src/data/striking-page-overrides.js";
@@ -5417,6 +5418,7 @@ let newsFeedCache = null;
 const LIVE_NEWS_SITEMAP_WINDOW_MS = 2 * 24 * 60 * 60 * 1000;
 const xmlText = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 export function renderLiveNewsSitemap(articles, now = Date.now()) {
+  const eligibilityCache = new Map();
   const href = (slug, locale) => localizedCanonical(`/news/${slug}`, locale);
   const rows = [];
   for (const article of (Array.isArray(articles) ? articles : [])) {
@@ -5424,7 +5426,7 @@ export function renderLiveNewsSitemap(articles, now = Date.now()) {
     const published = Date.parse(article.publishedAt);
     if (!Number.isFinite(published) || published > now || now - published > LIVE_NEWS_SITEMAP_WINDOW_MS) continue;
     // One entry per published edition (any UI locale with a native body), each listing every edition as an alternate.
-    const locales = articleSeoLocales(article);
+    const locales = articleSitemapLocales(article, articles, eligibilityCache);
     for (const locale of locales) {
       const title = (typeof article.title === "object" ? article.title?.[locale] || article.title?.en : article.title) || article.slug;
       rows.push([
@@ -5861,11 +5863,11 @@ function articleSitemapLocaleFromPath(pathname) {
 }
 
 export function renderArticleSitemap(articles, locale = "en") {
-  const publishedSlugs = selectReviewedNewsSearchSlugs(articles);
+  const eligibilityCache = new Map();
   const rows = [];
   for (const article of Array.isArray(articles) ? articles : []) {
-    if (!publishedSlugs.has(article?.slug) || article?.seo?.noindex !== false) continue;
-    const locales = newsArticleSeoLocales(article);
+    if (!isReviewedNewsSearchArticle(article)) continue;
+    const locales = articleSitemapLocales(article, articles, eligibilityCache);
     if (!locales.includes(locale)) continue;
     const pathname = `/news/${article.slug}`;
     const lastmod = article.updatedAt || article.publishedAt;
@@ -5892,14 +5894,14 @@ export function renderArticleSitemap(articles, locale = "en") {
 // from the mounted live feed, since the build checkout's bundled feed is days older than the published one, and empty
 // article locales are dropped.
 export function refreshSitemapIndexLastmods(indexXml, articles, now = Date.now()) {
+  const eligibilityCache = new Map();
   const day = (ms) => new Date(ms).toISOString().slice(0, 10);
   const newest = new Map();
   const bump = (file, ms) => { if (Number.isFinite(ms) && ms <= now && ms > (newest.get(file) || 0)) newest.set(file, ms); };
-  const publishedSlugs = selectReviewedNewsSearchSlugs(articles);
   for (const article of Array.isArray(articles) ? articles : []) {
-    if (!publishedSlugs.has(article?.slug) || article?.seo?.noindex !== false) continue;
+    if (!isReviewedNewsSearchArticle(article)) continue;
     const modified = Date.parse(article.updatedAt || article.publishedAt);
-    for (const locale of newsArticleSeoLocales(article)) bump(`sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`, modified);
+    for (const locale of articleSitemapLocales(article, articles, eligibilityCache)) bump(`sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`, modified);
   }
   const feedLoaded = newest.size > 0;
   return String(indexXml).replace(/\n?[ \t]*<sitemap>([\s\S]*?)<\/sitemap>/g, (block, inner) => {
@@ -7323,10 +7325,6 @@ function sitemapAlternateLines(alternates = []) {
   return alternates.map((alt) => `    <xhtml:link rel="alternate" hreflang="${xmlText(alt.hreflang)}" href="${xmlText(alt.href)}" />`);
 }
 
-function searchPublishedNewsSlugs(articles = []) {
-  return selectReviewedNewsSearchSlugs(articles);
-}
-
 function searchPublicationLocales(pathname, options = {}) {
   if (pathname === "/" || pathname === "/index.html") return INDEXABLE_LOCALES;
   if (pathname === "/br" || pathname.startsWith("/br/")) return ["pt-BR"];
@@ -7383,12 +7381,8 @@ function searchPublicationLocales(pathname, options = {}) {
   const newsListing = parseNewsListingPath(pathname);
   if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
-    if (typeof options.searchPublished === "boolean") {
-      return options.searchPublished && isReviewedNewsSearchArticle(options.article) ? articleSeoLocales(options.article) : [];
-    }
-    return searchPublishedNewsSlugs(options.newsArticles).has(options.article.slug)
-      ? articleSeoLocales(options.article)
-      : [];
+    if (options.searchPublished === false) return [];
+    return articleSitemapLocales(options.article, options.newsArticles);
   }
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return TOKENIZED_ASSET_LOCALES;
   if (venueAlternativePage(pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1])) return VENUE_ALTERNATIVES_INDEX_LOCALES;
