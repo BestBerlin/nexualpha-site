@@ -209,6 +209,31 @@
    "status": "verified"
   },
   {
+   "slug": "backpack",
+   "name": "Backpack",
+   "type": "cex",
+   "fees": {
+    "spot": {
+     "maker": 0.08,
+     "taker": 0.1,
+     "note": "Tier 1 base rate. Official fee page, read 2026-10-23."
+    },
+    "perp": {
+     "maker": 0.02,
+     "taker": 0.05,
+     "note": "Tier 1 perps base rate. Official fee page, read 2026-10-23."
+    }
+   },
+   "discount": {},
+   "kyc": null,
+   "restricted_regions": [],
+   "source_urls": [
+    "https://backpack.exchange/fees"
+   ],
+   "verified_on": "2026-10-23",
+   "status": "verified"
+  },
+  {
    "slug": "uniswap",
    "name": "Uniswap",
    "type": "dex",

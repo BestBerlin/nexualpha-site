@@ -57,7 +57,7 @@ test("page-level last verified date is derived from the newest dated source row"
   assert.equal(exchangeLastVerifiedDate("okx"), "2026-10-14"); // newest licence register check
   assert.equal(exchangeLastVerifiedDate("binance"), "2026-10-14"); // newest licence register check
   assert.equal(exchangeLastVerifiedDate("hyperliquid"), "2026-10-10");
-  assert.equal(exchangeLastVerifiedDate("backpack"), null);
+  assert.equal(exchangeLastVerifiedDate("backpack"), "2026-10-23"); // official fee page read 2026-10-23
   assert.equal(exchangeLastVerifiedDate("unknown"), null);
   const relevant = (row) => row.id.endsWith("-fees") || row.id.startsWith("license-") || (/(?:invite|referral|code)/i.test(row.id) && (row.value?.verified === true || ["verified", "source-backed", "confirmed"].includes(String(row.value?.status || "").toLowerCase())));
   for (const slug of EXCHANGE_KEY_FACT_SLUGS) {

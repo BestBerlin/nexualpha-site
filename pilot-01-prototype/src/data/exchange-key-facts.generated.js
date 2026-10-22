@@ -1567,6 +1567,32 @@ export const EXCHANGE_KEY_FACT_SHEETS = {
     "limitations": "Dated source records, not live fees, account eligibility, legal advice or reserve guarantees. Unknown fields are omitted.",
     "rows": [
       {
+        "id": "spot-fees",
+        "value": {
+          "maker": 0.08,
+          "taker": 0.1,
+          "units": "percent",
+          "scope": "Tier 1 base rate. Official fee page, read 2026-10-23."
+        },
+        "sourceUrls": [
+          "https://backpack.exchange/fees"
+        ],
+        "checkedOn": "2026-10-23"
+      },
+      {
+        "id": "perp-fees",
+        "value": {
+          "maker": 0.02,
+          "taker": 0.05,
+          "units": "percent",
+          "scope": "Tier 1 perps base rate. Official fee page, read 2026-10-23."
+        },
+        "sourceUrls": [
+          "https://backpack.exchange/fees"
+        ],
+        "checkedOn": "2026-10-23"
+      },
+      {
         "id": "kyc-reference",
         "value": "Dated factbook research note; confirm eligibility in the official KYC flow before relying on account access.; KYC level: mandatory; Mandatory Standard KYC; tiers: Tier 1: Government photo ID + facial scan, unlocks full trading and deposit rails; supported regions: Global, Taiwan, Europe, Southeast Asia, LATAM; restricted regions: United States, Mainland China, Sanctioned countries",
         "sourceUrls": [

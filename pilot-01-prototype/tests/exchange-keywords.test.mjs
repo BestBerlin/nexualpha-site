@@ -212,7 +212,8 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
     assert.doesNotMatch(text(html), /\b(best|top|#1|ranked|winner)\b/i, `${locale}: no ranking words`);
   }
   assert.equal(venueAlternativeRows(page, "en").find((r) => r.slug === "okx").spot, feeDisplay("okx", "spot", "en"));
-  assert.equal(venueAlternativeRows(page, "en").find((r) => r.slug === "backpack").spot, null, "unchecked fees stay unchecked");
+  // Backpack's Tier 1 fees were read from backpack.exchange/fees on 2026-10-23: the row shows the sourced figure.
+  assert.equal(venueAlternativeRows(page, "en").find((r) => r.slug === "backpack").spot, feeDisplay("backpack", "spot", "en"));
 });
 
 test("/topics/bybit-alternatives is indexable in English in both runtimes, in the inventory and the sitemap", async () => {
