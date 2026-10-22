@@ -17,6 +17,10 @@ import { quickAnswersForExchange } from "../../data/exchange-quick-answers.js";
 import "./profile-density.css";
 import "./venue-detail-layout.css";
 import "./venue-page-slimming.css";
+// Inner-page pass 2026-10-23: the home visual language on the money page. Joins the page-profile-mid1 stylesheet,
+// linked only on /exchanges/<slug> by the Worker's "page-profile-" prefix; generated from src/styles/v9/venue9.src.css.
+import "../../styles/v9/venue9.css";
+import { VenueRebateHero } from "./VenueDetailPageRebateHero.jsx";
 import { VenueSectionDisclosure } from "./VenueSectionDisclosure.jsx";
 import { venueAnnouncementPreview, venueSlimmingCopy } from "./venue-page-slimming.js";
 import { APP_DOWNLOAD_SLUGS, appDownloadLabel, appDownloadPath } from "../../data/app-download-path.js";
@@ -27,7 +31,8 @@ import { BrandMark } from "../brand/BrandMark";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
 import { ExchangeFactsV5, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
-import { VenueFeeLedger, VenueRoute } from "../v6/InnerLedger.jsx";
+import { VenueRoute } from "../v6/InnerLedger.jsx";
+import { VenueFeeLedger } from "./VenueDetailPageFeeLedger.jsx";
 import { isoDay } from "../../data/exchange-facts.js";
 import { HyperliquidFeeScenario } from "./HyperliquidFeeScenario.jsx";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
@@ -863,6 +868,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <div className="v3-profile-reading-layout">
         <div className="v3-profile-action-column">
         <div className="v3-profile-main-registration enter" style={{ "--i": 2 }} data-cta-surface="venue-profile-main-registration">
+        {hasReferral && stickyOpensSignup && <VenueRebateHero slug={profile.slug} locale={locale} name={profile.name} inviteCode={inviteCode} registrationUrl={venueCta.registrationUrl} disclosure={text.relationship} />}
         <article className="v3-detail-grid__handoff">
           <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={effectiveMarket} product={effectiveProduct} accountStage={effectiveAccountStage} funding={effectiveFunding} />
         </article>

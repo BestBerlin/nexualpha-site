@@ -44,6 +44,8 @@ import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
+// Inner-page pass 2026-10-23: compare pairs (joins the page-compare-mid1 stylesheet, src/styles/v9/compare9.src.css).
+import "../../styles/v9/compare9.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 

@@ -1,0 +1,118 @@
+/* scope: #top.v3-profile-page */
+/* Venue money page (/exchanges/<slug>), inner-page pass 2026-10-23: the new home's visual language.
+   Canvas #08090C with the home dot grid, 12px hairline panels, teal accent only on the one sign-up action and on
+   lower verified figures, mono tabular numbers, a live dot on the rebate kicker, hover lift on rows and panels.
+   No entrance or scroll-driven animation; everything that moves stops under prefers-reduced-motion.
+   Build: node scripts/build-inner9-css.mjs -> venue9.css ("@&" = the page, "@ " = inside the page). */
+
+/* ---------- tokens + canvas ---------- */
+@&{--x-bg:#08090C;--x-sf:rgb(255 255 255/.025);--x-sf2:rgb(255 255 255/.045);--x-line:rgb(255 255 255/.10);--x-line2:rgb(255 255 255/.18);--x-ink:#EDEEF0;--x-ink2:#B0B4BA;--x-ink3:#8A909E;--x-ac:#1FE0C0;--x-ac-hi:#4AEBD0;--x-on-ac:#04130F;--x-brand:#315CFF;--x-glow:linear-gradient(110deg,#1FE0C0 0%,#3FA9FF 55%,#6E8BFF 100%);--x-ease:cubic-bezier(.16,1,.3,1);--x-mono:"Geist Mono V5","Geist Mono V5 Fallback",ui-monospace,"SF Mono",Menlo,monospace}
+html body:has(main#top.v3-profile-page){background-color:#08090C;background-image:linear-gradient(180deg,#08090C 0,rgb(8 9 12/0) 420px),radial-gradient(60% 520px at 82% 120px,rgb(49 92 255/.10),transparent 70%),radial-gradient(40% 420px at 8% 260px,rgb(31 224 192/.06),transparent 70%),radial-gradient(rgb(255 255 255/.05) 1px,transparent 1.5px);background-size:auto,auto,auto,28px 28px;background-repeat:no-repeat,no-repeat,no-repeat,repeat}
+
+/* ---------- identity ---------- */
+@ .v3-venue-identity__badges :is(.v3-category-chip,.v3-trust-metal-badge,.v3-domain-pill,.v3-last-verified-pill){font-family:var(--x-mono);font-size:12px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+@ .v3-venue-identity h1{letter-spacing:-.025em;text-wrap:balance}
+@ .v3-venue-identity h1:is(:lang(zh),:lang(ja),:lang(ko)){letter-spacing:0}
+@ .nx-short-answer{border-radius:0 12px 12px 0;background:linear-gradient(90deg,rgb(31 224 192/.06),rgb(255 255 255/.015) 60%);padding-block:14px;padding-inline:18px 20px}
+@ .referral-native-answers{border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf);padding:4px 18px;overflow:hidden}
+@ .referral-native-answers :is(table,dl){margin:0}
+@ .referral-native-answers :is(tr,div):not(:last-child){border-color:var(--x-line)}
+
+/* ---------- rebate hero + the registration panel (one primary action) ---------- */
+@ .v3-profile-main-registration{border:1px solid rgb(31 224 192/.28);border-radius:12px;background:radial-gradient(120% 70% at 100% 0%,rgb(49 92 255/.14),transparent 60%),radial-gradient(90% 60% at 0% 0%,rgb(31 224 192/.10),transparent 65%),#0C0E12;box-shadow:0 0 0 1px rgb(0 0 0/.4),0 24px 64px -32px rgb(31 224 192/.35);overflow:hidden}
+@ .v3-profile-main-registration .registration-card{border:0;border-radius:0;background:transparent;box-shadow:none}
+@ .vx-rebate{display:grid;gap:6px;padding:22px 24px 4px}
+@ .vx-rebate p{margin:0}
+@ .vx-rebate__label{display:flex;align-items:center;gap:8px;font:500 12px/16px var(--x-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--x-ink3)}
+@ .vx-rebate__label:is(:lang(zh),:lang(ja),:lang(ko)){letter-spacing:.04em}
+@ .vx-live{position:relative;flex:none;inline-size:8px;block-size:8px;border-radius:50%;background:var(--x-ac);box-shadow:0 0 0 4px rgb(31 224 192/.14)}
+@ .vx-live::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--x-ac);opacity:.5;animation:vx-ping 2.4s var(--x-ease) infinite}
+@keyframes vx-ping{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(2.6);opacity:0}}
+@ .vx-rebate__fig{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-block:2px 0}
+@ .vx-rebate__num{font:600 clamp(52px,5.2vw,68px)/1 var(--x-mono);letter-spacing:-.04em;font-variant-numeric:tabular-nums;background:var(--x-glow);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-block-end:4px}
+@ .vx-rebate__pre{font-size:16px;font-weight:500;color:var(--x-ink2)}
+@ .vx-rebate__terms{font-size:13px;line-height:1.5;color:var(--x-ink2)}
+@ .vx-rebate__code{display:flex;gap:8px;align-items:baseline;margin-block-start:8px;padding:10px 12px;border:1px dashed var(--x-line2);border-radius:8px;font-size:13px;line-height:1.45;color:var(--x-ink2)}
+@ .vx-rebate__code[data-auto]{border-style:solid;border-color:rgb(31 224 192/.35);background:rgb(31 224 192/.06)}
+@ .vx-rebate__code > span:first-child{flex:none;font-weight:600;color:var(--x-ac)}
+@ .vx-rebate__code code{font:600 13px/1 var(--x-mono);color:var(--x-ink);letter-spacing:.02em;white-space:nowrap}
+@ .vx-rebate__disc{font-size:12px;line-height:1.5;color:var(--x-ink3)}
+@ .vx-rebate + .v3-detail-grid__handoff .registration-card__head{padding-block-start:12px}
+/* the one dominant button: full width, taller, lit */
+@ .registration-card__signup-actions{gap:8px}
+@ .registration-card__primary-btn:not(.registration-card__primary-btn--disabled){flex:1 1 auto;min-block-size:52px;border-radius:10px;font-size:16px;font-weight:600;letter-spacing:-.005em;box-shadow:0 10px 30px -12px rgb(31 224 192/.65),inset 0 1px 0 rgb(255 255 255/.35);transition:transform 240ms var(--x-ease),box-shadow 240ms var(--x-ease),background-color 140ms var(--x-ease)}
+@ .registration-card__code-value{font-family:var(--x-mono);font-variant-numeric:tabular-nums}
+@ .tg-signal-strip--venue{border-inline:0;border-block-end:0;border-block-start:1px solid var(--x-line);background:rgb(34 158 217/.05)}
+
+/* ---------- fee ledger: panel, mono figures, median tick, lower-than-median accent ---------- */
+@ .r9-led{padding:20px 22px 16px;border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf)}
+@ .r9-led__fig{font-family:var(--x-mono);font-variant-numeric:tabular-nums}
+@ .r9-led__row[data-below-median] .r9-led__fig{color:var(--x-ac)}
+@ .r9-led__row[data-below-median] .r9-track i{background:var(--x-ac)}
+@ .r9-track{position:relative}
+@ .r9-track__median{position:absolute;inset-block:-6px;inset-inline-start:calc(var(--m) * 100%);inline-size:2px;margin-inline-start:-1px;border-radius:1px;background:#EDEEF0;box-shadow:0 0 0 1px rgb(8 9 12/.85)}
+@ .r9-led__foot{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center}
+@ .r9-led__median-key{display:inline-flex;align-items:center;gap:8px}
+@ .r9-led__median-key i{inline-size:2px;block-size:12px;border-radius:1px;background:#EDEEF0}
+@ .r9-route{padding:16px 22px;border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf)}
+
+/* ---------- section rules like the home: number, teal node, fading hairline ---------- */
+@ .nx-rule--section .nx-rule__index{font-family:var(--x-mono);color:var(--x-ink3);letter-spacing:.06em}
+@ .nx-rule--section .nx-rule__line{block-size:1px;background:linear-gradient(90deg,rgb(31 224 192/.55),rgb(255 255 255/.14) 72px,rgb(255 255 255/.06) 80%,transparent)}
+@ .nx-rule--section .nx-rule__line:dir(rtl){background:linear-gradient(270deg,rgb(31 224 192/.55),rgb(255 255 255/.14) 72px,rgb(255 255 255/.06) 80%,transparent)}
+@ .nx-rule--section .nx-rule__stamp{font-family:var(--x-mono);font-variant-numeric:tabular-nums}
+
+/* ---------- disclosures become hairline panels with a hover lift ---------- */
+@ :is(.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure){border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf);transition:border-color 240ms var(--x-ease),background-color 240ms var(--x-ease)}
+@ :is(.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure) > summary{min-block-size:56px;padding-inline:20px;border:0;border-radius:12px;cursor:pointer}
+@ :is(.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure)[open]{background:var(--x-sf2);border-color:var(--x-line2)}
+@ :is(.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure) > :not(summary){padding-inline:20px}
+@ .venue-section-disclosure + .venue-section-disclosure{margin-block-start:12px}
+
+/* ---------- latest articles (HubNewsLinks): the list inherited the 3-column alternatives grid ---------- */
+@ [data-hub-news-links] .v3-alternative-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px;border:0}
+@ [data-hub-news-links] .v3-alternative-list > li{display:block;padding:0;border:0}
+@ [data-hub-news-links] .v3-alternative-list > li > a{display:grid;gap:6px;block-size:100%;box-sizing:border-box;padding:16px 18px;border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf);color:var(--x-ink2);text-decoration:none;transition:transform 240ms var(--x-ease),border-color 240ms var(--x-ease),background-color 240ms var(--x-ease)}
+@ [data-hub-news-links] .v3-alternative-list > li > a small{font:500 12px/16px var(--x-mono);color:var(--x-ink3);font-variant-numeric:tabular-nums}
+@ [data-hub-news-links] .v3-alternative-list > li > a b{font-size:15px;line-height:1.4;font-weight:600;color:var(--x-ink)}
+@ [data-hub-news-links] .v3-alternative-list > li > a span{font-size:13px;line-height:1.5;color:var(--x-ink3);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+@ [data-hub-news-links]{min-block-size:0}
+
+/* ---------- activity, similar venues, FAQ ---------- */
+@ .v3-activity-panel{background:transparent}
+@ .venue-announcement-preview{border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf);padding-inline:18px}
+@ .v3-alternative-list:not([data-hub-news-links] *) > li{border-radius:12px;transition:background-color 240ms var(--x-ease)}
+@ .v3-faq-item{border-color:var(--x-line)}
+@ .v3-faq-summary{min-block-size:52px}
+
+/* ---------- mobile sticky bar: glass, hairline, one lit button ---------- */
+@ .v3-mobile-sticky-bar{background:rgb(10 11 14/.86);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-block-start:1px solid var(--x-line2)}
+@ .v3-mobile-sticky-bar__code strong{font-family:var(--x-mono)}
+@ .v3-mobile-sticky-bar__discount{font-family:var(--x-mono);font-variant-numeric:tabular-nums;color:var(--x-ac)}
+@ .v3-mobile-sticky-bar__btn--signup{min-block-size:48px;border-radius:10px;font-weight:600;box-shadow:0 8px 24px -10px rgb(31 224 192/.7)}
+
+/* ---------- phones and tablets: the rebate + sign-up panel right under the title ----------
+   The hero wrappers flatten into the single-column hero grid so the registration panel follows the H1; the short
+   answer, the referral table and the reading column follow it. DOM order (H1 -> short answer) is unchanged. */
+@media (max-width:1023px){
+  @ .v3-venue-hero{display:grid;grid-template-columns:minmax(0,1fr);row-gap:16px}
+  @ .v3-venue-hero > :is(.v3-venue-identity,.v3-profile-reading-layout),@ .v3-venue-identity > .v3-venue-identity__info{display:contents}
+  @ .v3-venue-identity > *,@ .v3-venue-identity__info > *,@ .v3-profile-reading-layout > *{margin-block:0;grid-area:auto;grid-column:1 / -1}
+  @ .v3-profile-action-column{order:1}
+  @ :is(.v3-venue-identity__info > .nx-short-answer,.v3-venue-identity__info > .v3-partner-relationship,.v3-venue-identity > :not(:first-child):not(.v3-venue-identity__info),.v3-profile-reading-overview){order:2}
+  @ .vx-rebate{padding:18px 18px 2px}
+  @ .vx-rebate__num{font-size:clamp(48px,14vw,60px)}
+}
+
+/* ---------- hover lift (fine pointers only) ---------- */
+@media (hover:hover) and (pointer:fine){
+  @ .registration-card__primary-btn:not(.registration-card__primary-btn--disabled):hover{transform:translateY(-1px);box-shadow:0 16px 36px -12px rgb(31 224 192/.8),inset 0 1px 0 rgb(255 255 255/.4)}
+  @ [data-hub-news-links] .v3-alternative-list > li > a:hover{transform:translateY(-2px);border-color:var(--x-line2);background:var(--x-sf2)}
+  @ :is(.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure):not([open]):hover{border-color:var(--x-line2);background:var(--x-sf2)}
+  @ .v3-alternative-list:not([data-hub-news-links] *) > li:hover{background:var(--x-sf)}
+}
+@ :is(a,button,summary):focus-visible{outline:2px solid var(--x-ac);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  @ .vx-live::after{animation:none;opacity:0}
+  @ :is(.registration-card__primary-btn,[data-hub-news-links] a,.venue-section-disclosure,.v3-profile-sources-group,.venue-readiness__disclosure,.v3-alternative-list > li){transition:none}
+}

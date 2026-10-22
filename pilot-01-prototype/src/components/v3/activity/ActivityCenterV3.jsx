@@ -20,6 +20,8 @@ import { updateHref } from "../../../data/activity-update.js";
 import { campaignVisibleInLocale } from "../../../data/campaign-locale-policy.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
+// Inner-page pass 2026-10-23 (generated from src/styles/v9/activities9.src.css; rides in the route-activity stylesheet).
+import "../../../styles/v9/activities9.css";
 import { campaignJoinCopy } from "./campaign-join-copy.js";
 import { CampaignJoin } from "./CampaignJoin.jsx";
 import { LiveCampaigns } from "./LiveCampaigns.jsx";
