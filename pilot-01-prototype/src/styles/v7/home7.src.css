@@ -829,32 +829,61 @@
 
 /* ---------- tokenized US stocks strip (owner 2026-10-15): after the hero, before the whale board ----------
    Lane colours match the /tokenized-stocks hub: teal = stock tokens, blue = stock perpetuals, amber = pre-IPO. */
-@ .h7-ts{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);grid-template-areas:"h c" "t c";gap:16px clamp(24px,4vw,56px);align-items:start;padding-block:clamp(28px,3.5vw,48px) 0}
-@ .h7-ts-head{grid-area:h;display:grid;gap:8px;align-content:start}
+@ .h7-ts{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.7fr);gap:24px clamp(24px,4vw,56px);align-items:start;padding-block:clamp(28px,3.5vw,48px) 0}
+@ .h7-ts-head{display:grid;gap:10px;align-content:start}
 @ .h7-ts-k{margin:0;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ac)}
 @ .h7-ts-k:is(:lang(zh),:lang(ja),:lang(ko),:lang(ar),:lang(ur)){letter-spacing:0;text-transform:none;font-family:inherit;font-size:13px}
 @ .h7-ts h2{margin:0;color:var(--ink);font-weight:650;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.15;letter-spacing:-.015em;text-wrap:balance}
 @ .h7-ts-b{margin:0;max-width:44ch;font-size:15px;line-height:1.6}
-@ .h7-ts-all{justify-self:start;margin-top:4px}
-@ .h7-ts-cards{grid-area:c;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px;margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
-@ .h7-ts-cards li{border-bottom:1px solid var(--line)}
-@ .h7-ts-cards a{display:grid;align-content:start;gap:8px;min-height:112px;padding:16px 0;text-decoration:none;transition:color 160ms var(--ease)}
-@ .h7-ts-cards a:hover b{color:#4A70FF}
-@ .h7-ts-n{display:flex;align-items:center;gap:10px}
-@ .h7-ts-n img{width:28px;height:28px}
-@ .h7-ts-n b{color:var(--ink);font-weight:600;font-size:16px}
-@ .h7-ts-f{display:flex;flex-wrap:wrap;gap:6px}
-@ .h7-ts-f i{font-style:normal;font-size:12.5px;line-height:1.3;color:var(--l)}
-@ .h7-ts-f i[data-lane=spot]{--l:#1FE0C0}
-@ .h7-ts-f i[data-lane=perp]{--l:#6F93FF}
-@ .h7-ts-f i[data-lane=preipo]{--l:#E9A93B}
-@ .h7-ts-c{font:500 13px/1.3 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
-@ .h7-ts-c small{color:var(--ink3);font-size:11.5px}
-@ .h7-ts-tk{grid-area:t;display:flex;flex-wrap:wrap;gap:0 16px;margin:0;padding:0;list-style:none}
-@ .h7-ts-tk a{display:inline-flex;align-items:center;min-height:44px;font:500 13px/1 var(--mono);color:var(--ink);letter-spacing:.02em;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:4px;transition:text-decoration-color 140ms}
-@ .h7-ts-tk a:hover{text-decoration-color:var(--ink)}
-@media(max-width:900px){@ .h7-ts{grid-template-columns:1fr;grid-template-areas:"h" "c" "t";gap:14px}@ .h7-ts-cards{grid-template-columns:repeat(2,minmax(0,1fr))}@ .h7-ts-cards{column-gap:16px}@ .h7-ts-cards a{min-height:0;gap:8px;padding:12px 0}@ .h7-ts-f{gap:2px 10px}@ .h7-ts-f i{font-size:12px}}
-@media(max-width:360px){@ .h7-ts-cards a{padding:12px 0}@ .h7-ts-n b{font-size:15px}}
+@ .h7-ts-go{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:6px}
+@ .h7-ts-arrow{transition:transform 240ms var(--ease)}
+@ .h7-ts-cta:hover .h7-ts-arrow{transform:translateX(3px)}
+@ .h7-ts-arrow:dir(rtl){transform:scaleX(-1)}
+@ .h7-ts-d{margin:0;font:400 12px/1.5 var(--mono);color:var(--ink3);font-variant-numeric:tabular-nums}
+@ .h7-ts-d:is(:lang(zh),:lang(ja),:lang(ko),:lang(ar),:lang(ur)){font-family:inherit}
+/* the matrix: ticker | six exchanges | max leverage | lowest perp taker. Two 2px lane bars per cell (teal = token,
+   blue = perpetual), the same signal as the /tokenized-stocks hub board. Every row repeats the header's grid. */
+@ .h7-ts-mx{min-width:0}
+@ .h7-ts-tb{display:grid;border-top:1px solid var(--line2)}
+@ .h7-ts-r{display:grid;grid-template-columns:minmax(84px,1.3fr) repeat(6,minmax(0,1fr)) minmax(72px,1fr) minmax(84px,1.1fr);align-items:center;column-gap:8px;min-height:56px;border-bottom:1px solid var(--line)}
+@ .h7-ts-rh{min-height:64px;font:500 12px/1.3 var(--mono);color:var(--ink3);letter-spacing:.02em}
+@ .h7-ts-rh:is(:lang(zh),:lang(ja),:lang(ko),:lang(ar),:lang(ur)){font-family:inherit;letter-spacing:0}
+@ .h7-ts-v{display:flex;justify-content:center;min-width:0}
+@ .h7-ts-v a{display:grid;justify-items:center;gap:4px;min-width:44px;min-height:44px;padding:4px 0;color:var(--ink2);text-decoration:none}
+@ .h7-ts-v a:hover .h7-ts-vn{color:var(--ink)}
+@ .h7-ts-v img,@ .h7-ts-v [data-brand-fallback]{width:24px;height:24px}
+@ .h7-ts-vn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;transition:color 140ms}
+@ .h7-ts-s a{display:grid;gap:2px;min-height:44px;align-content:center;text-decoration:none}
+@ .h7-ts-s b{font:600 15px/1.2 var(--mono);color:var(--ink);letter-spacing:.02em}
+@ .h7-ts-s small{font-size:12px;line-height:1.3;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@ .h7-ts-s a:hover b{color:#6F93FF}
+@ .h7-ts-c{display:flex;justify-content:center;gap:3px}
+@ .h7-ts-c i,@ .h7-ts-lg i{display:block;inline-size:16px;block-size:4px;border-radius:2px;background:rgb(255 255 255/.1)}
+@ .h7-ts-c i[data-on][data-lane=spot],@ .h7-ts-lg i[data-lane=spot]{background:#1FE0C0}
+@ .h7-ts-c i[data-on][data-lane=perp],@ .h7-ts-lg i[data-lane=perp]{background:#6F93FF}
+@ .h7-ts-x{display:grid;justify-items:end;gap:2px;text-align:end;min-width:0}
+@ .h7-ts-x b{font:500 14px/1.2 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+@ .h7-ts-x small{max-width:100%;font-size:11.5px;line-height:1.3;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@ .h7-ts-ml{display:none}
+@ .h7-ts-sr{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@ .h7-ts-lg{display:flex;flex-wrap:wrap;gap:4px 20px;margin:12px 0 0;font-size:12.5px;color:var(--ink3)}
+@ .h7-ts-lg span{display:inline-flex;align-items:center;gap:8px}
+@ .h7-ts a:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:6px}
+@media(max-width:1080px){@ .h7-ts{grid-template-columns:1fr;gap:20px}@ .h7-ts-b{max-width:60ch}}
+/* phones: the six exchange columns keep their grid under the header logos; ticker and the two figures share line one */
+@media(max-width:640px){
+  @ .h7-ts-r{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-areas:"s s x1 x1 x2 x2";row-gap:8px;column-gap:4px;padding-block:10px;min-height:0}
+  @ .h7-ts-r>.h7-ts-s{grid-area:s}
+  @ .h7-ts-r>.h7-ts-x:nth-last-child(2){grid-area:x1}
+  @ .h7-ts-r>.h7-ts-x:last-child{grid-area:x2}
+  @ .h7-ts-c{grid-row:2}
+  @ .h7-ts-rh{grid-template-areas:none;padding-block:4px}
+  @ .h7-ts-rh>.h7-ts-s,@ .h7-ts-rh>.h7-ts-x{display:none}
+  @ .h7-ts-rh>.h7-ts-v{grid-row:1}
+  @ .h7-ts-x small{display:none}
+  @ .h7-ts-ml{display:block;font-size:11px;line-height:1.2;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){@ .h7-ts-arrow,@ .h7-ts-vn{transition:none}}
 
 /* P1 layout: a full-width signup row gives long venue labels their own space. Details remain a 44px target. */
 @ .h7-xr .h7-btn{min-inline-size:0;max-inline-size:100%;white-space:normal;overflow-wrap:break-word;line-height:1.35;block-size:auto;padding-block:10px;text-align:center}

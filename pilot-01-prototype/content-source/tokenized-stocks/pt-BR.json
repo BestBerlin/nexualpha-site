@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Cada ação, cada corretora",
+    "lead": "Quais corretoras listam cada ação como token ou perpétuo, a alavancagem máxima e a menor taxa taker padrão em perpétuos, a partir dos dados de mercado das próprias corretoras. Escolha uma coluna para ordenar.",
+    "stock": "Ação",
+    "venues": "Corretoras",
+    "token": "Token",
+    "perp": "Perpétuo",
+    "lev": "Alavancagem máx.",
+    "fee": "Menor taker perp",
+    "weekend": "Corretoras 24/7",
+    "latest": "Listagem mais recente",
+    "sort": "Ordenar por {col}",
+    "cell": "{name}: {lanes}",
+    "none": "Não listado",
+    "homeMore": "Comparar as {n} ações",
+    "dataNote": "Dados públicos de mercado das corretoras · {time} SGT",
+    "newH": "Listagens mais recentes",
+    "newLead": "As listagens de ações mais recentes nos dados de mercado que lemos, da mais nova para a mais antiga."
+  },
+  "risk": {
+    "h": "O que você compra e quais são os riscos",
+    "lead": "Uma ação tokenizada não é a própria ação. Confira estes cinco pontos antes de operar.",
+    "items": [
+      [
+        "Exposição, não propriedade",
+        "Um token de ação acompanha o preço de uma ação sem registro como acionista nem direito a voto. Um perpétuo de ações não dá nenhuma ação."
+      ],
+      [
+        "O preço pode se afastar da ação",
+        "Com o mercado dos EUA fechado, um token ou perpétuo 24/7 negocia no livro de ofertas da própria corretora. O preço pode se afastar do último fechamento e saltar na abertura."
+      ],
+      [
+        "A alavancagem corta dos dois lados",
+        "Num perpétuo, um movimento contra você de cerca de 1 dividido pela alavancagem pode zerar a margem: perto de 5% a 20x e 1% a 100x. Enquanto a posição está aberta há pagamento ou cobrança de funding."
+      ],
+      [
+        "Cada família de tokens tem suas regras",
+        "xStocks, rToken, bStocks e os tokens da Ondo seguem regras diferentes de emissão, custódia e resgate. Leia a página da corretora antes de comprar."
+      ],
+      [
+        "Onde você mora importa",
+        "Pessoas dos EUA são excluídas e várias corretoras bloqueiam outras regiões. Confira antes a linha \"Indisponível em\" de cada corretora."
+      ]
+    ]
   }
 }

@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Từng cổ phiếu, từng sàn",
+    "lead": "Sàn nào niêm yết từng cổ phiếu dưới dạng token hoặc hợp đồng vĩnh cửu, đòn bẩy cao nhất và phí taker vĩnh cửu tiêu chuẩn thấp nhất, lấy từ dữ liệu thị trường của chính các sàn. Chọn một cột để sắp xếp.",
+    "stock": "Cổ phiếu",
+    "venues": "Sàn",
+    "token": "Token",
+    "perp": "Vĩnh cửu",
+    "lev": "Đòn bẩy tối đa",
+    "fee": "Taker vĩnh cửu thấp nhất",
+    "weekend": "Sàn 24/7",
+    "latest": "Niêm yết mới nhất",
+    "sort": "Sắp xếp theo {col}",
+    "cell": "{name}: {lanes}",
+    "none": "Chưa niêm yết",
+    "homeMore": "So sánh cả {n} cổ phiếu",
+    "dataNote": "Dữ liệu thị trường công khai của các sàn · {time} SGT",
+    "newH": "Niêm yết mới nhất",
+    "newLead": "Các cổ phiếu niêm yết gần nhất trong dữ liệu thị trường chúng tôi đọc, mới nhất trước."
+  },
+  "risk": {
+    "h": "Bạn mua gì, và rủi ro là gì",
+    "lead": "Cổ phiếu token hóa không phải là cổ phiếu. Hãy kiểm tra năm điểm này trước khi giao dịch.",
+    "items": [
+      [
+        "Tiếp xúc giá, không phải sở hữu",
+        "Token cổ phiếu theo giá một cổ phiếu nhưng không đăng ký cổ đông và không có quyền biểu quyết. Hợp đồng vĩnh cửu cổ phiếu không cho cổ phiếu nào."
+      ],
+      [
+        "Giá có thể lệch khỏi cổ phiếu",
+        "Khi thị trường Mỹ đóng cửa, token hoặc hợp đồng vĩnh cửu 24/7 giao dịch trên sổ lệnh riêng của sàn. Giá có thể rời xa giá đóng cửa gần nhất và nhảy khi thị trường mở lại."
+      ],
+      [
+        "Đòn bẩy cắt cả hai chiều",
+        "Với hợp đồng vĩnh cửu, biến động ngược khoảng 1 chia cho đòn bẩy có thể xóa sạch ký quỹ: khoảng 5% ở 20x, 1% ở 100x. Phí funding được trả hoặc nhận khi vị thế còn mở."
+      ],
+      [
+        "Mỗi họ token có quy tắc riêng",
+        "xStocks, rToken, bStocks và token Ondo có quy tắc phát hành, lưu ký và mua lại khác nhau. Hãy đọc trang của sàn trước khi mua."
+      ],
+      [
+        "Nơi bạn sống rất quan trọng",
+        "Người Mỹ bị loại trừ và nhiều sàn chặn thêm khu vực khác. Trước tiên hãy xem dòng \"Không hỗ trợ tại\" của từng sàn."
+      ]
+    ]
   }
 }

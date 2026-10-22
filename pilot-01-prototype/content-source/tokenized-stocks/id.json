@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Setiap saham, setiap bursa",
+    "lead": "Bursa mana yang mencatat tiap saham sebagai token atau perpetual, leverage tertinggi dan biaya taker perpetual standar terendah, dari data pasar milik bursa sendiri. Pilih kolom untuk mengurutkan.",
+    "stock": "Saham",
+    "venues": "Bursa",
+    "token": "Token",
+    "perp": "Perpetual",
+    "lev": "Leverage maks.",
+    "fee": "Taker perp terendah",
+    "weekend": "Bursa 24/7",
+    "latest": "Listing terbaru",
+    "sort": "Urutkan menurut {col}",
+    "cell": "{name}: {lanes}",
+    "none": "Belum listing",
+    "homeMore": "Bandingkan semua {n} saham",
+    "dataNote": "Data pasar publik bursa · {time} SGT",
+    "newH": "Listing terbaru",
+    "newLead": "Listing saham terbaru dalam data pasar bursa yang kami baca, dari yang paling baru."
+  },
+  "risk": {
+    "h": "Apa yang Anda beli, dan risikonya",
+    "lead": "Saham tokenisasi bukan saham itu sendiri. Periksa lima hal ini sebelum bertransaksi.",
+    "items": [
+      [
+        "Eksposur, bukan kepemilikan",
+        "Token saham mengikuti harga satu saham tanpa pencatatan pemegang saham atau hak suara. Perpetual saham tidak memberi saham sama sekali."
+      ],
+      [
+        "Harga bisa menyimpang dari saham",
+        "Saat pasar AS tutup, token atau perpetual 24/7 diperdagangkan di order book bursa sendiri. Harganya bisa menjauh dari penutupan terakhir dan melompat saat pasar dibuka."
+      ],
+      [
+        "Leverage memotong dua arah",
+        "Pada perpetual, pergerakan melawan Anda sekitar 1 dibagi leverage bisa menghapus margin: sekitar 5% pada 20x, 1% pada 100x. Funding dibayar atau ditagih selama posisi terbuka."
+      ],
+      [
+        "Tiap keluarga token punya aturan sendiri",
+        "xStocks, rToken, bStocks, dan token Ondo mengikuti aturan penerbitan, kustodi, dan penebusan yang berbeda. Baca halaman bursa sebelum membeli."
+      ],
+      [
+        "Tempat tinggal Anda menentukan",
+        "Orang AS dikecualikan, dan beberapa bursa memblokir wilayah lain. Periksa dulu baris \"Tidak tersedia di\" di tiap bursa."
+      ]
+    ]
   }
 }

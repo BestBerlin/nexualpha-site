@@ -15,6 +15,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { outboundLink, sourceDomain } from "../../data/exchange-outbound.js";
 import { formatSgt } from "../../data/local-time.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { NewestListings, RiskList, StockMatrix } from "./TokenizedStocksMatrix.jsx";
 import "./tokenized-stocks.css";
 
 const RTL = new Set(["ar", "ur"]);
@@ -273,6 +274,8 @@ export function TokenizedStocksHubPage({ locale = "en", market, live, page, init
         </div>
       </section>
 
+      <StockMatrix t={t} locale={locale} market={market} live={live} venues={venues} />
+
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-table-h">
         <div className="nxts-sec__head">
           <h2 id="ts-table-h">{t.tableH}</h2>
@@ -290,10 +293,14 @@ export function TokenizedStocksHubPage({ locale = "en", market, live, page, init
         </div>
       </section>
 
+      <NewestListings t={t} locale={locale} market={market} live={live} />
+
       <section className="nxts-shell nxts-sec" aria-labelledby="ts-pick-h">
         <h2 id="ts-pick-h">{t.pickH}</h2>
         <ul className="nxts-picks">{t.picks.map(([h, b]) => <li key={h}><h3>{h}</h3><p>{b}</p></li>)}</ul>
       </section>
+
+      <RiskList t={t} />
 
       <section className="nxts-shell nxts-sec" id="how" aria-labelledby="ts-how-h">
         <h2 id="ts-how-h">{t.howH}</h2>

@@ -441,5 +441,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Her hisse, her borsa",
+    "lead": "Her hisseyi token veya sürekli vadeli olarak hangi borsaların listelediği, en yüksek kaldıraç ve en düşük standart sürekli vadeli taker ücreti; borsaların kendi piyasa verilerinden. Sıralamak için bir sütun seçin.",
+    "stock": "Hisse",
+    "venues": "Borsalar",
+    "token": "Token",
+    "perp": "Sürekli vadeli",
+    "lev": "Maks. kaldıraç",
+    "fee": "En düşük vadeli taker",
+    "weekend": "7/24 borsalar",
+    "latest": "En yeni listeleme",
+    "sort": "{col} sütununa göre sırala",
+    "cell": "{name}: {lanes}",
+    "none": "Listede yok",
+    "homeMore": "{n} hissenin tümünü karşılaştır",
+    "dataNote": "Borsaların herkese açık piyasa verileri · {time} SGT",
+    "newH": "En yeni listelemeler",
+    "newLead": "Okuduğumuz piyasa verilerindeki en yeni hisse listelemeleri, en yeniden eskiye."
+  },
+  "risk": {
+    "h": "Ne satın alıyorsunuz, riskler neler",
+    "lead": "Tokenize hisse, hissenin kendisi değildir. İşlemden önce bu beş noktayı kontrol edin.",
+    "items": [
+      [
+        "Sahiplik değil, fiyat maruziyeti",
+        "Hisse tokenı bir hissenin fiyatını izler; pay kaydı ve oy hakkı yoktur. Hisse sürekli vadelisi hiç hisse vermez."
+      ],
+      [
+        "Fiyat hisseden ayrışabilir",
+        "ABD piyasası kapalıyken 7/24 işlem gören token veya vadeli, borsanın kendi emir defterinde işlem görür. Fiyat son kapanıştan uzaklaşabilir ve açılışta sıçrayabilir."
+      ],
+      [
+        "Kaldıraç iki yönlü keser",
+        "Sürekli vadelide aleyhinize yaklaşık 1 bölü kaldıraç kadar bir hareket teminatı silebilir: 20x'te yaklaşık %5, 100x'te %1. Pozisyon açıkken fonlama ödenir veya alınır."
+      ],
+      [
+        "Her token ailesinin kendi kuralı var",
+        "xStocks, bStocks ve Ondo tokenları farklı ihraç, saklama ve itfa kurallarına tabidir. Almadan önce borsanın kendi sayfasını okuyun."
+      ],
+      [
+        "Nerede yaşadığınız önemli",
+        "ABD'li kişiler hariç tutulur ve birçok borsa başka bölgeleri de engeller. Önce her borsanın \"Erişilemeyen yerler\" satırına bakın."
+      ]
+    ]
   }
 }

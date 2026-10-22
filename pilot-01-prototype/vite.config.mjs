@@ -287,7 +287,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Tokenized US stocks hub + ticker pages (2026-10-15): pages, styles and the 17-locale copy in one route chunk;
           // the sourced facts, teaser strings and helpers are read by the home strip and /exchanges/<slug> too, so they are
           // pinned in their own small chunk (no route chunk pulls another).
-          if (/\/src\/components\/tokenized-stocks\/(?:TokenizedStocksPages\.jsx|TokenizedStocksDetail\.jsx|tokenized-stocks\.css|ts-detail\.css)$/.test(id) || /\/src\/data\/tokenized-stocks-(?:copy-client|model|rows|live-sources|live\.generated)\.js$/.test(id)) return "route-tokenized-stocks";
+          // Listing snapshot + stock-by-stock helpers (2026-10-22): read by the hub and by the lazy home strip, pinned so the
+          // strip never pulls the hub route chunk (its CSS and the news library came with it).
+          if (/\/src\/data\/tokenized-stocks-(?:rows|live-sources|live\.generated|matrix)\.js$/.test(id)) return "shared-tokenized-stocks-live";
+          if (/\/src\/components\/tokenized-stocks\/(?:TokenizedStocksPages\.jsx|TokenizedStocksDetail\.jsx|TokenizedStocksMatrix\.jsx|tokenized-stocks\.css|ts-detail\.css)$/.test(id) || /\/src\/data\/tokenized-stocks-(?:copy-client|model)\.js$/.test(id)) return "route-tokenized-stocks";
           // One lazy chunk per copy edition (the browser loads only its own locale; the 17-locale table is server-only).
           { const edition = /\/src\/data\/tokenized-stocks-copy\/([a-z-]+)\.js$/.exec(id); if (edition) return `ts-copy-${edition[1]}`; }
           if (/\/src\/data\/tokenized-stocks(?:-facts|-teaser)?\.js$/.test(id)) return "shared-tokenized-stocks";
