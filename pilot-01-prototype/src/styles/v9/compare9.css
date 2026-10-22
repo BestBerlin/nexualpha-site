@@ -19,6 +19,8 @@ html body:has(main#top.v3-compare-page){background-color:#08090C;background-imag
 #top.v3-compare-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .v3-compare-hero-actions__btn[data-lower-fees] :is(.v3-compare-hero-actions__label strong,.v3-compare-hero-actions__label + span){color:var(--x-on-ac)}
 #top.v3-compare-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .v3-compare-hero-actions__btn[data-lower-fees] .v3-compare-hero-actions__label small{color:rgb(4 19 15/.72)}
 #top.v3-compare-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .v3-compare-hero-actions__lower{position:absolute;inset-block-start:-10px;inset-inline-end:14px;padding:3px 9px;border-radius:999px;background:#08090C;border:1px solid var(--x-ac);font:600 11px/14px var(--x-mono);letter-spacing:.04em;color:var(--x-ac);white-space:nowrap}
+/* The filled button recolours its spans dark; the tag sits on its own dark pill, so it keeps the accent (was invisible). */
+#top.v3-compare-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .v3-compare-hero-actions__btn[data-lower-fees] span.v3-compare-hero-actions__lower.v3-compare-hero-actions__lower{color:var(--x-ac)}
 #top.v3-compare-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .v3-compare-hero-actions__verdict{font-size:15px;color:var(--x-ink)}
 
 /* ---------- fee ledger: panel, lower figure lit ---------- */
