@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Every stock, every exchange",
+    "lead": "Which exchanges list each stock as a token or a perpetual, the highest leverage and the lowest standard perpetual taker fee, read from the exchanges' own market data. Select a column to sort.",
+    "stock": "Stock",
+    "venues": "Exchanges",
+    "token": "Token",
+    "perp": "Perpetual",
+    "lev": "Max leverage",
+    "fee": "Lowest perp taker",
+    "weekend": "24/7 venues",
+    "latest": "Newest listing",
+    "sort": "Sort by {col}",
+    "cell": "{name}: {lanes}",
+    "none": "Not listed",
+    "homeMore": "Compare all {n} stocks",
+    "dataNote": "Exchanges' public market data · {time} SGT",
+    "newH": "Newest listings",
+    "newLead": "The latest stock listings in the exchanges' market data we read, newest first."
+  },
+  "risk": {
+    "h": "What you are buying, and the risks",
+    "lead": "A tokenized stock is not the share itself. Check these five points before you trade one.",
+    "items": [
+      [
+        "Exposure, not ownership",
+        "A stock token tracks the price of a share without share registration or voting rights. A stock perpetual gives no shares at all."
+      ],
+      [
+        "The price can drift from the stock",
+        "When the US market is closed, a 24/7 token or perpetual trades on the exchange's own order book. Its price can move away from the last close and jump when the market reopens."
+      ],
+      [
+        "Leverage cuts both ways",
+        "On a perpetual, a move against you of roughly 1 divided by your leverage can wipe out your margin: about 5% at 20x, 1% at 100x. Funding is paid or charged while the position is open."
+      ],
+      [
+        "Each token family has its own rules",
+        "xStocks, rToken, bStocks and Ondo tokens follow different issuance, custody and redemption rules. Read the exchange's own page before you buy."
+      ],
+      [
+        "Where you live matters",
+        "US persons are excluded, and several exchanges block more regions. Check the \"Not available in\" line of each exchange first."
+      ]
+    ]
   }
 }

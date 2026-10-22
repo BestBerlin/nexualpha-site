@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Cada acción, cada exchange",
+    "lead": "Qué exchanges listan cada acción como token o perpetuo, el apalancamiento máximo y la comisión taker estándar más baja en perpetuos, según los datos de mercado de los propios exchanges. Elige una columna para ordenar.",
+    "stock": "Acción",
+    "venues": "Exchanges",
+    "token": "Token",
+    "perp": "Perpetuo",
+    "lev": "Apalancamiento máx.",
+    "fee": "Taker perp más bajo",
+    "weekend": "Exchanges 24/7",
+    "latest": "Último listado",
+    "sort": "Ordenar por {col}",
+    "cell": "{name}: {lanes}",
+    "none": "No listado",
+    "homeMore": "Comparar las {n} acciones",
+    "dataNote": "Datos de mercado públicos de los exchanges · {time} SGT",
+    "newH": "Últimos listados",
+    "newLead": "Los listados de acciones más recientes en los datos de mercado que leemos, del más nuevo al más antiguo."
+  },
+  "risk": {
+    "h": "Qué compras y cuáles son los riesgos",
+    "lead": "Una acción tokenizada no es la acción en sí. Revisa estos cinco puntos antes de operar.",
+    "items": [
+      [
+        "Exposición, no propiedad",
+        "Un token de acción sigue el precio de una acción sin registro como accionista ni derecho de voto. Un perpetuo de acciones no da ninguna acción."
+      ],
+      [
+        "El precio puede separarse de la acción",
+        "Con el mercado de EE. UU. cerrado, un token o perpetuo 24/7 cotiza en el libro de órdenes del exchange. Su precio puede alejarse del último cierre y saltar en la apertura."
+      ],
+      [
+        "El apalancamiento corta en ambos sentidos",
+        "En un perpetuo, un movimiento en contra de aproximadamente 1 dividido entre tu apalancamiento puede liquidar el margen: cerca del 5 % a 20x y del 1 % a 100x. Mientras la posición está abierta se paga o cobra funding."
+      ],
+      [
+        "Cada familia de tokens tiene sus reglas",
+        "xStocks, rToken, bStocks y los tokens de Ondo siguen reglas distintas de emisión, custodia y reembolso. Lee la página del exchange antes de comprar."
+      ],
+      [
+        "Importa dónde vives",
+        "Las personas de EE. UU. quedan excluidas y varios exchanges bloquean más regiones. Revisa primero la línea \"No disponible en\" de cada exchange."
+      ]
+    ]
   }
 }

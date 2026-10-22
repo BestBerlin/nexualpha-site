@@ -38,7 +38,7 @@ const converterData = ["converter-routes.js", "converter.js", "converter-copy.js
 // Bybit Stocks campaign page (2026-10-12): the Worker head imports its route, SEO helper and copy.
 const bybitStocksData = ["bybit-stocks.js", "bybit-stocks-path.js", "bybit-stocks-seo.js", "bybit-stocks-copy.js"];
 // Tokenized US stocks (2026-10-15): the Worker head imports its routes, SEO helper, sourced facts and copy.
-const tokenizedStocksData = ["tokenized-stocks.js", "tokenized-stocks-routes.js", "tokenized-stocks-labels.js", "tokenized-stocks-seo.js", "tokenized-stocks-facts.js", "tokenized-stocks-copy.js", "tokenized-stocks-teaser.js", "tokenized-stocks-model.js", "tokenized-stocks-rows.js", "tokenized-stocks-live-sources.js", "tokenized-stocks-live.generated.js"];
+const tokenizedStocksData = ["tokenized-stocks.js", "tokenized-stocks-routes.js", "tokenized-stocks-labels.js", "tokenized-stocks-seo.js", "tokenized-stocks-facts.js", "tokenized-stocks-copy.js", "tokenized-stocks-teaser.js", "tokenized-stocks-model.js", "tokenized-stocks-matrix.js", "tokenized-stocks-rows.js", "tokenized-stocks-live-sources.js", "tokenized-stocks-live.generated.js"];
 // Spot ETF flows + crypto calendar (2026-10-13): the Worker head, SSR state and iCal export import these.
 // Linkable data assets + /press (SEO W43, 2026-10-18): the Worker head, CSV/SVG routes and SSR state import these.
 const dataAssetsData = ["data-assets-routes.js", "data-assets.js", "data-assets-copy.js", "data-assets-seo.js"];

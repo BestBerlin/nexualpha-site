@@ -5,13 +5,12 @@
 import { TS_PREIPO, TS_TICKERS, tsExchange } from "./tokenized-stocks-facts.js";
 import { fillTs, tsCitable, tsList } from "./tokenized-stocks.js";
 import { tsExchangeCounts, tsExchangeTickerRows, tsLive, tsRowSources, tsTickerRows, tsTickerSummary } from "./tokenized-stocks-rows.js";
-import { formatSgt, readerDayKey } from "./local-time.js";
+import { sgtStamp } from "./tokenized-stocks-matrix.js";
 
 // The copy edition `t` is passed in: the browser holds one edition (tokenized-stocks-copy-client.js), the server all of
 // them (tokenized-stocks-seo.js). This module never imports the copy table.
 const pct = (n) => `${Number(n).toString()}%`;
-/** "2026-10-18 23:10" in Singapore time (SSR and browser print the same string). */
-export const sgtStamp = (iso) => { const day = readerDayKey(iso); return day ? `${day} ${formatSgt(iso, "en-GB", "clock").replace(/ SGT$/, "")}` : ""; };
+export { sgtStamp };
 
 /** FAQ of a ticker page, built from the rows: every answer names the exchanges it is about and cites them. */
 function tickerFaq({ ticker, name, rows, sum, t, tk, locale, market }) {

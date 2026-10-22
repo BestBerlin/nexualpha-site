@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Chaque action, chaque plateforme",
+    "lead": "Quelles plateformes listent chaque action en token ou en perpétuel, le levier maximal et les frais taker standard les plus bas sur perpétuels, d'après les données de marché des plateformes elles-mêmes. Choisissez une colonne pour trier.",
+    "stock": "Action",
+    "venues": "Plateformes",
+    "token": "Token",
+    "perp": "Perpétuel",
+    "lev": "Levier max.",
+    "fee": "Taker perp le plus bas",
+    "weekend": "Plateformes 24/7",
+    "latest": "Dernière cotation",
+    "sort": "Trier par {col}",
+    "cell": "{name} : {lanes}",
+    "none": "Non listé",
+    "homeMore": "Comparer les {n} actions",
+    "dataNote": "Données de marché publiques des plateformes · {time} SGT",
+    "newH": "Dernières cotations",
+    "newLead": "Les cotations d'actions les plus récentes dans les données de marché que nous lisons, de la plus récente à la plus ancienne."
+  },
+  "risk": {
+    "h": "Ce que vous achetez, et les risques",
+    "lead": "Une action tokenisée n'est pas l'action elle-même. Vérifiez ces cinq points avant de trader.",
+    "items": [
+      [
+        "Une exposition, pas une propriété",
+        "Un token d'action suit le prix d'une action sans inscription comme actionnaire ni droit de vote. Un perpétuel sur action ne donne aucune action."
+      ],
+      [
+        "Le prix peut s'écarter de l'action",
+        "Quand le marché américain est fermé, un token ou un perpétuel 24/7 s'échange sur le carnet d'ordres de la plateforme. Son prix peut s'éloigner de la dernière clôture et sauter à la réouverture."
+      ],
+      [
+        "Le levier joue dans les deux sens",
+        "Sur un perpétuel, un mouvement contraire d'environ 1 divisé par votre levier peut effacer la marge : environ 5 % à 20x, 1 % à 100x. Le funding est payé ou perçu tant que la position est ouverte."
+      ],
+      [
+        "Chaque famille de tokens a ses règles",
+        "xStocks, rToken, bStocks et les tokens Ondo suivent des règles d'émission, de conservation et de rachat différentes. Lisez la page de la plateforme avant d'acheter."
+      ],
+      [
+        "Votre lieu de résidence compte",
+        "Les personnes américaines sont exclues et plusieurs plateformes bloquent d'autres régions. Vérifiez d'abord la ligne « Indisponible en » de chaque plateforme."
+      ]
+    ]
   }
 }

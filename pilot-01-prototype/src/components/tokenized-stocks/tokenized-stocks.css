@@ -257,3 +257,62 @@
 @media (max-width: 768px) {
   .nxts-faq .nxts-src a { display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: 4px; }
 }
+
+/* Stock-by-stock table (2026-10-22): one row per ticker, sortable figure columns, mono tabular figures end-aligned, the
+   exchange that offers a figure on a quiet second line. Scrolls sideways inside its own frame on narrow screens with the
+   stock column pinned; the page itself never scrolls sideways. */
+.nxts-mx__stamp { font: 400 12px/1.5 var(--t-mono); color: var(--t-ink3); font-variant-numeric: tabular-nums; }
+:is(:lang(zh), :lang(ja), :lang(ko), :lang(ar), :lang(ur)) .nxts-mx__stamp { font-family: inherit; }
+.nxts-mx { margin-block-start: 20px; overflow-x: auto; overscroll-behavior-x: contain; border-block-start: 1px solid var(--t-line2); scrollbar-width: thin; }
+.nxts-mx:focus-visible { outline: 2px solid var(--t-spot); outline-offset: 2px; }
+.nxts-mx__t { inline-size: 100%; min-inline-size: 880px; border-collapse: collapse; font-size: 14px; }
+.nxts-mx__t th, .nxts-mx__t td { padding: 10px 12px; border-block-end: 1px solid var(--t-line); text-align: start; vertical-align: middle; }
+.nxts-mx__t thead th { padding-block: 0; font: 500 12px/1.3 var(--t-mono); color: var(--t-ink3); letter-spacing: .02em; white-space: nowrap; }
+:is(:lang(zh), :lang(ja), :lang(ko), :lang(ar), :lang(ur)) .nxts-mx__t thead th { font-family: inherit; letter-spacing: 0; }
+.nxts-mx__t thead th.nxts-mx__stock { padding-block: 14px; }
+.nxts-mx__t .is-num { text-align: end; font-variant-numeric: tabular-nums; }
+.nxts-mx__t thead button { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; inline-size: 100%; min-block-size: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; transition: color 140ms; }
+.nxts-mx__t thead button:hover, .nxts-mx__t thead button[data-active] { color: var(--t-ink); }
+.nxts-mx__arrow { inline-size: 1ch; color: var(--t-ink3); }
+.nxts-mx__t thead button[data-active] .nxts-mx__arrow { color: var(--t-spot); }
+.nxts-mx__stock { position: sticky; inset-inline-start: 0; z-index: 1; background: var(--t-bg); min-inline-size: 148px; }
+.nxts-mx__t tbody th a { display: grid; gap: 2px; min-block-size: 44px; align-content: center; text-decoration: none; }
+.nxts-mx__t tbody th b { font: 600 15px/1.2 var(--t-mono); color: var(--t-ink); letter-spacing: .02em; }
+.nxts-mx__t tbody th span { font-size: 12.5px; font-weight: 400; color: var(--t-ink3); white-space: nowrap; }
+.nxts-mx__t tbody th a:hover b { color: var(--t-blue-hi); }
+.nxts-mx__t tbody tr:hover :is(th, td) { background: #0F1013; }
+.nxts-mx__t td { font-size: 14px; line-height: 1.25; color: var(--t-ink); }
+.nxts-mx__t td b { display: block; font: 500 14px/1.25 var(--t-mono); font-variant-numeric: tabular-nums; }
+.nxts-mx__t td small { display: block; margin-block-start: 2px; font-size: 12px; line-height: 1.3; color: var(--t-ink3); white-space: nowrap; }
+.nxts-mx__n { display: block; }
+.nxts-mx__dots { display: flex; gap: 3px; justify-content: flex-end; margin-block-start: 6px; }
+.nxts-mx__dots i, .nxts-mx__legend i { display: block; inline-size: 6px; block-size: 6px; border-radius: 1px; background: rgb(255 255 255 / .1); }
+.nxts-mx__dots i[data-on], .nxts-mx__legend i[data-on] { background: var(--lane); }
+.nxts-mx__legend { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-block-start: 12px; font-size: 12.5px; color: var(--t-ink3); }
+.nxts-mx__legend span { display: inline-flex; align-items: center; gap: 8px; }
+
+/* newest listings: a dated ledger, one line per listing */
+.nxts-new { margin-block-start: 16px; border-block-start: 1px solid var(--t-line); }
+.nxts-new li { display: grid; grid-template-columns: 11ch 8ch minmax(0, 12rem) minmax(0, 12rem) minmax(0, 1fr); align-items: center; gap: 4px 16px; min-block-size: 52px; padding-block: 4px; border-block-end: 1px solid var(--t-line); }
+.nxts-new time { font: 400 13px/1.3 var(--t-mono); color: var(--t-ink3); font-variant-numeric: tabular-nums; }
+.nxts-new a { display: inline-flex; align-items: center; min-block-size: 44px; font: 600 14px/1 var(--t-mono); color: var(--t-ink); text-decoration: underline; text-decoration-color: var(--t-line2); text-underline-offset: 4px; }
+.nxts-new a:hover { text-decoration-color: var(--t-ink); }
+.nxts-new__ex { display: inline-flex; align-items: center; gap: 8px; min-inline-size: 0; color: var(--t-ink2); font-size: 14px; }
+.nxts-new__ex img, .nxts-new__ex [data-brand-fallback] { inline-size: 20px; block-size: 20px; flex: none; }
+.nxts-new code { font: 500 13px/1.3 var(--t-mono); color: var(--t-ink2); overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .nxts-new li { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "a x d" "l l c"; gap: 0 12px; padding-block: 6px 10px; }
+  .nxts-new a { grid-area: a; } .nxts-new time { grid-area: d; } .nxts-new__ex { grid-area: x; }
+  .nxts-new .nxts-cell__lane { grid-area: l; } .nxts-new code { grid-area: c; justify-self: end; }
+}
+
+/* risks: numbered ledger, heading left and text right on wide screens */
+.nxts-risk { margin-block-start: 16px; border-block-start: 1px solid var(--t-line2); }
+.nxts-risk li { display: grid; grid-template-columns: 3ch minmax(0, 18rem) minmax(0, 1fr); gap: 4px 24px; align-items: baseline; padding-block: 20px; border-block-end: 1px solid var(--t-line); }
+.nxts-risk__n { font: 500 12px/1 var(--t-mono); color: var(--t-ink3); }
+.nxts-risk p { max-inline-size: 68ch; font-size: 15px; line-height: 1.65; }
+:is(:lang(zh), :lang(ja), :lang(ko)) .nxts-risk p { line-height: 1.8; }
+@media (max-width: 720px) {
+  .nxts-risk li { grid-template-columns: 3ch minmax(0, 1fr); padding-block: 16px; }
+  .nxts-risk p { grid-column: 2; }
+}

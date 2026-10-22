@@ -448,5 +448,50 @@
     "gate-io": "Gate",
     "kraken": "Kraken",
     "mexc": "MEXC"
+  },
+  "mx": {
+    "h": "Ogni azione, ogni exchange",
+    "lead": "Quali exchange quotano ogni azione come token o perpetuo, la leva massima e la commissione taker standard più bassa sui perpetui, dai dati di mercato degli exchange stessi. Scegli una colonna per ordinare.",
+    "stock": "Azione",
+    "venues": "Exchange",
+    "token": "Token",
+    "perp": "Perpetuo",
+    "lev": "Leva max",
+    "fee": "Taker perp più basso",
+    "weekend": "Exchange 24/7",
+    "latest": "Quotazione più recente",
+    "sort": "Ordina per {col}",
+    "cell": "{name}: {lanes}",
+    "none": "Non quotato",
+    "homeMore": "Confronta tutte le {n} azioni",
+    "dataNote": "Dati di mercato pubblici degli exchange · {time} SGT",
+    "newH": "Quotazioni più recenti",
+    "newLead": "Le quotazioni di azioni più recenti nei dati di mercato che leggiamo, dalla più nuova."
+  },
+  "risk": {
+    "h": "Cosa compri e quali sono i rischi",
+    "lead": "Un'azione tokenizzata non è l'azione stessa. Controlla questi cinque punti prima di fare trading.",
+    "items": [
+      [
+        "Esposizione, non proprietà",
+        "Un token azionario segue il prezzo di un'azione senza registrazione come azionista né diritto di voto. Un perpetuo su azioni non dà alcuna azione."
+      ],
+      [
+        "Il prezzo può scostarsi dall'azione",
+        "Quando il mercato USA è chiuso, un token o perpetuo 24/7 si scambia sul book dell'exchange. Il prezzo può allontanarsi dall'ultima chiusura e saltare alla riapertura."
+      ],
+      [
+        "La leva taglia in entrambe le direzioni",
+        "Su un perpetuo, un movimento contrario di circa 1 diviso la leva può azzerare il margine: circa il 5% a 20x, l'1% a 100x. Finché la posizione è aperta il funding viene pagato o incassato."
+      ],
+      [
+        "Ogni famiglia di token ha le sue regole",
+        "xStocks, rToken, bStocks e i token Ondo seguono regole diverse di emissione, custodia e rimborso. Leggi la pagina dell'exchange prima di comprare."
+      ],
+      [
+        "Conta dove vivi",
+        "Le persone statunitensi sono escluse e diversi exchange bloccano altre regioni. Controlla prima la riga \"Non disponibile in\" di ogni exchange."
+      ]
+    ]
   }
 }

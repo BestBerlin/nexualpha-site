@@ -453,6 +453,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "كل سهم على كل منصة",
+   "lead": "أي المنصات تُدرج كل سهم كرمز أو كعقد دائم، وأعلى رافعة، وأدنى رسوم آخذ قياسية للعقود الدائمة، من بيانات السوق الخاصة بالمنصات نفسها. اختر عمودًا للترتيب.",
+   "stock": "السهم",
+   "venues": "المنصات",
+   "token": "رمز",
+   "perp": "دائم",
+   "lev": "أقصى رافعة",
+   "fee": "أدنى رسوم آخذ للعقود الدائمة",
+   "weekend": "منصات 24/7",
+   "latest": "أحدث إدراج",
+   "sort": "الترتيب حسب {col}",
+   "cell": "{name}: {lanes}",
+   "none": "غير مُدرج",
+   "homeMore": "قارن الأسهم الـ {n} كلها",
+   "dataNote": "بيانات السوق العامة للمنصات · {time} SGT",
+   "newH": "أحدث الإدراجات",
+   "newLead": "أحدث إدراجات الأسهم في بيانات السوق التي نقرؤها، من الأحدث إلى الأقدم."
+  },
+  "risk": {
+   "h": "ما الذي تشتريه، وما المخاطر",
+   "lead": "السهم المرمّز ليس السهم نفسه. تحقّق من هذه النقاط الخمس قبل التداول.",
+   "items": [
+    [
+     "تعرّض للسعر لا ملكية",
+     "يتتبع رمز السهم سعر السهم دون تسجيل كمساهم ودون حق تصويت. والعقد الدائم على السهم لا يمنح أي أسهم."
+    ],
+    [
+     "قد يبتعد السعر عن السهم",
+     "عندما يكون السوق الأمريكي مغلقًا، يُتداول الرمز أو العقد الدائم 24/7 في دفتر أوامر المنصة نفسها، فقد يبتعد السعر عن آخر إغلاق ويقفز عند الافتتاح."
+    ],
+    [
+     "الرافعة سلاح ذو حدين",
+     "في العقد الدائم، قد تمحو حركة معاكسة بنحو 1 مقسومًا على الرافعة هامشك: نحو 5% عند 20x و1% عند 100x. وتُدفع رسوم التمويل أو تُقبض ما دام المركز مفتوحًا."
+    ],
+    [
+     "لكل عائلة رموز قواعدها",
+     "تتبع xStocks وrToken وbStocks ورموز Ondo قواعد مختلفة للإصدار والحفظ والاسترداد. اقرأ صفحة المنصة قبل الشراء."
+    ],
+    [
+     "مكان إقامتك مهم",
+     "الأشخاص الأمريكيون مستبعدون، وتحظر منصات عدة مناطق أخرى. راجع أولًا سطر «غير متاح في» لكل منصة."
+    ]
+   ]
+  },
   "regions": {
    "AU": "أستراليا",
    "CA": "كندا",
@@ -917,6 +962,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "Jede Aktie, jede Börse",
+   "lead": "Welche Börsen jede Aktie als Token oder Perpetual listen, der höchste Hebel und die niedrigste Standard-Taker-Gebühr für Perpetuals, aus den eigenen Marktdaten der Börsen. Spalte wählen zum Sortieren.",
+   "stock": "Aktie",
+   "venues": "Börsen",
+   "token": "Token",
+   "perp": "Perpetual",
+   "lev": "Max. Hebel",
+   "fee": "Niedrigster Perp-Taker",
+   "weekend": "24/7-Börsen",
+   "latest": "Neueste Notierung",
+   "sort": "Nach {col} sortieren",
+   "cell": "{name}: {lanes}",
+   "none": "Nicht gelistet",
+   "homeMore": "Alle {n} Aktien vergleichen",
+   "dataNote": "Öffentliche Marktdaten der Börsen · {time} SGT",
+   "newH": "Neueste Notierungen",
+   "newLead": "Die jüngsten Aktiennotierungen in den Marktdaten, die wir lesen, neueste zuerst."
+  },
+  "risk": {
+   "h": "Was Sie kaufen und welche Risiken es gibt",
+   "lead": "Eine tokenisierte Aktie ist nicht die Aktie selbst. Prüfen Sie diese fünf Punkte vor dem Handel.",
+   "items": [
+    [
+     "Preis-Exposure, kein Eigentum",
+     "Ein Aktien-Token folgt dem Kurs einer Aktie ohne Eintragung als Aktionär und ohne Stimmrecht. Ein Aktien-Perpetual gibt überhaupt keine Aktien."
+    ],
+    [
+     "Der Preis kann von der Aktie abweichen",
+     "Wenn der US-Markt geschlossen ist, handelt ein 24/7-Token oder -Perpetual im eigenen Orderbuch der Börse. Der Preis kann sich vom letzten Schlusskurs entfernen und bei Markteröffnung springen."
+    ],
+    [
+     "Hebel wirkt in beide Richtungen",
+     "Bei einem Perpetual kann eine Gegenbewegung von etwa 1 geteilt durch den Hebel die Margin aufzehren: rund 5 % bei 20x, 1 % bei 100x. Solange die Position offen ist, wird Funding gezahlt oder vereinnahmt."
+    ],
+    [
+     "Jede Token-Familie hat eigene Regeln",
+     "xStocks, rToken, bStocks und Ondo-Token folgen unterschiedlichen Regeln für Ausgabe, Verwahrung und Rücknahme. Lesen Sie vor dem Kauf die Seite der Börse."
+    ],
+    [
+     "Ihr Wohnsitz zählt",
+     "US-Personen sind ausgeschlossen, und mehrere Börsen sperren weitere Regionen. Prüfen Sie zuerst die Zeile „Nicht verfügbar in“ jeder Börse."
+    ]
+   ]
   },
   "regions": {
    "AU": "Australien",
@@ -1383,6 +1473,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Every stock, every exchange",
+   "lead": "Which exchanges list each stock as a token or a perpetual, the highest leverage and the lowest standard perpetual taker fee, read from the exchanges' own market data. Select a column to sort.",
+   "stock": "Stock",
+   "venues": "Exchanges",
+   "token": "Token",
+   "perp": "Perpetual",
+   "lev": "Max leverage",
+   "fee": "Lowest perp taker",
+   "weekend": "24/7 venues",
+   "latest": "Newest listing",
+   "sort": "Sort by {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Not listed",
+   "homeMore": "Compare all {n} stocks",
+   "dataNote": "Exchanges' public market data · {time} SGT",
+   "newH": "Newest listings",
+   "newLead": "The latest stock listings in the exchanges' market data we read, newest first."
+  },
+  "risk": {
+   "h": "What you are buying, and the risks",
+   "lead": "A tokenized stock is not the share itself. Check these five points before you trade one.",
+   "items": [
+    [
+     "Exposure, not ownership",
+     "A stock token tracks the price of a share without share registration or voting rights. A stock perpetual gives no shares at all."
+    ],
+    [
+     "The price can drift from the stock",
+     "When the US market is closed, a 24/7 token or perpetual trades on the exchange's own order book. Its price can move away from the last close and jump when the market reopens."
+    ],
+    [
+     "Leverage cuts both ways",
+     "On a perpetual, a move against you of roughly 1 divided by your leverage can wipe out your margin: about 5% at 20x, 1% at 100x. Funding is paid or charged while the position is open."
+    ],
+    [
+     "Each token family has its own rules",
+     "xStocks, rToken, bStocks and Ondo tokens follow different issuance, custody and redemption rules. Read the exchange's own page before you buy."
+    ],
+    [
+     "Where you live matters",
+     "US persons are excluded, and several exchanges block more regions. Check the \"Not available in\" line of each exchange first."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Australia",
    "CA": "Canada",
@@ -1847,6 +1982,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "Cada acción, cada exchange",
+   "lead": "Qué exchanges listan cada acción como token o perpetuo, el apalancamiento máximo y la comisión taker estándar más baja en perpetuos, según los datos de mercado de los propios exchanges. Elige una columna para ordenar.",
+   "stock": "Acción",
+   "venues": "Exchanges",
+   "token": "Token",
+   "perp": "Perpetuo",
+   "lev": "Apalancamiento máx.",
+   "fee": "Taker perp más bajo",
+   "weekend": "Exchanges 24/7",
+   "latest": "Último listado",
+   "sort": "Ordenar por {col}",
+   "cell": "{name}: {lanes}",
+   "none": "No listado",
+   "homeMore": "Comparar las {n} acciones",
+   "dataNote": "Datos de mercado públicos de los exchanges · {time} SGT",
+   "newH": "Últimos listados",
+   "newLead": "Los listados de acciones más recientes en los datos de mercado que leemos, del más nuevo al más antiguo."
+  },
+  "risk": {
+   "h": "Qué compras y cuáles son los riesgos",
+   "lead": "Una acción tokenizada no es la acción en sí. Revisa estos cinco puntos antes de operar.",
+   "items": [
+    [
+     "Exposición, no propiedad",
+     "Un token de acción sigue el precio de una acción sin registro como accionista ni derecho de voto. Un perpetuo de acciones no da ninguna acción."
+    ],
+    [
+     "El precio puede separarse de la acción",
+     "Con el mercado de EE. UU. cerrado, un token o perpetuo 24/7 cotiza en el libro de órdenes del exchange. Su precio puede alejarse del último cierre y saltar en la apertura."
+    ],
+    [
+     "El apalancamiento corta en ambos sentidos",
+     "En un perpetuo, un movimiento en contra de aproximadamente 1 dividido entre tu apalancamiento puede liquidar el margen: cerca del 5 % a 20x y del 1 % a 100x. Mientras la posición está abierta se paga o cobra funding."
+    ],
+    [
+     "Cada familia de tokens tiene sus reglas",
+     "xStocks, rToken, bStocks y los tokens de Ondo siguen reglas distintas de emisión, custodia y reembolso. Lee la página del exchange antes de comprar."
+    ],
+    [
+     "Importa dónde vives",
+     "Las personas de EE. UU. quedan excluidas y varios exchanges bloquean más regiones. Revisa primero la línea \"No disponible en\" de cada exchange."
+    ]
+   ]
   },
   "regions": {
    "AU": "Australia",
@@ -2313,6 +2493,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Chaque action, chaque plateforme",
+   "lead": "Quelles plateformes listent chaque action en token ou en perpétuel, le levier maximal et les frais taker standard les plus bas sur perpétuels, d'après les données de marché des plateformes elles-mêmes. Choisissez une colonne pour trier.",
+   "stock": "Action",
+   "venues": "Plateformes",
+   "token": "Token",
+   "perp": "Perpétuel",
+   "lev": "Levier max.",
+   "fee": "Taker perp le plus bas",
+   "weekend": "Plateformes 24/7",
+   "latest": "Dernière cotation",
+   "sort": "Trier par {col}",
+   "cell": "{name} : {lanes}",
+   "none": "Non listé",
+   "homeMore": "Comparer les {n} actions",
+   "dataNote": "Données de marché publiques des plateformes · {time} SGT",
+   "newH": "Dernières cotations",
+   "newLead": "Les cotations d'actions les plus récentes dans les données de marché que nous lisons, de la plus récente à la plus ancienne."
+  },
+  "risk": {
+   "h": "Ce que vous achetez, et les risques",
+   "lead": "Une action tokenisée n'est pas l'action elle-même. Vérifiez ces cinq points avant de trader.",
+   "items": [
+    [
+     "Une exposition, pas une propriété",
+     "Un token d'action suit le prix d'une action sans inscription comme actionnaire ni droit de vote. Un perpétuel sur action ne donne aucune action."
+    ],
+    [
+     "Le prix peut s'écarter de l'action",
+     "Quand le marché américain est fermé, un token ou un perpétuel 24/7 s'échange sur le carnet d'ordres de la plateforme. Son prix peut s'éloigner de la dernière clôture et sauter à la réouverture."
+    ],
+    [
+     "Le levier joue dans les deux sens",
+     "Sur un perpétuel, un mouvement contraire d'environ 1 divisé par votre levier peut effacer la marge : environ 5 % à 20x, 1 % à 100x. Le funding est payé ou perçu tant que la position est ouverte."
+    ],
+    [
+     "Chaque famille de tokens a ses règles",
+     "xStocks, rToken, bStocks et les tokens Ondo suivent des règles d'émission, de conservation et de rachat différentes. Lisez la page de la plateforme avant d'acheter."
+    ],
+    [
+     "Votre lieu de résidence compte",
+     "Les personnes américaines sont exclues et plusieurs plateformes bloquent d'autres régions. Vérifiez d'abord la ligne « Indisponible en » de chaque plateforme."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Australie",
    "CA": "Canada",
@@ -2777,6 +3002,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "Setiap saham, setiap bursa",
+   "lead": "Bursa mana yang mencatat tiap saham sebagai token atau perpetual, leverage tertinggi dan biaya taker perpetual standar terendah, dari data pasar milik bursa sendiri. Pilih kolom untuk mengurutkan.",
+   "stock": "Saham",
+   "venues": "Bursa",
+   "token": "Token",
+   "perp": "Perpetual",
+   "lev": "Leverage maks.",
+   "fee": "Taker perp terendah",
+   "weekend": "Bursa 24/7",
+   "latest": "Listing terbaru",
+   "sort": "Urutkan menurut {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Belum listing",
+   "homeMore": "Bandingkan semua {n} saham",
+   "dataNote": "Data pasar publik bursa · {time} SGT",
+   "newH": "Listing terbaru",
+   "newLead": "Listing saham terbaru dalam data pasar bursa yang kami baca, dari yang paling baru."
+  },
+  "risk": {
+   "h": "Apa yang Anda beli, dan risikonya",
+   "lead": "Saham tokenisasi bukan saham itu sendiri. Periksa lima hal ini sebelum bertransaksi.",
+   "items": [
+    [
+     "Eksposur, bukan kepemilikan",
+     "Token saham mengikuti harga satu saham tanpa pencatatan pemegang saham atau hak suara. Perpetual saham tidak memberi saham sama sekali."
+    ],
+    [
+     "Harga bisa menyimpang dari saham",
+     "Saat pasar AS tutup, token atau perpetual 24/7 diperdagangkan di order book bursa sendiri. Harganya bisa menjauh dari penutupan terakhir dan melompat saat pasar dibuka."
+    ],
+    [
+     "Leverage memotong dua arah",
+     "Pada perpetual, pergerakan melawan Anda sekitar 1 dibagi leverage bisa menghapus margin: sekitar 5% pada 20x, 1% pada 100x. Funding dibayar atau ditagih selama posisi terbuka."
+    ],
+    [
+     "Tiap keluarga token punya aturan sendiri",
+     "xStocks, rToken, bStocks, dan token Ondo mengikuti aturan penerbitan, kustodi, dan penebusan yang berbeda. Baca halaman bursa sebelum membeli."
+    ],
+    [
+     "Tempat tinggal Anda menentukan",
+     "Orang AS dikecualikan, dan beberapa bursa memblokir wilayah lain. Periksa dulu baris \"Tidak tersedia di\" di tiap bursa."
+    ]
+   ]
   },
   "regions": {
    "AU": "Australia",
@@ -3243,6 +3513,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Ogni azione, ogni exchange",
+   "lead": "Quali exchange quotano ogni azione come token o perpetuo, la leva massima e la commissione taker standard più bassa sui perpetui, dai dati di mercato degli exchange stessi. Scegli una colonna per ordinare.",
+   "stock": "Azione",
+   "venues": "Exchange",
+   "token": "Token",
+   "perp": "Perpetuo",
+   "lev": "Leva max",
+   "fee": "Taker perp più basso",
+   "weekend": "Exchange 24/7",
+   "latest": "Quotazione più recente",
+   "sort": "Ordina per {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Non quotato",
+   "homeMore": "Confronta tutte le {n} azioni",
+   "dataNote": "Dati di mercato pubblici degli exchange · {time} SGT",
+   "newH": "Quotazioni più recenti",
+   "newLead": "Le quotazioni di azioni più recenti nei dati di mercato che leggiamo, dalla più nuova."
+  },
+  "risk": {
+   "h": "Cosa compri e quali sono i rischi",
+   "lead": "Un'azione tokenizzata non è l'azione stessa. Controlla questi cinque punti prima di fare trading.",
+   "items": [
+    [
+     "Esposizione, non proprietà",
+     "Un token azionario segue il prezzo di un'azione senza registrazione come azionista né diritto di voto. Un perpetuo su azioni non dà alcuna azione."
+    ],
+    [
+     "Il prezzo può scostarsi dall'azione",
+     "Quando il mercato USA è chiuso, un token o perpetuo 24/7 si scambia sul book dell'exchange. Il prezzo può allontanarsi dall'ultima chiusura e saltare alla riapertura."
+    ],
+    [
+     "La leva taglia in entrambe le direzioni",
+     "Su un perpetuo, un movimento contrario di circa 1 diviso la leva può azzerare il margine: circa il 5% a 20x, l'1% a 100x. Finché la posizione è aperta il funding viene pagato o incassato."
+    ],
+    [
+     "Ogni famiglia di token ha le sue regole",
+     "xStocks, rToken, bStocks e i token Ondo seguono regole diverse di emissione, custodia e rimborso. Leggi la pagina dell'exchange prima di comprare."
+    ],
+    [
+     "Conta dove vivi",
+     "Le persone statunitensi sono escluse e diversi exchange bloccano altre regioni. Controlla prima la riga \"Non disponibile in\" di ogni exchange."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Australia",
    "CA": "Canada",
@@ -3707,6 +4022,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "銘柄ごと、取引所ごと",
+   "lead": "各銘柄をトークンまたは無期限先物として扱う取引所、最大レバレッジ、最も低い標準の無期限テイカー手数料。取引所自身の公開マーケットデータから取得。列を選ぶと並べ替えできます。",
+   "stock": "銘柄",
+   "venues": "取引所",
+   "token": "トークン",
+   "perp": "無期限",
+   "lev": "最大レバレッジ",
+   "fee": "最安の無期限テイカー",
+   "weekend": "24時間取引所",
+   "latest": "最新上場",
+   "sort": "{col}で並べ替え",
+   "cell": "{name}：{lanes}",
+   "none": "未上場",
+   "homeMore": "全{n}銘柄を比較",
+   "dataNote": "取引所の公開マーケットデータ · {time} SGT",
+   "newH": "最新の上場",
+   "newLead": "当サイトが読み取る取引所マーケットデータ上の最新の株式上場（新しい順）。"
+  },
+  "risk": {
+   "h": "何を買うのか、そのリスク",
+   "lead": "トークン化株式は株式そのものではありません。取引前に次の5点を確認してください。",
+   "items": [
+    [
+     "所有ではなく価格へのエクスポージャー",
+     "株式トークンは株価に連動しますが、株主登録も議決権もありません。株式の無期限先物では株式は一切得られません。"
+    ],
+    [
+     "価格が株価から乖離することがある",
+     "米国市場の休場中、24時間取引のトークンや無期限先物は取引所自身の板で売買されます。価格が前日終値から離れ、取引再開時に窓を開けることがあります。"
+    ],
+    [
+     "レバレッジは両刃の剣",
+     "無期限先物では、およそ「1 ÷ レバレッジ」の逆行で証拠金を失うことがあります。20倍で約5%、100倍で約1%です。保有中は資金調達料の支払いまたは受け取りが発生します。"
+    ],
+    [
+     "トークンごとにルールが違う",
+     "xStocks、rToken、bStocks、Ondoトークンは発行・保管・償還のルールがそれぞれ異なります。購入前に取引所自身の説明ページを読んでください。"
+    ],
+    [
+     "居住地が重要",
+     "米国居住者は対象外で、さらに多くの地域を制限する取引所もあります。まず各取引所の「利用できない地域」の行を確認してください。"
+    ]
+   ]
   },
   "regions": {
    "AU": "オーストラリア",
@@ -4173,6 +4533,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "종목별, 거래소별",
+   "lead": "각 종목을 토큰 또는 무기한 선물로 상장한 거래소, 최대 레버리지, 가장 낮은 표준 무기한 테이커 수수료. 거래소 자체 공개 시세 데이터 기준. 열을 선택하면 정렬됩니다.",
+   "stock": "종목",
+   "venues": "거래소",
+   "token": "토큰",
+   "perp": "무기한",
+   "lev": "최대 레버리지",
+   "fee": "최저 무기한 테이커",
+   "weekend": "24/7 거래소",
+   "latest": "최신 상장",
+   "sort": "{col} 기준 정렬",
+   "cell": "{name}: {lanes}",
+   "none": "미상장",
+   "homeMore": "{n}개 종목 모두 비교",
+   "dataNote": "거래소 공개 시세 데이터 · {time} SGT",
+   "newH": "최신 상장",
+   "newLead": "저희가 읽는 거래소 시세 데이터의 최근 주식 상장, 최신순."
+  },
+  "risk": {
+   "h": "무엇을 사는지, 그리고 위험",
+   "lead": "토큰화 주식은 주식 그 자체가 아닙니다. 거래 전에 다섯 가지를 확인하세요.",
+   "items": [
+    [
+     "소유가 아닌 가격 노출",
+     "주식 토큰은 주가를 따라가지만 주주 등록이나 의결권이 없습니다. 주식 무기한 선물은 주식을 전혀 주지 않습니다."
+    ],
+    [
+     "가격이 주가와 벌어질 수 있음",
+     "미국 시장이 닫혀 있을 때 24/7 토큰이나 무기한 선물은 거래소 자체 호가창에서 거래됩니다. 가격이 직전 종가에서 멀어지고 개장 때 갭이 생길 수 있습니다."
+    ],
+    [
+     "레버리지는 양날의 검",
+     "무기한 선물에서는 약 1 ÷ 레버리지만큼 반대로 움직이면 증거금이 사라질 수 있습니다. 20배는 약 5%, 100배는 약 1%입니다. 포지션 보유 중에는 펀딩비를 내거나 받습니다."
+    ],
+    [
+     "토큰마다 규칙이 다름",
+     "xStocks, rToken, bStocks, Ondo 토큰은 발행·보관·상환 규칙이 서로 다릅니다. 매수 전에 거래소 자체 안내 페이지를 읽으세요."
+    ],
+    [
+     "거주 지역이 중요",
+     "미국인은 제외되며 여러 거래소가 다른 지역도 제한합니다. 먼저 각 거래소의 \"이용 불가 지역\" 줄을 확인하세요."
+    ]
+   ]
+  },
   "regions": {
    "AU": "오스트레일리아",
    "CA": "캐나다",
@@ -4637,6 +5042,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "Cada ação, cada corretora",
+   "lead": "Quais corretoras listam cada ação como token ou perpétuo, a alavancagem máxima e a menor taxa taker padrão em perpétuos, a partir dos dados de mercado das próprias corretoras. Escolha uma coluna para ordenar.",
+   "stock": "Ação",
+   "venues": "Corretoras",
+   "token": "Token",
+   "perp": "Perpétuo",
+   "lev": "Alavancagem máx.",
+   "fee": "Menor taker perp",
+   "weekend": "Corretoras 24/7",
+   "latest": "Listagem mais recente",
+   "sort": "Ordenar por {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Não listado",
+   "homeMore": "Comparar as {n} ações",
+   "dataNote": "Dados públicos de mercado das corretoras · {time} SGT",
+   "newH": "Listagens mais recentes",
+   "newLead": "As listagens de ações mais recentes nos dados de mercado que lemos, da mais nova para a mais antiga."
+  },
+  "risk": {
+   "h": "O que você compra e quais são os riscos",
+   "lead": "Uma ação tokenizada não é a própria ação. Confira estes cinco pontos antes de operar.",
+   "items": [
+    [
+     "Exposição, não propriedade",
+     "Um token de ação acompanha o preço de uma ação sem registro como acionista nem direito a voto. Um perpétuo de ações não dá nenhuma ação."
+    ],
+    [
+     "O preço pode se afastar da ação",
+     "Com o mercado dos EUA fechado, um token ou perpétuo 24/7 negocia no livro de ofertas da própria corretora. O preço pode se afastar do último fechamento e saltar na abertura."
+    ],
+    [
+     "A alavancagem corta dos dois lados",
+     "Num perpétuo, um movimento contra você de cerca de 1 dividido pela alavancagem pode zerar a margem: perto de 5% a 20x e 1% a 100x. Enquanto a posição está aberta há pagamento ou cobrança de funding."
+    ],
+    [
+     "Cada família de tokens tem suas regras",
+     "xStocks, rToken, bStocks e os tokens da Ondo seguem regras diferentes de emissão, custódia e resgate. Leia a página da corretora antes de comprar."
+    ],
+    [
+     "Onde você mora importa",
+     "Pessoas dos EUA são excluídas e várias corretoras bloqueiam outras regiões. Confira antes a linha \"Indisponível em\" de cada corretora."
+    ]
+   ]
   },
   "regions": {
    "AU": "Austrália",
@@ -5103,6 +5553,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Каждая акция на каждой бирже",
+   "lead": "Какие биржи листят каждую акцию как токен или бессрочный контракт, максимальное плечо и самая низкая стандартная комиссия тейкера по бессрочным контрактам — по рыночным данным самих бирж. Выберите столбец для сортировки.",
+   "stock": "Акция",
+   "venues": "Биржи",
+   "token": "Токен",
+   "perp": "Бессрочный",
+   "lev": "Макс. плечо",
+   "fee": "Мин. тейкер (бессрочные)",
+   "weekend": "Биржи 24/7",
+   "latest": "Новейший листинг",
+   "sort": "Сортировать: {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Нет в листинге",
+   "homeMore": "Сравнить все {n} акций",
+   "dataNote": "Открытые рыночные данные бирж · {time} SGT",
+   "newH": "Новые листинги",
+   "newLead": "Последние листинги акций в рыночных данных, которые мы читаем, от новых к старым."
+  },
+  "risk": {
+   "h": "Что вы покупаете и какие риски",
+   "lead": "Токенизированная акция — это не сама акция. Проверьте эти пять пунктов перед сделкой.",
+   "items": [
+    [
+     "Ценовая экспозиция, а не владение",
+     "Токен акции следует за ценой акции без регистрации акционера и права голоса. Бессрочный контракт на акцию не даёт акций вовсе."
+    ],
+    [
+     "Цена может отклоняться от акции",
+     "Когда рынок США закрыт, токен или контракт 24/7 торгуется в собственном стакане биржи. Цена может уйти от последнего закрытия и сделать гэп при открытии."
+    ],
+    [
+     "Плечо работает в обе стороны",
+     "В бессрочном контракте движение против вас примерно на 1, делённую на плечо, может обнулить маржу: около 5% при 20x и 1% при 100x. Пока позиция открыта, фандинг платится или начисляется."
+    ],
+    [
+     "У каждого семейства токенов свои правила",
+     "xStocks, rToken, bStocks и токены Ondo различаются правилами выпуска, хранения и погашения. Прочтите страницу биржи перед покупкой."
+    ],
+    [
+     "Важно, где вы живёте",
+     "Лица из США исключены, а ряд бирж блокирует и другие регионы. Сначала проверьте строку «Недоступно в» у каждой биржи."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Австралия",
    "CA": "Канада",
@@ -5560,6 +6055,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "Her hisse, her borsa",
+   "lead": "Her hisseyi token veya sürekli vadeli olarak hangi borsaların listelediği, en yüksek kaldıraç ve en düşük standart sürekli vadeli taker ücreti; borsaların kendi piyasa verilerinden. Sıralamak için bir sütun seçin.",
+   "stock": "Hisse",
+   "venues": "Borsalar",
+   "token": "Token",
+   "perp": "Sürekli vadeli",
+   "lev": "Maks. kaldıraç",
+   "fee": "En düşük vadeli taker",
+   "weekend": "7/24 borsalar",
+   "latest": "En yeni listeleme",
+   "sort": "{col} sütununa göre sırala",
+   "cell": "{name}: {lanes}",
+   "none": "Listede yok",
+   "homeMore": "{n} hissenin tümünü karşılaştır",
+   "dataNote": "Borsaların herkese açık piyasa verileri · {time} SGT",
+   "newH": "En yeni listelemeler",
+   "newLead": "Okuduğumuz piyasa verilerindeki en yeni hisse listelemeleri, en yeniden eskiye."
+  },
+  "risk": {
+   "h": "Ne satın alıyorsunuz, riskler neler",
+   "lead": "Tokenize hisse, hissenin kendisi değildir. İşlemden önce bu beş noktayı kontrol edin.",
+   "items": [
+    [
+     "Sahiplik değil, fiyat maruziyeti",
+     "Hisse tokenı bir hissenin fiyatını izler; pay kaydı ve oy hakkı yoktur. Hisse sürekli vadelisi hiç hisse vermez."
+    ],
+    [
+     "Fiyat hisseden ayrışabilir",
+     "ABD piyasası kapalıyken 7/24 işlem gören token veya vadeli, borsanın kendi emir defterinde işlem görür. Fiyat son kapanıştan uzaklaşabilir ve açılışta sıçrayabilir."
+    ],
+    [
+     "Kaldıraç iki yönlü keser",
+     "Sürekli vadelide aleyhinize yaklaşık 1 bölü kaldıraç kadar bir hareket teminatı silebilir: 20x'te yaklaşık %5, 100x'te %1. Pozisyon açıkken fonlama ödenir veya alınır."
+    ],
+    [
+     "Her token ailesinin kendi kuralı var",
+     "xStocks, bStocks ve Ondo tokenları farklı ihraç, saklama ve itfa kurallarına tabidir. Almadan önce borsanın kendi sayfasını okuyun."
+    ],
+    [
+     "Nerede yaşadığınız önemli",
+     "ABD'li kişiler hariç tutulur ve birçok borsa başka bölgeleri de engeller. Önce her borsanın \"Erişilemeyen yerler\" satırına bakın."
+    ]
+   ]
   },
   "regions": {
    "AU": "Avustralya",
@@ -6026,6 +6566,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Кожна акція на кожній біржі",
+   "lead": "Які біржі лістять кожну акцію як токен або безстроковий контракт, максимальне плече й найнижча стандартна комісія тейкера за безстроковими контрактами — за ринковими даними самих бірж. Виберіть стовпець для сортування.",
+   "stock": "Акція",
+   "venues": "Біржі",
+   "token": "Токен",
+   "perp": "Безстроковий",
+   "lev": "Макс. плече",
+   "fee": "Мін. тейкер (безстрокові)",
+   "weekend": "Біржі 24/7",
+   "latest": "Найновіший лістинг",
+   "sort": "Сортувати: {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Немає в лістингу",
+   "homeMore": "Порівняти всі {n} акцій",
+   "dataNote": "Відкриті ринкові дані бірж · {time} SGT",
+   "newH": "Нові лістинги",
+   "newLead": "Останні лістинги акцій у ринкових даних, які ми читаємо, від нових до старих."
+  },
+  "risk": {
+   "h": "Що ви купуєте і які ризики",
+   "lead": "Токенізована акція — це не сама акція. Перевірте ці п'ять пунктів перед угодою.",
+   "items": [
+    [
+     "Цінова експозиція, а не володіння",
+     "Токен акції відстежує ціну акції без реєстрації акціонера і права голосу. Безстроковий контракт на акцію не дає акцій узагалі."
+    ],
+    [
+     "Ціна може відхилятися від акції",
+     "Коли ринок США закритий, токен або контракт 24/7 торгується у власній книзі заявок біржі. Ціна може відійти від останнього закриття і зробити геп на відкритті."
+    ],
+    [
+     "Плече працює в обидва боки",
+     "У безстроковому контракті рух проти вас приблизно на 1, поділену на плече, може обнулити маржу: близько 5% при 20x і 1% при 100x. Поки позиція відкрита, фандинг сплачується або нараховується."
+    ],
+    [
+     "У кожної родини токенів свої правила",
+     "xStocks, rToken, bStocks і токени Ondo мають різні правила випуску, зберігання та погашення. Прочитайте сторінку біржі перед купівлею."
+    ],
+    [
+     "Важливо, де ви живете",
+     "Особи зі США виключені, а низка бірж блокує й інші регіони. Спершу перевірте рядок «Недоступно в» кожної біржі."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Австралія",
    "CA": "Канада",
@@ -6490,6 +7075,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "ہر اسٹاک، ہر ایکسچینج",
+   "lead": "کون سے ایکسچینج ہر اسٹاک کو ٹوکن یا پرپیچوئل کے طور پر لسٹ کرتے ہیں، زیادہ سے زیادہ لیوریج اور پرپیچوئل کی سب سے کم معیاری ٹیکر فیس، ایکسچینجز کے اپنے مارکیٹ ڈیٹا سے۔ ترتیب کے لیے کالم منتخب کریں۔",
+   "stock": "اسٹاک",
+   "venues": "ایکسچینج",
+   "token": "ٹوکن",
+   "perp": "پرپیچوئل",
+   "lev": "زیادہ سے زیادہ لیوریج",
+   "fee": "کم ترین پرپیچوئل ٹیکر",
+   "weekend": "24/7 ایکسچینج",
+   "latest": "تازہ ترین لسٹنگ",
+   "sort": "{col} کے مطابق ترتیب",
+   "cell": "{name}: {lanes}",
+   "none": "لسٹ نہیں",
+   "homeMore": "تمام {n} اسٹاکس کا موازنہ",
+   "dataNote": "ایکسچینجز کا عوامی مارکیٹ ڈیٹا · {time} SGT",
+   "newH": "تازہ ترین لسٹنگز",
+   "newLead": "ہمارے پڑھے گئے مارکیٹ ڈیٹا میں حالیہ اسٹاک لسٹنگز، تازہ ترین پہلے۔"
+  },
+  "risk": {
+   "h": "آپ کیا خرید رہے ہیں، اور خطرات",
+   "lead": "ٹوکنائزڈ اسٹاک خود حصص نہیں ہے۔ ٹریڈ سے پہلے یہ پانچ باتیں دیکھ لیں۔",
+   "items": [
+    [
+     "قیمت سے وابستگی، ملکیت نہیں",
+     "اسٹاک ٹوکن حصص کی قیمت کے ساتھ چلتا ہے مگر نہ شیئر ہولڈر کے طور پر اندراج ہوتا ہے نہ ووٹ کا حق۔ اسٹاک پرپیچوئل میں کوئی حصص نہیں ملتے۔"
+    ],
+    [
+     "قیمت اسٹاک سے ہٹ سکتی ہے",
+     "جب امریکی مارکیٹ بند ہو تو 24/7 ٹوکن یا پرپیچوئل ایکسچینج کی اپنی آرڈر بک پر ٹریڈ ہوتا ہے۔ قیمت آخری کلوز سے دور جا سکتی ہے اور مارکیٹ کھلنے پر اچھل سکتی ہے۔"
+    ],
+    [
+     "لیوریج دونوں طرف کاٹتا ہے",
+     "پرپیچوئل میں تقریباً 1 تقسیم لیوریج جتنی مخالف حرکت پورا مارجن ختم کر سکتی ہے: 20x پر تقریباً 5% اور 100x پر 1%۔ پوزیشن کھلی ہونے تک فنڈنگ ادا یا وصول ہوتی ہے۔"
+    ],
+    [
+     "ہر ٹوکن فیملی کے اپنے اصول ہیں",
+     "xStocks، rToken، bStocks اور Ondo ٹوکنز کے اجرا، تحویل اور واپسی کے اصول مختلف ہیں۔ خریدنے سے پہلے ایکسچینج کا اپنا صفحہ پڑھیں۔"
+    ],
+    [
+     "آپ کہاں رہتے ہیں، یہ اہم ہے",
+     "امریکی افراد خارج ہیں اور کئی ایکسچینج مزید علاقوں کو بھی روکتے ہیں۔ پہلے ہر ایکسچینج کی \"دستیاب نہیں\" والی سطر دیکھیں۔"
+    ]
+   ]
   },
   "regions": {
    "AU": "آسٹریلیا",
@@ -6956,6 +7586,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "Từng cổ phiếu, từng sàn",
+   "lead": "Sàn nào niêm yết từng cổ phiếu dưới dạng token hoặc hợp đồng vĩnh cửu, đòn bẩy cao nhất và phí taker vĩnh cửu tiêu chuẩn thấp nhất, lấy từ dữ liệu thị trường của chính các sàn. Chọn một cột để sắp xếp.",
+   "stock": "Cổ phiếu",
+   "venues": "Sàn",
+   "token": "Token",
+   "perp": "Vĩnh cửu",
+   "lev": "Đòn bẩy tối đa",
+   "fee": "Taker vĩnh cửu thấp nhất",
+   "weekend": "Sàn 24/7",
+   "latest": "Niêm yết mới nhất",
+   "sort": "Sắp xếp theo {col}",
+   "cell": "{name}: {lanes}",
+   "none": "Chưa niêm yết",
+   "homeMore": "So sánh cả {n} cổ phiếu",
+   "dataNote": "Dữ liệu thị trường công khai của các sàn · {time} SGT",
+   "newH": "Niêm yết mới nhất",
+   "newLead": "Các cổ phiếu niêm yết gần nhất trong dữ liệu thị trường chúng tôi đọc, mới nhất trước."
+  },
+  "risk": {
+   "h": "Bạn mua gì, và rủi ro là gì",
+   "lead": "Cổ phiếu token hóa không phải là cổ phiếu. Hãy kiểm tra năm điểm này trước khi giao dịch.",
+   "items": [
+    [
+     "Tiếp xúc giá, không phải sở hữu",
+     "Token cổ phiếu theo giá một cổ phiếu nhưng không đăng ký cổ đông và không có quyền biểu quyết. Hợp đồng vĩnh cửu cổ phiếu không cho cổ phiếu nào."
+    ],
+    [
+     "Giá có thể lệch khỏi cổ phiếu",
+     "Khi thị trường Mỹ đóng cửa, token hoặc hợp đồng vĩnh cửu 24/7 giao dịch trên sổ lệnh riêng của sàn. Giá có thể rời xa giá đóng cửa gần nhất và nhảy khi thị trường mở lại."
+    ],
+    [
+     "Đòn bẩy cắt cả hai chiều",
+     "Với hợp đồng vĩnh cửu, biến động ngược khoảng 1 chia cho đòn bẩy có thể xóa sạch ký quỹ: khoảng 5% ở 20x, 1% ở 100x. Phí funding được trả hoặc nhận khi vị thế còn mở."
+    ],
+    [
+     "Mỗi họ token có quy tắc riêng",
+     "xStocks, rToken, bStocks và token Ondo có quy tắc phát hành, lưu ký và mua lại khác nhau. Hãy đọc trang của sàn trước khi mua."
+    ],
+    [
+     "Nơi bạn sống rất quan trọng",
+     "Người Mỹ bị loại trừ và nhiều sàn chặn thêm khu vực khác. Trước tiên hãy xem dòng \"Không hỗ trợ tại\" của từng sàn."
+    ]
+   ]
+  },
   "regions": {
    "AU": "Úc",
    "CA": "Canada",
@@ -7421,6 +8096,51 @@ export const TS_COPY = Object.freeze({
    "kraken": "Kraken",
    "mexc": "MEXC"
   },
+  "mx": {
+   "h": "逐只股票，逐家交易所",
+   "lead": "每只股票在哪些交易所以代币或永续合约上线、最高杠杆和最低标准永续吃单费率，数据来自交易所自己的公开行情接口。点击列名可排序。",
+   "stock": "股票",
+   "venues": "交易所",
+   "token": "代币",
+   "perp": "永续",
+   "lev": "最高杠杆",
+   "fee": "最低永续吃单费",
+   "weekend": "24/7 交易所",
+   "latest": "最新上线",
+   "sort": "按{col}排序",
+   "cell": "{name}：{lanes}",
+   "none": "未上线",
+   "homeMore": "比较全部 {n} 只股票",
+   "dataNote": "交易所公开行情数据 · {time} SGT",
+   "newH": "最新上线",
+   "newLead": "我们读取的交易所行情数据中最近上线的股票，按时间倒序。"
+  },
+  "risk": {
+   "h": "你买到的是什么，风险在哪",
+   "lead": "代币化股票不是股票本身。交易前先确认这五点。",
+   "items": [
+    [
+     "是价格敞口，不是所有权",
+     "股票代币跟踪一股的价格，但不登记股东身份，也没有投票权。股票永续合约完全不给股票。"
+    ],
+    [
+     "价格可能偏离正股",
+     "美股休市时，24/7 交易的代币或永续合约只在交易所自己的订单簿成交，价格可能偏离上一个收盘价，并在开盘时跳空。"
+    ],
+    [
+     "杠杆是双刃剑",
+     "永续合约上，反向波动约为 1 除以杠杆倍数就可能亏光保证金：20 倍约 5%，100 倍约 1%。持仓期间还会收付资金费。"
+    ],
+    [
+     "每个代币家族规则不同",
+     "xStocks、rToken、bStocks 和 Ondo 代币的发行、托管和赎回规则各不相同。买入前先看交易所自己的说明页。"
+    ],
+    [
+     "所在地区很关键",
+     "美国人士不能交易，多家交易所还限制更多地区。先查看每家交易所的「不支持地区」一行。"
+    ]
+   ]
+  },
   "regions": {
    "AU": "澳大利亚",
    "CA": "加拿大",
@@ -7885,6 +8605,51 @@ export const TS_COPY = Object.freeze({
    "gate-io": "Gate",
    "kraken": "Kraken",
    "mexc": "MEXC"
+  },
+  "mx": {
+   "h": "逐檔股票，逐家交易所",
+   "lead": "每檔股票在哪些交易所以代幣或永續合約上架、最高槓桿和最低標準永續吃單費率，資料來自交易所自己的公開行情介面。點選欄名可排序。",
+   "stock": "股票",
+   "venues": "交易所",
+   "token": "代幣",
+   "perp": "永續",
+   "lev": "最高槓桿",
+   "fee": "最低永續吃單費",
+   "weekend": "24/7 交易所",
+   "latest": "最新上架",
+   "sort": "依{col}排序",
+   "cell": "{name}：{lanes}",
+   "none": "未上架",
+   "homeMore": "比較全部 {n} 檔股票",
+   "dataNote": "交易所公開行情資料 · {time} SGT",
+   "newH": "最新上架",
+   "newLead": "我們讀取的交易所行情資料中最近上架的股票，依時間倒序。"
+  },
+  "risk": {
+   "h": "你買到的是什麼，風險在哪",
+   "lead": "代幣化股票不是股票本身。交易前先確認這五點。",
+   "items": [
+    [
+     "是價格曝險，不是所有權",
+     "股票代幣追蹤一股的價格，但不登記股東身分，也沒有投票權。股票永續合約完全不給股票。"
+    ],
+    [
+     "價格可能偏離正股",
+     "美股休市時，24/7 交易的代幣或永續合約只在交易所自己的訂單簿成交，價格可能偏離上一個收盤價，並在開盤時跳空。"
+    ],
+    [
+     "槓桿是雙面刃",
+     "永續合約上，反向波動約為 1 除以槓桿倍數就可能虧光保證金：20 倍約 5%，100 倍約 1%。持倉期間還會收付資金費。"
+    ],
+    [
+     "每個代幣家族規則不同",
+     "xStocks、rToken、bStocks 和 Ondo 代幣的發行、託管和贖回規則各不相同。買入前先看交易所自己的說明頁。"
+    ],
+    [
+     "所在地區很關鍵",
+     "美國人士不能交易，多家交易所還限制更多地區。先查看每家交易所的「不支援地區」一行。"
+    ]
+   ]
   },
   "regions": {
    "AU": "澳洲",
