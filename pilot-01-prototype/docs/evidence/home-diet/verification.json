@@ -1,0 +1,395 @@
+{
+  "baselineRevision": "3bc0e9c78c05a9e81b959ea6c9dc40e157c02249",
+  "branch": "codex/home-diet",
+  "budget": {
+    "beforeGzipBytes": 349899,
+    "afterGzipBytes": 317878,
+    "savedGzipBytes": 32021,
+    "headroomGzipBytes": 32122,
+    "beforeChunks": [
+      {
+        "name": "core-shared-ljRYF3T9.js",
+        "bytes": 632644,
+        "gzipBytes": 217050
+      },
+      {
+        "name": "vendor-react-CUZ3TzEi.js",
+        "bytes": 194236,
+        "gzipBytes": 60670
+      },
+      {
+        "name": "index-zoDlmktI.js",
+        "bytes": 106899,
+        "gzipBytes": 34117
+      },
+      {
+        "name": "core-ui-BxACdDjG.js",
+        "bytes": 44099,
+        "gzipBytes": 17835
+      },
+      {
+        "name": "shared-hero-copy-LldMz0K2.js",
+        "bytes": 35555,
+        "gzipBytes": 16201
+      },
+      {
+        "name": "route-v3-pages-strip-BlmxMovc.js",
+        "bytes": 6127,
+        "gzipBytes": 2747
+      },
+      {
+        "name": "shared-json-polling-CU55rQSN.js",
+        "bytes": 2232,
+        "gzipBytes": 1069
+      },
+      {
+        "name": "shared-brazil-paths-BWwlqz0u.js",
+        "bytes": 271,
+        "gzipBytes": 210
+      }
+    ],
+    "afterChunks": [
+      {
+        "name": "core-shared-DEDe1xTn.js",
+        "bytes": 575438,
+        "gzipBytes": 197434
+      },
+      {
+        "name": "vendor-react-CUZ3TzEi.js",
+        "bytes": 194236,
+        "gzipBytes": 60670
+      },
+      {
+        "name": "index-DczbsLLF.js",
+        "bytes": 106792,
+        "gzipBytes": 34193
+      },
+      {
+        "name": "core-ui-DZCzq7-g.js",
+        "bytes": 44099,
+        "gzipBytes": 17835
+      },
+      {
+        "name": "shared-hero-copy-B0Q24wfR.js",
+        "bytes": 7186,
+        "gzipBytes": 3720
+      },
+      {
+        "name": "route-v3-pages-strip-BlmxMovc.js",
+        "bytes": 6127,
+        "gzipBytes": 2747
+      },
+      {
+        "name": "shared-json-polling-CU55rQSN.js",
+        "bytes": 2232,
+        "gzipBytes": 1069
+      },
+      {
+        "name": "shared-brazil-paths-BWwlqz0u.js",
+        "bytes": 271,
+        "gzipBytes": 210
+      }
+    ]
+  },
+  "moduleMoves": [
+    {
+      "module": "src/data/regional-funding-verification-matrix.js",
+      "before": {
+        "chunk": "assets/core-shared-ljRYF3T9.js",
+        "module": "src/data/regional-funding-verification-matrix.js",
+        "renderedBytes": 29514
+      },
+      "after": {
+        "chunk": "assets/data-directory-context-_HObFfb8.js",
+        "module": "src/data/regional-funding-verification-matrix.js",
+        "renderedBytes": 29514
+      }
+    },
+    {
+      "module": "src/data/regional-shortlist.js",
+      "before": {
+        "chunk": "assets/core-shared-ljRYF3T9.js",
+        "module": "src/data/regional-shortlist.js",
+        "renderedBytes": 27928
+      },
+      "after": {
+        "chunk": "assets/data-directory-context-_HObFfb8.js",
+        "module": "src/data/regional-shortlist.js",
+        "renderedBytes": 27922
+      }
+    },
+    {
+      "module": "src/components/v3/LeanHeroCopyVerify.js",
+      "before": {
+        "chunk": "assets/shared-hero-copy-LldMz0K2.js",
+        "module": "src/components/v3/LeanHeroCopyVerify.js",
+        "renderedBytes": 12889
+      },
+      "after": {
+        "chunk": "assets/shared-hero-verify-copy-DWCdgWKr.js",
+        "module": "src/components/v3/LeanHeroCopyVerify.js",
+        "renderedBytes": 12889
+      }
+    },
+    {
+      "module": "src/components/v3/LeanHeroCopyLab.js",
+      "before": {
+        "chunk": "assets/shared-hero-copy-LldMz0K2.js",
+        "module": "src/components/v3/LeanHeroCopyLab.js",
+        "renderedBytes": 10087
+      },
+      "after": {
+        "chunk": "assets/shared-hero-lab-copy-C25vDuSG.js",
+        "module": "src/components/v3/LeanHeroCopyLab.js",
+        "renderedBytes": 10087
+      }
+    },
+    {
+      "module": "src/components/v3/LeanHeroCopyV6.js",
+      "before": {
+        "chunk": "assets/shared-hero-copy-LldMz0K2.js",
+        "module": "src/components/v3/LeanHeroCopyV6.js",
+        "renderedBytes": 6141
+      },
+      "after": {
+        "chunk": "assets/shared-hero-copy-B0Q24wfR.js",
+        "module": "src/components/v3/LeanHeroCopyV6.js",
+        "renderedBytes": 6141
+      }
+    },
+    {
+      "module": "src/data/intel-tools-links.js",
+      "before": {
+        "chunk": "assets/home-below-fold-Bs0Yvn_z.js",
+        "module": "src/data/intel-tools-links.js",
+        "renderedBytes": 964
+      },
+      "after": {
+        "chunk": "assets/shared-intel-tool-links-BMvXnQPv.js",
+        "module": "src/data/intel-tools-links.js",
+        "renderedBytes": 964
+      }
+    },
+    {
+      "module": "src/data/directory-cta-context.js",
+      "before": null,
+      "after": {
+        "chunk": "assets/core-shared-DEDe1xTn.js",
+        "module": "src/data/directory-cta-context.js",
+        "renderedBytes": 5085
+      }
+    },
+    {
+      "module": "src/data/regional-funding-rails.generated.js",
+      "before": null,
+      "after": {
+        "chunk": "assets/core-shared-DEDe1xTn.js",
+        "module": "src/data/regional-funding-rails.generated.js",
+        "renderedBytes": 1575
+      }
+    }
+  ],
+  "ssr": {
+    "capture": false,
+    "prerender": false,
+    "results": [
+      {
+        "route": "/",
+        "bytes": 94213,
+        "sha256": "c84a3031afff7acf72358c6484a36f60db792c1d63a2530566952a4c1615ba09",
+        "byteIdentical": true
+      },
+      {
+        "route": "/zh-hans",
+        "bytes": 93733,
+        "sha256": "c7685d10081f5977537564ebc3b7c8da77dd8bc6eb134741bc097ee43d2f4ff4",
+        "byteIdentical": true
+      },
+      {
+        "route": "/tr",
+        "bytes": 78522,
+        "sha256": "455edcbbed8704e7429e4561aa268bac1902048f1c5cd4aa990ef7aee7644c1f",
+        "byteIdentical": true
+      },
+      {
+        "route": "/ar",
+        "bytes": 74689,
+        "sha256": "c176beb70408df1e080effa20b4e2486947df719423dc4d11971f85737cd5749",
+        "byteIdentical": true
+      }
+    ]
+  },
+  "prerenderDiff": {
+    "capture": false,
+    "prerender": true,
+    "results": [
+      {
+        "route": "/",
+        "bytes": 101451,
+        "sha256": "f064e35b3a3e78d1585a58434c788520cb3a0d8e4db7b154b06864c050b8108b",
+        "byteIdentical": false,
+        "attributeDiff": {
+          "attribute": "data-rendered-at",
+          "before": [
+            "2026-10-22T21:25:19.987Z"
+          ],
+          "after": [
+            "2026-10-22T21:37:25.447Z"
+          ]
+        }
+      },
+      {
+        "route": "/zh-hans",
+        "bytes": 101118,
+        "sha256": "11e2fd3ee0b13855d082744d00e3efa422ec8e3a0b0f096ae3bba16dc83c40e9",
+        "byteIdentical": false,
+        "attributeDiff": {
+          "attribute": "data-rendered-at",
+          "before": [
+            "2026-10-22T21:25:20.448Z"
+          ],
+          "after": [
+            "2026-10-22T21:37:25.474Z"
+          ]
+        }
+      },
+      {
+        "route": "/tr",
+        "bytes": 86078,
+        "sha256": "78b3750bd9aab53e4ec923f28d1b5b5691679067a4ca88fc265a6d96d2f877e0",
+        "byteIdentical": false,
+        "attributeDiff": {
+          "attribute": "data-rendered-at",
+          "before": [
+            "2026-10-22T21:25:21.307Z"
+          ],
+          "after": [
+            "2026-10-22T21:37:25.829Z"
+          ]
+        }
+      },
+      {
+        "route": "/ar",
+        "bytes": 81947,
+        "sha256": "f136ba2b1b76eaa8e7243d49350d74b75b64d5045266cd3d12234ee8c59b936c",
+        "byteIdentical": false,
+        "attributeDiff": {
+          "attribute": "data-rendered-at",
+          "before": [
+            "2026-10-22T21:25:21.294Z"
+          ],
+          "after": [
+            "2026-10-22T21:37:25.808Z"
+          ]
+        }
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "Full client, SSR, offline runtime, 2590 prerenders, critical CSS, runtime packaging and strict budget passed."
+    },
+    {
+      "command": "node scripts/verify-build-budget.mjs --strict",
+      "exitCode": 0
+    },
+    {
+      "command": "node docs/evidence/home-diet/analyze-before.mjs",
+      "exitCode": 0,
+      "result": "Rollup module attribution at the starting revision, no worktree source changes."
+    },
+    {
+      "command": "node scripts/analyze-build-modules.mjs docs/evidence/home-diet/modules-after.json",
+      "exitCode": 0,
+      "result": "Rollup module attribution; renderedBytes are pre-minification sizes, not gzip transfer attribution."
+    },
+    {
+      "command": "node --test --test-force-exit --test-concurrency=1 tests/perf-*.test.mjs tests/home*.test.mjs",
+      "exitCode": 1,
+      "tests": 136,
+      "pass": 125,
+      "fail": 2,
+      "skipped": 9
+    },
+    {
+      "command": "node --test --test-force-exit --test-concurrency=1 tests/perf-*.test.mjs",
+      "exitCode": 1,
+      "tests": 34,
+      "pass": 33,
+      "fail": 1,
+      "skipped": 0
+    },
+    {
+      "command": "node --test --test-force-exit tests/venue-graph.test.mjs",
+      "exitCode": 0,
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node --test --test-force-exit tests/perf-home-diet.test.mjs tests/decision-passport.test.mjs tests/regional-preview.test.mjs tests/regional-eligibility-evidence.test.mjs tests/source-bound-cta.test.mjs tests/server-build-imports.test.mjs",
+      "exitCode": 0,
+      "tests": 79,
+      "pass": 79,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/verify-home-ssr-unchanged.mjs docs/evidence/home-diet/ssr-before",
+      "exitCode": 0,
+      "result": "Four fixed-clock built SSR roots byte-identical."
+    },
+    {
+      "command": "node scripts/verify-home-ssr-unchanged.mjs docs/evidence/home-diet/prerender-before --prerender",
+      "exitCode": 0,
+      "result": "Four actual build-time prerender roots differ only in data-rendered-at attribute."
+    },
+    {
+      "command": "node --import ./docs/evidence/home-diet/baseline-source-hook.mjs --test --test-force-exit --test-name-pattern='and the site beacon' tests/home-hero-experiment.test.mjs",
+      "exitCode": 1,
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "skipped": 0,
+      "result": "Original data-module sources reproduce six recorded rows versus five expected."
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "knownBaselineFailures": [
+    {
+      "test": "home-hero-experiment: /go/<partner> and the site beacon",
+      "evidence": "Baseline source hook reproduces six event rows; assertion expects five."
+    },
+    {
+      "test": "perf-core-bundle: old closing link wall stays removed",
+      "evidence": "All four untouched baseline built-SSR snapshots contain crawl-priority-links__groups. Final fixed-clock SSR is byte-identical."
+    }
+  ],
+  "browser": {
+    "verified": false,
+    "blocker": "Local loopback listening is unavailable (EPERM on 127.0.0.1). Real-browser CLS=0 is not established; source/jsdom hydration passed."
+  },
+  "environmentRecovery": [
+    "Reused the existing local Inlang CDN plugin cache in this worktree (offline compilation).",
+    "Restored the existing ignored empty .openai/hosting.json in this worktree to unblock runtime packaging.",
+    "Restored 17 unrelated build-generated tracked files from HEAD without changing Git metadata."
+  ],
+  "review": "Independent read-only review found no blocking issues.",
+  "commit": {
+    "status": "blocked-at-staging",
+    "command": "git add -- <explicit task files>",
+    "exitCode": 128,
+    "error": "fatal: Unable to create '/Volumes/致态2TB/nexualpha-site-git/.git/worktrees/nx-wt-codex-home-diet/index.lock': Operation not permitted",
+    "recovery": "Lead must stage and commit the verified working tree from a session with Git metadata write access. No commit or push was made."
+  }
+}

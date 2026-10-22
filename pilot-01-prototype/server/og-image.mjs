@@ -10,9 +10,9 @@
 // per-page subsets (public/fonts/manifest.json) and resvg reads TTF/OTF only, so cards use TTF/OTF files from
 // OG_FONT_DIR plus the host's system fonts by family name; see FONT_FAMILY below. Rendered PNGs are cached in memory
 // (LRU 500) and, when OG_CACHE_DIR is set, on disk keyed by build id and data fingerprint.
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { localizedNewsTitle } from "../src/data/news-feed-client.js";
 import { newsCategoryCopy } from "../src/data/news-library.js";
@@ -444,8 +444,12 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     try {
       await mkdir(cacheDir, { recursive: true });
       const file = path.join(cacheDir, `${sha1(key)}.png`);
-      await writeFile(`${file}.${process.pid}.tmp`, png);
-      await rename(`${file}.${process.pid}.tmp`, file);
+      // Workers have distinct PIDs; requests within one worker also need distinct temporary files.
+      const tmp = `${file}.${process.pid}.${randomUUID()}.tmp`;
+      try {
+        await writeFile(tmp, png);
+        await rename(tmp, file);
+      } finally { await rm(tmp, { force: true }).catch(() => {}); }
     } catch (error) {
       log(`og-image disk cache write failed: ${error?.message || error}`);
     }

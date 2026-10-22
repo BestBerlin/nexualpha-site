@@ -1,0 +1,30 @@
+{
+  "capture": false,
+  "prerender": false,
+  "results": [
+    {
+      "route": "/",
+      "bytes": 94213,
+      "sha256": "c84a3031afff7acf72358c6484a36f60db792c1d63a2530566952a4c1615ba09",
+      "byteIdentical": true
+    },
+    {
+      "route": "/zh-hans",
+      "bytes": 93733,
+      "sha256": "c7685d10081f5977537564ebc3b7c8da77dd8bc6eb134741bc097ee43d2f4ff4",
+      "byteIdentical": true
+    },
+    {
+      "route": "/tr",
+      "bytes": 78522,
+      "sha256": "455edcbbed8704e7429e4561aa268bac1902048f1c5cd4aa990ef7aee7644c1f",
+      "byteIdentical": true
+    },
+    {
+      "route": "/ar",
+      "bytes": 74689,
+      "sha256": "c176beb70408df1e080effa20b4e2486947df719423dc4d11971f85737cd5749",
+      "byteIdentical": true
+    }
+  ]
+}

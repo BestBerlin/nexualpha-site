@@ -1,4 +1,4 @@
-import { REGIONAL_FUNDING_VERIFICATION_MATRIX } from "./regional-funding-verification-matrix.js";
+import { REGIONAL_FUNDING_RAILS } from "./regional-funding-rails.generated.js";
 import { FRAGMENT_CONTEXT_KEYS } from "./locale-routing.js";
 import { appendFragmentContext } from "./contextual-href.js";
 import { venueDatabase } from "./venue-database.js";
@@ -12,9 +12,9 @@ const RESUME_SCENARIOS = new Set(["fees", "cost", "compare", "venue", "selected"
 const PROTECTED_RESUME_KEY_RE = /(?:referral|ref_code|invite|invite_code|inviteCode|user_id|userid|telegram_id|telegramUser|identity|email|wallet|address|external|outbound|href|url|link)/i;
 const PROTECTED_RESUME_VALUE_RE = /(?:https?:|accounts\.|register|signup|invite|referral|inviteCode|invite_code|nexu888|11350287|luckybitcoin)/i;
 
-const fundingByMarket = new Map(REGIONAL_FUNDING_VERIFICATION_MATRIX.map((row) => [
-  row.market,
-  new Map(row.paymentRails.map((rail) => [rail.toLocaleLowerCase("en-US"), rail])),
+const fundingByMarket = new Map(Object.entries(REGIONAL_FUNDING_RAILS).map(([market, rails]) => [
+  market,
+  new Map(rails.map((rail) => [rail.toLocaleLowerCase("en-US"), rail])),
 ]));
 
 // The HK route historically used an English stable token in saved URLs while

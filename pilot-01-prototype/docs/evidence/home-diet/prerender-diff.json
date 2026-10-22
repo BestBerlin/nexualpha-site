@@ -1,0 +1,66 @@
+{
+  "capture": false,
+  "prerender": true,
+  "results": [
+    {
+      "route": "/",
+      "bytes": 101451,
+      "sha256": "f064e35b3a3e78d1585a58434c788520cb3a0d8e4db7b154b06864c050b8108b",
+      "byteIdentical": false,
+      "attributeDiff": {
+        "attribute": "data-rendered-at",
+        "before": [
+          "2026-10-22T21:25:19.987Z"
+        ],
+        "after": [
+          "2026-10-22T21:37:25.447Z"
+        ]
+      }
+    },
+    {
+      "route": "/zh-hans",
+      "bytes": 101118,
+      "sha256": "11e2fd3ee0b13855d082744d00e3efa422ec8e3a0b0f096ae3bba16dc83c40e9",
+      "byteIdentical": false,
+      "attributeDiff": {
+        "attribute": "data-rendered-at",
+        "before": [
+          "2026-10-22T21:25:20.448Z"
+        ],
+        "after": [
+          "2026-10-22T21:37:25.474Z"
+        ]
+      }
+    },
+    {
+      "route": "/tr",
+      "bytes": 86078,
+      "sha256": "78b3750bd9aab53e4ec923f28d1b5b5691679067a4ca88fc265a6d96d2f877e0",
+      "byteIdentical": false,
+      "attributeDiff": {
+        "attribute": "data-rendered-at",
+        "before": [
+          "2026-10-22T21:25:21.307Z"
+        ],
+        "after": [
+          "2026-10-22T21:37:25.829Z"
+        ]
+      }
+    },
+    {
+      "route": "/ar",
+      "bytes": 81947,
+      "sha256": "f136ba2b1b76eaa8e7243d49350d74b75b64d5045266cd3d12234ee8c59b936c",
+      "byteIdentical": false,
+      "attributeDiff": {
+        "attribute": "data-rendered-at",
+        "before": [
+          "2026-10-22T21:25:21.294Z"
+        ],
+        "after": [
+          "2026-10-22T21:37:25.808Z"
+        ]
+      }
+    }
+  ]
+}

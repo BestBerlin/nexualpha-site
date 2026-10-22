@@ -1,0 +1,69 @@
+{
+  "measuredAt": "2026-10-22T21:35:07.363Z",
+  "node": "v24.19.0",
+  "machine": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "availableParallelism": 12
+  },
+  "method": "in-memory HTTP handler over IPC, excludes socket/network overhead",
+  "limitations": "Sequential single trial per worker count; fixed explicit IPC round-robin; does not exercise production cluster supervisor, listening sockets, kernel connection scheduling, or network.",
+  "build": {
+    "version": "3.0.0",
+    "buildId": "3.0-20261022T212523"
+  },
+  "config": {
+    "requests": 128,
+    "concurrency": 16,
+    "warmupPerWorker": 8,
+    "paths": [
+      "/news/cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+      "/news/chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+      "/news/coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+      "/news/exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+      "/news/how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls",
+      "/news/binance-coinbase-kraken-okx-websocket-order-state-controls",
+      "/news/binance-user-data-stream-api-reconnect-readiness-checklist",
+      "/news/fsb-bis-cross-border-payment-crypto-stablecoin-oversight-map"
+    ],
+    "refresh": "disabled",
+    "fetch": "disabled",
+    "ssrPageCache": "disabled"
+  },
+  "runs": [
+    {
+      "workers": 1,
+      "requests": 128,
+      "concurrency": 16,
+      "warmupPerWorker": 8,
+      "durationMs": 5688.274292,
+      "requestsPerSecond": 22.50243104134754,
+      "p50Ms": 697.5021669999996,
+      "p90Ms": 848.5482499999998,
+      "p99Ms": 965.2430830000003,
+      "totalWireBytes": 12843312,
+      "statuses": {
+        "200": 128
+      }
+    },
+    {
+      "workers": 2,
+      "requests": 128,
+      "concurrency": 16,
+      "warmupPerWorker": 8,
+      "durationMs": 2560.769791999999,
+      "requestsPerSecond": 49.984969519665455,
+      "p50Ms": 316.8307079999995,
+      "p90Ms": 445.33679200000006,
+      "p99Ms": 535.2622499999998,
+      "totalWireBytes": 12843312,
+      "statuses": {
+        "200": 128
+      }
+    }
+  ],
+  "comparison": {
+    "throughputRatio": 2.2213141961337235,
+    "p90Ratio": 0.5248220027558835
+  }
+}

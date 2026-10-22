@@ -54,15 +54,14 @@ export function clientKey(req) {
   return last || req?.socket?.remoteAddress || 'unknown';
 }
 
-export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry, env = process.env, storage = clickStorage, origin, burst, classify = createClickClassifier({ env, now: () => now().getTime(), ...(burst ? { burst } : {}) }) } = {}) {
+export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry, env = process.env, storage = clickStorage, origin, burst, allow = createRateLimiter({ limit, windowMs }), classify = createClickClassifier({ env, now: () => now().getTime(), ...(burst ? { burst } : {}) }) } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
-  const allow = createRateLimiter({ limit, windowMs });
 
 
   return async function handle(request, key = 'unknown') {
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { ...NO_STORE, allow: 'POST' } });
     if (!analyticsOriginAllowed(request, origin || new URL(request.url).origin, { allowMissingOrigin: true })) return new Response(null, { status: 403, headers: NO_STORE });
-    if (!allow(key)) return new Response(null, { status: 429, headers: { ...NO_STORE, 'retry-after': String(Math.ceil(windowMs / 1000)) } });
+    if (!await allow(key)) return new Response(null, { status: 429, headers: { ...NO_STORE, 'retry-after': String(Math.ceil(windowMs / 1000)) } });
     const reader = request.body?.getReader();
     if (!reader) return new Response(null, { status: 400, headers: NO_STORE });
     let bytes = 0;
@@ -83,7 +82,7 @@ export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () =>
     const ua = request.headers.get('user-agent') || '';
     if (eventFile) {
       const at = now();
-      const classification = classify(request, { clientIp: key, partner: click.partner, at });
+      const classification = await classify(request, { clientIp: key, partner: click.partner, at });
       if (classification.cls === 'internal') return new Response(null, { status: 204, headers: NO_STORE });
       // Home hero experiment (X5): {experiment, variant} from the visitor's bucket cookie while the experiment runs.
       const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });

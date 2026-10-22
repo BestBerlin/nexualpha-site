@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 import { clickStorage } from './server/click-storage.mjs';
+import cluster from 'node:cluster';
+import { createHash } from 'node:crypto';
+import { isClusterWorker, primaryCall } from './server/cluster-rpc.mjs';
+import { createPrimaryServices, createWebCtaCollector } from './server/cluster-services.mjs';
+import { listenWebWorker, superviseWebWorkers, webWorkerCount } from './server/web-cluster.mjs';
 // Production entrypoint. Code/assets may be mounted read-only. Enable local
 // analytics with CTA_ENVIRONMENT, CTA_ALLOWED_ORIGIN and an external absolute
 // CTA_DATA_FILE. CTA_SMOKE_DATA_FILE is optional and must be a different file.
@@ -11,7 +16,6 @@ import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { createCtaCollector } from './server/cta-collector.mjs';
 import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
 import { resolveAssetPath, sameSiteRequestTarget, trailingSlashRedirectTarget } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
@@ -154,10 +158,14 @@ export async function createProductionServer({ env = process.env, appRoot = root
   let partnerTokens = {};
   try { partnerTokens = JSON.parse(env.PARTNER_STATS_TOKENS || '{}'); } catch { throw new Error('Invalid PARTNER_STATS_TOKENS JSON'); }
   const partnerProgram = createPartnerProgram({ eventFile: clickEventFile, tokens: partnerTokens });
-  const classifyClick = createClickClassifier({ env });
+  const classifyClick = createClickClassifier({ env, ...(isClusterWorker() ? {
+    classifyHuman: (key) => primaryCall('click-window', { key }),
+  } : {}) });
   const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce, env, classify: classifyClick });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
-  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce, env, classify: classifyClick, origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com' });
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce, env, classify: classifyClick,
+    ...(isClusterWorker() ? { allow: (key) => primaryCall('click-allow', { key: createHash('sha256').update(key).digest('hex') }) } : {}),
+    origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com' });
   // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
   const ogImages = createOgImageRoute({
     clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
@@ -183,13 +191,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
     if (env.CTA_ANALYTICS_ORIGIN) throw new Error('CTA_MULTIPLE_COLLECTORS_CONFIGURED');
     if (env.NODE_ENV === 'production' && env.CTA_ENVIRONMENT !== 'production') throw new Error('CTA_PRODUCTION_ENVIRONMENT_REQUIRED');
     const file = await privateDataFile(env.CTA_DATA_FILE, appRoot, clientRoot);
-    collector = createCtaCollector(file, { env, environment: env.CTA_ENVIRONMENT, origin: env.CTA_ALLOWED_ORIGIN, ...(experimentRegistry ? { registry: experimentRegistry } : {}) });
+    collector = createWebCtaCollector(file, { env, environment: env.CTA_ENVIRONMENT, origin: env.CTA_ALLOWED_ORIGIN, ...(experimentRegistry ? { registry: experimentRegistry } : {}) });
     await collector.ready;
     ctaStatus = { ready: true, configured: true, status: 'ready', mode: 'local', environment: env.CTA_ENVIRONMENT };
     if (env.CTA_SMOKE_DATA_FILE) {
       const smokeFile = await privateDataFile(env.CTA_SMOKE_DATA_FILE, appRoot, clientRoot);
       if (smokeFile === file) throw new Error('CTA_SMOKE_FILE_MUST_BE_SEPARATE');
-      smokeCollector = createCtaCollector(smokeFile, { env, environment: 'smoke', origin: env.CTA_ALLOWED_ORIGIN, ...(experimentRegistry ? { registry: experimentRegistry } : {}) });
+      smokeCollector = createWebCtaCollector(smokeFile, { env, environment: 'smoke', origin: env.CTA_ALLOWED_ORIGIN, ...(experimentRegistry ? { registry: experimentRegistry } : {}) });
       await smokeCollector.ready;
     }
   } else if (env.CTA_ANALYTICS_ORIGIN) {
@@ -389,6 +397,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
     fx.stop();
     pageCache?.clear();
   });
+  server.flush = async () => { await Promise.all([flashMemory.flush(), intel.flush()]); };
   return server;
 }
 
@@ -475,8 +484,7 @@ async function privateDataFile(file, appRoot, clientRoot) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const server = await createProductionServer();
-  const port = Number.parseInt(process.env.PORT || '8080', 10);
-  server.listen(port, process.env.HOST || '0.0.0.0', () => process.stdout.write(`NexuAlpha server listening on port ${port}\n`));
-  for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => server.close(() => process.exit(0)));
+  const count = webWorkerCount();
+  if (cluster.isPrimary && count > 1) superviseWebWorkers({ count, handlers: createPrimaryServices() });
+  else await listenWebWorker(() => createProductionServer());
 }

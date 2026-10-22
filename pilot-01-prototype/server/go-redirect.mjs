@@ -230,7 +230,7 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     const ua = request.headers.get('user-agent') || '';
     if (eventFile && request.method === 'GET') {
       const at = now();
-      const classification = classify(request, { clientIp, partner: campaign ? venue : slug, at });
+      const classification = await classify(request, { clientIp, partner: campaign ? venue : slug, at });
       if (classification.cls !== 'internal') {
         let refHost = null;
         const referer = request.headers.get('referer');

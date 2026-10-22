@@ -53,7 +53,12 @@ export function createErrorMonitor(file, { buildId, environment = 'production', 
       httpStatus: Number.isInteger(httpStatus) && httpStatus >= 400 && httpStatus <= 599 ? httpStatus : 503,
       ...(Number.isInteger(upstreamStatus) && upstreamStatus >= 100 && upstreamStatus <= 599 ? { upstreamStatus } : {}),
     };
-    const operation = serial.then(() => appendFile(file, `${JSON.stringify(row)}\n`, { mode: 0o600 }));
+    const line = `${JSON.stringify(row)}\n`;
+    // All fields are allowlisted/bounded above (currently < 1 KiB); keep a hard byte limit for future schema edits.
+    const operation = serial.then(() => {
+      if (Buffer.byteLength(line) >= 4096) throw new Error('ERROR_MONITOR_EVENT_TOO_LARGE');
+      return appendFile(file, line, { mode: 0o600, flag: 'a' });
+    });
     serial = operation.catch(() => {});
     try {
       await operation;

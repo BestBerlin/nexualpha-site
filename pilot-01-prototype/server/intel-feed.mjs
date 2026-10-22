@@ -2,8 +2,10 @@
 // Sources are the exchanges' own public announcement endpoints; no key, no scraping. A source that fails keeps its
 // previous items; if every source fails the last good feed is served explicitly stale. Nothing is ever invented.
 // The feed lives in memory only (code and assets may be mounted read-only); the build ships a seed copy.
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { isClusterWorker, primaryCall } from './cluster-rpc.mjs';
 import { setTimeout as deadlineTimer, clearTimeout as clearDeadline } from 'node:timers';
 import { ARCHIVE_PATH, mergeArchive, unionArchives } from '../src/data/announcement-archive.js';
 import {
@@ -125,6 +127,25 @@ async function readJson(file) {
   try { return JSON.parse(await readFile(file, 'utf8')); } catch { return null; }
 }
 
+const archiveWriters = new Map();
+export function persistIntelArchive(file, archive, now = Date.now()) {
+  file = path.resolve(file);
+  const operation = (archiveWriters.get(file) || Promise.resolve()).then(async () => {
+    const merged = unionArchives(await readJson(file), archive, { now });
+    await mkdir(path.dirname(file), { recursive: true });
+    const tmp = `${file}.tmp-${process.pid}-${randomUUID()}`;
+    try {
+      await writeFile(tmp, `${JSON.stringify(merged)}\n`);
+      await rename(tmp, file);
+    } finally { await rm(tmp, { force: true }).catch(() => {}); }
+    return merged;
+  });
+  const settled = operation.catch(() => {});
+  archiveWriters.set(file, settled);
+  settled.then(() => { if (archiveWriters.get(file) === settled) archiveWriters.delete(file); });
+  return operation;
+}
+
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
 // Every feed it serves is also merged into the append-only archive (`archiveFile`, outside the read-only app tree), so an
 // update page stays resolvable after its item leaves the live feed. The build ships a seed archive next to the seed feed.
@@ -139,15 +160,15 @@ export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled =
   let archive = null, archiveBody = null, writing = Promise.resolve();
   const persist = () => {
     if (!archiveFile) return writing;
-    // Read-merge-write: during a cutover two containers share the file, neither may drop the other's rows.
+    // Serialize the entire read/merge/write in the primary, not just the rename in each worker.
+    // Separate release containers still need an external writer/lock for a simultaneous cutover write.
     writing = writing.then(async () => {
-      const onDisk = await readJson(archiveFile);
-      const merged = onDisk ? unionArchives(onDisk, archive, { now: now() }) : archive;
-      archive = merged; archiveBody = `${JSON.stringify(merged)}\n`;
-      await mkdir(path.dirname(archiveFile), { recursive: true });
-      const tmp = `${archiveFile}.tmp-${process.pid}`;
-      await writeFile(tmp, archiveBody);
-      await rename(tmp, archiveFile);
+      const merged = isClusterWorker()
+        ? await primaryCall('intel-save', { file: archiveFile, archive, now: now() })
+        : await persistIntelArchive(archiveFile, archive, now());
+      // A refresh may have added rows while IPC was pending; retain those until the next queued write.
+      archive = unionArchives(merged, archive, { now: now() });
+      archiveBody = `${JSON.stringify(archive)}\n`;
     }).catch((error) => log(`intel archive write failed: ${error?.message || error}`));
     return writing;
   };
@@ -183,7 +204,8 @@ export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled =
   return {
     refresh,
     stop: () => { if (timer) clearInterval(timer); },
-    flush: () => writing,
+    // Shutdown drains discovered rows, without waiting for a new upstream poll's 30 s deadline.
+    async flush() { await seeded; await writing; },
     // Changes whenever a refresh replaced the feed; the SSR page cache keys on it so cached HTML never outlives a feed.
     version: () => feed ? `${feed.generatedAt}|${feed.updatedAt || ""}|${current().stale}` : "",
     // The current feed object (seed or last good refresh) for request-time SSR of /activities; null until seeded.

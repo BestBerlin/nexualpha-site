@@ -20,11 +20,11 @@ import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { pathToFileURL } from "node:url";
 
 const require = createRequire(import.meta.url);
 // postcss ships with Vite (a direct dependency); resolve it through Vite so the build needs no extra package.
-function loadPostcss() {
+export function loadPostcss() {
   try {
     return createRequire(require.resolve("vite"))("postcss");
   } catch {
@@ -412,12 +412,9 @@ async function main() {
   const distIndex = process.argv.indexOf("--dist");
   const distRoot = path.resolve(distIndex > -1 ? process.argv[distIndex + 1] : "dist");
   const clientRoot = path.join(distRoot, "client");
-  const appRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-  const { homeRouteStylePrefixes } = await import(pathToFileURL(path.join(appRoot, "worker/index.js")).href);
   const { JSDOM } = require("jsdom");
-  const indexHtml = await readFile(path.join(clientRoot, "index.html"), "utf8");
-  const prefixes = homeRouteStylePrefixes();
-  const sheets = stylesheetHrefs(indexHtml).filter((href) => prefixes.some((prefix) => href.split("/").pop().startsWith(prefix)));
+  const routeStyles = JSON.parse(await readFile(path.join(clientRoot, "route-styles.json"), "utf8"));
+  const sheets = routeStyles.routes["/"];
   if (!sheets.length) throw new Error("critical css: no home stylesheets found in index.html");
   const cssTexts = await Promise.all(sheets.map((href) => readFile(path.join(clientRoot, href), "utf8")));
   const documents = [];

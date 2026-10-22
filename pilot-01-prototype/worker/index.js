@@ -9395,6 +9395,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
     injectRouteMetadata(await injectPrerenderedRoute(await response.text(), metadata, url, env), { ...metadata, locale: htmlLocale }),
     metadata,
     url,
+    await loadRouteStyles(env, url),
   );
   if (isCriticalCssHomeRoute(html, metadata, url)) {
     html = inlineCriticalStylesheets(html, (await loadCriticalCss(env, url))?.routes?.home);
@@ -9460,7 +9461,7 @@ function protectPrerenderInteraction(html, eager = false) {
   });
 }
 
-function optimizeRouteResourceHints(html, metadata, url) {
+function optimizeRouteResourceHints(html, metadata, url, routeStyles = null) {
   const hasPrerenderState = /<script\b[^>]*\bid=["']nexualpha-prerender-state["'][^>]*>/i.test(html);
   const hasDecisionState = Boolean(url?.searchParams?.get("account_stage") || url?.searchParams?.get("funding"));
   const isClientRenderedNews = !hasPrerenderState
@@ -9483,9 +9484,10 @@ function optimizeRouteResourceHints(html, metadata, url) {
   // calculator chunks before the user has chosen a route. Keep fallback CSS
   // intact, but always remove those speculative JS preloads.
   const optimized = html.replace(/\s*<link\b[^>]*rel=["']modulepreload["'][^>]*>/gi, "");
-  const styled = hasPrerenderState || isClientRenderedNews
+  const exactStyles = hasPrerenderState ? applyRouteStyles(optimized, routeStyles, url, metadata) : null;
+  const styled = exactStyles ?? (hasPrerenderState || isClientRenderedNews
     ? optimized.replace(/\s*<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi, (tag) => shouldKeepStylesheet(tag, allowedStylePrefixes) ? tag : "")
-    : optimized;
+    : optimized);
   // Listings already carry paginated SSR rows and use /api/news/search.
   // Do not compete with first-screen text by preloading the entire fallback archive.
   const withNewsPreload = styled;
@@ -9496,6 +9498,67 @@ function optimizeRouteResourceHints(html, metadata, url) {
   // application immediately for decision-passport URLs so the visible handoff
   // reflects account stage and funding without requiring an unrelated click.
   return protectPrerenderInteraction(withNewsPreload, hasDecisionState);
+}
+
+// The build derives exact whole-asset lists from the Vite manifest and every
+// prerendered locale (including deferred SSR components). Prefix lists below are
+// compatibility fallbacks for components; page-layer scope remains authored.
+// A partial/mismatched build must keep safe CSS.
+const routeStylePayloads = new WeakMap();
+async function loadRouteStyles(env, url) {
+  if (!env?.ASSETS) return null;
+  if (!routeStylePayloads.has(env.ASSETS)) {
+    routeStylePayloads.set(env.ASSETS, env.ASSETS.fetch(new Request(new URL("/route-styles.json", url)))
+      .then((response) => response.ok ? response.json() : null).catch(() => null));
+  }
+  const payload = await routeStylePayloads.get(env.ASSETS);
+  if (!payload) routeStylePayloads.delete(env.ASSETS);
+  return payload;
+}
+
+export function applyRouteStyles(html, payload, url, metadata = null) {
+  if (payload?.version !== 1 || !Array.isArray(payload.stylesheets) || !payload.routes) return null;
+  const pattern = /<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi;
+  const hrefOf = (tag) => /\bhref=["']([^"']+)["']/i.exec(tag)?.[1];
+  const local = (href) => /^\/assets\/[\w-]+\.css$/.test(href || "");
+  const current = (html.match(pattern) || []).map(hrefOf).filter(local);
+  const entry = /<script\b[^>]*type="module"[^>]*src="([^"]+)"/.exec(html)?.[1];
+  if (entry !== payload.entry || current.length !== payload.stylesheets.length
+    || current.some((href, index) => href !== payload.stylesheets[index])) return null;
+  const route = parsePublicRoute(url.pathname, url.searchParams);
+  const pathname = normalizePathname(route.contentPathname || url.pathname);
+  const family = pathname === TS_PATH || pathname.startsWith(`${TS_PATH}/`)
+    ? "tokenized-stocks" : /^\/(news|exchanges|compare)\/[^/]+$/.exec(pathname)?.[1];
+  const selected = payload.routes[pathname] || payload.templates?.[family];
+  if (!Array.isArray(selected) || !selected.length || new Set(selected).size !== selected.length) return null;
+  let last = -1;
+  for (const href of selected) {
+    if (!local(href)) return null;
+    const parts = payload.bundles?.[href] || [href];
+    if (!Array.isArray(parts) || !parts.length) return null;
+    for (const part of parts) {
+      if (!local(part) || !pageStylesheetAllowed(part, url, metadata)) return null;
+      const index = current.indexOf(part);
+      if (index <= last) return null;
+      last = index;
+    }
+  }
+  let inserted = false;
+  return html.replace(pattern, (tag) => {
+    if (!local(hrefOf(tag))) return tag;
+    if (inserted) return "";
+    inserted = true;
+    return selected.map((href) => `<link rel="stylesheet" crossorigin href="${href}">`).join("\n    ");
+  });
+}
+
+// main.jsx imports the full authored page-layer cascade. Its page-* layers
+// remain scoped by the existing template policy; component assets are selected
+// from the build manifest and SSR surface, not these historical prefixes.
+export function pageStylesheetAllowed(href, url, metadata = null) {
+  if (!href.split("/").pop()?.startsWith("page-")) return true;
+  const prefixes = routeStylePrefixesForPath(url, metadata);
+  return !prefixes || prefixes.some((prefix) => href.split("/").pop().startsWith(prefix));
 }
 
 function routeStylePrefixesForPath(url, metadata) {

@@ -124,8 +124,7 @@ test("built critical CSS covers exactly the stylesheets the Worker links on the 
   const payload = JSON.parse(readFileSync(new URL("critical-css.json", dist), "utf8"));
   assert.equal(payload.version, 1);
   const { sheets, css } = payload.routes.home;
-  const prefixes = homeRouteStylePrefixes();
-  const expected = stylesheetHrefs(readFileSync(new URL("index.html", dist), "utf8")).filter((href) => prefixes.some((prefix) => href.split("/").pop().startsWith(prefix)));
+  const expected = JSON.parse(readFileSync(new URL("route-styles.json", dist), "utf8")).routes["/"];
   assert.deepEqual(sheets, expected);
   for (const href of sheets) assert.ok(existsSync(new URL(`.${href}`, dist)), href);
   assert.ok(css.length > 20_000 && css.length < 400_000, `critical CSS size ${css.length}`);

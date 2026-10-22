@@ -1,6 +1,6 @@
 import { venueDatabase } from "./venue-database.js";
 import { publicCtaForVenue } from "./public-cta.js";
-import { directoryContextSearch, regionalCtaState, venueMarketStatus } from "./directory-context.js";
+import { directoryContextSearch, regionalCtaState, venueMarketStatus } from "./directory-cta-context.js";
 import { localizedHref } from "./locale-routing.js";
 
 export function regionalVenueCta(slug, locale = "en", market, product) {

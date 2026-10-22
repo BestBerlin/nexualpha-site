@@ -4,7 +4,7 @@ import {
   publicCtaForVenue as basePublicCtaForVenue,
 } from "./public-cta.js";
 import { regionalVenueCta as baseRegionalVenueCta } from "./regional-cta.js";
-import { directoryContextSearch } from "./directory-context.js";
+import { directoryContextSearch } from "./directory-cta-context.js";
 import { localizedHref } from "./locale-routing.js";
 import { NEUTRAL_CTA_LOCALES } from "./locale-policy.js";
 import { CUSTOM_INVITE_CODES } from "./partner-registry.js";

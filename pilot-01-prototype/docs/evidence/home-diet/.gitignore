@@ -1,0 +1,8 @@
+# Keep raw builds, full module reports and HTML snapshots locally for review.
+# Commit the bounded verification record and its reproduction helpers.
+*
+!.gitignore
+!*.mjs
+!verification.json
+!ssr-after.json
+!prerender-diff.json

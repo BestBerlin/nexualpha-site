@@ -220,9 +220,22 @@ export function clickRequestMetadata(request, { env = process.env, clientIp, ipH
 }
 
 // Inject the SAME classifier into /go and /api/cta-click so beacons and redirects share burst/dedup state.
-export function createClickClassifier({ env = process.env, now = Date.now, burst = createBurstDetector({ now }),
+export function createClickWindowClassifier({ now = Date.now, burst = createBurstDetector({ now }),
   duplicateMs = 30 * 60 * 1000, maxKeys = 10000 } = {}) {
   const recent = new Map();
+  return (key, t = now()) => {
+    if (recent.size >= maxKeys) for (const [k, time] of recent) if (t - time >= duplicateMs) recent.delete(k);
+    const previous = recent.get(key);
+    const duplicate = previous !== undefined && t >= previous && t - previous < duplicateMs;
+    if (recent.size >= maxKeys && !recent.has(key)) recent.delete(recent.keys().next().value);
+    recent.set(key, t);
+    return burst(key) ? 'burst' : duplicate ? 'duplicate' : 'human';
+  };
+}
+
+export function createClickClassifier({ env = process.env, now = Date.now, burst,
+  duplicateMs, maxKeys, classifyHuman } = {}) {
+  const classifyWindow = classifyHuman || createClickWindowClassifier({ now, burst, duplicateMs, maxKeys });
   const stableSecret = typeof env.CLICK_HASH_SECRET === 'string' && Boolean(env.CLICK_HASH_SECRET.trim());
   const secret = stableSecret ? env.CLICK_HASH_SECRET : processHashSecret;
   return (request, { clientIp, partner, at = new Date(now()) } = {}) => {
@@ -232,12 +245,9 @@ export function createClickClassifier({ env = process.env, now = Date.now, burst
     // Process-only hashes cannot support reliable daily uniqueness across restarts. Fail closed.
     if (!stableSecret) return { ...base, cls: 'unknown' };
     const key = `${ipHash}:${partner}`;
-    const t = at.getTime();
-    if (recent.size >= maxKeys) for (const [k, time] of recent) if (t - time >= duplicateMs) recent.delete(k);
-    const previous = recent.get(key);
-    const duplicate = previous !== undefined && t >= previous && t - previous < duplicateMs;
-    if (recent.size >= maxKeys && !recent.has(key)) recent.delete(recent.keys().next().value);
-    recent.set(key, t);
-    return { ...base, cls: burst(key) ? 'burst' : duplicate ? 'duplicate' : 'human' };
+    const result = classifyWindow(key, at.getTime());
+    // IPC failures cannot turn an unclassified event into a human click or break a redirect.
+    if (result?.then) return result.then(cls => ({ ...base, cls }), () => ({ ...base, cls: 'unknown' }));
+    return { ...base, cls: result };
   };
 }

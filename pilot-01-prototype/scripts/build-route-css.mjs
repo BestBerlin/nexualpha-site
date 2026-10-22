@@ -24,7 +24,7 @@ const emit = async (prefix, parts) => {
   const hash = createHash("sha256").update(css).digest("hex").slice(0, 8);
   const href = `/assets/${prefix}-${hash}.css`;
   await writeFile(path.join(root, href), css);
-  return `<link rel="stylesheet" crossorigin href="${href}">`;
+  return { href, tag: `<link rel="stylesheet" crossorigin href="${href}">` };
 };
 const full = await emit("core-c", sheets);
 const home = await emit("page-home-v6", sheets.filter((sheet) => sheet.shared));
@@ -33,8 +33,16 @@ let count = 0;
 html = html.replace(/<link\b[^>]*rel="stylesheet"[^>]*href="\/assets\/([^"\n]+)"[^>]*>/g, (tag, name) => {
   if (!sheets.some((sheet) => sheet.name === name)) return tag;
   count += 1;
-  return count === 1 ? `${full}\n    ${home}` : "";
+  return count === 1 ? `${full.tag}\n    ${home.tag}` : "";
 });
 if (count !== segments.length) throw new Error(`route CSS: expected ${segments.length} segment links, got ${count}`);
 await writeFile(path.join(root, "index.html"), html);
 console.log(`Route CSS: ${segments.length} v6 segments -> one full inner asset / one shared home asset`);
+
+// Register post-Rollup assets for the per-route resource manifest.
+const manifestPath = path.join(root, ".vite/manifest.json");
+const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+for (const [name, asset] of [["inner-v6", full], ["home-v6", home]]) {
+  manifest[`route-css:${name}`] = { file: asset.href.slice(1), surface: name === "home-v6" ? "home" : "inner" };
+}
+await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");

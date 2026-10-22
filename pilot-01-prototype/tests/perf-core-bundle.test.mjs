@@ -132,7 +132,11 @@ test("stylesheets are re-linked in the historical cascade order", () => {
 
 let vite;
 async function loadModule(path) {
-  if (!vite) vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true } });
+  if (!vite) vite = await createViteServer({
+    appType: "custom", logLevel: "error",
+    optimizeDeps: { noDiscovery: true, include: [] },
+    server: { middlewareMode: true, hmr: false, ws: false },
+  });
   return vite.ssrLoadModule(path);
 }
 async function renderRoute(url) {

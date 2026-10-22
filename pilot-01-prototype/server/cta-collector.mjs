@@ -16,6 +16,17 @@ const DEVICE_CLASSES = new Set(['mobile', 'tablet', 'desktop', 'unknown']);
 const TELEGRAM_TARGETS = new Set(['bot', 'telegram', 'unknown']);
 const TELEGRAM_RETURN_KINDS = new Set(['none', 'hub', 'route', 'venue', 'pair', 'activity']);
 export const CTA_ENVIRONMENTS = new Set(['local-preview', 'production', 'smoke', 'test']);
+export function ctaRequestPreflight(request, { env = process.env, environment, origin, clientIp } = {}) {
+  if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+  if (!analyticsOriginAllowed(request, origin)) return new Response(null, { status: 403 });
+  if (environment === 'production' && (new URL(request.url).searchParams.has('analytics_test')
+    || request.headers.has('x-nexualpha-analytics-mode'))) return new Response(null, { status: 400 });
+  if (!['smoke', 'test'].includes(environment) && isAutomatedAnalyticsRequest(request, { env, clientIp })) {
+    return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
+  }
+  if (!jsonContentType.test(request.headers.get('content-type') || '')) return new Response(null, { status: 415 });
+  return null;
+}
 export function validateCta(value, registry = experimentRegistry) {
   if (!value || typeof value !== 'object') return false;
   if (value.version === 1) return validateReferralClickV1(value);
@@ -112,18 +123,12 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
   let serial = Promise.resolve();
   const collect = async (request, origin, { clientIp } = {}) => {
     await ready;
-    if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
     const expectedOrigin = configuredOrigin || origin;
-    if (!analyticsOriginAllowed(request, expectedOrigin)) return new Response(null, { status: 403 });
-    if (environment === 'production' && (new URL(request.url).searchParams.has('analytics_test')
-      || request.headers.has('x-nexualpha-analytics-mode'))) return new Response(null, { status: 400 });
     // Crawlers may execute the hydrated client and POST a page_view. Treat the
     // request as accepted but never persist it so bot traffic cannot pollute
     // first-party intent reports or create noisy 4xx retries in access logs.
-    if (!['smoke', 'test'].includes(environment) && isAutomatedAnalyticsRequest(request, { env, clientIp })) {
-      return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
-    }
-    if (!jsonContentType.test(request.headers.get('content-type') || '')) return new Response(null, { status: 415 });
+    const preflight = ctaRequestPreflight(request, { env, environment, origin: expectedOrigin, clientIp });
+    if (preflight) return preflight;
     const reader = request.body?.getReader();
     if (!reader) return new Response(null, { status: 400 });
     let bytes = 0;
@@ -145,7 +150,9 @@ export function createCtaCollector(file, { environment = 'local-preview', origin
       if (assignmentKey && experimentAssignments.has(assignmentKey) && experimentAssignments.get(assignmentKey).variant !== data.variant) return 'variant_conflict';
       if (keys.has(key) || eventIds.has(data.eventId)) return 'duplicate';
       await mkdir(path.dirname(file), { recursive: true, mode: 0o700 });
-      await appendFile(file, JSON.stringify({ ...data, receivedAt: new Date(now()).toISOString(), environment, collectorRelease }) + '\n', { mode: 0o600 });
+      const line = JSON.stringify({ ...data, receivedAt: new Date(now()).toISOString(), environment, collectorRelease }) + '\n';
+      if (Buffer.byteLength(line, 'utf8') >= 4096) throw new Error('CTA_EVENT_TOO_LARGE');
+      await appendFile(file, line, { mode: 0o600, flag: 'a' });
       const at = now();
       keys.set(key, at);
       eventIds.set(data.eventId, at);

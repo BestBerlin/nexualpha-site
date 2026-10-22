@@ -124,6 +124,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
   define: { __NEXUALPHA_BUILD_ID__: JSON.stringify(buildId) },
   build: {
     outDir: "dist/client",
+    manifest: !isSsrBuild,
     rollupOptions: {
       onwarn(warning, warn) {
         if (isExpectedSsrLazyChunkWarning(warning)) return;
@@ -247,6 +248,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Shared browser polling helper: ticker, flash, movers and radar routes all use it. If Rollup lets a deferred
           // home chunk absorb it, unrelated route preloads pick up home-below-fold and its data graph.
           if (!isSsrBuild && id.endsWith("/src/components/shared/json-polling.js")) return "shared-json-polling";
+          // Data pages and the deferred home rail share only these short labels. Letting the home chunk
+          // absorb them also preloaded the entire lower home through venue -> data-page dependencies.
+          if (!isSsrBuild && id.endsWith("/src/data/intel-tools-links.js")) return "shared-intel-tool-links";
           // These CSS-free hooks serve unrelated route graphs. Keep a consuming route from absorbing them and
           // forcing calculator or deferred-home code into venue preloads.
           if (!isSsrBuild && id.endsWith("/src/components/v3/telegram-return-hydration.js")) return "shared-telegram-return";
@@ -373,7 +377,11 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/VenueDecisionArticles")) return "route-v3-decision-articles";
           if (id.includes("/src/components/v3/VenueReadinessChecklist")) return "route-v3-readiness";
           // Shared by the home closing band and the regional rails: keep the copy out of the deferred hero chunk.
-          if (id.includes("/src/components/v3/LeanHeroCopy")) return "shared-hero-copy";
+          // The closing band needs only V6 copy. Combining the calculator and verification tables here
+          // made those below-fold/inner-route strings part of every home visit's static closure.
+          if (id.includes("/src/components/v3/LeanHeroCopyV6")) return "shared-hero-copy";
+          if (id.includes("/src/components/v3/LeanHeroCopyLab")) return "shared-hero-lab-copy";
+          if (id.includes("/src/components/v3/LeanHeroCopyVerify")) return "shared-hero-verify-copy";
           if (id.includes("/src/components/v3/LeanHero")) return "route-v3-home";
           if (id.includes("/src/components/v3/TopIntelligenceHub")) return "route-v3-home";
           if (id.includes("/src/components/v3/AntiPhishingVerifier")) return "route-v3-security";
@@ -452,6 +460,20 @@ export default defineConfig(({ isSsrBuild = false }) => ({
     },
   },
   plugins: [
+    // Module ownership survives manual chunk aliases, whose manifest keys no
+    // longer contain the original component path. Build-only; no entry JS.
+    ...(!isSsrBuild ? [{ name: "nexualpha-style-module-manifest", generateBundle(_options, bundle) {
+      const modules = {};
+      for (const chunk of Object.values(bundle)) {
+        if (chunk.type !== "chunk") continue;
+        for (const id of Object.keys(chunk.modules)) {
+          const at = id.indexOf("/src/");
+          if (at < 0) continue;
+          modules[id.slice(at + 1)] = { file: chunk.fileName, css: [...(chunk.viteMetadata?.importedCss || [])] };
+        }
+      }
+      this.emitFile({ type: "asset", fileName: "style-modules.json", source: JSON.stringify(modules) });
+    } }] : []),
     { name: "nexualpha-build-identity", generateBundle() {
       this.emitFile({ type: "asset", fileName: "version.json", source: JSON.stringify({ version: "3.0.0", buildId }) });
     } },

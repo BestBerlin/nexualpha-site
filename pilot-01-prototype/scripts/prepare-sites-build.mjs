@@ -16,7 +16,7 @@ const academyData = ["academy.js", "academy-season1.js", "academy-seo.js", "acad
   // Binance October campaigns page (2026-10-12): the Worker head imports its route, SEO helper and copy.
   "binance-october.js", "binance-october-path.js", "binance-october-seo.js", "binance-october-copy.js", "binance-october-tournament-copy.js"];
 // App pages use the existing source-bound CTA projection; ship its transitive public data dependencies.
-const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.js", "regional-cta.js", "directory-context.js", "market-policy.js", "regional-eligibility-evidence.js", "decision-passport.js", "regional-funding-verification-matrix.js", "contextual-href.js", "regional-shortlist.js", "regional-directory.js", "telegram-start-payload.js"];
+const appCtaData = ["directory-cta-context.js", "regional-funding-rails.generated.js", "source-bound-cta.js", "public-cta.js", "commercial-claims.js", "regional-cta.js", "directory-context.js", "market-policy.js", "regional-eligibility-evidence.js", "decision-passport.js", "regional-funding-verification-matrix.js", "contextual-href.js", "regional-shortlist.js", "regional-directory.js", "telegram-start-payload.js"];
 // Flash (2026-10-12): the Worker builds the flash feed, its head and sitemap from these.
 // Live ticker bar (2026-10-13): the Worker splices the server snapshot into the home page (ticker.js); same for the home
 // "Today's movers" board (movers.js, movers-html.js) and the whale-watch replacement (whales-home.js).

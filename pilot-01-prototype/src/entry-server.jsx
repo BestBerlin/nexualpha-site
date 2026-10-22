@@ -1,6 +1,7 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { App, routeState } from "./App.jsx";
+import { modulePathsForRoute, ROUTE_MODULE_PATHS } from "./data/route-module-cache.js";
 import { neutralVenueCatalog } from "./data/market-command";
 import { normalizeNewsArticlePool, normalizeNewsFeed, normalizeNewsFeedSummaries } from "./data/news-feed-client.js";
 import { getBrazilPage } from "./data/brazil-market.js";
@@ -14,6 +15,16 @@ import { withRequestMarket } from "./data/partner-geo-policy.js";
 import { TS_COPY } from "./data/tokenized-stocks-copy.js";
 import { rememberTsCopy } from "./data/tokenized-stocks-copy-client.js";
 rememberTsCopy(Object.values(TS_COPY));
+
+// Build-only resource roots: hydration preloads omit SSR-rendered deferred
+// components. Include their styles without preloading their JavaScript.
+export function routeStyleModules(url) {
+  const route = routeState(neutralVenueCatalog, url);
+  const roots = modulePathsForRoute(route, url);
+  if (route.name === "home") roots.push("./components/v7/HomeV7.jsx", "./components/v7/home7-below.jsx", "./components/tokenized-stocks/HomeTokenizedStrip.jsx");
+  if (route.name === "venue") roots.push(ROUTE_MODULE_PATHS.venueResearch);
+  return ["src/main.jsx", ...roots.map((root) => "src/" + root.slice(2))];
+}
 
 // heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
 export function render(url, { homeLatest, newsArticles, newsListing, marketEvents, liquidationLevels, fundingMatrix, funding, officialAnnouncements, toolArticles, heroVariant, flash, coins, fx, ticker, whales, radar, intelTool, seoAlternates, tsLive, tsPage } = {}) {
