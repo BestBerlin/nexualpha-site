@@ -187,10 +187,19 @@ const CODE_AUTO = Object.freeze({
   it: "Codice {code} applicato in automatico", ja: "招待コード {code} は自動で適用", ko: "초대 코드 {code} 자동 적용",
   tr: "{code} kodu otomatik uygulanır", id: "Kode {code} otomatis terpasang",
 });
+// "Applied automatically" only when the sign-up URL itself carries the shown code (2026-10-22: Bitget's partner short
+// link resolves to a different vipCode, so its line must not claim nexu888 is pre-filled).
+const CODE_PLAIN = Object.freeze({
+  en: "Invite code {code}", "zh-Hans": "邀请码 {code}", es: "Código {code}", "pt-BR": "Código {code}", fr: "Code {code}",
+  de: "Code {code}", it: "Codice {code}", ja: "招待コード {code}", ko: "초대 코드 {code}", tr: "Kod {code}", id: "Kode {code}",
+});
+const codeInUrl = (venue) => Boolean(venue.code && venue.url && venue.url.toLowerCase().includes(String(venue.code).toLowerCase()));
 function HeroCode({ locale, venue, t }) {
-  const [before, after = ""] = (CODE_AUTO[h7IsFallback(locale) ? "en" : locale] || CODE_AUTO.en).split("{code}");
+  const auto = codeInUrl(venue);
+  const lines = auto ? CODE_AUTO : CODE_PLAIN;
+  const [before, after = ""] = (lines[h7IsFallback(locale) ? "en" : locale] || lines.en).split("{code}");
   return <p className="hx-code">
-    <svg className="hx-code-ok" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" /></svg>
+    {auto ? <svg className="hx-code-ok" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" /></svg> : null}
     <span className="hx-code-t"><span className="h7-sr">{venue.name} </span>{before}<code>{venue.code}</code>{after}</span>
     <CopyCode code={venue.code} t={t} />
   </p>;
