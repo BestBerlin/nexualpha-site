@@ -42,6 +42,8 @@ import { formatSgt } from "../../../data/local-time.js";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
 import { detectArticleAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
+// Inner-page pass 2026-10-23: joins the page-news-signature-mid1 stylesheet (see vite.config.mjs).
+import "../../../styles/v9/news9.css";
 import { mergeNewsDetailCopy } from "./news-detail-copy-l10n.js";
 import { articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../../../data/article-embeds.js";
 

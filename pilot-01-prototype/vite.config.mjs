@@ -151,6 +151,19 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
+          // Inner-page pass 2026-10-23 (src/styles/v9): each template's layer joins a stylesheet chunk that already
+          // exists and that the Worker links only on that template (venue page-profile-mid1, articles
+          // page-news-signature-mid1, compare pairs + directory page-compare-mid1). A new chunk would add its file name
+          // to the home entry's preload map (the entry JS budget has ~200 bytes left). The rules carry fifteen
+          // :not(#_) lifts (scripts/build-inner9-css.mjs), so their early cascade slot does not matter. /activities has
+          // no prefix of its own, so activities9.css rides in the route-activity stylesheet it already had.
+          if (id.endsWith("/src/styles/v9/venue9.css")) return "page-profile-mid1";
+          if (id.endsWith("/src/styles/v9/news9.css")) return "page-news-signature-mid1";
+          if (id.endsWith("/src/styles/v9/compare9.css")) return "page-compare-mid1";
+          if (id.endsWith("/src/styles/v9/directory9.css")) return "page-compare-mid1";
+          // Read by the venue, compare and news route chunks, which all load the registration helpers already (no new
+          // chunk, so the entry's preload map does not grow).
+          if (!isSsrBuild && id.endsWith("/src/components/v3/inner9-copy.js")) return "shared-registration-helpers";
           // The entry stylesheet is split into ordered chunks (re-linked in cascade order by
           // nexualpha-ordered-route-stylesheets below); the worker allow-lists each "page-*-" prefix per route.
           // Shared cascade layers after the entry stylesheet (always linked; "core-" prefix).

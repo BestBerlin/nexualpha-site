@@ -10,6 +10,8 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
+import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
+import { inner9Copy } from "./inner9-copy.js";
 
 // One date format site-wide: "September 22, 2026" in a review label reads "2026-09-22".
 const REVIEW_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
@@ -156,6 +158,19 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
   return { pageContext, detailHref, ctas };
 }
 
+// The side with the lower verified spot fee, decided on the spot row with the larger gap (the same rule as the gap
+// figure in CompareFeeLedger). null on a tie or when either side lacks verified spot figures. Kept here, not in
+// InnerLedger.jsx, because that module is part of the home entry's static closure (JS budget).
+function lowerSpotFeeSlug(a, b) {
+  const fa = EXCHANGE_FACTS[a], fb = EXCHANGE_FACTS[b];
+  const val = (f, i) => (f?.status === "verified" ? f.spot?.[i] ?? null : null);
+  const pairs = [0, 1].map((i) => [val(fa, i), val(fb, i)]);
+  if (!pairs.every(([x, y]) => x != null && y != null)) return null;
+  const d = pairs.map(([x, y]) => Math.abs(x - y));
+  const [x, y] = pairs[d[0] >= d[1] ? 0 : 1];
+  return x === y ? null : (x < y ? a : b);
+}
+
 // Mobile-first screen of /compare/{a}-vs-{b} (owner 2026-10-10): the H1, the one-line verdict already used by the
 // final-choice card, and the two official sign-up routes. Same choiceContext as the card below, so the CTA guard sees
 // identical hrefs and codes.
@@ -164,8 +179,12 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
   const verdict = sanitizePublicText(directAnswer?.decisionCard?.title) || sanitizePublicText(directAnswer?.title) || null;
   const { ctas } = choiceContext({ profiles, locale, market, product, accountStage, funding });
   const ui = ctaUiCopy(locale);
+  // Winner highlight (inner-page pass 2026-10-23): the side with the lower verified spot fee gets the filled button
+  // and a "lower fees" tag; a tie or a missing figure highlights neither. Hrefs and codes are unchanged.
+  const lower = lowerSpotFeeSlug(profiles[0].slug, profiles[1].slug);
+  const lowerLabel = inner9Copy(locale).lower;
   return (
-    <div className="v3-compare-hero-actions" data-compare-hero-actions="">
+    <div className="v3-compare-hero-actions" data-compare-hero-actions="" data-lower={lower || undefined}>
       {verdict && <p className="v3-compare-hero-actions__verdict">{verdict}</p>}
       <div className="v3-compare-hero-actions__row" role="group" aria-label={compareDetailPhrase(locale, "accountTerms", "Check official account terms and sources")}>
         {ctas.map(({ profile, access, cta }) => (
@@ -175,6 +194,7 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
             target={cta.direct ? "_blank" : undefined}
             rel={cta.direct ? "sponsored noopener noreferrer" : undefined}
             className="v3-compare-hero-actions__btn"
+            data-lower-fees={lower === profile.slug ? "" : undefined}
             data-cta-kind={cta.direct ? "registration" : "research"}
             data-cta-platform={profile.slug}
             data-cta-placement="compare-hero-signup"
@@ -189,6 +209,7 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
               <strong translate="no" lang="en">{cta.direct ? fillCta(ui.openN, { n: profile.name }) : `${getLocalizedVenueName(profile, locale)}: ${detailCtaLabel(locale, { direct: false, hasReferral: access.hasReferral })}`}</strong>
               {cta.direct && access.hasReferral && access.inviteCode && <small translate="no" lang="en" dir="ltr">{ui.code}: {access.inviteCode}</small>}
             </span>
+            {lower === profile.slug && <span className="v3-compare-hero-actions__lower">{lowerLabel}</span>}
             <span aria-hidden="true">{cta.direct ? "↗" : "→"}</span>
           </a>
         ))}

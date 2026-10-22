@@ -25,6 +25,8 @@ import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { venueKycLevel } from "../../data/venue-kyc-corrections.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import "./venue-yellow-pages.css";
+// Inner-page pass 2026-10-23: directory (joins the page-compare-mid1 stylesheet, src/styles/v9/directory9.src.css).
+import "../../styles/v9/directory9.css";
 
 // Scoped regional UI: research status does not establish account eligibility.
 const regionalStatusLabels = {
